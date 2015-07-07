@@ -1,0 +1,165 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6,
+p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+output, ruby, section, summary, time, mark, audio, video {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  vertical-align: top; }
+
+  blockquote, q {
+    quotes: none; }
+
+    blockquote:before, blockquote:after, q:before, q:after {
+      content: '';
+      content: none; }
+
+      table {
+        border-collapse: collapse;
+        border-spacing: 0; }
+
+        a {
+          outline: 0; }
+body {
+  color: #373737;
+  font-family: serif;
+  position: relative; }
+  body.open {
+    overflow: hidden; }
+    body h1, body h2, body h3, body h4 {
+      font-family: Helvetica, Arial, sans-serif; }
+header {
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  font-family: Helvetica, Arial, sans-serif;
+  height: 65px;
+  overflow: hidden;
+  position: relative;
+  z-index: 100; }
+  header.open {
+    overflow: visible; }
+    header #hamburger, header #search_mobile {
+      -webkit-transition: color 0.2s, transform 0.2s, -ms-transform 0.2s, -webkit-transform 0.2s;
+      -moz-transition: color 0.2s, transform 0.2s, -ms-transform 0.2s, -webkit-transform 0.2s;
+      -o-transition: color 0.2s, transform 0.2s, -ms-transform 0.2s, -webkit-transform 0.2s;
+      transition: color 0.2s, transform 0.2s, -ms-transform 0.2s, -webkit-transform 0.2s;
+      color: #00aae7;
+      display: none;
+      font-size: 24px;
+      margin: 0 20px; }
+      header #hamburger:hover, header #search_mobile:hover {
+        color: #004795;
+        cursor: pointer; }
+        @media all and (max-width: 768px) {
+          header #hamburger, header #search_mobile {
+            display: inline-block;   }
+}
+  header #hamburger.open {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg); }
+    header #logo {
+      color: #004795;
+      font-size: 30px;
+      font-weight: 900;
+      margin: 0 20px; }
+      header #logo #usa {
+        color: #00aae7; }
+  header nav {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    align-items: center; }
+    header nav a {
+      -webkit-transition: border-bottom 0.2s;
+      -moz-transition: border-bottom 0.2s;
+      -o-transition: border-bottom 0.2s;
+      transition: border-bottom 0.2s;
+      border-bottom: 3px solid transparent;
+      color: #373737;
+      font-size: 18px;
+      margin: 0 20px;
+      padding-top: 3px;
+      text-decoration: none; }
+      header nav a:hover {
+        border-bottom: 3px solid #004795; }
+    header nav .search_btn {
+      -webkit-transition: border-color 0.2s, color 0.2s;
+      -moz-transition: border-color 0.2s, color 0.2s;
+      -o-transition: border-color 0.2s, color 0.2s;
+      transition: border-color 0.2s, color 0.2s;
+      border: 2px solid #00aae7;
+      color: #00aae7;
+      display: inline-block;
+      height: 30px;
+      margin: 0 20px;
+      position: relative;
+      width: 150px; }
+      header nav .search_btn:hover {
+        border-color: #004795;
+        color: #004795;
+        cursor: pointer; }
+        header nav .search_btn:before {
+          content: "\f002";
+          font-family: "FontAwesome";
+          font-size: 14px;
+          left: 7px;
+          position: absolute;
+          top: 7px; }
+    @media all and (max-width: 768px) {
+      header nav {
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        flex-direction: column;
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
+        -webkit-justify-content: flex-start;
+        -moz-justify-content: flex-start;
+        justify-content: flex-start;
+        -webkit-transition: top 0.4s;
+        -moz-transition: top 0.4s;
+        -o-transition: top 0.4s;
+        transition: top 0.4s;
+        background-color: #00aae7;
+        height: 100vh;
+        left: 0;
+        position: absolute;
+        top: 100vh;
+        width: 100%;   }
+        header nav.open {
+          top: 65px;   }
+          header nav a {
+            color: white;
+            font-size: 32px;
+            margin: 30px 50px;   }
+            header nav .search_btn {
+              display: none;   }
+}

@@ -4,10 +4,14 @@
 {% block content %}
 
 <header>
-  <div id="logo">DataUSA</div>
+  <i id="hamburger" class="fa fa-bars"></i>
+  <a id="logo">Data<span id="usa">USA</span></a>
   <nav>
-
+    <a href="">Profiles</a>
+    <a href="">About</a>
+    <div class="search_btn"></div>
   </nav>
+  <i id="search_mobile" class="fa fa-search"></i>
 </header>
 
 <main>
@@ -18,5 +22,17 @@
 <footer>
 
 </footer>
+
+<script>
+
+  d3.select("#hamburger").on("click", function(){
+    var open = d3.select("nav").classed("open");
+    d3.selectAll("body, nav, #hamburger").classed("open", !open);
+    setTimeout(function(){
+      d3.selectAll("header").classed("open", !open);
+    }, open ? 400 : 0, open)
+  })
+
+</script>
 
 {% endblock %}
