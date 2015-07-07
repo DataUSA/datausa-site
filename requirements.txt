@@ -1,0 +1,13 @@
+# Flask framework
+Jinja2
+Werkzeug
+Flask
+
+# Helper lib for running scripts locally without server
+flask-script
+
+# SCSS Compiler
+-e git://github.com/bcarlin/flask-scss.git#egg=Flask-Scss-dev
+
+# Javascript Compiler
+Flask-Assets

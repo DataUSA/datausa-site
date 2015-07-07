@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>DataUSA{% block title %}{% endblock %}</title>
+
+    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
+    <link rel="apple-touch-icon" sizes="256x256" href="/static/img/touchicon.png">
+
+    <link type="text/css" rel="stylesheet" media="all" href="/static/css/site.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="/static/css/libs/font-awesome-4.3.0/css/font-awesome.min.css" />
+
+    <script src="/static/js/libs/d3.v3.min.js"></script>
+    <script src="/static/js/libs/d3plus.js"></script>
+    <script src="/static/js/libs/topojson.js"></script>
+    <script src="/static/js/libs/localforage.js"></script>
+
+    {% assets "js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+
+    <script>
+
+      var resizeFunctions = [], scrollFunctions = [], cache_version = "{{ g.cache_version }}";
+
+    </script>
+
+    {% block head %}
+    {% endblock %}
+
+  </head>
+  <body class="{% if g.page_type %}{{g.page_type}}{% endif %}">
+
+    {% block content %}
+    {% endblock %}
+
+    {% block js %}
+    {% endblock %}
+
+    <!-- Google Analytics! -->
+    <script type="text/javascript">
+
+    </script>
+
+    <!-- All Pages -->
+    <script type="text/javascript">
+
+      if (resizeFunctions.length) {
+        window.onresize = function(){
+          for (var i = 0; i < resizeFunctions.length; i++) {
+            resizeFunctions[i]();
+          }
+        }
+      }
+
+      if (scrollFunctions.length) {
+        document.onscroll = function(){
+          for (var i = 0; i < scrollFunctions.length; i++) {
+            scrollFunctions[i]();
+          }
+        }
+      }
+
+    </script>
+
+  </body>
+</html>
