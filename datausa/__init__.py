@@ -36,7 +36,7 @@ if DEBUG:
     assets.register("js", js)
 
 # Load and register the modules for each different section of the site
-for view in ["general"]:
+for view in ["general", "profile"]:
     mod = __import__("datausa.{}.views".format(view), fromlist=["mod"])
     mod = getattr(mod, "mod")
     app.register_blueprint(mod)
