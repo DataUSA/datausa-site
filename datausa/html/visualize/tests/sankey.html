@@ -1,0 +1,139 @@
+{% extends "visualize/tests/io.html" %}
+
+{% block js %}
+
+<script>
+
+  var focus = "3361MV",
+      include_self = 1,
+      energy = {},
+      sankey = d3.sankey()
+        .nodeWidth(15)
+        .nodePadding(5)
+        .size([width, height]),
+      path = sankey.link();
+
+  function nodeStyle(node) {
+    node
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .attr("height", function(d) { return d.dy; })
+      .attr("width", sankey.nodeWidth())
+      .style("fill", function(d) { return d3plus.color.scale(d.name); });
+  }
+
+  function linkStyle(link) {
+    link
+      .attr("d", path)
+      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
+      .style("stroke", "#ddd")
+      .style("fill", "none");
+  }
+
+  function setFocus(f) {
+
+    focus = f;
+    var m = makes[focus].filter(function(d){
+      return d.value;
+    })
+    var u = uses[focus].filter(function(d){
+      return d.value;
+    })
+
+    energy.nodes = [];
+    energy.links = [];
+
+    var center = {
+      "id": focus,
+      "name": names[focus]
+    };
+
+    energy.nodes.push(center);
+
+    m.forEach(function(mm){
+      if (include_self || mm.id !== focus) {
+        var user = {
+          "id": "make_" + mm.id,
+          "name": names[mm.id]
+        };
+        energy.nodes.push(user);
+        energy.links.push({
+          "source": center,
+          "target": user,
+          "value": mm.value
+        });
+      }
+    });
+
+    u.forEach(function(uu){
+      if (include_self || uu.id !== focus) {
+        var maker = {
+          "id": "make_" + uu.id,
+          "name": names[uu.id]
+        };
+        energy.nodes.push(maker);
+        energy.links.push({
+          "target": center,
+          "source": maker,
+          "value": uu.value
+        });
+      }
+    });
+
+    sankey
+      .nodes(energy.nodes)
+      .links(energy.links)
+      .layout(2)
+
+    var link = svg.selectAll(".link")
+      .data(energy.links);
+
+    link.transition().duration(600)
+      .call(linkStyle)
+      .sort(function(a, b) { return b.dy - a.dy; });
+
+    link.enter().append("path")
+      .attr("class", "link")
+      .attr("opacity", 0)
+      .call(linkStyle)
+      .transition().duration(600)
+        .attr("opacity", 1);
+
+    link.exit().transition().duration(600)
+      .attr("opacity", 0).remove();
+
+    var node = svg.selectAll(".node")
+      .data(energy.nodes);
+
+    node.transition().duration(600)
+        .call(nodeStyle);
+
+    node.enter().append("rect")
+      .attr("class", "node")
+      .attr("opacity", 0)
+      .call(nodeStyle)
+      .transition().duration(600)
+        .attr("opacity", 1);
+
+    node.exit().transition().duration(600)
+      .attr("opacity", 0).remove();
+
+    node
+      .on("mouseover", function(d){
+        d3plus.tooltip.create({
+          "align": "center right",
+          "arrow": true,
+          "title": d.name,
+          "id": d.id,
+          "x": d.x + margin + d.dx/2,
+          "y": d.y + margin * 2 + d.dy/2
+        })
+      })
+      .on("mouseout", function(d){
+        d3plus.tooltip.remove(d.id);
+      });
+
+  }
+
+</script>
+
+{% endblock %}

@@ -31,12 +31,13 @@ if DEBUG:
     assets.load_path.append(os.path.join(base_dir, "assets/js/"))
     js = Bundle(
         "base.js",
+        "plugins/*.js",
         output="js/site.js"
     )
     assets.register("js", js)
 
 # Load and register the modules for each different section of the site
-for view in ["general", "profile"]:
+for view in ["general", "profile", "visualize"]:
     mod = __import__("datausa.{}.views".format(view), fromlist=["mod"])
     mod = getattr(mod, "mod")
     app.register_blueprint(mod)

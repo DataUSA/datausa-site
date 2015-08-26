@@ -1,5 +1,3 @@
-console.log("Javascript has been compiled and loaded.");
-
 d3.sankey = function() {
   var sankey = {},
       nodeWidth = 24,

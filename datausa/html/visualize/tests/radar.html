@@ -1,0 +1,59 @@
+{% extends "visualize/tests/io.html" %}
+
+{% block js %}
+
+<style>
+  .level {
+    stroke: #ccc;
+  }
+  .axis line {
+    stroke: #ccc;
+  }
+</style>
+
+<script src="https://rawgit.com/alangrafu/radar-chart-d3/master/src/radar-chart.js"></script>
+<script>
+
+  var focus = "3361MV";
+
+  var chart = RadarChart.chart();
+
+  chart.config({
+    h: height,
+    w: width
+  });
+
+  function setFocus(f) {
+
+    uses[f].forEach(function(u){
+      u.axis = names[u.id];
+    });
+
+    makes[f].forEach(function(m){
+      m.axis = names[m.id];
+    });
+
+    var data = [
+      {
+        className: "Uses",
+        axes: uses[f].filter(function(d){
+          return include_self ? true : d.id !== focus;
+        })
+      },
+      {
+        className: "Makes",
+        axes: makes[f].filter(function(d){
+          return include_self ? true : d.id !== focus;
+        })
+      }
+    ];
+
+    svg.classed("focus", 1)
+      .datum(data)
+      .call(chart);
+
+  }
+
+</script>
+
+{% endblock %}

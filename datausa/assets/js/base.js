@@ -1,1 +1,1 @@
-console.log("It's working!");
+console.log("Javascript has been compiled and loaded.");

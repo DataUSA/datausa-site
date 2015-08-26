@@ -7,7 +7,7 @@ Flask
 flask-script
 
 # SCSS Compiler
--e git://github.com/bcarlin/flask-scss.git#egg=Flask-Scss-dev
+Flask-Scss
 
 # Javascript Compiler
 Flask-Assets
