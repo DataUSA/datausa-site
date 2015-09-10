@@ -7,21 +7,33 @@
 <script>
 
   function parse(data, set) {
+    var pcts = {};
     data.forEach(function(d){
       names[d.id] = d.name;
-      set[d.id] = []
+      set[d.id] = [];
+      var sum = 0, value;
       for (var key in d) {
         if (["id", "name"].indexOf(key) < 0) {
           var v = parseFloat(d[key]);
           if (isNaN(v)) v = 0;
           else v = v * 1000000;
+          sum += v;
+          if (key === d.id) value = v;
           set[d.id].push({
             "id": key,
             "value": v
           })
         }
       }
+      var pct = !sum ? 0 : (value/sum) * 100;
+      pcts[d.name] = pct;
     })
+    var cutoff = 40;
+    var total = data.length;
+    var over = d3.values(pcts).filter(function(d){ return d >= cutoff; }).length;
+    console.log("Number over "+cutoff+"%:", over + "/" + total, Math.round(over/total * 100) + "%")
+    console.log("Mean: ", Math.round(d3.mean(d3.values(pcts))));
+    console.log("Median: ", Math.round(d3.median(d3.values(pcts))));
   }
 
   var margin = 50,
@@ -39,10 +51,12 @@
 
   d3.csv("/static/data/io-make.csv", function(error, make){
 
+    console.log("Makes");
     parse(make, makes);
 
     d3.csv("/static/data/io-use.csv", function(error, use){
 
+      console.log("Uses");
       parse(use, uses);
 
       var form_data = [];

@@ -122,6 +122,7 @@
         d3plus.tooltip.create({
           "align": "center right",
           "arrow": true,
+          "data": [{"name": "Value", "value": "$" + d3plus.number.format(d.value) + " USD"}],
           "title": d.name,
           "id": d.id,
           "x": d.x + margin + d.dx/2,
