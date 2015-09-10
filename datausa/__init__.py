@@ -32,6 +32,8 @@ if DEBUG:
     js = Bundle(
         "base.js",
         "plugins/*.js",
+        "helpers/*.js",
+        "viz/*.js",
         output="js/site.js"
     )
     assets.register("js", js)

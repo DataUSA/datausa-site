@@ -9,9 +9,6 @@
 
     <title>DataUSA{% block title %}{% endblock %}</title>
 
-    <link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico">
-    <link rel="apple-touch-icon" sizes="256x256" href="/static/img/touchicon.png">
-
     <link type="text/css" rel="stylesheet" media="all" href="/static/css/site.css" />
     <link type="text/css" rel="stylesheet" media="all" href="/static/css/font-awesome-4.3.0/css/font-awesome.min.css" />
 
@@ -34,7 +31,7 @@
     {% endblock %}
 
   </head>
-  <body class="{% if g.page_type %}{{g.page_type}}{% endif %}">
+  <body{% if g.page_type %} class="{{g.page_type}}"{% endif %}>
 
     {% block content %}
     {% endblock %}

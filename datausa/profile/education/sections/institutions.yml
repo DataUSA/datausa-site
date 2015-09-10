@@ -1,0 +1,13 @@
+title: "Institutions"
+description: "The census bureau collects a lot of information on higher education."
+
+topics:
+  -
+    title: "Institutions"
+    description: "The majority of institutions that offer <<name>> are <<top show=sector,limit=1,order=num_universities,sort=desc>> institutions."
+    viz:
+      show: "university"
+      type: "tree_map"
+      size: "grads_total"
+      color: "sector"
+      cip: "<<id>>"

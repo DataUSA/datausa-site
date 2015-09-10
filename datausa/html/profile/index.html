@@ -1,4 +1,33 @@
 {% extends "templates/nav.html" %}
 
-{% block body %}
+{% block content %}
+<script>var builds = [];</script>
+<h1>{{ profile.attr.name }}</h1>
+{% for section in profile.sections() %}
+  <h2>{{ section.title }}</h2>
+  <sub>{{ section.description }}</sub>
+  {% for topic in section.topics %}
+    <div>
+      <div>
+        <h3>{{ topic.title }}</h3>
+        <p>{{ topic.description }}</p>
+      </div>
+      <div class="viz" style="width:1000px;height:300px;"></div>
+      <script>builds.push({{ topic.viz.serialize()|safe }});</script>
+    </div>
+  {% endfor %}
+{% endfor %}
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+  builds.forEach(function(build, i){
+    viz(build, d3.selectAll(".viz")[0][i]);
+  });
+
+</script>
+
 {% endblock %}

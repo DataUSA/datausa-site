@@ -9,3 +9,9 @@ Flask-Scss
 
 # Javascript Compiler
 Flask-Assets
+
+# YAML load/compiler
+PyYAML
+
+# URL library for handling external resources
+requests

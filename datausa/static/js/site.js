@@ -1,3 +1,5 @@
+/* Only edit javascript files in the assets/js directory */
+
 console.log("Javascript has been compiled and loaded.");
 
 d3.sankey = function() {
@@ -294,3 +296,43 @@ d3.sankey = function() {
 
   return sankey;
 };
+
+var load = function(url, callback) {
+
+  d3.json(url, function(data) {
+    data = data.data.map(function(d){
+      return d.reduce(function(obj, v, i){
+        obj[data.headers[i]] = v;
+        return obj;
+      }, {});
+    })
+    callback(data);
+  });
+
+}
+
+var viz = function(build, container) {
+  console.log(build);
+  var app = d3plus.viz()
+    .container(d3.select(container))
+    .id([build.color, build.attr_type])
+    .depth(1)
+    .color(build.color)
+    .size(build.size)
+    .text("name")
+    .type(build.type);
+
+  load(build.attr_url, function(attrs){
+    attrs.forEach(function(a){
+      a[build.attr_type] = a.id;
+    })
+    app.attrs(attrs);
+
+    load(build.data_url, function(data){
+      app.data(data).draw();
+      // console.log(attrs[0], data[0])
+    })
+
+  })
+
+}
