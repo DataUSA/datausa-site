@@ -9,17 +9,22 @@ class Viz(object):
         self.size = params.pop("size", None)
         self.x = params.pop("x", None)
         self.y = params.pop("y", None)
+        self.order = params.get("order", None)
 
         params["sumlevel"] = params.get("sumlevel", "all")
         params["year"] = params.get("year", 2013)
+        params["sort"] = params.get("sort", "desc")
+
+        self.required = filter(None, [self.size, self.x, self.y, self.order])
         self.params = params
 
     def attr_url(self):
-        return "{}/attrs/{}/".format(API, self.params["show"])
+        if self.params["show"] not in ["age"]:
+            return "{}/attrs/{}/".format(API, self.params["show"])
+        return None
 
     def data_url(self):
-        required = ",".join(filter(None, [self.size, self.x, self.y]))
-        return "{}/api/?{}&required={}".format(API, urllib.urlencode(self.params), required)
+        return "{}/api/?{}&required={}".format(API, urllib.urlencode(self.params), ",".join(self.required))
 
     def serialize(self):
         return json.dumps({
@@ -27,7 +32,9 @@ class Viz(object):
             "attr_url": self.attr_url(),
             "color": self.color,
             "data_url": self.data_url(),
+            "order": self.order,
             "size": self.size,
+            "tooltip": self.required,
             "type": self.type,
             "x": self.x,
             "y": self.y

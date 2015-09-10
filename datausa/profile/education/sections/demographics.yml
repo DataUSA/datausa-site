@@ -1,0 +1,16 @@
+title: "Demographics"
+description: "Here's some demographic stuff, bro."
+
+topics:
+  - title: "Workforce Age"
+    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
+    stat:
+      - title: "Average Age"
+        value: "<<top dataset=pums,show=cip,col=avg_age>>"
+    description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
+    viz:
+      show: "age"
+      type: "line"
+      cip: "<<id dataset=pums>>"
+      x: "age"
+      y: "num_ppl"

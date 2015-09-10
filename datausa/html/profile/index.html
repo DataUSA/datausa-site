@@ -10,6 +10,15 @@
     <div>
       <div>
         <h3>{{ topic.title }}</h3>
+        {% if topic.subtitle %}
+          <sub>{{ topic.subtitle }}</sub>
+        {% endif %}
+        {% if topic.stat %}
+          {% for stat in topic.stat %}
+            <h4>{{ stat.title }}</h4>
+            <div class="stat">{{ stat.value }}</div>
+          {% endfor %}
+        {% endif %}
         <p>{{ topic.description }}</p>
       </div>
       <div class="viz" style="width:1000px;height:300px;"></div>
@@ -23,9 +32,11 @@
 {% block js %}
 
 <script>
-
+  var app;
   builds.forEach(function(build, i){
-    viz(build, d3.selectAll(".viz")[0][i]);
+    if (i === 0) {
+      app = viz(build, d3.selectAll(".viz")[0][i]);
+    }
   });
 
 </script>

@@ -2,12 +2,26 @@ title: "Institutions"
 description: "The census bureau collects a lot of information on higher education."
 
 topics:
-  -
-    title: "Institutions"
-    description: "The majority of institutions that offer <<name>> are <<top show=sector,limit=1,order=num_universities,sort=desc>> institutions."
+  - title: "Institutions"
+    description: "The majority of institutions that offer <<name>> are <<top show=sector,order=num_universities,sort=desc>> institutions."
     viz:
       show: "university"
       type: "tree_map"
       size: "grads_total"
       color: "sector"
       cip: "<<id>>"
+  - title: "Tuition Costs"
+    stat:
+      - title: "Median In-State Public"
+        value: "<<top show=sector,sector=1,col=state_tuition>>"
+      - title: "Median Out of State Private"
+        value: "<<top show=sector,sector=2,col=oos_tuition>>"
+    description: "Here are the tuition costs of the top 5 institutions that have the most students graduating with <<name>> degrees."
+    viz:
+      show: "university"
+      type: "bar"
+      cip: "<<id>>"
+      x: "oos_tuition"
+      y: "university"
+      limit: 5
+      order: "grads_total"
