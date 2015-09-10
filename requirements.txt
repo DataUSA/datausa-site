@@ -1,6 +1,4 @@
 # Flask framework
-Jinja2
-Werkzeug
 Flask
 
 # Helper lib for running scripts locally without server
