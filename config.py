@@ -14,5 +14,5 @@ def get_env_variable(var_name, default=-1):
         error_msg = "Set the %s os.environment variable" % var_name
         raise Exception(error_msg)
 
-''' Default debugging to True '''
+''' Default debugging to False '''
 DEBUG = not get_env_variable("DATAUSA_PRODUCTION", False)
