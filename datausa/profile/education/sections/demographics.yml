@@ -176,7 +176,7 @@ topics:
       - title: "High Relative Number of People born in"
         value: "<<top show=birthplace|order=num_ppl_rca>>"
       - title: "Most Common Foreign-Born Country is"
-        value: "<<top show=birthplace|order=num_ppl>>"
+        value: "<<top show=birthplace|order=num_ppl|where=birthplace:~^04000US>>"
     description: "There are a relatively high number of foreign-born citizens from <<top show=birthplace|order=num_ppl_rca>> that hold <<name>> degrees."
     viz:
       attrs: "birthplace"
@@ -184,4 +184,5 @@ topics:
       data:
         show: "birthplace"
         cip: "<<id>>"
+        where: "birthplace:~^04000US"
       id: "birthplace"
