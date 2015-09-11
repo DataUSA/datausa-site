@@ -1,7 +1,5 @@
 /* Only edit javascript files in the assets/js directory */
 
-console.log("Javascript has been compiled and loaded.");
-
 d3.sankey = function() {
   var sankey = {},
       nodeWidth = 24,
@@ -338,12 +336,12 @@ var viz = function(build, container) {
     .depth(nesting.length - 1)
     // .color(build.color)
     // .size(build.size)
-    .x(build.x)
-    .y(build.y)
+    // .x(build.x)
+    // .y(build.y)
     // .y({"scale": "discrete"})
     .text("name")
     .tooltip(build.tooltip)
-    .order(build.order)
+    // .order(build.order)
     .order({"sort": "asc"})
     .shape({"interpolate": "monotone"})
     .type(build.type);
@@ -356,10 +354,11 @@ var viz = function(build, container) {
       })
       app.attrs(attrs);
     }
-    console.log(build.data_url);
+
     load(build.data_url, function(data){
-      app.data(data).draw();
-      console.log(data)
+      // app.data(data).draw();
+      console.log("Attributes:", attrs[0]);
+      console.log("Data:", data[0]);
       // console.log(attrs[0], data[0])
     })
 

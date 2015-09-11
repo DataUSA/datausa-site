@@ -3,25 +3,82 @@ description: "The census bureau collects a lot of information on higher educatio
 
 topics:
   - title: "Institutions"
-    description: "The majority of institutions that offer <<name>> are <<top show=sector,order=num_universities,sort=desc>> institutions."
+    description: "The majority of institutions that offer <<name>> are <<top show=sector|order=num_universities|sort=desc>> institutions."
     viz:
-      show: "university"
+      attrs: "university"
+      color: "sector"
+      data:
+        required: "grads_total"
+        cip: "<<id>>"
+        show: "university"
+      id:
+        - "sector"
+        - "university"
       type: "tree_map"
       size: "grads_total"
-      color: "sector"
-      cip: "<<id>>"
   - title: "Tuition Costs"
     stat:
       - title: "Median In-State Public"
-        value: "<<top show=sector,sector=1,col=state_tuition>>"
+        value: "<<top show=sector|sector=1|col=state_tuition>>"
       - title: "Median Out of State Private"
-        value: "<<top show=sector,sector=2,col=oos_tuition>>"
+        value: "<<top show=sector|sector=2|col=oos_tuition>>"
     description: "Here are the tuition costs of the top 5 institutions that have the most students graduating with <<name>> degrees."
     viz:
-      show: "university"
+      attrs: "university"
+      data:
+        required: "grads_total"
+        cip: "<<id>>"
+        show: "university"
+        limit: 5
+        order: "grads_total"
+      id: "university"
       type: "bar"
-      cip: "<<id>>"
       x: "oos_tuition"
       y: "university"
-      limit: 5
-      order: "grads_total"
+  - title: "Popular Colleges"
+    stat:
+      - title: "Highest Concentration Institution"
+        value: "<<top show=university|col=name|order=grads_total>>"
+    description: "The institutions to the right have the highest percentage of <<name>> graduates."
+    viz:
+      attrs: "university"
+      data:
+        required: "grads_total,pct_total"
+        cip: "<<id>>"
+        limit: 5
+        order: "pct_total"
+        show: "university"
+      id: "university"
+      type: "bar"
+      x: "university"
+      y: "grads_total"
+  - title: "Graduates by County"
+    stat:
+      - title: "County with the Most <<name>> Graduates"
+        value: "<<top show=geo_id|sumlevel=county|order=grads_total|col=name>>"
+    description: "The map to the right shows the counties in the United States colored by the highest graduation of <<name>> majors."
+    viz:
+      attrs: "geo"
+      data:
+        required: "grads_total"
+        show: "geo_id"
+        sumlevel: "county"
+        cip: "<<id>>"
+      id: "county"
+      type: "geo_map"
+      color: "grads_total"
+  - title: "Graduates by Growth"
+    stat:
+      - title: "County with the Fastest Growing Number of Graduates"
+        value: "<<top show=geo_id|sumlevel=county|order=grads_total_growth|col=name>>"
+    description: "The map to the right shows the counties in the United States colored by the highest growth in <<name>> graduates."
+    viz:
+      attrs: "geo"
+      data:
+        required: "grads_total_growth"
+        show: "geo_id"
+        sumlevel: "county"
+        cip: "<<id>>"
+      id: "county"
+      type: "geo_map"
+      color: "grads_total_growth"

@@ -15,7 +15,7 @@ class Section(object):
         for k in keys:
             func, params = k.split(" ") if " " in k else (k, "")
             if hasattr(self, func):
-                params = dict(item.split("=") for item in params.split(",")) if params else {}
+                params = dict(item.split("=") for item in params.split("|")) if params else {}
                 config = config.replace("<<{0}>>".format(k), getattr(self, func)(**params))
 
         config = yaml.load(config)
@@ -24,7 +24,8 @@ class Section(object):
         self.topics = config["topics"]
 
         for topic in self.topics:
-            topic["viz"] = Viz(topic["viz"])
+            if "viz" in topic:
+                topic["viz"] = Viz(topic["viz"])
 
     def id(self, **kwargs):
         if "dataset" in kwargs:
@@ -43,13 +44,11 @@ class Section(object):
         show = kwargs.get("show")
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
         params = {}
-        params[attr_type] = kwargs.get("attr_id", self.id(dataset=kwargs.get("dataset", "")))
+        params[attr_type] = kwargs.get("attr_id", self.attr["id"])
 
-        if "col" in kwargs:
-            params["required"] = kwargs.pop("col")
-            col = params["required"]
-        else:
-            col = "name"
+        col = kwargs.pop("col", "name")
+        if col != "name":
+            params["required"] = col
 
         params = dict(params.items()+kwargs.items())
         params["limit"] = params.get("limit", 1)
@@ -59,8 +58,14 @@ class Section(object):
         params["show"] = params.get("show", show)
         params["sumlevel"] = params.get("sumlevel", "all")
 
+        if "required" not in params:
+            params["required"] = params["order"]
+
         params = urllib.urlencode(params)
-        r = datafold(requests.get("{}/api?{}".format(API, params)).json())
+        try:
+            r = datafold(requests.get("{}/api?{}".format(API, params)).json())
+        except ValueError:
+            raise Exception(params)
 
         if col == "name":
             top = [fetch(d[show], show)[col] for d in r]

@@ -16,5 +16,5 @@ class Profile(object):
     def sections(self):
         profile_path = os.path.dirname(os.path.realpath(__file__))
         directory = os.path.join(profile_path, self.path, "sections/")
-        files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith(".yml")]
+        files = [os.path.join(directory, "{}.yml".format(f)) for f in self.section_order]
         return [Section("".join(open(f).readlines()), self) for f in files]

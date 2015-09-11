@@ -19,10 +19,18 @@
             <div class="stat">{{ stat.value }}</div>
           {% endfor %}
         {% endif %}
+        {% if topic.description %}
         <p>{{ topic.description }}</p>
+        {% endif %}
       </div>
-      <div class="viz" style="width:1000px;height:300px;"></div>
+      {% if topic.viz %}
+      <div class="viz" style="background-color:#ccc;">
+        {% for d in topic.viz.data %}
+          {{ d.url }}<br>
+        {% endfor %}
+      </div>
       <script>builds.push({{ topic.viz.serialize()|safe }});</script>
+      {% endif %}
     </div>
   {% endfor %}
 {% endfor %}
@@ -34,9 +42,11 @@
 <script>
   var app;
   builds.forEach(function(build, i){
-    if (i === 0) {
-      app = viz(build, d3.selectAll(".viz")[0][i]);
-    }
+    // if (i === builds.length - 1 - 5 - 1) {
+    //   var container = d3.selectAll(".viz")[0][i];
+    //   console.log(d3.select(container.parentNode).select("h3").html());
+    //   app = viz(build, container);
+    // }
   });
 
 </script>
