@@ -4,12 +4,6 @@ Flask
 # Helper lib for running scripts locally without server
 flask-script
 
-# SCSS Compiler
-Flask-Scss
-
-# Javascript Compiler
-Flask-Assets
-
 # YAML load/compiler
 PyYAML
 

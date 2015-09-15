@@ -1,52 +1,78 @@
-{% extends "templates/nav.html" %}
+<!-- Extent the nav template -->
+{% extends "templates/base.html" %}
 
+<!-- Insert attribute name into the title block -->
+{% block title %} - {{ profile.attr.name }}{% endblock %}
+
+<!-- Insert HTML into the content block -->
 {% block content %}
+
+<!-- Create a new javascript Array to hold the visualizations -->
 <script>var builds = [];</script>
+
+<!-- Set a page heading using the attribute name -->
 <h1>{{ profile.attr.name }}</h1>
+
+<!-- Loop through each section of the profile -->
 {% for section in profile.sections() %}
+
+  <!-- Set a sub-heading using the section title -->
   <h2>{{ section.title }}</h2>
+
+  <!-- If the section has a description, set it as a sub tag -->
   <sub>{{ section.description }}</sub>
+
+  <!-- Loop through each topic in the section -->
   {% for topic in section.topics %}
-    <div>
-      <div>
+
+    <!-- Create a container div for the section -->
+    <div class="section">
+
+      <!-- Create a container for the text -->
+      <div class="text">
+        <!-- Put the topic title in an h3 -->
         <h3>{{ topic.title }}</h3>
+        <!-- If the topic has a subtitle, put it in a sub tag -->
         {% if topic.subtitle %}
           <sub>{{ topic.subtitle }}</sub>
         {% endif %}
+
+        <!-- If the topic has stats, loop through and output the title and value -->
         {% if topic.stat %}
           {% for stat in topic.stat %}
             <h4>{{ stat.title }}</h4>
             <div class="stat">{{ stat.value }}</div>
           {% endfor %}
         {% endif %}
+
+        <!-- If the topic has a description, put it in a paragraph block -->
         {% if topic.description %}
-        <p>{{ topic.description }}</p>
+          <p>{{ topic.description }}</p>
         {% endif %}
+
       </div>
+
+      <!-- If the topic has a viz -->
       {% if topic.viz %}
-      <div class="viz" style="background-color:#ccc;">
-        {% for d in topic.viz.data %}
-          {{ d.url }}<br>
-        {% endfor %}
-      </div>
-      <script>builds.push({{ topic.viz.serialize()|safe }});</script>
+        <!-- Create a container for the viz -->
+        <div class="viz"></div>
+        <!-- Push the serialized viz into the javascript visualization array -->
+        <script>builds.push({{ topic.viz.serialize()|safe }});</script>
       {% endif %}
+
     </div>
+
   {% endfor %}
+
 {% endfor %}
 
-{% endblock %}
-
-{% block js %}
-
+<!-- Loop through each visualization and make it with D3plus! -->
 <script>
-  var app;
+
   builds.forEach(function(build, i){
-    // if (i === builds.length - 1 - 5 - 1) {
-    //   var container = d3.selectAll(".viz")[0][i];
-    //   console.log(d3.select(container.parentNode).select("h3").html());
-    //   app = viz(build, container);
-    // }
+
+    // Visualization code here!
+
   });
 
 </script>
