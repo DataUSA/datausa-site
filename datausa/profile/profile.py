@@ -23,7 +23,7 @@ class Profile(object):
 
         """
 
-        """ set id, attr (using the fetch function), and attr_type """
+        # set id, attr (using the fetch function), and attr_type
         self.id = attr_id
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
@@ -31,10 +31,10 @@ class Profile(object):
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 
-        """ determine path to each of the YAML files """
+        # determine path to each of the YAML files
         profile_path = os.path.dirname(os.path.realpath(__file__))
         directory = os.path.join(profile_path, self.path, "sections/")
         files = [os.path.join(directory, "{}.yml".format(f)) for f in self.section_order]
 
-        """ pass each file to the Section class and return the final array """
+        # pass each file to the Section class and return the final array
         return [Section("".join(open(f).readlines()), self) for f in files]
