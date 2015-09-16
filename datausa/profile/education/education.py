@@ -1,5 +1,3 @@
-from datausa.profile.profile import Profile
-
 class EduProfile(Profile):
     """The main Education Profile class.
 
@@ -18,8 +16,5 @@ class EduProfile(Profile):
         """
 
         # set 'path' and 'section_order'
-        self.path = "education/"
-        self.section_order = ["institutions", "demographics"]
 
         # call parent class's init function, manually passing 'cip' as the attr_type
-        super(EduProfile, self).__init__(attr_id, "cip")

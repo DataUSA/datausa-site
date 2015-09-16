@@ -1,11 +1,7 @@
 # Flask framework
-Flask
 
 # Helper lib for running scripts locally without server
-flask-script
 
 # YAML load/compiler
-PyYAML
 
 # URL library for handling external resources
-requests
