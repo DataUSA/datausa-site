@@ -2,6 +2,15 @@ body {
   margin: 0;
 }
 
+.text {
+  display: inline-block;
+  width: 25%;
+  vertical-align: top;
+}
+
 .viz {
   background-color: #ccc;
+  display: inline-block;
+  height: 400px;
+  width: 70%;
 }
