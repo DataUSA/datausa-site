@@ -5,6 +5,7 @@ import os
 from flask import Flask
 
 from config import DEBUG
+from flask.ext.cache import Cache
 
 # Base directory of where the site is held
 base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -19,6 +20,9 @@ app.jinja_env.add_extension("jinja2.ext.do")
 
 # Load default configuration from config.py
 app.config.from_object("config")
+
+# Setup caching
+cache = Cache(app)
 
 # Run SCSS and JS compilers
 if DEBUG:
@@ -43,3 +47,5 @@ for view in ["general", "profile", "visualize"]:
     mod = __import__("datausa.{}.views".format(view), fromlist=["mod"])
     mod = getattr(mod, "mod")
     app.register_blueprint(mod)
+
+

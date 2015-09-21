@@ -15,3 +15,6 @@ PyYAML
 
 # URL library for handling external resources
 requests
+
+# Caching library
+Flask-Cache
