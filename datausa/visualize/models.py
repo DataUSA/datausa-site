@@ -1,4 +1,5 @@
-import json, urllib
+import json
+from requests.models import RequestEncodingMixin
 from config import API
 
 class Viz(object):
@@ -40,7 +41,8 @@ class Viz(object):
             d["required"] = d.get("required", d["order"])
 
             # create the data URL
-            data_obj["url"] = "{}/api/?{}".format(API, urllib.urlencode(d))
+            p = RequestEncodingMixin._encode_params(params)
+            data_obj["url"] = "{}/api/?{}".format(API, p)
 
             # store the params in the return dict
             data_obj["params"] = d

@@ -1,4 +1,5 @@
-import re, requests, urllib, yaml
+import re, requests, yaml
+from requests.models import RequestEncodingMixin
 from config import API
 from datausa.visualize.models import Viz
 from datausa.utils import datafold, fetch
@@ -114,7 +115,7 @@ class Section(object):
             params["required"] = params["order"]
 
         # convert params into a url query string
-        params = urllib.urlencode(params)
+        params = RequestEncodingMixin._encode_params(params)
 
         # make the API request using the params, converting it to json and running it through the datafold util
         try:
