@@ -1,3 +1,20 @@
+@mixin animation($animation) {
+  -webkit-animation: $animation;
+  -moz-animation: $animation;
+  -o-animation: $animation;
+  animation: $animation;
+}
+
+@mixin background-stretch() {
+  background-attachment: center center;
+  background-position: fixed;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 @mixin box($style: border-box) {
   -webkit-box-sizing: $style;
   -moz-box-sizing: $style;
@@ -9,8 +26,43 @@
   -moz-filter: blur($radius + px);
   -ms-filter: blur($radius + px);
   -o-filter: blur($radius + px);
-  filter: url(blur.svg#blur);
-  filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='#{$radius}');
+  // filter: url(blur.svg#blur);
+  // filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='#{$radius}');
+}
+
+@mixin column-count($num: 2) {
+  -webkit-column-count: $num;
+  -moz-column-count: $num;
+  column-count: $num;
+  @include column-gap();
+}
+
+@mixin column-gap($num: 20px) {
+  -webkit-column-gap: $num;
+  -moz-column-gap: $num;
+  column-gap: $num;
+}
+
+@mixin filter($filter) {
+  -webkit-filter: $filter;
+  -moz-filter: $filter;
+  -o-filter: $filter;
+  filter: $filter;
+}
+
+@mixin flip {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+@mixin font-smoothing($font-smoothing) {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
 }
 
 @mixin image($image, $width, $height, $hd: none) {
@@ -28,6 +80,30 @@
       background-image: url($hd);
     }
   }
+}
+
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+        @content;
+    }
+    @-moz-keyframes #{$animationName} {
+        @content;
+    }
+    @-o-keyframes #{$animationName} {
+        @content;
+    }
+    @keyframes #{$animationName} {
+        @content;
+    }
+}
+
+@mixin gradient($start, $end) {
+  background: -moz-linear-gradient(top, $start 0%, $end 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $start), color-stop(100%, $end));
+  background: -webkit-linear-gradient(top, $start 0%, $end 100%);
+  background: -o-linear-gradient(top, $start 0%, $end 100%);
+  background: -ms-linear-gradient(top, $start 0%, $end 100%);
+  background: linear-gradient(to bottom, $start 0%, $end 100%);
 }
 
 @mixin rounded($size: 5px, $corner: "none") {
@@ -49,6 +125,12 @@
   box-shadow: $style;
 }
 
+@mixin text-shadow($style: $shadow) {
+  -webkit-text-shadow: $style;
+  -moz-text-shadow: $style;
+  text-shadow: $style;
+}
+
 @mixin transform($style) {
   -webkit-transform: $style;
   -ms-transform: $style;
@@ -64,26 +146,35 @@
 @mixin transition($animation) {
   -webkit-transition: $animation;
   -moz-transition: $animation;
+  -ms-transition: $animation;
   -o-transition: $animation;
   transition: $animation;
 }
 
-@mixin placeholder($color) {
+@mixin wordwrap() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  white-space: initial !important;
+}
+
+@mixin placeholder {
 
   &::-webkit-input-placeholder {
-    color: $color;
+    @content;
   }
 
   &:-moz-placeholder {
-    color: $color;
+    @content;
   }
 
   &::-moz-placeholder {
-    color: $color;
+    @content;
   }
 
   &:-ms-input-placeholder {
-    color: $color;
+    @content;
   }
 
 }
