@@ -1,38 +1,104 @@
 {% extends "templates/nav.html" %}
 
-{% block content %}
+{% block body %}
+
 <script>var builds = [];</script>
-<h1>{{ profile.attr.name }}</h1>
-{% for section in profile.sections() %}
-  <h2>{{ section.title }}</h2>
-  <sub>{{ section.description }}</sub>
-  {% for topic in section.topics %}
-    <div>
-      <div>
-        <h3>{{ topic.title }}</h3>
-        {% if topic.subtitle %}
-          <sub>{{ topic.subtitle }}</sub>
-        {% endif %}
-        {% if topic.stat %}
-          {% for stat in topic.stat %}
-            <h4>{{ stat.title }}</h4>
-            <div class="stat">{{ stat.value }}</div>
-          {% endfor %}
-        {% endif %}
-        {% if topic.description %}
-        <p>{{ topic.description }}</p>
-        {% endif %}
+
+<article id="splash">
+
+  <div class="content">
+
+    <div class="thumbprint"></div>
+
+    <h1>{{ profile.attr.name }}</h1>
+    <sub>Lorem Ipsum</sub>
+    <p class="desc">
+      Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at. Has ignota animal reformidans ne, an ignota altera melius eum.
+    </p>
+
+    <div id="splash-stats">
+      <div class="stat">
+        <div class="stat-text">Stat Title</div>
+        <div class="stat-value">$XXB</div>
+        <div class="stat-rank">Rank: Xth</div>
       </div>
-      {% if topic.viz %}
-      <div class="viz" style="background-color:#ccc;">
-        {% for d in topic.viz.data %}
-          {{ d.url }}<br>
+      <div class="stat">
+        <div class="stat-text">Stat Title</div>
+        <div class="stat-value">$XXB</div>
+        <div class="stat-rank">Rank: Xth</div>
+      </div>
+      <div class="stat">
+        <div class="stat-text">Stat Title</div>
+        <div class="stat-value">$XXB</div>
+        <div class="stat-rank">Rank: Xth</div>
+      </div>
+    </div>
+
+    <div class="carousel">
+      <div class="carousel-title">Did you know?</div>
+      <div class="carousel-slider">
+        <p class="carousel-text active">Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at.</p>
+        <p class="carousel-text">Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at.</p>
+        <p class="carousel-text">Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at.</p>
+      </div>
+      <div class="carousel-btns">
+        <div class="carousel-btn active"></div>
+        <div class="carousel-btn"></div>
+        <div class="carousel-btn"></div>
+      </div>
+    </div>
+
+    <div id="scroll-btn">
+      <i class="fa fa-angle-down"></i>
+    </div>
+
+  </div>
+
+</article>
+
+<div id="title-bar" style="background-color: {{ profile.color() }};">
+  <h1>{{ profile.attr.name }}</h1>
+</div>
+
+{% for section in profile.sections() %}
+<header>
+  <h2>{{ section.title }}</h2>
+  <p>{{ section.description }}</p>
+</header>
+
+{% for topic in section.topics %}
+<article class="topic">
+  <h2 style="color: {{ profile.color() }};">{{ topic.title }}</h2>
+  {% if topic.subtitle %}
+    <sub>{{ topic.subtitle }}</sub>
+  {% endif %}
+  <div class="content">
+    <aside>
+      {% if topic.stat %}
+      <div class="topic-stats">
+        {% for stat in topic.stat %}
+          <div class="stat">
+            <div class="stat-text">{{ stat.title }}</div>
+            <div class="stat-value">{{ stat.value }}</div>
+          </div>
         {% endfor %}
       </div>
-      <script>builds.push({{ topic.viz.serialize()|safe }});</script>
       {% endif %}
+      {% if topic.description %}
+      <p>{{ topic.description }}</p>
+      {% endif %}
+      <sub>Data Source: Lorem Ipsum</sub>
+    </aside>
+    <div class="viz">
+      {% for d in topic.viz.data %}
+        {{ d.url }}<br>
+      {% endfor %}
     </div>
-  {% endfor %}
+  </div>
+</article>
+<script>builds.push({{ topic.viz.serialize()|safe }});</script>
+{% endfor %}
+
 {% endfor %}
 
 {% endblock %}
@@ -40,14 +106,20 @@
 {% block js %}
 
 <script>
-  var app;
-  builds.forEach(function(build, i){
-    // if (i === builds.length - 1 - 5 - 1) {
-    //   var container = d3.selectAll(".viz")[0][i];
-    //   console.log(d3.select(container.parentNode).select("h3").html());
-    //   app = viz(build, container);
-    // }
-  });
+
+  // var app, build = 0;
+  // builds.forEach(function(build, i){
+  //   if (i === builds.length - 1 - 5 - 1) {
+  //     var container = d3.selectAll(".viz")[0][i];
+  //     console.log(d3.select(container.parentNode).select("h3").html());
+  //     app = viz(build, container);
+  //   }
+  // });
+
+  var titleHeight = d3.select("#title-bar").node().offsetHeight;
+  scrollFunctions.push(function(y){
+    d3.select("#title-bar").classed("visible", y > window.innerHeight - titleHeight);
+  })
 
 </script>
 

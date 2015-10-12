@@ -1,0 +1,225 @@
+body.profile {
+
+  #splash {
+    @include flex();
+    @include justify(center);
+    @include align-items(center);
+    height: 100vh;
+    position: relative;
+    width: 100vw;
+    background-color: #444;
+
+    .content {
+      @include flex();
+      @include flex-direction(column);
+      @include align-items(center);
+      color: white;
+      text-align: center;
+
+      .thumbprint {
+        height: 200px;
+        width: 200px;
+        @include rounded(50%);
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      h1 {
+        font-family: $enriqueta;
+        font-size: 80px;
+        font-weight: 700;
+      }
+
+      sub {
+        font-family: $palanquin;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      p.desc {
+        margin: 15px;
+        max-width: 500px;
+        font-family: $enriqueta;
+        font-size: 20px;
+        font-weight: 400;
+      }
+
+      #splash-stats {
+        @include flex();
+
+        .stat {
+          @include flex();
+          @include flex-direction(column);
+          @include align-items(center);
+          margin: 15px 35px;
+
+          .stat-text, .stat-rank {
+            font-family: $enriqueta;
+            font-size: 16px;
+            font-weight: 700;
+          }
+
+          .stat-value {
+            margin: 5px 0;
+            font-family: $enriqueta;
+            font-size: 32px;
+            font-weight: 400;
+          }
+
+        }
+
+      }
+
+      .carousel {
+        margin: 35px;
+        font-family: $enriqueta;
+        font-size: 16px;
+
+        .carousel-title {
+          font-weight: 700;
+        }
+
+        .carousel-slider {
+
+          .carousel-text {
+            display: none;
+            max-width: 500px;
+            font-weight: 400;
+
+            &.active {
+              display: block;
+            }
+
+          }
+
+        }
+
+        .carousel-btns {
+
+          .carousel-btn {
+            display: inline-block;
+            margin: 10px;
+            height: 2px;
+            width: 20px;
+            background-color: black;
+            opacity: 0.5;
+
+            &.active {
+              opacity: 1;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    #scroll-btn {
+      bottom: 35px;
+      left: 50%;
+      margin-left: -50px;
+      position: absolute;
+      width: 100px;
+      font-size: 24px;
+      text-align: center;
+    }
+
+  }
+
+  header {
+    margin-bottom: 50px;
+    padding: 50px;
+    background-color: black;
+    color: white;
+
+    h2 {
+      margin: 0 auto;
+      max-width: 600px;
+      font-family: $palanquin;
+      font-size: 50px;
+      font-weight: 700;
+      line-height: 50px;
+    }
+
+    p {
+      margin: 0 auto;
+      max-width: 600px;
+      font-family: $enriqueta;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+  }
+
+  .topic {
+    margin-bottom: 50px;
+    padding: 0 50px;
+
+    h2 {
+      font-family: $enriqueta;
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    sub {
+      margin: 5px 0;
+      color: #a8a8a8;
+      font-family: $enriqueta;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .content {
+      @include flex();
+      margin-top: 10px;
+
+      aside {
+        @include flex-size(none);
+        max-width: 400px;
+
+        .topic-stats {
+          @include flex();
+          @include align-items(flex-end);
+
+          .stat {
+            @include flex-size(1);
+            margin-right: 5px;
+            color: $text-color;
+
+            .stat-text {
+              font-family: $enriqueta;
+              font-size: 16px;
+              font-weight: 700;
+            }
+
+            .stat-value {
+              font-family: $enriqueta;
+              font-size: 40px;
+              font-weight: 700;
+            }
+
+          }
+
+        }
+
+        p {
+          margin: 10px 0;
+          color: $text-color;
+          font-family: $enriqueta;
+          font-size: 20px;
+          font-weight: 400;
+        }
+
+      }
+
+      .viz {
+        @include flex-size(1 1 auto);
+        background-color: #eee;
+        margin-left: 50px;
+      }
+
+    }
+  }
+
+}

@@ -1,9 +1,9 @@
-$nav: 65px;
+$text-color: #211f1a;
 
-$black: #373737;
-$grey: #ddd;
-$lightblue: #00aae7;
-$darkblue: #004795;
+$shadow: 0 2px 2px rgba(0,0,0,0.5);
 
-$sans-serif: Helvetica, Arial, sans-serif;
-$serif: serif;
+$enriqueta: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$palanquin: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+
+/* download Google Fonts */
+@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,700);

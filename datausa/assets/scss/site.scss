@@ -4,18 +4,13 @@
 @import "helpers/vendor";
 
 body {
-  color: $black;
-  font-family: $serif;
   position: relative;
 
   &.open {
     overflow: hidden;
   }
 
-  h1, h2, h3, h4 {
-    font-family: $sans-serif;
-  }
-
 }
 
-@import "elements/nav";
+@import "elements/global";
+@import "elements/profile";

@@ -24,28 +24,27 @@ app.config.from_object("config")
 # Setup caching
 cache = Cache(app)
 
-# Run SCSS and JS compilers
+# Run SCSS compilers if DEBUG
 if DEBUG:
 
     from flask.ext.scss import Scss
     Scss(app)
 
-    from flask.ext.assets import Environment, Bundle
-    assets = Environment(app)
-    assets.load_path.append(os.path.join(base_dir, "assets/js/"))
-    js = Bundle(
-        "base.js",
-        "plugins/*.js",
-        "helpers/*.js",
-        "viz/*.js",
-        output="js/site.js"
-    )
-    assets.register("js", js)
+# Run JS compiler
+from flask.ext.assets import Environment, Bundle
+assets = Environment(app)
+assets.load_path.append(os.path.join(base_dir, "assets/js/"))
+js = Bundle(
+    "base.js",
+    "plugins/*.js",
+    "helpers/*.js",
+    "viz/*.js",
+    output="js/site.js"
+)
+assets.register("js", js)
 
 # Load and register the modules for each different section of the site
 for view in ["general", "profile", "visualize"]:
     mod = __import__("datausa.{}.views".format(view), fromlist=["mod"])
     mod = getattr(mod, "mod")
     app.register_blueprint(mod)
-
-

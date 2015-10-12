@@ -28,6 +28,11 @@ class Profile(object):
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
 
+    def color(self):
+        if hasattr(self.attr, "color"):
+            return self.attr["color"]
+        return "#006ea8"
+
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 

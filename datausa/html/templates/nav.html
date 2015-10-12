@@ -3,38 +3,21 @@
 
 {% block content %}
 
-<header>
-  <i id="hamburger" class="fa fa-bars"></i>
-  <a id="logo">Data<span id="usa">USA</span></a>
-  <nav>
-    <a href="">Profiles</a>
-    <a href="">About</a>
-    <div class="search_btn"></div>
-  </nav>
-  <i id="search_mobile" class="fa fa-search"></i>
-</header>
+<div id="menu-btn">
+  <i class="fa fa-bars"></i> DataUSA
+</div>
 
-<main>
-  {% block body %}
-  {% endblock %}
-</main>
+<div id="search-btn">
+  <i class="fa fa-search"></i>
+</div>
+
+{% block body %}
+{% endblock %}
 
 <footer>
-  <img src="/static/img/footer/deloitte.png">
-  <img src="/static/img/footer/datawheel.png">
-  <img src="/static/img/footer/macro.png">
+  <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
+  <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
+  <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
 </footer>
-
-<script>
-
-  d3.select("#hamburger").on("click", function(){
-    var open = d3.select("nav").classed("open");
-    d3.selectAll("body, nav, #hamburger").classed("open", !open);
-    setTimeout(function(){
-      d3.selectAll("header").classed("open", !open);
-    }, open ? 400 : 0, open)
-  })
-
-</script>
 
 {% endblock %}
