@@ -172,6 +172,7 @@ topics:
       x: "age"
       y: "num_ppl"
   - title: "Global Diversity"
+    stat_stack: true
     stat:
       - title: "High Relative Number of People born in"
         value: "<<top show=birthplace|order=num_ppl_rca>>"

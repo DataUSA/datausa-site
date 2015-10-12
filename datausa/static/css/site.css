@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,700); 
+@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700); 
   body {
     position: relative; }
     body.open {
@@ -32,7 +32,7 @@ output, ruby, section, summary, time, mark, audio, video {
   left: 20px;
   position: fixed;
   top: 20px;
-  z-index: 3;
+  z-index: 4;
   opacity: 0.5;
   color: white;
   font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -54,7 +54,7 @@ output, ruby, section, summary, time, mark, audio, video {
   position: fixed;
   right: 20px;
   top: 20px;
-  z-index: 3;
+  z-index: 4;
   opacity: 0.5;
   color: white;
   font-size: 20px;
@@ -66,30 +66,6 @@ output, ruby, section, summary, time, mark, audio, video {
   #search-btn:hover {
     opacity: 1;
     cursor: pointer; }
-
-#title-bar {
-  display: block;
-  height: 60px;
-  left: 0;
-  position: fixed;
-  top: -60px;
-  width: 100%;
-  z-index: 2;
-  -webkit-transition: top 0.5s;
-  -moz-transition: top 0.5s;
-  -ms-transition: top 0.5s;
-  -o-transition: top 0.5s;
-  transition: top 0.5s; }
-  #title-bar.visible {
-    top: 0; }
-    #title-bar h1 {
-      margin-top: 12px;
-      width: 100%;
-      color: white;
-      font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      text-align: center; }
 
 footer {
   background-color: #eeeeee;
@@ -170,7 +146,9 @@ body.profile #splash {
               display: -moz-box;
               display: -ms-flexbox;
               display: -webkit-flex;
-              display: flex; }
+              display: flex;
+              -webkit-align-items: flex-end;
+              align-items: flex-end; }
               body.profile #splash .content #splash-stats .stat {
                 -webkit-justify-content: center;
                 -moz-justify-content: center;
@@ -185,7 +163,8 @@ body.profile #splash {
                 flex-direction: column;
                 -webkit-align-items: center;
                 align-items: center;
-                margin: 15px 35px; }
+                margin: 15px 35px;
+                max-width: 150px; }
                 body.profile #splash .content #splash-stats .stat .stat-text,
                 body.profile #splash .content #splash-stats .stat .stat-rank {
                   font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -213,7 +192,6 @@ body.profile #splash {
         margin: 10px;
         height: 2px;
         width: 20px;
-        background-color: black;
         opacity: 0.5; }
         body.profile #splash .content .carousel .carousel-btns .carousel-btn.active {
           opacity: 1; }
@@ -225,6 +203,53 @@ body.profile #splash {
     width: 100px;
     font-size: 24px;
     text-align: center; }
+body.profile #title-bar {
+  display: block;
+  height: 60px;
+  left: 0;
+  position: fixed;
+  top: -60px;
+  width: 100%;
+  z-index: 3;
+  -webkit-transition: top 0.5s;
+  -moz-transition: top 0.5s;
+  -ms-transition: top 0.5s;
+  -o-transition: top 0.5s;
+  transition: top 0.5s; }
+  body.profile #title-bar.visible {
+    top: 0; }
+    body.profile #title-bar h1 {
+      margin-top: 12px;
+      width: 100%;
+      color: white;
+      font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center; }
+body.profile #profile-nav {
+  display: block;
+  left: 0;
+  position: fixed;
+  top: -60px;
+  width: 100%;
+  z-index: 2;
+  background-color: #eeeeee;
+  text-align: center;
+  -webkit-transition: top 0.5s;
+  -moz-transition: top 0.5s;
+  -ms-transition: top 0.5s;
+  -o-transition: top 0.5s;
+  transition: top 0.5s; }
+  body.profile #profile-nav.visible {
+    top: 60px; }
+    body.profile #profile-nav ul li {
+      display: inline-block;
+      margin: 0 10px;
+      padding: 3px 5px 4px;
+      color: #888888;
+      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 16px;
+      font-weight: 600; }
 body.profile header {
   margin-bottom: 50px;
   padding: 50px;
@@ -284,22 +309,28 @@ body.profile .topic {
             display: flex;
             -webkit-align-items: flex-end;
             align-items: flex-end; }
-            body.profile .topic .content aside .topic-stats .stat {
-              -webkit-box-flex: 1;
-              -moz-box-flex: 1;
-              -webkit-flex: 1;
-              -ms-flex: 1;
-              flex: 1;
-              margin-right: 5px;
-              color: #211f1a; }
-              body.profile .topic .content aside .topic-stats .stat .stat-text {
-                font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                font-size: 16px;
-                font-weight: 700; }
-                body.profile .topic .content aside .topic-stats .stat .stat-value {
+            body.profile .topic .content aside .topic-stats.stacked {
+              -webkit-flex-direction: column;
+              -moz-flex-direction: column;
+              flex-direction: column;
+              -webkit-align-items: flex-start;
+              align-items: flex-start; }
+              body.profile .topic .content aside .topic-stats .stat {
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+                margin-right: 5px;
+                color: #211f1a; }
+                body.profile .topic .content aside .topic-stats .stat .stat-text {
                   font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                  font-size: 40px;
+                  font-size: 16px;
                   font-weight: 700; }
+                  body.profile .topic .content aside .topic-stats .stat .stat-value {
+                    font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+                    font-size: 40px;
+                    font-weight: 700; }
           body.profile .topic .content aside p {
             margin: 10px 0;
             color: #211f1a;

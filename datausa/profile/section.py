@@ -48,16 +48,29 @@ class Section(object):
 
         # load the config through the YAML interpreter and set title, description, and topics
         config = yaml.load(config)
-        self.title = config["title"]
-        self.description = config["description"]
-        self.topics = config["topics"]
 
-        # loop through the topics
-        for topic in self.topics:
-            # if the topic has a "viz" key
-            if "viz" in topic:
+        if "title" in config:
+            self.title = config["title"]
+
+        if "description" in config:
+            self.description = config["description"]
+
+        if "topics" in config:
+            self.topics = config["topics"]
+
+            # loop through the topics
+            for topic in self.topics:
                 # instantiate the "viz" config into a Viz class
                 topic["viz"] = Viz(topic["viz"])
+
+        if "sections" in config:
+            self.sections = config["sections"]
+
+        if "stats" in config:
+            self.stats = config["stats"]
+
+        if "facts" in config:
+            self.facts = config["facts"]
 
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
@@ -83,7 +96,6 @@ class Section(object):
     def top(self, **kwargs):
         """str: A text representation of a top statistic or list of statistics """
 
-        show = kwargs.get("show")
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
 
         # create a params dict to use in the URL request
@@ -107,12 +119,15 @@ class Section(object):
         params["sort"] = params.get("sort", "desc")
         params["order"] = params.get("order", "")
         params["year"] = params.get("year", 2013)
-        params["show"] = params.get("show", show)
+        params["show"] = params.get("show", attr_type)
         params["sumlevel"] = params.get("sumlevel", "all")
+        show = params["show"]
 
         # if no required param is set, set it to the order param
         if "required" not in params:
             params["required"] = params["order"]
+        elif params["order"] == "":
+            params["order"] = params["required"]
 
         # convert params into a url query string
         params = RequestEncodingMixin._encode_params(params)

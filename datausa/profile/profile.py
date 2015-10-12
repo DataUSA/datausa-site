@@ -2,6 +2,7 @@ import os
 from section import Section
 from datausa.utils import fetch
 
+
 class Profile(object):
     """An abstract class for all Profiles.
 
@@ -28,18 +29,20 @@ class Profile(object):
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
 
+        self.splash = Section(self.file2string("splash"), self)
+
     def color(self):
         if hasattr(self.attr, "color"):
             return self.attr["color"]
         return "#006ea8"
 
+    def file2string(self, file):
+        profile_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(file))
+        return "".join(open(file_path).readlines())
+
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 
-        # determine path to each of the YAML files
-        profile_path = os.path.dirname(os.path.realpath(__file__))
-        directory = os.path.join(profile_path, self.path, "sections/")
-        files = [os.path.join(directory, "{}.yml".format(f)) for f in self.section_order]
-
         # pass each file to the Section class and return the final array
-        return [Section("".join(open(f).readlines()), self) for f in files]
+        return [Section(self.file2string(f), self) for f in self.splash.sections]

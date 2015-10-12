@@ -1,0 +1,18 @@
+title: "<<name>>"
+description: "Explore data on the <<name>> major in the United States."
+stats:
+  - title: "Median In-State Public Tuition"
+    value: "<<top show=sector|sector=1|col=state_tuition>>"
+    rank: "<<top col=state_tuition_rank>>"
+  - title: "Degrees Awarded in 2013"
+    value: "<<top col=grads_total>>"
+    rank: "<<top col=grads_rank>>"
+  - title: "Average Income for <<name dataset=pums>> Majors"
+    value: "<<top col=avg_wage>>"
+    rank: "<<top col=avg_wage_rank>>"
+facts:
+  - "The county with the most <<name>> graduates is <<top show=geo_id|sumlevel=county|order=grads_total>>."
+  - "The county with the most <<name>> graduates is <<top show=geo_id|sumlevel=county|order=grads_total>>."
+sections:
+  - institutions
+  - demographics

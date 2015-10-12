@@ -2,7 +2,7 @@
   left: 20px;
   position: fixed;
   top: 20px;
-  z-index: 3;
+  z-index: 4;
   opacity: 0.5;
   color: white;
   font-family: $palanquin;
@@ -26,7 +26,7 @@
   position: fixed;
   right: 20px;
   top: 20px;
-  z-index: 3;
+  z-index: 4;
   opacity: 0.5;
   color: white;
   font-size: 20px;
@@ -36,32 +36,6 @@
     opacity: 1;
     cursor: pointer;
   }
-}
-
-#title-bar {
-  display: block;
-  height: 60px;
-  left: 0;
-  position: fixed;
-  top: -60px;
-  width: 100%;
-  z-index: 2;
-  @include transition(top 0.5s);
-
-  &.visible {
-    top: 0;
-  }
-
-  h1 {
-    margin-top: 12px;
-    width: 100%;
-    color: white;
-    font-family: $enriqueta;
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-  }
-
 }
 
 footer {

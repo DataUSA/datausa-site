@@ -45,12 +45,14 @@ body.profile {
 
       #splash-stats {
         @include flex();
+        @include align-items(flex-end);
 
         .stat {
           @include flex();
           @include flex-direction(column);
           @include align-items(center);
           margin: 15px 35px;
+          max-width: 150px;
 
           .stat-text, .stat-rank {
             font-family: $enriqueta;
@@ -100,7 +102,6 @@ body.profile {
             margin: 10px;
             height: 2px;
             width: 20px;
-            background-color: black;
             opacity: 0.5;
 
             &.active {
@@ -125,6 +126,64 @@ body.profile {
       text-align: center;
     }
 
+  }
+
+  $title-height: 60px;
+
+  #title-bar {
+    display: block;
+    height: $title-height;
+    left: 0;
+    position: fixed;
+    top: -$title-height;
+    width: 100%;
+    z-index: 3;
+    @include transition(top 0.5s);
+
+    &.visible {
+      top: 0;
+    }
+
+    h1 {
+      margin-top: 12px;
+      width: 100%;
+      color: white;
+      font-family: $enriqueta;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+  }
+
+  #profile-nav {
+    display: block;
+    left: 0;
+    position: fixed;
+    top: -$title-height;
+    width: 100%;
+    z-index: 2;
+    background-color: #eeeeee;
+    text-align: center;
+    @include transition(top 0.5s);
+
+    &.visible {
+      top: $title-height;
+    }
+
+    ul {
+
+      li {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 3px 5px 4px;
+        color: #888888;
+        font-family: $palanquin;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+    }
   }
 
   header {
@@ -181,6 +240,11 @@ body.profile {
         .topic-stats {
           @include flex();
           @include align-items(flex-end);
+
+          &.stacked {
+            @include flex-direction(column);
+            @include align-items(flex-start);
+          }
 
           .stat {
             @include flex-size(1);

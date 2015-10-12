@@ -10,41 +10,31 @@
 
     <div class="thumbprint"></div>
 
-    <h1>{{ profile.attr.name }}</h1>
+    <h1>{{ profile.splash.title }}</h1>
     <sub>Lorem Ipsum</sub>
-    <p class="desc">
-      Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at. Has ignota animal reformidans ne, an ignota altera melius eum.
-    </p>
+    <p class="desc">{{ profile.splash.description }}</p>
 
     <div id="splash-stats">
+      {% for stat in profile.splash.stats %}
       <div class="stat">
-        <div class="stat-text">Stat Title</div>
-        <div class="stat-value">$XXB</div>
-        <div class="stat-rank">Rank: Xth</div>
+        <div class="stat-text">{{ stat.title }}</div>
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-rank">Rank: {{ stat.rank }}</div>
       </div>
-      <div class="stat">
-        <div class="stat-text">Stat Title</div>
-        <div class="stat-value">$XXB</div>
-        <div class="stat-rank">Rank: Xth</div>
-      </div>
-      <div class="stat">
-        <div class="stat-text">Stat Title</div>
-        <div class="stat-value">$XXB</div>
-        <div class="stat-rank">Rank: Xth</div>
-      </div>
+      {% endfor %}
     </div>
 
     <div class="carousel">
       <div class="carousel-title">Did you know?</div>
       <div class="carousel-slider">
-        <p class="carousel-text active">Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at.</p>
-        <p class="carousel-text">Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at.</p>
-        <p class="carousel-text">Lorem ipsum dolor sit amet, ea sea erat euismod nusquam, mea augue audiam moderatius at.</p>
+        {% for fact in profile.splash.facts %}
+          <p class="carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact }}</p>
+        {% endfor %}
       </div>
       <div class="carousel-btns">
-        <div class="carousel-btn active"></div>
-        <div class="carousel-btn"></div>
-        <div class="carousel-btn"></div>
+        {% for fact in profile.splash.facts %}
+          <div class="carousel-btn{% if loop.index == 1%} active{% endif %}" style="background-color:{{ profile.color() }}"></div>
+        {% endfor %}
       </div>
     </div>
 
@@ -60,9 +50,19 @@
   <h1>{{ profile.attr.name }}</h1>
 </div>
 
-{% for section in profile.sections() %}
+{% set sections = profile.sections() %}
+
+<div id="profile-nav">
+  <ul>
+  {% for section in sections %}
+    <a href="#{{ section.title }}"><li>{{ section.title }}</li></a>
+  {% endfor %}
+  </ul>
+</div>
+
+{% for section in sections %}
 <header>
-  <h2>{{ section.title }}</h2>
+  <h2><a name="{{ section.title }}">{{ section.title }}</a></h2>
   <p>{{ section.description }}</p>
 </header>
 
@@ -75,7 +75,7 @@
   <div class="content">
     <aside>
       {% if topic.stat %}
-      <div class="topic-stats">
+      <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
         {% for stat in topic.stat %}
           <div class="stat">
             <div class="stat-text">{{ stat.title }}</div>
@@ -118,7 +118,9 @@
 
   var titleHeight = d3.select("#title-bar").node().offsetHeight;
   scrollFunctions.push(function(y){
-    d3.select("#title-bar").classed("visible", y > window.innerHeight - titleHeight);
+    var showNav = y > window.innerHeight - titleHeight;
+    d3.select("#title-bar").classed("visible", showNav);
+    d3.select("#profile-nav").classed("visible", showNav);
   })
 
 </script>
