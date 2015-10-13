@@ -11,7 +11,7 @@ class Viz(object):
 
     """
 
-    def __init__(self, params):
+    def __init__(self, params, color="#006ea8"):
         """Initializes a new Viz class.
 
         Args:
@@ -19,6 +19,8 @@ class Viz(object):
             profile (Profile): The Profile class instance this Section will be a part of.
 
         """
+
+        self.color = color;
 
         # force the data of params into a list
         data = params.pop("data") if isinstance(params["data"], list) else [params.pop("data")]
@@ -73,6 +75,7 @@ class Viz(object):
         """dict: JSON dump of Viz attrs, config, and data """
         return json.dumps({
             "attrs": self.attrs,
+            "color": self.color,
             "config": self.config,
             "data": self.data
         })
@@ -88,6 +91,12 @@ class Viz(object):
             tooltip += [p[k] for k in ["required", "order"] if k in p and p[k] != ""]
 
         # check the config for 'x' 'y' and 'size'
-        tooltip += [self.config[k] for k in ["x", "y", "size"] if k in self.config and self.config[k] not in tooltip]
+        for k in ["x", "y", "size"]:
+            if k in self.config and self.config[k] not in tooltip:
+                val = self.config[k]
+                if isinstance(val, str):
+                    tooltip.append(val)
+                elif "value" in val:
+                    tooltip.append(val["value"])
 
         return tooltip

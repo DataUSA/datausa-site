@@ -107,10 +107,10 @@
 
 <script>
 
-  var app, n = 0;
+  var app, n = 3;
   builds.forEach(function(build, i){
     if (i === n) {
-      build.config.container = d3.select(d3.selectAll(".viz")[0][i]);
+      build.container = d3.select(d3.selectAll(".viz")[0][i]);
       app = viz(build);
     }
   });

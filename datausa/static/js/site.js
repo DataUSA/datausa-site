@@ -355,8 +355,7 @@ load.datafold = function(data) {
 var viz = function(build) {
 
   build.viz = d3plus.viz()
-    .config(build.config)
-    .depth(build.config.depth)
+    .container(build.container)
     .error("Loading")
     .draw();
 
@@ -408,7 +407,7 @@ viz.loadData = function(build) {
         dataArray = dataArray.concat(data);
         loaded++;
         if (loaded === build.data.length) {
-          build.viz.data(dataArray)
+          build.viz.data(dataArray);
           viz[next](build);
         }
       })
@@ -428,12 +427,86 @@ viz.finish = function(build) {
   }, "");
 
   if (location.href.indexOf("/profile/") > 0) {
-    d3.select(build.config.container.node().parentNode).select(".source")
+    d3.select(build.container.node().parentNode).select(".source")
       .text(source_text);
   }
   else {
     build.viz.footer(source_text);
   }
 
-  build.viz.error(false).draw();
+  if (!build.config.color) {
+    build.config.color = function() {
+      return build.color;
+    };
+    build.config.legend = false;
+  }
+
+  build.viz
+    .config(build.config)
+    .depth(build.config.depth)
+    .config(viz[build.config.type](build))
+    .format({
+      "text": viz.text_format
+    })
+    .error(false)
+    .draw();
+
+};
+
+viz.bar = function(build) {
+
+  var discrete = build.viz.axes(Object).discrete || "x"
+
+  var axis_style = function(axis) {
+    return {
+      "grid": false,
+      "ticks": {
+        "color": "none",
+        "font": {
+          "color": discrete === axis ? "#211f1a" : "#a8a8a8",
+          "family": "Palanquin",
+          "size": 16
+        }
+      }
+    };
+  };
+
+  return {
+    "axes": {
+      "background": {
+        "color": "transparent",
+        "stroke": {
+          "width": 0
+        }
+      }
+    },
+    "x": axis_style("x"),
+    "y": axis_style("y")
+  };
+
+}
+
+viz.geo_map = function(build) {
+  return {
+    "coords": {
+      "key": "counties",
+      "projection": "albersUsa",
+      "value": "/static/topojson/counties.json"
+    },
+    "height": 400
+  };
+}
+
+viz.tree_map = function(build) {
+  return {};
+}
+
+viz.text_format = function(text, params) {
+
+  if (params.key) {
+
+  }
+
+  return d3plus.string.title(text, params);
+
 };

@@ -350,4 +350,6 @@ body.profile .topic {
           -webkit-flex: 1 1 auto;
           -ms-flex: 1 1 auto;
           flex: 1 1 auto;
-          margin-left: 50px; }
+          margin-left: 50px;
+          min-height: 400px;
+          overflow: hidden; }

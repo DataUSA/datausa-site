@@ -27,15 +27,20 @@ topics:
     viz:
       attrs: "university"
       data:
-        required: "grads_total"
+        required: "grads_total,oos_tuition"
         cip: "<<id>>"
         show: "university"
         limit: 5
         order: "grads_total"
       id: "university"
+      order:
+        sort: "asc"
+        value: "grads_total"
       type: "bar"
       x: "oos_tuition"
-      y: "university"
+      y:
+        scale: "discrete"
+        value: "university"
   - title: "Popular Colleges"
     stat:
       - title: "Highest Concentration Institution"
@@ -49,6 +54,9 @@ topics:
         limit: 5
         order: "pct_total"
         show: "university"
+      order:
+        sort: "desc"
+        value: "pct_total"
       id: "university"
       type: "bar"
       x: "university"
@@ -65,7 +73,7 @@ topics:
         show: "geo_id"
         sumlevel: "county"
         cip: "<<id>>"
-      id: "county"
+      id: "geo_id"
       type: "geo_map"
       color: "grads_total"
   - title: "Graduates by Growth"
@@ -80,6 +88,6 @@ topics:
         show: "geo_id"
         sumlevel: "county"
         cip: "<<id>>"
-      id: "county"
+      id: "geo_id"
       type: "geo_map"
       color: "grads_total_growth"

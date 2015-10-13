@@ -1,8 +1,7 @@
 var viz = function(build) {
 
   build.viz = d3plus.viz()
-    .config(build.config)
-    .depth(build.config.depth)
+    .container(build.container)
     .error("Loading")
     .draw();
 
@@ -54,7 +53,7 @@ viz.loadData = function(build) {
         dataArray = dataArray.concat(data);
         loaded++;
         if (loaded === build.data.length) {
-          build.viz.data(dataArray)
+          build.viz.data(dataArray);
           viz[next](build);
         }
       })
@@ -74,12 +73,28 @@ viz.finish = function(build) {
   }, "");
 
   if (location.href.indexOf("/profile/") > 0) {
-    d3.select(build.config.container.node().parentNode).select(".source")
+    d3.select(build.container.node().parentNode).select(".source")
       .text(source_text);
   }
   else {
     build.viz.footer(source_text);
   }
 
-  build.viz.error(false).draw();
+  if (!build.config.color) {
+    build.config.color = function() {
+      return build.color;
+    };
+    build.config.legend = false;
+  }
+
+  build.viz
+    .config(build.config)
+    .depth(build.config.depth)
+    .config(viz[build.config.type](build))
+    .format({
+      "text": viz.text_format
+    })
+    .error(false)
+    .draw();
+
 };

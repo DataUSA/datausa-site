@@ -61,7 +61,7 @@ class Section(object):
             # loop through the topics
             for topic in self.topics:
                 # instantiate the "viz" config into a Viz class
-                topic["viz"] = Viz(topic["viz"])
+                topic["viz"] = Viz(topic["viz"], color=self.profile.color())
 
         if "sections" in config:
             self.sections = config["sections"]
