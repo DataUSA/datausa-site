@@ -1,4 +1,4 @@
-import functools, gzip, requests
+import functools, gzip, math, requests
 from flask import after_this_request, request
 from config import API
 from datausa import cache, app
@@ -75,3 +75,52 @@ def gzipped(f):
         return f(*args, **kwargs)
 
     return view_func
+
+
+affixes = {
+    "state_tuition": ["$", ""],
+    "oos_tuition": ["$", ""],
+    "avg_wage": ["$", ""]
+}
+
+
+def num_format(number, key=None, labels=True):
+
+    if key and "_rank" in key:
+
+        ordinals = ('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th')
+
+        n = int(number)
+        if n % 100 in (11, 12, 13):
+            return u"{0}{1}".format(n, ordinals[0])
+        return u"{0}{1}".format(n, ordinals[n % 10])
+
+    # Converts the number to a float.
+    n = float(number)
+
+    # Determines which index of "groups" to move the decimal point to.
+    groups = ["", "k", "M", "B", "T"]
+    m = max(0,min(len(groups)-1, int(math.floor(math.log10(abs(n))/3))))
+
+    # Moves the decimal point and rounds the new number to specific decimals.
+    n = n/10**(3*m)
+    if key and key == "eci":
+        n = round(n, 2)
+    elif n > 99:
+        n = int(n)
+    elif n > 9:
+        n = round(n, 1)
+    elif n > 1:
+        n = round(n, 2)
+    else:
+        n = round(n, 3)
+
+    # Initializes the number suffix based on the group.
+    n = u"{0}{1}".format(n,groups[m])
+
+    if key and labels:
+        affix = affixes[key] if key in affixes else None
+        if affix:
+            return u"{}{}{}".format(unicode(affix[0]), n, unicode(affix[1]))
+
+    return n

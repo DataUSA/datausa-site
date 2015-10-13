@@ -2,7 +2,7 @@ import re, requests, yaml
 from requests.models import RequestEncodingMixin
 from config import API
 from datausa.visualize.models import Viz
-from datausa.utils import datafold, fetch
+from datausa.utils import datafold, fetch, num_format
 
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
@@ -144,6 +144,8 @@ class Section(object):
             top = [fetch(d[show], show)[col] for d in r]
         else:
             top = [d[col] for d in r]
+
+        top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
 
         # coerce all values to strings
         top = [str(t) for t in top]
