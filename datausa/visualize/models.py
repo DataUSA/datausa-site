@@ -41,7 +41,7 @@ class Viz(object):
             d["required"] = d.get("required", d["order"])
 
             # create the data URL
-            p = RequestEncodingMixin._encode_params(params)
+            p = RequestEncodingMixin._encode_params(d)
             data_obj["url"] = "{}/api/?{}".format(API, p)
 
             # store the params in the return dict
@@ -50,25 +50,29 @@ class Viz(object):
             # append the data dict to self.data
             self.data.append(data_obj)
 
+        self.attrs = []
+        if "attrs" in params:
+            # force the attrs of params into a list
+            attrs = params.pop("attrs") if isinstance(params["attrs"], list) else [params.pop("attrs")]
+            # loop through each data and append to self.data
+            self.attrs = [{"type": a, "url": "{}/attrs/{}/".format(API, a)} for a in attrs]
+
         # set self.config to the params
         self.config = params
 
         # set the tooltip config using the function
         self.config["tooltip"] = self.tooltip()
 
-    def attr_url(self):
-        """str: URL to be used to load attribute data """
+        # set default depth to zero
+        self.config["depth"] = int(params["depth"]) if "depth" in params else 0
 
-        # if 'attrs' in the config, return a URL
-        if "attrs" in self.config:
-            return "{}/attrs/{}/".format(API, self.config["attrs"])
-
-        return None
+        # set default text to "name"
+        self.config["text"] = params["text"] if "text" in params else "name"
 
     def serialize(self):
         """dict: JSON dump of Viz attrs, config, and data """
         return json.dumps({
-            "attrs": self.attr_url(),
+            "attrs": self.attrs,
             "config": self.config,
             "data": self.data
         })
@@ -80,9 +84,10 @@ class Viz(object):
 
         # check each data call for 'required' and 'order'
         for d in self.data:
-            tooltip += [d["params"][k] for k in ["required", "order"] if k in d["params"]]
+            p = d["params"]
+            tooltip += [p[k] for k in ["required", "order"] if k in p and p[k] != ""]
 
         # check the config for 'x' 'y' and 'size'
-        tooltip += [self.config[k] for k in ["x", "y", "size"] if k in self.config]
+        tooltip += [self.config[k] for k in ["x", "y", "size"] if k in self.config and self.config[k] not in tooltip]
 
         return tooltip

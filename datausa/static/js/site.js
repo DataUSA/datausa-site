@@ -297,73 +297,143 @@ d3.sankey = function() {
 
 var load = function(url, callback) {
 
-  if (url) {
+  localforage.getItem("cache_version", function(error, c){
 
-    d3.json(url, function(data) {
-      data = data.data.map(function(d){
-        return d.reduce(function(obj, v, i){
-          obj[data.headers[i]] = v;
-          return obj;
-        }, {});
-      })
-      callback(data);
-    });
+    if (c !== cache_version) {
+      localforage.clear();
+      localforage.setItem("cache_version", cache_version, loadUrl);
+    }
+    else {
+      loadUrl();
+    }
 
-  }
-  else {
-    callback([]);
-  }
+    function loadUrl() {
+
+      if (url.indexOf("attrs/") > 0) {
+
+        localforage.getItem(url, function(error, data) {
+
+          if (data) {
+            callback(data, url);
+          }
+          else {
+            d3.json(url, function(error, data){
+              localforage.setItem(url, data);
+              callback(load.datafold(data), url, data.source);
+            });
+          }
+
+        });
+
+      }
+      else {
+        d3.json(url, function(error, data){
+          callback(load.datafold(data), url, data.source);
+        });
+      }
+
+    }
+
+  });
 
 }
 
-var viz = function(build, container) {
-  console.log(build);
-
-  var nesting;
-  if (build.attr_type !== "age") {
-    nesting = [build.attr_type];
-    if (build.color) {
-      nesting.shift(build.color);
-    }
-  }
-  else {
-    nesting = ["cip"]
-  }
-
-  var app = d3plus.viz()
-    .container(d3.select(container))
-    .id(nesting)
-    .depth(nesting.length - 1)
-    // .color(build.color)
-    // .size(build.size)
-    // .x(build.x)
-    // .y(build.y)
-    // .y({"scale": "discrete"})
-    .text("name")
-    .tooltip(build.tooltip)
-    // .order(build.order)
-    .order({"sort": "asc"})
-    .shape({"interpolate": "monotone"})
-    .type(build.type);
-
-  load(build.attr_url, function(attrs){
-
-    if (attrs.length) {
-      attrs.forEach(function(a){
-        a[build.attr_type] = a.id;
-      })
-      app.attrs(attrs);
-    }
-
-    load(build.data_url, function(data){
-      // app.data(data).draw();
-      console.log("Attributes:", attrs[0]);
-      console.log("Data:", data[0]);
-      // console.log(attrs[0], data[0])
+load.datafold = function(data) {
+  if (data.data && data.headers) {
+    return data.data.map(function(d){
+      return d.reduce(function(obj, v, i){
+        obj[data.headers[i]] = v;
+        return obj;
+      }, {});
     })
+  }
+  else {
+    return data;
+  }
+}
 
-  })
+var viz = function(build) {
 
-  return app;
+  build.viz = d3plus.viz()
+    .config(build.config)
+    .depth(build.config.depth)
+    .error("Loading")
+    .draw();
+
+  viz.loadAttrs(build);
+
+  return build;
+
+};
+
+viz.loadAttrs = function(build) {
+  var next = "loadData";
+
+  if (build.attrs.length) {
+    var loaded = 0, attrs = {};
+    for (var i = 0; i < build.attrs.length; i++) {
+      load(build.attrs[i].url, function(data, url, source){
+        var a = build.attrs.filter(function(a){ return a.url === url; })[0];
+        a.data = data;
+        for (var i = 0; i < data.length; i++) {
+          attrs[data[i].id] = data[i];
+        }
+        loaded++;
+        if (loaded === build.attrs.length) {
+          build.viz.attrs(attrs);
+          viz[next](build);
+        }
+      })
+    }
+  }
+  else {
+    viz[next](build);
+  }
+
+};
+
+viz.loadData = function(build) {
+  var next = "finish";
+
+  build.sources = [];
+
+  if (build.data.length) {
+    var loaded = 0, dataArray = [];
+    for (var i = 0; i < build.data.length; i++) {
+      load(build.data[i].url, function(data, url, source){
+        var d = build.data.filter(function(d){ return d.url === url; })[0];
+        d.data = data;
+        d.source = source;
+        build.sources.push(source)
+        dataArray = dataArray.concat(data);
+        loaded++;
+        if (loaded === build.data.length) {
+          build.viz.data(dataArray)
+          viz[next](build);
+        }
+      })
+    }
+  }
+  else {
+    viz[next](build);
+  }
 
 }
+
+viz.finish = function(build) {
+
+  var source_text = build.sources.reduce(function(str, s, i){
+    str += s.dataset;
+    return str;
+  }, "");
+
+  if (location.href.indexOf("/profile/") > 0) {
+    d3.select(build.config.container.node().parentNode).select(".source")
+      .text(source_text);
+  }
+  else {
+    build.viz.footer(source_text);
+  }
+
+  build.viz.error(false).draw();
+};

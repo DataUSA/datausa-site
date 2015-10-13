@@ -11,6 +11,7 @@ topics:
         required: "grads_total"
         cip: "<<id>>"
         show: "university"
+      depth: 1
       id:
         - "sector"
         - "university"

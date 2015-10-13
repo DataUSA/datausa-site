@@ -87,7 +87,7 @@
       {% if topic.description %}
       <p>{{ topic.description }}</p>
       {% endif %}
-      <sub>Data Source: Lorem Ipsum</sub>
+      <sub>Data Source: <span class="source"></span></sub>
     </aside>
     <div class="viz">
       {% for d in topic.viz.data %}
@@ -107,14 +107,13 @@
 
 <script>
 
-  // var app, n = 0;
-  // builds.forEach(function(build, i){
-  //   if (i === n) {
-  //     var container = d3.selectAll(".viz")[0][i];
-  //     console.log(d3.select(container.parentNode).select("h3").html());
-  //     app = viz(build, container);
-  //   }
-  // });
+  var app, n = 0;
+  builds.forEach(function(build, i){
+    if (i === n) {
+      build.config.container = d3.select(d3.selectAll(".viz")[0][i]);
+      app = viz(build);
+    }
+  });
 
   var titleHeight = d3.select("#title-bar").node().offsetHeight,
       color = "{{ profile.color() }}";
