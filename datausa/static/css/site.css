@@ -228,6 +228,7 @@ body.profile #title-bar {
       text-align: center; }
 body.profile #profile-nav {
   display: block;
+  height: 40px;
   left: 0;
   position: fixed;
   top: -60px;
@@ -253,6 +254,7 @@ body.profile #profile-nav {
 body.profile header {
   margin-bottom: 50px;
   padding: 50px;
+  position: relative;
   background-color: black;
   color: white; }
   body.profile header h2 {
@@ -262,12 +264,17 @@ body.profile header {
     font-size: 50px;
     font-weight: 700;
     line-height: 50px; }
-    body.profile header p {
-      margin: 0 auto;
-      max-width: 600px;
-      font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-      font-size: 20px;
-      font-weight: 700; }
+    body.profile header h2 a:before {
+      content: "";
+      position: absolute;
+      visibility: hidden;
+      top: -100px; }
+  body.profile header p {
+    margin: 0 auto;
+    max-width: 600px;
+    font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 20px;
+    font-weight: 700; }
 body.profile .topic {
   margin-bottom: 50px;
   padding: 0 50px; }
@@ -343,5 +350,4 @@ body.profile .topic {
           -webkit-flex: 1 1 auto;
           -ms-flex: 1 1 auto;
           flex: 1 1 auto;
-          background-color: #eee;
           margin-left: 50px; }

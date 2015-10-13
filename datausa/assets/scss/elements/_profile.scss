@@ -128,8 +128,6 @@ body.profile {
 
   }
 
-  $title-height: 60px;
-
   #title-bar {
     display: block;
     height: $title-height;
@@ -158,6 +156,7 @@ body.profile {
 
   #profile-nav {
     display: block;
+    height: $nav-height;
     left: 0;
     position: fixed;
     top: -$title-height;
@@ -189,6 +188,7 @@ body.profile {
   header {
     margin-bottom: 50px;
     padding: 50px;
+    position: relative;
     background-color: black;
     color: white;
 
@@ -199,6 +199,15 @@ body.profile {
       font-size: 50px;
       font-weight: 700;
       line-height: 50px;
+
+      // This is the invisible element to fix the anchor tags!
+      a:before {
+        content: "";
+        position: absolute;
+        visibility: hidden;
+        top: -($title-height+$nav-height);
+      }
+
     }
 
     p {
@@ -279,7 +288,6 @@ body.profile {
 
       .viz {
         @include flex-size(1 1 auto);
-        background-color: #eee;
         margin-left: 50px;
       }
 
