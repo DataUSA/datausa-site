@@ -85,14 +85,19 @@ affixes = {
 
 def num_format(number, key=None, labels=True):
 
-    if key and "_rank" in key:
+    if key:
 
-        ordinals = ('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th')
+        if key == "year":
+            return number
 
-        n = int(number)
-        if n % 100 in (11, 12, 13):
-            return u"{0}{1}".format(n, ordinals[0])
-        return u"{0}{1}".format(n, ordinals[n % 10])
+        if "_rank" in key:
+
+            ordinals = ('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th')
+
+            n = int(number)
+            if n % 100 in (11, 12, 13):
+                return u"{0}{1}".format(n, ordinals[0])
+            return u"{0}{1}".format(n, ordinals[n % 10])
 
     # Converts the number to a float.
     n = float(number)
