@@ -16,7 +16,6 @@ def datasplit(data):
 
 def fetch(attr_id, attr_type):
     """dict: Returns an attribute dict container information like 'name' and 'color' """
-    attr_type = attr_type.replace("_id", "")
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
     return {"id": attr_id, "name": attr_id}
