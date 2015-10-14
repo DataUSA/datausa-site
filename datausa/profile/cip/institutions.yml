@@ -64,30 +64,30 @@ topics:
   - title: "Graduates by County"
     stat:
       - title: "County with the Most <<name>> Graduates"
-        value: "<<top show=geo_id|sumlevel=county|order=grads_total|col=name>>"
+        value: "<<top show=geo|sumlevel=county|order=grads_total|col=name>>"
     description: "The map to the right shows the counties in the United States colored by the highest graduation of <<name>> majors."
     viz:
       attrs: "geo"
       data:
         required: "grads_total"
-        show: "geo_id"
+        show: "geo"
         sumlevel: "county"
         cip: "<<id>>"
-      id: "geo_id"
+      id: "geo"
       type: "geo_map"
       color: "grads_total"
   - title: "Graduates by Growth"
     stat:
       - title: "County with the Fastest Growing Number of Graduates"
-        value: "<<top show=geo_id|sumlevel=county|order=grads_total_growth|col=name>>"
+        value: "<<top show=geo|sumlevel=county|order=grads_total_growth|col=name>>"
     description: "The map to the right shows the counties in the United States colored by the highest growth in <<name>> graduates."
     viz:
       attrs: "geo"
       data:
         required: "grads_total_growth"
-        show: "geo_id"
+        show: "geo"
         sumlevel: "county"
         cip: "<<id>>"
-      id: "geo_id"
+      id: "geo"
       type: "geo_map"
       color: "grads_total_growth"

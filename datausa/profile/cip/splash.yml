@@ -11,8 +11,8 @@ stats:
     value: "<<top col=avg_wage>>"
     rank: "<<top col=avg_wage_rank>>"
 facts:
-  - "The county with the most <<name>> graduates is <<top show=geo_id|sumlevel=county|order=grads_total>>."
-  - "The county with the most <<name>> graduates is <<top show=geo_id|sumlevel=county|order=grads_total>>."
+  - "The county with the most <<name>> graduates is <<top show=geo|sumlevel=county|order=grads_total>>."
+  - "The county with the most <<name>> graduates is <<top show=geo|sumlevel=county|order=grads_total>>."
 sections:
   - institutions
   - demographics
