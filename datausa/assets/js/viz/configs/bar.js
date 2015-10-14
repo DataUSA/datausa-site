@@ -4,6 +4,10 @@ viz.bar = function(build) {
 
   var axis_style = function(axis) {
     return {
+      "axis": {
+        "color": "none",
+        "value": false
+      },
       "grid": false,
       "ticks": {
         "color": "none",

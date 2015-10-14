@@ -314,7 +314,7 @@ var load = function(url, callback) {
         localforage.getItem(url, function(error, data) {
 
           if (data) {
-            callback(data, url);
+            callback(load.datafold(data), url, data.source);
           }
           else {
             d3.json(url, function(error, data){
@@ -328,6 +328,10 @@ var load = function(url, callback) {
       }
       else {
         d3.json(url, function(error, data){
+          if (error) {
+            console.log(error);
+            console.log(url);
+          }
           callback(load.datafold(data), url, data.source);
         });
       }
@@ -338,11 +342,16 @@ var load = function(url, callback) {
 
 }
 
+load.strings = [
+  "sector"
+];
+
 load.datafold = function(data) {
   if (data.data && data.headers) {
     return data.data.map(function(d){
       return d.reduce(function(obj, v, i){
-        obj[data.headers[i]] = v;
+        var h = data.headers[i]
+        obj[h] = load.strings.indexOf(h) >= 0 ? v + "" : v;
         return obj;
       }, {});
     })
@@ -401,6 +410,13 @@ viz.loadData = function(build) {
     for (var i = 0; i < build.data.length; i++) {
       load(build.data[i].url, function(data, url, source){
         var d = build.data.filter(function(d){ return d.url === url; })[0];
+        if (d.static) {
+          for (var i = 0; i < data.length; i++) {
+            for (var k in d.static) {
+              data[i][k] = d.static[k];
+            }
+          }
+        }
         d.data = data;
         d.source = source;
         build.sources.push(source)
@@ -459,6 +475,10 @@ viz.bar = function(build) {
 
   var axis_style = function(axis) {
     return {
+      "axis": {
+        "color": "none",
+        "value": false
+      },
       "grid": false,
       "ticks": {
         "color": "none",
@@ -486,21 +506,6 @@ viz.bar = function(build) {
 
 }
 
-viz.geo_map = function(build) {
-  return {
-    "coords": {
-      "key": "counties",
-      "projection": "albersUsa",
-      "value": "/static/topojson/counties.json"
-    },
-    "height": 400
-  };
-}
-
-viz.tree_map = function(build) {
-  return {};
-}
-
 viz.text_format = function(text, params) {
 
   if (params.key) {
@@ -510,3 +515,25 @@ viz.text_format = function(text, params) {
   return d3plus.string.title(text, params);
 
 };
+
+viz.geo_map = function(build) {
+  return {
+    "color": {
+      "heatmap": [d3plus.color.lighter(build.color), build.color, d3.rgb(build.color).darker()]
+    },
+    "coords": {
+      "key": "counties",
+      "projection": "albersUsa",
+      "value": "/static/topojson/counties.json"
+    }
+  };
+}
+
+viz.tree_map = function(build) {
+  return {
+    "labels": {
+      "align": "left",
+      "valign": "top"
+    }
+  };
+}

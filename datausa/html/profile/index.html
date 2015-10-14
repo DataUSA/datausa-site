@@ -96,11 +96,7 @@
       {% endif %}
       <sub>Data Source: <span class="source"></span></sub>
     </aside>
-    <div class="viz">
-      {% for d in topic.viz.data %}
-        {{ d.url }}<br>
-      {% endfor %}
-    </div>
+    <div class="viz"{% if topic.viz.height %} style="height:{{ topic.viz.height }}px;"{% endif %}></div>
   </div>
 </article>
 <script>builds.push({{ topic.viz.serialize()|safe }});</script>
@@ -114,17 +110,9 @@
 
 <script>
 
-  var app, n = 3;
-  builds.forEach(function(build, i){
-    if (i === n) {
-      build.container = d3.select(d3.selectAll(".viz")[0][i]);
-      app = viz(build);
-    }
-  });
-
-  var titleHeight = d3.select("#title-bar").node().offsetHeight,
+  var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
       color = "{{ profile.color() }}";
-  titleHeight += d3.select("#profile-nav").node().offsetHeight;
+
   scrollFunctions.push(function(y){
 
     var showNav = y > window.innerHeight - titleHeight - 10;
@@ -145,7 +133,68 @@
         return this.innerHTML === active_section;
       });
 
-  })
+  });
+
+  builds.forEach(function(build, i){
+    build.container = d3.select(d3.selectAll(".viz")[0][i]);
+    build.loaded = false;
+    build.timer = false;
+    build.index = i;
+  });
+
+  function resizeApps() {
+
+    // var h = window.innerWidth < 768 ? window.innerHeight : window.innerHeight * 0.7;
+    builds.forEach(function(b, i){
+      // var w = d3.select(b.container.node().parentNode).node().offsetWidth;
+      // var height = b.data && b.data.viz.slug === "network" ? window.innerWidth > 768 ? w * 0.7 : w : h * 0.9;
+      // b.container.style("height", height + "px");
+      b.top = b.container.node().offsetTop;
+      b.height = b.container.node().offsetHeight;
+      // if (w !== b.width || h !== b.height) {
+      //   // if (b.viz) {
+      //   //   if (b.loaded) b.viz.width(w).height(height).draw();
+      //   // }
+      //   // else {
+      //   //   b.container.style("width", w + "px");
+      //   // }
+      //   b.width = w;
+      //   b.height = height;
+      // }
+    })
+  }
+  resizeApps();
+  resizeFunctions.push(resizeApps);
+
+  var scrollBuffer = -200, n = 5, app;
+  function buildInView(b) {
+    var top = window.scrollY, height = window.innerHeight;
+    return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
+  }
+
+  function buildScroll(ms) {
+    if (ms === undefined) ms = 500;
+    for (var i = 0; i < builds.length; i++) {
+      var b = builds[i];
+      if (!b.timer && !b.loaded) {
+        if (buildInView(b)) {
+          b.timer = setTimeout(function(build){
+            clearTimeout(build.timer);
+            build.timer = false;
+            // if (buildInView(build)) {
+            if (buildInView(build) && build.index === n) {
+              app = viz(build);
+              build.loaded = true;
+            }
+          }, ms, b);
+        }
+      }
+    }
+  }
+
+  buildScroll(0);
+
+  scrollFunctions.push(buildScroll);
 
 </script>
 

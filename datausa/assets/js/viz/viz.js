@@ -47,6 +47,13 @@ viz.loadData = function(build) {
     for (var i = 0; i < build.data.length; i++) {
       load(build.data[i].url, function(data, url, source){
         var d = build.data.filter(function(d){ return d.url === url; })[0];
+        if (d.static) {
+          for (var i = 0; i < data.length; i++) {
+            for (var k in d.static) {
+              data[i][k] = d.static[k];
+            }
+          }
+        }
         d.data = data;
         d.source = source;
         build.sources.push(source)

@@ -12,6 +12,7 @@ topics:
         cip: "<<id>>"
         show: "university"
       depth: 1
+      height: 300
       id:
         - "sector"
         - "university"
@@ -73,6 +74,7 @@ topics:
         show: "geo"
         sumlevel: "county"
         cip: "<<id>>"
+      height: 400
       id: "geo"
       type: "geo_map"
       color: "grads_total"
@@ -88,6 +90,7 @@ topics:
         show: "geo"
         sumlevel: "county"
         cip: "<<id>>"
+      height: 400
       id: "geo"
       type: "geo_map"
       color: "grads_total_growth"

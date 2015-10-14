@@ -16,14 +16,13 @@ topics:
           cip: "<<id>>"
           show: "degree"
           static:
-            - dataset: "Graduates"
+            dataset: "Graduates"
         - required: "num_ppl"
           cip: "<<id dataset=pums>>"
           show: "degree"
           static:
-            - dataset: "Workforce"
+            dataset: "Workforce"
       id:
-        - "degree"
         - "dataset"
       map:
         grads_total: "num_ppl"
@@ -36,7 +35,7 @@ topics:
         value: "<<top show=cip|required=grads_men,grads_women|order=grads_total>>"
     description: "To the right, we see the 5 most common institutions that offer <<name>> broken down by graduates for each gender."
     viz:
-      attrs: "gender"
+      attrs: "sex"
       data:
         required: "grads_men,grads_women"
         cip: "<<id>>"
@@ -65,49 +64,49 @@ topics:
           order: "grads_asian"
           cip: "<<id>>"
           static:
-            - race: "asian"
+            race: "asian"
         - show: "university"
           limit: 5
           order: "grads_black"
           cip: "<<id>>"
           static:
-            - race: "black"
+            race: "black"
         - show: "university"
           limit: 5
           order: "grads_multi"
           cip: "<<id>>"
           static:
-            - race: "multi"
+            race: "multi"
         - show: "university"
           limit: 5
           order: "grads_native"
           cip: "<<id>>"
           static:
-            - race: "native"
+            race: "native"
         - show: "university"
           limit: 5
           order: "grads_hispanic"
           cip: "<<id>>"
           static:
-            - race: "hispanic"
+            race: "hispanic"
         - show: "university"
           limit: 5
           order: "grads_white"
           cip: "<<id>>"
           static:
-            - race: "white"
+            race: "white"
         - show: "university"
           limit: 5
           order: "grads_hawaiian"
           cip: "<<id>>"
           static:
-            - race: "hawaiian"
+            race: "hawaiian"
         - show: "university"
           limit: 5
           order: "grads_unknown"
           cip: "<<id>>"
           static:
-            - race: "unknown"
+            race: "unknown"
       map:
         grads_asian: "grads_total"
         grads_black: "grads_total"
@@ -127,7 +126,7 @@ topics:
         value: "<<top show=cip|force=grads_yc>>"
     description: "Here we see the difference in gender for each race & ethnicity of students graduating with <<name>> degrees."
     viz:
-      attrs: "gender"
+      attrs: "sex"
       data:
         show: "cip"
         cip: "<<id>>"

@@ -17,7 +17,7 @@ var load = function(url, callback) {
         localforage.getItem(url, function(error, data) {
 
           if (data) {
-            callback(data, url);
+            callback(load.datafold(data), url, data.source);
           }
           else {
             d3.json(url, function(error, data){
@@ -31,6 +31,10 @@ var load = function(url, callback) {
       }
       else {
         d3.json(url, function(error, data){
+          if (error) {
+            console.log(error);
+            console.log(url);
+          }
           callback(load.datafold(data), url, data.source);
         });
       }
@@ -41,11 +45,16 @@ var load = function(url, callback) {
 
 }
 
+load.strings = [
+  "sector"
+];
+
 load.datafold = function(data) {
   if (data.data && data.headers) {
     return data.data.map(function(d){
       return d.reduce(function(obj, v, i){
-        obj[data.headers[i]] = v;
+        var h = data.headers[i]
+        obj[h] = load.strings.indexOf(h) >= 0 ? v + "" : v;
         return obj;
       }, {});
     })

@@ -1,3 +1,8 @@
 viz.tree_map = function(build) {
-  return {};
+  return {
+    "labels": {
+      "align": "left",
+      "valign": "top"
+    }
+  };
 }
