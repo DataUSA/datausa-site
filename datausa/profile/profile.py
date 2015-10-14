@@ -1,6 +1,7 @@
-import os
+import os, requests
 from section import Section
-from datausa.utils import fetch
+from config import API
+from datausa.utils import datafold, fetch
 
 
 class Profile(object):
@@ -40,6 +41,12 @@ class Profile(object):
         profile_path = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(file))
         return "".join(open(file_path).readlines())
+
+    def parents(self):
+        try:
+            return datafold(requests.get("{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)).json())
+        except ValueError:
+            raise Exception(params)
 
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """

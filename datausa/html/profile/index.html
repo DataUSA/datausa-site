@@ -11,7 +11,14 @@
     <div class="thumbprint"></div>
 
     <h1>{{ profile.splash.title }}</h1>
-    <sub>Lorem Ipsum</sub>
+    {% set parents = profile.parents() %}
+    {% if parents|length %}
+      <sub>
+        {% for p in parents %}
+          <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
+        {% endfor %}
+      </sub>
+    {% endif %}
     <p class="desc">{{ profile.splash.description }}</p>
 
     <div id="splash-stats">

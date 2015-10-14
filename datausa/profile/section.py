@@ -29,6 +29,35 @@ class Section(object):
         self.attr = profile.attr
         self.profile = profile
 
+        # regex to find all keys matching {{*}}
+        keys = re.findall(r"\{\{([^\}]+)\}\}", config)
+
+        # loop through each key
+        for k in keys:
+            # split the key at a blank space to find params
+            val = re.findall(r"<<([^>]+)>>", k)[0]
+            func, params = val.split(" ") if " " in val else (val, "")
+
+            # if Section has a function with the same name as the key
+            if hasattr(self, func):
+
+                # convert params into a dict, splitting at pipes
+                params = dict(item.split("=") for item in params.split("|")) if params else {}
+                # run the Section function, passing the params as kwargs
+                ret = getattr(self, func)(**params)
+
+                if func in self.attr and self.attr[func] == ret:
+                    # if the attr has this attribute and it's the same, remove it
+                    ret = ""
+                else:
+                    # else, replace it with the returned value
+                    ret = k.replace("<<{0}>>".format(val), ret)
+
+            # replace all instances of key with the returned value
+            config = config.replace("{{{{{0}}}}}".format(k), ret)
+
+
+
         # regex to find all keys matching <<*>>
         keys = re.findall(r"<<([^>]+)>>", config)
 

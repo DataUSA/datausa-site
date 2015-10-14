@@ -4,10 +4,10 @@ stats:
   - title: "Median In-State Public Tuition"
     value: "<<top show=sector|sector=1|col=state_tuition>>"
     rank: "<<top col=state_tuition_rank>>"
-  - title: "Degrees Awarded in 2013"
+  - title: "Degrees Awarded in <<top order=grads_total|col=year>>"
     value: "<<top col=grads_total>>"
     rank: "<<top col=grads_rank>>"
-  - title: "Average Income for <<name dataset=pums>> Majors"
+  - title: "Average Income{{ for <<name dataset=pums>>}}"
     value: "<<top col=avg_wage>>"
     rank: "<<top col=avg_wage_rank>>"
 facts:
