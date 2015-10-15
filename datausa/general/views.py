@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+import json
 from flask import Blueprint, g, render_template
+from datausa import app
+from datausa.utils.format import dictionary
 
 mod = Blueprint("general", __name__)
 
-@mod.before_request
+@app.before_request
 def before_request():
-    g.page_type = "profile"
     g.cache_version = 1
+    g.dictionary = json.dumps(dictionary)
 
 @mod.route("/")
 def home():

@@ -1,7 +1,7 @@
 import os, requests
 from section import Section
 from config import API
-from datausa.utils import datafold, fetch
+from datausa.utils.data import datafold, fetch
 
 
 class Profile(object):

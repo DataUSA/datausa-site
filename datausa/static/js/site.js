@@ -417,6 +417,53 @@ viz.loadData = function(build) {
             }
           }
         }
+        if (d.map) {
+          for (var i = 0; i < data.length; i++) {
+            for (var k in d.map) {
+              data[i][k] = data[i][d.map[k]];
+              delete data[i][d.map[k]];
+            }
+          }
+        }
+        if (d.split) {
+
+          var split_data = [],
+              regex = new RegExp(d.split.regex),
+              keys = d3.keys(data[0]).filter(function(k){
+                return regex.exec(k);
+              });
+
+          if (d.split.map) {
+            for (var k in d.split.map) {
+              d.split.map[k] = new RegExp(d.split.map[k]);
+            }
+          }
+
+          for (var i = 0; i < data.length; i++) {
+            var dat = data[i];
+            for (var ii = 0; ii < keys.length; ii++) {
+              var k = keys[ii];
+              var dd = d3plus.util.copy(dat);
+              dd[d.split.id] = k;
+              dd[d.split.value] = dat[k];
+
+              if (d.split.map) {
+                for (var sk in d.split.map) {
+                  var mapex = d.split.map[sk].exec(k);
+                  if (mapex) {
+                    dd[sk] = mapex[1];
+                  }
+                }
+              }
+
+              for (var iii = 0; iii < keys.length; iii++) {
+                delete dd[keys[iii]];
+              }
+              split_data.push(dd);
+            }
+          }
+          data = split_data;
+        }
         d.data = data;
         d.source = source;
         build.sources.push(source)
@@ -437,7 +484,7 @@ viz.loadData = function(build) {
 
 viz.finish = function(build) {
 
-  var source_text = build.sources.reduce(function(str, s, i){
+  var source_text = d3plus.util.uniques(build.sources).reduce(function(str, s, i){
     str += s.dataset;
     return str;
   }, "");
@@ -460,10 +507,8 @@ viz.finish = function(build) {
   build.viz
     .config(build.config)
     .depth(build.config.depth)
+    .config(viz.defaults(build))
     .config(viz[build.config.type](build))
-    .format({
-      "text": viz.text_format
-    })
     .error(false)
     .draw();
 
@@ -480,12 +525,23 @@ viz.bar = function(build) {
         "value": false
       },
       "grid": false,
+      "label": {
+        "font": {
+          "color": build.color,
+          "family": "Palanquin",
+          "size": 16,
+          "weight": 700
+        },
+        "padding": 0,
+        "value": false
+      },
       "ticks": {
         "color": "none",
         "font": {
           "color": discrete === axis ? "#211f1a" : "#a8a8a8",
           "family": "Palanquin",
-          "size": 16
+          "size": 16,
+          "weight": 700
         }
       }
     };
@@ -506,15 +562,26 @@ viz.bar = function(build) {
 
 }
 
-viz.text_format = function(text, params) {
+viz.defaults = function(build) {
+  return {
+    "format": {
+      "text": function(text, params) {
 
-  if (params.key) {
+        if (dictionary[text]) return dictionary[text];
 
+        if (params.key) {
+
+        }
+
+        return d3plus.string.title(text, params);
+
+      }
+    },
+    "height": {
+      "small": 100
+    }
   }
-
-  return d3plus.string.title(text, params);
-
-};
+}
 
 viz.geo_map = function(build) {
   return {

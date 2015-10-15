@@ -2,7 +2,8 @@ import re, requests, yaml
 from requests.models import RequestEncodingMixin
 from config import API
 from datausa.visualize.models import Viz
-from datausa.utils import datafold, fetch, num_format
+from datausa.utils.data import datafold, fetch
+from datausa.utils.format import num_format
 
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
@@ -148,8 +149,8 @@ class Section(object):
         params["sort"] = params.get("sort", "desc")
         params["order"] = params.get("order", "")
         params["year"] = params.get("year", 2013)
-        params["show"] = params.get("show", attr_type)
         params["sumlevel"] = params.get("sumlevel", "all")
+        params["show"] = params.get("show", attr_type)
         show = params["show"]
 
         # if no required param is set, set it to the order param
@@ -167,10 +168,36 @@ class Section(object):
         except ValueError:
             raise Exception(params)
 
+        # create a mapping for splitting demographic columns
+        col_map = False
+        if col == "sex":
+            col_map = {
+                "men": "1",
+                "women": "2",
+            }
+        elif col == "race":
+            col_map = {
+                "white": "1",
+                "black": "2",
+                "native": "3",
+                "asian": "6",
+                "hispanic": "11",
+                "hawaiian": "7",
+                "multi": "9",
+                "unknown": "8"
+            }
+
         # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
         # else create an array of the output key for each returned datapoint
-        if col == "name":
-            top = [fetch(d[show], show)[col] for d in r]
+        if col_map:
+            top = [fetch(col_map[max(d, key=lambda x: d[x] if "_" in x and x.split("_")[1] in col_map else 0).split("_")[1]], col)["name"] for d in r]
+        elif col == "name":
+            dataset = kwargs.get("dataset", False)
+            if dataset:
+                attr = "{}_{}".format(dataset, show)
+            else:
+                attr = show
+            top = [fetch(d[show], attr)[col] for d in r]
         else:
             top = [d[col] for d in r]
 

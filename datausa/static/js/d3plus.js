@@ -29366,6 +29366,16 @@ module.exports = function(axis) {
       accepted: [Number],
       value: 0.1
     },
+    persist: {
+      position: {
+        accepted: [Boolean],
+        value: false
+      },
+      size: {
+        accepted: [Boolean],
+        value: true
+      }
+    },
     range: {
       accepted: [false, Array],
       value: false
@@ -30190,7 +30200,7 @@ stack = require("./helpers/graph/stack.coffee");
 uniques = require("../../util/uniques.coffee");
 
 bar = function(vars) {
-  var bars, base, cMargin, d, data, discrete, discreteVal, divisions, domains, h, i, j, k, len, len1, length, maxSize, mod, nested, oMargin, offset, oppVal, opposite, padding, point, ref, ref1, space, value, w, x, zero;
+  var bars, base, cMargin, d, data, discrete, discreteVal, divisions, domains, h, i, j, k, l, len, len1, len2, length, maxBars, maxSize, mod, nested, newSize, oMargin, offset, oppVal, opposite, p, padding, point, ref, ref1, space, value, w, x, zero;
   discrete = vars.axes.discrete;
   h = discrete === "x" ? "height" : "width";
   w = discrete === "x" ? "width" : "height";
@@ -30207,7 +30217,10 @@ bar = function(vars) {
   }
   nested = vars.data.viz;
   if (vars.axes.stacked) {
-    stack(vars, nested);
+    for (j = 0, len = nested.length; j < len; j++) {
+      point = nested[j];
+      stack(vars, point.values);
+    }
   }
   space = vars.axes[w] / vars[vars.axes.discrete].ticks.values.length;
   padding = vars[vars.axes.discrete].padding.value;
@@ -30219,29 +30232,50 @@ bar = function(vars) {
   }
   maxSize = space - padding * 2;
   if (!vars.axes.stacked) {
-    if (ref = vars[discrete].value, indexOf.call(vars.id.nesting, ref) >= 0) {
-      bars = d3.nest().key(function(d) {
-        return fetchValue(vars, d, vars[discrete].value);
-      }).entries(nested);
-      divisions = d3.max(bars, function(b) {
-        return b.values.length;
-      });
+    if (vars[discrete].persist.position.value) {
+      if (ref = vars[discrete].value, indexOf.call(vars.id.nesting, ref) >= 0) {
+        divisions = d3.max(nested, function(b) {
+          return b.values.length;
+        });
+      } else {
+        divisions = uniques(nested, vars.id.value, fetchValue, vars).length;
+      }
+      maxSize /= divisions;
+      offset = space / 2 - maxSize / 2 - padding;
+      x = d3.scale.linear().domain([0, divisions - 1]).range([-offset, offset]);
     } else {
-      bars = uniques(nested, vars.id.value, fetchValue, vars);
-      divisions = bars.length;
+      x = d3.scale.linear();
     }
-    maxSize /= divisions;
-    offset = space / 2 - maxSize / 2 - padding;
-    x = d3.scale.linear().domain([0, divisions - 1]).range([-offset, offset]);
   }
   data = [];
   zero = 0;
-  for (i = j = 0, len = nested.length; j < len; i = ++j) {
-    point = nested[i];
-    mod = vars.axes.stacked ? 0 : x(i % divisions);
-    ref1 = point.values;
-    for (k = 0, len1 = ref1.length; k < len1; k++) {
-      d = ref1[k];
+  maxBars = d3.max(nested, function(b) {
+    return b.values.length;
+  });
+  for (k = 0, len1 = nested.length; k < len1; k++) {
+    p = nested[k];
+    if (vars.axes.stacked) {
+      bars = 1;
+      newSize = maxSize;
+    } else if (vars[discrete].persist.position.value) {
+      bars = divisions;
+      newSize = maxSize / divisions;
+    } else {
+      bars = p.values.length;
+      if (vars[discrete].persist.size.value) {
+        newSize = maxSize / maxBars;
+        offset = space / 2 - ((maxBars - bars) * (newSize / 2)) - newSize / 2 - padding;
+      } else {
+        newSize = maxSize / bars;
+        offset = space / 2 - newSize / 2 - padding;
+      }
+      x.domain([0, bars - 1]);
+      x.range([-offset, offset]);
+    }
+    ref1 = p.values;
+    for (i = l = 0, len2 = ref1.length; l < len2; i = ++l) {
+      d = ref1[i];
+      mod = vars.axes.stacked ? 0 : x(i % bars);
       if (vars.axes.stacked) {
         value = d.d3plus[opposite];
         base = d.d3plus[opposite + "0"];
@@ -30264,7 +30298,7 @@ bar = function(vars) {
       if (!vars.axes.stacked) {
         d.d3plus[opposite] += vars.axes.margin[oMargin];
       }
-      d.d3plus[w] = maxSize;
+      d.d3plus[w] = newSize;
       d.d3plus[h] = Math.abs(length);
       d.d3plus.init = {};
       d.d3plus.init[opposite] = vars[opposite].scale.viz(zero);
@@ -30279,7 +30313,7 @@ bar = function(vars) {
 };
 
 bar.filter = function(vars, data) {
-  return nest(vars, data);
+  return nest(vars, data, vars[vars.axes.discrete].value);
 };
 
 bar.requirements = ["data", "x", "y"];
@@ -32340,8 +32374,16 @@ stringStrip = require("../../../../string/strip.js");
 
 uniqueValues = require("../../../../util/uniques.coffee");
 
-module.exports = function(vars, data) {
-  var discrete, key, opposite, serialized, ticks, timeAxis;
+module.exports = function(vars, data, keys) {
+  var discrete, extras, key, opposite, serialized, ticks, timeAxis;
+  if (keys === void 0) {
+    keys = vars.id.nesting.slice(0, vars.depth.value + 1);
+  } else if (keys.constructor !== Array) {
+    keys = [keys];
+  }
+  if (extras === void 0) {
+    extras = [];
+  }
   if (!data) {
     data = vars.data.viz;
   }
@@ -32376,11 +32418,10 @@ module.exports = function(vars, data) {
     ticks = uniqueValues(data, discrete.value, fetchValue, vars);
   }
   return d3.nest().key(function(d) {
-    var id, j, len, ref, return_id, val;
+    var id, j, len, return_id, val;
     return_id = "nesting";
-    ref = vars.id.nesting.slice(0, vars.depth.value + 1);
-    for (j = 0, len = ref.length; j < len; j++) {
-      id = ref[j];
+    for (j = 0, len = keys.length; j < len; j++) {
+      id = keys[j];
       val = fetchValue(vars, d, id);
       if (val instanceof Array) {
         val = val.join("_");
@@ -32462,7 +32503,7 @@ module.exports = function(vars, data) {
   margin = stacked === "y" ? vars.axes.margin.top : vars.axes.margin.left;
   offset = scale === "share" ? "expand" : "zero";
   stack = d3.layout.stack().values(function(d) {
-    return d.values;
+    return d.values || [d];
   }).offset(offset).x(function(d) {
     return d.d3plus[opposite];
   }).y(function(d) {
@@ -32509,7 +32550,7 @@ module.exports = function(vars, data) {
       }
     }
   }
-  if (!(positiveData.length || negativeData.length)) {
+  if (positiveData.length === 0 || negativeData.length === 0) {
     return stack(data);
   } else {
     if (positiveData.length) {

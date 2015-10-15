@@ -31,6 +31,7 @@ class Viz(object):
 
             # create a new dict containing the 'split' and 'static' params
             data_obj = {
+                "map": d.pop("map", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None)
             }
@@ -88,7 +89,9 @@ class Viz(object):
         # check each data call for 'required' and 'order'
         for d in self.data:
             p = d["params"]
-            tooltip += [p[k] for k in ["required", "order"] if k in p and p[k] != ""]
+            for k in ["required", "order"]:
+                if k in p and p[k] != "" and p[k] not in tooltip:
+                    tooltip.append(p[k])
 
         # check the config for 'x' 'y' and 'size'
         for k in ["x", "y", "size"]:

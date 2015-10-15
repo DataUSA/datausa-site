@@ -9,12 +9,23 @@ viz.bar = function(build) {
         "value": false
       },
       "grid": false,
+      "label": {
+        "font": {
+          "color": build.color,
+          "family": "Palanquin",
+          "size": 16,
+          "weight": 700
+        },
+        "padding": 0,
+        "value": false
+      },
       "ticks": {
         "color": "none",
         "font": {
           "color": discrete === axis ? "#211f1a" : "#a8a8a8",
           "family": "Palanquin",
-          "size": 16
+          "size": 16,
+          "weight": 700
         }
       }
     };

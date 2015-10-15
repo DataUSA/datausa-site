@@ -10,11 +10,15 @@ topics:
         value: "<<top show=degree|order=num_ppl|dataset=pums>>"
     description: "By leveraging both the PUMS and IPEDS datasets, we can compare the degrees obtained by the working population against the current student graduation rate."
     viz:
-      attrs: "degree"
+      attrs:
+        - "degree"
+        - "pums_degree"
       data:
         - required: "grads_total"
           cip: "<<id>>"
           show: "degree"
+          map:
+            num_ppl: "grads_total"
           static:
             dataset: "Graduates"
         - required: "num_ppl"
@@ -22,17 +26,14 @@ topics:
           show: "degree"
           static:
             dataset: "Workforce"
-      id:
-        - "dataset"
-      map:
-        grads_total: "num_ppl"
+      id: "dataset"
       type: "bar"
       x: "degree"
       y: "num_ppl"
   - title: "Enrolled Gender"
     stat:
       - title: "Most Common Gender"
-        value: "<<top show=cip|required=grads_men,grads_women|order=grads_total>>"
+        value: "<<top col=sex|required=grads_men,grads_women|order=grads_total>>"
     description: "To the right, we see the 5 most common institutions that offer <<name>> broken down by graduates for each gender."
     viz:
       attrs: "sex"
@@ -43,16 +44,17 @@ topics:
         order: "grads_total"
         show: "university"
         split:
-          gender:
-            - "grads_men"
-            - "grads_women"
-    id: "gender"
-    x: "university"
-    y: "grads_total"
-  - title: "Enrolled Race & Ethnicity"
+          id: "gender"
+          regex: "grads_([a-z]*)"
+          value: "grads_total"
+      id: "gender"
+      type: "bar"
+      x: "university"
+      y: "grads_total"
+  - title: "Race & Ethnicity by Graduation"
     stat:
       - title: "Most Common Race"
-        value: "<<top show=cip|required=grads_men,grads_women|order=grads_total>>"
+        value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
     description: "Here we see the 5 most common universities for each race that graduates with a <<name>> degree."
     viz:
       attrs:
@@ -63,62 +65,74 @@ topics:
           limit: 5
           order: "grads_asian"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_asian"
           static:
             race: "asian"
         - show: "university"
           limit: 5
           order: "grads_black"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_black"
           static:
             race: "black"
         - show: "university"
           limit: 5
           order: "grads_multi"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_multi"
           static:
             race: "multi"
         - show: "university"
           limit: 5
           order: "grads_native"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_native"
           static:
             race: "native"
         - show: "university"
           limit: 5
           order: "grads_hispanic"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_hispanic"
           static:
             race: "hispanic"
         - show: "university"
           limit: 5
           order: "grads_white"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_white"
           static:
             race: "white"
         - show: "university"
           limit: 5
           order: "grads_hawaiian"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_hawaiian"
           static:
             race: "hawaiian"
         - show: "university"
           limit: 5
           order: "grads_unknown"
           cip: "<<id>>"
+          map:
+            grads_total: "grads_unknown"
           static:
             race: "unknown"
-      map:
-        grads_asian: "grads_total"
-        grads_black: "grads_total"
-        grads_white: "grads_total"
-        grads_hispanic: "grads_total"
-        grads_hawaiian: "grads_total"
-        grads_multi: "grads_total"
-        grads_unknown: "grads_total"
-        grads_native: "grads_total"
       id: "university"
-      x: "race"
-      y: "grads_total"
+      type: "bar"
+      x:
+        stacked: YES
+        value: "grads_total"
+      y:
+        scale: "discrete"
+        value: "race"
   - title: "Race & Ethnicity by Gender"
     select: "degree"
     stat:
@@ -132,29 +146,17 @@ topics:
         cip: "<<id>>"
         force: "grads_yc"
         split:
-          num_ppl:
-            - "grads_native_men"
-            - "grads_native_women"
-            - "grads_asian_men"
-            - "grads_asian_women"
-            - "grads_black_men"
-            - "grads_black_women"
-            - "grads_hispanic_men"
-            - "grads_hispanic_women"
-            - "grads_hawaiian_men"
-            - "grads_hawaiian_women"
-            - "grads_white_men"
-            - "grads_white_women"
-            - "grads_multi_men"
-            - "grads_multi_women"
-            - "grads_unknown_men"
-            - "grads_unknown_women"
-          regex:
-            race: "grads_(*)_*"
-            gender: "grads_*_(*)"
+          id: "race_sex"
+          regex: "grads_([a-z]*_[a-z]*)"
+          map:
+            race: "grads_([a-z]*)_[a-z]*"
+            sex: "grads_[a-z]*_([a-z]*)"
+          value: "grads_total"
+      id:
+        "sex"
       type: "bar"
-      x: "gender_race"
-      y: "race"
+      x: "race"
+      y: "grads_total"
   - title: "Workforce Age"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     stat:

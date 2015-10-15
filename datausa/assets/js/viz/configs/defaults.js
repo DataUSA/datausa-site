@@ -1,9 +1,20 @@
-viz.text_format = function(text, params) {
+viz.defaults = function(build) {
+  return {
+    "format": {
+      "text": function(text, params) {
 
-  if (params.key) {
+        if (dictionary[text]) return dictionary[text];
 
+        if (params.key) {
+
+        }
+
+        return d3plus.string.title(text, params);
+
+      }
+    },
+    "height": {
+      "small": 100
+    }
   }
-
-  return d3plus.string.title(text, params);
-
-};
+}

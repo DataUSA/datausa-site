@@ -26,7 +26,10 @@
 
     <script>
 
-      var resizeFunctions = [], scrollFunctions = [], cache_version = "{{ g.cache_version }}";
+      var resizeFunctions = [],
+          scrollFunctions = [],
+          cache_version = "{{ g.cache_version }}",
+          dictionary = {{ g.dictionary|safe }};
 
     </script>
 
