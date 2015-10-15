@@ -98,9 +98,35 @@ body.profile #splash {
   -webkit-align-items: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
   position: relative;
-  width: 100vw;
-  background-color: #444; }
+  width: 100vw; }
+  body.profile #splash #splash-image {
+    height: 110%;
+    left: -5%;
+    position: absolute;
+    top: -5%;
+    width: 110%;
+    background-attachment: center center;
+    background-position: fixed;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -ms-filter: blur(5px);
+    -o-filter: blur(5px); }
+    body.profile #splash #splash-image:after {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background: #444;
+      opacity: 0.4;
+      content: ""; }
   body.profile #splash .content {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -115,6 +141,7 @@ body.profile #splash {
     flex-direction: column;
     -webkit-align-items: center;
     align-items: center;
+    z-index: 1;
     color: white;
     text-align: center; }
     body.profile #splash .content .thumbprint {

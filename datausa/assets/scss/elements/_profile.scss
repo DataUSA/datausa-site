@@ -5,14 +5,36 @@ body.profile {
     @include justify(center);
     @include align-items(center);
     height: 100vh;
+    overflow: hidden;
     position: relative;
     width: 100vw;
-    background-color: #444;
+
+    #splash-image {
+      height: 110%;
+      left: -5%;
+      position: absolute;
+      top: -5%;
+      width: 110%;
+      @include background-stretch();
+      @include blur(5);
+
+      &:after {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background: #444;
+        opacity: 0.4;
+        content: "";
+      }
+    }
 
     .content {
       @include flex();
       @include flex-direction(column);
       @include align-items(center);
+      z-index: 1;
       color: white;
       text-align: center;
 

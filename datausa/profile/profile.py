@@ -42,6 +42,9 @@ class Profile(object):
         file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(file))
         return "".join(open(file_path).readlines())
 
+    def image(self):
+        return "/static/img/splash/cip/4005.jpg"
+
     def parents(self):
         try:
             return datafold(requests.get("{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)).json())
