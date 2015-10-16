@@ -377,10 +377,14 @@ var load = function(url, callback) {
           }
           else {
             d3.json(url, function(error, data){
-              for (var i = 0; i < data.data.length; i++) {
-                data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
+
+              if (data.headers) {
+                for (var i = 0; i < data.data.length; i++) {
+                  data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
+                }
+                data.headers.push("search");
               }
-              data.headers.push("search");
+
               localforage.setItem(url, data);
               load.cache[url] = data;
               callback(load.datafold(data), url, data.source);
@@ -586,7 +590,15 @@ var viz = function(build) {
     .error("Loading")
     .draw();
 
-  viz.loadAttrs(build);
+  if (build.config.type === "geo_map") {
+    load("/static/topojson/counties.json", function(data){
+      build.viz.coords(data);
+      viz.loadAttrs(build);
+    })
+  }
+  else {
+    viz.loadAttrs(build);
+  }
 
   return build;
 
@@ -734,7 +746,19 @@ viz.finish = function(build) {
 
 viz.bar = function(build) {
 
-  var discrete = build.viz.axes(Object).discrete || "x"
+  return {
+    "data": {
+      "stroke": {
+        "width": 2
+      }
+    }
+  };
+
+}
+
+viz.defaults = function(build) {
+
+  var discrete = build.viz.axes(Object).discrete || "x";
 
   var axis_style = function(axis) {
     return {
@@ -774,14 +798,6 @@ viz.bar = function(build) {
         }
       }
     },
-    "x": axis_style("x"),
-    "y": axis_style("y")
-  };
-
-}
-
-viz.defaults = function(build) {
-  return {
     "format": {
       "text": function(text, params) {
 
@@ -797,7 +813,9 @@ viz.defaults = function(build) {
     },
     "height": {
       "small": 100
-    }
+    },
+    "x": axis_style("x"),
+    "y": axis_style("y")
   }
 }
 
@@ -808,8 +826,16 @@ viz.geo_map = function(build) {
     },
     "coords": {
       "key": "counties",
-      "projection": "albersUsa",
-      "value": "/static/topojson/counties.json"
+      "projection": "albersUsa"
+    },
+    "labels": false
+  };
+}
+
+viz.line = function(build) {
+  return {
+    "shape": {
+      "interpolate": "monotone"
     }
   };
 }

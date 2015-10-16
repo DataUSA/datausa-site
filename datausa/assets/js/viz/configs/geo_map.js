@@ -5,8 +5,8 @@ viz.geo_map = function(build) {
     },
     "coords": {
       "key": "counties",
-      "projection": "albersUsa",
-      "value": "/static/topojson/counties.json"
-    }
+      "projection": "albersUsa"
+    },
+    "labels": false
   };
 }

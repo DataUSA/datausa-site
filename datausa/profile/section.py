@@ -1,4 +1,4 @@
-import re, requests, yaml
+import itertools, re, requests, yaml
 from requests.models import RequestEncodingMixin
 from config import API
 from datausa.visualize.models import Viz
@@ -169,14 +169,12 @@ class Section(object):
             raise Exception(params)
 
         # create a mapping for splitting demographic columns
-        col_map = False
-        if col == "sex":
-            col_map = {
+        col_map = {
+            "sex": {
                 "men": "1",
-                "women": "2",
-            }
-        elif col == "race":
-            col_map = {
+                "women": "2"
+            },
+            "race": {
                 "white": "1",
                 "black": "2",
                 "native": "3",
@@ -186,11 +184,18 @@ class Section(object):
                 "multi": "9",
                 "unknown": "8"
             }
+        }
 
         # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
         # else create an array of the output key for each returned datapoint
-        if col_map:
-            top = [fetch(col_map[max(d, key=lambda x: d[x] if "_" in x and x.split("_")[1] in col_map else 0).split("_")[1]], col)["name"] for d in r]
+        if col in col_map or "&" in col:
+            def drop_first(c):
+                return "_".join(c.split("_")[1:])
+            keys = col.split("&")
+            cols = ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
+            vals = [drop_first(max(d, key=lambda x: d[x] if "_" in x and drop_first(x) in cols else 0)) for d in r]
+            vals = [fetch(col_map[keys[i]][v], keys[i]) for x in vals for i, v in enumerate(x.split("_"))]
+            top = [" ".join([v["name"] for v in vals])]
         elif col == "name":
             dataset = kwargs.get("dataset", False)
             if dataset:

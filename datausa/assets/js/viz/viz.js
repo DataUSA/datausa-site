@@ -5,7 +5,15 @@ var viz = function(build) {
     .error("Loading")
     .draw();
 
-  viz.loadAttrs(build);
+  if (build.config.type === "geo_map") {
+    load("/static/topojson/counties.json", function(data){
+      build.viz.coords(data);
+      viz.loadAttrs(build);
+    })
+  }
+  else {
+    viz.loadAttrs(build);
+  }
 
   return build;
 
