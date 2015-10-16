@@ -3,11 +3,20 @@
 
 {% block content %}
 
+<div id="selector">
+  <div id="selector-nav">
+    <button id="selector-back" onclick="selector.back();">Back</button>
+    <input id="selector-input" type="text" placeholder="Search" />
+    <button id="selector-close" onclick="selector.close();">Close [esc]</button>
+  </div>
+  <div id="selector-results"></div>
+</div>
+
 <div id="menu-btn">
   <i class="fa fa-bars"></i> DataUSA
 </div>
 
-<div id="search-btn">
+<div id="search-btn" onclick="selector.open();">
   <i class="fa fa-search"></i>
 </div>
 

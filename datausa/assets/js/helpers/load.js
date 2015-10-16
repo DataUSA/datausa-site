@@ -12,7 +12,11 @@ var load = function(url, callback) {
 
     function loadUrl() {
 
-      if (url.indexOf("attrs/") > 0) {
+      if (load.cache[url]) {
+          data = load.cache[url];
+          callback(load.datafold(data), url, data.source);
+      }
+      else if (url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0) {
 
         localforage.getItem(url, function(error, data) {
 
@@ -21,7 +25,12 @@ var load = function(url, callback) {
           }
           else {
             d3.json(url, function(error, data){
+              for (var i = 0; i < data.data.length; i++) {
+                data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
+              }
+              data.headers.push("search");
               localforage.setItem(url, data);
+              load.cache[url] = data;
               callback(load.datafold(data), url, data.source);
             });
           }
@@ -30,13 +39,16 @@ var load = function(url, callback) {
 
       }
       else {
+
         d3.json(url, function(error, data){
           if (error) {
             console.log(error);
             console.log(url);
           }
+          load.cache[url] = data;
           callback(load.datafold(data), url, data.source);
         });
+
       }
 
     }
@@ -45,16 +57,13 @@ var load = function(url, callback) {
 
 }
 
-load.strings = [
-  "sector"
-];
+load.cache = {};
 
 load.datafold = function(data) {
   if (data.data && data.headers) {
     return data.data.map(function(d){
       return d.reduce(function(obj, v, i){
-        var h = data.headers[i]
-        obj[h] = load.strings.indexOf(h) >= 0 ? v + "" : v;
+        obj[data.headers[i]] = v;
         return obj;
       }, {});
     })

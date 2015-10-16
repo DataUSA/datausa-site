@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from flask import Blueprint, g, render_template
+from config import API
 from datausa import app
 from datausa.utils.format import dictionary
 
@@ -10,6 +11,7 @@ mod = Blueprint("general", __name__)
 def before_request():
     g.cache_version = 1
     g.dictionary = json.dumps(dictionary)
+    g.api = API
 
 @mod.route("/")
 def home():

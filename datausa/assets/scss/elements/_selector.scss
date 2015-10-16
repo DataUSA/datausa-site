@@ -1,0 +1,43 @@
+#selector {
+  bottom: 0;
+  display: none;
+  left: 0;
+  overflow-y: scroll;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+
+  &.active {
+    display: block;
+  }
+
+  $selector-nav-height: 50px;
+
+  #selector-nav {
+    height: $selector-nav-height;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    #selector-back {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
+
+    #selector-input {
+
+    }
+
+  }
+
+  #selector-results {
+    padding-top: $selector-nav-height;
+  }
+
+}
