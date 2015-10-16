@@ -144,7 +144,6 @@ topics:
       data:
         show: "cip"
         cip: "<<id>>"
-        force: "grads_yc"
         split:
           id: "race_sex"
           regex: "grads_([a-z]*_[a-z]*)"
