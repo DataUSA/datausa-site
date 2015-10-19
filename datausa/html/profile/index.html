@@ -171,7 +171,6 @@
             d3.select(this).attr("data-url", url);
 
             load(url, function(data){
-              console.log(data);
               d3.select(this.parentNode).classed("loading", false)
               d3.select(this).text(data.value);
             }.bind(this));
