@@ -134,17 +134,20 @@ topics:
         scale: "discrete"
         value: "race"
   - title: "Race & Ethnicity by Gender"
-    select: "degree"
+    select:
+      data: "degree"
+      default: "21"
     stat:
       - title: "Most Common Race/Gender Combination"
         value: "<<top col=race&sex|required=grads_asian_men,grads_black_men,grads_white_men,grads_hispanic_men,grads_hawaiian_men,grads_multi_men,grads_unknown_men,grads_native_men,grads_asian_women,grads_black_women,grads_white_women,grads_hispanic_women,grads_hawaiian_women,grads_multi_women,grads_unknown_women,grads_native_women|order=grads_total>>"
-    description: "Here we see the difference in gender for each race & ethnicity of students graduating with <<name>> degrees."
+    description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <<select>> in <<name>>."
     viz:
       attrs: "sex"
       color: "sex"
       data:
         show: "cip"
         cip: "<<id>>"
+        exclude: "grads_nonresident_men,grads_nonresident_women"
         split:
           id: "race_sex"
           regex: "grads_([a-z]*_[a-z]*)"

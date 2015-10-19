@@ -41,6 +41,7 @@ class Viz(object):
             d["year"] = d.get("year", 2013)
             d["sort"] = d.get("sort", "desc")
             d["order"] = d.get("order", "")
+            d["exclude"] = d.get("exclude", "")
             d["required"] = d.get("required", d["order"])
 
             # create the data URL

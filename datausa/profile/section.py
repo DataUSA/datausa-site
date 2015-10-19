@@ -148,6 +148,7 @@ class Section(object):
         params["limit"] = params.get("limit", 1)
         params["sort"] = params.get("sort", "desc")
         params["order"] = params.get("order", "")
+        params["exclude"] = params.get("exclude", "")
         params["year"] = params.get("year", 2013)
         params["sumlevel"] = params.get("sumlevel", "all")
         params["show"] = params.get("show", attr_type)
