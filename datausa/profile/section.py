@@ -1,9 +1,8 @@
-import itertools, re, requests, yaml
-from requests.models import RequestEncodingMixin
+import re, yaml
+
 from config import API
 from datausa.visualize.models import Viz
-from datausa.utils.data import datafold, fetch
-from datausa.utils.format import num_format
+from datausa.utils.data import attr_cache, datafold, fetch, stat
 
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
@@ -73,6 +72,11 @@ class Section(object):
                 params = dict(item.split("=") for item in params.split("|")) if params else {}
                 # run the Section function, passing the params as kwargs
                 val = getattr(self, func)(**params)
+
+                # if it returned an object, convert it to string
+                if not isinstance(val, (unicode, str)):
+                    val = "<span data-url='{}'>{}</span>".format(val["url"], val["value"])
+
                 # replace all instances of key with the returned value
                 config = config.replace("<<{0}>>".format(k), val)
 
@@ -92,6 +96,11 @@ class Section(object):
             for topic in self.topics:
                 # instantiate the "viz" config into a Viz class
                 topic["viz"] = Viz(topic["viz"], color=self.profile.color())
+
+                # fill selector if present
+                if "select" in topic and isinstance(topic["select"]["data"], str):
+                    topic["select"]["param"] = topic["select"]["data"]
+                    topic["select"]["data"] = [v for k, v in attr_cache[topic["select"]["data"]].iteritems()]
 
         if "sections" in config:
             self.sections = config["sections"]
@@ -117,8 +126,9 @@ class Section(object):
     def name(self, **kwargs):
         """str: The attribute name """
 
-        # if there is a specified dataset, use the id function
-        if "dataset" in kwargs:
+        if "id" in kwargs and "attr" in kwargs:
+            return fetch(kwargs["id"], kwargs["attr"])["name"]
+        elif "dataset" in kwargs:
             return fetch(self.id(dataset=kwargs["dataset"]), self.profile.attr_type)["name"]
 
         return self.attr["name"]
@@ -152,7 +162,6 @@ class Section(object):
         params["year"] = params.get("year", 2013)
         params["sumlevel"] = params.get("sumlevel", "all")
         params["show"] = params.get("show", attr_type)
-        show = params["show"]
 
         # if no required param is set, set it to the order param
         if "required" not in params:
@@ -160,68 +169,8 @@ class Section(object):
         elif params["order"] == "":
             params["order"] = params["required"]
 
-        # convert params into a url query string
-        params = RequestEncodingMixin._encode_params(params)
-
-        # make the API request using the params, converting it to json and running it through the datafold util
-        try:
-            r = datafold(requests.get("{}/api?{}".format(API, params)).json())
-        except ValueError:
-            raise Exception(params)
-
-        # create a mapping for splitting demographic columns
-        col_map = {
-            "sex": {
-                "men": "1",
-                "women": "2"
-            },
-            "race": {
-                "white": "1",
-                "black": "2",
-                "native": "3",
-                "asian": "6",
-                "hispanic": "11",
-                "hawaiian": "7",
-                "multi": "9",
-                "unknown": "8"
-            }
-        }
-
-        # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
-        # else create an array of the output key for each returned datapoint
-        if col in col_map or "&" in col:
-            def drop_first(c):
-                return "_".join(c.split("_")[1:])
-            keys = col.split("&")
-            cols = ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
-            vals = [drop_first(max(d, key=lambda x: d[x] if "_" in x and drop_first(x) in cols else 0)) for d in r]
-            vals = [fetch(col_map[keys[i]][v], keys[i]) for x in vals for i, v in enumerate(x.split("_"))]
-            top = [" ".join([v["name"] for v in vals])]
-        elif col == "name":
-            dataset = kwargs.get("dataset", False)
-            if dataset:
-                attr = "{}_{}".format(dataset, show)
-            else:
-                attr = show
-            top = [fetch(d[show], attr)[col] for d in r]
-        else:
-            top = [d[col] for d in r]
-
-        top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
-
-        # coerce all values to strings
-        top = [str(t) for t in top]
-
-        # if there's more than 1 value, prefix the last string with 'and'
-        if len(top) > 1:
-            top[-1] = "and {}".format(top[-1])
-
-        # if there's only 2 values, return the list joined with a space
-        if len(top) == 2:
-            return " ".join(top)
-
-        # otherwise, return the list joined with commans
-        return ", ".join(top)
+        # make the API request using the params
+        return stat(params, col=col, dataset=kwargs.get("dataset", False))
 
     def __repr__(self):
         return "Section: {}".format(self.title)

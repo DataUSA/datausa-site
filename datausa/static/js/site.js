@@ -628,6 +628,10 @@ viz.finish = function(build) {
 
 };
 
+viz.redraw = function(build) {
+  build.viz.draw();
+};
+
 viz.bar = function(build) {
 
   return {
@@ -774,8 +778,8 @@ viz.loadCoords = function(build) {
 
 }
 
-viz.loadData = function(build) {
-  var next = "finish";
+viz.loadData = function(build, next) {
+  if (!next) next = "finish";
 
   build.sources = [];
 

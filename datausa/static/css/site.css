@@ -369,39 +369,43 @@ body.profile .topic {
           -ms-flex: none;
           flex: none;
           max-width: 400px; }
-          body.profile .topic .content aside .topic-stats {
-            -webkit-justify-content: center;
-            -moz-justify-content: center;
-            justify-content: center;
-            display: -webkit-box;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-align-items: flex-end;
-            align-items: flex-end; }
-            body.profile .topic .content aside .topic-stats.stacked {
-              -webkit-flex-direction: column;
-              -moz-flex-direction: column;
-              flex-direction: column;
-              -webkit-align-items: flex-start;
-              align-items: flex-start; }
-              body.profile .topic .content aside .topic-stats .stat {
-                -webkit-box-flex: 1;
-                -moz-box-flex: 1;
-                -webkit-flex: 1;
-                -ms-flex: 1;
-                flex: 1;
-                margin-right: 5px;
-                color: #211f1a; }
-                body.profile .topic .content aside .topic-stats .stat .stat-text {
-                  font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                  font-size: 16px;
-                  font-weight: 700; }
-                  body.profile .topic .content aside .topic-stats .stat .stat-value {
+          body.profile .topic .content aside select {
+            width: 100%; }
+            body.profile .topic .content aside .topic-stats {
+              -webkit-justify-content: center;
+              -moz-justify-content: center;
+              justify-content: center;
+              display: -webkit-box;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: -webkit-flex;
+              display: flex;
+              -webkit-align-items: flex-end;
+              align-items: flex-end; }
+              body.profile .topic .content aside .topic-stats.stacked {
+                -webkit-flex-direction: column;
+                -moz-flex-direction: column;
+                flex-direction: column;
+                -webkit-align-items: flex-start;
+                align-items: flex-start; }
+                body.profile .topic .content aside .topic-stats .stat {
+                  -webkit-box-flex: 1;
+                  -moz-box-flex: 1;
+                  -webkit-flex: 1;
+                  -ms-flex: 1;
+                  flex: 1;
+                  margin-right: 5px;
+                  color: #211f1a; }
+                  body.profile .topic .content aside .topic-stats .stat .stat-text {
                     font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                    font-size: 40px;
+                    font-size: 16px;
                     font-weight: 700; }
+                    body.profile .topic .content aside .topic-stats .stat .stat-value {
+                      font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+                      font-size: 40px;
+                      font-weight: 700; }
+                      body.profile .topic .content aside .topic-stats .stat .stat-value.loading {
+                        opacity: 0.5; }
           body.profile .topic .content aside p {
             margin: 10px 0;
             color: #211f1a;

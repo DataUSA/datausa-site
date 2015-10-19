@@ -283,6 +283,10 @@ body.profile {
         @include flex-size(none);
         max-width: 400px;
 
+        select {
+          width: 100%;
+        }
+
         .topic-stats {
           @include flex();
           @include align-items(flex-end);
@@ -307,6 +311,11 @@ body.profile {
               font-family: $enriqueta;
               font-size: 40px;
               font-weight: 700;
+
+              &.loading {
+                opacity: 0.5;
+              }
+
             }
 
           }

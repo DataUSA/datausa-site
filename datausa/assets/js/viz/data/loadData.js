@@ -1,5 +1,5 @@
-viz.loadData = function(build) {
-  var next = "finish";
+viz.loadData = function(build, next) {
+  if (!next) next = "finish";
 
   build.sources = [];
 
