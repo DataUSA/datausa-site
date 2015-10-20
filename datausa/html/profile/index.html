@@ -77,7 +77,7 @@
 
 {% for topic in section.topics %}
 {% if topic.category %}
-<h1 style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
+<h1 class="category" style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
 {% endif %}
 <article class="topic">
   {% if topic.title %}
