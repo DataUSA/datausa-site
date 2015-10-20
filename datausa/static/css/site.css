@@ -106,7 +106,10 @@ footer {
         #selector #selector-nav #selector-back.active {
           display: block; }
   #selector #selector-results {
-    padding-top: 50px; }
+    padding-top: 50px;
+    color: rgba(255, 255, 255, 0.8); }
+    #selector .selector-item {
+      padding: 3px 0; }
 body.profile #splash {
   -webkit-justify-content: center;
   -moz-justify-content: center;

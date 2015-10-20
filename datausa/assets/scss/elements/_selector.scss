@@ -38,6 +38,11 @@
 
   #selector-results {
     padding-top: $selector-nav-height;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .selector-item {
+    padding: 3px 0;
   }
 
 }
