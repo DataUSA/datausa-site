@@ -110,6 +110,61 @@ footer {
     color: rgba(255, 255, 255, 0.8); }
     #selector .selector-item {
       padding: 3px 0; }
+#menu-btn {
+  left: 20px;
+  position: fixed;
+  top: 20px;
+  z-index: 4;
+  opacity: 0.5;
+  color: white;
+  font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 18px;
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -ms-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s; }
+  #menu-btn:hover {
+    opacity: 1;
+    cursor: pointer; }
+    #menu-btn i {
+      margin-right: 5px; }
+
+#search-btn {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 4;
+  opacity: 0.5;
+  color: white;
+  font-size: 20px;
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -ms-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s; }
+  #search-btn:hover {
+    opacity: 1;
+    cursor: pointer; }
+
+footer {
+  background-color: #eeeeee;
+  text-align: center;
+  width: 100%; }
+  footer img {
+    height: 30px;
+    margin: 20px 25px;
+    opacity: 0.5;
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -ms-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s; }
+    footer img:hover {
+      opacity: 0.7;
+      cursor: pointer; }
 body.profile #splash {
   -webkit-justify-content: center;
   -moz-justify-content: center;
