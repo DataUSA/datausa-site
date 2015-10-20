@@ -378,6 +378,46 @@ body.profile section {
       margin-bottom: 50px;
       min-width: 100%;
       padding: 0; }
+      body.profile section .topic.flex {
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        flex-direction: column;
+        -webkit-align-items: stretch;
+        align-items: stretch;
+        min-width: 200px; }
+        body.profile section .topic.flex .content {
+          -webkit-box-flex: 1 1;
+          -moz-box-flex: 1 1;
+          -webkit-flex: 1 1;
+          -ms-flex: 1 1;
+          flex: 1 1;
+          -webkit-flex-direction: column;
+          -moz-flex-direction: column;
+          flex-direction: column;
+          -webkit-align-items: stretch;
+          align-items: stretch; }
+          body.profile section .topic.flex .content aside {
+            -webkit-box-flex: 1 1;
+            -moz-box-flex: 1 1;
+            -webkit-flex: 1 1;
+            -ms-flex: 1 1;
+            flex: 1 1;
+            max-width: 100%; }
+            body.profile section .topic.flex .content .viz {
+              margin-left: 0; }
       body.profile section .topic h2 {
         font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
         font-size: 30px;
@@ -398,6 +438,12 @@ body.profile section {
             display: -webkit-flex;
             display: flex;
             margin-top: 10px; }
+            body.profile section .topic .content.full-width {
+              -webkit-flex-direction: column;
+              -moz-flex-direction: column;
+              flex-direction: column; }
+              body.profile section .topic .content.full-width .viz {
+                margin-left: 0; }
             body.profile section .topic .content aside {
               -webkit-box-flex: none;
               -moz-box-flex: none;
@@ -442,6 +488,11 @@ body.profile section {
                           font-weight: 700; }
                           body.profile section .topic .content aside .topic-stats .stat .stat-value.loading {
                             opacity: 0.5; }
+                            body.profile section .topic .content aside .topic-stats .stat .stat-value a {
+                              color: #211f1a;
+                              text-decoration: none; }
+                              body.profile section .topic .content aside .topic-stats .stat .stat-value a:hover {
+                                text-decoration: underline; }
               body.profile section .topic .content aside p {
                 margin: 10px 0;
                 color: #211f1a;

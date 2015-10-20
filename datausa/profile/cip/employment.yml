@@ -1,0 +1,184 @@
+title: "Employment"
+description: "The Bureau of Labor and Statistics has great information regarding the businesses that hire occupations."
+
+topics:
+  - category: "Occupations"
+    class: "flex"
+    source: NO
+    title: "Most Common"
+    description: "The 3 most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>"
+    viz:
+      - attrs: "soc"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+        height: 200
+        id: "soc"
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "soc"
+      - attrs: "soc"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "asc"
+            show: "soc"
+            sumlevel: "3"
+        height: 200
+        id: "soc"
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "soc"
+  - class: "flex"
+    source: NO
+    title: "Most Specialized"
+    description: "Compared to other majors, <<name>> majors have an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>"
+    viz:
+      - attrs: "soc"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+        height: 200
+        id: "soc"
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "soc"
+      - attrs: "soc"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            sort: "asc"
+            show: "soc"
+            sumlevel: "3"
+        height: 200
+        id: "soc"
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "soc"
+  - class: "flex"
+    source: NO
+    title: "Highest Paid"
+    description: "The 3 highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>"
+    viz:
+      - attrs: "soc"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+        height: 200
+        id: "soc"
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "soc"
+      - attrs: "soc"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            sort: "asc"
+            show: "soc"
+            sumlevel: "3"
+        height: 200
+        id: "soc"
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "soc"
+  - viz:
+      attrs: "soc"
+      data:
+        - cip: "<<id>>"
+          required: "num_ppl"
+          show: "soc"
+          sumlevel: "3"
+      height: 500
+      id: "soc"
+      size: "num_ppl"
+      type: "tree_map"
+  - category: "Wages"
+    title: "Income"
+    stat:
+      - title: "Highest Average Wage"
+        value: "<<top show=soc|order=avg_wage>>"
+    description: "Here are the top 3 occupations that are commonly taken by <<name>> majors, sorted by average wage."
+    viz:
+      attrs: "soc"
+      data:
+        - cip: "<<id>>"
+          limit: "3"
+          order: "avg_wage"
+          show: "soc"
+      id: "soc"
+      order:
+        sort: "asc"
+        value: "avg_wage"
+      type: "bar"
+      x: "avg_wage"
+      y:
+        scale: "discrete"
+        value: "soc"
+  - title: "Location"
+    stat:
+      - title: "<<name>> majors are paid the highest in"
+        value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
+    description: "The map to the right shows the counties in the United States colored by the highest average wage of occupations commonly taken by <<name>> majors."
+    viz:
+      attrs: "geo"
+      color: "avg_wage"
+      coords: "pumas"
+      data:
+        - cip: "<<id>>"
+          order: "avg_wage"
+          show: "geo"
+          sumlevel: "puma"
+      id: "geo"
+      height: 500
+      type: "geo_map"

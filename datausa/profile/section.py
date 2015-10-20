@@ -51,10 +51,10 @@ class Section(object):
                     ret = ""
                 else:
                     # else, replace it with the returned value
-                    ret = k.replace("<<{0}>>".format(val), ret)
+                    ret = k.replace("<<{}>>".format(val), ret)
 
             # replace all instances of key with the returned value
-            config = config.replace("{{{{{0}}}}}".format(k), ret)
+            config = config.replace("{{{{{}}}}}".format(k), ret)
 
 
 
@@ -78,7 +78,7 @@ class Section(object):
                     val = "<span data-url='{}'>{}</span>".format(val["url"], val["value"])
 
                 # replace all instances of key with the returned value
-                config = config.replace("<<{0}>>".format(k), val)
+                config = config.replace("<<{}>>".format(k), val.encode("utf-8"))
 
         # load the config through the YAML interpreter and set title, description, and topics
         config = yaml.load(config)
@@ -94,8 +94,11 @@ class Section(object):
 
             # loop through the topics
             for topic in self.topics:
-                # instantiate the "viz" config into a Viz class
-                topic["viz"] = Viz(topic["viz"], color=self.profile.color())
+
+                # instantiate the "viz" config into an array of Viz classes
+                if not isinstance(topic["viz"], list):
+                    topic["viz"] = [topic["viz"]]
+                topic["viz"] = [Viz(viz, color=self.profile.color()) for viz in topic["viz"]]
 
                 # fill selector if present
                 if "select" in topic and isinstance(topic["select"]["data"], str):

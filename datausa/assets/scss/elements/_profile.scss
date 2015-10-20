@@ -279,6 +279,31 @@ body.profile {
       min-width: 100%;
       padding: 0;
 
+      &.flex {
+        @include flex-size(1);
+        @include flex();
+        @include flex-direction(column);
+        @include align-items(stretch);
+        min-width: 200px;
+
+        .content {
+          @include flex-size(1 1);
+          @include flex-direction(column);
+          @include align-items(stretch);
+
+          aside {
+            @include flex-size(1 1);
+            max-width: 100%;
+          }
+
+          .viz {
+            margin-left: 0;
+          }
+
+        }
+
+      }
+
       h2 {
         font-family: $enriqueta;
         font-size: 30px;
@@ -296,6 +321,15 @@ body.profile {
       .content {
         @include flex();
         margin-top: 10px;
+
+        &.full-width {
+          @include flex-direction(column);
+
+          .viz {
+            margin-left: 0;
+          }
+
+        }
 
         aside {
           @include flex-size(none);
@@ -332,6 +366,16 @@ body.profile {
 
                 &.loading {
                   opacity: 0.5;
+                }
+
+                a {
+                  color: $text-color;
+                  text-decoration: none;
+
+                  &:hover {
+                    text-decoration: underline;
+                  }
+
                 }
 
               }

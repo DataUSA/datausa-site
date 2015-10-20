@@ -3,13 +3,19 @@ viz.loadCoords = function(build) {
 
   build.viz.error("Loading Coordinates").draw();
 
-  if (build.config.coords) {
-    load("/static/topojson/" + build.config.coords + ".json", function(data){
-      data.objects[build.config.coords].geometries = data.objects[build.config.coords].geometries.filter(function(c){
-        if (c.id.indexOf("id_") < 0) return false;
-        c.id = c.id.slice(3);
-        return true;
-      });
+  var type = build.config.coords;
+
+  if (type) {
+    load("/static/topojson/" + type + ".json", function(data){
+
+      if (type === "countries") {
+        data.objects[type].geometries = data.objects[type].geometries.filter(function(c){
+          if (c.id.indexOf("id_") < 0) return false;
+          c.id = c.id.slice(3);
+          return true;
+        });
+      }
+
       build.viz.coords(data);
       viz[next](build);
     })

@@ -1,8 +1,9 @@
 viz.defaults = function(build) {
 
-  var discrete = build.viz.axes(Object).discrete || "x";
+  var discrete = build.config.y && build.config.y.scale === "discrete" ? "y" : "x";
 
   var axis_style = function(axis) {
+
     return {
       "axis": {
         "color": "none",
@@ -17,7 +18,7 @@ viz.defaults = function(build) {
           "weight": 700
         },
         "padding": 0,
-        "value": false
+        "value": build.config[axis] && build.config[axis].label ? build.config[axis].label : false
       },
       "ticks": {
         "color": "none",
@@ -59,7 +60,7 @@ viz.defaults = function(build) {
       }
     },
     "height": {
-      "small": 100
+      "small": 10
     },
     "x": axis_style("x"),
     "y": axis_style("y")

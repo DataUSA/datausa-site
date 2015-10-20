@@ -655,9 +655,10 @@ viz.bar = function(build) {
 
 viz.defaults = function(build) {
 
-  var discrete = build.viz.axes(Object).discrete || "x";
+  var discrete = build.config.y && build.config.y.scale === "discrete" ? "y" : "x";
 
   var axis_style = function(axis) {
+
     return {
       "axis": {
         "color": "none",
@@ -672,7 +673,7 @@ viz.defaults = function(build) {
           "weight": 700
         },
         "padding": 0,
-        "value": false
+        "value": build.config[axis] && build.config[axis].label ? build.config[axis].label : false
       },
       "ticks": {
         "color": "none",
@@ -714,7 +715,7 @@ viz.defaults = function(build) {
       }
     },
     "height": {
-      "small": 100
+      "small": 10
     },
     "x": axis_style("x"),
     "y": axis_style("y")
@@ -732,6 +733,7 @@ viz.geo_map = function(build) {
     "coords": {
       "center": [0, 10],
       "key": key,
+      "mute": ["79500US4804701"],
       "padding": 0,
       "projection": key === "countries" ? "equirectangular" : "albersUsa"
     },
@@ -789,13 +791,19 @@ viz.loadCoords = function(build) {
 
   build.viz.error("Loading Coordinates").draw();
 
-  if (build.config.coords) {
-    load("/static/topojson/" + build.config.coords + ".json", function(data){
-      data.objects[build.config.coords].geometries = data.objects[build.config.coords].geometries.filter(function(c){
-        if (c.id.indexOf("id_") < 0) return false;
-        c.id = c.id.slice(3);
-        return true;
-      });
+  var type = build.config.coords;
+
+  if (type) {
+    load("/static/topojson/" + type + ".json", function(data){
+
+      if (type === "countries") {
+        data.objects[type].geometries = data.objects[type].geometries.filter(function(c){
+          if (c.id.indexOf("id_") < 0) return false;
+          c.id = c.id.slice(3);
+          return true;
+        });
+      }
+
       build.viz.coords(data);
       viz[next](build);
     })
