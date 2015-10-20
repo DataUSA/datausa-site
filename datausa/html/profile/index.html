@@ -75,46 +75,48 @@
   <p>{{ section.description|safe }}</p>
 </header>
 
-{% for topic in section.topics %}
-{% if topic.category %}
-<h1 class="category" style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
-{% endif %}
-<article class="topic">
-  {% if topic.title %}
-  <h2 style="color: {{ profile.color() }};">{{ topic.title|safe }}</h2>
+<section>
+  {% for topic in section.topics %}
+  {% if topic.category %}
+  <h1 class="category" style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
   {% endif %}
-  {% if topic.subtitle %}
-  <sub>{{ topic.subtitle|safe }}</sub>
-  {% endif %}
-  <div class="content">
-    <aside>
-      {% if topic.select %}
-      <select id="topic-select-{{ loop.index0 }}" data-param="{{ topic.select.param }}" data-default="{{ topic.select.default }}">
-        {% for option in topic.select.data %}
-        <option value="{{ option.id }}"{% if topic.select.default == option.id %} selected{% endif %}>{{ option.name }}</option>
-        {% endfor %}
-      </select>
-      {% endif %}
-      {% if topic.stat %}
-      <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
-        {% for stat in topic.stat %}
-          <div class="stat">
-            <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-value">{{ stat.value|safe }}</div>
-          </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-      {% if topic.description %}
-      <p>{{ topic.description|safe }}</p>
-      {% endif %}
-      <sub>Data Source: <span class="source"></span></sub>
-    </aside>
-    <div class="viz"{% if topic.viz.height %} style="height:{{ topic.viz.height }}px;"{% endif %}></div>
-  </div>
-</article>
-<script>builds.push({{ topic.viz.serialize()|safe }});</script>
-{% endfor %}
+  <article class="topic">
+    {% if topic.title %}
+    <h2 style="color: {{ profile.color() }};">{{ topic.title|safe }}</h2>
+    {% endif %}
+    {% if topic.subtitle %}
+    <sub>{{ topic.subtitle|safe }}</sub>
+    {% endif %}
+    <div class="content">
+      <aside>
+        {% if topic.select %}
+        <select id="topic-select-{{ loop.index0 }}" data-param="{{ topic.select.param }}" data-default="{{ topic.select.default }}">
+          {% for option in topic.select.data %}
+          <option value="{{ option.id }}"{% if topic.select.default == option.id %} selected{% endif %}>{{ option.name }}</option>
+          {% endfor %}
+        </select>
+        {% endif %}
+        {% if topic.stat %}
+        <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
+          {% for stat in topic.stat %}
+            <div class="stat">
+              <div class="stat-text">{{ stat.title|safe }}</div>
+              <div class="stat-value">{{ stat.value|safe }}</div>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if topic.description %}
+        <p>{{ topic.description|safe }}</p>
+        {% endif %}
+        <sub>Data Source: <span class="source"></span></sub>
+      </aside>
+      <div class="viz"{% if topic.viz.height %} style="height:{{ topic.viz.height }}px;"{% endif %}></div>
+    </div>
+  </article>
+  <script>builds.push({{ topic.viz.serialize()|safe }});</script>
+  {% endfor %}
+</section>
 
 {% endfor %}
 

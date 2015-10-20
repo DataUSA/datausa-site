@@ -257,97 +257,109 @@ body.profile {
 
   }
 
-  .category {
-    padding: 25px 50px;
-    width: 100%;
-    font-family: $palanquin;
-    font-size: 50px;
-    font-weight: 700;
-    text-align: left;
-  }
-
-  .topic {
-    margin-bottom: 50px;
+  section {
+    @include flex();
+    @include flex-direction(row);
+    @include flex-wrap();
     padding: 0 50px;
 
-    h2 {
-      font-family: $enriqueta;
-      font-size: 30px;
+    .category {
+      @include flex-size(none);
+      padding: 25px 0;
+      min-width: 100%;
+      font-family: $palanquin;
+      font-size: 50px;
       font-weight: 700;
+      text-align: left;
     }
 
-    sub {
-      margin: 5px 0;
-      color: #a8a8a8;
-      font-family: $enriqueta;
-      font-size: 16px;
-      font-weight: 700;
-    }
+    .topic {
+      @include flex-size(none);
+      margin-bottom: 50px;
+      min-width: 100%;
+      padding: 0;
 
-    .content {
-      @include flex();
-      margin-top: 10px;
+      h2 {
+        font-family: $enriqueta;
+        font-size: 30px;
+        font-weight: 700;
+      }
 
-      aside {
-        @include flex-size(none);
-        max-width: 400px;
+      sub {
+        margin: 5px 0;
+        color: #a8a8a8;
+        font-family: $enriqueta;
+        font-size: 16px;
+        font-weight: 700;
+      }
 
-        select {
-          width: 100%;
-        }
+      .content {
+        @include flex();
+        margin-top: 10px;
 
-        .topic-stats {
-          @include flex();
-          @include align-items(flex-end);
+        aside {
+          @include flex-size(none);
+          max-width: 400px;
 
-          &.stacked {
-            @include flex-direction(column);
-            @include align-items(flex-start);
+          select {
+            width: 100%;
           }
 
-          .stat {
-            @include flex-size(1);
-            margin-right: 5px;
-            color: $text-color;
+          .topic-stats {
+            @include flex();
+            @include align-items(flex-end);
 
-            .stat-text {
-              font-family: $enriqueta;
-              font-size: 16px;
-              font-weight: 700;
+            &.stacked {
+              @include flex-direction(column);
+              @include align-items(flex-start);
             }
 
-            .stat-value {
-              font-family: $enriqueta;
-              font-size: 40px;
-              font-weight: 700;
+            .stat {
+              @include flex-size(1);
+              margin-right: 5px;
+              color: $text-color;
 
-              &.loading {
-                opacity: 0.5;
+              .stat-text {
+                font-family: $enriqueta;
+                font-size: 16px;
+                font-weight: 700;
+              }
+
+              .stat-value {
+                font-family: $enriqueta;
+                font-size: 40px;
+                font-weight: 700;
+
+                &.loading {
+                  opacity: 0.5;
+                }
+
               }
 
             }
 
           }
 
+          p {
+            margin: 10px 0;
+            color: $text-color;
+            font-family: $enriqueta;
+            font-size: 20px;
+            font-weight: 400;
+          }
+
         }
 
-        p {
-          margin: 10px 0;
-          color: $text-color;
-          font-family: $enriqueta;
-          font-size: 20px;
-          font-weight: 400;
+        .viz {
+          @include flex-size(1 1 auto);
+          margin-left: 50px;
+          overflow: hidden;
         }
 
-      }
-
-      .viz {
-        @include flex-size(1 1 auto);
-        margin-left: 50px;
-        overflow: hidden;
       }
 
     }
+
   }
 
 }
