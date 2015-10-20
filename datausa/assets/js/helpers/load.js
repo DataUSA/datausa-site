@@ -26,6 +26,12 @@ var load = function(url, callback) {
           else {
             d3.json(url, function(error, data){
 
+              if (error) {
+                console.log(error);
+                console.log(url);
+                data = {};
+              }
+
               if (data.headers) {
                 for (var i = 0; i < data.data.length; i++) {
                   data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));

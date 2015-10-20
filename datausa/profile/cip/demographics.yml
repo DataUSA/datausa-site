@@ -187,9 +187,17 @@ topics:
     description: "There are a relatively high number of foreign-born citizens from <<top show=birthplace|order=num_ppl_rca>> that hold <<name>> degrees."
     viz:
       attrs: "birthplace"
+      coords: "countries"
       color: "num_ppl_rca"
       data:
         show: "birthplace"
         cip: "<<id>>"
         where: "birthplace:~^04000US"
+      height: 400
       id: "birthplace"
+      type: "geo_map"
+      ui:
+        - method: "color"
+          value:
+            - RCA: "num_ppl_rca"
+            - Total: "num_ppl"

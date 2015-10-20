@@ -1,6 +1,8 @@
 viz.loadAttrs = function(build) {
   var next = "loadData";
 
+  build.viz.error("Loading Attributes").draw();
+
   if (build.attrs.length) {
     var loaded = 0, attrs = {};
     for (var i = 0; i < build.attrs.length; i++) {

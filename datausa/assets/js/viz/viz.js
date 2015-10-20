@@ -2,7 +2,7 @@ var viz = function(build) {
 
   build.viz = d3plus.viz()
     .container(build.container)
-    .error("Loading")
+    .error("Please Wait")
     .draw();
 
   viz.loadCoords(build);
@@ -33,11 +33,14 @@ viz.finish = function(build) {
     build.config.legend = false;
   }
 
+  var default_config = viz.defaults(build),
+      type_config = viz[build.config.type](build);
+
   build.viz
     .config(build.config)
     .depth(build.config.depth)
-    .config(viz.defaults(build))
-    .config(viz[build.config.type](build))
+    .config(default_config)
+    .config(type_config)
     .error(false)
     .draw();
 

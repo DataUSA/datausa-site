@@ -1,6 +1,8 @@
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
+  build.viz.error("Loading Data").draw();
+
   build.sources = [];
 
   if (build.data.length) {
@@ -62,6 +64,7 @@ viz.loadData = function(build, next) {
           }
           data = split_data;
         }
+
         d.data = data;
         d.source = source;
         build.sources.push(source)

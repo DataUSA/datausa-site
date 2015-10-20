@@ -45,6 +45,11 @@ viz.defaults = function(build) {
 
         if (dictionary[text]) return dictionary[text];
 
+        // All caps text
+        if (["RCA"].indexOf(text) >= 0) {
+          return text;
+        }
+
         if (params.key) {
 
         }

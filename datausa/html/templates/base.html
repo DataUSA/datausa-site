@@ -71,12 +71,14 @@
 
       }
 
+      var firstScroll = true;
       if (scrollFunctions.length) {
         document.onscroll = function(){
-          var y = window.scrollY;
+          var wait = firstScroll ? 0 : 500;
           for (var i = 0; i < scrollFunctions.length; i++) {
-            scrollFunctions[i](y);
+            scrollFunctions[i](wait);
           }
+          firstScroll = false;
         }
       }
 

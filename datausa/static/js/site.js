@@ -378,6 +378,12 @@ var load = function(url, callback) {
           else {
             d3.json(url, function(error, data){
 
+              if (error) {
+                console.log(error);
+                console.log(url);
+                data = {};
+              }
+
               if (data.headers) {
                 for (var i = 0; i < data.data.length; i++) {
                   data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
@@ -587,7 +593,7 @@ var viz = function(build) {
 
   build.viz = d3plus.viz()
     .container(build.container)
-    .error("Loading")
+    .error("Please Wait")
     .draw();
 
   viz.loadCoords(build);
@@ -618,11 +624,14 @@ viz.finish = function(build) {
     build.config.legend = false;
   }
 
+  var default_config = viz.defaults(build),
+      type_config = viz[build.config.type](build);
+
   build.viz
     .config(build.config)
     .depth(build.config.depth)
-    .config(viz.defaults(build))
-    .config(viz[build.config.type](build))
+    .config(default_config)
+    .config(type_config)
     .error(false)
     .draw();
 
@@ -691,6 +700,11 @@ viz.defaults = function(build) {
 
         if (dictionary[text]) return dictionary[text];
 
+        // All caps text
+        if (["RCA"].indexOf(text) >= 0) {
+          return text;
+        }
+
         if (params.key) {
 
         }
@@ -708,13 +722,18 @@ viz.defaults = function(build) {
 }
 
 viz.geo_map = function(build) {
+  var key = build.config.coords;
+  delete build.config.coords;
+
   return {
     "color": {
       "heatmap": [d3plus.color.lighter(build.color), build.color, d3.rgb(build.color).darker()]
     },
     "coords": {
-      "key": "counties",
-      "projection": "albersUsa"
+      "center": [0, 10],
+      "key": key,
+      "padding": 0,
+      "projection": key === "countries" ? "equirectangular" : "albersUsa"
     },
     "labels": false
   };
@@ -739,6 +758,8 @@ viz.tree_map = function(build) {
 
 viz.loadAttrs = function(build) {
   var next = "loadData";
+
+  build.viz.error("Loading Attributes").draw();
 
   if (build.attrs.length) {
     var loaded = 0, attrs = {};
@@ -766,8 +787,15 @@ viz.loadAttrs = function(build) {
 viz.loadCoords = function(build) {
   var next = "loadAttrs";
 
-  if (build.config.type === "geo_map") {
-    load("/static/topojson/counties.json", function(data){
+  build.viz.error("Loading Coordinates").draw();
+
+  if (build.config.coords) {
+    load("/static/topojson/" + build.config.coords + ".json", function(data){
+      data.objects[build.config.coords].geometries = data.objects[build.config.coords].geometries.filter(function(c){
+        if (c.id.indexOf("id_") < 0) return false;
+        c.id = c.id.slice(3);
+        return true;
+      });
       build.viz.coords(data);
       viz[next](build);
     })
@@ -780,6 +808,8 @@ viz.loadCoords = function(build) {
 
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
+
+  build.viz.error("Loading Data").draw();
 
   build.sources = [];
 
@@ -842,6 +872,7 @@ viz.loadData = function(build, next) {
           }
           data = split_data;
         }
+
         d.data = data;
         d.source = source;
         build.sources.push(source)

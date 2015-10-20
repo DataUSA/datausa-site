@@ -76,10 +76,15 @@
 </header>
 
 {% for topic in section.topics %}
+{% if topic.category %}
+<h1 style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
+{% endif %}
 <article class="topic">
+  {% if topic.title %}
   <h2 style="color: {{ profile.color() }};">{{ topic.title|safe }}</h2>
+  {% endif %}
   {% if topic.subtitle %}
-    <sub>{{ topic.subtitle|safe }}</sub>
+  <sub>{{ topic.subtitle|safe }}</sub>
   {% endif %}
   <div class="content">
     <aside>
@@ -211,14 +216,14 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = 8, app;
+  var scrollBuffer = -200, n = 10, app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
   }
 
   function buildScroll(ms) {
-    if (ms === undefined) ms = 500;
+    if (ms === undefined) ms = 0;
     for (var i = 0; i < builds.length; i++) {
       var b = builds[i];
       if (!b.timer && !b.loaded) {
@@ -236,8 +241,6 @@
       }
     }
   }
-
-  buildScroll(0);
 
   scrollFunctions.push(buildScroll);
 

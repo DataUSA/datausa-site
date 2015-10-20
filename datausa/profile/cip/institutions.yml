@@ -69,6 +69,8 @@ topics:
     description: "The map to the right shows the counties in the United States colored by the highest graduation of <<name>> majors."
     viz:
       attrs: "geo"
+      color: "grads_total"
+      coords: "counties"
       data:
         required: "grads_total"
         show: "geo"
@@ -77,7 +79,6 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-      color: "grads_total"
   - title: "Graduates by Growth"
     stat:
       - title: "County with the Fastest Growing Number of Graduates"
@@ -85,6 +86,8 @@ topics:
     description: "The map to the right shows the counties in the United States colored by the highest growth in <<name>> graduates."
     viz:
       attrs: "geo"
+      color: "grads_total_growth"
+      coords: "counties"
       data:
         required: "grads_total_growth"
         show: "geo"
@@ -93,4 +96,3 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-      color: "grads_total_growth"
