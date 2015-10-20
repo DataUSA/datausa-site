@@ -29,7 +29,10 @@ def stat(params, col="name", dataset=False):
     try:
         r = datafold(requests.get("{}/api?{}".format(API, query)).json())
     except ValueError:
+        app.logger.info("ERROR: Requesting stat: /api?{}".format(query))
         raise Exception(params)
+
+    app.logger.info("Requested stat: /api?{}".format(query))
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
