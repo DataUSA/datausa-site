@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, g, jsonify, render_template, request
+from flask import abort, Blueprint, g, jsonify, render_template, request
+from config import PROFILES
 from datausa.profile.profile import Profile
 from datausa.utils.data import stat as stat_logic
 
@@ -11,8 +12,11 @@ def before_request():
     g.page_type = "profile"
 
 # create a route and function for the education profile that accepts a CIP id
-@mod.route("/<any('cip'):attr_type>/<attr_id>/")
+@mod.route("/<attr_type>/<attr_id>/")
 def profile(attr_type, attr_id):
+
+    if not attr_type in PROFILES:
+        abort(404);
 
     # pass id and type to Profile class
     p = Profile(attr_id, attr_type)

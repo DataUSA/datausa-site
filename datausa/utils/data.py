@@ -1,7 +1,7 @@
 import itertools, requests
 from requests.models import RequestEncodingMixin
 from flask import url_for
-from config import API
+from config import API, PROFILES
 from datausa import cache, app
 from datausa.utils.format import num_format
 
@@ -49,7 +49,14 @@ def stat(params, col="name", dataset=False):
             attr = "{}_{}".format(dataset, params["show"])
         else:
             attr = params["show"]
-        top = [fetch(d[params["show"]], attr)[col] for d in r]
+
+        top = [fetch(d[params["show"]], attr) for d in r]
+
+        if attr in PROFILES:
+            top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t["id"]), t[col]) for t in top]
+        else:
+            top = [t[col] for t in top]
+
     else:
         top = [d[col] for d in r]
 

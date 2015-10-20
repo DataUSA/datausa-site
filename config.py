@@ -6,6 +6,7 @@ DEBUG = not os.environ.get("DATAUSA_PRODUCTION", False)
 
 ''' Base URL used for API calls '''
 API = os.environ.get("DATAUSA_API", "http://usa.datawheel.us:5000")
+PROFILES = ["cip", "soc"]
 
 ''' Use a filesystem cache '''
 basedir = os.path.abspath(os.path.dirname(__file__))

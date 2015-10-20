@@ -448,6 +448,12 @@ body.profile section {
                 font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
                 font-size: 20px;
                 font-weight: 400; }
+                body.profile section .topic .content aside p a {
+                  color: #211f1a;
+                  font-weight: 700;
+                  text-decoration: none; }
+                  body.profile section .topic .content aside p a:hover {
+                    text-decoration: underline; }
             body.profile section .topic .content .viz {
               -webkit-box-flex: 1 1 auto;
               -moz-box-flex: 1 1 auto;
