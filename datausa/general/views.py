@@ -15,4 +15,5 @@ def before_request():
 
 @mod.route("/")
 def home():
+    g.page_type = "home"
     return render_template("general/home.html")
