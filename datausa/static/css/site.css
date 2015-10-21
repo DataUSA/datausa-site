@@ -127,7 +127,7 @@ footer {
     background: -webkit-linear-gradient(top, #eeeeee 0%, transparent 100%);
     background: -o-linear-gradient(top, #eeeeee 0%, transparent 100%);
     background: -ms-linear-gradient(top, #eeeeee 0%, transparent 100%);
-    background: linear-gradient(to bottom, #eeeeee 0%, transparent 100%);
+    background: linear-gradient(to bottom, #eeeeee, transparent);
     z-index: -9; }
 
     #home-background {
@@ -135,7 +135,7 @@ footer {
       top: 7vh;
       height: 100vh;
       width: 100vw;
-      background: linear-gradient(#004994 0%, #132332 90%),
+      background: linear-gradient(#004994, #132332 90%),
             url('/static/img/home/vxla_new_orleans_french_quarter.jpg') no-repeat 50% 0;
       background-blend-mode: screen, difference, lighten;
       background-size: cover;
@@ -347,27 +347,45 @@ body.profile #splash {
       font-size: 16px; }
       body.profile #splash .content .carousel .carousel-title {
         font-weight: 700; }
-        body.profile #splash .content .carousel .carousel-slider .carousel-text {
-          display: none;
-          max-width: 500px;
-          font-weight: 400; }
-          body.profile #splash .content .carousel .carousel-slider .carousel-text.active {
-            display: block; }
-            body.profile #splash .content .carousel .carousel-slider .carousel-text a {
-              color: white;
-              font-weight: 700;
-              text-decoration: none; }
-              body.profile #splash .content .carousel .carousel-slider .carousel-text a:hover {
-                text-decoration: underline; }
+        body.profile #splash .content .carousel .carousel-slider {
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-align-items: center;
+          align-items: center;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          height: 50px;
+          margin-top: 5px; }
+          body.profile #splash .content .carousel .carousel-slider .carousel-text {
+            display: none;
+            max-width: 500px;
+            font-weight: 400; }
+            body.profile #splash .content .carousel .carousel-slider .carousel-text.active {
+              display: block; }
+              body.profile #splash .content .carousel .carousel-slider .carousel-text a {
+                color: white;
+                font-weight: 700;
+                text-decoration: none; }
+                body.profile #splash .content .carousel .carousel-slider .carousel-text a:hover {
+                  text-decoration: underline; }
       body.profile #splash .content .carousel .carousel-btns .carousel-btn {
         display: inline-block;
-        margin: 10px;
-        height: 2px;
+        margin: 10px 5px;
+        height: 4px;
         width: 20px;
         background-color: white;
         opacity: 0.5; }
         body.profile #splash .content .carousel .carousel-btns .carousel-btn.active {
           opacity: 1; }
+          body.profile #splash .content .carousel .carousel-btns .carousel-btn:hover {
+            cursor: pointer; }
   body.profile #splash #scroll-btn {
     bottom: 35px;
     left: 50%;

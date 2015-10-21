@@ -136,6 +136,16 @@
 
 <script>
 
+  d3.selectAll(".carousel-btn").on("click", function(d, i){
+    console.log(i);
+    d3.selectAll(".carousel-btn").classed("active", function(dd, ii){
+      return ii === i;
+    });
+    d3.selectAll(".carousel-text").classed("active", function(dd, ii){
+      return ii === i;
+    });
+  });
+
   var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
       color = "{{ profile.color() }}";
 
