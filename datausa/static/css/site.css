@@ -164,7 +164,12 @@ footer {
           -webkit-justify-content: flex-start;
           -moz-justify-content: flex-start;
           justify-content: flex-start;
-          top: 0; }
+          top: 0;
+          margin: 40px 2vw 0; }
+          #main-search-container.open .search-body.simple {
+            height: 0 !important; }
+            #main-search-container.open .search-body.adv {
+              height: 77vh; }
 
 #main-search {
   -webkit-transition: box-shadow 1s, background-color 1s;
@@ -188,27 +193,31 @@ footer {
     -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
     -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
     box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
-    #main-search:focus ~ #simple-search-body {
-      height: 300px;
-      background-color: rgba(255, 255, 255, 0.9); }
-  #main-search ~ #simple-search-body {
-    -webkit-transition: 1s;
-    -moz-transition: 1s;
-    -ms-transition: 1s;
-    -o-transition: 1s;
-    transition: 1s;
+    #main-search:focus ~ .search-body.simple {
+      height: 40vh; }
+  #main-search ~ .search-body.simple {
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
     height: 0; }
+    #main-search ~ .search-body.adv {
+      height: 0; }
 
-#adv-search {
-  text-align: right;
-  font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-weight: 600;
-  color: #132332;
-  opacity: 0.5;
-  text-transform: uppercase;
-  text-decoration: none; }
-  #adv-search:hover {
-    opacity: 0.7; }
+.search-body {
+  background-color: rgba(255, 255, 255, 0.9); }
+
+  #search-switch.adv {
+    text-align: right;
+    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 600;
+    color: #132332;
+    opacity: 0.5;
+    text-transform: uppercase;
+    text-decoration: none; }
+    #search-switch.adv:hover {
+      opacity: 0.7; }
 body.profile #splash {
   -webkit-justify-content: center;
   -moz-justify-content: center;
