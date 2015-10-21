@@ -8,12 +8,11 @@ viz.loadCoords = function(build) {
   if (type) {
     load("/static/topojson/" + type + ".json", function(data){
 
-      if (type === "countries") {
+      if (type === "countries" && !data.filtered) {
         data.objects[type].geometries = data.objects[type].geometries.filter(function(c){
-          if (c.id.indexOf("id_") < 0) return false;
-          c.id = c.id.slice(3);
-          return true;
+          return c.matched;
         });
+        data.filtered = true;
       }
 
       build.viz.coords(data);

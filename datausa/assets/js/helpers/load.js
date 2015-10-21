@@ -73,6 +73,7 @@ load.datafold = function(data) {
   if (data.data && data.headers) {
     return data.data.map(function(d){
       return d.reduce(function(obj, v, i){
+        if (data.headers[i] === "value_rca") v = v < 1 ? 0 : v;
         obj[data.headers[i]] = v;
         return obj;
       }, {});

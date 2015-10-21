@@ -15,11 +15,8 @@ def read_json():
                 if name in usa:
                     new_id = usa[name]
                     print u"Matched {} to {}".format(geo["id"], new_id)
-                    geo["id"] = "id_{}".format(str(new_id))
-            #     else:
-            #         print u"Missing {}".format(name)
-            # else:
-            #     print u"Missing {}".format(geo["id"])
+                    geo["id"] = str(new_id)
+                    geo["matched"] = "1"
         data_file.seek(0)
         json.dump(data, data_file)
 

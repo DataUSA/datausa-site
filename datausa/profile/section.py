@@ -166,6 +166,9 @@ class Section(object):
         params["sumlevel"] = params.get("sumlevel", "all")
         params["show"] = params.get("show", attr_type)
 
+        if params["show"] == "skill":
+            del params["year"]
+
         # if no required param is set, set it to the order param
         if "required" not in params:
             params["required"] = params["order"]

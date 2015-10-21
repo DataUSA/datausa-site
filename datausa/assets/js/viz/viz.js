@@ -47,5 +47,5 @@ viz.finish = function(build) {
 };
 
 viz.redraw = function(build) {
-  build.viz.draw();
+  build.viz.error(false).draw();
 };

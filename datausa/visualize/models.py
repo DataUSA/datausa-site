@@ -44,6 +44,9 @@ class Viz(object):
             d["exclude"] = d.get("exclude", "")
             d["required"] = d.get("required", d["order"])
 
+            if d["show"] == "skill":
+                del d["year"]
+
             # create the data URL
             p = RequestEncodingMixin._encode_params(d)
             data_obj["url"] = "{}/api/?{}".format(API, p)

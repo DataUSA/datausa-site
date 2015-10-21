@@ -62,6 +62,9 @@ viz.defaults = function(build) {
     "height": {
       "small": 10
     },
+    "messages": {
+      "style": "large"
+    },
     "x": axis_style("x"),
     "y": axis_style("y")
   }

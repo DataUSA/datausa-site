@@ -582,6 +582,7 @@ load.datafold = function(data) {
   if (data.data && data.headers) {
     return data.data.map(function(d){
       return d.reduce(function(obj, v, i){
+        if (data.headers[i] === "value_rca") v = v < 1 ? 0 : v;
         obj[data.headers[i]] = v;
         return obj;
       }, {});
@@ -641,7 +642,7 @@ viz.finish = function(build) {
 };
 
 viz.redraw = function(build) {
-  build.viz.draw();
+  build.viz.error(false).draw();
 };
 
 viz.bar = function(build) {
@@ -720,6 +721,9 @@ viz.defaults = function(build) {
     "height": {
       "small": 10
     },
+    "messages": {
+      "style": "large"
+    },
     "x": axis_style("x"),
     "y": axis_style("y")
   }
@@ -752,12 +756,34 @@ viz.line = function(build) {
   };
 }
 
+viz.radar = function(build) {
+  return {
+    "axes": {
+      "background": {
+        "color": "#fafafa"
+      }
+    },
+    "x": {
+      "grid": {
+        "color": "#ccc",
+        "value": true
+      },
+      "ticks": {
+        "font": {
+          "size": 12
+        }
+      }
+    }
+  };
+}
+
 viz.tree_map = function(build) {
   return {
     "labels": {
       "align": "left",
       "valign": "top"
-    }
+    },
+    "legend": false
   };
 }
 
@@ -799,12 +825,11 @@ viz.loadCoords = function(build) {
   if (type) {
     load("/static/topojson/" + type + ".json", function(data){
 
-      if (type === "countries") {
+      if (type === "countries" && !data.filtered) {
         data.objects[type].geometries = data.objects[type].geometries.filter(function(c){
-          if (c.id.indexOf("id_") < 0) return false;
-          c.id = c.id.slice(3);
-          return true;
+          return c.matched;
         });
+        data.filtered = true;
       }
 
       build.viz.coords(data);
