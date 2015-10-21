@@ -169,7 +169,7 @@ topics:
     stat:
       - title: "<<name>> majors are paid the highest in"
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
-    description: "The map to the right shows the counties in the United States colored by the highest average wage of occupations commonly taken by <<name>> majors."
+    description: "The map to the right shows the public-use micro areas in the United States colored by the highest average wage of occupations commonly taken by <<name>> majors."
     viz:
       attrs: "geo"
       color: "avg_wage"
@@ -177,6 +177,121 @@ topics:
       data:
         - cip: "<<id>>"
           order: "avg_wage"
+          show: "geo"
+          sumlevel: "puma"
+      id: "geo"
+      height: 500
+      type: "geo_map"
+  - category: "Industries"
+    class: "flex"
+    source: NO
+    title: "Most Common"
+    description: "The 3 most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>"
+    viz:
+      - attrs: "naics"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "asc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "naics"
+  - class: "flex"
+    source: NO
+    title: "Highest Paid"
+    description: "The 3 highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>"
+    viz:
+      - attrs: "naics"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            sort: "asc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "naics"
+  - viz:
+      attrs: "naics"
+      data:
+        - cip: "<<id>>"
+          required: "num_ppl"
+          show: "naics"
+          sumlevel: "2"
+      height: 500
+      id: "naics"
+      size: "num_ppl"
+      type: "tree_map"
+  - title: "Locations"
+    stat:
+      - title: "PUMA with a relatively high number is"
+        value: "<<top show=geo|sumlevel=puma|order=num_ppl_rca>>"
+    description: "The map to the right shows the public-use micro areas in the United States where there are a relatively high population of industries that employ <<name>> majors."
+    viz:
+      attrs: "geo"
+      color: "num_ppl_rca"
+      coords: "pumas"
+      data:
+        - cip: "<<id>>"
+          order: "num_ppl_rca"
           show: "geo"
           sumlevel: "puma"
       id: "geo"

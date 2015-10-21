@@ -353,11 +353,18 @@ body.profile #splash {
           font-weight: 400; }
           body.profile #splash .content .carousel .carousel-slider .carousel-text.active {
             display: block; }
+            body.profile #splash .content .carousel .carousel-slider .carousel-text a {
+              color: white;
+              font-weight: 700;
+              text-decoration: none; }
+              body.profile #splash .content .carousel .carousel-slider .carousel-text a:hover {
+                text-decoration: underline; }
       body.profile #splash .content .carousel .carousel-btns .carousel-btn {
         display: inline-block;
         margin: 10px;
         height: 2px;
         width: 20px;
+        background-color: white;
         opacity: 0.5; }
         body.profile #splash .content .carousel .carousel-btns .carousel-btn.active {
           opacity: 1; }
@@ -455,34 +462,30 @@ body.profile section {
   flex-direction: row;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding: 0 50px; }
+  padding: 0 25px; }
   body.profile section .category {
-    -webkit-box-flex: none;
-    -moz-box-flex: none;
-    -webkit-flex: none;
-    -ms-flex: none;
-    flex: none;
-    padding: 25px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 25px;
     min-width: 100%;
     font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 50px;
     font-weight: 700;
     text-align: left; }
     body.profile section .topic {
-      -webkit-box-flex: none;
-      -moz-box-flex: none;
-      -webkit-flex: none;
-      -ms-flex: none;
-      flex: none;
-      margin-bottom: 50px;
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
       min-width: 100%;
-      padding: 0; }
+      padding: 0 25px 50px; }
       body.profile section .topic.flex {
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -496,7 +499,9 @@ body.profile section {
         flex-direction: column;
         -webkit-align-items: stretch;
         align-items: stretch;
-        min-width: 200px; }
+        margin: 0 25px 50px;
+        min-width: 200px;
+        padding: 0; }
         body.profile section .topic.flex .content {
           -webkit-box-flex: 1 1;
           -moz-box-flex: 1 1;

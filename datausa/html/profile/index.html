@@ -42,7 +42,7 @@
       </div>
       <div class="carousel-btns">
         {% for fact in profile.splash.facts %}
-          <div class="carousel-btn{% if loop.index == 1%} active{% endif %}" style="background-color:{{ profile.color() }}"></div>
+          <div class="carousel-btn{% if loop.index == 1%} active{% endif %}"></div>
         {% endfor %}
       </div>
     </div>
@@ -229,7 +229,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = 8, app;
+  var scrollBuffer = -200, n = [4], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
@@ -245,7 +245,7 @@
             clearTimeout(build.timer);
             build.timer = false;
             if (buildInView(build)) {
-            // if (buildInView(build) && build.index === n) {
+            // if (buildInView(build) && n.indexOf(build.index) >= 0) {
               app = viz(build);
               build.loaded = true;
             }
