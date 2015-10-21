@@ -3,47 +3,47 @@ window.onload = function() {
   d3.select("body").on("keyup.site", function(){
 
     // Site key events when search is closed
-    if (!d3.select("#selector").classed("active") && document.activeElement.tagName.toLowerCase() !== "input") {
+    if (!d3.select("#advSearch").classed("active") && document.activeElement.tagName.toLowerCase() !== "input") {
 
       // Press "s" for search
       if (d3.event.keyCode === 83) {
-        selector.open();
+        advSearch.open();
       }
 
     }
     else {
 
       if (d3.event.keyCode === 27) {
-        selector.close();
+        advSearch.close();
       }
 
     }
 
   });
 
-  // Key events while the selector input is active
+  // Key events while the advSearch input is active
   var searchInterval = "", keywait = 300;
-  d3.select("#selector-input").on("keyup.selector-input", function(){
+  d3.select("#advSearch-input").on("keyup.advSearch-input", function(){
 
-    // ESC to close selector
+    // ESC to close advSearch
     if (d3.event.keyCode === 27) {
-      selector.close();
+      advSearch.close();
     }
     else {
 
       var q = this.value.toLowerCase();
-      if (q !== selector.search) {
+      if (q !== advSearch.search) {
         clearInterval(searchInterval);
-        selector.search = q;
+        advSearch.search = q;
 
-        if (selector.length) {
+        if (advSearch.length) {
           searchInterval = setTimeout(function(){
-            selector.reload();
+            advSearch.reload();
             clearInterval(searchInterval);
           }, keywait);
         }
         else {
-          selector.reload();
+          advSearch.reload();
         }
       }
 

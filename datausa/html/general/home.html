@@ -5,13 +5,12 @@
 <article id="home-container">
 	<div id="home-nav"></div>
 	<div id="home-background"></div>
-	<div id="main-search-container">
-		<a href="#" id="search-switch" class="adv">Advanced Search</a>
-		<input type="text" placeholder="Search DataUSA..." autofocus id="main-search">
+	<div id="home-search-container">
+		<a href="#" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
+		<input type="text" placeholder="Search DataUSA..." autofocus id="home-search-input" class="advSearch-input" />
 		<div class="search-body simple"></div>
-		<div class="search-body adv"></div>
+		<!-- <div class="search-body adv"></div> -->
 	</div>
-
 </article>
 
 {% endblock %}
@@ -19,8 +18,9 @@
 {% block js %}
 
 <script>
+
 d3.select("#search-switch.adv").on("click", function(){
-  var searchContainer = d3.select("#main-search-container");
+  var searchContainer = d3.select("#home-search-container");
   searchContainer.classed("open", !searchContainer.classed("open"));
   d3.event.preventDefault();
 });

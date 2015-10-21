@@ -1,4 +1,5 @@
-var selector = {
+
+var advSearch = {
   "depths": {
     "cip": 2
   },
@@ -11,9 +12,11 @@ var selector = {
   "type": "cip"
 };
 
-selector.open = function(attr_type) {
+advSearch.toggle = function(attr_type) {
 
-  d3.select("#selector").classed("active", true);
+  var toggleAdvSearchBtn = d3.select("#advSearch")
+  toggleAdvSearchBtn.classed("active", !toggleAdvSearchBtn.classed("active"));
+  
 
   // Set the default attr_type if not given
   if (!attr_type) {
@@ -27,25 +30,25 @@ selector.open = function(attr_type) {
 
 }
 
-selector.close = function() {
-  d3.select("#selector").classed("active", false);
-}
+// advSearch.close = function() {
+//   d3.select("#advSearch").classed("active", false);
+// }
 
-selector.reload = function() {
+advSearch.reload = function() {
 
-  d3.select("#selector-results").html("<div id='selector-loading'>Loading Results</div>");
+  d3.select("#advSearch-results").html("<div id='advSearch-loading'>Loading Results</div>");
 
   load(api + "/attrs/" + this.type, function(data) {
 
-    d3.select("#selector-input").node().focus();
+    d3.select("#advSearch-input").node().focus();
 
-    d3.select("#selector-back").classed("active", this.history.length);
+    d3.select("#advSearch-back").classed("active", this.history.length);
 
-    var items = d3.select("#selector-results").html("")
-      .selectAll(".selector-item")
+    var items = d3.select("#advSearch-results").html("")
+      .selectAll(".advSearch-item")
       .data(this.filter(data), function(d){ return d.id; });
 
-    items.enter().append("div").attr("class", "selector-item");
+    items.enter().append("div").attr("class", "advSearch-item");
 
     items.html(this.item_html.bind(this));
 
@@ -55,7 +58,7 @@ selector.reload = function() {
 
 }
 
-selector.filter = function(data) {
+advSearch.filter = function(data) {
 
   if (this.nesting[this.type].constructor === Array) {
 
@@ -95,7 +98,7 @@ selector.filter = function(data) {
 
 }
 
-selector.item_html = function(d) {
+advSearch.item_html = function(d) {
 
   var html = d.id + ". " + d.name,
       children = false,
@@ -109,16 +112,16 @@ selector.item_html = function(d) {
   }
 
   if (children) {
-    html += "<button class='selector-btn-children' onclick='selector.children(" + d.id + ")'>Children</button>";
+    html += "<button class='advSearch-btn-children' onclick='advSearch.children(" + d.id + ")'>Children</button>";
   }
 
-  html += "<button class='selector-btn-profile' onclick='selector.profile(" + d.id + ")'>Profile</button>";
+  html += "<button class='advSearch-btn-profile' onclick='advSearch.profile(" + d.id + ")'>Profile</button>";
 
   return html;
 
 }
 
-selector.children = function(attr_id) {
+advSearch.children = function(attr_id) {
 
   var nesting = nesting = this.nesting[this.type];
 
@@ -137,17 +140,17 @@ selector.children = function(attr_id) {
 
 }
 
-selector.back = function() {
+advSearch.back = function() {
   if (this.history.length) {
     var previous = this.history.pop();
     this.parent = previous.parent;
     this.depths[this.type] = previous.depth;
     this.search = "";
-    d3.select("#selector-input").node().value = "";
+    d3.select("#advSearch-input").node().value = "";
     this.reload();
   }
 }
 
-selector.profile = function(attr_id) {
+advSearch.profile = function(attr_id) {
   window.location = "/profile/" + this.type + "/" + attr_id + "/";
 }

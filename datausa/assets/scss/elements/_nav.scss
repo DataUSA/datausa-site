@@ -1,0 +1,23 @@
+#menu-btn {
+  left: 20px;
+  position: fixed;
+  top: 20px;
+  z-index: 4;
+  opacity: 0.5;
+  color: white;
+  font-family: $palanquin;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 18px;
+  @include transition(opacity 1s);
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  i {
+    margin-right: 5px;
+  }
+
+}

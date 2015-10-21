@@ -3,21 +3,22 @@
 
 {% block content %}
 
-<div id="selector">
-  <div id="selector-nav">
-    <button id="selector-back" onclick="selector.back();">Back</button>
-    <input id="selector-input" type="text" placeholder="Search" />
-    <button id="selector-close" onclick="selector.close();">Close [esc]</button>
-  </div>
-  <div id="selector-results"></div>
-</div>
-
 <div id="menu-btn">
-  <i class="fa fa-bars"></i> DataUSA
+  <i class="fa fa-bars"></i>
+  <a href="/">DataUSA</a>
 </div>
 
-<div id="search-btn" onclick="selector.open();">
+<div id="search-btn">
   <i class="fa fa-search"></i>
+</div>
+
+<div id="advSearch">
+  <div id="advSearch-nav">
+    <button id="advSearch-back" onclick="advSearch.back();">Back</button>
+    <input class="advSearch-input" id="advSearch-input" type="text" placeholder="Search DataUSA..." autofocus />
+    <!-- <button id="advSearch-close">Close [esc]</button> -->
+  </div>
+  <div id="advSearch-results"></div>
 </div>
 
 {% block body %}
@@ -28,5 +29,13 @@
   <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
   <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
 </footer>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+</script>
 
 {% endblock %}
