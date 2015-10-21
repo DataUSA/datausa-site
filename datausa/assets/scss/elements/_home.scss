@@ -1,59 +1,84 @@
-#menu-btn {
-  left: 20px;
-  position: fixed;
-  top: 20px;
-  z-index: 4;
-  opacity: 0.5;
-  color: white;
-  font-family: $palanquin;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 18px;
-  @include transition(opacity 1s);
-
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  i {
-    margin-right: 5px;
-  }
-
+#home-container {
+  position: relative;
+  height: 100vh;
+  margin-bottom: -$footer-height;
 }
 
-#search-btn {
+#home-nav {
   position: fixed;
-  right: 20px;
-  top: 20px;
-  z-index: 4;
-  opacity: 0.5;
-  color: white;
-  font-size: 20px;
-  @include transition(opacity 1s);
+  top: 0;
+  width: 100vw;
+  height: 85vh;
+  @include gradient(#eeeeee, rgba(0,0,0,0));
+  z-index: -9;
+}
 
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
+#home-background {
+  position: fixed;
+  top: 7vh;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient($d-blue 0%, $dark-d-blue 90%), 
+              url('/static/img/home/vxla_new_orleans_french_quarter.jpg') no-repeat 50% 0;
+  background-blend-mode: screen, difference, lighten;
+  background-size: cover;
+  z-index: -10;
+}
+
+#main-search-container {
+  @include flex();
+  @include flex-direction(column);
+  @include justify(center);
+  position: relative;
+  height: 100vh;
+  top: -$footer-height;
+  margin: 0 5vw;
+
+  &.open {
+    @include justify(flex-start);
+    top: 0;
   }
 }
 
-footer {
-  background-color: #eeeeee;
-  text-align: center;
-  width: 100%;
-
-  img {
-    height: 30px;
-    margin: 20px 25px;
-    opacity: 0.5;
-    @include transition(opacity 1s);
-
-    &:hover {
-      opacity: 0.7;
-      cursor: pointer;
+#main-search {
+  @include transition(box-shadow 1s, background-color 1s);
+  background: rgba(255,255,255,0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
+  @include shadow(0px 2px 0 rgba(255,255,255,0.9));
+  padding: 10px 15px 10px 60px;
+  border: 0;
+  color: $d-blue;
+  font-family: $enriqueta;
+  font-size: 45px;
+  font-weight: 400;
+  
+  &:focus {
+    outline: 0;
+    background-color: rgba(255,255,255,0.9);
+    @include shadow(0px 7px 0 rgba(255,255,255,0.5));
+    
+    ~ #simple-search-body {
+      height: 300px;
+      background-color: rgba(255,255,255,0.9);
     }
-
   }
 
+  ~ #simple-search-body {
+    @include transition(1s);
+    height: 0;
+  }
+
+}
+
+#adv-search {
+  text-align: right;
+  font-family: $palanquin;
+  font-weight: 600;
+  color: $dark-d-blue;
+  opacity: 0.5;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }

@@ -1,5 +1,29 @@
 {% extends "templates/nav.html" %}
 
 {% block body %}
-Ceci est une homepage.
+
+<article id="home-container">
+	<div id="home-nav"></div>
+	<div id="home-background"></div>
+	<div id="main-search-container">
+		<a href="#" id="adv-search">Advanced Search</a>
+		<input type="text" placeholder="Search DataUSA..." autofocus id="main-search">
+		<div id="simple-search-body"></div>
+	</div>
+
+</article>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+d3.select("#adv-search").on("click", function(){
+  var searchContainer = d3.select("#main-search-container");
+  searchContainer.classed("open", !searchContainer.classed("open"));
+  d3.event.preventDefault();
+});
+
+</script>
+
 {% endblock %}
