@@ -1,14 +1,21 @@
 {% extends "templates/nav.html" %}
 
 {% block body %}
+<div class="bg-filter"></div>
+<div class="background"></div>
 
-<article id="home-container">
-	<div id="home-nav"></div>
-	<div id="home-background"></div>
+<article class="content">
 	<div id="home-search-container">
 		<a href="#" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
-		<input type="text" placeholder="Search DataUSA..." id="home-search-input" class="advSearch-input" />
-		<div class="search-body simple"></div>
+		<input type="text" placeholder="Search DataUSA&hellip;" id="home-search-input" class="search-input" />
+		<div class="search-body simple">
+		
+			<a href="/search">
+				<span class="icon-search sm"></span>
+				Search for '<span class="search-input-text"></span>'.
+			</a>	
+
+		</div>
 		<!-- <div class="search-body adv"></div> -->
 	</div>
 </article>
@@ -23,6 +30,11 @@ d3.select("#search-switch.adv").on("click", function(){
   var searchContainer = d3.select("#home-search-container");
   searchContainer.classed("open", !searchContainer.classed("open"));
   d3.event.preventDefault();
+});
+
+d3.select("#home-search-input").on("input", function() {
+  var inputText = document.getElementById("home-search-input").value;
+  d3.select(".search-input-text").text(inputText);
 });
 
 </script>

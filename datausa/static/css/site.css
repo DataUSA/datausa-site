@@ -52,6 +52,11 @@ footer {
     footer img:hover {
       opacity: 0.7;
       cursor: pointer; }
+.icon-search.sm {
+  background: url('/static/img/home/search_sm.png') no-repeat 0 0;
+  width: 16px;
+  height: 16px;
+  display: inline-block; }
 #menu-btn {
   left: 20px;
   position: fixed;
@@ -73,6 +78,29 @@ footer {
     cursor: pointer; }
     #menu-btn i {
       margin-right: 5px; }
+.search-input {
+  -webkit-transition: box-shadow 1s, background-color 1s;
+  -moz-transition: box-shadow 1s, background-color 1s;
+  -ms-transition: box-shadow 1s, background-color 1s;
+  -o-transition: box-shadow 1s, background-color 1s;
+  transition: box-shadow 1s, background-color 1s;
+  background: rgba(255, 255, 255, 0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
+  background-attachment: inherit;
+  -webkit-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
+  -moz-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
+  border: 0;
+  color: #004994;
+  font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 45px;
+  font-weight: 400; }
+  .search-input:focus {
+    outline: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
+
 #search-btn {
   position: fixed;
   right: 20px;
@@ -87,8 +115,8 @@ footer {
     top: 70px;
     height: 800px;
     max-height: 77vh;
-    padding: 5px;
-    overflow-y: scroll;
+    padding: 0 10px 10px;
+    overflow: hidden;
     background-color: rgba(255, 255, 255, 0.9);
     z-index: 10; }
     #advSearch.active {
@@ -99,121 +127,112 @@ footer {
         font-size: 12px; }
 
 #advSearch-nav {
-  position: relative;
+  width: 100%;
+  overflow: hidden;
   top: 0; }
 
-  #advSearch-back {
-    display: none; }
-    #advSearch-back.active {
-      display: block; }
+  #advSearch-input {
+    width: 93%;
+    padding: 10px 0 10px 60px; }
 
-.advSearch-input {
-  -webkit-transition: box-shadow 1s, background-color 1s;
-  -moz-transition: box-shadow 1s, background-color 1s;
-  -ms-transition: box-shadow 1s, background-color 1s;
-  -o-transition: box-shadow 1s, background-color 1s;
-  transition: box-shadow 1s, background-color 1s;
-  background: rgba(255, 255, 255, 0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
-  -webkit-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
-  -moz-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
-  box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
-  padding: 10px 15px 10px 60px;
-  border: 0;
-  color: #004994;
-  font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-size: 45px;
-  font-weight: 400; }
-  .advSearch-input:focus {
-    outline: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
-    -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
+    #advSearch-back {
+      display: none; }
+      #advSearch-back.active {
+        display: block; }
 
 #advSearch-results {
+  overflow-y: scroll;
+  max-height: 780px;
   color: #333; }
 
   #advSearch-close {
     float: right; }
-#home-container {
+body.home {
+  position: relative;
+  height: 100vh; }
+  body.home a {
+    color: black; }
+    body.home a:hover {
+      text-decoration: underline; }
+  body.home .content {
+    margin-bottom: -70px; }
+    body.home .bg-filter {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      height: 58vh;
+      background: -moz-linear-gradient(top, #eee 0%, transparent 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eee),
+            color-stop(100%, transparent));
+      background: -webkit-linear-gradient(top, #eee 0%, transparent 100%);
+      background: -o-linear-gradient(top, #eee 0%, transparent 100%);
+      background: -ms-linear-gradient(top, #eee 0%, transparent 100%);
+      background: linear-gradient(to bottom, #eee 0%, transparent 100%);
+      z-index: -9; }
+      body.home .background {
+        position: fixed;
+        top: 7vh;
+        height: 100vh;
+        width: 100vw;
+        background: linear-gradient(#004994 0%, #132332 90%),
+                url('/static/img/home/vxla_new_orleans_french_quarter.jpg') no-repeat 50% 0;
+        background-blend-mode: screen, difference, lighten;
+        background-size: cover;
+        z-index: -10; }
+
+#home-search-container {
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
   position: relative;
   height: 100vh;
-  margin-bottom: -70px; }
-
-  #home-nav {
-    position: fixed;
+  top: -70px;
+  margin: 0 5vw; }
+  #home-search-container.open {
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
     top: 0;
-    width: 100vw;
-    height: 85vh;
-    background: -moz-linear-gradient(top, #eee 0%, transparent 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eee),
-        color-stop(100%, transparent));
-    background: -webkit-linear-gradient(top, #eee 0%, transparent 100%);
-    background: -o-linear-gradient(top, #eee 0%, transparent 100%);
-    background: -ms-linear-gradient(top, #eee 0%, transparent 100%);
-    background: linear-gradient(to bottom, #eee 0%, transparent 100%);
-    z-index: -9; }
+    margin: 0 2vw; }
+    #home-search-container.open .search-input {
+      display: none; }
+      #home-search-container.open .search-body.simple {
+        height: 0 !important; }
+        #home-search-container.open #search-switch {
+          margin-top: 40px; }
 
-    #home-background {
-      position: fixed;
-      top: 7vh;
-      height: 100vh;
-      width: 100vw;
-      background: linear-gradient(#004994 0%, #132332 90%),
-            url('/static/img/home/vxla_new_orleans_french_quarter.jpg') no-repeat 50% 0;
-      background-blend-mode: screen, difference, lighten;
-      background-size: cover;
-      z-index: -10; }
-
-      #home-search-container {
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
-        -moz-flex-direction: column;
-        flex-direction: column;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        position: relative;
-        height: 100vh;
-        top: -70px;
-        margin: 0 5vw; }
-        #home-search-container.open {
-          -webkit-justify-content: flex-start;
-          -moz-justify-content: flex-start;
-          justify-content: flex-start;
-          top: 0;
-          margin: 40px 2vw 0; }
-          #home-search-container.open .advSearch-input {
-            display: none; }
-            #home-search-container.open .search-body.simple {
-              height: 0 !important; }
-              #home-search-container.open .search-body.adv {
-                height: 77vh; }
-
-#home-search-input:hover {
-  outline: 0;
-  background-color: rgba(255, 255, 255, 0.9);
-  -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
-  -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
-  box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
-  #home-search-input:focus ~ .search-body.simple {
-    height: 40vh; }
-    #home-search-input ~ .search-body.simple {
-      -webkit-transition: 0.5s;
-      -moz-transition: 0.5s;
-      -ms-transition: 0.5s;
-      -o-transition: 0.5s;
-      transition: 0.5s;
-      height: 0; }
-      #home-search-input ~ .search-body.adv {
-        height: 0; }
+#home-search-input {
+  padding: 10px 10px 10px 60px; }
+  #home-search-input:hover {
+    outline: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.9);
+    -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.9); }
+    #home-search-input:focus ~ .search-body.simple {
+      height: 40vh; }
+      #home-search-input:focus ~ .search-body.simple a {
+        display: block; }
+  #home-search-input ~ .search-body.simple {
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    height: 0; }
+    #home-search-input ~ .search-body.simple a {
+      display: none; }
 
 .search-body {
   background-color: rgba(255, 255, 255, 0.9); }
