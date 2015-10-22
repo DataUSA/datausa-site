@@ -1,0 +1,163 @@
+title: "Economy"
+description: "Here we present trends in jobs, wages, industries and family structures over time in <<name>>."
+
+topics:
+  - category: "Occupations"
+    title: "Most Common"
+    class: "flex"
+    source: NO
+    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=acs_occ|sumlevel=2|order=num_emp|sort=desc|limit=3>>"
+    viz:
+      - attrs: "acs_occ"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_emp"
+            sort: "desc"
+            show: "acs_occ"
+            sumlevel: "2"
+        height: 200
+        id: "acs_occ"
+        order:
+          sort: "asc"
+          value: "num_emp"
+        type: "bar"
+        x: "num_emp"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "acs_occ"
+      - attrs: "acs_occ"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_emp"
+            sort: "asc"
+            show: "acs_occ"
+            sumlevel: "2"
+        height: 200
+        id: "acs_occ"
+        order:
+          sort: "asc"
+          value: "num_emp"
+        type: "bar"
+        x: "num_emp"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "acs_occ"
+  - class: "flex"
+    source: NO
+    title: "Most Specialized"
+    description: "Compared to other <<level>>, <<name>> has an unusually high number of <<top show=acs_occ|sumlevel=2|order=num_emp_rca|sort=desc|limit=3>>"
+    viz:
+      - attrs: "acs_occ"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_emp_rca"
+            sort: "desc"
+            show: "acs_occ"
+            sumlevel: "2"
+        height: 200
+        id: "acs_occ"
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "acs_occ"
+      - attrs: "acs_occ"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_emp_rca"
+            sort: "asc"
+            show: "acs_occ"
+            sumlevel: "2"
+        height: 200
+        id: "acs_occ"
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "acs_occ"
+  - class: "flex"
+    source: NO
+    title: "Highest Paid"
+    description: "The 3 highest paid occupations in <<name>>, by median income, are <<top show=acs_occ|sumlevel=2|order=wage|sort=desc|limit=3>>"
+    viz:
+      - attrs: "acs_occ"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "wage"
+            sort: "desc"
+            show: "acs_occ"
+            sumlevel: "2"
+        height: 200
+        id: "acs_occ"
+        order:
+          sort: "asc"
+          value: "wage"
+        type: "bar"
+        x: "wage"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "acs_occ"
+      - attrs: "acs_occ"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "wage"
+            sort: "asc"
+            show: "acs_occ"
+            sumlevel: "2"
+        height: 200
+        id: "acs_occ"
+        order:
+          sort: "asc"
+          value: "wage"
+        type: "bar"
+        x: "wage"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "acs_occ"
+  - viz:
+      attrs: "acs_occ"
+      data:
+        - geo: "<<id>>"
+          required: "num_emp"
+          show: "acs_occ"
+          sumlevel: "2"
+      height: 500
+      id: "acs_occ"
+      size: "num_emp"
+      type: "tree_map"
+  - category: "Wages"
+    title: "Average Wage"
+    desciption: "On average, people in <<name>> earned <<top show=geo|col=wage>> in 2013. This makes <<name>> the <<top show=geo|col=wage_rank>> richest city in the United States."
+    stat:
+      - title: "Median Income"
+        value: "<<top show=geo|col=wage>>"
+    viz:
+      attrs: "geo"
+      data:
+        - geo: "01000US,<<id>>"
+          required: "wage"
+          show: "geo"
+      id: "geo"
+      type: "bar"
+      x: "wage"
+      y:
+        scale: "discrete"
+        value: "geo"

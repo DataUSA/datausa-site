@@ -4,6 +4,16 @@ from config import API
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, datafold, fetch, stat
 
+geo_prefixes = {
+    "040": "state",
+    "050": "county",
+    "310": "MSA",
+    "160": "census designated place",
+    "860": "zip code",
+    "795": "PUMA",
+    "140": "census tract"
+}
+
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
 
@@ -125,6 +135,22 @@ class Section(object):
                 return self.attr["id"][:2]
 
         return self.attr["id"]
+
+    def level(self, **kwargs):
+        """str: A string representation of the depth type. """
+
+        if self.profile.attr_type == "geo":
+            name = geo_prefixes[self.attr["id"][:3]]
+        else:
+            name = self.profile.attr_type
+
+        if "plural" in kwargs:
+            if name[-1] == "y":
+                name = "{}ies".format(name[:-1])
+            else:
+                name = "{}s".format(name)
+
+        return name
 
     def name(self, **kwargs):
         """str: The attribute name """

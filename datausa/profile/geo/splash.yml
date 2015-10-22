@@ -1,0 +1,16 @@
+title: "<<name>>"
+description: "Explore the employment, industries, education, and demographics of <<name>>."
+stats:
+  - title: "Population"
+    value: "<<top show=geo|col=pop>>"
+    rank: "<<top show=geo|col=pop_rank>>"
+  - title: "Median Income"
+    value: "<<top show=geo|col=wage>>"
+    rank: "<<top show=geo|col=wage_rank>>"
+  - title: "Median Age"
+    value: "<<top show=geo|col=age>>"
+    rank: "<<top show=geo|col=age_rank>>"
+facts:
+  - "FILL THIS LOGIC"
+sections:
+  - economy
