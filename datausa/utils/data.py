@@ -25,14 +25,15 @@ def stat(params, col="name", dataset=False):
 
     # convert request arguments into a url query string
     query = RequestEncodingMixin._encode_params(params)
+    url = "{}/api?{}".format(API, query)
 
     try:
-        r = datafold(requests.get("{}/api?{}".format(API, query)).json())
+        r = datafold(requests.get(url).json())
     except ValueError:
-        app.logger.info("ERROR: Requesting stat: /api?{}".format(query))
-        raise Exception(params)
+        app.logger.info("STAT ERROR: {}".format(url))
+        raise Exception(url)
 
-    app.logger.info("Requested stat: /api?{}".format(query))
+    app.logger.info("Requested stat: {}".format(url))
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
