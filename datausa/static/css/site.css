@@ -167,14 +167,14 @@ body.home {
       background: -webkit-linear-gradient(top, #eee 0%, transparent 100%);
       background: -o-linear-gradient(top, #eee 0%, transparent 100%);
       background: -ms-linear-gradient(top, #eee 0%, transparent 100%);
-      background: linear-gradient(to bottom, #eee 0%, transparent 100%);
+      background: linear-gradient(to bottom, #eee, transparent);
       z-index: -9; }
       body.home .background {
         position: fixed;
         top: 7vh;
         height: 100vh;
         width: 100vw;
-        background: linear-gradient(#004994 0%, #132332 90%),
+        background: linear-gradient(#004994, #132332 90%),
                 url('/static/img/home/vxla_new_orleans_french_quarter.jpg') no-repeat 50% 0;
         background-blend-mode: screen, difference, lighten;
         background-size: cover;
@@ -673,3 +673,6 @@ body.profile section {
               flex: 1 1 auto;
               margin-left: 50px;
               overflow: hidden; }
+#map-fullscreen {
+  height: 100vh;
+  width: 100vw; }
