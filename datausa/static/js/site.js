@@ -295,212 +295,50 @@ d3.sankey = function() {
   return sankey;
 };
 
-
-var advSearch = {
-  "depths": {
-    "cip": 2
-  },
-  "history": [],
-  "nesting": {
-    "cip": [2, 4, 6]
-  },
-  "parent": false,
-  "search": "",
-  "type": "cip"
-};
-
-advSearch.toggle = function(attr_type) {
-
-  var toggleAdvSearchBtn = d3.select("#advSearch")
-  toggleAdvSearchBtn.classed("active", !toggleAdvSearchBtn.classed("active"));
-  
-
-  // Set the default attr_type if not given
-  if (!attr_type) {
-    attr_type = this.type;
-    this.reload();
-  }
-  else if (attr_type !== this.type) {
-    this.type = attr_type;
-    this.reload();
-  }
-
-}
-
-// advSearch.close = function() {
-//   d3.select("#advSearch").classed("active", false);
-// }
-
-advSearch.reload = function() {
-
-  d3.select("#advSearch-results").html("<div id='advSearch-loading'>Loading Results</div>");
-
-  load(api + "/attrs/" + this.type, function(data) {
-
-    d3.select("#advSearch-input").node().focus();
-
-    d3.select("#advSearch-back").classed("active", this.history.length);
-
-    var items = d3.select("#advSearch-results").html("")
-      .selectAll(".advSearch-item")
-      .data(this.filter(data), function(d){ return d.id; });
-
-    items.enter().append("div").attr("class", "advSearch-item");
-
-    items.html(this.item_html.bind(this));
-
-    items.exit().remove();
-
-  }.bind(this));
-
-}
-
-advSearch.filter = function(data) {
-
-  if (this.nesting[this.type].constructor === Array) {
-
-    if (this.search.length) {
-
-      return data.filter(function(d){
-        d.search_index = d.search.indexOf(this.search);
-        return d.search_index >= 0;
-
-      }.bind(this)).sort(function(a, b) {
-        var s = a.search_index - b.search_index;
-        if (s) return s;
-        return a.id - b.id;
-      });
-
-    }
-    else {
-
-      return data.filter(function(d){
-
-        return (!this.parent || d.id.indexOf(this.parent) === 0) &&
-               d.id.length === this.depths[this.type];
-
-      }.bind(this)).sort(function(a, b) {
-        return a.id - b.id;
-      });
-
-    }
-
-  }
-  else {
-    // TODO: Logic for non-nested attributes (like geo)
-    return data;
-  }
-
-
-
-}
-
-advSearch.item_html = function(d) {
-
-  var html = d.id + ". " + d.name,
-      children = false,
-      nesting = this.nesting[this.type];
-
-  if (nesting.constructor === Array) {
-    children = this.depths[this.type] < nesting[nesting.length - 1];
-  }
-  else {
-    // TODO: Logic for non-nested attributes (like geo)
-  }
-
-  if (children) {
-    html += "<button class='advSearch-btn-children' onclick='advSearch.children(" + d.id + ")'>Children</button>";
-  }
-
-  html += "<button class='advSearch-btn-profile' onclick='advSearch.profile(" + d.id + ")'>Profile</button>";
-
-  return html;
-
-}
-
-advSearch.children = function(attr_id) {
-
-  var nesting = nesting = this.nesting[this.type];
-
-  if (nesting.constructor === Array) {
-    this.history.push({
-      "parent": this.parent,
-      "depth": this.depths[this.type]
-    });
-    this.parent = attr_id;
-    this.depths[this.type] = nesting[nesting.indexOf(this.depths[this.type]) + 1];
-    this.reload();
-  }
-  else {
-    // TODO: Logic for non-nested attributes (like geo)
-  }
-
-}
-
-advSearch.back = function() {
-  if (this.history.length) {
-    var previous = this.history.pop();
-    this.parent = previous.parent;
-    this.depths[this.type] = previous.depth;
-    this.search = "";
-    d3.select("#advSearch-input").node().value = "";
-    this.reload();
-  }
-}
-
-advSearch.profile = function(attr_id) {
-  window.location = "/profile/" + this.type + "/" + attr_id + "/";
-}
-
 window.onload = function() {
 
   d3.select("body").on("keyup.site", function(){
 
-    // Site key events when search is closed
-    if (!d3.select("#advSearch").classed("active") && document.activeElement.tagName.toLowerCase() !== "input") {
+    // Site key events when not in an input box
+    if (document.activeElement.tagName.toLowerCase() !== "input") {
 
-      // Press "s" for search
+      // Press "s" to highlight most recent search
       if (d3.event.keyCode === 83) {
-        advSearch.open();
+        if (!search.container) search.container = d3.select("#search-global");
+        search.container.select(".search-input").node().focus();
       }
 
     }
     else {
 
+      // "ESC" button
       if (d3.event.keyCode === 27) {
-        advSearch.close();
+
       }
 
     }
 
   });
 
-  // Key events while the advSearch input is active
-  var searchInterval = "", keywait = 300;
-  d3.select("#advSearch-input").on("keyup.advSearch-input", function(){
+  // Key events while the search input is active
+  var searchInterval, keywait = 300;
+  d3.selectAll(".search-input").on("keyup.search-input", function(){
 
-    // ESC to close advSearch
-    if (d3.event.keyCode === 27) {
-      advSearch.close();
-    }
-    else {
+    var q = this.value.toLowerCase();
+    if (q !== search.term) {
+      clearInterval(searchInterval);
+      search.term = q;
+      search.container = d3.select("#search-" + d3.select(this).attr("data-search"));
 
-      var q = this.value.toLowerCase();
-      if (q !== advSearch.search) {
-        clearInterval(searchInterval);
-        advSearch.search = q;
-
-        if (advSearch.length) {
-          searchInterval = setTimeout(function(){
-            advSearch.reload();
-            clearInterval(searchInterval);
-          }, keywait);
-        }
-        else {
-          advSearch.reload();
-        }
+      if (q.length) {
+        searchInterval = setTimeout(function(){
+          search.reload();
+          clearInterval(searchInterval);
+        }, keywait);
       }
-
+      else {
+        search.reload();
+      }
     }
 
   });
@@ -590,6 +428,148 @@ load.datafold = function(data) {
   }
   else {
     return data;
+  }
+}
+
+var search = {
+  "advanced": false,
+  "container": false,
+  "depths": {
+    "cip": 2
+  },
+  "history": [],
+  "nesting": {
+    "cip": [2, 4, 6]
+  },
+  "parent": false,
+  "term": "",
+  "type": "cip"
+};
+
+search.reload = function() {
+
+  this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
+
+  load(api + "/attrs/" + this.type, function(data) {
+
+    this.container.select(".search-input").node().focus();
+
+    this.container.select(".search-back").classed("active", this.history.length);
+
+    var items = this.container.select(".search-results").html("")
+      .selectAll(".search-item")
+      .data(this.filter(data), function(d){ return d.id; });
+
+    var tag = this.advanced ? "div" : "a";
+    items.enter().append(tag).attr("class", "search-item");
+
+    if (tag === "a") items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
+
+    var format = this.advanced ? this.btnExplore : this.btnProfile;
+    items.html(format.bind(this));
+
+    items.exit().remove();
+
+  }.bind(this));
+
+}
+
+search.btnExplore = function(d) {
+
+  var html = d.id + ". " + d.name,
+      children = false,
+      nesting = this.nesting[this.type];
+
+  if (nesting.constructor === Array) {
+    children = this.depths[this.type] < nesting[nesting.length - 1];
+  }
+  else {
+    // TODO: Logic for non-nested attributes (like geo)
+  }
+
+  if (children) {
+    html += "<button class='search-btn-children' onclick='search.loadChildren(" + d.id + ")'>Children</button>";
+  }
+
+  html += "<a class='search-btn-profile' href='/profile/" + this.type + "/" + d.id + "/'>Profile</a>";
+
+  return html;
+
+}
+
+search.btnProfile = function(d) {
+
+  return d.name;
+
+}
+
+search.filter = function(data) {
+
+  if (this.nesting[this.type].constructor === Array) {
+
+    if (this.term.length) {
+
+      return data.filter(function(d){
+        d.search_index = d.search.indexOf(this.term);
+        return d.search_index >= 0;
+
+      }.bind(this)).sort(function(a, b) {
+        var s = a.search_index - b.search_index;
+        if (s) return s;
+        return a.id - b.id;
+      });
+
+    }
+    else {
+
+      return data.filter(function(d){
+
+        return (!this.parent || d.id.indexOf(this.parent) === 0) &&
+               d.id.length === this.depths[this.type];
+
+      }.bind(this)).sort(function(a, b) {
+        return a.id - b.id;
+      });
+
+    }
+
+  }
+  else {
+    // TODO: Logic for non-nested attributes (like geo)
+    return data;
+  }
+
+
+
+}
+
+search.loadChildren = function(attr_id) {
+
+  var nesting = nesting = this.nesting[this.type];
+
+  if (nesting.constructor === Array) {
+    this.history.push({
+      "parent": this.parent,
+      "depth": this.depths[this.type]
+    });
+    this.parent = attr_id;
+    this.depths[this.type] = nesting[nesting.indexOf(this.depths[this.type]) + 1];
+    this.reload();
+  }
+  else {
+    // TODO: Logic for non-nested attributes (like geo)
+  }
+
+}
+
+search.back = function() {
+  if (this.history.length) {
+    var previous = this.history.pop();
+    this.parent = previous.parent;
+    this.depths[this.type] = previous.depth;
+    this.term = "";
+    this.container.select(".search-input").node().value = "";
+    this.reload();
   }
 }
 

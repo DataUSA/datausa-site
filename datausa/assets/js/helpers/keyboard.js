@@ -2,51 +2,46 @@ window.onload = function() {
 
   d3.select("body").on("keyup.site", function(){
 
-    // Site key events when search is closed
-    if (!d3.select("#advSearch").classed("active") && document.activeElement.tagName.toLowerCase() !== "input") {
+    // Site key events when not in an input box
+    if (document.activeElement.tagName.toLowerCase() !== "input") {
 
-      // Press "s" for search
+      // Press "s" to highlight most recent search
       if (d3.event.keyCode === 83) {
-        advSearch.open();
+        if (!search.container) search.container = d3.select("#search-global");
+        search.container.select(".search-input").node().focus();
       }
 
     }
     else {
 
+      // "ESC" button
       if (d3.event.keyCode === 27) {
-        advSearch.close();
+
       }
 
     }
 
   });
 
-  // Key events while the advSearch input is active
-  var searchInterval = "", keywait = 300;
-  d3.select("#advSearch-input").on("keyup.advSearch-input", function(){
+  // Key events while the search input is active
+  var searchInterval, keywait = 300;
+  d3.selectAll(".search-input").on("keyup.search-input", function(){
 
-    // ESC to close advSearch
-    if (d3.event.keyCode === 27) {
-      advSearch.close();
-    }
-    else {
+    var q = this.value.toLowerCase();
+    if (q !== search.term) {
+      clearInterval(searchInterval);
+      search.term = q;
+      search.container = d3.select("#search-" + d3.select(this).attr("data-search"));
 
-      var q = this.value.toLowerCase();
-      if (q !== advSearch.search) {
-        clearInterval(searchInterval);
-        advSearch.search = q;
-
-        if (advSearch.length) {
-          searchInterval = setTimeout(function(){
-            advSearch.reload();
-            clearInterval(searchInterval);
-          }, keywait);
-        }
-        else {
-          advSearch.reload();
-        }
+      if (q.length) {
+        searchInterval = setTimeout(function(){
+          search.reload();
+          clearInterval(searchInterval);
+        }, keywait);
       }
-
+      else {
+        search.reload();
+      }
     }
 
   });

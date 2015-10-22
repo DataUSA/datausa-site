@@ -6,15 +6,17 @@
 <div class="background"></div>
 
 <article class="content">
-	<div id="home-search-container">
+	<div id="search-home">
 		<a href="#" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
-		<input type="text" placeholder="Search DataUSA&hellip;" id="home-search-input" class="search-input" />
+		<input type="text" data-search="home" placeholder="Search DataUSA&hellip;" id="home-search-input" class="search-input" />
 		<div class="search-body simple">
-		
+
 			<a href="/search">
 				<span class="icon-search sm"></span>
 				Search for '<span class="search-input-text"></span>'.
-			</a>	
+			</a>
+
+			<div class="search-results"></div>
 
 		</div>
 		<!-- <div class="search-body adv"></div> -->
@@ -27,9 +29,9 @@
 
 <script>
 
+var homeInput = d3.select("#search-home .search-input");
 d3.select("#search-switch.adv").on("click", function(){
-  var searchContainer = d3.select("#home-search-container");
-  searchContainer.classed("open", !searchContainer.classed("open"));
+	window.location = "/search/?q=" + homeInput.node().value;
   d3.event.preventDefault();
 });
 

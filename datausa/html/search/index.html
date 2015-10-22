@@ -1,0 +1,31 @@
+{% extends "templates/nav.html" %}
+
+{% block body %}
+
+<div id="search-advanced">
+  <div class="search-nav">
+    <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
+    <button class="search-back" onclick="search.back();">Back</button>
+  </div>
+  <div class="search-results"></div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+  var term = location.search ? location.search.split("=")[1] : "";
+  search.term = term.replace(/%20/g, " ");
+  search.advanced = true;
+  search.container = d3.select("#search-advanced");
+
+  var input = d3.select(".search-input").attr("value", search.term);
+  if (input.node().setSelectionRange !== undefined) {
+    input.node().setSelectionRange(search.term.length, search.term.length);
+  }
+
+  search.reload();
+
+</script>
+{% endblock %}

@@ -116,45 +116,34 @@ footer {
   top: 20px;
   z-index: 4; }
 
-  #advSearch {
-    display: none;
-    position: fixed;
-    right: 20px;
-    left: 20px;
+  #search-advanced {
     top: 70px;
-    height: 800px;
-    max-height: 77vh;
+    width: 100%;
     padding: 0 10px 10px;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.9);
-    z-index: 10; }
-    #advSearch.active {
-      display: block; }
-      #advSearch .advSearch-item {
-        padding: 3px 0;
-        font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-        font-size: 12px; }
+    background-color: rgba(255, 255, 255, 0.9); }
+    #search-advanced .search-item {
+      padding: 3px 0;
+      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 12px; }
 
-#advSearch-nav {
+.search-nav {
   width: 100%;
   overflow: hidden;
   top: 0; }
 
-  #advSearch-input {
+  .search-input {
     width: 93%;
     padding: 10px 0 10px 60px; }
 
-    #advSearch-back {
+    .search-back {
       display: none; }
-      #advSearch-back.active {
+      .search-back.active {
         display: block; }
 
-#advSearch-results {
-  overflow-y: scroll;
-  max-height: 780px;
+.search-results {
   color: #333; }
 
-  #advSearch-close {
+  .search-close {
     float: right; }
 body.home {
   position: relative;
@@ -189,7 +178,7 @@ body.home {
         background-size: cover;
         z-index: -10; }
 
-#home-search-container {
+#search-home {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -208,17 +197,17 @@ body.home {
   height: 100vh;
   top: -70px;
   margin: 0 5vw; }
-  #home-search-container.open {
+  #search-home.open {
     -webkit-justify-content: flex-start;
     -moz-justify-content: flex-start;
     justify-content: flex-start;
     top: 0;
     margin: 0 2vw; }
-    #home-search-container.open .search-input {
+    #search-home.open .search-input {
       display: none; }
-      #home-search-container.open .search-body.simple {
+      #search-home.open .search-body.simple {
         height: 0 !important; }
-        #home-search-container.open #search-switch {
+        #search-home.open #search-switch {
           margin-top: 40px; }
 
 #home-search-input {
