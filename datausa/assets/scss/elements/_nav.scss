@@ -1,3 +1,14 @@
+#menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 30vw;
+  background-color: $dark-d-blue;
+  opacity: 0.8;
+  z-index: 1;e
+} 
+
 #menu-btn {
   left: 20px;
   position: fixed;
