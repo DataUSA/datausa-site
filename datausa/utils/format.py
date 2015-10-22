@@ -46,9 +46,10 @@ def num_format(number, key=None, labels=True):
             ordinals = ('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th')
 
             n = int(number)
+
             if n % 100 in (11, 12, 13):
-                return u"{0}{1}".format(n, ordinals[0])
-            return u"{0}{1}".format(n, ordinals[n % 10])
+                return u"{0}{1}".format("{:,}".format(n), ordinals[0])
+            return u"{0}{1}".format("{:,}".format(n), ordinals[n % 10])
 
     # Converts the number to a float.
     n = float(number)
@@ -71,7 +72,7 @@ def num_format(number, key=None, labels=True):
         n = round(n, 3)
 
     # Initializes the number suffix based on the group.
-    n = u"{0}{1}".format(n,groups[m])
+    n = u"{0}{1}".format(n, groups[m])
 
     if key and labels:
         affix = affixes[key] if key in affixes else None
