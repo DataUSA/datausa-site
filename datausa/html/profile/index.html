@@ -254,8 +254,8 @@
           b.timer = setTimeout(function(build){
             clearTimeout(build.timer);
             build.timer = false;
-            // if (buildInView(build)) {
-            if (buildInView(build) && n.indexOf(build.index) >= 0) {
+            if (buildInView(build)) {
+            // if (buildInView(build) && n.indexOf(build.index) >= 0) {
               app = viz(build);
               build.loaded = true;
             }
