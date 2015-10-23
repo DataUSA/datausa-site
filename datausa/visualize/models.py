@@ -1,6 +1,7 @@
 import json
 from requests.models import RequestEncodingMixin
 from config import API
+from datausa.utils.data import default_params
 
 class Viz(object):
     """A visualization object to be built using D3plus.
@@ -37,15 +38,7 @@ class Viz(object):
             }
 
             # Set fallback API params
-            d["sumlevel"] = d.get("sumlevel", "all")
-            d["year"] = d.get("year", 2013)
-            d["sort"] = d.get("sort", "desc")
-            d["order"] = d.get("order", "")
-            d["exclude"] = d.get("exclude", "")
-            d["required"] = d.get("required", d["order"])
-
-            if d["show"] == "skill":
-                del d["year"]
+            d = default_params(d)
 
             # create the data URL
             p = RequestEncodingMixin._encode_params(d)

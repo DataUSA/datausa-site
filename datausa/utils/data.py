@@ -1,6 +1,6 @@
 import itertools, requests
 from requests.models import RequestEncodingMixin
-from flask import url_for
+from flask import abort, url_for
 from config import API, PROFILES
 from datausa import cache, app
 from datausa.utils.format import num_format
@@ -19,24 +19,48 @@ def fetch(attr_id, attr_type):
     """dict: Returns an attribute dict container information like 'name' and 'color' """
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
-    return {"id": attr_id, "name": attr_id}
+    else:
+        app.logger.info("Missing {} attribute: {}".format(attr_type, attr_id))
+        abort(404)
 
-def stat(params, col="name", dataset=False):
+def default_params(params):
+
+    params["sumlevel"] = params.get("sumlevel", "all")
+    params["year"] = params.get("year", 2013)
+    params["sort"] = params.get("sort", "desc")
+    params["order"] = params.get("order", "")
+    params["exclude"] = params.get("exclude", "")
+    params["required"] = params.get("required", params["order"])
+
+    if params["show"] == "skill":
+        del params["year"]
+
+    return params
+
+def stat(params, col="name", dataset=False, data_only=False):
 
     # convert request arguments into a url query string
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
 
     try:
-        r = datafold(requests.get(url).json())
+        r = requests.get(url).json()
     except ValueError:
         app.logger.info("STAT ERROR: {}".format(url))
         raise Exception(url)
+
+    if data_only:
+        return r
+    else:
+        r = datafold(r)
 
     app.logger.info("Requested stat: {}".format(url))
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
+    if col == "ratio":
+        denom = max([d[params["order"]] for d in r[1:]])
+        return num_format(r[0][params["order"]]/denom, key=col)
     if col in col_map or "-" in col:
         def drop_first(c):
             return "_".join(c.split("_")[1:])
@@ -57,7 +81,8 @@ def stat(params, col="name", dataset=False):
             top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t["id"]), t[col]) for t in top]
         else:
             top = [t[col] for t in top]
-
+    elif col == "id":
+        top = [d[params["show"]] for d in r]
     else:
         top = [d[col] for d in r]
 
@@ -66,18 +91,22 @@ def stat(params, col="name", dataset=False):
     # coerce all values to strings
     top = [str(t) if t != "" else "N/A" for t in top]
 
-    # if there's more than 1 value, prefix the last string with 'and'
-    if len(top) > 1:
-        top[-1] = "and {}".format(top[-1])
+    if col == "id":
+        top = ",".join(top)
+    else:
+        # list creation for non-ids
+        if len(top) > 1:
+            top[-1] = "and {}".format(top[-1])
 
-    # if there's only 2 values, return the list joined with a space
-    if len(top) == 2:
-        return " ".join(top)
+        if len(top) == 2:
+            top = " ".join(top)
+        else:
+            top = ", ".join(top)
 
     # otherwise, return the list joined with commans
     return {
         "url": "{}?{}&col={}&dataset={}".format(url_for("profile.stat"), query, col, dataset),
-        "value": ", ".join(top)
+        "value": top
     }
 
 # create a mapping for splitting demographic columns

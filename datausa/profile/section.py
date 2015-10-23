@@ -2,9 +2,10 @@ import re, yaml
 
 from config import API
 from datausa.visualize.models import Viz
-from datausa.utils.data import attr_cache, datafold, fetch, stat
+from datausa.utils.data import attr_cache, datafold, default_params, fetch, stat
 
-geo_prefixes = {
+geo_labels = {
+    "010": "nation",
     "040": "state",
     "050": "county",
     "310": "MSA",
@@ -12,6 +13,17 @@ geo_prefixes = {
     "860": "zip code",
     "795": "PUMA",
     "140": "census tract"
+}
+
+geo_sumlevels = {
+    "010": "us",
+    "040": "state",
+    "050": "county",
+    "310": "msa",
+    "160": "place",
+    "860": "zip",
+    "795": "puma",
+    "140": "tract"
 }
 
 class Section(object):
@@ -85,7 +97,12 @@ class Section(object):
 
                 # if it returned an object, convert it to string
                 if not isinstance(val, (unicode, str)):
-                    val = "<span data-url='{}'>{}</span>".format(val["url"], val["value"])
+
+                    col = params.get("col", "name")
+                    if col == "id":
+                        val = val["value"]
+                    else:
+                        val = "<span data-url='{}'>{}</span>".format(val["url"], val["value"])
 
                 # replace all instances of key with the returned value
                 config = config.replace("<<{}>>".format(k), val.encode("utf-8"))
@@ -101,6 +118,8 @@ class Section(object):
 
         if "topics" in config:
             self.topics = config["topics"]
+
+            self.topics = [t for t in self.topics if self.allowTopic(t)]
 
             # loop through the topics
             for topic in self.topics:
@@ -124,6 +143,19 @@ class Section(object):
         if "facts" in config:
             self.facts = config["facts"]
 
+    def allowTopic(self, topic):
+        """bool: Returns whether or not a topic is allowed for a specific profile """
+        if "sumlevel" in topic:
+            levels = [t for t in topic["sumlevel"].split(",")]
+            if self.profile.attr_type == "geo":
+                level = geo_sumlevels[self.attr["id"][:3]]
+            else:
+                level = len(self.attr["id"])
+
+            return level in levels
+
+        return True
+
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
 
@@ -138,11 +170,13 @@ class Section(object):
 
     def level(self, **kwargs):
         """str: A string representation of the depth type. """
+        attr_type = kwargs.get("attr_type", self.profile.attr_type)
+        attr_id = kwargs.get("attr_id", self.attr["id"])
 
-        if self.profile.attr_type == "geo":
-            name = geo_prefixes[self.attr["id"][:3]]
+        if attr_type == "geo":
+            name = geo_labels[attr_id[:3]]
         else:
-            name = self.profile.attr_type
+            name = attr_type
 
         if "plural" in kwargs:
             if name[-1] == "y":
@@ -162,6 +196,21 @@ class Section(object):
 
         return self.attr["name"]
 
+    def parents(self, **kwargs):
+        return ",".join([p["id"] for p in self.profile.parents()])
+
+    def stat_params(self, **kwargs):
+        """dict: A dictionary of parameters for a stat call """
+
+    def sub(self, **kwargs):
+        kwargs["data_only"] = True
+        attr_type = kwargs.get("attr_type", self.profile.attr_type)
+        subs = self.top(**kwargs)["subs"]
+        if attr_type in subs and subs[attr_type] != self.attr["id"]:
+            return "Based on data from {}".format(fetch(subs[attr_type], attr_type)["name"])
+        else:
+            return ""
+
     def top(self, **kwargs):
         """str: A text representation of a top statistic or list of statistics """
 
@@ -175,34 +224,26 @@ class Section(object):
 
         # get output key from either the value in kwargs (while removing it) or 'name'
         col = kwargs.pop("col", "name")
-
-        # if the output key is not name, then add it to the params as a 'required' key
-        if col != "name":
-            params["required"] = col
+        data_only = kwargs.pop("data_only", False)
 
         # add the remaining kwargs into the params dict
         params = dict(params.items()+kwargs.items())
 
         # set default params
         params["limit"] = params.get("limit", 1)
-        params["sort"] = params.get("sort", "desc")
-        params["order"] = params.get("order", "")
-        params["exclude"] = params.get("exclude", "")
-        params["year"] = params.get("year", 2013)
-        params["sumlevel"] = params.get("sumlevel", "all")
         params["show"] = params.get("show", attr_type)
+        params = default_params(params)
 
-        if params["show"] == "skill":
-            del params["year"]
-
-        # if no required param is set, set it to the order param
-        if "required" not in params:
+        # if the output key is not name, then add it to the params as a 'required' key
+        if col not in ("id", "name", "ratio"):
+            params["required"] = col
+        elif "required" not in params:
             params["required"] = params["order"]
         elif params["order"] == "":
             params["order"] = params["required"]
 
         # make the API request using the params
-        return stat(params, col=col, dataset=kwargs.get("dataset", False))
+        return stat(params, col=col, dataset=kwargs.get("dataset", False), data_only=data_only)
 
     def __repr__(self):
         return "Section: {}".format(self.title)

@@ -92,13 +92,13 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid occupations in <<name>>, by median income, are <<top show=acs_occ|sumlevel=2|order=wage|sort=desc|limit=3>>"
+    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=acs_occ|sumlevel=2|order=earnings|sort=desc|limit=3>>"
     viz:
       - attrs: "acs_occ"
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "wage"
+            order: "earnings"
             sort: "desc"
             show: "acs_occ"
             sumlevel: "2"
@@ -106,9 +106,9 @@ topics:
         id: "acs_occ"
         order:
           sort: "asc"
-          value: "wage"
+          value: "earnings"
         type: "bar"
-        x: "wage"
+        x: "earnings"
         y:
           label: "Top 5"
           scale: "discrete"
@@ -117,7 +117,7 @@ topics:
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "wage"
+            order: "earnings"
             sort: "asc"
             show: "acs_occ"
             sumlevel: "2"
@@ -125,9 +125,9 @@ topics:
         id: "acs_occ"
         order:
           sort: "asc"
-          value: "wage"
+          value: "earnings"
         type: "bar"
-        x: "wage"
+        x: "earnings"
         y:
           label: "Bottom 5"
           scale: "discrete"
@@ -145,19 +145,97 @@ topics:
       type: "tree_map"
   - category: "Wages"
     title: "Average Wage"
-    desciption: "On average, people in <<name>> earned <<top show=geo|col=wage>> in 2013. This makes <<name>> the <<top show=geo|col=wage_rank>> richest city in the United States."
+    description: "On average, people in <<name>> had a median income of <<top show=geo|col=income>> in 2013. This makes <<name>> the <<top show=geo|col=income_rank>> richest <<level>> in the United States."
     stat:
       - title: "Median Income"
-        value: "<<top show=geo|col=wage>>"
+        value: "<<top show=geo|col=income>>"
     viz:
       attrs: "geo"
       data:
-        - geo: "01000US,<<id>>"
-          required: "wage"
+        - geo: "<<parents>>,<<id>>"
+          required: "income"
           show: "geo"
       id: "geo"
+      order:
+        sort: "desc"
+        value: "geo"
       type: "bar"
-      x: "wage"
+      x: "income"
       y:
         scale: "discrete"
         value: "geo"
+  - title: "Wage by Gender"
+    subtitle: "<<sub show=sex|sex=1|col=avg_wage>>"
+    description: "<<top show=sex|order=avg_wage|sort=desc|col=name>> full-time employees in <<name>> make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2>> times more than <<top show=sex|order=avg_wage|sort=asc|col=name>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
+    stat:
+      - title: "Median Male Income"
+        value: "<<top show=sex|sex=1|col=avg_wage>>"
+      - title: "Median Female Income"
+        value: "<<top show=sex|sex=2|col=avg_wage>>"
+    viz:
+      attrs:
+        - "sex"
+        - "soc"
+      data:
+        - geo: "<<id>>"
+          limit: "10"
+          required: "num_ppl,avg_wage"
+          show: "soc,sex"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
+          sumlevel: "3,all"
+      id: "sex"
+      order:
+        sort: "desc"
+        value: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "soc"
+      y: "avg_wage"
+  - title: "Wage by Race & Ethnicity"
+    subtitle: "<<sub show=race|col=avg_wage>>"
+    description: "<<top show=race|order=avg_wage|sort=desc|col=name>> citizens earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
+    stat:
+      - title: "Race with Highest Median Income"
+        value: "<<top show=race|order=avg_wage>>"
+    viz:
+      attrs:
+        - "race"
+        - "soc"
+      data:
+        - geo: "<<id>>"
+          limit: "45"
+          required: "num_ppl,avg_wage"
+          show: "soc,race"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
+          sumlevel: "3,all"
+      id: "race"
+      order:
+        sort: "desc"
+        value: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "soc"
+      y: "avg_wage"
+  - title: "Wage Gap"
+    description: "<<name>> has the XXX highest wage gap between the top and bottom 10 percent across the entire United States."
+    stat:
+      - title: "Income ratio by the top and bottom 10 percent"
+        value: "XXX to 1"
+    viz:
+      attrs: "geo"
+      data:
+        - geo: "<<id>>"
+          required: "incomeless10E,income10to15E,income15to20E,income20to25E,income25to30E,income30to35E,income35to40E,income40to45E,income45to50E,income50to60E,income60to75E,income75to100E,income100to125E,income125to150E,income150to200E,income200moreE"
+          show: "geo"
+          split:
+            id: "bucket"
+            regex: "income([a-zA-Z0-9]*)"
+            value: "income"
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "bucket"
+      y: "income"
