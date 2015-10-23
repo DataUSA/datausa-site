@@ -5,7 +5,7 @@ import os
 DEBUG = not os.environ.get("DATAUSA_PRODUCTION", False)
 
 ''' Base URL used for API calls '''
-API = os.environ.get("DATAUSA_API", "http://usa.datawheel.us:5000")
+API = os.environ.get("DATAUSA_API", "http://postgres.datawheel.us")
 PROFILES = ["cip", "soc", "naics", "geo"]
 
 ''' Use a filesystem cache '''
