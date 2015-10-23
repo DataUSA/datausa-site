@@ -9,26 +9,32 @@ a {
 }
 
 footer {
-  background-color: #eeeeee;
-  text-align: center;
-  height: $footer-height;
-  width: 100%;
-  overflow: hidden;
+  @media all and (min-width: 416px){
+    display: none;
+  }
 
-  img {
-    height: $footer-height/4;
-    margin: $footer-height/2.6 10px;
-    opacity: 0.5;
-    @include transition(opacity 1s);
+  @media all and (max-width: 415px){
+    background-color: #eeeeee;
+    text-align: center;
+    height: $footer-height;
+    width: 100%;
+    overflow: hidden;
 
-    @media all and (min-width: 480px) {
-      height: $footer-height/3;
-      margin: $footer-height/3 14px;
-    }
+    img {
+      height: $footer-height/4;
+      margin: $footer-height/2.6 10px;
+      opacity: 0.5;
+      @include transition(opacity 1s);
 
-    &:hover {
-      opacity: 0.7;
-      cursor: pointer;
+      @media all and (min-width: 415px) {
+        height: $footer-height/3;
+        margin: $footer-height/3 14px;
+      }
+
+      &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
     }
   }
 }

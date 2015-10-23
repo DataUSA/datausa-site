@@ -28,10 +28,9 @@
 				<div class="search-results"></div>
 
 			</div>
-			<!-- <div class="search-body adv"></div> -->
 		</section>
 		<section class="profiles-sum">
-			<h2>Profiles &rarr;</h2>
+			<h2>Trending Profiles &rarr;</h2>
 			<a href="" class="profile-sum-link"></a>
 			<a href="" class="profile-sum-link"></a>
 			<a href="" class="profile-sum-link"></a>
@@ -80,6 +79,14 @@ d3.select("#home-search-input").on("input", function() {
   var inputText = document.getElementById("home-search-input").value;
   d3.select(".search-input-text").text(inputText);
 });
+
+var vw = window.innerWidth,
+    mw = 415;
+if (vw > mw) {
+  d3.select(".content").classed("lg", true).classed("sm", false);
+} else {
+	d3.select(".content").classed("sm", true).classed("lg", false);
+}
 
 </script>
 

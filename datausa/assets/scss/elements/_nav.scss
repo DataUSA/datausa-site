@@ -1,8 +1,49 @@
-@media all and (max-width: 480px) {
+body {
+  &.home {
+    #menu-btn, #search-btn {
+      display: none;
+    }
+  }
+
+  &.story, &.map, &.search {
+    #menu {
+      display:none;
+    }
+  }
+}
+
+/* small design */
+
+@media all and (max-width: 415px) {
   nav {
     display: none;
   }
-  // breakpoints: http://stefhatcher.com/projects/device-dimensions
+}
+
+/* large design */
+
+@media all and (min-width: 416px){
+  h2 {
+    color: white;
+    font-family: $enriqueta;
+    font-size: 30px;
+  }
+
+  a {
+    color: white;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    color: white;
+    font-family: $palanquin;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
 }
 
 #menu {
@@ -11,7 +52,7 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: 480px;
+  width: 415px;
   background-color: $dark-d-blue;
   opacity: 0.8;
   z-index: 1;
@@ -39,4 +80,32 @@
     margin-right: 5px;
   }
 
+}
+
+#menu {
+  footer {
+    display: block;
+    background-color: #eeeeee;
+    text-align: center;
+    height: $footer-height;
+    width: 100%;
+    overflow: hidden;
+
+    img {
+      height: $footer-height/4;
+      margin: $footer-height/2.6 10px;
+      opacity: 0.5;
+      @include transition(opacity 1s);
+
+      @media all and (min-width: 415px) {
+        height: $footer-height/3;
+        margin: $footer-height/3 14px;
+      }
+
+      &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+    }
+  }
 }
