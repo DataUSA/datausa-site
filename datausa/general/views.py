@@ -3,13 +3,14 @@ import json
 from flask import Blueprint, g, render_template
 from config import API
 from datausa import app
-from datausa.utils.format import dictionary
+from datausa.utils.format import affixes, dictionary
 
 mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
     g.cache_version = 2
+    g.affixes = json.dumps(affixes)
     g.dictionary = json.dumps(dictionary)
     g.api = API
 

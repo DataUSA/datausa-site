@@ -31,7 +31,9 @@ dictionary = {
 affixes = {
     "state_tuition": ["$", ""],
     "oos_tuition": ["$", ""],
-    "avg_wage": ["$", ""]
+    "avg_wage": ["$", ""],
+    "income": ["$", ""],
+    "earnings": ["$", ""]
 }
 
 def num_format(number, key=None, labels=True):

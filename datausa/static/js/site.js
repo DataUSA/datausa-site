@@ -681,6 +681,7 @@ viz.defaults = function(build) {
       }
     },
     "format": {
+      "affixes": affixes,
       "text": function(text, params) {
 
         if (dictionary[text]) return dictionary[text];
