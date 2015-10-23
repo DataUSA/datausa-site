@@ -39,32 +39,45 @@ footer {
   background-color: #eeeeee;
   text-align: center;
   height: 70px;
-  width: 100%; }
+  width: 100%;
+  overflow: hidden; }
   footer img {
-    height: 30px;
-    margin: 20px 25px;
+    height: 17.5px;
+    margin: 26.92308px 10px;
     opacity: 0.5;
     -webkit-transition: opacity 1s;
     -moz-transition: opacity 1s;
     -ms-transition: opacity 1s;
     -o-transition: opacity 1s;
     transition: opacity 1s; }
-    footer img:hover {
-      opacity: 0.7;
-      cursor: pointer; }
+    @media all and (min-width: 480px) {
+      footer img {
+        height: 23.33333px;
+        margin: 23.33333px 14px;   }
+}
+      footer img:hover {
+        opacity: 0.7;
+        cursor: pointer; }
 .icon-search.sm {
   background: url('/static/img/home/search_sm.png') no-repeat 0 0;
   width: 16px;
   height: 16px;
   display: inline-block; }
+@media all and (max-width: 480px) {
+  nav {
+    display: none;   }
+}
+
 #menu {
+  display: block;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 30vw;
+  width: 480px;
   background-color: #132332;
-  opacity: 0.8; }
+  opacity: 0.8;
+  z-index: 1; }
 
   #menu-btn {
     left: 20px;
@@ -101,7 +114,7 @@ footer {
   border: 0;
   color: #004994;
   font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-size: 45px;
+  font-size: 30px;
   font-weight: 400; }
   .search-input:focus {
     outline: 0;
@@ -109,6 +122,10 @@ footer {
     -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
     -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
     box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
+    @media all and (min-width: 480px) {
+      .search-input {
+        font-size: 45px;   }
+}
 
 #search-btn {
   position: fixed;
@@ -132,7 +149,6 @@ footer {
   top: 0; }
 
   .search-input {
-    width: 93%;
     padding: 10px 0 10px 60px; }
 
     .search-back {
@@ -148,35 +164,132 @@ footer {
 body.home {
   position: relative;
   height: 100vh; }
-  body.home a {
-    color: black; }
-    body.home a:hover {
-      text-decoration: underline; }
-  body.home .content {
-    margin-bottom: -70px; }
-    body.home .bg-filter {
-      position: fixed;
-      top: 0;
-      width: 100vw;
-      height: 58vh;
-      background: -moz-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c8f5ff),
-            color-stop(100%, transparent));
-      background: -webkit-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-      background: -o-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-      background: -ms-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-      background: linear-gradient(to bottom, #c8f5ff 0%, transparent 100%);
-      z-index: -9; }
-      body.home .background {
-        position: fixed;
-        top: 7vh;
-        height: 100vh;
-        width: 100vw;
-        background: linear-gradient(rgba(230, 210, 230, 0.5) 0%, #132332 90%),
-                url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
-        background-blend-mode: screen, difference, lighten;
-        background-size: cover;
-        z-index: -10; }
+  body.home h1 {
+    color: white;
+    font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 60px;
+    letter-spacing: 0.05em;
+    text-align: center; }
+    body.home h2 {
+      color: white;
+      font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 30px; }
+      body.home a {
+        color: white; }
+        body.home a:hover {
+          text-decoration: underline; }
+  body.home p {
+    color: white;
+    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.9; }
+    body.home .content {
+      margin-bottom: -70px; }
+      @media all and (max-width: 480px) {
+        body.home .bg-filter {
+          position: fixed;
+          top: 0;
+          width: 100vw;
+          height: 100%;
+          background: -moz-linear-gradient(top, transparent 0%, #132332 100%);
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent),
+                    color-stop(100%, #132332));
+          background: -webkit-linear-gradient(top, transparent 0%, #132332 100%);
+          background: -o-linear-gradient(top, transparent 0%, #132332 100%);
+          background: -ms-linear-gradient(top, transparent 0%, #132332 100%);
+          background: linear-gradient(to bottom, transparent 0%, #132332 100%);
+          z-index: -9;   }
+          body.home .bg-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(#132332 90%, rgba(230, 210, 230, 0) 0%),
+                        #132332 url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
+            background-blend-mode: lighten;
+            background-size: cover;
+            opacity: 0.7;
+            z-index: -10;   }
+            body.home section.profiles-sum, body.home section.stories-sum,
+            body.home section.map-sum {
+              min-height: 40vh;   }
+        body.home #search-home {
+          margin-bottom: 20px;   }
+          body.home .profiles-sum {
+            background-color: darkseagreen;   }
+            body.home .stories-sum {
+              background-color: #132332;   }
+              body.home .map-sum {
+                background-color: lightskyblue;   }
+                body.home h2, body.home .desc {
+                  padding: 20px;   }
+                  body.home .profile-sum-link {
+                    display: inline-block;
+                    width: 40vw;
+                    height: 40vw;
+                    border: 2px solid white;
+                    margin: 4vw;
+                    background-color: rgba(255, 255, 255, 0.5);   }
+                    body.home .story-img {
+                      display: inline-block;
+                      width: 20vw;
+                      height: 20vw;
+                      border: 2px solid white;
+                      margin: 0 4vw 10px;
+                      background-color: rgba(255, 255, 255, 0.5);   }
+                      body.home .story-desc {
+                        display: inline-block;   }
+                        body.home article {
+                          margin: 20vh auto 0;   }
+                          body.home #search-switch.adv {
+                            color: white;   }
+}
+  @media all and (min-width: 481px) {
+    body.home article {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      top: -70px;   }
+      body.home section {
+        display: none;   }
+        body.home .bg-filter {
+          position: fixed;
+          top: 0;
+          width: 100vw;
+          height: 58vh;
+          background: -moz-linear-gradient(top, #c8f5ff 0%, transparent 100%);
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c8f5ff),
+                    color-stop(100%, transparent));
+          background: -webkit-linear-gradient(top, #c8f5ff 0%, transparent 100%);
+          background: -o-linear-gradient(top, #c8f5ff 0%, transparent 100%);
+          background: -ms-linear-gradient(top, #c8f5ff 0%, transparent 100%);
+          background: linear-gradient(to bottom, #c8f5ff 0%, transparent 100%);
+          z-index: -9;   }
+          body.home .bg-img {
+            position: fixed;
+            top: 7vh;
+            height: 100vh;
+            width: 100vw;
+            background: linear-gradient(rgba(230, 210, 230, 0.5) 0%, #132332 90%),
+                        url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
+            background-blend-mode: screen, difference, lighten;
+            background-size: cover;
+            z-index: -10;   }
+}
 
 #search-home {
   -webkit-justify-content: center;
@@ -193,9 +306,6 @@ body.home {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
-  position: relative;
-  height: 100vh;
-  top: -70px;
   margin: 0 5vw; }
   #search-home.open {
     -webkit-justify-content: flex-start;

@@ -6,13 +6,17 @@
   border: 0;
   color: $d-blue;
   font-family: $enriqueta;
-  font-size: 45px;
+  font-size: 30px;
   font-weight: 400;
-
+  
   &:focus {
     outline: 0;
     background-color: rgba(255,255,255,0.9);
     @include shadow(0px 7px 0 rgba(255,255,255,0.5));
+  }
+
+  @media all and (min-width: 480px) {
+    font-size: 45px;
   }
 }
 
@@ -44,7 +48,7 @@
 }
 
 .search-input {
-  width: 93%;
+  //width: 93%;
   padding: 10px 0 10px 60px;
 }
 

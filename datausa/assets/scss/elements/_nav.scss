@@ -1,13 +1,21 @@
+@media all and (max-width: 480px) {
+  nav {
+    display: none;
+  }
+  // breakpoints: http://stefhatcher.com/projects/device-dimensions
+}
+
 #menu {
+  display: block;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 30vw;
+  width: 480px;
   background-color: $dark-d-blue;
   opacity: 0.8;
-  z-index: 1;e
-} 
+  z-index: 1;
+}
 
 #menu-btn {
   left: 20px;

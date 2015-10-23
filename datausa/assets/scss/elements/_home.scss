@@ -1,38 +1,161 @@
 body.home {
   position: relative;
   height: 100vh;
+  
+  h1 {
+    color: white;
+    font-family: $enriqueta;
+    font-size: 60px;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  h2 {
+    color: white;
+    font-family: $enriqueta;
+    font-size: 30px;
+  }
 
   a {
-    color: black;
+    color: white;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
+  p {
+    color: white;
+    font-family: $palanquin;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
   .content {
     margin-bottom: -$footer-height;
   }
 
-  .bg-filter {
-    position: fixed;
-    top: 0;
-    width: 100vw;
-    height: 58vh;
-    @include gradient(#eee, rgba(0,0,0,0));
-    z-index: -9;
+  /* small design */
+
+  @media all and (max-width: 480px){
+    
+    .bg-filter {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      height: 100%;
+      @include gradient(rgba(0,0,0,0), $dark-d-blue);
+      z-index: -9;
+    }
+
+    .bg-img {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient($dark-d-blue 90%, rgba(230,210,230,0) 0%),
+                  $dark-d-blue url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
+      background-blend-mode: lighten;
+      background-size: cover;
+      opacity: 0.7;
+      z-index: -10;
+    }
+
+    section {
+      &.profiles-sum, &.stories-sum, &.map-sum {
+        min-height: 40vh;
+      }
+    }
+
+    #search-home {
+      margin-bottom: 20px;
+    }
+
+    .profiles-sum {
+      background-color: darkseagreen;
+    }
+
+    .stories-sum {
+      background-color: $dark-d-blue;
+    }
+
+    .map-sum {
+      background-color: lightskyblue;
+    }
+
+    h2, .desc {
+      padding: 20px;
+    }
+
+    .profile-sum-link {
+      display: inline-block;
+      width: 40vw;
+      height: 40vw;
+      border: 2px solid white;
+      margin: 4vw;
+      background-color: rgba(255,255,255,0.5);
+    }
+
+    .story-img {
+      display: inline-block;
+      width: 20vw;
+      height: 20vw;
+      border: 2px solid white;
+      margin: 0 4vw 10px;
+      background-color: rgba(255,255,255,0.5);
+    }
+
+    .story-desc {
+      display: inline-block;
+    }
+
+    article {
+      margin: 20vh auto 0;
+    }
+
+    #search-switch.adv {
+      color: white;
+    }
   }
 
-  .background {
-    position: fixed;
-    top: 7vh;
-    height: 100vh;
-    width: 100vw;
-    background: linear-gradient($d-blue 0%, $dark-d-blue 90%),
-                url('/static/img/home/vxla_new_orleans_french_quarter.jpg') no-repeat 50% 0;
-    background-blend-mode: screen, difference, lighten;
-    background-size: cover;
-    z-index: -10;
+  /* large design */
+
+  @media all and (min-width: 481px){
+    article {
+      @include flex();
+      @include flex-direction(column);
+      @include align-items(center);
+      height: 100vh;
+      position: relative;
+      top: -$footer-height;
+    }
+
+    section {
+      display: none;
+    }
+
+    .bg-filter {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      height: 58vh;
+      @include gradient(rgba(200,245,255,1), rgba(0,0,0,0));
+      z-index: -9;
+    }
+
+    .bg-img {
+      position: fixed;
+      top: 7vh;
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(rgba(230,210,230,0.5) 0%, $dark-d-blue 90%),
+                  url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
+      background-blend-mode: screen, difference, lighten;
+      background-size: cover;
+      z-index: -10;
+    }
   }
 }
 
@@ -40,9 +163,6 @@ body.home {
   @include flex();
   @include flex-direction(column);
   @include justify(center);
-  position: relative;
-  height: 100vh;
-  top: -$footer-height;
   margin: 0 5vw;
 
   &.open {

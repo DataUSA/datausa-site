@@ -2,26 +2,67 @@
 
 {% block body %}
 
-<div class="bg-filter"></div>
-<div class="background"></div>
+<div class="bg">
+	<div class="bg-filter"></div>
+	<div class="bg-img"></div>
+</div>
 
-<article class="content">
-	<div id="search-home">
-		<a href="#" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
-		<input type="text" data-search="home" placeholder="Search DataUSA&hellip;" id="home-search-input" class="search-input" />
-		<div class="search-body simple">
+<div class="content">
+	<article>
+		<h1>DataUSA</h1>
+		<section>
+			<p class="desc">
+				DataUSA is an exploration platform that draws data from the US Census, Department of Education, the National Center for Health Statistics, and more.
+			</p>
+		</section>
+		<section id="search-home">
+			<a href="#" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
+			<input type="text" data-search="home" placeholder="Search DataUSA&hellip;" id="home-search-input" class="search-input" />
+			<div class="search-body simple">
 
-			<a href="/search">
-				<span class="icon-search sm"></span>
-				Search for '<span class="search-input-text"></span>'.
+				<a href="/search">
+					<span class="icon-search sm"></span>
+					Search for '<span class="search-input-text"></span>'.
+				</a>
+
+				<div class="search-results"></div>
+
+			</div>
+			<!-- <div class="search-body adv"></div> -->
+		</section>
+		<section class="profiles-sum">
+			<h2>Profiles &rarr;</h2>
+			<a href="" class="profile-sum-link"></a>
+			<a href="" class="profile-sum-link"></a>
+			<a href="" class="profile-sum-link"></a>
+			<a href="" class="profile-sum-link"></a>
+		</section>
+		<section class="stories-sum">
+			<a href="/story/">
+				<h2>Stories &rarr;</h2>
 			</a>
-
-			<div class="search-results"></div>
-
-		</div>
-		<!-- <div class="search-body adv"></div> -->
-	</div>
-</article>
+			<div class="story-sum">
+				<span class="story-img"></span>
+				<div class="story-desc">
+					<a href="/story/" class="story-title">Title A</a>
+					<p class="story-sum-text">This is a description of this story.</p>
+				</div>
+			</div>
+			<div class="story-sum">
+				<span class="story-img"></span>
+				<div class="story-desc">
+					<a href="/story/" class="story-title">Title A</a>
+					<p class="story-sum-text">This is a description of this story.</p>
+				</div>
+			</div>
+		</section>
+		<section class="map-sum">
+			<a href="/map/">
+				<h2>Map &rarr;</h2>
+			</a>
+		</section>
+	</article>
+</div>
 
 {% endblock %}
 
