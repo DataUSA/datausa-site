@@ -1,6 +1,10 @@
 viz.geo_map = function(build) {
-  var key = build.config.coords;
-  delete build.config.coords;
+
+  var key = build.config.coords.key;
+
+  if (build.config.coords.solo) {
+    build.config.coords.solo = build.config.coords.solo.split(",");
+  }
 
   return {
     "color": {

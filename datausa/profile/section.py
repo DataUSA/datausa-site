@@ -26,6 +26,12 @@ geo_sumlevels = {
     "140": "tract"
 }
 
+geo_children = {
+    "010": "040",
+    "040": "050",
+    "050": "140"
+}
+
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
 
@@ -156,6 +162,9 @@ class Section(object):
 
         return True
 
+    def children(self, **kwargs):
+        return ",".join([c["id"] for c in self.profile.children()])
+
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
 
@@ -174,15 +183,15 @@ class Section(object):
         attr_id = kwargs.get("attr_id", self.attr["id"])
 
         if attr_type == "geo":
-            name = geo_labels[attr_id[:3]]
+            prefix = attr_id[:3]
+            if kwargs.get("child", False):
+                prefix = geo_children[prefix]
+            name = geo_labels[prefix]
         else:
             name = attr_type
 
         if "plural" in kwargs:
-            if name[-1] == "y":
-                name = "{}ies".format(name[:-1])
-            else:
-                name = "{}s".format(name)
+            name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
 
         return name
 
@@ -199,9 +208,6 @@ class Section(object):
     def parents(self, **kwargs):
         return ",".join([p["id"] for p in self.profile.parents()])
 
-    def stat_params(self, **kwargs):
-        """dict: A dictionary of parameters for a stat call """
-
     def sub(self, **kwargs):
         kwargs["data_only"] = True
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
@@ -210,6 +216,24 @@ class Section(object):
             return "Based on data from {}".format(fetch(subs[attr_type], attr_type)["name"])
         else:
             return ""
+
+    def sumlevel(self, **kwargs):
+        """str: A string representation of the depth type. """
+        attr_type = kwargs.get("attr_type", self.profile.attr_type)
+        attr_id = kwargs.get("attr_id", self.attr["id"])
+
+        if attr_type == "geo":
+            prefix = attr_id[:3]
+            if kwargs.get("child", False):
+                prefix = geo_children[prefix]
+            name = geo_sumlevels[prefix]
+        else:
+            name = attr_type
+
+        if "plural" in kwargs:
+            name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
+
+        return name
 
     def top(self, **kwargs):
         """str: A text representation of a top statistic or list of statistics """

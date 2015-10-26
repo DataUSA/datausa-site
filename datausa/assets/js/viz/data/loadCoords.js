@@ -6,6 +6,16 @@ viz.loadCoords = function(build) {
   var type = build.config.coords;
 
   if (type) {
+
+    if (type.constructor === String) {
+      build.config.coords = {"key": type};
+    }
+    else {
+      type = type.value;
+      build.config.coords.key = type;
+      delete build.config.coords.value;
+    }
+
     load("/static/topojson/" + type + ".json", function(data){
 
       if (type === "countries" && !data.filtered) {

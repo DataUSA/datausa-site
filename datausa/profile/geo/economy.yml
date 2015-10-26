@@ -219,23 +219,40 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
-    description: "<<name>> has the XXX highest wage gap between the top and bottom 10 percent across the entire United States."
+    description: "<<name>> has an income GINI of <<top show=geo|col=gini>>."
     stat:
-      - title: "Income ratio by the top and bottom 10 percent"
-        value: "XXX to 1"
+      - title: "Income GINI"
+        value: "<<top show=geo|col=gini>>"
     viz:
       attrs: "geo"
       data:
         - geo: "<<id>>"
-          required: "incomeless10E,income10to15E,income15to20E,income20to25E,income25to30E,income30to35E,income35to40E,income40to45E,income45to50E,income50to60E,income60to75E,income75to100E,income100to125E,income125to150E,income150to200E,income200moreE"
+          required: "incomeless10,income10to15,income15to20,income20to25,income25to30,income30to35,income35to40,income40to45,income45to50,income50to60,income60to75,income75to100,income100to125,income125to150,income150to200,income200more"
           show: "geo"
           split:
             id: "bucket"
             regex: "income([a-zA-Z0-9]*)"
             value: "income"
-      id: "geo"
+      id: "bucket"
       type: "bar"
       x:
         scale: "discrete"
         value: "bucket"
       y: "income"
+  - title: "Wage by Location"
+    sumlevel: "us,state,county"
+    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that tract."
+    viz:
+      attrs: "geo"
+      coords:
+        solo: "<<children>>"
+        value: "<<sumlevel plural=True|child=True>>"
+      color: "income"
+      data:
+        - geo: "<<children>>"
+          required: "income"
+          show: "geo"
+          sumlevel: "county"
+      height: 400
+      id: "geo"
+      type: "geo_map"

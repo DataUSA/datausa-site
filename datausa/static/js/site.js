@@ -767,8 +767,12 @@ viz.defaults = function(build) {
 }
 
 viz.geo_map = function(build) {
-  var key = build.config.coords;
-  delete build.config.coords;
+
+  var key = build.config.coords.key;
+
+  if (build.config.coords.solo) {
+    build.config.coords.solo = build.config.coords.solo.split(",");
+  }
 
   return {
     "color": {
@@ -860,6 +864,16 @@ viz.loadCoords = function(build) {
   var type = build.config.coords;
 
   if (type) {
+
+    if (type.constructor === String) {
+      build.config.coords = {"key": type};
+    }
+    else {
+      type = type.value;
+      build.config.coords.key = type;
+      delete build.config.coords.value;
+    }
+
     load("/static/topojson/" + type + ".json", function(data){
 
       if (type === "countries" && !data.filtered) {

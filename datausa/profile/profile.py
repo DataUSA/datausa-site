@@ -3,7 +3,6 @@ from section import Section
 from config import API
 from datausa.utils.data import datafold, fetch
 
-
 class Profile(object):
     """An abstract class for all Profiles.
 
@@ -31,6 +30,12 @@ class Profile(object):
         self.attr_type = attr_type
 
         self.splash = Section(self.file2string("splash"), self)
+
+    def children(self):
+        try:
+            return datafold(requests.get("{}/attrs/{}/{}/children".format(API, self.attr_type, self.id)).json())
+        except ValueError:
+            raise Exception(params)
 
     def color(self):
         if hasattr(self.attr, "color"):
