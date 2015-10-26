@@ -608,8 +608,6 @@ search.back = function(index) {
     this.history = this.history.slice(0, index);
     this.parents = previous.parents;
     this.depths[this.type] = previous.depth;
-    // this.term = "";
-    // this.container.select(".search-input").node().value = "";
     this.reload();
   }
 }
@@ -671,7 +669,7 @@ viz.bar = function(build) {
   return {
     "data": {
       "stroke": {
-        "width": 2
+        "width": 0
       }
     }
   };
@@ -729,6 +727,23 @@ viz.defaults = function(build) {
 
         // All caps text
         if (["RCA"].indexOf(text) >= 0) {
+          return text;
+        }
+
+        // Format income buckets
+        if (text.indexOf("income") === 0 && text.length > 6) {
+          text = text.slice(6);
+          if (text.indexOf("to") > 0) {
+            text = text.split("to").map(function(t){
+              return "$" + t + "k";
+            }).join("-");
+          }
+          else if (text.indexOf("less") === 0) {
+            text = "< $" + text.slice(4) + "k";
+          }
+          else {
+            text = "$" + text.slice(0, text.length - 4) + "k +";
+          }
           return text;
         }
 

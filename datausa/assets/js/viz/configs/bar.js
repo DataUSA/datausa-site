@@ -3,7 +3,7 @@ viz.bar = function(build) {
   return {
     "data": {
       "stroke": {
-        "width": 2
+        "width": 0
       }
     }
   };

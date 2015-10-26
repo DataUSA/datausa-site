@@ -52,6 +52,23 @@ viz.defaults = function(build) {
           return text;
         }
 
+        // Format income buckets
+        if (text.indexOf("income") === 0 && text.length > 6) {
+          text = text.slice(6);
+          if (text.indexOf("to") > 0) {
+            text = text.split("to").map(function(t){
+              return "$" + t + "k";
+            }).join("-");
+          }
+          else if (text.indexOf("less") === 0) {
+            text = "< $" + text.slice(4) + "k";
+          }
+          else {
+            text = "$" + text.slice(0, text.length - 4) + "k +";
+          }
+          return text;
+        }
+
         if (params.key) {
 
         }
