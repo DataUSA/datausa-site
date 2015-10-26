@@ -167,6 +167,7 @@ body.story #menu, body.map #menu, body.search #menu {
   -moz-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
   box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
   border: 0;
+  padding: 10px 0 10px 60px;
   color: #004994;
   font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 30px;
@@ -181,6 +182,8 @@ body.story #menu, body.map #menu, body.search #menu {
       .search-input {
         font-size: 45px;   }
 }
+      .search-input.inactive {
+        display: none; }
 
 #search-btn {
   position: fixed;
@@ -189,27 +192,40 @@ body.story #menu, body.map #menu, body.search #menu {
   z-index: 4; }
 
   #search-advanced {
-    top: 70px;
-    width: 100%;
-    padding: 0 10px 10px;
-    background-color: rgba(255, 255, 255, 0.9); }
+    margin: 70px auto;
+    width: 80%; }
     #search-advanced .search-item {
       padding: 3px 0;
       font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
       font-size: 12px; }
-
-.search-nav {
-  width: 100%;
-  overflow: hidden;
-  top: 0; }
-
-  .search-input {
-    padding: 10px 0 10px 60px; }
-
-    .search-back {
-      display: none; }
-      .search-back.active {
-        display: block; }
+      #search-advanced .search-nav {
+        width: 100%;
+        overflow: hidden;
+        top: 0; }
+        #search-advanced .search-crumbs {
+          display: none; }
+          #search-advanced .search-crumbs.active {
+            display: block; }
+            #search-advanced .search-crumbs .search-back {
+              display: inline-block;
+              padding: 10px;
+              width: 60px;
+              color: #004994;
+              font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+              font-size: 30px;
+              font-weight: 400;
+              text-align: center; }
+              #search-advanced .search-crumbs .search-crumb {
+                display: inline-block;
+                padding: 10px 0;
+                color: #004994;
+                font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+                font-size: 30px;
+                font-weight: 400; }
+                #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
+                  content: ">"; }
+                  #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
+                    cursor: pointer; }
 
 .search-results {
   color: #333; }
@@ -282,7 +298,7 @@ body.home {
                         background: -webkit-linear-gradient(top, transparent 0%, #132332 100%);
                         background: -o-linear-gradient(top, transparent 0%, #132332 100%);
                         background: -ms-linear-gradient(top, transparent 0%, #132332 100%);
-                        background: linear-gradient(to bottom, transparent 0%, #132332 100%);
+                        background: linear-gradient(to bottom, transparent, #132332);
                         z-index: -9;   }
                         body.home .bg-img {
                           position: fixed;
@@ -347,14 +363,14 @@ body.home {
               background: -webkit-linear-gradient(top, #c8f5ff 0%, transparent 100%);
               background: -o-linear-gradient(top, #c8f5ff 0%, transparent 100%);
               background: -ms-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-              background: linear-gradient(to bottom, #c8f5ff 0%, transparent 100%);
+              background: linear-gradient(to bottom, #c8f5ff, transparent);
               z-index: -9;   }
               body.home .bg-img {
                 position: fixed;
                 top: 7vh;
                 height: 100vh;
                 width: 100vw;
-                background: linear-gradient(rgba(230, 210, 230, 0.5) 0%, #132332 90%),
+                background: linear-gradient(rgba(230, 210, 230, 0.5), #132332 90%),
                                 url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
                 background-blend-mode: screen, difference, lighten;
                 background-size: cover;

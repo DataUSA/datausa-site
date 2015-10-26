@@ -8,7 +8,7 @@ var search = {
   "nesting": {
     "cip": [2, 4, 6]
   },
-  "parent": false,
+  "parents": [],
   "term": "",
   "type": "cip"
 };
@@ -17,11 +17,35 @@ search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
 
-  load(api + "/attrs/" + this.type, function(data) {
+  load(api + "/attrs/" + this.type + "/", function(data) {
 
-    this.container.select(".search-input").node().focus();
+    var crumbs = this.container.select(".search-crumbs")
+      .classed("active", this.parents.length > 0);
 
-    this.container.select(".search-back").classed("active", this.history.length);
+    var input = this.container.select(".search-input")
+      .classed("inactive", this.parents.length > 0);
+
+    if (!this.parents.length) {
+      input.node().focus();
+    }
+    else {
+      var crumb = crumbs.selectAll(".search-crumb")
+        .data(this.parents, function(d){
+          return d.id;
+        });
+
+      crumb.enter().append("div")
+        .attr("class", "search-crumb")
+        .on("click", function(d, i){
+          if (i !== this.parents.length - 1) {
+            this.back(i + 1);
+          }
+        }.bind(this));
+
+      crumb.text(function(d){ return d.name; });
+
+      crumb.exit().remove();
+    }
 
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
@@ -48,14 +72,16 @@ search.btnExplore = function(d) {
       nesting = this.nesting[this.type];
 
   if (nesting.constructor === Array) {
-    children = this.depths[this.type] < nesting[nesting.length - 1];
+    var max = nesting[nesting.length - 1];
+    children = this.depths[this.type] < max && d.id.length < max;
   }
   else {
     // TODO: Logic for non-nested attributes (like geo)
   }
 
   if (children) {
-    html += "<button class='search-btn-children' onclick='search.loadChildren(" + d.id + ")'>Children</button>";
+    var str = d.id + "|" + d.name;
+    html += "<button class='search-btn-children' onclick='search.loadChildren(\"" + str + "\")'>Children</button>";
   }
 
   html += "<a class='search-btn-profile' href='/profile/" + this.type + "/" + d.id + "/'>Profile</a>";
@@ -72,26 +98,15 @@ search.btnProfile = function(d) {
 
 search.filter = function(data) {
 
-  if (this.nesting[this.type].constructor === Array) {
+  if (this.parents.length > 0) {
 
-    if (this.term.length) {
+    var parent = this.parents[this.parents.length - 1].id;
 
-      return data.filter(function(d){
-        d.search_index = d.search.indexOf(this.term);
-        return d.search_index >= 0;
-
-      }.bind(this)).sort(function(a, b) {
-        var s = a.search_index - b.search_index;
-        if (s) return s;
-        return a.id - b.id;
-      });
-
-    }
-    else {
+    if (this.nesting[this.type].constructor === Array) {
 
       return data.filter(function(d){
 
-        return (!this.parent || d.id.indexOf(this.parent) === 0) &&
+        return d.id.indexOf(parent) === 0 &&
                d.id.length === this.depths[this.type];
 
       }.bind(this)).sort(function(a, b) {
@@ -99,27 +114,50 @@ search.filter = function(data) {
       });
 
     }
+    else {
+      // TODO: Logic for non-nested attributes (like geo)
+      return data;
+    }
+
+  }
+  else if (this.term.length) {
+
+    return data.filter(function(d){
+      d.search_index = d.search.indexOf(this.term);
+      return d.search_index >= 0;
+    }.bind(this)).sort(function(a, b) {
+      var s = a.search_index - b.search_index;
+      if (s) return s;
+      return a.id - b.id;
+    });
 
   }
   else {
-    // TODO: Logic for non-nested attributes (like geo)
-    return data;
+    return data.filter(function(d){
+      return d.id.length === this.depths[this.type];
+    }.bind(this)).sort(function(a, b) {
+      return a.id - b.id;
+    });
   }
-
-
 
 }
 
-search.loadChildren = function(attr_id) {
+search.loadChildren = function(attr) {
 
-  var nesting = nesting = this.nesting[this.type];
+  var split = attr.split("|");
+  attr = {
+    "id": split.shift(),
+    "name": split.join("|")
+  };
+
+  var nesting = this.nesting[this.type];
 
   if (nesting.constructor === Array) {
     this.history.push({
-      "parent": this.parent,
+      "parents": this.parents.slice(),
       "depth": this.depths[this.type]
     });
-    this.parent = attr_id;
+    this.parents.push(attr);
     this.depths[this.type] = nesting[nesting.indexOf(this.depths[this.type]) + 1];
     this.reload();
   }
@@ -129,13 +167,13 @@ search.loadChildren = function(attr_id) {
 
 }
 
-search.back = function() {
+search.back = function(index) {
+  if (index === undefined) index = this.history.length - 1;
   if (this.history.length) {
-    var previous = this.history.pop();
-    this.parent = previous.parent;
+    var previous = this.history[index];
+    this.history = this.history.slice(0, index);
+    this.parents = previous.parents;
     this.depths[this.type] = previous.depth;
-    this.term = "";
-    this.container.select(".search-input").node().value = "";
     this.reload();
   }
 }

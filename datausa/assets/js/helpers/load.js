@@ -29,7 +29,7 @@ var load = function(url, callback) {
               if (error) {
                 console.log(error);
                 console.log(url);
-                data = {};
+                data = {"headers": [], "data": []};
               }
 
               if (data.headers) {
@@ -54,6 +54,7 @@ var load = function(url, callback) {
           if (error) {
             console.log(error);
             console.log(url);
+            data = {"headers": [], "data": []};
           }
           load.cache[url] = data;
           callback(load.datafold(data), url, data.source);
