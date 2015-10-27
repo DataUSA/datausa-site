@@ -259,7 +259,7 @@ class Section(object):
         params = default_params(params)
 
         # if the output key is not name, then add it to the params as a 'required' key
-        if col not in ("id", "name", "ratio"):
+        if col not in ("id", "name", "ratio", "sex", "race-sex", "race"):
             params["required"] = col
         elif "required" not in params:
             params["required"] = params["order"]
