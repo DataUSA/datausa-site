@@ -1,3 +1,9 @@
+body.search {
+  a {
+    color: #333;
+  }
+}
+
 .search-input {
   @include transition(box-shadow 1s, background-color 1s);
   background: rgba(255,255,255,0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
@@ -24,13 +30,6 @@
     display: none;
   }
 
-}
-
-#search-btn {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  z-index: 4;
 }
 
 #search-advanced {

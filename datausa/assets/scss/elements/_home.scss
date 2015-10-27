@@ -12,15 +12,21 @@ body.home {
 
   h2 {
     color: white;
-    font-family: $enriqueta;
-    font-size: 30px;
+    font-family: $palanquin;
+    font-size: 20px;
+    font-weight: 300;
+    text-transform: uppercase;
   }
 
   a {
     color: white;
 
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
+
+      h2 {
+        color: #aaa;
+      }
     }
   }
 
@@ -36,52 +42,8 @@ body.home {
   //   margin-bottom: -$footer-height;
   // }
 
-  section {
-    &.profiles-sum, &.stories-sum, &.map-sum {
-      min-height: 40vh;
-    }
-  }
-
   #search-home {
     margin-bottom: 20px;
-  }
-
-  .profiles-sum {
-    background-color: darkseagreen;
-  }
-
-  .stories-sum {
-    background-color: $dark-d-blue;
-  }
-
-  .map-sum {
-    background-color: lightskyblue;
-  }
-
-  h2, .desc {
-    padding: 20px;
-  }
-
-  .profile-sum-link {
-    display: inline-block;
-    width: 40vw;
-    height: 40vw;
-    border: 2px solid white;
-    margin: 4vw;
-    background-color: rgba(255,255,255,0.5);
-  }
-
-  .story-img {
-    display: inline-block;
-    width: 20vw;
-    height: 20vw;
-    border: 2px solid white;
-    margin: 0 4vw 10px;
-    background-color: rgba(255,255,255,0.5);
-  }
-
-  .story-desc {
-    display: inline-block;
   }
 
   article {
@@ -162,9 +124,9 @@ body.home {
     }
 
     article {
-      @include flex();
-      @include flex-direction(column);
-      @include align-items(center);
+      // @include flex();
+      // @include flex-direction(column);
+      // @include align-items(center);
       height: 100vh;
       position: relative;
       //top: -$footer-height;

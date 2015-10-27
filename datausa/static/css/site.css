@@ -75,6 +75,8 @@ body.home #menu-btn, body.home #search-btn {
   display: none; }
 body.story #menu, body.map #menu, body.search #menu {
   display: none; }
+  body.story #menu.open, body.map #menu.open, body.search #menu.open {
+    display: block; }
 
 @media all and (max-width: 415px) {
   nav {
@@ -82,79 +84,127 @@ body.story #menu, body.map #menu, body.search #menu {
 }
 
 @media all and (min-width: 416px) {
-  h2 {
+  nav h2 {
     color: white;
-    font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 30px;   }
-    a {
+    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    text-transform: uppercase;   }
+    nav a {
       color: white;   }
-      a:hover {
+      nav a:hover {
         text-decoration: underline;   }
-  p {
+  nav p {
     color: white;
     font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.9;   }
-}
-
-#menu {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 415px;
-  background-color: #132332;
-  opacity: 0.8;
-  z-index: 1; }
-
-  #menu-btn {
-    left: 20px;
+  #menu {
+    display: block;
     position: fixed;
-    top: 20px;
-    z-index: 4;
-    opacity: 0.5;
-    color: white;
-    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 18px;
-    -webkit-transition: opacity 1s;
-    -moz-transition: opacity 1s;
-    -ms-transition: opacity 1s;
-    -o-transition: opacity 1s;
-    transition: opacity 1s; }
-    #menu-btn:hover {
-      opacity: 1;
-      cursor: pointer; }
-      #menu-btn i {
-        margin-right: 5px; }
-
-#menu footer {
-  display: block;
-  background-color: #eeeeee;
-  text-align: center;
-  height: 70px;
-  width: 100%;
-  overflow: hidden; }
-  #menu footer img {
-    height: 17.5px;
-    margin: 26.92308px 10px;
-    opacity: 0.5;
-    -webkit-transition: opacity 1s;
-    -moz-transition: opacity 1s;
-    -ms-transition: opacity 1s;
-    -o-transition: opacity 1s;
-    transition: opacity 1s; }
-    @media all and (min-width: 415px) {
-      #menu footer img {
-        height: 23.33333px;
-        margin: 23.33333px 14px;   }
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding-top: 70px;
+    width: 415px;
+    background-color: #132332;
+    opacity: 1;
+    z-index: 1;   }
+    #menu a {
+      color: white;   }
+  .profiles-sum {
+    background-color: darkseagreen;   }
+    .stories-sum {
+      background-color: #132332;   }
+      .map-sum {
+        background-color: lightskyblue;   }
+        h2, .desc {
+          padding: 20px;   }
+          .profile-sum-link {
+            display: inline-block;
+            width: 40vw;
+            height: 40vw;
+            border: 2px solid white;
+            margin: 4vw;
+            background-color: rgba(255, 255, 255, 0.5);   }
+            .profile-link {
+              display: block;
+              padding: 10px 20px;
+              font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+              font-size: 14px;
+              font-weight: 300;
+              text-transform: uppercase;
+              letter-spacing: 0.01em;   }
+              #top-nav {
+                -webkit-justify-content: center;
+                -moz-justify-content: center;
+                justify-content: center;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-align-items: center;
+                align-items: center;
+                -webkit-justify-content: space-between;
+                -moz-justify-content: space-between;
+                justify-content: space-between;   }
+                #menu-btn {
+                  padding: 20px;
+                  opacity: 0.5;
+                  color: red;
+                  font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+                  font-size: 20px;
+                  font-weight: 700;
+                  line-height: 18px;
+                  -webkit-transition: opacity 1s;
+                  -moz-transition: opacity 1s;
+                  -ms-transition: opacity 1s;
+                  -o-transition: opacity 1s;
+                  transition: opacity 1s;
+                  z-index: 4;   }
+                  #menu-btn:hover {
+                    opacity: 1;
+                    cursor: pointer;   }
+                    #menu-btn i {
+                      margin-right: 5px;   }
+  #home-btn {
+    padding: 20px;
+    z-index: 4;   }
+    #search-btn {
+      padding: 20px;
+      z-index: 4;   }
+      #menu footer {
+        display: block;
+        background-color: #eeeeee;
+        text-align: center;
+        height: 70px;
+        width: 100%;
+        overflow: hidden;   }
+        #menu footer img {
+          height: 17.5px;
+          margin: 26.92308px 10px;
+          opacity: 0.5;
+          -webkit-transition: opacity 1s;
+          -moz-transition: opacity 1s;
+          -ms-transition: opacity 1s;
+          -o-transition: opacity 1s;
+          transition: opacity 1s;   }
 }
-      #menu footer img:hover {
-        opacity: 0.7;
-        cursor: pointer; }
+        @media all and (min-width: 416px) and all and (min-width: 415px) {
+          #menu footer img {
+            height: 23.33333px;
+            margin: 23.33333px 14px;   }
+}
+          @media all and (min-width: 416px) {
+            #menu footer img:hover {
+              opacity: 0.7;
+              cursor: pointer;   }
+}
+body.search a {
+  color: #333; }
+
 .search-input {
   -webkit-transition: box-shadow 1s, background-color 1s;
   -moz-transition: box-shadow 1s, background-color 1s;
@@ -185,47 +235,41 @@ body.story #menu, body.map #menu, body.search #menu {
       .search-input.inactive {
         display: none; }
 
-#search-btn {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  z-index: 4; }
-
-  #search-advanced {
-    margin: 70px auto;
-    width: 80%; }
-    #search-advanced .search-item {
-      padding: 3px 0;
-      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-      font-size: 12px; }
-      #search-advanced .search-nav {
-        width: 100%;
-        overflow: hidden;
-        top: 0; }
-        #search-advanced .search-crumbs {
-          display: none; }
-          #search-advanced .search-crumbs.active {
-            display: block; }
-            #search-advanced .search-crumbs .search-back {
+#search-advanced {
+  margin: 70px auto;
+  width: 80%; }
+  #search-advanced .search-item {
+    padding: 3px 0;
+    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 12px; }
+    #search-advanced .search-nav {
+      width: 100%;
+      overflow: hidden;
+      top: 0; }
+      #search-advanced .search-crumbs {
+        display: none; }
+        #search-advanced .search-crumbs.active {
+          display: block; }
+          #search-advanced .search-crumbs .search-back {
+            display: inline-block;
+            padding: 10px;
+            width: 60px;
+            color: #004994;
+            font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-size: 30px;
+            font-weight: 400;
+            text-align: center; }
+            #search-advanced .search-crumbs .search-crumb {
               display: inline-block;
-              padding: 10px;
-              width: 60px;
+              padding: 10px 0;
               color: #004994;
               font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
               font-size: 30px;
-              font-weight: 400;
-              text-align: center; }
-              #search-advanced .search-crumbs .search-crumb {
-                display: inline-block;
-                padding: 10px 0;
-                color: #004994;
-                font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                font-size: 30px;
-                font-weight: 400; }
-                #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
-                  content: ">"; }
-                  #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
-                    cursor: pointer; }
+              font-weight: 400; }
+              #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
+                content: ">"; }
+                #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
+                  cursor: pointer; }
 
 .search-results {
   color: #333; }
@@ -243,77 +287,54 @@ body.home {
     text-align: center; }
     body.home h2 {
       color: white;
-      font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-      font-size: 30px; }
+      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      text-transform: uppercase; }
       body.home a {
         color: white; }
         body.home a:hover {
-          text-decoration: underline; }
+          text-decoration: none; }
+          body.home a:hover h2 {
+            color: #aaa; }
   body.home p {
     color: white;
     font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.9; }
-    body.home section.profiles-sum, body.home section.stories-sum,
-    body.home section.map-sum {
-      min-height: 40vh; }
-  body.home #search-home {
-    margin-bottom: 20px; }
-    body.home .profiles-sum {
-      background-color: darkseagreen; }
-      body.home .stories-sum {
-        background-color: #132332; }
-        body.home .map-sum {
-          background-color: lightskyblue; }
-          body.home h2, body.home .desc {
-            padding: 20px; }
-            body.home .profile-sum-link {
-              display: inline-block;
-              width: 40vw;
-              height: 40vw;
-              border: 2px solid white;
-              margin: 4vw;
-              background-color: rgba(255, 255, 255, 0.5); }
-              body.home .story-img {
-                display: inline-block;
-                width: 20vw;
-                height: 20vw;
-                border: 2px solid white;
-                margin: 0 4vw 10px;
-                background-color: rgba(255, 255, 255, 0.5); }
-                body.home .story-desc {
-                  display: inline-block; }
-                  body.home article {
-                    margin: 0 auto; }
-                    @media all and (max-width: 415px) {
-                      body.home .bg-filter {
-                        position: fixed;
-                        top: 0;
-                        width: 100vw;
-                        height: 100%;
-                        background: -moz-linear-gradient(top, transparent 0%, #132332 100%);
-                        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent),
-                                                color-stop(100%, #132332));
-                        background: -webkit-linear-gradient(top, transparent 0%, #132332 100%);
-                        background: -o-linear-gradient(top, transparent 0%, #132332 100%);
-                        background: -ms-linear-gradient(top, transparent 0%, #132332 100%);
-                        background: linear-gradient(to bottom, transparent, #132332);
-                        z-index: -9;   }
-                        body.home .bg-img {
-                          position: fixed;
-                          top: 0;
-                          left: 0;
-                          bottom: 0;
-                          right: 0;
-                          background: linear-gradient(#132332 90%, rgba(230, 210, 230, 0) 0%),
-                                                    #132332 url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
-                          background-blend-mode: lighten;
-                          background-size: cover;
-                          opacity: 0.7;
-                          z-index: -10;   }
-                          body.home #search-switch.adv {
-                            color: white;   }
+    body.home #search-home {
+      margin-bottom: 20px; }
+      body.home article {
+        margin: 0 auto; }
+        @media all and (max-width: 415px) {
+          body.home .bg-filter {
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 100%;
+            background: -moz-linear-gradient(top, transparent 0%, #132332 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent),
+                        color-stop(100%, #132332));
+            background: -webkit-linear-gradient(top, transparent 0%, #132332 100%);
+            background: -o-linear-gradient(top, transparent 0%, #132332 100%);
+            background: -ms-linear-gradient(top, transparent 0%, #132332 100%);
+            background: linear-gradient(to bottom, transparent 0%, #132332 100%);
+            z-index: -9;   }
+            body.home .bg-img {
+              position: fixed;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+              background: linear-gradient(#132332 90%, rgba(230, 210, 230, 0) 0%),
+                            #132332 url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
+              background-blend-mode: lighten;
+              background-size: cover;
+              opacity: 0.7;
+              z-index: -10;   }
+              body.home #search-switch.adv {
+                color: white;   }
 }
   @media all and (min-width: 416px) {
     body.home nav section.profiles-sum {
@@ -337,19 +358,6 @@ body.home {
           height: 80px;
           margin: 0 10px 10px;   }
           body.home article {
-            -webkit-justify-content: center;
-            -moz-justify-content: center;
-            justify-content: center;
-            display: -webkit-box;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-flex-direction: column;
-            -moz-flex-direction: column;
-            flex-direction: column;
-            -webkit-align-items: center;
-            align-items: center;
             height: 100vh;
             position: relative;   }
             body.home .bg-filter {
@@ -363,14 +371,14 @@ body.home {
               background: -webkit-linear-gradient(top, #c8f5ff 0%, transparent 100%);
               background: -o-linear-gradient(top, #c8f5ff 0%, transparent 100%);
               background: -ms-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-              background: linear-gradient(to bottom, #c8f5ff, transparent);
+              background: linear-gradient(to bottom, #c8f5ff 0%, transparent 100%);
               z-index: -9;   }
               body.home .bg-img {
                 position: fixed;
                 top: 7vh;
                 height: 100vh;
                 width: 100vw;
-                background: linear-gradient(rgba(230, 210, 230, 0.5), #132332 90%),
+                background: linear-gradient(rgba(230, 210, 230, 0.5) 0%, #132332 90%),
                                 url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
                 background-blend-mode: screen, difference, lighten;
                 background-size: cover;

@@ -4,70 +4,71 @@
 {% block content %}
 
 <nav>
-	<div id="menu">
-		
-		<section>
-			<p class="desc">
-				DataUSA is an exploration platform that draws data from the US Census, Department of Education, the National Center for Health Statistics, and more.
-			</p>
-		</section>
+    <div id="top-nav">
+        <div id="menu-btn">
+          <i class="fa fa-bars"></i>
+        </div>
 
-		<section class="profiles-drawer">
-			<a href="" class="profile-link">Occupations</a>
-			<a href="" class="profile-link">Industries</a>
-			<a href="" class="profile-link">College Majors</a>
-			<a href="" class="profile-link">Location</a>
-		</section>
+        <div id="home-btn">
+            <a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" style="width:80px" /></a>
+        </div>
 
-		<section class="profiles-sum">
-			<h2>Profiles &rarr;</h2>
-			<a href="" class="profile-sum-link"></a>
-			<a href="" class="profile-sum-link"></a>
-			<a href="" class="profile-sum-link"></a>
-			<a href="" class="profile-sum-link"></a>
-		</section>
-		<section class="stories-sum">
-			<a href="/story/">
-				<h2>Stories &rarr;</h2>
-			</a>
-			<div class="story-sum">
-				<span class="story-img"></span>
-				<div class="story-desc">
-					<a href="/story/" class="story-title">Title A</a>
-					<p class="story-sum-text">This is a description of this story.</p>
-				</div>
-			</div>
-			<div class="story-sum">
-				<span class="story-img"></span>
-				<div class="story-desc">
-					<a href="/story/" class="story-title">Title A</a>
-					<p class="story-sum-text">This is a description of this story.</p>
-				</div>
-			</div>
-		</section>
-		<section class="map-sum">
-			<a href="/map/">
-				<h2>Map &rarr;</h2>
-			</a>
-		</section>
+        <div id="search-btn">
+          <i class="fa fa-search"></i>
+        </div>
+    </div>
+
+    <div id="menu">
+
+        <section class="profiles-drawer">
+            <a href="/search/">
+                <h2>Profiles</h2>
+            </a>
+            <a href="" class="profile-link">Occupations</a>
+            <a href="" class="profile-link">Industries</a>
+            <a href="" class="profile-link">College Majors</a>
+            <a href="" class="profile-link">Location</a>
+        </section>
+        <section class="stories-sum">
+            <a href="/story/">
+                <h2>Stories &rarr;</h2>
+            </a>
+            <!-- <div class="story-sum">
+                <span class="story-img"></span>
+                <div class="story-desc">
+                    <a href="/story/" class="story-title">Title A</a>
+                    <p class="story-sum-text">This is a description of this story.</p>
+                </div>
+            </div>
+            <div class="story-sum">
+                <span class="story-img"></span>
+                <div class="story-desc">
+                    <a href="/story/" class="story-title">Title A</a>
+                    <p class="story-sum-text">This is a description of this story.</p>
+                </div>
+            </div> -->
+        </section>
+        <section class="map-sum">
+            <a href="/map/">
+                <h2>Map &rarr;</h2>
+            </a>
+        </section>
+
+        <section>
+            <p class="desc">
+                DataUSA is an exploration platform that draws data from the US Census, Department of Education, the National Center for Health Statistics, and more.
+            </p>
+        </section>
 
 
-		<footer>
-		  <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
-		  <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
-		  <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
-	    </footer>
+        <footer>
+          <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
+          <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
+          <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
+        </footer>
 
-	</div>
+    </div>
 
-	<div id="menu-btn">
-	  <i class="fa fa-bars"></i>
-	  <a href="/">DataUSA</a>
-	</div>
-
-	<div id="search-btn">
-	  <i class="fa fa-search"></i>
-	</div>
 </nav>
 
 {% block body %}
@@ -79,11 +80,11 @@
   <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
 </footer>
 
-{% endblock %}
-
-{% block js %}
-
 <script>
+
+d3.select("#menu-btn").on("click", function(){
+  d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
+});
 
 </script>
 
