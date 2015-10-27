@@ -187,7 +187,7 @@ topics:
     description: "There are a relatively high number of foreign-born citizens from <<top show=birthplace|order=num_ppl_rca>> that hold <<name>> degrees."
     viz:
       attrs: "birthplace"
-      coords: "countries"
+      coords: "birthplace"
       color: "num_ppl_rca"
       data:
         show: "birthplace"

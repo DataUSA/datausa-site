@@ -249,10 +249,10 @@ topics:
         value: "<<sumlevel plural=True|child=True>>"
       color: "income"
       data:
-        - geo: "<<children>>"
-          required: "income"
+        - required: "income"
           show: "geo"
-          sumlevel: "county"
+          sumlevel: "<<sumlevel child=True>>"
+          where: "geo:<<children prefix=True>>%"
       height: 400
       id: "geo"
       type: "geo_map"

@@ -5,6 +5,10 @@ viz.loadCoords = function(build) {
 
   var type = build.config.coords;
 
+  if (build.config.coords.solo) {
+    build.config.coords.solo = build.config.coords.solo.split(",");
+  }
+
   if (type) {
 
     if (type.constructor === String) {
@@ -16,18 +20,18 @@ viz.loadCoords = function(build) {
       delete build.config.coords.value;
     }
 
-    load("/static/topojson/" + type + ".json", function(data){
+    var filename = type;
+    if (["places", "tracts"].indexOf(type) >= 0) {
+      filename += "_" + build.config.coords.solo[0].slice(7, 9);
+    }
 
-      if (type === "countries" && !data.filtered) {
-        data.objects[type].geometries = data.objects[type].geometries.filter(function(c){
-          return c.matched;
-        });
-        data.filtered = true;
-      }
+    load("/static/topojson/" + filename + ".json", function(data){
 
       build.viz.coords(data);
       viz[next](build);
-    })
+
+    });
+
   }
   else {
     viz[next](build);

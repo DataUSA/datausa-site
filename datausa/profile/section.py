@@ -163,6 +163,11 @@ class Section(object):
         return True
 
     def children(self, **kwargs):
+        if kwargs.get("prefix", False):
+            attr_id = kwargs.get("attr_id", self.attr["id"])
+            prefix = attr_id[:3]
+            suffix = attr_id[3:]
+            return "{}{}".format(geo_children[prefix], suffix)
         return ",".join([c["id"] for c in self.profile.children()])
 
     def id(self, **kwargs):
