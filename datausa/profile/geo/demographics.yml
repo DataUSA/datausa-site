@@ -1,0 +1,136 @@
+title: "Demographics"
+description: "The American Community Survey collects information on the demographics and origins of the residents in <<name>>."
+
+topics:
+  - category: "Age"
+    title: "Age by Nationality"
+    stat:
+      - title: "Median Native Age"
+        value: "N/A"
+      - title: "Median Foreign Age"
+        value: "N/A"
+    description: "The median age of people in <<name>> is <<top col=age>>, and native-born citizens are generally N/A than foreign-born."
+    viz:
+      color: "nationality"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        required: "nativity_us_under5,nativity_us_5to17,nativity_us_18to24,nativity_us_25to34,nativity_us_35to44,nativity_us_45to54,nativity_us_55to59,nativity_us_60to61,nativity_us_62to64,nativity_us_65to74,nativity_us_75over,nativity_foreign_under5,nativity_foreign_5to17,nativity_foreign_18to24,nativity_foreign_25to34,nativity_foreign_35to44,nativity_foreign_45to54,nativity_foreign_55to59,nativity_foreign_60to61,nativity_foreign_62to64,nativity_foreign_65to74,nativity_foreign_75over"
+        split:
+          id: "nativity_age"
+          regex: "nativity_([a-z]*_[a-z0-9]*)"
+          map:
+            nationality: "nativity_([a-z]*)_[a-z0-9]*"
+            age: "nativity_[a-z]*_([a-z0-9]*)"
+          value: "num_ppl"
+      id: "nationality"
+      legend: false
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "age"
+      y: "num_ppl"
+  - category: "Heritage"
+    title: "Global Diversity"
+    stat:
+      - title: "High relative number of people born in"
+        value: "N/A"
+      - title: "Most common foreign-born country is"
+        value: "N/A"
+    description: "<<name>> has a relatively high number of foreign-born citizens from N/A."
+    viz:
+      attrs: "birthplace"
+      coords: "birthplace"
+      color: "num_ppl"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        required: ""
+      height: 400
+      id: "birthplace"
+      type: "geo_map"
+  - title: "Citizenship"
+    description: "The majority of the population of <<name>> are US citizens."
+    stat:
+      - title: "Percent with citizenship"
+        value: "<<top col=us_citizens>>"
+    viz:
+      attrs: "geo"
+      data:
+        - geo: "<<parents>>,<<id>>"
+          required: "us_citizens"
+          show: "geo"
+      id: "geo"
+      order:
+        sort: "desc"
+        value: "geo"
+      type: "bar"
+      x: "us_citizens"
+      y:
+        scale: "discrete"
+        value: "geo"
+  - title: "Race & Ethnicity"
+    description: "The majority of citizines in <<name>> are <<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>, with <<top col=acs_race|rank=2|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>> being the second most common."
+    stat:
+      - title: "Most common race in <<name>> is"
+        value: "<<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>"
+    viz:
+      attrs: "acs_race"
+      data:
+        - geo: "<<id>>"
+          required: "pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white"
+          show: "geo"
+          split:
+            id: "race"
+            regex: "pop_([a-z]*)"
+            value: "num_ppl"
+      id: "race"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "race"
+      y: "num_ppl"
+  - title: "Languages"
+    description: "The most common language spoken in <<name>>, other than English is <<top show=language|order=num_speakers|where=language:~^002>>. XX% of <<name>> citizens are non-English speakers, versus the XX% national average."
+    stat_stack: YES
+    stat:
+      - title: "<<name>> has a relatively high number of speakers of"
+        value: "<<top show=language|order=num_speakers_rca|where=language:~^002>>"
+      - title: "The most common non-English language is"
+        value: "<<top show=language|order=num_speakers|where=language:~^002>>"
+    viz:
+      attrs: "language"
+      data:
+        - geo: "<<id>>"
+          where: "language:~^002"
+          required: "num_speakers"
+          show: "geo"
+      id: "language"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "language"
+      y: "num_speakers"
+  - category: "Military"
+    title: "Veterans"
+    description: "<<name>> has a large population of citizens who served in <<top col=conflict|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>>, <<top col=ratio|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>> times greater than any other conflict."
+    stat_stack: YES
+    stat:
+      - title: "Most Common Service Period"
+        value: "<<top col=conflict|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>>"
+    viz:
+      attrs: "conflict"
+      data:
+        - geo: "<<id>>"
+          required: "conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01"
+          show: "geo"
+          split:
+            id: "conflict"
+            regex: "conflict_([a-z]*)"
+            value: "num_ppl"
+      id: "conflict"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "conflict"
+      y: "num_ppl"

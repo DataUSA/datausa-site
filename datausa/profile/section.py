@@ -1,9 +1,10 @@
 import re, requests, yaml
+from itertools import combinations
 from requests.models import RequestEncodingMixin
 
 from config import API
 from datausa.visualize.models import Viz
-from datausa.utils.data import attr_cache, datafold, default_params, fetch, stat
+from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, stat
 from datausa.utils.format import num_format
 
 geo_labels = {
@@ -218,30 +219,33 @@ class Section(object):
     def percent(self, **kwargs):
         """str: 2 columns divided by one another """
 
-        # create a params dict to use in the URL request
-        params = {}
-        num = kwargs.get("num")
-        den = kwargs.get("den")
-
         # set default params
+        params = {}
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
         params[attr_type] = kwargs.get("attr_id", self.attr["id"])
         params["limit"] = 1
         params["show"] = params.get("show", attr_type)
-        params["required"] = "{},{}".format(num, den)
         params = default_params(params)
 
-        # convert request arguments into a url query string
-        query = RequestEncodingMixin._encode_params(params)
-        url = "{}/api?{}".format(API, query)
+        r = {"num": 1, "den": 1}
+        for t in r.keys():
+            key = kwargs.get(t)
+            params["required"] = key
 
-        try:
-            r = datafold(requests.get(url).json())[0]
-        except ValueError:
-            app.logger.info("STAT ERROR: {}".format(url))
-            raise Exception(url)
+            # convert request arguments into a url query string
+            query = RequestEncodingMixin._encode_params(params)
+            url = "{}/api?{}".format(API, query)
 
-        return "{}%".format(num_format(r[num]/r[den] * 100))
+            try:
+                r[t] = datafold(requests.get(url).json())[0][key]
+            except ValueError:
+                app.logger.info("STAT ERROR: {}".format(url))
+                return "N/A"
+
+        val = r["num"]/r["den"]
+        if kwargs.get("invert", False):
+            val = 1 - val
+        return "{}%".format(num_format(val * 100))
 
     def sub(self, **kwargs):
         kwargs["data_only"] = True
@@ -294,7 +298,13 @@ class Section(object):
         params = default_params(params)
 
         # if the output key is not name, then add it to the params as a 'required' key
-        if col not in ("id", "name", "ratio", "sex", "sex-ageBucket", "race-sex", "race"):
+        # raise Exception(itertools.product(*col_map.keys()))
+        # ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
+        # raise Exception(list(itertools.combinations(col_map.keys())))
+        col_maps = col_map.keys()
+        col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
+        col_maps += ["id", "name", "ratio"]
+        if col not in col_maps:
             params["required"] = col
         elif "required" not in params:
             params["required"] = params["order"]

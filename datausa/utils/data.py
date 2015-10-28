@@ -22,7 +22,7 @@ def fetch(attr_id, attr_type):
     else:
         return {
             "id": attr_id,
-            "name": attr_id
+            "name": "N/A"
         }
 
 def default_params(params):
@@ -42,6 +42,7 @@ def default_params(params):
 def stat(params, col="name", dataset=False, data_only=False):
 
     # convert request arguments into a url query string
+    rank = int(params.pop("rank", "1"))
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
 
@@ -64,14 +65,19 @@ def stat(params, col="name", dataset=False, data_only=False):
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
     if col == "ratio":
-        denom = max([d[params["order"]] for d in r[1:]])
-        return num_format(r[0][params["order"]]/denom, key=col)
+        if params["limit"] == 1:
+            vals = sorted([v for k, v in r[0].iteritems() if k in params["required"].split(",")], reverse=True)
+            return num_format(vals[0]/vals[1], key=col)
+        else:
+            denom = max([d[params["order"]] for d in r[1:]])
+            return num_format(r[0][params["order"]]/denom, key=col)
     if col in col_map or "-" in col:
         def drop_first(c):
             return "_".join(c.split("_")[1:])
         keys = col.split("-")
         cols = ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
-        vals = [drop_first(max(d, key=lambda x: d[x] if "_" in x and drop_first(x) in cols else 0)) for d in r]
+        vals = [sorted([(k, v) for k, v in d.iteritems() if drop_first(k) in cols], key=lambda x: x[1], reverse=True) for d in r]
+        vals = [drop_first(v[rank - 1][0]) for v in vals]
         vals = [fetch(col_map[keys[i]][v], keys[i]) for x in vals for i, v in enumerate(x.split("_"))]
         top = [" ".join([v["name"] for v in vals])]
     elif col == "name":
@@ -128,9 +134,12 @@ col_map = {
         "native": "3",
         "asian": "6",
         "hispanic": "11",
+        "latino": "11",
         "hawaiian": "7",
         "multi": "9",
-        "unknown": "8"
+        "2ormore": "9",
+        "unknown": "8",
+        "other": "8"
     },
     "ageBucket": {
         "under5": "< 5",
@@ -145,9 +154,18 @@ col_map = {
         "45to54": "45-54",
         "55to64": "55-64",
         "65to74": "65-74",
-        "75older": "75+"
+        "75over": "75+"
+    },
+    "conflict": {
+        "wwii": "1",
+        "korea": "2",
+        "vietnam": "3",
+        "gulf90s": "4",
+        "gulf01": "5"
     }
 }
+col_map["acs_race"] = col_map["race"]
+col_map["pums_race"] = col_map["race"]
 
 @cache.memoize()
 def build_attr_cache():
@@ -159,10 +177,9 @@ def build_attr_cache():
     results = {}
 
     for attr_name in attr_names:
-        app.logger.info("Loading attr data for: {}".format(attr_name))
-
         r = requests.get("{}/attrs/{}".format(API, attr_name))
         attr_list = datafold(r.json())
+        app.logger.info("Loaded {} attributes for: {}".format(len(attr_list), attr_name))
         results[attr_name] = {obj["id"]: obj for obj in attr_list}
     app.logger.info("Attr cache setup complete.")
     return results

@@ -36,6 +36,8 @@ affixes = {
     "earnings": ["$", ""]
 }
 
+percentages = ["us_citizens"]
+
 def num_format(number, key=None, labels=True):
 
     if key:
@@ -50,11 +52,14 @@ def num_format(number, key=None, labels=True):
             n = int(number)
 
             if n % 100 in (11, 12, 13):
-                return u"{0}{1}".format("{:,}".format(n), ordinals[0])
-            return u"{0}{1}".format("{:,}".format(n), ordinals[n % 10])
+                return u"{}{}".format("{:,}".format(n), ordinals[0])
+            return u"{}{}".format("{:,}".format(n), ordinals[n % 10])
 
     # Converts the number to a float.
     n = float(number)
+
+    if key and key in percentages:
+        n = n * 100
 
     # Determines which index of "groups" to move the decimal point to.
     groups = ["", "k", "M", "B", "T"]
@@ -74,7 +79,10 @@ def num_format(number, key=None, labels=True):
         n = round(n, 3)
 
     # Initializes the number suffix based on the group.
-    n = u"{0}{1}".format(n, groups[m])
+    n = u"{}{}".format(n, groups[m])
+
+    if key and key in percentages:
+        n = u"{}%".format(n)
 
     if key and labels:
         affix = affixes[key] if key in affixes else None
