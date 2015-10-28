@@ -73,9 +73,10 @@ a {
   display: inline-block; }
 body.home #menu-btn, body.home #search-btn, body.home #home-btn {
   display: none; }
-body.story #menu, body.map #menu, body.search #menu {
+body.story #menu, body.map #menu, body.search #menu, body.profile #menu {
   display: none; }
-  body.story #menu.open, body.map #menu.open, body.search #menu.open {
+  body.story #menu.open, body.map #menu.open, body.search #menu.open,
+  body.profile #menu.open {
     display: block; }
 
 @media all and (max-width: 415px) {
@@ -101,7 +102,6 @@ body.story #menu, body.map #menu, body.search #menu {
     line-height: 1.5;
     opacity: 0.9;   }
   #menu {
-    display: block;
     position: fixed;
     top: 0;
     left: 0;

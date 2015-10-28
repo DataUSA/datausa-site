@@ -5,7 +5,7 @@ body {
     }
   }
 
-  &.story, &.map, &.search {
+  &.story, &.map, &.search, &.profile {
     #menu {
       display:none;
 
@@ -54,7 +54,6 @@ body {
   }
 
   #menu {
-    display: block;
     position: fixed;
     top: 0;
     left: 0;
