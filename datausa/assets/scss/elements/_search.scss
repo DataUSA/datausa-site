@@ -2,99 +2,99 @@ body.search {
   a {
     color: #333;
   }
-}
 
-.search-input {
-  @include transition(box-shadow 1s, background-color 1s);
-  background: rgba(255,255,255,0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
-  background-attachment: inherit;
-  @include shadow(0px 2px 0 rgba(255,255,255,0.9));
-  border: 0;
-  padding: 10px 0 10px 60px;
-  color: $d-blue;
-  font-family: $enriqueta;
-  font-size: 30px;
-  font-weight: 400;
+  .search-input {
+    @include transition(box-shadow 1s, background-color 1s);
+    background: rgba(255,255,255,0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
+    background-attachment: inherit;
+    @include shadow(0px 2px 0 rgba(255,255,255,0.9));
+    border: 0;
+    padding: 10px 0 10px 60px;
+    color: $d-blue;
+    font-family: $enriqueta;
+    font-size: 30px;
+    font-weight: 400;
 
-  &:focus {
-    outline: 0;
-    background-color: rgba(255,255,255,0.9);
-    @include shadow(0px 7px 0 rgba(255,255,255,0.5));
-  }
-
-  @media all and (min-width: 415px) {
-    font-size: 45px;
-  }
-
-  &.inactive {
-    display: none;
-  }
-
-}
-
-#search-advanced {
-  margin: $footer-height auto;
-  width: 80%;
-
-  .search-item {
-    padding: 3px 0;
-    font-family: $palanquin;
-    font-size: 12px;
-  }
-
-  .search-nav {
-    width: 100%;
-    overflow: hidden;
-    top: 0;
-  }
-
-  .search-crumbs {
-    display: none;
-
-    &.active {
-      display: block;
+    &:focus {
+      outline: 0;
+      background-color: rgba(255,255,255,0.9);
+      @include shadow(0px 7px 0 rgba(255,255,255,0.5));
     }
 
-    .search-back {
-      display: inline-block;
-      padding: 10px;
-      width: 60px;
-      color: $d-blue;
-      font-family: $enriqueta;
-      font-size: 30px;
-      font-weight: 400;
-      text-align: center;
+    @media all and (min-width: 415px) {
+      font-size: 45px;
     }
 
-    .search-crumb {
-      display: inline-block;
-      padding: 10px 0;
-      color: $d-blue;
-      font-family: $enriqueta;
-      font-size: 30px;
-      font-weight: 400;
+    &.inactive {
+      display: none;
+    }
 
-      &:not(:last-child) {
+  }
 
-        &:after {
-          content: ">"
+  #search-advanced {
+    margin: $footer-height auto;
+    width: 80%;
+
+    .search-item {
+      padding: 3px 0;
+      font-family: $palanquin;
+      font-size: 12px;
+    }
+
+    .search-nav {
+      width: 100%;
+      overflow: hidden;
+      top: 0;
+    }
+
+    .search-crumbs {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+
+      .search-back {
+        display: inline-block;
+        padding: 10px;
+        width: 60px;
+        color: $d-blue;
+        font-family: $enriqueta;
+        font-size: 30px;
+        font-weight: 400;
+        text-align: center;
+      }
+
+      .search-crumb {
+        display: inline-block;
+        padding: 10px 0;
+        color: $d-blue;
+        font-family: $enriqueta;
+        font-size: 30px;
+        font-weight: 400;
+
+        &:not(:last-child) {
+
+          &:after {
+            content: ">"
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
         }
 
-        &:hover {
-          cursor: pointer;
-        }
       }
 
     }
 
   }
 
-}
+  .search-results {
+    color: #333;
+  }
 
-.search-results {
-  color: #333;
-}
-
-.search-close {
-  float: right;
+  .search-close {
+    float: right;
+  }
 }

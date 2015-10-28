@@ -3,7 +3,7 @@ body.home {
   height: 100vh;
   
   h1 {
-    color: white;
+    color: $dark-d-blue;
     font-family: $enriqueta;
     font-size: 60px;
     letter-spacing: 0.05em;
@@ -12,14 +12,14 @@ body.home {
 
   h2 {
     color: white;
-    font-family: $palanquin;
+    font-family: $open-sans;
     font-size: 20px;
     font-weight: 300;
     text-transform: uppercase;
   }
 
   a {
-    color: white;
+    color: $dark-d-blue;
 
     &:hover {
       text-decoration: none;
@@ -32,15 +32,35 @@ body.home {
 
   p {
     color: white;
-    font-family: $palanquin;
+    font-family: $open-sans;
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.9;
   }
 
-  // .content {
-  //   margin-bottom: -$footer-height;
-  // }
+  .logo {
+    margin: 40px 0;
+  }
+
+  .bg-filter {
+    // position: fixed;
+    // top: 0;
+    // width: 100vw;
+    // height: 58vh;
+    // @include gradient(transparent, $home-blue);
+    // z-index: -9;
+  }
+
+  .bg-img {
+    position: fixed;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    background: $light-home-blue url('/static/img/home/home-landscape-b-2.png') no-repeat 50% 40%;
+    //background-blend-mode: screen, difference, lighten;
+    background-size: cover;
+    z-index: -10;
+  }
 
   #search-home {
     margin-bottom: 20px;
@@ -53,29 +73,6 @@ body.home {
   /* small design */
 
   @media all and (max-width: 415px){
-    
-    .bg-filter {
-      position: fixed;
-      top: 0;
-      width: 100vw;
-      height: 100%;
-      @include gradient(rgba(0,0,0,0), $dark-d-blue);
-      z-index: -9;
-    }
-
-    .bg-img {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: linear-gradient($dark-d-blue 90%, rgba(230,210,230,0) 0%),
-                  $dark-d-blue url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
-      background-blend-mode: lighten;
-      background-size: cover;
-      opacity: 0.7;
-      z-index: -10;
-    }
 
     #search-switch.adv {
       color: white;
@@ -94,6 +91,21 @@ body.home {
       }
     }
 
+    #menu {
+      background-color: rgba(255,255,255,0);
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        background-color: rgba(255,255,255,0);
+      }
+    }
+
+    section.desc {
+      position: absolute;
+      bottom: 60px;
+    }
+
     .content {
       width: 100vw;
       @include box();
@@ -110,18 +122,12 @@ body.home {
       margin-right: 15px;
     }
 
-    .profile-sum-link {
-      $profile-sum-link-width: 0.25*(1200 - $nav-width + 10);
-      width: $profile-sum-link-width;
-      height: $profile-sum-link-width;
-      margin: 0;
-    }
-
-    .story-img {
-      width: 80px;
-      height: 80px;
-      margin: 0 10px 10px;
-    }
+    // .profile-sum-link {
+    //   $profile-sum-link-width: 0.25*(1200 - $nav-width + 10);
+    //   width: $profile-sum-link-width;
+    //   height: $profile-sum-link-width;
+    //   margin: 0;
+    // }
 
     article {
       // @include flex();
@@ -129,28 +135,6 @@ body.home {
       // @include align-items(center);
       height: 100vh;
       position: relative;
-      //top: -$footer-height;
-    }
-
-    .bg-filter {
-      position: fixed;
-      top: 0;
-      width: 100vw;
-      height: 58vh;
-      @include gradient(rgba(200,245,255,1), rgba(0,0,0,0));
-      z-index: -9;
-    }
-
-    .bg-img {
-      position: fixed;
-      top: 7vh;
-      height: 100vh;
-      width: 100vw;
-      background: linear-gradient(rgba(230,210,230,0.5) 0%, $dark-d-blue 90%),
-                  url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
-      background-blend-mode: screen, difference, lighten;
-      background-size: cover;
-      z-index: -10;
     }
   }
 }
@@ -182,24 +166,54 @@ body.home {
 }
 
 #home-search-input {
-  padding: 10px 10px 10px 60px;
+  padding: 7px 10px 0px 60px;
+  border: 0;
+  border-bottom: 1px solid rgba(255,255,255,0);
+  background: url('/static/img/home/search.png') no-repeat 10px 20px;
+  background-attachment: inherit;
+  color: $home-blue;
+  font-family: $enriqueta;
+  font-size: 30px;
+  font-weight: 400;
+  @include transition(border-bottom 1s);
+  @include placeholder {color: white; opacity: 0.5;}
+
+  &:focus {
+    outline: 0;
+    border-bottom: 1px solid rgba(255,255,255,1);
+  }
+
+  @media all and (min-width: 415px) {
+    font-size: 45px;
+  }
+
+  &.inactive {
+    display: none;
+  }
 
   &:hover {
     outline: 0;
-    background-color: rgba(255,255,255,0.8);
-    @include shadow(0px 7px 0 rgba(255,255,255,0.9));
+    cursor: pointer;
+    @include placeholder {opacity: 0.7;}
+    border-bottom: 1px solid rgba(255,255,255,0.7);
   }
   
   &:focus ~ .search-body.simple {
-    height: 40vh;
+    height: 60vh;
+    margin-top: 10px;
+    overflow-y: scroll;
 
     a {
       display: block;
+      padding: 10px 10px 0;
+      font-family: $open-sans;
+      font-size: 12px;
+      color: white;
     }
   }
 
   ~ .search-body.simple {
-    @include transition(0.5s);
+    @include transition(0.5s 0.25s);
     height: 0;
 
     a {
@@ -210,13 +224,13 @@ body.home {
 }
 
 .search-body {
-  background-color: rgba(255,255,255,0.9);
+  background-color: rgba(14,39,97,0.5);
 }
 
 #search-switch.adv {
   text-align: right;
-  font-family: $palanquin;
-  font-weight: 600;
+  font-family: $open-sans;
+  font-weight: 400;
   color: $dark-d-blue;
   opacity: 0.5;
   text-transform: uppercase;

@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700); 
+@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Open+Sans:400,300,600); 
   body {
     position: relative; }
     body.open {
@@ -71,7 +71,7 @@ a {
   width: 16px;
   height: 16px;
   display: inline-block; }
-body.home #menu-btn, body.home #search-btn {
+body.home #menu-btn, body.home #search-btn, body.home #home-btn {
   display: none; }
 body.story #menu, body.map #menu, body.search #menu {
   display: none; }
@@ -106,69 +106,62 @@ body.story #menu, body.map #menu, body.search #menu {
     top: 0;
     left: 0;
     bottom: 0;
-    padding-top: 70px;
     width: 415px;
     background-color: #132332;
     opacity: 1;
     z-index: 1;   }
     #menu a {
       color: white;   }
-  .profiles-sum {
-    background-color: darkseagreen;   }
-    .stories-sum {
-      background-color: #132332;   }
-      .map-sum {
-        background-color: lightskyblue;   }
-        h2, .desc {
-          padding: 20px;   }
-          .profile-sum-link {
-            display: inline-block;
-            width: 40vw;
-            height: 40vw;
-            border: 2px solid white;
-            margin: 4vw;
-            background-color: rgba(255, 255, 255, 0.5);   }
-            .profile-link {
-              display: block;
-              padding: 10px 20px;
-              font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-              font-size: 14px;
-              font-weight: 300;
-              text-transform: uppercase;
-              letter-spacing: 0.01em;   }
-              #top-nav {
-                -webkit-justify-content: center;
-                -moz-justify-content: center;
-                justify-content: center;
-                display: -webkit-box;
-                display: -moz-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-align-items: center;
-                align-items: center;
-                -webkit-justify-content: space-between;
-                -moz-justify-content: space-between;
-                justify-content: space-between;   }
-                #menu-btn {
-                  padding: 20px;
-                  opacity: 0.5;
-                  color: red;
-                  font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-                  font-size: 20px;
-                  font-weight: 700;
-                  line-height: 18px;
-                  -webkit-transition: opacity 1s;
-                  -moz-transition: opacity 1s;
-                  -ms-transition: opacity 1s;
-                  -o-transition: opacity 1s;
-                  transition: opacity 1s;
-                  z-index: 4;   }
-                  #menu-btn:hover {
-                    opacity: 1;
-                    cursor: pointer;   }
-                    #menu-btn i {
-                      margin-right: 5px;   }
+  h2, .desc {
+    padding: 20px;   }
+    .profile-sum-link {
+      display: inline-block;
+      width: 40vw;
+      height: 40vw;
+      border: 2px solid white;
+      margin: 4vw;
+      background-color: rgba(255, 255, 255, 0.5);   }
+      .profile-link {
+        display: block;
+        padding: 10px 20px;
+        font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        text-transform: uppercase;
+        letter-spacing: 0.01em;   }
+        #top-nav {
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-align-items: center;
+          align-items: center;
+          -webkit-justify-content: space-between;
+          -moz-justify-content: space-between;
+          justify-content: space-between;   }
+          #menu-btn {
+            padding: 20px;
+            opacity: 0.5;
+            color: red;
+            font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 18px;
+            -webkit-transition: opacity 1s;
+            -moz-transition: opacity 1s;
+            -ms-transition: opacity 1s;
+            -o-transition: opacity 1s;
+            transition: opacity 1s;
+            z-index: 4;   }
+            #menu-btn:hover {
+              opacity: 1;
+              cursor: pointer;   }
+              #menu-btn i {
+                margin-right: 5px;   }
   #home-btn {
     padding: 20px;
     z-index: 4;   }
@@ -204,53 +197,51 @@ body.story #menu, body.map #menu, body.search #menu {
 }
 body.search a {
   color: #333; }
-
-.search-input {
-  -webkit-transition: box-shadow 1s, background-color 1s;
-  -moz-transition: box-shadow 1s, background-color 1s;
-  -ms-transition: box-shadow 1s, background-color 1s;
-  -o-transition: box-shadow 1s, background-color 1s;
-  transition: box-shadow 1s, background-color 1s;
-  background: rgba(255, 255, 255, 0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
-  background-attachment: inherit;
-  -webkit-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
-  -moz-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
-  box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
-  border: 0;
-  padding: 10px 0 10px 60px;
-  color: #004994;
-  font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  font-size: 30px;
-  font-weight: 400; }
-  .search-input:focus {
-    outline: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
-    -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
-    @media all and (min-width: 415px) {
-      .search-input {
-        font-size: 45px;   }
+  body.search .search-input {
+    -webkit-transition: box-shadow 1s, background-color 1s;
+    -moz-transition: box-shadow 1s, background-color 1s;
+    -ms-transition: box-shadow 1s, background-color 1s;
+    -o-transition: box-shadow 1s, background-color 1s;
+    transition: box-shadow 1s, background-color 1s;
+    background: rgba(255, 255, 255, 0.6) url('/static/img/home/search.png') no-repeat 10px 20px;
+    background-attachment: inherit;
+    -webkit-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
+    -moz-box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 2px 0 rgba(255, 255, 255, 0.9);
+    border: 0;
+    padding: 10px 0 10px 60px;
+    color: #004994;
+    font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-size: 30px;
+    font-weight: 400; }
+    body.search .search-input:focus {
+      outline: 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
+      -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5);
+      box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.5); }
+      @media all and (min-width: 415px) {
+        body.search .search-input {
+          font-size: 45px;   }
 }
-      .search-input.inactive {
-        display: none; }
-
-#search-advanced {
+        body.search .search-input.inactive {
+          display: none; }
+body.search #search-advanced {
   margin: 70px auto;
   width: 80%; }
-  #search-advanced .search-item {
+  body.search #search-advanced .search-item {
     padding: 3px 0;
     font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 12px; }
-    #search-advanced .search-nav {
+    body.search #search-advanced .search-nav {
       width: 100%;
       overflow: hidden;
       top: 0; }
-      #search-advanced .search-crumbs {
+      body.search #search-advanced .search-crumbs {
         display: none; }
-        #search-advanced .search-crumbs.active {
+        body.search #search-advanced .search-crumbs.active {
           display: block; }
-          #search-advanced .search-crumbs .search-back {
+          body.search #search-advanced .search-crumbs .search-back {
             display: inline-block;
             padding: 10px;
             width: 60px;
@@ -259,130 +250,91 @@ body.search a {
             font-size: 30px;
             font-weight: 400;
             text-align: center; }
-            #search-advanced .search-crumbs .search-crumb {
+            body.search #search-advanced .search-crumbs .search-crumb {
               display: inline-block;
               padding: 10px 0;
               color: #004994;
               font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
               font-size: 30px;
               font-weight: 400; }
-              #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
+              body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
                 content: ">"; }
-                #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
+                body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
                   cursor: pointer; }
-
-.search-results {
+body.search .search-results {
   color: #333; }
-
-  .search-close {
+  body.search .search-close {
     float: right; }
 body.home {
   position: relative;
   height: 100vh; }
   body.home h1 {
-    color: white;
+    color: #132332;
     font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 60px;
     letter-spacing: 0.05em;
     text-align: center; }
     body.home h2 {
       color: white;
-      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
       font-size: 20px;
       font-weight: 300;
       text-transform: uppercase; }
       body.home a {
-        color: white; }
+        color: #132332; }
         body.home a:hover {
           text-decoration: none; }
           body.home a:hover h2 {
             color: #aaa; }
   body.home p {
     color: white;
-    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.9; }
-    body.home #search-home {
-      margin-bottom: 20px; }
-      body.home article {
-        margin: 0 auto; }
-        @media all and (max-width: 415px) {
-          body.home .bg-filter {
-            position: fixed;
-            top: 0;
-            width: 100vw;
-            height: 100%;
-            background: -moz-linear-gradient(top, transparent 0%, #132332 100%);
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent),
-                        color-stop(100%, #132332));
-            background: -webkit-linear-gradient(top, transparent 0%, #132332 100%);
-            background: -o-linear-gradient(top, transparent 0%, #132332 100%);
-            background: -ms-linear-gradient(top, transparent 0%, #132332 100%);
-            background: linear-gradient(to bottom, transparent 0%, #132332 100%);
-            z-index: -9;   }
-            body.home .bg-img {
-              position: fixed;
-              top: 0;
-              left: 0;
-              bottom: 0;
-              right: 0;
-              background: linear-gradient(#132332 90%, rgba(230, 210, 230, 0) 0%),
-                            #132332 url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
-              background-blend-mode: lighten;
-              background-size: cover;
-              opacity: 0.7;
-              z-index: -10;   }
+    body.home .logo {
+      margin: 40px 0; }
+      body.home .bg-img {
+        position: fixed;
+        bottom: 0;
+        height: 100vh;
+        width: 100vw;
+        background: #bec9db url('/static/img/home/home-landscape-b-2.png') no-repeat 50% 40%;
+        background-size: cover;
+        z-index: -10; }
+        body.home #search-home {
+          margin-bottom: 20px; }
+          body.home article {
+            margin: 0 auto; }
+            @media all and (max-width: 415px) {
               body.home #search-switch.adv {
                 color: white;   }
 }
   @media all and (min-width: 416px) {
     body.home nav section.profiles-sum {
       display: none;   }
-    body.home .content {
-      width: 100vw;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      padding-left: 425px;   }
-      body.home .content section:not(.profiles-sum) {
-        display: none;   }
+    body.home #menu {
+      background-color: rgba(255, 255, 255, 0);   }
+      body.home #menu footer {
+        position: absolute;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0);   }
+    body.home section.desc {
+      position: absolute;
+      bottom: 60px;   }
+      body.home .content {
+        width: 100vw;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding-left: 425px;   }
+        body.home .content section:not(.profiles-sum) {
+          display: none;   }
     body.home .profiles-sum {
       margin-right: 15px;   }
-      body.home .profile-sum-link {
-        width: 198.75px;
-        height: 198.75px;
-        margin: 0;   }
-        body.home .story-img {
-          width: 80px;
-          height: 80px;
-          margin: 0 10px 10px;   }
-          body.home article {
-            height: 100vh;
-            position: relative;   }
-            body.home .bg-filter {
-              position: fixed;
-              top: 0;
-              width: 100vw;
-              height: 58vh;
-              background: -moz-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-              background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c8f5ff),
-                            color-stop(100%, transparent));
-              background: -webkit-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-              background: -o-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-              background: -ms-linear-gradient(top, #c8f5ff 0%, transparent 100%);
-              background: linear-gradient(to bottom, #c8f5ff 0%, transparent 100%);
-              z-index: -9;   }
-              body.home .bg-img {
-                position: fixed;
-                top: 7vh;
-                height: 100vh;
-                width: 100vw;
-                background: linear-gradient(rgba(230, 210, 230, 0.5) 0%, #132332 90%),
-                                url('/static/img/home/vxla_new_orleans_french_quarter_2.jpg') no-repeat 50% 0;
-                background-blend-mode: screen, difference, lighten;
-                background-size: cover;
-                z-index: -10;   }
+      body.home article {
+        height: 100vh;
+        position: relative;   }
 }
 
 #search-home {
@@ -415,34 +367,80 @@ body.home {
           margin-top: 40px; }
 
 #home-search-input {
-  padding: 10px 10px 10px 60px; }
-  #home-search-input:hover {
-    outline: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    -webkit-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.9);
-    -moz-box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 7px 0 rgba(255, 255, 255, 0.9); }
-    #home-search-input:focus ~ .search-body.simple {
-      height: 40vh; }
-      #home-search-input:focus ~ .search-body.simple a {
-        display: block; }
+  padding: 7px 10px 0px 60px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  background: url('/static/img/home/search.png') no-repeat 10px 20px;
+  background-attachment: inherit;
+  color: #3a4e7c;
+  font-family: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  -webkit-transition: border-bottom 1s;
+  -moz-transition: border-bottom 1s;
+  -ms-transition: border-bottom 1s;
+  -o-transition: border-bottom 1s;
+  transition: border-bottom 1s; }
+  #home-search-input::-webkit-input-placeholder {
+    color: white;
+    opacity: 0.5; }
+    #home-search-input:-moz-placeholder {
+      color: white;
+      opacity: 0.5; }
+      #home-search-input::-moz-placeholder {
+        color: white;
+        opacity: 0.5; }
+        #home-search-input:-ms-input-placeholder {
+          color: white;
+          opacity: 0.5; }
+          #home-search-input:focus {
+            outline: 0;
+            border-bottom: 1px solid white; }
+            @media all and (min-width: 415px) {
+              #home-search-input {
+                font-size: 45px;   }
+}
+              #home-search-input.inactive {
+                display: none; }
+                #home-search-input:hover {
+                  outline: 0;
+                  cursor: pointer;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.7); }
+                  #home-search-input:hover::-webkit-input-placeholder {
+                    opacity: 0.7; }
+                    #home-search-input:hover:-moz-placeholder {
+                      opacity: 0.7; }
+                      #home-search-input:hover::-moz-placeholder {
+                        opacity: 0.7; }
+                        #home-search-input:hover:-ms-input-placeholder {
+                          opacity: 0.7; }
+  #home-search-input:focus ~ .search-body.simple {
+    height: 60vh;
+    margin-top: 10px;
+    overflow-y: scroll; }
+    #home-search-input:focus ~ .search-body.simple a {
+      display: block;
+      padding: 10px 10px 0;
+      font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 12px;
+      color: white; }
   #home-search-input ~ .search-body.simple {
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -ms-transition: 0.5s;
-    -o-transition: 0.5s;
-    transition: 0.5s;
+    -webkit-transition: 0.5s 0.25s;
+    -moz-transition: 0.5s 0.25s;
+    -ms-transition: 0.5s 0.25s;
+    -o-transition: 0.5s 0.25s;
+    transition: 0.5s 0.25s;
     height: 0; }
     #home-search-input ~ .search-body.simple a {
       display: none; }
 
 .search-body {
-  background-color: rgba(255, 255, 255, 0.9); }
+  background-color: rgba(14, 39, 97, 0.5); }
 
   #search-switch.adv {
     text-align: right;
-    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-weight: 600;
+    font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
     color: #132332;
     opacity: 0.5;
     text-transform: uppercase;
