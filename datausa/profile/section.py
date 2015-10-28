@@ -1,8 +1,10 @@
-import re, yaml
+import re, requests, yaml
+from requests.models import RequestEncodingMixin
 
 from config import API
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, datafold, default_params, fetch, stat
+from datausa.utils.format import num_format
 
 geo_labels = {
     "010": "nation",
@@ -213,6 +215,34 @@ class Section(object):
     def parents(self, **kwargs):
         return ",".join([p["id"] for p in self.profile.parents()])
 
+    def percent(self, **kwargs):
+        """str: 2 columns divided by one another """
+
+        # create a params dict to use in the URL request
+        params = {}
+        num = kwargs.get("num")
+        den = kwargs.get("den")
+
+        # set default params
+        attr_type = kwargs.get("attr_type", self.profile.attr_type)
+        params[attr_type] = kwargs.get("attr_id", self.attr["id"])
+        params["limit"] = 1
+        params["show"] = params.get("show", attr_type)
+        params["required"] = "{},{}".format(num, den)
+        params = default_params(params)
+
+        # convert request arguments into a url query string
+        query = RequestEncodingMixin._encode_params(params)
+        url = "{}/api?{}".format(API, query)
+
+        try:
+            r = datafold(requests.get(url).json())[0]
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            raise Exception(url)
+
+        return "{}%".format(num_format(r[num]/r[den] * 100))
+
     def sub(self, **kwargs):
         kwargs["data_only"] = True
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
@@ -264,12 +294,10 @@ class Section(object):
         params = default_params(params)
 
         # if the output key is not name, then add it to the params as a 'required' key
-        if col not in ("id", "name", "ratio", "sex", "race-sex", "race"):
+        if col not in ("id", "name", "ratio", "sex", "sex-ageBucket", "race-sex", "race"):
             params["required"] = col
         elif "required" not in params:
             params["required"] = params["order"]
-        elif params["order"] == "":
-            params["order"] = params["required"]
 
         # make the API request using the params
         return stat(params, col=col, dataset=kwargs.get("dataset", False), data_only=data_only)

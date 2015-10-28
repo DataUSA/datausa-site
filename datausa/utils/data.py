@@ -20,8 +20,10 @@ def fetch(attr_id, attr_type):
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
     else:
-        app.logger.info("Missing {} attribute: {}".format(attr_type, attr_id))
-        abort(404)
+        return {
+            "id": attr_id,
+            "name": attr_id
+        }
 
 def default_params(params):
 
@@ -113,7 +115,9 @@ def stat(params, col="name", dataset=False, data_only=False):
 col_map = {
     "sex": {
         "men": "1",
-        "women": "2"
+        "women": "2",
+        "male": "1",
+        "female": "2"
     },
     "race": {
         "white": "1",
@@ -124,6 +128,21 @@ col_map = {
         "hawaiian": "7",
         "multi": "9",
         "unknown": "8"
+    },
+    "ageBucket": {
+        "under5": "< 5",
+        "5": "5",
+        "6to11": "6-11",
+        "12to14": "12-14",
+        "15": "15",
+        "16to17": "16-17",
+        "18to24": "18-24",
+        "25to34": "25-34",
+        "35to44": "35-44",
+        "45to54": "45-54",
+        "55to64": "55-64",
+        "65to74": "65-74",
+        "75older": "75+"
     }
 }
 

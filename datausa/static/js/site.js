@@ -859,10 +859,6 @@ viz.loadCoords = function(build) {
 
   var type = build.config.coords;
 
-  if (build.config.coords.solo) {
-    build.config.coords.solo = build.config.coords.solo.split(",");
-  }
-
   if (type) {
 
     if (type.constructor === String) {
@@ -874,8 +870,12 @@ viz.loadCoords = function(build) {
       delete build.config.coords.value;
     }
 
+    if (build.config.coords.solo) {
+      build.config.coords.solo = build.config.coords.solo.split(",");
+    }
+
     var filename = type;
-    if (["tracts"].indexOf(type) >= 0) {
+    if (["places", "tracts"].indexOf(type) >= 0) {
       filename += "_" + build.config.coords.solo[0].slice(7, 9);
     }
 

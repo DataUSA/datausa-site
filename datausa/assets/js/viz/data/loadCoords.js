@@ -5,10 +5,6 @@ viz.loadCoords = function(build) {
 
   var type = build.config.coords;
 
-  if (build.config.coords.solo) {
-    build.config.coords.solo = build.config.coords.solo.split(",");
-  }
-
   if (type) {
 
     if (type.constructor === String) {
@@ -18,6 +14,10 @@ viz.loadCoords = function(build) {
       type = type.value;
       build.config.coords.key = type;
       delete build.config.coords.value;
+    }
+
+    if (build.config.coords.solo) {
+      build.config.coords.solo = build.config.coords.solo.split(",");
     }
 
     var filename = type;
