@@ -316,7 +316,7 @@ topics:
     viz:
       - attrs: "acs_ind"
         data:
-          - cip: "<<id>>"
+          - geo: "<<id>>"
             limit: "5"
             order: "num_ppl"
             sort: "desc"
@@ -335,7 +335,7 @@ topics:
           value: "acs_ind"
       - attrs: "acs_ind"
         data:
-          - cip: "<<id>>"
+          - geo: "<<id>>"
             limit: "5"
             order: "num_ppl"
             sort: "asc"
@@ -359,7 +359,7 @@ topics:
     viz:
       - attrs: "acs_ind"
         data:
-          - cip: "<<id>>"
+          - geo: "<<id>>"
             limit: "5"
             order: "num_ppl_rca"
             sort: "desc"
@@ -378,7 +378,7 @@ topics:
           value: "acs_ind"
       - attrs: "acs_ind"
         data:
-          - cip: "<<id>>"
+          - geo: "<<id>>"
             limit: "5"
             order: "num_ppl_rca"
             sort: "asc"
@@ -402,7 +402,7 @@ topics:
     viz:
       - attrs: "acs_ind"
         data:
-          - cip: "<<id>>"
+          - geo: "<<id>>"
             limit: "5"
             order: "wage"
             sort: "desc"
@@ -421,7 +421,7 @@ topics:
           value: "acs_ind"
       - attrs: "acs_ind"
         data:
-          - cip: "<<id>>"
+          - geo: "<<id>>"
             limit: "5"
             order: "wage"
             sort: "asc"
@@ -441,16 +441,11 @@ topics:
   - viz:
       attrs: "acs_ind"
       data:
-        - cip: "<<id>>"
-          required: "num_ppl,wage"
+        - geo: "<<id>>"
+          required: "num_emp"
           show: "acs_ind"
-          sumlevel: "4"
+          sumlevel: "all"
       height: 500
       id: "acs_ind"
-      size: "num_ppl"
+      size: "num_emp"
       type: "tree_map"
-      ui:
-        - method: "size"
-          value:
-            - "num_ppl"
-            - "wage"

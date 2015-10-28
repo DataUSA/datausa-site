@@ -35,7 +35,7 @@ class Profile(object):
         try:
             return datafold(requests.get("{}/attrs/{}/{}/children".format(API, self.attr_type, self.id)).json())
         except ValueError:
-            raise Exception(params)
+            return []
 
     def color(self):
         if hasattr(self.attr, "color"):

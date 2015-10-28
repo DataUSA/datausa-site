@@ -170,7 +170,8 @@ class Section(object):
             attr_id = kwargs.get("attr_id", self.attr["id"])
             prefix = attr_id[:3]
             suffix = attr_id[3:]
-            return "{}{}".format(geo_children[prefix], suffix)
+            if prefix in geo_children:
+                return "{}{}".format(geo_children[prefix], suffix)
         return ",".join([c["id"] for c in self.profile.children()])
 
     def id(self, **kwargs):
@@ -192,7 +193,7 @@ class Section(object):
 
         if attr_type == "geo":
             prefix = attr_id[:3]
-            if kwargs.get("child", False):
+            if kwargs.get("child", False) and prefix in geo_children:
                 prefix = geo_children[prefix]
             name = geo_labels[prefix]
         else:
@@ -263,7 +264,7 @@ class Section(object):
 
         if attr_type == "geo":
             prefix = attr_id[:3]
-            if kwargs.get("child", False):
+            if kwargs.get("child", False) and prefix in geo_children:
                 prefix = geo_children[prefix]
             name = geo_sumlevels[prefix]
         else:
