@@ -51,10 +51,11 @@ class Profile(object):
         return "/static/img/splash/cip/4005.jpg"
 
     def parents(self):
+        url = "{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)
         try:
-            return datafold(requests.get("{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)).json())
+            return datafold(requests.get(url).json())
         except ValueError:
-            raise Exception(params)
+            return []
 
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
