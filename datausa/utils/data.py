@@ -49,7 +49,10 @@ def stat(params, col="name", dataset=False, data_only=False):
         r = requests.get(url).json()
     except ValueError:
         app.logger.info("STAT ERROR: {}".format(url))
-        raise Exception(url)
+        return {
+            "url": "{}?{}&col={}&dataset={}".format(url_for("profile.stat"), query, col, dataset),
+            "value": "N/A"
+        }
 
     if data_only:
         return r

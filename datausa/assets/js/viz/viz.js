@@ -14,7 +14,7 @@ var viz = function(build) {
 viz.finish = function(build) {
 
   var source_text = d3plus.util.uniques(build.sources).reduce(function(str, s, i){
-    str += s.dataset;
+    if (s) str += s.dataset;
     return str;
   }, "");
 

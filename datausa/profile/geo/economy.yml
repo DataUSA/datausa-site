@@ -175,7 +175,7 @@ topics:
     viz:
       attrs:
         - "sex"
-        - "soc"
+        - "acs_ind"
       data:
         - geo: "<<id>>"
           limit: "10"
@@ -190,7 +190,7 @@ topics:
       type: "bar"
       x:
         scale: "discrete"
-        value: "soc"
+        value: "acs_ind"
       y: "avg_wage"
   - title: "Wage by Race & Ethnicity"
     subtitle: "<<sub show=race|col=avg_wage>>"
@@ -201,7 +201,7 @@ topics:
     viz:
       attrs:
         - "race"
-        - "soc"
+        - "acs_ind"
       data:
         - geo: "<<id>>"
           limit: "45"
@@ -216,7 +216,7 @@ topics:
       type: "bar"
       x:
         scale: "discrete"
-        value: "soc"
+        value: "acs_ind"
       y: "avg_wage"
   - title: "Wage Gap"
     description: "<<name>> has an income GINI of <<top show=geo|col=gini>>."
@@ -282,3 +282,175 @@ topics:
         scale: "discrete"
         value: "age"
       y: "num_ppl"
+  - title: "Poverty by Race & Ethnicity"
+    stat:
+      - title: "Largest race living in poverty"
+        value: "N/A"
+    description: "XX% of the people for whom poverty status is determined in <<name>> living below the poverty line are N/A, followed closely by N/A and N/A."
+    viz:
+      attrs: "sex"
+      color: "sex"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        required: "poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75older,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75older"
+        split:
+          id: "sex_age"
+          regex: "poverty_([a-z0-9]*_[a-z0-9]*)"
+          map:
+            sex: "poverty_([a-z0-9]*)_[a-z0-9]*"
+            age: "poverty_[a-z0-9]*_([a-z0-9]*)"
+          value: "num_ppl"
+      id: "sex"
+      legend: false
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "age"
+      y: "xx"
+  - category: "Industries"
+    class: "flex"
+    source: NO
+    title: "Most Common"
+    description: "The 3 most common industries in <<name>> by number of employees are <<top show=acs_ind|sumlevel=4|order=num_ppl|sort=desc|limit=3>>"
+    viz:
+      - attrs: "acs_ind"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "desc"
+            show: "acs_ind"
+            sumlevel: "4"
+        height: 200
+        id: "acs_ind"
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "acs_ind"
+      - attrs: "acs_ind"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "asc"
+            show: "acs_ind"
+            sumlevel: "4"
+        height: 200
+        id: "acs_ind"
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "acs_ind"
+  - class: "flex"
+    source: NO
+    title: "Most Specialized"
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_ind|sumlevel=4|order=num_ppl_rca|sort=desc|limit=3>>"
+    viz:
+      - attrs: "acs_ind"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            sort: "desc"
+            show: "acs_ind"
+            sumlevel: "4"
+        height: 200
+        id: "acs_ind"
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "acs_ind"
+      - attrs: "acs_ind"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            sort: "asc"
+            show: "acs_ind"
+            sumlevel: "4"
+        height: 200
+        id: "acs_ind"
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "acs_ind"
+  - class: "flex"
+    source: NO
+    title: "Highest Paying"
+    description: "The 3 highest paying industries in <<name>>, by total payroll, are <<top show=acs_ind|sumlevel=4|order=wage|sort=desc|limit=3>>"
+    viz:
+      - attrs: "acs_ind"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "wage"
+            sort: "desc"
+            show: "acs_ind"
+            sumlevel: "4"
+        height: 200
+        id: "acs_ind"
+        order:
+          sort: "asc"
+          value: "wage"
+        type: "bar"
+        x: "wage"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "acs_ind"
+      - attrs: "acs_ind"
+        data:
+          - cip: "<<id>>"
+            limit: "5"
+            order: "wage"
+            sort: "asc"
+            show: "acs_ind"
+            sumlevel: "4"
+        height: 200
+        id: "acs_ind"
+        order:
+          sort: "asc"
+          value: "wage"
+        type: "bar"
+        x: "wage"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "acs_ind"
+  - viz:
+      attrs: "acs_ind"
+      data:
+        - cip: "<<id>>"
+          required: "num_ppl,wage"
+          show: "acs_ind"
+          sumlevel: "4"
+      height: 500
+      id: "acs_ind"
+      size: "num_ppl"
+      type: "tree_map"
+      ui:
+        - method: "size"
+          value:
+            - "num_ppl"
+            - "wage"
