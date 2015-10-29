@@ -111,6 +111,10 @@
         {% if topic.description %}
         <p>{{ topic.description|safe }}</p>
         {% endif %}
+        {% if topic.miniviz %}
+        <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}></div>
+        <script>builds.push({{ topic.miniviz.serialize()|safe }});</script>
+        {% endif %}
         {% if topic.source != False %}
         <sub>Data Source: <span class="source"></span></sub>
         {% endif %}
@@ -239,7 +243,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = [19], app;
+  var scrollBuffer = -200, n = [1], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
