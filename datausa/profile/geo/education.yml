@@ -1,0 +1,128 @@
+title: "Education"
+description: "The Census Bureau collects a large amount of data regarding higher education."
+
+topics:
+  - title: "Majors"
+    select:
+      data: "degree"
+      default: "5"
+    stat_stack: YES
+    stat:
+      - title: "High relative number of people major in"
+        value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca>>"
+      - title: "Most common major is"
+        value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total>>"
+    description: "This tree map shows the composition of the student population in <<name>> by major."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        degree: "5"
+        geo: "<<id>>"
+        required: "grads_total"
+        sumlevel: "6"
+      id:
+        - "cip_2"
+        - "cip_4"
+        - "cip_6"
+      size: "grads_total"
+      type: "tree_map"
+  - title: "Universities"
+    stat:
+      - title: "Median In-State Public"
+        value: "<<top show=sector|sector=1|col=state_tuition>>"
+      - title: "Median Out of State Private"
+        value: "<<top show=sector|sector=2|col=oos_tuition>>"
+    description: "The majority of graduates in <<name>> are enrolled at <<top show=sector|attr_type=sector|order=grads_total>> institutions."
+    miniviz:
+      attrs: "sector"
+      color: "sector"
+      data:
+        show: "sector"
+        geo: "<<id>>"
+        required: "district_tuition,oos_tuition,state_tution"
+      id: "sector"
+      type: "bar"
+      x: "state_tuition"
+      y:
+        scale: "discrete"
+        value: "tuition"
+      ui:
+        - method: "x"
+          value:
+            - "district_tuition"
+            - "oos_tuition"
+            - "state_tuition"
+    viz:
+      attrs:
+        - "sector"
+        - "universities"
+      color: "sector"
+      data:
+        show: "university"
+        geo: "<<id>>"
+        required: "grads_total"
+      id:
+        - "sector"
+        - "university"
+      size: "grads_total"
+      type: "tree_map"
+  - title: "STEM Locations"
+    description: "Here we can see the <<level child=True|plural=True>> in <<name>>, colored by the amount of STEM majors offered in them."
+    viz:
+      attrs: "geo"
+      color: "grads_total"
+      coords:
+        solo: "<<children>>"
+        value: "<<sumlevel plural=True|child=True>>"
+      data:
+        show: "geo"
+        required: "grads_total"
+        sumlevel: "<<sumlevel child=True>>"
+        where: "geo:<<children prefix=True>>%"
+      height: 400
+      id: "geo"
+      type: "geo_map"
+  - title: "Gender"
+    description: "Here we see the top 5 institutions in <<name>>, by graduates, broken out by gender. These 5 institutions tend to have more X than X enrolled, at a rate of X to 1."
+    viz:
+      attrs: "sex"
+      color: "sex"
+      data:
+        show: "university"
+        geo: "<<id>>"
+        required: "grads_men,grads_women"
+        split:
+          id: "sex"
+          regex: "grads_([a-z]*)"
+          value: "grads_total"
+        university: "<<top col=id|order=grads_total|show=university>>"
+      id: "sex"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "university"
+      y: "grads_total"
+  - title: "Race & Ethnicity"
+    stat:
+      - title: "Most common student race"
+        value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
+    description: "The most common race of graduates in <<name>> is <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>, followed by <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total|rank=2>>."
+    viz:
+      attrs: "race"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        required: "grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native"
+        split:
+          id: "race"
+          regex: "grads_([a-z]*)"
+          value: "grads_total"
+        university: "<<top col=id|order=grads_total|show=university>>"
+      id: "race"
+      type: "bar"
+      x: "grads_total"
+      y:
+        scale: "discrete"
+        value: "race"

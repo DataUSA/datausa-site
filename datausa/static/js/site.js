@@ -960,6 +960,20 @@ viz.loadData = function(build, next) {
           data = split_data;
         }
 
+        for (var i = 0; i < app.attrs.length; i++) {
+          var type = app.attrs[i].type,
+              nesting = search.nesting[type];
+          if (nesting && nesting.constructor === Array) {
+            for (var ii = 0; ii < data.length; ii++) {
+              var datum = data[ii];
+              for (var iii = 0; iii < nesting.length; iii++) {
+                var length = nesting[iii];
+                datum[type + "_" + length] = datum[type].slice(0, length);
+              }
+            }
+          }
+        }
+
         d.data = data;
         d.source = source;
         build.sources.push(source)

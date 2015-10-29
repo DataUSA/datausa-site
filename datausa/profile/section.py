@@ -138,6 +138,9 @@ class Section(object):
                     topic["viz"] = [topic["viz"]]
                 topic["viz"] = [Viz(viz, color=self.profile.color()) for viz in topic["viz"]]
 
+                if "miniviz" in topic:
+                    topic["miniviz"] = Viz(topic["miniviz"], color=self.profile.color())
+
                 # fill selector if present
                 if "select" in topic and isinstance(topic["select"]["data"], str):
                     topic["select"]["param"] = topic["select"]["data"]
