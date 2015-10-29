@@ -177,10 +177,15 @@ def build_attr_cache():
     results = {}
 
     for attr_name in attr_names:
-        r = requests.get("{}/attrs/{}".format(API, attr_name))
-        attr_list = datafold(r.json())
-        app.logger.info("Loaded {} attributes for: {}".format(len(attr_list), attr_name))
-        results[attr_name] = {obj["id"]: obj for obj in attr_list}
+
+        try:
+            r = requests.get("{}/attrs/{}".format(API, attr_name))
+            attr_list = datafold(r.json())
+            app.logger.info("Loaded {} attributes for: {}".format(len(attr_list), attr_name))
+            results[attr_name] = {obj["id"]: obj for obj in attr_list}
+        except:
+            app.logger.info("ERROR: Could not load {} attributes".format(attr_name))
+
     app.logger.info("Attr cache setup complete.")
     return results
 
