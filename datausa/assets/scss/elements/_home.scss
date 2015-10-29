@@ -1,50 +1,11 @@
 body.home {
   position: relative;
   height: 100vh;
-  
-  h1 {
-    color: $dark-d-blue;
-    font-family: $noticia;
-    font-weight: 400;
-    font-size: 60px;
-    letter-spacing: 0.05em;
-    text-align: center;
-  }
-
-  h2 {
-    color: white;
-    font-family: $noticia;
-    letter-spacing: 0.1em;
-    font-size: 20px;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
 
   a {
-    font-family: $open-sans;
-    font-weight: 300;
-    color: $dark-d-blue;
-
-    &:hover {
-      text-decoration: none;
-
-      h2 {
-        color: $dark-home-blue;
-      }
-    }
+    font-family: $lato;
+    font-weight: 400;
   }
-
-  p {
-    color: white;
-    font-family: $noticia;
-    font-size: 14px;
-    line-height: 1.5;
-    opacity: 0.9;
-  }
-
-  // .bg {
-  //   margin-left: -$nav-width - 10;
-  // }
 
   .parallax {
     height: 190vh;
@@ -165,10 +126,6 @@ body.home {
       top: 0;
     }
 
-    #search-switch.adv {
-      color: white;
-    }
-
     .profile-sum-link {
       display: inline-block;
       width: 38vw;
@@ -200,8 +157,6 @@ body.home {
       background-color: rgba(255,255,255,0);
 
       footer {
-        position: absolute;
-        bottom: 0;
         background-color: rgba(255,255,255,0);
       }
     }
@@ -328,9 +283,5 @@ body.home {
 
 #search-switch.adv {
   text-align: right;
-  font-family: $lato;
-  font-weight: 400;
-  color: white;
   text-transform: uppercase;
-  text-decoration: none;
 }

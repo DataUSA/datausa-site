@@ -1,19 +1,9 @@
-body {
-  background-color: $home-midtone;
+/* page-specific nav */
 
+body {
   &.home {
     #menu-btn, #search-btn, #home-btn {
       display: none;
-    }
-  }
-
-  &.story, &.map, &.search, &.profile {
-    #menu {
-      display:none;
-
-      &.open {
-        display: block;
-      }
     }
   }
 
@@ -24,41 +14,35 @@ body {
   }
 }
 
-#top-nav {
+/* side nav */
+
+#menu {
+  left: -$nav-width;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  width: $nav-width;
+  background-color: $home-midtone;
   @include flex();
-  @include align-items(center);
-  @include justify(space-between);
-}
-
-#menu-btn {
-  padding: 20px;
-  opacity: 0.5;
-  color: red;
-  font-family: $palanquin;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 18px;
-  @include transition(opacity 1s);
+  @include flex-direction(column);
   z-index: 4;
 
-  &:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  i {
-    margin-right: 5px;
+  &.open {
+    left: 0;
+    
+    .menu-content {
+      width: 100%;
+    }
   }
 }
 
-#home-btn {
-  padding: 20px;
-  z-index: 4;
-}
+.menu-content {
+  margin-top: $nav-height;
 
-#search-btn {
-  padding: 20px;
-  z-index: 4;
+  h2 {
+    padding: 20px;
+  }
 }
 
 .about-sum { 
@@ -77,16 +61,87 @@ body {
   }
 }
 
+.profiles-drawer {
+  .disabled {
+    pointer-events: none;
+    cursor: default;
+
+    h2 {
+      color: #ccc;
+      opacity: 0.8;
+    }
+  }
+}
+
+.desc {
+  padding: 10px 20px;
+}
+
+/* top nav */
+
+#top-nav {
+  @include flex();
+  @include align-items(center);
+  @include justify(space-between);
+}
+
+#menu-btn {
+  padding: 20px;
+  opacity: 0.5;
+  color: red;
+  font-family: $palanquin;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 18px;
+  @include transition(opacity 1s);
+  z-index: 5;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  i {
+    margin-right: 5px;
+  }
+}
+
+#home-btn {
+  padding: 20px;
+  z-index: 5;
+}
+
+#search-btn {
+  padding: 20px;
+  z-index: 5;
+}
+
+#mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.8;
+  background-color: $dark-home-blue;
+}
+
 /* small design */
 
 @media all and (max-width: 415px) {
-  nav {
-    #top-nav {
-      position: absolute;
-      top: 0;
-      z-index: 5;
-      width: 100vw;
-    }
+  #top-nav {
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    width: 100vw;
+  }
+
+  #menu {
+    @include justify(space-around);
+  }
+
+  #menu footer {
+    display: none;
   }
 
   .hidden {
@@ -97,25 +152,9 @@ body {
     nav {
 
       #menu {
-        display: none;
 
         .profiles-drawer {
           display: none;
-        }
-
-        &.open {
-          display: block;
-          position: fixed;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 100vh;
-          background-color: $home-midtone;
-          z-index: 4;
-          @include flex();
-          @include flex-direction(column);
-          @include justify(space-between);
         }
         
         ul {
@@ -150,67 +189,17 @@ body {
 /* large design */
 
 @media all and (min-width: 416px){
-  nav {
-    h2 {
-      padding: 20px;
-      color: white;
-      font-family: $palanquin;
-      font-size: 20px;
-      font-weight: 300;
-      text-transform: uppercase;
-    }
 
-    a {
-      color: white;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
-    p {
-      color: white;
-      font-family: $palanquin;
-      font-size: 14px;
-      line-height: 1.5;
-      opacity: 0.9;
+  body.home {
+    #menu {
+      left: 0;
+      @include justify(space-around);
     }
   }
 
   #menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 370px;
-    background-color: $dark-d-blue;
-    opacity: 1;
-    z-index: 1;
-
-    a {
-      color: white;
-    }
+    @include justify(space-between);
   }
-
-  .profile-sum-link {
-    display: inline-block;
-    width: 40vw;
-    height: 40vw;
-    border: 2px solid white;
-    margin: 4vw;
-    background-color: rgba(255,255,255,0.5);
-  }
-
-  .profile-link {
-    display: block;
-    padding: 10px 20px;
-    font-family: $palanquin;
-    font-size: 14px;
-    font-weight: 300;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-  }
-
 
   #menu footer {
     display: block;

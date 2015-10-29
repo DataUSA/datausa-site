@@ -19,38 +19,63 @@
     </div>
 
     <div id="menu">
-      <ul>
-        <li class="about-sum">
-            <a href="#">
-                <h2>About</h2>
-            </a>
-            
-            <section class="desc">
-                <p>
-                    DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations. View data sources &rarr;
-                </p>
-            </section>
-        </li>
-        <li class="profiles-drawer">
-            <a href="/#profiles-anchor">
-                <h2>Profiles</h2>
-            </a>
-            <!-- <a href="" class="profile-link">Occupations</a>
-            <a href="" class="profile-link">Industries</a>
-            <a href="" class="profile-link">College Majors</a>
-            <a href="" class="profile-link">Location</a> -->
-        </li>
-        <li class="stories-sum">
-            <a href="/story/">
-                <h2>Stories &rarr;</h2>
-            </a>
-        </li>
-        <li class="map-sum">
-            <a href="/map/">
-                <h2>Map &rarr;</h2>
-            </a>
-        </li>
-      </ul>
+      <div class="menu-content">
+        <ul>
+          <li class="desc">
+              <p>
+                  DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations.
+              </p>
+          </li>
+
+          <!-- <li class="about-sum">
+              <a href="#">
+                  <h2>About</h2>
+              </a>
+              
+              <section class="desc">
+                  <p>
+                      DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations. View data sources &rarr;
+                  </p>
+              </section>
+          </li> -->
+
+          <li class="profiles-drawer">
+              <!-- <a href="/#profiles-anchor">
+                  <h2>Profiles</h2>
+              </a> -->
+              <a href="/search/?q=" class="profile-link">
+                <h2>
+                  College Majors
+                </h2>
+              </a>
+              <a href="/search/?q=" class="profile-link">
+                <h2>
+                  Location
+                </h2>
+              </a>
+              <a href="" class="profile-link disabled">
+                <h2>
+                  Occupations
+                </h2>
+              </a>
+              <a href="" class="profile-link disabled">
+                <h2>
+                  Industries
+                </h2>
+              </a>
+          </li>
+          <li class="stories-sum">
+              <a href="/story/">
+                  <h2>Stories</h2>
+              </a>
+          </li>
+          <li class="map-sum">
+              <a href="/map/">
+                  <h2>Map</h2>
+              </a>
+          </li>
+        </ul>
+      </div>
 
       <footer>
         <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
@@ -73,28 +98,21 @@
 
 <script>
 
-var w = window.innerWidth;
-
-if (w < 415) {
-  console.log('window width:' + w);
-  d3.select(".about-sum a").on("click", mobileToggleAbout);
-} else {
-  d3.select(".about-sum a").on("click", toggleAbout);
-}
-
 d3.select("#menu-btn").on("click", function(){
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
+
+  var body = d3.select("body");
+
+  body.classed("frozen", !d3.select("body").classed("frozen"));
+
+  if (body.classed("frozen") === true) {
+    body.append("div").attr("id", "mask");
+  } else {
+    d3.select("#mask").remove();
+  }
+
+  d3.event.preventDefault();
 });
-
-function toggleAbout(){
-  d3.select(".about-sum").classed("open", !d3.select(".about-sum").classed("open"));
-}
-
-function mobileToggleAbout(){
-  d3.select(".about-sum").classed("open", !d3.select(".about-sum").classed("open"));
-  d3.select(".stories-sum").classed("hidden", !d3.select(".stories-sum").classed("hidden"));
-  d3.select(".map-sum").classed("hidden", !d3.select(".map-sum").classed("hidden"));
-}
 
 </script>
 

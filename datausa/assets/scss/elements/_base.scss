@@ -1,11 +1,43 @@
+h1 {
+  color: $dark-d-blue;
+  font-family: $noticia;
+  font-weight: 400;
+  font-size: 60px;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+h2 {
+  color: white;
+  font-family: $noticia;
+  letter-spacing: 0.1em;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+p {
+  color: white;
+  font-family: $noticia;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
 a {
   color: white;
-  opacity: 0.8;
+  opacity: 1;
   text-decoration: none;
 
   &:hover {
-    opacity: 1;
+    opacity: 0.7;
   }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 footer {
