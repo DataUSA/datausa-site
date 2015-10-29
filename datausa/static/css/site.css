@@ -392,7 +392,7 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
+                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
                     z-index: -11; }
                     body.home .bg-img.landing {
                       top: -45vh;
@@ -1004,6 +1004,8 @@ body.profile section {
               flex: 1 1 auto;
               margin-left: 50px;
               overflow: hidden; }
+              body.profile section .topic .content .viz.mini {
+                margin-left: 0; }
 #map-fullscreen {
   height: 100vh;
   width: 100vw; }
