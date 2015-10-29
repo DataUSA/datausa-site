@@ -170,6 +170,7 @@ col_map["pums_race"] = col_map["race"]
 @cache.memoize()
 def build_attr_cache():
     app.logger.info("Loading attr data from API...")
+    print "{}/attrs/list".format(API)
     req = requests.get("{}/attrs/list".format(API))
     response_json = req.json()
     attr_names = response_json["data"]

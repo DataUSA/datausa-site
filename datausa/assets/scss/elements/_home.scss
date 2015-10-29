@@ -4,7 +4,8 @@ body.home {
   
   h1 {
     color: $dark-d-blue;
-    font-family: $enriqueta;
+    font-family: $noticia;
+    font-weight: 400;
     font-size: 60px;
     letter-spacing: 0.05em;
     text-align: center;
@@ -12,70 +13,169 @@ body.home {
 
   h2 {
     color: white;
-    font-family: $open-sans;
+    font-family: $noticia;
+    letter-spacing: 0.1em;
     font-size: 20px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
   }
 
   a {
+    font-family: $open-sans;
+    font-weight: 300;
     color: $dark-d-blue;
 
     &:hover {
       text-decoration: none;
 
       h2 {
-        color: #aaa;
+        color: $dark-home-blue;
       }
     }
   }
 
   p {
     color: white;
-    font-family: $open-sans;
+    font-family: $noticia;
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.9;
+  }
+
+  // .bg {
+  //   margin-left: -$nav-width - 10;
+  // }
+
+  .parallax {
+    height: 190vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    -webkit-perspective: 1px;
+    perspective: 300px;
+  }
+
+  .parallax__group {
+    transform 0.5s;
+    position: relative;
+    height: 100vh;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
+    //transform: translate3d(700px, 0, -800px) rotateY(30deg);
+  }
+
+  .parallax__layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .parallax__layer--1 {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .parallax__layer--2 {
+    top: 99vh;
+    -webkit-transform: translateZ(-150px) scale(1.5);
+    transform: translateZ(-150px) scale(1.5);
+  }
+
+  .parallax__layer--3 {
+    -webkit-transform: translateZ(-300px) scale(2);
+    transform: translateZ(-300px) scale(2);
+  }
+
+  .parallax__layer--4 {
+    -webkit-transform: translateZ(-450px) scale(2.5);
+    transform: translateZ(-450px) scale(2.5);
+  }
+
+  .bg-filter.landing {
+    width: 100vw;
+    height: 190vh;
+    background: linear-gradient($light-home-blue 0%, $home-midtone 55%, white 70%, $light-home-red 80%, $home-red 100%);
+    z-index: -11;
+  }
+
+  .bg-img.landing {
+    top: -45vh;
+    width: 100vw;
+    height: 100vh;
+    background: url('/static/img/home/home-landscape-b-3.png') no-repeat 50% 100%;
+    background-size: cover;
+    z-index: -10;
+  }
+
+  // .bg-filter.featured-start {
+  //   top: 98vh;
+  //   width: 100vw;
+  //   height: 10vh;
+  //   @include gradient(transparent, $home-red);
+  //   z-index: -9;
+  // }
+
+  .bg-img.featured {
+    top: 125vh;
+    width: 100vw;
+    height: 100vh;
+    background: url('/static/img/home/home-cityscape-r-2.png') no-repeat 50% 0%;
+    background-size: cover;
+    z-index: -11;
+  }
+
+  article.landing {
+    top: 0;
+    height: 90vh;
+    margin: 0 auto;
+  }
+
+  article.featured-profiles {
+    top: 90vh;
+    overflow: hidden;
+    margin-left: -$nav-width - 10;
+    padding-left: $nav-width + 10;
   }
 
   .logo {
     margin: 40px 0;
   }
 
-  .bg-filter {
-    // position: fixed;
-    // top: 0;
-    // width: 100vw;
-    // height: 58vh;
-    // @include gradient(transparent, $home-blue);
-    // z-index: -9;
-  }
-
-  .bg-img {
-    position: fixed;
-    bottom: 0;
-    height: 100vh;
-    width: 100vw;
-    background: $light-home-blue url('/static/img/home/home-landscape-b-2.png') no-repeat 50% 40%;
-    //background-blend-mode: screen, difference, lighten;
-    background-size: cover;
-    z-index: -10;
-  }
-
   #search-home {
     margin-bottom: 20px;
-  }
-
-  article {
-    margin: 0 auto;
   }
 
   /* small design */
 
   @media all and (max-width: 415px){
 
+    .home-container {
+      height: 184vh;
+      overflow-y: hidden;
+    }
+    
+    article.landing {
+      height: 94vh;
+    }
+
+    .content {
+      position: absolute;
+      top: 0;
+    }
+
     #search-switch.adv {
       color: white;
+    }
+
+    .profile-sum-link {
+      display: inline-block;
+      width: 38vw;
+      height: 38vw;
+      border: 2px solid white;
+      margin: 20px 5vw;
+      background-color: rgba(255,255,255,0.5);
     }
   }
 
@@ -83,8 +183,13 @@ body.home {
 
   @media all and (min-width: 416px){
 
+    .home-container {
+      height: 190vh;
+      overflow-y: hidden;
+    }
+
     nav {
-      section {
+      li {
         &.profiles-sum {
           display: none;
         }
@@ -101,17 +206,12 @@ body.home {
       }
     }
 
-    section.desc {
-      position: absolute;
-      bottom: 60px;
-    }
-
     .content {
       width: 100vw;
       @include box();
       padding-left: $nav-width + 10;
 
-       section {
+       li {
         &:not(.profiles-sum) {
           display: none;
         }
@@ -122,19 +222,15 @@ body.home {
       margin-right: 15px;
     }
 
-    // .profile-sum-link {
-    //   $profile-sum-link-width: 0.25*(1200 - $nav-width + 10);
-    //   width: $profile-sum-link-width;
-    //   height: $profile-sum-link-width;
-    //   margin: 0;
-    // }
+    .profile-sum-link {
+      width: 15vw;
+      height: 15vw;
+      margin: 40px;
+    }
 
     article {
-      // @include flex();
-      // @include flex-direction(column);
-      // @include align-items(center);
       height: 100vh;
-      position: relative;
+      position: absolute;
     }
   }
 }
@@ -143,7 +239,8 @@ body.home {
   @include flex();
   @include flex-direction(column);
   @include justify(center);
-  margin: 0 5vw;
+  margin: 0;
+  width: 80%;
 
   &.open {
     @include justify(flex-start);
@@ -166,21 +263,20 @@ body.home {
 }
 
 #home-search-input {
-  padding: 7px 10px 0px 60px;
-  border: 0;
-  border-bottom: 1px solid rgba(255,255,255,0);
-  background: url('/static/img/home/search.png') no-repeat 10px 20px;
+  padding: 7px 10px 7px 60px;
+  border: 1px solid rgba(255,255,255,0.5);
+  //border-bottom: 1px solid rgba(255,255,255,0);
+  background: rgba(103, 117, 148, 0.5) url('/static/img/home/search.png') no-repeat 11px 14px;
   background-attachment: inherit;
-  color: $home-blue;
-  font-family: $enriqueta;
+  color: white;
+  font-family: $lato;
   font-size: 30px;
-  font-weight: 400;
-  @include transition(border-bottom 1s);
-  @include placeholder {color: white; opacity: 0.5;}
+  font-weight: 300;
+  @include placeholder {color: white; opacity: 0.7; font-weight: 300;}
 
   &:focus {
     outline: 0;
-    border-bottom: 1px solid rgba(255,255,255,1);
+    //border-bottom: 1px solid rgba(255,255,255,1);
   }
 
   @media all and (min-width: 415px) {
@@ -194,26 +290,29 @@ body.home {
   &:hover {
     outline: 0;
     cursor: pointer;
-    @include placeholder {opacity: 0.7;}
-    border-bottom: 1px solid rgba(255,255,255,0.7);
+    @include placeholder {opacity: 1;}
+    border: 1px solid rgba(255,255,255,0.7);
+    //@include shadow(0px 5px 0 rgba(0,0,0,0.3));
   }
   
   &:focus ~ .search-body.simple {
-    height: 60vh;
-    margin-top: 10px;
+    height: 40vh;
+    margin-top: 7px;
     overflow-y: scroll;
+    border: 1px solid rgba(255,255,255,0.5);
 
     a {
       display: block;
-      padding: 10px 10px 0;
+      padding: 10px 10px 3px;
       font-family: $open-sans;
-      font-size: 12px;
+      font-weight: 400;
+      font-size: 18px;
       color: white;
     }
   }
 
   ~ .search-body.simple {
-    @include transition(0.5s 0.25s);
+    @include transition(height 0.5s 0.25s, margin-top 0.25s, border 0.1s);
     height: 0;
 
     a {
@@ -224,19 +323,14 @@ body.home {
 }
 
 .search-body {
-  background-color: rgba(14,39,97,0.5);
+  background-color: rgba(103, 117, 148, 0.5);
 }
 
 #search-switch.adv {
   text-align: right;
-  font-family: $open-sans;
+  font-family: $lato;
   font-weight: 400;
-  color: $dark-d-blue;
-  opacity: 0.5;
+  color: white;
   text-transform: uppercase;
   text-decoration: none;
-
-  &:hover {
-    opacity: 0.7;
-  }
 }

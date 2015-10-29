@@ -1,4 +1,6 @@
 body {
+  background-color: $home-midtone;
+
   &.home {
     #menu-btn, #search-btn, #home-btn {
       display: none;
@@ -14,13 +16,134 @@ body {
       }
     }
   }
+
+  &.search {
+    #search-btn {
+      visibility: hidden;
+    }
+  }
+}
+
+#top-nav {
+  @include flex();
+  @include align-items(center);
+  @include justify(space-between);
+}
+
+#menu-btn {
+  padding: 20px;
+  opacity: 0.5;
+  color: red;
+  font-family: $palanquin;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 18px;
+  @include transition(opacity 1s);
+  z-index: 4;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  i {
+    margin-right: 5px;
+  }
+}
+
+#home-btn {
+  padding: 20px;
+  z-index: 4;
+}
+
+#search-btn {
+  padding: 20px;
+  z-index: 4;
+}
+
+.about-sum { 
+  .desc {
+    display: none;
+
+    p {
+      padding: 5px 20px;
+    }
+  }
+
+  &.open {
+    .desc {
+      display: block;
+    }
+  }
 }
 
 /* small design */
 
 @media all and (max-width: 415px) {
   nav {
+    #top-nav {
+      position: absolute;
+      top: 0;
+      z-index: 5;
+      width: 100vw;
+    }
+  }
+
+  .hidden {
     display: none;
+  }
+
+  body.home {
+    nav {
+
+      #menu {
+        display: none;
+
+        .profiles-drawer {
+          display: none;
+        }
+
+        &.open {
+          display: block;
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 100vh;
+          background-color: $home-midtone;
+          z-index: 4;
+          @include flex();
+          @include flex-direction(column);
+          @include justify(space-between);
+        }
+        
+        ul {
+          padding-bottom: 20vh;
+
+          li {
+            margin: 10px 0;
+            text-align: center;
+          }
+        }
+
+        .about-sum {
+          padding-top: 20vh;
+
+          &.open {
+            padding-top: 5vh;
+          }
+        }
+
+      }
+
+      #menu-btn {
+        display: block;
+        padding: 12px 16px;
+        color: white;
+        opacity: 0.8;
+      }
+    }
   }
 }
 
@@ -29,6 +152,7 @@ body {
 @media all and (min-width: 416px){
   nav {
     h2 {
+      padding: 20px;
       color: white;
       font-family: $palanquin;
       font-size: 20px;
@@ -58,30 +182,14 @@ body {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 415px;
-    // background-color: $dark-d-blue;
+    width: 370px;
+    background-color: $dark-d-blue;
     opacity: 1;
     z-index: 1;
 
     a {
       color: white;
     }
-  }
-
-  // .profiles-sum {
-  //   background-color: darkseagreen;
-  // }
-
-  // .stories-sum {
-  //   background-color: $dark-d-blue;
-  // }
-
-  // .map-sum {
-  //   background-color: lightskyblue;
-  // }
-
-  h2, .desc {
-    padding: 20px;
   }
 
   .profile-sum-link {
@@ -93,19 +201,6 @@ body {
     background-color: rgba(255,255,255,0.5);
   }
 
-  // .story-img {
-  //   display: inline-block;
-  //   width: 20vw;
-  //   height: 20vw;
-  //   border: 2px solid white;
-  //   margin: 0 4vw 10px;
-  //   background-color: rgba(255,255,255,0.5);
-  // }
-
-  // .story-desc {
-  //   display: inline-block;
-  // }
-
   .profile-link {
     display: block;
     padding: 10px 20px;
@@ -116,42 +211,6 @@ body {
     letter-spacing: 0.01em;
   }
 
-  #top-nav {
-    @include flex();
-    @include align-items(center);
-    @include justify(space-between);
-  }
-
-  #menu-btn {
-    padding: 20px;
-    opacity: 0.5;
-    color: red;
-    font-family: $palanquin;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 18px;
-    @include transition(opacity 1s);
-    z-index: 4;
-
-    &:hover {
-      opacity: 1;
-      cursor: pointer;
-    }
-
-    i {
-      margin-right: 5px;
-    }
-  }
-
-  #home-btn {
-    padding: 20px;
-    z-index: 4;
-  }
-
-  #search-btn {
-    padding: 20px;
-    z-index: 4;
-  }
 
   #menu footer {
     display: block;

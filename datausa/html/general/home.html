@@ -1,20 +1,25 @@
 {% extends "templates/nav.html" %}
 
 {% block body %}
-
-<div class="bg">
-	<div class="bg-filter"></div>
-	<div class="bg-img"></div>
-</div>
+<div class="home-container">
+	<div class="bg parallax">
+		<div class="parallax__group">
+			<div class="bg-filter landing parallax__layer parallax__layer--4"></div>
+			<div class="bg-img landing parallax__layer parallax__layer--3"></div>
+			<div class="bg-filter featured-start parallax__layer parallax__layer--2"></div>
+			<div class="bg-img featured parallax__layer parallax__layer--2"></div>
+		</div>
+	</div>
 
 <div class="content">
-	<article>
-		<img class="logo" src="/static/img/home/logo.png" alt="DataUSA" />
-		<section>
-			<p class="desc">
-				DataUSA is an exploration platform that draws data from the US Census, Department of Education, the National Center for Health Statistics, and more.
-			</p>
-		</section>
+	<article class="landing">
+		<!-- <div class="bg">
+			<div class="bg-filter"></div>
+			<div class="bg-img"></div>
+		</div> -->
+
+		<img class="logo" src="/static/img/home/logo_2.png" alt="DataUSA" />
+		
 		<section id="search-home">
 			<a href="#" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<input type="text" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
@@ -29,38 +34,23 @@
 
 			</div>
 		</section>
-		<!-- <section class="profiles-sum">
-			<h2>Featured Profiles &rarr;</h2>
+	</article>
+	<article class="featured-profiles"><a name="profiles-anchor"></a>
+		<!-- <div class="bg">
+			<div class="bg-filter"></div>
+			<div class="bg-img"></div>
+		</div> -->
+
+		<section class="profiles-sum">
+			<h2>Featured Profiles &darr;</h2>
 			<a href="" class="profile-sum-link"></a>
 			<a href="" class="profile-sum-link"></a>
 			<a href="" class="profile-sum-link"></a>
 			<a href="" class="profile-sum-link"></a>
-		</section> -->
-		<section class="stories-sum">
-			<a href="/story/">
-				<h2>Stories &rarr;</h2>
-			</a>
-			<div class="story-sum">
-				<span class="story-img"></span>
-				<div class="story-desc">
-					<a href="/story/" class="story-title">Title A</a>
-					<p class="story-sum-text">This is a description of this story.</p>
-				</div>
-			</div>
-			<div class="story-sum">
-				<span class="story-img"></span>
-				<div class="story-desc">
-					<a href="/story/" class="story-title">Title A</a>
-					<p class="story-sum-text">This is a description of this story.</p>
-				</div>
-			</div>
-		</section>
-		<section class="map-sum">
-			<a href="/map/">
-				<h2>Map &rarr;</h2>
-			</a>
 		</section>
 	</article>
+</div>
+
 </div>
 
 {% endblock %}

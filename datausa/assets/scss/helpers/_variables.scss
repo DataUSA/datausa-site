@@ -7,15 +7,21 @@ $nav-width: 415px;
 $text-color: #211f1a;
 $dark-d-blue: #132332;
 $d-blue: #004994;
-$home-blue: #3a4e7c;
-$light-home-blue: #bec9db;
-$dark-home-blue: #0e2761;
+$home-blue: #223856;
+$light-home-blue: #cfedff;
+$med-home-blue: #386f8e;
+$dark-home-blue: #010103;
+$home-red: #dc5137;
+$light-home-red: #fdc8b8;
+$home-midtone: #677594;
 
 $shadow: 0 2px 2px rgba(0,0,0,0.5);
 
-$enriqueta: "Enriqueta", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$enriqueta: "Enriqueta", serif;
 $palanquin: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $open-sans: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$noticia: "Noticia Text", serif;
+$lato: "Lato", "Helvetica Neue", "Arial", sans-serif;
 
 /* download Google Fonts */
-@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Open+Sans:400,300,600);
+@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Open+Sans:400,300,600|Noticia+Text:400,700|Lato:100,300,400,700);

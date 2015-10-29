@@ -19,53 +19,44 @@
     </div>
 
     <div id="menu">
-
-        <section class="profiles-drawer">
-            <a href="/search/">
+      <ul>
+        <li class="about-sum">
+            <a href="#">
+                <h2>About</h2>
+            </a>
+            
+            <section class="desc">
+                <p>
+                    DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations. View data sources &rarr;
+                </p>
+            </section>
+        </li>
+        <li class="profiles-drawer">
+            <a href="/#profiles-anchor">
                 <h2>Profiles</h2>
             </a>
-            <a href="" class="profile-link">Occupations</a>
+            <!-- <a href="" class="profile-link">Occupations</a>
             <a href="" class="profile-link">Industries</a>
             <a href="" class="profile-link">College Majors</a>
-            <a href="" class="profile-link">Location</a>
-        </section>
-        <section class="stories-sum">
+            <a href="" class="profile-link">Location</a> -->
+        </li>
+        <li class="stories-sum">
             <a href="/story/">
                 <h2>Stories &rarr;</h2>
             </a>
-            <!-- <div class="story-sum">
-                <span class="story-img"></span>
-                <div class="story-desc">
-                    <a href="/story/" class="story-title">Title A</a>
-                    <p class="story-sum-text">This is a description of this story.</p>
-                </div>
-            </div>
-            <div class="story-sum">
-                <span class="story-img"></span>
-                <div class="story-desc">
-                    <a href="/story/" class="story-title">Title A</a>
-                    <p class="story-sum-text">This is a description of this story.</p>
-                </div>
-            </div> -->
-        </section>
-        <section class="map-sum">
+        </li>
+        <li class="map-sum">
             <a href="/map/">
                 <h2>Map &rarr;</h2>
             </a>
-        </section>
+        </li>
+      </ul>
 
-        <section class="desc">
-            <p>
-                DataUSA is an exploration platform that draws data from the US Census, Department of Education, the National Center for Health Statistics, and more.
-            </p>
-        </section>
-
-
-        <footer>
-          <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
-          <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
-          <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
-        </footer>
+      <footer>
+        <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
+        <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
+        <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
+      </footer>
 
     </div>
 
@@ -82,9 +73,28 @@
 
 <script>
 
+var w = window.innerWidth;
+
+if (w < 415) {
+  console.log('window width:' + w);
+  d3.select(".about-sum a").on("click", mobileToggleAbout);
+} else {
+  d3.select(".about-sum a").on("click", toggleAbout);
+}
+
 d3.select("#menu-btn").on("click", function(){
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
 });
+
+function toggleAbout(){
+  d3.select(".about-sum").classed("open", !d3.select(".about-sum").classed("open"));
+}
+
+function mobileToggleAbout(){
+  d3.select(".about-sum").classed("open", !d3.select(".about-sum").classed("open"));
+  d3.select(".stories-sum").classed("hidden", !d3.select(".stories-sum").classed("hidden"));
+  d3.select(".map-sum").classed("hidden", !d3.select(".map-sum").classed("hidden"));
+}
 
 </script>
 
