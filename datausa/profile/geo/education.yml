@@ -41,7 +41,7 @@ topics:
       data:
         show: "sector"
         geo: "<<id>>"
-        required: "district_tuition,oos_tuition,state_tution"
+        required: "district_tuition,oos_tuition,state_tuition"
       id: "sector"
       type: "bar"
       x: "state_tuition"
