@@ -78,8 +78,9 @@ def stat(params, col="name", dataset=False, data_only=False):
         cols = ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
         vals = [sorted([(k, v) for k, v in d.iteritems() if drop_first(k) in cols], key=lambda x: x[1], reverse=True) for d in r]
         vals = [drop_first(v[rank - 1][0]) for v in vals]
-        vals = [fetch(col_map[keys[i]][v], keys[i]) for x in vals for i, v in enumerate(x.split("_"))]
-        top = [" ".join([v["name"] for v in vals])]
+        vals = [col_map[keys[i]][v] for x in vals for i, v in enumerate(x.split("_"))]
+        vals = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for x in vals for i, v in enumerate(x.split("_"))]
+        top = [" ".join(vals)]
     elif col == "name":
         if dataset:
             attr = "{}_{}".format(dataset, params["show"])
@@ -156,12 +157,81 @@ col_map = {
         "65to74": "65-74",
         "75over": "75+"
     },
+    "incomeBucket": {
+        "under10": "< $10k",
+        "10to15": "$10-$15k",
+        "15to20": "$15-$20k",
+        "20to25": "$20-$25k",
+        "25to30": "$25-$30k",
+        "30to35": "$30-$35k",
+        "35to40": "$35-$40k",
+        "40to45": "$40-$45k",
+        "45to50": "$45-$50k",
+        "50to60": "$50-$60k",
+        "60to75": "$60-$75k",
+        "75to100": "$75-$100k",
+        "100to125": "$100-$125k",
+        "125to150": "$125-$150k",
+        "150to200": "$150-$200k",
+        "200over": "$200k+"
+    },
+    "propertyvalBucket": {
+        "less10k": "< $10k",
+        "10kto15k": "$10k-$15k",
+        "15kto20k": "$15k-$20k",
+        "20kto25k": "$20k-$25k",
+        "25kto30k": "$25k-$30k",
+        "30kto35k": "$30k-$35k",
+        "35kto40k": "$35k-$40k",
+        "40kto50k": "$40k-$50k",
+        "50kto60k": "$50k-$60k",
+        "60kto70k": "$60k-$70k",
+        "80kto90k": "$80k-$90k",
+        "90kto100k": "$90k-$100k",
+        "100kto125k": "$100k-$125k",
+        "150kto175k": "$150k-$175k",
+        "175kto200k": "$175k-$200k",
+        "200kto250k": "$200k-$250k",
+        "250kto300k": "$250k-$300k",
+        "300kto400k": "$300k-$400k",
+        "400kto500k": "$400k-$500k",
+        "500kto750k": "$500k-$750k",
+        "750kto1M": "$750k-$1M",
+        "1Mover": "$1M+"
+    },
+    "propertytaxBucket": {
+        "none": "$0",
+        "less800": "< $800",
+        "800to1500": "$800-$1.5k",
+        "1500to2000": "$1.5k-$2k",
+        "2000to3000": "$2k-$3k",
+        "3000over": "$3k+"
+    },
     "conflict": {
         "wwii": "1",
         "korea": "2",
         "vietnam": "3",
         "gulf90s": "4",
         "gulf01": "5"
+    },
+    "vehicles": {
+        "none": "0",
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "5over": "5+"
+    },
+    "transport": {
+        "drove": "Drove Alone",
+        "carpooled": "Carpooled",
+        "publictrans": "Public Transit",
+        "bicycle": "Bicycle",
+        "walked": "Walked",
+        "other": "Other",
+        "home": "Work at Home",
+        "motorcycle": "Motorcycle",
+        "taxi": "Taxi"
     }
 }
 col_map["acs_race"] = col_map["race"]

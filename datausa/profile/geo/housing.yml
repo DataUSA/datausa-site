@@ -1,0 +1,191 @@
+title: "Housing & Living"
+description: "The American Census Survey contains a lot of rich information pertaining to households and the people that reside in them."
+
+topics:
+  - category: "Income"
+    title: "Household Income"
+    stat:
+      - title: "Median Household Income"
+        value: "<<top col=income>>"
+    description: "The majority of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>"
+    miniviz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<parents>>,<<id>>"
+        required: "income"
+      height: 150
+      id: "geo"
+      order: "geo"
+      type: "bar"
+      x: "income"
+      y:
+        scale: "discrete"
+        value: "geo"
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_income_distribution"
+        split:
+          id: "bucket"
+          regex: "^income_([a-z0-9]*)$"
+          value: "income"
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "bucket"
+      y: "income"
+  - category: "Housing"
+    title: "Property Value"
+    stat:
+      - title: "Median Property Value"
+        value: "<<top col=median_property_value>>"
+    description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range. The chart on the right displays the distribution versus the national values."
+    miniviz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<parents>>,<<id>>"
+        required: "median_property_value"
+      height: 150
+      id: "geo"
+      order: "geo"
+      type: "bar"
+      x: "median_property_value"
+      y:
+        scale: "discrete"
+        value: "geo"
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "01000US,<<id>>"
+        force: "acs.yg_property_value"
+        split:
+          id: "bucket"
+          regex: "^propertyval_([a-zA-Z0-9]*)$"
+          value: "property_val"
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "bucket"
+      y: "property_val"
+  - title: "Property Taxes"
+    description: "The majority of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_property_tax"
+        split:
+          id: "bucket"
+          regex: "^propertytax_([a-zA-Z0-9]*)$"
+          value: "property_tax"
+      height: 200
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "bucket"
+      y: "property_tax"
+  - title: "Rent vs Own"
+    description: "The majority, <<top col=owner_occupied_housing_units>>, of the population of <<name>> owns their home. This is higher than the national average of <<top col=owner_occupied_housing_units|geo=01000US>>"
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<parents>>,<<id>>"
+        required: "owner_occupied_housing_units"
+      height: 200
+      id: "geo"
+      order: "geo"
+      type: "bar"
+      x: "owner_occupied_housing_units"
+      y:
+        scale: "discrete"
+        value: "geo"
+  - category: "Transportation"
+    title: "Car Ownership"
+    description: "The majority of households in <<name>> have <<top col=vehicles|force=acs.yg_vehicles>> cars, followed by <<top col=vehicles|force=acs.yg_vehicles|rank=2>> cars."
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_vehicles"
+        split:
+          id: "vehicles"
+          regex: "^vehicles_([0-9a-z]*)$"
+          value: "num_ppl"
+      height: 200
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "vehicles"
+      y: "num_ppl"
+  - title: "Commute Time"
+    stat:
+      - title: "Median Travel Time"
+        value: "<<top col=mean_commute_minutes>>"
+    description:
+      - "Employees in <<name>> have a shorter average commute time than the national average of <<top col=mean_commute_minutes|geo=01000US>>"
+      - "<<percent num=travel_90over|den=workers>> of the people in <<name>> have \"super commutes\" in excess of 90 minutes, which is nothing compared to the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>."
+    miniviz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<parents>>,<<id>>"
+        required: "mean_commute_minutes"
+      id: "geo"
+      height: 150
+      order: "geo"
+      type: "bar"
+      x: "mean_commute_minutes"
+      y:
+        scale: "discrete"
+        value: "geo"
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_travel_time"
+        split:
+          id: "travel_time"
+          regex: "^travel_([0-9a-z]*)$"
+          value: "num_ppl"
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "travel_time"
+      y: "num_ppl"
+  - title: "Commuter Transportation"
+    stat:
+      - title: "Most common method of travel"
+        value: "<<top col=transport|force=acs.yg_transport>>"
+    description:
+      - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport>> to work, which aligns with the national average (XX%)."
+      - "Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport>>."
+    viz:
+      attr: "geo"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_transport"
+        split:
+          id: "transport"
+          regex: "^transport_([a-z]*)$"
+          value: "num_ppl"
+      id: "geo"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "transport"
+      y: "num_ppl"

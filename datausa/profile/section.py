@@ -124,6 +124,8 @@ class Section(object):
 
         if "description" in config:
             self.description = config["description"]
+            if not isinstance(self.description, list):
+                self.description = [self.description]
 
         if "topics" in config:
             self.topics = config["topics"]
@@ -132,6 +134,9 @@ class Section(object):
 
             # loop through the topics
             for topic in self.topics:
+
+                if "description" in topic and not isinstance(topic["description"], list):
+                    topic["description"] = [topic["description"]]
 
                 # instantiate the "viz" config into an array of Viz classes
                 if not isinstance(topic["viz"], list):
@@ -301,10 +306,6 @@ class Section(object):
         params["show"] = params.get("show", attr_type)
         params = default_params(params)
 
-        # if the output key is not name, then add it to the params as a 'required' key
-        # raise Exception(itertools.product(*col_map.keys()))
-        # ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
-        # raise Exception(list(itertools.combinations(col_map.keys())))
         col_maps = col_map.keys()
         col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
         col_maps += ["id", "name", "ratio"]

@@ -36,7 +36,10 @@ affixes = {
     "earnings": ["$", ""]
 }
 
-percentages = ["us_citizens"]
+percentages = [
+    "owner_occupied_housing_units",
+    "us_citizens"
+]
 
 def num_format(number, key=None, labels=True):
 

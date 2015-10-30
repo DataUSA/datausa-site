@@ -21,7 +21,9 @@
         {% endfor %}
       </sub>
     {% endif %}
-    <p class="desc">{{ profile.splash.description }}</p>
+    {% for desc in profile.splash.description %}
+    <p class="desc">{{ desc|safe }}</p>
+    {% endfor %}
 
     <div id="splash-stats">
       {% for stat in profile.splash.stats %}
@@ -72,7 +74,9 @@
 {% for section in sections %}
 <header>
   <h2><a name="{{ section.title }}">{{ section.title|safe }}</a></h2>
-  <p>{{ section.description|safe }}</p>
+  {% for desc in section.description %}
+  <p>{{ desc|safe }}</p>
+  {% endfor %}
 </header>
 
 <section>
@@ -109,7 +113,9 @@
         </div>
         {% endif %}
         {% if topic.description %}
-        <p>{{ topic.description|safe }}</p>
+        {% for desc in topic.description %}
+        <p>{{ desc|safe }}</p>
+        {% endfor %}
         {% endif %}
         {% if topic.miniviz %}
         <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}></div>
@@ -243,7 +249,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = [1], app;
+  var scrollBuffer = -200, n = [9], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
