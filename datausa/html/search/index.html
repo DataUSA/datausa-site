@@ -3,6 +3,13 @@
 {% block body %}
 
 <div id="search-advanced">
+  <div id="search-filters">
+    <a href="#" class="search-filter" data-filter="">All</a>
+    <a href="#" class="search-filter" data-filter="geo">Locations</a>
+    <a href="#" class="search-filter" data-filter="naics">Industries</a>
+    <a href="#" class="search-filter" data-filter="soc">Occupations</a>
+    <a href="#" class="search-filter" data-filter="cip">Education Majors</a>
+  </div>
   <div class="search-nav">
     <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
     <div class="search-crumbs">
@@ -16,6 +23,19 @@
 
 {% block js %}
 <script>
+
+  /*
+   * Constrain search to specific types of attrs
+   */
+  d3.selectAll(".search-filter").on("click", function(){
+    
+    search.term = "";
+    search.type = d3.select(this).attr("data-filter");
+    search.reload();
+    
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
+  })
 
   var term = location.search ? location.search.split("=")[1] : "";
   search.term = term.replace(/%20/g, " ");

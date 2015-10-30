@@ -435,12 +435,19 @@ load.datafold = function(data) {
 var search = {
   "advanced": false,
   "container": false,
-  "depths": {
-    "cip": 2
+  "current_depth": {
+    "cip": 0,
+    "soc": 0,
+    "naics": 0,
+    "geo": 0
   },
   "history": [],
   "nesting": {
-    "cip": [2, 4, 6]
+    // "cip": [2, 4, 6],
+    "cip": [0, 1, 2],
+    "naics": [0, 1, 2],
+    "soc": [0, 1, 2, 3],
+    "geo": ["040", "050", "310", "160", "860", "795", "140"]
   },
   "parents": [],
   "term": "",
@@ -451,7 +458,10 @@ search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
 
-  load(api + "/attrs/" + this.type + "/", function(data) {
+  console.log(this.term, this.type)
+  var sumlevel = this.type ? this.nesting[this.type][this.current_depth[this.type]] : ""
+  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data) {
+    console.log(data)
 
     var crumbs = this.container.select(".search-crumbs")
       .classed("active", this.parents.length > 0);
@@ -500,14 +510,15 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
+  console.log(d)
 
   var html = d.id + ". " + d.name,
       children = false,
       nesting = this.nesting[this.type];
 
-  if (nesting.constructor === Array) {
+  if (nesting && nesting.constructor === Array) {
     var max = nesting[nesting.length - 1];
-    children = this.depths[this.type] < max && d.id.length < max;
+    children = this.nesting[this.current_depth[this.type]] < max && d.id.length < max;
   }
   else {
     // TODO: Logic for non-nested attributes (like geo)
@@ -541,7 +552,7 @@ search.filter = function(data) {
       return data.filter(function(d){
 
         return d.id.indexOf(parent) === 0 &&
-               d.id.length === this.depths[this.type];
+               d.id.length === this.nesting[this.current_depth[this.type]];
 
       }.bind(this)).sort(function(a, b) {
         return a.id - b.id;
@@ -567,9 +578,7 @@ search.filter = function(data) {
 
   }
   else {
-    return data.filter(function(d){
-      return d.id.length === this.depths[this.type];
-    }.bind(this)).sort(function(a, b) {
+    return data.sort(function(a, b) {
       return a.id - b.id;
     });
   }
@@ -589,10 +598,10 @@ search.loadChildren = function(attr) {
   if (nesting.constructor === Array) {
     this.history.push({
       "parents": this.parents.slice(),
-      "depth": this.depths[this.type]
+      "depth": this.current_depth[this.type]
     });
     this.parents.push(attr);
-    this.depths[this.type] = nesting[nesting.indexOf(this.depths[this.type]) + 1];
+    this.current_depth[this.type] = nesting[nesting.indexOf(this.depths[this.type]) + 1];
     this.reload();
   }
   else {
@@ -607,7 +616,7 @@ search.back = function(index) {
     var previous = this.history[index];
     this.history = this.history.slice(0, index);
     this.parents = previous.parents;
-    this.depths[this.type] = previous.depth;
+    this.current_depth[this.type] = previous.depth;
     this.reload();
   }
 }
