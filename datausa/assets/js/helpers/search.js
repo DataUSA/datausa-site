@@ -24,10 +24,9 @@ search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
 
-  console.log(this.term, this.type)
   var sumlevel = this.type ? this.nesting[this.type][this.current_depth[this.type]] : ""
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data) {
-    console.log(data)
+    // console.log(data)
 
     var crumbs = this.container.select(".search-crumbs")
       .classed("active", this.parents.length > 0);
