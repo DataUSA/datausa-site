@@ -6,6 +6,8 @@ from config import API
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, stat
 from datausa.utils.format import num_format
+from datausa.utils.multi_fetcher import merge_dicts, multi_col_top, replace_vars
+
 
 geo_labels = {
     "010": "nation",
@@ -34,6 +36,7 @@ geo_children = {
     "040": "050",
     "050": "140"
 }
+
 
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
@@ -88,7 +91,6 @@ class Section(object):
             config = config.replace("{{{{{}}}}}".format(k), ret)
 
 
-
         # regex to find all keys matching <<*>>
         keys = re.findall(r"<<([^>]+)>>", config)
 
@@ -106,7 +108,6 @@ class Section(object):
 
                 # if it returned an object, convert it to string
                 if not isinstance(val, (unicode, str)):
-
                     col = params.get("col", "name")
                     if col == "id":
                         val = val["value"]
@@ -118,6 +119,11 @@ class Section(object):
 
         # load the config through the YAML interpreter and set title, description, and topics
         config = yaml.load(config)
+
+        if "vars" in config:
+            var_map = [multi_col_top(self.profile, params) for params in config["vars"]]
+            var_map = merge_dicts(*var_map)
+            config['stats'] = replace_vars(var_map, config['stats'])
 
         if "title" in config:
             self.title = config["title"]
@@ -362,6 +368,7 @@ class Section(object):
 
         # make the API request using the params
         return stat(params, col=col, dataset=dataset, data_only=data_only)
+
 
     def __repr__(self):
         return "Section: {}".format(self.title)

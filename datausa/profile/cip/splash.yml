@@ -1,15 +1,21 @@
 title: "<<name>>"
 description: "Explore data on the <<name>> major in the United States."
+
+vars:
+    - required: [avg_wage,avg_wage_rank]
+      namespace: data
+    - required: [grads_total,grads_rank,year]
+      namespace: gdata
 stats:
   - title: "Median In-State Public Tuition"
     value: "<<top show=sector|sector=1|col=state_tuition>>"
     rank: "<<top col=state_tuition_rank>>"
-  - title: "Degrees Awarded in <<top order=grads_total|col=year>>"
-    value: "<<top col=grads_total>>"
-    rank: "<<top col=grads_rank>>"
+  - title: "Degrees Awarded in [gdata.year]"
+    value: "[gdata.grads_total]"
+    rank: "[gdata.grads_rank]"
   - title: "Average Income{{ for <<name dataset=pums>>}}"
-    value: "<<top col=avg_wage>>"
-    rank: "<<top col=avg_wage_rank>>"
+    value: "[data.avg_wage]"
+    rank: "[data.avg_wage_rank]"
 facts:
   - "The county with the most <<name>> graduates is <<top show=geo|sumlevel=county|order=grads_total>>."
   - "The most common occupation for <<name>> majors is <<top show=soc|sumlevel=3|order=num_ppl>>."
