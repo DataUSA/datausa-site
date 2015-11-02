@@ -82,7 +82,7 @@ def stat(params, col="name", dataset=False, data_only=False):
         vals = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for x in vals for i, v in enumerate(x.split("_"))]
         top = [" ".join(vals)]
     elif col == "name":
-        if dataset:
+        if dataset in ["acs", "pums"]:
             attr = "{}_{}".format(dataset, params["show"])
         else:
             attr = params["show"]

@@ -9,7 +9,7 @@ topics:
         value: "<<top col=income>>"
     description: "The majority of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>"
     miniviz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<parents>>,<<id>>"
@@ -23,7 +23,7 @@ topics:
         scale: "discrete"
         value: "geo"
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<id>>"
@@ -45,7 +45,7 @@ topics:
         value: "<<top col=median_property_value>>"
     description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range. The chart on the right displays the distribution versus the national values."
     miniviz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<parents>>,<<id>>"
@@ -59,7 +59,7 @@ topics:
         scale: "discrete"
         value: "geo"
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "01000US,<<id>>"
@@ -77,7 +77,7 @@ topics:
   - title: "Property Taxes"
     description: "The majority of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<id>>"
@@ -96,7 +96,7 @@ topics:
   - title: "Rent vs Own"
     description: "The majority, <<top col=owner_occupied_housing_units>>, of the population of <<name>> owns their home. This is higher than the national average of <<top col=owner_occupied_housing_units|geo=01000US>>"
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<parents>>,<<id>>"
@@ -113,7 +113,7 @@ topics:
     title: "Car Ownership"
     description: "The majority of households in <<name>> have <<top col=vehicles|force=acs.yg_vehicles>> cars, followed by <<top col=vehicles|force=acs.yg_vehicles|rank=2>> cars."
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<id>>"
@@ -137,7 +137,7 @@ topics:
       - "Employees in <<name>> have a shorter average commute time than the national average of <<top col=mean_commute_minutes|geo=01000US>>"
       - "<<percent num=travel_90over|den=workers>> of the people in <<name>> have \"super commutes\" in excess of 90 minutes, which is nothing compared to the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>."
     miniviz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<parents>>,<<id>>"
@@ -151,7 +151,7 @@ topics:
         scale: "discrete"
         value: "geo"
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<id>>"
@@ -174,7 +174,7 @@ topics:
       - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport>> to work, which aligns with the national average (XX%)."
       - "Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport>>."
     viz:
-      attr: "geo"
+      attrs: "geo"
       data:
         show: "geo"
         geo: "<<id>>"

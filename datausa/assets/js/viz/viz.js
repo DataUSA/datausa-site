@@ -27,9 +27,17 @@ viz.finish = function(build) {
   }
 
   if (!build.config.color) {
-    build.config.color = function() {
-      return build.color;
-    };
+    if (app.viz.attrs()[app.highlight]) {
+      var lighter = d3plus.color.lighter(build.color);
+        build.config.color = function(d, viz) {
+          return d[viz.id.value] === build.highlight ? build.color : lighter;
+        };
+    }
+    else {
+      build.config.color = function(d, viz) {
+        return build.color;
+      };
+    }
     build.config.legend = false;
   }
 

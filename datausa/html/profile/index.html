@@ -96,7 +96,7 @@
       {% if aside %}
       <aside>
         {% if topic.select %}
-        <select id="topic-select-{{ loop.index0 }}" data-param="{{ topic.select.param }}" data-default="{{ topic.select.default }}">
+        <select id="topic-select-{{ loop.index0 }}" data-param="{{ topic.select.param }}" data-method="{{ topic.select.method }}" data-default="{{ topic.select.default }}">
           {% for option in topic.select.data %}
           <option value="{{ option.id }}"{% if topic.select.default == option.id %} selected{% endif %}>{{ option.name }}</option>
           {% endfor %}
@@ -193,32 +193,45 @@
       build.select = select.on("change", function(){
 
         var param = this.getAttribute("data-param"),
+            method = this.getAttribute("data-method"),
             id = this.value,
             prev = this.getAttribute("data-default");
 
         d3.select(this).attr("data-default", id);
 
         d3.select(this.parentNode).selectAll(".select-text")
-          .text(this.options[this.selectedIndex].text);
+          .html(this.options[this.selectedIndex].text);
 
         d3.select(this.parentNode).selectAll(".stat-value span[data-url]")
           .each(function(){
 
             d3.select(this.parentNode).classed("loading", true);
-            var url = this.getAttribute("data-url").replace(param + "=" + prev, param + "=" + id);
+            var url = this.getAttribute("data-url");
+            if (param.length) {
+              url = url.replace(param + "=" + prev, param + "=" + id);
+            }
+            else {
+              url = url.replace("order=" + prev, "order=" + id);
+              url = url.replace("required=" + prev, "required=" + id);
+            }
             d3.select(this).attr("data-url", url);
 
             load(url, function(data){
               d3.select(this.parentNode).classed("loading", false)
-              d3.select(this).text(data.value);
+              d3.select(this).html(data.value);
             }.bind(this));
 
           });
 
-        build.data.forEach(function(b){
-          b.url = b.url.replace(param + "=" + prev, param + "=" + id);
-        });
-        viz.loadData(build, "redraw");
+        if (param.length) {
+          build.data.forEach(function(b){
+            b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+          });
+          viz.loadData(build, "redraw");
+        }
+        else if (method.length) {
+          build.viz[method](id).draw();
+        }
 
       });
     }
@@ -249,7 +262,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = [9], app;
+  var scrollBuffer = -200, n = [8], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;

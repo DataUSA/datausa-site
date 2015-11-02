@@ -9,7 +9,6 @@ viz.defaults = function(build) {
         "color": "none",
         "value": false
       },
-      "grid": false,
       "label": {
         "font": {
           "color": build.color,
@@ -17,11 +16,9 @@ viz.defaults = function(build) {
           "size": 16,
           "weight": 700
         },
-        "padding": 0,
-        "value": build.config[axis] && build.config[axis].label ? build.config[axis].label : false
+        "padding": 0
       },
       "ticks": {
-        "color": "none",
         "font": {
           "color": discrete === axis ? "#211f1a" : "#a8a8a8",
           "family": "Palanquin",
@@ -35,10 +32,7 @@ viz.defaults = function(build) {
   return {
     "axes": {
       "background": {
-        "color": "transparent",
-        "stroke": {
-          "width": 0
-        }
+        "color": "transparent"
       }
     },
     "format": {

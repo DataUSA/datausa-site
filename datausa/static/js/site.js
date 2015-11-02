@@ -650,9 +650,17 @@ viz.finish = function(build) {
   }
 
   if (!build.config.color) {
-    build.config.color = function() {
-      return build.color;
-    };
+    if (app.viz.attrs()[app.highlight]) {
+      var lighter = d3plus.color.lighter(build.color);
+        build.config.color = function(d, viz) {
+          return d[viz.id.value] === build.highlight ? build.color : lighter;
+        };
+    }
+    else {
+      build.config.color = function(d, viz) {
+        return build.color;
+      };
+    }
     build.config.legend = false;
   }
 
@@ -675,12 +683,31 @@ viz.redraw = function(build) {
 
 viz.bar = function(build) {
 
+  var axis_style = function(axis) {
+    return {
+      "grid": false,
+      "label": build.config[axis] && build.config[axis].label ? build.config[axis].label : false,
+      "ticks": {
+        "color": "none"
+      }
+    }
+  }
+
   return {
+    "axes": {
+      "background": {
+        "stroke": {
+          "width": 0
+        }
+      }
+    },
     "data": {
       "stroke": {
         "width": 0
       }
-    }
+    },
+    "x": axis_style("x"),
+    "y": axis_style("y")
   };
 
 }
@@ -696,7 +723,6 @@ viz.defaults = function(build) {
         "color": "none",
         "value": false
       },
-      "grid": false,
       "label": {
         "font": {
           "color": build.color,
@@ -704,11 +730,9 @@ viz.defaults = function(build) {
           "size": 16,
           "weight": 700
         },
-        "padding": 0,
-        "value": build.config[axis] && build.config[axis].label ? build.config[axis].label : false
+        "padding": 0
       },
       "ticks": {
-        "color": "none",
         "font": {
           "color": discrete === axis ? "#211f1a" : "#a8a8a8",
           "family": "Palanquin",
@@ -722,10 +746,7 @@ viz.defaults = function(build) {
   return {
     "axes": {
       "background": {
-        "color": "transparent",
-        "stroke": {
-          "width": 0
-        }
+        "color": "transparent"
       }
     },
     "format": {
@@ -821,6 +842,10 @@ viz.radar = function(build) {
       }
     }
   };
+}
+
+viz.scatter = function(build) {
+  return {};
 }
 
 viz.tree_map = function(build) {

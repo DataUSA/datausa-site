@@ -31,9 +31,10 @@ class Profile(object):
 
         self.splash = Section(self.file2string("splash"), self)
 
-    def children(self):
+    def children(self, **kwargs):
+        attr_id = kwargs.get("attr_id", self.id)
         try:
-            return datafold(requests.get("{}/attrs/{}/{}/children".format(API, self.attr_type, self.id)).json())
+            return datafold(requests.get("{}/attrs/{}/{}/children".format(API, self.attr_type, attr_id)).json())
         except ValueError:
             return []
 

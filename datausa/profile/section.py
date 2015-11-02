@@ -139,17 +139,21 @@ class Section(object):
                     topic["description"] = [topic["description"]]
 
                 # instantiate the "viz" config into an array of Viz classes
-                if not isinstance(topic["viz"], list):
-                    topic["viz"] = [topic["viz"]]
-                topic["viz"] = [Viz(viz, color=self.profile.color()) for viz in topic["viz"]]
+                if "viz" in topic:
+                    if not isinstance(topic["viz"], list):
+                        topic["viz"] = [topic["viz"]]
+                    topic["viz"] = [Viz(viz, color=self.profile.color(), highlight=self.attr["id"]) for viz in topic["viz"]]
 
                 if "miniviz" in topic:
-                    topic["miniviz"] = Viz(topic["miniviz"], color=self.profile.color())
+                    topic["miniviz"] = Viz(topic["miniviz"], color=self.profile.color(), highlight=self.attr["id"])
 
                 # fill selector if present
-                if "select" in topic and isinstance(topic["select"]["data"], str):
-                    topic["select"]["param"] = topic["select"]["data"]
-                    topic["select"]["data"] = [v for k, v in attr_cache[topic["select"]["data"]].iteritems()]
+                if "select" in topic:
+                    if isinstance(topic["select"]["data"], str):
+                        topic["select"]["param"] = topic["select"]["data"]
+                        topic["select"]["data"] = [v for k, v in attr_cache[topic["select"]["data"]].iteritems()]
+                    elif isinstance(topic["select"]["data"], list):
+                        topic["select"]["data"] = [{"id": v, "name": v} for v in topic["select"]["data"]]
 
         if "sections" in config:
             self.sections = config["sections"]
@@ -174,13 +178,14 @@ class Section(object):
         return True
 
     def children(self, **kwargs):
-        if kwargs.get("prefix", False):
-            attr_id = kwargs.get("attr_id", self.attr["id"])
-            prefix = attr_id[:3]
-            suffix = attr_id[3:]
-            if prefix in geo_children:
-                return "{}{}".format(geo_children[prefix], suffix)
-        return ",".join([c["id"] for c in self.profile.children()])
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        prefix = attr_id[:3]
+        if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
+            attr_id = self.profile.parents()[1]["id"]
+            prefix = "040"
+        if kwargs.get("prefix", False) and prefix in geo_children:
+            return attr_id.replace(prefix, geo_children[prefix])
+        return ",".join([c["id"] for c in self.profile.children(attr_id=attr_id)])
 
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
@@ -191,16 +196,30 @@ class Section(object):
             # if the attribute is a CIP and the dataset is PUMS, return the parent CIP code
             if self.profile.attr_type == "cip" and dataset == "pums":
                 return self.attr["id"][:2]
+            elif self.profile.attr_type == "geo" and dataset == "chr":
+                attr_id = self.attr["id"]
+                prefix = attr_id[:3]
+                if kwargs.get("parent", False) and prefix not in ["010", "040"]:
+                    attr_id = self.profile.parents()[1]["id"]
+                    prefix = "040"
+
+                if prefix in ["010", "040", "050"]:
+                    return attr_id
+                else:
+                    return self.profile.parents()[2]["id"]
 
         return self.attr["id"]
 
     def level(self, **kwargs):
         """str: A string representation of the depth type. """
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
-        attr_id = kwargs.get("attr_id", self.attr["id"])
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        dataset = kwargs.get("dataset", False)
 
         if attr_type == "geo":
             prefix = attr_id[:3]
+            if dataset == "chr" and prefix not in ["010", "040"]:
+                prefix = "040"
             if kwargs.get("child", False) and prefix in geo_children:
                 prefix = geo_children[prefix]
             name = geo_labels[prefix]
@@ -210,6 +229,9 @@ class Section(object):
         if "plural" in kwargs:
             name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
 
+        if "uppercase" in kwargs:
+            name = name.capitalize()
+
         return name
 
     def name(self, **kwargs):
@@ -218,7 +240,7 @@ class Section(object):
         if "id" in kwargs and "attr" in kwargs:
             return fetch(kwargs["id"], kwargs["attr"])["name"]
         elif "dataset" in kwargs:
-            return fetch(self.id(dataset=kwargs["dataset"]), self.profile.attr_type)["name"]
+            return fetch(self.id(**kwargs), self.profile.attr_type)["name"]
 
         return self.attr["name"]
 
@@ -268,11 +290,13 @@ class Section(object):
     def sumlevel(self, **kwargs):
         """str: A string representation of the depth type. """
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
-        attr_id = kwargs.get("attr_id", self.attr["id"])
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
 
         if attr_type == "geo":
             prefix = attr_id[:3]
             if kwargs.get("child", False) and prefix in geo_children:
+                if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
+                    prefix = "040"
                 prefix = geo_children[prefix]
             name = geo_sumlevels[prefix]
         else:
@@ -287,16 +311,38 @@ class Section(object):
         """str: A text representation of a top statistic or list of statistics """
 
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
+        dataset = kwargs.get("dataset", False)
 
         # create a params dict to use in the URL request
         params = {}
 
         # set the section's attribute ID in params
-        params[attr_type] = kwargs.get("attr_id", self.attr["id"])
+        attr_id = kwargs.get("attr_id", False)
+        child = kwargs.get("child", False)
+        if attr_id == False:
+            if child:
+                aid = self.id(**kwargs)
+                prefix = aid[:3]
+                if dataset == "chr" and prefix not in ["010", "040"]:
+                    aid = self.profile.parents()[1]["id"]
+                    prefix = "040"
+                if prefix in geo_children:
+                    params["where"] = "geo:^{}".format(aid.replace(prefix, geo_children[prefix]))
+                    attr_id = ""
+        if attr_id == False:
+            attr_id = self.id(**kwargs)
+        params[attr_type] = attr_id
 
         # get output key from either the value in kwargs (while removing it) or 'name'
         col = kwargs.pop("col", "name")
         data_only = kwargs.pop("data_only", False)
+        if child:
+            kwargs["sumlevel"] = self.sumlevel(**kwargs)
+
+        if "child" in kwargs:
+            del kwargs["child"]
+        if "dataset" in kwargs:
+            del kwargs["dataset"]
 
         # add the remaining kwargs into the params dict
         params = dict(params.items()+kwargs.items())
@@ -315,7 +361,7 @@ class Section(object):
             params["required"] = params["order"]
 
         # make the API request using the params
-        return stat(params, col=col, dataset=kwargs.get("dataset", False), data_only=data_only)
+        return stat(params, col=col, dataset=dataset, data_only=data_only)
 
     def __repr__(self):
         return "Section: {}".format(self.title)
