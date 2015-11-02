@@ -1,3 +1,66 @@
+var attrs_meta = {
+  "geo": {
+    "name": "Geography",
+    "sumlevels": [
+      {
+        "name": "States",
+        "id": "040",
+        "children": ["050", "310", "160", "795"]
+      },
+      {
+        "name": "Counties",
+        "id": "050",
+        "children": ["160"]
+      },
+      {
+        "name": "MSAs",
+        "id": "310",
+        "children": ["050", "160"]
+      },
+      {
+        "name": "Places",
+        "id": "160"
+      },
+      {
+        "name": "PUMAs",
+        "id": "795"
+      }
+    ]
+  },
+  "naics": {
+    "name": "Industry",
+    "sumlevels": [
+      {"name":"Top Level", "id":0, "children":[1, 2]},
+      {"name":"2 digit", "id":1, "children":[2]},
+      {"name":"3 digit", "id":2}
+    ]
+  },
+  "soc": {
+    "name": "Occupations",
+    "sumlevels": [
+      {"name":"Top Level", "id":0, "children":[1, 2, 3]},
+      {"name":"2 digit", "id":1, "children":[2, 3]},
+      {"name":"3 digit", "id":2, "children":[3]},
+      {"name":"4 digit", "id":3}
+    ]
+  },
+  "cip": {
+    "name": "College Majors",
+    "sumlevels": [
+      {"name":"2 digit", "id":0, "children":[1, 2]},
+      {"name":"4 digit", "id":1, "children":[2]},
+      {"name":"6 digit", "id":2}
+    ]
+  }
+}
+sumlevels_by_id = {}
+for (attr_type in attrs_meta){
+  sumlevels_by_id[attr_type] = {}
+  attrs_meta[attr_type]["sumlevels"].forEach(function(sumlevel){
+    sumlevels_by_id[attr_type][sumlevel["id"]] = sumlevel
+  })
+}
+console.log(sumlevels_by_id)
 var search = {
   "advanced": false,
   "container": false,
@@ -17,7 +80,12 @@ var search = {
   },
   "parents": [],
   "term": "",
-  "type": "cip"
+  "type": "cip",
+  "children": {
+    "geo": {
+      "040": ["050", "310", ""]
+    }
+  }
 };
 
 search.reload = function() {
@@ -25,6 +93,7 @@ search.reload = function() {
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
 
   var sumlevel = this.type ? this.nesting[this.type][this.current_depth[this.type]] : ""
+  // console.log(this.type, this.nesting[this.type], this.current_depth[this.type])
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data) {
     // console.log(data)
 
@@ -63,7 +132,14 @@ search.reload = function() {
     var tag = this.advanced ? "div" : "a";
     items.enter().append(tag).attr("class", "search-item");
 
-    if (tag === "a") items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
+    if (tag === "a") {
+      items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
+    }
+    else {
+      items.on("click", search.open_details);
+      var first_item = items.filter(function(d, i){ return i===0 });
+      first_item.on("click")(first_item.datum());
+    }
 
     var format = this.advanced ? this.btnExplore : this.btnProfile;
     items.html(format.bind(this));
@@ -75,7 +151,7 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  console.log(d)
+  // console.log(d)
 
   var html = d.id + ". " + d.name,
       children = false,
@@ -89,10 +165,10 @@ search.btnExplore = function(d) {
     // TODO: Logic for non-nested attributes (like geo)
   }
 
-  if (children) {
-    var str = d.id + "|" + d.name;
-    html += "<button class='search-btn-children' onclick='search.loadChildren(\"" + str + "\")'>Children</button>";
-  }
+  // if (children) {
+  //   var str = d.id + "|" + d.name;
+  //   html += "<button class='search-btn-children' onclick='search.loadChildren(\"" + str + "\")'>Children</button>";
+  // }
 
   html += "<a class='search-btn-profile' href='/profile/" + this.type + "/" + d.id + "/'>Profile</a>";
 
@@ -184,4 +260,42 @@ search.back = function(index) {
     this.current_depth[this.type] = previous.depth;
     this.reload();
   }
+}
+
+search.open_details = function(d){
+  var details_div = d3.select(".search-details");
+  
+  // set title of details
+  details_div.select("h2.details-title").text(d.display)
+  
+  // set href of "go to profile" link
+  details_div.select("a.details-profile").attr("href", "/profile/" + d.kind + "/" + d.id + "/");
+  
+  // set sumlevels
+  var details_sumlevels = details_div.select(".details-sumlevels").html('');
+  var attr_meta = sumlevels_by_id[d.kind][d.sumlevel]
+  if(attr_meta.children){
+    attr_meta.children.forEach(function(sumlevel){
+      var sumlevel_meta = sumlevels_by_id[d.kind][sumlevel]
+      var current_sumlevels_html = details_sumlevels.html()
+      current_sumlevels_html += "<button class='search-btn-children' data-sumlevel='"+sumlevel+"'>"+sumlevel_meta.name+"</button>";
+      details_sumlevels.html(current_sumlevels_html)
+    })
+  }
+  
+  details_div.select(".details-sumlevels-results").html('');
+  details_sumlevels.selectAll("button").on("click", function(){
+    var sumlevel = d3.select(this).attr("data-sumlevel");
+    var sumlevels_results = details_div.select(".details-sumlevels-results");
+    var children_api_url = api + "/attrs/"+d.kind+"/"+d.id+"/children?sumlevel="+sumlevel
+    sumlevels_results.html('')
+    load(children_api_url, function(children) {
+      children.forEach(function(child){
+        sumlevels_results.append("a")
+          .attr("href", "/profile/" + d.kind + "/" + child.id + "/")
+          .attr("data-id", child.id)
+          .text(child.name)
+      })
+    })
+  })
 }

@@ -34,6 +34,21 @@ body.search {
   #search-advanced {
     margin: $footer-height auto;
     width: 80%;
+    
+    #search-filters {
+      a.active {
+        font-weight: bold;
+      }
+    }
+    
+    .search-nestings {
+      div {
+        display: none;
+      }
+      a.active {
+        font-weight: bold;
+      }
+    }
 
     .search-item {
       padding: 3px 0;
@@ -91,7 +106,30 @@ body.search {
   }
 
   .search-results {
+    border: solid rebeccapurple 1px;
     color: #333;
+    float: left;
+    width: 200px;
+  }
+  
+  .search-details {
+    border: solid tomato 1px;
+    color: #333;
+    float: left;
+    position: relative;
+    width: 600px;
+    h2 {
+      color: #333;
+    }
+    .details-sumlevels-results a {
+      border: solid darkcyan 1px;
+      display: block;
+    }
+    a.details-profile {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
   .search-close {

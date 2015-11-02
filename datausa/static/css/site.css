@@ -55,8 +55,6 @@ h1 {
       opacity: 0.9; }
 
       a {
-        font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-        font-weight: 300;
         color: white;
         opacity: 1;
         text-decoration: none; }
@@ -315,6 +313,12 @@ body.search a {
 body.search #search-advanced {
   margin: 70px auto;
   width: 80%; }
+  body.search #search-advanced #search-filters a.active {
+    font-weight: bold; }
+  body.search #search-advanced .search-nestings div {
+    display: none; }
+    body.search #search-advanced .search-nestings a.active {
+      font-weight: bold; }
   body.search #search-advanced .search-item {
     padding: 3px 0;
     font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -348,9 +352,27 @@ body.search #search-advanced {
                 body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
                   cursor: pointer; }
 body.search .search-results {
-  color: #333; }
-  body.search .search-close {
-    float: right; }
+  border: solid rebeccapurple 1px;
+  color: #333;
+  float: left;
+  width: 200px; }
+  body.search .search-details {
+    border: solid tomato 1px;
+    color: #333;
+    float: left;
+    position: relative;
+    width: 600px; }
+    body.search .search-details h2 {
+      color: #333; }
+      body.search .search-details .details-sumlevels-results a {
+        border: solid darkcyan 1px;
+        display: block; }
+        body.search .search-details a.details-profile {
+          position: absolute;
+          right: 0;
+          top: 0; }
+body.search .search-close {
+  float: right; }
 body.home {
   position: relative;
   height: 100vh; }
@@ -391,7 +413,7 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
+                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
                     z-index: -11; }
                     body.home .bg-img.landing {
                       top: -45vh;

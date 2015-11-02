@@ -3,20 +3,53 @@
 {% block body %}
 
 <div id="search-advanced">
+  Profile Types:
   <div id="search-filters">
-    <a href="#" class="search-filter" data-filter="">All</a>
+    <a href="#" class="search-filter active" data-filter="">All</a>
     <a href="#" class="search-filter" data-filter="geo">Locations</a>
     <a href="#" class="search-filter" data-filter="naics">Industries</a>
     <a href="#" class="search-filter" data-filter="soc">Occupations</a>
-    <a href="#" class="search-filter" data-filter="cip">Education Majors</a>
+    <a href="#" class="search-filter" data-filter="cip">College Majors</a>
+  </div>
+  Nesting Levels:
+  <div class="search-nestings">
+    <div class="search-nestings-geo">
+      <a href="#" data-depth="0">States</a>
+      <a href="#" data-depth="1">Counties</a>
+      <a href="#" data-depth="2">MSAs</a>
+      <a href="#" data-depth="3">Places</a>
+      <a href="#" data-depth="5">PUMAs</a>
+    </div>
+    <div class="search-nestings-naics">
+      <a href="#" data-depth="0">Top Level</a>
+      <a href="#" data-depth="1">2 digit</a>
+      <a href="#" data-depth="2">3 digit</a>
+    </div>
+    <div class="search-nestings-soc">
+      <a href="#" data-depth="0">Top Level</a>
+      <a href="#" data-depth="1">2 digit</a>
+      <a href="#" data-depth="2">3 digit</a>
+      <a href="#" data-depth="3">4 digit</a>
+    </div>
+    <div class="search-nestings-cip">
+      <a href="#" data-depth="0">2 digit</a>
+      <a href="#" data-depth="1">4 digit</a>
+      <a href="#" data-depth="2">6 digit</a>
+    </div>
   </div>
   <div class="search-nav">
-    <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
+    <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus disabled />
     <div class="search-crumbs">
       <div class="search-back" onclick="search.back();"><i class="fa fa-angle-left"></i></div>
     </div>
   </div>
   <div class="search-results"></div>
+  <div class="search-details">
+    <h2 class="details-title">&mdash;</h2>
+    <div class="details-sumlevels"></div>
+    <div class="details-sumlevels-results"></div>
+    <a href="#" class="details-profile">Go to Profile &gt;</a>
+  </div>
 </div>
 
 {% endblock %}
@@ -29,9 +62,45 @@
    */
   d3.selectAll(".search-filter").on("click", function(){
     
-    search.term = "";
+    // set constrained search mode
+    // search.term = "";
     search.type = d3.select(this).attr("data-filter");
+    // search.reload();
+    
+    // set active link for profile type
+    d3.selectAll("#search-filters > a").classed("active", false)
+    d3.select(this).classed("active", true)
+
+    // show appropriate nesting levels
+    d3.selectAll(".search-nestings > div").style("display", "none")
+    d3.select(".search-nestings-"+search.type).style("display", "block")
+    
+    // activate first nesting level if no levels been selected previously
+    var active_nesting = d3.selectAll(".search-nestings-"+search.type+" a").filter(function(){
+      return d3.select(this).classed("active")
+    })
+    active_nesting = active_nesting.size() ? active_nesting : d3.select(".search-nestings-"+search.type+" a");
+    active_nesting.on("click")(active_nesting.node())
+    
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
+  })
+  
+  /*
+   * Constrain search to specific nesting/sumlevel of attrs
+   */
+  d3.selectAll(".search-nestings a").on("click", function(active_el){
+    var _this = active_el || this;
+    console.log("_this", _this)
+    
+    // set constrained search mode with appropriate sumlevel
+    search.term = "";
+    search.current_depth[search.type] = d3.select(_this).attr("data-depth");
     search.reload();
+    
+    // set active link for profile type
+    d3.select(_this.parentNode).selectAll("a").classed("active", false)
+    d3.select(_this).classed("active", true)
     
     // prevent default anchor link behavior
     d3.event.preventDefault();
