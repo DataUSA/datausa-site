@@ -33,7 +33,7 @@ affixes = {
     "oos_tuition": ["$", ""],
     "avg_wage": ["$", ""],
     "income": ["$", ""],
-    "earnings": ["$", ""]
+    "med_earnings": ["$", ""]
 }
 
 percentages = [

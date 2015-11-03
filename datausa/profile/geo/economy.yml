@@ -92,13 +92,13 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=acs_occ|sumlevel=2|order=earnings|sort=desc|limit=3>>"
+    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=acs_occ|sumlevel=2|order=med_earnings|sort=desc|limit=3>>"
     viz:
       - attrs: "acs_occ"
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "earnings"
+            order: "med_earnings"
             sort: "desc"
             show: "acs_occ"
             sumlevel: "2"
@@ -106,9 +106,9 @@ topics:
         id: "acs_occ"
         order:
           sort: "asc"
-          value: "earnings"
+          value: "med_earnings"
         type: "bar"
-        x: "earnings"
+        x: "med_earnings"
         y:
           label: "Top 5"
           scale: "discrete"
@@ -117,7 +117,7 @@ topics:
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "earnings"
+            order: "med_earnings"
             sort: "asc"
             show: "acs_occ"
             sumlevel: "2"
@@ -125,9 +125,9 @@ topics:
         id: "acs_occ"
         order:
           sort: "asc"
-          value: "earnings"
+          value: "med_earnings"
         type: "bar"
-        x: "earnings"
+        x: "med_earnings"
         y:
           label: "Bottom 5"
           scale: "discrete"
