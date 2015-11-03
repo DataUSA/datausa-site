@@ -11,7 +11,7 @@ topics:
     source: NO
     stat:
       - title: "Primary Care"
-        value: "1 to <<top col=primary_care_physicians|year=2015>>"
+        value: "1 to <<var namespace=health|key=primary_care_physicians>>"
     viz:
       attrs: "geo"
       data:
@@ -32,7 +32,7 @@ topics:
     source: NO
     stat:
       - title: "Dentists"
-        value: "1 to <<top col=dentists|year=2015>>"
+        value: "1 to <<var namespace=health|key=dentists>>"
     viz:
       attrs: "geo"
       data:
@@ -53,7 +53,7 @@ topics:
     source: NO
     stat:
       - title: "Mental Health"
-        value: "1 to <<top col=mental_health_providers|year=2015>>"
+        value: "1 to <<var namespace=health|key=mental_health_providers>>"
     viz:
       attrs: "geo"
       data:
@@ -74,7 +74,7 @@ topics:
     source: NO
     stat:
       - title: "Other"
-        value: "1 to <<top col=other_primary_care_providers|year=2015>>"
+        value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
     viz:
       attrs: "geo"
       data:

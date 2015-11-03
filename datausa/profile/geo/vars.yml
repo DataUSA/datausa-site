@@ -5,3 +5,7 @@
   show: geo
   sumlevel: all
   namespace: economy
+
+- required: ["primary_care_physicians", "dentists", "mental_health_providers", "other_primary_care_providers"]
+  year: 2015
+  namespace: health
