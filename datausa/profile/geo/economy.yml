@@ -145,10 +145,10 @@ topics:
       type: "tree_map"
   - category: "Wages"
     title: "Average Wage"
-    description: "On average, people in <<name>> had a median income of <<top show=geo|col=income>> in 2013. This makes <<name>> the <<top show=geo|col=income_rank>> richest <<level>> in the United States."
+    description: "On average, people in <<name>> had a median income of <<var namespace=economy|key=income>> in 2013. This makes <<name>> the <<var namespace=economy|key=income_rank>> richest <<level>> in the United States."
     stat:
       - title: "Median Income"
-        value: "<<top show=geo|col=income>>"
+        value: "<<var namespace=economy|key=income>>"
     viz:
       attrs: "geo"
       data:
@@ -175,7 +175,7 @@ topics:
     viz:
       attrs:
         - "sex"
-        - "acs_ind"
+        - "soc"
       data:
         - geo: "<<id>>"
           limit: "10"
@@ -190,7 +190,7 @@ topics:
       type: "bar"
       x:
         scale: "discrete"
-        value: "acs_ind"
+        value: "soc"
       y: "avg_wage"
   - title: "Wage by Race & Ethnicity"
     subtitle: "<<sub show=race|col=avg_wage>>"
@@ -201,7 +201,7 @@ topics:
     viz:
       attrs:
         - "race"
-        - "acs_ind"
+        - "soc"
       data:
         - geo: "<<id>>"
           limit: "45"
@@ -216,7 +216,7 @@ topics:
       type: "bar"
       x:
         scale: "discrete"
-        value: "acs_ind"
+        value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
     description: "<<name>> has an income GINI of <<top show=geo|col=gini>>."
@@ -259,7 +259,7 @@ topics:
   - title: "Poverty by Age and Gender"
     stat:
       - title: "Largest demographic living in poverty"
-        value: "<<top col=sex-ageBucket|required=poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75older,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75older>>"
+        value: "<<top col=sex-ageBucket|required=poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75over,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75over>>"
     description: "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population for whom poverty status is determined in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line. This is below the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>."
     viz:
       attrs: "sex"
@@ -293,7 +293,7 @@ topics:
       data:
         show: "geo"
         geo: "<<id>>"
-        required: "poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75older,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75older"
+        required: "poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75over,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75over"
         split:
           id: "sex_age"
           regex: "poverty_([a-z0-9]*_[a-z0-9]*)"
@@ -307,18 +307,18 @@ topics:
       x:
         scale: "discrete"
         value: "age"
-      y: "xx"
+      y: "num_ppl"
   - category: "Industries"
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries in <<name>> by number of employees are <<top show=acs_ind|sumlevel=2|order=num_ppl|sort=desc|limit=3>>"
+    description: "The 3 most common industries in <<name>> by number of employees are <<top show=acs_ind|sumlevel=2|order=num_emp|sort=desc|limit=3>>"
     viz:
       - attrs: "acs_ind"
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "num_ppl"
+            order: "num_emp"
             sort: "desc"
             show: "acs_ind"
             sumlevel: "2"
@@ -326,9 +326,9 @@ topics:
         id: "acs_ind"
         order:
           sort: "asc"
-          value: "num_ppl"
+          value: "num_emp"
         type: "bar"
-        x: "num_ppl"
+        x: "num_emp"
         y:
           label: "Top 5"
           scale: "discrete"
@@ -337,7 +337,7 @@ topics:
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "num_ppl"
+            order: "num_emp"
             sort: "asc"
             show: "acs_ind"
             sumlevel: "2"
@@ -345,9 +345,9 @@ topics:
         id: "acs_ind"
         order:
           sort: "asc"
-          value: "num_ppl"
+          value: "num_emp"
         type: "bar"
-        x: "num_ppl"
+        x: "num_emp"
         y:
           label: "Bottom 5"
           scale: "discrete"
@@ -355,13 +355,13 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_ind|sumlevel=2|order=num_ppl_rca|sort=desc|limit=3>>"
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_ind|sumlevel=2|order=num_emp_rca|sort=desc|limit=3>>"
     viz:
       - attrs: "acs_ind"
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "num_ppl_rca"
+            order: "num_emp_rca"
             sort: "desc"
             show: "acs_ind"
             sumlevel: "2"
@@ -369,9 +369,9 @@ topics:
         id: "acs_ind"
         order:
           sort: "asc"
-          value: "num_ppl_rca"
+          value: "num_emp_rca"
         type: "bar"
-        x: "num_ppl_rca"
+        x: "num_emp_rca"
         y:
           label: "Top 5"
           scale: "discrete"
@@ -380,7 +380,7 @@ topics:
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "num_ppl_rca"
+            order: "num_emp_rca"
             sort: "asc"
             show: "acs_ind"
             sumlevel: "2"
@@ -388,9 +388,9 @@ topics:
         id: "acs_ind"
         order:
           sort: "asc"
-          value: "num_ppl_rca"
+          value: "num_emp_rca"
         type: "bar"
-        x: "num_ppl_rca"
+        x: "num_emp_rca"
         y:
           label: "Bottom 5"
           scale: "discrete"
