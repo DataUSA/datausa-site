@@ -267,7 +267,7 @@ topics:
       data:
         show: "geo"
         geo: "<<id>>"
-        required: "poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75older,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75older"
+        required: "poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75over,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75over"
         split:
           id: "sex_age"
           regex: "poverty_([a-z0-9]*_[a-z0-9]*)"
