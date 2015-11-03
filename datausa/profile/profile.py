@@ -1,7 +1,11 @@
-import os, requests
+import os
+import requests
+import yaml
 from section import Section
 from config import API
 from datausa.utils.data import datafold, fetch
+from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
+
 
 class Profile(object):
     """An abstract class for all Profiles.
@@ -29,6 +33,7 @@ class Profile(object):
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
 
+        self.variables = self.load_vars()
         self.splash = Section(self.file2string("splash"), self)
 
     def children(self, **kwargs):
@@ -42,6 +47,19 @@ class Profile(object):
         if hasattr(self.attr, "color"):
             return self.attr["color"]
         return "#006ea8"
+
+    def load_vars(self):
+        """Reads variables from disk and resolves them based on API"""
+        profile_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(profile_path, self.attr_type, "vars.yml")
+        if os.path.isfile(file_path):
+            var_data = yaml.load(open(file_path))
+            # call api to retrieve data
+            var_map = [multi_col_top(self, params) for params in var_data]
+            # merge the various namespaces into a single dict
+            var_map = merge_dicts(*var_map)
+            return var_map
+        return None
 
     def file2string(self, file):
         profile_path = os.path.dirname(os.path.realpath(__file__))

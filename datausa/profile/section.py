@@ -6,7 +6,6 @@ from config import API
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, stat
 from datausa.utils.format import num_format
-from datausa.utils.multi_fetcher import merge_dicts, multi_col_top, replace_vars
 
 
 geo_labels = {
@@ -107,7 +106,9 @@ class Section(object):
                 val = getattr(self, func)(**params)
 
                 # if it returned an object, convert it to string
-                if not isinstance(val, (unicode, str)):
+                if isinstance(val, (int, long, float, complex)):
+                    val = str(val)
+                elif isinstance(val, dict):
                     col = params.get("col", "name")
                     if col == "id":
                         val = val["value"]
@@ -119,11 +120,6 @@ class Section(object):
 
         # load the config through the YAML interpreter and set title, description, and topics
         config = yaml.load(config)
-
-        if "vars" in config:
-            var_map = [multi_col_top(self.profile, params) for params in config["vars"]]
-            var_map = merge_dicts(*var_map)
-            config['stats'] = replace_vars(var_map, config['stats'])
 
         if "title" in config:
             self.title = config["title"]
@@ -369,6 +365,14 @@ class Section(object):
         # make the API request using the params
         return stat(params, col=col, dataset=dataset, data_only=data_only)
 
+    def var(self, **kwargs):
+        namespace = kwargs["namespace"]
+        key = kwargs["key"]
+        var_map = self.profile.variables
+        if var_map:
+            return var_map[namespace][key]
+        else:
+            raise Exception("vars.yaml file has no variables")
 
     def __repr__(self):
         return "Section: {}".format(self.title)

@@ -1,0 +1,4 @@
+- required: ["avg_wage", "avg_wage_rank"]
+  namespace: data
+- required: ["grads_total", "grads_rank", "year"]
+  namespace: gdata

@@ -1,9 +1,9 @@
-from requests.models import RequestEncodingMixin
-from config import API
 import requests
-import json
-import re
+from requests.models import RequestEncodingMixin
+
+from config import API
 from datausa.utils.format import num_format
+
 
 def merge_dicts(*dict_args):
     '''
@@ -40,19 +40,3 @@ def multi_col_top(profile, params):
     for col in cols:
         moi[namespace][col] = num_format(api_data[headers.index(col)], col)
     return moi
-
-
-def replace_vars(var_map, target):
-    new_data = []
-    for v in target:
-        tmp = json.dumps(v)
-        keys = re.findall(r"\[([^\]]+)\]", tmp)
-        for k in keys:
-            chain = k.split(".")
-            val = var_map
-            for c in chain:
-                val = val[c]
-            tmp = tmp.replace("[{}]".format(k), str(val))
-        tmp = json.loads(tmp)
-        new_data.append(tmp)
-    return new_data
