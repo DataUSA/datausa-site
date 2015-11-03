@@ -72,7 +72,6 @@ var search = {
   },
   "history": [],
   "nesting": {
-    // "cip": [2, 4, 6],
     "cip": [0, 1, 2],
     "naics": [0, 1, 2],
     "soc": [0, 1, 2, 3],
@@ -264,13 +263,13 @@ search.back = function(index) {
 
 search.open_details = function(d){
   var details_div = d3.select(".search-details");
-  
+
   // set title of details
   details_div.select("h2.details-title").text(d.display)
-  
+
   // set href of "go to profile" link
   details_div.select("a.details-profile").attr("href", "/profile/" + d.kind + "/" + d.id + "/");
-  
+
   // set sumlevels
   var details_sumlevels = details_div.select(".details-sumlevels").html('');
   var attr_meta = sumlevels_by_id[d.kind][d.sumlevel]
@@ -282,7 +281,7 @@ search.open_details = function(d){
       details_sumlevels.html(current_sumlevels_html)
     })
   }
-  
+
   details_div.select(".details-sumlevels-results").html('');
   details_sumlevels.selectAll("button").on("click", function(){
     var sumlevel = d3.select(this).attr("data-sumlevel");

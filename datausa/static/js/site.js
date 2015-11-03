@@ -506,7 +506,6 @@ var search = {
   },
   "history": [],
   "nesting": {
-    // "cip": [2, 4, 6],
     "cip": [0, 1, 2],
     "naics": [0, 1, 2],
     "soc": [0, 1, 2, 3],
@@ -698,13 +697,13 @@ search.back = function(index) {
 
 search.open_details = function(d){
   var details_div = d3.select(".search-details");
-  
+
   // set title of details
   details_div.select("h2.details-title").text(d.display)
-  
+
   // set href of "go to profile" link
   details_div.select("a.details-profile").attr("href", "/profile/" + d.kind + "/" + d.id + "/");
-  
+
   // set sumlevels
   var details_sumlevels = details_div.select(".details-sumlevels").html('');
   var attr_meta = sumlevels_by_id[d.kind][d.sumlevel]
@@ -716,7 +715,7 @@ search.open_details = function(d){
       details_sumlevels.html(current_sumlevels_html)
     })
   }
-  
+
   details_div.select(".details-sumlevels-results").html('');
   details_sumlevels.selectAll("button").on("click", function(){
     var sumlevel = d3.select(this).attr("data-sumlevel");
@@ -733,6 +732,7 @@ search.open_details = function(d){
     })
   })
 }
+
 var viz = function(build) {
 
   build.viz = d3plus.viz()
@@ -1039,6 +1039,10 @@ viz.loadCoords = function(build) {
 
 }
 
+var attrNesting = {
+  "cip": [2, 4, 6]
+};
+
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
@@ -1108,7 +1112,7 @@ viz.loadData = function(build, next) {
 
         for (var i = 0; i < app.attrs.length; i++) {
           var type = app.attrs[i].type,
-              nesting = search.nesting[type];
+              nesting = attrNesting[type];
           if (nesting && nesting.constructor === Array) {
             for (var ii = 0; ii < data.length; ii++) {
               var datum = data[ii];
@@ -1117,6 +1121,13 @@ viz.loadData = function(build, next) {
                 datum[type + "_" + length] = datum[type].slice(0, length);
               }
             }
+          }
+        }
+
+        if ("university" in data[0]) {
+          var attrs = build.viz.attrs();
+          for (var i = 0; i < data.length; i++) {
+            data[i].sector = attrs[data[i].university].sector;
           }
         }
 

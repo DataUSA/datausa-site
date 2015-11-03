@@ -1,3 +1,7 @@
+var attrNesting = {
+  "cip": [2, 4, 6]
+};
+
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
@@ -67,7 +71,7 @@ viz.loadData = function(build, next) {
 
         for (var i = 0; i < app.attrs.length; i++) {
           var type = app.attrs[i].type,
-              nesting = search.nesting[type];
+              nesting = attrNesting[type];
           if (nesting && nesting.constructor === Array) {
             for (var ii = 0; ii < data.length; ii++) {
               var datum = data[ii];
@@ -76,6 +80,13 @@ viz.loadData = function(build, next) {
                 datum[type + "_" + length] = datum[type].slice(0, length);
               }
             }
+          }
+        }
+
+        if ("university" in data[0]) {
+          var attrs = build.viz.attrs();
+          for (var i = 0; i < data.length; i++) {
+            data[i].sector = attrs[data[i].university].sector;
           }
         }
 
