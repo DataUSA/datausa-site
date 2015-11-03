@@ -34,7 +34,7 @@ topics:
         value: "<<top show=sector|sector=1|col=state_tuition>>"
       - title: "Median Out of State Private"
         value: "<<top show=sector|sector=2|col=oos_tuition>>"
-    description: "The majority of graduates in <<name>> are enrolled at <<top show=sector|attr_type=sector|order=grads_total>> institutions."
+    description: "The majority of graduates in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
     miniviz:
       attrs: "sector"
       color: "sector"
@@ -42,27 +42,31 @@ topics:
         show: "sector"
         geo: "<<id>>"
         required: "district_tuition,oos_tuition,state_tuition"
+      height: 200
       id: "sector"
+      legend: NO
       type: "bar"
       x: "state_tuition"
       y:
         scale: "discrete"
-        value: "tuition"
+        value: "sector"
       ui:
         - method: "x"
+          label: "Tuition"
           value:
-            - "district_tuition"
-            - "oos_tuition"
-            - "state_tuition"
+            - District: "district_tuition"
+            - Out of State: "oos_tuition"
+            - In State: "state_tuition"
     viz:
       attrs:
         - "sector"
-        - "universities"
+        - "university"
       color: "sector"
       data:
         show: "university"
         geo: "<<id>>"
         required: "grads_total"
+      depth: 1
       id:
         - "sector"
         - "university"
