@@ -262,7 +262,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = [8], app;
+  var scrollBuffer = -200, n = [27,28,29], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
@@ -289,6 +289,7 @@
   }
 
   scrollFunctions.push(buildScroll);
+  buildScroll();
 
 </script>
 
