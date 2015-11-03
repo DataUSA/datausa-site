@@ -54,7 +54,7 @@ var attrs_meta = {
   }
 }
 sumlevels_by_id = {}
-for (attr_type in attrs_meta){
+for (var attr_type in attrs_meta){
   sumlevels_by_id[attr_type] = {}
   attrs_meta[attr_type]["sumlevels"].forEach(function(sumlevel){
     sumlevels_by_id[attr_type][sumlevel["id"]] = sumlevel
@@ -79,7 +79,7 @@ var search = {
   },
   "parents": [],
   "term": "",
-  "type": "cip",
+  "type": "",
   "children": {
     "geo": {
       "040": ["050", "310", ""]
@@ -168,6 +168,7 @@ search.btnExplore = function(d) {
   //   var str = d.id + "|" + d.name;
   //   html += "<button class='search-btn-children' onclick='search.loadChildren(\"" + str + "\")'>Children</button>";
   // }
+  html = "<span>[" + d.kind.toUpperCase() + "]</span> " + html;
 
   html += "<a class='search-btn-profile' href='/profile/" + this.type + "/" + d.id + "/'>Profile</a>";
 
