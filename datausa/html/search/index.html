@@ -59,7 +59,6 @@
     </div>
   </div>
 </div>
-
 {% endblock %}
 
 {% block js %}
@@ -123,6 +122,7 @@
   d3.select(".search-filters-toggle").on("click", function(){
     var current_opacity = parseInt(d3.select(".search-filters-options").style("opacity"));
     d3.select(".search-filters-options").style("opacity", (current_opacity+1)%2)
+    d3.event.stopPropagation();
   })
 
   var term = location.search ? location.search.split("=")[1] : "";
@@ -136,6 +136,10 @@
   }
 
   search.reload();
+  
+  d3.select(document).on("click", function(){
+    d3.select(".search-filters-options").style("opacity", 0)
+  })
 
 </script>
 {% endblock %}
