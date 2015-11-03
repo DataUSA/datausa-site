@@ -169,9 +169,9 @@ topics:
     description: "<<top show=sex|order=avg_wage|sort=desc|col=name>> full-time employees in <<name>> make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2>> times more than <<top show=sex|order=avg_wage|sort=asc|col=name>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Median Male Income"
-        value: "<<top show=sex|sex=1|col=avg_wage>>"
+        value: "<<var namespace=gender|key=avg_wage|row=0>>"
       - title: "Median Female Income"
-        value: "<<top show=sex|sex=2|col=avg_wage>>"
+        value: "<<var namespace=gender|key=avg_wage|row=1>>"
     viz:
       attrs:
         - "sex"
@@ -219,10 +219,10 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
-    description: "<<name>> has an income GINI of <<top show=geo|col=gini>>."
+    description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
-        value: "<<top show=geo|col=gini>>"
+        value: "<<var namespace=wagegap|key=gini>>"
     viz:
       attrs: "geo"
       data:

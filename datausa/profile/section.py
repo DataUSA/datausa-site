@@ -368,8 +368,12 @@ class Section(object):
     def var(self, **kwargs):
         namespace = kwargs["namespace"]
         key = kwargs["key"]
+
         var_map = self.profile.variables
         if var_map:
+            if "row" in kwargs:
+                row = int(kwargs["row"])
+                return var_map[namespace][row][key]
             return var_map[namespace][key]
         else:
             raise Exception("vars.yaml file has no variables")

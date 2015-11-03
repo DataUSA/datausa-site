@@ -6,6 +6,21 @@
   sumlevel: all
   namespace: economy
 
+- required: ["gini"]
+  show: geo
+  sumlevel: all
+  namespace: wagegap
+
 - required: ["primary_care_physicians", "dentists", "mental_health_providers", "other_primary_care_providers"]
   year: 2015
   namespace: health
+
+- required: ["avg_wage"]
+  sex: "1,2" # 1 or 2
+  limit: 2
+  show: sex
+  sumlevel: all
+  rows: True
+  order: sex
+  sort: asc
+  namespace: gender
