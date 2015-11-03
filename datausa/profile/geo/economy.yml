@@ -227,11 +227,11 @@ topics:
       attrs: "geo"
       data:
         - geo: "<<id>>"
-          required: "incomeless10,income10to15,income15to20,income20to25,income25to30,income30to35,income35to40,income40to45,income45to50,income50to60,income60to75,income75to100,income100to125,income125to150,income150to200,income200more"
+          required: "income_under10,income_10to15,income_15to20,income_20to25,income_25to30,income_30to35,income_35to40,income_40to45,income_45to50,income_50to60,income_60to75,income_75to100,income_100to125,income_125to150,income_150to200,income_200over"
           show: "geo"
           split:
             id: "bucket"
-            regex: "income([a-zA-Z0-9]*)"
+            regex: "income_([a-zA-Z0-9]*)"
             value: "income"
       id: "bucket"
       type: "bar"
