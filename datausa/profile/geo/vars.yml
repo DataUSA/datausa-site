@@ -1,10 +1,8 @@
 - required: ["pop", "pop_rank", "income", "income_rank", "age", "age_rank"]
   namespace: splash
-
-- required: ["income", "income_rank"]
   show: geo
   sumlevel: all
-  namespace: economy
+  year: 2013
 
 - required: ["gini"]
   show: geo
