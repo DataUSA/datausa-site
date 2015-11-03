@@ -36,6 +36,13 @@ body.search {
     width: 80%;
     
     #search-filters {
+      
+      a {
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        display: inline-block;
+      }
+      
       a.active {
         font-weight: bold;
       }
@@ -45,6 +52,13 @@ body.search {
       div {
         display: none;
       }
+      
+      a {
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        display: inline-block;
+      }
+      
       a.active {
         font-weight: bold;
       }

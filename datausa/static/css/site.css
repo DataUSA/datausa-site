@@ -313,12 +313,20 @@ body.search a {
 body.search #search-advanced {
   margin: 70px auto;
   width: 80%; }
-  body.search #search-advanced #search-filters a.active {
-    font-weight: bold; }
+  body.search #search-advanced #search-filters a {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    display: inline-block; }
+    body.search #search-advanced #search-filters a.active {
+      font-weight: bold; }
   body.search #search-advanced .search-nestings div {
     display: none; }
-    body.search #search-advanced .search-nestings a.active {
-      font-weight: bold; }
+    body.search #search-advanced .search-nestings a {
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      display: inline-block; }
+      body.search #search-advanced .search-nestings a.active {
+        font-weight: bold; }
   body.search #search-advanced .search-item {
     padding: 3px 0;
     font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
