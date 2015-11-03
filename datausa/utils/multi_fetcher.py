@@ -23,12 +23,13 @@ def multi_col_top(profile, params):
     params["show"] = params.get("show", attr_type)
     params["limit"] = params.get("limit", 1)
     params["sumlevel"] = params.get("sumlevel", "all")
-    params[attr_type] = profile.id
+    if attr_type not in params:
+        params[attr_type] = profile.id
     cols = params.pop("required")
     params["required"] = ",".join(cols)
     namespace = params.pop("namespace")
     query = RequestEncodingMixin._encode_params(params)
-    url = "{}/api?{}".format(API, query)
+    url = "{}/api?{}".format(API, query).replace("%3C%3Cid%3E%3E", profile.id)
     try:
         r = requests.get(url).json()
     except ValueError:

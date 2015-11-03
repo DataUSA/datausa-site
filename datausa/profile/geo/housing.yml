@@ -132,9 +132,9 @@ topics:
   - title: "Commute Time"
     stat:
       - title: "Median Travel Time"
-        value: "<<top col=mean_commute_minutes>>"
+        value: "<<var namespace=commute|key=mean_commute_minutes|row=1>>"
     description:
-      - "Employees in <<name>> have a shorter average commute time than the national average of <<top col=mean_commute_minutes|geo=01000US>>"
+      - "Employees in <<name>> have a shorter average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=0>>"
       - "<<percent num=travel_90over|den=workers>> of the people in <<name>> have \"super commutes\" in excess of 90 minutes, which is nothing compared to the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>."
     miniviz:
       attrs: "geo"

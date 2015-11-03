@@ -22,3 +22,12 @@
   order: sex
   sort: asc
   namespace: gender
+
+- required: ["mean_commute_minutes"]
+  geo: "<<id>>,01000US"
+  year: latest
+  order: geo
+  sort: asc
+  rows: True
+  namespace: commute
+  limit: 2
