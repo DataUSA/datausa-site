@@ -21,6 +21,7 @@ def multi_col_top(profile, params):
     params["show"] = params.get("show", attr_type)
     params["limit"] = 1 #params.get("limit", 1)
     params["sumlevel"] = params.get("sumlevel", "all")
+    params[attr_type] = profile.id
     cols = params.pop("required")
     params["required"] = ",".join(cols)
     namespace = params.pop("namespace")
