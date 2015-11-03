@@ -3,6 +3,7 @@ description: "The American Census Survey collects an enormous amount of data on 
 
 topics:
   - title: "Degree Obtainment"
+    stat_stack: YES
     stat:
       - title: "Most Common Student Degree"
         value: "<<top show=degree|order=grads_total>>"
@@ -13,6 +14,7 @@ topics:
       attrs:
         - "degree"
         - "pums_degree"
+      color: "dataset"
       data:
         - required: "grads_total"
           cip: "<<id>>"
@@ -36,7 +38,10 @@ topics:
         value: "<<top col=sex|required=grads_men,grads_women|order=grads_total>>"
     description: "To the right, we see the 5 most common institutions that offer <<name>> broken down by graduates for each gender."
     viz:
-      attrs: "sex"
+      attrs:
+        - "sex"
+        - "university"
+      color: "gender"
       data:
         required: "grads_men,grads_women"
         cip: "<<id>>"

@@ -3,7 +3,7 @@ from requests.models import RequestEncodingMixin
 from flask import abort, url_for
 from config import API, PROFILES
 from datausa import cache, app
-from datausa.utils.format import num_format
+from datausa.utils.format import dictionary, num_format
 
 def datafold(data):
     """List[dict]: combines the headers and data from an API call """
@@ -20,9 +20,10 @@ def fetch(attr_id, attr_type):
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
     else:
+        name = dictionary[attr_id] if attr_id in dictionary else "N/A"
         return {
             "id": attr_id,
-            "name": "N/A"
+            "name": name
         }
 
 def default_params(params):
@@ -98,7 +99,8 @@ def stat(params, col="name", dataset=False, data_only=False):
     else:
         top = [d[col] for d in r]
 
-    top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
+    if col != "id":
+        top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
 
     # coerce all values to strings
     top = [str(t) if t != "" else "N/A" for t in top]
@@ -225,6 +227,7 @@ col_map = {
     "transport": {
         "drove": "Drove Alone",
         "carpooled": "Carpooled",
+        "cartruckorvan": "Truck or Van",
         "publictrans": "Public Transit",
         "bicycle": "Bicycle",
         "walked": "Walked",

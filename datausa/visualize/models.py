@@ -84,21 +84,28 @@ class Viz(object):
         """List[str]: A list of important data keys to be displayed in tooltips """
 
         tooltip = []
+        ids = self.config["id"]
+        if not isinstance(ids, list):
+            ids = [ids]
 
         # check each data call for 'required' and 'order'
         for d in self.data:
             p = d["params"]
             for k in ["required", "order"]:
-                if k in p and p[k] != "" and p[k] not in tooltip:
-                    tooltip.append(p[k])
+                if k in p:
+                    val = p[k].split(",")
+                    for v in val:
+                        if v != "" and v not in tooltip and v not in ids:
+                            tooltip.append(v)
 
         # check the config for 'x' 'y' and 'size'
         for k in ["x", "y", "size"]:
-            if k in self.config and self.config[k] not in tooltip:
+            if k in self.config:
                 val = self.config[k]
-                if isinstance(val, str):
+                if not isinstance(val, str):
+                    val = val.get("value", False)
+
+                if val and val not in tooltip and val not in ids:
                     tooltip.append(val)
-                elif "value" in val:
-                    tooltip.append(val["value"])
 
         return tooltip

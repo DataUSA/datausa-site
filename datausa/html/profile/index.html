@@ -159,7 +159,7 @@
   var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
       color = "{{ profile.color() }}";
 
-  scrollFunctions.push(function(){
+  function navScroll(){
 
     var y = window.scrollY,
         showNav = y > window.innerHeight - titleHeight - 10;
@@ -180,7 +180,10 @@
         return this.innerHTML === active_section;
       });
 
-  });
+  }
+
+  navScroll();
+  scrollFunctions.push(navScroll);
 
   builds.forEach(function(build, i){
     build.container = d3.select(d3.selectAll(".viz")[0][i]);
@@ -262,7 +265,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = -200, n = [27,28,29], app;
+  var scrollBuffer = -200, n = [32], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
@@ -288,8 +291,8 @@
     }
   }
 
-  scrollFunctions.push(buildScroll);
   buildScroll();
+  scrollFunctions.push(buildScroll);
 
 </script>
 

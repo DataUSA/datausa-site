@@ -7,7 +7,7 @@ viz.geo_map = function(build) {
       "heatmap": [d3plus.color.lighter(build.color), build.color, d3.rgb(build.color).darker()]
     },
     "coords": {
-      "center": [0, 10],
+      "center": [0, 0],
       "key": key,
       "mute": ["79500US4804701"],
       "padding": 0,

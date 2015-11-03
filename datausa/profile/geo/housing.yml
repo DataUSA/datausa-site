@@ -33,6 +33,7 @@ topics:
           regex: "^income_([a-z0-9]*)$"
           value: "income"
       id: "geo"
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
@@ -69,6 +70,7 @@ topics:
           regex: "^propertyval_([a-zA-Z0-9]*)$"
           value: "property_val"
       id: "geo"
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
@@ -85,14 +87,15 @@ topics:
         split:
           id: "bucket"
           regex: "^propertytax_([a-zA-Z0-9]*)$"
-          value: "property_tax"
+          value: "num_ppl"
       height: 200
       id: "geo"
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
         value: "bucket"
-      y: "property_tax"
+      y: "num_ppl"
   - title: "Rent vs Own"
     description: "The majority, <<top col=owner_occupied_housing_units>>, of the population of <<name>> owns their home. This is higher than the national average of <<top col=owner_occupied_housing_units|geo=01000US>>"
     viz:
@@ -119,19 +122,20 @@ topics:
         geo: "<<id>>"
         force: "acs.yg_vehicles"
         split:
-          id: "vehicles"
+          id: "bucket"
           regex: "^vehicles_([0-9a-z]*)$"
           value: "num_ppl"
       height: 200
       id: "geo"
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
-        value: "vehicles"
+        value: "bucket"
       y: "num_ppl"
   - title: "Commute Time"
     stat:
-      - title: "Median Travel Time"
+      - title: "Average Travel Time"
         value: "<<var namespace=commute|key=mean_commute_minutes|row=1>>"
     description:
       - "Employees in <<name>> have a shorter average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=0>>"
@@ -157,26 +161,28 @@ topics:
         geo: "<<id>>"
         force: "acs.yg_travel_time"
         split:
-          id: "travel_time"
+          id: "bucket"
           regex: "^travel_([0-9a-z]*)$"
           value: "num_ppl"
       id: "geo"
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
-        value: "travel_time"
+        value: "bucket"
       y: "num_ppl"
   - title: "Commuter Transportation"
     stat:
       - title: "Most common method of travel"
-        value: "<<top col=transport|force=acs.yg_transport>>"
+        value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>>"
     description:
-      - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport>> to work, which aligns with the national average (XX%)."
-      - "Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport>>."
+      - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> to work, which aligns with the national average (XX%)."
+      - "Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport|exclude=transport_cartruckorvan>>."
     viz:
       attrs: "geo"
       data:
         show: "geo"
+        exclude: "transport_cartruckorvan"
         geo: "<<id>>"
         force: "acs.yg_transport"
         split:
@@ -184,6 +190,7 @@ topics:
           regex: "^transport_([a-z]*)$"
           value: "num_ppl"
       id: "geo"
+      order: "num_ppl"
       type: "bar"
       x:
         scale: "discrete"

@@ -21,14 +21,14 @@ topics:
           regex: "nativity_([a-z]*_[a-z0-9]*)"
           map:
             nationality: "nativity_([a-z]*)_[a-z0-9]*"
-            age: "nativity_[a-z]*_([a-z0-9]*)"
+            bucket: "nativity_[a-z]*_([a-z0-9]*)"
           value: "num_ppl"
       id: "nationality"
       legend: false
       type: "bar"
       x:
         scale: "discrete"
-        value: "age"
+        value: "bucket"
       y: "num_ppl"
   - category: "Heritage"
     title: "Global Diversity"

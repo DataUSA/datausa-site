@@ -41,7 +41,7 @@ topics:
       x: "oos_tuition"
       y:
         scale: "discrete"
-        value: "university"
+        value: "name"
   - title: "Popular Colleges"
     stat:
       - title: "Highest Concentration Institution"
@@ -60,7 +60,7 @@ topics:
         value: "pct_total"
       id: "university"
       type: "bar"
-      x: "university"
+      x: "name"
       y: "grads_total"
   - title: "Graduates by County"
     stat:

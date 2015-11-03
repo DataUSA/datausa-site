@@ -227,13 +227,14 @@ topics:
       attrs: "geo"
       data:
         - geo: "<<id>>"
-          required: "income_under10,income_10to15,income_15to20,income_20to25,income_25to30,income_30to35,income_35to40,income_40to45,income_45to50,income_50to60,income_60to75,income_75to100,income_100to125,income_125to150,income_150to200,income_200over"
+          force: "acs.yg_income_distribution"
           show: "geo"
           split:
             id: "bucket"
-            regex: "income_([a-zA-Z0-9]*)"
+            regex: "^income_([a-zA-Z0-9]*)$"
             value: "income"
       id: "bucket"
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
@@ -273,14 +274,15 @@ topics:
           regex: "poverty_([a-z0-9]*_[a-z0-9]*)"
           map:
             sex: "poverty_([a-z0-9]*)_[a-z0-9]*"
-            age: "poverty_[a-z0-9]*_([a-z0-9]*)"
+            bucket: "poverty_[a-z0-9]*_([a-z0-9]*)"
           value: "num_ppl"
       id: "sex"
       legend: false
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
-        value: "age"
+        value: "bucket"
       y: "num_ppl"
   - title: "Poverty by Race & Ethnicity"
     stat:
@@ -293,26 +295,27 @@ topics:
       data:
         show: "geo"
         geo: "<<id>>"
-        required: "poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75over,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75over"
+        force: "acs.yg_poverty_race"
         split:
           id: "sex_age"
           regex: "poverty_([a-z0-9]*_[a-z0-9]*)"
           map:
             sex: "poverty_([a-z0-9]*)_[a-z0-9]*"
-            age: "poverty_[a-z0-9]*_([a-z0-9]*)"
+            bucket: "poverty_[a-z0-9]*_([a-z0-9]*)"
           value: "num_ppl"
       id: "sex"
       legend: false
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
-        value: "age"
+        value: "bucket"
       y: "num_ppl"
   - category: "Industries"
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries in <<name>> by number of employees are <<top show=acs_ind|sumlevel=2|order=num_emp|sort=desc|limit=3>>"
+    description: "The 3 most common industries in <<name>> by number of employees are <<top show=acs_ind|sumlevel=2|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -341,6 +344,7 @@ topics:
             sort: "asc"
             show: "acs_ind"
             sumlevel: "2"
+            where: "num_emp:!0"
         height: 200
         id: "acs_ind"
         order:
@@ -355,7 +359,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_ind|sumlevel=2|order=num_emp_rca|sort=desc|limit=3>>"
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_ind|sumlevel=2|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -384,6 +388,7 @@ topics:
             sort: "asc"
             show: "acs_ind"
             sumlevel: "2"
+            where: "num_emp_rca:!0"
         height: 200
         id: "acs_ind"
         order:
@@ -398,7 +403,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paying"
-    description: "The 3 highest paying industries in <<name>>, by total payroll, are <<top show=acs_ind|sumlevel=2|order=wage|sort=desc|limit=3>>"
+    description: "The 3 highest paying industries in <<name>>, by total payroll, are <<top show=acs_ind|sumlevel=2|order=wage|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -427,6 +432,7 @@ topics:
             sort: "asc"
             show: "acs_ind"
             sumlevel: "2"
+            where: "wage:!0"
         height: 200
         id: "acs_ind"
         order:
@@ -440,12 +446,16 @@ topics:
           value: "acs_ind"
   - viz:
       attrs: "acs_ind"
+      color: "acs_ind_2"
       data:
         - geo: "<<id>>"
           required: "num_emp"
           show: "acs_ind"
-          sumlevel: "all"
+          sumlevel: "2"
       height: 500
-      id: "acs_ind"
+      id:
+        - "acs_ind_2"
+        - "acs_ind_4"
+        - "acs_ind_6"
       size: "num_emp"
       type: "tree_map"

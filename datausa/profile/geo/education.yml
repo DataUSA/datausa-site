@@ -91,7 +91,9 @@ topics:
   - title: "Gender"
     description: "Here we see the top 5 institutions in <<name>>, by graduates, broken out by gender. These 5 institutions tend to have more X than X enrolled, at a rate of X to 1."
     viz:
-      attrs: "sex"
+      attrs:
+        - "sex"
+        - "university"
       color: "sex"
       data:
         show: "university"
@@ -101,8 +103,9 @@ topics:
           id: "sex"
           regex: "grads_([a-z]*)"
           value: "grads_total"
-        university: "<<top col=id|order=grads_total|show=university>>"
+        university: "<<top col=id|order=grads_total|show=university|limit=5>>"
       id: "sex"
+      legend: NO
       type: "bar"
       x:
         scale: "discrete"
@@ -123,8 +126,8 @@ topics:
           id: "race"
           regex: "grads_([a-z]*)"
           value: "grads_total"
-        university: "<<top col=id|order=grads_total|show=university>>"
       id: "race"
+      legend: NO
       type: "bar"
       x: "grads_total"
       y:

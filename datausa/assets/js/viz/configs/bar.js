@@ -20,7 +20,7 @@ viz.bar = function(build) {
     },
     "data": {
       "stroke": {
-        "width": 0
+        "width": 1
       }
     },
     "x": axis_style("x"),

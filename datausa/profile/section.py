@@ -155,7 +155,7 @@ class Section(object):
                         topic["select"]["param"] = topic["select"]["data"]
                         topic["select"]["data"] = [v for k, v in attr_cache[topic["select"]["data"]].iteritems()]
                     elif isinstance(topic["select"]["data"], list):
-                        topic["select"]["data"] = [{"id": v, "name": v} for v in topic["select"]["data"]]
+                        topic["select"]["data"] = [fetch(v, False) for v in topic["select"]["data"]]
 
         if "sections" in config:
             self.sections = config["sections"]

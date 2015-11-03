@@ -1,4 +1,6 @@
 var attrNesting = {
+  "acs_ind": [2, 4, 6],
+  "acs_occ": [2, 4, 6, 8, 10],
   "cip": [2, 4, 6]
 };
 
@@ -83,7 +85,7 @@ viz.loadData = function(build, next) {
           }
         }
 
-        if ("university" in data[0]) {
+        if (data.length && "university" in data[0]) {
           var attrs = build.viz.attrs();
           for (var i = 0; i < data.length; i++) {
             data[i].sector = attrs[data[i].university].sector;
