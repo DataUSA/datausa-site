@@ -266,19 +266,19 @@ def build_attr_cache():
 attr_cache = build_attr_cache()
 
 @cache.memoize()
-def build_profile_anchors():
+def build_profile_cache():
     profile_path = os.path.join(basedir, "datausa/profile")
-    anchors = {}
+    profiles = {}
     for p in PROFILES:
-        anchors[p] = []
+        profiles[p] = {"sections": []}
         splash_path = os.path.join(profile_path, p, "splash.yml")
         splash = yaml.load("".join(open(splash_path).readlines()))
         sections = splash["sections"]
         for s in sections:
             section_path = os.path.join(profile_path, p, "{}.yml".format(s))
             section_data = yaml.load("".join(open(section_path).readlines()))
-            anchors[p].append(section_data["title"])
-        app.logger.info("Loaded {} profile anchors for: {}".format(len(anchors[p]), p))
-    return anchors
+            profiles[p]["sections"].append({"anchor": s, "title": section_data["title"], "description": section_data["description"]})
+        app.logger.info("Loaded {} profile anchors for: {}".format(len(profiles[p]["sections"]), p))
+    return profiles
 
-profile_anchors = build_profile_anchors()
+profile_cache = build_profile_cache()
