@@ -31,9 +31,9 @@ topics:
   - title: "Universities"
     stat:
       - title: "Median In-State Public"
-        value: "<<top show=sector|sector=1|col=state_tuition>>"
+        value: "<<var namespace=edu|key=state_tuition|row=0>>"
       - title: "Median Out of State Private"
-        value: "<<top show=sector|sector=2|col=oos_tuition>>"
+        value: "<<var namespace=edu|key=oos_tuition|row=1>>"
     description: "The majority of graduates in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
     miniviz:
       attrs: "sector"
