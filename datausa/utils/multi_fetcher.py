@@ -13,6 +13,9 @@ lookup_map = {
 
 def render_col(my_data, headers, col):
     value = my_data[headers.index(col)]
+    if not value:
+        return "N/A"
+
     if col not in lookup_map:
         # do simple number formating
         return num_format(value, col)
