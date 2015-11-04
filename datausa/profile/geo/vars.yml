@@ -31,3 +31,12 @@
   rows: True
   namespace: commute
   limit: 2
+
+- required: ["owner_occupied_housing_units"]
+  geo: "<<id>>,01000US"
+  year: latest
+  order: geo
+  sort: asc
+  rows: True
+  namespace: housing
+  limit: 2

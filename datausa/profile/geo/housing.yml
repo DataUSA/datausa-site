@@ -97,7 +97,7 @@ topics:
         value: "bucket"
       y: "num_ppl"
   - title: "Rent vs Own"
-    description: "The majority, <<top col=owner_occupied_housing_units>>, of the population of <<name>> owns their home. This is higher than the national average of <<top col=owner_occupied_housing_units|geo=01000US>>"
+    description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=1>>, of the population of <<name>> owns their home. This is higher than the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=0>>"
     viz:
       attrs: "geo"
       data:
