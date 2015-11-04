@@ -67,7 +67,15 @@ class Profile(object):
         return "".join(open(file_path).readlines())
 
     def image(self):
-        return "/static/img/splash/cip/4005.jpg"
+        if "image_link" in self.attr:
+            url = "/static/img/splash/{}/".format(self.attr_type)
+            if self.attr["image_link"]:
+                return {"url": "{}{}.jpg".format(url,self.attr["id"]), "link": self.attr["image_link"], "author": self.attr["image_author"]}
+            parents = [fetch(p["id"], self.attr_type) for p in self.parents()]
+            for p in reversed(parents):
+                if p["image_link"]:
+                    return {"url": "{}{}.jpg".format(url,p["id"]), "link": p["image_link"], "author": p["image_author"]}
+        return None
 
     def parents(self):
         url = "{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)
