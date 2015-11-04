@@ -4,6 +4,21 @@ from requests.models import RequestEncodingMixin
 from config import API
 from datausa.utils.format import num_format
 from datausa import app
+from datausa.utils.data import fetch
+
+lookup_map = {
+    "birthplace": True
+}
+
+
+def render_col(my_data, headers, col):
+    value = my_data[headers.index(col)]
+    if col not in lookup_map:
+        # do simple number formating
+        return num_format(value, col)
+    else:
+        # lookup the attr object and get the name
+        return fetch(value, col)["name"]
 
 
 def merge_dicts(*dict_args):
@@ -49,11 +64,11 @@ def multi_col_top(profile, params):
 
     if not rows:
         for col in cols:
-            moi[namespace][col] = num_format(api_data[headers.index(col)], col)
+            moi[namespace][col] = render_col(api_data, headers, col)
     else:
         for data_row in api_data:
             myobject = {}
             for col in cols:
-                myobject[col] = num_format(data_row[headers.index(col)], col)
+                myobject[col] = render_col(data_row, headers, col)
             moi[namespace].append(myobject)
     return moi

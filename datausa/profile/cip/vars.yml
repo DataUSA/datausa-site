@@ -2,3 +2,7 @@
   namespace: data
 - required: ["grads_total", "grads_rank", "year"]
   namespace: gdata
+- required: ["birthplace"]
+  order: num_ppl_rca
+  sort: desc
+  namespace: intl

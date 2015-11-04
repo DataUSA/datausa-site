@@ -186,10 +186,10 @@ topics:
     stat_stack: true
     stat:
       - title: "High Relative Number of People born in"
-        value: "<<top show=birthplace|order=num_ppl_rca>>"
+        value: "<<var namespace=intl|key=birthplace>>"
       - title: "Most Common Foreign-Born Country is"
         value: "<<top show=birthplace|order=num_ppl|where=birthplace:~^04000US>>"
-    description: "There are a relatively high number of foreign-born citizens from <<top show=birthplace|order=num_ppl_rca>> that hold <<name>> degrees."
+    description: "There are a relatively high number of foreign-born citizens from <<var namespace=intl|key=birthplace>> that hold <<name>> degrees."
     viz:
       attrs: "birthplace"
       coords: "birthplace"
