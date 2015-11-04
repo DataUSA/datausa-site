@@ -310,7 +310,7 @@ body.search a {
         body.search .search-input.inactive {
           display: none; }
 body.search #search-advanced {
-  margin: 70px auto;
+  margin: 20px auto;
   width: 80%; }
   body.search #search-advanced #search-filters a {
     padding: 10px 15px;
@@ -332,54 +332,50 @@ body.search #search-advanced {
         body.search #search-advanced .search-nestings a.active {
           color: black;
           font-weight: bold; }
-  body.search #search-advanced .search-item {
-    padding: 3px 0;
-    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 12px; }
-    body.search #search-advanced .search-nav {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      -webkit-justify-content: center;
-      -moz-justify-content: center;
-      justify-content: center;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-flex-direction: row;
-      -moz-flex-direction: row;
-      flex-direction: row;
-      -webkit-flex-wrap: wrap;
-      flex-wrap: wrap;
-      border: solid lightgray 4px;
-      width: 100%;
-      top: 0; }
-      body.search #search-advanced .search-crumbs {
-        display: none; }
-        body.search #search-advanced .search-crumbs.active {
-          display: block; }
-          body.search #search-advanced .search-crumbs .search-back {
+  body.search #search-advanced .search-nav {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    border: solid lightgray 4px;
+    width: 100%;
+    top: 0; }
+    body.search #search-advanced .search-crumbs {
+      display: none; }
+      body.search #search-advanced .search-crumbs.active {
+        display: block; }
+        body.search #search-advanced .search-crumbs .search-back {
+          display: inline-block;
+          padding: 10px;
+          width: 60px;
+          color: #004994;
+          font-family: "Enriqueta", serif;
+          font-size: 30px;
+          font-weight: 400;
+          text-align: center; }
+          body.search #search-advanced .search-crumbs .search-crumb {
             display: inline-block;
-            padding: 10px;
-            width: 60px;
+            padding: 10px 0;
             color: #004994;
             font-family: "Enriqueta", serif;
             font-size: 30px;
-            font-weight: 400;
-            text-align: center; }
-            body.search #search-advanced .search-crumbs .search-crumb {
-              display: inline-block;
-              padding: 10px 0;
-              color: #004994;
-              font-family: "Enriqueta", serif;
-              font-size: 30px;
-              font-weight: 400; }
-              body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
-                content: ">"; }
-                body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
-                  cursor: pointer; }
+            font-weight: 400; }
+            body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):after {
+              content: ">"; }
+              body.search #search-advanced .search-crumbs .search-crumb:not(:last-child):hover {
+                cursor: pointer; }
 body.search .search-results-container {
   -webkit-justify-content: center;
   -moz-justify-content: center;
@@ -403,13 +399,17 @@ body.search .search-results-container {
     flex: 1;
     background: gray;
     color: #333;
-    float: left;
-    padding: 10px; }
+    float: left; }
     body.search .search-results-container .search-results .search-item {
+      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-size: 12px;
       color: white;
       cursor: pointer;
       line-height: 1.2em;
-      margin: 5px; }
+      margin: 5px 0;
+      padding: 10px; }
+      body.search .search-results-container .search-results .search-item:hover {
+        background-color: #004994; }
   body.search .search-results-container .search-details {
     -webkit-box-flex: 3;
     -moz-box-flex: 3;

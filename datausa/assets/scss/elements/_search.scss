@@ -30,7 +30,7 @@ body.search {
   }
 
   #search-advanced {
-    margin: $footer-height auto;
+    margin: 20px auto;
     width: 80%;
     
     #search-filters {
@@ -66,12 +66,6 @@ body.search {
         color: black;
         font-weight: bold;
       }
-    }
-
-    .search-item {
-      padding: 3px 0;
-      font-family: $palanquin;
-      font-size: 12px;
     }
 
     .search-nav {
@@ -139,12 +133,17 @@ body.search {
       background: gray;
       color: #333;
       float: left;
-      padding: 10px;
       .search-item{
+        font-family: $palanquin;
+        font-size: 12px;
         color: white;
         cursor: pointer;
         line-height: 1.2em;
-        margin: 5px;
+        margin: 5px 0;
+        padding: 10px;
+        &:hover{
+          background-color: $d-blue;
+        }
       }
     }
   

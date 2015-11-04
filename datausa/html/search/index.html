@@ -55,6 +55,7 @@
       <h2 class="details-title">&mdash;</h2>
       <div class="details-sumlevels"></div>
       <div class="details-sumlevels-results"></div>
+      <div class="details-anchors"></div>
       <a href="#" class="details-profile">Go to Profile &gt;</a>
     </div>
   </div>
@@ -63,6 +64,7 @@
 
 {% block js %}
 <script>
+  search.anchors = {{anchors|safe}};
 
   /*
    * Constrain search to specific types of attrs

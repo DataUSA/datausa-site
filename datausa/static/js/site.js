@@ -497,6 +497,7 @@ for (var attr_type in attrs_meta){
 console.log(sumlevels_by_id)
 var search = {
   "advanced": false,
+  "anchors": {},
   "container": false,
   "current_depth": {
     "cip": 0,
@@ -569,7 +570,7 @@ search.reload = function() {
       items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
     }
     else {
-      items.on("click", search.open_details);
+      items.on("click", search.open_details.bind(this));
       var first_item = items.filter(function(d, i){ return i===0 });
       first_item.on("click")(first_item.datum());
     }
@@ -704,6 +705,17 @@ search.open_details = function(d){
 
   // set href of "go to profile" link
   details_div.select("a.details-profile").attr("href", "/profile/" + d.kind + "/" + d.id + "/");
+  
+  // set anchors for this section (if there are any)
+  var anchors_container = d3.select(".details-anchors");
+  anchors_container.html("");
+  if(this.anchors[d.kind]){
+    this.anchors[d.kind].forEach(function(anchor){
+      anchors_container.append("a")
+        .attr("href", "#")
+        .text(anchor)
+    })
+  }
 
   // set sumlevels
   var details_sumlevels = details_div.select(".details-sumlevels").html('');
