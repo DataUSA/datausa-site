@@ -278,11 +278,13 @@ search.open_details = function(d){
   // set anchors for this section (if there are any)
   var anchors_container = d3.select(".details-anchors");
   anchors_container.html("");
-  if(this.anchors[d.kind]){
-    this.anchors[d.kind].forEach(function(anchor){
+  if(this.anchors[d.kind].sections){
+    this.anchors[d.kind].sections.forEach(function(anchor){
       anchors_container.append("a")
-        .attr("href", "#")
-        .text(anchor)
+        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .text(anchor.title)
+        .append("span")
+        .text(anchor.description)
     })
   }
 

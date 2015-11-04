@@ -517,7 +517,7 @@ body.search .search-results-container {
   max-height: 244px;
   padding: 2px 2px 0; }
 
-  .dk_touch .search-filters-options {
+  .search-filters-options {
     max-height: 250px; }
 
     .search-filters {
@@ -541,6 +541,7 @@ body.search .search-results-container {
     opacity: 0;
     width: 140px;
     z-index: 1;
+    display: none;
     -webkit-transition: 0.3s ease-out;
     -moz-transition: 0.3s ease-out;
     -ms-transition: 0.3s ease-out;

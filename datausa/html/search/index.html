@@ -78,7 +78,7 @@
     search.type = d3.select(this).attr("data-filter");
     
     // close inner dropdown and set title
-    d3.select(".search-filters-options").style("opacity", 0)
+    d3.select(".search-filters-options").style("opacity", 0).style("display", "none");
     d3.select(".search-filters-toggle-label").text(d3.select(this).text())
     
     // set active link for profile type
@@ -130,7 +130,10 @@
   
   d3.select(".search-filters-toggle").on("click", function(){
     var current_opacity = parseInt(d3.select(".search-filters-options").style("opacity"));
-    d3.select(".search-filters-options").style("opacity", (current_opacity+1)%2)
+    var current_display = d3.select(".search-filters-options").style("display");
+    d3.select(".search-filters-options")
+      .style("opacity", (current_opacity+1)%2)
+      .style("display", current_display=="block"?"none":"block")
     d3.event.stopPropagation();
   })
 
@@ -147,7 +150,7 @@
   search.reload();
   
   d3.select(document).on("click", function(){
-    d3.select(".search-filters-options").style("opacity", 0)
+    d3.select(".search-filters-options").style("opacity", 0).style("display", "none");
   })
 
 </script>

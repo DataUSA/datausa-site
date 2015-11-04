@@ -253,8 +253,9 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
   max-height: 244px;
   padding: 2px 2px 0; }
 
-.dk_touch .search-filters-options {
-  max-height: 250px; }
+.search-filters-options {
+  max-height: 250px; 
+}
 
 .search-filters {
   display: none;
@@ -269,7 +270,8 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
 
 .search-filters-toggle {
   display: block;
-  position: relative; }
+  position: relative; 
+}
 
 .search-filters-options {
   margin-top: -21px;
@@ -278,7 +280,7 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
   opacity: 0;
   width: 140px;
   z-index: 1;
-//  display: none;
+  display: none;
   @include transition(0.3s ease-out);
   -webkit-backface-visibility: hidden;
   .select-right & {
