@@ -1,7 +1,7 @@
-import itertools, requests
+import itertools, os, requests, yaml
 from requests.models import RequestEncodingMixin
 from flask import abort, url_for
-from config import API, PROFILES
+from config import API, basedir, PROFILES
 from datausa import cache, app
 from datausa.utils.format import dictionary, num_format
 
@@ -264,3 +264,21 @@ def build_attr_cache():
     return results
 
 attr_cache = build_attr_cache()
+
+@cache.memoize()
+def build_profile_anchors():
+    profile_path = os.path.join(basedir, "datausa/profile")
+    anchors = {}
+    for p in PROFILES:
+        anchors[p] = []
+        splash_path = os.path.join(profile_path, p, "splash.yml")
+        splash = yaml.load("".join(open(splash_path).readlines()))
+        sections = splash["sections"]
+        for s in sections:
+            section_path = os.path.join(profile_path, p, "{}.yml".format(s))
+            section_data = yaml.load("".join(open(section_path).readlines()))
+            anchors[p].append(section_data["title"])
+        app.logger.info("Loaded {} profile anchors for: {}".format(len(anchors[p]), p))
+    return anchors
+
+profile_anchors = build_profile_anchors()

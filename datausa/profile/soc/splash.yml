@@ -1,0 +1,9 @@
+title: "<<name>>"
+description: "Explore the employment, industries, education, and demographics of <<name>>."
+stats:
+  - title: "Population"
+    value: "XX"
+    rank: "XX"
+facts:
+  - "TBD"
+sections: []
