@@ -11,7 +11,8 @@ stats:
     value: "<<var namespace=splash|key=age>>"
     rank: "<<var namespace=splash|key=age_rank>>"
 facts:
-  - "TBD"
+  - "<<name>> has a surprisingly large number of people employed as <<top show=acs_occ|sumlevel=4|order=num_emp_rca>>."
+  - "There is a large concentration of <<top show=cip|order=num_ppl>> majors living in <<name>>."
 sections:
   - economy
   - demographics

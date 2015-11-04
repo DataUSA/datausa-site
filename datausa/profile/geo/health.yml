@@ -91,7 +91,7 @@ topics:
         scale: "discrete"
         value: "geo"
   - title: "Healthcare Costs"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored based on the cost of healthcare in relation to eachother."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the cost of healthcare in relation to each other."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest healthcare cost"
         value: "<<top dataset=chr|child=True|order=health_care_costs|year=2015>>"
@@ -139,7 +139,7 @@ topics:
         - "excessive_drinking"
         - "adult_smoking"
       default: "alcoholimpaired_driving_deaths"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored based on the relative amount of <span class='select-text'>Alcohol-Imparied Driving Deaths</span> per year."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the relative amount of <span class='select-text'>Alcohol-Imparied Driving Deaths</span> per year."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
         value: "<<top dataset=chr|child=True|order=alcoholimpaired_driving_deaths|year=2015>>"
@@ -188,7 +188,7 @@ topics:
         - "violent_crime"
         - "motor_vehicle_crash_deaths"
       default: "homicide_rate"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored based on the relative amount of <span class='select-text'>Homicide Rate</span> per year."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the relative amount of <span class='select-text'>Homicide Rate</span> per year."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
         value: "<<top dataset=chr|child=True|order=homicide_rate|year=2015>>"

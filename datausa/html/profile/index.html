@@ -148,7 +148,6 @@
 <script>
 
   d3.selectAll(".carousel-btn").on("click", function(d, i){
-    console.log(i);
     d3.selectAll(".carousel-btn").classed("active", function(dd, ii){
       return ii === i;
     });

@@ -6,7 +6,7 @@ topics:
     title: "Most Common"
     class: "flex"
     source: NO
-    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=acs_occ|sumlevel=4|order=num_emp|sort=desc|limit=3>>"
+    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=acs_occ|sumlevel=4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -49,7 +49,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level>>, <<name>> has an unusually high number of <<top show=acs_occ|sumlevel=4|order=num_emp_rca|sort=desc|limit=3>>"
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_occ|sumlevel=4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -92,7 +92,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=acs_occ|sumlevel=4|order=med_earnings|sort=desc|limit=3>>"
+    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=acs_occ|sumlevel=4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -134,13 +134,20 @@ topics:
           value: "acs_occ"
   - viz:
       attrs: "acs_occ"
+      color: "acs_occ_2"
       data:
         - geo: "<<id>>"
           required: "num_emp"
           show: "acs_occ"
           sumlevel: "4"
+      depth: 4
       height: 500
-      id: "acs_occ"
+      id:
+        - "acs_occ_2"
+        - "acs_occ_4"
+        - "acs_occ_6"
+        - "acs_occ_8"
+        - "acs_occ_10"
       size: "num_emp"
       type: "tree_map"
   - category: "Wages"
@@ -184,9 +191,7 @@ topics:
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
       id: "sex"
-      order:
-        sort: "desc"
-        value: "geo"
+      order: "avg_wage"
       type: "bar"
       x:
         scale: "discrete"
@@ -194,9 +199,9 @@ topics:
       y: "avg_wage"
   - title: "Wage by Race & Ethnicity"
     subtitle: "<<sub show=race|col=avg_wage>>"
-    description: "<<top show=race|order=avg_wage|sort=desc|col=name>> citizens earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
+    description: "<<top show=race|order=avg_wage|sort=desc|col=name>> citizens earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
     stat:
-      - title: "Race with Highest Median Income"
+      - title: "Race or Ethnicity with Highest Median Income"
         value: "<<top show=race|order=avg_wage>>"
     viz:
       attrs:
@@ -210,21 +215,19 @@ topics:
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
       id: "race"
-      order:
-        sort: "desc"
-        value: "geo"
+      order: "avg_wage"
       type: "bar"
       x:
         scale: "discrete"
         value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
+    subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
         value: "<<var namespace=wagegap|key=gini>>"
     viz:
-      attrs: "geo"
       data:
         - geo: "<<id>>"
           force: "acs.yg_income_distribution"
@@ -242,7 +245,7 @@ topics:
       y: "income"
   - title: "Wage by Location"
     sumlevel: "us,state,county"
-    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that tract."
+    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
     viz:
       attrs: "geo"
       coords:
@@ -286,30 +289,25 @@ topics:
       y: "num_ppl"
   - title: "Poverty by Race & Ethnicity"
     stat:
-      - title: "Largest race living in poverty"
-        value: "N/A"
-    description: "XX% of the people for whom poverty status is determined in <<name>> living below the poverty line are N/A, followed closely by N/A and N/A."
+      - title: "Largest race or ethnicity living in poverty"
+        value: "<<top col=race|force=acs.yg_poverty_race>>"
+    description: "<<percent num=top:race,acs.yg_poverty_race|den=pop_poverty_status>> of the people for whom poverty status is determined in <<name>> living below the poverty line are <<top col=race|force=acs.yg_poverty_race>>, followed by <<top col=race|force=acs.yg_poverty_race|rank=2>> and <<top col=race|force=acs.yg_poverty_race|rank=3>>."
     viz:
-      attrs: "sex"
-      color: "sex"
       data:
         show: "geo"
         geo: "<<id>>"
         force: "acs.yg_poverty_race"
         split:
-          id: "sex_age"
-          regex: "poverty_([a-z0-9]*_[a-z0-9]*)"
-          map:
-            sex: "poverty_([a-z0-9]*)_[a-z0-9]*"
-            bucket: "poverty_[a-z0-9]*_([a-z0-9]*)"
+          id: "race"
+          regex: "^poverty_([a-z]*)$"
           value: "num_ppl"
-      id: "sex"
+      id: "race"
       legend: false
-      order: "bucket"
+      order: "num_ppl"
       type: "bar"
       x:
         scale: "discrete"
-        value: "bucket"
+        value: "race"
       y: "num_ppl"
   - category: "Industries"
     class: "flex"
@@ -452,6 +450,7 @@ topics:
           required: "num_emp"
           show: "acs_ind"
           sumlevel: "2"
+      depth: 2
       height: 500
       id:
         - "acs_ind_2"

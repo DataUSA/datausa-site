@@ -3,6 +3,7 @@ from itertools import combinations
 from requests.models import RequestEncodingMixin
 
 from config import API
+from datausa import app
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, stat
 from datausa.utils.format import num_format
@@ -269,17 +270,33 @@ class Section(object):
         r = {"num": 1, "den": 1}
         for t in r.keys():
             key = kwargs.get(t)
-            params["required"] = key
 
-            # convert request arguments into a url query string
-            query = RequestEncodingMixin._encode_params(params)
-            url = "{}/api?{}".format(API, query)
+            if "top:" in key:
 
-            try:
-                r[t] = datafold(requests.get(url).json())[0][key]
-            except ValueError:
-                app.logger.info("STAT ERROR: {}".format(url))
-                return "N/A"
+                if "required" in params:
+                    del params["required"]
+
+                params["col"], params["force"] = key.split(":")[1].split(",")
+                r[t] = self.top(**params)["data"][0]
+
+            else:
+
+                if "col" in params:
+                    del params["col"]
+                if "force" in params:
+                    del params["force"]
+
+                params["required"] = key
+
+                # convert request arguments into a url query string
+                query = RequestEncodingMixin._encode_params(params)
+                url = "{}/api?{}".format(API, query)
+
+                try:
+                    r[t] = datafold(requests.get(url).json())[0][key]
+                except ValueError:
+                    app.logger.info("STAT ERROR: {}".format(url))
+                    return "N/A"
 
         val = r["num"]/r["den"]
         if kwargs.get("invert", False):

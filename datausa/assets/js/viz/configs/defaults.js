@@ -26,11 +26,11 @@ viz.defaults = function(build) {
 
   var axis_style = function(axis) {
 
+    var key = build.config[axis];
+    if (d3plus.object.validate(key)) key = key.value;
+    var range = pcts.indexOf(key) >= 0 ? [0, 1] : false;
+
     return {
-      "axis": {
-        "color": "none",
-        "value": false
-      },
       "label": {
         "font": {
           "color": build.color,
@@ -40,11 +40,12 @@ viz.defaults = function(build) {
         },
         "padding": 0
       },
+      "range": range,
       "ticks": {
         "font": {
           "color": discrete === axis ? "#211f1a" : "#a8a8a8",
           "family": "Palanquin",
-          "size": 16,
+          "size": discrete === axis ? 14 : 14,
           "weight": 700
         }
       }
@@ -94,7 +95,7 @@ viz.defaults = function(build) {
               text = text.join("_");
             }
 
-            var a = key && key in affixes ? affixes[key] : ["", ""];
+            var a = key && key in affixes ? affixes[key].slice() : ["", ""];
             if (key === "income") a[1] = "k";
 
             if (text.indexOf("to") > 0) {

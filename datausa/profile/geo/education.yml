@@ -22,6 +22,7 @@ topics:
         geo: "<<id>>"
         required: "grads_total"
         sumlevel: "6"
+      depth: 2
       id:
         - "cip_2"
         - "cip_4"
@@ -34,7 +35,7 @@ topics:
         value: "<<var namespace=edu|key=state_tuition|row=0>>"
       - title: "Median Out of State Private"
         value: "<<var namespace=edu|key=oos_tuition|row=1>>"
-    description: "The majority of graduates in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
+    description: "The majority of students with degrees awarded in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
     miniviz:
       attrs: "sector"
       color: "sector"
@@ -89,7 +90,7 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Gender"
-    description: "Here we see the top 5 institutions in <<name>>, by graduates, broken out by gender. These 5 institutions tend to have more X than X enrolled, at a rate of X to 1."
+    description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender. These 5 institutions tend to have more X than X enrolled, at a rate of X to 1."
     viz:
       attrs:
         - "sex"
@@ -106,6 +107,7 @@ topics:
         university: "<<top col=id|order=grads_total|show=university|limit=5>>"
       id: "sex"
       legend: NO
+      order: "grads_total"
       type: "bar"
       x:
         scale: "discrete"
@@ -113,9 +115,9 @@ topics:
       y: "grads_total"
   - title: "Race & Ethnicity"
     stat:
-      - title: "Most common student race"
+      - title: "Most common student race or ethnicity"
         value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
-    description: "The most common race of graduates in <<name>> is <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>, followed by <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total|rank=2>>."
+    description: "The most common race or ethnicity of students with degrees awarded in <<name>> is <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>, followed by <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total|rank=2>>."
     viz:
       attrs: "race"
       data:
@@ -128,6 +130,9 @@ topics:
           value: "grads_total"
       id: "race"
       legend: NO
+      order:
+        sort: "asc"
+        value: "grads_total"
       type: "bar"
       x: "grads_total"
       y:

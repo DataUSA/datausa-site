@@ -598,7 +598,7 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
+                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
                     z-index: -11; }
                     body.home .bg-img.landing {
                       top: -45vh;
@@ -1106,7 +1106,8 @@ body.profile section {
             flex: 1 1;
             max-width: 100%; }
             body.profile section .topic.flex .content .viz {
-              margin-left: 0; }
+              margin-left: 0;
+              min-height: 200px; }
       body.profile section .topic h2 {
         font-family: "Enriqueta", serif;
         font-size: 30px;
@@ -1132,7 +1133,8 @@ body.profile section {
               -moz-flex-direction: column;
               flex-direction: column; }
               body.profile section .topic .content.full-width .viz {
-                margin-left: 0; }
+                margin-left: 0;
+                min-height: 500px; }
             body.profile section .topic .content aside {
               -webkit-box-flex: none;
               -moz-box-flex: none;
@@ -1201,9 +1203,11 @@ body.profile section {
               -ms-flex: 1 1 auto;
               flex: 1 1 auto;
               margin-left: 50px;
+              min-height: 250px;
               overflow: hidden; }
               body.profile section .topic .content .viz.mini {
-                margin-left: 0; }
+                margin-left: 0;
+                min-height: 200px; }
 #map-fullscreen {
   height: 100vh;
   width: 100vw; }

@@ -71,9 +71,10 @@ viz.loadData = function(build, next) {
           data = split_data;
         }
 
-        for (var i = 0; i < app.attrs.length; i++) {
-          var type = app.attrs[i].type,
+        for (var i = 0; i < build.attrs.length; i++) {
+          var type = build.attrs[i].type,
               nesting = attrNesting[type];
+
           if (nesting && nesting.constructor === Array) {
             for (var ii = 0; ii < data.length; ii++) {
               var datum = data[ii];

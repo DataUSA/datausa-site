@@ -320,6 +320,7 @@ body.profile {
 
           .viz {
             margin-left: 0;
+            min-height: 200px;
           }
 
         }
@@ -349,6 +350,7 @@ body.profile {
 
           .viz {
             margin-left: 0;
+            min-height: 500px;
           }
 
         }
@@ -431,11 +433,13 @@ body.profile {
         .viz {
           @include flex-size(1 1 auto);
           margin-left: 50px;
+          min-height: 250px;
           overflow: hidden;
         }
 
         .viz.mini {
           margin-left: 0;
+          min-height: 200px;
         }
 
       }
