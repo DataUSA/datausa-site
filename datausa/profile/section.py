@@ -1,4 +1,4 @@
-import re, requests, yaml
+import os, re, requests, yaml
 from itertools import combinations
 from requests.models import RequestEncodingMixin
 
@@ -49,7 +49,7 @@ class Section(object):
 
     """
 
-    def __init__(self, config, profile):
+    def __init__(self, f, profile):
         """Initializes a new Section class.
 
         Args:
@@ -58,8 +58,14 @@ class Section(object):
 
         """
 
+
+        profile_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(profile_path, profile.attr_type, "{}.yml".format(f))
+        config = "".join(open(file_path).readlines())
+
         # Set the attr and profile attributes
         self.attr = profile.attr
+        self.anchor = f
         self.profile = profile
 
         # regex to find all keys matching {{*}}

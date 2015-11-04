@@ -6,7 +6,8 @@
 
 <article id="splash">
 
-  <div id="splash-image" style="background-image: url('{{ profile.image() }}');"></div>
+  {% set image = profile.image() %}
+  <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
 
   <div class="content">
 
@@ -66,14 +67,14 @@
 <div id="profile-nav">
   <ul>
   {% for section in sections %}
-    <a href="#{{ section.title }}"><li>{{ section.title|safe }}</li></a>
+    <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}">{{ section.title|safe }}</li></a>
   {% endfor %}
   </ul>
 </div>
 
 {% for section in sections %}
 <header>
-  <h2><a name="{{ section.title }}">{{ section.title|safe }}</a></h2>
+  <h2><a name="{{ section.anchor }}">{{ section.title|safe }}</a></h2>
   {% for desc in section.description %}
   <p>{{ desc|safe }}</p>
   {% endfor %}
@@ -174,10 +175,10 @@
       })
     d3.selectAll("#profile-nav li")
       .style("color", function(){
-        return this.innerHTML === active_section ? color : null;
+        return this.getAttribute("data-anchor") === active_section ? color : null;
       })
       .classed("active", function(){
-        return this.innerHTML === active_section;
+        return this.getAttribute("data-anchor") === active_section;
       });
 
   }
