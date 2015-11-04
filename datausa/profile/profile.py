@@ -34,7 +34,7 @@ class Profile(object):
         self.attr_type = attr_type
 
         self.variables = self.load_vars()
-        self.splash = Section(self.file2string("splash"), self)
+        self.splash = Section("splash", self)
 
     def children(self, **kwargs):
         attr_id = kwargs.get("attr_id", self.id)
@@ -61,11 +61,6 @@ class Profile(object):
             return var_map
         return None
 
-    def file2string(self, file):
-        profile_path = os.path.dirname(os.path.realpath(__file__))
-        file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(file))
-        return "".join(open(file_path).readlines())
-
     def image(self):
         if "image_link" in self.attr:
             url = "/static/img/splash/{}/".format(self.attr_type)
@@ -88,4 +83,4 @@ class Profile(object):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 
         # pass each file to the Section class and return the final array
-        return [Section(self.file2string(f), self) for f in self.splash.sections]
+        return [Section(f, self) for f in self.splash.sections]
