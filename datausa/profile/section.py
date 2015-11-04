@@ -374,7 +374,9 @@ class Section(object):
             if "row" in kwargs:
                 row = int(kwargs["row"])
                 return var_map[namespace][row][key]
-            return var_map[namespace][key]
+            if namespace in var_map and key in var_map[namespace]:
+                return var_map[namespace][key]
+            return "N/A"
         else:
             raise Exception("vars.yaml file has no variables")
 

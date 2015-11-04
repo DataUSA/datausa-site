@@ -39,6 +39,8 @@ def multi_col_top(profile, params):
             "value": "N/A"
         }
     if not rows:
+        if not r["data"]:
+            return {}
         api_data = r["data"][0]
     else:
         api_data = r["data"]
