@@ -18,7 +18,10 @@ def render_col(my_data, headers, col):
         return num_format(value, col)
     else:
         # lookup the attr object and get the name
-        return fetch(value, col)["name"]
+        attr = fetch(value, col)
+        if attr and "name" in attr:
+            return attr["name"]
+        return "Attr N/A"
 
 
 def merge_dicts(*dict_args):
