@@ -10,6 +10,9 @@ viz.bar = function(build) {
       },
       "grid": discrete !== axis,
       "label": build.config[axis] && build.config[axis].label ? build.config[axis].label : false,
+      "persist": {
+        "position": true
+      },
       "ticks": {
         "color": discrete === axis ? "none" : "#ccc",
         "size": discrete === axis ? 0 : 10
