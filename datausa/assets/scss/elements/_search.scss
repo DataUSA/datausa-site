@@ -4,7 +4,7 @@ body.search {
   }
 
   .search-input {
-    @include flex-size(6);
+    
     @include transition(box-shadow 1s, background-color 1s);
     border: 0;
     padding: 0 10px;
@@ -12,6 +12,7 @@ body.search {
     font-family: $noticia;
     font-size: 20px;
     font-weight: 400;
+    width: 100%;
 
     &:focus {
       outline: 0;
@@ -72,7 +73,7 @@ body.search {
       @include box();
       @include flex();
       @include flex-direction(row);
-      @include flex-wrap();
+      
       border: solid lightgray 4px;
       width: 100%;
 //      overflow: hidden;
@@ -178,10 +179,11 @@ body.search {
 $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
 
 .search-filters {
-  @include flex-size(1);
+  @include flex-size(0 0 175px);
   cursor: pointer;
   font-size: 14px;
   outline: none;
+  width: 200px;
 }
 
 .search-filters-toggle {

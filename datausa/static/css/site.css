@@ -288,11 +288,6 @@ body.search #search-btn {
 body.search a {
   color: #333; }
   body.search .search-input {
-    -webkit-box-flex: 6;
-    -moz-box-flex: 6;
-    -webkit-flex: 6;
-    -ms-flex: 6;
-    flex: 6;
     -webkit-transition: box-shadow 1s, background-color 1s;
     -moz-transition: box-shadow 1s, background-color 1s;
     -ms-transition: box-shadow 1s, background-color 1s;
@@ -302,7 +297,8 @@ body.search a {
     padding: 0 10px;
     font-family: "Noticia Text", serif;
     font-size: 20px;
-    font-weight: 400; }
+    font-weight: 400;
+    width: 100%; }
     body.search .search-input:focus {
       outline: 0;
       background-color: rgba(255, 255, 255, 0.9);
@@ -353,8 +349,6 @@ body.search #search-advanced {
     -webkit-flex-direction: row;
     -moz-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
     border: solid lightgray 4px;
     width: 100%;
     top: 0; }
@@ -441,14 +435,15 @@ body.search .search-results-container {
   padding-right: 12px; }
 
   .search-filters {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
+    -webkit-box-flex: 0 0 175px;
+    -moz-box-flex: 0 0 175px;
+    -webkit-flex: 0 0 175px;
+    -ms-flex: 0 0 175px;
+    flex: 0 0 175px;
     cursor: pointer;
     font-size: 14px;
-    outline: none; }
+    outline: none;
+    width: 200px; }
 
     .search-filters-toggle {
       background-color: lightgray;
