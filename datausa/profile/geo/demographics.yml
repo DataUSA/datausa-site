@@ -15,16 +15,17 @@ topics:
       data:
         show: "geo"
         geo: "<<id>>"
-        required: "nativity_us_under5,nativity_us_5to17,nativity_us_18to24,nativity_us_25to34,nativity_us_35to44,nativity_us_45to54,nativity_us_55to59,nativity_us_60to61,nativity_us_62to64,nativity_us_65to74,nativity_us_75over,nativity_foreign_under5,nativity_foreign_5to17,nativity_foreign_18to24,nativity_foreign_25to34,nativity_foreign_35to44,nativity_foreign_45to54,nativity_foreign_55to59,nativity_foreign_60to61,nativity_foreign_62to64,nativity_foreign_65to74,nativity_foreign_75over"
+        force: "acs.yg_nativity_age"
         split:
           id: "nativity_age"
-          regex: "nativity_([a-z]*_[a-z0-9]*)"
+          regex: "^nativity_([a-z]*_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
           map:
-            nationality: "nativity_([a-z]*)_[a-z0-9]*"
-            bucket: "nativity_[a-z]*_([a-z0-9]*)"
+            nationality: "^nativity_([a-z]*)_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*$"
+            bucket: "^nativity_[a-z]*_(([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
           value: "num_ppl"
       id: "nationality"
       legend: false
+      order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
