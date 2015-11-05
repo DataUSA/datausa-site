@@ -216,7 +216,11 @@ class Section(object):
                 if prefix in ["010", "040", "050"]:
                     return attr_id
                 else:
-                    return self.profile.parents()[2]["id"]
+                    parents = self.profile.parents()
+                    if len(parents) > 2:
+                        return parents[2]["id"]
+                    else:
+                        return parents[1]["id"]
 
         return self.attr["id"]
 

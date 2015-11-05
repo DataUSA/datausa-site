@@ -183,6 +183,7 @@ topics:
       attrs:
         - "sex"
         - "soc"
+      color: "sex"
       data:
         - geo: "<<id>>"
           limit: "10"
@@ -191,6 +192,7 @@ topics:
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
       id: "sex"
+      legend: NO
       order: "avg_wage"
       type: "bar"
       x:
@@ -401,23 +403,23 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paying"
-    description: "The 3 highest paying industries in <<name>>, by total payroll, are <<top show=acs_ind|sumlevel=2|order=wage|sort=desc|limit=3>>."
+    description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=acs_ind|sumlevel=1|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "wage"
+            order: "med_earnings"
             sort: "desc"
             show: "acs_ind"
-            sumlevel: "2"
+            sumlevel: "1"
         height: 200
         id: "acs_ind"
         order:
           sort: "asc"
-          value: "wage"
+          value: "med_earnings"
         type: "bar"
-        x: "wage"
+        x: "med_earnings"
         y:
           label: "Top 5"
           scale: "discrete"
@@ -426,18 +428,18 @@ topics:
         data:
           - geo: "<<id>>"
             limit: "5"
-            order: "wage"
+            order: "med_earnings"
             sort: "asc"
             show: "acs_ind"
-            sumlevel: "2"
-            where: "wage:!0"
+            sumlevel: "1"
+            where: "med_earnings:!0"
         height: 200
         id: "acs_ind"
         order:
           sort: "asc"
-          value: "wage"
+          value: "med_earnings"
         type: "bar"
-        x: "wage"
+        x: "med_earnings"
         y:
           label: "Bottom 5"
           scale: "discrete"

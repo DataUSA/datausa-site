@@ -45,9 +45,9 @@ topics:
       coords: "birthplace"
       color: "num_ppl"
       data:
-        show: "geo"
+        show: "birthplace"
         geo: "<<id>>"
-        required: ""
+        where: "birthplace:~^04000US"
       height: 400
       id: "birthplace"
       type: "geo_map"
