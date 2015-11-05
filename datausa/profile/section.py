@@ -1,6 +1,7 @@
 import os, re, requests, yaml
 from itertools import combinations
 from requests.models import RequestEncodingMixin
+from flask import url_for
 
 from config import API
 from datausa import app
@@ -253,7 +254,10 @@ class Section(object):
         else:
             attr = self.attr
 
-        return attr["display_name"] if "display_name" in attr else attr["name"]
+        name = attr["display_name"] if "display_name" in attr else attr["name"]
+        if attr["id"] != self.attr["id"]:
+            name = "<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.profile.attr_type, attr_id=attr["id"]), name)
+        return name
 
     def parents(self, **kwargs):
         return ",".join([p["id"] for p in self.profile.parents()])
@@ -379,13 +383,14 @@ class Section(object):
         params["show"] = params.get("show", attr_type)
         params = default_params(params)
 
-        col_maps = col_map.keys()
-        col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
-        col_maps += ["id", "name", "ratio"]
-        if col not in col_maps:
-            params["required"] = col
-        elif "required" not in params:
-            params["required"] = params["order"]
+        if "force" not in params:
+            col_maps = col_map.keys()
+            col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
+            col_maps += ["id", "name", "ratio"]
+            if col not in col_maps:
+                params["required"] = col
+            elif "required" not in params:
+                params["required"] = params["order"]
 
         # make the API request using the params
         return stat(params, col=col, dataset=dataset, data_only=data_only)

@@ -339,6 +339,14 @@ body.profile {
         font-family: $enriqueta;
         font-size: 16px;
         font-weight: 700;
+
+        a {
+          color: #888;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
       }
 
       .content {

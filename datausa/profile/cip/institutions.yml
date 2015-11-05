@@ -3,9 +3,14 @@ description: "The Census Bureau collects a large amount of data in regards to hi
 
 topics:
   - title: "Institutions"
+    stat:
+      - title: "Institution with the most degrees awarded in <<name>>"
+        value: "<<top show=university|order=grads_total>>"
     description: "The majority of institutions that offer <<name>> are <<top show=sector|order=num_universities|sort=desc>> institutions."
     viz:
-      attrs: "university"
+      attrs:
+        - "sector" 
+        - "university"
       color: "sector"
       data:
         required: "grads_total"
@@ -41,11 +46,11 @@ topics:
       x: "oos_tuition"
       y:
         scale: "discrete"
-        value: "name"
+        value: "university"
   - title: "Popular Colleges"
     stat:
       - title: "Highest Concentration Institution"
-        value: "<<top show=university|col=name|order=grads_total>>"
+        value: "<<top show=university|order=pct_total>>"
     description: "The institutions to the right have the highest percentage of degrees awarded in <<name>>."
     viz:
       attrs: "university"
@@ -55,12 +60,10 @@ topics:
         limit: 5
         order: "pct_total"
         show: "university"
-      order:
-        sort: "desc"
-        value: "pct_total"
+      order: "pct_total"
       id: "university"
       type: "bar"
-      x: "name"
+      x: "university"
       y: "grads_total"
   - title: "Degrees Awarded by County"
     stat:

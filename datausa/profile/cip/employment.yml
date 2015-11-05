@@ -6,7 +6,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>"
+    description: "The 3 most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -49,7 +49,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other majors, <<name>> majors have an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>"
+    description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -92,7 +92,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>"
+    description: "The 3 highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -153,7 +153,7 @@ topics:
       attrs: "soc"
       data:
         - cip: "<<id>>"
-          limit: "3"
+          limit: "5"
           order: "avg_wage"
           show: "soc"
       id: "soc"
@@ -169,7 +169,7 @@ topics:
     stat:
       - title: "<<name>> majors are paid the highest in"
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
-    description: "The map to the right shows the public-use micro areas in the United States colored by the highest average wage of occupations commonly taken by <<name>> majors."
+    description: "The map to the right shows the public-use micro areas in the United States colored by the average wage of <<name>> majors."
     viz:
       attrs: "geo"
       color: "avg_wage"
@@ -186,7 +186,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>"
+    description: "The 3 most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -229,7 +229,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>"
+    description: "The 3 highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -282,7 +282,7 @@ topics:
       type: "tree_map"
   - title: "Locations"
     stat:
-      - title: "PUMA with a relatively high number is"
+      - title: "PUMA with a relatively high number of <<name>> majors"
         value: "<<top show=geo|sumlevel=puma|order=num_ppl_rca>>"
     description: "The map to the right shows the public-use micro areas in the United States where there are a relatively high population of industries that employ <<name>> majors."
     viz:

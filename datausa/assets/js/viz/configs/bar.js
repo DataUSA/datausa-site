@@ -3,6 +3,7 @@ viz.bar = function(build) {
   var discrete = build.config.y && build.config.y.scale === "discrete" ? "y" : "x";
 
   var axis_style = function(axis) {
+
     return {
       "axis": {
         "color": discrete === axis ? "none" : "#ccc",
@@ -18,6 +19,7 @@ viz.bar = function(build) {
         "size": discrete === axis ? 0 : 10
       }
     }
+
   }
 
   return {

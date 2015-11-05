@@ -29,6 +29,8 @@ topics:
           static:
             dataset: "Workforce"
       id: "dataset"
+      legend: NO
+      order: "num_ppl"
       type: "bar"
       x: "degree"
       y: "num_ppl"
@@ -41,7 +43,7 @@ topics:
       attrs:
         - "sex"
         - "university"
-      color: "gender"
+      color: "sex"
       data:
         required: "grads_men,grads_women"
         cip: "<<id>>"
@@ -49,14 +51,16 @@ topics:
         order: "grads_total"
         show: "university"
         split:
-          id: "gender"
+          id: "sex"
           regex: "grads_([a-z]*)"
           value: "grads_total"
-      id: "gender"
+      id: "sex"
+      order: "grads_total"
+      legend: NO
       type: "bar"
       x: "university"
       y: "grads_total"
-  - title: "Race & Ethnicity by Graduation"
+  - title: "Race & Ethnicity by Degrees Awarded"
     stat:
       - title: "Most Common Race or Ethnicity"
         value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
@@ -131,6 +135,9 @@ topics:
           static:
             race: "unknown"
       id: "university"
+      order:
+        sort: "asc"
+        value: "grads_total"
       type: "bar"
       x:
         stacked: YES
@@ -144,7 +151,7 @@ topics:
       default: "5"
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
-        value: "<<top col=race-sex|degree=5|required=grads_asian_men,grads_black_men,grads_white_men,grads_hispanic_men,grads_hawaiian_men,grads_multi_men,grads_unknown_men,grads_native_men,grads_asian_women,grads_black_women,grads_white_women,grads_hispanic_women,grads_hawaiian_women,grads_multi_women,grads_unknown_women,grads_native_women|order=grads_total>>"
+        value: "<<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total>>"
     description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <span class='select-text'><<name id=5|attr=degree>></span> in <<name>>."
     viz:
       attrs: "sex"
@@ -153,17 +160,19 @@ topics:
         show: "cip"
         cip: "<<id>>"
         degree: "5"
-        required: "grads_asian_men,grads_black_men,grads_white_men,grads_hispanic_men,grads_hawaiian_men,grads_multi_men,grads_unknown_men,grads_native_men,grads_asian_women,grads_black_women,grads_white_women,grads_hispanic_women,grads_hawaiian_women,grads_multi_women,grads_unknown_women,grads_native_women"
+        exclude: "grads_native_men,grads_native_women,grads_nonresident_men,grads_nonresident_women"
+        force: "ipeds_beta.grads_ycd"
         split:
           id: "race_sex"
-          regex: "grads_([a-z]*_[a-z]*)"
+          regex: "^grads_([a-z]*_[a-z]*)$"
           map:
-            race: "grads_([a-z]*)_[a-z]*"
-            sex: "grads_[a-z]*_([a-z]*)"
+            race: "^grads_([a-z]*)_[a-z]*$"
+            sex: "^grads_[a-z]*_([a-z]*)$"
           value: "grads_total"
       id:
         "sex"
       legend: false
+      order: "grads_total"
       type: "bar"
       x: "race"
       y: "grads_total"
@@ -174,6 +183,7 @@ topics:
         value: "<<top dataset=pums|show=cip|col=avg_age>>"
     description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
     viz:
+      attrs: "cip"
       data:
         required: "age,num_ppl"
         cip: "<<id dataset=pums>>"
@@ -183,13 +193,14 @@ topics:
       x: "age"
       y: "num_ppl"
   - title: "Global Diversity"
+    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     stat_stack: true
     stat:
       - title: "High Relative Number of People born in"
         value: "<<var namespace=intl|key=birthplace>>"
       - title: "Most Common Foreign-Born Country is"
         value: "<<top show=birthplace|order=num_ppl|where=birthplace:~^04000US>>"
-    description: "There are a relatively high number of foreign-born citizens from <<var namespace=intl|key=birthplace>> that hold <<name>> degrees."
+    description: "There are a relatively high number of foreign-born citizens from <<var namespace=intl|key=birthplace>> that hold <<name dataset=pums>> degrees."
     viz:
       attrs: "birthplace"
       coords: "birthplace"

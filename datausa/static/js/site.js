@@ -766,10 +766,10 @@ var viz = function(build) {
 
 viz.finish = function(build) {
 
-  var source_text = d3plus.util.uniques(build.sources).reduce(function(str, s, i){
-    if (s) str += s.dataset;
-    return str;
-  }, "");
+  var source_text = d3plus.string.list(d3plus.util.uniques(build.sources).reduce(function(arr, s, i){
+    if (s) arr.push(s.dataset);
+    return arr;
+  }, []));
 
   if (location.href.indexOf("/profile/") > 0) {
     d3.select(build.container.node().parentNode).select(".source")
@@ -798,10 +798,10 @@ viz.finish = function(build) {
       type_config = viz[build.config.type](build);
 
   build.viz
-    .config(build.config)
-    .depth(build.config.depth)
     .config(default_config)
     .config(type_config)
+    .config(build.config)
+    .depth(build.config.depth)
     .error(false)
     .draw();
 
@@ -816,6 +816,7 @@ viz.bar = function(build) {
   var discrete = build.config.y && build.config.y.scale === "discrete" ? "y" : "x";
 
   var axis_style = function(axis) {
+
     return {
       "axis": {
         "color": discrete === axis ? "none" : "#ccc",
@@ -831,6 +832,7 @@ viz.bar = function(build) {
         "size": discrete === axis ? 0 : 10
       }
     }
+
   }
 
   return {
@@ -1029,7 +1031,8 @@ viz.line = function(build) {
   return {
     "shape": {
       "interpolate": "monotone"
-    }
+    },
+    "size": 2
   };
 }
 
