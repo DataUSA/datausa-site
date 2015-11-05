@@ -18,6 +18,7 @@ topics:
             sumlevel: "3"
         height: 200
         id: "soc"
+        labels: YES
         order:
           sort: "asc"
           value: "num_ppl"
@@ -37,6 +38,7 @@ topics:
             sumlevel: "3"
         height: 200
         id: "soc"
+        labels: YES
         order:
           sort: "asc"
           value: "num_ppl"
@@ -61,6 +63,7 @@ topics:
             sumlevel: "3"
         height: 200
         id: "soc"
+        labels: YES
         order:
           sort: "asc"
           value: "num_ppl_rca"
@@ -80,6 +83,7 @@ topics:
             sumlevel: "3"
         height: 200
         id: "soc"
+        labels: YES
         order:
           sort: "asc"
           value: "num_ppl_rca"
@@ -104,6 +108,7 @@ topics:
             sumlevel: "3"
         height: 200
         id: "soc"
+        labels: YES
         order:
           sort: "asc"
           value: "avg_wage"
@@ -123,6 +128,7 @@ topics:
             sumlevel: "3"
         height: 200
         id: "soc"
+        labels: YES
         order:
           sort: "asc"
           value: "avg_wage"
@@ -198,6 +204,7 @@ topics:
             sumlevel: "2"
         height: 200
         id: "naics"
+        labels: YES
         order:
           sort: "asc"
           value: "num_ppl"
@@ -217,6 +224,7 @@ topics:
             sumlevel: "2"
         height: 200
         id: "naics"
+        labels: YES
         order:
           sort: "asc"
           value: "num_ppl"
@@ -241,6 +249,7 @@ topics:
             sumlevel: "2"
         height: 200
         id: "naics"
+        labels: YES
         order:
           sort: "asc"
           value: "avg_wage"
@@ -260,6 +269,7 @@ topics:
             sumlevel: "2"
         height: 200
         id: "naics"
+        labels: YES
         order:
           sort: "asc"
           value: "avg_wage"

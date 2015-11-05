@@ -18,6 +18,7 @@ topics:
             sumlevel: "4"
         height: 200
         id: "acs_occ"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp"
@@ -37,6 +38,7 @@ topics:
             sumlevel: "4"
         height: 200
         id: "acs_occ"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp"
@@ -61,6 +63,7 @@ topics:
             sumlevel: "4"
         height: 200
         id: "acs_occ"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp_rca"
@@ -80,6 +83,7 @@ topics:
             sumlevel: "4"
         height: 200
         id: "acs_occ"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp_rca"
@@ -104,6 +108,7 @@ topics:
             sumlevel: "4"
         height: 200
         id: "acs_occ"
+        labels: YES
         order:
           sort: "asc"
           value: "med_earnings"
@@ -123,6 +128,7 @@ topics:
             sumlevel: "4"
         height: 200
         id: "acs_occ"
+        labels: YES
         order:
           sort: "asc"
           value: "med_earnings"
@@ -327,6 +333,7 @@ topics:
             sumlevel: "2"
         height: 200
         id: "acs_ind"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp"
@@ -347,6 +354,7 @@ topics:
             where: "num_emp:!0"
         height: 200
         id: "acs_ind"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp"
@@ -371,6 +379,7 @@ topics:
             sumlevel: "2"
         height: 200
         id: "acs_ind"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp_rca"
@@ -391,6 +400,7 @@ topics:
             where: "num_emp_rca:!0"
         height: 200
         id: "acs_ind"
+        labels: YES
         order:
           sort: "asc"
           value: "num_emp_rca"
@@ -415,6 +425,7 @@ topics:
             sumlevel: "1"
         height: 200
         id: "acs_ind"
+        labels: YES
         order:
           sort: "asc"
           value: "med_earnings"
@@ -435,6 +446,7 @@ topics:
             where: "med_earnings:!0"
         height: 200
         id: "acs_ind"
+        labels: YES
         order:
           sort: "asc"
           value: "med_earnings"

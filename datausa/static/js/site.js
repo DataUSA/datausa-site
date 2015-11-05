@@ -829,6 +829,7 @@ viz.bar = function(build) {
       },
       "ticks": {
         "color": discrete === axis ? "none" : "#ccc",
+        "labels": discrete !== axis || !build.config.labels,
         "size": discrete === axis ? 0 : 10
       }
     }
@@ -847,6 +848,10 @@ viz.bar = function(build) {
       "stroke": {
         "width": 1
       }
+    },
+    "labels": {
+      "align": "left",
+      "value": false
     },
     "x": axis_style("x"),
     "y": axis_style("y")

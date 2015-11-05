@@ -21,6 +21,7 @@ topics:
         year: "2015"
       height: 100
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "primary_care_physicians"
@@ -43,6 +44,7 @@ topics:
         year: "2015"
       height: 100
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "dentists"
@@ -65,6 +67,7 @@ topics:
         year: "2015"
       height: 100
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "mental_health_providers"
@@ -87,6 +90,7 @@ topics:
         year: "2015"
       height: 100
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "other_primary_care_providers"
