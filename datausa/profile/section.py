@@ -247,11 +247,13 @@ class Section(object):
         """str: The attribute name """
 
         if "id" in kwargs and "attr" in kwargs:
-            return fetch(kwargs["id"], kwargs["attr"])["name"]
+            attr = fetch(kwargs["id"], kwargs["attr"])
         elif "dataset" in kwargs:
-            return fetch(self.id(**kwargs), self.profile.attr_type)["name"]
+            attr = fetch(self.id(**kwargs), self.profile.attr_type)
+        else:
+            attr = self.attr
 
-        return self.attr["name"]
+        return attr["display_name"] if "display_name" in attr else attr["name"]
 
     def parents(self, **kwargs):
         return ",".join([p["id"] for p in self.profile.parents()])
