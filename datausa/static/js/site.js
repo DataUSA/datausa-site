@@ -913,14 +913,21 @@ viz.defaults = function(build) {
       }
     },
     "format": {
-      "affixes": affixes,
       "number": function(number, params) {
 
-        if (params.key && params.key.constructor === String) {
+        if (params.key) {
 
           if (params.key.indexOf("growth") >= 0 || pcts.indexOf(params.key) >= 0) {
             number = number * 100;
             return d3plus.number.format(number, params) + "%";
+          }
+          else {
+            number = d3plus.number.format(number, params);
+            if (params.key in affixes) {
+              var a = affixes[params.key];
+              number = a[0] + number + a[1];
+            }
+            return number;
           }
 
         }
