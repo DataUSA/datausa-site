@@ -3,16 +3,16 @@ description: "The University of Wiconsin has collected data on various health an
 
 topics:
   - category: "Healthcare"
-    title: "Clinician to Patient Ratios"
-    sumlevel: "state,county"
-    source: NO
+  - title: "Clinician to Patient Ratios"
+    sumlevel: "!us"
   - class: "flex"
-    sumlevel: "state,county"
+    sumlevel: "!us"
     source: NO
     stat:
       - title: "Primary Care"
         value: "1 to <<var namespace=health|key=primary_care_physicians>>"
     viz:
+      sumlevel: "!state"
       attrs: "geo"
       data:
         show: "geo"
@@ -28,12 +28,13 @@ topics:
         scale: "discrete"
         value: "geo"
   - class: "flex"
-    sumlevel: "state,county"
+    sumlevel: "!us"
     source: NO
     stat:
       - title: "Dentists"
         value: "1 to <<var namespace=health|key=dentists>>"
     viz:
+      sumlevel: "!state"
       attrs: "geo"
       data:
         show: "geo"
@@ -49,12 +50,13 @@ topics:
         scale: "discrete"
         value: "geo"
   - class: "flex"
-    sumlevel: "state,county"
+    sumlevel: "!us"
     source: NO
     stat:
       - title: "Mental Health"
         value: "1 to <<var namespace=health|key=mental_health_providers>>"
     viz:
+      sumlevel: "!state"
       attrs: "geo"
       data:
         show: "geo"
@@ -70,12 +72,13 @@ topics:
         scale: "discrete"
         value: "geo"
   - class: "flex"
-    sumlevel: "state,county"
+    sumlevel: "!us"
     source: NO
     stat:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
     viz:
+      sumlevel: "!state"
       attrs: "geo"
       data:
         show: "geo"

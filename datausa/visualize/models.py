@@ -27,6 +27,9 @@ class Viz(object):
         # force the data of params into a list
         data = params.pop("data") if isinstance(params["data"], list) else [params.pop("data")]
 
+        # remove sumlevel if it exists
+        sumlevel = params.pop("sumlevel", None)
+
         # loop through each data and append to self.data
         self.data = []
         for d in data:

@@ -140,7 +140,7 @@ class Section(object):
         if "topics" in config:
             self.topics = config["topics"]
 
-            self.topics = [t for t in self.topics if self.allowTopic(t)]
+            self.topics = [t for t in self.topics if self.allowedLevels(t)]
 
             # loop through the topics
             for topic in self.topics:
@@ -152,6 +152,7 @@ class Section(object):
                 if "viz" in topic:
                     if not isinstance(topic["viz"], list):
                         topic["viz"] = [topic["viz"]]
+                    topic["viz"] = [v for v in topic["viz"] if self.allowedLevels(v)]
                     topic["viz"] = [Viz(viz, color=self.profile.color(), highlight=self.attr["id"]) for viz in topic["viz"]]
 
                 if "miniviz" in topic:
@@ -174,16 +175,16 @@ class Section(object):
         if "facts" in config:
             self.facts = config["facts"]
 
-    def allowTopic(self, topic):
-        """bool: Returns whether or not a topic is allowed for a specific profile """
-        if "sumlevel" in topic:
-            levels = [t for t in topic["sumlevel"].split(",")]
+    def allowedLevels(self, obj):
+        """bool: Returns whether or not a topic/viz is allowed for a specific profile """
+        if "sumlevel" in obj:
+            levels = [t for t in obj["sumlevel"].split(",")]
             if self.profile.attr_type == "geo":
                 level = geo_sumlevels[self.attr["id"][:3]]
             else:
                 level = len(self.attr["id"])
 
-            return level in levels
+            return level in levels or "!{}".format(level) not in levels
 
         return True
 

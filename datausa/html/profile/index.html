@@ -85,6 +85,7 @@
   {% if topic.category %}
   <h1 class="category" style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
   {% endif %}
+  {% if topic.items()|length > 1 or "category" not in topic %}
   <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}">
     {% if topic.title %}
     <h2 style="color: {{ profile.color() }};">{{ topic.title|safe }}</h2>
@@ -131,11 +132,12 @@
       <div class="viz"{% if viz.config.height %} style="max-height:{{ viz.config.height }}px; height:{{ viz.config.height }}px;"{% endif %}></div>
       <script>builds.push({{ viz.serialize()|safe }});</script>
       {% endfor %}
-      {% if topic.source != False and not aside %}
+      {% if topic.source != False and not aside and topic.viz %}
       <sub>Data Source: <span class="source"></span></sub>
       {% endif %}
     </div>
   </article>
+  {% endif %}
   {% endfor %}
 </section>
 
