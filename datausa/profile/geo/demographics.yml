@@ -35,9 +35,9 @@ topics:
     title: "Global Diversity"
     stat:
       - title: "High relative number of people born in"
-        value: "N/A"
+        value: "<<var namespace=heritage_rca|key=birthplace>>"
       - title: "Most common foreign-born country is"
-        value: "N/A"
+        value: "<<var namespace=heritage_total|key=birthplace>>"
     description: "<<name>> has a relatively high number of foreign-born citizens from N/A."
     viz:
       attrs: "birthplace"

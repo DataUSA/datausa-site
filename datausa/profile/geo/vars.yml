@@ -50,3 +50,19 @@
   sort: asc
   rows: True
   namespace: edu
+
+- required: ["birthplace"]
+  limit: 1
+  order: "num_ppl"
+  sort: "desc"
+  year: "latest"
+  namespace: "heritage_total"
+  where: "birthplace:~^04000US"
+
+- required: ["birthplace"]
+  limit: 1
+  order: "num_ppl_rca"
+  sort: "desc"
+  year: "latest"
+  namespace: "heritage_rca"
+  where: "birthplace:~^04000US"
