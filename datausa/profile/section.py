@@ -377,9 +377,10 @@ class Section(object):
 
         var_map = self.profile.variables
         if var_map:
-            if "row" in kwargs:
+            if "row" in kwargs and namespace in var_map and var_map[namespace]:
                 row = int(kwargs["row"])
-                return var_map[namespace][row][key]
+                if row < len(var_map[namespace]):
+                    return var_map[namespace][row][key]
             if namespace in var_map and key in var_map[namespace]:
                 return var_map[namespace][key]
             return "N/A"
