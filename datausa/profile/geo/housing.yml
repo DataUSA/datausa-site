@@ -31,14 +31,14 @@ topics:
         split:
           id: "bucket"
           regex: "^income_([a-z0-9]*)$"
-          value: "income"
+          value: "num_ppl"
       id: "geo"
       order: "bucket"
       type: "bar"
       x:
         scale: "discrete"
         value: "bucket"
-      y: "income"
+      y: "num_ppl"
   - category: "Housing"
     title: "Property Value"
     stat:
