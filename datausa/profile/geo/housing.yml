@@ -7,7 +7,7 @@ topics:
     stat:
       - title: "Median Household Income"
         value: "<<var namespace=splash|key=income>>"
-    description: "The majority of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>"
+    description: "The majority of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>."
     miniviz:
       attrs: "geo"
       data:

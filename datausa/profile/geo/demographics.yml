@@ -70,9 +70,9 @@ topics:
         scale: "discrete"
         value: "geo"
   - title: "Race & Ethnicity"
-    description: "The majority of citizines in <<name>> are <<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>, with <<top col=acs_race|rank=2|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>> being the second most common."
+    description: "The majority of citizens in <<name>> are <<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>, with <<top col=acs_race|rank=2|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>> being the second most common."
     stat:
-      - title: "Most common race in <<name>> is"
+      - title: "Most common race or ethnicity in <<name>> is"
         value: "<<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>"
     viz:
       attrs: "acs_race"
@@ -85,6 +85,7 @@ topics:
             regex: "pop_([a-z]*)"
             value: "num_ppl"
       id: "race"
+      order: "num_ppl"
       type: "bar"
       x:
         scale: "discrete"
@@ -106,6 +107,7 @@ topics:
           required: "num_speakers"
           show: "geo"
       id: "language"
+      order: "num_speakers"
       type: "bar"
       x:
         scale: "discrete"

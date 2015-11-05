@@ -66,10 +66,10 @@ var search = {
   "anchors": {},
   "container": false,
   "current_depth": {
-    "cip": 0,
-    "soc": 0,
-    "naics": 0,
-    "geo": 0
+    "cip": null,
+    "soc": null,
+    "naics": null,
+    "geo": null
   },
   "history": [],
   "nesting": {
@@ -91,8 +91,8 @@ var search = {
 search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
-
-  var sumlevel = this.type ? this.nesting[this.type][this.current_depth[this.type]] : ""
+  
+  var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
   // console.log(this.type, this.nesting[this.type], this.current_depth[this.type])
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data) {
     // console.log(data)
@@ -136,9 +136,12 @@ search.reload = function() {
       items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
     }
     else {
+      // click first item
       items.on("click", search.open_details.bind(this));
       var first_item = items.filter(function(d, i){ return i===0 });
-      first_item.on("click")(first_item.datum());
+      if(!first_item.empty()){
+        first_item.on("click")(first_item.datum());
+      }
     }
 
     var format = this.advanced ? this.btnExplore : this.btnProfile;
@@ -275,11 +278,13 @@ search.open_details = function(d){
   // set anchors for this section (if there are any)
   var anchors_container = d3.select(".details-anchors");
   anchors_container.html("");
-  if(this.anchors[d.kind]){
-    this.anchors[d.kind].forEach(function(anchor){
+  if(this.anchors[d.kind].sections){
+    this.anchors[d.kind].sections.forEach(function(anchor){
       anchors_container.append("a")
-        .attr("href", "#")
-        .text(anchor)
+        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .text(anchor.title)
+        .append("span")
+        .text(anchor.description)
     })
   }
 

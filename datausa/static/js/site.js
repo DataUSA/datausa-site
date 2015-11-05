@@ -500,10 +500,10 @@ var search = {
   "anchors": {},
   "container": false,
   "current_depth": {
-    "cip": 0,
-    "soc": 0,
-    "naics": 0,
-    "geo": 0
+    "cip": null,
+    "soc": null,
+    "naics": null,
+    "geo": null
   },
   "history": [],
   "nesting": {
@@ -525,8 +525,8 @@ var search = {
 search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
-
-  var sumlevel = this.type ? this.nesting[this.type][this.current_depth[this.type]] : ""
+  
+  var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
   // console.log(this.type, this.nesting[this.type], this.current_depth[this.type])
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data) {
     // console.log(data)
@@ -570,9 +570,12 @@ search.reload = function() {
       items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
     }
     else {
+      // click first item
       items.on("click", search.open_details.bind(this));
       var first_item = items.filter(function(d, i){ return i===0 });
-      first_item.on("click")(first_item.datum());
+      if(!first_item.empty()){
+        first_item.on("click")(first_item.datum());
+      }
     }
 
     var format = this.advanced ? this.btnExplore : this.btnProfile;
@@ -709,11 +712,13 @@ search.open_details = function(d){
   // set anchors for this section (if there are any)
   var anchors_container = d3.select(".details-anchors");
   anchors_container.html("");
-  if(this.anchors[d.kind]){
-    this.anchors[d.kind].forEach(function(anchor){
+  if(this.anchors[d.kind].sections){
+    this.anchors[d.kind].sections.forEach(function(anchor){
       anchors_container.append("a")
-        .attr("href", "#")
-        .text(anchor)
+        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .text(anchor.title)
+        .append("span")
+        .text(anchor.description)
     })
   }
 
@@ -775,7 +780,7 @@ viz.finish = function(build) {
   }
 
   if (!build.config.color) {
-    if (app.viz.attrs()[app.highlight]) {
+    if (build.viz.attrs()[build.highlight]) {
       var lighter = d3plus.color.lighter(build.color);
         build.config.color = function(d, viz) {
           return d[viz.id.value] === build.highlight ? build.color : lighter;
@@ -808,12 +813,19 @@ viz.redraw = function(build) {
 
 viz.bar = function(build) {
 
+  var discrete = build.config.y && build.config.y.scale === "discrete" ? "y" : "x";
+
   var axis_style = function(axis) {
     return {
-      "grid": false,
+      "axis": {
+        "color": discrete === axis ? "none" : "#ccc",
+        "value": discrete !== axis
+      },
+      "grid": discrete !== axis,
       "label": build.config[axis] && build.config[axis].label ? build.config[axis].label : false,
       "ticks": {
-        "color": "none"
+        "color": discrete === axis ? "none" : "#ccc",
+        "size": discrete === axis ? 0 : 10
       }
     }
   }
@@ -865,11 +877,11 @@ viz.defaults = function(build) {
 
   var axis_style = function(axis) {
 
+    var key = build.config[axis];
+    if (d3plus.object.validate(key)) key = key.value;
+    var range = pcts.indexOf(key) >= 0 ? [0, 1] : false;
+
     return {
-      "axis": {
-        "color": "none",
-        "value": false
-      },
       "label": {
         "font": {
           "color": build.color,
@@ -879,11 +891,12 @@ viz.defaults = function(build) {
         },
         "padding": 0
       },
+      "range": range,
       "ticks": {
         "font": {
           "color": discrete === axis ? "#211f1a" : "#a8a8a8",
           "family": "Palanquin",
-          "size": 16,
+          "size": discrete === axis ? 14 : 14,
           "weight": 700
         }
       }
@@ -933,7 +946,7 @@ viz.defaults = function(build) {
               text = text.join("_");
             }
 
-            var a = key && key in affixes ? affixes[key] : ["", ""];
+            var a = key && key in affixes ? affixes[key].slice() : ["", ""];
             if (key === "income") a[1] = "k";
 
             if (text.indexOf("to") > 0) {
@@ -1037,11 +1050,13 @@ viz.scatter = function(build) {
 
 viz.tree_map = function(build) {
   return {
+    "data": {
+      "padding": 0
+    },
     "labels": {
       "align": "left",
       "valign": "top"
-    },
-    "legend": false
+    }
   };
 }
 
@@ -1187,9 +1202,10 @@ viz.loadData = function(build, next) {
           data = split_data;
         }
 
-        for (var i = 0; i < app.attrs.length; i++) {
-          var type = app.attrs[i].type,
+        for (var i = 0; i < build.attrs.length; i++) {
+          var type = build.attrs[i].type,
               nesting = attrNesting[type];
+
           if (nesting && nesting.constructor === Array) {
             for (var ii = 0; ii < data.length; ii++) {
               var datum = data[ii];

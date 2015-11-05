@@ -4,7 +4,7 @@ body.search {
   }
 
   .search-input {
-    @include flex-size(4);
+    @include flex-size(6);
     @include transition(box-shadow 1s, background-color 1s);
     border: 0;
     padding: 0 10px;
@@ -189,12 +189,12 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
   color: white !important;
   overflow: hidden;
   font-family: sans-serif;
-  padding: 13px 0px 13px 13px;
+  padding: 8px 0px 8px 13px;
   text-decoration: none;
   white-space: nowrap;
   @include transition(0.25s);
   -webkit-backface-visibility: hidden;
-  min-width: 110px;
+  margin: 5px 0 5px 5px;
   &:hover, &:focus, .search-filters-toggle {
 //    background-color: gray;
     color: white;
@@ -222,8 +222,8 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
   &:before {
     content: "";
     border-style: solid;
-    border-width: 0 9px 9px 9px;
-    border-color: transparent transparent gray transparent;
+    border-width: 0 9px 9px 9px; // triangle
+    border-color: transparent transparent black transparent;
     height: 0px;
     position: absolute;
     left: 15px;
@@ -242,19 +242,20 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
     padding: 5px 9px;
     text-decoration: none; 
     &:hover, &.active {
-      background-color: lightgray; 
+      background-color: gray; 
     }
   }
 }
 
 .search-filters-options-inner {
-  background-color: gray;
+  background-color: black;
   margin: 0;
   max-height: 244px;
   padding: 2px 2px 0; }
 
-.dk_touch .search-filters-options {
-  max-height: 250px; }
+.search-filters-options {
+  max-height: 250px; 
+}
 
 .search-filters {
   display: none;
@@ -269,37 +270,30 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
 
 .search-filters-toggle {
   display: block;
-  position: relative; }
+  position: relative; 
+}
 
 .search-filters-options {
   margin-top: -21px;
   position: absolute;
   left: 0;
   opacity: 0;
-  width: 170px;
+  width: 140px;
   z-index: 1;
-//  display: none;
+  display: none;
   @include transition(0.3s ease-out);
   -webkit-backface-visibility: hidden;
   .select-right & {
     left: auto;
-    right: 0; }
+    right: 0; 
+  }
   & a {
-    display: block; }
+    display: block; 
+  }
 }
 
 .search-filters-options-inner {
   overflow: auto;
   outline: none;
-  position: relative; }
-
-.dk_touch .dk_options {
-  overflow: hidden; }
-.dk_touch .search-filters-options-inner {
-  max-height: none;
-  overflow: visible; }
-
-.dk_fouc select {
-  position: relative;
-  top: -99999em;
-  visibility: hidden; }
+  position: relative; 
+}

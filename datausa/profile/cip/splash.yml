@@ -12,7 +12,7 @@ stats:
     value: "<<var namespace=data|key=avg_wage>>"
     rank: "<<var namespace=data|key=avg_wage_rank>>"
 facts:
-  - "The county with the most <<name>> graduates is <<top show=geo|sumlevel=county|order=grads_total>>."
+  - "The county with the most degrees awarded in <<name>> is <<top show=geo|sumlevel=county|order=grads_total>>."
   - "The most common occupation for <<name>> majors is <<top show=soc|sumlevel=3|order=num_ppl>>."
 sections:
   - institutions

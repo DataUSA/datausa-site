@@ -22,7 +22,7 @@ topics:
           map:
             num_ppl: "grads_total"
           static:
-            dataset: "Graduates"
+            dataset: "Degrees Awarded"
         - required: "num_ppl"
           cip: "<<id dataset=pums>>"
           show: "degree"
@@ -36,7 +36,7 @@ topics:
     stat:
       - title: "Most Common Gender"
         value: "<<top col=sex|required=grads_men,grads_women|order=grads_total>>"
-    description: "To the right, we see the 5 most common institutions that offer <<name>> broken down by graduates for each gender."
+    description: "To the right, we see the 5 most common institutions that offer <<name>> broken down by degrees awarded for each gender."
     viz:
       attrs:
         - "sex"
@@ -58,9 +58,9 @@ topics:
       y: "grads_total"
   - title: "Race & Ethnicity by Graduation"
     stat:
-      - title: "Most Common Race"
+      - title: "Most Common Race or Ethnicity"
         value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
-    description: "Here we see the 5 most common universities for each race that graduates with a <<name>> degree."
+    description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
     viz:
       attrs:
         - "race"
@@ -143,7 +143,7 @@ topics:
       data: "degree"
       default: "5"
     stat:
-      - title: "Most Common Race/Gender Combination"
+      - title: "Most Common Race/Ethnicity and Gender Combination"
         value: "<<top col=race-sex|degree=5|required=grads_asian_men,grads_black_men,grads_white_men,grads_hispanic_men,grads_hawaiian_men,grads_multi_men,grads_unknown_men,grads_native_men,grads_asian_women,grads_black_women,grads_white_women,grads_hispanic_women,grads_hawaiian_women,grads_multi_women,grads_unknown_women,grads_native_women|order=grads_total>>"
     description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <span class='select-text'><<name id=5|attr=degree>></span> in <<name>>."
     viz:

@@ -4,8 +4,6 @@
 
 <div id="search-advanced">
   <div class="search-nav">
-    <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
-    
     <div class="search-filters" tabindex="1">
       <a class="search-filters-toggle">
         <span class="search-filters-toggle-label">All</span>
@@ -21,10 +19,12 @@
         </ul>
       </div>
     </div>
+    <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
   </div>
   
   <div class="search-nestings">
     <div class="search-nestings-geo">
+      <a href="#" data-depth="">All</a>
       <a href="#" data-depth="0">States</a>
       <a href="#" data-depth="1">Counties</a>
       <a href="#" data-depth="2">MSAs</a>
@@ -32,17 +32,20 @@
       <a href="#" data-depth="5">PUMAs</a>
     </div>
     <div class="search-nestings-naics">
+      <a href="#" data-depth="">All</a>
       <a href="#" data-depth="0">Top Level</a>
       <a href="#" data-depth="1">2 digit</a>
       <a href="#" data-depth="2">3 digit</a>
     </div>
     <div class="search-nestings-soc">
+      <a href="#" data-depth="">All</a>
       <a href="#" data-depth="0">Top Level</a>
       <a href="#" data-depth="1">2 digit</a>
       <a href="#" data-depth="2">3 digit</a>
       <a href="#" data-depth="3">4 digit</a>
     </div>
     <div class="search-nestings-cip">
+      <a href="#" data-depth="">All</a>
       <a href="#" data-depth="0">2 digit</a>
       <a href="#" data-depth="1">4 digit</a>
       <a href="#" data-depth="2">6 digit</a>
@@ -75,7 +78,7 @@
     search.type = d3.select(this).attr("data-filter");
     
     // close inner dropdown and set title
-    d3.select(".search-filters-options").style("opacity", 0)
+    d3.select(".search-filters-options").style("opacity", 0).style("display", "none");
     d3.select(".search-filters-toggle-label").text(d3.select(this).text())
     
     // set active link for profile type
@@ -107,10 +110,14 @@
    */
   d3.selectAll(".search-nestings a").on("click", function(active_el){
     var _this = active_el || this;
+    var depth = d3.select(_this).attr("data-depth");
+    console.log(depth)
     
     // set constrained search mode with appropriate sumlevel
     search.term = "";
-    search.current_depth[search.type] = d3.select(_this).attr("data-depth");
+    if(depth){
+      search.current_depth[search.type] = d3.select(_this).attr("data-depth");
+    }
     search.reload();
     
     // set active link for profile type
@@ -123,7 +130,10 @@
   
   d3.select(".search-filters-toggle").on("click", function(){
     var current_opacity = parseInt(d3.select(".search-filters-options").style("opacity"));
-    d3.select(".search-filters-options").style("opacity", (current_opacity+1)%2)
+    var current_display = d3.select(".search-filters-options").style("display");
+    d3.select(".search-filters-options")
+      .style("opacity", (current_opacity+1)%2)
+      .style("display", current_display=="block"?"none":"block")
     d3.event.stopPropagation();
   })
 
@@ -140,7 +150,7 @@
   search.reload();
   
   d3.select(document).on("click", function(){
-    d3.select(".search-filters-options").style("opacity", 0)
+    d3.select(".search-filters-options").style("opacity", 0).style("display", "none");
   })
 
 </script>

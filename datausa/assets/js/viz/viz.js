@@ -27,7 +27,7 @@ viz.finish = function(build) {
   }
 
   if (!build.config.color) {
-    if (app.viz.attrs()[app.highlight]) {
+    if (build.viz.attrs()[build.highlight]) {
       var lighter = d3plus.color.lighter(build.color);
         build.config.color = function(d, viz) {
           return d[viz.id.value] === build.highlight ? build.color : lighter;

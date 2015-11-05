@@ -282,11 +282,11 @@ body.search #search-btn {
 body.search a {
   color: #333; }
   body.search .search-input {
-    -webkit-box-flex: 4;
-    -moz-box-flex: 4;
-    -webkit-flex: 4;
-    -ms-flex: 4;
-    flex: 4;
+    -webkit-box-flex: 6;
+    -moz-box-flex: 6;
+    -webkit-flex: 6;
+    -ms-flex: 6;
+    flex: 6;
     -webkit-transition: box-shadow 1s, background-color 1s;
     -moz-transition: box-shadow 1s, background-color 1s;
     -ms-transition: box-shadow 1s, background-color 1s;
@@ -449,7 +449,7 @@ body.search .search-results-container {
       color: white !important;
       overflow: hidden;
       font-family: sans-serif;
-      padding: 13px 0px 13px 13px;
+      padding: 8px 0px 8px 13px;
       text-decoration: none;
       white-space: nowrap;
       -webkit-transition: 0.25s;
@@ -458,7 +458,7 @@ body.search .search-results-container {
       -o-transition: 0.25s;
       transition: 0.25s;
       -webkit-backface-visibility: hidden;
-      min-width: 110px; }
+      margin: 5px 0 5px 5px; }
       .search-filters-toggle:hover, .search-filters-toggle:focus,
       .search-filters-toggle .search-filters-toggle {
         color: white;
@@ -490,7 +490,7 @@ body.search .search-results-container {
       content: "";
       border-style: solid;
       border-width: 0 9px 9px 9px;
-      border-color: transparent transparent gray transparent;
+      border-color: transparent transparent black transparent;
       height: 0px;
       position: absolute;
       left: 15px;
@@ -509,15 +509,15 @@ body.search .search-results-container {
             padding: 5px 9px;
             text-decoration: none; }
             .search-filters-options a:hover, .search-filters-options a.active {
-              background-color: lightgray; }
+              background-color: gray; }
 
 .search-filters-options-inner {
-  background-color: gray;
+  background-color: black;
   margin: 0;
   max-height: 244px;
   padding: 2px 2px 0; }
 
-  .dk_touch .search-filters-options {
+  .search-filters-options {
     max-height: 250px; }
 
     .search-filters {
@@ -539,8 +539,9 @@ body.search .search-results-container {
     position: absolute;
     left: 0;
     opacity: 0;
-    width: 170px;
+    width: 140px;
     z-index: 1;
+    display: none;
     -webkit-transition: 0.3s ease-out;
     -moz-transition: 0.3s ease-out;
     -ms-transition: 0.3s ease-out;
@@ -557,18 +558,6 @@ body.search .search-results-container {
   overflow: auto;
   outline: none;
   position: relative; }
-
-  .dk_touch .dk_options {
-    overflow: hidden; }
-
-    .dk_touch .search-filters-options-inner {
-      max-height: none;
-      overflow: visible; }
-
-      .dk_fouc select {
-        position: relative;
-        top: -99999em;
-        visibility: hidden; }
 body.home {
   position: relative;
   height: 100vh; }
@@ -609,7 +598,7 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
+                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
                     z-index: -11; }
                     body.home .bg-img.landing {
                       top: -45vh;
@@ -1117,7 +1106,8 @@ body.profile section {
             flex: 1 1;
             max-width: 100%; }
             body.profile section .topic.flex .content .viz {
-              margin-left: 0; }
+              margin-left: 0;
+              min-height: 200px; }
       body.profile section .topic h2 {
         font-family: "Enriqueta", serif;
         font-size: 30px;
@@ -1143,7 +1133,8 @@ body.profile section {
               -moz-flex-direction: column;
               flex-direction: column; }
               body.profile section .topic .content.full-width .viz {
-                margin-left: 0; }
+                margin-left: 0;
+                min-height: 500px; }
             body.profile section .topic .content aside {
               -webkit-box-flex: none;
               -moz-box-flex: none;
@@ -1212,9 +1203,11 @@ body.profile section {
               -ms-flex: 1 1 auto;
               flex: 1 1 auto;
               margin-left: 50px;
+              min-height: 250px;
               overflow: hidden; }
               body.profile section .topic .content .viz.mini {
-                margin-left: 0; }
+                margin-left: 0;
+                min-height: 200px; }
 #map-fullscreen {
   height: 100vh;
   width: 100vw; }

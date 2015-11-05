@@ -65,6 +65,7 @@ def stat(params, col="name", dataset=False, data_only=False):
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
+    vals = []
     if col == "ratio":
         if params["limit"] == 1:
             vals = sorted([v for k, v in r[0].iteritems() if k in params["required"].split(",")], reverse=True)
@@ -78,10 +79,11 @@ def stat(params, col="name", dataset=False, data_only=False):
         keys = col.split("-")
         cols = ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
         vals = [sorted([(k, v) for k, v in d.iteritems() if drop_first(k) in cols], key=lambda x: x[1], reverse=True) for d in r]
-        vals = [drop_first(v[rank - 1][0]) for v in vals]
-        vals = [col_map[keys[i]][v] for x in vals for i, v in enumerate(x.split("_"))]
-        vals = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for x in vals for i, v in enumerate(x.split("_"))]
-        top = [" ".join(vals)]
+        top = [drop_first(v[rank - 1][0]) for v in vals]
+        vals = [v[rank - 1][1] for v in vals]
+        top = [col_map[keys[i]][v] for x in top for i, v in enumerate(x.split("_"))]
+        top = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for i, v in enumerate(top)]
+        top = [" ".join(top)]
     elif col == "name":
         if dataset in ["acs", "pums"]:
             attr = "{}_{}".format(dataset, params["show"])
@@ -120,7 +122,8 @@ def stat(params, col="name", dataset=False, data_only=False):
     # otherwise, return the list joined with commans
     return {
         "url": "{}?{}&col={}&dataset={}".format(url_for("profile.stat"), query, col, dataset),
-        "value": top
+        "value": top,
+        "data": vals
     }
 
 # create a mapping for splitting demographic columns
