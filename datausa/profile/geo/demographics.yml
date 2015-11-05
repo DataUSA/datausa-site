@@ -6,9 +6,9 @@ topics:
     title: "Age by Nationality"
     stat:
       - title: "Median Native Age"
-        value: "N/A"
+        value: "<<top col=nativity_us>>"
       - title: "Median Foreign Age"
-        value: "N/A"
+        value: "<<top col=nativity_foreign>>"
     description: "The median age of people in <<name>> is <<top col=age>>, and native-born citizens are generally N/A than foreign-born."
     viz:
       color: "nationality"
@@ -33,12 +33,13 @@ topics:
       y: "num_ppl"
   - category: "Heritage"
     title: "Global Diversity"
+    stat_stack: YES
     stat:
       - title: "High relative number of people born in"
         value: "<<var namespace=heritage_rca|key=birthplace>>"
       - title: "Most common foreign-born country is"
         value: "<<var namespace=heritage_total|key=birthplace>>"
-    description: "<<name>> has a relatively high number of foreign-born citizens from N/A."
+    description: "<<name>> has a relatively high number of foreign-born citizens from <<var namespace=heritage_rca|key=birthplace>>."
     viz:
       attrs: "birthplace"
       coords: "birthplace"
