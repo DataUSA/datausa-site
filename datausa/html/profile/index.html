@@ -5,7 +5,7 @@
 <script>var builds = [];</script>
 
 <article id="splash">
-  
+
   <div class="bg-filter"></div>
 
   {% set sections = profile.sections() %}
@@ -14,7 +14,7 @@
   <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
 
   <div class="content">
-    
+
     <div class="splash-titles">
       {% set parents = profile.parents() %}
       {% if parents|length %}
@@ -26,15 +26,15 @@
       {% endif %}
 
       <h1>{{ profile.splash.title }}</h1>
-      
+
       <!-- {% for desc in profile.splash.description %}
       <p class="desc">{{ desc|safe }}</p>
       {% endfor %} -->
     </div>
-    
-    <div class="splash-context"> 
+
+    <div class="splash-context">
       <div class="thumbprint"></div>
-      
+
       <div>
         <div id="splash-stats">
           {% for stat in profile.splash.stats %}
@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="splash-icon-nav">
     {% for section in sections %}
       <a href="#{{ section.anchor }}"><img src="http://www.fordesigner.com/imguploads/Image/cjbc/zcool/png20080526/1211809336.png" width="25" height="25" /></a>
@@ -289,7 +289,7 @@
   resizeApps();
   resizeFunctions.push(resizeApps);
 
-  var scrollBuffer = 200, n = [32], app;
+  var scrollBuffer = -200, n = [32], app;
   function buildInView(b) {
     var top = window.scrollY, height = window.innerHeight;
     return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
