@@ -38,6 +38,12 @@ geo_children = {
     "050": "140"
 }
 
+textLookup = {
+    "age": ("older than", "younger than", "the same age as"),
+    "highlow": ("higher than", "lower than", "the same as"),
+    "longshort": ("longer", "shorter", "equal")
+}
+
 
 class Section(object):
     """A section of a profile page that contains many horizontal text/viz topics.
@@ -273,7 +279,7 @@ class Section(object):
         # set default params
         params = {}
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
-        params[attr_type] = kwargs.get("attr_id", self.attr["id"])
+        attr_id = kwargs.get("attr_id", self.attr["id"])
         params["limit"] = 1
         params["show"] = params.get("show", attr_type)
         params = default_params(params)
@@ -282,6 +288,8 @@ class Section(object):
         for t in r.keys():
             key = kwargs.get(t)
 
+            params[attr_type] = kwargs.get("{}_id".format(t), attr_id)
+
             if "top:" in key:
 
                 if "required" in params:
@@ -289,6 +297,18 @@ class Section(object):
 
                 params["col"], params["force"] = key.split(":")[1].split(",")
                 r[t] = self.top(**params)["data"][0]
+
+            elif "," in key:
+
+                num, den = key.split(",")
+                subparams = {}
+                subparams["num"] = num
+                subparams["den"] = den
+                subparams["data_only"] = True
+                subparams["{}_id".format(t)] = params[attr_type]
+                r[t] = self.percent(**subparams)
+                if r[t] == "N/A":
+                    return "N/A"
 
             else:
 
@@ -312,7 +332,29 @@ class Section(object):
         val = r["num"]/r["den"]
         if kwargs.get("invert", False):
             val = 1 - val
-        return "{}%".format(num_format(val * 100))
+
+        if kwargs.get("data_only", False):
+            return val
+
+        text = kwargs.get("text", False)
+        if text and text in textLookup:
+            text = textLookup[text]
+            if val > 1:
+                return text[0]
+            elif val < 1:
+                return text[1]
+            else:
+                return text[2]
+        else:
+            return "{}%".format(num_format(val * 100))
+
+    def plural(self, **kwargs):
+        text = kwargs.pop("text")
+        kwargs["unformatted"] = True
+        val = float(self.top(**kwargs)[0])
+        if val > 1:
+            return "{}ies".format(text[:-1]) if text[-1] == "y" else "{}s".format(text)
+        return text
 
     def ranks(self, **kwargs):
 

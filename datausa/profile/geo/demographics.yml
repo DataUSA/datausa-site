@@ -9,7 +9,7 @@ topics:
         value: "<<top col=nativity_us>>"
       - title: "Median Foreign Age"
         value: "<<top col=nativity_foreign>>"
-    description: "The median age of people in <<name>> is <<top col=age>>, and native-born citizens are generally N/A than foreign-born."
+    description: "The median age of people in <<name>> is <<top col=age>>, and native-born citizens are generally <<percent num=nativity_us|den=nativity_foreign|text=age>> foreign-born citizens."
     viz:
       color: "nationality"
       data:

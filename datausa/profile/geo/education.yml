@@ -90,7 +90,7 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Gender"
-    description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender. These 5 institutions tend to have more X than X enrolled, at a rate of X to 1."
+    description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender."
     viz:
       attrs:
         - "sex"

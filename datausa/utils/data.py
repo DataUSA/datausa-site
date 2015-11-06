@@ -45,6 +45,7 @@ def stat(params, col="name", dataset=False, data_only=False):
 
     # convert request arguments into a url query string
     rank = int(params.pop("rank", "1"))
+    unformatted = params.pop("unformatted", False)
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
 
@@ -102,6 +103,9 @@ def stat(params, col="name", dataset=False, data_only=False):
         top = [d[show] for d in r]
     else:
         top = [d[col] for d in r]
+
+    if unformatted:
+        return top
 
     if col != "id":
         top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
