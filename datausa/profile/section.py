@@ -405,7 +405,10 @@ class Section(object):
     def sub(self, **kwargs):
         kwargs["data_only"] = True
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
-        subs = self.top(**kwargs)["subs"]
+        subs = self.top(**kwargs)
+        if "subs" not in subs:
+            return ""
+        subs = subs["subs"]
         if attr_type in subs and subs[attr_type] != self.attr["id"]:
             return "Based on data from {}".format(fetch(subs[attr_type], attr_type)["name"])
         else:
