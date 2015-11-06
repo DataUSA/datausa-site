@@ -84,7 +84,7 @@ topics:
           show: "geo"
           split:
             id: "race"
-            regex: "pop_([a-z]*)"
+            regex: "pop_([0-9a-z]*)"
             value: "num_ppl"
       id: "race"
       order: "num_ppl"
@@ -130,7 +130,7 @@ topics:
           show: "geo"
           split:
             id: "conflict"
-            regex: "conflict_([a-z]*)"
+            regex: "conflict_([0-9a-z]*)"
             value: "num_ppl"
       id: "conflict"
       type: "bar"

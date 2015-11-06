@@ -48,14 +48,13 @@ viz.loadData = function(build, next) {
           for (var i = 0; i < data.length; i++) {
             var dat = data[i];
             for (var ii = 0; ii < keys.length; ii++) {
-              var k = keys[ii];
               var dd = d3plus.util.copy(dat);
-              dd[d.split.id] = k;
-              dd[d.split.value] = dat[k];
+              dd[d.split.id] = regex.exec(keys[ii])[1];
+              dd[d.split.value] = dat[keys[ii]];
 
               if (d.split.map) {
                 for (var sk in d.split.map) {
-                  var mapex = d.split.map[sk].exec(k);
+                  var mapex = d.split.map[sk].exec(keys[ii]);
                   if (mapex) {
                     dd[sk] = mapex[1];
                   }

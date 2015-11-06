@@ -40,6 +40,12 @@ viz.finish = function(build) {
     }
     build.config.legend = false;
   }
+  else if (build.config.color in staticAttrs) {
+    build.color = build.config.color;
+    build.config.color = function(d) {
+      return staticAttrs[build.color][d[build.color]];
+    };
+  }
 
   var default_config = viz.defaults(build),
       type_config = viz[build.config.type](build);
