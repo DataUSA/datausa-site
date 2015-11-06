@@ -1020,7 +1020,7 @@ body.profile #title-bar {
   -o-transition: top 0.5s;
   transition: top 0.5s; }
   body.profile #title-bar.visible {
-    top: 0; }
+    top: 60px; }
     body.profile #title-bar h1 {
       padding: 6px;
       color: white;
@@ -1044,7 +1044,7 @@ body.profile #profile-nav {
   -o-transition: top 0.5s;
   transition: top 0.5s; }
   body.profile #profile-nav.visible {
-    top: 45px; }
+    top: 105px; }
     body.profile #profile-nav ul li {
       display: inline-block;
       margin: 0 10px;
