@@ -321,7 +321,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=level,2|order=num_emp|sort=desc|limit=3>>."
+    description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=level,1|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -330,7 +330,7 @@ topics:
             order: "num_emp"
             sort: "desc"
             show: "geo,acs_ind"
-            sumlevel: "<<level>>,2"
+            sumlevel: "<<level>>,1"
         height: 200
         id: "acs_ind"
         labels: YES
@@ -350,7 +350,7 @@ topics:
             order: "num_emp"
             sort: "asc"
             show: "geo,acs_ind"
-            sumlevel: "<<level>>,2"
+            sumlevel: "<<level>>,1"
             where: "num_emp:!0"
         height: 200
         id: "acs_ind"
@@ -367,7 +367,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=level,2|order=num_emp_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=level,1|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -376,7 +376,7 @@ topics:
             order: "num_emp_rca"
             sort: "desc"
             show: "geo,acs_ind"
-            sumlevel: "<<level>>,2"
+            sumlevel: "<<level>>,1"
         height: 200
         id: "acs_ind"
         labels: YES
@@ -396,7 +396,7 @@ topics:
             order: "num_emp_rca"
             sort: "asc"
             show: "geo,acs_ind"
-            sumlevel: "<<level>>,2"
+            sumlevel: "<<level>>,1"
             where: "num_emp_rca:!0"
         height: 200
         id: "acs_ind"
@@ -463,12 +463,11 @@ topics:
         - geo: "<<id>>"
           required: "num_emp"
           show: "geo,acs_ind"
-          sumlevel: "<<level>>,2"
-      depth: 2
+          sumlevel: "<<level>>,1"
+      depth: 1
       height: 500
       id:
         - "acs_ind_2"
         - "acs_ind_4"
-        - "acs_ind_6"
       size: "num_emp"
       type: "tree_map"
