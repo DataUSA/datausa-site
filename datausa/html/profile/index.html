@@ -5,55 +5,74 @@
 <script>var builds = [];</script>
 
 <article id="splash">
+  
+  <div class="bg-filter"></div>
 
+  {% set sections = profile.sections() %}
   {% set image = profile.image() %}
+
   <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
 
   <div class="content">
+    
+    <div class="splash-titles">
+      {% set parents = profile.parents() %}
+      {% if parents|length %}
+        <sub>
+          {% for p in parents %}
+            <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
+          {% endfor %}
+        </sub>
+      {% endif %}
 
-    <div class="thumbprint"></div>
+      <h1>{{ profile.splash.title }}</h1>
+      
+      <!-- {% for desc in profile.splash.description %}
+      <p class="desc">{{ desc|safe }}</p>
+      {% endfor %} -->
+    </div>
+    
+    <div class="splash-context"> 
+      <div class="thumbprint"></div>
+      
+      <div>
+        <div id="splash-stats">
+          {% for stat in profile.splash.stats %}
+          <div class="stat">
+            <div class="stat-text">{{ stat.title|safe }}</div>
+            <div class="stat-value">{{ stat.value|safe }}</div>
+            <div class="stat-rank">Rank: {{ stat.rank|safe }}</div>
+          </div>
+          {% endfor %}
+        </div>
 
-    <h1>{{ profile.splash.title }}</h1>
-    {% set parents = profile.parents() %}
-    {% if parents|length %}
-      <sub>
-        {% for p in parents %}
-          <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
-        {% endfor %}
-      </sub>
-    {% endif %}
-    {% for desc in profile.splash.description %}
-    <p class="desc">{{ desc|safe }}</p>
+        <div class="carousel">
+          <div class="carousel-title">Did you know?</div>
+          <div class="carousel-slider">
+            {% for fact in profile.splash.facts %}
+              <p class="carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact|safe }}</p>
+            {% endfor %}
+          </div>
+          <div class="carousel-btns">
+            {% for fact in profile.splash.facts %}
+              <div class="carousel-btn{% if loop.index == 1%} active{% endif %}"></div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="splash-icon-nav">
+    {% for section in sections %}
+      <a href="#{{ section.anchor }}"><img src="http://www.fordesigner.com/imguploads/Image/cjbc/zcool/png20080526/1211809336.png" width="25" height="25" /></a>
     {% endfor %}
-
-    <div id="splash-stats">
-      {% for stat in profile.splash.stats %}
-      <div class="stat">
-        <div class="stat-text">{{ stat.title|safe }}</div>
-        <div class="stat-value">{{ stat.value|safe }}</div>
-        <div class="stat-rank">Rank: {{ stat.rank|safe }}</div>
-      </div>
-      {% endfor %}
     </div>
 
-    <div class="carousel">
-      <div class="carousel-title">Did you know?</div>
-      <div class="carousel-slider">
-        {% for fact in profile.splash.facts %}
-          <p class="carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact|safe }}</p>
-        {% endfor %}
-      </div>
-      <div class="carousel-btns">
-        {% for fact in profile.splash.facts %}
-          <div class="carousel-btn{% if loop.index == 1%} active{% endif %}"></div>
-        {% endfor %}
-      </div>
-    </div>
+      <!-- <div id="scroll-btn">
+        <i class="fa fa-angle-down"></i>
+      </div> -->
 
-    <div id="scroll-btn">
-      <i class="fa fa-angle-down"></i>
     </div>
-
   </div>
 
 </article>
@@ -61,8 +80,6 @@
 <div id="title-bar" style="background-color: {{ profile.color() }};">
   <h1>{{ profile.splash.title }}</h1>
 </div>
-
-{% set sections = profile.sections() %}
 
 <div id="profile-nav">
   <ul>
@@ -80,7 +97,7 @@
   {% endfor %}
 </header>
 
-<section>
+<!-- <section>
   {% for topic in section.topics %}
   {% if topic.category %}
   <h1 class="category" style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
@@ -139,7 +156,7 @@
   </article>
   {% endif %}
   {% endfor %}
-</section>
+</section> -->
 
 {% endfor %}
 
@@ -161,11 +178,16 @@
   var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
       color = "{{ profile.color() }}";
 
+  var titleNavHeight = d3.select(".thumbprint").node().offsetHeight;
+
   function navScroll(){
 
     var y = window.scrollY,
         showNav = y > window.innerHeight - titleHeight - 10;
-    d3.select("#title-bar").classed("visible", showNav);
+
+    var showTitleNav = y > titleNavHeight + 50;
+
+    d3.select("#title-bar").classed("visible", showTitleNav);
     d3.select("#profile-nav").classed("visible", showNav);
 
     var active_section;

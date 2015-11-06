@@ -30,10 +30,6 @@ body {
 
   &.open {
     left: 0;
-    
-    .menu-content {
-      width: 100%;
-    }
   }
 }
 
@@ -88,8 +84,7 @@ body {
 #menu-btn {
   padding: 20px;
   opacity: 0.5;
-  color: red;
-  font-family: $palanquin;
+  color: $home-red;
   font-size: 20px;
   font-weight: 700;
   line-height: 18px;
@@ -138,6 +133,7 @@ body {
 
   #menu {
     @include justify(space-around);
+    width: 100%;
   }
 
   #menu footer {

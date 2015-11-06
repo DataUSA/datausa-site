@@ -1,15 +1,16 @@
 h1 {
   color: $dark-d-blue;
-  font-family: $noticia;
-  font-weight: 400;
+  font-family: $open-sans;
+  font-weight: 300;
   font-size: 60px;
-  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
   text-align: center;
 }
 
 h2 {
   color: white;
-  font-family: $noticia;
+  font-family: $lato;
   letter-spacing: 0.1em;
   font-size: 20px;
   font-weight: 400;

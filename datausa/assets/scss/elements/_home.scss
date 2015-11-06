@@ -206,7 +206,7 @@ body.home {
       display: none;
     }
 
-    .search-body.simple {
+    .search-body {
       height: 0 !important;
     }
 
@@ -250,7 +250,7 @@ body.home {
     //@include shadow(0px 5px 0 rgba(0,0,0,0.3));
   }
   
-  &:focus ~ .search-body.simple {
+  &:focus ~ .search-body {
     height: 40vh;
     margin-top: 7px;
     overflow-y: scroll;
@@ -266,7 +266,7 @@ body.home {
     }
   }
 
-  ~ .search-body.simple {
+  ~ .search-body {
     @include transition(height 0.5s 0.25s, margin-top 0.25s, border 0.1s);
     height: 0;
 
