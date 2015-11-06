@@ -307,8 +307,6 @@ class Section(object):
                 subparams["data_only"] = True
                 subparams["{}_id".format(t)] = params[attr_type]
                 r[t] = self.percent(**subparams)
-                if r[t] == "N/A":
-                    return "N/A"
 
             else:
 
@@ -328,6 +326,9 @@ class Section(object):
                 except ValueError:
                     app.logger.info("STAT ERROR: {}".format(url))
                     return "N/A"
+
+            if r[t] in [None, "N/A"]:
+                return "N/A"
 
         val = r["num"]/r["den"]
         if kwargs.get("invert", False):
