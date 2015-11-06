@@ -198,7 +198,6 @@ topics:
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
       id: "sex"
-      legend: NO
       order: "avg_wage"
       type: "bar"
       x:
@@ -274,7 +273,6 @@ topics:
         value: "<<top col=sex-ageBucket|required=poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75over,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75over>>"
     description: "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population for whom poverty status is determined in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line. This is below the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>."
     viz:
-      attrs: "sex"
       color: "sex"
       data:
         show: "geo"
@@ -288,7 +286,6 @@ topics:
             bucket: "poverty_[a-z0-9]*_([a-z0-9]*)"
           value: "num_ppl"
       id: "sex"
-      legend: false
       order: "bucket"
       type: "bar"
       x:
@@ -310,7 +307,6 @@ topics:
           regex: "^poverty_([a-z]*)$"
           value: "num_ppl"
       id: "race"
-      legend: false
       order: "num_ppl"
       type: "bar"
       x:

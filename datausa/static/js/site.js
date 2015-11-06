@@ -1279,7 +1279,9 @@ var staticAttrs = {
   "sex": {
     "men": "blue",
     "male": "blue",
+    "1": "blue",
     "women": "pink",
-    "female": "pink"
+    "female": "pink",
+    "2": "pink"
   }
 }
