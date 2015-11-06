@@ -6,7 +6,7 @@ topics:
     title: "Most Common"
     class: "flex"
     source: NO
-    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=acs_occ|sumlevel=4|order=num_emp|sort=desc|limit=3>>."
+    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=level,4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -14,8 +14,8 @@ topics:
             limit: "5"
             order: "num_emp"
             sort: "desc"
-            show: "acs_occ"
-            sumlevel: "4"
+            show: "geo,acs_occ"
+            sumlevel: "<<level>>,4"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -34,8 +34,8 @@ topics:
             limit: "5"
             order: "num_emp"
             sort: "asc"
-            show: "acs_occ"
-            sumlevel: "4"
+            show: "geo,acs_occ"
+            sumlevel: "<<level>>,4"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -51,7 +51,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_occ|sumlevel=4|order=num_emp_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=level,4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -59,8 +59,8 @@ topics:
             limit: "5"
             order: "num_emp_rca"
             sort: "desc"
-            show: "acs_occ"
-            sumlevel: "4"
+            show: "geo,acs_occ"
+            sumlevel: "<<level>>,4"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -79,8 +79,8 @@ topics:
             limit: "5"
             order: "num_emp_rca"
             sort: "asc"
-            show: "acs_occ"
-            sumlevel: "4"
+            show: "geo,acs_occ"
+            sumlevel: "<<level>>,4"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -96,7 +96,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=acs_occ|sumlevel=4|order=med_earnings|sort=desc|limit=3>>."
+    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=level,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -104,8 +104,8 @@ topics:
             limit: "5"
             order: "med_earnings"
             sort: "desc"
-            show: "acs_occ"
-            sumlevel: "4"
+            show: "geo,acs_occ"
+            sumlevel: "<<level>>,4"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -124,8 +124,8 @@ topics:
             limit: "5"
             order: "med_earnings"
             sort: "asc"
-            show: "acs_occ"
-            sumlevel: "4"
+            show: "geo,acs_occ"
+            sumlevel: "<<level>>,4"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -144,8 +144,8 @@ topics:
       data:
         - geo: "<<id>>"
           required: "num_emp"
-          show: "acs_occ"
-          sumlevel: "4"
+          show: "geo,acs_occ"
+          sumlevel: "<<level>>,4"
       depth: 4
       height: 500
       id:
@@ -321,7 +321,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries in <<name>> by number of employees are <<top show=acs_ind|sumlevel=2|order=num_emp|sort=desc|limit=3>>."
+    description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=level,2|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -329,8 +329,8 @@ topics:
             limit: "5"
             order: "num_emp"
             sort: "desc"
-            show: "acs_ind"
-            sumlevel: "2"
+            show: "geo,acs_ind"
+            sumlevel: "<<level>>,2"
         height: 200
         id: "acs_ind"
         labels: YES
@@ -349,8 +349,8 @@ topics:
             limit: "5"
             order: "num_emp"
             sort: "asc"
-            show: "acs_ind"
-            sumlevel: "2"
+            show: "geo,acs_ind"
+            sumlevel: "<<level>>,2"
             where: "num_emp:!0"
         height: 200
         id: "acs_ind"
@@ -367,7 +367,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=acs_ind|sumlevel=2|order=num_emp_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=level,2|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -375,8 +375,8 @@ topics:
             limit: "5"
             order: "num_emp_rca"
             sort: "desc"
-            show: "acs_ind"
-            sumlevel: "2"
+            show: "geo,acs_ind"
+            sumlevel: "<<level>>,2"
         height: 200
         id: "acs_ind"
         labels: YES
@@ -395,8 +395,8 @@ topics:
             limit: "5"
             order: "num_emp_rca"
             sort: "asc"
-            show: "acs_ind"
-            sumlevel: "2"
+            show: "geo,acs_ind"
+            sumlevel: "<<level>>,2"
             where: "num_emp_rca:!0"
         height: 200
         id: "acs_ind"
@@ -413,7 +413,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paying"
-    description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=acs_ind|sumlevel=1|order=med_earnings|sort=desc|limit=3>>."
+    description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=level,1|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -421,8 +421,8 @@ topics:
             limit: "5"
             order: "med_earnings"
             sort: "desc"
-            show: "acs_ind"
-            sumlevel: "1"
+            show: "geo,acs_ind"
+            sumlevel: "<<level>>,1"
         height: 200
         id: "acs_ind"
         labels: YES
@@ -441,8 +441,8 @@ topics:
             limit: "5"
             order: "med_earnings"
             sort: "asc"
-            show: "acs_ind"
-            sumlevel: "1"
+            show: "geo,acs_ind"
+            sumlevel: "<<level>>,1"
             where: "med_earnings:!0"
         height: 200
         id: "acs_ind"
@@ -462,8 +462,8 @@ topics:
       data:
         - geo: "<<id>>"
           required: "num_emp"
-          show: "acs_ind"
-          sumlevel: "2"
+          show: "geo,acs_ind"
+          sumlevel: "<<level>>,2"
       depth: 2
       height: 500
       id:

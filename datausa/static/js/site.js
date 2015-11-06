@@ -860,8 +860,7 @@ viz.bar = function(build) {
 
 }
 
-var all_caps = ["cip", "naics", "rca", "soc"],
-    pcts = ["owner_occupied_housing_units", "pct_total", "us_citizens"];
+var all_caps = ["cip", "naics", "rca", "soc"];
 
 viz.defaults = function(build) {
 
@@ -890,7 +889,7 @@ viz.defaults = function(build) {
 
     var key = build.config[axis];
     if (d3plus.object.validate(key)) key = key.value;
-    var range = pcts.indexOf(key) >= 0 ? [0, 1] : false;
+    var range = percentages.indexOf(key) >= 0 ? [0, 1] : false;
 
     return {
       "label": {
@@ -925,7 +924,7 @@ viz.defaults = function(build) {
 
         if (params.key) {
 
-          if (params.key.indexOf("growth") >= 0 || pcts.indexOf(params.key) >= 0) {
+          if (params.key.indexOf("growth") >= 0 || percentages.indexOf(params.key) >= 0) {
             number = number * 100;
             return d3plus.number.format(number, params) + "%";
           }

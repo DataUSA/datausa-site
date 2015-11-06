@@ -112,7 +112,9 @@ affixes = {
 }
 
 percentages = [
+    "non_eng_speakers_pct",
     "owner_occupied_housing_units",
+    "pct_total",
     "us_citizens"
 ]
 

@@ -67,6 +67,7 @@ def stat(params, col="name", dataset=False, data_only=False):
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
     vals = []
+    show = params["show"].split(",")[-1]
     if col == "ratio":
         if params["limit"] == 1:
             vals = sorted([v for k, v in r[0].iteritems() if k in params["required"].split(",")], reverse=True)
@@ -87,18 +88,18 @@ def stat(params, col="name", dataset=False, data_only=False):
         top = [" ".join(top)]
     elif col == "name":
         if dataset in ["acs", "pums"]:
-            attr = "{}_{}".format(dataset, params["show"])
+            attr = "{}_{}".format(dataset, show)
         else:
-            attr = params["show"]
+            attr = show
 
-        top = [fetch(d[params["show"]], attr) for d in r]
+        top = [fetch(d[show], attr) for d in r]
 
         if attr in PROFILES:
             top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t["id"]), t[col]) for t in top]
         else:
             top = [t[col] for t in top]
     elif col == "id":
-        top = [d[params["show"]] for d in r]
+        top = [d[show] for d in r]
     else:
         top = [d[col] for d in r]
 

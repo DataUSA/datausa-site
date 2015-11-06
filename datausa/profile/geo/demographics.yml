@@ -94,7 +94,7 @@ topics:
         value: "race"
       y: "num_ppl"
   - title: "Languages"
-    description: "The most common language spoken in <<name>>, other than English is <<top show=language|order=num_speakers|where=language:~^002>>. XX% of <<name>> citizens are non-English speakers, versus the XX% national average."
+    description: "The most common language spoken in <<name>>, other than English is <<top show=language|order=num_speakers|where=language:~^002>>. <<top col=non_eng_speakers_pct>> of <<name>> citizens are non-English speakers, versus the <<top geo=01000US|col=non_eng_speakers_pct>> national average."
     stat_stack: YES
     stat:
       - title: "<<name>> has a relatively high number of speakers of"
