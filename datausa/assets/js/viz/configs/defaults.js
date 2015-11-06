@@ -144,6 +144,12 @@ viz.defaults = function(build) {
     "height": {
       "small": 10
     },
+    "labels": {
+      "font": {
+        "family": "Palanquin",
+        "size": 13
+      }
+    },
     "messages": {
       "style": "large"
     },

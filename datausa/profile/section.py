@@ -1,4 +1,4 @@
-import os, re, requests, yaml
+import math, os, re, requests, yaml
 from itertools import combinations
 from requests.models import RequestEncodingMixin
 from flask import url_for
@@ -313,6 +313,51 @@ class Section(object):
         if kwargs.get("invert", False):
             val = 1 - val
         return "{}%".format(num_format(val * 100))
+
+    def ranks(self, **kwargs):
+
+        ranks = int(kwargs.get("limit", 1))
+        col = kwargs.get("col")
+        attr_type = kwargs.get("attr_type", self.profile.attr_type)
+
+        params = {}
+        params[attr_type] = self.attr["id"]
+        params["required"] = col
+        params["show"] = kwargs.get("show", self.profile.attr_type)
+        params["sumlevel"] = "all"
+
+        query = RequestEncodingMixin._encode_params(params)
+        url = "{}/api?{}".format(API, query)
+
+        try:
+            rank = int(datafold(requests.get(url).json())[0][col])
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            return ""
+
+        if rank <= (ranks/2 + 1):
+            return ",".join([str(r) for r in range(1, ranks + 1)])
+
+        del params[attr_type]
+        params["limit"] = 1
+        params["order"] = col
+        params["sort"] = "desc"
+
+        query = RequestEncodingMixin._encode_params(params)
+        url = "{}/api?{}".format(API, query)
+
+        try:
+            max_rank = int(datafold(requests.get(url).json())[0][col])
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            return ""
+
+        if rank > (max_rank - ranks/2 - 1):
+            results = range(max_rank - ranks + 1, max_rank + 1)
+        else:
+            results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
+
+        return ",".join([str(r) for r in results])
 
     def sub(self, **kwargs):
         kwargs["data_only"] = True

@@ -1,9 +1,17 @@
 title: "<<name>>"
-description: "Explore the employment, industries, education, and demographics of <<name>>."
+description: "Explore data on the education, dmeographics, industries, and skills of <<name>> in the US."
 stats:
-  - title: "Population"
-    value: "XX"
-    rank: "XX"
+  - title: "Employees"
+    value: "<<var namespace=data|key=num_ppl>>"
+    rank: "<<var namespace=data|key=num_ppl_rank>>"
+  - title: "Average Wage"
+    value: "<<var namespace=data|key=avg_wage>>"
+    rank: "<<var namespace=data|key=avg_wage_rank>>"
+  - title: "Average Age"
+    value: "<<var namespace=data|key=avg_age>>"
+    rank: "<<var namespace=data|key=avg_age_rank>>"
 facts:
-  - "TBD"
-sections: []
+  - "The PUMA with the highest number of employed <<name>> is <<top show=geo|sumlevel=puma|order=num_ppl>>."
+  - "The most common industry that employs <<name>> is <<top show=naics|sumlevel=2|order=num_ppl>>."
+sections:
+  - employment

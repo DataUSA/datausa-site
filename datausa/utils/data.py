@@ -36,7 +36,7 @@ def default_params(params):
     if "force" not in params:
         params["required"] = params.get("required", params["order"])
 
-    if params["show"] == "skill":
+    if "show" in params and params["show"] == "skill":
         del params["year"]
 
     return params

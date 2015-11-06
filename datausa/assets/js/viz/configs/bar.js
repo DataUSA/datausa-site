@@ -38,6 +38,7 @@ viz.bar = function(build) {
     },
     "labels": {
       "align": "left",
+      "resize": false,
       "value": false
     },
     "x": axis_style("x"),

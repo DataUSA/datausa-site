@@ -1,0 +1,11 @@
+- required:
+    - "avg_age"
+    - "avg_age_rank"
+    - "avg_wage"
+    - "avg_wage_rank"
+    - "num_ppl"
+    - "num_ppl_rank"
+  namespace: data
+- required:
+    - "gini"
+  namespace: wagegap

@@ -851,6 +851,7 @@ viz.bar = function(build) {
     },
     "labels": {
       "align": "left",
+      "resize": false,
       "value": false
     },
     "x": axis_style("x"),
@@ -1004,6 +1005,12 @@ viz.defaults = function(build) {
     },
     "height": {
       "small": 10
+    },
+    "labels": {
+      "font": {
+        "family": "Palanquin",
+        "size": 13
+      }
     },
     "messages": {
       "style": "large"

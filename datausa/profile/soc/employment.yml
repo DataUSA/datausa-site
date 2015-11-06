@@ -1,0 +1,187 @@
+title: "Employment"
+description: "The Bureau of Labor and Statistics has great information regarding the businesses that hire occupations."
+
+topics:
+  - category: "Wages"
+    title: "Income"
+    stat:
+      - title: "Average Wage"
+        value: "<<var namespace=data|key=avg_wage>>"
+    description: "On average, <<name>> earn <<var namespace=data|key=avg_wage>>, compared to the national average of <<top attr_type=geo|geo=01000US|col=avg_wage>>. Here are the 4 closest occupations by median income."
+    viz:
+      attrs: "soc"
+      data:
+        - required: "avg_wage"
+          show: "soc"
+          avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+      id: "soc"
+      labels: YES
+      order:
+        sort: "asc"
+        value: "avg_wage"
+      type: "bar"
+      x: "avg_wage"
+      y:
+        scale: "discrete"
+        value: "soc"
+  - title: "Wage Gap"
+    description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
+    stat:
+      - title: "Income GINI"
+        value: "<<var namespace=wagegap|key=gini>>"
+    viz:
+      attrs: "wage_bin"
+      data:
+        - soc: "<<id>>"
+          required: "wage_bin,num_ppl"
+          show: "soc"
+          static:
+            category: "<<name>>"
+        - geo: "01000US"
+          required: "wage_bin,num_ppl"
+          show: "geo"
+          static:
+            category: "Nation"
+      id: "category"
+      order:
+        sort: "asc"
+        value: "wage_bin"
+      type: "bar"
+      x:
+        scale: "discrete"
+        value: "wage_bin"
+      y: "num_ppl"
+  - title: "Wage by Location"
+    stat:
+      - title: "<<name>> are paid the highest in"
+        value: "<<top show=geo|order=avg_wage>>"
+    description: "The map to the right shows the PUMAs in the United States colored by the highest average wage for <<name>>."
+    viz:
+      attrs: "geo"
+      coords: "pumas"
+      color: "avg_wage"
+      data:
+        soc: "<<id>>"
+        show: "geo"
+        required: "avg_wage"
+      id: "geo"
+      type: "geo_map"
+  - category: "Industries"
+    class: "flex"
+    source: NO
+    title: "Most Common"
+    description: "The 3 most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
+    viz:
+      - attrs: "naics"
+        data:
+          - soc: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - soc: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            sort: "asc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "naics"
+  - class: "flex"
+    source: NO
+    title: "Highest Paid"
+    description: "The 3 highest paid industries of <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
+    viz:
+      - attrs: "naics"
+        data:
+          - soc: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Top 5"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - soc: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            sort: "asc"
+            show: "naics"
+            sumlevel: "2"
+        height: 200
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Bottom 5"
+          scale: "discrete"
+          value: "naics"
+  - viz:
+      attrs: "naics"
+      data:
+        - soc: "<<id>>"
+          required: "num_ppl"
+          show: "naics"
+          sumlevel: "2"
+      height: 500
+      id: "naics"
+      size: "num_ppl"
+      type: "tree_map"
+  - title: "Locations"
+    stat:
+      - title: "PUMA with a relatively high number of <<name>> majors"
+        value: "<<top show=geo|sumlevel=puma|order=num_ppl_rca>>"
+    description: "The map to the right shows the public-use micro areas in the United States where there are a relatively high population of <<name>>."
+    viz:
+      attrs: "geo"
+      color: "num_ppl_rca"
+      coords: "pumas"
+      data:
+        - soc: "<<id>>"
+          order: "num_ppl_rca"
+          show: "geo"
+          sumlevel: "puma"
+      id: "geo"
+      height: 500
+      type: "geo_map"
