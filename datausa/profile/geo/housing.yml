@@ -51,8 +51,9 @@ topics:
         show: "geo"
         geo: "<<parents>>,<<id>>"
         required: "median_property_value"
-      height: 150
+      height: 160
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "median_property_value"
@@ -75,7 +76,12 @@ topics:
       x:
         scale: "discrete"
         value: "bucket"
-      y: "property_val"
+      y:
+        label: "<<name>>"
+        value: "property_val"
+      y2:
+        label: "Nation"
+        value: "01000US"
   - title: "Property Taxes"
     description: "The majority of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
     viz:

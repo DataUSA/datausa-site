@@ -819,7 +819,28 @@ viz.redraw = function(build) {
 
 viz.bar = function(build) {
 
-  var discrete = build.config.y && build.config.y.scale === "discrete" ? "y" : "x";
+  if (!d3plus.object.validate(build.config.y)) {
+    build.config.y = {"value": build.config.y};
+  }
+
+  if (build.config.y2 && !d3plus.object.validate(build.config.y2)) {
+    build.config.y2 = {"value": build.config.y2};
+  }
+
+  var discrete = build.config.y.scale === "discrete" ? "y" : "x";
+
+  if (build.config.y2) {
+    build.viz.data(build.viz.data().map(function(d){
+      if (d[build.config.id] === build.config.y2.value) {
+        d["y2_" + build.config.y.value] = d[build.config.y.value];
+        delete d[build.config.y.value];
+      }
+      return d;
+    }).sort(function(a, b){
+      return a[build.config.id] === build.config.y2.value ? 1 : -1;
+    }));
+    build.config.y2.value = "y2_" + build.config.y.value;
+  }
 
   var axis_style = function(axis) {
 
@@ -861,7 +882,9 @@ viz.bar = function(build) {
       "value": false
     },
     "x": axis_style("x"),
-    "y": axis_style("y")
+    "x2": axis_style("x2"),
+    "y": axis_style("y"),
+    "y2": axis_style("y2")
   };
 
 }
@@ -900,7 +923,7 @@ viz.defaults = function(build) {
     return {
       "label": {
         "font": {
-          "color": build.color,
+          "color": axis.length === 1 ? build.color : d3plus.color.lighter(build.color),
           "family": "Palanquin",
           "size": 16,
           "weight": 700
@@ -930,6 +953,10 @@ viz.defaults = function(build) {
 
         if (params.key) {
 
+          if (params.key.indexOf("y2_") === 0) {
+            params.key = params.key.slice(3);
+          }
+
           if (params.key.indexOf("growth") >= 0 || percentages.indexOf(params.key) >= 0) {
             number = number * 100;
             return d3plus.number.format(number, params) + "%";
@@ -949,6 +976,10 @@ viz.defaults = function(build) {
 
       },
       "text": function(text, params) {
+
+        if (text.indexOf("y2_") === 0) {
+          text = text.slice(3);
+        }
 
         if (dictionary[text]) return dictionary[text];
 
@@ -1021,7 +1052,9 @@ viz.defaults = function(build) {
       "style": "large"
     },
     "x": axis_style("x"),
-    "y": axis_style("y")
+    "x2": axis_style("x2"),
+    "y": axis_style("y"),
+    "y2": axis_style("y2")
   }
 }
 

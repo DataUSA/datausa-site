@@ -167,6 +167,7 @@ affixes = {
     "income": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
+    "property_val": ["$", ""],
     "health_care_costs": ["$", ""]
 }
 

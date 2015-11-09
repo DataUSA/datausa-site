@@ -10856,7 +10856,15 @@ module.exports = function( vars , data ) {
 
       data = data.filter( function( d ) {
 
-        var val = fetchValue(vars,d,vars[key].value)
+        var val = fetchValue(vars,d,vars[key].value);
+
+        if (key === "y" && vars.y2.value && val === null) {
+          val = fetchValue(vars,d,vars.y2.value);
+        }
+        else if (key === "x" && vars.x2.value && val === null) {
+          val = fetchValue(vars,d,vars.x2.value);
+        }
+
         if ( key === "size" ) {
           return typeof val === "number"
         }
@@ -12265,7 +12273,7 @@ module.exports = function(vars, years, depth) {
       if ( years.length > 1 ) {
 
         var separated = false;
-        ["x","y"].forEach(function(a){
+        ["x", "y", "x2", "y2"].forEach(function(a){
           if (vars[a].value === vars.time.value &&
               vars[a].scale.value === "discrete" ) {
             separated = true;
@@ -23011,7 +23019,7 @@ module.exports = function(vars) {
 
       d.d3plus.id += shape;
 
-      ["x","y"].forEach(function(axis){
+      ["x", "y", "x2", "y2"].forEach(function(axis){
         if (vars[axis].scale.value == "discrete") {
           var val = fetchValue(vars, d, vars[axis].value)
           if (val.constructor === Date) val = val.getTime()
@@ -23505,6 +23513,18 @@ module.exports = function(vars) {
           vars.mouse.click.value(d, vars.self);
         }
         else {
+
+          if (d.values && vars.axes.discrete) {
+
+            var index = vars.axes.discrete === "x" ? 0 : 1
+              , mouse = d3.mouse(vars.container.value.node())[index]
+              , positions = uniqueValues(d.values,function(x){return x.d3plus[vars.axes.discrete]})
+              , match = closest(positions,mouse)
+
+            d.d3plus_data = d.values[positions.indexOf(match)]
+            d.d3plus = d.values[positions.indexOf(match)].d3plus
+
+          }
 
           if (typeof vars.mouse.viz == "function") {
             vars.mouse.viz(d.d3plus_data || d, vars)
@@ -26241,6 +26261,9 @@ module.exports = function(params) {
       if (vars.axes.opposite && vars[vars.axes.opposite].value !== vars.size.value) {
         ex[getLabel(vars.axes.opposite)] = fetchValue(vars, d, vars[vars.axes.opposite].value);
       }
+      if (vars.axes.opposite && vars[vars.axes.opposite + "2"].value !== vars.size.value) {
+        ex[getLabel(vars.axes.opposite + "2")] = fetchValue(vars, d, vars[vars.axes.opposite + "2"].value);
+      }
       if (vars.color.valueScale) {
         ex[getLabel("color")] = fetchValue(vars, d, vars.color.value);
       }
@@ -26967,7 +26990,7 @@ module.exports = function(vars) {
         data = vars.data.viz;
       }
 
-      if ("key" in data[0] && "values" in data[0]) {
+      if (data.length && "key" in data[0] && "values" in data[0]) {
         data = d3.merge(data.map(function(d){
           return d.values;
         }));
@@ -29365,7 +29388,7 @@ module.exports = {
 
 
 },{}],277:[function(require,module,exports){
-var align, decoration, family, filter, position, rendering, transform;
+var align, decoration, family, filter, orientMap, position, rendering, transform;
 
 align = require("../../../core/methods/font/align.coffee");
 
@@ -29380,6 +29403,13 @@ position = require("../../../core/methods/font/position.coffee");
 rendering = require("../../../core/methods/rendering.coffee");
 
 transform = require("../../../core/methods/font/transform.coffee");
+
+orientMap = {
+  x: "bottom",
+  x2: "top",
+  y: "left",
+  y2: "right"
+};
 
 module.exports = function(axis) {
   return {
@@ -29499,6 +29529,10 @@ module.exports = function(axis) {
       value: true
     },
     mute: filter(true),
+    orient: {
+      accepted: ["top", "right", "bottom", "left"],
+      value: orientMap[axis]
+    },
     padding: {
       accepted: [Number],
       value: 0.1
@@ -29534,7 +29568,7 @@ module.exports = function(axis) {
           }
         }
         if (value === "discrete") {
-          vars.axes.opposite = (axis === "x" ? "y" : "x");
+          vars.axes.opposite = (axis.indexOf("x") === 0 ? "y" : "x");
         }
         return value;
       },
@@ -30341,7 +30375,7 @@ stack = require("./helpers/graph/stack.coffee");
 uniques = require("../../util/uniques.coffee");
 
 bar = function(vars) {
-  var bars, base, cMargin, d, data, discrete, discreteVal, divisions, domains, h, i, j, k, l, len, len1, len2, length, maxBars, maxSize, mod, nested, newSize, oMargin, offset, oppVal, opposite, p, padding, point, ref, ref1, space, value, w, x, zero;
+  var bars, base, cMargin, d, data, discrete, discreteVal, divisions, domains, h, i, j, k, l, len, len1, len2, length, maxBars, maxSize, mod, nested, newSize, oMargin, offset, oppMethod, oppVal, opposite, p, padding, point, ref, ref1, space, value, w, x, zero;
   discrete = vars.axes.discrete;
   h = discrete === "x" ? "height" : "width";
   w = discrete === "x" ? "width" : "height";
@@ -30350,7 +30384,7 @@ bar = function(vars) {
   oMargin = discrete === "x" ? "top" : "left";
   graph(vars, {
     buffer: true,
-    zero: vars.axes.opposite
+    zero: opposite
   });
   domains = vars.x.domain.viz.concat(vars.y.domain.viz);
   if (domains.indexOf(void 0) >= 0) {
@@ -30417,19 +30451,24 @@ bar = function(vars) {
     for (i = l = 0, len2 = ref1.length; l < len2; i = ++l) {
       d = ref1[i];
       mod = vars.axes.stacked ? 0 : x(i % bars);
+      oppMethod = vars[opposite];
       if (vars.axes.stacked) {
         value = d.d3plus[opposite];
         base = d.d3plus[opposite + "0"];
       } else {
-        oppVal = fetchValue(vars, d, vars[opposite].value);
+        oppVal = fetchValue(vars, d, oppMethod.value);
+        if (oppVal === null) {
+          oppMethod = vars[opposite + "2"];
+          oppVal = fetchValue(vars, d, oppMethod.value);
+        }
         if (oppVal === 0) {
           continue;
         }
-        if (vars[opposite].scale.value === "log") {
+        if (oppMethod.scale.value === "log") {
           zero = oppVal < 0 ? -1 : 1;
         }
-        value = vars[opposite].scale.viz(oppVal);
-        base = vars[opposite].scale.viz(zero);
+        value = oppMethod.scale.viz(oppVal);
+        base = oppMethod.scale.viz(zero);
       }
       discreteVal = fetchValue(vars, d, vars[discrete].value);
       d.d3plus[discrete] = vars[discrete].scale.viz(discreteVal);
@@ -30442,7 +30481,7 @@ bar = function(vars) {
       d.d3plus[w] = newSize;
       d.d3plus[h] = Math.abs(length);
       d.d3plus.init = {};
-      d.d3plus.init[opposite] = vars[opposite].scale.viz(zero);
+      d.d3plus.init[opposite] = oppMethod.scale.viz(zero);
       d.d3plus.init[opposite] -= d.d3plus[opposite];
       d.d3plus.init[opposite] += vars.axes.margin[oMargin];
       d.d3plus.init[w] = d.d3plus[w];
@@ -30960,7 +30999,7 @@ module.exports = function(vars) {
   data = axes.stacked || !axes.ticks.value ? [] : vars.data.viz;
   timing = data.length * 2 > vars.data.large ? 0 : vars.draw.timing;
   style = function(line, axis) {
-    if (axis === "y") {
+    if (axis.indexOf("y") === 0) {
       line.attr("x1", -2).attr("x2", -8).attr("y1", function(d) {
         return d.d3plus.y - axes.margin.top;
       }).attr("y2", function(d) {
@@ -31071,12 +31110,12 @@ module.exports = function(vars, opts) {
     vars.axes.dataset = getData(vars);
   }
   vars.axes.scale = opts.buffer && opts.buffer !== true ? sizeScale(vars, opts.buffer) : false;
-  axes = vars.width.viz > vars.height.viz ? ["y", "x"] : ["x", "y"];
+  axes = vars.width.viz > vars.height.viz ? ["y", "y2", "x", "x2"] : ["x", "x2", "y", "y2"];
   for (i = 0, len = axes.length; i < len; i++) {
     axis = axes[i];
-    oppAxis = axis === "x" ? "y" : "x";
+    oppAxis = axis.indexOf("x") === 0 ? "y" : "x";
     reorder = vars.order.changed || vars.order.sort.changed || (vars.order.value === true && vars[oppAxis].changed);
-    if (!vars[axis].ticks.values || changed || reorder) {
+    if (vars[axis].value && (!vars[axis].ticks.values || changed || reorder)) {
       if (vars.dev.value) {
         print.time("calculating " + axis + " axis");
       }
@@ -31085,9 +31124,9 @@ module.exports = function(vars, opts) {
       if (axis === vars.axes.discrete && vars[axis].value !== vars.time.value) {
         vars[axis].ticks.values = uniques(vars.axes.dataset, vars[axis].value, fetchValue, vars);
       }
-      zero = [true, axis].indexOf(opts.zero) > 0 ? true : false;
+      zero = opts.zero === true || axis.indexOf(opts.zero) === 0 ? true : false;
       range = axisRange(vars, axis, zero);
-      if (axis === "y") {
+      if (axis.indexOf("y") === 0) {
         range = range.reverse();
       }
       vars[axis].scale.viz = getScale(vars, axis, range);
@@ -31124,7 +31163,7 @@ dataChange = function(vars) {
   if (changed) {
     return changed;
   }
-  check = ["data", "time", "id", "depth", "type", "x", "y"];
+  check = ["data", "time", "id", "depth", "type", "x", "y", "x2", "y2"];
   for (i = 0, len = check.length; i < len; i++) {
     k = check[i];
     if (vars[k].changed) {
@@ -31136,7 +31175,7 @@ dataChange = function(vars) {
     return changed;
   }
   subs = ["mute", "range", "scale", "solo", "stacked", "zerofill"];
-  ref = ["x", "y"];
+  ref = ["x", "y", "x2", "y2"];
   for (j = 0, len1 = ref.length; j < len1; j++) {
     axis = ref[j];
     for (l = 0, len2 = subs.length; l < len2; l++) {
@@ -31172,7 +31211,7 @@ getData = function(vars) {
 
 axisRange = function(vars, axis, zero, buffer) {
   var agg, aggType, allNegative, allPositive, axisSums, counts, d, group, i, j, k, l, len, len1, len2, len3, m, min, oppAxis, ref, ref1, ref2, ref3, sort, sortKey, splitData, v, val, values;
-  oppAxis = axis === "x" ? "y" : "x";
+  oppAxis = axis.indexOf("x") === 0 ? "y" : "x";
   if (vars[axis].range.value && vars[axis].range.value.length === 2) {
     return vars[axis].range.value.slice();
   } else if (vars[axis].scale.value === "share") {
@@ -31245,6 +31284,9 @@ axisRange = function(vars, axis, zero, buffer) {
         values.push(val);
       }
     }
+    values = values.filter(function(d) {
+      return d !== null;
+    });
     if (typeof values[0] === "string") {
       if (vars.order.value === true) {
         sortKey = vars[oppAxis].value;
@@ -31321,18 +31363,23 @@ axisRange = function(vars, axis, zero, buffer) {
 };
 
 getScale = function(vars, axis, range) {
-  var rangeArray, rangeMax, scaleType;
-  rangeMax = axis === "x" ? vars.width.viz : vars.height.viz;
+  var rangeArray, rangeMax, scaleType, t;
+  rangeMax = axis.indexOf("x") === 0 ? vars.width.viz : vars.height.viz;
   scaleType = vars[axis].scale.value;
   if (["discrete", "share"].indexOf(scaleType) >= 0) {
     scaleType = "linear";
   }
+  t = 10;
   if (typeof range[0] === "string") {
     scaleType = "ordinal";
     rangeArray = buckets([0, rangeMax], range.length);
   } else {
     rangeArray = [0, rangeMax];
+    if (vars[axis].scale.value === "linear") {
+      t = Math.floor(rangeMax / (vars[axis].ticks.font.size * 4));
+    }
   }
+  vars[axis].scale.ticks = t;
   return d3.scale[scaleType]().domain(range).range(rangeArray);
 };
 
@@ -31402,7 +31449,7 @@ module.exports = function(vars, axis, buffer) {
         range = buckets(d3.extent(range), domain.length);
         return vars[axis].scale.viz.domain(domain).range(range);
       } else {
-        if (axis === "y") {
+        if (axis.indexOf("y") === 0) {
           domain = domain.slice().reverse();
         }
         if (vars[axis].ticks.values.length === 1) {
@@ -31438,7 +31485,7 @@ module.exports = function(vars, axis, buffer) {
             domain[1] = domain[1] + additional;
           } else {
             domain = [domainLow, domainHigh];
-            if (axis === "y") {
+            if (axis.indexOf("y") === 0) {
               domain = domain.reverse();
             }
             domainCompare = vars[axis].scale.viz.domain();
@@ -31455,18 +31502,18 @@ module.exports = function(vars, axis, buffer) {
           domain[0] = domain[0] - additional;
           domain[1] = domain[1] + additional;
         }
-        if (axis === "y") {
+        if (axis.indexOf("y") === 0) {
           domain = domain.reverse();
         }
         return vars[axis].scale.viz.domain(domain);
       }
-    } else if ((buffer === "x" && axis === "x") || (buffer === "y" && axis === "y") || (buffer === true)) {
+    } else if ((buffer === "x" && axis.indexOf("x") === 0) || (buffer === "y" && axis.indexOf("y") === 0) || (buffer === true)) {
       domain = vars[axis].scale.viz.domain();
       allPositive = domain[0] >= 0 && domain[1] >= 0;
       allNegative = domain[0] <= 0 && domain[1] <= 0;
       if (vars[axis].scale.value === "log") {
         zero = allPositive ? 1 : -1;
-        if (allPositive && axis === "y") {
+        if (allPositive && axis.indexOf("y") === 0) {
           domain = domain.slice().reverse();
         }
         lowerScale = Math.pow(10, parseInt(Math.abs(domain[0])).toString().length - 1) * zero;
@@ -31491,12 +31538,12 @@ module.exports = function(vars, axis, buffer) {
         if (domain[1] === 0) {
           domain[1] = zero;
         }
-        if (allPositive && axis === "y") {
+        if (allPositive && axis.indexOf("y") === 0) {
           domain = domain.reverse();
         }
       } else {
         zero = 0;
-        if (axis === "y") {
+        if (axis.indexOf("y") === 0) {
           domain = domain.slice().reverse();
         }
         strings = domain.filter(function(d) {
@@ -31513,7 +31560,7 @@ module.exports = function(vars, axis, buffer) {
             domain[1] = zero;
           }
         }
-        if (axis === "y") {
+        if (axis.indexOf("y") === 0) {
           domain = domain.reverse();
         }
       }
@@ -31521,7 +31568,7 @@ module.exports = function(vars, axis, buffer) {
     } else if (vars.axes.scale) {
       copy = false;
       if (vars.axes.mirror.value) {
-        opp = axis === "y" ? "x" : "y";
+        opp = axis.indexOf("y") === 0 ? "x" : "y";
         copy = vars[opp].scale.viz;
         second = vars.width.viz > vars.height.viz ? "x" : "y";
       }
@@ -31533,7 +31580,7 @@ module.exports = function(vars, axis, buffer) {
         domainLow = vars[axis].scale.viz.invert(-maxSize * 1.5);
         domainHigh = vars[axis].scale.viz.invert(rangeMax + maxSize * 1.5);
         domain = [domainLow, domainHigh];
-        if (axis === "y") {
+        if (axis.indexOf("y") === 0) {
           domain = domain.reverse();
         }
         domainCompare = vars[axis].scale.viz.domain();
@@ -31542,7 +31589,7 @@ module.exports = function(vars, axis, buffer) {
           domain[0] -= 1;
           domain[1] += 1;
         }
-        if (axis === "y") {
+        if (axis.indexOf("y") === 0) {
           domain = domain.reverse();
         }
       }
@@ -31791,96 +31838,106 @@ timeDetect = require("../../../../../core/data/time.coffee");
 uniques = require("../../../../../util/uniques.coffee");
 
 module.exports = function(vars, opts) {
-  var axes, axis, axisStyle, extent, j, k, len, len1, newtick, opp, ref, step, tens, tick, ticks, timeReturn, values;
+  var axes, axis, axisStyle, extent, j, k, len, len1, newtick, opp, otherScale, scale, step, tens, tick, ticks, timeReturn, values;
   vars.axes.margin = resetMargins(vars);
   vars.axes.height = vars.height.viz;
   vars.axes.width = vars.width.viz;
-  axes = vars.width.viz > vars.height.viz ? ["y", "x"] : ["x", "y"];
+  axes = vars.width.viz > vars.height.viz ? ["y", "y2", "x", "x2"] : ["x", "x2", "y", "y2"];
   for (j = 0, len = axes.length; j < len; j++) {
     axis = axes[j];
-    if (vars[axis].ticks.values === false) {
-      if (vars[axis].value === vars.time.value) {
-        ticks = vars.time.solo.value;
-        if (ticks.length) {
-          ticks = ticks.map(function(d) {
-            if (d.constructor !== Date) {
-              d = d + "";
-              if (d.length === 4 && parseInt(d) + "" === d) {
-                d += "/01/01";
+    if (vars[axis].value) {
+      if (vars[axis].ticks.values === false) {
+        if (vars[axis].value === vars.time.value) {
+          ticks = vars.time.solo.value;
+          if (ticks.length) {
+            ticks = ticks.map(function(d) {
+              if (d.constructor !== Date) {
+                d = d + "";
+                if (d.length === 4 && parseInt(d) + "" === d) {
+                  d += "/01/01";
+                }
+                d = new Date(d);
               }
-              d = new Date(d);
-            }
-            return d;
-          });
+              return d;
+            });
+          } else {
+            ticks = vars.data.time.values;
+          }
+          extent = d3.extent(ticks);
+          step = vars.data.time.stepType;
+          ticks = [extent[0]];
+          tick = extent[0];
+          while (tick < extent[1]) {
+            newtick = new Date(tick);
+            tick = new Date(newtick["set" + step](newtick["get" + step]() + 1));
+            ticks.push(tick);
+          }
+          vars[axis].ticks.values = ticks;
         } else {
-          ticks = vars.data.time.values;
+          if (axis.indexOf("2") === 1) {
+            otherScale = vars[axis.slice(0, 1)].scale.viz;
+            scale = vars[axis].scale.viz;
+            ticks = vars[axis.slice(0, 1)].scale.ticks;
+            vars[axis].ticks.values = otherScale.ticks(ticks).map(function(t) {
+              return parseFloat(d3.format(".5f")(scale.invert(otherScale(t))));
+            });
+          } else {
+            vars[axis].ticks.values = vars[axis].scale.viz.ticks(vars[axis].scale.ticks);
+          }
         }
-        extent = d3.extent(ticks);
-        step = vars.data.time.stepType;
-        ticks = [extent[0]];
-        tick = extent[0];
-        while (tick < extent[1]) {
-          newtick = new Date(tick);
-          tick = new Date(newtick["set" + step](newtick["get" + step]() + 1));
-          ticks.push(tick);
+      }
+      if (!vars[axis].ticks.values.length) {
+        values = fetchValue(vars, vars.data.viz, vars[axis].value);
+        if (!(values instanceof Array)) {
+          values = [values];
         }
-        vars[axis].ticks.values = ticks;
+        vars[axis].ticks.values = values;
+      }
+      opp = axis.indexOf("x") === 0 ? "y" : "x";
+      if (vars[axis].ticks.values.length === 1 || (opts.buffer && opts.buffer !== opp && axis === vars.axes.discrete && vars[axis].reset === true)) {
+        buffer(vars, axis, opts.buffer);
+      }
+      vars[axis].reset = false;
+      if (vars[axis].value === vars.time.value) {
+        axisStyle = {
+          "font-family": vars[axis].ticks.font.family.value,
+          "font-weight": vars[axis].ticks.font.weight,
+          "font-size": vars[axis].ticks.font.size + "px"
+        };
+        timeReturn = timeDetect(vars, {
+          values: vars[axis].ticks.values,
+          limit: vars.width.viz,
+          style: axisStyle
+        });
+        if (vars[axis].ticks.value) {
+          vars[axis].ticks.visible = vars[axis].ticks.value.map(Number);
+        } else {
+          vars[axis].ticks.visible = timeReturn.values.map(Number);
+        }
+        vars[axis].ticks.format = timeReturn.format;
+      } else if (vars[axis].ticks.value) {
+        vars[axis].ticks.values = vars[axis].ticks.value;
+        vars[axis].ticks.visible = vars[axis].ticks.value;
+      } else if (vars[axis].scale.value === "log") {
+        ticks = vars[axis].ticks.values;
+        tens = ticks.filter(function(t) {
+          return Math.abs(t).toString().charAt(0) === "1";
+        });
+        if (tens.length < 3) {
+          vars[axis].ticks.visible = ticks;
+        } else {
+          vars[axis].ticks.visible = tens;
+        }
       } else {
-        vars[axis].ticks.values = vars[axis].scale.viz.ticks();
+        vars[axis].ticks.visible = vars[axis].ticks.values;
       }
-    }
-    if (!vars[axis].ticks.values.length) {
-      values = fetchValue(vars, vars.data.viz, vars[axis].value);
-      if (!(values instanceof Array)) {
-        values = [values];
-      }
-      vars[axis].ticks.values = values;
-    }
-    opp = axis === "x" ? "y" : "x";
-    if (vars[axis].ticks.values.length === 1 || (opts.buffer && opts.buffer !== opp && axis === vars.axes.discrete && vars[axis].reset === true)) {
-      buffer(vars, axis, opts.buffer);
-    }
-    vars[axis].reset = false;
-    if (vars[axis].value === vars.time.value) {
-      axisStyle = {
-        "font-family": vars[axis].ticks.font.family.value,
-        "font-weight": vars[axis].ticks.font.weight,
-        "font-size": vars[axis].ticks.font.size + "px"
-      };
-      timeReturn = timeDetect(vars, {
-        values: vars[axis].ticks.values,
-        limit: vars.width.viz,
-        style: axisStyle
-      });
-      if (vars[axis].ticks.value) {
-        vars[axis].ticks.visible = vars[axis].ticks.value.map(Number);
-      } else {
-        vars[axis].ticks.visible = timeReturn.values.map(Number);
-      }
-      vars[axis].ticks.format = timeReturn.format;
-    } else if (vars[axis].ticks.value) {
-      vars[axis].ticks.values = vars[axis].ticks.value;
-      vars[axis].ticks.visible = vars[axis].ticks.value;
-    } else if (vars[axis].scale.value === "log") {
-      ticks = vars[axis].ticks.values;
-      tens = ticks.filter(function(t) {
-        return Math.abs(t).toString().charAt(0) === "1";
-      });
-      if (tens.length < 3) {
-        vars[axis].ticks.visible = ticks;
-      } else {
-        vars[axis].ticks.visible = tens;
-      }
-    } else {
-      vars[axis].ticks.visible = vars[axis].ticks.values;
     }
   }
   if (!vars.small) {
     labelPadding(vars);
   }
-  ref = ["x", "y"];
-  for (k = 0, len1 = ref.length; k < len1; k++) {
-    axis = ref[k];
+  for (k = 0, len1 = axes.length; k < len1; k++) {
+    axis = axes[k];
     vars[axis].axis.svg = createAxis(vars, axis);
   }
 };
@@ -31904,201 +31961,230 @@ resetMargins = function(vars) {
 };
 
 labelPadding = function(vars) {
-  var lastTick, rightLabel, rightMod, xAttrs, xAxisHeight, xAxisWidth, xDomain, xLabel, xLabelAttrs, xMaxWidth, xSizes, xText, xValues, yAttrs, yAxisWidth, yDomain, yLabel, yLabelAttrs, yText, yValues;
+  var axis, j, k, lastTick, len, len1, margin, ref, ref1, rightLabel, rightMod, x2Domain, xAttrs, xAxisHeight, xAxisWidth, xDomain, xLabel, xLabelAttrs, xMaxWidth, xSizes, xText, xValues, y2Domain, yAttrs, yAxisWidth, yDomain, yLabel, yLabelAttrs, yText, yValues;
   xDomain = vars.x.scale.viz.domain();
   yDomain = vars.y.scale.viz.domain();
-  yAttrs = {
-    "font-size": vars.y.ticks.font.size + "px",
-    "font-family": vars.y.ticks.font.family.value,
-    "font-weight": vars.y.ticks.font.weight
-  };
-  yValues = vars.y.ticks.visible;
-  if (vars.y.scale.value === "log") {
-    yText = yValues.map(function(d) {
-      return formatPower(d);
-    });
-  } else if (vars.y.scale.value === "share") {
-    yText = yValues.map(function(d) {
-      return vars.format.value(d * 100, {
-        key: "share",
-        vars: vars
-      });
-    });
-  } else if (vars.y.value === vars.time.value) {
-    yText = yValues.map(function(d, i) {
-      return vars.y.ticks.format(new Date(d));
-    });
-  } else {
-    if (typeof yValues[0] === "string") {
-      yValues = vars.y.scale.viz.domain().filter(function(d) {
-        return d.indexOf("d3plus_buffer_") !== 0;
-      });
+  if (vars.x2.value) {
+    x2Domain = vars.x2.scale.viz.domain();
+  }
+  if (vars.y2.value) {
+    y2Domain = vars.y2.scale.viz.domain();
+  }
+  ref = ["y", "y2"];
+  for (j = 0, len = ref.length; j < len; j++) {
+    axis = ref[j];
+    if (vars[axis].value) {
+      margin = axis === "y" ? "left" : "right";
+      yAttrs = {
+        "font-size": vars[axis].ticks.font.size + "px",
+        "font-family": vars[axis].ticks.font.family.value,
+        "font-weight": vars[axis].ticks.font.weight
+      };
+      yValues = vars[axis].ticks.visible;
+      if (vars[axis].scale.value === "log") {
+        yText = yValues.map(function(d) {
+          return formatPower(d);
+        });
+      } else if (vars[axis].scale.value === "share") {
+        yText = yValues.map(function(d) {
+          return vars.format.value(d * 100, {
+            key: "share",
+            vars: vars
+          });
+        });
+      } else if (vars[axis].value === vars.time.value) {
+        yText = yValues.map(function(d, i) {
+          return vars[axis].ticks.format(new Date(d));
+        });
+      } else {
+        if (typeof yValues[0] === "string") {
+          yValues = vars[axis].scale.viz.domain().filter(function(d) {
+            return d.indexOf("d3plus_buffer_") !== 0;
+          });
+        }
+        yText = yValues.map(function(d) {
+          return vars.format.value(d, {
+            key: vars[axis].value,
+            vars: vars,
+            labels: vars[axis].affixes.value
+          });
+        });
+      }
+      if (vars[axis].ticks.labels.value) {
+        vars[axis].ticks.hidden = false;
+        yAxisWidth = d3.max(fontSizes(yText, yAttrs), function(d) {
+          return d.width;
+        });
+        yAxisWidth = Math.ceil(yAxisWidth + vars.labels.padding);
+        vars.axes.margin[margin] += yAxisWidth;
+      } else {
+        vars[axis].ticks.hidden = true;
+      }
+      yLabel = vars[axis].label.fetch(vars);
+      if (yLabel) {
+        yLabelAttrs = {
+          "font-family": vars[axis].label.font.family.value,
+          "font-weight": vars[axis].label.font.weight,
+          "font-size": vars[axis].label.font.size + "px"
+        };
+        vars[axis].label.height = fontSizes([yLabel], yLabelAttrs)[0].height;
+      } else {
+        vars[axis].label.height = 0;
+      }
+      if (vars[axis].label.value) {
+        vars.axes.margin[margin] += vars[axis].label.height;
+        vars.axes.margin[margin] += vars[axis].label.padding * 2;
+      }
     }
-    yText = yValues.map(function(d) {
-      return vars.format.value(d, {
-        key: vars.y.value,
-        vars: vars,
-        labels: vars.y.affixes.value
-      });
-    });
-  }
-  if (vars.y.ticks.labels.value) {
-    vars.y.ticks.hidden = false;
-    yAxisWidth = d3.max(fontSizes(yText, yAttrs), function(d) {
-      return d.width;
-    });
-    yAxisWidth = Math.ceil(yAxisWidth + vars.labels.padding);
-    vars.axes.margin.left += yAxisWidth;
-  } else {
-    vars.y.ticks.hidden = true;
-  }
-  yLabel = vars.y.label.fetch(vars);
-  if (yLabel) {
-    yLabelAttrs = {
-      "font-family": vars.y.label.font.family.value,
-      "font-weight": vars.y.label.font.weight,
-      "font-size": vars.y.label.font.size + "px"
-    };
-    vars.y.label.height = fontSizes([yLabel], yLabelAttrs)[0].height;
-  } else {
-    vars.y.label.height = 0;
-  }
-  if (vars.y.label.value) {
-    vars.axes.margin.left += vars.y.label.height;
-    vars.axes.margin.left += vars.y.label.padding * 2;
   }
   vars.axes.width -= vars.axes.margin.left + vars.axes.margin.right;
   vars.x.scale.viz.range(buckets([0, vars.axes.width], xDomain.length));
-  if (vars.x.ticks.labels.value) {
-    vars.x.ticks.hidden = false;
-    xAttrs = {
-      "font-size": vars.x.ticks.font.size + "px",
-      "font-family": vars.x.ticks.font.family.value,
-      "font-weight": vars.x.ticks.font.weight
-    };
-    xValues = vars.x.ticks.visible;
-    if (vars.x.scale.value === "log") {
-      xText = xValues.map(function(d) {
-        return formatPower(d);
-      });
-    } else if (vars.x.scale.value === "share") {
-      xText = xValues.map(function(d) {
-        return vars.format.value(d * 100, {
-          key: "share",
-          vars: vars
+  if (x2Domain) {
+    vars.x2.scale.viz.range(buckets([0, vars.axes.width], x2Domain.length));
+  }
+  ref1 = ["x", "x2"];
+  for (k = 0, len1 = ref1.length; k < len1; k++) {
+    axis = ref1[k];
+    if (vars[axis].value) {
+      margin = axis === "x" ? "bottom" : "top";
+      if (vars[axis].ticks.labels.value) {
+        vars[axis].ticks.hidden = false;
+        xAttrs = {
+          "font-size": vars[axis].ticks.font.size + "px",
+          "font-family": vars[axis].ticks.font.family.value,
+          "font-weight": vars[axis].ticks.font.weight
+        };
+        xValues = vars[axis].ticks.visible;
+        if (vars[axis].scale.value === "log") {
+          xText = xValues.map(function(d) {
+            return formatPower(d);
+          });
+        } else if (vars[axis].scale.value === "share") {
+          xText = xValues.map(function(d) {
+            return vars.format.value(d * 100, {
+              key: "share",
+              vars: vars
+            });
+          });
+        } else if (vars[axis].value === vars.time.value) {
+          xText = xValues.map(function(d, i) {
+            return vars[axis].ticks.format(new Date(d));
+          });
+        } else {
+          if (typeof xValues[0] === "string") {
+            xValues = vars[axis].scale.viz.domain().filter(function(d) {
+              return d.indexOf("d3plus_buffer_") !== 0;
+            });
+          }
+          xText = xValues.map(function(d) {
+            return vars.format.value(d, {
+              key: vars[axis].value,
+              vars: vars,
+              labels: vars[axis].affixes.value
+            });
+          });
+        }
+        xSizes = fontSizes(xText, xAttrs);
+        xAxisWidth = d3.max(xSizes, function(d) {
+          return d.width;
         });
-      });
-    } else if (vars.x.value === vars.time.value) {
-      xText = xValues.map(function(d, i) {
-        return vars.x.ticks.format(new Date(d));
-      });
-    } else {
-      if (typeof xValues[0] === "string") {
-        xValues = vars.x.scale.viz.domain().filter(function(d) {
-          return d.indexOf("d3plus_buffer_") !== 0;
+        xAxisHeight = d3.max(xSizes, function(d) {
+          return d.height;
         });
+        if (xValues.length === 1) {
+          xMaxWidth = vars.axes.width;
+        } else {
+          xMaxWidth = vars[axis].scale.viz(xValues[1]) - vars[axis].scale.viz(xValues[0]);
+          xMaxWidth = Math.abs(xMaxWidth);
+        }
+        if (xAxisWidth > xMaxWidth && xText.join("").indexOf(" ") > 0) {
+          vars[axis].ticks.wrap = true;
+          xSizes = fontSizes(xText, xAttrs, {
+            mod: function(elem) {
+              return textwrap().container(d3.select(elem)).height(vars.axes.height / 2).width(xMaxWidth).draw();
+            }
+          });
+          xAxisWidth = d3.max(xSizes, function(d) {
+            return d.width;
+          });
+          xAxisHeight = d3.max(xSizes, function(d) {
+            return d.height;
+          });
+        } else {
+          vars[axis].ticks.wrap = false;
+        }
+        vars[axis].ticks.baseline = "auto";
+        if (xAxisWidth <= xMaxWidth) {
+          vars[axis].ticks.rotate = 0;
+        } else if (xAxisWidth < vars.axes.height / 2) {
+          xSizes = fontSizes(xText, xAttrs, {
+            mod: function(elem) {
+              return textwrap().container(d3.select(elem)).width(vars.axes.height / 2).height(xMaxWidth).draw();
+            }
+          });
+          xAxisHeight = d3.max(xSizes, function(d) {
+            return d.width;
+          });
+          xAxisWidth = d3.max(xSizes, function(d) {
+            return d.height;
+          });
+          vars[axis].ticks.rotate = -90;
+        } else {
+          xAxisWidth = 0;
+          xAxisHeight = 0;
+        }
+        if (!(xAxisWidth && xAxisHeight)) {
+          vars[axis].ticks.hidden = true;
+          vars[axis].ticks.rotate = 0;
+        }
+        xAxisWidth = Math.ceil(xAxisWidth);
+        xAxisHeight = Math.ceil(xAxisHeight);
+        xAxisWidth++;
+        xAxisHeight++;
+        vars[axis].ticks.maxHeight = xAxisHeight;
+        vars[axis].ticks.maxWidth = xAxisWidth;
+        vars.axes.margin[margin] += xAxisHeight + vars.labels.padding;
+        lastTick = vars[axis].ticks.visible[vars[axis].ticks.visible.length - 1];
+        rightLabel = vars[axis].scale.viz(lastTick);
+        rightLabel += xAxisWidth / 2 + vars.axes.margin.left;
+        if (rightLabel > vars.width.value) {
+          rightMod = rightLabel - vars.width.value + vars.axes.margin.right;
+          vars.axes.width -= rightMod;
+          vars.axes.margin.right += rightMod;
+        }
+      } else {
+        vars[axis].ticks.hidden = true;
       }
-      xText = xValues.map(function(d) {
-        return vars.format.value(d, {
-          key: vars.x.value,
-          vars: vars,
-          labels: vars.x.affixes.value
-        });
-      });
+      xLabel = vars[axis].label.fetch(vars);
+      if (xLabel) {
+        xLabelAttrs = {
+          "font-family": vars[axis].label.font.family.value,
+          "font-weight": vars[axis].label.font.weight,
+          "font-size": vars[axis].label.font.size + "px"
+        };
+        vars[axis].label.height = fontSizes([xLabel], xLabelAttrs)[0].height;
+      } else {
+        vars[axis].label.height = 0;
+      }
+      if (vars[axis].label.value) {
+        vars.axes.margin[margin] += vars[axis].label.height;
+        vars.axes.margin[margin] += vars[axis].label.padding * 2;
+      }
     }
-    xSizes = fontSizes(xText, xAttrs);
-    xAxisWidth = d3.max(xSizes, function(d) {
-      return d.width;
-    });
-    xAxisHeight = d3.max(xSizes, function(d) {
-      return d.height;
-    });
-    if (xValues.length === 1) {
-      xMaxWidth = vars.axes.width;
-    } else {
-      xMaxWidth = vars.x.scale.viz(xValues[1]) - vars.x.scale.viz(xValues[0]);
-      xMaxWidth = Math.abs(xMaxWidth);
-    }
-    if (xAxisWidth > xMaxWidth && xText.join("").indexOf(" ") > 0) {
-      vars.x.ticks.wrap = true;
-      xSizes = fontSizes(xText, xAttrs, {
-        mod: function(elem) {
-          return textwrap().container(d3.select(elem)).height(vars.axes.height / 2).width(xMaxWidth).draw();
-        }
-      });
-      xAxisWidth = d3.max(xSizes, function(d) {
-        return d.width;
-      });
-      xAxisHeight = d3.max(xSizes, function(d) {
-        return d.height;
-      });
-    } else {
-      vars.x.ticks.wrap = false;
-    }
-    vars.x.ticks.baseline = "auto";
-    if (xAxisWidth <= xMaxWidth) {
-      vars.x.ticks.rotate = 0;
-    } else if (xAxisWidth < vars.axes.height / 2) {
-      xSizes = fontSizes(xText, xAttrs, {
-        mod: function(elem) {
-          return textwrap().container(d3.select(elem)).width(vars.axes.height / 2).height(xMaxWidth).draw();
-        }
-      });
-      xAxisHeight = d3.max(xSizes, function(d) {
-        return d.width;
-      });
-      xAxisWidth = d3.max(xSizes, function(d) {
-        return d.height;
-      });
-      vars.x.ticks.rotate = -90;
-    } else {
-      xAxisWidth = 0;
-      xAxisHeight = 0;
-    }
-    if (!(xAxisWidth && xAxisHeight)) {
-      vars.x.ticks.hidden = true;
-      vars.x.ticks.rotate = 0;
-    }
-    xAxisWidth = Math.ceil(xAxisWidth);
-    xAxisHeight = Math.ceil(xAxisHeight);
-    xAxisWidth++;
-    xAxisHeight++;
-    vars.x.ticks.maxHeight = xAxisHeight;
-    vars.x.ticks.maxWidth = xAxisWidth;
-    vars.axes.margin.bottom += xAxisHeight + vars.labels.padding;
-    lastTick = vars.x.ticks.visible[vars.x.ticks.visible.length - 1];
-    rightLabel = vars.x.scale.viz(lastTick);
-    rightLabel += xAxisWidth / 2 + vars.axes.margin.left;
-    if (rightLabel > vars.width.value) {
-      rightMod = rightLabel - vars.width.value + vars.axes.margin.right;
-      vars.axes.width -= rightMod;
-      vars.axes.margin.right += rightMod;
-    }
-  } else {
-    vars.x.ticks.hidden = true;
-  }
-  xLabel = vars.x.label.fetch(vars);
-  if (xLabel) {
-    xLabelAttrs = {
-      "font-family": vars.x.label.font.family.value,
-      "font-weight": vars.x.label.font.weight,
-      "font-size": vars.x.label.font.size + "px"
-    };
-    vars.x.label.height = fontSizes([xLabel], xLabelAttrs)[0].height;
-  } else {
-    vars.x.label.height = 0;
-  }
-  if (vars.x.label.value) {
-    vars.axes.margin.bottom += vars.x.label.height;
-    vars.axes.margin.bottom += vars.x.label.padding * 2;
   }
   vars.axes.height -= vars.axes.margin.top + vars.axes.margin.bottom;
   vars.x.scale.viz.range(buckets([0, vars.axes.width], xDomain.length));
-  return vars.y.scale.viz.range(buckets([0, vars.axes.height], yDomain.length));
+  if (x2Domain) {
+    vars.x2.scale.viz.range(buckets([0, vars.axes.width], x2Domain.length));
+  }
+  vars.y.scale.viz.range(buckets([0, vars.axes.height], yDomain.length));
+  if (y2Domain) {
+    return vars.y2.scale.viz.range(buckets([0, vars.axes.height], y2Domain.length));
+  }
 };
 
 createAxis = function(vars, axis) {
-  return d3.svg.axis().tickSize(vars[axis].ticks.size).tickPadding(5).orient(axis === "x" ? "bottom" : "left").scale(vars[axis].scale.viz).tickValues(vars[axis].ticks.values).tickFormat(function(d, i) {
+  return d3.svg.axis().tickSize(vars[axis].ticks.size).tickPadding(5).orient(vars[axis].orient.value).scale(vars[axis].scale.viz).tickValues(vars[axis].ticks.values).tickFormat(function(d, i) {
     var c, scale;
     if (vars[axis].ticks.hidden) {
       return null;
@@ -32159,7 +32245,7 @@ textwrap = require("../../../../../textwrap/textwrap.coffee");
 validObject = require("../../../../../object/validate.coffee");
 
 module.exports = function(vars) {
-  var affixes, alignMap, axis, axisData, axisLabel, bg, bgStyle, d, domain, domains, getFontStyle, grid, gridData, j, k, l, label, labelData, labelStyle, len, len1, len2, line, lineData, lineFont, lineGroup, lineRects, lineStyle, lines, linetexts, mirror, plane, planeTrans, position, rectData, rectStyle, ref, ref1, rotated, sep, textData, textPad, textPos, tickFont, tickPosition, tickStyle, userLines, xAxis, xEnter, xStyle, yAxis, yEnter, yStyle;
+  var affixes, alignMap, axis, axisData, axisGroup, axisLabel, bg, bgStyle, d, domain, domains, getFontStyle, grid, gridData, groupEnter, j, k, l, label, labelData, labelStyle, len, len1, len2, len3, len4, line, lineData, lineFont, lineGroup, lineRects, lineStyle, lines, linetexts, m, mirror, n, plane, planeTrans, position, realData, rectData, rectStyle, ref, ref1, ref2, ref3, rotated, sep, style, textData, textPad, textPos, tickFont, tickPosition, tickStyle, userLines, xStyle, yStyle;
   domains = vars.x.domain.viz.concat(vars.y.domain.viz);
   if (domains.indexOf(void 0) >= 0) {
     return null;
@@ -32180,25 +32266,25 @@ module.exports = function(vars) {
   axisData = vars.small ? [] : [0];
   tickPosition = function(tick, axis) {
     return tick.attr("x1", function(d) {
-      if (axis === "x") {
+      if (axis.indexOf("x") === 0) {
         return vars.x.scale.viz(d);
       } else {
         return 0;
       }
     }).attr("x2", function(d) {
-      if (axis === "x") {
+      if (axis.indexOf("x") === 0) {
         return vars.x.scale.viz(d);
       } else {
         return vars.axes.width;
       }
     }).attr("y1", function(d) {
-      if (axis === "y") {
+      if (axis.indexOf("y") === 0) {
         return vars.y.scale.viz(d);
       } else {
         return 0;
       }
     }).attr("y2", function(d) {
-      if (axis === "y") {
+      if (axis.indexOf("y") === 0) {
         return vars.y.scale.viz(d);
       } else {
         return vars.axes.height;
@@ -32258,8 +32344,8 @@ module.exports = function(vars) {
   };
   lineStyle = function(line, axis) {
     var max, opp;
-    max = axis === "x" ? "height" : "width";
-    opp = axis === "x" ? "y" : "x";
+    max = axis.indexOf("x") === 0 ? "height" : "width";
+    opp = axis.indexOf("x") === 0 ? "y" : "x";
     return line.attr(opp + "1", 0).attr(opp + "2", vars.axes[max]).attr(axis + "1", function(d) {
       return d.coords.line;
     }).attr(axis + "2", function(d) {
@@ -32270,7 +32356,7 @@ module.exports = function(vars) {
   };
   lineFont = function(text, axis) {
     var opp;
-    opp = axis === "x" ? "y" : "x";
+    opp = axis.indexOf("x") === 0 ? "y" : "x";
     return text.attr(opp, function(d) {
       return d.coords.text[opp] + "px";
     }).attr(axis, function(d) {
@@ -32303,9 +32389,35 @@ module.exports = function(vars) {
     return "M " + w + " " + h + " L 0 " + h + " L " + w + " 0 Z";
   });
   rotated = vars.x.ticks.rotate !== 0;
-  xStyle = function(axis) {
-    var groups;
-    groups = axis.attr("transform", "translate(0," + vars.axes.height + ")").call(vars.x.axis.svg.scale(vars.x.scale.viz)).selectAll("g.tick");
+  xStyle = function(group, axis) {
+    var groups, offset;
+    offset = axis === "x" ? vars.axes.height : 0;
+    groups = group.attr("transform", "translate(0," + offset + ")").call(vars[axis].axis.svg.scale(vars[axis].scale.viz)).selectAll("g.tick");
+    groups.selectAll("line").attr("y2", function(d) {
+      var y2;
+      if (d.constructor === Date) {
+        d = +d;
+      }
+      y2 = d3.select(this).attr("y2");
+      if (vars[axis].ticks.visible.indexOf(d) >= 0) {
+        return y2;
+      } else {
+        return y2 / 2;
+      }
+    });
+    return groups.select("text").attr("dy", "").style("text-anchor", rotated && axis === "x" ? "end" : rotated ? "start" : "middle").call(tickFont, axis).each(function(d) {
+      if (d.constructor === Date) {
+        d = +d;
+      }
+      if (!vars[axis].ticks.hidden && vars[axis].ticks.visible.indexOf(d) >= 0) {
+        return textwrap().container(d3.select(this)).rotate(vars[axis].ticks.rotate).valign(rotated ? "middle" : axis === "x" ? "top" : "bottom").width(vars[axis].ticks.maxWidth).height(vars[axis].ticks.maxHeight).padding(0).x(-vars[axis].ticks.maxWidth / 2).y(axis === "x2" ? -(vars[axis].ticks.maxHeight + vars.labels.padding * 2) : 0).draw();
+      }
+    });
+  };
+  yStyle = function(group, axis) {
+    var groups, offset;
+    offset = axis === "y2" ? vars.axes.width : 0;
+    groups = group.attr("transform", "translate(" + offset + ", 0)").call(vars[axis].axis.svg.scale(vars[axis].scale.viz)).selectAll("g.tick");
     groups.selectAll("line").attr("y2", function(d) {
       var y2;
       if (d.constructor === Date) {
@@ -32318,52 +32430,27 @@ module.exports = function(vars) {
         return y2 / 2;
       }
     });
-    return groups.select("text").attr("dy", "").style("text-anchor", rotated ? "end" : "middle").call(tickFont, "x").each("end", function(d) {
-      if (d.constructor === Date) {
-        d = +d;
-      }
-      if (!vars.x.ticks.hidden && vars.x.ticks.visible.indexOf(d) >= 0) {
-        return textwrap().container(d3.select(this)).rotate(vars.x.ticks.rotate).valign(rotated ? "middle" : "top").width(vars.x.ticks.maxWidth).height(vars.x.ticks.maxHeight).padding(0).x(-vars.x.ticks.maxWidth / 2).draw();
-      }
-    });
+    return groups.select("text").call(tickFont, axis);
   };
-  xAxis = plane.selectAll("g#d3plus_graph_xticks").data(axisData);
-  xAxis.transition().duration(vars.draw.timing).call(xStyle);
-  xAxis.selectAll("line").transition().duration(vars.draw.timing).call(tickStyle, "x");
-  xEnter = xAxis.enter().append("g").attr("id", "d3plus_graph_xticks").transition().duration(0).call(xStyle);
-  xEnter.selectAll("path").attr("fill", "none");
-  xEnter.selectAll("line").call(tickStyle, "x");
-  xAxis.exit().transition().duration(vars.data.timing).attr("opacity", 0).remove();
-  yStyle = function(axis) {
-    var groups;
-    groups = axis.call(vars.y.axis.svg.scale(vars.y.scale.viz)).selectAll("g.tick");
-    groups.selectAll("line").attr("y2", function(d) {
-      var y2;
-      if (d.constructor === Date) {
-        d = +d;
-      }
-      y2 = d3.select(this).attr("y2");
-      if (vars.x.ticks.visible.indexOf(d) >= 0) {
-        return y2;
-      } else {
-        return y2 / 2;
-      }
-    });
-    return groups.select("text").call(tickFont, "y");
-  };
-  yAxis = plane.selectAll("g#d3plus_graph_yticks").data(axisData);
-  yAxis.transition().duration(vars.draw.timing).call(yStyle);
-  yAxis.selectAll("line").transition().duration(vars.draw.timing).call(tickStyle, "y");
-  yEnter = yAxis.enter().append("g").attr("id", "d3plus_graph_yticks").call(yStyle);
-  yEnter.selectAll("path").attr("fill", "none");
-  yEnter.selectAll("line").call(tickStyle, "y");
-  yAxis.exit().transition().duration(vars.data.timing).attr("opacity", 0).remove();
-  labelStyle = function(label, axis) {
-    return label.attr("x", axis === "x" ? vars.width.viz / 2 : -(vars.axes.height / 2 + vars.axes.margin.top)).attr("y", axis === "x" ? vars.height.viz - vars[axis].label.height / 2 - vars[axis].label.padding : vars[axis].label.height / 2 + vars[axis].label.padding).attr("transform", axis === "y" ? "rotate(-90)" : null).attr("font-family", vars[axis].label.font.family.value).attr("font-weight", vars[axis].label.font.weight).attr("font-size", vars[axis].label.font.size + "px").attr("fill", vars[axis].label.font.color).style("text-anchor", "middle").attr("dominant-baseline", "central");
-  };
-  ref = ["x", "y"];
+  ref = ["x", "x2", "y", "y2"];
   for (j = 0, len = ref.length; j < len; j++) {
     axis = ref[j];
+    style = axis.indexOf("x") === 0 ? xStyle : yStyle;
+    realData = axisData.length && vars[axis].value ? [0] : [];
+    axisGroup = plane.selectAll("g#d3plus_graph_" + axis + "ticks").data(realData);
+    axisGroup.transition().duration(vars.draw.timing).call(style, axis);
+    axisGroup.selectAll("line").transition().duration(vars.draw.timing).call(tickStyle, axis);
+    groupEnter = axisGroup.enter().append("g").attr("id", "d3plus_graph_" + axis + "ticks").call(style, axis);
+    groupEnter.selectAll("path").attr("fill", "none");
+    groupEnter.selectAll("line").call(tickStyle, axis);
+    axisGroup.exit().transition().duration(vars.data.timing).attr("opacity", 0).remove();
+  }
+  labelStyle = function(label, axis) {
+    return label.attr("x", axis.indexOf("x") === 0 ? vars.width.viz / 2 : -(vars.axes.height / 2 + vars.axes.margin.top)).attr("y", axis === "x" ? vars.height.viz - vars[axis].label.height / 2 - vars[axis].label.padding : axis === "y2" ? vars.width.viz - vars[axis].label.height / 2 - vars[axis].label.padding : vars[axis].label.height / 2 + vars[axis].label.padding).attr("transform", axis.indexOf("y") === 0 ? "rotate(-90)" : null).attr("font-family", vars[axis].label.font.family.value).attr("font-weight", vars[axis].label.font.weight).attr("font-size", vars[axis].label.font.size + "px").attr("fill", vars[axis].label.font.color).style("text-anchor", "middle").attr("dominant-baseline", "central");
+  };
+  ref1 = ["x", "y"];
+  for (k = 0, len1 = ref1.length; k < len1; k++) {
+    axis = ref1[k];
     if (vars[axis].grid.value) {
       if (vars[axis].ticks.value) {
         gridData = vars[axis].ticks.value;
@@ -32388,133 +32475,144 @@ module.exports = function(vars) {
     lines.transition().duration(vars.draw.timing).call(tickPosition, axis).call(tickStyle, axis, true);
     lines.enter().append("line").style("opacity", 0).call(tickPosition, axis).call(tickStyle, axis, true).transition().duration(vars.draw.timing).delay(vars.draw.timing / 2).style("opacity", 1);
     lines.exit().transition().duration(vars.draw.timing / 2).style("opacity", 0).remove();
-    axisLabel = vars[axis].label.fetch(vars);
-    labelData = axisData && axisLabel ? [0] : [];
-    affixes = vars.format.affixes.value[vars[axis].value];
-    if (axisLabel && !vars[axis].affixes.value && affixes) {
-      sep = vars[axis].affixes.separator.value;
-      if (sep === true) {
-        sep = ["[", "]"];
-      } else if (sep === false) {
-        sep = ["", ""];
+  }
+  ref2 = ["x", "x2", "y", "y2"];
+  for (l = 0, len2 = ref2.length; l < len2; l++) {
+    axis = ref2[l];
+    if (vars[axis].value) {
+      axisLabel = vars[axis].label.fetch(vars);
+      labelData = axisData && axisLabel ? [0] : [];
+      affixes = vars.format.affixes.value[vars[axis].value];
+      if (axisLabel && !vars[axis].affixes.value && affixes) {
+        sep = vars[axis].affixes.separator.value;
+        if (sep === true) {
+          sep = ["[", "]"];
+        } else if (sep === false) {
+          sep = ["", ""];
+        }
+        axisLabel += " " + sep[0] + affixes[0] + " " + affixes[1] + sep[1];
       }
-      axisLabel += " " + sep[0] + affixes[0] + " " + affixes[1] + sep[1];
+    } else {
+      axisLabel = "";
+      labelData = [];
     }
     label = vars.group.selectAll("text#d3plus_graph_" + axis + "label").data(labelData);
     label.text(axisLabel).transition().duration(vars.draw.timing).call(labelStyle, axis);
     label.enter().append("text").attr("id", "d3plus_graph_" + axis + "label").text(axisLabel).call(labelStyle, axis);
     label.exit().transition().duration(vars.data.timing).attr("opacity", 0).remove();
   }
-  ref1 = ["x", "y"];
-  for (k = 0, len1 = ref1.length; k < len1; k++) {
-    axis = ref1[k];
-    lineGroup = plane.selectAll("g#d3plus_graph_" + axis + "_userlines").data([0]);
-    lineGroup.enter().append("g").attr("id", "d3plus_graph_" + axis + "_userlines");
-    domain = vars[axis].scale.viz.domain();
-    if (axis === "y") {
-      domain = domain.slice().reverse();
-    }
-    textData = [];
-    lineData = [];
-    userLines = vars[axis].lines.value || [];
-    for (l = 0, len2 = userLines.length; l < len2; l++) {
-      line = userLines[l];
-      d = validObject(line) ? line.position : line;
-      if (!isNaN(d)) {
-        d = parseFloat(d);
-        if (d > domain[0] && d < domain[1]) {
-          d = !validObject(line) ? {
-            "position": d
-          } : line;
-          d.coords = {
-            line: vars[axis].scale.viz(d.position)
-          };
-          lineData.push(d);
-          if (d.text) {
-            d.axis = axis;
-            d.padding = vars[axis].lines.font.padding.value * 0.5;
-            d.align = vars[axis].lines.font.align.value;
-            position = vars[axis].lines.font.position.text;
-            textPad = position === "middle" ? 0 : d.padding * 2;
-            if (position === "top") {
-              textPad = -textPad;
+  ref3 = ["x", "y", "x2", "y2"];
+  for (m = 0, len3 = ref3.length; m < len3; m++) {
+    axis = ref3[m];
+    if (vars[axis].value) {
+      lineGroup = plane.selectAll("g#d3plus_graph_" + axis + "_userlines").data([0]);
+      lineGroup.enter().append("g").attr("id", "d3plus_graph_" + axis + "_userlines");
+      domain = vars[axis].scale.viz.domain();
+      if (axis.indexOf("y") === 0) {
+        domain = domain.slice().reverse();
+      }
+      textData = [];
+      lineData = [];
+      userLines = vars[axis].lines.value || [];
+      for (n = 0, len4 = userLines.length; n < len4; n++) {
+        line = userLines[n];
+        d = validObject(line) ? line.position : line;
+        if (!isNaN(d)) {
+          d = parseFloat(d);
+          if (d > domain[0] && d < domain[1]) {
+            d = !validObject(line) ? {
+              "position": d
+            } : line;
+            d.coords = {
+              line: vars[axis].scale.viz(d.position)
+            };
+            lineData.push(d);
+            if (d.text) {
+              d.axis = axis;
+              d.padding = vars[axis].lines.font.padding.value * 0.5;
+              d.align = vars[axis].lines.font.align.value;
+              position = vars[axis].lines.font.position.text;
+              textPad = position === "middle" ? 0 : d.padding * 2;
+              if (position === "top") {
+                textPad = -textPad;
+              }
+              if (axis.indexOf("x") === 0) {
+                textPos = d.align === "left" ? vars.axes.height : d.align === "center" ? vars.axes.height / 2 : 0;
+                if (d.align === "left") {
+                  textPos -= d.padding * 2;
+                }
+                if (d.align === "right") {
+                  textPos += d.padding * 2;
+                }
+              } else {
+                textPos = d.align === "left" ? 0 : d.align === "center" ? vars.axes.width / 2 : vars.axes.width;
+                if (d.align === "right") {
+                  textPos -= d.padding * 2;
+                }
+                if (d.align === "left") {
+                  textPos += d.padding * 2;
+                }
+              }
+              d.coords.text = {};
+              d.coords.text[axis.indexOf("x") === 0 ? "y" : "x"] = textPos;
+              d.coords.text[axis] = vars[axis].scale.viz(d.position) + textPad;
+              d.transform = axis.indexOf("x") === 0 ? "rotate(-90," + d.coords.text.x + "," + d.coords.text.y + ")" : null;
+              textData.push(d);
             }
-            if (axis === "x") {
-              textPos = d.align === "left" ? vars.axes.height : d.align === "center" ? vars.axes.height / 2 : 0;
-              if (d.align === "left") {
-                textPos -= d.padding * 2;
-              }
-              if (d.align === "right") {
-                textPos += d.padding * 2;
-              }
-            } else {
-              textPos = d.align === "left" ? 0 : d.align === "center" ? vars.axes.width / 2 : vars.axes.width;
-              if (d.align === "right") {
-                textPos -= d.padding * 2;
-              }
-              if (d.align === "left") {
-                textPos += d.padding * 2;
-              }
-            }
-            d.coords.text = {};
-            d.coords.text[axis === "x" ? "y" : "x"] = textPos;
-            d.coords.text[axis] = vars[axis].scale.viz(d.position) + textPad;
-            d.transform = axis === "x" ? "rotate(-90," + d.coords.text.x + "," + d.coords.text.y + ")" : null;
-            textData.push(d);
           }
         }
       }
-    }
-    lines = lineGroup.selectAll("line.d3plus_graph_" + axis + "line").data(lineData, function(d) {
-      return d.position;
-    });
-    lines.enter().append("line").attr("class", "d3plus_graph_" + axis + "line").attr("opacity", 0).call(lineStyle, axis);
-    lines.transition().duration(vars.draw.timing).attr("opacity", 1).call(lineStyle, axis);
-    lines.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
-    linetexts = lineGroup.selectAll("text.d3plus_graph_" + axis + "line_text").data(textData, function(d) {
-      return d.position;
-    });
-    linetexts.enter().append("text").attr("class", "d3plus_graph_" + axis + "line_text").attr("id", function(d) {
-      var id;
-      id = d.position + "";
-      id = id.replace("-", "neg");
-      id = id.replace(".", "p");
-      return "d3plus_graph_" + axis + "line_text_" + id;
-    }).attr("opacity", 0).call(lineFont, axis);
-    linetexts.text(function(d) {
-      return d.text;
-    }).transition().duration(vars.draw.timing).attr("opacity", 1).call(lineFont, axis);
-    linetexts.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
-    rectStyle = function(rect) {
-      var getText;
-      getText = function(d) {
+      lines = lineGroup.selectAll("line.d3plus_graph_" + axis + "line").data(lineData, function(d) {
+        return d.position;
+      });
+      lines.enter().append("line").attr("class", "d3plus_graph_" + axis + "line").attr("opacity", 0).call(lineStyle, axis);
+      lines.transition().duration(vars.draw.timing).attr("opacity", 1).call(lineStyle, axis);
+      lines.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
+      linetexts = lineGroup.selectAll("text.d3plus_graph_" + axis + "line_text").data(textData, function(d) {
+        return d.position;
+      });
+      linetexts.enter().append("text").attr("class", "d3plus_graph_" + axis + "line_text").attr("id", function(d) {
         var id;
         id = d.position + "";
         id = id.replace("-", "neg");
         id = id.replace(".", "p");
-        return plane.select("text#d3plus_graph_" + d.axis + "line_text_" + id).node().getBBox();
+        return "d3plus_graph_" + axis + "line_text_" + id;
+      }).attr("opacity", 0).call(lineFont, axis);
+      linetexts.text(function(d) {
+        return d.text;
+      }).transition().duration(vars.draw.timing).attr("opacity", 1).call(lineFont, axis);
+      linetexts.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
+      rectStyle = function(rect) {
+        var getText;
+        getText = function(d) {
+          var id;
+          id = d.position + "";
+          id = id.replace("-", "neg");
+          id = id.replace(".", "p");
+          return plane.select("text#d3plus_graph_" + d.axis + "line_text_" + id).node().getBBox();
+        };
+        return rect.attr("x", function(d) {
+          return getText(d).x - d.padding;
+        }).attr("y", function(d) {
+          return getText(d).y - d.padding;
+        }).attr("transform", function(d) {
+          return d.transform;
+        }).attr("width", function(d) {
+          return getText(d).width + (d.padding * 2);
+        }).attr("height", function(d) {
+          return getText(d).height + (d.padding * 2);
+        }).attr("fill", vars.axes.background.color);
       };
-      return rect.attr("x", function(d) {
-        return getText(d).x - d.padding;
-      }).attr("y", function(d) {
-        return getText(d).y - d.padding;
-      }).attr("transform", function(d) {
-        return d.transform;
-      }).attr("width", function(d) {
-        return getText(d).width + (d.padding * 2);
-      }).attr("height", function(d) {
-        return getText(d).height + (d.padding * 2);
-      }).attr("fill", vars.axes.background.color);
-    };
-    rectData = vars[axis].lines.font.background.value ? textData : [];
-    lineRects = lineGroup.selectAll("rect.d3plus_graph_" + axis + "line_rect").data(rectData, function(d) {
-      return d.position;
-    });
-    lineRects.enter().insert("rect", "text.d3plus_graph_" + axis + "line_text").attr("class", "d3plus_graph_" + axis + "line_rect").attr("pointer-events", "none").attr("opacity", 0).call(rectStyle);
-    lineRects.transition().delay(vars.draw.timing).each("end", function(d) {
-      return d3.select(this).transition().duration(vars.draw.timing).attr("opacity", 1).call(rectStyle);
-    });
-    lineRects.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
+      rectData = vars[axis].lines.font.background.value ? textData : [];
+      lineRects = lineGroup.selectAll("rect.d3plus_graph_" + axis + "line_rect").data(rectData, function(d) {
+        return d.position;
+      });
+      lineRects.enter().insert("rect", "text.d3plus_graph_" + axis + "line_text").attr("class", "d3plus_graph_" + axis + "line_rect").attr("pointer-events", "none").attr("opacity", 0).call(rectStyle);
+      lineRects.transition().delay(vars.draw.timing).each("end", function(d) {
+        return d3.select(this).transition().duration(vars.draw.timing).attr("opacity", 1).call(rectStyle);
+      });
+      lineRects.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
+    }
   }
 };
 
@@ -34538,7 +34636,9 @@ module.exports = function() {
     ui: require("./methods/ui.coffee"),
     width: require("./methods/width.coffee"),
     x: axis("x"),
+    x2: axis("x2"),
     y: axis("y"),
+    y2: axis("y2"),
     zoom: require("./methods/zoom.js")
   });
   return vars.self;
