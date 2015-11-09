@@ -793,10 +793,10 @@ viz.finish = function(build) {
     }
     build.config.legend = false;
   }
-  else if (build.config.color in staticAttrs) {
+  else if (build.config.color in staticColors) {
     build.color = build.config.color;
     build.config.color = function(d) {
-      return staticAttrs[build.color][d[build.color]];
+      return staticColors[build.color][d[build.color]];
     };
   }
 
@@ -1304,7 +1304,7 @@ viz.loadData = function(build, next) {
 
 }
 
-var staticAttrs = {
+var staticColors = {
   "nationality": {
     "foreign": "#ccd",
     "us": "#c00"

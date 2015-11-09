@@ -1,4 +1,4 @@
-var staticAttrs = {
+var staticColors = {
   "nationality": {
     "foreign": "#ccd",
     "us": "#c00"
