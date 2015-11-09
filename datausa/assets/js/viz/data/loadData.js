@@ -4,6 +4,16 @@ var attrNesting = {
   "cip": [2, 4, 6]
 };
 
+var attrMapping = {
+  "degree": {
+    "20": "3",
+    "21": "5",
+    "22": "7",
+    "23": "10",
+    "24": "9"
+  }
+}
+
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
@@ -15,7 +25,19 @@ viz.loadData = function(build, next) {
     var loaded = 0, dataArray = [];
     for (var i = 0; i < build.data.length; i++) {
       load(build.data[i].url, function(data, url, return_data){
+
         var d = build.data.filter(function(d){ return d.url === url; })[0];
+
+        if (d.params.show in attrMapping) {
+          var show = d.params.show, map = attrMapping[show];
+          if (return_data.source.dataset.indexOf("PUMS") >= 0) {
+            for (var i = 0; i < data.length; i++) {
+              data[i][show] = map[data[i][show]];
+            }
+          }
+
+        }
+
         if (d.static) {
           for (var i = 0; i < data.length; i++) {
             for (var k in d.static) {
@@ -23,6 +45,7 @@ viz.loadData = function(build, next) {
             }
           }
         }
+
         if (d.map) {
           for (var i = 0; i < data.length; i++) {
             for (var k in d.map) {
@@ -31,6 +54,7 @@ viz.loadData = function(build, next) {
             }
           }
         }
+
         if (d.split) {
 
           var split_data = [],

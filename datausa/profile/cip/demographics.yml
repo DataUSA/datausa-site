@@ -14,7 +14,7 @@ topics:
       attrs:
         - "degree"
         - "pums_degree"
-      color: "dataset"
+      color: "student_pool"
       data:
         - required: "grads_total"
           cip: "<<id>>"
@@ -22,17 +22,22 @@ topics:
           map:
             num_ppl: "grads_total"
           static:
-            dataset: "Degrees Awarded"
+            student_pool: "Degrees Awarded"
         - required: "num_ppl"
           cip: "<<id dataset=pums>>"
           show: "degree"
           static:
-            dataset: "Workforce"
-      id: "dataset"
+            student_pool: "Workforce"
+      id: "student_pool"
       order: "num_ppl"
       type: "bar"
       x: "degree"
-      y: "num_ppl"
+      y:
+        label: "Degrees Awarded"
+        value: "num_ppl"
+      y2:
+        label: "Workforce"
+        value: "Workforce"
   - title: "Enrolled Gender"
     stat:
       - title: "Most Common Gender"

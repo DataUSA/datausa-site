@@ -33,6 +33,11 @@ var staticColors = {
     "2": "pink"
   },
 
+  "student_pool": {
+    "Degrees Awarded": "orange",
+    "Workforce": "navy"
+  },
+
   "viz": {
     "default": {
       "pri": "#006ea8",
