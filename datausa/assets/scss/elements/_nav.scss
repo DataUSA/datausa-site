@@ -79,10 +79,12 @@ body {
   @include flex();
   @include align-items(center);
   @include justify(space-between);
+  height: $nav-height;
+  overflow: hidden;
 }
 
 #menu-btn {
-  padding: 20px;
+  padding: 15px;
   opacity: 0.5;
   color: $home-red;
   font-size: 20px;
@@ -102,12 +104,13 @@ body {
 }
 
 #home-btn {
-  padding: 20px;
+  padding: 15px;
+  margin-top: 3px;
   z-index: 5;
 }
 
 #search-btn {
-  padding: 20px;
+  padding: 15px;
   z-index: 5;
 }
 

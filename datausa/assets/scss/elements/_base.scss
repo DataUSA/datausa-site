@@ -1,11 +1,15 @@
+// body {
+//   font-size: 62.5%;
+// }
+
 h1 {
   color: $dark-d-blue;
-  font-family: $open-sans;
+  font-family: $playfair;
   font-weight: 300;
   font-size: 60px;
+  line-height: 1.15;
   text-transform: uppercase;
   letter-spacing: -0.05em;
-  text-align: center;
 }
 
 h2 {

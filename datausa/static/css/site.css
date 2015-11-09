@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Open+Sans:400,300,600|Noticia+Text:400,700|Lato:100,300,400,700); 
+@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Noticia+Text:400,700|Lato:100,300,400,700|Playfair+Display:400,400italic|Roboto:300,400,700); 
   body {
     position: relative; }
     body.open {
@@ -33,16 +33,16 @@ output, ruby, section, summary, time, mark, audio, video {
             list-style-type: none; }
 h1 {
   color: #132332;
-  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Playfair Display", serif;
   font-weight: 300;
   font-size: 60px;
+  line-height: 1.15;
   text-transform: uppercase;
-  letter-spacing: -0.05em;
-  text-align: center; }
+  letter-spacing: -0.05em; }
 
   h2 {
     color: white;
-    font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
+    font-family: "Lato", sans-serif;
     letter-spacing: 0.1em;
     font-size: 20px;
     font-weight: 400;
@@ -136,7 +136,7 @@ body.search #search-btn {
     left: 0; }
 
 .menu-content {
-  margin-top: 60px; }
+  margin-top: 40px; }
   .menu-content h2 {
     padding: 20px; }
 
@@ -170,10 +170,12 @@ body.search #search-btn {
     align-items: center;
     -webkit-justify-content: space-between;
     -moz-justify-content: space-between;
-    justify-content: space-between; }
+    justify-content: space-between;
+    height: 40px;
+    overflow: hidden; }
 
     #menu-btn {
-      padding: 20px;
+      padding: 15px;
       opacity: 0.5;
       color: #dc5137;
       font-size: 20px;
@@ -192,11 +194,12 @@ body.search #search-btn {
           margin-right: 5px; }
 
 #home-btn {
-  padding: 20px;
+  padding: 15px;
+  margin-top: 3px;
   z-index: 5; }
 
   #search-btn {
-    padding: 20px;
+    padding: 15px;
     z-index: 5; }
 
     #mask {
@@ -400,7 +403,7 @@ body.search .search-results-container {
     color: #333;
     float: left; }
     body.search .search-results-container .search-results .search-item {
-      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-family: "Palanquin", sans-serif;
       font-size: 12px;
       color: white;
       cursor: pointer;
@@ -561,7 +564,7 @@ body.home {
   position: relative;
   height: 100vh; }
   body.home a {
-    font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
+    font-family: "Lato", sans-serif;
     font-weight: 400; }
     body.home .parallax {
       height: 190vh;
@@ -597,10 +600,10 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
+                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
                     z-index: -11; }
                     body.home .bg-img.landing {
-                      top: -45vh;
+                      top: -37vh;
                       width: 100vw;
                       height: 100vh;
                       background: url('/static/img/home/home-landscape-b-3.png') no-repeat 50% 100%;
@@ -708,7 +711,7 @@ body.home {
   background: rgba(103, 117, 148, 0.5) url('/static/img/home/search.png') no-repeat 11px 14px;
   background-attachment: inherit;
   color: white;
-  font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Lato", sans-serif;
   font-size: 30px;
   font-weight: 300; }
   #home-search-input::-webkit-input-placeholder {
@@ -755,7 +758,7 @@ body.home {
     #home-search-input:focus ~ .search-body a {
       display: block;
       padding: 10px 10px 3px;
-      font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-family: "Lato", sans-serif;
       font-weight: 400;
       font-size: 18px;
       color: white; }
@@ -775,63 +778,15 @@ body.home {
   #search-switch.adv {
     text-align: right;
     text-transform: uppercase; }
-body.profile nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: white;
-  z-index: 5; }
-  body.profile #splash {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -webkit-align-items: flex-end;
-    align-items: flex-end;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    width: 100vw; }
-    body.profile #splash .bg-filter {
-      position: absolute;
-      width: 100%;
-      background: linear-gradient(transparent 40%, rgba(1, 1, 3, 0.6));
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      z-index: 1; }
-      body.profile #splash #splash-image {
-        height: 110%;
-        left: -5%;
-        position: absolute;
-        top: -5%;
-        width: 110%;
-        background-position: center center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        z-index: 0; }
-        body.profile #splash #splash-image:after {
-          height: 100%;
-          left: 0;
-          position: absolute;
-          top: 0;
-          width: 100%;
-          background: #444;
-          opacity: 0.4;
-          content: ""; }
-    body.profile #splash .content {
+body.profile a, body.profile p {
+  color: #333; }
+  body.profile nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 3; }
+    body.profile #splash {
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
@@ -840,16 +795,52 @@ body.profile nav {
       display: -ms-flexbox;
       display: -webkit-flex;
       display: flex;
-      -webkit-flex-direction: column;
-      -moz-flex-direction: column;
-      flex-direction: column;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
       -webkit-align-items: center;
       align-items: center;
-      z-index: 2;
-      margin-bottom: 30px;
-      color: white;
-      text-align: center; }
-      body.profile #splash .content .splash-context {
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      width: 100vw; }
+      body.profile #splash .bg-filter {
+        position: absolute;
+        width: 85.7%;
+        height: 79.7%;
+        left: 7.15%;
+        top: 13.3%;
+        background: #9ab6f6;
+        opacity: 0.9;
+        z-index: 1; }
+        body.profile #splash #splash-image {
+          height: 110%;
+          left: -5%;
+          position: absolute;
+          top: -5%;
+          width: 110%;
+          background-position: center center;
+          background-attachment: fixed;
+          background-repeat: no-repeat;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+          -webkit-filter: saturate(0) brightness(1.45) contrast(0.85);
+          -moz-filter: saturate(0) brightness(1.45) contrast(0.85);
+          -o-filter: saturate(0) brightness(1.45) contrast(0.85);
+          filter: saturate(0) brightness(1.45) contrast(0.85);
+          z-index: 0; }
+          body.profile #splash #splash-image:after {
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background: #444;
+            opacity: 0.4;
+            content: ""; }
+      body.profile #splash .content {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -858,12 +849,23 @@ body.profile nav {
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-        -webkit-flex-direction: row;
-        -moz-flex-direction: row;
-        flex-direction: row;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        flex-direction: column;
         -webkit-align-items: center;
-        align-items: center; }
-        body.profile #splash .content .splash-icon-nav {
+        align-items: center;
+        width: 85.7%;
+        height: 79.7%;
+        padding: 0 30px;
+        margin-top: 50px;
+        overflow: hidden;
+        z-index: 2;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+        body.profile #splash .content .splash-context {
+          width: 100%;
+          margin: 25px 0;
           -webkit-justify-content: center;
           -moz-justify-content: center;
           justify-content: center;
@@ -874,92 +876,14 @@ body.profile nav {
           display: flex;
           -webkit-flex-direction: row;
           -moz-flex-direction: row;
-          flex-direction: row; }
-          body.profile #splash .content .splash-icon-nav a {
-            padding: 20px; }
-      body.profile #splash .content .thumbprint {
-        height: 200px;
-        width: 200px;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5); }
-        body.profile #splash .content h1 {
-          padding: 5px 0 20px;
-          color: white;
-          font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
-          letter-spacing: 0.03em;
-          font-weight: 300; }
-          body.profile #splash .content sub a {
-            vertical-align: text-bottom;
-            font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
-            font-size: 11px;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: white;
-            opacity: 1;
-            -webkit-transition: opacity 0.5s;
-            -moz-transition: opacity 0.5s;
-            -ms-transition: opacity 0.5s;
-            -o-transition: opacity 0.5s;
-            transition: opacity 0.5s; }
-            body.profile #splash .content sub a + a::before {
-              content: '\\ ';
-              font-weight: 700;
-              color: #dc5137; }
-              body.profile #splash .content sub a:hover {
-                cursor: pointer;
-                opacity: 0.7;
-                text-decoration: none; }
-      body.profile #splash .content #splash-stats {
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-align-items: flex-end;
-        align-items: flex-end; }
-        body.profile #splash .content #splash-stats .stat {
-          -webkit-justify-content: center;
-          -moz-justify-content: center;
-          justify-content: center;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          flex-direction: column;
-          -webkit-align-items: center;
-          align-items: center;
-          margin: 15px 35px;
-          max-width: 150px; }
-          body.profile #splash .content #splash-stats .stat .stat-text,
-          body.profile #splash .content #splash-stats .stat .stat-rank {
-            font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
-            text-transform: uppercase; }
-            body.profile #splash .content #splash-stats .stat .stat-text {
-              font-size: 14px;
-              font-weight: 300; }
-              body.profile #splash .content #splash-stats .stat .stat-rank {
-                font-size: 12px;
-                font-weight: 300; }
-                body.profile #splash .content #splash-stats .stat .stat-value {
-                  margin: 5px 0;
-                  font-family: "Lato", "Helvetica Neue", "Arial", sans-serif;
-                  font-size: 32px;
-                  font-weight: 100; }
-      body.profile #splash .content .carousel {
-        font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-        font-size: 16px; }
-        body.profile #splash .content .carousel .carousel-title {
-          font-weight: 700; }
-          body.profile #splash .content .carousel .carousel-slider {
+          flex-direction: row;
+          -webkit-align-items: flex-start;
+          align-items: flex-start;
+          -webkit-justify-content: space-around;
+          -moz-justify-content: space-around;
+          justify-content: space-around; }
+          body.profile #splash .content .splash-icon-nav {
+            margin: 10px 0 -50px;
             -webkit-justify-content: center;
             -moz-justify-content: center;
             justify-content: center;
@@ -968,44 +892,196 @@ body.profile nav {
             display: -ms-flexbox;
             display: -webkit-flex;
             display: flex;
+            -webkit-flex-direction: row;
+            -moz-flex-direction: row;
+            flex-direction: row;
             -webkit-align-items: center;
-            align-items: center;
+            align-items: center; }
+            body.profile #splash .content .splash-icon-nav span {
+              font-family: "Playfair Display", serif;
+              font-style: italic;
+              font-weight: 400;
+              font-size: 15px;
+              letter-spacing: 0.06em;
+              color: #fff;
+              opacity: 0.9; }
+              body.profile #splash .content .splash-icon-nav a {
+                padding: 20px; }
+                body.profile #splash .content .splash-icon-nav img {
+                  width: 30px;
+                  height: 30px; }
+        body.profile #splash .content .context-l {
+          -webkit-box-flex: 1 35px;
+          -moz-box-flex: 1 35px;
+          -webkit-flex: 1 35px;
+          -ms-flex: 1 35px;
+          flex: 1 35px; }
+          body.profile #splash .content .context-r {
+            -webkit-box-flex: 2;
+            -moz-box-flex: 2;
+            -webkit-flex: 2;
+            -ms-flex: 2;
+            flex: 2; }
+            body.profile #splash .content .thumbprint {
+              height: 200px;
+              width: 200px;
+              -webkit-border-radius: 50%;
+              -moz-border-radius: 50%;
+              border-radius: 50%;
+              background-color: rgba(255, 255, 255, 0.5);
+              border: 1px solid #666;
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box; }
+              body.profile #splash .content h1 {
+                margin-bottom: 15px;
+                text-align: left;
+                font-size: 55px;
+                color: #333;
+                font-family: "Playfair Display", serif;
+                font-weight: 400;
+                line-height: 1.1;
+                letter-spacing: 0.05em; }
+                body.profile #splash .content sub {
+                  display: block;
+                  margin-bottom: 15px; }
+                  body.profile #splash .content sub a {
+                    display: inline-block;
+                    padding: 2px 0;
+                    vertical-align: text-bottom;
+                    font-family: "Roboto", sans-serif;
+                    font-weight: 300;
+                    font-size: 12px;
+                    letter-spacing: 0.06em;
+                    text-transform: uppercase;
+                    color: #333;
+                    -webkit-transition: color 0.25s;
+                    -moz-transition: color 0.25s;
+                    -ms-transition: color 0.25s;
+                    -o-transition: color 0.25s;
+                    transition: color 0.25s; }
+                    body.profile #splash .content sub a + a::before {
+                      content: "\\ ";
+                      font-weight: 400;
+                      color: #111;
+                      padding: 0 4px; }
+                      body.profile #splash .content sub a:hover {
+                        cursor: pointer;
+                        color: #e6f2ff;
+                        text-decoration: none; }
+        body.profile #splash .content #splash-stats {
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-justify-content: space-between;
+          -moz-justify-content: space-between;
+          justify-content: space-between;
+          -webkit-align-items: flex-end;
+          align-items: flex-end; }
+          body.profile #splash .content #splash-stats .stat {
             -webkit-justify-content: center;
             -moz-justify-content: center;
             justify-content: center;
-            height: 50px;
-            margin-top: 5px; }
-            body.profile #splash .content .carousel .carousel-slider .carousel-text {
-              display: none;
-              max-width: 500px;
-              font-weight: 400; }
-              body.profile #splash .content .carousel .carousel-slider .carousel-text.active {
-                display: block; }
-                body.profile #splash .content .carousel .carousel-slider .carousel-text a {
-                  color: white;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            -moz-flex-direction: column;
+            flex-direction: column;
+            -webkit-align-items: center;
+            align-items: center;
+            max-width: 150px; }
+            body.profile #splash .content #splash-stats .stat .stat-text,
+            body.profile #splash .content #splash-stats .stat .stat-rank {
+              font-family: "Roboto", sans-serif;
+              text-transform: uppercase;
+              text-align: center; }
+              body.profile #splash .content #splash-stats .stat .stat-text {
+                width: 97%;
+                font-size: 15px;
+                font-weight: 300;
+                letter-spacing: 0.07em; }
+                body.profile #splash .content #splash-stats .stat .stat-rank {
+                  font-size: 13px;
                   font-weight: 700;
-                  text-decoration: none; }
-                  body.profile #splash .content .carousel .carousel-slider .carousel-text a:hover {
-                    text-decoration: underline; }
-        body.profile #splash .content .carousel .carousel-btns .carousel-btn {
-          display: inline-block;
-          margin: 10px 5px;
-          height: 3px;
-          width: 20px;
-          background-color: white;
-          opacity: 0.5; }
-          body.profile #splash .content .carousel .carousel-btns .carousel-btn.active {
-            opacity: 1; }
-            body.profile #splash .content .carousel .carousel-btns .carousel-btn:hover {
-              cursor: pointer; }
-    body.profile #splash #scroll-btn {
-      bottom: 35px;
-      left: 50%;
-      margin-left: -50px;
-      position: absolute;
-      width: 100px;
-      font-size: 24px;
-      text-align: center; }
+                  letter-spacing: 0.05em;
+                  color: #fff; }
+                  body.profile #splash .content #splash-stats .stat .stat-value {
+                    margin: 8px 0 3px;
+                    font-family: "Lato", sans-serif;
+                    font-size: 42px;
+                    font-weight: 300;
+                    color: #fff;
+                    opacity: 0.85; }
+        body.profile #splash .content .carousel {
+          margin-top: 35px; }
+          body.profile #splash .content .carousel .carousel-title {
+            color: #fff;
+            font-family: "Playfair Display", serif;
+            font-size: 20px;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-align: center; }
+            body.profile #splash .content .carousel .carousel-slider {
+              -webkit-justify-content: center;
+              -moz-justify-content: center;
+              justify-content: center;
+              display: -webkit-box;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: -webkit-flex;
+              display: flex;
+              -webkit-align-items: center;
+              align-items: center;
+              -webkit-justify-content: center;
+              -moz-justify-content: center;
+              justify-content: center;
+              height: 50px;
+              margin-top: 5px; }
+              body.profile #splash .content .carousel .carousel-slider .carousel-text {
+                display: none;
+                text-align: left;
+                font-family: "Roboto", sans-serif;
+                font-size: 17px;
+                font-weight: 300;
+                letter-spacing: 0.03em; }
+                body.profile #splash .content .carousel .carousel-slider .carousel-text.active {
+                  display: block; }
+                  body.profile #splash .content .carousel .carousel-slider .carousel-text a {
+                    font-weight: 700;
+                    text-decoration: none; }
+                    body.profile #splash .content .carousel .carousel-slider .carousel-text a:hover {
+                      text-decoration: underline; }
+          body.profile #splash .content .carousel .carousel-btns {
+            text-align: center;
+            margin-top: 8px; }
+            body.profile #splash .content .carousel .carousel-btns .carousel-btn {
+              display: inline-block;
+              margin: 10px 5px;
+              height: 2px;
+              width: 20px;
+              background-color: #fff;
+              opacity: 0.5; }
+              body.profile #splash .content .carousel .carousel-btns .carousel-btn.active {
+                opacity: 1; }
+                body.profile #splash .content .carousel .carousel-btns .carousel-btn:hover {
+                  cursor: pointer; }
+      body.profile #splash #scroll-btn {
+        bottom: 35px;
+        left: 50%;
+        margin-left: -50px;
+        position: absolute;
+        width: 100px;
+        font-size: 24px;
+        text-align: center; }
 body.profile #title-bar {
   display: block;
   height: 45px;
@@ -1013,14 +1089,14 @@ body.profile #title-bar {
   position: fixed;
   top: -45px;
   width: 100%;
-  z-index: 4;
+  z-index: 5;
   -webkit-transition: top 0.5s;
   -moz-transition: top 0.5s;
   -ms-transition: top 0.5s;
   -o-transition: top 0.5s;
   transition: top 0.5s; }
   body.profile #title-bar.visible {
-    top: 60px; }
+    top: 0; }
     body.profile #title-bar h1 {
       padding: 6px;
       color: white;
@@ -1035,7 +1111,7 @@ body.profile #profile-nav {
   position: fixed;
   top: -45px;
   width: 100%;
-  z-index: 3;
+  z-index: 4;
   background-color: #eeeeee;
   text-align: center;
   -webkit-transition: top 0.5s;
@@ -1044,39 +1120,36 @@ body.profile #profile-nav {
   -o-transition: top 0.5s;
   transition: top 0.5s; }
   body.profile #profile-nav.visible {
-    top: 105px; }
+    top: 45px; }
     body.profile #profile-nav ul li {
       display: inline-block;
       margin: 0 10px;
       padding: 3px 5px 4px;
       color: #888888;
-      font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+      font-family: "Palanquin", sans-serif;
       font-size: 16px;
       font-weight: 600; }
 body.profile header {
-  margin-bottom: 50px;
-  padding: 50px;
+  padding: 100px 50px 25px;
   position: relative;
   background-color: black;
   color: white; }
   body.profile header h2 {
-    margin: 0 auto;
-    max-width: 600px;
-    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 50px;
-    font-weight: 700;
-    line-height: 50px; }
+    margin: 0 auto 10px;
+    font-family: "Lato", sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1; }
     body.profile header h2 a:before {
       content: "";
       position: absolute;
       visibility: hidden;
-      top: -105px; }
+      top: -85px; }
   body.profile header p {
     margin: 0 auto;
-    max-width: 600px;
-    font-family: "Enriqueta", serif;
-    font-size: 20px;
-    font-weight: 700; }
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
+    font-weight: 400; }
 body.profile section {
   -webkit-justify-content: center;
   -moz-justify-content: center;
@@ -1103,9 +1176,9 @@ body.profile section {
     flex: 1 1 100%;
     padding: 25px;
     min-width: 100%;
-    font-family: "Palanquin", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    font-size: 50px;
-    font-weight: 700;
+    font-family: "Lato", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
     text-align: left; }
     body.profile section .topic {
       -webkit-box-flex: 1 1 100%;
@@ -1163,8 +1236,8 @@ body.profile section {
               margin-left: 0;
               min-height: 200px; }
       body.profile section .topic h2 {
-        font-family: "Enriqueta", serif;
-        font-size: 30px;
+        font-family: "Lato", sans-serif;
+        font-size: 20px;
         font-weight: 700; }
         body.profile section .topic sub {
           margin: 5px 0;
@@ -1243,10 +1316,10 @@ body.profile section {
                           body.profile section .topic .content aside .topic-stats .stat .stat-value a:hover {
                             text-decoration: underline; }
           body.profile section .topic .content aside p {
-            margin: 10px 0;
+            margin: 0;
             color: #211f1a;
-            font-family: "Enriqueta", serif;
-            font-size: 20px;
+            font-family: "Lato", sans-serif;
+            font-size: 16px;
             font-weight: 400; }
             body.profile section .topic .content aside p a {
               color: #211f1a;
