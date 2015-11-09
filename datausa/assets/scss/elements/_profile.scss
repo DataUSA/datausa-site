@@ -1,8 +1,7 @@
 body.profile {
 
-  a, p {
-    color: #333;
-  }
+  $bg-width: 89.7%;
+  $bg-height: 81.7%;
 
   nav {
     position: fixed;
@@ -23,11 +22,12 @@ body.profile {
 
     .bg-filter {
       position: absolute;
-      width: 85.7%;
-      height: 79.7%;
-      left: 7.15%;
-      top: 13.3%;
-      background: #9ab6f6;
+      width: $bg-width;
+      height: $bg-height;
+      left: (100 - $bg-width)/2;
+      top: (100 - $bg-height)/2;
+      margin-top: $nav-height/2;
+      background: #213DB3;
       opacity: 0.9;
       z-index: 1;
     }
@@ -39,8 +39,8 @@ body.profile {
       top: -5%;
       width: 110%;
       @include background-stretch();
-      //@include blur(5)
-      @include filter(saturate(0) brightness(1.45) contrast(0.85));
+      //@include filter(saturate(0) brightness(1.45) contrast(0.85));
+      @include filter(saturate(0) brightness(0.95) contrast(1.55));
       z-index: 0;
 
       &:after {
@@ -59,9 +59,9 @@ body.profile {
       @include flex();
       @include flex-direction(column);
       @include align-items(center);
-      width: 85.7%;
-      height: 79.7%;
-      padding: 0 30px;
+      width: $bg-width;
+      height: $bg-height;
+      padding: 0 50px;
       margin-top: 50px;
       overflow: hidden;
       z-index: 2;
@@ -77,19 +77,18 @@ body.profile {
       }
 
       .splash-icon-nav {
-        margin: 10px 0 -50px;
+        margin: 10px 0 -15px;
         @include flex();
         @include flex-direction(row);
         @include align-items(center);
 
         span {
-          font-family: $playfair;
-          font-style: italic;
-          font-weight: 400;
-          font-size: 15px;
-          letter-spacing: 0.06em;
-          color: #fff;
-          opacity: 0.9;
+          font-family: $roboto;
+          text-transform: uppercase;
+          font-weight: 300;
+          font-size: 14px;
+          letter-spacing: 0.1em;
+          color: #BECCE4;
         }
 
         a {
@@ -97,8 +96,8 @@ body.profile {
         }
 
         img {
-          width: 30px;
-          height: 30px;
+          width: 27px;
+          height: 27px;
         }
       }
 
@@ -111,19 +110,19 @@ body.profile {
       }
 
       .thumbprint {
-        height: 200px;
-        width: 200px;
-        @include rounded(50%);
-        background-color: rgba(255, 255, 255, 0.5);
-        border: 1px solid #666;
-        @include box();
+        // height: 200px;
+        // width: 200px;
+        // @include rounded(50%);
+        // background-color: rgba(255, 255, 255, 0.5);
+        // border: 1px solid #666;
+        // @include box();
       }
 
       h1 {
         margin-bottom: 15px;
         text-align: left;
         font-size: 55px;
-        color: #333;
+        color: #eee;
         font-family: $playfair;
         font-weight: 400;
         line-height: 1.1;
@@ -132,7 +131,7 @@ body.profile {
 
       sub {
         display: block;
-        margin-bottom: 15px;
+        margin-bottom: 55px;
 
         a {
           display: inline-block;
@@ -143,20 +142,20 @@ body.profile {
           font-size: 12px;
           letter-spacing: 0.06em;
           text-transform: uppercase;
-          color: #333;
+          color: #85A3D2;
           @include transition(color 0.25s);
 
           &+a::before {
             content: "\\ ";
             font-weight: 400;
-            color: #111;
+            color: #e6f2ff;
             padding: 0 4px;
 
           }
 
           &:hover {
             cursor: pointer;
-            color: #e6f2ff;
+            color: #fff;
             text-decoration: none;
           }
 
@@ -175,39 +174,44 @@ body.profile {
       #splash-stats {
         @include flex();
         @include justify(space-between);
-        @include align-items(flex-end);
+        @include align-items(stretch);
 
         .stat {
           @include flex();
           @include flex-direction(column);
+          @include justify(space-between);
           @include align-items(center);
           max-width: 150px;
 
           .stat-text, .stat-rank {
+            text-align: center;
             font-family: $roboto;
             text-transform: uppercase;
-            text-align: center;
           }
 
           .stat-text {
             width: 97%;
             font-size: 15px;
             font-weight: 300;
-            letter-spacing: 0.07em;
-            //color: #fff;
+            letter-spacing: 0.1em;
+            color: #BECCE4;
+          }
+
+          .stat-group {
+            text-align: center;
           }
 
           .stat-rank {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 0.05em;
-            color: #fff;
+            letter-spacing: 0.1em;
+            color: #5D82BD;
           }
 
           .stat-value {
-            margin: 8px 0 3px;
+            margin: 6px 0 3px;
             font-family: $lato;
-            font-size: 42px;
+            font-size: 40px;
             font-weight: 300;
             color: #fff;
             opacity: 0.85;
@@ -227,7 +231,7 @@ body.profile {
           font-style: italic;
           font-weight: 400;
           letter-spacing: 0.08em;
-          text-align: center;
+          opacity: 0.85;
         }
 
         .carousel-slider {
@@ -241,20 +245,25 @@ body.profile {
             display: none;
             text-align: left;
             font-family: $roboto;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 300;
-            letter-spacing: 0.03em;
+            color: #BECCE4;
 
             &.active {
               display: block;
             }
 
             a {
-              font-weight: 700;
+              padding-bottom: 1px;
+              border-bottom: 1px solid #5D82BD;
+              color: #BECCE4;
               text-decoration: none;
+              text-transform: capitalize;
 
               &:hover {
-                text-decoration: underline;
+                border-bottom: 0;
+                color: #fff;
+                text-decoration: none;
               }
             }
 
@@ -263,15 +272,15 @@ body.profile {
         }
 
         .carousel-btns {
+          color: #BECCE4;
           text-align: center;
           margin-top: 8px;
+          @include flex();
+          @include align-items(baseline);
 
           .carousel-btn {
             display: inline-block;
             margin: 10px 5px;
-            height: 2px;
-            width: 20px;
-            background-color: #fff;
             opacity: 0.5;
 
             &.active {

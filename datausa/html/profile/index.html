@@ -46,8 +46,10 @@
           {% for stat in profile.splash.stats %}
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-value">{{ stat.value|safe }}</div>
-            <div class="stat-rank">Rank: {{ stat.rank|safe }}</div>
+            <div class="stat-group">
+              <div class="stat-value">{{ stat.value|safe }}</div>
+              <div class="stat-rank">Rank: {{ stat.rank|safe }}</div>
+            </div>
           </div>
           {% endfor %}
         </div>
@@ -60,16 +62,16 @@
             {% endfor %}
           </div>
           <div class="carousel-btns">
-            {% for fact in profile.splash.facts %}
-              <div class="carousel-btn{% if loop.index == 1%} active{% endif %}"></div>
-            {% endfor %}
+              <div class="carousel-btn">&#10229;</div>
+              <span>1</span><span> / </span><span>3</span>
+              <div class="carousel-btn active">&#10230;</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="splash-icon-nav">
-      <span>Jump to:</span>
+      <span>Jump to</span>
     {% for section in sections %}
       <a href="#{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /></a>
     {% endfor %}
