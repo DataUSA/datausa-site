@@ -716,12 +716,15 @@ search.open_details = function(d){
   var anchors_container = d3.select(".details-anchors");
   anchors_container.html("");
   if(this.anchors[d.kind].sections){
+    var ul = anchors_container.append("ul")
     this.anchors[d.kind].sections.forEach(function(anchor){
-      anchors_container.append("a")
+      var li = ul.append("li");
+      li.append("h3")
+        .append("a")
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
         .text(anchor.title)
-        .append("span")
-        .text(anchor.description)
+      li.append("p")
+        .text(anchor.description.replace("<<name>>", d.display))
     })
   }
 
