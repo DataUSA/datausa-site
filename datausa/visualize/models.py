@@ -12,7 +12,7 @@ class Viz(object):
 
     """
 
-    def __init__(self, params, color="#006ea8", highlight=False):
+    def __init__(self, params, highlight=False):
         """Initializes a new Viz class.
 
         Args:
@@ -21,7 +21,6 @@ class Viz(object):
 
         """
 
-        self.color = color;
         self.highlight = params.pop("highlight", highlight);
 
         # force the data of params into a list
@@ -77,7 +76,6 @@ class Viz(object):
         """dict: JSON dump of Viz attrs, config, and data """
         return json.dumps({
             "attrs": self.attrs,
-            "color": self.color,
             "config": self.config,
             "data": self.data,
             "highlight": self.highlight

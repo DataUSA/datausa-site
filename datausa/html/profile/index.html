@@ -84,7 +84,7 @@
 
 </article>
 
-<div id="title-bar" style="background-color: {{ profile.color() }};">
+<div id="title-bar">
   <h1><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" style="width:80px" /></a> {{ profile.splash.title }}</h1>
 </div>
 
@@ -107,12 +107,12 @@
 <section class="{{ section.anchor }}">
   {% for topic in section.topics %}
   {% if topic.category %}
-  <h1 class="category" style="color: {{ profile.color() }};">{{ topic.category|safe }}</h1>
+  <h1 class="category">{{ topic.category|safe }}</h1>
   {% endif %}
   {% if topic.items()|length > 1 or "category" not in topic %}
   <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}">
     {% if topic.title %}
-    <h2 style="color: {{ profile.color() }};">{{ topic.title|safe }}</h2>
+    <h2>{{ topic.title|safe }}</h2>
     {% endif %}
     {% if topic.subtitle %}
     <sub>{{ topic.subtitle|safe }}</sub>
@@ -183,7 +183,7 @@
   });
 
   var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
-      color = "{{ profile.color() }}";
+      attr_type = "{{ profile.attr_type }}";
 
   // var titleNavHeight = d3.select(".thumbprint").node().offsetHeight;
   var titleNavHeight = titleHeight;
@@ -205,9 +205,6 @@
         if (top - titleHeight - 10 < y) active_section = this.name;
       })
     d3.selectAll("#profile-nav li")
-      .style("color", function(){
-        return this.getAttribute("data-anchor") === active_section ? color : null;
-      })
       .classed("active", function(){
         return this.getAttribute("data-anchor") === active_section;
       });
@@ -222,6 +219,7 @@
     build.loaded = false;
     build.timer = false;
     build.index = i;
+    build.colors = staticColors.profile[attr_type];
 
     var select = d3.select(build.container.node().parentNode).select("select");
     if (select.size()) {

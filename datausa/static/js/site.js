@@ -753,6 +753,8 @@ search.open_details = function(d){
 
 var viz = function(build) {
 
+  if (!build.colors) build.colors = staticColors.viz.defaults;
+
   build.viz = d3plus.viz()
     .background("transparent")
     .container(build.container)
@@ -790,14 +792,13 @@ viz.finish = function(build) {
 
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
-      var lighter = d3plus.color.lighter(build.color);
-        build.config.color = function(d, viz) {
-          return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.color : lighter;
-        };
+      build.config.color = function(d, viz) {
+        return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.colors.pri : build.colors.sec;
+      };
     }
     else {
       build.config.color = function(d, viz) {
-        return build.color;
+        return build.colors.pri;
       };
     }
     build.config.legend = false;
@@ -932,7 +933,7 @@ viz.defaults = function(build) {
     return {
       "label": {
         "font": {
-          "color": axis.length === 1 ? build.color : d3plus.color.lighter(build.color),
+          "color": axis.length === 1 ? build.colors.pri : build.colors.sec,
           "family": "Palanquin",
           "size": 16,
           "weight": 700
@@ -1058,6 +1059,13 @@ viz.defaults = function(build) {
         "size": 13
       }
     },
+    "legend": {
+      "font": {
+        "color": "#211f1a",
+        "family": "Palanquin",
+        "weight": 700
+      }
+    },
     "messages": {
       "style": "large"
     },
@@ -1074,7 +1082,7 @@ viz.geo_map = function(build) {
 
   return {
     "color": {
-      "heatmap": [d3plus.color.lighter(build.color), build.color, d3.rgb(build.color).darker()]
+      "heatmap": [build.colors.sec, build.colors.pri]
     },
     "coords": {
       "center": [0, 0],
@@ -1327,10 +1335,31 @@ viz.loadData = function(build, next) {
 }
 
 var staticColors = {
+
   "nationality": {
     "foreign": "#ccd",
     "us": "#c00"
   },
+
+  "profile": {
+    "geo": {
+      "pri": "#006ea8",
+      "sec": "#71bbe2"
+    },
+    "cip": {
+      "pri": "#006ea8",
+      "sec": "#71bbe2"
+    },
+    "soc": {
+      "pri": "#006ea8",
+      "sec": "#71bbe2"
+    },
+    "naics": {
+      "pri": "#006ea8",
+      "sec": "#71bbe2"
+    }
+  },
+
   "sex": {
     "men": "blue",
     "male": "blue",
@@ -1338,5 +1367,13 @@ var staticColors = {
     "women": "pink",
     "female": "pink",
     "2": "pink"
+  },
+
+  "viz": {
+    "default": {
+      "pri": "#006ea8",
+      "sec": "#71bbe2"
+    }
   }
+
 }

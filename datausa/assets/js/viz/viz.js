@@ -1,5 +1,7 @@
 var viz = function(build) {
 
+  if (!build.colors) build.colors = staticColors.viz.defaults;
+
   build.viz = d3plus.viz()
     .background("transparent")
     .container(build.container)
@@ -37,14 +39,13 @@ viz.finish = function(build) {
 
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
-      var lighter = d3plus.color.lighter(build.color);
-        build.config.color = function(d, viz) {
-          return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.color : lighter;
-        };
+      build.config.color = function(d, viz) {
+        return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.colors.pri : build.colors.sec;
+      };
     }
     else {
       build.config.color = function(d, viz) {
-        return build.color;
+        return build.colors.pri;
       };
     }
     build.config.legend = false;

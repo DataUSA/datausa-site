@@ -32,7 +32,7 @@ viz.defaults = function(build) {
     return {
       "label": {
         "font": {
-          "color": axis.length === 1 ? build.color : d3plus.color.lighter(build.color),
+          "color": axis.length === 1 ? build.colors.pri : build.colors.sec,
           "family": "Palanquin",
           "size": 16,
           "weight": 700
@@ -156,6 +156,13 @@ viz.defaults = function(build) {
       "font": {
         "family": "Palanquin",
         "size": 13
+      }
+    },
+    "legend": {
+      "font": {
+        "color": "#211f1a",
+        "family": "Palanquin",
+        "weight": 700
       }
     },
     "messages": {

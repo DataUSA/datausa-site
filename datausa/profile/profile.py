@@ -43,11 +43,6 @@ class Profile(object):
         except ValueError:
             return []
 
-    def color(self):
-        if hasattr(self.attr, "color"):
-            return self.attr["color"]
-        return "#006ea8"
-
     def load_vars(self):
         """Reads variables from disk and resolves them based on API"""
         profile_path = os.path.dirname(os.path.realpath(__file__))
