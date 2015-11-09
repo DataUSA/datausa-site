@@ -1096,11 +1096,12 @@ body.profile nav {
       text-align: center; }
 body.profile #title-bar {
   display: block;
-  height: 45px;
+  height: 40px;
   left: 0;
   position: fixed;
-  top: -45px;
+  top: -40px;
   width: 100%;
+  text-align: center;
   z-index: 5;
   -webkit-transition: top 0.5s;
   -moz-transition: top 0.5s;
@@ -1109,21 +1110,25 @@ body.profile #title-bar {
   transition: top 0.5s; }
   body.profile #title-bar.visible {
     top: 0; }
-    body.profile #title-bar h1 {
-      padding: 6px;
-      color: white;
-      font-family: "Enriqueta", serif;
-      font-size: 24px;
-      font-weight: 700;
-      text-align: center; }
+    body.profile #title-bar img {
+      width: 80px;
+      margin-top: 3px; }
+      body.profile #title-bar span {
+        display: inline-block;
+        padding: 9px;
+        background-color: white;
+        color: #333;
+        font-family: "Lato", sans-serif;
+        font-size: 18px;
+        font-weight: 700; }
 body.profile #profile-nav {
   display: block;
   height: 35px;
   left: 0;
   position: fixed;
-  top: -45px;
+  top: -40px;
   width: 100%;
-  z-index: 4;
+  z-index: 2;
   background-color: #eeeeee;
   text-align: center;
   -webkit-transition: top 0.5s;
@@ -1132,7 +1137,7 @@ body.profile #profile-nav {
   -o-transition: top 0.5s;
   transition: top 0.5s; }
   body.profile #profile-nav.visible {
-    top: 45px; }
+    top: 40px; }
     body.profile #profile-nav ul li {
       display: inline-block;
       margin: 0 10px;
@@ -1156,7 +1161,7 @@ body.profile header {
       content: "";
       position: absolute;
       visibility: hidden;
-      top: -85px; }
+      top: -80px; }
   body.profile header p {
     margin: 0 auto;
     font-family: "Lato", sans-serif;

@@ -318,6 +318,7 @@ body.profile {
     position: fixed;
     top: -$title-height;
     width: 100%;
+    text-align: center;
     z-index: 5;
     @include transition(top 0.5s);
 
@@ -325,13 +326,19 @@ body.profile {
       top: 0;
     }
 
-    h1 {
-      padding: 6px;
-      color: white;
-      font-family: $enriqueta;
-      font-size: 24px;
+    img {
+      width: 80px;
+      margin-top: 3px;
+    }
+
+    span {
+      display: inline-block;
+      padding: 9px;
+      background-color: white;
+      color: #333;
+      font-family: $lato;
+      font-size: 18px;
       font-weight: 700;
-      text-align: center;
     }
 
   }
@@ -343,7 +350,7 @@ body.profile {
     position: fixed;
     top: -$title-height;
     width: 100%;
-    z-index: 4;
+    z-index: 2;
     background-color: #eeeeee;
     text-align: center;
     @include transition(top 0.5s);
