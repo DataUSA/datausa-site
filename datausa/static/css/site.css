@@ -320,23 +320,34 @@ body.search #search-advanced {
     display: inline-block; }
     body.search #search-advanced #search-filters a.active {
       font-weight: bold; }
+  body.search #search-advanced .search-autocorrected {
+    background-color: #FEEFB3;
+    color: #9F6000;
+    display: none;
+    font-family: sans-serif;
+    text-align: center; }
+    body.search #search-advanced .search-autocorrected span {
+      font-weight: bold; }
   body.search #search-advanced .search-suggestions {
     font-family: sans-serif;
     text-align: center; }
-    body.search #search-advanced .search-nestings {
-      min-height: 35px;
-      z-index: 0; }
-      body.search #search-advanced .search-nestings div {
-        display: none;
-        text-align: center; }
-        body.search #search-advanced .search-nestings a {
-          color: gray;
-          font-family: sans-serif;
-          padding: 5px 15px;
-          display: inline-block; }
-          body.search #search-advanced .search-nestings a.active {
-            color: black;
-            font-weight: bold; }
+    body.search #search-advanced .search-suggestions a {
+      font-weight: bold !important;
+      text-decoration: underline !important; }
+  body.search #search-advanced .search-nestings {
+    min-height: 35px;
+    z-index: 0; }
+    body.search #search-advanced .search-nestings div {
+      display: none;
+      text-align: center; }
+      body.search #search-advanced .search-nestings a {
+        color: gray;
+        font-family: sans-serif;
+        padding: 5px 15px;
+        display: inline-block; }
+        body.search #search-advanced .search-nestings a.active {
+          color: black;
+          font-weight: bold; }
   body.search #search-advanced .search-nav {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -780,15 +791,63 @@ body.home {
   #search-switch.adv {
     text-align: right;
     text-transform: uppercase; }
-body.profile a, body.profile p {
-  color: #333; }
-  body.profile nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: white;
-    z-index: 3; }
-    body.profile #splash {
+body.profile nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 5; }
+  body.profile #splash {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    width: 100vw; }
+    body.profile #splash .bg-filter {
+      position: absolute;
+      width: 100%;
+      background: linear-gradient(transparent 40%, rgba(1, 1, 3, 0.6) 100%);
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1; }
+      body.profile #splash #splash-image {
+        height: 110%;
+        left: -5%;
+        position: absolute;
+        top: -5%;
+        width: 110%;
+        background-position: center center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        z-index: 0; }
+        body.profile #splash #splash-image:after {
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100%;
+          background: #444;
+          opacity: 0.4;
+          content: ""; }
+    body.profile #splash .content {
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;

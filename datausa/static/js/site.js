@@ -366,7 +366,6 @@ var load = function(url, callback) {
       else if (url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0) {
 
         localforage.getItem(url, function(error, data) {
-          console.log(data)
 
           if (data) {
             callback(load.datafold(data), url, data);
@@ -380,12 +379,12 @@ var load = function(url, callback) {
                 data = {"headers": [], "data": []};
               }
 
-              if (data.headers) {
-                for (var i = 0; i < data.data.length; i++) {
-                  data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
-                }
-                data.headers.push("search");
-              }
+              // if (data.headers) {
+              //   for (var i = 0; i < data.data.length; i++) {
+              //     data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
+              //   }
+              //   data.headers.push("search");
+              // }
 
               localforage.setItem(url, data);
               load.cache[url] = data;
@@ -539,8 +538,30 @@ search.reload = function() {
   // console.log("params:", q_params)
   window.history.pushState("", "", "/search/"+q_params);
   
-  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, src) {
-    console.log(data, url, src)
+  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
+    console.log(data, url, raw)
+    
+    if(raw.suggestions){
+      var search_suggestions = raw.suggestions.slice();
+      if(raw.autocorrected){
+        d3.select(".search-autocorrected").style("display", "block")
+        d3.select(".search-autocorrected span.result").text(search_suggestions.shift())
+      }
+      else {
+        d3.select(".search-autocorrected").style("display", "none")
+      }
+    }
+    
+    d3.select(".search-suggestions").style("display", "block").text('')
+    if(search_suggestions.length){
+      var suggestions_span = d3.select(".search-suggestions")
+        .style("display", "block")
+        .text("Suggestions: ")
+      var search_suggestions_a = search_suggestions.map(function(s, i){
+        return "<a href='/search/?q="+s+"'>"+s+"</a>"
+      })
+      suggestions_span.append("span").html(search_suggestions_a.join(", "))
+    }
     
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")

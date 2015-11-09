@@ -47,9 +47,24 @@ body.search {
       }
     }
     
+    .search-autocorrected {
+      background-color: #FEEFB3;
+      color: #9F6000;
+      display: none;
+      font-family: sans-serif;
+      text-align: center;
+      span {
+        font-weight: bold;
+      }
+    }
+
     .search-suggestions {
       font-family: sans-serif;
       text-align: center;
+      a {
+        font-weight: bold !important; 
+        text-decoration: underline !important; 
+      }
     }
     
     .search-nestings {

@@ -32,12 +32,12 @@ var load = function(url, callback) {
                 data = {"headers": [], "data": []};
               }
 
-              if (data.headers) {
-                for (var i = 0; i < data.data.length; i++) {
-                  data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
-                }
-                data.headers.push("search");
-              }
+              // if (data.headers) {
+              //   for (var i = 0; i < data.data.length; i++) {
+              //     data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
+              //   }
+              //   data.headers.push("search");
+              // }
 
               localforage.setItem(url, data);
               load.cache[url] = data;
