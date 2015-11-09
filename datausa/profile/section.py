@@ -357,6 +357,11 @@ class Section(object):
             return "{}ies".format(text[:-1]) if text[-1] == "y" else "{}s".format(text)
         return text
 
+    def range(self, **kwargs):
+        minVal = int(kwargs.get("min"))
+        maxVal = int(kwargs.get("max"))
+        return str(range(minVal, maxVal + 1))
+
     def ranks(self, **kwargs):
 
         ranks = int(kwargs.get("limit", 1))

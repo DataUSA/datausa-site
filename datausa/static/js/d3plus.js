@@ -29601,7 +29601,7 @@ module.exports = function(axis) {
         weight: 200
       },
       labels: {
-        accepted: [Boolean],
+        accepted: [Boolean, Array],
         value: true
       },
       rendering: rendering(),
@@ -31911,13 +31911,21 @@ module.exports = function(vars, opts) {
         });
         if (vars[axis].ticks.value) {
           vars[axis].ticks.visible = vars[axis].ticks.value.map(Number);
+        } else if (vars[axis].ticks.labels.value.constructor === Array) {
+          vars[axis].ticks.visible = vars[axis].ticks.labels.value.map(Number);
         } else {
           vars[axis].ticks.visible = timeReturn.values.map(Number);
         }
         vars[axis].ticks.format = timeReturn.format;
       } else if (vars[axis].ticks.value) {
         vars[axis].ticks.values = vars[axis].ticks.value;
-        vars[axis].ticks.visible = vars[axis].ticks.value;
+        if (vars[axis].ticks.labels.value.constructor === Array) {
+          vars[axis].ticks.visible = vars[axis].ticks.labels.value;
+        } else {
+          vars[axis].ticks.visible = vars[axis].ticks.value;
+        }
+      } else if (vars[axis].ticks.labels.value.constructor === Array) {
+        vars[axis].ticks.visible = vars[axis].ticks.labels.value;
       } else if (vars[axis].scale.value === "log") {
         ticks = vars[axis].ticks.values;
         tens = ticks.filter(function(t) {
@@ -32306,7 +32314,7 @@ module.exports = function(vars) {
       visible = vars[axis].ticks.visible.indexOf(d) >= 0;
       if (visible && (!log || Math.abs(d).toString().charAt(0) === "1")) {
         return color;
-      } else if (grid) {
+      } else if (grid && vars.axes.background.color !== "transparent") {
         return mix(color, vars.axes.background.color, 0.4, 1);
       } else {
         return mix(color, vars.background.value, 0.4, 1);

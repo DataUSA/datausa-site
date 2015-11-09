@@ -186,7 +186,12 @@ topics:
         show: "age"
       id: "cip"
       type: "line"
-      x: "age"
+      x:
+        range: [19, 95]
+        ticks:
+          labels: [19, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
+          value: <<range min=19|max=95>>
+        value: "age"
       y: "num_ppl"
   - title: "Global Diversity"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
