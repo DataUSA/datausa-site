@@ -33,13 +33,15 @@
     </div>
 
     <div class="splash-context">
+      
+      <div class="context-l">
+        {% if profile.splash.viz %}
+        <div class="viz thumbprint"></div>
+        <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
+        {% endif %}
+      </div>
 
-      {% if profile.splash.viz %}
-      <div class="viz thumbprint"></div>
-      <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
-      {% endif %}
-
-      <div>
+      <div class="context-r">
         <div id="splash-stats">
           {% for stat in profile.splash.stats %}
           <div class="stat">
