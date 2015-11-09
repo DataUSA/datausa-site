@@ -111,10 +111,9 @@
   d3.selectAll(".search-nestings a").on("click", function(active_el){
     var _this = active_el || this;
     var depth = d3.select(_this).attr("data-depth");
-    console.log(depth)
     
     // set constrained search mode with appropriate sumlevel
-    search.term = "";
+    // search.term = "";
     if(depth){
       search.current_depth[search.type] = d3.select(_this).attr("data-depth");
     }

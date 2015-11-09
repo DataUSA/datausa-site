@@ -366,6 +366,7 @@ var load = function(url, callback) {
       else if (url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0) {
 
         localforage.getItem(url, function(error, data) {
+          console.log(data)
 
           if (data) {
             callback(load.datafold(data), url, data);
@@ -527,38 +528,20 @@ search.reload = function() {
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
   
   var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
-  // console.log(this.type, this.nesting[this.type], this.current_depth[this.type])
-  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data) {
-    // console.log(data)
-
-    var crumbs = this.container.select(".search-crumbs")
-      .classed("active", this.parents.length > 0);
-
-    var input = this.container.select(".search-input")
-      .classed("inactive", this.parents.length > 0);
-
-    if (!this.parents.length) {
-      input.node().focus();
-    }
-    else {
-      var crumb = crumbs.selectAll(".search-crumb")
-        .data(this.parents, function(d){
-          return d.id;
-        });
-
-      crumb.enter().append("div")
-        .attr("class", "search-crumb")
-        .on("click", function(d, i){
-          if (i !== this.parents.length - 1) {
-            this.back(i + 1);
-          }
-        }.bind(this));
-
-      crumb.text(function(d){ return d.name; });
-
-      crumb.exit().remove();
-    }
-
+  var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
+                  .filter(function(q){ return q[1] || q[1]===0; })
+                  .reduce(function(a, b, i){
+                    var sep = i ? "&" : "";
+                    return a+sep+b[0]+"="+b[1];
+                  }, "?")
+  
+  // set URL query parameter to search query
+  // console.log("params:", q_params)
+  window.history.pushState("", "", "/search/"+q_params);
+  
+  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, src) {
+    console.log(data, url, src)
+    
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
       .data(this.filter(data), function(d){ return d.id; });
@@ -576,6 +559,9 @@ search.reload = function() {
       if(!first_item.empty()){
         first_item.on("click")(first_item.datum());
       }
+      else{
+        this.clear_details();
+      }
     }
 
     var format = this.advanced ? this.btnExplore : this.btnProfile;
@@ -590,7 +576,7 @@ search.reload = function() {
 search.btnExplore = function(d) {
   // console.log(d)
 
-  var html = d.id + ". " + d.name,
+  var html = d.display,
       children = false,
       nesting = this.nesting[this.type];
 
@@ -608,7 +594,7 @@ search.btnExplore = function(d) {
   // }
   html = "<span>[" + d.kind.toUpperCase() + "]</span> " + html;
 
-  html += "<a class='search-btn-profile' href='/profile/" + this.type + "/" + d.id + "/'>Profile</a>";
+  html += "<a class='search-btn-profile' href='/profile/" + d.kind + "/" + d.id + "/'>Profile</a>";
 
   return html;
 
@@ -646,10 +632,7 @@ search.filter = function(data) {
   }
   else if (this.term.length) {
 
-    return data.filter(function(d){
-      d.search_index = d.search.indexOf(this.term);
-      return d.search_index >= 0;
-    }.bind(this)).sort(function(a, b) {
+    return data.sort(function(a, b) {
       var s = a.search_index - b.search_index;
       if (s) return s;
       return a.id - b.id;
@@ -749,6 +732,13 @@ search.open_details = function(d){
       })
     })
   })
+}
+
+search.clear_details = function(){
+  d3.select(".search-details .details-title").text('');
+  d3.select(".search-details .details-sumlevels").html('');
+  d3.select(".search-details .details-sumlevels-results").html('');
+  d3.select(".search-details .details-anchors").html('');  
 }
 
 var viz = function(build) {

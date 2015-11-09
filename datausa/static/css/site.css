@@ -320,20 +320,23 @@ body.search #search-advanced {
     display: inline-block; }
     body.search #search-advanced #search-filters a.active {
       font-weight: bold; }
-  body.search #search-advanced .search-nestings {
-    min-height: 35px;
-    z-index: 0; }
-    body.search #search-advanced .search-nestings div {
-      display: none;
-      text-align: center; }
-      body.search #search-advanced .search-nestings a {
-        color: gray;
-        font-family: sans-serif;
-        padding: 5px 15px;
-        display: inline-block; }
-        body.search #search-advanced .search-nestings a.active {
-          color: black;
-          font-weight: bold; }
+  body.search #search-advanced .search-suggestions {
+    font-family: sans-serif;
+    text-align: center; }
+    body.search #search-advanced .search-nestings {
+      min-height: 35px;
+      z-index: 0; }
+      body.search #search-advanced .search-nestings div {
+        display: none;
+        text-align: center; }
+        body.search #search-advanced .search-nestings a {
+          color: gray;
+          font-family: sans-serif;
+          padding: 5px 15px;
+          display: inline-block; }
+          body.search #search-advanced .search-nestings a.active {
+            color: black;
+            font-weight: bold; }
   body.search #search-advanced .search-nav {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
