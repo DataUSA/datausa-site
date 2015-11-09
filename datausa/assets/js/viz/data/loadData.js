@@ -14,7 +14,7 @@ viz.loadData = function(build, next) {
   if (build.data.length) {
     var loaded = 0, dataArray = [];
     for (var i = 0; i < build.data.length; i++) {
-      load(build.data[i].url, function(data, url, source){
+      load(build.data[i].url, function(data, url, return_data){
         var d = build.data.filter(function(d){ return d.url === url; })[0];
         if (d.static) {
           for (var i = 0; i < data.length; i++) {
@@ -93,8 +93,8 @@ viz.loadData = function(build, next) {
         }
 
         d.data = data;
-        d.source = source;
-        build.sources.push(source)
+        d.source = return_data.source;
+        build.sources.push(return_data.source)
         dataArray = dataArray.concat(data);
         loaded++;
         if (loaded === build.data.length) {

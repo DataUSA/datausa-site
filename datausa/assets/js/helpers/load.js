@@ -14,14 +14,14 @@ var load = function(url, callback) {
 
       if (load.cache[url]) {
           data = load.cache[url];
-          callback(load.datafold(data), url, data.source);
+          callback(load.datafold(data), url, data);
       }
       else if (url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0) {
 
         localforage.getItem(url, function(error, data) {
 
           if (data) {
-            callback(load.datafold(data), url, data.source);
+            callback(load.datafold(data), url, data);
           }
           else {
             d3.json(url, function(error, data){
@@ -41,7 +41,7 @@ var load = function(url, callback) {
 
               localforage.setItem(url, data);
               load.cache[url] = data;
-              callback(load.datafold(data), url, data.source);
+              callback(load.datafold(data), url, data);
             });
           }
 
@@ -57,7 +57,7 @@ var load = function(url, callback) {
             data = {"headers": [], "data": []};
           }
           load.cache[url] = data;
-          callback(load.datafold(data), url, data.source);
+          callback(load.datafold(data), url, data);
         });
 
       }
