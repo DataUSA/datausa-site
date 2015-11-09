@@ -203,7 +203,10 @@ def num_format(number, key=None, labels=True):
 
     # Determines which index of "groups" to move the decimal point to.
     groups = ["", "k", "M", "B", "T"]
-    m = max(0,min(len(groups)-1, int(math.floor(math.log10(abs(n))/3))))
+    if n == 0:
+        m = 0
+    else:
+        m = max(0,min(len(groups)-1, int(math.floor(math.log10(abs(n))/3))))
 
     # Moves the decimal point and rounds the new number to specific decimals.
     n = n/10**(3*m)

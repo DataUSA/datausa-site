@@ -143,6 +143,9 @@ class Section(object):
             if not isinstance(self.description, list):
                 self.description = [self.description]
 
+        if "viz" in config:
+            self.viz = Viz(config["viz"])
+
         if "topics" in config:
             self.topics = config["topics"]
 
@@ -330,7 +333,11 @@ class Section(object):
             if r[t] in [None, "N/A"]:
                 return "N/A"
 
-        val = r["num"]/r["den"]
+        if r["num"] == 0 or r["den"] == 0:
+            val = 0
+        else:
+            val = r["num"]/r["den"]
+
         if kwargs.get("invert", False):
             val = 1 - val
 
@@ -352,7 +359,10 @@ class Section(object):
     def plural(self, **kwargs):
         text = kwargs.pop("text")
         kwargs["unformatted"] = True
-        val = float(self.top(**kwargs)[0])
+        try:
+            val = float(self.top(**kwargs)[0])
+        except ValueError:
+            val = 2
         if val > 1:
             return "{}ies".format(text[:-1]) if text[-1] == "y" else "{}s".format(text)
         return text
@@ -406,6 +416,22 @@ class Section(object):
             results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
 
         return ",".join([str(r) for r in results])
+
+    def solo(self):
+        attr_id = self.attr["id"]
+        if attr_id[:3] in ["010", "040"]:
+            return ""
+        else:
+            states = [p["id"] for p in self.profile.parents() if p["id"][:3] == "040"]
+            return_ids = []
+            for state in states:
+                try:
+                    url = "{}/attrs/geo/{}/children?sumlevel={}".format(API, state, attr_id[:3])
+                    results = datafold(requests.get(url).json())
+                    return_ids += [r["id"] for r in results]
+                except ValueError:
+                    return ""
+            return ",".join(return_ids)
 
     def sub(self, **kwargs):
         kwargs["data_only"] = True

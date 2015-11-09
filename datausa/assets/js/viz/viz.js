@@ -1,9 +1,18 @@
 var viz = function(build) {
 
   build.viz = d3plus.viz()
+    .background("transparent")
     .container(build.container)
     .error("Please Wait")
     .draw();
+
+  if (build.highlight) {
+
+    build.viz.class(function(d, viz){
+      return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? "highlight" : "";
+    });
+
+  }
 
   viz.loadCoords(build);
 
@@ -30,7 +39,7 @@ viz.finish = function(build) {
     if (build.viz.attrs()[build.highlight]) {
       var lighter = d3plus.color.lighter(build.color);
         build.config.color = function(d, viz) {
-          return d[viz.id.value] === build.highlight ? build.color : lighter;
+          return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.color : lighter;
         };
     }
     else {

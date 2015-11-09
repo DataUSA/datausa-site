@@ -33,11 +33,13 @@
     </div>
 
     <div class="splash-context">
-      <div class="context-l">
-        <div class="thumbprint"></div>
-      </div>
 
-      <div class="context-r">
+      {% if profile.splash.viz %}
+      <div class="viz thumbprint"></div>
+      <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
+      {% endif %}
+
+      <div>
         <div id="splash-stats">
           {% for stat in profile.splash.stats %}
           <div class="stat">
@@ -181,7 +183,8 @@
   var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
       color = "{{ profile.color() }}";
 
-  var titleNavHeight = d3.select(".thumbprint").node().offsetHeight;
+  // var titleNavHeight = d3.select(".thumbprint").node().offsetHeight;
+  var titleNavHeight = titleHeight;
 
   function navScroll(){
 

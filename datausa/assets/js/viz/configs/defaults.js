@@ -57,6 +57,7 @@ viz.defaults = function(build) {
         "color": "transparent"
       }
     },
+    "background": "transparent",
     "format": {
       "number": function(number, params) {
 

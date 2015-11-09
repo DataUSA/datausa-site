@@ -6,7 +6,7 @@ viz.loadAttrs = function(build) {
   if (build.attrs.length) {
     var loaded = 0, attrs = {};
     for (var i = 0; i < build.attrs.length; i++) {
-      load(build.attrs[i].url, function(data, url, source){
+      load(build.attrs[i].url, function(data, url){
         var a = build.attrs.filter(function(a){ return a.url === url; })[0];
         a.data = data;
         for (var i = 0; i < data.length; i++) {

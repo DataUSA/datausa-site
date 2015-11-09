@@ -16,8 +16,17 @@ viz.loadCoords = function(build) {
       delete build.config.coords.value;
     }
 
-    if (build.config.coords.solo) {
-      build.config.coords.solo = build.config.coords.solo.split(",");
+    if (type === "uss") {
+      build.config.coords.key = "states";
+      type = "states";
+    }
+
+    var solo = build.config.coords.solo;
+    if (solo && solo.length) {
+      build.config.coords.solo = solo.split(",");
+    }
+    else {
+      build.config.coords.solo = [];
     }
 
     var filename = type;

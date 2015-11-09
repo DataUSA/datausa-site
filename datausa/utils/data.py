@@ -72,7 +72,11 @@ def stat(params, col="name", dataset=False, data_only=False):
     if col == "ratio":
         if params["limit"] == 1:
             vals = sorted([v for k, v in r[0].iteritems() if k in params["required"].split(",")], reverse=True)
-            return num_format(vals[0]/vals[1], key=col)
+            if vals[0] == 0 or vals[1] == 0:
+                val = 0
+            else:
+                val = vals[0]/vals[1]
+            return num_format(val, key=col)
         else:
             denom = max([d[params["order"]] for d in r[1:]])
             return num_format(r[0][params["order"]]/denom, key=col)

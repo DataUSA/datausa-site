@@ -22,7 +22,7 @@ class Viz(object):
         """
 
         self.color = color;
-        self.highlight = highlight;
+        self.highlight = params.pop("highlight", highlight);
 
         # force the data of params into a list
         data = params.pop("data") if isinstance(params["data"], list) else [params.pop("data")]

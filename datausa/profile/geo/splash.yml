@@ -1,5 +1,23 @@
 title: "<<name>>"
 description: "Explore the employment, industries, education, and demographics of <<name>>."
+viz:
+  attrs: "geo"
+  coords:
+    solo: "<<solo>>"
+    value: "<<sumlevel plural=True>>"
+  data: []
+  highlight: <<id>>
+  id: "geo"
+  mouse:
+    click: NO
+    move: NO
+    over: NO
+    out: NO
+  type: "geo_map"
+  zoom:
+    click: NO
+    pan: NO
+    scroll: NO
 stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop>>"

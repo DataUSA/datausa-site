@@ -13,6 +13,9 @@ viz.geo_map = function(build) {
       "padding": 0,
       "projection": key === "birthplace" ? "equirectangular" : "albersUsa"
     },
-    "labels": false
+    "labels": false,
+    "zoom": {
+      "scroll": false
+    }
   };
 }

@@ -361,14 +361,14 @@ var load = function(url, callback) {
 
       if (load.cache[url]) {
           data = load.cache[url];
-          callback(load.datafold(data), url, data.source);
+          callback(load.datafold(data), url, data);
       }
       else if (url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0) {
 
         localforage.getItem(url, function(error, data) {
 
           if (data) {
-            callback(load.datafold(data), url, data.source);
+            callback(load.datafold(data), url, data);
           }
           else {
             d3.json(url, function(error, data){
@@ -388,7 +388,7 @@ var load = function(url, callback) {
 
               localforage.setItem(url, data);
               load.cache[url] = data;
-              callback(load.datafold(data), url, data.source);
+              callback(load.datafold(data), url, data);
             });
           }
 
@@ -404,7 +404,7 @@ var load = function(url, callback) {
             data = {"headers": [], "data": []};
           }
           load.cache[url] = data;
-          callback(load.datafold(data), url, data.source);
+          callback(load.datafold(data), url, data);
         });
 
       }
@@ -754,9 +754,18 @@ search.open_details = function(d){
 var viz = function(build) {
 
   build.viz = d3plus.viz()
+    .background("transparent")
     .container(build.container)
     .error("Please Wait")
     .draw();
+
+  if (build.highlight) {
+
+    build.viz.class(function(d, viz){
+      return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? "highlight" : "";
+    });
+
+  }
 
   viz.loadCoords(build);
 
@@ -783,7 +792,7 @@ viz.finish = function(build) {
     if (build.viz.attrs()[build.highlight]) {
       var lighter = d3plus.color.lighter(build.color);
         build.config.color = function(d, viz) {
-          return d[viz.id.value] === build.highlight ? build.color : lighter;
+          return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.color : lighter;
         };
     }
     else {
@@ -948,6 +957,7 @@ viz.defaults = function(build) {
         "color": "transparent"
       }
     },
+    "background": "transparent",
     "format": {
       "number": function(number, params) {
 
@@ -1073,7 +1083,10 @@ viz.geo_map = function(build) {
       "padding": 0,
       "projection": key === "birthplace" ? "equirectangular" : "albersUsa"
     },
-    "labels": false
+    "labels": false,
+    "zoom": {
+      "scroll": false
+    }
   };
 }
 
@@ -1131,7 +1144,7 @@ viz.loadAttrs = function(build) {
   if (build.attrs.length) {
     var loaded = 0, attrs = {};
     for (var i = 0; i < build.attrs.length; i++) {
-      load(build.attrs[i].url, function(data, url, source){
+      load(build.attrs[i].url, function(data, url){
         var a = build.attrs.filter(function(a){ return a.url === url; })[0];
         a.data = data;
         for (var i = 0; i < data.length; i++) {
@@ -1169,8 +1182,17 @@ viz.loadCoords = function(build) {
       delete build.config.coords.value;
     }
 
-    if (build.config.coords.solo) {
-      build.config.coords.solo = build.config.coords.solo.split(",");
+    if (type === "uss") {
+      build.config.coords.key = "states";
+      type = "states";
+    }
+
+    var solo = build.config.coords.solo;
+    if (solo && solo.length) {
+      build.config.coords.solo = solo.split(",");
+    }
+    else {
+      build.config.coords.solo = [];
     }
 
     var filename = type;
@@ -1208,7 +1230,7 @@ viz.loadData = function(build, next) {
   if (build.data.length) {
     var loaded = 0, dataArray = [];
     for (var i = 0; i < build.data.length; i++) {
-      load(build.data[i].url, function(data, url, source){
+      load(build.data[i].url, function(data, url, return_data){
         var d = build.data.filter(function(d){ return d.url === url; })[0];
         if (d.static) {
           for (var i = 0; i < data.length; i++) {
@@ -1287,8 +1309,8 @@ viz.loadData = function(build, next) {
         }
 
         d.data = data;
-        d.source = source;
-        build.sources.push(source)
+        d.source = return_data.source;
+        build.sources.push(return_data.source)
         dataArray = dataArray.concat(data);
         loaded++;
         if (loaded === build.data.length) {
