@@ -51,7 +51,6 @@ body.search {
       background-color: #FEEFB3;
       color: #9F6000;
       display: none;
-      font-family: sans-serif;
       text-align: center;
       span {
         font-weight: bold;
@@ -59,7 +58,6 @@ body.search {
     }
 
     .search-suggestions {
-      font-family: sans-serif;
       text-align: center;
       a {
         font-weight: bold !important; 
@@ -78,7 +76,6 @@ body.search {
       
       a {
         color: gray;
-        font-family: sans-serif;
         padding: 5px 15px;
         display: inline-block;
       }
@@ -194,10 +191,7 @@ body.search {
 }
 
 
-.search-filters-toggle-label{padding-right:12px;} /*not part of default style*/
-
-$dropdown-img: 'http://i.imgur.com/kXsFVER.png';
-
+$dropdown-img: '/static/img/search/dropdown-triangle.png';
 .search-filters {
   @include flex-size(0 0 175px);
   cursor: pointer;
@@ -210,7 +204,6 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
   background-color: lightgray;
   color: white !important;
   overflow: hidden;
-  font-family: sans-serif;
   padding: 8px 0px 8px 13px;
   text-decoration: none;
   white-space: nowrap;
@@ -218,14 +211,20 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
   -webkit-backface-visibility: hidden;
   margin: 5px 0 5px 5px;
   &:hover, &:focus, .search-filters-toggle {
-//    background-color: gray;
     color: white;
-    outline: none; }
+    outline: none; 
+  }
   &:active {
     background-color: lightgray;
-    outline: none; }
-    &:active .search-filters-toggle-icon {
-      border-left-color: transparent; }
+    outline: none; 
+    .search-filters-toggle-icon {
+      border-left-color: transparent; 
+    }
+  }
+}
+
+.search-filters-toggle-label{
+  padding-right:12px;
 }
 
 .search-filters-toggle-icon {
@@ -251,15 +250,17 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
     left: 15px;
     top: 5px;
     width: 0px;
-    -webkit-transform: rotate(360deg); }
+    -webkit-transform: rotate(360deg);
+  }
   &:before {
     left: auto;
-    right: 12px; }
+    right: 12px; 
+  }
   & li {
-    padding-bottom: 3px; }
+    padding-bottom: 3px; 
+  }
   & a {
     color: white !important;
-    font-family: sans-serif;
     display: block;
     padding: 5px 9px;
     text-decoration: none; 
@@ -298,9 +299,9 @@ $dropdown-img: 'http://i.imgur.com/kXsFVER.png';
 .search-filters-options {
   margin-top: -21px;
   position: absolute;
-  left: 0;
+  left: 5px; // to match margin
   opacity: 0;
-  width: 140px;
+  width: 170px;
   z-index: 1;
   display: none;
   @include transition(0.3s ease-out);

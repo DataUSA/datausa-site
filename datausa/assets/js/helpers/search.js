@@ -107,6 +107,7 @@ search.reload = function() {
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
     console.log(data, url, raw)
     
+    d3.select(".search-suggestions").style("display", "block").text('');
     if(raw.suggestions){
       var search_suggestions = raw.suggestions.slice();
       if(raw.autocorrected){
@@ -116,17 +117,15 @@ search.reload = function() {
       else {
         d3.select(".search-autocorrected").style("display", "none")
       }
-    }
-    
-    d3.select(".search-suggestions").style("display", "block").text('')
-    if(search_suggestions.length){
-      var suggestions_span = d3.select(".search-suggestions")
-        .style("display", "block")
-        .text("Suggestions: ")
-      var search_suggestions_a = search_suggestions.map(function(s, i){
-        return "<a href='/search/?q="+s+"'>"+s+"</a>"
-      })
-      suggestions_span.append("span").html(search_suggestions_a.join(", "))
+      if(search_suggestions.length){
+        var suggestions_span = d3.select(".search-suggestions")
+          .style("display", "block")
+          .text("Suggestions: ")
+        var search_suggestions_a = search_suggestions.map(function(s, i){
+          return "<a href='/search/?q="+s+"'>"+s+"</a>"
+        })
+        suggestions_span.append("span").html(search_suggestions_a.join(", "))
+      }
     }
     
     var items = this.container.select(".search-results").html("")
