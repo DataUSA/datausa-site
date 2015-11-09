@@ -338,6 +338,7 @@ body.profile {
 
     .category {
       @include box();
+      @include flex-size(1 1 100%);
       padding: 25px;
       min-width: 100%;
       font-family: $palanquin;
@@ -355,6 +356,7 @@ body.profile {
 
       &.flex {
         @include flex();
+        @include flex-size(1 1);
         @include flex-direction(column);
         @include align-items(stretch);
         margin: 0 25px 50px;
