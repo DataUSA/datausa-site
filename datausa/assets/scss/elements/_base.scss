@@ -1,6 +1,8 @@
-// body {
-//   font-size: 62.5%;
-// }
+body {
+  //font-size: 62.5%;
+  font-family: $lato;
+  font-weight: 400;
+}
 
 h1 {
   color: $dark-d-blue;
@@ -23,7 +25,7 @@ h2 {
 
 p {
   color: white;
-  font-family: $noticia;
+  font-family: $lato;
   font-size: 14px;
   line-height: 1.5;
   opacity: 0.9;
