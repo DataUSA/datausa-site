@@ -138,6 +138,9 @@ class Section(object):
         if "title" in config:
             self.title = config["title"]
 
+        if "group" in config:
+            self.group = config["group"]
+
         if "description" in config:
             self.description = config["description"]
             if not isinstance(self.description, list):

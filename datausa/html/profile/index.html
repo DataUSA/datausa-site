@@ -27,6 +27,10 @@
         </sub>
       {% endif %}
 
+      {% if profile.splash.group %}
+      <div>{{ profile.splash.group }}</div>
+      {% endif %}
+
       <h1>{{ profile.splash.title }}</h1>
 
       <!-- {% for desc in profile.splash.description %}

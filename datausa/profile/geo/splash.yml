@@ -1,4 +1,5 @@
 title: "<<name>>"
+group: "<<level>>"
 description: "Explore the employment, industries, education, and demographics of <<name>>."
 viz:
   attrs: "geo"
@@ -21,13 +22,13 @@ viz:
 stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop>>"
-    rank: "<<var namespace=splash|key=pop_rank>> of <<rank_max>>"
+    rank: "<<var namespace=splash|key=pop_rank>> of <<rank_max>> <<level plural=True>>"
   - title: "Household Income"
     value: "<<var namespace=splash|key=income>>"
-    rank: "<<var namespace=splash|key=income_rank>> of <<rank_max>>"
+    rank: "<<var namespace=splash|key=income_rank>> of <<rank_max>> <<level plural=True>>"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age>>"
-    rank: "<<var namespace=splash|key=age_rank>> of <<rank_max>>"
+    rank: "<<var namespace=splash|key=age_rank>> of <<rank_max>> <<level plural=True>>"
 facts:
   - "<<name>> has a surprisingly large number of people employed as <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca>>."
   - "There is a large concentration of <<top show=cip|order=num_ppl>> majors living in <<name>>."
