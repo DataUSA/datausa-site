@@ -536,7 +536,7 @@ search.reload = function() {
   
   // set URL query parameter to search query
   // console.log("params:", q_params)
-  window.history.pushState("", "", "/search/"+q_params);
+  window.history.replaceState({}, "", "/search/"+q_params);
   
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
     console.log(data, url, raw)
