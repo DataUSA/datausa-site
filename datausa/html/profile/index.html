@@ -1,5 +1,7 @@
 {% extends "templates/nav.html" %}
 
+{% block title %}{{ profile.splash.title }}{% endblock %}
+
 {% block body %}
 
 <script>var builds = [];</script>
@@ -33,7 +35,7 @@
     </div>
 
     <div class="splash-context">
-      
+
       <div class="context-l">
         {% if profile.splash.viz %}
         <div class="viz thumbprint"></div>

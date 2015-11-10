@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- Page title block -->
-    <title>DataUSA{% block title %}{% endblock %}</title>
+    <title>DataUSA{% if self.title() %} | {% endif %}{% block title %}{% endblock %}</title>
 
     <!-- Load CSS styles -->
     <link type="text/css" rel="stylesheet" media="all" href="/static/css/site.css" />
