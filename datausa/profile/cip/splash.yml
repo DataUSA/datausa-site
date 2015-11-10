@@ -15,13 +15,13 @@ viz:
 stats:
   - title: "Median In-State Public Tuition"
     value: "<<top show=sector|sector=1|col=state_tuition>>"
-    rank: "<<top col=state_tuition_rank>>"
+    rank: "<<top col=state_tuition_rank>> of <<rank_max>>"
   - title: "Degrees Awarded in <<var namespace=gdata|key=year>>"
     value: "<<var namespace=gdata|key=grads_total>>"
-    rank: "<<var namespace=gdata|key=grads_rank>>"
+    rank: "<<var namespace=gdata|key=grads_rank>> of <<rank_max>>"
   - title: "Average Income{{ for <<name dataset=pums>>}}"
     value: "<<var namespace=data|key=avg_wage>>"
-    rank: "<<var namespace=data|key=avg_wage_rank>>"
+    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>>"
 facts:
   - "The county with the most degrees awarded in <<name>> is <<top show=geo|sumlevel=county|order=grads_total>>."
   - "The most common occupation for <<name>> majors is <<top show=soc|sumlevel=3|order=num_ppl>>."

@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal
 
 dictionary = {
     "acs_ind": "ACS Industry",
@@ -178,7 +179,7 @@ percentages = [
     "us_citizens"
 ]
 
-def num_format(number, key=None, labels=True):
+def num_format(number, key=None, labels=True, condense=True):
 
     if key:
 
@@ -203,7 +204,7 @@ def num_format(number, key=None, labels=True):
 
     # Determines which index of "groups" to move the decimal point to.
     groups = ["", "k", "M", "B", "T"]
-    if n == 0:
+    if n == 0 or not condense:
         m = 0
     else:
         m = max(0,min(len(groups)-1, int(math.floor(math.log10(abs(n))/3))))
@@ -221,8 +222,11 @@ def num_format(number, key=None, labels=True):
     else:
         n = round(n, 3)
 
+    if Decimal(n) % 1 == 0:
+        n = int(n)
+
     # Initializes the number suffix based on the group.
-    n = u"{}{}".format(n, groups[m])
+    n = u"{}{}".format("{:,}".format(n), groups[m])
 
     if key and key in percentages:
         n = u"{}%".format(n)

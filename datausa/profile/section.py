@@ -6,7 +6,7 @@ from flask import url_for
 from config import API
 from datausa import app
 from datausa.visualize.models import Viz
-from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, stat
+from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, profile_cache, stat
 from datausa.utils.format import num_format
 
 
@@ -416,6 +416,9 @@ class Section(object):
             results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
 
         return ",".join([str(r) for r in results])
+
+    def rank_max(self, **kwargs):
+        return num_format(profile_cache[self.profile.attr_type]["ranks"][self.sumlevel()], condense=False)
 
     def solo(self):
         attr_id = self.attr["id"]

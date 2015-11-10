@@ -282,8 +282,11 @@ attr_cache = build_attr_cache()
 def build_profile_cache():
     profile_path = os.path.join(basedir, "datausa/profile")
     profiles = {}
+
+    ranks = requests.get("{}/attrs/ranks/".format(API)).json()["data"]
+
     for p in PROFILES:
-        profiles[p] = {"sections": []}
+        profiles[p] = {"sections": [], "ranks": ranks[p]}
         splash_path = os.path.join(profile_path, p, "splash.yml")
         splash = yaml.load("".join(open(splash_path).readlines()))
         sections = splash["sections"]

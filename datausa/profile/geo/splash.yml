@@ -21,13 +21,13 @@ viz:
 stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop>>"
-    rank: "<<var namespace=splash|key=pop_rank>>"
+    rank: "<<var namespace=splash|key=pop_rank>> of <<rank_max>>"
   - title: "Household Income"
     value: "<<var namespace=splash|key=income>>"
-    rank: "<<var namespace=splash|key=income_rank>>"
+    rank: "<<var namespace=splash|key=income_rank>> of <<rank_max>>"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age>>"
-    rank: "<<var namespace=splash|key=age_rank>>"
+    rank: "<<var namespace=splash|key=age_rank>> of <<rank_max>>"
 facts:
   - "<<name>> has a surprisingly large number of people employed as <<top show=acs_occ|sumlevel=4|order=num_emp_rca>>."
   - "There is a large concentration of <<top show=cip|order=num_ppl>> majors living in <<name>>."
