@@ -93,8 +93,8 @@
 
           d3plus.tooltip.remove("data-tooltip");
           d3plus.tooltip.create({
-            "x": size.left+size.width/2,
-            "y": size.top+size.height/2,
+            "x": size.left+size.width/2 + window.scrollX,
+            "y": size.top+size.height/2 + window.scrollY,
             "offset": size.height/2,
             "arrow": true,
             "description": d3.select(this).attr("data-tooltip"),
