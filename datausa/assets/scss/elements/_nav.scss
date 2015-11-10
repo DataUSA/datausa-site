@@ -111,7 +111,18 @@ body {
 
 #search-btn {
   padding: 15px;
+  opacity: 0.5;
+  color: $home-red;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 18px;
+  @include transition(opacity 1s);
   z-index: 5;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
 }
 
 #mask {
@@ -122,6 +133,44 @@ body {
   left: 0;
   opacity: 0.8;
   background-color: $dark-home-blue;
+}
+
+/* side search */
+
+#search-nav-sm {
+  display: none;
+  position: fixed;
+  top: $nav-height;
+  right: 10px;
+  border: 1px solid black;
+  background-color: #ccc;
+  z-index: 4;
+  
+  &.open {
+    display: block;
+  }
+
+  section {
+    display: block;
+    padding: 15px;
+  }
+
+  .results-title {
+    h3 {
+      display: inline-block;
+    }
+
+    a {
+      display: inline-block;
+      float: right;
+    }
+  }
+
+  .results-show-all {
+    padding: 5px 10px 7px;
+    text-align: center;
+    background-color: #fff;
+  }
 }
 
 /* small design */
