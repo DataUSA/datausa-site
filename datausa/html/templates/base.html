@@ -11,17 +11,17 @@
     <title>DataUSA{% if self.title() %} | {% endif %}{% block title %}{% endblock %}</title>
 
     <!-- Load CSS styles -->
-    <link type="text/css" rel="stylesheet" media="all" href="/static/css/site.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="/static/css/site.css?v={{ g.cache_version }}" />
     <link type="text/css" rel="stylesheet" media="all" href="/static/css/font-awesome-4.3.0/css/font-awesome.min.css" />
 
     <!-- Load javascript files -->
-    <script src="/static/js/d3.v3.min.js"></script>
-    <script src="/static/js/d3plus.js"></script>
-    <script src="/static/js/topojson.js"></script>
-    <script src="/static/js/localforage.js"></script>
+    <script src="/static/js/d3.v3.min.js?v={{ g.cache_version }}"></script>
+    <script src="/static/js/d3plus.js?v={{ g.cache_version }}"></script>
+    <script src="/static/js/topojson.js?v={{ g.cache_version }}"></script>
+    <script src="/static/js/localforage.js?v={{ g.cache_version }}"></script>
 
     {% assets "js" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    <script type="text/javascript" src="{{ ASSET_URL }}?v={{ g.cache_version }}"></script>
     {% endassets %}
 
     <script>

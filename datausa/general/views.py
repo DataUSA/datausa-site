@@ -9,7 +9,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 3
+    g.cache_version = 4
     g.affixes = json.dumps(affixes)
     g.dictionary = json.dumps(dictionary)
     g.percentages = json.dumps(percentages)
