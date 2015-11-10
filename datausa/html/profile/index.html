@@ -241,50 +241,108 @@
 
     var select = d3.select(build.container.node().parentNode).select("select");
     if (select.size()) {
-      build.select = select.on("change", function(){
 
-        var param = this.getAttribute("data-param"),
-            method = this.getAttribute("data-method"),
-            id = this.value,
-            prev = this.getAttribute("data-default");
+      d3plus.form()
+        .search(false)
+        .ui({
+          "margin": 0
+        })
+        .focus({"callback": function(id){
 
-        d3.select(this).attr("data-default", id);
+          var param = this.getAttribute("data-param"),
+              method = this.getAttribute("data-method"),
+              prev = this.getAttribute("data-default");
 
-        d3.select(this.parentNode).selectAll(".select-text")
-          .html(this.options[this.selectedIndex].text);
+          if (id !== prev) {
 
-        d3.select(this.parentNode).selectAll(".stat-value span[data-url]")
-          .each(function(){
+            d3.select(this).attr("data-default", id);
 
-            d3.select(this.parentNode).classed("loading", true);
-            var url = this.getAttribute("data-url");
+            d3.select(this.parentNode).selectAll(".select-text")
+             .html(d3.select(this).select("option[value='"+ id +"']").text());
+
+            d3.select(this.parentNode).selectAll(".stat-value span[data-url]")
+             .each(function(){
+
+               d3.select(this.parentNode).classed("loading", true);
+               var url = this.getAttribute("data-url");
+               if (param.length) {
+                 url = url.replace(param + "=" + prev, param + "=" + id);
+               }
+               else {
+                 url = url.replace("order=" + prev, "order=" + id);
+                 url = url.replace("required=" + prev, "required=" + id);
+               }
+               d3.select(this).attr("data-url", url);
+
+               load(url, function(data){
+                 d3.select(this.parentNode).classed("loading", false)
+                 d3.select(this).html(data.value);
+               }.bind(this));
+
+             });
+
             if (param.length) {
-              url = url.replace(param + "=" + prev, param + "=" + id);
+             build.data.forEach(function(b){
+               b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+             });
+             viz.loadData(build, "redraw");
             }
-            else {
-              url = url.replace("order=" + prev, "order=" + id);
-              url = url.replace("required=" + prev, "required=" + id);
+            else if (method.length) {
+             build.viz[method](id).draw();
             }
-            d3.select(this).attr("data-url", url);
 
-            load(url, function(data){
-              d3.select(this.parentNode).classed("loading", false)
-              d3.select(this).html(data.value);
-            }.bind(this));
+          }
 
-          });
+        }.bind(select.node())})
+        .data(select)
+        .width(select.node().parentNode.offsetWidth)
+        .type("drop")
+        .draw();
 
-        if (param.length) {
-          build.data.forEach(function(b){
-            b.url = b.url.replace(param + "=" + prev, param + "=" + id);
-          });
-          viz.loadData(build, "redraw");
-        }
-        else if (method.length) {
-          build.viz[method](id).draw();
-        }
-
-      });
+      // build.select = select.on("change", function(){
+      //
+      //   var param = this.getAttribute("data-param"),
+      //       method = this.getAttribute("data-method"),
+      //       id = this.value,
+      //       prev = this.getAttribute("data-default");
+      //
+      //   d3.select(this).attr("data-default", id);
+      //
+      //   d3.select(this.parentNode).selectAll(".select-text")
+      //     .html(this.options[this.selectedIndex].text);
+      //
+      //   d3.select(this.parentNode).selectAll(".stat-value span[data-url]")
+      //     .each(function(){
+      //
+      //       d3.select(this.parentNode).classed("loading", true);
+      //       var url = this.getAttribute("data-url");
+      //       if (param.length) {
+      //         url = url.replace(param + "=" + prev, param + "=" + id);
+      //       }
+      //       else {
+      //         url = url.replace("order=" + prev, "order=" + id);
+      //         url = url.replace("required=" + prev, "required=" + id);
+      //       }
+      //       d3.select(this).attr("data-url", url);
+      //
+      //       load(url, function(data){
+      //         d3.select(this.parentNode).classed("loading", false)
+      //         d3.select(this).html(data.value);
+      //       }.bind(this));
+      //
+      //     });
+      //
+      //   if (param.length) {
+      //     build.data.forEach(function(b){
+      //       b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+      //     });
+      //     viz.loadData(build, "redraw");
+      //   }
+      //   else if (method.length) {
+      //     build.viz[method](id).draw();
+      //   }
+      //
+      // });
     }
 
   });
