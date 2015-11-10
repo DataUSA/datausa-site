@@ -513,8 +513,8 @@ class Section(object):
         params["limit"] = params.get("limit", 1)
         params["show"] = params.get("show", attr_type)
         params["sumlevel"] = params.get("sumlevel", "all")
-        if "level" in params["sumlevel"]:
-            params["sumlevel"] = params["sumlevel"].replace("level", self.level())
+        if "sumlevel" in params["sumlevel"]:
+            params["sumlevel"] = params["sumlevel"].replace("sumlevel", self.sumlevel())
         params = default_params(params)
 
         if "force" not in params:

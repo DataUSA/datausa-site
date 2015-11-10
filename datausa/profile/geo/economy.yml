@@ -6,7 +6,7 @@ topics:
     title: "Most Common"
     class: "flex"
     source: NO
-    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=level,4|order=num_emp|sort=desc|limit=3>>."
+    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -51,7 +51,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=level,4|order=num_emp_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -96,7 +96,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
-    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=level,4|order=med_earnings|sort=desc|limit=3>>."
+    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -317,7 +317,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=level,1|order=num_emp|sort=desc|limit=3>>."
+    description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -363,7 +363,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=level,1|order=num_emp_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -409,7 +409,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paying"
-    description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=level,1|order=med_earnings|sort=desc|limit=3>>."
+    description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
