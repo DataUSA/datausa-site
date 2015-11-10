@@ -7,8 +7,8 @@ var staticColors = {
 
   "profile": {
     "geo": {
-      "pri": "#006ea8",
-      "sec": "#71bbe2"
+      "pri": "#5D82BD",
+      "sec": "#333333"
     },
     "cip": {
       "pri": "#006ea8",
@@ -25,12 +25,12 @@ var staticColors = {
   },
 
   "sex": {
-    "men": "blue",
-    "male": "blue",
-    "1": "blue",
-    "women": "pink",
-    "female": "pink",
-    "2": "pink"
+    "men": "#5D82BD",
+    "male": "#5D82BD",
+    "1": "#5D82BD",
+    "women": "#dc5137",
+    "female": "#dc5137",
+    "2": "#dc5137"
   },
 
   "student_pool": {

@@ -73,7 +73,7 @@
     <div class="splash-icon-nav">
       <span>Jump to</span>
     {% for section in sections %}
-      <a href="#{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /></a>
+      <a href="#{{ section.anchor }}" data-tooltip="{{ section.title|safe }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /></a>
     {% endfor %}
     </div>
 
@@ -93,7 +93,7 @@
 <div id="profile-nav">
   <ul>
   {% for section in sections %}
-    <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}">{{ section.title|safe }}</li></a>
+    <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
   {% endfor %}
   </ul>
 </div>

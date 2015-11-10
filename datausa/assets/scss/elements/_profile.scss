@@ -2,6 +2,122 @@ body.profile {
 
   $bg-width: 89.7%;
   $bg-height: 81.7%;
+  
+  h1 {
+    text-align: left;
+    font-family: $playfair;
+    font-size: 55px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    font-family: $playfair;
+    font-size: 47px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+
+  h1.category {
+    font-family: $roboto;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  p {
+    font-family: $roboto;
+    font-size: 15px;
+    line-height: 1.65;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 0.93);
+  }
+
+  a {
+    color: #333;
+  }
+
+  .topic {
+    h2 {
+      font-family: $playfair;
+      font-size: 28px;
+      font-weight: 300;
+      color: #333;
+      text-transform: none;
+      font-style: normal;
+      letter-spacing: 0.03em;
+    }
+
+    sub {
+      display: inline-block;
+      margin: 5px 0 10px;
+      color: #a8a8a8;
+      font-family: $roboto;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+
+      a {
+        color: #888;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      span {
+        vertical-align: text-bottom;
+      }
+    }
+  }
+
+  .stat-text, .stat-rank {
+    font-family: $roboto;
+    text-transform: uppercase;
+  }
+
+  .stat-text {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+  }
+
+  .stat-group {
+    text-align: center;
+  }
+
+  .stat-rank {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  .stat-value {
+    font-family: $lato;
+    font-size: 33px;
+    font-weight: 300;
+    
+    a {
+      padding-bottom: 1px;
+      color: #213DB3;
+      text-decoration: none;
+      text-transform: capitalize;
+
+      &:hover {
+        border-bottom: 0;
+        color: #5D82BD;
+        border-bottom: 1px solid #5D82BD;
+        text-decoration: none;
+      }
+
+    }
+  }
 
   nav {
     position: fixed;
@@ -9,6 +125,10 @@ body.profile {
     width: 100%;
     background-color: white;
     z-index: 3;
+  }
+
+  .economy, .education, .health {
+    background-color: #ddd;
   }
 
   #splash {
@@ -67,6 +187,10 @@ body.profile {
       z-index: 2;
       @include box();
 
+      .splash-titles {
+        width: 100%;
+      }
+
       .splash-context {
         width: 100%;
         margin: 25px 0;
@@ -102,31 +226,30 @@ body.profile {
       }
 
       .context-l {
-        @include flex-size(1 35px);
+        @include flex-size(1);
       }
 
       .context-r {
-        @include flex-size(2);
+        @include flex-size(1.3);
       }
 
       .thumbprint {
-        // height: 200px;
-        // width: 200px;
-        // @include rounded(50%);
-        // background-color: rgba(255, 255, 255, 0.5);
-        // border: 1px solid #666;
-        // @include box();
+        .d3plus_coordinates.highlight {
+          .d3plus_data {
+            fill: #ffffff;
+            stroke: #8692C5 !important;
+          }
+        }
+
+        .d3plus_data {
+          fill: rgba(255,255,255,0.35);
+          stroke: #4F63B9 !important;
+        }
       }
 
       h1 {
         margin-bottom: 15px;
-        text-align: left;
-        font-size: 55px;
         color: #eee;
-        font-family: $playfair;
-        font-weight: 400;
-        line-height: 1.1;
-        letter-spacing: 0.05em;
       }
 
       sub {
@@ -183,36 +306,19 @@ body.profile {
           @include align-items(center);
           max-width: 150px;
 
-          .stat-text, .stat-rank {
-            text-align: center;
-            font-family: $roboto;
-            text-transform: uppercase;
-          }
-
           .stat-text {
-            width: 97%;
-            font-size: 15px;
-            font-weight: 300;
-            letter-spacing: 0.1em;
+            font-size: 14px;
+            text-align: center;
             color: #BECCE4;
           }
 
-          .stat-group {
-            text-align: center;
-          }
-
           .stat-rank {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
             color: #5D82BD;
           }
 
           .stat-value {
             margin: 6px 0 3px;
-            font-family: $lato;
             font-size: 40px;
-            font-weight: 300;
             color: #fff;
             opacity: 0.85;
           }
@@ -227,7 +333,7 @@ body.profile {
         .carousel-title {
           color: #fff;
           font-family: $playfair;
-          font-size: 20px;
+          font-size: 18px;
           font-style: italic;
           font-weight: 400;
           letter-spacing: 0.08em;
@@ -245,7 +351,7 @@ body.profile {
             display: none;
             text-align: left;
             font-family: $roboto;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 300;
             color: #BECCE4;
 
@@ -272,9 +378,10 @@ body.profile {
         }
 
         .carousel-btns {
+          margin-top: 8px;
           color: #BECCE4;
           text-align: center;
-          margin-top: 8px;
+          font-size: 13px;
           @include flex();
           @include align-items(baseline);
 
@@ -300,13 +407,13 @@ body.profile {
     }
 
     #scroll-btn {
-      bottom: 35px;
-      left: 50%;
-      margin-left: -50px;
-      position: absolute;
-      width: 100px;
-      font-size: 24px;
-      text-align: center;
+      // bottom: 35px;
+      // left: 50%;
+      // margin-left: -50px;
+      // position: absolute;
+      // width: 100px;
+      // font-size: 24px;
+      // text-align: center;
     }
 
   }
@@ -351,7 +458,7 @@ body.profile {
     top: -$title-height;
     width: 100%;
     z-index: 2;
-    background-color: #eeeeee;
+    background-color: #000000;
     text-align: center;
     @include transition(top 0.5s);
 
@@ -364,30 +471,32 @@ body.profile {
       li {
         display: inline-block;
         margin: 0 10px;
-        padding: 3px 5px 4px;
-        color: #888888;
-        font-family: $palanquin;
-        font-size: 16px;
-        font-weight: 600;
+        padding: 8px 5px;
+        font-family: $roboto;
+        text-transform: uppercase;
+        font-weight: 300;
+        font-size: 13px;
+        letter-spacing: 0.03em;
+        color: #fff;
+        opacity: 0.9;
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+        vertical-align: text-bottom;
       }
 
     }
   }
 
   header {
-    //margin-bottom: 50px;
-    padding: 100px 50px 25px;
+    padding: 50px 50px 25px;
     position: relative;
-    background-color: black;
-    color: white;
 
     h2 {
-      margin: 0 auto 10px;
-      //max-width: 600px;
-      font-family: $lato;
-      font-size: 40px;
-      font-weight: 300;
-      line-height: 1;
+      margin: 0 auto 15px;
+      color: #333;
 
       // This is the invisible element to fix the anchor tags!
       a:before {
@@ -396,17 +505,11 @@ body.profile {
         visibility: hidden;
         top: -($title-height+$nav-height);
       }
-
     }
 
     p {
-      margin: 0 auto;
-      //max-width: 600px;
-      font-family: $lato;
-      font-size: 14px;
-      font-weight: 400;
+      font-size: 17px;
     }
-
   }
 
   section {
@@ -420,10 +523,6 @@ body.profile {
       @include flex-size(1 1 100%);
       padding: 25px;
       min-width: 100%;
-      font-family: $lato;
-      font-size: 30px;
-      font-weight: 400;
-      text-align: left;
     }
 
     .topic {
@@ -461,28 +560,6 @@ body.profile {
 
       }
 
-      h2 {
-        font-family: $lato;
-        font-size: 20px;
-        font-weight: 700;
-      }
-
-      sub {
-        margin: 5px 0;
-        color: #a8a8a8;
-        font-family: $enriqueta;
-        font-size: 16px;
-        font-weight: 700;
-
-        a {
-          color: #888;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-
-      }
-
       .content {
         @include flex();
         margin-top: 10px;
@@ -516,34 +593,12 @@ body.profile {
 
             .stat {
               @include flex-size(1);
-              margin-right: 5px;
-              color: $text-color;
-
-              .stat-text {
-                font-family: $enriqueta;
-                font-size: 16px;
-                font-weight: 700;
-              }
+              margin: 10px 15px 10px 0;
 
               .stat-value {
-                font-family: $enriqueta;
-                font-size: 40px;
-                font-weight: 700;
-
                 &.loading {
                   opacity: 0.5;
                 }
-
-                a {
-                  color: $text-color;
-                  text-decoration: none;
-
-                  &:hover {
-                    text-decoration: underline;
-                  }
-
-                }
-
               }
 
             }
@@ -551,23 +606,7 @@ body.profile {
           }
 
           p {
-            margin: 0;
-            color: $text-color;
-            font-family: $lato;
-            font-size: 16px;
-            font-weight: 400;
-
-            a {
-              color: $text-color;
-              font-weight: 700;
-              text-decoration: none;
-
-              &:hover {
-                text-decoration: underline;
-              }
-
-            }
-
+            margin: 3px 0 6px;
           }
 
         }

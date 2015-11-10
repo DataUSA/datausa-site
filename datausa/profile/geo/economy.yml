@@ -229,7 +229,7 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
-    subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
+    subtitle: "* Please note that the buckets used in collecting this data are not evenly distributed."
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
