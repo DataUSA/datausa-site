@@ -9,7 +9,6 @@ viz.geo_map = function(build) {
     "coords": {
       "center": [0, 0],
       "key": key,
-      "mute": ["79500US4804701"],
       "padding": 0,
       "projection": key === "birthplace" ? "equirectangular" : "albersUsa"
     },

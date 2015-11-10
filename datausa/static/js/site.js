@@ -1111,7 +1111,6 @@ viz.geo_map = function(build) {
     "coords": {
       "center": [0, 0],
       "key": key,
-      "mute": ["79500US4804701"],
       "padding": 0,
       "projection": key === "birthplace" ? "equirectangular" : "albersUsa"
     },
@@ -1226,6 +1225,12 @@ viz.loadCoords = function(build) {
     else {
       build.config.coords.solo = [];
     }
+
+    var excluded = ["79500US4804701", "16000US4817000"];
+    build.config.coords.solo = build.config.coords.solo.filter(function(c){
+      return excluded.indexOf(c) < 0;
+    });
+    build.config.coords.mute = excluded;
 
     var filename = type;
     if (["places", "tracts"].indexOf(type) >= 0) {

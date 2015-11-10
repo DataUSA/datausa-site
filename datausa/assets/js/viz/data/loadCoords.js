@@ -29,6 +29,12 @@ viz.loadCoords = function(build) {
       build.config.coords.solo = [];
     }
 
+    var excluded = ["79500US4804701", "16000US4817000"];
+    build.config.coords.solo = build.config.coords.solo.filter(function(c){
+      return excluded.indexOf(c) < 0;
+    });
+    build.config.coords.mute = excluded;
+
     var filename = type;
     if (["places", "tracts"].indexOf(type) >= 0) {
       filename += "_" + build.config.coords.solo[0].slice(7, 9);
