@@ -539,7 +539,7 @@ search.reload = function() {
   window.history.replaceState({}, "", "/search/"+q_params);
   
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
-    console.log(data, url, raw)
+    // console.log(data, url, raw)
     
     d3.select(".search-suggestions").style("display", "block").text('');
     if(raw.suggestions){
@@ -561,6 +561,8 @@ search.reload = function() {
         suggestions_span.append("span").html(search_suggestions_a.join(", "))
       }
     }
+    
+    console.log(this.filter(data))
     
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
@@ -650,20 +652,21 @@ search.filter = function(data) {
     }
 
   }
-  else if (this.term.length) {
-
-    return data.sort(function(a, b) {
-      var s = a.search_index - b.search_index;
-      if (s) return s;
-      return a.id - b.id;
-    });
-
-  }
-  else {
-    return data.sort(function(a, b) {
-      return a.id - b.id;
-    });
-  }
+  return data;
+  // else if (this.term.length) {
+  //
+  //   return data.sort(function(a, b) {
+  //     var s = a.search_index - b.search_index;
+  //     if (s) return s;
+  //     return a.id - b.id;
+  //   });
+  //
+  // }
+  // else {
+  //   return data.sort(function(a, b) {
+  //     return a.id - b.id;
+  //   });
+  // }
 
 }
 
