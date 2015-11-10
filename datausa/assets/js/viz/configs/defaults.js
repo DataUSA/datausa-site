@@ -166,7 +166,21 @@ viz.defaults = function(build) {
       }
     },
     "messages": {
+      "font": {
+        "color": "#888",
+        "family": "Playfair Display",
+        "size": 16,
+        "weight": 300
+      },
       "style": "large"
+    },
+    "tooltip": {
+      "font": {
+        "color": "#888",
+        "family": "Roboto",
+        "size": 16,
+        "weight": 300
+      }
     },
     "x": axis_style("x"),
     "x2": axis_style("x2"),

@@ -769,6 +769,7 @@ var viz = function(build) {
   if (!build.colors) build.colors = staticColors.viz.defaults;
 
   build.viz = d3plus.viz()
+    .config(viz.defaults(build))
     .background("transparent")
     .container(build.container)
     .error("Please Wait")
@@ -823,12 +824,8 @@ viz.finish = function(build) {
     };
   }
 
-  var default_config = viz.defaults(build),
-      type_config = viz[build.config.type](build);
-
   build.viz
-    .config(default_config)
-    .config(type_config)
+    .config(viz[build.config.type](build))
     .config(build.config)
     .depth(build.config.depth)
     .error(false)
@@ -1080,7 +1077,21 @@ viz.defaults = function(build) {
       }
     },
     "messages": {
+      "font": {
+        "color": "#888",
+        "family": "Playfair Display",
+        "size": 16,
+        "weight": 300
+      },
       "style": "large"
+    },
+    "tooltip": {
+      "font": {
+        "color": "#888",
+        "family": "Roboto",
+        "size": 16,
+        "weight": 300
+      }
     },
     "x": axis_style("x"),
     "x2": axis_style("x2"),
