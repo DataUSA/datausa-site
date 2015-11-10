@@ -65,7 +65,7 @@
           </div>
           <div class="carousel-btns">
               <div class="carousel-btn">&#10229;</div>
-              <span>1</span><span> / </span><span>2</span>
+              <span id="carousel-page">1</span><span> / </span><span>{{ profile.splash.facts|length }}</span>
               <div class="carousel-btn active">&#10230;</div>
           </div>
         </div>
@@ -177,12 +177,18 @@
 
 <script>
 
+  var maxCarousel = d3.selectAll(".carousel-text").size() - 1, currentPage = 0;
   d3.selectAll(".carousel-btn").on("click", function(d, i){
+    if (i && currentPage < maxCarousel) currentPage++;
+    else if (i === 0 && currentPage > 0) currentPage--;
+
+    d3.select("#carousel-page").text(currentPage + 1);
+
     d3.selectAll(".carousel-btn").classed("active", function(dd, ii){
-      return ii === i;
+      return !ii && currentPage || ii && currentPage < maxCarousel;
     });
     d3.selectAll(".carousel-text").classed("active", function(dd, ii){
-      return ii === i;
+      return ii === currentPage;
     });
   });
 
