@@ -90,6 +90,14 @@
 
 <div id="title-bar">
   <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}</span>
+  <div id="title-stats">
+    {% for stat in profile.splash.stats %}
+    <div class="title-stat">
+      <div class="title-stat-text">{{ stat.title|safe }}</div>
+      <div class="title-stat-value">{{ stat.value|safe }}</div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 
 <div id="profile-nav">
