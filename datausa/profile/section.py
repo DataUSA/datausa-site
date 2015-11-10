@@ -460,13 +460,14 @@ class Section(object):
                     prefix = "040"
                 prefix = geo_children[prefix]
             name = geo_sumlevels[prefix]
+
+            if "plural" in kwargs:
+                name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
+
+            return name
+
         else:
-            name = attr_type
-
-        if "plural" in kwargs:
-            name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
-
-        return name
+            return str(len(attr_id))
 
     def top(self, **kwargs):
         """str: A text representation of a top statistic or list of statistics """

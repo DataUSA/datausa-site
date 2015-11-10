@@ -10,6 +10,7 @@ viz:
   id:
     - "cip"
     - "skill"
+  labels: NO
   size: "value"
   type: "radar"
 stats:
