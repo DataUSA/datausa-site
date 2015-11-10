@@ -2,17 +2,18 @@ title: "Skills"
 description: "The O*NET dataset has very detailed information on the skills generally required to succeed as a Chemistry major."
 
 topics:
-  - viz:
+  - class: "flex"
+    viz:
       attrs:
         - "cip"
         - "skill"
       data:
         - cip: "<<id>>"
           show: "skill"
-      height: 600
       id:
         - "cip"
         - "skill"
+      order: "parent"
       size: "value"
       type: "radar"
       ui:
@@ -20,3 +21,23 @@ topics:
           value:
             - Value: "value"
             - RCA: "value_rca"
+  - class: "flex"
+    source: NO
+    viz:
+      attrs:
+        - "cip"
+        - "skill"
+      color: "parent"
+      data:
+        - cip: "<<id>>"
+          show: "skill"
+      depth: 1
+      id:
+        - "parent"
+        - "skill"
+      order: "parent"
+      type: "bar"
+      x: "value"
+      y:
+        scale: "discrete"
+        value: "skill"

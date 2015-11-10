@@ -12475,11 +12475,13 @@ find = function(vars, node, variable, depth) {
       if (depth !== variable) {
         returned = checkData(vars, node, depth, vars.id.value);
       }
-      if (returned === null) {
+      if (returned === null || returned === void 0) {
         returned = checkAttrs(vars, node, depth, vars.id.value);
       }
-      if (returned === null) {
+      if (returned === null || returned === void 0) {
         return null;
+      } else if (depth === variable) {
+        return returned;
       }
       node = returned;
     } else {
