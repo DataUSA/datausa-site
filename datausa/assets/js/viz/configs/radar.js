@@ -2,7 +2,7 @@ viz.radar = function(build) {
   return {
     "axes": {
       "background": {
-        "color": "#fafafa"
+        "color": "transparent"
       }
     },
     "x": {

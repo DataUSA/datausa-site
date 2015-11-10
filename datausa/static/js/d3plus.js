@@ -33374,7 +33374,7 @@ buckets = require("../../util/buckets.coffee");
 uniques = require("../../util/uniques.coffee");
 
 radar = function(vars) {
-  var a, angle, c, center, children, d, data, first, grid, gridStyle, i, idIndex, ids, intervals, j, k, l, labelData, labelHeight, labelIndex, labelStyle, labelWidth, labels, len, len1, len2, len3, m, maxData, maxRadius, n, nextDepth, nextLevel, o, radius, ref, ref1, righty, ringData, ringStyle, rings, second, sizes, text, textStyle, top, total, x, y;
+  var a, angle, c, center, children, d, data, first, grid, gridStyle, i, idIndex, ids, intervals, j, k, l, labelData, labelHeight, labelIndex, labelStyle, labelWidth, labels, len, len1, len2, len3, m, maxData, maxRadius, n, nextDepth, nextLevel, o, ov, radius, ref, ref1, righty, ringData, ringStyle, rings, second, sizes, text, textStyle, top, total, x, y;
   data = vars.data.viz;
   nextDepth = vars.depth.value + 1;
   nextLevel = vars.id.nesting[nextDepth];
@@ -33399,9 +33399,8 @@ radar = function(vars) {
   total = uniques(d3.merge(total)).length;
   angle = Math.PI * 2 / total;
   maxRadius = d3.min([vars.width.viz, vars.height.viz]) / 2;
-  first = offset(Math.PI / 2, maxRadius);
-  second = offset(angle + Math.PI / 2, maxRadius);
-  labelWidth = first.x - second.x;
+  labelHeight = 0;
+  labelWidth = 0;
   labels = (function() {
     var j, len, results;
     results = [];
@@ -33412,22 +33411,27 @@ radar = function(vars) {
     return results;
   })();
   labels = uniques(d3.merge(labels));
-  textStyle = {
-    "fill": vars.x.ticks.font.color,
-    "font-family": vars.x.ticks.font.family.value,
-    "font-weight": vars.x.ticks.font.weight,
-    "font-size": vars.x.ticks.font.size + "px"
-  };
-  sizes = fontSizes(labels, textStyle, {
-    mod: function(elem) {
-      return textwrap().container(d3.select(elem)).height(vars.height.viz / 8).width(labelWidth).draw();
-    }
-  });
-  labelHeight = d3.median(sizes, function(d) {
-    return d.height;
-  });
-  maxRadius -= labelHeight * 2;
-  maxRadius -= vars.labels.padding * 2;
+  if (vars.labels.value) {
+    first = offset(Math.PI / 2, maxRadius);
+    second = offset(angle + Math.PI / 2, maxRadius);
+    labelWidth = first.x - second.x;
+    textStyle = {
+      "fill": vars.x.ticks.font.color,
+      "font-family": vars.x.ticks.font.family.value,
+      "font-weight": vars.x.ticks.font.weight,
+      "font-size": vars.x.ticks.font.size + "px"
+    };
+    sizes = fontSizes(labels, textStyle, {
+      mod: function(elem) {
+        return textwrap().container(d3.select(elem)).height(vars.height.viz / 8).width(labelWidth).draw();
+      }
+    });
+    labelHeight = d3.median(sizes, function(d) {
+      return d.height;
+    });
+    maxRadius -= labelHeight * 2;
+    maxRadius -= vars.labels.padding * 2;
+  }
   maxData = (function() {
     var j, len, results;
     results = [];
@@ -33482,8 +33486,8 @@ radar = function(vars) {
     }
   }
   ringData = buckets([maxRadius / intervals, maxRadius], intervals - 1).reverse();
-  rings = vars.group.selectAll(".d3plus_radar_rings").data(ringData, function(d) {
-    return d;
+  rings = vars.group.selectAll(".d3plus_radar_rings").data(ringData, function(d, i) {
+    return i;
   });
   ringStyle = function(ring) {
     return ring.attr("fill", function(d, i) {
@@ -33506,7 +33510,11 @@ radar = function(vars) {
     a = (angle * labelIndex(l)) - Math.PI / 2;
     top = a < 0 || a > Math.PI;
     righty = a < Math.PI / 2;
-    o = offset(a, maxRadius + vars.labels.padding);
+    ov = maxRadius;
+    if (vars.labels.value) {
+      ov += vars.labels.padding;
+    }
+    o = offset(a, ov);
     x = o.x;
     y = o.y;
     if (!righty) {
@@ -33528,7 +33536,7 @@ radar = function(vars) {
       "offset": o
     });
   }
-  text = vars.group.selectAll(".d3plus_radar_labels").data(labelData, function(d) {
+  text = vars.group.selectAll(".d3plus_radar_labels").data((vars.labels.value ? labelData : []), function(d) {
     return d.text;
   });
   labelStyle = function(label) {
@@ -33543,8 +33551,8 @@ radar = function(vars) {
   text.call(labelStyle);
   text.enter().append("text").attr("class", "d3plus_radar_labels").attr("opacity", 0).call(labelStyle).transition().duration(vars.draw.timing).attr("opacity", 1);
   text.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
-  grid = vars.group.selectAll(".d3plus_radar_lines").data(labelData, function(d) {
-    return d.text;
+  grid = vars.group.selectAll(".d3plus_radar_lines").data(labelData, function(d, i) {
+    return i;
   });
   gridStyle = function(grid) {
     return grid.attr("stroke", vars.x.grid.color).attr("x1", vars.width.viz / 2 + vars.margin.left).attr("y1", vars.height.viz / 2 + vars.margin.top);
