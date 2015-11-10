@@ -18,6 +18,8 @@ def profile(attr_type, attr_id):
     if not attr_type in PROFILES:
         abort(404);
 
+    g.page_class = attr_type
+
     # pass id and type to Profile class
     p = Profile(attr_id, attr_type)
 

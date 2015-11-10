@@ -40,7 +40,7 @@
     {% endblock %}
 
   </head>
-  <body{% if g.page_type %} class="{{g.page_type}}"{% endif %}>
+  <body class="{% if g.page_type %}{{ g.page_type }}{% endif %} {% if g.page_class %}{{ g.page_class }}{% endif %}">
 
     {% block content %}
     {% endblock %}
