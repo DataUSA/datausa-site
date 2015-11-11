@@ -36,6 +36,7 @@ topics:
             sort: "asc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
+            where: "num_emp:!0"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -81,6 +82,7 @@ topics:
             sort: "asc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
+            where: "num_emp_rca:!0"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -126,6 +128,7 @@ topics:
             sort: "asc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
+            where: "med_earnings:!0"
         height: 200
         id: "acs_occ"
         labels: YES
@@ -229,7 +232,7 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
-    subtitle: "* Please note that the buckets used in collecting this data are not evenly distributed."
+    subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
