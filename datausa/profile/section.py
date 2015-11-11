@@ -14,11 +14,22 @@ geo_labels = {
     "010": "nation",
     "040": "state",
     "050": "county",
-    "310": "MSA",
+    "310": "metropolitan statistical area",
     "160": "census designated place",
     "860": "zip code",
     "795": "PUMA",
     "140": "census tract"
+}
+
+geo_shortlabels = {
+    "010": "nation",
+    "040": "state",
+    "050": "county",
+    "310": "MSA",
+    "160": "place",
+    "860": "zip code",
+    "795": "PUMA",
+    "140": "tract"
 }
 
 geo_sumlevels = {
@@ -249,7 +260,10 @@ class Section(object):
                 prefix = "040"
             if kwargs.get("child", False) and prefix in geo_children:
                 prefix = geo_children[prefix]
-            name = geo_labels[prefix]
+            if kwargs.get("short", False):
+                name = geo_shortlabels[prefix]
+            else:
+                name = geo_labels[prefix]
         else:
             name = attr_type
 
