@@ -1088,14 +1088,7 @@ viz.defaults = function(build) {
       },
       "style": "large"
     },
-    "tooltip": {
-      "font": {
-        "color": "#888",
-        "family": "Roboto",
-        "size": 16,
-        "weight": 300
-      }
-    },
+    "tooltip": staticColors.tooltip,
     "x": axis_style("x"),
     "x2": axis_style("x2"),
     "y": axis_style("y"),
@@ -1428,6 +1421,16 @@ var staticColors = {
   "student_pool": {
     "Degrees Awarded": "orange",
     "Workforce": "navy"
+  },
+
+  "tooltip": {
+    "background": "white",
+    "font": {
+      "color": "#888",
+      "family": "Roboto",
+      "size": 16,
+      "weight": 300
+    }
   },
 
   "viz": {

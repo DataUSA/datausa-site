@@ -2,14 +2,38 @@
 
 {% block body %}
 
-One fish, two fish...
-
 {% endblock %}
 
 {% block js %}
 <script>
 
+  var tooltip_data = [
+    {"name": "Exports", "value": "$49M", "group": ""},
+    {"name": "Imports", "value": "$32M", "group": ""},
+    {"name": "RCA", "value": "1.24", "group": "Calculations"},
+    {"name": "Number of Households", "value": "494k", "group": "Calculations"},
+    {"name": "Another Thing", "value": "Dave", "group": "Calculations"}
+  ];
 
+  d3plus.tooltip.create({
+    "x": 200,
+    "y": 300,
+    "offset": 0,
+    "arrow": true,
+    "title": "Tooltip Title",
+    "description": "Here is some description text.",
+    "footer": "This is a footer",
+    "color": "#cc0000",
+    "width": 250,
+    "id": "text-tooltip",
+    "data": tooltip_data,
+    "align": "top center",
+    "background": staticColors.tooltip.background,
+    "fontcolor": staticColors.tooltip.font.color,
+    "fontfamily": staticColors.tooltip.font.family,
+    "fontsize": staticColors.tooltip.font.size,
+    "fontweight": staticColors.tooltip.font.weight
+  });
 
 </script>
 {% endblock %}

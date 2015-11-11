@@ -38,6 +38,16 @@ var staticColors = {
     "Workforce": "navy"
   },
 
+  "tooltip": {
+    "background": "white",
+    "font": {
+      "color": "#888",
+      "family": "Roboto",
+      "size": 16,
+      "weight": 300
+    }
+  },
+
   "viz": {
     "default": {
       "pri": "#006ea8",
