@@ -41,7 +41,7 @@ topics:
           required: "wage_bin,num_ppl"
           show: "geo"
           static:
-            category: "Nation"
+            category: "USA"
       id: "category"
       order:
         sort: "asc"
@@ -51,6 +51,9 @@ topics:
         scale: "discrete"
         value: "wage_bin"
       y: "num_ppl"
+      y2:
+        label: "USA"
+        value: "01000US"
   - title: "Wage by Location"
     stat:
       - title: "<<name>> are paid the highest in"

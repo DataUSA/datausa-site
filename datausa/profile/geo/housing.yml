@@ -80,7 +80,7 @@ topics:
         label: "<<name>>"
         value: "property_val"
       y2:
-        label: "Nation"
+        label: "USA"
         value: "01000US"
   - title: "Property Taxes"
     description: "The majority of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
