@@ -27,6 +27,7 @@ topics:
       order: "bucket"
       type: "bar"
       x:
+        label: "age"
         scale: "discrete"
         value: "bucket"
       y: "num_ppl"

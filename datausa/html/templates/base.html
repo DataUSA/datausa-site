@@ -34,6 +34,10 @@
           percentages = {{ g.percentages|safe }},
           affixes = {{ g.affixes|safe }};
 
+      for (var key in affixes) {
+        if (key in dictionary) affixes[dictionary[key]] = affixes[key];
+      }
+
     </script>
 
     {% block head %}

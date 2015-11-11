@@ -245,14 +245,15 @@ topics:
           split:
             id: "bucket"
             regex: "^income_([a-zA-Z0-9]*)$"
-            value: "income"
+            value: "num_ppl"
       id: "bucket"
       order: "bucket"
       type: "bar"
       x:
+        label: "income"
         scale: "discrete"
         value: "bucket"
-      y: "income"
+      y: "num_ppl"
   - title: "Wage by Location"
     sumlevel: "us,state,county"
     description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
@@ -292,6 +293,7 @@ topics:
       order: "bucket"
       type: "bar"
       x:
+        label: "age"
         scale: "discrete"
         value: "bucket"
       y: "num_ppl"

@@ -31,7 +31,6 @@ viz.bar = function(build) {
         "value": discrete !== axis
       },
       "grid": discrete !== axis,
-      "label": build.config[axis] && build.config[axis].label ? build.config[axis].label : false,
       "persist": {
         "position": true
       },

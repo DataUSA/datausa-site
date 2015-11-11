@@ -14,8 +14,9 @@ topics:
         show: "geo"
         geo: "<<parents>>,<<id>>"
         required: "income"
-      height: 150
+      height: 200
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "income"
@@ -31,14 +32,15 @@ topics:
         split:
           id: "bucket"
           regex: "^income_([a-z0-9]*)$"
-          value: "num_ppl"
+          value: "num_households"
       id: "geo"
       order: "bucket"
       type: "bar"
       x:
+        label: "income"
         scale: "discrete"
         value: "bucket"
-      y: "num_ppl"
+      y: "num_households"
   - category: "Housing"
     title: "Property Value"
     stat:
@@ -51,7 +53,7 @@ topics:
         show: "geo"
         geo: "<<parents>>,<<id>>"
         required: "median_property_value"
-      height: 160
+      height: 200
       id: "geo"
       labels: YES
       order: "geo"
@@ -69,16 +71,17 @@ topics:
         split:
           id: "bucket"
           regex: "^propertyval_([a-zA-Z0-9]*)$"
-          value: "property_val"
+          value: "num_households"
       id: "geo"
       order: "bucket"
       type: "bar"
       x:
+        label: "property_val"
         scale: "discrete"
         value: "bucket"
       y:
         label: "<<name>>"
-        value: "property_val"
+        value: "num_households"
       y2:
         label: "USA"
         value: "01000US"
@@ -93,15 +96,16 @@ topics:
         split:
           id: "bucket"
           regex: "^propertytax_([a-zA-Z0-9]*)$"
-          value: "num_ppl"
+          value: "num_households"
       height: 200
       id: "geo"
       order: "bucket"
       type: "bar"
       x:
+        label: "property_tax"
         scale: "discrete"
         value: "bucket"
-      y: "num_ppl"
+      y: "num_households"
   - title: "Rent vs Own"
     description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=1>>, of the population of <<name>> owns their home. This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=0>>"
     viz:
@@ -130,15 +134,16 @@ topics:
         split:
           id: "bucket"
           regex: "^vehicles_([0-9a-z]*)$"
-          value: "num_ppl"
+          value: "num_households"
       height: 200
       id: "geo"
       order: "bucket"
       type: "bar"
       x:
+        label: "vehicles"
         scale: "discrete"
         value: "bucket"
-      y: "num_ppl"
+      y: "num_households"
   - title: "Commute Time"
     stat:
       - title: "Average Travel Time"
@@ -153,7 +158,8 @@ topics:
         geo: "<<parents>>,<<id>>"
         required: "mean_commute_minutes"
       id: "geo"
-      height: 150
+      height: 200
+      labels: YES
       order: "geo"
       type: "bar"
       x: "mean_commute_minutes"
@@ -169,14 +175,15 @@ topics:
         split:
           id: "bucket"
           regex: "^travel_([0-9a-z]*)$"
-          value: "num_ppl"
+          value: "num_households"
       id: "geo"
       order: "bucket"
       type: "bar"
       x:
+        label: "travel"
         scale: "discrete"
         value: "bucket"
-      y: "num_ppl"
+      y: "num_households"
   - title: "Commuter Transportation"
     stat:
       - title: "Most common method of travel"
@@ -194,11 +201,11 @@ topics:
         split:
           id: "transport"
           regex: "^transport_([a-z]*)$"
-          value: "num_ppl"
+          value: "num_households"
       id: "geo"
-      order: "num_ppl"
+      order: "num_households"
       type: "bar"
       x:
         scale: "discrete"
         value: "transport"
-      y: "num_ppl"
+      y: "num_households"

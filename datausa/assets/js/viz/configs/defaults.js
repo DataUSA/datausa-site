@@ -1,4 +1,5 @@
-var all_caps = ["cip", "naics", "rca", "soc"];
+var all_caps = ["cip", "naics", "rca", "soc"],
+    no_y_labels = ["geo", "cip", "soc", "naics"];
 
 viz.defaults = function(build) {
 
@@ -25,8 +26,20 @@ viz.defaults = function(build) {
 
   var axis_style = function(axis) {
 
-    var key = build.config[axis];
-    if (d3plus.object.validate(key)) key = key.value;
+    var key = build.config[axis] || false, label = false;
+    if (d3plus.object.validate(key)) {
+      key = key.value;
+    }
+    else if (key) {
+      build.config[axis] = {"value": key};
+    }
+
+    if (key) {
+      label = build.config[axis].label ? build.config[axis].label : axis.indexOf("y") === 0 && no_y_labels.indexOf(key) >= 0 ? false : true;
+      if (label in dictionary) label = dictionary[label];
+      build.config[axis].label = label;
+    }
+
     var range = percentages.indexOf(key) >= 0 ? [0, 1] : false;
 
     return {
@@ -91,6 +104,17 @@ viz.defaults = function(build) {
           text = text.slice(3);
         }
 
+        if (text === "bucket") {
+          ["x", "y", "x2", "y2"].forEach(function(axis){
+            if (d3plus.object.validate(build.config[axis]) &&
+                build.config[axis].value === "bucket" &&
+                build.config[axis].label &&
+                build.config[axis].label !== true) {
+              text = build.config[axis].label;
+            }
+          });
+        }
+
         if (dictionary[text]) return dictionary[text];
 
         // All caps text
@@ -104,10 +128,22 @@ viz.defaults = function(build) {
           if (params.key === "bucket") {
 
             var key = false;
+
             if (text.indexOf("_") > 0) {
               text = text.split("_");
               key = text.shift();
               text = text.join("_");
+            }
+
+            if (key === false) {
+              ["x", "y", "x2", "y2"].forEach(function(axis){
+                if (d3plus.object.validate(build.config[axis]) &&
+                    build.config[axis].value === "bucket" &&
+                    build.config[axis].label &&
+                    build.config[axis].label !== true) {
+                  key = build.config[axis].label;
+                }
+              });
             }
 
             var a = key && key in affixes ? affixes[key].slice() : ["", ""];
@@ -126,6 +162,9 @@ viz.defaults = function(build) {
             }
             else if (text.indexOf("over") > 0 || text.indexOf("more") > 0) {
               return a[0] + text.slice(0, text.length - 4) + a[1] + " +";
+            }
+            else if (text.toLowerCase() === "none") {
+              return a[0] + "0" + a[1];
             }
             else {
               return a[0] + d3plus.string.title(text) + a[1];

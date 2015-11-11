@@ -2,11 +2,18 @@ import math
 from decimal import Decimal
 
 dictionary = {
+
+    "geo": "Location Name",
+    "cip": "College Degree",
+    "naics": "Industry",
+    "soc": "Occupation",
     "acs_ind": "ACS Industry",
     "acs_occ": "ACS Occupation",
+
     "adult_obesity": "Adult Obesity",
     "adult_smoking": "Adult Smoking",
     "alcoholimpaired_driving_deaths": "Alcohol-Impaired Driving Deaths",
+    "age": "Age",
     "avg_wage": "Average Wage",
     "wwii": "WWII",
     "korea": "Korea",
@@ -16,7 +23,6 @@ dictionary = {
     "district_tuition": "District Tuition",
     "foreign": "Foreign Born",
     "excessive_drinking": "Excessive Drinking",
-    "geo": "Location Name",
 
     "grads_asian": "Asian",
     "grads_asian_men": "Asian Men",
@@ -76,18 +82,20 @@ dictionary = {
     "health_care_costs": "Healthcare Cost",
     "hiv_prevalence_rate": "HIV Prevalence Rate",
     "homicide_rate": "Homicide Rate",
+    "income": "Income",
     "mean_commute_minutes": "Average Travel Time",
     "median_property_value": "Median Property Value",
     "med_earnings": "Median Earnings",
     "men": "Men",
     "mental_health_providers": "Mental Health Providers",
     "motor_vehicle_crash_deaths": "Motor Vehicle Crash Deaths",
-    "num_emp": "Number of Employees",
-    "num_emp_rca": "Number of Employees (RCA)",
-    "num_ppl": "Number of People",
-    "num_ppl_rca": "Number of People (RCA)",
-    "num_speakers": "Number of Speakers",
-    "num_speakers_rca": "Number of Speakers (RCA)",
+    "num_emp": "Employees",
+    "num_emp_rca": "Employees (RCA)",
+    "num_households": "Households",
+    "num_ppl": "People",
+    "num_ppl_rca": "People (RCA)",
+    "num_speakers": "Speakers",
+    "num_speakers_rca": "Speakers (RCA)",
     "oos_tuition": "Out of State Tuition",
     "other_primary_care_providers": "Other PCPs",
     "owner_occupied_housing_units": "Homeowners",
@@ -132,9 +140,11 @@ dictionary = {
     "primary_care_physicians": "Primary Care Physicians",
     "property_tax": "Property Taxes",
     "property_val": "Property Value",
+    "sex": "Gender",
     "sexually_transmitted_infections": "Sexually Transmitted Infections",
     "state_tuition": "In State Tuition",
 
+    "transport": "Method of Travel",
     "transport_drove": "Drove Alone",
     "transport_carpooled": "Carpooled",
     "transport_publictrans": "Public Transit",
@@ -154,8 +164,10 @@ dictionary = {
     "motorcycle": "Motorcycle",
     "taxi": "Taxi",
 
+    "travel": "Travel Time",
     "us": "Native Born",
     "us_citizens": "Citizenship",
+    "vehicles": "Vehicles",
     "violent_crime": "Violent Crime",
     "women": "Women"
 }
@@ -168,6 +180,7 @@ affixes = {
     "income": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
+    "property_tax": ["$", ""],
     "property_val": ["$", ""],
     "health_care_costs": ["$", ""]
 }
