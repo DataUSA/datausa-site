@@ -104,7 +104,7 @@ topics:
       attrs: "language"
       data:
         - geo: "<<id>>"
-          where: "language:~^002"
+          where: "language:~^002,num_speakers:!0"
           required: "num_speakers"
           show: "geo"
       id: "language"
