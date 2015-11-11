@@ -781,7 +781,9 @@ var viz = function(build) {
   if (build.highlight) {
 
     build.viz.class(function(d, viz){
-      return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? "highlight" : "";
+      var attr = d[viz.id.value];
+      return build.highlight === "01000US" || attr === build.highlight ? "highlight" :
+             build.highlight.slice(0, 2) !== attr.slice(0, 2) ? "outline" : "";
     });
 
   }
@@ -1273,6 +1275,7 @@ viz.loadCoords = function(build) {
     if (["places", "tracts"].indexOf(type) >= 0) {
       if (build.config.coords.solo.length) {
         filename += "_" + build.config.coords.solo[0].slice(7, 9);
+        build.config.coords.solo.push("040" + build.config.coords.solo[0].slice(3, 9));
       }
       else {
         filename += "_" + build.highlight.slice(7, 9);

@@ -642,7 +642,7 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
+                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
                     z-index: -11; }
                     body.home .bg-img.landing {
                       top: -37vh;
@@ -1050,6 +1050,9 @@ body.profile nav {
             body.profile #splash .content .thumbprint .d3plus_coordinates.highlight .d3plus_data {
               fill: #ffffff;
               stroke: #8692C5 !important; }
+            body.profile #splash .content .thumbprint .d3plus_coordinates.outline .d3plus_data {
+              fill: transparent;
+              stroke: #4F63B9 !important; }
             body.profile #splash .content .thumbprint .d3plus_data {
               fill: rgba(255, 255, 255, 0.35);
               stroke: #4F63B9 !important; }
@@ -1197,7 +1200,7 @@ body.profile nav {
 body.profile #title-bar {
   display: block;
   height: 40px;
-  left: 30%;
+  left: 40%;
   overflow: hidden;
   position: fixed;
   top: -40px;
@@ -1409,9 +1412,12 @@ body.profile section {
           margin-left: 50px;
           min-height: 250px;
           overflow: hidden; }
-          body.profile section .topic .content .viz.mini {
-            margin-left: 0;
-            min-height: 200px; }
+          body.profile section .topic .content .viz .d3plus_coordinates.outline .d3plus_data {
+            fill: transparent !important;
+            pointer-events: none !important; }
+        body.profile section .topic .content .viz.mini {
+          margin-left: 0;
+          min-height: 200px; }
 #map-fullscreen {
   height: 100vh;
   width: 100vw; }

@@ -2,7 +2,7 @@ body.profile {
 
   $bg-width: 89.7%;
   $bg-height: 81.7%;
-  
+
   h1 {
     text-align: left;
     font-family: $playfair;
@@ -102,7 +102,7 @@ body.profile {
     font-family: $lato;
     font-size: 33px;
     font-weight: 300;
-    
+
     a {
       padding-bottom: 1px;
       color: #213DB3;
@@ -239,6 +239,13 @@ body.profile {
           .d3plus_data {
             fill: #ffffff;
             stroke: #8692C5 !important;
+          }
+        }
+
+        .d3plus_coordinates.outline {
+          .d3plus_data {
+            fill: transparent;
+            stroke: #4F63B9 !important;
           }
         }
 
@@ -616,6 +623,14 @@ body.profile {
           margin-left: 50px;
           min-height: 250px;
           overflow: hidden;
+
+          .d3plus_coordinates.outline {
+            .d3plus_data {
+              fill: transparent !important;
+              pointer-events: none !important;
+            }
+          }
+
         }
 
         .viz.mini {
