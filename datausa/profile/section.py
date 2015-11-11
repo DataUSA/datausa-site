@@ -366,7 +366,7 @@ class Section(object):
             val = float(self.top(**kwargs)[0])
         except ValueError:
             val = 2
-        if val > 1:
+        if val != 1:
             return "{}ies".format(text[:-1]) if text[-1] == "y" else "{}s".format(text)
         return text
 
