@@ -72,22 +72,6 @@ topics:
         - "university"
       size: "grads_total"
       type: "tree_map"
-  - title: "STEM Locations"
-    description: "Here we can see the <<level child=True|plural=True>> in <<name>>, colored by the amount of STEM majors offered in them."
-    viz:
-      attrs: "geo"
-      color: "grads_total"
-      coords:
-        solo: "<<children>>"
-        value: "<<sumlevel plural=True|child=True>>"
-      data:
-        show: "geo"
-        required: "grads_total"
-        sumlevel: "<<sumlevel child=True>>"
-        where: "geo:<<children prefix=True>>%"
-      height: 400
-      id: "geo"
-      type: "geo_map"
   - title: "Gender"
     description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender."
     viz:

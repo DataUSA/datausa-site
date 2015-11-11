@@ -11,92 +11,24 @@ topics:
     stat:
       - title: "Primary Care"
         value: "1 to <<var namespace=health|key=primary_care_physicians>>"
-    viz:
-      sumlevel: "!state"
-      attrs: "geo"
-      data:
-        show: "geo"
-        geo: "<<parents>>,<<id>>"
-        required: "primary_care_physicians"
-        year: "2015"
-      height: 100
-      id: "geo"
-      labels: YES
-      order: "geo"
-      type: "bar"
-      x: "primary_care_physicians"
-      y:
-        scale: "discrete"
-        value: "geo"
   - class: "flex"
     sumlevel: "!us"
     source: NO
     stat:
       - title: "Dentists"
         value: "1 to <<var namespace=health|key=dentists>>"
-    viz:
-      sumlevel: "!state"
-      attrs: "geo"
-      data:
-        show: "geo"
-        geo: "<<parents>>,<<id>>"
-        required: "dentists"
-        year: "2015"
-      height: 100
-      id: "geo"
-      labels: YES
-      order: "geo"
-      type: "bar"
-      x: "dentists"
-      y:
-        scale: "discrete"
-        value: "geo"
   - class: "flex"
     sumlevel: "!us"
     source: NO
     stat:
       - title: "Mental Health"
         value: "1 to <<var namespace=health|key=mental_health_providers>>"
-    viz:
-      sumlevel: "!state"
-      attrs: "geo"
-      data:
-        show: "geo"
-        geo: "<<parents>>,<<id>>"
-        required: "mental_health_providers"
-        year: "2015"
-      height: 100
-      id: "geo"
-      labels: YES
-      order: "geo"
-      type: "bar"
-      x: "mental_health_providers"
-      y:
-        scale: "discrete"
-        value: "geo"
   - class: "flex"
     sumlevel: "!us"
     source: NO
     stat:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
-    viz:
-      sumlevel: "!state"
-      attrs: "geo"
-      data:
-        show: "geo"
-        geo: "<<parents>>,<<id>>"
-        required: "other_primary_care_providers"
-        year: "2015"
-      height: 100
-      id: "geo"
-      labels: YES
-      order: "geo"
-      type: "bar"
-      x: "other_primary_care_providers"
-      y:
-        scale: "discrete"
-        value: "geo"
   - title: "Healthcare Costs"
     description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the cost of healthcare in relation to each other."
     stat:
