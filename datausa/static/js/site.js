@@ -1271,7 +1271,12 @@ viz.loadCoords = function(build) {
 
     var filename = type;
     if (["places", "tracts"].indexOf(type) >= 0) {
-      filename += "_" + build.config.coords.solo[0].slice(7, 9);
+      if (build.config.coords.solo.length) {
+        filename += "_" + build.config.coords.solo[0].slice(7, 9);
+      }
+      else {
+        filename += "_" + build.highlight.slice(7, 9);
+      }
     }
 
     load("/static/topojson/" + filename + ".json", function(data){
