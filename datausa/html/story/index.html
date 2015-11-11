@@ -15,6 +15,43 @@
     {"name": "Another Thing", "value": "Dave", "group": "Calculations"}
   ];
 
+  var html = "<div style='text-align:center;'>";
+  html += "<div class='mute'>Hide</div>";
+  html += "<div class='solo'>Isolate</div>";
+  html += "</div>";
+  js = function(tooltip) {
+    var style = {
+      "border": "1px solid #ccc",
+      "display": "inline-block",
+      "margin": "1px 2px",
+      "padding": "3px 5px"
+    }
+    tooltip.select(".mute")
+      .style(style)
+      .on(d3plus.client.pointer.over, function(){
+        d3.select(this).style("cursor", "pointer");
+      })
+      .on(d3plus.client.pointer.click, function(){
+        var mute = vars.id.mute.value;
+        vars.history.states.push(function(){
+          vars.self.id({"mute": mute}).draw();
+        })
+        vars.self.id({"mute": id}).draw();
+      });
+    tooltip.select(".solo")
+      .style(style)
+      .on(d3plus.client.pointer.over, function(){
+        d3.select(this).style("cursor", "pointer");
+      })
+      .on(d3plus.client.pointer.click, function(){
+        var solo = vars.id.solo.value;
+        vars.history.states.push(function(){
+          vars.self.id({"solo": solo}).draw();
+        })
+        vars.self.id({"solo": id}).draw();
+      });
+  }
+
   d3plus.tooltip.create({
     "x": 200,
     "y": 300,
@@ -28,6 +65,7 @@
     "id": "text-tooltip",
     "data": tooltip_data,
     "align": "top center",
+    "html": html, "js": js,
     "background": staticColors.tooltip.background,
     "fontcolor": staticColors.tooltip.font.color,
     "fontfamily": staticColors.tooltip.font.family,

@@ -1159,6 +1159,9 @@ viz.tree_map = function(build) {
     "labels": {
       "align": "left",
       "valign": "top"
+    },
+    "legend": {
+      "filters": true
     }
   };
 }
