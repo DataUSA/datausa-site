@@ -38,6 +38,7 @@ js = Bundle(
     "base.js",
     "plugins/*.js",
     "helpers/*.js",
+    "styles/*.js",
     "viz/*.js",
     "viz/configs/*.js",
     "viz/data/*.js",

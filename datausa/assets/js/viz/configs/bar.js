@@ -25,9 +25,11 @@ viz.bar = function(build) {
 
   var axis_style = function(axis) {
 
+    var key = axis.length === 1 ? "pri" : "sec";
+
     return {
       "axis": {
-        "color": discrete === axis ? "none" : "#ccc",
+        "color": discrete === axis ? "none" : chartStyles.zeroline.default[key].color,
         "value": discrete !== axis
       },
       "grid": discrete !== axis,
@@ -35,27 +37,15 @@ viz.bar = function(build) {
         "position": true
       },
       "ticks": {
-        "color": discrete === axis ? "none" : "#ccc",
+        "color": discrete === axis ? "none" : chartStyles.ticks.default[key].color,
         "labels": discrete !== axis || !build.config.labels,
-        "size": discrete === axis ? 0 : 10
+        "size": discrete === axis ? 0 : chartStyles.ticks.default[key].size
       }
     }
 
   }
 
   return {
-    "axes": {
-      "background": {
-        "stroke": {
-          "width": 0
-        }
-      }
-    },
-    "data": {
-      "stroke": {
-        "width": 1
-      }
-    },
     "labels": {
       "align": "left",
       "resize": false,

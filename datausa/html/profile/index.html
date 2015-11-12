@@ -30,9 +30,9 @@
             <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
           {% endfor %}
         </sub>
-      {% endif %}  
+      {% endif %}
     </div>
-    
+
     <div class="splash-titles">
       {% if profile.splash.group %}
       <div class="splash-title-group">{{ profile.splash.group }}</div>
@@ -247,7 +247,7 @@
     build.loaded = false;
     build.timer = false;
     build.index = i;
-    build.colors = staticColors.profile[attr_type];
+    build.colors = vizStyles[attr_type];
 
     var select = d3.select(build.container.node().parentNode).select("select");
     if (select.size()) {

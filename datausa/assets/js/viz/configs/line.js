@@ -1,8 +1,8 @@
 viz.line = function(build) {
   return {
     "shape": {
-      "interpolate": "monotone"
+      "interpolate": vizStyles.lines.interpolation
     },
-    "size": 2
+    "size": vizStyles.lines["stroke-width"]
   };
 }

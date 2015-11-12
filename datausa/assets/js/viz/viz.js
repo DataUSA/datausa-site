@@ -1,6 +1,6 @@
 var viz = function(build) {
 
-  if (!build.colors) build.colors = staticColors.viz.defaults;
+  if (!build.colors) build.colors = vizStyles.defaults;
 
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
@@ -12,9 +12,9 @@ var viz = function(build) {
   if (build.highlight) {
 
     build.viz.class(function(d, viz){
-      var attr = d[viz.id.value];
+      var attr = d[viz.id.value] + "";
       return build.highlight === "01000US" || attr === build.highlight ? "highlight" :
-             build.highlight.slice(0, 2) !== attr.slice(0, 2) ? "outline" : "";
+             build.highlight.length > attr.length ? "outline" : "";
     });
 
   }
@@ -53,10 +53,10 @@ viz.finish = function(build) {
     }
     build.config.legend = false;
   }
-  else if (build.config.color in staticColors) {
+  else if (build.config.color in attrStyles) {
     build.color = build.config.color;
     build.config.color = function(d) {
-      return staticColors[build.color][d[build.color]];
+      return attrStyles[build.color][d[build.color]];
     };
   }
 

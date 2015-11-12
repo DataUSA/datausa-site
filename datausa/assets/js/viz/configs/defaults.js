@@ -42,35 +42,25 @@ viz.defaults = function(build) {
 
     var range = percentages.indexOf(key) >= 0 ? [0, 1] : false;
 
+    var key = axis.length === 1 ? "pri" : "sec",
+        style = axis === discrete ? "discrete" : "default";
+
     return {
       "label": {
-        "font": {
-          "color": axis.length === 1 ? build.colors.pri : build.colors.sec,
-          "family": "Palanquin",
-          "size": 16,
-          "weight": 700
-        },
+        "font": chartStyles.labels[style][key],
         "padding": 0
       },
       "range": range,
-      "ticks": {
-        "font": {
-          "color": discrete === axis ? "#211f1a" : "#a8a8a8",
-          "family": "Palanquin",
-          "size": discrete === axis ? 14 : 14,
-          "weight": 700
-        }
-      }
+      "ticks": chartStyles.ticks[style][key]
     };
   };
 
   return {
     "axes": {
-      "background": {
-        "color": "transparent"
-      }
+      "background": chartStyles.background
     },
-    "background": "transparent",
+    "background": vizStyles.background,
+    "data": vizStyles.shapes,
     "format": {
       "number": function(number, params) {
 
@@ -192,28 +182,16 @@ viz.defaults = function(build) {
       "small": 10
     },
     "labels": {
-      "font": {
-        "family": "Palanquin",
-        "size": 13
-      }
+      "font": vizStyles.labels.font
     },
     "legend": {
-      "font": {
-        "color": "#211f1a",
-        "family": "Palanquin",
-        "weight": 700
-      }
+      "font": vizStyles.legend.font
     },
     "messages": {
-      "font": {
-        "color": "#888",
-        "family": "Playfair Display",
-        "size": 16,
-        "weight": 300
-      },
+      "font": vizStyles.messages.font,
       "style": "large"
     },
-    "tooltip": staticColors.tooltip,
+    "tooltip": vizStyles.tooltip,
     "x": axis_style("x"),
     "x2": axis_style("x2"),
     "y": axis_style("y"),

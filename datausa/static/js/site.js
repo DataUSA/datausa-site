@@ -782,7 +782,7 @@ search.update_refine = function(data){
 }
 var viz = function(build) {
 
-  if (!build.colors) build.colors = staticColors.viz.defaults;
+  if (!build.colors) build.colors = vizStyles.defaults;
 
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
@@ -794,9 +794,9 @@ var viz = function(build) {
   if (build.highlight) {
 
     build.viz.class(function(d, viz){
-      var attr = d[viz.id.value];
+      var attr = d[viz.id.value] + "";
       return build.highlight === "01000US" || attr === build.highlight ? "highlight" :
-             build.highlight.slice(0, 2) !== attr.slice(0, 2) ? "outline" : "";
+             build.highlight.length > attr.length ? "outline" : "";
     });
 
   }
@@ -970,35 +970,26 @@ viz.defaults = function(build) {
 
     var range = percentages.indexOf(key) >= 0 ? [0, 1] : false;
 
+    var key = axis.length === 1 ? "pri" : "sec",
+        style = axis === discrete ? "discrete" : "default";
+
     return {
       "label": {
-        "font": {
-          "color": axis.length === 1 ? build.colors.pri : build.colors.sec,
-          "family": "Palanquin",
-          "size": 16,
-          "weight": 700
-        },
+        "font": chartStyles.labels[style][key],
         "padding": 0
       },
       "range": range,
-      "ticks": {
-        "font": {
-          "color": discrete === axis ? "#211f1a" : "#a8a8a8",
-          "family": "Palanquin",
-          "size": discrete === axis ? 14 : 14,
-          "weight": 700
-        }
-      }
+      "ticks": chartStyles.ticks[style][key]
     };
   };
 
   return {
     "axes": {
       "background": {
-        "color": "transparent"
+        "color": chartStyles.background
       }
     },
-    "background": "transparent",
+    "background": vizStyles.background,
     "format": {
       "number": function(number, params) {
 
@@ -1120,28 +1111,16 @@ viz.defaults = function(build) {
       "small": 10
     },
     "labels": {
-      "font": {
-        "family": "Palanquin",
-        "size": 13
-      }
+      "font": vizStyles.labels.font
     },
     "legend": {
-      "font": {
-        "color": "#211f1a",
-        "family": "Palanquin",
-        "weight": 700
-      }
+      "font": vizStyles.legend.font
     },
     "messages": {
-      "font": {
-        "color": "#888",
-        "family": "Playfair Display",
-        "size": 16,
-        "weight": 300
-      },
+      "font": vizStyles.messages.font,
       "style": "large"
     },
-    "tooltip": staticColors.tooltip,
+    "tooltip": vizStyles.tooltip,
     "x": axis_style("x"),
     "x2": axis_style("x2"),
     "y": axis_style("y"),
@@ -1155,7 +1134,7 @@ viz.geo_map = function(build) {
 
   return {
     "color": {
-      "heatmap": [build.colors.sec, build.colors.pri]
+      "heatmap": vizStyles.heatmap
     },
     "coords": {
       "center": [0, 0],
@@ -1500,6 +1479,106 @@ var staticColors = {
     "default": {
       "pri": "#006ea8",
       "sec": "#71bbe2"
+    },
+    "background": "transparent",
+    "chart": {
+      "background": "transparent",
+      "axis": {
+        "labels": {
+          "default": {
+            "pri": {
+              "color": "#006ea8",
+              "family": "Palanquin",
+              "size": 16,
+              "weight": 700
+            },
+            "sec": {
+              "color": "#71bbe2",
+              "family": "Palanquin",
+              "size": 16,
+              "weight": 700
+            }
+          },
+          "discrete": {
+            "pri": {
+              "color": "#006ea8",
+              "family": "Palanquin",
+              "size": 16,
+              "weight": 700
+            },
+            "sec": {
+              "color": "#71bbe2",
+              "family": "Palanquin",
+              "size": 16,
+              "weight": 700
+            }
+          }
+        },
+        "ticks": {
+          "default": {
+            "pri": {
+              "font": {
+                "color": "#a8a8a8",
+                "family": "Palanquin",
+                "size": 14,
+                "weight": 700
+              },
+              "size": 10
+            },
+            "sec": {
+              "font": {
+                "color": "#a8a8a8",
+                "family": "Palanquin",
+                "size": 14,
+                "weight": 700
+              },
+              "size": 10
+            }
+          },
+          "discrete": {
+            "pri": {
+              "font": {
+                "color": "#211f1a",
+                "family": "Palanquin",
+                "size": 14,
+                "weight": 700
+              },
+              "size": 10
+            },
+            "sec": {
+              "font": {
+                "color": "#211f1a",
+                "family": "Palanquin",
+                "size": 14,
+                "weight": 700
+              },
+              "size": 10
+            }
+          }
+        }
+      }
+    },
+    "heatmap": ["#71bbe2", "#006ea8"],
+    "labels": {
+      "font": {
+        "family": "Palanquin",
+        "size": 13
+      }
+    },
+    "legend": {
+      "font": {
+        "color": "#211f1a",
+        "family": "Palanquin",
+        "weight": 700
+      }
+    },
+    "messages": {
+      "font": {
+        "color": "#888",
+        "family": "Playfair Display",
+        "size": 16,
+        "weight": 300
+      }
     }
   }
 

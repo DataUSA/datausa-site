@@ -4,7 +4,7 @@ viz.geo_map = function(build) {
 
   return {
     "color": {
-      "heatmap": [build.colors.sec, build.colors.pri]
+      "heatmap": vizStyles.heatmap
     },
     "coords": {
       "center": [0, 0],
