@@ -6,9 +6,14 @@
 
 <script>var builds = [];</script>
 
+<div id="title-bar">
+  <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}</span>
+</div>
+
+<div class="bound">
 <article id="splash">
 
-  <div class="bg-filter"></div>
+  <!-- <div class="bg-filter"></div> -->
 
   {% set sections = profile.sections() %}
   {% set image = profile.image() %}
@@ -17,7 +22,7 @@
 
   <div class="content">
 
-    <div class="splash-titles">
+    <div class="splash-breadcrumb">
       {% set parents = profile.parents() %}
       {% if parents|length %}
         <sub>
@@ -25,17 +30,21 @@
             <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
           {% endfor %}
         </sub>
-      {% endif %}
-
+      {% endif %}  
+    </div>
+    
+    <div class="splash-titles">
       {% if profile.splash.group %}
-      <div>{{ profile.splash.group }}</div>
+      <div class="splash-title-group">{{ profile.splash.group }}</div>
       {% endif %}
 
       <h1>{{ profile.splash.title }}</h1>
+    </div>
 
-      <!-- {% for desc in profile.splash.description %}
+    <div class="splash-desc">
+      {% for desc in profile.splash.description %}
       <p class="desc">{{ desc|safe }}</p>
-      {% endfor %} -->
+      {% endfor %}
     </div>
 
     <div class="splash-context">
@@ -54,7 +63,7 @@
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-group">
               <div class="stat-value">{{ stat.value|safe }}</div>
-              <div class="stat-rank">Rank: {{ stat.rank|safe }}</div>
+              <div class="stat-rank">{{ stat.rank|safe }}</div>
             </div>
           </div>
           {% endfor %}
@@ -68,18 +77,18 @@
             {% endfor %}
           </div>
           <div class="carousel-btns">
-            <div class="carousel-btn">&#10229;</div>
+            <a href="#" class="carousel-btn">&#10229;</a>
             <span id="carousel-page">1</span><span>&#8201;/&#8201;</span><span>{{ profile.splash.facts|length }}</span>
-            <div class="carousel-btn active">&#10230;</div>
+            <a href="#" class="carousel-btn active">&#10230;</a>
           </div>
         </div>
       </div>
     </div>
 
     <div class="splash-icon-nav">
-      <span>Jump to</span>
     {% for section in sections %}
-      <a href="#{{ section.anchor }}" data-tooltip="{{ section.title|safe }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /></a>
+      <a href="#{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" />
+      <span>{{ section.title|safe }}</span></a>
     {% endfor %}
     </div>
 
@@ -91,9 +100,9 @@
   </div>
 
 </article>
+</div>
 
-<div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}</span>
+<div id="stats-bar">
   <div id="title-stats">
     {% for stat in profile.splash.stats %}
     <div class="title-stat">
@@ -204,27 +213,24 @@
     });
   });
 
-  var titleHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight,
-      attr_type = "{{ profile.attr_type }}";
-
-  // var titleNavHeight = d3.select(".thumbprint").node().offsetHeight;
-  var titleNavHeight = titleHeight;
+  var titleNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#splash").node().offsetHeight/5;
+  var profNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight;
+  var attr_type = "{{ profile.attr_type }}";
 
   function navScroll(){
 
     var y = window.scrollY,
-        showNav = y > window.innerHeight - titleHeight - 10;
-
-    var showTitleNav = y > titleNavHeight + 50;
+        showTitleNav = y > titleNavHeight,
+        showProfNav = y > window.innerHeight - profNavHeight;
 
     d3.select("#title-bar").classed("visible", showTitleNav);
-    d3.select("#profile-nav").classed("visible", showNav);
+    d3.select("#profile-nav").classed("visible", showProfNav);
 
     var active_section;
     d3.selectAll("a[name]")
       .each(function(){
         var top = this.parentNode.parentNode.offsetTop;
-        if (top - titleHeight - 10 < y) active_section = this.name;
+        if (top - titleNavHeight - 10 < y) active_section = this.name;
       })
     d3.selectAll("#profile-nav li")
       .classed("active", function(){

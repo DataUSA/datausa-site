@@ -4,129 +4,131 @@
 {% block content %}
 
 <nav>
-    <div id="top-nav">
-        <div id="menu-btn">
-          <i class="fa fa-bars"></i>
-        </div>
-
-        <div id="home-btn">
-            <a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" style="width:80px" /></a>
-        </div>
-
-        <div id="search-btn">
-          <i class="fa fa-search"></i>
-        </div>
-    </div>
-
-    <div id="menu">
-      <div class="menu-content">
-        <ul>
-          <li class="desc">
-              <p>
-                  DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations.
-              </p>
-          </li>
-
-          <!-- <li class="about-sum">
-              <a href="#">
-                  <h2>About</h2>
-              </a>
-              
-              <section class="desc">
-                  <p>
-                      DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations. View data sources &rarr;
-                  </p>
-              </section>
-          </li> -->
-          
-           <li class="search-sum">
-            <a href="/search/">
-                <h2>Advanced Search</h2>
-            </a>
-          </li>
-          <li class="profile-sum">
-            <a href="/search/?q=" class="profile-link">
-              <h2>
-               Profiles v
-              </h2>
-            </a>
-          </li>
-          <li class="profiles-drawer">
-            <a href="/search/?q=" class="profile-link-carousel disabled">
-              <h2>
-                Industry
-              </h2>
-            </a>
-            <a href="/search/?q=" class="profile-link-carousel">
-              <h2>
-                Location
-              </h2>
-            </a>
-            <a href="" class="profile-link-carousel disabled">
-              <h2>
-                Occupations
-              </h2>
-            </a>
-            <a href="" class="profile-link-carousel">
-              <h2>
-                College Majors
-              </h2>
-            </a>
-          </li>
-          <li class="stories-sum">
-            <a href="/story/">
-                <h2>Stories</h2>
-            </a>
-          </li>
-          <li class="map-sum">
-            <a href="/map/">
-                <h2>Map</h2>
-            </a>
-          </li>
-        </ul>
+  <div id="top-nav">
+      <div id="menu-btn">
+        <i class="fa fa-bars"></i>
       </div>
 
-      <footer>
-        <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
-        <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
-        <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
-      </footer>
+      <div id="home-btn">
+          <a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" style="width:80px" /></a>
+      </div>
 
-    </div>
+      {% block  %}
 
-    <div id="search-nav-sm">
-      <section><a href="/search/">Search for 'results for input'</a></section>
-      
-      <section class="results-location">
-        <div class="results-title">
-          <h3>Industries</h3>
-          <a href="/search/location_results_for_input">More</a>
-        </div>
-        <div class="results-body">
-          <ul>
-            <li>
-              <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
-              <a href="/profile/geo/16000US3651000/">New York, NY</a>
-            </li>
-            <li>
-              <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
-              <a href="/profile/geo/16000US1571550/">Honolulu, HI</a>
-            </li>
-            <li>
-              <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
-              <a href="/profile/geo/16000US4835000/">Houston, TX</a>
-            </li>
-          </ul>
-        </div>
-        <span class="results-count">1854 results</span>
-      </section>
-
-      <section class="results-show-all">
-        <a href="/search/">Show all results</a>
-      </section>
-    </div>
-
+      <div id="search-btn">
+        <i class="fa fa-search"></i>
+      </div>
+  </div>
 </nav>
+
+<div id="menu">
+  <div class="close-btn">x</div>
+  <div class="menu-content">
+    <ul>
+      <li class="desc">
+          <p>
+              DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations.
+          </p>
+      </li>
+
+      <!-- <li class="about-sum">
+          <a href="#">
+              <h2>About</h2>
+          </a>
+          
+          <section class="desc">
+              <p>
+                  DataUSA lets you to explore education, economic, job, health, and demographic data for the entire U.S., combining 300+ data sets into 1,000+ visualizations. View data sources &rarr;
+              </p>
+          </section>
+      </li> -->
+      
+       <li class="search-sum">
+        <a href="/search/">
+            <h2>Advanced Search</h2>
+        </a>
+      </li>
+      <li class="profile-sum">
+        <a href="/search/?q=" class="profile-link">
+          <h2>
+           Profiles v
+          </h2>
+        </a>
+      </li>
+      <li class="profiles-drawer">
+        <a href="/search/?q=" class="profile-link-carousel disabled">
+          <h2>
+            Industry
+          </h2>
+        </a>
+        <a href="/search/?q=" class="profile-link-carousel">
+          <h2>
+            Location
+          </h2>
+        </a>
+        <a href="" class="profile-link-carousel disabled">
+          <h2>
+            Occupations
+          </h2>
+        </a>
+        <a href="" class="profile-link-carousel">
+          <h2>
+            College Majors
+          </h2>
+        </a>
+      </li>
+      <li class="stories-sum">
+        <a href="/story/">
+            <h2>Stories</h2>
+        </a>
+      </li>
+      <li class="map-sum">
+        <a href="/map/">
+            <h2>Map</h2>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <footer>
+    <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
+    <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
+    <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
+  </footer>
+
+</div>
+
+<div id="search-simple-nav">
+  <section><a href="/search/">Search for 'results for input'</a></section>
+  
+  <section class="results-location">
+    <div class="results-title">
+      <h3>Industries</h3>
+      <a href="/search/location_results_for_input">More</a>
+    </div>
+    <div class="results-body">
+      <ul>
+        <li>
+          <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
+          <a href="/profile/geo/16000US3651000/">New York, NY</a>
+        </li>
+        <li>
+          <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
+          <a href="/profile/geo/16000US1571550/">Honolulu, HI</a>
+        </li>
+        <li>
+          <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
+          <a href="/profile/geo/16000US4835000/">Houston, TX</a>
+        </li>
+      </ul>
+    </div>
+    <span class="results-count">1854 results</span>
+  </section>
+
+  <section class="results-show-all">
+    <a href="/search/">Show all results</a>
+  </section>
+</div>
 
 {% block body %}
 {% endblock %}
@@ -138,6 +140,18 @@
 </footer>
 
 <script>
+
+d3.select(".close-btn").on("click", function(){
+  d3.select("#menu").classed("open", false);
+
+  var body = d3.select("body");
+
+  body.classed("frozen", false);
+
+  d3.select("#mask").remove();
+
+  d3.event.preventDefault();
+});
 
 d3.select("#menu-btn").on("click", function(){
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
@@ -156,7 +170,7 @@ d3.select("#menu-btn").on("click", function(){
 });
 
 d3.select("#search-btn").on("click", function(){
-  d3.select("#search-nav-sm").classed("open", !d3.select("#search-nav-sm").classed("open"));
+  d3.select("#search-simple-nav").classed("open", !d3.select("#search-simple-nav").classed("open"));
 });
 
 </script>
