@@ -1,7 +1,7 @@
 import itertools, os, requests, yaml
 from requests.models import RequestEncodingMixin
 from flask import abort, url_for
-from config import API, basedir, PROFILES
+from config import API, basedir, CROSSWALKS, PROFILES
 from datausa import cache, app
 from datausa.utils.format import dictionary, num_format
 
@@ -66,7 +66,7 @@ def stat(params, col="name", dataset=False, data_only=False):
     except ValueError:
         app.logger.info("STAT ERROR: {}".format(url))
         return {
-            "url": "{}?{}&col={}&dataset={}".format(url_for("profile.stat"), query, col, dataset),
+            "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
             "value": "N/A"
         }
 
@@ -111,7 +111,7 @@ def stat(params, col="name", dataset=False, data_only=False):
 
         top = [fetch(d[show], attr) for d in r]
 
-        if attr in PROFILES:
+        if attr in PROFILES or attr in CROSSWALKS:
             top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t["id"]), t[col]) for t in top]
         else:
             top = [t[col] for t in top]
@@ -143,7 +143,7 @@ def stat(params, col="name", dataset=False, data_only=False):
 
     # otherwise, return the list joined with commans
     return {
-        "url": "{}?{}&col={}&dataset={}".format(url_for("profile.stat"), query, col, dataset),
+        "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
         "value": top,
         "data": vals
     }
