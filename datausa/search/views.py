@@ -13,7 +13,7 @@ def index():
     g.page_type = "search"
     return render_template("search/index.html", anchors=json.dumps(profile_cache))
 
-@mod.route("/<attr_kind>/<attr_id>/img")
+@mod.route("/<attr_kind>/<attr_id>/img/")
 def get_img(attr_kind, attr_id):
     gobj = fetch(attr_id, attr_kind)
     my_id = gobj['id']
