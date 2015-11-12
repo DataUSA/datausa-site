@@ -304,8 +304,10 @@ window.onload = function() {
 
       // Press "s" to highlight most recent search
       if (d3.event.keyCode === 83) {
-        if (!search.container) search.container = d3.select("#search-global");
-        search.container.select(".search-input").node().focus();
+        // if (!search.container) search.container = d3.select("#search-global");
+        d3.select(".search-box input").node().focus();
+        d3.select(".search-box").classed("open", true);
+        d3.select("#search-simple-nav").classed("open", true);
       }
 
     }
@@ -323,6 +325,19 @@ window.onload = function() {
   // Key events while the search input is active
   var searchInterval, keywait = 300;
   d3.selectAll(".search-input").on("keyup.search-input", function(){
+    
+    // "ESC" button
+    if (d3.event.keyCode === 27) {
+      d3.select(".search-box").classed("open", false);
+      d3.select("#search-simple-nav").classed("open", false);
+      d3.select(".search-box input").node().blur();
+    }
+    
+    // Enter button
+    if (d3.event.keyCode === 13) {
+      var search_txt = d3.select(this).property("value");
+      window.location = "/search/?q="+search_txt;
+    }
 
     var q = this.value.toLowerCase();
     if (q !== search.term) {
@@ -437,26 +452,26 @@ var attrs_meta = {
     "name": "Geography",
     "sumlevels": [
       {
-        "name": "States",
+        "name": "State",
         "id": "040",
         "children": ["050", "310", "160", "795"]
       },
       {
-        "name": "Counties",
+        "name": "County",
         "id": "050",
         "children": ["160"]
       },
       {
-        "name": "MSAs",
+        "name": "MSA",
         "id": "310",
         "children": ["050", "160"]
       },
       {
-        "name": "Places",
+        "name": "Place",
         "id": "160"
       },
       {
-        "name": "PUMAs",
+        "name": "PUMA",
         "id": "795"
       }
     ]
@@ -464,26 +479,26 @@ var attrs_meta = {
   "naics": {
     "name": "Industry",
     "sumlevels": [
-      {"name":"Top Level", "id":0, "children":[1, 2]},
-      {"name":"2 digit", "id":1, "children":[2]},
-      {"name":"3 digit", "id":2}
+      {"name":"Industry Category", "id":0, "children":[1, 2]},
+      {"name":"2 digit Industry", "id":1, "children":[2]},
+      {"name":"3 digit Industry", "id":2}
     ]
   },
   "soc": {
     "name": "Occupations",
     "sumlevels": [
-      {"name":"Top Level", "id":0, "children":[1, 2, 3]},
-      {"name":"2 digit", "id":1, "children":[2, 3]},
-      {"name":"3 digit", "id":2, "children":[3]},
-      {"name":"4 digit", "id":3}
+      {"name":"Top Level Occupation", "id":0, "children":[1, 2, 3]},
+      {"name":"2 digit Occupation", "id":1, "children":[2, 3]},
+      {"name":"3 digit Occupation", "id":2, "children":[3]},
+      {"name":"4 digit Occupation", "id":3}
     ]
   },
   "cip": {
     "name": "College Majors",
     "sumlevels": [
-      {"name":"2 digit", "id":0, "children":[1, 2]},
-      {"name":"4 digit", "id":1, "children":[2]},
-      {"name":"6 digit", "id":2}
+      {"name":"2 digit Course", "id":0, "children":[1, 2]},
+      {"name":"4 digit Course", "id":1, "children":[2]},
+      {"name":"6 digit Course", "id":2}
     ]
   }
 }
@@ -537,35 +552,52 @@ search.reload = function() {
                   }, "?")
   
   // set URL query parameter to search query
-  // console.log("params:", q_params)
-  window.history.replaceState({}, "", "/search/"+q_params);
+  if(this.advanced){
+    window.history.replaceState({}, "", "/search/"+q_params);
+  }
+  else {
+    d3.select(".results-show-all a").attr("href", "/search/"+q_params)
+  }
   
   // load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
   load(api + "/attrs/search?limit=100&q="+this.term, function(data, url, raw) {
     // console.log(data, url, raw)
     
     d3.select(".search-suggestions").style("display", "block").text('');
-    if(raw.suggestions){
-      var search_suggestions = raw.suggestions.slice();
-      if(raw.autocorrected){
-        d3.select(".search-autocorrected").style("display", "block")
-        d3.select(".search-autocorrected span.result").text(search_suggestions.shift())
+    
+    if(this.advanced){
+      if(raw.suggestions){
+        var search_suggestions = raw.suggestions.slice();
+        if(raw.autocorrected){
+          d3.select(".search-autocorrected").style("display", "block")
+          d3.select(".search-autocorrected span.result").text(search_suggestions.shift())
+        }
+        else {
+          d3.select(".search-autocorrected").style("display", "none")
+        }
+        if(search_suggestions.length){
+          var suggestions_span = d3.select(".search-suggestions")
+            .style("display", "block")
+            .text("Suggestions: ")
+          var search_suggestions_a = search_suggestions.map(function(s, i){
+            return "<a href='/search/?q="+s+"'>"+s+"</a>"
+          })
+          suggestions_span.append("span").html(search_suggestions_a.join(", "))
+        }
+      }
+      this.update_refine(data);
+    }
+    else {
+      console.log(data.length)
+      if(data.length > 10){
+        var left_over = data.length - 10;
+        d3.select(".results-show-all a span.more").text("("+left_over+" more)")
       }
       else {
-        d3.select(".search-autocorrected").style("display", "none")
+        d3.select(".results-show-all a span.more").text("")
       }
-      if(search_suggestions.length){
-        var suggestions_span = d3.select(".search-suggestions")
-          .style("display", "block")
-          .text("Suggestions: ")
-        var search_suggestions_a = search_suggestions.map(function(s, i){
-          return "<a href='/search/?q="+s+"'>"+s+"</a>"
-        })
-        suggestions_span.append("span").html(search_suggestions_a.join(", "))
-      }
+      data = data.slice(0, 10);
     }
-    
-    this.update_refine(data);
     
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
@@ -575,7 +607,7 @@ search.reload = function() {
     items.enter().append(tag).attr("class", "search-item");
 
     if (tag === "a") {
-      items.attr("href", function(d){ return "/profile/" + this.type + "/" + d.id + "/"; }.bind(this));
+      // items.text('test').attr("href", function(d){ return "/profile/" + d.kind + "/" + d.id + "/"; }.bind(this));
     }
     else {
       // click first item
@@ -599,14 +631,13 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  // console.log(d3.select(this).node())
   var search_item = d3.select(this);
   var thumb = search_item.append("div").attr("class", 'thumb')
   var info = search_item.append("div").attr("class", 'info')
   var profile = search_item.append("div").attr("class", 'profile')
   
   // set thumbnail
-  thumb.style("background-image", "url('http://postgres.datawheel.us:81/search/geo/"+d.id+"/img/')")
+  thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
   
   // set info
   info.append("h2").text(d.display)
@@ -653,9 +684,15 @@ search.btnExplore = function(d) {
 }
 
 search.btnProfile = function(d) {
-
-  return d.name;
-
+  var search_item = d3.select(this).attr("href", function(d){ 
+                      return "/profile/" + d.kind + "/" + d.id + "/"; 
+                    });
+  search_item.append("h3").text(d.display);
+  search_item.append("span").text(function(d){
+    if(sumlevels_by_id[d.kind][d.sumlevel]){
+      return sumlevels_by_id[d.kind][d.sumlevel].name;
+    }
+  });
 }
 
 search.filter = function(data) {

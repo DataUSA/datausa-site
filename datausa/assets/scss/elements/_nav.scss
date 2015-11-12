@@ -138,6 +138,23 @@ body {
     opacity: 1;
     cursor: pointer;
   }
+  
+  .search-box {
+    @include transition(width 0.55s);
+    display: inline-block;
+    overflow: hidden;
+    padding: 0px;
+    text-align: left;
+    width: 0px;
+  }
+  .search-box.open {
+    width: 200px;
+  }
+  .search-box input {
+    @include box();
+    width: 100%;
+  }
+  
 }
 
 #mask {
@@ -192,6 +209,17 @@ body {
       display: inline-block;
       float: right;
     }
+  }
+  
+  .search-results {
+    
+    a.search-item {
+      display: block;
+      &:hover{
+        background-color: gray;
+      }
+    }
+    
   }
 
   .results-show-all {

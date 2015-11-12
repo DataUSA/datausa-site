@@ -7,8 +7,10 @@ window.onload = function() {
 
       // Press "s" to highlight most recent search
       if (d3.event.keyCode === 83) {
-        if (!search.container) search.container = d3.select("#search-global");
-        search.container.select(".search-input").node().focus();
+        // if (!search.container) search.container = d3.select("#search-global");
+        d3.select(".search-box input").node().focus();
+        d3.select(".search-box").classed("open", true);
+        d3.select("#search-simple-nav").classed("open", true);
       }
 
     }
@@ -26,6 +28,19 @@ window.onload = function() {
   // Key events while the search input is active
   var searchInterval, keywait = 300;
   d3.selectAll(".search-input").on("keyup.search-input", function(){
+    
+    // "ESC" button
+    if (d3.event.keyCode === 27) {
+      d3.select(".search-box").classed("open", false);
+      d3.select("#search-simple-nav").classed("open", false);
+      d3.select(".search-box input").node().blur();
+    }
+    
+    // Enter button
+    if (d3.event.keyCode === 13) {
+      var search_txt = d3.select(this).property("value");
+      window.location = "/search/?q="+search_txt;
+    }
 
     var q = this.value.toLowerCase();
     if (q !== search.term) {

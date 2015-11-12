@@ -252,7 +252,7 @@
   search.advanced = true;
   search.container = d3.select("#search-advanced");
 
-  var input = d3.select(".search-input").attr("value", search.term);
+  var input = d3.selectAll(".search-input").attr("value", search.term);
   if (input.node().setSelectionRange !== undefined) {
     input.node().setSelectionRange(search.term.length, search.term.length);
   }

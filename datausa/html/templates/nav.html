@@ -14,6 +14,9 @@
       </div>
 
       <div id="search-btn">
+        <div class="search-box">
+          <input class="search-input" data-search="simple-nav" type="text" placeholder="Search DataUSA&hellip;" autofocus />
+        </div>
         <i class="fa fa-search"></i>
       </div>
   </div>
@@ -97,34 +100,11 @@
 </div>
 
 <div id="search-simple-nav">
-  <section><a href="/search/">Search for 'results for input'</a></section>
-
-  <section class="results-location">
-    <div class="results-title">
-      <h3>Industries</h3>
-      <a href="/search/location_results_for_input">More</a>
-    </div>
-    <div class="results-body">
-      <ul>
-        <li>
-          <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
-          <a href="/profile/geo/16000US3651000/">New York, NY</a>
-        </li>
-        <li>
-          <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
-          <a href="/profile/geo/16000US1571550/">Honolulu, HI</a>
-        </li>
-        <li>
-          <img src="/static/img/thumb/industry_thumbprint_img" alt="result name" />
-          <a href="/profile/geo/16000US4835000/">Houston, TX</a>
-        </li>
-      </ul>
-    </div>
-    <span class="results-count">1854 results</span>
-  </section>
+  <div class="search-results">
+  </div>
 
   <section class="results-show-all">
-    <a href="/search/">Show all results</a>
+    <a href="/search/">Show all results <span class="more"></span></a>
   </section>
 </div>
 
@@ -167,8 +147,10 @@ d3.select("#menu-btn").on("click", function(){
   d3.event.preventDefault();
 });
 
-d3.select("#search-btn").on("click", function(){
+d3.select("#search-btn .fa-search").on("click", function(){
   d3.select("#search-simple-nav").classed("open", !d3.select("#search-simple-nav").classed("open"));
+  d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
+  d3.select(".search-box input").node().focus();
 });
 
 </script>
