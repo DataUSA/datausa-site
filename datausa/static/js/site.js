@@ -1234,6 +1234,8 @@ viz.loadAttrs = function(build) {
 
 };
 
+var excludedGeos = ["79500US4804701"];
+
 viz.loadCoords = function(build) {
   var next = "loadAttrs";
 
@@ -1264,18 +1266,17 @@ viz.loadCoords = function(build) {
     else {
       build.config.coords.solo = [];
     }
-
-    var excluded = ["79500US4804701", "16000US4817000"];
     build.config.coords.solo = build.config.coords.solo.filter(function(c){
-      return excluded.indexOf(c) < 0;
+      return excludedGeos.indexOf(c) < 0;
     });
-    build.config.coords.mute = excluded;
+    build.config.coords.mute = excludedGeos;
 
     var filename = type;
     if (["places", "tracts"].indexOf(type) >= 0) {
       if (build.config.coords.solo.length) {
         filename += "_" + build.config.coords.solo[0].slice(7, 9);
         build.config.coords.solo.push("040" + build.config.coords.solo[0].slice(3, 9));
+        // build.config.coords.solo = ["040" + build.config.coords.solo[0].slice(3, 9)];
       }
       else {
         filename += "_" + build.highlight.slice(7, 9);
