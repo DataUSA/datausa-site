@@ -13,3 +13,5 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 CACHE_TYPE = 'filesystem'
 CACHE_DIR = os.path.join(basedir, 'cache_data/')
 CACHE_DEFAULT_TIMEOUT = os.environ.get("CACHE_DEFAULT_TIMEOUT", (60 * 60))
+
+SPLASH_IMG_DIR = os.path.join(basedir, "datausa/static/img/{}/{}/")

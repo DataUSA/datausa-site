@@ -5,6 +5,7 @@ from config import API, basedir, PROFILES
 from datausa import cache, app
 from datausa.utils.format import dictionary, num_format
 
+
 def datafold(data):
     """List[dict]: combines the headers and data from an API call """
     return [dict(zip(data["headers"], d)) for d in data["data"]]
@@ -40,6 +41,17 @@ def default_params(params):
         del params["year"]
 
     return params
+
+
+@cache.memoize()
+def get_parents(attr_id, attr_type):
+    """get parents from API"""
+    url = "{}/attrs/{}/{}/parents".format(API, attr_type, attr_id)
+    try:
+        return datafold(requests.get(url).json())
+    except ValueError:
+        return []
+
 
 def stat(params, col="name", dataset=False, data_only=False):
 
