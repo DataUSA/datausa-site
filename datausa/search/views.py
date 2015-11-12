@@ -24,6 +24,7 @@ def get_img(attr_kind, attr_id):
             p = fetch(p["id"], attr_kind)
             if "image_link" in p and p['image_link']:
                 my_id = p['id']
+                break
     mode = "thumb" if request.args.get("thumb", True) else "splash"
     my_str = SPLASH_IMG_DIR.format("thumb", attr_kind)
     print my_str.format(mode, attr_kind)
