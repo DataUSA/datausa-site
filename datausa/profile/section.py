@@ -228,7 +228,7 @@ class Section(object):
             prefix = "040"
         if kwargs.get("prefix", False) and prefix in geo_children:
             return attr_id.replace(prefix, geo_children[prefix])
-        return ",".join([c["id"] for c in self.profile.children(attr_id=attr_id)])
+        return u",".join([c["id"] for c in self.profile.children(attr_id=attr_id)])
 
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
@@ -277,7 +277,7 @@ class Section(object):
             name = attr_type
 
         if "plural" in kwargs:
-            name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
+            name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
 
         if "uppercase" in kwargs:
             name = name.capitalize()
@@ -296,11 +296,11 @@ class Section(object):
 
         name = attr["display_name"] if "display_name" in attr else attr["name"]
         if attr["id"] != self.attr["id"]:
-            name = "<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.profile.attr_type, attr_id=attr["id"]), name)
+            name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.profile.attr_type, attr_id=attr["id"]), name)
         return name
 
     def parents(self, **kwargs):
-        return ",".join([p["id"] for p in self.profile.parents()])
+        return u",".join([p["id"] for p in self.profile.parents()])
 
     def percent(self, **kwargs):
         """str: 2 columns divided by one another """
@@ -348,7 +348,7 @@ class Section(object):
 
                 # convert request arguments into a url query string
                 query = RequestEncodingMixin._encode_params(params)
-                url = "{}/api?{}".format(API, query)
+                url = u"{}/api?{}".format(API, query)
 
                 try:
                     r[t] = datafold(requests.get(url).json())[0][key]
@@ -470,7 +470,7 @@ class Section(object):
             return ""
         subs = subs["subs"]
         if attr_type in subs and subs[attr_type] != self.attr["id"]:
-            return "Based on data from {}".format(fetch(subs[attr_type], attr_type)["name"])
+            return u"Based on data from {}".format(fetch(subs[attr_type], attr_type)["name"])
         else:
             return ""
 
@@ -488,7 +488,7 @@ class Section(object):
             name = geo_sumlevels[prefix]
 
             if "plural" in kwargs:
-                name = "{}ies".format(name[:-1]) if name[-1] == "y" else "{}s".format(name)
+                name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
 
             return name
 
@@ -572,4 +572,4 @@ class Section(object):
             raise Exception("vars.yaml file has no variables")
 
     def __repr__(self):
-        return "Section: {}".format(self.title)
+        return u"Section: {}".format(self.title)
