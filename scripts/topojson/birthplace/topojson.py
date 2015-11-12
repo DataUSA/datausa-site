@@ -5,7 +5,7 @@ API = os.environ.get("DATAUSA_API", "http://postgres.datawheel.us")
 
 def topojson():
 
-    usa = {c[0]: c[1] for c in requests.get("{}/attrs/birthplace/".format(API)).json()["data"] if c[0]}
+    usa = {c[0]: c[2] for c in requests.get("{}/attrs/birthplace/".format(API)).json()["data"] if c[0]}
 
     directory = "/".join(sys.argv[0].split("/")[:-1])
     source = "shapefiles/ne_10m_admin_0_countries.shp"
