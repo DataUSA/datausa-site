@@ -1,5 +1,5 @@
 body.profile {
-  
+
   &.geo {
     .economy, .education, .health  {
       background-color: #ddd;
@@ -33,12 +33,21 @@ body.profile {
   }
 
   h1.category {
+    position: relative;
     font-family: $roboto;
     font-size: 32px;
     font-weight: 300;
     letter-spacing: 0.025em;
     text-transform: uppercase;
     text-align: center;
+
+    a:before {
+      content: "";
+      position: absolute;
+      visibility: hidden;
+      top: -($title-height+$nav-height);
+    }
+
   }
 
   p {
@@ -187,7 +196,7 @@ body.profile {
       overflow: hidden;
       z-index: 2;
       background-color: $bg-color-geo;
-      
+
       .splash-titles {
         width: 100%;
         text-align: center;
@@ -431,7 +440,7 @@ body.profile {
               opacity: 1;
               pointer-events: initial;
               cursor: pointer;
-              
+
               &:hover {
                 color: #fff;
               }
@@ -564,6 +573,43 @@ body.profile {
     p {
       font-size: 17px;
     }
+  }
+
+  .section-sidenav {
+    @include flex();
+    @include flex-direction(column);
+    @include transition(left 1s);
+    height: 100px;
+    left: -30px;
+    margin-top: -(50px-$nav-height);
+    position: fixed;
+    top: 50%;
+    z-index: 10;
+
+    &.active {
+      left: 0;
+    }
+
+    .section-sidenav-button {
+      @include transition(opacity 0.5s);
+      @include rounded(50%);
+      display: block;
+      height: 10px;
+      margin: 10px;
+      width: 10px;
+      background-color: #333;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 0.75;
+      }
+
+      &.active {
+        opacity: 1;
+      }
+
+    }
+
   }
 
   section {

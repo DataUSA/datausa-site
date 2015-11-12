@@ -104,7 +104,7 @@
             "description": d3.select(this).attr("data-tooltip"),
             "width": "auto",
             "id": "data-tooltip",
-            "align": "top center",
+            "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
             // "parent": parent,
             "max_width": 180
           })

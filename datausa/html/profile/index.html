@@ -129,10 +129,18 @@
   {% endfor %}
 </header>
 
+<div class="section-sidenav" data-anchor="{{ section.anchor }}">
+{% for topic in section.topics %}
+  {% if topic.category %}
+  <a class="section-sidenav-button" href="#{{ topic.category|safe|lower|replace(" ", "_") }}" data-anchor="{{ topic.category|safe|lower|replace(" ", "_") }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-anchor="center right"></a>
+  {% endif %}
+{% endfor %}
+</div>
+
 <section class="{{ section.anchor }}">
   {% for topic in section.topics %}
   {% if topic.category %}
-  <h1 class="category">{{ topic.category|safe }}</h1>
+  <h1 class="category"><a name="{{ topic.category|safe|lower|replace(" ", "_") }}">{{ topic.category|safe }}</a></h1>
   {% endif %}
   {% if topic.items()|length > 1 or "category" not in topic %}
   <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}">
@@ -227,14 +235,27 @@
     d3.select("#profile-nav").classed("visible", showProfNav);
 
     var active_section;
-    d3.selectAll("a[name]")
+    d3.selectAll("header a[name]")
       .each(function(){
         var top = this.parentNode.parentNode.offsetTop;
         if (top - titleNavHeight - 10 < y) active_section = this.name;
       })
-    d3.selectAll("#profile-nav li")
+    d3.selectAll("#profile-nav li, .section-sidenav")
       .classed("active", function(){
         return this.getAttribute("data-anchor") === active_section;
+      });
+
+    var active_sub;
+    d3.selectAll(".category a[name]")
+      .each(function(){
+        var top = this.parentNode.offsetTop;
+        if (top - titleNavHeight - 10 < y) {
+          active_sub = this.name;
+        }
+      });
+    d3.selectAll(".section-sidenav-button")
+      .classed("active", function(){
+        return this.getAttribute("data-anchor") === active_sub;
       });
 
   }

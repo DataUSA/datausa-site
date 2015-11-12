@@ -710,7 +710,7 @@ body.home {
                   body.home .bg-filter.landing {
                     width: 100vw;
                     height: 190vh;
-                    background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
+                    background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
                     z-index: -11; }
                     body.home .bg-img.landing {
                       top: -37vh;
@@ -907,43 +907,49 @@ body.profile h1 {
     text-transform: uppercase;
     font-style: italic; }
     body.profile h1.category {
+      position: relative;
       font-family: "Roboto", sans-serif;
       font-size: 32px;
       font-weight: 300;
       letter-spacing: 0.025em;
       text-transform: uppercase;
       text-align: center; }
-      body.profile p {
+      body.profile h1.category a:before {
+        content: "";
+        position: absolute;
+        visibility: hidden;
+        top: -80px; }
+body.profile p {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 0.93); }
+  body.profile a {
+    color: #333; }
+    body.profile .topic h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: #333;
+      text-transform: none;
+      font-style: normal;
+      letter-spacing: 0.03em; }
+      body.profile .topic sub {
+        display: inline-block;
+        margin: 5px 0 10px;
+        color: #a8a8a8;
         font-family: "Roboto", sans-serif;
-        font-size: 15px;
-        line-height: 1.65;
-        font-weight: 400;
-        color: rgba(51, 51, 51, 0.93); }
-        body.profile a {
-          color: #333; }
-          body.profile .topic h2 {
-            font-family: "Playfair Display", serif;
-            font-size: 28px;
-            font-weight: 300;
-            color: #333;
-            text-transform: none;
-            font-style: normal;
-            letter-spacing: 0.03em; }
-            body.profile .topic sub {
-              display: inline-block;
-              margin: 5px 0 10px;
-              color: #a8a8a8;
-              font-family: "Roboto", sans-serif;
-              text-transform: uppercase;
-              font-size: 12px;
-              font-weight: 700;
-              letter-spacing: 0.1em; }
-              body.profile .topic sub a {
-                color: #888; }
-                body.profile .topic sub a:hover {
-                  text-decoration: underline; }
-              body.profile .topic sub span {
-                vertical-align: text-bottom; }
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em; }
+        body.profile .topic sub a {
+          color: #888; }
+          body.profile .topic sub a:hover {
+            text-decoration: underline; }
+        body.profile .topic sub span {
+          vertical-align: text-bottom; }
 body.profile .stat-text, body.profile .stat-rank {
   font-family: "Roboto", sans-serif; }
   body.profile .stat-text {
@@ -1376,6 +1382,50 @@ body.profile header {
       top: -80px; }
   body.profile header p {
     font-size: 17px; }
+body.profile .section-sidenav {
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  -webkit-transition: left 1s;
+  -moz-transition: left 1s;
+  -ms-transition: left 1s;
+  -o-transition: left 1s;
+  transition: left 1s;
+  height: 100px;
+  left: -30px;
+  margin-top: -50 "-px-" -40px;
+  position: fixed;
+  top: 50%;
+  z-index: 10; }
+  body.profile .section-sidenav.active {
+    left: 0; }
+    body.profile .section-sidenav .section-sidenav-button {
+      -webkit-transition: opacity 0.5s;
+      -moz-transition: opacity 0.5s;
+      -ms-transition: opacity 0.5s;
+      -o-transition: opacity 0.5s;
+      transition: opacity 0.5s;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+      display: block;
+      height: 10px;
+      margin: 10px;
+      width: 10px;
+      background-color: #333;
+      opacity: 0.5; }
+      body.profile .section-sidenav .section-sidenav-button:hover {
+        opacity: 0.75; }
+        body.profile .section-sidenav .section-sidenav-button.active {
+          opacity: 1; }
 body.profile section {
   -webkit-justify-content: center;
   -moz-justify-content: center;
