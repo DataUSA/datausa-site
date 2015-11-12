@@ -454,43 +454,93 @@ body.search .search-results-container {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   background: lightgray; }
-  body.search .search-results-container .search-results {
+  body.search .search-results-container .search-refine {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
+    color: #333;
+    float: left;
+    position: relative; }
+    body.search .search-results-container .search-refine > a.clear {
+      background-color: #FEEFB3;
+      color: #9F6000;
+      display: none;
+      padding: 10px; }
+      body.search .search-results-container .search-refine > div {
+        padding: 10px; }
+        body.search .search-results-container .search-refine h2 a,
+        body.search .search-results-container .search-refine li a {
+          color: gray; }
+          body.search .search-results-container .search-refine h2 a.active,
+          body.search .search-results-container .search-refine li a.active {
+            color: black !important;
+            font-weight: bold !important; }
+            body.search .search-results-container .search-refine .details-sumlevels-results a {
+              display: block; }
+              body.search .search-results-container .search-refine a.details-profile {
+                position: absolute;
+                right: 10px;
+                top: 10px; }
+  body.search .search-results-container .search-results {
+    -webkit-box-flex: 4;
+    -moz-box-flex: 4;
+    -webkit-flex: 4;
+    -ms-flex: 4;
+    flex: 4;
     background: gray;
     color: #333;
     float: left; }
     body.search .search-results-container .search-results .search-item {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: row;
+      -moz-flex-direction: row;
+      flex-direction: row;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
       font-family: "Palanquin", sans-serif;
       font-size: 12px;
       color: white;
-      cursor: pointer;
       line-height: 1.2em;
       margin: 5px 0;
       padding: 10px; }
-      body.search .search-results-container .search-results .search-item:hover {
-        background-color: #004994; }
-  body.search .search-results-container .search-details {
-    -webkit-box-flex: 3;
-    -moz-box-flex: 3;
-    -webkit-flex: 3;
-    -ms-flex: 3;
-    flex: 3;
-    color: #333;
-    float: left;
-    position: relative;
-    padding: 10px; }
-    body.search .search-results-container .search-details h2 {
-      color: #333; }
-      body.search .search-results-container .search-details .details-sumlevels-results a {
-        display: block; }
-        body.search .search-results-container .search-details a.details-profile {
-          position: absolute;
-          right: 10px;
-          top: 10px; }
+      body.search .search-results-container .search-results .search-item.active {
+        border: solid black 1px;
+        background-color: #666; }
+        body.search .search-results-container .search-results .search-item > div.thumb {
+          -webkit-box-flex: 0 0 50px;
+          -moz-box-flex: 0 0 50px;
+          -webkit-flex: 0 0 50px;
+          -ms-flex: 0 0 50px;
+          flex: 0 0 50px;
+          background-size: cover;
+          background-position: center center;
+          height: 50px; }
+          body.search .search-results-container .search-results .search-item > div.info {
+            -webkit-box-flex: 5;
+            -moz-box-flex: 5;
+            -webkit-flex: 5;
+            -ms-flex: 5;
+            flex: 5;
+            margin: 0 10px; }
+            body.search .search-results-container .search-results .search-item > div.info h2 a {
+              font-size: 11px; }
+              body.search .search-results-container .search-results .search-item > div.info .xtra {
+                display: none; }
+      body.search .search-results-container .search-results .search-item > div.profile {
+        -webkit-box-flex: 2;
+        -moz-box-flex: 2;
+        -webkit-flex: 2;
+        -ms-flex: 2;
+        flex: 2; }
   body.search .search-results-container .search-close {
     float: right; }
 

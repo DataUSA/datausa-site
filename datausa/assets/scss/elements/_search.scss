@@ -145,34 +145,29 @@ body.search {
     @include flex-direction(row);
     @include flex-wrap();
     background: lightgray;
-
-    .search-results {
-      @include flex-size(1);
-      background: gray;
-      color: #333;
-      float: left;
-      .search-item{
-        font-family: $palanquin;
-        font-size: 12px;
-        color: white;
-        cursor: pointer;
-        line-height: 1.2em;
-        margin: 5px 0;
-        padding: 10px;
-        &:hover{
-          background-color: $d-blue;
-        }
-      }
-    }
   
-    .search-details {
-      @include flex-size(3);
+    .search-refine {
+      @include flex-size(1);
       color: #333;
       float: left;
       position: relative;
-      padding: 10px;
-      h2 {
-        color: #333;
+      &> a.clear {
+        background-color: #FEEFB3;
+        color: #9F6000;
+        display: none;
+        padding: 10px;
+      }
+      &> div {
+        padding: 10px;
+      }
+      h2 a,
+      li a{
+        color: gray;
+      }
+      h2 a.active,
+      li a.active{
+        color: black !important;
+        font-weight: bold !important;
       }
       .details-sumlevels-results a {
         display: block;
@@ -182,6 +177,51 @@ body.search {
         right: 10px;
         top: 10px;
       }
+    }
+    
+    .search-results {
+      @include flex-size(4);
+      background: gray;
+      color: #333;
+      float: left;
+      
+      .search-item{
+        @include flex();
+        @include flex-direction(row);
+        @include flex-wrap();
+        font-family: $palanquin;
+        font-size: 12px;
+        color: white;
+        line-height: 1.2em;
+        margin: 5px 0;
+        padding: 10px;
+        &.active{
+          border: solid black 1px;
+          background-color: #666;
+        }
+        
+        &>div.thumb {
+          @include flex-size(0 0 50px);
+          background-size: cover;
+          background-position: center center;
+          height: 50px;
+        }
+        &>div.info {
+          @include flex-size(5);
+          margin: 0 10px;
+          h2 a {
+            font-size: 11px;
+          }
+          .xtra {
+            display: none;
+          }
+        }
+        &>div.profile {
+          @include flex-size(2);
+        }
+        
+      }
+      
     }
 
     .search-close {

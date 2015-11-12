@@ -57,10 +57,11 @@ sumlevels_by_id = {}
 for (var attr_type in attrs_meta){
   sumlevels_by_id[attr_type] = {}
   attrs_meta[attr_type]["sumlevels"].forEach(function(sumlevel){
+    sumlevel.results = 0
     sumlevels_by_id[attr_type][sumlevel["id"]] = sumlevel
   })
 }
-console.log(sumlevels_by_id)
+
 var search = {
   "advanced": false,
   "anchors": {},
@@ -71,7 +72,7 @@ var search = {
     "naics": null,
     "geo": null
   },
-  "history": [],
+  "depth": null,
   "nesting": {
     "cip": [0, 1, 2],
     "naics": [0, 1, 2],
@@ -93,7 +94,8 @@ search.reload = function() {
   this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
   
   var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
-  var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
+  // var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
+  var q_params = [['q', this.term]]
                   .filter(function(q){ return q[1] || q[1]===0; })
                   .reduce(function(a, b, i){
                     var sep = i ? "&" : "";
@@ -104,7 +106,8 @@ search.reload = function() {
   // console.log("params:", q_params)
   window.history.replaceState({}, "", "/search/"+q_params);
   
-  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
+  // load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
+  load(api + "/attrs/search?limit=100&q="+this.term, function(data, url, raw) {
     // console.log(data, url, raw)
     
     d3.select(".search-suggestions").style("display", "block").text('');
@@ -128,7 +131,7 @@ search.reload = function() {
       }
     }
     
-    console.log(this.filter(data))
+    this.update_refine(data);
     
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
@@ -142,18 +145,18 @@ search.reload = function() {
     }
     else {
       // click first item
-      items.on("click", search.open_details.bind(this));
-      var first_item = items.filter(function(d, i){ return i===0 });
-      if(!first_item.empty()){
-        first_item.on("click")(first_item.datum());
-      }
-      else{
-        this.clear_details();
-      }
+      // items.selectAll("a.expand").on("click", search.open_details);
+      // var first_item = items.filter(function(d, i){ return i===0 });
+      // if(!first_item.empty()){
+      //   first_item.on("click")(first_item.datum());
+      // }
+      // else{
+      //   this.clear_details();
+      // }
     }
 
     var format = this.advanced ? this.btnExplore : this.btnProfile;
-    items.html(format.bind(this));
+    items.each(format);
 
     items.exit().remove();
 
@@ -162,7 +165,41 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  // console.log(d)
+  // console.log(d3.select(this).node())
+  var search_item = d3.select(this);
+  var thumb = search_item.append("div").attr("class", 'thumb')
+  var info = search_item.append("div").attr("class", 'info')
+  var profile = search_item.append("div").attr("class", 'profile')
+  
+  // set thumbnail
+  thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
+  
+  // set info
+  info.append("h2").text(d.display)
+    .append("a").attr("href", "#").attr("class", "expand").text("expand").on("click", search.open_details)
+    .append("i").attr("class", "fa fa-plus")
+  info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
+  // xtra info
+  var xtra = info.append("div").attr("class", "xtra")
+  xtra.append("p").attr("class", "parents")
+  if(search.anchors[d.kind].sections){
+    var ul = xtra.append("ul")
+    search.anchors[d.kind].sections.forEach(function(anchor){
+      var li = ul.append("li");
+      li.append("h3")
+        .append("a")
+        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .text(anchor.title)
+      li.append("p")
+        .text(anchor.description.replace("<<name>>", d.display))
+    })
+  }
+  
+  // set profile link
+  profile.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").html("View Profile &raquo;")
+  
+  
+  return
 
   var html = d.display,
       children = false,
@@ -172,14 +209,7 @@ search.btnExplore = function(d) {
     var max = nesting[nesting.length - 1];
     children = this.nesting[this.current_depth[this.type]] < max && d.id.length < max;
   }
-  else {
-    // TODO: Logic for non-nested attributes (like geo)
-  }
-
-  // if (children) {
-  //   var str = d.id + "|" + d.name;
-  //   html += "<button class='search-btn-children' onclick='search.loadChildren(\"" + str + "\")'>Children</button>";
-  // }
+  
   html = "<span>[" + d.kind.toUpperCase() + "]</span> " + html;
 
   html += "<a class='search-btn-profile' href='/profile/" + d.kind + "/" + d.id + "/'>Profile</a>";
@@ -195,70 +225,13 @@ search.btnProfile = function(d) {
 }
 
 search.filter = function(data) {
-
-  if (this.parents.length > 0) {
-
-    var parent = this.parents[this.parents.length - 1].id;
-
-    if (this.nesting[this.type].constructor === Array) {
-
-      return data.filter(function(d){
-
-        return d.id.indexOf(parent) === 0 &&
-               d.id.length === this.nesting[this.current_depth[this.type]];
-
-      }.bind(this)).sort(function(a, b) {
-        return a.id - b.id;
-      });
-
-    }
-    else {
-      // TODO: Logic for non-nested attributes (like geo)
-      return data;
-    }
-
+  if(this.type){
+    data = data.filter(function(d){ return d.kind == this.type; }.bind(this))
+  }
+  if(this.depth){
+    data = data.filter(function(d){ return d.sumlevel == this.depth; }.bind(this))
   }
   return data;
-  // else if (this.term.length) {
-  //
-  //   return data.sort(function(a, b) {
-  //     var s = a.search_index - b.search_index;
-  //     if (s) return s;
-  //     return a.id - b.id;
-  //   });
-  //
-  // }
-  // else {
-  //   return data.sort(function(a, b) {
-  //     return a.id - b.id;
-  //   });
-  // }
-
-}
-
-search.loadChildren = function(attr) {
-
-  var split = attr.split("|");
-  attr = {
-    "id": split.shift(),
-    "name": split.join("|")
-  };
-
-  var nesting = this.nesting[this.type];
-
-  if (nesting.constructor === Array) {
-    this.history.push({
-      "parents": this.parents.slice(),
-      "depth": this.current_depth[this.type]
-    });
-    this.parents.push(attr);
-    this.current_depth[this.type] = nesting[nesting.indexOf(this.depths[this.type]) + 1];
-    this.reload();
-  }
-  else {
-    // TODO: Logic for non-nested attributes (like geo)
-  }
-
 }
 
 search.back = function(index) {
@@ -273,29 +246,45 @@ search.back = function(index) {
 }
 
 search.open_details = function(d){
-  var details_div = d3.select(".search-details");
-
-  // set title of details
-  details_div.select("h2.details-title").text(d.display)
-
-  // set href of "go to profile" link
-  details_div.select("a.details-profile").attr("href", "/profile/" + d.kind + "/" + d.id + "/");
+  // toggle xtra div
+  var this_link = d3.select(this);
+  var xtra_div = d3.select(this.parentNode.parentNode).select(".xtra");
+  var xtra_state = xtra_div.style("display");
+  d3.selectAll("a.expand").text('expand').append("i").attr("class", "fa fa-plus")
+  d3.selectAll(".xtra").style("display", "none")
+  xtra_div.style("display", function(){
+    return xtra_state == "none" ? "block" : "none";
+  })
   
-  // set anchors for this section (if there are any)
-  var anchors_container = d3.select(".details-anchors");
-  anchors_container.html("");
-  if(this.anchors[d.kind].sections){
-    var ul = anchors_container.append("ul")
-    this.anchors[d.kind].sections.forEach(function(anchor){
-      var li = ul.append("li");
-      li.append("h3")
-        .append("a")
-        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
-        .text(anchor.title)
-      li.append("p")
-        .text(anchor.description.replace("<<name>>", d.display))
+  // toggle expand/collapse icon
+  d3.select(this).select(".fa").attr("class", function(){
+    return d3.select(this).classed("plus") ? "fa minus" : "fa plus";
+  })
+  
+  if(xtra_state == "none") {
+    d3.select(this).text("collapse").append("i").attr("class", "fa fa-minus")
+  }
+  else {
+    d3.select(this).text("expand").append("i").attr("class", "fa fa-plus")
+  }
+  
+  // set parents
+  var p_container = xtra_div.select(".parents");
+  if(!p_container.text()){
+    var parents_api_url = api + "/attrs/"+d.kind+"/"+d.id+"/parents"
+    load(parents_api_url, function(parents) {
+      parents.forEach(function(p){
+        p_container.append("a")
+          .attr("href", "/profile/" + d.kind + "/" + p.id + "/")
+          .text(p.name)
+      })
     })
   }
+  
+  // prevent default anchor link behavior
+  d3.event.preventDefault();
+  
+  return;
 
   // set sumlevels
   var details_sumlevels = details_div.select(".details-sumlevels").html('');
@@ -331,4 +320,29 @@ search.clear_details = function(){
   d3.select(".search-details .details-sumlevels").html('');
   d3.select(".search-details .details-sumlevels-results").html('');
   d3.select(".search-details .details-anchors").html('');  
+}
+
+search.update_refine = function(data){
+  
+  d3.selectAll(".search-refine li a, .search-refine h2 a").style("display", "none");
+  
+  d3.selectAll(".num_res").text("0")
+  data.forEach(function(d){
+    var attr_div = d3.select(".search-refine div."+d.kind)
+    var total_res = attr_div.select("h2 .num_res").text();
+    total_res = parseInt(total_res) + 1
+    attr_div.select("h2 .num_res").text(total_res);
+    attr_div.select("h2 a").style("display", "inline")
+    
+    attr_div.select("a[data-depth='"+d.sumlevel+"']").style("display", "inline");
+    var sumlevel_span = attr_div.select("a[data-depth='"+d.sumlevel+"'] .num_res");
+    if(!sumlevel_span.empty()){
+      sumlevel_res = parseInt(sumlevel_span.text()) + 1
+      sumlevel_span.text(sumlevel_res)
+    }
+    else {
+      console.log(d.sumlevel, d.kind)
+    }
+  })
+  
 }
