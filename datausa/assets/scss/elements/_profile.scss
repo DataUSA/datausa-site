@@ -4,10 +4,18 @@ body.profile {
     .economy, .education, .health  {
       background-color: #ddd;
     }
+
+    #splash .content {
+      background-color: $bg-color-geo;
+    }
   }
   &.cip {
     .institutions, .employment {
       background-color: #ddd;
+    }
+
+    #splash .content {
+      background-color: $bg-color-cip;
     }
   }
 
@@ -114,7 +122,7 @@ body.profile {
   .stat-rank {
     font-size: 12px;
     font-weight: 400;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
   }
 
   .stat-value {
@@ -190,12 +198,11 @@ body.profile {
       width: $bg-width;
       height: $bg-height;
       max-width: 950px;
-      padding: 55px 48px;
+      padding: 45px 48px 50px;
       margin-top: -$nav-height/2;
       @include box();
       overflow: hidden;
       z-index: 2;
-      background-color: $bg-color-geo;
 
       .splash-titles {
         width: 100%;
@@ -211,7 +218,6 @@ body.profile {
       }
 
       .splash-icon-nav {
-        margin: -2vh 0 0;
         @include flex();
         @include flex-direction(row);
         @include align-items(center);
@@ -224,12 +230,18 @@ body.profile {
           font-weight: 300;
           font-size: 10px;
           letter-spacing: 0.1em;
-          color: rgba(237,240,245,0.75);
+          color: #fff;
         }
 
         a {
           text-align: center;
           padding: 1.2vh 3vw 0;
+          opacity: 0.7;
+          @include transition(opacity 0.25s);
+
+          &:hover {
+            opacity: 1;
+          }
         }
 
         img {
@@ -276,7 +288,7 @@ body.profile {
       .splash-title-group {
         font-family: $roboto;
         font-weight: 300;
-        font-size: 17px;
+        font-size: 15px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
         color: rgba(240,250,255,0.4);
@@ -287,11 +299,12 @@ body.profile {
         a {
           display: inline-block;
           padding: 2px 0;
+          margin-top: -4px;
           vertical-align: text-bottom;
           font-family: $roboto;
           font-weight: 300;
-          font-size: 12px;
-          letter-spacing: 0.06em;
+          font-size: 11px;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           color: rgba(240,244,246,0.65);
           @include transition(color 0.25s);
@@ -316,11 +329,11 @@ body.profile {
 
       p.desc {
         padding: 0;
-        margin: -25px 0 0 0;
+        margin: -20px 0 0 0;
         text-align: center;
         font-family: $roboto;
         font-weight: 300;
-        font-size: 15px;
+        font-size: 14px;
         letter-spacing: 0.05em;
         color: #ededed;
         opacity: 0.7;
@@ -334,19 +347,18 @@ body.profile {
         .stat {
           @include flex();
           @include flex-direction(column);
-          @include justify(space-between);
+          @include justify(flex-start);
           @include align-items(center);
           max-width: 150px;
 
           .stat-text {
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
-            color: rgba(240, 250, 255, 0.4);
+            color: rgba(240, 250, 255, 0.5);
 
             a {
-              color: rgba(237,240,245,0.75);
+              color: rgba(237,240,245,0.65);
               border-bottom: 1px solid rgba(195,219,225,0.5);
-              color: rgba(237,240,245,0.75);
               text-decoration: none;
 
               &:hover {
@@ -373,16 +385,15 @@ body.profile {
       }
 
       .carousel {
-        margin-top: 35px;
+        margin-top: 20px;
 
         .carousel-title {
-          color: #fff;
+          color: rgba(240, 250, 255, 0.75);
           font-family: $playfair;
           font-size: 18px;
           font-style: italic;
           font-weight: 400;
           letter-spacing: 0.08em;
-          opacity: 0.85;
         }
 
         .carousel-slider {
@@ -394,6 +405,7 @@ body.profile {
             text-align: left;
             font-family: $roboto;
             font-size: 14px;
+            line-height: 1.35;
             font-weight: 300;
             color: rgba(237,240,245,0.75);
 
@@ -420,7 +432,6 @@ body.profile {
         }
 
         .carousel-btns {
-          margin-top: 8px;
           color: rgba(237,240,245,0.75);
           text-align: center;
           font-size: 13px;
@@ -479,10 +490,26 @@ body.profile {
     top: 0;
     z-index: 3;
 
+    img {
+      width: 80px;
+      margin-top: 3px;
+    }
+
+    i {
+      font-size: 13px;
+      padding: 5px 0 0 3px;
+    }
+
     span {
       position: relative;
       top: $nav-height - 9;
-      @include transition(top 0.25s);
+      @include transition(top 0.55s 0.03s);
+      display: inline-block;
+      padding: 9px;
+      color: #333;
+      font-family: $lato;
+      font-size: 18px;
+      font-weight: 700;
     }
 
     &.visible {
@@ -491,26 +518,79 @@ body.profile {
       }
     }
 
-    img {
-      width: 80px;
-      margin-top: 3px;
+  }
+
+  #stats-bar {
+    @include flex();
+    position: fixed;
+    height: $stats-bar-height;
+    width: 100%;
+    right: 0;
+    left: 0;
+    top: $nav-height;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    z-index: 2;
+    background-color: #222;
+
+    #title-stats {
+      width: 50%;
+      max-width: 450px;
+      @include flex();
+      @include align-items(flex-end);
+      @include align-content(space-around);
     }
 
-    span {
+    .title-stat {
       display: inline-block;
-      padding: 9px;
-      background-color: #fff;
-      color: #333;
-      font-family: $lato;
-      font-size: 18px;
-      font-weight: 700;
+      margin: 0 auto 2px;
     }
 
-    #title-stats, .title-stat {
-      display: inline-block;
+    .title-stat-text {
+      font-family: $roboto;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       font-size: 10px;
+      text-align: center;
+      color: rgba(240, 250, 255, 0.5);
+
+      a {
+        color: rgba(237,240,245,0.65);
+        border-bottom: 1px solid rgba(195,219,225,0.5);
+        text-decoration: none;
+
+        &:hover {
+          border-bottom: 0;
+          color: #fff;
+          text-decoration: none;
+        }
+      }
     }
 
+    .title-stat-value {
+      text-align: center;
+      font-family: $lato;
+      font-size: 24px;
+      font-weight: 300;
+      color: rgba(237, 240, 245, 0.85);
+
+      a {
+        padding-bottom: 1px;
+        color: $link-color-geo;
+        text-decoration: none;
+        text-transform: capitalize;
+
+        &:hover {
+          border-bottom: 0;
+          color: $alt-link-color-geo;
+          border-bottom: 1px solid $alt-link-color-geo;
+          text-decoration: none;
+        }
+
+      }
+    }
   }
 
   #profile-nav {
@@ -520,13 +600,13 @@ body.profile {
     position: fixed;
     top: -$title-height;
     width: 100%;
-    z-index: 2;
+    z-index: 1;
     background-color: #000000;
     text-align: center;
     @include transition(top 0.5s);
 
     &.visible {
-      top: $title-height;
+      top: $title-height + $stats-bar-height;
     }
 
     ul {
@@ -538,10 +618,14 @@ body.profile {
         font-family: $roboto;
         text-transform: uppercase;
         font-weight: 300;
-        font-size: 13px;
-        letter-spacing: 0.03em;
+        font-size: 11px;
+        letter-spacing: 0.1em;
         color: #fff;
-        opacity: 0.9;
+        opacity: 0.7;
+
+        &.active {
+          opacity: 1;
+        }
       }
 
       img {
@@ -632,13 +716,19 @@ body.profile {
       min-width: 100%;
       padding: 0 25px 50px;
 
+      &:not(.flex) {
+        aside {
+          width: 50%;
+        }
+      }
+
       &.flex {
         @include flex();
         @include flex-size(1 1);
         @include flex-direction(column);
         @include align-items(stretch);
         margin: 0 25px 50px;
-        min-width: 200px;
+        min-width: 198px;
         padding: 0;
 
         .content {
@@ -737,51 +827,91 @@ body.profile {
 
   }
 
-}
+  #show-bg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
 
-.d3plus_tooltip_small {
-  .d3plus_tooltip_title {
-    padding: 10px 6px 10px 6px !important;
-  }
+    a {
+      opacity: 0;
+      @include transition(opacity 0.25s);
 
-  .d3plus_tooltip_container {
-    padding: 3px 3px 3px 5px !important;
-  }
-}
+      &:hover {
+        opacity: 1;
+      }
+    }
 
-.d3plus_tooltip_small {
-  @include font-smoothing(antialiased);
-  color: #ccc !important;
-  font-family: $roboto !important;
-
-  .d3plus_tooltip_arrow {
-    background-color: #333 !important;
-    border: 1px solid #333;
-  }
-
-  .d3plus_tooltip_container {
-    background-color: #555 !important;
-    border: 1px solid #333;
-    color: #ccc;
-    line-height: 1.4;
-  }
-
-  .d3plus_tooltip_body {
-    height: 100%;
-    background-color: #777;
-    padding-right: 0 !important;
-
-    .d3plus_tooltip_header {
-      padding-top: 5px;
+    i {
+      padding: 13px 15px;
+      font-size: 16px;
+      color: #fff;
     }
   }
 
-  .d3plus_tooltip_title {
-    color: #fff !important;
-    font-size: 20px !important;
-    font-weight: 400;
-    line-height: 1.2 !important;
-    vertical-align: middle !important;
-    @include padding(10px, 6px, 10px, 6px, !important);
+  .profile-end {
+    width: 100%;
+    padding: 10px 0 15px;
+    background-color: #000;
+    text-align: center;
+
+    a {
+      display: block;
+      color: #fff;
+      opacity: 0.5;
+      @include transition(opacity 0.25s);
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
+
 }
+
+// .d3plus_tooltip_small {
+//   .d3plus_tooltip_title {
+//     padding: 10px 6px 10px 6px !important;
+//   }
+
+//   .d3plus_tooltip_container {
+//     padding: 3px 3px 3px 5px !important;
+//   }
+// }
+
+// .d3plus_tooltip_small {
+//   @include font-smoothing(antialiased);
+//   color: #ccc !important;
+//   font-family: $roboto !important;
+
+//   .d3plus_tooltip_arrow {
+//     background-color: #333 !important;
+//     border: 1px solid #333;
+//   }
+
+//   .d3plus_tooltip_container {
+//     background-color: #555 !important;
+//     border: 1px solid #333;
+//     color: #ccc;
+//     line-height: 1.4;
+//   }
+
+//   .d3plus_tooltip_body {
+//     height: 100%;
+//     background-color: #777;
+//     padding-right: 0 !important;
+
+//     .d3plus_tooltip_header {
+//       padding-top: 5px;
+//     }
+//   }
+
+//   .d3plus_tooltip_title {
+//     color: #fff !important;
+//     font-size: 20px !important;
+//     font-weight: 400;
+//     line-height: 1.2 !important;
+//     vertical-align: middle !important;
+//     @include padding(10px, 6px, 10px, 6px, !important);
+//   }
+// }

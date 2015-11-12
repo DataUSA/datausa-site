@@ -112,9 +112,16 @@ body {
 }
 
 #home-btn {
+  position: relative;
+  top: 0;
   padding: 15px;
   margin-top: 3px;
   z-index: 5;
+  @include transition(top 0.55s);
+
+  &.hidden {
+    top: -$nav-height + 9;
+  }
 }
 
 #search-btn {

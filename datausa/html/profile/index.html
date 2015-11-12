@@ -7,13 +7,18 @@
 <script>var builds = [];</script>
 
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}</span>
+  <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
+  <a href="#" class="expand-title-stats"><i class="fa fa-sliders"></i></a></span>
 </div>
 
 <div class="bound">
-<article id="splash">
+<div id="show-bg">
+  <a href="#">
+    <i class="fa fa-bolt"></i>
+  </a>
+</div>
 
-  <!-- <div class="bg-filter"></div> -->
+<article id="splash">
 
   {% set sections = profile.sections() %}
   {% set image = profile.image() %}
@@ -200,6 +205,11 @@
 
 {% endfor %}
 
+<div class="profile-end">
+  <a href="/"><img src="/static/img/home/logo_2.png" alt="DataUSA" style="width:80px" /></a>
+  <a href="#" class="to-top-btn">Go back top &uarr;</a>
+</div>
+
 {% endblock %}
 
 {% block js %}
@@ -232,6 +242,7 @@
         showProfNav = y > window.innerHeight - profNavHeight;
 
     d3.select("#title-bar").classed("visible", showTitleNav);
+    d3.select("#home-btn").classed("hidden", showTitleNav);
     d3.select("#profile-nav").classed("visible", showProfNav);
 
     var active_section;
