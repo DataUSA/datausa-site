@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json, os, requests, subprocess, sys
 
 API = os.environ.get("DATAUSA_API", "http://postgres.datawheel.us")
@@ -16,10 +17,13 @@ def topojson():
     with open("{}/birthplace.json".format(directory), "r+") as data_file:
         data = json.load(data_file)
         geoms = []
+        # print "id,name"
         for geo in data["objects"]["birthplace"]["geometries"]:
             if geo["id"] in usa:
                 geo["id"] = usa[geo["id"]]
                 geoms.append(geo)
+            # else:
+            #     print u"{},{}".format(geo["id"], geo["properties"]["NAME"])
         data["objects"]["birthplace"]["geometries"] = geoms
         data_file.seek(0)
         json.dump(data, data_file)
