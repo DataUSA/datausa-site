@@ -172,7 +172,7 @@ search.btnExplore = function(d) {
   var profile = search_item.append("div").attr("class", 'profile')
   
   // set thumbnail
-  thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
+  thumb.style("background-image", "url('http://postgres.datawheel.us:81/search/geo/"+d.id+"/img/')")
   
   // set info
   info.append("h2").text(d.display)
