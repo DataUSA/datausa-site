@@ -147,15 +147,17 @@
   {% if topic.category %}
   <h1 class="category"><a name="{{ topic.category|safe|lower|replace(" ", "_") }}">{{ topic.category|safe }}</a></h1>
   {% endif %}
+  {% set aside = topic.stat or topic.description %}
+  {% set content = aside or topic.viz or topic.miniviz or topic.source %}
   {% if topic.items()|length > 1 or "category" not in topic %}
-  <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}">
+  <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
     {% if topic.title %}
     <h2>{{ topic.title|safe }}</h2>
     {% endif %}
     {% if topic.subtitle %}
     <sub>{{ topic.subtitle|safe }}</sub>
     {% endif %}
-    {% set aside = topic.stat or topic.description %}
+    {% if content %}
     <div class="content{% if not aside %} full-width{% endif %}">
       {% if aside %}
       <aside>
@@ -198,6 +200,7 @@
       <sub>Data Source: <span class="source"></span></sub>
       {% endif %}
     </div>
+    {% endif %}
   </article>
   {% endif %}
   {% endfor %}

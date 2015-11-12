@@ -4,6 +4,7 @@ description: "The University of Wiconsin has collected data on various health an
 topics:
   - category: "Healthcare"
   - title: "Clinician to Patient Ratios"
+    subtitle: "<<sub dataset=chr>>"
     sumlevel: "!us"
   - class: "flex"
     sumlevel: "!us"
@@ -30,6 +31,7 @@ topics:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
   - title: "Healthcare Costs"
+    subtitle: "<<sub dataset=chr>>"
     description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the cost of healthcare in relation to each other."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest healthcare cost"
@@ -47,9 +49,11 @@ topics:
         required: "health_care_costs"
         year: "2015"
       height: 400
+      highlight: "<<id dataset=chr>>"
       id: "geo"
       type: "geo_map"
   - title: "Obesity and Diabetes"
+    subtitle: "<<sub dataset=chr>>"
     description: "Here we can compare the obesity and diabetes rates for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
@@ -65,12 +69,14 @@ topics:
         where: "geo:^<<children prefix=True|dataset=chr>>"
         required: "diabetes,adult_obesity,population_estimate_2011"
         year: "2015"
+      highlight: "<<id dataset=chr>>"
       id: "geo"
       size: "population_estimate_2011"
       type: "scatter"
       x: "diabetes"
       y: "adult_obesity"
   - title: "Substance Abuse"
+    subtitle: "<<sub dataset=chr>>"
     select:
       method: "color"
       data:
@@ -95,9 +101,11 @@ topics:
         required: "alcoholimpaired_driving_deaths,excessive_drinking,adult_smoking"
         year: "2015"
       height: 400
+      highlight: "<<id dataset=chr>>"
       id: "geo"
       type: "geo_map"
   - title: "Sexually Transmitted Diseases"
+    subtitle: "<<sub dataset=chr>>"
     description: "Here we can compare HIV prevalance and sexually transmitted infections for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
@@ -113,12 +121,14 @@ topics:
         where: "geo:^<<children prefix=True|dataset=chr>>"
         required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate_2011"
         year: "2015"
+      highlight: "<<id dataset=chr>>"
       id: "geo"
       size: "population_estimate_2011"
       type: "scatter"
       x: "sexually_transmitted_infections"
       y: "hiv_prevalence_rate"
   - category: "Crime"
+    subtitle: "<<sub dataset=chr>>"
     title: "Crime and Safety"
     select:
       method: "color"
@@ -144,5 +154,6 @@ topics:
         required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths"
         year: "2015"
       height: 400
+      highlight: "<<id dataset=chr>>"
       id: "geo"
       type: "geo_map"

@@ -722,6 +722,10 @@ body.profile {
         }
       }
 
+      &.short {
+        padding-bottom: 0;
+      }
+
       &.flex {
         @include flex();
         @include flex-size(1 1);
