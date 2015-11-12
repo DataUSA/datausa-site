@@ -165,14 +165,13 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  // console.log(d3.select(this).node())
   var search_item = d3.select(this);
   var thumb = search_item.append("div").attr("class", 'thumb')
   var info = search_item.append("div").attr("class", 'info')
   var profile = search_item.append("div").attr("class", 'profile')
   
   // set thumbnail
-  thumb.style("background-image", "url('http://postgres.datawheel.us:81/search/geo/"+d.id+"/img/')")
+  thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
   
   // set info
   info.append("h2").text(d.display)
