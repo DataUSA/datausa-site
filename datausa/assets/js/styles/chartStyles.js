@@ -81,7 +81,7 @@ var chartStyles = {
         "size": 10
       }
     }
-  }
+  },
 
   "zeroline": {
     "default": {

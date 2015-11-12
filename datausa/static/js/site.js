@@ -780,6 +780,204 @@ search.update_refine = function(data){
   })
   
 }
+var attrStyles = {
+
+  "nationality": {
+    "foreign": "#ccd",
+    "us": "#c00"
+  },
+
+  "sex": {
+    "men": "#5D82BD",
+    "male": "#5D82BD",
+    "1": "#5D82BD",
+    "women": "#dc5137",
+    "female": "#dc5137",
+    "2": "#dc5137"
+  },
+
+  "student_pool": {
+    "Degrees Awarded": "orange",
+    "Workforce": "navy"
+  }
+
+}
+
+var chartStyles = {
+
+  "background": {
+    "color": "transparent",
+    "stroke": 1
+  },
+
+  "labels": {
+    "default": {
+      "pri": {
+        "color": "#006ea8",
+        "family": "Palanquin",
+        "size": 16,
+        "weight": 700
+      },
+      "sec": {
+        "color": "#71bbe2",
+        "family": "Palanquin",
+        "size": 16,
+        "weight": 700
+      }
+    },
+    "discrete": {
+      "pri": {
+        "color": "#006ea8",
+        "family": "Palanquin",
+        "size": 16,
+        "weight": 700
+      },
+      "sec": {
+        "color": "#71bbe2",
+        "family": "Palanquin",
+        "size": 16,
+        "weight": 700
+      }
+    }
+  },
+
+  "ticks": {
+    "default": {
+      "pri": {
+        "color": "#ccc",
+        "font": {
+          "color": "#a8a8a8",
+          "family": "Palanquin",
+          "size": 14,
+          "weight": 700
+        },
+        "size": 10
+      },
+      "sec": {
+        "color": "#ccc",
+        "font": {
+          "color": "#a8a8a8",
+          "family": "Palanquin",
+          "size": 14,
+          "weight": 700
+        },
+        "size": 10
+      }
+    },
+    "discrete": {
+      "pri": {
+        "color": "#ccc",
+        "font": {
+          "color": "#211f1a",
+          "family": "Palanquin",
+          "size": 14,
+          "weight": 700
+        },
+        "size": 10
+      },
+      "sec": {
+        "color": "#ccc",
+        "font": {
+          "color": "#211f1a",
+          "family": "Palanquin",
+          "size": 14,
+          "weight": 700
+        },
+        "size": 10
+      }
+    }
+  },
+
+  "zeroline": {
+    "default": {
+      "pri": {
+        "color": "#ccc"
+      },
+      "sec": {
+        "color": "#ccc"
+      }
+    },
+    "discrete": {
+      "pri": {
+        "color": "#ccc"
+      },
+      "sec": {
+        "color": "#ccc"
+      }
+    }
+  }
+
+}
+
+var vizStyles = {
+
+  "default": {
+    "pri": "#006ea8",
+    "sec": "#71bbe2"
+  },
+  "geo": {
+    "pri": "#5D82BD",
+    "sec": "#333333"
+  },
+  "cip": {
+    "pri": "#006ea8",
+    "sec": "#71bbe2"
+  },
+  "soc": {
+    "pri": "#006ea8",
+    "sec": "#71bbe2"
+  },
+  "naics": {
+    "pri": "#006ea8",
+    "sec": "#71bbe2"
+  },
+
+  "tooltip": {
+    "background": "white",
+    "font": {
+      "color": "#888",
+      "family": "Roboto",
+      "size": 16,
+      "weight": 300
+    }
+  },
+
+  "background": "transparent",
+  "heatmap": ["#71bbe2", "#006ea8"],
+  "labels": {
+    "font": {
+      "family": "Palanquin",
+      "size": 13
+    }
+  },
+  "legend": {
+    "font": {
+      "color": "#211f1a",
+      "family": "Palanquin",
+      "weight": 700
+    }
+  },
+  "lines": {
+    "interpolation": "monotone",
+    "stroke-width": 2
+  },
+  "messages": {
+    "font": {
+      "color": "#888",
+      "family": "Playfair Display",
+      "size": 16,
+      "weight": 300
+    }
+  },
+  "shapes": {
+    "padding": 0,
+    "stroke": {
+      "width": 1
+    }
+  }
+
+}
+
 var viz = function(build) {
 
   if (!build.colors) build.colors = vizStyles.defaults;
@@ -835,10 +1033,10 @@ viz.finish = function(build) {
     }
     build.config.legend = false;
   }
-  else if (build.config.color in staticColors) {
+  else if (build.config.color in attrStyles) {
     build.color = build.config.color;
     build.config.color = function(d) {
-      return staticColors[build.color][d[build.color]];
+      return attrStyles[build.color][d[build.color]];
     };
   }
 
@@ -882,9 +1080,11 @@ viz.bar = function(build) {
 
   var axis_style = function(axis) {
 
+    var key = axis.length === 1 ? "pri" : "sec";
+
     return {
       "axis": {
-        "color": discrete === axis ? "none" : "#ccc",
+        "color": discrete === axis ? "none" : chartStyles.zeroline.default[key].color,
         "value": discrete !== axis
       },
       "grid": discrete !== axis,
@@ -892,27 +1092,15 @@ viz.bar = function(build) {
         "position": true
       },
       "ticks": {
-        "color": discrete === axis ? "none" : "#ccc",
+        "color": discrete === axis ? "none" : chartStyles.ticks.default[key].color,
         "labels": discrete !== axis || !build.config.labels,
-        "size": discrete === axis ? 0 : 10
+        "size": discrete === axis ? 0 : chartStyles.ticks.default[key].size
       }
     }
 
   }
 
   return {
-    "axes": {
-      "background": {
-        "stroke": {
-          "width": 0
-        }
-      }
-    },
-    "data": {
-      "stroke": {
-        "width": 1
-      }
-    },
     "labels": {
       "align": "left",
       "resize": false,
@@ -985,11 +1173,10 @@ viz.defaults = function(build) {
 
   return {
     "axes": {
-      "background": {
-        "color": chartStyles.background
-      }
+      "background": chartStyles.background
     },
     "background": vizStyles.background,
+    "data": vizStyles.shapes,
     "format": {
       "number": function(number, params) {
 
@@ -1152,31 +1339,14 @@ viz.geo_map = function(build) {
 viz.line = function(build) {
   return {
     "shape": {
-      "interpolate": "monotone"
+      "interpolate": vizStyles.lines.interpolation
     },
-    "size": 2
+    "size": vizStyles.lines["stroke-width"]
   };
 }
 
 viz.radar = function(build) {
-  return {
-    "axes": {
-      "background": {
-        "color": "transparent"
-      }
-    },
-    "x": {
-      "grid": {
-        "color": "#ccc",
-        "value": true
-      },
-      "ticks": {
-        "font": {
-          "size": 12
-        }
-      }
-    }
-  };
+  return {};
 }
 
 viz.scatter = function(build) {
@@ -1185,9 +1355,6 @@ viz.scatter = function(build) {
 
 viz.tree_map = function(build) {
   return {
-    "data": {
-      "padding": 0
-    },
     "labels": {
       "align": "left",
       "valign": "top"
@@ -1421,165 +1588,6 @@ viz.loadData = function(build, next) {
   }
   else {
     viz[next](build);
-  }
-
-}
-
-var staticColors = {
-
-  "nationality": {
-    "foreign": "#ccd",
-    "us": "#c00"
-  },
-
-  "profile": {
-    "geo": {
-      "pri": "#5D82BD",
-      "sec": "#333333"
-    },
-    "cip": {
-      "pri": "#006ea8",
-      "sec": "#71bbe2"
-    },
-    "soc": {
-      "pri": "#006ea8",
-      "sec": "#71bbe2"
-    },
-    "naics": {
-      "pri": "#006ea8",
-      "sec": "#71bbe2"
-    }
-  },
-
-  "sex": {
-    "men": "#5D82BD",
-    "male": "#5D82BD",
-    "1": "#5D82BD",
-    "women": "#dc5137",
-    "female": "#dc5137",
-    "2": "#dc5137"
-  },
-
-  "student_pool": {
-    "Degrees Awarded": "orange",
-    "Workforce": "navy"
-  },
-
-  "tooltip": {
-    "background": "white",
-    "font": {
-      "color": "#888",
-      "family": "Roboto",
-      "size": 16,
-      "weight": 300
-    }
-  },
-
-  "viz": {
-    "default": {
-      "pri": "#006ea8",
-      "sec": "#71bbe2"
-    },
-    "background": "transparent",
-    "chart": {
-      "background": "transparent",
-      "axis": {
-        "labels": {
-          "default": {
-            "pri": {
-              "color": "#006ea8",
-              "family": "Palanquin",
-              "size": 16,
-              "weight": 700
-            },
-            "sec": {
-              "color": "#71bbe2",
-              "family": "Palanquin",
-              "size": 16,
-              "weight": 700
-            }
-          },
-          "discrete": {
-            "pri": {
-              "color": "#006ea8",
-              "family": "Palanquin",
-              "size": 16,
-              "weight": 700
-            },
-            "sec": {
-              "color": "#71bbe2",
-              "family": "Palanquin",
-              "size": 16,
-              "weight": 700
-            }
-          }
-        },
-        "ticks": {
-          "default": {
-            "pri": {
-              "font": {
-                "color": "#a8a8a8",
-                "family": "Palanquin",
-                "size": 14,
-                "weight": 700
-              },
-              "size": 10
-            },
-            "sec": {
-              "font": {
-                "color": "#a8a8a8",
-                "family": "Palanquin",
-                "size": 14,
-                "weight": 700
-              },
-              "size": 10
-            }
-          },
-          "discrete": {
-            "pri": {
-              "font": {
-                "color": "#211f1a",
-                "family": "Palanquin",
-                "size": 14,
-                "weight": 700
-              },
-              "size": 10
-            },
-            "sec": {
-              "font": {
-                "color": "#211f1a",
-                "family": "Palanquin",
-                "size": 14,
-                "weight": 700
-              },
-              "size": 10
-            }
-          }
-        }
-      }
-    },
-    "heatmap": ["#71bbe2", "#006ea8"],
-    "labels": {
-      "font": {
-        "family": "Palanquin",
-        "size": 13
-      }
-    },
-    "legend": {
-      "font": {
-        "color": "#211f1a",
-        "family": "Palanquin",
-        "weight": 700
-      }
-    },
-    "messages": {
-      "font": {
-        "color": "#888",
-        "family": "Playfair Display",
-        "size": 16,
-        "weight": 300
-      }
-    }
   }
 
 }

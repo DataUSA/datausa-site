@@ -171,15 +171,24 @@ class Section(object):
                 if "description" in topic and not isinstance(topic["description"], list):
                     topic["description"] = [topic["description"]]
 
+                def getHighlight(viz_obj):
+                    ids = viz_obj["id"]
+                    if not isinstance(ids, list):
+                        ids = [ids]
+                    if self.profile.attr_type in ids:
+                        return self.attr["id"]
+                    else:
+                        return False
+
                 # instantiate the "viz" config into an array of Viz classes
                 if "viz" in topic:
                     if not isinstance(topic["viz"], list):
                         topic["viz"] = [topic["viz"]]
                     topic["viz"] = [v for v in topic["viz"] if self.allowedLevels(v)]
-                    topic["viz"] = [Viz(viz, highlight=self.attr["id"]) for viz in topic["viz"]]
+                    topic["viz"] = [Viz(viz, getHighlight(viz)) for viz in topic["viz"]]
 
                 if "miniviz" in topic:
-                    topic["miniviz"] = Viz(topic["miniviz"], highlight=self.attr["id"])
+                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]))
 
                 # fill selector if present
                 if "select" in topic:
