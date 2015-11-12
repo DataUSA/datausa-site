@@ -14,7 +14,7 @@ def index():
     return render_template("search/index.html", anchors=json.dumps(profile_cache))
 
 @mod.route("/<attr_kind>/<attr_id>/img/")
-def get_img(attr_kind, attr_id):
+def get_img(attr_kind, attr_id, mode="thumb"):
     gobj = fetch(attr_id, attr_kind)
     my_id = gobj['id']
     if 'image_link' not in gobj or not gobj['image_link']:
@@ -25,8 +25,6 @@ def get_img(attr_kind, attr_id):
             if "image_link" in p and p['image_link']:
                 my_id = p['id']
                 break
-    mode = "thumb" if request.args.get("thumb", True) else "splash"
-    my_str = SPLASH_IMG_DIR.format("thumb", attr_kind)
-    print my_str.format(mode, attr_kind)
+    my_str = SPLASH_IMG_DIR.format(mode, attr_kind)
     return send_from_directory(my_str.format(mode, attr_kind),
                                "{}.jpg".format(my_id))
