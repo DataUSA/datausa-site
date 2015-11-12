@@ -1,0 +1,56 @@
+title: "Demographics"
+description: "The American Census Survey collects an enormous amount of data on <<name>>. This section illustrates some of the insights that can be obtained when visualization this data."
+
+topics:
+  - title: "Race & Ethnicity"
+    stat:
+      - title: "Most common race or ethnicity"
+        value: "<<top show=race|order=num_ppl>>"
+    description: "The most common race or ethnicity of <<name>> is <<top show=race|order=num_ppl>>, followed by <<top show=race|order=num_ppl|rank=2>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
+    viz:
+      attrs:
+        - "soc"
+        - "pums_race"
+      data:
+        - required: "num_ppl"
+          show: "race"
+          soc: "<<id>>"
+        - required: "num_ppl"
+          show: "race"
+          geo: "01000US"
+          static:
+            soc: "USA"
+      id: "soc"
+      order: "num_ppl"
+      type: "bar"
+      x: "race"
+      y:
+        label: "Occupation"
+        value: "num_ppl"
+      y2:
+        label: "USA"
+        value: "USA"
+  - title: "Age by Gender"
+    stat:
+      - title: "Average Male Age"
+        value: "<<top sex=1|col=avg_age>>"
+      - title: "Average Female Age"
+        value: "<<top sex=2|col=avg_age>>"
+    description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and female employees are generally <<top show=sex|required=avg_age|order=avg_age|sort=desc|col=diff|limit=2>> years <<percent num=avg_age|den=avg_age|num_id=1|den_id=2|attr_type=sex|text=age>> than their male counterparts."
+    viz:
+      attrs: "sex"
+      color: "sex"
+      data:
+        - required: "num_ppl"
+          show: "age,sex"
+          sumlevel: "all,all"
+          soc: "<<id>>"
+      id: "sex"
+      type: "line"
+      x:
+        range: [16, 95]
+        ticks:
+          labels: [16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
+          value: <<range min=16|max=95>>
+        value: "age"
+      y: "num_ppl"

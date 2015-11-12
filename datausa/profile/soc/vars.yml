@@ -6,6 +6,7 @@
     - "num_ppl"
     - "num_ppl_rank"
   namespace: data
+
 - required:
     - "gini"
   namespace: wagegap

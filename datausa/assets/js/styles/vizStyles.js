@@ -32,7 +32,11 @@ var vizStyles = {
   },
 
   "background": "transparent",
-  "heatmap": ["#71bbe2", "#006ea8"],
+  "color": {
+    "missing": "#eee",
+    "heatmap": ["#71bbe2", "#006ea8"],
+    "range": ["#B22200", "#FFEE8D", "#759143"]
+  },
   "labels": {
     "font": {
       "family": "Palanquin",

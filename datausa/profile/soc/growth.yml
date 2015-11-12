@@ -1,0 +1,24 @@
+title: "Projections"
+description: "By ingesting the data housed at the Bureau of Labor and Statistics, we are able to analyze the growth of <<name>> by number of employees."
+
+topics:
+  - title: "Job Growth"
+    stat:
+      - title: "Estimated 2022 Growth"
+        value: "<<top col=pct_change|year=none>>"
+    description: "The line chart on the right shows the estimated growth for the number of <<name>> jobs in 2022."
+    viz:
+      attrs: "soc"
+      data:
+        - soc: "<<id>>"
+          show: "soc"
+          required: "emp_2012_thousands,emp_2022_thousands"
+          year: "none"
+          split:
+            id: "year"
+            regex: "^emp_([0-9]*)_thousands$"
+            value: "emp_thousands"
+      id: "soc"
+      type: "line"
+      x: "year"
+      y: "emp_thousands"

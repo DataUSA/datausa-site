@@ -30,14 +30,14 @@ def fetch(attr_id, attr_type):
 def default_params(params):
 
     params["sumlevel"] = params.get("sumlevel", "all")
-    params["year"] = params.get("year", 2013)
+    params["year"] = params.get("year", "latest")
     params["sort"] = params.get("sort", "desc")
     params["order"] = params.get("order", "")
     params["exclude"] = params.get("exclude", "")
     if "force" not in params:
         params["required"] = params.get("required", params["order"])
 
-    if "show" in params and params["show"] == "skill":
+    if "show" in params and params["show"] == "skill" or params["year"] == "none":
         del params["year"]
 
     return params
@@ -91,7 +91,12 @@ def stat(params, col="name", dataset=False, data_only=False):
             return num_format(val, key=col)
         else:
             denom = max([d[params["order"]] for d in r[1:]])
-            return num_format(r[0][params["order"]]/denom, key=col)
+            return num_format(r[0][params["order"]]/denom, key=params["order"])
+
+
+    if col == "diff":
+        return num_format(r[0][params["order"]] - r[1][params["order"]], key=params["order"])
+
     if col in col_map or "-" in col:
         def drop_first(c):
             return "_".join(c.split("_")[1:])

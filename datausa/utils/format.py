@@ -1,6 +1,73 @@
 import math
 from decimal import Decimal
 
+sumlevels = {
+    "geo": {
+        "010": {
+            "sumlevel": "us",
+            "label": "nation",
+            "children": "040"
+        },
+        "040": {
+            "sumlevel": "state",
+            "label": "state",
+            "children": "050"
+        },
+        "050": {
+            "sumlevel": "county",
+            "label": "county",
+            "children": "140"
+        },
+        "310": {
+            "sumlevel": "msa",
+            "label": "metropolitan statistical area",
+            "shortlabel": "msa"
+        },
+        "160": {
+            "sumlevel": "place",
+            "label": "census designated place",
+            "shortlabel": "place"
+        },
+        "860": {
+            "sumlevel": "zip",
+            "label": "zip code",
+        },
+        "795": {
+            "sumlevel": "puma",
+            "label": "PUMA",
+        },
+        "140": {
+            "sumlevel": "tract",
+            "label": "census tract",
+            "shortlabel": "tract"
+        }
+    },
+    "cip": {
+
+    },
+    "soc": {
+        "0": {
+            "label": "occupation group",
+            "shortlabel": "group"
+        },
+        "1": {
+            "label": "2nd level occupation",
+            "shortlabel": "occupation"
+        },
+        "2": {
+            "label": "3rd level occupation",
+            "shortlabel": "occupation"
+        },
+        "3": {
+            "label": "4th level occupation",
+            "shortlabel": "occupation"
+        }
+    },
+    "naics": {
+
+    }
+}
+
 dictionary = {
 
     "geo": "Location Name",
@@ -22,6 +89,7 @@ dictionary = {
     "gulf01": "Gulf (2001-)",
     "district_tuition": "District Tuition",
     "foreign": "Foreign Born",
+    "emp_thousands": "Employees",
     "excessive_drinking": "Excessive Drinking",
 
     "grads_asian": "Asian",
@@ -169,6 +237,7 @@ dictionary = {
     "us_citizens": "Citizenship",
     "vehicles": "Vehicles",
     "violent_crime": "Violent Crime",
+    "wage_bin": "Wage Bin",
     "women": "Women"
 }
 
@@ -177,6 +246,7 @@ affixes = {
     "oos_tuition": ["$", ""],
     "district_tuition": ["$", ""],
     "avg_wage": ["$", ""],
+    "emp_thousands": ["", "k"],
     "income": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
@@ -185,11 +255,15 @@ affixes = {
     "health_care_costs": ["$", ""]
 }
 
-percentages = [
+proportions = [
     "non_eng_speakers_pct",
     "owner_occupied_housing_units",
     "pct_total",
     "us_citizens"
+]
+
+percentages = [
+    "pct_change"
 ]
 
 def num_format(number, key=None, labels=True, condense=True):
@@ -212,7 +286,7 @@ def num_format(number, key=None, labels=True, condense=True):
     # Converts the number to a float.
     n = float(number)
 
-    if key and key in percentages:
+    if key and key in proportions:
         n = n * 100
 
     # Determines which index of "groups" to move the decimal point to.
@@ -241,7 +315,7 @@ def num_format(number, key=None, labels=True, condense=True):
     # Initializes the number suffix based on the group.
     n = u"{}{}".format("{:,}".format(n), groups[m])
 
-    if key and key in percentages:
+    if key and (key in percentages or key in proportions):
         n = u"{}%".format(n)
 
     if key and labels:

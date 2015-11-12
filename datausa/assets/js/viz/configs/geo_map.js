@@ -3,9 +3,6 @@ viz.geo_map = function(build) {
   var key = build.config.coords.key;
 
   return {
-    "color": {
-      "heatmap": vizStyles.heatmap
-    },
     "coords": {
       "center": [0, 0],
       "key": key,

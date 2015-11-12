@@ -30,19 +30,21 @@ topics:
       - title: "Income GINI"
         value: "<<var namespace=wagegap|key=gini>>"
     viz:
-      attrs: "wage_bin"
+      attrs:
+        - "soc"
+        - "wage_bin"
       data:
         - soc: "<<id>>"
           required: "wage_bin,num_ppl"
           show: "soc"
           static:
-            category: "<<name>>"
+            geo: "<<id>>"
         - geo: "01000US"
           required: "wage_bin,num_ppl"
           show: "geo"
           static:
-            category: "USA"
-      id: "category"
+            soc: "USA"
+      id: "soc"
       order:
         sort: "asc"
         value: "wage_bin"
@@ -50,10 +52,12 @@ topics:
       x:
         scale: "discrete"
         value: "wage_bin"
-      y: "num_ppl"
+      y:
+        label: "Occupation"
+        value: "num_ppl"
       y2:
         label: "USA"
-        value: "01000US"
+        value: "USA"
   - title: "Wage by Location"
     stat:
       - title: "<<name>> are paid the highest in"

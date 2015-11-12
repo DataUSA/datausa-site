@@ -7,47 +7,7 @@ from config import API
 from datausa import app
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, profile_cache, stat
-from datausa.utils.format import num_format
-
-
-geo_labels = {
-    "010": "nation",
-    "040": "state",
-    "050": "county",
-    "310": "metropolitan statistical area",
-    "160": "census designated place",
-    "860": "zip code",
-    "795": "PUMA",
-    "140": "census tract"
-}
-
-geo_shortlabels = {
-    "010": "nation",
-    "040": "state",
-    "050": "county",
-    "310": "MSA",
-    "160": "place",
-    "860": "zip code",
-    "795": "PUMA",
-    "140": "tract"
-}
-
-geo_sumlevels = {
-    "010": "us",
-    "040": "state",
-    "050": "county",
-    "310": "msa",
-    "160": "place",
-    "860": "zip",
-    "795": "puma",
-    "140": "tract"
-}
-
-geo_children = {
-    "010": "040",
-    "040": "050",
-    "050": "140"
-}
+from datausa.utils.format import num_format, sumlevels
 
 textLookup = {
     "age": ("older than", "younger than", "the same age as"),
@@ -76,7 +36,6 @@ class Section(object):
             profile (Profile): The Profile class instance this Section will be a part of.
 
         """
-
 
         profile_path = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(profile_path, profile.attr_type, "{}.yml".format(f))
@@ -193,7 +152,8 @@ class Section(object):
                 # fill selector if present
                 if "select" in topic:
                     if isinstance(topic["select"]["data"], str):
-                        topic["select"]["param"] = topic["select"]["data"]
+                        if "param" not in topic["select"]:
+                            topic["select"]["param"] = topic["select"]["data"]
                         topic["select"]["data"] = [v for k, v in attr_cache[topic["select"]["data"]].iteritems()]
                     elif isinstance(topic["select"]["data"], list):
                         topic["select"]["data"] = [fetch(v, False) for v in topic["select"]["data"]]
@@ -212,7 +172,7 @@ class Section(object):
         if "sumlevel" in obj:
             levels = [t for t in obj["sumlevel"].split(",")]
             if self.profile.attr_type == "geo":
-                level = geo_sumlevels[self.attr["id"][:3]]
+                level = sumlevels["geo"][self.attr["id"][:3]]["sumlevel"]
             else:
                 level = len(self.attr["id"])
 
@@ -226,8 +186,8 @@ class Section(object):
         if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
             attr_id = self.profile.parents()[1]["id"]
             prefix = "040"
-        if kwargs.get("prefix", False) and prefix in geo_children:
-            return attr_id.replace(prefix, geo_children[prefix])
+        if kwargs.get("prefix", False) and "children" in sumlevels["geo"][prefix]:
+            return attr_id.replace(prefix, sumlevels["geo"][prefix]["children"])
         return u",".join([c["id"] for c in self.profile.children(attr_id=attr_id)])
 
     def id(self, **kwargs):
@@ -267,14 +227,20 @@ class Section(object):
             prefix = attr_id[:3]
             if dataset == "chr" and prefix not in ["010", "040"]:
                 prefix = "040"
-            if kwargs.get("child", False) and prefix in geo_children:
-                prefix = geo_children[prefix]
-            if kwargs.get("short", False):
-                name = geo_shortlabels[prefix]
-            else:
-                name = geo_labels[prefix]
+
+            labels = sumlevels["geo"][prefix]
+            if kwargs.get("child", False) and "children" in labels:
+                prefix = labels["children"]
+
+            labels = sumlevels["geo"][prefix]
+
         else:
-            name = attr_type
+            labels = sumlevels[attr_type][self.sumlevel(**kwargs)]
+
+        if kwargs.get("short", False) and "shortlabel" in labels:
+            name = labels["shortlabel"]
+        else:
+            name = labels["label"]
 
         if "plural" in kwargs:
             name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
@@ -490,19 +456,22 @@ class Section(object):
 
         if attr_type == "geo":
             prefix = attr_id[:3]
-            if kwargs.get("child", False) and prefix in geo_children:
+            if kwargs.get("child", False) and prefix in sumlevels["geo"]["children"]:
                 if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
                     prefix = "040"
-                prefix = geo_children[prefix]
-            name = geo_sumlevels[prefix]
+                prefix = sumlevels["geo"][prefix]["children"]
+            name = sumlevels["geo"][prefix]["sumlevel"]
 
             if "plural" in kwargs:
                 name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
 
             return name
 
-        else:
+        elif attr_type == "cip":
             return str(len(attr_id))
+
+        else:
+            return str(fetch(attr_id, attr_type)["level"])
 
     def top(self, **kwargs):
         """str: A text representation of a top statistic or list of statistics """
@@ -515,6 +484,16 @@ class Section(object):
 
         # set the section's attribute ID in params
         attr_id = kwargs.get("attr_id", False)
+        if attr_type != self.profile.attr_type and attr_id and "top" in attr_id:
+            l, o = attr_id.split(":")
+            attr_id = self.top(**{
+                "col": "id",
+                "order": o,
+                "sort": "desc",
+                "limit": l[3:],
+                "show": attr_type
+            })["value"]
+
         child = kwargs.get("child", False)
         if attr_id == False:
             if child:
@@ -523,8 +502,8 @@ class Section(object):
                 if dataset == "chr" and prefix not in ["010", "040"]:
                     aid = self.profile.parents()[1]["id"]
                     prefix = "040"
-                if prefix in geo_children:
-                    params["where"] = "geo:^{}".format(aid.replace(prefix, geo_children[prefix]))
+                if "children" in sumlevels["geo"][prefix]:
+                    params["where"] = "geo:^{}".format(aid.replace(prefix, sumlevels["geo"][prefix]["children"]))
                     attr_id = ""
         if attr_id == False:
             attr_id = self.id(**kwargs)
@@ -536,10 +515,9 @@ class Section(object):
         if child:
             kwargs["sumlevel"] = self.sumlevel(**kwargs)
 
-        if "child" in kwargs:
-            del kwargs["child"]
-        if "dataset" in kwargs:
-            del kwargs["dataset"]
+        for k in ["attr_type", "attr_id", "child", "dataset"]:
+            if k in kwargs:
+                del kwargs[k]
 
         # add the remaining kwargs into the params dict
         params = dict(params.items()+kwargs.items())
@@ -552,13 +530,13 @@ class Section(object):
             params["sumlevel"] = params["sumlevel"].replace("sumlevel", self.sumlevel())
         params = default_params(params)
 
-        if "force" not in params:
+        if "force" not in params and params["required"] == "":
             col_maps = col_map.keys()
             col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
             col_maps += ["id", "name", "ratio"]
             if col not in col_maps:
                 params["required"] = col
-            elif "required" not in params:
+            elif "order" in params:
                 params["required"] = params["order"]
 
         # make the API request using the params

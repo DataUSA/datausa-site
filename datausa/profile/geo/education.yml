@@ -45,6 +45,8 @@ topics:
         required: "district_tuition,oos_tuition,state_tuition"
       height: 200
       id: "sector"
+      labels: YES
+      legend: NO
       type: "bar"
       x: "state_tuition"
       y:
@@ -54,9 +56,8 @@ topics:
         - method: "x"
           label: "Tuition"
           value:
-            - District: "district_tuition"
-            - Out of State: "oos_tuition"
             - In State: "state_tuition"
+            - Out of State: "oos_tuition"
     viz:
       attrs:
         - "sector"

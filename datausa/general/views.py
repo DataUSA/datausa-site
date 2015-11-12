@@ -3,7 +3,7 @@ import json
 from flask import Blueprint, g, render_template
 from config import API
 from datausa import app
-from datausa.utils.format import affixes, dictionary, percentages
+from datausa.utils.format import affixes, dictionary, percentages, proportions
 
 mod = Blueprint("general", __name__)
 
@@ -13,6 +13,7 @@ def before_request():
     g.affixes = json.dumps(affixes)
     g.dictionary = json.dumps(dictionary)
     g.percentages = json.dumps(percentages)
+    g.proportions = json.dumps(proportions)
     g.api = API
 
 @mod.route("/")

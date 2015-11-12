@@ -27,10 +27,10 @@ var viz = function(build) {
 
 viz.finish = function(build) {
 
-  var source_text = d3plus.string.list(d3plus.util.uniques(build.sources).reduce(function(arr, s, i){
+  var source_text = d3plus.string.list(d3plus.util.uniques(build.sources.reduce(function(arr, s, i){
     if (s) arr.push(s.dataset);
     return arr;
-  }, []));
+  }, [])));
 
   if (location.href.indexOf("/profile/") > 0) {
     d3.select(build.container.node().parentNode).select(".source")

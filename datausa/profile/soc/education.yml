@@ -1,0 +1,110 @@
+title: "Education"
+description: "The Census Bureau collects a large amount of data in regards to higher education. Here's some cool stuff on that topic."
+
+topics:
+  - title: "Majors"
+    select:
+      data: "pums_degree"
+      param: "degree"
+      default: "21"
+    stat_stack: YES
+    stat:
+      - title: "High relative number of people major in"
+        value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca>>"
+      - title: "Most common major is"
+        value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl>>"
+    description: "Here we see the most common degrees held by <<name>> for a particular degree type."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        degree: "21"
+        soc: "<<id>>"
+        required: "num_ppl"
+        sumlevel: "2"
+      depth: 2
+      id:
+        - "cip_2"
+        - "cip_4"
+        - "cip_6"
+      size: "num_ppl"
+      type: "tree_map"
+  - title: "Universities"
+    stat:
+      - title: "Median In-State Public"
+        value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=state_tuition|col=state_tuition|agg=sum>>"
+      - title: "Median Out of State Private"
+        value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=oos_tuition|col=oos_tuition|agg=sum>>"
+    description: "The majority of students with degrees awarded in the most common field held by <<name>> are enrolled at X institutions."
+    miniviz:
+      attrs: "sector"
+      color: "sector"
+      data:
+        show: "sector"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip>>"
+        required: "district_tuition,oos_tuition,state_tuition"
+      height: 200
+      id: "sector"
+      labels: YES
+      legend: NO
+      type: "bar"
+      x: "state_tuition"
+      y:
+        scale: "discrete"
+        value: "sector"
+      ui:
+        - method: "x"
+          label: "Tuition"
+          value:
+            - In State: "state_tuition"
+            - Out of State: "oos_tuition"
+    viz:
+      attrs:
+        - "sector"
+        - "university"
+      color: "sector"
+      data:
+        show: "university"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
+        required: "grads_total"
+      depth: 1
+      id:
+        - "sector"
+        - "university"
+      size: "grads_total"
+      type: "tree_map"
+  - title: "Gender"
+    description: "Here we see the top 5 degrees for <<name>> broken out by gender."
+    viz:
+      attrs:
+        - "cip"
+        - "sex"
+      color: "sex"
+      data:
+        show: "cip,sex"
+        sumlevel: "2,all"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
+        required: "num_ppl"
+      id: "sex"
+      order: "num_ppl"
+      type: "bar"
+      x: "cip"
+      y: "num_ppl"
+  - title: "Race & Ethnicity"
+    description: "Here is the race & ethnicity breakdown of <<name>>."
+    viz:
+      attrs: "pums_race"
+      data:
+        show: "race"
+        soc: "<<id>>"
+        required: "num_ppl"
+      id: "race"
+      order:
+        sort: "asc"
+        value: "num_ppl"
+      type: "bar"
+      x: "num_ppl"
+      y:
+        scale: "discrete"
+        value: "race"

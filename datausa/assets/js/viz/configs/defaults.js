@@ -1,4 +1,4 @@
-var all_caps = ["cip", "naics", "rca", "soc"],
+var all_caps = ["cip", "naics", "rca", "soc", "usa"],
     no_y_labels = ["geo", "cip", "soc", "naics"];
 
 viz.defaults = function(build) {
@@ -40,7 +40,7 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
-    var range = percentages.indexOf(key) >= 0 ? [0, 1] : false;
+    var range = proportions.indexOf(key) >= 0 ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default";
@@ -60,6 +60,7 @@ viz.defaults = function(build) {
       "background": chartStyles.background
     },
     "background": vizStyles.background,
+    "color": vizStyles.color,
     "data": vizStyles.shapes,
     "format": {
       "number": function(number, params) {
@@ -70,8 +71,8 @@ viz.defaults = function(build) {
             params.key = params.key.slice(3);
           }
 
-          if (params.key.indexOf("growth") >= 0 || percentages.indexOf(params.key) >= 0) {
-            number = number * 100;
+          if (proportions.indexOf(params.key) >= 0 || percentages.indexOf(params.key) >= 0) {
+            if (proportions.indexOf(params.key) >= 0) number = number * 100;
             return d3plus.number.format(number, params) + "%";
           }
           else {

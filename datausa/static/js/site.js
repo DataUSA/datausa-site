@@ -980,7 +980,11 @@ var vizStyles = {
   },
 
   "background": "transparent",
-  "heatmap": ["#71bbe2", "#006ea8"],
+  "color": {
+    "missing": "#eee",
+    "heatmap": ["#71bbe2", "#006ea8"],
+    "range": ["#B22200", "#FFEE8D", "#759143"]
+  },
   "labels": {
     "font": {
       "family": "Palanquin",
@@ -1044,10 +1048,10 @@ var viz = function(build) {
 
 viz.finish = function(build) {
 
-  var source_text = d3plus.string.list(d3plus.util.uniques(build.sources).reduce(function(arr, s, i){
+  var source_text = d3plus.string.list(d3plus.util.uniques(build.sources.reduce(function(arr, s, i){
     if (s) arr.push(s.dataset);
     return arr;
-  }, []));
+  }, [])));
 
   if (location.href.indexOf("/profile/") > 0) {
     d3.select(build.container.node().parentNode).select(".source")
@@ -1151,7 +1155,7 @@ viz.bar = function(build) {
 
 }
 
-var all_caps = ["cip", "naics", "rca", "soc"],
+var all_caps = ["cip", "naics", "rca", "soc", "usa"],
     no_y_labels = ["geo", "cip", "soc", "naics"];
 
 viz.defaults = function(build) {
@@ -1193,7 +1197,7 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
-    var range = percentages.indexOf(key) >= 0 ? [0, 1] : false;
+    var range = proportions.indexOf(key) >= 0 ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default";
@@ -1213,6 +1217,7 @@ viz.defaults = function(build) {
       "background": chartStyles.background
     },
     "background": vizStyles.background,
+    "color": vizStyles.color,
     "data": vizStyles.shapes,
     "format": {
       "number": function(number, params) {
@@ -1223,8 +1228,8 @@ viz.defaults = function(build) {
             params.key = params.key.slice(3);
           }
 
-          if (params.key.indexOf("growth") >= 0 || percentages.indexOf(params.key) >= 0) {
-            number = number * 100;
+          if (proportions.indexOf(params.key) >= 0 || percentages.indexOf(params.key) >= 0) {
+            if (proportions.indexOf(params.key) >= 0) number = number * 100;
             return d3plus.number.format(number, params) + "%";
           }
           else {
@@ -1357,9 +1362,6 @@ viz.geo_map = function(build) {
   var key = build.config.coords.key;
 
   return {
-    "color": {
-      "heatmap": vizStyles.heatmap
-    },
     "coords": {
       "center": [0, 0],
       "key": key,
