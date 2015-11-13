@@ -59,6 +59,16 @@
   -ms-filter: "FlipH";
 }
 
+@mixin selection {
+  &::selection {
+    @content;
+  }
+
+  &::-moz-selection {
+    @content;
+  }
+}
+
 @mixin hyphens {
   -webkit-hyphens: auto;
   -ms-hyphens: auto;

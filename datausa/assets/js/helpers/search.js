@@ -186,7 +186,7 @@ search.btnExplore = function(d) {
   
   // set info
   info.append("h2").text(d.display)
-    .append("a").attr("href", "#").attr("class", "expand").text("expand").on("click", search.open_details)
+    .append("a").attr("href", "#").attr("class", "expand").on("click", search.open_details)
     .append("i").attr("class", "fa fa-angle-down")
   info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
   // xtra info
@@ -266,7 +266,6 @@ search.open_details = function(d){
   var this_link = d3.select(this);
   var xtra_div = d3.select(this.parentNode.parentNode).select(".xtra");
   var xtra_state = xtra_div.style("display");
-  d3.selectAll("a.expand").text('expand').append("i").attr("class", "fa fa-angle-down")
   d3.selectAll(".xtra").style("display", "none")
   xtra_div.style("display", function(){
     return xtra_state == "none" ? "block" : "none";
@@ -278,10 +277,10 @@ search.open_details = function(d){
   })
   
   if(xtra_state == "none") {
-    d3.select(this).text("collapse").append("i").attr("class", "fa fa-angle-up")
+    d3.select(this).text("").append("i").attr("class", "fa fa-angle-up")
   }
   else {
-    d3.select(this).text("expand").append("i").attr("class", "fa fa-angle-down")
+    d3.select(this).text("").append("i").attr("class", "fa fa-angle-down")
   }
   
   // set parents
@@ -340,24 +339,26 @@ search.clear_details = function(){
 
 search.update_refine = function(data){
   
-  d3.selectAll(".search-refine li a, .search-refine h2 a").style("display", "none");
+  d3.selectAll(".search-refine div").style("display", "none");
+  //d3.selectAll(".search-refine li a, .search-refine h2 a").style("display", "none");
   
   d3.selectAll(".num_res").text("0")
   data.forEach(function(d){
     var attr_div = d3.select(".search-refine div."+d.kind)
     var total_res = attr_div.select("h2 .num_res").text();
     total_res = parseInt(total_res) + 1
-    attr_div.select("h2 .num_res").text(total_res);
-    attr_div.select("h2 a").style("display", "inline")
+    attr_div.select("h2 .num_res").text(total_res)
+    attr_div.select("h2 a").style("display", "inline-block")
+    attr_div.style("display", "block")
     
-    attr_div.select("a[data-depth='"+d.sumlevel+"']").style("display", "inline");
+    attr_div.select("a[data-depth='"+d.sumlevel+"']").style("display", "inline-block");
     var sumlevel_span = attr_div.select("a[data-depth='"+d.sumlevel+"'] .num_res");
     if(!sumlevel_span.empty()){
       sumlevel_res = parseInt(sumlevel_span.text()) + 1
       sumlevel_span.text(sumlevel_res)
     }
     else {
-      console.log(d.sumlevel, d.kind)
+      //console.log(d.sumlevel, d.kind)
     }
   })
   
