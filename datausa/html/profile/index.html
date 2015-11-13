@@ -8,7 +8,7 @@
 
 <div id="title-bar">
   <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
-  <a href="#" class="expand-title-stats"><i class="fa fa-sliders"></i></a></span>
+  <a href="#" class="expand-stats-btn close"></a></span>
 </div>
 
 <div class="bound">
@@ -107,23 +107,25 @@
 </article>
 </div>
 
-<div id="stats-bar">
-  <div id="title-stats">
-    {% for stat in profile.splash.stats %}
-    <div class="title-stat">
-      <div class="title-stat-text">{{ stat.title|safe }}</div>
-      <div class="title-stat-value">{{ stat.value|safe }}</div>
+<div id="nav-bar-scroll">
+  <div id="stats-bar">
+    <div id="title-stats">
+      {% for stat in profile.splash.stats %}
+      <div class="title-stat">
+        <div class="title-stat-text">{{ stat.title|safe }}</div>
+        <div class="title-stat-value">{{ stat.value|safe }}</div>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
-</div>
 
-<div id="profile-nav">
-  <ul>
-  {% for section in sections %}
-    <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
-  {% endfor %}
-  </ul>
+  <div id="profile-nav">
+    <ul>
+    {% for section in sections %}
+      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
+    {% endfor %}
+    </ul>
+  </div>
 </div>
 
 {% for section in sections %}
@@ -190,6 +192,16 @@
         {% if topic.source != False %}
         <sub>Data Source: <span class="source"></span></sub>
         {% endif %}
+
+        <div class="share-section">
+          <a href="#" title="Share on Facebook">
+            <i class="fa fa-facebook"></i>
+          </a>
+          <a href="#" title="Share on Twitter">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </div>
+      
       </aside>
       {% endif %}
       {% for viz in topic.viz %}
@@ -234,18 +246,30 @@
     });
   });
 
-  var titleNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#splash").node().offsetHeight/5;
-  var profNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#profile-nav").node().offsetHeight;
-  var attr_type = "{{ profile.attr_type }}";
+  d3.select(".expand-stats-btn").on("click", function(){
+    d3.select(this).classed("close", !d3.select(this).classed("close"));
+    d3.select("#nav-bar-scroll").classed("stat-hidden", !d3.select("#nav-bar-scroll").classed("stat-hidden"));
+    d3.event.preventDefault();
+  });
+
+  var splashHeight = d3.select("#splash").node().offsetHeight,
+      titleNavHeight = d3.select("#title-bar").node().offsetHeight + splashHeight/5,
+      statNavHeight = titleNavHeight + splashHeight/3,
+      profNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#stats-bar").node().offsetHeight,
+      attr_type = "{{ profile.attr_type }}";
 
   function navScroll(){
 
     var y = window.scrollY,
         showTitleNav = y > titleNavHeight,
-        showProfNav = y > window.innerHeight - profNavHeight;
+        showStatNav = y > statNavHeight,
+        showProfNav = y > window.innerHeight - profNavHeight - 35;
 
     d3.select("#title-bar").classed("visible", showTitleNav);
     d3.select("#home-btn").classed("hidden", showTitleNav);
+
+    d3.select("#stats-bar").classed("visible", showStatNav);
+    d3.select(".expand-stats-btn").classed("show", showStatNav);
     d3.select("#profile-nav").classed("visible", showProfNav);
 
     var active_section;

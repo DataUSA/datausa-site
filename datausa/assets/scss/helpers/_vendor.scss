@@ -59,6 +59,13 @@
   -ms-filter: "FlipH";
 }
 
+@mixin hyphens {
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
 @mixin font-smoothing($font-smoothing) {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
