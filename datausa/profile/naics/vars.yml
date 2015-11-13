@@ -1,0 +1,22 @@
+- required:
+    - "avg_age"
+    - "avg_age_rank"
+    - "avg_wage"
+    - "avg_wage_rank"
+    - "num_ppl"
+    - "num_ppl_rank"
+  namespace: data
+
+- required: ["avg_wage"]
+  sex: "1,2" # 1 or 2
+  limit: 2
+  show: sex
+  sumlevel: all
+  rows: True
+  order: sex
+  sort: asc
+  namespace: gender
+
+- required:
+    - "gini"
+  namespace: wagegap

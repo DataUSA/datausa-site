@@ -87,7 +87,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
-        height: 200
+        height: 250
         id: "naics"
         labels: YES
         order:
@@ -107,7 +107,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
-        height: 200
+        height: 250
         id: "naics"
         labels: YES
         order:
@@ -132,7 +132,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
-        height: 200
+        height: 250
         id: "naics"
         labels: YES
         order:
@@ -152,7 +152,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
-        height: 200
+        height: 250
         id: "naics"
         labels: YES
         order:

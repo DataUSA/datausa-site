@@ -91,11 +91,11 @@ def stat(params, col="name", dataset=False, data_only=False):
             return num_format(val, key=col)
         else:
             denom = max([d[params["order"]] for d in r[1:]])
-            return num_format(r[0][params["order"]]/denom, key=params["order"])
+            return num_format(r[0][params["order"]]/denom, key=col)
 
 
     if col == "diff":
-        return num_format(r[0][params["order"]] - r[1][params["order"]], key=params["order"])
+        return num_format(r[0][params["order"]] - r[1][params["order"]], key=col)
 
     if col in col_map or "-" in col:
         def drop_first(c):

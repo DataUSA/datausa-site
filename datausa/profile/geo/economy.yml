@@ -16,7 +16,7 @@ topics:
             sort: "desc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
-        height: 200
+        height: 250
         id: "acs_occ"
         labels: YES
         order:
@@ -37,7 +37,7 @@ topics:
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
             where: "num_emp:!0"
-        height: 200
+        height: 250
         id: "acs_occ"
         labels: YES
         order:
@@ -62,7 +62,7 @@ topics:
             sort: "desc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
-        height: 200
+        height: 250
         id: "acs_occ"
         labels: YES
         order:
@@ -83,7 +83,7 @@ topics:
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
             where: "num_emp_rca:!0"
-        height: 200
+        height: 250
         id: "acs_occ"
         labels: YES
         order:
@@ -108,7 +108,7 @@ topics:
             sort: "desc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
-        height: 200
+        height: 250
         id: "acs_occ"
         labels: YES
         order:
@@ -129,7 +129,7 @@ topics:
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
             where: "med_earnings:!0"
-        height: 200
+        height: 250
         id: "acs_occ"
         labels: YES
         order:
@@ -332,7 +332,7 @@ topics:
             sort: "desc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
-        height: 200
+        height: 250
         id: "acs_ind"
         labels: YES
         order:
@@ -353,7 +353,7 @@ topics:
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
             where: "num_emp:!0"
-        height: 200
+        height: 250
         id: "acs_ind"
         labels: YES
         order:
@@ -378,7 +378,7 @@ topics:
             sort: "desc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
-        height: 200
+        height: 250
         id: "acs_ind"
         labels: YES
         order:
@@ -399,7 +399,7 @@ topics:
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
             where: "num_emp_rca:!0"
-        height: 200
+        height: 250
         id: "acs_ind"
         labels: YES
         order:
@@ -424,7 +424,7 @@ topics:
             sort: "desc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
-        height: 200
+        height: 250
         id: "acs_ind"
         labels: YES
         order:
@@ -445,7 +445,7 @@ topics:
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
             where: "med_earnings:!0"
-        height: 200
+        height: 250
         id: "acs_ind"
         labels: YES
         order:

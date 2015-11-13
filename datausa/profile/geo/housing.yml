@@ -14,7 +14,7 @@ topics:
         show: "geo"
         geo: "<<parents>>,<<id>>"
         required: "income"
-      height: 200
+      height: 250
       id: "geo"
       labels: YES
       order: "geo"
@@ -53,7 +53,7 @@ topics:
         show: "geo"
         geo: "<<parents>>,<<id>>"
         required: "median_property_value"
-      height: 200
+      height: 250
       id: "geo"
       labels: YES
       order: "geo"
@@ -97,7 +97,7 @@ topics:
           id: "bucket"
           regex: "^propertytax_([a-zA-Z0-9]*)$"
           value: "num_households"
-      height: 200
+      height: 250
       id: "geo"
       order: "bucket"
       type: "bar"
@@ -114,7 +114,7 @@ topics:
         show: "geo"
         geo: "<<parents>>,<<id>>"
         required: "owner_occupied_housing_units"
-      height: 200
+      height: 250
       id: "geo"
       order: "geo"
       type: "bar"
@@ -135,7 +135,7 @@ topics:
           id: "bucket"
           regex: "^vehicles_([0-9a-z]*)$"
           value: "num_households"
-      height: 200
+      height: 250
       id: "geo"
       order: "bucket"
       type: "bar"
@@ -158,7 +158,7 @@ topics:
         geo: "<<parents>>,<<id>>"
         required: "mean_commute_minutes"
       id: "geo"
-      height: 200
+      height: 250
       labels: YES
       order: "geo"
       type: "bar"

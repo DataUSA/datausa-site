@@ -43,7 +43,7 @@ topics:
         show: "sector"
         geo: "<<id>>"
         required: "district_tuition,oos_tuition,state_tuition"
-      height: 200
+      height: 250
       id: "sector"
       labels: YES
       legend: NO

@@ -1,9 +1,17 @@
 title: "<<name>>"
+group: "<<level>>"
 description: "Explore the employment, industries, education, and demographics of <<name>>."
 stats:
-  - title: "Population"
-    value: "XX"
-    rank: "XX"
+  - title: "Employees"
+    value: "<<var namespace=data|key=num_ppl>>"
+    rank: "<<var namespace=data|key=num_ppl_rank>> of <<rank_max>> <<level plural=True|short=True>>"
+  - title: "Average Wage"
+    value: "<<var namespace=data|key=avg_wage>>"
+    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>> <<level plural=True|short=True>>"
+  - title: "Average Age"
+    value: "<<var namespace=data|key=avg_age>>"
+    rank: "<<var namespace=data|key=avg_age_rank>> of <<rank_max>> <<level plural=True|short=True>>"
 facts:
-  - "TBD"
-sections: []
+  - "The Public Use Microdata Area (PUMA) with an unusually large workforce is <<top show=geo|sumlevel=puma|order=num_ppl_rca>>."
+sections:
+  - workforce

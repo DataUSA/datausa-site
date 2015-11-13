@@ -34,7 +34,8 @@ sumlevels = {
         },
         "795": {
             "sumlevel": "puma",
-            "label": "PUMA",
+            "label": "public use microdata area",
+            "shortlabel": "PUMA"
         },
         "140": {
             "sumlevel": "tract",
@@ -64,7 +65,18 @@ sumlevels = {
         }
     },
     "naics": {
-
+        "0": {
+            "label": "sector",
+            "shortlabel": "group"
+        },
+        "1": {
+            "label": "2nd level industry",
+            "shortlabel": "industry"
+        },
+        "2": {
+            "label": "3rd level industry",
+            "shortlabel": "industry"
+        }
     }
 }
 

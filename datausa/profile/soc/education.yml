@@ -44,7 +44,7 @@ topics:
         show: "sector"
         cip: "<<top col=id|order=num_ppl|sort=desc|show=cip>>"
         required: "district_tuition,oos_tuition,state_tuition"
-      height: 200
+      height: 250
       id: "sector"
       labels: YES
       legend: NO
