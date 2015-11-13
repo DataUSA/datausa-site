@@ -247,6 +247,7 @@ dictionary = {
     "travel": "Travel Time",
     "us": "Native Born",
     "us_citizens": "Citizenship",
+    "value_millions": "Value",
     "vehicles": "Vehicles",
     "violent_crime": "Violent Crime",
     "wage_bin": "Wage Bin",
@@ -258,13 +259,14 @@ affixes = {
     "oos_tuition": ["$", ""],
     "district_tuition": ["$", ""],
     "avg_wage": ["$", ""],
-    "emp_thousands": ["", "k"],
     "income": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
+    "output": ["$", ""],
     "property_tax": ["$", ""],
     "property_val": ["$", ""],
-    "health_care_costs": ["$", ""]
+    "health_care_costs": ["$", ""],
+    "value_millions": ["$", ""]
 }
 
 proportions = [
@@ -275,6 +277,8 @@ proportions = [
 ]
 
 percentages = [
+    "emp_carc_2012_2022",
+    "output_carc_2012_2022",
     "pct_change"
 ]
 
@@ -297,6 +301,13 @@ def num_format(number, key=None, labels=True, condense=True):
 
     # Converts the number to a float.
     n = float(number)
+
+    if key == "emp_thousands":
+        n = n * 1000
+    elif key == "value_millions":
+        n = n * 1000000
+    elif key == "output":
+        n = n * 1000000000
 
     if key and key in proportions:
         n = n * 100

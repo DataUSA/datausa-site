@@ -18,6 +18,8 @@ def datasplit(data):
 
 def fetch(attr_id, attr_type):
     """dict: Returns an attribute dict container information like 'name' and 'color' """
+    if "_iocode" in attr_type:
+        attr_type = "iocode"
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
     else:
@@ -74,8 +76,6 @@ def stat(params, col="name", dataset=False, data_only=False):
         return r
     else:
         r = datafold(r)
-
-    app.logger.info("Requested stat: {}".format(url))
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint

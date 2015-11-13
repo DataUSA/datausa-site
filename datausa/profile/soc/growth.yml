@@ -8,7 +8,7 @@ topics:
         value: "<<top col=pct_change|year=none>>"
     description: "The line chart on the right shows the estimated growth for the number of <<name>> jobs in 2022."
     viz:
-      attrs: "soc"
+      attrs: "bls_soc"
       data:
         - soc: "<<id>>"
           show: "soc"

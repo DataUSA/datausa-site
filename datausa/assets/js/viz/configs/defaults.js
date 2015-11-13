@@ -67,6 +67,16 @@ viz.defaults = function(build) {
 
         if (params.key) {
 
+          if (params.key == "emp_thousands") {
+            number = number * 1000;
+          }
+          else if (params.key == "value_millions") {
+            number = number * 1000000;
+          }
+          else if (params.key == "output") {
+            number = number * 1000000000;
+          }
+
           if (params.key.indexOf("y2_") === 0) {
             params.key = params.key.slice(3);
           }
