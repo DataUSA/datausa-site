@@ -1,4 +1,5 @@
 title: "<<name>>"
+group: "<<level>>"
 description: "Explore data on the <<name>> major in the United States."
 viz:
   attrs:
