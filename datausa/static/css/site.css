@@ -626,16 +626,16 @@ body.search .search-results-container {
           background-size: cover;
           background-position: center center;
           height: 50px; }
-          body.search .search-results-container .search-results .search-item div.info {
+          body.search .search-results-container .search-results .search-item .info {
             -webkit-box-flex: 5;
             -moz-box-flex: 5;
             -webkit-flex: 5;
             -ms-flex: 5;
             flex: 5;
             margin: 0 10px; }
-            body.search .search-results-container .search-results .search-item div.info h2 a {
+            body.search .search-results-container .search-results .search-item .info h2 a {
               font-size: 11px; }
-              body.search .search-results-container .search-results .search-item div.info .xtra {
+              body.search .search-results-container .search-results .search-item .info .xtra {
                 display: none; }
         body.search .search-results-container .search-results .search-item div.profile {
           -webkit-box-flex: 2;
@@ -643,6 +643,43 @@ body.search .search-results-container {
           -webkit-flex: 2;
           -ms-flex: 2;
           flex: 2; }
+      body.search .search-results-container .search-results .xtra {
+        margin-top: 10px; }
+        body.search .search-results-container .search-results .xtra .parents {
+          line-height: 1.1; }
+          body.search .search-results-container .search-results .xtra .parents a {
+            padding: 0;
+            line-height: 1.1;
+            vertical-align: text-bottom;
+            font-family: "Roboto", sans-serif;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+            white-space: initial !important;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            hyphens: auto;
+            color: rgba(51, 51, 51, 0.6);
+            -webkit-transition: color 0.25s;
+            -moz-transition: color 0.25s;
+            -ms-transition: color 0.25s;
+            -o-transition: color 0.25s;
+            transition: color 0.25s; }
+            body.search .search-results-container .search-results .xtra .parents a + a::before {
+              content: "\\ ";
+              font-weight: 400;
+              color: rgba(51, 51, 51, 0.45);
+              padding: 0 0 0 2px; }
+              body.search .search-results-container .search-results .xtra .parents a:hover {
+                cursor: pointer;
+                color: #000;
+                text-decoration: none; }
   body.search .search-results-container .search-close {
     float: right; }
 
