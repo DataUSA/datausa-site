@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import abort, Blueprint, g, jsonify, render_template, request
-from config import PROFILES
+from config import CROSSWALKS, PROFILES
 from datausa.profile.profile import Profile
-from datausa.utils.data import stat as stat_logic
+from datausa.utils.data import attr_cache, stat
 from datausa.search.views import get_img
 
 
@@ -17,8 +17,12 @@ def before_request():
 @mod.route("/<attr_type>/<attr_id>/")
 def profile(attr_type, attr_id):
 
-    if not attr_type in PROFILES:
+    if not attr_type in PROFILES and not attr_type in CROSSWALKS:
         abort(404);
+
+    if attr_type in CROSSWALKS:
+        attr = attr_cache[attr_type][attr_id]
+        return render_template("profile/redirect.html", attr=attr)
 
     g.page_class = attr_type
 
@@ -35,7 +39,7 @@ def statView():
     dataset = args.pop("dataset", False)
     if dataset == "False":
         dataset = False
-    return jsonify(stat_logic(args, col=col, dataset=dataset))
+    return jsonify(stat(args, col=col, dataset=dataset))
 
 @mod.route("/<attr_kind>/<attr_id>/img/")
 def splash_img(attr_kind, attr_id, mode="thumb"):
