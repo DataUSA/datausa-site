@@ -291,6 +291,7 @@ body.search #search-btn {
               float: right; }
     #search-simple-nav .search-results a.search-item {
       display: block; }
+      #search-simple-nav .search-results a.search-item:focus,
       #search-simple-nav .search-results a.search-item:hover {
         background-color: gray; }
     #search-simple-nav .results-show-all {
@@ -891,34 +892,26 @@ body.home {
                         opacity: 1; }
                         #home-search-input:hover:-ms-input-placeholder {
                           opacity: 1; }
-  #home-search-input:focus ~ .search-body {
-    height: 40vh;
-    margin-top: 7px;
-    overflow-y: scroll;
-    border: 1px solid rgba(255, 255, 255, 0.5); }
-    #home-search-input:focus ~ .search-body a {
-      display: block;
-      padding: 10px 10px 3px;
-      font-family: "Lato", sans-serif;
-      font-weight: 400;
-      font-size: 18px;
-      color: white; }
-  #home-search-input ~ .search-body {
-    -webkit-transition: height 0.5s 0.25s, margin-top 0.25s, border 0.1s;
-    -moz-transition: height 0.5s 0.25s, margin-top 0.25s, border 0.1s;
-    -ms-transition: height 0.5s 0.25s, margin-top 0.25s, border 0.1s;
-    -o-transition: height 0.5s 0.25s, margin-top 0.25s, border 0.1s;
-    transition: height 0.5s 0.25s, margin-top 0.25s, border 0.1s;
-    height: 0; }
-    #home-search-input ~ .search-body a {
-      display: none; }
 
 .search-body {
-  background-color: rgba(103, 117, 148, 0.5); }
+  background-color: rgba(103, 117, 148, 0.5);
+  height: 40vh;
+  margin-top: 7px;
+  overflow-y: scroll;
+  border: 1px solid rgba(255, 255, 255, 0.5); }
+  .search-body a.search-item {
+    display: block;
+    padding: 10px 10px 3px;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: white; }
+    .search-body a.search-item:hover, .search-body a.search-item:focus {
+      background-color: sienna; }
 
-  #search-switch.adv {
-    text-align: right;
-    text-transform: uppercase; }
+#search-switch.adv {
+  text-align: right;
+  text-transform: uppercase; }
 body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health {
   background-color: #ddd; }
   body.profile.geo #splash .content {

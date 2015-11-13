@@ -139,7 +139,6 @@ search.reload = function() {
       this.update_refine(data);
     }
     else {
-      console.log(data.length)
       if(data.length > 10){
         var left_over = data.length - 10;
         d3.select(".results-show-all a span.more").text("("+left_over+" more)")
@@ -157,20 +156,15 @@ search.reload = function() {
     var tag = this.advanced ? "div" : "a";
     items.enter().append(tag).attr("class", "search-item");
 
-    if (tag === "a") {
-      // items.text('test').attr("href", function(d){ return "/profile/" + d.kind + "/" + d.id + "/"; }.bind(this));
-    }
-    else {
-      // click first item
-      // items.selectAll("a.expand").on("click", search.open_details);
-      // var first_item = items.filter(function(d, i){ return i===0 });
-      // if(!first_item.empty()){
-      //   first_item.on("click")(first_item.datum());
-      // }
-      // else{
-      //   this.clear_details();
-      // }
-    }
+    // click first item
+    // items.selectAll("a.expand").on("click", search.open_details);
+    // var first_item = items.filter(function(d, i){ return i===0 });
+    // if(!first_item.empty()){
+    //   first_item.on("click")(first_item.datum());
+    // }
+    // else{
+    //   this.clear_details();
+    // }
 
     var format = this.advanced ? this.btnExplore : this.btnProfile;
     items.each(format);

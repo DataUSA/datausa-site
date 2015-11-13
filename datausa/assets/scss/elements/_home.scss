@@ -250,35 +250,38 @@ body.home {
     //@include shadow(0px 5px 0 rgba(0,0,0,0.3));
   }
   
-  &:focus ~ .search-body {
-    height: 40vh;
-    margin-top: 7px;
-    overflow-y: scroll;
-    border: 1px solid rgba(255,255,255,0.5);
+//  &:focus ~ .search-body {
 
-    a {
-      display: block;
-      padding: 10px 10px 3px;
-      font-family: $lato;
-      font-weight: 400;
-      font-size: 18px;
-      color: white;
-    }
-  }
-
-  ~ .search-body {
-    @include transition(height 0.5s 0.25s, margin-top 0.25s, border 0.1s);
-    height: 0;
-
-    a {
-      display: none;
-    }
-  }
+//  ~ .search-body {
+//    @include transition(height 0.5s 0.25s, margin-top 0.25s, border 0.1s);
+//    height: 0;
+//
+//    a {
+//      display: none;
+//    }
+//  }
 
 }
 
 .search-body {
   background-color: rgba(103, 117, 148, 0.5);
+  height: 40vh;
+  margin-top: 7px;
+  overflow-y: scroll;
+  border: 1px solid rgba(255,255,255,0.5);
+
+  a.search-item {
+    display: block;
+    padding: 10px 10px 3px;
+    font-family: $lato;
+    font-weight: 400;
+    font-size: 18px;
+    color: white;
+    &:hover,
+    &:focus {
+      background-color: sienna;
+    }
+  }
 }
 
 #search-switch.adv {

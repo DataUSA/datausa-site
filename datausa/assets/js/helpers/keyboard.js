@@ -60,5 +60,54 @@ window.onload = function() {
     }
 
   });
+  
+  d3.selectAll(".search-input, .search-results").on("keyup.search-results", function(){
+    
+    // Up/Down Arrows
+    if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
+      var up = d3.event.keyCode === 38;
+      
+      // get current active element
+      var curr_el = d3.select(this).select("a.search-item:focus").node();
+      if(curr_el){
+        var next_el = up ? curr_el.previousSibling : curr_el.nextSibling;
+        if(!next_el){
+          if(up){
+            d3.select(this.parentNode.parentNode).select('input').node().focus();
+          }
+          else {
+            next_el = document.querySelectorAll("a.search-item")[0];
+          }
+        }
+      }
+      else if(!up){
+        var next_el = document.querySelectorAll(".search-item")[0];
+      }
+      
+      if(next_el) next_el.focus();
+      
+      
+      d3.event.preventDefault();
+      return false;
+    }
+    
+    // Enter
+    if (d3.event.keyCode === 13) {
+      var curr_el = d3.select(this).select("a.search-item:focus").node();
+      if(!curr_el){
+        var search_txt = d3.select(this).property("value");
+        window.location = "/search/?q="+search_txt;
+      }
+    }
+    
+  });
+  
+  d3.selectAll(".search-results").on("keydown.search-results", function(){
+    // Up/Down Arrows
+    if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
+      d3.event.preventDefault();
+      return false;
+    }
+  });
 
 }

@@ -215,6 +215,7 @@ body {
     
     a.search-item {
       display: block;
+      &:focus,
       &:hover{
         background-color: gray;
       }
