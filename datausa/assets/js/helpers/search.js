@@ -177,7 +177,7 @@ search.reload = function() {
 
 search.btnExplore = function(d) {
   var search_item = d3.select(this);
-  var thumb = search_item.append("div").attr("class", 'thumb')
+  var thumb = search_item.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb')
   var info = search_item.append("div").attr("class", 'info')
   var profile = search_item.append("div").attr("class", 'profile')
   
@@ -187,7 +187,7 @@ search.btnExplore = function(d) {
   // set info
   info.append("h2").text(d.display)
     .append("a").attr("href", "#").attr("class", "expand").text("expand").on("click", search.open_details)
-    .append("i").attr("class", "fa fa-plus")
+    .append("i").attr("class", "fa fa-angle-down")
   info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
   // xtra info
   var xtra = info.append("div").attr("class", "xtra")
@@ -266,7 +266,7 @@ search.open_details = function(d){
   var this_link = d3.select(this);
   var xtra_div = d3.select(this.parentNode.parentNode).select(".xtra");
   var xtra_state = xtra_div.style("display");
-  d3.selectAll("a.expand").text('expand').append("i").attr("class", "fa fa-plus")
+  d3.selectAll("a.expand").text('expand').append("i").attr("class", "fa fa-angle-down")
   d3.selectAll(".xtra").style("display", "none")
   xtra_div.style("display", function(){
     return xtra_state == "none" ? "block" : "none";
@@ -278,10 +278,10 @@ search.open_details = function(d){
   })
   
   if(xtra_state == "none") {
-    d3.select(this).text("collapse").append("i").attr("class", "fa fa-minus")
+    d3.select(this).text("collapse").append("i").attr("class", "fa fa-angle-up")
   }
   else {
-    d3.select(this).text("expand").append("i").attr("class", "fa fa-plus")
+    d3.select(this).text("expand").append("i").attr("class", "fa fa-angle-down")
   }
   
   // set parents

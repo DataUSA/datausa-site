@@ -1,100 +1,140 @@
 body.search {
+  .bg {
+    margin-top: -$nav-height;
+    @include filter(brightness(0.55) contrast(1));
+  }
+
+  .bg-filter {
+    width: 100vw;
+    height: 100vh;
+    background: url("/static/img/search/lake_serene_trail_forest_nullsynapse.jpg") no-repeat 0 0;
+    @include background-stretch();
+  }
+
   a {
     color: #333;
   }
 
-  .search-input {
-    
-    @include transition(box-shadow 1s, background-color 1s);
-    border: 0;
-    padding: 0 10px;
-    // color: $d-blue;
-    font-family: $noticia;
-    font-size: 20px;
+  h2 {
+    font-family: $playfair;
+    font-size: 22px;
     font-weight: 400;
-    width: 100%;
+    color: #333;
+    text-transform: none;
+    font-style: normal;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+  }
 
-    &:focus {
-      outline: 0;
-      background-color: rgba(255,255,255,0.9);
-      @include shadow(0px 7px 0 rgba(255,255,255,0.5));
-    }
+  p {
+    line-height: 1.5;
+    opacity: 1;
+    font-family: $roboto;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(51,51,51,0.75);
+  }
 
-    @media all and (min-width: 415px) {
-      font-size: 30px;
-    }
-
-    &.inactive {
-      display: none;
-    }
-
+  .bound {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    margin-top: -$nav-height;
+    padding-bottom: 10px;
+    overflow: hidden;
   }
 
   #search-advanced {
-    margin: 20px auto;
-    width: 80%;
-    
-    #search-filters {
-      
-      a {
-        padding: 10px 15px;
-        border: 1px solid #ccc;
-        display: inline-block;
-      }
-      
-      a.active {
-        font-weight: bold;
-      }
+    @include flex();
+    @include flex-direction(column);
+    @include justify(space-around);
+    height: 100vh;
+    margin: $nav-height 30px 0;
+    padding-top: $nav-height;
+
+    .search-nav {
+      @include flex-size(0 0 $search-height);
+      margin-top: 20px;
     }
-    
-    .search-autocorrected {
-      background-color: #FEEFB3;
-      color: #9F6000;
-      display: none;
-      text-align: center;
-      span {
-        font-weight: bold;
-      }
+
+    .search-helpers {
+      @include flex-size(0 0 $search-helpers-height);
+      background-color: rgba(250, 253, 255, 0.85);
+    }
+
+    .search-results-container {
+      @include flex-size(1);
     }
 
     .search-suggestions {
-      text-align: center;
+      position: relative;
+      top: $search-helpers-height/4;
+      margin: -4.5px 20px 0px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+      font-family: $roboto;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      @include wordwrap();
+      @include hyphens;
+      color: #333;
+
       a {
-        font-weight: bold !important; 
-        text-decoration: underline !important; 
-      }
-    }
-    
-    .search-nestings {
-      min-height: 35px;
-      z-index: 0;
-      
-      div {
-        display: none;
-        text-align: center;
-      }
-      
-      a {
-        color: gray;
-        padding: 5px 15px;
-        display: inline-block;
-      }
-      
-      a.active {
-        color: black;
-        font-weight: bold;
+        color: #333;
+        opacity: 0.75;
+        @include transition(opacity 0.25s);
+        padding-bottom: 1px;
+        border-bottom: 1px solid rgba(51,51,51,0.5);
+        text-decoration: none;
+
+        &:hover {
+          border-bottom: 0;
+          cursor: pointer;
+          opacity: 1;
+          text-decoration: none;
+        }
       }
     }
 
     .search-nav {
       @include box();
-      @include flex();
-      @include flex-direction(row);
-      
-      border: solid lightgray 4px;
       width: 100%;
-      // overflow: hidden;
       top: 0;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 50px;
+      border: 0;
+      padding: 37px 20px 23px;
+      @include box();
+      font-family: $playfair;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      background-color: rgba(250, 253, 255, 0.85);
+      @include transition(box-shadow 1s, background-color 1s);
+
+      &:focus {
+        outline: 0;
+        //background-color: #fff;
+      }
+
+      @media all and (min-width: 415px) {
+        font-size: 30px;
+      }
+
+      &.inactive {
+        display: none;
+      }
     }
 
     .search-crumbs {
@@ -139,15 +179,29 @@ body.search {
     }
 
   }
+
+  .search-autocorrected {
+    display: none;
+    padding: 5px 0;
+    font-family: $roboto;
+    font-weight: 300;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: $text-color;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.3);
+    span {
+      font-weight: 700;
+    }
+  }
   
   .search-results-container{
     @include flex();
-    @include flex-direction(row);
-    @include flex-wrap();
-    background: lightgray;
+    @include justify(space-between);
+    background: rgba(250, 253, 255, 0.85);
   
     .search-refine {
-      @include flex-size(1);
+      @include flex-size(0 0 200px);
       color: #333;
       float: left;
       position: relative;
@@ -179,13 +233,17 @@ body.search {
       }
     }
     
+    .search-results-dynamic {
+      @include flex-size(1);
+    }
+
     .search-results {
-      @include flex-size(4);
-      background: gray;
+      width: 100%;
+      max-height: 100vh;
       color: #333;
-      float: left;
+      overflow: scroll;
       
-      .search-item{
+      .search-item {
         @include flex();
         @include flex-direction(row);
         @include flex-wrap();
@@ -193,14 +251,17 @@ body.search {
         font-size: 12px;
         color: white;
         line-height: 1.2em;
-        margin: 5px 0;
         padding: 10px;
         &.active{
           border: solid black 1px;
           background-color: #666;
         }
+
+        &:empty {
+          display: none;
+        }
         
-        &>div.thumb {
+        &>.thumb {
           @include flex-size(0 0 50px);
           background-size: cover;
           background-position: center center;

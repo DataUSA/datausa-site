@@ -25,6 +25,15 @@ body.profile {
     #splash .content {
       background-color: $bg-color-cip;
     }
+
+    #stats-bar #title-stats {
+      width: 70%;
+      max-width: 700px;
+      @include flex();
+      @include justify(space-around);
+      @include align-items(flex-end);
+      @include align-content(space-around);
+    }
   }
 
   $bg-width: 89.7%;
@@ -113,7 +122,7 @@ body.profile {
     h2 {
       font-family: $playfair;
       font-size: 30px;
-      font-weight: 300;
+      font-weight: 400;
       color: #333;
       text-transform: none;
       font-style: normal;
@@ -258,7 +267,7 @@ body.profile {
       height: $bg-height;
       max-width: 950px;
       padding: 45px 48px 50px;
-      margin-top: $nav-height/2;
+      margin-top: $nav-height;
       @include box();
       overflow: hidden;
       z-index: 1;
@@ -375,7 +384,6 @@ body.profile {
             font-weight: 400;
             color: rgba(240,244,246,0.55);
             padding: 0 0 0 2px;
-
           }
 
           &:hover {
