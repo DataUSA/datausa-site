@@ -44,7 +44,18 @@ sumlevels = {
         }
     },
     "cip": {
-
+        "2": {
+            "label": "course group",
+            "shortlabel": "group"
+        },
+        "4": {
+            "label": "2nd level course",
+            "shortlabel": "course"
+        },
+        "6": {
+            "label": "3rd level course",
+            "shortlabel": "course"
+        }
     },
     "soc": {
         "0": {
