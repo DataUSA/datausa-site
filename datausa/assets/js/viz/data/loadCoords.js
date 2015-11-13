@@ -18,7 +18,7 @@ viz.loadCoords = function(build) {
       delete build.config.coords.value;
     }
 
-    if (type === "uss") {
+    if (type === "nations") {
       build.config.coords.key = "states";
       type = "states";
     }

@@ -304,9 +304,6 @@ window.onload = function() {
 
       // Press "s" to highlight most recent search
       if (d3.event.keyCode === 83) {
-        // if (!search.container) search.container = d3.select("#search-global");
-        // d3.select(".search-box input").node().focus();
-        // d3.select(".search-box").classed("open", true);
         if(d3.select("body").classed("home")){
           d3.select("#search-home").classed("open", true);
           d3.select("#home-search-input").node().focus();
@@ -1520,7 +1517,7 @@ viz.loadCoords = function(build) {
       delete build.config.coords.value;
     }
 
-    if (type === "uss") {
+    if (type === "nations") {
       build.config.coords.key = "states";
       type = "states";
     }

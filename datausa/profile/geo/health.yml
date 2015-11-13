@@ -5,27 +5,27 @@ topics:
   - category: "Healthcare"
   - title: "Clinician to Patient Ratios"
     subtitle: "<<sub dataset=chr>>"
-    sumlevel: "!us"
+    sumlevel: "!nation"
   - class: "flex"
-    sumlevel: "!us"
+    sumlevel: "!nation"
     source: NO
     stat:
       - title: "Primary Care"
         value: "1 to <<var namespace=health|key=primary_care_physicians>>"
   - class: "flex"
-    sumlevel: "!us"
+    sumlevel: "!nation"
     source: NO
     stat:
       - title: "Dentists"
         value: "1 to <<var namespace=health|key=dentists>>"
   - class: "flex"
-    sumlevel: "!us"
+    sumlevel: "!nation"
     source: NO
     stat:
       - title: "Mental Health"
         value: "1 to <<var namespace=health|key=mental_health_providers>>"
   - class: "flex"
-    sumlevel: "!us"
+    sumlevel: "!nation"
     source: NO
     stat:
       - title: "Other"

@@ -4,7 +4,7 @@ from decimal import Decimal
 sumlevels = {
     "geo": {
         "010": {
-            "sumlevel": "us",
+            "sumlevel": "nation",
             "label": "nation",
             "children": "040"
         },

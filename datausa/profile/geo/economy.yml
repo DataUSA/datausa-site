@@ -255,7 +255,7 @@ topics:
         value: "bucket"
       y: "num_ppl"
   - title: "Wage by Location"
-    sumlevel: "us,state,county"
+    sumlevel: "nation,state,county"
     description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
     viz:
       attrs: "geo"
