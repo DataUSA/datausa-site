@@ -893,29 +893,33 @@ var chartStyles = {
   "labels": {
     "default": {
       "pri": {
-        "color": "#006ea8",
-        "family": "Palanquin",
-        "size": 16,
-        "weight": 700
+        "color": "#6F6F6F",
+        "family": "Roboto",
+        "size": 14,
+        "weight": 700,
+        "transform": "uppercase", // needs to be passed in
+        "spacing": 1
       },
       "sec": {
-        "color": "#71bbe2",
-        "family": "Palanquin",
-        "size": 16,
-        "weight": 700
+        "color": "#6F6F6F",
+        "family": "Roboto",
+        "size": 14,
+        "weight": 700,
+        "transform": "uppercase", // needs to be passed in
+        "spacing": 1
       }
     },
     "discrete": {
       "pri": {
-        "color": "#006ea8",
-        "family": "Palanquin",
-        "size": 16,
+        "color": "#6F6F6F",
+        "family": "Roboto",
+        "size": 14,
         "weight": 700
       },
       "sec": {
-        "color": "#71bbe2",
-        "family": "Palanquin",
-        "size": 16,
+        "color": "#6F6F6F",
+        "family": "Roboto",
+        "size": 14,
         "weight": 700
       }
     }
@@ -927,8 +931,8 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#a8a8a8",
-          "family": "Palanquin",
-          "size": 14,
+          "family": "lato",
+          "size": 12,
           "weight": 700
         },
         "size": 10
@@ -937,8 +941,8 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#a8a8a8",
-          "family": "Palanquin",
-          "size": 14,
+          "family": "lato",
+          "size": 12,
           "weight": 700
         },
         "size": 10
@@ -949,9 +953,9 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#211f1a",
-          "family": "Palanquin",
-          "size": 14,
-          "weight": 700
+          "family": "Roboto",
+          "size": 12,
+          "weight": 400
         },
         "size": 10
       },
@@ -959,9 +963,9 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#211f1a",
-          "family": "Palanquin",
-          "size": 14,
-          "weight": 700
+          "family": "Roboto",
+          "size": 12,
+          "weight": 400
         },
         "size": 10
       }
@@ -997,19 +1001,19 @@ var vizStyles = {
   },
   "geo": {
     "pri": "#5D82BD",
-    "sec": "#333333"
+    "sec": "#C5C5C5"
   },
   "cip": {
     "pri": "#006ea8",
-    "sec": "#71bbe2"
+    "sec": "#C5C5C5"
   },
   "soc": {
     "pri": "#006ea8",
-    "sec": "#71bbe2"
+    "sec": "#C5C5C5"
   },
   "naics": {
     "pri": "#006ea8",
-    "sec": "#71bbe2"
+    "sec": "#C5C5C5"
   },
 
   "tooltip": {
@@ -1025,20 +1029,20 @@ var vizStyles = {
   "background": "transparent",
   "color": {
     "missing": "#eee",
-    "heatmap": ["#71bbe2", "#006ea8"],
+    "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
     "range": ["#B22200", "#FFEE8D", "#759143"]
   },
   "labels": {
     "font": {
-      "family": "Palanquin",
-      "size": 13
+      "family": "Roboto",
+      "size": 12
     }
   },
   "legend": {
     "font": {
       "color": "#211f1a",
-      "family": "Palanquin",
-      "weight": 700
+      "family": "Roboto",
+      "weight": 400
     }
   },
   "lines": {
