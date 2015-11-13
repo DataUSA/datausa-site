@@ -637,12 +637,20 @@ body.search .search-results-container {
               font-size: 11px; }
               body.search .search-results-container .search-results .search-item .info .xtra {
                 display: none; }
-        body.search .search-results-container .search-results .search-item div.profile {
-          -webkit-box-flex: 2;
-          -moz-box-flex: 2;
-          -webkit-flex: 2;
-          -ms-flex: 2;
-          flex: 2; }
+                body.search .search-results-container .search-results .search-item .info .fa-angle-down {
+                  display: none; }
+        body.search .search-results-container .search-results .search-item.open .info .xtra {
+          display: block; }
+          body.search .search-results-container .search-results .search-item.open .info .fa-angle-down {
+            display: inline; }
+            body.search .search-results-container .search-results .search-item.open .info .fa-angle-up {
+              display: none; }
+              body.search .search-results-container .search-results .search-item div.profile {
+                -webkit-box-flex: 2;
+                -moz-box-flex: 2;
+                -webkit-flex: 2;
+                -ms-flex: 2;
+                flex: 2; }
       body.search .search-results-container .search-results .xtra {
         margin-top: 10px; }
         body.search .search-results-container .search-results .xtra .parents {

@@ -305,7 +305,6 @@ body.search {
           background-size: cover;
           background-position: center center;
           height: 50px;
-
         }
         
         .info {
@@ -316,9 +315,23 @@ body.search {
             font-size: 11px;
           }
           
-          .xtra {
+          .xtra { 
+            display: none; 
+          }
+          
+          .fa-angle-down {
             display: none;
           }
+        }
+        
+        &.open .info .xtra {
+          display: block;
+        }
+        &.open .info .fa-angle-down {
+          display: inline;
+        }
+        &.open .info .fa-angle-up {
+          display: none;
         }
         
         div.profile {

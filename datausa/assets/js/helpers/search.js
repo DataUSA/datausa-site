@@ -176,7 +176,7 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  var search_item = d3.select(this);
+  var search_item = d3.select(this).on("click", search.open_details);
   var thumb = search_item.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb')
   var info = search_item.append("div").attr("class", 'info')
   var profile = search_item.append("div").attr("class", 'profile')
@@ -185,10 +185,13 @@ search.btnExplore = function(d) {
   thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
   
   // set info
-  info.append("h2").text(d.display)
-    .append("a").attr("href", "#").attr("class", "expand").on("click", search.open_details)
-    .append("i").attr("class", "fa fa-angle-down")
-  info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
+  var title = info.append("h2").text(d.display)
+    .append("a").attr("href", "#").attr("class", "expand");
+  title.append("i").attr("class", "fa fa-angle-down")
+  title.append("i").attr("class", "fa fa-angle-up")
+  if(sumlevels_by_id[d.kind][d.sumlevel]){
+    info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
+  }
   // xtra info
   var xtra = info.append("div").attr("class", "xtra")
   xtra.append("p").attr("class", "parents")
@@ -207,25 +210,6 @@ search.btnExplore = function(d) {
   
   // set profile link
   profile.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").html("View Profile &raquo;")
-  
-  
-  return
-
-  var html = d.display,
-      children = false,
-      nesting = this.nesting[this.type];
-
-  if (nesting && nesting.constructor === Array) {
-    var max = nesting[nesting.length - 1];
-    children = this.nesting[this.current_depth[this.type]] < max && d.id.length < max;
-  }
-  
-  html = "<span>[" + d.kind.toUpperCase() + "]</span> " + html;
-
-  html += "<a class='search-btn-profile' href='/profile/" + d.kind + "/" + d.id + "/'>Profile</a>";
-
-  return html;
-
 }
 
 search.btnProfile = function(d) {
@@ -263,25 +247,10 @@ search.back = function(index) {
 
 search.open_details = function(d){
   // toggle xtra div
-  var this_link = d3.select(this);
-  var xtra_div = d3.select(this.parentNode.parentNode).select(".xtra");
-  var xtra_state = xtra_div.style("display");
-  d3.selectAll(".xtra").style("display", "none")
-  xtra_div.style("display", function(){
-    return xtra_state == "none" ? "block" : "none";
-  })
-  
-  // toggle expand/collapse icon
-  d3.select(this).select(".fa").attr("class", function(){
-    return d3.select(this).classed("plus") ? "fa minus" : "fa plus";
-  })
-  
-  if(xtra_state == "none") {
-    d3.select(this).text("").append("i").attr("class", "fa fa-angle-up")
-  }
-  else {
-    d3.select(this).text("").append("i").attr("class", "fa fa-angle-down")
-  }
+  var search_item = d3.select(this);
+  var current_state = search_item.classed("open")
+  d3.selectAll(".search-item").classed("open", false)
+  search_item.classed("open", !current_state)
   
   // set parents
   var p_container = xtra_div.select(".parents");
@@ -298,36 +267,6 @@ search.open_details = function(d){
   
   // prevent default anchor link behavior
   d3.event.preventDefault();
-  
-  return;
-
-  // set sumlevels
-  var details_sumlevels = details_div.select(".details-sumlevels").html('');
-  var attr_meta = sumlevels_by_id[d.kind][d.sumlevel]
-  if(attr_meta.children){
-    attr_meta.children.forEach(function(sumlevel){
-      var sumlevel_meta = sumlevels_by_id[d.kind][sumlevel]
-      var current_sumlevels_html = details_sumlevels.html()
-      current_sumlevels_html += "<button class='search-btn-children' data-sumlevel='"+sumlevel+"'>"+sumlevel_meta.name+"</button>";
-      details_sumlevels.html(current_sumlevels_html)
-    })
-  }
-
-  details_div.select(".details-sumlevels-results").html('');
-  details_sumlevels.selectAll("button").on("click", function(){
-    var sumlevel = d3.select(this).attr("data-sumlevel");
-    var sumlevels_results = details_div.select(".details-sumlevels-results");
-    var children_api_url = api + "/attrs/"+d.kind+"/"+d.id+"/children?sumlevel="+sumlevel
-    sumlevels_results.html('')
-    load(children_api_url, function(children) {
-      children.forEach(function(child){
-        sumlevels_results.append("a")
-          .attr("href", "/profile/" + d.kind + "/" + child.id + "/")
-          .attr("data-id", child.id)
-          .text(child.name)
-      })
-    })
-  })
 }
 
 search.clear_details = function(){
