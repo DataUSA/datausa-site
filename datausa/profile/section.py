@@ -456,7 +456,7 @@ class Section(object):
 
         if attr_type == "geo":
             prefix = attr_id[:3]
-            if kwargs.get("child", False) and prefix in sumlevels["geo"]["children"]:
+            if kwargs.get("child", False) and "children" in sumlevels["geo"][prefix]:
                 if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
                     prefix = "040"
                 prefix = sumlevels["geo"][prefix]["children"]
