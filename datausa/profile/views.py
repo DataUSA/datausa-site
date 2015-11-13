@@ -29,7 +29,7 @@ def profile(attr_type, attr_id):
     return render_template("profile/index.html", profile = p)
 
 @mod.route("/stat/")
-def stat():
+def statView():
     args = {k: v for k, v in request.args.iteritems()}
     col = args.pop("col", "name")
     dataset = args.pop("dataset", False)
