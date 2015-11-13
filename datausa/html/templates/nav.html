@@ -15,9 +15,9 @@
 
       <div id="search-btn">
         <div class="search-box">
-          <input class="search-input" data-search="simple-nav" type="text" placeholder="Search DataUSA&hellip;" autofocus />
+          <input id="nav-search-input" class="search-input" data-search="simple-nav" type="text" placeholder="Search DataUSA&hellip;" autofocus />
         </div>
-        <i class="fa fa-search"></i>
+        <i class="fa fa-search" data-results="search-simple-nav"></i>
       </div>
   </div>
 </nav>
@@ -99,7 +99,7 @@
 
 </div>
 
-<div id="search-simple-nav">
+<div id="search-simple-nav" class="search-body">
   <div class="search-results">
   </div>
 
@@ -147,10 +147,19 @@ d3.select("#menu-btn").on("click", function(){
   d3.event.preventDefault();
 });
 
-d3.select("#search-btn .fa-search").on("click", function(){
-  d3.select("#search-simple-nav").classed("open", !d3.select("#search-simple-nav").classed("open"));
-  d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
-  d3.select(".search-box input").node().focus();
+d3.selectAll("#search-btn .fa-search, #home-search-input").on("click", function(){
+  var results_div_id = d3.select(this).attr("data-results");
+  var results_div = d3.select("#"+results_div_id)
+  results_div.classed("open", !results_div.classed("open"));
+  
+  // open search box if not home page
+  if(!d3.select("body").classed("home")){
+    d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
+  }
+  
+  // focus input
+  var search_input = this.tagName.toLowerCase() === "input" ? this : d3.select(this.parentNode).select("input").node();
+  search_input.focus();
 });
 
 </script>

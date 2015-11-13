@@ -105,7 +105,28 @@ body.home {
   }
 
   #search-home {
-    margin-bottom: 20px;
+    background-color: rgba(103, 117, 148, 0.5);
+    display: none;
+    height: 40vh;
+    margin-bottom: 7px 0 20px 0;
+    overflow-y: scroll;
+    border: 1px solid rgba(255,255,255,0.5);
+    &.open{
+      display: block;
+    }
+
+    a.search-item {
+      display: block;
+      padding: 10px 10px 3px;
+      font-family: $lato;
+      font-weight: 400;
+      font-size: 18px;
+      color: white;
+      &:hover,
+      &:focus {
+        background-color: sienna;
+      }
+    }
   }
 
   /* small design */
@@ -263,26 +284,6 @@ body.home {
 
 }
 
-.search-body {
-  background-color: rgba(103, 117, 148, 0.5);
-  height: 40vh;
-  margin-top: 7px;
-  overflow-y: scroll;
-  border: 1px solid rgba(255,255,255,0.5);
-
-  a.search-item {
-    display: block;
-    padding: 10px 10px 3px;
-    font-family: $lato;
-    font-weight: 400;
-    font-size: 18px;
-    color: white;
-    &:hover,
-    &:focus {
-      background-color: sienna;
-    }
-  }
-}
 
 #search-switch.adv {
   text-align: right;

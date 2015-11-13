@@ -305,19 +305,30 @@ window.onload = function() {
       // Press "s" to highlight most recent search
       if (d3.event.keyCode === 83) {
         // if (!search.container) search.container = d3.select("#search-global");
-        d3.select(".search-box input").node().focus();
-        d3.select(".search-box").classed("open", true);
-        d3.select("#search-simple-nav").classed("open", true);
+        // d3.select(".search-box input").node().focus();
+        // d3.select(".search-box").classed("open", true);
+        if(d3.select("body").classed("home")){
+          d3.select("#search-home").classed("open", true);
+          d3.select("#home-search-input").node().focus();
+        }
+        else {
+          d3.select("#search-simple-nav").classed("open", true);
+          d3.select("#nav-search-input").node().focus();
+          d3.select(".search-box").classed("open", true);
+        }
       }
 
     }
     else {
 
-      // "ESC" button
-      if (d3.event.keyCode === 27) {
-
-      }
-
+    }
+    
+    // "ESC" button
+    if (d3.event.keyCode === 27) {
+      // close all search results
+      d3.selectAll(".search-body").classed("open", false);
+      d3.selectAll(".search-input").each(function(){ this.blur(); });
+      d3.select(".search-box").classed("open", false);
     }
 
   });

@@ -260,76 +260,37 @@ body.search #search-btn {
   opacity: 0.8;
   background-color: #010103; }
 
-  #search-simple-nav {
-    display: none;
-    position: fixed;
-    top: 43px;
-    right: 3px;
-    border: 1px solid black;
-    background-color: #ccc;
-    z-index: 4; }
-    #search-simple-nav:before {
-      content: "";
-      border-style: solid;
-      border-width: 0 9px 9px 9px;
-      border-color: transparent transparent black transparent;
-      height: 0px;
+  @media all and (max-width: 415px) {
+    #top-nav {
       position: absolute;
-      right: 12px;
-      top: -9px;
-      width: 0px;
-      -webkit-transform: rotate(360deg); }
-      #search-simple-nav.open {
-        display: block; }
-        #search-simple-nav section {
-          display: block;
-          padding: 15px; }
-          #search-simple-nav .results-title h3 {
-            display: inline-block; }
-            #search-simple-nav .results-title a {
-              display: inline-block;
-              float: right; }
-    #search-simple-nav .search-results a.search-item {
-      display: block; }
-      #search-simple-nav .search-results a.search-item:focus,
-      #search-simple-nav .search-results a.search-item:hover {
-        background-color: gray; }
-    #search-simple-nav .results-show-all {
-      padding: 5px 10px 7px;
-      text-align: center;
-      background-color: #fff; }
-
-@media all and (max-width: 415px) {
-  #top-nav {
-    position: absolute;
-    top: 0;
-    z-index: 5;
-    width: 100vw;   }
-    #menu {
-      -webkit-justify-content: space-around;
-      -moz-justify-content: space-around;
-      justify-content: space-around;
-      width: 100%;   }
-      #menu footer {
-        display: none;   }
-        .hidden {
+      top: 0;
+      z-index: 5;
+      width: 100vw;   }
+      #menu {
+        -webkit-justify-content: space-around;
+        -moz-justify-content: space-around;
+        justify-content: space-around;
+        width: 100%;   }
+        #menu footer {
           display: none;   }
-          body.home nav #menu .profiles-drawer {
+          .hidden {
             display: none;   }
-            body.home nav #menu ul {
-              padding-bottom: 20vh;   }
-              body.home nav #menu ul li {
-                margin: 10px 0;
-                text-align: center;   }
-          body.home nav #menu .about-sum {
-            padding-top: 20vh;   }
-            body.home nav #menu .about-sum.open {
-              padding-top: 5vh;   }
-          body.home nav #menu-btn {
-            display: block;
-            padding: 12px 16px;
-            color: white;
-            opacity: 0.8;   }
+            body.home nav #menu .profiles-drawer {
+              display: none;   }
+              body.home nav #menu ul {
+                padding-bottom: 20vh;   }
+                body.home nav #menu ul li {
+                  margin: 10px 0;
+                  text-align: center;   }
+            body.home nav #menu .about-sum {
+              padding-top: 20vh;   }
+              body.home nav #menu .about-sum.open {
+                padding-top: 5vh;   }
+            body.home nav #menu-btn {
+              display: block;
+              padding: 12px 16px;
+              color: white;
+              opacity: 0.8;   }
 }
 
 @media all and (min-width: 416px) {
@@ -702,6 +663,45 @@ body.search .search-results-container {
   overflow: auto;
   outline: none;
   position: relative; }
+
+  #search-simple-nav {
+    display: none;
+    position: fixed;
+    top: 43px;
+    right: 3px;
+    border: 1px solid black;
+    background-color: #ccc;
+    z-index: 4; }
+    #search-simple-nav:before {
+      content: "";
+      border-style: solid;
+      border-width: 0 9px 9px 9px;
+      border-color: transparent transparent black transparent;
+      height: 0px;
+      position: absolute;
+      right: 12px;
+      top: -9px;
+      width: 0px;
+      -webkit-transform: rotate(360deg); }
+      #search-simple-nav.open {
+        display: block; }
+        #search-simple-nav section {
+          display: block;
+          padding: 15px; }
+          #search-simple-nav .results-title h3 {
+            display: inline-block; }
+            #search-simple-nav .results-title a {
+              display: inline-block;
+              float: right; }
+    #search-simple-nav .search-results a.search-item {
+      display: block; }
+      #search-simple-nav .search-results a.search-item:focus,
+      #search-simple-nav .search-results a.search-item:hover {
+        background-color: gray; }
+    #search-simple-nav .results-show-all {
+      padding: 5px 10px 7px;
+      text-align: center;
+      background-color: #fff; }
 body.home {
   position: relative;
   height: 100vh; }
@@ -770,23 +770,40 @@ body.home {
                             body.home .logo {
                               margin: 40px 0; }
                               body.home #search-home {
-                                margin-bottom: 20px; }
-                                @media all and (max-width: 415px) {
-                                  body.home .home-container {
-                                    height: 184vh;
-                                    overflow-y: hidden;   }
-                                    body.home article.landing {
-                                      height: 94vh;   }
-                                      body.home .content {
-                                        position: absolute;
-                                        top: 0;   }
-                                        body.home .profile-sum-link {
-                                          display: inline-block;
-                                          width: 38vw;
-                                          height: 38vw;
-                                          border: 2px solid white;
-                                          margin: 20px 5vw;
-                                          background-color: rgba(255, 255, 255, 0.5);   }
+                                background-color: rgba(103, 117, 148, 0.5);
+                                display: none;
+                                height: 40vh;
+                                margin-bottom: 7px 0 20px 0;
+                                overflow-y: scroll;
+                                border: 1px solid rgba(255, 255, 255, 0.5); }
+                                body.home #search-home.open {
+                                  display: block; }
+                                  body.home #search-home a.search-item {
+                                    display: block;
+                                    padding: 10px 10px 3px;
+                                    font-family: "Lato", sans-serif;
+                                    font-weight: 400;
+                                    font-size: 18px;
+                                    color: white; }
+                                    body.home #search-home a.search-item:hover,
+                                    body.home #search-home a.search-item:focus {
+                                      background-color: sienna; }
+  @media all and (max-width: 415px) {
+    body.home .home-container {
+      height: 184vh;
+      overflow-y: hidden;   }
+      body.home article.landing {
+        height: 94vh;   }
+        body.home .content {
+          position: absolute;
+          top: 0;   }
+          body.home .profile-sum-link {
+            display: inline-block;
+            width: 38vw;
+            height: 38vw;
+            border: 2px solid white;
+            margin: 20px 5vw;
+            background-color: rgba(255, 255, 255, 0.5);   }
 }
   @media all and (min-width: 416px) {
     body.home .home-container {
@@ -892,22 +909,6 @@ body.home {
                         opacity: 1; }
                         #home-search-input:hover:-ms-input-placeholder {
                           opacity: 1; }
-
-.search-body {
-  background-color: rgba(103, 117, 148, 0.5);
-  height: 40vh;
-  margin-top: 7px;
-  overflow-y: scroll;
-  border: 1px solid rgba(255, 255, 255, 0.5); }
-  .search-body a.search-item {
-    display: block;
-    padding: 10px 10px 3px;
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: white; }
-    .search-body a.search-item:hover, .search-body a.search-item:focus {
-      background-color: sienna; }
 
 #search-switch.adv {
   text-align: right;
