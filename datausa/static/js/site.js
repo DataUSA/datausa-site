@@ -705,12 +705,16 @@ search.btnExplore = function(d) {
     var ul = xtra.append("ul")
     search.anchors[d.kind].sections.forEach(function(anchor){
       var li = ul.append("li");
-      li.append("h3")
-        .append("a")
+      li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .append("img")
+        .attr("src", "/static/img/icons/" + anchor.anchor + ".svg")
+      li.append("a")
+        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .append("span")
         .text(anchor.title)
-      li.append("p")
-        .text(anchor.description.replace("<<name>>", d.display))
+      // li.append("p")
+      //   .text(anchor.description.replace("<<name>>", d.display))
     })
   }
   

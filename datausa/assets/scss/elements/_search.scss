@@ -21,6 +21,12 @@ body.search {
 
   a {
     color: #333;
+
+    &:hover {
+      border-bottom: 1px solid rgba(51,51,51,0.5);
+      text-decoration: none;
+      @include box();
+    }
   }
 
   h2 {
@@ -212,12 +218,12 @@ body.search {
     .search-refine {
       @include flex-size(0 0 200px);
       padding-left: 10px;
+      overflow: scroll;
       
       a.clear {
-        background-color: #FEEFB3;
         color: #9F6000;
         display: none;
-        padding: 10px;
+        padding: 10px 10px 0;
       }
       
       div {
@@ -234,7 +240,7 @@ body.search {
 
       li {
         margin-left: 10px;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 300;
         line-height: 1.5;
       }
@@ -245,7 +251,7 @@ body.search {
         letter-spacing: 0.1em;
 
         a {
-          color: #666;
+          color: #828282;
         }
       }
 
@@ -277,10 +283,7 @@ body.search {
         @include flex();
         @include flex-direction(row);
         @include flex-wrap();
-        font-family: $palanquin;
-        font-size: 12px;
-        color: white;
-        line-height: 1.2em;
+        @include align-items(flex-start);
         padding: 13px 0;
         margin: 0px 20px 0px 10px;
         border-bottom: 1px solid #ccc;
@@ -295,8 +298,10 @@ body.search {
         }
 
         &:hover {
+          cursor: pointer;
+
           .thumb {
-            opacity: 0.5 !important;
+            opacity: 0.75 !important;
           }
         }
         
@@ -308,11 +313,23 @@ body.search {
         }
         
         .info {
-          @include flex-size(5);
+          @include flex-size(1);
           margin: 0 10px;
+
+          &:hover {
+            .expand {
+              color: #000 !important;
+            }
+          }
           
-          h2 a {
-            font-size: 11px;
+          h2 {
+            .expand {
+              position: relative;
+              top: 1px;
+              margin-left: 5px;
+              font-size: 19px;
+              color: #888;
+            }
           }
           
           .xtra { 
@@ -335,7 +352,14 @@ body.search {
         }
         
         div.profile {
-          @include flex-size(2);
+          @include flex-size(0 0 110px);
+          padding: 0 0px 30px 0px;
+
+          &:hover {
+            a {
+              border-bottom: 1px solid;
+            }
+          }
         }
         
       }

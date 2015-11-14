@@ -2,6 +2,14 @@ body.home {
   position: relative;
   height: 100vh;
 
+  .close-btn {
+    display: none;
+  }
+
+  #top-nav {
+    position: fixed;
+  }
+
   a {
     font-family: $lato;
     font-weight: 400;
