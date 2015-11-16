@@ -4,6 +4,7 @@ description: "Here we present trends in jobs, wages, industries and family struc
 topics:
   - category: "Occupations"
     title: "Most Common"
+    slug: "top_occ_num_emp"
     class: "flex"
     source: NO
     description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
@@ -52,6 +53,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
+    slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
@@ -98,6 +100,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
+    slug: "top_occ_med_earnings"
     description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
@@ -141,7 +144,8 @@ topics:
           label: "Bottom 5"
           scale: "discrete"
           value: "acs_occ"
-  - viz:
+  - slug: "tmap_occ_num_emp"
+    viz:
       attrs: "acs_occ"
       color: "acs_occ_2"
       data:
@@ -161,6 +165,7 @@ topics:
       type: "tree_map"
   - category: "Wages"
     title: "Average Wage"
+    slug: "income"
     description: "On average, people in <<name>> had a median income of <<var namespace=splash|key=income>> in 2013. This makes <<name>> the <<var namespace=splash|key=income_rank>> richest <<level>> in the United States."
     stat:
       - title: "Median Income"
@@ -182,6 +187,7 @@ topics:
         value: "geo"
   - title: "Wage by Gender"
     subtitle: "<<sub show=sex|sex=1|col=avg_wage>>"
+    slug: "income_gender"
     description: "<<top show=sex|order=avg_wage|sort=desc|col=name>> full-time employees in <<name>> make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2>> times more than <<top show=sex|order=avg_wage|sort=asc|col=name>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Median Male Income"
@@ -209,6 +215,7 @@ topics:
       y: "avg_wage"
   - title: "Wage by Race & Ethnicity"
     subtitle: "<<sub show=race|col=avg_wage>>"
+    slug: "income_ethnicity"
     description: "<<top show=race|order=avg_wage|sort=desc|col=name>> citizens earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
     stat:
       - title: "Race or Ethnicity with Highest Median Income"
@@ -233,6 +240,7 @@ topics:
       y: "avg_wage"
   - title: "Wage Gap"
     subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
+    slug: "income_distro"
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
@@ -256,6 +264,7 @@ topics:
       y: "num_ppl"
   - title: "Wage by Location"
     sumlevel: "nation,state,county"
+    slug: "income_geo"
     description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
     viz:
       attrs: "geo"
@@ -272,6 +281,7 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Poverty by Age and Gender"
+    slug: poverty_age_gender
     stat:
       - title: "Largest demographic living in poverty"
         value: "<<top col=sex-ageBucket|required=poverty_female_under5,poverty_female_5,poverty_female_6to11,poverty_female_12to14,poverty_female_15,poverty_female_16to17,poverty_female_18to24,poverty_female_25to34,poverty_female_35to44,poverty_female_45to54,poverty_female_55to64,poverty_female_65to74,poverty_female_75over,poverty_male_under5,poverty_male_5,poverty_male_6to11,poverty_male_12to14,poverty_male_15,poverty_male_16to17,poverty_male_18to24,poverty_male_25to34,poverty_male_35to44,poverty_male_45to54,poverty_male_55to64,poverty_male_65to74,poverty_male_75over>>"
@@ -298,6 +308,7 @@ topics:
         value: "bucket"
       y: "num_ppl"
   - title: "Poverty by Race & Ethnicity"
+    slug: "poverty_ethnicity"
     stat:
       - title: "Largest race or ethnicity living in poverty"
         value: "<<top col=race|force=acs.yg_poverty_race>>"
@@ -322,6 +333,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
+    slug: "top_ind_num_emp"
     description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
@@ -368,6 +380,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
+    slug: "top_ind_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
@@ -414,6 +427,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paying"
+    slug: "top_ind_med_earnings"
     description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
@@ -457,7 +471,8 @@ topics:
           label: "Bottom 5"
           scale: "discrete"
           value: "acs_ind"
-  - viz:
+  - slug: "tmap_ind_num_emp"
+    viz:
       attrs: "acs_ind"
       color: "acs_ind_2"
       data:
