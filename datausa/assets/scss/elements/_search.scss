@@ -21,22 +21,21 @@ body.search {
 
   a {
     color: #333;
+    @include transition(color 0.15s);
 
     &:hover {
-      border-bottom: 1px solid rgba(51,51,51,0.5);
-      text-decoration: none;
-      @include box();
+      color: #000;
     }
   }
 
   h2 {
     font-family: $playfair;
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 400;
     color: #333;
     text-transform: none;
     font-style: normal;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     line-height: 1;
     margin-bottom: 3px;
   }
@@ -54,13 +53,10 @@ body.search {
 
   .bound {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 40px;
+    bottom: 40px;
     left: 0;
     right: 0;
-    height: 100vh;
-    margin-top: -$nav-height;
-    padding-bottom: 10px;
     overflow: hidden;
   }
 
@@ -69,8 +65,7 @@ body.search {
     @include flex-direction(column);
     @include justify(space-around);
     height: 100vh;
-    margin: $nav-height 30px 0;
-    padding-top: $nav-height;
+    margin: 0 30px 0;
 
     .search-nav {
       @include flex-size(0 0 $search-height);
@@ -221,9 +216,26 @@ body.search {
       overflow: scroll;
       
       a.clear {
-        color: #9F6000;
         display: none;
-        padding: 10px 10px 0;
+        margin: 2px 0 0 10px;
+        line-height: 1.5;
+        opacity: 1;
+        font-family: $roboto;
+        font-weight: 300;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(51,51,51,0.65);
+
+        span {
+          display: inline-block;
+          font-size: 18px;
+          vertical-align: baseline;
+        }
+
+        &:hover {
+          color: #000;
+        }
       }
       
       div {
@@ -241,7 +253,7 @@ body.search {
       li {
         margin-left: 10px;
         font-size: 13px;
-        font-weight: 300;
+        font-weight: 400;
         line-height: 1.5;
       }
 
@@ -251,7 +263,12 @@ body.search {
         letter-spacing: 0.1em;
 
         a {
-          color: #828282;
+          color: #868686;
+          @include transition(color 0.15s);
+
+          &:hover {
+            color: #000;
+          }
         }
       }
 
@@ -271,13 +288,14 @@ body.search {
     
     .search-results-dynamic {
       @include flex-size(1);
+      overflow: scroll;
     }
 
     .search-results {
       width: 100%;
       max-height: 100vh;
       color: #333;
-      overflow: scroll;
+      //overflow: scroll;
       
       .search-item {
         @include flex();
@@ -358,13 +376,20 @@ body.search {
           display: none;
         }
         
-        div.profile {
-          @include flex-size(0 0 110px);
+        .profile {
+          @include flex-size(0 0 120px);
           padding: 0 0px 30px 0px;
+
+          a {
+            font-family: $roboto;
+            font-weight: 300;
+            font-size: 16px;
+            letter-spacing: 0.05em;
+          }
 
           &:hover {
             a {
-              border-bottom: 1px solid;
+              border-bottom: 1px solid rgba(51,51,51,0.3);
             }
           }
         }
@@ -408,10 +433,26 @@ body.search {
         }
 
         ul {
+          @include flex();
+          @include justify(space-between);
 
           li {
             display: inline-block;
             text-align: center;
+            padding: 2px 5px;
+
+            a {
+              color: #333;
+              opacity: 0.7;
+              @include transition(opacity 0.25s);
+            }
+
+            &:hover {
+              a {
+                color: #000;
+                opacity: 1;
+              }
+            }
 
             & > a {
               display: block;
@@ -419,11 +460,11 @@ body.search {
               font-family: $roboto;
               text-transform: uppercase;
               font-weight: 300;
-              font-size: 10px;
+              font-size: 11px;
               letter-spacing: 0.1em;
-              color: #333;
             }
           }
+
           img {
             width: 30px;
           }
