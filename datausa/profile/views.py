@@ -47,7 +47,7 @@ def splash_img(attr_kind, attr_id, mode="thumb"):
 
 @mod.route("/<attr_type>/<attr_id>/<section>/<topic>/")
 def embed_view(attr_type, attr_id, section, topic):
-
+    viz_only = request.args.get("viz", False)
     if not attr_type in PROFILES:
         abort(404);
 
@@ -57,4 +57,4 @@ def embed_view(attr_type, attr_id, section, topic):
     topics = topic.split(",")
     section = p.section_by_topic(section, topics)
 
-    return render_template("profile/embed.html", section = section)
+    return render_template("profile/embed.html", section = section, viz_only=viz_only)
