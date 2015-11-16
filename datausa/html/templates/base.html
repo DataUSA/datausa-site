@@ -33,7 +33,8 @@
           dictionary = {{ g.dictionary|safe }},
           percentages = {{ g.percentages|safe }},
           proportions = {{ g.proportions|safe }},
-          affixes = {{ g.affixes|safe }};
+          affixes = {{ g.affixes|safe }},
+          builds = [];
 
       for (var key in affixes) {
         if (key in dictionary) affixes[dictionary[key]] = affixes[key];
@@ -60,6 +61,8 @@
 
     <!-- All Pages -->
     <script type="text/javascript">
+
+      viz.loadBuilds(builds);
 
       if (resizeFunctions.length) {
 
