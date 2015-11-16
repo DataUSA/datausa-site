@@ -5,7 +5,7 @@ from section import Section
 from config import API
 from datausa.utils.data import datafold, fetch
 from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
-
+import json
 
 class Profile(object):
     """An abstract class for all Profiles.
@@ -34,7 +34,7 @@ class Profile(object):
         self.attr_type = attr_type
 
         self.variables = self.load_vars()
-        self.splash = Section("splash", self)
+        self.splash = Section(self.open_file("splash"), self)
 
     def children(self, **kwargs):
         attr_id = kwargs.get("attr_id", self.id)
@@ -74,8 +74,28 @@ class Profile(object):
         except ValueError:
             return []
 
+    def open_file(self, f):
+        profile_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(f))
+        return open(file_path)
+
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 
         # pass each file to the Section class and return the final array
-        return [Section(f, self) for f in self.splash.sections]
+        return [Section(self.open_file(f), self) for f in self.splash.sections]
+
+    def section_by_topic(self, section_name, slugs):
+        '''Section: Creates a custom Section object with the desired topics by slug'''
+        if section_name in self.splash.sections:
+            # read from disk only if the name is in our sections list
+            section_file = self.open_file(section_name)
+            section_dict = yaml.load(section_file)
+            filtered_topics = [t for t in section_dict['topics'] if 'slug' in t and t['slug'] in slugs]
+            desired_config = {'topics': filtered_topics}
+            if 'title' in section_dict:
+                desired_config['title'] = section_dict['title']
+            if 'description' in section_dict:
+                desired_config['description'] = section_dict['description']
+            return Section(json.dumps(desired_config), self)
+        raise Exception("Bad section name!")

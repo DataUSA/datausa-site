@@ -36,10 +36,10 @@ class Section(object):
             profile (Profile): The Profile class instance this Section will be a part of.
 
         """
-
-        profile_path = os.path.dirname(os.path.realpath(__file__))
-        file_path = os.path.join(profile_path, profile.attr_type, "{}.yml".format(f))
-        config = "".join(open(file_path).readlines())
+        if isinstance(f, basestring):
+            config = f
+        else:
+            config = "".join(f.readlines())
 
         # Set the attr and profile attributes
         self.attr = profile.attr

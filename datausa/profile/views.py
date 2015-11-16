@@ -44,3 +44,17 @@ def statView():
 @mod.route("/<attr_kind>/<attr_id>/img/")
 def splash_img(attr_kind, attr_id, mode="thumb"):
     return get_img(attr_kind, attr_id, "splash")
+
+@mod.route("/<attr_type>/<attr_id>/<section>/<topic>/")
+def embed_view(attr_type, attr_id, section, topic):
+
+    if not attr_type in PROFILES:
+        abort(404);
+
+    g.page_class = attr_type
+
+    p = Profile(attr_id, attr_type)
+    topics = topic.split(",")
+    section = p.section_by_topic(section, topics)
+
+    return render_template("profile/embed.html", section = section)
