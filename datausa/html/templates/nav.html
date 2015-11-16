@@ -147,9 +147,7 @@ d3.select("#menu-btn").on("click", function(){
   d3.event.preventDefault();
 });
 
-d3.select("#search-btn").on("click", function(e){
-  // console.log(e, d3.event)
-  // return false;
+d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   var results_div_id = d3.select(this).attr("data-results");
   var results_div = d3.select("#"+results_div_id)
   results_div.classed("open", !results_div.classed("open"));
