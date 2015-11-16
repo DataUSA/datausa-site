@@ -3,6 +3,7 @@ description: "The Census Bureau collects a large amount of data regarding higher
 
 topics:
   - title: "Majors"
+    slug: "majors"
     select:
       data: "degree"
       default: "5"
@@ -74,6 +75,7 @@ topics:
       size: "grads_total"
       type: "tree_map"
   - title: "Gender"
+    slug: "edu_gender"
     description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender."
     viz:
       attrs:
@@ -97,6 +99,7 @@ topics:
         value: "university"
       y: "grads_total"
   - title: "Race & Ethnicity"
+    slug: "edu_ethnicity"
     stat:
       - title: "Most common student race or ethnicity"
         value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"

@@ -4,6 +4,7 @@ description: "The American Census Survey contains a lot of rich information pert
 topics:
   - category: "Income"
     title: "Household Income"
+    slug: "household_income"
     stat:
       - title: "Median Household Income"
         value: "<<var namespace=splash|key=income>>"
@@ -43,6 +44,7 @@ topics:
       y: "num_households"
   - category: "Housing"
     title: "Property Value"
+    slug: "property_value"
     stat:
       - title: "Median Property Value"
         value: "<<top col=median_property_value>>"
@@ -86,6 +88,7 @@ topics:
         label: "USA"
         value: "01000US"
   - title: "Property Taxes"
+    slug: "property_taxes"
     description: "The majority of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
     viz:
       attrs: "geo"
@@ -107,6 +110,7 @@ topics:
         value: "bucket"
       y: "num_households"
   - title: "Rent vs Own"
+    slug: "rent_own"
     description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=1>>, of the population of <<name>> owns their home. This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=0>>"
     viz:
       attrs: "geo"
@@ -124,6 +128,7 @@ topics:
         value: "geo"
   - category: "Transportation"
     title: "Car Ownership"
+    slug: "num_vehicles"
     description: "The majority of households in <<name>> have <<top col=vehicles|force=acs.yg_vehicles>> cars, followed by <<top col=vehicles|force=acs.yg_vehicles|rank=2>> <<plural text=car|col=vehicles|force=acs.yg_vehicles|rank=2>>."
     viz:
       attrs: "geo"
@@ -145,6 +150,7 @@ topics:
         value: "bucket"
       y: "num_households"
   - title: "Commute Time"
+    slug: "commute_time"
     stat:
       - title: "Average Travel Time"
         value: "<<var namespace=commute|key=mean_commute_minutes|row=1>>"
@@ -185,6 +191,7 @@ topics:
         value: "bucket"
       y: "num_households"
   - title: "Commuter Transportation"
+    slug: "mode_transport"
     stat:
       - title: "Most common method of travel"
         value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>>"

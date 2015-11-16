@@ -3,7 +3,8 @@ description: "The American Community Survey collects information on the demograp
 
 topics:
   - category: "Age"
-    title: "Age by Nationality"
+    title: "Age by Nativity"
+    slug: "age_nativity"
     stat:
       - title: "Median Native Age"
         value: "<<top col=nativity_us>>"
@@ -33,6 +34,7 @@ topics:
       y: "num_ppl"
   - category: "Heritage"
     title: "Global Diversity"
+    slug: "global_diversity"
     stat_stack: YES
     stat:
       - title: "High relative number of people born in"
@@ -52,6 +54,7 @@ topics:
       id: "birthplace"
       type: "geo_map"
   - title: "Citizenship"
+    slug: "citizenship"
     description: "The majority of the population of <<name>> are US citizens."
     stat:
       - title: "Percent with citizenship"
@@ -72,6 +75,7 @@ topics:
         scale: "discrete"
         value: "geo"
   - title: "Race & Ethnicity"
+    slug: "ethnicity"
     description: "The majority of citizens in <<name>> are <<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>, with <<top col=acs_race|rank=2|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>> being the second most common."
     stat:
       - title: "Most common race or ethnicity in <<name>> is"
@@ -94,6 +98,7 @@ topics:
         value: "race"
       y: "num_ppl"
   - title: "Languages"
+    slug: "languages"
     description: "The most common language spoken in <<name>>, other than English is <<top show=language|order=num_speakers|where=language:~^002>>. <<top col=non_eng_speakers_pct>> of <<name>> citizens are non-English speakers, versus the <<top geo=01000US|col=non_eng_speakers_pct>> national average."
     stat_stack: YES
     stat:
@@ -117,6 +122,7 @@ topics:
       y: "num_speakers"
   - category: "Military"
     title: "Veterans"
+    slug: "veterans"
     description: "<<name>> has a large population of citizens who served in <<top col=conflict|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>>, <<top col=ratio|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>> times greater than any other conflict."
     stat_stack: YES
     stat:

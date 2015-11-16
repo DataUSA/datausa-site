@@ -4,6 +4,7 @@ description: "The University of Wiconsin has collected data on various health an
 topics:
   - category: "Healthcare"
   - title: "Clinician to Patient Ratios"
+    slug: "clinician_patient_ratio"
     subtitle: "<<sub dataset=chr>>"
     sumlevel: "!nation"
   - class: "flex"
@@ -32,6 +33,7 @@ topics:
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
   - title: "Healthcare Costs"
     subtitle: "<<sub dataset=chr>>"
+    slug: "healthcare_cost"
     description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the cost of healthcare in relation to each other."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest healthcare cost"
@@ -54,6 +56,7 @@ topics:
       type: "geo_map"
   - title: "Obesity and Diabetes"
     subtitle: "<<sub dataset=chr>>"
+    slug: "obesity_diabetes"
     description: "Here we can compare the obesity and diabetes rates for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
@@ -77,6 +80,7 @@ topics:
       y: "adult_obesity"
   - title: "Substance Abuse"
     subtitle: "<<sub dataset=chr>>"
+    slug: "substance_abuse"
     select:
       method: "color"
       data:
@@ -106,6 +110,7 @@ topics:
       type: "geo_map"
   - title: "Sexually Transmitted Diseases"
     subtitle: "<<sub dataset=chr>>"
+    slug: "stds"
     description: "Here we can compare HIV prevalance and sexually transmitted infections for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
@@ -130,6 +135,7 @@ topics:
   - category: "Crime"
     subtitle: "<<sub dataset=chr>>"
     title: "Crime and Safety"
+    slug: "crime"
     select:
       method: "color"
       data:
