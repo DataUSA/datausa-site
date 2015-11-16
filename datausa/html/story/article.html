@@ -1,0 +1,19 @@
+Story page
+<style>
+img.author {
+    width:100px;
+    height: auto;
+}
+</style>
+<h3>{{ story.title }}</h3>
+<img src="{{ story.background_image }}"/>
+<h4>{{ story.description }}</h4>
+<p>{{ story.date }}</p>
+{% for author in story.authors %}
+    <a href="{{author.link}}">{{ author.name }}</a>
+    <img class="author" src="{{author.img}}"/>
+{% endfor %}
+{% set section = story %}
+<section class="">
+  {% include "templates/includes/topic.html" %}
+</section>
