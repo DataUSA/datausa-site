@@ -28,7 +28,7 @@ class Section(object):
 
     """
 
-    def __init__(self, f, profile):
+    def __init__(self, f, profile, anchor=""):
         """Initializes a new Section class.
 
         Args:
@@ -43,7 +43,7 @@ class Section(object):
 
         # Set the attr and profile attributes
         self.attr = profile.attr
-        self.anchor = f
+        self.anchor = anchor
         self.profile = profile
 
         # regex to find all keys matching {{*}}

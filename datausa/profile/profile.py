@@ -83,7 +83,7 @@ class Profile(object):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 
         # pass each file to the Section class and return the final array
-        return [Section(self.open_file(f), self) for f in self.splash.sections]
+        return [Section(self.open_file(f), self, f) for f in self.splash.sections]
 
     def section_by_topic(self, section_name, slugs):
         '''Section: Creates a custom Section object with the desired topics by slug'''
