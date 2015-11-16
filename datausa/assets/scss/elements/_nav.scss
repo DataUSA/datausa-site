@@ -140,19 +140,31 @@ body {
   }
   
   .search-box {
-    @include transition(width 0.55s);
+    position: absolute;
+    right: 0;
+    margin-right: 15px;
+    width: 0;
+    padding: 0px;
     display: inline-block;
     overflow: hidden;
-    padding: 0px;
     text-align: left;
-    width: 0px;
+    opacity: 0;
+    @include transition(width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s);
   }
   .search-box.open {
-    width: 200px;
+    width: $search-mini-width + 3;
+    opacity: 1;
   }
   .search-box input {
     @include box();
     width: 100%;
+    border: 0;
+    border-bottom: 1px solid #333;
+    padding: 3px 25px 3px 5px;
+    outline: 0;
+    font-family: $playfair;
+    font-size: 16px;
+    letter-spacing: 0.06em;
   }
   
 }

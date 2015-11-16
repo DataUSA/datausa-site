@@ -597,7 +597,7 @@ var search = {
 
 search.reload = function() {
 
-  this.container.select(".search-results").html("<div id='search-loading'>Loading Results</div>");
+  this.container.select(".search-results").html("<div id='search-loading'><p>Loading Results...</p></div>");
   
   var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
   // var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
@@ -726,8 +726,8 @@ search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){ 
                       return "/profile/" + d.kind + "/" + d.id + "/"; 
                     });
-  search_item.append("h3").text(d.display);
-  search_item.append("span").text(function(d){
+  search_item.append("h2").text(d.display);
+  search_item.append("p").attr("class", "subtitle").text(function(d){
     if(sumlevels_by_id[d.kind][d.sumlevel]){
       return sumlevels_by_id[d.kind][d.sumlevel].name;
     }
