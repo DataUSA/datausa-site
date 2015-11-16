@@ -1,4 +1,9 @@
-Story page
+{% extends "templates/nav.html" %}
+
+{% block title %}{{ story.title }}{% endblock %}
+
+{% block body %}
+
 <style>
 img.author {
     width:100px;
@@ -17,3 +22,4 @@ img.author {
 <section class="">
   {% include "templates/includes/topic.html" %}
 </section>
+{% endblock %}
