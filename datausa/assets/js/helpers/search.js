@@ -202,7 +202,7 @@ search.btnExplore = function(d) {
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
         .append("img")
-        .attr("src", "/static/img/icons/" + anchor.anchor + ".svg")
+        .attr("src", "/static/img/icons/" + anchor.anchor + "_b.svg")
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
         .append("span")

@@ -640,13 +640,18 @@ body.search .search-results-container {
             flex: 1;
             margin: 0 10px; }
             body.search .search-results-container .search-results .search-item .info:hover .expand {
-              color: #000 !important; }
-            body.search .search-results-container .search-results .search-item .info h2 .expand {
-              position: relative;
-              top: 1px;
-              margin-left: 5px;
-              font-size: 19px;
-              color: #888; }
+              color: #000 !important;
+              text-decoration: none;
+              border-bottom: 0; }
+            body.search .search-results-container .search-results .search-item .info a:hover {
+              text-decoration: none;
+              border-bottom: 0; }
+              body.search .search-results-container .search-results .search-item .info h2 .expand {
+                position: relative;
+                top: 1px;
+                margin-left: 5px;
+                font-size: 19px;
+                color: #888; }
             body.search .search-results-container .search-results .search-item .info .xtra {
               display: none; }
               body.search .search-results-container .search-results .search-item .info .fa-angle-down {
@@ -703,6 +708,20 @@ body.search .search-results-container {
                 cursor: pointer;
                 color: #000;
                 text-decoration: none; }
+        body.search .search-results-container .search-results .xtra ul li {
+          display: inline-block;
+          text-align: center; }
+          body.search .search-results-container .search-results .xtra ul li > a {
+            display: block;
+            margin-top: 7px;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: #333; }
+        body.search .search-results-container .search-results .xtra ul img {
+          width: 30px; }
   body.search .search-results-container .search-close {
     float: right; }
 

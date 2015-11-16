@@ -319,7 +319,14 @@ body.search {
           &:hover {
             .expand {
               color: #000 !important;
+              text-decoration: none;
+              border-bottom: 0;
             }
+          }
+
+          a:hover {
+            text-decoration: none;
+            border-bottom: 0;
           }
           
           h2 {
@@ -397,6 +404,28 @@ body.search {
               text-decoration: none;
             }
 
+          }
+        }
+
+        ul {
+
+          li {
+            display: inline-block;
+            text-align: center;
+
+            & > a {
+              display: block;
+              margin-top: 7px;
+              font-family: $roboto;
+              text-transform: uppercase;
+              font-weight: 300;
+              font-size: 10px;
+              letter-spacing: 0.1em;
+              color: #333;
+            }
+          }
+          img {
+            width: 30px;
           }
         }
       } 
