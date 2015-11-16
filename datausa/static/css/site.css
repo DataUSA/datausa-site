@@ -662,10 +662,8 @@ body.search .search-results-container {
           background-color: #666; }
           body.search .search-results-container .search-results .search-item:empty {
             display: none; }
-            body.search .search-results-container .search-results .search-item:hover {
-              cursor: pointer; }
-              body.search .search-results-container .search-results .search-item:hover .thumb {
-                opacity: 0.75 !important; }
+            body.search .search-results-container .search-results .search-item:hover .thumb {
+              opacity: 0.75 !important; }
         body.search .search-results-container .search-results .search-item .thumb {
           -webkit-box-flex: 0 0 50px;
           -moz-box-flex: 0 0 50px;
@@ -682,10 +680,12 @@ body.search .search-results-container {
             -ms-flex: 1;
             flex: 1;
             margin: 0 10px; }
-            body.search .search-results-container .search-results .search-item .info:hover .expand {
-              color: #000 !important;
-              text-decoration: none;
-              border-bottom: 0; }
+            body.search .search-results-container .search-results .search-item .info:hover {
+              cursor: pointer; }
+              body.search .search-results-container .search-results .search-item .info:hover .expand {
+                color: #000 !important;
+                text-decoration: none;
+                border-bottom: 0; }
             body.search .search-results-container .search-results .search-item .info a:hover {
               text-decoration: none;
               border-bottom: 0; }
@@ -803,9 +803,6 @@ body.search .search-results-container {
             width: 30px; }
   body.search .search-results-container .search-close {
     float: right; }
-
-body.story #d3plus_tooltip_id_text-tooltip {
-  z-index: 0 !important; }
 
 #search-simple-nav {
   display: none;
@@ -926,7 +923,7 @@ body.home {
                       body.home .bg-filter.landing {
                         width: 100vw;
                         height: 190vh;
-                        background: linear-gradient(#cfedff, #677594 55%, white 70%, #fdc8b8 80%, #dc5137);
+                        background: linear-gradient(#cfedff 0%, #677594 55%, white 70%, #fdc8b8 80%, #dc5137 100%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -37vh;

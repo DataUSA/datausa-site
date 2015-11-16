@@ -306,13 +306,17 @@ window.onload = function() {
       if (d3.event.keyCode === 83) {
         if(d3.select("body").classed("home")){
           d3.select("#search-home").classed("open", true);
-          d3.select("#home-search-input").node().focus();
+          var search_input = d3.select("#home-search-input");
+          search_input.node().focus();
         }
         else {
           d3.select("#search-simple-nav").classed("open", true);
-          d3.select("#nav-search-input").node().focus();
+          var search_input = d3.select("#nav-search-input");
+          search_input.node().focus();
           d3.select(".search-box").classed("open", true);
         }
+        search.container = d3.select("#search-" + search_input.attr("data-search"));
+        search.reload();
       }
 
     }
@@ -682,10 +686,10 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  var search_item = d3.select(this).on("click", search.open_details);
-  var thumb = search_item.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb')
-  var info = search_item.append("div").attr("class", 'info')
-  var profile = search_item.append("div").attr("class", 'profile')
+  var search_item = d3.select(this);
+  var thumb = search_item.append("span").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb');
+  var info = search_item.append("div").attr("class", 'info').on("click", search.open_details);
+  var profile = search_item.append("div").attr("class", 'profile');
   
   // set thumbnail
   thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
@@ -757,7 +761,7 @@ search.back = function(index) {
 
 search.open_details = function(d){
   // toggle xtra div
-  var search_item = d3.select(this);
+  var search_item = d3.select(this.parentNode);
   var current_state = search_item.classed("open")
   d3.selectAll(".search-item").classed("open", false)
   search_item.classed("open", !current_state)
@@ -1030,8 +1034,6 @@ var vizStyles = {
 var viz = function(build) {
 
   if (!build.colors) build.colors = vizStyles.defaults;
-
-  console.log(build.container)
 
   build.viz = d3plus.viz()
     .config(viz.defaults(build))

@@ -176,10 +176,10 @@ search.reload = function() {
 }
 
 search.btnExplore = function(d) {
-  var search_item = d3.select(this).on("click", search.open_details);
-  var thumb = search_item.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb')
-  var info = search_item.append("div").attr("class", 'info')
-  var profile = search_item.append("div").attr("class", 'profile')
+  var search_item = d3.select(this);
+  var thumb = search_item.append("span").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb');
+  var info = search_item.append("div").attr("class", 'info').on("click", search.open_details);
+  var profile = search_item.append("div").attr("class", 'profile');
   
   // set thumbnail
   thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
@@ -251,7 +251,7 @@ search.back = function(index) {
 
 search.open_details = function(d){
   // toggle xtra div
-  var search_item = d3.select(this);
+  var search_item = d3.select(this.parentNode);
   var current_state = search_item.classed("open")
   d3.selectAll(".search-item").classed("open", false)
   search_item.classed("open", !current_state)

@@ -9,13 +9,17 @@ window.onload = function() {
       if (d3.event.keyCode === 83) {
         if(d3.select("body").classed("home")){
           d3.select("#search-home").classed("open", true);
-          d3.select("#home-search-input").node().focus();
+          var search_input = d3.select("#home-search-input");
+          search_input.node().focus();
         }
         else {
           d3.select("#search-simple-nav").classed("open", true);
-          d3.select("#nav-search-input").node().focus();
+          var search_input = d3.select("#nav-search-input");
+          search_input.node().focus();
           d3.select(".search-box").classed("open", true);
         }
+        search.container = d3.select("#search-" + search_input.attr("data-search"));
+        search.reload();
       }
 
     }

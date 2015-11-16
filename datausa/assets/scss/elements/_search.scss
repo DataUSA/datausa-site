@@ -327,7 +327,6 @@ body.search {
         }
 
         &:hover {
-          cursor: pointer;
 
           .thumb {
             opacity: 0.75 !important;
@@ -346,6 +345,7 @@ body.search {
           margin: 0 10px;
 
           &:hover {
+            cursor: pointer;
             .expand {
               color: #000 !important;
               text-decoration: none;

@@ -263,12 +263,11 @@
   if (input.node().setSelectionRange !== undefined) {
     input.node().setSelectionRange(search.term.length, search.term.length);
   }
+  input.on("click", function(){
+    d3.event.stopPropagation();
+  })
 
   search.reload();
-  
-  d3.select(document).on("click", function(){
-    d3.select(".search-filters-options").style("opacity", 0).style("display", "none");
-  })
 
 </script>
 {% endblock %}

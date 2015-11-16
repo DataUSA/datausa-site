@@ -13,11 +13,11 @@
           <a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" style="width:80px" /></a>
       </div>
 
-      <div id="search-btn">
+      <div id="search-btn" data-results="search-simple-nav">
         <div class="search-box">
-          <input id="nav-search-input" class="search-input" data-search="simple-nav" type="text" placeholder="Search DataUSA&hellip;" autofocus />
+          <input id="nav-search-input" class="search-input" data-search="simple-nav" type="text" placeholder="Search DataUSA&hellip;" />
         </div>
-        <i class="fa fa-search" data-results="search-simple-nav"></i>
+        <i class="fa fa-search"></i>
       </div>
   </div>
 </nav>
@@ -147,7 +147,9 @@ d3.select("#menu-btn").on("click", function(){
   d3.event.preventDefault();
 });
 
-d3.selectAll("#search-btn .fa-search, #home-search-input").on("click", function(){
+d3.select("#search-btn").on("click", function(e){
+  // console.log(e, d3.event)
+  // return false;
   var results_div_id = d3.select(this).attr("data-results");
   var results_div = d3.select("#"+results_div_id)
   results_div.classed("open", !results_div.classed("open"));
@@ -158,9 +160,26 @@ d3.selectAll("#search-btn .fa-search, #home-search-input").on("click", function(
   }
   
   // focus input
-  var search_input = this.tagName.toLowerCase() === "input" ? this : d3.select(this.parentNode).select("input").node();
-  search_input.focus();
+  var search_input = this.tagName.toLowerCase() === "input" ? d3.select(this) : d3.select(this.parentNode).select("input");
+  search_input.node().focus();
+  
+  // initialize search if input box is empty
+  if(!search_input.property("value")){
+    search.container = d3.select("#search-" + search_input.attr("data-search"));
+    search.reload();
+  }
+  
+  d3.event.stopPropagation();
 });
+
+d3.select(document).on("click", function(){
+
+  // close all search results
+  d3.selectAll(".search-body").classed("open", false);
+  d3.selectAll(".search-input").each(function(){ this.blur(); });
+  d3.select(".search-box").classed("open", false);
+
+})
 
 </script>
 
