@@ -123,6 +123,42 @@ viz.loadData = function(build, next) {
         loaded++;
         if (loaded === build.data.length) {
           build.viz.data(dataArray);
+          var table = build.container.select(".data-table");
+
+          if (table.size()) {
+
+            var headerKeys = d3.keys(dataArray[0]);
+
+            var headers = table.select("thead > tr").selectAll("th")
+              .data(headerKeys);
+            headers.enter().append("th");
+            headers.text(function(d){
+              return d;
+            });
+            headers.exit().remove();
+
+            var rowData = dataArray.map(function(d){
+              return headerKeys.map(function(h){
+                return d[h];
+              });
+            });
+
+            var rows = table.select("tbody").selectAll("tr")
+              .data(rowData);
+            rows.enter().append("tr");
+            rows.each(function(d){
+              var cols = d3.select(this).selectAll("td")
+                .data(d);
+              cols.enter().append("td")
+              cols.text(function(d){
+                return d;
+              })
+              cols.exit().remove();
+            });
+            rows.exit().remove();
+
+          }
+
           viz[next](build);
         }
       })

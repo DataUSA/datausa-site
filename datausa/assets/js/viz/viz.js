@@ -5,7 +5,7 @@ var viz = function(build) {
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
     .background("transparent")
-    .container(build.container)
+    .container(build.container.select(".d3plus"))
     .error("Please Wait")
     .draw();
 

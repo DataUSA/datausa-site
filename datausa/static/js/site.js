@@ -1031,10 +1031,12 @@ var viz = function(build) {
 
   if (!build.colors) build.colors = vizStyles.defaults;
 
+  console.log(build.container)
+
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
     .background("transparent")
-    .container(build.container)
+    .container(build.container.select(".d3plus"))
     .error("Please Wait")
     .draw();
 
@@ -1603,6 +1605,16 @@ viz.loadBuilds = function(builds) {
 
       }
 
+      var table = d3.select(build.container.node().parentNode).selectAll(".data-table");
+      if (table.size()) {
+        d3.select(build.container.node().parentNode.parentNode).select(".data-btn").on("click", function(){
+          d3.event.preventDefault();
+          table.classed("visible", !table.classed("visible"));
+          var text = table.classed("visible") ? "Hide Data Table" : "Show Data Table";
+          d3.select(this).select("span").text(text);
+        });
+      }
+
     });
 
     function resizeApps() {
@@ -1616,7 +1628,7 @@ viz.loadBuilds = function(builds) {
     resizeApps();
     resizeFunctions.push(resizeApps);
 
-    var scrollBuffer = 200, n = [32];
+    var scrollBuffer = -200, n = [32];
     function buildInView(b) {
       var top = window.scrollY, height = window.innerHeight;
       return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
@@ -1837,6 +1849,42 @@ viz.loadData = function(build, next) {
         loaded++;
         if (loaded === build.data.length) {
           build.viz.data(dataArray);
+          var table = build.container.select(".data-table");
+
+          if (table.size()) {
+
+            var headerKeys = d3.keys(dataArray[0]);
+
+            var headers = table.select("thead > tr").selectAll("th")
+              .data(headerKeys);
+            headers.enter().append("th");
+            headers.text(function(d){
+              return d;
+            });
+            headers.exit().remove();
+
+            var rowData = dataArray.map(function(d){
+              return headerKeys.map(function(h){
+                return d[h];
+              });
+            });
+
+            var rows = table.select("tbody").selectAll("tr")
+              .data(rowData);
+            rows.enter().append("tr");
+            rows.each(function(d){
+              var cols = d3.select(this).selectAll("td")
+                .data(d);
+              cols.enter().append("td")
+              cols.text(function(d){
+                return d;
+              })
+              cols.exit().remove();
+            });
+            rows.exit().remove();
+
+          }
+
           viz[next](build);
         }
       })

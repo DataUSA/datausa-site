@@ -7,7 +7,7 @@
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
   {% if topic.title %}
-  <h2>{{ topic.title|safe }}</h2>
+  <h2>{{ topic.title|safe }}<a href="#" class="data-btn"><span>Show Data Table</span><i class="fa fa-table"></i></a></h2>
   {% endif %}
   {% if topic.subtitle %}
   <sub>{{ topic.subtitle|safe }}</sub>
@@ -58,7 +58,15 @@
     </aside>
     {% endif %}
     {% for viz in topic.viz %}
-    <div class="viz"{% if viz.config.height %} style="max-height:{{ viz.config.height }}px; height:{{ viz.config.height }}px;"{% endif %}></div>
+    <div class="viz"{% if viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
+      <div class="d3plus"></div>
+      <div class="data-table">
+        <table>
+          <thead><tr></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
     <script>builds.push({{ viz.serialize()|safe }});</script>
     {% endfor %}
     {% if topic.source != False and not aside and topic.viz %}

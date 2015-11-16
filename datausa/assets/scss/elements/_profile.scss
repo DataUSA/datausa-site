@@ -86,7 +86,7 @@ body.profile {
       background: #ccc;
       @include box();
     }
-    
+
     &:before {
       left: 25px;
       @include shadow(0px 0px 0 #ccc);
@@ -96,7 +96,7 @@ body.profile {
       right: 25px;
       @include shadow(0px 0px 0 #ccc);
     }
-      
+
     &:hover {
       &:before, &:after {
         top: 28px;
@@ -127,6 +127,18 @@ body.profile {
       text-transform: none;
       font-style: normal;
       letter-spacing: 0.03em;
+
+      .data-btn {
+        float: right;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+
+        i {
+          margin: 1px 0 0 5px;
+        }
+
+      }
+
     }
 
     &.flex {
@@ -586,7 +598,7 @@ body.profile {
         font-family: FontAwesome;
         font-size: 13px;
       }
-      
+
       &.close:before {
         content: unicode("f068");
         position: relative;
@@ -655,7 +667,7 @@ body.profile {
       color: rgba(237, 240, 245, 0.5);
       @include transition(opacity 0.25s);
       cursor: default;
-      
+
       &:hover {
         color: #fff;
       }
@@ -705,7 +717,7 @@ body.profile {
       }
     }
   }
-  
+
   #nav-bar-scroll {
     position: fixed;
     height: $prof-nav-height + $stats-bar-height;
@@ -800,7 +812,7 @@ body.profile {
           background: #fff;
           @include box();
         }
-          
+
         &:hover:before {
           width: 80%;
         }
@@ -995,13 +1007,36 @@ body.profile {
         .viz {
           @include flex-size(1 1 auto);
           margin-left: 50px;
-          min-height: 250px;
+          min-height: 300px;
           overflow: hidden;
+          position: relative;
 
-          .d3plus_coordinates.outline {
-            .d3plus_data {
-              fill: transparent !important;
-              pointer-events: none !important;
+          .d3plus {
+
+            .d3plus_coordinates.outline {
+              .d3plus_data {
+                fill: transparent !important;
+                pointer-events: none !important;
+              }
+            }
+
+          }
+
+          .data-table {
+            @include transition(top 0.5s);
+            height: 100%;
+            overflow: scroll;
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: white;
+
+            &.visible {
+              top: 0;
+            }
+
+            table {
+              width: 100%;
             }
           }
 
@@ -1087,7 +1122,7 @@ body.profile {
     line-height: 1.35;
     font-weight: 300;
   }
-  
+
   .d3plus_tooltip_data_seperator {
     background-color: rgba(224, 224, 224, 0.64) !important;
   }

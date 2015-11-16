@@ -1202,8 +1202,14 @@ body.profile p {
       text-transform: none;
       font-style: normal;
       letter-spacing: 0.03em; }
-      body.profile .topic.flex h2 {
-        font-size: 24px; }
+      body.profile .topic h2 .data-btn {
+        float: right;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px; }
+        body.profile .topic h2 .data-btn i {
+          margin: 1px 0 0 5px; }
+    body.profile .topic.flex h2 {
+      font-size: 24px; }
     body.profile .topic h2 ~ sub {
       max-width: 415px;
       width: 50%;
@@ -2098,11 +2104,28 @@ body.profile section {
           -ms-flex: 1 1 auto;
           flex: 1 1 auto;
           margin-left: 50px;
-          min-height: 250px;
-          overflow: hidden; }
-          body.profile section .topic .content .viz .d3plus_coordinates.outline .d3plus_data {
+          min-height: 300px;
+          overflow: hidden;
+          position: relative; }
+          body.profile section .topic .content .viz .d3plus .d3plus_coordinates.outline .d3plus_data {
             fill: transparent !important;
             pointer-events: none !important; }
+          body.profile section .topic .content .viz .data-table {
+            -webkit-transition: top 0.5s;
+            -moz-transition: top 0.5s;
+            -ms-transition: top 0.5s;
+            -o-transition: top 0.5s;
+            transition: top 0.5s;
+            height: 100%;
+            overflow: scroll;
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: white; }
+            body.profile section .topic .content .viz .data-table.visible {
+              top: 0; }
+              body.profile section .topic .content .viz .data-table table {
+                width: 100%; }
         body.profile section .topic .content .viz.mini {
           margin-left: 0;
           min-height: 200px; }

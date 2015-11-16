@@ -71,6 +71,16 @@ viz.loadBuilds = function(builds) {
 
       }
 
+      var table = d3.select(build.container.node().parentNode).selectAll(".data-table");
+      if (table.size()) {
+        d3.select(build.container.node().parentNode.parentNode).select(".data-btn").on("click", function(){
+          d3.event.preventDefault();
+          table.classed("visible", !table.classed("visible"));
+          var text = table.classed("visible") ? "Hide Data Table" : "Show Data Table";
+          d3.select(this).select("span").text(text);
+        });
+      }
+
     });
 
     function resizeApps() {
@@ -84,7 +94,7 @@ viz.loadBuilds = function(builds) {
     resizeApps();
     resizeFunctions.push(resizeApps);
 
-    var scrollBuffer = 200, n = [32];
+    var scrollBuffer = -200, n = [32];
     function buildInView(b) {
       var top = window.scrollY, height = window.innerHeight;
       return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
