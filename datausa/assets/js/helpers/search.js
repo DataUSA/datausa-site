@@ -257,7 +257,7 @@ search.open_details = function(d){
   search_item.classed("open", !current_state)
   
   // set parents
-  var p_container = xtra_div.select(".parents");
+  var p_container = search_item.select(".xtra .parents");
   if(!p_container.text()){
     var parents_api_url = api + "/attrs/"+d.kind+"/"+d.id+"/parents"
     load(parents_api_url, function(parents) {
@@ -282,8 +282,8 @@ search.clear_details = function(){
 
 search.update_refine = function(data){
   
-  d3.selectAll(".search-refine div").style("display", "none");
-  //d3.selectAll(".search-refine li a, .search-refine h2 a").style("display", "none");
+  d3.selectAll(".search-refine div").classed("no-results", true);
+  d3.selectAll(".search-refine li a").classed("no-results", true);
   
   d3.selectAll(".num_res").text("0")
   data.forEach(function(d){
@@ -291,11 +291,12 @@ search.update_refine = function(data){
     var total_res = attr_div.select("h2 .num_res").text();
     total_res = parseInt(total_res) + 1
     attr_div.select("h2 .num_res").text(total_res)
-    attr_div.select("h2 a").style("display", "inline-block")
-    attr_div.style("display", "block")
+    attr_div.select("h2 a").classed("no-results", false);
+    attr_div.classed("no-results", false);
     
-    attr_div.select("a[data-depth='"+d.sumlevel+"']").style("display", "inline-block");
-    var sumlevel_span = attr_div.select("a[data-depth='"+d.sumlevel+"'] .num_res");
+    var sumlevel_a = attr_div.select("a[data-depth='"+d.sumlevel+"']");
+    sumlevel_a.classed("no-results", false);
+    var sumlevel_span = sumlevel_a.select(".num_res");
     if(!sumlevel_span.empty()){
       sumlevel_res = parseInt(sumlevel_span.text()) + 1
       sumlevel_span.text(sumlevel_res)
