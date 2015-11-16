@@ -2,15 +2,38 @@ title: "Input/Output"
 description: "The Bureau of Labor and Statistics publishes data on the make and use of industries in the United States."
 
 topics:
+  - viz:
+      attrs: "iocode"
+      data:
+        - industry_iocode: "<<id>>"
+          industry_level: 0
+          sumlevel: "naics"
+          required: "value_millions"
+          show: "commodity_iocode"
+          map:
+            id: "industry_iocode"
+            use: "commodity_iocode"
+        - commodity_iocode: "<<id>>"
+          industry_level: 0
+          sumlevel: "naics"
+          required: "value_millions"
+          show: "industry_iocode"
+          map:
+            id: "commodity_iocode"
+            make: "industry_iocode"
+      highlight: "<<id>>"
+      id: "id"
+      type: "sankey"
   - title: "Consumption"
     stat:
       - title: "Highest Input Industry"
-        value: "<<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics>>"
+        value: "<<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"
     description: "Here we can see the input industries for <<name>> by their share of the overall use. As seen above, the top industry is <<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics>>."
     viz:
       attrs: "iocode"
       data:
         - industry_iocode: "<<id>>"
+          industry_level: 1
           sumlevel: "naics"
           required: "value_millions"
           show: "commodity_iocode"
@@ -19,13 +42,14 @@ topics:
       type: "tree_map"
   - title: "Production"
     stat:
-      - title: "Highest Input Industry"
-        value: "<<top attr_type=commodity_iocode|show=industry_iocode|order=value_millions|sumlevel=naics>>"
+      - title: "Highest Output Industry"
+        value: "<<top attr_type=commodity_iocode|show=industry_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"
     description: "Here, we see the industries by their use of the <<name>> <<level short=True>>."
     viz:
       attrs: "iocode"
       data:
         - commodity_iocode: "<<id>>"
+          industry_level: 1
           sumlevel: "naics"
           required: "value_millions"
           show: "industry_iocode"

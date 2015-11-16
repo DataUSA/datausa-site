@@ -35,7 +35,11 @@ var vizStyles = {
   "color": {
     "missing": "#eee",
     "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
+    "primary": "#aaa", // used for coloring edge connections in Sankey
     "range": ["#B22200", "#FFEE8D", "#759143"]
+  },
+  "edges": {
+    "color": "#d0d0d0"
   },
   "labels": {
     "font": {
@@ -61,6 +65,10 @@ var vizStyles = {
       "size": 16,
       "weight": 300
     }
+  },
+  "sankey": {
+    "padding": 5,
+    "width": 150
   },
   "shapes": {
     "padding": 0,

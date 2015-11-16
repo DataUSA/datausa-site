@@ -84,7 +84,7 @@ viz.loadBuilds = function(builds) {
     resizeApps();
     resizeFunctions.push(resizeApps);
 
-    var scrollBuffer = -200, n = [32], app;
+    var scrollBuffer = 200, n = [32];
     function buildInView(b) {
       var top = window.scrollY, height = window.innerHeight;
       return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
@@ -101,7 +101,7 @@ viz.loadBuilds = function(builds) {
               build.timer = false;
               if (buildInView(build)) {
               // if (buildInView(build) && n.indexOf(build.index) >= 0) {
-                app = viz(build);
+                current_build = viz(build);
                 build.loaded = true;
               }
             }, ms, b);

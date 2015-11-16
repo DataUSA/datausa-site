@@ -21,6 +21,8 @@ def profile(attr_type, attr_id):
         abort(404);
 
     if attr_type in CROSSWALKS:
+        if "_iocode" in attr_type:
+            attr_type = "iocode"
         attr = attr_cache[attr_type][attr_id]
         return render_template("profile/redirect.html", attr=attr)
 

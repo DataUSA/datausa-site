@@ -983,7 +983,11 @@ var vizStyles = {
   "color": {
     "missing": "#eee",
     "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
+    "primary": "#aaa", // used for coloring edge connections in Sankey
     "range": ["#B22200", "#FFEE8D", "#759143"]
+  },
+  "edges": {
+    "color": "#d0d0d0"
   },
   "labels": {
     "font": {
@@ -1009,6 +1013,10 @@ var vizStyles = {
       "size": 16,
       "weight": 300
     }
+  },
+  "sankey": {
+    "padding": 5,
+    "width": 150
   },
   "shapes": {
     "padding": 0,
@@ -1219,6 +1227,7 @@ viz.defaults = function(build) {
     "background": vizStyles.background,
     "color": vizStyles.color,
     "data": vizStyles.shapes,
+    "edges": vizStyles.edges,
     "format": {
       "number": function(number, params) {
 
@@ -1398,6 +1407,85 @@ viz.radar = function(build) {
   return {};
 }
 
+viz.sankey = function(build) {
+
+  build.sankeyInit = false;
+  network = viz.sankeyData(build);
+  build.sankeyInit = true;
+
+  return {
+    "data": {
+      "padding": vizStyles.sankey.padding
+    },
+    "edges": {
+      "strength": "value_millions",
+      "value": network.edges
+    },
+    "focus": {
+      "tooltip": false,
+      "value": network.focus
+    },
+    "labels": {
+      "resize": false
+    },
+    "mouse": {
+      "click": function(d, v) {
+        if (d.id !== v.focus()[0]) {
+          v.error("Loading...").draw();
+          build.data.forEach(function(data){
+            data.url = data.url.replace(build.highlight, d.id);
+          });
+          viz.loadData(build, "sankeyData");
+        }
+      }
+    },
+    "nodes": network.nodes,
+    "size": vizStyles.sankey.width
+  };
+}
+
+viz.sankeyData = function(b) {
+
+  var nodes = {}, focus;
+  var edges = b.viz.data().map(function(e, i){
+    if (!(e.id in nodes)) {
+      nodes[e.id] = {"id": e.id};
+      focus = e.id;
+    }
+    if ("use" in e) {
+      if (!(e.use in nodes)) nodes[e.use] = {"id": e.use};
+      var s = nodes[e.use], t = nodes[e.id];
+    }
+    else if ("make" in e) {
+      if (!(e.make in nodes)) nodes[e.make] = {"id": e.make};
+      var s = nodes[e.id], t = nodes[e.make];
+    }
+    return {
+      "source": s,
+      "target": t,
+      "value_millions": e.value_millions
+    };
+  });
+
+  if (!b.sankeyInit) {
+    return {
+      "edges": edges,
+      "focus": focus,
+      "nodes": d3.values(nodes)
+    }
+  }
+  else {
+    b.highlight = focus;
+    b.viz
+      .nodes(d3.values(nodes))
+      .edges(edges)
+      .focus(focus)
+      .error(false)
+      .draw();
+  }
+
+}
+
 viz.scatter = function(build) {
   return {};
 }
@@ -1528,7 +1616,7 @@ viz.loadBuilds = function(builds) {
     resizeApps();
     resizeFunctions.push(resizeApps);
 
-    var scrollBuffer = -200, n = [32], app;
+    var scrollBuffer = 200, n = [32];
     function buildInView(b) {
       var top = window.scrollY, height = window.innerHeight;
       return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
@@ -1545,7 +1633,7 @@ viz.loadBuilds = function(builds) {
               build.timer = false;
               if (buildInView(build)) {
               // if (buildInView(build) && n.indexOf(build.index) >= 0) {
-                app = viz(build);
+                current_build = viz(build);
                 build.loaded = true;
               }
             }, ms, b);

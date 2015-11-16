@@ -34,7 +34,7 @@
           percentages = {{ g.percentages|safe }},
           proportions = {{ g.proportions|safe }},
           affixes = {{ g.affixes|safe }},
-          builds = [];
+          builds = [], current_build;
 
       for (var key in affixes) {
         if (key in dictionary) affixes[dictionary[key]] = affixes[key];

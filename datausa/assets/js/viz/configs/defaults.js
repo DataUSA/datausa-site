@@ -62,6 +62,7 @@ viz.defaults = function(build) {
     "background": vizStyles.background,
     "color": vizStyles.color,
     "data": vizStyles.shapes,
+    "edges": vizStyles.edges,
     "format": {
       "number": function(number, params) {
 
