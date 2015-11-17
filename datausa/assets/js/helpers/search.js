@@ -73,6 +73,7 @@ var search = {
     "geo": null
   },
   "depth": null,
+  "max": 10,
   "nesting": {
     "cip": [0, 1, 2],
     "naics": [0, 1, 2],
@@ -117,6 +118,7 @@ search.reload = function() {
     d3.select(".search-suggestions").style("display", "block").text('');
     
     if(this.advanced){
+      this.max = null;
       if(raw.suggestions){
         var search_suggestions = raw.suggestions.slice();
         if(raw.autocorrected){
@@ -138,15 +140,17 @@ search.reload = function() {
       }
       this.update_refine(data);
     }
-    else {
-      if(data.length > 10){
-        var left_over = data.length - 10;
+    
+    // set cutoff
+    if(this.max){
+      if(data.length > this.max){
+        var left_over = data.length - this.max;
         d3.selectAll(".results-show-all a span.more").text("("+left_over+" more)")
       }
       else {
         d3.selectAll(".results-show-all a span.more").text("")
       }
-      data = data.slice(0, 10);
+      data = data.slice(0, this.max);
     }
     
     var items = this.container.select(".search-results").html("")
