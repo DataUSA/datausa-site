@@ -1094,17 +1094,18 @@ var viz = function(build) {
 viz.finish = function(build) {
 
   var source_text = d3plus.string.list(d3plus.util.uniques(build.sources.reduce(function(arr, s, i){
-    if (s) arr.push(s.dataset);
+    if (s) {
+      var t = s.dataset;
+      if (s.link) {
+        t = "<a class='source-link' href='" + s.link + "' target='_blank'>" + t + "</a>";
+      }
+      arr.push(t);
+    }
     return arr;
   }, [])));
 
-  if (location.href.indexOf("/profile/") > 0) {
-    d3.select(build.container.node().parentNode).select(".source")
-      .text(source_text);
-  }
-  else {
-    build.viz.footer(source_text);
-  }
+  d3.select(build.container.node().parentNode).select(".source")
+    .html(source_text);
 
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
