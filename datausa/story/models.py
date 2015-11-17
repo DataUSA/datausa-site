@@ -1,5 +1,6 @@
 import yaml
 import json
+import re
 
 from datausa.profile.section import Section
 from datausa.profile.profile import Profile
@@ -9,6 +10,43 @@ from os.path import join, isfile
 import os
 from datausa.utils.format import num_format, sumlevels
 from datausa.utils.data import fetch
+
+STORIES_DIR = join(base_dir, "profile", "stories")
+
+def date_from_filename(filename):
+    date_pattern = re.match("(\d+-\d+-\d+)", filename)
+    if date_pattern:
+        return date_pattern.group(0)
+
+class StoryPreview(object):
+    def __init__(self, filename, path):
+        self.story_id = filename[:-4]
+        story_conf = yaml.load(open(path))
+        self.title = story_conf['title'] if 'title' in story_conf else ''
+        self.description = story_conf['description'] if 'description' in story_conf else ''
+        self.date = story_conf['date'] if 'date' in story_conf else ''
+        if not self.date:
+            self.date = date_from_filename(filename)
+        self.authors = story_conf['authors'] if 'authors' in story_conf else []
+        self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
+
+    @classmethod
+    def generate_list(cls, to_feature=[]):
+        available = [(f, join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if isfile(join(STORIES_DIR, f)) and not "-draft" in f]
+        stories = [StoryPreview(filename, path) for filename, path in available]
+        stories.sort(key = lambda x: x.date, reverse=True)
+        featured_stories = []
+        if to_feature:
+            tmp_stories = []
+            featured_stories = []
+            for story in stories:
+                if story.story_id in to_feature:
+                    featured_stories.append(story)
+                else:
+                    tmp_stories.append(story)
+            stories = tmp_stories
+        return stories, featured_stories
+
 
 class Story(Profile):
 
@@ -25,7 +63,9 @@ class Story(Profile):
         self.date = story_conf['date'] if 'date' in story_conf else ''
         self.authors = story_conf['authors'] if 'authors' in story_conf else []
         self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
-            
+        if not self.date:
+            self.date = date_from_filename(filename)
+
         tmp_obj = {"topics": story_conf['topics']}
         for idx, t in enumerate(tmp_obj["topics"]):
             if "viz_url" in t:
