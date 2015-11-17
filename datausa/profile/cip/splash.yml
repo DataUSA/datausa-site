@@ -12,6 +12,11 @@ viz:
     - "cip"
     - "skill"
   labels: NO
+  mouse:
+    click: NO
+    move: NO
+    over: NO
+    out: NO
   size: "value"
   type: "radar"
 stats:

@@ -105,7 +105,7 @@ class Viz(object):
         # check the config for 'x' 'y' and 'size'
         axis = "y"
         for k in ["x", "y"]:
-            if k in self.config and not isinstance(val, str):
+            if k in self.config and not isinstance(val, (str, int, float)):
                 val = self.config[k]
                 if "scale" in val and val["scale"] == "discrete":
                     axis = "x" if k is "y" else "y"
@@ -113,7 +113,7 @@ class Viz(object):
         for k in [axis, "size"]:
             if k in self.config:
                 val = self.config[k]
-                if not isinstance(val, str):
+                if not isinstance(val, (str, int, float)):
                     val = val.get("value", False)
 
                 if val and val not in tooltip and val not in ids:

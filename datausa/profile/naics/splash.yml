@@ -1,6 +1,35 @@
 title: "<<name>>"
 group: "<<level>>"
 description: "Explore the employment, industries, education, and demographics of <<name>>."
+viz:
+  attrs: "iocode"
+  data:
+    - industry_iocode: "<<id>>"
+      industry_level: 0
+      sumlevel: "naics"
+      required: "value_millions"
+      show: "commodity_iocode"
+      map:
+        id: "industry_iocode"
+        use: "commodity_iocode"
+    - commodity_iocode: "<<id>>"
+      industry_level: 0
+      sumlevel: "naics"
+      required: "value_millions"
+      show: "industry_iocode"
+      map:
+        id: "commodity_iocode"
+        make: "industry_iocode"
+  highlight: "<<id>>"
+  id: "id"
+  labels: NO
+  mouse:
+    click: NO
+    move: NO
+    over: NO
+    out: NO
+  size: 10
+  type: "sankey"
 stats:
   - title: "Employees"
     value: "<<var namespace=data|key=num_ppl>>"
