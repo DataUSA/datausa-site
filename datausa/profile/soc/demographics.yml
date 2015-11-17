@@ -3,6 +3,7 @@ description: "The American Census Survey collects an enormous amount of data on 
 
 topics:
   - title: "Race & Ethnicity"
+    slug: "ethnicity"
     stat:
       - title: "Most common race or ethnicity"
         value: "<<top show=race|order=num_ppl>>"
@@ -32,6 +33,7 @@ topics:
         label: "USA"
         value: "USA"
   - title: "Age by Gender"
+    slug: "age_gender"
     stat:
       - title: "Average Male Age"
         value: "<<top sex=1|col=avg_age>>"

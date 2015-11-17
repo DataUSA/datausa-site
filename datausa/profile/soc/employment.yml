@@ -4,6 +4,7 @@ description: "The Bureau of Labor and Statistics has great information regarding
 topics:
   - category: "Wages"
     title: "Income"
+    slug: "wage_by_industry"
     stat:
       - title: "Average Wage"
         value: "<<var namespace=data|key=avg_wage>>"
@@ -26,6 +27,7 @@ topics:
         scale: "discrete"
         value: "soc"
   - title: "Wage Gap"
+    slug: "wage_distribution"
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
@@ -60,6 +62,7 @@ topics:
         label: "USA"
         value: "USA"
   - title: "Wage by Location"
+    slug: "wage_locations"
     stat:
       - title: "<<name>> are paid the highest in"
         value: "<<top show=geo|order=avg_wage>>"
@@ -79,6 +82,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
+    slug: "top_ind_num_emp"
     description: "The 3 most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
@@ -126,6 +130,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
+    slug: "top_ind_wage"
     description: "The 3 highest paid industries of <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
@@ -170,7 +175,8 @@ topics:
           label: "Bottom 5"
           scale: "discrete"
           value: "naics"
-  - viz:
+  - slug: "tmap_ind"
+    viz:
       attrs: "naics"
       data:
         - soc: "<<id>>"
@@ -182,6 +188,7 @@ topics:
       size: "num_ppl"
       type: "tree_map"
   - title: "Locations"
+    slug: "locations"
     stat:
       - title: "PUMA with a relatively high number of <<name>> majors"
         value: "<<top show=geo|sumlevel=puma|order=num_ppl_rca>>"
