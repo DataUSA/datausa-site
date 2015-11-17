@@ -64,7 +64,7 @@ class Story(Profile):
         self.authors = story_conf['authors'] if 'authors' in story_conf else []
         self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
         if not self.date:
-            self.date = date_from_filename(filename)
+            self.date = date_from_filename(attr_id)
 
         tmp_obj = {"topics": story_conf['topics']}
         for idx, t in enumerate(tmp_obj["topics"]):
