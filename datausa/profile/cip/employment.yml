@@ -159,7 +159,7 @@ topics:
       type: "tree_map"
   - category: "Wages"
     slug: "wages"
-    title: "Income"
+    title: "Yearly Income"
     stat:
       - title: "Highest Average Wage"
         value: "<<top show=soc|order=avg_wage>>"

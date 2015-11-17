@@ -3,7 +3,7 @@ description: "The Bureau of Labor and Statistics has great information regarding
 
 topics:
   - category: "Wages"
-    title: "Income"
+    title: "Yearly Income"
     slug: "wage_by_industry"
     stat:
       - title: "Average Wage"
