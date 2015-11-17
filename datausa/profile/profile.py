@@ -98,4 +98,4 @@ class Profile(object):
             if 'description' in section_dict:
                 desired_config['description'] = section_dict['description']
             return Section(json.dumps(desired_config), self)
-        raise Exception("Bad section name!")
+        return None
