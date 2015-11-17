@@ -297,6 +297,9 @@ def num_format(number, key=None, labels=True, condense=True):
 
     if key:
 
+        if "_moe" in key:
+            key = key.replace("_moe", "")
+
         if key == "year":
             return number
 

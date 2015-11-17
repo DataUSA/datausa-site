@@ -55,7 +55,7 @@ def get_parents(attr_id, attr_type):
         return []
 
 
-def stat(params, col="name", dataset=False, data_only=False):
+def stat(params, col="name", dataset=False, data_only=False, moe=False):
 
     # convert request arguments into a url query string
     rank = int(params.pop("rank", "1"))
@@ -105,9 +105,14 @@ def stat(params, col="name", dataset=False, data_only=False):
         vals = [sorted([(k, v) for k, v in d.iteritems() if drop_first(k) in cols], key=lambda x: x[1], reverse=True) for d in r]
         top = [drop_first(v[rank - 1][0]) for v in vals]
         vals = [v[rank - 1][1] for v in vals]
-        top = [col_map[keys[i]][v] for x in top for i, v in enumerate(x.split("_"))]
-        top = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for i, v in enumerate(top)]
+        if moe:
+            top = [col_map[moe][v] for x in top for v in x.split("_")]
+        else:
+            top = [col_map[keys[i]][v] for x in top for i, v in enumerate(x.split("_"))]
+            top = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for i, v in enumerate(top)]
         top = [" ".join(top)]
+    elif moe:
+        top = [d[moe] for d in r]
     elif col == "name":
         if dataset in ["acs", "pums"]:
             attr = "{}_{}".format(dataset, show)
@@ -129,6 +134,8 @@ def stat(params, col="name", dataset=False, data_only=False):
         return top
 
     if col != "id":
+        if moe:
+            col = moe
         top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
 
     # coerce all values to strings
@@ -148,7 +155,7 @@ def stat(params, col="name", dataset=False, data_only=False):
 
     # otherwise, return the list joined with commans
     return {
-        "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
+        "url": "{}?{}&col={}&dataset={}&moe=".format(url_for("profile.statView"), query, col, dataset, moe),
         "value": top,
         "data": vals
     }

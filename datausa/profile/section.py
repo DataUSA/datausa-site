@@ -478,6 +478,7 @@ class Section(object):
 
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
         dataset = kwargs.get("dataset", False)
+        moe = kwargs.pop("moe", False)
 
         # create a params dict to use in the URL request
         params = {}
@@ -539,8 +540,11 @@ class Section(object):
             elif "order" in params:
                 params["required"] = params["order"]
 
+        if moe:
+            params["required"] += ",{}".format(moe)
+
         # make the API request using the params
-        return stat(params, col=col, dataset=dataset, data_only=data_only)
+        return stat(params, col=col, dataset=dataset, data_only=data_only, moe=moe)
 
     def var(self, **kwargs):
         namespace = kwargs["namespace"]

@@ -170,11 +170,12 @@ topics:
     stat:
       - title: "Median Income"
         value: "<<var namespace=splash|key=income>>"
+        moe: "<<var namespace=splash|key=income_moe>>"
     viz:
       attrs: "geo"
       data:
         - geo: "<<parents>>,<<id>>"
-          required: "income"
+          required: "income,income_moe"
           show: "geo"
       id: "geo"
       order:
@@ -192,8 +193,10 @@ topics:
     stat:
       - title: "Median Male Income"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
+        moe: "<<var namespace=gender|key=avg_wage_moe|row=0>>"
       - title: "Median Female Income"
         value: "<<var namespace=gender|key=avg_wage|row=1>>"
+        moe: "<<var namespace=gender|key=avg_wage_moe|row=1>>"
     viz:
       attrs:
         - "sex"
@@ -202,7 +205,7 @@ topics:
       data:
         - geo: "<<id>>"
           limit: "10"
-          required: "num_ppl,avg_wage"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "soc,sex"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
@@ -216,10 +219,11 @@ topics:
   - title: "Wage by Race & Ethnicity"
     subtitle: "<<sub show=race|col=avg_wage>>"
     slug: "income_ethnicity"
-    description: "<<top show=race|order=avg_wage|sort=desc|col=name>> citizens earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
+    description: "<<top show=race|order=avg_wage>> citizens earn, on average, <<top show=race|order=avg_wage|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
     stat:
       - title: "Race or Ethnicity with Highest Median Income"
         value: "<<top show=race|order=avg_wage>>"
+        moe: "<<top show=race|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs:
         - "race"
@@ -227,7 +231,7 @@ topics:
       data:
         - geo: "<<id>>"
           limit: "45"
-          required: "num_ppl,avg_wage"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "soc,race"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
@@ -273,7 +277,7 @@ topics:
         value: "<<sumlevel plural=True|child=True>>"
       color: "income"
       data:
-        - required: "income"
+        - required: "income,income_moe"
           show: "geo"
           sumlevel: "<<sumlevel child=True>>"
           where: "geo:<<children prefix=True>>%"

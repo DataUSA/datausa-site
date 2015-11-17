@@ -1235,7 +1235,14 @@ viz.defaults = function(build) {
     "format": {
       "number": function(number, params) {
 
+        var prefix = "";
+
         if (params.key) {
+
+          if (params.key.indexOf("_moe") > 0) {
+            prefix = "± ";
+            params.key = params.key.replace("_moe", "");
+          }
 
           if (params.key == "emp_thousands") {
             number = number * 1000;
@@ -1253,7 +1260,7 @@ viz.defaults = function(build) {
 
           if (proportions.indexOf(params.key) >= 0 || percentages.indexOf(params.key) >= 0) {
             if (proportions.indexOf(params.key) >= 0) number = number * 100;
-            return d3plus.number.format(number, params) + "%";
+            return prefix + d3plus.number.format(number, params) + "%";
           }
           else {
             number = d3plus.number.format(number, params);
@@ -1261,15 +1268,19 @@ viz.defaults = function(build) {
               var a = affixes[params.key];
               number = a[0] + number + a[1];
             }
-            return number;
+            return prefix + number;
           }
 
         }
 
-        return d3plus.number.format(number, params);
+        return prefix + d3plus.number.format(number, params);
 
       },
       "text": function(text, params) {
+
+        if (text.indexOf("_moe") > 0) {
+          return "&nbsp;&nbsp;-&nbsp;&nbsp;Margin of Error";
+        }
 
         if (text.indexOf("y2_") === 0) {
           text = text.slice(3);

@@ -98,9 +98,19 @@ class Viz(object):
                     for v in val:
                         if v != "" and v not in tooltip and v not in ids:
                             tooltip.append(v)
+                            moe = "{}_moe".format(v)
+                            if moe not in tooltip:
+                                tooltip.append(moe)
 
         # check the config for 'x' 'y' and 'size'
-        for k in ["x", "y", "size"]:
+        axis = "y"
+        for k in ["x", "y"]:
+            if k in self.config and not isinstance(val, str):
+                val = self.config[k]
+                if "scale" in val and val["scale"] == "discrete":
+                    axis = "x" if k is "y" else "y"
+
+        for k in [axis, "size"]:
             if k in self.config:
                 val = self.config[k]
                 if not isinstance(val, str):
@@ -108,5 +118,8 @@ class Viz(object):
 
                 if val and val not in tooltip and val not in ids:
                     tooltip.append(val)
+                    moe = "{}_moe".format(val)
+                    if moe not in tooltip:
+                        tooltip.append(moe)
 
         return tooltip
