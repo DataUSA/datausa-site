@@ -63,6 +63,9 @@ def embed_view(attr_type, attr_id, section, topic):
     topics = topic.split(",")
     section = p.section_by_topic(section, topics)
 
+    if not section.topics:
+        abort(404)
+
     for t in section.topics:
         if viz_only:
             del t["description"]
