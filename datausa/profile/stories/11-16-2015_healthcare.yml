@@ -12,5 +12,9 @@ topics:
       - title: "State with lowest healthcare costs"
         value: "<<top show=geo|order=health_care_costs|sumlevel=state|sort=asc>>"
 
-  - description: "Health care or healthcare is the diagnosis, treatment, and prevention of disease, illness, injury,  and other physical and mental impairments in human beings. Health care is delivered by practitioners in   allied health, dentistry, midwifery (obstetrics), medicine, nursing, optometry, pharmacy, psychology and other health professions. It refers to the work done in providing primary care, secondary care, and tertiary care, as well as in public health."
+  - description: >
+      Health care or healthcare is the diagnosis, treatment, and prevention of disease, illness, injury,
+      and other physical and mental impairments in human beings. Health care is delivered by practitioners in
+      allied health, dentistry, midwifery (obstetrics), medicine, nursing, optometry, pharmacy, psychology and other health professions.
+      It refers to the work done in providing primary care, secondary care, and tertiary care, as well as in public health.
   - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
