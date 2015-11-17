@@ -110,7 +110,10 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
             top = [drop_first(v[rank - 1][0]) for v in vals]
             vals = [v[rank - 1][1] for v in vals]
             top = [col_map[keys[i]][v] for x in top for i, v in enumerate(x.split("_"))]
-            top = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for i, v in enumerate(top)]
+            for i, v in enumerate(top):
+                if keys[i] in attr_cache:
+                    v = fetch(v, keys[i])
+                    top[i] = v["display_name"] if "display_name" in v else v["name"]
             top = [" ".join(top)]
     elif moe:
         top = [d[moe] for d in r]
@@ -123,9 +126,11 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         top = [fetch(d[show], attr) for d in r]
 
         if attr in PROFILES or attr in CROSSWALKS:
-            top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t["id"]), t[col]) for t in top]
+            top = [(t["id"], t["display_name"]) if "display_name" in t else (t["id"], t[col]) for t in top]
+            top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) for t in top]
         else:
-            top = [t[col] for t in top]
+            top = [t["display_name"] if "display_name" in t else t[col] for t in top]
+
     elif col == "id":
         top = [d[show] for d in r]
     else:
