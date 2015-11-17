@@ -1,4 +1,4 @@
-var excludedGeos = ["79500US4804701", "16000US0641278"];
+var excludedGeos = ["79500US4804701", "16000US0641278", "XXATA"];
 
 viz.loadCoords = function(build) {
   var next = "loadAttrs";

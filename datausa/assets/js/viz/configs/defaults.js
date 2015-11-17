@@ -53,6 +53,7 @@ viz.defaults = function(build) {
         "font": chartStyles.labels[style][key],
         "padding": 0
       },
+      "lines": chartStyles.lines,
       "range": range,
       "ticks": chartStyles.ticks[style][key]
     };

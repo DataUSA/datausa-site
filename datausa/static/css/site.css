@@ -939,7 +939,7 @@ body.home {
                       body.home .bg-filter.landing {
                         width: 100vw;
                         height: 190vh;
-                        background: linear-gradient(#677594 0%, white 33%);
+                        background: linear-gradient(#677594, white 33%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -48vh;
@@ -2240,6 +2240,9 @@ body.profile section {
           body.profile section .topic .content .viz .d3plus .d3plus_coordinates.outline .d3plus_data {
             fill: transparent !important;
             pointer-events: none !important; }
+          body.profile section .topic .content .viz .d3plus #XXUSA {
+            fill: #bbb;
+            stroke: #aaa; }
           body.profile section .topic .content .viz .data-table {
             -webkit-transition: top 0.5s;
             -moz-transition: top 0.5s;
@@ -2376,6 +2379,7 @@ body.embed {
             flex: 1; }
             body.embed section .topic .content .viz,
             body.embed section .topic .content .viz.full-width {
+              height: 100% !important;
               min-height: 100% !important; }
 #map-fullscreen {
   height: 100vh;

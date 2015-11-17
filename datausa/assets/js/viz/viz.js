@@ -2,6 +2,8 @@ var viz = function(build) {
 
   if (!build.colors) build.colors = vizStyles.defaults;
 
+  delete build.config.height;
+
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
     .background("transparent")

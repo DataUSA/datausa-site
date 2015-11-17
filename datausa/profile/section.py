@@ -199,6 +199,22 @@ class Section(object):
             # if the attribute is a CIP and the dataset is PUMS, return the parent CIP code
             if self.profile.attr_type == "cip" and dataset == "pums":
                 return self.attr["id"][:2]
+            elif self.profile.attr_type == "geo" and dataset == "pums":
+                attr_id = self.attr["id"]
+                prefix = attr_id[:3]
+                if kwargs.get("parent", False) and prefix not in ["010", "040"]:
+                    attr_id = self.profile.parents()[1]["id"]
+                    prefix = "040"
+
+                if prefix in ["010", "040", "795"]:
+                    return attr_id
+                else:
+                    parents = self.profile.parents()
+                    if len(parents) > 1:
+                        return parents[1]["id"]
+                    else:
+                        return parents[0]["id"]
+
             elif self.profile.attr_type == "geo" and dataset == "chr":
                 attr_id = self.attr["id"]
                 prefix = attr_id[:3]
@@ -276,7 +292,7 @@ class Section(object):
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
         attr_id = kwargs.get("attr_id", self.attr["id"])
         params["limit"] = 1
-        params["show"] = params.get("show", attr_type)
+        params["show"] = kwargs.get("show", attr_type)
         params = default_params(params)
 
         r = {"num": 1, "den": 1}
@@ -284,6 +300,7 @@ class Section(object):
             key = kwargs.get(t)
 
             params[attr_type] = kwargs.get("{}_id".format(t), attr_id)
+            params["exclude"] = kwargs.get("exclude", "")
 
             if "top:" in key:
 
@@ -311,6 +328,9 @@ class Section(object):
                     del params["force"]
 
                 params["required"] = key
+
+                if "exclude" in params:
+                    del params["exclude"]
 
                 # convert request arguments into a url query string
                 query = RequestEncodingMixin._encode_params(params)

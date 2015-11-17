@@ -32387,7 +32387,7 @@ textwrap = require("../../../../../textwrap/textwrap.coffee");
 validObject = require("../../../../../object/validate.coffee");
 
 module.exports = function(vars) {
-  var affixes, alignMap, axis, axisData, axisGroup, axisLabel, bg, bgStyle, d, domain, domains, getFontStyle, grid, gridData, groupEnter, j, k, l, label, labelData, labelStyle, len, len1, len2, len3, len4, line, lineData, lineFont, lineGroup, lineRects, lineStyle, lines, linetexts, m, mirror, n, plane, planeTrans, position, realData, rectData, rectStyle, ref, ref1, ref2, ref3, rotated, sep, style, textData, textPad, textPos, tickFont, tickPosition, tickStyle, userLines, xStyle, yStyle;
+  var affixes, alignMap, axis, axisData, axisGroup, axisLabel, bg, bgStyle, d, domain, domains, getFontStyle, grid, gridData, groupEnter, j, k, l, label, labelData, labelStyle, len, len1, len2, len3, len4, line, lineData, lineFont, lineGroup, lineRects, lineStyle, lines, linetexts, m, mirror, n, plane, planeTrans, position, realData, rectData, rectStyle, ref, ref1, ref2, ref3, rotated, sep, style, textData, textPad, textPos, tickFont, tickPosition, tickStyle, userLines, valid, xStyle, yStyle;
   domains = vars.x.domain.viz.concat(vars.y.domain.viz);
   if (domains.indexOf(void 0) >= 0) {
     return null;
@@ -32665,48 +32665,50 @@ module.exports = function(vars) {
       for (n = 0, len4 = userLines.length; n < len4; n++) {
         line = userLines[n];
         d = validObject(line) ? line.position : line;
-        if (!isNaN(d)) {
-          d = parseFloat(d);
-          if (d > domain[0] && d < domain[1]) {
-            d = !validObject(line) ? {
-              "position": d
-            } : line;
-            d.coords = {
-              line: vars[axis].scale.viz(d.position)
-            };
-            lineData.push(d);
-            if (d.text) {
-              d.axis = axis;
-              d.padding = vars[axis].lines.font.padding.value * 0.5;
-              d.align = vars[axis].lines.font.align.value;
-              position = vars[axis].lines.font.position.text;
-              textPad = position === "middle" ? 0 : d.padding * 2;
-              if (position === "top") {
-                textPad = -textPad;
-              }
-              if (axis.indexOf("x") === 0) {
-                textPos = d.align === "left" ? vars.axes.height : d.align === "center" ? vars.axes.height / 2 : 0;
-                if (d.align === "left") {
-                  textPos -= d.padding * 2;
-                }
-                if (d.align === "right") {
-                  textPos += d.padding * 2;
-                }
-              } else {
-                textPos = d.align === "left" ? 0 : d.align === "center" ? vars.axes.width / 2 : vars.axes.width;
-                if (d.align === "right") {
-                  textPos -= d.padding * 2;
-                }
-                if (d.align === "left") {
-                  textPos += d.padding * 2;
-                }
-              }
-              d.coords.text = {};
-              d.coords.text[axis.indexOf("x") === 0 ? "y" : "x"] = textPos;
-              d.coords.text[axis] = vars[axis].scale.viz(d.position) + textPad;
-              d.transform = axis.indexOf("x") === 0 ? "rotate(-90," + d.coords.text.x + "," + d.coords.text.y + ")" : null;
-              textData.push(d);
+        if (axis === vars.axes.discrete) {
+          valid = domain.indexOf(d) >= 0;
+        } else {
+          valid = d >= domain[0] && d <= domain[1];
+        }
+        if (valid) {
+          d = !validObject(line) ? {
+            "position": d
+          } : line;
+          d.coords = {
+            line: vars[axis].scale.viz(d.position)
+          };
+          lineData.push(d);
+          if (d.text) {
+            d.axis = axis;
+            d.padding = vars[axis].lines.font.padding.value * 0.5;
+            d.align = vars[axis].lines.font.align.value;
+            position = vars[axis].lines.font.position.text;
+            textPad = position === "middle" ? 0 : d.padding * 2;
+            if (position === "top") {
+              textPad = -textPad;
             }
+            if (axis.indexOf("x") === 0) {
+              textPos = d.align === "left" ? vars.axes.height : d.align === "center" ? vars.axes.height / 2 : 0;
+              if (d.align === "left") {
+                textPos -= d.padding * 2;
+              }
+              if (d.align === "right") {
+                textPos += d.padding * 2;
+              }
+            } else {
+              textPos = d.align === "left" ? 0 : d.align === "center" ? vars.axes.width / 2 : vars.axes.width;
+              if (d.align === "right") {
+                textPos -= d.padding * 2;
+              }
+              if (d.align === "left") {
+                textPos += d.padding * 2;
+              }
+            }
+            d.coords.text = {};
+            d.coords.text[axis.indexOf("x") === 0 ? "y" : "x"] = textPos;
+            d.coords.text[axis] = vars[axis].scale.viz(d.position) + textPad;
+            d.transform = axis.indexOf("x") === 0 ? "rotate(-90," + d.coords.text.x + "," + d.coords.text.y + ")" : null;
+            textData.push(d);
           }
         }
       }
@@ -32749,7 +32751,7 @@ module.exports = function(vars) {
           return getText(d).width + (d.padding * 2);
         }).attr("height", function(d) {
           return getText(d).height + (d.padding * 2);
-        }).attr("fill", vars.axes.background.color);
+        }).attr("fill", vars.axes.background.color !== "transparent" ? vars.axes.background.color : "white");
       };
       rectData = vars[axis].lines.font.background.value ? textData : [];
       lineRects = lineGroup.selectAll("rect.d3plus_graph_" + axis + "line_rect").data(rectData, function(d) {

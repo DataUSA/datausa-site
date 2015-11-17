@@ -37,8 +37,8 @@ viz.sankey = function(build) {
 
 viz.sankeyData = function(b) {
 
-  var nodes = {}, focus;
-  var edges = b.viz.data().map(function(e, i){
+  var nodes = {}, focus, data = b.viz.data();
+  var edges = data.map(function(e, i){
     if (!(e.id in nodes)) {
       nodes[e.id] = {"id": e.id};
       focus = e.id;
@@ -57,6 +57,22 @@ viz.sankeyData = function(b) {
       "value_millions": e.value_millions
     };
   });
+
+  data = data.filter(function(d){
+
+    if ("use" in d) {
+      d.id = d.use;
+      delete d.use;
+    }
+    if ("make" in d) {
+      d.id = d.make;
+      delete d.make;
+    }
+
+    return d.id !== focus;
+
+  })
+  b.viz.data(data);
 
   if (!b.sankeyInit) {
     return {

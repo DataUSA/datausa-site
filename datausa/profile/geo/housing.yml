@@ -4,6 +4,7 @@ description: "The American Census Survey contains a lot of rich information pert
 topics:
   - category: "Income"
     title: "Household Income"
+    subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
     slug: "household_income"
     stat:
       - title: "Median Household Income"
@@ -207,7 +208,7 @@ topics:
     slug: "mode_transport"
     stat:
       - title: "Most common method of travel"
-        value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>>"
+        value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> (<<percent num=top:transport,acs.yg_transport|den=workers|exclude=transport_cartruckorvan>>)"
         moe: "± <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|moe=True>>"
     description:
       - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> to work. Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport|exclude=transport_cartruckorvan>>."

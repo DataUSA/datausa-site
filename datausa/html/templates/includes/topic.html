@@ -2,12 +2,15 @@
 {% if topic.category %}
 <h1 class="category"><a name="{{ topic.category|safe|lower|replace(" ", "_") }}">{{ topic.category|safe }}</a></h1>
 {% endif %}
-{% set aside = topic.subtitle or topic.stat or topic.description %}
+{% set aside = topic.stat or topic.description %}
 {% set content = aside or topic.viz or topic.miniviz or topic.source %}
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
   {% if topic.title %}
   <h2>{{ topic.title|safe }} <a href="#" class="data-btn"><span>Show Data</span>&nbsp;<i class="fa fa-table"></i></a></h2>
+  {% endif %}
+  {% if not aside and topic.subtitle %}
+  <sub>{{ topic.subtitle|safe }}</sub>
   {% endif %}
   {% if content %}
   <div class="content{% if not aside %} full-width{% endif %}">

@@ -50,7 +50,8 @@ var vizStyles = {
   "legend": {
     "font": {
       "color": "#211f1a",
-      "family": "Roboto",
+      "family": "lato",
+      "size": 12,
       "weight": 400
     }
   },

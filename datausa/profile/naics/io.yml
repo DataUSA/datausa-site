@@ -1,8 +1,12 @@
 title: "Input/Output"
-description: "The Bureau of Labor and Statistics publishes data on the make and use of industries in the United States."
+description: "The Bureau of Labor and Statistics publishes a course dataset on inter-industry purchases. By extrapolating this data, we can produce a picture of how a specific industry buys and sells to and from other industries."
 
 topics:
+<<<<<<< fef08cb0b4f3d65b004f9c166917151a27ee2954
   - slug: "io_sankey"
+=======
+  - subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0>>"
+>>>>>>> slew of Cesar fixes/changes
     viz:
       attrs: "iocode"
       data:
@@ -26,7 +30,11 @@ topics:
       id: "id"
       type: "sankey"
   - title: "Consumption"
+<<<<<<< fef08cb0b4f3d65b004f9c166917151a27ee2954
     slug: "io_tmap_consumption"
+=======
+    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
+>>>>>>> slew of Cesar fixes/changes
     stat:
       - title: "Highest Input Industry"
         value: "<<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"
@@ -43,7 +51,11 @@ topics:
       size: "value_millions"
       type: "tree_map"
   - title: "Production"
+<<<<<<< fef08cb0b4f3d65b004f9c166917151a27ee2954
     slug: "io_tmap_production"
+=======
+    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
+>>>>>>> slew of Cesar fixes/changes
     stat:
       - title: "Highest Output Industry"
         value: "<<top attr_type=commodity_iocode|show=industry_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"

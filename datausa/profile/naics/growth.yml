@@ -21,7 +21,11 @@ topics:
             value: "emp_thousands"
       id: "naics"
       type: "line"
-      x: "year"
+      x:
+        lines:
+          - text: "Present Day"
+            position: "2012"
+        value: "year"
       y: "emp_thousands"
   - title: "Output Growth"
     slug: "output_growth"
@@ -42,7 +46,11 @@ topics:
             value: "output"
       id: "naics"
       type: "line"
-      x: "year"
+      x:
+        lines:
+          - text: "Present Day"
+            position: "2012"
+        value: "year"
       y: "output"
   - title: "Top Changing Occupations"
     slug: "changing_occs"

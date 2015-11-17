@@ -901,6 +901,17 @@ var chartStyles = {
     }
   },
 
+  "lines": {
+    "color": "#333",
+    "dasharray": "4",
+    "font": {
+      "color": "#211f1a",
+      "family": "Roboto",
+      "size": 12,
+      "weight": 400
+    }
+  },
+
   "ticks": {
     "default": {
       "pri": {
@@ -1021,7 +1032,8 @@ var vizStyles = {
   "legend": {
     "font": {
       "color": "#211f1a",
-      "family": "Roboto",
+      "family": "lato",
+      "size": 12,
       "weight": 400
     }
   },
@@ -1053,6 +1065,8 @@ var vizStyles = {
 var viz = function(build) {
 
   if (!build.colors) build.colors = vizStyles.defaults;
+
+  delete build.config.height;
 
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
@@ -1241,6 +1255,7 @@ viz.defaults = function(build) {
         "font": chartStyles.labels[style][key],
         "padding": 0
       },
+      "lines": chartStyles.lines,
       "range": range,
       "ticks": chartStyles.ticks[style][key]
     };
@@ -1502,8 +1517,8 @@ viz.sankey = function(build) {
 
 viz.sankeyData = function(b) {
 
-  var nodes = {}, focus;
-  var edges = b.viz.data().map(function(e, i){
+  var nodes = {}, focus, data = b.viz.data();
+  var edges = data.map(function(e, i){
     if (!(e.id in nodes)) {
       nodes[e.id] = {"id": e.id};
       focus = e.id;
@@ -1522,6 +1537,22 @@ viz.sankeyData = function(b) {
       "value_millions": e.value_millions
     };
   });
+
+  data = data.filter(function(d){
+
+    if ("use" in d) {
+      d.id = d.use;
+      delete d.use;
+    }
+    if ("make" in d) {
+      d.id = d.make;
+      delete d.make;
+    }
+
+    return d.id !== focus;
+
+  })
+  b.viz.data(data);
 
   if (!b.sankeyInit) {
     return {
@@ -1715,7 +1746,7 @@ viz.loadBuilds = function(builds) {
 
 }
 
-var excludedGeos = ["79500US4804701", "16000US0641278"];
+var excludedGeos = ["79500US4804701", "16000US0641278", "XXATA"];
 
 viz.loadCoords = function(build) {
   var next = "loadAttrs";

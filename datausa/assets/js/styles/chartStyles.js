@@ -44,6 +44,17 @@ var chartStyles = {
     }
   },
 
+  "lines": {
+    "color": "#333",
+    "dasharray": "4",
+    "font": {
+      "color": "#211f1a",
+      "family": "Roboto",
+      "size": 12,
+      "weight": 400
+    }
+  },
+
   "ticks": {
     "default": {
       "pri": {

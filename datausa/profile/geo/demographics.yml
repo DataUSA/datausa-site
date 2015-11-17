@@ -37,6 +37,7 @@ topics:
   - category: "Heritage"
     title: "Global Diversity"
     slug: "global_diversity"
+    subtitle: "<<sub dataset=pums>>"
     stat_stack: YES
     stat:
       - title: "High relative number of people born in"
@@ -69,6 +70,7 @@ topics:
           required: "us_citizens"
           show: "geo"
       id: "geo"
+      labels: YES
       order:
         sort: "desc"
         value: "geo"
