@@ -2,7 +2,8 @@ title: "Input/Output"
 description: "The Bureau of Labor and Statistics publishes data on the make and use of industries in the United States."
 
 topics:
-  - viz:
+  - slug: "io_sankey"
+    viz:
       attrs: "iocode"
       data:
         - industry_iocode: "<<id>>"
@@ -25,6 +26,7 @@ topics:
       id: "id"
       type: "sankey"
   - title: "Consumption"
+    slug: "io_tmap_consumption"
     stat:
       - title: "Highest Input Industry"
         value: "<<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"
@@ -41,6 +43,7 @@ topics:
       size: "value_millions"
       type: "tree_map"
   - title: "Production"
+    slug: "io_tmap_production"
     stat:
       - title: "Highest Output Industry"
         value: "<<top attr_type=commodity_iocode|show=industry_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"

@@ -4,6 +4,7 @@ description: "Here we present trends in jobs, wages, opportunities in the <<name
 topics:
   - category: "Occupations"
     title: "Most Common"
+    slug: "top_occ_num_emp"
     class: "flex"
     source: NO
     description: "The 3 most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
@@ -54,6 +55,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
+    slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> employs an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
@@ -100,6 +102,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
+    slug: "top_occ_wage"
     description: "The 3 highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
@@ -145,7 +148,8 @@ topics:
           label: "Bottom 5"
           scale: "discrete"
           value: "soc"
-  - viz:
+  - slug: "tmap_top_occs"
+    viz:
       attrs: "soc"
       data:
         - naics: "<<id>>"
@@ -159,6 +163,7 @@ topics:
       type: "tree_map"
   - category: "Wages"
     title: "Average Wage"
+    slug: "wages"
     description: "On average, employees in the <<name>> <<level short=True>> had an average wage of <<var namespace=data|key=avg_wage>> in 2013. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True|short=True>>."
     stat:
       - title: "Average Wage"
@@ -181,6 +186,7 @@ topics:
         scale: "discrete"
         value: "naics"
   - title: "Wage by Location"
+    slug: "wage_geo"
     description: "This map shows the counties that pay the highest average wage to employees in the <<name>> <<level short=True>>."
     stat:
       - title: Highest Paying Public Use Microdata Area
@@ -199,6 +205,7 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Wage by Gender"
+    slug: "wage_gender"
     description: "<<top show=sex|order=avg_wage|sort=desc>> workers in the <<name>> <<level short=True>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2>> times more than their <<top show=sex|order=avg_wage|sort=asc>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Average Male Wage"
@@ -227,6 +234,7 @@ topics:
         value: "soc"
       y: "num_ppl"
   - title: "Wage by Race & Ethnicity"
+    slug: "wage_ethnicity"
     description: "<<top show=race|order=avg_wage>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
     stat:
       - title: "Race or Ethnicity with Highest Average Wage"
@@ -251,6 +259,7 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Gap"
+    slug: "wage_distro"
     description: "The <<name>> <<level short=True>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:
       - title: "Income GINI"
@@ -272,6 +281,7 @@ topics:
         value: "wage_bin"
       y: "num_ppl"
   - title: "Locations with RCA"
+    slug: "wage_geo_rca"
     category: "Opportunities"
     description: "This map shows the PUMAs in the United States that have revealed comparative advantage in the <<name>> <<level short=True>>. These are locations that employ more people in the <<name>> <<level short=True>> than expected given the size of their overall labor pool and the size of <<name>> <<level short=True>> as a whole for the nation."
     stat:

@@ -3,6 +3,7 @@ description: "By ingesting the data housed at the Bureau of Labor and Statistics
 
 topics:
   - title: "Job Growth"
+    slug: "job_growth"
     stat:
       - title: "Estimated 2022 Growth"
         value: "<<top col=emp_carc_2012_2022|year=none>>"
@@ -23,6 +24,7 @@ topics:
       x: "year"
       y: "emp_thousands"
   - title: "Output Growth"
+    slug: "output_growth"
     stat:
       - title: "Estimated 2022 Growth"
         value: "<<top col=output_carc_2012_2022|year=none>>"
@@ -43,6 +45,7 @@ topics:
       x: "year"
       y: "output"
   - title: "Top Changing Occupations"
+    slug: "changing_occs"
     description: "Filtered by the occupations employed in the <<name>> <<level short=True>>, here are the top 5 occupations by number of employees with the largest estimated change in employment across all industries."
     viz:
       attrs: "bls_soc"
