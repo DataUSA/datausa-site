@@ -44,7 +44,9 @@ class Story(Profile):
             section_dict = yaml.load(section_file)
             for t in section_dict['topics']:
                 if 'slug' in t and t['slug'] == slug:
-                    result = cls.process_viz(attr_id, attr_type, {"topics" : t['viz']})
+                    viz_data = t['viz']
+                    viz_data = [viz_data] if not isinstance(viz_data, list) else viz_data
+                    result = cls.process_viz(attr_id, attr_type, {"topics" : viz_data})
                     return {"viz": result}
 
     @classmethod
