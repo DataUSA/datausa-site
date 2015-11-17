@@ -15,6 +15,9 @@ viz.defaults = function(build) {
         else if (a.bucket.indexOf("under") >= 0 || a.bucket.indexOf("less") >= 0) {
           return 0;
         }
+        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0) {
+          return 100000;
+        }
         else {
           var b = a.bucket;
           if (b.indexOf("_") > 0) b = b.split("_")[1];
@@ -160,7 +163,14 @@ viz.defaults = function(build) {
             }
 
             var a = key && key in affixes ? affixes[key].slice() : ["", ""];
-            if (key === "income") a[1] = "k";
+            var thousands = ["income"];
+            for (var i = thousands.length; i > 0; i--) {
+              var t = thousands[i - 1];
+              if (t in dictionary) {
+                thousands.push(dictionary[t]);
+              }
+            }
+            if (thousands.indexOf(key) >= 0) a[1] = "k";
 
             if (text.indexOf("to") > 0) {
               return text.split("to").map(function(t){

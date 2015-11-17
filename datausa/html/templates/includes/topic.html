@@ -40,7 +40,15 @@
       {% endfor %}
       {% endif %}
       {% if topic.miniviz %}
-      <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}></div>
+      <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}>
+        <div class="d3plus"></div>
+        <div class="data-table">
+          <table>
+            <thead><tr></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
       <script>builds.push({{ topic.miniviz.serialize()|safe }});</script>
       {% endif %}
       {% if topic.source != False %}

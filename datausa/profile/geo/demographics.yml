@@ -7,10 +7,12 @@ topics:
     slug: "age_nativity"
     stat:
       - title: "Median Native Age"
-        value: "<<top col=nativity_us>>"
+        value: "<<var namespace=nativity|key=nativity_us>>"
+        moe: "<<var namespace=nativity|key=nativity_us_moe>>"
       - title: "Median Foreign Age"
-        value: "<<top col=nativity_foreign>>"
-    description: "The median age of people in <<name>> is <<top col=age>>, and native-born citizens are generally <<percent num=nativity_us|den=nativity_foreign|text=age>> foreign-born citizens."
+        value: "<<var namespace=nativity|key=nativity_foreign>>"
+        moe: "<<var namespace=nativity|key=nativity_foreign_moe>>"
+    description: "The median age of people in <<name>> is <<var namespace=splash|key=age>>, and native-born citizens are generally <<percent num=nativity_us|den=nativity_foreign|text=age>> foreign-born citizens."
     viz:
       color: "nationality"
       data:
@@ -49,6 +51,7 @@ topics:
       data:
         show: "birthplace"
         geo: "<<id>>"
+        required: "num_ppl,num_ppl_moe"
         where: "birthplace:~^04000US"
       height: 400
       id: "birthplace"
@@ -76,15 +79,16 @@ topics:
         value: "geo"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
-    description: "The majority of citizens in <<name>> are <<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>, with <<top col=acs_race|rank=2|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>> being the second most common."
+    description: "The majority of citizens in <<name>> are <<top col=acs_race|force=acs.yg_race>>, with <<top col=acs_race|rank=2|force=acs.yg_race>> being the second most common."
     stat:
       - title: "Most common race or ethnicity in <<name>> is"
-        value: "<<top col=acs_race|required=pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white>>"
+        value: "<<top col=acs_race|force=acs.yg_race>>"
+        moe: "<<top col=acs_race|force=acs.yg_race|moe=True>>"
     viz:
       attrs: "acs_race"
       data:
         - geo: "<<id>>"
-          required: "pop_2ormore,pop_asian,pop_black,pop_hawaiian,pop_latino,pop_native,pop_other,pop_white"
+          force: "acs.yg_race"
           show: "geo"
           split:
             id: "race"
@@ -111,7 +115,7 @@ topics:
       data:
         - geo: "<<id>>"
           where: "language:~^002,num_speakers:!0"
-          required: "num_speakers"
+          required: "num_speakers,num_speakers_moe"
           show: "geo"
       id: "language"
       order: "num_speakers"
@@ -127,20 +131,26 @@ topics:
     stat_stack: YES
     stat:
       - title: "Most Common Service Period"
-        value: "<<top col=conflict|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>>"
+        value: "<<top col=conflict|force=acs.yg_conflict>>"
+        moe: "<<top col=conflict|force=acs.yg_conflict|moe=True>>"
     viz:
-      attrs: "conflict"
+      attrs:
+        - "conflict"
+        - "geo"
       data:
-        - geo: "<<id>>"
-          required: "conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01"
+        - geo: "01000US,<<id>>"
+          force: "acs.yg_conflict"
           show: "geo"
           split:
             id: "conflict"
-            regex: "conflict_([0-9a-z]*)"
+            regex: "^conflict_([0-9a-z]*)$"
             value: "num_ppl"
-      id: "conflict"
+      id: "geo"
       type: "bar"
       x:
         scale: "discrete"
         value: "conflict"
       y: "num_ppl"
+      y2:
+        label: "USA"
+        value: "01000US"

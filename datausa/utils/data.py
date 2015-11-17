@@ -103,14 +103,15 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         keys = col.split("-")
         cols = ["_".join(c) for c in list(itertools.product(*[col_map[c] for c in keys]))]
         vals = [sorted([(k, v) for k, v in d.iteritems() if drop_first(k) in cols], key=lambda x: x[1], reverse=True) for d in r]
-        top = [drop_first(v[rank - 1][0]) for v in vals]
-        vals = [v[rank - 1][1] for v in vals]
+
         if moe:
-            top = [col_map[moe][v] for x in top for v in x.split("_")]
+            top = [r[0]["{}_moe".format(v[0][0])] for v in vals]
         else:
+            top = [drop_first(v[rank - 1][0]) for v in vals]
+            vals = [v[rank - 1][1] for v in vals]
             top = [col_map[keys[i]][v] for x in top for i, v in enumerate(x.split("_"))]
             top = [fetch(v, keys[i])["name"] if keys[i] in attr_cache else v for i, v in enumerate(top)]
-        top = [" ".join(top)]
+            top = [" ".join(top)]
     elif moe:
         top = [d[moe] for d in r]
     elif col == "name":

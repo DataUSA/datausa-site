@@ -59,10 +59,12 @@ def embed_view(attr_type, attr_id, section, topic):
     topics = topic.split(",")
     section = p.section_by_topic(section, topics)
 
-    if viz_only:
-        for t in section.topics:
+    for t in section.topics:
+        if viz_only:
             del t["description"]
             del t["subtitle"]
             del t["stat"]
+        if "category" in t:
+            del t["category"]
 
     return render_template("profile/embed.html", section = section)

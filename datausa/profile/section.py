@@ -540,7 +540,7 @@ class Section(object):
             elif "order" in params:
                 params["required"] = params["order"]
 
-        if moe:
+        if moe and "force" not in params:
             params["required"] += ",{}".format(moe)
 
         # make the API request using the params

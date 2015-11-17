@@ -1199,6 +1199,9 @@ viz.defaults = function(build) {
         else if (a.bucket.indexOf("under") >= 0 || a.bucket.indexOf("less") >= 0) {
           return 0;
         }
+        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0) {
+          return 100000;
+        }
         else {
           var b = a.bucket;
           if (b.indexOf("_") > 0) b = b.split("_")[1];
@@ -1344,7 +1347,14 @@ viz.defaults = function(build) {
             }
 
             var a = key && key in affixes ? affixes[key].slice() : ["", ""];
-            if (key === "income") a[1] = "k";
+            var thousands = ["income"];
+            for (var i = thousands.length; i > 0; i--) {
+              var t = thousands[i - 1];
+              if (t in dictionary) {
+                thousands.push(dictionary[t]);
+              }
+            }
+            if (thousands.indexOf(key) >= 0) a[1] = "k";
 
             if (text.indexOf("to") > 0) {
               return text.split("to").map(function(t){
@@ -1830,6 +1840,10 @@ viz.loadData = function(build, next) {
               dd[d.split.id] = regex.exec(keys[ii])[1];
               dd[d.split.value] = dat[keys[ii]];
 
+              if (keys[ii] + "_moe" in dat) {
+                dd[d.split.value + "_moe"] = dat[keys[ii] + "_moe"];
+              }
+
               if (d.split.map) {
                 for (var sk in d.split.map) {
                   var mapex = d.split.map[sk].exec(keys[ii]);
@@ -1838,9 +1852,9 @@ viz.loadData = function(build, next) {
                   }
                 }
               }
-
               for (var iii = 0; iii < keys.length; iii++) {
                 delete dd[keys[iii]];
+                delete dd[keys[iii] + "_moe"];
               }
               split_data.push(dd);
             }

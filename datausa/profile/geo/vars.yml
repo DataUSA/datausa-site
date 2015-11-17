@@ -23,6 +23,10 @@
   sort: asc
   namespace: gender
 
+- required: ["nativity_us", "nativity_us_moe", "nativity_foreign", "nativity_foreign_moe"]
+  show: geo
+  namespace: nativity
+
 - required: ["mean_commute_minutes"]
   geo: "<<id>>,01000US"
   year: latest
@@ -66,3 +70,6 @@
   year: "latest"
   namespace: "heritage_rca"
   where: "birthplace:~^04000US"
+
+- required: ["median_property_value", "median_property_value_moe"]
+  namespace: "acsgeo"

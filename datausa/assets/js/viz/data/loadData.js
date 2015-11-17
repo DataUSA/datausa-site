@@ -76,6 +76,10 @@ viz.loadData = function(build, next) {
               dd[d.split.id] = regex.exec(keys[ii])[1];
               dd[d.split.value] = dat[keys[ii]];
 
+              if (keys[ii] + "_moe" in dat) {
+                dd[d.split.value + "_moe"] = dat[keys[ii] + "_moe"];
+              }
+
               if (d.split.map) {
                 for (var sk in d.split.map) {
                   var mapex = d.split.map[sk].exec(keys[ii]);
@@ -84,9 +88,9 @@ viz.loadData = function(build, next) {
                   }
                 }
               }
-
               for (var iii = 0; iii < keys.length; iii++) {
                 delete dd[keys[iii]];
+                delete dd[keys[iii] + "_moe"];
               }
               split_data.push(dd);
             }
