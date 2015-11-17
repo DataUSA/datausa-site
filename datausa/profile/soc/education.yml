@@ -13,6 +13,7 @@ topics:
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca>>"
       - title: "Most common major is"
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl>>"
+        moe: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|col=num_ppl>> ± <<top show=cip|degree=21|sumlevel=2|order=num_ppl|moe=num_ppl_moe>>"
     description: "Here we see the most common degrees held by <<name>> for a particular degree type."
     viz:
       attrs: "cip"
@@ -21,7 +22,7 @@ topics:
         show: "cip"
         degree: "21"
         soc: "<<id>>"
-        required: "num_ppl"
+        required: "num_ppl,num_ppl_moe,num_ppl_rca"
         sumlevel: "2"
       depth: 2
       id:
@@ -85,7 +86,7 @@ topics:
         show: "cip,sex"
         sumlevel: "2,all"
         cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
-        required: "num_ppl"
+        required: "num_ppl,num_ppl_moe"
       id: "sex"
       order: "num_ppl"
       type: "bar"
@@ -98,7 +99,7 @@ topics:
       data:
         show: "race"
         soc: "<<id>>"
-        required: "num_ppl"
+        required: "num_ppl,num_ppl_moe"
       id: "race"
       order:
         sort: "asc"

@@ -1303,6 +1303,9 @@ viz.defaults = function(build) {
         if (text.indexOf("_moe") > 0) {
           return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
         }
+        else if (text.indexOf("_rank") > 0) {
+          return "Rank";
+        }
 
         if (text.indexOf("y2_") === 0) {
           text = text.slice(3);
@@ -1448,7 +1451,11 @@ viz.line = function(build) {
 }
 
 viz.radar = function(build) {
-  return {};
+  return {
+    "mouse": {
+      "click": false
+    }
+  };
 }
 
 viz.sankey = function(build) {

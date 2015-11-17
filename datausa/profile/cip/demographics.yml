@@ -182,11 +182,12 @@ topics:
     stat:
       - title: "Average Age"
         value: "<<top dataset=pums|show=cip|col=avg_age>>"
+        moe: "± <<top dataset=pums|show=cip|col=avg_age_moe>> years"
     description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
     viz:
       attrs: "cip"
       data:
-        required: "age,num_ppl"
+        required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
         cip: "<<id dataset=pums>>"
         show: "age"
       id: "cip"

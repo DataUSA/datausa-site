@@ -6,16 +6,17 @@ topics:
     stat:
       - title: "Most common race or ethnicity"
         value: "<<top show=race|order=num_ppl>>"
+        moe: "<<top show=race|order=num_ppl|col=num_ppl>> ± <<top show=race|order=num_ppl|moe=num_ppl_moe>>"
     description: "The most common race or ethnicity of <<name>> is <<top show=race|order=num_ppl>>, followed by <<top show=race|order=num_ppl|rank=2>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
     viz:
       attrs:
         - "soc"
         - "pums_race"
       data:
-        - required: "num_ppl"
+        - required: "num_ppl,num_ppl_moe"
           show: "race"
           soc: "<<id>>"
-        - required: "num_ppl"
+        - required: "num_ppl,num_ppl_moe"
           show: "race"
           geo: "01000US"
           static:
@@ -34,14 +35,16 @@ topics:
     stat:
       - title: "Average Male Age"
         value: "<<top sex=1|col=avg_age>>"
+        moe: "± <<top sex=1|col=avg_age|moe=avg_age_moe>>"
       - title: "Average Female Age"
         value: "<<top sex=2|col=avg_age>>"
+        moe: "± <<top sex=2|col=avg_age|moe=avg_age_moe>>"
     description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and female employees are generally <<top show=sex|required=avg_age|order=avg_age|sort=desc|col=diff|limit=2>> years <<percent num=avg_age|den=avg_age|num_id=1|den_id=2|attr_type=sex|text=age>> than their male counterparts."
     viz:
       attrs: "sex"
       color: "sex"
       data:
-        - required: "num_ppl"
+        - required: "age,num_ppl,num_ppl_moe"
           show: "age,sex"
           sumlevel: "all,all"
           soc: "<<id>>"

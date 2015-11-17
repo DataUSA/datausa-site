@@ -29,7 +29,7 @@
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-value">{{ stat.value|safe }}</div>
-            {% if stat.moe %}<div class="stat-text">± {{ stat.moe|safe }}</div>{% endif %}
+            {% if stat.moe %}<div class="stat-text">{{ stat.moe|safe }}</div>{% endif %}
           </div>
         {% endfor %}
       </div>

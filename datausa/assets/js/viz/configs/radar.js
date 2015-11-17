@@ -1,3 +1,7 @@
 viz.radar = function(build) {
-  return {};
+  return {
+    "mouse": {
+      "click": false
+    }
+  };
 }

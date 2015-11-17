@@ -13,6 +13,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "num_ppl"
+            required: "num_ppl,num_ppl_moe"
             sort: "desc"
             show: "soc"
             sumlevel: "3"
@@ -33,6 +34,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "num_ppl"
+            required: "num_ppl,num_ppl_moe"
             sort: "asc"
             show: "soc"
             sumlevel: "3"
@@ -103,6 +105,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "avg_wage"
+            required: "avg_wage,avg_wage_moe"
             sort: "desc"
             show: "soc"
             sumlevel: "3"
@@ -123,6 +126,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "avg_wage"
+            required: "avg_wage,avg_wage_moe"
             sort: "asc"
             show: "soc"
             sumlevel: "3"
@@ -142,7 +146,7 @@ topics:
       attrs: "soc"
       data:
         - cip: "<<id>>"
-          required: "num_ppl"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
       height: 500
@@ -154,6 +158,7 @@ topics:
     stat:
       - title: "Highest Average Wage"
         value: "<<top show=soc|order=avg_wage>>"
+        moe: "± <<top show=soc|order=avg_wage|moe=avg_wage_moe>>"
     description: "Here are the top 3 occupations that are commonly taken by <<name>> majors, sorted by average wage."
     viz:
       attrs: "soc"
@@ -161,6 +166,7 @@ topics:
         - cip: "<<id>>"
           limit: "5"
           order: "avg_wage"
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "soc"
       id: "soc"
       order:
@@ -175,6 +181,7 @@ topics:
     stat:
       - title: "<<name>> majors are paid the highest in"
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
+        moe: "± <<top show=geo|sumlevel=puma|order=avg_wage|moe=avg_wage_moe>>"
     description: "The map to the right shows the public-use micro areas in the United States colored by the average wage of <<name>> majors."
     viz:
       attrs: "geo"
@@ -183,6 +190,7 @@ topics:
       data:
         - cip: "<<id>>"
           order: "avg_wage"
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "geo"
           sumlevel: "puma"
       id: "geo"
@@ -199,6 +207,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "num_ppl"
+            required: "num_ppl,num_ppl_moe"
             sort: "desc"
             show: "naics"
             sumlevel: "2"
@@ -219,6 +228,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "num_ppl"
+            required: "num_ppl,num_ppl_moe"
             sort: "asc"
             show: "naics"
             sumlevel: "2"
@@ -244,6 +254,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "avg_wage"
+            required: "avg_wage,avg_wage_moe"
             sort: "desc"
             show: "naics"
             sumlevel: "2"
@@ -264,6 +275,7 @@ topics:
           - cip: "<<id>>"
             limit: "5"
             order: "avg_wage"
+            required: "avg_wage,avg_wage_moe"
             sort: "asc"
             show: "naics"
             sumlevel: "2"
@@ -283,7 +295,7 @@ topics:
       attrs: "naics"
       data:
         - cip: "<<id>>"
-          required: "num_ppl"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
       height: 500
@@ -301,7 +313,7 @@ topics:
       coords: "pumas"
       data:
         - cip: "<<id>>"
-          order: "num_ppl_rca"
+          order: "num_ppl_rca,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "geo"
           sumlevel: "puma"
       id: "geo"

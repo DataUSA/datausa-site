@@ -3,11 +3,12 @@
     - "avg_age_rank"
     - "avg_wage"
     - "avg_wage_rank"
+    - "avg_wage_moe"
     - "num_ppl"
     - "num_ppl_rank"
   namespace: data
 
-- required: ["avg_wage"]
+- required: ["avg_wage", "avg_wage_moe"]
   sex: "1,2" # 1 or 2
   limit: 2
   show: sex

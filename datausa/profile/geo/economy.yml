@@ -170,7 +170,7 @@ topics:
     stat:
       - title: "Median Income"
         value: "<<var namespace=splash|key=income>>"
-        moe: "<<var namespace=splash|key=income_moe>>"
+        moe: "± <<var namespace=splash|key=income_moe>>"
     viz:
       attrs: "geo"
       data:
@@ -193,10 +193,10 @@ topics:
     stat:
       - title: "Median Male Income"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
-        moe: "<<var namespace=gender|key=avg_wage_moe|row=0>>"
+        moe: "± <<var namespace=gender|key=avg_wage_moe|row=0>>"
       - title: "Median Female Income"
         value: "<<var namespace=gender|key=avg_wage|row=1>>"
-        moe: "<<var namespace=gender|key=avg_wage_moe|row=1>>"
+        moe: "± <<var namespace=gender|key=avg_wage_moe|row=1>>"
     viz:
       attrs:
         - "sex"
@@ -223,7 +223,7 @@ topics:
     stat:
       - title: "Race or Ethnicity with Highest Median Income"
         value: "<<top show=race|order=avg_wage>>"
-        moe: "<<top show=race|order=avg_wage|moe=avg_wage_moe>>"
+        moe: "± <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs:
         - "race"
@@ -289,7 +289,7 @@ topics:
     stat:
       - title: "Largest demographic living in poverty"
         value: "<<top col=sex-ageBucket|force=acs.yg_poverty>>"
-        moe: "<<top col=sex-ageBucket|force=acs.yg_poverty|moe=True>>"
+        moe: "± <<top col=sex-ageBucket|force=acs.yg_poverty|moe=True>>"
     description: "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population for whom poverty status is determined in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line. This is below the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>."
     viz:
       color: "sex"
@@ -317,7 +317,7 @@ topics:
     stat:
       - title: "Largest race or ethnicity living in poverty"
         value: "<<top col=race|force=acs.yg_poverty_race>>"
-        moe: "<<top col=race|force=acs.yg_poverty_race|moe=True>>"
+        moe: "± <<top col=race|force=acs.yg_poverty_race|moe=True>>"
     description: "<<percent num=top:race,acs.yg_poverty_race|den=pop_poverty_status>> of the people for whom poverty status is determined in <<name>> living below the poverty line are <<top col=race|force=acs.yg_poverty_race>>, followed by <<top col=race|force=acs.yg_poverty_race|rank=2>> and <<top col=race|force=acs.yg_poverty_race|rank=3>>."
     viz:
       data:

@@ -23536,7 +23536,7 @@ module.exports = function(vars) {
   vars.g.data.selectAll("g")
     .on(events.click,function(d){
 
-      if (vars.mouse.value && vars.mouse.click.value && !d3.event.defaultPrevented && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
+      if (!(vars.mouse.viz && vars.mouse.viz.click === false) && vars.mouse.value && vars.mouse.click.value && !d3.event.defaultPrevented && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
 
         if (typeof vars.mouse.click.value === "function") {
           vars.mouse.click.value(d, vars.self);
@@ -26193,20 +26193,20 @@ module.exports = function(params) {
           parent = fetchValue(vars,id,key)
     }
 
-    if (zoom === 1 && vars.zoom.value) {
-      var text = vars.format.value(vars.format.locale.value.ui.expand)
-    }
-    else if (zoom === -1 && vars.zoom.value && vars.history.states.length && !vars.tooltip.value.long) {
-      var text = vars.format.value(vars.format.locale.value.ui.collapse)
-    }
-    else if (!vars.small && length == "short" && (vars.tooltip.html.value || vars.tooltip.value.long) && (vars.focus.value.length !== 1 || vars.focus.value[0] != id)) {
-      var text = vars.format.locale.value.ui.moreInfo
-    }
-    else if (length == "long") {
-      var text = vars.footer.value || ""
-    }
-    else {
-      var text = ""
+    var text = "";
+    if (!(!vars.mouse.click.value || (vars.mouse.viz && vars.mouse.viz.click === false))) {
+      if (zoom === 1 && vars.zoom.value) {
+        var text = vars.format.value(vars.format.locale.value.ui.expand)
+      }
+      else if (zoom === -1 && vars.zoom.value && vars.history.states.length && !vars.tooltip.value.long) {
+        var text = vars.format.value(vars.format.locale.value.ui.collapse)
+      }
+      else if (!vars.small && length == "short" && (vars.tooltip.html.value || vars.tooltip.value.long) && (vars.focus.value.length !== 1 || vars.focus.value[0] != id)) {
+        var text = vars.format.locale.value.ui.moreInfo
+      }
+      else if (length == "long") {
+        var text = vars.footer.value || ""
+      }
     }
 
     var footer = text.length ? vars.format.value(text,{"key": "footer", "vars": vars}) : false
@@ -33681,6 +33681,9 @@ radar = function(vars) {
     return vars.height.viz / 2 + vars.margin.top + d.offset.y;
   });
   grid.exit().transition().duration(vars.draw.timing).attr("opacity", 0).remove();
+  vars.mouse.viz = {
+    click: false
+  };
   return data;
 };
 

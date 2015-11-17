@@ -1,8 +1,10 @@
 - required:
     - "avg_age"
     - "avg_age_rank"
+    - "avg_age_moe"
     - "avg_wage"
     - "avg_wage_rank"
+    - "avg_wage_moe"
     - "num_ppl"
     - "num_ppl_rank"
   namespace: data

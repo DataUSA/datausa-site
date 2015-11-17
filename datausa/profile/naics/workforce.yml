@@ -13,6 +13,7 @@ topics:
           - naics: "<<id>>"
             limit: "5"
             order: "num_ppl"
+            required: "num_ppl,num_ppl_moe"
             sort: "desc"
             show: "soc"
             sumlevel: "3"
@@ -33,6 +34,7 @@ topics:
           - naics: "<<id>>"
             limit: "5"
             order: "num_ppl"
+            required: "num_ppl,num_ppl_moe"
             sort: "asc"
             show: "soc"
             sumlevel: "3"
@@ -105,6 +107,7 @@ topics:
           - naics: "<<id>>"
             limit: "5"
             order: "avg_wage"
+            required: "avg_wage,avg_wage_moe"
             sort: "desc"
             show: "soc"
             sumlevel: "3"
@@ -125,6 +128,7 @@ topics:
           - naics: "<<id>>"
             limit: "5"
             order: "avg_wage"
+            required: "avg_wage,avg_wage_moe"
             sort: "asc"
             show: "soc"
             sumlevel: "3"
@@ -145,7 +149,7 @@ topics:
       attrs: "soc"
       data:
         - naics: "<<id>>"
-          required: "num_ppl"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
       depth: 4
@@ -159,10 +163,11 @@ topics:
     stat:
       - title: "Average Wage"
         value: "<<var namespace=data|key=avg_wage>>"
+        moe: "± <<var namespace=data|key=avg_wage_moe>>"
     viz:
       attrs: "naics"
       data:
-        - required: "avg_wage,avg_wage_rank"
+        - required: "avg_wage_rank,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "<<sumlevel>>"
           avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
@@ -180,12 +185,13 @@ topics:
     stat:
       - title: Highest Paying Public Use Microdata Area
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
+        moe: "± <<top show=geo|sumlevel=puma|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs: "geo"
       coords: "pumas"
       color: "avg_wage"
       data:
-        - required: "avg_wage"
+        - required: "avg_wage,avg_wage_moe"
           show: "geo"
           sumlevel: "puma"
           naics: "<<id>>"
@@ -197,8 +203,10 @@ topics:
     stat:
       - title: "Average Male Wage"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
+        moe: "± <<var namespace=gender|key=avg_wage_moe|row=0>>"
       - title: "Average Female Wage"
         value: "<<var namespace=gender|key=avg_wage|row=1>>"
+        moe: "± <<var namespace=gender|key=avg_wage_moe|row=1>>"
     viz:
       attrs:
         - "sex"
@@ -207,7 +215,7 @@ topics:
       data:
         - naics: "<<id>>"
           limit: "10"
-          required: "num_ppl"
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "soc,sex"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
@@ -219,10 +227,11 @@ topics:
         value: "soc"
       y: "num_ppl"
   - title: "Wage by Race & Ethnicity"
-    description: "<<top show=race|order=avg_wage|sort=desc>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
+    description: "<<top show=race|order=avg_wage>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
     stat:
       - title: "Race or Ethnicity with Highest Average Wage"
         value: "<<top show=race|order=avg_wage>>"
+        moe: "<<top show=race|order=avg_wage|col=avg_wage>> ± <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs:
         - "race"
@@ -230,7 +239,7 @@ topics:
       data:
         - naics: "<<id>>"
           limit: "45"
-          required: "num_ppl,avg_wage"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "soc,race"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
@@ -250,7 +259,7 @@ topics:
       attrs: "wage_bin"
       data:
         - naics: "<<id>>"
-          required: "wage_bin,num_ppl"
+          required: "wage_bin,num_ppl,num_ppl_moe"
           show: "naics"
       id: "wage_bin"
       order:
