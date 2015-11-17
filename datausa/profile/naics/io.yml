@@ -2,7 +2,7 @@ title: "Input/Output"
 description: "The Bureau of Labor and Statistics publishes a course dataset on inter-industry purchases. By extrapolating this data, we can produce a picture of how a specific industry buys and sells to and from other industries."
 
 topics:
-  - slug: "io_sankey"
+  - slug: "sankey"
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0>>"
     viz:
       attrs: "iocode"
@@ -27,7 +27,7 @@ topics:
       id: "id"
       type: "sankey"
   - title: "Consumption"
-    slug: "io_tmap_consumption"
+    slug: "tmap_consumption"
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
     stat:
       - title: "Highest Input Industry"
@@ -45,7 +45,7 @@ topics:
       size: "value_millions"
       type: "tree_map"
   - title: "Production"
-    slug: "io_tmap_production"
+    slug: "tmap_production"
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
     stat:
       - title: "Highest Output Industry"
