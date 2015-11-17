@@ -6,6 +6,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
+    slug: "top_occ_num_emp"
     description: "The 3 most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
@@ -53,6 +54,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Most Specialized"
+    slug: "top_occ_rca"
     description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
@@ -98,6 +100,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
+    slug: "top_occ_wage"
     description: "The 3 highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
@@ -142,7 +145,8 @@ topics:
           label: "Bottom 5"
           scale: "discrete"
           value: "soc"
-  - viz:
+  - slug: "tmap_occ_num_emp_degree"
+    viz:
       attrs: "soc"
       data:
         - cip: "<<id>>"
@@ -154,6 +158,7 @@ topics:
       size: "num_ppl"
       type: "tree_map"
   - category: "Wages"
+    slug: "wages"
     title: "Income"
     stat:
       - title: "Highest Average Wage"
@@ -178,6 +183,7 @@ topics:
         scale: "discrete"
         value: "soc"
   - title: "Location"
+    slug: "locations"
     stat:
       - title: "<<name>> majors are paid the highest in"
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
@@ -197,6 +203,7 @@ topics:
       height: 500
       type: "geo_map"
   - category: "Industries"
+    slug: "top_ind_num_emp"
     class: "flex"
     source: NO
     title: "Most Common"
@@ -247,6 +254,7 @@ topics:
   - class: "flex"
     source: NO
     title: "Highest Paid"
+    slug: "top_ind_wage"
     description: "The 3 highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
@@ -291,7 +299,8 @@ topics:
           label: "Bottom 5"
           scale: "discrete"
           value: "naics"
-  - viz:
+  - slug: "tmap_ind_num_emp"
+    viz:
       attrs: "naics"
       data:
         - cip: "<<id>>"
@@ -303,6 +312,7 @@ topics:
       size: "num_ppl"
       type: "tree_map"
   - title: "Locations"
+    slug: "ind_geo_map"
     stat:
       - title: "PUMA with a relatively high number of <<name>> majors"
         value: "<<top show=geo|sumlevel=puma|order=num_ppl_rca>>"

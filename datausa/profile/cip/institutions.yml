@@ -3,6 +3,7 @@ description: "The Census Bureau collects a large amount of data in regards to hi
 
 topics:
   - title: "Institutions"
+    slug: "tmap_institutions_grads"
     stat:
       - title: "Institution with the most degrees awarded in <<name>>"
         value: "<<top show=university|order=grads_total>>"
@@ -24,6 +25,7 @@ topics:
       type: "tree_map"
       size: "grads_total"
   - title: "Tuition Costs"
+    slug: "tuition_costs"
     stat:
       - title: "Median In-State Public"
         value: "<<top show=sector|sector=1|col=state_tuition>>"
@@ -48,6 +50,7 @@ topics:
         scale: "discrete"
         value: "university"
   - title: "Popular Colleges"
+    slug: "institutions_most_degrees"
     stat:
       - title: "Highest Concentration Institution"
         value: "<<top show=university|order=pct_total>>"
@@ -66,6 +69,7 @@ topics:
       x: "university"
       y: "grads_total"
   - title: "Degrees Awarded by County"
+    slug: "counties_most_degrees"
     stat:
       - title: "County with the Most Degrees Awarded for <<name>>"
         value: "<<top show=geo|sumlevel=county|order=grads_total|col=name>>"
@@ -83,6 +87,7 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Degrees Awarded by Growth"
+    slug: "counties_growth_degrees"
     stat:
       - title: "County with the Fastest Growing Number of Degrees Awarded"
         value: "<<top show=geo|sumlevel=county|order=grads_total_growth|col=name>>"
