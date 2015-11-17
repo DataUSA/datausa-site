@@ -12,7 +12,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       },
       "sec": {
@@ -20,7 +20,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       }
     },
@@ -30,7 +30,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       },
       "sec": {
@@ -38,7 +38,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       }
     }

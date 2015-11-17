@@ -7,7 +7,7 @@
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
   {% if topic.title %}
-  <h2>{{ topic.title|safe }}<a href="#" class="data-btn"><span>Show Data Table</span><i class="fa fa-table"></i></a></h2>
+  <h2>{{ topic.title|safe }} <a href="#" class="data-btn"><span>Show Data</span>&nbsp;<i class="fa fa-table"></i></a></h2>
   {% endif %}
   {% if topic.subtitle %}
   <sub>{{ topic.subtitle|safe }}</sub>
@@ -29,7 +29,7 @@
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-value">{{ stat.value|safe }}</div>
-            {% if stat.moe %}<div class="stat-text">{{ stat.moe|safe }}</div>{% endif %}
+            {% if stat.moe %}<div class="stat-text stat-moe">{{ stat.moe|safe }}</div>{% endif %}
           </div>
         {% endfor %}
       </div>

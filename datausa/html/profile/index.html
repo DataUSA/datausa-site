@@ -13,9 +13,9 @@
 
 <div class="bound">
 <div id="show-bg">
-  <a href="#">
+  <div>
     <i class="fa fa-bolt"></i>
-  </a>
+  </div>
 </div>
 
 <article id="splash">
@@ -235,7 +235,6 @@
 
 
   d3.select("#show-bg").on("click", function(){
-    d3.event.preventDefault();
     d3.select("#splash-image").classed("c", !d3.select("#splash-image").classed("c"));
   });
 

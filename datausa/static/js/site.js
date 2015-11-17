@@ -869,7 +869,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       },
       "sec": {
@@ -877,7 +877,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       }
     },
@@ -887,7 +887,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       },
       "sec": {
@@ -895,7 +895,7 @@ var chartStyles = {
         "family": "Roboto",
         "size": 14,
         "weight": 700,
-        "transform": "uppercase", // needs to be passed in
+        "transform": "uppercase",
         "spacing": 1
       }
     }
@@ -1664,7 +1664,7 @@ viz.loadBuilds = function(builds) {
         d3.select(build.container.node().parentNode.parentNode).select(".data-btn").on("click", function(){
           d3.event.preventDefault();
           table.classed("visible", !table.classed("visible"));
-          var text = table.classed("visible") ? "Hide Data Table" : "Show Data Table";
+          var text = table.classed("visible") ? "Hide Data" : "Show Data";
           d3.select(this).select("span").text(text);
         });
       }
