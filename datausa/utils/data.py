@@ -161,6 +161,18 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         "data": vals
     }
 
+def acs_crosswalk(attr_type, attr_id):
+    url = "{}/attrs/crosswalk/{}/{}/".format(API, attr_type, attr_id)
+    try:
+        data = requests.get(url)
+        results = datafold(data.json())
+        for row in results:
+            attr_obj = fetch(row["attr_id"], row["attr_kind"])
+            row["name"] = attr_obj["name"] if "name" in attr_obj else "N/A"
+        return results
+    except ValueError:
+        return []
+
 # create a mapping for splitting demographic columns
 col_map = {
     "sex": {

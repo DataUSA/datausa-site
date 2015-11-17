@@ -2,7 +2,7 @@
 from flask import abort, Blueprint, g, jsonify, render_template, request
 from config import CROSSWALKS, PROFILES
 from datausa.profile.profile import Profile
-from datausa.utils.data import attr_cache, stat
+from datausa.utils.data import attr_cache, stat, acs_crosswalk
 from datausa.search.views import get_img
 
 
@@ -27,7 +27,8 @@ def profile(attr_type, attr_id):
 
     if attr_type in CROSSWALKS:
         attr = attr_cache[attr_type][attr_id]
-        return render_template("profile/redirect.html", attr=attr)
+        crosswalks = acs_crosswalk(attr_type, attr_id)
+        return render_template("profile/redirect.html", attr=attr, crosswalks=crosswalks)
 
     g.page_class = attr_type
 

@@ -3,6 +3,10 @@
 {% block body %}
 
   <h1>Time to crosswalk {{ attr["name"] }}</h1>
+{% for crosswalk in crosswalks %}
+    <a href="/profile/{{ crosswalk.attr_kind }}/{{ crosswalk.attr_id }}">{{crosswalk.name}}</a><br/>
+{% endfor %}
+
 
 {% endblock %}
 
