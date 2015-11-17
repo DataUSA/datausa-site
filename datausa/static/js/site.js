@@ -1433,9 +1433,13 @@ viz.geo_map = function(build) {
       "center": [0, 0],
       "key": key,
       "padding": 0,
-      "projection": key === "birthplace" ? "equirectangular" : "albersUsa"
+      "projection": key === "birthplace" ? "equirectangular" : "albersUsa",
+      "simplify": false
     },
     "labels": false,
+    "mouse": {
+      "click": false
+    },
     "zoom": {
       "scroll": false
     }
@@ -1753,7 +1757,6 @@ viz.loadCoords = function(build) {
       if (build.config.coords.solo.length) {
         filename += "_" + build.config.coords.solo[0].slice(7, 9);
         build.config.coords.solo.push("040" + build.config.coords.solo[0].slice(3, 9));
-        // build.config.coords.solo = ["040" + build.config.coords.solo[0].slice(3, 9)];
       }
       else {
         filename += "_" + build.highlight.slice(7, 9);

@@ -7,9 +7,13 @@ viz.geo_map = function(build) {
       "center": [0, 0],
       "key": key,
       "padding": 0,
-      "projection": key === "birthplace" ? "equirectangular" : "albersUsa"
+      "projection": key === "birthplace" ? "equirectangular" : "albersUsa",
+      "simplify": false
     },
     "labels": false,
+    "mouse": {
+      "click": false
+    },
     "zoom": {
       "scroll": false
     }

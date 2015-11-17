@@ -21890,7 +21890,7 @@ module.exports = function(vars) {
       }
       // }
     }
-    else if (vars.types[vars.type.value].zoom && vars.zoom.value && vars.draw.timing) {
+    else if ((vars.labels.value || vars.labels.changed) && vars.types[vars.type.value].zoom && vars.zoom.value && vars.draw.timing) {
       setTimeout(function(){
         labels(vars)
       },vars.draw.timing)
@@ -22566,15 +22566,14 @@ module.exports = function(vars, selection, enter, exit) {
   }
   vars.zoom.area = 1 / vars.zoom.scale / vars.zoom.scale;
   vars.path = d3.geo.path().projection(projection);
-  selection.selectAll("path").attr("d", vars.path).call(shapeStyle, vars);
+  if (vars.draw.timing) {
+    selection.selectAll("path.d3plus_data").attr("d", vars.path).transition().duration(vars.draw.timing).call(shapeStyle, vars);
+  } else {
+    selection.selectAll("path.d3plus_data").attr("d", vars.path).call(shapeStyle, vars);
+  }
   enter.append("path").attr("id", function(d) {
     return d.id;
   }).attr("class", "d3plus_data").attr("d", vars.path).call(shapeStyle, vars);
-  if (vars.draw.timing) {
-    selection.selectAll("path.d3plus_data").transition().duration(vars.draw.timing).call(shapeStyle, vars);
-  } else {
-    selection.selectAll("path.d3plus_data").call(shapeStyle, vars);
-  }
   size_change = vars.old_height !== vars.height.viz || vars.height.changed || vars.old_width !== vars.width.viz || vars.width.changed;
   vars.old_height = vars.height.viz;
   vars.old_width = vars.width.viz;
@@ -22583,17 +22582,17 @@ module.exports = function(vars, selection, enter, exit) {
     vars.zoom.reset = true;
     vars.zoom.coords = {};
     return selection.each(function(d) {
-      var areaM, areas, b, c, center, coords, dist_cutoff, dist_values, distances, i, j, largest, len, names, path, ratio, rect, reduced, ref, size, style, test;
-      if (d.geometry.coordinates.length > 1) {
+      var areaM, areas, b, c, center, coords, dist_cutoff, dist_values, distances, i, j, largest, len, names, path, ratio, rect, reduced, ref, size, style;
+      if (vars.coords.simplify.value && d.geometry.coordinates.length > 1) {
         distances = [];
         areas = [];
         areaM = 0;
-        test = copy(d);
         largest = copy(d);
+        reduced = copy(d);
         d.geometry.coordinates = d.geometry.coordinates.filter(function(c, i) {
           var a;
-          test.geometry.coordinates = [c];
-          a = vars.path.area(test);
+          reduced.geometry.coordinates = [c];
+          a = vars.path.area(reduced);
           if (a > 0) {
             areas.push(a);
             if (a > areaM) {
@@ -22606,12 +22605,11 @@ module.exports = function(vars, selection, enter, exit) {
           }
         });
         center = vars.path.centroid(largest);
-        reduced = copy(d);
         ref = d.geometry.coordinates;
         for (i = j = 0, len = ref.length; j < len; i = ++j) {
           c = ref[i];
-          test.geometry.coordinates = [c];
-          distances.push(distance(vars.path.centroid(test), center));
+          reduced.geometry.coordinates = [c];
+          distances.push(distance(vars.path.centroid(reduced), center));
         }
         dist_values = distances.reduce(function(arr, dist, i) {
           if (dist) {
@@ -22620,7 +22618,7 @@ module.exports = function(vars, selection, enter, exit) {
           return arr;
         }, []);
         dist_cutoff = d3.quantile(dist_values, vars.coords.threshold.value);
-        reduced.geometry.coordinates = reduced.geometry.coordinates.filter(function(c, i) {
+        reduced.geometry.coordinates = d.geometry.coordinates.filter(function(c, i) {
           var a, dist;
           dist = distances[i];
           a = areas[i];
@@ -22638,38 +22636,40 @@ module.exports = function(vars, selection, enter, exit) {
         coords = d.geometry.coordinates[0];
       }
       vars.zoom.coords[d.d3plus.id] = reduced;
-      b = vars.path.bounds(reduced);
-      names = fetchText(vars, d);
       delete d.d3plus_label;
-      if (coords && names.length && vars.labels.value) {
-        path = path2poly(vars.path(largest));
-        style = {
-          "font-weight": vars.labels.font.weight,
-          "font-family": vars.labels.font.family.value
-        };
-        ratio = null;
-        if (names[0].split(" ").length === 1) {
-          size = fontSizes(names[0], style)[0];
-          ratio = size.width / size.height;
-        }
-        rect = largestRect(path, {
-          angle: 0,
-          aspectRatio: ratio
-        });
-        if (rect) {
-          rect = rect[0];
-          d.d3plus_label = {
-            anchor: "middle",
-            valign: "center",
-            h: rect.height,
-            w: rect.width,
-            x: rect.cx,
-            y: rect.cy,
-            names: names
+      if (vars.labels.value) {
+        names = fetchText(vars, d);
+        if (coords && names.length) {
+          path = path2poly(vars.path(largest));
+          style = {
+            "font-weight": vars.labels.font.weight,
+            "font-family": vars.labels.font.family.value
           };
+          ratio = null;
+          if (names[0].split(" ").length === 1) {
+            size = fontSizes(names[0], style)[0];
+            ratio = size.width / size.height;
+          }
+          rect = largestRect(path, {
+            angle: 0,
+            aspectRatio: ratio
+          });
+          if (rect) {
+            rect = rect[0];
+            d.d3plus_label = {
+              anchor: "middle",
+              valign: "center",
+              h: rect.height,
+              w: rect.width,
+              x: rect.cx,
+              y: rect.cy,
+              names: names
+            };
+          }
         }
       }
       labels[d.id] = d.d3plus_label;
+      b = vars.path.bounds(reduced);
       if (!vars.zoom.bounds) {
         return vars.zoom.bounds = b;
       } else {
@@ -23385,7 +23385,7 @@ module.exports = function(vars) {
     vars.g.data.selectAll("g")
       .on(events.over,function(d){
 
-        if (vars.mouse.value && vars.mouse.over.value && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
+        if (!d3.event.buttons && vars.mouse.value && vars.mouse.over.value && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
 
           if (typeof vars.mouse.over.value === "function") {
             vars.mouse.over.value(d, vars.self);
@@ -23433,11 +23433,14 @@ module.exports = function(vars) {
           }
 
         }
+        else {
+          removeTooltip(vars.type.value);
+        }
 
       })
       .on(events.move,function(d){
 
-        if (vars.mouse.value && vars.mouse.move.value && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
+        if (!d3.event.buttons && vars.mouse.value && vars.mouse.move.value && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
 
           if (typeof vars.mouse.move.value === "function") {
             vars.mouse.move.value(d, vars.self);
@@ -23475,11 +23478,14 @@ module.exports = function(vars) {
           }
 
         }
+        else {
+          removeTooltip(vars.type.value);
+        }
 
       })
       .on(events.out,function(d){
 
-        if (vars.mouse.value && vars.mouse.out.value) {
+        if (!d3.event.buttons && vars.mouse.value && vars.mouse.out.value) {
 
           if (typeof vars.mouse.out.value === "function") {
             vars.mouse.out.value(d, vars.self);
@@ -23515,6 +23521,9 @@ module.exports = function(vars) {
 
           }
 
+        }
+        else {
+          removeTooltip(vars.type.value);
         }
 
       })
@@ -28599,7 +28608,9 @@ module.exports = function(vars, b, timing) {
     width: vars.zoom.bounds[1][0] - vars.zoom.bounds[0][0]
   };
   vars.zoom.reset = false;
-  labels(vars);
+  if (vars.labels.value || vars.labels.changed) {
+    labels(vars);
+  }
   return transform(vars, timing);
 };
 
@@ -28660,9 +28671,11 @@ module.exports = function(vars) {
 
 
 },{"../../../core/console/print.coffee":53}],251:[function(require,module,exports){
-var labels, transform;
+var labels, removeTooltip, transform;
 
 labels = require("./labels.coffee");
+
+removeTooltip = require("../../../tooltip/remove.coffee");
 
 transform = require("./transform.coffee");
 
@@ -28692,13 +28705,18 @@ module.exports = function(vars) {
   vars.zoom.translate = translate;
   vars.zoom.scale = scale;
   if (eventType === "wheel") {
-    delay = (vars.draw.timing ? 100 : 250);
-    clearTimeout(vars.zoom.wheel);
-    vars.zoom.wheel = setTimeout(function() {
-      return labels(vars);
-    }, delay);
-  } else {
-    labels(vars);
+    removeTooltip(vars.type.value);
+  }
+  if (vars.labels.value || vars.labels.changed) {
+    if (eventType === "wheel") {
+      delay = (vars.draw.timing ? 100 : 250);
+      clearTimeout(vars.zoom.wheel);
+      vars.zoom.wheel = setTimeout(function() {
+        return labels(vars);
+      }, delay);
+    } else {
+      labels(vars);
+    }
   }
   if (eventType === "dblclick") {
     return transform(vars, vars.timing.transitions);
@@ -28708,7 +28726,7 @@ module.exports = function(vars) {
 };
 
 
-},{"./labels.coffee":250,"./transform.coffee":253}],252:[function(require,module,exports){
+},{"../../../tooltip/remove.coffee":202,"./labels.coffee":250,"./transform.coffee":253}],252:[function(require,module,exports){
 module.exports = function(vars, event) {
   var enabled, zoom, zoomable, zoomed;
   zoom = vars.zoom;
@@ -28952,6 +28970,10 @@ module.exports = {
   projection: {
     accepted: ["albers", "albersUsa", "azimuthalEqualArea", "azimuthalEquidistant", "conicConformal", "conicEqualArea", "conicEquidistant", "equirectangular", "gnomonic", "mercator", "orthographic", "stereographic", "transverseMercator", Function],
     value: "mercator"
+  },
+  simplify: {
+    accepted: [Boolean],
+    value: true
   },
   solo: filter(false),
   threshold: {
@@ -31052,7 +31074,6 @@ var geo_map;
 
 geo_map = function(vars) {
   var coords, features, key, mute, solo, topo;
-  topojson.presimplify(vars.coords.value);
   coords = vars.coords.value;
   key = vars.coords.key || d3.keys(coords.objects)[0];
   topo = topojson.feature(coords, coords.objects[key]);
