@@ -15082,17 +15082,17 @@ module.exports = function(points) {
 
 
 },{}],101:[function(require,module,exports){
-var fontTester, getHeight, getWidth;
+var fontTester;
 
 fontTester = require("../core/font/tester.coffee");
 
 module.exports = function(words, style, opts) {
-  var attr, sizes, tester, tspans;
+  var attr, getHeight, getWidth, sizes, spacing, tester, tspans;
   if (!opts) {
     opts = {};
   }
-  tester = opts.parent || fontTester("svg").append("text");
   style = style || {};
+  tester = opts.parent || fontTester("svg").append("text");
   sizes = [];
   if (!(words instanceof Array)) {
     words = [words];
@@ -15104,6 +15104,22 @@ module.exports = function(words, style, opts) {
     top: "0px",
     x: 0,
     y: 0
+  };
+  spacing = 0;
+  if ("letter-spacing" in style) {
+    spacing = parseFloat(style["letter-spacing"]);
+    delete style["letter-spacing"];
+  }
+  getWidth = function(elem) {
+    var add;
+    add = 0;
+    if (spacing) {
+      add = (elem.innerHTML.length - 1) * spacing;
+    }
+    return elem.getComputedTextLength() + add;
+  };
+  getHeight = function(elem) {
+    return elem.offsetHeight || elem.getBoundingClientRect().height || elem.parentNode.getBBox().height;
   };
   tspans.enter().append("tspan").text(String).style(style).attr(attr).each(function(d) {
     if (typeof opts.mod === "function") {
@@ -15133,14 +15149,6 @@ module.exports = function(words, style, opts) {
     tester.remove();
   }
   return sizes;
-};
-
-getWidth = function(elem) {
-  return elem.getComputedTextLength();
-};
-
-getHeight = function(elem) {
-  return elem.offsetHeight || elem.getBoundingClientRect().height || elem.parentNode.getBBox().height;
 };
 
 
@@ -19983,7 +19991,8 @@ resize = function(vars) {
   sizeMax = Math.floor(vars.size.value[1]);
   lineWidth = vars.shape.value === "circle" ? width * 0.75 : width;
   sizes = fontSizes(words, {
-    "font-size": sizeMax + "px",
+    "font-size": sizeMax + "px"
+  }, {
     parent: vars.container.value
   });
   maxWidth = d3.max(sizes, function(d) {
@@ -29521,6 +29530,7 @@ module.exports = function(axis) {
         decoration: decoration(false),
         family: family(""),
         size: false,
+        spacing: 0,
         transform: transform(false),
         weight: false
       },
@@ -29555,6 +29565,7 @@ module.exports = function(axis) {
         decoration: decoration(),
         family: family(),
         size: 12,
+        spacing: 0,
         transform: transform(),
         weight: 200
       },
@@ -29688,6 +29699,7 @@ module.exports = function(axis) {
         decoration: decoration(),
         family: family(),
         size: 10,
+        spacing: 0,
         transform: transform(),
         weight: 200
       },
@@ -31993,7 +32005,9 @@ module.exports = function(vars, opts) {
         axisStyle = {
           "font-family": vars[axis].ticks.font.family.value,
           "font-weight": vars[axis].ticks.font.weight,
-          "font-size": vars[axis].ticks.font.size + "px"
+          "font-size": vars[axis].ticks.font.size + "px",
+          "text-transform": vars[axis].ticks.font.transform.value,
+          "letter-spacing": vars[axis].ticks.font.spacing + "px"
         };
         timeReturn = timeDetect(vars, {
           values: vars[axis].ticks.values,
@@ -32077,7 +32091,9 @@ labelPadding = function(vars) {
       yAttrs = {
         "font-size": vars[axis].ticks.font.size + "px",
         "font-family": vars[axis].ticks.font.family.value,
-        "font-weight": vars[axis].ticks.font.weight
+        "font-weight": vars[axis].ticks.font.weight,
+        "text-transform": vars[axis].ticks.font.transform.value,
+        "letter-spacing": vars[axis].ticks.font.spacing + "px"
       };
       yValues = vars[axis].ticks.visible;
       if (vars[axis].scale.value === "log") {
@@ -32124,7 +32140,9 @@ labelPadding = function(vars) {
         yLabelAttrs = {
           "font-family": vars[axis].label.font.family.value,
           "font-weight": vars[axis].label.font.weight,
-          "font-size": vars[axis].label.font.size + "px"
+          "font-size": vars[axis].label.font.size + "px",
+          "text-transform": vars[axis].label.font.transform.value,
+          "letter-spacing": vars[axis].label.font.spacing + "px"
         };
         vars[axis].label.height = fontSizes([yLabel], yLabelAttrs)[0].height;
       } else {
@@ -32151,7 +32169,9 @@ labelPadding = function(vars) {
         xAttrs = {
           "font-size": vars[axis].ticks.font.size + "px",
           "font-family": vars[axis].ticks.font.family.value,
-          "font-weight": vars[axis].ticks.font.weight
+          "font-weight": vars[axis].ticks.font.weight,
+          "text-transform": vars[axis].ticks.font.transform.value,
+          "letter-spacing": vars[axis].ticks.font.spacing + "px"
         };
         xValues = vars[axis].ticks.visible;
         if (vars[axis].scale.value === "log") {
@@ -32259,7 +32279,9 @@ labelPadding = function(vars) {
         xLabelAttrs = {
           "font-family": vars[axis].label.font.family.value,
           "font-weight": vars[axis].label.font.weight,
-          "font-size": vars[axis].label.font.size + "px"
+          "font-size": vars[axis].label.font.size + "px",
+          "text-transform": vars[axis].label.font.transform.value,
+          "letter-spacing": vars[axis].label.font.spacing + "px"
         };
         vars[axis].label.height = fontSizes([xLabel], xLabelAttrs)[0].height;
       } else {
@@ -32407,8 +32429,10 @@ module.exports = function(vars) {
         return color;
       } else if (grid && vars.axes.background.color !== "transparent") {
         return mix(color, vars.axes.background.color, 0.4, 1);
-      } else {
+      } else if (vars.background.value !== "transparent") {
         return mix(color, vars.background.value, 0.4, 1);
+      } else {
+        return mix(color, "white", 0.4, 1);
       }
     }).attr("stroke-width", vars[axis].ticks.width).attr("shape-rendering", vars[axis].ticks.rendering.value);
   };
@@ -32439,6 +32463,10 @@ module.exports = function(vars) {
       return getFontStyle(axis, d, "family").value;
     }).attr("font-weight", function(d) {
       return getFontStyle(axis, d, "weight");
+    }).style("text-transform", function(d) {
+      return getFontStyle(axis, d, "transform").value;
+    }).style("letter-spacing", function(d) {
+      return getFontStyle(axis, d, "spacing") + "px";
     });
   };
   lineStyle = function(line, axis) {
@@ -32545,7 +32573,7 @@ module.exports = function(vars) {
     axisGroup.exit().transition().duration(vars.data.timing).attr("opacity", 0).remove();
   }
   labelStyle = function(label, axis) {
-    return label.attr("x", axis.indexOf("x") === 0 ? vars.width.viz / 2 : -(vars.axes.height / 2 + vars.axes.margin.top)).attr("y", axis === "x" ? vars.height.viz - vars[axis].label.height / 2 - vars[axis].label.padding : axis === "y2" ? vars.width.viz - vars[axis].label.height / 2 - vars[axis].label.padding : vars[axis].label.height / 2 + vars[axis].label.padding).attr("transform", axis.indexOf("y") === 0 ? "rotate(-90)" : null).attr("font-family", vars[axis].label.font.family.value).attr("font-weight", vars[axis].label.font.weight).attr("font-size", vars[axis].label.font.size + "px").attr("fill", vars[axis].label.font.color).style("text-anchor", "middle").attr("dominant-baseline", "central");
+    return label.attr("x", axis.indexOf("x") === 0 ? vars.width.viz / 2 : -(vars.axes.height / 2 + vars.axes.margin.top)).attr("y", axis === "x" ? vars.height.viz - vars[axis].label.height / 2 - vars[axis].label.padding : axis === "y2" ? vars.width.viz - vars[axis].label.height / 2 - vars[axis].label.padding : vars[axis].label.height / 2 + vars[axis].label.padding).attr("transform", axis.indexOf("y") === 0 ? "rotate(-90)" : null).attr("font-family", vars[axis].label.font.family.value).attr("font-weight", vars[axis].label.font.weight).attr("font-size", vars[axis].label.font.size + "px").attr("fill", vars[axis].label.font.color).style("text-anchor", "middle").attr("dominant-baseline", "central").style("text-transform", vars[axis].label.font.transform.value).style("letter-spacing", vars[axis].label.font.spacing + "px");
   };
   ref1 = ["x", "y"];
   for (k = 0, len1 = ref1.length; k < len1; k++) {

@@ -886,13 +886,17 @@ var chartStyles = {
         "color": "#6F6F6F",
         "family": "Roboto",
         "size": 14,
-        "weight": 700
+        "weight": 700,
+        "transform": "uppercase", // needs to be passed in
+        "spacing": 1
       },
       "sec": {
         "color": "#6F6F6F",
         "family": "Roboto",
         "size": 14,
-        "weight": 700
+        "weight": 700,
+        "transform": "uppercase", // needs to be passed in
+        "spacing": 1
       }
     }
   },
