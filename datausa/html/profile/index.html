@@ -231,6 +231,12 @@
   navScroll();
   scrollFunctions.push(navScroll);
 
+
+  d3.select("#show-bg").on("click", function(){
+    d3.event.preventDefault();
+    d3.select("#splash-image").classed("c", !d3.select("#splash-image").classed("c"));
+  });
+
 </script>
 
 {% endblock %}

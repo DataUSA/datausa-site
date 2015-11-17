@@ -2,6 +2,11 @@
 
 body {
   &.home {
+
+    .home-sum {
+      display: none;
+    }
+
     #menu-btn, #search-btn, #home-btn {
       display: none;
     }
@@ -251,7 +256,7 @@ body {
   body.home {
     #menu {
       left: 0;
-      @include justify(space-around);
+      @include justify(flex-end);
     }
   }
 

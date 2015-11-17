@@ -46,7 +46,7 @@ body {
 
     h2 {
       color: white;
-      font-family: "Lato", sans-serif;
+      font-family: "Roboto", sans-serif;
       letter-spacing: 0.1em;
       font-size: 20px;
       font-weight: 400;
@@ -109,8 +109,10 @@ body.frozen {
     height: 16px;
     margin-top: 3px;
     display: inline-block; }
-body.home #menu-btn, body.home #search-btn, body.home #home-btn {
+body.home .home-sum {
   display: none; }
+  body.home #menu-btn, body.home #search-btn, body.home #home-btn {
+    display: none; }
 body.search #search-btn {
   visibility: hidden; }
 
@@ -310,9 +312,9 @@ body.search #search-btn {
 @media all and (min-width: 416px) {
   body.home #menu {
     left: 0;
-    -webkit-justify-content: space-around;
-    -moz-justify-content: space-around;
-    justify-content: space-around;   }
+    -webkit-justify-content: flex-end;
+    -moz-justify-content: flex-end;
+    justify-content: flex-end;   }
   #menu {
     -webkit-justify-content: space-between;
     -moz-justify-content: space-between;
@@ -396,7 +398,7 @@ body.search #search-btn {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 10px 15px !important;
+  padding: 9px 15px !important;
   border-top: 1px solid #C8C8C8;
   padding: 7px 10px 9px;
   text-align: center;
@@ -1003,6 +1005,7 @@ body.home {
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
+            margin: 13px 0 20px 0;
             -webkit-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
             -moz-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
             box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
@@ -1386,11 +1389,11 @@ body.profile nav {
       width: 100vw;
       overflow: hidden; }
       body.profile #splash #splash-image {
-        height: 110%;
-        left: -5%;
         position: absolute;
-        top: -5%;
-        width: 110%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 100%;
         background-position: center center;
         background-attachment: fixed;
         background-repeat: no-repeat;
@@ -1402,7 +1405,12 @@ body.profile nav {
         -moz-filter: saturate(0) brightness(1.15) contrast(1.55);
         -o-filter: saturate(0) brightness(1.15) contrast(1.55);
         filter: saturate(0) brightness(1.15) contrast(1.55);
-        z-index: 0; }
+        z-index: 0;
+        -webkit-transition: all 0.25s;
+        -moz-transition: all 0.25s;
+        -ms-transition: all 0.25s;
+        -o-transition: all 0.25s;
+        transition: all 0.25s; }
         body.profile #splash #splash-image:after {
           height: 100%;
           left: 0;
@@ -1412,6 +1420,12 @@ body.profile nav {
           background: #444;
           opacity: 0.4;
           content: ""; }
+          body.profile #splash #splash-image.c {
+            -webkit-filter: saturate(1) brightness(1) contrast(1);
+            -moz-filter: saturate(1) brightness(1) contrast(1);
+            -o-filter: saturate(1) brightness(1) contrast(1);
+            filter: saturate(1) brightness(1) contrast(1);
+            z-index: 2; }
       body.profile #splash .content {
         -webkit-justify-content: center;
         -moz-justify-content: center;

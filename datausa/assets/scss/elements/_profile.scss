@@ -249,14 +249,19 @@ body.profile {
     overflow: hidden;
 
     #splash-image {
-      height: 110%;
-      left: -5%;
       position: absolute;
-      top: -5%;
-      width: 110%;
+      // height: 110%;
+      // left: -5%;
+      // top: -5%;
+      // width: 110%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      width: 100%;
       @include background-stretch();
       @include filter(saturate(0) brightness(1.15) contrast(1.55));
       z-index: 0;
+      @include transition(all 0.5s);
 
       &:after {
         height: 100%;
@@ -267,6 +272,11 @@ body.profile {
         background: #444;
         opacity: 0.4;
         content: "";
+      }
+
+      &.c {
+        @include filter(saturate(1) brightness(1) contrast(1));
+        z-index: 2;
       }
     }
 
