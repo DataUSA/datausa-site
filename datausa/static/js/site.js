@@ -1248,7 +1248,8 @@ viz.defaults = function(build) {
 
   return {
     "axes": {
-      "background": chartStyles.background
+      "background": chartStyles.background,
+      "ticks": false
     },
     "background": vizStyles.background,
     "color": vizStyles.color,
