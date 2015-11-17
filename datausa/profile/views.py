@@ -17,12 +17,15 @@ def before_request():
 @mod.route("/<attr_type>/<attr_id>/")
 def profile(attr_type, attr_id):
 
-    if not attr_type in PROFILES and not attr_type in CROSSWALKS:
+    if "_iocode" in attr_type:
+        attr_type = "iocode"
+
+    allowed_type = attr_type in PROFILES or attr_type in CROSSWALKS
+    allowed_id = attr_type in attr_cache and attr_id in attr_cache[attr_type]
+    if not allowed_type or not allowed_id:
         abort(404);
 
     if attr_type in CROSSWALKS:
-        if "_iocode" in attr_type:
-            attr_type = "iocode"
         attr = attr_cache[attr_type][attr_id]
         return render_template("profile/redirect.html", attr=attr)
 
