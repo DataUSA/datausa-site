@@ -1,4 +1,4 @@
-var excludedGeos = ["79500US4804701"];
+var excludedGeos = ["79500US4804701", "16000US0641278"];
 
 viz.loadCoords = function(build) {
   var next = "loadAttrs";
@@ -40,7 +40,6 @@ viz.loadCoords = function(build) {
       if (build.config.coords.solo.length) {
         filename += "_" + build.config.coords.solo[0].slice(7, 9);
         build.config.coords.solo.push("040" + build.config.coords.solo[0].slice(3, 9));
-        // build.config.coords.solo = ["040" + build.config.coords.solo[0].slice(3, 9)];
       }
       else {
         filename += "_" + build.highlight.slice(7, 9);
