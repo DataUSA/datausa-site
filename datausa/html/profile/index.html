@@ -177,9 +177,9 @@
   });
 
   d3.select(".expand-stats-btn").on("click", function(){
+    d3.event.preventDefault();
     d3.select(this).classed("close", !d3.select(this).classed("close"));
     d3.select("#nav-bar-scroll").classed("stat-hidden", !d3.select("#nav-bar-scroll").classed("stat-hidden"));
-    d3.event.preventDefault();
   });
 
   var splashHeight = d3.select("#splash").node().offsetHeight,

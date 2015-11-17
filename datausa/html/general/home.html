@@ -2,12 +2,12 @@
 
 {% block body %}
 <div class="home-container">
-	<div class="bg parallax">
-		<div class="parallax__group">
-			<div class="bg-filter landing parallax__layer parallax__layer--4"></div>
-			<div class="bg-img landing parallax__layer parallax__layer--3"></div>
-			<div class="bg-filter featured-start parallax__layer parallax__layer--2"></div>
-			<div class="bg-img featured parallax__layer parallax__layer--2"></div>
+	<div class="bg p">
+		<div class="p_group">
+			<div class="bg-filter landing p_layer p_layer-back"></div>
+			<div class="bg-img landing p_layer p_layer-mid"></div>
+			<div class="bg-filter featured-start p_layer p_layer-front"></div>
+			<div class="bg-img featured p_layer p_layer-front"></div>
 		</div>
 	</div>
 
@@ -16,22 +16,16 @@
 
 		<img class="logo" src="/static/img/home/logo_2.png" alt="DataUSA" />
 		
-		<section>
+		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<input type="text" data-results="search-home" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
 			<div id="search-home" class="search-body">
-
-				<a href="/search">
-					<span class="icon-search sm"></span>
-					Search for '<span class="search-input-text"></span>'.
-				</a>
-
 				<div class="search-results"></div>
 
 			</div>
 		</section>
 	</article>
-	<article class="featured-profiles"><a name="profiles-anchor"></a>
+	<!-- <article class="featured-profiles"><a name="profiles-anchor"></a>
 
 		<section class="profiles-sum">
 			<h2>Featured Profiles &darr;</h2>
@@ -40,7 +34,7 @@
 			<a href="" class="profile-sum-link"></a>
 			<a href="" class="profile-sum-link"></a>
 		</section>
-	</article>
+	</article> -->
 </div>
 
 </div>

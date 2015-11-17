@@ -1,25 +1,103 @@
-.search-item {
-  h2 {
-    font-family: $roboto;
-    font-size: 14px;
-    font-weight: 300;
-    color: #333;
-    text-transform: none;
-    font-style: normal;
-    letter-spacing: 0.02em;
-    line-height: 1.3;
+.search-results {
+  max-height: $search-mini-height - 38;
+  overflow: scroll;
+
+  #search-loading {
+    @include box();
+    padding: 5px 8px;
+    
+    p {
+      color: #333;
+      opacity: 0.6;
+      text-align: center;
+      font-family: "Playfair Display", serif;
+      font-weight: 400;
+      font-size: 13px;
+      font-style: italic;
+      letter-spacing: 0.1em;
+    }
+  }
+  
+  .search-item {
+    display: block;
+    padding: 6px 8px 4px;
+    @include box();
+
+    &:focus, &:hover {
+      h2 {
+        display: inline-block;
+        border-bottom: 1px solid #333;
+      }
+    }
+
+    h2 {
+      font-family: $roboto;
+      font-size: 14px;
+      font-weight: 300;
+      color: #333;
+      text-transform: none;
+      font-style: normal;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+      display: inline-block;
+      border-bottom: 1px solid transparent;
+    }
+
+    p {
+      margin-left: 1px;
+      line-height: 1.5;
+      opacity: 1;
+      font-family: $roboto;
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(51,51,51,0.75);
+    }
+  }
+}
+
+.results-show-all {
+  @include box();
+  padding: 10px 15px !important;
+  border-top: 1px solid #C8C8C8;
+  padding: 7px 10px 9px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    a {
+      border-bottom: 1px solid rgba(51,51,51,0.5);
+    }
   }
 
-  p {
-    margin-left: 1px;
-    line-height: 1.5;
-    opacity: 1;
-    font-family: $roboto;
-    font-weight: 300;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: rgba(51,51,51,0.75);
+  a {
+    font-family: $playfair;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+}
+
+body.home, body.search {
+  .search-results .search-item {
+    h2 {
+      font-size: 19px;
+      margin-bottom: 2px;
+
+      .expand {
+        position: relative;
+        top: 1px;
+        margin-left: 5px;
+        font-size: 19px;
+        color: #989898;
+      }
+    }
+
+    p {
+      line-height: 1.5;
+      font-size: 14px;
+    }
   }
 }
 
@@ -119,18 +197,18 @@ body.search {
       width: 100%;
       height: 50px;
       border: 0;
-      padding: 37px 20px 23px;
+      padding: 33px 20px 27px 65px;
       @include box();
       font-family: $playfair;
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.06em;
-      background-color: rgba(250, 253, 255, 0.85);
-      @include transition(box-shadow 1s, background-color 1s);
+      background: rgba(250, 253, 255, 0.85) url('/static/img/home/search.png') no-repeat 20px 16px;
+      background-size: 35px 35px;
+      @include transition(box-shadow 1s);
 
       &:focus {
         outline: 0;
-        //background-color: #fff;
       }
 
       @media all and (min-width: 415px) {
@@ -245,7 +323,6 @@ body.search {
       }
       
       h2 {
-        display: inline-block;
         font-size: 15px;
         font-weight: 700;
         margin: 5px 0;
@@ -359,8 +436,6 @@ body.search {
           }
           
           h2 {
-            font-size: 19px;
-            margin-bottom: 3px;
 
             .expand {
               position: relative;
@@ -369,11 +444,6 @@ body.search {
               font-size: 19px;
               color: #989898;
             }
-          }
-
-          p {
-            line-height: 1.5;
-            font-size: 14px;
           }
           
           .xtra { 
@@ -637,26 +707,25 @@ body.search {
 #search-simple-nav {
   display: none;
   position: fixed;
-  top: $nav-height + 10;
+  top: $nav-height + 7;
   right: 15px;
   width: $search-mini-width;
   max-height: $search-mini-height;
-  border: 1px solid #C8C8C8;
   background-color: #fff;
-  @include shadow(1px 2px 4px rgba(200, 200, 200, 0.2));
+  @include shadow(0 1px 2px rgba(0,0,0,0.15),0 0 1px rgba(0,0,0,0.4));
   z-index: 4;
 
   &:before {
     content: "";
-    border-style: solid;
-    border-width: 0 9px 9px 9px;
-    border-color: transparent transparent #CDCDCD transparent;
-    height: 0px;
     position: absolute;
-    right: $search-mini-width/2 - 9;
-    top: -9px;
-    width: 0px;
-    -webkit-transform: rotate(360deg);
+    right: $search-mini-width/2 - 7;
+    top: -14px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    @include transform(rotate(45deg) translate(6px, 6px));
+    @include shadow(-1px -1px 1px -1px rgba(0,0,0,0.44));
   }
   
   &.open {
@@ -676,59 +745,6 @@ body.search {
     a {
       display: inline-block;
       float: right;
-    }
-  }
-  
-  .search-results {
-    max-height: $search-mini-height - 38;
-    overflow: scroll;
-
-    #search-loading {
-      @include box();
-      padding: 5px 8px;
-      
-      p {
-        color: #333;
-        opacity: 0.6;
-        text-align: center;
-        font-family: "Playfair Display", serif;
-        font-weight: 400;
-        font-size: 13px;
-        font-style: italic;
-        letter-spacing: 0.1em;
-      }
-    }
-    
-    .search-item {
-      display: block;
-      padding: 6px 8px 4px;
-      @include box();
-
-      &:focus, &:hover {
-        background-color: #efefef;
-      }
-    }
-    
-  }
-
-  .results-show-all {
-    @include box();
-    border-top: 1px solid #C8C8C8;
-    padding: 7px 10px 9px;
-    text-align: center;
-    cursor: pointer;
-
-    &:hover {
-      a {
-        border-bottom: 1px solid rgba(51,51,51,0.5);
-      }
-    }
-
-    a {
-      font-family: $playfair;
-      font-weight: 400;
-      font-size: 14px;
-      letter-spacing: 0.1em;
     }
   }
 }

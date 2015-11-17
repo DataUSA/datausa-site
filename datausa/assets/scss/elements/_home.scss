@@ -1,6 +1,9 @@
 body.home {
   position: relative;
-  height: 100vh;
+  
+  #menu {
+    height: auto;
+  }
 
   .close-btn {
     display: none;
@@ -15,15 +18,16 @@ body.home {
     font-weight: 400;
   }
 
-  .parallax {
+  /* background styles */
+
+  .p {
     height: 190vh;
     overflow-x: hidden;
-    overflow-y: hidden;
-    -webkit-perspective: 1px;
+    -webkit-perspective: 300px;
     perspective: 300px;
   }
 
-  .parallax__group {
+  .p_group {
     transform 0.5s;
     position: relative;
     height: 100vh;
@@ -33,7 +37,7 @@ body.home {
     //transform: translate3d(700px, 0, -800px) rotateY(30deg);
   }
 
-  .parallax__layer {
+  .p_layer {
     position: absolute;
     top: 0;
     right: 0;
@@ -41,23 +45,18 @@ body.home {
     left: 0;
   }
 
-  .parallax__layer--1 {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-  }
-
-  .parallax__layer--2 {
+  .p_layer-front {
     top: 99vh;
     -webkit-transform: translateZ(-150px) scale(1.5);
     transform: translateZ(-150px) scale(1.5);
   }
 
-  .parallax__layer--3 {
+  .p_layer-mid {
     -webkit-transform: translateZ(-300px) scale(2);
     transform: translateZ(-300px) scale(2);
   }
 
-  .parallax__layer--4 {
+  .p_layer-back {
     -webkit-transform: translateZ(-450px) scale(2.5);
     transform: translateZ(-450px) scale(2.5);
   }
@@ -65,75 +64,80 @@ body.home {
   .bg-filter.landing {
     width: 100vw;
     height: 190vh;
-    background: linear-gradient($light-home-blue 0%, $home-midtone 55%, white 70%, $light-home-red 80%, $home-red 100%);
+    background: linear-gradient($home-midtone 0%, white 33%);
     z-index: -11;
   }
 
   .bg-img.landing {
-    top: -37vh;
+    top: -48vh;
     width: 100vw;
     height: 100vh;
     background: url('/static/img/home/home-landscape-b-3.png') no-repeat 50% 100%;
-    background-size: cover;
+    background-size: contain;
     z-index: -10;
+
+    @media all and (min-width: 915px){
+      background-size: cover;
+    }
   }
 
-  // .bg-filter.featured-start {
-  //   top: 98vh;
-  //   width: 100vw;
-  //   height: 10vh;
-  //   @include gradient(transparent, $home-red);
-  //   z-index: -9;
-  // }
-
   .bg-img.featured {
-    top: 125vh;
+    top: 124vh;
     width: 100vw;
     height: 100vh;
-    background: url('/static/img/home/home-cityscape-r-2.png') no-repeat 50% 0%;
+    //background-image: url('/static/img/home/home-cityscape-r-2.png'), linear-gradient($home-red 0%, $light-home-red 100%);
+    background: $home-red;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
     background-size: cover;
     z-index: -11;
   }
 
   article.landing {
+    position: relative;
     top: 0;
-    height: 90vh;
+    width: 100%;
     margin: 0 auto;
+    padding-right: 60px;
+    @include box();
+    @include flex();
+    @include flex-direction(column);
   }
 
-  article.featured-profiles {
-    top: 90vh;
-    overflow: hidden;
-    margin-left: -$nav-width - 10;
-    padding-left: $nav-width + 10;
-  }
+  // article.featured-profiles {
+  //   top: 90vh;
+  //   overflow: hidden;
+  //   margin-left: -$nav-width - 10;
+  //   padding-left: $nav-width + 10;
+  // }
 
   .logo {
-    margin: 40px 0;
+    width: 181px;
+    margin: 40px auto 0;
+  }
+
+  .search-home-container {
+    @include flex();
+    @include flex-direction(column);
+    @include align-items(flex-end);
   }
 
   #search-home {
-    background-color: rgba(103, 117, 148, 0.5);
     display: none;
+    width: 100%;
     height: 40vh;
-    margin-bottom: 7px 0 20px 0;
+    margin: 7px 0 20px 0;
     overflow-y: scroll;
     border: 1px solid rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.85);
+
     &.open{
       display: block;
     }
 
-    a.search-item {
+    .search-item {
       display: block;
-      padding: 10px 10px 3px;
-      font-family: $lato;
-      font-weight: 400;
-      font-size: 18px;
-      color: white;
-      &:hover,
-      &:focus {
-        background-color: sienna;
-      }
+      padding: 10px 15px 3px;
     }
   }
 
@@ -147,7 +151,7 @@ body.home {
     }
     
     article.landing {
-      height: 94vh;
+      //height: 94vh;
     }
 
     .content {
@@ -170,8 +174,11 @@ body.home {
   @media all and (min-width: 416px){
 
     .home-container {
-      height: 190vh;
-      overflow-y: hidden;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
     }
 
     nav {
@@ -191,7 +198,10 @@ body.home {
     }
 
     .content {
-      width: 100vw;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
       @include box();
       padding-left: $nav-width + 10;
 
@@ -213,7 +223,7 @@ body.home {
     }
 
     article {
-      height: 100vh;
+      //height: 100vh;
       position: absolute;
     }
   }
@@ -247,24 +257,29 @@ body.home {
 }
 
 #home-search-input {
-  padding: 7px 10px 7px 60px;
+  width: 100%;
+  @include box();
+  padding: 7px 10px 7px 58px;
   border: 1px solid rgba(255,255,255,0.5);
   //border-bottom: 1px solid rgba(255,255,255,0);
-  background: rgba(103, 117, 148, 0.5) url('/static/img/home/search.png') no-repeat 11px 14px;
+  background: rgba(250, 253, 255, 0.5) url('/static/img/home/search.png') no-repeat 12px 15px;
+  background-size: 38px 38px;
   background-attachment: inherit;
-  color: white;
-  font-family: $lato;
-  font-size: 30px;
-  font-weight: 300;
-  @include placeholder {color: white; opacity: 0.7; font-weight: 300;}
+  color: $home-blue;
+  font-family: $playfair;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  @include placeholder {opacity: 0.7; font-weight: 300;}
 
   &:focus {
     outline: 0;
-    //border-bottom: 1px solid rgba(255,255,255,1);
+    background: rgba(250, 253, 255, 0.85) url('/static/img/home/search.png') no-repeat 12px 15px;
+    background-size: 38px 38px;
   }
 
   @media all and (min-width: 415px) {
-    font-size: 45px;
+    font-size: 38px;
   }
 
   &.inactive {
@@ -273,7 +288,6 @@ body.home {
 
   &:hover {
     outline: 0;
-    cursor: pointer;
     @include placeholder {opacity: 1;}
     border: 1px solid rgba(255,255,255,0.7);
     //@include shadow(0px 5px 0 rgba(0,0,0,0.3));
@@ -292,8 +306,16 @@ body.home {
 
 }
 
-
 #search-switch.adv {
+  border-bottom: 1px solid transparent;
+  margin: 5px 0;
   text-align: right;
+  color: #fff;
+  font-family: $roboto;
+  font-weight: 400;
   text-transform: uppercase;
+
+  &:hover {
+    border-bottom: 1px solid #fff;
+  }
 }
