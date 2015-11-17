@@ -888,16 +888,14 @@ body.search .search-results-container {
     -webkit-box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.44);
     -moz-box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.44);
     box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.44); }
-    #search-simple-nav.open {
-      display: block; }
-      #search-simple-nav section {
-        display: block;
-        padding: 15px; }
-        #search-simple-nav .results-title h3 {
-          display: inline-block; }
-          #search-simple-nav .results-title a {
-            display: inline-block;
-            float: right; }
+    #search-simple-nav section {
+      display: block;
+      padding: 15px; }
+      #search-simple-nav .results-title h3 {
+        display: inline-block; }
+        #search-simple-nav .results-title a {
+          display: inline-block;
+          float: right; }
 body.home {
   position: relative; }
   body.home #menu {
@@ -1005,10 +1003,11 @@ body.home {
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
-            margin: 13px 0 20px 0;
             -webkit-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
             -moz-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
             box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
+            margin: 13px 0 0 0;
+            overflow-y: scroll;
             border: 1px solid rgba(255, 255, 255, 0.5);
             background-color: rgba(255, 255, 255, 0.85); }
             body.home #search-home:before {
@@ -1184,6 +1183,14 @@ body.home {
   text-transform: uppercase; }
   #search-switch.adv:hover {
     border-bottom: 1px solid #fff; }
+
+.open + .results-show-all {
+  display: block; }
+
+  .results-show-all {
+    background: rgba(255, 255, 255, 0.85);
+    display: none;
+    width: 100%; }
 body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health {
   background-color: #E9E9E9; }
   body.profile.geo .demographics, body.profile.geo .housing {

@@ -11,6 +11,8 @@ window.onload = function() {
           d3.select("#search-home").classed("open", true);
           var search_input = d3.select("#home-search-input");
           search_input.node().focus();
+          search.container = d3.select("#search-" + search_input.attr("data-search"));
+          search.reload();
         }
         else {
           d3.select("#search-simple-nav").classed("open", true);
@@ -18,8 +20,6 @@ window.onload = function() {
           search_input.node().focus();
           d3.select(".search-box").classed("open", true);
         }
-        search.container = d3.select("#search-" + search_input.attr("data-search"));
-        search.reload();
       }
 
     }
@@ -55,6 +55,17 @@ window.onload = function() {
     }
 
     var q = this.value.toLowerCase();
+    
+    if(this.id == "nav-search-input"){
+      if(q === "") {
+        d3.select("#search-simple-nav").style("display", "none")
+        return;
+      }
+      else {
+        d3.select("#search-simple-nav").style("display", "block")
+      }
+    }
+    
     if (q !== search.term) {
       clearInterval(searchInterval);
       search.term = q;

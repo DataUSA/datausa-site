@@ -141,10 +141,10 @@ search.reload = function() {
     else {
       if(data.length > 10){
         var left_over = data.length - 10;
-        d3.select(".results-show-all a span.more").text("("+left_over+" more)")
+        d3.selectAll(".results-show-all a span.more").text("("+left_over+" more)")
       }
       else {
-        d3.select(".results-show-all a span.more").text("")
+        d3.selectAll(".results-show-all a span.more").text("")
       }
       data = data.slice(0, 10);
     }
