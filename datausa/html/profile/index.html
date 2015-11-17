@@ -2,12 +2,14 @@
 
 {% block title %}{{ profile.splash.title }}{% endblock %}
 
-{% block body %}
-
+{% block subtitle %}
 <div id="title-bar">
   <span><a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
   <a href="#" class="expand-stats-btn close"></a></span>
 </div>
+{% endblock %}
+
+{% block body %}
 
 <div class="bound">
 <div id="show-bg">

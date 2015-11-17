@@ -19,6 +19,7 @@
         </div>
         <i class="fa fa-search"></i>
       </div>
+      {% block subtitle %}{% endblock %}
   </div>
 </nav>
 
@@ -156,22 +157,22 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   var results_div_id = d3.select(this).attr("data-results");
   var results_div = d3.select("#"+results_div_id)
   results_div.classed("open", !results_div.classed("open"));
-  
+
   // open search box if not home page
   if(!d3.select("body").classed("home")){
     d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
   }
-  
+
   // focus input
   var search_input = this.tagName.toLowerCase() === "input" ? d3.select(this) : d3.select(this.parentNode).select("input");
   search_input.node().focus();
-  
+
   // initialize search if input box is empty
   if(!search_input.property("value")){
     search.container = d3.select("#search-" + search_input.attr("data-search"));
     search.reload();
   }
-  
+
   d3.event.stopPropagation();
 });
 
