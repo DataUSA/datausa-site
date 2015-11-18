@@ -231,6 +231,7 @@ viz.defaults = function(build) {
       "style": "large"
     },
     "tooltip": vizStyles.tooltip,
+    "ui": vizStyles.ui,
     "x": axis_style("x"),
     "x2": axis_style("x2"),
     "y": axis_style("y"),

@@ -1013,6 +1013,21 @@ var vizStyles = {
     }
   },
 
+  "ui": {
+    "border": 1,
+    "color": {
+      "primary": "#fff",
+      "secondary": "#6F6F6F"
+    },
+    "font": {
+      "color": "#888",
+      "family": "Roboto",
+      "size": 12,
+      "transform": "none",
+      "weight": 300
+    }
+  },
+
   "background": "transparent",
   "color": {
     "missing": "#efefef",
@@ -1435,6 +1450,7 @@ viz.defaults = function(build) {
       "style": "large"
     },
     "tooltip": vizStyles.tooltip,
+    "ui": vizStyles.ui,
     "x": axis_style("x"),
     "x2": axis_style("x2"),
     "y": axis_style("y"),
@@ -1639,6 +1655,7 @@ viz.loadBuilds = function(builds) {
           .ui({
             "margin": 0
           })
+          .ui(vizStyles.ui)
           .focus({"callback": function(id){
 
             var param = this.getAttribute("data-param"),

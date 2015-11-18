@@ -17,6 +17,7 @@ viz.loadBuilds = function(builds) {
           .ui({
             "margin": 0
           })
+          .ui(vizStyles.ui)
           .focus({"callback": function(id){
 
             var param = this.getAttribute("data-param"),
