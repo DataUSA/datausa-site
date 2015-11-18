@@ -3,7 +3,7 @@ description: "The O*NET dataset has very detailed information on the skills gene
 
 topics:
   - class: "flex"
-    slug: "skills_radar"
+    slug: "radar"
     viz:
       attrs:
         - "cip"
@@ -23,7 +23,7 @@ topics:
             - Value: "value"
             - RCA: "value_rca"
   - class: "flex"
-    slug: "skills_bar"
+    slug: "bar"
     source: NO
     viz:
       attrs:
