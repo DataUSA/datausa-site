@@ -450,21 +450,26 @@ class Section(object):
 
     def sub(self, **kwargs):
         substitution = False
+        id_only = kwargs.pop("id_only", False)
         if kwargs.get("dataset", False):
             attr_id = self.id(**kwargs)
             if self.attr["id"] != attr_id:
-                substitution = fetch(attr_id, self.profile.attr_type)["name"]
+                substitution = fetch(attr_id, self.profile.attr_type)
         else:
             kwargs["data_only"] = True
             attr_type = kwargs.get("attr_type", self.profile.attr_type)
+            attrs = kwargs.pop("attrs", attr_type)
             subs = self.top(**kwargs)
             if "subs" not in subs:
                 return ""
             subs = subs["subs"]
             if attr_type in subs and subs[attr_type] != self.attr["id"]:
-                substitution = fetch(subs[attr_type], attr_type)["name"]
+                substitution = fetch(subs[attr_type], attrs)
 
         if substitution:
+            if id_only:
+                return substitution["id"]
+            substitution = substitution["name"]
             return u"Based on data from {}".format(substitution)
         else:
             return ""

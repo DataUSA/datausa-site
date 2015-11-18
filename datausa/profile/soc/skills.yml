@@ -3,13 +3,16 @@ description: "By connecting the employment data provided by the Bureau of Labor 
 
 topics:
   - class: "flex"
+    subtitle: "<<sub show=skill|attrs=bls_soc>>"
+    slug: "radar"
     viz:
       attrs:
-        - "soc"
+        - "bls_soc"
         - "skill"
       data:
         - soc: "<<id>>"
           show: "skill"
+      highlight: "<<sub show=skill|attrs=bls_soc|id_only=True>>"
       id:
         - "soc"
         - "skill"
@@ -22,10 +25,11 @@ topics:
             - Value: "value"
             - RCA: "value_rca"
   - class: "flex"
+    slug: "bar"
     source: NO
     viz:
       attrs:
-        - "soc"
+        - "bls_soc"
         - "skill"
       color: "parent"
       data:
@@ -35,8 +39,17 @@ topics:
       id:
         - "parent"
         - "skill"
-      order: "parent"
+      legend:
+        order: "id"
+      order:
+        sort: "asc"
+        value: "parent"
       type: "bar"
+      ui:
+        - method: "order"
+          value:
+            - Group: "parent"
+            - Value: "value"
       x: "value"
       y:
         scale: "discrete"

@@ -37,8 +37,17 @@ topics:
       id:
         - "parent"
         - "skill"
-      order: "parent"
+      legend:
+        order: "id"
+      order:
+        sort: "asc"
+        value: "parent"
       type: "bar"
+      ui:
+        - method: "order"
+          value:
+            - Group: "parent"
+            - Value: "value"
       x: "value"
       y:
         scale: "discrete"
