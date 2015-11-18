@@ -265,11 +265,7 @@ body.search #search-btn {
 
 #search-btn {
   padding: 15px;
-  opacity: 0.5;
-  color: #dc5137;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 18px;
+  opacity: 0.6;
   -webkit-transition: opacity 1s;
   -moz-transition: opacity 1s;
   -ms-transition: opacity 1s;
@@ -282,7 +278,7 @@ body.search #search-btn {
     #search-btn .search-box {
       position: absolute;
       right: 0;
-      margin-right: 15px;
+      margin-right: 38px;
       width: 0;
       padding: 0px;
       display: inline-block;
@@ -295,7 +291,7 @@ body.search #search-btn {
       -o-transition: width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s;
       transition: width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s; }
       #search-btn .search-box.open {
-        width: 253px;
+        width: 227px;
         opacity: 1; }
         #search-btn .search-box input {
           -webkit-box-sizing: border-box;
@@ -306,6 +302,7 @@ body.search #search-btn {
           border-bottom: 1px solid #333;
           padding: 3px 25px 1px 5px;
           outline: 0;
+          background-color: transparent;
           font-family: "Playfair Display", serif;
           font-size: 14px;
           letter-spacing: 0.06em; }
