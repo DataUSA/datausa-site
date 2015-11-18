@@ -980,7 +980,7 @@ body.home {
                       body.home .bg-filter.landing {
                         width: 100vw;
                         height: 190vh;
-                        background: linear-gradient(#7981A9 0%, white 33%);
+                        background: linear-gradient(#7981A9, white 33%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -48vh;
@@ -1453,10 +1453,10 @@ body.story .stat-rank {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     line-height: 1.5; }
-    body.profile .stat-moe, body.story .stat-moe {
+    body.profile .stat-subtitle, body.story .stat-subtitle {
       margin-left: 2px;
       margin-top: 7px; }
-      body.profile .stat-moe .plus-minus, body.story .stat-moe .plus-minus {
+      body.profile .stat-subtitle .plus-minus, body.story .stat-subtitle .plus-minus {
         color: #dc5137; }
 body.profile .stat-group, body.story .stat-group {
   text-align: center; }
