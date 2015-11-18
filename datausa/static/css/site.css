@@ -188,23 +188,66 @@ body.search #search-btn {
     overflow: hidden; }
 
     #menu-btn {
-      padding: 15px;
-      opacity: 0.5;
-      color: #dc5137;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 18px;
-      -webkit-transition: opacity 1s;
-      -moz-transition: opacity 1s;
-      -ms-transition: opacity 1s;
-      -o-transition: opacity 1s;
-      transition: opacity 1s;
-      z-index: 5; }
+      z-index: 20;
+      position: fixed;
+      display: block;
+      cursor: pointer;
+      overflow: hidden;
+      height: 40px;
+      width: 40px;
+      top: 0;
+      left: 0;
+      margin: 0; }
       #menu-btn:hover {
         opacity: 1;
         cursor: pointer; }
-        #menu-btn i {
-          margin-right: 5px; }
+        #menu-btn .in {
+          position: relative;
+          height: 40px;
+          width: 40px; }
+          #menu-btn .bd {
+            padding: 13px 15px;
+            width: 15px; }
+            #menu-btn .bd div {
+              position: relative;
+              overflow: hidden; }
+              #menu-btn .bd div, #menu-btn .bd span {
+                display: block;
+                height: 2px;
+                width: 15px;
+                transition: all 0.5s; }
+                #menu-btn .bd span {
+                  position: absolute;
+                  top: 0;
+                  left: -100%;
+                  background: #333; }
+      #menu-btn .b-1 {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        transition-delay: 0.3s; }
+        #menu-btn .b-1 span {
+          transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
+          transition-delay: 0.3s; }
+          #menu-btn .b-1.close {
+            transform: matrix(-0.7071, 0.7071, -0.7071, -0.7071, 0, 6); }
+      #menu-btn .b-2 {
+        opacity: 1;
+        margin: 4px 0;
+        transition-delay: 0s; }
+        #menu-btn .b-2 span {
+          transition: all 0.15s;
+          transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0); }
+          #menu-btn .b-2.close {
+            opacity: 0; }
+            #menu-btn .b-2.close span {
+              transform: translate(-100%, 0%); }
+      #menu-btn .b-3 {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+        transition-delay: 0.5s; }
+        #menu-btn .b-3.close {
+          transform: matrix(-0.7071, -0.7071, 0.7071, -0.7071, 0, -6); }
+          #menu-btn .b-3 span {
+            transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
+            transition-delay: 0.5s; }
 
 #home-btn {
   position: relative;
@@ -939,7 +982,7 @@ body.home {
                       body.home .bg-filter.landing {
                         width: 100vw;
                         height: 190vh;
-                        background: linear-gradient(#7981A9, white 33%);
+                        background: linear-gradient(#7981A9 0%, white 33%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -48vh;

@@ -101,23 +101,101 @@ body {
 }
 
 #menu-btn {
-  padding: 15px;
-  opacity: 0.5;
-  color: $home-red;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 18px;
-  @include transition(opacity 1s);
-  z-index: 5;
+  z-index: 20; 
+  position: fixed;
+  display: block;
+  cursor: pointer;
+  overflow: hidden;
+  height: 40px;
+  width: 40px;
+  top: 0;
+  left: 0;
+  margin: 0;
 
   &:hover {
     opacity: 1;
     cursor: pointer;
   }
 
-  i {
-    margin-right: 5px;
+  .in {
+    position: relative;
+    height: 40px;
+    width: 40px;
+   }
+  
+  .bd {
+    padding: 13px 15px;
+    width: 15px;
+    
+    div {
+      position: relative;
+      overflow: hidden;
+     }
+    
+    div, span {
+      display: block;
+      height: 2px;
+      width: 15px;
+      transition: all 0.5s;
+    }
+
+    span {
+     position: absolute;
+     top: 0;
+     left: -100%;
+     background: #333;
+    }
   }
+
+  .b-1 {
+    transform: matrix(1,0,0,1,0,0);
+    transition-delay: 0.3s;
+    
+    span {
+      transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
+      transition-delay: 0.3s;
+     }
+
+    &.close {
+      transform: matrix(-0.7071, 0.7071, -0.7071, -0.7071, 0, 6);
+     }
+  }
+
+   .b-2 {
+    opacity: 1;
+    margin: 4px 0;
+    transition-delay: 0s;
+
+    span {
+      transition: all 0.15s;
+      transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
+     }
+
+    &.close {
+      opacity: 0;
+
+      span {
+        transform: translate(-100%, 0%);
+       }
+     }
+   }
+
+   .b-3 {
+    transform: matrix(1,0,0,1,0,0);
+    transition-delay: 0.5s;
+
+    &.close {
+      transform: matrix(-0.7071, -0.7071, 0.7071, -0.7071, 0, -6);
+     }
+
+    span {
+     transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
+     transition-delay: 0.5s;
+    }
+
+   }
+
+
 }
 
 #home-btn {

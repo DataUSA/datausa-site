@@ -3,11 +3,25 @@
 
 {% block content %}
 
+<div id="menu-btn">
+   <div class="in">
+     <div class="bd">
+      <div class="b-1 b">
+        <span></span>
+       </div>
+       <div class="b-2 b">
+         <span></span>
+       </div>
+       <div class="b-3 b">
+         <span></span>
+       </div>
+     </div>
+   </div>
+</div>
+
 <nav>
   <div id="top-nav">
-      <div id="menu-btn">
-        <i class="fa fa-bars"></i>
-      </div>
+      <div></div>
 
       <div id="home-btn">
           <a href="/"><img src="/static/img/home/logo_b.png" alt="DataUSA" style="width:80px" /></a>
@@ -24,7 +38,6 @@
 </nav>
 
 <div id="menu">
-  <div class="close-btn">&times;</div>
   <div class="menu-content">
     <ul>
       <li class="desc">
@@ -125,19 +138,21 @@
 
 <script>
 
-d3.select(".close-btn").on("click", function(){
-  d3.select("#menu").classed("open", false);
+// d3.select(".close-btn").on("click", function(){
+//   d3.select("#menu").classed("open", false);
 
-  var body = d3.select("body");
+//   var body = d3.select("body");
 
-  body.classed("frozen", false);
+//   body.classed("frozen", false);
 
-  d3.select("#mask").remove();
+//   d3.select("#mask").remove();
 
-  d3.event.preventDefault();
-});
+//   d3.event.preventDefault();
+// });
 
 d3.select("#menu-btn").on("click", function(){
+  d3.selectAll(".b").classed("close", !d3.selectAll(".b").classed("close"));
+
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
 
   var body = d3.select("body");
