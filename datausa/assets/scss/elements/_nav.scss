@@ -3,11 +3,15 @@
 body {
   &.home {
 
+    #menu .desc {
+      display: block;
+    }
+
     .home-sum {
       display: none;
     }
 
-    #menu-btn, #search-btn, #home-btn {
+    #search-btn, #home-btn {
       display: none;
     }
   }
@@ -36,6 +40,10 @@ body {
   &.open {
     left: 0;
   }
+
+  .desc {
+    display: none;
+  }
 }
 
 .close-btn {
@@ -55,22 +63,6 @@ body {
 
   h2 {
     padding: 20px;
-  }
-}
-
-.about-sum { 
-  .desc {
-    display: none;
-
-    p {
-      padding: 5px 20px;
-    }
-  }
-
-  &.open {
-    .desc {
-      display: block;
-    }
   }
 }
 
@@ -288,6 +280,7 @@ body {
   }
 
   body.home {
+
     nav {
 
       #menu {
@@ -305,21 +298,6 @@ body {
           }
         }
 
-        .about-sum {
-          padding-top: 20vh;
-
-          &.open {
-            padding-top: 5vh;
-          }
-        }
-
-      }
-
-      #menu-btn {
-        display: block;
-        padding: 12px 16px;
-        color: white;
-        opacity: 0.8;
       }
     }
   }
@@ -330,6 +308,11 @@ body {
 @media all and (min-width: 416px){
 
   body.home {
+
+    #menu-btn {
+      display: none;
+    }
+
     #menu {
       left: 0;
       @include justify(flex-end);
