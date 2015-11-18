@@ -68,8 +68,6 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
     try:
         r = requests.get(url).json()
     except ValueError:
-        if params["force"] == "ipeds.grads_yg":
-            raise Exception(url)
         app.logger.info("STAT ERROR: {}".format(url))
         return {
             "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
@@ -80,6 +78,12 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         return r
     else:
         r = datafold(r)
+
+    if len(r) == 0:
+        return {
+            "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
+            "value": "N/A"
+        }
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
