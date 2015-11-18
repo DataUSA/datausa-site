@@ -317,7 +317,8 @@ body.search #search-btn {
   bottom: 0;
   left: 0;
   opacity: 0.8;
-  background-color: #010103; }
+  background-color: #010103;
+  z-index: 3; }
 
   @media all and (max-width: 415px) {
     #top-nav {
@@ -1458,7 +1459,7 @@ body.story .stat-rank {
     body.profile .stat-moe, body.story .stat-moe {
       margin-left: 2px;
       margin-top: 7px; }
-      body.profile .stat-moe::first-letter, body.story .stat-moe::first-letter {
+      body.profile .stat-moe .plus-minus, body.story .stat-moe .plus-minus {
         color: #dc5137; }
 body.profile .stat-group, body.story .stat-group {
   text-align: center; }
@@ -1959,7 +1960,7 @@ body.profile #stats-bar, body.story #stats-bar {
   body.profile #stats-bar.visible, body.story #stats-bar.visible {
     top: 40px; }
     body.profile #stats-bar #title-stats, body.story #stats-bar #title-stats {
-      width: 50%;
+      width: 60%;
       max-width: 550px;
       -webkit-justify-content: center;
       -moz-justify-content: center;
@@ -2348,6 +2349,18 @@ body.profile section, body.story section {
           -ms-flex: none;
           flex: none;
           max-width: 415px; }
+          body.profile section .topic .content aside p a,
+          body.story section .topic .content aside p a {
+            border-bottom: 1px solid #C1C1C1;
+            -webkit-transition: opacity 0.15s;
+            -moz-transition: opacity 0.15s;
+            -ms-transition: opacity 0.15s;
+            -o-transition: opacity 0.15s;
+            transition: opacity 0.15s; }
+            body.profile section .topic .content aside p a:hover,
+            body.story section .topic .content aside p a:hover {
+              opacity: 0.5;
+              border-bottom: 0; }
           body.profile section .topic .content aside select,
           body.story section .topic .content aside select {
             width: 100%; }

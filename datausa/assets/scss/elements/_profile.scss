@@ -258,7 +258,7 @@ body.profile, body.story {
     margin-left: 2px;
     margin-top: 7px;
 
-    &::first-letter {
+    .plus-minus {
       color: $home-red;
     }
   }
@@ -731,7 +731,7 @@ body.profile, body.story {
     }
 
     #title-stats {
-      width: 50%;
+      width: 60%;
       max-width: 550px;
       @include flex();
       @include justify(space-between);
@@ -1049,6 +1049,18 @@ body.profile, body.story {
         aside {
           @include flex-size(none);
           max-width: 415px;
+          
+          p {
+            a {
+              border-bottom: 1px solid #C1C1C1;
+              @include transition(opacity 0.15s);
+
+              &:hover {
+                opacity: 0.5;
+                border-bottom: 0;
+              }
+            }
+          }
 
           select {
             width: 100%;
