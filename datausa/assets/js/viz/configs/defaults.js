@@ -223,7 +223,8 @@ viz.defaults = function(build) {
       "font": vizStyles.labels.font
     },
     "legend": {
-      "font": vizStyles.legend.font
+      "font": vizStyles.legend.font,
+      "labels": false
     },
     "messages": {
       "font": vizStyles.messages.font,

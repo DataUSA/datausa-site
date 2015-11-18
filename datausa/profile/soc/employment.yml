@@ -178,13 +178,18 @@ topics:
   - slug: "tmap_ind"
     viz:
       attrs: "naics"
+      color: "grandparent"
       data:
         - soc: "<<id>>"
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
+      depth: 2
       height: 500
-      id: "naics"
+      id:
+        - "grandparent"
+        - "parent"
+        - "naics"
       size: "num_ppl"
       type: "tree_map"
   - title: "Locations"

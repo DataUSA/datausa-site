@@ -151,6 +151,7 @@ topics:
   - slug: "tmap_top_occs"
     viz:
       attrs: "soc"
+      color: "great_grandparent"
       data:
         - naics: "<<id>>"
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
@@ -158,7 +159,11 @@ topics:
           sumlevel: "3"
       depth: 4
       height: 500
-      id: "soc"
+      id:
+        - "great_grandparent"
+        - "grandparent"
+        - "parent"
+        - "soc"
       size: "num_ppl"
       type: "tree_map"
   - category: "Wages"

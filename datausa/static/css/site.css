@@ -939,7 +939,7 @@ body.home {
                       body.home .bg-filter.landing {
                         width: 100vw;
                         height: 190vh;
-                        background: linear-gradient(#7981A9 0%, white 33%);
+                        background: linear-gradient(#7981A9, white 33%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -48vh;
