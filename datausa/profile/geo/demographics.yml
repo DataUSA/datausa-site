@@ -8,10 +8,10 @@ topics:
     stat:
       - title: "Median Native Age"
         value: "<<var namespace=nativity|key=nativity_us>>"
-        moe: "± <<var namespace=nativity|key=nativity_us_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=nativity|key=nativity_us_moe>>"
       - title: "Median Foreign Age"
         value: "<<var namespace=nativity|key=nativity_foreign>>"
-        moe: "± <<var namespace=nativity|key=nativity_foreign_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=nativity|key=nativity_foreign_moe>>"
     description: "The median age of people in <<name>> is <<var namespace=splash|key=age>>, and native-born citizens are generally <<percent num=nativity_us|den=nativity_foreign|text=age>> foreign-born citizens."
     viz:
       color: "nationality"
@@ -85,7 +85,7 @@ topics:
     stat:
       - title: "Most common race or ethnicity in <<name>> is"
         value: "<<top col=acs_race|force=acs.yg_race>>"
-        moe: "± <<top col=acs_race|force=acs.yg_race|moe=True>>"
+        moe: "<span class='plus-minus'>±</span> <<top col=acs_race|force=acs.yg_race|moe=True>>"
     viz:
       attrs: "acs_race"
       data:
@@ -134,7 +134,7 @@ topics:
     stat:
       - title: "Most Common Service Period"
         value: "<<top col=conflict|force=acs.yg_conflict>>"
-        moe: "± <<top col=conflict|force=acs.yg_conflict|moe=True>>"
+        moe: "<span class='plus-minus'>±</span> <<top col=conflict|force=acs.yg_conflict|moe=True>>"
     viz:
       attrs:
         - "conflict"

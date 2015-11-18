@@ -168,7 +168,7 @@ topics:
     stat:
       - title: "Average Wage"
         value: "<<var namespace=data|key=avg_wage>>"
-        moe: "± <<var namespace=data|key=avg_wage_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=data|key=avg_wage_moe>>"
     viz:
       attrs: "naics"
       data:
@@ -191,7 +191,7 @@ topics:
     stat:
       - title: Highest Paying Public Use Microdata Area
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
-        moe: "± <<top show=geo|sumlevel=puma|order=avg_wage|moe=avg_wage_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<top show=geo|sumlevel=puma|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs: "geo"
       coords: "pumas"
@@ -210,10 +210,10 @@ topics:
     stat:
       - title: "Average Male Wage"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
-        moe: "± <<var namespace=gender|key=avg_wage_moe|row=0>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_moe|row=0>>"
       - title: "Average Female Wage"
         value: "<<var namespace=gender|key=avg_wage|row=1>>"
-        moe: "± <<var namespace=gender|key=avg_wage_moe|row=1>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_moe|row=1>>"
     viz:
       attrs:
         - "sex"
@@ -239,7 +239,7 @@ topics:
     stat:
       - title: "Race or Ethnicity with Highest Average Wage"
         value: "<<top show=race|order=avg_wage>>"
-        moe: "<<top show=race|order=avg_wage|col=avg_wage>> ± <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
+        moe: "<<top show=race|order=avg_wage|col=avg_wage>> <span class='plus-minus'>±</span> <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs:
         - "race"

@@ -76,7 +76,7 @@ viz.defaults = function(build) {
         if (params.key) {
 
           if (params.key.indexOf("_moe") > 0) {
-            prefix = "± ";
+            prefix = "<span class='plus-minus'>±</span> ";
             params.key = params.key.replace("_moe", "");
           }
 

@@ -9,7 +9,7 @@ topics:
     stat:
       - title: "Median Household Income"
         value: "<<var namespace=splash|key=income>>"
-        moe: "± <<var namespace=splash|key=income_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe>>"
     description: "The majority of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>."
     miniviz:
       attrs: "geo"
@@ -53,7 +53,7 @@ topics:
     stat:
       - title: "Median Property Value"
         value: "<<var namespace=acsgeo|key=median_property_value>>"
-        moe: "± <<var namespace=acsgeo|key=median_property_value_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<var namespace=acsgeo|key=median_property_value_moe>>"
     description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range. The chart on the right displays the distribution versus the national values."
     miniviz:
       attrs: "geo"
@@ -209,7 +209,7 @@ topics:
     stat:
       - title: "Most common method of travel"
         value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> (<<percent num=top:transport,acs.yg_transport|den=workers|exclude=transport_cartruckorvan>>)"
-        moe: "± <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|moe=True>>"
+        moe: "<span class='plus-minus'>±</span> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|moe=True>>"
     description:
       - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> to work. Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport|exclude=transport_cartruckorvan>>."
     viz:

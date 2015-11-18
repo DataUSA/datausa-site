@@ -163,7 +163,7 @@ topics:
     stat:
       - title: "Highest Average Wage"
         value: "<<top show=soc|order=avg_wage>>"
-        moe: "± <<top show=soc|order=avg_wage|moe=avg_wage_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<top show=soc|order=avg_wage|moe=avg_wage_moe>>"
     description: "Here are the top 3 occupations that are commonly taken by <<name>> majors, sorted by average wage."
     viz:
       attrs: "soc"
@@ -187,7 +187,7 @@ topics:
     stat:
       - title: "<<name>> majors are paid the highest in"
         value: "<<top show=geo|sumlevel=puma|order=avg_wage>>"
-        moe: "± <<top show=geo|sumlevel=puma|order=avg_wage|moe=avg_wage_moe>>"
+        moe: "<span class='plus-minus'>±</span> <<top show=geo|sumlevel=puma|order=avg_wage|moe=avg_wage_moe>>"
     description: "The map to the right shows the public-use micro areas in the United States colored by the average wage of <<name>> majors."
     viz:
       attrs: "geo"

@@ -13,7 +13,7 @@ topics:
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca>>"
       - title: "Most common major is"
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl>>"
-        moe: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|col=num_ppl>> ± <<top show=cip|degree=21|sumlevel=2|order=num_ppl|moe=num_ppl_moe>>"
+        moe: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|col=num_ppl>> <span class='plus-minus'>±</span> <<top show=cip|degree=21|sumlevel=2|order=num_ppl|moe=num_ppl_moe>>"
     description: "Here we see the most common degrees held by <<name>> for a particular degree type."
     viz:
       attrs: "cip"
