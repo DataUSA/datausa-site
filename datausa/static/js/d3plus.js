@@ -32553,7 +32553,8 @@ module.exports = function(vars) {
         return y2 / 2;
       }
     });
-    return groups.select("text").attr("dy", "").style("text-anchor", rotated && axis === "x" ? "end" : rotated ? "start" : "middle").call(tickFont, axis).each(function(d) {
+    return groups.select("text").style("text-anchor", rotated && axis === "x" ? "end" : rotated ? "start" : "middle").call(tickFont, axis).each(function(d) {
+      d3.select(this).attr("dy", "0px");
       if (d.constructor === Date) {
         d = +d;
       }
