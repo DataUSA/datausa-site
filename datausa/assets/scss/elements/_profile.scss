@@ -1253,3 +1253,50 @@ body.profile, body.story {
   }
 
 }
+
+#crosswalk {
+  margin: 60px auto 0 auto;
+  width: 70vw;
+  
+  p.warning{
+    color: #9F6000;
+    background-color: #FEEFB3;
+    padding: 10px 10px 10px 50px;
+    margin: 10px 0;
+    .fa {
+      display: inline-block;
+      margin: 5px 15px 0 -35px;
+    }
+    span {
+      display: inline-block;
+    }
+  }
+  
+  ul {
+    margin: 20px 0 0 0;
+    li {
+      a {
+        @include flex();
+        background: lightgray;
+        &> span.thumb {
+          @include flex-size(1);
+          background-position: 50% 0%;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
+        &> span.info {
+          @include flex-size(5);
+          padding: 20px;
+          h2 {
+            color: rgba(51, 51, 51, 0.93);
+            font-family: $playfair;
+            font-size: 28px;
+            font-style: normal;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+}

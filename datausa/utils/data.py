@@ -171,10 +171,7 @@ def acs_crosswalk(attr_type, attr_id):
     try:
         data = requests.get(url)
         results = datafold(data.json())
-        for row in results:
-            attr_obj = fetch(row["attr_id"], row["attr_kind"])
-            row["name"] = attr_obj["name"] if "name" in attr_obj else "N/A"
-        return results
+        return [fetch(row["attr_id"], row["attr_kind"]) for row in results]
     except ValueError:
         return []
 

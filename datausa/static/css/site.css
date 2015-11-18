@@ -2516,6 +2516,55 @@ body.profile .share-section a, body.story .share-section a {
   font-weight: 300; }
   .d3plus_tooltip .d3plus_tooltip_data_seperator {
     background-color: rgba(224, 224, 224, 0.64) !important; }
+
+#crosswalk {
+  margin: 60px auto 0 auto;
+  width: 70vw; }
+  #crosswalk p.warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+    padding: 10px 10px 10px 50px;
+    margin: 10px 0; }
+    #crosswalk p.warning .fa {
+      display: inline-block;
+      margin: 5px 15px 0 -35px; }
+      #crosswalk p.warning span {
+        display: inline-block; }
+  #crosswalk ul {
+    margin: 20px 0 0 0; }
+    #crosswalk ul li a {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      background: lightgray; }
+      #crosswalk ul li a > span.thumb {
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        background-position: 50% 0%;
+        background-repeat: no-repeat;
+        background-size: cover; }
+        #crosswalk ul li a > span.info {
+          -webkit-box-flex: 5;
+          -moz-box-flex: 5;
+          -webkit-flex: 5;
+          -ms-flex: 5;
+          flex: 5;
+          padding: 20px; }
+          #crosswalk ul li a > span.info h2 {
+            color: rgba(51, 51, 51, 0.93);
+            font-family: "Playfair Display", serif;
+            font-size: 28px;
+            font-style: normal;
+            margin: 0 0 5px 0;
+            text-transform: uppercase; }
 body.embed {
   overflow: hidden; }
   body.embed section {

@@ -2,11 +2,27 @@
 
 {% block body %}
 
-  <h1>Time to crosswalk {{ attr["name"] }}</h1>
-{% for crosswalk in crosswalks %}
-    <a href="/profile/{{ crosswalk.attr_kind }}/{{ crosswalk.attr_id }}">{{crosswalk.name}}</a><br/>
-{% endfor %}
-
+<div id="crosswalk">
+  <h1>{{ attr["name"] }}</h1>
+  <p class="warning">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span>There was no exact match for {{ attr.name }} found. Please choose one of the following to view the profile for that item.</span>
+  </p>
+  <ul>
+    {% for crosswalk in crosswalks %}
+    <li>
+      <a href="/profile/{{ crosswalk_type }}/{{ crosswalk.id }}">
+        <span class="thumb" style="background-image: url('/static/img/splash/{{ crosswalk_type }}/{{ crosswalk.id }}.jpg');">
+        </span>
+        <span class="info">
+          <h2>{{ crosswalk.name }}</h2>
+          <span>Level {{ crosswalk.level }} {{ crosswalk_type|upper }}</span>
+        </span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
 {% endblock %}
 
