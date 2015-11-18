@@ -727,10 +727,12 @@ search.btnExplore = function(d) {
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
         .append("img")
         .attr("src", "/static/img/icons/" + anchor.anchor + "_b.svg")
+        .on("click", function(){ d3.event.stopPropagation(); })
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
         .append("span")
         .text(anchor.title)
+        .on("click", function(){ d3.event.stopPropagation(); })
     })
   }
   xtra.append("p").attr("class", "parents")
