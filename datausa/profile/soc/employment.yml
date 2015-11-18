@@ -83,7 +83,7 @@ topics:
     source: NO
     title: "Most Common"
     slug: "top_ind_num_emp"
-    description: "The 3 most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -103,7 +103,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -124,14 +124,14 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "naics"
   - class: "flex"
     source: NO
     title: "Highest Paid"
     slug: "top_ind_wage"
-    description: "The 3 highest paid industries of <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid industries of <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -151,7 +151,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -172,7 +172,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "naics"
   - slug: "tmap_ind"

@@ -7,7 +7,7 @@ topics:
     slug: "top_occ_num_emp"
     class: "flex"
     source: NO
-    description: "The 3 most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
+    description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -26,7 +26,7 @@ topics:
         type: "bar"
         x: "num_emp"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "acs_occ"
       - attrs: "acs_occ"
@@ -47,7 +47,7 @@ topics:
         type: "bar"
         x: "num_emp"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "acs_occ"
   - class: "flex"
@@ -73,7 +73,7 @@ topics:
         type: "bar"
         x: "num_emp_rca"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "acs_occ"
       - attrs: "acs_occ"
@@ -94,14 +94,14 @@ topics:
         type: "bar"
         x: "num_emp_rca"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "acs_occ"
   - class: "flex"
     source: NO
     title: "Highest Paid"
     slug: "top_occ_med_earnings"
-    description: "The 3 highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
+    description: "The highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         data:
@@ -120,7 +120,7 @@ topics:
         type: "bar"
         x: "med_earnings"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "acs_occ"
       - attrs: "acs_occ"
@@ -141,7 +141,7 @@ topics:
         type: "bar"
         x: "med_earnings"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "acs_occ"
   - slug: "tmap_occ_num_emp"
@@ -346,7 +346,7 @@ topics:
     source: NO
     title: "Most Common"
     slug: "top_ind_num_emp"
-    description: "The 3 most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp|sort=desc|limit=3>>."
+    description: "The most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -366,7 +366,7 @@ topics:
         type: "bar"
         x: "num_emp"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "acs_ind"
       - attrs: "acs_ind"
@@ -388,7 +388,7 @@ topics:
         type: "bar"
         x: "num_emp"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "acs_ind"
   - class: "flex"
@@ -414,7 +414,7 @@ topics:
         type: "bar"
         x: "num_emp_rca"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "acs_ind"
       - attrs: "acs_ind"
@@ -435,14 +435,14 @@ topics:
         type: "bar"
         x: "num_emp_rca"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "acs_ind"
   - class: "flex"
     source: NO
     title: "Highest Paying"
     slug: "top_ind_med_earnings"
-    description: "The 3 highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
+    description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_ind"
         data:
@@ -462,7 +462,7 @@ topics:
         type: "bar"
         x: "med_earnings"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "acs_ind"
       - attrs: "acs_ind"
@@ -484,7 +484,7 @@ topics:
         type: "bar"
         x: "med_earnings"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "acs_ind"
   - slug: "tmap_ind_num_emp"

@@ -7,7 +7,7 @@ topics:
     slug: "top_occ_num_emp"
     class: "flex"
     source: NO
-    description: "The 3 most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -27,7 +27,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -49,7 +49,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "soc"
   - class: "flex"
@@ -75,7 +75,7 @@ topics:
         type: "bar"
         x: "num_ppl_rca"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -96,14 +96,14 @@ topics:
         type: "bar"
         x: "num_ppl_rca"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "soc"
   - class: "flex"
     source: NO
     title: "Highest Paid"
     slug: "top_occ_wage"
-    description: "The 3 highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -123,7 +123,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -145,7 +145,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "soc"
   - slug: "tmap_top_occs"

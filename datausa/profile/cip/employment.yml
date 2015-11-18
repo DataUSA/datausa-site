@@ -7,7 +7,7 @@ topics:
     source: NO
     title: "Most Common"
     slug: "top_occ_num_emp"
-    description: "The 3 most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -27,7 +27,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -48,7 +48,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "soc"
   - class: "flex"
@@ -74,7 +74,7 @@ topics:
         type: "bar"
         x: "num_ppl_rca"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -94,14 +94,14 @@ topics:
         type: "bar"
         x: "num_ppl_rca"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "soc"
   - class: "flex"
     source: NO
     title: "Highest Paid"
     slug: "top_occ_wage"
-    description: "The 3 highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -121,7 +121,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -142,7 +142,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "soc"
   - slug: "tmap_occ_num_emp_degree"
@@ -213,7 +213,7 @@ topics:
     class: "flex"
     source: NO
     title: "Most Common"
-    description: "The 3 most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -233,7 +233,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -254,14 +254,14 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "naics"
   - class: "flex"
     source: NO
     title: "Highest Paid"
     slug: "top_ind_wage"
-    description: "The 3 highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -281,7 +281,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top 5"
+          label: "Top"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -302,7 +302,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom 5"
+          label: "Bottom"
           scale: "discrete"
           value: "naics"
   - slug: "tmap_ind_num_emp"
