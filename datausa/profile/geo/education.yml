@@ -33,6 +33,7 @@ topics:
       size: "grads_total"
       type: "tree_map"
   - title: "Universities"
+    slug: "universities"
     stat:
       - title: "Median In-State Public"
         value: "<<var namespace=edu|key=state_tuition|row=0>>"
