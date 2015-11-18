@@ -43,7 +43,7 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
-    var range = proportions.indexOf(key) >= 0 ? [0, 1] : false;
+    var range = proportions.indexOf(key) >= 0 && key !== "pct_total" ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default";

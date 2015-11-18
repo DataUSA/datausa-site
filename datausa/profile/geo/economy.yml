@@ -178,6 +178,7 @@ topics:
           required: "income,income_moe"
           show: "geo"
       id: "geo"
+      labels: YES
       order:
         sort: "desc"
         value: "geo"

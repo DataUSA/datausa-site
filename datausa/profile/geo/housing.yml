@@ -128,6 +128,7 @@ topics:
         required: "owner_occupied_housing_units"
       height: 250
       id: "geo"
+      labels: YES
       order: "geo"
       type: "bar"
       x: "owner_occupied_housing_units"

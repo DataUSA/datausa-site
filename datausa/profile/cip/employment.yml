@@ -180,6 +180,7 @@ topics:
           required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "soc"
       id: "soc"
+      labels: YES
       order:
         sort: "asc"
         value: "avg_wage"

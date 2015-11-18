@@ -42,6 +42,7 @@ topics:
         limit: 5
         order: "grads_total"
       id: "university"
+      labels: YES
       order:
         sort: "asc"
         value: "grads_total"
@@ -68,8 +69,13 @@ topics:
       order: "pct_total"
       id: "university"
       type: "bar"
+      ui:
+        - method: "y"
+          value:
+            - Percentage: "pct_total"
+            - Degrees Awarded: "grads_total"
       x: "university"
-      y: "grads_total"
+      y: "pct_total"
   - title: "Degrees Awarded by County"
     slug: "counties_most_degrees"
     stat:

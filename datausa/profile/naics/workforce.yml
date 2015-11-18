@@ -182,6 +182,7 @@ topics:
           sumlevel: "<<sumlevel>>"
           avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
       id: "naics"
+      labels: YES
       order:
         sort: "desc"
         value: "avg_wage_rank"

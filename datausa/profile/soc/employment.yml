@@ -195,7 +195,7 @@ topics:
   - title: "Locations"
     slug: "locations"
     stat:
-      - title: "PUMA with a relatively high number of <<name>> majors"
+      - title: "PUMA with a relatively high number of <<name>>"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
         subtitle: "Followed by <<var namespace=puma_rca|key=geo|row=1>> and <<var namespace=puma_rca|key=geo|row=2>>"
     description: "The map to the right shows the public-use micro areas in the United States where there are a relatively high population of <<name>>."
