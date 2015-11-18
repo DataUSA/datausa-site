@@ -198,7 +198,6 @@ search.btnExplore = function(d) {
   }
   // xtra info
   var xtra = info.append("div").attr("class", "xtra")
-  xtra.append("p").attr("class", "parents")
   if(search.anchors[d.kind].sections){
     var ul = xtra.append("ul")
     search.anchors[d.kind].sections.forEach(function(anchor){
@@ -211,10 +210,9 @@ search.btnExplore = function(d) {
         .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
         .append("span")
         .text(anchor.title)
-      // li.append("p")
-      //   .text(anchor.description.replace("<<name>>", d.display))
     })
   }
+  xtra.append("p").attr("class", "parents")
   
   // set profile link
   profile.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").html("View Profile &raquo;")
