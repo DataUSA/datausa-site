@@ -118,6 +118,8 @@ class Viz(object):
 
                 if val and val not in tooltip and val not in ids:
                     tooltip.append(val)
+                    if k == axis:
+                        tooltip.append("{}2_{}".format(axis, val))
                     moe = "{}_moe".format(val)
                     if moe not in tooltip:
                         tooltip.append(moe)
