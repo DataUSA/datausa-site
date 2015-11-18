@@ -142,12 +142,14 @@ topics:
       data:
         - geo: "01000US,<<id>>"
           force: "acs.yg_conflict"
+          exclude: "conflict_total,conflict_total_moe"
           show: "geo"
           split:
             id: "conflict"
             regex: "^conflict_([0-9a-z]*)$"
             value: "num_ppl"
       id: "geo"
+      order: "conflict"
       type: "bar"
       x:
         scale: "discrete"
