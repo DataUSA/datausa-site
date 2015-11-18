@@ -2607,7 +2607,7 @@ body.embed {
             -webkit-flex: 1;
             -ms-flex: 1;
             flex: 1; }
-            body.embed section .topic .content .viz,
+            body.embed section .topic .content .viz:not(.mini),
             body.embed section .topic .content .viz.full-width {
               height: 100% !important;
               min-height: 100% !important; }
