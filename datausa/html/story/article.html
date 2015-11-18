@@ -4,20 +4,28 @@
 
 {% block body %}
 
-<style>
-img.author {
-    width:100px;
-    height: auto;
-}
-</style>
-<h3>{{ story.title }}</h3>
-<img src="{{ story.background_image }}"/>
-<h4>{{ story.description }}</h4>
-<p>{{ story.date }}</p>
-{% for author in story.authors %}
-    <a href="{{author.link}}">{{ author.name }}</a>
-    <img class="author" src="{{author.img}}"/>
-{% endfor %}
+<header>
+  <div id="splash" style="background-image:url({{ story.background_image }})">
+    
+    <div class="text">
+      <div class="post-titles">
+          <h1>{{ story.title }}</h1>
+          <p class="description">{{ story.description }}</h2>
+      </div>
+      <div class="author-meta">
+        {% for author in story.authors %}
+        <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}">
+          <img alt="{{ author.name }}" src="{{ author.img }}">
+        </a>
+        <span class="name"><i>By</i> <a href="{{ author.link }}">{{ author.name }}</a></span>
+        <span class="post-date" style="">{{ story.date }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div> <!-- .splash -->
+</header>
+
 {% set section = story %}
 <section class="">
   {% include "templates/includes/topic.html" %}

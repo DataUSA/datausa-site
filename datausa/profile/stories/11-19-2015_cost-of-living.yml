@@ -1,10 +1,11 @@
-title: "Test article"
-description: "Healthcare is important. Here is an article."
-background_image: "https://tse2.mm.bing.net/th?id=OIP.M4b93bf0a723158d238cc1eb56a0ded1co0&pid=15.1"
+title: "Cost of Living"
+date: November 19th, 2015
+description: "Cost of living is the cost of maintaining a certain standard of living. Changes in the cost of living over time are often operationalized in a cost of living index. Cost of living calculations are also used to compare the cost of maintaining a certain standard of living in different geographic areas. Differences in cost of living between locations can also be measured in terms of purchasing power parity rates."
+background_image: "https://exposure.imgix.net/production/photos/w52q9tityddvx6r9kg773uval7kfbt97rcb3/original.jpg"
 authors:
-    - name: John Doe
-      img: https://pbs.twimg.com/media/CRQa2_hWEAAbWJA.jpg:large
-      link: http://twitter.com/Datawheel
+    - name: Alexander simoes
+      img: https://avatars2.githubusercontent.com/u/252276?v=3&s=460
+      link: http://twitter.com/ximoes
     
 topics:
   - title: "Cost of Care"

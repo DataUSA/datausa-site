@@ -1,7 +1,7 @@
 {% extends "templates/nav.html" %}
 
 {% block body %}
-{% for story in featured_stories %}
+<!-- {% for story in featured_stories %}
 <h3>Featured Story</h3>
 <a href="/story/{{story.story_id}}">
 <img src="{{story.background_image}}"/>
@@ -17,77 +17,43 @@
 {{story.title}} - {{story.description}} - {{story.date}}
 </a>
 <br/>
+{% endfor %} -->
+{% for story in featured_stories %}
+<header>
+  <div id="splash" style="background-image:url({{ story.background_image }})">
+  
+    <div class="text">
+      <div class="post-titles">
+          <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
+          <p class="description">{{ story.description }}</h2>
+      </div>
+      <div class="author-meta">
+        {% for author in story.authors %}
+        <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}">
+          <img alt="{{ author.name }}" src="{{ author.img }}">
+        </a>
+        <span class="name"><i>By</i> <a href="{{ author.link }}">{{ author.name }}</a></span>
+        <span class="post-date" style="">{{ story.date }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div> <!-- .splash -->
+</header>
 {% endfor %}
+
+<div class="all-stories">
+  {% for story in stories %}
+  <article style="background-image:url({{ story.background_image }})">
+    <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
+  </article>
+  {% endfor %}
+</div>
+
 {% endblock %}
 
 {% block js %}
 <script>
-
-  // var tooltip_data = [
-  //   {"name": "Exports", "value": "$49M", "group": ""},
-  //   {"name": "Imports", "value": "$32M", "group": ""},
-  //   {"name": "RCA", "value": "1.24", "group": "Calculations"},
-  //   {"name": "Number of Households", "value": "494k", "group": "Calculations"},
-  //   {"name": "Another Thing", "value": "Dave", "group": "Calculations"}
-  // ];
-  //
-  // var html = "<div style='text-align:center;'>";
-  // html += "<div class='mute'>Hide</div>";
-  // html += "<div class='solo'>Isolate</div>";
-  // html += "</div>";
-  // js = function(tooltip) {
-  //   var style = {
-  //     "border": "1px solid #ccc",
-  //     "display": "inline-block",
-  //     "margin": "1px 2px",
-  //     "padding": "3px 5px"
-  //   }
-  //   tooltip.select(".mute")
-  //     .style(style)
-  //     .on(d3plus.client.pointer.over, function(){
-  //       d3.select(this).style("cursor", "pointer");
-  //     })
-  //     .on(d3plus.client.pointer.click, function(){
-  //       var mute = vars.id.mute.value;
-  //       vars.history.states.push(function(){
-  //         vars.self.id({"mute": mute}).draw();
-  //       })
-  //       vars.self.id({"mute": id}).draw();
-  //     });
-  //   tooltip.select(".solo")
-  //     .style(style)
-  //     .on(d3plus.client.pointer.over, function(){
-  //       d3.select(this).style("cursor", "pointer");
-  //     })
-  //     .on(d3plus.client.pointer.click, function(){
-  //       var solo = vars.id.solo.value;
-  //       vars.history.states.push(function(){
-  //         vars.self.id({"solo": solo}).draw();
-  //       })
-  //       vars.self.id({"solo": id}).draw();
-  //     });
-  // }
-  //
-  // d3plus.tooltip.create({
-  //   "x": 200,
-  //   "y": 300,
-  //   "offset": 0,
-  //   "arrow": true,
-  //   "title": "Tooltip Title",
-  //   "description": "Here is some description text.",
-  //   "footer": "This is a footer",
-  //   "color": "#cc0000",
-  //   "width": 250,
-  //   "id": "text-tooltip",
-  //   "data": tooltip_data,
-  //   "align": "top center",
-  //   "html": html, "js": js,
-  //   "background": vizStyles.tooltip.background,
-  //   "fontcolor": vizStyles.tooltip.font.color,
-  //   "fontfamily": vizStyles.tooltip.font.family,
-  //   "fontsize": vizStyles.tooltip.font.size,
-  //   "fontweight": vizStyles.tooltip.font.weight
-  // });
 
 </script>
 {% endblock %}
