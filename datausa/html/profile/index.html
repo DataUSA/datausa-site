@@ -238,6 +238,15 @@
     d3.select("#splash-image").classed("c", !d3.select("#splash-image").classed("c"));
   });
 
+  d3.selectAll(".splash-icon-nav a, #profile-nav a").on("click", function() {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'navigation',
+        eventAction: this.innerText + ' clicked',
+        eventLabel: 'User click'
+      });
+  });
+
 </script>
 
 {% endblock %}
