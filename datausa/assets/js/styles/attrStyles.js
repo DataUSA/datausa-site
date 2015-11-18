@@ -1,22 +1,22 @@
 var attrStyles = {
 
   "nationality": {
-    "foreign": "#ccd",
-    "us": "#c00"
+    "foreign": "#7C90D8",
+    "us": "#69B9A7"
   },
 
   "sex": {
-    "men": "#5D82BD",
-    "male": "#5D82BD",
-    "1": "#5D82BD",
-    "women": "#dc5137",
-    "female": "#dc5137",
-    "2": "#dc5137"
+    "men": "#445BB3",
+    "male": "#445BB3",
+    "1": "#445BB3",
+    "women": "#DC5137",
+    "female": "#DC5137",
+    "2": "#DC5137"
   },
 
   "student_pool": {
-    "Degrees Awarded": "orange",
-    "Workforce": "navy"
+    "Degrees Awarded": "#9ACD66",
+    "Workforce": "#293B75"
   }
 
 }

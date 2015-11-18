@@ -835,22 +835,22 @@ search.update_refine = function(data){
 var attrStyles = {
 
   "nationality": {
-    "foreign": "#ccd",
-    "us": "#c00"
+    "foreign": "#7C90D8",
+    "us": "#69B9A7"
   },
 
   "sex": {
-    "men": "#5D82BD",
-    "male": "#5D82BD",
-    "1": "#5D82BD",
-    "women": "#dc5137",
-    "female": "#dc5137",
-    "2": "#dc5137"
+    "men": "#445BB3",
+    "male": "#445BB3",
+    "1": "#445BB3",
+    "women": "#DC5137",
+    "female": "#DC5137",
+    "2": "#DC5137"
   },
 
   "student_pool": {
-    "Degrees Awarded": "orange",
-    "Workforce": "navy"
+    "Degrees Awarded": "#9ACD66",
+    "Workforce": "#293B75"
   }
 
 }
@@ -987,19 +987,19 @@ var vizStyles = {
     "sec": "#71bbe2"
   },
   "geo": {
-    "pri": "#5D82BD",
-    "sec": "#C5C5C5"
+    "pri": "#B5D2C8",
+    "sec": "#B5B5B5"
   },
   "cip": {
-    "pri": "#006ea8",
+    "pri": "#CEB6BA",
     "sec": "#C5C5C5"
   },
   "soc": {
-    "pri": "#006ea8",
+    "pri": "#799DD3",
     "sec": "#C5C5C5"
   },
   "naics": {
-    "pri": "#006ea8",
+    "pri": "#CFD4A4",
     "sec": "#C5C5C5"
   },
 
@@ -1015,10 +1015,11 @@ var vizStyles = {
 
   "background": "transparent",
   "color": {
-    "missing": "#eee",
-    "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
+    "missing": "#efefef",
+    // "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
+    "heatmap": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"],
     "primary": "#aaa", // used for coloring edge connections in Sankey
-    "range": ["#B22200", "#FFEE8D", "#759143"]
+    "range": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"]
   },
   "edges": {
     "color": "#d0d0d0"

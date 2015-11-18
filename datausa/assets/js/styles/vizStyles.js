@@ -5,19 +5,19 @@ var vizStyles = {
     "sec": "#71bbe2"
   },
   "geo": {
-    "pri": "#5D82BD",
-    "sec": "#C5C5C5"
+    "pri": "#B5D2C8",
+    "sec": "#B5B5B5"
   },
   "cip": {
-    "pri": "#006ea8",
+    "pri": "#CEB6BA",
     "sec": "#C5C5C5"
   },
   "soc": {
-    "pri": "#006ea8",
+    "pri": "#799DD3",
     "sec": "#C5C5C5"
   },
   "naics": {
-    "pri": "#006ea8",
+    "pri": "#CFD4A4",
     "sec": "#C5C5C5"
   },
 
@@ -33,10 +33,11 @@ var vizStyles = {
 
   "background": "transparent",
   "color": {
-    "missing": "#eee",
-    "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
+    "missing": "#efefef",
+    // "heatmap": ["#71bbe2", "#006ea8", "#dc5137"],
+    "heatmap": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"],
     "primary": "#aaa", // used for coloring edge connections in Sankey
-    "range": ["#B22200", "#FFEE8D", "#759143"]
+    "range": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"]
   },
   "edges": {
     "color": "#d0d0d0"

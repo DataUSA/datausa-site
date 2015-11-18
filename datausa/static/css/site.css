@@ -123,7 +123,7 @@ body.search #search-btn {
   bottom: 0;
   height: 100vh;
   width: 415px;
-  background-color: #677594;
+  background-color: #7981A9;
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -939,7 +939,7 @@ body.home {
                       body.home .bg-filter.landing {
                         width: 100vw;
                         height: 190vh;
-                        background: linear-gradient(#677594 0%, white 33%);
+                        background: linear-gradient(#7981A9 0%, white 33%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -48vh;
@@ -1192,40 +1192,86 @@ body.home {
     background: rgba(255, 255, 255, 0.85);
     display: none;
     width: 100%; }
+body.profile.geo #splash .content, body.story.geo #splash .content {
+  background-color: rgba(3, 48, 40, 0.95); }
+  body.profile.geo #profile-nav, body.story.geo #profile-nav {
+    background-color: #0C2521; }
+    body.profile.geo .stat-value a, body.story.geo .stat-value a {
+      color: #0C9A6E; }
+      body.profile.geo .stat-value a:hover, body.story.geo .stat-value a:hover {
+        color: rgba(105, 185, 167, 0.5);
+        border-bottom: 1px solid rgba(105, 185, 167, 0.5); }
+body.profile.cip #splash .content, body.story.cip #splash .content {
+  background-color: rgba(105, 6, 26, 0.95); }
+  body.profile.cip #profile-nav, body.story.cip #profile-nav {
+    background-color: #2B040C; }
+    body.profile.cip .stat-value a, body.story.cip .stat-value a {
+      color: #dc5137; }
+      body.profile.cip .stat-value a:hover, body.story.cip .stat-value a:hover {
+        color: rgba(173, 123, 123, 0.5);
+        border-bottom: 1px solid rgba(173, 123, 123, 0.5); }
+body.profile.soc #splash .content, body.story.soc #splash .content {
+  background-color: rgba(6, 25, 98, 0.95); }
+  body.profile.soc #profile-nav, body.story.soc #profile-nav {
+    background-color: #020B31; }
+    body.profile.soc .stat-value a, body.story.soc .stat-value a {
+      color: #2c49d8; }
+      body.profile.soc .stat-value a:hover, body.story.soc .stat-value a:hover {
+        color: rgba(121, 129, 169, 0.5);
+        border-bottom: 1px solid rgba(121, 129, 169, 0.5); }
+body.profile.naics #splash .content, body.story.naics #splash .content {
+  background-color: rgba(48, 50, 16, 0.95); }
+  body.profile.naics #profile-nav, body.story.naics #profile-nav {
+    background-color: #1D1908; }
+    body.profile.naics .stat-value a, body.story.naics .stat-value a {
+      color: #9FA507; }
+      body.profile.naics .stat-value a:hover, body.story.naics .stat-value a:hover {
+        color: rgba(138, 140, 68, 0.5);
+        border-bottom: 1px solid rgba(138, 140, 68, 0.5); }
 body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health,
 body.story.geo .economy, body.story.geo .education, body.story.geo .health {
   background-color: #E9E9E9; }
   body.profile.geo .demographics, body.profile.geo .housing,
   body.story.geo .demographics, body.story.geo .housing {
     background-color: #F6F6F6; }
-    body.profile.geo #splash .content, body.story.geo #splash .content {
-      background-color: rgba(6, 25, 98, 0.95); }
 body.profile.cip .institutions, body.profile.cip .employment,
 body.story.cip .institutions, body.story.cip .employment {
   background-color: #E9E9E9; }
   body.profile.cip .demographics, body.profile.cip .skills,
   body.story.cip .demographics, body.story.cip .skills {
     background-color: #F6F6F6; }
-    body.profile.cip #splash .content, body.story.cip #splash .content {
-      background-color: rgba(105, 6, 26, 0.95); }
-      body.profile.cip #stats-bar #title-stats, body.story.cip #stats-bar #title-stats {
-        width: 70%;
-        max-width: 700px;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-justify-content: space-around;
-        -moz-justify-content: space-around;
-        justify-content: space-around;
-        -webkit-align-items: flex-end;
-        align-items: flex-end;
-        -webkit-align-content: space-around;
-        align-content: space-around; }
+body.profile.soc .employment, body.profile.soc .education,
+body.profile.soc .skills, body.story.soc .employment, body.story.soc .education,
+body.story.soc .skills {
+  background-color: #E9E9E9; }
+  body.profile.soc .demographics, body.profile.soc .growth,
+  body.story.soc .demographics, body.story.soc .growth {
+    background-color: #F6F6F6; }
+body.profile.naics .economy, body.profile.naics .education,
+body.profile.naics .health, body.story.naics .economy, body.story.naics .education,
+body.story.naics .health {
+  background-color: #E9E9E9; }
+  body.profile.naics .demographics, body.profile.naics .housing,
+  body.story.naics .demographics, body.story.naics .housing {
+    background-color: #F6F6F6; }
+body.profile.cip #stats-bar #title-stats, body.story.cip #stats-bar #title-stats {
+  width: 100%;
+  max-width: 850px;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  justify-content: space-around;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+  -webkit-align-content: space-around;
+  align-content: space-around; }
 body.profile h1, body.story h1 {
   font-family: "Playfair Display", serif;
   font-size: 55px;
@@ -1323,10 +1369,8 @@ body.profile .topic h2, body.story .topic h2 {
       font-size: 24px; }
       body.profile .topic.flex .data-btn, body.story .topic.flex .data-btn {
         top: 13px; }
-body.profile .topic h2 ~ sub, body.story .topic h2 ~ sub {
-  max-width: 415px;
-  width: 50%;
-  margin: 15px 0 -5px 1px;
+body.profile .topic h2 ~ sub, body.profile .topic aside > sub:first-child,
+body.story .topic h2 ~ sub, body.story .topic aside > sub:first-child {
   font-family: "Roboto", sans-serif;
   font-size: 13px;
   line-height: 1.35;
@@ -1334,22 +1378,31 @@ body.profile .topic h2 ~ sub, body.story .topic h2 ~ sub {
   text-transform: initial;
   letter-spacing: 0.05em;
   color: #B35E49; }
-  body.profile .topic sub, body.story .topic sub {
-    display: inline-block;
-    margin: 5px 0 10px;
-    color: #a8a8a8;
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.5;
-    letter-spacing: 0.1em; }
-    body.profile .topic sub a, body.story .topic sub a {
-      color: #888; }
-      body.profile .topic sub a:hover, body.story .topic sub a:hover {
-        text-decoration: underline; }
-    body.profile .topic sub span, body.story .topic sub span {
-      vertical-align: baseline; }
+  body.profile .topic h2 ~ sub a, body.profile .topic aside > sub:first-child a,
+  body.story .topic h2 ~ sub a, body.story .topic aside > sub:first-child a {
+    color: #B35E49; }
+    body.profile .topic h2 ~ sub a:hover,
+    body.profile .topic aside > sub:first-child a:hover,
+    body.story .topic h2 ~ sub a:hover,
+    body.story .topic aside > sub:first-child a:hover {
+      text-decoration: none;
+      border-bottom: 1px solid #B35E49; }
+body.profile .topic sub, body.story .topic sub {
+  display: inline-block;
+  margin: 5px 0 10px;
+  color: #a8a8a8;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.1em; }
+  body.profile .topic sub a, body.story .topic sub a {
+    color: #888; }
+    body.profile .topic sub a:hover, body.story .topic sub a:hover {
+      border-bottom: 1px solid #888; }
+  body.profile .topic sub span, body.story .topic sub span {
+    vertical-align: baseline; }
 body.profile .stat-text, body.profile .stat-rank, body.story .stat-text,
 body.story .stat-rank {
   font-family: "Roboto", sans-serif; }
@@ -1376,12 +1429,9 @@ body.profile .stat-group, body.story .stat-group {
       font-weight: 300; }
       body.profile .stat-value a, body.story .stat-value a {
         padding-bottom: 1px;
-        color: #2c49d8;
         text-decoration: none;
         text-transform: capitalize; }
         body.profile .stat-value a:hover, body.story .stat-value a:hover {
-          color: rgba(121, 129, 169, 0.5);
-          border-bottom: 1px solid rgba(121, 129, 169, 0.5);
           text-decoration: none; }
 body.profile nav, body.story nav {
   position: fixed;
@@ -1976,7 +2026,6 @@ body.profile #profile-nav, body.story #profile-nav {
   position: fixed;
   top: -40px;
   z-index: 1;
-  background-color: #020B31;
   text-align: center;
   -webkit-transition: top 0.5s;
   -moz-transition: top 0.5s;
@@ -1987,6 +2036,7 @@ body.profile #profile-nav, body.story #profile-nav {
     top: 70px; }
     body.profile #profile-nav ul, body.story #profile-nav ul {
       width: 90%;
+      max-width: 850px;
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
