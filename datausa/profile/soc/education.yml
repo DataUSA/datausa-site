@@ -3,6 +3,7 @@ description: "The Census Bureau collects a large amount of data in regards to hi
 
 topics:
   - title: "Majors"
+    slug: "majors"
     select:
       data: "pums_degree"
       param: "degree"
@@ -32,6 +33,7 @@ topics:
       size: "num_ppl"
       type: "tree_map"
   - title: "Universities"
+    slug: "universities"
     stat:
       - title: "Median In-State Public"
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=state_tuition|col=state_tuition|agg=sum>>"
@@ -76,6 +78,7 @@ topics:
       size: "grads_total"
       type: "tree_map"
   - title: "Gender"
+    slug: "gender"
     description: "Here we see the top 5 degrees for <<name>> broken out by gender."
     viz:
       attrs:
@@ -93,6 +96,7 @@ topics:
       x: "cip"
       y: "num_ppl"
   - title: "Race & Ethnicity"
+    slug: "ethnicity"
     description: "Here is the race & ethnicity breakdown of <<name>>."
     viz:
       attrs: "pums_race"
