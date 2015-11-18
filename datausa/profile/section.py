@@ -97,7 +97,7 @@ class Section(object):
                     if col == "id":
                         val = val["value"]
                     else:
-                        val = "<span data-url='{}'>{}</span>".format(val["url"], val["value"])
+                        val = u"<span data-url='{}'>{}</span>".format(val["url"], val["value"])
 
                 # replace all instances of key with the returned value
                 config = config.replace("<<{}>>".format(k), val.encode("utf-8"))

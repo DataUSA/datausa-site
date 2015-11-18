@@ -154,7 +154,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         top = [num_format(t, col) if isinstance(t, (int, float)) else t for t in top]
 
     # coerce all values to strings
-    top = [str(t) if t != "" else "N/A" for t in top]
+    top = [u"{}".format(t) if t != "" else u"N/A" for t in top]
 
     if col == "id":
         top = ",".join(top)
