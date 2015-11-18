@@ -1,5 +1,9 @@
 body.profile, body.story {
 
+  #top-nav {
+    background-color: white;
+  }
+
   @each $page in (geo, cip, soc, naics) {
     &.#{$page} {
       #splash .content {
@@ -83,7 +87,7 @@ body.profile, body.story {
     letter-spacing: 0.05em;
   }
 
-  h2 {
+  header h2 {
     font-family: $playfair;
     font-size: 47px;
     font-weight: 300;
@@ -417,27 +421,6 @@ body.profile, body.story {
         @include flex-size(3);
       }
 
-      .thumbprint {
-        .d3plus_coordinates.highlight {
-          .d3plus_data {
-            fill: #ffffff;
-            stroke: #8692C5 !important;
-          }
-        }
-
-        .d3plus_coordinates.outline {
-          .d3plus_data {
-            fill: transparent;
-            stroke: #4F63B9 !important;
-          }
-        }
-
-        .d3plus_data {
-          fill: rgba(255,255,255,0.35);
-          stroke: #4F63B9 !important;
-        }
-      }
-
       h1 {
         line-height: 1;
         color: #cdcdcd;
@@ -518,7 +501,7 @@ body.profile, body.story {
             font-size: 12px;
             text-align: center;
             color: rgba(240, 250, 255, 0.5);
-            line-height: 1;
+            line-height: 1.35;
 
             a {
               color: rgba(237,240,245,0.65);
@@ -749,6 +732,11 @@ body.profile, body.story {
 
       &:hover {
         color: #fff;
+
+        .title-stat-text a {
+          color: #fff;
+          border-bottom: 1px solid #fff;
+        }
       }
     }
 

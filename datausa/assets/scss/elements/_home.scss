@@ -64,7 +64,7 @@ body.home {
   .bg-filter.landing {
     width: 100vw;
     height: 190vh;
-    background: linear-gradient($home-midtone 0%, white 33%);
+    background: linear-gradient(#112748 0%, #475C7B 12%, white 42%);
     z-index: -11;
   }
 
@@ -190,6 +190,18 @@ body.home {
       border: 2px solid white;
       margin: 20px 5vw;
       background-color: rgba(255,255,255,0.5);
+    }
+
+    #menu {
+      background-color: $home-red;
+      left: 0;
+      top: 100vh;
+      height: 100%;
+      @include transition(top 0.7s ease);
+
+      &.open {
+        top: 0;
+      }
     }
   }
 

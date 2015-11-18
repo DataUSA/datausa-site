@@ -7,6 +7,14 @@ body {
       display: block;
     }
 
+    .menu-content h2 {
+      color: #fff;
+
+      &:before {
+        background: #fff;
+      }
+    }
+
     .home-sum {
       display: none;
     }
@@ -32,7 +40,8 @@ body {
   bottom: 0;
   height: 100vh;
   width: $nav-width;
-  background-color: $home-midtone;
+  overflow: scroll;
+  background-color: #fefefe;
   @include flex();
   @include flex-direction(column);
   z-index: 4;
@@ -57,12 +66,42 @@ body {
 .menu-content {
   margin-top: $nav-height;
 
+  @media all and (max-width: 415px) {
+    ul {
+      text-align: center;
+    }
+  }
+
   a {
     display: inline-block;
+
+    &:hover {
+      
+      h2:before {
+        width: 50%;
+      }
+    }
   }
 
   h2 {
     padding: 20px;
+    color: #333;
+    position: relative;
+
+    &:before {
+      content: "";
+      width: 0;
+      display: inline-block;
+      position: absolute;
+      z-index: 10;
+      bottom: 11px;
+      left: 50%;
+      height: 2px;
+      @include transform(translateX(-50%));
+      @include transition(all .25s ease);
+      background: #333;
+      @include box();
+    }
   }
 }
 
@@ -92,6 +131,10 @@ body {
   overflow: hidden;
 }
 
+.btn-container {
+  width: 50px;
+}
+
 #menu-btn {
   z-index: 20; 
   position: fixed;
@@ -116,7 +159,7 @@ body {
    }
   
   .bd {
-    padding: 13px 15px;
+    padding: 13px;
     width: 15px;
     
     div {
@@ -128,7 +171,7 @@ body {
       display: block;
       height: 2px;
       width: 15px;
-      transition: all 0.5s;
+      transition: all 0.75s;
     }
 
     span {
@@ -217,7 +260,7 @@ body {
   .search-box {
     position: absolute;
     right: 0;
-    margin-right: 38px;
+    margin-right: 46px;
     width: 0;
     padding: 0px;
     display: inline-block;
@@ -227,7 +270,7 @@ body {
     @include transition(width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s);
   }
   .search-box.open {
-    width: $search-mini-width - 23;
+    width: $search-mini-width - 30;
     opacity: 1;
   }
   .search-box input {
@@ -252,7 +295,7 @@ body {
   bottom: 0;
   left: 0;
   opacity: 0.8;
-  background-color: $dark-home-blue;
+  background-color: #eee;
   z-index: 3;
 }
 
@@ -266,9 +309,25 @@ body {
     width: 100vw;
   }
 
+  #mask {
+      background-color: transparent;
+    }
+
   #menu {
     @include justify(space-around);
     width: 100%;
+    left: 0;
+    top: -100vh;
+    height: 100%;
+    @include transition(top 0.7s ease);
+
+    &.open {
+      top: 0;
+    }
+
+    .menu-content {
+      margin-top: 0;
+    }
   }
 
   #menu footer {
@@ -280,6 +339,10 @@ body {
   }
 
   body.home {
+
+    #menu-btn .bd span {
+      background: #fff;
+    }
 
     nav {
 
@@ -326,15 +389,14 @@ body {
   #menu footer {
     display: block;
     background-color: #eeeeee;
-    text-align: center;
     height: $footer-height;
     width: 100%;
     overflow: hidden;
 
     img {
       height: $footer-height/4;
-      margin: $footer-height/2.6 10px;
-      opacity: 0.5;
+      margin: $footer-height/2.6 0 $footer-height/2.6 25px;
+      opacity: 1;
       @include transition(opacity 1s);
 
       @media all and (min-width: 415px) {
