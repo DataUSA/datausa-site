@@ -59,6 +59,8 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
 
     # convert request arguments into a url query string
     rank = int(params.pop("rank", "1"))
+    if rank > 1 and params["limit"] == 1:
+        params["limit"] = rank
     unformatted = params.pop("unformatted", False)
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
@@ -66,6 +68,8 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
     try:
         r = requests.get(url).json()
     except ValueError:
+        if params["force"] == "ipeds.grads_yg":
+            raise Exception(url)
         app.logger.info("STAT ERROR: {}".format(url))
         return {
             "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
@@ -98,6 +102,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         return num_format(r[0][params["order"]] - r[1][params["order"]], key=col)
 
     if col in col_map or "-" in col:
+        r = [r[0]]
         def drop_first(c):
             return "_".join(c.split("_")[1:])
         keys = col.split("-")
@@ -115,26 +120,30 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
                     v = fetch(v, keys[i])
                     top[i] = v["display_name"] if "display_name" in v else v["name"]
             top = [" ".join(top)]
-    elif moe:
-        top = [d[moe] for d in r]
-    elif col == "name":
-        if dataset in ["acs", "pums"]:
-            attr = "{}_{}".format(dataset, show)
-        else:
-            attr = show
-
-        top = [fetch(d[show], attr) for d in r]
-
-        if attr in PROFILES or attr in CROSSWALKS:
-            top = [(t["id"], t["display_name"]) if "display_name" in t else (t["id"], t[col]) for t in top]
-            top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) for t in top]
-        else:
-            top = [t["display_name"] if "display_name" in t else t[col] for t in top]
-
-    elif col == "id":
-        top = [d[show] for d in r]
     else:
-        top = [d[col] for d in r]
+        if rank > 1:
+            r = r[rank-1:]
+
+        if moe:
+            top = [d[moe] for d in r]
+        elif col == "name":
+            if dataset in ["acs", "pums"]:
+                attr = "{}_{}".format(dataset, show)
+            else:
+                attr = show
+
+            top = [fetch(d[show], attr) for d in r]
+
+            if attr in PROFILES or attr in CROSSWALKS:
+                top = [(t["id"], t["display_name"]) if "display_name" in t else (t["id"], t[col]) for t in top]
+                top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) for t in top]
+            else:
+                top = [t["display_name"] if "display_name" in t else t[col] for t in top]
+
+        elif col == "id":
+            top = [d[show] for d in r]
+        else:
+            top = [d[col] for d in r]
 
     if unformatted:
         return top

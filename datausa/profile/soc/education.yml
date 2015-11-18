@@ -12,9 +12,10 @@ topics:
     stat:
       - title: "High relative number of people major in"
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca>>"
+        subtitle: "Followed by <<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=2>> and <<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=3>>"
       - title: "Most common major is"
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl>>"
-        moe: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|col=num_ppl>> <span class='plus-minus'>±</span> <<top show=cip|degree=21|sumlevel=2|order=num_ppl|moe=num_ppl_moe>>"
+        subtitle: "Followed by <<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=2>> and <<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=3>>"
     description: "Here we see the most common degrees held by <<name>> for a particular degree type."
     viz:
       attrs: "cip"
@@ -25,11 +26,7 @@ topics:
         soc: "<<id>>"
         required: "num_ppl,num_ppl_moe,num_ppl_rca"
         sumlevel: "2"
-      depth: 2
-      id:
-        - "cip_2"
-        - "cip_4"
-        - "cip_6"
+      id: "cip_2"
       size: "num_ppl"
       type: "tree_map"
   - title: "Universities"
@@ -79,6 +76,9 @@ topics:
       type: "tree_map"
   - title: "Gender"
     slug: "gender"
+    stat:
+      - title: "Most common gender"
+        value: "<<var namespace=sex|key=sex>>"
     description: "Here we see the top 5 degrees for <<name>> broken out by gender."
     viz:
       attrs:
@@ -97,6 +97,10 @@ topics:
       y: "num_ppl"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
+    stat:
+      - title: "Most common race or ethnicity"
+        value: "<<var namespace=race|key=race|row=0>>"
+        subtitle: "Followed by <<var namespace=race|key=race|row=1>> and <<var namespace=race|key=race|row=2>>"
     description: "Here is the race & ethnicity breakdown of <<name>>."
     viz:
       attrs: "pums_race"

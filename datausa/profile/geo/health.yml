@@ -38,6 +38,7 @@ topics:
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest healthcare cost"
         value: "<<top dataset=chr|child=True|order=health_care_costs>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=health_care_costs|rank=2>> and <<top dataset=chr|child=True|order=health_care_costs|rank=3>>"
     viz:
       attrs: "geo"
       color: "health_care_costs"
@@ -61,8 +62,10 @@ topics:
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest adult obesity rate"
         value: "<<top dataset=chr|child=True|order=adult_obesity>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=adult_obesity|rank=2>> and <<top dataset=chr|child=True|order=adult_obesity|rank=3>>"
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest diabetes rate"
         value: "<<top dataset=chr|child=True|order=diabetes>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=diabetes|rank=2>> and <<top dataset=chr|child=True|order=diabetes|rank=3>>"
     viz:
       attrs: "geo"
       data:
@@ -90,6 +93,7 @@ topics:
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
         value: "<<top dataset=chr|child=True|order=alcoholimpaired_driving_deaths>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=alcoholimpaired_driving_deaths|rank=2>> and <<top dataset=chr|child=True|order=alcoholimpaired_driving_deaths|rank=3>>"
     viz:
       attrs: "geo"
       color: "alcoholimpaired_driving_deaths"
@@ -113,8 +117,10 @@ topics:
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest HIV prevalance"
         value: "<<top dataset=chr|child=True|order=hiv_prevalence_rate>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=hiv_prevalence_rate|rank=2>> and <<top dataset=chr|child=True|order=hiv_prevalence_rate|rank=3>>"
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the most sexually transmitted infections"
         value: "<<top dataset=chr|child=True|order=sexually_transmitted_infections>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=sexually_transmitted_infections|rank=2>> and <<top dataset=chr|child=True|order=sexually_transmitted_infections|rank=3>>"
     viz:
       attrs: "geo"
       data:
@@ -143,6 +149,7 @@ topics:
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
         value: "<<top dataset=chr|child=True|order=homicide_rate>>"
+        subtitle: "Followed by <<top dataset=chr|child=True|order=homicide_rate|rank=2>> and <<top dataset=chr|child=True|order=homicide_rate|rank=3>>"
     viz:
       attrs: "geo"
       color: "homicide_rate"

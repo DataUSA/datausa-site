@@ -11,8 +11,10 @@ topics:
     stat:
       - title: "High relative number of people major in"
         value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca>>"
+        subtitle: "Followed by <<top show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=2>> and <<top show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=3>>"
       - title: "Most common major is"
         value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total>>"
+        subtitle: "Followed by <<top show=cip|degree=5|sumlevel=6|order=grads_total|rank=2>> and <<top show=cip|degree=5|sumlevel=6|order=grads_total|rank=3>>"
     description: "This tree map shows the composition of the student population in <<name>> by major."
     viz:
       attrs: "cip"
@@ -102,8 +104,9 @@ topics:
     slug: "edu_ethnicity"
     stat:
       - title: "Most common student race or ethnicity"
-        value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
-    description: "The most common race or ethnicity of students with degrees awarded in <<name>> is <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>, followed by <<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total|rank=2>>."
+        value: "<<top col=race|force=ipeds_beta.grads_yg|order=grads_total>>"
+        subtitle: "Followed by <<top col=race|force=ipeds_beta.grads_yg|order=grads_total|rank=2>> and <<top col=race|force=ipeds_beta.grads_yg|order=grads_total|rank=3>>"
+    description: "The most common race or ethnicity of students with degrees awarded in <<name>> is <<top col=race|force=ipeds_beta.grads_yg|order=grads_total>>, followed by <<top col=race|force=ipeds_beta.grads_yg|order=grads_total|rank=2>>."
     viz:
       attrs: "race"
       data:
@@ -112,7 +115,7 @@ topics:
         required: "grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native"
         split:
           id: "race"
-          regex: "grads_([a-z]*)"
+          regex: "^grads_([a-z]*)$"
           value: "grads_total"
       id: "race"
       order:

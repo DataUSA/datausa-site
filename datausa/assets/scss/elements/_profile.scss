@@ -44,13 +44,13 @@ body.profile, body.story {
   &.soc {
     .employment, .education, .skills {
       background-color: $d-profile-bg;
-    } 
+    }
 
     .demographics, .growth  {
       background-color: $l-profile-bg;
     }
   }
-  
+
   &.naics {
     .economy, .education, .health  {
       background-color: $d-profile-bg;
@@ -254,7 +254,7 @@ body.profile, body.story {
     line-height: 1.5;
   }
 
-  .stat-moe {
+  .stat-subtitle {
     margin-left: 2px;
     margin-top: 7px;
 

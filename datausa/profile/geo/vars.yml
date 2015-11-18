@@ -56,7 +56,8 @@
   namespace: edu
 
 - required: ["birthplace"]
-  limit: 1
+  limit: 3
+  rows: True
   order: "num_ppl"
   sort: "desc"
   year: "latest"
@@ -64,12 +65,31 @@
   where: "birthplace:~^04000US"
 
 - required: ["birthplace"]
-  limit: 1
+  limit: 3
+  rows: True
   order: "num_ppl_rca"
   sort: "desc"
   year: "latest"
   namespace: "heritage_rca"
   where: "birthplace:~^04000US"
+
+- required: ["language"]
+  limit: 3
+  rows: True
+  order: "num_speakers_rca"
+  sort: "desc"
+  year: "latest"
+  namespace: "speakers_rca"
+  where: "language:~^002"
+
+- required: ["language"]
+  limit: 3
+  rows: True
+  order: "num_speakers"
+  sort: "desc"
+  year: "latest"
+  namespace: "speakers_total"
+  where: "language:~^002"
 
 - required: ["median_property_value", "median_property_value_moe"]
   namespace: "acsgeo"

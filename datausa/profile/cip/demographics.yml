@@ -8,8 +8,10 @@ topics:
     stat:
       - title: "Most Common Student Degree"
         value: "<<top show=degree|order=grads_total>>"
+        subtitle: "Followed by <<top show=degree|order=grads_total|rank=2>> and <<top show=degree|order=grads_total|rank=3>>"
       - title: "Most Common Workforce Degree"
         value: "<<top show=degree|order=num_ppl|dataset=pums>>"
+        subtitle: "Followed by <<top show=degree|order=num_ppl|dataset=pums|rank=2>> and <<top show=degree|order=num_ppl|dataset=pums|rank=3>>"
     description: "By leveraging both the PUMS and IPEDS datasets, we can compare the degrees obtained by the working population against the current student graduation rate."
     viz:
       attrs:
@@ -69,7 +71,8 @@ topics:
     slug: "ethnicity_degrees"
     stat:
       - title: "Most Common Race or Ethnicity"
-        value: "<<top col=race|required=grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native|order=grads_total>>"
+        value: "<<top col=race|force=ipeds_beta.grads_yc|order=grads_total>>"
+        subtitle: "Followed by <<top col=race|force=ipeds_beta.grads_yc|order=grads_total|rank=2>> and <<top col=race|force=ipeds_beta.grads_yc|order=grads_total|rank=3>>"
     description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
     viz:
       attrs:
@@ -159,6 +162,7 @@ topics:
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
         value: "<<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total>>"
+        subtitle: "Followed by <<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total|rank=2>> and <<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total|rank=3>>"
     description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <span class='select-text'><<name id=5|attr=degree>></span> in <<name>>."
     viz:
       attrs: "sex"
@@ -187,7 +191,7 @@ topics:
     stat:
       - title: "Average Age"
         value: "<<top dataset=pums|show=cip|col=avg_age>>"
-        moe: "<span class='plus-minus'>±</span> <<top dataset=pums|show=cip|col=avg_age_moe>> years"
+        subtitle: "<span class='plus-minus'>±</span> <<top dataset=pums|show=cip|col=avg_age_moe>> years"
     description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
     viz:
       attrs: "cip"
@@ -210,10 +214,12 @@ topics:
     stat_stack: true
     stat:
       - title: "High Relative Number of People born in"
-        value: "<<var namespace=intl|key=birthplace>>"
+        value: "<<var namespace=birthplace_rca|key=birthplace|row=0>>"
+        subtitle: "Followed by <<var namespace=birthplace_rca|key=birthplace|row=1>> and <<var namespace=birthplace_rca|key=birthplace|row=2>>"
       - title: "Most Common Foreign-Born Country is"
-        value: "<<top show=birthplace|order=num_ppl|where=birthplace:~^04000US>>"
-    description: "There are a relatively high number of foreign-born citizens from <<var namespace=intl|key=birthplace>> that hold <<name dataset=pums>> degrees."
+        value: "<<var namespace=birthplace|key=birthplace|row=0>>"
+        subtitle: "Followed by <<var namespace=birthplace|key=birthplace|row=1>> and <<var namespace=birthplace|key=birthplace|row=2>>"
+    description: "There are a relatively high number of foreign-born citizens from <<var namespace=birthplace_rca|key=birthplace|row=0>> that hold <<name dataset=pums>> degrees."
     viz:
       attrs: "birthplace"
       coords: "birthplace"

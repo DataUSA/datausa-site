@@ -9,7 +9,7 @@
   namespace: data
 
 - required: ["avg_wage", "avg_wage_moe"]
-  sex: "1,2" # 1 or 2
+  sex: "1,2"
   limit: 2
   show: sex
   sumlevel: all
@@ -18,6 +18,53 @@
   sort: asc
   namespace: gender
 
-- required:
-    - "gini"
+- required: ["gini"]
   namespace: wagegap
+
+- required: ["geo"]
+  sumlevel: puma
+  show: geo
+  order: avg_wage
+  sort: desc
+  rows: True
+  limit: 3
+  namespace: puma_wage
+
+- required: ["geo"]
+  sumlevel: puma
+  show: geo
+  order: num_ppl_rca
+  sort: desc
+  rows: True
+  limit: 3
+  namespace: puma_rca
+
+- required: ["race"]
+  show: race
+  order: avg_wage
+  sort: desc
+  rows: True
+  limit: 3
+  namespace: race_wage
+
+- required: ["commodity_iocode"]
+  show: commodity_iocode
+  order: value_millions
+  sort: desc
+  sumlevel: naics
+  industry_level: 1
+  attr_type: "industry_iocode"
+  rows: True
+  limit: 3
+  namespace: io_commodity
+
+- required: ["industry_iocode"]
+  show: industry_iocode
+  order: value_millions
+  sort: desc
+  sumlevel: naics
+  industry_level: 1
+  attr_type: "commodity_iocode"
+  rows: True
+  limit: 3
+  namespace: io_industry

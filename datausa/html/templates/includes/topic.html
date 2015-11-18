@@ -32,7 +32,7 @@
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-value">{{ stat.value|safe }}</div>
-            {% if stat.moe %}<div class="stat-text stat-moe">{{ stat.moe|safe }}</div>{% endif %}
+            {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
           </div>
         {% endfor %}
       </div>

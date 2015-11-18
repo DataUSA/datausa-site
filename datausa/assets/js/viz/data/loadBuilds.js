@@ -30,7 +30,7 @@ viz.loadBuilds = function(builds) {
               d3.select(this.parentNode).selectAll(".select-text")
                .html(d3.select(this).select("option[value='"+ id +"']").text());
 
-              d3.select(this.parentNode).selectAll(".stat-value span[data-url]")
+              d3.select(this.parentNode).selectAll("span[data-url]")
                .each(function(){
 
                  d3.select(this.parentNode).classed("loading", true);

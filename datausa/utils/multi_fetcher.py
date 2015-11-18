@@ -1,14 +1,16 @@
 import requests
 from requests.models import RequestEncodingMixin
 
-from config import API
+from flask import url_for
+from config import API, CROSSWALKS, PROFILES
 from datausa.utils.format import num_format
 from datausa import app
-from datausa.utils.data import fetch
+from datausa.utils.data import attr_cache, fetch
 
-lookup_map = {
-    "birthplace": True
-}
+# lookup_map = {
+#     "birthplace": True,
+#     "language": True
+# }
 
 
 def render_col(my_data, headers, col):
@@ -16,15 +18,20 @@ def render_col(my_data, headers, col):
     if not value:
         return "N/A"
 
-    if col not in lookup_map:
+    attr_type = col
+    if "_iocode" in col:
+        attr_type = "iocode"
+
+    if attr_type not in attr_cache:
         # do simple number formating
         return num_format(value, col)
     else:
         # lookup the attr object and get the name
-        attr = fetch(value, col)
-        if attr and "name" in attr:
-            return attr["name"]
-        return "Attr N/A"
+        attr = fetch(value, attr_type)
+        attr = attr["display_name"] if "display_name" in attr else attr["name"]
+        if attr_type in PROFILES or attr_type in CROSSWALKS:\
+            attr = "<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=value), attr)
+        return attr
 
 
 def merge_dicts(*dict_args):
@@ -44,6 +51,7 @@ def multi_col_top(profile, params):
     params["show"] = params.get("show", attr_type)
     params["limit"] = params.get("limit", 1)
     params["sumlevel"] = params.get("sumlevel", "all")
+    params["sort"] = params.get("sort", "desc")
     if attr_type not in params:
         params[attr_type] = profile.id
     cols = params.pop("required")

@@ -9,6 +9,42 @@
     - "num_ppl_rank"
   namespace: data
 
-- required:
-    - "gini"
+- required: ["gini"]
   namespace: wagegap
+
+- required: ["geo", "avg_wage"]
+  sumlevel: puma
+  show: geo
+  order: avg_wage
+  sort: desc
+  rows: True
+  limit: 3
+  namespace: puma_wage
+
+- required: ["geo", "num_ppl_rca"]
+  sumlevel: puma
+  show: geo
+  order: num_ppl_rca
+  sort: desc
+  rows: True
+  limit: 3
+  namespace: puma_rca
+
+- required: ["race"]
+  order: num_ppl
+  rows: True
+  limit: 3
+  sort: desc
+  namespace: race
+
+- required: ["sex"]
+  order: num_ppl
+  sort: desc
+  namespace: sex
+
+- required: ["race"]
+  order: num_ppl
+  sort: desc
+  rows: True
+  limit: 3
+  namespace: race

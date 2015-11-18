@@ -6,8 +6,8 @@ topics:
     slug: "ethnicity"
     stat:
       - title: "Most common race or ethnicity"
-        value: "<<top show=race|order=num_ppl>>"
-        moe: "<<top show=race|order=num_ppl|col=num_ppl>> <span class='plus-minus'>±</span> <<top show=race|order=num_ppl|moe=num_ppl_moe>>"
+        value: "<<var namespace=race|key=race|row=0>>"
+        subtitle: "Followed by <<var namespace=race|key=race|row=1>> and <<var namespace=race|key=race|row=2>>"
     description: "The most common race or ethnicity of <<name>> is <<top show=race|order=num_ppl>>, followed by <<top show=race|order=num_ppl|rank=2>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
     viz:
       attrs:
@@ -37,10 +37,10 @@ topics:
     stat:
       - title: "Average Male Age"
         value: "<<top sex=1|col=avg_age>>"
-        moe: "<span class='plus-minus'>±</span> <<top sex=1|col=avg_age|moe=avg_age_moe>>"
+        subtitle: "<span class='plus-minus'>±</span> <<top sex=1|col=avg_age|moe=avg_age_moe>>"
       - title: "Average Female Age"
         value: "<<top sex=2|col=avg_age>>"
-        moe: "<span class='plus-minus'>±</span> <<top sex=2|col=avg_age|moe=avg_age_moe>>"
+        subtitle: "<span class='plus-minus'>±</span> <<top sex=2|col=avg_age|moe=avg_age_moe>>"
     description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and female employees are generally <<top show=sex|required=avg_age|order=avg_age|sort=desc|col=diff|limit=2>> years <<percent num=avg_age|den=avg_age|num_id=1|den_id=2|attr_type=sex|text=age>> than their male counterparts."
     viz:
       attrs: "sex"

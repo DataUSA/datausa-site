@@ -23,7 +23,7 @@ topics:
           map:
             id: "commodity_iocode"
             make: "industry_iocode"
-      highlight: "<<id>>"
+      highlight: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
       id: "id"
       type: "sankey"
   - title: "Consumption"
@@ -31,7 +31,8 @@ topics:
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
     stat:
       - title: "Highest Input Industry"
-        value: "<<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"
+        value: "<<var namespace=io_commodity|key=commodity_iocode|row=0>>"
+        subtitle: "Followed by <<var namespace=io_commodity|key=commodity_iocode|row=1>> and <<var namespace=io_commodity|key=commodity_iocode|row=2>>"
     description: "Here we can see the input industries for <<name>> by their share of the overall use. As seen above, the top industry is <<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics>>."
     viz:
       attrs: "iocode"
@@ -49,7 +50,8 @@ topics:
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
     stat:
       - title: "Highest Output Industry"
-        value: "<<top attr_type=commodity_iocode|show=industry_iocode|order=value_millions|sumlevel=naics|industry_level=1>>"
+        value: "<<var namespace=io_industry|key=industry_iocode|row=0>>"
+        subtitle: "Followed by <<var namespace=io_industry|key=industry_iocode|row=1>> and <<var namespace=io_industry|key=industry_iocode|row=2>>"
     description: "Here, we see the industries by their use of the <<name>> <<level short=True>>."
     viz:
       attrs: "iocode"

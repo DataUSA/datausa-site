@@ -20,7 +20,7 @@ viz:
       map:
         id: "commodity_iocode"
         make: "industry_iocode"
-  highlight: "<<id>>"
+  highlight: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
   id: "id"
   labels: NO
   mouse:
