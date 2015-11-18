@@ -149,7 +149,12 @@ d3.select("#menu-btn").on("click", function(){
   } else {
     d3.select("#mask").remove();
   }
-
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'navigation',
+    eventAction: 'menuBtnClick',
+    eventLabel: 'Navigation menu button clicked'
+  });
   d3.event.preventDefault();
 });
 
@@ -172,7 +177,6 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
     search.container = d3.select("#search-" + search_input.attr("data-search"));
     search.reload();
   }
-
   d3.event.stopPropagation();
 });
 
