@@ -2,6 +2,7 @@ import math, os, re, requests, yaml
 from itertools import combinations
 from requests.models import RequestEncodingMixin
 from flask import url_for
+import string
 
 from config import API
 from datausa import app
@@ -81,7 +82,6 @@ class Section(object):
         for k in keys:
             # split the key at a blank space to find params
             func, params = k.split(" ") if " " in k else (k, "")
-
             # if Section has a function with the same name as the key
             if hasattr(self, func):
                 # convert params into a dict, splitting at pipes
@@ -107,6 +107,8 @@ class Section(object):
                     val = val.decode("utf-8", 'ignore')
                 if isinstance(k, str):
                     k = k.decode("utf-8", 'ignore')
+                # !! TODO: fix root cause of unprintable strings in attrs
+                val = filter(lambda x: x in string.printable, val)
                 config = config.replace(u"<<{}>>".format(k), val)
 
         # load the config through the YAML interpreter and set title, description, and topics
