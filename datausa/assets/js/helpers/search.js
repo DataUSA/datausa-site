@@ -87,7 +87,8 @@ var search = {
     "geo": {
       "040": ["050", "310", ""]
     }
-  }
+  },
+  "zip": false
 };
 
 search.reload = function() {
@@ -114,6 +115,8 @@ search.reload = function() {
   // load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
   load(api + "/attrs/search?limit=100&q="+this.term, function(data, url, raw) {
     // console.log(data, url, raw)
+    
+    this.zip = raw.zip_search;
     
     d3.select(".search-suggestions").style("display", "block").text('');
     
@@ -195,6 +198,11 @@ search.btnExplore = function(d) {
   title.append("i").attr("class", "fa fa-angle-up")
   if(sumlevels_by_id[d.kind][d.sumlevel]){
     info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
+  }
+  if(search.zip){
+    info.append("span")
+      .attr("class", "zip")
+      .text("Based on zip code: " + d.zipcode.slice(7))
   }
   // xtra info
   var xtra = info.append("div").attr("class", "xtra")
