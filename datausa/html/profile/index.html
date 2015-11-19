@@ -168,7 +168,7 @@
     {% if parents|length %}
     <ul>
       {% for p in parents %}
-      <li style="background: url('/static/img/splash/{{ profile.attr_type }}/{{ p.id }}.jpg')">
+      <li style="background: url('/profile/{{ profile.attr_type }}/{{ p.id }}/img/')">
         <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}"></a>
         <div class="title">
           <h3>{{ p["name"] }}</h3>
