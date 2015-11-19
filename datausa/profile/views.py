@@ -44,10 +44,13 @@ def profile(attr_type, attr_id):
 def statView():
     args = {k: v for k, v in request.args.iteritems()}
     col = args.pop("col", "name")
+    moe = args.pop("moe", False)
+    if moe == "False":
+        moe = False
     dataset = args.pop("dataset", False)
     if dataset == "False":
         dataset = False
-    return jsonify(stat(args, col=col, dataset=dataset))
+    return jsonify(stat(args, col=col, dataset=dataset, moe=moe))
 
 @mod.route("/<attr_kind>/<attr_id>/img/")
 def splash_img(attr_kind, attr_id, mode="thumb"):

@@ -62,15 +62,18 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
     if rank > 1 and params["limit"] == 1:
         params["limit"] = rank
     unformatted = params.pop("unformatted", False)
+    if unformatted == "False":
+        unformatted = False
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
+    stat_url = "{}?{}&col={}&dataset={}&moe={}&rank={}&unformatted=".format(url_for("profile.statView"), query, col, dataset, moe, str(rank), str(unformatted))
 
     try:
         r = requests.get(url).json()
     except ValueError:
         app.logger.info("STAT ERROR: {}".format(url))
         return {
-            "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
+            "url": stat_url,
             "value": "N/A"
         }
 
@@ -81,7 +84,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
 
     if len(r) == 0:
         return {
-            "url": "{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, col, dataset),
+            "url": stat_url,
             "value": "N/A"
         }
 
@@ -174,7 +177,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
 
     # otherwise, return the list joined with commans
     return {
-        "url": "{}?{}&col={}&dataset={}&moe=".format(url_for("profile.statView"), query, col, dataset, moe),
+        "url": stat_url,
         "value": top,
         "data": vals
     }
