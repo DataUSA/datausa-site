@@ -824,9 +824,23 @@ body.profile, body.story {
       top: $title-height + $stats-bar-height;
     }
 
+    #back-to-top {
+      position: absolute;
+      right: 15px;
+      top: 16px;
+      color: white;
+      opacity: 0.25;
+
+      &:hover {
+        opacity: 1;
+      }
+
+    }
+
     ul {
       width: 90%;
-      max-width: 850px;
+      margin: 0 50px;
+      max-width: 800px;
       @include flex();
       @include justify(space-between);
 

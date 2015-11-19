@@ -2178,75 +2178,64 @@ body.profile #profile-nav, body.story #profile-nav {
   transition: top 0.5s; }
   body.profile #profile-nav.visible, body.story #profile-nav.visible {
     top: 70px; }
-    body.profile #profile-nav ul, body.story #profile-nav ul {
-      width: 90%;
-      max-width: 850px;
-      -webkit-justify-content: center;
-      -moz-justify-content: center;
-      justify-content: center;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-justify-content: space-between;
-      -moz-justify-content: space-between;
-      justify-content: space-between; }
-      body.profile #profile-nav ul li, body.story #profile-nav ul li {
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        position: relative;
-        display: inline-block;
-        margin: 0 auto;
-        padding: 8px 5px 4px;
-        text-align: center;
-        font-family: "Roboto", sans-serif;
-        text-transform: uppercase;
-        font-weight: 400;
-        font-size: 10px;
-        letter-spacing: 0.1em;
-        color: #fff;
-        opacity: 0.7;
-        white-space: nowrap;
-        -webkit-transition: opacity 0.25s;
-        -moz-transition: opacity 0.25s;
-        -ms-transition: opacity 0.25s;
-        -o-transition: opacity 0.25s;
-        transition: opacity 0.25s; }
-        body.profile #profile-nav ul li.active, body.story #profile-nav ul li.active {
-          opacity: 1; }
-          body.profile #profile-nav ul li.active:before,
-          body.story #profile-nav ul li.active:before {
-            width: 80%;
-            display: inline-block;
-            position: absolute;
-            z-index: 10;
-            bottom: -2px;
-            left: 50%;
-            height: 2px;
-            -webkit-transform: translateX(-50%);
-            -ms-transform: translateX(-50%);
-            transform: translateX(-50%);
-            -webkit-transition: all 0.25s ease;
-            -moz-transition: all 0.25s ease;
-            -ms-transition: all 0.25s ease;
-            -o-transition: all 0.25s ease;
-            transition: all 0.25s ease;
-            background: #fff;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box; }
-        body.profile #profile-nav ul li:before, body.story #profile-nav ul li:before {
-          content: "";
+    body.profile #profile-nav #back-to-top, body.story #profile-nav #back-to-top {
+      position: absolute;
+      right: 15px;
+      top: 16px;
+      color: white;
+      opacity: 0.25; }
+      body.profile #profile-nav #back-to-top:hover,
+      body.story #profile-nav #back-to-top:hover {
+        opacity: 1; }
+  body.profile #profile-nav ul, body.story #profile-nav ul {
+    width: 90%;
+    margin: 0 50px;
+    max-width: 800px;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    justify-content: space-between; }
+    body.profile #profile-nav ul li, body.story #profile-nav ul li {
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      position: relative;
+      display: inline-block;
+      margin: 0 auto;
+      padding: 8px 5px 4px;
+      text-align: center;
+      font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: #fff;
+      opacity: 0.7;
+      white-space: nowrap;
+      -webkit-transition: opacity 0.25s;
+      -moz-transition: opacity 0.25s;
+      -ms-transition: opacity 0.25s;
+      -o-transition: opacity 0.25s;
+      transition: opacity 0.25s; }
+      body.profile #profile-nav ul li.active, body.story #profile-nav ul li.active {
+        opacity: 1; }
+        body.profile #profile-nav ul li.active:before,
+        body.story #profile-nav ul li.active:before {
+          width: 80%;
           display: inline-block;
           position: absolute;
           z-index: 10;
           bottom: -2px;
           left: 50%;
-          width: 0;
           height: 2px;
           -webkit-transform: translateX(-50%);
           -ms-transform: translateX(-50%);
@@ -2260,16 +2249,37 @@ body.profile #profile-nav, body.story #profile-nav {
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box; }
-          body.profile #profile-nav ul li:hover:before,
-          body.story #profile-nav ul li:hover:before {
-            width: 80%; }
-            body.profile #profile-nav ul li:hover, body.story #profile-nav ul li:hover {
-              opacity: 1; }
-      body.profile #profile-nav ul img, body.story #profile-nav ul img {
-        display: block;
-        width: 20px;
-        height: 20px;
-        margin: 0 auto 5px; }
+      body.profile #profile-nav ul li:before, body.story #profile-nav ul li:before {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        z-index: 10;
+        bottom: -2px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+        -webkit-transition: all 0.25s ease;
+        -moz-transition: all 0.25s ease;
+        -ms-transition: all 0.25s ease;
+        -o-transition: all 0.25s ease;
+        transition: all 0.25s ease;
+        background: #fff;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+        body.profile #profile-nav ul li:hover:before,
+        body.story #profile-nav ul li:hover:before {
+          width: 80%; }
+          body.profile #profile-nav ul li:hover, body.story #profile-nav ul li:hover {
+            opacity: 1; }
+    body.profile #profile-nav ul img, body.story #profile-nav ul img {
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0 auto 5px; }
 body.profile header, body.story header {
   padding: 60px 50px 25px;
   position: relative; }

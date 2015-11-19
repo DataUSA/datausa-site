@@ -105,17 +105,25 @@
 
           var size = this.getBoundingClientRect();
 
+          var offset = d3.select(this).attr("data-tooltip-offset");
+          if (offset) {
+            offset = parseFloat(offset);
+          }
+          else {
+            offset = 15;
+          }
+
           d3plus.tooltip.remove("data-tooltip");
           d3plus.tooltip.create({
             "x": size.left+size.width/2 + window.scrollX,
             "y": size.top+size.height/2 + window.scrollY,
-            "offset": size.height/2 + 15,
+            "offset": size.height/2 + offset,
             "arrow": false,
             "description": d3.select(this).attr("data-tooltip"),
             "width": "auto",
             "id": "data-tooltip",
             "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
-            "max_width": 180
+            "max_width": 300
           })
 
         })
