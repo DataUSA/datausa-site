@@ -15,7 +15,7 @@
 <div class="bound">
 <div id="show-bg">
   <div>
-    <i class="fa fa-bolt"></i>
+    <i class="fa fa-camera"></i>
   </div>
 </div>
 
@@ -281,7 +281,9 @@
 
 
   d3.select("#show-bg").on("click", function(){
-    d3.select("#splash-image").classed("c", !d3.select("#splash-image").classed("c"));
+    var show = d3.select("#splash-image").classed("color");
+    d3.select("#splash-image").classed("color", !show);
+    d3.select("#splash .content").classed("hide", !show);
   });
 
 </script>

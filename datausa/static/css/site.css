@@ -1649,14 +1649,13 @@ body.profile nav, body.story nav {
           -ms-transition: opacity 0.5s;
           -o-transition: opacity 0.5s;
           transition: opacity 0.5s; }
-          body.profile #splash #splash-image.c, body.story #splash #splash-image.c {
+          body.profile #splash #splash-image.color, body.story #splash #splash-image.color {
             -webkit-filter: saturate(1) brightness(1) contrast(1);
             -moz-filter: saturate(1) brightness(1) contrast(1);
             -o-filter: saturate(1) brightness(1) contrast(1);
-            filter: saturate(1) brightness(1) contrast(1);
-            z-index: 2; }
-            body.profile #splash #splash-image.c:after,
-            body.story #splash #splash-image.c:after {
+            filter: saturate(1) brightness(1) contrast(1); }
+            body.profile #splash #splash-image.color:after,
+            body.story #splash #splash-image.color:after {
               opacity: 0; }
       body.profile #splash .content, body.story #splash .content {
         -webkit-justify-content: center;
@@ -1673,9 +1672,15 @@ body.profile nav, body.story nav {
         -webkit-justify-content: space-between;
         -moz-justify-content: space-between;
         justify-content: space-between;
+        -webkit-transition: opacity 0.5s;
+        -moz-transition: opacity 0.5s;
+        -ms-transition: opacity 0.5s;
+        -o-transition: opacity 0.5s;
+        transition: opacity 0.5s;
         width: 89.7%;
         height: 81.7%;
         max-width: 950px;
+        opacity: 1;
         padding: 45px 48px 50px;
         margin-top: 40px;
         -webkit-box-sizing: border-box;
@@ -1683,31 +1688,16 @@ body.profile nav, body.story nav {
         box-sizing: border-box;
         overflow: hidden;
         z-index: 1; }
-        body.profile #splash .content .splash-titles,
-        body.story #splash .content .splash-titles {
-          width: 100%;
-          text-align: center; }
-          body.profile #splash .content .splash-context,
-          body.story #splash .content .splash-context {
+        body.profile #splash .content.hide, body.story #splash .content.hide {
+          opacity: 0;
+          pointer-events: none; }
+          body.profile #splash .content .splash-titles,
+          body.story #splash .content .splash-titles {
             width: 100%;
-            -webkit-justify-content: center;
-            -moz-justify-content: center;
-            justify-content: center;
-            display: -webkit-box;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-flex-direction: row;
-            -moz-flex-direction: row;
-            flex-direction: row;
-            -webkit-align-items: flex-start;
-            align-items: flex-start;
-            -webkit-justify-content: space-around;
-            -moz-justify-content: space-around;
-            justify-content: space-around; }
-            body.profile #splash .content .splash-icon-nav,
-            body.story #splash .content .splash-icon-nav {
+            text-align: center; }
+            body.profile #splash .content .splash-context,
+            body.story #splash .content .splash-context {
+              width: 100%;
               -webkit-justify-content: center;
               -moz-justify-content: center;
               justify-content: center;
@@ -1719,35 +1709,53 @@ body.profile nav, body.story nav {
               -webkit-flex-direction: row;
               -moz-flex-direction: row;
               flex-direction: row;
-              -webkit-align-items: center;
-              align-items: center; }
-              body.profile #splash .content .splash-icon-nav span,
-              body.story #splash .content .splash-icon-nav span {
-                display: block;
-                margin-top: 7px;
-                font-family: "Roboto", sans-serif;
-                text-transform: uppercase;
-                font-weight: 300;
-                font-size: 10px;
-                letter-spacing: 0.1em;
-                color: #fff; }
-                body.profile #splash .content .splash-icon-nav a,
-                body.story #splash .content .splash-icon-nav a {
-                  text-align: center;
-                  padding: 1.2vh 3vw 0;
-                  opacity: 0.7;
-                  -webkit-transition: opacity 0.25s;
-                  -moz-transition: opacity 0.25s;
-                  -ms-transition: opacity 0.25s;
-                  -o-transition: opacity 0.25s;
-                  transition: opacity 0.25s; }
-                  body.profile #splash .content .splash-icon-nav a:hover,
-                  body.story #splash .content .splash-icon-nav a:hover {
-                    opacity: 1; }
-              body.profile #splash .content .splash-icon-nav img,
-              body.story #splash .content .splash-icon-nav img {
-                width: 23px;
-                height: 23px; }
+              -webkit-align-items: flex-start;
+              align-items: flex-start;
+              -webkit-justify-content: space-around;
+              -moz-justify-content: space-around;
+              justify-content: space-around; }
+              body.profile #splash .content .splash-icon-nav,
+              body.story #splash .content .splash-icon-nav {
+                -webkit-justify-content: center;
+                -moz-justify-content: center;
+                justify-content: center;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-direction: row;
+                -moz-flex-direction: row;
+                flex-direction: row;
+                -webkit-align-items: center;
+                align-items: center; }
+                body.profile #splash .content .splash-icon-nav span,
+                body.story #splash .content .splash-icon-nav span {
+                  display: block;
+                  margin-top: 7px;
+                  font-family: "Roboto", sans-serif;
+                  text-transform: uppercase;
+                  font-weight: 300;
+                  font-size: 10px;
+                  letter-spacing: 0.1em;
+                  color: #fff; }
+                  body.profile #splash .content .splash-icon-nav a,
+                  body.story #splash .content .splash-icon-nav a {
+                    text-align: center;
+                    padding: 1.2vh 3vw 0;
+                    opacity: 0.7;
+                    -webkit-transition: opacity 0.25s;
+                    -moz-transition: opacity 0.25s;
+                    -ms-transition: opacity 0.25s;
+                    -o-transition: opacity 0.25s;
+                    transition: opacity 0.25s; }
+                    body.profile #splash .content .splash-icon-nav a:hover,
+                    body.story #splash .content .splash-icon-nav a:hover {
+                      opacity: 1; }
+                body.profile #splash .content .splash-icon-nav img,
+                body.story #splash .content .splash-icon-nav img {
+                  width: 23px;
+                  height: 23px; }
         body.profile #splash .content .context-l, body.story #splash .content .context-l {
           -webkit-box-flex: 2;
           -moz-box-flex: 2;

@@ -343,9 +343,8 @@ body.profile, body.story {
         @include transition(opacity 0.5s);
       }
 
-      &.c {
+      &.color {
         @include filter(saturate(1) brightness(1) contrast(1));
-        z-index: 2;
 
         &:after {
           opacity: 0;
@@ -357,14 +356,21 @@ body.profile, body.story {
       @include flex();
       @include flex-direction(column);
       @include justify(space-between);
+      @include transition(opacity 0.5s);
       width: $bg-width;
       height: $bg-height;
       max-width: 950px;
+      opacity: 1;
       padding: 45px 48px 50px;
       margin-top: $nav-height;
       @include box();
       overflow: hidden;
       z-index: 1;
+
+      &.hide {
+        opacity: 0;
+        pointer-events: none;
+      }
 
       .splash-titles {
         width: 100%;
