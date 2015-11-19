@@ -100,7 +100,14 @@ class Section(object):
                         val = u"<span data-url='{}'>{}</span>".format(val["url"], val["value"])
 
                 # replace all instances of key with the returned value
-                config = config.replace("<<{}>>".format(k), val.encode("utf-8"))
+                # !! TODO: fix unicode black magic !!
+                if isinstance(config, str):
+                    config = config.decode("utf-8", 'ignore')
+                if isinstance(val, str):
+                    val = val.decode("utf-8", 'ignore')
+                if isinstance(k, str):
+                    k = k.decode("utf-8", 'ignore')
+                config = config.replace(u"<<{}>>".format(k), val)
 
         # load the config through the YAML interpreter and set title, description, and topics
         config = yaml.load(config)
