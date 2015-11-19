@@ -57,10 +57,25 @@ viz.finish = function(build) {
     build.config.legend = false;
   }
   else if (build.config.color in attrStyles) {
+    var attrs = build.attrs.map(function(a){
+      var t = a.type;
+      if (t in attrStyles && attrStyles[t].constructor === String) {
+        return attrStyles[t];
+      }
+      return t;
+    });
     build.color = build.config.color;
-    build.config.color = function(d) {
-      return attrStyles[build.color][d[build.color]];
-    };
+    if (attrs.indexOf(build.color) >= 0) {
+      build.config.color = "color";
+    }
+    else {
+      build.config.color = function(d) {
+        if (!(d[build.color] in attrStyles[build.color])) {
+          console.warn("Missing color for \"" + d[build.color] + "\"");
+        }
+        return attrStyles[build.color][d[build.color]];
+      };
+    }
   }
 
   build.viz

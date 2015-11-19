@@ -89,7 +89,7 @@ topics:
         value: "<<top col=acs_race|force=acs.yg_race>>"
         subtitle: "Followed by <<top col=acs_race|force=acs.yg_race|rank=2>> and <<top col=acs_race|force=acs.yg_race|rank=3>>"
     viz:
-      attrs: "acs_race"
+      color: "race"
       data:
         - geo: "<<id>>"
           force: "acs.yg_race"

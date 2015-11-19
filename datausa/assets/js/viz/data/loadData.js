@@ -107,7 +107,11 @@ viz.loadData = function(build, next) {
               var datum = data[ii];
               for (var iii = 0; iii < nesting.length; iii++) {
                 var length = nesting[iii];
-                datum[type + "_" + length] = datum[type].slice(0, length);
+                var k = type + "_" + length;
+                datum[k] = datum[type].slice(0, length);
+                if (k === build.config.color && k in attrStyles) {
+                  datum.color = attrStyles[k][datum[k]];
+                }
               }
             }
           }

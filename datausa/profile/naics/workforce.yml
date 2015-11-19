@@ -250,6 +250,7 @@ topics:
       attrs:
         - "race"
         - "soc"
+      color: "race"
       data:
         - naics: "<<id>>"
           limit: "45"

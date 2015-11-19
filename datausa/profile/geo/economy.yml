@@ -229,6 +229,7 @@ topics:
       attrs:
         - "race"
         - "soc"
+      color: "race"
       data:
         - geo: "<<id>>"
           limit: "45"
@@ -327,6 +328,7 @@ topics:
         subtitle: "<span class='plus-minus'>±</span> <<top col=race|force=acs.yg_poverty_race|moe=True>>"
     description: "<<percent num=top:race,acs.yg_poverty_race|den=pop_poverty_status>> of the people for whom poverty status is determined in <<name>> living below the poverty line are <<top col=race|force=acs.yg_poverty_race>>, followed by <<top col=race|force=acs.yg_poverty_race|rank=2>> and <<top col=race|force=acs.yg_poverty_race|rank=3>>."
     viz:
+      color: "race"
       data:
         show: "geo"
         geo: "<<id>>"

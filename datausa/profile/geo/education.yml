@@ -81,9 +81,7 @@ topics:
     slug: "edu_gender"
     description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender."
     viz:
-      attrs:
-        - "sex"
-        - "university"
+      attrs: "university"
       color: "sex"
       data:
         show: "university"
@@ -109,7 +107,7 @@ topics:
         subtitle: "Followed by <<top col=race|force=ipeds_beta.grads_yg|order=grads_total|rank=2>> and <<top col=race|force=ipeds_beta.grads_yg|order=grads_total|rank=3>>"
     description: "The most common race or ethnicity of students with degrees awarded in <<name>> is <<top col=race|force=ipeds_beta.grads_yg|order=grads_total>>, followed by <<top col=race|force=ipeds_beta.grads_yg|order=grads_total|rank=2>>."
     viz:
-      attrs: "race"
+      color: "race"
       data:
         show: "geo"
         geo: "<<id>>"

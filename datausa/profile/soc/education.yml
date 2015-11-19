@@ -104,6 +104,7 @@ topics:
     description: "Here is the race & ethnicity breakdown of <<name>>."
     viz:
       attrs: "pums_race"
+      color: "race"
       data:
         show: "race"
         soc: "<<id>>"
