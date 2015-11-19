@@ -7,7 +7,7 @@
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
   {% if topic.title %}
-  <h2>{{ topic.title|safe }} <a href="#" class="data-btn"><span>Show Data</span>&nbsp;<i class="fa fa-table"></i></a></h2>
+  <h2>{{ topic.title|safe }} <a href="#" class="data-btn" data-ga="show data" data-ga-cat="profile" data-ga-label="User click" data-ga-target=".data-table"><span>Show Data</span>&nbsp;<i class="fa fa-table"></i></a></h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
   <sub>{{ topic.subtitle|safe }}</sub>
@@ -59,10 +59,10 @@
       {% endif %}
 
       <div class="share-section">
-        <a href="#" title="Share on Facebook">
+        <a href="#" title="Share on Facebook" data-ga="facebook share" data-ga-cat="profile" data-ga-label="share buttons click">
           <i class="fa fa-facebook"></i>
         </a>
-        <a href="#" title="Share on Twitter">
+        <a href="#" title="Share on Twitter" data-ga="twitter share" data-ga-cat="profile" data-ga-label="share buttons click">
           <i class="fa fa-twitter"></i>
         </a>
       </div>

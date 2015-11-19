@@ -429,6 +429,30 @@ window.onload = function() {
       return false;
     }
   });
+  
+  
+  d3.selectAll("[data-ga]").on("click.ga", function(){
+  
+    var _this = d3.select(this);
+    var action = _this.attr("data-ga") || "click";
+    var category = _this.attr("data-ga-cat") || "general";
+    var label = _this.attr("data-ga-label") || "n/a";
+    var target = _this.attr("data-ga-target");
+  
+    if(action == "show data"){
+      target = d3.select(this.parentNode.parentNode).select(target).node();
+    }
+    
+    console.log("GA, action: ", action, "category: ", category, "label: ", label)
+
+    ga('send', {
+      hitType: 'event',
+      eventCategory: category,
+      eventAction: action,
+      eventLabel: label
+    });
+  
+  })
 
 }
 
@@ -1712,12 +1736,15 @@ viz.loadBuilds = function(builds) {
 
       var table = d3.select(build.container.node().parentNode).selectAll(".data-table");
       if (table.size()) {
-        d3.select(build.container.node().parentNode.parentNode).select(".data-btn").on("click", function(){
-          d3.event.preventDefault();
-          table.classed("visible", !table.classed("visible"));
-          var text = table.classed("visible") ? "Hide Data" : "Show Data";
-          d3.select(this).select("span").text(text);
-        });
+        d3.select(build.container.node().parentNode.parentNode)
+          .select(".data-btn")
+          .on("click", function(){
+            d3.event.preventDefault();
+            table.classed("visible", !table.classed("visible"));
+            var tbl_visible = table.classed("visible");
+            var text = tbl_visible ? "Hide Data" : "Show Data";
+            d3.select(this).select("span").text(text);
+          });
       }
 
     });

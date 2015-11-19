@@ -74,12 +74,15 @@ viz.loadBuilds = function(builds) {
 
       var table = d3.select(build.container.node().parentNode).selectAll(".data-table");
       if (table.size()) {
-        d3.select(build.container.node().parentNode.parentNode).select(".data-btn").on("click", function(){
-          d3.event.preventDefault();
-          table.classed("visible", !table.classed("visible"));
-          var text = table.classed("visible") ? "Hide Data" : "Show Data";
-          d3.select(this).select("span").text(text);
-        });
+        d3.select(build.container.node().parentNode.parentNode)
+          .select(".data-btn")
+          .on("click", function(){
+            d3.event.preventDefault();
+            table.classed("visible", !table.classed("visible"));
+            var tbl_visible = table.classed("visible");
+            var text = tbl_visible ? "Hide Data" : "Show Data";
+            d3.select(this).select("span").text(text);
+          });
       }
 
     });

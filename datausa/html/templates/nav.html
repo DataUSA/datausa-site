@@ -5,7 +5,7 @@
 
 <div id="menu-btn">
    <div class="in">
-     <div class="bd">
+     <div class="bd" data-ga="menuBtnClick" data-ga-cat="navigation" data-ga-label="Navigation menu button clicked" data-ga-target="#menu">
       <div class="b-1 b">
         <span></span>
        </div>
@@ -148,12 +148,6 @@ d3.select("#menu-btn").on("click", function(){
   } else {
     d3.select("#mask").remove();
   }
-  ga('send', {
-    hitType: 'event',
-    eventCategory: 'navigation',
-    eventAction: 'menuBtnClick',
-    eventLabel: 'Navigation menu button clicked'
-  });
   d3.event.preventDefault();
 });
 
@@ -187,7 +181,6 @@ d3.select(document).on("click", function(){
   d3.select(".search-box").classed("open", false);
 
 })
-
 
 </script>
 

@@ -132,5 +132,29 @@ window.onload = function() {
       return false;
     }
   });
+  
+  
+  d3.selectAll("[data-ga]").on("click.ga", function(){
+  
+    var _this = d3.select(this);
+    var action = _this.attr("data-ga") || "click";
+    var category = _this.attr("data-ga-cat") || "general";
+    var label = _this.attr("data-ga-label") || "n/a";
+    var target = _this.attr("data-ga-target");
+  
+    if(action == "show data"){
+      target = d3.select(this.parentNode.parentNode).select(target).node();
+    }
+    
+    console.log("GA, action: ", action, "category: ", category, "label: ", label)
+
+    ga('send', {
+      hitType: 'event',
+      eventCategory: category,
+      eventAction: action,
+      eventLabel: label
+    });
+  
+  })
 
 }

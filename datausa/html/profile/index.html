@@ -94,8 +94,10 @@
 
     <div class="splash-icon-nav">
     {% for section in sections %}
-      <a href="#{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" />
-      <span>{{ section.title|safe }}</span></a>
+      <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
+        <img src="/static/img/icons/{{ section.anchor }}.svg" />
+        <span>{{ section.title|safe }}</span>
+      </a>
     {% endfor %}
     </div>
 
@@ -141,7 +143,7 @@
 <div class="section-sidenav" data-anchor="{{ section.anchor }}">
 {% for topic in section.topics %}
   {% if topic.category %}
-  <a class="section-sidenav-button" href="#{{ topic.category|safe|lower|replace(" ", "_") }}" data-anchor="{{ topic.category|safe|lower|replace(" ", "_") }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-anchor="center right"></a>
+  <a class="section-sidenav-button" href="#{{ topic.category|safe|lower|replace(" ", "_") }}" data-anchor="{{ topic.category|safe|lower|replace(" ", "_") }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-anchor="center right" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
   {% endif %}
 {% endfor %}
 </div>
@@ -153,8 +155,8 @@
 {% endfor %}
 
 <div class="profile-end">
-  <a href="/"><img src="/static/img/home/logo_2.png" alt="DataUSA" style="width:80px" /></a>
-  <a href="#" class="to-top-btn">Go back top &uarr;</a>
+  <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_2.png" alt="DataUSA" style="width:80px" /></a>
+  <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
 </div>
 
 {% endblock %}
@@ -226,7 +228,7 @@
     d3.selectAll(".section-sidenav-button")
       .classed("active", function(){
         return this.getAttribute("data-anchor") === active_sub;
-      });
+      })
 
   }
 
@@ -236,15 +238,6 @@
 
   d3.select("#show-bg").on("click", function(){
     d3.select("#splash-image").classed("c", !d3.select("#splash-image").classed("c"));
-  });
-
-  d3.selectAll(".splash-icon-nav a, #profile-nav a").on("click", function() {
-      ga('send', {
-        hitType: 'event',
-        eventCategory: 'navigation',
-        eventAction: this.innerText + ' clicked',
-        eventLabel: 'User click'
-      });
   });
 
 </script>
