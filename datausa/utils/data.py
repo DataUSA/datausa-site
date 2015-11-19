@@ -140,7 +140,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
 
             if attr in PROFILES or attr in CROSSWALKS:
                 top = [(t["id"], t["display_name"]) if "display_name" in t else (t["id"], t[col]) for t in top]
-                top = ["<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) for t in top]
+                top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) for t in top]
             else:
                 top = [t["display_name"] if "display_name" in t else t[col] for t in top]
 
