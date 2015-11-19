@@ -191,7 +191,7 @@
     {% endif %}
   </div>
   <!-- end .follow-up -->
-  
+
   <!-- ending footer  -->
   <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_2.png" alt="DataUSA" style="width:80px" /></a>
   <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
@@ -202,6 +202,13 @@
 {% block js %}
 
 <script>
+
+  var fontScale = d3.scale.linear()
+    .domain([60, 20])
+    .range([35, 55]);
+
+  var title = d3.select(".splash-titles h1");
+  title.style("font-size", fontScale(title.text().length) + "px");
 
   var maxCarousel = d3.selectAll(".carousel-text").size() - 1, currentPage = 0;
   d3.selectAll(".carousel-btn").on("click", function(d, i){
