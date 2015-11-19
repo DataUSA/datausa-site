@@ -30,7 +30,7 @@ def render_col(my_data, headers, col):
         attr = fetch(value, attr_type)
         attr = attr["display_name"] if "display_name" in attr else attr["name"]
         if attr_type in PROFILES or attr_type in CROSSWALKS:\
-            attr = "<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=value), attr)
+            attr = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=value), attr)
         return attr
 
 
