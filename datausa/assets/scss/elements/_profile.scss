@@ -921,41 +921,51 @@ body.profile, body.story {
     }
   }
 
-  .section-sidenav {
+  #section-sidenav {
     @include flex();
     @include flex-direction(column);
     @include transition(opacity 0.5s);
-    height: 100px;
+    height: 200px;
     left: -30px;
-    margin-top: -(50px-$nav-height);
+    margin-top: -100px + $nav-height;
     position: fixed;
     top: 0;
     z-index: 10;
     opacity: 0;
 
-    &.active {
-      left: 0;
+    &.visible {
+      left: 15px;
       top: 50%;
       opacity: 1;
     }
 
-    .section-sidenav-button {
-      @include transition(opacity 0.5s);
-      @include rounded(50%);
-      display: block;
-      height: 10px;
-      margin: 10px;
-      width: 10px;
-      background-color: transparent;
-      border: 2px solid #C5C5C5;
-      opacity: 0.7;
-
-      &:hover {
-        opacity: 1;
+    .section-sidenav-group {
+      &:not(:last-child) {
+        border-bottom: 1px solid #ccc;
       }
 
-      &.active {
-        background-color: #C5C5C5;
+      .section-sidenav-button {
+        @include transition(opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s);
+        @include rounded(50%);
+        display: block;
+        height: 6px;
+        margin: 20px 6px;
+        width: 6px;
+        background-color: transparent;
+        border: 1px solid #999;
+        opacity: 0.7;
+
+        &:hover, &.active {
+          height: 10px;
+          margin: 18px 4px;
+          width: 10px;
+          opacity: 1;
+        }
+
+        &.active {
+          background-color: #999;
+        }
+
       }
 
     }
@@ -1037,7 +1047,7 @@ body.profile, body.story {
         aside {
           @include flex-size(none);
           max-width: 415px;
-          
+
           p {
             a {
               border-bottom: 1px solid #C1C1C1;
@@ -1206,9 +1216,9 @@ body.profile, body.story {
     padding: 10px 0 15px;
     background-color: #000;
     text-align: center;
-    
+
     .follow-up {
-      
+
       header {
         padding: 10px 0 20px 0;
         h3 {
@@ -1218,11 +1228,11 @@ body.profile, body.story {
           color: #fff;
         }
       }
-    
+
       ul {
         width: 100%;
         float: left;
-      
+
         li {
           cursor: pointer;
           background: #1d1d1d;
@@ -1236,7 +1246,7 @@ body.profile, body.story {
           border-top: none;
           border-right: none;
           position: relative;
-        
+
           a {
             position: absolute;
             z-index: 3;
@@ -1247,7 +1257,7 @@ body.profile, body.story {
               background: rgba(0, 0, 0, 0.5);
             }
           }
-        
+
           div.title {
             z-index: 33333;
             padding: 50px 0 20px 0;
@@ -1261,11 +1271,11 @@ body.profile, body.story {
             background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
             background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
           }
-        
+
         }
-      
+
       }
-    
+
     }
 
     a {
@@ -1319,7 +1329,7 @@ body.profile, body.story {
 #crosswalk {
   margin: 60px auto 0 auto;
   width: 70vw;
-  
+
   p.warning{
     color: #9F6000;
     background-color: #FEEFB3;
@@ -1333,7 +1343,7 @@ body.profile, body.story {
       display: inline-block;
     }
   }
-  
+
   ul {
     margin: 20px 0 0 0;
     li {

@@ -31,40 +31,34 @@ output, ruby, section, summary, time, mark, audio, video {
 
           ul {
             list-style-type: none; }
-body {
-  background-color: #112748;
-  background-size: cover;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400; }
+h1 {
+  color: #132332;
+  font-family: "Playfair Display", serif;
+  font-weight: 300;
+  font-size: 60px;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.05em; }
 
-  h1 {
-    color: #132332;
-    font-family: "Playfair Display", serif;
-    font-weight: 300;
-    font-size: 60px;
-    line-height: 1.15;
-    text-transform: uppercase;
-    letter-spacing: -0.05em; }
+  h2 {
+    font-family: "Roboto", sans-serif;
+    letter-spacing: 0.1em;
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase; }
 
-    h2 {
+    p {
+      color: white;
       font-family: "Roboto", sans-serif;
-      letter-spacing: 0.1em;
-      font-size: 20px;
-      font-weight: 400;
-      text-transform: uppercase; }
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.9;
+      font-weight: 300; }
 
-      p {
-        color: white;
-        font-family: "Roboto", sans-serif;
-        font-size: 14px;
-        line-height: 1.5;
-        opacity: 0.9;
-        font-weight: 300; }
-
-        a {
-          color: #333;
-          opacity: 1;
-          text-decoration: none; }
+      a {
+        color: #333;
+        opacity: 1;
+        text-decoration: none; }
 
 ul {
   list-style-type: none;
@@ -111,6 +105,23 @@ body.frozen {
     height: 16px;
     margin-top: 3px;
     display: inline-block; }
+
+    #d3plus_tooltip_id_data-tooltip {
+      -webkit-box-shadow: none !important;
+      -moz-box-shadow: none !important;
+      box-shadow: none !important; }
+      #d3plus_tooltip_id_data-tooltip .d3plus_tooltip_container {
+        background-color: white !important;
+        border: 1px solid #ccc !important;
+        padding: 5px !important; }
+        #d3plus_tooltip_id_data-tooltip .d3plus_tooltip_container .d3plus_tooltip_description {
+          padding: 0 2px !important;
+          color: #dc5137;
+          font-family: "Roboto", sans-serif;
+          font-size: 20px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          font-weight: 400; }
 body.home #menu .desc {
   display: block; }
   body.home .menu-content h2 {
@@ -984,7 +995,8 @@ body.search .search-results-container {
           display: inline-block;
           float: right; }
 body.home {
-  position: relative; }
+  position: relative;
+  background-color: #112748; }
   body.home #menu {
     height: auto; }
     body.home .close-btn {
@@ -1022,18 +1034,18 @@ body.home {
                       -webkit-transform: translateZ(-450px) scale(2.5);
                       transform: translateZ(-450px) scale(2.5); }
                       body.home .bg-filter.landing {
-                        width: 100vw;
+                        width: 100%;
                         height: 190vh;
-                        background: linear-gradient(#112748 0%, #475C7B 12%, white 42%);
+                        background: linear-gradient(#112748, #475C7B 12%, white 42%);
                         z-index: -11; }
                         body.home .bg-img.landing {
                           top: -48vh;
-                          width: 100vw;
+                          width: 100%;
                           height: 100vh;
                           background: url('/static/img/home/home-landscape-b-3.png') no-repeat 50% 100%;
                           background-size: contain;
                           z-index: -10; }
-                          @media all and (min-width: 915px) {
+                          @media all and (min-width: 1315px) {
                             body.home .bg-img.landing {
                               background-size: cover;   }
 }
@@ -1050,9 +1062,9 @@ body.home {
       position: relative;
       top: 0;
       width: 100%;
-      height: 97vh;
+      height: 96vh;
       margin: 0 auto;
-      padding-right: 60px;
+      padding: 0 40px;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
@@ -1159,14 +1171,16 @@ body.home {
                 top: 0;   }
 }
   @media all and (min-width: 416px) {
-    body.home .home-container {
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      right: 0;   }
-      body.home nav li.profiles-sum {
-        display: none;   }
+    body.home .bg {
+      margin-left: 415px;   }
+      body.home .home-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;   }
+        body.home nav li.profiles-sum {
+          display: none;   }
     body.home #menu {
       background-color: rgba(255, 255, 255, 0);   }
       body.home #menu footer {
@@ -2269,7 +2283,7 @@ body.profile header, body.story header {
       top: -90px; }
   body.profile header p, body.story header p {
     font-size: 17px; }
-body.profile .section-sidenav, body.story .section-sidenav {
+body.profile #section-sidenav, body.story #section-sidenav {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2286,40 +2300,48 @@ body.profile .section-sidenav, body.story .section-sidenav {
   -ms-transition: opacity 0.5s;
   -o-transition: opacity 0.5s;
   transition: opacity 0.5s;
-  height: 100px;
+  height: 200px;
   left: -30px;
-  margin-top: -50 "-px-" -40px;
+  margin-top: -60px;
   position: fixed;
   top: 0;
   z-index: 10;
   opacity: 0; }
-  body.profile .section-sidenav.active, body.story .section-sidenav.active {
-    left: 0;
+  body.profile #section-sidenav.visible, body.story #section-sidenav.visible {
+    left: 15px;
     top: 50%;
     opacity: 1; }
-    body.profile .section-sidenav .section-sidenav-button,
-    body.story .section-sidenav .section-sidenav-button {
-      -webkit-transition: opacity 0.5s;
-      -moz-transition: opacity 0.5s;
-      -ms-transition: opacity 0.5s;
-      -o-transition: opacity 0.5s;
-      transition: opacity 0.5s;
-      -webkit-border-radius: 50%;
-      -moz-border-radius: 50%;
-      border-radius: 50%;
-      display: block;
-      height: 10px;
-      margin: 10px;
-      width: 10px;
-      background-color: transparent;
-      border: 2px solid #C5C5C5;
-      opacity: 0.7; }
-      body.profile .section-sidenav .section-sidenav-button:hover,
-      body.story .section-sidenav .section-sidenav-button:hover {
-        opacity: 1; }
-        body.profile .section-sidenav .section-sidenav-button.active,
-        body.story .section-sidenav .section-sidenav-button.active {
-          background-color: #C5C5C5; }
+    body.profile #section-sidenav .section-sidenav-group:not(:last-child),
+    body.story #section-sidenav .section-sidenav-group:not(:last-child) {
+      border-bottom: 1px solid #ccc; }
+      body.profile #section-sidenav .section-sidenav-group .section-sidenav-button,
+      body.story #section-sidenav .section-sidenav-group .section-sidenav-button {
+        -webkit-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        -moz-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        -ms-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        -o-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        display: block;
+        height: 6px;
+        margin: 20px 6px;
+        width: 6px;
+        background-color: transparent;
+        border: 1px solid #999;
+        opacity: 0.7; }
+        body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
+        body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+        body.story #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
+        body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
+          height: 10px;
+          margin: 18px 4px;
+          width: 10px;
+          opacity: 1; }
+          body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+          body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
+            background-color: #999; }
 body.profile section, body.story section {
   -webkit-justify-content: center;
   -moz-justify-content: center;

@@ -132,6 +132,24 @@
   </div>
 </div>
 
+<div id="section-sidenav">
+{% for section in sections %}
+  <div class="section-sidenav-group">
+  {% set categories = {"count": 0} %}
+  {% for topic in section.topics %}
+    {% if topic.category %}
+    {% if categories.update({"count": categories.count + 1}) %}{% endif %}
+    {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
+    <a class="section-sidenav-button" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-anchor="center right" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
+    {% endif %}
+  {% endfor %}
+  {% if categories.count == 0 %}
+  <a class="section-sidenav-button" href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-tooltip="{{ section.title|safe }}" data-tooltip-anchor="center right" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
+  {% endif %}
+  </div>
+{% endfor %}
+</div>
+
 {% for section in sections %}
 <header class="{{ section.anchor }}">
   <h2><a name="{{ section.anchor }}">{{ section.title|safe }}</a></h2>
@@ -140,14 +158,6 @@
   {% endfor %}
 </header>
 
-<div class="section-sidenav" data-anchor="{{ section.anchor }}">
-{% for topic in section.topics %}
-  {% if topic.category %}
-  <a class="section-sidenav-button" href="#{{ topic.category|safe|lower|replace(" ", "_") }}" data-anchor="{{ topic.category|safe|lower|replace(" ", "_") }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-anchor="center right" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
-  {% endif %}
-{% endfor %}
-</div>
-
 <section class="{{ section.anchor }}">
   {% include "templates/includes/topic.html" %}
 </section>
@@ -155,15 +165,15 @@
 {% endfor %}
 
 <div class="profile-end">
-  
+
   <!-- follow up profile links -->
   <div class="follow-up">
-    
+
     <header>
       <h3>Keep Exploring</h3>
       <p>Profiles we think you'd be interested in visiting next...</p>
     </header>
-    
+
     {% set parents = profile.parents() %}
     {% if parents|length %}
     <ul>
@@ -178,7 +188,7 @@
     </ul>
     {% endif %}
   </div>
-  
+
   <!-- ending footer  -->
   <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_2.png" alt="DataUSA" style="width:80px" /></a>
   <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
@@ -230,6 +240,7 @@
     d3.select("#stats-bar").classed("visible", showStatNav);
     d3.select(".expand-stats-btn").classed("show", showStatNav);
     d3.select("#profile-nav").classed("visible", showProfNav);
+    d3.select("#section-sidenav").classed("visible", showProfNav);
 
     var active_section;
     d3.selectAll("header a[name]")
@@ -237,19 +248,24 @@
         var top = this.parentNode.parentNode.offsetTop;
         if (top - titleNavHeight - 10 < y) active_section = this.name;
       })
-    d3.selectAll("#profile-nav li, .section-sidenav")
+    d3.selectAll("#profile-nav li")
       .classed("active", function(){
         return this.getAttribute("data-anchor") === active_section;
       });
 
     var active_sub;
-    d3.selectAll(".category a[name]")
-      .each(function(){
-        var top = this.parentNode.offsetTop;
-        if (top - titleNavHeight - 10 < y) {
-          active_sub = this.name;
-        }
-      });
+    var subs = d3.selectAll("section." + active_section + " .category a[name]");
+    if (subs.size()) {
+      subs.each(function(){
+          var top = this.parentNode.offsetTop;
+          if (top - titleNavHeight - 10 < y) {
+            active_sub = this.name;
+          }
+        });
+    }
+    else {
+      active_sub = active_section;
+    }
     d3.selectAll(".section-sidenav-button")
       .classed("active", function(){
         return this.getAttribute("data-anchor") === active_sub;
