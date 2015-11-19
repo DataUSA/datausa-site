@@ -18,6 +18,13 @@
   </div>
 </div>
 
+<div class="bound">
+<div id="show-bg">
+  <div>
+    <i class="fa fa-bolt"></i>
+  </div>
+</div>
+
 <article id="splash">
 
   {% set sections = profile.sections() %}
@@ -155,6 +162,31 @@
 {% endfor %}
 
 <div class="profile-end">
+  
+  <!-- follow up profile links -->
+  <div class="follow-up">
+    
+    <header>
+      <h3>Keep Exploring</h3>
+      <p>Profiles we think you'd be interested in visiting next...</p>
+    </header>
+    
+    {% set parents = profile.parents() %}
+    {% if parents|length %}
+    <ul>
+      {% for p in parents %}
+      <li style="background: url('/static/img/splash/{{ profile.attr_type }}/{{ p.id }}.jpg')">
+        <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}"></a>
+        <div class="title">
+          <h3>{{ p["name"] }}</h3>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  
+  <!-- ending footer  -->
   <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_2.png" alt="DataUSA" style="width:80px" /></a>
   <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
 </div>

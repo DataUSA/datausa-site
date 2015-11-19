@@ -1201,10 +1201,72 @@ body.profile, body.story {
   }
 
   .profile-end {
+    color: #fff;
     width: 100%;
     padding: 10px 0 15px;
     background-color: #000;
     text-align: center;
+    
+    .follow-up {
+      
+      header {
+        padding: 10px 0 20px 0;
+        h3 {
+          font-size: 28px;
+        }
+        p {
+          color: #fff;
+        }
+      }
+    
+      ul {
+        width: 100%;
+        float: left;
+      
+        li {
+          cursor: pointer;
+          background: #1d1d1d;
+          background-size: cover !important;
+          background-position: center center;
+          float: left;
+          padding-bottom: 25%;
+          width: 25%;
+          box-sizing: border-box;
+          border: solid 0px #fff;
+          border-top: none;
+          border-right: none;
+          position: relative;
+        
+          a {
+            position: absolute;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            border: none;
+            &:hover {
+              background: rgba(0, 0, 0, 0.5);
+            }
+          }
+        
+          div.title {
+            z-index: 33333;
+            padding: 50px 0 20px 0;
+            text-align: center;
+            color: rgba(200, 200, 200, 0.93);
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
+            background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.05) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
+            background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
+            background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
+          }
+        
+        }
+      
+      }
+    
+    }
 
     a {
       display: block;
