@@ -66,12 +66,6 @@ body {
 .menu-content {
   margin-top: $nav-height;
 
-  @media all and (max-width: 415px) {
-    ul {
-      text-align: center;
-    }
-  }
-
   a {
     display: inline-block;
 
@@ -81,12 +75,22 @@ body {
         width: 50%;
       }
     }
+
+    img {
+      width: 25px;
+      height: 25px;
+      padding: 20px 5px 20px 20px;
+      display: inline-block;
+      vertical-align: middle;
+    }
   }
 
   h2 {
-    padding: 20px;
+    padding: 20px 20px 20px 5px;
     color: #333;
     position: relative;
+    display: inline-block;
+    vertical-align: middle;
 
     &:before {
       content: "";
@@ -106,6 +110,8 @@ body {
 }
 
 .profiles-drawer {
+  display: none;
+
   .disabled {
     pointer-events: none;
     cursor: default;
@@ -328,6 +334,10 @@ body {
     .menu-content {
       margin-top: 0;
     }
+
+    ul {
+      text-align: center;
+    }
   }
 
   #menu footer {
@@ -378,12 +388,24 @@ body {
 
     #menu {
       left: 0;
-      @include justify(flex-end);
+      @include justify(space-around);
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
     }
   }
 
   #menu {
     @include justify(space-between);
+    padding: 35px;
+    box-sizing: border-box;
+
+    ul {
+      background-color: rgba(239,239,239,0.4);
+      border-radius: 3px;
+    }
   }
 
   #menu footer {

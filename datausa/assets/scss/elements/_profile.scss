@@ -1347,9 +1347,14 @@ body.profile, body.story {
 }
 
 #crosswalk {
-  margin: 60px auto 0 auto;
+  margin: ($nav-height + 40) auto 0;
   width: 70vw;
 
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
   p.warning{
     color: #9F6000;
     background-color: #FEEFB3;
