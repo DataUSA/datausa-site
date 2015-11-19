@@ -739,7 +739,7 @@ body.search .search-results-container {
     overflow: scroll; }
     body.search .search-results-container .search-refine .clear {
       display: none;
-      margin: 2px 0 0 10px;
+      padding: 2px 0 2px 10px;
       line-height: 1.5;
       opacity: 1;
       font-family: "Roboto", sans-serif;
@@ -747,7 +747,8 @@ body.search .search-results-container {
       font-size: 13px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(51, 51, 51, 0.65); }
+      color: #9F6000;
+      background-color: #FEEFB3; }
       body.search .search-results-container .search-refine .clear span {
         display: inline-block;
         font-size: 18px;
@@ -757,8 +758,7 @@ body.search .search-results-container {
     body.search .search-results-container .search-refine div {
       padding: 10px; }
       body.search .search-results-container .search-refine div.no-results h2 a {
-        opacity: 0.4;
-        cursor: default; }
+        opacity: 0.4; }
     body.search .search-results-container .search-refine h2 {
       font-size: 15px;
       font-weight: 700;

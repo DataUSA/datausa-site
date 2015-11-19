@@ -640,9 +640,10 @@ search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'><p>Loading Results...</p></div>");
   
+  this.type = this.type || "";
   var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
   // var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
-  var q_params = [['q', this.term]]
+  var q_params = [['q', this.term], ['kind', this.type]]
                   .filter(function(q){ return q[1] || q[1]===0; })
                   .reduce(function(a, b, i){
                     var sep = i ? "&" : "";
@@ -657,8 +658,12 @@ search.reload = function() {
     d3.select(".results-show-all a").attr("href", "/search/"+q_params)
   }
   
-  // load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&sumlevel="+sumlevel , function(data, url, raw) {
-  load(api + "/attrs/search?limit=100&q="+this.term, function(data, url, raw) {
+  // if contrained, show "clear refinements"
+  if(this.type){
+    d3.select(".clear").style("display", "block")
+  }
+  
+  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type, function(data, url, raw) {
     // console.log(data, url, raw)
     
     this.zip = raw.zip_search;

@@ -173,6 +173,10 @@
 <script>
   search.anchors = {{anchors|safe}};
   
+  function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+  }
+  
   d3.selectAll(".search-refine a").on("click", function(){
     d3.select(".search-refine a.clear").style("display", "block");
     if(d3.select(this).classed("clear")){
@@ -185,6 +189,8 @@
     search.type = filter;
     search.depth = depth;
     search.reload();
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
   })
 
   /*
@@ -255,7 +261,8 @@
   })
 
   var term = location.search ? location.search.split("=")[1] : "";
-  search.term = term.replace(/%20/g, " ");
+  search.term = getURLParameter("q") || "";
+  search.type = getURLParameter("kind");
   search.advanced = true;
   search.container = d3.select("#search-advanced");
 
