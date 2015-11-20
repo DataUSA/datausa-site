@@ -10,7 +10,7 @@
   <div class="search-nav">
     <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
   </div>
-  
+
   <div class="search-helpers">
     <div class="search-suggestions">
     </div>
@@ -19,7 +19,7 @@
   <div class="search-results-container">
     <div class="search-refine">
       <a href="#" class="clear"><span>&times;</span> Clear Refinements</a>
-      
+
       <div class="geo" class="no-results">
         <h2><a href="#" data-filter="geo">Locations (<span class="num_res">0</span>)</a></h2>
         <ul>
@@ -30,7 +30,7 @@
           <li><a href="#" data-filter="geo" data-depth="795" class="no-results">PUMAs (<span class="num_res">88</span>)</a></li>
         </ul>
       </div>
-      
+
       <div class="naics" class="no-results">
         <h2><a href="#" data-filter="naics">Industries (<span class="num_res">0</span>)</a></h2>
         <ul>
@@ -39,7 +39,7 @@
           <li><a href="#" data-depth="2" class="no-results">3 digit (<span class="num_res">88</span>)</a></li>
         </ul>
       </div>
-      
+
       <div class="soc" class="no-results">
         <h2><a href="#" data-filter="soc">Occupations (<span class="num_res">0</span>)</a></h2>
         <ul>
@@ -49,7 +49,7 @@
           <li><a href="#" data-depth="3" class="no-results">4 digit (<span class="num_res">88</span>)</a></li>
         </ul>
       </div>
-      
+
       <div class="cip" class="no-results">
         <h2><a href="#" data-filter="cip">College Majors (<span class="num_res">0</span>)</a></h2>
         <ul>
@@ -58,7 +58,7 @@
           <li><a href="#" data-depth="2" class="no-results">6 digit (<span class="num_res">88</span>)</a></li>
         </ul>
       </div>
-      
+
     </div>
 
     <div class="search-results-dynamic">
@@ -171,12 +171,18 @@
 
 {% block js %}
 <script>
+
+  localforage.getItem("homepage_image", function(e, d){
+    if (!d) d = "1";
+    d3.select(".bg-filter").style("background-image", "url('/static/img/home/bg/" + d + ".jpg')");
+  });
+
   search.anchors = {{anchors|safe}};
-  
+
   function getURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
   }
-  
+
   d3.selectAll(".search-refine a").on("click", function(){
     d3.select(".search-refine a.clear").style("display", "block");
     if(d3.select(this).classed("clear")){
@@ -197,14 +203,14 @@
    * Constrain search to specific types of attrs
    */
   d3.selectAll(".search-filter").on("click", function(){
-    
+
     // set constrained search mode
     search.type = d3.select(this).attr("data-filter");
-    
+
     // close inner dropdown and set title
     d3.select(".search-filters-options").style("opacity", 0).style("display", "none");
     d3.select(".search-filters-toggle-label").text(d3.select(this).text())
-    
+
     // set active link for profile type
     d3.selectAll(".search-filters-options-inner a").classed("active", false)
     d3.select(this).classed("active", true)
@@ -212,7 +218,7 @@
     // show appropriate nesting levels
     d3.selectAll(".search-nestings > div").style("display", "none")
     d3.select(".search-nestings-"+search.type).style("display", "block")
-    
+
     // activate first nesting level if no levels been selected previously
     if(search.type){
       var active_nesting = d3.selectAll(".search-nestings-"+search.type+" a").filter(function(){
@@ -224,33 +230,33 @@
     else {
       search.reload();
     }
-    
+
     // prevent default anchor link behavior
     d3.event.preventDefault();
   })
-  
+
   /*
    * Constrain search to specific nesting/sumlevel of attrs
    */
   d3.selectAll(".search-nestings a").on("click", function(active_el){
     var _this = active_el || this;
     var depth = d3.select(_this).attr("data-depth");
-    
+
     // set constrained search mode with appropriate sumlevel
     // search.term = "";
     if(depth){
       search.current_depth[search.type] = d3.select(_this).attr("data-depth");
     }
     search.reload();
-    
+
     // set active link for profile type
     d3.select(_this.parentNode).selectAll("a").classed("active", false)
     d3.select(_this).classed("active", true)
-    
+
     // prevent default anchor link behavior
     d3.event.preventDefault();
   })
-  
+
   d3.select(".search-filters-toggle").on("click", function(){
     var current_opacity = parseInt(d3.select(".search-filters-options").style("opacity"));
     var current_display = d3.select(".search-filters-options").style("display");

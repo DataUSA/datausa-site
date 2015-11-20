@@ -3,7 +3,7 @@
 {% block body %}
 <div class="home-container">
 	<div class="bg">
-		<div class="landing" style="background-image: url('/static/img/home/bg/{{bg_imgs}}.jpg')"></div>
+		<div class="landing" style="background-image: url('/static/img/home/bg/{{ bg_imgs }}.jpg')"></div>
 		<div class="strip"></div>
 	</div>
 
@@ -11,7 +11,7 @@
 	<article class="landing">
 
 		<img class="logo" src="/static/img/home/logo_4.png" alt="DataUSA" />
-		
+
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<div class="search-input-btn">
@@ -35,6 +35,8 @@
 {% block js %}
 
 <script>
+
+localforage.setItem("homepage_image", "{{ bg_imgs }}");
 
 // d3.select(".search-glass").on("mouseover", function(){
 // 	d3.select(".search-input-btn").classed("closed", false);
