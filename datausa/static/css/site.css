@@ -342,7 +342,6 @@ body.search #search-btn {
       width: 0;
       padding: 0px;
       display: inline-block;
-      overflow: hidden;
       text-align: left;
       opacity: 0;
       -webkit-transition: width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s;
@@ -359,10 +358,10 @@ body.search #search-btn {
           box-sizing: border-box;
           width: 100%;
           border: 0;
-          border-bottom: 1px solid #333;
-          padding: 3px 25px 1px 5px;
+          margin-top: -5px;
+          padding: 6px 25px 6px 10px;
           outline: 0;
-          background-color: rgba(255, 255, 255, 0);
+          background-color: rgba(255, 255, 255, 0.9);
           font-family: "Playfair Display", serif;
           font-size: 14px;
           letter-spacing: 0.06em; }

@@ -109,7 +109,7 @@ body {
     display: inline-block;
 
     &:hover {
-      
+
       h2:before {
         width: 50%;
       }
@@ -192,7 +192,7 @@ body {
 }
 
 #menu-btn {
-  z-index: 20; 
+  z-index: 20;
   position: fixed;
   display: block;
   cursor: pointer;
@@ -213,16 +213,16 @@ body {
     height: 40px;
     width: 40px;
    }
-  
+
   .bd {
     padding: 13px;
     width: 15px;
-    
+
     div {
       position: relative;
       overflow: hidden;
      }
-    
+
     div, span {
       display: block;
       height: 2px;
@@ -241,7 +241,7 @@ body {
   .b-1 {
     transform: matrix(1,0,0,1,0,0);
     transition-delay: 0.3s;
-    
+
     span {
       transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
       transition-delay: 0.3s;
@@ -312,7 +312,7 @@ body {
     opacity: 1;
     cursor: pointer;
   }
-  
+
   .search-box {
     position: absolute;
     right: 0;
@@ -320,7 +320,7 @@ body {
     width: 0;
     padding: 0px;
     display: inline-block;
-    overflow: hidden;
+    // overflow: hidden;
     text-align: left;
     opacity: 0;
     @include transition(width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s);
@@ -333,15 +333,15 @@ body {
     @include box();
     width: 100%;
     border: 0;
-    border-bottom: 1px solid #333;
-    padding: 3px 25px 1px 5px;
+    margin-top: -5px;
+    padding: 6px 25px 6px 10px;
     outline: 0;
-    background-color: rgba(255,255,255,0);
+    background-color: rgba(255,255,255,0.9);
     font-family: $playfair;
     font-size: 14px;
     letter-spacing: 0.06em;
   }
-  
+
 }
 
 #mask {
@@ -406,7 +406,7 @@ body {
         .profiles-drawer {
           display: none;
         }
-        
+
         ul {
           padding-bottom: 20vh;
 
