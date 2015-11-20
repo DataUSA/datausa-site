@@ -142,7 +142,7 @@ body.search #search-btn {
   height: 100vh;
   width: 415px;
   overflow: scroll;
-  background-color: #333;
+  background-color: #111;
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -192,7 +192,7 @@ body.search #search-btn {
     .menu-content .stories-sum img {
       width: 22px;
       height: 22px;
-      padding: 21.5px; }
+      padding: 21.5px 23px; }
     .menu-content a {
       display: inline-block; }
       .menu-content a:hover h2:before {
@@ -212,18 +212,20 @@ body.search #search-btn {
       display: inline-block;
       vertical-align: middle; }
 
-.profiles-drawer li {
-  margin-left: 55px; }
-  .profiles-drawer h2 {
-    padding: 13px 20px;
-    font-size: 18px;
-    font-weight: 300; }
-    .profiles-drawer .disabled {
-      pointer-events: none;
-      cursor: default; }
-      .profiles-drawer .disabled h2 {
-        color: #ccc;
-        opacity: 0.8; }
+.profiles-drawer {
+  margin-top: -10px; }
+  .profiles-drawer li {
+    margin-left: 55px; }
+    .profiles-drawer h2 {
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: 300; }
+      .profiles-drawer .disabled {
+        pointer-events: none;
+        cursor: default; }
+        .profiles-drawer .disabled h2 {
+          color: #ccc;
+          opacity: 0.8; }
 
 .desc {
   padding: 10px 20px; }
@@ -422,6 +424,8 @@ body.search #search-btn {
       -webkit-justify-content: space-around;
       -moz-justify-content: space-around;
       justify-content: space-around;   }
+      body.home .menu-content {
+        margin-top: 0;   }
   #menu {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -433,31 +437,33 @@ body.search #search-btn {
     transition: left 0.7s ease;   }
     #menu ul {
       border-radius: 3px;   }
-  #menu footer {
-    display: block;
-    background-color: rgba(255, 255, 255, 0);
-    height: 70px;
-    width: 100%;
-    overflow: hidden;   }
-    #menu footer img {
-      height: 17.5px;
-      margin: 26.92308px 0 26.92308px 25px;
-      opacity: 1;
-      -webkit-transition: opacity 1s;
-      -moz-transition: opacity 1s;
-      -ms-transition: opacity 1s;
-      -o-transition: opacity 1s;
-      transition: opacity 1s;   }
-}
-    @media all and (min-width: 416px) and all and (min-width: 415px) {
+  .menu-content {
+    margin-top: -70px;   }
+    #menu footer {
+      display: block;
+      background-color: rgba(255, 255, 255, 0);
+      height: 70px;
+      width: 100%;
+      overflow: hidden;   }
       #menu footer img {
-        height: 23.33333px;
-        margin: 23.33333px 14px;   }
+        height: 17.5px;
+        margin: 26.92308px 0 26.92308px 25px;
+        opacity: 1;
+        -webkit-transition: opacity 1s;
+        -moz-transition: opacity 1s;
+        -ms-transition: opacity 1s;
+        -o-transition: opacity 1s;
+        transition: opacity 1s;   }
 }
-      @media all and (min-width: 416px) {
-        #menu footer img:hover {
-          opacity: 0.7;
-          cursor: pointer;   }
+      @media all and (min-width: 416px) and all and (min-width: 415px) {
+        #menu footer img {
+          height: 23.33333px;
+          margin: 23.33333px 14px;   }
+}
+        @media all and (min-width: 416px) {
+          #menu footer img:hover {
+            opacity: 0.7;
+            cursor: pointer;   }
 }
 .search-results {
   max-height: 512px;
@@ -669,7 +675,7 @@ body.search {
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
-          font-family: "Playfair Display", serif;
+          font-family: "Lato", sans-serif;
           font-size: 20px;
           font-weight: 400;
           letter-spacing: 0.06em;
@@ -680,14 +686,26 @@ body.search {
           -ms-transition: box-shadow 1s;
           -o-transition: box-shadow 1s;
           transition: box-shadow 1s; }
-          body.search #search-advanced .search-input:focus {
-            outline: 0; }
-            @media all and (min-width: 415px) {
-              body.search #search-advanced .search-input {
-                font-size: 30px;   }
+          body.search #search-advanced .search-input::-webkit-input-placeholder {
+            opacity: 0.8;
+            font-weight: 300; }
+            body.search #search-advanced .search-input:-moz-placeholder {
+              opacity: 0.8;
+              font-weight: 300; }
+              body.search #search-advanced .search-input::-moz-placeholder {
+                opacity: 0.8;
+                font-weight: 300; }
+                body.search #search-advanced .search-input:-ms-input-placeholder {
+                  opacity: 0.8;
+                  font-weight: 300; }
+                  body.search #search-advanced .search-input:focus {
+                    outline: 0; }
+                    @media all and (min-width: 415px) {
+                      body.search #search-advanced .search-input {
+                        font-size: 30px;   }
 }
-              body.search #search-advanced .search-input.inactive {
-                display: none; }
+                      body.search #search-advanced .search-input.inactive {
+                        display: none; }
       body.search #search-advanced .search-crumbs {
         display: none; }
         body.search #search-advanced .search-crumbs.active {
@@ -891,11 +909,11 @@ body.search {
               body.search .search-results-container .search-results .search-item.open .info .fa-angle-up {
                 display: none; }
                 body.search .search-results-container .search-results .search-item .profile {
-                  -webkit-box-flex: 0 0 120px;
-                  -moz-box-flex: 0 0 120px;
-                  -webkit-flex: 0 0 120px;
-                  -ms-flex: 0 0 120px;
-                  flex: 0 0 120px;
+                  -webkit-box-flex: 0 0 125px;
+                  -moz-box-flex: 0 0 125px;
+                  -webkit-flex: 0 0 125px;
+                  -ms-flex: 0 0 125px;
+                  flex: 0 0 125px;
                   padding: 0 0px 30px 0px; }
                   body.search .search-results-container .search-results .search-item .profile a {
                     font-family: "Playfair Display", serif;
@@ -1080,65 +1098,73 @@ body.home {
     -webkit-justify-content: flex-start;
     -moz-justify-content: flex-start;
     justify-content: flex-start; }
-    body.home .logo {
-      width: 500px;
-      height: 66.39px;
-      margin: 23% auto 7%; }
-      body.home .search-home-container {
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-flex-direction: column;
-        -moz-flex-direction: column;
-        flex-direction: column;
-        -webkit-align-items: flex-start;
-        align-items: flex-start;
-        -webkit-justify-content: flex-start;
-        -moz-justify-content: flex-start;
-        justify-content: flex-start;
-        height: 100%;
-        overflow: hidden; }
-        body.home #search-home {
-          display: none;
-          -webkit-box-flex: 1 auto;
-          -moz-box-flex: 1 auto;
-          -webkit-flex: 1 auto;
-          -ms-flex: 1 auto;
-          flex: 1 auto;
-          width: 100%;
-          -webkit-box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box;
-          -webkit-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
-          -moz-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
-          box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
-          margin: 13px 0 0 0;
-          overflow-y: scroll;
-          border: 1px solid rgba(255, 255, 255, 0.5);
-          background-color: rgba(255, 255, 255, 0.85); }
-          body.home #search-home:before {
-            position: relative;
-            left: 49%;
-            top: -16px;
-            background: rgba(255, 255, 255, 0.85);
-            -webkit-box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44);
-            -moz-box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44);
-            box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44); }
-            body.home #search-home.open {
-              display: block; }
-              body.home #search-home .search-item {
-                display: block;
-                padding: 10px 15px 3px; }
-                body.home #search-home .search-results {
-                  width: 100%;
-                  margin-top: -16px;
-                  overflow: hidden;
-                  max-height: inherit; }
+    body.home .home-logo {
+      width: 100%;
+      text-align: center;
+      margin: 15vh auto 5vh; }
+      body.home .logo {
+        width: 100%;
+        margin: 0 auto; }
+        @media all and (min-width: 416px) {
+          body.home .logo {
+            width: 500px;
+            height: 66.39px;   }
+}
+  body.home .search-home-container {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    overflow: hidden; }
+    body.home #search-home {
+      display: none;
+      -webkit-box-flex: 1 auto;
+      -moz-box-flex: 1 auto;
+      -webkit-flex: 1 auto;
+      -ms-flex: 1 auto;
+      flex: 1 auto;
+      width: 100%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
+      -moz-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
+      box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
+      margin: 13px 0 0 0;
+      overflow-y: scroll;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      background-color: rgba(255, 255, 255, 0.85); }
+      body.home #search-home:before {
+        position: relative;
+        left: 49%;
+        top: -16px;
+        background: rgba(255, 255, 255, 0.85);
+        -webkit-box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44);
+        -moz-box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44);
+        box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44); }
+        body.home #search-home.open {
+          display: block; }
+          body.home #search-home .search-item {
+            display: block;
+            padding: 10px 15px 3px; }
+            body.home #search-home .search-results {
+              width: 100%;
+              margin-top: -16px;
+              overflow: hidden;
+              max-height: inherit; }
   @media all and (max-width: 415px) {
     body.home .home-container {
       height: 100vh;
@@ -1267,7 +1293,7 @@ body.home {
     width: 67px;
     height: 53px;
     display: inline-block;
-    background: url('/static/img/home/search.png') no-repeat 11px;
+    background: url('/static/img/search/search.svg') no-repeat 11px;
     background-size: 34px 34px;
     background-color: rgba(255, 255, 255, 0.85); }
 
@@ -1297,7 +1323,7 @@ body.home {
   background-size: 34px 34px;
   background-attachment: inherit;
   color: #223856;
-  font-family: "Playfair Display", serif;
+  font-family: "Lato", sans-serif;
   font-size: 28px;
   font-weight: 400;
   letter-spacing: 0.03em;
@@ -1307,16 +1333,16 @@ body.home {
   -o-transition: width 1s;
   transition: width 1s; }
   #home-search-input::-webkit-input-placeholder {
-    opacity: 0.7;
+    opacity: 0.8;
     font-weight: 300; }
     #home-search-input:-moz-placeholder {
-      opacity: 0.7;
+      opacity: 0.8;
       font-weight: 300; }
       #home-search-input::-moz-placeholder {
-        opacity: 0.7;
+        opacity: 0.8;
         font-weight: 300; }
         #home-search-input:-ms-input-placeholder {
-          opacity: 0.7;
+          opacity: 0.8;
           font-weight: 300; }
           #home-search-input:focus {
             outline: 0; }
