@@ -1427,7 +1427,7 @@ viz.bar = function(build) {
 }
 
 var all_caps = ["cip", "naics", "rca", "soc", "usa"],
-    no_y_labels = ["geo", "cip", "soc", "naics"];
+    attr_ids = ["geo", "cip", "soc", "naics"];
 
 viz.defaults = function(build) {
 
@@ -1466,7 +1466,7 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      label = build.config[axis].label ? build.config[axis].label : axis.indexOf("y") === 0 && no_y_labels.indexOf(key) >= 0 ? false : true;
+      label = build.config[axis].label ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
       if (label in dictionary) label = dictionary[label];
       build.config[axis].label = label;
     }
@@ -1634,9 +1634,12 @@ viz.defaults = function(build) {
             return "Census Tract " + num + suffix;
           }
 
-          if (params.vars.attrs.value && text in params.vars.attrs.value) {
-            return d3plus.string.title(params.vars.attrs.value[text].name, params);
+          var attrs = build.viz ? build.viz.attrs() : false;
+          if (attrs && text in attrs) {
+            return d3plus.string.title(attrs[text].name, params);
           }
+
+          if (attr_ids.indexOf(params.key) >= 0) return text.toUpperCase();
 
         }
 
@@ -2229,13 +2232,28 @@ viz.loadData = function(build, next) {
               return bd.url;
             }).join("|"));
 
-            var headerKeys = d3.keys(dataArray[0]);
+            var headerKeys = d3.keys(dataArray[0]),
+                format = build.viz.format(Object),
+                textFormat = format.text.value,
+                numFormat = format.number.value;
+
+            format = function(v, key) {
+              if (v === undefined || v === null) {
+                return "N/A";
+              }
+              else if (v.constructor === Number) {
+                return numFormat(v, {"key": key});
+              }
+              else {
+                return textFormat(v, {"key": key});
+              }
+            }
 
             var headers = table.select("thead > tr").selectAll("th")
               .data(headerKeys);
             headers.enter().append("th");
             headers.text(function(d){
-              return d;
+              return format(d).replace(/&nbsp;/g, "");
             });
             headers.exit().remove();
 
@@ -2252,8 +2270,8 @@ viz.loadData = function(build, next) {
               var cols = d3.select(this).selectAll("td")
                 .data(d);
               cols.enter().append("td")
-              cols.text(function(d){
-                return d;
+              cols.html(function(d, i){
+                return format(d, headerKeys[i]);
               })
               cols.exit().remove();
             });

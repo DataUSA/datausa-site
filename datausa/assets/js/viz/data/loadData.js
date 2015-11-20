@@ -139,13 +139,28 @@ viz.loadData = function(build, next) {
               return bd.url;
             }).join("|"));
 
-            var headerKeys = d3.keys(dataArray[0]);
+            var headerKeys = d3.keys(dataArray[0]),
+                format = build.viz.format(Object),
+                textFormat = format.text.value,
+                numFormat = format.number.value;
+
+            format = function(v, key) {
+              if (v === undefined || v === null) {
+                return "N/A";
+              }
+              else if (v.constructor === Number) {
+                return numFormat(v, {"key": key});
+              }
+              else {
+                return textFormat(v, {"key": key});
+              }
+            }
 
             var headers = table.select("thead > tr").selectAll("th")
               .data(headerKeys);
             headers.enter().append("th");
             headers.text(function(d){
-              return d;
+              return format(d).replace(/&nbsp;/g, "");
             });
             headers.exit().remove();
 
@@ -162,8 +177,8 @@ viz.loadData = function(build, next) {
               var cols = d3.select(this).selectAll("td")
                 .data(d);
               cols.enter().append("td")
-              cols.text(function(d){
-                return d;
+              cols.html(function(d, i){
+                return format(d, headerKeys[i]);
               })
               cols.exit().remove();
             });

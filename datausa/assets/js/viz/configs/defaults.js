@@ -1,5 +1,5 @@
 var all_caps = ["cip", "naics", "rca", "soc", "usa"],
-    no_y_labels = ["geo", "cip", "soc", "naics"];
+    attr_ids = ["geo", "cip", "soc", "naics"];
 
 viz.defaults = function(build) {
 
@@ -38,7 +38,7 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      label = build.config[axis].label ? build.config[axis].label : axis.indexOf("y") === 0 && no_y_labels.indexOf(key) >= 0 ? false : true;
+      label = build.config[axis].label ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
       if (label in dictionary) label = dictionary[label];
       build.config[axis].label = label;
     }
@@ -206,9 +206,12 @@ viz.defaults = function(build) {
             return "Census Tract " + num + suffix;
           }
 
-          if (params.vars.attrs.value && text in params.vars.attrs.value) {
-            return d3plus.string.title(params.vars.attrs.value[text].name, params);
+          var attrs = build.viz ? build.viz.attrs() : false;
+          if (attrs && text in attrs) {
+            return d3plus.string.title(attrs[text].name, params);
           }
+
+          if (attr_ids.indexOf(params.key) >= 0) return text.toUpperCase();
 
         }
 
