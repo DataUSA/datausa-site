@@ -28,8 +28,7 @@ def profile(attr_type, attr_id):
     if attr_type in CROSSWALKS:
         attr = attr_cache[attr_type][attr_id]
         crosswalks = acs_crosswalk(attr_type, attr_id)
-        crosswalk_map = {"acs_occ":"soc", "acs_ind":"naics"}
-        # raise Exception(crosswalks[0])
+        crosswalk_map = {"acs_occ": "soc", "acs_ind": "naics", "iocode": "naics"}
         return render_template("profile/redirect.html", attr=attr, crosswalks=crosswalks, crosswalk_type=crosswalk_map[attr_type])
 
     g.page_class = attr_type
