@@ -2776,12 +2776,16 @@ body.profile .profile-end, body.story .profile-end {
   background-color: #000;
   text-align: center; }
   body.profile .profile-end header, body.story .profile-end header {
-    padding: 10px 0 20px 0; }
+    padding: 30px 0 20px 0; }
     body.profile .profile-end header h2, body.story .profile-end header h2 {
       color: rgba(255, 255, 255, 0.9); }
       body.profile .profile-end header p, body.story .profile-end header p {
         color: rgba(255, 255, 255, 0.9);
-        font-family: "Roboto", sans-serif; }
+        font-family: "Roboto", sans-serif;
+        font-weight: 300; }
+        body.profile .profile-end header h2, body.story .profile-end header h2 {
+          font-size: 38px;
+          font-style: normal; }
   body.profile .profile-end .follow-up ul, body.story .profile-end .follow-up ul {
     -webkit-justify-content: center;
     -moz-justify-content: center;
