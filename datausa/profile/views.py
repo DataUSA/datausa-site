@@ -81,9 +81,12 @@ def embed_view(attr_type, attr_id, section, topic):
 
     for t in section.topics:
         if viz_only:
-            del t["description"]
-            del t["subtitle"]
-            del t["stat"]
+            if "description" in t:
+                del t["description"]
+            if "subtitle" in t:
+                del t["subtitle"]
+            if "stat" in t:
+                del t["stat"]
         if "category" in t:
             del t["category"]
 
