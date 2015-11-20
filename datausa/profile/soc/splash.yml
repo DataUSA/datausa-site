@@ -1,24 +1,6 @@
 title: "<<name>>"
 group: "<<level>>"
 description: "Explore data on the education, dmeographics, industries, and skills of <<name>> in the US."
-viz:
-  attrs:
-    - "soc"
-    - "skill"
-  data:
-    - soc: "<<id>>"
-      show: "skill"
-  id:
-    - "soc"
-    - "skill"
-  labels: NO
-  mouse:
-    click: NO
-    move: NO
-    over: NO
-    out: NO
-  size: "value"
-  type: "radar"
 stats:
   - title: "Employees"
     value: "<<var namespace=data|key=num_ppl>>"

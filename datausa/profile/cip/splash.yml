@@ -1,24 +1,6 @@
 title: "<<name>>"
 group: "<<level>>"
 description: "Explore data on the <<name>> major in the United States."
-viz:
-  attrs:
-    - "cip"
-    - "skill"
-  data:
-    - cip: "<<id>>"
-      show: "skill"
-  id:
-    - "cip"
-    - "skill"
-  labels: NO
-  mouse:
-    click: NO
-    move: NO
-    over: NO
-    out: NO
-  size: "value"
-  type: "radar"
 stats:
   - title: "Median In-State Public Tuition"
     value: "<<top show=sector|sector=1|col=state_tuition>>"

@@ -53,14 +53,14 @@
 
     <div class="splash-context">
 
+      {% if profile.splash.viz %}
       <div class="context-l">
-        {% if profile.splash.viz %}
         <div class="viz thumbprint">
           <div class="d3plus"></div>
         </div>
         <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
-        {% endif %}
       </div>
+      {% endif %}
 
       <div class="context-r">
         <div id="splash-stats">
@@ -101,13 +101,13 @@
     </div>
 
   </div>
-  
+
    <div id="scroll-btn">
     <div class="mouse">
       <span class="ball"></span>
     </div>
   </div>
-  
+
 </article>
 </div>
 
