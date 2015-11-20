@@ -293,6 +293,12 @@ percentages = [
     "pct_change"
 ]
 
+never_condense = [
+    "avg_wage",
+    "income",
+    "med_earnings"
+]
+
 def num_format(number, key=None, labels=True, condense=True):
 
     if key:
@@ -328,7 +334,7 @@ def num_format(number, key=None, labels=True, condense=True):
 
     # Determines which index of "groups" to move the decimal point to.
     groups = ["", "k", "M", "B", "T"]
-    if n == 0 or not condense:
+    if n == 0 or not condense or (key and key in never_condense):
         m = 0
     else:
         m = max(0,min(len(groups)-1, int(math.floor(math.log10(abs(n))/3))))
