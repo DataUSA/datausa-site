@@ -775,7 +775,7 @@ search.btnExplore = function(d) {
   xtra.append("p").attr("class", "parents")
   
   // set profile link
-  profile.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").html("View Profile &raquo;")
+  profile.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").html("View Profile")
 }
 
 search.btnProfile = function(d) {

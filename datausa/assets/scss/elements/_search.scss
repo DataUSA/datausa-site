@@ -479,10 +479,21 @@ body.search {
           padding: 0 0px 30px 0px;
 
           a {
-            font-family: $playfair;
+            font-family: $roboto;
             font-weight: 400;
             font-size: 15px;
             letter-spacing: 0.05em;
+
+            &:after {
+              content: unicode("00bb");
+              top: -2px;
+              position: relative;
+              font-family: $playfair;
+              font-weight: 400;
+              letter-spacing: 0.05em;
+              line-height: 1;
+              margin-left: 5px;
+            }
           }
 
           &:hover {
