@@ -309,6 +309,7 @@ body.profile, body.story {
 
   #splash {
     @include flex();
+    @include flex-direction(column);
     @include justify(center);
     @include align-items();
     position: relative;
@@ -619,13 +620,35 @@ body.profile, body.story {
     }
 
     #scroll-btn {
-      // bottom: 35px;
-      // left: 50%;
-      // margin-left: -50px;
-      // position: absolute;
-      // width: 100px;
-      // font-size: 24px;
-      // text-align: center;
+      margin-top: 1.75vh;
+
+      .mouse {
+        width: 14px;
+        height: 22px;
+        position: relative;
+        margin: 0 auto;
+        border: 1px solid #fff;
+        box-sizing: border-box;
+        border-radius: 10px;
+        @include shadow(0 0 5px #333);
+        opacity: 0.9;
+        @include transition(opacity 0.25s);
+        &:hover {
+          opacity: 1;
+        }
+
+        .ball {
+          height: 4px;
+          width: 2px;
+          left: 50%;
+          top: 4px;
+          position: absolute;
+          display: block;
+          margin: 0 0 0 -1px;
+          background: #fff;
+          @include animation(mouse-scroll 2.5s infinite);
+        }
+      }
     }
 
   }
@@ -1332,6 +1355,12 @@ body.profile, body.story {
   }
 
 }
+
+@keyframes mouse-scroll {
+  from {top: 4px;}
+  to {top: 5px;}
+}
+
 
 .d3plus_tooltip {
 

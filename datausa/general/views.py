@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from random import randint
 from flask import Blueprint, g, render_template
 from config import API
 from datausa import app
@@ -19,4 +20,5 @@ def before_request():
 @mod.route("/")
 def home():
     g.page_type = "home"
-    return render_template("general/home.html")
+    bg_imgs = randint(1,6)
+    return render_template("general/home.html", bg_imgs = bg_imgs)

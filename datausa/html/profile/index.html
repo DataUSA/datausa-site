@@ -13,11 +13,9 @@
 
 <a name="top"></a>
 <div class="bound">
-<div id="show-bg">
-  <div>
-    <i class="fa fa-camera"></i>
+  <div id="show-bg">
+    <div><i class="fa fa-camera"></i></div>
   </div>
-</div>
 
 <article id="splash">
 
@@ -94,21 +92,22 @@
     </div>
 
     <div class="splash-icon-nav">
-    {% for section in sections %}
+      {% for section in sections %}
       <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
         <img src="/static/img/icons/{{ section.anchor }}.svg" />
         <span>{{ section.title|safe }}</span>
       </a>
-    {% endfor %}
+      {% endfor %}
     </div>
 
-      <!-- <div id="scroll-btn">
-        <i class="fa fa-angle-down"></i>
-      </div> -->
-
+  </div>
+  
+   <div id="scroll-btn">
+    <div class="mouse">
+      <span class="ball"></span>
     </div>
   </div>
-
+  
 </article>
 </div>
 

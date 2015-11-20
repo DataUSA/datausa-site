@@ -2,23 +2,22 @@
 
 {% block body %}
 <div class="home-container">
-	<div class="bg p">
-		<div class="p_group">
-			<div class="bg-filter landing p_layer p_layer-back"></div>
-			<div class="bg-img landing p_layer p_layer-mid"></div>
-			<div class="bg-filter featured-start p_layer p_layer-front"></div>
-			<div class="bg-img featured p_layer p_layer-front"></div>
-		</div>
+	<div class="bg">
+		<div class="landing" style="background-image: url('/static/img/home/bg/{{bg_imgs}}.jpg')"></div>
+		<div class="strip"></div>
 	</div>
 
 <div class="content">
 	<article class="landing">
 
-		<img class="logo" src="/static/img/home/logo_2.png" alt="DataUSA" />
+		<img class="logo" src="/static/img/home/logo_4.png" alt="DataUSA" />
 		
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
-			<input type="text" data-results="search-home" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
+			<div class="search-input-btn closed">
+				<span class="search-glass"></span>
+				<input type="text" data-results="search-home" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
+			</div>
 			<div id="search-home" class="search-body">
 				<div class="search-results"></div>
 			</div>
@@ -27,16 +26,6 @@
       </section>
 		</section>
 	</article>
-	<!-- <article class="featured-profiles"><a name="profiles-anchor"></a>
-
-		<section class="profiles-sum">
-			<h2>Featured Profiles &darr;</h2>
-			<a href="" class="profile-sum-link"></a>
-			<a href="" class="profile-sum-link"></a>
-			<a href="" class="profile-sum-link"></a>
-			<a href="" class="profile-sum-link"></a>
-		</section>
-	</article> -->
 </div>
 
 </div>
@@ -47,7 +36,11 @@
 
 <script>
 
-var homeInput = d3.select("#search-home .search-input");
+d3.select(".search-glass").on("click", function(){
+	d3.select(".search-input-btn").classed("closed", !d3.select(".search-input-btn").classed("closed"));
+});
+
+var homeInput = d3.select("#home-search-input");
 d3.select("#search-switch.adv").on("click", function(){
 	window.location = "/search/?q=" + homeInput.node().value;
   d3.event.preventDefault();

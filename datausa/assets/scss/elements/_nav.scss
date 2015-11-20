@@ -64,7 +64,12 @@ body {
 }
 
 .menu-content {
-  margin-top: $nav-height;
+  margin: 0 50px;
+
+  li {
+    margin: 0 -20px;
+    text-align: left;
+  }
 
   a {
     display: inline-block;
@@ -79,14 +84,16 @@ body {
     img {
       width: 25px;
       height: 25px;
-      padding: 20px 5px 20px 20px;
+      padding: 20px;
+      margin-right: -15px;
       display: inline-block;
       vertical-align: middle;
     }
   }
 
   h2 {
-    padding: 20px 20px 20px 5px;
+    padding: 20px;
+    margin-left: -15px;
     color: #333;
     position: relative;
     display: inline-block;
@@ -399,11 +406,8 @@ body {
 
   #menu {
     @include justify(space-between);
-    padding: 35px;
-    box-sizing: border-box;
 
     ul {
-      background-color: rgba(239,239,239,0.4);
       border-radius: 3px;
     }
   }
