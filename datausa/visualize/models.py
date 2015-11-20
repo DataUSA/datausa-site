@@ -105,10 +105,11 @@ class Viz(object):
         # check the config for 'x' 'y' and 'size'
         axis = "y"
         for k in ["x", "y"]:
-            if k in self.config and not isinstance(val, (str, int, float)):
+            if k in self.config:
                 val = self.config[k]
-                if "scale" in val and val["scale"] == "discrete":
-                    axis = "x" if k is "y" else "y"
+                if not isinstance(val, (str, int, float)):
+                    if "scale" in val and val["scale"] == "discrete":
+                        axis = "x" if k is "y" else "y"
 
         for k in [axis, "size"]:
             if k in self.config:
