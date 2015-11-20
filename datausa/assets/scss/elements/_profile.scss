@@ -1,14 +1,14 @@
 body.profile, body.story {
 
   #top-nav {
-    background-color: white;
+    background-color: #111;
   }
 
   @each $page in (geo, cip, soc, naics) {
     &.#{$page} {
-      #splash .content {
-        background-color: map-get($bg-colors, $page);
-      }
+      // #splash .content {
+      //   background-color: map-get($bg-colors, $page);
+      // }
 
       #profile-nav {
         background-color: map-get($d-bg-colors, $page);
@@ -80,9 +80,10 @@ body.profile, body.story {
   $bg-height: 81.7%;
 
   h1 {
-    font-family: $playfair;
+    // font-family: $playfair;
+    font-family: $lato;
+    font-weight: 300;
     font-size: 55px;
-    font-weight: 400;
     line-height: 1.1;
     letter-spacing: 0.05em;
   }
@@ -328,7 +329,7 @@ body.profile, body.story {
       top: 0;
       width: 100%;
       @include background-stretch();
-      @include filter(saturate(0) brightness(1.15) contrast(1.55));
+      //@include filter(saturate(0) brightness(1.15) contrast(1.55));
       z-index: 0;
       @include transition(all 0.5s);
 
@@ -339,8 +340,8 @@ body.profile, body.story {
         width: 100%;
         left: 0;
         top: 0;
-        background: #444;
-        opacity: 0.4;
+        background: #222;
+        opacity: 0.8;
         @include transition(opacity 0.5s);
       }
 
@@ -434,6 +435,7 @@ body.profile, body.story {
       }
 
       .splash-title-group {
+        margin-bottom: 15px;
         font-family: $roboto;
         font-weight: 300;
         font-size: 15px;

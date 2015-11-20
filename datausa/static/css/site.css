@@ -278,7 +278,7 @@ body.search #search-btn {
                     position: absolute;
                     top: 0;
                     left: -100%;
-                    background: #333; }
+                    background: #fff; }
         #menu-btn .b-1 {
           transform: matrix(1, 0, 0, 1, 0, 0);
           transition-delay: 0.3s; }
@@ -1366,43 +1366,35 @@ body.home {
     display: none;
     width: 100%; }
 body.profile #top-nav, body.story #top-nav {
-  background-color: white; }
-  body.profile.geo #splash .content, body.story.geo #splash .content {
-    background-color: rgba(3, 48, 40, 0.95); }
-    body.profile.geo #profile-nav, body.story.geo #profile-nav {
-      background-color: #0C2521; }
-      body.profile.geo .stat-value a, body.story.geo .stat-value a {
-        color: #0C9A6E; }
-        body.profile.geo .stat-value a:hover, body.story.geo .stat-value a:hover {
-          color: rgba(105, 185, 167, 0.5);
-          border-bottom: 1px solid rgba(105, 185, 167, 0.5); }
-body.profile.cip #splash .content, body.story.cip #splash .content {
-  background-color: rgba(105, 6, 26, 0.95); }
-  body.profile.cip #profile-nav, body.story.cip #profile-nav {
-    background-color: #2B040C; }
-    body.profile.cip .stat-value a, body.story.cip .stat-value a {
-      color: #dc5137; }
-      body.profile.cip .stat-value a:hover, body.story.cip .stat-value a:hover {
-        color: rgba(173, 123, 123, 0.5);
-        border-bottom: 1px solid rgba(173, 123, 123, 0.5); }
-body.profile.soc #splash .content, body.story.soc #splash .content {
-  background-color: rgba(6, 25, 98, 0.95); }
-  body.profile.soc #profile-nav, body.story.soc #profile-nav {
-    background-color: #020B31; }
-    body.profile.soc .stat-value a, body.story.soc .stat-value a {
-      color: #2c49d8; }
-      body.profile.soc .stat-value a:hover, body.story.soc .stat-value a:hover {
-        color: rgba(121, 129, 169, 0.5);
-        border-bottom: 1px solid rgba(121, 129, 169, 0.5); }
-body.profile.naics #splash .content, body.story.naics #splash .content {
-  background-color: rgba(48, 50, 16, 0.95); }
-  body.profile.naics #profile-nav, body.story.naics #profile-nav {
-    background-color: #1D1908; }
-    body.profile.naics .stat-value a, body.story.naics .stat-value a {
-      color: #9FA507; }
-      body.profile.naics .stat-value a:hover, body.story.naics .stat-value a:hover {
-        color: rgba(138, 140, 68, 0.5);
-        border-bottom: 1px solid rgba(138, 140, 68, 0.5); }
+  background-color: #111; }
+  body.profile.geo #profile-nav, body.story.geo #profile-nav {
+    background-color: #0C2521; }
+    body.profile.geo .stat-value a, body.story.geo .stat-value a {
+      color: #0C9A6E; }
+      body.profile.geo .stat-value a:hover, body.story.geo .stat-value a:hover {
+        color: rgba(105, 185, 167, 0.5);
+        border-bottom: 1px solid rgba(105, 185, 167, 0.5); }
+body.profile.cip #profile-nav, body.story.cip #profile-nav {
+  background-color: #2B040C; }
+  body.profile.cip .stat-value a, body.story.cip .stat-value a {
+    color: #dc5137; }
+    body.profile.cip .stat-value a:hover, body.story.cip .stat-value a:hover {
+      color: rgba(173, 123, 123, 0.5);
+      border-bottom: 1px solid rgba(173, 123, 123, 0.5); }
+body.profile.soc #profile-nav, body.story.soc #profile-nav {
+  background-color: #020B31; }
+  body.profile.soc .stat-value a, body.story.soc .stat-value a {
+    color: #2c49d8; }
+    body.profile.soc .stat-value a:hover, body.story.soc .stat-value a:hover {
+      color: rgba(121, 129, 169, 0.5);
+      border-bottom: 1px solid rgba(121, 129, 169, 0.5); }
+body.profile.naics #profile-nav, body.story.naics #profile-nav {
+  background-color: #1D1908; }
+  body.profile.naics .stat-value a, body.story.naics .stat-value a {
+    color: #9FA507; }
+    body.profile.naics .stat-value a:hover, body.story.naics .stat-value a:hover {
+      color: rgba(138, 140, 68, 0.5);
+      border-bottom: 1px solid rgba(138, 140, 68, 0.5); }
 body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health,
 body.story.geo .economy, body.story.geo .education, body.story.geo .health {
   background-color: #E9E9E9; }
@@ -1448,9 +1440,9 @@ body.profile.cip #stats-bar #title-stats, body.story.cip #stats-bar #title-stats
   -webkit-align-content: space-around;
   align-content: space-around; }
 body.profile h1, body.story h1 {
-  font-family: "Playfair Display", serif;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
   font-size: 55px;
-  font-weight: 400;
   line-height: 1.1;
   letter-spacing: 0.05em; }
   body.profile header h2, body.story header h2 {
@@ -1651,10 +1643,6 @@ body.profile nav, body.story nav {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        -webkit-filter: saturate(0) brightness(1.15) contrast(1.55);
-        -moz-filter: saturate(0) brightness(1.15) contrast(1.55);
-        -o-filter: saturate(0) brightness(1.15) contrast(1.55);
-        filter: saturate(0) brightness(1.15) contrast(1.55);
         z-index: 0;
         -webkit-transition: all 0.5s;
         -moz-transition: all 0.5s;
@@ -1668,8 +1656,8 @@ body.profile nav, body.story nav {
           width: 100%;
           left: 0;
           top: 0;
-          background: #444;
-          opacity: 0.4;
+          background: #222;
+          opacity: 0.8;
           -webkit-transition: opacity 0.5s;
           -moz-transition: opacity 0.5s;
           -ms-transition: opacity 0.5s;
@@ -1800,6 +1788,7 @@ body.profile nav, body.story nav {
               color: #cdcdcd; }
               body.profile #splash .content .splash-title-group,
               body.story #splash .content .splash-title-group {
+                margin-bottom: 15px;
                 font-family: "Roboto", sans-serif;
                 font-weight: 300;
                 font-size: 15px;
