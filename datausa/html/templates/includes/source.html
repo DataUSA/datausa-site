@@ -7,6 +7,7 @@
   <a href="#" title="Share on Twitter" data-ga="twitter share" data-ga-cat="profile" data-ga-label="share buttons click">
     <i class="fa fa-twitter"></i>
   </a>
+  {% if profile %}
   <a href="#" title="Share with Embed" data-ga="embed share" data-ga-cat="profile" data-ga-label="share buttons click">
     <i class="fa fa-link"></i>
   </a>
@@ -14,4 +15,5 @@
     <input type="text" class="embed-link" value="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id }}/{{ section.anchor }}/{{ topic.slug }}/" onclick="this.focus();this.select()" readonly />
     <label><input type="checkbox" class="viz_only" />Visualization Only</label>
   </div>
+  {% endif %}
 </div>
