@@ -2191,6 +2191,14 @@ viz.loadData = function(build, next) {
           data = split_data;
         }
 
+        if (d.share) {
+          var total = d3.sum(data, function(dat){ return dat[d.share]; });
+          console.log(total);
+          for (var i = 0; i < data.length; i++) {
+            data[i].share = data[i][d.share]/total * 100;
+          }
+        }
+
         for (var i = 0; i < build.attrs.length; i++) {
           var type = build.attrs[i].type,
               nesting = attrNesting[type];

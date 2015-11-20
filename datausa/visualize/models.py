@@ -37,7 +37,8 @@ class Viz(object):
             data_obj = {
                 "map": d.pop("map", None),
                 "split": d.pop("split", None),
-                "static": d.pop("static", None)
+                "static": d.pop("static", None),
+                "share": d.pop("share", None)
             }
 
             # Set fallback API params
@@ -91,6 +92,8 @@ class Viz(object):
 
         # check each data call for 'required' and 'order'
         for d in self.data:
+            if "share" in d:
+                tooltip.append("share")
             p = d["params"]
             for k in ["required", "order"]:
                 if k in p:

@@ -60,6 +60,7 @@ topics:
         geo: "<<id>>"
         required: "num_ppl,num_ppl_moe"
         where: "birthplace:~^04000US"
+        share: "num_ppl"
       height: 400
       id: "birthplace"
       type: "geo_map"
