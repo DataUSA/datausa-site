@@ -10,7 +10,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 7
+    g.cache_version = 8
     g.affixes = json.dumps(affixes)
     g.dictionary = json.dumps(dictionary)
     g.percentages = json.dumps(percentages)
@@ -22,4 +22,3 @@ def home():
     g.page_type = "home"
     bg_imgs = randint(1,7)
     return render_template("general/home.html", bg_imgs = bg_imgs)
- 
