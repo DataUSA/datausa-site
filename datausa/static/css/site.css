@@ -71,14 +71,15 @@ ul {
 }
     @media all and (max-width: 415px) {
       footer {
-        background-color: #eeeeee;
+        display: none;
+        background-color: rgba(255, 255, 255, 0);
         text-align: center;
         height: 70px;
         width: 100%;
         overflow: hidden;   }
         footer img {
-          height: 17.5px;
-          margin: 26.92308px 10px;
+          height: 15.55556px;
+          margin: 26.92308px 5px;
           opacity: 0.5;
           -webkit-transition: opacity 1s;
           -moz-transition: opacity 1s;
@@ -143,7 +144,7 @@ body.search #search-btn {
   height: 100vh;
   width: 415px;
   overflow: scroll;
-  background-color: #fefefe;
+  background-color: #333;
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -155,11 +156,15 @@ body.search #search-btn {
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  z-index: 4; }
+  z-index: 7; }
   #menu.open {
     left: 0; }
     #menu .desc {
       display: none; }
+      #menu footer {
+        position: absolute;
+        bottom: 0;
+        display: block; }
 
 .close-btn {
   position: absolute;
@@ -187,7 +192,7 @@ body.search #search-btn {
     .menu-content h2 {
       padding: 20px;
       margin-left: -15px;
-      color: #333;
+      color: #fff;
       position: relative;
       display: inline-block;
       vertical-align: middle; }
@@ -360,7 +365,7 @@ body.search #search-btn {
           border-bottom: 1px solid #333;
           padding: 3px 25px 1px 5px;
           outline: 0;
-          background-color: transparent;
+          background-color: rgba(255, 255, 255, 0);
           font-family: "Playfair Display", serif;
           font-size: 14px;
           letter-spacing: 0.06em; }
@@ -372,8 +377,7 @@ body.search #search-btn {
   bottom: 0;
   left: 0;
   opacity: 0.8;
-  background-color: #eee;
-  z-index: 3; }
+  z-index: 6; }
 
   @media all and (max-width: 415px) {
     #top-nav {
@@ -381,40 +385,36 @@ body.search #search-btn {
       top: 0;
       z-index: 5;
       width: 100vw;   }
-      #mask {
-        background-color: transparent;   }
-        #menu {
-          -webkit-justify-content: space-around;
-          -moz-justify-content: space-around;
-          justify-content: space-around;
-          width: 100%;
-          left: 0;
-          top: -100vh;
-          height: 100%;
-          -webkit-transition: top 0.7s ease;
-          -moz-transition: top 0.7s ease;
-          -ms-transition: top 0.7s ease;
-          -o-transition: top 0.7s ease;
-          transition: top 0.7s ease;   }
-          #menu.open {
-            top: 0;   }
-            #menu .menu-content {
-              margin-top: 0;   }
-              #menu ul {
-                text-align: center;   }
-    #menu footer {
+      #menu {
+        -webkit-justify-content: space-around;
+        -moz-justify-content: space-around;
+        justify-content: space-around;
+        width: 100%;
+        left: 0;
+        top: -100vh;
+        height: 100%;
+        -webkit-transition: top 0.7s ease;
+        -moz-transition: top 0.7s ease;
+        -ms-transition: top 0.7s ease;
+        -o-transition: top 0.7s ease;
+        transition: top 0.7s ease;   }
+        #menu.open {
+          top: 0;   }
+          #menu .menu-content {
+            margin-top: 0;   }
+            #menu ul {
+              text-align: center;   }
+    .hidden {
       display: none;   }
-      .hidden {
-        display: none;   }
-        body.home #menu-btn .bd span {
-          background: #fff;   }
-          body.home nav #menu .profiles-drawer {
-            display: none;   }
-            body.home nav #menu ul {
-              padding-bottom: 20vh;   }
-              body.home nav #menu ul li {
-                margin: 10px 0;
-                text-align: center;   }
+      body.home #menu-btn .bd span {
+        background: #fff;   }
+        body.home nav #menu .profiles-drawer {
+          display: none;   }
+          body.home nav #menu ul {
+            padding-bottom: 20vh;   }
+            body.home nav #menu ul li {
+              margin: 10px 0;
+              text-align: center;   }
 }
 
 @media all and (min-width: 416px) {
@@ -425,18 +425,20 @@ body.search #search-btn {
       -webkit-justify-content: space-around;
       -moz-justify-content: space-around;
       justify-content: space-around;   }
-      body.home footer {
-        position: fixed;
-        bottom: 0;   }
   #menu {
-    -webkit-justify-content: space-between;
-    -moz-justify-content: space-between;
-    justify-content: space-between;   }
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -webkit-transition: left 0.7s ease;
+    -moz-transition: left 0.7s ease;
+    -ms-transition: left 0.7s ease;
+    -o-transition: left 0.7s ease;
+    transition: left 0.7s ease;   }
     #menu ul {
       border-radius: 3px;   }
   #menu footer {
     display: block;
-    background-color: #eeeeee;
+    background-color: rgba(255, 255, 255, 0);
     height: 70px;
     width: 100%;
     overflow: hidden;   }
@@ -547,26 +549,30 @@ body.search .bg {
   -moz-filter: brightness(0.55) contrast(1);
   -o-filter: brightness(0.55) contrast(1);
   filter: brightness(0.55) contrast(1); }
-  body.search .bg-filter {
-    width: 100vw;
-    height: 100vh;
-    background: url("/static/img/search/lake_serene_trail_forest_nullsynapse.jpg") no-repeat 0 0;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover; }
-    body.search a {
-      color: #333;
-      -webkit-transition: color 0.15s;
-      -moz-transition: color 0.15s;
-      -ms-transition: color 0.15s;
-      -o-transition: color 0.15s;
-      transition: color 0.15s; }
-      body.search a:hover {
-        color: #000; }
+  @media all and (max-width: 415px) {
+    body.search .bg {
+      margin-top: 0;   }
+}
+body.search .bg-filter {
+  width: 100vw;
+  height: 100vh;
+  background: url("/static/img/home/bg/1.jpg") no-repeat 0 0;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+  body.search a {
+    color: #333;
+    -webkit-transition: color 0.15s;
+    -moz-transition: color 0.15s;
+    -ms-transition: color 0.15s;
+    -o-transition: color 0.15s;
+    transition: color 0.15s; }
+    body.search a:hover {
+      color: #000; }
 body.search .bound {
   position: absolute;
   top: 40px;
@@ -1089,8 +1095,8 @@ body.home {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column;
-        -webkit-align-items: flex-end;
-        align-items: flex-end;
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
         -webkit-justify-content: flex-start;
         -moz-justify-content: flex-start;
         justify-content: flex-start;
@@ -1167,10 +1173,12 @@ body.home {
       body.home nav li {
         display: none;   }
     body.home #menu {
-      background-color: rgba(34, 34, 32, 0.75);
+      background-color: rgba(255, 255, 255, 0);
       height: 98.5vh;   }
       body.home #menu footer {
         background-color: rgba(255, 255, 255, 0);   }
+        body.home #menu .profiles-drawer {
+          visibility: hidden;   }
     body.home .content {
       width: 100%;
       height: 100%;
@@ -1263,10 +1271,9 @@ body.home {
     width: 67px;
     height: 53px;
     display: inline-block;
-    padding-right: 7px;
     background: url('/static/img/home/search.png') no-repeat 11px;
     background-size: 34px 34px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.85);
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px; }
 
@@ -1290,11 +1297,11 @@ body.home {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 10px;
+  padding-left: 0;
   border: 0;
-  -webkit-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
-  -moz-box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
-  box-shadow: 0 1px 2px rgba(255, 255, 255, 0.25), 0 0 1px rgba(255, 255, 255, 0.4);
-  background: #fff;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
   background-size: 34px 34px;
   background-attachment: inherit;
   color: #223856;
@@ -1344,7 +1351,7 @@ body.home {
   -webkit-flex: 0 0 19px;
   -ms-flex: 0 0 19px;
   flex: 0 0 19px;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
   margin: 5px 0;
   text-align: right;
   color: #fff;

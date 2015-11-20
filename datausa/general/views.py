@@ -20,5 +20,6 @@ def before_request():
 @mod.route("/")
 def home():
     g.page_type = "home"
-    bg_imgs = randint(1,6)
+    bg_imgs = randint(1,4)
     return render_template("general/home.html", bg_imgs = bg_imgs)
+ 

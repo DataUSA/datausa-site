@@ -14,7 +14,7 @@
 		
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
-			<div class="search-input-btn closed">
+			<div class="search-input-btn">
 				<span class="search-glass"></span>
 				<input type="text" data-results="search-home" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
 			</div>
@@ -36,9 +36,9 @@
 
 <script>
 
-d3.select(".search-glass").on("mouseover", function(){
-	d3.select(".search-input-btn").classed("closed", false);
-});
+// d3.select(".search-glass").on("mouseover", function(){
+// 	d3.select(".search-input-btn").classed("closed", false);
+// });
 
 var homeInput = d3.select("#home-search-input");
 d3.select("#search-switch.adv").on("click", function(){

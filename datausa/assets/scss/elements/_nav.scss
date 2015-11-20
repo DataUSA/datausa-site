@@ -41,10 +41,10 @@ body {
   height: 100vh;
   width: $nav-width;
   overflow: scroll;
-  background-color: #fefefe;
+  background-color: #333;
   @include flex();
   @include flex-direction(column);
-  z-index: 4;
+  z-index: 7;
 
   &.open {
     left: 0;
@@ -52,6 +52,12 @@ body {
 
   .desc {
     display: none;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    display: block;
   }
 }
 
@@ -94,7 +100,7 @@ body {
   h2 {
     padding: 20px;
     margin-left: -15px;
-    color: #333;
+    color: #fff;
     position: relative;
     display: inline-block;
     vertical-align: middle;
@@ -293,7 +299,7 @@ body {
     border-bottom: 1px solid #333;
     padding: 3px 25px 1px 5px;
     outline: 0;
-    background-color: transparent;
+    background-color: rgba(255,255,255,0);
     font-family: $playfair;
     font-size: 14px;
     letter-spacing: 0.06em;
@@ -308,8 +314,7 @@ body {
   bottom: 0;
   left: 0;
   opacity: 0.8;
-  background-color: #eee;
-  z-index: 3;
+  z-index: 6;
 }
 
 /* small design */
@@ -321,10 +326,6 @@ body {
     z-index: 5;
     width: 100vw;
   }
-
-  #mask {
-      background-color: transparent;
-    }
 
   #menu {
     @include justify(space-around);
@@ -347,9 +348,9 @@ body {
     }
   }
 
-  #menu footer {
-    display: none;
-  }
+  // #menu footer {
+  //   display: none;
+  // }
 
   .hidden {
     display: none;
@@ -397,15 +398,11 @@ body {
       left: 0;
       @include justify(space-around);
     }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-    }
   }
 
   #menu {
-    @include justify(space-between);
+    @include justify(center);
+    @include transition(left 0.7s ease);
 
     ul {
       border-radius: 3px;
@@ -414,7 +411,7 @@ body {
 
   #menu footer {
     display: block;
-    background-color: #eeeeee;
+    background-color: rgba(255,255,255,0);
     height: $footer-height;
     width: 100%;
     overflow: hidden;

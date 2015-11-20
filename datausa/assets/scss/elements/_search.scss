@@ -106,12 +106,16 @@ body.search {
   .bg {
     margin-top: -$nav-height;
     @include filter(brightness(0.55) contrast(1));
+
+    @media all and (max-width: 415px){
+      margin-top: 0;
+    }
   }
 
   .bg-filter {
     width: 100vw;
     height: 100vh;
-    background: url("/static/img/search/lake_serene_trail_forest_nullsynapse.jpg") no-repeat 0 0;
+    background: url("/static/img/home/bg/1.jpg") no-repeat 0 0;
     @include background-stretch();
   }
 
