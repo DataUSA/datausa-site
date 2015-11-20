@@ -33,6 +33,7 @@ window.onload = function() {
       d3.selectAll(".search-body").classed("open", false);
       d3.selectAll(".search-input").each(function(){ this.blur(); });
       d3.select(".search-box").classed("open", false);
+      d3.select("#search-simple-nav").style("display", "none")
     }
 
   });
