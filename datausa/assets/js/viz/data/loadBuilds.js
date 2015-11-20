@@ -9,6 +9,11 @@ viz.loadBuilds = function(builds) {
       build.index = i;
       build.colors = vizStyles[attr_type];
 
+      build.title = d3.select(build.container.node().parentNode.parentNode).select("h2").text();
+      build.title = build.title.replace(" Show Data", "");
+      build.title = build.title.replace(/\u00a0/g, "");
+      build.title = d3plus.string.strip(build.title).replace("__", "_").toLowerCase();
+
       var select = d3.select(build.container.node().parentNode).select("select");
       if (select.size()) {
 
@@ -82,6 +87,31 @@ viz.loadBuilds = function(builds) {
             var tbl_visible = table.classed("visible");
             var text = tbl_visible ? "Hide Data" : "Show Data";
             d3.select(this).select("span").text(text);
+          });
+        table.select(".csv-btn")
+          .on("click", function(){
+            d3.event.preventDefault();
+            var urls = d3.select(this.parentNode).attr("data-urls").split("|"),
+                limit_regex = new RegExp("&limit=([0-9]*)"),
+                zip = new JSZip();
+
+            function loadCSV() {
+              var u = urls.pop(), r = limit_regex.exec(u);
+              if (r) u = u.replace(r[0], "");
+              u = u.replace("/api", "/api/csv");
+              JSZipUtils.getBinaryContent(u, function(e, d){
+                zip.file("data-" + (urls.length + 1) + ".csv", d);
+                if (urls.length) {
+                  loadCSV();
+                }
+                else {
+                  saveAs(zip.generate({type:"blob"}), build.title + ".zip");
+                }
+              });
+            }
+
+            loadCSV();
+
           });
       }
 

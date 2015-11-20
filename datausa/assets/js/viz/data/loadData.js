@@ -135,6 +135,10 @@ viz.loadData = function(build, next) {
 
           if (table.size()) {
 
+            table.attr("data-urls", build.data.map(function(bd){
+              return bd.url;
+            }).join("|"));
+
             var headerKeys = d3.keys(dataArray[0]);
 
             var headers = table.select("thead > tr").selectAll("th")

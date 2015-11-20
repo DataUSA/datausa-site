@@ -1178,6 +1178,27 @@ body.profile, body.story {
               top: 0;
             }
 
+            .csv-btn {
+              display: block;
+              text-align: center;
+              vertical-align: baseline;
+              padding: 4px;
+              background-color: #006947;
+              color: white;
+              font-family: $roboto;
+              font-size: 12px;
+
+              i {
+                margin-left: 5px;
+                vertical-align: baseline;
+              }
+
+              &:hover {
+                background-color: #0c9a6e;
+              }
+
+            }
+
             table {
               width: 100%;
             }
@@ -1389,7 +1410,7 @@ body.profile, body.story {
     text-align: center;
     margin-bottom: 30px;
   }
-  
+
   p.warning{
     color: #9F6000;
     background-color: #FEEFB3;

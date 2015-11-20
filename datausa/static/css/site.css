@@ -2613,33 +2613,50 @@ body.profile section, body.story section {
             body.profile section .topic .content .viz .data-table.visible,
             body.story section .topic .content .viz .data-table.visible {
               top: 0; }
-              body.profile section .topic .content .viz .data-table table,
-              body.story section .topic .content .viz .data-table table {
-                width: 100%; }
+              body.profile section .topic .content .viz .data-table .csv-btn,
+              body.story section .topic .content .viz .data-table .csv-btn {
+                display: block;
+                text-align: center;
+                vertical-align: baseline;
+                padding: 4px;
+                background-color: #006947;
+                color: white;
+                font-family: "Roboto", sans-serif;
+                font-size: 12px; }
+                body.profile section .topic .content .viz .data-table .csv-btn i,
+                body.story section .topic .content .viz .data-table .csv-btn i {
+                  margin-left: 5px;
+                  vertical-align: baseline; }
+                  body.profile section .topic .content .viz .data-table .csv-btn:hover,
+                  body.story section .topic .content .viz .data-table .csv-btn:hover {
+                    background-color: #0c9a6e; }
+            body.profile section .topic .content .viz .data-table table,
+            body.story section .topic .content .viz .data-table table {
+              width: 100%; }
+              body.profile section .topic .content .viz .data-table thead,
+              body.profile section .topic .content .viz .data-table tbody,
+              body.story section .topic .content .viz .data-table thead,
+              body.story section .topic .content .viz .data-table tbody {
+                font-family: "Roboto", sans-serif; }
                 body.profile section .topic .content .viz .data-table thead,
-                body.profile section .topic .content .viz .data-table tbody,
-                body.story section .topic .content .viz .data-table thead,
-                body.story section .topic .content .viz .data-table tbody {
-                  font-family: "Roboto", sans-serif; }
-                  body.profile section .topic .content .viz .data-table thead,
-                  body.story section .topic .content .viz .data-table thead {
-                    -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
-                    -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
-                    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
-                    background-color: #1C1C1C;
-                    color: rgba(237, 240, 245, 0.5); }
-                    body.profile section .topic .content .viz .data-table thead th,
-                    body.story section .topic .content .viz .data-table thead th {
-                      padding: 6px 5px 4px;
-                      font-weight: 400;
-                      letter-spacing: 0.1em;
-                      text-transform: uppercase;
-                      font-size: 11px;
-                      text-align: left; }
-                      body.profile section .topic .content .viz .data-table thead th:hover,
-                      body.story section .topic .content .viz .data-table thead th:hover {
-                        color: #fff;
-                        cursor: default; }
+                body.story section .topic .content .viz .data-table thead {
+                  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+                  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+                  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+                  background-color: #1C1C1C;
+                  color: rgba(237, 240, 245, 0.5); }
+                  body.profile section .topic .content .viz .data-table thead th,
+                  body.story section .topic .content .viz .data-table thead th {
+                    padding: 6px 5px 4px;
+                    font-weight: 400;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    font-size: 11px;
+                    text-align: left; }
+                    body.profile section .topic .content .viz .data-table thead th:hover,
+                    body.story section .topic .content .viz .data-table thead th:hover {
+                      color: #fff;
+                      cursor: default; }
             body.profile section .topic .content .viz .data-table tbody,
             body.story section .topic .content .viz .data-table tbody {
               color: #333; }

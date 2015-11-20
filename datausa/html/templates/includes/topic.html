@@ -46,6 +46,7 @@
       <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}>
         <div class="d3plus"></div>
         <div class="data-table">
+          <a href="#" class="csv-btn" data-ga="download data" data-ga-cat="profile" data-ga-label="User click">Download Entire Dataset as CSV<i class="fa fa-download"></i></a>
           <table>
             <thead><tr></tr></thead>
             <tbody></tbody>
@@ -73,6 +74,7 @@
     <div class="viz"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
       <div class="d3plus"></div>
       <div class="data-table">
+        <a href="#" class="csv-btn" data-ga="download data" data-ga-cat="profile" data-ga-label="User click">Download Entire Dataset as CSV<i class="fa fa-download"></i></a>
         <table>
           <thead><tr></tr></thead>
           <tbody></tbody>
