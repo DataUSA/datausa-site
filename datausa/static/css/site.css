@@ -1586,7 +1586,8 @@ body.story .stat-rank {
     font-weight: 300;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    line-height: 1.5; }
+    line-height: 1.5;
+    vertical-align: baseline; }
     body.profile .stat-subtitle, body.story .stat-subtitle {
       margin-left: 2px;
       margin-top: 7px; }
@@ -1601,13 +1602,19 @@ body.profile .stat-group, body.story .stat-group {
     body.profile .stat-value, body.story .stat-value {
       font-family: "Lato", sans-serif;
       font-size: 30px;
-      font-weight: 300; }
-      body.profile .stat-value a, body.story .stat-value a {
-        padding-bottom: 1px;
-        text-decoration: none;
-        text-transform: capitalize; }
-        body.profile .stat-value a:hover, body.story .stat-value a:hover {
-          text-decoration: none; }
+      font-weight: 300;
+      margin-bottom: 8px; }
+      body.profile .stat-value.stat-small, body.story .stat-value.stat-small {
+        font-size: 20px;
+        font-weight: 400;
+        margin-left: 2px;
+        margin-top: 2px; }
+        body.profile .stat-value a, body.story .stat-value a {
+          padding-bottom: 1px;
+          text-decoration: none;
+          text-transform: capitalize; }
+          body.profile .stat-value a:hover, body.story .stat-value a:hover {
+            text-decoration: none; }
 body.profile nav, body.story nav {
   position: fixed;
   top: 0;

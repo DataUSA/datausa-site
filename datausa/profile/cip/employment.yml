@@ -169,7 +169,9 @@ topics:
     stat:
       - title: "Highest Average Wage"
         value: "<<var namespace=occ_wage|key=soc|row=0>>"
-        subtitle: "Followed by <<var namespace=occ_wage|key=soc|row=1>> and <<var namespace=occ_wage|key=soc|row=2>>"
+        subvalues:
+          - "<<var namespace=occ_wage|key=soc|row=1>>"
+          - "<<var namespace=occ_wage|key=soc|row=2>>"
     description: "Here are the top 5 occupations that are commonly taken by <<name>> majors, sorted by average wage."
     viz:
       attrs: "soc"
@@ -194,7 +196,9 @@ topics:
     stat:
       - title: "<<name>> majors are paid the highest in"
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=puma_wage|key=geo|row=1>> and <<var namespace=puma_wage|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=puma_wage|key=geo|row=1>>"
+          - "<<var namespace=puma_wage|key=geo|row=2>>"
     description: "The map to the right shows the public-use micro areas in the United States colored by the average wage of <<name>> majors."
     viz:
       attrs: "geo"
@@ -328,7 +332,9 @@ topics:
     stat:
       - title: "PUMA with a relatively high number of <<name>> majors"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=puma_rca|key=geo|row=1>> and <<var namespace=puma_rca|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=puma_rca|key=geo|row=1>>"
+          - "<<var namespace=puma_rca|key=geo|row=2>>"
     description: "The map to the right shows the public-use micro areas in the United States where there are a relatively high population of industries that employ <<name>> majors."
     viz:
       attrs: "geo"

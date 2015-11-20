@@ -197,7 +197,9 @@ topics:
     stat:
       - title: Highest Paying Public Use Microdata Area
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=puma_wage|key=geo|row=1>> and <<var namespace=puma_wage|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=puma_wage|key=geo|row=1>>"
+          - "<<var namespace=puma_wage|key=geo|row=2>>"
     viz:
       attrs: "geo"
       coords: "pumas"
@@ -245,7 +247,9 @@ topics:
     stat:
       - title: "Race or Ethnicity with Highest Average Wage"
         value: "<<var namespace=race_wage|key=race|row=0>>"
-        subtitle: "Followed by <<var namespace=race_wage|key=race|row=1>> and <<var namespace=race_wage|key=race|row=2>>"
+        subvalues:
+          - "<<var namespace=race_wage|key=race|row=1>>"
+          - "<<var namespace=race_wage|key=race|row=2>>"
     viz:
       attrs:
         - "race"
@@ -296,7 +300,9 @@ topics:
     stat:
       - title: "Public Use Microdata Area with highest comparative advantage"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=puma_rca|key=geo|row=1>> and <<var namespace=puma_rca|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=puma_rca|key=geo|row=1>>"
+          - "<<var namespace=puma_rca|key=geo|row=2>>"
     viz:
       attrs: "geo"
       coords: "pumas"

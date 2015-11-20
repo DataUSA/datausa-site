@@ -67,7 +67,9 @@ topics:
     stat:
       - title: "<<name>> are paid the highest in"
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=puma_wage|key=geo|row=1>> and <<var namespace=puma_wage|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=puma_wage|key=geo|row=1>>"
+          - "<<var namespace=puma_wage|key=geo|row=2>>"
     description: "The map to the right shows the PUMAs in the United States colored by the highest average wage for <<name>>."
     viz:
       attrs: "geo"
@@ -198,7 +200,9 @@ topics:
     stat:
       - title: "PUMA with a relatively high number of <<name>>"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=puma_rca|key=geo|row=1>> and <<var namespace=puma_rca|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=puma_rca|key=geo|row=1>>"
+          - "<<var namespace=puma_rca|key=geo|row=2>>"
     description: "The map to the right shows the public-use micro areas in the United States where there are a relatively high population of <<name>>."
     viz:
       attrs: "geo"

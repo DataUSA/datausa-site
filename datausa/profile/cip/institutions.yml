@@ -7,7 +7,9 @@ topics:
     stat:
       - title: "Institution with the most degrees awarded in <<name>>"
         value: "<<var namespace=universities|key=university|row=0>>"
-        subtitle: "Followed by <<var namespace=universities|key=university|row=1>> and <<var namespace=universities|key=university|row=2>>"
+        subvalues:
+          - "<<var namespace=universities|key=university|row=1>>"
+          - "<<var namespace=universities|key=university|row=2>>"
     description: "The majority of institutions that offer <<name>> are <<top show=sector|order=num_universities|sort=desc>> institutions."
     viz:
       attrs:
@@ -56,7 +58,9 @@ topics:
     stat:
       - title: "Highest Concentration Institution"
         value: "<<var namespace=universities_pct|key=university|row=0>>"
-        subtitle: "Followed by <<var namespace=universities_pct|key=university|row=1>> and <<var namespace=universities_pct|key=university|row=2>>"
+        subvalues:
+          - "<<var namespace=universities_pct|key=university|row=1>>"
+          - "<<var namespace=universities_pct|key=university|row=2>>"
     description: "The institutions to the right have the highest percentage of degrees awarded in <<name>>."
     viz:
       attrs: "university"
@@ -81,7 +85,9 @@ topics:
     stat:
       - title: "County with the Most Degrees Awarded for <<name>>"
         value: "<<var namespace=county_grads|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=county_grads|key=geo|row=1>> and <<var namespace=county_grads|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=county_grads|key=geo|row=1>>"
+          - "<<var namespace=county_grads|key=geo|row=2>>"
     description: "The map to the right shows the counties in the United States colored by the highest graduation of <<name>> majors."
     viz:
       attrs: "geo"
@@ -100,7 +106,9 @@ topics:
     stat:
       - title: "County with the Fastest Growing Number of Degrees Awarded"
         value: "<<var namespace=county_growth|key=geo|row=0>>"
-        subtitle: "Followed by <<var namespace=county_growth|key=geo|row=1>> and <<var namespace=county_growth|key=geo|row=2>>"
+        subvalues:
+          - "<<var namespace=county_growth|key=geo|row=1>>"
+          - "<<var namespace=county_growth|key=geo|row=2>>"
     description: "The map to the right shows the counties in the United States colored by the highest growth in degrees awarded for <<name>>."
     viz:
       attrs: "geo"

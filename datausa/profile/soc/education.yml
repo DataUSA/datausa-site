@@ -12,10 +12,14 @@ topics:
     stat:
       - title: "High relative number of people major in"
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca>>"
-        subtitle: "Followed by <<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=2>> and <<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=3>>"
+        subvalues:
+          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=2>>"
+          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=3>>"
       - title: "Most common major is"
         value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl>>"
-        subtitle: "Followed by <<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=2>> and <<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=3>>"
+        subvalues:
+          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=2>>"
+          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=3>>"
     description: "Here we see the most common degrees held by <<name>> for a particular degree type."
     viz:
       attrs: "cip"
@@ -100,7 +104,9 @@ topics:
     stat:
       - title: "Most common race or ethnicity"
         value: "<<var namespace=race|key=race|row=0>>"
-        subtitle: "Followed by <<var namespace=race|key=race|row=1>> and <<var namespace=race|key=race|row=2>>"
+        subvalues:
+          - "<<var namespace=race|key=race|row=1>>"
+          - "<<var namespace=race|key=race|row=2>>"
     description: "Here is the race & ethnicity breakdown of <<name>>."
     viz:
       attrs: "pums_race"

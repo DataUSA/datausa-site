@@ -33,6 +33,11 @@
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-value">{{ stat.value|safe }}</div>
             {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
+            {% if stat.subvalues %}
+            {% for s in stat.subvalues %}
+            <div class="stat-value stat-small"><span class="stat-text">{{ loop.index + 1 }}.</span> {{ s|safe }}</div>
+            {% endfor %}
+            {% endif %}
           </div>
         {% endfor %}
       </div>

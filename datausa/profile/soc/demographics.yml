@@ -7,7 +7,9 @@ topics:
     stat:
       - title: "Most common race or ethnicity"
         value: "<<var namespace=race|key=race|row=0>>"
-        subtitle: "Followed by <<var namespace=race|key=race|row=1>> and <<var namespace=race|key=race|row=2>>"
+        subvalues:
+          - "<<var namespace=race|key=race|row=1>>"
+          - "<<var namespace=race|key=race|row=2>>"
     description: "The most common race or ethnicity of <<name>> is <<top show=race|order=num_ppl>>, followed by <<top show=race|order=num_ppl|rank=2>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
     viz:
       attrs:

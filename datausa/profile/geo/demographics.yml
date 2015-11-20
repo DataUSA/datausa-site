@@ -42,10 +42,14 @@ topics:
     stat:
       - title: "High relative number of people born in"
         value: "<<var namespace=heritage_rca|key=birthplace|row=0>>"
-        subtitle: "Followed by <<var namespace=heritage_rca|key=birthplace|row=1>> and <<var namespace=heritage_rca|key=birthplace|row=2>>"
+        subvalues:
+          - "<<var namespace=heritage_rca|key=birthplace|row=1>>"
+          - "<<var namespace=heritage_rca|key=birthplace|row=2>>"
       - title: "Most common foreign-born country is"
         value: "<<var namespace=heritage_total|key=birthplace|row=0>>"
-        subtitle: "Followed by <<var namespace=heritage_total|key=birthplace|row=1>> and <<var namespace=heritage_total|key=birthplace|row=2>>"
+        subvalues:
+          - "<<var namespace=heritage_total|key=birthplace|row=1>>"
+          - "<<var namespace=heritage_total|key=birthplace|row=2>>"
     description: "<<name>> has a relatively high number of foreign-born citizens from <<var namespace=heritage_rca|key=birthplace|row=0>>."
     viz:
       attrs: "birthplace"
@@ -87,7 +91,9 @@ topics:
     stat:
       - title: "Most common race or ethnicity in <<name>> is"
         value: "<<top col=acs_race|force=acs.yg_race>>"
-        subtitle: "Followed by <<top col=acs_race|force=acs.yg_race|rank=2>> and <<top col=acs_race|force=acs.yg_race|rank=3>>"
+        subvalues:
+          - "<<top col=acs_race|force=acs.yg_race|rank=2>>"
+          - "<<top col=acs_race|force=acs.yg_race|rank=3>>"
     viz:
       color: "race"
       data:
@@ -112,10 +118,14 @@ topics:
     stat:
       - title: "<<name>> has a relatively high number of speakers of"
         value: "<<var namespace=speakers_rca|key=language|row=0>>"
-        subtitle: "Followed by <<var namespace=speakers_rca|key=language|row=1>> and <<var namespace=speakers_rca|key=language|row=2>>"
+        subvalues:
+          - "<<var namespace=speakers_rca|key=language|row=1>>"
+          - "<<var namespace=speakers_rca|key=language|row=2>>"
       - title: "The most common non-English language is"
         value: "<<var namespace=speakers_total|key=language|row=0>>"
-        subtitle: "Followed by <<var namespace=speakers_total|key=language|row=1>> and <<var namespace=speakers_total|key=language|row=2>>"
+        subvalues:
+          - "<<var namespace=speakers_total|key=language|row=1>>"
+          - "<<var namespace=speakers_total|key=language|row=2>>"
     viz:
       attrs: "language"
       data:
@@ -138,7 +148,9 @@ topics:
     stat:
       - title: "Most Common Service Period"
         value: "<<top col=conflict|force=acs.yg_conflict>>"
-        subtitle: "Followed by <<top col=conflict|force=acs.yg_conflict|rank=2>> and <<top col=conflict|force=acs.yg_conflict|rank=3>>"
+        subvalues:
+          - "<<top col=conflict|force=acs.yg_conflict|rank=2>>"
+          - "<<top col=conflict|force=acs.yg_conflict|rank=3>>"
     viz:
       attrs:
         - "conflict"
