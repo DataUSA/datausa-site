@@ -26,7 +26,7 @@ topics:
       y:
         scale: "discrete"
         value: "soc"
-  - title: "Wage Gap"
+  - title: "Income Distribution"
     slug: "wage_distribution"
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
     stat:

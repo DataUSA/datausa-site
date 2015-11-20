@@ -244,7 +244,7 @@ topics:
         scale: "discrete"
         value: "soc"
       y: "avg_wage"
-  - title: "Wage Gap"
+  - title: "Income Distribution"
     subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
     slug: "income_distro"
     description: "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>."
