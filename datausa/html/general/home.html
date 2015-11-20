@@ -36,8 +36,8 @@
 
 <script>
 
-d3.select(".search-glass").on("click", function(){
-	d3.select(".search-input-btn").classed("closed", !d3.select(".search-input-btn").classed("closed"));
+d3.select(".search-glass").on("mouseover", function(){
+	d3.select(".search-input-btn").classed("closed", false);
 });
 
 var homeInput = d3.select("#home-search-input");

@@ -341,7 +341,7 @@ body.profile, body.story {
         left: 0;
         top: 0;
         background: #222;
-        opacity: 0.8;
+        opacity: 0.6;
         @include transition(opacity 0.5s);
       }
 
@@ -435,7 +435,7 @@ body.profile, body.story {
       }
 
       .splash-title-group {
-        margin-bottom: 15px;
+        margin: 20px auto 12px;
         font-family: $roboto;
         font-weight: 300;
         font-size: 15px;
@@ -648,7 +648,7 @@ body.profile, body.story {
           display: block;
           margin: 0 0 0 -1px;
           background: #fff;
-          @include animation(mouse-scroll 2.5s infinite);
+          @include animation(mouse-scroll 1.5s infinite);
         }
       }
     }
@@ -669,8 +669,8 @@ body.profile, body.story {
     z-index: 3;
 
     img {
-      width: 80px;
-      margin-top: 3px;
+      width: 104px;
+      margin-top: 5px;
     }
 
     .expand-stats-btn {
@@ -704,13 +704,17 @@ body.profile, body.story {
       }
     }
 
+    a {
+      color: #fff;
+    }
+
     span {
       position: relative;
       top: $nav-height - 9;
       @include transition(top 0.55s 0.03s);
       display: inline-block;
       padding: 9px;
-      color: #333;
+      color: #fff;
       font-family: $lato;
       font-size: 18px;
       font-weight: 700;
