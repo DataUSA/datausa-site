@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import abort, Blueprint, g, jsonify, render_template, request
+from flask import abort, Blueprint, g, jsonify, render_template, request, redirect, url_for
 from config import CROSSWALKS, PROFILES
 from datausa.profile.profile import Profile
 from datausa.utils.data import attr_cache, stat, acs_crosswalk
@@ -36,7 +36,9 @@ def profile(attr_type, attr_id):
         attr = attr_cache[attr_type][attr_id]
         crosswalks = acs_crosswalk(attr_type, attr_id)
         crosswalk_map = {"acs_occ": "soc", "acs_ind": "naics", "iocode": "naics"}
-        return render_template("profile/redirect.html", attr=attr, crosswalks=crosswalks, crosswalk_type=crosswalk_map[attr_type])
+        if len(crosswalks) > 1:
+            return render_template("profile/redirect.html", attr=attr, crosswalks=crosswalks, crosswalk_type=crosswalk_map[attr_type])
+        return redirect(url_for('.profile', attr_type=crosswalk_map[attr_type], attr_id=crosswalks[0]["id"]))
 
     g.page_class = attr_type
 
