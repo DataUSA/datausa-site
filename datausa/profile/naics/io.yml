@@ -7,7 +7,7 @@ topics:
     viz:
       attrs: "iocode"
       data:
-        - industry_iocode: "<<id>>"
+        - industry_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
           industry_level: 0
           sumlevel: "naics"
           required: "value_millions"
@@ -15,7 +15,7 @@ topics:
           map:
             id: "industry_iocode"
             use: "commodity_iocode"
-        - commodity_iocode: "<<id>>"
+        - commodity_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
           industry_level: 0
           sumlevel: "naics"
           required: "value_millions"
