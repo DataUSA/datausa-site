@@ -1712,8 +1712,7 @@ body.profile nav, body.story nav {
             text-align: center; }
             body.profile #splash .content .splash-context,
             body.story #splash .content .splash-context {
-              width: 65%;
-              margin: 0 auto 20px;
+              width: 100%;
               -webkit-justify-content: center;
               -moz-justify-content: center;
               justify-content: center;
@@ -1773,7 +1772,6 @@ body.profile nav, body.story nav {
                   width: 23px;
                   height: 23px; }
         body.profile #splash .content .context-l, body.story #splash .content .context-l {
-          display: none;
           -webkit-box-flex: 2;
           -moz-box-flex: 2;
           -webkit-flex: 2;
