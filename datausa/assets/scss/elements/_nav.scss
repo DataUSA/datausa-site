@@ -78,13 +78,14 @@ body {
 
     a:hover {
       & > h2:after {
-        content: " \00bb";
+        content: unicode("00bb");
         top: -2px;
         position: relative;
         font-family: $playfair;
         font-weight: 400;
         letter-spacing: 0.05em;
         line-height: 1;
+        margin-left: 5px;
       }
     }
   }
@@ -151,7 +152,7 @@ body {
 }
 
 .profiles-drawer {
-  
+
   li {
     margin-left: 55px;
   }

@@ -177,13 +177,14 @@ body.search #search-btn {
       margin: 0 -20px;
       text-align: left; }
       .menu-content li a:hover > h2:after {
-        content: " »";
+        content: "\00bb";
         top: -2px;
         position: relative;
         font-family: "Playfair Display", serif;
         font-weight: 400;
         letter-spacing: 0.05em;
-        line-height: 1; }
+        line-height: 1;
+        margin-left: 5px; }
     .menu-content .profile-sum img {
       width: 20px;
       height: 20px;
