@@ -190,17 +190,19 @@ search.reload = function() {
 search.btnExplore = function(d) {
   var search_item = d3.select(this);
   var thumb = search_item.append("span").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb');
-  var info = search_item.append("div").attr("class", 'info').on("click", search.open_details);
+  var info = search_item.append("div").attr("class", 'info');
   var profile = search_item.append("div").attr("class", 'profile');
   
   // set thumbnail
-  thumb.style("background", "url('/static/img/thumb/geo/01000US.jpg')")
+  thumb.style("background", "url('/search/"+d.kind+"/"+d.id+"/img/')")
   
   // set info
-  var title = info.append("h2").text(d.display)
-    .append("a").attr("href", "#").attr("class", "expand");
-  title.append("i").attr("class", "fa fa-angle-down")
-  title.append("i").attr("class", "fa fa-angle-up")
+  var title = info.append("h2")
+                .append("a")
+                .text(d.display)
+                .attr("href", "/profile/" + d.kind + "/" + d.id + "/");
+  // title.append("i").attr("class", "fa fa-angle-down")
+  // title.append("i").attr("class", "fa fa-angle-up")
   if(sumlevels_by_id[d.kind][d.sumlevel]){
     info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
   }
@@ -230,7 +232,10 @@ search.btnExplore = function(d) {
   xtra.append("p").attr("class", "parents")
   
   // set profile link
-  profile.append("a").attr("href", "/profile/" + d.kind + "/" + d.id + "/").html("View Profile")
+  profile.append("a")
+    .attr("href", "#")
+    .html("View Sections")
+    .on("click", search.open_details);
 }
 
 search.btnProfile = function(d) {
@@ -268,7 +273,7 @@ search.back = function(index) {
 
 search.open_details = function(d){
   // toggle xtra div
-  var search_item = d3.select(this.parentNode);
+  var search_item = d3.select(this.parentNode.parentNode);
   var current_state = search_item.classed("open")
   d3.selectAll(".search-item").classed("open", false)
   search_item.classed("open", !current_state)

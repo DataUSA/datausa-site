@@ -26,7 +26,7 @@
     &:focus, &:hover {
       h2 {
         display: inline-block;
-        border-bottom: 1px solid #333;
+//        border-bottom: 1px solid #333;
       }
     }
 
@@ -401,7 +401,7 @@ body.search {
         @include align-items(flex-start);
         padding: 13px 0;
         margin: 0px 20px 0px 10px;
-        border-bottom: 1px solid #ccc;
+//        border-bottom: 1px solid #ccc;
 
         &.active{
           border: solid black 1px;
@@ -431,7 +431,6 @@ body.search {
           margin: 0 10px;
 
           &:hover {
-            cursor: pointer;
             .expand {
               color: #000 !important;
               text-decoration: none;
@@ -439,9 +438,16 @@ body.search {
             }
           }
 
-          a:hover {
-            text-decoration: none;
-            border-bottom: 0;
+          a {
+            
+            &::after {
+              content: unicode("00bb");
+              margin: 0 0 4px 5px;
+            }
+            &:hover {
+              text-decoration: none;
+              border-bottom: 1px solid #333;
+            }
           }
 
           h2 {
@@ -485,7 +491,6 @@ body.search {
             letter-spacing: 0.05em;
 
             &:after {
-              content: unicode("00bb");
               top: -2px;
               position: relative;
               font-family: $playfair;
@@ -498,7 +503,7 @@ body.search {
 
           &:hover {
             a {
-              border-bottom: 1px solid rgba(51,51,51,0.3);
+//              border-bottom: 1px solid rgba(51,51,51,0.3);
             }
           }
         }
