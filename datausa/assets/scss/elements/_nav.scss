@@ -41,7 +41,7 @@ body {
   height: 100vh;
   width: $nav-width;
   overflow: scroll;
-  background-color: #333;
+  background-color: #111;
   @include flex();
   @include flex-direction(column);
   z-index: 7;
@@ -102,7 +102,7 @@ body {
     img {
       width: 22px;
       height: 22px;
-      padding: 21.5px;
+      padding: 21.5px 23px;
     }
   }
 
@@ -152,13 +152,14 @@ body {
 }
 
 .profiles-drawer {
-
+  margin-top: -10px;
+  
   li {
     margin-left: 55px;
   }
 
   h2 {
-    padding: 13px 20px;
+    padding: 10px 20px;
     font-size: 18px;
     font-weight: 300;
   }
@@ -436,6 +437,10 @@ body {
       left: 0;
       @include justify(space-around);
     }
+
+    .menu-content {
+      margin-top: 0;
+    }
   }
 
   #menu {
@@ -445,6 +450,10 @@ body {
     ul {
       border-radius: 3px;
     }
+  }
+
+  .menu-content {
+    margin-top: -$footer-height;
   }
 
   #menu footer {

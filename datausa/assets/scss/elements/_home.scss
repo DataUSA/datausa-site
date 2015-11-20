@@ -65,10 +65,20 @@ body.home {
     @include justify(flex-start);
   }
 
+  .home-logo {
+    width: 100%;
+    text-align: center;
+    margin: 15vh auto 5vh;
+  }
+
   .logo {
-    width: 500px;
-    height: 66.39px;
-    margin: 23% auto 7%;
+    width: 100%;
+    margin: 0 auto;
+
+    @media all and (min-width: 416px) {
+      width: 500px;
+      height: 66.39px;
+    }
   }
 
   .search-home-container {
@@ -277,7 +287,7 @@ body.home {
     width: 67px;
     height: 53px;
     display: inline-block;
-    background: url('/static/img/home/search.png') no-repeat 11px;
+    background: url('/static/img/search/search.svg') no-repeat 11px;
     background-size: 34px 34px;
     background-color: rgba(255, 255, 255, 0.85);
     // border-top-left-radius: 4px;
@@ -311,11 +321,11 @@ body.home {
   background-size: 34px 34px;
   background-attachment: inherit;
   color: $home-blue;
-  font-family: $playfair;
+  font-family: $lato;
   font-size: 28px;
   font-weight: 400;
   letter-spacing: 0.03em;
-  @include placeholder {opacity: 0.7; font-weight: 300;}
+  @include placeholder {opacity: 0.8; font-weight: 300;}
   @include transition(width 1s);
 
   &:focus {

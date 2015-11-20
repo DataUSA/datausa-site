@@ -10,7 +10,7 @@
       color: #333;
       opacity: 0.6;
       text-align: center;
-      font-family: "Playfair Display", serif;
+      font-family: $playfair;
       font-weight: 400;
       font-size: 13px;
       font-style: italic;
@@ -206,12 +206,13 @@ body.search {
       border: 0;
       padding: 33px 20px 27px 65px;
       @include box();
-      font-family: $playfair;
+      font-family: $lato;
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.06em;
       background: rgba(250, 253, 255, 0.85) url('/static/img/home/search.png') no-repeat 20px 16px;
       background-size: 35px 35px;
+      @include placeholder {opacity: 0.8; font-weight: 300;}
       @include transition(box-shadow 1s);
 
       &:focus {
@@ -474,14 +475,25 @@ body.search {
         }
 
         .profile {
-          @include flex-size(0 0 120px);
+          @include flex-size(0 0 125px);
           padding: 0 0px 30px 0px;
 
           a {
-            font-family: $playfair;
+            font-family: $roboto;
             font-weight: 400;
             font-size: 15px;
             letter-spacing: 0.05em;
+
+            &:after {
+              content: unicode("00bb");
+              top: -2px;
+              position: relative;
+              font-family: $playfair;
+              font-weight: 400;
+              letter-spacing: 0.05em;
+              line-height: 1;
+              margin-left: 5px;
+            }
           }
 
           &:hover {
