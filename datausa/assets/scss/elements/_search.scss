@@ -117,7 +117,7 @@ body.search {
     width: 100vw;
     height: 100vh;
     background-repeat: no-repeat;
-    background-position: 50% 30%;
+    background-position: 50% 0%;
     // background: url("/static/img/home/bg/1.jpg") no-repeat 0 0;
     @include background-stretch();
   }

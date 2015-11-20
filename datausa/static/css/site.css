@@ -562,7 +562,7 @@ body.search {
     width: 100vw;
     height: 100vh;
     background-repeat: no-repeat;
-    background-position: 50% 30%;
+    background-position: 50% 0%;
     background-position: center center;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -1068,9 +1068,9 @@ body.home {
               top: 0;
               width: 100%;
               height: 100vh;
-              background-image: url('/static/img/home/bg/4.jpg');
+              background-image: url('/static/img/home/bg/6.jpg');
               background-repeat: no-repeat;
-              background-position: 50% 30%;
+              background-position: 50% 0%;
               background-size: cover;
               z-index: -10; }
               body.home .bg .strip {
@@ -1197,16 +1197,17 @@ body.home {
                 top: 0;   }
 }
   @media all and (min-width: 416px) {
-    body.home .home-container {
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      right: 0;   }
-      body.home nav li {
-        display: none;   }
     body.home #menu {
-      background-color: rgba(255, 255, 255, 0);
+      background-color: rgba(34, 34, 34, 0.75);   }
+      body.home .home-container {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;   }
+        body.home nav li {
+          display: none;   }
+    body.home #menu {
       height: 98.5vh;   }
       body.home #menu footer {
         background-color: rgba(255, 255, 255, 0);   }
@@ -1682,10 +1683,10 @@ body.profile nav, body.story nav {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        -webkit-filter: saturate(1.25) brightness(1) contrast(1.25);
-        -moz-filter: saturate(1.25) brightness(1) contrast(1.25);
-        -o-filter: saturate(1.25) brightness(1) contrast(1.25);
-        filter: saturate(1.25) brightness(1) contrast(1.25);
+        -webkit-filter: saturate(1.1) brightness(1.3) contrast(1.1);
+        -moz-filter: saturate(1.1) brightness(1.3) contrast(1.1);
+        -o-filter: saturate(1.1) brightness(1.3) contrast(1.1);
+        filter: saturate(1.1) brightness(1.3) contrast(1.1);
         z-index: 0;
         -webkit-transition: all 0.5s;
         -moz-transition: all 0.5s;
@@ -2086,6 +2087,16 @@ body.profile nav, body.story nav {
             body.profile #splash #scroll-btn.visible .mouse-text,
             body.story #splash #scroll-btn.visible .mouse-text {
               opacity: 1; }
+      body.profile #splash .d3plus_coordinates.highlight,
+      body.story #splash .d3plus_coordinates.highlight {
+        stroke: white !important;
+        stroke-width: 19px !important;
+        stroke-opacity: 1 !important;
+        fill: white !important;
+        opacity: 1 !important; }
+        body.profile #splash .d3plus_coordinates.highlight .d3plus_data,
+        body.story #splash .d3plus_coordinates.highlight .d3plus_data {
+          fill: white !important; }
 body.profile #title-bar, body.story #title-bar {
   -webkit-justify-content: center;
   -moz-justify-content: center;
