@@ -11,7 +11,7 @@ body {
       color: #fff;
 
       &:before {
-        background: #fff;
+        // background: #fff;
       }
     }
 
@@ -75,6 +75,34 @@ body {
   li {
     margin: 0 -20px;
     text-align: left;
+
+    a:hover {
+      & > h2:after {
+        content: " \00bb";
+        top: -2px;
+        position: relative;
+        font-family: $playfair;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        line-height: 1;
+      }
+    }
+  }
+
+  .profile-sum {
+    img {
+      width: 20px;
+      height: 20px;
+      padding: 22.5px;
+    }
+  }
+
+  .stories-sum {
+    img {
+      width: 22px;
+      height: 22px;
+      padding: 21.5px;
+    }
   }
 
   a {
@@ -106,24 +134,33 @@ body {
     vertical-align: middle;
 
     &:before {
-      content: "";
-      width: 0;
-      display: inline-block;
-      position: absolute;
-      z-index: 10;
-      bottom: 11px;
-      left: 50%;
-      height: 2px;
-      @include transform(translateX(-50%));
-      @include transition(all .25s ease);
-      background: #333;
-      @include box();
+      // content: "";
+      // width: 0;
+      // display: inline-block;
+      // position: absolute;
+      // z-index: 10;
+      // bottom: 11px;
+      // left: 50%;
+      // height: 2px;
+      // @include transform(translateX(-50%));
+      // @include transition(all .25s ease);
+      // background: #333;
+      // @include box();
     }
   }
 }
 
 .profiles-drawer {
-  display: none;
+  
+  li {
+    margin-left: 55px;
+  }
+
+  h2 {
+    padding: 13px 20px;
+    font-size: 18px;
+    font-weight: 300;
+  }
 
   .disabled {
     pointer-events: none;
