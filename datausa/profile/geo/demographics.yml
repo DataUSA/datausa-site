@@ -158,7 +158,9 @@ topics:
       x:
         scale: "discrete"
         value: "conflict"
-      y: "num_ppl"
+      y:
+        label: "<<name>>"
+        value: "num_ppl"
       y2:
         label: "USA"
         value: "01000US"

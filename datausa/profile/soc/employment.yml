@@ -56,7 +56,7 @@ topics:
         scale: "discrete"
         value: "wage_bin"
       y:
-        label: "Occupation"
+        label: "<<name>>"
         value: "num_ppl"
       y2:
         label: "USA"

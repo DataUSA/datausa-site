@@ -43,7 +43,9 @@ topics:
         label: "income"
         scale: "discrete"
         value: "bucket"
-      y: "num_households"
+      y:
+        label: "<<name>>"
+        value: "num_households"
       y2:
         label: "USA"
         value: "01000US"
@@ -113,7 +115,9 @@ topics:
         label: "property_tax"
         scale: "discrete"
         value: "bucket"
-      y: "num_households"
+      y:
+        label: "<<name>>"
+        value: "num_households"
       y2:
         label: "USA"
         value: "01000US"
@@ -157,7 +161,9 @@ topics:
         label: "vehicles"
         scale: "discrete"
         value: "bucket"
-      y: "num_households"
+      y:
+        label: "<<name>>"
+        value: "num_households"
       y2:
         label: "USA"
         value: "01000US"
@@ -201,7 +207,9 @@ topics:
         label: "travel"
         scale: "discrete"
         value: "bucket"
-      y: "num_households"
+      y:
+        label: "<<name>>"
+        value: "num_households"
       y2:
         label: "USA"
         value: "01000US"
@@ -230,7 +238,9 @@ topics:
       x:
         scale: "discrete"
         value: "transport"
-      y: "num_households"
+      y:
+        label: "<<name>>"
+        value: "num_households"
       y2:
         label: "USA"
         value: "01000US"

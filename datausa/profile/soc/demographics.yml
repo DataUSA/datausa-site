@@ -27,7 +27,7 @@ topics:
       type: "bar"
       x: "race"
       y:
-        label: "Occupation"
+        label: "<<name>>"
         value: "num_ppl"
       y2:
         label: "USA"
