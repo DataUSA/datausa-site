@@ -38,8 +38,12 @@ class Profile(object):
 
     def children(self, **kwargs):
         attr_id = kwargs.get("attr_id", self.id)
+        url = "{}/attrs/{}/{}/children/".format(API, self.attr_type, attr_id)
+        sumlevel = kwargs.get("sumlevel", False)
+        if sumlevel:
+            url = "{}?sumlevel={}".format(url, sumlevel)
         try:
-            return datafold(requests.get("{}/attrs/{}/{}/children".format(API, self.attr_type, attr_id)).json())
+            return datafold(requests.get(url).json())
         except ValueError:
             return []
 

@@ -288,7 +288,7 @@ topics:
         - required: "income,income_moe"
           show: "geo"
           sumlevel: "<<sumlevel child=True>>"
-          where: "geo:<<children prefix=True>>%"
+          where: "geo:<<children prefix=True>>"
       height: 400
       id: "geo"
       type: "geo_map"

@@ -48,7 +48,7 @@ topics:
       data:
         show: "geo"
         sumlevel: <<level child=True|dataset=chr>>
-        where: "geo:^<<children prefix=True|dataset=chr>>"
+        where: "geo:<<children prefix=True|dataset=chr>>"
         required: "health_care_costs"
       height: 400
       highlight: "<<id dataset=chr>>"
@@ -71,7 +71,7 @@ topics:
       data:
         show: "geo"
         sumlevel: <<level child=True|dataset=chr>>
-        where: "geo:^<<children prefix=True|dataset=chr>>"
+        where: "geo:<<children prefix=True|dataset=chr>>"
         required: "diabetes,adult_obesity,population_estimate_2011"
       highlight: "<<id dataset=chr>>"
       id: "geo"
@@ -103,7 +103,7 @@ topics:
       data:
         show: "geo"
         sumlevel: <<level child=True|dataset=chr>>
-        where: "geo:^<<children prefix=True|dataset=chr>>"
+        where: "geo:<<children prefix=True|dataset=chr>>"
         required: "alcoholimpaired_driving_deaths,excessive_drinking,adult_smoking"
       height: 400
       highlight: "<<id dataset=chr>>"
@@ -126,7 +126,7 @@ topics:
       data:
         show: "geo"
         sumlevel: <<level child=True|dataset=chr>>
-        where: "geo:^<<children prefix=True|dataset=chr>>"
+        where: "geo:<<children prefix=True|dataset=chr>>"
         required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate_2011"
       highlight: "<<id dataset=chr>>"
       id: "geo"
@@ -159,7 +159,7 @@ topics:
       data:
         show: "geo"
         sumlevel: <<level child=True|dataset=chr>>
-        where: "geo:^<<children prefix=True|dataset=chr>>"
+        where: "geo:<<children prefix=True|dataset=chr>>"
         required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths"
       height: 400
       highlight: "<<id dataset=chr>>"

@@ -196,8 +196,14 @@ class Section(object):
             attr_id = self.profile.parents()[1]["id"]
             prefix = "040"
         if kwargs.get("prefix", False) and "children" in sumlevels["geo"][prefix]:
-            return attr_id.replace(prefix, sumlevels["geo"][prefix]["children"])
-        return u",".join([c["id"] for c in self.profile.children(attr_id=attr_id)])
+            if prefix in ("310", "160"):
+                return attr_id
+            return "^{}".format(attr_id.replace(prefix, sumlevels["geo"][prefix]["children"]))
+        if "children" in sumlevels["geo"][prefix]:
+            sumlevel = sumlevels["geo"][prefix]["children"]
+        else:
+            sumlevel = False
+        return u",".join([c["id"] for c in self.profile.children(attr_id=attr_id, sumlevel=sumlevel)])
 
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """

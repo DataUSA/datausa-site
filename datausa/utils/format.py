@@ -21,12 +21,14 @@ sumlevels = {
         "310": {
             "sumlevel": "msa",
             "label": "metropolitan statistical area",
-            "shortlabel": "msa"
+            "shortlabel": "msa",
+            "children": "050"
         },
         "160": {
             "sumlevel": "place",
             "label": "census designated place",
-            "shortlabel": "place"
+            "shortlabel": "place",
+            "children": "140"
         },
         "860": {
             "sumlevel": "zip",
