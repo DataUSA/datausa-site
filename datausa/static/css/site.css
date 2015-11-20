@@ -2742,59 +2742,77 @@ body.profile .profile-end, body.story .profile-end {
   padding: 10px 0 15px;
   background-color: #000;
   text-align: center; }
-  body.profile .profile-end .follow-up header,
-  body.story .profile-end .follow-up header {
+  body.profile .profile-end header, body.story .profile-end header {
     padding: 10px 0 20px 0; }
-    body.profile .profile-end .follow-up header h3,
-    body.story .profile-end .follow-up header h3 {
-      font-size: 28px; }
-      body.profile .profile-end .follow-up header p,
-      body.story .profile-end .follow-up header p {
-        color: #fff; }
+    body.profile .profile-end header h2, body.story .profile-end header h2 {
+      color: rgba(255, 255, 255, 0.9); }
+      body.profile .profile-end header p, body.story .profile-end header p {
+        color: rgba(255, 255, 255, 0.9);
+        font-family: "Roboto", sans-serif; }
   body.profile .profile-end .follow-up ul, body.story .profile-end .follow-up ul {
-    width: 100%;
-    float: left; }
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0 10px;
+    width: 100%; }
     body.profile .profile-end .follow-up ul li,
     body.story .profile-end .follow-up ul li {
-      cursor: pointer;
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      height: 200px;
+      margin: 0 10px 20px;
+      min-width: 300px;
+      max-width: 400px;
+      position: relative;
       background: #1d1d1d;
       background-size: cover !important;
       background-position: center center;
-      float: left;
-      padding-bottom: 25%;
-      width: 25%;
-      box-sizing: border-box;
-      border: solid 0px #fff;
-      border-top: none;
-      border-right: none;
-      position: relative; }
+      cursor: pointer; }
       body.profile .profile-end .follow-up ul li a,
       body.story .profile-end .follow-up ul li a {
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-transition: background-color 0.1s;
+        -moz-transition: background-color 0.1s;
+        -ms-transition: background-color 0.1s;
+        -o-transition: background-color 0.1s;
+        transition: background-color 0.1s;
         position: absolute;
-        z-index: 3;
         width: 100%;
         height: 100%;
-        border: none; }
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 1; }
         body.profile .profile-end .follow-up ul li a:hover,
         body.story .profile-end .follow-up ul li a:hover {
-          background: rgba(0, 0, 0, 0.5); }
-      body.profile .profile-end .follow-up ul li div.title,
-      body.story .profile-end .follow-up ul li div.title {
-        z-index: 33333;
-        padding: 50px 0 20px 0;
-        text-align: center;
-        color: rgba(200, 200, 200, 0.93);
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, transparent 1%, rgba(0,
-                0, 0, 0.07) 26%, rgba(0, 0, 0, 0.5) 71%, rgba(0, 0, 0, 0.7) 100%);
-        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, transparent 1%,
-                rgba(0, 0, 0, 0.05) 26%, rgba(0, 0, 0, 0.5) 71%, rgba(0, 0, 0, 0.7) 100%);
-        background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, transparent 1%, rgba(0,
-                0, 0, 0.07) 26%, rgba(0, 0, 0, 0.5) 71%, rgba(0, 0, 0, 0.7) 100%);
-        background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, transparent 1%, rgba(0,
-                0, 0, 0.07) 26%, rgba(0, 0, 0, 0.5) 71%, rgba(0, 0, 0, 0.7) 100%); }
+          background-color: rgba(0, 0, 0, 0.4); }
+          body.profile .profile-end .follow-up ul li a .explore-title,
+          body.story .profile-end .follow-up ul li a .explore-title {
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: "Lato", sans-serif;
+            font-size: 24px;
+            font-weight: 300; }
   body.profile .profile-end a, body.story .profile-end a {
     display: block;
     color: #fff;

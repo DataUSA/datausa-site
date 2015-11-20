@@ -1302,59 +1302,78 @@ body.profile, body.story {
     background-color: #000;
     text-align: center;
 
+    header {
+      padding: 10px 0 20px 0;
+      h2 {
+        color: rgba(255, 255, 255, 0.9);
+        // font-family: $playfair;
+        // font-size: 28px;
+        // letter-spacing: 0.05em;
+        // text-transform: uppercase;
+      }
+      p {
+        color: rgba(255, 255, 255, 0.9);
+        font-family: $roboto;
+      }
+    }
+
     .follow-up {
 
-      header {
-        padding: 10px 0 20px 0;
-        h3 {
-          font-size: 28px;
-        }
-        p {
-          color: #fff;
-        }
-      }
-
       ul {
+        @include flex();
+        @include flex-wrap();
+        padding: 0 10px;
         width: 100%;
-        float: left;
 
         li {
-          cursor: pointer;
+          @include flex-size(1);
+          height: 200px;
+          margin: 0 10px 20px;
+          min-width: 300px;
+          max-width: 400px;
+          position: relative;
           background: #1d1d1d;
           background-size: cover !important;
           background-position: center center;
-          float: left;
-          padding-bottom: 25%;
-          width: 25%;
-          box-sizing: border-box;
-          border: solid 0px #fff;
-          border-top: none;
-          border-right: none;
-          position: relative;
+          cursor: pointer;
+          // float: left;
+          // padding-bottom: 25%;
+          // width: 25%;
+          // box-sizing: border-box;
+          // border: solid 0px #fff;
+          // border-top: none;
+          // border-right: none;
 
           a {
+            @include flex();
+            @include justify(center);
+            @include align-items(center);
+            @include transition(background-color 0.1s);
             position: absolute;
-            z-index: 3;
             width: 100%;
             height: 100%;
-            border: none;
-            &:hover {
-              background: rgba(0, 0, 0, 0.5);
-            }
-          }
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 1;
 
-          div.title {
-            z-index: 33333;
-            padding: 50px 0 20px 0;
-            text-align: center;
-            color: rgba(200, 200, 200, 0.93);
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-            background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
-            background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.05) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
-            background: -o-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
-            background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.07) 26%, rgba(0,0,0,0.5) 71%, rgba(0,0,0,0.7) 100%);
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.4);
+            }
+
+            .explore-title {
+              padding: 20px;
+              color: rgba(255, 255, 255, 0.9);
+              font-family: $lato;
+              font-size: 24px;
+              font-weight: 300;
+              // z-index: 33333;
+              // padding: 50px 0 20px 0;
+              // text-align: center;
+              // color: rgba(200, 200, 200, 0.93);
+              // position: absolute;
+              // width: 100%;
+              // bottom: 0;
+            }
+
           }
 
         }
