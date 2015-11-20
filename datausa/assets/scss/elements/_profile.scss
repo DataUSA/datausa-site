@@ -637,22 +637,25 @@ body.profile, body.story {
     }
 
     #scroll-btn {
-      margin-top: 1.75vh;
+      bottom: 15px;
+      display: block;
+      left: 50%;
+      margin-left: -100px;
+      position: absolute;
+      text-align: center;
+      width: 200px;
 
       .mouse {
+        @include transition(opacity 1s);
         width: 14px;
         height: 22px;
         position: relative;
-        margin: 0 auto;
+        margin: 0 auto 5px;
         border: 1px solid #fff;
         box-sizing: border-box;
         border-radius: 10px;
+        opacity: 0;
         @include shadow(0 0 5px #333);
-        opacity: 0.9;
-        @include transition(opacity 0.25s);
-        &:hover {
-          opacity: 1;
-        }
 
         .ball {
           height: 4px;
@@ -666,6 +669,26 @@ body.profile, body.story {
           @include animation(mouse-scroll 1.5s infinite);
         }
       }
+
+      .mouse-text {
+        @include transition(opacity 1s 1.5s);
+        color: rgba(255, 255, 255, 0.9);
+        font-family: $roboto;
+        font-size: 11px;
+        font-weight: 300;
+        opacity: 0;
+        text-transform: uppercase;
+      }
+
+      &.visible {
+        .mouse {
+          opacity: 0.9;
+        }
+        .mouse-text {
+          opacity: 1;
+        }
+      }
+
     }
 
   }

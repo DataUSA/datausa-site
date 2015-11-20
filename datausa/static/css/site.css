@@ -2029,41 +2029,63 @@ body.profile nav, body.story nav {
                 body.story #splash .content .carousel .carousel-btns .carousel-btn.active:hover {
                   color: #fff; }
       body.profile #splash #scroll-btn, body.story #splash #scroll-btn {
-        margin-top: 1.75vh; }
+        bottom: 15px;
+        display: block;
+        left: 50%;
+        margin-left: -100px;
+        position: absolute;
+        text-align: center;
+        width: 200px; }
         body.profile #splash #scroll-btn .mouse, body.story #splash #scroll-btn .mouse {
+          -webkit-transition: opacity 1s;
+          -moz-transition: opacity 1s;
+          -ms-transition: opacity 1s;
+          -o-transition: opacity 1s;
+          transition: opacity 1s;
           width: 14px;
           height: 22px;
           position: relative;
-          margin: 0 auto;
+          margin: 0 auto 5px;
           border: 1px solid #fff;
           box-sizing: border-box;
           border-radius: 10px;
+          opacity: 0;
           -webkit-box-shadow: 0 0 5px #333;
           -moz-box-shadow: 0 0 5px #333;
-          box-shadow: 0 0 5px #333;
-          opacity: 0.9;
-          -webkit-transition: opacity 0.25s;
-          -moz-transition: opacity 0.25s;
-          -ms-transition: opacity 0.25s;
-          -o-transition: opacity 0.25s;
-          transition: opacity 0.25s; }
-          body.profile #splash #scroll-btn .mouse:hover,
-          body.story #splash #scroll-btn .mouse:hover {
-            opacity: 1; }
-            body.profile #splash #scroll-btn .mouse .ball,
-            body.story #splash #scroll-btn .mouse .ball {
-              height: 4px;
-              width: 2px;
-              left: 50%;
-              top: 4px;
-              position: absolute;
-              display: block;
-              margin: 0 0 0 -1px;
-              background: #fff;
-              -webkit-animation: mouse-scroll 1.5s infinite;
-              -moz-animation: mouse-scroll 1.5s infinite;
-              -o-animation: mouse-scroll 1.5s infinite;
-              animation: mouse-scroll 1.5s infinite; }
+          box-shadow: 0 0 5px #333; }
+          body.profile #splash #scroll-btn .mouse .ball,
+          body.story #splash #scroll-btn .mouse .ball {
+            height: 4px;
+            width: 2px;
+            left: 50%;
+            top: 4px;
+            position: absolute;
+            display: block;
+            margin: 0 0 0 -1px;
+            background: #fff;
+            -webkit-animation: mouse-scroll 1.5s infinite;
+            -moz-animation: mouse-scroll 1.5s infinite;
+            -o-animation: mouse-scroll 1.5s infinite;
+            animation: mouse-scroll 1.5s infinite; }
+        body.profile #splash #scroll-btn .mouse-text,
+        body.story #splash #scroll-btn .mouse-text {
+          -webkit-transition: opacity 1s 1.5s;
+          -moz-transition: opacity 1s 1.5s;
+          -ms-transition: opacity 1s 1.5s;
+          -o-transition: opacity 1s 1.5s;
+          transition: opacity 1s 1.5s;
+          color: rgba(255, 255, 255, 0.9);
+          font-family: "Roboto", sans-serif;
+          font-size: 11px;
+          font-weight: 300;
+          opacity: 0;
+          text-transform: uppercase; }
+          body.profile #splash #scroll-btn.visible .mouse,
+          body.story #splash #scroll-btn.visible .mouse {
+            opacity: 0.9; }
+            body.profile #splash #scroll-btn.visible .mouse-text,
+            body.story #splash #scroll-btn.visible .mouse-text {
+              opacity: 1; }
 body.profile #title-bar, body.story #title-bar {
   -webkit-justify-content: center;
   -moz-justify-content: center;
