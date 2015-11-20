@@ -15,6 +15,7 @@ topics:
       data:
         - required: "avg_wage,avg_wage_moe"
           show: "soc"
+          sumlevel: "<<sumlevel>>"
           avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
       id: "soc"
       labels: YES
