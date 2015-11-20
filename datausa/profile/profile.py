@@ -101,5 +101,5 @@ class Profile(object):
                 desired_config['title'] = section_dict['title']
             if 'description' in section_dict:
                 desired_config['description'] = section_dict['description']
-            return Section(json.dumps(desired_config), self)
+            return Section(json.dumps(desired_config), self, section_name)
         return None

@@ -1945,6 +1945,30 @@ viz.loadBuilds = function(builds) {
 
       }
 
+      var shares = d3.select(build.container.node().parentNode.parentNode).select(".share-section");
+      if (shares.size()) {
+        shares.selectAll("a").on("click.share", function(){
+          d3.event.preventDefault();
+          var type = d3.select(this).attr("data-ga").split(" ")[0];
+          if (type === "embed") {
+            var link_open = shares.select(".embed-input").classed("open");
+            shares.select(".embed-input").classed("open", !link_open);
+          }
+          else {
+            alert("Sharing not enabled in beta.");
+          }
+        });
+        shares.select(".viz_only").on("change", function(){
+          var link = shares.select(".embed-link").node();
+          if (this.checked) {
+            link.value = link.value + "?viz=True";
+          }
+          else {
+            link.value = link.value.split("?")[0];
+          }
+        })
+      }
+
       var table = d3.select(build.container.node().parentNode).selectAll(".data-table");
       if (table.size()) {
         d3.select(build.container.node().parentNode.parentNode)

@@ -61,17 +61,8 @@
       <script>builds.push({{ topic.miniviz.serialize()|safe }});</script>
       {% endif %}
       {% if topic.source != False %}
-      <sub>Data Source: <span class="source"></span></sub>
+      {% include "templates/includes/source.html" %}
       {% endif %}
-
-      <div class="share-section">
-        <a href="#" title="Share on Facebook" data-ga="facebook share" data-ga-cat="profile" data-ga-label="share buttons click">
-          <i class="fa fa-facebook"></i>
-        </a>
-        <a href="#" title="Share on Twitter" data-ga="twitter share" data-ga-cat="profile" data-ga-label="share buttons click">
-          <i class="fa fa-twitter"></i>
-        </a>
-      </div>
 
     </aside>
     {% endif %}
@@ -89,7 +80,7 @@
     <script>builds.push({{ viz.serialize()|safe }});</script>
     {% endfor %}
     {% if topic.source != False and not aside and topic.viz %}
-    <sub>Data Source: <span class="source"></span></sub>
+    {% include "templates/includes/source.html" %}
     {% endif %}
   </div>
   {% endif %}

@@ -85,4 +85,4 @@ def embed_view(attr_type, attr_id, section, topic):
         if "category" in t:
             del t["category"]
 
-    return render_template("profile/embed.html", section = section)
+    return render_template("profile/embed.html", profile = p, section = section)
