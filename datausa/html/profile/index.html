@@ -26,23 +26,25 @@
 
   <div class="content">
 
-    <div class="splash-breadcrumb">
-      {% set parents = profile.parents() %}
-      {% if parents|length %}
-        <sub>
-          {% for p in parents %}
-            <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
-          {% endfor %}
-        </sub>
-      {% endif %}
-    </div>
-
     <div class="splash-titles">
+
       {% if profile.splash.group %}
-      <div class="splash-title-group">{{ profile.splash.group }}</div>
+      <div class="splash-title-group">{{ profile.splash.group }} Profile</div>
       {% endif %}
 
       <h1>{{ profile.splash.title }}</h1>
+
+      <div class="splash-breadcrumb">
+        {% set parents = profile.parents() %}
+        {% if parents|length %}
+          <sub>
+            {% for p in parents %}
+              <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
+            {% endfor %}
+          </sub>
+        {% endif %}
+      </div>
+
     </div>
 
     <div class="splash-desc">

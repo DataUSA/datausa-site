@@ -339,6 +339,7 @@ body.profile, body.story {
       width: 100%;
       @include background-stretch();
       //@include filter(saturate(0) brightness(1.15) contrast(1.55));
+      @include filter(saturate(1.25) brightness(1) contrast(1.25));
       z-index: 0;
       @include transition(all 0.5s);
 
@@ -350,7 +351,7 @@ body.profile, body.story {
         left: 0;
         top: 0;
         background: #222;
-        opacity: 0.6;
+        opacity: 0.75;
         @include transition(opacity 0.5s);
       }
 
@@ -386,6 +387,9 @@ body.profile, body.story {
       .splash-titles {
         width: 100%;
         text-align: center;
+        .splash-breadcrumb {
+          margin-top: 10px;
+        }
       }
 
       .splash-context {
@@ -444,13 +448,13 @@ body.profile, body.story {
       }
 
       .splash-title-group {
-        margin: 20px auto 12px;
+        margin: 6px auto;
         font-family: $roboto;
         font-weight: 300;
-        font-size: 15px;
+        font-size: 11px;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: rgba(240,250,255,0.4);
+        color: rgba(240,250,255,0.9);
       }
 
       sub {
@@ -467,13 +471,13 @@ body.profile, body.story {
           text-transform: uppercase;
           @include wordwrap();
           @include hyphens;
-          color: rgba(240, 250, 255, 0.4);
+          color: rgba(240, 250, 255, 0.9);
           @include transition(color 0.25s);
 
           &+a::before {
             content: "\\ ";
             font-weight: 400;
-            color: rgba(240,244,246,0.55);
+            color: rgba(240,244,246,0.75);
             padding: 0 0 0 2px;
           }
 
@@ -493,10 +497,10 @@ body.profile, body.story {
         text-align: center;
         font-family: $roboto;
         font-weight: 300;
-        font-size: 14px;
+        font-size: 16px;
         letter-spacing: 0.05em;
         color: #ededed;
-        opacity: 0.7;
+        opacity: 0.9;
       }
 
       #splash-stats {
@@ -518,12 +522,12 @@ body.profile, body.story {
           .stat-text {
             font-size: 12px;
             text-align: center;
-            color: rgba(240, 250, 255, 0.5);
+            color: rgba(240, 250, 255, 0.75);
             line-height: 1.35;
 
             a {
               color: rgba(237,240,245,0.65);
-              border-bottom: 1px solid rgba(195,219,225,0.5);
+              border-bottom: 1px solid rgba(195,219,225,0.75);
               text-decoration: none;
 
               &:hover {
@@ -535,14 +539,16 @@ body.profile, body.story {
           }
 
           .stat-rank {
-            font-size: 11px;
-            color: rgba(195,219,225,0.5);
+            font-size: 12px;
+            color: rgba(240, 250, 255, 0.5);
+            line-height: 1.35;
+            text-transform: uppercase;
           }
 
           .stat-value {
-            margin: 6px 0 3px;
+            margin: 6px 0 7px;
             font-size: 34px;
-            color: rgba(237, 240, 245, 0.85);
+            color: rgba(237, 240, 245, 0.9);
           }
 
         }
@@ -550,7 +556,7 @@ body.profile, body.story {
       }
 
       .carousel {
-        margin-top: 20px;
+        margin-top: 30px;
 
         .carousel-title {
           color: rgba(240, 250, 255, 0.75);
@@ -569,10 +575,10 @@ body.profile, body.story {
             display: none;
             text-align: left;
             font-family: $roboto;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.5;
             font-weight: 300;
-            color: rgba(237,240,245,0.75);
+            color: #ededed;
 
             &.active {
               display: block;
