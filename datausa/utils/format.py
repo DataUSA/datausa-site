@@ -233,6 +233,7 @@ dictionary = {
     "primary_care_physicians": "Primary Care Physicians",
     "property_tax": "Property Taxes",
     "property_val": "Property Value",
+    "race": "Race or Ethnicity",
     "sex": "Gender",
     "sexually_transmitted_infections": "Sexually Transmitted Infections",
     "state_tuition": "In State Tuition",
