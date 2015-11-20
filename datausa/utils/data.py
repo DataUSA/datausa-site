@@ -42,6 +42,10 @@ def default_params(params):
     if "show" in params and params["show"] == "skill" or params["year"] == "none":
         del params["year"]
 
+    for optional in ["order", "exclude"]:
+        if params[optional] == "":
+            del params[optional]
+
     return params
 
 
