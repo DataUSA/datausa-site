@@ -4,7 +4,7 @@ from config import CROSSWALKS, PROFILES
 from datausa.profile.profile import Profile
 from datausa.utils.data import attr_cache, stat, acs_crosswalk
 from datausa.search.views import get_img
-
+from random import randint
 
 # create the profile Blueprint
 mod = Blueprint("profile", __name__, url_prefix="/profile")
@@ -12,6 +12,13 @@ mod = Blueprint("profile", __name__, url_prefix="/profile")
 @mod.before_request
 def before_request():
     g.page_type = "profile"
+
+# create a route and function for the education profile that accepts a CIP id
+@mod.route("/")
+def profiles():
+    g.page_type = "home"
+    bg_imgs = randint(1,4)
+    return render_template("general/home.html", bg_imgs = bg_imgs)
 
 # create a route and function for the education profile that accepts a CIP id
 @mod.route("/<attr_type>/<attr_id>/")
