@@ -1870,10 +1870,14 @@ viz.loadBuilds = function(builds) {
       build.index = i;
       build.colors = vizStyles[attr_type];
 
-      build.title = d3.select(build.container.node().parentNode.parentNode).select("h2").text();
-      build.title = build.title.replace(" Show Data", "");
-      build.title = build.title.replace(/\u00a0/g, "");
-      build.title = d3plus.string.strip(build.title).replace("__", "_").toLowerCase();
+      var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
+      if (title.size()) {
+        build.title = title.text().replace(" Show Data", "").replace(/\u00a0/g, "");
+        build.title = d3plus.string.strip(build.title).replace("__", "_").toLowerCase();
+      }
+      else {
+        build.title = "data";
+      }
 
       var select = d3.select(build.container.node().parentNode).select("select");
       if (select.size()) {
