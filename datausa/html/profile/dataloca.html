@@ -249,32 +249,21 @@
   
   setTimeout(function(){
     d3.json("http://postgres.datawheel.us/attrs/geo/", function(err, data){
-      // var max = data["data"].length-1
-      // var min = 0
-      // var rand_index = getRandomArbitrary(min, max);
-      // console.log(rand_index)
-      // var rand_datum = data["data"][rand_index];
-      // console.log(rand_datum)
-      //
-      // while(rand_datum[5].indexOf("860") !== 0){
-      //   window.location = "/profile/dataloca/geo/"+rand_datum[5]+"/";
-      //   max = data["data"].length-1
-      //   min = 0
-      //   rand_index = getRandomArbitrary(min, max);
-      //   rand_datum = data["data"][rand_index];
-      // }
-      for(var i = 0; i < 20; i++){
-        var max = data["data"].length-1
-        var min = i
-        var rand_index = getRandomArbitrary(min, max);
-        var rand_datum = data["data"][rand_index];
+      var max = data["data"].length-1
+      var min = 0
+      var rand_index = getRandomArbitrary(min, max);
+      var rand_datum = data["data"][rand_index];
+
+      while(1){
         if(rand_datum[5].indexOf("860") !== 0){
           window.location = "/profile/dataloca/geo/"+rand_datum[5]+"/";
           break;
         }
+        rand_index = getRandomArbitrary(min, max);
+        rand_datum = data["data"][rand_index];
       }
     })
-  }, 500)
+  }, 10000)
 
 </script>
 
