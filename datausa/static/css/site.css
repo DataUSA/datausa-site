@@ -1113,8 +1113,7 @@ body.home {
         margin: 0 auto; }
         @media all and (min-width: 416px) {
           body.home .logo {
-            width: 500px;
-            height: 66.39px;   }
+            max-width: 500px;   }
 }
   body.home .search-home-container {
     -webkit-justify-content: center;

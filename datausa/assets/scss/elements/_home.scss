@@ -1,7 +1,7 @@
 body.home {
   position: relative;
   background-color: #222;
-  
+
   #menu {
     height: auto;
   }
@@ -29,7 +29,7 @@ body.home {
     right: 0;
     overflow: hidden;
     z-index: -11;
-    
+
     .landing {
       position: absolute;
       top: 0;
@@ -76,8 +76,7 @@ body.home {
     margin: 0 auto;
 
     @media all and (min-width: 416px) {
-      width: 500px;
-      height: 66.39px;
+      max-width: 500px;
     }
   }
 
@@ -135,7 +134,7 @@ body.home {
       height: 100vh;
       overflow-y: hidden;
     }
-    
+
     article.landing {
       padding: 0 30px;
     }
@@ -197,7 +196,7 @@ body.home {
       }
 
       .profiles-drawer {
-        
+
       }
     }
 
@@ -245,7 +244,7 @@ body.home {
     @include justify(flex-start);
     top: 0;
     margin: 0 2vw;
-    
+
     .search-input {
       display: none;
     }
