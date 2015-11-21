@@ -8,7 +8,7 @@ body.profile, body.story {
     &.#{$page} {
       // #splash .content {
       //   background-color: map-get($bg-colors, $page);
-      // } 
+      // }
 
       #profile-nav {
         background-color: map-get($d-bg-colors, $page);
@@ -367,16 +367,16 @@ body.profile, body.story {
     .content {
       @include flex();
       @include flex-direction(column);
-      @include justify(space-between);
+      @include justify(center);
+      @include align-items(center);
       @include transition(opacity 0.5s);
       width: $bg-width;
       height: $bg-height;
-      max-width: 950px;
+      max-width: 900px;
       opacity: 1;
-      padding: 45px 48px 50px;
-      margin-top: $nav-height;
+      padding: $nav-height 25px;
       @include box();
-      overflow: hidden;
+      // overflow: hidden;
       z-index: 1;
 
       &.hide {
@@ -493,7 +493,7 @@ body.profile, body.story {
 
       p.desc {
         padding: 0;
-        margin: -20px 0 0 0;
+        margin: 20px 0;
         text-align: center;
         font-family: $roboto;
         font-weight: 300;

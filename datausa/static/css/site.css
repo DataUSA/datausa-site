@@ -1726,9 +1726,11 @@ body.profile nav, body.story nav {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column;
-        -webkit-justify-content: space-between;
-        -moz-justify-content: space-between;
-        justify-content: space-between;
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center;
+        -webkit-align-items: center;
+        align-items: center;
         -webkit-transition: opacity 0.5s;
         -moz-transition: opacity 0.5s;
         -ms-transition: opacity 0.5s;
@@ -1736,14 +1738,12 @@ body.profile nav, body.story nav {
         transition: opacity 0.5s;
         width: 89.7%;
         height: 81.7%;
-        max-width: 950px;
+        max-width: 900px;
         opacity: 1;
-        padding: 45px 48px 50px;
-        margin-top: 40px;
+        padding: 40px 25px;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        overflow: hidden;
         z-index: 1; }
         body.profile #splash .content.hide, body.story #splash .content.hide {
           opacity: 0;
@@ -1878,7 +1878,7 @@ body.profile nav, body.story nav {
                       text-decoration: none; }
         body.profile #splash .content p.desc, body.story #splash .content p.desc {
           padding: 0;
-          margin: -20px 0 0 0;
+          margin: 20px 0;
           text-align: center;
           font-family: "Roboto", sans-serif;
           font-weight: 300;
