@@ -210,7 +210,7 @@ body.search {
       font-size: 20px;
       font-weight: 400;
       letter-spacing: 0.06em;
-      background: rgba(250, 253, 255, 0.85) url('/static/img/home/search.png') no-repeat 20px 16px;
+      background: rgba(250, 253, 255, 0.85) url('/static/img/search/search.svg') no-repeat 20px 16px;
       background-size: 35px 35px;
       @include placeholder {opacity: 0.8; font-weight: 300;}
       @include transition(box-shadow 1s);

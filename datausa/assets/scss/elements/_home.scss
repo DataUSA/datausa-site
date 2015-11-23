@@ -164,11 +164,18 @@ body.home {
 
   /* large design */
 
-  @media all and (min-width: 416px){
+  @media all and (min-width: 926px) {
+    .content {
+      $nav-width: 415px;
+      padding-left: $nav-width + 10;
+    }
 
     #menu {
-      background-color: rgba(34, 34, 34, 0.75);
+      left: 0;
     }
+  }
+
+  @media all and (min-width: 416px){
 
     .bg {
       // margin-left: $nav-width;
@@ -194,10 +201,6 @@ body.home {
       footer {
         background-color: rgba(255,255,255,0);
       }
-
-      .profiles-drawer {
-
-      }
     }
 
     .content {
@@ -206,7 +209,7 @@ body.home {
       position: absolute;
       top: 0;
       @include box();
-      padding-left: $nav-width + 10;
+      @include transition(padding-left 0.65s ease);
 
       li {
         display: none;

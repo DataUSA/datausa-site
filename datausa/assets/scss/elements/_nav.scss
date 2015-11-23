@@ -40,7 +40,7 @@ body {
   bottom: 0;
   height: 100vh;
   width: $nav-width;
-  overflow: scroll;
+  overflow: hidden;
   background-color: #111;
   @include flex();
   @include flex-direction(column);
@@ -365,6 +365,57 @@ body {
   z-index: 6;
 }
 
+/* tablet design */
+
+@media all and (min-width: 751px) and (max-width: 925px) {
+  body.home {
+    #menu {
+      $nav-width: 45%;
+      width: $nav-width;
+      left: 0;
+    }
+
+    .content {
+      $nav-width: 45%;
+      padding-left: $nav-width;
+    }
+  }
+}
+
+@media all and (min-width: 751px) {
+  body.home {
+    #menu-btn {
+      display: none;
+    }
+
+    #menu {
+      background-color: rgba(34, 34, 34, 0.75);
+    }
+  }
+}
+
+@media all and (min-width: 416px) and (max-width: 750px) {
+  body.home {
+    #menu {
+      background-color: rgba(34, 34, 34, 0.9);
+      $nav-width: 415px;
+      left: -$nav-width;
+
+      &.open {
+        left: 0;
+      }
+    }
+
+    #menu-btn {
+      display: block;
+    }
+
+    .content {
+      padding-left: 0;
+    }
+  }
+}
+
 /* small design */
 
 @media all and (max-width: 415px) {
@@ -438,12 +489,7 @@ body {
 
   body.home {
 
-    #menu-btn {
-      display: none;
-    }
-
     #menu {
-      left: 0;
       @include justify(space-around);
     }
 
