@@ -1,263 +1,43 @@
-{% extends "templates/nav.html" %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Random Geo Profile</title>
+        <style type="text/css">
+            body, html
+            {
+                margin: 0; padding: 0; height: 100%; overflow: hidden;
+            }
 
-{% block title %}{{ profile.splash.title }}{% endblock %}
+            #content
+            {
+                position:absolute; left: 0; right: 0; bottom: 0; top: 0px; 
+            }
+        </style>
 
-{% block subtitle %}
-<div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_4.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
-  <a href="#" class="expand-stats-btn close"></a></span>
-</div>
-{% endblock %}
+        <script>
+        function getRandomArbitrary(min, max) {
+          return Math.floor(Math.random() * (max - min) + min);
+        }
 
-{% block body %}
-
-<a name="top"></a>
-<div class="bound">
-  <div id="show-bg">
-    <div><i class="fa fa-camera"></i></div>
-  </div>
-
-<article id="splash">
-
-  {% set sections = profile.sections() %}
-  {% set image = profile.image() %}
-
-  <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
-
-  <div class="content">
-
-    <div class="splash-titles">
-
-      {% if profile.splash.group %}
-      <div class="splash-title-group">{{ profile.splash.group }} Profile</div>
-      {% endif %}
-
-      <h1>{{ profile.splash.title }}</h1>
-
-      <div class="splash-breadcrumb">
-        {% set parents = profile.parents() %}
-        {% if parents|length %}
-          <sub>
-            {% for p in parents %}
-              <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
-            {% endfor %}
-          </sub>
-        {% endif %}
-      </div>
-
-    </div>
-
-    <div class="splash-desc">
-      {% for desc in profile.splash.description %}
-      <p class="desc">{{ desc|safe }}</p>
-      {% endfor %}
-    </div>
-
-    <div class="splash-context">
-
-      {% if profile.splash.viz %}
-      <div class="context-l">
-        <div class="viz thumbprint">
-          <div class="d3plus"></div>
+        states = ["04000US01","04000US02","04000US04","04000US05","04000US06","04000US08","04000US09","04000US10","04000US11","04000US12","04000US13","04000US15","04000US16","04000US17","04000US18","04000US19","04000US20","04000US21","04000US22","04000US23","04000US24","04000US25","04000US26","04000US27","04000US28","04000US29","04000US30","04000US31","04000US32","04000US33","04000US34","04000US35","04000US36","04000US37","04000US38","04000US39","04000US40","04000US41","04000US42","04000US44","04000US45","04000US46","04000US47","04000US48","04000US49","04000US50","04000US51","04000US53","04000US54","04000US55","04000US56","04000US72"];
+        counties = ["05000US06037","05000US17031","05000US48201","05000US04013","05000US06073","05000US06059","05000US12086","05000US36047","05000US48113","05000US36081","05000US06065","05000US06071","05000US32003","05000US53033","05000US48439","05000US06085","05000US26163","05000US12011","05000US48029","05000US36061","05000US42101","05000US06001","05000US25017","05000US36103","05000US06067","05000US36005","05000US36059","05000US12099","05000US39035","05000US12057","05000US42003","05000US26125","05000US39049","05000US12095","05000US27053","05000US51059","05000US06013","05000US48453","05000US49035","05000US29189","05000US24031","05000US04019","05000US15003","05000US36119","05000US55079","05000US13121","05000US37119","05000US06019","05000US47157","05000US37183"]
+        places = ["16000US3651000","16000US0644000","16000US1714000","16000US4835000","16000US4260000","16000US0455000","16000US4865000","16000US0666000","16000US4819000","16000US0668000","16000US4805000","16000US1235000","16000US1836003","16000US0667000","16000US3918000","16000US4827000","16000US3712000","16000US2622000","16000US4824000","16000US4748000","16000US2507000","16000US5363000","16000US2404000","16000US1150000","16000US0820000","16000US4752006","16000US2148006","16000US5553000","16000US4159000","16000US3240000","16000US4055000","16000US3502000","16000US0477000","16000US0627000","16000US0664000","16000US0643000","16000US2938000","16000US0446000","16000US5182000","16000US1304000","16000US0816000","16000US3137000","16000US3755000","16000US1245000","16000US0653000","16000US3916000","16000US4075000","16000US2743000","16000US2079000","16000US7276770","16000US4804000","16000US2255000","16000US0603526","16000US1271000","16000US1571550","16000US0602000","16000US0804000","16000US0669000","16000US2965000","16000US0662000","16000US4817000","16000US4261000","16000US2146027","16000US3915000","16000US0203000","16000US0675000","16000US2758000","16000US3977000","16000US3451000","16000US3728000","16000US4858016","16000US3128000","16000US3231900","16000US3611000","16000US1825000","16000US3436000","16000US0613392","16000US1263000","16000US1253000","16000US5157000","16000US0412000","16000US4841464","16000US5548000","16000US3719000","16000US4845000","16000US3775000","16000US4829000","16000US0427820","16000US2205000","16000US1230000","16000US3260600","16000US5116000","16000US3254600","16000US0465000","16000US0636770","16000US4837000","16000US3251800","16000US0626000","16000US0427400","16000US5103000","16000US0107000","16000US0665000","16000US3663000","16000US1608830","16000US5367000","16000US5167000","16000US1921000","16000US0151000","16000US0648354","16000US3722920","16000US5370000","16000US2270000","16000US0654652","16000US3901000","16000US1703012","16000US0624680","16000US3684000","16000US1304204","16000US0649270","16000US0150000","16000US0541000","16000US1319000","16000US0630000","16000US0636000","16000US4803000","16000US2634000","16000US4967000","16000US3271400","16000US7206593","16000US1270600","16000US3268585","16000US0137000","16000US2582000","16000US5156000","16000US4740000","16000US4830464","16000US4459000","16000US4810768","16000US0669088","16000US2053775","16000US2836000","16000US0629000","16000US4714000","16000US0653322","16000US0670098","16000US1224000","16000US0659451","16000US1258715","16000US0653896","16000US0473000"]  
+        all_geos = states.concat(counties, places)
+        console.log(all_geos)
+        setInterval(function(){
+          var max = all_geos.length-1
+          var min = 0
+          var rand_index = getRandomArbitrary(min, max);
+          console.log(all_geos[rand_index])
+          document.getElementById("geo_iframe").src = "/profile/geo/"+all_geos[rand_index]+"/";
+        }, 10000)
+    
+        </script>
+        
+    </head>
+    <body>
+        <div id="content">
+            <iframe id="geo_iframe" width="100%" height="100%" frameborder="0" src="/" />
         </div>
-        <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
-      </div>
-      {% endif %}
-
-      <div class="context-r">
-        <div id="splash-stats">
-          {% for stat in profile.splash.stats %}
-          <div class="stat">
-            <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-group">
-              <div class="stat-value">{{ stat.value|safe }}</div>
-              <div class="stat-rank">{{ stat.rank|safe }}</div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-
-        <div class="carousel">
-          <div class="carousel-title">Did you know?</div>
-          <div class="carousel-slider">
-            {% for fact in profile.splash.facts %}
-              <p class="carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact|safe }}</p>
-            {% endfor %}
-          </div>
-          <div class="carousel-btns">
-            <div class="carousel-btn">&#10229;</div>
-            <span id="carousel-page">1</span><span>&#8201;/&#8201;</span><span>{{ profile.splash.facts|length }}</span>
-            <div class="carousel-btn active">&#10230;</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="splash-icon-nav">
-      {% for section in sections %}
-      <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
-        <img src="/static/img/icons/{{ section.anchor }}.svg" />
-        <span>{{ section.title|safe }}</span>
-      </a>
-      {% endfor %}
-    </div>
-
-  </div>
-
-  <div id="scroll-btn">
-    <div class="mouse">
-      <span class="ball"></span>
-    </div>
-    <div class="mouse-text">Scroll to Explore</div>
-  </div>
-
-</article>
-</div>
-
-<div id="nav-bar-scroll">
-  <div id="stats-bar">
-    <div id="title-stats">
-      {% for stat in profile.splash.stats %}
-      <div class="title-stat">
-        <div class="title-stat-text">{{ stat.title|safe }}</div>
-        <div class="title-stat-value">{{ stat.value|safe }}</div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-
-  <div id="profile-nav">
-    <ul>
-    {% for section in sections %}
-      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
-    {% endfor %}
-    </ul>
-    <a href="#top" id="back-to-top" data-tooltip="Back to Top" data-tooltip-anchor="center left" data-tooltip-offset="5"><i class="fa fa-long-arrow-up"></i></a>
-  </div>
-</div>
-
-{% endblock %}
-
-{% block js %}
-
-<script>
-
-  var fontScale = d3.scale.linear()
-    .domain([60, 20])
-    .range([35, 55]);
-
-  var title = d3.select(".splash-titles h1");
-  title.style("font-size", fontScale(title.text().length) + "px");
-
-  var scrollTimeout = setTimeout(function(){
-    d3.select("#scroll-btn").classed("visible", true);
-  }, 5000);
-
-  var maxCarousel = d3.selectAll(".carousel-text").size() - 1, currentPage = 0;
-  d3.selectAll(".carousel-btn").on("click", function(d, i){
-    if (i && currentPage < maxCarousel) currentPage++;
-    else if (i === 0 && currentPage > 0) currentPage--;
-
-    d3.select("#carousel-page").text(currentPage + 1);
-
-    d3.selectAll(".carousel-btn").classed("active", function(dd, ii){
-      return !ii && currentPage || ii && currentPage < maxCarousel;
-    });
-    d3.selectAll(".carousel-text").classed("active", function(dd, ii){
-      return ii === currentPage;
-    });
-  });
-
-  d3.select(".expand-stats-btn").on("click", function(){
-    d3.event.preventDefault();
-    d3.select(this).classed("close", !d3.select(this).classed("close"));
-    d3.select("#nav-bar-scroll").classed("stat-hidden", !d3.select("#nav-bar-scroll").classed("stat-hidden"));
-  });
-
-  var splashHeight = d3.select("#splash").node().offsetHeight,
-      titleNavHeight = d3.select("#title-bar").node().offsetHeight + splashHeight/5,
-      statNavHeight = titleNavHeight + splashHeight/3,
-      profNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#stats-bar").node().offsetHeight,
-      attr_type = "{{ profile.attr_type }}";
-
-  var firstScroll = true;
-  function navScroll(){
-
-    if (!firstScroll) {
-      clearTimeout(scrollTimeout);
-      d3.select("#scroll-btn").classed("visible", false);
-    }
-    firstScroll = false;
-
-    var y = window.scrollY,
-        showTitleNav = y > titleNavHeight,
-        showStatNav = y > statNavHeight,
-        showProfNav = y > window.innerHeight - profNavHeight - 35;
-
-    d3.select("#title-bar").classed("visible", showTitleNav);
-    d3.select("#home-btn").classed("hidden", showTitleNav);
-
-    d3.select("#stats-bar").classed("visible", showStatNav);
-    d3.select(".expand-stats-btn").classed("show", showStatNav);
-    d3.select("#profile-nav").classed("visible", showProfNav);
-    d3.select("#section-sidenav").classed("visible", showProfNav);
-
-    var active_section;
-    d3.selectAll("header a[name]")
-      .each(function(){
-        var top = this.parentNode.parentNode.offsetTop;
-        if (top - titleNavHeight - 10 < y) active_section = this.name;
-      })
-    d3.selectAll("#profile-nav li")
-      .classed("active", function(){
-        return this.getAttribute("data-anchor") === active_section;
-      });
-
-    var active_sub;
-    var subs = d3.selectAll("section." + active_section + " .category a[name]");
-    if (subs.size()) {
-      subs.each(function(){
-          var top = this.parentNode.offsetTop;
-          if (top - titleNavHeight - 10 < y) {
-            active_sub = this.name;
-          }
-        });
-    }
-    else {
-      active_sub = active_section;
-    }
-    d3.selectAll(".section-sidenav-button")
-      .classed("active", function(){
-        return this.getAttribute("data-anchor") === active_sub;
-      })
-
-  }
-
-  navScroll();
-  scrollFunctions.push(navScroll);
-
-
-  d3.select("#show-bg").on("click", function(){
-    var show = d3.select("#splash-image").classed("color");
-    d3.select("#splash-image").classed("color", !show);
-    d3.select("#splash .content").classed("hide", !show);
-  });
-  
-  function getRandomArbitrary(min, max) {
-    return Math.ceil(Math.random() * (max - min) + min);
-  }
-
-  states = ["04000US01","04000US02","04000US04","04000US05","04000US06","04000US08","04000US09","04000US10","04000US11","04000US12","04000US13","04000US15","04000US16","04000US17","04000US18","04000US19","04000US20","04000US21","04000US22","04000US23","04000US24","04000US25","04000US26","04000US27","04000US28","04000US29","04000US30","04000US31","04000US32","04000US33","04000US34","04000US35","04000US36","04000US37","04000US38","04000US39","04000US40","04000US41","04000US42","04000US44","04000US45","04000US46","04000US47","04000US48","04000US49","04000US50","04000US51","04000US53","04000US54","04000US55","04000US56","04000US72"];
-  counties = ["05000US06037","05000US17031","05000US48201","05000US04013","05000US06073","05000US06059","05000US12086","05000US36047","05000US48113","05000US36081","05000US06065","05000US06071","05000US32003","05000US53033","05000US48439","05000US06085","05000US26163","05000US12011","05000US48029","05000US36061","05000US42101","05000US06001","05000US25017","05000US36103","05000US06067","05000US36005","05000US36059","05000US12099","05000US39035","05000US12057","05000US42003","05000US26125","05000US39049","05000US12095","05000US27053","05000US51059","05000US06013","05000US48453","05000US49035","05000US29189","05000US24031","05000US04019","05000US15003","05000US36119","05000US55079","05000US13121","05000US37119","05000US06019","05000US47157","05000US37183"]
-  places = ["16000US3651000","16000US0644000","16000US1714000","16000US4835000","16000US4260000","16000US0455000","16000US4865000","16000US0666000","16000US4819000","16000US0668000","16000US4805000","16000US1235000","16000US1836003","16000US0667000","16000US3918000","16000US4827000","16000US3712000","16000US2622000","16000US4824000","16000US4748000","16000US2507000","16000US5363000","16000US2404000","16000US1150000","16000US0820000","16000US4752006","16000US2148006","16000US5553000","16000US4159000","16000US3240000","16000US4055000","16000US3502000","16000US0477000","16000US0627000","16000US0664000","16000US0643000","16000US2938000","16000US0446000","16000US5182000","16000US1304000","16000US0816000","16000US3137000","16000US3755000","16000US1245000","16000US0653000","16000US3916000","16000US4075000","16000US2743000","16000US2079000","16000US7276770","16000US4804000","16000US2255000","16000US0603526","16000US1271000","16000US1571550","16000US0602000","16000US0804000","16000US0669000","16000US2965000","16000US0662000","16000US4817000","16000US4261000","16000US2146027","16000US3915000","16000US0203000","16000US0675000","16000US2758000","16000US3977000","16000US3451000","16000US3728000","16000US4858016","16000US3128000","16000US3231900","16000US3611000","16000US1825000","16000US3436000","16000US0613392","16000US1263000","16000US1253000","16000US5157000","16000US0412000","16000US4841464","16000US5548000","16000US3719000","16000US4845000","16000US3775000","16000US4829000","16000US0427820","16000US2205000","16000US1230000","16000US3260600","16000US5116000","16000US3254600","16000US0465000","16000US0636770","16000US4837000","16000US3251800","16000US0626000","16000US0427400","16000US5103000","16000US0107000","16000US0665000","16000US3663000","16000US1608830","16000US5367000","16000US5167000","16000US1921000","16000US0151000","16000US0648354","16000US3722920","16000US5370000","16000US2270000","16000US0654652","16000US3901000","16000US1703012","16000US0624680","16000US3684000","16000US1304204","16000US0649270","16000US0150000","16000US0541000","16000US1319000","16000US0630000","16000US0636000","16000US4803000","16000US2634000","16000US4967000","16000US3271400","16000US7206593","16000US1270600","16000US3268585","16000US0137000","16000US2582000","16000US5156000","16000US4740000","16000US4830464","16000US4459000","16000US4810768","16000US0669088","16000US2053775","16000US2836000","16000US0629000","16000US4714000","16000US0653322","16000US0670098","16000US1224000","16000US0659451","16000US1258715","16000US0653896","16000US0473000"]  
-  all_geos = states.concat(counties, places)
-  setTimeout(function(){
-    var max = all_geos.length-1
-    var min = 0
-    var rand_index = getRandomArbitrary(min, max);
-    window.location = "/profile/dataloca/geo/"+all_geos[rand_index]+"/";
-  }, 10000)
-
-</script>
-
-{% endblock %}
+    </body>
+</html>
