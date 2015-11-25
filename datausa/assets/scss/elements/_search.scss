@@ -30,6 +30,13 @@
       }
     }
 
+    img {
+      width: 16px;
+      padding-right: 3px;
+      opacity: 0.8;
+      display: inline-block;
+    }
+
     h2 {
       font-family: $roboto;
       font-size: 14px;
@@ -44,6 +51,7 @@
     }
 
     p {
+      display: inline-block;
       margin-left: 1px;
       line-height: 1.5;
       opacity: 1;
@@ -441,6 +449,10 @@ body.search {
               text-decoration: none;
               border-bottom: 0;
             }
+          }
+
+          p {
+            display: block;
           }
 
           h2 a {

@@ -114,13 +114,13 @@
     }
 }
 
-@mixin gradient($start, $end) {
-  background: -moz-linear-gradient(top, $start 0%, $end 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $start), color-stop(100%, $end));
-  background: -webkit-linear-gradient(top, $start 0%, $end 100%);
-  background: -o-linear-gradient(top, $start 0%, $end 100%);
-  background: -ms-linear-gradient(top, $start 0%, $end 100%);
-  background: linear-gradient(to bottom, $start 0%, $end 100%);
+@mixin gradient($start, $startP, $end, $endP) {
+  background: -moz-linear-gradient(top, $start $startP, $end $endP);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop($startP, $start), color-stop($endP, $end));
+  background: -webkit-linear-gradient(top, $start $startP, $end $endP);
+  background: -o-linear-gradient(top, $start $startP, $end $endP);
+  background: -ms-linear-gradient(top, $start $startP, $end $endP);
+  background: linear-gradient(to bottom, $start $startP, $end $endP);
 }
 
 @mixin rounded($size: 5px, $corner: "none") {

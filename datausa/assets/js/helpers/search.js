@@ -243,6 +243,8 @@ search.btnProfile = function(d) {
                       return "/profile/" + d.kind + "/" + d.id + "/"; 
                     });
   search_item.append("h2").text(d.display);
+  search_item.append("br");
+  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
   search_item.append("p").attr("class", "subtitle").text(function(d){
     if(sumlevels_by_id[d.kind][d.sumlevel]){
       return sumlevels_by_id[d.kind][d.sumlevel].name;
