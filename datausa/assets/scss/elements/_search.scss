@@ -19,7 +19,9 @@
   }
 
   .search-item {
-    display: block;
+    // display: block;
+    @include flex();
+    @include justify(flex-start);
     padding: 6px 8px 4px;
     @include box();
 
@@ -31,9 +33,15 @@
     }
 
     img {
-      width: 16px;
-      padding-right: 3px;
+      @include align-self(flex-start);
+      width: 26px;
+      padding-right: 10px;
+      margin-top: 4px;
+      margin-left: -2px;
       opacity: 0.8;
+    }
+
+    .search-item-t {
       display: inline-block;
     }
 
@@ -51,7 +59,6 @@
     }
 
     p {
-      display: inline-block;
       margin-left: 1px;
       line-height: 1.5;
       opacity: 1;
@@ -90,7 +97,7 @@
 body.home, body.search {
   .search-results .search-item {
     h2 {
-      font-size: 19px;
+      font-size: 16px;
       margin-bottom: 2px;
 
       .expand {
@@ -103,8 +110,8 @@ body.home, body.search {
     }
 
     p {
-      line-height: 1.5;
-      font-size: 14px;
+      line-height: 1;
+      font-size: 12px;
     }
   }
 }

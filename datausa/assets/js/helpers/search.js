@@ -242,10 +242,10 @@ search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){ 
                       return "/profile/" + d.kind + "/" + d.id + "/"; 
                     });
-  search_item.append("h2").text(d.display);
-  search_item.append("br");
   search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
-  search_item.append("p").attr("class", "subtitle").text(function(d){
+  var search_item_text = search_item.append("div").attr("class", "search-item-t")
+  search_item_text.append("h2").text(d.display);
+  search_item_text.append("p").attr("class", "subtitle").text(function(d){
     if(sumlevels_by_id[d.kind][d.sumlevel]){
       return sumlevels_by_id[d.kind][d.sumlevel].name;
     }
