@@ -73,11 +73,6 @@ topics:
       order: "pct_total"
       id: "university"
       type: "bar"
-      ui:
-        - method: "y"
-          value:
-            - Percentage: "pct_total"
-            - Degrees Awarded: "grads_total"
       x: "university"
       y: "pct_total"
   - title: "Degrees Awarded by County"
