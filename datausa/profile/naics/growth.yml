@@ -23,7 +23,7 @@ topics:
       type: "line"
       x:
         lines:
-          - text: "Present Day"
+          - text: "Most Recent"
             position: "2012"
         value: "year"
       y: "emp_thousands"
@@ -48,7 +48,7 @@ topics:
       type: "line"
       x:
         lines:
-          - text: "Present Day"
+          - text: "Most Recent"
             position: "2012"
         value: "year"
       y: "output"
