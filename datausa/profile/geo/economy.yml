@@ -331,7 +331,7 @@ topics:
       - title: "Largest race or ethnicity living in poverty"
         value: "<<top col=race|force=acs.yg_poverty_race>>"
         subtitle: "<span class='plus-minus'>±</span> <<top col=race|force=acs.yg_poverty_race|moe=True>>"
-    description: "<<percent num=top:race,acs.yg_poverty_race|den=pop_poverty_status>> of the people for whom poverty status is determined in <<name>> living below the poverty line are <<top col=race|force=acs.yg_poverty_race>>, followed by <<top col=race|force=acs.yg_poverty_race|rank=2>> and <<top col=race|force=acs.yg_poverty_race|rank=3>>."
+    description: "The most common race or ethnicity living below the poverty line in <<name>> is <<top col=race|force=acs.yg_poverty_race>>, followed by <<top col=race|force=acs.yg_poverty_race|rank=2>> and <<top col=race|force=acs.yg_poverty_race|rank=3>>."
     viz:
       color: "race"
       data:
