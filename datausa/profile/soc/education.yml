@@ -40,13 +40,13 @@ topics:
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=state_tuition|col=state_tuition|agg=sum>>"
       - title: "Median Out of State Private"
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=oos_tuition|col=oos_tuition|agg=sum>>"
-    description: "The majority of students with degrees awarded in the most common field held by <<name>> are enrolled at X institutions."
+    description: "Here are the share of institutions by degrees awarded in the 5 most common courses for <<name>>: <<top order=num_ppl|sort=desc|show=cip|limit=5>>."
     miniviz:
       attrs: "sector"
       color: "sector"
       data:
         show: "sector"
-        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip>>"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
         required: "district_tuition,oos_tuition,state_tuition"
       height: 250
       id: "sector"
