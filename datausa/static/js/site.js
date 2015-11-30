@@ -1490,7 +1490,13 @@ viz.defaults = function(build) {
     var range = proportions.indexOf(key) >= 0 && key !== "pct_total" ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
-        style = axis === discrete ? "discrete" : "default";
+        style = axis === discrete ? "discrete" : "default",
+        labelFont = chartStyles.labels[style][key];
+
+    if (build.config.y2) {
+      if (axis === "y") labelFont.color = build.colors.pri;
+      else if (axis === "y2") labelFont.color = build.colors.sec;
+    }
 
     return {
       "label": {
