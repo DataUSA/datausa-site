@@ -1,6 +1,34 @@
 body.story {
-  background-color: #111;
+  background-color: $l-profile-bg;
   
+  section {
+    padding-top: 35px;
+    
+    .topic .content aside {
+      width: 100% !important;
+      max-width: initial;
+    }
+
+    .back-btn {
+      position: relative;
+      margin: 0 25px 25px;
+      width: 100%;
+      font-family: $playfair;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      opacity: 0.8;
+
+      a {
+        &:hover {
+          span {
+            border-bottom: 1px solid #333;
+          }
+        }
+      }
+    }
+  }
+
   header {
     top: $nav-height;
     margin-bottom: $nav-height;
@@ -10,9 +38,21 @@ body.story {
     position: relative;
     color: #fff;
     overflow: hidden;
+
+    &.article {
+      height: 95vh !important;
+    }
+
+    .bg-filter {
+      background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.05) 10%, rgba(0,0,0,0.5) 51%, rgba(0,0,0,0.6) 85%, rgba(0,0,0,0.7) 100%);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+    }
     
     #splash {
-      display: block !important;
+      @include flex();
       background: #565656;
       position: absolute;
       top: 0;
@@ -25,8 +65,6 @@ body.story {
       z-index: 0;
       
       .text {
-        background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(0,0,0,0) 1%, rgba(0,0,0,0.05) 10%, rgba(0,0,0,0.5) 51%, rgba(0,0,0,0.6) 85%, rgba(0,0,0,0.7) 100%);
-        position: absolute;
         z-index: 6;
         text-align: center;
         color: #fff;
@@ -69,11 +107,9 @@ body.story {
         a:hover {
           &:after {
             content: "\00bb";
-            margin-top: 5px;
             margin-left: 7px;
-            font-size: 40px;
             position: absolute;
-            font-family: "Playfair Display", serif;
+            font-family: $playfair;
             font-weight: 400;
             letter-spacing: 0.05em;
             line-height: 1;
@@ -212,6 +248,19 @@ body.story {
       &:hover {
         .bg-filter {
           opacity: 0.4;
+        }
+
+        a:hover {
+          &:after {
+            content: "\00bb";
+            margin-left: 7px;
+            position: absolute;
+            font-family: "Playfair Display", serif;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            opacity: 0.8;
+          }
         }
       }
     }

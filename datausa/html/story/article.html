@@ -4,9 +4,10 @@
 
 {% block body %}
 
-<header>
+<header class="article">
   <div id="splash" style="background-image:url({{ story.background_image }})">
     
+    <div class="bg-filter"></div>
     <div class="text">
       <div class="post-titles">
           <h1>{{ story.title }}</h1>
@@ -17,8 +18,8 @@
         <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}">
           <img alt="{{ author.name }}" src="{{ author.img }}">
         </a>
-        <span class="name"><i>By</i> <a href="{{ author.link }}">{{ author.name }}</a></span>
-        <span class="post-date" style="">{{ story.date }}</span>
+        <div class="name"><span>By</span> <a href="{{ author.link }}">{{ author.name }}</a></div>
+        <div class="post-date" style="">{{ story.date }}</div>
         {% endfor %}
       </div>
     </div>
@@ -27,7 +28,8 @@
 </header>
 
 {% set section = story %}
-<section class="">
+<section>
+  <div class="back-btn"><a href="#">&#8592; <span>Back to All Stories</span></a></div>
   {% include "templates/includes/topic.html" %}
 </section>
 {% endblock %}
