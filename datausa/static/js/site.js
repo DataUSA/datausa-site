@@ -886,18 +886,18 @@ var attrStyles = {
 
   "sex": {
 
-    "men": "#b8ccf5",
-    "male": "#b8ccf5",
-    "1": "#b8ccf5",
+    "men": "#86abeb",
+    "male": "#86abeb",
+    "1": "#86abeb",
 
-    "women": "#fdc8b8",
-    "female": "#fdc8b8",
-    "2": "#fdc8b8"
+    "women": "#d69590",
+    "female": "#d69590",
+    "2": "#d69590"
 
   },
 
   "sector": {
-    "0": "#e8ea94",
+    "0": "#B8BA5E",
     "1": "#ef6145",
     "2": "#6d8a50",
     "3": "#004994",
@@ -940,42 +940,42 @@ var attrStyles = {
     "multi": "#888888",
     "2ormore": "#888888",
 
-    "hispanic": "#e3d1db",
-    "latino": "#e3d1db"
+    "hispanic": "#CC3E54",
+    "latino": "#CC3E54"
 
   },
 
   "skill": "parent",
   "parent": {
-    "Complex Problem Solving": "#cea1ba",
-    "Resource Management Skills": "#5ea1c7",
-    "System Skills": "#386f8e",
-    "Basic Skills": "#e8ea94",
-    "Systems Skills": "#9ccd73",
-    "Social Skills": "#e88577"
+    "Complex Problem Solving": "#ef6145",
+    "Resource Management Skills": "#808019",
+    "System Skills": "#004994",
+    "Basic Skills": "#418277",
+    "Systems Skills": "#2a8ec9",
+    "Social Skills": "#CC3E54"
   },
 
   "student_pool": {
-    "Degrees Awarded": "#9ccd73",
-    "Workforce": "#004994"
+    "Degrees Awarded": "#69b9a7",
+    "Workforce": "#7c90d8"
   },
 
   // SOC coloring
   "soc": "great_grandparent",
   "great_grandparent": {
     "110000-290000": "#ef6145",
-    "310000-390000": "#beede7",
-    "410000-430000": "#e8ea94",
-    "450000-490000": "#006947",
+    "310000-390000": "#808019",
+    "410000-430000": "#004994",
+    "450000-490000": "#418277",
     "510000-530000": "#2a8ec9",
-    "550000": "#6d8a50"
+    "550000": "#CC3E54"
   },
 
   "acs_occ_2": {
     "00": "#ef6145",
-    "01": "#beede7",
-    "02": "#e8ea94",
-    "03": "#006947",
+    "01": "#808019",
+    "02": "#004994",
+    "03": "#418277",
     "04": "#2a8ec9"
   },
 
@@ -990,7 +990,7 @@ var attrStyles = {
     "48-49, 22": "#2a8ec9",
     "51": "#9ccd73",
     "52-53": "#0c9a6e",
-    "54-56": "#e8ea94",
+    "54-56": "#B8BA5E",
     "61-62": "#cc3e54",
     "71-72": "#ef6145",
     "81": "#beede7",
@@ -1007,7 +1007,7 @@ var attrStyles = {
     "05": "#2a8ec9",
     "06": "#9ccd73",
     "07": "#0c9a6e",
-    "08": "#e8ea94",
+    "08": "#B8BA5E",
     "09": "#cc3e54",
     "10": "#ef6145",
     "11": "#beede7",
@@ -1051,7 +1051,7 @@ var attrStyles = {
     "49": "#2a8ec9",
     "50": "#e88577",
     "51": "#cc3e54",
-    "52": "#e8ea94",
+    "52": "#B8BA5E",
     "54": "#99572e"
   }
 
@@ -1189,8 +1189,8 @@ var vizStyles = {
     "sec": "#71bbe2"
   },
   "geo": {
-    "pri": "#B5D2C8",
-    "sec": "#B5B5B5"
+    "pri": "#9BC1B4",
+    "sec": "#dcdcdc"
   },
   "cip": {
     "pri": "#CEB6BA",

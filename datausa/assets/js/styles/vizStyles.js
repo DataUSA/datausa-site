@@ -5,8 +5,8 @@ var vizStyles = {
     "sec": "#71bbe2"
   },
   "geo": {
-    "pri": "#B5D2C8",
-    "sec": "#B5B5B5"
+    "pri": "#9BC1B4",
+    "sec": "#dcdcdc"
   },
   "cip": {
     "pri": "#CEB6BA",
