@@ -1047,7 +1047,7 @@ body.profile, body.story {
     margin-top: -100px + $nav-height;
     position: fixed;
     top: 0;
-    z-index: 10;
+    z-index: 6;
     opacity: 0;
 
     &.visible {

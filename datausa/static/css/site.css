@@ -533,7 +533,7 @@ body.search #search-btn {
       -webkit-align-self: flex-start;
       align-self: flex-start;
       width: 26px;
-      padding-right: 5px;
+      padding-right: 10px;
       margin-top: 4px;
       margin-left: -2px;
       opacity: 0.8; }
@@ -2556,7 +2556,7 @@ body.profile {
     margin-top: -60px;
     position: fixed;
     top: 0;
-    z-index: 10;
+    z-index: 6;
     opacity: 0; }
     body.profile #section-sidenav.visible, body.story #section-sidenav.visible {
       left: 15px;
