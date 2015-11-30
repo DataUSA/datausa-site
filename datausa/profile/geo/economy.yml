@@ -53,6 +53,7 @@ topics:
           scale: "discrete"
           value: "acs_occ"
   - class: "flex"
+    sumlevel: "!nation"
     source: NO
     title: "Most Specialized"
     slug: "top_occ_rca"
@@ -280,8 +281,14 @@ topics:
         label: "USA"
         value: "01000US"
   - title: "Wage by Location"
-    sumlevel: "nation,state,county"
+    sumlevel: "!puma"
     slug: "income_geo"
+    stat:
+      - title: "<<level child=True|plural=True>> with the highest median wage"
+        value: "<<top child=True|order=income>>"
+        subvalues:
+          - "<<top child=True|order=income|rank=2>>"
+          - "<<top child=True|order=income|rank=3>>"
     description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
     viz:
       attrs: "geo"
@@ -400,6 +407,7 @@ topics:
           scale: "discrete"
           value: "acs_ind"
   - class: "flex"
+    sumlevel: "!nation"
     source: NO
     title: "Most Specialized"
     slug: "top_ind_rca"

@@ -148,6 +148,9 @@ class Section(object):
                     else:
                         return False
 
+                if "stat" in topic:
+                    topic["stat"] = [s for s in topic["stat"] if self.allowedLevels(s)]
+
                 # instantiate the "viz" config into an array of Viz classes
                 if "viz" in topic:
                     if not isinstance(topic["viz"], list):
@@ -545,7 +548,10 @@ class Section(object):
                     aid = self.profile.parents()[1]["id"]
                     prefix = "040"
                 if "children" in sumlevels["geo"][prefix]:
-                    params["where"] = "geo:^{}".format(aid.replace(prefix, sumlevels["geo"][prefix]["children"]))
+                    if prefix in ("310", "160"):
+                        params["where"] = "geo:{}".format(aid)
+                    else:
+                        params["where"] = "geo:^{}".format(aid.replace(prefix, sumlevels["geo"][prefix]["children"]))
                     attr_id = ""
         if attr_id == False:
             attr_id = self.id(**kwargs)

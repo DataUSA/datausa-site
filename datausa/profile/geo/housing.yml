@@ -174,9 +174,9 @@ topics:
     slug: "commute_time"
     stat:
       - title: "Average Travel Time"
-        value: "<<var namespace=commute|key=mean_commute_minutes|row=1>> minutes"
+        value: "<<var namespace=commute|key=mean_commute_minutes|row=0>> minutes"
     description:
-      - "Employees in <<name>> have a <<percent num=mean_commute_minutes|den=mean_commute_minutes|den_id=01000US|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=0>> minutes."
+      - "Employees in <<name>> have a <<percent num=mean_commute_minutes|den=mean_commute_minutes|den_id=01000US|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=1>> minutes."
       - "<<percent num=travel_90over|den=workers>> of the workforce in <<name>> have \"super commutes\" in excess of 90 minutes, which is <<percent num=travel_90over,workers|den=travel_90over,workers|den_id=01000US|text=highlow>> the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>."
     miniviz:
       attrs: "geo"

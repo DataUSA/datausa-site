@@ -23,7 +23,18 @@ def fetch(attr_id, attr_type):
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
     else:
-        name = dictionary[attr_id] if attr_id in dictionary else "N/A"
+        if attr_id in dictionary:
+            name = dictionary[attr_id]
+        elif attr_type == "geo" and attr_id[:3] == "140":
+            prefix = attr_id[13:][:3]
+            suffix = attr_id[16:]
+            if suffix == "00":
+                suffix = ""
+            else:
+                suffix = ".{}".format(suffix)
+            name = "Census Tract {}{}".format(prefix, suffix)
+        else:
+            name = "N/A"
         return {
             "id": attr_id,
             "name": name
@@ -147,7 +158,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
 
             if attr in PROFILES or attr in CROSSWALKS:
                 top = [(t["id"], t["display_name"]) if "display_name" in t else (t["id"], t[col]) for t in top]
-                top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) for t in top]
+                top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) if attr != "geo" or t[0][:3] != "140" else t[1] for t in top]
             else:
                 top = [t["display_name"] if "display_name" in t else t[col] for t in top]
 

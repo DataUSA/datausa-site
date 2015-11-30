@@ -4,6 +4,10 @@ var viz = function(build) {
 
   delete build.config.height;
 
+  if (build.config.y2 && build.config.y2.value === "01000US" && build.highlight === "01000US") {
+    delete build.config.y2;
+  }
+
   build.viz = d3plus.viz()
     .config(viz.defaults(build))
     .background("transparent")

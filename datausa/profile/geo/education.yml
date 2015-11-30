@@ -10,6 +10,7 @@ topics:
     stat_stack: YES
     stat:
       - title: "High relative number of people major in"
+        sumlevel: "!nation"
         value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca>>"
         subvalues:
           - "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=2>>"
