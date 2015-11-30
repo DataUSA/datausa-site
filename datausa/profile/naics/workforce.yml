@@ -149,6 +149,7 @@ topics:
           scale: "discrete"
           value: "soc"
   - slug: "tmap_top_occs"
+    title: "Occupations by Share"
     viz:
       attrs: "soc"
       color: "great_grandparent"

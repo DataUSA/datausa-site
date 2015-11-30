@@ -146,6 +146,7 @@ topics:
           scale: "discrete"
           value: "soc"
   - slug: "tmap_occ_num_emp_degree"
+    title: "Occupations by Share"
     viz:
       attrs: "soc"
       color: "great_grandparent"
@@ -311,6 +312,7 @@ topics:
           scale: "discrete"
           value: "naics"
   - slug: "tmap_ind_num_emp"
+    title: "Industries by Share"
     viz:
       attrs: "naics"
       color: "grandparent"

@@ -149,6 +149,7 @@ topics:
           scale: "discrete"
           value: "acs_occ"
   - slug: "tmap_occ_num_emp"
+    title: "Occupations by Share"
     viz:
       attrs: "acs_occ"
       color: "acs_occ_2"
@@ -495,6 +496,7 @@ topics:
           scale: "discrete"
           value: "acs_ind"
   - slug: "tmap_ind_num_emp"
+    title: "Industries by Share"
     viz:
       attrs: "acs_ind"
       color: "acs_ind_2"
