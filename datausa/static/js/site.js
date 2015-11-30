@@ -1589,6 +1589,10 @@ viz.defaults = function(build) {
 
         if (params.key) {
 
+          if (params.key === "name") {
+            return text;
+          }
+
           // Format buckets
           if (params.key === "bucket") {
 
