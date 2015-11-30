@@ -3103,110 +3103,176 @@ body.embed {
 #map-fullscreen {
   height: 100vh;
   width: 100vw; }
-body.story header {
-  padding: 0;
-  height: 60vh !important;
-  background: #1a1a1a;
-  position: relative;
-  color: #fff;
-  margin-bottom: 4%;
-  overflow: hidden; }
-  body.story header #splash {
-    display: block !important;
-    background: #565656;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    z-index: 0; }
-    body.story header #splash .text {
-      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, transparent 1%,
-            rgba(0, 0, 0, 0.05) 10%, rgba(0, 0, 0, 0.5) 51%, rgba(0, 0, 0, 0.6) 85%,
-            rgba(0, 0, 0, 0.7) 100%);
+body.story {
+  background-color: #111; }
+  body.story header {
+    top: 40px;
+    margin-bottom: 40px;
+    padding: 0;
+    height: 60vh !important;
+    background: #1a1a1a;
+    position: relative;
+    color: #fff;
+    overflow: hidden; }
+    body.story header #splash {
+      display: block !important;
+      background: #565656;
       position: absolute;
-      z-index: 6;
-      text-align: center;
-      color: #fff;
-      bottom: 0;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 20px 0; }
-      body.story header #splash .post-titles {
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      z-index: 0; }
+      body.story header #splash .text {
+        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, transparent 1%,
+                rgba(0, 0, 0, 0.05) 10%, rgba(0, 0, 0, 0.5) 51%, rgba(0, 0, 0, 0.6) 85%,
+                rgba(0, 0, 0, 0.7) 100%);
+        position: absolute;
+        z-index: 6;
         text-align: center;
         color: #fff;
-        top: 60%;
+        bottom: 0;
         width: 100%;
         padding: 20px 0; }
-        body.story header #splash .post-titles h1,
-        body.story header #splash .post-titles h1 a {
+        body.story header #splash .post-titles {
+          text-align: center;
+          color: #fff;
+          top: 60%;
+          width: 100%;
+          padding: 20px 0; }
+          body.story header #splash .post-titles .post-label-feat {
+            margin: 6px auto;
+            font-family: "Roboto", sans-serif;
+            font-weight: 300;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #fff; }
+            body.story header #splash .post-titles h1,
+            body.story header #splash .post-titles h1 a {
+              color: #fff;
+              text-transform: uppercase;
+              letter-spacing: 4px;
+              font-size: 65px;
+              font-size: 5.2vw;
+              line-height: 6vw;
+              margin: 0 0 1% 0;
+              text-align: center;
+              display: inline-block;
+              word-wrap: break-word; }
+              body.story header #splash .post-titles a:hover:after {
+                content: "»";
+                margin-top: 5px;
+                margin-left: 7px;
+                font-size: 40px;
+                position: absolute;
+                font-family: "Playfair Display", serif;
+                font-weight: 400;
+                letter-spacing: 0.05em;
+                line-height: 1;
+                opacity: 0.8; }
+          body.story header #splash .post-titles p.description {
+            margin: 0 auto;
+            width: 45%;
+            text-align: left;
+            font-family: "Roboto", sans-serif;
+            line-height: 1.6;
+            padding: 0;
+            font-weight: 300;
+            font-size: 15px;
+            letter-spacing: 0.05em;
+            color: #ededed; }
+      body.story header #splash .author-meta {
+        font-family: "Lato", sans-serif;
+        font-weight: 300;
+        font-size: 20px;
+        text-align: center;
+        width: 100%;
+        z-index: 3;
+        -webkit-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1);
+        -webkit-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
+        -moz-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
+        -ms-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
+        -o-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
+        transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
+        font-size: 19px; }
+        body.story header #splash .author-meta a.author-avatar,
+        body.story header #splash .author-meta a.author-avatar img {
+          width: 52px;
+          border-radius: 100%;
+          height: auto;
+          margin: 0 auto 10px auto;
+          display: block; }
+          body.story header #splash .author-meta .name {
+            margin-bottom: 7px; }
+            body.story header #splash .author-meta .name a {
+              color: #fff;
+              text-decoration: none;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
+              body.story header #splash .author-meta .name a:hover,
+              body.story header #splash .author-meta .name a:focus {
+                color: rgba(255, 255, 255, 0.9);
+                border-bottom: 1px solid #fff; }
+            body.story header #splash .author-meta .name span {
+              bottom: 1px;
+              position: relative;
+              font-size: 13px;
+              letter-spacing: 0.1em;
+              vertical-align: text-bottom;
+              text-transform: uppercase; }
+        body.story header #splash .author-meta .post-date {
+          display: block;
+          font-size: 11.5px;
+          letter-spacing: 0.1em;
+          font-style: normal;
+          text-transform: uppercase; }
+  body.story .all-stories .all-stories-label {
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff; }
+    body.story .all-stories .bg-filter {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      margin-top: -40px;
+      background: #222;
+      opacity: 0.75;
+      -webkit-transition: opacity 0.65s;
+      -moz-transition: opacity 0.65s;
+      -ms-transition: opacity 0.65s;
+      -o-transition: opacity 0.65s;
+      transition: opacity 0.65s;
+      z-index: 1; }
+      body.story .all-stories article {
+        padding: 40px 0;
+        position: relative;
+        color: #fff;
+        margin-bottom: 5px;
+        display: block !important;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        z-index: 0; }
+        body.story .all-stories article h1, body.story .all-stories article h1 a {
+          position: relative;
           color: #fff;
           text-transform: uppercase;
           letter-spacing: 4px;
-          font-size: 65px;
-          font-size: 5.2vw;
-          line-height: 6vw;
-          margin: 0 0 1% 0;
+          font-size: 35px;
           text-align: center;
-          width: 90%;
+          width: 100%;
           display: inline-block;
-          word-wrap: break-word; }
-          body.story header #splash .post-titles p.description {
-            color: #fff;
-            margin: 0 auto;
-            width: 40%;
-            text-align: left;
-            font-family: "Roboto", sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
-            font-weight: 400; }
-    body.story header #splash .author-meta {
-      font-size: 20px;
-      text-align: center;
-      width: 100%;
-      z-index: 3;
-      -webkit-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1);
-      -webkit-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
-      -moz-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
-      -ms-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
-      -o-transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
-      transition: all 340ms cubic-bezier(0.42, 0, 0.585, 1.23);
-      font-size: 19px; }
-      body.story header #splash .author-meta a.author-avatar,
-      body.story header #splash .author-meta a.author-avatar img {
-        width: 52px;
-        border-radius: 100%;
-        height: auto;
-        margin: 0 auto 10px auto;
-        display: block; }
-        body.story header #splash .author-meta .name a {
-          color: #fff;
-          text-decoration: underline; }
-          body.story header #splash .author-meta .post-date {
-            display: block;
-            font-size: 12px;
-            letter-spacing: 2px;
-            font-style: normal;
-            text-transform: uppercase; }
-body.story .all-stories article {
-  padding: 20px 0;
-  position: relative;
-  color: #fff;
-  margin-bottom: 5px;
-  display: block !important;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  z-index: 0; }
-  body.story .all-stories article h1, body.story .all-stories article h1 a {
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-size: 35px;
-    text-align: center;
-    width: 90%;
-    display: inline-block;
-    word-wrap: break-word; }
+          word-wrap: break-word;
+          z-index: 2; }
+          body.story .all-stories article:hover .bg-filter {
+            opacity: 0.4; }

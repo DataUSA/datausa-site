@@ -24,6 +24,7 @@
   
     <div class="text">
       <div class="post-titles">
+          <div class="post-label-feat">Featured Story</div>
           <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
           <p class="description">{{ story.description }}</h2>
       </div>
@@ -32,8 +33,8 @@
         <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}">
           <img alt="{{ author.name }}" src="{{ author.img }}">
         </a>
-        <span class="name"><i>By</i> <a href="{{ author.link }}">{{ author.name }}</a></span>
-        <span class="post-date" style="">{{ story.date }}</span>
+        <div class="name"><span>By</span> <a href="{{ author.link }}">{{ author.name }}</a></div>
+        <div class="post-date" style="">{{ story.date }}</div>
         {% endfor %}
       </div>
     </div>
@@ -43,8 +44,10 @@
 {% endfor %}
 
 <div class="all-stories">
+  <!-- <div class="all-stories-label">More Stories</div> -->
   {% for story in stories %}
   <article style="background-image:url({{ story.background_image }})">
+    <div class="bg-filter"></div>
     <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
   </article>
   {% endfor %}

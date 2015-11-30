@@ -1,12 +1,14 @@
 body.story {
+  background-color: #111;
   
   header {
+    top: $nav-height;
+    margin-bottom: $nav-height;
     padding: 0;
     height: 60vh !important;
     background: #1a1a1a;
     position: relative;
     color: #fff;
-    margin-bottom: 4%;
     overflow: hidden;
     
     #splash {
@@ -39,6 +41,16 @@ body.story {
         top: 60%;
         width: 100%;
         padding: 20px 0;
+
+        .post-label-feat {
+          margin: 6px auto;
+          font-family: $roboto;
+          font-weight: 300;
+          font-size: 13px;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: #fff;
+        }
         
         h1,
         h1 a {
@@ -50,25 +62,43 @@ body.story {
           line-height: 6vw;
           margin: 0 0 1% 0;
           text-align: center;
-          width: 90%;
           display: inline-block;
           word-wrap: break-word;
         }
+
+        a:hover {
+          &:after {
+            content: "\00bb";
+            margin-top: 5px;
+            margin-left: 7px;
+            font-size: 40px;
+            position: absolute;
+            font-family: "Playfair Display", serif;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            opacity: 0.8;
+          }
+        }
         
         p.description {
-          color: #fff;
           margin: 0 auto;
-          width: 40%;
+          width: 45%;
           text-align: left;
           font-family: $roboto;
-          font-size: 15px;
           line-height: 1.6;
-          font-weight: 400;
+          padding: 0;
+          font-weight: 300;
+          font-size: 15px;
+          letter-spacing: 0.05em;
+          color: #ededed;
         }
         
       }
         
       .author-meta {
+        font-family: $lato;
+        font-weight: 300;
         font-size: 20px;
         text-align: center;
         width: 100%;
@@ -89,15 +119,34 @@ body.story {
           display: block;
         }
         
-        .name a {
-          color: #fff;
-          text-decoration: underline;
+        .name {
+          margin-bottom: 7px;
+          
+          a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+
+            &:hover, &:focus {
+              color: rgba(255,255,255,0.9);
+              border-bottom: 1px solid #fff;
+            }
+          }
+
+          span {
+            bottom: 1px;
+            position: relative;
+            font-size: 13px;
+            letter-spacing: 0.1em;
+            vertical-align: text-bottom;
+            text-transform: uppercase;
+          }
         }
         
         .post-date {
           display: block;
-          font-size: 12px;
-          letter-spacing: 2px;
+          font-size: 11.5px;
+          letter-spacing: 0.1em;
           font-style: normal;
           text-transform: uppercase;
         }
@@ -109,9 +158,32 @@ body.story {
   }
   
   .all-stories {
+
+    .all-stories-label {
+      margin: 0 auto;
+      padding: 10px;
+      text-align: center;
+      font-family: $roboto;
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+    }
     
+    .bg-filter {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      margin-top: -$nav-height;
+      background: #222;
+      opacity: 0.75;
+      @include transition(opacity 0.65s);
+      z-index: 1;
+    }
+
     article {
-      padding: 20px 0;
+      padding: 40px 0;
       position: relative;
       color: #fff;
       margin-bottom: 5px;
@@ -125,16 +197,23 @@ body.story {
       
       h1,
       h1 a {
+        position: relative;
         color: #fff;
         text-transform: uppercase;
         letter-spacing: 4px;
         font-size: 35px;
         text-align: center;
-        width: 90%;
+        width: 100%;
         display: inline-block;
         word-wrap: break-word;
+        z-index: 2;
       }
       
+      &:hover {
+        .bg-filter {
+          opacity: 0.4;
+        }
+      }
     }
     
   }
