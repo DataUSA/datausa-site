@@ -7,6 +7,9 @@ topics:
     subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
     slug: "household_income"
     stat:
+      - title: "Number of Households"
+        value: "<<var namespace=tenure|key=households>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=tenure|key=households_moe>>"
       - title: "Median Household Income"
         value: "<<var namespace=splash|key=income>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe>>"

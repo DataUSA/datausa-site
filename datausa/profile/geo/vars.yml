@@ -1,4 +1,4 @@
-- required: ["pop", "pop_rank", "income", "income_moe", "income_rank", "age", "age_rank"]
+- required: ["pop", "pop_rank", "income", "income_moe", "income_rank", "age", "age_rank", "owner_occupied_housing_units"]
   namespace: splash
   show: geo
   sumlevel: all
@@ -8,6 +8,11 @@
   show: geo
   sumlevel: all
   namespace: wagegap
+
+- required: ["households", "households_moe"]
+  show: geo
+  sumlevel: all
+  namespace: tenure
 
 - required: ["primary_care_physicians", "dentists", "mental_health_providers", "other_primary_care_providers"]
   year: 2015
