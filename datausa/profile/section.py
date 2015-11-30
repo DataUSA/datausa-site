@@ -332,7 +332,8 @@ class Section(object):
                 subparams["num"] = num
                 subparams["den"] = den
                 subparams["data_only"] = True
-                subparams["{}_id".format(t)] = params[attr_type]
+                subparams["num_id"] = params[attr_type]
+                subparams["den_id"] = params[attr_type]
                 r[t] = self.percent(**subparams)
 
             else:
