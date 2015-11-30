@@ -10,7 +10,6 @@ stats:
     rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>> <<level plural=True|short=True>>"
   - title: "Average Age"
     value: "<<var namespace=data|key=avg_age>>"
-    rank: "<<var namespace=data|key=avg_age_rank>> of <<rank_max>> <<level plural=True|short=True>>"
 facts:
   - "The PUMA with the highest number of employed <<name>> is <<top show=geo|sumlevel=puma|order=num_ppl>>."
   - "The most common industry that employs <<name>> is <<top show=naics|sumlevel=2|order=num_ppl>>."
