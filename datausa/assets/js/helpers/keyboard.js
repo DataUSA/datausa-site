@@ -15,10 +15,15 @@ window.onload = function() {
           search.reload();
         }
         else {
-          d3.select("#search-simple-nav").classed("open", true);
+          d3.select(".search-box").classed("open", true);
           var search_input = d3.select("#nav-search-input");
           search_input.node().focus();
-          d3.select(".search-box").classed("open", true);
+        //   d3.select("#search-simple-nav").classed("open", true);
+        //   search_input.node().focus();
+        //   if(search_input.property("value") !== ""){
+        //     // d3.select(".search-box").classed("open", true);
+        //   }
+        //   d3.select(".search-box").classed("open", true);
         }
       }
 
@@ -33,7 +38,7 @@ window.onload = function() {
       d3.selectAll(".search-body").classed("open", false);
       d3.selectAll(".search-input").each(function(){ this.blur(); });
       d3.select(".search-box").classed("open", false);
-      d3.select("#search-simple-nav").style("display", "none")
+      d3.select("#search-simple-nav").classed("open", false)
     }
 
   });
@@ -59,11 +64,14 @@ window.onload = function() {
     
     if(this.id == "nav-search-input"){
       if(q === "") {
-        d3.select("#search-simple-nav").style("display", "none")
+        // d3.select("#search-simple-nav").style("display", "none")
+        d3.select("#search-simple-nav").classed("open", false)
         return;
       }
       else {
-        d3.select("#search-simple-nav").style("display", "block")
+        // d3.select("#search-simple-nav").style("display", "block")
+        d3.select("#search-simple-nav").classed("open", true)
+        console.log(d3.select("#search-simple-nav").node())
       }
     }
     

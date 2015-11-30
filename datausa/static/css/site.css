@@ -1110,14 +1110,16 @@ body.search {
     -webkit-box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.44);
     -moz-box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.44);
     box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.44); }
-    #search-simple-nav section {
-      display: block;
-      padding: 15px; }
-      #search-simple-nav .results-title h3 {
-        display: inline-block; }
-        #search-simple-nav .results-title a {
-          display: inline-block;
-          float: right; }
+    #search-simple-nav.open {
+      display: block; }
+      #search-simple-nav section {
+        display: block;
+        padding: 15px; }
+        #search-simple-nav .results-title h3 {
+          display: inline-block; }
+          #search-simple-nav .results-title a {
+            display: inline-block;
+            float: right; }
 body.home {
   position: relative;
   background-color: #222; }

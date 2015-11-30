@@ -182,9 +182,13 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   search_input.node().focus();
 
   // initialize search if input box is empty
-  if(!search_input.property("value")){
+  // console.log(search_input.property("value"))
+  if(search_input.property("value") !== ""){
     search.container = d3.select("#search-" + search_input.attr("data-search"));
     search.reload();
+  }
+  else {
+    results_div.classed("open", false);
   }
   d3.event.stopPropagation();
 });
