@@ -20,7 +20,7 @@ topics:
         subvalues:
           - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=2>>"
           - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=3>>"
-    description: "Here we see the most common degrees held by <<name>> for a particular degree type."
+    description: "Here we see the share of degrees held by <<name>> whose highest degree obtained is a <span class='select-text'>Bachelor's degree</span>."
     viz:
       attrs: "cip"
       color: "cip_2"
