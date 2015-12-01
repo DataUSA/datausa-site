@@ -10394,9 +10394,9 @@ if (touch) {
     click: "click",
     down: "touchstart",
     up: "touchend",
-    over: "touchstart",
-    out: "touchend",
-    move: "touchmove"
+    over: ie ? "mouseenter" : "mouseover",
+    out: ie ? "mouseleave" : "mouseout",
+    move: "mousemove"
   };
 } else {
   module.exports = {
@@ -10591,11 +10591,9 @@ module.exports = function(color) {
 
 
 },{}],53:[function(require,module,exports){
-var ie, print, touch, wiki;
+var ie, print, wiki;
 
 ie = require("../../client/ie.js");
-
-touch = require("../../client/touch.coffee");
 
 wiki = require("./wiki.coffee");
 
@@ -10699,7 +10697,7 @@ print.wiki = function(url) {
 module.exports = print;
 
 
-},{"../../client/ie.js":39,"../../client/touch.coffee":44,"./wiki.coffee":54}],54:[function(require,module,exports){
+},{"../../client/ie.js":39,"./wiki.coffee":54}],54:[function(require,module,exports){
 module.exports = {
   active: "Visualizations#active",
   aggs: "Visualizations#aggs",
@@ -16397,7 +16395,7 @@ module.exports = function(elem, vars) {
     }
     return color;
   }).style("color", function(d) {
-    var color, image, opacity;
+    var bg, color, image, opacity;
     if (vars.focus.value === d[vars.id.value]) {
       opacity = 0.75;
     } else {
@@ -16407,7 +16405,15 @@ module.exports = function(elem, vars) {
     if (!image && d[vars.color.value]) {
       color = legible(d[vars.color.value]);
     } else {
-      color = textColor(d3.select(this).style("background-color"));
+      if (vars.focus.value === d[vars.id.value]) {
+        bg = vars.ui.color.secondary.value;
+      } else {
+        bg = vars.ui.color.primary.value;
+      }
+      if (vars.hover.value === d[vars.id.value]) {
+        bg = d3.rgb(bg).darker(0.15).toString();
+      }
+      color = textColor(bg);
     }
     color = d3.rgb(color);
     return "rgba(" + color.r + "," + color.g + "," + color.b + "," + opacity + ")";
@@ -23380,10 +23386,12 @@ module.exports = function(vars) {
 
   edge_update()
 
-  if (!touch && vars.tooltip.value) {
+  if (vars.tooltip.value) {
 
     vars.g.data.selectAll("g")
       .on(events.over,function(d){
+
+        if (touch) touchEvent(vars, d3.event);
 
         if (!d3.event.buttons && vars.mouse.value && vars.mouse.over.value && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
 
@@ -23440,6 +23448,8 @@ module.exports = function(vars) {
       })
       .on(events.move,function(d){
 
+        if (touch) touchEvent(vars, d3.event);
+
         if (!d3.event.buttons && vars.mouse.value && vars.mouse.move.value && !vars.draw.frozen && (!d.d3plus || !d.d3plus.static)) {
 
           if (typeof vars.mouse.move.value === "function") {
@@ -23484,6 +23494,8 @@ module.exports = function(vars) {
 
       })
       .on(events.out,function(d){
+
+        if (touch) touchEvent(vars, d3.event);
 
         if (!d3.event.buttons && vars.mouse.value && vars.mouse.out.value) {
 
@@ -23541,6 +23553,10 @@ module.exports = function(vars) {
       .on(events.out , mouseEvent)
 
   }
+
+  d3.select(window).on("scroll.d3plus", function(){
+    removeTooltip(vars.type.value);
+  });
 
   vars.g.data.selectAll("g")
     .on(events.click,function(d){
@@ -25984,56 +26000,46 @@ module.exports = function(vars) {
     .attr("height",vars.height.value)
     .attr("opacity",0);
 
-  if (!touch) {
+  vars.g.overlay
+    .on(events.move,function(d){
 
-    vars.g.overlay
-      .on(events.move,function(d){
+      if (touch) touchEvent(vars, d3.event);
 
-        if (vars.types[vars.type.value].zoom && vars.zoom.pan.value &&
-          vars.zoom.behavior.scaleExtent()[0] < vars.zoom.scale) {
-          d3.select(this).style("cursor",prefix()+"grab");
-        }
-        else {
-          d3.select(this).style("cursor","auto");
-        }
+      if (vars.types[vars.type.value].zoom && vars.zoom.pan.value &&
+        vars.zoom.behavior.scaleExtent()[0] < vars.zoom.scale) {
+        d3.select(this).style("cursor",prefix()+"grab");
+      }
+      else {
+        d3.select(this).style("cursor","auto");
+      }
 
-      })
-      .on(events.up,function(d){
+    })
+    .on(events.up,function(d){
 
-        if (vars.types[vars.type.value].zoom && vars.zoom.pan.value &&
-          vars.zoom.behavior.scaleExtent()[0] < vars.zoom.scale) {
-          d3.select(this).style("cursor",prefix()+"grab");
-        }
-        else {
-          d3.select(this).style("cursor","auto");
-        }
+      if (touch) touchEvent(vars, d3.event);
 
-      })
-      .on(events.down,function(d){
+      if (vars.types[vars.type.value].zoom && vars.zoom.pan.value &&
+        vars.zoom.behavior.scaleExtent()[0] < vars.zoom.scale) {
+        d3.select(this).style("cursor",prefix()+"grab");
+      }
+      else {
+        d3.select(this).style("cursor","auto");
+      }
 
-        if (vars.types[vars.type.value].zoom && vars.zoom.pan.value &&
-          vars.zoom.behavior.scaleExtent()[0] < vars.zoom.scale) {
-          d3.select(this).style("cursor",prefix()+"grabbing");
-        }
-        else {
-          d3.select(this).style("cursor","auto");
-        }
+    })
+    .on(events.down,function(d){
 
-      });
+      if (touch) touchEvent(vars, d3.event);
 
-  }
-  else {
+      if (vars.types[vars.type.value].zoom && vars.zoom.pan.value &&
+        vars.zoom.behavior.scaleExtent()[0] < vars.zoom.scale) {
+        d3.select(this).style("cursor",prefix()+"grabbing");
+      }
+      else {
+        d3.select(this).style("cursor","auto");
+      }
 
-    var mouseEvent = function() {
-      touchEvent(vars, d3.event);
-    };
-
-    vars.g.overlay
-      .on(events.over, mouseEvent)
-      .on(events.move, mouseEvent)
-      .on(events.out , mouseEvent);
-
-  }
+    });
 
   // Enter App Background Group
   vars.g.app = vars.g.viz.selectAll("g#app").data(["app"]);
@@ -27378,7 +27384,7 @@ module.exports = function(vars) {
           .attr("opacity",0)
           .remove();
 
-        if (!touch && vars.legend.tooltip.value) {
+        if (vars.legend.tooltip.value) {
 
           keys
             .on(events.over,function(d,i){
@@ -29664,7 +29670,7 @@ module.exports = function(axis) {
     persist: {
       position: {
         accepted: [Boolean],
-        value: false
+        value: true
       },
       size: {
         accepted: [Boolean],
@@ -30486,8 +30492,10 @@ module.exports = {
 }
 
 },{}],305:[function(require,module,exports){
-var bar, fetchValue, graph, nest, stack, uniques,
+var bar, buckets, fetchValue, graph, nest, stack, uniques,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+buckets = require("../../util/buckets.coffee");
 
 fetchValue = require("../../core/fetch/value.coffee");
 
@@ -30500,7 +30508,7 @@ stack = require("./helpers/graph/stack.coffee");
 uniques = require("../../util/uniques.coffee");
 
 bar = function(vars) {
-  var bars, base, cMargin, d, data, discrete, discreteVal, divisions, domains, h, i, j, k, l, len, len1, len2, length, maxBars, maxSize, mod, nested, newSize, oMargin, offset, oppMethod, oppVal, opposite, p, padding, point, ref, ref1, space, value, w, x, zero;
+  var bars, base, cMargin, d, data, discrete, discreteVal, divisions, domains, h, i, ids, j, k, l, len, len1, len2, length, maxBars, maxSize, mod, nested, newSize, oMargin, offset, oppMethod, oppVal, opposite, p, padding, point, ref, ref1, space, value, w, x, zero;
   discrete = vars.axes.discrete;
   h = discrete === "x" ? "height" : "width";
   w = discrete === "x" ? "width" : "height";
@@ -30542,7 +30550,7 @@ bar = function(vars) {
       }
       maxSize /= divisions;
       offset = space / 2 - maxSize / 2 - padding;
-      x = d3.scale.linear().domain([0, divisions - 1]).range([-offset, offset]);
+      x = d3.scale.ordinal().domain([0, divisions - 1]).range([-offset, offset]);
     } else {
       x = d3.scale.linear();
     }
@@ -30552,14 +30560,20 @@ bar = function(vars) {
   maxBars = d3.max(nested, function(b) {
     return b.values.length;
   });
-  for (k = 0, len1 = nested.length; k < len1; k++) {
-    p = nested[k];
+  for (i = k = 0, len1 = nested.length; k < len1; i = ++k) {
+    p = nested[i];
     if (vars.axes.stacked) {
       bars = 1;
       newSize = maxSize;
     } else if (vars[discrete].persist.position.value) {
       bars = divisions;
       newSize = maxSize;
+      if (!i) {
+        ids = p.values.map(function(d) {
+          return fetchValue(vars, d, vars.id.value);
+        });
+        x.domain(ids).range(buckets(x.range(), ids.length));
+      }
     } else {
       bars = p.values.length;
       if (vars[discrete].persist.size.value) {
@@ -30575,7 +30589,13 @@ bar = function(vars) {
     ref1 = p.values;
     for (i = l = 0, len2 = ref1.length; l < len2; i = ++l) {
       d = ref1[i];
-      mod = vars.axes.stacked ? 0 : x(i % bars);
+      if (vars.axes.stacked) {
+        mod = 0;
+      } else if (vars[discrete].persist.position.value) {
+        mod = x(fetchValue(vars, d, vars.id.value));
+      } else {
+        mod = x(i % bars);
+      }
       oppMethod = vars[opposite];
       if (vars.axes.stacked) {
         value = d.d3plus[opposite];
@@ -30649,7 +30669,7 @@ bar.shapes = ["square"];
 module.exports = bar;
 
 
-},{"../../core/fetch/value.coffee":68,"../../util/uniques.coffee":209,"./helpers/graph/draw.coffee":311,"./helpers/graph/nest.coffee":317,"./helpers/graph/stack.coffee":318}],306:[function(require,module,exports){
+},{"../../core/fetch/value.coffee":68,"../../util/buckets.coffee":203,"../../util/uniques.coffee":209,"./helpers/graph/draw.coffee":311,"./helpers/graph/nest.coffee":317,"./helpers/graph/stack.coffee":318}],306:[function(require,module,exports){
 var box, fetchValue, graph, strip, uniques;
 
 fetchValue = require("../../core/fetch/value.coffee");
