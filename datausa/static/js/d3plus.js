@@ -19889,9 +19889,8 @@ module.exports = function(vars) {
   lines = null;
   wrap = function() {
     var i, len, next_char, unsafe, word;
-    vars.container.value.selectAll("tspan").remove();
     vars.container.value.html("");
-    words = vars.text.words.slice(0);
+    words = vars.text.words.slice();
     if (reverse) {
       words.reverse();
     }
@@ -19971,7 +19970,7 @@ wrap = function(vars) {
     if (firstChar !== vars.text.words[0].charAt(0)) {
       vars.text.words[0] = firstChar + vars.text.words[0];
     }
-    vars.container.value.text("");
+    vars.container.value.html("");
     if (vars.resize.value) {
       resize(vars);
     } else {
@@ -32579,7 +32578,9 @@ module.exports = function(vars) {
       }
     });
     return groups.select("text").style("text-anchor", rotated && axis === "x" ? "end" : rotated ? "start" : "middle").call(tickFont, axis).each(function(d) {
-      d3.select(this).attr("dy", "0px");
+      d3.select(this).attr("dy", "0px").attr("font-size", function(d) {
+        return getFontStyle(axis, d, "size") + "px";
+      });
       if (d.constructor === Date) {
         d = +d;
       }
