@@ -170,7 +170,7 @@ topics:
   - category: "Wages"
     title: "Average Wage"
     slug: "wages"
-    description: "On average, employees in the <<name>> <<level short=True>> had an average wage of <<var namespace=data|key=avg_wage>> in 2013. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True|short=True>>."
+    description: "On average, employees in the <<name>> <<level short=True>> had an average wage of <<var namespace=data|key=avg_wage>>. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True|short=True>>."
     stat:
       - title: "Average Wage"
         value: "<<var namespace=data|key=avg_wage>>"

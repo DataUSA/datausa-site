@@ -2,7 +2,6 @@
   namespace: splash
   show: geo
   sumlevel: all
-  year: 2013
 
 - required: ["gini"]
   show: geo

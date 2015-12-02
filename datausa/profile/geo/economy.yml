@@ -172,7 +172,7 @@ topics:
   - category: "Wages"
     title: "Average Wage"
     slug: "income"
-    description: "On average, people in <<name>> had a median income of <<var namespace=splash|key=income>> in 2013. This makes <<name>> the <<var namespace=splash|key=income_rank>> richest <<level>> in the United States."
+    description: "On average, people in <<name>> had a median income of <<var namespace=splash|key=income>>. This makes <<name>> the <<var namespace=splash|key=income_rank>> richest <<level>> in the United States."
     stat:
       - title: "Median Yearly Income"
         value: "<<var namespace=splash|key=income>>"
