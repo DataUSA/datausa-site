@@ -1659,8 +1659,7 @@ body.profile {
         font-size: 24px; }
         body.profile .topic.flex .data-btn, body.story .topic.flex .data-btn {
           top: 13px; }
-  body.profile .topic h2 ~ sub, body.profile .topic aside > sub:first-child,
-  body.story .topic h2 ~ sub, body.story .topic aside > sub:first-child {
+  body.profile .topic sub, body.story .topic sub {
     font-family: "Roboto", sans-serif;
     font-size: 13px;
     line-height: 1.35;
@@ -1668,16 +1667,12 @@ body.profile {
     text-transform: initial;
     letter-spacing: 0.05em;
     color: #B35E49; }
-    body.profile .topic h2 ~ sub a, body.profile .topic aside > sub:first-child a,
-    body.story .topic h2 ~ sub a, body.story .topic aside > sub:first-child a {
+    body.profile .topic sub a, body.story .topic sub a {
       color: #B35E49; }
-      body.profile .topic h2 ~ sub a:hover,
-      body.profile .topic aside > sub:first-child a:hover,
-      body.story .topic h2 ~ sub a:hover,
-      body.story .topic aside > sub:first-child a:hover {
+      body.profile .topic sub a:hover, body.story .topic sub a:hover {
         text-decoration: none;
         border-bottom: 1px solid #B35E49; }
-  body.profile .topic sub, body.story .topic sub {
+  body.profile .topic sub.sub-source, body.story .topic sub.sub-source {
     display: inline-block;
     margin: 5px 0 10px;
     color: #a8a8a8;
@@ -1687,11 +1682,12 @@ body.profile {
     font-weight: 700;
     line-height: 1.5;
     letter-spacing: 0.1em; }
-    body.profile .topic sub a, body.story .topic sub a {
+    body.profile .topic sub.sub-source a, body.story .topic sub.sub-source a {
       color: #888; }
-      body.profile .topic sub a:hover, body.story .topic sub a:hover {
+      body.profile .topic sub.sub-source a:hover,
+      body.story .topic sub.sub-source a:hover {
         border-bottom: 1px solid #888; }
-    body.profile .topic sub span, body.story .topic sub span {
+    body.profile .topic sub.sub-source span, body.story .topic sub.sub-source span {
       vertical-align: baseline; }
   body.profile .stat-text, body.profile .stat-rank, body.story .stat-text,
   body.story .stat-rank {
@@ -3195,7 +3191,7 @@ body.story {
                   display: inline-block;
                   word-wrap: break-word; }
                   body.story header #splash .post-titles a:hover:after {
-                    content: "»";
+                    content: "\00bb";
                     margin-left: 7px;
                     position: absolute;
                     font-family: "Playfair Display", serif;
@@ -3306,7 +3302,7 @@ body.story {
           body.story .all-stories article:hover .bg-filter {
             opacity: 0.4; }
             body.story .all-stories article:hover a:hover:after {
-              content: "»";
+              content: "\00bb";
               margin-left: 7px;
               position: absolute;
               font-family: "Playfair Display", serif;

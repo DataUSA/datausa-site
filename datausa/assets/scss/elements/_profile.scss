@@ -213,7 +213,7 @@ body.profile, body.story {
       }
     }
 
-    h2 ~ sub, aside > sub:first-child {
+    sub {
       font-family: "Roboto", sans-serif;
       font-size: 13px;
       line-height: 1.35;
@@ -232,7 +232,7 @@ body.profile, body.story {
       }
     }
 
-    sub {
+    sub.sub-source {
       display: inline-block;
       margin: 5px 0 10px;
       color: #a8a8a8;
