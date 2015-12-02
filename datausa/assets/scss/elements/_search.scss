@@ -435,14 +435,12 @@ body.search {
         }
 
         .thumb {
-          @include flex-size(0 0 50px);
+          @include flex-size(0 0 30px);
           background-size: cover;
           background-position: center center;
           height: 50px;
           @include filter(saturate(0) contrast(1.3) brightness(1.1));
           border-radius: 50%;
-          background-color: #999 !important;
-          border: 1px solid #999;
           @include box();
         }
 

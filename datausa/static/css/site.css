@@ -915,11 +915,11 @@ body.search {
               body.search .search-results-container .search-results .search-item:hover .thumb {
                 opacity: 0.75 !important; }
           body.search .search-results-container .search-results .search-item .thumb {
-            -webkit-box-flex: 0 0 50px;
-            -moz-box-flex: 0 0 50px;
-            -webkit-flex: 0 0 50px;
-            -ms-flex: 0 0 50px;
-            flex: 0 0 50px;
+            -webkit-box-flex: 0 0 30px;
+            -moz-box-flex: 0 0 30px;
+            -webkit-flex: 0 0 30px;
+            -ms-flex: 0 0 30px;
+            flex: 0 0 30px;
             background-size: cover;
             background-position: center center;
             height: 50px;
@@ -928,8 +928,6 @@ body.search {
             -o-filter: saturate(0) contrast(1.3) brightness(1.1);
             filter: saturate(0) contrast(1.3) brightness(1.1);
             border-radius: 50%;
-            background-color: #999 !important;
-            border: 1px solid #999;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box; }

@@ -743,12 +743,14 @@ search.reload = function() {
 
 search.btnExplore = function(d) {
   var search_item = d3.select(this);
-  var thumb = search_item.append("span").attr("href", "/profile/" + d.kind + "/" + d.id + "/").attr("class", 'thumb');
+  var thumb = search_item.append("span").attr("class", 'thumb');
   var info = search_item.append("div").attr("class", 'info');
   var profile = search_item.append("div").attr("class", 'profile');
   
   // set thumbnail
-  thumb.style("background", "url('/search/"+d.kind+"/"+d.id+"/img/')")
+  // thumb.style("background", "url('/search/"+d.kind+"/"+d.id+"/img/')")
+  thumb.append("img")
+    .attr("src", "/static/img/icons/"+d.kind+"_b.svg")
   
   // set info
   var title = info.append("h2")
@@ -860,29 +862,38 @@ search.clear_details = function(){
 
 search.update_refine = function(data){
   
-  d3.selectAll(".search-refine div").classed("no-results", true);
-  d3.selectAll(".search-refine li a").classed("no-results", true);
-  
-  d3.selectAll(".num_res").text("0")
-  data.forEach(function(d){
-    var attr_div = d3.select(".search-refine div."+d.kind)
-    var total_res = attr_div.select("h2 .num_res").text();
-    total_res = parseInt(total_res) + 1
-    attr_div.select("h2 .num_res").text(total_res)
-    attr_div.select("h2 a").classed("no-results", false);
-    attr_div.classed("no-results", false);
+  if(this.term === ""){
+    // reset defaults
+    d3.selectAll(".search-refine div").classed("no-results", false);
+    d3.selectAll(".search-refine li a").classed("no-results", false);
+    d3.selectAll(".num_res").text(function(){ return d3.select(this).attr("data-default") });
+  }
+  else {
+    // reset defaults
+    d3.selectAll(".search-refine div").classed("no-results", true);
+    d3.selectAll(".search-refine li a").classed("no-results", true);
+    d3.selectAll(".num_res").text("0");
     
-    var sumlevel_a = attr_div.select("a[data-depth='"+d.sumlevel+"']");
-    sumlevel_a.classed("no-results", false);
-    var sumlevel_span = sumlevel_a.select(".num_res");
-    if(!sumlevel_span.empty()){
-      sumlevel_res = parseInt(sumlevel_span.text()) + 1
-      sumlevel_span.text(sumlevel_res)
-    }
-    else {
-      //console.log(d.sumlevel, d.kind)
-    }
-  })
+    data.forEach(function(d){
+      var attr_div = d3.select(".search-refine div."+d.kind)
+      var total_res = attr_div.select("h2 .num_res").text();
+      total_res = parseInt(total_res) + 1
+      attr_div.select("h2 .num_res").text(total_res)
+      attr_div.select("h2 a").classed("no-results", false);
+      attr_div.classed("no-results", false);
+    
+      var sumlevel_a = attr_div.select("a[data-depth='"+d.sumlevel+"']");
+      sumlevel_a.classed("no-results", false);
+      var sumlevel_span = sumlevel_a.select(".num_res");
+      if(!sumlevel_span.empty()){
+        sumlevel_res = parseInt(sumlevel_span.text()) + 1
+        sumlevel_span.text(sumlevel_res)
+      }
+      else {
+        //console.log(d.sumlevel, d.kind)
+      }
+    })
+  }
   
 }
 var attrStyles = {
