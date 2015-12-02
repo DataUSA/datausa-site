@@ -239,7 +239,8 @@ topics:
       order: "num_ppl"
       type: "bar"
       x:
-        scale: "discrete"
+        persist:
+          position: True
         value: "soc"
       y: "num_ppl"
   - title: "Wage by Race & Ethnicity"
@@ -267,7 +268,8 @@ topics:
       order: "avg_wage"
       type: "bar"
       x:
-        scale: "discrete"
+        persist:
+          position: True
         value: "soc"
       y: "avg_wage"
   - title: "Income Distribution"

@@ -38,7 +38,10 @@ topics:
       id: "student_pool"
       order: "num_ppl"
       type: "bar"
-      x: "degree"
+      x:
+        persist:
+          position: True
+        value: "degree"
       y:
         label: "Degrees Awarded"
         value: "num_ppl"

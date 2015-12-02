@@ -220,7 +220,8 @@ topics:
       order: "avg_wage"
       type: "bar"
       x:
-        scale: "discrete"
+        persist:
+          position: True
         value: "soc"
       y: "avg_wage"
   - title: "Wage by Race & Ethnicity"
@@ -247,7 +248,8 @@ topics:
       order: "avg_wage"
       type: "bar"
       x:
-        scale: "discrete"
+        persist:
+          position: True
         value: "soc"
       y: "avg_wage"
   - title: "Income Distribution"
@@ -272,7 +274,8 @@ topics:
       type: "bar"
       x:
         label: "income"
-        scale: "discrete"
+        persist:
+          position: True
         value: "bucket"
       y:
         label: "<<name>>"
@@ -329,7 +332,8 @@ topics:
       type: "bar"
       x:
         label: "age"
-        scale: "discrete"
+        persist:
+          position: True
         value: "bucket"
       y: "num_ppl"
   - title: "Poverty by Race & Ethnicity"
@@ -352,9 +356,7 @@ topics:
       id: "race"
       order: "num_ppl"
       type: "bar"
-      x:
-        scale: "discrete"
-        value: "race"
+      x: "race"
       y: "num_ppl"
   - category: "Industries"
     class: "flex"

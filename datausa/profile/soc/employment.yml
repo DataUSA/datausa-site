@@ -54,6 +54,8 @@ topics:
         value: "wage_bin"
       type: "bar"
       x:
+        persist:
+          position: True
         scale: "discrete"
         value: "wage_bin"
       y:

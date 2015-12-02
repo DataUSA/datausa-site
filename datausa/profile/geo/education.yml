@@ -101,7 +101,8 @@ topics:
       order: "grads_total"
       type: "bar"
       x:
-        scale: "discrete"
+        persist:
+          position: True
         value: "university"
       y: "grads_total"
   - title: "Race & Ethnicity"

@@ -31,7 +31,8 @@ topics:
       type: "bar"
       x:
         label: "age"
-        scale: "discrete"
+        persist:
+          position: True
         value: "bucket"
       y: "num_ppl"
   - category: "Heritage"

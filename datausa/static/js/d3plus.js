@@ -21197,7 +21197,7 @@ var objectValidate, uniques;
 
 objectValidate = require("../object/validate.coffee");
 
-uniques = function(data, value, fetch, vars, depth) {
+uniques = function(data, value, fetch, vars, depth, sorted) {
   var check, d, i, j, k, len, len1, len2, len3, lookups, m, v, val, vals;
   if (data === void 0) {
     return [];
@@ -21205,6 +21205,7 @@ uniques = function(data, value, fetch, vars, depth) {
   if (vars && depth === void 0) {
     depth = vars.id.value;
   }
+  sorted = (true === sorted && sorted === void 0);
   if (!(data instanceof Array)) {
     data = [data];
   }
@@ -21257,9 +21258,13 @@ uniques = function(data, value, fetch, vars, depth) {
       }
     }
   }
-  return vals.sort(function(a, b) {
-    return a - b;
-  });
+  if (sorted) {
+    return vals.sort(function(a, b) {
+      return a - b;
+    });
+  } else {
+    return vals;
+  }
 };
 
 module.exports = uniques;
@@ -29670,7 +29675,7 @@ module.exports = function(axis) {
     persist: {
       position: {
         accepted: [Boolean],
-        value: true
+        value: false
       },
       size: {
         accepted: [Boolean],
@@ -30557,23 +30562,23 @@ bar = function(vars) {
   }
   data = [];
   zero = 0;
+  if (vars[discrete].persist.position.value && !vars.axes.stacked) {
+    ids = uniques(d3.merge(nested.map(function(d) {
+      return d.values;
+    })), vars.id.value, fetchValue, vars, vars.id.value, false);
+    x.domain(ids).range(buckets(x.range(), ids.length));
+  }
   maxBars = d3.max(nested, function(b) {
     return b.values.length;
   });
-  for (i = k = 0, len1 = nested.length; k < len1; i = ++k) {
-    p = nested[i];
+  for (k = 0, len1 = nested.length; k < len1; k++) {
+    p = nested[k];
     if (vars.axes.stacked) {
       bars = 1;
       newSize = maxSize;
     } else if (vars[discrete].persist.position.value) {
       bars = divisions;
       newSize = maxSize;
-      if (!i) {
-        ids = p.values.map(function(d) {
-          return fetchValue(vars, d, vars.id.value);
-        });
-        x.domain(ids).range(buckets(x.range(), ids.length));
-      }
     } else {
       bars = p.values.length;
       if (vars[discrete].persist.size.value) {

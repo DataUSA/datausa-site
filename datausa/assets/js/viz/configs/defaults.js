@@ -49,9 +49,16 @@ viz.defaults = function(build) {
         style = axis === discrete ? "discrete" : "default",
         labelFont = chartStyles.labels[style][key];
 
-    if (build.config.y2) {
-      if (axis === "y") labelFont.color = build.colors.pri;
-      else if (axis === "y2") labelFont.color = build.colors.sec;
+    if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
+      if (build.config.y2.value === "01000US") {
+        if (axis === "y") labelFont.color = build.colors.pri;
+        else if (axis === "y2") labelFont.color = build.colors.sec;
+      }
+      else if (build.config.color in attrStyles) {
+        var colors = attrStyles[build.config.color];
+        if (colors[build.config[axis].value]) labelFont.color = colors[build.config[axis].value];
+        else if (colors[build.config[axis].label]) labelFont.color = colors[build.config[axis].label];
+      }
     }
 
     return {

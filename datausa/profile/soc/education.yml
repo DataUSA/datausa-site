@@ -97,7 +97,10 @@ topics:
       id: "sex"
       order: "num_ppl"
       type: "bar"
-      x: "cip"
+      x:
+        persist:
+          position: True
+        value: "cip"
       y: "num_ppl"
   - title: "Race & Ethnicity"
     slug: "ethnicity"

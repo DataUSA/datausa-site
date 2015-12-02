@@ -27,7 +27,10 @@ topics:
       id: "soc"
       order: "num_ppl"
       type: "bar"
-      x: "race"
+      x:
+        persist:
+          position: True
+        value: "race"
       y:
         label: "<<name>>"
         value: "num_ppl"

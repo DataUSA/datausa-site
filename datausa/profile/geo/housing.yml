@@ -25,7 +25,10 @@ topics:
       labels: YES
       order: "geo"
       type: "bar"
-      x: "income"
+      x:
+        persist:
+          position: True
+        value: "income"
       y:
         scale: "discrete"
         value: "geo"
@@ -44,7 +47,6 @@ topics:
       type: "bar"
       x:
         label: "income"
-        scale: "discrete"
         value: "bucket"
       y:
         label: "<<name>>"
@@ -90,7 +92,6 @@ topics:
       type: "bar"
       x:
         label: "property_val"
-        scale: "discrete"
         value: "bucket"
       y:
         label: "<<name>>"
@@ -116,7 +117,6 @@ topics:
       type: "bar"
       x:
         label: "property_tax"
-        scale: "discrete"
         value: "bucket"
       y:
         label: "<<name>>"
@@ -162,7 +162,6 @@ topics:
       type: "bar"
       x:
         label: "vehicles"
-        scale: "discrete"
         value: "bucket"
       y:
         label: "<<name>>"
@@ -208,7 +207,6 @@ topics:
       type: "bar"
       x:
         label: "travel"
-        scale: "discrete"
         value: "bucket"
       y:
         label: "<<name>>"

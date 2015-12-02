@@ -33,9 +33,6 @@ viz.bar = function(build) {
         "value": discrete !== axis
       },
       "grid": discrete !== axis,
-      "persist": {
-        "position": true
-      },
       "ticks": {
         "color": discrete === axis ? "none" : chartStyles.ticks.default[key].color,
         "labels": discrete !== axis || !build.config.labels,
