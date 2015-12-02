@@ -188,7 +188,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         if len(top) == 2:
             top = " ".join(top)
         else:
-            top = ", ".join(top)
+            top = "; ".join(top)
 
     # otherwise, return the list joined with commans
     return {
