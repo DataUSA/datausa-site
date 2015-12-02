@@ -73,10 +73,10 @@ topics:
     slug: "ethnicity_degrees"
     stat:
       - title: "Most Common Race or Ethnicity"
-        value: "<<top col=race|force=ipeds_beta.grads_yc|order=grads_total>>"
+        value: "<<top col=race|force=ipeds.grads_yc|order=grads_total>>"
         subvalues:
-          - "<<top col=race|force=ipeds_beta.grads_yc|order=grads_total|rank=2>>"
-          - "<<top col=race|force=ipeds_beta.grads_yc|order=grads_total|rank=3>>"
+          - "<<top col=race|force=ipeds.grads_yc|order=grads_total|rank=2>>"
+          - "<<top col=race|force=ipeds.grads_yc|order=grads_total|rank=3>>"
     description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
     viz:
       attrs: "university"
@@ -163,10 +163,10 @@ topics:
       default: "5"
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
-        value: "<<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total>>"
+        value: "<<top col=race-sex|degree=5|force=ipeds.grads_ycd|order=grads_total>>"
         subvalues:
-          - "<<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total|rank=2>>"
-          - "<<top col=race-sex|degree=5|force=ipeds_beta.grads_ycd|order=grads_total|rank=3>>"
+          - "<<top col=race-sex|degree=5|force=ipeds.grads_ycd|order=grads_total|rank=2>>"
+          - "<<top col=race-sex|degree=5|force=ipeds.grads_ycd|order=grads_total|rank=3>>"
     description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <span class='select-text'><<name id=5|attr=degree>></span> in <<name>>."
     viz:
       color: "sex"
@@ -175,7 +175,7 @@ topics:
         cip: "<<id>>"
         degree: "5"
         exclude: "grads_native_men,grads_native_women,grads_nonresident_men,grads_nonresident_women"
-        force: "ipeds_beta.grads_ycd"
+        force: "ipeds.grads_ycd"
         split:
           id: "race_sex"
           regex: "^grads_([a-z]*_[a-z]*)$"
