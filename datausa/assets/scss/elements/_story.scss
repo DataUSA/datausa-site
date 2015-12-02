@@ -106,7 +106,7 @@ body.story {
 
         a:hover {
           &:after {
-            content: "\00bb";
+            content: unicode("00bb");
             margin-left: 7px;
             position: absolute;
             font-family: $playfair;
@@ -252,7 +252,7 @@ body.story {
 
         a:hover {
           &:after {
-            content: "\00bb";
+            content: unicode("00bb");
             margin-left: 7px;
             position: absolute;
             font-family: "Playfair Display", serif;
