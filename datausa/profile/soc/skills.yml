@@ -12,7 +12,7 @@ topics:
       data:
         - soc: "<<id>>"
           show: "skill"
-      highlight: "<<sub show=skill|attrs=bls_soc|id_only=True>>"
+      highlight: "<<sub show=skill|attrs=bls_soc|key=id>>"
       id:
         - "soc"
         - "skill"

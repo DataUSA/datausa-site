@@ -7,7 +7,7 @@ topics:
     viz:
       attrs: "iocode"
       data:
-        - industry_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
+        - industry_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|key=id>>"
           industry_level: 0
           sumlevel: "naics"
           required: "value_millions"
@@ -15,7 +15,7 @@ topics:
           map:
             id: "industry_iocode"
             use: "commodity_iocode"
-        - commodity_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
+        - commodity_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|key=id>>"
           industry_level: 0
           sumlevel: "naics"
           required: "value_millions"
@@ -23,12 +23,12 @@ topics:
           map:
             id: "commodity_iocode"
             make: "industry_iocode"
-      highlight: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|id_only=True>>"
+      highlight: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|key=id>>"
       id: "id"
       type: "sankey"
   - title: "Consumption"
     slug: "tmap_consumption"
-    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
+    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics>>"
     stat:
       - title: "Highest Input Industry"
         value: "<<var namespace=io_commodity|key=commodity_iocode|row=0>>"
@@ -40,7 +40,7 @@ topics:
       attrs: "iocode"
       data:
         - industry_iocode: "<<id>>"
-          industry_level: 1
+          industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|key=level>>"
           sumlevel: "naics"
           required: "value_millions"
           show: "commodity_iocode"
@@ -61,7 +61,7 @@ topics:
       attrs: "iocode"
       data:
         - commodity_iocode: "<<id>>"
-          industry_level: 1
+          industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|key=level>>"
           sumlevel: "naics"
           required: "value_millions"
           show: "industry_iocode"

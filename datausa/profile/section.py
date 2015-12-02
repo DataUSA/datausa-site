@@ -469,7 +469,7 @@ class Section(object):
 
     def sub(self, **kwargs):
         substitution = False
-        id_only = kwargs.pop("id_only", False)
+        key = kwargs.pop("key", "name")
         if kwargs.get("dataset", False):
             attr_id = self.id(**kwargs)
             if self.attr["id"] != attr_id:
@@ -486,10 +486,11 @@ class Section(object):
                 substitution = fetch(subs[attr_type], attrs)
 
         if substitution:
-            if id_only:
-                return substitution["id"]
-            substitution = substitution["name"]
-            return u"Based on data from {}".format(substitution)
+            if key == "name":
+                substitution = substitution["name"]
+                return u"Based on data from {}".format(substitution)
+            else:
+                return substitution[key]
         else:
             return ""
 
