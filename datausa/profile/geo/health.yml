@@ -95,7 +95,7 @@ topics:
         - "excessive_drinking"
         - "adult_smoking"
       default: "alcoholimpaired_driving_deaths"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the relative amount of <span class='select-text'>Alcohol-Imparied Driving Deaths</span> per year."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the relative amount of <span class='select-text'>Alcohol-Impaired Driving Deaths</span> per year."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
         value: "<<top dataset=chr|child=True|order=alcoholimpaired_driving_deaths>>"
