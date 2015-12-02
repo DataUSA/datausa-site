@@ -43,6 +43,10 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
+    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value) {
+      build.config[axis].ticks.value = JSON.parse(build.config[axis].ticks.value);
+    }
+
     var range = proportions.indexOf(key) >= 0 && key !== "pct_total" ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
