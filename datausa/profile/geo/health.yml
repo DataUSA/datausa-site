@@ -1,5 +1,5 @@
 title: "Health & Safety"
-description: "The University of Wiconsin has collected data on various health and safety factors, and created a ranking for each."
+description: "The University of Wisconsin has collected data on various health and safety factors, and created a ranking for each."
 
 topics:
   - category: "Healthcare"
@@ -120,10 +120,10 @@ topics:
   - title: "Sexually Transmitted Diseases"
     subtitle: "<<sub dataset=chr>>"
     slug: "stds"
-    description: "Here we can compare HIV prevalance and sexually transmitted infections for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
+    description: "Here we can compare HIV prevalence and sexually transmitted infections for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest HIV prevalance"
+      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest HIV prevalence"
         value: "<<top dataset=chr|child=True|order=hiv_prevalence_rate>>"
         subvalues:
           - "<<top dataset=chr|child=True|order=hiv_prevalence_rate|rank=2>>"
