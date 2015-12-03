@@ -6,7 +6,6 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    source: NO
     description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
@@ -14,7 +13,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp"
-            required: "num_emp,num_emp_moe"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "desc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
@@ -35,7 +34,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp"
-            required: "num_emp,num_emp_moe"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "asc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
@@ -54,7 +53,6 @@ topics:
           value: "acs_occ"
   - class: "flex"
     sumlevel: "!nation"
-    source: NO
     title: "Most Specialized"
     slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
@@ -64,6 +62,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "desc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
@@ -84,6 +83,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "asc"
             show: "geo,acs_occ"
             sumlevel: "<<sumlevel>>,4"
@@ -101,7 +101,6 @@ topics:
           scale: "discrete"
           value: "acs_occ"
   - class: "flex"
-    source: NO
     title: "Highest Paid"
     slug: "top_occ_med_earnings"
     description: "The highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
@@ -156,7 +155,7 @@ topics:
       color: "acs_occ_2"
       data:
         - geo: "<<id>>"
-          required: "num_emp,num_emp_moe"
+          required: "num_emp,num_emp_moe,num_emp_rca"
           show: "geo,acs_occ"
           sumlevel: "<<sumlevel>>,4"
       depth: 4
@@ -360,7 +359,6 @@ topics:
       y: "num_ppl"
   - category: "Industries"
     class: "flex"
-    source: NO
     title: "Most Common"
     slug: "top_ind_num_emp"
     description: "The most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp|sort=desc|limit=3>>."
@@ -370,7 +368,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp"
-            required: "num_emp,num_emp_moe"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "desc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
@@ -391,7 +389,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp"
-            required: "num_emp,num_emp_moe"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "asc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
@@ -410,7 +408,6 @@ topics:
           value: "acs_ind"
   - class: "flex"
     sumlevel: "!nation"
-    source: NO
     title: "Most Specialized"
     slug: "top_ind_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp_rca|sort=desc|limit=3>>."
@@ -420,6 +417,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "desc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
@@ -440,6 +438,7 @@ topics:
           - geo: "<<id>>"
             limit: "5"
             order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
             sort: "asc"
             show: "geo,acs_ind"
             sumlevel: "<<sumlevel>>,1"
@@ -457,7 +456,6 @@ topics:
           scale: "discrete"
           value: "acs_ind"
   - class: "flex"
-    source: NO
     title: "Highest Paying"
     slug: "top_ind_med_earnings"
     description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
@@ -512,7 +510,7 @@ topics:
       color: "acs_ind_2"
       data:
         - geo: "<<id>>"
-          required: "num_emp,num_emp_moe"
+          required: "num_emp,num_emp_moe,num_emp_rca"
           show: "geo,acs_ind"
           sumlevel: "<<sumlevel>>,1"
       depth: 1

@@ -24,7 +24,6 @@ topics:
             - RCA: "value_rca"
   - class: "flex"
     slug: "bar"
-    source: NO
     viz:
       attrs:
         - "cip"
