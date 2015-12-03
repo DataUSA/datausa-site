@@ -305,26 +305,23 @@ class Section(object):
     def percent(self, **kwargs):
         """str: 2 columns divided by one another """
 
-        # set default params
-        params = {}
         attr_type = kwargs.get("attr_type", self.profile.attr_type)
         attr_id = kwargs.get("attr_id", self.attr["id"])
-        params["limit"] = 1
-        params["show"] = kwargs.get("show", attr_type)
-        params["year"] = kwargs.get("year", "latest")
-        params = default_params(params)
 
         r = {"num": 1, "den": 1}
         for t in r.keys():
             key = kwargs.get(t)
 
-            params[attr_type] = kwargs.get("{}_id".format(t), attr_id)
+            params = {}
+            params["limit"] = 1
+            params["year"] = kwargs.get("year", "latest")
+            params = default_params(params)
+            t_type = kwargs.get("{}_type".format(t), attr_type)
+            params["show"] = kwargs.get("show", t_type)
+            params[t_type] = kwargs.get("{}_id".format(t), attr_id)
             params["exclude"] = kwargs.get("exclude", "")
 
             if "top:" in key:
-
-                if "required" in params:
-                    del params["required"]
 
                 params["col"], params["force"] = key.split(":")[1].split(",")
                 r[t] = self.top(**params)["data"][0]
@@ -336,21 +333,13 @@ class Section(object):
                 subparams["num"] = num
                 subparams["den"] = den
                 subparams["data_only"] = True
-                subparams["num_id"] = params[attr_type]
-                subparams["den_id"] = params[attr_type]
+                subparams["num_id"] = params[t_type]
+                subparams["den_id"] = params[t_type]
                 r[t] = self.percent(**subparams)
 
             else:
 
-                if "col" in params:
-                    del params["col"]
-                if "force" in params:
-                    del params["force"]
-
                 params["required"] = key
-
-                if "exclude" in params:
-                    del params["exclude"]
 
                 # convert request arguments into a url query string
                 query = RequestEncodingMixin._encode_params(params)
