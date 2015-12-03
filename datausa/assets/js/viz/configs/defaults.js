@@ -251,6 +251,7 @@ viz.defaults = function(build) {
       "labels": false
     },
     "messages": {
+      "background": "white",
       "font": vizStyles.messages.font,
       "style": "large"
     },

@@ -27723,7 +27723,8 @@ module.exports = function(vars) {
 }
 
 },{"../../../array/sort.coffee":36,"../../../client/pointer.coffee":40,"../../../client/touch.coffee":44,"../../../color/text.coffee":51,"../../../core/console/print.coffee":53,"../../../core/data/nest.js":61,"../../../core/fetch/color.coffee":64,"../../../core/fetch/text.js":67,"../../../core/fetch/value.coffee":68,"../../../object/validate.coffee":171,"../../../string/strip.js":174,"../../../textwrap/textwrap.coffee":199,"../../../tooltip/remove.coffee":202,"../../../util/buckets.coffee":203,"../../../util/copy.coffee":206,"../../../util/dataURL.coffee":208,"../../../util/uniques.coffee":209,"../tooltip/create.js":239}],245:[function(require,module,exports){
-var events = require("../../../client/pointer.coffee");
+var events = require("../../../client/pointer.coffee"),
+    textColor = require("../../../color/text.coffee");
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Creates Centered Server Message
@@ -27769,9 +27770,12 @@ module.exports = function(vars,message) {
     "padding": font.padding+"px"
   }
 
-  var bg = vars.background.value;
-  if (bg === "none") {
-    bg = "white";
+  var bg = vars.messages.background.value;
+  if (!bg) {
+    bg = vars.background.value;
+    if (bg === "none" || bg === "transparent") {
+      bg = textColor(font.color);
+    }
   }
 
   function style(elem) {
@@ -27870,7 +27874,7 @@ module.exports = function(vars,message) {
 
 }
 
-},{"../../../client/pointer.coffee":40}],246:[function(require,module,exports){
+},{"../../../client/pointer.coffee":40,"../../../color/text.coffee":51}],246:[function(require,module,exports){
 var closest, css, events, fontSizes, mix, playInterval, prefix, print, textColor, timeDetect;
 
 closest = require("../../../util/closest.coffee");
@@ -29981,6 +29985,10 @@ transform = require("../../core/methods/font/transform.coffee");
 
 module.exports = {
   accepted: [Boolean, String],
+  background: {
+    accepted: [false, String],
+    value: false
+  },
   branding: {
     accepted: [Boolean],
     image: {
