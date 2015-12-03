@@ -1,6 +1,6 @@
 title: "<<name>>"
 group: "<<level>>"
-description: "Explore data on the education, dmeographics, industries, and skills of <<name>> in the US."
+description: "Explore data on the education, demographics, industries, and skills of <<name>> in the US."
 stats:
   - title: "Employees"
     value: "<<var namespace=data|key=num_ppl>>"
