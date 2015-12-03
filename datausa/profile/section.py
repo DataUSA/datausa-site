@@ -295,7 +295,8 @@ class Section(object):
             attr = self.attr
 
         name = attr["display_name"] if "display_name" in attr else attr["name"]
-        if attr["id"] != self.attr["id"]:
+        text_only = kwargs.get("text_only", False)
+        if not text_only and attr["id"] != self.attr["id"]:
             name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.profile.attr_type, attr_id=attr["id"]), name)
         return name
 

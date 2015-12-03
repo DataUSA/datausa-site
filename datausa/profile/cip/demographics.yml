@@ -221,18 +221,30 @@ topics:
     viz:
       attrs: "cip"
       data:
-        required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
-        cip: "<<id dataset=pums>>"
-        show: "age"
+        - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          cip: "<<id dataset=pums>>"
+          show: "age"
+        - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          show: "age"
+          static:
+            cip: "National Average"
+          map:
+            y2_num_ppl: "num_ppl"
+      highlight: "<<id dataset=pums>>"
       id: "cip"
       type: "line"
       x:
-        range: [19, 95]
+        range: [16, 95]
         ticks:
-          labels: [19, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
-          value: "<<range min=19|max=95>>"
+          labels: [16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
+          value: "<<range min=16|max=95>>"
         value: "age"
-      y: "num_ppl"
+      y:
+        label: "<<name dataset=pums|text_only=True>>"
+        value: "num_ppl"
+      y2:
+        label: "National Average"
+        value: "y2_num_ppl"
   - title: "Global Diversity"
     slug: "global_diversity"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
