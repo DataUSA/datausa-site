@@ -347,10 +347,14 @@ class Section(object):
                 url = u"{}/api?{}".format(API, query)
 
                 try:
-                    r[t] = datafold(requests.get(url).json())[0][key]
+                    r[t] = datafold(requests.get(url).json())
                 except ValueError:
                     app.logger.info("STAT ERROR: {}".format(url))
                     return "N/A"
+
+                if len(r[t]) == 0:
+                    return "N/A"
+                r[t] = r[t][0][key]
 
             if r[t] in [None, "N/A"]:
                 return "N/A"
