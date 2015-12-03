@@ -4,10 +4,13 @@ description: "By ingesting the data housed at the Bureau of Labor and Statistics
 topics:
   - title: "Job Growth"
     slug: "job_growth"
+    subtitle: "<<sub col=emp_carc_2012_2022|year=none>>"
     stat:
-      - title: "Estimated 2022 Growth"
+      - title: "Estimated Growth"
         value: "<<top col=emp_carc_2012_2022|year=none>>"
-    description: "The line chart on the right shows the estimated growth in the number of jobs for the <<name>> <<level short=True>>."
+      - title: "National Average"
+        value: "<<top col=emp_carc_2012_2022|year=none|naics=000000>>"
+    description: "The line chart on the right shows the estimated growth in the number of jobs for the <<name>> <<level short=True>>, which is <<percent num=emp_carc_2012_2022|den=emp_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2012_2022|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
@@ -19,6 +22,15 @@ topics:
             id: "year"
             regex: "^emp_([0-9]*)_thousands$"
             value: "emp_thousands"
+        - naics: "000000"
+          show: "naics"
+          required: "emp_2002_thousands,emp_2012_thousands,emp_2022_thousands"
+          year: "none"
+          split:
+            id: "year"
+            regex: "^emp_([0-9]*)_thousands$"
+            value: "y2_emp_thousands"
+      highlight: "<<sub col=emp_carc_2012_2022|year=none|key=id>>"
       id: "naics"
       type: "line"
       x:
@@ -26,13 +38,21 @@ topics:
           - text: "Most Recent"
             position: "2012"
         value: "year"
-      y: "emp_thousands"
+      y:
+        label: "Industry"
+        value: "emp_thousands"
+      y2:
+        label: "National Average"
+        value: "y2_emp_thousands"
   - title: "Output Growth"
     slug: "output_growth"
+    subtitle: "<<sub col=output_carc_2012_2022|year=none>>"
     stat:
-      - title: "Estimated 2022 Growth"
+      - title: "Estimated Growth"
         value: "<<top col=output_carc_2012_2022|year=none>>"
-    description: "The line chart on the right shows the estimated growth in the number of jobs for the <<name>> <<level short=True>>."
+      - title: "National Average"
+        value: "<<top col=output_carc_2012_2022|year=none|naics=000000>>"
+    description: "The line chart on the right shows the estimated growth in the number of jobs for the <<name>> <<level short=True>>, which is <<percent num=output_carc_2012_2022|den=output_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2012_2022|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
@@ -44,6 +64,15 @@ topics:
             id: "year"
             regex: "^output_([0-9]*)$"
             value: "output"
+        - naics: "000000"
+          show: "naics"
+          required: "output_2002,output_2012,output_2022"
+          year: "none"
+          split:
+            id: "year"
+            regex: "^output_([0-9]*)$"
+            value: "y2_output"
+      highlight: "<<sub col=output_carc_2012_2022|year=none|key=id>>"
       id: "naics"
       type: "line"
       x:
@@ -51,7 +80,12 @@ topics:
           - text: "Most Recent"
             position: "2012"
         value: "year"
-      y: "output"
+      y:
+        label: "Industry"
+        value: "output"
+      y2:
+        label: "National Average"
+        value: "y2_output"
   - title: "Top Changing Occupations"
     slug: "changing_occs"
     description: "Filtered by the occupations employed in the <<name>> <<level short=True>>, here are the top 5 occupations by number of employees with the largest estimated change in employment across all industries."

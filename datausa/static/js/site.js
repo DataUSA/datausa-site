@@ -1510,7 +1510,7 @@ viz.defaults = function(build) {
         labelFont = chartStyles.labels[style][key];
 
     if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
-      if (build.config.y2.value === "01000US") {
+      if (build.config.y2.value === "01000US" || build.config.y2.label === "National Average" || build.config.y2.label === "USA") {
         if (axis === "y") labelFont.color = build.colors.pri;
         else if (axis === "y2") labelFont.color = build.colors.sec;
       }
@@ -1553,7 +1553,7 @@ viz.defaults = function(build) {
             params.key = params.key.replace("_moe", "");
           }
 
-          if (params.key == "emp_thousands") {
+          if (params.key.indexOf("emp_thousands") >= 0) {
             number = number * 1000;
           }
           else if (params.key == "value_millions") {

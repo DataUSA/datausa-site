@@ -311,6 +311,7 @@ class Section(object):
         attr_id = kwargs.get("attr_id", self.attr["id"])
         params["limit"] = 1
         params["show"] = kwargs.get("show", attr_type)
+        params["year"] = kwargs.get("year", "latest")
         params = default_params(params)
 
         r = {"num": 1, "den": 1}

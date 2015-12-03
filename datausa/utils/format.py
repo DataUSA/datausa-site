@@ -325,7 +325,7 @@ def num_format(number, key=None, labels=True, condense=True):
     # Converts the number to a float.
     n = float(number)
 
-    if key == "emp_thousands":
+    if key and "emp_thousands" in key:
         n = n * 1000
     elif key == "value_millions":
         n = n * 1000000

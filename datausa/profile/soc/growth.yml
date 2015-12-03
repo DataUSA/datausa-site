@@ -4,22 +4,27 @@ description: "By ingesting the data housed at the Bureau of Labor and Statistics
 topics:
   - title: "Job Growth"
     slug: "job_growth"
+    subtitle: "<<sub col=pct_change|year=none>>"
     stat:
-      - title: "Estimated 2022 Growth"
+      - title: "Estimated Growth"
         value: "<<top col=pct_change|year=none>>"
-    description: "The line chart on the right shows the estimated growth for the number of <<name>> jobs in 2022."
+      - title: "National Average"
+        value: "<<top col=pct_change|year=none|soc=000000>>"
+    description: "The line chart on the right shows the estimated growth for the number of <<name>> jobs in 2022, which is <<percent num=pct_change|den=pct_change|den_id=000000|year=none|text=highlow>> the national average of <<top col=pct_change|year=none|soc=000000>>."
     viz:
       attrs: "bls_soc"
       data:
-        - soc: "<<id>>"
-          show: "soc"
-          required: "emp_2012_thousands,emp_2022_thousands"
-          year: "none"
-          split:
-            id: "year"
-            regex: "^emp_([0-9]*)_thousands$"
-            value: "emp_thousands"
+        soc: "<<id>>"
+        show: "soc"
+        required: "emp_2012_thousands,emp_2022_thousands"
+        year: "none"
+        split:
+          id: "year"
+          regex: "^emp_([0-9]*)_thousands$"
+          value: "emp_thousands"
       id: "soc"
       type: "line"
       x: "year"
-      y: "emp_thousands"
+      y:
+        label: "<<name>>"
+        value: "emp_thousands"
