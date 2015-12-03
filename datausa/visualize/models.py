@@ -65,7 +65,8 @@ class Viz(object):
         self.config = params
 
         # set the tooltip config using the function
-        self.config["tooltip"] = self.tooltip()
+        self.config["tooltip"] = params.pop("tooltip", {})
+        self.config["tooltip"]["value"] = self.tooltip()
 
         # set default depth to zero
         self.config["depth"] = int(params["depth"]) if "depth" in params else 0
@@ -92,7 +93,7 @@ class Viz(object):
 
         # check each data call for 'required' and 'order'
         for d in self.data:
-            if "share" in d:
+            if "share" in d and "share" not in tooltip:
                 tooltip.append("share")
             p = d["params"]
             for k in ["required", "order"]:
@@ -127,5 +128,12 @@ class Viz(object):
                     moe = "{}_moe".format(val)
                     if moe not in tooltip:
                         tooltip.append(moe)
+
+        if "exclude" in self.config["tooltip"]:
+            excludes = self.config["tooltip"]["exclude"]
+            del self.config["tooltip"]["exclude"]
+            if not isinstance(excludes, list):
+                excludes = [excludes]
+            tooltip = [t for t in tooltip if t not in excludes]
 
         return tooltip

@@ -2213,10 +2213,17 @@ viz.loadData = function(build, next) {
         }
 
         if (d.map) {
+          if ("delete" in d.map) {
+            var deleteMap = d.map.delete;
+            delete d.map.delete;
+          }
+          else {
+            var deleteMap = true;
+          }
           for (var i = 0; i < data.length; i++) {
             for (var k in d.map) {
               data[i][k] = data[i][d.map[k]];
-              delete data[i][d.map[k]];
+              if (deleteMap) delete data[i][d.map[k]];
             }
           }
         }
