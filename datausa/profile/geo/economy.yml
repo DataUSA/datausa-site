@@ -227,10 +227,11 @@ topics:
     subtitle: "<<sub show=race|col=avg_wage>>"
     slug: "income_ethnicity"
     description: "<<top show=race|order=avg_wage>> citizens earn, on average, <<top show=race|order=avg_wage|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in <<name>>."
+    stat_stack: YES
     stat:
       - title: "Race or Ethnicity with Highest Median Income"
         value: "<<top show=race|order=avg_wage>>"
-        subtitle: "<span class='plus-minus'>±</span> <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
+        subtitle: "<<top show=race|order=avg_wage|col=avg_wage>> <span class='plus-minus'>±</span> <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
     viz:
       attrs:
         - "race"
