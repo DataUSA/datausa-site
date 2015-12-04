@@ -1310,6 +1310,7 @@ var viz = function(build) {
   }
 
   build.viz = d3plus.viz()
+    .messages(!build.container.classed("thumbprint"))
     .config(viz.defaults(build))
     .background("transparent")
     .container(build.container.select(".d3plus"))
