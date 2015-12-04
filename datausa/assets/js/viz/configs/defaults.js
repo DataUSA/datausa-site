@@ -76,6 +76,23 @@ viz.defaults = function(build) {
     };
   };
 
+  var messageBg = vizStyles.background;
+  if (!build.container.classed("thumbprint") && messageBg === "transparent") {
+    function findSection(node) {
+      if (node.tagName.toLowerCase() === "section") {
+        var bg = d3.select(node).style("background-color");
+        return bg !== "rgba(0, 0, 0, 0)" ? bg : "white";
+      }
+      else if (node.tagName.toLowerCase() === "body") {
+        return messageBg;
+      }
+      else {
+        return findSection(node.parentNode);
+      }
+    }
+    messageBg = findSection(build.container.node());
+  }
+
   return {
     "axes": {
       "background": chartStyles.background,
@@ -251,7 +268,7 @@ viz.defaults = function(build) {
       "labels": false
     },
     "messages": {
-      "background": "white",
+      "background": messageBg,
       "font": vizStyles.messages.font,
       "style": "large"
     },
