@@ -1,6 +1,5 @@
 - required:
     - "avg_age"
-    - "avg_age_rank"
     - "avg_age_moe"
     - "avg_wage"
     - "avg_wage_rank"
