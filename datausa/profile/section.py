@@ -53,7 +53,7 @@ class Section(object):
         # loop through each key
         for k in keys:
             # split the key at a blank space to find params
-            val = re.findall(r"<<([^>]+)>>", k)[0]
+            val = re.findall(r"<<(.*?)>>", k)[0]
             func, params = val.split(" ") if " " in val else (val, "")
 
             # if Section has a function with the same name as the key
@@ -76,7 +76,7 @@ class Section(object):
 
 
         # regex to find all keys matching <<*>>
-        keys = re.findall(r"<<([^>]+)>>", config)
+        keys = re.findall(r"<<(.*?)>>", config)
 
         # loop through each key
         for k in keys:
