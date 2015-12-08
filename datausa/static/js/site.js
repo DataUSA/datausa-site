@@ -490,52 +490,39 @@ var load = function(url, callback) {
     function loadUrl() {
 
       if (load.cache[url]) {
-          data = load.cache[url];
-          callback(load.datafold(data), url, data);
-      }
-      else if (url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0) {
-
-        localforage.getItem(url, function(error, data) {
-
-          if (data) {
-            callback(load.datafold(data), url, data);
-          }
-          else {
-            d3.json(url, function(error, data){
-
-              if (error) {
-                console.log(error);
-                console.log(url);
-                data = {"headers": [], "data": []};
-              }
-
-              // if (data.headers) {
-              //   for (var i = 0; i < data.data.length; i++) {
-              //     data.data[i].push(data.data[i].map(function(d){ return (d + "").toLowerCase(); }).join("_"));
-              //   }
-              //   data.headers.push("search");
-              // }
-
-              localforage.setItem(url, data);
-              load.cache[url] = data;
-              callback(load.datafold(data), url, data);
-            });
-          }
-
-        });
-
+        load.callbacks(url, load.cache[url]);
       }
       else {
 
-        d3.json(url, function(error, data){
-          if (error) {
-            console.log(error);
-            console.log(url);
-            data = {"headers": [], "data": []};
+        if (url in load.queue) {
+          load.queue[url].push(callback);
+        }
+        else {
+          load.queue[url] = [callback];
+
+          if (load.storeLocal(url)) {
+
+            localforage.getItem(url, function(error, data) {
+
+              if (data) {
+                load.callbacks(url, data);
+              }
+              else {
+                d3.json(url, function(error, data){
+                  load.rawData(error, data, url);
+                });
+              }
+
+            });
+
           }
-          load.cache[url] = data;
-          callback(load.datafold(data), url, data);
-        });
+          else {
+            d3.json(url, function(error, data){
+              load.rawData(error, data, url);
+            });
+          }
+
+        }
 
       }
 
@@ -546,6 +533,16 @@ var load = function(url, callback) {
 }
 
 load.cache = {};
+load.queue = {};
+
+load.callbacks = function(url, data) {
+  var folded = load.datafold(data);
+  while (load.queue[url].length) {
+    var callback = load.queue[url].shift();
+    callback(folded, url, data);
+  }
+  delete load.queue[url];
+}
 
 load.datafold = function(data) {
   if (data.data && data.headers) {
@@ -560,6 +557,21 @@ load.datafold = function(data) {
   else {
     return data;
   }
+}
+
+load.storeLocal = function(url) {
+  return url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0;
+}
+
+load.rawData = function(error, data, url) {
+  if (error) {
+    console.log(error);
+    console.log(url);
+    data = {"headers": [], "data": []};
+  }
+  localforage.setItem(url, data);
+  load.cache[url] = data;
+  load.callbacks(url, data);
 }
 
 var attrs_meta = {
