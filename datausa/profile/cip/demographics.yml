@@ -12,10 +12,10 @@ topics:
           - "<<top show=degree|order=grads_total|rank=2>>"
           - "<<top show=degree|order=grads_total|rank=3>>"
       - title: "Most Common Workforce Degree"
-        value: "<<top show=degree|order=num_ppl|dataset=pums>>"
+        value: "<<top show=degree|order=num_ppl|dataset=pums|where=num_records:>4>>"
         subvalues:
-          - "<<top show=degree|order=num_ppl|dataset=pums|rank=2>>"
-          - "<<top show=degree|order=num_ppl|dataset=pums|rank=3>>"
+          - "<<top show=degree|order=num_ppl|dataset=pums|rank=2|where=num_records:>4>>"
+          - "<<top show=degree|order=num_ppl|dataset=pums|rank=3|where=num_records:>4>>"
     description: "By leveraging both the PUMS and IPEDS datasets, we can compare the degrees obtained by the working population against the current student graduation rate."
     viz:
       attrs:
@@ -33,6 +33,7 @@ topics:
         - required: "num_ppl"
           cip: "<<id dataset=pums>>"
           show: "degree"
+          where: "num_records:>4"
           static:
             student_pool: "Workforce"
       id: "student_pool"
@@ -224,8 +225,10 @@ topics:
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           cip: "<<id dataset=pums>>"
           show: "age"
+          where: "num_records:>4"
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "age"
+          where: "num_records:>4"
           static:
             cip: "National Average"
           map:

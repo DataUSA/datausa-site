@@ -7,7 +7,7 @@ topics:
     title: "Most Common"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     slug: "top_occ_num_emp"
-    description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         data:
@@ -18,6 +18,7 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
+            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -39,6 +40,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
+            where: "num_ppl:!0,num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -55,7 +57,7 @@ topics:
     title: "Most Specialized"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     slug: "top_occ_rca"
-    description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>."
+    description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         data:
@@ -66,6 +68,7 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
+            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -87,6 +90,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
+            where: "num_ppl_rca:!0,num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -103,7 +107,7 @@ topics:
     title: "Highest Paid"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     slug: "top_occ_wage"
-    description: "The highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         data:
@@ -114,6 +118,7 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
+            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -135,6 +140,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
+            where: "avg_wage:!0,num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -158,6 +164,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
+          where: "num_records:>4"
       depth: 3
       height: 500
       id:
@@ -186,6 +193,7 @@ topics:
           order: "avg_wage"
           required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "soc"
+          where: "num_records:>4"
       id: "soc"
       labels: YES
       order:
@@ -216,6 +224,7 @@ topics:
           required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "geo"
           sumlevel: "puma"
+          where: "num_records:>4"
       id: "geo"
       height: 500
       type: "geo_map"
@@ -224,7 +233,7 @@ topics:
     class: "flex"
     title: "Most Common"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
-    description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "naics"
         data:
@@ -235,6 +244,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
+            where: "num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -256,6 +266,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
+            where: "num_ppl:!0,num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -272,7 +283,7 @@ topics:
     title: "Highest Paid"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     slug: "top_ind_wage"
-    description: "The highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "naics"
         data:
@@ -283,6 +294,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
+            where: "num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -304,6 +316,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
+            where: "avg_wage:!0,num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -327,6 +340,7 @@ topics:
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
+          where: "num_records:>4"
       depth: 2
       height: 500
       id:
@@ -354,6 +368,7 @@ topics:
           order: "num_ppl_rca,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "geo"
           sumlevel: "puma"
+          where: "num_records:>4"
       id: "geo"
       height: 500
       type: "geo_map"

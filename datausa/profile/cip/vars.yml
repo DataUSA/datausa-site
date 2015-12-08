@@ -57,6 +57,7 @@
   limit: 3
   order: avg_wage
   sort: desc
+  where: "num_records:>4"
   namespace: occ_wage
 
 - required: ["geo", "avg_wage"]
@@ -64,6 +65,7 @@
   limit: 3
   order: avg_wage
   sort: desc
+  where: "num_records:>4"
   namespace: puma_wage
 
 - required: ["geo", "num_ppl_rca"]
@@ -71,4 +73,5 @@
   limit: 3
   order: num_ppl_rca
   sort: desc
+  where: "num_records:>4"
   namespace: puma_rca

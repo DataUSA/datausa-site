@@ -6,7 +6,7 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         data:
@@ -17,6 +17,7 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
+            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -38,7 +39,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
-            where: "num_ppl:!0"
+            where: "num_ppl:!0,num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -54,7 +55,7 @@ topics:
   - class: "flex"
     title: "Most Specialized"
     slug: "top_occ_rca"
-    description: "Compared to other <<level plural=True>>, <<name>> employs an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> employs an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         data:
@@ -65,6 +66,7 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
+            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -86,7 +88,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
-            where: "num_ppl_rca:!0"
+            where: "num_ppl_rca:!0,num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -102,7 +104,7 @@ topics:
   - class: "flex"
     title: "Highest Paid"
     slug: "top_occ_wage"
-    description: "The highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         data:
@@ -113,6 +115,7 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
+            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -134,7 +137,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
-            where: "avg_wage:!0"
+            where: "avg_wage:!0,num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -157,6 +160,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
+          where: "num_records:>4"
       depth: 4
       height: 500
       id:
@@ -181,6 +185,7 @@ topics:
           show: "naics"
           sumlevel: "<<sumlevel>>"
           avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+          where: "num_records:>4"
       id: "naics"
       labels: YES
       order:
@@ -209,12 +214,13 @@ topics:
           show: "geo"
           sumlevel: "puma"
           naics: "<<id>>"
+          where: "num_records:>4"
       height: 400
       id: "geo"
       type: "geo_map"
   - title: "Wage by Gender"
     slug: "wage_gender"
-    description: "<<top show=sex|order=avg_wage|sort=desc>> workers in the <<name>> <<level short=True>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2>> times more than their <<top show=sex|order=avg_wage|sort=asc>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
+    description: "<<top show=sex|order=avg_wage|sort=desc>> workers in the <<name>> <<level short=True>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4>> times more than their <<top show=sex|order=avg_wage|sort=asc>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Average Male Wage"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
@@ -234,6 +240,7 @@ topics:
           show: "soc,sex"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
+          where: "num_records:>4"
       id: "sex"
       order: "num_ppl"
       type: "bar"
@@ -244,7 +251,7 @@ topics:
       y: "num_ppl"
   - title: "Wage by Race & Ethnicity"
     slug: "wage_ethnicity"
-    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
+    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
     stat:
       - title: "Race or Ethnicity with Highest Average Wage"
         value: "<<var namespace=race_wage|key=race|row=0>>"
@@ -263,6 +270,7 @@ topics:
           show: "soc,race"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
+          where: "num_records:>4"
       id: "race"
       order: "avg_wage"
       type: "bar"
@@ -316,6 +324,7 @@ topics:
           show: "geo"
           sumlevel: "puma"
           naics: "<<id>>"
+          where: "num_records:>4"
       height: 400
       id: "geo"
       type: "geo_map"

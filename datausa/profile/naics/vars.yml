@@ -27,6 +27,7 @@
   sort: desc
   rows: True
   limit: 3
+  where: num_records:>4
   namespace: puma_wage
 
 - required: ["geo"]
@@ -36,6 +37,7 @@
   sort: desc
   rows: True
   limit: 3
+  where: num_records:>4
   namespace: puma_rca
 
 - required: ["race"]
@@ -44,6 +46,7 @@
   sort: desc
   rows: True
   limit: 3
+  where: num_records:>4
   namespace: race_wage
 
 - required: ["commodity_iocode"]

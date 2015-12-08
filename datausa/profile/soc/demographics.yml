@@ -10,7 +10,7 @@ topics:
         subvalues:
           - "<<var namespace=race|key=race|row=1>>"
           - "<<var namespace=race|key=race|row=2>>"
-    description: "The most common race or ethnicity of <<name>> is <<top show=race|order=num_ppl>>, followed by <<top show=race|order=num_ppl|rank=2>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
+    description: "The most common race or ethnicity of <<name>> is <<var namespace=race|key=race|row=0>>, followed by <<var namespace=race|key=race|row=1>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
     viz:
       attrs:
         - "soc"
@@ -19,9 +19,11 @@ topics:
         - required: "num_ppl,num_ppl_moe"
           show: "race"
           soc: "<<id>>"
+          where: "num_records:>4"
         - required: "num_ppl,num_ppl_moe"
           show: "race"
           geo: "01000US"
+          where: "num_records:>4"
           static:
             soc: "USA"
       id: "soc"
@@ -55,12 +57,13 @@ topics:
           show: "age,sex"
           sumlevel: "all,all"
           soc: "<<id>>"
+          where: "num_records:>4"
       id: "sex"
       type: "line"
       x:
         range: [16, 95]
         ticks:
           labels: [16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
-          value: <<range min=16|max=95>>
+          value: "<<range min=16|max=95>>"
         value: "age"
       y: "num_ppl"

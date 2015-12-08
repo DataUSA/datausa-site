@@ -18,6 +18,7 @@
   sort: desc
   rows: True
   limit: 3
+  where: "num_records:>4"
   namespace: puma_wage
 
 - required: ["geo", "num_ppl_rca"]
@@ -27,6 +28,7 @@
   sort: desc
   rows: True
   limit: 3
+  where: "num_records:>4"
   namespace: puma_rca
 
 - required: ["race"]
@@ -34,16 +36,11 @@
   rows: True
   limit: 3
   sort: desc
+  where: "num_records:>4"
   namespace: race
 
 - required: ["sex"]
   order: num_ppl
   sort: desc
+  where: "num_records:>4"
   namespace: sex
-
-- required: ["race"]
-  order: num_ppl
-  sort: desc
-  rows: True
-  limit: 3
-  namespace: race
