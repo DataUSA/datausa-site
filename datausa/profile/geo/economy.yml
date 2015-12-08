@@ -3,6 +3,7 @@ description: "Here we present trends in jobs, wages and industries over time in 
 
 topics:
   - category: "Occupations"
+    sumlevel: "!nation,!state"
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
@@ -51,8 +52,59 @@ topics:
           label: "Bottom"
           scale: "discrete"
           value: "acs_occ"
+  - category: "Occupations"
+    sumlevel: "nation,state"
+    title: "Most Common"
+    slug: "top_occ_num_emp"
+    class: "flex"
+    description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
+    viz:
+      - attrs: "soc"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,soc"
+            sumlevel: "<<sumlevel>>,3"
+            where: "num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Top"
+          scale: "discrete"
+          value: "soc"
+      - attrs: "soc"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,soc"
+            sumlevel: "<<sumlevel>>,3"
+            where: "num_ppl:!0,num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom"
+          scale: "discrete"
+          value: "soc"
   - class: "flex"
-    sumlevel: "!nation"
+    sumlevel: "!nation,!state"
     title: "Most Specialized"
     slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
@@ -101,7 +153,58 @@ topics:
           scale: "discrete"
           value: "acs_occ"
   - class: "flex"
+    sumlevel: "state"
+    title: "Most Specialized"
+    slug: "top_occ_rca"
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
+    viz:
+      - attrs: "soc"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,soc"
+            sumlevel: "<<sumlevel>>,3"
+            where: "num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Top"
+          scale: "discrete"
+          value: "soc"
+      - attrs: "soc"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,soc"
+            sumlevel: "<<sumlevel>>,3"
+            where: "num_ppl_rca:!0,num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Bottom"
+          scale: "discrete"
+          value: "soc"
+  - class: "flex"
     title: "Highest Paid"
+    sumlevel: "!nation,!state"
     slug: "top_occ_med_earnings"
     description: "The highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
@@ -148,7 +251,58 @@ topics:
           label: "Bottom"
           scale: "discrete"
           value: "acs_occ"
+  - class: "flex"
+    title: "Highest Paid"
+    sumlevel: "nation,state"
+    slug: "top_occ_med_earnings"
+    description: "The highest paid occupations in <<name>>, by median earnings, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    viz:
+      - attrs: "soc"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,soc"
+            sumlevel: "<<sumlevel>>,3"
+            where: "num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Top"
+          scale: "discrete"
+          value: "soc"
+      - attrs: "soc"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,soc"
+            sumlevel: "<<sumlevel>>,3"
+            where: "avg_wage:!0,num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Bottom"
+          scale: "discrete"
+          value: "soc"
   - slug: "tmap_occ_num_emp"
+    sumlevel: "!nation,!state"
     title: "Occupations by Share"
     viz:
       attrs: "acs_occ"
@@ -167,6 +321,27 @@ topics:
         - "acs_occ_8"
         - "acs_occ_10"
       size: "num_emp"
+      type: "tree_map"
+  - slug: "tmap_occ_num_emp"
+    sumlevel: "nation,state"
+    title: "Occupations by Share"
+    viz:
+      attrs: "soc"
+      color: "great_grandparent"
+      data:
+        - geo: "<<id>>"
+          required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+          show: "geo,soc"
+          sumlevel: "<<sumlevel>>,3"
+          where: "num_records:>4"
+      depth: 3
+      height: 500
+      id:
+        - "great_grandparent"
+        - "grandparent"
+        - "parent"
+        - "soc"
+      size: "num_ppl"
       type: "tree_map"
   - category: "Wages"
     title: "Average Wage"
@@ -363,6 +538,7 @@ topics:
       x: "race"
       y: "num_ppl"
   - category: "Industries"
+    sumlevel: "!nation,!state"
     class: "flex"
     title: "Most Common"
     slug: "top_ind_num_emp"
@@ -411,8 +587,59 @@ topics:
           label: "Bottom"
           scale: "discrete"
           value: "acs_ind"
+  - category: "Industries"
+    sumlevel: "nation,state"
+    class: "flex"
+    title: "Most Common"
+    slug: "top_ind_num_emp"
+    description: "The most common industries in <<name>> by number of employees are <<top show=geo,naics|sumlevel=sumlevel,2|order=num_ppl|sort=desc|limit=3>>."
+    viz:
+      - attrs: "naics"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,naics"
+            sumlevel: "<<sumlevel>>,2"
+            where: "num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Top"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,naics"
+            sumlevel: "<<sumlevel>>,2"
+            where: "num_ppl:!0,num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom"
+          scale: "discrete"
+          value: "naics"
   - class: "flex"
-    sumlevel: "!nation"
+    sumlevel: "!nation,!state"
     title: "Most Specialized"
     slug: "top_ind_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp_rca|sort=desc|limit=3>>."
@@ -461,6 +688,57 @@ topics:
           scale: "discrete"
           value: "acs_ind"
   - class: "flex"
+    sumlevel: "state"
+    title: "Most Specialized"
+    slug: "top_ind_rca"
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,naics|sumlevel=sumlevel,2|order=num_ppl_rca|sort=desc|limit=3>>."
+    viz:
+      - attrs: "naics"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,naics"
+            sumlevel: "<<sumlevel>>,2"
+            where: "num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Top"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "num_ppl_rca"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,naics"
+            sumlevel: "<<sumlevel>>,2"
+            where: "num_ppl_rca:!0,num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          label: "Bottom"
+          scale: "discrete"
+          value: "naics"
+  - class: "flex"
+    sumlevel: "!nation,!state"
     title: "Highest Paying"
     slug: "top_ind_med_earnings"
     description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
@@ -508,7 +786,58 @@ topics:
           label: "Bottom"
           scale: "discrete"
           value: "acs_ind"
+  - class: "flex"
+    sumlevel: "nation,state"
+    title: "Highest Paying"
+    slug: "top_ind_med_earnings"
+    description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,naics|sumlevel=sumlevel,2|order=avg_wage|sort=desc|limit=3>>."
+    viz:
+      - attrs: "naics"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,naics"
+            sumlevel: "<<sumlevel>>,2"
+            where: "num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Top"
+          scale: "discrete"
+          value: "naics"
+      - attrs: "naics"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,naics"
+            sumlevel: "<<sumlevel>>,2"
+            where: "avg_wage:!0,num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Bottom"
+          scale: "discrete"
+          value: "naics"
   - slug: "tmap_ind_num_emp"
+    sumlevel: "!nation,!state"
     title: "Industries by Share"
     viz:
       attrs: "acs_ind"
@@ -524,4 +853,24 @@ topics:
         - "acs_ind_2"
         - "acs_ind_4"
       size: "num_emp"
+      type: "tree_map"
+  - slug: "tmap_ind_num_emp"
+    sumlevel: "nation,state"
+    title: "Industries by Share"
+    viz:
+      attrs: "naics"
+      color: "grandparent"
+      data:
+        - geo: "<<id>>"
+          required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+          show: "geo,naics"
+          sumlevel: "<<sumlevel>>,2"
+          where: "num_records:>4"
+      depth: 2
+      height: 500
+      id:
+        - "grandparent"
+        - "parent"
+        - "naics"
+      size: "num_ppl"
       type: "tree_map"

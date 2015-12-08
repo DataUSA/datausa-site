@@ -188,7 +188,10 @@ class Section(object):
             else:
                 level = len(self.attr["id"])
 
-            return level in levels or "!{}".format(level) not in levels
+            if "!" in obj["sumlevel"]:
+                return not "!{}".format(level) in levels
+            else:
+                return level in levels
 
         return True
 
