@@ -2662,9 +2662,7 @@ body.profile {
               flex: 1 1;
               -webkit-flex-direction: column;
               -moz-flex-direction: column;
-              flex-direction: column;
-              -webkit-align-items: stretch;
-              align-items: stretch; }
+              flex-direction: column; }
               body.profile section .topic.flex .content aside,
               body.story section .topic.flex .content aside {
                 -webkit-box-flex: 1 1;
@@ -2675,8 +2673,14 @@ body.profile {
                 max-width: 100%; }
                 body.profile section .topic.flex .content .viz,
                 body.story section .topic.flex .content .viz {
+                  -webkit-box-flex: 1 1 200px;
+                  -moz-box-flex: 1 1 200px;
+                  -webkit-flex: 1 1 200px;
+                  -ms-flex: 1 1 200px;
+                  flex: 1 1 200px;
                   margin-left: 0;
-                  min-height: 200px; }
+                  min-height: 200px;
+                  max-height: 200px; }
         body.profile section .topic .content, body.story section .topic .content {
           -webkit-justify-content: center;
           -moz-justify-content: center;

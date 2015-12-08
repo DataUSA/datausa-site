@@ -1131,7 +1131,6 @@ body.profile, body.story {
         .content {
           @include flex-size(1 1);
           @include flex-direction(column);
-          @include align-items(stretch);
 
           aside {
             @include flex-size(1 1);
@@ -1139,8 +1138,10 @@ body.profile, body.story {
           }
 
           .viz {
+            @include flex-size(1 1 200px);
             margin-left: 0;
             min-height: 200px;
+            max-height: 200px;
           }
 
         }
