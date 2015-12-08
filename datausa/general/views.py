@@ -21,3 +21,27 @@ def before_request():
 def home():
     g.page_type = "home"
     return render_template("general/home.html")
+
+@mod.route("/about/")
+def about():
+    g.page_type = "about"
+    g.page_sub_type = "index"
+    return render_template("about/index.html")
+
+@mod.route("/about/glossary/")
+def glossary():
+    g.page_type = "about"
+    g.page_sub_type = "glossary"
+    return render_template("about/glossary.html")
+
+@mod.route("/about/api/")
+def api():
+    g.page_type = "about"
+    g.page_sub_type = "api"
+    return render_template("about/api.html")
+
+@mod.route("/about/usage/")
+def usage():
+    g.page_type = "about"
+    g.page_sub_type = "usage"
+    return render_template("about/usage.html")
