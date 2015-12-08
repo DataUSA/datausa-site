@@ -320,7 +320,7 @@ class Section(object):
             t_type = kwargs.get("{}_type".format(t), attr_type)
             params["show"] = kwargs.get("show", t_type)
             params[t_type] = kwargs.get("{}_id".format(t), attr_id)
-            params["exclude"] = kwargs.get("exclude", "")
+            params["exclude"] = kwargs.get("exclude", kwargs.get("{}_exclude".format(t), ""))
 
             if "top:" in key:
 
