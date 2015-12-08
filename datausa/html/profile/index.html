@@ -242,14 +242,14 @@
       profNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#stats-bar").node().offsetHeight,
       attr_type = "{{ profile.attr_type }}";
 
-  var firstScroll = true;
+  // var firstScroll = true;
   function navScroll(){
 
-    if (!firstScroll) {
-      clearTimeout(scrollTimeout);
-      d3.select("#scroll-btn").classed("visible", false);
-    }
-    firstScroll = false;
+    // if (!firstScroll) {
+    //   clearTimeout(scrollTimeout);
+    //   d3.select("#scroll-btn").classed("visible", false);
+    // }
+    // firstScroll = false;
 
     var y = window.scrollY,
         showTitleNav = y > titleNavHeight,
