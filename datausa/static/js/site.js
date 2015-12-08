@@ -2112,7 +2112,7 @@ viz.loadBuilds = function(builds) {
 
     var scrollBuffer = -200, n = [32];
     function buildInView(b) {
-      var top = window.scrollY, height = window.innerHeight;
+      var top = d3plus.client.scroll.y(), height = window.innerHeight;
       return top+height > b.top+scrollBuffer && top+scrollBuffer < b.top+b.height;
     }
 

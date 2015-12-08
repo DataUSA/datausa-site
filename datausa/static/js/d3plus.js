@@ -10278,7 +10278,7 @@ module.exports = function(a, b, keys, sort, colors, vars, depth) {
 };
 
 
-},{"../color/sort.coffee":50}],35:[function(require,module,exports){
+},{"../color/sort.coffee":51}],35:[function(require,module,exports){
 module.exports = function(arr, value) {
   var constructor;
   if (arr instanceof Array) {
@@ -10328,7 +10328,7 @@ module.exports = function(arr, keys, sort, colors, vars, depth) {
 };
 
 
-},{"../core/fetch/sort.coffee":66,"./comparator.coffee":34}],37:[function(require,module,exports){
+},{"../core/fetch/sort.coffee":67,"./comparator.coffee":34}],37:[function(require,module,exports){
 module.exports = function(arr, x) {
   if (x === void 0) {
     return arr;
@@ -10410,7 +10410,7 @@ if (touch) {
 }
 
 
-},{"./ie.js":39,"./touch.coffee":44}],41:[function(require,module,exports){
+},{"./ie.js":39,"./touch.coffee":45}],41:[function(require,module,exports){
 var prefix;
 
 prefix = function() {
@@ -10440,6 +10440,18 @@ module.exports = d3.select("html").attr("dir") === "rtl";
 
 
 },{}],43:[function(require,module,exports){
+module.exports = {
+  "y": function() {
+    return (window.pageYOffset !== undefined) ? window.pageYOffset :
+           (document.documentElement || document.body.parentNode || document.body).scrollTop
+  },
+  "x": function() {
+    return (window.pageXOffset !== undefined) ? window.pageXOffset :
+           (document.documentElement || document.body.parentNode || document.body).scrollLeft
+  }
+}
+
+},{}],44:[function(require,module,exports){
 var scrollbar;
 
 scrollbar = function() {
@@ -10474,11 +10486,11 @@ scrollbar = function() {
 module.exports = scrollbar;
 
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = ("ontouchstart" in window) || window.DocumentTouch && document instanceof DocumentTouch ? true : false;
 
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = function(color) {
   var hsl;
   hsl = d3.hsl(color);
@@ -10492,7 +10504,7 @@ module.exports = function(color) {
 };
 
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function(color, increment) {
   var c;
   if (increment === void 0) {
@@ -10506,7 +10518,7 @@ module.exports = function(color, increment) {
 };
 
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = function(c1, c2, o1, o2) {
   var b, g, r;
   if (!o1) {
@@ -10524,7 +10536,7 @@ module.exports = function(c1, c2, o1, o2) {
 };
 
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 var defaultScale;
 
 defaultScale = require("./scale.coffee");
@@ -10537,11 +10549,11 @@ module.exports = function(x, scale) {
 };
 
 
-},{"./scale.coffee":49}],49:[function(require,module,exports){
+},{"./scale.coffee":50}],50:[function(require,module,exports){
 module.exports = d3.scale.ordinal().range(["#b22200", "#EACE3F", "#282F6B", "#B35C1E", "#224F20", "#5F487C", "#759143", "#419391", "#993F88", "#e89c89", "#ffee8d", "#afd5e8", "#f7ba77", "#a5c697", "#c5b5e5", "#d1d392", "#bbefd0", "#e099cf"]);
 
 
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 module.exports = function(a, b) {
   var aHSL, bHSL;
   aHSL = d3.hsl(a);
@@ -10556,7 +10568,7 @@ module.exports = function(a, b) {
 };
 
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = function(color) {
   var b, g, r, rgbColor, yiq;
   rgbColor = d3.rgb(color);
@@ -10572,7 +10584,7 @@ module.exports = function(color) {
 };
 
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 module.exports = function(color) {
   var blackColors, testColor, userBlack;
   color = color + "";
@@ -10590,7 +10602,7 @@ module.exports = function(color) {
 };
 
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var ie, print, wiki;
 
 ie = require("../../client/ie.js");
@@ -10697,7 +10709,7 @@ print.wiki = function(url) {
 module.exports = print;
 
 
-},{"../../client/ie.js":39,"./wiki.coffee":54}],54:[function(require,module,exports){
+},{"../../client/ie.js":39,"./wiki.coffee":55}],55:[function(require,module,exports){
 module.exports = {
   active: "Visualizations#active",
   aggs: "Visualizations#aggs",
@@ -10761,7 +10773,7 @@ module.exports = {
 };
 
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 var buckets = require("../../util/buckets.coffee"),
     fetchValue = require("../fetch/value.coffee"),
     print      = require("../console/print.coffee")
@@ -10823,7 +10835,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../util/buckets.coffee":203,"../console/print.coffee":53,"../fetch/value.coffee":68}],56:[function(require,module,exports){
+},{"../../util/buckets.coffee":204,"../console/print.coffee":54,"../fetch/value.coffee":69}],57:[function(require,module,exports){
 var fetchValue = require("../fetch/value.coffee"),
     print       = require("../console/print.coffee"),
     validObject = require("../../object/validate.coffee")
@@ -10958,7 +10970,7 @@ module.exports = function( vars , data ) {
 
 }
 
-},{"../../object/validate.coffee":171,"../console/print.coffee":53,"../fetch/value.coffee":68}],57:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../console/print.coffee":54,"../fetch/value.coffee":69}],58:[function(require,module,exports){
 var dataNest   = require("./nest.js"),
     fetchValue = require("../fetch/value.coffee"),
     print      = require("../console/print.coffee"),
@@ -11196,7 +11208,7 @@ module.exports = function( vars ) {
 
 };
 
-},{"../../util/uniques.coffee":209,"../console/print.coffee":53,"../fetch/value.coffee":68,"./nest.js":61}],58:[function(require,module,exports){
+},{"../../util/uniques.coffee":210,"../console/print.coffee":54,"../fetch/value.coffee":69,"./nest.js":62}],59:[function(require,module,exports){
 var fetchValue;
 
 fetchValue = require("../fetch/value.coffee");
@@ -11238,7 +11250,7 @@ module.exports = function(vars, data, nesting) {
 };
 
 
-},{"../fetch/value.coffee":68}],59:[function(require,module,exports){
+},{"../fetch/value.coffee":69}],60:[function(require,module,exports){
 var print, validObject,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -11302,7 +11314,7 @@ module.exports = function(vars, type) {
 };
 
 
-},{"../../object/validate.coffee":171,"../console/print.coffee":53}],60:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../console/print.coffee":54}],61:[function(require,module,exports){
 var print, validObject;
 
 print = require("../console/print.coffee");
@@ -11397,7 +11409,7 @@ module.exports = function(vars, key, next) {
 };
 
 
-},{"../../object/validate.coffee":171,"../console/print.coffee":53}],61:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../console/print.coffee":54}],62:[function(require,module,exports){
 var fetchValue = require("../fetch/value.coffee"),
     validObject  = require("../../object/validate.coffee"),
     uniqueValues = require("../../util/uniques.coffee");
@@ -11717,7 +11729,7 @@ var rename_key_value = function(obj) {
 
 module.exports = dataNest;
 
-},{"../../object/validate.coffee":171,"../../util/uniques.coffee":209,"../fetch/value.coffee":68}],62:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../../util/uniques.coffee":210,"../fetch/value.coffee":69}],63:[function(require,module,exports){
 var arraySort = require("../../array/sort.coffee"),
     dataNest   = require("./nest.js"),
     fetchValue = require("../fetch/value.coffee"),
@@ -11932,7 +11944,7 @@ module.exports = function( vars , rawData , split ) {
 
 };
 
-},{"../../array/sort.coffee":36,"../fetch/color.coffee":64,"../fetch/text.js":67,"../fetch/value.coffee":68,"./nest.js":61}],63:[function(require,module,exports){
+},{"../../array/sort.coffee":36,"../fetch/color.coffee":65,"../fetch/text.js":68,"../fetch/value.coffee":69,"./nest.js":62}],64:[function(require,module,exports){
 var sizes;
 
 sizes = require("../../font/sizes.coffee");
@@ -12013,7 +12025,7 @@ module.exports = function(vars, opts) {
 };
 
 
-},{"../../font/sizes.coffee":101}],64:[function(require,module,exports){
+},{"../../font/sizes.coffee":102}],65:[function(require,module,exports){
 var fetchValue, getColor, getRandom, randomColor, uniques, validColor, validObject;
 
 fetchValue = require("./value.coffee");
@@ -12094,7 +12106,7 @@ getRandom = function(vars, c, level) {
 };
 
 
-},{"../../color/random.coffee":48,"../../color/validate.coffee":52,"../../object/validate.coffee":171,"../../util/uniques.coffee":209,"./value.coffee":68}],65:[function(require,module,exports){
+},{"../../color/random.coffee":49,"../../color/validate.coffee":53,"../../object/validate.coffee":172,"../../util/uniques.coffee":210,"./value.coffee":69}],66:[function(require,module,exports){
 var dataFilter = require("../data/filter.js"),
     dataNest     = require("../data/nest.js"),
     print        = require("../console/print.coffee"),
@@ -12318,7 +12330,7 @@ module.exports = function(vars, years, depth) {
 
 };
 
-},{"../../string/format.js":172,"../../string/list.coffee":173,"../console/print.coffee":53,"../data/filter.js":56,"../data/nest.js":61}],66:[function(require,module,exports){
+},{"../../string/format.js":173,"../../string/list.coffee":174,"../console/print.coffee":54,"../data/filter.js":57,"../data/nest.js":62}],67:[function(require,module,exports){
 var fetchColor, fetchText, fetchValue;
 
 fetchValue = require("./value.coffee");
@@ -12362,7 +12374,7 @@ module.exports = function(vars, d, keys, colors, depth) {
 };
 
 
-},{"./color.coffee":64,"./text.js":67,"./value.coffee":68}],67:[function(require,module,exports){
+},{"./color.coffee":65,"./text.js":68,"./value.coffee":69}],68:[function(require,module,exports){
 var fetchValue = require("./value.coffee"),
     validObject = require("../../object/validate.coffee"),
     uniques     = require("../../util/uniques.coffee");
@@ -12444,7 +12456,7 @@ module.exports = function(vars, obj, depth) {
 
 };
 
-},{"../../object/validate.coffee":171,"../../util/uniques.coffee":209,"./value.coffee":68}],68:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../../util/uniques.coffee":210,"./value.coffee":69}],69:[function(require,module,exports){
 var cacheInit, checkAttrs, checkData, fetch, fetchArray, filterArray, find, uniqueValues, validObject, valueParse;
 
 validObject = require("../../object/validate.coffee");
@@ -12662,7 +12674,7 @@ fetch = function(vars, node, variable, depth) {
 module.exports = fetch;
 
 
-},{"../../object/validate.coffee":171,"../../util/uniques.coffee":209}],69:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../../util/uniques.coffee":210}],70:[function(require,module,exports){
 module.exports = function(type) {
   var attrs, styles, tester;
   if (["div", "svg"].indexOf(type) < 0) {
@@ -12684,7 +12696,7 @@ module.exports = function(type) {
 };
 
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports = {
   dev: {
     accepted: "{0} is not an accepted value for {1}, please use one of the following: {2}.",
@@ -12821,7 +12833,7 @@ module.exports = {
 };
 
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ",",
@@ -12975,7 +12987,7 @@ module.exports = {
     ]
 }
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ",",
@@ -13138,7 +13150,7 @@ module.exports = {
     ]
 }
 
-},{}],73:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ",",
@@ -13287,7 +13299,7 @@ module.exports = {
     ]
 }
 
-},{}],74:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ",",
@@ -13451,7 +13463,7 @@ module.exports = {
     ]
 }
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ",",
@@ -13615,7 +13627,7 @@ module.exports = {
     ]
 }
 
-},{}],76:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ",",
@@ -13760,7 +13772,7 @@ module.exports = {
     ]
 }
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 module.exports = {
     "format": {
         "decimal": ".",
@@ -13909,7 +13921,7 @@ module.exports = {
     ]
 }
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 module.exports = {
   en_US: require("./languages/en_US.coffee"),
   es_ES: require("./languages/es_ES.js"),
@@ -13922,7 +13934,7 @@ module.exports = {
 };
 
 
-},{"./languages/en_US.coffee":70,"./languages/es_ES.js":71,"./languages/fr_FR.js":72,"./languages/mk_MK.js":73,"./languages/pt_BR.js":74,"./languages/pt_PT.js":75,"./languages/ru_RU.js":76,"./languages/zh_CN.js":77}],79:[function(require,module,exports){
+},{"./languages/en_US.coffee":71,"./languages/es_ES.js":72,"./languages/fr_FR.js":73,"./languages/mk_MK.js":74,"./languages/pt_BR.js":75,"./languages/pt_PT.js":76,"./languages/ru_RU.js":77,"./languages/zh_CN.js":78}],80:[function(require,module,exports){
 var checkObject, copy, createFunction, initialize, print, process, setMethod, stringFormat, validObject;
 
 copy = require("../../util/copy.coffee");
@@ -14095,7 +14107,7 @@ checkObject = function(vars, method, object, key, value) {
 };
 
 
-},{"../../object/validate.coffee":171,"../../string/format.js":172,"../../util/copy.coffee":206,"../console/print.coffee":53,"./process/detect.coffee":87,"./set.coffee":93}],80:[function(require,module,exports){
+},{"../../object/validate.coffee":172,"../../string/format.js":173,"../../util/copy.coffee":207,"../console/print.coffee":54,"./process/detect.coffee":88,"./set.coffee":94}],81:[function(require,module,exports){
 module.exports = function(g) {
   if (!g) {
     g = false;
@@ -14113,7 +14125,7 @@ module.exports = function(g) {
 };
 
 
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var rtl;
 
 rtl = require("../../../client/rtl.coffee");
@@ -14149,7 +14161,7 @@ module.exports = function(align) {
 };
 
 
-},{"../../../client/rtl.coffee":42}],82:[function(require,module,exports){
+},{"../../../client/rtl.coffee":42}],83:[function(require,module,exports){
 module.exports = function(decoration) {
   var accepted;
   accepted = ["line-through", "none", "overline", "underline"];
@@ -14166,7 +14178,7 @@ module.exports = function(decoration) {
 };
 
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 var helvetica, validate;
 
 validate = require("../../../font/validate.coffee");
@@ -14184,7 +14196,7 @@ module.exports = function(family) {
 };
 
 
-},{"../../../font/validate.coffee":102}],84:[function(require,module,exports){
+},{"../../../font/validate.coffee":103}],85:[function(require,module,exports){
 module.exports = function(position) {
   var accepted;
   accepted = ["top", "middle", "bottom"];
@@ -14210,7 +14222,7 @@ module.exports = function(position) {
 };
 
 
-},{}],85:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 module.exports = function(transform) {
   var accepted;
   accepted = ["capitalize", "lowercase", "none", "uppercase"];
@@ -14227,7 +14239,7 @@ module.exports = function(transform) {
 };
 
 
-},{}],86:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 module.exports = function(value, vars, method) {
   var elem;
   if (vars.history) {
@@ -14252,7 +14264,7 @@ module.exports = function(value, vars, method) {
 };
 
 
-},{}],87:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 var copy, update;
 
 copy = require("../../../util/copy.coffee");
@@ -14272,7 +14284,7 @@ module.exports = function(vars, object, value) {
 };
 
 
-},{"../../../array/update.coffee":37,"../../../util/copy.coffee":206}],88:[function(require,module,exports){
+},{"../../../array/update.coffee":37,"../../../util/copy.coffee":207}],89:[function(require,module,exports){
 var stylesheet;
 
 stylesheet = require("../../../client/css.coffee");
@@ -14286,7 +14298,7 @@ module.exports = function(value, vars, method) {
 };
 
 
-},{"../../../client/css.coffee":38}],89:[function(require,module,exports){
+},{"../../../client/css.coffee":38}],90:[function(require,module,exports){
 module.exports = function(value, self) {
   var i, j, k, l, len, len1, len2, len3, m, results, side, sides, v;
   if (typeof value === "string") {
@@ -14347,7 +14359,7 @@ module.exports = function(value, self) {
 };
 
 
-},{}],90:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 var contains, format, list, print;
 
 contains = require("../../array/contains.coffee");
@@ -14399,7 +14411,7 @@ module.exports = function(vars, accepted, value, method, text) {
 };
 
 
-},{"../../array/contains.coffee":35,"../../string/format.js":172,"../../string/list.coffee":173,"../console/print.coffee":53}],91:[function(require,module,exports){
+},{"../../array/contains.coffee":35,"../../string/format.js":173,"../../string/list.coffee":174,"../console/print.coffee":54}],92:[function(require,module,exports){
 module.exports = function(rendering) {
   var accepted;
   accepted = ["auto", "optimizeSpeed", "crispEdges", "geometricPrecision"];
@@ -14413,7 +14425,7 @@ module.exports = function(rendering) {
 };
 
 
-},{}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 var reset, validObject;
 
 validObject = require("../../object/validate.coffee");
@@ -14438,7 +14450,7 @@ reset = function(obj, method) {
 module.exports = reset;
 
 
-},{"../../object/validate.coffee":171}],93:[function(require,module,exports){
+},{"../../object/validate.coffee":172}],94:[function(require,module,exports){
 var copy, d3selection, mergeObject, print, process, rejected, stringFormat, updateArray, validObject;
 
 copy = require("../../util/copy.coffee");
@@ -14593,7 +14605,7 @@ module.exports = function(vars, method, object, key, value) {
 };
 
 
-},{"../../array/update.coffee":37,"../../object/merge.coffee":170,"../../object/validate.coffee":171,"../../string/format.js":172,"../../util/copy.coffee":206,"../../util/d3selection.coffee":207,"../console/print.coffee":53,"./process/detect.coffee":87,"./rejected.coffee":90}],94:[function(require,module,exports){
+},{"../../array/update.coffee":37,"../../object/merge.coffee":171,"../../object/validate.coffee":172,"../../string/format.js":173,"../../util/copy.coffee":207,"../../util/d3selection.coffee":208,"../console/print.coffee":54,"./process/detect.coffee":88,"./rejected.coffee":91}],95:[function(require,module,exports){
 var print = require("../console/print.coffee"),
     stringFormat = require("../../string/format.js")
 
@@ -14682,7 +14694,7 @@ module.exports = function( vars ) {
 
 }
 
-},{"../../string/format.js":172,"../console/print.coffee":53}],95:[function(require,module,exports){
+},{"../../string/format.js":173,"../console/print.coffee":54}],96:[function(require,module,exports){
 var hideElement = require("./hideElement.js");
 
 // Parses an HTML element for data
@@ -14738,7 +14750,7 @@ module.exports = function( vars ) {
 
         var data_obj = {}
 
-        data_obj.text = this.innerHTML
+        data_obj.text = d3.select(this).text();
 
         get_attributes(data_obj,this)
 
@@ -14828,7 +14840,7 @@ module.exports = function( vars ) {
 
 };
 
-},{"./hideElement.js":96}],96:[function(require,module,exports){
+},{"./hideElement.js":97}],97:[function(require,module,exports){
 module.exports = function(elem) {
 
   elem
@@ -14844,7 +14856,7 @@ module.exports = function(elem) {
 
 }
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 var print = require("../console/print.coffee");
 
 // Calculates node positions, if needed for network.
@@ -14905,7 +14917,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../console/print.coffee":53}],98:[function(require,module,exports){
+},{"../console/print.coffee":54}],99:[function(require,module,exports){
 var numeric;
 
 numeric = require('numeric');
@@ -14982,7 +14994,7 @@ module.exports = function(data, options) {
 };
 
 
-},{"numeric":7}],99:[function(require,module,exports){
+},{"numeric":7}],100:[function(require,module,exports){
 var kdtree;
 
 kdtree = require('static-kdtree');
@@ -15063,7 +15075,7 @@ module.exports = function(points, K) {
 };
 
 
-},{"static-kdtree":9}],100:[function(require,module,exports){
+},{"static-kdtree":9}],101:[function(require,module,exports){
 module.exports = function(points) {
   var mad, median, result;
   median = d3.median(points);
@@ -15079,7 +15091,7 @@ module.exports = function(points) {
 };
 
 
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 var fontTester;
 
 fontTester = require("../core/font/tester.coffee");
@@ -15112,7 +15124,7 @@ module.exports = function(words, style, opts) {
     var add;
     add = 0;
     if (spacing) {
-      add = (elem.innerHTML.length - 1) * spacing;
+      add = (d3.select(elem).text().length - 1) * spacing;
     }
     return elem.getComputedTextLength() + add;
   };
@@ -15150,7 +15162,7 @@ module.exports = function(words, style, opts) {
 };
 
 
-},{"../core/font/tester.coffee":69}],102:[function(require,module,exports){
+},{"../core/font/tester.coffee":70}],103:[function(require,module,exports){
 var fontTester, validate;
 
 fontTester = require("../core/font/tester.coffee");
@@ -15208,7 +15220,7 @@ validate.complete = {};
 module.exports = validate;
 
 
-},{"../core/font/tester.coffee":69}],103:[function(require,module,exports){
+},{"../core/font/tester.coffee":70}],104:[function(require,module,exports){
 var arraySort = require("../array/sort.coffee"),
     attach      = require("../core/methods/attach.coffee"),
     dataFormat  = require("../core/data/format.js"),
@@ -15576,7 +15588,7 @@ module.exports = function() {
 
 };
 
-},{"../array/sort.coffee":36,"../client/ie.js":39,"../core/console/print.coffee":53,"../core/data/format.js":57,"../core/data/keys.coffee":59,"../core/data/load.coffee":60,"../core/fetch/data.js":65,"../core/methods/attach.coffee":79,"../core/methods/reset.coffee":92,"./methods/active.coffee":104,"./methods/alt.coffee":105,"./methods/color.coffee":106,"./methods/config.coffee":107,"./methods/container.coffee":108,"./methods/data.js":109,"./methods/depth.coffee":110,"./methods/dev.coffee":111,"./methods/draw.js":112,"./methods/focus.coffee":113,"./methods/font.coffee":114,"./methods/format.coffee":115,"./methods/height.coffee":116,"./methods/history.coffee":117,"./methods/hover.coffee":118,"./methods/icon.coffee":119,"./methods/id.coffee":120,"./methods/keywords.coffee":121,"./methods/margin.coffee":122,"./methods/open.coffee":123,"./methods/order.coffee":124,"./methods/remove.coffee":125,"./methods/search.coffee":126,"./methods/select.coffee":127,"./methods/selectAll.coffee":128,"./methods/text.coffee":129,"./methods/timing.coffee":130,"./methods/title.coffee":131,"./methods/type.coffee":132,"./methods/ui.coffee":133,"./methods/width.coffee":134,"./types/auto.js":135,"./types/button/button.coffee":136,"./types/drop/drop.coffee":141,"./types/toggle.js":158}],104:[function(require,module,exports){
+},{"../array/sort.coffee":36,"../client/ie.js":39,"../core/console/print.coffee":54,"../core/data/format.js":58,"../core/data/keys.coffee":60,"../core/data/load.coffee":61,"../core/fetch/data.js":66,"../core/methods/attach.coffee":80,"../core/methods/reset.coffee":93,"./methods/active.coffee":105,"./methods/alt.coffee":106,"./methods/color.coffee":107,"./methods/config.coffee":108,"./methods/container.coffee":109,"./methods/data.js":110,"./methods/depth.coffee":111,"./methods/dev.coffee":112,"./methods/draw.js":113,"./methods/focus.coffee":114,"./methods/font.coffee":115,"./methods/format.coffee":116,"./methods/height.coffee":117,"./methods/history.coffee":118,"./methods/hover.coffee":119,"./methods/icon.coffee":120,"./methods/id.coffee":121,"./methods/keywords.coffee":122,"./methods/margin.coffee":123,"./methods/open.coffee":124,"./methods/order.coffee":125,"./methods/remove.coffee":126,"./methods/search.coffee":127,"./methods/select.coffee":128,"./methods/selectAll.coffee":129,"./methods/text.coffee":130,"./methods/timing.coffee":131,"./methods/title.coffee":132,"./methods/type.coffee":133,"./methods/ui.coffee":134,"./methods/width.coffee":135,"./types/auto.js":136,"./types/button/button.coffee":137,"./types/drop/drop.coffee":142,"./types/toggle.js":159}],105:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -15587,7 +15599,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],105:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],106:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -15600,14 +15612,14 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],106:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],107:[function(require,module,exports){
 module.exports = {
   accepted: [String],
   value: "color"
 };
 
 
-},{}],107:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports = {
   accepted: [Object],
   objectAccess: false,
@@ -15625,7 +15637,7 @@ module.exports = {
 };
 
 
-},{}],108:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 var d3selection;
 
 d3selection = require("../../util/d3selection.coffee");
@@ -15649,7 +15661,7 @@ module.exports = {
 };
 
 
-},{"../../util/d3selection.coffee":207}],109:[function(require,module,exports){
+},{"../../util/d3selection.coffee":208}],110:[function(require,module,exports){
 var d3selection = require("../../util/d3selection.coffee"),
     process = require("../../core/methods/process/data.coffee");
 
@@ -15703,21 +15715,21 @@ module.exports = {
   "value"    : false
 };
 
-},{"../../core/methods/process/data.coffee":86,"../../util/d3selection.coffee":207}],110:[function(require,module,exports){
+},{"../../core/methods/process/data.coffee":87,"../../util/d3selection.coffee":208}],111:[function(require,module,exports){
 module.exports = {
   accepted: [Number],
   value: 0
 };
 
 
-},{}],111:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   value: false
 };
 
 
-},{}],112:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 var d3selection  = require("../../util/d3selection.coffee"),
     hideElement  = require("../../core/parse/hideElement.js"),
     parseElement = require("../../core/parse/element.js"),
@@ -15788,7 +15800,7 @@ module.exports = {
   "value"    : undefined
 }
 
-},{"../../core/console/print.coffee":53,"../../core/parse/element.js":95,"../../core/parse/hideElement.js":96,"../../string/format.js":172,"../../util/d3selection.coffee":207}],113:[function(require,module,exports){
+},{"../../core/console/print.coffee":54,"../../core/parse/element.js":96,"../../core/parse/hideElement.js":97,"../../string/format.js":173,"../../util/d3selection.coffee":208}],114:[function(require,module,exports){
 module.exports = {
   accepted: [false, Number, String],
   deprecates: "highlight",
@@ -15819,7 +15831,7 @@ module.exports = {
 };
 
 
-},{}],114:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 var align, decoration, family, transform;
 
 family = require("../../core/methods/font/family.coffee");
@@ -15852,7 +15864,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/align.coffee":81,"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],115:[function(require,module,exports){
+},{"../../core/methods/font/align.coffee":82,"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],116:[function(require,module,exports){
 var formatNumber, locale, mergeObject, titleCase;
 
 formatNumber = require("../../number/format.coffee");
@@ -15929,7 +15941,7 @@ module.exports = {
 };
 
 
-},{"../../core/locale/locale.coffee":78,"../../number/format.coffee":169,"../../object/merge.coffee":170,"../../string/title.coffee":175}],116:[function(require,module,exports){
+},{"../../core/locale/locale.coffee":79,"../../number/format.coffee":170,"../../object/merge.coffee":171,"../../string/title.coffee":176}],117:[function(require,module,exports){
 module.exports = {
   accepted: [false, Number],
   max: 600,
@@ -15938,7 +15950,7 @@ module.exports = {
 };
 
 
-},{}],117:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports = {
   back: function() {
     if (this.states.length) {
@@ -15958,14 +15970,14 @@ module.exports = {
 };
 
 
-},{}],118:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean, Number, String],
   value: false
 };
 
 
-},{}],119:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/icon.coffee");
@@ -16020,7 +16032,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/icon.coffee":88}],120:[function(require,module,exports){
+},{"../../core/methods/process/icon.coffee":89}],121:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -16035,7 +16047,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],121:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],122:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -16048,7 +16060,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],122:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],123:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/margin.coffee");
@@ -16068,7 +16080,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/margin.coffee":89}],123:[function(require,module,exports){
+},{"../../core/methods/process/margin.coffee":90}],124:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   flipped: {
@@ -16079,7 +16091,7 @@ module.exports = {
 };
 
 
-},{}],124:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 module.exports = {
   accepted: [false, Function, String],
   sort: {
@@ -16091,7 +16103,7 @@ module.exports = {
 };
 
 
-},{}],125:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 module.exports = {
   accepted: void 0,
   process: function(value, vars) {
@@ -16103,7 +16115,7 @@ module.exports = {
 };
 
 
-},{}],126:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 module.exports = {
   accepted: ["auto", Boolean],
   process: function(value) {
@@ -16117,7 +16129,7 @@ module.exports = {
 };
 
 
-},{}],127:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 module.exports = {
   accepted: [String],
   chainable: false,
@@ -16134,7 +16146,7 @@ module.exports = {
 };
 
 
-},{}],128:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 module.exports = {
   accepted: [String],
   chainable: false,
@@ -16151,7 +16163,7 @@ module.exports = {
 };
 
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -16170,14 +16182,14 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],130:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],131:[function(require,module,exports){
 module.exports = {
   mouseevents: 60,
   ui: 200
 };
 
 
-},{}],131:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 var decoration, family, stringStrip, transform;
 
 decoration = require("../../core/methods/font/decoration.coffee");
@@ -16214,7 +16226,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85,"../../string/strip.js":174}],132:[function(require,module,exports){
+},{"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86,"../../string/strip.js":175}],133:[function(require,module,exports){
 module.exports = {
   accepted: function(vars) {
     return d3.keys(vars.types);
@@ -16223,7 +16235,7 @@ module.exports = {
 };
 
 
-},{}],133:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 var align, decoration, family, margin, transform;
 
 family = require("../../core/methods/font/family.coffee");
@@ -16295,7 +16307,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/align.coffee":81,"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85,"../../core/methods/process/margin.coffee":89}],134:[function(require,module,exports){
+},{"../../core/methods/font/align.coffee":82,"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86,"../../core/methods/process/margin.coffee":90}],135:[function(require,module,exports){
 module.exports = {
   accepted: [false, Number],
   secondary: false,
@@ -16303,7 +16315,7 @@ module.exports = {
 };
 
 
-},{}],135:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Determines form type based on data length.
 //------------------------------------------------------------------------------
@@ -16323,7 +16335,7 @@ module.exports = function( vars ) {
 
 }
 
-},{}],136:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 module.exports = function(vars) {
   var button, checks, color, icons, mouseevents, print, style, updatedButtons;
   print = require("../../../core/console/print.coffee");
@@ -16377,7 +16389,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../core/console/print.coffee":53,"./functions/color.coffee":137,"./functions/icons.js":138,"./functions/mouseevents.coffee":139,"./functions/style.js":140}],137:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54,"./functions/color.coffee":138,"./functions/icons.js":139,"./functions/mouseevents.coffee":140,"./functions/style.js":141}],138:[function(require,module,exports){
 module.exports = function(elem, vars) {
   var legible, lighter, textColor;
   legible = require("../../../../color/legible.coffee");
@@ -16421,7 +16433,7 @@ module.exports = function(elem, vars) {
 };
 
 
-},{"../../../../color/legible.coffee":45,"../../../../color/lighter.coffee":46,"../../../../color/text.coffee":51}],138:[function(require,module,exports){
+},{"../../../../color/legible.coffee":46,"../../../../color/lighter.coffee":47,"../../../../color/text.coffee":52}],139:[function(require,module,exports){
 var prefix = require("../../../../client/prefix.coffee"),
     rtl = require("../../../../client/rtl.coffee")
 
@@ -16599,7 +16611,7 @@ module.exports = function ( elem , vars ) {
 
 }
 
-},{"../../../../client/prefix.coffee":41,"../../../../client/rtl.coffee":42}],139:[function(require,module,exports){
+},{"../../../../client/prefix.coffee":41,"../../../../client/rtl.coffee":42}],140:[function(require,module,exports){
 module.exports = function(elem, vars, color) {
   var events, ie;
   color = require("./color.coffee");
@@ -16629,7 +16641,7 @@ module.exports = function(elem, vars, color) {
 };
 
 
-},{"../../../../client/ie.js":39,"../../../../client/pointer.coffee":40,"./color.coffee":137}],140:[function(require,module,exports){
+},{"../../../../client/ie.js":39,"../../../../client/pointer.coffee":40,"./color.coffee":138}],141:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //
 //------------------------------------------------------------------------------
@@ -16648,7 +16660,7 @@ module.exports = function ( elem , vars ) {
 
 }
 
-},{}],141:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 module.exports = function(vars) {
   var button, data, element, keyboard, list, search, selector, title, update, width, windowevent;
   element = require("./functions/element.coffee");
@@ -16678,7 +16690,7 @@ module.exports = function(vars) {
 };
 
 
-},{"./functions/button.js":144,"./functions/data.js":145,"./functions/element.coffee":146,"./functions/keyboard.coffee":149,"./functions/list.js":150,"./functions/search.js":152,"./functions/selector.js":153,"./functions/title.js":154,"./functions/update.js":155,"./functions/width.js":156,"./functions/window.js":157}],142:[function(require,module,exports){
+},{"./functions/button.js":145,"./functions/data.js":146,"./functions/element.coffee":147,"./functions/keyboard.coffee":150,"./functions/list.js":151,"./functions/search.js":153,"./functions/selector.js":154,"./functions/title.js":155,"./functions/update.js":156,"./functions/width.js":157,"./functions/window.js":158}],143:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Checks to see if a given variable is allowed to be selected.
 //------------------------------------------------------------------------------
@@ -16714,7 +16726,7 @@ module.exports = function ( vars , value , active ) {
 
 }
 
-},{}],143:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 var print = require("../../../../core/console/print.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Toggles the state of the dropdown menu.
@@ -16745,7 +16757,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../core/console/print.coffee":53}],144:[function(require,module,exports){
+},{"../../../../core/console/print.coffee":54}],145:[function(require,module,exports){
 var copy = require("../../../../util/copy.coffee"),
     events = require("../../../../client/pointer.coffee"),
     form   = require("../../../form.js"),
@@ -16836,7 +16848,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../client/pointer.coffee":40,"../../../../core/console/print.coffee":53,"../../../../util/copy.coffee":206,"../../../form.js":103}],145:[function(require,module,exports){
+},{"../../../../client/pointer.coffee":40,"../../../../core/console/print.coffee":54,"../../../../util/copy.coffee":207,"../../../form.js":104}],146:[function(require,module,exports){
 var stringFormat = require("../../../../string/format.js"),
     stringStrip = require("../../../../string/strip.js");
 
@@ -16960,7 +16972,7 @@ module.exports = function ( vars ) {
 
 };
 
-},{"../../../../string/format.js":172,"../../../../string/strip.js":174}],146:[function(require,module,exports){
+},{"../../../../string/format.js":173,"../../../../string/strip.js":175}],147:[function(require,module,exports){
 module.exports = function(vars) {
   if (vars.data.element.value) {
     vars.data.element.value.on("focus." + vars.container.id, function() {
@@ -16989,7 +17001,7 @@ module.exports = function(vars) {
 };
 
 
-},{}],147:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Calculates the height and orientation of the dropdown list, based on
 // available screen space.
@@ -17022,7 +17034,7 @@ module.exports = function ( vars ) {
 
 };
 
-},{}],148:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 var active, copy, form, print;
 
 active = require("./active.js");
@@ -17111,7 +17123,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../../core/console/print.coffee":53,"../../../../util/copy.coffee":206,"../../../form.js":103,"./active.js":142}],149:[function(require,module,exports){
+},{"../../../../core/console/print.coffee":54,"../../../../util/copy.coffee":207,"../../../form.js":104,"./active.js":143}],150:[function(require,module,exports){
 module.exports = function(vars) {
   return d3.select(window).on("keydown." + vars.container.id, function() {
     var d, data, depth, hist, hover, i, index, j, key, len, matchKey, ref, solo;
@@ -17190,7 +17202,7 @@ module.exports = function(vars) {
 };
 
 
-},{}],150:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 var print = require("../../../../core/console/print.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Creates and populates the dropdown list of items.
@@ -17212,7 +17224,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../core/console/print.coffee":53}],151:[function(require,module,exports){
+},{"../../../../core/console/print.coffee":54}],152:[function(require,module,exports){
 var print = require("../../../../core/console/print.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Calculates scroll position of list.
@@ -17316,7 +17328,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../core/console/print.coffee":53}],152:[function(require,module,exports){
+},{"../../../../core/console/print.coffee":54}],153:[function(require,module,exports){
 var prefix = require("../../../../client/prefix.coffee"),
     print = require("../../../../core/console/print.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17415,7 +17427,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../client/prefix.coffee":41,"../../../../core/console/print.coffee":53,"./data.js":145,"./items.coffee":148,"./update.js":155}],153:[function(require,module,exports){
+},{"../../../../client/prefix.coffee":41,"../../../../core/console/print.coffee":54,"./data.js":146,"./items.coffee":149,"./update.js":156}],154:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Creates and styles the div that holds the search box and item list.
 //------------------------------------------------------------------------------
@@ -17437,7 +17449,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{}],154:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 var events = require("../../../../client/pointer.coffee"),
     lighter   = require("../../../../color/lighter.coffee"),
     print     = require("../../../../core/console/print.coffee"),
@@ -17588,7 +17600,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../client/pointer.coffee":40,"../../../../color/lighter.coffee":46,"../../../../color/text.coffee":51,"../../../../core/console/print.coffee":53}],155:[function(require,module,exports){
+},{"../../../../client/pointer.coffee":40,"../../../../color/lighter.coffee":47,"../../../../color/text.coffee":52,"../../../../core/console/print.coffee":54}],156:[function(require,module,exports){
 var items = require("./items.coffee"),
     height     = require("./height.js"),
     print      = require("../../../../core/console/print.coffee"),
@@ -17754,7 +17766,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../core/console/print.coffee":53,"./arrow.js":143,"./height.js":147,"./items.coffee":148,"./scroll.js":151}],156:[function(require,module,exports){
+},{"../../../../core/console/print.coffee":54,"./arrow.js":144,"./height.js":148,"./items.coffee":149,"./scroll.js":152}],157:[function(require,module,exports){
 var copy = require("../../../../util/copy.coffee"),
     fontTester  = require("../../../../core/font/tester.coffee"),
     form        = require("../../../form.js"),
@@ -17850,7 +17862,7 @@ module.exports = function ( vars ) {
 
 }
 
-},{"../../../../core/console/print.coffee":53,"../../../../core/font/tester.coffee":69,"../../../../object/validate.coffee":171,"../../../../util/copy.coffee":206,"../../../form.js":103}],157:[function(require,module,exports){
+},{"../../../../core/console/print.coffee":54,"../../../../core/font/tester.coffee":70,"../../../../object/validate.coffee":172,"../../../../util/copy.coffee":207,"../../../form.js":104}],158:[function(require,module,exports){
 var child = require("../../../../util/child.coffee")
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17895,7 +17907,7 @@ var windowEvents = function ( vars , elem ) {
 
 module.exports = windowEvents
 
-},{"../../../../util/child.coffee":204}],158:[function(require,module,exports){
+},{"../../../../util/child.coffee":205}],159:[function(require,module,exports){
 var form = require("../form.js")
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17993,7 +18005,7 @@ module.exports = function( vars ) {
 
 }
 
-},{"../form.js":103}],159:[function(require,module,exports){
+},{"../form.js":104}],160:[function(require,module,exports){
 var intersectPoints, lineIntersection, pointInPoly, pointInSegmentBox, polyInsidePoly, rayIntersectsSegment, rotatePoint, rotatePoly, segmentsIntersect, simplify, squaredDist;
 
 simplify = require("simplify-js");
@@ -18408,7 +18420,7 @@ intersectPoints = function(poly, origin, alpha) {
 };
 
 
-},{"simplify-js":8}],160:[function(require,module,exports){
+},{"simplify-js":8}],161:[function(require,module,exports){
 module.exports = function(radians, distance, shape) {
   var adjacentLegLength, coords, diagonal, oppositeLegLength;
   coords = {
@@ -18473,7 +18485,7 @@ module.exports = function(radians, distance, shape) {
 };
 
 
-},{}],161:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 var offset;
 
 offset = require("../geom/offset.coffee");
@@ -18521,7 +18533,7 @@ module.exports = function(path) {
 };
 
 
-},{"../geom/offset.coffee":160}],162:[function(require,module,exports){
+},{"../geom/offset.coffee":161}],163:[function(require,module,exports){
 
 /**
  * @class d3plus
@@ -18588,6 +18600,7 @@ d3plus.client = {
   pointer: require("./client/pointer.coffee"),
   prefix: require("./client/prefix.coffee"),
   rtl: require("./client/rtl.coffee"),
+  scroll: require("./client/scroll.js"),
   scrollbar: require("./client/scrollbar.coffee"),
   touch: require("./client/touch.coffee")
 };
@@ -18776,7 +18789,7 @@ if (stylesheet("d3plus.css")) {
 }
 
 
-},{"./array/comparator.coffee":34,"./array/contains.coffee":35,"./array/sort.coffee":36,"./array/update.coffee":37,"./client/css.coffee":38,"./client/ie.js":39,"./client/pointer.coffee":40,"./client/prefix.coffee":41,"./client/rtl.coffee":42,"./client/scrollbar.coffee":43,"./client/touch.coffee":44,"./color/legible.coffee":45,"./color/lighter.coffee":46,"./color/mix.coffee":47,"./color/random.coffee":48,"./color/scale.coffee":49,"./color/sort.coffee":50,"./color/text.coffee":51,"./color/validate.coffee":52,"./core/console/print.coffee":53,"./data/bestRegress.coffee":98,"./data/lof.coffee":99,"./data/mad.coffee":100,"./font/sizes.coffee":101,"./font/validate.coffee":102,"./form/form.js":103,"./geom/largestRect.coffee":159,"./geom/offset.coffee":160,"./geom/path2poly.coffee":161,"./network/cluster.coffee":163,"./network/distance.coffee":164,"./network/normalize.coffee":165,"./network/shortestPath.coffee":166,"./network/smallestGap.coffee":167,"./network/subgraph.coffee":168,"./number/format.coffee":169,"./object/merge.coffee":170,"./object/validate.coffee":171,"./string/format.js":172,"./string/list.coffee":173,"./string/strip.js":174,"./string/title.coffee":175,"./textwrap/textwrap.coffee":199,"./tooltip/create.js":200,"./tooltip/move.coffee":201,"./tooltip/remove.coffee":202,"./util/buckets.coffee":203,"./util/child.coffee":204,"./util/closest.coffee":205,"./util/copy.coffee":206,"./util/d3selection.coffee":207,"./util/dataURL.coffee":208,"./util/uniques.coffee":209,"./viz/viz.coffee":331}],163:[function(require,module,exports){
+},{"./array/comparator.coffee":34,"./array/contains.coffee":35,"./array/sort.coffee":36,"./array/update.coffee":37,"./client/css.coffee":38,"./client/ie.js":39,"./client/pointer.coffee":40,"./client/prefix.coffee":41,"./client/rtl.coffee":42,"./client/scroll.js":43,"./client/scrollbar.coffee":44,"./client/touch.coffee":45,"./color/legible.coffee":46,"./color/lighter.coffee":47,"./color/mix.coffee":48,"./color/random.coffee":49,"./color/scale.coffee":50,"./color/sort.coffee":51,"./color/text.coffee":52,"./color/validate.coffee":53,"./core/console/print.coffee":54,"./data/bestRegress.coffee":99,"./data/lof.coffee":100,"./data/mad.coffee":101,"./font/sizes.coffee":102,"./font/validate.coffee":103,"./form/form.js":104,"./geom/largestRect.coffee":160,"./geom/offset.coffee":161,"./geom/path2poly.coffee":162,"./network/cluster.coffee":164,"./network/distance.coffee":165,"./network/normalize.coffee":166,"./network/shortestPath.coffee":167,"./network/smallestGap.coffee":168,"./network/subgraph.coffee":169,"./number/format.coffee":170,"./object/merge.coffee":171,"./object/validate.coffee":172,"./string/format.js":173,"./string/list.coffee":174,"./string/strip.js":175,"./string/title.coffee":176,"./textwrap/textwrap.coffee":200,"./tooltip/create.js":201,"./tooltip/move.coffee":202,"./tooltip/remove.coffee":203,"./util/buckets.coffee":204,"./util/child.coffee":205,"./util/closest.coffee":206,"./util/copy.coffee":207,"./util/d3selection.coffee":208,"./util/dataURL.coffee":209,"./util/uniques.coffee":210,"./viz/viz.coffee":332}],164:[function(require,module,exports){
 var normalize;
 
 normalize = require("./normalize.coffee");
@@ -18913,7 +18926,7 @@ module.exports = function(edges, options) {
 };
 
 
-},{"./normalize.coffee":165}],164:[function(require,module,exports){
+},{"./normalize.coffee":166}],165:[function(require,module,exports){
 module.exports = function(n1, n2) {
   var xx, yy;
   if (!(n1 instanceof Array)) {
@@ -18928,7 +18941,7 @@ module.exports = function(n1, n2) {
 };
 
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 var print;
 
 print = require("../core/console/print.coffee");
@@ -19076,7 +19089,7 @@ module.exports = function(edges, options) {
 };
 
 
-},{"../core/console/print.coffee":53}],166:[function(require,module,exports){
+},{"../core/console/print.coffee":54}],167:[function(require,module,exports){
 var Heap, normalize;
 
 Heap = require('heap');
@@ -19173,7 +19186,7 @@ module.exports = function(edges, source, options) {
 };
 
 
-},{"./normalize.coffee":165,"heap":5}],167:[function(require,module,exports){
+},{"./normalize.coffee":166,"heap":5}],168:[function(require,module,exports){
 var distance;
 
 distance = require("./distance.coffee");
@@ -19230,7 +19243,7 @@ module.exports = function(arr, opts) {
 };
 
 
-},{"./distance.coffee":164}],168:[function(require,module,exports){
+},{"./distance.coffee":165}],169:[function(require,module,exports){
 var normalize;
 
 normalize = require("./normalize.coffee");
@@ -19300,7 +19313,7 @@ module.exports = function(edges, source, options) {
 };
 
 
-},{"./normalize.coffee":165}],169:[function(require,module,exports){
+},{"./normalize.coffee":166}],170:[function(require,module,exports){
 var defaultLocale;
 
 defaultLocale = require("../core/locale/languages/en_US.coffee");
@@ -19380,7 +19393,7 @@ module.exports = function(number, opts) {
 };
 
 
-},{"../core/locale/languages/en_US.coffee":70}],170:[function(require,module,exports){
+},{"../core/locale/languages/en_US.coffee":71}],171:[function(require,module,exports){
 var d3selection, validate;
 
 d3selection = require("../util/d3selection.coffee");
@@ -19432,7 +19445,7 @@ module.exports = function(obj1, obj2) {
 };
 
 
-},{"../util/d3selection.coffee":207,"./validate.coffee":171}],171:[function(require,module,exports){
+},{"../util/d3selection.coffee":208,"./validate.coffee":172}],172:[function(require,module,exports){
 
 /**
  * This function returns true if the variable passed is a literal javascript keyed Object. It's a small, simple function, but it catches some edge-cases that can throw off your code (such as Arrays and `null`).
@@ -19446,7 +19459,7 @@ module.exports = function(obj) {
 };
 
 
-},{}],172:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Formats a string similar to Python's "format"
 //------------------------------------------------------------------------------
@@ -19477,7 +19490,7 @@ module.exports = function() {
 
 }
 
-},{}],173:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 var format, locale;
 
 format = require("./format.js");
@@ -19513,7 +19526,7 @@ module.exports = function(list, andText, max, moreText) {
 };
 
 
-},{"../core/locale/languages/en_US.coffee":70,"./format.js":172}],174:[function(require,module,exports){
+},{"../core/locale/languages/en_US.coffee":71,"./format.js":173}],175:[function(require,module,exports){
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Removes all non ASCII characters
 //------------------------------------------------------------------------------
@@ -19565,7 +19578,7 @@ module.exports = function(str) {
 
 };
 
-},{}],175:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 var defaultLocale;
 
 defaultLocale = require("../core/locale/languages/en_US.coffee");
@@ -19611,7 +19624,7 @@ module.exports = function(text, opts) {
 };
 
 
-},{"../core/locale/languages/en_US.coffee":70}],176:[function(require,module,exports){
+},{"../core/locale/languages/en_US.coffee":71}],177:[function(require,module,exports){
 var foreign, tspan;
 
 foreign = require("./foreign.coffee");
@@ -19627,7 +19640,7 @@ module.exports = function(vars) {
 };
 
 
-},{"./foreign.coffee":177,"./tspan.coffee":180}],177:[function(require,module,exports){
+},{"./foreign.coffee":178,"./tspan.coffee":181}],178:[function(require,module,exports){
 module.exports = function(vars) {
   var anchor, color, family, opacity, text;
   text = vars.container.value;
@@ -19640,7 +19653,7 @@ module.exports = function(vars) {
 };
 
 
-},{}],178:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 module.exports = function(vars) {
   var diff, elem, height, prev, radius, shape, size, width, x, y;
   elem = vars.container.value;
@@ -19733,7 +19746,7 @@ module.exports = function(vars) {
 };
 
 
-},{}],179:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 module.exports = function(vars) {
   var text;
   if (!vars.text.value) {
@@ -19762,7 +19775,7 @@ module.exports = function(vars) {
 };
 
 
-},{}],180:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 var rtl;
 
 rtl = require("../../client/rtl.coffee");
@@ -19954,7 +19967,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../client/rtl.coffee":42}],181:[function(require,module,exports){
+},{"../../client/rtl.coffee":42}],182:[function(require,module,exports){
 var flow, fontSizes, resize, wrap;
 
 flow = require("./flow.coffee");
@@ -20035,7 +20048,7 @@ resize = function(vars) {
 };
 
 
-},{"../../font/sizes.coffee":101,"./flow.coffee":176}],182:[function(require,module,exports){
+},{"../../font/sizes.coffee":102,"./flow.coffee":177}],183:[function(require,module,exports){
 module.exports = {
   accepted: [false, "start", "middle", "end", "left", "center", "right"],
   process: function(value) {
@@ -20050,7 +20063,7 @@ module.exports = {
 };
 
 
-},{}],183:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 module.exports = {
   accepted: [Object],
   objectAccess: false,
@@ -20068,7 +20081,7 @@ module.exports = {
 };
 
 
-},{}],184:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 var d3selection;
 
 d3selection = require("../../util/d3selection.coffee");
@@ -20092,14 +20105,14 @@ module.exports = {
 };
 
 
-},{"../../util/d3selection.coffee":207}],185:[function(require,module,exports){
+},{"../../util/d3selection.coffee":208}],186:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   value: false
 };
 
 
-},{}],186:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 var print, stringFormat;
 
 print = require("../../core/console/print.coffee");
@@ -20131,7 +20144,7 @@ module.exports = {
 };
 
 
-},{"../../core/console/print.coffee":53,"../../string/format.js":172}],187:[function(require,module,exports){
+},{"../../core/console/print.coffee":54,"../../string/format.js":173}],188:[function(require,module,exports){
 var locale, mergeObject;
 
 locale = require("../../core/locale/locale.coffee");
@@ -20172,14 +20185,7 @@ module.exports = {
 };
 
 
-},{"../../core/locale/locale.coffee":78,"../../object/merge.coffee":170}],188:[function(require,module,exports){
-module.exports = {
-  accepted: [false, Number],
-  value: false
-};
-
-
-},{}],189:[function(require,module,exports){
+},{"../../core/locale/locale.coffee":79,"../../object/merge.coffee":171}],189:[function(require,module,exports){
 module.exports = {
   accepted: [false, Number],
   value: false
@@ -20188,33 +20194,40 @@ module.exports = {
 
 },{}],190:[function(require,module,exports){
 module.exports = {
-  accepted: [Boolean],
+  accepted: [false, Number],
   value: false
 };
 
 
 },{}],191:[function(require,module,exports){
 module.exports = {
+  accepted: [Boolean],
+  value: false
+};
+
+
+},{}],192:[function(require,module,exports){
+module.exports = {
   accepted: [-180, -90, 0, 90, 180],
   value: 0
 };
 
 
-},{}],192:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 module.exports = {
   accepted: ["circle", "square"],
   value: false
 };
 
 
-},{}],193:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 module.exports = {
   accepted: [Array, false],
   value: false
 };
 
 
-},{}],194:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 module.exports = {
   accepted: [false, Array, Number, String],
   html: {
@@ -20234,16 +20247,9 @@ module.exports = {
 };
 
 
-},{}],195:[function(require,module,exports){
-module.exports = {
-  accepted: [false, "top", "middle", "bottom"],
-  value: false
-};
-
-
 },{}],196:[function(require,module,exports){
 module.exports = {
-  accepted: [false, Number],
+  accepted: [false, "top", "middle", "bottom"],
   value: false
 };
 
@@ -20263,6 +20269,13 @@ module.exports = {
 
 
 },{}],199:[function(require,module,exports){
+module.exports = {
+  accepted: [false, Number],
+  value: false
+};
+
+
+},{}],200:[function(require,module,exports){
 var attach, print, sizes, text, wrap;
 
 attach = require("../core/methods/attach.coffee");
@@ -20317,7 +20330,7 @@ module.exports = function() {
 };
 
 
-},{"../core/console/print.coffee":53,"../core/methods/attach.coffee":79,"./helpers/parseSize.coffee":178,"./helpers/parseText.coffee":179,"./helpers/wrap.coffee":181,"./methods/align.coffee":182,"./methods/config.coffee":183,"./methods/container.coffee":184,"./methods/dev.coffee":185,"./methods/draw.coffee":186,"./methods/format.coffee":187,"./methods/height.coffee":188,"./methods/padding.coffee":189,"./methods/resize.coffee":190,"./methods/rotate.coffee":191,"./methods/shape.coffee":192,"./methods/size.coffee":193,"./methods/text.coffee":194,"./methods/valign.coffee":195,"./methods/width.coffee":196,"./methods/x.coffee":197,"./methods/y.coffee":198}],200:[function(require,module,exports){
+},{"../core/console/print.coffee":54,"../core/methods/attach.coffee":80,"./helpers/parseSize.coffee":179,"./helpers/parseText.coffee":180,"./helpers/wrap.coffee":182,"./methods/align.coffee":183,"./methods/config.coffee":184,"./methods/container.coffee":185,"./methods/dev.coffee":186,"./methods/draw.coffee":187,"./methods/format.coffee":188,"./methods/height.coffee":189,"./methods/padding.coffee":190,"./methods/resize.coffee":191,"./methods/rotate.coffee":192,"./methods/shape.coffee":193,"./methods/size.coffee":194,"./methods/text.coffee":195,"./methods/valign.coffee":196,"./methods/width.coffee":197,"./methods/x.coffee":198,"./methods/y.coffee":199}],201:[function(require,module,exports){
 var defaultLocale = require("../core/locale/languages/en_US.coffee"),
     events        = require("../client/pointer.coffee"),
     legible       = require("../color/legible.coffee"),
@@ -20325,6 +20338,7 @@ var defaultLocale = require("../core/locale/languages/en_US.coffee"),
     prefix        = require("../client/prefix.coffee"),
     rtl           = require("../client/rtl.coffee"),
     removeTooltip = require("./remove.coffee"),
+    scroll        = require("../client/scroll.js"),
     stringList    = require("../string/list.coffee"),
     textColor     = require("../color/text.coffee")
 
@@ -20365,7 +20379,7 @@ module.exports = function(params) {
   }
 
   if (params.parent.node() === document.body) {
-    params.limit = [window.innerWidth + window.scrollX, window.innerHeight + window.scrollY];
+    params.limit = [window.innerWidth + scroll.x(), window.innerHeight + scroll.y()];
   }
   else {
     params.limit = [
@@ -20899,8 +20913,10 @@ function close_descriptions() {
   d3.selectAll("div.d3plus_tooltip_data_help").style("background-color","#ccc");
 }
 
-},{"../client/pointer.coffee":40,"../client/prefix.coffee":41,"../client/rtl.coffee":42,"../color/legible.coffee":45,"../color/text.coffee":51,"../core/locale/languages/en_US.coffee":70,"../string/list.coffee":173,"./move.coffee":201,"./remove.coffee":202}],201:[function(require,module,exports){
-var arrowStyle;
+},{"../client/pointer.coffee":40,"../client/prefix.coffee":41,"../client/rtl.coffee":42,"../client/scroll.js":43,"../color/legible.coffee":46,"../color/text.coffee":52,"../core/locale/languages/en_US.coffee":71,"../string/list.coffee":174,"./move.coffee":202,"./remove.coffee":203}],202:[function(require,module,exports){
+var arrowStyle, scroll;
+
+scroll = require("../client/scroll.js");
 
 module.exports = function(x, y, id) {
   var d, mins, tooltip;
@@ -20914,7 +20930,7 @@ module.exports = function(x, y, id) {
     d.cy = y;
     if (!d.fixed) {
       if (d.parent.node().tagName.toLowerCase() === "body") {
-        mins = [window.scrollX, window.scrollY];
+        mins = [scroll.x(), scroll.y()];
       } else {
         mins = [0, 0];
       }
@@ -21064,7 +21080,7 @@ arrowStyle = function(arrow) {
 };
 
 
-},{}],202:[function(require,module,exports){
+},{"../client/scroll.js":43}],203:[function(require,module,exports){
 module.exports = function(id) {
   if (id) {
     d3.selectAll("div#d3plus_tooltip_curtain_" + id).remove();
@@ -21076,7 +21092,7 @@ module.exports = function(id) {
 };
 
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 module.exports = function(arr, n) {
   var buckets, step;
   buckets = [];
@@ -21085,7 +21101,7 @@ module.exports = function(arr, n) {
 };
 
 
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 var d3selection;
 
 d3selection = require("./d3selection.coffee");
@@ -21112,7 +21128,7 @@ module.exports = function(parent, child) {
 };
 
 
-},{"./d3selection.coffee":207}],205:[function(require,module,exports){
+},{"./d3selection.coffee":208}],206:[function(require,module,exports){
 module.exports = function(arr, value) {
   var closest, i;
   if (value.constructor === String) {
@@ -21133,7 +21149,7 @@ module.exports = function(arr, value) {
 };
 
 
-},{}],206:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 var copy, objectMerge, objectValidate;
 
 objectMerge = require("../object/merge.coffee");
@@ -21158,7 +21174,7 @@ copy = function(variable) {
 module.exports = copy;
 
 
-},{"../object/merge.coffee":170,"../object/validate.coffee":171}],207:[function(require,module,exports){
+},{"../object/merge.coffee":171,"../object/validate.coffee":172}],208:[function(require,module,exports){
 var ie;
 
 ie = require("../client/ie.js");
@@ -21172,7 +21188,7 @@ module.exports = function(elem) {
 };
 
 
-},{"../client/ie.js":39}],208:[function(require,module,exports){
+},{"../client/ie.js":39}],209:[function(require,module,exports){
 module.exports = function(url, callback) {
   var img;
   img = new Image();
@@ -21191,7 +21207,7 @@ module.exports = function(url, callback) {
 };
 
 
-},{}],209:[function(require,module,exports){
+},{}],210:[function(require,module,exports){
 var objectValidate, uniques;
 
 objectValidate = require("../object/validate.coffee");
@@ -21269,7 +21285,7 @@ uniques = function(data, value, fetch, vars, depth, sorted) {
 module.exports = uniques;
 
 
-},{"../object/validate.coffee":171}],210:[function(require,module,exports){
+},{"../object/validate.coffee":172}],211:[function(require,module,exports){
 module.exports = function(vars) {
   var checkParent, i, len, ref, s;
   vars.container.value.style("position", function() {
@@ -21324,7 +21340,7 @@ module.exports = function(vars) {
 };
 
 
-},{}],211:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 var dataFormat    = require("../../core/data/format.js"),
     dataColor     = require("../../core/data/color.js"),
     dataKeys      = require("../../core/data/keys.coffee"),
@@ -21692,7 +21708,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../core/console/print.coffee":53,"../../core/data/color.js":55,"../../core/data/format.js":57,"../../core/data/keys.coffee":59,"../../core/data/load.coffee":60,"../../core/fetch/data.js":65,"../../core/parse/edges.js":94,"../../core/parse/nodes.js":97,"../../object/validate.coffee":171,"../../string/format.js":172,"../../tooltip/remove.coffee":202,"./errorCheck.js":212,"./finish.js":213,"./focus/tooltip.coffee":214,"./shapes/draw.js":224,"./svg/enter.js":237,"./svg/update.js":238,"./types/run.coffee":241,"./ui/drawer.js":242,"./ui/history.coffee":243,"./ui/legend.js":244,"./ui/timeline.coffee":246,"./ui/titles.js":247}],212:[function(require,module,exports){
+},{"../../core/console/print.coffee":54,"../../core/data/color.js":56,"../../core/data/format.js":58,"../../core/data/keys.coffee":60,"../../core/data/load.coffee":61,"../../core/fetch/data.js":66,"../../core/parse/edges.js":95,"../../core/parse/nodes.js":98,"../../object/validate.coffee":172,"../../string/format.js":173,"../../tooltip/remove.coffee":203,"./errorCheck.js":213,"./finish.js":214,"./focus/tooltip.coffee":215,"./shapes/draw.js":225,"./svg/enter.js":238,"./svg/update.js":239,"./types/run.coffee":242,"./ui/drawer.js":243,"./ui/history.coffee":244,"./ui/legend.js":245,"./ui/timeline.coffee":247,"./ui/titles.js":248}],213:[function(require,module,exports){
 var fetchText    = require("../../core/fetch/text.js"),
     print        = require("../../core/console/print.coffee"),
     rejected     = require("../../core/methods/rejected.coffee"),
@@ -21809,7 +21825,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../core/console/print.coffee":53,"../../core/fetch/text.js":67,"../../core/methods/rejected.coffee":90,"../../string/format.js":172,"../../string/list.coffee":173}],213:[function(require,module,exports){
+},{"../../core/console/print.coffee":54,"../../core/fetch/text.js":68,"../../core/methods/rejected.coffee":91,"../../string/format.js":173,"../../string/list.coffee":174}],214:[function(require,module,exports){
 var edges = require("./shapes/edges.js"),
     paths       = require("./shapes/paths.js"),
     flash       = require("./ui/message.js"),
@@ -22017,7 +22033,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../core/console/print.coffee":53,"../../core/methods/reset.coffee":92,"../../string/title.coffee":175,"./focus/viz.js":215,"./shapes/edges.js":225,"./shapes/labels.js":227,"./shapes/paths.js":229,"./ui/message.js":245,"./zoom/bounds.coffee":248,"./zoom/labels.coffee":250,"./zoom/mouse.coffee":251}],214:[function(require,module,exports){
+},{"../../core/console/print.coffee":54,"../../core/methods/reset.coffee":93,"../../string/title.coffee":176,"./focus/viz.js":216,"./shapes/edges.js":226,"./shapes/labels.js":228,"./shapes/paths.js":230,"./ui/message.js":246,"./zoom/bounds.coffee":249,"./zoom/labels.coffee":251,"./zoom/mouse.coffee":252}],215:[function(require,module,exports){
 var createTooltip, fetchValue, print, removeTooltip;
 
 createTooltip = require("../tooltip/create.js");
@@ -22070,7 +22086,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../core/console/print.coffee":53,"../../../core/fetch/value.coffee":68,"../../../tooltip/remove.coffee":202,"../tooltip/create.js":239}],215:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54,"../../../core/fetch/value.coffee":69,"../../../tooltip/remove.coffee":203,"../tooltip/create.js":240}],216:[function(require,module,exports){
 var events = require("../../../client/pointer.coffee"),
     ie           = require("../../../client/ie.js"),
     fetchValue   = require("../../../core/fetch/value.coffee"),
@@ -22232,7 +22248,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../../client/ie.js":39,"../../../client/pointer.coffee":40,"../../../core/console/print.coffee":53,"../../../core/fetch/value.coffee":68,"../../../util/uniques.coffee":209}],216:[function(require,module,exports){
+},{"../../../client/ie.js":39,"../../../client/pointer.coffee":40,"../../../core/console/print.coffee":54,"../../../core/fetch/value.coffee":69,"../../../util/uniques.coffee":210}],217:[function(require,module,exports){
 var angles, largestRect, path2poly, shapeStyle;
 
 shapeStyle = require("./style.coffee");
@@ -22328,7 +22344,7 @@ module.exports = function(vars, selection, enter, exit) {
 };
 
 
-},{"../../../geom/largestRect.coffee":159,"../../../geom/path2poly.coffee":161,"./style.coffee":233}],217:[function(require,module,exports){
+},{"../../../geom/largestRect.coffee":160,"../../../geom/path2poly.coffee":162,"./style.coffee":234}],218:[function(require,module,exports){
 var fetchText = require("../../../core/fetch/text.js"),
     fontSizes   = require("../../../font/sizes.coffee"),
     largestRect = require("../../../geom/largestRect.coffee"),
@@ -22449,7 +22465,7 @@ module.exports = function(vars, selection, enter, exit) {
 
 }
 
-},{"../../../core/fetch/text.js":67,"../../../font/sizes.coffee":101,"../../../geom/largestRect.coffee":159,"./style.coffee":233}],218:[function(require,module,exports){
+},{"../../../core/fetch/text.js":68,"../../../font/sizes.coffee":102,"../../../geom/largestRect.coffee":160,"./style.coffee":234}],219:[function(require,module,exports){
 var fetchText = require("../../../core/fetch/text.js"),
     largestRect = require("../../../geom/largestRect.coffee"),
     shapeStyle  = require("./style.coffee")
@@ -22506,7 +22522,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 }
 
-},{"../../../core/fetch/text.js":67,"../../../geom/largestRect.coffee":159,"./style.coffee":233}],219:[function(require,module,exports){
+},{"../../../core/fetch/text.js":68,"../../../geom/largestRect.coffee":160,"./style.coffee":234}],220:[function(require,module,exports){
 var fetchColor, fetchValue, lighter, segments;
 
 fetchValue = require("../../../core/fetch/value.coffee");
@@ -22546,7 +22562,7 @@ module.exports = function(d, vars, stroke) {
 };
 
 
-},{"../../../color/lighter.coffee":46,"../../../core/fetch/color.coffee":64,"../../../core/fetch/value.coffee":68,"./segments.coffee":232}],220:[function(require,module,exports){
+},{"../../../color/lighter.coffee":47,"../../../core/fetch/color.coffee":65,"../../../core/fetch/value.coffee":69,"./segments.coffee":233}],221:[function(require,module,exports){
 var copy, distance, fetchText, fontSizes, labels, largestRect, path2poly, shapeStyle;
 
 copy = require("../../../util/copy.coffee");
@@ -22706,7 +22722,7 @@ module.exports = function(vars, selection, enter, exit) {
 };
 
 
-},{"../../../core/fetch/text.js":67,"../../../font/sizes.coffee":101,"../../../geom/largestRect.coffee":159,"../../../geom/path2poly.coffee":161,"../../../network/distance.coffee":164,"../../../util/copy.coffee":206,"./style.coffee":233}],221:[function(require,module,exports){
+},{"../../../core/fetch/text.js":68,"../../../font/sizes.coffee":102,"../../../geom/largestRect.coffee":160,"../../../geom/path2poly.coffee":162,"../../../network/distance.coffee":165,"../../../util/copy.coffee":207,"./style.coffee":234}],222:[function(require,module,exports){
 var shapeStyle  = require("./style.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Draws "square" and "circle" shapes using svg:rect
@@ -22759,7 +22775,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 }
 
-},{"./style.coffee":233}],222:[function(require,module,exports){
+},{"./style.coffee":234}],223:[function(require,module,exports){
 var shapeStyle  = require("./style.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Draws "square" and "circle" shapes using svg:rect
@@ -22812,7 +22828,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 }
 
-},{"./style.coffee":233}],223:[function(require,module,exports){
+},{"./style.coffee":234}],224:[function(require,module,exports){
 var shapeStyle = require("./style.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Draws "donut" shapes using svg:path with arcs
@@ -22950,7 +22966,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 };
 
-},{"./style.coffee":233}],224:[function(require,module,exports){
+},{"./style.coffee":234}],225:[function(require,module,exports){
 var child         = require("../../../util/child.coffee"),
     closest       = require("../../../util/closest.coffee"),
     createTooltip = require("../tooltip/create.js"),
@@ -23738,7 +23754,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../../client/pointer.coffee":40,"../../../client/touch.coffee":44,"../../../color/legible.coffee":45,"../../../core/console/print.coffee":53,"../../../core/fetch/color.coffee":64,"../../../core/fetch/text.js":67,"../../../core/fetch/value.coffee":68,"../../../object/validate.coffee":171,"../../../string/strip.js":174,"../../../tooltip/remove.coffee":202,"../../../util/child.coffee":204,"../../../util/closest.coffee":205,"../../../util/uniques.coffee":209,"../tooltip/create.js":239,"../zoom/direction.coffee":249,"../zoom/propagation.coffee":252,"./arc.coffee":216,"./area.js":217,"./check.js":218,"./coordinates.coffee":220,"./cross.js":221,"./diamond.js":222,"./donut.js":223,"./fill.js":226,"./line.js":228,"./radial.coffee":230,"./rect.coffee":231,"./segments.coffee":232,"./triangle_down.js":234,"./triangle_up.js":235,"./whisker.coffee":236}],225:[function(require,module,exports){
+},{"../../../client/pointer.coffee":40,"../../../client/touch.coffee":45,"../../../color/legible.coffee":46,"../../../core/console/print.coffee":54,"../../../core/fetch/color.coffee":65,"../../../core/fetch/text.js":68,"../../../core/fetch/value.coffee":69,"../../../object/validate.coffee":172,"../../../string/strip.js":175,"../../../tooltip/remove.coffee":203,"../../../util/child.coffee":205,"../../../util/closest.coffee":206,"../../../util/uniques.coffee":210,"../tooltip/create.js":240,"../zoom/direction.coffee":250,"../zoom/propagation.coffee":253,"./arc.coffee":217,"./area.js":218,"./check.js":219,"./coordinates.coffee":221,"./cross.js":222,"./diamond.js":223,"./donut.js":224,"./fill.js":227,"./line.js":229,"./radial.coffee":231,"./rect.coffee":232,"./segments.coffee":233,"./triangle_down.js":235,"./triangle_up.js":236,"./whisker.coffee":237}],226:[function(require,module,exports){
 var buckets = require("../../../util/buckets.coffee"),
     offset  = require("../../../geom/offset.coffee");
 
@@ -24307,7 +24323,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../../geom/offset.coffee":160,"../../../util/buckets.coffee":203}],226:[function(require,module,exports){
+},{"../../../geom/offset.coffee":161,"../../../util/buckets.coffee":204}],227:[function(require,module,exports){
 var copy       = require("../../../util/copy.coffee"),
     fetchColor = require("../../../core/fetch/color.coffee"),
     fetchValue = require("../../../core/fetch/value.coffee"),
@@ -24588,7 +24604,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 };
 
-},{"../../../core/fetch/color.coffee":64,"../../../core/fetch/value.coffee":68,"../../../util/copy.coffee":206,"./segments.coffee":232,"./style.coffee":233}],227:[function(require,module,exports){
+},{"../../../core/fetch/color.coffee":65,"../../../core/fetch/value.coffee":69,"../../../util/copy.coffee":207,"./segments.coffee":233,"./style.coffee":234}],228:[function(require,module,exports){
 var copy       = require("../../../util/copy.coffee"),
     fetchText  = require("../../../core/fetch/text.js"),
     fetchValue = require("../../../core/fetch/value.coffee"),
@@ -25028,7 +25044,7 @@ module.exports = function( vars , group ) {
   }
 }
 
-},{"../../../client/rtl.coffee":42,"../../../color/mix.coffee":47,"../../../color/text.coffee":51,"../../../core/console/print.coffee":53,"../../../core/fetch/text.js":67,"../../../core/fetch/value.coffee":68,"../../../string/list.coffee":173,"../../../textwrap/textwrap.coffee":199,"../../../util/copy.coffee":206,"./color.coffee":219,"./segments.coffee":232}],228:[function(require,module,exports){
+},{"../../../client/rtl.coffee":42,"../../../color/mix.coffee":48,"../../../color/text.coffee":52,"../../../core/console/print.coffee":54,"../../../core/fetch/text.js":68,"../../../core/fetch/value.coffee":69,"../../../string/list.coffee":174,"../../../textwrap/textwrap.coffee":200,"../../../util/copy.coffee":207,"./color.coffee":220,"./segments.coffee":233}],229:[function(require,module,exports){
 var copy       = require("../../../util/copy.coffee"),
     closest    = require("../../../util/closest.coffee"),
     events     = require("../../../client/pointer.coffee"),
@@ -25369,7 +25385,7 @@ function mouseStyle(vars, elem, stroke, mod) {
 
 }
 
-},{"../../../client/pointer.coffee":40,"../../../core/fetch/value.coffee":68,"../../../util/closest.coffee":205,"../../../util/copy.coffee":206,"./style.coffee":233}],229:[function(require,module,exports){
+},{"../../../client/pointer.coffee":40,"../../../core/fetch/value.coffee":69,"../../../util/closest.coffee":206,"../../../util/copy.coffee":207,"./style.coffee":234}],230:[function(require,module,exports){
 module.exports = function(vars) {
 
   var edges = vars.returned.edges || [];
@@ -25437,7 +25453,7 @@ module.exports = function(vars) {
 
 }
 
-},{}],230:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 var angles, interpolates, radii, shapeStyle;
 
 shapeStyle = require("./style.coffee");
@@ -25538,7 +25554,7 @@ module.exports = function(vars, selection, enter, exit) {
 };
 
 
-},{"./style.coffee":233}],231:[function(require,module,exports){
+},{"./style.coffee":234}],232:[function(require,module,exports){
 var shapeStyle;
 
 shapeStyle = require("./style.coffee");
@@ -25669,7 +25685,7 @@ module.exports = function(vars, selection, enter, exit) {
 };
 
 
-},{"./style.coffee":233}],232:[function(require,module,exports){
+},{"./style.coffee":234}],233:[function(require,module,exports){
 var fetchValue;
 
 fetchValue = require("../../../core/fetch/value.coffee");
@@ -25689,7 +25705,7 @@ module.exports = function(vars, d, segment) {
 };
 
 
-},{"../../../core/fetch/value.coffee":68}],233:[function(require,module,exports){
+},{"../../../core/fetch/value.coffee":69}],234:[function(require,module,exports){
 var color, ie, value;
 
 color = require("./color.coffee");
@@ -25732,7 +25748,7 @@ module.exports = function(nodes, vars) {
 };
 
 
-},{"../../../client/ie.js":39,"../../../core/fetch/value.coffee":68,"./color.coffee":219}],234:[function(require,module,exports){
+},{"../../../client/ie.js":39,"../../../core/fetch/value.coffee":69,"./color.coffee":220}],235:[function(require,module,exports){
 var shapeStyle  = require("./style.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Draws "square" and "circle" shapes using svg:rect
@@ -25785,7 +25801,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 }
 
-},{"./style.coffee":233}],235:[function(require,module,exports){
+},{"./style.coffee":234}],236:[function(require,module,exports){
 var shapeStyle  = require("./style.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Draws "square" and "circle" shapes using svg:rect
@@ -25838,7 +25854,7 @@ module.exports = function(vars,selection,enter,exit) {
 
 }
 
-},{"./style.coffee":233}],236:[function(require,module,exports){
+},{"./style.coffee":234}],237:[function(require,module,exports){
 module.exports = function(vars, selection, enter, exit) {
   var d, data, init, marker, orient, pos, position, size, style;
   data = function(d) {
@@ -25923,7 +25939,7 @@ module.exports = function(vars, selection, enter, exit) {
 };
 
 
-},{}],237:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 var events = require("../../../client/pointer.coffee"),
     prefix     = require("../../../client/prefix.coffee"),
     print      = require("../../../core/console/print.coffee"),
@@ -25942,7 +25958,7 @@ module.exports = function(vars) {
     .attr("width",vars.width.value)
     .attr("height",vars.height.value)
     .attr("xmlns","http://www.w3.org/2000/svg")
-    .attr("xmlns:xmlns:xlink","http://www.w3.org/1999/xlink");
+    .attr("xmlns:xlink","http://www.w3.org/1999/xlink");
 
   // Enter BG Rectangle
   vars.g.bg = vars.svg.selectAll("rect#bg").data(["bg"]);
@@ -26090,7 +26106,7 @@ module.exports = function(vars) {
 
 };
 
-},{"../../../client/pointer.coffee":40,"../../../client/prefix.coffee":41,"../../../client/touch.coffee":44,"../../../core/console/print.coffee":53,"../zoom/propagation.coffee":252}],238:[function(require,module,exports){
+},{"../../../client/pointer.coffee":40,"../../../client/prefix.coffee":41,"../../../client/touch.coffee":45,"../../../core/console/print.coffee":54,"../zoom/propagation.coffee":253}],239:[function(require,module,exports){
 var print = require("../../../core/console/print.coffee")
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 // Updating Elements
@@ -26160,7 +26176,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../../core/console/print.coffee":53}],239:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54}],240:[function(require,module,exports){
 var arraySort     = require("../../../array/sort.coffee"),
     createTooltip = require("../../../tooltip/create.js"),
     dataNest      = require("../../../core/data/nest.js"),
@@ -26171,6 +26187,7 @@ var arraySort     = require("../../../array/sort.coffee"),
     mergeObject   = require("../../../object/merge.coffee"),
     removeTooltip = require("../../../tooltip/remove.coffee"),
     segments      = require("../shapes/segments.coffee"),
+    scroll        = require("../../../client/scroll.js"),
     uniques       = require("../../../util/uniques.coffee"),
     validObject   = require("../../../object/validate.coffee"),
     zoomDirection = require("../zoom/direction.coffee");
@@ -26242,7 +26259,7 @@ module.exports = function(params) {
     }
     x += vars.margin.left;
     if (params.length !== "long") {
-      y += window.scrollX;
+      y += scroll.x();
       x += vars.container.value.node().getBoundingClientRect().left;
       x += parseFloat(vars.container.value.style("padding-left"), 10);
     }
@@ -26261,7 +26278,7 @@ module.exports = function(params) {
     }
     y += vars.margin.top;
     if (params.length !== "long") {
-      y += window.scrollY;
+      y += scroll.y();
       y += vars.container.value.node().getBoundingClientRect().top;
       y += parseFloat(vars.container.value.style("padding-top"), 10);
     }
@@ -26519,7 +26536,7 @@ module.exports = function(params) {
 
 }
 
-},{"../../../array/sort.coffee":36,"../../../core/data/nest.js":61,"../../../core/fetch/color.coffee":64,"../../../core/fetch/text.js":67,"../../../core/fetch/value.coffee":68,"../../../object/merge.coffee":170,"../../../object/validate.coffee":171,"../../../tooltip/create.js":200,"../../../tooltip/remove.coffee":202,"../../../util/uniques.coffee":209,"../shapes/segments.coffee":232,"../zoom/direction.coffee":249,"./data.js":240}],240:[function(require,module,exports){
+},{"../../../array/sort.coffee":36,"../../../client/scroll.js":43,"../../../core/data/nest.js":62,"../../../core/fetch/color.coffee":65,"../../../core/fetch/text.js":68,"../../../core/fetch/value.coffee":69,"../../../object/merge.coffee":171,"../../../object/validate.coffee":172,"../../../tooltip/create.js":201,"../../../tooltip/remove.coffee":203,"../../../util/uniques.coffee":210,"../shapes/segments.coffee":233,"../zoom/direction.coffee":250,"./data.js":241}],241:[function(require,module,exports){
 var copy = require("../../../util/copy.coffee"),
     fetchValue   = require("../../../core/fetch/value.coffee"),
     fetchColor   = require("../../../core/fetch/color.coffee"),
@@ -26778,7 +26795,7 @@ module.exports = function(vars, id, length, extras, children, depth) {
 
 }
 
-},{"../../../client/prefix.coffee":41,"../../../color/legible.coffee":45,"../../../core/fetch/color.coffee":64,"../../../core/fetch/text.js":67,"../../../core/fetch/value.coffee":68,"../../../object/merge.coffee":170,"../../../object/validate.coffee":171,"../../../string/format.js":172,"../../../util/copy.coffee":206}],241:[function(require,module,exports){
+},{"../../../client/prefix.coffee":41,"../../../color/legible.coffee":46,"../../../core/fetch/color.coffee":65,"../../../core/fetch/text.js":68,"../../../core/fetch/value.coffee":69,"../../../object/merge.coffee":171,"../../../object/validate.coffee":172,"../../../string/format.js":173,"../../../util/copy.coffee":207}],242:[function(require,module,exports){
 var print;
 
 print = require("../../../core/console/print.coffee");
@@ -26831,7 +26848,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../core/console/print.coffee":53}],242:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54}],243:[function(require,module,exports){
 var copy        = require("../../../util/copy.coffee"),
     form        = require("../../../form/form.js"),
     print       = require("../../../core/console/print.coffee"),
@@ -26976,7 +26993,7 @@ module.exports = function( vars ) {
 
 };
 
-},{"../../../core/console/print.coffee":53,"../../../form/form.js":103,"../../../object/validate.coffee":171,"../../../util/copy.coffee":206}],243:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54,"../../../form/form.js":104,"../../../object/validate.coffee":172,"../../../util/copy.coffee":207}],244:[function(require,module,exports){
 var events, lighter, print, stylesheet;
 
 events = require("../../../client/pointer.coffee");
@@ -27058,7 +27075,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../client/css.coffee":38,"../../../client/pointer.coffee":40,"../../../color/lighter.coffee":46,"../../../core/console/print.coffee":53}],244:[function(require,module,exports){
+},{"../../../client/css.coffee":38,"../../../client/pointer.coffee":40,"../../../color/lighter.coffee":47,"../../../core/console/print.coffee":54}],245:[function(require,module,exports){
 var arraySort = require("../../../array/sort.coffee"),
     buckets       = require("../../../util/buckets.coffee"),
     copy          = require("../../../util/copy.coffee"),
@@ -27073,6 +27090,7 @@ var arraySort = require("../../../array/sort.coffee"),
     removeTooltip = require("../../../tooltip/remove.coffee"),
     textColor     = require("../../../color/text.coffee"),
     uniqueValues  = require("../../../util/uniques.coffee"),
+    scroll        = require("../../../client/scroll.js"),
     stringStrip   = require("../../../string/strip.js"),
     textWrap      = require("../../../textwrap/textwrap.coffee"),
     touch         = require("../../../client/touch.coffee"),
@@ -27396,8 +27414,8 @@ module.exports = function(vars) {
               d3.select(this).style("cursor","pointer");
 
               var bounds = this.getBoundingClientRect(),
-                  x = bounds.left + square_size/2 + window.scrollX,
-                  y = bounds.top + square_size/2 + window.scrollY + 5;
+                  x = bounds.left + square_size/2 + scroll.x(),
+                  y = bounds.top + square_size/2 + scroll.y() + 5;
 
               var id = fetchValue(vars, d, colorKey),
                   idIndex = vars.id.nesting.indexOf(colorKey),
@@ -27722,7 +27740,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../../array/sort.coffee":36,"../../../client/pointer.coffee":40,"../../../client/touch.coffee":44,"../../../color/text.coffee":51,"../../../core/console/print.coffee":53,"../../../core/data/nest.js":61,"../../../core/fetch/color.coffee":64,"../../../core/fetch/text.js":67,"../../../core/fetch/value.coffee":68,"../../../object/validate.coffee":171,"../../../string/strip.js":174,"../../../textwrap/textwrap.coffee":199,"../../../tooltip/remove.coffee":202,"../../../util/buckets.coffee":203,"../../../util/copy.coffee":206,"../../../util/dataURL.coffee":208,"../../../util/uniques.coffee":209,"../tooltip/create.js":239}],245:[function(require,module,exports){
+},{"../../../array/sort.coffee":36,"../../../client/pointer.coffee":40,"../../../client/scroll.js":43,"../../../client/touch.coffee":45,"../../../color/text.coffee":52,"../../../core/console/print.coffee":54,"../../../core/data/nest.js":62,"../../../core/fetch/color.coffee":65,"../../../core/fetch/text.js":68,"../../../core/fetch/value.coffee":69,"../../../object/validate.coffee":172,"../../../string/strip.js":175,"../../../textwrap/textwrap.coffee":200,"../../../tooltip/remove.coffee":203,"../../../util/buckets.coffee":204,"../../../util/copy.coffee":207,"../../../util/dataURL.coffee":209,"../../../util/uniques.coffee":210,"../tooltip/create.js":240}],246:[function(require,module,exports){
 var events = require("../../../client/pointer.coffee"),
     textColor = require("../../../color/text.coffee");
 
@@ -27874,7 +27892,7 @@ module.exports = function(vars,message) {
 
 }
 
-},{"../../../client/pointer.coffee":40,"../../../color/text.coffee":51}],246:[function(require,module,exports){
+},{"../../../client/pointer.coffee":40,"../../../color/text.coffee":52}],247:[function(require,module,exports){
 var closest, css, events, fontSizes, mix, playInterval, prefix, print, textColor, timeDetect;
 
 closest = require("../../../util/closest.coffee");
@@ -28258,7 +28276,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../client/css.coffee":38,"../../../client/pointer.coffee":40,"../../../client/prefix.coffee":41,"../../../color/mix.coffee":47,"../../../color/text.coffee":51,"../../../core/console/print.coffee":53,"../../../core/data/time.coffee":63,"../../../font/sizes.coffee":101,"../../../util/closest.coffee":205}],247:[function(require,module,exports){
+},{"../../../client/css.coffee":38,"../../../client/pointer.coffee":40,"../../../client/prefix.coffee":41,"../../../color/mix.coffee":48,"../../../color/text.coffee":52,"../../../core/console/print.coffee":54,"../../../core/data/time.coffee":64,"../../../font/sizes.coffee":102,"../../../util/closest.coffee":206}],248:[function(require,module,exports){
 var events = require("../../../client/pointer.coffee"),
     fetchValue = require("../../../core/fetch/value.coffee"),
     print      = require("../../../core/console/print.coffee"),
@@ -28576,7 +28594,7 @@ module.exports = function(vars) {
 
 }
 
-},{"../../../client/pointer.coffee":40,"../../../client/rtl.coffee":42,"../../../core/console/print.coffee":53,"../../../core/fetch/value.coffee":68,"../../../textwrap/textwrap.coffee":199}],248:[function(require,module,exports){
+},{"../../../client/pointer.coffee":40,"../../../client/rtl.coffee":42,"../../../core/console/print.coffee":54,"../../../core/fetch/value.coffee":69,"../../../textwrap/textwrap.coffee":200}],249:[function(require,module,exports){
 var labels, transform;
 
 labels = require("./labels.coffee");
@@ -28629,7 +28647,7 @@ module.exports = function(vars, b, timing) {
 };
 
 
-},{"./labels.coffee":250,"./transform.coffee":253}],249:[function(require,module,exports){
+},{"./labels.coffee":251,"./transform.coffee":254}],250:[function(require,module,exports){
 module.exports = function(data, vars) {
   var depth, max_depth, nextDepth;
   max_depth = vars.id.nesting.length - 1;
@@ -28647,7 +28665,7 @@ module.exports = function(data, vars) {
 };
 
 
-},{}],250:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 var print;
 
 print = require("../../../core/console/print.coffee");
@@ -28684,7 +28702,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../core/console/print.coffee":53}],251:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54}],252:[function(require,module,exports){
 var labels, removeTooltip, transform;
 
 labels = require("./labels.coffee");
@@ -28740,7 +28758,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../tooltip/remove.coffee":202,"./labels.coffee":250,"./transform.coffee":253}],252:[function(require,module,exports){
+},{"../../../tooltip/remove.coffee":203,"./labels.coffee":251,"./transform.coffee":254}],253:[function(require,module,exports){
 module.exports = function(vars, event) {
   var enabled, zoom, zoomable, zoomed;
   zoom = vars.zoom;
@@ -28756,7 +28774,7 @@ module.exports = function(vars, event) {
 };
 
 
-},{}],253:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 module.exports = function(vars, timing) {
   var translate;
   if (typeof timing !== "number") {
@@ -28772,7 +28790,7 @@ module.exports = function(vars, timing) {
 };
 
 
-},{}],254:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -28791,7 +28809,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],255:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],256:[function(require,module,exports){
 module.exports = {
   accepted: [Object],
   deprecated: "nesting_aggs",
@@ -28800,7 +28818,7 @@ module.exports = {
 };
 
 
-},{}],256:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/data.coffee");
@@ -28821,7 +28839,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/data.coffee":86}],257:[function(require,module,exports){
+},{"../../core/methods/process/data.coffee":87}],258:[function(require,module,exports){
 var rendering;
 
 rendering = require("../../core/methods/rendering.coffee");
@@ -28847,21 +28865,21 @@ module.exports = {
 };
 
 
-},{"../../core/methods/rendering.coffee":91}],258:[function(require,module,exports){
+},{"../../core/methods/rendering.coffee":92}],259:[function(require,module,exports){
 module.exports = {
   accepted: [String],
   value: "#ffffff"
 };
 
 
-},{}],259:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 module.exports = {
   accepted: [Function, String],
   value: false
 };
 
 
-},{}],260:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 var filter, scale;
 
 filter = require("../../core/methods/filter.coffee");
@@ -28898,7 +28916,7 @@ module.exports = {
 };
 
 
-},{"../../color/scale.coffee":49,"../../core/methods/filter.coffee":80}],261:[function(require,module,exports){
+},{"../../color/scale.coffee":50,"../../core/methods/filter.coffee":81}],262:[function(require,module,exports){
 module.exports = {
   "accepted": [Array, Function, String],
   "index": {
@@ -28912,7 +28930,7 @@ module.exports = {
   "value": false
 }
 
-},{}],262:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 module.exports = {
   accepted: [Object],
   objectAccess: false,
@@ -28930,7 +28948,7 @@ module.exports = {
 };
 
 
-},{}],263:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 var d3selection;
 
 d3selection = require("../../util/d3selection.coffee");
@@ -28959,7 +28977,7 @@ module.exports = {
 };
 
 
-},{"../../util/d3selection.coffee":207}],264:[function(require,module,exports){
+},{"../../util/d3selection.coffee":208}],265:[function(require,module,exports){
 var filter, process;
 
 filter = require("../../core/methods/filter.coffee");
@@ -28998,7 +29016,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80,"../../core/methods/process/data.coffee":86}],265:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81,"../../core/methods/process/data.coffee":87}],266:[function(require,module,exports){
 var fetchValue, ie, stringStrip;
 
 fetchValue = require("../../core/fetch/value.coffee");
@@ -29123,7 +29141,7 @@ module.exports = {
 };
 
 
-},{"../../client/ie.js":39,"../../core/fetch/value.coffee":68,"../../string/strip.js":174}],266:[function(require,module,exports){
+},{"../../client/ie.js":39,"../../core/fetch/value.coffee":69,"../../string/strip.js":175}],267:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/data.coffee");
@@ -29162,28 +29180,28 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/data.coffee":86}],267:[function(require,module,exports){
+},{"../../core/methods/process/data.coffee":87}],268:[function(require,module,exports){
 module.exports = {
   accepted: [Function, Number],
   value: 0
 };
 
 
-},{}],268:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 module.exports = {
   accepted: [false, Function, Object],
   value: false
 };
 
 
-},{}],269:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   value: false
 };
 
 
-},{}],270:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 var print        = require("../../core/console/print.coffee"),
     stringFormat = require("../../string/format.js")
 
@@ -29244,7 +29262,7 @@ module.exports = {
   "value"    : undefined
 }
 
-},{"../../core/console/print.coffee":53,"../../string/format.js":172}],271:[function(require,module,exports){
+},{"../../core/console/print.coffee":54,"../../string/format.js":173}],272:[function(require,module,exports){
 var process = require("../../core/methods/process/data.coffee");
 
 module.exports = {
@@ -29345,14 +29363,14 @@ module.exports = {
   "value":  false
 };
 
-},{"../../core/methods/process/data.coffee":86}],272:[function(require,module,exports){
+},{"../../core/methods/process/data.coffee":87}],273:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean, String],
   value: false
 };
 
 
-},{}],273:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 module.exports = {
   accepted: [false, Array, Function, Number, String],
   deprecates: "highlight",
@@ -29373,7 +29391,7 @@ module.exports = {
 };
 
 
-},{}],274:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 var align, decoration, family, transform;
 
 align = require("../../core/methods/font/align.coffee");
@@ -29406,7 +29424,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/align.coffee":81,"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],275:[function(require,module,exports){
+},{"../../core/methods/font/align.coffee":82,"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],276:[function(require,module,exports){
 var decoration, family, transform;
 
 family = require("../../core/methods/font/family.coffee");
@@ -29433,7 +29451,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],276:[function(require,module,exports){
+},{"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],277:[function(require,module,exports){
 var formatNumber, locale, mergeObject, titleCase;
 
 formatNumber = require("../../number/format.coffee");
@@ -29513,7 +29531,7 @@ module.exports = {
 };
 
 
-},{"../../core/locale/locale.coffee":78,"../../number/format.coffee":169,"../../object/merge.coffee":170,"../../string/title.coffee":175}],277:[function(require,module,exports){
+},{"../../core/locale/locale.coffee":79,"../../number/format.coffee":170,"../../object/merge.coffee":171,"../../string/title.coffee":176}],278:[function(require,module,exports){
 module.exports = {
   accepted: [false, Number],
   max: 600,
@@ -29523,7 +29541,7 @@ module.exports = {
 };
 
 
-},{}],278:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 var align, decoration, family, filter, orientMap, position, rendering, transform;
 
 align = require("../../../core/methods/font/align.coffee");
@@ -29757,7 +29775,7 @@ module.exports = function(axis) {
 };
 
 
-},{"../../../core/methods/filter.coffee":80,"../../../core/methods/font/align.coffee":81,"../../../core/methods/font/decoration.coffee":82,"../../../core/methods/font/family.coffee":83,"../../../core/methods/font/position.coffee":84,"../../../core/methods/font/transform.coffee":85,"../../../core/methods/rendering.coffee":91}],279:[function(require,module,exports){
+},{"../../../core/methods/filter.coffee":81,"../../../core/methods/font/align.coffee":82,"../../../core/methods/font/decoration.coffee":83,"../../../core/methods/font/family.coffee":84,"../../../core/methods/font/position.coffee":85,"../../../core/methods/font/transform.coffee":86,"../../../core/methods/rendering.coffee":92}],280:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   back: function() {
@@ -29779,7 +29797,7 @@ module.exports = {
 };
 
 
-},{}],280:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/icon.coffee");
@@ -29804,7 +29822,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/icon.coffee":88}],281:[function(require,module,exports){
+},{"../../core/methods/process/icon.coffee":89}],282:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -29824,7 +29842,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],282:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],283:[function(require,module,exports){
 var decoration, family, transform;
 
 decoration = require("../../core/methods/font/decoration.coffee");
@@ -29876,7 +29894,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],283:[function(require,module,exports){
+},{"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],284:[function(require,module,exports){
 var family;
 
 family = require("../../core/methods/font/family.coffee");
@@ -29927,7 +29945,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/family.coffee":83}],284:[function(require,module,exports){
+},{"../../core/methods/font/family.coffee":84}],285:[function(require,module,exports){
 var decoration, family, transform;
 
 decoration = require("../../core/methods/font/decoration.coffee");
@@ -29954,7 +29972,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],285:[function(require,module,exports){
+},{"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],286:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/margin.coffee");
@@ -29974,7 +29992,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/margin.coffee":89}],286:[function(require,module,exports){
+},{"../../core/methods/process/margin.coffee":90}],287:[function(require,module,exports){
 var decoration, family, transform;
 
 decoration = require("../../core/methods/font/decoration.coffee");
@@ -30014,7 +30032,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],287:[function(require,module,exports){
+},{"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],288:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   click: {
@@ -30037,7 +30055,7 @@ module.exports = {
 };
 
 
-},{}],288:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 var process;
 
 process = require("../../core/methods/process/data.coffee");
@@ -30058,7 +30076,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/process/data.coffee":86}],289:[function(require,module,exports){
+},{"../../core/methods/process/data.coffee":87}],290:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean, Function, String],
   agg: {
@@ -30074,7 +30092,7 @@ module.exports = {
 };
 
 
-},{}],290:[function(require,module,exports){
+},{}],291:[function(require,module,exports){
 var rendering;
 
 rendering = require("../../core/methods/rendering.coffee");
@@ -30102,7 +30120,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/rendering.coffee":91}],291:[function(require,module,exports){
+},{"../../core/methods/rendering.coffee":92}],292:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -30136,13 +30154,13 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],292:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],293:[function(require,module,exports){
 module.exports = {
   value: false
 };
 
 
-},{}],293:[function(require,module,exports){
+},{}],294:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -30156,7 +30174,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],294:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],295:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -30171,7 +30189,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],295:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],296:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -30195,7 +30213,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],296:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],297:[function(require,module,exports){
 module.exports = {
   accepted: [Boolean],
   align: "middle",
@@ -30237,7 +30255,7 @@ module.exports = {
 };
 
 
-},{}],297:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 module.exports = {
   mouseevents: 60,
   transitions: 600,
@@ -30245,7 +30263,7 @@ module.exports = {
 };
 
 
-},{}],298:[function(require,module,exports){
+},{}],299:[function(require,module,exports){
 var decoration, family, stringStrip, transform;
 
 decoration = require("../../core/methods/font/decoration.coffee");
@@ -30321,7 +30339,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85,"../../string/strip.js":174}],299:[function(require,module,exports){
+},{"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86,"../../string/strip.js":175}],300:[function(require,module,exports){
 var family, transform;
 
 family = require("../../core/methods/font/family.coffee");
@@ -30391,7 +30409,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],300:[function(require,module,exports){
+},{"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],301:[function(require,module,exports){
 var filter;
 
 filter = require("../../core/methods/filter.coffee");
@@ -30405,7 +30423,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/filter.coffee":80}],301:[function(require,module,exports){
+},{"../../core/methods/filter.coffee":81}],302:[function(require,module,exports){
 module.exports = {
   accepted: function(vars) {
     return d3.keys(vars.types);
@@ -30420,7 +30438,7 @@ module.exports = {
 };
 
 
-},{}],302:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 var align, decoration, family, transform;
 
 family = require("../../core/methods/font/family.coffee");
@@ -30474,7 +30492,7 @@ module.exports = {
 };
 
 
-},{"../../core/methods/font/align.coffee":81,"../../core/methods/font/decoration.coffee":82,"../../core/methods/font/family.coffee":83,"../../core/methods/font/transform.coffee":85}],303:[function(require,module,exports){
+},{"../../core/methods/font/align.coffee":82,"../../core/methods/font/decoration.coffee":83,"../../core/methods/font/family.coffee":84,"../../core/methods/font/transform.coffee":86}],304:[function(require,module,exports){
 module.exports = {
   accepted: [false, Number],
   secondary: false,
@@ -30483,7 +30501,7 @@ module.exports = {
 };
 
 
-},{}],304:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 module.exports = {
   "accepted"   : [ Boolean ],
   "behavior"   : d3.behavior.zoom().scaleExtent([ 1 , 1 ]).duration(0),
@@ -30503,7 +30521,7 @@ module.exports = {
   "value"      : true
 }
 
-},{}],305:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 var bar, buckets, fetchValue, graph, nest, stack, uniques,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -30681,7 +30699,7 @@ bar.shapes = ["square"];
 module.exports = bar;
 
 
-},{"../../core/fetch/value.coffee":68,"../../util/buckets.coffee":203,"../../util/uniques.coffee":209,"./helpers/graph/draw.coffee":311,"./helpers/graph/nest.coffee":317,"./helpers/graph/stack.coffee":318}],306:[function(require,module,exports){
+},{"../../core/fetch/value.coffee":69,"../../util/buckets.coffee":204,"../../util/uniques.coffee":210,"./helpers/graph/draw.coffee":312,"./helpers/graph/nest.coffee":318,"./helpers/graph/stack.coffee":319}],307:[function(require,module,exports){
 var box, fetchValue, graph, strip, uniques;
 
 fetchValue = require("../../core/fetch/value.coffee");
@@ -30943,7 +30961,7 @@ box.setup = function(vars) {
 module.exports = box;
 
 
-},{"../../core/fetch/value.coffee":68,"../../string/strip.js":174,"../../util/uniques.coffee":209,"./helpers/graph/draw.coffee":311}],307:[function(require,module,exports){
+},{"../../core/fetch/value.coffee":69,"../../string/strip.js":175,"../../util/uniques.coffee":210,"./helpers/graph/draw.coffee":312}],308:[function(require,module,exports){
 var arraySort, bubbles, fetchColor, fetchText, fetchValue, groupData, legible;
 
 arraySort = require("../../array/sort.coffee");
@@ -31077,7 +31095,7 @@ bubbles.shapes = ["circle", "donut"];
 module.exports = bubbles;
 
 
-},{"../../array/sort.coffee":36,"../../color/legible.coffee":45,"../../core/data/group.coffee":58,"../../core/fetch/color.coffee":64,"../../core/fetch/text.js":67,"../../core/fetch/value.coffee":68}],308:[function(require,module,exports){
+},{"../../array/sort.coffee":36,"../../color/legible.coffee":46,"../../core/data/group.coffee":59,"../../core/fetch/color.coffee":65,"../../core/fetch/text.js":68,"../../core/fetch/value.coffee":69}],309:[function(require,module,exports){
 var chart, print;
 
 print = require("../../../core/console/print.coffee");
@@ -31101,7 +31119,7 @@ chart.shapes = ["circle", "donut", "line", "square", "area"];
 module.exports = chart;
 
 
-},{"../../../core/console/print.coffee":53}],309:[function(require,module,exports){
+},{"../../../core/console/print.coffee":54}],310:[function(require,module,exports){
 var geo_map;
 
 geo_map = function(vars) {
@@ -31140,7 +31158,7 @@ geo_map.zoom = true;
 module.exports = geo_map;
 
 
-},{}],310:[function(require,module,exports){
+},{}],311:[function(require,module,exports){
 var color, legible, print;
 
 color = require("../../../../core/fetch/color.coffee");
@@ -31220,7 +31238,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../../color/legible.coffee":45,"../../../../core/console/print.coffee":53,"../../../../core/fetch/color.coffee":64}],311:[function(require,module,exports){
+},{"../../../../color/legible.coffee":46,"../../../../core/console/print.coffee":54,"../../../../core/fetch/color.coffee":65}],312:[function(require,module,exports){
 var axes, draw, mouse, plot;
 
 axes = require("./includes/axes.coffee");
@@ -31242,7 +31260,7 @@ module.exports = function(vars, opts) {
 };
 
 
-},{"./includes/axes.coffee":312,"./includes/mouse.coffee":314,"./includes/plot.coffee":315,"./includes/svg.coffee":316}],312:[function(require,module,exports){
+},{"./includes/axes.coffee":313,"./includes/mouse.coffee":315,"./includes/plot.coffee":316,"./includes/svg.coffee":317}],313:[function(require,module,exports){
 var arraySort, axisRange, buckets, buffer, dataChange, fetchData, fetchValue, getData, getScale, print, sizeScale, uniques;
 
 arraySort = require("../../../../../array/sort.coffee");
@@ -31583,7 +31601,7 @@ sizeScale = function(vars, value) {
 };
 
 
-},{"../../../../../array/sort.coffee":36,"../../../../../core/console/print.coffee":53,"../../../../../core/fetch/data.js":65,"../../../../../core/fetch/value.coffee":68,"../../../../../util/buckets.coffee":203,"../../../../../util/uniques.coffee":209,"./buffer.coffee":313}],313:[function(require,module,exports){
+},{"../../../../../array/sort.coffee":36,"../../../../../core/console/print.coffee":54,"../../../../../core/fetch/data.js":66,"../../../../../core/fetch/value.coffee":69,"../../../../../util/buckets.coffee":204,"../../../../../util/uniques.coffee":210,"./buffer.coffee":314}],314:[function(require,module,exports){
 var buckets, closest;
 
 buckets = require("../../../../../util/buckets.coffee");
@@ -31755,7 +31773,7 @@ module.exports = function(vars, axis, buffer) {
 };
 
 
-},{"../../../../../util/buckets.coffee":203,"../../../../../util/closest.coffee":205}],314:[function(require,module,exports){
+},{"../../../../../util/buckets.coffee":204,"../../../../../util/closest.coffee":206}],315:[function(require,module,exports){
 var copy, events, fetchColor, fetchValue, legible, textColor;
 
 copy = require("../../../../../util/copy.coffee");
@@ -31999,7 +32017,7 @@ module.exports = function(node, vars) {
 };
 
 
-},{"../../../../../client/pointer.coffee":40,"../../../../../color/legible.coffee":45,"../../../../../color/text.coffee":51,"../../../../../core/fetch/color.coffee":64,"../../../../../core/fetch/value.coffee":68,"../../../../../util/copy.coffee":206}],315:[function(require,module,exports){
+},{"../../../../../client/pointer.coffee":40,"../../../../../color/legible.coffee":46,"../../../../../color/text.coffee":52,"../../../../../core/fetch/color.coffee":65,"../../../../../core/fetch/value.coffee":69,"../../../../../util/copy.coffee":207}],316:[function(require,module,exports){
 var buckets, buffer, createAxis, fetchValue, fontSizes, formatPower, labelPadding, resetMargins, superscript, textwrap, timeDetect, uniques;
 
 buckets = require("../../../../../util/buckets.coffee");
@@ -32432,7 +32450,7 @@ formatPower = function(d) {
 };
 
 
-},{"../../../../../core/data/time.coffee":63,"../../../../../core/fetch/value.coffee":68,"../../../../../font/sizes.coffee":101,"../../../../../textwrap/textwrap.coffee":199,"../../../../../util/buckets.coffee":203,"../../../../../util/uniques.coffee":209,"./buffer.coffee":313}],316:[function(require,module,exports){
+},{"../../../../../core/data/time.coffee":64,"../../../../../core/fetch/value.coffee":69,"../../../../../font/sizes.coffee":102,"../../../../../textwrap/textwrap.coffee":200,"../../../../../util/buckets.coffee":204,"../../../../../util/uniques.coffee":210,"./buffer.coffee":314}],317:[function(require,module,exports){
 var mix, textwrap, validObject;
 
 mix = require("../../../../../color/mix.coffee");
@@ -32825,7 +32843,7 @@ module.exports = function(vars) {
 };
 
 
-},{"../../../../../color/mix.coffee":47,"../../../../../object/validate.coffee":171,"../../../../../textwrap/textwrap.coffee":199}],317:[function(require,module,exports){
+},{"../../../../../color/mix.coffee":48,"../../../../../object/validate.coffee":172,"../../../../../textwrap/textwrap.coffee":200}],318:[function(require,module,exports){
 var fetchValue, stringStrip, uniqueValues;
 
 fetchValue = require("../../../../core/fetch/value.coffee");
@@ -32949,7 +32967,7 @@ module.exports = function(vars, data, keys) {
 };
 
 
-},{"../../../../core/fetch/value.coffee":68,"../../../../string/strip.js":174,"../../../../util/uniques.coffee":209}],318:[function(require,module,exports){
+},{"../../../../core/fetch/value.coffee":69,"../../../../string/strip.js":175,"../../../../util/uniques.coffee":210}],319:[function(require,module,exports){
 var fetchValue;
 
 fetchValue = require("../../../../core/fetch/value.coffee");
@@ -33024,7 +33042,7 @@ module.exports = function(vars, data) {
 };
 
 
-},{"../../../../core/fetch/value.coffee":68}],319:[function(require,module,exports){
+},{"../../../../core/fetch/value.coffee":69}],320:[function(require,module,exports){
 var fetchValue, graph, line, nest, sort, stack;
 
 fetchValue = require("../../core/fetch/value.coffee");
@@ -33103,7 +33121,7 @@ line.tooltip = "static";
 module.exports = line;
 
 
-},{"../../array/sort.coffee":36,"../../core/fetch/value.coffee":68,"./helpers/graph/draw.coffee":311,"./helpers/graph/nest.coffee":317,"./helpers/graph/stack.coffee":318}],320:[function(require,module,exports){
+},{"../../array/sort.coffee":36,"../../core/fetch/value.coffee":69,"./helpers/graph/draw.coffee":312,"./helpers/graph/nest.coffee":318,"./helpers/graph/stack.coffee":319}],321:[function(require,module,exports){
 var smallestGap = require("../../network/smallestGap.coffee"),
     fetchValue = require("../../core/fetch/value.coffee");
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -33252,7 +33270,7 @@ network.zoom         = true
 
 module.exports = network
 
-},{"../../core/fetch/value.coffee":68,"../../network/smallestGap.coffee":167}],321:[function(require,module,exports){
+},{"../../core/fetch/value.coffee":69,"../../network/smallestGap.coffee":168}],322:[function(require,module,exports){
 var fetchValue, shortestPath, uniqueValues, viz,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -33509,7 +33527,7 @@ viz.tooltip = "static";
 module.exports = viz;
 
 
-},{"../../core/fetch/value.coffee":68,"../../network/shortestPath.coffee":166,"../../util/uniques.coffee":209}],322:[function(require,module,exports){
+},{"../../core/fetch/value.coffee":69,"../../network/shortestPath.coffee":167,"../../util/uniques.coffee":210}],323:[function(require,module,exports){
 var comparator, dataThreshold, groupData, pie;
 
 comparator = require("../../array/comparator.coffee");
@@ -33562,7 +33580,7 @@ pie.threshold = function(vars) {
 module.exports = pie;
 
 
-},{"../../array/comparator.coffee":34,"../../core/data/group.coffee":58,"../../core/data/threshold.js":62}],323:[function(require,module,exports){
+},{"../../array/comparator.coffee":34,"../../core/data/group.coffee":59,"../../core/data/threshold.js":63}],324:[function(require,module,exports){
 var buckets, comparator, dataThreshold, fetchText, fetchValue, fontSizes, offset, radar, sort, textwrap, uniques;
 
 comparator = require("../../array/comparator.coffee");
@@ -33789,7 +33807,7 @@ radar.shapes = ["radial"];
 module.exports = radar;
 
 
-},{"../../array/comparator.coffee":34,"../../array/sort.coffee":36,"../../core/data/threshold.js":62,"../../core/fetch/text.js":67,"../../core/fetch/value.coffee":68,"../../font/sizes.coffee":101,"../../geom/offset.coffee":160,"../../textwrap/textwrap.coffee":199,"../../util/buckets.coffee":203,"../../util/uniques.coffee":209}],324:[function(require,module,exports){
+},{"../../array/comparator.coffee":34,"../../array/sort.coffee":36,"../../core/data/threshold.js":63,"../../core/fetch/text.js":68,"../../core/fetch/value.coffee":69,"../../font/sizes.coffee":102,"../../geom/offset.coffee":161,"../../textwrap/textwrap.coffee":200,"../../util/buckets.coffee":204,"../../util/uniques.coffee":210}],325:[function(require,module,exports){
 var arraySort     = require("../../array/sort.coffee"),
     events        = require("../../client/pointer.coffee"),
     fetchValue    = require("../../core/fetch/value.coffee"),
@@ -34284,7 +34302,7 @@ rings.tooltip      = "static"
 
 module.exports = rings
 
-},{"../../array/sort.coffee":36,"../../client/pointer.coffee":40,"../../color/legible.coffee":45,"../../color/text.coffee":51,"../../core/fetch/color.coffee":64,"../../core/fetch/value.coffee":68,"../../network/smallestGap.coffee":167,"../../tooltip/remove.coffee":202,"../../util/uniques.coffee":209}],325:[function(require,module,exports){
+},{"../../array/sort.coffee":36,"../../client/pointer.coffee":40,"../../color/legible.coffee":46,"../../color/text.coffee":52,"../../core/fetch/color.coffee":65,"../../core/fetch/value.coffee":69,"../../network/smallestGap.coffee":168,"../../tooltip/remove.coffee":203,"../../util/uniques.coffee":210}],326:[function(require,module,exports){
 var d3sankey, events, removeTooltip, sankey, uniques;
 
 d3sankey = require("./sankey.js");
@@ -34381,7 +34399,7 @@ sankey.shapes = ["square"];
 module.exports = sankey;
 
 
-},{"../../client/pointer.coffee":40,"../../tooltip/remove.coffee":202,"../../util/uniques.coffee":209,"./sankey.js":326}],326:[function(require,module,exports){
+},{"../../client/pointer.coffee":40,"../../tooltip/remove.coffee":203,"../../util/uniques.coffee":210,"./sankey.js":327}],327:[function(require,module,exports){
 module.exports = function() {
   var sankey = {},
       nodeWidth = 24,
@@ -34677,7 +34695,7 @@ module.exports = function() {
   return sankey;
 };
 
-},{}],327:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 var fetchValue, graph, print, scatter, sort, ticks;
 
 fetchValue = require("../../core/fetch/value.coffee");
@@ -34745,7 +34763,7 @@ scatter.tooltip = "static";
 module.exports = scatter;
 
 
-},{"../../array/sort.coffee":36,"../../core/console/print.coffee":53,"../../core/fetch/value.coffee":68,"./helpers/graph/dataTicks.coffee":310,"./helpers/graph/draw.coffee":311}],328:[function(require,module,exports){
+},{"../../array/sort.coffee":36,"../../core/console/print.coffee":54,"../../core/fetch/value.coffee":69,"./helpers/graph/dataTicks.coffee":311,"./helpers/graph/draw.coffee":312}],329:[function(require,module,exports){
 var closest, fetchValue, graph, nest, sort, stack, stacked, threshold;
 
 closest = require("../../util/closest.coffee");
@@ -34847,7 +34865,7 @@ stacked.tooltip = "static";
 module.exports = stacked;
 
 
-},{"../../array/sort.coffee":36,"../../core/data/threshold.js":62,"../../core/fetch/value.coffee":68,"../../util/closest.coffee":205,"./helpers/graph/draw.coffee":311,"./helpers/graph/nest.coffee":317,"./helpers/graph/stack.coffee":318}],329:[function(require,module,exports){
+},{"../../array/sort.coffee":36,"../../core/data/threshold.js":63,"../../core/fetch/value.coffee":69,"../../util/closest.coffee":206,"./helpers/graph/draw.coffee":312,"./helpers/graph/nest.coffee":318,"./helpers/graph/stack.coffee":319}],330:[function(require,module,exports){
 var fetchValue = require("../../core/fetch/value.coffee");
 var uniques    = require("../../util/uniques.coffee");
 var copy       = require("../../util/copy.coffee");
@@ -35002,7 +35020,7 @@ table.requirements = ["data", "cols"]
 
 module.exports = table
 
-},{"../../color/random.coffee":48,"../../core/fetch/value.coffee":68,"../../util/copy.coffee":206,"../../util/uniques.coffee":209}],330:[function(require,module,exports){
+},{"../../color/random.coffee":49,"../../core/fetch/value.coffee":69,"../../util/copy.coffee":207,"../../util/uniques.coffee":210}],331:[function(require,module,exports){
 var dataThreshold, groupData, mergeObject, tree_map;
 
 dataThreshold = require("../../core/data/threshold.js");
@@ -35066,7 +35084,7 @@ tree_map.threshold = function(vars) {
 module.exports = tree_map;
 
 
-},{"../../core/data/group.coffee":58,"../../core/data/threshold.js":62,"../../object/merge.coffee":170}],331:[function(require,module,exports){
+},{"../../core/data/group.coffee":59,"../../core/data/threshold.js":63,"../../object/merge.coffee":171}],332:[function(require,module,exports){
 var attach, axis, container, flash, getSteps, print, validObject;
 
 attach = require("../core/methods/attach.coffee");
@@ -35272,4 +35290,4 @@ module.exports = function() {
 };
 
 
-},{"../core/console/print.coffee":53,"../core/methods/attach.coffee":79,"../object/validate.coffee":171,"./helpers/container.coffee":210,"./helpers/drawSteps.js":211,"./helpers/ui/message.js":245,"./methods/active.coffee":254,"./methods/aggs.coffee":255,"./methods/attrs.coffee":256,"./methods/axes.coffee":257,"./methods/background.coffee":258,"./methods/class.coffee":259,"./methods/color.coffee":260,"./methods/cols.js":261,"./methods/config.coffee":262,"./methods/container.coffee":263,"./methods/coords.coffee":264,"./methods/csv.coffee":265,"./methods/data.coffee":266,"./methods/depth.coffee":267,"./methods/descs.coffee":268,"./methods/dev.coffee":269,"./methods/draw.js":270,"./methods/edges.js":271,"./methods/error.coffee":272,"./methods/focus.coffee":273,"./methods/font.coffee":274,"./methods/footer.coffee":275,"./methods/format.coffee":276,"./methods/height.coffee":277,"./methods/helpers/axis.coffee":278,"./methods/history.coffee":279,"./methods/icon.coffee":280,"./methods/id.coffee":281,"./methods/labels.coffee":282,"./methods/legend.coffee":283,"./methods/links.coffee":284,"./methods/margin.coffee":285,"./methods/messages.coffee":286,"./methods/mouse.coffee":287,"./methods/nodes.coffee":288,"./methods/order.coffee":289,"./methods/shape.coffee":290,"./methods/size.coffee":291,"./methods/style.coffee":292,"./methods/temp.coffee":293,"./methods/text.coffee":294,"./methods/time.coffee":295,"./methods/timeline.coffee":296,"./methods/timing.coffee":297,"./methods/title.coffee":298,"./methods/tooltip.coffee":299,"./methods/total.coffee":300,"./methods/type.coffee":301,"./methods/ui.coffee":302,"./methods/width.coffee":303,"./methods/zoom.js":304,"./types/bar.coffee":305,"./types/box.coffee":306,"./types/bubbles.coffee":307,"./types/deprecated/chart.coffee":308,"./types/geo_map.coffee":309,"./types/line.coffee":319,"./types/network.js":320,"./types/paths.coffee":321,"./types/pie.coffee":322,"./types/radar.coffee":323,"./types/rings.js":324,"./types/sankey.coffee":325,"./types/scatter.coffee":327,"./types/stacked.coffee":328,"./types/table.js":329,"./types/tree_map.coffee":330}]},{},[162]);
+},{"../core/console/print.coffee":54,"../core/methods/attach.coffee":80,"../object/validate.coffee":172,"./helpers/container.coffee":211,"./helpers/drawSteps.js":212,"./helpers/ui/message.js":246,"./methods/active.coffee":255,"./methods/aggs.coffee":256,"./methods/attrs.coffee":257,"./methods/axes.coffee":258,"./methods/background.coffee":259,"./methods/class.coffee":260,"./methods/color.coffee":261,"./methods/cols.js":262,"./methods/config.coffee":263,"./methods/container.coffee":264,"./methods/coords.coffee":265,"./methods/csv.coffee":266,"./methods/data.coffee":267,"./methods/depth.coffee":268,"./methods/descs.coffee":269,"./methods/dev.coffee":270,"./methods/draw.js":271,"./methods/edges.js":272,"./methods/error.coffee":273,"./methods/focus.coffee":274,"./methods/font.coffee":275,"./methods/footer.coffee":276,"./methods/format.coffee":277,"./methods/height.coffee":278,"./methods/helpers/axis.coffee":279,"./methods/history.coffee":280,"./methods/icon.coffee":281,"./methods/id.coffee":282,"./methods/labels.coffee":283,"./methods/legend.coffee":284,"./methods/links.coffee":285,"./methods/margin.coffee":286,"./methods/messages.coffee":287,"./methods/mouse.coffee":288,"./methods/nodes.coffee":289,"./methods/order.coffee":290,"./methods/shape.coffee":291,"./methods/size.coffee":292,"./methods/style.coffee":293,"./methods/temp.coffee":294,"./methods/text.coffee":295,"./methods/time.coffee":296,"./methods/timeline.coffee":297,"./methods/timing.coffee":298,"./methods/title.coffee":299,"./methods/tooltip.coffee":300,"./methods/total.coffee":301,"./methods/type.coffee":302,"./methods/ui.coffee":303,"./methods/width.coffee":304,"./methods/zoom.js":305,"./types/bar.coffee":306,"./types/box.coffee":307,"./types/bubbles.coffee":308,"./types/deprecated/chart.coffee":309,"./types/geo_map.coffee":310,"./types/line.coffee":320,"./types/network.js":321,"./types/paths.coffee":322,"./types/pie.coffee":323,"./types/radar.coffee":324,"./types/rings.js":325,"./types/sankey.coffee":326,"./types/scatter.coffee":328,"./types/stacked.coffee":329,"./types/table.js":330,"./types/tree_map.coffee":331}]},{},[163]);

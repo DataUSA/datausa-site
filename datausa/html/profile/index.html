@@ -251,7 +251,7 @@
     // }
     // firstScroll = false;
 
-    var y = window.scrollY,
+    var y = d3plus.client.scroll.y(),
         showTitleNav = y > titleNavHeight,
         showStatNav = y > statNavHeight,
         showProfNav = y > window.innerHeight - profNavHeight - 35;
