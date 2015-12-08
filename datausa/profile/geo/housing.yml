@@ -218,7 +218,7 @@ topics:
     slug: "mode_transport"
     stat:
       - title: "Most common method of travel"
-        value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> (<<percent num=top:transport,acs.yg_transport|den=workers|exclude=transport_cartruckorvan>>)"
+        value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> (<<percent num=top:transport,acs.yg_transport|den=workers|num_exclude=transport_cartruckorvan>>)"
         subvalues:
           - "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|rank=2>>"
           - "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|rank=3>>"
