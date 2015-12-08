@@ -2292,7 +2292,6 @@ viz.loadData = function(build, next) {
 
         if (d.share) {
           var total = d3.sum(data, function(dat){ return dat[d.share]; });
-          console.log(total);
           for (var i = 0; i < data.length; i++) {
             data[i].share = data[i][d.share]/total * 100;
           }
