@@ -22,10 +22,10 @@ viz:
 stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop>>"
-    rank: "<<var namespace=splash|key=pop_rank>> of <<rank_max>> <<level plural=True|short=True>>"
+    rank: "{{<<sumlevel>>:!nation|| <<var namespace=splash|key=pop_rank>> of <<rank_max>> <<level plural=True|short=True>>}}"
   - title: "Household Income"
     value: "<<var namespace=splash|key=income>>"
-    rank: "<<var namespace=splash|key=income_rank>> of <<rank_max>> <<level plural=True|short=True>>"
+    rank: "{{<<sumlevel>>:!nation|| <<var namespace=splash|key=income_rank>> of <<rank_max>> <<level plural=True|short=True>>}}"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age>>"
 facts:
