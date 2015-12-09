@@ -47,69 +47,64 @@ class Section(object):
         self.anchor = anchor
         self.profile = profile
 
+        def loadStats(string):
+            keys = re.findall(r"<<(.*?)>>", string)
+            string = string.decode("utf-8", 'ignore')
+            for k in keys:
+                func, params = k.split(" ") if " " in k else (k, "")
+                # if Section has a function with the same name as the key
+                if hasattr(self, func):
+                    # convert params into a dict, splitting at pipes
+                    params = dict(item.split("=") for item in params.split("|")) if params else {}
+                    # run the Section function, passing the params as kwargs
+                    val = getattr(self, func)(**params)
+
+                    # if it returned an object, convert it to string
+                    if isinstance(val, (int, long, float, complex)):
+                        val = str(val)
+                    elif isinstance(val, dict):
+                        col = params.get("col", "name")
+                        if col == "id":
+                            val = val["value"]
+                        else:
+                            val = u"<span data-url='{}'>{}</span>".format(val["url"], val["value"])
+
+                    # replace all instances of key with the returned value
+                    # !! TODO: fix unicode black magic !!
+                    if isinstance(val, str):
+                        val = val.decode("utf-8", 'ignore')
+                    # !! TODO: fix root cause of unprintable strings in attrs
+                    # val = filter(lambda x: x in string.printable, val)
+                else:
+                    val = u"N/A"
+                k = k.decode("utf-8", 'ignore')
+                string = string.replace(u"<<{}>>".format(k), val)
+            return string
+
         # regex to find all keys matching {{*}}
         keys = re.findall(r"\{\{([^\}]+)\}\}", config)
 
         # loop through each key
         for k in keys:
             # split the key at a blank space to find params
-            val = re.findall(r"<<(.*?)>>", k)[0]
-            func, params = val.split(" ") if " " in val else (val, "")
+            condition, text = k.split("||")
 
-            # if Section has a function with the same name as the key
-            if hasattr(self, func):
-
-                # convert params into a dict, splitting at pipes
-                params = dict(item.split("=") for item in params.split("|")) if params else {}
-                # run the Section function, passing the params as kwargs
-                ret = getattr(self, func)(**params)
-
-                if func in self.attr and self.attr[func] == ret:
-                    # if the attr has this attribute and it's the same, remove it
-                    ret = ""
-                else:
-                    # else, replace it with the returned value
-                    ret = k.replace("<<{}>>".format(val), ret)
+            condition = loadStats(condition)
+            first, second = condition.split(":")
+            not_equals = second.startswith("!")
+            if not_equals:
+                second = second[1:]
+            if (not_equals and first == second) or (not not_equals and first != second):
+                ret = ""
+            else:
+                ret = loadStats(text)
 
             # replace all instances of key with the returned value
             config = config.replace("{{{{{}}}}}".format(k), ret)
 
 
         # regex to find all keys matching <<*>>
-        keys = re.findall(r"<<(.*?)>>", config)
-
-        # loop through each key
-        for k in keys:
-            # split the key at a blank space to find params
-            func, params = k.split(" ") if " " in k else (k, "")
-            # if Section has a function with the same name as the key
-            if hasattr(self, func):
-                # convert params into a dict, splitting at pipes
-                params = dict(item.split("=") for item in params.split("|")) if params else {}
-                # run the Section function, passing the params as kwargs
-                val = getattr(self, func)(**params)
-
-                # if it returned an object, convert it to string
-                if isinstance(val, (int, long, float, complex)):
-                    val = str(val)
-                elif isinstance(val, dict):
-                    col = params.get("col", "name")
-                    if col == "id":
-                        val = val["value"]
-                    else:
-                        val = u"<span data-url='{}'>{}</span>".format(val["url"], val["value"])
-
-                # replace all instances of key with the returned value
-                # !! TODO: fix unicode black magic !!
-                if isinstance(config, str):
-                    config = config.decode("utf-8", 'ignore')
-                if isinstance(val, str):
-                    val = val.decode("utf-8", 'ignore')
-                if isinstance(k, str):
-                    k = k.decode("utf-8", 'ignore')
-                # !! TODO: fix root cause of unprintable strings in attrs
-                val = filter(lambda x: x in string.printable, val)
-                config = config.replace(u"<<{}>>".format(k), val)
+        config = loadStats(config)
 
         # load the config through the YAML interpreter and set title, description, and topics
         config = yaml.load(config)
