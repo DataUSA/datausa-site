@@ -61,7 +61,7 @@ topics:
       - title: "Median Property Value"
         value: "<<var namespace=acsgeo|key=median_property_value>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=acsgeo|key=median_property_value_moe>>"
-    description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range. The chart on the right displays the distribution versus the national values."
+    description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| The chart on the right displays the distribution versus the national values.}}"
     miniviz:
       attrs: "geo"
       data:
@@ -126,7 +126,7 @@ topics:
         value: "01000US"
   - title: "Rent vs Own"
     slug: "rent_own"
-    description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=1>>, of the population of <<name>> owns their home. This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=0>>"
+    description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=1>>}}"
     viz:
       attrs: "geo"
       data:
@@ -175,8 +175,7 @@ topics:
       - title: "Average Travel Time"
         value: "<<var namespace=commute|key=mean_commute_minutes|row=0>> minutes"
     description:
-      - "Employees in <<name>> have a <<percent num=mean_commute_minutes|den=mean_commute_minutes|den_id=01000US|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=1>> minutes."
-      - "<<percent num=travel_90over|den=workers>> of the workforce in <<name>> have \"super commutes\" in excess of 90 minutes, which is <<percent num=travel_90over,workers|den=travel_90over,workers|den_id=01000US|text=highlow>> the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>."
+      - "{{<<sumlevel>>:!nation||Employees in <<name>> have a <<percent num=mean_commute_minutes|den=mean_commute_minutes|den_id=01000US|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=1>> minutes. }}<<percent num=travel_90over|den=workers>> of the workforce in <<name>> have \"super commutes\" in excess of 90 minutes.{{<<sumlevel>>:!nation|| That is <<percent num=travel_90over,workers|den=travel_90over,workers|den_id=01000US|text=highlow>> the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>.}}"
     miniviz:
       attrs: "geo"
       data:

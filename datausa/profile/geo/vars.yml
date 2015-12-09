@@ -35,7 +35,7 @@
   geo: "<<id>>,01000US"
   year: latest
   order: geo
-  sort: desc
+  sort: asc
   rows: True
   namespace: commute
   limit: 2

@@ -8,7 +8,7 @@ stats:
   - title: "Degrees Awarded in <<var namespace=gdata|key=year>>"
     value: "<<var namespace=gdata|key=grads_total>>"
     rank: "<<var namespace=gdata|key=grads_rank>> of <<rank_max>>"
-  - title: "Average Income{{ for <<name dataset=pums>>}}"
+  - title: "Average Income{{<<name>>:!<<name dataset=pums>>|| for <<name dataset=pums>>}}"
     value: "<<var namespace=data|key=avg_wage>>"
     rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>>"
 facts:

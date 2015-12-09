@@ -115,7 +115,7 @@ topics:
       y: "num_ppl"
   - title: "Languages"
     slug: "languages"
-    description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<top col=non_eng_speakers_pct>> of <<name>> citizens are non-English speakers, versus the <<top geo=01000US|col=non_eng_speakers_pct>> national average."
+    description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<top col=non_eng_speakers_pct>> of <<name>> citizens are non-English speakers.{{<<sumlevel>>:!nation|| That is <<percent num=non_eng_speakers_pct|den=non_eng_speakers_pct|den_id=01000US|text=highlow>> the national avaerage of <<top geo=01000US|col=non_eng_speakers_pct>>.}}"
     stat_stack: YES
     stat:
       - title: "<<name>> has a relatively high number of speakers of"
