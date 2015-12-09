@@ -19782,17 +19782,14 @@ rtl = require("../../client/rtl.coffee");
 
 module.exports = function(vars) {
   var anchor, dx, dy, ellipsis, fontSize, h, height, line, lineWidth, lines, mirror, newLine, placeWord, progress, reverse, rmod, rotate, rx, ry, space, start, textBox, translate, truncate, valign, width, words, wrap, x, y, yOffset;
-  newLine = function(w, first) {
+  newLine = function(first) {
     var tspan;
-    if (!w) {
-      w = "";
-    }
     if (!reverse || first) {
       tspan = vars.container.value.append("tspan");
     } else {
       tspan = vars.container.value.insert("tspan", "tspan");
     }
-    return tspan.attr("x", x + "px").attr("dx", dx + "px").attr("dy", dy + "px").style("baseline-shift", "0%").attr("dominant-baseline", "alphabetic").text(w);
+    return tspan.attr("x", x + "px").attr("dx", dx + "px").attr("dy", dy + "px").style("baseline-shift", "0%").attr("dominant-baseline", "alphabetic");
   };
   mirror = vars.rotate.value === -90 || vars.rotate.value === 90;
   width = mirror ? vars.height.inner : vars.width.inner;
@@ -19889,7 +19886,8 @@ module.exports = function(vars) {
     }
     if (textBox.node().getComputedTextLength() > lineWidth() || next_char === "\n") {
       textBox.text(current);
-      textBox = newLine(word);
+      textBox = newLine();
+      textBox.text(word);
       if (reverse) {
         return line--;
       } else {
@@ -19907,8 +19905,8 @@ module.exports = function(vars) {
     if (reverse) {
       words.reverse();
     }
-    progress = words[0];
-    textBox = newLine(words.shift(), true);
+    progress = "";
+    textBox = newLine(true);
     line = start;
     for (i = 0, len = words.length; i < len; i++) {
       word = words[i];
