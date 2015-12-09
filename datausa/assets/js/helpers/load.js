@@ -13,7 +13,8 @@ var load = function(url, callback) {
     function loadUrl() {
 
       if (load.cache[url]) {
-        load.callbacks(url, load.cache[url]);
+        var data = load.cache[url];
+        callback(load.datafold(data), url, data);
       }
       else {
 

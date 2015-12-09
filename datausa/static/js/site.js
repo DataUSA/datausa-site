@@ -490,7 +490,8 @@ var load = function(url, callback) {
     function loadUrl() {
 
       if (load.cache[url]) {
-        load.callbacks(url, load.cache[url]);
+        var data = load.cache[url];
+        callback(load.datafold(data), url, data);
       }
       else {
 
@@ -1329,6 +1330,9 @@ var viz = function(build) {
 
   if (build.config.y2 && build.config.y2.value === "01000US" && build.highlight === "01000US") {
     delete build.config.y2;
+    if (build.config.x.persist) {
+      build.config.x.persist.position = false;
+    }
   }
 
   build.viz = d3plus.viz()
