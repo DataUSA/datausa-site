@@ -191,7 +191,7 @@ topics:
     title: "Industries by Share"
     viz:
       attrs: "naics"
-      color: "grandparent"
+      color: "naics"
       data:
         - soc: "<<id>>"
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"

@@ -30,7 +30,7 @@ topics:
       attrs:
         - "bls_soc"
         - "skill"
-      color: "parent"
+      color: "skill"
       data:
         - soc: "<<id>>"
           show: "skill"

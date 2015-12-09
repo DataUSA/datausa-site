@@ -41,6 +41,7 @@ class Section(object):
             config = f
         else:
             config = "".join(f.readlines())
+        config = config.decode("utf-8", 'ignore')
 
         # Set the attr and profile attributes
         self.attr = profile.attr
@@ -49,7 +50,6 @@ class Section(object):
 
         def loadStats(string):
             keys = re.findall(r"<<(.*?)>>", string)
-            string = string.decode("utf-8", 'ignore')
             for k in keys:
                 func, params = k.split(" ") if " " in k else (k, "")
                 # if Section has a function with the same name as the key
@@ -100,6 +100,7 @@ class Section(object):
                 ret = loadStats(text)
 
             # replace all instances of key with the returned value
+            k = k.decode("utf-8", 'ignore')
             config = config.replace("{{{{{}}}}}".format(k), ret)
 
 

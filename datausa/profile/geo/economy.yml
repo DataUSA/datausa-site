@@ -327,7 +327,7 @@ topics:
     title: "Occupations by Share"
     viz:
       attrs: "soc"
-      color: "great_grandparent"
+      color: "soc"
       data:
         - geo: "<<id>>"
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -859,7 +859,7 @@ topics:
     title: "Industries by Share"
     viz:
       attrs: "naics"
-      color: "grandparent"
+      color: "naics"
       data:
         - geo: "<<id>>"
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"

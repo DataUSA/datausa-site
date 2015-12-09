@@ -28,7 +28,7 @@ topics:
       attrs:
         - "cip"
         - "skill"
-      color: "parent"
+      color: "skill"
       data:
         - cip: "<<id>>"
           show: "skill"

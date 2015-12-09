@@ -158,7 +158,7 @@ topics:
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     viz:
       attrs: "soc"
-      color: "great_grandparent"
+      color: "soc"
       data:
         - cip: "<<id>>"
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -334,7 +334,7 @@ topics:
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     viz:
       attrs: "naics"
-      color: "grandparent"
+      color: "naics"
       data:
         - cip: "<<id>>"
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"

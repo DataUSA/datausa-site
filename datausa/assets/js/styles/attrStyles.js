@@ -66,8 +66,8 @@ var attrStyles = {
 
   },
 
-  "skill": "parent",
-  "parent": {
+  "skill_key": "parent",
+  "skill": {
     "Complex Problem Solving": "#ef6145",
     "Resource Management Skills": "#808019",
     "System Skills": "#004994",
@@ -82,8 +82,8 @@ var attrStyles = {
   },
 
   // SOC coloring
-  "soc": "great_grandparent",
-  "great_grandparent": {
+  "soc_key": "great_grandparent",
+  "soc": {
     "110000-290000": "#ef6145",
     "310000-390000": "#808019",
     "410000-430000": "#004994",
@@ -101,8 +101,8 @@ var attrStyles = {
   },
 
   // NAICS coloring
-  "naics": "grandparent",
-  "grandparent": {
+  "naics_key": "grandparent",
+  "naics": {
     "11-21": "#006947",
     "23": "#54541f",
     "31-33": "#004035",

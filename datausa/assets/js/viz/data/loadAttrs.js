@@ -9,16 +9,16 @@ viz.loadAttrs = function(build) {
       load(build.attrs[i].url, function(data, url){
         var a = build.attrs.filter(function(a){ return a.url === url; })[0];
         a.data = data;
-        var color = a.type;
-        if (a.type in attrStyles && attrStyles[a.type].constructor === String) {
-          color = attrStyles[color];
+        var color_key = a.type;
+        if (a.type + "_key" in attrStyles) {
+          color_key = attrStyles[a.type];
         }
-        var colorize = build.config.color == color && build.config.color in attrStyles ? attrStyles[build.config.color] : false;
+        var colorize = build.config.color === a.type && a.type in attrStyles ? attrStyles[a.type] : false;
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (colorize) {
-            if (build.config.color in d) {
-              d.color = colorize[d[build.config.color]];
+            if (color_key in d) {
+              d.color = colorize[d[color_key]];
             }
             else if (d.id in colorize) {
               d.color = colorize[d.id];
