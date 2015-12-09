@@ -3498,12 +3498,34 @@ body.about {
   background-color: #F6F6F6; }
   body.about section {
     padding-top: 35px; }
-    body.about section .topic .content aside {
-      width: 100% !important;
-      max-width: initial; }
-      body.about section .topic p {
+    body.about section .topic {
+      padding: 0 150px 50px; }
+      body.about section .topic .content.full-wdith {
+        display: block; }
+        body.about section .topic .content .viz {
+          min-height: inherit; }
+          body.about section .topic .content aside {
+            max-width: initial; }
+      body.about section .topic p.centered {
         margin: 0 auto;
         max-width: 500px; }
+        body.about section .topic ul {
+          font-family: "Roboto", sans-serif;
+          font-size: 15px;
+          line-height: 1.6;
+          font-weight: 400;
+          color: rgba(51, 51, 51, 0.93);
+          margin: 10px 0 0 0; }
+          body.about section .topic ul li {
+            border: 1px #d0d4d9 solid;
+            padding: 5px; }
+    body.about section h2 .fa-link {
+      color: #565656;
+      display: none;
+      margin: 5px 0 0 -15px;
+      font-size: 14px; }
+      body.about section h2:hover .fa-link {
+        display: inline-block; }
   body.about header {
     top: 40px;
     margin-bottom: 40px;
