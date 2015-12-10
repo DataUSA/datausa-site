@@ -11,7 +11,7 @@ stats:
   - title: "Average Age"
     value: "<<var namespace=data|key=avg_age>>"
 facts:
-  - "The Public Use Microdata Area (PUMA) with an unusually large workforce is <<top show=geo|sumlevel=puma|order=num_ppl_rca>>."
+  - "The area with an unusually large workforce is <<top show=geo|sumlevel=puma|order=num_ppl_rca>>."
 sections:
   - workforce
   - io

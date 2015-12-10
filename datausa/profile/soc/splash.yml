@@ -11,7 +11,7 @@ stats:
   - title: "Average Age"
     value: "<<var namespace=data|key=avg_age>>"
 facts:
-  - "The PUMA with the highest number of employed <<name>> is <<top show=geo|sumlevel=puma|order=num_ppl>>."
+  - "The area with the highest number of employed <<name>> is <<top show=geo|sumlevel=puma|order=num_ppl>>."
   - "The most common industry that employs <<name>> is <<top show=naics|sumlevel=2|order=num_ppl>>."
 sections:
   - employment
