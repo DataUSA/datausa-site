@@ -339,7 +339,11 @@ def build_attr_cache():
             r = requests.get("{}/attrs/{}".format(API, attr_name))
             attr_list = datafold(r.json())
             app.logger.info("Loaded {} attributes for: {}".format(len(attr_list), attr_name))
-            results[attr_name] = {obj["id"]: obj for obj in attr_list}
+            results[attr_name] = {}
+            for obj in attr_list:
+                oid = obj["id"]
+                if oid not in results[attr_name] or results[attr_name][oid]["level"] > obj["level"]:
+                    results[attr_name][oid] = obj
         except:
             app.logger.info("ERROR: Could not load {} attributes".format(attr_name))
 

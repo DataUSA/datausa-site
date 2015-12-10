@@ -6,11 +6,12 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|where=num_records:>4|naics_level=sumlevel>>."
     viz:
       - attrs: "soc"
         data:
           - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
             limit: "5"
             order: "num_ppl"
             required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -33,6 +34,7 @@ topics:
       - attrs: "soc"
         data:
           - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
             limit: "5"
             order: "num_ppl"
             required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -55,11 +57,12 @@ topics:
   - class: "flex"
     title: "Most Specialized"
     slug: "top_occ_rca"
-    description: "Compared to other <<level plural=True>>, <<name>> employs an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
+    description: "Compared to other <<level plural=True>>, <<name>> employs an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4|naics_level=sumlevel>>."
     viz:
       - attrs: "soc"
         data:
           - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
             limit: "5"
             order: "num_ppl_rca"
             required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -82,6 +85,7 @@ topics:
       - attrs: "soc"
         data:
           - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
             limit: "5"
             order: "num_ppl_rca"
             required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -104,11 +108,12 @@ topics:
   - class: "flex"
     title: "Highest Paid"
     slug: "top_occ_wage"
-    description: "The highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4|naics_level=sumlevel>>."
     viz:
       - attrs: "soc"
         data:
           - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
             limit: "5"
             order: "avg_wage"
             required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -131,6 +136,7 @@ topics:
       - attrs: "soc"
         data:
           - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
             limit: "5"
             order: "avg_wage"
             required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
@@ -157,6 +163,7 @@ topics:
       color: "soc"
       data:
         - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
@@ -214,13 +221,14 @@ topics:
           show: "geo"
           sumlevel: "puma"
           naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
           where: "num_records:>4"
       height: 400
       id: "geo"
       type: "geo_map"
   - title: "Wage by Gender"
     slug: "wage_gender"
-    description: "<<top show=sex|order=avg_wage|sort=desc>> workers in the <<name>> <<level short=True>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4>> times more than their <<top show=sex|order=avg_wage|sort=asc>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
+    description: "<<top show=sex|order=avg_wage|sort=desc|naics_level=sumlevel>> workers in the <<name>> <<level short=True>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<top show=sex|order=avg_wage|sort=asc|naics_level=sumlevel>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Average Male Wage"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
@@ -235,10 +243,11 @@ topics:
       color: "sex"
       data:
         - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
           limit: "10"
           required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
           show: "soc,sex"
-          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id|naics_level=sumlevel>>"
           sumlevel: "3,all"
           where: "num_records:>4"
       id: "sex"
@@ -251,7 +260,7 @@ topics:
       y: "num_ppl"
   - title: "Wage by Race & Ethnicity"
     slug: "wage_ethnicity"
-    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
+    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
     stat:
       - title: "Race or Ethnicity with Highest Average Wage"
         value: "<<var namespace=race_wage|key=race|row=0>>"
@@ -265,10 +274,11 @@ topics:
       color: "race"
       data:
         - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
           limit: "45"
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "soc,race"
-          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id|naics_level=sumlevel>>"
           sumlevel: "3,all"
           where: "num_records:>4"
       id: "race"
@@ -291,6 +301,7 @@ topics:
       attrs: "wage_bin"
       data:
         - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
           required: "wage_bin,num_ppl,num_ppl_moe"
           show: "naics"
       id: "wage_bin"
@@ -324,6 +335,7 @@ topics:
           show: "geo"
           sumlevel: "puma"
           naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
           where: "num_records:>4"
       height: 400
       id: "geo"

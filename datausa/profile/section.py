@@ -595,6 +595,10 @@ class Section(object):
         params["sumlevel"] = params.get("sumlevel", "all")
         if "sumlevel" in params["sumlevel"]:
             params["sumlevel"] = params["sumlevel"].replace("sumlevel", self.sumlevel())
+        if "naics_level" in params and "sumlevel" in params["naics_level"]:
+            params["naics_level"] = params["naics_level"].replace("sumlevel", self.sumlevel())
+        if "soc_level" in params and "sumlevel" in params["soc_level"]:
+            params["soc_level"] = params["soc_level"].replace("sumlevel", self.sumlevel())
         params = default_params(params)
 
         if "force" not in params and params["required"] == "":
