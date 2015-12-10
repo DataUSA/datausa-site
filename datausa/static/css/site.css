@@ -2813,8 +2813,7 @@ body.profile {
                   -ms-flex: 1 1 200px;
                   flex: 1 1 200px;
                   margin-left: 0;
-                  min-height: 200px;
-                  max-height: 200px; }
+                  min-height: 200px; }
         body.about section .topic .content, body.profile section .topic .content,
         body.story section .topic .content {
           -webkit-justify-content: center;

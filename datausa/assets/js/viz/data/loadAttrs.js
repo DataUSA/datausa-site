@@ -14,7 +14,6 @@ viz.loadAttrs = function(build) {
           color_key = attrStyles[type + "_key"];
         }
         var colorize = build.config.color === type && type in attrStyles ? attrStyles[type] : false;
-        console.log(type, color_key)
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (colorize) {
