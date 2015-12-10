@@ -67,21 +67,21 @@ topics:
       type: "geo_map"
   - title: "Citizenship"
     slug: "citizenship"
-    description: "The majority of the population of <<name>> are US citizens."
+    description: "{{<<sumlevel>>:!nation|| <<top col=us_citizens>> of the population of <<name>> are US citizens. This is <<percent num=us_citizens|den=us_citizens|den_id=01000US|text=highlow>> the national average of <<top col=us_citizens|attr_id=01000US>>.}}{{<<sumlevel>>:nation|| <<top col=us_citizens>> of the United States population are citizens. Here is that number, compared to the 2 highest and the 2 lowest states.}}"
     stat:
       - title: "Percent with citizenship"
         value: "<<top col=us_citizens>>"
     viz:
       attrs: "geo"
       data:
-        - geo: "<<parents>>,<<id>>"
+        - geo: "<<parents col=us_citizens>>,<<id>>"
           required: "us_citizens"
           show: "geo"
       id: "geo"
       labels: YES
       order:
-        sort: "desc"
-        value: "geo"
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||us_citizens}}"
       type: "bar"
       x: "us_citizens"
       y:

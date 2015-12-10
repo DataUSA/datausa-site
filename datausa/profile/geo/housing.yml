@@ -18,12 +18,14 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents>>,<<id>>"
+        geo: "<<parents col=income>>,<<id>>"
         required: "income"
       height: 250
       id: "geo"
       labels: YES
-      order: "geo"
+      order:
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||income}}"
       type: "bar"
       x:
         persist:
@@ -61,17 +63,19 @@ topics:
       - title: "Median Property Value"
         value: "<<var namespace=acsgeo|key=median_property_value>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=acsgeo|key=median_property_value_moe>>"
-    description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| The chart on the right displays the distribution versus the national values.}}"
+    description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| The chart on the right displays the distribution versus the national values.}}{{<<sumlevel>>:nation|| The chart below shows the median property value of the nation in comparison with the top 2 and bottom 2 states.}}"
     miniviz:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents>>,<<id>>"
+        geo: "<<parents col=median_property_value>>,<<id>>"
         required: "median_property_value,median_property_value_moe"
       height: 250
       id: "geo"
       labels: YES
-      order: "geo"
+      order:
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||median_property_value}}"
       type: "bar"
       x: "median_property_value"
       y:
@@ -126,17 +130,19 @@ topics:
         value: "01000US"
   - title: "Rent vs Own"
     slug: "rent_own"
-    description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=1>>}}"
+    description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
     viz:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents>>,<<id>>"
+        geo: "<<parents col=owner_occupied_housing_units>>,<<id>>"
         required: "owner_occupied_housing_units"
       height: 250
       id: "geo"
       labels: YES
-      order: "geo"
+      order:
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||owner_occupied_housing_units}}"
       type: "bar"
       x: "owner_occupied_housing_units"
       y:
@@ -174,18 +180,19 @@ topics:
     stat:
       - title: "Average Travel Time"
         value: "<<var namespace=commute|key=mean_commute_minutes|row=0>> minutes"
-    description:
-      - "{{<<sumlevel>>:!nation||Employees in <<name>> have a <<percent num=mean_commute_minutes|den=mean_commute_minutes|den_id=01000US|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=1>> minutes. }}<<percent num=travel_90over|den=workers>> of the workforce in <<name>> have \"super commutes\" in excess of 90 minutes.{{<<sumlevel>>:!nation|| That is <<percent num=travel_90over,workers|den=travel_90over,workers|den_id=01000US|text=highlow>> the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>.}}"
+    description: "{{<<sumlevel>>:!nation||Employees in <<name>> have a <<percent num=mean_commute_minutes|den=mean_commute_minutes|den_id=01000US|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=1>> minutes. }}<<percent num=travel_90over|den=workers>> of the workforce in <<name>> have \"super commutes\" in excess of 90 minutes.{{<<sumlevel>>:!nation|| That is <<percent num=travel_90over,workers|den=travel_90over,workers|den_id=01000US|text=highlow>> the national average of <<percent num=travel_90over|den=workers|attr_id=01000US>>.}}{{<<sumlevel>>:nation|| The chart below shows the average travel time of the nation's workforce in comparison with the top 2 and bottom 2 states.}}"
     miniviz:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents>>,<<id>>"
+        geo: "<<parents col=mean_commute_minutes>>,<<id>>"
         required: "mean_commute_minutes"
       id: "geo"
       height: 250
       labels: YES
-      order: "geo"
+      order:
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||mean_commute_minutes}}"
       type: "bar"
       x: "mean_commute_minutes"
       y:

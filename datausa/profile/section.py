@@ -300,6 +300,30 @@ class Section(object):
         return name
 
     def parents(self, **kwargs):
+        col = kwargs.get("col", False)
+        if col and self.attr["id"] == "01000US":
+
+            params = {
+                "show": "geo",
+                "required": col,
+                "sumlevel": "state",
+                "order": col,
+                "sort": "desc"
+            }
+
+            query = RequestEncodingMixin._encode_params(params)
+            url = "{}/api?{}".format(API, query)
+
+            try:
+                results = [r for r in datafold(requests.get(url).json()) if r[col]]
+            except ValueError:
+                app.logger.info("STAT ERROR: {}".format(url))
+                return ""
+
+            results = results[:2] + results[-2:]
+
+            return ",".join([r["geo"] for r in results])
+
         return u",".join([p["id"] for p in self.profile.parents()])
 
     def percent(self, **kwargs):

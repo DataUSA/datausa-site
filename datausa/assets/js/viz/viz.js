@@ -54,7 +54,7 @@ viz.finish = function(build) {
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
       build.config.color = function(d, viz) {
-        return build.highlight === "01000US" || d[viz.id.value] === build.highlight ? build.colors.pri : build.colors.sec;
+        return d[viz.id.value] === build.highlight ? build.colors.pri : build.colors.sec;
       };
     }
     else {

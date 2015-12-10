@@ -346,7 +346,7 @@ topics:
   - category: "Wages"
     title: "Average Wage"
     slug: "income"
-    description: "On average, people in <<name>> had a median income of <<var namespace=splash|key=income>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank>> richest <<level>> in the United States.}}"
+    description: "On average, people in <<name>> had a median income of <<var namespace=splash|key=income>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank>> richest <<level>> in the United States.}}{{<<sumlevel>>:nation|| This chart shows the average wage of US citizens compared to the top 2 and bottom 2 states.}}"
     stat:
       - title: "Median Yearly Income"
         value: "<<var namespace=splash|key=income>>"
@@ -354,14 +354,14 @@ topics:
     viz:
       attrs: "geo"
       data:
-        - geo: "<<parents>>,<<id>>"
+        - geo: "<<parents col=income>>,<<id>>"
           required: "income,income_moe"
           show: "geo"
       id: "geo"
       labels: YES
       order:
-        sort: "desc"
-        value: "geo"
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||income}}"
       type: "bar"
       x: "income"
       y:
