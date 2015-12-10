@@ -1925,11 +1925,12 @@ viz.loadAttrs = function(build) {
       load(build.attrs[i].url, function(data, url){
         var a = build.attrs.filter(function(a){ return a.url === url; })[0];
         a.data = data;
-        var color_key = a.type;
-        if (a.type + "_key" in attrStyles) {
-          color_key = attrStyles[a.type];
+        var type = a.type === "university" ? "sector" : a.type, color_key = type;
+        if (type + "_key" in attrStyles) {
+          color_key = attrStyles[type + "_key"];
         }
-        var colorize = build.config.color === a.type && a.type in attrStyles ? attrStyles[a.type] : false;
+        var colorize = build.config.color === type && type in attrStyles ? attrStyles[type] : false;
+        console.log(type, color_key)
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (colorize) {
