@@ -74,7 +74,7 @@ class Profile(object):
     def parents(self):
         url = "{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)
         try:
-            return datafold(requests.get(url).json())
+            return [r for r in datafold(requests.get(url).json()) if r["id"] != self.id]
         except ValueError:
             return []
 
