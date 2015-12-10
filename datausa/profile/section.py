@@ -223,14 +223,14 @@ class Section(object):
                     attr_id = self.profile.parents()[1]["id"]
                     prefix = "040"
 
-                if prefix in ["010", "040", "795"]:
+                acceptedPrefixes = ["010", "040", "795"]
+
+                if prefix in acceptedPrefixes:
                     return attr_id
                 else:
-                    parents = self.profile.parents()
-                    if len(parents) > 1:
-                        return parents[1]["id"]
-                    else:
-                        return parents[0]["id"]
+                    for p in reversed(self.profile.parents()):
+                        if p["id"][:3] in acceptedPrefixes:
+                            return p["id"]
 
             elif self.profile.attr_type == "geo" and dataset == "chr":
                 attr_id = self.attr["id"]
@@ -239,14 +239,14 @@ class Section(object):
                     attr_id = self.profile.parents()[1]["id"]
                     prefix = "040"
 
-                if prefix in ["010", "040", "050"]:
+                acceptedPrefixes = ["010", "040", "795"]
+
+                if prefix in acceptedPrefixes:
                     return attr_id
                 else:
-                    parents = self.profile.parents()
-                    if len(parents) > 2:
-                        return parents[2]["id"]
-                    else:
-                        return parents[1]["id"]
+                    for p in reversed(self.profile.parents()):
+                        if p["id"][:3] in acceptedPrefixes:
+                            return p["id"]
 
         return self.attr["id"]
 
