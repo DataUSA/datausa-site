@@ -158,12 +158,12 @@ body.search {
     margin: 30px 30px 0;
 
     .search-nav {
-      @include flex-size(0 0 $search-height);
+//      @include flex-size(0 0 $search-height);
       margin-top: 20px;
     }
 
     .search-helpers {
-      @include flex-size(0 0 $search-helpers-height);
+//      @include flex-size(0 0 $search-helpers-height);
       background-color: rgba(250, 253, 255, 0.85);
     }
 
@@ -172,11 +172,6 @@ body.search {
     }
 
     .search-suggestions {
-      position: relative;
-      top: $search-helpers-height/4;
-      margin: -4.5px 20px 0px;
-      padding-bottom: 9px;
-      border-bottom: 1px solid #ccc;
       text-align: left;
       font-family: $roboto;
       font-weight: 400;
@@ -186,21 +181,29 @@ body.search {
       @include wordwrap();
       @include hyphens;
       color: #333;
-
-      a {
-        color: #333;
-        opacity: 0.75;
-        @include transition(opacity 0.25s);
-        padding-bottom: 1px;
-        border-bottom: 1px solid rgba(51,51,51,0.5);
-        text-decoration: none;
-
-        &:hover {
-          border-bottom: 0;
-          cursor: pointer;
-          opacity: 1;
+      padding: 10px 15px;
+      
+      span {
+        
+        line-height: normal;
+        font-size: 12px;
+        
+        a {
+          color: #333;
+          opacity: 0.75;
+          @include transition(opacity 0.25s);
+          padding-bottom: 1px;
+          border-bottom: 1px solid rgba(51,51,51,0.5);
           text-decoration: none;
+
+          &:hover {
+            border-bottom: 0;
+            cursor: pointer;
+            opacity: 1;
+            text-decoration: none;
+          }
         }
+        
       }
     }
 
@@ -212,9 +215,8 @@ body.search {
 
     .search-input {
       width: 100%;
-      height: 50px;
       border: 0;
-      padding: 33px 20px 27px 65px;
+      padding: 16px 20px 16px 65px;
       @include box();
       font-family: $lato;
       font-size: 20px;
@@ -302,6 +304,11 @@ body.search {
     background: rgba(250, 253, 255, 0.85);
 
     .search-refine {
+      
+      @media all and (max-width: 415px) {
+        display: none;
+      }
+      
       @include flex-size(0 0 200px);
       padding-left: 10px;
 
