@@ -371,4 +371,13 @@ def build_profile_cache():
         app.logger.info("Loaded {} profile anchors for: {}".format(len(profiles[p]["sections"]), p))
     return profiles
 
+def geo_neighbors(geo_id):
+    url = "{}/attrs/geo/{}/neighbors/".format(API, geo_id)
+    try:
+        data = requests.get(url)
+        results = datafold(data.json())
+        return [fetch(row["neighbor"], "geo") for row in results]
+    except ValueError:
+        return []
+
 profile_cache = build_profile_cache()
