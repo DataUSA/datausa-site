@@ -1,5 +1,5 @@
 title: "Skills"
-description: "The O*NET dataset has very detailed information on the skills generally required to succeed as a Chemistry major."
+description: "The O*NET dataset has very detailed information on the skills generally required to succeed as a <<name>> major."
 
 topics:
   - class: "flex"
