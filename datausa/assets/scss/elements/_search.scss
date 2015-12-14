@@ -1,6 +1,4 @@
 .search-results {
-  max-height: $search-mini-height - 38;
-  overflow: scroll;
 
   #search-loading {
     @include box();
@@ -130,7 +128,6 @@ body.search {
 
   .bg-filter {
     width: 100vw;
-    height: 100vh;
     background-repeat: no-repeat;
     background-position: 50% 0%;
     // background: url("/static/img/home/bg/1.jpg") no-repeat 0 0;
@@ -152,15 +149,13 @@ body.search {
     bottom: 40px;
     left: 0;
     right: 0;
-    overflow: hidden;
   }
 
   #search-advanced {
     @include flex();
     @include flex-direction(column);
     @include justify(space-around);
-    height: 100vh;
-    margin: 0 30px 0;
+    margin: 30px 30px 0;
 
     .search-nav {
       @include flex-size(0 0 $search-height);
@@ -309,7 +304,6 @@ body.search {
     .search-refine {
       @include flex-size(0 0 200px);
       padding-left: 10px;
-      overflow: scroll;
 
       .clear {
         display: none;
@@ -401,12 +395,10 @@ body.search {
 
     .search-results-dynamic {
       @include flex-size(1);
-      overflow: scroll;
     }
 
     .search-results {
       width: 100%;
-      max-height: 100vh;
       color: #333;
 
       .search-item {
