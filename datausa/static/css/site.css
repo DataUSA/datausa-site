@@ -47,7 +47,7 @@ h1 {
     font-weight: 400;
     text-transform: uppercase; }
 
-    p {
+    p, span {
       color: white;
       font-family: "Roboto", sans-serif;
       font-size: 14px;
@@ -1678,14 +1678,20 @@ body.profile {
     text-transform: none;
     font-style: normal;
     letter-spacing: 0.03em; }
-    body.about .topic .data-btn, body.profile .topic .data-btn,
-    body.story .topic .data-btn {
-      top: 18px; }
-      body.about .topic.flex h2, body.profile .topic.flex h2, body.story .topic.flex h2 {
-        font-size: 24px; }
-        body.about .topic.flex .data-btn, body.profile .topic.flex .data-btn,
-        body.story .topic.flex .data-btn {
-          top: 13px; }
+    body.about .topic span, body.profile .topic span, body.story .topic span {
+      color: #a3a3a3;
+      font-family: "Roboto", sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: normal; }
+      body.about .topic .data-btn, body.profile .topic .data-btn,
+      body.story .topic .data-btn {
+        top: 18px; }
+        body.about .topic.flex h2, body.profile .topic.flex h2, body.story .topic.flex h2 {
+          font-size: 24px; }
+          body.about .topic.flex .data-btn, body.profile .topic.flex .data-btn,
+          body.story .topic.flex .data-btn {
+            top: 13px; }
   body.about .topic sub, body.profile .topic sub, body.story .topic sub {
     font-family: "Roboto", sans-serif;
     font-size: 13px;
@@ -2529,12 +2535,25 @@ body.profile {
         position: absolute;
         right: 15px;
         top: 16px;
-        color: white;
-        opacity: 0.25; }
-        body.about #profile-nav #back-to-top:hover,
-        body.profile #profile-nav #back-to-top:hover,
-        body.story #profile-nav #back-to-top:hover {
-          opacity: 1; }
+        color: #fff;
+        opacity: 0.7;
+        -webkit-transition: opacity 0.25s;
+        -moz-transition: opacity 0.25s;
+        -ms-transition: opacity 0.25s;
+        -o-transition: opacity 0.25s;
+        transition: opacity 0.25s; }
+        body.about #profile-nav #back-to-top span,
+        body.profile #profile-nav #back-to-top span,
+        body.story #profile-nav #back-to-top span {
+          font-family: "Roboto", sans-serif;
+          text-transform: uppercase;
+          font-weight: 400;
+          font-size: 10px;
+          letter-spacing: 0.1em; }
+          body.about #profile-nav #back-to-top:hover,
+          body.profile #profile-nav #back-to-top:hover,
+          body.story #profile-nav #back-to-top:hover {
+            opacity: 1; }
     body.about #profile-nav ul, body.profile #profile-nav ul,
     body.story #profile-nav ul {
       width: 90%;

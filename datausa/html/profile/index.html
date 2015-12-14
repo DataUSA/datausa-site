@@ -132,7 +132,10 @@
       <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
     {% endfor %}
     </ul>
-    <a href="#top" id="back-to-top" data-tooltip="Back to Top" data-tooltip-anchor="center left" data-tooltip-offset="5"><i class="fa fa-long-arrow-up"></i></a>
+    <a href="#top" id="back-to-top">
+      <span>Back to top &#9650;</span>
+      <!-- <i class="fa fa-long-arrow-up"></i> -->
+    </a>
   </div>
 </div>
 
