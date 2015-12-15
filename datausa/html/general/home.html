@@ -57,6 +57,21 @@ d3.select("#home-search-input").on("input", function() {
   d3.select(".search-input-text").text(inputText);
 });
 
+var search_input = d3.select("#home-search-input");
+var current_search_term = search_input.property("value");
+if(current_search_term){
+  
+  var results_div_id = search_input.attr("data-results");
+  var results_div = d3.select("#"+results_div_id)
+  results_div.classed("open", true);
+  
+  search.term = current_search_term;
+  search.container = d3.select("#search-" + search_input.attr("data-search"));
+  search.reload();
+  
+  search_input.node().focus();
+}
+
 </script>
 
 {% endblock %}

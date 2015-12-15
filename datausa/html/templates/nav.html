@@ -165,7 +165,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   var is_home = this.id === "home-search-input";
   var results_div_id = d3.select(this).attr("data-results");
   var results_div = d3.select("#"+results_div_id)
-  results_div.classed("open", !results_div.classed("open"));
+  results_div.classed("open", true);
 
   // open search box if not home page
   if(!d3.select("body").classed("home")){
