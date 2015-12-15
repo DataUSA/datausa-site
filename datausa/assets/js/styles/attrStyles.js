@@ -77,8 +77,8 @@ var attrStyles = {
   },
 
   "student_pool": {
-    "Degrees Awarded": "#69b9a7",
-    "Workforce": "#7c90d8"
+    "Degrees Awarded": "#4372c4",
+    "Workforce": "#b8ba5e"
   },
 
   // SOC coloring

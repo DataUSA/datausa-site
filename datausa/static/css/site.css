@@ -47,7 +47,7 @@ h1 {
     font-weight: 400;
     text-transform: uppercase; }
 
-    p, span {
+    p {
       color: white;
       font-family: "Roboto", sans-serif;
       font-size: 14px;
@@ -1661,20 +1661,21 @@ body.profile {
     text-transform: none;
     font-style: normal;
     letter-spacing: 0.03em; }
-    body.about .topic span, body.profile .topic span, body.story .topic span {
-      color: #a3a3a3;
-      font-family: "Roboto", sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: normal; }
-      body.about .topic .data-btn, body.profile .topic .data-btn,
-      body.story .topic .data-btn {
-        top: 18px; }
-        body.about .topic.flex h2, body.profile .topic.flex h2, body.story .topic.flex h2 {
-          font-size: 24px; }
-          body.about .topic.flex .data-btn, body.profile .topic.flex .data-btn,
-          body.story .topic.flex .data-btn {
-            top: 13px; }
+    body.about .topic .data-btn, body.profile .topic .data-btn,
+    body.story .topic .data-btn {
+      top: 18px; }
+      body.about .topic .data-btn span, body.profile .topic .data-btn span,
+      body.story .topic .data-btn span {
+        color: #a3a3a3;
+        font-family: "Roboto", sans-serif;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: normal; }
+  body.about .topic.flex h2, body.profile .topic.flex h2, body.story .topic.flex h2 {
+    font-size: 24px; }
+    body.about .topic.flex .data-btn, body.profile .topic.flex .data-btn,
+    body.story .topic.flex .data-btn {
+      top: 13px; }
   body.about .topic sub, body.profile .topic sub, body.story .topic sub {
     font-family: "Roboto", sans-serif;
     font-size: 13px;

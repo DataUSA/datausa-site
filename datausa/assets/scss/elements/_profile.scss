@@ -199,16 +199,16 @@ body.about, body.profile, body.story {
       letter-spacing: 0.03em;
     }
 
-    span {
-      color: #a3a3a3;
-      font-family: $roboto;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: normal;
-    }
-
     .data-btn {
       top: 18px;
+
+      span {
+        color: #a3a3a3;
+        font-family: $roboto;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: normal;
+      }
     }
 
     &.flex {
