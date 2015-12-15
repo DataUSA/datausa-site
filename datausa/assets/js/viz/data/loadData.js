@@ -106,9 +106,24 @@ viz.loadData = function(build, next) {
         }
 
         if (d.share) {
-          var total = d3.sum(data, function(dat){ return dat[d.share]; });
-          for (var i = 0; i < data.length; i++) {
-            data[i].share = data[i][d.share]/total * 100;
+          var share = d.share.split("."), share_id = share[1] || false;
+          share = share[0];
+          if (share_id) {
+            var totals = d3plus.util.uniques(data, share_id).reduce(function(obj, id){
+              obj[id] = d3.sum(data, function(dat){
+                return dat[share_id] === id ? dat[share] : 0;
+              });
+              return obj;
+            }, {});
+            for (var i = 0; i < data.length; i++) {
+              data[i].share = data[i][share]/totals[data[i][share_id]] * 100;
+            }
+          }
+          else {
+            var total = d3.sum(data, function(dat){ return dat[share]; });
+            for (var i = 0; i < data.length; i++) {
+              data[i].share = data[i][share]/total * 100;
+            }
           }
         }
 

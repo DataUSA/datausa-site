@@ -162,6 +162,7 @@ topics:
           force: "acs.yg_conflict"
           exclude: "conflict_total,conflict_total_moe"
           show: "geo"
+          share: "num_ppl.geo"
           split:
             id: "conflict"
             regex: "^conflict_([0-9a-z]*)$"
@@ -172,9 +173,4 @@ topics:
       x:
         scale: "discrete"
         value: "conflict"
-      y:
-        label: "<<name>>"
-        value: "num_ppl"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"

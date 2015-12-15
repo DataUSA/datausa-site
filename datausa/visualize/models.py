@@ -93,8 +93,6 @@ class Viz(object):
 
         # check each data call for 'required' and 'order'
         for d in self.data:
-            if "share" in d and "share" not in tooltip:
-                tooltip.append("share")
             p = d["params"]
             for k in ["required", "order"]:
                 if k in p:
@@ -105,6 +103,11 @@ class Viz(object):
                             moe = "{}_moe".format(v)
                             if moe not in tooltip:
                                 tooltip.append(moe)
+            if d["share"] and "share" not in tooltip:
+                share = d["share"].split(".")[0]
+                if share not in tooltip:
+                    tooltip.append(share)
+                tooltip.append("share")
 
         # check the config for 'x' 'y' and 'size'
         axis = "y"

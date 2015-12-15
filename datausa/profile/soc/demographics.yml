@@ -20,25 +20,22 @@ topics:
           show: "race"
           soc: "<<id>>"
           where: "num_records:>4"
+          share: "num_ppl"
         - required: "num_ppl,num_ppl_moe"
           show: "race"
           geo: "01000US"
           where: "num_records:>4"
+          share: "num_ppl"
           static:
             soc: "USA"
       id: "soc"
-      order: "num_ppl"
+      order: "share"
       type: "bar"
       x:
         persist:
           position: True
         value: "race"
-      y:
-        label: "<<name>>"
-        value: "num_ppl"
-      y2:
-        label: "USA"
-        value: "USA"
+      y: "share"
   - title: "Age by Gender"
     slug: "age_gender"
     stat:

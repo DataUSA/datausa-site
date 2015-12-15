@@ -26,6 +26,7 @@ topics:
         - required: "grads_total"
           cip: "<<id>>"
           show: "degree"
+          share: "num_ppl"
           map:
             num_ppl: "grads_total"
           static:
@@ -34,21 +35,17 @@ topics:
           cip: "<<id dataset=pums>>"
           show: "degree"
           where: "num_records:>4"
+          share: "num_ppl"
           static:
             student_pool: "Workforce"
       id: "student_pool"
-      order: "num_ppl"
+      order: "share"
       type: "bar"
       x:
         persist:
           position: True
         value: "degree"
-      y:
-        label: "Degrees Awarded"
-        value: "num_ppl"
-      y2:
-        label: "Workforce"
-        value: "Workforce"
+      y: "share"
   - title: "Enrolled Gender"
     slug: "enrolled_gender"
     stat:
@@ -226,13 +223,13 @@ topics:
           cip: "<<id dataset=pums>>"
           show: "age"
           where: "num_records:>4"
+          share: "num_ppl"
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "age"
           where: "num_records:>4"
+          share: "num_ppl"
           static:
             cip: "National Average"
-          map:
-            y2_num_ppl: "num_ppl"
       highlight: "<<id dataset=pums>>"
       id: "cip"
       type: "line"
@@ -242,12 +239,7 @@ topics:
           labels: [16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
           value: "<<range min=16|max=95>>"
         value: "age"
-      y:
-        label: "<<name dataset=pums|text_only=True>>"
-        value: "num_ppl"
-      y2:
-        label: "National Average"
-        value: "y2_num_ppl"
+      y: "share"
   - title: "Global Diversity"
     slug: "global_diversity"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."

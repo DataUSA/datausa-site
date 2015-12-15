@@ -441,9 +441,10 @@ topics:
     viz:
       attrs: "geo"
       data:
-        - geo: "01000US,<<id>>"
+        - geo: "<<id>>,01000US"
           force: "acs.yg_income_distribution"
           show: "geo"
+          share: "num_ppl.geo"
           split:
             id: "bucket"
             regex: "^income_([a-zA-Z0-9]*)$"
@@ -456,12 +457,7 @@ topics:
         persist:
           position: True
         value: "bucket"
-      y:
-        label: "<<name>>"
-        value: "num_ppl"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"
   - title: "Wage by Location"
     sumlevel: "!puma"
     slug: "income_geo"

@@ -40,6 +40,7 @@ topics:
         show: "geo"
         geo: "01000US,<<id>>"
         force: "acs.yg_income_distribution"
+        share: "num_households.geo"
         split:
           id: "bucket"
           regex: "^income_([a-z0-9]*)$"
@@ -50,12 +51,7 @@ topics:
       x:
         label: "income"
         value: "bucket"
-      y:
-        label: "<<name>>"
-        value: "num_households"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"
   - category: "Housing"
     title: "Property Value"
     slug: "property_value"
@@ -87,6 +83,7 @@ topics:
         show: "geo"
         geo: "01000US,<<id>>"
         force: "acs.yg_property_value"
+        share: "num_households.geo"
         split:
           id: "bucket"
           regex: "^propertyval_([a-zA-Z0-9]*)$"
@@ -97,12 +94,7 @@ topics:
       x:
         label: "property_val"
         value: "bucket"
-      y:
-        label: "<<name>>"
-        value: "num_households"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"
   - title: "Property Taxes"
     slug: "property_taxes"
     description: "The largest share of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
@@ -110,8 +102,9 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "01000US,<<id>>"
+        geo: "<<id>>,01000US"
         force: "acs.yg_property_tax"
+        share: "num_households.geo"
         split:
           id: "bucket"
           regex: "^propertytax_([a-zA-Z0-9]*)$"
@@ -122,12 +115,7 @@ topics:
       x:
         label: "property_tax"
         value: "bucket"
-      y:
-        label: "<<name>>"
-        value: "num_households"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"
   - title: "Rent vs Own"
     slug: "rent_own"
     description: "The largest share, <<var namespace=housing|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
@@ -158,6 +146,7 @@ topics:
         show: "geo"
         geo: "01000US,<<id>>"
         force: "acs.yg_vehicles"
+        share: "num_households.geo"
         split:
           id: "bucket"
           regex: "^vehicles_([0-9a-z]*)$"
@@ -169,12 +158,7 @@ topics:
       x:
         label: "vehicles"
         value: "bucket"
-      y:
-        label: "<<name>>"
-        value: "num_households"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"
   - title: "Commute Time"
     slug: "commute_time"
     stat:
@@ -204,6 +188,7 @@ topics:
         show: "geo"
         geo: "01000US,<<id>>"
         force: "acs.yg_travel_time"
+        share: "num_households.geo"
         split:
           id: "bucket"
           regex: "^travel_([0-9a-z]*)$"
@@ -214,12 +199,7 @@ topics:
       x:
         label: "travel"
         value: "bucket"
-      y:
-        label: "<<name>>"
-        value: "num_households"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"
   - title: "Commuter Transportation"
     slug: "mode_transport"
     stat:
@@ -237,19 +217,15 @@ topics:
         exclude: "transport_cartruckorvan"
         geo: "01000US,<<id>>"
         force: "acs.yg_transport"
+        share: "num_households.geo"
         split:
           id: "transport"
           regex: "^transport_([a-z]*)$"
           value: "num_households"
       id: "geo"
-      order: "num_households"
+      order: "share"
       type: "bar"
       x:
         scale: "discrete"
         value: "transport"
-      y:
-        label: "<<name>>"
-        value: "num_households"
-      y2:
-        label: "USA"
-        value: "01000US"
+      y: "share"

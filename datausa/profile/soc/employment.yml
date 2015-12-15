@@ -42,13 +42,15 @@ topics:
         - "wage_bin"
       data:
         - soc: "<<id>>"
-          required: "wage_bin,num_ppl,num_ppl_moe"
+          required: "num_ppl,num_ppl_moe,wage_bin"
           show: "soc"
+          share: "num_ppl"
           static:
             geo: "<<id>>"
         - geo: "01000US"
-          required: "wage_bin,num_ppl,num_ppl_moe"
+          required: "num_ppl,num_ppl_moe,wage_bin"
           show: "geo"
+          share: "num_ppl"
           static:
             soc: "USA"
       id: "soc"
@@ -61,12 +63,7 @@ topics:
           position: True
         scale: "discrete"
         value: "wage_bin"
-      y:
-        label: "<<name>>"
-        value: "num_ppl"
-      y2:
-        label: "USA"
-        value: "USA"
+      y: "share"
   - title: "Wage by Location"
     slug: "wage_locations"
     stat:
