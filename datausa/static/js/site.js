@@ -590,7 +590,7 @@ var attrs_meta = {
         "children": ["160"]
       },
       {
-        "name": "MSA",
+        "name": "Metro Area",
         "id": "310",
         "children": ["050", "160"]
       },
@@ -671,7 +671,7 @@ var search = {
 search.reload = function() {
 
   this.container.select(".search-results").html("<div id='search-loading'><p>Loading Results...</p></div>");
-  
+
   this.type = this.type || "";
   // var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
   // var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
@@ -681,7 +681,7 @@ search.reload = function() {
                     var sep = i ? "&" : "";
                     return a+sep+b[0]+"="+b[1];
                   }, "?")
-  
+
   // set URL query parameter to search query
   if(this.advanced){
     window.history.replaceState({}, "", "/search/"+q_params);
@@ -689,20 +689,20 @@ search.reload = function() {
   else {
     d3.select(".results-show-all a").attr("href", "/search/"+q_params)
   }
-  
+
   // if contrained, show "clear refinements"
   if(this.type){
     d3.select(".clear").style("display", "block")
   }
-  
+
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+query_sumlevel, function(data, url, raw) {
     // console.log(data, url, raw)
-    
+
     this.zip = raw.zip_search;
-    
+
     d3.select(".search-suggestions").style("display", "block").text('');
-    
+
     if(this.advanced){
       this.max = null;
       if(raw.suggestions){
@@ -726,7 +726,7 @@ search.reload = function() {
       }
       this.update_refine(data);
     }
-    
+
     // set cutoff
     if(this.max){
       if(data.length > this.max){
@@ -738,7 +738,7 @@ search.reload = function() {
       }
       data = data.slice(0, this.max);
     }
-    
+
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
       .data(this.filter(data), function(d){ return d.id; });
@@ -770,12 +770,12 @@ search.btnExplore = function(d) {
   var thumb = search_item.append("span").attr("class", 'thumb');
   var info = search_item.append("div").attr("class", 'info');
   var profile = search_item.append("div").attr("class", 'profile');
-  
+
   // set thumbnail
   // thumb.style("background", "url('/search/"+d.kind+"/"+d.id+"/img/')")
   thumb.append("img")
     .attr("src", "/static/img/icons/"+d.kind+"_b.svg")
-  
+
   // set info
   var title = info.append("h2")
                 .append("a")
@@ -810,7 +810,7 @@ search.btnExplore = function(d) {
     })
   }
   xtra.append("p").attr("class", "parents")
-  
+
   // set profile link
   profile.append("a")
     .attr("href", "#")
@@ -819,8 +819,8 @@ search.btnExplore = function(d) {
 }
 
 search.btnProfile = function(d) {
-  var search_item = d3.select(this).attr("href", function(d){ 
-                      return "/profile/" + d.kind + "/" + d.id + "/"; 
+  var search_item = d3.select(this).attr("href", function(d){
+                      return "/profile/" + d.kind + "/" + d.id + "/";
                     });
   search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
@@ -859,7 +859,7 @@ search.open_details = function(d){
   var current_state = search_item.classed("open")
   d3.selectAll(".search-item").classed("open", false)
   search_item.classed("open", !current_state)
-  
+
   // set parents
   var p_container = search_item.select(".xtra .parents");
   if(!p_container.text()){
@@ -872,7 +872,7 @@ search.open_details = function(d){
       })
     })
   }
-  
+
   // prevent default anchor link behavior
   d3.event.preventDefault();
 }
@@ -881,11 +881,11 @@ search.clear_details = function(){
   d3.select(".search-details .details-title").text('');
   d3.select(".search-details .details-sumlevels").html('');
   d3.select(".search-details .details-sumlevels-results").html('');
-  d3.select(".search-details .details-anchors").html('');  
+  d3.select(".search-details .details-anchors").html('');
 }
 
 search.update_refine = function(data){
-  
+
   if(this.term === ""){
     // reset defaults
     d3.selectAll(".search-refine div").classed("no-results", false);
@@ -897,7 +897,7 @@ search.update_refine = function(data){
     d3.selectAll(".search-refine div").classed("no-results", true);
     d3.selectAll(".search-refine li a").classed("no-results", true);
     d3.selectAll(".num_res").text("0");
-    
+
     data.forEach(function(d){
       var attr_div = d3.select(".search-refine div."+d.kind)
       var total_res = attr_div.select("h2 .num_res").text();
@@ -905,7 +905,7 @@ search.update_refine = function(data){
       attr_div.select("h2 .num_res").text(total_res)
       attr_div.select("h2 a").classed("no-results", false);
       attr_div.classed("no-results", false);
-    
+
       var sumlevel_a = attr_div.select("a[data-depth='"+d.sumlevel+"']");
       sumlevel_a.classed("no-results", false);
       var sumlevel_span = sumlevel_a.select(".num_res");
@@ -918,8 +918,9 @@ search.update_refine = function(data){
       }
     })
   }
-  
+
 }
+
 var attrStyles = {
 
   "nationality": {

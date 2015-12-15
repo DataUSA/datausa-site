@@ -21,7 +21,7 @@ sumlevels = {
         "310": {
             "sumlevel": "msa",
             "label": "metropolitan statistical area",
-            "shortlabel": "msa",
+            "shortlabel": "metro area",
             "children": "050"
         },
         "160": {
