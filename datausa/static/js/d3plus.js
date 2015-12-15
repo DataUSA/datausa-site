@@ -12340,7 +12340,7 @@ fetchColor = require("./color.coffee");
 fetchText = require("./text.js");
 
 module.exports = function(vars, d, keys, colors, depth) {
-  var i, key, len, obj, value;
+  var agg, i, key, len, obj, value;
   if (!(keys instanceof Array)) {
     keys = [keys];
   }
@@ -12364,10 +12364,15 @@ module.exports = function(vars, d, keys, colors, depth) {
     } else {
       value = d[key];
     }
-    if (value instanceof Array) {
-      value = value[0];
+    if ([vars.data.keys[key], vars.attrs.keys[key]].indexOf("number") >= 0) {
+      agg = vars.order.agg.value || vars.aggs.value[sortKey] || "sum";
+      value = d3[agg](value);
+    } else {
+      if (value instanceof Array) {
+        value = value[0];
+      }
+      value = typeof value === "string" ? value.toLowerCase() : value;
     }
-    value = typeof value === "string" ? value.toLowerCase() : value;
     obj[key] = value;
   }
   return obj;
@@ -31460,7 +31465,7 @@ axisRange = function(vars, axis, zero, buffer) {
     values = values.filter(function(d) {
       return d !== null;
     });
-    if (typeof values[0] === "string") {
+    if (axis === vars.axes.discrete) {
       if (vars.order.value === true) {
         sortKey = vars[oppAxis].value;
       } else {

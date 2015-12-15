@@ -1474,6 +1474,9 @@ viz.bar = function(build) {
       "resize": false,
       "value": false
     },
+    "order": {
+      "agg": "max"
+    },
     "x": axis_style("x"),
     "x2": axis_style("x2"),
     "y": axis_style("y"),
