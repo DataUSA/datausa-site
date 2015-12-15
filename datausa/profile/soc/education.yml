@@ -102,28 +102,3 @@ topics:
           position: True
         value: "cip"
       y: "num_ppl"
-  - title: "Race & Ethnicity"
-    slug: "ethnicity"
-    stat:
-      - title: "Most common race or ethnicity"
-        value: "<<var namespace=race|key=race|row=0>>"
-        subvalues:
-          - "<<var namespace=race|key=race|row=1>>"
-          - "<<var namespace=race|key=race|row=2>>"
-    description: "Here is the race & ethnicity breakdown of <<name>>."
-    viz:
-      attrs: "pums_race"
-      color: "race"
-      data:
-        show: "race"
-        soc: "<<id>>"
-        required: "num_ppl,num_ppl_moe"
-      id: "race"
-      order:
-        sort: "asc"
-        value: "num_ppl"
-      type: "bar"
-      x: "num_ppl"
-      y:
-        scale: "discrete"
-        value: "race"
