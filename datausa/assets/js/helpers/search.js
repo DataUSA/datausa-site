@@ -102,7 +102,7 @@ search.reload = function() {
                   .filter(function(q){ return q[1] || q[1]===0; })
                   .reduce(function(a, b, i){
                     var sep = i ? "&" : "";
-                    return a+sep+b[0]+"="+b[1];
+                    return a+sep+b[0]+"="+encodeURIComponent(b[1]);
                   }, "?")
 
   // set URL query parameter to search query

@@ -57,7 +57,7 @@ window.onload = function() {
     // Enter button
     if (d3.event.keyCode === 13) {
       var search_txt = d3.select(this).property("value");
-      window.location = "/search/?q="+search_txt;
+      window.location = "/search/?q="+encodeURIComponent(search_txt);
     }
 
     var q = this.value.toLowerCase();
@@ -71,7 +71,6 @@ window.onload = function() {
       else {
         // d3.select("#search-simple-nav").style("display", "block")
         d3.select("#search-simple-nav").classed("open", true)
-        console.log(d3.select("#search-simple-nav").node())
       }
     }
 
@@ -128,7 +127,7 @@ window.onload = function() {
       var curr_el = d3.select(this).select("a.search-item:focus").node();
       if(!curr_el){
         var search_txt = d3.select(this).property("value");
-        window.location = "/search/?q="+search_txt;
+        window.location = "/search/?q="+encodeURIComponent(search_txt);
       }
     }
 
