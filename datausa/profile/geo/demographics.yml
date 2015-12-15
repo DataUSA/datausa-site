@@ -89,7 +89,7 @@ topics:
         value: "geo"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
-    description: "The majority of citizens in <<name>> are <<top col=acs_race|force=acs.yg_race>>, with <<top col=acs_race|rank=2|force=acs.yg_race>> being the second most common."
+    description: "The largest share of citizens in <<name>> are <<top col=acs_race|force=acs.yg_race>>, with <<top col=acs_race|rank=2|force=acs.yg_race>> being the second most common."
     stat:
       - title: "Most common race or ethnicity in <<name>> is"
         value: "<<top col=acs_race|force=acs.yg_race>>"

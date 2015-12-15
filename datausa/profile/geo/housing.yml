@@ -13,7 +13,7 @@ topics:
       - title: "Median Household Income"
         value: "<<var namespace=splash|key=income>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe>>"
-    description: "The majority of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>."
+    description: "The largest share of households in <<name>> have an income of <<top col=incomeBucket|force=acs.yg_income_distribution>>."
     miniviz:
       attrs: "geo"
       data:
@@ -63,7 +63,7 @@ topics:
       - title: "Median Property Value"
         value: "<<var namespace=acsgeo|key=median_property_value>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=acsgeo|key=median_property_value_moe>>"
-    description: "The majority of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| The chart on the right displays the distribution versus the national values.}}{{<<sumlevel>>:nation|| The chart below shows the median property value of the nation in comparison with the top 2 and bottom 2 states.}}"
+    description: "The largest share of property values for households in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| The chart on the right displays the distribution versus the national values.}}{{<<sumlevel>>:nation|| The chart below shows the median property value of the nation in comparison with the top 2 and bottom 2 states.}}"
     miniviz:
       attrs: "geo"
       data:
@@ -105,7 +105,7 @@ topics:
         value: "01000US"
   - title: "Property Taxes"
     slug: "property_taxes"
-    description: "The majority of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
+    description: "The largest share of households in <<name>> pay <<top col=propertytaxBucket|force=acs.yg_property_tax>> in property taxes."
     viz:
       attrs: "geo"
       data:
@@ -130,7 +130,7 @@ topics:
         value: "01000US"
   - title: "Rent vs Own"
     slug: "rent_own"
-    description: "The majority, <<var namespace=housing|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
+    description: "The largest share, <<var namespace=housing|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=owner_occupied_housing_units|den=owner_occupied_housing_units|den_id=01000US|text=highlow>> the national average of <<var namespace=housing|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
     viz:
       attrs: "geo"
       data:
@@ -151,7 +151,7 @@ topics:
   - category: "Transportation"
     title: "Car Ownership"
     slug: "num_vehicles"
-    description: "The majority of households in <<name>> have <<top col=vehicles|force=acs.yg_vehicles>> cars, followed by <<top col=vehicles|force=acs.yg_vehicles|rank=2>> <<plural text=car|col=vehicles|force=acs.yg_vehicles|rank=2>>."
+    description: "The largest share of households in <<name>> have <<top col=vehicles|force=acs.yg_vehicles>> cars, followed by <<top col=vehicles|force=acs.yg_vehicles|rank=2>> <<plural text=car|col=vehicles|force=acs.yg_vehicles|rank=2>>."
     viz:
       attrs: "geo"
       data:
@@ -229,7 +229,7 @@ topics:
           - "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|rank=2>>"
           - "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|rank=3>>"
     description:
-      - "The majority of workers in <<name>> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> to work. Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport|exclude=transport_cartruckorvan>>."
+      - "The largest share of workers in <<name>> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> to work. Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport|exclude=transport_cartruckorvan>>."
     viz:
       attrs: "geo"
       data:

@@ -10,7 +10,7 @@ topics:
         subvalues:
           - "<<var namespace=universities|key=university|row=1>>"
           - "<<var namespace=universities|key=university|row=2>>"
-    description: "The majority of institutions that offer <<name>> are <<top show=sector|order=num_universities|sort=desc>> institutions."
+    description: "The largest share of institutions that offer <<name>> are <<top show=sector|order=num_universities|sort=desc>> institutions."
     viz:
       attrs:
         - "sector"

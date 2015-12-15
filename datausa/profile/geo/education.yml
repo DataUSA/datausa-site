@@ -44,7 +44,7 @@ topics:
         value: "<<var namespace=edu|key=state_tuition|row=0>>"
       - title: "Median Out of State Private"
         value: "<<var namespace=edu|key=oos_tuition|row=1>>"
-    description: "The majority of students with degrees awarded in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
+    description: "The largest share of students with degrees awarded in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
     miniviz:
       attrs: "sector"
       color: "sector"
