@@ -30,6 +30,7 @@ topics:
         geo: "<<id>>"
         required: "grads_total"
         sumlevel: "6"
+        where: "grads_total:!0"
       depth: 2
       id:
         - "cip_2"
@@ -76,6 +77,7 @@ topics:
         show: "university"
         geo: "<<id>>"
         required: "grads_total"
+        where: "grads_total:!0"
       depth: 1
       id:
         - "sector"

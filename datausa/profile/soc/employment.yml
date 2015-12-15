@@ -194,7 +194,7 @@ topics:
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
-          where: "num_records:>4"
+          where: "num_records:>4,num_ppl:!0"
       depth: 2
       height: 500
       id:

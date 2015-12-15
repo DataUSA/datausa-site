@@ -167,7 +167,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
-          where: "num_records:>4"
+          where: "num_records:>4,num_ppl:!0"
       depth: 4
       height: 500
       id:

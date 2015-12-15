@@ -20,6 +20,7 @@ topics:
         required: "grads_total"
         cip: "<<id>>"
         show: "university"
+        where: "grads_total:!0"
       depth: 1
       height: 300
       id:

@@ -312,6 +312,7 @@ topics:
           required: "num_emp,num_emp_moe,num_emp_rca"
           show: "geo,acs_occ"
           sumlevel: "<<sumlevel>>,4"
+          where: "num_emp:!0"
       depth: 4
       height: 500
       id:
@@ -333,7 +334,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "geo,soc"
           sumlevel: "<<sumlevel>>,3"
-          where: "num_records:>4"
+          where: "num_records:>4,num_ppl:!0"
       depth: 3
       height: 500
       id:
@@ -843,6 +844,7 @@ topics:
           required: "num_emp,num_emp_moe,num_emp_rca"
           show: "geo,acs_ind"
           sumlevel: "<<sumlevel>>,1"
+          where: "num_emp:!0"
       depth: 1
       height: 500
       id:
@@ -861,7 +863,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "geo,naics"
           sumlevel: "<<sumlevel>>,2"
-          where: "num_records:>4"
+          where: "num_records:>4,num_ppl:!0"
       depth: 2
       height: 500
       id:

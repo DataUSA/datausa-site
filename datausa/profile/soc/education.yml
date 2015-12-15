@@ -30,6 +30,7 @@ topics:
         soc: "<<id>>"
         required: "num_ppl,num_ppl_moe,num_ppl_rca"
         sumlevel: "2"
+        where: "num_ppl:!0"
       id: "cip_2"
       size: "num_ppl"
       type: "tree_map"
@@ -72,6 +73,7 @@ topics:
         show: "university"
         cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
         required: "grads_total"
+        where: "grads_total:!0"
       depth: 1
       id:
         - "sector"

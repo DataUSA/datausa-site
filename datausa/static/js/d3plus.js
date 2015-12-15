@@ -12365,7 +12365,7 @@ module.exports = function(vars, d, keys, colors, depth) {
       value = d[key];
     }
     if ([vars.data.keys[key], vars.attrs.keys[key]].indexOf("number") >= 0) {
-      agg = vars.order.agg.value || vars.aggs.value[sortKey] || "sum";
+      agg = vars.order.agg.value || vars.aggs.value[key] || "sum";
       value = d3[agg](value);
     } else {
       if (value instanceof Array) {

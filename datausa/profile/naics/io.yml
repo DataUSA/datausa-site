@@ -44,6 +44,7 @@ topics:
           sumlevel: "naics"
           required: "value_millions"
           show: "commodity_iocode"
+          where: "value_millions:!0"
       depth: 1
       id:
         - "parent"
@@ -68,6 +69,7 @@ topics:
           sumlevel: "naics"
           required: "value_millions"
           show: "industry_iocode"
+          where: "value_millions:!0"
       depth: 1
       id:
         - "parent"
