@@ -1377,6 +1377,16 @@ viz.finish = function(build) {
   d3.select(build.container.node().parentNode).select(".source")
     .html(source_text);
 
+  var org_text = d3plus.string.list(d3plus.util.uniques(build.sources.reduce(function(arr, s, i){
+    if (s) {
+      arr.push(s.org);
+    }
+    return arr;
+  }, [])));
+
+  d3.select(build.container.node().parentNode).select(".org")
+    .html(org_text);
+
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
       build.config.color = function(d, viz) {
