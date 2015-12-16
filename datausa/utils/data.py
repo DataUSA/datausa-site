@@ -41,7 +41,6 @@ def fetch(attr_id, attr_type):
         }
 
 def default_params(params):
-
     params["sumlevel"] = params.get("sumlevel", "all")
     params["year"] = params.get("year", "latest")
     params["sort"] = params.get("sort", "desc")
@@ -58,7 +57,6 @@ def default_params(params):
             del params[optional]
 
     return params
-
 
 @cache.memoize()
 def get_parents(attr_id, attr_type):
@@ -96,7 +94,12 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         return r
     else:
         r = datafold(r)
-
+    
+    if dataset == "stat":
+        if isinstance(r[0][col], list):
+            r = [{params["show"]:x} for x in r[0][col]]
+            col = "name"
+    
     if len(r) == 0:
         return {
             "url": stat_url,
@@ -153,7 +156,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
                 attr = "{}_{}".format(dataset, show)
             else:
                 attr = show
-
+            
             top = [fetch(d[show], attr) for d in r]
 
             if attr in PROFILES or attr in CROSSWALKS:

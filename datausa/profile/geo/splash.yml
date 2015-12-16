@@ -1,6 +1,11 @@
 title: "<<name>>"
 group: "<<level>>"
-description: "Explore the employment, industries, education, and demographics of <<name>>."
+description: >
+  {{<<sumlevel>>:nation|| The population of The United States is 318 Million. The top 3 largest states are California, Texas and New York. The smallest states by population are Washington D.C., Vermont and Wyoming. The top 3 largest counties in the US are Los Angeles County, CA, Queens County, NY and Kings County, NY. The top 3 largest places in the US are New York, NY, Los Angeles, CA and Chicago, IL.}}
+  {{<<sumlevel>>:msa|| The <<name>> is the <<var namespace=splash|key=pop_rank>> largest in the nation with a combined population of <<var namespace=splash|key=pop>>. The largest counties by population are <<top col=top_counties|sumlevel=msa|year=none|dataset=stat>>. The largest places in <<name>> by population are <<top col=top_places|sumlevel=msa|year=none|dataset=stat>>.}}
+  {{<<sumlevel>>:county|| <<name>> is the <<top col=county_state_rank|sumlevel=county|year=none|dataset=stat>> largest county in <<parents prefix=040>> by population and contains <<top col=places_in_county|sumlevel=county|year=none|dataset=stat>> census designated places. The top places in <<name>> are <<top col=top_places|sumlevel=county|year=none|dataset=stat>>. <<name>> borders <<top col=county_neighbors|sumlevel=county|year=none|dataset=stat>>.}}
+  {{<<sumlevel>>:puma|| <<name>> is the <<top col=puma_state_rank|sumlevel=puma|year=none|dataset=stat>> largest Public Use Micro Area by population in <<parents prefix=040>> out of the other <<top col=pumas_in_state|sumlevel=puma|year=none|dataset=stat>> PUMAs in the state. <<name>> borders the neighboring areas of <<top col=puma_neighbors|sumlevel=puma|year=none|dataset=stat>>.}}
+  {{<<sumlevel>>:place|| <<name>> is a Census Designated Place in <<top col=parent_counties|sumlevel=place|year=none|dataset=stat>>. <<name>> borders the neighboring places of <<top col=places_neighbors|sumlevel=place|year=none|dataset=stat>>.}} 
 viz:
   attrs: "geo"
   coords:
@@ -31,9 +36,9 @@ stats:
 facts:
   - "<<name>> has a surprisingly large number of people employed as <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca>>."
   - "There is a large concentration of <<top show=cip|order=num_ppl>> majors living in <<name>>."
-sections:
-  - economy
-  - demographics
-  - education
-  - housing
-  - health
+sections: []
+  # - economy
+  # - demographics
+  # - education
+  # - housing
+  # - health

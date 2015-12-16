@@ -314,6 +314,17 @@ class Section(object):
 
     def parents(self, **kwargs):
         col = kwargs.get("col", False)
+        prefix = kwargs.get("prefix", None)
+        if prefix:
+            top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type="geo", attr_id=p["id"]), p["name"]) for p in self.profile.parents() if p["id"].startswith(prefix)]
+            if len(top) > 1:
+                top[-1] = "and {}".format(top[-1])
+            if len(top) == 2:
+                top = " ".join(top)
+            else:
+                top = "; ".join(top)
+            return top
+            
         if col and self.attr["id"] == "01000US":
 
             params = {
