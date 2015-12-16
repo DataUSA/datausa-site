@@ -49,16 +49,6 @@
   namespace: housing
   limit: 2
 
-- required: ["state_tuition", "oos_tuition"]
-  year: latest
-  sector: "1,2"
-  show: "sector"
-  limit: 2
-  order: sector
-  sort: asc
-  rows: True
-  namespace: edu
-
 - required: ["birthplace"]
   limit: 3
   rows: True

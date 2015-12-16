@@ -4,6 +4,7 @@ description: "The Census Bureau collects a large amount of data regarding higher
 topics:
   - title: "Majors"
     slug: "majors"
+    subtitle: "<<sub dataset=ipeds>>"
     select:
       data: "degree"
       default: "5"
@@ -11,23 +12,23 @@ topics:
     stat:
       - title: "High relative number of people major in"
         sumlevel: "!nation"
-        value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca>>"
+        value: "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total_rca>>"
         subvalues:
-          - "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=2>>"
-          - "<<top show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=3>>"
+          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=2>>"
+          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=3>>"
       - title: "Most common major is"
-        value: "<<top show=cip|degree=5|sumlevel=6|order=grads_total>>"
+        value: "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total>>"
         subvalues:
-          - "<<top show=cip|degree=5|sumlevel=6|order=grads_total|rank=2>>"
-          - "<<top show=cip|degree=5|sumlevel=6|order=grads_total|rank=3>>"
-    description: "This tree map shows the composition of the student population in <<name>> by major."
+          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total|rank=2>>"
+          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total|rank=3>>"
+    description: "This tree map shows the composition of the student population in <<name dataset=ipeds>> by major."
     viz:
       attrs: "cip"
       color: "cip_2"
       data:
         show: "cip"
         degree: "5"
-        geo: "<<id>>"
+        geo: "<<id dataset=ipeds>>"
         required: "grads_total"
         sumlevel: "6"
         where: "grads_total:!0"
@@ -40,18 +41,19 @@ topics:
       type: "tree_map"
   - title: "Universities"
     slug: "universities"
+    subtitle: "<<sub dataset=ipeds>>"
     stat:
       - title: "Median In-State Public"
-        value: "<<var namespace=edu|key=state_tuition|row=0>>"
+        value: "<<top col=state_tuition|sector=1|show=sector|dataset=ipeds>>"
       - title: "Median Out of State Private"
-        value: "<<var namespace=edu|key=oos_tuition|row=1>>"
-    description: "The largest share of students with degrees awarded in <<name>> are enrolled at <<top show=sector|order=grads_total>> institutions."
+        value: "<<top col=oos_tuition|sector=2|show=sector|dataset=ipeds>>"
+    description: "The largest share of students with degrees awarded in <<name dataset=ipeds>> are enrolled at <<top dataset=ipeds|show=sector|order=grads_total>> institutions."
     miniviz:
       attrs: "sector"
       color: "sector"
       data:
         show: "sector"
-        geo: "<<id>>"
+        geo: "<<id dataset=ipeds>>"
         required: "district_tuition,oos_tuition,state_tuition"
       height: 250
       id: "sector"
@@ -75,7 +77,7 @@ topics:
       color: "sector"
       data:
         show: "university"
-        geo: "<<id>>"
+        geo: "<<id dataset=ipeds>>"
         required: "grads_total"
         where: "grads_total:!0"
       depth: 1
@@ -86,19 +88,20 @@ topics:
       type: "tree_map"
   - title: "Gender"
     slug: "edu_gender"
-    description: "Here we see the top 5 institutions in <<name>>, by degrees awarded, broken out by gender."
+    subtitle: "<<sub dataset=ipeds>>"
+    description: "Here we see the top 5 institutions in <<name dataset=ipeds>>, by degrees awarded, broken out by gender."
     viz:
       attrs: "university"
       color: "sex"
       data:
         show: "university"
-        geo: "<<id>>"
+        geo: "<<id dataset=ipeds>>"
         required: "grads_men,grads_women"
         split:
           id: "sex"
           regex: "grads_([a-z]*)"
           value: "grads_total"
-        university: "<<top col=id|order=grads_total|show=university|limit=5>>"
+        university: "<<top dataset=ipeds|col=id|order=grads_total|show=university|limit=5>>"
       id: "sex"
       order: "grads_total"
       type: "bar"
@@ -109,18 +112,19 @@ topics:
       y: "grads_total"
   - title: "Race & Ethnicity"
     slug: "edu_ethnicity"
+    subtitle: "<<sub dataset=ipeds>>"
     stat:
       - title: "Most common student race or ethnicity"
-        value: "<<top col=race|force=ipeds.grads_yg|order=grads_total>>"
+        value: "<<top dataset=ipeds|col=race|force=ipeds.grads_yg|order=grads_total>>"
         subvalues:
-          - "<<top col=race|force=ipeds.grads_yg|order=grads_total|rank=2>>"
-          - "<<top col=race|force=ipeds.grads_yg|order=grads_total|rank=3>>"
-    description: "The most common race or ethnicity of students with degrees awarded in <<name>> is <<top col=race|force=ipeds.grads_yg|order=grads_total>>, followed by <<top col=race|force=ipeds.grads_yg|order=grads_total|rank=2>>."
+          - "<<top dataset=ipeds|col=race|force=ipeds.grads_yg|order=grads_total|rank=2>>"
+          - "<<top dataset=ipeds|col=race|force=ipeds.grads_yg|order=grads_total|rank=3>>"
+    description: "The most common race or ethnicity of students with degrees awarded in <<name dataset=ipeds>> is <<top dataset=ipeds|col=race|force=ipeds.grads_yg|order=grads_total>>, followed by <<top dataset=ipeds|col=race|force=ipeds.grads_yg|order=grads_total|rank=2>>."
     viz:
       color: "race"
       data:
         show: "geo"
-        geo: "<<id>>"
+        geo: "<<id dataset=ipeds>>"
         required: "grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native"
         split:
           id: "race"

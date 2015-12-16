@@ -216,6 +216,19 @@ class Section(object):
             # if the attribute is a CIP and the dataset is PUMS, return the parent CIP code
             if self.profile.attr_type == "cip" and dataset == "pums":
                 return self.attr["id"][:2]
+            elif self.profile.attr_type == "geo" and dataset == "ipeds":
+                if "ipeds" not in self.attr:
+                    url = "{}/attrs/geo/{}/ipeds/".format(API, self.attr["id"])
+                    try:
+                        result = requests.get(url).json()["data"]
+                        if len(result):
+                            self.attr["ipeds"] = result[0]
+                        else:
+                            self.attr["ipeds"] = self.attr["id"]
+                    except ValueError:
+                        app.logger.info("STAT ERROR: {}".format(url))
+                        self.attr["ipeds"] = self.attr["id"]
+                return self.attr["ipeds"]
             elif self.profile.attr_type == "geo" and dataset == "pums":
                 attr_id = self.attr["id"]
                 prefix = attr_id[:3]
