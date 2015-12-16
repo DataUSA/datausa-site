@@ -291,13 +291,15 @@ proportions = [
     "non_eng_speakers_pct",
     "owner_occupied_housing_units",
     "pct_total",
-    "us_citizens"
+    "us_citizens",
+    "grads_total_growth"
 ]
 
 percentages = [
     "emp_carc_2012_2022",
     "output_carc_2012_2022",
-    "pct_change"
+    "pct_change",
+    "share"
 ]
 
 never_condense = [

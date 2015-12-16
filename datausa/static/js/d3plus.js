@@ -19389,6 +19389,9 @@ module.exports = function(number, opts) {
       ret = format.numberFormat(".3g")(number);
     }
   }
+  if (ret.length > 2 && "" + ret.indexOf(".0") === ret.length - 2) {
+    ret = ret.slice(0, ret.length - 2);
+  }
   if (labels && key && "format" in vars && key in vars.format.affixes.value) {
     affixes = vars.format.affixes.value[key];
     return affixes[0] + ret + affixes[1];

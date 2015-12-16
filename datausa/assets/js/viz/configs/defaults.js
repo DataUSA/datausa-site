@@ -109,33 +109,37 @@ viz.defaults = function(build) {
 
         if (params.key) {
 
-          if (params.key.indexOf("_moe") > 0) {
+          var key = params.key;
+          delete params.key;
+
+          if (key.indexOf("_moe") > 0) {
             prefix = "<span class='plus-minus'>±</span> ";
-            params.key = params.key.replace("_moe", "");
+            key = key.replace("_moe", "");
           }
 
-          if (params.key.indexOf("emp_thousands") >= 0) {
+          if (key.indexOf("emp_thousands") >= 0) {
             number = number * 1000;
           }
-          else if (params.key == "value_millions") {
+          else if (key == "value_millions") {
             number = number * 1000000;
           }
-          else if (params.key == "output") {
+          else if (key == "output") {
             number = number * 1000000000;
           }
 
-          if (params.key.indexOf("y2_") === 0) {
-            params.key = params.key.slice(3);
+          if (key.indexOf("y2_") === 0) {
+            key = key.slice(3);
           }
 
-          if (proportions.indexOf(params.key) >= 0 || percentages.indexOf(params.key) >= 0) {
-            if (proportions.indexOf(params.key) >= 0) number = number * 100;
+          if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+            if (proportions.indexOf(key) >= 0) number = number * 100;
+            console.log(key, number, params);
             return prefix + d3plus.number.format(number, params) + "%";
           }
           else {
             number = d3plus.number.format(number, params);
-            if (params.key in affixes) {
-              var a = affixes[params.key];
+            if (key in affixes) {
+              var a = affixes[key];
               number = a[0] + number + a[1];
             }
             return prefix + number;
