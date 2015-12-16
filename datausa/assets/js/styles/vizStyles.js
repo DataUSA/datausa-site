@@ -28,7 +28,8 @@ var vizStyles = {
       "family": "Roboto",
       "size": 16,
       "weight": 300
-    }
+    },
+    "small": 250
   },
 
   "ui": {
