@@ -17,8 +17,8 @@
   year: 2015
   namespace: health
 
-- required: ["avg_wage", "avg_wage_moe"]
-  sex: "1,2" # 1 or 2
+- required: ["avg_wage", "avg_wage_moe", "avg_wage_ft", "avg_wage_ft_moe"]
+  sex: "1,2"
   limit: 2
   show: sex
   sumlevel: all

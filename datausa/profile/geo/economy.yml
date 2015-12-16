@@ -369,16 +369,16 @@ topics:
         scale: "discrete"
         value: "geo"
   - title: "Wage by Gender"
-    subtitle: "<<sub show=sex|sex=1|col=avg_wage>>"
+    subtitle: "<<sub show=sex|sex=1|col=avg_wage_ft>>"
     slug: "income_gender"
-    description: "<<top show=sex|order=avg_wage|sort=desc|col=name>> full-time employees in <<name>> make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2>> times more than <<top show=sex|order=avg_wage|sort=asc|col=name>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
+    description: "<<top show=sex|order=avg_wage_ft|sort=desc|col=name>> full-time employees in <<name>> make <<top show=sex|order=avg_wage_ft|sort=desc|col=ratio|limit=2>> times more than <<top show=sex|order=avg_wage_ft|sort=asc|col=name>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
     stat:
-      - title: "Median Male Income"
-        value: "<<var namespace=gender|key=avg_wage|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_moe|row=0>>"
-      - title: "Median Female Income"
-        value: "<<var namespace=gender|key=avg_wage|row=1>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_moe|row=1>>"
+      - title: "Average Male Salary"
+        value: "<<var namespace=gender|key=avg_wage_ft|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=0>>"
+      - title: "Average Female Salary"
+        value: "<<var namespace=gender|key=avg_wage_ft|row=1>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=1>>"
     viz:
       attrs:
         - "sex"
@@ -387,26 +387,26 @@ topics:
       data:
         - geo: "<<id>>"
           limit: "10"
-          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          required: "num_ppl,num_ppl_moe,avg_wage_ft,avg_wage_ft_moe"
           show: "soc,sex"
           soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
           sumlevel: "3,all"
           where: "num_records:>4"
       id: "sex"
-      order: "avg_wage"
+      order: "avg_wage_ft"
       type: "bar"
       x:
         persist:
           position: True
         value: "soc"
-      y: "avg_wage"
+      y: "avg_wage_ft"
   - title: "Wage by Race & Ethnicity"
     subtitle: "<<sub show=race|col=avg_wage>>"
     slug: "income_ethnicity"
     description: "<<top show=race|order=avg_wage>> citizens earn, on average, <<top show=race|order=avg_wage|col=ratio|limit=18>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations."
     stat_stack: YES
     stat:
-      - title: "Race or Ethnicity with Highest Median Income"
+      - title: "Race or Ethnicity with Highest Average Salary"
         value: "<<top show=race|order=avg_wage>>"
         subtitle: "<<top show=race|order=avg_wage|col=avg_wage>> <span class='plus-minus'>±</span> <<top show=race|order=avg_wage|moe=avg_wage_moe>>"
     viz:

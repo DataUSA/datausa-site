@@ -106,7 +106,9 @@ dictionary = {
     "adult_smoking": "Adult Smoking",
     "alcoholimpaired_driving_deaths": "Alcohol-Impaired Driving Deaths",
     "age": "Age",
-    "avg_wage": "Average Wage",
+    "avg_wage": "Average Salary",
+    "avg_wage_ft": "Average Full-Time Salary",
+    "avg_wage_pt": "Average Part-Time Salary",
     "wwii": "WWII",
     "korea": "Korea",
     "vietnam": "Vietnam",
@@ -273,6 +275,8 @@ affixes = {
     "oos_tuition": ["$", ""],
     "district_tuition": ["$", ""],
     "avg_wage": ["$", ""],
+    "avg_wage_ft": ["$", ""],
+    "avg_wage_pt": ["$", ""],
     "income": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
@@ -298,6 +302,8 @@ percentages = [
 
 never_condense = [
     "avg_wage",
+    "avg_wage_ft",
+    "avg_wage_pt",
     "income",
     "med_earnings"
 ]
