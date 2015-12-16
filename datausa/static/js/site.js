@@ -1591,6 +1591,14 @@ viz.defaults = function(build) {
     messageBg = findSection(build.container.node());
   }
 
+  var legendOrder = "color";
+  if (build.config.order) {
+    legendOrder = {
+      "sort": build.config.order.sort || "desc",
+      "value": "size"
+    }
+  }
+
   return {
     "axes": {
       "background": chartStyles.background,
@@ -1766,7 +1774,8 @@ viz.defaults = function(build) {
     },
     "legend": {
       "font": vizStyles.legend.font,
-      "labels": false
+      "labels": false,
+      "order": legendOrder
     },
     "messages": {
       "background": messageBg,

@@ -268,7 +268,11 @@ viz.defaults = function(build) {
     },
     "legend": {
       "font": vizStyles.legend.font,
-      "labels": false
+      "labels": false,
+      "order": {
+        "sort": "desc",
+        "value": "size"
+      }
     },
     "messages": {
       "background": messageBg,
