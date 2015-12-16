@@ -1082,7 +1082,7 @@ var attrStyles = {
     "31": "#9dd1eb",
     "38": "#0f2e4d",
     "39": "#374b98",
-    "40": "#5ea1c7",
+    "40": "#82bab1",
     "41": "#5ab7ed",
     "42": "#0d5275",
     "43": "#808019",
@@ -1591,14 +1591,6 @@ viz.defaults = function(build) {
     messageBg = findSection(build.container.node());
   }
 
-  var legendOrder = "color";
-  if (build.config.order) {
-    legendOrder = {
-      "sort": build.config.order.sort || "desc",
-      "value": "size"
-    }
-  }
-
   return {
     "axes": {
       "background": chartStyles.background,
@@ -1775,7 +1767,10 @@ viz.defaults = function(build) {
     "legend": {
       "font": vizStyles.legend.font,
       "labels": false,
-      "order": legendOrder
+      "order": {
+        "sort": "desc",
+        "value": "size"
+      }
     },
     "messages": {
       "background": messageBg,
