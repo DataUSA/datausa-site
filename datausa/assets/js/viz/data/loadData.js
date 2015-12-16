@@ -213,6 +213,26 @@ viz.loadData = function(build, next) {
             });
             rows.exit().remove();
 
+            var apis = table.select(".download-btns").selectAll(".api-btn")
+              .data(build.data, function(d, i){
+                return i;
+              });
+
+            apis.enter().append("a")
+              .attr("class", "api-btn")
+              .attr("target", "_blank");
+
+            apis
+              .attr("href", function(d){
+                return d.url;
+              })
+              .text(function(d, i){
+                if (build.data.length === 1) {
+                  return "View API Call";
+                }
+                return "View API Call #" + (i + 1);
+              });
+
           }
 
           viz[next](build);

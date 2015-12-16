@@ -2718,7 +2718,7 @@ viz.loadBuilds = function(builds) {
         table.select(".csv-btn")
           .on("click", function(){
             d3.event.preventDefault();
-            var urls = d3.select(this.parentNode).attr("data-urls").split("|"),
+            var urls = d3.select(this.parentNode.parentNode).attr("data-urls").split("|"),
                 limit_regex = new RegExp("&limit=([0-9]*)"),
                 zip = new JSZip();
 
@@ -2740,6 +2740,7 @@ viz.loadBuilds = function(builds) {
             loadCSV();
 
           });
+
       }
 
     });
@@ -3064,6 +3065,26 @@ viz.loadData = function(build, next) {
               cols.exit().remove();
             });
             rows.exit().remove();
+
+            var apis = table.select(".download-btns").selectAll(".api-btn")
+              .data(build.data, function(d, i){
+                return i;
+              });
+
+            apis.enter().append("a")
+              .attr("class", "api-btn")
+              .attr("target", "_blank");
+
+            apis
+              .attr("href", function(d){
+                return d.url;
+              })
+              .text(function(d, i){
+                if (build.data.length === 1) {
+                  return "View API Call";
+                }
+                return "View API Call #" + (i + 1);
+              });
 
           }
 

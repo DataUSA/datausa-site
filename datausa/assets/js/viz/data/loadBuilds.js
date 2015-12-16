@@ -119,7 +119,7 @@ viz.loadBuilds = function(builds) {
         table.select(".csv-btn")
           .on("click", function(){
             d3.event.preventDefault();
-            var urls = d3.select(this.parentNode).attr("data-urls").split("|"),
+            var urls = d3.select(this.parentNode.parentNode).attr("data-urls").split("|"),
                 limit_regex = new RegExp("&limit=([0-9]*)"),
                 zip = new JSZip();
 
@@ -141,6 +141,7 @@ viz.loadBuilds = function(builds) {
             loadCSV();
 
           });
+
       }
 
     });

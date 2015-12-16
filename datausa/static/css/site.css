@@ -2943,25 +2943,47 @@ body.profile {
               body.profile section .topic .content .viz .data-table.visible,
               body.story section .topic .content .viz .data-table.visible {
                 top: 0; }
-                body.about section .topic .content .viz .data-table .csv-btn,
-                body.profile section .topic .content .viz .data-table .csv-btn,
-                body.story section .topic .content .viz .data-table .csv-btn {
-                  display: block;
-                  text-align: center;
-                  vertical-align: baseline;
-                  padding: 4px;
-                  background-color: #006947;
-                  color: white;
-                  font-family: "Roboto", sans-serif;
-                  font-size: 12px; }
-                  body.about section .topic .content .viz .data-table .csv-btn i,
-                  body.profile section .topic .content .viz .data-table .csv-btn i,
-                  body.story section .topic .content .viz .data-table .csv-btn i {
-                    margin-left: 5px;
-                    vertical-align: baseline; }
-                    body.about section .topic .content .viz .data-table .csv-btn:hover,
-                    body.profile section .topic .content .viz .data-table .csv-btn:hover,
-                    body.story section .topic .content .viz .data-table .csv-btn:hover {
+                body.about section .topic .content .viz .data-table .download-btns,
+                body.profile section .topic .content .viz .data-table .download-btns,
+                body.story section .topic .content .viz .data-table .download-btns {
+                  background-color: #1C1C1C;
+                  text-align: center; }
+                  body.about section .topic .content .viz .data-table .download-btns .csv-btn,
+                  body.profile section .topic .content .viz .data-table .download-btns .csv-btn,
+                  body.story section .topic .content .viz .data-table .download-btns .csv-btn {
+                    display: inline-block;
+                    margin: 5px;
+                    text-align: center;
+                    vertical-align: baseline;
+                    padding: 4px;
+                    background-color: #006947;
+                    color: white;
+                    font-family: "Roboto", sans-serif;
+                    font-size: 12px; }
+                    body.about section .topic .content .viz .data-table .download-btns .csv-btn i,
+                    body.profile section .topic .content .viz .data-table .download-btns .csv-btn i,
+                    body.story section .topic .content .viz .data-table .download-btns .csv-btn i {
+                      margin-left: 5px;
+                      vertical-align: baseline; }
+                      body.about section .topic .content .viz .data-table .download-btns .csv-btn:hover,
+                      body.profile section .topic .content .viz .data-table .download-btns .csv-btn:hover,
+                      body.story section .topic .content .viz .data-table .download-btns .csv-btn:hover {
+                        background-color: #0c9a6e; }
+                  body.about section .topic .content .viz .data-table .download-btns .api-btn,
+                  body.profile section .topic .content .viz .data-table .download-btns .api-btn,
+                  body.story section .topic .content .viz .data-table .download-btns .api-btn {
+                    display: inline-block;
+                    margin: 5px;
+                    text-align: center;
+                    vertical-align: baseline;
+                    padding: 4px;
+                    background-color: #006947;
+                    color: white;
+                    font-family: "Roboto", sans-serif;
+                    font-size: 12px; }
+                    body.about section .topic .content .viz .data-table .download-btns .api-btn:hover,
+                    body.profile section .topic .content .viz .data-table .download-btns .api-btn:hover,
+                    body.story section .topic .content .viz .data-table .download-btns .api-btn:hover {
                       background-color: #0c9a6e; }
               body.about section .topic .content .viz .data-table table,
               body.profile section .topic .content .viz .data-table table,
