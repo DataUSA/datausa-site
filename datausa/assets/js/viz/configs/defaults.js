@@ -133,7 +133,6 @@ viz.defaults = function(build) {
 
           if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
             if (proportions.indexOf(key) >= 0) number = number * 100;
-            console.log(key, number, params);
             return prefix + d3plus.number.format(number, params) + "%";
           }
           else {
