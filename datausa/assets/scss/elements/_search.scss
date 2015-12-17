@@ -311,6 +311,13 @@ body.search {
       
       @include flex-size(0 0 250px);
       padding-left: 10px;
+      
+      &> h2 {
+        color: #868686;
+        border-bottom: 1px solid #868686;
+        padding: 0 0 5px 0;
+        margin: 5px 15px !important;
+      }
 
       .clear {
         display: none;
@@ -325,6 +332,7 @@ body.search {
 //        color: rgba(51,51,51,0.65);
         color: #9F6000;
         background-color: #FEEFB3;
+        margin: 5px 15px;
 
         span {
           display: inline-block;
