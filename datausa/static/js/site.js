@@ -923,11 +923,11 @@ search.update_refine = function(data){
 var attrStyles = {
 
   "nationality": {
-    "1": {
+    "us": {
         "color": "#69b9a7",
         "icon": "thing_passportusa.png"
     },
-    "2": {
+    "foreign": {
         "color": "#7c90d8",
         "icon": "thing_passportwld.png"
     }
