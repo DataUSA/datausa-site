@@ -2590,14 +2590,17 @@ viz.loadAttrs = function(build) {
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (colorize) {
+            var lookup = false;
             if (color_key in d) {
-              var lookup = colorize[d[color_key]];
+              lookup = colorize[d[color_key]];
             }
             else if (d.id in colorize) {
-              var lookup = colorize[d.id];
+              lookup = colorize[d.id];
             }
-            d.color = lookup.color;
-            d.icon = "/static/img/attrs/" + lookup.icon;
+            if (lookup) {
+              d.color = lookup.color;
+              d.icon = "/static/img/attrs/" + lookup.icon;
+            }
           }
           attrs[d.id] = d;
         }
