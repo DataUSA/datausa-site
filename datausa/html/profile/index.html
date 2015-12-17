@@ -49,7 +49,7 @@
 
     <div class="splash-desc">
       {% for desc in profile.splash.description %}
-      <p class="desc">{{ desc|safe }}</p>
+      <p class="desc has-p-link">{{ desc|safe }}</p>
       {% endfor %}
     </div>
 
@@ -81,7 +81,7 @@
           <div class="carousel-title">Did you know?</div>
           <div class="carousel-slider">
             {% for fact in profile.splash.facts %}
-              <p class="carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact|safe }}</p>
+              <p class="has-p-link carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact|safe }}</p>
             {% endfor %}
           </div>
           <div class="carousel-btns">

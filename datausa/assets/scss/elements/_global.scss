@@ -27,3 +27,23 @@ body.frozen {
 		}
 	}
 }
+
+#splash .has-p-link a {
+	text-align: left;
+    font-family: $roboto;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 300;
+    color: #ededed;
+    padding-bottom: 1px;
+    border-bottom: 1px solid rgba(195, 219, 225, 0.7);
+    color: rgba(237, 240, 245, 0.85);
+    text-decoration: none;
+    text-transform: capitalize;
+
+    &:hover {
+    	border-bottom: 0;
+	    color: #fff;
+	    text-decoration: none;
+    }
+}
