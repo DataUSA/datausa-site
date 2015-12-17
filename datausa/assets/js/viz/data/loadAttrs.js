@@ -18,11 +18,13 @@ viz.loadAttrs = function(build) {
           var d = data[i];
           if (colorize) {
             if (color_key in d) {
-              d.color = colorize[d[color_key]].color;
+              var lookup = colorize[d[color_key]];
             }
             else if (d.id in colorize) {
-              d.color = colorize[d.id].color;
+              var lookup = colorize[d.id];
             }
+            d.color = lookup.color;
+            d.icon = "/static/img/attrs/" + lookup.icon;
           }
           attrs[d.id] = d;
         }

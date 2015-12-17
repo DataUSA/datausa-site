@@ -263,6 +263,9 @@ viz.defaults = function(build) {
     "height": {
       "small": 10
     },
+    "icon": {
+      "style": "knockout"
+    },
     "labels": {
       "font": vizStyles.labels.font
     },

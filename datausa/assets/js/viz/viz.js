@@ -85,15 +85,25 @@ viz.finish = function(build) {
     build.color = build.config.color;
     if (attrs.indexOf(build.color) >= 0) {
       build.config.color = "color";
+      build.config.icon = "icon";
     }
     else {
       build.config.color = function(d) {
         if (!(d[build.color] in attrStyles[build.color])) {
           console.warn("Missing color for \"" + d[build.color] + "\"");
-          return "#ccc";
+          return false;
         }
         else {
           return attrStyles[build.color][d[build.color]].color;
+        }
+      };
+      build.config.icon = function(d) {
+        if (!(d[build.color] in attrStyles[build.color])) {
+          console.warn("Missing icon for \"" + d[build.color] + "\"");
+          return false;
+        }
+        else {
+          return "/static/img/attrs/" + attrStyles[build.color][d[build.color]].icon;
         }
       };
     }
