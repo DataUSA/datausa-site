@@ -170,7 +170,7 @@ var attrStyles = {
         "color": "#ef6145",
         "icon": "thing_atom.png"
     },
-    "Resource Management Skills ": {
+    "Resource Management Skills": {
         "color": "#808019",
         "icon": "thing_hourglass.png"
     },
@@ -204,7 +204,7 @@ var attrStyles = {
 },
 
   // SOC coloring
-  "soc_key": "great_grandparent",
+  "soc_key": ["great_grandparent", "grandparent", "parent"],
   "soc": {
     "110000-290000": {
         "color": "#ef6145",
@@ -355,7 +355,7 @@ var attrStyles = {
 },
 
   // NAICS coloring
-  "naics_key": "grandparent",
+  "naics_key": ["grandparent", "parent"],
   "naics": {
     "11-21": {
         "color": "#006947",

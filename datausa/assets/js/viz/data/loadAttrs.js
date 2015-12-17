@@ -13,15 +13,18 @@ viz.loadAttrs = function(build) {
         if (type + "_key" in attrStyles) {
           color_key = attrStyles[type + "_key"];
         }
+        if (!(color_key instanceof Array)) color_key = [color_key];
         var colorize = build.config.color === type && type in attrStyles ? attrStyles[type] : false;
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (colorize) {
             var lookup = false;
-            if (color_key in d) {
-              lookup = colorize[d[color_key]];
-            }
-            else if (d.id in colorize) {
+            color_key.forEach(function(k){
+              if (k in d && d[k] && d[k] in colorize) {
+                lookup = colorize[d[k]];
+              }
+            })
+            if (!lookup && d.id in colorize) {
               lookup = colorize[d.id];
             }
             if (lookup) {

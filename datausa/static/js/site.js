@@ -1092,7 +1092,7 @@ var attrStyles = {
         "color": "#ef6145",
         "icon": "thing_atom.png"
     },
-    "Resource Management Skills ": {
+    "Resource Management Skills": {
         "color": "#808019",
         "icon": "thing_hourglass.png"
     },
@@ -1126,7 +1126,7 @@ var attrStyles = {
 },
 
   // SOC coloring
-  "soc_key": "great_grandparent",
+  "soc_key": ["great_grandparent", "grandparent", "parent"],
   "soc": {
     "110000-290000": {
         "color": "#ef6145",
@@ -1277,7 +1277,7 @@ var attrStyles = {
 },
 
   // NAICS coloring
-  "naics_key": "grandparent",
+  "naics_key": ["grandparent", "parent"],
   "naics": {
     "11-21": {
         "color": "#006947",
@@ -2586,15 +2586,18 @@ viz.loadAttrs = function(build) {
         if (type + "_key" in attrStyles) {
           color_key = attrStyles[type + "_key"];
         }
+        if (!(color_key instanceof Array)) color_key = [color_key];
         var colorize = build.config.color === type && type in attrStyles ? attrStyles[type] : false;
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (colorize) {
             var lookup = false;
-            if (color_key in d) {
-              lookup = colorize[d[color_key]];
-            }
-            else if (d.id in colorize) {
+            color_key.forEach(function(k){
+              if (k in d && d[k] && d[k] in colorize) {
+                lookup = colorize[d[k]];
+              }
+            })
+            if (!lookup && d.id in colorize) {
               lookup = colorize[d.id];
             }
             if (lookup) {
