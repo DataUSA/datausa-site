@@ -18,10 +18,10 @@ viz.loadAttrs = function(build) {
           var d = data[i];
           if (colorize) {
             if (color_key in d) {
-              d.color = colorize[d[color_key]];
+              d.color = colorize[d[color_key]].color;
             }
             else if (d.id in colorize) {
-              d.color = colorize[d.id];
+              d.color = colorize[d.id].color;
             }
           }
           attrs[d.id] = d;

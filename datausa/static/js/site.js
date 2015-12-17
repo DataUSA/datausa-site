@@ -2035,8 +2035,11 @@ viz.finish = function(build) {
       build.config.color = function(d) {
         if (!(d[build.color] in attrStyles[build.color])) {
           console.warn("Missing color for \"" + d[build.color] + "\"");
+          return "#ccc";
         }
-        return attrStyles[build.color][d[build.color]];
+        else {
+          return attrStyles[build.color][d[build.color]].color;
+        }
       };
     }
   }
@@ -2177,8 +2180,8 @@ viz.defaults = function(build) {
       }
       else if (build.config.color in attrStyles) {
         var colors = attrStyles[build.config.color];
-        if (colors[build.config[axis].value]) labelFont.color = colors[build.config[axis].value];
-        else if (colors[build.config[axis].label]) labelFont.color = colors[build.config[axis].label];
+        if (colors[build.config[axis].value]) labelFont.color = colors[build.config[axis].value].color;
+        else if (colors[build.config[axis].label]) labelFont.color = colors[build.config[axis].label].color;
       }
     }
 
@@ -2575,10 +2578,10 @@ viz.loadAttrs = function(build) {
           var d = data[i];
           if (colorize) {
             if (color_key in d) {
-              d.color = colorize[d[color_key]];
+              d.color = colorize[d[color_key]].color;
             }
             else if (d.id in colorize) {
-              d.color = colorize[d.id];
+              d.color = colorize[d.id].color;
             }
           }
           attrs[d.id] = d;
@@ -2992,7 +2995,7 @@ viz.loadData = function(build, next) {
                 var k = type + "_" + length;
                 datum[k] = datum[type].slice(0, length);
                 if (k === build.config.color && k in attrStyles) {
-                  datum.color = attrStyles[k][datum[k]];
+                  datum.color = attrStyles[k][datum[k]].color;
                 }
               }
             }

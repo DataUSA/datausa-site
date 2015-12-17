@@ -90,8 +90,11 @@ viz.finish = function(build) {
       build.config.color = function(d) {
         if (!(d[build.color] in attrStyles[build.color])) {
           console.warn("Missing color for \"" + d[build.color] + "\"");
+          return "#ccc";
         }
-        return attrStyles[build.color][d[build.color]];
+        else {
+          return attrStyles[build.color][d[build.color]].color;
+        }
       };
     }
   }

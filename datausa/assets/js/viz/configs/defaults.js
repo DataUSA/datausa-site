@@ -60,8 +60,8 @@ viz.defaults = function(build) {
       }
       else if (build.config.color in attrStyles) {
         var colors = attrStyles[build.config.color];
-        if (colors[build.config[axis].value]) labelFont.color = colors[build.config[axis].value];
-        else if (colors[build.config[axis].label]) labelFont.color = colors[build.config[axis].label];
+        if (colors[build.config[axis].value]) labelFont.color = colors[build.config[axis].value].color;
+        else if (colors[build.config[axis].label]) labelFont.color = colors[build.config[axis].label].color;
       }
     }
 

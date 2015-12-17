@@ -139,7 +139,7 @@ viz.loadData = function(build, next) {
                 var k = type + "_" + length;
                 datum[k] = datum[type].slice(0, length);
                 if (k === build.config.color && k in attrStyles) {
-                  datum.color = attrStyles[k][datum[k]];
+                  datum.color = attrStyles[k][datum[k]].color;
                 }
               }
             }
