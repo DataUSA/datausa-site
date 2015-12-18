@@ -744,6 +744,13 @@ search.reload = function() {
 
     var tag = this.advanced ? "div" : "a";
     items.enter().append(tag).attr("class", "search-item");
+    
+    if(items.empty()){
+      d3.selectAll(".no-search-results").style("display", "block")
+    }
+    else {
+      d3.selectAll(".no-search-results").style("display", "none")
+    }
 
     // click first item
     // items.selectAll("a.expand").on("click", search.open_details);
