@@ -942,27 +942,27 @@ var attrStyles = {
 
   "sex": {
     "1": {
-        "color": "#86abeb",
+        "color": "#386f8e",
         "icon": "gender_mars.png"
     },
     "2": {
-        "color": "#d69590",
+        "color": "#ef6145",
         "icon": "gender_venus.png"
     },
     "men": {
-        "color": "#86abeb",
+        "color": "#386f8e",
         "icon": "gender_mars.png"
     },
     "women": {
-        "color": "#d69590",
+        "color": "#ef6145",
         "icon": "gender_venus.png"
     },
     "male": {
-        "color": "#86abeb",
+        "color": "#386f8e",
         "icon": "gender_mars.png"
     },
     "female": {
-        "color": "#d69590",
+        "color": "#ef6145",
         "icon": "gender_venus.png"
     }
 },
@@ -1060,15 +1060,15 @@ var attrStyles = {
         "icon": "person_profile.png"
     },
     "8": {
-        "color": "#c5c5c5",
+        "color": "#A9A9A9",
         "icon": "person_profile.png"
     },
     "other": {
-        "color": "#c5c5c5",
+        "color": "#A9A9A9",
         "icon": "person_profile.png"
     },
     "unknown": {
-        "color": "#c5c5c5",
+        "color": "#A9A9A9",
         "icon": "person_profile.png"
     },
     "9": {
@@ -1186,7 +1186,7 @@ var attrStyles = {
 
 "bls_soc": {
     "000000": {
-        "color": "#c5c5c5",
+        "color": "#A9A9A9",
         "icon": "app_geo_map.png"
     },
     "110000": {
@@ -1401,7 +1401,7 @@ var attrStyles = {
 
 "bls_naics": {
     "000000": {
-        "color": "#c5c5c5",
+        "color": "#A9A9A9",
         "icon": "app_geo_map.png"
     },
     "11": {
@@ -1651,7 +1651,7 @@ var attrStyles = {
         "icon": "thing_airplane.png"
     },
     "30": {
-        "color": "#c5c5c5",
+        "color": "#A9A9A9",
         "icon": "thing_arrows.png"
     },
     "31": {
