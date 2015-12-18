@@ -72,6 +72,8 @@ class Profile(object):
         return None
 
     def parents(self):
+        if self.id == "01000US":
+            return [{"id": "04000US06", "name": "California"}, {"id": "04000US48", "name": "Texas"}, {"id": "04000US36", "name": "New York"}, {"id":"16000US1150000", "name":"Washington D.C."}, {"id":"16000US3651000", "name":"New York, NY"}, {"id":"16000US0644000", "name":"Los Angeles, CA"}, {"id":"16000US1714000", "name":"Chicago, IL"}]
         url = "{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)
         try:
             return [r for r in datafold(requests.get(url).json()) if r["id"] != self.id]
