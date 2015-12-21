@@ -5,7 +5,8 @@ from flask import url_for
 from config import API, CROSSWALKS, PROFILES
 from datausa.utils.format import num_format
 from datausa import app
-from datausa.utils.data import attr_cache, fetch
+from datausa.utils.data import attr_cache, datafold, fetch
+from datausa.utils.manip import datapivot
 
 # lookup_map = {
 #     "birthplace": True,
@@ -23,6 +24,8 @@ def render_col(my_data, headers, col):
         attr_type = "iocode"
 
     if attr_type not in attr_cache:
+        if isinstance(value, basestring):
+            return value
         # do simple number formating
         return num_format(value, col)
     else:
@@ -54,9 +57,10 @@ def multi_col_top(profile, params):
     params["sort"] = params.get("sort", "desc")
     if attr_type not in params:
         params[attr_type] = profile.id
-    cols = params.pop("required")
+    cols = params.pop("required", [])
     params["required"] = ",".join(cols)
     namespace = params.pop("namespace")
+    pivot = params.pop("pivot", False)
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query).replace("%3C%3Cid%3E%3E", profile.id)
     try:
@@ -67,22 +71,41 @@ def multi_col_top(profile, params):
             "url": "N/A",
             "value": "N/A"
         }
-    if not rows:
+
+    headers = r["headers"]
+    return_obj = {namespace: {} if not rows else []}
+
+    if pivot:
+        limit = pivot.get("limit", 1)
+        cols = pivot["cols"]
+        api_data = datapivot(datafold(r)[0], pivot["keys"])[:limit]
+
+        if rows:
+            myobject = {}
+            for data_row in api_data:
+                myobject = {}
+                headers = data_row.keys()
+                values = data_row.values()
+                for col in cols:
+                    myobject[col] = render_col(values, headers, col)
+                return_obj[namespace].append(myobject)
+        else:
+            values = api_data[0].values()
+            headers = api_data[0].keys()
+            for col in cols:
+                return_obj[namespace][col] = render_col(values, headers, col)
+
+    elif not rows:
         if not r["data"]:
             return {}
         api_data = r["data"][0]
-    else:
-        api_data = r["data"]
-    headers = r["headers"]
-    moi = {namespace: {} if not rows else []}
-
-    if not rows:
         for col in cols:
-            moi[namespace][col] = render_col(api_data, headers, col)
+            return_obj[namespace][col] = render_col(api_data, headers, col)
     else:
-        for data_row in api_data:
+        for data_row in r["data"]:
             myobject = {}
             for col in cols:
                 myobject[col] = render_col(data_row, headers, col)
-            moi[namespace].append(myobject)
-    return moi
+            return_obj[namespace].append(myobject)
+
+    return return_obj

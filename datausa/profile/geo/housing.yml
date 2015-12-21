@@ -204,12 +204,12 @@ topics:
     slug: "mode_transport"
     stat:
       - title: "Most common method of travel"
-        value: "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> (<<percent num=top:transport,acs.yg_transport|den=workers|num_exclude=transport_cartruckorvan>>)"
+        value: "<<var namespace=transport|row=0|key=name>> (<<percent num=top:transport,acs.yg_transport|den=workers|num_exclude=transport_cartruckorvan>>)"
         subvalues:
-          - "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|rank=2>>"
-          - "<<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan|rank=3>>"
+          - "<<var namespace=transport|row=1|key=name>>"
+          - "<<var namespace=transport|row=2|key=name>>"
     description:
-      - "The largest share of workers in <<name>> <<top col=transport|force=acs.yg_transport|exclude=transport_cartruckorvan>> to work. Additionally, the preferred secondary means of transportation to work for <<name>> is <<top col=transport|rank=2|force=acs.yg_transport|exclude=transport_cartruckorvan>>."
+      - "The largest share of workers in <<name>> <<var namespace=transport|row=0|key=name>> to work. Additionally, the preferred secondary means of transportation to work for <<name>> is <<var namespace=transport|row=1|key=name>>."
     viz:
       attrs: "geo"
       data:
