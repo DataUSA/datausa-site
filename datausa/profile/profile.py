@@ -61,6 +61,62 @@ class Profile(object):
             return var_map
         return None
 
+    def id_sub(self, **kwargs):
+        """str: The id of attribute taking into account the dataset and grainularity of the Section """
+
+        # if there is a specified dataset in kwargs
+        if "dataset" in kwargs:
+            dataset = kwargs["dataset"]
+            # if the attribute is a CIP and the dataset is PUMS, return the parent CIP code
+            if self.attr_type == "cip" and dataset == "pums":
+                return self.attr["id"][:2]
+            elif self.attr_type == "geo" and dataset == "ipeds":
+                if "ipeds" not in self.attr:
+                    url = "{}/attrs/geo/{}/ipeds/".format(API, self.attr["id"])
+                    try:
+                        result = requests.get(url).json()["data"]
+                        if len(result):
+                            self.attr["ipeds"] = result[0]
+                        else:
+                            self.attr["ipeds"] = self.attr["id"]
+                    except ValueError:
+                        app.logger.info("STAT ERROR: {}".format(url))
+                        self.attr["ipeds"] = self.attr["id"]
+                return self.attr["ipeds"]
+            elif self.attr_type == "geo" and dataset == "pums":
+                attr_id = self.attr["id"]
+                prefix = attr_id[:3]
+                if kwargs.get("parent", False) and prefix not in ["010", "040"]:
+                    attr_id = self.parents()[1]["id"]
+                    prefix = "040"
+
+                acceptedPrefixes = ["010", "040", "795"]
+
+                if prefix in acceptedPrefixes:
+                    return attr_id
+                else:
+                    for p in reversed(self.parents()):
+                        if p["id"][:3] in acceptedPrefixes:
+                            return p["id"]
+
+            elif self.attr_type == "geo" and dataset == "chr":
+                attr_id = self.attr["id"]
+                prefix = attr_id[:3]
+                if kwargs.get("parent", False) and prefix not in ["010", "040"]:
+                    attr_id = self.parents()[1]["id"]
+                    prefix = "040"
+
+                acceptedPrefixes = ["010", "040", "795"]
+
+                if prefix in acceptedPrefixes:
+                    return attr_id
+                else:
+                    for p in reversed(self.parents()):
+                        if p["id"][:3] in acceptedPrefixes:
+                            return p["id"]
+
+        return self.attr["id"]
+
     def image(self):
         if "image_link" in self.attr:
             url = "/static/img/splash/{}/".format(self.attr_type)

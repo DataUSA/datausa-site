@@ -12,10 +12,10 @@ topics:
     stat:
       - title: "High relative number of people major in"
         sumlevel: "!nation"
-        value: "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total_rca>>"
+        value: "<<var namespace=grads_total_rca|key=cip|row=0>>"
         subvalues:
-          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=2>>"
-          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total_rca|rank=3>>"
+          - "<<var namespace=grads_total_rca|key=cip|row=1>>"
+          - "<<var namespace=grads_total_rca|key=cip|row=2>>"
       - title: "Most common major is"
         value: "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total>>"
         subvalues:

@@ -98,3 +98,13 @@
     limit: 3
   year: "latest"
   namespace: "transport"
+
+- required: ["cip"]
+  order: grads_total_rca
+  sumlevel: "6"
+  degree: "5"
+  show: cip
+  dataset: ipeds
+  rows: True
+  limit: 3
+  namespace: "grads_total_rca"

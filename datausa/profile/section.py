@@ -210,60 +210,7 @@ class Section(object):
         return u",".join([c["id"] for c in self.profile.children(attr_id=attr_id, sumlevel=sumlevel)])
 
     def id(self, **kwargs):
-        """str: The id of attribute taking into account the dataset and grainularity of the Section """
-
-        # if there is a specified dataset in kwargs
-        if "dataset" in kwargs:
-            dataset = kwargs["dataset"]
-            # if the attribute is a CIP and the dataset is PUMS, return the parent CIP code
-            if self.profile.attr_type == "cip" and dataset == "pums":
-                return self.attr["id"][:2]
-            elif self.profile.attr_type == "geo" and dataset == "ipeds":
-                if "ipeds" not in self.attr:
-                    url = "{}/attrs/geo/{}/ipeds/".format(API, self.attr["id"])
-                    try:
-                        result = requests.get(url).json()["data"]
-                        if len(result):
-                            self.attr["ipeds"] = result[0]
-                        else:
-                            self.attr["ipeds"] = self.attr["id"]
-                    except ValueError:
-                        app.logger.info("STAT ERROR: {}".format(url))
-                        self.attr["ipeds"] = self.attr["id"]
-                return self.attr["ipeds"]
-            elif self.profile.attr_type == "geo" and dataset == "pums":
-                attr_id = self.attr["id"]
-                prefix = attr_id[:3]
-                if kwargs.get("parent", False) and prefix not in ["010", "040"]:
-                    attr_id = self.profile.parents()[1]["id"]
-                    prefix = "040"
-
-                acceptedPrefixes = ["010", "040", "795"]
-
-                if prefix in acceptedPrefixes:
-                    return attr_id
-                else:
-                    for p in reversed(self.profile.parents()):
-                        if p["id"][:3] in acceptedPrefixes:
-                            return p["id"]
-
-            elif self.profile.attr_type == "geo" and dataset == "chr":
-                attr_id = self.attr["id"]
-                prefix = attr_id[:3]
-                if kwargs.get("parent", False) and prefix not in ["010", "040"]:
-                    attr_id = self.profile.parents()[1]["id"]
-                    prefix = "040"
-
-                acceptedPrefixes = ["010", "040", "795"]
-
-                if prefix in acceptedPrefixes:
-                    return attr_id
-                else:
-                    for p in reversed(self.profile.parents()):
-                        if p["id"][:3] in acceptedPrefixes:
-                            return p["id"]
-
-        return self.attr["id"]
+        return self.profile.id_sub(**kwargs)
 
     def level(self, **kwargs):
         """str: A string representation of the depth type. """
