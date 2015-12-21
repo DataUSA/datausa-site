@@ -31,9 +31,9 @@ def profile(attr_type, attr_id):
     allowed_id = attr_type in attr_cache and attr_id in attr_cache[attr_type]
     if not allowed_type or not allowed_id:
         abort(404);
-
     if attr_type in CROSSWALKS:
         attr = attr_cache[attr_type][attr_id]
+
         crosswalks = acs_crosswalk(attr_type, attr_id)
         crosswalk_map = {"acs_occ": "soc", "acs_ind": "naics", "iocode": "naics"}
         if len(crosswalks) > 1:
@@ -42,8 +42,10 @@ def profile(attr_type, attr_id):
 
     g.page_class = attr_type
 
+
     # pass id and type to Profile class
-    p = Profile(attr_id, attr_type)
+    attr_data = attr_cache[attr_type][attr_id]
+    p = Profile(attr_data["id"], attr_type)
 
     # render the profile template and pass the profile to jinja
     return render_template("profile/index.html", profile = p)

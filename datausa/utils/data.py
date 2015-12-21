@@ -94,12 +94,12 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         return r
     else:
         r = datafold(r)
-    
+
     if dataset == "stat":
         if isinstance(r[0][col], list):
             r = [{params["show"]:x} for x in r[0][col]]
             col = "name"
-    
+
     if len(r) == 0:
         return {
             "url": stat_url,
@@ -156,7 +156,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
                 attr = "{}_{}".format(dataset, show)
             else:
                 attr = show
-            
+
             top = [fetch(d[show], attr) for d in r]
 
             if attr in PROFILES or attr in CROSSWALKS:
@@ -345,10 +345,13 @@ def build_attr_cache():
             results[attr_name] = {}
             for obj in attr_list:
                 oid = obj["id"]
+                url_name = obj["url_name"] if "url_name" in obj else None
                 if oid not in results[attr_name] or results[attr_name][oid]["level"] > obj["level"]:
                     results[attr_name][oid] = obj
-        except:
-            app.logger.info("ERROR: Could not load {} attributes".format(attr_name))
+                    if url_name:
+                        results[attr_name][url_name] = obj
+        except Exception, err:
+            app.logger.info("ERROR: Could not load {} attributes. Reason: {}".format(attr_name, err))
 
     app.logger.info("Attr cache setup complete.")
     return results
