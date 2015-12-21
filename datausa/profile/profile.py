@@ -3,7 +3,8 @@ import requests
 import yaml
 from section import Section
 from config import API
-from datausa.utils.data import datafold, fetch
+from datausa.utils.data import fetch
+from datausa.utils.manip import datafold
 from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
 import json
 

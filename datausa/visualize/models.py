@@ -1,7 +1,7 @@
 import json
 from requests.models import RequestEncodingMixin
 from config import API
-from datausa.utils.data import default_params
+from datausa.utils.format import param_format
 
 class Viz(object):
     """A visualization object to be built using D3plus.
@@ -42,7 +42,7 @@ class Viz(object):
             }
 
             # Set fallback API params
-            d = default_params(d)
+            d = param_format(d)
 
             # create the data URL
             p = RequestEncodingMixin._encode_params(d)

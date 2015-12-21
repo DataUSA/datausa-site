@@ -2,7 +2,8 @@
 from flask import abort, Blueprint, g, jsonify, render_template, request, redirect, url_for
 from config import CROSSWALKS, PROFILES
 from datausa.profile.profile import Profile
-from datausa.utils.data import attr_cache, stat, acs_crosswalk
+from datausa.utils.data import attr_cache, acs_crosswalk
+from datausa.utils.manip import stat
 from datausa.search.views import get_img
 from random import randint
 

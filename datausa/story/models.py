@@ -8,7 +8,7 @@ from datausa import base_dir
 
 from os.path import join, isfile
 import os
-from datausa.utils.format import num_format, sumlevels
+from datausa.utils.format import num_format
 from datausa.utils.data import fetch
 
 STORIES_DIR = join(base_dir, "profile", "stories")
@@ -54,7 +54,7 @@ class Story(Profile):
         self.id = attr_id
         self.attr_type = attr_type
         self.attr = {"id": "01000US", "name": "United States"}
-        
+
         # read and update
         file_obj = self.open_file(attr_id)
         story_conf = yaml.load(file_obj)

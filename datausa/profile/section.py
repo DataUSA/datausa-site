@@ -6,9 +6,11 @@ import string
 
 from config import API
 from datausa import app
+from datausa.consts import COLMAP, SUMLEVELS
 from datausa.visualize.models import Viz
-from datausa.utils.data import attr_cache, col_map, datafold, default_params, fetch, profile_cache, stat
-from datausa.utils.format import num_format, sumlevels
+from datausa.utils.data import attr_cache, fetch, profile_cache
+from datausa.utils.manip import datafold, stat
+from datausa.utils.format import num_format, param_format
 
 textLookup = {
     "age": ("older than", "younger than", "the same age as"),
@@ -180,7 +182,7 @@ class Section(object):
         if "sumlevel" in obj:
             levels = [t for t in obj["sumlevel"].split(",")]
             if self.profile.attr_type == "geo":
-                level = sumlevels["geo"][self.attr["id"][:3]]["sumlevel"]
+                level = SUMLEVELS["geo"][self.attr["id"][:3]]["sumlevel"]
             else:
                 level = len(self.attr["id"])
 
@@ -197,12 +199,12 @@ class Section(object):
         if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
             attr_id = self.profile.parents()[1]["id"]
             prefix = "040"
-        if kwargs.get("prefix", False) and "children" in sumlevels["geo"][prefix]:
+        if kwargs.get("prefix", False) and "children" in SUMLEVELS["geo"][prefix]:
             if prefix in ("310", "160"):
                 return attr_id
-            return "^{}".format(attr_id.replace(prefix, sumlevels["geo"][prefix]["children"]))
-        if "children" in sumlevels["geo"][prefix]:
-            sumlevel = sumlevels["geo"][prefix]["children"]
+            return "^{}".format(attr_id.replace(prefix, SUMLEVELS["geo"][prefix]["children"]))
+        if "children" in SUMLEVELS["geo"][prefix]:
+            sumlevel = SUMLEVELS["geo"][prefix]["children"]
         else:
             sumlevel = False
         return u",".join([c["id"] for c in self.profile.children(attr_id=attr_id, sumlevel=sumlevel)])
@@ -274,14 +276,14 @@ class Section(object):
             if dataset == "chr" and prefix not in ["010", "040"]:
                 prefix = "040"
 
-            labels = sumlevels["geo"][prefix]
+            labels = SUMLEVELS["geo"][prefix]
             if kwargs.get("child", False) and "children" in labels:
                 prefix = labels["children"]
 
-            labels = sumlevels["geo"][prefix]
+            labels = SUMLEVELS["geo"][prefix]
 
         else:
-            labels = sumlevels[attr_type][self.sumlevel(**kwargs)]
+            labels = SUMLEVELS[attr_type][self.sumlevel(**kwargs)]
 
         if kwargs.get("short", False) and "shortlabel" in labels:
             name = labels["shortlabel"]
@@ -324,7 +326,7 @@ class Section(object):
             else:
                 top = "; ".join(top)
             return top
-            
+
         if col and self.attr["id"] == "01000US":
 
             params = {
@@ -363,7 +365,7 @@ class Section(object):
             params = {}
             params["limit"] = 1
             params["year"] = kwargs.get("year", "latest")
-            params = default_params(params)
+            params = param_format(params)
             t_type = kwargs.get("{}_type".format(t), attr_type)
             params["show"] = kwargs.get("show", t_type)
             params[t_type] = kwargs.get("{}_id".format(t), attr_id)
@@ -545,9 +547,9 @@ class Section(object):
             prefix = attr_id[:3]
             if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
                 prefix = "040"
-            if kwargs.get("child", False) and "children" in sumlevels["geo"][prefix]:
-                prefix = sumlevels["geo"][prefix]["children"]
-            name = sumlevels["geo"][prefix]["sumlevel"]
+            if kwargs.get("child", False) and "children" in SUMLEVELS["geo"][prefix]:
+                prefix = SUMLEVELS["geo"][prefix]["children"]
+            name = SUMLEVELS["geo"][prefix]["sumlevel"]
 
             if "plural" in kwargs:
                 name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
@@ -590,11 +592,11 @@ class Section(object):
                 if dataset == "chr" and prefix not in ["010", "040"]:
                     aid = self.profile.parents()[1]["id"]
                     prefix = "040"
-                if "children" in sumlevels["geo"][prefix]:
+                if "children" in SUMLEVELS["geo"][prefix]:
                     if prefix in ("310", "160"):
                         params["where"] = "geo:{}".format(aid)
                     else:
-                        params["where"] = "geo:^{}".format(aid.replace(prefix, sumlevels["geo"][prefix]["children"]))
+                        params["where"] = "geo:^{}".format(aid.replace(prefix, SUMLEVELS["geo"][prefix]["children"]))
                     attr_id = ""
         if attr_id == False:
             attr_id = self.id(**kwargs)
@@ -623,10 +625,10 @@ class Section(object):
             params["naics_level"] = params["naics_level"].replace("sumlevel", self.sumlevel())
         if "soc_level" in params and "sumlevel" in params["soc_level"]:
             params["soc_level"] = params["soc_level"].replace("sumlevel", self.sumlevel())
-        params = default_params(params)
+        params = param_format(params)
 
         if "force" not in params and params["required"] == "":
-            col_maps = col_map.keys()
+            col_maps = COLMAP.keys()
             col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
             col_maps += ["id", "name", "ratio"]
             if col not in col_maps:
