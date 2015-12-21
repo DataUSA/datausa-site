@@ -14,7 +14,7 @@ from datausa.utils.manip import datapivot
 # }
 
 
-def render_col(my_data, headers, col):
+def render_col(my_data, headers, col, url=False):
     value = my_data[headers.index(col)]
     if not value:
         return "N/A"
@@ -25,16 +25,21 @@ def render_col(my_data, headers, col):
 
     if attr_type not in attr_cache:
         if isinstance(value, basestring):
-            return value
-        # do simple number formating
-        return num_format(value, col)
+            return_value = value
+        else:
+            # do simple number formating
+            return_value = num_format(value, col)
     else:
         # lookup the attr object and get the name
         attr = fetch(value, attr_type)
         attr = attr["display_name"] if "display_name" in attr else attr["name"]
         if attr_type in PROFILES or attr_type in CROSSWALKS:
             attr = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=value), attr)
-        return attr
+        return_value = attr
+
+    if url:
+        return_value = u"<span data-url='{}'>{}</span>".format(url, return_value)
+    return return_value
 
 
 def merge_dicts(*dict_args):
@@ -62,7 +67,11 @@ def multi_col_top(profile, params):
     namespace = params.pop("namespace")
     pivot = params.pop("pivot", False)
     query = RequestEncodingMixin._encode_params(params)
-    url = "{}/api?{}".format(API, query).replace("%3C%3Cid%3E%3E", profile.id)
+
+    ''' replace when variable functions work in vars! '''
+    url = u"{}/api?{}".format(API, query).replace("%3C%3Cid%3E%3E", profile.id)
+    '''  '''
+
     try:
         r = requests.get(url).json()
     except ValueError:
@@ -76,24 +85,29 @@ def multi_col_top(profile, params):
     return_obj = {namespace: {} if not rows else []}
 
     if pivot:
+
+        base_url = u"{}?{}&col={}".format(url_for("profile.statView"), query, "-".join(pivot["keys"]))
+
         limit = pivot.get("limit", 1)
         cols = pivot["cols"]
         api_data = datapivot(datafold(r)[0], pivot["keys"])[:limit]
 
         if rows:
             myobject = {}
-            for data_row in api_data:
+            for index, data_row in enumerate(api_data):
                 myobject = {}
                 headers = data_row.keys()
                 values = data_row.values()
                 for col in cols:
-                    myobject[col] = render_col(values, headers, col)
+                    stat_url = u"{}&rank={}".format(base_url, index + 1)
+                    myobject[col] = render_col(values, headers, col, stat_url)
                 return_obj[namespace].append(myobject)
         else:
             values = api_data[0].values()
             headers = api_data[0].keys()
+            stat_url = u"{}&rank=1".format(base_url)
             for col in cols:
-                return_obj[namespace][col] = render_col(values, headers, col)
+                return_obj[namespace][col] = render_col(values, headers, col, stat_url)
 
     elif not rows:
         if not r["data"]:

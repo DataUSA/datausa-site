@@ -37,7 +37,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         unformatted = False
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
-    stat_url = "{}?{}&col={}&dataset={}&moe={}&rank={}&unformatted=".format(url_for("profile.statView"), query, col, dataset, moe, str(rank), str(unformatted))
+    stat_url = "{}?{}&col={}&dataset={}&moe={}&rank={}&unformatted={}".format(url_for("profile.statView"), query, col, dataset, moe, str(rank), str(unformatted))
 
     try:
         r = requests.get(url).json()
@@ -151,6 +151,6 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
 if __name__ == "__main__":
     import requests
     # r = datafold(requests.get("http://nightly-api.datausa.io/api/?force=ipeds.grads_ycd&degree=5&year=latest&cip=4005&sumlevel=all&show=cip").json())
-    r = datafold(requests.get("http://nightly-api.datausa.io/api/?force=acs.yg_transport&year=latest&geo=01000US&sumlevel=all&show=geo").json())
+    # r = datafold(requests.get("http://nightly-api.datausa.io/api/?force=acs.yg_transport&year=latest&geo=01000US&sumlevel=all&show=geo").json())
     pivoted = datapivot(r, ["transport"])
     raise Exception(pivoted)

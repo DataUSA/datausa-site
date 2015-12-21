@@ -183,10 +183,10 @@ topics:
       default: "5"
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
-        value: "<<top col=race-sex|degree=5|force=ipeds.grads_ycd|order=grads_total>>"
+        value: "<<var namespace=race_sex|key=name|row=0>>"
         subvalues:
-          - "<<top col=race-sex|degree=5|force=ipeds.grads_ycd|order=grads_total|rank=2>>"
-          - "<<top col=race-sex|degree=5|force=ipeds.grads_ycd|order=grads_total|rank=3>>"
+          - "<<var namespace=race_sex|key=name|row=1>>"
+          - "<<var namespace=race_sex|key=name|row=2>>"
     description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <span class='select-text'><<name id=5|attr=degree>></span> in <<name>>."
     viz:
       color: "sex"

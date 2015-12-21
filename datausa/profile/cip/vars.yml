@@ -75,3 +75,14 @@
   sort: desc
   where: "num_records:>4"
   namespace: puma_rca
+
+- force: "ipeds.grads_ycd"
+  degree: "5"
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["race", "sex"]
+    cols: ["name"]
+    limit: 3
+  year: "latest"
+  namespace: "race_sex"
