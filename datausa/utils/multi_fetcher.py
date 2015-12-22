@@ -115,22 +115,22 @@ def multi_col_top(profile, params):
             return {}
         api_data = r["data"][0]
         for col in cols:
-            if col == attr_type:
+            if col == params["show"]:
                 stat_col = "name"
             else:
                 stat_col = col
             stat_url = u"{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, stat_col, dataset)
-            return_obj[namespace][col] = render_col(api_data, headers, stat_col, stat_url)
+            return_obj[namespace][col] = render_col(api_data, headers, col, stat_url)
     else:
         for index, data_row in enumerate(r["data"]):
             myobject = {}
             for col in cols:
-                if col == attr_type:
+                if col == params["show"]:
                     stat_col = "name"
                 else:
                     stat_col = col
                 stat_url = u"{}?{}&col={}&rank={}&dataset={}".format(url_for("profile.statView"), query, stat_col, index + 1, dataset)
-                myobject[col] = render_col(data_row, headers, stat_col, stat_url)
+                myobject[col] = render_col(data_row, headers, col, stat_url)
             return_obj[namespace].append(myobject)
 
     return return_obj

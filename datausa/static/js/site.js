@@ -2684,9 +2684,21 @@ viz.loadBuilds = function(builds) {
                  }
                  d3.select(this).attr("data-url", url);
 
-                 load(url, function(data){
+                 var rank = 1;
+                 if (url.indexOf("rank=") > 0) {
+                   var rank = new RegExp("&rank=([0-9]*)").exec(url);
+                   url = url.replace(rank[0], "");
+                   rank = parseFloat(rank[1])
+                 }
+
+                 load(url, function(data, u){
                    d3.select(this.parentNode).classed("loading", false)
-                   d3.select(this).html(data.value);
+                   var text = data.value.split("; ")[rank - 1];
+                   if (!text) text = "N/A";
+                   if (text.indexOf("and ") === 0) {
+                     text = text.replace("and ", "");
+                   }
+                   d3.select(this).html(text);
                  }.bind(this));
 
                });

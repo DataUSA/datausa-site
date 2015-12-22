@@ -107,4 +107,16 @@
   dataset: ipeds
   rows: True
   limit: 3
+  year: latest
   namespace: "grads_total_rca"
+
+- required: ["cip"]
+  order: grads_total
+  sumlevel: "6"
+  degree: "5"
+  show: cip
+  dataset: ipeds
+  rows: True
+  limit: 3
+  year: latest
+  namespace: "grads_total"

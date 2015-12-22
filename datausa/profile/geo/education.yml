@@ -17,10 +17,10 @@ topics:
           - "<<var namespace=grads_total_rca|key=cip|row=1>>"
           - "<<var namespace=grads_total_rca|key=cip|row=2>>"
       - title: "Most common major is"
-        value: "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total>>"
+        value: "<<var namespace=grads_total|key=cip|row=0>>"
         subvalues:
-          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total|rank=2>>"
-          - "<<top dataset=ipeds|show=cip|degree=5|sumlevel=6|order=grads_total|rank=3>>"
+          - "<<var namespace=grads_total|key=cip|row=1>>"
+          - "<<var namespace=grads_total|key=cip|row=2>>"
     description: "This tree map shows the composition of the student population in <<name dataset=ipeds>> by major."
     viz:
       attrs: "cip"

@@ -147,10 +147,3 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         "value": top,
         "data": vals
     }
-
-if __name__ == "__main__":
-    import requests
-    # r = datafold(requests.get("http://nightly-api.datausa.io/api/?force=ipeds.grads_ycd&degree=5&year=latest&cip=4005&sumlevel=all&show=cip").json())
-    # r = datafold(requests.get("http://nightly-api.datausa.io/api/?force=acs.yg_transport&year=latest&geo=01000US&sumlevel=all&show=geo").json())
-    pivoted = datapivot(r, ["transport"])
-    raise Exception(pivoted)
