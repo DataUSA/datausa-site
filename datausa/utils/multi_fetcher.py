@@ -39,7 +39,7 @@ def render_col(my_data, headers, col, url=False):
 
     if url:
         return_value = u"<span data-url='{}'>{}</span>".format(url, return_value)
-    return return_value
+    return {"raw": value, "pretty": return_value}
 
 
 def merge_dicts(*dict_args):

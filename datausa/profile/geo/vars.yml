@@ -1,23 +1,24 @@
-- required: ["pop", "pop_rank", "income", "income_moe", "income_rank", "age", "age_rank", "owner_occupied_housing_units"]
+- required: ["pop", "pop_rank", "income", "income_moe", "income_rank", "age", "age_rank", "owner_occupied_housing_units", "us_citizens", "non_eng_speakers_pct"]
   namespace: splash
   show: geo
-  sumlevel: all
-
-- required: ["gini"]
-  show: geo
-  sumlevel: all
-  namespace: wagegap
+  year: latest
+  geo: "<<id>>,01000US"
+  order: geo
+  sort: desc
+  rows: True
+  limit: 2
 
 - required: ["households", "households_moe"]
   show: geo
   sumlevel: all
+  year: latest
   namespace: tenure
 
 - required: ["primary_care_physicians", "dentists", "mental_health_providers", "other_primary_care_providers"]
-  year: 2015
+  year: latest
   namespace: health
 
-- required: ["avg_wage", "avg_wage_moe", "avg_wage_ft", "avg_wage_ft_moe"]
+- required: ["sex", "avg_wage", "avg_wage_moe", "avg_wage_ft", "avg_wage_ft_moe"]
   sex: "1,2"
   limit: 2
   show: sex
@@ -25,28 +26,130 @@
   rows: True
   order: sex
   sort: asc
+  year: latest
   namespace: gender
+
+- required: ["race", "avg_wage", "avg_wage_moe"]
+  limit: 2
+  show: race
+  sumlevel: all
+  rows: True
+  order: avg_wage
+  sort: desc
+  year: latest
+  namespace: race
+
+- required: ["gini"]
+  show: geo
+  sumlevel: all
+  year: latest
+  namespace: wagegap
+
+- required: ["gini"]
+  show: geo
+  geo: 01000US
+  sumlevel: all
+  year: latest
+  namespace: wagegap_us
+
+- force: "acs.yg_poverty"
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["sex", "ageBucket"]
+    cols: ["name", "moe"]
+    limit: 1
+  year: latest
+  namespace: "sex_age"
+
+- force: "acs.yg_poverty_race"
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["race"]
+    cols: ["name", "moe"]
+    limit: 3
+  year: latest
+  namespace: "poverty_race"
 
 - required: ["nativity_us", "nativity_us_moe", "nativity_foreign", "nativity_foreign_moe"]
   show: geo
+  year: latest
   namespace: nativity
+
+- force: "acs.yg_race"
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["acs_race"]
+    cols: ["name"]
+    limit: 3
+  year: latest
+  namespace: acs_race
+
+- force: "acs.yg_conflict"
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["conflict"]
+    cols: ["name", "value"]
+    limit: 3
+  year: latest
+  namespace: conflict
+
+- required: ["state_tuition", "oos_tuition"]
+  show: sector
+  sector: "1,2"
+  order: sector
+  sort: asc
+  rows: True
+  limit: 2
+  dataset: ipeds
+  namespace: tuition
+
+- required: ["sector", "grads_total"]
+  show: sector
+  order: grads_total
+  dataset: ipeds
+  namespace: sectors
+
+- force: "ipeds.grads_yg"
+  limit: 1
+  rows: True
+  order: grads_total
+  pivot:
+    keys: ["race"]
+    cols: ["name"]
+    limit: 3
+  year: latest
+  namespace: edu_race
+
+- force: "acs.yg_vehicles"
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["vehicles"]
+    cols: ["name", "value"]
+    limit: 3
+  year: latest
+  namespace: vehicles
 
 - required: ["mean_commute_minutes"]
   geo: "<<id>>,01000US"
   year: latest
   order: geo
-  sort: asc
+  sort: desc
   rows: True
   namespace: commute
   limit: 2
 
-- required: ["owner_occupied_housing_units"]
+- required: ["travel_90over", "workers"]
   geo: "<<id>>,01000US"
   year: latest
   order: geo
-  sort: asc
+  sort: desc
   rows: True
-  namespace: housing
+  namespace: travel
   limit: 2
 
 - required: ["birthplace"]
@@ -54,7 +157,7 @@
   rows: True
   order: "num_ppl"
   sort: "desc"
-  year: "latest"
+  year: latest
   namespace: "heritage_total"
   where: "birthplace:~^04000US"
 
@@ -63,7 +166,7 @@
   rows: True
   order: "num_ppl_rca"
   sort: "desc"
-  year: "latest"
+  year: latest
   namespace: "heritage_rca"
   where: "birthplace:~^04000US"
 
@@ -72,7 +175,7 @@
   rows: True
   order: "num_speakers_rca"
   sort: "desc"
-  year: "latest"
+  year: latest
   namespace: "speakers_rca"
   where: "language:~^002"
 
@@ -81,7 +184,7 @@
   rows: True
   order: "num_speakers"
   sort: "desc"
-  year: "latest"
+  year: latest
   namespace: "speakers_total"
   where: "language:~^002"
 
@@ -89,14 +192,19 @@
   namespace: "acsgeo"
 
 - force: "acs.yg_transport"
+  required: ["workers"]
+  year: latest
+  namespace: "transport_workers"
+
+- force: "acs.yg_transport"
   limit: 1
   rows: True
   exclude: "transport_cartruckorvan"
   pivot:
     keys: ["transport"]
-    cols: ["name"]
+    cols: ["name", "value"]
     limit: 3
-  year: "latest"
+  year: latest
   namespace: "transport"
 
 - required: ["cip"]

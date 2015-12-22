@@ -37,12 +37,9 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
     rank = int(params.pop("rank", "1"))
     if rank > 1 and params["limit"] == 1:
         params["limit"] = rank
-    unformatted = params.pop("unformatted", False)
-    if unformatted == "False":
-        unformatted = False
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
-    stat_url = "{}?{}&col={}&dataset={}&moe={}&rank={}&unformatted={}".format(url_for("profile.statView"), query, col, dataset, moe, str(rank), str(unformatted))
+    stat_url = "{}?{}&col={}&dataset={}&moe={}&rank={}".format(url_for("profile.statView"), query, col, dataset, moe, str(rank))
 
     try:
         r = requests.get(url).json()
@@ -122,9 +119,6 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
             top = [d[show] for d in r]
         else:
             top = [d[col] for d in r]
-
-    if unformatted:
-        return top
 
     if col != "id":
         if moe:

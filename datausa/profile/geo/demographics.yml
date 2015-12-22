@@ -12,7 +12,7 @@ topics:
       - title: "Median Foreign Age"
         value: "<<var namespace=nativity|key=nativity_foreign>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=nativity|key=nativity_foreign_moe>>"
-    description: "The median age of people in <<name>> is <<var namespace=splash|key=age>>, and native-born citizens are generally <<percent num=nativity_us|den=nativity_foreign|text=age>> foreign-born citizens."
+    description: "The median age of people in <<name>> is <<var namespace=splash|key=age|row=0>>, and native-born citizens are generally <<percent num=var:nativity,nativity_us|den=var:nativity,nativity_foreign|text=age>> foreign-born citizens."
     viz:
       color: "nationality"
       data:
@@ -67,10 +67,10 @@ topics:
       type: "geo_map"
   - title: "Citizenship"
     slug: "citizenship"
-    description: "{{<<sumlevel>>:!nation|| <<top col=us_citizens>> of the population of <<name>> are US citizens. This is <<percent num=us_citizens|den=us_citizens|den_id=01000US|text=highlow>> the national average of <<top col=us_citizens|attr_id=01000US>>.}}{{<<sumlevel>>:nation|| <<top col=us_citizens>> of the United States population are citizens. Here is that number, compared to the 2 highest and the 2 lowest states.}}"
+    description: "{{<<sumlevel>>:!nation|| <<var namespace=splash|key=us_citizens|row=0>> of the population of <<name>> are US citizens. This is <<percent num=var:splash,us_citizens,0|den=var:splash,us_citizens,1|text=highlow>> the national average of <<var namespace=splash|key=us_citizens|row=1>>.}}{{<<sumlevel>>:nation|| <<var namespace=splash|key=us_citizens|row=0>> of the United States population are citizens. Here is that number, compared to the 2 highest and the 2 lowest states.}}"
     stat:
       - title: "Percent with citizenship"
-        value: "<<top col=us_citizens>>"
+        value: "<<var namespace=splash|key=us_citizens|row=0>>"
     viz:
       attrs: "geo"
       data:
@@ -89,13 +89,13 @@ topics:
         value: "geo"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
-    description: "The largest share of citizens in <<name>> are <<top col=acs_race|force=acs.yg_race>>, with <<top col=acs_race|rank=2|force=acs.yg_race>> being the second most common."
+    description: "The largest share of citizens in <<name>> are <<var namespace=acs_race|key=name|row=0>>, with <<var namespace=acs_race|key=name|row=1>> being the second most common."
     stat:
       - title: "Most common race or ethnicity in <<name>> is"
-        value: "<<top col=acs_race|force=acs.yg_race>>"
+        value: "<<var namespace=acs_race|key=name|row=0>>"
         subvalues:
-          - "<<top col=acs_race|force=acs.yg_race|rank=2>>"
-          - "<<top col=acs_race|force=acs.yg_race|rank=3>>"
+          - "<<var namespace=acs_race|key=name|row=1>>"
+          - "<<var namespace=acs_race|key=name|row=2>>"
     viz:
       color: "race"
       data:
@@ -115,7 +115,7 @@ topics:
       y: "num_ppl"
   - title: "Languages"
     slug: "languages"
-    description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<top col=non_eng_speakers_pct>> of <<name>> citizens are non-English speakers.{{<<sumlevel>>:!nation|| That is <<percent num=non_eng_speakers_pct|den=non_eng_speakers_pct|den_id=01000US|text=highlow>> the national avaerage of <<top geo=01000US|col=non_eng_speakers_pct>>.}}"
+    description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are non-English speakers.{{<<sumlevel>>:!nation|| That is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>.}}"
     stat_stack: YES
     stat:
       - title: "<<name>> has a relatively high number of speakers of"
@@ -145,14 +145,14 @@ topics:
   - category: "Military"
     title: "Veterans"
     slug: "veterans"
-    description: "<<name>> has a large population of citizens who served in <<top col=conflict|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>>, <<top col=ratio|required=conflict_wwii,conflict_korea,conflict_vietnam,conflict_gulf90s,conflict_gulf01>> times greater than any other conflict."
+    description: "<<name>> has a large population of citizens who served in <<var namespace=conflict|key=name|row=0>>, <<percent num=var:conflict,value,0|den=var:conflict,value,1|ratio=True>> times greater than any other conflict."
     stat_stack: YES
     stat:
       - title: "Most Common Service Period"
-        value: "<<top col=conflict|force=acs.yg_conflict>>"
+        value: "<<var namespace=conflict|key=name|row=0>>"
         subvalues:
-          - "<<top col=conflict|force=acs.yg_conflict|rank=2>>"
-          - "<<top col=conflict|force=acs.yg_conflict|rank=3>>"
+          - "<<var namespace=conflict|key=name|row=1>>"
+          - "<<var namespace=conflict|key=name|row=2>>"
     viz:
       attrs:
         - "conflict"

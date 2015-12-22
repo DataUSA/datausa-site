@@ -15,7 +15,8 @@ from datausa.utils.format import num_format, param_format
 textLookup = {
     "age": ("older than", "younger than", "the same age as"),
     "highlow": ("higher than", "lower than", "the same as"),
-    "longshort": ("longer", "shorter", "equal")
+    "longshort": ("longer", "shorter", "equal"),
+    "moreless": ("more than", "less than", "the same as")
 }
 
 
@@ -323,6 +324,14 @@ class Section(object):
                 params["col"], params["force"] = key.split(":")[1].split(",")
                 r[t] = self.top(**params)["data"][0]
 
+            elif "var:" in key:
+
+                keys = key.split(":")[1].split(",")
+                if len(keys) == 2:
+                    keys.append(None)
+                ns, col, row = keys
+                r[t] = self.var(namespace=ns, key=col, row=row, format="raw")
+
             elif "," in key:
 
                 num, den = key.split(",")
@@ -375,14 +384,19 @@ class Section(object):
                 return text[1]
             else:
                 return text[2]
+        elif kwargs.get("ratio", False):
+            return num_format(val)
         else:
             return "{}%".format(num_format(val * 100))
 
     def plural(self, **kwargs):
         text = kwargs.pop("text")
-        kwargs["unformatted"] = True
         try:
-            val = float(self.top(**kwargs)[0])
+            if "namespace" in kwargs:
+                kwargs["format"] = "raw"
+                val = float(self.var(**kwargs))
+            else:
+                val = float(self.top(**kwargs)[0])
         except ValueError:
             val = 2
         if val != 1:
@@ -577,7 +591,10 @@ class Section(object):
         if "force" not in params and params["required"] == "":
             col_maps = COLMAP.keys()
             col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
+
+            # extra allowed values for 'col'
             col_maps += ["id", "name", "ratio"]
+
             if col not in col_maps:
                 params["required"] = col
             elif "order" in params:
@@ -592,15 +609,17 @@ class Section(object):
     def var(self, **kwargs):
         namespace = kwargs["namespace"]
         key = kwargs["key"]
+        formatting = kwargs.get("format", "pretty")
+        row = kwargs.get("row", False)
 
         var_map = self.profile.variables
         if var_map:
-            if "row" in kwargs and namespace in var_map and var_map[namespace]:
-                row = int(kwargs["row"])
+            if row and namespace in var_map and var_map[namespace]:
+                row = int(row)
                 if row < len(var_map[namespace]):
-                    return var_map[namespace][row][key]
+                    return var_map[namespace][row][key][formatting]
             if namespace in var_map and key in var_map[namespace]:
-                return var_map[namespace][key]
+                return var_map[namespace][key][formatting]
             return "N/A"
         else:
             raise Exception("vars.yaml file has no variables")
