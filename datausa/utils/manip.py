@@ -15,11 +15,16 @@ def datapivot(data, keys, sort="desc", column_id="id", column_value="value", col
     combinations = itertools.product(*[COLMAP[c] for c in keys])
     columns = ["_".join(col) for col in combinations]
 
-    pivoted = [{column_id: dropfirst(k), column_value: v, column_name: pivotname(dropfirst(k), keys)} for k, v in data.iteritems() if dropfirst(k) in columns]
+    moe = False
+    for k in data:
+        if dropfirst(k) in columns:
+            moe = k.split("_")[0]
+            break
 
-    if "{}_{}_moe".format(column_value, pivoted[0][column_id]) in data.keys():
+    pivoted = [{column_id: dropfirst(k), column_value: v, column_name: pivotname(dropfirst(k), keys)} for k, v in data.iteritems() if dropfirst(k) in columns]
+    if moe and "{}_{}_moe".format(moe, pivoted[0][column_id]) in data.keys():
         for row in pivoted:
-            row["moe"] = data["{}_{}_moe".format(column_value, row[column_id])]
+            row["moe"] = data["{}_{}_moe".format(moe, row[column_id])]
 
     return sorted(pivoted, key=lambda x: x[column_value], reverse=(sort == "desc"))
 
@@ -88,7 +93,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
         vals = datapivot(r, col.split("-"), sort="desc")
 
         if moe:
-            top = [vals[rank - 1]["value_moe"]]
+            top = [vals[rank - 1]["moe"]]
         else:
             top = [vals[rank - 1]["name"]]
             vals = [vals[rank - 1]["value"]]
