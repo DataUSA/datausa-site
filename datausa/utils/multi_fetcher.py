@@ -14,7 +14,7 @@ from datausa.utils.manip import datapivot
 # }
 
 
-def render_col(my_data, headers, col, url=False):
+def render_col(my_data, headers, col, url=False, dataset=False):
     value = my_data[headers.index(col)]
     if not value:
         return "N/A"
@@ -22,6 +22,11 @@ def render_col(my_data, headers, col, url=False):
     attr_type = col
     if "_iocode" in col:
         attr_type = "iocode"
+
+    if dataset:
+        alt_type = "{}_{}".format(dataset, attr_type)
+        if alt_type in attr_cache:
+            attr_type = alt_type
 
     if attr_type not in attr_cache:
         if isinstance(value, basestring):
@@ -108,29 +113,31 @@ def multi_col_top(profile, params):
             headers = api_data[0].keys()
             stat_url = u"{}&rank=1".format(base_url)
             for col in cols:
-                return_obj[namespace][col] = render_col(values, headers, col, stat_url)
+                return_obj[namespace][col] = render_col(values, headers, col, stat_url, dataset)
 
     elif not rows:
         if not r["data"]:
             return {}
         api_data = r["data"][0]
         for col in cols:
+            format_col = col
             if col == params["show"]:
                 stat_col = "name"
             else:
                 stat_col = col
             stat_url = u"{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, stat_col, dataset)
-            return_obj[namespace][col] = render_col(api_data, headers, col, stat_url)
+            return_obj[namespace][col] = render_col(api_data, headers, col, stat_url, dataset)
     else:
         for index, data_row in enumerate(r["data"]):
             myobject = {}
             for col in cols:
+                format_col = col
                 if col == params["show"]:
                     stat_col = "name"
                 else:
                     stat_col = col
                 stat_url = u"{}?{}&col={}&rank={}&dataset={}".format(url_for("profile.statView"), query, stat_col, index + 1, dataset)
-                myobject[col] = render_col(data_row, headers, col, stat_url)
+                myobject[col] = render_col(data_row, headers, col, stat_url, dataset)
             return_obj[namespace].append(myobject)
 
     return return_obj

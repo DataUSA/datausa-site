@@ -1,10 +1,5 @@
-- required:
-    - "avg_age"
-    - "avg_wage"
-    - "avg_wage_rank"
-    - "avg_wage_moe"
-    - "num_ppl"
-    - "num_ppl_rank"
+- required: ["avg_age", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank"]
+  year: latest
   namespace: data
 
 - required: ["avg_wage", "avg_wage_moe"]
@@ -15,6 +10,7 @@
   rows: True
   order: sex
   sort: asc
+  year: latest
   namespace: gender
 
 - required: ["gini"]
@@ -28,6 +24,7 @@
   rows: True
   limit: 3
   where: num_records:>4
+  year: latest
   namespace: puma_wage
 
 - required: ["geo"]
@@ -38,6 +35,7 @@
   rows: True
   limit: 3
   where: num_records:>4
+  year: latest
   namespace: puma_rca
 
 - required: ["race"]
@@ -47,6 +45,7 @@
   rows: True
   limit: 3
   where: num_records:>4
+  year: latest
   namespace: race_wage
 
 - required: ["commodity_iocode"]
@@ -58,6 +57,7 @@
   attr_type: "industry_iocode"
   rows: True
   limit: 3
+  year: latest
   namespace: io_commodity
 
 - required: ["industry_iocode"]
@@ -69,4 +69,5 @@
   attr_type: "commodity_iocode"
   rows: True
   limit: 3
+  year: latest
   namespace: io_industry

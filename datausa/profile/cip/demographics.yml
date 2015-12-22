@@ -7,15 +7,15 @@ topics:
     slug: "degree_obtainment"
     stat:
       - title: "Most Common Student Degree"
-        value: "<<top show=degree|order=grads_total>>"
+        value: "<<var namespace=degree_student|key=degree|row=0>>"
         subvalues:
-          - "<<top show=degree|order=grads_total|rank=2>>"
-          - "<<top show=degree|order=grads_total|rank=3>>"
+          - "<<var namespace=degree_student|key=degree|row=1>>"
+          - "<<var namespace=degree_student|key=degree|row=2>>"
       - title: "Most Common Workforce Degree"
-        value: "<<top show=degree|order=num_ppl|dataset=pums|where=num_records:>4>>"
+        value: "<<var namespace=degree_workforce|key=degree|row=0>>"
         subvalues:
-          - "<<top show=degree|order=num_ppl|dataset=pums|rank=2|where=num_records:>4>>"
-          - "<<top show=degree|order=num_ppl|dataset=pums|rank=3|where=num_records:>4>>"
+          - "<<var namespace=degree_workforce|key=degree|row=1>>"
+          - "<<var namespace=degree_workforce|key=degree|row=2>>"
     description: "By leveraging both the PUMS and IPEDS datasets, we can compare the degrees obtained by the working population against the current student graduation rate."
     viz:
       attrs:
@@ -74,10 +74,10 @@ topics:
     slug: "ethnicity_degrees"
     stat:
       - title: "Most Common Race or Ethnicity"
-        value: "<<top col=race|force=ipeds.grads_yc|order=grads_total>>"
+        value: "<<var namespace=race|key=name|row=0>>"
         subvalues:
-          - "<<top col=race|force=ipeds.grads_yc|order=grads_total|rank=2>>"
-          - "<<top col=race|force=ipeds.grads_yc|order=grads_total|rank=3>>"
+          - "<<var namespace=race|key=name|row=1>>"
+          - "<<var namespace=race|key=name|row=2>>"
     description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
     viz:
       attrs: "university"
@@ -209,12 +209,12 @@ topics:
       x: "race"
       y: "grads_total"
   - title: "Workforce Age"
-    slug: "workkforce_age"
+    slug: "workforce_age"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     stat:
       - title: "Average Age"
-        value: "<<top dataset=pums|show=cip|col=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<top dataset=pums|show=cip|col=avg_age_moe>> years"
+        value: "<<var namespace=age|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=age|key=avg_age_moe>> years"
     description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
     viz:
       attrs: "cip"

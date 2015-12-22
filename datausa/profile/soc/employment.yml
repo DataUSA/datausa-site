@@ -9,7 +9,7 @@ topics:
       - title: "Average Salary"
         value: "<<var namespace=data|key=avg_wage>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|key=avg_wage_moe>>"
-    description: "On average, <<name>> earn <<var namespace=data|key=avg_wage>>, compared to the national average of <<top attr_type=geo|geo=01000US|col=avg_wage>>. Here are the 4 closest occupations by average salary."
+    description: "On average, <<name>> earn <<var namespace=data|key=avg_wage>>, compared to the national average of <<var namespace=nation|key=avg_wage>>. Here are the 4 closest occupations by average salary."
     viz:
       attrs: "soc"
       data:
@@ -31,11 +31,11 @@ topics:
   - title: "Income Distribution"
     slug: "wage_distribution"
     description:
-      - "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=gini|den=gini|den_id=01000US|den_type=geo|text=highlow>> the national average of <<top col=gini|attr_type=geo|attr_id=01000US>>."
+      - "<<name>> has an income GINI of <<var namespace=data|key=gini>>, which is <<percent num=var:data,gini|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>."
       - "The GINI coefficient is a measure of statistical dispersion intended to represent income distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality."
     stat:
       - title: "Income GINI"
-        value: "<<var namespace=wagegap|key=gini>>"
+        value: "<<var namespace=data|key=gini>>"
     viz:
       attrs:
         - "soc"

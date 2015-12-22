@@ -11,15 +11,15 @@ topics:
     stat_stack: YES
     stat:
       - title: "High relative number of people major in"
-        value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca>>"
+        value: "<<var namespace=cip_rca|key=cip|row=0>>"
         subvalues:
-          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=2>>"
-          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl_rca|rank=3>>"
+          - "<<var namespace=cip_rca|key=cip|row=1>>"
+          - "<<var namespace=cip_rca|key=cip|row=2>>"
       - title: "Most common major is"
-        value: "<<top show=cip|degree=21|sumlevel=2|order=num_ppl>>"
+        value: "<<var namespace=cip|key=cip|row=0>>"
         subvalues:
-          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=2>>"
-          - "<<top show=cip|degree=21|sumlevel=2|order=num_ppl|rank=3>>"
+          - "<<var namespace=cip|key=cip|row=1>>"
+          - "<<var namespace=cip|key=cip|row=2>>"
     description: "Here we see the share of degrees held by <<name>> whose highest degree obtained is a <span class='select-text'>Bachelor's degree</span>."
     viz:
       attrs: "cip"

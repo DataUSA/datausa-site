@@ -40,12 +40,12 @@ topics:
     slug: "age_gender"
     stat:
       - title: "Average Male Age"
-        value: "<<top sex=1|col=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<top sex=1|col=avg_age|moe=avg_age_moe>>"
+        value: "<<var namespace=sex_age|row=0|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=0|key=avg_age_moe>>"
       - title: "Average Female Age"
-        value: "<<top sex=2|col=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<top sex=2|col=avg_age|moe=avg_age_moe>>"
-    description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and female employees are generally <<top show=sex|required=avg_age|order=avg_age|sort=desc|col=diff|limit=2>> years <<percent num=avg_age|den=avg_age|num_id=1|den_id=2|attr_type=sex|text=age>> than their male counterparts."
+        value: "<<var namespace=sex_age|row=1|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=1|key=avg_age_moe>>"
+    description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and <<var namespace=sex_age|row=0|key=sex>> employees are generally <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True>> years <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True|text=age>> than their <<var namespace=sex_age|row=1|key=sex>> counterparts."
     viz:
       attrs: "sex"
       color: "sex"

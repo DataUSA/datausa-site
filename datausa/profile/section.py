@@ -364,8 +364,11 @@ class Section(object):
             if r[t] in [None, "N/A"]:
                 return "N/A"
 
+        diff = kwargs.get("diff", False)
         if r["num"] == 0 or r["den"] == 0:
             val = 0
+        elif diff:
+            val = r["num"] - r["den"]
         else:
             val = r["num"]/r["den"]
 
@@ -378,14 +381,22 @@ class Section(object):
         text = kwargs.get("text", False)
         if text and text in textLookup:
             text = textLookup[text]
-            if val > 1:
-                return text[0]
-            elif val < 1:
-                return text[1]
+            if diff:
+                if val > 0:
+                    return text[0]
+                elif val < 0:
+                    return text[1]
+                else:
+                    return text[2]
             else:
-                return text[2]
-        elif kwargs.get("ratio", False):
-            return num_format(val)
+                if val > 1:
+                    return text[0]
+                elif val < 1:
+                    return text[1]
+                else:
+                    return text[2]
+        elif diff or kwargs.get("ratio", False):
+            return num_format(abs(val))
         else:
             return "{}%".format(num_format(val * 100))
 

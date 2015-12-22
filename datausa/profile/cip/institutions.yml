@@ -10,7 +10,7 @@ topics:
         subvalues:
           - "<<var namespace=universities|key=university|row=1>>"
           - "<<var namespace=universities|key=university|row=2>>"
-    description: "The largest share of institutions that offer <<name>> are <<top show=sector|order=num_universities|sort=desc>> institutions."
+    description: "The largest share of institutions that offer <<name>> are <<var namespace=sectors|key=sector>> institutions."
     viz:
       attrs:
         - "sector"
@@ -32,9 +32,9 @@ topics:
     slug: "tuition_costs"
     stat:
       - title: "Median In-State Public"
-        value: "<<top show=sector|sector=1|col=state_tuition>>"
+        value: "<<var namespace=tuition|key=state_tuition|row=0>>"
       - title: "Median Out of State Private"
-        value: "<<top show=sector|sector=2|col=oos_tuition>>"
+        value: "<<var namespace=tuition|key=oos_tuition|row=1>>"
     description: "Here are the tuition costs of the top 5 institutions that have the most students graduating with <<name>> degrees."
     viz:
       attrs: "university"
