@@ -355,7 +355,7 @@ topics:
     viz:
       attrs: "geo"
       data:
-        - geo: "<<parents col=income>>,<<id>>"
+        - geo: "<<parents id_only=True|col=income>>,<<id>>"
           required: "income,income_moe"
           show: "geo"
       id: "geo"

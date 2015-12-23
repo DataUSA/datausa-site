@@ -1,12 +1,17 @@
-import os
-import requests
-import yaml
+import json, math, os, re, requests, string, yaml
+from flask import url_for
+from itertools import combinations
+from requests.models import RequestEncodingMixin
+
 from section import Section
 from config import API
-from datausa.utils.data import fetch
-from datausa.utils.manip import datafold
+
+from datausa import app
+from datausa.consts import COLMAP, SUMLEVELS, TEXTCOMPARATORS
+from datausa.utils.data import fetch, get_parents, profile_cache
+from datausa.utils.format import num_format, param_format
+from datausa.utils.manip import datafold, stat
 from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
-import json
 
 class Profile(object):
     """An abstract class for all Profiles.
@@ -29,39 +34,39 @@ class Profile(object):
 
         """
 
-        # set id, attr (using the fetch function), and attr_type
-        self.id = attr_id
+        # set attr (using the fetch function) and attr_type
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
 
         self.variables = self.load_vars()
-        self.splash = Section(self.open_file("splash"), self)
+        self.splash = Section(self.load_yaml(self.open_file("splash")), self)
 
     def children(self, **kwargs):
-        attr_id = kwargs.get("attr_id", self.id)
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        prefix = attr_id[:3]
+        if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
+            attr_id = self.parents()[1]["id"]
+            prefix = "040"
+        if kwargs.get("prefix", False) and "children" in SUMLEVELS["geo"][prefix]:
+            if prefix in ("310", "160"):
+                return attr_id
+            return "^{}".format(attr_id.replace(prefix, SUMLEVELS["geo"][prefix]["children"]))
+        if "children" in SUMLEVELS["geo"][prefix]:
+            sumlevel = SUMLEVELS["geo"][prefix]["children"]
+        else:
+            sumlevel = False
+
         url = "{}/attrs/{}/{}/children/".format(API, self.attr_type, attr_id)
-        sumlevel = kwargs.get("sumlevel", False)
         if sumlevel:
             url = "{}?sumlevel={}".format(url, sumlevel)
         try:
-            return datafold(requests.get(url).json())
+            children = datafold(requests.get(url).json())
         except ValueError:
             return []
 
-    def load_vars(self):
-        """Reads variables from disk and resolves them based on API"""
-        profile_path = os.path.dirname(os.path.realpath(__file__))
-        file_path = os.path.join(profile_path, self.attr_type, "vars.yml")
-        if os.path.isfile(file_path):
-            var_data = yaml.load(open(file_path))
-            # call api to retrieve data
-            var_map = [multi_col_top(self, params) for params in var_data]
-            # merge the various namespaces into a single dict
-            var_map = merge_dicts(*var_map)
-            return var_map
-        return None
+        return u",".join([c["id"] for c in children])
 
-    def id_sub(self, **kwargs):
+    def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
 
         # if there is a specified dataset in kwargs
@@ -122,31 +127,379 @@ class Profile(object):
             url = "/static/img/splash/{}/".format(self.attr_type)
             if self.attr["image_link"]:
                 return {"url": "{}{}.jpg".format(url,self.attr["id"]), "link": self.attr["image_link"], "author": self.attr["image_author"]}
-            parents = [fetch(p["id"], self.attr_type) for p in self.parents()]
+            parents = [fetch(p["id"], self.attr_type) for p in get_parents(self.attr["id"], self.attr_type)]
             for p in reversed(parents):
                 if p["image_link"]:
                     return {"url": "{}{}.jpg".format(url,p["id"]), "link": p["image_link"], "author": p["image_author"]}
         return None
 
-    def parents(self):
-        if self.id == "01000US":
-            return [{"id": "04000US06", "name": "California"}, {"id": "04000US48", "name": "Texas"}, {"id": "04000US36", "name": "New York"}, {"id":"16000US1150000", "name":"Washington D.C."}, {"id":"16000US3651000", "name":"New York, NY"}, {"id":"16000US0644000", "name":"Los Angeles, CA"}, {"id":"16000US1714000", "name":"Chicago, IL"}]
-        url = "{}/attrs/{}/{}/parents".format(API, self.attr_type, self.id)
-        try:
-            return [r for r in datafold(requests.get(url).json()) if r["id"] != self.id]
-        except ValueError:
-            return []
+    def level(self, **kwargs):
+        """str: A string representation of the depth type. """
+        attr_type = kwargs.get("attr_type", self.attr_type)
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        dataset = kwargs.get("dataset", False)
+
+        if attr_type == "geo":
+            prefix = attr_id[:3]
+            if dataset == "chr" and prefix not in ["010", "040"]:
+                prefix = "040"
+
+            labels = SUMLEVELS["geo"][prefix]
+            if kwargs.get("child", False) and "children" in labels:
+                prefix = labels["children"]
+
+            labels = SUMLEVELS["geo"][prefix]
+
+        else:
+            labels = SUMLEVELS[attr_type][self.sumlevel(**kwargs)]
+
+        if kwargs.get("short", False) and "shortlabel" in labels:
+            name = labels["shortlabel"]
+        else:
+            name = labels["label"]
+
+        if "plural" in kwargs:
+            name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
+
+        if "uppercase" in kwargs:
+            name = name.capitalize()
+
+        return name
+
+    def load_vars(self):
+        """Reads variables from disk and resolves them based on API"""
+        var_data = self.load_yaml(self.open_file("vars"))
+        # call api to retrieve data
+        var_map = [multi_col_top(self, params) for params in var_data]
+        # merge the various namespaces into a single dict
+        var_map = merge_dicts(*var_map)
+        return var_map
+
+    def load_yaml(self, config):
+
+        if not isinstance(config, basestring):
+            config = "".join(config.readlines())
+        config = config.decode("utf-8", 'ignore')
+
+        # regex to find all keys matching {{*}}
+        keys = re.findall(r"\{\{([^\}]+)\}\}", config)
+
+        # loop through each key
+        for k in keys:
+            # split the key at a blank space to find params
+            condition, text = k.split("||")
+
+            condition = self.parse_stats(condition)
+            first, second = condition.split(":")
+            not_equals = second.startswith("!")
+
+            if not_equals:
+                second = second[1:]
+
+            if (not_equals and first == second) or (not not_equals and first != second):
+                text = ""
+
+            # replace all instances of key with the returned value
+            k = k.decode("utf-8", 'ignore')
+            config = config.replace("{{{{{}}}}}".format(k), text)
+
+        # regex to find all keys matching <<*>>
+        config = self.parse_stats(config)
+
+        # load the config through the YAML interpreter and set title, description, and topics
+        return yaml.load(config)
+
+    def name(self, **kwargs):
+        """str: The attribute name """
+
+        if "id" in kwargs and "attr" in kwargs:
+            attr = fetch(kwargs["id"], kwargs["attr"])
+        elif "dataset" in kwargs:
+            attr = fetch(self.id(**kwargs), self.attr_type)
+        else:
+            attr = self.attr
+
+        name = attr["display_name"] if "display_name" in attr else attr["name"]
+        text_only = kwargs.get("text_only", False)
+        if not text_only and attr["id"] != self.attr["id"]:
+            name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.attr_type, attr_id=attr["id"]), name)
+        return name
 
     def open_file(self, f):
         profile_path = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(f))
         return open(file_path)
 
+    def parents(self, **kwargs):
+        id_only = kwargs.get("id_only", False)
+        attr_id = self.id(**kwargs)
+
+        prefix = kwargs.get("prefix", None)
+        if prefix:
+            top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type="geo", attr_id=p["id"]), p["name"]) for p in get_parents(attr_id, self.attr_type) if p["id"].startswith(prefix)]
+            if len(top) > 1:
+                top[-1] = "and {}".format(top[-1])
+            if len(top) == 2:
+                top = " ".join(top)
+            else:
+                top = "; ".join(top)
+            return top
+
+        if self.attr["id"] == "01000US":
+
+            col = kwargs.get("col", False)
+            if col:
+
+                params = {
+                    "show": "geo",
+                    "required": col,
+                    "sumlevel": "state",
+                    "order": col,
+                    "sort": "desc"
+                }
+
+                query = RequestEncodingMixin._encode_params(params)
+                url = "{}/api?{}".format(API, query)
+
+                try:
+                    results = [r for r in datafold(requests.get(url).json()) if r[col]]
+                except ValueError:
+                    app.logger.info("STAT ERROR: {}".format(url))
+                    return ""
+
+                results = results[:2] + results[-2:]
+
+                if id_only:
+                    return ",".join([r["geo"] for r in results])
+                else:
+                    return [fetch(r["geo"], "geo") for r in results]
+            else:
+                results = [
+                    {"id": "04000US06", "name": "California"},
+                    {"id": "04000US48", "name": "Texas"},
+                    {"id": "04000US36", "name": "New York"},
+                    {"id": "16000US1150000", "name":"Washington D.C."},
+                    {"id": "16000US3651000", "name":"New York, NY"},
+                    {"id": "16000US0644000", "name":"Los Angeles, CA"},
+                    {"id": "16000US1714000", "name":"Chicago, IL"}
+                ]
+
+                if id_only:
+                    return ",".join([r["id"] for r in results])
+                else:
+                    return r
+
+        results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
+        if id_only:
+            return ",".join([r["id"] for r in results])
+        else:
+            return results
+
+    def parse_stats(self, string):
+        keys = re.findall(r"<<(.*?)>>", string)
+        for k in keys:
+            func, params = k.split(" ") if " " in k else (k, "")
+            # if Section has a function with the same name as the key
+            if hasattr(self, func):
+                # convert params into a dict, splitting at pipes
+                params = dict(item.split("=") for item in params.split("|")) if params else {}
+                # run the Section function, passing the params as kwargs
+                val = getattr(self, func)(**params)
+
+                # if it returned an object, convert it to string
+                if isinstance(val, (int, long, float, complex)):
+                    val = str(val)
+                elif isinstance(val, dict):
+                    col = params.get("col", "name")
+                    if col == "id":
+                        val = val["value"]
+                    else:
+                        val = u"<span data-url='{}'>{}</span>".format(val["url"], val["value"])
+
+                # replace all instances of key with the returned value
+                # !! TODO: fix unicode black magic !!
+                if isinstance(val, str):
+                    val = val.decode("utf-8", 'ignore')
+                # !! TODO: fix root cause of unprintable strings in attrs
+                # val = filter(lambda x: x in string.printable, val)
+            else:
+                val = u"N/A"
+            k = k.decode("utf-8", 'ignore')
+            string = string.replace(u"<<{}>>".format(k), val)
+        return string
+
+    def percent(self, **kwargs):
+        """str: 2 columns divided by one another """
+
+        attr_type = kwargs.get("attr_type", self.attr_type)
+        attr_id = kwargs.get("attr_id", self.attr["id"])
+
+        r = {"num": 1, "den": 1}
+        for t in r.keys():
+            key = kwargs.get(t)
+
+            params = {}
+            params["limit"] = 1
+            params["year"] = kwargs.get("year", "latest")
+            params = param_format(params)
+            t_type = kwargs.get("{}_type".format(t), attr_type)
+            params["show"] = kwargs.get("show", t_type)
+            params[t_type] = kwargs.get("{}_id".format(t), attr_id)
+            params["exclude"] = kwargs.get("exclude", kwargs.get("{}_exclude".format(t), ""))
+
+            if "top:" in key:
+
+                params["col"], params["force"] = key.split(":")[1].split(",")
+                r[t] = self.top(**params)["data"][0]
+
+            elif "var:" in key:
+
+                keys = key.split(":")[1].split(",")
+                if len(keys) == 2:
+                    keys.append(None)
+                ns, col, row = keys
+                r[t] = self.var(namespace=ns, key=col, row=row, format="raw")
+
+            elif "," in key:
+
+                num, den = key.split(",")
+                subparams = {}
+                subparams["num"] = num
+                subparams["den"] = den
+                subparams["data_only"] = True
+                subparams["num_id"] = params[t_type]
+                subparams["den_id"] = params[t_type]
+                r[t] = self.percent(**subparams)
+
+            else:
+
+                params["required"] = key
+
+                # convert request arguments into a url query string
+                query = RequestEncodingMixin._encode_params(params)
+                url = u"{}/api?{}".format(API, query)
+
+                try:
+                    r[t] = datafold(requests.get(url).json())
+                except ValueError:
+                    app.logger.info("STAT ERROR: {}".format(url))
+                    return "N/A"
+
+                if len(r[t]) == 0:
+                    return "N/A"
+                r[t] = r[t][0][key]
+
+            if r[t] in [None, "N/A"]:
+                return "N/A"
+
+        diff = kwargs.get("diff", False)
+        if r["num"] == 0 or r["den"] == 0:
+            val = 0
+        elif diff:
+            val = r["num"] - r["den"]
+        else:
+            val = r["num"]/r["den"]
+
+        if kwargs.get("invert", False):
+            val = 1 - val
+
+        if kwargs.get("data_only", False):
+            return val
+
+        text = kwargs.get("text", False)
+        if text and text in TEXTCOMPARATORS:
+            text = TEXTCOMPARATORS[text]
+            if diff:
+                if val > 0:
+                    return text[0]
+                elif val < 0:
+                    return text[1]
+                else:
+                    return text[2]
+            else:
+                if val > 1:
+                    return text[0]
+                elif val < 1:
+                    return text[1]
+                else:
+                    return text[2]
+        elif diff or kwargs.get("ratio", False):
+            return num_format(abs(val))
+        else:
+            return "{}%".format(num_format(val * 100))
+
+    def plural(self, **kwargs):
+        text = kwargs.pop("text")
+        try:
+            if "namespace" in kwargs:
+                kwargs["format"] = "raw"
+                val = float(self.var(**kwargs))
+            else:
+                val = float(self.top(**kwargs)[0])
+        except ValueError:
+            val = 2
+        if val != 1:
+            return "{}ies".format(text[:-1]) if text[-1] == "y" else "{}s".format(text)
+        return text
+
+    def range(self, **kwargs):
+        minVal = int(kwargs.get("min"))
+        maxVal = int(kwargs.get("max"))
+        return str(range(minVal, maxVal + 1))
+
+    def ranks(self, **kwargs):
+
+        ranks = int(kwargs.get("limit", 1))
+        col = kwargs.get("col")
+        attr_type = kwargs.get("attr_type", self.attr_type)
+
+        params = {}
+        params[attr_type] = self.attr["id"]
+        params["required"] = col
+        params["show"] = kwargs.get("show", self.attr_type)
+        params["sumlevel"] = "all"
+
+        query = RequestEncodingMixin._encode_params(params)
+        url = "{}/api?{}".format(API, query)
+
+        try:
+            rank = int(datafold(requests.get(url).json())[0][col])
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            return ""
+
+        if rank <= (ranks/2 + 1):
+            return ",".join([str(r) for r in range(1, ranks + 1)])
+
+        del params[attr_type]
+        params["limit"] = 1
+        params["order"] = col
+        params["sort"] = "desc"
+
+        query = RequestEncodingMixin._encode_params(params)
+        url = "{}/api?{}".format(API, query)
+
+        try:
+            max_rank = int(datafold(requests.get(url).json())[0][col])
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            return ""
+
+        if rank > (max_rank - ranks/2 - 1):
+            results = range(max_rank - ranks + 1, max_rank + 1)
+        else:
+            results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
+
+        return ",".join([str(r) for r in results])
+
+    def rank_max(self, **kwargs):
+        return num_format(profile_cache[self.attr_type]["ranks"][self.sumlevel(**kwargs)], condense=False)
+
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
 
         # pass each file to the Section class and return the final array
-        return [Section(self.open_file(f), self, f) for f in self.splash.sections]
+        return [Section(self.load_yaml(self.open_file(f)), self, f) for f in self.splash.sections]
 
     def section_by_topic(self, section_name, slugs):
         '''Section: Creates a custom Section object with the desired topics by slug'''
@@ -160,5 +513,173 @@ class Profile(object):
                 desired_config['title'] = section_dict['title']
             if 'description' in section_dict:
                 desired_config['description'] = section_dict['description']
-            return Section(json.dumps(desired_config), self, section_name)
+            return Section(self.load_yaml(json.dumps(desired_config)), self, section_name)
         return None
+
+    def solo(self):
+        attr_id = self.attr["id"]
+        if attr_id[:3] in ["010", "040"]:
+            return ""
+        else:
+            states = [p["id"] for p in self.parents() if p["id"][:3] == "040"]
+            return_ids = []
+            for state in states:
+                try:
+                    url = "{}/attrs/geo/{}/children?sumlevel={}".format(API, state, attr_id[:3])
+                    results = datafold(requests.get(url).json())
+                    return_ids += [r["id"] for r in results]
+                except ValueError:
+                    return ""
+            return ",".join(return_ids)
+
+    def sub(self, **kwargs):
+        substitution = False
+        key = kwargs.pop("key", "name")
+        if kwargs.get("dataset", False):
+            attr_id = self.id(**kwargs)
+            if self.attr["id"] != attr_id:
+                substitution = fetch(attr_id, self.attr_type)
+        else:
+            kwargs["data_only"] = True
+            attr_type = kwargs.get("attr_type", self.attr_type)
+            attrs = kwargs.pop("attrs", attr_type)
+            subs = self.top(**kwargs)
+            if "subs" not in subs:
+                return ""
+            subs = subs["subs"]
+            if attr_type in subs and subs[attr_type] != self.attr["id"]:
+                substitution = fetch(subs[attr_type], attrs)
+
+        if substitution:
+            if key == "name":
+                substitution = substitution["name"]
+                return u"Based on data from {}".format(substitution)
+            else:
+                return substitution[key]
+        else:
+            return ""
+
+    def sumlevel(self, **kwargs):
+        """str: A string representation of the depth type. """
+        attr_type = kwargs.get("attr_type", self.attr_type)
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+
+        if attr_type == "geo":
+            prefix = attr_id[:3]
+            if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
+                prefix = "040"
+            if kwargs.get("child", False) and "children" in SUMLEVELS["geo"][prefix]:
+                prefix = SUMLEVELS["geo"][prefix]["children"]
+            name = SUMLEVELS["geo"][prefix]["sumlevel"]
+
+            if "plural" in kwargs:
+                name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
+
+            return name
+
+        elif attr_type == "cip":
+            return str(len(attr_id))
+
+        else:
+            return str(fetch(attr_id, attr_type)["level"])
+
+    def top(self, **kwargs):
+        """str: A text representation of a top statistic or list of statistics """
+
+        attr_type = kwargs.get("attr_type", self.attr_type)
+        dataset = kwargs.get("dataset", False)
+        moe = kwargs.pop("moe", False)
+
+        # create a params dict to use in the URL request
+        params = {}
+
+        # set the section's attribute ID in params
+        attr_id = kwargs.get("attr_id", False)
+        if attr_type != self.attr_type and attr_id and "top" in attr_id:
+            l, o = attr_id.split(":")
+            attr_id = self.top(**{
+                "col": "id",
+                "order": o,
+                "sort": "desc",
+                "limit": l[3:],
+                "show": attr_type
+            })["value"]
+
+        child = kwargs.get("child", False)
+        if attr_id == False:
+            if child:
+                aid = self.id(**kwargs)
+                prefix = aid[:3]
+                if dataset == "chr" and prefix not in ["010", "040"]:
+                    aid = self.parents()[1]["id"]
+                    prefix = "040"
+                if "children" in SUMLEVELS["geo"][prefix]:
+                    if prefix in ("310", "160"):
+                        params["where"] = "geo:{}".format(aid)
+                    else:
+                        params["where"] = "geo:^{}".format(aid.replace(prefix, SUMLEVELS["geo"][prefix]["children"]))
+                    attr_id = ""
+        if attr_id == False:
+            attr_id = self.id(**kwargs)
+        params[attr_type] = attr_id
+
+        # get output key from either the value in kwargs (while removing it) or 'name'
+        col = kwargs.pop("col", "name")
+        data_only = kwargs.pop("data_only", False)
+        if child:
+            kwargs["sumlevel"] = self.sumlevel(**kwargs)
+
+        for k in ["attr_type", "attr_id", "child", "dataset"]:
+            if k in kwargs:
+                del kwargs[k]
+
+        # add the remaining kwargs into the params dict
+        params = dict(params.items()+kwargs.items())
+
+        # set default params
+        params["limit"] = params.get("limit", 1)
+        params["show"] = params.get("show", attr_type)
+        params["sumlevel"] = params.get("sumlevel", "all")
+        if "sumlevel" in params["sumlevel"]:
+            params["sumlevel"] = params["sumlevel"].replace("sumlevel", self.sumlevel())
+        if "naics_level" in params and "sumlevel" in params["naics_level"]:
+            params["naics_level"] = params["naics_level"].replace("sumlevel", self.sumlevel())
+        if "soc_level" in params and "sumlevel" in params["soc_level"]:
+            params["soc_level"] = params["soc_level"].replace("sumlevel", self.sumlevel())
+        params = param_format(params)
+
+        if "force" not in params and params["required"] == "":
+            col_maps = COLMAP.keys()
+            col_maps += ["-".join(c) for c in list(combinations(col_maps, 2))]
+
+            # extra allowed values for 'col'
+            col_maps += ["id", "name", "ratio"]
+
+            if col not in col_maps:
+                params["required"] = col
+            elif "order" in params:
+                params["required"] = params["order"]
+
+        if moe and "force" not in params:
+            params["required"] += ",{}".format(moe)
+
+        # make the API request using the params
+        return stat(params, col=col, dataset=dataset, data_only=data_only, moe=moe)
+
+    def var(self, **kwargs):
+        namespace = kwargs["namespace"]
+        key = kwargs["key"]
+        formatting = kwargs.get("format", "pretty")
+        row = kwargs.get("row", False)
+
+        var_map = self.variables
+        if var_map:
+            if row and namespace in var_map and var_map[namespace]:
+                row = int(row)
+                if row < len(var_map[namespace]):
+                    return var_map[namespace][row][key][formatting]
+            if namespace in var_map and key in var_map[namespace]:
+                return var_map[namespace][key][formatting]
+            return "N/A"
+        else:
+            raise Exception("vars.yaml file has no variables")

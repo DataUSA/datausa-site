@@ -90,6 +90,13 @@ SUMLEVELS = {
     }
 }
 
+TEXTCOMPARATORS = {
+    "age": ("older than", "younger than", "the same age as"),
+    "highlow": ("higher than", "lower than", "the same as"),
+    "longshort": ("longer", "shorter", "equal"),
+    "moreless": ("more than", "less than", "the same as")
+}
+
 DICTIONARY = {
 
     "geo": "Location Name",

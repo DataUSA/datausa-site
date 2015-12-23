@@ -18,7 +18,7 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents col=income>>,<<id>>"
+        geo: "<<parents id_only=True|col=income>>,<<id>>"
         required: "income"
       height: 250
       id: "geo"
@@ -64,7 +64,7 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents col=median_property_value>>,<<id>>"
+        geo: "<<parents id_only=True|col=median_property_value>>,<<id>>"
         required: "median_property_value,median_property_value_moe"
       height: 250
       id: "geo"
@@ -123,7 +123,7 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents col=owner_occupied_housing_units>>,<<id>>"
+        geo: "<<parents id_only=True|col=owner_occupied_housing_units>>,<<id>>"
         required: "owner_occupied_housing_units"
       height: 250
       id: "geo"
@@ -169,7 +169,7 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        geo: "<<parents col=mean_commute_minutes>>,<<id>>"
+        geo: "<<parents id_only=True|col=mean_commute_minutes>>,<<id>>"
         required: "mean_commute_minutes"
       id: "geo"
       height: 250

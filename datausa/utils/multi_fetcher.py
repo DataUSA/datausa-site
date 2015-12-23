@@ -66,17 +66,14 @@ def multi_col_top(profile, params):
     params["sumlevel"] = params.get("sumlevel", "all")
     params["sort"] = params.get("sort", "desc")
     if attr_type not in params:
-        params[attr_type] = profile.id_sub(**params)
+        params[attr_type] = profile.id(**params)
     dataset = params.pop("dataset", False)
     cols = params.pop("required", [])
     params["required"] = ",".join(cols)
     namespace = params.pop("namespace")
     pivot = params.pop("pivot", False)
     query = RequestEncodingMixin._encode_params(params)
-
-    ''' replace when variable functions work in vars! '''
-    url = u"{}/api?{}".format(API, query).replace("%3C%3Cid%3E%3E", profile.id)
-    '''  '''
+    url = u"{}/api?{}".format(API, query)
 
     try:
         r = requests.get(url).json()

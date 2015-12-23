@@ -74,7 +74,7 @@ topics:
     viz:
       attrs: "geo"
       data:
-        - geo: "<<parents col=us_citizens>>,<<id>>"
+        - geo: "<<parents id_only=True|col=us_citizens>>,<<id>>"
           required: "us_citizens"
           show: "geo"
       id: "geo"
