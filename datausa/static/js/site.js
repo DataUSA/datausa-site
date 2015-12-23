@@ -1296,7 +1296,7 @@ var attrStyles = {
     },
     "31-33": {
         "color": "#386f8e",
-        "icon": "thing_factory.png"
+        "icon": "place_factory.png"
     },
     "42": {
         "color": "#6d8a50",
@@ -1355,7 +1355,7 @@ var attrStyles = {
     },
     "02": {
         "color": "#386f8e",
-        "icon": "thing_factory.png"
+        "icon": "place_factory.png"
     },
     "03": {
         "color": "#6d8a50",
@@ -1422,7 +1422,7 @@ var attrStyles = {
     },
     "31-33": {
         "color": "#386f8e",
-        "icon": "thing_factory.png"
+        "icon": "place_factory.png"
     },
     "42": {
         "color": "#6d8a50",
@@ -1497,7 +1497,7 @@ var attrStyles = {
     },
     "31G": {
         "color": "#386f8e",
-        "icon": "thing_factory.png"
+        "icon": "place_factory.png"
     },
     "44RT": {
         "color": "#445eb3",
@@ -1608,7 +1608,7 @@ var attrStyles = {
     },
     "14": {
         "color": "#386f8e",
-        "icon": "thing_factory.png"
+        "icon": "place_factory.png"
     },
     "15": {
         "color": "#5ea1c7",
