@@ -1,5 +1,2 @@
-*.pyc
 .DS_Store
-cache_data/
-shapefiles/
-datausa/static/.webassets-cache/
+/_site/
