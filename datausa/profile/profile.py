@@ -290,7 +290,7 @@ class Profile(object):
                 if id_only:
                     return ",".join([r["id"] for r in results])
                 else:
-                    return r
+                    return results
 
         results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
         if id_only:
