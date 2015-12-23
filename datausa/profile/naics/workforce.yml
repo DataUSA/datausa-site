@@ -292,7 +292,7 @@ topics:
   - title: "Income Distribution"
     slug: "wage_distro"
     description:
-      - "The <<name>> <<level short=True>> has an income GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=gini|den=gini|den_id=01000US|den_type=geo|text=highlow>> the national average of <<top col=gini|attr_type=geo|attr_id=01000US>>."
+      - "The <<name>> <<level short=True>> has an income GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>."
       - "The GINI coefficient is a measure of statistical dispersion intended to represent income distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality."
     stat:
       - title: "Income GINI"

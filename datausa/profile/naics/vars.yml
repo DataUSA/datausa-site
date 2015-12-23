@@ -16,6 +16,11 @@
 - required: ["gini"]
   namespace: wagegap
 
+- required: ["gini"]
+  attr_type: geo
+  geo: 01000US
+  namespace: wagegap_us
+
 - required: ["geo"]
   sumlevel: puma
   show: geo
