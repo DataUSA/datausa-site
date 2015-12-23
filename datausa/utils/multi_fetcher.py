@@ -17,7 +17,7 @@ from datausa.utils.manip import datapivot
 def render_col(my_data, headers, col, url=False, dataset=False):
     value = my_data[headers.index(col)]
     if not value:
-        return "N/A"
+        return {"raw": None, "pretty": "N/A"}
 
     attr_type = col
     if "_iocode" in col:
@@ -78,11 +78,11 @@ def multi_col_top(profile, params):
     try:
         r = requests.get(url).json()
     except ValueError:
-        app.logger.info("STAT ERROR: {}".format(url))
-        return {
-            "url": "N/A",
-            "value": "N/A"
-        }
+        app.logger.info("VAR ERROR: {}".format(url))
+        return {}
+
+    if len(r["data"]) == 0:
+        return {}
 
     headers = r["headers"]
     return_obj = {namespace: {} if not rows else []}

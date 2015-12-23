@@ -62,7 +62,7 @@ class Profile(object):
         try:
             children = datafold(requests.get(url).json())
         except ValueError:
-            return []
+            return ""
 
         return u",".join([c["id"] for c in children])
 
@@ -433,9 +433,13 @@ class Profile(object):
         try:
             if "namespace" in kwargs:
                 kwargs["format"] = "raw"
-                val = float(self.var(**kwargs))
+                val = self.var(**kwargs)
             else:
-                val = float(self.top(**kwargs)[0])
+                val = self.top(**kwargs)[0]
+            if val:
+                val = float(val)
+            else:
+                val = 2
         except ValueError:
             val = 2
         if val != 1:

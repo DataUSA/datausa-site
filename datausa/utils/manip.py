@@ -133,12 +133,12 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
     else:
         # list creation for non-ids
         if len(top) > 1:
-            top[-1] = "and {}".format(top[-1])
+            top[-1] = u"and {}".format(top[-1])
 
         if len(top) == 2:
-            top = " ".join(top)
+            top = u" ".join(top)
         else:
-            top = "; ".join(top)
+            top = u"; ".join(top)
 
     # otherwise, return the list joined with commans
     return {

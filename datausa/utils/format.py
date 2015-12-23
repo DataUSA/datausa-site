@@ -4,6 +4,9 @@ from datausa.consts import AFFIXES, COLMAP, NEVERCONDENSE, PERCENTAGES, PROPORTI
 
 def num_format(number, key=None, labels=True, condense=True):
 
+    if number == float("inf"):
+        return "N/A"
+
     if key:
 
         if "_moe" in key:
