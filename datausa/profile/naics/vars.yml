@@ -1,5 +1,6 @@
 - required: ["avg_age", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank"]
   year: latest
+  naics_level: <<sumlevel>>
   namespace: data
 
 - required: ["avg_wage", "avg_wage_moe"]
@@ -11,9 +12,11 @@
   order: sex
   sort: asc
   year: latest
+  naics_level: <<sumlevel>>
   namespace: gender
 
 - required: ["gini"]
+  naics_level: <<sumlevel>>
   namespace: wagegap
 
 - required: ["gini"]
@@ -30,6 +33,7 @@
   limit: 3
   where: num_records:>4
   year: latest
+  naics_level: <<sumlevel>>
   namespace: puma_wage
 
 - required: ["geo"]
@@ -41,6 +45,7 @@
   limit: 3
   where: num_records:>4
   year: latest
+  naics_level: <<sumlevel>>
   namespace: puma_rca
 
 - required: ["race"]
@@ -51,6 +56,7 @@
   limit: 3
   where: num_records:>4
   year: latest
+  naics_level: <<sumlevel>>
   namespace: race_wage
 
 - required: ["commodity_iocode"]
