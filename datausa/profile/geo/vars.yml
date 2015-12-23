@@ -228,3 +228,73 @@
   limit: 3
   year: latest
   namespace: "grads_total"
+
+- required: ["geo", "health_care_costs"]
+  order: health_care_costs
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: health_care_costs
+
+- required: ["geo", "adult_obesity"]
+  order: adult_obesity
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: obesity
+
+- required: ["geo", "diabetes"]
+  order: diabetes
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: diabetes
+
+- required: ["geo", "alcoholimpaired_driving_deaths"]
+  order: alcoholimpaired_driving_deaths
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: alcohol
+
+- required: ["geo", "hiv_prevalence_rate"]
+  order: hiv_prevalence_rate
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: hiv
+
+- required: ["geo", "sexually_transmitted_infections"]
+  order: sexually_transmitted_infections
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: sti
+
+- required: ["geo", "homicide_rate"]
+  order: homicide_rate
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: homicide_rate

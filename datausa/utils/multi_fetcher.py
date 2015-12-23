@@ -59,18 +59,25 @@ def merge_dicts(*dict_args):
 
 
 def multi_col_top(profile, params):
+    namespace = params.pop("namespace")
     attr_type = params.get("attr_type", profile.attr_type)
     rows = params.pop("rows", False)
+    cols = params.pop("required", [])
+    children = params.pop("children", False)
     params["show"] = params.get("show", attr_type)
     params["limit"] = params.get("limit", 1)
     params["sumlevel"] = params.get("sumlevel", "all")
     params["sort"] = params.get("sort", "desc")
-    if attr_type not in params:
+
+    if children:
+        params["prefix"] = True
+        params["where"] = "{}:{}".format(attr_type, profile.children(**params))
+        prefix_pop = params.pop("prefix")
+    elif attr_type not in params:
         params[attr_type] = profile.id(**params)
+
     dataset = params.pop("dataset", False)
-    cols = params.pop("required", [])
     params["required"] = ",".join(cols)
-    namespace = params.pop("namespace")
     pivot = params.pop("pivot", False)
     query = RequestEncodingMixin._encode_params(params)
     url = u"{}/api?{}".format(API, query)

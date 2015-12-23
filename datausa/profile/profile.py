@@ -42,11 +42,14 @@ class Profile(object):
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
 
     def children(self, **kwargs):
+
         attr_id = kwargs.get("attr_id", self.id(**kwargs))
         prefix = attr_id[:3]
+
         if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
             attr_id = self.parents()[1]["id"]
             prefix = "040"
+
         if kwargs.get("prefix", False) and "children" in SUMLEVELS["geo"][prefix]:
             if prefix in ("310", "160"):
                 return attr_id
@@ -612,16 +615,11 @@ class Profile(object):
         child = kwargs.get("child", False)
         if attr_id == False:
             if child:
-                aid = self.id(**kwargs)
-                prefix = aid[:3]
-                if dataset == "chr" and prefix not in ["010", "040"]:
-                    aid = self.parents()[1]["id"]
-                    prefix = "040"
-                if "children" in SUMLEVELS["geo"][prefix]:
-                    if prefix in ("310", "160"):
-                        params["where"] = "geo:{}".format(aid)
-                    else:
-                        params["where"] = "geo:^{}".format(aid.replace(prefix, SUMLEVELS["geo"][prefix]["children"]))
+                kwargs["prefix"] = True
+                where = self.children(**kwargs)
+                pre = kwargs.pop("prefix")
+                if len(where) > 0:
+                    params["where"] = "{}:{}".format(self.attr_type, where)
                     attr_id = ""
         if attr_id == False:
             attr_id = self.id(**kwargs)
