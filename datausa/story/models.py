@@ -51,7 +51,7 @@ class StoryPreview(object):
 class Story(Profile):
 
     def __init__(self, attr_id, attr_type):
-        self.id = attr_id
+        self._id = attr_id
         self.attr_type = attr_type
         self.attr = {"id": "01000US", "name": "United States"}
 
@@ -70,8 +70,11 @@ class Story(Profile):
         for idx, t in enumerate(tmp_obj["topics"]):
             if "viz_url" in t:
                 tmp_obj["topics"][idx] = Story.grab(t["viz_url"])
-        section = Section(json.dumps(tmp_obj), self)
+        section = Section(self.load_yaml(tmp_obj), self)
         self.topics = section.topics
+
+    def id(self, **kwargs):
+        return self._id
 
     @classmethod
     def grab(cls, viz_url):
@@ -92,5 +95,5 @@ class Story(Profile):
     @classmethod
     def process_viz(cls, attr_id, attr_type, viz_obj):
         profile = Profile(attr_id, attr_type)
-        section = Section(json.dumps(viz_obj), profile)
+        section = Section(profile.load_yaml(viz_obj), profile)
         return section.topics

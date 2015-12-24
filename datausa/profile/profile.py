@@ -179,8 +179,9 @@ class Profile(object):
         return var_map
 
     def load_yaml(self, config):
-
-        if not isinstance(config, basestring):
+        if isinstance(config, dict):
+                config = json.dumps(config)
+        elif not isinstance(config, basestring):
             config = "".join(config.readlines())
         config = config.decode("utf-8", 'ignore')
 
