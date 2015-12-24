@@ -20,13 +20,12 @@
     // display: block;
     @include flex();
     @include justify(flex-start);
-    padding: 6px 8px 4px;
     @include box();
+    padding: 6px 8px 4px;
 
-    &:focus, &:hover {
+    &:active, &:focus, &:hover {
       h2 {
         display: inline-block;
-        border-bottom: 1px solid #333;
       }
     }
 
@@ -54,6 +53,9 @@
       line-height: 1.3;
       display: inline-block;
       border-bottom: 1px solid transparent;
+      &:focus {
+        color: red !important;
+      }
     }
 
     p {
@@ -472,6 +474,10 @@ body.search {
           }
 
           h2 a {
+            
+            &:focus {
+              border-bottom: solid black 1px;
+            }
             
             &::after {
               content: unicode("00bb");

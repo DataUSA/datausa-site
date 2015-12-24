@@ -230,6 +230,33 @@
   })
 
   search.reload();
+  
+
+  
+  d3.select(document).on("keyup.adv_search", function(){
+    var search_items = Array.prototype.slice.call(document.querySelectorAll(".search-item"));
+    var focused_a = d3.select(".search-item .info a:focus").node();
+    var focused_i = -1;
+    if(focused_a){
+      var focused_search_item = focused_a.parentNode.parentNode.parentNode;
+      focused_i = search_items.indexOf(focused_search_item);
+    }
+    
+    // Up/Down Arrows
+    if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
+      var direction = d3.event.keyCode === 40 ? 1 : -1;
+      var next_search_item = search_items[focused_i+direction];
+      if(next_search_item){
+        d3.select(next_search_item).select(".info a").node().focus();
+      }
+    }
+    
+    // Enter
+    if (d3.event.keyCode === 13 && focused_a) {
+      window.location = focused_a.href;
+    }
+    
+  })
 
 </script>
 {% endblock %}
