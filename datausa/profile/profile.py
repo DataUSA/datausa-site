@@ -25,7 +25,7 @@ class Profile(object):
 
     """
 
-    def __init__(self, attr_id, attr_type):
+    def __init__(self, attr_id, attr_type, required_namespaces=None):
         """Initializes a new Profile class.
 
         Args:
@@ -37,8 +37,7 @@ class Profile(object):
         # set attr (using the fetch function) and attr_type
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
-
-        self.variables = self.load_vars()
+        self.variables = self.load_vars(required_namespaces)
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
 
     def children(self, **kwargs):
@@ -169,9 +168,12 @@ class Profile(object):
 
         return name
 
-    def load_vars(self):
+    def load_vars(self, required_namespaces=None):
         """Reads variables from disk and resolves them based on API"""
         var_data = self.load_yaml(self.open_file("vars"))
+        if required_namespaces:
+            var_data = [vd for vd in var_data
+                        if vd['namespace'] in required_namespaces]
         # call api to retrieve data
         var_map = [multi_col_top(self, params) for params in var_data]
         # merge the various namespaces into a single dict
@@ -686,3 +688,13 @@ class Profile(object):
             return "N/A"
         else:
             raise Exception("vars.yaml file has no variables")
+
+    @classmethod
+    def compute_namespaces(cls, attr_type, section_name, topics):
+        profile_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(profile_path, attr_type, "{}.yml".format(section_name))
+        section_dict = yaml.load(open(file_path, 'r'))
+        my_topics = [t for t in section_dict['topics'] if 'slug' in t and t['slug'] in topics]
+        raw_topics = json.dumps(my_topics)
+        keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
+        return keys
