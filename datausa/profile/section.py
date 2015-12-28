@@ -1,8 +1,9 @@
-from datausa.consts import SUMLEVELS
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, fetch
+from datausa.profile.abstract import BaseObject
 
-class Section(object):
+
+class Section(BaseObject):
     """A section of a profile page that contains many horizontal text/viz topics.
 
     Attributes:
@@ -45,7 +46,7 @@ class Section(object):
         if "topics" in config:
             self.topics = config["topics"]
 
-            self.topics = [t for t in self.topics if self.allowedLevels(t)]
+            self.topics = [t for t in self.topics if self.allowed_levels(t)]
 
             # loop through the topics
             for topic in self.topics:
@@ -63,13 +64,13 @@ class Section(object):
                         return False
 
                 if "stat" in topic:
-                    topic["stat"] = [s for s in topic["stat"] if self.allowedLevels(s)]
+                    topic["stat"] = [s for s in topic["stat"] if self.allowed_levels(s)]
 
                 # instantiate the "viz" config into an array of Viz classes
                 if "viz" in topic:
                     if not isinstance(topic["viz"], list):
                         topic["viz"] = [topic["viz"]]
-                    topic["viz"] = [v for v in topic["viz"] if self.allowedLevels(v)]
+                    topic["viz"] = [v for v in topic["viz"] if self.allowed_levels(v)]
                     topic["viz"] = [Viz(viz, getHighlight(viz)) for viz in topic["viz"]]
 
                 if "miniviz" in topic:
@@ -93,21 +94,6 @@ class Section(object):
         if "facts" in config:
             self.facts = config["facts"]
 
-    def allowedLevels(self, obj):
-        """bool: Returns whether or not a topic/viz is allowed for a specific profile """
-        if "sumlevel" in obj:
-            levels = [t for t in obj["sumlevel"].split(",")]
-            if self.attr_type == "geo":
-                level = SUMLEVELS["geo"][self.attr["id"][:3]]["sumlevel"]
-            else:
-                level = len(self.attr["id"])
-
-            if "!" in obj["sumlevel"]:
-                return not "!{}".format(level) in levels
-            else:
-                return level in levels
-
-        return True
 
     def __repr__(self):
         return u"Section: {}".format(self.title)

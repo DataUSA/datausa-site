@@ -12,8 +12,10 @@ from datausa.utils.data import fetch, get_parents, profile_cache
 from datausa.utils.format import num_format, param_format
 from datausa.utils.manip import datafold, stat
 from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
+from datausa.profile.abstract import BaseObject
 
-class Profile(object):
+
+class Profile(BaseObject):
     """An abstract class for all Profiles.
 
     Handles fetching attribute properties and reading in YAML configuration files as strings.
@@ -182,10 +184,17 @@ class Profile(object):
 
     def load_yaml(self, config):
         if isinstance(config, dict):
-                config = json.dumps(config)
-        elif not isinstance(config, basestring):
+            pass
+        elif isinstance(config, file):
             config = "".join(config.readlines())
+
         config = config.decode("utf-8", 'ignore')
+        config = yaml.load(config)
+
+        if 'topics' in config:
+            config['topics'] = [t for t in config['topics'] if self.allowed_levels(t)]
+
+        config = json.dumps(config)
 
         # regex to find all keys matching {{*}}
         keys = re.findall(r"\{\{([^\}]+)\}\}", config)
