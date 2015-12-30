@@ -93,7 +93,7 @@ var search = {
 
 search.reload = function() {
 
-  this.container.select(".search-results").html("<div id='search-loading'><p>Loading Results...</p></div>");
+  this.container.select(".search-results").html("<div id='search-loading'><p><i class='fa fa-circle-o-notch fa-spin'></i> Loading Results...</p></div>");
 
   this.type = this.type || "";
   // var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
