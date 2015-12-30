@@ -26,6 +26,7 @@
     &:active, &:focus, &:hover {
       h2 {
         display: inline-block;
+        border-bottom: 1px solid #333;
       }
     }
 

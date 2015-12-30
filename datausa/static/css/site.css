@@ -525,7 +525,8 @@ body.search #search-btn {
   padding: 6px 8px 4px; }
   .search-results .search-item:active h2, .search-results .search-item:focus h2,
   .search-results .search-item:hover h2 {
-    display: inline-block; }
+    display: inline-block;
+    border-bottom: 1px solid #333; }
   .search-results .search-item img {
     -webkit-align-self: flex-start;
     align-self: flex-start;
