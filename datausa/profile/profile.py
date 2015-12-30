@@ -8,12 +8,14 @@ from config import API
 
 from datausa import app
 from datausa.consts import COLMAP, SUMLEVELS, TEXTCOMPARATORS
-from datausa.utils.data import fetch, get_parents, profile_cache
+from datausa.utils.data import fetch, get_parents, profile_cache, get_children
 from datausa.utils.format import num_format, param_format
 from datausa.utils.manip import datafold, stat
 from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
+from datausa.profile.abstract import BaseObject
 
-class Profile(object):
+
+class Profile(BaseObject):
     """An abstract class for all Profiles.
 
     Handles fetching attribute properties and reading in YAML configuration files as strings.
@@ -25,7 +27,7 @@ class Profile(object):
 
     """
 
-    def __init__(self, attr_id, attr_type):
+    def __init__(self, attr_id, attr_type, required_namespaces=None):
         """Initializes a new Profile class.
 
         Args:
@@ -37,8 +39,7 @@ class Profile(object):
         # set attr (using the fetch function) and attr_type
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
-
-        self.variables = self.load_vars()
+        self.variables = self.load_vars(required_namespaces)
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
 
     def children(self, **kwargs):
@@ -59,13 +60,7 @@ class Profile(object):
         else:
             sumlevel = False
 
-        url = "{}/attrs/{}/{}/children/".format(API, self.attr_type, attr_id)
-        if sumlevel:
-            url = "{}?sumlevel={}".format(url, sumlevel)
-        try:
-            children = datafold(requests.get(url).json())
-        except ValueError:
-            return ""
+        children = get_children(attr_id, self.attr_type, sumlevel)
 
         return u",".join([c["id"] for c in children])
 
@@ -169,9 +164,12 @@ class Profile(object):
 
         return name
 
-    def load_vars(self):
+    def load_vars(self, required_namespaces=None):
         """Reads variables from disk and resolves them based on API"""
         var_data = self.load_yaml(self.open_file("vars"))
+        if required_namespaces:
+            var_data = [vd for vd in var_data
+                        if vd['namespace'] in required_namespaces]
         # call api to retrieve data
         var_map = [multi_col_top(self, params) for params in var_data]
         # merge the various namespaces into a single dict
@@ -180,10 +178,17 @@ class Profile(object):
 
     def load_yaml(self, config):
         if isinstance(config, dict):
-                config = json.dumps(config)
-        elif not isinstance(config, basestring):
+            pass
+        elif isinstance(config, file):
             config = "".join(config.readlines())
+
         config = config.decode("utf-8", 'ignore')
+        config = yaml.load(config)
+
+        if 'topics' in config:
+            config['topics'] = [t for t in config['topics'] if self.allowed_levels(t)]
+
+        config = json.dumps(config)
 
         # regex to find all keys matching {{*}}
         keys = re.findall(r"\{\{([^\}]+)\}\}", config)
@@ -686,3 +691,13 @@ class Profile(object):
             return "N/A"
         else:
             raise Exception("vars.yaml file has no variables")
+
+    @classmethod
+    def compute_namespaces(cls, attr_type, section_name, topics):
+        profile_path = os.path.dirname(os.path.realpath(__file__))
+        file_path = os.path.join(profile_path, attr_type, "{}.yml".format(section_name))
+        section_dict = yaml.load(open(file_path, 'r'))
+        my_topics = [t for t in section_dict['topics'] if 'slug' in t and t['slug'] in topics]
+        raw_topics = json.dumps(my_topics)
+        keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
+        return keys

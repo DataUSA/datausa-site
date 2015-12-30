@@ -80,8 +80,9 @@ def embed_view(attr_type, attr_id, section, topic):
 
     g.page_class = "{} embed".format(attr_type)
 
-    p = Profile(attr_id, attr_type)
     topics = topic.split(",")
+    required_namespaces = Profile.compute_namespaces(attr_type, section, topics)
+    p = Profile(attr_id, attr_type, required_namespaces)
     section = p.section_by_topic(section, topics)
 
     if not section or not section.topics:
