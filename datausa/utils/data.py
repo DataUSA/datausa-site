@@ -54,6 +54,18 @@ def get_parents(attr_id, attr_type):
     except ValueError:
         return []
 
+
+@cache.memoize()
+def get_children(attr_id, attr_type, sumlevel=None):
+    url = "{}/attrs/{}/{}/children/".format(API, attr_type, attr_id)
+    if sumlevel:
+        url = "{}?sumlevel={}".format(url, sumlevel)
+    try:
+        return datafold(requests.get(url).json())
+    except ValueError:
+        return ""
+
+
 def acs_crosswalk(attr_type, attr_id):
     url = "{}/attrs/crosswalk/{}/{}/".format(API, attr_type, attr_id)
     try:

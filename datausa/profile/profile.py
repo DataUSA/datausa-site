@@ -8,7 +8,7 @@ from config import API
 
 from datausa import app
 from datausa.consts import COLMAP, SUMLEVELS, TEXTCOMPARATORS
-from datausa.utils.data import fetch, get_parents, profile_cache
+from datausa.utils.data import fetch, get_parents, profile_cache, get_children
 from datausa.utils.format import num_format, param_format
 from datausa.utils.manip import datafold, stat
 from datausa.utils.multi_fetcher import merge_dicts, multi_col_top
@@ -60,13 +60,7 @@ class Profile(BaseObject):
         else:
             sumlevel = False
 
-        url = "{}/attrs/{}/{}/children/".format(API, self.attr_type, attr_id)
-        if sumlevel:
-            url = "{}?sumlevel={}".format(url, sumlevel)
-        try:
-            children = datafold(requests.get(url).json())
-        except ValueError:
-            return ""
+        children = get_children(attr_id, self.attr_type, sumlevel)
 
         return u",".join([c["id"] for c in children])
 
