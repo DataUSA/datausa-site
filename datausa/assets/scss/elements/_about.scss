@@ -2,11 +2,11 @@ body.about {
   background-color: $l-profile-bg;
   
   section {
-    padding-top: 35px;
+    padding: 35px 0 0 0;
     
     
     .topic {
-      padding: 0 150px 50px;
+      padding: 25px 150px 25px;
       
       .content {
         
@@ -20,6 +20,45 @@ body.about {
         
         aside {
           max-width: initial;
+        }
+        
+      }
+      
+      &.datasets {
+        background-color: #ddd;
+        
+        .content{
+          
+          aside {
+            width: 200px;
+            .about_tabs {
+              li {
+                text-align: center;
+                &.active {
+                  background-color: #bbb;
+                }
+              }
+            }
+          }
+          
+          .viz {
+            .tab_content {
+              display: none;
+              opacity: 0;
+              @include transition(1s);
+              &.active {
+                display: block;
+                opacity: 1;
+              }
+              h3 {
+                margin: 15px 0 0 0;
+              }
+              p {
+                margin: 5px 0;
+              }
+            }
+          }
+          
         }
         
       }
@@ -38,7 +77,6 @@ body.about {
         margin: 10px 0 0 0;
         
         li {
-          border: 1px #d0d4d9 solid;
           padding: 5px;
         }
       }

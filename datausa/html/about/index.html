@@ -38,7 +38,7 @@
     </div>
   </article>
   
-  <article class="topic">
+  <!-- <article class="topic">
     <h2>Datasets Used</h2>
     <div class="content full-wdith">
       <p>DataUSA uses a plethora of data throughout its pages from various US insitutions and government agencies. Below you'll find a list of them along with descriptions of what they're used for.</p>
@@ -52,12 +52,91 @@
         <li>IPEDs</li>
       </ul>
     </div>
+  </article> -->
+  
+  
+  <article class="topic datasets">
+    <h2>Datasets Used</h2>
+    <div class="content">
+      <aside>
+        <ul class="about_tabs">
+          <li class="active"><a href="#" class="" data-value="1"><i class="fa fa-users"></i> <br>ACS</a></li>
+          <li class=""><a href="#" class="" data-value="2"><i class="fa fa-user"></i> <br>ACS PUMS</a></li>
+          <li class=""><a href="#" class="" data-value="3"><i class="fa fa-money"></i> <br>BEA</a></li>
+          <li class=""><a href="#" class="" data-value="4"><i class="fa fa-briefcase"></i> <br>BLS</a></li>
+          <li class=""><a href="#" class="" data-value="5"><i class="fa fa-medkit"></i> <br>CHR</a></li>
+          <li class=""><a href="#" class="" data-value="6"><i class="fa fa-graduation-cap"></i> <br>IPEDS</a></li>
+          <li class=""><a href="#" class="" data-value="7"><i class="fa fa-star"></i> <br>O*Net Skills</a></li>
+        </ul>
+      </aside>
+      <div class="viz">
+        <div class="tab_content active" data-tab="1">
+          <h3>Description</h3>
+          <p>The American Community Survey (ACS) is conducted by the US Census and sent to a portion of the population every year. DataUSA does not contain the entire ACS dataset but instead relavent topics to the curated profile pages of the site. As of the 2014 (most recent) ACS release there are 1 year and 5 year estimates. Previously there was also a 3 year estimate which has now been discontinued.</p>
+          <h3>Where is it used?</h3>
+          <p>The ACS dataset is used on the Geography, Occupation and Industry profiles. Although the ACS dataset includes some data on occupations and industries, DataUSA is mostly using the ACS dataset for demographics on the Geography profiles.</p>
+          <h3>Caveats</h3>
+          <p>Due to the the annonymization process utilized by the US Census, there is often a high margin of error when looking at data for smaller geographies.</p>
+        </div>
+        <div class="tab_content" data-tab="2">
+          <h3>Description</h3>
+          <p>The American Community Survey (ACS) Public Use Microdata Sample (PUMS) files are a set of untabulated records about individual people or housing units. The Census Bureau produces the PUMS files so that data users can create custom tables that are not available through pretabulated (or summary) ACS data products.</p>
+          <h3>Where is it used?</h3>
+          <p>The ACS PUMS dataset is used throughout the site where specific data cross sections are not made available through the preformatted ACS dataset. ACS PUMS data is the cornerstone of the occupations and industry data used throughout the Geography, Occupation and Industry profiles. DataUSA also uses ACS PUMS to compare a location's current stock of graduates versus students currently pursuing high education degrees (provided by the IPEDs dataset).</p>
+          <h3>Caveats</h3>
+          <p>Similar to the ACS dataset there are sometimes sampling biases when looking at data from a specifc slice of data. Due to the way the data is aggregated, ACS PUMS data is only availabe for the Nation, States and Public Use Microdata Areas (PUMAs).</p>
+        </div>
+        <div class="tab_content" data-tab="3">
+          <h3>Description</h3>
+          <p>The Bureau of Economic Analysis (BEA) publishes data on Input-Output also called Make-Use for industries in the United States. This Dataset is provided by the US Department of Commerce.</p>
+          <h3>Where is it used?</h3>
+          <p>The BEA I/O tables are used on the industry pages showing the input and output industries for the specified industry profile page.</p>
+          <h3>Caveats</h3>
+          <p>The BEA I/O tables use a modified version of the North American Industry Classification (NAICs) meaning that certain industtry pages do not have a corresponding BEA I/O table industry and are thus swapped for the closest match.</p>
+        </div>
+        <div class="tab_content" data-tab="4">
+          <h3>Description</h3>
+          <p>The Bureau of Labor Statistics (BLS) is a public dataset made available by the United States Department of Labor.</p>
+          <h3>Where is it used?</h3>
+          <p>The BLS dataset is used on the Occupation and Industry pages showing the publicly available expected growth numbers in both number of employees and salary.</p>
+        </div>
+        <div class="tab_content" data-tab="5">
+          <h3>Description</h3>
+          <p>The University of Wisconsin County Health Rankings (CHR) dataset is a collaboration between the Robert Wood Johnson Foundation and the University of Wisconsin Population Health Institute.</p>
+          <h3>Where is it used?</h3>
+          <p>The CHR data is used on the Geography profiles in the health and safety section.</p>
+          <h3>Caveats</h3>
+          <p>With regard to granularity the CHR dataset only includes State and County level data. We are able to compare ranks and measures for multiple counties within a state but due to the method used in normalizing the data, cross state county comparisons are not possible.</p>
+        </div>
+        <div class="tab_content" data-tab="6">
+          <h3>Description</h3>
+          <p>The Integrated Postsecondary Education Data System (IPEDS) is the core postsecondary education data collection program for the National Center for Education Statistics, a part of the Institute for Education Sciences within the United States Department of Education.</p>
+          <h3>Where is it used?</h3>
+          <p>The IPEDS dataset is used throughout all the profile pages but is the cornerstone of the Course profiles. These profiles center around a particular postsecondary course, bringing in data from IPEDS and related occupation and industrial data.</p>
+        </div>
+        <div class="tab_content" data-tab="7">
+          <h3>Description</h3>
+          <p>The O*Net Skills is a dataset containing detailed descriptions of the required and used skills for specific occupations. The O*Net dataset is sponsored by the United States Department of Labor.</p>
+          <h3>Where is it used?</h3>
+          <p>The O*Net Skills dataset is used on both the Occupation and Course profile pages giving a detailed breakdown of the skills required for the specified occupation or course.</p>
+        </div>
+      </div>
+    </div>
   </article>
+  
 </section>
+
 {% endblock %}
 
 {% block js %}
 <script>
-
+d3.selectAll(".about_tabs li a").on("click", function(){
+  d3.selectAll(".about_tabs li").classed("active", false);
+  d3.select(this.parentNode).classed("active", true);
+  d3.selectAll(".tab_content").classed("active", false);
+  var active_tab = d3.select(this).attr("data-value");
+  d3.select(".tab_content[data-tab='"+active_tab+"']").classed("active", true);
+  d3.event.preventDefault();
+})
 </script>
 {% endblock %}
