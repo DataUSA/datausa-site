@@ -15,12 +15,6 @@
   background-size: cover;
 }
 
-@mixin box($style: border-box) {
-  -webkit-box-sizing: $style;
-  -moz-box-sizing: $style;
-  box-sizing: $style;
-}
-
 @mixin blur($radius: 5) {
   -webkit-filter: blur($radius + px);
   -moz-filter: blur($radius + px);

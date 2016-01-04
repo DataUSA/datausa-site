@@ -17,10 +17,6 @@ time, mark, audio, video {
   vertical-align: top;
 }
 
-div {
-  @include box();
-}
-
 blockquote, q {
   quotes: none;
 }
