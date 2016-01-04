@@ -1,0 +1,35 @@
+body.embed {
+  overflow: hidden;
+
+  section {
+    padding: 0;
+
+    .topic {
+      @include flex();
+      @include flex-direction(column);
+      height: 100vh;
+      padding: 25px;
+
+      sub:last-child {
+        margin-bottom: 0;
+      }
+
+      h2 {
+        @include flex-size(none);
+      }
+
+      .content {
+        @include flex-size(1);
+
+        .viz:not(.mini), .viz.full-width {
+          height: 100% !important;
+          min-height: 100% !important;
+        }
+
+      }
+
+    }
+
+  }
+
+}

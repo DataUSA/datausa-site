@@ -1,0 +1,29 @@
+body.frozen {
+	overflow: hidden;
+}
+
+.icon-search.sm {
+  background: url('/static/img/home/search_sm.png') no-repeat 0 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  display: inline-block;
+}
+
+#d3plus_tooltip_id_data-tooltip {
+	@include shadow(none !important);
+	.d3plus_tooltip_container {
+		background-color: white !important;
+		border: 1px solid #ccc !important;
+		padding: 5px !important;
+		.d3plus_tooltip_description {
+			padding: 0 2px !important;
+			color: $home-red;
+			font-family: $roboto;
+		  font-size: 20px;
+		  letter-spacing: 0.1em;
+		  text-transform: uppercase;
+		  font-weight: 400;
+		}
+	}
+}

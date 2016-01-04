@@ -1,0 +1,82 @@
+body {
+  //font-size: 62.5%;
+  //background: url('/static/img/home/flag.svg') no-repeat 0% 0%;
+  // background-size: cover;
+  // font-family: $roboto;
+  // font-weight: 400;
+}
+
+h1 {
+  color: $dark-d-blue;
+  font-family: $playfair;
+  font-weight: 300;
+  font-size: 60px;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  font-family: $roboto;
+  letter-spacing: 0.1em;
+  font-size: 20px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+p {
+  color: white;
+  font-family: $roboto;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+a {
+  color: #333;
+  opacity: 1;
+  text-decoration: none;
+
+  &:hover {
+    //opacity: 0.7;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer {
+  @media all and (min-width: 416px){
+    display: none;
+  }
+
+  @media all and (max-width: 415px){
+    display: none;
+    background-color: rgba(255,255,255,0);
+    text-align: center;
+    height: $footer-height;
+    width: 100%;
+    overflow: hidden;
+
+    img {
+      height: $footer-height/4.5;
+      margin: $footer-height/2.6 5px;
+      opacity: 0.5;
+      @include transition(opacity 1s);
+
+      @media all and (min-width: 415px) {
+        height: $footer-height/3;
+        margin: $footer-height/3 14px;
+      }
+
+      &:hover {
+        opacity: 0.7;
+        cursor: pointer;
+      }
+    }
+  }
+}
