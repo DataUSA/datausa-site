@@ -57,7 +57,7 @@ body {
 // }
 
 .cd-section {
-  height: 100vh;
+  min-height: 100vh;
   
   .section-title {
     color: $sectiontitle-color;
@@ -66,6 +66,14 @@ body {
     letter-spacing: 0.08em;
     font-size: 28px;
     font-family: $palanquin;
+  }
+
+  .section-desc {
+    color: $subtitle-color;
+    font-family: $palanquin;
+    font-size: 32px;
+    text-transform: none;
+    font-weight: 300;
   }
 }
 
@@ -84,13 +92,19 @@ body {
   background: url('/img/stardust_e.png') repeat 0 0;
 }
 
+#section3 {
+  .main {
+    max-width: 550px;
+  }
+}
+
 .sign-up {
   display: block;
   margin: 10vh auto;
   text-align: center;
 }
 
-.main-c {
+.main {
   width: 60%;
   max-width: 800px;
   margin: 0 auto;
@@ -111,14 +125,6 @@ body {
   height: 140px;
   @include gradient(rgba(0,0,0,0), 30%, rgba(40, 36, 43, 0.5), 100%);
   z-index: 0;
-}
-
-.subtitle {
-  color: $subtitle-color;
-  font-family: $palanquin;
-  font-size: 32px;
-  text-transform: none;
-  font-weight: 300;
 }
 
 .cross, .arrows {
@@ -335,7 +341,7 @@ body {
 
 }
 
-.main-c.last {
+#section4 > .main {
   height: 20vh;
   position: relative;
   top: 7vh;
@@ -360,7 +366,7 @@ body {
   line-height: 1;
   margin-bottom: 10px;
   text-align: center;
-  margin: auto auto 0;
+  margin: 15vh auto 0;
   color: $launch-msg-color;
 }
 
@@ -369,11 +375,11 @@ body {
 
   label {
     display: block;
+    padding-bottom: 20px;
     color: #fff;
     font-family: $palanquin;
-    font-size: 36px;
-    font-weight: 400;
-    padding-bottom: 20px;
+    font-size: 28px;
+    font-weight: 300;
   }
 
   .input-container {

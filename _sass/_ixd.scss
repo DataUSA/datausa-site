@@ -74,8 +74,9 @@
   background-color: transparent;
   border: 0;
   margin-left: -65px;
+  @include transition(background-position 0.3s ease-out);
 
   &:hover {
-    opacity: 0.6;
+    background-position: 65% center;
   }
 }
