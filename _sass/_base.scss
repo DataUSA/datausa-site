@@ -56,13 +56,33 @@ body {
 //   z-index: 0;
 // }
 
-.first {
+.cd-section {
   height: 100vh;
+  
+  .section-title {
+    color: $sectiontitle-color;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    font-size: 28px;
+    font-family: $palanquin;
+  }
+}
+
+#section1 {
+
+  .subheader {
+    max-width: 335px;
+
+    h2 {
+      font-size: 24px;
+    }
+  }
 }
 
 .sign-up {
   display: block;
-  margin: 0px auto 100px;
+  margin: 10vh auto;
   text-align: center;
 }
 
@@ -98,53 +118,79 @@ body {
 }
 
 .cross, .arrows {
-  padding: 60px 0;
   width: 80px;
+}
+
+.arrows {
+  padding: 60px 0;
+}
+
+.cross {
+  padding: 40px 0 20px;
 }
 
 .bullet-container {
   text-align: left;
   color: white;
+  width: 75%;
+  max-width: 600px;
   
   & > ul {
     & > li {
       @include flex();
       @include justify(flex-start);
-      padding: 25px 0;
+      padding: 20px 0;
     }
   }
 
   i {
-    background: url('/img/bullet.png') no-repeat 0 0;
-    height: 30px;
-    width: 30px;
-    background-size: 30px;
+    background-image: url('/img/bullet.png');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    height: 35px;
+    width: 35px;
+    background-size: 35px;
     margin-right: 25px;
+
+    &.bullet1 {
+      background-image: url('/img/bullets/datajoin.svg');
+    }
+
+    &.bullet2 {
+      background-image: url('/img/bullets/dataconnect.svg');
+    }
+    &.bullet3 {
+      background-image: url('/img/bullets/dataexport.svg');
+    }
+    &.bullet4 {
+      background-image: url('/img/bullets/dataprofiles.svg');
+    }
   }
 
   h3 {
-    font-size: 28px;
+    font-size: 22px;
+    letter-spacing: 0.02em;
     font-weight: 300;
     text-transform: none;
     color: $bullet-txt-color;
-    line-height: 1;
-    margin-bottom: 10px;
+    line-height: 1.5;
+    margin-bottom: 5px;
   }
 
   a, p {
     font-family: $palanquin;
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 300;
     line-height: 2;
     margin-left: 30px;
-    color: #fff;
+    color: $bullet-subtxt-color;
     @include transition(color 1s);
   }
 
   a {
     &:hover {
       cursor: pointer;
-      
+
       &.geo {
         color: $geo-bg-color;
       }
@@ -161,6 +207,10 @@ body {
   }
 
   .data-source-dynamic {
+    height: 50px;
+  }
+
+  .txt-rotate {
     border-bottom: 1px solid;
   }
 }

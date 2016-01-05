@@ -17,7 +17,7 @@ var TxtRotate = function(el, toRotate, period) {
   this.toRotate = toRotate;
   this.el = el;
   this.loopNum = 0;
-  this.period = parseInt(period, 10)  || 2000;
+  this.period = parseInt(period, 10)  || 500;
   this.txt = '';
   this.tick();
   this.isDeleting = false;
@@ -36,9 +36,9 @@ TxtRotate.prototype.tick = function() {
   this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
 
   var that = this;
-  var delta = 300 - Math.random() * 100;
+  var delta = 200 - Math.random() * 100;
 
-  if (this.isDeleting) { delta /= 2; }
+  if (this.isDeleting) { delta /= 3; }
 
   if (!this.isDeleting && this.txt === fullTxt) {
     delta = this.period;
@@ -60,7 +60,7 @@ window.onload = function() {
     var toRotate = elements[i].getAttribute('data-rotate');
     var period = elements[i].getAttribute('data-period');
     if (toRotate) {
-      new TxtRotate(elements[i], JSON.parse(toRotate), period);
+      new TxtRotate(elements[i], JSON.parse(toRotate), 500);
     }
   }
   // INJECT CSS

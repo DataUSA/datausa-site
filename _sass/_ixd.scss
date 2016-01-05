@@ -1,3 +1,18 @@
+.cd-scroll-down {
+  position: absolute;
+  left: 50%;
+  right: auto;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  bottom: 20px;
+  width: 26px;
+  height: 30px;
+  background: url('/img/cd-arrow-bottom.svg') no-repeat center center;
+}
+
 .material-btn {
   padding: 10px;
   color: #fff;

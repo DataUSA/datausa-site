@@ -1,0 +1,308 @@
+@import 'bourbon'; // http://bourbon.io/
+
+@import '../partials/variables'; // colors, fonts etc...
+
+@import '../partials/mixins'; // custom mixins
+
+@import '../partials/layout'; // responsive grid and media queries
+
+/* -------------------------------- 
+
+Primary style
+
+-------------------------------- */
+
+html * {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*, *:after, *:before {
+	@include box-sizing(border-box);
+}
+
+body {
+	font: {
+		size: 100%;
+		family: $primary-font; // variables inside partials > _variables.scss
+	}
+	color: $color-1;
+	background-color: $color-4;
+}
+
+body, html {
+	height: 100%;
+}
+
+a {
+	color: $color-1;
+	text-decoration: none;
+}
+
+img {
+	max-width: 100%;
+}
+
+/* -------------------------------- 
+
+Modules - reusable parts of our design
+
+-------------------------------- */
+
+.cd-img-replace { /* replace text with a background-image */
+	display: inline-block;
+	overflow: hidden;
+	text-indent: 100%;
+	white-space: nowrap;
+}
+
+/* -------------------------------- 
+
+Main components 
+
+-------------------------------- */
+
+.cd-section {
+	min-height: 100%;
+	position: relative;
+	padding: 2em 0;
+
+	&:nth-of-type(odd) {
+		background-color: $color-1;
+
+		p {
+			color: lighten($color-1, 30%);
+		}
+	}
+
+	&:nth-of-type(even) {
+		background-color: $color-2;
+
+		p {
+			color: lighten($color-2, 30%);
+		}
+	}
+
+	h1, p {
+		position: absolute;
+		@include center;
+		width: 90%;
+		max-width: $M;
+		text-align: center;
+	}
+
+	h1 {
+		color: $color-4;
+		font-weight: 300;
+		text-transform: uppercase;
+		@include font-size(20px);
+	}
+
+	p {
+		line-height: 1.6;
+	}
+
+	@include MQ(M) {
+		h1 {
+			@include font-size(30px);
+		}
+
+		p {
+			@include font-size(20px);
+			line-height: 2;
+		}
+	}
+}
+
+.cd-scroll-down {
+	position: absolute;
+	@include center(x);
+	bottom: 20px;
+	width: 38px;
+	height: 44px;
+	background: url('../img/cd-arrow-bottom.svg') no-repeat center center;
+}
+
+/* No Touch devices */
+
+.cd-nav-trigger {
+	display: none;
+}
+
+.no-touch #cd-vertical-nav {
+	position: fixed;
+	right: 40px;
+	@include center(y); // see partials > _mixins.scss
+	z-index: 1;
+
+	li {
+		text-align: right;
+	}
+
+	a {
+		display: inline-block;
+		@include clearfix;
+
+		/* prevent weird movements on hover when you use a CSS3 transformation - webkit browsers */
+		@include backface-visibility(hidden);
+		
+		span {
+			float: right;
+			display: inline-block;
+			@include transform(scale(.6));
+		}
+
+		&:hover span {
+			@include transform(scale(1)); 
+		}
+
+		&:hover .cd-label {
+			opacity: 1;
+		}
+
+		&.is-selected .cd-dot {
+			background-color: $color-4;
+		}
+	} 
+
+	.cd-dot {
+		position: relative;
+		/* we set a top value in order to align the dot with the label. If you change label's font, you may need to change this top value*/
+		top: 8px;
+		height: 12px;
+		width: 12px;
+		border-radius: 50%;
+		background-color: $color-3;
+		-webkit-transition: -webkit-transform 0.2s, background-color 0.5s;
+		-moz-transition: -moz-transform 0.2s, background-color 0.5s;
+		transition: transform 0.2s, background-color 0.5s;
+		@include transform-origin(50% 50%);	
+	}
+
+	.cd-label {
+		position: relative;
+		margin-right: 10px;
+		padding: .4em .5em;
+		color: $color-4;
+		@include font-size(14px);
+
+		-webkit-transition: -webkit-transform 0.2s, opacity 0.2s;
+		-moz-transition: -moz-transform 0.2s, opacity 0.2s;
+		transition: transform 0.2s, opacity 0.2s;
+		opacity: 0;
+		@include transform-origin(100% 50%);
+	}
+}
+
+/* Touch devices */
+
+.touch .cd-nav-trigger {
+	display: block;
+	z-index: 2;
+	position: fixed;
+	bottom: 30px;
+	right: 5%;
+	height: 44px;
+	width: 44px;
+	@include border-radius;
+	background: rgba($color-4, .9);
+
+	span {
+		position: absolute;
+		height: 4px;
+		width: 4px;
+		background-color: $color-1;
+		border-radius: 50%;
+		@include center;
+
+		&::before, &::after {
+			content: '';
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			left: 0;
+			background-color: inherit;
+			border-radius: inherit;
+		}
+
+		&::before {
+			top: -9px;
+		}
+
+		&::after {
+			bottom: -9px;
+		}
+	}
+}
+
+.touch #cd-vertical-nav {
+	position: fixed;
+	z-index: 1;
+	right: 5%;
+	bottom: 30px;
+	width: 90%;
+	max-width: 400px;
+	max-height: 90%;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	@include transform-origin(right bottom);
+	@include transform(scale(0));
+	@include transition-property(transform);
+	@include transition-duration(.2s);
+	@include border-radius;
+	background-color: rgba($color-4, .9);
+
+	a {
+		display: block;
+		padding: 1em;
+		border-bottom: 1px solid rgba($color-1, .1);
+
+		span:first-child {
+			display: none;
+		}
+
+		&.is-selected span:last-child {
+			color: $color-3;
+		}
+	}
+	
+	&.open {
+		@include transform(scale(1));
+	}
+
+	&.open + .cd-nav-trigger {
+		background-color: transparent;
+		
+		span {
+			background-color: rgba($color-1, 0);	
+		}
+
+		span::before, span::after {
+			background-color: rgba($color-1, 1);
+			height: 3px;
+			width: 20px;
+			border-radius: 0;
+			left: -8px;
+		}
+
+		span::before {
+			@include transform(rotate(45deg));
+			top: 1px;
+		}
+
+		span::after {
+			@include transform(rotate(135deg));
+			bottom: 0;
+		}
+	}
+
+	li:last-child a {
+		border-bottom: none;
+	}
+}
+
+@include MQ(M) {
+	.touch .cd-nav-trigger, .touch #cd-vertical-nav {
+		bottom: 40px;
+	}
+}
