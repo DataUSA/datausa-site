@@ -49,3 +49,7 @@ ul {
   padding: 0;
   margin: 0;
 }
+
+*:focus, input:focus {
+  outline: 0;
+}

@@ -4,7 +4,7 @@
   background-color: transparent;
   background-image: none;
   border: 1px solid #fff;
-  @include transition(color 0.4s cubic-bezier(0.19, 1, 0.22, 1));
+  @include transition(color 0.45s cubic-bezier(0.19, 1, 0.22, 1));
   
   &::before {
     content: '';
@@ -38,7 +38,6 @@
   overflow: hidden;
   display: inline-block;
   padding: 20px 35px;
-  background-image: none;
   font-family: $roboto;
   font-weight: 900;
   font-style: normal;
@@ -49,7 +48,19 @@
   color: #fff;
 }
 
+.icon-btn {
+  background-image: url('/img/arrow-right2.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 45%;
+}
+
 .sign-up-btn {
-  background-color: $red;
+  background-color: transparent;
   border: 0;
+  margin-left: -65px;
+
+  &:hover {
+    opacity: 0.6;
+  }
 }

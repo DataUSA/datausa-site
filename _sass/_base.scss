@@ -66,7 +66,7 @@ body {
   text-align: center;
 }
 
-.divider {
+.main-c {
   width: 60%;
   max-width: 800px;
   margin: 0 auto;
@@ -135,6 +135,7 @@ body {
     font-size: 22px;
     font-weight: 300;
     line-height: 2;
+    margin-left: 30px;
   }
 
   .data-source-dynamic {
@@ -258,7 +259,7 @@ body {
 
 }
 
-.divider.last {
+.main-c.last {
   height: 20vh;
   position: relative;
   top: 7vh;
@@ -276,30 +277,43 @@ body {
   @include justify(space-between);
 }
 
+.launch-msg {
+  font-size: 40px;
+  font-weight: 400;
+  text-transform: none;
+  line-height: 1;
+  margin-bottom: 10px;
+  text-align: center;
+  margin: auto auto 0;
+  color: $launch-msg-color;
+}
+
 .sign-up-form {
   margin: auto;
-  text-align: center;
 
   label {
     display: block;
     color: #fff;
     font-family: $palanquin;
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 400;
-
-    padding: 30px 0;
+    padding-bottom: 20px;
   }
 
-  input {
-    border: 1px solid white;
-    background-color: transparent;
-    padding: 18px 35px 18px 18px;
-    width: 60%;
-    font-size: 0.78571rem;
-    line-height: 1;
-    letter-spacing: 0.21em;
-    color: #fff;
+  .input-container {
+    @include flex();
   }
+}
+
+#mce-EMAIL {
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 18px 35px 18px 18px;
+  width: 60%;
+  font-size: 0.78571rem;
+  line-height: 1;
+  letter-spacing: 0.21em;
+  color: #fff;
 }
 
 footer {
@@ -312,7 +326,7 @@ footer {
     img {
       box-sizing: border-box;
       padding: 15px;
-      margin: 30px auto;
+      margin: 45px auto 5px;
     }
   }
 }

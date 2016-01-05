@@ -7,6 +7,8 @@
 	<title>DataUSA: Public American Big Data</title>
 	<link rel="shortcut icon" type="image/png" href="img/favicon.ico">
 	<link rel="stylesheet" href="site.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/script.js"></script>
 </head>
 <body>
 	<div class="bg">
@@ -22,11 +24,11 @@
 			</div>
 		</div>
 
-		<article class="divider subheader">
+		<article class="main-c subheader">
 			<h2>An open source </br>platform to explore </br>public U.S. data</h2>
 		</article>
 
-		<div class="divider">
+		<div class="main-c">
 			<img class="cross" src="/img/cross.png" />
 		</div>
 
@@ -35,11 +37,11 @@
 		</div>
 	</div>
 
-	<div class="divider subheader">
+	<div class="main-c subheader">
 		<h3 class="subtitle">Features</h3>
 	</div>
 
-	<article class="divider bullet-container">
+	<article class="main-c bullet-container">
 		<ul>
 			<li>
 				<i></i>
@@ -71,11 +73,11 @@
 		</ul>
 	</article>
 
-	<div class="divider">
+	<div class="main-c">
 		<img class="arrows" src="/img/arrows.png" />
 	</div>
 
-	<div class="divider subheader">
+	<div class="main-c subheader">
 		<h3 class="subtitle">With all data organized into profiles, </br>each with more specialized sections.</h3>
 	</div>
 	
@@ -189,16 +191,32 @@
 
 	</div>
 	
-	<div class="divider last">
+	<div class="main-c last">
 		<h3 class="subtitle">Public data in your hands.</h3>
 	</div>
 
 	<article name="sign-up" class="sign-up-container">
-		<div class="sign-up-form">
-			<label for="sign-up">sign up to be notified when we launch</label>
-			<input type="text" id="sign-up" name="email-sign-up" placeholder="name@email.com">
-			<button class="btn sign-up-btn">send</button>
+
+	<h3 class="launch-msg">Launching in 2016</h3>
+
+	<!-- Begin MailChimp Signup Form -->
+		<div id="mc_embed_signup" class="sign-up-form main-c">
+			<form action="//datawheel.us12.list-manage.com/subscribe/post?u=458059cf58ada1fd2b7de3e39&amp;id=9a3f9a9f32" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+		    	<div id="mc_embed_signup_scroll">
+					<label for="mce-EMAIL">Sign up to keep updated</label>
+					<div class="input-container">
+						<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+			    		<input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="icon-btn btn sign-up-btn">
+					</div>
+
+		    		<div style="position: absolute; left: -5000px;" aria-hidden="true">
+		    			<input type="text" name="b_458059cf58ada1fd2b7de3e39_9a3f9a9f32" tabindex="-1" value="">
+		    		</div>
+					
+		    	</div>
+			</form>
 		</div>
+		<!--End mc_embed_signup-->
 
 		<footer>
 			<a class="co" href="http://www2.deloitte.com/us/en.html" target="_blank">
