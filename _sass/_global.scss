@@ -1,0 +1,51 @@
+h1 {
+  color: $dark-d-blue;
+  font-family: $playfair;
+  font-weight: 300;
+  font-size: 60px;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  color: #fff;
+  font-size: 30px;
+  line-height: 1.5;
+  font-family: $palanquin;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+h3 {
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.5;
+  font-family: $palanquin;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+p {
+  font-family: $palanquin;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+a {
+  color: $red;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    //opacity: 0.7;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}

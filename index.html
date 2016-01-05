@@ -9,8 +9,211 @@
 	<link rel="stylesheet" href="site.css">
 </head>
 <body>
-	<h1>DataUSA</h1>
-	<p>An open source platform to explore public American big data, with data available on its cities, jobs, industries, education, cost of living, health, and more.</p>
-	<p>Coming Soon</p>
+	<div class="bg">
+		<div class="hero-img"></div>
+	</div>
+	
+	<div class="first">
+		<div class="seal-container">
+			<!-- <img class="seal-ring" src="/img/seal-ring.png" /> -->
+			<!-- <img class="eagle" src="/img/eagle.png" /> -->
+			<div class="logo">
+				<img src="img/logo.png" />
+			</div>
+		</div>
+
+		<article class="divider subheader">
+			<h2>An open source </br>platform to explore </br>public U.S. data</h2>
+		</article>
+
+		<div class="divider">
+			<img class="cross" src="/img/cross.png" />
+		</div>
+
+		<div class="sign-up">
+			<a href="#sign-up" id="scroll-sign-up-btn" class="btn material-btn" alt="Sign up">Sign up</a>
+		</div>
+	</div>
+
+	<div class="divider subheader">
+		<h3 class="subtitle">Features</h3>
+	</div>
+
+	<article class="divider bullet-container">
+		<ul>
+			<li>
+				<i></i>
+				<div>
+					<h3>institutional datasets - organized, cleaned, & linked</h3>
+					<p>including data from <span class="data-source-dynamic">the American Community Survey by the U.S. Census Bureau</span></p>
+				</div>
+			</li>
+			<li>
+				<i></i>
+				<h3>consolidated, ready-to-use API</h3>
+			</li>
+			<li>
+				<i></i>
+				<h3>embed, download & share datasets and visualizations</h3>
+			</li>
+			<li>
+				<i></i>
+				<div>
+					<h3>data storytelling using 4 different narratives</h3>
+					<ul>
+						<li><p>by academic coursework</p></li>
+						<li><p>by geography - on the state, county, and city levels</p></li>
+						<li><p>by industry</p></li>
+						<li><p>by occupation</p></li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</article>
+
+	<div class="divider">
+		<img class="arrows" src="/img/arrows.png" />
+	</div>
+
+	<div class="divider subheader">
+		<h3 class="subtitle">With all data organized into profiles, </br>each with more specialized sections.</h3>
+	</div>
+	
+	<div class="profile-category-container">
+		<div class="top">
+			<div class="profile-category" id="geo">
+				<div class="category-img"></div>
+				<div class="category-section">
+					<h2>Geolocations</h2>
+					<ul>
+						<li>
+							<img src="img/icons/economy.svg" />
+							<h3>Economy</h3>
+						</li>
+						<li>
+							<img src="img/icons/demographics.svg" />
+							<h3>Demographics</h3>
+						</li>
+						<li>
+							<img src="img/icons/education.svg" />
+							<h3>Education</h3>
+						</li>
+						<li>
+							<img src="img/icons/housing.svg" />
+							<h3>Housing & Living</h3>
+						</li>
+						<li>
+							<img src="img/icons/health.svg" />
+							<h3>Health & Safety</h3>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="profile-category" id="soc">
+				<div class="category-img"></div>
+				<div class="category-section">
+					<h2>Occupations</h2>
+					<ul>
+						<li>
+							<img src="img/icons/employment.svg" />
+							<h3>Employment</h3>
+						</li>
+						<li>
+							<img src="img/icons/demographics.svg" />
+							<h3>Demographics</h3>
+						</li>
+						<li>
+							<img src="img/icons/education.svg" />
+							<h3>Education</h3>
+						</li>
+						<li>
+							<img src="img/icons/growth.svg" />
+							<h3>Projections</h3>
+						</li>
+						<li>
+							<img src="img/icons/skills.svg" />
+							<h3>Skills</h3>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="profile-category" id="cip">
+				<div class="category-img"></div>
+				<div class="category-section">
+					<h2>Academic Coursework</h2>
+					<ul>
+						<li>
+							<img src="img/icons/institutions.svg" />
+							<h3>Institutions</h3>
+						</li>
+						<li>
+							<img src="img/icons/demographics.svg" />
+							<h3>Demographics</h3>
+						</li>
+						<li>
+							<img src="img/icons/employment.svg" />
+							<h3>Employment</h3>
+						</li>
+						<li>
+							<img src="img/icons/skills.svg" />
+							<h3>Skills</h3>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="profile-category" id="naics">
+				<div class="category-img"></div>
+				<div class="category-section">
+					<h2>Industries</h2>
+					<ul>
+						<li>
+							<img src="img/icons/workforce.svg" />
+							<h3>Workforce</h3>
+						</li>
+						<li>
+							<img src="img/icons/io.svg" />
+							<h3>Input/Output</h3>
+						</li>
+						<li>
+							<img src="img/icons/growth.svg" />
+							<h3>Projections</h3>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	<div class="divider last">
+		<h3 class="subtitle">Public data in your hands.</h3>
+	</div>
+
+	<article name="sign-up" class="sign-up-container">
+		<div class="sign-up-form">
+			<label for="sign-up">sign up to be notified when we launch</label>
+			<input type="text" id="sign-up" name="email-sign-up" placeholder="name@email.com">
+			<button class="btn sign-up-btn">send</button>
+		</div>
+
+		<footer>
+			<a class="co" href="http://www2.deloitte.com/us/en.html" target="_blank">
+				<img class="deloitte" src="img/company-logos/deloitte.svg" />
+			</a>
+			<a class="co" href="http://www.datawheel.us/" target="_blank">
+				<img class="datawheel" src="img/company-logos/datawheel.svg" />
+			</a>
+			<a class="co" href="http://macro.media.mit.edu/" target="_blank">
+				<img class="mit" src="img/company-logos/mit.svg" />
+			</a>
+		</footer>
+
+		<div class="skrim"></div>
+	</article>
+
 </body>
 </html>

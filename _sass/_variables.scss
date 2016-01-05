@@ -5,25 +5,9 @@ $nav-height: 40px;
 $stats-bar-height: 30px;
 $footer-height: 70px;
 $nav-width: 415px;
-$search-height: 60px;
-$search-helpers-height: 25px;
-$search-mini-height: 550px;
-$search-mini-width: 250px;
-
-$bg-colors: (geo: rgba(3,48,40,0.95), cip: rgba(105,6,26,0.95), soc: rgba(6, 25, 98, 0.95), naics: rgba(48,50,16,0.95));
-$d-bg-colors: (geo: #0C2521, cip: #2B040C, soc: #020B31, naics: #1D1908);
-$link-colors: (geo: #0C9A6E, cip: #dc5137, soc: #2c49d8, naics: #9FA507);
-$alt-link-colors: (geo: rgba(105,185,167,0.5), cip: rgba(173, 123, 123, 0.5), soc: rgba(121,129,169,0.5), naics: rgba(138,140,68,0.5));
 
 $d-profile-bg: #E9E9E9;
 $l-profile-bg: #F6F6F6;
-
-$bg-color-geo: rgba(6, 25, 98, 0.95);
-$bg-color-cip: rgba(105,6,26,0.95);
-$bg-color-soc: rgba(3,48,40,0.95);
-$bg-color-naics: rgba(48,50,16,0.95);
-
-$viz-color-geo: #B5D2C8;
 
 $d-bg-color-geo: #0C2521;
 $l-bg-color-geo: #374b98;
@@ -31,7 +15,6 @@ $viz-color-geo: #5D82BD;
 $link-color-geo: #2c49d8;
 $alt-link-color-geo: rgba(121,129,169,0.5);
 $home-midtone: #7981A9;
-
 
 $text-color: #211f1a;
 $dark-d-blue: #132332;
@@ -45,8 +28,17 @@ $dark-home-red: #B35E49;
 $home-red: #dc5137;
 $light-home-red: #fdc8b8;
 
+$black: #1B191D;
+$white: #D7E8EF;
+$red: #F23434;
+$blue: #32415A;
 
-$shadow: 0 3px 3px rgba(0,0,0,0.35);
+$subtitle-color: #616CA5;
+$bullet-txt-color: #BC9A96;
+$geo-bg-color: #3F65B2;
+$cip-bg-color: #4B928B;
+$soc-bg-color: #DAAB99;
+$naics-bg-color: #616CA5;
 
 $enriqueta: "Enriqueta", serif;
 $palanquin: "Palanquin", sans-serif;

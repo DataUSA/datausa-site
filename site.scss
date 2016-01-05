@@ -1,10 +1,6 @@
 ---
 ---
 
-body {
-	background-color: red;
-}
-
 // Imports
 @import "functions";
 @import "reset";
@@ -13,3 +9,4 @@ body {
 
 @import "base";
 @import "global";
+@import "ixd";

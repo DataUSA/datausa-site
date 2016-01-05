@@ -1,0 +1,55 @@
+.material-btn {
+  padding: 10px;
+  color: #fff;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid #fff;
+  @include transition(color 0.4s cubic-bezier(0.19, 1, 0.22, 1));
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: -1%;
+    height: 100%;
+    width: 102%;
+    background: #fff;
+    @include transition(transform 0.4s cubic-bezier(1, 0, 0, 1));
+    @include transform(translate3d(0, 50px, 0));
+    z-index: -1;
+  }
+
+  &:hover {
+    color: $black;
+  }
+
+  &:hover::before,
+  &:focus::before {
+    top: 0;
+    @include transform(translate3d(0, 0, 0));  
+  }
+}
+
+.btn {
+  @include box();
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+  display: inline-block;
+  padding: 20px 35px;
+  background-image: none;
+  font-family: $roboto;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 0.78571rem;
+  line-height: 1;
+  letter-spacing: 0.21em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.sign-up-btn {
+  background-color: $red;
+  border: 0;
+}

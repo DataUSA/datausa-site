@@ -15,13 +15,17 @@
   background-size: cover;
 }
 
+@mixin box() {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 @mixin blur($radius: 5) {
   -webkit-filter: blur($radius + px);
   -moz-filter: blur($radius + px);
   -ms-filter: blur($radius + px);
   -o-filter: blur($radius + px);
-  // filter: url(blur.svg#blur);
-  // filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='#{$radius}');
 }
 
 @mixin column-count($num: 2) {
@@ -128,18 +132,6 @@
     -moz-border-#{$corner}-radius: $size;
     border-#{$corner}-radius: $size;
   }
-}
-
-@mixin shadow($style: $shadow) {
-  -webkit-box-shadow: $style;
-  -moz-box-shadow: $style;
-  box-shadow: $style;
-}
-
-@mixin text-shadow($style: $shadow) {
-  -webkit-text-shadow: $style;
-  -moz-text-shadow: $style;
-  text-shadow: $style;
 }
 
 @mixin transform($style) {

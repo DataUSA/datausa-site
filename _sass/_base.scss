@@ -1,74 +1,318 @@
-h1 {
-  color: $dark-d-blue;
-  font-family: $playfair;
-  font-weight: 300;
-  font-size: 60px;
-  line-height: 1.15;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
+body {
+  background-color: $black;
 }
 
-h2 {
-  font-family: $roboto;
-  letter-spacing: 0.1em;
-  font-size: 20px;
-  font-weight: 400;
-  text-transform: uppercase;
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  z-index: -1;
 }
 
-p {
-  color: white;
-  font-family: $roboto;
-  font-size: 14px;
-  line-height: 1.5;
-  opacity: 0.9;
-  font-weight: 300;
+.hero-img {
+  position: relative;
+  background-image: url('/img/jjj56cp_CoveMountain.jpg');
+  width: 100%;
+  height: 100%;
+  background-position: 0 0;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
-a {
-  color: #333;
-  opacity: 1;
-  text-decoration: none;
+// .seal-container {
+//   position: relative;
+//   width: 100%;
+//   top: 5vh;
+//   margin-bottom: 5vh; hacky?
+// }
 
-  &:hover {
-    //opacity: 0.7;
+// .seal-ring {
+//   display: block;
+//   width: 60%;
+//   max-width: 675px;
+//   margin: 0 auto;
+// }
+
+.logo {
+  position: relative;
+  top: 43%;
+  text-align: center;
+  z-index: 1;
+  padding: 180px 0 60px;
+
+  img {
+    width: 60%;
+    max-width: 500px;
   }
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+// .eagle {
+//   position: absolute;
+//   top: 0;
+//   left: 50%;
+//   margin-left: -25%;
+//   width: 50%;
+//   max-width: 569px;
+//   z-index: 0;
+// }
+
+.first {
+  height: 100vh;
+}
+
+.sign-up {
+  display: block;
+  margin: 0px auto 100px;
+  text-align: center;
+}
+
+.divider {
+  width: 60%;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.subheader {
+  font-family: $palanquin;
+  font-size: 28px;
+  letter-spacing: 0.03em;
+  font-weight: 400;
+}
+
+.skrim {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 140px;
+  @include gradient(rgba(0,0,0,0), 30%, rgba(40, 36, 43, 0.5), 100%);
+  z-index: 0;
+}
+
+.subtitle {
+  color: $subtitle-color;
+  font-family: $palanquin;
+  font-size: 32px;
+  text-transform: none;
+  font-weight: 300;
+}
+
+.cross, .arrows {
+  padding: 60px 0;
+  width: 80px;
+}
+
+.bullet-container {
+  text-align: left;
+  color: white;
+  
+  & > ul {
+    & > li {
+      @include flex();
+      @include justify(flex-start);
+      padding: 25px 0;
+    }
+  }
+
+  i {
+    background: url('/img/bullet.png') no-repeat 0 0;
+    height: 30px;
+    width: 30px;
+    background-size: 30px;
+    margin-right: 25px;
+  }
+
+  h3 {
+    font-size: 28px;
+    font-weight: 300;
+    text-transform: none;
+    color: $bullet-txt-color;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 2;
+  }
+
+  .data-source-dynamic {
+    border-bottom: 1px solid;
+  }
+}
+
+.profile-category-container {
+  margin-top: 130px;
+  @include flex();
+  @include justify(space-between);
+  @include flex-direction(row);
+
+  @media all and (max-width: 1250px){
+    @include flex-direction(column);
+  }
+
+  .top, .bottom {
+    @include flex-size();
+    @include flex();
+    @include justify(space-between);
+    @include flex-direction(row);
+
+    @media all and (max-width: 768px){
+      @include flex-direction(column);
+    }
+  }
+}
+
+.profile-category {
+  @include flex-size();
+  margin-top: -66px;
+
+  .category-img {
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 100%;
+    padding-top: 28.30%;
+    height: 0;
+  }
+
+  .category-section {
+    min-height: 225px;
+    padding-bottom: 80px;
+    padding-top: 20px;
+    margin-top: -5px;
+
+    @media all and (min-width: 1250px) {
+      max-height: 225px;
+    }
+
+    h2 {
+      line-height: 1;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 26px;
+    }
+
+    ul {
+      width: 70%;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      
+      li {
+        @include flex();
+        @include justify(flex-start);
+        @include align-items(center);
+      }
+
+      img {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+      }
+
+      h3 {
+        line-height: 2.5;
+        font-size: 18px;
+        text-transform: none;
+      }
+    }
+  }
+
+  &#geo {
+    .category-img {
+      background-image: url('img/prof/geo.png');
+    }
+    .category-section {
+      background-color: $geo-bg-color;
+    }
+  }
+
+  &#soc {
+    .category-img {
+      background-image: url('img/prof/soc.png');
+    }
+    .category-section {
+      background-color: $soc-bg-color;
+    }
+  }
+
+  &#cip {
+    .category-img {
+      background-image: url('img/prof/cip.png');
+    }
+    .category-section {
+      background-color: $cip-bg-color;
+    }
+  }
+
+  &#naics {
+    .category-img {
+      background-image: url('img/prof/naics.png');
+    }
+    .category-section {
+      background-color: $naics-bg-color;
+    }
+  }
+
+}
+
+.divider.last {
+  height: 20vh;
+  position: relative;
+  top: 7vh;
+}
+
+.sign-up-container {
+  position: relative;
+  height: 80vh;
+  background-color: $subtitle-color; /* placeholder color */
+  background-image: url('/img/earth.jpg');
+  @include background-stretch();
+  background-position: 50% 300px; /* crop image */
+  @include flex();
+  @include flex-direction(column);
+  @include justify(space-between);
+}
+
+.sign-up-form {
+  margin: auto;
+  text-align: center;
+
+  label {
+    display: block;
+    color: #fff;
+    font-family: $palanquin;
+    font-size: 40px;
+    font-weight: 400;
+
+    padding: 30px 0;
+  }
+
+  input {
+    border: 1px solid white;
+    background-color: transparent;
+    padding: 18px 35px 18px 18px;
+    width: 60%;
+    font-size: 0.78571rem;
+    line-height: 1;
+    letter-spacing: 0.21em;
+    color: #fff;
+  }
 }
 
 footer {
-  @media all and (min-width: 416px){
-    display: none;
-  }
-
-  @media all and (max-width: 415px){
-    display: none;
-    background-color: rgba(255,255,255,0);
-    text-align: center;
-    height: $footer-height;
-    width: 100%;
-    overflow: hidden;
+  @include flex();
+  @include justify(space-around);
+  
+  .co {
+    z-index: 1;
 
     img {
-      height: $footer-height/4.5;
-      margin: $footer-height/2.6 5px;
-      opacity: 0.5;
-      @include transition(opacity 1s);
-
-      @media all and (min-width: 415px) {
-        height: $footer-height/3;
-        margin: $footer-height/3 14px;
-      }
-
-      &:hover {
-        opacity: 0.7;
-        cursor: pointer;
-      }
+      box-sizing: border-box;
+      padding: 15px;
+      margin: 30px auto;
     }
   }
 }
