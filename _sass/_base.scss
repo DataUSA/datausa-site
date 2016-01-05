@@ -131,11 +131,33 @@ body {
     margin-bottom: 10px;
   }
 
-  p {
+  a, p {
+    font-family: $palanquin;
     font-size: 22px;
     font-weight: 300;
     line-height: 2;
     margin-left: 30px;
+    color: #fff;
+    @include transition(color 1s);
+  }
+
+  a {
+    &:hover {
+      cursor: pointer;
+      
+      &.geo {
+        color: $geo-bg-color;
+      }
+      &.soc {
+        color: $soc-bg-color;
+      }
+      &.cip {
+        color: $cip-bg-color;
+      }
+      &.naics {
+        color: $naics-bg-color;
+      }
+    }
   }
 
   .data-source-dynamic {
