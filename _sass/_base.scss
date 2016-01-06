@@ -334,19 +334,19 @@ body {
 
 .profile-category {
   @include flex-size();
-  margin-top: -66px;
+  margin-top: -98px;
 
   .category-img {
     background-repeat: no-repeat;
     background-size: 100%;
     width: 100%;
-    padding-top: 28.30%;
+    padding-top: 31.30%;
     height: 0;
   }
 
   .category-section {
     min-height: 225px;
-    padding-bottom: 80px;
+    padding-bottom: 100px;
     padding-top: 20px;
     margin-top: -5px;
 
