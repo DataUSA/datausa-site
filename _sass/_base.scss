@@ -60,8 +60,11 @@ body {
 //   z-index: 0;
 // }
 
-.cd-section {
+#section1, #section2, #section4 {
   min-height: 100vh;
+}
+
+.cd-section {
   
   .section-title {
     color: $sectiontitle-color;
