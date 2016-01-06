@@ -11,6 +11,11 @@
   width: 26px;
   height: 30px;
   background: url('/img/cd-arrow-bottom.svg') no-repeat center center;
+  @include transition(bottom 0.1s ease-out);
+
+  &:hover, &:focus {
+    bottom: 17px;
+  }
 }
 
 .material-btn {
@@ -61,6 +66,10 @@
   letter-spacing: 0.21em;
   text-transform: uppercase;
   color: #fff;
+
+  @media all and (max-width: 600px){
+    padding: 15px 35px;
+  }
 }
 
 .icon-btn {
@@ -68,6 +77,10 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 45%;
+
+  @media all and (max-width: 600px){
+    background-size: 40%;
+  }
 }
 
 .sign-up-btn {

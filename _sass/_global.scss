@@ -53,3 +53,9 @@ ul {
 *:focus, input:focus {
   outline: 0;
 }
+
+.mobile-hide {
+  @media all and (max-width: 450px){
+    display: none;
+  }
+}

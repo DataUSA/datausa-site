@@ -40,6 +40,10 @@ body {
   z-index: 1;
   padding: 180px 0 60px;
 
+  @media all and (max-width: 768px){
+    padding: 150px 0 40px;
+  }
+
   img {
     width: 60%;
     max-width: 500px;
@@ -66,6 +70,10 @@ body {
     letter-spacing: 0.08em;
     font-size: 28px;
     font-family: $palanquin;
+
+    @media all and (max-width: 400px){
+      font-size: 24px;
+    }
   }
 
   .section-desc {
@@ -74,6 +82,11 @@ body {
     font-size: 32px;
     text-transform: none;
     font-weight: 300;
+
+    @media all and (max-width: 600px){
+      font-size: 26px;
+      line-height: 1.3;
+    }
   }
 }
 
@@ -84,11 +97,18 @@ body {
 
     h2 {
       font-size: 24px;
+
+      @media all and (max-width: 600px){
+        font-size: 22px;
+      }
+      @media all and (max-width: 400px){
+        font-size: 18px;
+      }
     }
   }
 }
 
-#section2, .bg {
+#section2 {
   background: url('/img/stardust_e.png') repeat 0 0;
 }
 
@@ -102,6 +122,10 @@ body {
   display: block;
   margin: 10vh auto;
   text-align: center;
+
+  @media all and (max-width: 768px){
+    margin: 7vh auto;
+  }
 }
 
 .main {
@@ -109,6 +133,10 @@ body {
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
+
+  @media all and (max-width: 600px){
+    width: 70%;
+  }
 }
 
 .subheader {
@@ -122,21 +150,34 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 140px;
+  height: 100px;
   @include gradient(rgba(0,0,0,0), 30%, rgba(40, 36, 43, 0.5), 100%);
   z-index: 0;
 }
 
-.cross, .arrows {
-  width: 80px;
+.cross {
+  padding: 40px 0 20px;
+  width: 113px;
+
+  @media all and (max-width: 500px){
+    padding: 30px 0 10px;
+    width: 80px;
+  }
 }
 
 .arrows {
-  padding: 60px 0;
+  padding: 60px 0 30px;
+  width: 121px;
+  height: 26px;
 }
 
-.cross {
-  padding: 60px 0 20px;
+.wreath {
+  width: 115px;
+  margin-top: 7vh;
+  @media all and (max-width: 400px){
+    width: 90px;
+    margin-top: 4.5vh;
+  }
 }
 
 .bullet-container {
@@ -150,6 +191,10 @@ body {
       @include flex();
       @include justify(flex-start);
       padding: 20px 0;
+
+      @media all and (max-width: 450px){
+        padding: 20px 0 0;
+      }
     }
   }
 
@@ -161,6 +206,13 @@ body {
     width: 35px;
     background-size: 35px;
     margin-right: 25px;
+
+    @media all and (max-width: 450px){
+      height: 35px;
+      width: 35px;
+      background-size: 25px;
+      margin-right: 15px;
+    }
 
     &.bullet1 {
       background-image: url('/img/bullets/datajoin.svg');
@@ -185,16 +237,32 @@ body {
     color: $bullet-txt-color;
     line-height: 1.5;
     margin-bottom: 5px;
+
+    @media all and (max-width: 768px){
+      font-size: 20px;
+    }
+    @media all and (max-width: 450px){
+      font-size: 16px;
+      line-height: 1.3;
+    }
   }
 
   a, p {
+    margin-left: 25px;
     font-family: $palanquin;
     font-size: 19px;
     font-weight: 300;
     line-height: 2;
-    margin-left: 30px;
     color: $bullet-subtxt-color;
     @include transition(color 1s);
+
+    @media all and (max-width: 768px){
+      font-size: 16px;
+    }
+    @media all and (max-width: 450px){
+      font-size: 14px;
+      line-height: 1.6;
+    }
   }
 
   a {
@@ -218,6 +286,10 @@ body {
 
   .data-source-dynamic {
     height: 50px;
+
+    @media all and (max-width: 450px){
+      height: 30px;
+    }
   }
 
   .txt-rotate {
@@ -343,8 +415,8 @@ body {
 
 #section4 > .main {
   height: 20vh;
-  position: relative;
-  top: 7vh;
+  @include flex();
+  @include align-items(center);  
 }
 
 .sign-up-container {
@@ -366,12 +438,16 @@ body {
   line-height: 1;
   margin-bottom: 10px;
   text-align: center;
-  margin: 15vh auto 0;
+  margin: 15px auto 0;
   color: $launch-msg-color;
+
+  @media all and (max-width: 768px){
+    font-size: 30px;
+  }
 }
 
 .sign-up-form {
-  margin: auto;
+  margin: 5vh auto auto;
 
   label {
     display: block;
@@ -380,6 +456,12 @@ body {
     font-family: $palanquin;
     font-size: 28px;
     font-weight: 300;
+    line-height: 1.3;
+    
+    @media all and (max-width: 768px){
+      padding-bottom: 10px;
+      font-size: 20px;
+    }
   }
 
   .input-container {
@@ -396,19 +478,29 @@ body {
   line-height: 1;
   letter-spacing: 0.21em;
   color: #fff;
+
+  @media all and (max-width: 400px){
+    padding: 15px 35px 15px 15px;
+    width: 80%;
+  }
 }
 
 footer {
   @include flex();
-  @include justify(space-around);
+  @include justify(space-between);
   
   .co {
     z-index: 1;
 
     img {
       box-sizing: border-box;
-      padding: 15px;
+      padding: 10px 15px;
       margin: 45px auto 5px;
+      max-height: 45px;
+      @media all and (max-width: 600px){
+        max-width: 33vw;
+        margin: 0;
+      }
     }
   }
 }
