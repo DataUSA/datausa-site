@@ -147,11 +147,11 @@
     {% if topic.category %}
     {% if categories.update({"count": categories.count + 1}) %}{% endif %}
     {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
-    <a class="section-sidenav-button" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-anchor="center right" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
+    <a class="section-sidenav-button" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-tooltip="{{ topic.category|safe }}" data-tooltip-arrow="false" data-tooltip-anchor="center right" data-tooltip-id="data-tooltip-sidenav" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
     {% endif %}
   {% endfor %}
   {% if categories.count == 0 %}
-  <a class="section-sidenav-button" href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-tooltip="{{ section.title|safe }}" data-tooltip-anchor="center right" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
+  <a class="section-sidenav-button" href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-tooltip="{{ section.title|safe }}" data-tooltip-arrow="false" data-tooltip-anchor="center right" data-tooltip-id="data-tooltip-sidenav" data-ga="side nav circles" data-ga-cat="navigation" data-ga-label="User click"></a>
   {% endif %}
   </div>
 {% endfor %}

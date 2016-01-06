@@ -104,7 +104,7 @@ topics:
           value: "soc"
   - class: "flex"
     sumlevel: "!nation,!state"
-    title: "Most Specialized"
+    title: "<a href='/about/glossary/#rca' class='term' data-tooltip-id='data-tooltip-term' data-tooltip='The Most Specialized calculation is based on a Revealed Comparative Advantage (RCA) calculation comparing the share of employees in a given location versus the share of employees in the Nation. Click for more info.'>Most Specialized</a>"
     slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:

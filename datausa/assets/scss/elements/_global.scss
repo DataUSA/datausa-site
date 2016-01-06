@@ -10,7 +10,7 @@ body.frozen {
   display: inline-block;
 }
 
-#d3plus_tooltip_id_data-tooltip {
+#d3plus_tooltip_id_data-tooltip-sidenav{
 	@include shadow(none !important);
 	.d3plus_tooltip_container {
 		background-color: white !important;
@@ -26,4 +26,23 @@ body.frozen {
 		  font-weight: 400;
 		}
 	}
+}
+
+#d3plus_tooltip_id_data-tooltip-term{
+//  @include shadow(none !important);
+	.d3plus_tooltip_container {
+		background-color: white !important;
+		padding: 5px !important;
+		.d3plus_tooltip_description {
+			padding: 0 2px !important;
+			font-family: $roboto;
+		  font-size: 14px;
+		  font-weight: 400;
+		}
+	}
+}
+
+a.term {
+  border-bottom: 1px dashed #777 !important;
+  cursor: help !important;
 }

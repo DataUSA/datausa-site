@@ -107,15 +107,15 @@ body.frozen {
     margin-top: 3px;
     display: inline-block; }
 
-    #d3plus_tooltip_id_data-tooltip {
+    #d3plus_tooltip_id_data-tooltip-sidenav {
       -webkit-box-shadow: none !important;
       -moz-box-shadow: none !important;
       box-shadow: none !important; }
-      #d3plus_tooltip_id_data-tooltip .d3plus_tooltip_container {
+      #d3plus_tooltip_id_data-tooltip-sidenav .d3plus_tooltip_container {
         background-color: white !important;
         border: 1px solid #ccc !important;
         padding: 5px !important; }
-        #d3plus_tooltip_id_data-tooltip .d3plus_tooltip_container .d3plus_tooltip_description {
+        #d3plus_tooltip_id_data-tooltip-sidenav .d3plus_tooltip_container .d3plus_tooltip_description {
           padding: 0 2px !important;
           color: #dc5137;
           font-family: "Roboto", sans-serif;
@@ -123,6 +123,19 @@ body.frozen {
           letter-spacing: 0.1em;
           text-transform: uppercase;
           font-weight: 400; }
+
+#d3plus_tooltip_id_data-tooltip-term .d3plus_tooltip_container {
+  background-color: white !important;
+  padding: 5px !important; }
+  #d3plus_tooltip_id_data-tooltip-term .d3plus_tooltip_container .d3plus_tooltip_description {
+    padding: 0 2px !important;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: 400; }
+
+a.term {
+  border-bottom: 1px dashed #777 !important;
+  cursor: help !important; }
 body.home #menu .desc {
   display: block; }
   body.home .menu-content h2 {
@@ -539,7 +552,8 @@ body.search #search-btn {
     margin-left: -2px;
     opacity: 0.8; }
     .search-results .search-item .search-item-t {
-      display: inline-block; }
+      display: inline-block;
+      width: 85%; }
       .search-results .search-item h2 {
         font-family: "Roboto", sans-serif;
         font-size: 14px;

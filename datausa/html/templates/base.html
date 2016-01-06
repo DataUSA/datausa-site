@@ -104,8 +104,10 @@
 
       d3.selectAll("[data-tooltip]")
         .on(d3plus.client.pointer.over,function(){
+          
+          var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
 
-          d3plus.tooltip.remove("data-tooltip");
+          d3plus.tooltip.remove(tt_id);
 
           var size = this.getBoundingClientRect();
 
@@ -116,23 +118,28 @@
           else {
             offset = 15;
           }
-
-          d3plus.tooltip.remove("data-tooltip");
+          
+          var arrow = true;
+          if(d3.select(this).attr("data-tooltip-arrow")){
+            arrow = d3.select(this).attr("data-tooltip-arrow") === "true";
+          }
+          
           d3plus.tooltip.create({
             "x": size.left+size.width/2 + d3plus.client.scroll.x(),
             "y": size.top+size.height/2 + d3plus.client.scroll.y(),
             "offset": size.height/2 + offset,
-            "arrow": false,
+            "arrow": arrow,
+            // "title": "Title",
             "description": d3.select(this).attr("data-tooltip"),
             "width": "auto",
-            "id": "data-tooltip",
+            "id": tt_id,
             "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
             "max_width": 300
           })
 
         })
         .on(d3plus.client.pointer.out,function(){
-          d3plus.tooltip.remove("data-tooltip");
+          d3plus.tooltip.remove(d3.select(this).attr("data-tooltip-id") || "data-tooltip");
         })
 
     </script>
