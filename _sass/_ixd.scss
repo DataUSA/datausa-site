@@ -43,8 +43,7 @@
     color: $black;
   }
 
-  &:hover::before,
-  &:focus::before {
+  &:hover::before {
     top: 0;
     @include transform(translate3d(0, 0, 0));  
   }

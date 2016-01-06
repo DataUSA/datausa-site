@@ -281,6 +281,19 @@ body {
       &.naics {
         color: $naics-bg-color;
       }
+    
+      &::before {
+        content: '';
+        background-image: url('/img/sub-bullet.png');
+        background-size: 100%;
+        width: 15px;
+        height: 12px;
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        margin-left: -20px;
+        margin-right: 5px;
+      }
     }
   }
 
