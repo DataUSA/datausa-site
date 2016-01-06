@@ -456,7 +456,7 @@ topics:
       x:
         label: "income"
         persist:
-          position: True
+          position: "{{<<sumlevel>>:!nation||True}}"
         value: "bucket"
       y: "share"
   - title: "Wage by Location"

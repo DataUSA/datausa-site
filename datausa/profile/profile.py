@@ -205,12 +205,27 @@ class Profile(BaseObject):
             if not_equals:
                 second = second[1:]
 
+            if text == "True":
+                text = True
+            elif text == "False":
+                text = False
+
             if (not_equals and first == second) or (not not_equals and first != second):
-                text = ""
+                if isinstance(text, bool):
+                    if text:
+                        text = False
+                    else:
+                        text = True
+                else:
+                    text = ""
+
+            k = k.decode("utf-8", 'ignore')
 
             # replace all instances of key with the returned value
-            k = k.decode("utf-8", 'ignore')
-            config = config.replace("{{{{{}}}}}".format(k), text)
+            if isinstance(text, bool):
+                config = config.replace("\"{{{{{}}}}}\"".format(k), str(text))
+            else:
+                config = config.replace("{{{{{}}}}}".format(k), text)
 
         # regex to find all keys matching <<*>>
         config = self.parse_stats(config)
