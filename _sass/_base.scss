@@ -19,12 +19,12 @@ body {
   background-repeat: no-repeat;
 }
 
-// .seal-container {
+.seal-container {
+  margin: 13vh auto 0vh;
 //   position: relative;
 //   width: 100%;
 //   top: 5vh;
-//   margin-bottom: 5vh; hacky?
-// }
+}
 
 // .seal-ring {
 //   display: block;
@@ -38,10 +38,10 @@ body {
   top: 43%;
   text-align: center;
   z-index: 1;
-  padding: 180px 0 60px;
+  //padding: 180px 0 60px;
 
   @media all and (max-width: 768px){
-    padding: 150px 0 40px;
+    //padding: 150px 0 40px;
   }
 
   img {
@@ -94,9 +94,13 @@ body {
 }
 
 #section1 {
+  @include flex();
+  @include flex-direction(column);
+  @include align-items(center);
 
   .subheader {
     max-width: 335px;
+    margin: 50px auto 0;
 
     h2 {
       font-size: 24px;
@@ -122,12 +126,12 @@ body {
 }
 
 .sign-up {
-  display: block;
-  margin: 10vh auto;
-  text-align: center;
+  // display: block;
+  // text-align: center;
+  margin: 10vh auto 13vh;
 
   @media all and (max-width: 768px){
-    margin: 7vh auto;
+    //margin: 7vh auto;
   }
 }
 
