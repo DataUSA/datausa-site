@@ -725,15 +725,10 @@ body.about, body.profile, body.story {
 
     .d3plus_coordinates.highlight {
       stroke: white !important;
-      stroke-width: 19px !important;
       stroke-opacity: 1 !important;
       fill: white !important;
-      opacity: 1 !important;
-
-       .d3plus_data {
-         fill: white !important;
-       }
-     }
+      fill-opacity: 1 !important;
+    }
 
   }
 
@@ -1242,15 +1237,13 @@ body.about, body.profile, body.story {
           .d3plus {
 
             .d3plus_coordinates.outline {
-              .d3plus_data {
-                fill: transparent !important;
-                pointer-events: none !important;
-              }
+              fill: transparent !important;
+              pointer-events: none !important;
             }
 
             #XXUSA {
-              fill: #bbb;
-              stroke: #aaa;
+              fill: #bbb !important;
+              stroke: #aaa !important;
             }
 
           }

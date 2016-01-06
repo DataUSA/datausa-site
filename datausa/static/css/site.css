@@ -2291,14 +2291,9 @@ body.profile {
         body.profile #splash .d3plus_coordinates.highlight,
         body.story #splash .d3plus_coordinates.highlight {
           stroke: white !important;
-          stroke-width: 19px !important;
           stroke-opacity: 1 !important;
           fill: white !important;
-          opacity: 1 !important; }
-          body.about #splash .d3plus_coordinates.highlight .d3plus_data,
-          body.profile #splash .d3plus_coordinates.highlight .d3plus_data,
-          body.story #splash .d3plus_coordinates.highlight .d3plus_data {
-            fill: white !important; }
+          fill-opacity: 1 !important; }
   body.about #title-bar, body.profile #title-bar, body.story #title-bar {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -2945,16 +2940,16 @@ body.profile {
             min-height: 300px;
             overflow: hidden;
             position: relative; }
-            body.about section .topic .content .viz .d3plus .d3plus_coordinates.outline .d3plus_data,
-            body.profile section .topic .content .viz .d3plus .d3plus_coordinates.outline .d3plus_data,
-            body.story section .topic .content .viz .d3plus .d3plus_coordinates.outline .d3plus_data {
+            body.about section .topic .content .viz .d3plus .d3plus_coordinates.outline,
+            body.profile section .topic .content .viz .d3plus .d3plus_coordinates.outline,
+            body.story section .topic .content .viz .d3plus .d3plus_coordinates.outline {
               fill: transparent !important;
               pointer-events: none !important; }
-            body.about section .topic .content .viz .d3plus #XXUSA,
-            body.profile section .topic .content .viz .d3plus #XXUSA,
-            body.story section .topic .content .viz .d3plus #XXUSA {
-              fill: #bbb;
-              stroke: #aaa; }
+              body.about section .topic .content .viz .d3plus #XXUSA,
+              body.profile section .topic .content .viz .d3plus #XXUSA,
+              body.story section .topic .content .viz .d3plus #XXUSA {
+                fill: #bbb !important;
+                stroke: #aaa !important; }
             body.about section .topic .content .viz .data-table,
             body.profile section .topic .content .viz .data-table,
             body.story section .topic .content .viz .data-table {
@@ -3339,6 +3334,48 @@ body.embed {
 #map-fullscreen {
   height: 100vh;
   width: 100vw; }
+
+  .attribution {
+    bottom: 4px;
+    display: block;
+    position: absolute;
+    right: 4px;
+    color: #211f1a;
+    padding: 4px 7px 7px;
+    font-size: 9px; }
+
+    .map-controls {
+      left: 5px;
+      position: absolute;
+      top: 5px; }
+      .map-controls .zoom-in, .map-controls .zoom-out, .map-controls .zoom-reset {
+        border: 1px solid #211f1a;
+        display: block;
+        height: 15px;
+        margin: 5px;
+        position: relative;
+        width: 15px;
+        background-color: white; }
+        .map-controls .zoom-in:after, .map-controls .zoom-out:after,
+        .map-controls .zoom-reset:after {
+          top: 2px;
+          position: absolute;
+          width: 15px;
+          color: #211f1a;
+          font-family: FontAwesome;
+          font-size: 12px;
+          font-weight: 400;
+          text-align: center; }
+          .map-controls .zoom-in:hover, .map-controls .zoom-out:hover,
+          .map-controls .zoom-reset:hover {
+            cursor: pointer;
+            background-color: #f1f1f1; }
+      .map-controls .zoom-in:after {
+        content: "\f067"; }
+        .map-controls .zoom-out:after {
+          content: "\f068"; }
+          .map-controls .zoom-reset:after {
+            content: "\f015"; }
 body.story {
   background-color: #F6F6F6; }
   body.story section {

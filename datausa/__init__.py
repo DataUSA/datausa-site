@@ -42,6 +42,7 @@ js = Bundle(
     "viz/*.js",
     "viz/configs/*.js",
     "viz/data/*.js",
+    "viz/geo/*.js",
     output="js/site.js"
 )
 assets.register("js", js)

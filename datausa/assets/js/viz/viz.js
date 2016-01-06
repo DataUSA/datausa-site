@@ -11,7 +11,9 @@ var viz = function(build) {
     }
   }
 
-  build.viz = d3plus.viz()
+  build.viz = build.config.type === "geo_map" ? viz.map() : d3plus.viz();
+
+  build.viz
     .messages(!build.container.classed("thumbprint"))
     .config(viz.defaults(build))
     .background("transparent")

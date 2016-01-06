@@ -14,16 +14,10 @@ viz:
   data: []
   highlight: <<id>>
   id: "geo"
-  mouse:
-    click: NO
-    move: NO
-    over: NO
-    out: NO
+  mouse: NO
+  tiles: NO
   type: "geo_map"
-  zoom:
-    click: NO
-    pan: NO
-    scroll: NO
+  zoom: NO
 stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop|row=0>>"

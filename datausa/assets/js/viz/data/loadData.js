@@ -170,8 +170,8 @@ viz.loadData = function(build, next) {
 
             var headerKeys = d3.keys(dataArray[0]),
                 format = build.viz.format(Object),
-                textFormat = format.text.value,
-                numFormat = format.number.value;
+                textFormat = format.text.value || format.text,
+                numFormat = format.number.value || format.number;
 
             format = function(v, key) {
               if (v === undefined || v === null) {

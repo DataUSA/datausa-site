@@ -2,3 +2,61 @@
   height: 100vh;
   width: 100vw;
 }
+
+.attribution {
+  bottom: 4px;
+  display: block;
+  position: absolute;
+  right: 4px;
+  // background-color: rgba(255, 255, 255, 0.5);
+  color: $text-color;
+  padding: 4px 7px 7px;
+  font-size: 9px;
+}
+
+.map-controls {
+  left: 5px;
+  position: absolute;
+  top: 5px;
+
+  .zoom-in, .zoom-out, .zoom-reset {
+    border: 1px solid $text-color;
+    display: block;
+    height: 15px;
+    margin: 5px;
+    position: relative;
+    width: 15px;
+    background-color: white;
+
+    &:after {
+      top: 2px;
+      position: absolute;
+      width: 15px;
+      color: $text-color;
+      font-family: FontAwesome;
+      font-size: 12px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(241, 241, 241);
+    }
+
+  }
+
+  .zoom-in:after {
+    content: unicode("f067");
+  }
+
+  .zoom-out:after {
+    content: unicode("f068");
+  }
+
+  .zoom-reset:after {
+    content: unicode("f015");
+
+  }
+
+}
