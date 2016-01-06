@@ -264,7 +264,8 @@ class Profile(BaseObject):
                     "required": col,
                     "sumlevel": "state",
                     "order": col,
-                    "sort": "desc"
+                    "sort": "desc",
+                    "year": "latest"
                 }
 
                 query = RequestEncodingMixin._encode_params(params)
