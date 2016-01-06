@@ -154,7 +154,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 100px;
-  @include gradient(rgba(0,0,0,0), 30%, rgba(40, 36, 43, 0.5), 100%);
+  @include gradient(rgba(0,0,0,0), 30%, rgba(40, 36, 43, 0.6), 100%);
   z-index: 0;
 }
 
@@ -257,7 +257,7 @@ body {
     font-weight: 300;
     line-height: 2;
     color: $bullet-subtxt-color;
-    @include transition(color 1s);
+    @include transition(color 0.3s);
 
     @media all and (max-width: 768px){
       font-size: 16px;
@@ -503,14 +503,14 @@ body {
 
 footer {
   @include flex();
-  @include justify(space-between);
+  @include justify(center);
   
   .co {
     z-index: 1;
 
     img {
       box-sizing: border-box;
-      padding: 10px 15px;
+      padding: 10px 30px;
       margin: 45px auto 5px;
       max-height: 45px;
       @media all and (max-width: 600px){
