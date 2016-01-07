@@ -55,7 +55,7 @@
   year: latest
   namespace: sex
 
-- required: ["degree", "num_ppl"]
+- required: ["degree", "num_ppl", "cip"]
   order: num_ppl
   rows: True
   limit: 8
