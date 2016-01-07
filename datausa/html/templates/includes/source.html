@@ -14,7 +14,7 @@
     <i class="fa fa-link"></i>
   </a>
   <div class="embed-input">
-    <input type="text" class="embed-link" value="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id }}/{{ section.anchor }}/{{ topic.slug }}/" onclick="this.focus();this.select()" readonly />
+    <input type="text" class="embed-link" value="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/" onclick="this.focus();this.select()" readonly />
     <label><input type="checkbox" class="viz_only" />Visualization Only</label>
   </div>
   {% endif %}
