@@ -7,21 +7,26 @@ viz.map = function() {
     "class": {"value": false},
     "color": {"value": false},
     "container": {"value": false},
-    "coords": {"value": []},
+    "coords": {"value": [], "solo": [], "mute": []},
     "data": {"value": []},
     "depth": {"value": 0},
     "error": {"value": false},
-    "format": {"value": function(value, opts){
-      if (typeof value === "number") {
-        return this.number(value, opts);
-      }
-      else if (typeof value === "string") {
-        return this.text(value, opts);
-      }
-      return JSON.stringify(value);
-    }},
+    "format": {
+      "value": function(value, opts){
+        if (typeof value === "number") {
+          return this.number(value, opts);
+        }
+        else if (typeof value === "string") {
+          return this.text(value, opts);
+        }
+        return JSON.stringify(value);
+      },
+      "number": function(value, opts){ return d3plus.number.format(value); },
+      "text": function(value, opts){ return "Population" || d3plus.string.format(value); }
+    },
     "height": {"value": false},
     "highlight": {"value": false},
+    "id": {"value": false},
     "messages": {"value": true},
     "mouse": {"value": true},
     "pins": {"value": []},

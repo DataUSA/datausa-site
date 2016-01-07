@@ -3,33 +3,29 @@
 {% block body %}
 
 <div id="map-fullscreen"></div>
+<div id="map-teaser">
+  <div id="coming-soon">Coming Soon</div>
+</div>
 
 {% endblock %}
 
 {% block js %}
 <script>
 
-  var map = d3plus.viz()
-    .container("#map-fullscreen")
-    .error("Loading names...")
-    .coords({"key": "msas", "projection": "albersUsa"})
-    .type("geo_map")
-    .labels(false)
-    .color("color")
-    .data([])
-    .draw();
+  var navheight = d3.select("#top-nav").node().offsetHeight;
+  d3.selectAll("#map-fullscreen, #map-teaser")
+    .style("height", window.innerHeight - navheight + "px");
 
-  load(api + "/attrs/geo", function(attrs) {
-    attrs = attrs.reduce(function(obj, d){
-      obj[d.id] = d;
-      return obj;
-    }, {});
-    map.attrs(attrs).text("display_name").error("Loading coordinates...");
+  var map = viz.map()
+    .container(d3.select("#map-fullscreen"))
+    .color("pop")
+    .id("geo")
+    .coords({"key": "msas", "mute": ["31000US11260", "31000US21820", "31000US27940", "31000US28540", "31000US25900", "31000US27980", "31000US46520", "31000US28180", "31000US41980", "31000US25020", "31000US17640", "31000US17620", "31000US42180", "31000US38660", "31000US41980", "31000US41900", "31000US32420", "31000US41980", "31000US10260", "31000US27580", "31000US10380", "31000US11640"]});
 
-    load("/static/topojson/msas.json", function(data){
-      map.coords(data).error(false).draw();
+  load("/static/topojson/msas.json", function(coords){
+    load(api + "/api/?sumlevel=msa&year=latest&required=pop&show=geo", function(data){
+      map.coords(coords).data(data).draw();
     });
-
   });
 
 </script>
