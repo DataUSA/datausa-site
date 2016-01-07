@@ -464,6 +464,7 @@ topics:
     stat:
       - title: "<<level child=True|plural=True>> with the highest median wage"
         value: "<<top child=True|order=income>>"
+        sumlevel: "!county,!place"
         subvalues:
           - "<<top child=True|order=income|rank=2>>"
           - "<<top child=True|order=income|rank=3>>"
