@@ -474,8 +474,8 @@ body.search #search-btn {
       width: 100%;
       overflow: hidden;   }
       #menu footer img {
-        height: 17.5px;
-        margin: 26.92308px 0 26.92308px 25px;
+        height: 16.47059px;
+        margin: 26.92308px 0 26.92308px 20px;
         opacity: 1;
         -webkit-transition: opacity 1s;
         -moz-transition: opacity 1s;

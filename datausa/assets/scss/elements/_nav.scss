@@ -519,8 +519,8 @@ body {
     overflow: hidden;
 
     img {
-      height: $footer-height/4;
-      margin: $footer-height/2.6 0 $footer-height/2.6 25px;
+      height: $footer-height/4.25;
+      margin: $footer-height/2.6 0 $footer-height/2.6 20px;
       opacity: 1;
       @include transition(opacity 1s);
 
