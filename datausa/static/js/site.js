@@ -1721,6 +1721,10 @@ var attrStyles = {
     "54": {
         "color": "#99572e",
         "icon": "app_stacked.png"
+    },
+    "GS": {
+        "color": "#b22200",
+        "icon": "thing_flask.png"
     }
   }
 
@@ -3044,7 +3048,7 @@ viz.loadData = function(build, next) {
                 var length = nesting[iii];
                 var k = type + "_" + length;
                 datum[k] = datum[type].slice(0, length);
-                if (k === build.config.color && k in attrStyles) {
+                if (k === build.config.color && k in attrStyles && datum[k] in attrStyles[k]) {
                   datum.color = attrStyles[k][datum[k]].color;
                 }
               }

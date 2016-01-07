@@ -792,6 +792,10 @@ var attrStyles = {
     "54": {
         "color": "#99572e",
         "icon": "app_stacked.png"
+    },
+    "GS": {
+        "color": "#b22200",
+        "icon": "thing_flask.png"
     }
   }
 
