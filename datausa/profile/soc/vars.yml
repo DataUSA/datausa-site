@@ -61,6 +61,7 @@
   limit: 8
   year: latest
   dataset: pums
+  degree: "20,21,22,23,24,555,666,777"
   namespace: degrees
 
 - required: ["cip"]
@@ -68,7 +69,7 @@
   rows: True
   limit: 3
   sort: desc
-  degree: "<<top show=degree|required=num_ppl_rca|col=id>>"
+  degree: "<<top show=degree|degree=20,21,22,23,24,555,666,777|required=num_ppl,cip|order=num_ppl|col=id|dataset=pums>>"
   sumlevel: 2
   show: cip
   year: latest
@@ -79,7 +80,7 @@
   rows: True
   limit: 3
   sort: desc
-  degree: "<<top show=degree|required=num_ppl|col=id>>"
+  degree: "<<top show=degree|degree=20,21,22,23,24,555,666,777|required=num_ppl,cip|order=num_ppl|col=id|dataset=pums>>"
   sumlevel: 2
   show: cip
   year: latest
