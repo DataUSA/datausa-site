@@ -38,15 +38,28 @@ body {
   top: 43%;
   text-align: center;
   z-index: 1;
-  //padding: 180px 0 60px;
-
-  @media all and (max-width: 768px){
-    //padding: 150px 0 40px;
-  }
 
   img {
-    width: 60%;
+    width: 70%;
     max-width: 500px;
+  }
+
+  @media all and (min-width: 501px){
+    img.l {
+      display: none;
+    }
+    img.d {
+      display: inline-block;
+    }
+  }
+
+  @media all and (max-width: 500px){
+    img.l {
+      display: inline-block;
+    }
+    img.d {
+      display: none;
+    }
   }
 }
 
@@ -446,7 +459,7 @@ body {
   background-color: #161527;
   background-image: url('/img/earth1.jpg');
   background-position: 50% 100%;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   @include flex();
   @include flex-direction(column);
@@ -493,13 +506,14 @@ body {
 
 #mce-EMAIL {
   border: 1px solid white;
-  background-color: transparent;
+  background-color: rgba(56,62,88,0.4);
   padding: 18px 35px 18px 18px;
   width: 60%;
   font-size: 0.78571rem;
   line-height: 1;
   letter-spacing: 0.21em;
   color: #fff;
+  @include placeholder {color: #ffffff;}
 
   @media all and (max-width: 400px){
     padding: 15px 35px 15px 15px;
