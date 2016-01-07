@@ -442,10 +442,12 @@ body {
 .sign-up-container {
   position: relative;
   height: 80vh;
-  background-color: #424771;
+  width: 100vw;
+  background-color: #161527;
   background-image: url('/img/earth1.jpg');
-  @include background-stretch();
-  background-position: 50% 0%;
+  background-position: 50% 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
   @include flex();
   @include flex-direction(column);
   @include justify(space-between);
