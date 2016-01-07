@@ -1946,6 +1946,14 @@ var vizStyles = {
     "stroke": {
       "width": 1
     }
+  },
+
+  "pin": {
+    // "color": "#F33535",
+    "color": "transparent",
+    "stroke": "#ffffff",
+    "path": "M0.001-53.997c-9.94,0-18,8.058-18,17.998l0,0l0,0c0,2.766,0.773,5.726,1.888,8.066C-13.074-20.4,0.496,0,0.496,0s12.651-20.446,15.593-27.964v-0.061l0.021,0.005c-0.007,0.019-0.016,0.038-0.021,0.056c0.319-0.643,0.603-1.306,0.846-1.985c0.001-0.003,0.003-0.006,0.004-0.009c0.001-0.001,0.001-0.003,0.002-0.005c0.557-1.361,1.059-3.054,1.059-6.035c0,0,0,0,0-0.001l0,0C17.999-45.939,9.939-53.997,0.001-53.997z M0.001-29.874c-3.763,0-6.812-3.05-6.812-6.812c0-3.762,3.05-6.812,6.812-6.812c3.762,0,6.812,3.05,6.812,6.812C6.812-32.924,3.763-29.874,0.001-29.874z",
+    "scale": 0.5
   }
 
 }
@@ -3399,6 +3407,10 @@ viz.mapDraw = function(vars) {
     polyGroup.enter().append("g").attr("class", "paths")
       .attr("opacity", 0).transition().duration(timing).attr("opacity", 1);
 
+    var pinGroup = svg.selectAll("g.pins").data([0]);
+    pinGroup.enter().append("g").attr("class", "pins")
+      .attr("opacity", 0).transition().duration(timing).attr("opacity", 1);
+
     var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
     });
@@ -3685,7 +3697,9 @@ viz.mapDraw = function(vars) {
       key_height = 0;
     }
 
+    var pinData = [];
     coords.objects[vars.coords.key].geometries = coords.objects[vars.coords.key].geometries.filter(function(c){
+      if (vars.pins.value.indexOf(c.id) >= 0) pinData.push(c);
       return vars.coords.solo.length ? vars.coords.solo.indexOf(c.id) >= 0 :
              vars.coords.mute.length ? vars.coords.mute.indexOf(c.id) < 0 : true;
     })
@@ -3716,6 +3730,8 @@ viz.mapDraw = function(vars) {
     projection
       .scale(1 / 2 / Math.PI)
       .translate([0, 0]);
+
+    pinData = pinData.map(function(d){ return path.centroid(topojson.feature(coords, d)); });
 
     if (vars.zoom.value) {
 
@@ -3855,6 +3871,15 @@ viz.mapDraw = function(vars) {
 
     }
 
+    var pins = pinGroup.selectAll(".pin").data(pinData);
+    pins.enter().append("path")
+      .attr("class", "pin")
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("stroke-width", 1)
+      .attr("d", vizStyles.pin.path)
+      .attr("fill", vizStyles.pin.color)
+      .attr("stroke", vizStyles.pin.stroke);
+
     if (vars.tiles.value) {
       var tile = d3.geo.tile()
         .size([width, height]);
@@ -3874,6 +3899,11 @@ viz.mapDraw = function(vars) {
       }
 
       polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+      pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
+        .selectAll(".pin")
+        .attr("transform", function(d){
+          return "translate(" + d + ")scale(" + (1/zoom.scale()*vizStyles.pin.scale) + ")";
+        });
 
       if (vars.tiles.value) {
         tileGroup.attr("transform", "scale(" + tileData.scale + ")translate(" + tileData.translate + ")");
@@ -3933,6 +3963,7 @@ viz.map = function() {
     "highlight": {"value": false},
     "messages": {"value": true},
     "mouse": {"value": true},
+    "pins": {"value": []},
     "tiles": {"value": true},
     "width": {"value": false},
     "zoom": {"value": true}

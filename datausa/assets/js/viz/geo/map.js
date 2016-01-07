@@ -24,6 +24,7 @@ viz.map = function() {
     "highlight": {"value": false},
     "messages": {"value": true},
     "mouse": {"value": true},
+    "pins": {"value": []},
     "tiles": {"value": true},
     "width": {"value": false},
     "zoom": {"value": true}

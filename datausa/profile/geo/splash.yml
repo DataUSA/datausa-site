@@ -9,12 +9,13 @@ description: >
 viz:
   attrs: "geo"
   coords:
-    solo: "<<solo>>"
+    solo: "{{<<sumlevel>>:!place||<<solo>>}}{{<<sumlevel>>:place||<<parents id_only=true|prefix=040>>}}"
     value: "<<sumlevel plural=True>>"
   data: []
-  highlight: <<id>>
+  highlight: "<<id>>"
   id: "geo"
   mouse: NO
+  pins: ["{{<<sumlevel>>:place||<<id>>}}"]
   tiles: NO
   type: "geo_map"
   zoom: NO

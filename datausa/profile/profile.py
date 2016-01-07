@@ -259,7 +259,7 @@ class Profile(BaseObject):
         attr_id = self.id(**kwargs)
 
         prefix = kwargs.get("prefix", None)
-        if prefix:
+        if prefix and id_only == False:
             top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type="geo", attr_id=p["id"]), p["name"]) for p in get_parents(attr_id, self.attr_type) if p["id"].startswith(prefix)]
             if len(top) > 1:
                 top[-1] = "and {}".format(top[-1])
@@ -315,6 +315,8 @@ class Profile(BaseObject):
                     return results
 
         results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
+        if prefix:
+            results = [r for r in results if r["id"].startswith(prefix)]
         if id_only:
             return ",".join([r["id"] for r in results])
         else:

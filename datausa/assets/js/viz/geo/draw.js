@@ -106,6 +106,10 @@ viz.mapDraw = function(vars) {
     polyGroup.enter().append("g").attr("class", "paths")
       .attr("opacity", 0).transition().duration(timing).attr("opacity", 1);
 
+    var pinGroup = svg.selectAll("g.pins").data([0]);
+    pinGroup.enter().append("g").attr("class", "pins")
+      .attr("opacity", 0).transition().duration(timing).attr("opacity", 1);
+
     var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
     });
@@ -392,7 +396,9 @@ viz.mapDraw = function(vars) {
       key_height = 0;
     }
 
+    var pinData = [];
     coords.objects[vars.coords.key].geometries = coords.objects[vars.coords.key].geometries.filter(function(c){
+      if (vars.pins.value.indexOf(c.id) >= 0) pinData.push(c);
       return vars.coords.solo.length ? vars.coords.solo.indexOf(c.id) >= 0 :
              vars.coords.mute.length ? vars.coords.mute.indexOf(c.id) < 0 : true;
     })
@@ -423,6 +429,8 @@ viz.mapDraw = function(vars) {
     projection
       .scale(1 / 2 / Math.PI)
       .translate([0, 0]);
+
+    pinData = pinData.map(function(d){ return path.centroid(topojson.feature(coords, d)); });
 
     if (vars.zoom.value) {
 
@@ -562,6 +570,15 @@ viz.mapDraw = function(vars) {
 
     }
 
+    var pins = pinGroup.selectAll(".pin").data(pinData);
+    pins.enter().append("path")
+      .attr("class", "pin")
+      .attr("vector-effect", "non-scaling-stroke")
+      .attr("stroke-width", 1)
+      .attr("d", vizStyles.pin.path)
+      .attr("fill", vizStyles.pin.color)
+      .attr("stroke", vizStyles.pin.stroke);
+
     if (vars.tiles.value) {
       var tile = d3.geo.tile()
         .size([width, height]);
@@ -581,6 +598,11 @@ viz.mapDraw = function(vars) {
       }
 
       polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+      pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
+        .selectAll(".pin")
+        .attr("transform", function(d){
+          return "translate(" + d + ")scale(" + (1/zoom.scale()*vizStyles.pin.scale) + ")";
+        });
 
       if (vars.tiles.value) {
         tileGroup.attr("transform", "scale(" + tileData.scale + ")translate(" + tileData.translate + ")");
