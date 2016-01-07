@@ -55,12 +55,20 @@
   year: latest
   namespace: sex
 
+- required: ["degree", "num_ppl"]
+  order: num_ppl
+  rows: True
+  limit: 8
+  year: latest
+  dataset: pums
+  namespace: degrees
+
 - required: ["cip"]
   order: num_ppl_rca
   rows: True
   limit: 3
   sort: desc
-  degree: "21"
+  degree: "<<top show=degree|required=num_ppl_rca|col=id>>"
   sumlevel: 2
   show: cip
   year: latest
@@ -71,7 +79,7 @@
   rows: True
   limit: 3
   sort: desc
-  degree: "21"
+  degree: "<<top show=degree|required=num_ppl|col=id>>"
   sumlevel: 2
   show: cip
   year: latest

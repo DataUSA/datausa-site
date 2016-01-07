@@ -7,7 +7,7 @@ topics:
     select:
       data: "pums_degree"
       param: "degree"
-      default: "21"
+      default: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
     stat_stack: YES
     stat:
       - title: "High relative number of people major in"
@@ -20,13 +20,13 @@ topics:
         subvalues:
           - "<<var namespace=cip|key=cip|row=1>>"
           - "<<var namespace=cip|key=cip|row=2>>"
-    description: "Here we see the share of degrees held by <<name>> whose highest degree obtained is a <span class='select-text'>Bachelor's degree</span>."
+    description: "Here we see the share of degrees held by <<name>> whose highest degree obtained is a <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span>."
     viz:
       attrs: "cip"
       color: "cip_2"
       data:
         show: "cip"
-        degree: "21"
+        degree: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
         soc: "<<id>>"
         required: "num_ppl,num_ppl_moe,num_ppl_rca"
         sumlevel: "2"
