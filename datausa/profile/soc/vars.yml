@@ -44,14 +44,12 @@
   rows: True
   limit: 3
   sort: desc
-  where: "num_records:>4"
   year: latest
   namespace: race
 
 - required: ["sex"]
   order: num_ppl
   sort: desc
-  where: "num_records:>4"
   year: latest
   namespace: sex
 

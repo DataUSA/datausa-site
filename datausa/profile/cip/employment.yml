@@ -7,7 +7,7 @@ topics:
     title: "Most Common"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     slug: "top_occ_num_emp"
-    description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -18,7 +18,6 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
-            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -40,7 +39,7 @@ topics:
             sort: "asc"
             show: "soc"
             sumlevel: "3"
-            where: "num_ppl:!0,num_records:>4"
+            where: "num_ppl:!0"
         height: 250
         id: "soc"
         labels: YES
@@ -164,7 +163,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "soc"
           sumlevel: "3"
-          where: "num_records:>4,num_ppl:!0"
+          where: "num_ppl:!0"
       depth: 3
       height: 500
       id:
@@ -233,7 +232,7 @@ topics:
     class: "flex"
     title: "Most Common"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
-    description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         data:
@@ -244,7 +243,6 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
-            where: "num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -266,7 +264,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
-            where: "num_ppl:!0,num_records:>4"
+            where: "num_ppl:!0"
         height: 250
         id: "naics"
         labels: YES
@@ -340,7 +338,7 @@ topics:
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
-          where: "num_records:>4,num_ppl:!0"
+          where: "num_ppl:!0"
       depth: 2
       height: 500
       id:

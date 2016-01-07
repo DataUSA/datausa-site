@@ -67,7 +67,6 @@
   limit: 3
   order: num_ppl
   dataset: pums
-  where: num_records:>4
   show: degree
   year: latest
   namespace: degree_workforce

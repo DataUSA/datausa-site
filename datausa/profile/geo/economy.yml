@@ -57,7 +57,7 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         data:
@@ -68,7 +68,6 @@ topics:
             sort: "desc"
             show: "geo,soc"
             sumlevel: "<<sumlevel>>,3"
-            where: "num_records:>4"
         height: 250
         id: "soc"
         labels: YES
@@ -90,7 +89,7 @@ topics:
             sort: "asc"
             show: "geo,soc"
             sumlevel: "<<sumlevel>>,3"
-            where: "num_ppl:!0,num_records:>4"
+            where: "num_ppl:!0"
         height: 250
         id: "soc"
         labels: YES
@@ -334,7 +333,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "geo,soc"
           sumlevel: "<<sumlevel>>,3"
-          where: "num_records:>4,num_ppl:!0"
+          where: "num_ppl:!0"
       depth: 3
       height: 500
       id:
@@ -600,7 +599,6 @@ topics:
             sort: "desc"
             show: "geo,naics"
             sumlevel: "<<sumlevel>>,2"
-            where: "num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -622,7 +620,7 @@ topics:
             sort: "asc"
             show: "geo,naics"
             sumlevel: "<<sumlevel>>,2"
-            where: "num_ppl:!0,num_records:>4"
+            where: "num_ppl:!0"
         height: 250
         id: "naics"
         labels: YES
@@ -863,7 +861,7 @@ topics:
           required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
           show: "geo,naics"
           sumlevel: "<<sumlevel>>,2"
-          where: "num_records:>4,num_ppl:!0"
+          where: "num_ppl:!0"
       depth: 2
       height: 500
       id:

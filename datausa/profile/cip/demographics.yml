@@ -34,7 +34,6 @@ topics:
         - required: "num_ppl"
           cip: "<<id dataset=pums>>"
           show: "degree"
-          where: "num_records:>4"
           share: "num_ppl"
           static:
             student_pool: "Workforce"
@@ -222,11 +221,9 @@ topics:
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           cip: "<<id dataset=pums>>"
           show: "age"
-          where: "num_records:>4"
           share: "num_ppl"
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "age"
-          where: "num_records:>4"
           share: "num_ppl"
           static:
             cip: "National Average"
