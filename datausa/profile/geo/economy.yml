@@ -345,11 +345,11 @@ topics:
       size: "num_ppl"
       type: "tree_map"
   - category: "Wages"
-    title: "Average Wage"
+    title: "Household Income"
     slug: "income"
-    description: "On average, people in <<name>> had a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank|row=0>> richest <<level>> in the United States.}}{{<<sumlevel>>:nation|| This chart shows the average wage of US citizens compared to the top 2 and bottom 2 states.}}"
+    description: "Households in <<name>> have a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank|row=0>> richest <<level>> in the United States.}}{{<<sumlevel>>:nation|| This chart shows the average wage of US citizens compared to the top 2 and bottom 2 states.}}"
     stat:
-      - title: "Median Yearly Income"
+      - title: "Median Household Income"
         value: "<<var namespace=splash|key=income|row=0>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe|row=0>>"
     viz:
