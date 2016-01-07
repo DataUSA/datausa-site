@@ -3812,10 +3812,6 @@ viz.mapDraw = function(vars) {
       })
       .call(polyStyle);
 
-    polys
-      .transition().duration(timing)
-      .call(polyStyle);
-
     if (vars.mouse.value) {
 
       var createTooltip = function(d) {
@@ -3835,6 +3831,7 @@ viz.mapDraw = function(vars) {
           return arr;
         }, []);
 
+        d3plus.tooltip.remove("geo_map");
         d3plus.tooltip.create({
           "arrow": true,
           "background": vizStyles.tooltip.background,
@@ -3870,6 +3867,10 @@ viz.mapDraw = function(vars) {
         });
 
     }
+
+    polys
+      .transition().duration(timing)
+      .call(polyStyle);
 
     var pins = pinGroup.selectAll(".pin").data(pinData);
     pins.enter().append("path")
