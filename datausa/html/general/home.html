@@ -38,7 +38,7 @@
 
 <script>
 
-var bg_imgs = [1, 7];
+var bg_imgs = [1, 6];
 var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
 d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
 localforage.setItem("homepage_image", bg_img);
