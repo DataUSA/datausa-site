@@ -52,7 +52,7 @@
       </div>
 
       <div class="cip">
-        <h2><img src="/static/img/icons/cip_b.svg"><a href="#" data-filter="cip">College Majors (<span class="num_res" data-default="2,319">0</span>)</a></h2>
+        <h2><img src="/static/img/icons/cip_b.svg"><a href="#" data-filter="cip">Education (<span class="num_res" data-default="2,319">0</span>)</a></h2>
         <ul>
           <li><a href="#" data-filter="cip" data-depth="0">2 digit (<span class="num_res" data-default="49">0</span>)</a></li>
           <li><a href="#" data-filter="cip" data-depth="1">4 digit (<span class="num_res" data-default="422">0</span>)</a></li>
@@ -230,9 +230,9 @@
   })
 
   search.reload();
-  
 
-  
+
+
   d3.select(document).on("keyup.adv_search", function(){
     var search_items = Array.prototype.slice.call(document.querySelectorAll(".search-item"));
     var focused_a = d3.select(".search-item .info a:focus").node();
@@ -241,7 +241,7 @@
       var focused_search_item = focused_a.parentNode.parentNode.parentNode;
       focused_i = search_items.indexOf(focused_search_item);
     }
-    
+
     // Up/Down Arrows
     if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
       var direction = d3.event.keyCode === 40 ? 1 : -1;
@@ -250,12 +250,12 @@
         d3.select(next_search_item).select(".info a").node().focus();
       }
     }
-    
+
     // Enter
     if (d3.event.keyCode === 13 && focused_a) {
       window.location = focused_a.href;
     }
-    
+
   })
 
 </script>

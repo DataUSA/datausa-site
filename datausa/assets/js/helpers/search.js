@@ -45,7 +45,7 @@ var attrs_meta = {
     ]
   },
   "cip": {
-    "name": "College Majors",
+    "name": "Education",
     "sumlevels": [
       {"name":"2 digit Course", "id":0, "children":[1, 2]},
       {"name":"4 digit Course", "id":1, "children":[2]},
@@ -168,7 +168,7 @@ search.reload = function() {
 
     var tag = this.advanced ? "div" : "a";
     items.enter().append(tag).attr("class", "search-item");
-    
+
     if(items.empty()){
       d3.selectAll(".no-search-results").style("display", "block")
     }
