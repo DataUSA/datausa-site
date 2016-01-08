@@ -9,7 +9,7 @@ body {
   z-index: -1;
 }
 
-.hero-img {
+#hero-img {
   position: relative;
   background-image: url('/img/jjj56cp_CoveMountain.jpg');
   width: 100%;
@@ -17,6 +17,10 @@ body {
   background-position: 0 0;
   background-size: contain;
   background-repeat: no-repeat;
+
+  @media all and (max-width: 500px){
+    
+  }
 }
 
 .seal-container {
