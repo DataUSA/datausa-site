@@ -1953,8 +1953,8 @@ body.profile {
               body.story #splash .content .splash-titles h1,
               body.map #splash .content .splash-titles h1 {
                 text-transform: none;
-                font-family: "Lato", sans-serif;
-                font-weight: 700;
+                font-family: "Palanquin", sans-serif;
+                font-weight: 300;
                 letter-spacing: normal; }
           body.about #splash .content .splash-context,
           body.profile #splash .content .splash-context,
@@ -2017,7 +2017,7 @@ body.profile {
                 body.story #splash .content .splash-icon-nav a,
                 body.map #splash .content .splash-icon-nav a {
                   text-align: center;
-                  padding: 1.2vh 3vw 0;
+                  padding: 1.2vh 20px 0;
                   opacity: 0.7;
                   -webkit-transition: opacity 0.25s;
                   -moz-transition: opacity 0.25s;
@@ -2369,6 +2369,8 @@ body.profile {
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
+    -webkit-align-items: center;
+    align-items: center;
     height: 40px;
     max-width: 860px;
     right: 0;
@@ -2381,8 +2383,8 @@ body.profile {
     z-index: 3; }
     body.about #title-bar img, body.profile #title-bar img, body.story #title-bar img,
     body.map #title-bar img {
-      width: 104px;
-      margin-top: 5px; }
+      width: 96px;
+      margin-top: 7px; }
       body.about #title-bar .expand-stats-btn, body.profile #title-bar .expand-stats-btn,
       body.story #title-bar .expand-stats-btn, body.map #title-bar .expand-stats-btn {
         opacity: 0;
@@ -2435,9 +2437,9 @@ body.profile {
         display: inline-block;
         padding: 9px;
         color: #fff;
-        font-family: "Lato", sans-serif;
-        font-size: 18px;
-        font-weight: 700; }
+        font-family: "Palanquin", sans-serif;
+        font-size: 16px;
+        font-weight: 300; }
         body.about #title-bar.visible span, body.profile #title-bar.visible span,
         body.story #title-bar.visible span, body.map #title-bar.visible span {
           top: 0; }
