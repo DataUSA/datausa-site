@@ -178,10 +178,9 @@ class Profile(BaseObject):
 
     def load_yaml(self, config):
         if isinstance(config, dict):
-            pass
+            config = json.dumps(config)
         elif isinstance(config, file):
             config = "".join(config.readlines())
-
         config = config.decode("utf-8", 'ignore')
         config = yaml.load(config)
 
