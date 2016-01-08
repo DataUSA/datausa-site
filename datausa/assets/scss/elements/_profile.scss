@@ -94,7 +94,7 @@ body.about, body.profile, body.story, body.map {
     font-weight: 300;
     font-size: 55px;
     line-height: 1.1;
-    letter-spacing: 0.05em;
+//    letter-spacing: 0.05em;
   }
 
   header h2 {
@@ -376,7 +376,7 @@ body.about, body.profile, body.story, body.map {
       width: 100%;
       @include background-stretch();
       //@include filter(saturate(1.25) brightness(1) contrast(1.25));
-      @include filter(saturate(1.1) brightness(1.3) contrast(1.1));
+//      @include filter(saturate(1.1) brightness(1.3) contrast(1.1));
       z-index: 0;
       @include transition(all 0.5s);
 
@@ -387,9 +387,10 @@ body.about, body.profile, body.story, body.map {
         width: 100%;
         left: 0;
         top: 0;
-        background: #222;
-        opacity: 0.75;
-        @include transition(opacity 0.5s);
+        background: -webkit-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 1%, rgba(0,0,0,0.5) 10%, rgba(0,0,0,0.5) 51%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,1) 100%);
+//        background: #222;
+//        opacity: 0.75;
+//        @include transition(opacity 0.5s);
       }
 
       &.color {
@@ -409,12 +410,13 @@ body.about, body.profile, body.story, body.map {
       @include transition(opacity 0.5s);
       width: $bg-width;
       height: $bg-height;
-      max-width: 900px;
+//      max-width: 900px;
       opacity: 1;
       padding: $nav-height 25px;
       @include box();
       // overflow: hidden;
       z-index: 1;
+      position: relative;
 
       &.hide {
         opacity: 0;
@@ -424,13 +426,18 @@ body.about, body.profile, body.story, body.map {
       .splash-titles {
         width: 100%;
         text-align: center;
-        .splash-breadcrumb {
-          margin-top: 10px;
+        h1 {
+          text-transform: none;
+          font-family: $lato;
+          font-weight: 700;
+          letter-spacing: normal;
         }
       }
 
       .splash-context {
         width: 100%;
+        max-width: 900px;
+        margin: 20px 0 0 0;
         @include flex();
         @include flex-direction(row);
         @include align-items(flex-start);
@@ -441,6 +448,10 @@ body.about, body.profile, body.story, body.map {
         @include flex();
         @include flex-direction(row);
         @include align-items(center);
+        position: absolute;
+        bottom: 20px;
+        left: 0px;
+        width: 55%;
 
         span {
           display: block;
@@ -469,16 +480,15 @@ body.about, body.profile, body.story, body.map {
           height: 23px;
         }
       }
-
-      .context-l {
-        @include flex-size(2);
-        margin-right: 30px;
+      
+      .splash-breadcrumb {
+        position: absolute;
+        bottom: 20px;
+        right: 0px;
+        width: 40%;
+        text-align: right;
       }
-
-      .context-r {
-        @include flex-size(3);
-      }
-
+      
       h1 {
         line-height: 1;
         color: #efefef;
@@ -488,10 +498,10 @@ body.about, body.profile, body.story, body.map {
       .splash-title-group {
         margin: 6px auto;
         font-family: $roboto;
-        font-weight: 300;
+//        font-weight: 300;
         font-size: 11px;
         letter-spacing: 0.06em;
-        text-transform: uppercase;
+//        text-transform: uppercase;
         color: rgba(240,250,255,0.9);
       }
 
@@ -543,8 +553,9 @@ body.about, body.profile, body.story, body.map {
 
       #splash-stats {
         @include flex();
-        @include justify(space-between);
+        @include justify(space-around);
         @include align-items(stretch);
+        width: 100%;
 
         .stat {
           @include flex();
@@ -1031,6 +1042,43 @@ body.about, body.profile, body.story, body.map {
       }
 
     }
+  }
+  
+  .intro {
+    @include flex();
+    @include flex-direction(row);
+    @include align-items(flex-start);
+    padding: 20px 0;
+    
+    .intro-txt {
+      @include flex-size(2);
+      a {
+        color: rgba(0,0,0,1);
+        font-weight: bold;
+//        border-bottom: 1px solid rgba(0,0,0,0.95);
+        &:hover{
+          color: rgba(0,0,0,0.5);
+//          border-bottom: 1px solid rgba(0,0,0,0.45);
+        }
+        &.and_more{
+          border-bottom: 1px solid rgba(0,0,0,0.95);
+          &:after{
+            content: unicode("f196");
+            font-family: FontAwesome;
+            margin: 0 0 0 4px;
+          }
+        }
+      }
+      .the_rest {
+        display: none;
+      }
+    }
+    
+    .intro-viz {
+      @include flex-size(1);
+      height: 200px;
+    }
+    
   }
 
   header {

@@ -31,7 +31,7 @@ def datapivot(data, keys, sort="desc", column_id="id", column_value="value", col
 def dropfirst(c):
     return "_".join(c.split("_")[1:])
 
-def stat(params, col="name", dataset=False, data_only=False, moe=False):
+def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate=0):
 
     # convert request arguments into a url query string
     rank = int(params.pop("rank", "1"))
@@ -131,14 +131,25 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False):
     if col == "id":
         top = ",".join(top)
     else:
-        # list creation for non-ids
-        if len(top) > 1:
-            top[-1] = u"and {}".format(top[-1])
-
-        if len(top) == 2:
-            top = u" ".join(top)
+        num_items = len(top)
+        
+        if truncate and num_items > truncate:
+            top, rest = top[:int(truncate)], top[int(truncate):]
+            # now stringify
+            top = "{}; <a href='#' class='and_more'>and {} more</a>".format(u"; ".join(top), len(rest))
+            if len(rest) > 1:
+                rest = u"; ".join(rest)
+            else:
+                rest = u"and {}".join(rest[-1])
+            top = "<span>{}</span><span class='the_rest'>{}</span>".format(top, rest)
+        
         else:
-            top = u"; ".join(top)
+            if num_items > 1:
+                top[-1] = u"and {}".format(top[-1])
+            if num_items == 2:
+                top = u" and ".join(top)
+            else:
+                top = u"; ".join(top)
 
     # otherwise, return the list joined with commans
     return {

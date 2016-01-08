@@ -161,6 +161,14 @@ class Profile(BaseObject):
 
         if "uppercase" in kwargs:
             name = name.capitalize()
+        
+        if "titlecase" in kwargs:
+            name = name.title()
+            
+        if "desc" in labels:
+            name = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</span>".format(labels['desc'], name)
+            if "link" in labels:
+                name = u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>".format(labels['link'], labels['desc'], name)
 
         return name
 
@@ -619,6 +627,7 @@ class Profile(BaseObject):
         attr_type = kwargs.get("attr_type", self.attr_type)
         dataset = kwargs.get("dataset", False)
         moe = kwargs.pop("moe", False)
+        truncate = int(kwargs.pop("truncate", 0))
 
         # create a params dict to use in the URL request
         params = {}
@@ -689,7 +698,7 @@ class Profile(BaseObject):
             params["required"] += ",{}".format(moe)
 
         # make the API request using the params
-        return stat(params, col=col, dataset=dataset, data_only=data_only, moe=moe)
+        return stat(params, col=col, dataset=dataset, data_only=data_only, moe=moe, truncate=truncate)
 
     def var(self, **kwargs):
         namespace = kwargs["namespace"]

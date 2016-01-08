@@ -17,23 +17,68 @@
     <div><i class="fa fa-camera"></i></div>
   </div>
 
-<article id="splash">
+  <article id="splash">
 
-  {% set sections = profile.sections() %}
-  {% set image = profile.image() %}
+    {% set sections = profile.sections() %}
+    {% set image = profile.image() %}
 
-  <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
+    <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
 
-  <div class="content">
+    <div class="content">
 
-    <div class="splash-titles">
+      <div class="splash-titles">
 
-      {% if profile.splash.group %}
-      <div class="splash-title-group">{{ profile.splash.group }} Profile</div>
-      {% endif %}
+        <h1>{{ profile.splash.title }}</h1>
 
-      <h1>{{ profile.splash.title }}</h1>
+      </div>
 
+      <div class="splash-context">
+
+        <div id="splash-stats">
+          {% for stat in profile.splash.stats %}
+          <div class="stat">
+            <div class="stat-text">{{ stat.title|safe }}</div>
+            <div class="stat-group">
+              <div class="stat-value">{{ stat.value|safe }}</div>
+              <div class="stat-rank">{{ stat.rank|safe }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      
+      </div>
+
+      <!-- <div class="splash-icon-nav">
+        {% for section in sections %}
+        <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/{{ section.anchor }}.svg" />
+          <span>{{ section.title|safe }}</span>
+        </a>
+        {% endfor %}
+      </div> -->
+      <div class="splash-icon-nav">
+        <a href="#economy" data-ga="splash economy" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/economy.svg">
+          <span>Economy</span>
+        </a>
+        <a href="#demographics" data-ga="splash demographics" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/demographics.svg">
+          <span>Demographics</span>
+        </a>
+        <a href="#education" data-ga="splash education" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/education.svg">
+          <span>Education</span>
+        </a>
+        <a href="#housing" data-ga="splash housing &amp; living" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/housing.svg">
+          <span>Housing &amp; Living</span>
+        </a>
+        <a href="#health" data-ga="splash health &amp; safety" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/health.svg">
+          <span>Health &amp; Safety</span>
+        </a>
+      </div>
+    
       <div class="splash-breadcrumb">
         {% set parents = profile.parents() %}
         {% if parents|length %}
@@ -47,71 +92,27 @@
 
     </div>
 
-    <div class="splash-desc">
+  </article> <!-- end splash  -->
+  
+  <div class="intro">
+    
+    <div class="intro-txt">
       {% for desc in profile.splash.description %}
       <p class="desc has-p-link">{{ desc|safe }}</p>
       {% endfor %}
     </div>
-
-    <div class="splash-context">
-
-      {% if profile.splash.viz %}
-      <div class="context-l">
-        <div class="viz thumbprint">
-          <div class="d3plus"></div>
-        </div>
-        <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
+    
+    {% if profile.splash.viz %}
+    <div class="intro-viz">
+      <div class="viz thumbprint">
+        <div class="d3plus"></div>
       </div>
-      {% endif %}
-
-      <div class="context-r">
-        <div id="splash-stats">
-          {% for stat in profile.splash.stats %}
-          <div class="stat">
-            <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-group">
-              <div class="stat-value">{{ stat.value|safe }}</div>
-              <div class="stat-rank">{{ stat.rank|safe }}</div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-
-        <div class="carousel">
-          <div class="carousel-title">Did you know?</div>
-          <div class="carousel-slider">
-            {% for fact in profile.splash.facts %}
-              <p class="has-p-link carousel-text{% if loop.index == 1%} active{% endif %}">{{ fact|safe }}</p>
-            {% endfor %}
-          </div>
-          <div class="carousel-btns">
-            <div class="carousel-btn">&#10229;</div>
-            <span id="carousel-page">1</span><span>&#8201;/&#8201;</span><span>{{ profile.splash.facts|length }}</span>
-            <div class="carousel-btn active">&#10230;</div>
-          </div>
-        </div>
-      </div>
+      <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
     </div>
-
-    <div class="splash-icon-nav">
-      {% for section in sections %}
-      <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
-        <img src="/static/img/icons/{{ section.anchor }}.svg" />
-        <span>{{ section.title|safe }}</span>
-      </a>
-      {% endfor %}
-    </div>
-
+    {% endif %}
+    
   </div>
-
-  <div id="scroll-btn">
-    <div class="mouse">
-      <span class="ball"></span>
-    </div>
-    <div class="mouse-text">Scroll to Explore</div>
-  </div>
-
-</article>
+  
 </div>
 
 <div id="nav-bar-scroll">
@@ -301,12 +302,18 @@
   navScroll();
   scrollFunctions.push(navScroll);
 
-
   d3.select("#show-bg").on("click", function(){
     var show = d3.select("#splash-image").classed("color");
     d3.select("#splash-image").classed("color", !show);
     d3.select("#splash .content").classed("hide", !show);
   });
+  
+  // toggle extra items in long list
+  d3.selectAll(".and_more").on("click", function(){
+    d3.event.preventDefault();
+    d3.select(this).style("display", "none");
+    d3.select(this.parentNode.nextSibling).style("display", "inline");
+  })
 
 </script>
 

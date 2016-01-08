@@ -135,6 +135,7 @@ body.frozen {
 
 a.term {
   border-bottom: 1px dashed #777 !important;
+  color: inherit !important;
   cursor: help !important; }
 body.home #menu .desc {
   display: block; }
@@ -1616,8 +1617,7 @@ body.profile {
     font-family: "Lato", sans-serif;
     font-weight: 300;
     font-size: 55px;
-    line-height: 1.1;
-    letter-spacing: 0.05em; }
+    line-height: 1.1; }
     body.about header h2, body.profile header h2, body.story header h2,
     body.map header h2 {
       font-family: "Playfair Display", serif;
@@ -1878,10 +1878,6 @@ body.profile {
           -moz-background-size: cover;
           -o-background-size: cover;
           background-size: cover;
-          -webkit-filter: saturate(1.1) brightness(1.3) contrast(1.1);
-          -moz-filter: saturate(1.1) brightness(1.3) contrast(1.1);
-          -o-filter: saturate(1.1) brightness(1.3) contrast(1.1);
-          filter: saturate(1.1) brightness(1.3) contrast(1.1);
           z-index: 0;
           -webkit-transition: all 0.5s;
           -moz-transition: all 0.5s;
@@ -1896,13 +1892,9 @@ body.profile {
             width: 100%;
             left: 0;
             top: 0;
-            background: #222;
-            opacity: 0.75;
-            -webkit-transition: opacity 0.5s;
-            -moz-transition: opacity 0.5s;
-            -ms-transition: opacity 0.5s;
-            -o-transition: opacity 0.5s;
-            transition: opacity 0.5s; }
+            background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 1%,
+                        rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.5) 51%, rgba(0, 0, 0, 0.6) 65%,
+                        black 100%); }
             body.about #splash #splash-image.color, body.profile #splash #splash-image.color,
             body.story #splash #splash-image.color, body.map #splash #splash-image.color {
               -webkit-filter: saturate(1) brightness(1) contrast(1);
@@ -1939,13 +1931,13 @@ body.profile {
           transition: opacity 0.5s;
           width: 94.7%;
           height: 92.7%;
-          max-width: 900px;
           opacity: 1;
           padding: 40px 25px;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
-          z-index: 1; }
+          z-index: 1;
+          position: relative; }
           body.about #splash .content.hide, body.profile #splash .content.hide,
           body.story #splash .content.hide, body.map #splash .content.hide {
             opacity: 0;
@@ -1956,16 +1948,21 @@ body.profile {
             body.map #splash .content .splash-titles {
               width: 100%;
               text-align: center; }
-              body.about #splash .content .splash-titles .splash-breadcrumb,
-              body.profile #splash .content .splash-titles .splash-breadcrumb,
-              body.story #splash .content .splash-titles .splash-breadcrumb,
-              body.map #splash .content .splash-titles .splash-breadcrumb {
-                margin-top: 10px; }
+              body.about #splash .content .splash-titles h1,
+              body.profile #splash .content .splash-titles h1,
+              body.story #splash .content .splash-titles h1,
+              body.map #splash .content .splash-titles h1 {
+                text-transform: none;
+                font-family: "Lato", sans-serif;
+                font-weight: 700;
+                letter-spacing: normal; }
           body.about #splash .content .splash-context,
           body.profile #splash .content .splash-context,
           body.story #splash .content .splash-context,
           body.map #splash .content .splash-context {
             width: 100%;
+            max-width: 900px;
+            margin: 20px 0 0 0;
             -webkit-justify-content: center;
             -moz-justify-content: center;
             justify-content: center;
@@ -1998,7 +1995,11 @@ body.profile {
               -moz-flex-direction: row;
               flex-direction: row;
               -webkit-align-items: center;
-              align-items: center; }
+              align-items: center;
+              position: absolute;
+              bottom: 20px;
+              left: 0px;
+              width: 55%; }
               body.about #splash .content .splash-icon-nav span,
               body.profile #splash .content .splash-icon-nav span,
               body.story #splash .content .splash-icon-nav span,
@@ -2034,78 +2035,70 @@ body.profile {
               body.map #splash .content .splash-icon-nav img {
                 width: 23px;
                 height: 23px; }
-          body.about #splash .content .context-l, body.profile #splash .content .context-l,
-          body.story #splash .content .context-l, body.map #splash .content .context-l {
-            -webkit-box-flex: 2;
-            -moz-box-flex: 2;
-            -webkit-flex: 2;
-            -ms-flex: 2;
-            flex: 2;
-            margin-right: 30px; }
-            body.about #splash .content .context-r, body.profile #splash .content .context-r,
-            body.story #splash .content .context-r, body.map #splash .content .context-r {
-              -webkit-box-flex: 3;
-              -moz-box-flex: 3;
-              -webkit-flex: 3;
-              -ms-flex: 3;
-              flex: 3; }
-              body.about #splash .content h1, body.profile #splash .content h1,
-              body.story #splash .content h1, body.map #splash .content h1 {
-                line-height: 1;
-                color: #efefef;
-                -webkit-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-                -moz-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-                text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
-                body.about #splash .content .splash-title-group,
-                body.profile #splash .content .splash-title-group,
-                body.story #splash .content .splash-title-group,
-                body.map #splash .content .splash-title-group {
-                  margin: 6px auto;
+          body.about #splash .content .splash-breadcrumb,
+          body.profile #splash .content .splash-breadcrumb,
+          body.story #splash .content .splash-breadcrumb,
+          body.map #splash .content .splash-breadcrumb {
+            position: absolute;
+            bottom: 20px;
+            right: 0px;
+            width: 40%;
+            text-align: right; }
+            body.about #splash .content h1, body.profile #splash .content h1,
+            body.story #splash .content h1, body.map #splash .content h1 {
+              line-height: 1;
+              color: #efefef;
+              -webkit-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+              -moz-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+              text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
+              body.about #splash .content .splash-title-group,
+              body.profile #splash .content .splash-title-group,
+              body.story #splash .content .splash-title-group,
+              body.map #splash .content .splash-title-group {
+                margin: 6px auto;
+                font-family: "Roboto", sans-serif;
+                font-size: 11px;
+                letter-spacing: 0.06em;
+                color: rgba(240, 250, 255, 0.9); }
+                body.about #splash .content sub a, body.profile #splash .content sub a,
+                body.story #splash .content sub a, body.map #splash .content sub a {
+                  display: inline-block;
+                  padding: 2px 0;
+                  margin-top: -4px;
+                  vertical-align: text-bottom;
                   font-family: "Roboto", sans-serif;
                   font-weight: 300;
                   font-size: 11px;
-                  letter-spacing: 0.06em;
+                  letter-spacing: 0.1em;
                   text-transform: uppercase;
-                  color: rgba(240, 250, 255, 0.9); }
-                  body.about #splash .content sub a, body.profile #splash .content sub a,
-                  body.story #splash .content sub a, body.map #splash .content sub a {
-                    display: inline-block;
-                    padding: 2px 0;
-                    margin-top: -4px;
-                    vertical-align: text-bottom;
-                    font-family: "Roboto", sans-serif;
-                    font-weight: 300;
-                    font-size: 11px;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    overflow-wrap: break-word;
-                    word-wrap: break-word;
-                    -ms-word-break: break-all;
-                    word-break: break-word;
-                    white-space: initial !important;
-                    -webkit-hyphens: auto;
-                    -ms-hyphens: auto;
-                    -moz-hyphens: auto;
-                    hyphens: auto;
-                    color: rgba(240, 250, 255, 0.9);
-                    -webkit-transition: color 0.25s;
-                    -moz-transition: color 0.25s;
-                    -ms-transition: color 0.25s;
-                    -o-transition: color 0.25s;
-                    transition: color 0.25s; }
-                    body.about #splash .content sub a + a::before,
-                    body.profile #splash .content sub a + a::before,
-                    body.story #splash .content sub a + a::before,
-                    body.map #splash .content sub a + a::before {
-                      content: "\\ ";
-                      font-weight: 400;
-                      color: rgba(240, 244, 246, 0.75);
-                      padding: 0 0 0 2px; }
-                      body.about #splash .content sub a:hover, body.profile #splash .content sub a:hover,
-                      body.story #splash .content sub a:hover, body.map #splash .content sub a:hover {
-                        cursor: pointer;
-                        color: #fff;
-                        text-decoration: none; }
+                  overflow-wrap: break-word;
+                  word-wrap: break-word;
+                  -ms-word-break: break-all;
+                  word-break: break-word;
+                  white-space: initial !important;
+                  -webkit-hyphens: auto;
+                  -ms-hyphens: auto;
+                  -moz-hyphens: auto;
+                  hyphens: auto;
+                  color: rgba(240, 250, 255, 0.9);
+                  -webkit-transition: color 0.25s;
+                  -moz-transition: color 0.25s;
+                  -ms-transition: color 0.25s;
+                  -o-transition: color 0.25s;
+                  transition: color 0.25s; }
+                  body.about #splash .content sub a + a::before,
+                  body.profile #splash .content sub a + a::before,
+                  body.story #splash .content sub a + a::before,
+                  body.map #splash .content sub a + a::before {
+                    content: "\\ ";
+                    font-weight: 400;
+                    color: rgba(240, 244, 246, 0.75);
+                    padding: 0 0 0 2px; }
+                    body.about #splash .content sub a:hover, body.profile #splash .content sub a:hover,
+                    body.story #splash .content sub a:hover, body.map #splash .content sub a:hover {
+                      cursor: pointer;
+                      color: #fff;
+                      text-decoration: none; }
           body.about #splash .content p.desc, body.profile #splash .content p.desc,
           body.story #splash .content p.desc, body.map #splash .content p.desc {
             padding: 0;
@@ -2128,11 +2121,12 @@ body.profile {
               display: -ms-flexbox;
               display: -webkit-flex;
               display: flex;
-              -webkit-justify-content: space-between;
-              -moz-justify-content: space-between;
-              justify-content: space-between;
+              -webkit-justify-content: space-around;
+              -moz-justify-content: space-around;
+              justify-content: space-around;
               -webkit-align-items: stretch;
-              align-items: stretch; }
+              align-items: stretch;
+              width: 100%; }
               body.about #splash .content #splash-stats .stat,
               body.profile #splash .content #splash-stats .stat,
               body.story #splash .content #splash-stats .stat,
@@ -2751,6 +2745,56 @@ body.profile {
         width: 20px;
         height: 20px;
         margin: 0 auto 5px; }
+  body.about .intro, body.profile .intro, body.story .intro, body.map .intro {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    padding: 20px 0; }
+    body.about .intro .intro-txt, body.profile .intro .intro-txt,
+    body.story .intro .intro-txt, body.map .intro .intro-txt {
+      -webkit-box-flex: 2;
+      -moz-box-flex: 2;
+      -webkit-flex: 2;
+      -ms-flex: 2;
+      flex: 2; }
+      body.about .intro .intro-txt a, body.profile .intro .intro-txt a,
+      body.story .intro .intro-txt a, body.map .intro .intro-txt a {
+        color: black;
+        font-weight: bold; }
+        body.about .intro .intro-txt a:hover, body.profile .intro .intro-txt a:hover,
+        body.story .intro .intro-txt a:hover, body.map .intro .intro-txt a:hover {
+          color: rgba(0, 0, 0, 0.5); }
+          body.about .intro .intro-txt a.and_more, body.profile .intro .intro-txt a.and_more,
+          body.story .intro .intro-txt a.and_more, body.map .intro .intro-txt a.and_more {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.95); }
+            body.about .intro .intro-txt a.and_more:after,
+            body.profile .intro .intro-txt a.and_more:after,
+            body.story .intro .intro-txt a.and_more:after,
+            body.map .intro .intro-txt a.and_more:after {
+              content: "\f196";
+              font-family: FontAwesome;
+              margin: 0 0 0 4px; }
+      body.about .intro .intro-txt .the_rest, body.profile .intro .intro-txt .the_rest,
+      body.story .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest {
+        display: none; }
+    body.about .intro .intro-viz, body.profile .intro .intro-viz,
+    body.story .intro .intro-viz, body.map .intro .intro-viz {
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      height: 200px; }
   body.about header, body.profile header, body.story header, body.map header {
     padding: 60px 50px 25px;
     position: relative; }

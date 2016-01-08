@@ -8,24 +8,32 @@ SUMLEVELS = {
         "040": {
             "sumlevel": "state",
             "label": "state",
-            "children": "050"
+            "children": "050",
+            "desc": "Includes all 50 US states as well as Washington D.C. and Puerto Rico. Click for more info.",
+            "link": "/about/glossary/#state",
         },
         "050": {
             "sumlevel": "county",
             "label": "county",
-            "children": "140"
+            "children": "140",
+            "desc": "Most or all county subdivisions are legal entities, known to the Census Bureau as minor civil divisions. Click for more info.",
+            "link": "/about/glossary/#county",
         },
         "310": {
             "sumlevel": "msa",
             "label": "metropolitan statistical area",
             "shortlabel": "metro area",
-            "children": "050"
+            "children": "050",
+            "desc": "A Metropolitan Statistical Area (MSA) is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties. Click for more info.",
+            "link": "/about/glossary/#msa",
         },
         "160": {
             "sumlevel": "place",
             "label": "census designated place",
             "shortlabel": "place",
-            "children": "140"
+            "children": "140",
+            "desc": "Census designated places (CDPs) are Incorporated cities, towns, and villages. Click for more info.",
+            "link": "/about/glossary/#place",
         },
         "860": {
             "sumlevel": "zip",
@@ -34,7 +42,9 @@ SUMLEVELS = {
         "795": {
             "sumlevel": "puma",
             "label": "public use microdata area",
-            "shortlabel": "PUMA"
+            "shortlabel": "PUMA",
+            "desc": "A Public Use Microdata Area (PUMAs), are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information. Click for more info.",
+            "link": "/about/glossary/#puma",
         },
         "140": {
             "sumlevel": "tract",
