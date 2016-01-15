@@ -4,7 +4,7 @@
 
 {% block subtitle %}
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_sm.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
+  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
   <a href="#" class="expand-stats-btn close"></a></span>
 </div>
 {% endblock %}
@@ -48,48 +48,56 @@
       
       </div>
 
-      <div class="splash-icon-nav">
-        {% for section in sections %}
-        <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
-          <img src="/static/img/icons/{{ section.anchor }}.svg" />
-          <span>{{ section.title|safe }}</span>
-        </a>
-        {% endfor %}
-      </div>
-    
-      <div class="splash-breadcrumb">
-        {% set parents = profile.parents() %}
-        {% if parents|length %}
-          <sub>
-            {% for p in parents %}
-              <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
-            {% endfor %}
-          </sub>
-        {% endif %}
+      <div class="row-last">
+        <div class="splash-icon-nav">
+          <a href="#intro" data-ga="splash intro" data-ga-cat="navigation" data-ga-label="User click">
+            <img src="/static/img/icons/about.svg" />
+            <span>About</span>
+          </a>
+          {% for section in sections %}
+          <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
+            <img src="/static/img/icons/{{ section.anchor }}.svg" />
+            <span>{{ section.title|safe }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      
+        <div class="splash-breadcrumb">
+          <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
+          {% set parents = profile.parents() %}
+          {% if parents|length %}
+            <sub>
+              {% for p in parents %}
+                <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['id']) }}">{{ p["name"] }}</a>
+              {% endfor %}
+            </sub>
+          {% endif %}
+        </div>
       </div>
 
     </div>
 
   </article> <!-- end splash  -->
   
-  <div class="intro">
-    
-    <div class="intro-txt">
+  <header class="intro">
+    <h2><a name="intro">About {{ profile.splash.title }}</a></h2>
+    <div class="col">
+      <div class="intro-txt">
       {% for desc in profile.splash.description %}
       <p class="desc has-p-link">{{ desc|safe }}</p>
       {% endfor %}
-    </div>
-    
-    {% if profile.splash.viz %}
-    <div class="intro-viz">
-      <div class="viz thumbprint">
-        <div class="d3plus"></div>
       </div>
-      <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
-    </div>
-    {% endif %}
     
-  </div>
+      {% if profile.splash.viz %}
+      <div class="intro-viz">
+        <div class="viz thumbprint">
+          <div class="d3plus"></div>
+        </div>
+        <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
+      </div>
+      {% endif %}
+    </div>
+  </header>
   
 </div>
 
@@ -176,7 +184,7 @@
   <!-- end .follow-up -->
 
   <!-- ending footer  -->
-  <!-- <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_sm.png" alt="DataUSA" style="width:104px" /></a>
+  <!-- <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_p.png" alt="DataUSA" style="width:104px" /></a>
   <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a> -->
 </div>
 
@@ -188,7 +196,7 @@
 
   var fontScale = d3.scale.linear()
     .domain([60, 20])
-    .range([35, 55]);
+    .range([35, 65]);
 
   var title = d3.select(".splash-titles h1");
   title.style("font-size", fontScale(title.text().length) + "px");
@@ -219,9 +227,10 @@
   });
 
   var splashHeight = d3.select("#splash").node().offsetHeight,
-      titleNavHeight = d3.select("#title-bar").node().offsetHeight + splashHeight/5,
-      statNavHeight = titleNavHeight + splashHeight/3,
-      profNavHeight = d3.select("#title-bar").node().offsetHeight + d3.select("#stats-bar").node().offsetHeight,
+      boundHeight = d3.select(".bound").node().offsetHeight
+      titleNavHeight = d3.select("#title-bar").node().offsetHeight,
+      statNavHeight = d3.select("#stats-bar").node().offsetHeight,
+      profNavHeight = d3.select("#profile-nav").node().offsetHeight,
       attr_type = "{{ profile.attr_type }}";
 
   // var firstScroll = true;
@@ -234,15 +243,17 @@
     // firstScroll = false;
 
     var y = d3plus.client.scroll.y(),
-        showTitleNav = y > titleNavHeight,
-        showStatNav = y > statNavHeight,
-        showProfNav = y > window.innerHeight - profNavHeight - 35;
+        colorTitleNav = y > titleNavHeight,
+        showTitleNav = y > splashHeight/2.75,
+        showStatNav = y > splashHeight,
+        showProfNav = y > boundHeight - titleNavHeight - statNavHeight;
 
+    d3.select("#top-nav").classed("filled", colorTitleNav);
     d3.select("#title-bar").classed("visible", showTitleNav);
     d3.select("#home-btn").classed("hidden", showTitleNav);
 
-    d3.select("#stats-bar").classed("visible", showStatNav);
-    d3.select(".expand-stats-btn").classed("show", showStatNav);
+    d3.select("#stats-bar").classed("visible", showProfNav);
+    d3.select(".expand-stats-btn").classed("show", showProfNav);
     d3.select("#profile-nav").classed("visible", showProfNav);
     d3.select("#section-sidenav").classed("visible", showProfNav);
 
@@ -287,7 +298,7 @@
   });
   
   // toggle extra items in long list
-  d3.selectAll(".and_more").on("click", function(){
+  d3.selectAll(".show-more").on("click", function(){
     d3.event.preventDefault();
     d3.select(this).style("display", "none");
     d3.select(this.parentNode.nextSibling).style("display", "inline");
