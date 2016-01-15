@@ -1,8 +1,8 @@
-// Profile navigation sizes
+/* Profile navigation sizes */
 $title-height: 40px;
-$prof-nav-height: 50px;
+$prof-nav-height: 45px;
 $nav-height: 40px;
-$stats-bar-height: 30px;
+$stats-bar-height: 23px;
 $footer-height: 70px;
 $nav-width: 415px;
 $search-height: 60px;
@@ -10,10 +10,38 @@ $search-helpers-height: 25px;
 $search-mini-height: 550px;
 $search-mini-width: 250px;
 
-$bg-colors: (geo: rgba(3,48,40,0.95), cip: rgba(105,6,26,0.95), soc: rgba(6, 25, 98, 0.95), naics: rgba(48,50,16,0.95));
-$d-bg-colors: (geo: #0C2521, cip: #2B040C, soc: #020B31, naics: #1D1908);
-$link-colors: (geo: #0C9A6E, cip: #dc5137, soc: #2c49d8, naics: #9FA507);
-$alt-link-colors: (geo: rgba(105,185,167,0.5), cip: rgba(173, 123, 123, 0.5), soc: rgba(121,129,169,0.5), naics: rgba(138,140,68,0.5));
+/* colors */
+
+$black: #1B191D;
+$black2: #141b2e;
+$black3: #434958;
+$black4: #727682;
+
+$white: #D7E8EF;
+$white2: rgba(215, 232, 239, 0.8);
+$white3: rgba(215, 232, 239, 0.5);
+$white4: rgba(215, 232, 239, 0.2);
+
+$red: #F23434;
+
+$blue: #32415A;
+$blue3: #5c8de5;
+
+$min-color: #8d7a40;
+$max-color: #306a62;
+
+$sectiontitle-color: $white;
+$subtitle-color: #616CA5;
+$bullet-txt-color: #BACACB;
+$bullet-subtxt-color: #A1AEB3;
+$launch-msg-color: $white;
+$geo-bg-color: #4268B1;
+$cip-bg-color: #4B928B;
+$soc-bg-color: #d1685e;
+$naics-bg-color: #505876;
+
+$link-color: #666;
+$alt-link-color: #999;
 
 $d-profile-bg: #E9E9E9;
 $l-profile-bg: #F6F6F6;
@@ -48,12 +76,14 @@ $light-home-red: #fdc8b8;
 
 $shadow: 0 3px 3px rgba(0,0,0,0.35);
 
-$enriqueta: "Enriqueta", serif;
 $palanquin: "Palanquin", sans-serif;
-$noticia: "Noticia Text", serif;
 $lato: "Lato", sans-serif;
 $playfair: "Playfair Display", serif;
 $roboto: "Roboto", sans-serif;
+$pathway: "Pathway Gothic One", sans-serif;
+$source: "Source Sans Pro", sans-serif;
 
 /* download Google Fonts */
-@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Noticia+Text:400,700|Lato:100,300,400,700|Playfair+Display:400,400italic|Roboto:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Palanquin:300,400,600,700|Lato:100,300,400,700|Playfair+Display:400,400italic|Roboto:300,400,700|Pathway+Gothic+One|Source+Sans+Pro:400,300);
+
+//Enriqueta:400,700|
