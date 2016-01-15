@@ -7,28 +7,26 @@ body.profile {
 
 body.about, body.profile, body.story, body.map {
 
-  #top-nav {
-    background-color: #111;
+  #profile-nav {
+    background-color: $black2;
   }
 
-  @each $page in (geo, cip, soc, naics) {
-    &.#{$page} {
-      // #splash .content {
-      //   background-color: map-get($bg-colors, $page);
-      // }
+  #top-nav {
+    @include transition(background-color 0.75s);
 
-      #profile-nav {
-        background-color: map-get($d-bg-colors, $page);
-      }
+    &.filled {
+      background-color: $black2;
+      border-bottom: 1px solid $black2;
+      @include box();
+    }
+  }
 
-      .stat-value a {
-        color: map-get($link-colors, $page);
+  .stat-value a {
+    color: $link-color;
 
-        &:hover {
-          color: map-get($alt-link-colors, $page);
-          border-bottom: 1px solid map-get($alt-link-colors, $page);
-        }
-      }
+    &:hover {
+      color: $alt-link-color;
+      border-bottom: 1px solid $alt-link-color;
     }
   }
 
@@ -63,11 +61,11 @@ body.about, body.profile, body.story, body.map {
   }
 
   &.naics {
-    .economy, .education, .health  {
+    .workforce, .growth  {
       background-color: $d-profile-bg;
     }
 
-    .demographics, .housing  {
+    .io  {
       background-color: $l-profile-bg;
     }
   }
@@ -78,41 +76,33 @@ body.about, body.profile, body.story, body.map {
       max-width: 850px;
       @include flex();
       @include justify(space-around);
-      @include align-items(flex-end);
+      @include align-items(center);
       @include align-content(space-around);
     }
   }
 
-  // $bg-width: 89.7%;
-  // $bg-height: 81.7%;
-  $bg-width: 94.7%;
-  $bg-height: 92.7%;
-
   h1 {
-    // font-family: $playfair;
-    font-family: $lato;
+    font-family: $pathway;
     font-weight: 300;
     font-size: 55px;
     line-height: 1.1;
-//    letter-spacing: 0.05em;
   }
 
   header h2 {
-    font-family: $playfair;
+    font-family: $pathway;
     font-size: 47px;
     font-weight: 300;
     line-height: 1;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    font-style: italic;
   }
 
   h1.category {
     position: relative;
-    font-family: $roboto;
+    font-family: $pathway;
     font-size: 36px;
     font-weight: 300;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
     text-align: center;
 
@@ -131,7 +121,6 @@ body.about, body.profile, body.story, body.map {
       top: 25px;
       width: 20vw;
       height: 1px;
-      //@include transform(translateX(-50%));
       @include transition(all .5s ease);
       background: #ccc;
       @include box();
@@ -157,7 +146,7 @@ body.about, body.profile, body.story, body.map {
   }
 
   p {
-    font-family: $roboto;
+    font-family: $palanquin;
     font-size: 15px;
     line-height: 1.6;
     font-weight: 400;
@@ -174,7 +163,7 @@ body.about, body.profile, body.story, body.map {
     vertical-align: baseline;
     padding-bottom: 1px;
     color: #a3a3a3;
-    font-family: $roboto;
+    font-family: $palanquin;
     font-size: 12px;
 
     i {
@@ -190,21 +179,21 @@ body.about, body.profile, body.story, body.map {
 
   .topic {
     h2 {
-      font-family: $playfair;
+      font-family: $pathway;
       font-size: 30px;
       font-weight: 400;
       color: #333;
       text-transform: none;
       font-style: normal;
-      letter-spacing: 0.03em;
+      letter-spacing: 0;
     }
 
     .data-btn {
       top: 18px;
 
       span {
-        color: #a3a3a3;
-        font-family: $roboto;
+        color: #999;
+        font-family: $palanquin;
         font-size: 12px;
         font-weight: 400;
         line-height: normal;
@@ -222,34 +211,31 @@ body.about, body.profile, body.story, body.map {
     }
 
     sub {
-      font-family: "Roboto", sans-serif;
+      font-family: $palanquin;
       font-size: 13px;
       line-height: 1.35;
       font-weight: 400;
       text-transform: initial;
       letter-spacing: 0.05em;
-      // color: rgba(51, 51, 51, 0.53);
-      color: $dark-home-red;
+      color: #666;
 
       a {
-        color: $dark-home-red;
+        color: #666;
         &:hover {
           text-decoration: none;
-          border-bottom: 1px solid $dark-home-red;
+          border-bottom: 1px solid #666;
         }
       }
     }
 
-    sub.sub-source {
+    .sub-source {
       display: inline-block;
       margin: 5px 0 10px;
       color: #a8a8a8;
-      font-family: $roboto;
-      text-transform: uppercase;
+      font-family: $palanquin;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1.5;
-      letter-spacing: 0.1em;
 
       a {
         color: #888;
@@ -265,15 +251,16 @@ body.about, body.profile, body.story, body.map {
   }
 
   .stat-text, .stat-rank {
-    font-family: $roboto;
+    font-family: $palanquin;
   }
 
   .stat-text {
     font-size: 14px;
     font-weight: 300;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     line-height: 1.5;
+    margin-bottom: 10px;
     vertical-align: baseline;
   }
 
@@ -297,8 +284,8 @@ body.about, body.profile, body.story, body.map {
   }
 
   .stat-value {
-    font-family: $lato;
-    font-size: 30px;
+    font-family: $source;
+    font-size: 22px;
     font-weight: 300;
     margin-bottom: 8px;
 
@@ -325,7 +312,6 @@ body.about, body.profile, body.story, body.map {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: white;
     z-index: 3;
   }
 
@@ -335,18 +321,15 @@ body.about, body.profile, body.story, body.map {
   }
 
   #splash {
-    @include flex();
-    @include flex-direction(column);
-    @include justify(center);
-    @include align-items();
     position: relative;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
+    border-bottom: 1px solid $black3;
 
     .has-p-link a {
       text-align: left;
-      font-family: $roboto;
+      font-family: $palanquin;
       font-size: 16px;
       line-height: 1.5;
       font-weight: 300;
@@ -366,17 +349,11 @@ body.about, body.profile, body.story, body.map {
 
     #splash-image {
       position: absolute;
-      // height: 110%;
-      // left: -5%;
-      // top: -5%;
-      // width: 110%;
       height: 100%;
       left: 0;
       top: 0;
       width: 100%;
       @include background-stretch();
-      //@include filter(saturate(1.25) brightness(1) contrast(1.25));
-//      @include filter(saturate(1.1) brightness(1.3) contrast(1.1));
       z-index: 0;
       @include transition(all 0.5s);
 
@@ -387,10 +364,7 @@ body.about, body.profile, body.story, body.map {
         width: 100%;
         left: 0;
         top: 0;
-        background: -webkit-linear-gradient(top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 1%, rgba(0,0,0,0.5) 10%, rgba(0,0,0,0.5) 51%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,1) 100%);
-//        background: #222;
-//        opacity: 0.75;
-//        @include transition(opacity 0.5s);
+        background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(20, 27, 46, 0.1) 20%, $black2 100%);
       }
 
       &.color {
@@ -405,16 +379,14 @@ body.about, body.profile, body.story, body.map {
     .content {
       @include flex();
       @include flex-direction(column);
-      @include justify(center);
+      @include justify(flex-end);
       @include align-items(center);
       @include transition(opacity 0.5s);
-      width: $bg-width;
-      height: $bg-height;
-//      max-width: 900px;
+      width: 100%;
+      height: 100%;
       opacity: 1;
-      padding: $nav-height 25px;
+      padding: $nav-height 10% 7%;
       @include box();
-      // overflow: hidden;
       z-index: 1;
       position: relative;
 
@@ -426,37 +398,46 @@ body.about, body.profile, body.story, body.map {
       .splash-titles {
         width: 100%;
         text-align: center;
+
         h1 {
           text-transform: none;
-          font-family: $palanquin;
-          font-weight: 300;
-          letter-spacing: normal;
+          font-family: $pathway;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
         }
       }
 
       .splash-context {
         width: 100%;
         max-width: 900px;
-        margin: 20px 0 0 0;
+        margin-top: 5%;
         @include flex();
         @include flex-direction(row);
         @include align-items(flex-start);
         @include justify(space-around);
       }
 
+      .row-last {
+        width: 100%;
+        @include flex();
+        @include flex-direction(row);
+        @include justify(space-between);
+        @include align-items(center);
+        margin-top: 12%;
+      }
+
       .splash-icon-nav {
         @include flex();
         @include flex-direction(row);
-        @include align-items(center);
-        position: absolute;
-        bottom: 20px;
-        left: 0px;
-        width: 55%;
+        @include align-items(flex-start);
+        @include justify(flex-start);
+        margin-right: 5%;
 
         span {
           display: block;
           margin-top: 7px;
-          font-family: $roboto;
+          font-family: $palanquin;
           text-transform: uppercase;
           font-weight: 300;
           font-size: 10px;
@@ -466,7 +447,7 @@ body.about, body.profile, body.story, body.map {
 
         a {
           text-align: center;
-          padding: 1.2vh 20px 0;
+          padding: 1.2vh 10px 0;
           opacity: 0.7;
           @include transition(opacity 0.25s);
 
@@ -482,40 +463,26 @@ body.about, body.profile, body.story, body.map {
       }
       
       .splash-breadcrumb {
-        position: absolute;
-        bottom: 20px;
-        right: 0px;
-        width: 40%;
         text-align: right;
-      }
-      
-      h1 {
-        line-height: 1;
-        color: #efefef;
-        @include text-shadow(0 1px 3px rgba(0,0,0,0.35));
-      }
+        max-width: 50%;
 
-      .splash-title-group {
-        margin: 6px auto;
-        font-family: $roboto;
-//        font-weight: 300;
-        font-size: 11px;
-        letter-spacing: 0.06em;
-//        text-transform: uppercase;
-        color: rgba(240,250,255,0.9);
-      }
-
-      sub {
+        img {
+          width: 18px;
+          height: 18px;
+          padding: 3px;
+          margin-bottom: -6px;
+        }
 
         a {
-          display: inline-block;
+          display: inline;
           padding: 2px 0;
           margin-top: -4px;
           vertical-align: text-bottom;
-          font-family: $roboto;
+          font-family: $palanquin;
           font-weight: 300;
-          font-size: 11px;
-          letter-spacing: 0.1em;
+          font-size: 10px;
+          letter-spacing: 0.05em;
+          line-height: 1;
           text-transform: uppercase;
           @include wordwrap();
           @include hyphens;
@@ -538,12 +505,26 @@ body.about, body.profile, body.story, body.map {
         }
 
       }
+      
+      h1 {
+        line-height: 1;
+        color: #efefef;
+        @include text-shadow(0 1px 2px rgba(20, 27, 46, 0.15));
+      }
+
+      .splash-title-group {
+        margin: 6px auto;
+        font-family: $palanquin;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: rgba(240,250,255,0.9);
+      }
 
       p.desc {
         padding: 0;
         margin: 20px 0;
         text-align: center;
-        font-family: $roboto;
+        font-family: $palanquin;
         font-weight: 300;
         font-size: 16px;
         letter-spacing: 0.05em;
@@ -565,7 +546,7 @@ body.about, body.profile, body.story, body.map {
           max-width: 150px;
 
           @media all and (max-width: 950px){
-            @include justify(space-between);
+            @include justify(flex-start);
           }
 
           .stat-text {
@@ -573,6 +554,7 @@ body.about, body.profile, body.story, body.map {
             text-align: center;
             color: rgba(240, 250, 255, 0.85);
             line-height: 1.35;
+            margin-bottom: 0;
 
             a {
               color: rgba(237,240,245,0.65);
@@ -597,7 +579,7 @@ body.about, body.profile, body.story, body.map {
           .stat-value {
             margin: 6px 0 7px;
             font-size: 34px;
-            color: rgba(237, 240, 245, 0.9);
+            color: #fff;
           }
 
         }
@@ -623,7 +605,7 @@ body.about, body.profile, body.story, body.map {
           .carousel-text {
             display: none;
             text-align: left;
-            font-family: $roboto;
+            font-family: $palanquin;
             font-size: 16px;
             line-height: 1.5;
             font-weight: 300;
@@ -665,7 +647,7 @@ body.about, body.profile, body.story, body.map {
           }
 
           span {
-            font-family: $roboto;
+            font-family: $palanquin;
             text-transform: uppercase;
             font-weight: 300;
             font-size: 11.5px;
@@ -697,7 +679,7 @@ body.about, body.profile, body.story, body.map {
         box-sizing: border-box;
         border-radius: 10px;
         opacity: 0;
-        @include shadow(0 0 5px #333);
+        @include shadow(0 0 5px rgba(20, 27, 46, 1));
 
         .ball {
           height: 4px;
@@ -715,7 +697,7 @@ body.about, body.profile, body.story, body.map {
       .mouse-text {
         @include transition(opacity 1s 1.5s);
         color: rgba(255, 255, 255, 0.9);
-        font-family: $roboto;
+        font-family: $palanquin;
         text-transform: uppercase;
         font-weight: 300;
         font-size: 10px;
@@ -744,8 +726,7 @@ body.about, body.profile, body.story, body.map {
   }
 
   #title-bar {
-    @include flex();
-    @include align-items(center);
+    text-align: center;
     height: $nav-height;
     max-width: 860px;
     right: 0;
@@ -757,39 +738,53 @@ body.about, body.profile, body.story, body.map {
     top: 0;
     z-index: 3;
 
+    span {
+      @include flex();
+      @include align-items(center);
+      position: relative;
+      top: $nav-height - 12;
+      @include transition(top 0.55s 0.03s);
+      padding: 9px;
+      color: #fff;
+      font-family: $pathway;
+      font-size: 24px;
+    }
+
     img {
-      width: 96px;
-      margin-top: 7px;
+      width: 78px;
+      margin-top: 4px;
+      margin-right: 3px;
     }
 
     .expand-stats-btn {
       opacity: 0;
-      @include transition(opacity 0.25s);
+      display: inline-block;
+      border-radius: 50%;
+      border: 1px solid $max-color;
+      @include box();
+      background: url("/static/img/splash/max.svg") no-repeat 50%;
+      background-size: 80%;
+      width: 17px;
+      height: 17px;
+      margin-left: 5px;
+      @include transition(opacity 0.25s, border 0.5s);
 
       &.show {
         opacity: 1;
+        &:hover {
+          cursor: pointer;   
+        }
       }
 
-      &:before {
-        content: unicode("f160");
-        position: relative;
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        margin: 0 0 5px 4px;
-        font-family: FontAwesome;
-        font-size: 13px;
-      }
-
-      &.close:before {
-        content: unicode("f068");
-        position: relative;
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        margin: 0 0 5px 4px;
-        font-family: FontAwesome;
-        font-size: 13px;
+      &.close{
+        border-radius: 50%;
+        border: 1px solid $min-color;
+        @include box();
+        background: url("/static/img/splash/min.svg") no-repeat 50%;
+        background-size: 80%;
+        width: 17px;
+        height: 17px;
+        margin-left: 5px;
       }
     }
 
@@ -797,19 +792,8 @@ body.about, body.profile, body.story, body.map {
       color: #fff;
     }
 
-    span {
-      position: relative;
-      top: $nav-height - 9;
-      @include transition(top 0.55s 0.03s);
-      display: inline-block;
-      padding: 9px;
-      color: #fff;
-      font-family: $palanquin;
-      font-size: 16px;
-      font-weight: 300;
-    }
-
     &.visible {
+
       span {
         top: 0;
       }
@@ -829,28 +813,31 @@ body.about, body.profile, body.story, body.map {
     margin-left: auto;
     overflow: hidden;
     z-index: 2;
-    background-color: #1C1C1C;
-    @include transition(top 0.5s);
-    @include shadow(0 3px 3px rgba(0,0,0,0.25));
+    background-color: $black2;
+    color: rgba(237, 240, 245, 0.5);
+    @include transition(top 0.5s, box-shadow 0.5s);
 
     &.visible {
       top: $nav-height;
+      @include shadow(0 3px 3px rgba(20, 27, 46, 0.25) inset);
     }
 
     #title-stats {
       width: 60%;
       max-width: 550px;
+      font-family: $palanquin;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 10px;
       @include flex();
       @include justify(space-between);
-      @include align-items(flex-end);
-      @include align-content(space-around);
+      @include align-items(center);
     }
 
     .title-stat {
       @include flex();
       @include align-items(flex-end);
-      margin: 0 8px 5px;
-      color: rgba(237, 240, 245, 0.5);
       @include transition(opacity 0.25s);
       cursor: default;
 
@@ -865,12 +852,7 @@ body.about, body.profile, body.story, body.map {
     }
 
     .title-stat-text {
-      margin: 0 5px 2px;
-      font-family: $roboto;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-size: 10px;
+      margin: 0 5px;
       text-align: center;
 
       a {
@@ -888,7 +870,7 @@ body.about, body.profile, body.story, body.map {
 
     .title-stat-value {
       text-align: center;
-      font-family: $lato;
+      font-family: $source;
       font-size: 16px;
       font-weight: 300;
 
@@ -945,7 +927,7 @@ body.about, body.profile, body.story, body.map {
     @include transition(top 0.5s);
 
     &.visible {
-      top: $title-height + $stats-bar-height;
+      top: $title-height + $stats-bar-height - 5;
     }
 
     #back-to-top {
@@ -956,7 +938,7 @@ body.about, body.profile, body.story, body.map {
       opacity: 0.7;
       @include transition(opacity 0.25s);
       span {
-        font-family: $roboto;
+        font-family: $palanquin;
         text-transform: uppercase;
         font-weight: 400;
         font-size: 10px;
@@ -971,7 +953,7 @@ body.about, body.profile, body.story, body.map {
 
     ul {
       width: 90%;
-      margin: 0 50px;
+      margin: 0 150px 0 50px;
       max-width: 800px;
       @include flex();
       @include justify(space-between);
@@ -983,7 +965,7 @@ body.about, body.profile, body.story, body.map {
         margin: 0 auto;
         padding: 8px 5px 4px;
         text-align: center;
-        font-family: $roboto;
+        font-family: $palanquin;
         text-transform: uppercase;
         font-weight: 400;
         font-size: 10px;
@@ -1001,7 +983,7 @@ body.about, body.profile, body.story, body.map {
             display: inline-block;
             position: absolute;
             z-index: 10;
-            bottom: -2px;
+            bottom: 2px;
             left: 50%;
             height: 2px;
             @include transform(translateX(-50%));
@@ -1016,7 +998,7 @@ body.about, body.profile, body.story, body.map {
           display: inline-block;
           position: absolute;
           z-index: 10;
-          bottom: -2px;
+          bottom: 2px;
           left: 50%;
           width: 0;
           height: 2px;
@@ -1039,29 +1021,24 @@ body.about, body.profile, body.story, body.map {
         display: block;
         width: 20px;
         height: 20px;
-        margin: 0 auto 5px;
+        margin: 0 auto -2px;
       }
 
     }
   }
   
   .intro {
-    @include flex();
-    @include flex-direction(row);
-    @include align-items(flex-start);
-    padding: 20px 0;
+    min-height: 190px; /* change later */
+    background-color: $black2;
+    // background-image: url('/static/img/about/naics_bg.png');
+    background-repeat: no-repeat;
+    background-size: 30%;
+    background-position: 90% 100%;
     
     .intro-txt {
       @include flex-size(2);
       a {
-        color: rgba(0,0,0,1);
-        font-weight: bold;
-//        border-bottom: 1px solid rgba(0,0,0,0.95);
-        &:hover{
-          color: rgba(0,0,0,0.5);
-//          border-bottom: 1px solid rgba(0,0,0,0.45);
-        }
-        &.and_more{
+        &.show-more{
           border-bottom: 1px solid rgba(0,0,0,0.95);
           &:after{
             content: unicode("f196");
@@ -1078,6 +1055,7 @@ body.about, body.profile, body.story, body.map {
     .intro-viz {
       @include flex-size(1);
       height: 200px;
+      text-align: center;
     }
     
   }
@@ -1099,8 +1077,14 @@ body.about, body.profile, body.story, body.map {
       }
     }
 
+    &.intro {
+      h2, a, p {
+        color: #fff;
+      }
+    }
+
     p {
-      font-size: 17px;
+      font-size: 16px;
     }
   }
 
@@ -1322,7 +1306,7 @@ body.about, body.profile, body.story, body.map {
                 padding: 4px;
                 background-color: #006947;
                 color: white;
-                font-family: $roboto;
+                font-family: $palanquin;
                 font-size: 12px;
 
                 i {
@@ -1344,7 +1328,7 @@ body.about, body.profile, body.story, body.map {
                 padding: 4px;
                 background-color: #006947;
                 color: white;
-                font-family: $roboto;
+                font-family: $palanquin;
                 font-size: 12px;
 
                 &:hover {
@@ -1360,11 +1344,11 @@ body.about, body.profile, body.story, body.map {
             }
 
             thead, tbody {
-              font-family: $roboto;
+              font-family: $palanquin;
             }
 
             thead {
-              @include shadow(0 3px 3px rgba(0, 0, 0, 0.25));
+              @include shadow(0 3px 3px rgba(20, 27, 46, 0.25));
               background-color: #1C1C1C;
               color: rgba(237, 240, 245, 0.5);
 
@@ -1454,7 +1438,7 @@ body.about, body.profile, body.story, body.map {
       }
       p {
         color: rgba(255, 255, 255, 0.9);
-        font-family: $roboto;
+        font-family: $palanquin;
         font-weight: 300;
       }
 
@@ -1509,7 +1493,7 @@ body.about, body.profile, body.story, body.map {
             .explore-title {
               padding: 20px;
               color: rgba(255, 255, 255, 0.9);
-              font-family: $lato;
+              font-family: $pathway;
               font-size: 24px;
               font-weight: 300;
               // z-index: 33333;
@@ -1575,7 +1559,7 @@ body.about, body.profile, body.story, body.map {
       input[type="text"] {
         padding: 3px;
         width: 100px;
-        font-family: $roboto;
+        font-family: $palanquin;
       }
 
       input[type="checkbox"] {
@@ -1584,7 +1568,7 @@ body.about, body.profile, body.story, body.map {
 
       label {
         color: #a8a8a8;
-        font-family: $roboto;
+        font-family: $palanquin;
         font-size: 11px;
         vertical-align: middle;
       }

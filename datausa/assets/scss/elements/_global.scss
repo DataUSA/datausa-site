@@ -47,3 +47,9 @@ a.term {
   color: inherit !important;
   cursor: help !important;
 }
+
+.col {
+	@include flex();
+	@include flex-direction(row);
+	@include justify(space-between);
+}

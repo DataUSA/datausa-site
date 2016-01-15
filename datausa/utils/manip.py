@@ -136,7 +136,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
         if truncate and num_items > truncate:
             top, rest = top[:int(truncate)], top[int(truncate):]
             # now stringify
-            top = "{}; <a href='#' class='and_more'>and {} more</a>".format(u"; ".join(top), len(rest))
+            top = "{}; <a href='#' class='show-more'>and {} more</a>".format(u"; ".join(top), len(rest))
             if len(rest) > 1:
                 rest = u"; ".join(rest)
             else:
