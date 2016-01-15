@@ -9,35 +9,35 @@ var chartStyles = {
     "default": {
       "pri": {
         "color": "#6F6F6F",
-        "family": "Roboto",
-        "size": 14,
-        "weight": 700,
+        "family": "Palanquin",
+        "size": 12,
+        "weight": 400,
         "transform": "uppercase",
-        "spacing": 1
+        // "spacing": 1
       },
       "sec": {
         "color": "#6F6F6F",
-        "family": "Roboto",
-        "size": 14,
-        "weight": 700,
+        "family": "Palanquin",
+        "size": 12,
+        "weight": 400,
         "transform": "uppercase",
-        "spacing": 1
+        // "spacing": 1
       }
     },
     "discrete": {
       "pri": {
         "color": "#6F6F6F",
-        "family": "Roboto",
-        "size": 14,
-        "weight": 700,
+        "family": "Palanquin",
+        "size": 12,
+        "weight": 400,
         "transform": "uppercase",
         "spacing": 1
       },
       "sec": {
         "color": "#6F6F6F",
-        "family": "Roboto",
-        "size": 14,
-        "weight": 700,
+        "family": "Palanquin",
+        "size": 12,
+        "weight": 400,
         "transform": "uppercase",
         "spacing": 1
       }
@@ -49,7 +49,7 @@ var chartStyles = {
     "dasharray": "4",
     "font": {
       "color": "#211f1a",
-      "family": "Roboto",
+      "family": "Palanquin",
       "size": 12,
       "weight": 400
     }
@@ -61,9 +61,9 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#a8a8a8",
-          "family": "lato",
+          "family": "Source Sans Pro",
           "size": 12,
-          "weight": 700
+          "weight": 300
         },
         "size": 10
       },
@@ -71,9 +71,9 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#a8a8a8",
-          "family": "lato",
+          "family": "Source Sans Pro",
           "size": 12,
-          "weight": 700
+          "weight": 300
         },
         "size": 10
       }
@@ -83,7 +83,7 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#211f1a",
-          "family": "Roboto",
+          "family": "Palanquin",
           "size": 12,
           "weight": 400
         },
@@ -93,7 +93,7 @@ var chartStyles = {
         "color": "#ccc",
         "font": {
           "color": "#211f1a",
-          "family": "Roboto",
+          "family": "Palanquin",
           "size": 12,
           "weight": 400
         },

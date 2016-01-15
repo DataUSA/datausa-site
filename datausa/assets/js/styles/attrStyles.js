@@ -2,18 +2,18 @@ var attrStyles = {
 
   "nationality": {
     "us": {
-        "color": "#69b9a7",
+        "color": "#41a392",
         "icon": "thing_passportusa.png"
     },
     "foreign": {
-        "color": "#7c90d8",
+        "color": "#455a7d",
         "icon": "thing_passportwld.png"
     }
 },
 
   "sex": {
     "1": {
-        "color": "#386f8e",
+        "color": "#1a486f",
         "icon": "gender_mars.png"
     },
     "2": {
@@ -21,7 +21,7 @@ var attrStyles = {
         "icon": "gender_venus.png"
     },
     "men": {
-        "color": "#386f8e",
+        "color": "#1a486f",
         "icon": "gender_mars.png"
     },
     "women": {
@@ -29,7 +29,7 @@ var attrStyles = {
         "icon": "gender_venus.png"
     },
     "male": {
-        "color": "#386f8e",
+        "color": "#1a486f",
         "icon": "gender_mars.png"
     },
     "female": {
@@ -40,126 +40,126 @@ var attrStyles = {
 
   "sector": {
     "0": {
-        "color": "#a5c372",
+        "color": "#49418e",
         "icon": "person_admin.png"
     },
     "1": {
-        "color": "#ef6145",
+        "color": "#ffd3a6",
         "icon": "thing_bigdot.png"
     },
     "2": {
-        "color": "#6d8a50",
+        "color": "#72f5c4",
         "icon": "thing_stripewheel.png"
     },
     "3": {
-        "color": "#004994",
+        "color": "#17c0c0",
         "icon": "thing_stripewheel.png"
     },
     "4": {
-        "color": "#e88577",
+        "color": "#ff8166",
         "icon": "thing_bigdot.png"
     },
     "5": {
-        "color": "#9ccd73",
+        "color": "#1fc1ad",
         "icon": "thing_stripewheel.png"
     },
     "6": {
-        "color": "#86abeb",
+        "color": "#2e6695",
         "icon": "thing_stripewheel.png"
     },
     "7": {
-        "color": "#CEA1BA",
+        "color": "#d1685e",
         "icon": "thing_bigdot.png"
     },
     "8": {
-        "color": "#82BAB1",
+        "color": "#2b5652",
         "icon": "thing_stripewheel.png"
     },
     "9": {
-        "color": "#4372C4",
+        "color": "#33425b",
         "icon": "thing_stripewheel.png"
     }
 },
 
   "race": {
     "1": {
-        "color": "#ef6145",
+        "color": "#ff8166",
         "icon": "person_profile.png"
     },
     "white": {
-        "color": "#ef6145",
+        "color": "#ff8166",
         "icon": "person_profile.png"
     },
     "2": {
-        "color": "#386f8e",
+        "color": "#ffb563",
         "icon": "person_profile.png"
     },
     "black": {
-        "color": "#386f8e",
+        "color": "#ffb563",
         "icon": "person_profile.png"
     },
     "3": {
-        "color": "#418277",
+        "color": "#c19a1f",
         "icon": "person_profile.png"
     },
     "4": {
-        "color": "#6d8a50",
+        "color": "#f33535",
         "icon": "person_profile.png"
     },
     "5": {
-        "color": "#808019",
+        "color": "#82a8e7",
         "icon": "person_profile.png"
     },
     "native": {
-        "color": "#808019",
+        "color": "#82a8e7",
         "icon": "person_profile.png"
     },
     "6": {
-        "color": "#004994",
+        "color": "#1a9b9a",
         "icon": "person_profile.png"
     },
     "asian": {
-        "color": "#004994",
+        "color": "#1a9b9a",
         "icon": "person_profile.png"
     },
     "7": {
-        "color": "#2a8ec9",
+        "color": "#bf168e",
         "icon": "person_profile.png"
     },
     "hawaiian": {
-        "color": "#2a8ec9",
+        "color": "#bf168e",
         "icon": "person_profile.png"
     },
     "8": {
-        "color": "#A9A9A9",
+        "color": "#2f1fc1",
         "icon": "person_profile.png"
     },
     "other": {
-        "color": "#A9A9A9",
+        "color": "#2f1fc1",
         "icon": "person_profile.png"
     },
     "unknown": {
-        "color": "#A9A9A9",
+        "color": "#2f1fc1",
         "icon": "person_profile.png"
     },
     "9": {
-        "color": "#0c9a6e",
+        "color": "#336a81",
         "icon": "person_profile.png"
     },
     "multi": {
-        "color": "#0c9a6e",
+        "color": "#336a81",
         "icon": "person_profile.png"
     },
     "2ormore": {
-        "color": "#0c9a6e",
+        "color": "#336a81",
         "icon": "person_profile.png"
     },
     "hispanic": {
-        "color": "#CC3E54",
+        "color": "#49418e",
         "icon": "person_profile.png"
     },
     "latino": {
-        "color": "#CC3E54",
+        "color": "#49418e",
         "icon": "person_profile.png"
     }
 },
@@ -167,38 +167,38 @@ var attrStyles = {
   "skill_key": "parent",
   "skill": {
     "Complex Problem Solving": {
-        "color": "#ef6145",
+        "color": "#ff8166",
         "icon": "thing_atom.png"
     },
     "Resource Management Skills": {
-        "color": "#808019",
+        "color": "#fdf18d",
         "icon": "thing_hourglass.png"
     },
     "System Skills": {
-        "color": "#004994",
+        "color": "#17c0c0",
         "icon": "app_network.png"
     },
     "Basic Skills": {
-        "color": "#418277",
+        "color": "#82a8e7",
         "icon": "thing_book.png"
     },
     "Judgment Skills": {
-        "color": "#2a8ec9",
+        "color": "#5467de",
         "icon": "thing_gavel.png"
     },
     "Social Skills": {
-        "color": "#cc3e54",
+        "color": "#bf168e",
         "icon": "thing_talkbubble.png"
     }
 },
 
   "student_pool": {
     "Degrees Awarded": {
-        "color": "#4372c4",
+        "color": "#41a392",
         "icon": "thing_gradcap.png"
     },
     "Workforce": {
-        "color": "#b8ba5e",
+        "color": "#455a7d",
         "icon": "person_business.png"
     }
 },
@@ -207,149 +207,149 @@ var attrStyles = {
   "soc_key": ["great_grandparent", "grandparent", "parent"],
   "soc": {
     "110000-290000": {
-        "color": "#ef6145",
+        "color": "#ff8166",
         "icon": "thing_computer.png"
     },
     "310000-390000": {
-        "color": "#808019",
+        "color": "#ffb563",
         "icon": "thing_utensils.png"
     },
     "410000-430000": {
-        "color": "#004994",
+        "color": "#1a9b9a",
         "icon": "thing_box.png"
     },
     "450000-490000": {
-        "color": "#418277",
+        "color": "#336a81",
         "icon": "thing_wrench.png"
     },
     "510000-530000": {
-        "color": "#2a8ec9",
+        "color": "#49418e",
         "icon": "thing_truck.png"
     },
     "550000": {
-        "color": "#CC3E54",
+        "color": "#2f1fc1",
         "icon": "thing_airplace.png"
     }
 },
 
   "acs_occ_2": {
     "00": {
-        "color": "#ef6145",
+        "color": "#ff8166",
         "icon": "thing_computer.png"
     },
     "01": {
-        "color": "#808019",
+        "color": "#ffb563",
         "icon": "thing_utensils.png"
     },
     "02": {
-        "color": "#004994",
+        "color": "#1a9b9a",
         "icon": "thing_box.png"
     },
     "03": {
-        "color": "#418277",
+        "color": "#336a81",
         "icon": "thing_wrench.png"
     },
     "04": {
-        "color": "#2a8ec9",
+        "color": "#49418e",
         "icon": "thing_truck.png"
     }
 },
 
 "bls_soc": {
     "000000": {
-        "color": "#A9A9A9",
+        "color": "#7a8896",
         "icon": "app_geo_map.png"
     },
     "110000": {
-        "color": "#B8BA5E",
+        "color": "#2c5753",
         "icon": "person_business.png"
     },
     "130000": {
-        "color": "#0c9a6e",
+        "color": "#bf168e",
         "icon": "place_moneyhouse.png"
     },
     "150000": {
-        "color": "#9ccd73",
+        "color": "#336a81",
         "icon": "thing_computer.png"
     },
     "170000": {
-        "color": "#3b4d2a",
+        "color": "#5a1d28",
         "icon": "thing_textile.png"
     },
     "190000": {
-        "color": "#5ea1c7",
+        "color": "#82a8e7",
         "icon": "thing_leaf.png"
     },
     "210000": {
-        "color": "#7d93ff",
+        "color": "#ffb587",
         "icon": "person_family.png"
     },
     "230000": {
-        "color": "#7fc4a1",
+        "color": "#0072cd",
         "icon": "thing_gavel.png"
     },
     "250000": {
-        "color": "#f29888",
+        "color": "#1f304c",
         "icon": "thing_book.png"
     },
     "270000": {
-        "color": "#e88577",
+        "color": "#1fc1ad",
         "icon": "thing_theater.png"
     },
     "290000": {
-        "color": "#c43720",
+        "color": "#f33535",
         "icon": "thing_medic.png"
     },
     "310000": {
-        "color": "#418277",
+        "color": "#ff8166",
         "icon": "person_nurse.png"
     },
     "330000": {
-        "color": "#b35e49",
+        "color": "#5467de",
         "icon": "person_military.png"
     },
     "350000": {
-        "color": "#beede7",
+        "color": "#17c0c0",
         "icon": "thing_utensils.png"
     },
     "370000": {
-        "color": "#004994",
+        "color": "#2f1fc1",
         "icon": "thing_waterdrop.png"
     },
     "390000": {
-        "color": "#cea1ba",
+        "color": "#e6d26e",
         "icon": "person_wheelchair.png"
     },
     "410000": {
-        "color": "#445eb3",
+        "color": "#72f5c4",
         "icon": "place_store.png"
     },
     "430000": {
-        "color": "#a5c372",
+        "color": "#acb57e",
         "icon": "person_admin.png"
     },
     "450000": {
-        "color": "#006947",
+        "color": "#aee0ae",
         "icon": "thing_wheat.png"
     },
     "470000": {
-        "color": "#54541f",
+        "color": "#c1461f",
         "icon": "thing_trafficcone.png"
     },
     "490000": {
-        "color": "#112aa8",
+        "color": "#92407c",
         "icon": "thing_wrench.png"
     },
     "510000": {
-        "color": "#2c49d8",
+        "color": "#ffd3a6",
         "icon": "thing_sqruler.png"
     },
     "530000": {
-        "color": "#2a8ec9",
+        "color": "#418e84",
         "icon": "thing_truck.png"
     },
     "550000": {
-        "color": "#6d8a50",
+        "color": "#8e7b41",
         "icon": "thing_airplane.png"
     }
 },
@@ -358,443 +358,443 @@ var attrStyles = {
   "naics_key": ["grandparent", "parent"],
   "naics": {
     "11-21": {
-        "color": "#006947",
+        "color": "#49418e",
         "icon": "thing_wheat.png"
     },
     "23": {
-        "color": "#54541f",
+        "color": "#c19a1f",
         "icon": "thing_trafficcone.png"
     },
     "31-33": {
-        "color": "#386f8e",
+        "color": "#fdf18d",
         "icon": "place_factory.png"
     },
     "42": {
-        "color": "#6d8a50",
+        "color": "#5467de",
         "icon": "thing_box.png"
     },
     "44-45": {
-        "color": "#445eb3",
+        "color": "#1f304c",
         "icon": "place_store.png"
     },
     "48-49, 22": {
-        "color": "#2a8ec9",
+        "color": "#c1461f",
         "icon": "thing_truck.png"
     },
     "51": {
-        "color": "#9ccd73",
+        "color": "#5b1e29",
         "icon": "thing_computer.png"
     },
     "52-53": {
-        "color": "#0c9a6e",
+        "color": "#bf168e",
         "icon": "place_moneyhouse.png"
     },
     "54-56": {
-        "color": "#B8BA5E",
+        "color": "#2c5753",
         "icon": "person_business.png"
     },
     "61-62": {
-        "color": "#c43720",
+        "color": "#f33535",
         "icon": "thing_medic.png"
     },
     "71-72": {
-        "color": "#e88577",
+        "color": "#1fc1ad",
         "icon": "thing_theater.png"
     },
     "81": {
-        "color": "#e8ea94",
+        "color": "#82a8e7",
         "icon": "person_general.png"
     },
     "92": {
-        "color": "#7d93ff",
+        "color": "#ffb587",
         "icon": "person_family.png"
     },
     "928110": {
-        "color": "#6d8a50",
+        "color": "#2f1fc1",
         "icon": "thing_airplane.png"
     }
 },
 
   "acs_ind_2": {
     "00": {
-        "color": "#006947",
+        "color": "#49418e",
         "icon": "thing_wheat.png"
     },
     "01": {
-        "color": "#54541f",
+        "color": "#c19a1f",
         "icon": "thing_trafficcone.png"
     },
     "02": {
-        "color": "#386f8e",
+        "color": "#fdf18d",
         "icon": "place_factory.png"
     },
     "03": {
-        "color": "#6d8a50",
+        "color": "#5467de",
         "icon": "thing_box.png"
     },
     "04": {
-        "color": "#445eb3",
+        "color": "#1f304c",
         "icon": "place_store.png"
     },
     "05": {
-        "color": "#2a8ec9",
+        "color": "#c1461f",
         "icon": "thing_truck.png"
     },
     "06": {
-        "color": "#9ccd73",
+        "color": "#5b1e29",
         "icon": "thing_computer.png"
     },
     "07": {
-        "color": "#0c9a6e",
+        "color": "#bf168e",
         "icon": "place_moneyhouse.png"
     },
     "08": {
-        "color": "#004035",
+        "color": "#2c5753",
         "icon": "thing_recycle.png"
     },
     "09": {
-        "color": "#c43720",
+        "color": "#f33535",
         "icon": "thing_medic.png"
     },
     "10": {
-        "color": "#e88577",
+        "color": "#1fc1ad",
         "icon": "thing_theater.png"
     },
     "11": {
-        "color": "#e8ea94",
+        "color": "#82a8e7",
         "icon": "person_general.png"
     },
     "12": {
-        "color": "#7d93ff",
+        "color": "#ffb587",
         "icon": "person_family.png"
     }
 },
 
 "bls_naics": {
     "000000": {
-        "color": "#A9A9A9",
+        "color": "#7a8896",
         "icon": "app_geo_map.png"
     },
     "11": {
-        "color": "#006947",
+        "color": "#49418e",
         "icon": "thing_wheat.png"
     },
     "21": {
-        "color": "#ef6145",
+        "color": "#c19a1f",
         "icon": "thing_pickaxe.png"
     },
     "22": {
-        "color": "#004994",
+        "color": "#8e7b41",
         "icon": "thing_waterdrop.png"
     },
     "23": {
-        "color": "#54541f",
+        "color": "#5467de",
         "icon": "thing_trafficcone.png"
     },
     "31-33": {
-        "color": "#386f8e",
+        "color": "#1f304c",
         "icon": "place_factory.png"
     },
     "42": {
-        "color": "#6d8a50",
+        "color": "#c1461f",
         "icon": "thing_box.png"
     },
     "44-45": {
-        "color": "#445eb3",
+        "color": "#5b1e29",
         "icon": "place_store.png"
     },
     "48-49": {
-        "color": "#2a8ec9",
+        "color": "#c0178f",
         "icon": "thing_truck.png"
     },
     "51": {
-        "color": "#9ccd73",
+        "color": "#1f304c",
         "icon": "thing_computer.png"
     },
     "52": {
-        "color": "#0c9a6e",
+        "color": "#f33535",
         "icon": "place_moneyhouse.png"
     },
     "53": {
-        "color": "#3b4d2a",
+        "color": "#1fc1ad",
         "icon": "place_home.png"
     },
     "54": {
-        "color": "#112aa8",
+        "color": "#0072cd",
         "icon": "thing_wrench.png"
     },
     "55": {
-        "color": "#B8BA5E",
+        "color": "#ffd3a6",
         "icon": "person_business.png"
     },
     "56": {
-        "color": "#004035",
+        "color": "#2c5753",
         "icon": "thing_recycle.png"
     },
     "61": {
-        "color": "#cc3e54",
+        "color": "#92407c",
         "icon": "thing_gradcap.png"
     },
     "62": {
-        "color": "#c43720",
+        "color": "#ff8166",
         "icon": "thing_medic.png"
     },
     "71": {
-        "color": "#e88577",
+        "color": "#72f5c4",
         "icon": "thing_theater.png"
     },
     "72": {
-        "color": "#beede7",
+        "color": "#82a8e7",
         "icon": "thing_utensils.png"
     },
     "81": {
-        "color": "#e8ea94",
+        "color": "#ffb563",
         "icon": "person_general.png"
     },
     "92": {
-        "color": "#7d93ff",
+        "color": "#2f1fc1",
         "icon": "person_family.png"
     }
 },
 
 "iocode": {
     "11": {
-        "color": "#006947",
+        "color": "#49418e",
         "icon": "thing_wheat.png"
     },
     "21": {
-        "color": "#ef6145",
+        "color": "#c19a1f",
         "icon": "thing_pickaxe.png"
     },
     "31G": {
-        "color": "#386f8e",
+        "color": "#8e7b41",
         "icon": "place_factory.png"
     },
     "44RT": {
-        "color": "#445eb3",
+        "color": "#5467de",
         "icon": "place_store.png"
     },
     "48TW": {
-        "color": "#2a8ec9",
+        "color": "#1f304c",
         "icon": "thing_truck.png"
     },
     "51": {
-        "color": "#9ccd73",
+        "color": "#c1461f",
         "icon": "thing_computer.png"
     },
     "6": {
-        "color": "#c43720",
+        "color": "#5b1e29",
         "icon": "thing_medic.png"
     },
     "7": {
-        "color": "#e88577",
+        "color": "#c0178f",
         "icon": "thing_theater.png"
     },
     "F020": {
-        "color": "#0c9a6e",
+        "color": "#1f304c",
         "icon": "place_moneyhouse.png"
     },
     "F100": {
-        "color": "#99572e",
+        "color": "#f33535",
         "icon": "app_stacked.png"
     },
     "FIRE": {
-        "color": "#3b4d2a",
+        "color": "#1fc1ad",
         "icon": "place_home.png"
     },
     "G": {
-        "color": "#5ab7ed",
+        "color": "#0072cd",
         "icon": "place_government.png"
     },
     "Other": {
-        "color": "#418277",
+        "color": "#ffd3a6",
         "icon": "thing_guage.png"
     },
     "PROF": {
-        "color": "#B8BA5E",
+        "color": "#2c5753",
         "icon": "person_business.png"
     },
     "TOTINDOUT": {
-        "color": "#d18979",
+        "color": "#92407c",
         "icon": "export_val.png"
     },
     "TOTVA": {
-        "color": "#5ea1c7",
+        "color": "#ff8166",
         "icon": "import_val.png"
     },
     "Used": {
-        "color": "#004035",
+        "color": "#72f5c4",
         "icon": "thing_recycle.png"
     },
     "V001": {
-        "color": "#a5c372",
+        "color": "#82a8e7",
         "icon": "person_admin.png"
     },
     "V002": {
-        "color": "#b6debf",
+        "color": "#ffb563",
         "icon": "thing_documentscroll.png"
     },
     "V003": {
-        "color": "#cc3e54",
+        "color": "#2f1fc1",
         "icon": "app_occugrid.png"
     }
 },
 
   "cip_2": {
     "01": {
-        "color": "#006947",
+        "color": "#aee0ae",
         "icon": "thing_wheat.png"
     },
     "03": {
-        "color": "#004035",
+        "color": "#979bbd",
         "icon": "thing_recycle.png"
     },
     "04": {
-        "color": "#3b4d2a",
+        "color": "#5a1d28",
         "icon": "thing_textile.png"
     },
     "05": {
-        "color": "#b8ccf5",
+        "color": "#c0451e",
         "icon": "place_earth.png"
     },
     "09": {
-        "color": "#b6debf",
+        "color": "#bf168e",
         "icon": "thing_documentscroll.png"
     },
     "10": {
-        "color": "#e0ffbf",
+        "color": "#d1685e",
         "icon": "thing_radiotower.png"
     },
     "11": {
-        "color": "#9ccd73",
+        "color": "#336a81",
         "icon": "thing_computer.png"
     },
     "12": {
-        "color": "#beede7",
+        "color": "#17c0c0",
         "icon": "thing_utensils.png"
     },
     "13": {
-        "color": "#cc3e54",
+        "color": "#4b9dcd",
         "icon": "thing_gradcap.png"
     },
     "14": {
-        "color": "#386f8e",
+        "color": "#fdf18d",
         "icon": "place_factory.png"
     },
     "15": {
-        "color": "#5ea1c7",
+        "color": "#8c567c",
         "icon": "thing_gears.png"
     },
     "16": {
-        "color": "#d18979",
+        "color": "#b36a52",
         "icon": "export_val.png"
     },
     "19": {
-        "color": "#fdc8b8",
-        "icon": "person_family.png"
+        "color": "#e6d26e",
+        "icon": "person_wheelchair.png"
     },
     "22": {
-        "color": "#7fc4a1",
+        "color": "#0072cd",
         "icon": "thing_gavel.png"
     },
     "23": {
-        "color": "#f29888",
+        "color": "#1f304c",
         "icon": "thing_book.png"
     },
     "24": {
-        "color": "#ef6145",
+        "color": "#7072a0",
         "icon": "app_rings.png"
     },
     "25": {
-        "color": "#a5c372",
+        "color": "#acb57e",
         "icon": "person_admin.png"
     },
     "26": {
-        "color": "#992e3f",
+        "color": "#ffb563",
         "icon": "thing_dna.png"
     },
     "27": {
-        "color": "#cea1ba",
+        "color": "#89bfea",
         "icon": "thing_pi.png"
     },
     "29": {
-        "color": "#6d8a50",
+        "color": "#8e7b41",
         "icon": "thing_airplane.png"
     },
     "30": {
-        "color": "#A9A9A9",
+        "color": "#33425b",
         "icon": "thing_arrows.png"
     },
     "31": {
-        "color": "#9dd1eb",
+        "color": "#72f5c4",
         "icon": "thing_shoe.png"
     },
     "38": {
-        "color": "#0f2e4d",
+        "color": "#003651",
         "icon": "thing_question.png"
     },
     "39": {
-        "color": "#374b98",
+        "color": "#2f1fc1",
         "icon": "thing_moon.png"
     },
     "40": {
-        "color": "#82bab1",
+        "color": "#82a8e7",
         "icon": "thing_leaf.png"
     },
     "41": {
-        "color": "#5ab7ed",
+        "color": "#d8e9f0",
         "icon": "thing_flask.png"
     },
     "42": {
-        "color": "#0d5275",
+        "color": "#5467de",
         "icon": "thing_talkbubble.png"
     },
     "43": {
-        "color": "#808019",
+        "color": "#ff8166",
         "icon": "thing_policeshield.png"
     },
     "44": {
-        "color": "#7d93ff",
+        "color": "#ffb587",
         "icon": "person_family.png"
     },
     "45": {
-        "color": "#8ad4ff",
+        "color": "#c19a1f",
         "icon": "app_network.png"
     },
     "46": {
-        "color": "#54541f",
+        "color": "#bc9a96",
         "icon": "thing_trafficcone.png"
     },
     "47": {
-        "color": "#112aa8",
+        "color": "#92407c",
         "icon": "thing_wrench.png"
     },
     "48": {
-        "color": "#2c49d8",
+        "color": "#ffd3a6",
         "icon": "thing_sqruler.png"
     },
     "49": {
-        "color": "#2a8ec9",
+        "color": "#418e84",
         "icon": "thing_truck.png"
     },
     "50": {
-        "color": "#e88577",
+        "color": "#1fc1ad",
         "icon": "thing_theater.png"
     },
     "51": {
-        "color": "#c43720",
+        "color": "#f33535",
         "icon": "thing_medic.png"
     },
     "52": {
-        "color": "#B8BA5E",
+        "color": "#2c5753",
         "icon": "person_business.png"
     },
     "54": {
-        "color": "#99572e",
+        "color": "#49418e",
         "icon": "app_stacked.png"
     },
     "GS": {
-        "color": "#b22200",
+        "color": "#853b3c",
         "icon": "thing_flask.png"
     }
   }
