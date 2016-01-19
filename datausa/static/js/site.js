@@ -1922,8 +1922,14 @@ var vizStyles = {
   },
   "labels": {
     "font": {
-      "family": "Pathway Gothic One",
-      "size": 13
+      "default": {
+        "family": "Pathway Gothic One",
+        "size": 13
+      },
+      "tree_map": {
+        "family": "Pathway Gothic One",
+        "size": 13
+      }
     }
   },
   "legend": {
@@ -2429,7 +2435,7 @@ viz.defaults = function(build) {
       "style": "knockout"
     },
     "labels": {
-      "font": vizStyles.labels.font
+      "font": vizStyles.labels.font[build.config.type] || vizStyles.labels.font.default
     },
     "legend": {
       "font": vizStyles.legend.font,

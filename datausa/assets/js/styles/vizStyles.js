@@ -65,8 +65,15 @@ var vizStyles = {
   },
   "labels": {
     "font": {
-      "family": "Pathway Gothic One",
-      "size": 13
+      // add keys for any visualization type you want to overwrite
+      "default": {
+        "family": "Pathway Gothic One",
+        "size": 13
+      },
+      "tree_map": {
+        "family": "Pathway Gothic One",
+        "size": 13
+      }
     }
   },
   "legend": {

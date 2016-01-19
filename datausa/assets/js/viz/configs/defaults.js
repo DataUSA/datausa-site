@@ -267,7 +267,7 @@ viz.defaults = function(build) {
       "style": "knockout"
     },
     "labels": {
-      "font": vizStyles.labels.font
+      "font": vizStyles.labels.font[build.config.type] || vizStyles.labels.font.default
     },
     "legend": {
       "font": vizStyles.legend.font,
