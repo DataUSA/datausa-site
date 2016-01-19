@@ -557,6 +557,7 @@ var attrStyles = {
     }
 },
 
+"iocode_key": "parent",
 "iocode": {
     "11": {
         "color": "#49418e",
@@ -566,9 +567,21 @@ var attrStyles = {
         "color": "#c19a1f",
         "icon": "thing_pickaxe.png"
     },
+    "22": {
+        "color": "#aee0ae",
+        "icon": "thing_waterdrop.png"
+    },
+    "23": {
+        "color": "#4B9DCD",
+        "icon": "thing_trafficcone.png"
+    },
     "31G": {
         "color": "#8e7b41",
         "icon": "place_factory.png"
+    },
+    "42": {
+        "color": "#E6D26E",
+        "icon": "thing_box.png"
     },
     "44RT": {
         "color": "#5467de",
@@ -582,6 +595,10 @@ var attrStyles = {
         "color": "#c1461f",
         "icon": "thing_computer.png"
     },
+    "55": {
+        "color": "#FEF28E",
+        "icon": "person_business.png"
+    },
     "6": {
         "color": "#5b1e29",
         "icon": "thing_medic.png"
@@ -589,6 +606,14 @@ var attrStyles = {
     "7": {
         "color": "#c0178f",
         "icon": "thing_theater.png"
+    },
+    "81": {
+        "color": "#33426b",
+        "icon": "person_general.png"
+    },
+    "F": {
+        "color": "#89BFEA",
+        "icon": "person_general.png"
     },
     "F020": {
         "color": "#1f304c",
@@ -606,6 +631,14 @@ var attrStyles = {
         "color": "#0072cd",
         "icon": "place_government.png"
     },
+    "HS": {
+        "color": "#418E84",
+        "icon": "place_home.png"
+    },
+    "ORE": {
+        "color": "#003651",
+        "icon": "place_home.png"
+    },
     "Other": {
         "color": "#ffd3a6",
         "icon": "thing_guage.png"
@@ -613,6 +646,18 @@ var attrStyles = {
     "PROF": {
         "color": "#2c5753",
         "icon": "person_business.png"
+    },
+    "TOTCOMOUT": {
+        "color": "#BD9B97",
+        "icon": "app_geo_map.png"
+    },
+    "TOTFU": {
+        "color": "#979BBD",
+        "icon": "app_geo_map.png"
+    },
+    "TOTII": {
+        "color": "#7072A0",
+        "icon": "app_geo_map.png"
     },
     "TOTINDOUT": {
         "color": "#92407c",

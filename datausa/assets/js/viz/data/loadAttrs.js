@@ -17,6 +17,10 @@ viz.loadAttrs = function(build) {
         var colorize = build.config.color === type && type in attrStyles ? attrStyles[type] : false;
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
+          if (type === "iocode") {
+            if (!d.parent && d.id.charAt(0) === "F") d.parent = "F";
+            else if (!d.parent) d.parent = d.id;
+          }
           if (colorize) {
             var lookup = false;
             color_key.forEach(function(k){
