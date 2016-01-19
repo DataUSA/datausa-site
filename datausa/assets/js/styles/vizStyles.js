@@ -4,28 +4,28 @@ var vizStyles = {
   "bottom": "#455a7d", // bottom 5 bars
 
   "default": {
-    "pri": "#ffb563",
-    "sec": "#455a7d"
+    "pri": "#ef6145",
+    "sec": "#d0d1d5"
   },
   "geo": {
-    "pri": "#ffb563",
-    "sec": "#455a7d"
+    "pri": "#ef6145",
+    "sec": "#d0d1d5"
   },
   "cip": {
-    "pri": "#ffb563",
-    "sec": "#455a7d"
+    "pri": "#ef6145",
+    "sec": "#d0d1d5"
   },
   "soc": {
-    "pri": "#ffb563",
-    "sec": "#455a7d"
+    "pri": "#ef6145",
+    "sec": "#d0d1d5"
   },
   "naics": {
-    "pri": "#ffb563",
-    "sec": "#455a7d"
+    "pri": "#ef6145",
+    "sec": "#d0d1d5"
   },
 
-  // "pri": "#ef6145",
-  // "sec": "#d0d1d5"
+    // "pri": "#ffb563",
+    // "sec": "#455a7d"
 
   "tooltip": {
     "background": "white",

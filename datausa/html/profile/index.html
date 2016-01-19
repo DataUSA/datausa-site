@@ -4,7 +4,7 @@
 
 {% block subtitle %}
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> | {{ profile.splash.title }}
+  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> {{ profile.splash.title }}
   <a href="#" class="expand-stats-btn close"></a></span>
 </div>
 {% endblock %}
@@ -80,7 +80,15 @@
   </article> <!-- end splash  -->
   
   <header class="intro">
-    <h2><a name="intro">About {{ profile.splash.title }}</a></h2>
+    <div class="color-blocks">
+      <span class="b"></span>
+      <span class="b"></span>
+      <span class="b"></span>
+      <span class="b"></span>
+      <span class="b"></span>
+      <span class="b"></span>
+    </div>
+    <h1 class="category"><a name="intro">About {{ profile.splash.title }}</a></h1>
     <div class="col">
       <div class="intro-txt">
       {% for desc in profile.splash.description %}
