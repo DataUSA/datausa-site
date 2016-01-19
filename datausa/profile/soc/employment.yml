@@ -92,6 +92,7 @@ topics:
     description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
+        color: "top"
         data:
           - soc: "<<id>>"
             limit: "5"
@@ -113,6 +114,7 @@ topics:
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
+        color: "bottom"
         data:
           - soc: "<<id>>"
             limit: "5"
@@ -140,6 +142,7 @@ topics:
     description: "The highest paid industries of <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "naics"
+        color: "top"
         data:
           - soc: "<<id>>"
             limit: "5"
@@ -162,6 +165,7 @@ topics:
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
+        color: "bottom"
         data:
           - soc: "<<id>>"
             limit: "5"

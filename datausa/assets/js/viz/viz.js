@@ -110,6 +110,12 @@ viz.finish = function(build) {
       };
     }
   }
+  else if (build.config.color in vizStyles) {
+    build.color = build.config.color;
+    build.config.color = function() {
+      return vizStyles[build.color];
+    };
+  }
 
   build.viz
     .config(viz[build.config.type](build))

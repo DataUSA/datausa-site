@@ -1100,23 +1100,23 @@ var attrStyles = {
         "icon": "thing_atom.png"
     },
     "Resource Management Skills": {
-        "color": "#fdf18d",
+        "color": "#ffb563",
         "icon": "thing_hourglass.png"
     },
     "System Skills": {
-        "color": "#17c0c0",
+        "color": "#1a9b9a",
         "icon": "app_network.png"
     },
     "Basic Skills": {
-        "color": "#82a8e7",
+        "color": "#336a81",
         "icon": "thing_book.png"
     },
     "Judgment Skills": {
-        "color": "#5467de",
+        "color": "#49418e",
         "icon": "thing_gavel.png"
     },
     "Social Skills": {
-        "color": "#bf168e",
+        "color": "#2f1fc1",
         "icon": "thing_talkbubble.png"
     }
 },
@@ -1857,6 +1857,9 @@ var chartStyles = {
 
 var vizStyles = {
 
+  "top": "#ffb563", // top 5 bars
+  "bottom": "#455a7d", // bottom 5 bars
+
   "default": {
     "pri": "#ffb563",
     "sec": "#455a7d"
@@ -2075,6 +2078,12 @@ viz.finish = function(build) {
         }
       };
     }
+  }
+  else if (build.config.color in vizStyles) {
+    build.color = build.config.color;
+    build.config.color = function() {
+      return vizStyles[build.color];
+    };
   }
 
   build.viz

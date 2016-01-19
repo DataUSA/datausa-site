@@ -10,6 +10,7 @@ topics:
     description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
+        color: "top"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -31,6 +32,7 @@ topics:
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
+        color: "bottom"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -59,6 +61,7 @@ topics:
     description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
+        color: "top"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -81,6 +84,7 @@ topics:
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
+        color: "bottom"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -109,6 +113,7 @@ topics:
     description: "The highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
+        color: "top"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -131,6 +136,7 @@ topics:
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
+        color: "bottom"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -235,6 +241,7 @@ topics:
     description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
+        color: "top"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -256,6 +263,7 @@ topics:
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
+        color: "bottom"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -284,6 +292,7 @@ topics:
     description: "The highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "naics"
+        color: "top"
         data:
           - cip: "<<id>>"
             limit: "5"
@@ -306,6 +315,7 @@ topics:
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
+        color: "bottom"
         data:
           - cip: "<<id>>"
             limit: "5"
