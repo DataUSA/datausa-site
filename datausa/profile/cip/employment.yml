@@ -28,7 +28,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top"
+          label: "Most"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -51,7 +51,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom"
+          label: "Least"
           scale: "discrete"
           value: "soc"
   - class: "flex"
@@ -80,7 +80,7 @@ topics:
         type: "bar"
         x: "num_ppl_rca"
         y:
-          label: "Top"
+          label: "Most"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -103,7 +103,7 @@ topics:
         type: "bar"
         x: "num_ppl_rca"
         y:
-          label: "Bottom"
+          label: "Least"
           scale: "discrete"
           value: "soc"
   - class: "flex"
@@ -132,7 +132,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top"
+          label: "Highest"
           scale: "discrete"
           value: "soc"
       - attrs: "soc"
@@ -155,7 +155,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom"
+          label: "Lowest"
           scale: "discrete"
           value: "soc"
   - slug: "tmap_occ_num_emp_degree"
@@ -259,7 +259,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top"
+          label: "Most"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -282,7 +282,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom"
+          label: "Least"
           scale: "discrete"
           value: "naics"
   - class: "flex"
@@ -311,7 +311,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top"
+          label: "Highest"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -334,7 +334,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom"
+          label: "Lowest"
           scale: "discrete"
           value: "naics"
   - slug: "tmap_ind_num_emp"

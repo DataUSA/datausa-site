@@ -110,7 +110,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Top"
+          label: "Most"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -133,7 +133,7 @@ topics:
         type: "bar"
         x: "num_ppl"
         y:
-          label: "Bottom"
+          label: "Least"
           scale: "discrete"
           value: "naics"
   - class: "flex"
@@ -161,7 +161,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Top"
+          label: "Highest"
           scale: "discrete"
           value: "naics"
       - attrs: "naics"
@@ -184,7 +184,7 @@ topics:
         type: "bar"
         x: "avg_wage"
         y:
-          label: "Bottom"
+          label: "Lowest"
           scale: "discrete"
           value: "naics"
   - slug: "tmap_ind"
