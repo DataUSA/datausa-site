@@ -17,6 +17,27 @@ topics:
           - "<<var namespace=degree_workforce|key=degree|row=1>>"
           - "<<var namespace=degree_workforce|key=degree|row=2>>"
     description: "By leveraging both the PUMS and IPEDS datasets, we can compare the degrees obtained by the working population against the current student graduation rate."
+    # miniviz:
+    #   attrs: "degree"
+    #   color: "student_pool"
+    #   data:
+    #     - required: "grads_total"
+    #       cip: "<<id>>"
+    #       show: "degree"
+    #       share: "grads_total"
+    #       degree: "1,2,3,4,6,8,19"
+    #       static:
+    #         student_pool: "Degrees Awarded"
+    #   id: "degree"
+    #   labels: YES
+    #   order:
+    #     sort: "asc"
+    #     value: "grads_total"
+    #   type: "bar"
+    #   y:
+    #     scale: "discrete"
+    #     value: "degree"
+    #   x: "grads_total"
     viz:
       attrs:
         - "degree"
@@ -27,6 +48,7 @@ topics:
           cip: "<<id>>"
           show: "degree"
           share: "num_ppl"
+          degree: "5,7,17,18"
           map:
             num_ppl: "grads_total"
           static:
