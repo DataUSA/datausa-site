@@ -1725,7 +1725,6 @@ body.profile {
   body.about .topic .sub-source, body.profile .topic .sub-source,
   body.story .topic .sub-source, body.map .topic .sub-source {
     display: inline-block;
-    margin: 5px 0 10px;
     color: #a8a8a8;
     font-family: "Palanquin", sans-serif;
     font-size: 12px;
@@ -3322,53 +3321,56 @@ body.profile {
       body.about .profile-end a:hover, body.profile .profile-end a:hover,
       body.story .profile-end a:hover, body.map .profile-end a:hover {
         opacity: 1; }
-  body.about .share-section a, body.profile .share-section a,
-  body.story .share-section a, body.map .share-section a {
-    color: #a8a8a8;
-    cursor: pointer;
-    font-size: 15px;
-    padding: 10px;
-    margin-left: -10px; }
-    body.about .share-section a i, body.profile .share-section a i,
-    body.story .share-section a i, body.map .share-section a i {
-      -moz-transition: opacity 0.1s;
-      -o-transition: opacity 0.1s;
-      -webkit-transition: opacity 0.1s;
-      transition: opacity 0.1s;
-      opacity: 0.7; }
-      body.about .share-section a:hover i, body.profile .share-section a:hover i,
-      body.story .share-section a:hover i, body.map .share-section a:hover i {
+  body.about .share-section, body.profile .share-section, body.story .share-section,
+  body.map .share-section {
+    margin-top: 10px; }
+    body.about .share-section a, body.profile .share-section a,
+    body.story .share-section a, body.map .share-section a {
+      color: #a8a8a8;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 10px;
+      margin-left: -10px; }
+      body.about .share-section a i, body.profile .share-section a i,
+      body.story .share-section a i, body.map .share-section a i {
+        -moz-transition: opacity 0.1s;
+        -o-transition: opacity 0.1s;
+        -webkit-transition: opacity 0.1s;
+        transition: opacity 0.1s;
+        opacity: 0.7; }
+        body.about .share-section a:hover i, body.profile .share-section a:hover i,
+        body.story .share-section a:hover i, body.map .share-section a:hover i {
+          opacity: 1; }
+    body.about .share-section .embed-input, body.profile .share-section .embed-input,
+    body.story .share-section .embed-input, body.map .share-section .embed-input {
+      -moz-transition: opacity 0.5s;
+      -o-transition: opacity 0.5s;
+      -webkit-transition: opacity 0.5s;
+      transition: opacity 0.5s;
+      display: inline-block;
+      margin-top: -3px;
+      margin-left: -5px;
+      opacity: 0; }
+      body.about .share-section .embed-input.open,
+      body.profile .share-section .embed-input.open,
+      body.story .share-section .embed-input.open,
+      body.map .share-section .embed-input.open {
         opacity: 1; }
-  body.about .share-section .embed-input, body.profile .share-section .embed-input,
-  body.story .share-section .embed-input, body.map .share-section .embed-input {
-    -moz-transition: opacity 0.5s;
-    -o-transition: opacity 0.5s;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
-    display: inline-block;
-    margin-top: -3px;
-    margin-left: -5px;
-    opacity: 0; }
-    body.about .share-section .embed-input.open,
-    body.profile .share-section .embed-input.open,
-    body.story .share-section .embed-input.open,
-    body.map .share-section .embed-input.open {
-      opacity: 1; }
-      body.about .share-section .embed-input input[type="text"],
-      body.profile .share-section .embed-input input[type="text"],
-      body.story .share-section .embed-input input[type="text"],
-      body.map .share-section .embed-input input[type="text"] {
-        padding: 3px;
-        width: 100px;
-        font-family: "Palanquin", sans-serif; }
-        body.about .share-section .embed-input label,
-        body.profile .share-section .embed-input label,
-        body.story .share-section .embed-input label,
-        body.map .share-section .embed-input label {
-          color: #a8a8a8;
-          font-family: "Palanquin", sans-serif;
-          font-size: 11px;
-          vertical-align: middle; }
+        body.about .share-section .embed-input input[type="text"],
+        body.profile .share-section .embed-input input[type="text"],
+        body.story .share-section .embed-input input[type="text"],
+        body.map .share-section .embed-input input[type="text"] {
+          padding: 3px;
+          width: 100px;
+          font-family: "Palanquin", sans-serif; }
+          body.about .share-section .embed-input label,
+          body.profile .share-section .embed-input label,
+          body.story .share-section .embed-input label,
+          body.map .share-section .embed-input label {
+            color: #a8a8a8;
+            font-family: "Palanquin", sans-serif;
+            font-size: 11px;
+            vertical-align: middle; }
 
 @keyframes mouse-scroll {
   from {

@@ -230,7 +230,6 @@ body.about, body.profile, body.story, body.map {
 
     .sub-source {
       display: inline-block;
-      margin: 5px 0 10px;
       color: #a8a8a8;
       font-family: $palanquin;
       font-size: 12px;
@@ -461,7 +460,7 @@ body.about, body.profile, body.story, body.map {
           height: 23px;
         }
       }
-      
+
       .splash-breadcrumb {
         text-align: right;
         max-width: 50%;
@@ -505,7 +504,7 @@ body.about, body.profile, body.story, body.map {
         }
 
       }
-      
+
       h1 {
         line-height: 1;
         color: #efefef;
@@ -772,7 +771,7 @@ body.about, body.profile, body.story, body.map {
       &.show {
         opacity: 1;
         &:hover {
-          cursor: pointer;   
+          cursor: pointer;
         }
       }
 
@@ -1026,7 +1025,7 @@ body.about, body.profile, body.story, body.map {
 
     }
   }
-  
+
   .intro {
     min-height: 190px; /* change later */
     background-color: $black2;
@@ -1034,7 +1033,7 @@ body.about, body.profile, body.story, body.map {
     background-repeat: no-repeat;
     background-size: 30%;
     background-position: 90% 100%;
-    
+
     .intro-txt {
       @include flex-size(2);
       a {
@@ -1051,13 +1050,13 @@ body.about, body.profile, body.story, body.map {
         display: none;
       }
     }
-    
+
     .intro-viz {
       @include flex-size(1);
       height: 200px;
       text-align: center;
     }
-    
+
   }
 
   header {
@@ -1526,6 +1525,7 @@ body.about, body.profile, body.story, body.map {
   }
 
   .share-section {
+    margin-top: 10px;
     a {
       color: #a8a8a8;
       cursor: pointer;
