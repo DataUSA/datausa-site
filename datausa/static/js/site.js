@@ -1922,6 +1922,7 @@ var vizStyles = {
   },
   "labels": {
     "font": {
+      // add keys for any visualization type you want to overwrite
       "default": {
         "family": "Pathway Gothic One",
         "size": 13
@@ -2060,7 +2061,7 @@ viz.finish = function(build) {
       return t;
     });
     build.color = build.config.color;
-    if (attrs.indexOf(build.color) >= 0) {
+    if (attrs.indexOf(build.color) >= 0 && build.color !== "race") {
       build.config.color = "color";
       build.config.icon = "icon";
     }

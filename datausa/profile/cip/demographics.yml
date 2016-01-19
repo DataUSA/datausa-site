@@ -79,7 +79,10 @@ topics:
           - "<<var namespace=race|key=name|row=2>>"
     description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
     viz:
-      attrs: "university"
+      attrs:
+        - "university"
+        - "race"
+      color: "race"
       data:
         - show: "university"
           limit: 5
@@ -162,6 +165,7 @@ topics:
           static:
             race: "unknown"
       id: "university"
+      legend: NO
       order:
         sort: "asc"
         value: "grads_total"
