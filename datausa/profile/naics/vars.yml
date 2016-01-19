@@ -64,11 +64,11 @@
   order: value_millions
   sort: desc
   sumlevel: naics
-  industry_level: 1
   attr_type: "industry_iocode"
   rows: True
   limit: 3
   year: latest
+  industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|key=level>>"
   namespace: io_commodity
 
 - required: ["industry_iocode"]
@@ -76,9 +76,9 @@
   order: value_millions
   sort: desc
   sumlevel: naics
-  industry_level: 1
   attr_type: "commodity_iocode"
   rows: True
   limit: 3
   year: latest
+  industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|key=level>>"
   namespace: io_industry
