@@ -638,6 +638,10 @@ for (var attr_type in attrs_meta){
   })
 }
 
+function prettyUrl(d) {
+  return (d.url_name ? d.url_name : d.id);
+}
+
 var search = {
   "advanced": false,
   "anchors": {},
@@ -786,7 +790,7 @@ search.btnExplore = function(d) {
   var title = info.append("h2")
                 .append("a")
                 .text(d.display)
-                .attr("href", "/profile/" + d.kind + "/" + d.id + "/");
+                .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/");
   // title.append("i").attr("class", "fa fa-angle-down")
   // title.append("i").attr("class", "fa fa-angle-up")
   if(sumlevels_by_id[d.kind][d.sumlevel]){
@@ -804,12 +808,12 @@ search.btnExplore = function(d) {
     search.anchors[d.kind].sections.forEach(function(anchor){
       var li = ul.append("li");
       li.append("a")
-        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
         .append("img")
         .attr("src", "/static/img/icons/" + anchor.anchor + "_b.svg")
         .on("click", function(){ d3.event.stopPropagation(); })
       li.append("a")
-        .attr("href", "/profile/" + d.kind + "/" + d.id + "/#" + anchor.anchor)
+        .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
         .append("span")
         .text(anchor.title)
         .on("click", function(){ d3.event.stopPropagation(); })
@@ -826,7 +830,7 @@ search.btnExplore = function(d) {
 
 search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){
-                      return "/profile/" + d.kind + "/" + d.id + "/";
+                      return "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
                     });
   search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
@@ -873,7 +877,7 @@ search.open_details = function(d){
     load(parents_api_url, function(parents) {
       parents.forEach(function(p){
         p_container.append("a")
-          .attr("href", "/profile/" + d.kind + "/" + p.id + "/")
+          .attr("href", "/profile/" + d.kind + "/" + prettyUrl(p) + "/")
           .text(p.name)
       })
     })
