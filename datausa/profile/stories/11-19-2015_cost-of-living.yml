@@ -1,6 +1,6 @@
 title: "Cost of Living"
 date: November 19th, 2015
-description: "Cost of living is the cost of maintaining a certain standard of living. Changes in the cost of living over time are often operationalized in a cost of living index. Cost of living calculations are also used to compare the cost of maintaining a certain standard of living in different geographic areas. Differences in cost of living between locations can also be measured in terms of purchasing power parity rates."
+description: "Cost of living is the cost of maintaining a certain standard of living. Changes in the cost of living over time are often operationalized in a cost of living index."
 background_image: "https://exposure.imgix.net/production/photos/w52q9tityddvx6r9kg773uval7kfbt97rcb3/original.jpg"
 authors:
     - name: Alexander Simoes
@@ -8,14 +8,11 @@ authors:
       link: http://twitter.com/ximoes
     
 topics:
-  - title: "Cost of Care"
+  - title: "Gender Split in Top Industries in the U.S."
     stat:
       - title: "State with lowest healthcare costs"
         value: "<<top show=geo|order=health_care_costs|sumlevel=state|sort=asc>>"
 
   - description: >
-      Health care or healthcare is the diagnosis, treatment, and prevention of disease, illness, injury,
-      and other physical and mental impairments in human beings. Health care is delivered by practitioners in
-      allied health, dentistry, midwifery (obstetrics), medicine, nursing, optometry, pharmacy, psychology and other health professions.
-      It refers to the work done in providing primary care, secondary care, and tertiary care, as well as in public health.
+      Many believe that women are underrepresented at the top because they drop off the corporate ladder. The study shows that, in fact, women leave at most levels at a lower rate than men. But they advance from one level to the next more slowly than men. Many continue to believe that women generally do not aspire to top positions. The study shows that women at every level desire to be top executives, but at a lower rate than their male counterparts. (The gap gets larger toward the top.)
   - viz_url: "/profile/geo/01000US/health/healthcare_cost/"

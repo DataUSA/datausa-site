@@ -43,3 +43,11 @@ a {
 ul {
   list-style-type: none;
 }
+
+p {
+  display: block;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+}

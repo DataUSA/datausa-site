@@ -1,0 +1,32 @@
+title: "Women in the Workplace 2015: Is Gender Bias Part of the Story?"
+date: November 11th, 2015
+description: "Why aren’t there more women in the upper ranks of corporate America? A major new study by LeanIn.Org and McKinsey & Co reveals that despite some progress, women are still underrepresented at every level in corporations, and that they face a playing field that they believe is anything but level. A Journal Report looks at what’s holding back women—and what can be done to make progress toward gender equality."
+background_image: "http://www.nbc.com/sites/nbcunbc/files/files/images/2014/11/02/141102_2823759_Women_in_the_Workplace.jpg"
+authors:
+    - name: Caroline Turner
+      img: http://www.huffingtonpost.com/contributors/caroline-turner/headshot.jpg
+      link: http://twitter.com/ximoes
+    
+topics:
+  - title: "Cost of College"
+    stat:
+      - title: "State with lowest healthcare costs"
+        value: "<<top show=geo|order=health_care_costs|sumlevel=state|sort=asc>>"
+
+  - description: >
+      Health care or healthcare is the diagnosis, treatment, and prevention of disease, illness, injury,
+      and other physical and mental impairments in human beings. Health care is delivered by practitioners in
+      allied health, dentistry, midwifery (obstetrics), medicine, nursing, optometry, pharmacy, psychology and other health professions.
+      It refers to the work done in providing primary care, secondary care, and tertiary care, as well as in public health.
+  - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
+
+  - description: >
+      One reason, the study shows, that fewer women reach the top is that they serve more often in staff vs. line positions, which are more likely to lead to the C-suite. Women in line positions are less likely to advance to the top. And women express greater concern about the stress that comes with top jobs.
+  - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
+
+  - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
+  - description: >
+      And what about gender bias? The report concludes that women are more likely than men to perceive gender bias -- to feel there are more barriers to promotion. Of course they do. The real question is how much gender bias exists, not what women perceive. Gender bias is hard to measure, because it is invisible and mostly unconscious. But it is certainly a factor -- on its own and as an underlying part of these other phenomena. One of the recommendations of the study is training to "interrupt gender bias," including to assure men can see and understand the challenges women encounter.
+
+  - description: >
+      For more information, see Caroline Turner on http://www.huffingtonpost.com/caroline-turner/women-in-the-workplace-20_b_8255008.html
