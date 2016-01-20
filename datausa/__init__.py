@@ -5,6 +5,7 @@ import os
 from flask import Flask
 
 from config import DEBUG
+from datausa.utils.format import jinja_formatter
 from flask.ext.cache import Cache
 
 # Base directory of where the site is held
@@ -17,6 +18,7 @@ app = Flask(__name__, template_folder=os.path.join(base_dir, "html"))
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 app.jinja_env.add_extension("jinja2.ext.do")
+app.jinja_env.filters['format'] = jinja_formatter
 
 # Load default configuration from config.py
 app.config.from_object("config")

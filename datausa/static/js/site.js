@@ -1955,7 +1955,36 @@ var vizStyles = {
       "family": "Palanquin",
       "size": 12,
       "transform": "none",
-      "weight": 300
+      "weight": 300,
+      "secondary": {
+        "color": "#888",
+        "family": "Palanquin",
+        "size": 12,
+        "transform": "none",
+        "weight": 300
+      }
+    }
+  },
+
+  "ui_map": {
+    "border": 1,
+    "color": {
+      "primary": "#fff",
+      "secondary": "#6F6F6F"
+    },
+    "font": {
+      "color": "#888",
+      "family": "Palanquin",
+      "size": 12,
+      "transform": "none",
+      "weight": 300,
+      "secondary": {
+        "color": "#888",
+        "family": "Palanquin",
+        "size": 12,
+        "transform": "none",
+        "weight": 300
+      }
     }
   },
 
@@ -2019,7 +2048,9 @@ var vizStyles = {
     "stroke": "#d5614d",
     "path": "M0.001-53.997c-9.94,0-18,8.058-18,17.998l0,0l0,0c0,2.766,0.773,5.726,1.888,8.066C-13.074-20.4,0.496,0,0.496,0s12.651-20.446,15.593-27.964v-0.061l0.021,0.005c-0.007,0.019-0.016,0.038-0.021,0.056c0.319-0.643,0.603-1.306,0.846-1.985c0.001-0.003,0.003-0.006,0.004-0.009c0.001-0.001,0.001-0.003,0.002-0.005c0.557-1.361,1.059-3.054,1.059-6.035c0,0,0,0,0-0.001l0,0C17.999-45.939,9.939-53.997,0.001-53.997z M0.001-29.874c-3.763,0-6.812-3.05-6.812-6.812c0-3.762,3.05-6.812,6.812-6.812c3.762,0,6.812,3.05,6.812,6.812C6.812-32.924,3.763-29.874,0.001-29.874z",
     "scale": 0.5
-  }
+  },
+
+  "tiles": "light_all" // either light_all or dark_all
 
 }
 
@@ -2321,160 +2352,10 @@ viz.defaults = function(build) {
     "data": vizStyles.shapes,
     "edges": vizStyles.edges,
     "format": {
-      "number": function(number, params) {
-
-        var prefix = "";
-
-        if (params.key) {
-
-          var key = params.key;
-          delete params.key;
-
-          if (key.indexOf("_moe") > 0) {
-            prefix = "<span class='plus-minus'>±</span> ";
-            key = key.replace("_moe", "");
-          }
-
-          if (key.indexOf("emp_thousands") >= 0) {
-            number = number * 1000;
-          }
-          else if (key == "value_millions") {
-            number = number * 1000000;
-          }
-          else if (key == "output") {
-            number = number * 1000000000;
-          }
-
-          if (key.indexOf("y2_") === 0) {
-            key = key.slice(3);
-          }
-
-          if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
-            if (proportions.indexOf(key) >= 0) number = number * 100;
-            return prefix + d3plus.number.format(number, params) + "%";
-          }
-          else {
-            number = d3plus.number.format(number, params);
-            if (key in affixes) {
-              var a = affixes[key];
-              number = a[0] + number + a[1];
-            }
-            return prefix + number;
-          }
-
-        }
-
-        return prefix + d3plus.number.format(number, params);
-
-      },
+      "number": viz.format.number,
       "text": function(text, params) {
 
-        if (text.indexOf("_moe") > 0) {
-          return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
-        }
-        else if (text.indexOf("_rank") > 0) {
-          return "Rank";
-        }
-
-        if (text.indexOf("y2_") === 0) {
-          text = text.slice(3);
-        }
-
-        if (text === "bucket") {
-          ["x", "y", "x2", "y2"].forEach(function(axis){
-            if (d3plus.object.validate(build.config[axis]) &&
-                build.config[axis].value === "bucket" &&
-                build.config[axis].label &&
-                build.config[axis].label !== true) {
-              text = build.config[axis].label;
-            }
-          });
-        }
-
-        if (dictionary[text]) return dictionary[text];
-
-        // All caps text
-        if (all_caps.indexOf(text.toLowerCase()) >= 0) {
-          return text.toUpperCase();
-        }
-
-        if (params.key) {
-
-          if (params.key === "name") {
-            return text;
-          }
-
-          // Format buckets
-          if (params.key === "bucket") {
-
-            var key = false;
-
-            if (text.indexOf("_") > 0) {
-              text = text.split("_");
-              key = text.shift();
-              text = text.join("_");
-            }
-
-            if (key === false) {
-              ["x", "y", "x2", "y2"].forEach(function(axis){
-                if (d3plus.object.validate(build.config[axis]) &&
-                    build.config[axis].value === "bucket" &&
-                    build.config[axis].label &&
-                    build.config[axis].label !== true) {
-                  key = build.config[axis].label;
-                }
-              });
-            }
-
-            var a = key && key in affixes ? affixes[key].slice() : ["", ""];
-            var thousands = ["income"];
-            for (var i = thousands.length; i > 0; i--) {
-              var t = thousands[i - 1];
-              if (t in dictionary) {
-                thousands.push(dictionary[t]);
-              }
-            }
-            if (thousands.indexOf(key) >= 0) a[1] = "k";
-
-            if (text.indexOf("to") > 0) {
-              return text.split("to").map(function(t){
-                return a[0] + t + a[1];
-              }).join("-");
-            }
-            else if (text.indexOf("less") === 0) {
-              return "< " + a[0] + text.slice(4) + a[1];
-            }
-            else if (text.indexOf("under") === 0) {
-              return "< " + a[0] + text.slice(5) + a[1];
-            }
-            else if (text.indexOf("over") > 0 || text.indexOf("more") > 0) {
-              return a[0] + text.slice(0, text.length - 4) + a[1] + " +";
-            }
-            else if (text.toLowerCase() === "none") {
-              return a[0] + "0" + a[1];
-            }
-            else {
-              return a[0] + d3plus.string.title(text) + a[1];
-            }
-          }
-
-          if (params.key === "geo" && text.indexOf("140") === 0) {
-            text = text.slice(13);
-            var num = text.slice(0, 3), suffix = text.slice(3);
-            suffix = suffix === "00" ? "" : "." + suffix;
-            return "Census Tract " + num + suffix;
-          }
-
-          var attrs = build.viz ? build.viz.attrs() : false;
-          if (attrs && text in attrs) {
-            return d3plus.string.title(attrs[text].name, params);
-          }
-
-          if (attr_ids.indexOf(params.key) >= 0) return text.toUpperCase();
-
-        }
-
-        return d3plus.string.title(text, params);
+        viz.format.text(text, params, build);
 
       }
     },
@@ -2657,6 +2538,165 @@ viz.tree_map = function(build) {
       "filters": true
     }
   };
+}
+
+viz.format = {
+  "number": function(number, params) {
+
+    var prefix = "";
+
+    if (params.key) {
+
+      var key = params.key;
+      delete params.key;
+
+      if (key.indexOf("_moe") > 0) {
+        prefix = "<span class='plus-minus'>±</span> ";
+        key = key.replace("_moe", "");
+      }
+
+      if (key.indexOf("emp_thousands") >= 0) {
+        number = number * 1000;
+      }
+      else if (key == "value_millions") {
+        number = number * 1000000;
+      }
+      else if (key == "output") {
+        number = number * 1000000000;
+      }
+
+      if (key.indexOf("y2_") === 0) {
+        key = key.slice(3);
+      }
+
+      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+        if (proportions.indexOf(key) >= 0) number = number * 100;
+        return prefix + d3plus.number.format(number, params) + "%";
+      }
+      else {
+        number = d3plus.number.format(number, params);
+        if (key in affixes) {
+          var a = affixes[key];
+          number = a[0] + number + a[1];
+        }
+        return prefix + number;
+      }
+
+    }
+
+    return prefix + d3plus.number.format(number, params);
+
+  },
+  "text": function(text, params, build) {
+
+    if (text.indexOf("_moe") > 0) {
+      return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
+    }
+    else if (text.indexOf("_rank") > 0) {
+      return "Rank";
+    }
+
+    if (text.indexOf("y2_") === 0) {
+      text = text.slice(3);
+    }
+
+    if (build && text === "bucket") {
+      ["x", "y", "x2", "y2"].forEach(function(axis){
+        if (d3plus.object.validate(build.config[axis]) &&
+            build.config[axis].value === "bucket" &&
+            build.config[axis].label &&
+            build.config[axis].label !== true) {
+          text = build.config[axis].label;
+        }
+      });
+    }
+
+    if (dictionary[text]) return dictionary[text];
+
+    // All caps text
+    if (all_caps.indexOf(text.toLowerCase()) >= 0) {
+      return text.toUpperCase();
+    }
+
+    if (params.key) {
+
+      if (params.key === "name") {
+        return text;
+      }
+
+      // Format buckets
+      if (params.key === "bucket") {
+
+        var key = false;
+
+        if (text.indexOf("_") > 0) {
+          text = text.split("_");
+          key = text.shift();
+          text = text.join("_");
+        }
+
+        if (build && key === false) {
+          ["x", "y", "x2", "y2"].forEach(function(axis){
+            if (d3plus.object.validate(build.config[axis]) &&
+                build.config[axis].value === "bucket" &&
+                build.config[axis].label &&
+                build.config[axis].label !== true) {
+              key = build.config[axis].label;
+            }
+          });
+        }
+
+        var a = key && key in affixes ? affixes[key].slice() : ["", ""];
+        var thousands = ["income"];
+        for (var i = thousands.length; i > 0; i--) {
+          var t = thousands[i - 1];
+          if (t in dictionary) {
+            thousands.push(dictionary[t]);
+          }
+        }
+        if (thousands.indexOf(key) >= 0) a[1] = "k";
+
+        if (text.indexOf("to") > 0) {
+          return text.split("to").map(function(t){
+            return a[0] + t + a[1];
+          }).join("-");
+        }
+        else if (text.indexOf("less") === 0) {
+          return "< " + a[0] + text.slice(4) + a[1];
+        }
+        else if (text.indexOf("under") === 0) {
+          return "< " + a[0] + text.slice(5) + a[1];
+        }
+        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0) {
+          return a[0] + text.slice(0, text.length - 4) + a[1] + " +";
+        }
+        else if (text.toLowerCase() === "none") {
+          return a[0] + "0" + a[1];
+        }
+        else {
+          return a[0] + d3plus.string.title(text) + a[1];
+        }
+      }
+
+      if (params.key === "geo" && text.indexOf("140") === 0) {
+        text = text.slice(13);
+        var num = text.slice(0, 3), suffix = text.slice(3);
+        suffix = suffix === "00" ? "" : "." + suffix;
+        return "Census Tract " + num + suffix;
+      }
+
+      var attrs = build && build.viz ? build.viz.attrs() : false;
+      if (attrs && text in attrs) {
+        return d3plus.string.title(attrs[text].name, params);
+      }
+
+      if (attr_ids.indexOf(params.key) >= 0) return text.toUpperCase();
+
+    }
+
+    return d3plus.string.title(text, params);
+
+  }
 }
 
 viz.loadAttrs = function(build) {
@@ -3376,7 +3416,8 @@ d3.geo.albersUsaPr = function() {
 
 viz.mapDraw = function(vars) {
 
-  var defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
+  var cartodb = vizStyles.tiles,
+      defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       pathOpacity = 0.25,
       pathStroke = 1,
       scaleAlign = "middle",
@@ -3454,7 +3495,7 @@ viz.mapDraw = function(vars) {
   if (coords && vars.coords.key) {
 
     var projection = "mercator";
-    if (vars.coords.key === "states") {
+    if (vars.coords.key === "states" && location.href.indexOf("/map/") < 0) {
       projection = "albersUsaPr";
       vars.tiles.value = false;
     }
@@ -3780,9 +3821,15 @@ viz.mapDraw = function(vars) {
     })
     var coordData = topojson.feature(coords, coords.objects[vars.coords.key]);
 
-    projection = d3.geo[projection]()
-      .scale(1)
-      .translate([0, 0]);
+    if (!vars.zoom.set) {
+
+      vars.zoom.projection = d3.geo[projection]()
+        .scale(1)
+        .translate([0, 0]);
+
+    }
+
+    projection = vars.zoom.projection;
 
     var path = d3.geo.path()
       .projection(projection);
@@ -3792,19 +3839,25 @@ viz.mapDraw = function(vars) {
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
 
     // Update the projection to use computed scale & translate.
-    projection.scale(s).translate(t);
+    if (!vars.zoom.set) {
 
-    var zoom = d3.behavior.zoom()
-      .scale(s * 2 * Math.PI)
-      .scaleExtent([1 << 9, 1 << 22])
-      .translate(t)
-      .on("zoom", zoomed);
+      projection.scale(s).translate(t);
 
-    // With the center computed, now adjust the projection such that
-    // it uses the zoom behavior’s translate and scale.
-    projection
-      .scale(1 / 2 / Math.PI)
-      .translate([0, 0]);
+      vars.zoom.behavior = d3.behavior.zoom()
+        .scale(s * 2 * Math.PI)
+        .scaleExtent([1 << 9, 1 << 22])
+        .translate(t)
+        .on("zoom", zoomed);
+
+      // With the center computed, now adjust the projection such that
+      // it uses the zoom behavior’s translate and scale.
+      projection
+        .scale(1 / 2 / Math.PI)
+        .translate([0, 0]);
+
+    }
+
+    var zoom = vars.zoom.behavior;
 
     pinData = pinData.map(function(d){ return path.centroid(topojson.feature(coords, d)); });
 
@@ -3870,7 +3923,11 @@ viz.mapDraw = function(vars) {
     }
 
     var polys = polyGroup.selectAll("path")
-      .data(coordData.features);
+      .data(coordData.features, function(d){
+        return d.id;
+      });
+
+    polys.exit().remove();
 
     polys.enter().append("path")
       .attr("d", path)
@@ -3920,7 +3977,7 @@ viz.mapDraw = function(vars) {
           "max_width": vizStyles.tooltip.small,
           "offset": 3,
           "parent": d3.select("body"),
-          "title": vars.format.text(d.id, {"key": vars.id.value}),
+          "title": vars.format.text(vars.attrs.value[d.id].name, {"key": vars.id.value}),
           "width": vizStyles.tooltip.small,
           "x": mouse[0],
           "y": mouse[1]
@@ -3991,7 +4048,7 @@ viz.mapDraw = function(vars) {
       tilePaths.exit().remove();
 
       tilePaths.enter().append("image")
-        .attr("xlink:href", function(d) { return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+        .attr("xlink:href", function(d) { return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/" + cartodb + "/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
         .attr("width", 1)
         .attr("height", 1)
         .attr("x", function(d) { return d[0]; })
@@ -4005,7 +4062,11 @@ viz.mapDraw = function(vars) {
         .on("MozMousePixelScroll.zoom",null)
         .on("wheel.zoom",null);
     }
-    zoomed();
+
+    if (!vars.zoom.set) {
+      zoomed();
+      vars.zoom.set = true;
+    }
 
   }
 
@@ -4022,7 +4083,7 @@ viz.map = function() {
     "class": {"value": false},
     "color": {"value": false},
     "container": {"value": false},
-    "coords": {"value": [], "solo": [], "mute": []},
+    "coords": {"value": false, "solo": [], "mute": []},
     "data": {"value": []},
     "depth": {"value": 0},
     "error": {"value": false},
@@ -4036,8 +4097,8 @@ viz.map = function() {
         }
         return JSON.stringify(value);
       },
-      "number": function(value, opts){ return d3plus.number.format(value); },
-      "text": function(value, opts){ return "Population" || d3plus.string.format(value); }
+      "number": viz.format.number,
+      "text": viz.format.text
     },
     "height": {"value": false},
     "highlight": {"value": false},
@@ -4045,14 +4106,17 @@ viz.map = function() {
     "messages": {"value": true},
     "mouse": {"value": true},
     "pins": {"value": []},
+    "text": {"value": "name"},
     "tiles": {"value": true},
+    "tooltip": {"value": []},
     "width": {"value": false},
-    "zoom": {"value": true}
+    "zoom": {"set": false, "value": true}
   };
 
   // the drawing function
   vars.self = function() {
     viz.mapDraw(vars);
+    return vars.self;
   }
 
   // default logic for setting a var key

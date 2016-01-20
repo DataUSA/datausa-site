@@ -7,7 +7,7 @@ viz.map = function() {
     "class": {"value": false},
     "color": {"value": false},
     "container": {"value": false},
-    "coords": {"value": [], "solo": [], "mute": []},
+    "coords": {"value": false, "solo": [], "mute": []},
     "data": {"value": []},
     "depth": {"value": 0},
     "error": {"value": false},
@@ -21,8 +21,8 @@ viz.map = function() {
         }
         return JSON.stringify(value);
       },
-      "number": function(value, opts){ return d3plus.number.format(value); },
-      "text": function(value, opts){ return "Population" || d3plus.string.format(value); }
+      "number": viz.format.number,
+      "text": viz.format.text
     },
     "height": {"value": false},
     "highlight": {"value": false},
@@ -30,14 +30,17 @@ viz.map = function() {
     "messages": {"value": true},
     "mouse": {"value": true},
     "pins": {"value": []},
+    "text": {"value": "name"},
     "tiles": {"value": true},
+    "tooltip": {"value": []},
     "width": {"value": false},
-    "zoom": {"value": true}
+    "zoom": {"set": false, "value": true}
   };
 
   // the drawing function
   vars.self = function() {
     viz.mapDraw(vars);
+    return vars.self;
   }
 
   // default logic for setting a var key

@@ -198,6 +198,8 @@ DICTIONARY = {
     "men": "Men",
     "mental_health_providers": "Mental Health Providers",
     "motor_vehicle_crash_deaths": "Motor Vehicle Crash Deaths",
+    "non_eng_speakers_pct": "Non English Speakers",
+    "non_us_citizens": "Non US Citizens",
     "num_emp": "Total Employees",
     "num_emp_rca": "Total Employees (RCA)",
     "num_households": "Households",
@@ -210,6 +212,7 @@ DICTIONARY = {
     "owner_occupied_housing_units": "Homeowners",
     "pct_total": "Percentage of Degrees Awarded",
 
+    "pop": "Population",
     "pop_2ormore": "2+",
     "pop_asian": "Asian",
     "pop_black": "Black",

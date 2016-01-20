@@ -1,6 +1,7 @@
 viz.mapDraw = function(vars) {
 
-  var defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
+  var cartodb = vizStyles.tiles,
+      defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       pathOpacity = 0.25,
       pathStroke = 1,
       scaleAlign = "middle",
@@ -78,7 +79,7 @@ viz.mapDraw = function(vars) {
   if (coords && vars.coords.key) {
 
     var projection = "mercator";
-    if (vars.coords.key === "states") {
+    if (vars.coords.key === "states" && location.href.indexOf("/map/") < 0) {
       projection = "albersUsaPr";
       vars.tiles.value = false;
     }
@@ -404,9 +405,15 @@ viz.mapDraw = function(vars) {
     })
     var coordData = topojson.feature(coords, coords.objects[vars.coords.key]);
 
-    projection = d3.geo[projection]()
-      .scale(1)
-      .translate([0, 0]);
+    if (!vars.zoom.set) {
+
+      vars.zoom.projection = d3.geo[projection]()
+        .scale(1)
+        .translate([0, 0]);
+
+    }
+
+    projection = vars.zoom.projection;
 
     var path = d3.geo.path()
       .projection(projection);
@@ -416,19 +423,25 @@ viz.mapDraw = function(vars) {
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
 
     // Update the projection to use computed scale & translate.
-    projection.scale(s).translate(t);
+    if (!vars.zoom.set) {
 
-    var zoom = d3.behavior.zoom()
-      .scale(s * 2 * Math.PI)
-      .scaleExtent([1 << 9, 1 << 22])
-      .translate(t)
-      .on("zoom", zoomed);
+      projection.scale(s).translate(t);
 
-    // With the center computed, now adjust the projection such that
-    // it uses the zoom behavior’s translate and scale.
-    projection
-      .scale(1 / 2 / Math.PI)
-      .translate([0, 0]);
+      vars.zoom.behavior = d3.behavior.zoom()
+        .scale(s * 2 * Math.PI)
+        .scaleExtent([1 << 9, 1 << 22])
+        .translate(t)
+        .on("zoom", zoomed);
+
+      // With the center computed, now adjust the projection such that
+      // it uses the zoom behavior’s translate and scale.
+      projection
+        .scale(1 / 2 / Math.PI)
+        .translate([0, 0]);
+
+    }
+
+    var zoom = vars.zoom.behavior;
 
     pinData = pinData.map(function(d){ return path.centroid(topojson.feature(coords, d)); });
 
@@ -494,7 +507,11 @@ viz.mapDraw = function(vars) {
     }
 
     var polys = polyGroup.selectAll("path")
-      .data(coordData.features);
+      .data(coordData.features, function(d){
+        return d.id;
+      });
+
+    polys.exit().remove();
 
     polys.enter().append("path")
       .attr("d", path)
@@ -544,7 +561,7 @@ viz.mapDraw = function(vars) {
           "max_width": vizStyles.tooltip.small,
           "offset": 3,
           "parent": d3.select("body"),
-          "title": vars.format.text(d.id, {"key": vars.id.value}),
+          "title": vars.format.text(vars.attrs.value[d.id].name, {"key": vars.id.value}),
           "width": vizStyles.tooltip.small,
           "x": mouse[0],
           "y": mouse[1]
@@ -615,7 +632,7 @@ viz.mapDraw = function(vars) {
       tilePaths.exit().remove();
 
       tilePaths.enter().append("image")
-        .attr("xlink:href", function(d) { return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/light_all/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
+        .attr("xlink:href", function(d) { return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/" + cartodb + "/" + d[2] + "/" + d[0] + "/" + d[1] + ".png"; })
         .attr("width", 1)
         .attr("height", 1)
         .attr("x", function(d) { return d[0]; })
@@ -629,7 +646,11 @@ viz.mapDraw = function(vars) {
         .on("MozMousePixelScroll.zoom",null)
         .on("wheel.zoom",null);
     }
-    zoomed();
+
+    if (!vars.zoom.set) {
+      zoomed();
+      vars.zoom.set = true;
+    }
 
   }
 

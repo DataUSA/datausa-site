@@ -2,30 +2,95 @@
 
 {% block body %}
 
-<div id="map-fullscreen"></div>
-<div id="map-teaser">
-  <div id="coming-soon">Coming Soon</div>
+<div id="map-controls">
+  <select id="map-datasets">
+    {% for key in keys %}
+    <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
+    {% endfor %}
+  </select>
+  <span id="map-preposition">by</span>
+  <select id="map-sumlevels">
+    {% for level in sumlevels %}
+    <option value="{{ level }}"{% if level == defaultLevel %} selected{% endif %}>{{ level|format }}</option>
+    {% endfor %}
+  </select>
 </div>
+<div id="map-fullscreen"></div>
 
 {% endblock %}
 
 {% block js %}
 <script>
 
-  var navheight = d3.select("#top-nav").node().offsetHeight;
-  d3.selectAll("#map-fullscreen, #map-teaser")
+  var formConfig = {
+    "font": vizStyles.ui_map.font,
+    "ui": {
+      "padding": "3 7"
+    }
+  };
+
+  var mapdata = JSON.parse("{{ mapdata|safe }}".replace(/'/g, '"'));
+
+  var levels = d3plus.form()
+    .data("#map-sumlevels")
+    // .type("drop")
+    .focus("{{ defaultLevel }}", function(d, viz){
+      if (!viz.draw(Object).first) makeURL();
+    })
+    .config(formConfig)
+    .ui(vizStyles.ui_map)
+    .draw();
+
+  var levelData = levels.data();
+
+  var keys = d3plus.form()
+    .data("#map-datasets")
+    .type("drop")
+    .focus("{{ defaultKey }}", function(d, viz){
+      var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
+      if (mapdata[d].indexOf(levels.focus()) < 0) {
+        levels.focus(mapdata[d][mapdata[d].length - 1]);
+      }
+      levels.data(newLevelData).draw();
+      if (!viz.draw(Object).first) {
+        makeURL();
+      }
+    })
+    .config(formConfig)
+    .ui(vizStyles.ui_map)
+    .draw();
+
+  var navheight = d3.select("#top-nav").node().offsetHeight +
+                  parseFloat(d3.select("#map-controls").style("padding-top"), 10) * 2 +
+                  d3.select("#map-controls").node().offsetHeight;
+  d3.select("#map-fullscreen")
     .style("height", window.innerHeight - navheight + "px");
 
   var map = viz.map()
     .container(d3.select("#map-fullscreen"))
-    .color("pop")
     .id("geo")
-    .coords({"key": "msas", "mute": ["31000US11260", "31000US21820", "31000US27940", "31000US28540", "31000US25900", "31000US27980", "31000US46520", "31000US28180", "31000US41980", "31000US25020", "31000US17640", "31000US17620", "31000US42180", "31000US38660", "31000US41980", "31000US41900", "31000US32420", "31000US41980", "31000US10260", "31000US27580", "31000US10380", "31000US11640"]});
+    .messages({"background": "#cdd1d3"})
+    .draw();
 
-  load("/static/topojson/msas.json", function(coords){
-    load(api + "/api/?sumlevel=msa&year=latest&required=pop&show=geo", function(data){
-      map.coords(coords).data(data).draw();
+  function makeURL() {
+    var level = levels.focus(), required = keys.focus();
+    var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + required;
+    var topo = level === "county" ? "counties" : level + "s";
+
+    map.color(required.split(",")[0])
+      .coords({"key": topo})
+      .tooltip(required.split(","));
+
+    load("/static/topojson/" + topo + ".json", function(coords){
+      load(api + url, function(data){
+        map.coords(coords).data(data).draw();
+      });
     });
+  }
+
+  load(api + "/attrs/geo/", function(attrs) {
+    map.attrs(attrs.reduce(function(obj, d) { obj[d.id] = d; return obj; }, {}));
+    makeURL();
   });
 
 </script>

@@ -1,33 +1,54 @@
 body.map {
+  background-color: #cdd1d3;
   overflow: hidden;
   position: relative;
-}
 
-#map-fullscreen {
-  margin-top: $nav-height;
-  width: 100vw;
-}
-
-#map-teaser {
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  background-color: rgba(0, 0, 0, 0.75);
-
-  #coming-soon {
-    left: 0;
-    margin-top: -30px;
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    color: white;
-    font-family: $lato;
-    font-size: 30px;
-    text-align: center;
+  nav {
+    position: relative;
   }
 
 }
+
+#map-controls {
+  background-color: $black2;
+  padding: 5px 5px 10px;
+  text-align: center;
+
+  #map-preposition {
+    color: white;
+    display: inline-block;
+    font-family: $palanquin;
+    font-size: 13px;
+    font-weight: 400;
+    margin: 8px 0 0 4px;
+  }
+
+}
+
+#map-fullscreen {
+  width: 100vw;
+}
+
+// #map-teaser {
+//   left: 0;
+//   position: absolute;
+//   top: 0;
+//   width: 100vw;
+//   background-color: rgba(0, 0, 0, 0.75);
+//
+//   #coming-soon {
+//     left: 0;
+//     margin-top: -30px;
+//     position: absolute;
+//     top: 50%;
+//     width: 100%;
+//     color: white;
+//     font-family: $lato;
+//     font-size: 30px;
+//     text-align: center;
+//   }
+//
+// }
 
 .attribution {
   bottom: 4px;

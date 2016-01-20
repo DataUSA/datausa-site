@@ -1,6 +1,14 @@
 import math
 from decimal import Decimal
-from datausa.consts import AFFIXES, COLMAP, NEVERCONDENSE, PERCENTAGES, PROPORTIONS
+from datausa.consts import AFFIXES, COLMAP, DICTIONARY, NEVERCONDENSE, PERCENTAGES, PROPORTIONS
+
+def jinja_formatter(value, key=None):
+    if isinstance(value, (int, float, Decimal)):
+        return num_format(value, key)
+    elif value in DICTIONARY:
+        return DICTIONARY[value]
+    else:
+        return value.title()
 
 def num_format(number, key=None, labels=True, condense=True):
 
