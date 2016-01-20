@@ -161,10 +161,10 @@ class Profile(BaseObject):
 
         if "uppercase" in kwargs:
             name = name.capitalize()
-        
+
         if "titlecase" in kwargs:
             name = name.title()
-            
+
         if "desc" in labels:
             name = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</span>".format(labels['desc'], name)
             if "link" in labels:
@@ -253,7 +253,8 @@ class Profile(BaseObject):
         name = attr["display_name"] if "display_name" in attr else attr["name"]
         text_only = kwargs.get("text_only", False)
         if not text_only and attr["id"] != self.attr["id"]:
-            name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.attr_type, attr_id=attr["id"]), name)
+            url_name = attr["url_name"] if "url_name" in attr and attr["url_name"] else attr["id"]
+            name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.attr_type, attr_id=url_name), name)
         return name
 
     def open_file(self, f):
@@ -267,7 +268,7 @@ class Profile(BaseObject):
 
         prefix = kwargs.get("prefix", None)
         if prefix and id_only == False:
-            top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type="geo", attr_id=p["id"]), p["name"]) for p in get_parents(attr_id, self.attr_type) if p["id"].startswith(prefix)]
+            top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type="geo", attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in get_parents(attr_id, self.attr_type) if p["id"].startswith(prefix)]
             if len(top) > 1:
                 top[-1] = "and {}".format(top[-1])
             if len(top) == 2:

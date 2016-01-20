@@ -110,8 +110,8 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
             top = [fetch(d[show], attr) for d in r]
 
             if attr in PROFILES or attr in CROSSWALKS:
-                top = [(t["id"], t["display_name"]) if "display_name" in t else (t["id"], t[col]) for t in top]
-                top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[0]), t[1]) if attr != "geo" or t[0][:3] != "140" else t[1] for t in top]
+                top = [(t["id"], t["display_name"] if "display_name" in t else t[col], t["url_name"] if "url_name" in t and t["url_name"] else t["id"]) for t in top]
+                top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr, attr_id=t[2]), t[1]) if attr != "geo" or t[0][:3] != "140" else t[1] for t in top]
             else:
                 top = [t["display_name"] if "display_name" in t else t[col] for t in top]
 
@@ -132,7 +132,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
         top = ",".join(top)
     else:
         num_items = len(top)
-        
+
         if truncate and num_items > truncate:
             top, rest = top[:int(truncate)], top[int(truncate):]
             # now stringify
@@ -142,7 +142,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
             else:
                 rest = u"and {}".join(rest[-1])
             top = "<span>{}</span><span class='the_rest'>{}</span>".format(top, rest)
-        
+
         else:
             if num_items > 1:
                 top[-1] = u"and {}".format(top[-1])

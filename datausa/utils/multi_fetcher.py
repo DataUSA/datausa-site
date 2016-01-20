@@ -37,9 +37,10 @@ def render_col(my_data, headers, col, url=False, dataset=False):
     else:
         # lookup the attr object and get the name
         attr = fetch(value, attr_type)
+        url_name = attr["url_name"] if "url_name" in attr and attr["url_name"] else attr["id"]
         attr = attr["display_name"] if "display_name" in attr else attr["name"]
         if attr_type in PROFILES or attr_type in CROSSWALKS:
-            attr = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=value), attr)
+            attr = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=url_name), attr)
         return_value = attr
 
     if url:
