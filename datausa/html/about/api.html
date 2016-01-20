@@ -4,16 +4,16 @@
 
 <header class="article">
   <div id="splash" style="background-image:url(https://c1.staticflickr.com/1/274/18720223738_6b6c58f282_o.jpg)">
-    
+
     <div class="bg-filter"></div>
-    
+
     <ul id="sub-nav-items">
         <li><a href="/about/" {% if g.page_sub_type == 'index' %}class="current"{% endif %}><span>About DataUSA</span></a></li>
         <li><a href="/about/glossary/" {% if g.page_sub_type == 'glossary' %}class="current"{% endif %}><span>Glossary</span></a></li>
         <li><a href="/about/api/" {% if g.page_sub_type == 'api' %}class="current"{% endif %}><span>API</span></a></li>
         <li><a href="/about/usage/" {% if g.page_sub_type == 'usage' %}class="current"{% endif %}><span>Usage</span></a></li>
     </ul>
-    
+
     <div class="text">
       <div class="post-titles">
         <h1>API</h1>
@@ -23,6 +23,45 @@
 
   </div> <!-- .splash -->
 </header>
+
+<section>
+  <h1 class="category"><a name="calcs">Quick Start</a></h1>
+  <h2><i class="fa fa-link"></i><a href="#introduction" name="introduction">Introduction</a></h2>
+  <article class="topic">
+    <p>
+      At its core, the DataUSA API allows users to <strong>show</strong> data across various levels of detail, called <strong>sumlevels</strong>.
+      There are four core categories of data: geographies, occupations, industries and educational studies.
+      We will begin with a quick look at exploring geographic data.
+    </p>
+  </article>
+</section>
+<section>
+  <h1 class="category"><a name="calcs">Exploring Population Data</a></h1>
+
+  <h2><i class="fa fa-link"></i><a href="#first-steps" name="first-steps">First steps</a></h2>
+  <article class="topic">
+    <p>
+      To get population data at the national level we can use the following API call:
+    </p>
+    <p>
+      http://db.datausa.io/api?show=geo&amp;sumlevel=<b>nation</b>&amp;required=<b>pop</b>
+    </p>
+    <p>
+      This API call however, will return data for all available years in the database. To only retrieve the latest year&rsquo;s data, use:
+    </p>
+    <p>
+        http://db.datausa.io/api?show=geo&amp;sumlevel=<b>nation</b>&amp;year=<b>latest</b>&amp;required=<b>pop</b>
+    </p>
+    <p>
+      This call gives us the popoulation of the US based on the latest available year of data. To get data at the state level we can use:
+    </p>
+    <p>
+      http://db.datausa.io/api?show=geo&amp;sumlevel=<b>state</b>&amp;year=<b>latest</b>&amp;required=<b>pop</b>
+    </p>
+    </p>
+  </article>
+
+</section>
 
 {% endblock %}
 
