@@ -112,13 +112,14 @@ body.home {
     &.open{
       display: block;
     }
-    
+
     .search-item {
       display: block;
       padding: 10px 15px 3px;
     }
 
     .search-results {
+      background-color: $l-profile-bg;
       width: 100%;
       margin-top: -16px;
       overflow: hidden;
@@ -222,6 +223,9 @@ body.home {
     }
   }
 }
+.search-body {
+  background-color: $l-profile-bg;
+}
 
 #search-home {
   @include flex();
@@ -264,39 +268,17 @@ body.home {
 }
 
 .search-input-btn {
-  @include flex-size(0 0 53px);
-  @include flex();
+  // @include flex-size(0 0 53px);
+  // @include flex();
   width: 100%;
 
-  &.closed {
-    width: 67px;
-    margin: 0 auto;
-    background-color: #fff;
-    // border-radius: 4px;
+  // &.closed {
+  //   width: 67px;
+  //   margin: 0 auto;
+  //   background-color: #fff;
+  //   // border-radius: 4px;
+  // }
 
-    .search-glass {
-      width: 67px;
-      // border-top-right-radius: 4px;
-      // border-bottom-right-radius: 4px;
-    }
-
-    #home-search-input {
-      width: 0;
-      padding: 0;
-      border: 0;
-    }
-  }
-
-  .search-glass {
-    width: 67px;
-    height: 53px;
-    display: inline-block;
-    background: url('/static/img/search/search.svg') no-repeat 11px;
-    background-size: 34px 34px;
-    background-color: rgba(255, 255, 255, 0.85);
-    // border-top-left-radius: 4px;
-    // border-bottom-left-radius: 4px;
-  }
 }
 
 @media all and (min-width: 415px) {
@@ -314,40 +296,38 @@ body.home {
 
 #home-search-input {
   width: 100%;
-  @include box();
-  padding: 10px;
-  padding-left: 0;
-  border: 0;
   // border-top-right-radius: 4px;
   // border-bottom-right-radius: 4px;
   //@include shadow(0 1px 2px rgba(255,255,255,0.25),0 0 1px rgba(255,255,255,0.4));
-  background: rgba(255, 255, 255, 0.85);
-  background-size: 34px 34px;
-  background-attachment: inherit;
-  color: $home-blue;
-  font-family: $lato;
-  font-size: 28px;
+  padding: 5px 20px 7px 70px;
+  @include box();
+  font-family: $palanquin;
+  font-size: 30px;
   font-weight: 400;
-  letter-spacing: 0.03em;
-  @include placeholder {opacity: 0.8; font-weight: 300;}
-  @include transition(width 1s);
+  border: 0;
+  outline: 0;
+  background-color: rgba(250, 253, 255, 0.65);
+  background-image: url('/static/img/search/search.svg');
+  background-repeat: no-repeat;
+  background-position: 20px 17px;
+  background-size: 35px 35px;
+  color: $home-blue;
+  @include placeholder {color: $home-blue; opacity: 0.8;}
+  // @include transition(width 1s);
 
   &:focus {
+    background-color: rgba(250, 253, 255, 0.85);
     outline: 0;
   }
 
-  @media all and (min-width: 415px) {
-    font-size: 38px;
-  }
-
-  &.inactive {
-    display: none;
-  }
-
-  &:hover {
-    outline: 0;
-    @include placeholder {opacity: 1;}
-  }
+  // &.inactive {
+  //   display: none;
+  // }
+  //
+  // &:hover {
+  //   outline: 0;
+  //   @include placeholder {opacity: 1;}
+  // }
 
 }
 

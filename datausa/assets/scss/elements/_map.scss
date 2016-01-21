@@ -5,6 +5,9 @@ body.map {
 
   nav {
     position: relative;
+    #top-nav {
+      background-color: $black2;
+    }
   }
 
 }

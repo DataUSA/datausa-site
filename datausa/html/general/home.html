@@ -16,7 +16,6 @@
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<div class="search-input-btn">
-				<span class="search-glass"></span>
 				<input type="text" data-results="search-home" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
 			</div>
 			<div id="search-home" class="search-body">
@@ -61,15 +60,15 @@ d3.select("#home-search-input").on("input", function() {
 var search_input = d3.select("#home-search-input");
 var current_search_term = search_input.property("value");
 if(current_search_term){
-  
+
   var results_div_id = search_input.attr("data-results");
   var results_div = d3.select("#"+results_div_id)
   results_div.classed("open", true);
-  
+
   search.term = current_search_term;
   search.container = d3.select("#search-" + search_input.attr("data-search"));
   search.reload();
-  
+
   search_input.node().focus();
 }
 

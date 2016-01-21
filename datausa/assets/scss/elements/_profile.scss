@@ -15,12 +15,6 @@ body.profile {
   }
 }
 
-body.map {
-  #top-nav {
-    background-color: $black2;
-  }
-}
-
 body.profile, body.map {
 
   #profile-nav {
@@ -292,7 +286,7 @@ body.profile, body.map {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    border-bottom: 1px solid $black3;
+    // border-bottom: 1px solid $black3;
 
     .has-p-link a {
       text-align: left;
@@ -709,9 +703,9 @@ body.profile, body.map {
       @include flex();
       @include align-items(center);
       position: relative;
-      top: $nav-height - 12;
+      top: $nav-height - 10;
       @include transition(top 0.55s 0.03s);
-      padding: 9px;
+      padding: 6px;
       color: #ef6145;
       font-family: $pathway;
       font-size: 24px;
@@ -1057,7 +1051,7 @@ body.profile, body.map {
 
     p {
       font-size: 16px;
-      text-align: center;
+      // text-align: center;
     }
   }
 
