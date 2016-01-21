@@ -1161,7 +1161,7 @@ var attrStyles = {
     },
     "550000": {
         "color": "#2f1fc1",
-        "icon": "thing_airplace.png"
+        "icon": "thing_airplane.png"
     }
 },
 
@@ -3163,6 +3163,22 @@ viz.loadData = function(build, next) {
               }
             }
           }
+          else if (build.config.id instanceof Array && build.config.id.indexOf(type) > 0) {
+
+            nesting = build.config.id;
+            var attrs = build.viz.attrs();
+            for (var ii = 0; ii < data.length; ii++) {
+              var datum = data[ii];
+              for (var iii = 0; iii < nesting.length; iii++) {
+                var id = nesting[iii];
+                if (attrs[datum[type]] && attrs[datum[type]][id]) {
+                  datum[id] = attrs[datum[type]][id];
+                }
+              }
+            }
+
+          }
+
         }
 
         if (data.length && "university" in data[0]) {
