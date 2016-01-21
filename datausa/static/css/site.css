@@ -1551,57 +1551,47 @@ body.profile {
 body.about #top-nav, body.map #top-nav {
   background-color: #141b2e; }
 
-body.about #profile-nav, body.profile #profile-nav, body.story #profile-nav,
-body.map #profile-nav {
+body.about #profile-nav, body.profile #profile-nav, body.map #profile-nav {
   background-color: #141b2e; }
-  body.about .stat-value a, body.profile .stat-value a, body.story .stat-value a,
-  body.map .stat-value a {
+  body.about .stat-value a, body.profile .stat-value a, body.map .stat-value a {
     color: #666; }
     body.about .stat-value a:hover, body.profile .stat-value a:hover,
-    body.story .stat-value a:hover, body.map .stat-value a:hover {
+    body.map .stat-value a:hover {
       color: #999;
       border-bottom: 1px solid #999; }
 body.about.geo .economy, body.about.geo .education, body.about.geo .health,
 body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health,
-body.story.geo .economy, body.story.geo .education, body.story.geo .health,
 body.map.geo .economy, body.map.geo .education, body.map.geo .health {
   background-color: #E9E9E9; }
   body.about.geo .demographics, body.about.geo .housing,
   body.profile.geo .demographics, body.profile.geo .housing,
-  body.story.geo .demographics, body.story.geo .housing, body.map.geo .demographics,
-  body.map.geo .housing {
+  body.map.geo .demographics, body.map.geo .housing {
     background-color: #F6F6F6; }
 body.about.cip .institutions, body.about.cip .employment,
 body.profile.cip .institutions, body.profile.cip .employment,
-body.story.cip .institutions, body.story.cip .employment,
 body.map.cip .institutions, body.map.cip .employment {
   background-color: #E9E9E9; }
   body.about.cip .demographics, body.about.cip .skills,
   body.profile.cip .demographics, body.profile.cip .skills,
-  body.story.cip .demographics, body.story.cip .skills, body.map.cip .demographics,
-  body.map.cip .skills {
+  body.map.cip .demographics, body.map.cip .skills {
     background-color: #F6F6F6; }
 body.about.soc .employment, body.about.soc .education, body.about.soc .skills,
 body.profile.soc .employment, body.profile.soc .education,
-body.profile.soc .skills, body.story.soc .employment, body.story.soc .education,
-body.story.soc .skills, body.map.soc .employment, body.map.soc .education,
+body.profile.soc .skills, body.map.soc .employment, body.map.soc .education,
 body.map.soc .skills {
   background-color: #E9E9E9; }
   body.about.soc .demographics, body.about.soc .growth,
   body.profile.soc .demographics, body.profile.soc .growth,
-  body.story.soc .demographics, body.story.soc .growth, body.map.soc .demographics,
-  body.map.soc .growth {
+  body.map.soc .demographics, body.map.soc .growth {
     background-color: #F6F6F6; }
 body.about.naics .workforce, body.about.naics .growth,
 body.profile.naics .workforce, body.profile.naics .growth,
-body.story.naics .workforce, body.story.naics .growth, body.map.naics .workforce,
-body.map.naics .growth {
+body.map.naics .workforce, body.map.naics .growth {
   background-color: #E9E9E9; }
-  body.about.naics .io, body.profile.naics .io, body.story.naics .io,
-  body.map.naics .io {
+  body.about.naics .io, body.profile.naics .io, body.map.naics .io {
     background-color: #F6F6F6; }
 body.about.cip #stats-bar #title-stats, body.profile.cip #stats-bar #title-stats,
-body.story.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats {
+body.map.cip #stats-bar #title-stats {
   width: 100%;
   max-width: 850px;
   -webkit-justify-content: center;
@@ -1619,21 +1609,19 @@ body.story.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats {
   align-items: center;
   -webkit-align-content: space-around;
   align-content: space-around; }
-body.about h1, body.profile h1, body.story h1, body.map h1 {
+body.about h1, body.profile h1, body.map h1 {
   font-family: "Pathway Gothic One", sans-serif;
   font-weight: 300;
   font-size: 55px;
   line-height: 1.1; }
-  body.about header h2, body.profile header h2, body.story header h2,
-  body.map header h2 {
+  body.about header h2, body.profile header h2, body.map header h2 {
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 47px;
     font-weight: 300;
     line-height: 1;
     letter-spacing: 0.05em;
     text-transform: uppercase; }
-    body.about h1.category, body.profile h1.category, body.story h1.category,
-    body.map h1.category {
+    body.about h1.category, body.profile h1.category, body.map h1.category {
       position: relative;
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 36px;
@@ -1641,16 +1629,15 @@ body.about h1, body.profile h1, body.story h1, body.map h1 {
       letter-spacing: 0.03em;
       text-transform: uppercase;
       text-align: center; }
-      body.about p, body.profile p, body.story p, body.map p {
+      body.about p, body.profile p, body.map p {
         font-family: "Palanquin", sans-serif;
         font-size: 15px;
         line-height: 1.6;
         font-weight: 400;
         color: rgba(51, 51, 51, 0.93); }
-        body.about a, body.profile a, body.story a, body.map a {
+        body.about a, body.profile a, body.map a {
           color: #333; }
-          body.about .data-btn, body.profile .data-btn, body.story .data-btn,
-          body.map .data-btn {
+          body.about .data-btn, body.profile .data-btn, body.map .data-btn {
             float: right;
             position: relative;
             vertical-align: baseline;
@@ -1658,16 +1645,13 @@ body.about h1, body.profile h1, body.story h1, body.map h1 {
             color: #a3a3a3;
             font-family: "Palanquin", sans-serif;
             font-size: 12px; }
-            body.about .data-btn i, body.profile .data-btn i, body.story .data-btn i,
-            body.map .data-btn i {
+            body.about .data-btn i, body.profile .data-btn i, body.map .data-btn i {
               position: relative;
               top: 1px;
               vertical-align: baseline; }
-              body.about .data-btn:hover, body.profile .data-btn:hover,
-              body.story .data-btn:hover, body.map .data-btn:hover {
+              body.about .data-btn:hover, body.profile .data-btn:hover, body.map .data-btn:hover {
                 border-bottom: 1px solid #bbb; }
-body.about .topic h2, body.profile .topic h2, body.story .topic h2,
-body.map .topic h2 {
+body.about .topic h2, body.profile .topic h2, body.map .topic h2 {
   font-family: "Pathway Gothic One", sans-serif;
   font-size: 30px;
   font-weight: 400;
@@ -1676,23 +1660,21 @@ body.map .topic h2 {
   font-style: normal;
   letter-spacing: 0; }
   body.about .topic .data-btn, body.profile .topic .data-btn,
-  body.story .topic .data-btn, body.map .topic .data-btn {
+  body.map .topic .data-btn {
     top: 18px; }
     body.about .topic .data-btn span, body.profile .topic .data-btn span,
-    body.story .topic .data-btn span, body.map .topic .data-btn span {
+    body.map .topic .data-btn span {
       color: #999;
       font-family: "Palanquin", sans-serif;
       font-size: 12px;
       font-weight: 400;
       line-height: normal; }
-body.about .topic.flex h2, body.profile .topic.flex h2, body.story .topic.flex h2,
-body.map .topic.flex h2 {
+body.about .topic.flex h2, body.profile .topic.flex h2, body.map .topic.flex h2 {
   font-size: 24px; }
   body.about .topic.flex .data-btn, body.profile .topic.flex .data-btn,
-  body.story .topic.flex .data-btn, body.map .topic.flex .data-btn {
+  body.map .topic.flex .data-btn {
     top: 13px; }
-body.about .topic sub, body.profile .topic sub, body.story .topic sub,
-body.map .topic sub {
+body.about .topic sub, body.profile .topic sub, body.map .topic sub {
   font-family: "Palanquin", sans-serif;
   font-size: 13px;
   line-height: 1.35;
@@ -1700,15 +1682,14 @@ body.map .topic sub {
   text-transform: initial;
   letter-spacing: 0.05em;
   color: #666; }
-  body.about .topic sub a, body.profile .topic sub a, body.story .topic sub a,
-  body.map .topic sub a {
+  body.about .topic sub a, body.profile .topic sub a, body.map .topic sub a {
     color: #666; }
     body.about .topic sub a:hover, body.profile .topic sub a:hover,
-    body.story .topic sub a:hover, body.map .topic sub a:hover {
+    body.map .topic sub a:hover {
       text-decoration: none;
       border-bottom: 1px solid #666; }
 body.about .topic .sub-source, body.profile .topic .sub-source,
-body.story .topic .sub-source, body.map .topic .sub-source {
+body.map .topic .sub-source {
   display: inline-block;
   color: #a8a8a8;
   font-family: "Palanquin", sans-serif;
@@ -1716,20 +1697,18 @@ body.story .topic .sub-source, body.map .topic .sub-source {
   font-weight: 400;
   line-height: 1.5; }
   body.about .topic .sub-source a, body.profile .topic .sub-source a,
-  body.story .topic .sub-source a, body.map .topic .sub-source a {
+  body.map .topic .sub-source a {
     color: #888; }
     body.about .topic .sub-source a:hover, body.profile .topic .sub-source a:hover,
-    body.story .topic .sub-source a:hover, body.map .topic .sub-source a:hover {
+    body.map .topic .sub-source a:hover {
       border-bottom: 1px solid #888; }
   body.about .topic .sub-source span, body.profile .topic .sub-source span,
-  body.story .topic .sub-source span, body.map .topic .sub-source span {
+  body.map .topic .sub-source span {
     vertical-align: baseline; }
 body.about .stat-text, body.about .stat-rank, body.profile .stat-text,
-body.profile .stat-rank, body.story .stat-text, body.story .stat-rank,
-body.map .stat-text, body.map .stat-rank {
+body.profile .stat-rank, body.map .stat-text, body.map .stat-rank {
   font-family: "Palanquin", sans-serif; }
-  body.about .stat-text, body.profile .stat-text, body.story .stat-text,
-  body.map .stat-text {
+  body.about .stat-text, body.profile .stat-text, body.map .stat-text {
     font-size: 14px;
     font-weight: 300;
     letter-spacing: 0.05em;
@@ -1737,57 +1716,52 @@ body.map .stat-text, body.map .stat-rank {
     line-height: 1.5;
     margin-bottom: 10px;
     vertical-align: baseline; }
-    body.about .stat-subtitle, body.profile .stat-subtitle, body.story .stat-subtitle,
-    body.map .stat-subtitle {
+    body.about .stat-subtitle, body.profile .stat-subtitle, body.map .stat-subtitle {
       margin-left: 2px;
       margin-top: 7px; }
       body.about .stat-subtitle .plus-minus, body.profile .stat-subtitle .plus-minus,
-      body.story .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus {
+      body.map .stat-subtitle .plus-minus {
         color: #dc5137; }
-body.about .stat-group, body.profile .stat-group, body.story .stat-group,
-body.map .stat-group {
+body.about .stat-group, body.profile .stat-group, body.map .stat-group {
   text-align: center; }
-  body.about .stat-rank, body.profile .stat-rank, body.story .stat-rank,
-  body.map .stat-rank {
+  body.about .stat-rank, body.profile .stat-rank, body.map .stat-rank {
     font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.05em; }
-    body.about .stat-value, body.profile .stat-value, body.story .stat-value,
-    body.map .stat-value {
+    body.about .stat-value, body.profile .stat-value, body.map .stat-value {
       font-family: "Source Sans Pro", sans-serif;
       font-size: 22px;
       font-weight: 300;
       margin-bottom: 8px; }
       body.about .stat-value.stat-small, body.profile .stat-value.stat-small,
-      body.story .stat-value.stat-small, body.map .stat-value.stat-small {
+      body.map .stat-value.stat-small {
         font-size: 20px;
         font-weight: 400;
         margin-left: 2px;
         margin-top: 2px; }
-        body.about .stat-value a, body.profile .stat-value a, body.story .stat-value a,
-        body.map .stat-value a {
+        body.about .stat-value a, body.profile .stat-value a, body.map .stat-value a {
           padding-bottom: 1px;
           text-decoration: none;
           text-transform: capitalize; }
           body.about .stat-value a:hover, body.profile .stat-value a:hover,
-          body.story .stat-value a:hover, body.map .stat-value a:hover {
+          body.map .stat-value a:hover {
             text-decoration: none; }
-body.about nav, body.profile nav, body.story nav, body.map nav {
+body.about nav, body.profile nav, body.map nav {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 3; }
-  body.about .bound, body.profile .bound, body.story .bound, body.map .bound {
+  body.about .bound, body.profile .bound, body.map .bound {
     position: relative;
     overflow: hidden; }
-    body.about #splash, body.profile #splash, body.story #splash, body.map #splash {
+    body.about #splash, body.profile #splash, body.map #splash {
       position: relative;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
       border-bottom: 1px solid #434958; }
       body.about #splash .has-p-link a, body.profile #splash .has-p-link a,
-      body.story #splash .has-p-link a, body.map #splash .has-p-link a {
+      body.map #splash .has-p-link a {
         text-align: left;
         font-family: "Palanquin", sans-serif;
         font-size: 16px;
@@ -1800,12 +1774,12 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
         text-decoration: none;
         text-transform: capitalize; }
         body.about #splash .has-p-link a:hover, body.profile #splash .has-p-link a:hover,
-        body.story #splash .has-p-link a:hover, body.map #splash .has-p-link a:hover {
+        body.map #splash .has-p-link a:hover {
           border-bottom: 0;
           color: #fff;
           text-decoration: none; }
       body.about #splash #splash-image, body.profile #splash #splash-image,
-      body.story #splash #splash-image, body.map #splash #splash-image {
+      body.map #splash #splash-image {
         position: absolute;
         height: 100%;
         left: 0;
@@ -1824,7 +1798,7 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
         -webkit-transition: all 0.5s;
         transition: all 0.5s; }
         body.about #splash #splash-image:after, body.profile #splash #splash-image:after,
-        body.story #splash #splash-image:after, body.map #splash #splash-image:after {
+        body.map #splash #splash-image:after {
           content: "";
           position: absolute;
           height: 100%;
@@ -1834,18 +1808,17 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
           background: -webkit-linear-gradient(top, transparent 0%, rgba(20, 27, 46, 0.1) 20%,
                     #141b2e 100%); }
           body.about #splash #splash-image.color, body.profile #splash #splash-image.color,
-          body.story #splash #splash-image.color, body.map #splash #splash-image.color {
+          body.map #splash #splash-image.color {
             -webkit-filter: saturate(1) brightness(1) contrast(1);
             -moz-filter: saturate(1) brightness(1) contrast(1);
             -o-filter: saturate(1) brightness(1) contrast(1);
             filter: saturate(1) brightness(1) contrast(1); }
             body.about #splash #splash-image.color:after,
             body.profile #splash #splash-image.color:after,
-            body.story #splash #splash-image.color:after,
             body.map #splash #splash-image.color:after {
               opacity: 0; }
       body.about #splash .content, body.profile #splash .content,
-      body.story #splash .content, body.map #splash .content {
+      body.map #splash .content {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -1876,18 +1849,16 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
         z-index: 1;
         position: relative; }
         body.about #splash .content.hide, body.profile #splash .content.hide,
-        body.story #splash .content.hide, body.map #splash .content.hide {
+        body.map #splash .content.hide {
           opacity: 0;
           pointer-events: none; }
           body.about #splash .content .splash-titles,
           body.profile #splash .content .splash-titles,
-          body.story #splash .content .splash-titles,
           body.map #splash .content .splash-titles {
             width: 100%;
             text-align: center; }
             body.about #splash .content .splash-titles h1,
             body.profile #splash .content .splash-titles h1,
-            body.story #splash .content .splash-titles h1,
             body.map #splash .content .splash-titles h1 {
               text-transform: none;
               font-family: "Pathway Gothic One", sans-serif;
@@ -1896,7 +1867,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
               letter-spacing: 0.03em; }
         body.about #splash .content .splash-context,
         body.profile #splash .content .splash-context,
-        body.story #splash .content .splash-context,
         body.map #splash .content .splash-context {
           width: 100%;
           max-width: 900px;
@@ -1918,7 +1888,7 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
           -moz-justify-content: space-around;
           justify-content: space-around; }
           body.about #splash .content .row-last, body.profile #splash .content .row-last,
-          body.story #splash .content .row-last, body.map #splash .content .row-last {
+          body.map #splash .content .row-last {
             width: 100%;
             -webkit-justify-content: center;
             -moz-justify-content: center;
@@ -1939,7 +1909,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
             margin-top: 12%; }
             body.about #splash .content .splash-icon-nav,
             body.profile #splash .content .splash-icon-nav,
-            body.story #splash .content .splash-icon-nav,
             body.map #splash .content .splash-icon-nav {
               -webkit-justify-content: center;
               -moz-justify-content: center;
@@ -1960,7 +1929,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
               margin-right: 5%; }
               body.about #splash .content .splash-icon-nav span,
               body.profile #splash .content .splash-icon-nav span,
-              body.story #splash .content .splash-icon-nav span,
               body.map #splash .content .splash-icon-nav span {
                 display: block;
                 margin-top: 7px;
@@ -1972,7 +1940,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                 color: #fff; }
                 body.about #splash .content .splash-icon-nav a,
                 body.profile #splash .content .splash-icon-nav a,
-                body.story #splash .content .splash-icon-nav a,
                 body.map #splash .content .splash-icon-nav a {
                   text-align: center;
                   padding: 1.2vh 10px 0;
@@ -1983,24 +1950,20 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                   transition: opacity 0.25s; }
                   body.about #splash .content .splash-icon-nav a:hover,
                   body.profile #splash .content .splash-icon-nav a:hover,
-                  body.story #splash .content .splash-icon-nav a:hover,
                   body.map #splash .content .splash-icon-nav a:hover {
                     opacity: 1; }
               body.about #splash .content .splash-icon-nav img,
               body.profile #splash .content .splash-icon-nav img,
-              body.story #splash .content .splash-icon-nav img,
               body.map #splash .content .splash-icon-nav img {
                 width: 23px;
                 height: 23px; }
         body.about #splash .content .splash-breadcrumb,
         body.profile #splash .content .splash-breadcrumb,
-        body.story #splash .content .splash-breadcrumb,
         body.map #splash .content .splash-breadcrumb {
           text-align: right;
           max-width: 50%; }
           body.about #splash .content .splash-breadcrumb img,
           body.profile #splash .content .splash-breadcrumb img,
-          body.story #splash .content .splash-breadcrumb img,
           body.map #splash .content .splash-breadcrumb img {
             width: 18px;
             height: 18px;
@@ -2008,7 +1971,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
             margin-bottom: -6px; }
             body.about #splash .content .splash-breadcrumb a,
             body.profile #splash .content .splash-breadcrumb a,
-            body.story #splash .content .splash-breadcrumb a,
             body.map #splash .content .splash-breadcrumb a {
               display: inline;
               padding: 2px 0;
@@ -2036,7 +1998,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
               transition: color 0.25s; }
               body.about #splash .content .splash-breadcrumb a + a::before,
               body.profile #splash .content .splash-breadcrumb a + a::before,
-              body.story #splash .content .splash-breadcrumb a + a::before,
               body.map #splash .content .splash-breadcrumb a + a::before {
                 content: "\\ ";
                 font-weight: 400;
@@ -2044,13 +2005,12 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                 padding: 0 0 0 2px; }
                 body.about #splash .content .splash-breadcrumb a:hover,
                 body.profile #splash .content .splash-breadcrumb a:hover,
-                body.story #splash .content .splash-breadcrumb a:hover,
                 body.map #splash .content .splash-breadcrumb a:hover {
                   cursor: pointer;
                   color: #fff;
                   text-decoration: none; }
         body.about #splash .content h1, body.profile #splash .content h1,
-        body.story #splash .content h1, body.map #splash .content h1 {
+        body.map #splash .content h1 {
           line-height: 1;
           color: #efefef;
           -webkit-text-shadow: 0 1px 2px rgba(20, 27, 46, 0.15);
@@ -2058,7 +2018,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
           text-shadow: 0 1px 2px rgba(20, 27, 46, 0.15); }
           body.about #splash .content .splash-title-group,
           body.profile #splash .content .splash-title-group,
-          body.story #splash .content .splash-title-group,
           body.map #splash .content .splash-title-group {
             margin: 6px auto;
             font-family: "Palanquin", sans-serif;
@@ -2066,7 +2025,7 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
             letter-spacing: 0.06em;
             color: rgba(240, 250, 255, 0.9); }
             body.about #splash .content p.desc, body.profile #splash .content p.desc,
-            body.story #splash .content p.desc, body.map #splash .content p.desc {
+            body.map #splash .content p.desc {
               padding: 0;
               margin: 20px 0;
               text-align: center;
@@ -2078,7 +2037,7 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
               opacity: 0.9; }
               body.about #splash .content #splash-stats,
               body.profile #splash .content #splash-stats,
-              body.story #splash .content #splash-stats, body.map #splash .content #splash-stats {
+              body.map #splash .content #splash-stats {
                 -webkit-justify-content: center;
                 -moz-justify-content: center;
                 justify-content: center;
@@ -2095,7 +2054,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                 width: 100%; }
                 body.about #splash .content #splash-stats .stat,
                 body.profile #splash .content #splash-stats .stat,
-                body.story #splash .content #splash-stats .stat,
                 body.map #splash .content #splash-stats .stat {
                   -webkit-justify-content: center;
                   -moz-justify-content: center;
@@ -2117,7 +2075,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                   @media all and (max-width: 950px) {
                     body.about #splash .content #splash-stats .stat,
                     body.profile #splash .content #splash-stats .stat,
-                    body.story #splash .content #splash-stats .stat,
                     body.map #splash .content #splash-stats .stat {
                       -webkit-justify-content: flex-start;
                       -moz-justify-content: flex-start;
@@ -2125,7 +2082,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
 }
                     body.about #splash .content #splash-stats .stat .stat-text,
                     body.profile #splash .content #splash-stats .stat .stat-text,
-                    body.story #splash .content #splash-stats .stat .stat-text,
                     body.map #splash .content #splash-stats .stat .stat-text {
                       font-size: 12px;
                       text-align: center;
@@ -2134,21 +2090,18 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                       margin-bottom: 0; }
                       body.about #splash .content #splash-stats .stat .stat-text a,
                       body.profile #splash .content #splash-stats .stat .stat-text a,
-                      body.story #splash .content #splash-stats .stat .stat-text a,
                       body.map #splash .content #splash-stats .stat .stat-text a {
                         color: rgba(237, 240, 245, 0.65);
                         border-bottom: 1px solid rgba(195, 219, 225, 0.85);
                         text-decoration: none; }
                         body.about #splash .content #splash-stats .stat .stat-text a:hover,
                         body.profile #splash .content #splash-stats .stat .stat-text a:hover,
-                        body.story #splash .content #splash-stats .stat .stat-text a:hover,
                         body.map #splash .content #splash-stats .stat .stat-text a:hover {
                           border-bottom: 0;
                           color: #fff;
                           text-decoration: none; }
                   body.about #splash .content #splash-stats .stat .stat-rank,
                   body.profile #splash .content #splash-stats .stat .stat-rank,
-                  body.story #splash .content #splash-stats .stat .stat-rank,
                   body.map #splash .content #splash-stats .stat .stat-rank {
                     font-size: 12px;
                     color: rgba(240, 250, 255, 0.6);
@@ -2156,17 +2109,15 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                     text-transform: uppercase; }
                     body.about #splash .content #splash-stats .stat .stat-value,
                     body.profile #splash .content #splash-stats .stat .stat-value,
-                    body.story #splash .content #splash-stats .stat .stat-value,
                     body.map #splash .content #splash-stats .stat .stat-value {
                       margin: 6px 0 7px;
                       font-size: 34px;
                       color: #fff; }
         body.about #splash .content .carousel, body.profile #splash .content .carousel,
-        body.story #splash .content .carousel, body.map #splash .content .carousel {
+        body.map #splash .content .carousel {
           margin-top: 30px; }
           body.about #splash .content .carousel .carousel-title,
           body.profile #splash .content .carousel .carousel-title,
-          body.story #splash .content .carousel .carousel-title,
           body.map #splash .content .carousel .carousel-title {
             color: rgba(240, 250, 255, 0.85);
             font-family: "Playfair Display", serif;
@@ -2176,13 +2127,11 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
             letter-spacing: 0.08em; }
             body.about #splash .content .carousel .carousel-slider,
             body.profile #splash .content .carousel .carousel-slider,
-            body.story #splash .content .carousel .carousel-slider,
             body.map #splash .content .carousel .carousel-slider {
               height: 50px;
               margin-top: 5px; }
               body.about #splash .content .carousel .carousel-slider .carousel-text,
               body.profile #splash .content .carousel .carousel-slider .carousel-text,
-              body.story #splash .content .carousel .carousel-slider .carousel-text,
               body.map #splash .content .carousel .carousel-slider .carousel-text {
                 display: none;
                 text-align: left;
@@ -2193,12 +2142,10 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
                 color: #ededed; }
                 body.about #splash .content .carousel .carousel-slider .carousel-text.active,
                 body.profile #splash .content .carousel .carousel-slider .carousel-text.active,
-                body.story #splash .content .carousel .carousel-slider .carousel-text.active,
                 body.map #splash .content .carousel .carousel-slider .carousel-text.active {
                   display: block; }
           body.about #splash .content .carousel .carousel-btns,
           body.profile #splash .content .carousel .carousel-btns,
-          body.story #splash .content .carousel .carousel-btns,
           body.map #splash .content .carousel .carousel-btns {
             color: rgba(237, 240, 245, 0.85);
             text-align: center;
@@ -2215,7 +2162,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
             align-items: baseline; }
             body.about #splash .content .carousel .carousel-btns .carousel-btn,
             body.profile #splash .content .carousel .carousel-btns .carousel-btn,
-            body.story #splash .content .carousel .carousel-btns .carousel-btn,
             body.map #splash .content .carousel .carousel-btns .carousel-btn {
               display: inline-block;
               margin: 10px 5px;
@@ -2229,19 +2175,16 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
               cursor: default; }
               body.about #splash .content .carousel .carousel-btns .carousel-btn.active,
               body.profile #splash .content .carousel .carousel-btns .carousel-btn.active,
-              body.story #splash .content .carousel .carousel-btns .carousel-btn.active,
               body.map #splash .content .carousel .carousel-btns .carousel-btn.active {
                 opacity: 1;
                 pointer-events: initial;
                 cursor: pointer; }
                 body.about #splash .content .carousel .carousel-btns .carousel-btn.active:hover,
                 body.profile #splash .content .carousel .carousel-btns .carousel-btn.active:hover,
-                body.story #splash .content .carousel .carousel-btns .carousel-btn.active:hover,
                 body.map #splash .content .carousel .carousel-btns .carousel-btn.active:hover {
                   color: #fff; }
             body.about #splash .content .carousel .carousel-btns span,
             body.profile #splash .content .carousel .carousel-btns span,
-            body.story #splash .content .carousel .carousel-btns span,
             body.map #splash .content .carousel .carousel-btns span {
               font-family: "Palanquin", sans-serif;
               text-transform: uppercase;
@@ -2249,7 +2192,7 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
               font-size: 11.5px;
               letter-spacing: 0.1em; }
       body.about #splash #scroll-btn, body.profile #splash #scroll-btn,
-      body.story #splash #scroll-btn, body.map #splash #scroll-btn {
+      body.map #splash #scroll-btn {
         bottom: 15px;
         display: block;
         left: 50%;
@@ -2258,7 +2201,7 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
         text-align: center;
         width: 200px; }
         body.about #splash #scroll-btn .mouse, body.profile #splash #scroll-btn .mouse,
-        body.story #splash #scroll-btn .mouse, body.map #splash #scroll-btn .mouse {
+        body.map #splash #scroll-btn .mouse {
           -moz-transition: opacity 1s;
           -o-transition: opacity 1s;
           -webkit-transition: opacity 1s;
@@ -2276,7 +2219,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
           box-shadow: 0 0 5px #141b2e; }
           body.about #splash #scroll-btn .mouse .ball,
           body.profile #splash #scroll-btn .mouse .ball,
-          body.story #splash #scroll-btn .mouse .ball,
           body.map #splash #scroll-btn .mouse .ball {
             height: 4px;
             width: 2px;
@@ -2292,7 +2234,6 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
             animation: mouse-scroll 1.5s infinite; }
         body.about #splash #scroll-btn .mouse-text,
         body.profile #splash #scroll-btn .mouse-text,
-        body.story #splash #scroll-btn .mouse-text,
         body.map #splash #scroll-btn .mouse-text {
           -moz-transition: opacity 1s 1.5s;
           -o-transition: opacity 1s 1.5s;
@@ -2307,24 +2248,20 @@ body.about nav, body.profile nav, body.story nav, body.map nav {
           opacity: 0; }
           body.about #splash #scroll-btn.visible .mouse,
           body.profile #splash #scroll-btn.visible .mouse,
-          body.story #splash #scroll-btn.visible .mouse,
           body.map #splash #scroll-btn.visible .mouse {
             opacity: 0.9; }
             body.about #splash #scroll-btn.visible .mouse-text,
             body.profile #splash #scroll-btn.visible .mouse-text,
-            body.story #splash #scroll-btn.visible .mouse-text,
             body.map #splash #scroll-btn.visible .mouse-text {
               opacity: 0.8; }
       body.about #splash .d3plus_coordinates.highlight,
       body.profile #splash .d3plus_coordinates.highlight,
-      body.story #splash .d3plus_coordinates.highlight,
       body.map #splash .d3plus_coordinates.highlight {
         stroke: white !important;
         stroke-opacity: 1 !important;
         fill: white !important;
         fill-opacity: 1 !important; }
-body.about #title-bar, body.profile #title-bar, body.story #title-bar,
-body.map #title-bar {
+body.about #title-bar, body.profile #title-bar, body.map #title-bar {
   text-align: center;
   height: 40px;
   max-width: 860px;
@@ -2336,8 +2273,7 @@ body.map #title-bar {
   position: fixed;
   top: 0;
   z-index: 3; }
-  body.about #title-bar span, body.profile #title-bar span,
-  body.story #title-bar span, body.map #title-bar span {
+  body.about #title-bar span, body.profile #title-bar span, body.map #title-bar span {
     -webkit-justify-content: center;
     -moz-justify-content: center;
     justify-content: center;
@@ -2358,13 +2294,12 @@ body.map #title-bar {
     color: #ef6145;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 24px; }
-    body.about #title-bar img, body.profile #title-bar img, body.story #title-bar img,
-    body.map #title-bar img {
+    body.about #title-bar img, body.profile #title-bar img, body.map #title-bar img {
       width: 78px;
       margin-top: 4px;
       margin-right: 5px; }
       body.about #title-bar .expand-stats-btn, body.profile #title-bar .expand-stats-btn,
-      body.story #title-bar .expand-stats-btn, body.map #title-bar .expand-stats-btn {
+      body.map #title-bar .expand-stats-btn {
         opacity: 0;
         display: inline-block;
         border-radius: 50%;
@@ -2382,17 +2317,14 @@ body.map #title-bar {
         transition: opacity 0.25s, border 0.5s; }
         body.about #title-bar .expand-stats-btn.show,
         body.profile #title-bar .expand-stats-btn.show,
-        body.story #title-bar .expand-stats-btn.show,
         body.map #title-bar .expand-stats-btn.show {
           opacity: 1; }
           body.about #title-bar .expand-stats-btn.show:hover,
           body.profile #title-bar .expand-stats-btn.show:hover,
-          body.story #title-bar .expand-stats-btn.show:hover,
           body.map #title-bar .expand-stats-btn.show:hover {
             cursor: pointer; }
         body.about #title-bar .expand-stats-btn.close,
         body.profile #title-bar .expand-stats-btn.close,
-        body.story #title-bar .expand-stats-btn.close,
         body.map #title-bar .expand-stats-btn.close {
           border-radius: 50%;
           -webkit-box-sizing: border-box;
@@ -2403,14 +2335,12 @@ body.map #title-bar {
           width: 17px;
           height: 17px;
           margin-left: 5px; }
-  body.about #title-bar a, body.profile #title-bar a, body.story #title-bar a,
-  body.map #title-bar a {
+  body.about #title-bar a, body.profile #title-bar a, body.map #title-bar a {
     color: #fff; }
     body.about #title-bar.visible span, body.profile #title-bar.visible span,
-    body.story #title-bar.visible span, body.map #title-bar.visible span {
+    body.map #title-bar.visible span {
       top: 0; }
-body.about #stats-bar, body.profile #stats-bar, body.story #stats-bar,
-body.map #stats-bar {
+body.about #stats-bar, body.profile #stats-bar, body.map #stats-bar {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2436,13 +2366,13 @@ body.map #stats-bar {
   -webkit-transition: top 0.5s, box-shadow 0.5s;
   transition: top 0.5s, box-shadow 0.5s; }
   body.about #stats-bar.visible, body.profile #stats-bar.visible,
-  body.story #stats-bar.visible, body.map #stats-bar.visible {
+  body.map #stats-bar.visible {
     top: 40px;
     -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset;
     -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset;
     box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset; }
     body.about #stats-bar #title-stats, body.profile #stats-bar #title-stats,
-    body.story #stats-bar #title-stats, body.map #stats-bar #title-stats {
+    body.map #stats-bar #title-stats {
       width: 60%;
       max-width: 550px;
       font-family: "Palanquin", sans-serif;
@@ -2464,7 +2394,7 @@ body.map #stats-bar {
       -webkit-align-items: center;
       align-items: center; }
       body.about #stats-bar .title-stat, body.profile #stats-bar .title-stat,
-      body.story #stats-bar .title-stat, body.map #stats-bar .title-stat {
+      body.map #stats-bar .title-stat {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -2481,54 +2411,49 @@ body.map #stats-bar {
         transition: opacity 0.25s;
         cursor: default; }
         body.about #stats-bar .title-stat:hover, body.profile #stats-bar .title-stat:hover,
-        body.story #stats-bar .title-stat:hover, body.map #stats-bar .title-stat:hover {
+        body.map #stats-bar .title-stat:hover {
           color: #fff; }
           body.about #stats-bar .title-stat:hover .title-stat-text a,
           body.profile #stats-bar .title-stat:hover .title-stat-text a,
-          body.story #stats-bar .title-stat:hover .title-stat-text a,
           body.map #stats-bar .title-stat:hover .title-stat-text a {
             color: #fff;
             border-bottom: 1px solid #fff; }
   body.about #stats-bar .title-stat-text, body.profile #stats-bar .title-stat-text,
-  body.story #stats-bar .title-stat-text, body.map #stats-bar .title-stat-text {
+  body.map #stats-bar .title-stat-text {
     margin: 0 5px;
     text-align: center; }
     body.about #stats-bar .title-stat-text a,
-    body.profile #stats-bar .title-stat-text a,
-    body.story #stats-bar .title-stat-text a, body.map #stats-bar .title-stat-text a {
+    body.profile #stats-bar .title-stat-text a, body.map #stats-bar .title-stat-text a {
       color: rgba(237, 240, 245, 0.65);
       border-bottom: 1px solid rgba(195, 219, 225, 0.5);
       text-decoration: none; }
       body.about #stats-bar .title-stat-text a:hover,
       body.profile #stats-bar .title-stat-text a:hover,
-      body.story #stats-bar .title-stat-text a:hover,
       body.map #stats-bar .title-stat-text a:hover {
         border-bottom: 0;
         color: #fff;
         text-decoration: none; }
   body.about #stats-bar .title-stat-value, body.profile #stats-bar .title-stat-value,
-  body.story #stats-bar .title-stat-value, body.map #stats-bar .title-stat-value {
+  body.map #stats-bar .title-stat-value {
     text-align: center;
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     font-weight: 300; }
     body.about #stats-bar .title-stat-value a,
     body.profile #stats-bar .title-stat-value a,
-    body.story #stats-bar .title-stat-value a, body.map #stats-bar .title-stat-value a {
+    body.map #stats-bar .title-stat-value a {
       padding-bottom: 1px;
       color: #2c49d8;
       text-decoration: none;
       text-transform: capitalize; }
       body.about #stats-bar .title-stat-value a:hover,
       body.profile #stats-bar .title-stat-value a:hover,
-      body.story #stats-bar .title-stat-value a:hover,
       body.map #stats-bar .title-stat-value a:hover {
         border-bottom: 0;
         color: rgba(121, 129, 169, 0.5);
         border-bottom: 1px solid rgba(121, 129, 169, 0.5);
         text-decoration: none; }
-body.about #nav-bar-scroll, body.profile #nav-bar-scroll,
-body.story #nav-bar-scroll, body.map #nav-bar-scroll {
+body.about #nav-bar-scroll, body.profile #nav-bar-scroll, body.map #nav-bar-scroll {
   position: fixed;
   height: 68px;
   width: 100%;
@@ -2542,20 +2467,17 @@ body.story #nav-bar-scroll, body.map #nav-bar-scroll {
   -webkit-transition: height 0.45s;
   transition: height 0.45s; }
   body.about #nav-bar-scroll.stat-hidden, body.profile #nav-bar-scroll.stat-hidden,
-  body.story #nav-bar-scroll.stat-hidden, body.map #nav-bar-scroll.stat-hidden {
+  body.map #nav-bar-scroll.stat-hidden {
     height: 45px; }
     body.about #nav-bar-scroll.stat-hidden #stats-bar,
     body.profile #nav-bar-scroll.stat-hidden #stats-bar,
-    body.story #nav-bar-scroll.stat-hidden #stats-bar,
     body.map #nav-bar-scroll.stat-hidden #stats-bar {
       top: 17px; }
       body.about #nav-bar-scroll.stat-hidden #profile-nav.visible,
       body.profile #nav-bar-scroll.stat-hidden #profile-nav.visible,
-      body.story #nav-bar-scroll.stat-hidden #profile-nav.visible,
       body.map #nav-bar-scroll.stat-hidden #profile-nav.visible {
         top: 40px; }
-body.about #profile-nav, body.profile #profile-nav, body.story #profile-nav,
-body.map #profile-nav {
+body.about #profile-nav, body.profile #profile-nav, body.map #profile-nav {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2576,10 +2498,10 @@ body.map #profile-nav {
   -webkit-transition: top 0.5s;
   transition: top 0.5s; }
   body.about #profile-nav.visible, body.profile #profile-nav.visible,
-  body.story #profile-nav.visible, body.map #profile-nav.visible {
+  body.map #profile-nav.visible {
     top: 58px; }
     body.about #profile-nav #back-to-top, body.profile #profile-nav #back-to-top,
-    body.story #profile-nav #back-to-top, body.map #profile-nav #back-to-top {
+    body.map #profile-nav #back-to-top {
       position: absolute;
       right: 15px;
       top: 16px;
@@ -2591,7 +2513,7 @@ body.map #profile-nav {
       transition: opacity 0.25s; }
       body.about #profile-nav #back-to-top span,
       body.profile #profile-nav #back-to-top span,
-      body.story #profile-nav #back-to-top span, body.map #profile-nav #back-to-top span {
+      body.map #profile-nav #back-to-top span {
         font-family: "Palanquin", sans-serif;
         text-transform: uppercase;
         font-weight: 400;
@@ -2599,11 +2521,9 @@ body.map #profile-nav {
         letter-spacing: 0.1em; }
         body.about #profile-nav #back-to-top:hover,
         body.profile #profile-nav #back-to-top:hover,
-        body.story #profile-nav #back-to-top:hover,
         body.map #profile-nav #back-to-top:hover {
           opacity: 1; }
-  body.about #profile-nav ul, body.profile #profile-nav ul,
-  body.story #profile-nav ul, body.map #profile-nav ul {
+  body.about #profile-nav ul, body.profile #profile-nav ul, body.map #profile-nav ul {
     width: 90%;
     margin: 0 150px 0 50px;
     max-width: 800px;
@@ -2619,7 +2539,7 @@ body.map #profile-nav {
     -moz-justify-content: space-between;
     justify-content: space-between; }
     body.about #profile-nav ul li, body.profile #profile-nav ul li,
-    body.story #profile-nav ul li, body.map #profile-nav ul li {
+    body.map #profile-nav ul li {
       -webkit-box-flex: 1;
       -moz-box-flex: 1;
       -webkit-flex: 1;
@@ -2643,11 +2563,10 @@ body.map #profile-nav {
       -webkit-transition: opacity 0.25s;
       transition: opacity 0.25s; }
       body.about #profile-nav ul li.active, body.profile #profile-nav ul li.active,
-      body.story #profile-nav ul li.active, body.map #profile-nav ul li.active {
+      body.map #profile-nav ul li.active {
         opacity: 1; }
         body.about #profile-nav ul li.active:before,
         body.profile #profile-nav ul li.active:before,
-        body.story #profile-nav ul li.active:before,
         body.map #profile-nav ul li.active:before {
           width: 80%;
           display: inline-block;
@@ -2668,7 +2587,7 @@ body.map #profile-nav {
           -moz-box-sizing: border-box;
           box-sizing: border-box; }
       body.about #profile-nav ul li:before, body.profile #profile-nav ul li:before,
-      body.story #profile-nav ul li:before, body.map #profile-nav ul li:before {
+      body.map #profile-nav ul li:before {
         content: "";
         display: inline-block;
         position: absolute;
@@ -2690,51 +2609,48 @@ body.map #profile-nav {
         box-sizing: border-box; }
         body.about #profile-nav ul li:hover:before,
         body.profile #profile-nav ul li:hover:before,
-        body.story #profile-nav ul li:hover:before,
         body.map #profile-nav ul li:hover:before {
           width: 80%; }
           body.about #profile-nav ul li:hover, body.profile #profile-nav ul li:hover,
-          body.story #profile-nav ul li:hover, body.map #profile-nav ul li:hover {
+          body.map #profile-nav ul li:hover {
             opacity: 1; }
     body.about #profile-nav ul img, body.profile #profile-nav ul img,
-    body.story #profile-nav ul img, body.map #profile-nav ul img {
+    body.map #profile-nav ul img {
       display: block;
       width: 20px;
       height: 20px;
       margin: 0 auto -2px; }
-body.about .intro, body.profile .intro, body.story .intro, body.map .intro {
+body.about .intro, body.profile .intro, body.map .intro {
   min-height: 190px;
   background-color: #141b2e;
   background-repeat: no-repeat;
   background-size: 30%;
   background-position: 90% 100%; }
   body.about .intro .color-blocks, body.profile .intro .color-blocks,
-  body.story .intro .color-blocks, body.map .intro .color-blocks {
+  body.map .intro .color-blocks {
     text-align: center;
     margin-bottom: 20px; }
     body.about .intro .intro-txt, body.profile .intro .intro-txt,
-    body.story .intro .intro-txt, body.map .intro .intro-txt {
+    body.map .intro .intro-txt {
       -webkit-box-flex: 2;
       -moz-box-flex: 2;
       -webkit-flex: 2;
       -ms-flex: 2;
       flex: 2; }
       body.about .intro .intro-txt a.show-more,
-      body.profile .intro .intro-txt a.show-more,
-      body.story .intro .intro-txt a.show-more, body.map .intro .intro-txt a.show-more {
+      body.profile .intro .intro-txt a.show-more, body.map .intro .intro-txt a.show-more {
         border-bottom: 1px solid rgba(0, 0, 0, 0.95); }
         body.about .intro .intro-txt a.show-more:after,
         body.profile .intro .intro-txt a.show-more:after,
-        body.story .intro .intro-txt a.show-more:after,
         body.map .intro .intro-txt a.show-more:after {
           content: "\f196";
           font-family: FontAwesome;
           margin: 0 0 0 4px; }
       body.about .intro .intro-txt .the_rest, body.profile .intro .intro-txt .the_rest,
-      body.story .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest {
+      body.map .intro .intro-txt .the_rest {
         display: none; }
   body.about .intro .intro-viz, body.profile .intro .intro-viz,
-  body.story .intro .intro-viz, body.map .intro .intro-viz {
+  body.map .intro .intro-viz {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
@@ -2742,30 +2658,28 @@ body.about .intro, body.profile .intro, body.story .intro, body.map .intro {
     flex: 1;
     height: 200px;
     text-align: center; }
-body.about header, body.profile header, body.story header, body.map header {
+body.about header, body.profile header, body.map header {
   padding: 60px 50px 25px;
   position: relative; }
-  body.about header h2, body.profile header h2, body.story header h2,
-  body.map header h2 {
+  body.about header h2, body.profile header h2, body.map header h2 {
     margin: 0 auto 15px;
     color: #333; }
     body.about header h2 a:before, body.profile header h2 a:before,
-    body.story header h2 a:before, body.map header h2 a:before {
+    body.map header h2 a:before {
       content: "";
       position: absolute;
       visibility: hidden;
       top: -85px; }
   body.about header.intro h2, body.about header.intro a, body.about header.intro p,
   body.profile header.intro h2, body.profile header.intro a,
-  body.profile header.intro p, body.story header.intro h2, body.story header.intro a,
-  body.story header.intro p, body.map header.intro h2, body.map header.intro a,
+  body.profile header.intro p, body.map header.intro h2, body.map header.intro a,
   body.map header.intro p {
     color: #fff; }
-  body.about header p, body.profile header p, body.story header p, body.map header p {
+  body.about header p, body.profile header p, body.map header p {
     font-size: 16px;
     text-align: center; }
 body.about #section-sidenav, body.profile #section-sidenav,
-body.story #section-sidenav, body.map #section-sidenav {
+body.map #section-sidenav {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2789,18 +2703,16 @@ body.story #section-sidenav, body.map #section-sidenav {
   z-index: 6;
   opacity: 0; }
   body.about #section-sidenav.visible, body.profile #section-sidenav.visible,
-  body.story #section-sidenav.visible, body.map #section-sidenav.visible {
+  body.map #section-sidenav.visible {
     left: 15px;
     top: 50%;
     opacity: 1; }
     body.about #section-sidenav .section-sidenav-group:not(:last-child),
     body.profile #section-sidenav .section-sidenav-group:not(:last-child),
-    body.story #section-sidenav .section-sidenav-group:not(:last-child),
     body.map #section-sidenav .section-sidenav-group:not(:last-child) {
       border-bottom: 1px solid #ccc; }
       body.about #section-sidenav .section-sidenav-group .section-sidenav-button,
       body.profile #section-sidenav .section-sidenav-group .section-sidenav-button,
-      body.story #section-sidenav .section-sidenav-group .section-sidenav-button,
       body.map #section-sidenav .section-sidenav-group .section-sidenav-button {
         -moz-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
         -o-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
@@ -2820,8 +2732,6 @@ body.story #section-sidenav, body.map #section-sidenav {
         body.about #section-sidenav .section-sidenav-group .section-sidenav-button.active,
         body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
         body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-        body.story #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
-        body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active,
         body.map #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
         body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active {
           height: 10px;
@@ -2830,10 +2740,9 @@ body.story #section-sidenav, body.map #section-sidenav {
           opacity: 1; }
           body.about #section-sidenav .section-sidenav-group .section-sidenav-button.active,
           body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-          body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active,
           body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active {
             background-color: #999; }
-body.about section, body.profile section, body.story section, body.map section {
+body.about section, body.profile section, body.map section {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2849,7 +2758,7 @@ body.about section, body.profile section, body.story section, body.map section {
   flex-wrap: wrap;
   padding: 0 25px; }
   body.about section .category, body.profile section .category,
-  body.story section .category, body.map section .category {
+  body.map section .category {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -2861,14 +2770,13 @@ body.about section, body.profile section, body.story section, body.map section {
     padding: 5px 24px 30px;
     min-width: 100%; }
     body.about section .category a:before, body.profile section .category a:before,
-    body.story section .category a:before, body.map section .category a:before {
+    body.map section .category a:before {
       content: "";
       position: absolute;
       visibility: hidden;
       top: -118px; }
       body.about section .category:before, body.about section .category:after,
       body.profile section .category:before, body.profile section .category:after,
-      body.story section .category:before, body.story section .category:after,
       body.map section .category:before, body.map section .category:after {
         content: "";
         display: inline-block;
@@ -2886,13 +2794,13 @@ body.about section, body.profile section, body.story section, body.map section {
         -moz-box-sizing: border-box;
         box-sizing: border-box; }
         body.about section .category:before, body.profile section .category:before,
-        body.story section .category:before, body.map section .category:before {
+        body.map section .category:before {
           left: 25px;
           -webkit-box-shadow: 0px 0px 0 #ccc;
           -moz-box-shadow: 0px 0px 0 #ccc;
           box-shadow: 0px 0px 0 #ccc; }
           body.about section .category:after, body.profile section .category:after,
-          body.story section .category:after, body.map section .category:after {
+          body.map section .category:after {
             right: 25px;
             -webkit-box-shadow: 0px 0px 0 #ccc;
             -moz-box-shadow: 0px 0px 0 #ccc;
@@ -2901,15 +2809,12 @@ body.about section, body.profile section, body.story section, body.map section {
             body.about section .category:hover:after,
             body.profile section .category:hover:before,
             body.profile section .category:hover:after,
-            body.story section .category:hover:before,
-            body.story section .category:hover:after, body.map section .category:hover:before,
-            body.map section .category:hover:after {
+            body.map section .category:hover:before, body.map section .category:hover:after {
               top: 28px;
               -webkit-box-shadow: 0px -6px 0 #ccc;
               -moz-box-shadow: 0px -6px 0 #ccc;
               box-shadow: 0px -6px 0 #ccc; }
-  body.about section .topic, body.profile section .topic, body.story section .topic,
-  body.map section .topic {
+  body.about section .topic, body.profile section .topic, body.map section .topic {
     -webkit-box-flex: 1 1 100%;
     -moz-box-flex: 1 1 100%;
     -webkit-flex: 1 1 100%;
@@ -2923,14 +2828,13 @@ body.about section, body.profile section, body.story section, body.map section {
     padding: 0 25px 50px; }
     body.about section .topic:not(.flex) aside,
     body.profile section .topic:not(.flex) aside,
-    body.story section .topic:not(.flex) aside,
     body.map section .topic:not(.flex) aside {
       width: 50%; }
     body.about section .topic.short, body.profile section .topic.short,
-    body.story section .topic.short, body.map section .topic.short {
+    body.map section .topic.short {
       padding-bottom: 0; }
       body.about section .topic.flex, body.profile section .topic.flex,
-      body.story section .topic.flex, body.map section .topic.flex {
+      body.map section .topic.flex {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -2953,7 +2857,7 @@ body.about section, body.profile section, body.story section, body.map section {
         min-width: 198px;
         padding: 0; }
         body.about section .topic.flex .content, body.profile section .topic.flex .content,
-        body.story section .topic.flex .content, body.map section .topic.flex .content {
+        body.map section .topic.flex .content {
           -webkit-box-flex: 1 1;
           -moz-box-flex: 1 1;
           -webkit-flex: 1 1;
@@ -2964,7 +2868,6 @@ body.about section, body.profile section, body.story section, body.map section {
           flex-direction: column; }
           body.about section .topic.flex .content aside,
           body.profile section .topic.flex .content aside,
-          body.story section .topic.flex .content aside,
           body.map section .topic.flex .content aside {
             -webkit-box-flex: 1 1;
             -moz-box-flex: 1 1;
@@ -2974,7 +2877,6 @@ body.about section, body.profile section, body.story section, body.map section {
             max-width: 100%; }
             body.about section .topic.flex .content .viz,
             body.profile section .topic.flex .content .viz,
-            body.story section .topic.flex .content .viz,
             body.map section .topic.flex .content .viz {
               -webkit-box-flex: 1 1 200px;
               -moz-box-flex: 1 1 200px;
@@ -2984,7 +2886,7 @@ body.about section, body.profile section, body.story section, body.map section {
               margin-left: 0;
               min-height: 200px; }
     body.about section .topic .content, body.profile section .topic .content,
-    body.story section .topic .content, body.map section .topic .content {
+    body.map section .topic .content {
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
@@ -2996,20 +2898,17 @@ body.about section, body.profile section, body.story section, body.map section {
       margin-top: 10px; }
       body.about section .topic .content.full-width,
       body.profile section .topic .content.full-width,
-      body.story section .topic .content.full-width,
       body.map section .topic .content.full-width {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column; }
         body.about section .topic .content.full-width .viz,
         body.profile section .topic .content.full-width .viz,
-        body.story section .topic .content.full-width .viz,
         body.map section .topic .content.full-width .viz {
           margin-left: 0;
           min-height: 500px; }
       body.about section .topic .content aside,
-      body.profile section .topic .content aside,
-      body.story section .topic .content aside, body.map section .topic .content aside {
+      body.profile section .topic .content aside, body.map section .topic .content aside {
         -webkit-box-flex: none;
         -moz-box-flex: none;
         -webkit-flex: none;
@@ -3018,7 +2917,6 @@ body.about section, body.profile section, body.story section, body.map section {
         max-width: 415px; }
         body.about section .topic .content aside p a,
         body.profile section .topic .content aside p a,
-        body.story section .topic .content aside p a,
         body.map section .topic .content aside p a {
           border-bottom: 1px solid #C1C1C1;
           -moz-transition: opacity 0.15s;
@@ -3027,18 +2925,15 @@ body.about section, body.profile section, body.story section, body.map section {
           transition: opacity 0.15s; }
           body.about section .topic .content aside p a:hover,
           body.profile section .topic .content aside p a:hover,
-          body.story section .topic .content aside p a:hover,
           body.map section .topic .content aside p a:hover {
             opacity: 0.5;
             border-bottom: 0; }
         body.about section .topic .content aside select,
         body.profile section .topic .content aside select,
-        body.story section .topic .content aside select,
         body.map section .topic .content aside select {
           width: 100%; }
           body.about section .topic .content aside .topic-stats,
           body.profile section .topic .content aside .topic-stats,
-          body.story section .topic .content aside .topic-stats,
           body.map section .topic .content aside .topic-stats {
             -webkit-justify-content: center;
             -moz-justify-content: center;
@@ -3052,7 +2947,6 @@ body.about section, body.profile section, body.story section, body.map section {
             align-items: flex-end; }
             body.about section .topic .content aside .topic-stats.stacked,
             body.profile section .topic .content aside .topic-stats.stacked,
-            body.story section .topic .content aside .topic-stats.stacked,
             body.map section .topic .content aside .topic-stats.stacked {
               -webkit-flex-direction: column;
               -moz-flex-direction: column;
@@ -3061,7 +2955,6 @@ body.about section, body.profile section, body.story section, body.map section {
               align-items: flex-start; }
               body.about section .topic .content aside .topic-stats .stat,
               body.profile section .topic .content aside .topic-stats .stat,
-              body.story section .topic .content aside .topic-stats .stat,
               body.map section .topic .content aside .topic-stats .stat {
                 -webkit-box-flex: 1;
                 -moz-box-flex: 1;
@@ -3071,16 +2964,14 @@ body.about section, body.profile section, body.story section, body.map section {
                 margin: 10px 15px 10px 0; }
                 body.about section .topic .content aside .topic-stats .stat .stat-value.loading,
                 body.profile section .topic .content aside .topic-stats .stat .stat-value.loading,
-                body.story section .topic .content aside .topic-stats .stat .stat-value.loading,
                 body.map section .topic .content aside .topic-stats .stat .stat-value.loading {
                   opacity: 0.5; }
         body.about section .topic .content aside p,
         body.profile section .topic .content aside p,
-        body.story section .topic .content aside p,
         body.map section .topic .content aside p {
           margin: 3px 0 6px; }
       body.about section .topic .content .viz, body.profile section .topic .content .viz,
-      body.story section .topic .content .viz, body.map section .topic .content .viz {
+      body.map section .topic .content .viz {
         -webkit-box-flex: 1 1 auto;
         -moz-box-flex: 1 1 auto;
         -webkit-flex: 1 1 auto;
@@ -3092,19 +2983,16 @@ body.about section, body.profile section, body.story section, body.map section {
         position: relative; }
         body.about section .topic .content .viz .d3plus .d3plus_coordinates.outline,
         body.profile section .topic .content .viz .d3plus .d3plus_coordinates.outline,
-        body.story section .topic .content .viz .d3plus .d3plus_coordinates.outline,
         body.map section .topic .content .viz .d3plus .d3plus_coordinates.outline {
           fill: transparent !important;
           pointer-events: none !important; }
           body.about section .topic .content .viz .d3plus #XXUSA,
           body.profile section .topic .content .viz .d3plus #XXUSA,
-          body.story section .topic .content .viz .d3plus #XXUSA,
           body.map section .topic .content .viz .d3plus #XXUSA {
             fill: #bbb !important;
             stroke: #aaa !important; }
         body.about section .topic .content .viz .data-table,
         body.profile section .topic .content .viz .data-table,
-        body.story section .topic .content .viz .data-table,
         body.map section .topic .content .viz .data-table {
           -moz-transition: top 0.5s;
           -o-transition: top 0.5s;
@@ -3118,18 +3006,15 @@ body.about section, body.profile section, body.story section, body.map section {
           background-color: #D0D0D0; }
           body.about section .topic .content .viz .data-table.visible,
           body.profile section .topic .content .viz .data-table.visible,
-          body.story section .topic .content .viz .data-table.visible,
           body.map section .topic .content .viz .data-table.visible {
             top: 0; }
             body.about section .topic .content .viz .data-table .download-btns,
             body.profile section .topic .content .viz .data-table .download-btns,
-            body.story section .topic .content .viz .data-table .download-btns,
             body.map section .topic .content .viz .data-table .download-btns {
               background-color: #1C1C1C;
               text-align: center; }
               body.about section .topic .content .viz .data-table .download-btns .csv-btn,
               body.profile section .topic .content .viz .data-table .download-btns .csv-btn,
-              body.story section .topic .content .viz .data-table .download-btns .csv-btn,
               body.map section .topic .content .viz .data-table .download-btns .csv-btn {
                 display: inline-block;
                 margin: 5px;
@@ -3142,18 +3027,15 @@ body.about section, body.profile section, body.story section, body.map section {
                 font-size: 12px; }
                 body.about section .topic .content .viz .data-table .download-btns .csv-btn i,
                 body.profile section .topic .content .viz .data-table .download-btns .csv-btn i,
-                body.story section .topic .content .viz .data-table .download-btns .csv-btn i,
                 body.map section .topic .content .viz .data-table .download-btns .csv-btn i {
                   margin-left: 5px;
                   vertical-align: baseline; }
                   body.about section .topic .content .viz .data-table .download-btns .csv-btn:hover,
                   body.profile section .topic .content .viz .data-table .download-btns .csv-btn:hover,
-                  body.story section .topic .content .viz .data-table .download-btns .csv-btn:hover,
                   body.map section .topic .content .viz .data-table .download-btns .csv-btn:hover {
                     background-color: #0c9a6e; }
               body.about section .topic .content .viz .data-table .download-btns .api-btn,
               body.profile section .topic .content .viz .data-table .download-btns .api-btn,
-              body.story section .topic .content .viz .data-table .download-btns .api-btn,
               body.map section .topic .content .viz .data-table .download-btns .api-btn {
                 display: inline-block;
                 margin: 5px;
@@ -3166,26 +3048,21 @@ body.about section, body.profile section, body.story section, body.map section {
                 font-size: 12px; }
                 body.about section .topic .content .viz .data-table .download-btns .api-btn:hover,
                 body.profile section .topic .content .viz .data-table .download-btns .api-btn:hover,
-                body.story section .topic .content .viz .data-table .download-btns .api-btn:hover,
                 body.map section .topic .content .viz .data-table .download-btns .api-btn:hover {
                   background-color: #0c9a6e; }
           body.about section .topic .content .viz .data-table table,
           body.profile section .topic .content .viz .data-table table,
-          body.story section .topic .content .viz .data-table table,
           body.map section .topic .content .viz .data-table table {
             width: 100%; }
             body.about section .topic .content .viz .data-table thead,
             body.about section .topic .content .viz .data-table tbody,
             body.profile section .topic .content .viz .data-table thead,
             body.profile section .topic .content .viz .data-table tbody,
-            body.story section .topic .content .viz .data-table thead,
-            body.story section .topic .content .viz .data-table tbody,
             body.map section .topic .content .viz .data-table thead,
             body.map section .topic .content .viz .data-table tbody {
               font-family: "Palanquin", sans-serif; }
               body.about section .topic .content .viz .data-table thead,
               body.profile section .topic .content .viz .data-table thead,
-              body.story section .topic .content .viz .data-table thead,
               body.map section .topic .content .viz .data-table thead {
                 -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
@@ -3194,7 +3071,6 @@ body.about section, body.profile section, body.story section, body.map section {
                 color: rgba(237, 240, 245, 0.5); }
                 body.about section .topic .content .viz .data-table thead th,
                 body.profile section .topic .content .viz .data-table thead th,
-                body.story section .topic .content .viz .data-table thead th,
                 body.map section .topic .content .viz .data-table thead th {
                   padding: 6px 5px 4px;
                   font-weight: 400;
@@ -3204,78 +3080,70 @@ body.about section, body.profile section, body.story section, body.map section {
                   text-align: left; }
                   body.about section .topic .content .viz .data-table thead th:hover,
                   body.profile section .topic .content .viz .data-table thead th:hover,
-                  body.story section .topic .content .viz .data-table thead th:hover,
                   body.map section .topic .content .viz .data-table thead th:hover {
                     color: #fff;
                     cursor: default; }
           body.about section .topic .content .viz .data-table tbody,
           body.profile section .topic .content .viz .data-table tbody,
-          body.story section .topic .content .viz .data-table tbody,
           body.map section .topic .content .viz .data-table tbody {
             color: #333; }
             body.about section .topic .content .viz .data-table tbody td,
             body.profile section .topic .content .viz .data-table tbody td,
-            body.story section .topic .content .viz .data-table tbody td,
             body.map section .topic .content .viz .data-table tbody td {
               font-size: 12px;
               font-weight: 300;
               padding: 5px 5px; }
               body.about section .topic .content .viz .data-table tbody tr:hover,
               body.profile section .topic .content .viz .data-table tbody tr:hover,
-              body.story section .topic .content .viz .data-table tbody tr:hover,
               body.map section .topic .content .viz .data-table tbody tr:hover {
                 color: #fff; }
       body.about section .topic .content .viz.mini,
       body.profile section .topic .content .viz.mini,
-      body.story section .topic .content .viz.mini,
       body.map section .topic .content .viz.mini {
         margin-left: 0;
         min-height: 200px; }
-body.about #show-bg, body.profile #show-bg, body.story #show-bg, body.map #show-bg {
+body.about #show-bg, body.profile #show-bg, body.map #show-bg {
   position: absolute;
   top: 40px;
   right: 0;
   z-index: 3; }
-  body.about #show-bg div, body.profile #show-bg div, body.story #show-bg div,
-  body.map #show-bg div {
+  body.about #show-bg div, body.profile #show-bg div, body.map #show-bg div {
     opacity: 0;
     -moz-transition: opacity 0.25s;
     -o-transition: opacity 0.25s;
     -webkit-transition: opacity 0.25s;
     transition: opacity 0.25s; }
     body.about #show-bg div:hover, body.profile #show-bg div:hover,
-    body.story #show-bg div:hover, body.map #show-bg div:hover {
+    body.map #show-bg div:hover {
       cursor: pointer;
       opacity: 1; }
-  body.about #show-bg i, body.profile #show-bg i, body.story #show-bg i,
-  body.map #show-bg i {
+  body.about #show-bg i, body.profile #show-bg i, body.map #show-bg i {
     padding: 13px 15px;
     font-size: 16px;
     color: #fff; }
-body.about .profile-end, body.profile .profile-end, body.story .profile-end,
-body.map .profile-end {
+body.about .profile-end, body.profile .profile-end, body.map .profile-end {
   color: #fff;
   width: 100%;
   padding: 10px 0 15px;
   background-color: #000;
   text-align: center; }
   body.about .profile-end header, body.profile .profile-end header,
-  body.story .profile-end header, body.map .profile-end header {
+  body.map .profile-end header {
     padding: 30px 0 20px 0; }
     body.about .profile-end header h2, body.profile .profile-end header h2,
-    body.story .profile-end header h2, body.map .profile-end header h2 {
+    body.map .profile-end header h2 {
       color: rgba(255, 255, 255, 0.9); }
       body.about .profile-end header p, body.profile .profile-end header p,
-      body.story .profile-end header p, body.map .profile-end header p {
+      body.map .profile-end header p {
         color: rgba(255, 255, 255, 0.9);
         font-family: "Palanquin", sans-serif;
         font-weight: 300; }
         body.about .profile-end header h2, body.profile .profile-end header h2,
-        body.story .profile-end header h2, body.map .profile-end header h2 {
+        body.map .profile-end header h2 {
           font-size: 38px;
           font-style: normal; }
   body.about .profile-end .follow-up ul, body.profile .profile-end .follow-up ul,
-  body.story .profile-end .follow-up ul, body.map .profile-end .follow-up ul {
+  body.map .profile-end .follow-up ul {
     -webkit-justify-content: center;
     -moz-justify-content: center;
     justify-content: center;
@@ -3289,8 +3157,7 @@ body.map .profile-end {
     padding: 0 10px;
     width: 100%; }
     body.about .profile-end .follow-up ul li,
-    body.profile .profile-end .follow-up ul li,
-    body.story .profile-end .follow-up ul li, body.map .profile-end .follow-up ul li {
+    body.profile .profile-end .follow-up ul li, body.map .profile-end .follow-up ul li {
       -webkit-box-flex: 1;
       -moz-box-flex: 1;
       -webkit-flex: 1;
@@ -3307,7 +3174,6 @@ body.map .profile-end {
       cursor: pointer; }
       body.about .profile-end .follow-up ul li a,
       body.profile .profile-end .follow-up ul li a,
-      body.story .profile-end .follow-up ul li a,
       body.map .profile-end .follow-up ul li a {
         -webkit-justify-content: center;
         -moz-justify-content: center;
@@ -3333,20 +3199,17 @@ body.map .profile-end {
         opacity: 1; }
         body.about .profile-end .follow-up ul li a:hover,
         body.profile .profile-end .follow-up ul li a:hover,
-        body.story .profile-end .follow-up ul li a:hover,
         body.map .profile-end .follow-up ul li a:hover {
           background-color: rgba(0, 0, 0, 0.4); }
           body.about .profile-end .follow-up ul li a .explore-title,
           body.profile .profile-end .follow-up ul li a .explore-title,
-          body.story .profile-end .follow-up ul li a .explore-title,
           body.map .profile-end .follow-up ul li a .explore-title {
             padding: 20px;
             color: rgba(255, 255, 255, 0.9);
             font-family: "Pathway Gothic One", sans-serif;
             font-size: 24px;
             font-weight: 300; }
-  body.about .profile-end a, body.profile .profile-end a, body.story .profile-end a,
-  body.map .profile-end a {
+  body.about .profile-end a, body.profile .profile-end a, body.map .profile-end a {
     display: block;
     color: #fff;
     opacity: 0.5;
@@ -3355,30 +3218,29 @@ body.map .profile-end {
     -webkit-transition: opacity 0.25s;
     transition: opacity 0.25s; }
     body.about .profile-end a:hover, body.profile .profile-end a:hover,
-    body.story .profile-end a:hover, body.map .profile-end a:hover {
+    body.map .profile-end a:hover {
       opacity: 1; }
-body.about .share-section, body.profile .share-section, body.story .share-section,
-body.map .share-section {
+body.about .share-section, body.profile .share-section, body.map .share-section {
   margin-top: 10px; }
   body.about .share-section a, body.profile .share-section a,
-  body.story .share-section a, body.map .share-section a {
+  body.map .share-section a {
     color: #a8a8a8;
     cursor: pointer;
     font-size: 15px;
     padding: 10px;
     margin-left: -10px; }
     body.about .share-section a i, body.profile .share-section a i,
-    body.story .share-section a i, body.map .share-section a i {
+    body.map .share-section a i {
       -moz-transition: opacity 0.1s;
       -o-transition: opacity 0.1s;
       -webkit-transition: opacity 0.1s;
       transition: opacity 0.1s;
       opacity: 0.7; }
       body.about .share-section a:hover i, body.profile .share-section a:hover i,
-      body.story .share-section a:hover i, body.map .share-section a:hover i {
+      body.map .share-section a:hover i {
         opacity: 1; }
   body.about .share-section .embed-input, body.profile .share-section .embed-input,
-  body.story .share-section .embed-input, body.map .share-section .embed-input {
+  body.map .share-section .embed-input {
     -moz-transition: opacity 0.5s;
     -o-transition: opacity 0.5s;
     -webkit-transition: opacity 0.5s;
@@ -3389,19 +3251,16 @@ body.map .share-section {
     opacity: 0; }
     body.about .share-section .embed-input.open,
     body.profile .share-section .embed-input.open,
-    body.story .share-section .embed-input.open,
     body.map .share-section .embed-input.open {
       opacity: 1; }
       body.about .share-section .embed-input input[type="text"],
       body.profile .share-section .embed-input input[type="text"],
-      body.story .share-section .embed-input input[type="text"],
       body.map .share-section .embed-input input[type="text"] {
         padding: 3px;
         width: 100px;
         font-family: "Palanquin", sans-serif; }
         body.about .share-section .embed-input label,
         body.profile .share-section .embed-input label,
-        body.story .share-section .embed-input label,
         body.map .share-section .embed-input label {
           color: #a8a8a8;
           font-family: "Palanquin", sans-serif;
@@ -3575,34 +3434,44 @@ body.story {
   background-color: #F6F6F6; }
   body.story #top-nav {
     background-color: #141b2e; }
-    body.story #featured-story {
-      -webkit-justify-content: center;
-      -moz-justify-content: center;
-      justify-content: center;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-flex-direction: column;
-      -moz-flex-direction: column;
-      flex-direction: column;
-      width: 100vw;
-      height: 100vh;
-      top: 40px;
-      padding: 0;
-      background-color: #F6F6F6;
-      overflow: hidden; }
-      body.story #featured-story.article {
-        height: 95vh !important; }
-        body.story #featured-story > * {
-          padding-top: 20px; }
+    body.story nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 3; }
+      body.story h1 {
+        font-family: "Pathway Gothic One", sans-serif;
+        font-weight: 300;
+        font-size: initial;
+        line-height: 1.1; }
+        body.story p {
+          color: rgba(51, 51, 51, 0.93); }
+          body.story #featured-story {
+            -webkit-justify-content: center;
+            -moz-justify-content: center;
+            justify-content: center;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            -moz-flex-direction: column;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            top: 40px;
+            padding: 0;
+            background-color: #F6F6F6;
+            overflow: hidden; }
+            body.story #featured-story.article {
+              height: 95vh !important; }
   body.story #feature-image {
-    -webkit-box-flex: 2.5;
-    -moz-box-flex: 2.5;
-    -webkit-flex: 2.5;
-    -ms-flex: 2.5;
-    flex: 2.5;
+    -webkit-box-flex: 2;
+    -moz-box-flex: 2;
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
     width: 100%;
     background-position: center center;
     background-attachment: fixed;
@@ -3635,7 +3504,12 @@ body.story {
       flex-direction: row;
       -webkit-justify-content: center;
       -moz-justify-content: center;
-      justify-content: center; }
+      justify-content: center;
+      padding: 0 45px;
+      margin: 20px 0;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box; }
       body.story .post-feat-label {
         -webkit-box-flex: 1;
         -moz-box-flex: 1;
@@ -3643,8 +3517,8 @@ body.story {
         -ms-flex: 1;
         flex: 1;
         text-align: right;
-        padding-right: 20px;
-        margin-right: 3vw; }
+        margin-right: 4vw;
+        padding-top: 35px; }
         body.story .post-feat-label p {
           font-family: "Palanquin", sans-serif;
           font-weight: 300;
@@ -3652,40 +3526,96 @@ body.story {
           text-transform: uppercase;
           font-size: 16px;
           border-style: solid;
-          border-color: #141b2e; }
-          body.story .post-feat-label .color-blocks {
-            display: inline-block;
-            margin-top: 7px; }
-            body.story .post-feat-label .color-blocks .b {
-              width: 15px;
-              margin: 0 3px; }
+          border-color: #727682;
+          border-width: 0px 0px 1px 1px;
+          padding: 5px 10px 5px;
+          display: inline-block; }
   body.story .post-titles {
-    -webkit-box-flex: 2.5;
-    -moz-box-flex: 2.5;
-    -webkit-flex: 2.5;
-    -ms-flex: 2.5;
-    flex: 2.5;
+    -webkit-box-flex: 2;
+    -moz-box-flex: 2;
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
     text-align: left;
     top: 60%;
-    width: 100%; }
-    body.story .post-titles h1 a {
-      color: #434958;
-      font-family: "Pathway Gothic One", sans-serif;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      font-size: 48px;
-      margin-bottom: 7px; }
-      body.story .post-titles h1 a:hover, body.story .post-titles h1 a:focus {
-        color: #ef6145; }
+    width: 100%;
+    margin-right: 15%;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: stretch;
+    align-items: stretch; }
+    body.story .post-titles .color-blocks {
+      display: inline-block;
+      margin-top: 7px; }
+      body.story .post-titles .color-blocks .b {
+        width: 15px;
+        margin: 0 3px; }
+    body.story .post-titles h1 {
+      margin-bottom: 10px; }
+      body.story .post-titles h1 a {
+        color: #434958;
+        font-family: "Pathway Gothic One", sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-size: 48px; }
+        body.story .post-titles h1 a:hover, body.story .post-titles h1 a:focus {
+          color: #ef6145; }
     body.story .post-titles .desc {
-      margin-bottom: 14px;
+      margin-bottom: 30px;
       font-family: "Palanquin", sans-serif;
-      line-height: 1.6;
+      line-height: 1.5;
       font-weight: 400;
       font-size: 16px; }
+      body.story .post-titles .more-options {
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        flex-direction: row;
+        -webkit-justify-content: flex-start;
+        -moz-justify-content: flex-start;
+        justify-content: flex-start; }
+        body.story .post-titles .read-more {
+          -webkit-box-flex: 1;
+          -moz-box-flex: 1;
+          -webkit-flex: 1;
+          -ms-flex: 1;
+          flex: 1;
+          font-family: "Palanquin", sans-serif;
+          font-weight: 700;
+          text-transform: uppercase;
+          font-size: 11px;
+          line-height: 11px;
+          letter-spacing: 0.06em;
+          color: #ef6145; }
+          body.story .post-titles .read-more::after {
+            content: ' ›';
+            font-size: 17px;
+            text-decoration: none;
+            position: relative;
+            top: 1px;
+            right: 0; }
   body.story .author-meta > div {
-    margin-bottom: 7px; }
+    margin-bottom: 3px; }
     body.story .author-meta span, body.story .author-meta a,
     body.story .author-meta div {
       color: #141b2e;
@@ -3699,14 +3629,8 @@ body.story {
         text-decoration: none; }
         body.story .author-meta a:hover, body.story .author-meta a:focus {
           color: #ef6145; }
-  body.story .author-meta .read-more {
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 10px;
-    line-height: 10px;
-    letter-spacing: 0.06em;
-    color: #ef6145;
-    position: relative; }
+  body.story .author-meta .post-date {
+    color: #727682; }
   body.story section {
     padding-top: 35px; }
     body.story section .topic .content aside {
@@ -3723,48 +3647,19 @@ body.story {
         opacity: 0.8; }
         body.story section .back-btn a:hover span {
           border-bottom: 1px solid #333; }
-  body.story .all-stories .all-stories-label {
-    margin: 0 auto;
-    padding: 10px;
-    font-family: "Palanquin", sans-serif;
-    font-weight: 300;
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase; }
-    body.story .all-stories .bg-filter {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      margin-top: -40px;
-      background: #222;
-      opacity: 0.75;
-      -moz-transition: opacity 0.65s;
-      -o-transition: opacity 0.65s;
-      -webkit-transition: opacity 0.65s;
-      transition: opacity 0.65s;
-      z-index: 1; }
-      body.story .all-stories article {
-        padding: 40px 0;
-        position: relative;
-        margin-bottom: 5px;
-        color: #fff;
-        display: block !important;
+  body.story #all-stories {
+    padding: 0 12% 12%; }
+    body.story #all-stories .story {
+      padding: 20px 0; }
+      body.story #all-stories .story .story-image {
         width: 100%;
+        height: 300px;
+        background-position: 0 50%;
         background-repeat: no-repeat;
-        background-position: center center;
         background-size: cover;
-        z-index: 0; }
-        body.story .all-stories article h1, body.story .all-stories article h1 a {
-          position: relative;
-          text-transform: uppercase;
-          letter-spacing: 4px;
-          font-size: 35px;
-          width: 100%;
-          display: inline-block;
-          word-wrap: break-word;
-          z-index: 2; }
-          body.story .all-stories article:hover .bg-filter {
-            opacity: 0.4; }
+        margin-bottom: 25px; }
+    body.story #all-stories .post-titles h1 a {
+      font-size: 40px; }
 body.about {
   background-color: #F6F6F6; }
   body.about section {

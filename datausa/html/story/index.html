@@ -9,6 +9,8 @@
   <div id="feature-text">
     <div class="post-feat-label">
       <p>Feature</p>
+    </div>
+    <div class="post-titles">
       <div class="color-blocks">
         <span class="b"></span>
         <span class="b"></span>
@@ -17,31 +19,36 @@
         <span class="b"></span>
         <span class="b"></span>
       </div>
-    </div>
-    <div class="post-titles">
       <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
       <p class="desc">{{ story.description }}</p>
-      <div class="author-meta">
-        {% for author in story.authors %}
-        <!-- <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}"><img alt="{{ author.name }}" src="{{ author.img }}"></a> -->
-        <div class="name"><span>By</span> <a href="{{ author.link }}" target="_blank">{{ author.name }}</a></div>
-        <div class="post-date">{{ story.date }}</div>
-        {% endfor %}
+      <div class="more-options">
+        <a href="/story/{{story.story_id}}" class="read-more">Read More</a>
+        <div class="author-meta">
+          {% for author in story.authors %}
+          <!-- <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}"><img alt="{{ author.name }}" src="{{ author.img }}"></a> -->
+          <div class="name"><span>By</span> <a href="{{ author.link }}" target="_blank">{{ author.name }}</a></div>
+          <div class="post-date">{{ story.date }}</div>
+          {% endfor %}
+        </div>
       </div>
-      <a href="/story/{{story.story_id}}" class="read-more">Read More</a>
     </div>
   </div>
 
 </div>
 {% endfor %}
 
-<div class="all-stories">
-  <!-- <div class="all-stories-label">More Stories</div> -->
+<div id="all-stories">
   {% for story in stories %}
-  <article style="background-image:url({{ story.background_image }})">
-    <div class="bg-filter"></div>
-    <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
-  </article>
+  <div class="story">
+    <div class="story-image" style="background-image:url({{ story.background_image }})"></div>
+    <div class="post-titles">
+      <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
+      <p class="desc">{{ story.description }}</p>
+      <div class="more-options">
+        <a href="/story/{{story.story_id}}" class="read-more">Read More</a>
+      </div>
+    </div>
+  </div>
   {% endfor %}
 </div>
 
