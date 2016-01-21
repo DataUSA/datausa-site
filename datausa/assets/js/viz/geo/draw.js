@@ -1,6 +1,9 @@
 viz.mapDraw = function(vars) {
 
+  var hiddenTopo = ["04000US69", "04000US66", "04000US60", "05000US60050", "05000US60010", "05000US60020", "05000US66010", "05000US69100", "05000US69110", "05000US69120", "05000US69085", "79500US6600100"];
+
   var cartodb = vizStyles.tiles,
+      defaultRotate = vars.id && vars.id.value === "birthplace" ? [0, 0] : [90, 0],
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       pathOpacity = 0.25,
       pathStroke = 1,
@@ -400,6 +403,7 @@ viz.mapDraw = function(vars) {
     var pinData = [];
     coords.objects[vars.coords.key].geometries = coords.objects[vars.coords.key].geometries.filter(function(c){
       if (vars.pins.value.indexOf(c.id) >= 0) pinData.push(c);
+      if (hiddenTopo.indexOf(c.id) >= 0) return false;
       return vars.coords.solo.length ? vars.coords.solo.indexOf(c.id) >= 0 :
              vars.coords.mute.length ? vars.coords.mute.indexOf(c.id) < 0 : true;
     })
@@ -408,6 +412,7 @@ viz.mapDraw = function(vars) {
     if (!vars.zoom.set) {
 
       vars.zoom.projection = d3.geo[projection]()
+        .rotate(defaultRotate)
         .scale(1)
         .translate([0, 0]);
 
@@ -606,10 +611,12 @@ viz.mapDraw = function(vars) {
     function zoomed(zoomtiming) {
 
       if (vars.tiles.value) {
-
+        var t = zoom.translate(),
+            d = projection(defaultRotate)[0] - projection([0, 0])[0];
+        t[0] += d * zoom.scale();
         var tileData = tile
           .scale(zoom.scale())
-          .translate(zoom.translate())
+          .translate(t)
           ();
       }
       else {
