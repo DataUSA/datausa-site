@@ -23,9 +23,19 @@ body.story {
 
   background-color: $l-profile-bg;
 
+  .pri-link {
+    font-family: $palanquin;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    line-height: 11px;
+    letter-spacing: 0.06em;
+    color: $red-w;
+  }
+
   /* stories index styles */
 
-  #featured-story {
+  header {
     @include flex();
     @include flex-direction(column);
     width: 100vw;
@@ -34,30 +44,33 @@ body.story {
     padding: 0;
     background-color: $l-profile-bg;
     overflow: hidden;
-
-    &.article {
-      height: 95vh !important;
-    }
   }
 
-  #feature-image {
+  #feature-image, #article-image {
     @include flex-size(2);
     width: 100%;
     @include background-stretch();
     @include transition(all 0.5s);
   }
-
-  #feature-text {
+  
+  #feature-text, #article-text {
     @include flex-size(1);
     width: 100%;
     @include flex();
-    @include flex-direction(row);
     @include justify(center);
-    padding: 0 45px;
+    padding: 0 12%;
     margin: 20px 0;
     @include box();
   }
+  
+  #feature-text {
+    @include flex-direction(row);
+  }
 
+  #article-text {
+    @include flex-direction(column);
+  }
+    
   .post-feat-label {
     @include flex-size(1);
     text-align: right;
@@ -79,11 +92,8 @@ body.story {
   }
 
   .post-titles {
-    @include flex-size(2);
-    text-align: left;
-    top: 60%;
+    @include flex-size(4);
     width: 100%;
-    margin-right: 15%;
     @include flex();
     @include flex-direction(column);
     @include justify(flex-start);
@@ -131,13 +141,6 @@ body.story {
 
     .read-more {
       @include flex-size(1);
-      font-family: $palanquin;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 11px;
-      line-height: 11px;
-      letter-spacing: 0.06em;
-      color: $red-w;
 
       &::after {
         content: ' &rsaquo;';
@@ -180,8 +183,8 @@ body.story {
   }
 
   section {
-    padding-top: 35px;
-
+    padding: 35px 12% 40px;
+    
     .topic .content aside {
       width: 100% !important;
       max-width: initial;
@@ -189,26 +192,12 @@ body.story {
 
     .back-btn {
       position: relative;
-      margin: 0 25px 25px;
-      width: 100%;
-      font-family: $palanquin;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      line-height: 1;
-      opacity: 0.8;
-
-      a {
-        &:hover {
-          span {
-            border-bottom: 1px solid #333;
-          }
-        }
-      }
+      margin-bottom: 25px;
     }
   }
 
   #all-stories {
-    padding: 0 12% 12%;
+    padding: 0 12% 40px;
 
     .story {
       padding: 20px 0;
@@ -234,5 +223,525 @@ body.story {
 
   /* story article styles */
 
+  #article {
+    h1 {
+      color: $black3;
+      font-family: $pathway;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      font-size: 48px;
+    }
+  }
 
+  .data-btn {
+    float: right;
+    position: relative;
+    vertical-align: baseline;
+    padding-bottom: 1px;
+    color: #a3a3a3;
+    font-family: $palanquin;
+    font-size: 12px;
+
+    i {
+      position: relative;
+      top: 1px;
+      vertical-align: baseline;
+    }
+
+    &:hover {
+      border-bottom: 1px solid #bbb;
+    }
+  }
+
+  .topic {
+    h2 {
+      font-family: $pathway;
+      font-size: 30px;
+      font-weight: 400;
+      color: #333;
+      text-transform: none;
+      font-style: normal;
+      letter-spacing: 0;
+    }
+
+    .data-btn {
+      top: 18px;
+
+      span {
+        color: #999;
+        font-family: $palanquin;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: normal;
+      }
+    }
+
+    &.flex {
+      h2 {
+        font-size: 24px;
+      }
+
+      .data-btn {
+        top: 13px;
+      }
+    }
+
+    sub {
+      font-family: $palanquin;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 400;
+      text-transform: initial;
+      letter-spacing: 0.05em;
+      color: #666;
+
+      a {
+        color: #666;
+        &:hover {
+          text-decoration: none;
+          border-bottom: 1px solid #666;
+        }
+      }
+    }
+
+    .sub-source {
+      display: inline-block;
+      color: #a8a8a8;
+      font-family: $palanquin;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.5;
+
+      a {
+        color: #888;
+        &:hover {
+          border-bottom: 1px solid #888;
+        }
+      }
+
+      span {
+        vertical-align: baseline;
+      }
+    }
+  }
+
+  section {
+    @include flex();
+    @include flex-direction(column);
+    @include flex-wrap();
+    @include justify(flex-start);
+
+    .category {
+      @include box();
+      @include flex-size(1 1 100%);
+      padding: 5px 24px 30px;
+      min-width: 100%;
+
+      a:before {
+        content: "";
+        position: absolute;
+        visibility: hidden;
+        top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      }
+
+      &:before, &:after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        z-index: 0;
+        top: 25px;
+        width: 20vw;
+        height: 1px;
+        @include transition(all .5s ease);
+        background: #ccc;
+        @include box();
+      }
+
+      &:before {
+        left: 25px;
+        @include shadow(0px 0px 0 #ccc);
+      }
+
+      &:after {
+        right: 25px;
+        @include shadow(0px 0px 0 #ccc);
+      }
+
+      &:hover {
+        &:before, &:after {
+          top: 28px;
+          @include shadow(0px -6px 0 #ccc);
+        }
+      }
+    }
+
+    .topic {
+      @include flex-size(1 1 100%);
+      @include box();
+      margin: 0;
+      min-width: 100%;
+      padding: 0 25px 50px;
+
+      &:not(.flex) {
+        aside {
+          width: 50%;
+        }
+      }
+
+      &.short {
+        padding-bottom: 0;
+      }
+
+      &.flex {
+        @include flex();
+        @include flex-size(1 1);
+        @include flex-direction(column);
+        @include align-items(stretch);
+        margin: 0 25px 50px;
+        min-width: 198px;
+        padding: 0;
+
+        .content {
+          @include flex-size(1 1);
+          @include flex-direction(column);
+
+          aside {
+            @include flex-size(1 1);
+            max-width: 100%;
+          }
+
+          .viz {
+            @include flex-size(1 1 200px);
+            margin-left: 0;
+            min-height: 200px;
+          }
+
+        }
+
+      }
+
+      .content {
+        @include flex();
+        margin-top: 10px;
+
+        &.full-width {
+          @include flex-direction(column);
+
+          .viz {
+            margin-left: 0;
+            min-height: 500px;
+          }
+
+        }
+
+        aside {
+          @include flex-size(none);
+          max-width: 415px;
+
+          p {
+            a {
+              border-bottom: 1px solid #C1C1C1;
+              @include transition(opacity 0.15s);
+
+              &:hover {
+                opacity: 0.5;
+                border-bottom: 0;
+              }
+            }
+          }
+
+          select {
+            width: 100%;
+          }
+
+          .topic-stats {
+            @include flex();
+            @include align-items(flex-end);
+
+            &.stacked {
+              @include flex-direction(column);
+              @include align-items(flex-start);
+            }
+
+            .stat {
+              @include flex-size(1);
+              margin: 10px 15px 10px 0;
+
+              .stat-value {
+                &.loading {
+                  opacity: 0.5;
+                }
+              }
+
+            }
+
+          }
+
+          p {
+            margin: 3px 0 6px;
+          }
+
+        }
+
+        .viz {
+          @include flex-size(1 1 auto);
+          margin-left: 50px;
+          min-height: 300px;
+          overflow: hidden;
+          position: relative;
+
+          .d3plus {
+
+            .d3plus_coordinates.outline {
+              fill: transparent !important;
+              pointer-events: none !important;
+            }
+
+            #XXUSA {
+              fill: #bbb !important;
+              stroke: #aaa !important;
+            }
+
+          }
+
+          .data-table {
+            @include transition(top 0.5s);
+            height: 100%;
+            overflow: scroll;
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: #D0D0D0;
+
+            &.visible {
+              top: 0;
+            }
+
+            .download-btns {
+              background-color: #1C1C1C;
+              text-align: center;
+
+              .csv-btn {
+                display: inline-block;
+                margin: 5px;
+                text-align: center;
+                vertical-align: baseline;
+                padding: 4px;
+                background-color: #006947;
+                color: white;
+                font-family: $palanquin;
+                font-size: 12px;
+
+                i {
+                  margin-left: 5px;
+                  vertical-align: baseline;
+                }
+
+                &:hover {
+                  background-color: #0c9a6e;
+                }
+
+              }
+
+              .api-btn {
+                display: inline-block;
+                margin: 5px;
+                text-align: center;
+                vertical-align: baseline;
+                padding: 4px;
+                background-color: #006947;
+                color: white;
+                font-family: $palanquin;
+                font-size: 12px;
+
+                &:hover {
+                  background-color: #0c9a6e;
+                }
+
+              }
+
+            }
+
+            table {
+              width: 100%;
+            }
+
+            thead, tbody {
+              font-family: $palanquin;
+            }
+
+            thead {
+              @include shadow(0 3px 3px rgba(20, 27, 46, 0.25));
+              background-color: #1C1C1C;
+              color: rgba(237, 240, 245, 0.5);
+
+              th {
+                padding: 6px 5px 4px;
+                font-weight: 400;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                font-size: 11px;
+                text-align: left;
+
+                &:hover {
+                  color: #fff;
+                  cursor: default;
+                }
+              }
+            }
+
+            tbody {
+              color: #333;
+
+              td {
+                font-size: 12px;
+                font-weight: 300;
+                padding: 5px 5px;
+              }
+
+              tr {
+                &:hover {
+                  color: #fff;
+                }
+              }
+            }
+          }
+
+        }
+
+        .viz.mini {
+          margin-left: 0;
+          min-height: 200px;
+        }
+
+      }
+
+    }
+
+  }
+
+  .share-section {
+    margin-top: 10px;
+    a {
+      color: #a8a8a8;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 10px;
+      margin-left: -10px;
+
+      i {
+        @include transition(opacity 0.1s);
+        opacity: 0.7;
+      }
+
+      &:hover {
+        i {
+          opacity: 1;
+        }
+      }
+    }
+
+    .embed-input {
+      @include transition(opacity 0.5s);
+      display: inline-block;
+      margin-top: -3px;
+      margin-left: -5px;
+      opacity: 0;
+
+      &.open {
+        opacity: 1;
+      }
+
+      input[type="text"] {
+        padding: 3px;
+        width: 100px;
+        font-family: $palanquin;
+      }
+
+      input[type="checkbox"] {
+
+      }
+
+      label {
+        color: #a8a8a8;
+        font-family: $palanquin;
+        font-size: 11px;
+        vertical-align: middle;
+      }
+
+    }
+
+  }
+
+  .d3plus_tooltip {
+
+    .d3plus_tooltip_description {
+      line-height: 1.35;
+      font-weight: 300;
+    }
+
+    .d3plus_tooltip_data_seperator {
+      background-color: rgba(224, 224, 224, 0.64) !important;
+    }
+
+  }
+
+  .stat-text, .stat-rank {
+    font-family: $palanquin;
+  }
+
+  .stat-text {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    vertical-align: baseline;
+  }
+
+  .stat-subtitle {
+    margin-left: 2px;
+    margin-top: 7px;
+
+    .plus-minus {
+      color: $home-red;
+    }
+  }
+
+  .stat-group {
+    text-align: center;
+  }
+
+  .stat-rank {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-value {
+    font-family: $source;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 8px;
+
+    &.stat-small {
+      font-size: 20px;
+      font-weight: 400;
+      margin-left: 2px;
+      margin-top: 2px;
+    }
+
+    a {
+      padding-bottom: 1px;
+      text-decoration: none;
+      text-transform: capitalize;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+    }
+  }
 }

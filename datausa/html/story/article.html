@@ -4,32 +4,39 @@
 
 {% block body %}
 
-<header class="article">
-  <div id="splash" style="background-image:url({{ story.background_image }})">
-    
-    <div class="bg-filter"></div>
-    <div class="text">
-      <div class="post-titles">
-          <h1>{{ story.title }}</h1>
-          <p class="description">{{ story.description }}</h2>
-      </div>
-      <div class="author-meta">
-        {% for author in story.authors %}
-        <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}">
-          <img alt="{{ author.name }}" src="{{ author.img }}">
-        </a>
-        <div class="name"><span>By</span> <a href="{{ author.link }}" target="_blank">{{ author.name }}</a></div>
-        <div class="post-date" style="">{{ story.date }}</div>
-        {% endfor %}
-      </div>
-    </div>
+<header id="article">
+  <div id="article-image" style="background-image:url({{ story.background_image }})"></div>
+  
+  <div id="article-text">
+    <div class="back-btn"><a class="pri-link" href="/story/">&#8592; <span>Back to All Stories</span></a></div>
+    <div class="post-titles">
+      <div class="color-blocks">
+        <span class="b"></span>
+        <span class="b"></span>
+        <span class="b"></span>
+        <span class="b"></span>
+        <span class="b"></span>
+        <span class="b"></span>
 
-  </div> <!-- .splash -->
+        <h1>{{ story.title }}</h1>
+        <p class="desc">{{ story.description }}</p>
+    </div>
+  </div>
 </header>
 
 {% set section = story %}
 <section>
-  <div class="back-btn"><a href="#">&#8592; <span>Back to All Stories</span></a></div>
   {% include "templates/includes/topic.html" %}
 </section>
+
+<div class="article-more-options">
+    <div class="author-meta">
+      {% for author in story.authors %}
+      <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}"><img alt="{{ author.name }}" src="{{ author.img }}"></a>
+      <div class="name"><span>By</span> <a href="{{ author.link }}" target="_blank">{{ author.name }}</a></div>
+      <div class="post-date">{{ story.date }}</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -8,21 +8,17 @@ authors:
       link: http://twitter.com/ximoes
     
 topics:
-  - title: "Cost of College"
+  - title: "Wage by Gender"
     stat:
-      - title: "State with lowest healthcare costs"
+      - title: "Average Male Salary"
+        value: "<<top show=geo|order=health_care_costs|sumlevel=state|sort=asc>>"
+    stat:
+      - title: "Average Female Salary"
         value: "<<top show=geo|order=health_care_costs|sumlevel=state|sort=asc>>"
 
   - description: >
-      Health care or healthcare is the diagnosis, treatment, and prevention of disease, illness, injury,
-      and other physical and mental impairments in human beings. Health care is delivered by practitioners in
-      allied health, dentistry, midwifery (obstetrics), medicine, nursing, optometry, pharmacy, psychology and other health professions.
-      It refers to the work done in providing primary care, secondary care, and tertiary care, as well as in public health.
-  - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
-
-  - description: >
       One reason, the study shows, that fewer women reach the top is that they serve more often in staff vs. line positions, which are more likely to lead to the C-suite. Women in line positions are less likely to advance to the top. And women express greater concern about the stress that comes with top jobs.
-  - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
+  - viz_url: "/profile/geo/01000US/economy/income_gender/"
 
   - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
   - description: >
