@@ -4246,57 +4246,91 @@ body.about {
   background-color: #F6F6F6; }
   body.about #top-nav {
     background-color: #141b2e; }
-    body.about section {
-      padding: 35px 0 0 0; }
-      body.about section .topic {
-        padding: 25px 150px 25px; }
-        body.about section .topic .content.full-wdith {
-          display: block; }
-          body.about section .topic .content .viz {
-            min-height: inherit; }
-            body.about section .topic .content aside {
-              max-width: initial; }
-        body.about section .topic.datasets {
-          background-color: #ddd; }
-          body.about section .topic.datasets .content aside {
-            width: 200px; }
-            body.about section .topic.datasets .content aside .about_tabs li {
-              text-align: center; }
-              body.about section .topic.datasets .content aside .about_tabs li.active {
-                background-color: #bbb; }
-          body.about section .topic.datasets .content .viz .tab_content {
-            display: none;
-            opacity: 0;
-            -moz-transition: 1s;
-            -o-transition: 1s;
-            -webkit-transition: 1s;
-            transition: 1s; }
-            body.about section .topic.datasets .content .viz .tab_content.active {
-              display: block;
-              opacity: 1; }
-              body.about section .topic.datasets .content .viz .tab_content h3 {
-                margin: 15px 0 0 0; }
-                body.about section .topic.datasets .content .viz .tab_content p {
-                  margin: 5px 0; }
-        body.about section .topic p.centered {
-          margin: 0 auto;
-          max-width: 500px; }
-          body.about section .topic ul {
-            font-family: "Roboto", sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
-            font-weight: 400;
-            color: rgba(51, 51, 51, 0.93);
-            margin: 10px 0 0 0; }
-            body.about section .topic ul li {
-              padding: 5px; }
-      body.about section h2 .fa-link {
-        color: #565656;
-        display: none;
-        margin: 5px 0 0 -15px;
-        font-size: 14px; }
-        body.about section h2:hover .fa-link {
-          display: inline-block; }
+    body.about #home-btn {
+      display: none; }
+      body.about #title-bar {
+        text-align: center;
+        height: 40px;
+        right: 0;
+        left: 0;
+        margin-right: auto;
+        margin-left: auto;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        z-index: 3; }
+        body.about #title-bar span {
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-align-items: center;
+          align-items: center;
+          position: relative;
+          top: 0;
+          padding: 7px;
+          color: #ef6145;
+          font-family: "Pathway Gothic One", sans-serif;
+          font-size: 24px; }
+          body.about #title-bar img {
+            width: 78px;
+            margin-top: 4px;
+            margin-right: 5px; }
+  body.about section {
+    padding: 35px 0 0 0; }
+    body.about section .topic {
+      padding: 25px 150px 25px; }
+      body.about section .topic .content.full-wdith {
+        display: block; }
+        body.about section .topic .content .viz {
+          min-height: inherit; }
+          body.about section .topic .content aside {
+            max-width: initial; }
+      body.about section .topic.datasets {
+        background-color: #ddd; }
+        body.about section .topic.datasets .content aside {
+          width: 200px; }
+          body.about section .topic.datasets .content aside .about_tabs li {
+            text-align: center; }
+            body.about section .topic.datasets .content aside .about_tabs li.active {
+              background-color: #bbb; }
+        body.about section .topic.datasets .content .viz .tab_content {
+          display: none;
+          opacity: 0;
+          -moz-transition: 1s;
+          -o-transition: 1s;
+          -webkit-transition: 1s;
+          transition: 1s; }
+          body.about section .topic.datasets .content .viz .tab_content.active {
+            display: block;
+            opacity: 1; }
+            body.about section .topic.datasets .content .viz .tab_content h3 {
+              margin: 15px 0 0 0; }
+              body.about section .topic.datasets .content .viz .tab_content p {
+                margin: 5px 0; }
+      body.about section .topic p.centered {
+        margin: 0 auto;
+        max-width: 500px; }
+        body.about section .topic ul {
+          font-family: "Roboto", sans-serif;
+          font-size: 15px;
+          line-height: 1.6;
+          font-weight: 400;
+          color: rgba(51, 51, 51, 0.93);
+          margin: 10px 0 0 0; }
+          body.about section .topic ul li {
+            padding: 5px; }
+    body.about section h2 .fa-link {
+      color: #565656;
+      display: none;
+      margin: 5px 0 0 -15px;
+      font-size: 14px; }
+      body.about section h2:hover .fa-link {
+        display: inline-block; }
   body.about header {
     top: 40px;
     margin-bottom: 40px;

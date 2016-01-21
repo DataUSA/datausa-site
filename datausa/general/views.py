@@ -28,6 +28,12 @@ def about():
     g.page_sub_type = "index"
     return render_template("about/index.html")
 
+@mod.route("/about/datasets/")
+def datasets():
+    g.page_type = "about"
+    g.page_sub_type = "datasets"
+    return render_template("about/datasets.html")
+
 @mod.route("/about/glossary/")
 def glossary():
     g.page_type = "about"
