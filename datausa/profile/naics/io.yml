@@ -26,23 +26,23 @@ topics:
             make: "industry_iocode"
       id: "id"
       type: "sankey"
-  - title: "Consumption"
+  - title: "Intermediate Inputs"
     slug: "tmap_consumption"
-    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics>>"
+    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added>>"
     stat:
       - title: "Highest Input Industry"
         value: "<<var namespace=io_commodity|key=commodity_iocode|row=0>>"
         subvalues:
           - "<<var namespace=io_commodity|key=commodity_iocode|row=1>>"
           - "<<var namespace=io_commodity|key=commodity_iocode|row=2>>"
-    description: "Here we can see the input industries for <<name>> by their share of the overall use. As seen above, the top industry is <<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=naics>>."
+    description: "Here we can see the input industries for <<name>> by their share of the overall use. As seen above, the top industry is <<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=no_value_added>>."
     viz:
       attrs: "iocode"
       color: "iocode"
       data:
         - industry_iocode: "<<id>>"
-          industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|key=level>>"
-          sumlevel: "naics"
+          industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|key=level>>"
+          sumlevel: "no_value_added"
           required: "value_millions"
           show: "commodity_iocode"
           where: "value_millions:!0"
@@ -54,7 +54,7 @@ topics:
       type: "tree_map"
   - title: "Production"
     slug: "tmap_production"
-    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=1>>"
+    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|industry_level=1>>"
     stat:
       - title: "Highest Output Industry"
         value: "<<var namespace=io_industry|key=industry_iocode|row=0>>"
@@ -67,8 +67,8 @@ topics:
       color: "iocode"
       data:
         - commodity_iocode: "<<id>>"
-          industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|key=level>>"
-          sumlevel: "naics"
+          industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|key=level>>"
+          sumlevel: "no_value_added"
           required: "value_millions"
           show: "industry_iocode"
           where: "value_millions:!0"
