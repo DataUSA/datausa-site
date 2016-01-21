@@ -4022,50 +4022,6 @@ viz.mapDraw = function(vars) {
         .overflow([true, false]);
     }
 
-    function zoomed(zoomtiming) {
-
-      if (vars.tiles.value) {
-        var t = zoom.translate(),
-            d = projection(defaultRotate)[0] - projection([0, 0])[0];
-        t[0] += d * zoom.scale();
-        var tileData = tile
-          .scale(zoom.scale())
-          .translate(t)
-          ();
-      }
-      else {
-        var tileData = [];
-      }
-
-      polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
-      pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
-        .selectAll(".pin")
-        .attr("transform", function(d){
-          return "translate(" + d + ")scale(" + (1/zoom.scale()*vizStyles.pin.scale) + ")";
-        });
-
-      if (vars.tiles.value) {
-        tileGroup.attr("transform", "scale(" + tileData.scale + ")translate(" + tileData.translate + ")");
-      }
-
-      var tilePaths = tileGroup.selectAll("image.tile")
-          .data(tileData, function(d) { return d; });
-
-      tilePaths.exit().remove();
-
-      tilePaths.enter().append("image")
-        .attr("xlink:href", function(d) {
-          var x = d[0] % tileData.width;
-          if (x < 0) x += tileData.width;
-          return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/" + cartodb + "/" + d[2] + "/" + x + "/" + d[1] + ".png";
-        })
-        .attr("width", 1)
-        .attr("height", 1)
-        .attr("x", function(d) { return d[0]; })
-        .attr("y", function(d) { return d[1]; });
-
-    }
-
     if (vars.zoom.value) {
       svg.call(zoom)
         .on("mousewheel.zoom",null)
@@ -4077,6 +4033,50 @@ viz.mapDraw = function(vars) {
       zoomed();
       vars.zoom.set = true;
     }
+
+  }
+
+  function zoomed(zoomtiming) {
+
+    if (vars.tiles.value) {
+      var t = zoom.translate(),
+          d = projection(defaultRotate)[0] - projection([0, 0])[0];
+      t[0] += d * zoom.scale();
+      var tileData = tile
+        .scale(zoom.scale())
+        .translate(t)
+        ();
+    }
+    else {
+      var tileData = [];
+    }
+
+    polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+    pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
+      .selectAll(".pin")
+      .attr("transform", function(d){
+        return "translate(" + d + ")scale(" + (1/zoom.scale()*vizStyles.pin.scale) + ")";
+      });
+
+    if (vars.tiles.value) {
+      tileGroup.attr("transform", "scale(" + tileData.scale + ")translate(" + tileData.translate + ")");
+    }
+
+    var tilePaths = tileGroup.selectAll("image.tile")
+        .data(tileData, function(d) { return d; });
+
+    tilePaths.exit().remove();
+
+    tilePaths.enter().append("image")
+      .attr("xlink:href", function(d) {
+        var x = d[0] % tileData.width;
+        if (x < 0) x += tileData.width;
+        return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/" + cartodb + "/" + d[2] + "/" + x + "/" + d[1] + ".png";
+      })
+      .attr("width", 1)
+      .attr("height", 1)
+      .attr("x", function(d) { return d[0]; })
+      .attr("y", function(d) { return d[1]; });
 
   }
 

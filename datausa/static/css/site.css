@@ -3422,7 +3422,6 @@ body.map {
       display: none; }
       #map-loading #map-loading-text {
         left: 0;
-        margin-top: -20px;
         position: absolute;
         top: 50%;
         width: 100%;

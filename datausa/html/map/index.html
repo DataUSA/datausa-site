@@ -64,7 +64,6 @@
     .draw();
 
   var navheight = d3.select("#top-nav").node().offsetHeight +
-                  parseFloat(d3.select("#map-controls").style("padding-top"), 10) * 2 +
                   d3.select("#map-controls").node().offsetHeight;
   d3.select("#map-fullscreen")
     .style("height", window.innerHeight - navheight + "px");
