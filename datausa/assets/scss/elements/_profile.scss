@@ -197,7 +197,7 @@ body.profile, body.map {
     }
 
     .sub-source {
-      display: inline-block;
+      display: block;
       color: #a8a8a8;
       font-family: $palanquin;
       font-size: 12px;
@@ -1006,7 +1006,7 @@ body.profile, body.map {
       text-align: center;
       margin-bottom: 20px;
     }
-    
+
     .intro-txt {
       @include flex-size(2);
       a {

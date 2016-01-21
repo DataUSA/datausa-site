@@ -102,7 +102,7 @@ body.story {
   #feature-image {
     max-height: 800px;
   }
-  
+
   #feature-text, #article-text {
     @include flex();
     @include justify(center);
@@ -116,7 +116,7 @@ body.story {
     padding: 25px 12%;
     margin: 20px 0 0;
   }
-  
+
   #feature-text {
     background-color: $l-profile-bg;
     z-index: 1;
@@ -132,7 +132,7 @@ body.story {
   #article-text {
     @include flex-direction(column);
   }
-    
+
   .post-feat-label {
     @include flex-size(1);
     text-align: right;
@@ -195,7 +195,7 @@ body.story {
       @include flex-size(1);
 
       &::after {
-        content: '\203A';
+        content: unicode('203A');
         font-size: 19px;
         margin-left: 3px;
         text-decoration: none;
@@ -245,7 +245,7 @@ body.story {
   }
 
   section {
-    
+
     .topic .content aside {
       width: 100% !important;
       max-width: initial;
@@ -309,7 +309,7 @@ body.story {
       margin-top: 10px;
     }
 
-    .author-meta { 
+    .author-meta {
       @include align-self(flex-end);
     }
   }
