@@ -16,6 +16,9 @@
   </select>
 </div>
 <div id="map-fullscreen"></div>
+<div id="map-loading">
+  <div id="map-loading-text"><i class="fa fa-circle-o-notch fa-spin"></i>Please Wait</div>
+</div>
 
 {% endblock %}
 
@@ -73,6 +76,7 @@
     .draw();
 
   function makeURL() {
+    d3.select("#map-loading").classed("hidden", false);
     var level = levels.focus(), required = keys.focus();
     var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + required;
     var topo = level === "county" ? "counties" : level + "s";
@@ -83,6 +87,7 @@
 
     load("/static/topojson/" + topo + ".json", function(coords){
       load(api + url, function(data){
+        d3.select("#map-loading").classed("hidden", true);
         map.coords(coords).data(data).draw();
       });
     });

@@ -3389,47 +3389,69 @@ body.map {
 #map-fullscreen {
   width: 100vw; }
 
-  .attribution {
-    bottom: 4px;
-    display: block;
+  #map-loading {
+    height: 100vh;
+    left: 0;
     position: absolute;
-    right: 4px;
-    color: #211f1a;
-    padding: 4px 7px 7px;
-    font-size: 9px; }
+    top: 0;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5); }
+    #map-loading.hidden {
+      display: none; }
+      #map-loading #map-loading-text {
+        left: 0;
+        margin-top: -20px;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        color: white;
+        font-family: "Lato", sans-serif;
+        font-size: 30px;
+        text-align: center; }
+        #map-loading #map-loading-text i {
+          margin: 3px 5px; }
 
-    .map-controls {
-      left: 5px;
-      position: absolute;
-      top: 5px; }
-      .map-controls .zoom-in, .map-controls .zoom-out, .map-controls .zoom-reset {
-        border: 1px solid #211f1a;
-        display: block;
-        height: 15px;
-        margin: 5px;
-        position: relative;
+.attribution {
+  bottom: 4px;
+  display: block;
+  position: absolute;
+  right: 4px;
+  color: #211f1a;
+  padding: 4px 7px 7px;
+  font-size: 9px; }
+
+  .map-controls {
+    left: 5px;
+    position: absolute;
+    top: 5px; }
+    .map-controls .zoom-in, .map-controls .zoom-out, .map-controls .zoom-reset {
+      border: 1px solid #211f1a;
+      display: block;
+      height: 15px;
+      margin: 5px;
+      position: relative;
+      width: 15px;
+      background-color: white; }
+      .map-controls .zoom-in:after, .map-controls .zoom-out:after,
+      .map-controls .zoom-reset:after {
+        top: 2px;
+        position: absolute;
         width: 15px;
-        background-color: white; }
-        .map-controls .zoom-in:after, .map-controls .zoom-out:after,
+        color: #211f1a;
+        font-family: FontAwesome;
+        font-size: 12px;
+        font-weight: 400;
+        text-align: center; }
+        .map-controls .zoom-in:hover, .map-controls .zoom-out:hover,
+        .map-controls .zoom-reset:hover {
+          cursor: pointer;
+          background-color: #f1f1f1; }
+    .map-controls .zoom-in:after {
+      content: "\f067"; }
+      .map-controls .zoom-out:after {
+        content: "\f068"; }
         .map-controls .zoom-reset:after {
-          top: 2px;
-          position: absolute;
-          width: 15px;
-          color: #211f1a;
-          font-family: FontAwesome;
-          font-size: 12px;
-          font-weight: 400;
-          text-align: center; }
-          .map-controls .zoom-in:hover, .map-controls .zoom-out:hover,
-          .map-controls .zoom-reset:hover {
-            cursor: pointer;
-            background-color: #f1f1f1; }
-      .map-controls .zoom-in:after {
-        content: "\f067"; }
-        .map-controls .zoom-out:after {
-          content: "\f068"; }
-          .map-controls .zoom-reset:after {
-            content: "\f015"; }
+          content: "\f015"; }
 body.story {
   background-color: #F6F6F6; }
   body.story #top-nav {
@@ -3608,7 +3630,7 @@ body.story {
           letter-spacing: 0.06em;
           color: #ef6145; }
           body.story .post-titles .read-more::after {
-            content: ' ›';
+            content: ' &rsaquo;';
             font-size: 17px;
             text-decoration: none;
             position: relative;
