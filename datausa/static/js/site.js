@@ -2354,9 +2354,7 @@ viz.defaults = function(build) {
     "format": {
       "number": viz.format.number,
       "text": function(text, params) {
-
-        viz.format.text(text, params, build);
-
+        return viz.format.text(text, params, build);
       }
     },
     "height": {
