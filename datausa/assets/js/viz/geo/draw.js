@@ -412,9 +412,10 @@ viz.mapDraw = function(vars) {
     if (!vars.zoom.set) {
 
       vars.zoom.projection = d3.geo[projection]()
-        .rotate(defaultRotate)
         .scale(1)
         .translate([0, 0]);
+
+      if (projection === "mercator") vars.zoom.projection.rotate(defaultRotate);
 
     }
 
