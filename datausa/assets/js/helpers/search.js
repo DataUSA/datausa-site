@@ -85,6 +85,7 @@ var search = {
     "geo": ["040", "050", "310", "160", "860", "795", "140"]
   },
   "parents": [],
+  "stem_only": null,
   "term": "",
   "type": "",
   "children": {
@@ -102,7 +103,7 @@ search.reload = function() {
   this.type = this.type || "";
   // var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
   // var q_params = [['q', this.term], ['kind', this.type], ['sumlevel', sumlevel]]
-  var q_params = [['q', this.term], ['kind', this.type]]
+  var q_params = [['q', this.term], ['kind', this.type], ['stem_only', this.stem_only]]
                   .filter(function(q){ return q[1] || q[1]===0; })
                   .reduce(function(a, b, i){
                     var sep = i ? "&" : "";
@@ -123,8 +124,9 @@ search.reload = function() {
   }
 
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
-  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+query_sumlevel, function(data, url, raw) {
+  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&is_stem="+this.stem_only+query_sumlevel, function(data, url, raw) {
     // console.log(data, url, raw)
+    console.log(url)
 
     this.zip = raw.zip_search;
 

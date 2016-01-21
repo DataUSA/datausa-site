@@ -938,6 +938,26 @@ body.search {
                     body.search .search-results-container .search-refine div ul li a.no-results {
                       opacity: 0.5;
                       cursor: default; }
+                body.search .search-results-container .search-refine div ul li.stem_only {
+                  border-top: dashed 1px #aaa;
+                  margin-top: 10px;
+                  padding-top: 5px; }
+                  body.search .search-results-container .search-refine div ul li.stem_only a span.check {
+                    background-image: url('/static/img/search/checkbox-sprite.png');
+                    width: 20px;
+                    height: 20px;
+                    background-position: center top;
+                    background-repeat: no-repeat; }
+                    body.search .search-results-container .search-refine div ul li.stem_only a input {
+                      outline: 0;
+                      opacity: 0;
+                      cursor: pointer;
+                      filter: alpha(opacity=0);
+                      -webkit-appearance: none;
+                      -moz-appearance: none;
+                      -ms-appearance: none; }
+                      body.search .search-results-container .search-refine div ul li.stem_only a.active span.check {
+                        background-position: center -30px; }
             body.search .search-results-container .search-refine div h2,
             body.search .search-results-container .search-refine div li {
               font-family: "Roboto", sans-serif;

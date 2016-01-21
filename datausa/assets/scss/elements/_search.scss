@@ -436,6 +436,42 @@ body.search {
                 cursor: default;
               }
             }
+            
+            &.stem_only {
+              border-top: dashed 1px #aaa;
+              margin-top: 10px;
+              padding-top: 5px;
+              
+              a {
+              
+                span.check {
+                  background-image: url('/static/img/search/checkbox-sprite.png');
+                  width: 20px;
+                  height: 20px;
+                  background-position: center top;
+                  background-repeat: no-repeat;
+                }
+              
+                input {
+                  outline: 0;
+                  opacity: 0;
+                  cursor: pointer;
+                  filter: alpha(opacity=0);
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  -ms-appearance: none;
+                }
+                
+                &.active {
+                  span.check {
+                    background-position: center -30px;
+                  }
+                }
+                
+              }
+              
+            }
+            
           }
         }
 

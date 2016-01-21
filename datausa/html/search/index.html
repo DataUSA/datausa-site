@@ -55,9 +55,10 @@
       <div class="cip">
         <h2><a href="#" data-filter="cip"><img src="/static/img/icons/cip_b.svg">Education <span class="num_res" data-default="2,319">0</span></a></h2>
         <ul>
-          <li><a href="#" data-filter="cip" data-depth="0">2 digit <span class="num_res" data-default="49">0</span></a></li>
-          <li><a href="#" data-filter="cip" data-depth="1">4 digit <span class="num_res" data-default="422">0</span></a></li>
-          <li><a href="#" data-filter="cip" data-depth="2">6 digit <span class="num_res" data-default="1,848">0</span></a></li>
+          <li><a href="#" data-filter="cip" data-depth="0">2 Digit Course <span class="num_res" data-default="49">0</span></a></li>
+          <li><a href="#" data-filter="cip" data-depth="1">4 Digit Course <span class="num_res" data-default="422">0</span></a></li>
+          <li><a href="#" data-filter="cip" data-depth="2">6 Digit Course <span class="num_res" data-default="1,848">0</span></a></li>
+          <li class="stem_only"><a href="#" data-filter="cip" data-stem="true">STEM Only <span class="check"><input type="checkbox" name="stem" value="stem" checked="checked"></span></a></li>
         </ul>
       </div>
 
@@ -140,9 +141,10 @@
     d3.select(".search-suggestions a.clear").style("display", "inline-block");
     var filter = d3.select(this).attr("data-filter");
     var depth = d3.select(this).attr("data-depth");
+    var stem_only = d3.select(this).attr("data-stem");
     var parent_div = this.parentNode.parentNode;
     var is_active = d3.select(parent_div).classed("active");
-    if(depth === null) {
+    if(depth === null && stem_only === null) {
       d3.selectAll(".search-refine > div").classed("active", false);
       d3.select(parent_div).classed("active", !is_active);
       if(!is_active === false){
@@ -150,13 +152,26 @@
         filter = null;
       }
     }
+    else if (stem_only){
+      d3.select(this).classed("active", !d3.select(this).classed("active"));
+      stem_only = d3.select(this).classed("active");
+      var active_cip_depth = d3.select(this.parentNode.parentNode).selectAll("li:not(.stem_only) a.active");
+      if(!active_cip_depth.empty()){
+        depth = active_cip_depth.attr("data-depth");
+      }
+      console.log(depth)
+    }
     else {
-      d3.selectAll(".search-refine div ul li a").classed("active", false);
+      d3.selectAll(".search-refine div ul li:not(.stem_only) a").classed("active", false);
       d3.select(this).classed("active", true);
+      if(!d3.select(this.parentNode.parentNode).select(".stem_only").empty()){
+        stem_only = d3.select(".stem_only a").classed("active");
+      }
     }
 
     search.type = filter;
     search.depth = depth;
+    search.stem_only = stem_only;
     search.reload();
     // prevent default anchor link behavior
     d3.event.preventDefault();
@@ -246,11 +261,15 @@
   var term = location.search ? location.search.split("=")[1] : "";
   search.term = getURLParameter("q") || "";
   search.type = getURLParameter("kind");
+  search.stem_only = getURLParameter("stem_only");
   search.advanced = true;
   search.container = d3.select("#search-advanced");
   
   if(getURLParameter("kind")){
     d3.select(".search-refine div."+getURLParameter("kind")).classed("active", true);
+  }
+  if(getURLParameter("stem_only")){
+    d3.select(".search-refine .stem_only a").classed("active", true);
   }
 
   var input = d3.selectAll(".search-input").attr("value", search.term);
