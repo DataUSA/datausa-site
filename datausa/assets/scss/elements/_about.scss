@@ -19,6 +19,20 @@ body.about {
     font-size: 30px;
     line-height: 1.1;
     letter-spacing: 0.01em;
+
+    .fa-link {
+      color: $black4;
+      visibility: hidden;
+      margin: 10px 0 0 -10px;
+      padding-right: 5px;
+      font-size: 14px;
+    }
+
+    &:hover{
+      .fa-link {
+        visibility: visible;
+      } 
+    }
   }
 
   a {
@@ -268,6 +282,7 @@ body.about {
 
   #splash {
     width: 100%;
+    min-height: 100vh;
     height: 100%;
     top: 0;
     position: absolute;
@@ -284,6 +299,60 @@ body.about {
     z-index: 1;
   }
 
+  .datasets {
+    @include flex();
+    @include flex-direction(column);
+
+    .dataset-panel-container {
+      @include flex-size(1);
+
+      .dataset-panel {
+        @include flex();
+        @include flex-direction(row);
+        @include justify(space-between);
+
+        li {
+          padding: 10px 0 20px;
+          text-align: center;
+          font-family: $palanquin;
+          font-weight: 300;
+          font-size: 20px;
+          letter-spacing: 0.03em;
+
+          a {
+            color: $black4;
+
+            i {
+              display: block;
+            }
+          }
+
+          &.active {
+            a {
+              color: $red-w;
+            }
+          }
+        }
+      }
+    }
+
+    .dataset-list {
+      @include flex-size(3);
+
+      .dataset-tab {
+        display: none;
+
+        &.active {
+          display: block;
+        }
+        h2 {
+          color: $red-w;
+          padding-top: 10px;
+        }
+      }
+    }
+  }
+
   section {
     background-color: $l-profile-bg;
     padding: 30px 12% 10px;
@@ -294,7 +363,7 @@ body.about {
       padding-bottom: 40px;
     }
 
-    &.scenarios {
+    &.usage-scenarios {
       padding: 40px 12%;
     }
 
@@ -312,103 +381,23 @@ body.about {
     }
 
     ul {
-
       & > li {
         padding-top: 40px;
       }
-
       h1 {
         text-align: left;
         font-size: 42px;
         margin-bottom: 30px;
-        
         a {
           color: $black2;
           cursor: default;
         }
       }
-
       ol {
         // @include column-count(2);
-        
         h2 {
           padding-top: 10px;
         }
-      }
-    }
-    
-    .topic {
-      
-      .content {
-
-        &.full-wdith {
-          display: block;
-        }
-
-        .viz {
-          min-height: inherit;
-        }
-
-        aside {
-          max-width: initial;
-        }
-
-      }
-
-      &.datasets {
-        background-color: #ddd;
-
-        .content{
-
-          aside {
-            width: 200px;
-            .about_tabs {
-              li {
-                text-align: center;
-                &.active {
-                  background-color: #bbb;
-                }
-              }
-            }
-          }
-
-          .viz {
-            .tab_content {
-              display: none;
-              opacity: 0;
-              @include transition(1s);
-              &.active {
-                display: block;
-                opacity: 1;
-              }
-              h3 {
-                margin: 15px 0 0 0;
-              }
-              p {
-                margin: 5px 0;
-              }
-            }
-          }
-
-        }
-
-      }
-      
-    }
-
-    h2 {
-      .fa-link {
-        color: $black4;
-        visibility: hidden;
-        margin: 10px 0 0 -10px;
-        padding-right: 5px;
-        font-size: 14px;
-      }
-
-      &:hover{
-        .fa-link {
-          visibility: visible;
-        } 
       }
     }
 
