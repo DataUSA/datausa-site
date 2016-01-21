@@ -1,11 +1,12 @@
 title: "Cost of Living"
 date: November 19th, 2015
 description: "Cost of living is the cost of maintaining a certain standard of living. Changes in the cost of living over time are often operationalized in a cost of living index."
-background_image: "https://exposure.imgix.net/production/photos/w52q9tityddvx6r9kg773uval7kfbt97rcb3/original.jpg"
+background_image: "http://i.huffpost.com/gen/781675/images/o-CALIFORNIA-POVERTY-facebook.jpg"
 authors:
     - name: Alexander Simoes
       img: https://avatars2.githubusercontent.com/u/252276?v=3&s=460
-      link: http://twitter.com/ximoes
+      about: "Alexander Simoes is the former senior vice president, general counsel of Coors Brewing Company where he headed the legal, public affairs and corporate secretarial functions."
+      twitter: http://twitter.com/ximoes
     
 topics:
   - title: "Gender Split in Top Industries in the U.S."

@@ -5,7 +5,8 @@ background_image: "http://www.nbc.com/sites/nbcunbc/files/files/images/2014/11/0
 authors:
     - name: Caroline Turner
       img: http://www.huffingtonpost.com/contributors/caroline-turner/headshot.jpg
-      link: http://twitter.com/ximoes
+      about: "Caroline Turner is a workshop facilitator, speaker and consultant. Through her company, DifferenceWORKS, she helps leaders achieve better business results by creating inclusive work environments. She is the author of Difference Works: Improving Retention, Productivity and Profitability through Inclusion."
+      twitter: http://twitter.com/ximoes
     
 topics:
   - title: "Wage by Gender"

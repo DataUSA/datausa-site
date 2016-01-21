@@ -1,4 +1,6 @@
 body.story {
+  background-color: $d-profile-bg;
+
   #top-nav {
     background-color: $black2;
   }
@@ -10,6 +12,41 @@ body.story {
     z-index: 3;
   }
 
+  #home-btn {
+    display: none;
+  }
+
+  #title-bar {
+    text-align: center;
+    height: $nav-height;
+    right: 0;
+    left: 0;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    z-index: 3;
+
+    span {
+      @include flex();
+      @include align-items(center);
+      position: relative;
+      top: 0;
+      padding: 7px;
+      color: $red-w;
+      font-family: $pathway;
+      font-size: 24px;
+    }
+
+    img {
+      width: 78px;
+      margin-top: 4px;
+      margin-right: 5px;
+    }
+
+  }
+
   h1 {
     font-family: $pathway;
     font-weight: 300;
@@ -19,9 +56,11 @@ body.story {
 
   p {
     color: rgba(51, 51, 51, 0.93);
+    font-family: $palanquin;
+    line-height: 1.5;
+    font-weight: 400;
+    font-size: 16px;
   }
-
-  background-color: $l-profile-bg;
 
   .pri-link {
     font-family: $palanquin;
@@ -43,28 +82,50 @@ body.story {
     top: $nav-height;
     padding: 0;
     background-color: $l-profile-bg;
-    overflow: hidden;
+
+    @include justify(flex-end);
   }
 
   #feature-image, #article-image {
-    @include flex-size(2);
     width: 100%;
     @include background-stretch();
     @include transition(all 0.5s);
   }
+
+  #feature-image, #article-image {
+    top: 0;
+    position: absolute;
+    height: 100vh;
+  }
+
+  // #article-image {
+  //   @include flex-size(1.7);
+  // }
   
   #feature-text, #article-text {
-    @include flex-size(1);
-    width: 100%;
     @include flex();
     @include justify(center);
-    padding: 0 12%;
-    margin: 20px 0;
     @include box();
+  }
+
+  #article-text {
+    background-color: $l-profile-bg;
+    z-index: 1;
+    width: 100%;
+    padding: 25px 12%;
+    margin: 20px 0 0;
   }
   
   #feature-text {
+    background-color: $l-profile-bg;
+    z-index: 1;
     @include flex-direction(row);
+    margin: 20px 0 0 auto;
+    width: 88%;
+    padding: 40px 12% 40px 0;
+    border-width: 1px 0 0 1px;
+    border-color: rgba(0, 0, 0, 0.05);
+    border-style: solid;
   }
 
   #article-text {
@@ -75,7 +136,7 @@ body.story {
     @include flex-size(1);
     text-align: right;
     margin-right: 4vw;
-    padding-top: 35px;
+    padding-top: 10px;
 
     p {
       font-family: $palanquin;
@@ -99,16 +160,6 @@ body.story {
     @include justify(flex-start);
     @include align-items(stretch);
 
-    .color-blocks {
-      display: inline-block;
-      margin-top: 7px;
-
-      .b {
-        width: 15px;
-        margin: 0 3px;
-      }
-    }
-
     h1 {
       margin-bottom: 10px;
       a {
@@ -126,7 +177,7 @@ body.story {
     }
 
     .desc {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       font-family: $palanquin;
       line-height: 1.5;
       font-weight: 400;
@@ -143,8 +194,9 @@ body.story {
       @include flex-size(1);
 
       &::after {
-        content: ' &rsaquo;';
-        font-size: 17px;
+        content: '\203A';
+        font-size: 19px;
+        margin-left: 3px;
         text-decoration: none;
         position: relative;
         top: 1px;
@@ -182,25 +234,39 @@ body.story {
     }
   }
 
+  .back-btn {
+    position: relative;
+    margin-bottom: 25px;
+
+    span {
+      vertical-align: baseline;
+    }
+  }
+
   section {
-    padding: 35px 12% 40px;
     
     .topic .content aside {
       width: 100% !important;
       max-width: initial;
     }
-
-    .back-btn {
-      position: relative;
-      margin-bottom: 25px;
-    }
   }
 
   #all-stories {
-    padding: 0 12% 40px;
+    @include flex();
+    @include justify(center);
+    @include box();
+    @include flex-direction(row);
+    margin: 0 0 0 auto;
+    width: 88%;
+    padding: 40px 12% 0 0;
+    background-color: $l-profile-bg;
+
+    #stories-container {
+      @include flex-size(4);
+    }
 
     .story {
-      padding: 20px 0;
+      padding: 20px 0 60px;
 
       .story-image {
         width: 100%;
@@ -230,7 +296,62 @@ body.story {
       font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.03em;
-      font-size: 48px;
+      font-size: 64px;
+      line-height: 1;
+    }
+
+    .desc {
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      line-height: 1.5;
+      font-size: 17px;
+      margin-top: 10px;
+    }
+
+    .author-meta { 
+      @include align-self(flex-end);
+    }
+  }
+
+  .article-more-options {
+    background-color: $l-profile-bg;
+    padding-bottom: 60px;
+
+    .author-meta {
+      @include flex();
+      @include flex-direction(row);
+      @include justify(flex-start);
+      @include align-items(center);
+      background-color: $d-profile-bg;
+      width: 76%;
+      margin: 0 auto;
+      padding: 5px;
+    }
+
+    img {
+      width: 100px;
+    }
+
+    .author-text {
+      padding-left: 10px;
+
+      .info {
+        text-transform: none;
+        line-height: 1.5;
+        padding: 7px 0;
+      }
+
+      .social {
+        a {
+          font-family: $palanquin;
+          font-weight: 700;
+          text-transform: uppercase;
+          font-size: 11px;
+          line-height: 11px;
+          letter-spacing: 0.06em;
+          color: $red-w;
+        }
+      }
     }
   }
 
@@ -327,6 +448,8 @@ body.story {
   }
 
   section {
+    background-color: $l-profile-bg;
+    padding: 30px 12%;
     @include flex();
     @include flex-direction(column);
     @include flex-wrap();
@@ -381,7 +504,7 @@ body.story {
       @include box();
       margin: 0;
       min-width: 100%;
-      padding: 0 25px 50px;
+      padding-bottom: 30px;
 
       &:not(.flex) {
         aside {
@@ -437,9 +560,10 @@ body.story {
 
         aside {
           @include flex-size(none);
-          max-width: 415px;
 
           p {
+            margin-bottom: 6px;
+
             a {
               border-bottom: 1px solid #C1C1C1;
               @include transition(opacity 0.15s);
@@ -476,10 +600,6 @@ body.story {
 
             }
 
-          }
-
-          p {
-            margin: 3px 0 6px;
           }
 
         }

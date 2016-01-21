@@ -1,5 +1,11 @@
 {% extends "templates/nav.html" %}
 
+{% block subtitle %}
+<div id="title-bar">
+  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> Stories</span>
+</div>
+{% endblock %}
+
 {% block body %}
 
 {% for story in featured_stories %}
@@ -11,22 +17,13 @@
       <p>Feature</p>
     </div>
     <div class="post-titles">
-      <div class="color-blocks">
-        <span class="b"></span>
-        <span class="b"></span>
-        <span class="b"></span>
-        <span class="b"></span>
-        <span class="b"></span>
-        <span class="b"></span>
-      </div>
       <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
       <p class="desc">{{ story.description }}</p>
       <div class="more-options">
         <a href="/story/{{story.story_id}}" class="read-more pri-link">Read More</a>
         <div class="author-meta">
           {% for author in story.authors %}
-          <!-- <a href="{{ author.link }}" class="author-avatar" title="{{ author.name }}"><img alt="{{ author.name }}" src="{{ author.img }}"></a> -->
-          <div class="name"><span>Written by</span> <a href="{{ author.link }}" target="_blank">{{ author.name }}</a></div>
+          <div class="name"><span>Written by</span> <a href="{{ author.twitter }}" target="_blank">{{ author.name }}</a></div>
           <div class="post-date">{{ story.date }}</div>
           {% endfor %}
         </div>
@@ -38,6 +35,10 @@
 {% endfor %}
 
 <div id="all-stories">
+  <div class="post-feat-label">
+    <p>Latest</p>
+  </div>
+  <div id="stories-container">
   {% for story in stories %}
   <div class="story">
     <div class="story-image" style="background-image:url({{ story.background_image }})"></div>
@@ -46,6 +47,11 @@
       <p class="desc">{{ story.description }}</p>
       <div class="more-options">
         <a href="/story/{{story.story_id}}" class="read-more pri-link">Read More</a>
+        <div class="author-meta">
+          {% for author in story.authors %}
+          <div class="post-date">{{ story.date }}</div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>

@@ -5,7 +5,8 @@ background_image: "https://exposure.imgix.net/production/photos/ve8l59lm57lgibci
 authors:
     - name: Alexander Simoes
       img: https://avatars2.githubusercontent.com/u/252276?v=3&s=460
-      link: http://twitter.com/ximoes
+      about: "Alexander Simoes is the former senior vice president, general counsel of Coors Brewing Company where he headed the legal, public affairs and corporate secretarial functions."
+      twitter: http://twitter.com/ximoes
     
 topics:
   - title: "Cost of College"
