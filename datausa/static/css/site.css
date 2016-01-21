@@ -1707,7 +1707,7 @@ body.profile .topic sub, body.map .topic sub {
       text-decoration: none;
       border-bottom: 1px solid #666; }
 body.profile .topic .sub-source, body.map .topic .sub-source {
-  display: inline-block;
+  display: block;
   color: #a8a8a8;
   font-family: "Palanquin", sans-serif;
   font-size: 12px;
@@ -3524,7 +3524,7 @@ body.story {
           -ms-flex: 1;
           flex: 1; }
           body.story .post-titles .read-more::after {
-            content: '›';
+            content: "\203A";
             font-size: 19px;
             margin-left: 3px;
             text-decoration: none;
