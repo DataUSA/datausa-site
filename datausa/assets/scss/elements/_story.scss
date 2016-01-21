@@ -46,7 +46,7 @@ body.story {
     @include background-stretch();
     @include transition(all 0.5s);
   }
-  
+
   #feature-text {
     @include flex-size(1);
     width: 100%;
@@ -57,7 +57,7 @@ body.story {
     margin: 20px 0;
     @include box();
   }
-    
+
   .post-feat-label {
     @include flex-size(1);
     text-align: right;
@@ -98,7 +98,7 @@ body.story {
         margin: 0 3px;
       }
     }
-    
+
     h1 {
       margin-bottom: 10px;
       a {
@@ -114,7 +114,7 @@ body.story {
         }
       }
     }
-      
+
     .desc {
       margin-bottom: 30px;
       font-family: $palanquin;
@@ -140,18 +140,18 @@ body.story {
       color: $red-w;
 
       &::after {
-        content: ' ›';
+        content: ' &rsaquo;';
         font-size: 17px;
         text-decoration: none;
         position: relative;
         top: 1px;
         right: 0;
       }
-    }  
+    }
   }
-        
+
   .author-meta {
-    
+
     & > div {
       margin-bottom: 3px;
     }
@@ -165,7 +165,7 @@ body.story {
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
-      
+
     a {
       text-decoration: none;
 
@@ -181,7 +181,7 @@ body.story {
 
   section {
     padding-top: 35px;
-    
+
     .topic .content aside {
       width: 100% !important;
       max-width: initial;
@@ -206,7 +206,7 @@ body.story {
       }
     }
   }
-  
+
   #all-stories {
     padding: 0 12% 12%;
 
@@ -222,7 +222,7 @@ body.story {
         margin-bottom: 25px;
       }
     }
-    
+
     .post-titles {
       h1 {
         a {
@@ -231,8 +231,8 @@ body.story {
       }
     }
   }
-  
+
   /* story article styles */
 
-  
+
 }
