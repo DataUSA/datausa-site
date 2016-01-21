@@ -30,18 +30,18 @@ var attrs_meta = {
   "naics": {
     "name": "Industry",
     "sumlevels": [
-      {"name":"Industry Category", "id":0, "children":[1, 2]},
-      {"name":"2 digit Industry", "id":1, "children":[2]},
-      {"name":"3 digit Industry", "id":2}
+      {"name":"Industry Sector", "id":0, "children":[1, 2]},
+      {"name":"Industry Subsector", "id":1, "children":[2]},
+      {"name":"Industry Group", "id":2}
     ]
   },
   "soc": {
     "name": "Occupations",
     "sumlevels": [
-      {"name":"Top Level Occupation", "id":0, "children":[1, 2, 3]},
-      {"name":"2 digit Occupation", "id":1, "children":[2, 3]},
-      {"name":"3 digit Occupation", "id":2, "children":[3]},
-      {"name":"4 digit Occupation", "id":3}
+      {"name":"Major Occupation Group", "id":0, "children":[1, 2, 3]},
+      {"name":"Minor Occupation Group", "id":1, "children":[2, 3]},
+      {"name":"Broad Occupation", "id":2, "children":[3]},
+      {"name":"Detailed Occupation", "id":3}
     ]
   },
   "cip": {
@@ -119,7 +119,7 @@ search.reload = function() {
 
   // if contrained, show "clear refinements"
   if(this.type){
-    d3.select(".clear").style("display", "block")
+    d3.select(".clear").style("display", "inline-block")
   }
 
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
@@ -128,7 +128,7 @@ search.reload = function() {
 
     this.zip = raw.zip_search;
 
-    d3.select(".search-suggestions").style("display", "block").text('');
+    d3.select(".search-suggestions").style("display", "inline-block").text('');
 
     if(this.advanced){
       this.max = null;
@@ -143,7 +143,7 @@ search.reload = function() {
         }
         if(search_suggestions.length){
           var suggestions_span = d3.select(".search-suggestions")
-            .style("display", "block")
+            .style("display", "inline-block")
             .text("Suggestions: ")
           var search_suggestions_a = search_suggestions.map(function(s, i){
             return "<a href='/search/?q="+s+"'>"+s+"</a>"

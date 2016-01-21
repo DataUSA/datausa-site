@@ -173,13 +173,14 @@ body.search {
     .search-helpers {
 //      @include flex-size(0 0 $search-helpers-height);
       background-color: rgba(250, 253, 255, 0.85);
+      min-height: 30px;
     }
 
     .search-results-container {
       @include flex-size(1);
     }
 
-    .search-suggestions {
+    .search-meta {
       text-align: left;
       font-family: $roboto;
       font-weight: 400;
@@ -189,7 +190,36 @@ body.search {
       @include wordwrap();
       @include hyphens;
       color: #333;
-      padding: 10px 15px;
+      
+      .search-suggestions {
+        padding: 10px 15px;
+      }
+      
+      .clear {
+        display: none;
+        padding: 2px 0 2px 10px;
+        line-height: 1.5;
+        opacity: 1;
+        font-family: $roboto;
+        font-weight: 300;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #9F6000;
+        background-color: #FEEFB3;
+        width: 250px;
+        text-align: center;
+
+        span {
+          display: inline-block;
+          font-size: 18px;
+          vertical-align: baseline;
+        }
+
+        &:hover {
+          color: #000;
+        }
+      }
       
       span {
         
@@ -224,7 +254,7 @@ body.search {
     .search-input {
       width: 100%;
       border: 0;
-      padding: 16px 20px 16px 65px;
+      padding: 16px 20px 8px 65px;
       @include box();
       font-family: $lato;
       font-size: 20px;
@@ -327,96 +357,107 @@ body.search {
         margin: 5px 15px !important;
       }
 
-      .clear {
-        display: none;
-        padding: 2px 0 2px 10px;
-        line-height: 1.5;
-        opacity: 1;
-        font-family: $roboto;
-        font-weight: 300;
-        font-size: 13px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-//        color: rgba(51,51,51,0.65);
-        color: #9F6000;
-        background-color: #FEEFB3;
-        margin: 5px 15px;
-
-        span {
-          display: inline-block;
-          font-size: 18px;
-          vertical-align: baseline;
-        }
-
-        &:hover {
-          color: #000;
-        }
-      }
-
       div {
         padding: 10px;
+        
+        &.active {
+          h2 {
+            color: #666;
+            font-weight: 700;
+          }
+          ul {
+            display: block;
+          }
+        }
 
         &.no-results {
           h2 a {
             opacity: 0.4;
           }
         }
-      }
 
-      h2 {
-        font-size: 15px;
-        font-weight: 700;
-        margin: 5px 0;
-        line-height: 1.3;
-        img {
-          width: 18px;
-          margin: 0 5px 0 0;
-        }
-      }
-
-      li {
-        margin-left: 25px;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 1.5;
-
-        a {
-          color: #666;
-          @include transition(color 0.15s);
-
-          &:not(.no-results):hover {
-            color: #000;
-          }
-
-          &.no-results {
-            opacity: 0.5;
-            cursor: default;
+        h2 {
+          font-size: 15px;
+          margin: 5px 0;
+          line-height: 1.3;
+        
+          a {
+            display: block;
+          
+            img {
+              width: 18px;
+              margin: 0 5px 0 0;
+            }
+          
+            span {
+              color: #aaa;
+              display: inline-block;
+              float: right;
+            }
+          
           }
         }
-      }
+      
+        ul {
+          display: none;
+        
+          li {
+            margin-left: 25px;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
 
-      h2, li {
-        font-family: $roboto;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
+            a {
+              color: #aaa;
+              display: block;
+              @include transition(color 0.15s);
+              
+              span {
+                color: #aaa;
+                display: inline-block;
+                float: right;
+              }
+              
+              &.active {
+                color: #666;
+                font-weight: 700;
+                span {
+                  color: #666;
+                  font-weight: 700;
+                }
+              }
 
-        a {
-          color: #868686;
-          @include transition(color 0.15s);
+              &:not(.no-results):hover {
+                color: #666;
+              }
+
+              &.no-results {
+                opacity: 0.5;
+                cursor: default;
+              }
+            }
+          }
         }
-      }
 
-      h2 a.active, li a.active {
-        color: black !important;
-        font-weight: bold !important;
-      }
-      .details-sumlevels-results a {
-        display: block;
-      }
-      a.details-profile {
-        position: absolute;
-        right: 10px;
-        top: 10px;
+        h2, li {
+          font-family: $roboto;
+          text-transform: uppercase;
+          letter-spacing: 0.06em;
+
+          a {
+            color: #868686;
+            @include transition(color 0.15s);
+          }
+        }
+
+        .details-sumlevels-results a {
+          display: block;
+        }
+        a.details-profile {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+        }
       }
     }
 
