@@ -1,5 +1,5 @@
 title: "Skills"
-description: "By connecting the employment data provided by the Bureau of Labor and Statistics with the Skills data from O*NET, we are able to gain insights into the skills generally required for the occupation of <<name>>."
+description: "What skills are generally required for the occupation of <<name>>?  Explore using data provided by the Bureau of Labor Statistics."
 
 topics:
   - class: "flex"

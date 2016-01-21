@@ -356,11 +356,11 @@ topics:
       size: "num_ppl"
       type: "tree_map"
   - category: "Wages"
-    title: "Household Income"
+    title: "Median Household Income"
     slug: "income"
     description: "Households in <<name>> have a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank|row=0>> richest <<level>> in the United States.}}{{<<sumlevel>>:nation|| This chart shows the average wage of US citizens compared to the top 2 and bottom 2 states.}}"
     stat:
-      - title: "Median Household Income"
+      - title: "<<var namespace=splash|key=year|row=0>> value"
         value: "<<var namespace=splash|key=income|row=0>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe|row=0>>"
     viz:
@@ -508,6 +508,7 @@ topics:
         show: "geo"
         geo: "<<id>>"
         force: "acs.yg_poverty"
+        share: "num_ppl"
         split:
           id: "sex_age"
           regex: "^poverty_([a-z0-9]*_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
@@ -537,6 +538,7 @@ topics:
         show: "geo"
         geo: "<<id>>"
         force: "acs.yg_poverty_race"
+        share: "num_ppl"
         split:
           id: "race"
           regex: "^poverty_([a-z]*)$"

@@ -1,5 +1,5 @@
 title: "Input/Output"
-description: "The Bureau of Labor and Statistics publishes a course dataset on inter-industry purchases. By extrapolating this data, we can produce a picture of how a specific industry buys and sells to and from other industries."
+description: "The Bureau of Economic Analysis publishes estimates of the relationships between industries. The data shows what industries supply goods and services to a specific industry, and what further industries use the products of that industry."
 
 topics:
   - slug: "sankey"
@@ -35,7 +35,7 @@ topics:
         subvalues:
           - "<<var namespace=io_commodity|key=commodity_iocode|row=1>>"
           - "<<var namespace=io_commodity|key=commodity_iocode|row=2>>"
-    description: "Here we can see the input industries for <<name>> by their share of the overall use. As seen above, the top industry is <<top attr_type=industry_iocode|show=commodity_iocode|order=value_millions|sumlevel=no_value_added>>."
+    description: "This shows the sources of inputs used by <<name>> by their share of the overall industry costs. <<var namespace=io_commodity|key=commodity_iocode|row=0>> provide the largest share of intermediate products to the <<name>> industry."
     viz:
       attrs: "iocode"
       color: "iocode"
@@ -56,7 +56,7 @@ topics:
     slug: "tmap_production"
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|industry_level=1>>"
     stat:
-      - title: "Highest Output Industry"
+      - title: "Largest Purchasing Industry"
         value: "<<var namespace=io_industry|key=industry_iocode|row=0>>"
         subvalues:
           - "<<var namespace=io_industry|key=industry_iocode|row=1>>"

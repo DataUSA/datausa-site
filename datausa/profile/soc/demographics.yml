@@ -1,5 +1,5 @@
 title: "Demographics"
-description: "The American Census Survey collects an enormous amount of data on <<name>>. This section illustrates some of the insights that can be obtained when visualizating this data."
+description: "The Census Bureau's American Census Survey provides data on <<name>> and allows us to show what kinds of people have chosen this occupation."
 
 topics:
   - title: "Race & Ethnicity"

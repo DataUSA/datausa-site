@@ -2,7 +2,7 @@ title: "<<name>>"
 group: "<<level>>"
 description: "Explore data on the education, demographics, industries, and skills of <<name>> in the US."
 stats:
-  - title: "Employees"
+  - title: "Total Employees"
     value: "<<var namespace=data|key=num_ppl>>"
     rank: "<<var namespace=data|key=num_ppl_rank>> of <<rank_max>> <<level plural=True|short=True>>"
   - title: "Average Wage"
@@ -17,5 +17,5 @@ sections:
   - employment
   - demographics
   - education
-  - growth
   - skills
+  - growth

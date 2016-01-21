@@ -1,4 +1,4 @@
-- required: ["pop", "pop_rank", "income", "income_moe", "income_rank", "age", "age_rank", "owner_occupied_housing_units", "us_citizens", "non_eng_speakers_pct"]
+- required: ["year", "pop", "pop_rank", "income", "income_moe", "income_rank", "age", "age_rank", "owner_occupied_housing_units", "us_citizens", "non_eng_speakers_pct"]
   namespace: splash
   show: geo
   year: latest

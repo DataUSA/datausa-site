@@ -1,5 +1,5 @@
 title: "Education"
-description: "The Census Bureau collects a large amount of data in regards to higher education. Here's some cool stuff on that topic."
+description: "The Department of Education and Census Bureau provide data on higher educational choices for <<name>>. Explore degrees and majors for <<name>> in the sections below."
 
 topics:
   - title: "Majors"
@@ -41,7 +41,7 @@ topics:
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=state_tuition|col=state_tuition|agg=sum>>"
       - title: "Median Out of State Private"
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=oos_tuition|col=oos_tuition|agg=sum>>"
-    description: "Here are the share of institutions by degrees awarded in the 5 most common courses for <<name>>: <<top order=num_ppl|sort=desc|show=cip|limit=5>>."
+    description: "Explore the number of degrees awarded by each college and university in the 5 most common majors for <<name>>: <<top order=num_ppl|sort=desc|show=cip|limit=5>>."
     miniviz:
       attrs: "sector"
       color: "sector"
@@ -85,7 +85,7 @@ topics:
     stat:
       - title: "Most common gender"
         value: "<<var namespace=sex|key=sex>>"
-    description: "Here we see the top 5 degrees for <<name>> broken out by gender."
+    description: "Here we see the gender composition for the top 5 most common majors held by <<name>>."
     viz:
       attrs:
         - "cip"
