@@ -46,10 +46,10 @@ topics:
       color: "health_care_costs"
       coords:
           solo: "<<children dataset=chr>>"
-          value: "<<level child=True|dataset=chr|plural=True>>"
+          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
       data:
         show: "geo"
-        sumlevel: <<level child=True|dataset=chr>>
+        sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "health_care_costs"
       height: 400
@@ -76,7 +76,7 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        sumlevel: <<level child=True|dataset=chr>>
+        sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "diabetes,adult_obesity,population_estimate_2011"
       highlight: "<<id dataset=chr>>"
@@ -107,10 +107,10 @@ topics:
       color: "alcoholimpaired_driving_deaths"
       coords:
           solo: "<<children dataset=chr>>"
-          value: "<<level child=True|dataset=chr|plural=True>>"
+          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
       data:
         show: "geo"
-        sumlevel: <<level child=True|dataset=chr>>
+        sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "alcoholimpaired_driving_deaths,excessive_drinking,adult_smoking"
       height: 400
@@ -137,7 +137,7 @@ topics:
       attrs: "geo"
       data:
         show: "geo"
-        sumlevel: <<level child=True|dataset=chr>>
+        sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate_2011"
       highlight: "<<id dataset=chr>>"
@@ -169,10 +169,10 @@ topics:
       color: "homicide_rate"
       coords:
           solo: "<<children dataset=chr>>"
-          value: "<<level child=True|dataset=chr|plural=True>>"
+          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
       data:
         show: "geo"
-        sumlevel: <<level child=True|dataset=chr>>
+        sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths"
       height: 400
