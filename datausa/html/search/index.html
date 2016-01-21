@@ -248,6 +248,10 @@
   search.type = getURLParameter("kind");
   search.advanced = true;
   search.container = d3.select("#search-advanced");
+  
+  if(getURLParameter("kind")){
+    d3.select(".search-refine div."+getURLParameter("kind")).classed("active", true);
+  }
 
   var input = d3.selectAll(".search-input").attr("value", search.term);
   if (input.node().setSelectionRange !== undefined) {
