@@ -228,7 +228,7 @@ var attrStyles = {
     },
     "550000": {
         "color": "#2f1fc1",
-        "icon": "thing_airplace.png"
+        "icon": "thing_airplane.png"
     }
 },
 
