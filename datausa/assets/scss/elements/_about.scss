@@ -86,6 +86,10 @@ body.about {
     font-weight: 600;
   }
 
+  .specify {
+    font-style: italic;
+  }
+
   nav {
     position: fixed;
     top: 0;
@@ -219,6 +223,37 @@ body.about {
         margin: 0 auto -2px;
       }
 
+    }
+  }
+
+  .code-box {
+    background: $d-profile-bg;
+    color: $black2;
+    overflow:auto;
+    width:auto;
+    margin: 15px 10px;
+    border: solid $black4;
+    border-width:.1em .1em .1em .8em;
+    padding: .2em .6em;
+    @include wordwrap();
+
+    pre {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .key {
+      color: $max-color;
+    }
+
+    .value {
+      background-color: $white;
+      padding: 1px 2px;
+    }
+
+    .integer {
+      font-weight: 600;
+      color: $min-color;
     }
   }
 

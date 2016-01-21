@@ -4131,47 +4131,49 @@ body.about {
           color: #ef6145; }
           body.about .emphasize {
             font-weight: 600; }
-            body.about nav {
-              position: fixed;
-              top: 0;
-              width: 100%;
-              z-index: 3; }
-              body.about #top-nav {
-                background-color: #141b2e; }
-                body.about #home-btn {
-                  display: none; }
-                  body.about #title-bar {
-                    text-align: center;
-                    height: 40px;
-                    right: 0;
-                    left: 0;
-                    margin-right: auto;
-                    margin-left: auto;
-                    overflow: hidden;
-                    position: fixed;
-                    top: 0;
-                    z-index: 3; }
-                    body.about #title-bar span {
-                      -webkit-justify-content: center;
-                      -moz-justify-content: center;
-                      justify-content: center;
-                      display: -webkit-box;
-                      display: -moz-box;
-                      display: -ms-flexbox;
-                      display: -webkit-flex;
-                      display: flex;
-                      -webkit-align-items: center;
-                      align-items: center;
-                      position: relative;
+            body.about .specify {
+              font-style: italic; }
+              body.about nav {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 3; }
+                body.about #top-nav {
+                  background-color: #141b2e; }
+                  body.about #home-btn {
+                    display: none; }
+                    body.about #title-bar {
+                      text-align: center;
+                      height: 40px;
+                      right: 0;
+                      left: 0;
+                      margin-right: auto;
+                      margin-left: auto;
+                      overflow: hidden;
+                      position: fixed;
                       top: 0;
-                      padding: 7px;
-                      color: #ef6145;
-                      font-family: "Pathway Gothic One", sans-serif;
-                      font-size: 24px; }
-                      body.about #title-bar img {
-                        width: 78px;
-                        margin-top: 4px;
-                        margin-right: 5px; }
+                      z-index: 3; }
+                      body.about #title-bar span {
+                        -webkit-justify-content: center;
+                        -moz-justify-content: center;
+                        justify-content: center;
+                        display: -webkit-box;
+                        display: -moz-box;
+                        display: -ms-flexbox;
+                        display: -webkit-flex;
+                        display: flex;
+                        -webkit-align-items: center;
+                        align-items: center;
+                        position: relative;
+                        top: 0;
+                        padding: 7px;
+                        color: #ef6145;
+                        font-family: "Pathway Gothic One", sans-serif;
+                        font-size: 24px; }
+                        body.about #title-bar img {
+                          width: 78px;
+                          margin-top: 4px;
+                          margin-right: 5px; }
   body.about #about-nav {
     background-color: #141b2e;
     -webkit-justify-content: center;
@@ -4281,6 +4283,31 @@ body.about {
           width: 20px;
           height: 20px;
           margin: 0 auto -2px; }
+  body.about .code-box {
+    background: #E9E9E9;
+    color: #141b2e;
+    overflow: auto;
+    width: auto;
+    margin: 15px 10px;
+    border: solid #727682;
+    border-width: 0.1em 0.1em 0.1em 0.8em;
+    padding: 0.2em 0.6em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    white-space: initial !important; }
+    body.about .code-box pre {
+      margin: 0;
+      line-height: 1.6; }
+      body.about .code-box .key {
+        color: #306a62; }
+        body.about .code-box .value {
+          background-color: #D7E8EF;
+          padding: 1px 2px; }
+          body.about .code-box .integer {
+            font-weight: 600;
+            color: #8d7a40; }
   body.about section {
     padding: 30px 12% 10px;
     max-width: 800px;
