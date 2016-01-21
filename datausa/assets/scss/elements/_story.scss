@@ -94,9 +94,6 @@ body.story {
     width: 100%;
     @include background-stretch();
     @include transition(all 0.5s);
-  }
-
-  #feature-image, #article-image {
     top: 0;
     position: absolute;
     height: 100vh;

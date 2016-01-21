@@ -8,123 +8,106 @@
 
 {% block body %}
 
-<header class="article">
-  <div id="splash" style="background-image:url(https://c1.staticflickr.com/1/274/18720223738_6b6c58f282_o.jpg)">
+{% include "templates/about_subnav.html" %}
 
-    <div class="bg-filter"></div>
+<header>
+  <div id="splash" style="background-image:url(https://c2.staticflickr.com/6/5645/21188577161_d9ccaf2966_o.jpg)"></div>
 
-    <ul id="sub-nav-items">
-        <li><a href="/about/" {% if g.page_sub_type == 'index' %}class="current"{% endif %}><span>About DataUSA</span></a></li>
-        <li><a href="/about/datasets/" {% if g.page_sub_type == 'datasets' %}class="current"{% endif %}><span>Datasets</span></a></li>
-        <li><a href="/about/glossary/" {% if g.page_sub_type == 'glossary' %}class="current"{% endif %}><span>Glossary</span></a></li>
-        <li><a href="/about/api/" {% if g.page_sub_type == 'api' %}class="current"{% endif %}><span>API</span></a></li>
-        <li><a href="/about/usage/" {% if g.page_sub_type == 'usage' %}class="current"{% endif %}><span>Usage</span></a></li>
-    </ul>
+  <article>
+    <h1>API Documentation</h1>
+    <p class="desc"></p>
 
-    <div class="text">
-      <div class="post-titles">
-        <h1>API</h1>
-        <p class="description">Documentation on how to build your own apps using data powered by the DataUSA API.</p>
-      </div>
-    </div>
+    <section>
+      <h1 class="category"><a name="calcs">Quick Start</a></h1>
+      <h2><a href="#introduction" name="introduction">Introduction</a></h2>
+      <p>
+        At its core, the DataUSA API allows users to <span class="emphasize">show</span> data across various levels of detail, called <span class="emphasize">sumlevels</span>.
+        There are four core categories of data: geographies, occupations, industries and educational studies.
+        We will begin with a quick look at exploring geographic data.
+      </p>
+    </section>
+    <section>
+      <h1 class="category"><a name="calcs">Exploring Population Data</a></h1>
+      <p>To get population data at the national level we can use the following API call:</p>
+        <p>
+          http://db.datausa.io/api?show=geo&amp;sumlevel=<b>nation</b>&amp;required=<b>pop</b>
+        </p>
+        <p>Now let&rsquo;s take a look at the output and break it down</p>
+        <div>
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+          <pre style="margin: 0; line-height: 125%">
+            {
+              <span style="color: #007700">&quot;data&quot;</span>:
+                [
+                 [<span style="color: #0000DD; font-weight: bold">2013</span>, <span style="background-color: #fff0f0">&quot;01000US&quot;</span>, <span style="color: #0000DD; font-weight: bold">311536594</span>],
+                 [<span style="color: #0000DD; font-weight: bold">2014</span>, <span style="background-color: #fff0f0">&quot;01000US&quot;</span>, <span style="color: #0000DD; font-weight: bold">314107084</span>]
+                ],
+              <span style="color: #007700">&quot;headers&quot;</span>: [<span style="background-color: #fff0f0">&quot;year&quot;</span>, <span style="background-color: #fff0f0">&quot;geo&quot;</span>, <span style="background-color: #fff0f0">&quot;pop&quot;</span>],
+              ...
+            }
+        </pre>
+        </div>
+        <p>The <strong>data</strong> section of the JSON result contains a list of rows of data. Each <strong>header</strong> represents the respective data element in each row. For example, 2013 the first item in the first row, represents a "year" since year is the first item in the <strong>header</strong> array.
 
-  </div> <!-- .splash -->
-</header>
+        </div>
+        <p>
+          The previous API call will return data for all available years in the database. To only retrieve the latest year&rsquo;s data, use:
+        </p>
+        <p>
+            http://db.datausa.io/api?show=geo&amp;sumlevel=<b>nation</b>&amp;year=<b>latest</b>&amp;required=<b>pop</b>
+        </p>
+        <p>
+          This call gives us the popoulation of the US based on the latest available year of data. To get data at the state level we can use:
+        </p>
+        <p>
+          http://db.datausa.io/api?show=geo&amp;sumlevel=<b>state</b>&amp;year=<b>latest</b>&amp;required=<b>pop</b>
+        </p>
+        </p>
+      </article>
 
-<section>
-  <h1 class="category"><a name="calcs">Quick Start</a></h1>
-  <h2><i class="fa fa-link"></i><a href="#introduction" name="introduction">Introduction</a></h2>
-  <article class="topic">
-    <p>
-      At its core, the DataUSA API allows users to <strong>show</strong> data across various levels of detail, called <strong>sumlevels</strong>.
-      There are four core categories of data: geographies, occupations, industries and educational studies.
-      We will begin with a quick look at exploring geographic data.
-    </p>
-  </article>
-</section>
-<section>
-  <h1 class="category"><a name="calcs">Exploring Population Data</a></h1>
-  <article class="topic">
-    <p>
-      To get population data at the national level we can use the following API call:
-    </p>
-    <p>
-      http://db.datausa.io/api?show=geo&amp;sumlevel=<b>nation</b>&amp;required=<b>pop</b>
-    </p>
-    <p>Now let&rsquo;s take a look at the output and break it down</p>
-    <div>
-    <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-      <pre style="margin: 0; line-height: 125%">
-        {
-          <span style="color: #007700">&quot;data&quot;</span>:
-            [
-             [<span style="color: #0000DD; font-weight: bold">2013</span>, <span style="background-color: #fff0f0">&quot;01000US&quot;</span>, <span style="color: #0000DD; font-weight: bold">311536594</span>],
-             [<span style="color: #0000DD; font-weight: bold">2014</span>, <span style="background-color: #fff0f0">&quot;01000US&quot;</span>, <span style="color: #0000DD; font-weight: bold">314107084</span>]
-            ],
-          <span style="color: #007700">&quot;headers&quot;</span>: [<span style="background-color: #fff0f0">&quot;year&quot;</span>, <span style="background-color: #fff0f0">&quot;geo&quot;</span>, <span style="background-color: #fff0f0">&quot;pop&quot;</span>],
+    </section>
+    <section>
+      <h1 class="category"><a name="calcs">Additional information</a></h1>
+      <article>
+        <p>You may have noticed some additional pieces of information returned with each API call. The <i>logic</i> section represents the list of possible data sources the API could use to fulfill a given request. The logic section is a list of dictionaries with information on each possible data table.</p>
+
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+          <pre style="margin: 0; line-height: 125%">
+          <span style="color: #007700">&quot;logic&quot;</span>: [
+            {<span style="color: #007700">&quot;dataset&quot;</span>: <span style="background-color: #fff0f0">&quot;ACS 5-year Estimate&quot;</span>,
+            <span style="color: #007700">&quot;link&quot;</span>: <span style="background-color: #fff0f0">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
+            <span style="color: #007700">&quot;org&quot;</span>: <span style="background-color: #fff0f0">&quot;Census Bureau&quot;</span>,
+            <span style="color: #007700">&quot;supported_levels&quot;</span>: {<span style="color: #007700">&quot;geo&quot;</span>: [<span style="background-color: #fff0f0">&quot;nation&quot;</span>, <span style="background-color: #fff0f0">&quot;state&quot;</span>, <span style="background-color: #fff0f0">&quot;county&quot;</span>, <span style="background-color: #fff0f0">&quot;msa&quot;</span>, <span style="background-color: #fff0f0">&quot;puma&quot;</span>, <span style="background-color: #fff0f0">&quot;place&quot;</span>, <span style="background-color: #fff0f0">&quot;tract&quot;</span>, <span style="background-color: #fff0f0">&quot;all&quot;</span>]}, <span style="color: #007700">&quot;table&quot;</span>: <span style="background-color: #fff0f0">&quot;yg&quot;</span>},
+            {<span style="color: #007700">&quot;dataset&quot;</span>: <span style="background-color: #fff0f0">&quot;ACS 1-year Estimate&quot;</span>,
+            <span style="color: #007700">&quot;link&quot;</span>: <span style="background-color: #fff0f0">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
+            <span style="color: #007700">&quot;org&quot;</span>: <span style="background-color: #fff0f0">&quot;Census Bureau&quot;</span>,
+            <span style="color: #007700">&quot;supported_levels&quot;</span>: {<span style="color: #007700">&quot;geo&quot;</span>: [<span style="background-color: #fff0f0">&quot;nation&quot;</span>, <span style="background-color: #fff0f0">&quot;state&quot;</span>, <span style="background-color: #fff0f0">&quot;county&quot;</span>, <span style="background-color: #fff0f0">&quot;msa&quot;</span>, <span style="background-color: #fff0f0">&quot;place&quot;</span>, <span style="background-color: #fff0f0">&quot;all&quot;</span>]}, <span style="color: #007700">&quot;table&quot;</span>: <span style="background-color: #fff0f0">&quot;yg&quot;</span>}
+          ],
           ...
-        }
-    </pre>
-    </div>
-    <p>The <strong>data</strong> section of the JSON result contains a list of rows of data. Each <strong>header</strong> represents the respective data element in each row. For example, 2013 the first item in the first row, represents a "year" since year is the first item in the <strong>header</strong> array.
-
-    </div>
-    <p>
-      The previous API call will return data for all available years in the database. To only retrieve the latest year&rsquo;s data, use:
-    </p>
-    <p>
-        http://db.datausa.io/api?show=geo&amp;sumlevel=<b>nation</b>&amp;year=<b>latest</b>&amp;required=<b>pop</b>
-    </p>
-    <p>
-      This call gives us the popoulation of the US based on the latest available year of data. To get data at the state level we can use:
-    </p>
-    <p>
-      http://db.datausa.io/api?show=geo&amp;sumlevel=<b>state</b>&amp;year=<b>latest</b>&amp;required=<b>pop</b>
-    </p>
-    </p>
+        </pre>
+        </div>
+        <p>The <i>source</i> section represents the actual table used for processing the API call.</p>
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+          <pre style="margin: 0; line-height: 125%">
+          <span style="color: #007700">&quot;source&quot;</span>: {<span style="color: #007700">&quot;dataset&quot;</span>: <span style="background-color: #fff0f0">&quot;ACS 5-year Estimate&quot;</span>, <span style="color: #007700">&quot;link&quot;</span>: <span style="background-color: #fff0f0">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>, <span style="color: #007700">&quot;org&quot;</span>: <span style="background-color: #fff0f0">&quot;Census Bureau&quot;</span>, <span style="color: #007700">&quot;supported_levels&quot;</span>: {<span style="color: #007700">&quot;geo&quot;</span>: [<span style="background-color: #fff0f0">&quot;nation&quot;</span>, <span style="background-color: #fff0f0">&quot;state&quot;</span>, <span style="background-color: #fff0f0">&quot;county&quot;</span>, <span style="background-color: #fff0f0">&quot;msa&quot;</span>, <span style="background-color: #fff0f0">&quot;puma&quot;</span>, <span style="background-color: #fff0f0">&quot;place&quot;</span>, <span style="background-color: #fff0f0">&quot;tract&quot;</span>, <span style="background-color: #fff0f0">&quot;all&quot;</span>]}, <span style="color: #007700">&quot;table&quot;</span>: <span style="background-color: #fff0f0">&quot;yg&quot;</span>},
+        </pre>
+        </div>
+        <p>The <i>subs</i> section will indicate whether any input variables have been substituted for purposes of providing data (instead of providing no data). If the <i>subs</i> dictionary is empty, then no subsitutions have been made.</p>
+        <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+          <pre style="margin: 0; line-height: 125%">
+            <span style="color: #007700">&quot;subs&quot;</span>: {}
+        </pre>
+        </div>
+      </article>
+    </section>
+    <section>
+      <h1 class="category"><a name="detailed-docs">Detailed Documentation</a></h1>
+      <article>
+        Full documentation for the DataUSA API is available at our <a href="https://github.com/DataUSA/datausa-api/wiki">Github repository wiki</a>
+      </article>
+    </section>
   </article>
-
-</section>
-<section>
-  <h1 class="category"><a name="calcs">Additional information</a></h1>
-  <article>
-    <p>You may have noticed some additional pieces of information returned with each API call. The <i>logic</i> section represents the list of possible data sources the API could use to fulfill a given request. The logic section is a list of dictionaries with information on each possible data table.</p>
-
-    <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-      <pre style="margin: 0; line-height: 125%">
-      <span style="color: #007700">&quot;logic&quot;</span>: [
-        {<span style="color: #007700">&quot;dataset&quot;</span>: <span style="background-color: #fff0f0">&quot;ACS 5-year Estimate&quot;</span>,
-        <span style="color: #007700">&quot;link&quot;</span>: <span style="background-color: #fff0f0">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
-        <span style="color: #007700">&quot;org&quot;</span>: <span style="background-color: #fff0f0">&quot;Census Bureau&quot;</span>,
-        <span style="color: #007700">&quot;supported_levels&quot;</span>: {<span style="color: #007700">&quot;geo&quot;</span>: [<span style="background-color: #fff0f0">&quot;nation&quot;</span>, <span style="background-color: #fff0f0">&quot;state&quot;</span>, <span style="background-color: #fff0f0">&quot;county&quot;</span>, <span style="background-color: #fff0f0">&quot;msa&quot;</span>, <span style="background-color: #fff0f0">&quot;puma&quot;</span>, <span style="background-color: #fff0f0">&quot;place&quot;</span>, <span style="background-color: #fff0f0">&quot;tract&quot;</span>, <span style="background-color: #fff0f0">&quot;all&quot;</span>]}, <span style="color: #007700">&quot;table&quot;</span>: <span style="background-color: #fff0f0">&quot;yg&quot;</span>},
-        {<span style="color: #007700">&quot;dataset&quot;</span>: <span style="background-color: #fff0f0">&quot;ACS 1-year Estimate&quot;</span>,
-        <span style="color: #007700">&quot;link&quot;</span>: <span style="background-color: #fff0f0">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
-        <span style="color: #007700">&quot;org&quot;</span>: <span style="background-color: #fff0f0">&quot;Census Bureau&quot;</span>,
-        <span style="color: #007700">&quot;supported_levels&quot;</span>: {<span style="color: #007700">&quot;geo&quot;</span>: [<span style="background-color: #fff0f0">&quot;nation&quot;</span>, <span style="background-color: #fff0f0">&quot;state&quot;</span>, <span style="background-color: #fff0f0">&quot;county&quot;</span>, <span style="background-color: #fff0f0">&quot;msa&quot;</span>, <span style="background-color: #fff0f0">&quot;place&quot;</span>, <span style="background-color: #fff0f0">&quot;all&quot;</span>]}, <span style="color: #007700">&quot;table&quot;</span>: <span style="background-color: #fff0f0">&quot;yg&quot;</span>}
-      ],
-      ...
-    </pre>
-    </div>
-    <p>The <i>source</i> section represents the actual table used for processing the API call.</p>
-    <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-      <pre style="margin: 0; line-height: 125%">
-      <span style="color: #007700">&quot;source&quot;</span>: {<span style="color: #007700">&quot;dataset&quot;</span>: <span style="background-color: #fff0f0">&quot;ACS 5-year Estimate&quot;</span>, <span style="color: #007700">&quot;link&quot;</span>: <span style="background-color: #fff0f0">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>, <span style="color: #007700">&quot;org&quot;</span>: <span style="background-color: #fff0f0">&quot;Census Bureau&quot;</span>, <span style="color: #007700">&quot;supported_levels&quot;</span>: {<span style="color: #007700">&quot;geo&quot;</span>: [<span style="background-color: #fff0f0">&quot;nation&quot;</span>, <span style="background-color: #fff0f0">&quot;state&quot;</span>, <span style="background-color: #fff0f0">&quot;county&quot;</span>, <span style="background-color: #fff0f0">&quot;msa&quot;</span>, <span style="background-color: #fff0f0">&quot;puma&quot;</span>, <span style="background-color: #fff0f0">&quot;place&quot;</span>, <span style="background-color: #fff0f0">&quot;tract&quot;</span>, <span style="background-color: #fff0f0">&quot;all&quot;</span>]}, <span style="color: #007700">&quot;table&quot;</span>: <span style="background-color: #fff0f0">&quot;yg&quot;</span>},
-    </pre>
-    </div>
-    <p>The <i>subs</i> section will indicate whether any input variables have been substituted for purposes of providing data (instead of providing no data). If the <i>subs</i> dictionary is empty, then no subsitutions have been made
-    <div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-      <pre style="margin: 0; line-height: 125%">
-        <span style="color: #007700">&quot;subs&quot;</span>: {}
-    </pre>
-    </div>
-  </article>
-</section>
-<section>
-  <h1 class="category"><a name="detailed-docs">Detailed Documentation</a></h1>
-  <article>
-    Full documentation for the DataUSA API is available at our <a href="https://github.com/DataUSA/datausa-api/wiki">Github repository wiki</a>
-  </article>
-</section>
+</header>
 
 
 {% endblock %}
