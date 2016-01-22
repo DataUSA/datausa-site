@@ -41,7 +41,7 @@ body {
   height: 100vh;
   width: $nav-width;
   overflow: hidden;
-  background-color: #111;
+  background-color: $black;
   @include flex();
   @include flex-direction(column);
   z-index: 7;
@@ -76,17 +76,30 @@ body {
     margin: 0 -20px;
     text-align: left;
 
-    a:hover {
-      & > h2:after {
-        content: unicode("00bb");
-        top: -2px;
-        position: relative;
-        font-family: $playfair;
-        font-weight: 400;
-        letter-spacing: 0.05em;
-        line-height: 1;
-        margin-left: 5px;
+    a {
+      & > h2 {
+        font-family: $palanquin !important;
+        letter-spacing: 0.1em !important;
+        font-size: 20px !important;
+        font-weight: 400 !important;
+        text-transform: uppercase !important;
       }
+    }
+
+    a:hover {
+      h2 {
+        color: $red-w;
+      }
+      // & > h2:after {
+      //   content: unicode("00bb");
+      //   top: -2px;
+      //   position: relative;
+      //   font-family: $playfair;
+      //   font-weight: 400;
+      //   letter-spacing: 0.05em;
+      //   line-height: 1;
+      //   margin-left: 5px;
+      // }
     }
   }
 

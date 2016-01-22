@@ -211,7 +211,7 @@ body.search #search-btn {
   height: 100vh;
   width: 415px;
   overflow: hidden;
-  background-color: #111;
+  background-color: #1B191D;
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -245,15 +245,14 @@ body.search #search-btn {
     .menu-content li {
       margin: 0 -20px;
       text-align: left; }
-      .menu-content li a:hover > h2:after {
-        content: "\00bb";
-        top: -2px;
-        position: relative;
-        font-family: "Playfair Display", serif;
-        font-weight: 400;
-        letter-spacing: 0.05em;
-        line-height: 1;
-        margin-left: 5px; }
+      .menu-content li a > h2 {
+        font-family: "Palanquin", sans-serif !important;
+        letter-spacing: 0.1em !important;
+        font-size: 20px !important;
+        font-weight: 400 !important;
+        text-transform: uppercase !important; }
+      .menu-content li a:hover h2 {
+        color: #ef6145; }
     .menu-content .profile-sum img {
       width: 20px;
       height: 20px;
@@ -1205,7 +1204,7 @@ body.search {
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.4);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.4);
-    z-index: 4; }
+    z-index: 5; }
     #search-simple-nav:before {
       content: "";
       position: absolute;
@@ -4359,11 +4358,11 @@ body.about {
     background-image: url('/static/img/about/bg.jpg'); }
     body.about #splash::after {
       content: "";
-      position: absolute;
+      position: fixed;
       height: 100%;
       width: 100%;
       left: 0;
-      top: 0;
+      top: 85px;
       background: -webkit-linear-gradient(top, #141b2e 0%, rgba(20, 27, 46, 0.1) 17%,
             transparent 100%); }
   body.about article {

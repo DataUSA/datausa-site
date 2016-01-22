@@ -326,11 +326,11 @@ body.about {
 
     &::after {
       content: "";
-      position: absolute;
+      position: fixed;
       height: 100%;
       width: 100%;
       left: 0;
-      top: 0;
+      top: $nav-height + $prof-nav-height;
       background: -webkit-linear-gradient(top, $black2 0%, rgba(20, 27, 46, 0.1) 17%, rgba(0,0,0,0) 100%);
     }
   }
