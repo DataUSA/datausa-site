@@ -721,9 +721,9 @@ body.profile, body.map {
       opacity: 0;
       display: inline-block;
       border-radius: 50%;
-      // border: 1px solid $max-color;
+      border: 1px solid $max-color;
       @include box();
-      background: $max-color url("/static/img/splash/max.svg") no-repeat 50%;
+      background: url("/static/img/splash/max.svg") no-repeat 50%;
       background-size: 80%;
       width: 17px;
       height: 17px;
@@ -739,9 +739,9 @@ body.profile, body.map {
 
       &.close{
         border-radius: 50%;
-        // border: 1px solid $min-color;
+        border: 1px solid $min-color;
         @include box();
-        background: $min-color url("/static/img/splash/min.svg") no-repeat 50%;
+        background: url("/static/img/splash/min.svg") no-repeat 50%;
         background-size: 80%;
         width: 17px;
         height: 17px;

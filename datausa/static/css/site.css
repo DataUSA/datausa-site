@@ -2242,10 +2242,11 @@ body.profile #title-bar, body.map #title-bar {
         opacity: 0;
         display: inline-block;
         border-radius: 50%;
+        border: 1px solid #306a62;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
+        background: url("/static/img/splash/max.svg") no-repeat 50%;
         background-size: 80%;
         width: 17px;
         height: 17px;
@@ -2263,10 +2264,11 @@ body.profile #title-bar, body.map #title-bar {
         body.profile #title-bar .expand-stats-btn.close,
         body.map #title-bar .expand-stats-btn.close {
           border-radius: 50%;
+          border: 1px solid #8d7a40;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
-          background: #8d7a40 url("/static/img/splash/min.svg") no-repeat 50%;
+          background: url("/static/img/splash/min.svg") no-repeat 50%;
           background-size: 80%;
           width: 17px;
           height: 17px;
@@ -4107,67 +4109,71 @@ body.about {
       font-weight: 300;
       font-size: 20px;
       letter-spacing: 0.03em; }
-      body.about .desc {
-        font-family: "Pathway Gothic One", sans-serif;
-        color: white;
-        font-size: 31px;
-        letter-spacing: 0.01em;
-        text-align: center;
-        margin: 10px 0 20px;
-        opacity: 0.8; }
-        body.about .pri-link {
-          font-family: "Palanquin", sans-serif;
-          font-weight: 700;
-          text-transform: uppercase;
-          font-size: 11px;
-          line-height: 11px;
-          letter-spacing: 0.06em;
-          color: #ef6145; }
-          body.about .emphasize {
-            font-weight: 600; }
-            body.about .specify {
-              font-style: italic; }
-              body.about nav {
-                position: fixed;
-                top: 0;
-                width: 100%;
-                z-index: 3; }
-                body.about #top-nav {
-                  background-color: #141b2e; }
-                  body.about #home-btn {
-                    display: none; }
-                    body.about #title-bar {
-                      text-align: center;
-                      height: 40px;
-                      right: 0;
-                      left: 0;
-                      margin-right: auto;
-                      margin-left: auto;
-                      overflow: hidden;
-                      position: fixed;
-                      top: 0;
-                      z-index: 3; }
-                      body.about #title-bar span {
-                        -webkit-justify-content: center;
-                        -moz-justify-content: center;
-                        justify-content: center;
-                        display: -webkit-box;
-                        display: -moz-box;
-                        display: -ms-flexbox;
-                        display: -webkit-flex;
-                        display: flex;
-                        -webkit-align-items: center;
-                        align-items: center;
-                        position: relative;
+      body.about .bulleted-list {
+        margin-left: 30px;
+        list-style-type: upper-roman;
+        list-style-position: inside; }
+        body.about .desc {
+          font-family: "Pathway Gothic One", sans-serif;
+          color: white;
+          font-size: 31px;
+          letter-spacing: 0.01em;
+          text-align: center;
+          margin: 10px 0 20px;
+          opacity: 0.8; }
+          body.about .pri-link {
+            font-family: "Palanquin", sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            line-height: 11px;
+            letter-spacing: 0.06em;
+            color: #ef6145; }
+            body.about .emphasize {
+              font-weight: 600; }
+              body.about .specify {
+                font-style: italic; }
+                body.about nav {
+                  position: fixed;
+                  top: 0;
+                  width: 100%;
+                  z-index: 3; }
+                  body.about #top-nav {
+                    background-color: #141b2e; }
+                    body.about #home-btn {
+                      display: none; }
+                      body.about #title-bar {
+                        text-align: center;
+                        height: 40px;
+                        right: 0;
+                        left: 0;
+                        margin-right: auto;
+                        margin-left: auto;
+                        overflow: hidden;
+                        position: fixed;
                         top: 0;
-                        padding: 7px;
-                        color: #ef6145;
-                        font-family: "Pathway Gothic One", sans-serif;
-                        font-size: 24px; }
-                        body.about #title-bar img {
-                          width: 78px;
-                          margin-top: 4px;
-                          margin-right: 5px; }
+                        z-index: 3; }
+                        body.about #title-bar span {
+                          -webkit-justify-content: center;
+                          -moz-justify-content: center;
+                          justify-content: center;
+                          display: -webkit-box;
+                          display: -moz-box;
+                          display: -ms-flexbox;
+                          display: -webkit-flex;
+                          display: flex;
+                          -webkit-align-items: center;
+                          align-items: center;
+                          position: relative;
+                          top: 0;
+                          padding: 7px;
+                          color: #ef6145;
+                          font-family: "Pathway Gothic One", sans-serif;
+                          font-size: 24px; }
+                          body.about #title-bar img {
+                            width: 78px;
+                            margin-top: 4px;
+                            margin-right: 5px; }
   body.about #about-nav {
     background-color: #141b2e;
     -webkit-justify-content: center;
@@ -4445,14 +4451,14 @@ body.about {
             cursor: default; }
     body.about section p {
       margin: 0 10px 10px; }
-      body.about section ul > li {
+      body.about section > ul > li {
         padding-top: 40px; }
-        body.about section ul h1 {
+        body.about section > ul h1 {
           text-align: left;
           font-size: 42px;
           margin-bottom: 30px; }
-          body.about section ul h1 a {
+          body.about section > ul h1 a {
             color: #141b2e;
             cursor: default; }
-      body.about section ul ol h2 {
+      body.about section > ul ol h2 {
         padding-top: 10px; }
