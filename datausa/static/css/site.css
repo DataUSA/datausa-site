@@ -1837,6 +1837,7 @@ body.profile nav, body.map nav {
           body.profile #splash .content .splash-titles,
           body.map #splash .content .splash-titles {
             width: 100%;
+            max-width: 750px;
             text-align: center; }
             body.profile #splash .content .splash-titles h1,
             body.map #splash .content .splash-titles h1 {
@@ -4096,7 +4097,7 @@ body.about {
       content: "";
       position: relative;
       visibility: hidden;
-      top: -40px; }
+      top: -85px; }
   body.about p {
     color: rgba(51, 51, 51, 0.93);
     font-family: "Palanquin", sans-serif;

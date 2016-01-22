@@ -59,7 +59,7 @@ body.about {
       content: "";
       position: relative;
       visibility: hidden;
-      top: -$nav-height;
+      top: -$nav-height - $prof-nav-height;
     }
   }
 
