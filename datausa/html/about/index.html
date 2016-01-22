@@ -1,5 +1,7 @@
 {% extends "templates/nav.html" %}
 
+{% block title %} About {% endblock %}
+
 {% block subtitle %}
 <div id="title-bar">
   <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> About</span>
@@ -10,23 +12,13 @@
 
 {% include "templates/about_subnav.html" %}
 
-<header>
-  <div id="splash" style="background-image:url(https://c2.staticflickr.com/6/5645/21188577161_d9ccaf2966_o.jpg)"></div>
+<header id="about-index">
+  <div id="splash"></div>
   <article>
-    <h1>About</h1>
-    <p class="desc"></p>
-
     <section>
       <h2>Not Just a Repository of Data</h2>
-      <div class="content">
-        <aside>
-          <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p>
-          <p>DataUSA is a different kind of Data platform. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus justo turpis, vitae imperdiet diam ultrices in. Duis at facilisis ante. Mauris consequat justo id dolor consequat, ut faucibus nisl elementum. Praesent id enim vitae neque finibus fermentum. Proin eget neque turpis. Etiam a odio rutrum, feugiat sapien non, tincidunt libero. Mauris in blandit diam, et aliquet tortor.</p>
-        </aside>
-        <div class="viz">
-          <img src="/static/img/about/charts.svg" alt="Interactive Viz" />
-        </div>
-      </div>
+      <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p>
+      <p>DataUSA is a different kind of Data platform. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus justo turpis, vitae imperdiet diam ultrices in. Duis at facilisis ante. Mauris consequat justo id dolor consequat, ut faucibus nisl elementum. Praesent id enim vitae neque finibus fermentum. Proin eget neque turpis. Etiam a odio rutrum, feugiat sapien non, tincidunt libero. Mauris in blandit diam, et aliquet tortor.</p>
     </section>
   </article>
 </header>
