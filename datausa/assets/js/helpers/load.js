@@ -29,6 +29,7 @@ var load = function(url, callback) {
             localforage.getItem(url, function(error, data) {
 
               if (data) {
+                data = JSON.parse(LZString.decompress(data));
                 load.callbacks(url, data);
               }
               else {
@@ -84,7 +85,7 @@ load.datafold = function(data) {
 }
 
 load.storeLocal = function(url) {
-  return url.indexOf("attrs/") > 0 || url.indexOf("topojson/") > 0;
+  return (url.indexOf("/attrs") > 0 && url.indexOf("/search") < 0) || url.indexOf("/topojson") > 0;
 }
 
 load.rawData = function(error, data, url) {
@@ -93,7 +94,8 @@ load.rawData = function(error, data, url) {
     console.log(url);
     data = {"headers": [], "data": []};
   }
-  localforage.setItem(url, data);
+  var zip = LZString.compress(JSON.stringify(data));
+  if (load.storeLocal(url)) localforage.setItem(url, zip);
   load.cache[url] = data;
   load.callbacks(url, data);
 }

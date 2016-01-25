@@ -23,6 +23,7 @@
     <script src="/static/js/jszip.min.js?v={{ g.cache_version }}"></script>
     <script src="/static/js/jszip-utils.min.js?v={{ g.cache_version }}"></script>
     <script src="/static/js/FileSaver.min.js?v={{ g.cache_version }}"></script>
+    <script src="/static/js/lz-string.min.js?v={{ g.cache_version }}"></script>
 
     {% assets "js" %}
     <script type="text/javascript" src="{{ ASSET_URL }}?v={{ g.cache_version }}"></script>
@@ -104,7 +105,7 @@
 
       d3.selectAll("[data-tooltip]")
         .on(d3plus.client.pointer.over,function(){
-          
+
           var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
 
           d3plus.tooltip.remove(tt_id);
@@ -118,12 +119,12 @@
           else {
             offset = 15;
           }
-          
+
           var arrow = true;
           if(d3.select(this).attr("data-tooltip-arrow")){
             arrow = d3.select(this).attr("data-tooltip-arrow") === "true";
           }
-          
+
           d3plus.tooltip.create({
             "x": size.left+size.width/2 + d3plus.client.scroll.x(),
             "y": size.top+size.height/2 + d3plus.client.scroll.y(),
