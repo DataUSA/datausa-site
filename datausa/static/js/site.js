@@ -4045,9 +4045,12 @@ viz.mapDraw = function(vars) {
 
     if (vars.zoom.value) {
       svg.call(zoom)
-        .on("mousewheel.zoom",null)
-        .on("MozMousePixelScroll.zoom",null)
-        .on("wheel.zoom",null);
+      if (!vars.zoom.scroll) {
+        svg
+          .on("mousewheel.zoom",null)
+          .on("MozMousePixelScroll.zoom",null)
+          .on("wheel.zoom",null);
+      }
     }
 
     if (!vars.zoom.set) {
@@ -4141,7 +4144,7 @@ viz.map = function() {
     "tiles": {"value": true},
     "tooltip": {"value": []},
     "width": {"value": false},
-    "zoom": {"set": false, "value": true}
+    "zoom": {"scroll": false, "set": false, "value": true}
   };
 
   // the drawing function

@@ -611,9 +611,12 @@ viz.mapDraw = function(vars) {
 
     if (vars.zoom.value) {
       svg.call(zoom)
-        .on("mousewheel.zoom",null)
-        .on("MozMousePixelScroll.zoom",null)
-        .on("wheel.zoom",null);
+      if (!vars.zoom.scroll) {
+        svg
+          .on("mousewheel.zoom",null)
+          .on("MozMousePixelScroll.zoom",null)
+          .on("wheel.zoom",null);
+      }
     }
 
     if (!vars.zoom.set) {

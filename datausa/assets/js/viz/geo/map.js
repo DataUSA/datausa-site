@@ -34,7 +34,7 @@ viz.map = function() {
     "tiles": {"value": true},
     "tooltip": {"value": []},
     "width": {"value": false},
-    "zoom": {"set": false, "value": true}
+    "zoom": {"scroll": false, "set": false, "value": true}
   };
 
   // the drawing function
