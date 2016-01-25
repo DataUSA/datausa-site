@@ -84,8 +84,6 @@ def multi_col_top(profile, params):
     url = u"{}/api?{}".format(API, query)
 
     try:
-        print url
-        print; print;
         r = requests.get(url).json()
     except ValueError:
         app.logger.info("VAR ERROR: {}".format(url))
