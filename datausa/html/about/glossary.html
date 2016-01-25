@@ -1,5 +1,15 @@
 {% extends "templates/nav.html" %}
 
+{% block head %}
+<link type="text/css" rel="stylesheet" media="all" href="/static/css/katex.min.css" />
+<script src="/static/js/katex.min.js"></script>
+<style>
+.frac-line {
+  margin-top: 13px;
+}
+</style>
+{% endblock %}
+
 {% block title %} Glossary {% endblock %}
 
 {% block subtitle %}
@@ -77,7 +87,12 @@
             </li>
             <li>
               <h2><i class="fa fa-link"></i><a href="#rca" name="rca">RCA</a></h2>
-              <p>...</p>
+              <p>Revealed Comparative Advantage or RCA is a calculation used to determine what is special or unique about a certain location/occupation or location/industry combination. The calculation (shown below) takes into account 2 shares; the share of the number of citizens in a location that work in a given occupation and the share of the total number of employees in that occupation vis-a-vis all other occupations. The reason this is useful is that if we were to use nominal values, the most populated locations would always dominate and on the flip-side if we were to use percentages, smaller locations with only a few employees in a rare occupation would dominate, biasing the dataset. Using an RCA calculation is a great way to find which classifications are being over (or under) expressed.</p>
+              <p class="calc" data-calc="g = location"></p>
+              <p class="calc" data-calc="o = occupation"></p>
+              <p class="calc" data-calc="X = number Of Employees"></p>
+              <br />
+              <p class="calc" data-calc="RCA_{go} = \frac{X_{go}}{\sum _{g} X_{go}} / \frac{\sum _{o} X_{go}}{\sum _{g,o} X_{go}}" data-calc-block="true"></p>
             </li>
           </ol>
         </li>
@@ -91,6 +106,10 @@
 
 {% block js %}
 <script>
-
+d3.selectAll(".calc").each(function(){
+  var eq = d3.select(this).attr("data-calc");
+  var block = d3.select(this).attr("data-calc-block");
+  katex.render(eq, this, { displayMode: Boolean(block) });
+})
 </script>
 {% endblock %}
