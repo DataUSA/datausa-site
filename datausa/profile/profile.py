@@ -574,8 +574,9 @@ class Profile(BaseObject):
     def sub(self, **kwargs):
         substitution = False
         key = kwargs.pop("key", "name")
+        attr_id = self.id(**kwargs)
+
         if kwargs.get("dataset", False):
-            attr_id = self.id(**kwargs)
             if self.attr["id"] != attr_id:
                 substitution = fetch(attr_id, self.attr_type)
         else:
@@ -583,20 +584,21 @@ class Profile(BaseObject):
             attr_type = kwargs.get("attr_type", self.attr_type)
             attrs = kwargs.pop("attrs", attr_type)
             subs = self.top(**kwargs)
-            if "subs" not in subs:
-                return ""
-            subs = subs["subs"]
-            if attr_type in subs and subs[attr_type] != self.attr["id"]:
-                substitution = fetch(subs[attr_type], attrs)
+            if "subs" in subs:
+                subs = subs["subs"]
+                if attr_type in subs and subs[attr_type] != attr_id:
+                    substitution = fetch(subs[attr_type], attrs)
 
-        if substitution:
-            if key == "name":
-                substitution = substitution["name"]
-                return u"Based on data from {}".format(substitution)
+        if key == "name":
+            if substitution:
+                return u"Based on data from {}".format(substitution[key])
             else:
-                return substitution[key]
+                return ""
         else:
-            return ""
+            if substitution:
+                return substitution[key]
+            else:
+                return self.attr[key]
 
     def sumlevel(self, **kwargs):
         """str: A string representation of the depth type. """
