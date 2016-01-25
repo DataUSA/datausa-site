@@ -2721,7 +2721,7 @@ viz.loadAttrs = function(build) {
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (type === "iocode") {
-            if (!d.parent && d.id.charAt(0) === "F") d.parent = "F";
+            if (!d.parent && d.id.charAt(0) === "F" && d.id !== "FIRE") d.parent = "F";
             else if (!d.parent) d.parent = d.id;
           }
           if (colorize) {
@@ -3551,8 +3551,6 @@ viz.mapDraw = function(vars) {
     var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
     });
-
-    console.log(color_range, data_range)
 
     if (data_range.length > 1) {
 

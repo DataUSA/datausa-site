@@ -118,8 +118,6 @@ viz.mapDraw = function(vars) {
       return d !== null && typeof d === "number";
     });
 
-    console.log(color_range, data_range)
-
     if (data_range.length > 1) {
 
       var color_range = vizStyles.color.heatmap;

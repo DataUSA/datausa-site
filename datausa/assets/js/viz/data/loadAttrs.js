@@ -18,7 +18,7 @@ viz.loadAttrs = function(build) {
         for (var i = 0; i < data.length; i++) {
           var d = data[i];
           if (type === "iocode") {
-            if (!d.parent && d.id.charAt(0) === "F") d.parent = "F";
+            if (!d.parent && d.id.charAt(0) === "F" && d.id !== "FIRE") d.parent = "F";
             else if (!d.parent) d.parent = d.id;
           }
           if (colorize) {
