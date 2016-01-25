@@ -118,6 +118,8 @@ viz.mapDraw = function(vars) {
       return d !== null && typeof d === "number";
     });
 
+    console.log(color_range, data_range)
+
     if (data_range.length > 1) {
 
       var color_range = vizStyles.color.heatmap;
@@ -130,7 +132,7 @@ viz.mapDraw = function(vars) {
 
     }
     else if (data_range.length) {
-      var colorScale = function(d){ return vizStyles.color.heatmap; }
+      var colorScale = function(d){ return vizStyles.color.heatmap[vizStyles.color.heatmap.length - 1]; }
     }
     else {
       var colorScale = false;
@@ -141,7 +143,7 @@ viz.mapDraw = function(vars) {
       return obj;
     }, {});
 
-    if (colorScale) {
+    if (colorScale && colorScale.domain) {
 
       var scale = svg.selectAll("g.scale").data([0]);
       scale.enter().append("g")
@@ -567,7 +569,7 @@ viz.mapDraw = function(vars) {
           "max_width": vizStyles.tooltip.small,
           "offset": 3,
           "parent": d3.select("body"),
-          "title": vars.format.text(vars.attrs.value[d.id].name, {"key": vars.id.value}),
+          "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}),
           "width": vizStyles.tooltip.small,
           "x": mouse[0],
           "y": mouse[1]
