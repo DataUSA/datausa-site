@@ -641,7 +641,7 @@ var attrStyles = {
     },
     "Other": {
         "color": "#ffd3a6",
-        "icon": "thing_guage.png"
+        "icon": "thing_gauge.png"
     },
     "PROF": {
         "color": "#2c5753",
