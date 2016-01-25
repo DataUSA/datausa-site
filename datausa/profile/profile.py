@@ -575,13 +575,13 @@ class Profile(BaseObject):
         substitution = False
         key = kwargs.pop("key", "name")
         attr_id = self.id(**kwargs)
+        attr_type = kwargs.get("attr_type", self.attr_type)
 
         if kwargs.get("dataset", False):
             if self.attr["id"] != attr_id:
                 substitution = fetch(attr_id, self.attr_type)
         else:
             kwargs["data_only"] = True
-            attr_type = kwargs.get("attr_type", self.attr_type)
             attrs = kwargs.pop("attrs", attr_type)
             subs = self.top(**kwargs)
             if "subs" in subs:
@@ -598,6 +598,8 @@ class Profile(BaseObject):
             if substitution:
                 return substitution[key]
             else:
+                if "_iocode" in attr_type:
+                    return fetch(attr_id, attr_type)[key]
                 return self.attr[key]
 
     def sumlevel(self, **kwargs):

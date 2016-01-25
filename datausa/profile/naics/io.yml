@@ -54,7 +54,7 @@ topics:
       type: "tree_map"
   - title: "Production"
     slug: "tmap_production"
-    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|industry_level=1>>"
+    subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added>>"
     stat:
       - title: "Largest Purchasing Industry"
         value: "<<var namespace=io_industry|key=industry_iocode|row=0>>"
