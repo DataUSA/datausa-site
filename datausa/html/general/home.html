@@ -16,7 +16,7 @@
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<div class="search-input-btn">
-				<input type="text" data-results="search-home" data-search="home" placeholder="Search a profile&hellip;" id="home-search-input" class="search-input" />
+				<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" autofocus />
 			</div>
 			<div id="search-home" class="search-body">
         <div class="no-search-results">No results found</div>
@@ -30,7 +30,6 @@
 </div>
 
 </div>
-
 {% endblock %}
 
 {% block js %}
@@ -42,10 +41,6 @@ var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
 d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
 localforage.setItem("homepage_image", bg_img);
 
-// d3.select(".search-glass").on("mouseover", function(){
-// 	d3.select(".search-input-btn").classed("closed", false);
-// });
-
 var homeInput = d3.select("#home-search-input");
 d3.select("#search-switch.adv").on("click", function(){
 	window.location = "/search/?q=" + homeInput.node().value;
@@ -53,6 +48,7 @@ d3.select("#search-switch.adv").on("click", function(){
 });
 
 d3.select("#home-search-input").on("input", function() {
+  window.clearTimeout(tout);
   var inputText = document.getElementById("home-search-input").value;
   d3.select(".search-input-text").text(inputText);
 });
@@ -71,6 +67,40 @@ if(current_search_term){
 
   search_input.node().focus();
 }
+
+var demo_input = document.getElementById('home-search-input');
+
+var letter_index = 0;
+var tout = 0;
+var sterms = ["Boston", "Computer Science", "Civil Engineers", "Cook County", "Hospitals", "02139", "California", "Biology"]
+var sterm_index = 0;
+var type_this = sterms[sterm_index];
+var ready = true;
+
+window.next_letter = function() {
+  var interval = 130;
+  if (letter_index <= type_this.length) {
+    search_input.property("value", type_this.substr(0, letter_index++));
+    if(letter_index > type_this.length){
+      interval = interval * 22;
+      search_input.on("click")();
+    }
+  }
+  else {
+    letter_index = 0;
+    d3.select(document).on("click")();
+    search_input.node().focus();
+    sterm_index = (sterm_index+1)%sterms.length;
+    type_this = sterms[sterm_index];
+  }
+  tout = setTimeout("next_letter()", interval);
+}
+
+search_input.on("click.clear", function(){
+  window.clearTimeout(tout);
+})
+
+next_letter();
 
 </script>
 

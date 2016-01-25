@@ -126,7 +126,7 @@ search.reload = function() {
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&is_stem="+this.stem_only+query_sumlevel, function(data, url, raw) {
     // console.log(data, url, raw)
-    console.log(url)
+    // console.log(url)
 
     this.zip = raw.zip_search;
 
