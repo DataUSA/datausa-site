@@ -29,6 +29,7 @@
       <div class="splash-titles">
 
         <h1>{{ profile.splash.title }}</h1>
+        {% if profile.attr_type == "cip" and profile.attr.is_stem %}<sub>STEM Major</sub>{% endif %}
 
       </div>
 

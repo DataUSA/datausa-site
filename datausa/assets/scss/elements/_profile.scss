@@ -357,6 +357,7 @@ body.profile, body.map {
       }
 
       .splash-titles {
+        color: #efefef;
         width: 100%;
         max-width: 750px;
         text-align: center;
@@ -364,6 +365,15 @@ body.profile, body.map {
         h1 {
           text-transform: none;
           font-family: $pathway;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+        }
+
+        sub {
+          text-transform: none;
+          font-family: $pathway;
+          font-size: 18px;
           font-weight: 400;
           text-transform: uppercase;
           letter-spacing: 0.03em;

@@ -1836,6 +1836,7 @@ body.profile nav, body.map nav {
           pointer-events: none; }
           body.profile #splash .content .splash-titles,
           body.map #splash .content .splash-titles {
+            color: #efefef;
             width: 100%;
             max-width: 750px;
             text-align: center; }
@@ -1846,6 +1847,14 @@ body.profile nav, body.map nav {
               font-weight: 400;
               text-transform: uppercase;
               letter-spacing: 0.03em; }
+              body.profile #splash .content .splash-titles sub,
+              body.map #splash .content .splash-titles sub {
+                text-transform: none;
+                font-family: "Pathway Gothic One", sans-serif;
+                font-size: 18px;
+                font-weight: 400;
+                text-transform: uppercase;
+                letter-spacing: 0.03em; }
         body.profile #splash .content .splash-context,
         body.map #splash .content .splash-context {
           width: 100%;
