@@ -7,6 +7,7 @@ viz.mapDraw = function(vars) {
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       pathOpacity = 0.25,
       pathStroke = 1,
+      polyZoom = 1000,
       scaleAlign = "middle",
       scaleHeight = 10,
       scalePadding = 5,
@@ -446,7 +447,7 @@ viz.mapDraw = function(vars) {
       // With the center computed, now adjust the projection such that
       // it uses the zoom behavior’s translate and scale.
       projection
-        .scale(1 / 2 / Math.PI)
+        .scale((1 * polyZoom) / 2 / Math.PI)
         .translate([0, 0]);
 
     }
@@ -511,6 +512,7 @@ viz.mapDraw = function(vars) {
           return d.color;
         })
         .attr("fill-opacity", pathOpacity)
+        .attr("stroke-width", pathStroke/(zoom.scale()/polyZoom))
         .attr("stroke", function(d){
           return borderColor(d.color);
         });
@@ -525,8 +527,7 @@ viz.mapDraw = function(vars) {
 
     polys.enter().append("path")
       .attr("d", path)
-      .attr("vector-effect", "non-scaling-stroke")
-      .attr("stroke-width", pathStroke)
+      // .attr("vector-effect", "non-scaling-stroke")
       .attr("class", function(d){
         var o = {};
         o[vars.id.value] = d.id;
@@ -635,7 +636,7 @@ viz.mapDraw = function(vars) {
     if (vars.tiles.value) {
       var t = zoom.translate(),
           d = projection(defaultRotate)[0] - projection([0, 0])[0];
-      t[0] += d * zoom.scale();
+      t[0] += (d/polyZoom) * zoom.scale();
       var tileData = tile
         .scale(zoom.scale())
         .translate(t)
@@ -645,7 +646,9 @@ viz.mapDraw = function(vars) {
       var tileData = [];
     }
 
-    polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+    var pz = zoom.scale() / polyZoom;
+    polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")");
+    polys.attr("stroke-width", pathStroke/pz);
     pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
       .selectAll(".pin")
       .attr("transform", function(d){
