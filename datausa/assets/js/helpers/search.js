@@ -250,7 +250,7 @@ search.btnExplore = function(d) {
   // set profile link
   profile.append("a")
     .attr("href", "#")
-    .html("View Sections")
+    .html("Sections")
     .on("click", search.open_details);
 }
 
