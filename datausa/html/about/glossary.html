@@ -83,7 +83,7 @@
                 <p>ACS data is computed at a 90% confidence level (p=0.10). This means that the U.S. Census Bureau is 90% confident (there is a 90% chance) that the true value for the population is within the bounds of the margin of error for the estimate. </p>
                 <p>For ACS data, estimates and margins of error are provided by the Census Bureau. For ACS PUMS data, estimates and margins of error are computed by aggregating the records in the PUMS files. The formula below shows how the standard error is calculated for PUMS estimates using the provided replicate weights:</p>
                 <br/>
-              <p class="calc" data-calc="StandardError(X) = \sqrt{\frac{4}{80} * \sum_{r=1}^{80}(X_{r}-X)^{2}}" data-calc-block="true"></p>
+              <img src="/static/img/about/standard_error.gif" alt="standard error formula"/>
               <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
               <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
 
