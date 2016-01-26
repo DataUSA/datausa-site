@@ -53,7 +53,6 @@ topics:
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "health_care_costs"
       height: 400
-      highlight: "<<id dataset=chr>>"
       id: "geo"
       type: "geo_map"
   - title: "Obesity and Diabetes"
@@ -114,7 +113,6 @@ topics:
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "alcoholimpaired_driving_deaths,excessive_drinking,adult_smoking"
       height: 400
-      highlight: "<<id dataset=chr>>"
       id: "geo"
       type: "geo_map"
   - title: "Sexually Transmitted Diseases"
@@ -176,6 +174,5 @@ topics:
         where: "geo:<<children prefix=True|dataset=chr>>"
         required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths"
       height: 400
-      highlight: "<<id dataset=chr>>"
       id: "geo"
       type: "geo_map"

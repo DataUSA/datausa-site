@@ -2237,12 +2237,6 @@ body.profile nav, body.map nav {
             body.profile #splash #scroll-btn.visible .mouse-text,
             body.map #splash #scroll-btn.visible .mouse-text {
               opacity: 0.8; }
-      body.profile #splash .d3plus_coordinates.highlight,
-      body.map #splash .d3plus_coordinates.highlight {
-        stroke: white !important;
-        stroke-opacity: 1 !important;
-        fill: white !important;
-        fill-opacity: 1 !important; }
 body.profile #title-bar, body.map #title-bar {
   text-align: center;
   height: 40px;
@@ -2606,6 +2600,16 @@ body.profile .intro, body.map .intro {
     flex: 1;
     height: 200px;
     text-align: center; }
+    body.profile .intro .intro-viz .d3plus_coordinates.outline,
+    body.map .intro .intro-viz .d3plus_coordinates.outline {
+      fill: transparent !important;
+      pointer-events: none !important; }
+      body.profile .intro .intro-viz .d3plus_coordinates.highlight,
+      body.map .intro .intro-viz .d3plus_coordinates.highlight {
+        stroke: white !important;
+        stroke-opacity: 1 !important;
+        fill: white !important;
+        fill-opacity: 1 !important; }
 body.profile header, body.map header {
   padding: 60px 50px 25px;
   position: relative; }
@@ -2893,14 +2897,10 @@ body.profile section, body.map section {
         min-height: 300px;
         overflow: hidden;
         position: relative; }
-        body.profile section .topic .content .viz .d3plus .d3plus_coordinates.outline,
-        body.map section .topic .content .viz .d3plus .d3plus_coordinates.outline {
-          fill: transparent !important;
-          pointer-events: none !important; }
-          body.profile section .topic .content .viz .d3plus #XXUSA,
-          body.map section .topic .content .viz .d3plus #XXUSA {
-            fill: #bbb !important;
-            stroke: #aaa !important; }
+        body.profile section .topic .content .viz .d3plus #XXUSA,
+        body.map section .topic .content .viz .d3plus #XXUSA {
+          fill: #bbb !important;
+          stroke: #aaa !important; }
         body.profile section .topic .content .viz .data-table,
         body.map section .topic .content .viz .data-table {
           -moz-transition: top 0.5s;

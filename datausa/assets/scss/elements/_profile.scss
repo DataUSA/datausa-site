@@ -687,13 +687,6 @@ body.profile, body.map {
 
     }
 
-    .d3plus_coordinates.highlight {
-      stroke: white !important;
-      stroke-opacity: 1 !important;
-      fill: white !important;
-      fill-opacity: 1 !important;
-    }
-
   }
 
   #title-bar {
@@ -1032,6 +1025,19 @@ body.profile, body.map {
       @include flex-size(1);
       height: 200px;
       text-align: center;
+
+      .d3plus_coordinates.outline {
+        fill: transparent !important;
+        pointer-events: none !important;
+      }
+
+      .d3plus_coordinates.highlight {
+        stroke: white !important;
+        stroke-opacity: 1 !important;
+        fill: white !important;
+        fill-opacity: 1 !important;
+      }
+
     }
 
   }
@@ -1282,11 +1288,6 @@ body.profile, body.map {
           position: relative;
 
           .d3plus {
-
-            .d3plus_coordinates.outline {
-              fill: transparent !important;
-              pointer-events: none !important;
-            }
 
             #XXUSA {
               fill: #bbb !important;
