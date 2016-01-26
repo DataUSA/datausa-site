@@ -109,7 +109,7 @@ body.map {
     width: 15px;
     background-color: white;
 
-    &:after {
+    &::after {
       top: 2px;
       position: absolute;
       width: 15px;

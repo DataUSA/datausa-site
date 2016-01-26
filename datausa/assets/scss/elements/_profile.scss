@@ -317,7 +317,7 @@ body.profile, body.map {
       z-index: 0;
       @include transition(all 0.5s);
 
-      &:after {
+      &::after {
         content: "";
         position: absolute;
         height: 100%;
@@ -330,7 +330,7 @@ body.profile, body.map {
       &.color {
         @include filter(saturate(1) brightness(1) contrast(1));
 
-        &:after {
+        &::after {
           opacity: 0;
         }
       }
@@ -942,7 +942,7 @@ body.profile, body.map {
         &.active {
           opacity: 1;
 
-          &:before {
+          &::before {
             width: 80%;
             display: inline-block;
             position: absolute;
@@ -957,7 +957,7 @@ body.profile, body.map {
           }
         }
 
-        &:before {
+        &::before {
           content: "";
           display: inline-block;
           position: absolute;
@@ -972,7 +972,7 @@ body.profile, body.map {
           @include box();
         }
 
-        &:hover:before {
+        &:hover::before {
           width: 80%;
         }
 
@@ -1009,7 +1009,7 @@ body.profile, body.map {
       a {
         &.show-more{
           border-bottom: 1px solid rgba(0,0,0,0.95);
-          &:after{
+          &::after{
             content: unicode("f196");
             font-family: FontAwesome;
             margin: 0 0 0 4px;
@@ -1051,7 +1051,7 @@ body.profile, body.map {
       color: #333;
 
       // This is the invisible element to fix the anchor tags!
-      a:before {
+      a::before {
         content: "";
         position: absolute;
         visibility: hidden;
@@ -1134,14 +1134,14 @@ body.profile, body.map {
       padding: 5px 24px 30px;
       min-width: 100%;
 
-      a:before {
+      a::before {
         content: "";
         position: absolute;
         visibility: hidden;
         top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
       }
 
-      &:before, &:after {
+      &::before, &::after {
         content: "";
         display: inline-block;
         position: absolute;
@@ -1154,18 +1154,18 @@ body.profile, body.map {
         @include box();
       }
 
-      &:before {
+      &::before {
         left: 25px;
         @include shadow(0px 0px 0 #ccc);
       }
 
-      &:after {
+      &::after {
         right: 25px;
         @include shadow(0px 0px 0 #ccc);
       }
 
       &:hover {
-        &:before, &:after {
+        &::before, &::after {
           top: 28px;
           @include shadow(0px -6px 0 #ccc);
         }

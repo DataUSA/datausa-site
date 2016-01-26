@@ -10,7 +10,7 @@ body {
     .menu-content h2 {
       color: #fff;
 
-      &:before {
+      &::before {
         // background: #fff;
       }
     }
@@ -147,7 +147,7 @@ body {
     display: inline-block;
     vertical-align: middle;
 
-    &:before {
+    &::before {
       // content: "";
       // width: 0;
       // display: inline-block;

@@ -200,7 +200,7 @@ body.about {
         &.active {
           opacity: 1;
 
-          &:before {
+          &::before {
             width: 80%;
             display: inline-block;
             position: absolute;
@@ -215,7 +215,7 @@ body.about {
           }
         }
 
-        &:before {
+        &::before {
           content: "";
           display: inline-block;
           position: absolute;

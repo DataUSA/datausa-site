@@ -101,7 +101,7 @@ body.home {
     border: 1px solid rgba(255,255,255,0.5);
     background-color: rgba(255, 255, 255, 0.85);
 
-    &:before {
+    &::before {
       position: relative;
       left: 49%;
       top: -16px;
@@ -234,7 +234,7 @@ body.home {
   margin: 0;
   width: 80%;
 
-  &:before {
+  &::before {
     content: "";
     position: absolute;
     right: $search-mini-width/2 - 7;

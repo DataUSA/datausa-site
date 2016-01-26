@@ -471,7 +471,7 @@ body.story {
         top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
       }
 
-      &:before, &:after {
+      &::before, &::after {
         content: "";
         display: inline-block;
         position: absolute;
@@ -484,18 +484,18 @@ body.story {
         @include box();
       }
 
-      &:before {
+      &::before {
         left: 25px;
         @include shadow(0px 0px 0 #ccc);
       }
 
-      &:after {
+      &::after {
         right: 25px;
         @include shadow(0px 0px 0 #ccc);
       }
 
       &:hover {
-        &:before, &:after {
+        &::before, &::after {
           top: 28px;
           @include shadow(0px -6px 0 #ccc);
         }
