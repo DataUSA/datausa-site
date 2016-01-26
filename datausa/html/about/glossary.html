@@ -28,7 +28,7 @@
   <article>
     <h1>Glossary</h1>
     <p class="desc"></p>
-  
+
     <section>
       <ul>
         <li>
@@ -79,7 +79,14 @@
             </li>
             <li>
               <h2><i class="fa fa-link"></i><a href="#margin_of_error" name="margin_of_error">Margin of Error</a></h2>
-              <p>...</p>
+              <p>"The margin of error is a statistic expressing the amount of random sampling error in a survey's results. It asserts a likelihood (not a certainty) that the result from a sample is close to the number one would get if the whole population had been queried." (<a href="https://en.wikipedia.org/wiki/Margin_of_error">Wikipedia</a>).</p>
+                <p>ACS data is computed at a 90% confidence level (p=0.10). This means that the U.S. Census Bureau is 90% confident (there is a 90% chance) that the true value for the population is within the bounds of the margin of error for the estimate. </p>
+                <p>For ACS data, estimates and margins of error are provided by the Census Bureau. For ACS PUMS data, estimates and margins of error are computed by aggregating the records in the PUMS files. The formula below shows how the standard error is calculated for PUMS estimates using the provided replicate weights:</p>
+                <br/>
+              <p class="calc" data-calc="StandardError(X) = \sqrt{\frac{4}{80} * \sum_{r=1}^{80}(X_{r}-X)^{2}}" data-calc-block="true"></p>
+              <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
+              <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
+
             </li>
             <li>
               <h2><i class="fa fa-link"></i><a href="#num_records" name="num_records">Number of Records</a></h2>
@@ -96,7 +103,7 @@
             </li>
           </ol>
         </li>
-        
+
       </ul>
     </section>
   </article>
