@@ -266,20 +266,60 @@
 @mixin align-content($align: center) {
   -webkit-align-content: $align;
   align-content: $align;
+  $old = $align;
+  @if $align == "flex-start" {
+    $old: "start";
+  } @else if $align == "flex-end" {
+    $old: "end";
+  } @else if $align == "space-between" {
+    $old: "justify";
+  } @else if $align == "space-around" {
+    $old: "distribute";
+  }
+  -ms-flex-line-pack: $old;
+  flex-line-pack: $old;
 }
 
 @mixin align-items($align: center) {
   -webkit-align-items: $align;
   align-items: $align;
+  $old = $align;
+  @if $align == "flex-start" {
+    $old: "start";
+  } @else if $align == "flex-end" {
+    $old: "end";
+  }
+  -ms-flex-align: $old;
+  flex-align: $old;
 }
 
 @mixin align-self($align: center) {
   -webkit-align-self: $align;
   align-self: $align;
+  $old = $align;
+  @if $align == "flex-start" {
+    $old: "start";
+  } @else if $align == "flex-end" {
+    $old: "end";
+  }
+  -ms-flex-item-align: $old;
+  flex-item-align: $old;
 }
 
 @mixin justify($align: center) {
   -webkit-justify-content: $align;
   -moz-justify-content: $align;
   justify-content: $align;
+  $old = $align;
+  @if $align == "flex-start" {
+    $old: "start";
+  } @else if $align == "flex-end" {
+    $old: "end";
+  } @else if $align == "space-between" {
+    $old: "justify";
+  } @else if $align == "space-around" {
+    $old: "distribute";
+  }
+  -ms-flex-pack: $old;
+  flex-pack: $old;
 }
