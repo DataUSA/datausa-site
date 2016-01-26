@@ -58,10 +58,10 @@ def topojson():
                 for geo in data["objects"]["places"]["geometries"]:
                     geo["id"] = "16000US{}".format(geo["id"])
 
-                if state in errors:
-                    excludes = errors[state]
-                    print "Excluding: {}".format(", ".join(excludes))
-                    data["objects"]["places"]["geometries"] = [g for g in data["objects"]["places"]["geometries"] if g["id"] not in excludes]
+                # if state in errors:
+                #     excludes = errors[state]
+                #     print "Excluding: {}".format(", ".join(excludes))
+                #     data["objects"]["places"]["geometries"] = [g for g in data["objects"]["places"]["geometries"] if g["id"] not in excludes]
 
                 data["objects"]["places"]["geometries"].append(state_geom)
                 data_file.seek(0)
