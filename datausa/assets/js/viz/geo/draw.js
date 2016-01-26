@@ -571,7 +571,7 @@ viz.mapDraw = function(vars) {
           "max_width": vizStyles.tooltip.small,
           "offset": 3,
           "parent": d3.select("body"),
-          "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}),
+          "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}),
           "width": vizStyles.tooltip.small,
           "x": mouse[0],
           "y": mouse[1]
