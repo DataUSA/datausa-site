@@ -3552,10 +3552,18 @@ viz.mapDraw = function(vars) {
       return d !== null && typeof d === "number";
     });
 
+    console.log(data_range.sort(function(a, b){
+      return b - a;
+    }).slice(0, 10));
+
     if (data_range.length > 1) {
 
       var color_range = vizStyles.color.heatmap;
       data_range = d3plus.util.buckets(d3.extent(data_range), color_range.length);
+
+      if (data_range.length > color_range.length) {
+        data_range.pop();
+      }
 
       var colorScale = d3.scale.sqrt()
         .domain(data_range)
