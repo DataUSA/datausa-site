@@ -1,6 +1,8 @@
+import re
 from datausa.visualize.models import Viz
 from datausa.utils.data import attr_cache, fetch
 from datausa.profile.abstract import BaseObject
+from datausa.consts import GLOSSARY
 
 
 class Section(BaseObject):
@@ -19,7 +21,7 @@ class Section(BaseObject):
         """Initializes a new Section class.
 
         Args:
-            config (str): The YAML configuration file as one long string.
+            config (str): The parsed YAML string as a dict
             profile (Profile): The Profile class instance this Section will be a part of.
 
         """
@@ -45,14 +47,19 @@ class Section(BaseObject):
 
         if "topics" in config:
             self.topics = config["topics"]
-
+            
+            # filter out topics that are not appropriate for sumlevel
             self.topics = [t for t in self.topics if self.allowed_levels(t)]
 
             # loop through the topics
             for topic in self.topics:
+                if "title" in topic:
+                    topic["title"] = self.tooltipify(topic["title"])
 
-                if "description" in topic and not isinstance(topic["description"], list):
-                    topic["description"] = [topic["description"]]
+                if "description" in topic:
+                    if not isinstance(topic["description"], list):
+                        topic["description"] = [topic["description"]]
+                    topic["description"] = [self.tooltipify(desc) for desc in topic["description"]]
 
                 def getHighlight(viz_obj):
                     ids = viz_obj["id"]
@@ -65,6 +72,9 @@ class Section(BaseObject):
 
                 if "stat" in topic:
                     topic["stat"] = [s for s in topic["stat"] if self.allowed_levels(s)]
+                    for s in topic["stat"]:
+                        if "title" in s:
+                            s["title"] = self.tooltipify(s["title"])
 
                 # instantiate the "viz" config into an array of Viz classes
                 if "viz" in topic:
@@ -94,6 +104,11 @@ class Section(BaseObject):
         if "facts" in config:
             self.facts = config["facts"]
 
+    @staticmethod
+    def tooltipify(txt):
+        for gk, gt in GLOSSARY.items():
+            txt = txt.replace(gk, u"<a href='{}' class='term' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>".format(gt['link'], gt["def"], gk))
+        return txt
 
     def __repr__(self):
         return u"Section: {}".format(self.title)

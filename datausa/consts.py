@@ -443,3 +443,10 @@ COLMAP = {
 }
 COLMAP["acs_race"] = COLMAP["race"]
 COLMAP["pums_race"] = COLMAP["race"]
+
+GLOSSARY = {
+    "Most Specialized": {
+        "def": "The Most Specialized calculation is based on a Revealed Comparative Advantage (RCA) calculation comparing the share of employees in a given location versus the share of employees in the Nation. Click for more info.",
+        "link": "/about/glossary/#rca"
+    }
+}
