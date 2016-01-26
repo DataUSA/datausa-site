@@ -96,6 +96,7 @@ window.onload = function() {
 
     // Up/Down Arrows
     if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
+      d3.event.preventDefault();
       var up = d3.event.keyCode === 38;
 
       // get current active element
@@ -117,8 +118,6 @@ window.onload = function() {
 
       if(next_el) next_el.focus();
 
-
-      d3.event.preventDefault();
       return false;
     }
 

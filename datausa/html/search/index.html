@@ -138,6 +138,8 @@
    * Listen for search filters on left-hand nav
    */
   d3.selectAll(".search-refine a").on("click", function(){
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
     d3.select(".search-suggestions a.clear").style("display", "inline-block");
     var filter = d3.select(this).attr("data-filter");
     var depth = d3.select(this).attr("data-depth");
@@ -173,28 +175,29 @@
     search.depth = depth;
     search.stem_only = stem_only;
     search.reload();
-    // prevent default anchor link behavior
-    d3.event.preventDefault();
   })
-  
+
   /*
    * Clear filters
    */
   d3.select("a.clear").on("click", function(){
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
     d3.select(this).style("display", "none");
     d3.selectAll(".search-refine > div").classed("active", false);
     d3.selectAll(".search-refine div ul li a").classed("active", false);
     search.type = null;
     search.depth = null;
     search.reload();
-    // prevent default anchor link behavior
-    d3.event.preventDefault();
   })
 
   /*
    * Constrain search to specific types of attrs
    */
   d3.selectAll(".search-filter").on("click", function(){
+
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
 
     // set constrained search mode
     search.type = d3.select(this).attr("data-filter");
@@ -222,15 +225,16 @@
     else {
       search.reload();
     }
-
-    // prevent default anchor link behavior
-    d3.event.preventDefault();
   })
 
   /*
    * Constrain search to specific nesting/sumlevel of attrs
    */
   d3.selectAll(".search-nestings a").on("click", function(active_el){
+
+    // prevent default anchor link behavior
+    d3.event.preventDefault();
+
     var _this = active_el || this;
     var depth = d3.select(_this).attr("data-depth");
 
@@ -244,9 +248,6 @@
     // set active link for profile type
     d3.select(_this.parentNode).selectAll("a").classed("active", false)
     d3.select(_this).classed("active", true)
-
-    // prevent default anchor link behavior
-    d3.event.preventDefault();
   })
 
   d3.select(".search-filters-toggle").on("click", function(){
@@ -264,7 +265,7 @@
   search.stem_only = getURLParameter("stem_only");
   search.advanced = true;
   search.container = d3.select("#search-advanced");
-  
+
   if(getURLParameter("kind")){
     d3.select(".search-refine div."+getURLParameter("kind")).classed("active", true);
   }

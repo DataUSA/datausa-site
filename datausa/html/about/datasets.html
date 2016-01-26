@@ -93,12 +93,12 @@
 {% block js %}
 <script>
 d3.selectAll(".dataset-panel li a").on("click", function(){
+  d3.event.preventDefault();
   d3.selectAll(".dataset-panel li").classed("active", false);
   d3.select(this.parentNode).classed("active", true);
   d3.selectAll(".dataset-tab").classed("active", false);
   var active_tab = d3.select(this).attr("data-value");
   d3.select(".dataset-tab[data-tab='"+active_tab+"']").classed("active", true);
-  d3.event.preventDefault();
 })
 </script>
 {% endblock %}

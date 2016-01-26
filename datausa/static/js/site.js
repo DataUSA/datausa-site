@@ -393,6 +393,7 @@ window.onload = function() {
 
     // Up/Down Arrows
     if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
+      d3.event.preventDefault();
       var up = d3.event.keyCode === 38;
 
       // get current active element
@@ -414,8 +415,6 @@ window.onload = function() {
 
       if(next_el) next_el.focus();
 
-
-      d3.event.preventDefault();
       return false;
     }
 
@@ -868,6 +867,10 @@ search.back = function(index) {
 }
 
 search.open_details = function(d){
+
+  // prevent default anchor link behavior
+  d3.event.preventDefault();
+
   // toggle xtra div
   var search_item = d3.select(this.parentNode.parentNode);
   var current_state = search_item.classed("open")
@@ -886,9 +889,6 @@ search.open_details = function(d){
       })
     })
   }
-
-  // prevent default anchor link behavior
-  d3.event.preventDefault();
 }
 
 search.clear_details = function(){

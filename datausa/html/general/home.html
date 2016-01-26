@@ -43,8 +43,8 @@ localforage.setItem("homepage_image", bg_img);
 
 var homeInput = d3.select("#home-search-input");
 d3.select("#search-switch.adv").on("click", function(){
+	d3.event.preventDefault();
 	window.location = "/search/?q=" + homeInput.node().value;
-  d3.event.preventDefault();
 });
 
 d3.select("#home-search-input").on("input", function() {

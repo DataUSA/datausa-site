@@ -290,6 +290,10 @@ search.back = function(index) {
 }
 
 search.open_details = function(d){
+
+  // prevent default anchor link behavior
+  d3.event.preventDefault();
+
   // toggle xtra div
   var search_item = d3.select(this.parentNode.parentNode);
   var current_state = search_item.classed("open")
@@ -308,9 +312,6 @@ search.open_details = function(d){
       })
     })
   }
-
-  // prevent default anchor link behavior
-  d3.event.preventDefault();
 }
 
 search.clear_details = function(){

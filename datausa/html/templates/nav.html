@@ -133,7 +133,8 @@
 
 <script>
 
-d3.select("#menu-btn").on("click", function(){
+d3.select("#menu-btn").on(d3plus.client.pointer.click, function(){
+  d3.event.preventDefault();
   d3.selectAll(".b").classed("close", !d3.selectAll(".b").classed("close"));
 
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
@@ -147,7 +148,6 @@ d3.select("#menu-btn").on("click", function(){
   } else {
     d3.select("#mask").remove();
   }
-  d3.event.preventDefault();
 
   d3.select("#mask").on("click", function(){
     d3.select(this).remove();
@@ -158,6 +158,9 @@ d3.select("#menu-btn").on("click", function(){
 });
 
 d3.selectAll("#search-btn, #home-search-input").on("click", function(){
+  if(d3.event){
+    d3.event.stopPropagation();
+  }
   var _this = this === window ? d3.select("#home-search-input").node() : this;
   var is_home = this.id === "home-search-input";
   var results_div_id = d3.select(_this).attr("data-results");
@@ -182,9 +185,6 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   }
   else {
     results_div.classed("open", false);
-  }
-  if(d3.event){
-    d3.event.stopPropagation();
   }
 });
 
