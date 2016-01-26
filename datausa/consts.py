@@ -448,5 +448,9 @@ GLOSSARY = {
     "Most Specialized": {
         "def": "The Most Specialized calculation is based on a Revealed Comparative Advantage (RCA) calculation comparing the share of employees in a given location versus the share of employees in the Nation. Click for more info.",
         "link": "/about/glossary/#rca"
+    },
+    "Income GINI": {
+        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent income distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
+        "link": "/about/glossary/#gini"
     }
 }
