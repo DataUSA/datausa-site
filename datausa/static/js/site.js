@@ -2920,6 +2920,10 @@ viz.loadBuilds = function(builds) {
       builds.forEach(function(b, i){
         b.top = b.container.node().offsetTop;
         b.height = b.container.node().offsetHeight;
+        if (!b.height) {
+          b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
+          b.height = b.container.node().parentNode.offsetHeight;
+        }
       });
 
     }
