@@ -53,21 +53,3 @@ a.term {
 	@include flex-direction(row);
 	@include justify(space-between);
 }
-
-.color-blocks {
-
-  .b {
-    display: inline-block;
-    width: 15px;
-    height: 2px;
-    margin: 0 10px;
-  }
-}
-
-$block-colors: #ff8166, #ffb563, #1a9b9a, #336a81, #49418e, #2f1fc1;
-
-@for $i from 1 through length($block-colors) {
-  .b:nth-child(#{length($block-colors)}n+#{$i}) {
-      background: nth($block-colors, $i)
-  }
-}
