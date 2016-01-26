@@ -1,9 +1,5 @@
 body.profile {
 
-  .m-hotspot {
-    display: none;
-  }
-
   /* Custom, iPhone Retina */ 
   @media only screen and (min-width : 320px) {
     #profile-nav {
@@ -85,21 +81,6 @@ body.profile {
 
     .profile-end .follow-up ul {
       @include flex-direction(column);
-    }
-
-    #search-btn .search-box.open {
-      display: none;
-      // width: $search-mini-width + 35;
-    }
-
-    .m-hotspot {
-      height: 38px;
-      width: 52px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: block;
-      z-index: 1;
     }
   }
 
