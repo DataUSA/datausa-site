@@ -2792,7 +2792,7 @@ body.profile #section-sidenav, body.map #section-sidenav {
           body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
           body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active {
             background-color: #999; }
-body.profile section, body.map section {
+body.profile .profile-section, body.map .profile-section {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2808,8 +2808,13 @@ body.profile section, body.map section {
   flex-direction: row;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding: 0 25px; }
-  body.profile section .category, body.map section .category {
+  padding: 0 25px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100vw;
+  overflow-x: hidden; }
+  body.profile .profile-section .category, body.map .profile-section .category {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -2820,13 +2825,16 @@ body.profile section, body.map section {
     flex: 1 1 100%;
     padding: 5px 24px 30px;
     min-width: 100%; }
-    body.profile section .category a::before, body.map section .category a::before {
+    body.profile .profile-section .category a::before,
+    body.map .profile-section .category a::before {
       content: "";
       position: absolute;
       visibility: hidden;
       top: -118px; }
-      body.profile section .category::before, body.profile section .category::after,
-      body.map section .category::before, body.map section .category::after {
+      body.profile .profile-section .category::before,
+      body.profile .profile-section .category::after,
+      body.map .profile-section .category::before,
+      body.map .profile-section .category::after {
         content: "";
         display: inline-block;
         position: absolute;
@@ -2842,41 +2850,44 @@ body.profile section, body.map section {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box; }
-        body.profile section .category::before, body.map section .category::before {
+        body.profile .profile-section .category::before,
+        body.map .profile-section .category::before {
           left: 25px;
           -webkit-box-shadow: 0px 0px 0 #ccc;
           -moz-box-shadow: 0px 0px 0 #ccc;
           box-shadow: 0px 0px 0 #ccc; }
-          body.profile section .category::after, body.map section .category::after {
+          body.profile .profile-section .category::after,
+          body.map .profile-section .category::after {
             right: 25px;
             -webkit-box-shadow: 0px 0px 0 #ccc;
             -moz-box-shadow: 0px 0px 0 #ccc;
             box-shadow: 0px 0px 0 #ccc; }
-            body.profile section .category:hover::before,
-            body.profile section .category:hover::after,
-            body.map section .category:hover::before, body.map section .category:hover::after {
+            body.profile .profile-section .category:hover::before,
+            body.profile .profile-section .category:hover::after,
+            body.map .profile-section .category:hover::before,
+            body.map .profile-section .category:hover::after {
               top: 28px;
               -webkit-box-shadow: 0px -6px 0 #ccc;
               -moz-box-shadow: 0px -6px 0 #ccc;
               box-shadow: 0px -6px 0 #ccc; }
-  body.profile section .topic, body.map section .topic {
-    -webkit-box-flex: 1 1 100%;
-    -moz-box-flex: 1 1 100%;
-    -webkit-flex: 1 1 100%;
-    -ms-flex: 1 1 100%;
-    flex: 1 1 100%;
+  body.profile .profile-section .topic, body.map .profile-section .topic {
+    -webkit-box-flex: 1 0 100%;
+    -moz-box-flex: 1 0 100%;
+    -webkit-flex: 1 0 100%;
+    -ms-flex: 1 0 100%;
+    flex: 1 0 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
     min-width: 100%;
     padding: 0 25px 50px; }
-    body.profile section .topic:not(.flex) aside,
-    body.map section .topic:not(.flex) aside {
+    body.profile .profile-section .topic:not(.flex) aside,
+    body.map .profile-section .topic:not(.flex) aside {
       width: 50%; }
-    body.profile section .topic.short, body.map section .topic.short {
+    body.profile .profile-section .topic.short, body.map .profile-section .topic.short {
       padding-bottom: 0; }
-      body.profile section .topic.flex, body.map section .topic.flex {
+      body.profile .profile-section .topic.flex, body.map .profile-section .topic.flex {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -2887,11 +2898,11 @@ body.profile section, body.map section {
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-        -webkit-box-flex: 1 1;
-        -moz-box-flex: 1 1;
-        -webkit-flex: 1 1;
-        -ms-flex: 1 1;
-        flex: 1 1;
+        -webkit-box-flex: 1 0 0;
+        -moz-box-flex: 1 0 0;
+        -webkit-flex: 1 0 0;
+        -ms-flex: 1 0 0;
+        flex: 1 0 0;
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column;
@@ -2900,27 +2911,28 @@ body.profile section, body.map section {
         -ms-flex-align: stretch;
         flex-align: stretch;
         margin: 0 25px 50px;
-        min-width: 198px;
+        min-width: 10px;
         padding: 0; }
-        body.profile section .topic.flex .content, body.map section .topic.flex .content {
-          -webkit-box-flex: 1 1;
-          -moz-box-flex: 1 1;
-          -webkit-flex: 1 1;
-          -ms-flex: 1 1;
-          flex: 1 1;
+        body.profile .profile-section .topic.flex .content,
+        body.map .profile-section .topic.flex .content {
+          -webkit-box-flex: 1 0 auto;
+          -moz-box-flex: 1 0 auto;
+          -webkit-flex: 1 0 auto;
+          -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
           -webkit-flex-direction: column;
           -moz-flex-direction: column;
           flex-direction: column; }
-          body.profile section .topic.flex .content aside,
-          body.map section .topic.flex .content aside {
-            -webkit-box-flex: 1 1;
-            -moz-box-flex: 1 1;
-            -webkit-flex: 1 1;
-            -ms-flex: 1 1;
-            flex: 1 1;
+          body.profile .profile-section .topic.flex .content aside,
+          body.map .profile-section .topic.flex .content aside {
+            -webkit-box-flex: 1 0 auto;
+            -moz-box-flex: 1 0 auto;
+            -webkit-flex: 1 0 auto;
+            -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
             max-width: 100%; }
-            body.profile section .topic.flex .content .viz,
-            body.map section .topic.flex .content .viz {
+            body.profile .profile-section .topic.flex .content .viz,
+            body.map .profile-section .topic.flex .content .viz {
               -webkit-box-flex: 1 1 200px;
               -moz-box-flex: 1 1 200px;
               -webkit-flex: 1 1 200px;
@@ -2928,7 +2940,8 @@ body.profile section, body.map section {
               flex: 1 1 200px;
               margin-left: 0;
               min-height: 200px; }
-    body.profile section .topic .content, body.map section .topic .content {
+    body.profile .profile-section .topic .content,
+    body.map .profile-section .topic .content {
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
@@ -2940,38 +2953,39 @@ body.profile section, body.map section {
       display: -webkit-flex;
       display: flex;
       margin-top: 10px; }
-      body.profile section .topic .content.full-width,
-      body.map section .topic .content.full-width {
+      body.profile .profile-section .topic .content.full-width,
+      body.map .profile-section .topic .content.full-width {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column; }
-        body.profile section .topic .content.full-width .viz,
-        body.map section .topic .content.full-width .viz {
+        body.profile .profile-section .topic .content.full-width .viz,
+        body.map .profile-section .topic .content.full-width .viz {
           margin-left: 0;
           min-height: 500px; }
-      body.profile section .topic .content aside, body.map section .topic .content aside {
+      body.profile .profile-section .topic .content aside,
+      body.map .profile-section .topic .content aside {
         -webkit-box-flex: none;
         -moz-box-flex: none;
         -webkit-flex: none;
         -ms-flex: none;
         flex: none;
         max-width: 415px; }
-        body.profile section .topic .content aside p a,
-        body.map section .topic .content aside p a {
+        body.profile .profile-section .topic .content aside p a,
+        body.map .profile-section .topic .content aside p a {
           border-bottom: 1px solid #C1C1C1;
           -moz-transition: opacity 0.15s;
           -o-transition: opacity 0.15s;
           -webkit-transition: opacity 0.15s;
           transition: opacity 0.15s; }
-          body.profile section .topic .content aside p a:hover,
-          body.map section .topic .content aside p a:hover {
+          body.profile .profile-section .topic .content aside p a:hover,
+          body.map .profile-section .topic .content aside p a:hover {
             opacity: 0.5;
             border-bottom: 0; }
-        body.profile section .topic .content aside select,
-        body.map section .topic .content aside select {
+        body.profile .profile-section .topic .content aside select,
+        body.map .profile-section .topic .content aside select {
           width: 100%; }
-          body.profile section .topic .content aside .topic-stats,
-          body.map section .topic .content aside .topic-stats {
+          body.profile .profile-section .topic .content aside .topic-stats,
+          body.map .profile-section .topic .content aside .topic-stats {
             -webkit-justify-content: center;
             -moz-justify-content: center;
             justify-content: center;
@@ -2986,8 +3000,8 @@ body.profile section, body.map section {
             align-items: flex-end;
             -ms-flex-align: end;
             flex-align: end; }
-            body.profile section .topic .content aside .topic-stats.stacked,
-            body.map section .topic .content aside .topic-stats.stacked {
+            body.profile .profile-section .topic .content aside .topic-stats.stacked,
+            body.map .profile-section .topic .content aside .topic-stats.stacked {
               -webkit-flex-direction: column;
               -moz-flex-direction: column;
               flex-direction: column;
@@ -2995,36 +3009,37 @@ body.profile section, body.map section {
               align-items: flex-start;
               -ms-flex-align: start;
               flex-align: start; }
-              body.profile section .topic .content aside .topic-stats .stat,
-              body.map section .topic .content aside .topic-stats .stat {
-                -webkit-box-flex: 1;
-                -moz-box-flex: 1;
-                -webkit-flex: 1;
-                -ms-flex: 1;
-                flex: 1;
+              body.profile .profile-section .topic .content aside .topic-stats .stat,
+              body.map .profile-section .topic .content aside .topic-stats .stat {
+                -webkit-box-flex: 1 0;
+                -moz-box-flex: 1 0;
+                -webkit-flex: 1 0;
+                -ms-flex: 1 0;
+                flex: 1 0;
                 margin: 10px 15px 10px 0; }
-                body.profile section .topic .content aside .topic-stats .stat .stat-value.loading,
-                body.map section .topic .content aside .topic-stats .stat .stat-value.loading {
+                body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
+                body.map .profile-section .topic .content aside .topic-stats .stat .stat-value.loading {
                   opacity: 0.5; }
-        body.profile section .topic .content aside p,
-        body.map section .topic .content aside p {
+        body.profile .profile-section .topic .content aside p,
+        body.map .profile-section .topic .content aside p {
           margin: 3px 0 6px; }
-      body.profile section .topic .content .viz, body.map section .topic .content .viz {
-        -webkit-box-flex: 1 1 auto;
-        -moz-box-flex: 1 1 auto;
-        -webkit-flex: 1 1 auto;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
+      body.profile .profile-section .topic .content .viz,
+      body.map .profile-section .topic .content .viz {
+        -webkit-box-flex: 1 0 auto;
+        -moz-box-flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
         margin-left: 50px;
         min-height: 300px;
         overflow: hidden;
         position: relative; }
-        body.profile section .topic .content .viz .d3plus #XXUSA,
-        body.map section .topic .content .viz .d3plus #XXUSA {
+        body.profile .profile-section .topic .content .viz .d3plus #XXUSA,
+        body.map .profile-section .topic .content .viz .d3plus #XXUSA {
           fill: #bbb !important;
           stroke: #aaa !important; }
-        body.profile section .topic .content .viz .data-table,
-        body.map section .topic .content .viz .data-table {
+        body.profile .profile-section .topic .content .viz .data-table,
+        body.map .profile-section .topic .content .viz .data-table {
           -moz-transition: top 0.5s;
           -o-transition: top 0.5s;
           -webkit-transition: top 0.5s;
@@ -3035,15 +3050,15 @@ body.profile section, body.map section {
           top: 100%;
           width: 100%;
           background-color: #D0D0D0; }
-          body.profile section .topic .content .viz .data-table.visible,
-          body.map section .topic .content .viz .data-table.visible {
+          body.profile .profile-section .topic .content .viz .data-table.visible,
+          body.map .profile-section .topic .content .viz .data-table.visible {
             top: 0; }
-            body.profile section .topic .content .viz .data-table .download-btns,
-            body.map section .topic .content .viz .data-table .download-btns {
+            body.profile .profile-section .topic .content .viz .data-table .download-btns,
+            body.map .profile-section .topic .content .viz .data-table .download-btns {
               background-color: #1C1C1C;
               text-align: center; }
-              body.profile section .topic .content .viz .data-table .download-btns .csv-btn,
-              body.map section .topic .content .viz .data-table .download-btns .csv-btn {
+              body.profile .profile-section .topic .content .viz .data-table .download-btns .csv-btn,
+              body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn {
                 display: inline-block;
                 margin: 5px;
                 text-align: center;
@@ -3053,15 +3068,15 @@ body.profile section, body.map section {
                 color: white;
                 font-family: "Palanquin", sans-serif;
                 font-size: 12px; }
-                body.profile section .topic .content .viz .data-table .download-btns .csv-btn i,
-                body.map section .topic .content .viz .data-table .download-btns .csv-btn i {
+                body.profile .profile-section .topic .content .viz .data-table .download-btns .csv-btn i,
+                body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn i {
                   margin-left: 5px;
                   vertical-align: baseline; }
-                  body.profile section .topic .content .viz .data-table .download-btns .csv-btn:hover,
-                  body.map section .topic .content .viz .data-table .download-btns .csv-btn:hover {
+                  body.profile .profile-section .topic .content .viz .data-table .download-btns .csv-btn:hover,
+                  body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn:hover {
                     background-color: #0c9a6e; }
-              body.profile section .topic .content .viz .data-table .download-btns .api-btn,
-              body.map section .topic .content .viz .data-table .download-btns .api-btn {
+              body.profile .profile-section .topic .content .viz .data-table .download-btns .api-btn,
+              body.map .profile-section .topic .content .viz .data-table .download-btns .api-btn {
                 display: inline-block;
                 margin: 5px;
                 text-align: center;
@@ -3071,49 +3086,49 @@ body.profile section, body.map section {
                 color: white;
                 font-family: "Palanquin", sans-serif;
                 font-size: 12px; }
-                body.profile section .topic .content .viz .data-table .download-btns .api-btn:hover,
-                body.map section .topic .content .viz .data-table .download-btns .api-btn:hover {
+                body.profile .profile-section .topic .content .viz .data-table .download-btns .api-btn:hover,
+                body.map .profile-section .topic .content .viz .data-table .download-btns .api-btn:hover {
                   background-color: #0c9a6e; }
-          body.profile section .topic .content .viz .data-table table,
-          body.map section .topic .content .viz .data-table table {
+          body.profile .profile-section .topic .content .viz .data-table table,
+          body.map .profile-section .topic .content .viz .data-table table {
             width: 100%; }
-            body.profile section .topic .content .viz .data-table thead,
-            body.profile section .topic .content .viz .data-table tbody,
-            body.map section .topic .content .viz .data-table thead,
-            body.map section .topic .content .viz .data-table tbody {
+            body.profile .profile-section .topic .content .viz .data-table thead,
+            body.profile .profile-section .topic .content .viz .data-table tbody,
+            body.map .profile-section .topic .content .viz .data-table thead,
+            body.map .profile-section .topic .content .viz .data-table tbody {
               font-family: "Palanquin", sans-serif; }
-              body.profile section .topic .content .viz .data-table thead,
-              body.map section .topic .content .viz .data-table thead {
+              body.profile .profile-section .topic .content .viz .data-table thead,
+              body.map .profile-section .topic .content .viz .data-table thead {
                 -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 background-color: #1C1C1C;
                 color: rgba(237, 240, 245, 0.5); }
-                body.profile section .topic .content .viz .data-table thead th,
-                body.map section .topic .content .viz .data-table thead th {
+                body.profile .profile-section .topic .content .viz .data-table thead th,
+                body.map .profile-section .topic .content .viz .data-table thead th {
                   padding: 6px 5px 4px;
                   font-weight: 400;
                   letter-spacing: 0.1em;
                   text-transform: uppercase;
                   font-size: 11px;
                   text-align: left; }
-                  body.profile section .topic .content .viz .data-table thead th:hover,
-                  body.map section .topic .content .viz .data-table thead th:hover {
+                  body.profile .profile-section .topic .content .viz .data-table thead th:hover,
+                  body.map .profile-section .topic .content .viz .data-table thead th:hover {
                     color: #fff;
                     cursor: default; }
-          body.profile section .topic .content .viz .data-table tbody,
-          body.map section .topic .content .viz .data-table tbody {
+          body.profile .profile-section .topic .content .viz .data-table tbody,
+          body.map .profile-section .topic .content .viz .data-table tbody {
             color: #333; }
-            body.profile section .topic .content .viz .data-table tbody td,
-            body.map section .topic .content .viz .data-table tbody td {
+            body.profile .profile-section .topic .content .viz .data-table tbody td,
+            body.map .profile-section .topic .content .viz .data-table tbody td {
               font-size: 12px;
               font-weight: 300;
               padding: 5px 5px; }
-              body.profile section .topic .content .viz .data-table tbody tr:hover,
-              body.map section .topic .content .viz .data-table tbody tr:hover {
+              body.profile .profile-section .topic .content .viz .data-table tbody tr:hover,
+              body.map .profile-section .topic .content .viz .data-table tbody tr:hover {
                 color: #fff; }
-      body.profile section .topic .content .viz.mini,
-      body.map section .topic .content .viz.mini {
+      body.profile .profile-section .topic .content .viz.mini,
+      body.map .profile-section .topic .content .viz.mini {
         margin-left: 0;
         min-height: 200px; }
 body.profile #show-bg, body.map #show-bg {
@@ -3139,49 +3154,20 @@ body.profile .profile-end, body.map .profile-end {
   width: 100%;
   padding: 10px 0 15px;
   background-color: #000;
-  text-align: center; }
-  body.profile .profile-end header, body.map .profile-end header {
-    padding: 30px 0 20px 0; }
-    body.profile .profile-end header h2, body.map .profile-end header h2 {
-      color: rgba(255, 255, 255, 0.9); }
-      body.profile .profile-end header p, body.map .profile-end header p {
-        color: rgba(255, 255, 255, 0.9);
-        font-family: "Palanquin", sans-serif;
-        font-weight: 300; }
-        body.profile .profile-end header h2, body.map .profile-end header h2 {
-          font-size: 38px;
-          font-style: normal; }
-  body.profile .profile-end .follow-up ul, body.map .profile-end .follow-up ul {
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -ms-flex-pack: center;
-    flex-pack: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    width: 100%; }
-    body.profile .profile-end .follow-up ul li, body.map .profile-end .follow-up ul li {
-      -webkit-box-flex: 1;
-      -moz-box-flex: 1;
-      -webkit-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
-      height: 200px;
-      margin: 0 10px 20px;
-      min-width: 300px;
-      max-width: 400px;
-      position: relative;
-      background: #1d1d1d;
-      background-size: cover !important;
-      background-position: center center;
-      cursor: pointer; }
-      body.profile .profile-end .follow-up ul li a,
-      body.map .profile-end .follow-up ul li a {
+  text-align: center;
+  overflow: hidden; }
+  body.profile .profile-end h2, body.map .profile-end h2 {
+    font-family: "Pathway Gothic One", sans-serif;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 38px;
+    padding: 10px 0 20px; }
+    body.profile .profile-end a, body.map .profile-end a {
+      color: rgba(255, 255, 255, 0.9);
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 24px;
+      font-weight: 300;
+      text-transform: uppercase; }
+      body.profile .profile-end .follow-up, body.map .profile-end .follow-up {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -3192,44 +3178,72 @@ body.profile .profile-end, body.map .profile-end {
         display: -ms-flexbox;
         display: -webkit-flex;
         display: flex;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        -ms-flex-pack: center;
-        flex-pack: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -ms-flex-align: center;
-        flex-align: center;
-        -moz-transition: background-color 0.1s;
-        -o-transition: background-color 0.1s;
-        -webkit-transition: background-color 0.1s;
-        transition: background-color 0.1s;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 1; }
-        body.profile .profile-end .follow-up ul li a:hover,
-        body.map .profile-end .follow-up ul li a:hover {
-          background-color: rgba(0, 0, 0, 0.4); }
-          body.profile .profile-end .follow-up ul li a .explore-title,
-          body.map .profile-end .follow-up ul li a .explore-title {
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            font-family: "Pathway Gothic One", sans-serif;
-            font-size: 24px;
-            font-weight: 300; }
-  body.profile .profile-end a, body.map .profile-end a {
-    display: block;
-    color: #fff;
-    opacity: 0.5;
-    -moz-transition: opacity 0.25s;
-    -o-transition: opacity 0.25s;
-    -webkit-transition: opacity 0.25s;
-    transition: opacity 0.25s; }
-    body.profile .profile-end a:hover, body.map .profile-end a:hover {
-      opacity: 1; }
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        flex-direction: row;
+        max-width: 100%; }
+        body.profile .profile-end .follow-up > div, body.map .profile-end .follow-up > div {
+          -webkit-box-flex: 1;
+          -moz-box-flex: 1;
+          -webkit-flex: 1;
+          -ms-flex: 1;
+          flex: 1;
+          min-width: 30%;
+          -webkit-flex: 1 1 30%;
+          flex: 1;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          -ms-flex-pack: center;
+          flex-pack: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-align-items: center;
+          align-items: center;
+          -ms-flex-align: center;
+          flex-align: center;
+          height: 200px;
+          margin: 0 10px 20px;
+          min-width: 300px;
+          max-width: 400px;
+          position: relative;
+          background: #1d1d1d;
+          background-size: cover !important;
+          background-position: center center;
+          cursor: pointer; }
+          body.profile .profile-end .follow-up > div::before,
+          body.map .profile-end .follow-up > div::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 1;
+            -moz-transition: background-color 0.1s;
+            -o-transition: background-color 0.1s;
+            -webkit-transition: background-color 0.1s;
+            transition: background-color 0.1s; }
+            body.profile .profile-end .follow-up > div:hover::before,
+            body.map .profile-end .follow-up > div:hover::before {
+              background-color: rgba(0, 0, 0, 0.4); }
+              body.profile .profile-end .follow-up > div .explore-title,
+              body.map .profile-end .follow-up > div .explore-title {
+                position: relative;
+                width: 100%;
+                padding: 20% 20px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                margin: auto; }
 body.profile .share-section, body.map .share-section {
   margin-top: 10px; }
   body.profile .share-section a, body.map .share-section a {
@@ -3370,26 +3384,56 @@ body.profile .share-section, body.map .share-section {
                     margin-top: 3px;
                     font-size: 9px;
                     line-height: 1.3;   }
-  body.profile section {
+  body.profile .profile-section {
     -webkit-flex-direction: column;
     -moz-flex-direction: column;
     flex-direction: column;
     padding: 0 15px 0 25px;   }
-    body.profile section .topic {
+    body.profile .profile-section .category {
+      margin: 30px 0;   }
+      body.profile .profile-section .category::before,
+      body.profile .profile-section .category::after {
+        content: none;   }
+    body.profile .profile-section .topic {
+      -webkit-box-flex: 1 0 auto;
+      -moz-box-flex: 1 0 auto;
+      -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
       padding: 0 15px 50px 25px;   }
-      body.profile section .topic .content {
-        -webkit-flex-direction: column;
-        -moz-flex-direction: column;
-        flex-direction: column;   }
-        body.profile section .topic .content aside {
-          width: 100%;
-          max-width: 100%;   }
-          body.profile section .topic .content aside .topic-stats .stat {
-            margin: 20px 10px 15px;
-            text-align: center;   }
-        body.profile section .topic .content .viz {
-          margin-left: 0;
-          width: 100%;   }
+      body.profile .profile-section .topic.flex {
+        -webkit-box-flex: 1 0 auto;
+        -moz-box-flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;   }
+        body.profile .profile-section .topic .content {
+          -webkit-flex-direction: column;
+          -moz-flex-direction: column;
+          flex-direction: column;   }
+          body.profile .profile-section .topic .content aside {
+            width: 100%;
+            max-width: 100%;   }
+            body.profile .profile-section .topic .content aside .topic-stats .stat {
+              -webkit-justify-content: center;
+              -moz-justify-content: center;
+              justify-content: center;
+              -ms-flex-pack: center;
+              flex-pack: center;
+              display: -webkit-box;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: -webkit-flex;
+              display: flex;
+              -webkit-flex-direction: column;
+              -moz-flex-direction: column;
+              flex-direction: column;   }
+              body.profile .profile-section .topic .content aside .topic-stats .stat {
+                margin: 20px 10px 15px;
+                text-align: center;   }
+          body.profile .profile-section .topic .content .viz {
+            margin-left: 0;
+            width: 100%;   }
   body.profile .data-btn {
     float: none;
     display: block;
@@ -3398,10 +3442,16 @@ body.profile .share-section, body.map .share-section {
       display: inline-block;   }
       body.profile .stat-subtitle {
         display: inline-block;   }
-        body.profile .profile-end .follow-up ul {
+        body.profile .profile-end .follow-up {
           -webkit-flex-direction: column;
           -moz-flex-direction: column;
           flex-direction: column;   }
+          body.profile .profile-end .follow-up > div {
+            -webkit-box-flex: 1 1 auto;
+            -moz-box-flex: 1 1 auto;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;   }
 }
 body.embed {
   overflow: hidden; }

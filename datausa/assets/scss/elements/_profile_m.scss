@@ -66,6 +66,8 @@ body.profile {
       padding: 0 15px 0 25px;
 
       .category {
+        margin: 30px 0;
+
         &::before, &::after {
           content: none;
         }
@@ -120,8 +122,12 @@ body.profile {
       display: inline-block;
     }
 
-    .profile-end .follow-up ul {
+    .profile-end .follow-up {
       @include flex-direction(column);
+
+      & > div {
+        @include flex-size(1 1 auto);
+      }
     }  
   }
   

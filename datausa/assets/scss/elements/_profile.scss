@@ -1445,6 +1445,7 @@ body.profile, body.map {
     padding: 10px 0 15px;
     background-color: #000;
     text-align: center;
+    overflow: hidden;
 
     h2 {
       font-family: $pathway;
