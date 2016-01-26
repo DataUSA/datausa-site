@@ -349,7 +349,7 @@ COLMAP = {
         "other": "8"
     },
     "ageBucket": {
-        "under5": "< 5",
+        "under5": "&lt; 5",
         "5": "5",
         "6to11": "6-11",
         "12to14": "12-14",
@@ -364,7 +364,7 @@ COLMAP = {
         "75over": "75+"
     },
     "incomeBucket": {
-        "under10": "< $10k",
+        "under10": "&lt; $10k",
         "10to15": "$10-$15k",
         "15to20": "$15-$20k",
         "20to25": "$20-$25k",
@@ -382,7 +382,7 @@ COLMAP = {
         "200over": "$200k+"
     },
     "propertyvalBucket": {
-        "less10k": "< $10k",
+        "less10k": "&lt; $10k",
         "10kto15k": "$10k-$15k",
         "15kto20k": "$15k-$20k",
         "20kto25k": "$20k-$25k",
@@ -407,7 +407,7 @@ COLMAP = {
     },
     "propertytaxBucket": {
         "none": "$0",
-        "less800": "< $800",
+        "less800": "&lt; $800",
         "800to1500": "$800-$1.5k",
         "1500to2000": "$1.5k-$2k",
         "2000to3000": "$2k-$3k",
