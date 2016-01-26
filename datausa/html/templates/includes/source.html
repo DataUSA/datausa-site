@@ -1,13 +1,17 @@
+{% if topic.viz %}
 <sub class="sub-source">Dataset: <span class="source"></span></sub>
 <sub class="sub-source">Source: <span class="org"></span></sub>
-
+{% endif %}
+  
 <div class="share-section">
+  {% if not story %}
   <a href="#" title="Share on Facebook" data-ga="facebook share" data-ga-cat="profile" data-ga-label="share buttons click">
     <i class="fa fa-facebook"></i>
   </a>
   <a href="#" title="Share on Twitter" data-ga="twitter share" data-ga-cat="profile" data-ga-label="share buttons click">
     <i class="fa fa-twitter"></i>
   </a>
+  {% endif %}
   {% if profile %}
   <a href="#" title="Share with Embed" data-ga="embed share" data-ga-cat="profile" data-ga-label="share buttons click">
     <i class="fa fa-link"></i>

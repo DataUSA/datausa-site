@@ -22,8 +22,6 @@ topics:
   - viz_url: "/profile/geo/01000US/economy/income_gender/"
 
   - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
-  - description: >
-      And what about gender bias? The report concludes that women are more likely than men to perceive gender bias -- to feel there are more barriers to promotion. Of course they do. The real question is how much gender bias exists, not what women perceive. Gender bias is hard to measure, because it is invisible and mostly unconscious. But it is certainly a factor -- on its own and as an underlying part of these other phenomena. One of the recommendations of the study is training to "interrupt gender bias," including to assure men can see and understand the challenges women encounter.
-
-  - description: >
-      For more information, see Caroline Turner on http://www.huffingtonpost.com/caroline-turner/women-in-the-workplace-20_b_8255008.html
+  - description:
+    - "And what about gender bias? The report concludes that women are more likely than men to perceive gender bias -- to feel there are more barriers to promotion. Of course they do. The real question is how much gender bias exists, not what women perceive. Gender bias is hard to measure, because it is invisible and mostly unconscious. But it is certainly a factor -- on its own and as an underlying part of these other phenomena. One of the recommendations of the study is training to 'interrupt gender bias', including to assure men can see and understand the challenges women encounter."
+    - "For more information, see Caroline Turner on <a href='http://www.huffingtonpost.com/caroline-turner/women-in-the-workplace-20_b_8255008.html'>The Huffington Post</a>"
