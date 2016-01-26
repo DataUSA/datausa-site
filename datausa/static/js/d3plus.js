@@ -15274,7 +15274,7 @@ module.exports = function(words, style, opts) {
     return elem.getComputedTextLength() + add;
   };
   getHeight = function(elem) {
-    return elem.offsetHeight || elem.getBoundingClientRect().height || elem.parentNode.getBBox().height;
+    return elem.offsetHeight || elem.parentNode.getBBox().height || elem.getBoundingClientRect().height;
   };
   tspans.enter().append("tspan").text(String).style(style).attr(attr).each(function(d) {
     if (typeof opts.mod === "function") {
@@ -32509,8 +32509,6 @@ labelPadding = function(vars) {
         }
         xAxisWidth = Math.ceil(xAxisWidth);
         xAxisHeight = Math.ceil(xAxisHeight);
-        xAxisWidth++;
-        xAxisHeight++;
         vars[axis].ticks.maxHeight = xAxisHeight;
         vars[axis].ticks.maxWidth = xAxisWidth;
         vars.axes.margin[margin] += xAxisHeight + vars.labels.padding;
