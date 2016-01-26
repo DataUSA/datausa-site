@@ -122,16 +122,13 @@ body.profile, body.map {
   .data-btn {
     float: right;
     position: relative;
-    vertical-align: baseline;
-    padding-bottom: 1px;
     color: #a3a3a3;
     font-family: $palanquin;
     font-size: 12px;
 
     i {
       position: relative;
-      top: 1px;
-      vertical-align: baseline;
+      top: 7px;
     }
 
     &:hover {
@@ -312,6 +309,8 @@ body.profile, body.map {
       position: absolute;
       height: 100%;
       left: 0;
+      right: 0;
+      bottom: 0;
       top: 0;
       width: 100%;
       @include background-stretch();
@@ -1446,10 +1445,6 @@ body.profile, body.map {
       padding: 30px 0 20px 0;
       h2 {
         color: rgba(255, 255, 255, 0.9);
-        // font-family: $playfair;
-        // font-size: 28px;
-        // letter-spacing: 0.05em;
-        // text-transform: uppercase;
       }
       p {
         color: rgba(255, 255, 255, 0.9);
@@ -1468,7 +1463,6 @@ body.profile, body.map {
       ul {
         @include flex();
         @include flex-wrap();
-        padding: 0 10px;
         width: 100%;
 
         li {
@@ -1665,3 +1659,5 @@ body.profile, body.map {
     }
   }
 }
+
+@import "elements/profile_m";

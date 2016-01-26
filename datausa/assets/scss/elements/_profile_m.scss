@@ -1,0 +1,97 @@
+body.profile {
+
+  /* Custom, iPhone Retina */ 
+  @media only screen and (min-width : 320px) {
+    #profile-nav {
+      display: none;
+    }
+
+    #splash {
+      width: 100%;
+
+      .content {
+        padding: $nav-height 10px 30px;
+
+        .row-last {
+          @include flex-direction(column);
+        }
+        .splash-breadcrumb {
+          display: none;
+        }
+      }
+    }
+
+    section {
+      @include flex-direction(column);
+      padding: 0 15px 0 25px;
+
+      .topic {
+        padding: 0 15px 50px 25px;
+
+        .content {
+          @include flex-direction(column);
+
+          aside {
+            width: 100%;
+            max-width: 100%;
+
+            .topic-stats .stat {
+              margin: 20px 10px 15px;
+              text-align: center;
+            }
+          }
+          .viz {
+            margin-left: 0;
+            width:100%;
+          }
+        }
+      }
+    }
+
+    .data-btn {
+      float: none;
+      display: block;
+      margin: -10px 0 15px;
+    }
+
+    .stat-value {
+      display: inline-block;
+    }
+
+    .stat-subtitle {
+      display: inline-block;
+    }
+
+    .profile-end .follow-up ul {
+      @include flex-direction(column);
+    }
+
+    #search-btn .search-box.open {
+      width: $search-mini-width;
+      margin-left: 46px;
+    }
+  }
+
+  /* Extra Small Devices, Phones */ 
+  @media only screen and (min-width : 480px) {
+    #profile-nav {
+      display: none !important;
+    }
+  }
+
+  /* Small Devices, Tablets */
+  @media only screen and (min-width : 768px) {
+
+  }
+
+  /* Medium Devices, Desktops */
+  @media only screen and (min-width : 992px) {
+
+  }
+
+  /* Large Devices, Wide Screens */
+  @media only screen and (min-width : 1200px) {
+
+  }
+
+}

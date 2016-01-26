@@ -439,7 +439,7 @@ body {
     @include justify(space-around);
     width: 100%;
     left: 0;
-    top: -100vh;
+    top: -100%;
     height: 100%;
     @include transition(top 0.7s ease);
 
