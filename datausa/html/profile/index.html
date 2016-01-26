@@ -163,7 +163,7 @@
   {% endfor %}
 </header>
 
-<section class="{{ section.anchor }}">
+<section class="{{ section.anchor }} profile-section">
   {% include "templates/includes/topic.html" %}
 </section>
 
@@ -171,31 +171,23 @@
 
 <div class="profile-end">
 
-  <header>
-    <h2>Keep Exploring</h2>
-    <p>Profiles we think you'd be interested in visiting next...</p>
-  </header>
-
+  <h2>Keep Exploring</h2>
+  
   <!-- follow up profile links -->
   <div class="follow-up">
 
     {% if parents|length %}
-    <ul>
-      {% for p in parents %}
-      <li style="background: url('/profile/{{ profile.attr_type }}/{{ p.id }}/img/');">
-        <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}">
-          <div class="explore-title">{{ p["name"] }}</div>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
+    {% for p in parents %}
+    <div style="background: url('/profile/{{ profile.attr_type }}/{{ p.id }}/img/');">
+      <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}" class="explore-title">{{ p["name"] }}</a>
+    </div>
+    {% endfor %}
     {% endif %}
   </div>
   <!-- end .follow-up -->
-
+  
+  <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
   <!-- ending footer  -->
-  <!-- <a href="/" data-ga="profile end home" data-ga-cat="profile" data-ga-label="home"><img src="/static/img/home/logo_p.png" alt="DataUSA" style="width:104px" /></a>
-  <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a> -->
 </div>
 
 {% endblock %}

@@ -1122,11 +1122,14 @@ body.profile, body.map {
 
   }
 
-  section {
+  .profile-section {
     @include flex();
     @include flex-direction(row);
     @include flex-wrap();
     padding: 0 25px;
+    @include box();
+    width: 100vw;
+    overflow-x: hidden;
 
     .category {
       @include box();
@@ -1173,7 +1176,7 @@ body.profile, body.map {
     }
 
     .topic {
-      @include flex-size(1 1 100%);
+      @include flex-size(1 0 100%);
       @include box();
       margin: 0;
       min-width: 100%;
@@ -1186,24 +1189,25 @@ body.profile, body.map {
       }
 
       &.short {
+        // width: 100%;
         padding-bottom: 0;
       }
 
       &.flex {
         @include flex();
-        @include flex-size(1 1);
+        @include flex-size(1 0 0);
         @include flex-direction(column);
         @include align-items(stretch);
         margin: 0 25px 50px;
-        min-width: 198px;
+        min-width: 10px;
         padding: 0;
 
         .content {
-          @include flex-size(1 1);
+          @include flex-size(1 0 auto);
           @include flex-direction(column);
 
           aside {
-            @include flex-size(1 1);
+            @include flex-size(1 0 auto);
             max-width: 100%;
           }
 
@@ -1261,7 +1265,7 @@ body.profile, body.map {
             }
 
             .stat {
-              @include flex-size(1);
+              @include flex-size(1 0);
               margin: 10px 15px 10px 0;
 
               .stat-value {
@@ -1281,7 +1285,7 @@ body.profile, body.map {
         }
 
         .viz {
-          @include flex-size(1 1 auto);
+          @include flex-size(1 0 auto);
           margin-left: 50px;
           min-height: 300px;
           overflow: hidden;
@@ -1442,95 +1446,69 @@ body.profile, body.map {
     background-color: #000;
     text-align: center;
 
-    header {
-      padding: 30px 0 20px 0;
-      h2 {
-        color: rgba(255, 255, 255, 0.9);
-      }
-      p {
-        color: rgba(255, 255, 255, 0.9);
-        font-family: $palanquin;
-        font-weight: 300;
-      }
-
-      h2 {
-        font-size: 38px;
-        font-style: normal;
-      }
+    h2 {
+      font-family: $pathway;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 38px;
+      padding: 10px 0 20px;
+    }
+    
+    a {
+      color: rgba(255, 255, 255, 0.9);
+      font-family: $pathway;
+      font-size: 24px;
+      font-weight: 300;
+      text-transform: uppercase;
     }
 
     .follow-up {
-
-      ul {
+      @include flex();
+      @include flex-wrap();
+      @include flex-direction(row);
+      max-width: 100%;
+      
+      & > div {
+        @include flex-size(1);
+        min-width: 30%;
+        -webkit-flex: 1 1 30%;
+        flex: 1;
         @include flex();
-        @include flex-wrap();
-        width: 100%;
+        @include align-items(center);
+        height: 200px;
+        margin: 0 10px 20px;
+        min-width: 300px;
+        max-width: 400px;
+        position: relative;
+        background: #1d1d1d;
+        background-size: cover !important;
+        background-position: center center;
+        cursor: pointer;
 
-        li {
-          @include flex-size(1);
-          height: 200px;
-          margin: 0 10px 20px;
-          min-width: 300px;
-          max-width: 400px;
-          position: relative;
-          background: #1d1d1d;
-          background-size: cover !important;
-          background-position: center center;
-          cursor: pointer;
-          // float: left;
-          // padding-bottom: 25%;
-          // width: 25%;
-          // box-sizing: border-box;
-          // border: solid 0px #fff;
-          // border-top: none;
-          // border-right: none;
-
-          a {
-            @include flex();
-            @include justify(center);
-            @include align-items(center);
-            @include transition(background-color 0.1s);
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            opacity: 1;
-
-            &:hover {
-              background-color: rgba(0, 0, 0, 0.4);
-            }
-
-            .explore-title {
-              padding: 20px;
-              color: rgba(255, 255, 255, 0.9);
-              font-family: $pathway;
-              font-size: 24px;
-              font-weight: 300;
-              // z-index: 33333;
-              // padding: 50px 0 20px 0;
-              // text-align: center;
-              // color: rgba(200, 200, 200, 0.93);
-              // position: absolute;
-              // width: 100%;
-              // bottom: 0;
-            }
-
-          }
-
+        &::before {
+          content: "";
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5);
+          opacity: 1;
+          @include transition(background-color 0.1s);
         }
 
-      }
-
-    }
-
-    a {
-      display: block;
-      color: #fff;
-      opacity: 0.5;
-      @include transition(opacity 0.25s);
-
-      &:hover {
-        opacity: 1;
+        &:hover::before {
+          background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        .explore-title {
+          position: relative;
+          width: 100%;
+          padding: 20% 20px;
+          @include box();
+          margin: auto;
+        }
       }
     }
   }

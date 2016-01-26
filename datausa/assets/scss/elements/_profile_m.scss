@@ -61,12 +61,23 @@ body.profile {
       }
     }
 
-    section {
+    .profile-section {
       @include flex-direction(column);
       padding: 0 15px 0 25px;
 
+      .category {
+        &::before, &::after {
+          content: none;
+        }
+      }
+
       .topic {
+        @include flex-size(1 0 auto);
         padding: 0 15px 50px 25px;
+
+        &.flex {
+          @include flex-size(1 0 auto);
+        }
 
         .content {
           @include flex-direction(column);
@@ -75,9 +86,16 @@ body.profile {
             width: 100%;
             max-width: 100%;
 
-            .topic-stats .stat {
-              margin: 20px 10px 15px;
-              text-align: center;
+            .topic-stats {
+              .stat {
+                @include flex();
+                @include flex-direction(column);
+              }
+
+              .stat {
+                margin: 20px 10px 15px;
+                text-align: center;
+              }
             }
           }
           .viz {
