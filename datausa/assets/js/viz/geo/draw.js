@@ -647,8 +647,8 @@ viz.mapDraw = function(vars) {
     }
 
     var pz = zoom.scale() / polyZoom;
-    polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")");
-    polys.attr("stroke-width", pathStroke/pz);
+    polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")")
+      .selectAll("path").attr("stroke-width", pathStroke/pz);
     pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
       .selectAll(".pin")
       .attr("transform", function(d){
