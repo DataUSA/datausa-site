@@ -17,7 +17,7 @@ body.profile {
 
   /* Extra Small Devices, Phones */ 
   @media only screen and (max-width : 480px) {
-    #profile-nav {
+    #profile-nav, #stats-bar {
       display: none;
     }
 

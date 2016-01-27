@@ -1574,6 +1574,54 @@ body.profile, body.map {
   to {top: 5px;}
 }
 
+.viz {
+  .attribution, .attribution a {
+    font-family: $palanquin !important;
+    color: $gray-d !important;
+  }
+
+  .zoom-in, .zoom-out, .zoom-reset {
+    border: 1px solid $gray-d !important;
+
+    &::after {
+      color: $gray-d !important;
+    }
+  }
+}
+
+.d3plus_node {
+  margin: 10px 0 0 !important;
+  border: 1px solid $gray !important;
+  font-family: $palanquin !important;
+  letter-spacing: 0.03em !important;
+  font-size: 16px !important;
+
+  .d3plus_button_label {
+    padding: 5px 23px 5px 10px !important;
+  }
+}
+
+.d3plus_drop_selector {
+  background-color: $gray !important;
+
+  .d3plus_drop_list {
+    .d3plus_node {
+      border: inherit !important;
+      margin: 0 !important;
+    }
+
+    .d3plus_button_active {
+      color: $gray-d2 !important;
+      background-color: $gray-l !important;
+
+      .d3plus_button_selected {
+        &::before {
+          content: '';
+        }
+      }
+    }
+  }
+}
 
 .d3plus_tooltip {
 

@@ -3291,6 +3291,34 @@ body.profile .share-section, body.map .share-section {
       top: 5px;   }
 }
 
+.viz .attribution, .viz .attribution a {
+  font-family: "Palanquin", sans-serif !important;
+  color: #999 !important; }
+  .viz .zoom-in, .viz .zoom-out, .viz .zoom-reset {
+    border: 1px solid #999 !important; }
+    .viz .zoom-in::after, .viz .zoom-out::after, .viz .zoom-reset::after {
+      color: #999 !important; }
+
+.d3plus_node {
+  margin: 10px 0 0 !important;
+  border: 1px solid #a9a9a9 !important;
+  font-family: "Palanquin", sans-serif !important;
+  letter-spacing: 0.03em !important;
+  font-size: 16px !important; }
+  .d3plus_node .d3plus_button_label {
+    padding: 5px 23px 5px 10px !important; }
+
+.d3plus_drop_selector {
+  background-color: #a9a9a9 !important; }
+  .d3plus_drop_selector .d3plus_drop_list .d3plus_node {
+    border: inherit !important;
+    margin: 0 !important; }
+    .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active {
+      color: #666 !important;
+      background-color: #ccc !important; }
+      .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active .d3plus_button_selected::before {
+        content: ''; }
+
 .d3plus_tooltip .d3plus_tooltip_description {
   line-height: 1.35;
   font-weight: 300; }
@@ -3351,7 +3379,7 @@ body.profile .share-section, body.map .share-section {
             margin: 0 0 5px 0;
             text-transform: uppercase; }
 @media only screen and (max-width : 480px) {
-  body.profile #profile-nav {
+  body.profile #profile-nav, body.profile #stats-bar {
     display: none;   }
     body.profile #splash {
       width: 100%;   }
