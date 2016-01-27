@@ -2730,6 +2730,62 @@ body.profile .intro, body.map .intro {
         stroke-opacity: 1 !important;
         fill: white !important;
         fill-opacity: 1 !important; }
+  body.profile .intro #profile-toc, body.map .intro #profile-toc {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-top: 25px; }
+    body.profile .intro #profile-toc .profile-toc-section,
+    body.map .intro #profile-toc .profile-toc-section {
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      margin: 10px;
+      min-width: 200px; }
+      body.profile .intro #profile-toc .profile-toc-section h2,
+      body.map .intro #profile-toc .profile-toc-section h2 {
+        font-size: 24px; }
+        body.profile .intro #profile-toc .profile-toc-section h2 img,
+        body.map .intro #profile-toc .profile-toc-section h2 img {
+          display: inline-block;
+          height: 20px;
+          margin-top: 3px;
+          width: 20px; }
+      body.profile .intro #profile-toc .profile-toc-section ul,
+      body.map .intro #profile-toc .profile-toc-section ul {
+        padding: 10px 10px 0; }
+        body.profile .intro #profile-toc .profile-toc-section ul li,
+        body.map .intro #profile-toc .profile-toc-section ul li {
+          font-family: "Palanquin", sans-serif; }
+          body.profile .intro #profile-toc .profile-toc-section ul li a,
+          body.map .intro #profile-toc .profile-toc-section ul li a {
+            line-height: 12px; }
+            body.profile .intro #profile-toc .profile-toc-section ul li a:hover,
+            body.map .intro #profile-toc .profile-toc-section ul li a:hover {
+              text-decoration: underline; }
+              body.profile .intro #profile-toc .profile-toc-section ul li a::after,
+              body.map .intro #profile-toc .profile-toc-section ul li a::after {
+                content: "\203A";
+                font-size: 19px;
+                margin-left: 3px;
+                text-decoration: none;
+                position: relative;
+                top: 1px;
+                right: 0; }
 body.profile header, body.map header {
   padding: 60px 50px 25px;
   position: relative; }

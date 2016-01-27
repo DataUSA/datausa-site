@@ -108,6 +108,31 @@
       </div>
       {% endif %}
     </div>
+
+    <div id="profile-toc">
+    {% for section in sections %}
+      <div class="profile-toc-section">
+        <h2><a href="#{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</a></h2>
+        {% for desc in section.description %}
+        <p>{{ desc|safe }}</p>
+        {% endfor %}
+        {% set categories = {"count": 0} %}
+        <ul>
+        {% for topic in section.topics %}
+          {% if topic.category %}
+          {% if categories.update({"count": categories.count + 1}) %}{% endif %}
+          {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
+          <li><a href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if categories.count == 0 %}
+        <li><a href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">Start Exploring</a></li>
+        {% endif %}
+        </ul>
+      </div>
+    {% endfor %}
+  </div>
+
   </header>
 
 </div>
@@ -172,7 +197,7 @@
 <div class="profile-end">
 
   <h2>Keep Exploring</h2>
-  
+
   <!-- follow up profile links -->
   <div class="follow-up">
 
@@ -185,7 +210,7 @@
     {% endif %}
   </div>
   <!-- end .follow-up -->
-  
+
   <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
   <!-- ending footer  -->
 </div>
