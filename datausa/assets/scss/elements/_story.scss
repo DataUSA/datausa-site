@@ -101,6 +101,15 @@ body.story {
 
   #feature-image {
     max-height: 800px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: -webkit-linear-gradient(top, rgba(233,233,233,0) 50%, rgba(233,233,233,0.3) 75%, rgba(233,233,233,0.5) 83.33%, $d-profile-bg 100%);
+    }
   }
 
   #feature-text, #article-text {

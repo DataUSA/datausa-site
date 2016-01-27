@@ -3880,67 +3880,75 @@ body.story {
     height: 100vh; }
     body.story #feature-image {
       max-height: 800px; }
-      body.story #feature-text, body.story #article-text {
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        -ms-flex-pack: center;
-        flex-pack: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        -ms-flex-pack: center;
-        flex-pack: center;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box; }
+      body.story #feature-image::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: -webkit-linear-gradient(top, rgba(233, 233, 233, 0) 50%, rgba(233, 233,
+                233, 0.3) 75%, rgba(233, 233, 233, 0.5) 83.33%, #E9E9E9 100%); }
+  body.story #feature-text, body.story #article-text {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+    body.story #article-text {
+      background-color: #F6F6F6;
+      z-index: 1;
+      width: 100%;
+      padding: 25px 12%;
+      margin: 20px 0 0; }
+      body.story #feature-text {
+        background-color: #F6F6F6;
+        z-index: 1;
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        flex-direction: row;
+        margin: 20px 0 0 auto;
+        width: 88%;
+        padding: 40px 12% 40px 0;
+        border-width: 1px 0 0 1px;
+        border-color: rgba(0, 0, 0, 0.05);
+        border-style: solid; }
         body.story #article-text {
-          background-color: #F6F6F6;
-          z-index: 1;
-          width: 100%;
-          padding: 25px 12%;
-          margin: 20px 0 0; }
-          body.story #feature-text {
-            background-color: #F6F6F6;
-            z-index: 1;
-            -webkit-flex-direction: row;
-            -moz-flex-direction: row;
-            flex-direction: row;
-            margin: 20px 0 0 auto;
-            width: 88%;
-            padding: 40px 12% 40px 0;
-            border-width: 1px 0 0 1px;
-            border-color: rgba(0, 0, 0, 0.05);
-            border-style: solid; }
-            body.story #article-text {
-              -webkit-flex-direction: column;
-              -moz-flex-direction: column;
-              flex-direction: column; }
-              body.story .post-feat-label {
-                -webkit-box-flex: 1;
-                -moz-box-flex: 1;
-                -webkit-flex: 1;
-                -ms-flex: 1;
-                flex: 1;
-                text-align: right;
-                margin-right: 4vw;
-                padding-top: 10px; }
-                body.story .post-feat-label p {
-                  font-family: "Palanquin", sans-serif;
-                  font-weight: 300;
-                  letter-spacing: 0.05em;
-                  text-transform: uppercase;
-                  font-size: 16px;
-                  border-style: solid;
-                  border-color: #727682;
-                  border-width: 0px 0px 1px 1px;
-                  padding: 5px 10px 5px;
-                  display: inline-block; }
+          -webkit-flex-direction: column;
+          -moz-flex-direction: column;
+          flex-direction: column; }
+          body.story .post-feat-label {
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            text-align: right;
+            margin-right: 4vw;
+            padding-top: 10px; }
+            body.story .post-feat-label p {
+              font-family: "Palanquin", sans-serif;
+              font-weight: 300;
+              letter-spacing: 0.05em;
+              text-transform: uppercase;
+              font-size: 16px;
+              border-style: solid;
+              border-color: #727682;
+              border-width: 0px 0px 1px 1px;
+              padding: 5px 10px 5px;
+              display: inline-block; }
   body.story .post-titles {
     -webkit-box-flex: 4;
     -moz-box-flex: 4;
