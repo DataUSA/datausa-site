@@ -4,24 +4,22 @@
 
 <div id="crosswalk">
   <h1>{{ attr["name"] }}</h1>
+  <h2>{{ attr["type"] }} – Level {{ attr["level"] + 1 }}</h2>
   <p class="warning">
     <i class="fa fa-exclamation-triangle"></i>
-    <span>There was no exact match for {{ attr.name }} found. Please choose one of the following related profiles to view instead.</span>
+    <span>There is no exact crosswalk from the {{ attr["type"] }} for {{ attr.name }} to {{ crosswalk_type|upper }}. Please choose one of the following related profiles.</span>
   </p>
-  <ul>
+  <div id="crosswalk-list">
     {% for crosswalk in crosswalks %}
-    <li>
-      <a href="/profile/{{ crosswalk_type }}/{{ crosswalk.id }}">
-        <span class="thumb" style="background-image: url('/profile/{{ crosswalk_type }}/{{ crosswalk.id }}/img/');">
-        </span>
-        <span class="info">
-          <h2>{{ crosswalk.name }}</h2>
-          <span>Level {{ crosswalk.level }} {{ crosswalk_type|upper }}</span>
-        </span>
-      </a>
-    </li>
+    <a href="/profile/{{ crosswalk_type }}/{{ crosswalk.id }}">
+      <span class="thumb" style="background-image: url('/profile/{{ crosswalk_type }}/{{ crosswalk.id }}/img/');"></span>
+      <span class="info">
+        <h2>{{ crosswalk.name }}</h2>
+        <h3>{{ crosswalk_type|upper }} – Level {{ crosswalk.level + 1 }}</h3>
+      </span>
+    </a>
     {% endfor %}
-  </ul>
+  </div>
 </div>
 
 {% endblock %}

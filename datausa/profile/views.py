@@ -37,7 +37,10 @@ def profile(attr_type, attr_id):
 
         crosswalks = acs_crosswalk(attr_type, attr_id)
         crosswalk_map = {"acs_occ": "soc", "acs_ind": "naics", "iocode": "naics"}
+        crosswalk_labels = {"acs_occ": "ACS Occupation Code", "acs_ind": "ACS Industry Code", "iocode": "BEA I/O Code"}
         if len(crosswalks) > 1:
+            g.page_type = "redirect"
+            attr["type"] = crosswalk_labels[attr_type]
             return render_template("profile/redirect.html", attr=attr, crosswalks=crosswalks, crosswalk_type=crosswalk_map[attr_type])
         return redirect(url_for('.profile', attr_type=crosswalk_map[attr_type], attr_id=crosswalks[0]["id"]))
 
