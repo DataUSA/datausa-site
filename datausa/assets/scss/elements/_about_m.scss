@@ -38,8 +38,11 @@ body.about {
     }
 
     #about-index {
-      height: 100%;
-      display: block;
+      position: absolute;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      @include align-items(center);
 
       article {
         width: 90%;

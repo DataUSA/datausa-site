@@ -127,7 +127,6 @@ body.story {
   }
 
   #feature-text {
-    @include flex-size(1 0 auto);
     background-color: $l-profile-bg;
     z-index: 1;
     @include flex-direction(row);
