@@ -339,16 +339,21 @@ body.story {
       .info {
         text-transform: none;
         line-height: 1.5;
-        padding: 7px 0;
+        margin: 7px 0;
+        max-height: 57px;
+        text-overflow: ellipsis;
+        overflow: scroll;
       }
 
       .social {
+        line-height: 1;
+
         a {
           font-family: $palanquin;
           font-weight: 700;
           text-transform: uppercase;
           font-size: 11px;
-          line-height: 11px;
+          line-height: 1;
           letter-spacing: 0.06em;
           color: $red-w;
         }
@@ -745,7 +750,7 @@ body.story {
   }
 
   .share-section {
-    margin-top: 10px;
+
     a {
       color: #a8a8a8;
       cursor: pointer;
@@ -868,3 +873,5 @@ body.story {
     }
   }
 }
+
+@import "elements/story_m";
