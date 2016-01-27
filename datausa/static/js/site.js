@@ -630,12 +630,12 @@ var attrs_meta = {
     ]
   }
 }
-sumlevels_by_id = {}
+sumlevels_cy_id = {}
 for (var attr_type in attrs_meta){
-  sumlevels_by_id[attr_type] = {}
+  sumlevels_cy_id[attr_type] = {}
   attrs_meta[attr_type]["sumlevels"].forEach(function(sumlevel){
     sumlevel.results = 0
-    sumlevels_by_id[attr_type][sumlevel["id"]] = sumlevel
+    sumlevels_cy_id[attr_type][sumlevel["id"]] = sumlevel
   })
 }
 
@@ -750,7 +750,9 @@ search.reload = function() {
       .data(this.filter(data), function(d){ return d.id; });
 
     var tag = this.advanced ? "div" : "a";
-    items.enter().append(tag).attr("class", "search-item");
+    items.enter().append(tag).attr("class", function(d) {
+      return "search-item " + d.kind;
+    });
 
     if(items.empty()){
       d3.selectAll(".no-search-results").style("display", "block")
@@ -786,9 +788,7 @@ search.btnExplore = function(d) {
   var xtra = search_item.append("div").attr("class", 'xtra');
 
   // set thumbnail
-  // thumb.style("background", "url('/search/"+d.kind+"/"+d.id+"/img/')")
-  thumb.append("img")
-    .attr("src", "/static/img/icons/"+d.kind+"_b.svg")
+  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_c.svg")
 
   // set info
   var title = info.append("h2")
@@ -797,8 +797,8 @@ search.btnExplore = function(d) {
                 .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/");
   // title.append("i").attr("class", "fa fa-angle-down")
   // title.append("i").attr("class", "fa fa-angle-up")
-  if(sumlevels_by_id[d.kind][d.sumlevel]){
-    info.append("p").attr("class", "subtitle").text(sumlevels_by_id[d.kind][d.sumlevel].name)
+  if(sumlevels_cy_id[d.kind][d.sumlevel]){
+    info.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name)
   }
   if(search.zip){
     info.append("span")
@@ -814,7 +814,7 @@ search.btnExplore = function(d) {
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
         .append("img")
-        .attr("src", "/static/img/icons/" + anchor.anchor + "_b.svg")
+        .attr("src", "/static/img/icons/" + anchor.anchor + "_c.svg")
         .on("click", function(){ d3.event.stopPropagation(); })
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
@@ -836,12 +836,12 @@ search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){
                       return "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
                     });
-  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
+  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
   search_item_text.append("h2").text(d.display);
   search_item_text.append("p").attr("class", "subtitle").text(function(d){
-    if(sumlevels_by_id[d.kind][d.sumlevel]){
-      return sumlevels_by_id[d.kind][d.sumlevel].name;
+    if(sumlevels_cy_id[d.kind][d.sumlevel]){
+      return sumlevels_cy_id[d.kind][d.sumlevel].name;
     }
   });
 }
