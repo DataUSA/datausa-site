@@ -32,6 +32,9 @@ body.story {
     }
     
     #feature-image, #article-image {
+      background-attachment: scroll;
+      background-position: 50% 100%;
+      
       &::after {
         content: '';
         position: absolute;
@@ -78,6 +81,10 @@ body.story {
           color: $black2;
           font-weight: 400;
         }
+      }
+
+      .author-meta .name {
+        display: none;
       }
     }
 

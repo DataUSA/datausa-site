@@ -3925,6 +3925,11 @@ body.story {
       padding: 25px 12%;
       margin: 20px 0 0; }
       body.story #feature-text {
+        -webkit-box-flex: 1 0 auto;
+        -moz-box-flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
         background-color: #F6F6F6;
         z-index: 1;
         -webkit-flex-direction: row;
@@ -3989,17 +3994,23 @@ body.story {
     align-items: stretch;
     -ms-flex-align: stretch;
     flex-align: stretch; }
-    body.story .post-titles h1 {
-      margin-bottom: 10px; }
-      body.story .post-titles h1 a {
-        color: #434958;
-        font-family: "Pathway Gothic One", sans-serif;
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        font-size: 48px; }
-        body.story .post-titles h1 a:hover, body.story .post-titles h1 a:focus {
-          color: #ef6145; }
+    body.story .post-titles > * {
+      -webkit-box-flex: 1 0 auto;
+      -moz-box-flex: 1 0 auto;
+      -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto; }
+      body.story .post-titles h1 {
+        margin-bottom: 10px; }
+        body.story .post-titles h1 a {
+          color: #434958;
+          font-family: "Pathway Gothic One", sans-serif;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+          font-size: 48px; }
+          body.story .post-titles h1 a:hover, body.story .post-titles h1 a:focus {
+            color: #ef6145; }
     body.story .post-titles .desc {
       margin-bottom: 20px;
       font-family: "Palanquin", sans-serif;
@@ -4627,6 +4638,8 @@ body.story {
     width: 100%;
     height: 100%;   }
   body.story #feature-image {
+    background-attachment: scroll;
+    background-position: 50% 100%;
     position: relative;
     top: 40px;   }
     body.story #feature-image::after {
@@ -4659,6 +4672,8 @@ body.story {
             border-color: #fff;
             color: #141b2e;
             font-weight: 400;   }
+        body.story #feature-text .author-meta .name {
+          display: none;   }
   body.story #article-text {
     padding: 13px 0 20px;
     background-color: transparent;
