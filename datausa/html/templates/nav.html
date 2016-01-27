@@ -189,7 +189,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
 });
 
 d3.selectAll("#nav-search-input").on("click", function(){
-  if(d3.select(_this.parentNode).classed("open")){
+  if(d3.select(this.parentNode).classed("open")){
     d3.event.stopPropagation();
   }
 })
