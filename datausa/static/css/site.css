@@ -3459,7 +3459,7 @@ body.redirect nav {
       height: 150px;
       margin: 10px;
       overflow: hidden;
-      width: 300px;
+      min-width: 200px;
       position: relative; }
       #crosswalk #crosswalk-list a .thumb {
         height: 100%;
@@ -3486,7 +3486,8 @@ body.redirect nav {
         #crosswalk #crosswalk-list a .info h2 {
           font-family: "Pathway Gothic One", sans-serif;
           font-size: 24px;
-          letter-spacing: 0.03em; }
+          letter-spacing: 0.03em;
+          margin: 0 10px; }
           #crosswalk #crosswalk-list a .info h3 {
             -moz-transition: margin-bottom 0.5s;
             -o-transition: margin-bottom 0.5s;
@@ -3496,7 +3497,7 @@ body.redirect nav {
             font-size: 18px;
             font-weight: 100;
             letter-spacing: 0.03em;
-            margin-bottom: 10px;
+            margin: 0 10px 10px;
             text-transform: uppercase; }
       #crosswalk #crosswalk-list a:hover h3 {
         margin-bottom: 20px; }
