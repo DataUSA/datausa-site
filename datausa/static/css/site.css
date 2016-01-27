@@ -1654,38 +1654,47 @@ body.profile {
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
 
-body.profile #profile-nav, body.map #profile-nav {
+body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
   background-color: #141b2e; }
-  body.profile .stat-value a, body.map .stat-value a {
+  body.profile .stat-value a, body.map .stat-value a, body.story .stat-value a {
     color: #666; }
-    body.profile .stat-value a:hover, body.map .stat-value a:hover {
+    body.profile .stat-value a:hover, body.map .stat-value a:hover,
+    body.story .stat-value a:hover {
       color: #999;
       border-bottom: 1px solid #999; }
 body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health,
-body.map.geo .economy, body.map.geo .education, body.map.geo .health {
+body.map.geo .economy, body.map.geo .education, body.map.geo .health,
+body.story.geo .economy, body.story.geo .education, body.story.geo .health {
   background-color: #E9E9E9; }
   body.profile.geo .demographics, body.profile.geo .housing,
-  body.map.geo .demographics, body.map.geo .housing {
+  body.map.geo .demographics, body.map.geo .housing, body.story.geo .demographics,
+  body.story.geo .housing {
     background-color: #F6F6F6; }
 body.profile.cip .institutions, body.profile.cip .employment,
-body.map.cip .institutions, body.map.cip .employment {
+body.map.cip .institutions, body.map.cip .employment, body.story.cip .institutions,
+body.story.cip .employment {
   background-color: #E9E9E9; }
   body.profile.cip .demographics, body.profile.cip .skills,
-  body.map.cip .demographics, body.map.cip .skills {
+  body.map.cip .demographics, body.map.cip .skills, body.story.cip .demographics,
+  body.story.cip .skills {
     background-color: #F6F6F6; }
 body.profile.soc .employment, body.profile.soc .education,
 body.profile.soc .skills, body.map.soc .employment, body.map.soc .education,
-body.map.soc .skills {
+body.map.soc .skills, body.story.soc .employment, body.story.soc .education,
+body.story.soc .skills {
   background-color: #E9E9E9; }
   body.profile.soc .demographics, body.profile.soc .growth,
-  body.map.soc .demographics, body.map.soc .growth {
+  body.map.soc .demographics, body.map.soc .growth, body.story.soc .demographics,
+  body.story.soc .growth {
     background-color: #F6F6F6; }
 body.profile.naics .workforce, body.profile.naics .growth,
-body.map.naics .workforce, body.map.naics .growth {
+body.map.naics .workforce, body.map.naics .growth, body.story.naics .workforce,
+body.story.naics .growth {
   background-color: #E9E9E9; }
-  body.profile.naics .io, body.map.naics .io {
+  body.profile.naics .io, body.map.naics .io, body.story.naics .io {
     background-color: #F6F6F6; }
-body.profile.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats {
+body.profile.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats,
+body.story.cip #stats-bar #title-stats {
   width: 100%;
   max-width: 850px;
   -webkit-justify-content: center;
@@ -1711,19 +1720,19 @@ body.profile.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats {
   align-content: space-around;
   -ms-flex-line-pack: distribute;
   flex-line-pack: distribute; }
-body.profile h1, body.map h1 {
+body.profile h1, body.map h1, body.story h1 {
   font-family: "Pathway Gothic One", sans-serif;
   font-weight: 300;
   font-size: 55px;
   line-height: 1.1; }
-  body.profile header h2, body.map header h2 {
+  body.profile header h2, body.map header h2, body.story header h2 {
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 47px;
     font-weight: 300;
     line-height: 1;
     letter-spacing: 0.05em;
     text-transform: uppercase; }
-    body.profile h1.category, body.map h1.category {
+    body.profile h1.category, body.map h1.category, body.story h1.category {
       position: relative;
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 36px;
@@ -1731,26 +1740,26 @@ body.profile h1, body.map h1 {
       letter-spacing: 0.03em;
       text-transform: uppercase;
       text-align: center; }
-      body.profile p, body.map p {
+      body.profile p, body.map p, body.story p {
         font-family: "Palanquin", sans-serif;
         font-size: 15px;
         line-height: 1.6;
         font-weight: 400;
         color: rgba(51, 51, 51, 0.93); }
-        body.profile a, body.map a {
+        body.profile a, body.map a, body.story a {
           color: #333; }
-          body.profile .data-btn, body.map .data-btn {
+          body.profile .data-btn, body.map .data-btn, body.story .data-btn {
             float: right;
             position: relative;
             color: #a3a3a3;
             font-family: "Palanquin", sans-serif;
             font-size: 12px; }
-            body.profile .data-btn i, body.map .data-btn i {
+            body.profile .data-btn i, body.map .data-btn i, body.story .data-btn i {
               position: relative;
               top: 7px; }
-              body.profile .data-btn:hover, body.map .data-btn:hover {
+              body.profile .data-btn:hover, body.map .data-btn:hover, body.story .data-btn:hover {
                 border-bottom: 1px solid #bbb; }
-body.profile .topic h2, body.map .topic h2 {
+body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
   font-family: "Pathway Gothic One", sans-serif;
   font-size: 30px;
   font-weight: 400;
@@ -1758,19 +1767,22 @@ body.profile .topic h2, body.map .topic h2 {
   text-transform: none;
   font-style: normal;
   letter-spacing: 0; }
-  body.profile .topic .data-btn, body.map .topic .data-btn {
+  body.profile .topic .data-btn, body.map .topic .data-btn,
+  body.story .topic .data-btn {
     top: 18px; }
-    body.profile .topic .data-btn span, body.map .topic .data-btn span {
+    body.profile .topic .data-btn span, body.map .topic .data-btn span,
+    body.story .topic .data-btn span {
       color: #999;
       font-family: "Palanquin", sans-serif;
       font-size: 12px;
       font-weight: 400;
       line-height: normal; }
-body.profile .topic.flex h2, body.map .topic.flex h2 {
+body.profile .topic.flex h2, body.map .topic.flex h2, body.story .topic.flex h2 {
   font-size: 24px; }
-  body.profile .topic.flex .data-btn, body.map .topic.flex .data-btn {
+  body.profile .topic.flex .data-btn, body.map .topic.flex .data-btn,
+  body.story .topic.flex .data-btn {
     top: 13px; }
-body.profile .topic sub, body.map .topic sub {
+body.profile .topic sub, body.map .topic sub, body.story .topic sub {
   font-family: "Palanquin", sans-serif;
   font-size: 13px;
   line-height: 1.35;
@@ -1778,28 +1790,33 @@ body.profile .topic sub, body.map .topic sub {
   text-transform: initial;
   letter-spacing: 0.05em;
   color: #666; }
-  body.profile .topic sub a, body.map .topic sub a {
+  body.profile .topic sub a, body.map .topic sub a, body.story .topic sub a {
     color: #666; }
-    body.profile .topic sub a:hover, body.map .topic sub a:hover {
+    body.profile .topic sub a:hover, body.map .topic sub a:hover,
+    body.story .topic sub a:hover {
       text-decoration: none;
       border-bottom: 1px solid #666; }
-body.profile .topic .sub-source, body.map .topic .sub-source {
+body.profile .topic .sub-source, body.map .topic .sub-source,
+body.story .topic .sub-source {
   display: block;
   color: #a8a8a8;
   font-family: "Palanquin", sans-serif;
   font-size: 12px;
   font-weight: 400;
   line-height: 1.5; }
-  body.profile .topic .sub-source a, body.map .topic .sub-source a {
+  body.profile .topic .sub-source a, body.map .topic .sub-source a,
+  body.story .topic .sub-source a {
     color: #888; }
-    body.profile .topic .sub-source a:hover, body.map .topic .sub-source a:hover {
+    body.profile .topic .sub-source a:hover, body.map .topic .sub-source a:hover,
+    body.story .topic .sub-source a:hover {
       border-bottom: 1px solid #888; }
-  body.profile .topic .sub-source span, body.map .topic .sub-source span {
+  body.profile .topic .sub-source span, body.map .topic .sub-source span,
+  body.story .topic .sub-source span {
     vertical-align: baseline; }
 body.profile .stat-text, body.profile .stat-rank, body.map .stat-text,
-body.map .stat-rank {
+body.map .stat-rank, body.story .stat-text, body.story .stat-rank {
   font-family: "Palanquin", sans-serif; }
-  body.profile .stat-text, body.map .stat-text {
+  body.profile .stat-text, body.map .stat-text, body.story .stat-text {
     font-size: 14px;
     font-weight: 300;
     letter-spacing: 0.05em;
@@ -1807,47 +1824,51 @@ body.map .stat-rank {
     line-height: 1.5;
     margin-bottom: 10px;
     vertical-align: baseline; }
-    body.profile .stat-subtitle, body.map .stat-subtitle {
+    body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
       margin-left: 2px;
       margin-top: 7px; }
-      body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus {
+      body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
+      body.story .stat-subtitle .plus-minus {
         color: #dc5137; }
-body.profile .stat-group, body.map .stat-group {
+body.profile .stat-group, body.map .stat-group, body.story .stat-group {
   text-align: center; }
-  body.profile .stat-rank, body.map .stat-rank {
+  body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {
     font-size: 12px;
     font-weight: 400;
     letter-spacing: 0.05em; }
-    body.profile .stat-value, body.map .stat-value {
+    body.profile .stat-value, body.map .stat-value, body.story .stat-value {
       font-family: "Source Sans Pro", sans-serif;
       font-size: 22px;
       font-weight: 300;
       margin-bottom: 8px; }
-      body.profile .stat-value.stat-small, body.map .stat-value.stat-small {
+      body.profile .stat-value.stat-small, body.map .stat-value.stat-small,
+      body.story .stat-value.stat-small {
         font-size: 20px;
         font-weight: 400;
         margin-left: 2px;
         margin-top: 2px; }
-        body.profile .stat-value a, body.map .stat-value a {
+        body.profile .stat-value a, body.map .stat-value a, body.story .stat-value a {
           padding-bottom: 1px;
           text-decoration: none;
           text-transform: capitalize; }
-          body.profile .stat-value a:hover, body.map .stat-value a:hover {
+          body.profile .stat-value a:hover, body.map .stat-value a:hover,
+          body.story .stat-value a:hover {
             text-decoration: none; }
-body.profile nav, body.map nav {
+body.profile nav, body.map nav, body.story nav {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 3; }
-  body.profile .bound, body.map .bound {
+  body.profile .bound, body.map .bound, body.story .bound {
     position: relative;
     overflow: hidden; }
-    body.profile #splash, body.map #splash {
+    body.profile #splash, body.map #splash, body.story #splash {
       position: relative;
       height: 100vh;
       width: 100vw;
       overflow: hidden; }
-      body.profile #splash .has-p-link a, body.map #splash .has-p-link a {
+      body.profile #splash .has-p-link a, body.map #splash .has-p-link a,
+      body.story #splash .has-p-link a {
         text-align: left;
         font-family: "Palanquin", sans-serif;
         font-size: 16px;
@@ -1859,11 +1880,13 @@ body.profile nav, body.map nav {
         color: rgba(237, 240, 245, 0.85);
         text-decoration: none;
         text-transform: capitalize; }
-        body.profile #splash .has-p-link a:hover, body.map #splash .has-p-link a:hover {
+        body.profile #splash .has-p-link a:hover, body.map #splash .has-p-link a:hover,
+        body.story #splash .has-p-link a:hover {
           border-bottom: 0;
           color: #fff;
           text-decoration: none; }
-      body.profile #splash #splash-image, body.map #splash #splash-image {
+      body.profile #splash #splash-image, body.map #splash #splash-image,
+      body.story #splash #splash-image {
         position: absolute;
         height: 100%;
         left: 0;
@@ -1883,7 +1906,8 @@ body.profile nav, body.map nav {
         -o-transition: all 0.5s;
         -webkit-transition: all 0.5s;
         transition: all 0.5s; }
-        body.profile #splash #splash-image::after, body.map #splash #splash-image::after {
+        body.profile #splash #splash-image::after, body.map #splash #splash-image::after,
+        body.story #splash #splash-image::after {
           content: "";
           position: absolute;
           height: 100%;
@@ -1892,15 +1916,18 @@ body.profile nav, body.map nav {
           top: 0;
           background: -webkit-linear-gradient(top, transparent 0%, rgba(20, 27, 46, 0.1) 20%,
                     #141b2e 100%); }
-          body.profile #splash #splash-image.color, body.map #splash #splash-image.color {
+          body.profile #splash #splash-image.color, body.map #splash #splash-image.color,
+          body.story #splash #splash-image.color {
             -webkit-filter: saturate(1) brightness(1) contrast(1);
             -moz-filter: saturate(1) brightness(1) contrast(1);
             -o-filter: saturate(1) brightness(1) contrast(1);
             filter: saturate(1) brightness(1) contrast(1); }
             body.profile #splash #splash-image.color::after,
-            body.map #splash #splash-image.color::after {
+            body.map #splash #splash-image.color::after,
+            body.story #splash #splash-image.color::after {
               opacity: 0; }
-      body.profile #splash .content, body.map #splash .content {
+      body.profile #splash .content, body.map #splash .content,
+      body.story #splash .content {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -1936,24 +1963,28 @@ body.profile nav, body.map nav {
         box-sizing: border-box;
         z-index: 1;
         position: relative; }
-        body.profile #splash .content.hide, body.map #splash .content.hide {
+        body.profile #splash .content.hide, body.map #splash .content.hide,
+        body.story #splash .content.hide {
           opacity: 0;
           pointer-events: none; }
           body.profile #splash .content .splash-titles,
-          body.map #splash .content .splash-titles {
+          body.map #splash .content .splash-titles,
+          body.story #splash .content .splash-titles {
             color: #efefef;
             width: 100%;
             max-width: 750px;
             text-align: center; }
             body.profile #splash .content .splash-titles h1,
-            body.map #splash .content .splash-titles h1 {
+            body.map #splash .content .splash-titles h1,
+            body.story #splash .content .splash-titles h1 {
               text-transform: none;
               font-family: "Pathway Gothic One", sans-serif;
               font-weight: 400;
               text-transform: uppercase;
               letter-spacing: 0.03em; }
               body.profile #splash .content .splash-titles sub,
-              body.map #splash .content .splash-titles sub {
+              body.map #splash .content .splash-titles sub,
+              body.story #splash .content .splash-titles sub {
                 text-transform: none;
                 font-family: "Pathway Gothic One", sans-serif;
                 font-size: 18px;
@@ -1961,7 +1992,8 @@ body.profile nav, body.map nav {
                 text-transform: uppercase;
                 letter-spacing: 0.03em; }
         body.profile #splash .content .splash-context,
-        body.map #splash .content .splash-context {
+        body.map #splash .content .splash-context,
+        body.story #splash .content .splash-context {
           width: 100%;
           max-width: 900px;
           margin-top: 5%;
@@ -1987,7 +2019,8 @@ body.profile nav, body.map nav {
           justify-content: space-around;
           -ms-flex-pack: distribute;
           flex-pack: distribute; }
-          body.profile #splash .content .row-last, body.map #splash .content .row-last {
+          body.profile #splash .content .row-last, body.map #splash .content .row-last,
+          body.story #splash .content .row-last {
             width: 100%;
             -webkit-justify-content: center;
             -moz-justify-content: center;
@@ -2013,7 +2046,8 @@ body.profile nav, body.map nav {
             flex-align: center;
             margin-top: 12%; }
             body.profile #splash .content .splash-icon-nav,
-            body.map #splash .content .splash-icon-nav {
+            body.map #splash .content .splash-icon-nav,
+            body.story #splash .content .splash-icon-nav {
               -webkit-justify-content: center;
               -moz-justify-content: center;
               justify-content: center;
@@ -2038,7 +2072,8 @@ body.profile nav, body.map nav {
               flex-pack: start;
               margin-right: 5%; }
               body.profile #splash .content .splash-icon-nav span,
-              body.map #splash .content .splash-icon-nav span {
+              body.map #splash .content .splash-icon-nav span,
+              body.story #splash .content .splash-icon-nav span {
                 display: block;
                 margin-top: 7px;
                 font-family: "Palanquin", sans-serif;
@@ -2048,7 +2083,8 @@ body.profile nav, body.map nav {
                 letter-spacing: 0.1em;
                 color: #fff; }
                 body.profile #splash .content .splash-icon-nav a,
-                body.map #splash .content .splash-icon-nav a {
+                body.map #splash .content .splash-icon-nav a,
+                body.story #splash .content .splash-icon-nav a {
                   text-align: center;
                   padding: 1.2vh 10px 0;
                   opacity: 0.7;
@@ -2057,24 +2093,29 @@ body.profile nav, body.map nav {
                   -webkit-transition: opacity 0.25s;
                   transition: opacity 0.25s; }
                   body.profile #splash .content .splash-icon-nav a:hover,
-                  body.map #splash .content .splash-icon-nav a:hover {
+                  body.map #splash .content .splash-icon-nav a:hover,
+                  body.story #splash .content .splash-icon-nav a:hover {
                     opacity: 1; }
               body.profile #splash .content .splash-icon-nav img,
-              body.map #splash .content .splash-icon-nav img {
+              body.map #splash .content .splash-icon-nav img,
+              body.story #splash .content .splash-icon-nav img {
                 width: 23px;
                 height: 23px; }
         body.profile #splash .content .splash-breadcrumb,
-        body.map #splash .content .splash-breadcrumb {
+        body.map #splash .content .splash-breadcrumb,
+        body.story #splash .content .splash-breadcrumb {
           text-align: right;
           max-width: 50%; }
           body.profile #splash .content .splash-breadcrumb img,
-          body.map #splash .content .splash-breadcrumb img {
+          body.map #splash .content .splash-breadcrumb img,
+          body.story #splash .content .splash-breadcrumb img {
             width: 18px;
             height: 18px;
             padding: 3px;
             margin-bottom: -6px; }
             body.profile #splash .content .splash-breadcrumb a,
-            body.map #splash .content .splash-breadcrumb a {
+            body.map #splash .content .splash-breadcrumb a,
+            body.story #splash .content .splash-breadcrumb a {
               display: inline;
               padding: 2px 0;
               margin-top: -4px;
@@ -2100,30 +2141,35 @@ body.profile nav, body.map nav {
               -webkit-transition: color 0.25s;
               transition: color 0.25s; }
               body.profile #splash .content .splash-breadcrumb a + a::before,
-              body.map #splash .content .splash-breadcrumb a + a::before {
+              body.map #splash .content .splash-breadcrumb a + a::before,
+              body.story #splash .content .splash-breadcrumb a + a::before {
                 content: "\\ ";
                 font-weight: 400;
                 color: rgba(240, 244, 246, 0.75);
                 padding: 0 0 0 2px; }
                 body.profile #splash .content .splash-breadcrumb a:hover,
-                body.map #splash .content .splash-breadcrumb a:hover {
+                body.map #splash .content .splash-breadcrumb a:hover,
+                body.story #splash .content .splash-breadcrumb a:hover {
                   cursor: pointer;
                   color: #fff;
                   text-decoration: none; }
-        body.profile #splash .content h1, body.map #splash .content h1 {
+        body.profile #splash .content h1, body.map #splash .content h1,
+        body.story #splash .content h1 {
           line-height: 1;
           color: #efefef;
           -webkit-text-shadow: 0 1px 2px rgba(20, 27, 46, 0.15);
           -moz-text-shadow: 0 1px 2px rgba(20, 27, 46, 0.15);
           text-shadow: 0 1px 2px rgba(20, 27, 46, 0.15); }
           body.profile #splash .content .splash-title-group,
-          body.map #splash .content .splash-title-group {
+          body.map #splash .content .splash-title-group,
+          body.story #splash .content .splash-title-group {
             margin: 6px auto;
             font-family: "Palanquin", sans-serif;
             font-size: 11px;
             letter-spacing: 0.06em;
             color: rgba(240, 250, 255, 0.9); }
-            body.profile #splash .content p.desc, body.map #splash .content p.desc {
+            body.profile #splash .content p.desc, body.map #splash .content p.desc,
+            body.story #splash .content p.desc {
               padding: 0;
               margin: 20px 0;
               text-align: center;
@@ -2134,7 +2180,7 @@ body.profile nav, body.map nav {
               color: #ededed;
               opacity: 0.9; }
               body.profile #splash .content #splash-stats,
-              body.map #splash .content #splash-stats {
+              body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
                 -webkit-justify-content: center;
                 -moz-justify-content: center;
                 justify-content: center;
@@ -2156,7 +2202,8 @@ body.profile nav, body.map nav {
                 flex-align: stretch;
                 width: 100%; }
                 body.profile #splash .content #splash-stats .stat,
-                body.map #splash .content #splash-stats .stat {
+                body.map #splash .content #splash-stats .stat,
+                body.story #splash .content #splash-stats .stat {
                   -webkit-justify-content: center;
                   -moz-justify-content: center;
                   justify-content: center;
@@ -2182,7 +2229,8 @@ body.profile nav, body.map nav {
                   max-width: 150px; }
                   @media all and (max-width: 950px) {
                     body.profile #splash .content #splash-stats .stat,
-                    body.map #splash .content #splash-stats .stat {
+                    body.map #splash .content #splash-stats .stat,
+                    body.story #splash .content #splash-stats .stat {
                       -webkit-justify-content: flex-start;
                       -moz-justify-content: flex-start;
                       justify-content: flex-start;
@@ -2190,37 +2238,44 @@ body.profile nav, body.map nav {
                       flex-pack: start;   }
 }
                     body.profile #splash .content #splash-stats .stat .stat-text,
-                    body.map #splash .content #splash-stats .stat .stat-text {
+                    body.map #splash .content #splash-stats .stat .stat-text,
+                    body.story #splash .content #splash-stats .stat .stat-text {
                       font-size: 12px;
                       text-align: center;
                       color: rgba(240, 250, 255, 0.85);
                       line-height: 1.35;
                       margin-bottom: 0; }
                       body.profile #splash .content #splash-stats .stat .stat-text a,
-                      body.map #splash .content #splash-stats .stat .stat-text a {
+                      body.map #splash .content #splash-stats .stat .stat-text a,
+                      body.story #splash .content #splash-stats .stat .stat-text a {
                         color: rgba(237, 240, 245, 0.65);
                         border-bottom: 1px solid rgba(195, 219, 225, 0.85);
                         text-decoration: none; }
                         body.profile #splash .content #splash-stats .stat .stat-text a:hover,
-                        body.map #splash .content #splash-stats .stat .stat-text a:hover {
+                        body.map #splash .content #splash-stats .stat .stat-text a:hover,
+                        body.story #splash .content #splash-stats .stat .stat-text a:hover {
                           border-bottom: 0;
                           color: #fff;
                           text-decoration: none; }
                   body.profile #splash .content #splash-stats .stat .stat-rank,
-                  body.map #splash .content #splash-stats .stat .stat-rank {
+                  body.map #splash .content #splash-stats .stat .stat-rank,
+                  body.story #splash .content #splash-stats .stat .stat-rank {
                     font-size: 12px;
                     color: rgba(240, 250, 255, 0.6);
                     line-height: 1.35;
                     text-transform: uppercase; }
                     body.profile #splash .content #splash-stats .stat .stat-value,
-                    body.map #splash .content #splash-stats .stat .stat-value {
+                    body.map #splash .content #splash-stats .stat .stat-value,
+                    body.story #splash .content #splash-stats .stat .stat-value {
                       margin: 6px 0 7px;
                       font-size: 34px;
                       color: #fff; }
-        body.profile #splash .content .carousel, body.map #splash .content .carousel {
+        body.profile #splash .content .carousel, body.map #splash .content .carousel,
+        body.story #splash .content .carousel {
           margin-top: 30px; }
           body.profile #splash .content .carousel .carousel-title,
-          body.map #splash .content .carousel .carousel-title {
+          body.map #splash .content .carousel .carousel-title,
+          body.story #splash .content .carousel .carousel-title {
             color: rgba(240, 250, 255, 0.85);
             font-family: "Playfair Display", serif;
             font-size: 18px;
@@ -2228,11 +2283,13 @@ body.profile nav, body.map nav {
             font-weight: 400;
             letter-spacing: 0.08em; }
             body.profile #splash .content .carousel .carousel-slider,
-            body.map #splash .content .carousel .carousel-slider {
+            body.map #splash .content .carousel .carousel-slider,
+            body.story #splash .content .carousel .carousel-slider {
               height: 50px;
               margin-top: 5px; }
               body.profile #splash .content .carousel .carousel-slider .carousel-text,
-              body.map #splash .content .carousel .carousel-slider .carousel-text {
+              body.map #splash .content .carousel .carousel-slider .carousel-text,
+              body.story #splash .content .carousel .carousel-slider .carousel-text {
                 display: none;
                 text-align: left;
                 font-family: "Palanquin", sans-serif;
@@ -2241,10 +2298,12 @@ body.profile nav, body.map nav {
                 font-weight: 300;
                 color: #ededed; }
                 body.profile #splash .content .carousel .carousel-slider .carousel-text.active,
-                body.map #splash .content .carousel .carousel-slider .carousel-text.active {
+                body.map #splash .content .carousel .carousel-slider .carousel-text.active,
+                body.story #splash .content .carousel .carousel-slider .carousel-text.active {
                   display: block; }
           body.profile #splash .content .carousel .carousel-btns,
-          body.map #splash .content .carousel .carousel-btns {
+          body.map #splash .content .carousel .carousel-btns,
+          body.story #splash .content .carousel .carousel-btns {
             color: rgba(237, 240, 245, 0.85);
             text-align: center;
             font-size: 13px;
@@ -2263,7 +2322,8 @@ body.profile nav, body.map nav {
             -ms-flex-align: baseline;
             flex-align: baseline; }
             body.profile #splash .content .carousel .carousel-btns .carousel-btn,
-            body.map #splash .content .carousel .carousel-btns .carousel-btn {
+            body.map #splash .content .carousel .carousel-btns .carousel-btn,
+            body.story #splash .content .carousel .carousel-btns .carousel-btn {
               display: inline-block;
               margin: 10px 5px;
               opacity: 0.35;
@@ -2275,21 +2335,25 @@ body.profile nav, body.map nav {
               pointer-events: none;
               cursor: default; }
               body.profile #splash .content .carousel .carousel-btns .carousel-btn.active,
-              body.map #splash .content .carousel .carousel-btns .carousel-btn.active {
+              body.map #splash .content .carousel .carousel-btns .carousel-btn.active,
+              body.story #splash .content .carousel .carousel-btns .carousel-btn.active {
                 opacity: 1;
                 pointer-events: initial;
                 cursor: pointer; }
                 body.profile #splash .content .carousel .carousel-btns .carousel-btn.active:hover,
-                body.map #splash .content .carousel .carousel-btns .carousel-btn.active:hover {
+                body.map #splash .content .carousel .carousel-btns .carousel-btn.active:hover,
+                body.story #splash .content .carousel .carousel-btns .carousel-btn.active:hover {
                   color: #fff; }
             body.profile #splash .content .carousel .carousel-btns span,
-            body.map #splash .content .carousel .carousel-btns span {
+            body.map #splash .content .carousel .carousel-btns span,
+            body.story #splash .content .carousel .carousel-btns span {
               font-family: "Palanquin", sans-serif;
               text-transform: uppercase;
               font-weight: 300;
               font-size: 11.5px;
               letter-spacing: 0.1em; }
-      body.profile #splash #scroll-btn, body.map #splash #scroll-btn {
+      body.profile #splash #scroll-btn, body.map #splash #scroll-btn,
+      body.story #splash #scroll-btn {
         bottom: 15px;
         display: block;
         left: 50%;
@@ -2297,7 +2361,8 @@ body.profile nav, body.map nav {
         position: absolute;
         text-align: center;
         width: 200px; }
-        body.profile #splash #scroll-btn .mouse, body.map #splash #scroll-btn .mouse {
+        body.profile #splash #scroll-btn .mouse, body.map #splash #scroll-btn .mouse,
+        body.story #splash #scroll-btn .mouse {
           -moz-transition: opacity 1s;
           -o-transition: opacity 1s;
           -webkit-transition: opacity 1s;
@@ -2314,7 +2379,8 @@ body.profile nav, body.map nav {
           -moz-box-shadow: 0 0 5px #141b2e;
           box-shadow: 0 0 5px #141b2e; }
           body.profile #splash #scroll-btn .mouse .ball,
-          body.map #splash #scroll-btn .mouse .ball {
+          body.map #splash #scroll-btn .mouse .ball,
+          body.story #splash #scroll-btn .mouse .ball {
             height: 4px;
             width: 2px;
             left: 50%;
@@ -2328,7 +2394,8 @@ body.profile nav, body.map nav {
             -o-animation: mouse-scroll 1.5s infinite;
             animation: mouse-scroll 1.5s infinite; }
         body.profile #splash #scroll-btn .mouse-text,
-        body.map #splash #scroll-btn .mouse-text {
+        body.map #splash #scroll-btn .mouse-text,
+        body.story #splash #scroll-btn .mouse-text {
           -moz-transition: opacity 1s 1.5s;
           -o-transition: opacity 1s 1.5s;
           -webkit-transition: opacity 1s 1.5s;
@@ -2341,12 +2408,14 @@ body.profile nav, body.map nav {
           letter-spacing: 0.2em;
           opacity: 0; }
           body.profile #splash #scroll-btn.visible .mouse,
-          body.map #splash #scroll-btn.visible .mouse {
+          body.map #splash #scroll-btn.visible .mouse,
+          body.story #splash #scroll-btn.visible .mouse {
             opacity: 0.9; }
             body.profile #splash #scroll-btn.visible .mouse-text,
-            body.map #splash #scroll-btn.visible .mouse-text {
+            body.map #splash #scroll-btn.visible .mouse-text,
+            body.story #splash #scroll-btn.visible .mouse-text {
               opacity: 0.8; }
-body.profile #title-bar, body.map #title-bar {
+body.profile #title-bar, body.map #title-bar, body.story #title-bar {
   text-align: center;
   height: 40px;
   max-width: 860px;
@@ -2358,7 +2427,7 @@ body.profile #title-bar, body.map #title-bar {
   position: fixed;
   top: 0;
   z-index: 3; }
-  body.profile #title-bar span, body.map #title-bar span {
+  body.profile #title-bar span, body.map #title-bar span, body.story #title-bar span {
     -webkit-justify-content: center;
     -moz-justify-content: center;
     justify-content: center;
@@ -2383,11 +2452,12 @@ body.profile #title-bar, body.map #title-bar {
     color: #ef6145;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 24px; }
-    body.profile #title-bar img, body.map #title-bar img {
+    body.profile #title-bar img, body.map #title-bar img, body.story #title-bar img {
       width: 78px;
       margin-top: 4px;
       margin-right: 5px; }
-      body.profile #title-bar .expand-stats-btn, body.map #title-bar .expand-stats-btn {
+      body.profile #title-bar .expand-stats-btn, body.map #title-bar .expand-stats-btn,
+      body.story #title-bar .expand-stats-btn {
         opacity: 0;
         display: inline-block;
         border-radius: 50%;
@@ -2405,13 +2475,16 @@ body.profile #title-bar, body.map #title-bar {
         -webkit-transition: opacity 0.25s, border 0.5s;
         transition: opacity 0.25s, border 0.5s; }
         body.profile #title-bar .expand-stats-btn.show,
-        body.map #title-bar .expand-stats-btn.show {
+        body.map #title-bar .expand-stats-btn.show,
+        body.story #title-bar .expand-stats-btn.show {
           opacity: 1; }
           body.profile #title-bar .expand-stats-btn.show:hover,
-          body.map #title-bar .expand-stats-btn.show:hover {
+          body.map #title-bar .expand-stats-btn.show:hover,
+          body.story #title-bar .expand-stats-btn.show:hover {
             cursor: pointer; }
         body.profile #title-bar .expand-stats-btn.close,
-        body.map #title-bar .expand-stats-btn.close {
+        body.map #title-bar .expand-stats-btn.close,
+        body.story #title-bar .expand-stats-btn.close {
           border-radius: 50%;
           border: 1px solid #8d7a40;
           -webkit-box-sizing: border-box;
@@ -2422,11 +2495,12 @@ body.profile #title-bar, body.map #title-bar {
           width: 17px;
           height: 17px;
           margin-left: 5px; }
-  body.profile #title-bar a, body.map #title-bar a {
+  body.profile #title-bar a, body.map #title-bar a, body.story #title-bar a {
     color: #fff; }
-    body.profile #title-bar.visible span, body.map #title-bar.visible span {
+    body.profile #title-bar.visible span, body.map #title-bar.visible span,
+    body.story #title-bar.visible span {
       top: 0; }
-body.profile #stats-bar, body.map #stats-bar {
+body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2453,12 +2527,14 @@ body.profile #stats-bar, body.map #stats-bar {
   -o-transition: top 0.5s, box-shadow 0.5s;
   -webkit-transition: top 0.5s, box-shadow 0.5s;
   transition: top 0.5s, box-shadow 0.5s; }
-  body.profile #stats-bar.visible, body.map #stats-bar.visible {
+  body.profile #stats-bar.visible, body.map #stats-bar.visible,
+  body.story #stats-bar.visible {
     top: 40px;
     -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset;
     -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset;
     box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset; }
-    body.profile #stats-bar #title-stats, body.map #stats-bar #title-stats {
+    body.profile #stats-bar #title-stats, body.map #stats-bar #title-stats,
+    body.story #stats-bar #title-stats {
       width: 60%;
       max-width: 550px;
       font-family: "Palanquin", sans-serif;
@@ -2485,7 +2561,8 @@ body.profile #stats-bar, body.map #stats-bar {
       align-items: center;
       -ms-flex-align: center;
       flex-align: center; }
-      body.profile #stats-bar .title-stat, body.map #stats-bar .title-stat {
+      body.profile #stats-bar .title-stat, body.map #stats-bar .title-stat,
+      body.story #stats-bar .title-stat {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -2505,42 +2582,49 @@ body.profile #stats-bar, body.map #stats-bar {
         -webkit-transition: opacity 0.25s;
         transition: opacity 0.25s;
         cursor: default; }
-        body.profile #stats-bar .title-stat:hover, body.map #stats-bar .title-stat:hover {
+        body.profile #stats-bar .title-stat:hover, body.map #stats-bar .title-stat:hover,
+        body.story #stats-bar .title-stat:hover {
           color: #fff; }
           body.profile #stats-bar .title-stat:hover .title-stat-text a,
-          body.map #stats-bar .title-stat:hover .title-stat-text a {
+          body.map #stats-bar .title-stat:hover .title-stat-text a,
+          body.story #stats-bar .title-stat:hover .title-stat-text a {
             color: #fff;
             border-bottom: 1px solid #fff; }
-  body.profile #stats-bar .title-stat-text, body.map #stats-bar .title-stat-text {
+  body.profile #stats-bar .title-stat-text, body.map #stats-bar .title-stat-text,
+  body.story #stats-bar .title-stat-text {
     margin: 0 5px;
     text-align: center; }
-    body.profile #stats-bar .title-stat-text a, body.map #stats-bar .title-stat-text a {
+    body.profile #stats-bar .title-stat-text a, body.map #stats-bar .title-stat-text a,
+    body.story #stats-bar .title-stat-text a {
       color: rgba(237, 240, 245, 0.65);
       border-bottom: 1px solid rgba(195, 219, 225, 0.5);
       text-decoration: none; }
       body.profile #stats-bar .title-stat-text a:hover,
-      body.map #stats-bar .title-stat-text a:hover {
+      body.map #stats-bar .title-stat-text a:hover,
+      body.story #stats-bar .title-stat-text a:hover {
         border-bottom: 0;
         color: #fff;
         text-decoration: none; }
-  body.profile #stats-bar .title-stat-value, body.map #stats-bar .title-stat-value {
+  body.profile #stats-bar .title-stat-value, body.map #stats-bar .title-stat-value,
+  body.story #stats-bar .title-stat-value {
     text-align: center;
     font-family: "Source Sans Pro", sans-serif;
     font-size: 16px;
     font-weight: 300; }
     body.profile #stats-bar .title-stat-value a,
-    body.map #stats-bar .title-stat-value a {
+    body.map #stats-bar .title-stat-value a, body.story #stats-bar .title-stat-value a {
       padding-bottom: 1px;
       color: #2c49d8;
       text-decoration: none;
       text-transform: capitalize; }
       body.profile #stats-bar .title-stat-value a:hover,
-      body.map #stats-bar .title-stat-value a:hover {
+      body.map #stats-bar .title-stat-value a:hover,
+      body.story #stats-bar .title-stat-value a:hover {
         border-bottom: 0;
         color: rgba(121, 129, 169, 0.5);
         border-bottom: 1px solid rgba(121, 129, 169, 0.5);
         text-decoration: none; }
-body.profile #nav-bar-scroll, body.map #nav-bar-scroll {
+body.profile #nav-bar-scroll, body.map #nav-bar-scroll, body.story #nav-bar-scroll {
   position: fixed;
   height: 68px;
   width: 100%;
@@ -2553,15 +2637,18 @@ body.profile #nav-bar-scroll, body.map #nav-bar-scroll {
   -o-transition: height 0.45s;
   -webkit-transition: height 0.45s;
   transition: height 0.45s; }
-  body.profile #nav-bar-scroll.stat-hidden, body.map #nav-bar-scroll.stat-hidden {
+  body.profile #nav-bar-scroll.stat-hidden, body.map #nav-bar-scroll.stat-hidden,
+  body.story #nav-bar-scroll.stat-hidden {
     height: 45px; }
     body.profile #nav-bar-scroll.stat-hidden #stats-bar,
-    body.map #nav-bar-scroll.stat-hidden #stats-bar {
+    body.map #nav-bar-scroll.stat-hidden #stats-bar,
+    body.story #nav-bar-scroll.stat-hidden #stats-bar {
       top: 17px; }
       body.profile #nav-bar-scroll.stat-hidden #profile-nav.visible,
-      body.map #nav-bar-scroll.stat-hidden #profile-nav.visible {
+      body.map #nav-bar-scroll.stat-hidden #profile-nav.visible,
+      body.story #nav-bar-scroll.stat-hidden #profile-nav.visible {
         top: 40px; }
-body.profile #profile-nav, body.map #profile-nav {
+body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2583,9 +2670,11 @@ body.profile #profile-nav, body.map #profile-nav {
   -o-transition: top 0.5s;
   -webkit-transition: top 0.5s;
   transition: top 0.5s; }
-  body.profile #profile-nav.visible, body.map #profile-nav.visible {
+  body.profile #profile-nav.visible, body.map #profile-nav.visible,
+  body.story #profile-nav.visible {
     top: 58px; }
-    body.profile #profile-nav #back-to-top, body.map #profile-nav #back-to-top {
+    body.profile #profile-nav #back-to-top, body.map #profile-nav #back-to-top,
+    body.story #profile-nav #back-to-top {
       position: absolute;
       right: 15px;
       top: 16px;
@@ -2596,16 +2685,17 @@ body.profile #profile-nav, body.map #profile-nav {
       -webkit-transition: opacity 0.25s;
       transition: opacity 0.25s; }
       body.profile #profile-nav #back-to-top span,
-      body.map #profile-nav #back-to-top span {
+      body.map #profile-nav #back-to-top span, body.story #profile-nav #back-to-top span {
         font-family: "Palanquin", sans-serif;
         text-transform: uppercase;
         font-weight: 400;
         font-size: 10px;
         letter-spacing: 0.1em; }
         body.profile #profile-nav #back-to-top:hover,
-        body.map #profile-nav #back-to-top:hover {
+        body.map #profile-nav #back-to-top:hover,
+        body.story #profile-nav #back-to-top:hover {
           opacity: 1; }
-  body.profile #profile-nav ul, body.map #profile-nav ul {
+  body.profile #profile-nav ul, body.map #profile-nav ul, body.story #profile-nav ul {
     width: 90%;
     margin: 0 150px 0 50px;
     max-width: 800px;
@@ -2624,7 +2714,8 @@ body.profile #profile-nav, body.map #profile-nav {
     justify-content: space-between;
     -ms-flex-pack: justify;
     flex-pack: justify; }
-    body.profile #profile-nav ul li, body.map #profile-nav ul li {
+    body.profile #profile-nav ul li, body.map #profile-nav ul li,
+    body.story #profile-nav ul li {
       -webkit-box-flex: 1;
       -moz-box-flex: 1;
       -webkit-flex: 1;
@@ -2647,10 +2738,12 @@ body.profile #profile-nav, body.map #profile-nav {
       -o-transition: opacity 0.25s;
       -webkit-transition: opacity 0.25s;
       transition: opacity 0.25s; }
-      body.profile #profile-nav ul li.active, body.map #profile-nav ul li.active {
+      body.profile #profile-nav ul li.active, body.map #profile-nav ul li.active,
+      body.story #profile-nav ul li.active {
         opacity: 1; }
         body.profile #profile-nav ul li.active::before,
-        body.map #profile-nav ul li.active::before {
+        body.map #profile-nav ul li.active::before,
+        body.story #profile-nav ul li.active::before {
           width: 80%;
           display: inline-block;
           position: absolute;
@@ -2669,7 +2762,8 @@ body.profile #profile-nav, body.map #profile-nav {
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box; }
-      body.profile #profile-nav ul li::before, body.map #profile-nav ul li::before {
+      body.profile #profile-nav ul li::before, body.map #profile-nav ul li::before,
+      body.story #profile-nav ul li::before {
         content: "";
         display: inline-block;
         position: absolute;
@@ -2690,40 +2784,49 @@ body.profile #profile-nav, body.map #profile-nav {
         -moz-box-sizing: border-box;
         box-sizing: border-box; }
         body.profile #profile-nav ul li:hover::before,
-        body.map #profile-nav ul li:hover::before {
+        body.map #profile-nav ul li:hover::before,
+        body.story #profile-nav ul li:hover::before {
           width: 80%; }
-          body.profile #profile-nav ul li:hover, body.map #profile-nav ul li:hover {
+          body.profile #profile-nav ul li:hover, body.map #profile-nav ul li:hover,
+          body.story #profile-nav ul li:hover {
             opacity: 1; }
-    body.profile #profile-nav ul img, body.map #profile-nav ul img {
+    body.profile #profile-nav ul img, body.map #profile-nav ul img,
+    body.story #profile-nav ul img {
       display: block;
       width: 20px;
       height: 20px;
       margin: 0 auto -2px; }
-body.profile .intro, body.map .intro {
+body.profile .intro, body.map .intro, body.story .intro {
   min-height: 190px;
   background-color: #141b2e;
   background-repeat: no-repeat;
   background-size: 30%;
   background-position: 90% 100%; }
-  body.profile .intro .color-blocks, body.map .intro .color-blocks {
+  body.profile .intro .color-blocks, body.map .intro .color-blocks,
+  body.story .intro .color-blocks {
     text-align: center;
     margin-bottom: 20px; }
-    body.profile .intro .intro-txt, body.map .intro .intro-txt {
+    body.profile .intro .intro-txt, body.map .intro .intro-txt,
+    body.story .intro .intro-txt {
       -webkit-box-flex: 2;
       -moz-box-flex: 2;
       -webkit-flex: 2;
       -ms-flex: 2;
       flex: 2; }
-      body.profile .intro .intro-txt a.show-more, body.map .intro .intro-txt a.show-more {
+      body.profile .intro .intro-txt a.show-more, body.map .intro .intro-txt a.show-more,
+      body.story .intro .intro-txt a.show-more {
         border-bottom: 1px solid rgba(0, 0, 0, 0.95); }
         body.profile .intro .intro-txt a.show-more::after,
-        body.map .intro .intro-txt a.show-more::after {
+        body.map .intro .intro-txt a.show-more::after,
+        body.story .intro .intro-txt a.show-more::after {
           content: "\f196";
           font-family: FontAwesome;
           margin: 0 0 0 4px; }
-      body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest {
+      body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest,
+      body.story .intro .intro-txt .the_rest {
         display: none; }
-  body.profile .intro .intro-viz, body.map .intro .intro-viz {
+  body.profile .intro .intro-viz, body.map .intro .intro-viz,
+  body.story .intro .intro-viz {
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
     -webkit-flex: 1;
@@ -2732,16 +2835,19 @@ body.profile .intro, body.map .intro {
     height: 200px;
     text-align: center; }
     body.profile .intro .intro-viz .d3plus_coordinates.outline,
-    body.map .intro .intro-viz .d3plus_coordinates.outline {
+    body.map .intro .intro-viz .d3plus_coordinates.outline,
+    body.story .intro .intro-viz .d3plus_coordinates.outline {
       fill: transparent !important;
       pointer-events: none !important; }
       body.profile .intro .intro-viz .d3plus_coordinates.highlight,
-      body.map .intro .intro-viz .d3plus_coordinates.highlight {
+      body.map .intro .intro-viz .d3plus_coordinates.highlight,
+      body.story .intro .intro-viz .d3plus_coordinates.highlight {
         stroke: white !important;
         stroke-opacity: 1 !important;
         fill: white !important;
         fill-opacity: 1 !important; }
-  body.profile .intro #profile-toc, body.map .intro #profile-toc {
+  body.profile .intro #profile-toc, body.map .intro #profile-toc,
+  body.story .intro #profile-toc {
     -webkit-justify-content: center;
     -moz-justify-content: center;
     justify-content: center;
@@ -2759,7 +2865,8 @@ body.profile .intro, body.map .intro {
     flex-wrap: wrap;
     margin-top: 25px; }
     body.profile .intro #profile-toc .profile-toc-section,
-    body.map .intro #profile-toc .profile-toc-section {
+    body.map .intro #profile-toc .profile-toc-section,
+    body.story .intro #profile-toc .profile-toc-section {
       -webkit-box-flex: 1;
       -moz-box-flex: 1;
       -webkit-flex: 1;
@@ -2768,28 +2875,35 @@ body.profile .intro, body.map .intro {
       margin: 10px;
       min-width: 200px; }
       body.profile .intro #profile-toc .profile-toc-section h2,
-      body.map .intro #profile-toc .profile-toc-section h2 {
+      body.map .intro #profile-toc .profile-toc-section h2,
+      body.story .intro #profile-toc .profile-toc-section h2 {
         font-size: 24px; }
         body.profile .intro #profile-toc .profile-toc-section h2 img,
-        body.map .intro #profile-toc .profile-toc-section h2 img {
+        body.map .intro #profile-toc .profile-toc-section h2 img,
+        body.story .intro #profile-toc .profile-toc-section h2 img {
           display: inline-block;
           height: 20px;
           margin-top: 3px;
           width: 20px; }
       body.profile .intro #profile-toc .profile-toc-section ul,
-      body.map .intro #profile-toc .profile-toc-section ul {
+      body.map .intro #profile-toc .profile-toc-section ul,
+      body.story .intro #profile-toc .profile-toc-section ul {
         padding: 10px 10px 0; }
         body.profile .intro #profile-toc .profile-toc-section ul li,
-        body.map .intro #profile-toc .profile-toc-section ul li {
+        body.map .intro #profile-toc .profile-toc-section ul li,
+        body.story .intro #profile-toc .profile-toc-section ul li {
           font-family: "Palanquin", sans-serif; }
           body.profile .intro #profile-toc .profile-toc-section ul li a,
-          body.map .intro #profile-toc .profile-toc-section ul li a {
+          body.map .intro #profile-toc .profile-toc-section ul li a,
+          body.story .intro #profile-toc .profile-toc-section ul li a {
             line-height: 12px; }
             body.profile .intro #profile-toc .profile-toc-section ul li a:hover,
-            body.map .intro #profile-toc .profile-toc-section ul li a:hover {
+            body.map .intro #profile-toc .profile-toc-section ul li a:hover,
+            body.story .intro #profile-toc .profile-toc-section ul li a:hover {
               text-decoration: underline; }
               body.profile .intro #profile-toc .profile-toc-section ul li a::after,
-              body.map .intro #profile-toc .profile-toc-section ul li a::after {
+              body.map .intro #profile-toc .profile-toc-section ul li a::after,
+              body.story .intro #profile-toc .profile-toc-section ul li a::after {
                 content: "\203A";
                 font-size: 19px;
                 margin-left: 3px;
@@ -2797,24 +2911,27 @@ body.profile .intro, body.map .intro {
                 position: relative;
                 top: 1px;
                 right: 0; }
-body.profile header, body.map header {
+body.profile header, body.map header, body.story header {
   padding: 60px 50px 25px;
   position: relative; }
-  body.profile header h2, body.map header h2 {
+  body.profile header h2, body.map header h2, body.story header h2 {
     margin: 0 auto 15px;
     color: #333; }
-    body.profile header h2 a::before, body.map header h2 a::before {
+    body.profile header h2 a::before, body.map header h2 a::before,
+    body.story header h2 a::before {
       content: "";
       position: absolute;
       visibility: hidden;
       top: -85px; }
   body.profile header.intro h2, body.profile header.intro a,
   body.profile header.intro p, body.map header.intro h2, body.map header.intro a,
-  body.map header.intro p {
+  body.map header.intro p, body.story header.intro h2, body.story header.intro a,
+  body.story header.intro p {
     color: #fff; }
-  body.profile header p, body.map header p {
+  body.profile header p, body.map header p, body.story header p {
     font-size: 16px; }
-body.profile #section-sidenav, body.map #section-sidenav {
+body.profile #section-sidenav, body.map #section-sidenav,
+body.story #section-sidenav {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2839,15 +2956,18 @@ body.profile #section-sidenav, body.map #section-sidenav {
   top: 0;
   z-index: 6;
   opacity: 0; }
-  body.profile #section-sidenav.visible, body.map #section-sidenav.visible {
+  body.profile #section-sidenav.visible, body.map #section-sidenav.visible,
+  body.story #section-sidenav.visible {
     left: 15px;
     top: 50%;
     opacity: 1; }
     body.profile #section-sidenav .section-sidenav-group:not(:last-child),
-    body.map #section-sidenav .section-sidenav-group:not(:last-child) {
+    body.map #section-sidenav .section-sidenav-group:not(:last-child),
+    body.story #section-sidenav .section-sidenav-group:not(:last-child) {
       border-bottom: 1px solid #ccc; }
       body.profile #section-sidenav .section-sidenav-group .section-sidenav-button,
-      body.map #section-sidenav .section-sidenav-group .section-sidenav-button {
+      body.map #section-sidenav .section-sidenav-group .section-sidenav-button,
+      body.story #section-sidenav .section-sidenav-group .section-sidenav-button {
         -moz-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
         -o-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
         -webkit-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
@@ -2865,15 +2985,19 @@ body.profile #section-sidenav, body.map #section-sidenav {
         body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
         body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
         body.map #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
-        body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active {
+        body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+        body.story #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
+        body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
           height: 10px;
           margin: 18px 4px;
           width: 10px;
           opacity: 1; }
           body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-          body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active {
+          body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+          body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
             background-color: #999; }
-body.profile .profile-section, body.map .profile-section {
+body.profile .profile-section, body.map .profile-section,
+body.story .profile-section {
   -webkit-justify-content: center;
   -moz-justify-content: center;
   justify-content: center;
@@ -2895,7 +3019,8 @@ body.profile .profile-section, body.map .profile-section {
   box-sizing: border-box;
   width: 100vw;
   overflow-x: hidden; }
-  body.profile .profile-section .category, body.map .profile-section .category {
+  body.profile .profile-section .category, body.map .profile-section .category,
+  body.story .profile-section .category {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -2907,7 +3032,8 @@ body.profile .profile-section, body.map .profile-section {
     padding: 5px 24px 30px;
     min-width: 100%; }
     body.profile .profile-section .category a::before,
-    body.map .profile-section .category a::before {
+    body.map .profile-section .category a::before,
+    body.story .profile-section .category a::before {
       content: "";
       position: absolute;
       visibility: hidden;
@@ -2915,7 +3041,9 @@ body.profile .profile-section, body.map .profile-section {
       body.profile .profile-section .category::before,
       body.profile .profile-section .category::after,
       body.map .profile-section .category::before,
-      body.map .profile-section .category::after {
+      body.map .profile-section .category::after,
+      body.story .profile-section .category::before,
+      body.story .profile-section .category::after {
         content: "";
         display: inline-block;
         position: absolute;
@@ -2932,13 +3060,15 @@ body.profile .profile-section, body.map .profile-section {
         -moz-box-sizing: border-box;
         box-sizing: border-box; }
         body.profile .profile-section .category::before,
-        body.map .profile-section .category::before {
+        body.map .profile-section .category::before,
+        body.story .profile-section .category::before {
           left: 25px;
           -webkit-box-shadow: 0px 0px 0 #ccc;
           -moz-box-shadow: 0px 0px 0 #ccc;
           box-shadow: 0px 0px 0 #ccc; }
           body.profile .profile-section .category::after,
-          body.map .profile-section .category::after {
+          body.map .profile-section .category::after,
+          body.story .profile-section .category::after {
             right: 25px;
             -webkit-box-shadow: 0px 0px 0 #ccc;
             -moz-box-shadow: 0px 0px 0 #ccc;
@@ -2946,12 +3076,15 @@ body.profile .profile-section, body.map .profile-section {
             body.profile .profile-section .category:hover::before,
             body.profile .profile-section .category:hover::after,
             body.map .profile-section .category:hover::before,
-            body.map .profile-section .category:hover::after {
+            body.map .profile-section .category:hover::after,
+            body.story .profile-section .category:hover::before,
+            body.story .profile-section .category:hover::after {
               top: 28px;
               -webkit-box-shadow: 0px -6px 0 #ccc;
               -moz-box-shadow: 0px -6px 0 #ccc;
               box-shadow: 0px -6px 0 #ccc; }
-  body.profile .profile-section .topic, body.map .profile-section .topic {
+  body.profile .profile-section .topic, body.map .profile-section .topic,
+  body.story .profile-section .topic {
     -webkit-box-flex: 1 0 100%;
     -moz-box-flex: 1 0 100%;
     -webkit-flex: 1 0 100%;
@@ -2964,11 +3097,14 @@ body.profile .profile-section, body.map .profile-section {
     min-width: 100%;
     padding: 0 25px 50px; }
     body.profile .profile-section .topic:not(.flex) aside,
-    body.map .profile-section .topic:not(.flex) aside {
+    body.map .profile-section .topic:not(.flex) aside,
+    body.story .profile-section .topic:not(.flex) aside {
       width: 50%; }
-    body.profile .profile-section .topic.short, body.map .profile-section .topic.short {
+    body.profile .profile-section .topic.short, body.map .profile-section .topic.short,
+    body.story .profile-section .topic.short {
       padding-bottom: 0; }
-      body.profile .profile-section .topic.flex, body.map .profile-section .topic.flex {
+      body.profile .profile-section .topic.flex, body.map .profile-section .topic.flex,
+      body.story .profile-section .topic.flex {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -2995,7 +3131,8 @@ body.profile .profile-section, body.map .profile-section {
         min-width: 10px;
         padding: 0; }
         body.profile .profile-section .topic.flex .content,
-        body.map .profile-section .topic.flex .content {
+        body.map .profile-section .topic.flex .content,
+        body.story .profile-section .topic.flex .content {
           -webkit-box-flex: 1 0 auto;
           -moz-box-flex: 1 0 auto;
           -webkit-flex: 1 0 auto;
@@ -3005,7 +3142,8 @@ body.profile .profile-section, body.map .profile-section {
           -moz-flex-direction: column;
           flex-direction: column; }
           body.profile .profile-section .topic.flex .content aside,
-          body.map .profile-section .topic.flex .content aside {
+          body.map .profile-section .topic.flex .content aside,
+          body.story .profile-section .topic.flex .content aside {
             -webkit-box-flex: 1 0 auto;
             -moz-box-flex: 1 0 auto;
             -webkit-flex: 1 0 auto;
@@ -3013,7 +3151,8 @@ body.profile .profile-section, body.map .profile-section {
             flex: 1 0 auto;
             max-width: 100%; }
             body.profile .profile-section .topic.flex .content .viz,
-            body.map .profile-section .topic.flex .content .viz {
+            body.map .profile-section .topic.flex .content .viz,
+            body.story .profile-section .topic.flex .content .viz {
               -webkit-box-flex: 1 1 200px;
               -moz-box-flex: 1 1 200px;
               -webkit-flex: 1 1 200px;
@@ -3022,7 +3161,8 @@ body.profile .profile-section, body.map .profile-section {
               margin-left: 0;
               min-height: 200px; }
     body.profile .profile-section .topic .content,
-    body.map .profile-section .topic .content {
+    body.map .profile-section .topic .content,
+    body.story .profile-section .topic .content {
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
@@ -3035,16 +3175,19 @@ body.profile .profile-section, body.map .profile-section {
       display: flex;
       margin-top: 10px; }
       body.profile .profile-section .topic .content.full-width,
-      body.map .profile-section .topic .content.full-width {
+      body.map .profile-section .topic .content.full-width,
+      body.story .profile-section .topic .content.full-width {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column; }
         body.profile .profile-section .topic .content.full-width .viz,
-        body.map .profile-section .topic .content.full-width .viz {
+        body.map .profile-section .topic .content.full-width .viz,
+        body.story .profile-section .topic .content.full-width .viz {
           margin-left: 0;
           min-height: 500px; }
       body.profile .profile-section .topic .content aside,
-      body.map .profile-section .topic .content aside {
+      body.map .profile-section .topic .content aside,
+      body.story .profile-section .topic .content aside {
         -webkit-box-flex: none;
         -moz-box-flex: none;
         -webkit-flex: none;
@@ -3052,21 +3195,25 @@ body.profile .profile-section, body.map .profile-section {
         flex: none;
         max-width: 415px; }
         body.profile .profile-section .topic .content aside p a,
-        body.map .profile-section .topic .content aside p a {
+        body.map .profile-section .topic .content aside p a,
+        body.story .profile-section .topic .content aside p a {
           border-bottom: 1px solid #C1C1C1;
           -moz-transition: opacity 0.15s;
           -o-transition: opacity 0.15s;
           -webkit-transition: opacity 0.15s;
           transition: opacity 0.15s; }
           body.profile .profile-section .topic .content aside p a:hover,
-          body.map .profile-section .topic .content aside p a:hover {
+          body.map .profile-section .topic .content aside p a:hover,
+          body.story .profile-section .topic .content aside p a:hover {
             opacity: 0.5;
             border-bottom: 0; }
         body.profile .profile-section .topic .content aside select,
-        body.map .profile-section .topic .content aside select {
+        body.map .profile-section .topic .content aside select,
+        body.story .profile-section .topic .content aside select {
           width: 100%; }
           body.profile .profile-section .topic .content aside .topic-stats,
-          body.map .profile-section .topic .content aside .topic-stats {
+          body.map .profile-section .topic .content aside .topic-stats,
+          body.story .profile-section .topic .content aside .topic-stats {
             -webkit-justify-content: center;
             -moz-justify-content: center;
             justify-content: center;
@@ -3082,7 +3229,8 @@ body.profile .profile-section, body.map .profile-section {
             -ms-flex-align: end;
             flex-align: end; }
             body.profile .profile-section .topic .content aside .topic-stats.stacked,
-            body.map .profile-section .topic .content aside .topic-stats.stacked {
+            body.map .profile-section .topic .content aside .topic-stats.stacked,
+            body.story .profile-section .topic .content aside .topic-stats.stacked {
               -webkit-flex-direction: column;
               -moz-flex-direction: column;
               flex-direction: column;
@@ -3091,7 +3239,8 @@ body.profile .profile-section, body.map .profile-section {
               -ms-flex-align: start;
               flex-align: start; }
               body.profile .profile-section .topic .content aside .topic-stats .stat,
-              body.map .profile-section .topic .content aside .topic-stats .stat {
+              body.map .profile-section .topic .content aside .topic-stats .stat,
+              body.story .profile-section .topic .content aside .topic-stats .stat {
                 -webkit-box-flex: 1 0;
                 -moz-box-flex: 1 0;
                 -webkit-flex: 1 0;
@@ -3099,13 +3248,16 @@ body.profile .profile-section, body.map .profile-section {
                 flex: 1 0;
                 margin: 10px 15px 10px 0; }
                 body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
-                body.map .profile-section .topic .content aside .topic-stats .stat .stat-value.loading {
+                body.map .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
+                body.story .profile-section .topic .content aside .topic-stats .stat .stat-value.loading {
                   opacity: 0.5; }
         body.profile .profile-section .topic .content aside p,
-        body.map .profile-section .topic .content aside p {
+        body.map .profile-section .topic .content aside p,
+        body.story .profile-section .topic .content aside p {
           margin: 3px 0 6px; }
       body.profile .profile-section .topic .content .viz,
-      body.map .profile-section .topic .content .viz {
+      body.map .profile-section .topic .content .viz,
+      body.story .profile-section .topic .content .viz {
         -webkit-box-flex: 1 0 auto;
         -moz-box-flex: 1 0 auto;
         -webkit-flex: 1 0 auto;
@@ -3116,11 +3268,13 @@ body.profile .profile-section, body.map .profile-section {
         overflow: hidden;
         position: relative; }
         body.profile .profile-section .topic .content .viz .d3plus #XXUSA,
-        body.map .profile-section .topic .content .viz .d3plus #XXUSA {
+        body.map .profile-section .topic .content .viz .d3plus #XXUSA,
+        body.story .profile-section .topic .content .viz .d3plus #XXUSA {
           fill: #bbb !important;
           stroke: #aaa !important; }
         body.profile .profile-section .topic .content .viz .data-table,
-        body.map .profile-section .topic .content .viz .data-table {
+        body.map .profile-section .topic .content .viz .data-table,
+        body.story .profile-section .topic .content .viz .data-table {
           -moz-transition: top 0.5s;
           -o-transition: top 0.5s;
           -webkit-transition: top 0.5s;
@@ -3132,14 +3286,17 @@ body.profile .profile-section, body.map .profile-section {
           width: 100%;
           background-color: #D0D0D0; }
           body.profile .profile-section .topic .content .viz .data-table.visible,
-          body.map .profile-section .topic .content .viz .data-table.visible {
+          body.map .profile-section .topic .content .viz .data-table.visible,
+          body.story .profile-section .topic .content .viz .data-table.visible {
             top: 0; }
             body.profile .profile-section .topic .content .viz .data-table .download-btns,
-            body.map .profile-section .topic .content .viz .data-table .download-btns {
+            body.map .profile-section .topic .content .viz .data-table .download-btns,
+            body.story .profile-section .topic .content .viz .data-table .download-btns {
               background-color: #1C1C1C;
               text-align: center; }
               body.profile .profile-section .topic .content .viz .data-table .download-btns .csv-btn,
-              body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn {
+              body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn,
+              body.story .profile-section .topic .content .viz .data-table .download-btns .csv-btn {
                 display: inline-block;
                 margin: 5px;
                 text-align: center;
@@ -3150,14 +3307,17 @@ body.profile .profile-section, body.map .profile-section {
                 font-family: "Palanquin", sans-serif;
                 font-size: 12px; }
                 body.profile .profile-section .topic .content .viz .data-table .download-btns .csv-btn i,
-                body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn i {
+                body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn i,
+                body.story .profile-section .topic .content .viz .data-table .download-btns .csv-btn i {
                   margin-left: 5px;
                   vertical-align: baseline; }
                   body.profile .profile-section .topic .content .viz .data-table .download-btns .csv-btn:hover,
-                  body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn:hover {
+                  body.map .profile-section .topic .content .viz .data-table .download-btns .csv-btn:hover,
+                  body.story .profile-section .topic .content .viz .data-table .download-btns .csv-btn:hover {
                     background-color: #0c9a6e; }
               body.profile .profile-section .topic .content .viz .data-table .download-btns .api-btn,
-              body.map .profile-section .topic .content .viz .data-table .download-btns .api-btn {
+              body.map .profile-section .topic .content .viz .data-table .download-btns .api-btn,
+              body.story .profile-section .topic .content .viz .data-table .download-btns .api-btn {
                 display: inline-block;
                 margin: 5px;
                 text-align: center;
@@ -3168,25 +3328,31 @@ body.profile .profile-section, body.map .profile-section {
                 font-family: "Palanquin", sans-serif;
                 font-size: 12px; }
                 body.profile .profile-section .topic .content .viz .data-table .download-btns .api-btn:hover,
-                body.map .profile-section .topic .content .viz .data-table .download-btns .api-btn:hover {
+                body.map .profile-section .topic .content .viz .data-table .download-btns .api-btn:hover,
+                body.story .profile-section .topic .content .viz .data-table .download-btns .api-btn:hover {
                   background-color: #0c9a6e; }
           body.profile .profile-section .topic .content .viz .data-table table,
-          body.map .profile-section .topic .content .viz .data-table table {
+          body.map .profile-section .topic .content .viz .data-table table,
+          body.story .profile-section .topic .content .viz .data-table table {
             width: 100%; }
             body.profile .profile-section .topic .content .viz .data-table thead,
             body.profile .profile-section .topic .content .viz .data-table tbody,
             body.map .profile-section .topic .content .viz .data-table thead,
-            body.map .profile-section .topic .content .viz .data-table tbody {
+            body.map .profile-section .topic .content .viz .data-table tbody,
+            body.story .profile-section .topic .content .viz .data-table thead,
+            body.story .profile-section .topic .content .viz .data-table tbody {
               font-family: "Palanquin", sans-serif; }
               body.profile .profile-section .topic .content .viz .data-table thead,
-              body.map .profile-section .topic .content .viz .data-table thead {
+              body.map .profile-section .topic .content .viz .data-table thead,
+              body.story .profile-section .topic .content .viz .data-table thead {
                 -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
                 background-color: #1C1C1C;
                 color: rgba(237, 240, 245, 0.5); }
                 body.profile .profile-section .topic .content .viz .data-table thead th,
-                body.map .profile-section .topic .content .viz .data-table thead th {
+                body.map .profile-section .topic .content .viz .data-table thead th,
+                body.story .profile-section .topic .content .viz .data-table thead th {
                   padding: 6px 5px 4px;
                   font-weight: 400;
                   letter-spacing: 0.1em;
@@ -3194,61 +3360,68 @@ body.profile .profile-section, body.map .profile-section {
                   font-size: 11px;
                   text-align: left; }
                   body.profile .profile-section .topic .content .viz .data-table thead th:hover,
-                  body.map .profile-section .topic .content .viz .data-table thead th:hover {
+                  body.map .profile-section .topic .content .viz .data-table thead th:hover,
+                  body.story .profile-section .topic .content .viz .data-table thead th:hover {
                     color: #fff;
                     cursor: default; }
           body.profile .profile-section .topic .content .viz .data-table tbody,
-          body.map .profile-section .topic .content .viz .data-table tbody {
+          body.map .profile-section .topic .content .viz .data-table tbody,
+          body.story .profile-section .topic .content .viz .data-table tbody {
             color: #333; }
             body.profile .profile-section .topic .content .viz .data-table tbody td,
-            body.map .profile-section .topic .content .viz .data-table tbody td {
+            body.map .profile-section .topic .content .viz .data-table tbody td,
+            body.story .profile-section .topic .content .viz .data-table tbody td {
               font-size: 12px;
               font-weight: 300;
               padding: 5px 5px; }
               body.profile .profile-section .topic .content .viz .data-table tbody tr:hover,
-              body.map .profile-section .topic .content .viz .data-table tbody tr:hover {
+              body.map .profile-section .topic .content .viz .data-table tbody tr:hover,
+              body.story .profile-section .topic .content .viz .data-table tbody tr:hover {
                 color: #fff; }
       body.profile .profile-section .topic .content .viz.mini,
-      body.map .profile-section .topic .content .viz.mini {
+      body.map .profile-section .topic .content .viz.mini,
+      body.story .profile-section .topic .content .viz.mini {
         margin-left: 0;
         min-height: 200px; }
-body.profile #show-bg, body.map #show-bg {
+body.profile #show-bg, body.map #show-bg, body.story #show-bg {
   position: absolute;
   top: 40px;
   right: 0;
   z-index: 3; }
-  body.profile #show-bg div, body.map #show-bg div {
+  body.profile #show-bg div, body.map #show-bg div, body.story #show-bg div {
     opacity: 0;
     -moz-transition: opacity 0.25s;
     -o-transition: opacity 0.25s;
     -webkit-transition: opacity 0.25s;
     transition: opacity 0.25s; }
-    body.profile #show-bg div:hover, body.map #show-bg div:hover {
+    body.profile #show-bg div:hover, body.map #show-bg div:hover,
+    body.story #show-bg div:hover {
       cursor: pointer;
       opacity: 1; }
-  body.profile #show-bg i, body.map #show-bg i {
+  body.profile #show-bg i, body.map #show-bg i, body.story #show-bg i {
     padding: 13px 15px;
     font-size: 16px;
     color: #fff; }
-body.profile .profile-end, body.map .profile-end {
+body.profile .profile-end, body.map .profile-end, body.story .profile-end {
   color: #fff;
   width: 100%;
   padding: 10px 0 15px;
   background-color: #000;
   text-align: center;
   overflow: hidden; }
-  body.profile .profile-end h2, body.map .profile-end h2 {
+  body.profile .profile-end h2, body.map .profile-end h2, body.story .profile-end h2 {
     font-family: "Pathway Gothic One", sans-serif;
     color: rgba(255, 255, 255, 0.9);
     font-size: 38px;
     padding: 10px 0 20px; }
-    body.profile .profile-end a, body.map .profile-end a {
+    body.profile .profile-end a, body.map .profile-end a, body.story .profile-end a {
       color: rgba(255, 255, 255, 0.9);
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 24px;
       font-weight: 300;
       text-transform: uppercase; }
-      body.profile .profile-end .follow-up, body.map .profile-end .follow-up {
+      body.profile .profile-end .follow-up, body.map .profile-end .follow-up,
+      body.story .profile-end .follow-up {
         -webkit-justify-content: center;
         -moz-justify-content: center;
         justify-content: center;
@@ -3265,7 +3438,8 @@ body.profile .profile-end, body.map .profile-end {
         -moz-flex-direction: row;
         flex-direction: row;
         max-width: 100%; }
-        body.profile .profile-end .follow-up > div, body.map .profile-end .follow-up > div {
+        body.profile .profile-end .follow-up > div, body.map .profile-end .follow-up > div,
+        body.story .profile-end .follow-up > div {
           -webkit-box-flex: 1;
           -moz-box-flex: 1;
           -webkit-flex: 1;
@@ -3298,7 +3472,8 @@ body.profile .profile-end, body.map .profile-end {
           background-position: center center;
           cursor: pointer; }
           body.profile .profile-end .follow-up > div::before,
-          body.map .profile-end .follow-up > div::before {
+          body.map .profile-end .follow-up > div::before,
+          body.story .profile-end .follow-up > div::before {
             content: "";
             position: absolute;
             height: 100%;
@@ -3314,10 +3489,12 @@ body.profile .profile-end, body.map .profile-end {
             -webkit-transition: background-color 0.1s;
             transition: background-color 0.1s; }
             body.profile .profile-end .follow-up > div:hover::before,
-            body.map .profile-end .follow-up > div:hover::before {
+            body.map .profile-end .follow-up > div:hover::before,
+            body.story .profile-end .follow-up > div:hover::before {
               background-color: rgba(0, 0, 0, 0.4); }
               body.profile .profile-end .follow-up > div .explore-title,
-              body.map .profile-end .follow-up > div .explore-title {
+              body.map .profile-end .follow-up > div .explore-title,
+              body.story .profile-end .follow-up > div .explore-title {
                 position: relative;
                 width: 100%;
                 padding: 20% 20px;
@@ -3325,23 +3502,27 @@ body.profile .profile-end, body.map .profile-end {
                 -moz-box-sizing: border-box;
                 box-sizing: border-box;
                 margin: auto; }
-body.profile .share-section, body.map .share-section {
+body.profile .share-section, body.map .share-section, body.story .share-section {
   margin-top: 10px; }
-  body.profile .share-section a, body.map .share-section a {
+  body.profile .share-section a, body.map .share-section a,
+  body.story .share-section a {
     color: #a8a8a8;
     cursor: pointer;
     font-size: 15px;
     padding: 10px;
     margin-left: -10px; }
-    body.profile .share-section a i, body.map .share-section a i {
+    body.profile .share-section a i, body.map .share-section a i,
+    body.story .share-section a i {
       -moz-transition: opacity 0.1s;
       -o-transition: opacity 0.1s;
       -webkit-transition: opacity 0.1s;
       transition: opacity 0.1s;
       opacity: 0.7; }
-      body.profile .share-section a:hover i, body.map .share-section a:hover i {
+      body.profile .share-section a:hover i, body.map .share-section a:hover i,
+      body.story .share-section a:hover i {
         opacity: 1; }
-  body.profile .share-section .embed-input, body.map .share-section .embed-input {
+  body.profile .share-section .embed-input, body.map .share-section .embed-input,
+  body.story .share-section .embed-input {
     -moz-transition: opacity 0.5s;
     -o-transition: opacity 0.5s;
     -webkit-transition: opacity 0.5s;
@@ -3351,15 +3532,18 @@ body.profile .share-section, body.map .share-section {
     margin-left: -5px;
     opacity: 0; }
     body.profile .share-section .embed-input.open,
-    body.map .share-section .embed-input.open {
+    body.map .share-section .embed-input.open,
+    body.story .share-section .embed-input.open {
       opacity: 1; }
       body.profile .share-section .embed-input input[type="text"],
-      body.map .share-section .embed-input input[type="text"] {
+      body.map .share-section .embed-input input[type="text"],
+      body.story .share-section .embed-input input[type="text"] {
         padding: 3px;
         width: 100px;
         font-family: "Palanquin", sans-serif; }
         body.profile .share-section .embed-input label,
-        body.map .share-section .embed-input label {
+        body.map .share-section .embed-input label,
+        body.story .share-section .embed-input label {
           color: #a8a8a8;
           font-family: "Palanquin", sans-serif;
           font-size: 11px;
@@ -3863,7 +4047,6 @@ body.story {
           flex-direction: column;
           width: 100vw;
           height: 100vh;
-          top: 40px;
           padding: 0;
           background-color: #F6F6F6;
           -webkit-justify-content: flex-end;
@@ -4067,9 +4250,6 @@ body.story {
     margin-bottom: 25px; }
     body.story .back-btn span {
       vertical-align: baseline; }
-  body.story section .topic .content aside {
-    width: 100% !important;
-    max-width: initial; }
   body.story #all-stories {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -4113,28 +4293,30 @@ body.story {
           margin-bottom: 25px; }
     body.story #all-stories .post-titles h1 a {
       font-size: 40px; }
-  body.story #article h1 {
-    color: #434958;
-    font-family: "Pathway Gothic One", sans-serif;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    font-size: 64px;
-    line-height: 1; }
-    body.story #article .desc {
-      font-weight: 300;
+  body.story .profile-section.story {
+    padding-top: 50px; }
+    body.story #article h1 {
+      color: #434958;
+      font-family: "Pathway Gothic One", sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
       letter-spacing: 0.03em;
-      line-height: 1.5;
-      font-size: 17px;
-      margin-top: 10px; }
-      body.story #article .author-meta {
-        -webkit-align-self: flex-end;
-        align-self: flex-end;
-        -ms-flex-item-align: end;
-        flex-item-align: end; }
+      font-size: 64px;
+      line-height: 1; }
+      body.story #article .desc {
+        font-weight: 300;
+        letter-spacing: 0.03em;
+        line-height: 1.5;
+        font-size: 17px;
+        margin-top: 10px; }
+        body.story #article .author-meta {
+          -webkit-align-self: flex-end;
+          align-self: flex-end;
+          -ms-flex-item-align: end;
+          flex-item-align: end; }
   body.story .article-more-options {
     background-color: #F6F6F6;
-    padding-bottom: 60px; }
+    padding: 50px 0; }
     body.story .article-more-options .author-meta {
       -webkit-justify-content: center;
       -moz-justify-content: center;
@@ -4183,440 +4365,6 @@ body.story {
                 line-height: 1;
                 letter-spacing: 0.06em;
                 color: #ef6145; }
-  body.story .data-btn {
-    float: right;
-    position: relative;
-    vertical-align: baseline;
-    padding-bottom: 1px;
-    color: #a3a3a3;
-    font-family: "Palanquin", sans-serif;
-    font-size: 12px; }
-    body.story .data-btn i {
-      position: relative;
-      top: 1px;
-      vertical-align: baseline; }
-      body.story .data-btn:hover {
-        border-bottom: 1px solid #bbb; }
-  body.story .topic h2 {
-    font-family: "Pathway Gothic One", sans-serif;
-    font-size: 30px;
-    font-weight: 400;
-    color: #333;
-    text-transform: none;
-    font-style: normal;
-    letter-spacing: 0; }
-    body.story .topic .data-btn {
-      top: 18px; }
-      body.story .topic .data-btn span {
-        color: #999;
-        font-family: "Palanquin", sans-serif;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: normal; }
-  body.story .topic.flex h2 {
-    font-size: 24px; }
-    body.story .topic.flex .data-btn {
-      top: 13px; }
-  body.story .topic sub {
-    font-family: "Palanquin", sans-serif;
-    font-size: 13px;
-    line-height: 1.35;
-    font-weight: 400;
-    text-transform: initial;
-    letter-spacing: 0.05em;
-    color: #666; }
-    body.story .topic sub a {
-      color: #666; }
-      body.story .topic sub a:hover {
-        text-decoration: none;
-        border-bottom: 1px solid #666; }
-  body.story .topic .sub-source {
-    display: inline-block;
-    color: #a8a8a8;
-    font-family: "Palanquin", sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1.5; }
-    body.story .topic .sub-source a {
-      color: #888; }
-      body.story .topic .sub-source a:hover {
-        border-bottom: 1px solid #888; }
-    body.story .topic .sub-source span {
-      vertical-align: baseline; }
-  body.story section {
-    background-color: #F6F6F6;
-    padding: 30px 12%;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -ms-flex-pack: center;
-    flex-pack: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    -moz-flex-direction: column;
-    flex-direction: column;
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
-    justify-content: flex-start;
-    -ms-flex-pack: start;
-    flex-pack: start; }
-    body.story section .category {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      -webkit-box-flex: 1 1 100%;
-      -moz-box-flex: 1 1 100%;
-      -webkit-flex: 1 1 100%;
-      -ms-flex: 1 1 100%;
-      flex: 1 1 100%;
-      padding: 5px 24px 30px;
-      min-width: 100%; }
-      body.story section .category a:before {
-        content: "";
-        position: absolute;
-        visibility: hidden;
-        top: -118px; }
-        body.story section .category::before, body.story section .category::after {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          z-index: 0;
-          top: 25px;
-          width: 20vw;
-          height: 1px;
-          -moz-transition: all 0.5s ease;
-          -o-transition: all 0.5s ease;
-          -webkit-transition: all 0.5s ease;
-          transition: all 0.5s ease;
-          background: #ccc;
-          -webkit-box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box; }
-          body.story section .category::before {
-            left: 25px;
-            -webkit-box-shadow: 0px 0px 0 #ccc;
-            -moz-box-shadow: 0px 0px 0 #ccc;
-            box-shadow: 0px 0px 0 #ccc; }
-            body.story section .category::after {
-              right: 25px;
-              -webkit-box-shadow: 0px 0px 0 #ccc;
-              -moz-box-shadow: 0px 0px 0 #ccc;
-              box-shadow: 0px 0px 0 #ccc; }
-              body.story section .category:hover::before,
-              body.story section .category:hover::after {
-                top: 28px;
-                -webkit-box-shadow: 0px -6px 0 #ccc;
-                -moz-box-shadow: 0px -6px 0 #ccc;
-                box-shadow: 0px -6px 0 #ccc; }
-    body.story section .topic {
-      -webkit-box-flex: 1 1 100%;
-      -moz-box-flex: 1 1 100%;
-      -webkit-flex: 1 1 100%;
-      -ms-flex: 1 1 100%;
-      flex: 1 1 100%;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      margin: 0;
-      min-width: 100%;
-      padding-bottom: 30px; }
-      body.story section .topic:not(.flex) aside {
-        width: 50%; }
-      body.story section .topic.short {
-        padding-bottom: 0; }
-        body.story section .topic.flex {
-          -webkit-justify-content: center;
-          -moz-justify-content: center;
-          justify-content: center;
-          -ms-flex-pack: center;
-          flex-pack: center;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-box-flex: 1 1;
-          -moz-box-flex: 1 1;
-          -webkit-flex: 1 1;
-          -ms-flex: 1 1;
-          flex: 1 1;
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          flex-direction: column;
-          -webkit-align-items: stretch;
-          align-items: stretch;
-          -ms-flex-align: stretch;
-          flex-align: stretch;
-          margin: 0 25px 50px;
-          min-width: 198px;
-          padding: 0; }
-          body.story section .topic.flex .content {
-            -webkit-box-flex: 1 1;
-            -moz-box-flex: 1 1;
-            -webkit-flex: 1 1;
-            -ms-flex: 1 1;
-            flex: 1 1;
-            -webkit-flex-direction: column;
-            -moz-flex-direction: column;
-            flex-direction: column; }
-            body.story section .topic.flex .content aside {
-              -webkit-box-flex: 1 1;
-              -moz-box-flex: 1 1;
-              -webkit-flex: 1 1;
-              -ms-flex: 1 1;
-              flex: 1 1;
-              max-width: 100%; }
-              body.story section .topic.flex .content .viz {
-                -webkit-box-flex: 1 1 200px;
-                -moz-box-flex: 1 1 200px;
-                -webkit-flex: 1 1 200px;
-                -ms-flex: 1 1 200px;
-                flex: 1 1 200px;
-                margin-left: 0;
-                min-height: 200px; }
-      body.story section .topic .content {
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        -ms-flex-pack: center;
-        flex-pack: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        margin-top: 10px; }
-        body.story section .topic .content.full-width {
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          flex-direction: column; }
-          body.story section .topic .content.full-width .viz {
-            margin-left: 0;
-            min-height: 500px; }
-        body.story section .topic .content aside {
-          -webkit-box-flex: none;
-          -moz-box-flex: none;
-          -webkit-flex: none;
-          -ms-flex: none;
-          flex: none; }
-          body.story section .topic .content aside p {
-            margin-bottom: 6px; }
-            body.story section .topic .content aside p a {
-              border-bottom: 1px solid #C1C1C1;
-              -moz-transition: opacity 0.15s;
-              -o-transition: opacity 0.15s;
-              -webkit-transition: opacity 0.15s;
-              transition: opacity 0.15s; }
-              body.story section .topic .content aside p a:hover {
-                opacity: 0.5;
-                border-bottom: 0; }
-          body.story section .topic .content aside select {
-            width: 100%; }
-            body.story section .topic .content aside .topic-stats {
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: -webkit-flex;
-              display: flex;
-              -webkit-align-items: flex-end;
-              align-items: flex-end;
-              -ms-flex-align: end;
-              flex-align: end; }
-              body.story section .topic .content aside .topic-stats.stacked {
-                -webkit-flex-direction: column;
-                -moz-flex-direction: column;
-                flex-direction: column;
-                -webkit-align-items: flex-start;
-                align-items: flex-start;
-                -ms-flex-align: start;
-                flex-align: start; }
-                body.story section .topic .content aside .topic-stats .stat {
-                  -webkit-box-flex: 1;
-                  -moz-box-flex: 1;
-                  -webkit-flex: 1;
-                  -ms-flex: 1;
-                  flex: 1;
-                  margin: 10px 15px 10px 0; }
-                  body.story section .topic .content aside .topic-stats .stat .stat-value.loading {
-                    opacity: 0.5; }
-        body.story section .topic .content .viz {
-          -webkit-box-flex: 1 1 auto;
-          -moz-box-flex: 1 1 auto;
-          -webkit-flex: 1 1 auto;
-          -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-          margin-left: 50px;
-          min-height: 300px;
-          overflow: hidden;
-          position: relative; }
-          body.story section .topic .content .viz .d3plus .d3plus_coordinates.outline {
-            fill: transparent !important;
-            pointer-events: none !important; }
-            body.story section .topic .content .viz .d3plus #XXUSA {
-              fill: #bbb !important;
-              stroke: #aaa !important; }
-          body.story section .topic .content .viz .data-table {
-            -moz-transition: top 0.5s;
-            -o-transition: top 0.5s;
-            -webkit-transition: top 0.5s;
-            transition: top 0.5s;
-            height: 100%;
-            overflow: scroll;
-            position: absolute;
-            top: 100%;
-            width: 100%;
-            background-color: #D0D0D0; }
-            body.story section .topic .content .viz .data-table.visible {
-              top: 0; }
-              body.story section .topic .content .viz .data-table .download-btns {
-                background-color: #1C1C1C;
-                text-align: center; }
-                body.story section .topic .content .viz .data-table .download-btns .csv-btn {
-                  display: inline-block;
-                  margin: 5px;
-                  text-align: center;
-                  vertical-align: baseline;
-                  padding: 4px;
-                  background-color: #006947;
-                  color: white;
-                  font-family: "Palanquin", sans-serif;
-                  font-size: 12px; }
-                  body.story section .topic .content .viz .data-table .download-btns .csv-btn i {
-                    margin-left: 5px;
-                    vertical-align: baseline; }
-                    body.story section .topic .content .viz .data-table .download-btns .csv-btn:hover {
-                      background-color: #0c9a6e; }
-                body.story section .topic .content .viz .data-table .download-btns .api-btn {
-                  display: inline-block;
-                  margin: 5px;
-                  text-align: center;
-                  vertical-align: baseline;
-                  padding: 4px;
-                  background-color: #006947;
-                  color: white;
-                  font-family: "Palanquin", sans-serif;
-                  font-size: 12px; }
-                  body.story section .topic .content .viz .data-table .download-btns .api-btn:hover {
-                    background-color: #0c9a6e; }
-            body.story section .topic .content .viz .data-table table {
-              width: 100%; }
-              body.story section .topic .content .viz .data-table thead,
-              body.story section .topic .content .viz .data-table tbody {
-                font-family: "Palanquin", sans-serif; }
-                body.story section .topic .content .viz .data-table thead {
-                  -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
-                  -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
-                  box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25);
-                  background-color: #1C1C1C;
-                  color: rgba(237, 240, 245, 0.5); }
-                  body.story section .topic .content .viz .data-table thead th {
-                    padding: 6px 5px 4px;
-                    font-weight: 400;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
-                    font-size: 11px;
-                    text-align: left; }
-                    body.story section .topic .content .viz .data-table thead th:hover {
-                      color: #fff;
-                      cursor: default; }
-            body.story section .topic .content .viz .data-table tbody {
-              color: #333; }
-              body.story section .topic .content .viz .data-table tbody td {
-                font-size: 12px;
-                font-weight: 300;
-                padding: 5px 5px; }
-                body.story section .topic .content .viz .data-table tbody tr:hover {
-                  color: #fff; }
-        body.story section .topic .content .viz.mini {
-          margin-left: 0;
-          min-height: 200px; }
-  body.story .share-section a {
-    color: #a8a8a8;
-    cursor: pointer;
-    font-size: 15px;
-    padding: 10px;
-    margin-left: -10px; }
-    body.story .share-section a i {
-      -moz-transition: opacity 0.1s;
-      -o-transition: opacity 0.1s;
-      -webkit-transition: opacity 0.1s;
-      transition: opacity 0.1s;
-      opacity: 0.7; }
-      body.story .share-section a:hover i {
-        opacity: 1; }
-  body.story .share-section .embed-input {
-    -moz-transition: opacity 0.5s;
-    -o-transition: opacity 0.5s;
-    -webkit-transition: opacity 0.5s;
-    transition: opacity 0.5s;
-    display: inline-block;
-    margin-top: -3px;
-    margin-left: -5px;
-    opacity: 0; }
-    body.story .share-section .embed-input.open {
-      opacity: 1; }
-      body.story .share-section .embed-input input[type="text"] {
-        padding: 3px;
-        width: 100px;
-        font-family: "Palanquin", sans-serif; }
-        body.story .share-section .embed-input label {
-          color: #a8a8a8;
-          font-family: "Palanquin", sans-serif;
-          font-size: 11px;
-          vertical-align: middle; }
-  body.story .d3plus_tooltip .d3plus_tooltip_description {
-    line-height: 1.35;
-    font-weight: 300; }
-    body.story .d3plus_tooltip .d3plus_tooltip_data_seperator {
-      background-color: rgba(224, 224, 224, 0.64) !important; }
-  body.story .stat-text, body.story .stat-rank {
-    font-family: "Palanquin", sans-serif; }
-    body.story .stat-text {
-      font-size: 14px;
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      line-height: 1.5;
-      margin-bottom: 10px;
-      vertical-align: baseline; }
-      body.story .stat-subtitle {
-        margin-left: 2px;
-        margin-top: 7px; }
-        body.story .stat-subtitle .plus-minus {
-          color: #dc5137; }
-  body.story .stat-group {
-    text-align: center; }
-    body.story .stat-rank {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 0.05em; }
-      body.story .stat-value {
-        font-family: "Source Sans Pro", sans-serif;
-        font-size: 22px;
-        font-weight: 300;
-        margin-bottom: 8px; }
-        body.story .stat-value.stat-small {
-          font-size: 20px;
-          font-weight: 400;
-          margin-left: 2px;
-          margin-top: 2px; }
-          body.story .stat-value a {
-            padding-bottom: 1px;
-            text-decoration: none;
-            text-transform: capitalize; }
-            body.story .stat-value a:hover {
-              text-decoration: none; }
 @media only screen and (max-width : 480px) {
   body.story #featured-story {
     -webkit-box-sizing: border-box;
@@ -4668,8 +4416,6 @@ body.story {
             border-color: #fff;
             color: #141b2e;
             font-weight: 400;   }
-        body.story #feature-text .author-meta .name {
-          display: none;   }
   body.story #article-text {
     padding: 13px 0 20px;
     background-color: transparent;

@@ -2,7 +2,7 @@ body.story {
 
   /* Large Devices, Wide Screens */
   @media only screen and (max-width : 1200px) {
-    
+
   }
 
   /* Medium Devices, Desktops */
@@ -15,7 +15,7 @@ body.story {
 
   }
 
-  /* Extra Small Devices, Phones */ 
+  /* Extra Small Devices, Phones */
   @media only screen and (max-width : 480px) {
     #featured-story {
       @include box();
@@ -30,11 +30,11 @@ body.story {
         overflow: hidden;
       }
     }
-    
+
     #feature-image, #article-image {
       background-attachment: scroll;
       background-position: 50% 100%;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -66,7 +66,7 @@ body.story {
 
     #feature-text {
       padding: 13px 0;
-      
+
       .post-feat-label {
         position: absolute;
         top: $nav-height + 26;
@@ -81,10 +81,6 @@ body.story {
           color: $black2;
           font-weight: 400;
         }
-      }
-
-      .author-meta .name {
-        display: none;
       }
     }
 
@@ -163,9 +159,9 @@ body.story {
     }
   }
 
-  /* Custom, iPhone Retina */ 
+  /* Custom, iPhone Retina */
   @media only screen and (max-width : 320px) {
-  
+
   }
 
 }

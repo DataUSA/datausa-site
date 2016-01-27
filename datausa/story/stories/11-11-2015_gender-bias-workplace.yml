@@ -7,7 +7,7 @@ authors:
       img: http://www.huffingtonpost.com/contributors/caroline-turner/headshot.jpg
       about: "Caroline Turner is a workshop facilitator, speaker and consultant. Through her company, DifferenceWORKS, she helps leaders achieve better business results by creating inclusive work environments. She is the author of Difference Works: Improving Retention, Productivity and Profitability through Inclusion."
       twitter: http://twitter.com/ximoes
-    
+
 topics:
   - title: "Wage by Gender"
     stat:
@@ -16,12 +16,10 @@ topics:
     stat:
       - title: "Average Female Salary"
         value: "<<top show=geo|order=health_care_costs|sumlevel=state|sort=asc>>"
-
-  - description: >
+    description: >
       One reason, the study shows, that fewer women reach the top is that they serve more often in staff vs. line positions, which are more likely to lead to the C-suite. Women in line positions are less likely to advance to the top. And women express greater concern about the stress that comes with top jobs.
-  - viz_url: "/profile/geo/01000US/economy/income_gender/"
-
+    viz_url: "/profile/geo/01000US/economy/income_gender/"
   - viz_url: "/profile/geo/01000US/health/healthcare_cost/"
-  - description:
+    description:
     - "And what about gender bias? The report concludes that women are more likely than men to perceive gender bias -- to feel there are more barriers to promotion. Of course they do. The real question is how much gender bias exists, not what women perceive. Gender bias is hard to measure, because it is invisible and mostly unconscious. But it is certainly a factor -- on its own and as an underlying part of these other phenomena. One of the recommendations of the study is training to 'interrupt gender bias', including to assure men can see and understand the challenges women encounter."
     - "For more information, see Caroline Turner on <a href='http://www.huffingtonpost.com/caroline-turner/women-in-the-workplace-20_b_8255008.html'>The Huffington Post</a>"
