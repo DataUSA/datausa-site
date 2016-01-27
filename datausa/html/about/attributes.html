@@ -41,26 +41,26 @@
       </ul>
     </section>
   </article>
-  
-  <article>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for attr in attrs %}
-        <tr>
-          <td>{{ attr['id'] }}</td>
-          <td><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </article>
 </header>
+
+<article>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for attr in attrs %}
+      <tr>
+        <td>{{ attr['id'] }}</td>
+        <td><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</article>
 
 {% endblock %}
 
