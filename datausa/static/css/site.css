@@ -4976,6 +4976,10 @@ body.about {
               color: #727682; }
               body.about .datasets .dataset-panel-container .dataset-panel li a i {
                 display: block; }
+                body.about .datasets .dataset-panel-container .dataset-panel li a img {
+                  display: block;
+                  margin: 0 auto;
+                  width: 25px; }
             body.about .datasets .dataset-panel-container .dataset-panel li.active a {
               color: #ef6145; }
       body.about .datasets .dataset-list {

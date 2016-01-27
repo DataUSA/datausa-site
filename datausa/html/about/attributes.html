@@ -1,0 +1,71 @@
+{% extends "templates/nav.html" %}
+
+{% block title %} Datasets {% endblock %}
+
+{% block subtitle %}
+<div id="title-bar">
+  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> About</span>
+</div>
+{% endblock %}
+
+{% block body %}
+
+{% include "templates/about_subnav.html" %}
+
+<header>
+  <div id="splash"></div>
+  <article>
+    <h1>Datasets</h1>
+    <p class="desc"></p>
+
+    <section>
+      <div class="datasets">
+        <div class="dataset-panel-container">
+          <ul class="dataset-panel">
+            <li {% if attr_type == "geo" %}class="active"{% endif %}><a href="/about/attributes/geo/" class="" data-value="1"><img src="/static/img/icons/geo_b.svg" />Locations</a></li>
+            <li {% if attr_type == "naics" %}class="active"{% endif %}><a href="/about/attributes/naics/" class="" data-value="2"><img src="/static/img/icons/naics_b.svg" />Industries</a></li>
+            <li {% if attr_type == "soc" %}class="active"{% endif %}><a href="/about/attributes/soc/" class="" data-value="3"><img src="/static/img/icons/soc_b.svg" />Occupations</a></li>
+            <li {% if attr_type == "cip" %}class="active"{% endif %}><a href="/about/attributes/cip/" class="" data-value="4"><img src="/static/img/icons/cip_b.svg" />Education</a></li>
+          </ul>
+        </div>
+      </div>
+      <ul class="sumlevels">
+        {% for slevel in sumlevels.values() %}
+        {% if attr_type == "geo" %}
+          {% set slevel_id = "sumlevel" %}
+        {% else %}
+          {% set slevel_id = "shortlabel" %}
+        {% endif %}
+        <li {% if slevel[slevel_id] == this_sumlevel[slevel_id] %}class="active"{% endif %}><a href="/about/attributes/{{ attr_type }}/{{ slevel[slevel_id] }}/" class="" data-value="1">{{ slevel['label'] }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </article>
+  
+  <article>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for attr in attrs %}
+        <tr>
+          <td>{{ attr['id'] }}</td>
+          <td><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </article>
+</header>
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+</script>
+{% endblock %}

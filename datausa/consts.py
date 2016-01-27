@@ -54,48 +54,48 @@ SUMLEVELS = {
     },
     "cip": {
         "2": {
-            "label": "course group",
-            "shortlabel": "group"
+            "label": "2 Digit Course",
+            "shortlabel": "2_digit_course"
         },
         "4": {
-            "label": "2nd level course",
-            "shortlabel": "course"
+            "label": "4 Digit Course",
+            "shortlabel": "4_digit_course"
         },
         "6": {
-            "label": "3rd level course",
-            "shortlabel": "course"
+            "label": "6 Digit Course",
+            "shortlabel": "6_digit_course"
         }
     },
     "soc": {
         "0": {
-            "label": "occupation group",
-            "shortlabel": "group"
+            "label": "Major Group",
+            "shortlabel": "major_group"
         },
         "1": {
-            "label": "2nd level occupation",
-            "shortlabel": "occupation"
+            "label": "Minor Group",
+            "shortlabel": "minor_group"
         },
         "2": {
-            "label": "3rd level occupation",
-            "shortlabel": "occupation"
+            "label": "Broad Occupation",
+            "shortlabel": "broad_occupation"
         },
         "3": {
-            "label": "4th level occupation",
-            "shortlabel": "occupation"
+            "label": "Detailed Occupation",
+            "shortlabel": "detailed_occupation"
         }
     },
     "naics": {
         "0": {
-            "label": "sector",
-            "shortlabel": "group"
+            "label": "Sector",
+            "shortlabel": "sector"
         },
         "1": {
-            "label": "2nd level industry",
-            "shortlabel": "industry"
+            "label": "Sub Sector",
+            "shortlabel": "sub_sector"
         },
         "2": {
-            "label": "3rd level industry",
-            "shortlabel": "industry"
+            "label": "Group",
+            "shortlabel": "group"
         }
     }
 }
