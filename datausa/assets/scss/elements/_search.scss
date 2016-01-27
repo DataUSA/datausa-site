@@ -361,10 +361,6 @@ body.search {
 
     .search-refine {
 
-      @media all and (max-width: 415px) {
-        display: none;
-      }
-
       @include flex-size(0 0 250px);
       padding-left: 10px;
 
@@ -558,6 +554,12 @@ body.search {
           @include box();
         }
 
+        .xtra {
+          display: none;
+          width: 100%;
+          padding: 0 100px 0 40px;
+        }
+
         .info {
           @include flex-size(1);
           margin: 0 10px;
@@ -606,20 +608,17 @@ body.search {
             }
           }
 
-          .xtra {
-            display: none;
-          }
-
           .fa-angle-down {
             display: none;
           }
         }
 
         &.open {
+          .xtra {
+            display: block;
+          }
+
           .info {
-            .xtra {
-              display: block;
-            }
 
             .fa-angle-down {
               display: inline;

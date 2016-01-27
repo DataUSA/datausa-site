@@ -783,6 +783,7 @@ search.btnExplore = function(d) {
   var thumb = search_item.append("span").attr("class", 'thumb');
   var info = search_item.append("div").attr("class", 'info');
   var profile = search_item.append("div").attr("class", 'profile');
+  var xtra = search_item.append("div").attr("class", 'xtra');
 
   // set thumbnail
   // thumb.style("background", "url('/search/"+d.kind+"/"+d.id+"/img/')")
@@ -805,7 +806,7 @@ search.btnExplore = function(d) {
       .text("Based on zip code: " + d.zipcode.slice(7))
   }
   // xtra info
-  var xtra = info.append("div").attr("class", "xtra")
+  // var xtra = info.append("div").attr("class", "xtra")
   if(search.anchors[d.kind].sections){
     var ul = xtra.append("ul")
     search.anchors[d.kind].sections.forEach(function(anchor){

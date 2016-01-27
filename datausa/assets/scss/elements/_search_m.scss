@@ -18,9 +18,34 @@ body.search {
   /* Extra Small Devices, Phones */ 
   @media only screen and (max-width : 480px) {
     .search-results-container {
+
+      .search-refine {
+        display: none;
+      }
+      
       .search-results {
         .search-item {
           margin: 0px;
+
+          .xtra {
+            padding: 0 20px;
+
+            ul {
+              img {
+                width: 25px;
+                height: 25px;
+              }
+              
+              li {
+                @include flex-size(1 0 0);
+                word-wrap: break-word;
+
+                & > a {
+                  font-size: 9px;
+                }
+              }
+            }
+          }
         }
       }
     }
