@@ -288,7 +288,9 @@
     d3.selectAll("header a[name]")
       .each(function(){
         var top = this.parentNode.parentNode.offsetTop;
-        if (top - titleNavHeight - 10 < y) active_section = this.name;
+        if (top - titleNavHeight - profNavHeight - statNavHeight < y) {
+          active_section = this.name;
+        }
       })
     d3.selectAll("#profile-nav li")
       .classed("active", function(){
@@ -300,7 +302,7 @@
     if (subs.size()) {
       subs.each(function(){
           var top = this.parentNode.offsetTop;
-          if (top - titleNavHeight - 10 < y) {
+          if (top - titleNavHeight - profNavHeight - statNavHeight < y) {
             active_sub = this.name;
           }
         });
