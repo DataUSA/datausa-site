@@ -181,14 +181,12 @@ body.search {
     margin: $nav-height + 50 40px;
 
     .search-nav {
-//      @include flex-size(0 0 $search-height);
       margin-top: 20px;
     }
 
     .search-helpers {
-//      @include flex-size(0 0 $search-helpers-height);
-      // background-color: rgba(250, 253, 255, 0.85);
-      min-height: 30px;
+      margin-bottom: 30px;
+      min-height: 34px;
     }
 
     .search-results-container {
@@ -207,33 +205,9 @@ body.search {
       color: #333;
 
       .search-suggestions {
+        @include box();
         padding: 10px 15px;
-      }
-
-      .clear {
-        display: none;
-        padding: 2px 0 2px 10px;
-        line-height: 1.5;
-        opacity: 1;
-        font-family: $roboto;
-        font-weight: 300;
-        font-size: 13px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: #9F6000;
-        background-color: #FEEFB3;
-        width: 250px;
-        text-align: center;
-
-        span {
-          display: inline-block;
-          font-size: 18px;
-          vertical-align: baseline;
-        }
-
-        &:hover {
-          color: #000;
-        }
+        width: 100%;
       }
 
       span {
@@ -268,7 +242,8 @@ body.search {
 
     .search-input {
       width: 100%;
-      border: 0;
+      border: 1px solid $alt-link-color;
+      margin-top: 10px;
       padding: 16px 20px 16px 70px;
       @include box();
       font-family: $palanquin;
@@ -284,6 +259,7 @@ body.search {
       @include transition(box-shadow 1s);
 
       &:focus {
+        border: 1px solid $link-color;
         outline: 0;
       }
 
@@ -362,7 +338,35 @@ body.search {
     .search-refine {
 
       @include flex-size(0 0 250px);
-      padding-left: 10px;
+      border-right: 1px solid $d-profile-bg;
+      margin-right: 20px;
+      padding-right: 30px;
+
+      .clear {
+        display: none;
+        padding: 2px 0 2px 10px;
+        line-height: 1.5;
+        opacity: 1;
+        font-family: $roboto;
+        font-weight: 300;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #9F6000;
+        background-color: #FEEFB3;
+        width: 250px;
+        text-align: center;
+
+        span {
+          display: inline-block;
+          font-size: 18px;
+          vertical-align: baseline;
+        }
+
+        &:hover {
+          color: #000;
+        }
+      }
 
       &> h2 {
         color: #868686;
@@ -373,6 +377,22 @@ body.search {
 
       div {
         padding: 10px;
+
+        &.geo h2 a {
+          color: $bg-color-geo;
+        }
+
+        &.cip h2 a {
+          color: $bg-color-cip;
+        }
+
+        &.soc h2 a {
+          color: $bg-color-soc;
+        }
+
+        &.naics h2 a {
+          color: $bg-color-naics;
+        }
 
         &.active {
           h2 {
@@ -450,14 +470,14 @@ body.search {
                 cursor: default;
               }
             }
-            
+
             &.stem_only {
               border-top: dashed 1px #aaa;
               margin-top: 10px;
               padding-top: 5px;
-              
+
               a {
-              
+
                 span.check {
                   background-image: url('/static/img/search/checkbox-sprite.png');
                   width: 20px;
@@ -465,7 +485,7 @@ body.search {
                   background-position: center top;
                   background-repeat: no-repeat;
                 }
-              
+
                 input {
                   outline: 0;
                   opacity: 0;
@@ -475,17 +495,17 @@ body.search {
                   -moz-appearance: none;
                   -ms-appearance: none;
                 }
-                
+
                 &.active {
                   span.check {
                     background-position: center -30px;
                   }
                 }
-                
+
               }
-              
+
             }
-            
+
           }
         }
 
@@ -528,6 +548,30 @@ body.search {
         margin: 0px 20px 0px 10px;
 //        border-bottom: 1px solid #ccc;
 
+        // &.geo {
+        //   .subtitle {
+        //     color: $bg-color-geo;
+        //   }
+        // }
+        //
+        // &.cip {
+        //   .subtitle {
+        //     color: $bg-color-cip;
+        //   }
+        // }
+        //
+        // &.soc {
+        //   .subtitle {
+        //     color: $bg-color-soc;
+        //   }
+        // }
+        //
+        // &.naics {
+        //   .subtitle {
+        //     color: $bg-color-naics;
+        //   }
+        // }
+
         &.active{
           border: solid black 1px;
           background-color: #666;
@@ -546,12 +590,9 @@ body.search {
 
         .thumb {
           @include flex-size(0 0 30px);
-          background-size: cover;
-          background-position: center center;
-          height: 50px;
-          @include filter(saturate(0) contrast(1.3) brightness(1.1));
-          border-radius: 50%;
           @include box();
+          opacity: 0.8;
+          height: 35px;
         }
 
         .xtra {

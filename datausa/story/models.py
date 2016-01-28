@@ -11,7 +11,7 @@ import os
 from datausa.utils.format import num_format
 from datausa.utils.data import fetch
 
-STORIES_DIR = join(base_dir, "profile", "stories")
+STORIES_DIR = join(base_dir, "story", "stories")
 
 def date_from_filename(filename):
     date_pattern = re.match("(\d+-\d+-\d+)", filename)
@@ -67,9 +67,9 @@ class Story(Profile):
             self.date = date_from_filename(attr_id)
 
         tmp_obj = {"topics": story_conf['topics']}
-        for idx, t in enumerate(tmp_obj["topics"]):
+        for t in tmp_obj["topics"]:
             if "viz_url" in t:
-                tmp_obj["topics"][idx] = Story.grab(t["viz_url"])
+                t["viz"] = Story.grab(t["viz_url"])
         section = Section(self.load_yaml(tmp_obj), self)
         self.topics = section.topics
 
@@ -90,7 +90,7 @@ class Story(Profile):
                     viz_data = t['viz']
                     viz_data = [viz_data] if not isinstance(viz_data, list) else viz_data
                     result = cls.process_viz(attr_id, attr_type, {"topics" : viz_data})
-                    return {"viz": result}
+                    return result
 
     @classmethod
     def process_viz(cls, attr_id, attr_type, viz_obj):

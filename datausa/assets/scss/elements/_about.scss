@@ -2,7 +2,7 @@ body.about {
 
   /* visuals */
 
-  background-color: $l-profile-bg;
+  background-color: $black;
 
   h1 {
     font-family: $pathway;
@@ -21,7 +21,7 @@ body.about {
     letter-spacing: 0.01em;
 
     .fa-link {
-      color: $black4;
+      color: $white;
       visibility: hidden;
       margin: 10px 0 0 -10px;
       padding-right: 5px;
@@ -36,7 +36,7 @@ body.about {
   }
 
   a {
-    color: $black4;
+    color: $white;
     @include transition(all 0.25s);
     cursor: pointer;
 
@@ -64,7 +64,7 @@ body.about {
   }
 
   p {
-    color: rgba(51, 51, 51, 0.93);
+    color: $white;
     font-family: $palanquin;
     line-height: 1.5;
     font-weight: 400;
@@ -77,6 +77,10 @@ body.about {
     font-weight: 300;
     font-size: 20px;
     letter-spacing: 0.03em;
+
+    li {
+      line-height: 1.3;
+    }
   }
 
   .bulleted-list {
@@ -96,13 +100,7 @@ body.about {
   }
 
   .pri-link {
-    font-family: $palanquin;
-    font-weight: 700;
-    text-transform: uppercase;
     font-size: 11px;
-    line-height: 11px;
-    letter-spacing: 0.06em;
-    color: $red-w;
   }
 
   .emphasize {
@@ -159,10 +157,16 @@ body.about {
 
   }
 
+  .hero-bg {
+    background-image: url('/static/img/about/landscape.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
   #about-nav {
     background-color: $black2;
     @include flex();
-    height: $prof-nav-height;
+    height: $about-nav-height;
     width: 100%;
     left: 0;
     position: fixed;
@@ -172,80 +176,30 @@ body.about {
     z-index: 4;
 
     a {
-      color: #fff;
+      color: $white;
     }
 
     ul {
-      width: 90%;
+      width: 100%;
       max-width: 800px;
       @include flex();
       @include justify(space-between);
 
       li {
         @include flex-size(1);
-        position: relative;
-        display: inline-block;
-        margin: 0 auto;
-        padding: 8px 5px 4px;
-        text-align: center;
-        font-family: $palanquin;
-        text-transform: uppercase;
-        font-weight: 400;
-        font-size: 14px;
-        letter-spacing: 0.1em;
-        opacity: 0.7;
-        white-space: nowrap;
-        @include transition(opacity 0.25s);
+        padding: 4px 5px;
 
         &.active {
-          opacity: 1;
+          a {
+            color: $red-w;
+          }
 
           &::before {
-            width: 80%;
-            display: inline-block;
-            position: absolute;
-            z-index: 10;
-            bottom: 2px;
-            left: 50%;
-            height: 2px;
-            @include transform(translateX(-50%));
-            @include transition(all .25s ease);
-            background: #fff;
-            @include box();
+            bottom: 0;
+            background: $red-w;
           }
         }
-
-        &::before {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          z-index: 10;
-          bottom: 2px;
-          left: 50%;
-          width: 0;
-          height: 2px;
-          @include transform(translateX(-50%));
-          @include transition(all .25s ease);
-          background: #fff;
-          @include box();
-        }
-
-        &:hover:before {
-          width: 80%;
-        }
-
-        &:hover {
-          opacity: 1;
-        }
       }
-
-      img {
-        display: block;
-        width: 20px;
-        height: 20px;
-        margin: 0 auto -2px;
-      }
-
     }
   }
 
@@ -255,7 +209,7 @@ body.about {
     overflow:auto;
     width:auto;
     margin: 15px 10px;
-    border: solid $black4;
+    border: solid $white;
     border-width:.1em .1em .1em .8em;
     padding: .2em .6em;
     @include wordwrap();
@@ -281,54 +235,46 @@ body.about {
   }
 
   header {
-    width: 100vw;
-    top: $nav-height + $prof-nav-height;
-    position: absolute;
-    background-color: $l-profile-bg;
+    position: relative;
   }
 
   #about-index {
     @include flex();
     @include align-items(center);
-    height: 90vh;
+    height: 100vh;
 
     article {
-      width: 65%;
+      top: 0;
     }
 
     section {
-      padding: 45px 60px;
-      background-color: rgba(20,27,46,0.73);
-      border: 1px solid $black3;
 
       h2 {
-        font-size: 36px;
+        font-size: 60px;
         letter-spacing: 0.03em;
-        color: $red-w;
+        color: #fff;
         text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 45px;
       }
 
       p {
-        color: $white;
+        color: #fff;
         line-height: 2;
         font-size: 18px;
-        opacity: 0.9;
+        opacity: 1;
+        text-align: justify;
       }
     }
   }
 
-  #splash {
+  #hero {
     width: 100%;
     min-height: 100vh;
     height: 100%;
     top: 0;
     position: absolute;
-    background: #565656;
-    @include background-stretch();
     @include transition(all 0.5s);
     z-index: 0;
-    background-image: url('/static/img/about/bg.jpg');
 
     &::after {
       content: "";
@@ -336,16 +282,18 @@ body.about {
       height: 100%;
       width: 100%;
       left: 0;
-      top: $nav-height + $prof-nav-height;
-      background: -webkit-linear-gradient(top, $black2 0%, rgba(20, 27, 46, 0.1) 17%, rgba(0,0,0,0) 100%);
+      top: $nav-height + $about-nav-height;
+      background: -webkit-linear-gradient(top, rgba(20, 27, 46, 0.5) 0%, rgba(20, 27, 46, 0.1) 21%, transparent 31%);
     }
   }
 
   article {
     position: relative;
-    width: 76%;
-    margin: 40px auto;
+    width: 100%;
+    margin: 0 auto;
     z-index: 1;
+    @include box();
+    padding: $nav-height+$prof-nav-height 25px $nav-height;
   }
 
   .datasets {
@@ -369,7 +317,7 @@ body.about {
           letter-spacing: 0.03em;
 
           a {
-            color: $black4;
+            color: $white;
 
             i {
               display: block;
@@ -384,6 +332,19 @@ body.about {
           &.active {
             a {
               color: $red-w;
+            }
+
+            .geo {
+              color: $geo-bg-color;
+            }
+            .cip {
+              color: $cip-bg-color;
+            }
+            .soc {
+              color: $soc-bg-color;
+            }
+            .naics {
+              color: $naics-bg-color;
             }
           }
         }
@@ -406,26 +367,132 @@ body.about {
       }
     }
   }
+  
+  .attr-body {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    @include flex();
+    @include flex-direction(row);
+    @include justify(flex-start);
+
+    section {
+      margin: 0;
+      padding: 0;
+      
+      &:first-child {
+        @include flex-size(1);
+        padding-right: 30px;
+      }
+      &:last-child {
+        @include flex-size(2);
+      }
+    }
+  }
+
+  .sumlevels {
+
+    li {
+      margin-left: 30px;
+      padding: 8px 5px 4px;
+      font-family: $palanquin;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+      white-space: nowrap;
+      @include transition(opacity 0.25s);
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &::before {
+        content: '';
+        background: url('/static/img/about/dataprofiles.svg') no-repeat 50%;
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        position: absolute;
+        margin-left: -35px;
+        background-size: 25px;
+        margin-right: 10px;
+      }
+
+      a {
+        white-space: normal;
+      }
+
+      .geo {
+        color: $geo-bg-color;
+      }
+      .cip {
+        color: $cip-bg-color;
+      }
+      .soc {
+        color: $soc-bg-color;
+      }
+      .naics {
+        color: $naics-bg-color;
+      }
+    }
+  }
+
+  table {
+    font-family: $palanquin;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-align: left;
+
+    th, td {
+      padding: 4px 5px;
+    }
+
+    td {
+      color: $white;
+    }
+
+    &.geo {
+      thead th, a:hover, a:focus {
+        color: $geo-bg-color;
+      }
+    }
+    &.cip {
+      thead th, a:hover, a:focus {
+        color: $cip-bg-color;
+      }
+    }
+    &.soc {
+      thead th, a:hover, a:focus {
+        color: $soc-bg-color;
+      }
+    }
+    &.naics {
+      thead th, a:hover, a:focus {
+        color: $naics-bg-color;
+      }
+    }
+  }
 
   section {
-    background-color: $l-profile-bg;
+    position: relative;
+    // background-color: $l-profile-bg;
     padding: 30px 12% 10px;
     max-width: 800px;
     margin: 0 auto;
 
     &:last-child {
-      padding-bottom: 40px;
-    }
-
-    &.usage-scenarios {
-      padding: 40px 12%;
+      // padding-bottom: 40px;
     }
 
     h2 {
       margin-bottom: 10px;
 
       a {
-        color: $black4;
+        color: $white;
         cursor: default;
       }
     }
@@ -435,15 +502,12 @@ body.about {
     }
 
     & > ul {
-      & > li {
-        padding-top: 40px;
-      }
       h1 {
         text-align: left;
         font-size: 42px;
         margin-bottom: 30px;
         a {
-          color: $black2;
+          color: $white;
           cursor: default;
         }
       }

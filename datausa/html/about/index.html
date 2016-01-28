@@ -1,31 +1,29 @@
-{% extends "templates/nav.html" %}
+{% extends "templates/about.html" %}
 
-{% block title %} About {% endblock %}
+{% block title %} About{% endblock %}
 
-{% block subtitle %}
-<div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> About</span>
-</div>
-{% endblock %}
-
-{% block body %}
-
-{% include "templates/about_subnav.html" %}
+{% block about %}
 
 <header id="about-index">
-  <div id="splash"></div>
   <article>
     <section>
-      <h2>Not Just a Repository of Data</h2>
-      <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p>
-      <p>DataUSA is a different kind of Data platform. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus justo turpis, vitae imperdiet diam ultrices in. Duis at facilisis ante. Mauris consequat justo id dolor consequat, ut faucibus nisl elementum. Praesent id enim vitae neque finibus fermentum. Proin eget neque turpis. Etiam a odio rutrum, feugiat sapien non, tincidunt libero. Mauris in blandit diam, et aliquet tortor.</p>
+      <h2>Public data in your hands</h2>
+      <!-- <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p> -->
+      <p>By organizing and visualizing this data -- spanning topics like the labor & job markets, higher education, regional demographics, health care, and transportation -- DataUSA is a resource to approach complex topics with publically available data. Rather than wait for infographics or reports from news organizations or researchers, DataUSA gives you the option to explore your interests and discover the numbers for yourself.</p>
+    </section>
+    <section>
+      <ul class="pri-btn-container">
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/">About</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/datasets/">Datasets</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/glossary/" >Glossary</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/api/" >API</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/attributes/" >Attributes</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/usage/" >Usage</a></li>
+      </ul>
     </section>
   </article>
 </header>
 
-{% endblock %}
-
-{% block js %}
 <script>
 d3.selectAll(".about_tabs li a").on("click", function(){
   d3.event.preventDefault();

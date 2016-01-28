@@ -12,8 +12,8 @@
 
 {% for story in featured_stories %}
 <header id="featured-story">
-  <div id="feature-image" style="background-image:url({{ story.background_image }})"></div>
-  
+  <a href="/story/{{story.story_id}}" id="feature-image" style="background-image:url({{ story.background_image }})"></a>
+
   <div id="feature-text">
     <div class="post-feat-label">
       <p>Feature</p>
@@ -26,8 +26,8 @@
         <div class="author-meta">
           {% for author in story.authors %}
           <div class="name"><span>Written by</span> <a href="{{ author.twitter }}" target="_blank">{{ author.name }}</a></div>
-          <div class="post-date">{{ story.date }}</div>
           {% endfor %}
+          <div class="post-date">{{ story.date }}</div>
         </div>
       </div>
     </div>
@@ -43,7 +43,9 @@
   <div id="stories-container">
   {% for story in stories %}
   <div class="story">
-    <div class="story-image" style="background-image:url({{ story.background_image }})"></div>
+    <a href="/story/{{story.story_id}}">
+      <div class="story-image" style="background-image:url({{ story.background_image }})"></div>
+    </a>
     <div class="post-titles">
       <h1><a href="/story/{{story.story_id}}">{{ story.title }}</a></h1>
       <p class="desc">{{ story.description }}</p>
@@ -51,8 +53,9 @@
         <a href="/story/{{story.story_id}}" class="read-more pri-link">Read More</a>
         <div class="author-meta">
           {% for author in story.authors %}
-          <div class="post-date">{{ story.date }}</div>
+          <div class="name"><span>Written by</span> <a href="{{ author.twitter }}" target="_blank">{{ author.name }}</a></div>
           {% endfor %}
+          <div class="post-date">{{ story.date }}</div>
         </div>
       </div>
     </div>

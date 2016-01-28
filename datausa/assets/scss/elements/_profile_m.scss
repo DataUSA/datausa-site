@@ -1,8 +1,8 @@
-body.profile {
+body.profile, body.story {
 
   /* Large Devices, Wide Screens */
   @media only screen and (max-width : 1200px) {
-    
+
   }
 
   /* Medium Devices, Desktops */
@@ -15,7 +15,7 @@ body.profile {
 
   }
 
-  /* Extra Small Devices, Phones */ 
+  /* Extra Small Devices, Phones */
   @media only screen and (max-width : 480px) {
     #profile-nav, #stats-bar {
       display: none;
@@ -92,11 +92,12 @@ body.profile {
               .stat {
                 @include flex();
                 @include flex-direction(column);
-              }
-
-              .stat {
-                margin: 20px 10px 15px;
+                margin: 20px 10px 0;
                 text-align: center;
+
+                .stat-text {
+                  margin-bottom: 0;
+                }
               }
             }
           }
@@ -128,11 +129,11 @@ body.profile {
       & > div {
         @include flex-size(1 1 auto);
       }
-    }  
+    }
   }
-  
-  /* Custom, iPhone Retina */ 
+
+  /* Custom, iPhone Retina */
   @media only screen and (max-width : 320px) {
-  
+
   }
 }

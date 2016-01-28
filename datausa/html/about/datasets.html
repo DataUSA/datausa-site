@@ -1,23 +1,11 @@
-{% extends "templates/nav.html" %}
+{% extends "templates/about.html" %}
 
-{% block title %} Datasets {% endblock %}
+{% block title %} Datasets{% endblock %}
 
-{% block subtitle %}
-<div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> About</span>
-</div>
-{% endblock %}
-
-{% block body %}
-
-{% include "templates/about_subnav.html" %}
+{% block about %}
 
 <header>
-  <div id="splash"></div>
   <article>
-    <h1>Datasets</h1>
-    <p class="desc"></p>
-
     <section>
       <div class="datasets">
         <div class="dataset-panel-container">
@@ -88,9 +76,6 @@
   </article>
 </header>
 
-{% endblock %}
-
-{% block js %}
 <script>
 d3.selectAll(".dataset-panel li a").on("click", function(){
   d3.event.preventDefault();
@@ -101,4 +86,5 @@ d3.selectAll(".dataset-panel li a").on("click", function(){
   d3.select(".dataset-tab[data-tab='"+active_tab+"']").classed("active", true);
 })
 </script>
+
 {% endblock %}
