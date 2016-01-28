@@ -2699,12 +2699,12 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  position: fixed;
+  position: absolute;
   height: 23px;
   width: 100%;
   right: 0;
   left: 0;
-  top: 17px;
+  top: -23px;
   margin-right: auto;
   margin-left: auto;
   overflow: hidden;
@@ -2717,7 +2717,7 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
   transition: top 0.5s, box-shadow 0.5s; }
   body.profile #stats-bar.visible, body.map #stats-bar.visible,
   body.story #stats-bar.visible {
-    top: 40px;
+    top: 0;
     -webkit-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset;
     -moz-box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset;
     box-shadow: 0 3px 3px rgba(20, 27, 46, 0.25) inset; }
@@ -2831,11 +2831,11 @@ body.profile #nav-bar-scroll, body.map #nav-bar-scroll, body.story #nav-bar-scro
     body.profile #nav-bar-scroll.stat-hidden #stats-bar,
     body.map #nav-bar-scroll.stat-hidden #stats-bar,
     body.story #nav-bar-scroll.stat-hidden #stats-bar {
-      top: 17px; }
+      top: -23px; }
       body.profile #nav-bar-scroll.stat-hidden #profile-nav.visible,
       body.map #nav-bar-scroll.stat-hidden #profile-nav.visible,
       body.story #nav-bar-scroll.stat-hidden #profile-nav.visible {
-        top: 40px; }
+        top: 0; }
 body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
   -webkit-justify-content: center;
   -moz-justify-content: center;
@@ -2850,8 +2850,8 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
   height: 45px;
   width: 100%;
   left: 0;
-  position: fixed;
-  top: -40px;
+  position: absolute;
+  top: -80px;
   z-index: 1;
   text-align: center;
   -moz-transition: top 0.5s;
@@ -2860,7 +2860,7 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
   transition: top 0.5s; }
   body.profile #profile-nav.visible, body.map #profile-nav.visible,
   body.story #profile-nav.visible {
-    top: 63px; }
+    top: 23px; }
     body.profile #profile-nav #back-to-top, body.map #profile-nav #back-to-top,
     body.story #profile-nav #back-to-top {
       position: absolute;

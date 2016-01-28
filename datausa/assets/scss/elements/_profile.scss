@@ -768,12 +768,12 @@ body.profile, body.map, body.story {
 
   #stats-bar {
     @include flex();
-    position: fixed;
+    position: absolute;
     height: $stats-bar-height;
     width: 100%;
     right: 0;
     left: 0;
-    top: $nav-height - $stats-bar-height;
+    top: -$stats-bar-height;
     margin-right: auto;
     margin-left: auto;
     overflow: hidden;
@@ -783,7 +783,7 @@ body.profile, body.map, body.story {
     @include transition(top 0.5s, box-shadow 0.5s);
 
     &.visible {
-      top: $nav-height;
+      top: 0;
       @include shadow(0 3px 3px rgba(20, 27, 46, 0.25) inset);
     }
 
@@ -871,11 +871,11 @@ body.profile, body.map, body.story {
       height: $prof-nav-height;
 
       #stats-bar {
-        top: $nav-height - $stats-bar-height;
+        top: -$stats-bar-height;
       }
 
       #profile-nav.visible {
-        top: $title-height;
+        top: 0;
       }
     }
   }
@@ -885,14 +885,14 @@ body.profile, body.map, body.story {
     height: $prof-nav-height;
     width: 100%;
     left: 0;
-    position: fixed;
-    top: -$title-height;
+    position: absolute;
+    top: -($title-height * 2);
     z-index: 1;
     text-align: center;
     @include transition(top 0.5s);
 
     &.visible {
-      top: $title-height + $stats-bar-height;
+      top: $stats-bar-height;
     }
 
     #back-to-top {
