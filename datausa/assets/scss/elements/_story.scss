@@ -67,7 +67,7 @@ body.story {
     font-weight: 700;
     text-transform: uppercase;
     font-size: 11px;
-    line-height: 11px;
+    line-height: 29px;
     letter-spacing: 0.06em;
     color: $red-w;
   }
@@ -113,8 +113,8 @@ body.story {
   }
 
   #feature-text, #article-text {
-    @include flex();
-    @include justify(center);
+    // @include flex();
+    // @include justify(center);
     @include box();
   }
 
@@ -127,9 +127,11 @@ body.story {
   }
 
   #feature-text {
+    @include flex();
+    @include justify(center);
     background-color: $l-profile-bg;
     z-index: 1;
-    @include flex-direction(row);
+    // @include flex-direction(row);
     margin: 20px 0 0 auto;
     width: 88%;
     padding: 40px 12% 40px 0;
@@ -138,9 +140,9 @@ body.story {
     border-style: solid;
   }
 
-  #article-text {
-    @include flex-direction(column);
-  }
+  // #article-text {
+  //   @include flex-direction(column);
+  // }
 
   .post-feat-label {
     @include flex-size(1);
@@ -165,14 +167,14 @@ body.story {
   .post-titles {
     @include flex-size(4);
     width: 100%;
-    @include flex();
-    @include flex-direction(column);
-    @include justify(flex-start);
-    @include align-items(stretch);
+    // @include flex();
+    // @include flex-direction(column);
+    // @include justify(flex-start);
+    // @include align-items(stretch);
 
-    & > * {
-      @include flex-size(1 0 auto);
-    }
+    // & > * {
+    //   @include flex-size(1 0 auto);
+    // }
 
     h1 {
       margin-bottom: 10px;
@@ -338,8 +340,13 @@ body.story {
       padding: 5px;
     }
 
-    img {
+    .author-avatar {
+      max-width: 100px;
+      min-width: 100px;
       width: 100px;
+      img {
+        width: 100px;
+      }
     }
 
     .author-text {
