@@ -97,6 +97,7 @@ window.next_letter = function() {
 }
 
 search_input.on("click.clear", function(){
+  this.select();
   window.clearTimeout(tout);
 })
 
