@@ -3841,9 +3841,9 @@ body.redirect nav {
 }
 body.embed {
   overflow: hidden; }
-  body.embed section {
+  body.embed .profile-section {
     padding: 0; }
-    body.embed section .topic {
+    body.embed .profile-section .topic {
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
@@ -3859,22 +3859,22 @@ body.embed {
       flex-direction: column;
       height: 100vh;
       padding: 25px; }
-      body.embed section .topic sub:last-child {
+      body.embed .profile-section .topic sub:last-child {
         margin-bottom: 0; }
-        body.embed section .topic h2 {
+        body.embed .profile-section .topic h2 {
           -webkit-box-flex: none;
           -moz-box-flex: none;
           -webkit-flex: none;
           -ms-flex: none;
           flex: none; }
-          body.embed section .topic .content {
+          body.embed .profile-section .topic .content {
             -webkit-box-flex: 1;
             -moz-box-flex: 1;
             -webkit-flex: 1;
             -ms-flex: 1;
             flex: 1; }
-            body.embed section .topic .content .viz:not(.mini),
-            body.embed section .topic .content .viz.full-width {
+            body.embed .profile-section .topic .content .viz:not(.mini),
+            body.embed .profile-section .topic .content .viz.full-width {
               height: 100% !important;
               min-height: 100% !important; }
 body.map {

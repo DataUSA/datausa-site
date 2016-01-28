@@ -266,7 +266,7 @@
 @mixin align-content($align: center) {
   -webkit-align-content: $align;
   align-content: $align;
-  $old = $align;
+  $old: $align;
   @if $align == flex-start {
     $old: start;
   } @else if $align == flex-end {
@@ -283,7 +283,7 @@
 @mixin align-items($align: center) {
   -webkit-align-items: $align;
   align-items: $align;
-  $old = $align;
+  $old: $align;
   @if $align == flex-start {
     $old: start;
   } @else if $align == flex-end {
@@ -296,7 +296,7 @@
 @mixin align-self($align: center) {
   -webkit-align-self: $align;
   align-self: $align;
-  $old = $align;
+  $old: $align;
   @if $align == flex-start {
     $old: start;
   } @else if $align == flex-end {
