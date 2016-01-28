@@ -1,10 +1,25 @@
 <div id="about-nav">
 	<ul>
-    <li><a href="/about/" {% if g.page_sub_type == 'index' %}class="current"{% endif %}>About</a></li>
-		<li><a href="/about/datasets/" {% if g.page_sub_type == 'datasets' %}class="current"{% endif %}>Datasets</a></li>
-		<li><a href="/about/glossary/" {% if g.page_sub_type == 'glossary' %}class="current"{% endif %}>Glossary</a></li>
-		<li><a href="/about/api/" {% if g.page_sub_type == 'api' %}class="current"{% endif %}>API</a></li>
-		<li><a href="/about/attributes/" {% if g.page_sub_type == 'attributes' %}class="current"{% endif %}>Attributes</a></li>
-		<li><a href="/about/usage/" {% if g.page_sub_type == 'usage' %}class="current"{% endif %}>Usage</a></li>
+    <li {% if g.page_sub_type == 'index' %}class="active"{% endif %}><a href="/about/">About</a></li>
+		<li {% if g.page_sub_type == 'datasets' %}class="active"{% endif %}><a href="/about/datasets/">Datasets</a></li>
+		<li {% if g.page_sub_type == 'glossary' %}class="active"{% endif %}><a href="/about/glossary/" >Glossary</a></li>
+		<li {% if g.page_sub_type == 'api' %}class="active"{% endif %}><a href="/about/api/" >API</a></li>
+		<li {% if g.page_sub_type == 'attributes' %}class="active"{% endif %}><a href="/about/attributes/" >Attributes</a></li>
+		<li {% if g.page_sub_type == 'usage' %}class="active"{% endif %}><a href="/about/usage/" >Usage</a></li>
 	</ul>
 </div>
+
+<script>
+var active_section;
+d3.selectAll("header a[name]")
+  .each(function(){
+    var top = this.parentNode.parentNode.offsetTop;
+    if (top - titleNavHeight - profNavHeight - statNavHeight < y) {
+      active_section = this.name;
+    }
+  })
+d3.selectAll("#profile-nav li")
+  .classed("active", function(){
+    return this.getAttribute("data-anchor") === active_section;
+  });
+</script>
