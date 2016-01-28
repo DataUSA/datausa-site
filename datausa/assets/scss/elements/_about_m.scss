@@ -38,19 +38,7 @@ body.about {
       }
     }
 
-    #about-nav ul {
-      width: 100%;
-
-      li {
-        padding: 8px 0px 4px;
-        font-size: 11px;
-      }
-    }
-
     #about-index {
-      position: absolute;
-      top: 0;
-      height: 100vh;
       overflow: hidden;
       @include align-items(center);
 

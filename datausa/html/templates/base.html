@@ -32,6 +32,7 @@
     <script>
 
       var resizeFunctions = [],
+          resizeInstantFunctions = [],
           scrollFunctions = [],
           cache_version = "{{ g.cache_version }}",
           api = "{{ g.api }}",
@@ -75,7 +76,7 @@
 
       viz.loadBuilds(builds);
 
-      if (resizeFunctions.length) {
+      if (resizeFunctions.length || resizeInstantFunctions.length) {
 
         var resize;
 
@@ -86,6 +87,9 @@
         }
 
         window.onresize = function(){
+          for (var i = 0; i < resizeInstantFunctions.length; i++) {
+            resizeInstantFunctions[i]();
+          }
           clearTimeout(resize);
           resize = setTimeout(resizeEnd, 200);
         }

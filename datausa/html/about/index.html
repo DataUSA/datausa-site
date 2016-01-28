@@ -1,34 +1,29 @@
-{% extends "templates/nav.html" %}
+{% extends "templates/about.html" %}
 
-{% block title %} About {% endblock %}
+{% block title %} About{% endblock %}
 
-{% block subtitle %}
-<div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo_p2.png" alt="DataUSA" /></a> About</span>
-</div>
-{% endblock %}
-
-{% block body %}
-
-{% include "templates/about_subnav.html" %}
+{% block about %}
 
 <header id="about-index">
-  <div id="splash"></div>
   <article>
     <section>
       <h2>Public data in your hands</h2>
       <!-- <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p> -->
-      <p>In the four years since the U.S. government created data.gov, the first national repository for open data, more than 400,000 datasets have become available online through “open data portals” worldwide. In practice, however, much of this data is useless to the average person who may not know how to approach big data.</p>
-      <p>By organizing and visualizing this data -- spanning topics like the labor & job markets, higher education, regional demographics, health care, and transportation -- platforms like DataUSA are a resource to help shed light on massive, complex issues. Rather than wait for infographics or reports from news organizations or researchers, anyone with access to DataUSA can explore their topic of interest and find out the story for themselves.</p>
-      <p>DataUSA paves the way for future big data visualization platforms. At the very least, these platforms make static and ill-dispersed government reports obsolete. At best, as the power of big data is to glean trends from real data, the expansion of these open big data platforms to any country may herald an era of unprecedented understanding of our world.</p>
-
+      <p>By organizing and visualizing this data -- spanning topics like the labor & job markets, higher education, regional demographics, health care, and transportation -- DataUSA is a resource to approach complex topics with publically available data. Rather than wait for infographics or reports from news organizations or researchers, DataUSA gives you the option to explore your interests and discover the numbers for yourself.</p>
+    </section>
+    <section>
+      <ul class="pri-btn-container">
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/">About</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/datasets/">Datasets</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/glossary/" >Glossary</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/api/" >API</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/attributes/" >Attributes</a></li>
+        <li><a class="pri-link btn material-btn pri-btn" href="/about/usage/" >Usage</a></li>
+      </ul>
     </section>
   </article>
 </header>
 
-{% endblock %}
-
-{% block js %}
 <script>
 d3.selectAll(".about_tabs li a").on("click", function(){
   d3.event.preventDefault();

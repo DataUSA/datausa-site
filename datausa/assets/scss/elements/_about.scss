@@ -2,7 +2,7 @@ body.about {
 
   /* visuals */
 
-  background-color: $l-profile-bg;
+  background-color: $black;
 
   h1 {
     font-family: $pathway;
@@ -100,13 +100,7 @@ body.about {
   }
 
   .pri-link {
-    font-family: $palanquin;
-    font-weight: 700;
-    text-transform: uppercase;
     font-size: 11px;
-    line-height: 11px;
-    letter-spacing: 0.06em;
-    color: $red-w;
   }
 
   .emphasize {
@@ -163,10 +157,16 @@ body.about {
 
   }
 
+  .hero-bg {
+    background-image: url('/static/img/about/landscape.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
   #about-nav {
-    // background-color: $black2;
+    background-color: $black2;
     @include flex();
-    height: $prof-nav-height;
+    height: $about-nav-height;
     width: 100%;
     left: 0;
     position: fixed;
@@ -176,80 +176,30 @@ body.about {
     z-index: 4;
 
     a {
-      color: #fff;
+      color: $white;
     }
 
     ul {
-      width: 90%;
+      width: 100%;
       max-width: 800px;
       @include flex();
       @include justify(space-between);
 
       li {
         @include flex-size(1);
-        position: relative;
-        display: inline-block;
-        margin: 0 auto;
-        padding: 8px 5px 4px;
-        text-align: center;
-        font-family: $palanquin;
-        text-transform: uppercase;
-        font-weight: 400;
-        font-size: 14px;
-        letter-spacing: 0.1em;
-        opacity: 0.7;
-        white-space: nowrap;
-        @include transition(opacity 0.25s);
+        padding: 4px 5px;
 
         &.active {
-          opacity: 1;
+          a {
+            color: $red-w;
+          }
 
           &::before {
-            width: 80%;
-            display: inline-block;
-            position: absolute;
-            z-index: 10;
-            bottom: 0px;
-            left: 50%;
-            height: 1px;
-            @include transform(translateX(-50%));
-            @include transition(all .25s ease);
-            background: #fff;
-            @include box();
+            bottom: 0;
+            background: $red-w;
           }
         }
-
-        &::before {
-          content: "";
-          display: inline-block;
-          position: absolute;
-          z-index: 10;
-          bottom: 0px;
-          left: 50%;
-          width: 0;
-          height: 1px;
-          @include transform(translateX(-50%));
-          @include transition(all .25s ease);
-          background: #fff;
-          @include box();
-        }
-
-        &:hover:before {
-          width: 80%;
-        }
-
-        &:hover {
-          opacity: 1;
-        }
       }
-
-      img {
-        display: block;
-        width: 20px;
-        height: 20px;
-        margin: 0 auto -2px;
-      }
-
     }
   }
 
@@ -285,64 +235,56 @@ body.about {
   }
 
   header {
-    // width: 100vw;
-    // top: 0;
-    // position: absolute;
-    // background-color: $l-profile-bg;
+    position: relative;
   }
 
   #about-index {
     @include flex();
     @include align-items(center);
+    height: 100vh;
 
     article {
       top: 0;
     }
 
     section {
-      padding: 45px 60px;
-      margin-top: 30px;
-      // background-color: rgba(20,27,46,0.73);
-      border: 1px solid $black3;
 
       h2 {
-        font-size: 36px;
+        font-size: 60px;
         letter-spacing: 0.03em;
-        color: $white;
+        color: #fff;
         text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 45px;
       }
 
       p {
-        color: $white;
+        color: #fff;
         line-height: 2;
         font-size: 18px;
-        opacity: 0.9;
+        opacity: 1;
+        text-align: justify;
       }
     }
   }
 
-  #splash {
+  #hero {
     width: 100%;
     min-height: 100vh;
     height: 100%;
     top: 0;
     position: absolute;
-    background: #565656;
-    @include background-stretch();
     @include transition(all 0.5s);
     z-index: 0;
-    background-image: url('/static/img/about/texture.png');
 
-    // &::after {
-    //   content: "";
-    //   position: fixed;
-    //   height: 100%;
-    //   width: 100%;
-    //   left: 0;
-    //   top: $nav-height + $prof-nav-height;
-    //   background: -webkit-linear-gradient(top, $black2 0%, rgba(20, 27, 46, 0.1) 17%, rgba(0,0,0,0) 100%);
-    // }
+    &::after {
+      content: "";
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: $nav-height + $about-nav-height;
+      background: -webkit-linear-gradient(top, rgba(20, 27, 46, 0.5) 0%, rgba(20, 27, 46, 0.1) 21%, transparent 31%);
+    }
   }
 
   article {
@@ -388,6 +330,10 @@ body.about {
           }
 
           &.active {
+            a {
+              color: $red-w;
+            }
+
             .geo {
               color: $geo-bg-color;
             }
