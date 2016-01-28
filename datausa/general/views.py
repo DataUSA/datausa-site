@@ -11,7 +11,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 14
+    g.cache_version = 15
     g.affixes = json.dumps(AFFIXES)
     g.dictionary = json.dumps(DICTIONARY)
     g.percentages = json.dumps(PERCENTAGES)
@@ -54,11 +54,11 @@ def attributes(attr_type="geo", sumlevel=None):
     g.page_type = "about"
     g.page_sub_type = "attributes"
     sumlevel_key = 'sumlevel' if attr_type == "geo" else 'shortlabel'
-    
+
     sumlevels = {sv[sumlevel_key]:dict(sv.items() + [('id',sk)]) for sk, sv in SUMLEVELS[attr_type].items()}
     this_sumlevel = sumlevel or sumlevels.keys()[1]
     this_sumlevel = sumlevels[this_sumlevel]
-    
+
     if attr_type == "geo":
         attrs = [a for a in attr_cache[attr_type].values() if a['sumlevel'] == this_sumlevel['id']]
         anchor_key = "url_name"
@@ -72,7 +72,7 @@ def attributes(attr_type="geo", sumlevel=None):
         anchor_key = "id"
         name_key = "name"
     # raise Exception(sumlevels)
-    
+
     return render_template("about/attributes.html",
                             attr_type=attr_type,
                             anchor_key=anchor_key,
