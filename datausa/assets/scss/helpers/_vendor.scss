@@ -114,15 +114,6 @@
     }
 }
 
-@mixin gradient($start, $startP, $end, $endP) {
-  background: -moz-linear-gradient(top, $start $startP, $end $endP);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop($startP, $start), color-stop($endP, $end));
-  background: -webkit-linear-gradient(top, $start $startP, $end $endP);
-  background: -o-linear-gradient(top, $start $startP, $end $endP);
-  background: -ms-linear-gradient(top, $start $startP, $end $endP);
-  background: linear-gradient(to bottom, $start $startP, $end $endP);
-}
-
 @mixin rounded($size: 5px, $corner: "none") {
   @if $corner == "none" {
     -webkit-border-radius: $size;
@@ -322,4 +313,67 @@
   }
   -ms-flex-pack: $old;
   flex-pack: $old;
+}
+
+// @include gradient(gradient--concat($gradient--concat));
+@mixin gradient($gradient-degrees, $gradient--concat) {
+    $ie_variables: gradient--ie($gradient--concat);
+    $start-color: map-get($ie_variables, 'start');
+    $finish-color: map-get($ie_variables, 'finish');
+
+  background-color: mix($start-color, $finish-color); /* Fallback */
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($start-color), to($finish-color));
+  background-image: -webkit-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  background-image:    -moz-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  background-image:     -ms-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  background-image:      -o-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$start-color}', EndColorStr='#{$finish-color}')";
+}
+
+
+// Concat :: Gradient Mixin
+// Concatinate the gradient map properties and values into structured CSS
+@function gradient--concat($gradient--concat){
+    $return-new: '';
+
+    @each $position, $color in $gradient--concat {
+        $return: $color + ' ' + $position + gradient--position($position);
+        $return-new: $return-new + '' + $return;
+    }
+
+    @return unquote($return-new);
+}
+
+// Position :: Gradient Mixin
+// Add commas to the end of every property concationation, except the last one.
+@function gradient--position($position){
+    @if ( $position != 100%) {
+        @return ",";
+    }
+    @else {
+        @return "";
+    }
+}
+
+// Internet Explore Fallback
+// Extract the first and last color variables for "-ms-filter"
+@function gradient--ie($gradient--concat){
+    $start_map: '';
+    $end_map: '';
+
+    @each $position, $color in $gradient--concat {
+        @if ( $position == 0%) {
+            $start_map: (
+                'start': $color
+                )
+        }
+        @if ( $position == 100%) {
+            $end_map: (
+                'finish': $color
+                )
+        }
+    }
+
+    @return map-merge($start_map, $end_map)
+
 }

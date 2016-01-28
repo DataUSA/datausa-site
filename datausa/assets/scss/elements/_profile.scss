@@ -324,7 +324,7 @@ body.profile, body.map, body.story {
         width: 100%;
         left: 0;
         top: 0;
-        background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(20, 27, 46, 0.1) 20%, $black2 100%);
+        @include gradient(top, $splash-gradient);
       }
 
       &.color {
@@ -929,7 +929,7 @@ body.profile, body.map, body.story {
         font-size: 10px;
 
         &.active {
-          
+
           &::before {
             bottom: 3px;
             background: #fff;
@@ -1716,7 +1716,7 @@ body.redirect {
           width: 100%;
           left: 0;
           top: 0;
-          background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(20, 27, 46, 0.1) 20%, $black2 100%);
+          @include gradient(top, $splash-gradient);
         }
 
       }

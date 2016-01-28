@@ -81,6 +81,12 @@ $dark-home-red: #B35E49;
 $home-red: #dc5137;
 $light-home-red: #fdc8b8;
 
+$splash-gradient: (
+  0%: rgba(0,0,0,0),
+  20%: rgba(20, 27, 46, 0.1),
+  100%: $black2
+);
+
 
 $shadow: 0 3px 3px rgba(0,0,0,0.35);
 

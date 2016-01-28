@@ -2094,8 +2094,13 @@ body.profile nav, body.map nav, body.story nav {
           width: 100%;
           left: 0;
           top: 0;
-          background: -webkit-linear-gradient(top, transparent 0%, rgba(20, 27, 46, 0.1) 20%,
-                    #141b2e 100%); }
+          background-color: rgba(20, 27, 46, 0.5);
+          background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#141b2e));
+          background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')"; }
           body.profile #splash #splash-image.color, body.map #splash #splash-image.color,
           body.story #splash #splash-image.color {
             -webkit-filter: saturate(1) brightness(1) contrast(1);
@@ -3793,8 +3798,13 @@ body.redirect nav {
           width: 100%;
           left: 0;
           top: 0;
-          background: -webkit-linear-gradient(top, transparent 0%, rgba(20, 27, 46, 0.1) 20%,
-                    #141b2e 100%); }
+          background-color: rgba(20, 27, 46, 0.5);
+          background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#141b2e));
+          background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')"; }
       #crosswalk #crosswalk-list a .info {
         color: white;
         text-align: center; }
