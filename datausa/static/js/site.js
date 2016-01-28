@@ -504,12 +504,12 @@ var load = function(url, callback) {
             localforage.getItem(url, function(error, data) {
 
               if (data) {
-                data = JSON.parse(LZString.decompress(data));
+                data = JSON.parse(LZString.decompressFromUTF16(data));
                 load.callbacks(url, data);
               }
               else {
-                d3.json(url, function(error, data){
-                  load.rawData(error, data, url);
+                d3.json(url, function(error, json){
+                  load.rawData(error, json, url);
                 });
               }
 
@@ -569,7 +569,7 @@ load.rawData = function(error, data, url) {
     console.log(url);
     data = {"headers": [], "data": []};
   }
-  var zip = LZString.compress(JSON.stringify(data));
+  var zip = LZString.compressToUTF16(JSON.stringify(data));
   if (load.storeLocal(url)) localforage.setItem(url, zip);
   load.cache[url] = data;
   load.callbacks(url, data);
