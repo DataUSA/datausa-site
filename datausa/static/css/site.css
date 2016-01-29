@@ -5149,15 +5149,17 @@ body.about {
       margin-bottom: 0;   }
   body.about .hero-bg {
     background-attachment: scroll;   }
-    body.about header h2 {
-      font-size: 30px;
-      margin-top: 0;   }
-      body.about .btn {
-        padding: 7px 0px;
-        font-size: 10px;   }
-        body.about .pri-tab .pri-tab-link {
-          min-width: 0px;
-          height: 30px;   }
+    body.about header section {
+      padding: 6% 0 !important;   }
+      body.about header h2 {
+        font-size: 30px;
+        margin-top: 0;   }
+  body.about .btn {
+    padding: 7px 0px;
+    font-size: 10px;   }
+    body.about .pri-tab .pri-tab-link {
+      min-width: 0px;
+      height: 30px;   }
   body.about .pri-tab.active .pri-tab-link::after {
     -webkit-transform: translate3d(0, -28px, 0);
     -ms-transform: translate3d(0, -28px, 0);

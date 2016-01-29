@@ -54,9 +54,14 @@ body.about {
       background-attachment: scroll;
     }
 
-    header h2 {
-      font-size: 30px;
-      margin-top: 0;
+    header {
+      section {
+        padding: 6% 0 !important;
+      }
+      h2 {
+        font-size: 30px;
+        margin-top: 0;
+      }
     }
 
     .btn {
