@@ -2,79 +2,77 @@
 
 {% block title %} Datasets{% endblock %}
 
-{% block about %}
+{% block about_content %}
 
-<header>
-  <article>
-    <section>
-      <div class="datasets">
-        <div class="dataset-panel-container">
-          <ul class="dataset-panel">
-            <li class="active"><a href="#" class="" data-value="1"><i class="fa fa-users"></i>ACS</a></li>
-            <li class=""><a href="#" class="" data-value="2"><i class="fa fa-user"></i>ACS PUMS</a></li>
-            <li class=""><a href="#" class="" data-value="3"><i class="fa fa-money"></i>BEA</a></li>
-            <li class=""><a href="#" class="" data-value="4"><i class="fa fa-briefcase"></i>BLS</a></li>
-            <li class=""><a href="#" class="" data-value="5"><i class="fa fa-medkit"></i>CHR</a></li>
-            <li class=""><a href="#" class="" data-value="6"><i class="fa fa-graduation-cap"></i>IPEDS</a></li>
-            <li class=""><a href="#" class="" data-value="7"><i class="fa fa-star"></i>O*Net Skills</a></li>
-          </ul>
+<article>
+  <section>
+    <div class="datasets">
+      <div class="dataset-panel-container">
+        <ul class="dataset-panel">
+          <li class="active"><a href="#" class="" data-value="1"><i class="fa fa-users"></i>ACS</a></li>
+          <li class=""><a href="#" class="" data-value="2"><i class="fa fa-user"></i>ACS PUMS</a></li>
+          <li class=""><a href="#" class="" data-value="3"><i class="fa fa-money"></i>BEA</a></li>
+          <li class=""><a href="#" class="" data-value="4"><i class="fa fa-briefcase"></i>BLS</a></li>
+          <li class=""><a href="#" class="" data-value="5"><i class="fa fa-medkit"></i>CHR</a></li>
+          <li class=""><a href="#" class="" data-value="6"><i class="fa fa-graduation-cap"></i>IPEDS</a></li>
+          <li class=""><a href="#" class="" data-value="7"><i class="fa fa-star"></i>O*Net Skills</a></li>
+        </ul>
+      </div>
+      <div class="dataset-list">
+        <div class="dataset-tab active" data-tab="1">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">American Community Survey (ACS)</span> is conducted by the US Census and sent to a portion of the population every year. DataUSA does not contain the entire ACS dataset but instead relavent topics to the curated profile pages of the site. As of the 2014 (most recent) ACS release there are 1 year and 5 year estimates. Previously there was also a 3 year estimate which has now been discontinued.</p>
+          <h2>Where is it used?</h2>
+          <p>The ACS dataset is used on the Geography, Occupation and Industry profiles. Although the ACS dataset includes some data on occupations and industries, DataUSA is mostly using the ACS dataset for demographics on the Geography profiles.</p>
+          <h2>Caveats</h2>
+          <p>Due to the the annonymization process utilized by the US Census, there is often a high margin of error when looking at data for smaller geographies.</p>
         </div>
-        <div class="dataset-list">
-          <div class="dataset-tab active" data-tab="1">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">American Community Survey (ACS)</span> is conducted by the US Census and sent to a portion of the population every year. DataUSA does not contain the entire ACS dataset but instead relavent topics to the curated profile pages of the site. As of the 2014 (most recent) ACS release there are 1 year and 5 year estimates. Previously there was also a 3 year estimate which has now been discontinued.</p>
-            <h2>Where is it used?</h2>
-            <p>The ACS dataset is used on the Geography, Occupation and Industry profiles. Although the ACS dataset includes some data on occupations and industries, DataUSA is mostly using the ACS dataset for demographics on the Geography profiles.</p>
-            <h2>Caveats</h2>
-            <p>Due to the the annonymization process utilized by the US Census, there is often a high margin of error when looking at data for smaller geographies.</p>
-          </div>
-          <div class="dataset-tab" data-tab="2">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">American Community Survey (ACS) Public Use Microdata Sample (PUMS)</span> files are a set of untabulated records about individual people or housing units. The Census Bureau produces the PUMS files so that data users can create custom tables that are not available through pretabulated (or summary) ACS data products.</p>
-            <h2>Where is it used?</h2>
-            <p>The ACS PUMS dataset is used throughout the site where specific data cross sections are not made available through the preformatted ACS dataset. ACS PUMS data is the cornerstone of the occupations and industry data used throughout the Geography, Occupation and Industry profiles. DataUSA also uses ACS PUMS to compare a location's current stock of graduates versus students currently pursuing high education degrees (provided by the IPEDs dataset).</p>
-            <h2>Caveats</h2>
-            <p>Similar to the ACS dataset there are sometimes sampling biases when looking at data from a specifc slice of data. Due to the way the data is aggregated, ACS PUMS data is only availabe for the Nation, States and Public Use Microdata Areas (PUMAs).</p>
-          </div>
-          <div class="dataset-tab" data-tab="3">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">Bureau of Economic Analysis (BEA)</span> publishes data on Input-Output also called Make-Use for industries in the United States. This Dataset is provided by the US Department of Commerce.</p>
-            <h2>Where is it used?</h2>
-            <p>The BEA I/O tables are used on the industry pages showing the input and output industries for the specified industry profile page.</p>
-            <h2>Caveats</h2>
-            <p>The BEA I/O tables use a modified version of the North American Industry Classification (NAICs) meaning that certain industtry pages do not have a corresponding BEA I/O table industry and are thus swapped for the closest match.</p>
-          </div>
-          <div class="dataset-tab" data-tab="4">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">Bureau of Labor Statistics (BLS)</span> is a public dataset made available by the United States Department of Labor.</p>
-            <h2>Where is it used?</h2>
-            <p>The BLS dataset is used on the Occupation and Industry pages showing the publicly available expected growth numbers in both number of employees and salary.</p>
-          </div>
-          <div class="dataset-tab" data-tab="5">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">University of Wisconsin County Health Rankings (CHR)</span> dataset is a collaboration between the Robert Wood Johnson Foundation and the University of Wisconsin Population Health Institute.</p>
-            <h2>Where is it used?</h2>
-            <p>The CHR data is used on the Geography profiles in the health and safety section.</p>
-            <h2>Caveats</h2>
-            <p>With regard to granularity the CHR dataset only includes State and County level data. We are able to compare ranks and measures for multiple counties within a state but due to the method used in normalizing the data, cross state county comparisons are not possible.</p>
-          </div>
-          <div class="dataset-tab" data-tab="6">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">Integrated Postsecondary Education Data System (IPEDS)</span> is the core postsecondary education data collection program for the National Center for Education Statistics, a part of the Institute for Education Sciences within the United States Department of Education.</p>
-            <h2>Where is it used?</h2>
-            <p>The IPEDS dataset is used throughout all the profile pages but is the cornerstone of the Course profiles. These profiles center around a particular postsecondary course, bringing in data from IPEDS and related occupation and industrial data.</p>
-          </div>
-          <div class="dataset-tab" data-tab="7">
-            <h2>Description</h2>
-            <p>The <span class="emphasize">O*Net Skills</span> is a dataset containing detailed descriptions of the required and used skills for specific occupations. The O*Net dataset is sponsored by the United States Department of Labor.</p>
-            <h2>Where is it used?</h2>
-            <p>The O*Net Skills dataset is used on both the Occupation and Course profile pages giving a detailed breakdown of the skills required for the specified occupation or course.</p>
-          </div>
+        <div class="dataset-tab" data-tab="2">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">American Community Survey (ACS) Public Use Microdata Sample (PUMS)</span> files are a set of untabulated records about individual people or housing units. The Census Bureau produces the PUMS files so that data users can create custom tables that are not available through pretabulated (or summary) ACS data products.</p>
+          <h2>Where is it used?</h2>
+          <p>The ACS PUMS dataset is used throughout the site where specific data cross sections are not made available through the preformatted ACS dataset. ACS PUMS data is the cornerstone of the occupations and industry data used throughout the Geography, Occupation and Industry profiles. DataUSA also uses ACS PUMS to compare a location's current stock of graduates versus students currently pursuing high education degrees (provided by the IPEDs dataset).</p>
+          <h2>Caveats</h2>
+          <p>Similar to the ACS dataset there are sometimes sampling biases when looking at data from a specifc slice of data. Due to the way the data is aggregated, ACS PUMS data is only availabe for the Nation, States and Public Use Microdata Areas (PUMAs).</p>
+        </div>
+        <div class="dataset-tab" data-tab="3">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">Bureau of Economic Analysis (BEA)</span> publishes data on Input-Output also called Make-Use for industries in the United States. This Dataset is provided by the US Department of Commerce.</p>
+          <h2>Where is it used?</h2>
+          <p>The BEA I/O tables are used on the industry pages showing the input and output industries for the specified industry profile page.</p>
+          <h2>Caveats</h2>
+          <p>The BEA I/O tables use a modified version of the North American Industry Classification (NAICs) meaning that certain industtry pages do not have a corresponding BEA I/O table industry and are thus swapped for the closest match.</p>
+        </div>
+        <div class="dataset-tab" data-tab="4">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">Bureau of Labor Statistics (BLS)</span> is a public dataset made available by the United States Department of Labor.</p>
+          <h2>Where is it used?</h2>
+          <p>The BLS dataset is used on the Occupation and Industry pages showing the publicly available expected growth numbers in both number of employees and salary.</p>
+        </div>
+        <div class="dataset-tab" data-tab="5">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">University of Wisconsin County Health Rankings (CHR)</span> dataset is a collaboration between the Robert Wood Johnson Foundation and the University of Wisconsin Population Health Institute.</p>
+          <h2>Where is it used?</h2>
+          <p>The CHR data is used on the Geography profiles in the health and safety section.</p>
+          <h2>Caveats</h2>
+          <p>With regard to granularity the CHR dataset only includes State and County level data. We are able to compare ranks and measures for multiple counties within a state but due to the method used in normalizing the data, cross state county comparisons are not possible.</p>
+        </div>
+        <div class="dataset-tab" data-tab="6">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">Integrated Postsecondary Education Data System (IPEDS)</span> is the core postsecondary education data collection program for the National Center for Education Statistics, a part of the Institute for Education Sciences within the United States Department of Education.</p>
+          <h2>Where is it used?</h2>
+          <p>The IPEDS dataset is used throughout all the profile pages but is the cornerstone of the Course profiles. These profiles center around a particular postsecondary course, bringing in data from IPEDS and related occupation and industrial data.</p>
+        </div>
+        <div class="dataset-tab" data-tab="7">
+          <h2>Description</h2>
+          <p>The <span class="emphasize">O*Net Skills</span> is a dataset containing detailed descriptions of the required and used skills for specific occupations. The O*Net dataset is sponsored by the United States Department of Labor.</p>
+          <h2>Where is it used?</h2>
+          <p>The O*Net Skills dataset is used on both the Occupation and Course profile pages giving a detailed breakdown of the skills required for the specified occupation or course.</p>
         </div>
       </div>
-    </section>
-  </article>
-</header>
+    </div>
+  </section>
+</article>
 
 <script>
 d3.selectAll(".dataset-panel li a").on("click", function(){

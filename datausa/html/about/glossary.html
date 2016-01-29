@@ -12,89 +12,87 @@
 </style>
 {% endblock %}
 
-{% block about %}
+{% block about_content %}
 
-<header>
-  <article>
-    <section>
-      <ul>
-        <li>
-          <h1><a name="geography">Geography</a></h1>
-          <ol>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#state" name="place">State</a></h2>
-              <p>The DataUSA platform Includes data on all 50 US states as well as Washington D.C. and Puerto Rico.</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#place" name="place">Census Designated Place (CDP)</a></h2>
-              <p>As defined by the <a href="https://www.census.gov/geo/reference/gtc/gtc_place.html" target="_blank">Census Bureau</a>, “Incorporated Places are those reported to the Census Bureau as legally in existence as of January 1, 2010, as reported in the latest Boundary and Annexation Survey (BAS), under the laws of their respective states. An incorporated place is established to provide governmental functions for a concentration of people as opposed to a minor civil division, which generally is created to provide services or administer an area without regard, necessarily, to population. Places always are within a single state or equivalent entity, but may extend across county and county subdivision boundaries. An incorporated place usually is a city, town, village, or borough, but can have other legal descriptions.”</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#county" name="county">County Subdivision</a></h2>
-              <p>As defined by the <a href="https://www.census.gov/geo/reference/gtc/gtc_cousub.html" target="_blank">Census Bureau</a>, “County Subdivisions are the primary divisions of counties and equivalent entities.  They include census county divisions, census subareas, minor civil divisions, and unorganized territories and can be classified as either legal or statistical.  Each county subdivision is assigned a five-character numeric Federal Information Processing Series (FIPS) code based on alphabetical sequence within state and an eight-digit National Standard feature identifier.”</p>
-              <p>On the DataUSA platform users can view profiles for individual counties or a map of the entire United States showing data at the county level.</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#msa" name="msa">Metropolitan Statistical Area (MSA)</a></h2>
-              <p>As defined by the <a href="https://www.census.gov/population/metro/" target="_blank">Census Bureau</a>, “Metropolitan and micropolitan statistical areas (metro and micro areas) are geographic entities delineated by the Office of Management and Budget (OMB) for use by Federal statistical agencies in collecting, tabulating, and publishing Federal statistics.”</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#puma" name="puma">Public Use Microdata Areas (PUMAs)</a></h2>
-              <p>A Public Use Microdata Area (PUMAs), are statistical geographic units defined by the <a href="https://www.census.gov/geo/reference/puma.html" target="_blank">Census Bureau</a> as fulfilling the following criteria:</p>
-              <ul class="bulleted-list">
-                <li><p>Nest within states or equivalent entities</p></li>
-                <li><p>Contain at least 100,000 people</p></li>
-                <li><p>Cover the entirety of the United States, Puerto Rico, Guam, and the U.S. Virgin Islands</p></li>
-                <li><p>Are built on census tracts and counties</p></li>
-                <li><p>Should be geographically contiguous</p></li>
-              </ul>
-              <p>The DataUSA platform uses PUMAS for showing Location, Occupation and Industry data from the American Community Survey Public Use Microdata Sample (ACS PUMS),</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#zip" name="zip">Zip Codes</a></h2>
-             <p>Zip Codes are only used in the DataUSA platform in the advanced search. There are no profiles that show data at the Zip Code level.</p>
-            </li>
-          </ol>
-        </li>
+<article>
+  <section>
+    <ul>
+      <li>
+        <h1><a name="geography">Geography</a></h1>
+        <ol>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#state" name="place">State</a></h2>
+            <p>The DataUSA platform Includes data on all 50 US states as well as Washington D.C. and Puerto Rico.</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#place" name="place">Census Designated Place (CDP)</a></h2>
+            <p>As defined by the <a href="https://www.census.gov/geo/reference/gtc/gtc_place.html" target="_blank">Census Bureau</a>, “Incorporated Places are those reported to the Census Bureau as legally in existence as of January 1, 2010, as reported in the latest Boundary and Annexation Survey (BAS), under the laws of their respective states. An incorporated place is established to provide governmental functions for a concentration of people as opposed to a minor civil division, which generally is created to provide services or administer an area without regard, necessarily, to population. Places always are within a single state or equivalent entity, but may extend across county and county subdivision boundaries. An incorporated place usually is a city, town, village, or borough, but can have other legal descriptions.”</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#county" name="county">County Subdivision</a></h2>
+            <p>As defined by the <a href="https://www.census.gov/geo/reference/gtc/gtc_cousub.html" target="_blank">Census Bureau</a>, “County Subdivisions are the primary divisions of counties and equivalent entities.  They include census county divisions, census subareas, minor civil divisions, and unorganized territories and can be classified as either legal or statistical.  Each county subdivision is assigned a five-character numeric Federal Information Processing Series (FIPS) code based on alphabetical sequence within state and an eight-digit National Standard feature identifier.”</p>
+            <p>On the DataUSA platform users can view profiles for individual counties or a map of the entire United States showing data at the county level.</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#msa" name="msa">Metropolitan Statistical Area (MSA)</a></h2>
+            <p>As defined by the <a href="https://www.census.gov/population/metro/" target="_blank">Census Bureau</a>, “Metropolitan and micropolitan statistical areas (metro and micro areas) are geographic entities delineated by the Office of Management and Budget (OMB) for use by Federal statistical agencies in collecting, tabulating, and publishing Federal statistics.”</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#puma" name="puma">Public Use Microdata Areas (PUMAs)</a></h2>
+            <p>A Public Use Microdata Area (PUMAs), are statistical geographic units defined by the <a href="https://www.census.gov/geo/reference/puma.html" target="_blank">Census Bureau</a> as fulfilling the following criteria:</p>
+            <ul class="bulleted-list">
+              <li><p>Nest within states or equivalent entities</p></li>
+              <li><p>Contain at least 100,000 people</p></li>
+              <li><p>Cover the entirety of the United States, Puerto Rico, Guam, and the U.S. Virgin Islands</p></li>
+              <li><p>Are built on census tracts and counties</p></li>
+              <li><p>Should be geographically contiguous</p></li>
+            </ul>
+            <p>The DataUSA platform uses PUMAS for showing Location, Occupation and Industry data from the American Community Survey Public Use Microdata Sample (ACS PUMS),</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#zip" name="zip">Zip Codes</a></h2>
+           <p>Zip Codes are only used in the DataUSA platform in the advanced search. There are no profiles that show data at the Zip Code level.</p>
+          </li>
+        </ol>
+      </li>
 
-        <li>
-          <h1><a name="calcs">Calculations</a></h1>
-          <ol>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#gini" name="gini">GINI</a></h2>
-              <p>...</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#margin_of_error" name="margin_of_error">Margin of Error</a></h2>
-              <p>"The margin of error is a statistic expressing the amount of random sampling error in a survey's results. It asserts a likelihood (not a certainty) that the result from a sample is close to the number one would get if the whole population had been queried." (<a href="https://en.wikipedia.org/wiki/Margin_of_error">Wikipedia</a>).</p>
-                <p>ACS data is computed at a 90% confidence level (p=0.10). This means that the U.S. Census Bureau is 90% confident (there is a 90% chance) that the true value for the population is within the bounds of the margin of error for the estimate. </p>
-                <p>For ACS data, estimates and margins of error are provided by the Census Bureau. For ACS PUMS data, estimates and margins of error are computed by aggregating the records in the PUMS files. The formula below shows how the standard error is calculated for PUMS estimates using the provided replicate weights:</p>
-                <br/>
-              <img src="/static/img/about/standard_error.gif" alt="standard error formula"/>
-              <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
-              <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
+      <li>
+        <h1><a name="calcs">Calculations</a></h1>
+        <ol>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#gini" name="gini">GINI</a></h2>
+            <p>...</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#margin_of_error" name="margin_of_error">Margin of Error</a></h2>
+            <p>"The margin of error is a statistic expressing the amount of random sampling error in a survey's results. It asserts a likelihood (not a certainty) that the result from a sample is close to the number one would get if the whole population had been queried." (<a href="https://en.wikipedia.org/wiki/Margin_of_error">Wikipedia</a>).</p>
+              <p>ACS data is computed at a 90% confidence level (p=0.10). This means that the U.S. Census Bureau is 90% confident (there is a 90% chance) that the true value for the population is within the bounds of the margin of error for the estimate. </p>
+              <p>For ACS data, estimates and margins of error are provided by the Census Bureau. For ACS PUMS data, estimates and margins of error are computed by aggregating the records in the PUMS files. The formula below shows how the standard error is calculated for PUMS estimates using the provided replicate weights:</p>
+              <br/>
+            <img src="/static/img/about/standard_error.gif" alt="standard error formula"/>
+            <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
+            <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
 
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#num_records" name="num_records">Number of Records</a></h2>
-              <p>The number of records a technical variable we track for ACS PUMS data. Number of records, or the num_records variable tracks how many rows from the raw PUMS data file were collapsed to form the estimate. It can be useful in conjunction with the margin of error for understanding data quality.</p>
-            </li>
-            <li>
-              <h2><i class="fa fa-link"></i><a href="#rca" name="rca">RCA</a></h2>
-              <p>Revealed Comparative Advantage or RCA is a calculation used to determine what is special or unique about a certain location/occupation or location/industry combination. The calculation (shown below) takes into account 2 shares; the share of the number of citizens in a location that work in a given occupation and the share of the total number of employees in that occupation vis-a-vis all other occupations. The reason this is useful is that if we were to use nominal values, the most populated locations would always dominate and on the flip-side if we were to use percentages, smaller locations with only a few employees in a rare occupation would dominate, biasing the dataset. Using an RCA calculation is a great way to find which classifications are being over (or under) expressed.</p>
-              <p class="calc" data-calc="g = location"></p>
-              <p class="calc" data-calc="o = occupation"></p>
-              <p class="calc" data-calc="X = number Of Employees"></p>
-              <br />
-              <p class="calc" data-calc="RCA_{go} = \frac{X_{go}}{\sum _{g} X_{go}} / \frac{\sum _{o} X_{go}}{\sum _{g,o} X_{go}}" data-calc-block="true"></p>
-            </li>
-          </ol>
-        </li>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#num_records" name="num_records">Number of Records</a></h2>
+            <p>The number of records a technical variable we track for ACS PUMS data. Number of records, or the num_records variable tracks how many rows from the raw PUMS data file were collapsed to form the estimate. It can be useful in conjunction with the margin of error for understanding data quality.</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#rca" name="rca">RCA</a></h2>
+            <p>Revealed Comparative Advantage or RCA is a calculation used to determine what is special or unique about a certain location/occupation or location/industry combination. The calculation (shown below) takes into account 2 shares; the share of the number of citizens in a location that work in a given occupation and the share of the total number of employees in that occupation vis-a-vis all other occupations. The reason this is useful is that if we were to use nominal values, the most populated locations would always dominate and on the flip-side if we were to use percentages, smaller locations with only a few employees in a rare occupation would dominate, biasing the dataset. Using an RCA calculation is a great way to find which classifications are being over (or under) expressed.</p>
+            <p class="calc" data-calc="g = location"></p>
+            <p class="calc" data-calc="o = occupation"></p>
+            <p class="calc" data-calc="X = number Of Employees"></p>
+            <br />
+            <p class="calc" data-calc="RCA_{go} = \frac{X_{go}}{\sum _{g} X_{go}} / \frac{\sum _{o} X_{go}}{\sum _{g,o} X_{go}}" data-calc-block="true"></p>
+          </li>
+        </ol>
+      </li>
 
-      </ul>
-    </section>
-  </article>
-</header>
+    </ul>
+  </section>
+</article>
 
 <script>
 d3.selectAll(".calc").each(function(){

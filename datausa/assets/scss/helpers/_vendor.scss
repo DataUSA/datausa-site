@@ -1,3 +1,13 @@
+@mixin clean-tap() {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 @mixin animation($animation) {
   -webkit-animation: $animation;
   -moz-animation: $animation;

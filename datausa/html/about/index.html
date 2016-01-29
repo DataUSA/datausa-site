@@ -2,36 +2,11 @@
 
 {% block title %} About{% endblock %}
 
-{% block about %}
+{% block about_content %}
 
-<header id="about-index">
-  <article>
-    <section>
-      <h2>Public data in your hands</h2>
-      <!-- <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p> -->
-      <p>By organizing and visualizing this data -- spanning topics like the labor & job markets, higher education, regional demographics, health care, and transportation -- DataUSA is a resource to approach complex topics with publically available data. Rather than wait for infographics or reports from news organizations or researchers, DataUSA gives you the option to explore your interests and discover the numbers for yourself.</p>
-    </section>
-    <section>
-      <ul class="pri-btn-container">
-        <li><a class="pri-link btn material-btn pri-btn" href="/about/">About</a></li>
-        <li><a class="pri-link btn material-btn pri-btn" href="/about/datasets/">Datasets</a></li>
-        <li><a class="pri-link btn material-btn pri-btn" href="/about/glossary/" >Glossary</a></li>
-        <li><a class="pri-link btn material-btn pri-btn" href="/about/api/" >API</a></li>
-        <li><a class="pri-link btn material-btn pri-btn" href="/about/attributes/" >Attributes</a></li>
-        <li><a class="pri-link btn material-btn pri-btn" href="/about/usage/" >Usage</a></li>
-      </ul>
-    </section>
-  </article>
-</header>
+<!-- <p>Learn the full story of how the DataUSA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p> -->
+<section>
+  <p>By organizing and visualizing this data -- spanning topics like the labor & job markets, higher education, regional demographics, health care, and transportation -- DataUSA is a resource to approach complex topics with publically available data. Rather than wait for infographics or reports from news organizations or researchers, DataUSA gives you the option to explore your interests and discover the numbers for yourself.</p>
+</section>
 
-<script>
-d3.selectAll(".about_tabs li a").on("click", function(){
-  d3.event.preventDefault();
-  d3.selectAll(".about_tabs li").classed("active", false);
-  d3.select(this.parentNode).classed("active", true);
-  d3.selectAll(".tab_content").classed("active", false);
-  var active_tab = d3.select(this).attr("data-value");
-  d3.select(".tab_content[data-tab='"+active_tab+"']").classed("active", true);
-})
-</script>
 {% endblock %}

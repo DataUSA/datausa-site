@@ -8,21 +8,30 @@
 
 {% block body %}
 
-  <div id="about-nav" class="">
-  	<ul class="pri-menu">
-      <li {% if g.page_sub_type == 'index' %}class="active"{% endif %}><a class="pri-link" href="/about/">About</a></li>
-  		<li {% if g.page_sub_type == 'datasets' %}class="active"{% endif %}><a class="pri-link" href="/about/datasets/">Datasets</a></li>
-  		<li {% if g.page_sub_type == 'glossary' %}class="active"{% endif %}><a class="pri-link" href="/about/glossary/" >Glossary</a></li>
-  		<li {% if g.page_sub_type == 'api' %}class="active"{% endif %}><a class="pri-link" href="/about/api/" >API</a></li>
-  		<li {% if g.page_sub_type == 'attributes' %}class="active"{% endif %}><a class="pri-link" href="/about/attributes/" >Attributes</a></li>
-  		<li {% if g.page_sub_type == 'usage' %}class="active"{% endif %}><a class="pri-link" href="/about/usage/" >Usage</a></li>
-  	</ul>
-  </div>
-
   <div id="hero" class="hero-bg"></div>
+  <div id="about-container" class="{{ g.page_sub_type }}">
+    <header>
+      <div>
+        <section>
+          <h2>Public data in your hands</h2>
+        </section>
+        <section>
+          <ul class="tab-container">
+            <li class="pri-tab {% if g.page_sub_type == 'index' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/">About</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'datasets' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/datasets/">Datasets</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'glossary' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/glossary/" >Glossary</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'api' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/api/" >API</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'attributes' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/attributes/" >Attributes</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'usage' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/usage/" >Usage</a></li>
+          </ul>
+        </section>
+      </div>
+    </header>
 
-  {% block about %}
-  {% endblock %}
+    {% block about_content %}
+    {% endblock %}
+
+  </div>
 
 {% endblock %}
 
@@ -35,10 +44,10 @@
     var heroW = window.innerWidth,
         heroH = window.innerHeight,
         heroR = heroW/heroH;
-    if (heroR > 4587 / 3677) {
-      d3.selectAll('.hero-bg').style({"background-size": "cover", "background-position": "0 100%"});
+    if (heroR > 1200 / 636) {
+      d3.selectAll('.hero-bg').style("background-size", "cover");
     } else {
-      d3.selectAll('.hero-bg').style({"background-size": "contain", "background-position": "0 0"});
+      d3.selectAll('.hero-bg').style("background-size", "contain");
     }
   };
 

@@ -72,22 +72,112 @@ a.term {
   }
 }
 
-.pri-btn-container {
+.tab-container {
   @include flex();
 
   & > * {
     text-align: center;
-    @include flex-size(1);
+    @include flex-size(auto);
   }
 }
 
-.material-btn {
-  padding: 10px;
-  color: #fff;
-  background-color: transparent;
-  background-image: none;
+.btn {
+  position: relative;
+  @include box();
+  padding: 17px 30px;
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+  display: inline-block;
+  font-family: $palanquin;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  color: $white;
+  white-space: nowrap;
+  @include transition(opacity 0.25s);
+  cursor: pointer;
+}
+
+.pri-tab {
+  position: relative;
+  display: block;
+  cursor: pointer;
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  &::before, &::after {
+    width: 2px;
+    height: 100%;
+    opacity: 0;
+    @include transform(scale3d(1, 0, 1));
+    @include transform-origin(50% 0%);
+    @include transition(transform 0s 0.1s, opacity 0.1s);
+  }
+
+  &::before, &::after, .pri-tab-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    background: #9aa4b2;
+  }
+
+  .pri-tab-link {
+    display: block;
+    position: relative;
+    min-width: 115px;
+    height: 50px;
+    text-align: center;
+    color: $black4;
+    cursor: pointer;
+    @include transition(color 0.3s);
+    @include clean-tap();
+
+    &:hover, &:focus {
+      color: $black2;
+    }
+    
+    &::after {
+      left: 0;
+      width: 100%;
+      height: 2px;
+      @include transition(transform 0.3s);
+    }
+  }
+}
+
+.pri-tab.active {
+  &::before, &::after {
+    opacity: 1;
+    @include transform(scale3d(1, 1, 1));
+    @include transition(transform 0.3s);
+    @include transition-delay(0.3s);
+    @include transition-timing-function(cubic-bezier(0.2, 1, 0.3, 1));
+  }
+
+  .pri-tab-link {
+    color: $black2;
+
+    &::after {
+      @include transform(translate3d(0, -48px, 0));
+      @include transition-timing-function(cubic-bezier(0.7, 0, 0.3, 1));
+    }
+  }
+}
+
+.pri-btn {
   border: 1px solid #fff;
-  @include transition(color 0.45s cubic-bezier(0.19, 1, 0.22, 1));
+  @include transition(background-position 0.3s ease-out);
+  background-color: transparent;
+  @include transition(all 0.45s cubic-bezier(0.19, 1, 0.22, 1));
   
   &::before {
     content: '';
@@ -104,31 +194,12 @@ a.term {
 
   &:hover {
     color: $black;
+    background-position: 65% center;
   }
 
   &:hover::before {
     top: 0;
     @include transform(translate3d(0, 0, 0));  
-  }
-}
-
-.btn {
-  @include box();
-  position: relative;
-  outline: none;
-  cursor: pointer;
-  overflow: hidden;
-  display: inline-block;
-  padding: 20px 35px;
-}
-
-.pri-btn {
-  background-color: transparent;
-  border: 0;
-  @include transition(background-position 0.3s ease-out);
-
-  &:hover {
-    background-position: 65% center;
   }
 }
 

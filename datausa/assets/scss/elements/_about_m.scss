@@ -12,7 +12,6 @@ body.about {
 
   /* Small Devices, Tablets */
   @media only screen and (max-width : 768px) {
-
   }
 
   /* Extra Small Devices, Phones */ 
@@ -27,7 +26,20 @@ body.about {
     }
 
     p {
+      font-size: 14px;
+    }
+
+    table {
       font-size: 13px;
+      line-height: 1.3;
+
+      th, td {
+        padding: 4px 5px;
+
+        a {
+          font-size: 13px;
+        }
+      }
     }
 
     section {
@@ -38,7 +50,42 @@ body.about {
       }
     }
 
-    #about-index {
+    .hero-bg {
+      background-attachment: scroll;
+    }
+
+    header h2 {
+      font-size: 30px;
+      margin-top: 0;
+    }
+
+    .btn {
+      padding: 7px 0px;
+      font-size: 10px;
+    }
+
+    .pri-tab {
+      .pri-tab-link {
+        min-width: 0px;
+        height: 30px;
+      }
+    }
+
+    .pri-tab.active {
+      .pri-tab-link {
+        &::after {
+          @include transform(translate3d(0, -28px, 0));
+          @include transition-timing-function(cubic-bezier(0.7, 0, 0.3, 1));
+        }
+      }
+    }
+
+    .datasets .dataset-panel-container .dataset-panel li {
+      padding: 0;
+      font-size: 14px;
+    }
+
+    #index-page {
       overflow: hidden;
       @include align-items(center);
 
@@ -68,6 +115,10 @@ body.about {
           padding: 0;
           margin-bottom: 30px;
         }
+        &:last-child {
+          @include flex-size(1);
+          overflow-x: hidden;
+        }
       }
     }
 
@@ -75,6 +126,10 @@ body.about {
       @include column-count(2);
 
       li {
+        line-height: 1;
+        font-size: 12px;
+        padding: 0;
+
         &::before {
           position: relative;
         }

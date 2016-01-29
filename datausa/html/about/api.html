@@ -2,92 +2,90 @@
 
 {% block title %} API{% endblock %}
 
-{% block about %}
+{% block about_content %}
 
-<header>
-  <article>
-    <section>
-      <h2><a href="#introduction" name="introduction">Introduction</a></h2>
+<article>
+  <section>
+    <h2><a href="#introduction" name="introduction">Introduction</a></h2>
+    <p>
+      At its core, the DataUSA API allows users to <span class="emphasize">show</span> data across various levels of detail, called <span class="emphasize">sumlevels</span>.
+      There are four core categories of data: geographies, occupations, industries and educational studies.
+      We will begin with a quick look at exploring geographic data.
+    </p>
+  </section>
+  <section>
+    <h2><a name="calcs">Exploring Population Data</a></h2>
+    <p>To get population data at the national level we can use the following API call:</p>
+    <p>http://db.datausa.io/api?show=geo&amp;sumlevel=<span class="emphasize">nation</span>&amp;required=<span class="emphasize">pop</span>
+    </p>
+    <p>Now let&rsquo;s take a look at the output and break it down</p>
+    <div>
+      <div class="code-box">
+        <pre>
+          {
+            <span class="key">&quot;data&quot;</span>:
+              [
+               [<span class="integer">2013</span>, <span class="value">&quot;01000US&quot;</span>, <span class="integer">311536594</span>],
+               [<span class="integer">2014</span>, <span class="value">&quot;01000US&quot;</span>, <span class="integer">314107084</span>]
+              ],
+            <span class="key">&quot;headers&quot;</span>: [<span class="value">&quot;year&quot;</span>, <span class="value">&quot;geo&quot;</span>, <span class="value">&quot;pop&quot;</span>],
+            ...
+          }
+      </pre>
+      </div>
+      <p>The <span class="emphasize">data</span> section of the JSON result contains a list of rows of data. Each <span class="emphasize">header</span> represents the respective data element in each row. For example, 2013 the first item in the first row, represents a "year" since year is the first item in the <span class="emphasize">header</span> array.
+
+      </div>
       <p>
-        At its core, the DataUSA API allows users to <span class="emphasize">show</span> data across various levels of detail, called <span class="emphasize">sumlevels</span>.
-        There are four core categories of data: geographies, occupations, industries and educational studies.
-        We will begin with a quick look at exploring geographic data.
+        The previous API call will return data for all available years in the database. To only retrieve the latest year&rsquo;s data, use:
       </p>
-    </section>
-    <section>
-      <h2><a name="calcs">Exploring Population Data</a></h2>
-      <p>To get population data at the national level we can use the following API call:</p>
-      <p>http://db.datausa.io/api?show=geo&amp;sumlevel=<span class="emphasize">nation</span>&amp;required=<span class="emphasize">pop</span>
+      <p>
+          http://db.datausa.io/api?show=geo&amp;sumlevel=<span class="emphasize">nation</span>&amp;year=<span class="emphasize">latest</span>&amp;required=<span class="emphasize">pop</span>
       </p>
-      <p>Now let&rsquo;s take a look at the output and break it down</p>
-      <div>
-        <div class="code-box">
-          <pre>
-            {
-              <span class="key">&quot;data&quot;</span>:
-                [
-                 [<span class="integer">2013</span>, <span class="value">&quot;01000US&quot;</span>, <span class="integer">311536594</span>],
-                 [<span class="integer">2014</span>, <span class="value">&quot;01000US&quot;</span>, <span class="integer">314107084</span>]
-                ],
-              <span class="key">&quot;headers&quot;</span>: [<span class="value">&quot;year&quot;</span>, <span class="value">&quot;geo&quot;</span>, <span class="value">&quot;pop&quot;</span>],
-              ...
-            }
-        </pre>
-        </div>
-        <p>The <span class="emphasize">data</span> section of the JSON result contains a list of rows of data. Each <span class="emphasize">header</span> represents the respective data element in each row. For example, 2013 the first item in the first row, represents a "year" since year is the first item in the <span class="emphasize">header</span> array.
+      <p>
+        This call gives us the popoulation of the US based on the latest available year of data. To get data at the state level we can use:
+      </p>
+      <p>
+        http://db.datausa.io/api?show=geo&amp;sumlevel=<span class="emphasize">state</span>&amp;year=<span class="emphasize">latest</span>&amp;required=<span class="emphasize">pop</span>
+      </p>
+      </p>
+  </section>
+  <section>
+    <h2><a name="calcs">Additional information</a></h2>
+      <p>You may have noticed some additional pieces of information returned with each API call. The <span class="specify">logic</span> section represents the list of possible data sources the API could use to fulfill a given request. The logic section is a list of dictionaries with information on each possible data table.</p>
 
-        </div>
-        <p>
-          The previous API call will return data for all available years in the database. To only retrieve the latest year&rsquo;s data, use:
-        </p>
-        <p>
-            http://db.datausa.io/api?show=geo&amp;sumlevel=<span class="emphasize">nation</span>&amp;year=<span class="emphasize">latest</span>&amp;required=<span class="emphasize">pop</span>
-        </p>
-        <p>
-          This call gives us the popoulation of the US based on the latest available year of data. To get data at the state level we can use:
-        </p>
-        <p>
-          http://db.datausa.io/api?show=geo&amp;sumlevel=<span class="emphasize">state</span>&amp;year=<span class="emphasize">latest</span>&amp;required=<span class="emphasize">pop</span>
-        </p>
-        </p>
-
-    </section>
-    <section>
-      <h2><a name="calcs">Additional information</a></h2>
-        <p>You may have noticed some additional pieces of information returned with each API call. The <span class="specify">logic</span> section represents the list of possible data sources the API could use to fulfill a given request. The logic section is a list of dictionaries with information on each possible data table.</p>
-
-        <div class="code-box">
-          <pre>
-          <span class="key">&quot;logic&quot;</span>: [
-            {<span class="key">&quot;dataset&quot;</span>: <span class="value">&quot;ACS 5-year Estimate&quot;</span>,
-            <span class="key">&quot;link&quot;</span>: <span class="value">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
-            <span class="key">&quot;org&quot;</span>: <span class="value">&quot;Census Bureau&quot;</span>,
-            <span class="key">&quot;supported_levels&quot;</span>: {<span class="key">&quot;geo&quot;</span>: [<span class="value">&quot;nation&quot;</span>, <span class="value">&quot;state&quot;</span>, <span class="value">&quot;county&quot;</span>, <span class="value">&quot;msa&quot;</span>, <span class="value">&quot;puma&quot;</span>, <span class="value">&quot;place&quot;</span>, <span class="value">&quot;tract&quot;</span>, <span class="value">&quot;all&quot;</span>]}, <span class="key">&quot;table&quot;</span>: <span class="value">&quot;yg&quot;</span>},
-            {<span class="key">&quot;dataset&quot;</span>: <span class="value">&quot;ACS 1-year Estimate&quot;</span>,
-            <span class="key">&quot;link&quot;</span>: <span class="value">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
-            <span class="key">&quot;org&quot;</span>: <span class="value">&quot;Census Bureau&quot;</span>,
-            <span class="key">&quot;supported_levels&quot;</span>: {<span class="key">&quot;geo&quot;</span>: [<span class="value">&quot;nation&quot;</span>, <span class="value">&quot;state&quot;</span>, <span class="value">&quot;county&quot;</span>, <span class="value">&quot;msa&quot;</span>, <span class="value">&quot;place&quot;</span>, <span class="value">&quot;all&quot;</span>]}, <span class="key">&quot;table&quot;</span>: <span class="value">&quot;yg&quot;</span>}
-          ],
-          ...
-        </pre>
-        </div>
-        <p>The <span class="specify">source</span> section represents the actual table used for processing the API call.</p>
-        <div class="code-box">
-          <pre>
-          <span class="key">&quot;source&quot;</span>: {<span class="key">&quot;dataset&quot;</span>: <span class="value">&quot;ACS 5-year Estimate&quot;</span>, <span class="key">&quot;link&quot;</span>: <span class="value">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>, <span class="key">&quot;org&quot;</span>: <span class="value">&quot;Census Bureau&quot;</span>, <span class="key">&quot;supported_levels&quot;</span>: {<span class="key">&quot;geo&quot;</span>: [<span class="value">&quot;nation&quot;</span>, <span class="value">&quot;state&quot;</span>, <span class="value">&quot;county&quot;</span>, <span class="value">&quot;msa&quot;</span>, <span class="value">&quot;puma&quot;</span>, <span class="value">&quot;place&quot;</span>, <span class="value">&quot;tract&quot;</span>, <span class="value">&quot;all&quot;</span>]}, <span class="key">&quot;table&quot;</span>: <span class="value">&quot;yg&quot;</span>},
-        </pre>
-        </div>
-        <p>The <span class="specify">subs</span> section will indicate whether any input variables have been substituted for purposes of providing data (instead of providing no data). If the <span class="specify">subs</span> dictionary is empty, then no subsitutions have been made.</p>
-        <div class="code-box">
-          <pre>
-            <span class="key">&quot;subs&quot;</span>: {}
-        </pre>
-        </div>
-    </section>
-    <section>
-      <h2><a name="detailed-docs">Detailed Documentation</a></h2>
-      <p>Full documentation for the DataUSA API is available at our <a href="https://github.com/DataUSA/datausa-api/wiki">Github repository wiki</a>.</p>
-    </section>
-</header>
+      <div class="code-box">
+        <pre>
+        <span class="key">&quot;logic&quot;</span>: [
+          {<span class="key">&quot;dataset&quot;</span>: <span class="value">&quot;ACS 5-year Estimate&quot;</span>,
+          <span class="key">&quot;link&quot;</span>: <span class="value">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
+          <span class="key">&quot;org&quot;</span>: <span class="value">&quot;Census Bureau&quot;</span>,
+          <span class="key">&quot;supported_levels&quot;</span>: {<span class="key">&quot;geo&quot;</span>: [<span class="value">&quot;nation&quot;</span>, <span class="value">&quot;state&quot;</span>, <span class="value">&quot;county&quot;</span>, <span class="value">&quot;msa&quot;</span>, <span class="value">&quot;puma&quot;</span>, <span class="value">&quot;place&quot;</span>, <span class="value">&quot;tract&quot;</span>, <span class="value">&quot;all&quot;</span>]}, <span class="key">&quot;table&quot;</span>: <span class="value">&quot;yg&quot;</span>},
+          {<span class="key">&quot;dataset&quot;</span>: <span class="value">&quot;ACS 1-year Estimate&quot;</span>,
+          <span class="key">&quot;link&quot;</span>: <span class="value">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>,
+          <span class="key">&quot;org&quot;</span>: <span class="value">&quot;Census Bureau&quot;</span>,
+          <span class="key">&quot;supported_levels&quot;</span>: {<span class="key">&quot;geo&quot;</span>: [<span class="value">&quot;nation&quot;</span>, <span class="value">&quot;state&quot;</span>, <span class="value">&quot;county&quot;</span>, <span class="value">&quot;msa&quot;</span>, <span class="value">&quot;place&quot;</span>, <span class="value">&quot;all&quot;</span>]}, <span class="key">&quot;table&quot;</span>: <span class="value">&quot;yg&quot;</span>}
+        ],
+        ...
+      </pre>
+      </div>
+      <p>The <span class="specify">source</span> section represents the actual table used for processing the API call.</p>
+      <div class="code-box">
+        <pre>
+        <span class="key">&quot;source&quot;</span>: {<span class="key">&quot;dataset&quot;</span>: <span class="value">&quot;ACS 5-year Estimate&quot;</span>, <span class="key">&quot;link&quot;</span>: <span class="value">&quot;http://www.census.gov/programs-surveys/acs/&quot;</span>, <span class="key">&quot;org&quot;</span>: <span class="value">&quot;Census Bureau&quot;</span>, <span class="key">&quot;supported_levels&quot;</span>: {<span class="key">&quot;geo&quot;</span>: [<span class="value">&quot;nation&quot;</span>, <span class="value">&quot;state&quot;</span>, <span class="value">&quot;county&quot;</span>, <span class="value">&quot;msa&quot;</span>, <span class="value">&quot;puma&quot;</span>, <span class="value">&quot;place&quot;</span>, <span class="value">&quot;tract&quot;</span>, <span class="value">&quot;all&quot;</span>]}, <span class="key">&quot;table&quot;</span>: <span class="value">&quot;yg&quot;</span>},
+      </pre>
+      </div>
+      <p>The <span class="specify">subs</span> section will indicate whether any input variables have been substituted for purposes of providing data (instead of providing no data). If the <span class="specify">subs</span> dictionary is empty, then no subsitutions have been made.</p>
+      <div class="code-box">
+        <pre>
+          <span class="key">&quot;subs&quot;</span>: {}
+      </pre>
+      </div>
+  </section>
+  <section>
+    <h2><a name="detailed-docs">Detailed Documentation</a></h2>
+    <p>Full documentation for the DataUSA API is available at our <a href="https://github.com/DataUSA/datausa-api/wiki">Github repository wiki</a>.</p>
+  </section>
+</article>
 
 {% endblock %}
