@@ -4915,8 +4915,8 @@ body.about {
       width: 100%;
       left: 0;
       top: 40px;
-      background: -webkit-linear-gradient(top, white 0%, rgba(255, 255, 255, 0.1) 10%,
-            transparent 30%); }
+      background: -webkit-linear-gradient(top, white 0%, rgba(255, 255, 255, 0.5) 70%,
+            transparent 100%); }
   body.about article {
     position: relative;
     width: 100%;
