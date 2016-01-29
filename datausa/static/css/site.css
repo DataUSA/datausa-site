@@ -282,14 +282,14 @@ a.term {
             content: '';
             position: absolute;
             bottom: 0;
-            background: #9aa4b2; }
+            background: #727682; }
             .pri-tab .pri-tab-link {
               display: block;
               position: relative;
               min-width: 115px;
               height: 50px;
               text-align: center;
-              color: #727682;
+              color: #434958;
               cursor: pointer;
               -moz-transition: color 0.3s;
               -o-transition: color 0.3s;
@@ -4742,7 +4742,7 @@ body.about {
     transition: all 0.25s;
     cursor: pointer; }
     body.about a[href="#top"] {
-      color: #ef6145;
+      color: #1B191D;
       font-family: "Palanquin", sans-serif;
       text-transform: uppercase;
       font-weight: 400;
@@ -4870,9 +4870,9 @@ body.about {
   body.about #about-container {
     position: relative; }
     body.about #about-container.index section {
-      padding: 6% 12%; }
+      margin-top: 30px; }
       body.about #about-container.index p {
-        color: #434958;
+        color: #141b2e;
         line-height: 2;
         font-size: 18px;
         opacity: 1;
@@ -4891,7 +4891,7 @@ body.about {
       body.about header h2 {
         font-size: 60px;
         letter-spacing: 0.03em;
-        color: #727682;
+        color: #434958;
         text-align: center;
         margin-bottom: 45px;
         -webkit-text-shadow: 0 0 30px rgba(20, 27, 46, 0.1);

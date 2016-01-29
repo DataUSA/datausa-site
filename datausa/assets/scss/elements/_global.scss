@@ -127,7 +127,7 @@ a.term {
     content: '';
     position: absolute;
     bottom: 0;
-    background: #9aa4b2;
+    background: $black4;
   }
 
   .pri-tab-link {
@@ -136,7 +136,7 @@ a.term {
     min-width: 115px;
     height: 50px;
     text-align: center;
-    color: $black4;
+    color: $black3;
     cursor: pointer;
     @include transition(color 0.3s);
     @include clean-tap();

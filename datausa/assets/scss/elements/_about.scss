@@ -42,7 +42,7 @@ body.about {
   }
 
   a[href="#top"] {
-    color: $red-w;
+    color: $black;
     font-family: $palanquin;
     text-transform: uppercase;
     font-weight: 400;
@@ -242,12 +242,11 @@ body.about {
     position: relative;
 
     &.index {
-
-      section {
-        padding: 6% 12%;
+      section{
+        margin-top: 30px;
       }
       p {
-        color: $black3;
+        color: $black2;
         line-height: 2;
         font-size: 18px;
         opacity: 1;
@@ -272,7 +271,7 @@ body.about {
     h2 {
       font-size: 60px;
       letter-spacing: 0.03em;
-      color: $black4;
+      color: $black3;
       text-align: center;
       margin-bottom: 45px;
       @include text-shadow(0 0 30px rgba(20, 27, 46, 0.1));
