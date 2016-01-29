@@ -2,7 +2,7 @@ body.about {
 
   /* visuals */
 
-  background-color: $white-l;
+  background-color: #1b191e;
 
   h1 {
     font-family: $pathway;
@@ -31,7 +31,7 @@ body.about {
     &:hover{
       .fa-link {
         visibility: visible;
-      } 
+      }
     }
   }
 
@@ -160,13 +160,6 @@ body.about {
 
   }
 
-  .hero-bg {
-    background-image: url('/static/img/about/3.jpg');
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: 50% 100%;
-  }
-
   // #about-nav {
   //   background-color: $black2;
   //   @include flex();
@@ -238,22 +231,22 @@ body.about {
     }
   }
 
-  #about-container {
-    position: relative;
-
-    &.index {
-      section{
-        margin-top: 30px;
-      }
-      p {
-        color: $black2;
-        line-height: 2;
-        font-size: 18px;
-        opacity: 1;
-        text-align: justify;
-      }
-    }
-  }
+  // #about-container {
+  //   position: relative;
+  //
+  //   &.index {
+  //     // section{
+  //     //   margin-top: 30px;
+  //     // }
+  //     p {
+  //       color: $black2;
+  //       line-height: 2;
+  //       font-size: 18px;
+  //       opacity: 1;
+  //       text-align: justify;
+  //     }
+  //   }
+  // }
 
   header {
     & > div {
@@ -262,11 +255,12 @@ body.about {
       margin: 0 auto;
       z-index: 1;
       @include box();
-      padding: $nav-height+$prof-nav-height 25px 0;
+      padding: 25px 25px 0;
     }
 
     section {
-      padding: 30px 0 10px;
+      padding: 0;
+      background-color: transparent;
     }
     h2 {
       font-size: 60px;
@@ -278,24 +272,37 @@ body.about {
     }
   }
 
-  #hero {
+  #hero-img {
+    position: absolute;
+    top: 0;
     width: 100%;
-    min-height: 100vh;
-    height: 100%;
+  }
+
+  #hero {
+    // width: 100%;
+    // min-height: 100vh;
     top: 0;
     position: absolute;
-    @include transition(all 0.5s);
+    // @include transition(all 0.5s);
     z-index: 0;
 
-    &::after {
-      content: "";
-      position: fixed;
-      height: 100%;
-      width: 100%;
-      left: 0;
-      top: $nav-height;
-      background: -webkit-linear-gradient(top, white 0%, rgba(255, 255, 255, 0.5) 70%, transparent 100%);
+    &.hero-bg {
+      background-image: url('/static/img/about/landscape.jpg');
+      // background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      // background-position: 50% 100%;
     }
+
+    // &::after {
+    //   content: "";
+    //   position: fixed;
+    //   height: 100%;
+    //   width: 100%;
+    //   left: 0;
+    //   top: $nav-height;
+    //   // @include gradient(top, (0%: white, 10%: rgba(255, 255, 255, 0.1), 30%: transparent, 100%: transparent));
+    // }
   }
 
   article {
@@ -317,7 +324,7 @@ body.about {
 
     .dataset-panel-container {
       @include flex-size(1);
-      margin-top: 30px;
+      // margin-top: 30px;
 
       .dataset-panel {
         @include flex();
@@ -325,11 +332,12 @@ body.about {
         @include justify(space-between);
 
         li {
-          padding: 10px 0 20px;
+          @include flex-size(1);
+          padding: 0 0 10px;
           text-align: center;
           font-family: $palanquin;
           font-weight: 300;
-          font-size: 20px;
+          font-size: 16px;
           letter-spacing: 0.03em;
 
           a {
@@ -383,7 +391,7 @@ body.about {
       }
     }
   }
-  
+
   .attr-body {
     background-color: white;
     border: 1px solid $black4;
@@ -399,7 +407,7 @@ body.about {
     section {
       margin: 0;
       padding: 0;
-      
+
       &:first-child {
         @include flex-size(1);
         padding-right: 30px;
@@ -498,18 +506,19 @@ body.about {
   }
 
   section {
+    @include box();
     position: relative;
-    padding: 0px 20px 30px;
+    padding: 1px 50px 50px;
     max-width: 800px;
     margin: 0 auto;
+    background-color: $l-profile-bg;
 
-    &:last-child {
-      // padding-bottom: 40px;
+    &:first-child {
+      padding-top: 49px;
     }
 
     h2 {
-      margin-top: 30px;
-      margin-bottom: 10px;
+      margin: 0 0 25px;
 
       a {
         color: $black2;
@@ -525,7 +534,8 @@ body.about {
       h1 {
         text-align: left;
         font-size: 42px;
-        margin: 30px 0;
+        margin: 20px 0;
+
         a {
           color: $black2;
           cursor: default;
@@ -540,7 +550,7 @@ body.about {
     }
 
   }
-  
+
 }
 
 @import "elements/about_m";

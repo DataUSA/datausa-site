@@ -4,7 +4,7 @@ body.about {
   @media only screen and (max-width : 1200px) {
 
   }
-  
+
   /* Medium Devices, Desktops */
   @media only screen and (max-width : 992px) {
 
@@ -14,8 +14,14 @@ body.about {
   @media only screen and (max-width : 768px) {
   }
 
-  /* Extra Small Devices, Phones */ 
+  /* Extra Small Devices, Phones */
   @media only screen and (max-width : 480px) {
+
+    background-color: $l-profile-bg;
+
+    article {
+      padding: 0;
+    }
 
     h1 {
       display: none;
@@ -43,7 +49,7 @@ body.about {
     }
 
     section {
-      padding: 10px 0;
+      padding: 25px 25px;
 
       h2 {
         margin-bottom: 0;
@@ -56,7 +62,7 @@ body.about {
 
     header {
       section {
-        padding: 6% 0 !important;
+        padding: 6% 0 0 !important;
       }
       h2 {
         font-size: 30px;
@@ -95,12 +101,12 @@ body.about {
       @include align-items(center);
 
       article {
-        width: 90%;
-      }   
+        width: 100%;
+      }
 
       section {
         padding: 35px 20px;
-        
+
         h2 {
           font-size: 28px;
           margin-bottom: 13px;
@@ -109,7 +115,7 @@ body.about {
         p {
           font-size: 13px;
         }
-      } 
+      }
     }
 
     .attr-body {
@@ -142,7 +148,7 @@ body.about {
     }
   }
 
-  /* Custom, iPhone Retina */ 
+  /* Custom, iPhone Retina */
   @media only screen and (max-width : 320px) {
   }
 }
