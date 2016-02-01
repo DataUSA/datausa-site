@@ -77,13 +77,18 @@
 
   function makeURL() {
     d3.select("#map-loading").classed("hidden", false);
-    var level = levels.focus(), required = keys.focus();
-    var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + required;
+    var level = levels.focus(), key = keys.focus();
+    var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + key;
     var topo = level === "county" ? "counties" : level + "s";
 
-    map.color(required.split(",")[0])
+    if (history.pushState) {
+      var newurl = "/map/?level=" + level + "&key=" + key;
+      window.history.pushState({"path": newurl}, '', newurl);
+    }
+
+    map.color(key.split(",")[0])
       .coords({"key": topo})
-      .tooltip(required.split(","));
+      .tooltip(key.split(","));
 
     load("/static/topojson/" + topo + ".json", function(coords){
       load(api + url, function(data){

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, g, render_template
+from flask import Blueprint, g, render_template, request
 from datausa.consts import DICTIONARY
 
 mod = Blueprint("map", __name__, url_prefix="/map")
@@ -42,5 +42,8 @@ def map():
     sumlevels = ["state", "county", "msa", "puma"]
     keys = sorted([k for k in mapdata], key=lambda x: DICTIONARY[x.split(",")[0]])
 
+    defaultKey = request.args.get("key", "pop").split(",")[0]
+    defaultLevel = request.args.get("level", "state")
+
     return render_template("map/index.html", mapdata=mapdata, keys=keys, sumlevels=sumlevels,
-                                             defaultKey="pop", defaultLevel="state")
+                                             defaultKey=defaultKey, defaultLevel=defaultLevel)
