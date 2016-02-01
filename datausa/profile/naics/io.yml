@@ -61,7 +61,7 @@ topics:
         subvalues:
           - "<<var namespace=io_industry|key=industry_iocode|row=1>>"
           - "<<var namespace=io_industry|key=industry_iocode|row=2>>"
-    description: "Here, we see the industries by their use of the <<name>> <<level short=True>>."
+    description: "Here, we see the industries by their use of the <<name>> <<level>>."
     viz:
       attrs: "iocode"
       color: "iocode"

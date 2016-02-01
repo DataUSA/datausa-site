@@ -1,12 +1,12 @@
 title: "Workforce"
-description: "Here we present trends in jobs, wages, opportunities in the <<name>> <<level short=True>>."
+description: "Here we present trends in jobs, wages, opportunities in the <<name>> <<level>>."
 
 topics:
   - category: "Occupations"
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in the <<name>> <<level short=True>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>."
+    description: "The most common occupations in the <<name>> <<level>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>."
     viz:
       - attrs: "soc"
         color: "top"
@@ -185,7 +185,7 @@ topics:
   - category: "Wages"
     title: "Average Salary"
     slug: "wages"
-    description: "On average, employees in the <<name>> <<level short=True>> have a salary of <<var namespace=data|key=avg_wage>>. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True|short=True>>."
+    description: "On average, employees in the <<name>> <<level>> have a salary of <<var namespace=data|key=avg_wage>>. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True|short=True>>."
     stat:
       - title: "Average Wage"
         value: "<<var namespace=data|key=avg_wage>>"
@@ -210,7 +210,7 @@ topics:
         value: "naics"
   - title: "Wage by Location"
     slug: "wage_geo"
-    description: "This map shows the counties that pay the highest average salary to employees in the <<name>> <<level short=True>>."
+    description: "This map shows the counties that pay the highest average salary to employees in the <<name>> <<level>>."
     stat:
       - title: Highest Paying Public Use Microdata Area
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
@@ -233,7 +233,7 @@ topics:
       type: "geo_map"
   - title: "Wage by Gender"
     slug: "wage_gender"
-    description: "<<top show=sex|order=avg_wage|sort=desc|naics_level=sumlevel>> workers in the <<name>> <<level short=True>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<top show=sex|order=avg_wage|sort=asc|naics_level=sumlevel>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
+    description: "<<top show=sex|order=avg_wage|sort=desc|naics_level=sumlevel>> workers in the <<name>> <<level>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<top show=sex|order=avg_wage|sort=asc|naics_level=sumlevel>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Average Male Salary"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
@@ -265,7 +265,7 @@ topics:
       y: "num_ppl"
   - title: "Wage by Race & Ethnicity"
     slug: "wage_ethnicity"
-    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level short=True>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level short=True>>."
+    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level>>."
     stat:
       - title: "Race or Ethnicity with the Highest Average Salary"
         value: "<<var namespace=race_wage|key=race|row=0>>"
@@ -296,7 +296,7 @@ topics:
   - title: "Income Distribution"
     slug: "wage_distro"
     description:
-      - "The <<name>> <<level short=True>> has an income GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average."
+      - "The <<name>> <<level>> has an income GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average."
       - "The GINI coefficient is a measure of statistical dispersion intended to represent income distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality."
     stat:
       - title: "Income GINI"
@@ -335,8 +335,8 @@ topics:
     slug: "wage_geo_rca"
     category: "Opportunities"
     description:
-      - "This map shows the PUMAs in the United States that have revealed comparative advantage in the <<name>> <<level short=True>>."
-      - "These are locations that employ more people in the <<name>> <<level short=True>> than expected given the size of their overall labor pool and the size of <<name>> <<level short=True>> as a whole for the nation."
+      - "This map shows the PUMAs in the United States that have revealed comparative advantage in the <<name>> <<level>>."
+      - "These are locations that employ more people in the <<name>> <<level>> than expected given the size of their overall labor pool and the size of <<name>> <<level>> as a whole for the nation."
     stat:
       - title: "Public Use Microdata Area with highest comparative advantage"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
