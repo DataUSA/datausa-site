@@ -318,6 +318,8 @@ body {
 }
 
 #search-btn {
+  position: relative;
+  top: 2px;
   padding: 15px;
   opacity: 0.9;
   @include transition(opacity 1s);

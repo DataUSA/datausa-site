@@ -29,7 +29,7 @@
       <div class="splash-titles">
 
         <h1>{{ profile.splash.title }}</h1>
-        {% if profile.attr_type == "cip" and profile.attr.is_stem %}<sub>STEM Major</sub>{% endif %}
+        {% if profile.attr_type == "cip" and profile.attr.is_stem %}<sub class="stem-label">STEM Major</sub>{% endif %}
 
       </div>
 
@@ -73,8 +73,7 @@
               {% endfor %}
             </sub>
           {% endif %}
-          <br /><br />
-          <sub><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></sub>
+          <sub class="image-author"><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></sub>
         </div>
       </div>
 
@@ -152,7 +151,7 @@
   <div id="profile-nav">
     <ul class="pri-menu">
     {% for section in sections %}
-      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
+      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}" class="pri-link"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
     {% endfor %}
     </ul>
     <a href="#top" id="back-to-top">

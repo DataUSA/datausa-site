@@ -97,7 +97,7 @@ body.profile, body.map, body.story {
     text-transform: uppercase;
   }
 
-  h1.category {
+  h1 a.category {
     position: relative;
     font-family: $pathway;
     font-size: 36px;
@@ -440,17 +440,19 @@ body.profile, body.map, body.story {
         max-width: 30%;
 
         img {
+          position: relative;
+          display: inline-block;
           width: 18px;
           height: 18px;
           padding: 3px;
-          margin-bottom: -6px;
+          bottom: 4px;
         }
 
         a {
           display: inline;
           padding: 2px 0;
           margin-top: -4px;
-          vertical-align: text-bottom;
+          vertical-align: text-top;
           font-family: $palanquin;
           font-weight: 300;
           font-size: 10px;
@@ -706,11 +708,12 @@ body.profile, body.map, body.story {
 
     span {
       @include flex();
-      @include align-items(center);
+      @include align-items(flex-start);
       position: relative;
       top: $nav-height - 10;
       @include transition(top 0.55s 0.03s);
       padding: 6px;
+      @include box();
       color: #ef6145;
       font-family: $pathway;
       font-size: 24px;
@@ -733,6 +736,7 @@ body.profile, body.map, body.story {
       width: 17px;
       height: 17px;
       margin-left: 5px;
+      margin-top: 6px;
       @include transition(opacity 0.25s, border 0.5s);
 
       &.show {
@@ -942,7 +946,7 @@ body.profile, body.map, body.story {
         display: block;
         width: 20px;
         height: 20px;
-        margin: 0 auto -2px;
+        margin: 0 auto 2px;
       }
 
     }

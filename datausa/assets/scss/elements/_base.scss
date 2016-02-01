@@ -5,6 +5,7 @@ html {
 }
 
 body {
+  font-family: $palanquin;
   @include font-smoothing();
 }
 
