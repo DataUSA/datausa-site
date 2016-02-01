@@ -53,6 +53,11 @@ d3.select("#home-search-input").on("input", function() {
   d3.select(".search-input-text").text(inputText);
 });
 
+d3.select("#home-search-input").on("keyup.clear_demo", function() {
+  window.clearTimeout(tout);
+	d3.event.preventDefault();
+});
+
 var search_input = d3.select("#home-search-input");
 var current_search_term = search_input.property("value");
 if(current_search_term){
