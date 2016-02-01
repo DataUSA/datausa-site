@@ -47,7 +47,7 @@ class Section(BaseObject):
 
         if "topics" in config:
             self.topics = config["topics"]
-            
+
             # filter out topics that are not appropriate for sumlevel
             self.topics = [t for t in self.topics if self.allowed_levels(t)]
 
@@ -107,7 +107,7 @@ class Section(BaseObject):
     @staticmethod
     def tooltipify(txt):
         for gk, gt in GLOSSARY.items():
-            txt = txt.replace(gk, u"<a href='{}' class='term' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>".format(gt['link'], gt["def"], gk))
+            txt = txt.replace(gk, u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>".format(gt['link'], gt["def"], gk))
         return txt
 
     def __repr__(self):
