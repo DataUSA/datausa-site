@@ -31,7 +31,7 @@
         {% for stat in topic.stat %}
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-value">{{ stat.value|safe }}</div>
+            <div class="stat-value">{% if stat.subvalues %}<span class="stat-text">1.</span> {% endif %}{{ stat.value|safe }}</div>
             {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
             {% if stat.subvalues %}
             {% for s in stat.subvalues %}
