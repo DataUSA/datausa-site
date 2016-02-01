@@ -1,5 +1,5 @@
 title: "Input/Output"
-description: "The Bureau of Economic Analysis publishes estimates of the relationships between industries. The data shows what industries supply goods and services to a specific industry, and what further industries use the products of that industry."
+description: "The Bureau of Economic Analysis publishes estimates of the relationships between industries. The data shows what industries supply goods and services to a specific industry, and what further industries use the products of that industry. Inputs (left hand side) include products of other industries, value added (including the value of labor, capital, and certain taxes), and imports. Uses (right hand side) include sales to other industries and sales for final consumption (including personal consumption, private investment, government, and exports)."
 
 topics:
   - slug: "sankey"
@@ -52,7 +52,7 @@ topics:
         - "commodity_iocode"
       size: "value_millions"
       type: "tree_map"
-  - title: "Production"
+  - title: "Use of Output by Other Industries"
     slug: "tmap_production"
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added>>"
     stat:
