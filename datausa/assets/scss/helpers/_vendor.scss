@@ -331,7 +331,7 @@
     $start-color: map-get($ie_variables, 'start');
     $finish-color: map-get($ie_variables, 'finish');
 
-  background-color: mix($start-color, $finish-color); /* Fallback */
+  // background-color: mix($start-color, $finish-color); /* Fallback */
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($start-color), to($finish-color));
   background-image: -webkit-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
   background-image:    -moz-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
