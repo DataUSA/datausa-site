@@ -79,6 +79,13 @@
 
     </div>
 
+    <div id="scroll-btn">
+      <div class="mouse">
+        <span class="ball"></span>
+      </div>
+      <div class="mouse-text">Scroll to Explore</div>
+    </div>
+
   </article> <!-- end splash  -->
 
   <header class="intro">
@@ -259,14 +266,14 @@
       profNavHeight = d3.select("#profile-nav").node().offsetHeight,
       attr_type = "{{ profile.attr_type }}";
 
-  // var firstScroll = true;
+  var firstScroll = true;
   function navScroll(){
 
-    // if (!firstScroll) {
-    //   clearTimeout(scrollTimeout);
-    //   d3.select("#scroll-btn").classed("visible", false);
-    // }
-    // firstScroll = false;
+    if (!firstScroll) {
+      clearTimeout(scrollTimeout);
+      d3.select("#scroll-btn").classed("visible", false);
+    }
+    firstScroll = false;
 
     var y = d3plus.client.scroll.y(),
         colorTitleNav = y > titleNavHeight,
