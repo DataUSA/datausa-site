@@ -3439,7 +3439,8 @@ d3.geo.albersUsaPr = function() {
 
 viz.mapDraw = function(vars) {
 
-  var hiddenTopo = ["04000US69", "04000US66", "04000US60", "05000US60050", "05000US60010", "05000US60020", "05000US66010", "05000US69100", "05000US69110", "05000US69120", "05000US69085", "79500US6600100"];
+  var hiddenTopo = ["04000US69", "04000US66", "04000US60", "04000US78", "05000US60050", "05000US60010", "05000US60020", "05000US66010", "05000US69100", "05000US69110", "05000US69120", "05000US69085", "79500US6600100"];
+  var us_bounds = [[-0.6061309513487787,-0.9938707206384574],[0.40254429811306913,-0.44220355964829655]];
 
   var cartodb = vizStyles.tiles,
       defaultRotate = vars.id && vars.id.value === "birthplace" ? [0, 0] : [90, 0],
@@ -3863,13 +3864,15 @@ viz.mapDraw = function(vars) {
 
     }
 
+    var b = projection === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length ? us_bounds : false;
+
     projection = vars.zoom.projection;
 
     var path = d3.geo.path()
       .projection(projection);
 
-    var b = path.bounds(coordData),
-        s = defaultZoom / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / (height - key_height)),
+    b = b || path.bounds(coordData);
+    var s = defaultZoom / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / (height - key_height)),
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
 
     // Update the projection to use computed scale & translate.
