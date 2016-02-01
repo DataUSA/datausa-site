@@ -2014,7 +2014,7 @@ body.profile h1, body.map h1, body.story h1 {
     line-height: 1;
     letter-spacing: 0.05em;
     text-transform: uppercase; }
-    body.profile h1 a.category, body.map h1 a.category, body.story h1 a.category {
+    body.profile h1.category, body.map h1.category, body.story h1.category {
       position: relative;
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 36px;
@@ -3268,58 +3268,13 @@ body.story .profile-section {
     flex: 1 1 100%;
     padding: 5px 24px 30px;
     min-width: 100%; }
-    body.profile .profile-section .category a::before,
-    body.map .profile-section .category a::before,
-    body.story .profile-section .category a::before {
+    body.profile .profile-section .category a:before,
+    body.map .profile-section .category a:before,
+    body.story .profile-section .category a:before {
       content: "";
       position: absolute;
       visibility: hidden;
       top: -118px; }
-      body.profile .profile-section .category::before,
-      body.profile .profile-section .category::after,
-      body.map .profile-section .category::before,
-      body.map .profile-section .category::after,
-      body.story .profile-section .category::before,
-      body.story .profile-section .category::after {
-        content: "";
-        display: inline-block;
-        position: absolute;
-        z-index: 0;
-        top: 25px;
-        width: 20vw;
-        height: 1px;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-        background: #ccc;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box; }
-        body.profile .profile-section .category::before,
-        body.map .profile-section .category::before,
-        body.story .profile-section .category::before {
-          left: 25px;
-          -webkit-box-shadow: 0px 0px 0 #ccc;
-          -moz-box-shadow: 0px 0px 0 #ccc;
-          box-shadow: 0px 0px 0 #ccc; }
-          body.profile .profile-section .category::after,
-          body.map .profile-section .category::after,
-          body.story .profile-section .category::after {
-            right: 25px;
-            -webkit-box-shadow: 0px 0px 0 #ccc;
-            -moz-box-shadow: 0px 0px 0 #ccc;
-            box-shadow: 0px 0px 0 #ccc; }
-            body.profile .profile-section .category:hover::before,
-            body.profile .profile-section .category:hover::after,
-            body.map .profile-section .category:hover::before,
-            body.map .profile-section .category:hover::after,
-            body.story .profile-section .category:hover::before,
-            body.story .profile-section .category:hover::after {
-              top: 28px;
-              -webkit-box-shadow: 0px -6px 0 #ccc;
-              -moz-box-shadow: 0px -6px 0 #ccc;
-              box-shadow: 0px -6px 0 #ccc; }
   body.profile .profile-section .topic, body.map .profile-section .topic,
   body.story .profile-section .topic {
     -webkit-box-flex: 1 0 100%;
