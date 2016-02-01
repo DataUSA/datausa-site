@@ -34,6 +34,17 @@
           <p>The ACS PUMS dataset is used throughout the site where specific data cross sections are not made available through the preformatted ACS dataset. ACS PUMS data is the cornerstone of the occupations and industry data used throughout the Geography, Occupation and Industry profiles. DataUSA also uses ACS PUMS to compare a location's current stock of graduates versus students currently pursuing high education degrees (provided by the IPEDs dataset).</p>
           <h2>Caveats</h2>
           <p>Similar to the ACS dataset there are sometimes sampling biases when looking at data from a specifc slice of data. Due to the way the data is aggregated, ACS PUMS data is only availabe for the Nation, States and Public Use Microdata Areas (PUMAs).</p>
+          <p>Wage values are adjusted using the ADJINC variable from the PUMS file.</p>
+          <p>There are two universes of tables: "workforce" and "5 and over". The default and most prevalent universe for our PUMS data uses the workforce universe. The conditions for this universe:
+          </p>
+            <ol>
+              <li>Age of 16 years or older</li>
+              <li>Wage greater than zero</li>
+              <li>In the workforce (i.e. ESR code of 1,2,4,5)</li>
+            </ol>
+          <p>
+          The other universe is everyone five years of age and older (that is the only restriction). This universe is only used for visualizations showing birthplaces for a location from PUMS.
+          </p>
         </div>
         <div class="dataset-tab" data-tab="3">
           <h2>Description</h2>
