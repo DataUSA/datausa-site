@@ -2,8 +2,16 @@
 
 {% block title %} Attributes{% endblock %}
 
-{% block about_content %}
+{% block head %}
+  {% if pagination.has_prev %}
+    <link rel="prev" href="{{ url_for_other_page(pagination.page - 1) }}" />
+  {% endif %}
+  {% if pagination.has_next %}
+    <link rel="next" href="{{ url_for_other_page(pagination.page + 1) }}" />
+  {% endif %}
+{% endblock %}
 
+{% block about_content %}
 <article>
   <section>
     <div class="datasets">
@@ -20,14 +28,14 @@
   <div class="attr-body">
     <section>
       <ul class="sumlevels">
-        {% for slevel in sumlevels.values() %}
-        {% if attr_type == "geo" %}
-          {% set slevel_id = "sumlevel" %}
-        {% else %}
-          {% set slevel_id = "shortlabel" %}
-        {% endif %}
-        <li {% if slevel[slevel_id] == this_sumlevel[slevel_id] %}class="active"{% endif %}><a href="/about/attributes/{{ attr_type }}/{{ slevel[slevel_id] }}/" class="{{ attr_type }}" data-value="1">{{ slevel['label'] }}</a></li>
-        {% endfor %}
+        {%- for slevel in sumlevels.values() %}
+          {% if attr_type == "geo" %}
+            {% set slevel_id = "sumlevel" %}
+          {% else %}
+            {% set slevel_id = "shortlabel" %}
+          {% endif %}
+          <li {% if slevel[slevel_id] == this_sumlevel[slevel_id] %}class="active"{% endif %}><a href="/about/attributes/{{ attr_type }}/{{ slevel[slevel_id] }}/" class="{{ attr_type }}" data-value="1">{{ slevel['label'] }}</a></li>
+        {%- endfor %}
       </ul>
     </section>
   
@@ -48,6 +56,28 @@
           {% endfor %}
         </tbody>
       </table>
+      
+        <div class=pagination>
+        {% if pagination.has_prev %}
+          <a href="{{ url_for_other_page(pagination.page - 1) }}">&laquo; Previous </a>
+        {% endif %}
+        {%- for page in pagination.iter_pages() %}
+          {% if page %}
+            {% if page != pagination.page %}
+              <a href="{{ url_for_other_page(page) }}">{{ page }}</a>
+            {% else %}
+              <strong>{{ page }}</strong>
+            {% endif %}
+          {% else %}
+            <span class=ellipsis>…</span>
+          {% endif %}
+        {%- endfor %}
+        {% if pagination.has_next %}
+          <a href="{{ url_for_other_page(pagination.page + 1) }}">Next &raquo;</a>
+        {% endif %}
+        </div>
+      
+      
     </section>
   </div>
 </article>

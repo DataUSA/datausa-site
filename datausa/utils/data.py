@@ -98,7 +98,9 @@ def build_attr_cache():
                 if oid not in results[attr_name] or results[attr_name][oid]["level"] > obj["level"]:
                     results[attr_name][oid] = obj
                     if url_name:
-                        results[attr_name][url_name] = obj
+                        new_obj = obj.copy()
+                        new_obj['pretty'] = True
+                        results[attr_name][url_name] = new_obj
         except Exception, err:
             app.logger.info("ERROR: Could not load {} attributes. Reason: {}".format(attr_name, err))
 

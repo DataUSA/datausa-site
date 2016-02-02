@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 from random import randint
-from flask import Blueprint, g, render_template
+from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
 from datausa.consts import AFFIXES, DICTIONARY, PERCENTAGES, PROPORTIONS, SUMLEVELS
 from datausa.utils.data import attr_cache
+from pagination import Pagination
 
 mod = Blueprint("general", __name__)
 
@@ -50,17 +51,23 @@ def api():
 @mod.route("/about/attributes/")
 @mod.route("/about/attributes/<attr_type>/")
 @mod.route("/about/attributes/<attr_type>/<sumlevel>/")
-def attributes(attr_type="geo", sumlevel=None):
+def attributes_redir(attr_type="geo", sumlevel="state"):
+    return redirect(url_for('.attributes', attr_type=attr_type, sumlevel=sumlevel, page=1))
+
+@mod.route("/about/attributes/<attr_type>/<sumlevel>/<int:page>/")
+def attributes(attr_type, sumlevel, page):
     g.page_type = "about"
     g.page_sub_type = "attributes"
     sumlevel_key = 'sumlevel' if attr_type == "geo" else 'shortlabel'
+    PER_PAGE = 100
+    offset = PER_PAGE * (page - 1)
 
     sumlevels = {sv[sumlevel_key]:dict(sv.items() + [('id',sk)]) for sk, sv in SUMLEVELS[attr_type].items()}
     this_sumlevel = sumlevel or sumlevels.keys()[1]
     this_sumlevel = sumlevels[this_sumlevel]
 
     if attr_type == "geo":
-        attrs = [a for a in attr_cache[attr_type].values() if a['sumlevel'] == this_sumlevel['id']]
+        attrs = [a for a in attr_cache[attr_type].values() if a['sumlevel'] == this_sumlevel['id'] and 'pretty' in a]
         anchor_key = "url_name"
         name_key = "display_name"
     elif attr_type == "cip":
@@ -71,13 +78,22 @@ def attributes(attr_type="geo", sumlevel=None):
         attrs = [a for a in attr_cache[attr_type].values() if str(a['level']) == this_sumlevel['id']]
         anchor_key = "id"
         name_key = "name"
-    # raise Exception(sumlevels)
+    
+    count = len(attrs)
+    # a = 
+    # raise Exception(attr_cache[attr_type]['massachusetts'])
+    # raise Exception(attr_cache[attr_type]['04000US25'])
+    attrs = attrs[offset:(offset+PER_PAGE)]
+    if not attrs and page != 1:
+        abort(404)
+    pagination = Pagination(page, PER_PAGE, count)
 
     return render_template("about/attributes.html",
                             attr_type=attr_type,
                             anchor_key=anchor_key,
                             name_key=name_key,
                             sumlevels=sumlevels,
+                            pagination=pagination,
                             this_sumlevel=this_sumlevel,
                             attrs=attrs)
 

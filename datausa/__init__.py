@@ -5,7 +5,7 @@ import os
 from flask import Flask
 
 from config import DEBUG
-from datausa.utils.format import jinja_formatter
+from datausa.utils.format import jinja_formatter, url_for_other_page
 from flask.ext.cache import Cache
 
 # Base directory of where the site is held
@@ -19,6 +19,7 @@ app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 app.jinja_env.add_extension("jinja2.ext.do")
 app.jinja_env.filters['format'] = jinja_formatter
+app.jinja_env.globals['url_for_other_page'] = url_for_other_page
 
 # Load default configuration from config.py
 app.config.from_object("config")

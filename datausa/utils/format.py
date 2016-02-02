@@ -1,5 +1,6 @@
 import math
 from decimal import Decimal
+from flask import request, url_for
 from datausa.consts import AFFIXES, COLMAP, DICTIONARY, NEVERCONDENSE, PERCENTAGES, PROPORTIONS
 
 def jinja_formatter(value, key=None):
@@ -99,3 +100,8 @@ def param_format(params):
             del params[optional]
 
     return params
+
+def url_for_other_page(page):
+    args = request.view_args.copy()
+    args['page'] = page
+    return url_for(request.endpoint, **args)
