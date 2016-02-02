@@ -25,6 +25,8 @@ topics:
             id: "commodity_iocode"
             make: "industry_iocode"
       id: "id"
+      legend:
+        order: "color"
       type: "sankey"
   - title: "Intermediate Inputs"
     slug: "tmap_consumption"
