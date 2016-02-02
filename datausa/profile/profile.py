@@ -123,12 +123,22 @@ class Profile(BaseObject):
     def image(self):
         if "image_link" in self.attr:
             url = "/static/img/splash/{}/".format(self.attr_type)
+            image_attr = False
             if self.attr["image_link"]:
-                return {"url": "{}{}.jpg".format(url,self.attr["id"]), "link": self.attr["image_link"], "author": self.attr["image_author"]}
-            parents = [fetch(p["id"], self.attr_type) for p in get_parents(self.attr["id"], self.attr_type)]
-            for p in reversed(parents):
-                if p["image_link"]:
-                    return {"url": "{}{}.jpg".format(url,p["id"]), "link": p["image_link"], "author": p["image_author"]}
+                image_attr = self.attr
+            else:
+                parents = [fetch(p["id"], self.attr_type) for p in get_parents(self.attr["id"], self.attr_type)]
+                for p in reversed(parents):
+                    if p["image_link"]:
+                        image_attr = p
+                        break
+            if image_attr:
+                return {
+                    "url": "{}{}.jpg".format(url, image_attr["id"]),
+                    "link": image_attr["image_link"],
+                    "author": image_attr["image_author"],
+                    "meta": image_attr.get("image_meta", False)
+                    }
         return None
 
     def level(self, **kwargs):

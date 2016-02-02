@@ -73,7 +73,6 @@
               {% endfor %}
             </sub>
           {% endif %}
-          <sub class="image-author"><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></sub>
         </div>
       </div>
 
@@ -103,6 +102,10 @@
       {% for desc in profile.splash.description %}
       <p class="desc has-p-link">{{ desc|safe }}</p>
       {% endfor %}
+      <sub class="image-author"><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></sub>
+      {% if image.meta %}
+      <sub class="image-meta">{{ image.meta }}</sub>
+      {% endif %}
       </div>
 
       {% if profile.splash.viz %}

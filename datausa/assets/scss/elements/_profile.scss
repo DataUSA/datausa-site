@@ -980,6 +980,20 @@ body.profile, body.map, body.story {
       .the_rest {
         display: none;
       }
+
+      .image-author, .image-meta {
+        color: white;
+        display: block;
+        font-size: 16px;
+      }
+
+      .image-author {
+        margin: 25px 0 -5px;
+      }
+
+      .image-meta {
+        font-style: italic;
+      }
     }
 
     .intro-viz {
