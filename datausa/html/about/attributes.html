@@ -43,8 +43,13 @@
       <table class="{{ attr_type }}">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
+            {%- for header in ["id", "name"] %}
+              {% if pagination.sort == header %}
+              <th><a href="{{ url_for_other_page(pagination.page, header, pagination.next_order) }}">{{ header }} {% if pagination.order == "desc" %}<i class="fa fa-caret-down"></i>{% else %}<i class="fa fa-caret-up"></i>{% endif %}</a></th>
+              {% else %}
+              <th><a href="{{ url_for_other_page(pagination.page, header, 'desc') }}">{{ header }}</a></th>
+              {% endif %}
+            {%- endfor %}
           </tr>
         </thead>
         <tbody>
@@ -59,21 +64,23 @@
       
         <div class=pagination>
         {% if pagination.has_prev %}
-          <a href="{{ url_for_other_page(pagination.page - 1) }}">&laquo; Previous </a>
+          <a href="{{ url_for_other_page(pagination.page - 1, pagination.sort, pagination.order) }}">&laquo; Previous </a>
         {% endif %}
-        {%- for page in pagination.iter_pages() %}
-          {% if page %}
-            {% if page != pagination.page %}
-              <a href="{{ url_for_other_page(page) }}">{{ page }}</a>
+        {% if pagination.has_prev or pagination.has_next %}
+          {%- for page in pagination.iter_pages() %}
+            {% if page %}
+              {% if page != pagination.page %}
+                <a href="{{ url_for_other_page(page, pagination.sort, pagination.order) }}">{{ page }}</a>
+              {% else %}
+                <strong>{{ page }}</strong>
+              {% endif %}
             {% else %}
-              <strong>{{ page }}</strong>
+              <span class=ellipsis>…</span>
             {% endif %}
-          {% else %}
-            <span class=ellipsis>…</span>
-          {% endif %}
-        {%- endfor %}
+          {%- endfor %}
+        {% endif %}
         {% if pagination.has_next %}
-          <a href="{{ url_for_other_page(pagination.page + 1) }}">Next &raquo;</a>
+          <a href="{{ url_for_other_page(pagination.page + 1, pagination.sort, pagination.order) }}">Next &raquo;</a>
         {% endif %}
         </div>
       

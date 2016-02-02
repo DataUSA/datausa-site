@@ -1,11 +1,14 @@
 from math import ceil
 
 class Pagination(object):
+    ORDERS = ['', 'desc', 'asc']
 
-    def __init__(self, page, per_page, total_count):
+    def __init__(self, page, per_page, total_count, sort, order=''):
         self.page = page
         self.per_page = per_page
         self.total_count = total_count
+        self.sort = sort
+        self.order = order
 
     @property
     def pages(self):
@@ -18,6 +21,10 @@ class Pagination(object):
     @property
     def has_next(self):
         return self.page < self.pages
+
+    @property
+    def next_order(self):
+        return self.ORDERS[(self.ORDERS.index(self.order)+1)%len(self.ORDERS)]
 
     def iter_pages(self, left_edge=2, left_current=2,
                    right_current=5, right_edge=2):

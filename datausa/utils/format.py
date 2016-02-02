@@ -101,7 +101,11 @@ def param_format(params):
 
     return params
 
-def url_for_other_page(page):
+def url_for_other_page(page, sort=None, order=None):
     args = request.view_args.copy()
     args['page'] = page
+    if sort and order:
+        args['sort'] = sort
+        if order:
+            args['order'] = order
     return url_for(request.endpoint, **args)
