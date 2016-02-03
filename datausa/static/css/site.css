@@ -2227,11 +2227,11 @@ body.profile nav, body.map nav, body.story nav {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         flex-direction: column;
-        -webkit-justify-content: flex-end;
-        -moz-justify-content: flex-end;
-        justify-content: flex-end;
-        -ms-flex-pack: end;
-        flex-pack: end;
+        -webkit-justify-content: space-around;
+        -moz-justify-content: space-around;
+        justify-content: space-around;
+        -ms-flex-pack: distribute;
+        flex-pack: distribute;
         -webkit-align-items: center;
         align-items: center;
         -ms-flex-align: center;
@@ -2243,7 +2243,7 @@ body.profile nav, body.map nav, body.story nav {
         width: 100%;
         height: 100%;
         opacity: 1;
-        padding: 40px 10% 7%;
+        padding: 7% 10%;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -2268,9 +2268,9 @@ body.profile nav, body.map nav, body.story nav {
               font-weight: 400;
               text-transform: uppercase;
               letter-spacing: 0.03em;
-              -webkit-text-shadow: 0px 0px 10px rgba(20, 27, 46, 0.4);
-              -moz-text-shadow: 0px 0px 10px rgba(20, 27, 46, 0.4);
-              text-shadow: 0px 0px 10px rgba(20, 27, 46, 0.4); }
+              -webkit-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
+              -moz-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
+              text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6); }
               body.profile #splash .content .splash-titles sub,
               body.map #splash .content .splash-titles sub,
               body.story #splash .content .splash-titles sub {
@@ -2280,12 +2280,10 @@ body.profile nav, body.map nav, body.story nav {
                 font-weight: 400;
                 text-transform: uppercase;
                 letter-spacing: 0.03em; }
-        body.profile #splash .content .splash-context,
-        body.map #splash .content .splash-context,
-        body.story #splash .content .splash-context {
+        body.profile #splash .content #splash-stats,
+        body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
           width: 100%;
           max-width: 900px;
-          margin-top: 5%;
           -webkit-justify-content: center;
           -moz-justify-content: center;
           justify-content: center;
@@ -2296,9 +2294,6 @@ body.profile nav, body.map nav, body.story nav {
           display: -ms-flexbox;
           display: -webkit-flex;
           display: flex;
-          -webkit-flex-direction: row;
-          -moz-flex-direction: row;
-          flex-direction: row;
           -webkit-align-items: flex-start;
           align-items: flex-start;
           -ms-flex-align: start;
@@ -2307,10 +2302,13 @@ body.profile nav, body.map nav, body.story nav {
           -moz-justify-content: space-around;
           justify-content: space-around;
           -ms-flex-pack: distribute;
-          flex-pack: distribute; }
-          body.profile #splash .content .row-last, body.map #splash .content .row-last,
-          body.story #splash .content .row-last {
-            width: 100%;
+          flex-pack: distribute;
+          -webkit-text-shadow: 0px 0px 5px rgba(20, 27, 46, 0.6);
+          -moz-text-shadow: 0px 0px 5px rgba(20, 27, 46, 0.6);
+          text-shadow: 0px 0px 5px rgba(20, 27, 46, 0.6); }
+          body.profile #splash .content .splash-icon-nav,
+          body.map #splash .content .splash-icon-nav,
+          body.story #splash .content .splash-icon-nav {
             -webkit-justify-content: center;
             -moz-justify-content: center;
             justify-content: center;
@@ -2320,135 +2318,38 @@ body.profile nav, body.map nav, body.story nav {
             display: -moz-box;
             display: -ms-flexbox;
             display: -webkit-flex;
-            display: flex;
-            -webkit-flex-direction: row;
-            -moz-flex-direction: row;
-            flex-direction: row;
-            -webkit-justify-content: space-between;
-            -moz-justify-content: space-between;
-            justify-content: space-between;
-            -ms-flex-pack: justify;
-            flex-pack: justify;
-            -webkit-align-items: center;
-            align-items: center;
-            -ms-flex-align: center;
-            flex-align: center;
-            margin-top: 12%; }
-            body.profile #splash .content .splash-icon-nav,
-            body.map #splash .content .splash-icon-nav,
-            body.story #splash .content .splash-icon-nav {
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: -webkit-flex;
-              display: flex;
-              -webkit-flex-direction: row;
-              -moz-flex-direction: row;
-              flex-direction: row;
-              -webkit-align-items: flex-start;
-              align-items: flex-start;
-              -ms-flex-align: start;
-              flex-align: start;
-              -webkit-justify-content: flex-start;
-              -moz-justify-content: flex-start;
-              justify-content: flex-start;
-              -ms-flex-pack: start;
-              flex-pack: start;
-              margin-right: 5%; }
-              body.profile #splash .content .splash-icon-nav span,
-              body.map #splash .content .splash-icon-nav span,
-              body.story #splash .content .splash-icon-nav span {
-                display: block;
-                margin-top: 7px;
-                font-family: "Palanquin", sans-serif;
-                text-transform: uppercase;
-                font-weight: 300;
-                font-size: 10px;
-                letter-spacing: 0.1em;
-                color: #fff; }
-                body.profile #splash .content .splash-icon-nav a,
-                body.map #splash .content .splash-icon-nav a,
-                body.story #splash .content .splash-icon-nav a {
-                  -webkit-box-flex: 1;
-                  -moz-box-flex: 1;
-                  -webkit-flex: 1;
-                  -ms-flex: 1;
-                  flex: 1;
-                  text-align: center;
-                  padding: 1.2vh 10px 0;
-                  opacity: 0.7;
-                  -moz-transition: opacity 0.25s;
-                  -o-transition: opacity 0.25s;
-                  -webkit-transition: opacity 0.25s;
-                  transition: opacity 0.25s; }
-                  body.profile #splash .content .splash-icon-nav a:hover,
-                  body.map #splash .content .splash-icon-nav a:hover,
-                  body.story #splash .content .splash-icon-nav a:hover {
-                    opacity: 1; }
-              body.profile #splash .content .splash-icon-nav img,
-              body.map #splash .content .splash-icon-nav img,
-              body.story #splash .content .splash-icon-nav img {
-                width: 23px;
-                height: 23px; }
-        body.profile #splash .content .splash-breadcrumb,
-        body.map #splash .content .splash-breadcrumb,
-        body.story #splash .content .splash-breadcrumb {
-          text-align: right;
-          max-width: 30%; }
-          body.profile #splash .content .splash-breadcrumb img,
-          body.map #splash .content .splash-breadcrumb img,
-          body.story #splash .content .splash-breadcrumb img {
-            position: relative;
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            padding: 3px;
-            bottom: 4px; }
-            body.profile #splash .content .splash-breadcrumb a,
-            body.map #splash .content .splash-breadcrumb a,
-            body.story #splash .content .splash-breadcrumb a {
-              display: inline;
-              padding: 2px 0;
-              margin-top: -4px;
-              vertical-align: text-top;
-              font-family: "Palanquin", sans-serif;
-              font-weight: 300;
-              font-size: 10px;
-              letter-spacing: 0.05em;
-              line-height: 1;
-              text-transform: uppercase;
-              overflow-wrap: break-word;
-              word-wrap: break-word;
-              -ms-word-break: break-all;
-              word-break: break-word;
-              white-space: initial !important;
-              -webkit-hyphens: auto;
-              -ms-hyphens: auto;
-              -moz-hyphens: auto;
-              hyphens: auto;
-              color: rgba(240, 250, 255, 0.9);
-              -moz-transition: color 0.25s;
-              -o-transition: color 0.25s;
-              -webkit-transition: color 0.25s;
-              transition: color 0.25s; }
-              body.profile #splash .content .splash-breadcrumb a + a::before,
-              body.map #splash .content .splash-breadcrumb a + a::before,
-              body.story #splash .content .splash-breadcrumb a + a::before {
-                content: "\\ ";
-                font-weight: 400;
-                color: rgba(240, 244, 246, 0.75);
-                padding: 0 0 0 2px; }
-                body.profile #splash .content .splash-breadcrumb a:hover,
-                body.map #splash .content .splash-breadcrumb a:hover,
-                body.story #splash .content .splash-breadcrumb a:hover {
-                  cursor: pointer;
-                  color: #fff;
-                  text-decoration: none; }
+            display: flex; }
+            body.profile #splash .content .splash-icon-nav a,
+            body.map #splash .content .splash-icon-nav a,
+            body.story #splash .content .splash-icon-nav a {
+              text-align: center;
+              margin: 0 10px;
+              opacity: 0.7;
+              width: 100px;
+              -moz-transition: opacity 0.25s;
+              -o-transition: opacity 0.25s;
+              -webkit-transition: opacity 0.25s;
+              transition: opacity 0.25s; }
+              body.profile #splash .content .splash-icon-nav a:hover,
+              body.map #splash .content .splash-icon-nav a:hover,
+              body.story #splash .content .splash-icon-nav a:hover {
+                opacity: 1; }
+                body.profile #splash .content .splash-icon-nav a img,
+                body.map #splash .content .splash-icon-nav a img,
+                body.story #splash .content .splash-icon-nav a img {
+                  width: 23px;
+                  height: 23px; }
+                  body.profile #splash .content .splash-icon-nav a span,
+                  body.map #splash .content .splash-icon-nav a span,
+                  body.story #splash .content .splash-icon-nav a span {
+                    display: block;
+                    margin-top: 7px;
+                    font-family: "Palanquin", sans-serif;
+                    text-transform: uppercase;
+                    font-weight: 300;
+                    font-size: 10px;
+                    letter-spacing: 0.1em;
+                    color: #fff; }
         body.profile #splash .content h1, body.map #splash .content h1,
         body.story #splash .content h1 {
           line-height: 1;
@@ -2522,7 +2423,7 @@ body.profile nav, body.map nav, body.story nav {
                   align-items: center;
                   -ms-flex-align: center;
                   flex-align: center;
-                  max-width: 150px; }
+                  width: 150px; }
                   @media all and (max-width: 950px) {
                     body.profile #splash .content #splash-stats .stat,
                     body.map #splash .content #splash-stats .stat,
@@ -2699,14 +2600,14 @@ body.profile nav, body.map nav, body.story nav {
           color: rgba(255, 255, 255, 0.9);
           font-family: "Palanquin", sans-serif;
           text-transform: uppercase;
-          font-weight: 300;
+          font-weight: 400;
           font-size: 10px;
-          letter-spacing: 0.2em;
+          letter-spacing: 0.03em;
           opacity: 0; }
           body.profile #splash #scroll-btn.visible .mouse,
           body.map #splash #scroll-btn.visible .mouse,
           body.story #splash #scroll-btn.visible .mouse {
-            opacity: 0.9; }
+            opacity: 0.7; }
             body.profile #splash #scroll-btn.visible .mouse-text,
             body.map #splash #scroll-btn.visible .mouse-text,
             body.story #splash #scroll-btn.visible .mouse-text {
@@ -3034,6 +2935,53 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
       width: 20px;
       height: 20px;
       margin: 0 auto 2px; }
+body.profile .breadcrumb, body.map .breadcrumb, body.story .breadcrumb {
+  margin: 5px auto;
+  text-align: center;
+  width: 100%; }
+  body.profile .breadcrumb img, body.map .breadcrumb img, body.story .breadcrumb img {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    padding: 3px;
+    bottom: 4px; }
+    body.profile .breadcrumb a, body.map .breadcrumb a, body.story .breadcrumb a {
+      display: inline;
+      padding: 2px 0;
+      margin-top: -4px;
+      vertical-align: text-top;
+      font-family: "Palanquin", sans-serif;
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      text-transform: uppercase;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      -ms-word-break: break-all;
+      word-break: break-word;
+      white-space: initial !important;
+      -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+      -moz-hyphens: auto;
+      hyphens: auto;
+      color: rgba(240, 250, 255, 0.9);
+      -moz-transition: color 0.25s;
+      -o-transition: color 0.25s;
+      -webkit-transition: color 0.25s;
+      transition: color 0.25s; }
+      body.profile .breadcrumb a + a::before, body.map .breadcrumb a + a::before,
+      body.story .breadcrumb a + a::before {
+        content: "\\ ";
+        font-weight: 400;
+        color: rgba(240, 244, 246, 0.75);
+        padding: 0 0 0 2px; }
+        body.profile .breadcrumb a:hover, body.map .breadcrumb a:hover,
+        body.story .breadcrumb a:hover {
+          cursor: pointer;
+          color: #fff;
+          text-decoration: none; }
 body.profile .intro, body.map .intro, body.story .intro {
   min-height: 190px;
   background-color: #141b2e;

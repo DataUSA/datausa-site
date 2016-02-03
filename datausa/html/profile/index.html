@@ -33,47 +33,29 @@
 
       </div>
 
-      <div class="splash-context">
-
-        <div id="splash-stats">
-          {% for stat in profile.splash.stats %}
-          <div class="stat">
-            <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-group">
-              <div class="stat-value">{{ stat.value|safe }}</div>
-              <div class="stat-rank">{{ stat.rank|safe }}</div>
-            </div>
+      <div id="splash-stats">
+        {% for stat in profile.splash.stats %}
+        <div class="stat">
+          <div class="stat-text">{{ stat.title|safe }}</div>
+          <div class="stat-group">
+            <div class="stat-value">{{ stat.value|safe }}</div>
+            <div class="stat-rank">{{ stat.rank|safe }}</div>
           </div>
-          {% endfor %}
         </div>
-
+        {% endfor %}
       </div>
 
-      <div class="row-last">
-        <div class="splash-icon-nav">
-          <a href="#intro" data-ga="splash intro" data-ga-cat="navigation" data-ga-label="User click">
-            <img src="/static/img/icons/about.svg" />
-            <span>About</span>
-          </a>
-          {% for section in sections %}
-          <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
-            <img src="/static/img/icons/{{ section.anchor }}.svg" />
-            <span>{{ section.title|safe }}</span>
-          </a>
-          {% endfor %}
-        </div>
-
-        <div class="splash-breadcrumb">
-          <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
-          {% set parents = profile.parents() %}
-          {% if parents|length %}
-            <sub>
-              {% for p in parents %}
-                <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id'] ) }}">{{ p["name"] }}</a>
-              {% endfor %}
-            </sub>
-          {% endif %}
-        </div>
+      <div class="splash-icon-nav">
+        <a href="#intro" data-ga="splash intro" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/about.svg" />
+          <span>About</span>
+        </a>
+        {% for section in sections %}
+        <a href="#{{ section.anchor }}" data-ga="splash {{ section.title|safe|lower }}" data-ga-cat="navigation" data-ga-label="User click">
+          <img src="/static/img/icons/{{ section.anchor }}.svg" />
+          <span>{{ section.title|safe }}</span>
+        </a>
+        {% endfor %}
       </div>
 
     </div>
@@ -97,6 +79,17 @@
       <span class="b"></span>
     </div> -->
     <h1 class="category"><a name="intro">About {{ profile.splash.title }}</a></h1>
+    <div class="breadcrumb">
+      <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
+      {% set parents = profile.parents() %}
+      {% if parents|length %}
+        <sub>
+          {% for p in parents %}
+            <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id'] ) }}">{{ p["name"] }}</a>
+          {% endfor %}
+        </sub>
+      {% endif %}
+    </div>
     <div class="col">
       <div class="intro-txt">
       {% for desc in profile.splash.description %}

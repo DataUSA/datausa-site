@@ -339,13 +339,13 @@ body.profile, body.map, body.story {
     .content {
       @include flex();
       @include flex-direction(column);
-      @include justify(flex-end);
+      @include justify(space-around);
       @include align-items(center);
       @include transition(opacity 0.5s);
       width: 100%;
       height: 100%;
       opacity: 1;
-      padding: $nav-height 10% 7%;
+      padding: 7% 10%;
       @include box();
       z-index: 1;
       position: relative;
@@ -356,6 +356,7 @@ body.profile, body.map, body.story {
       }
 
       .splash-titles {
+        // @include flex-size(1);
         color: #efefef;
         width: 100%;
         max-width: 750px;
@@ -367,7 +368,7 @@ body.profile, body.map, body.story {
           font-weight: 400;
           text-transform: uppercase;
           letter-spacing: 0.03em;
-          @include text-shadow(0px 0px 10px rgba(20,27,46,0.4));
+          @include text-shadow(0px 0px 15px rgba(20, 27, 46, 0.6));
         }
 
         sub {
@@ -380,105 +381,49 @@ body.profile, body.map, body.story {
         }
       }
 
-      .splash-context {
+      #splash-stats {
+        // @include flex-size(1);
         width: 100%;
         max-width: 900px;
-        margin-top: 5%;
         @include flex();
-        @include flex-direction(row);
         @include align-items(flex-start);
         @include justify(space-around);
-      }
-
-      .row-last {
-        width: 100%;
-        @include flex();
-        @include flex-direction(row);
-        @include justify(space-between);
-        @include align-items(center);
-        margin-top: 12%;
+        @include text-shadow(0px 0px 5px rgba(20, 27, 46, 0.6));
       }
 
       .splash-icon-nav {
+        // @include flex-size(1);
         @include flex();
-        @include flex-direction(row);
-        @include align-items(flex-start);
-        @include justify(flex-start);
-        margin-right: 5%;
-
-        span {
-          display: block;
-          margin-top: 7px;
-          font-family: $palanquin;
-          text-transform: uppercase;
-          font-weight: 300;
-          font-size: 10px;
-          letter-spacing: 0.1em;
-          color: #fff;
-        }
+        // width: 100%;
 
         a {
-          @include flex-size(1);
+          // @include flex-size(1);
           text-align: center;
-          padding: 1.2vh 10px 0;
+          margin: 0 10px;
           opacity: 0.7;
+          width: 100px;
           @include transition(opacity 0.25s);
 
           &:hover {
             opacity: 1;
           }
-        }
 
-        img {
-          width: 23px;
-          height: 23px;
-        }
-      }
-
-      .splash-breadcrumb {
-        text-align: right;
-        max-width: 30%;
-
-        img {
-          position: relative;
-          display: inline-block;
-          width: 18px;
-          height: 18px;
-          padding: 3px;
-          bottom: 4px;
-        }
-
-        a {
-          display: inline;
-          padding: 2px 0;
-          margin-top: -4px;
-          vertical-align: text-top;
-          font-family: $palanquin;
-          font-weight: 300;
-          font-size: 10px;
-          letter-spacing: 0.05em;
-          line-height: 1;
-          text-transform: uppercase;
-          @include wordwrap();
-          @include hyphens;
-          color: rgba(240, 250, 255, 0.9);
-          @include transition(color 0.25s);
-
-          &+a::before {
-            content: "\\ ";
-            font-weight: 400;
-            color: rgba(240,244,246,0.75);
-            padding: 0 0 0 2px;
+          img {
+            width: 23px;
+            height: 23px;
           }
 
-          &:hover {
-            cursor: pointer;
+          span {
+            display: block;
+            margin-top: 7px;
+            font-family: $palanquin;
+            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 10px;
+            letter-spacing: 0.1em;
             color: #fff;
-            text-decoration: none;
           }
-
         }
-
       }
 
       h1 {
@@ -518,7 +463,7 @@ body.profile, body.map, body.story {
           @include flex-direction(column);
           @include justify(flex-start);
           @include align-items(center);
-          max-width: 150px;
+          width: 150px;
 
           @media all and (max-width: 950px){
             @include justify(flex-start);
@@ -674,15 +619,15 @@ body.profile, body.map, body.story {
         color: rgba(255, 255, 255, 0.9);
         font-family: $palanquin;
         text-transform: uppercase;
-        font-weight: 300;
+        font-weight: 400;
         font-size: 10px;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.03em;
         opacity: 0;
       }
 
       &.visible {
         .mouse {
-          opacity: 0.9;
+          opacity: 0.7;
         }
         .mouse-text {
           opacity: 0.8;
@@ -950,6 +895,53 @@ body.profile, body.map, body.story {
       }
 
     }
+  }
+
+  .breadcrumb {
+    margin: 5px auto;
+    text-align: center;
+    width: 100%;
+
+    img {
+      position: relative;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      padding: 3px;
+      bottom: 4px;
+    }
+
+    a {
+      display: inline;
+      padding: 2px 0;
+      margin-top: -4px;
+      vertical-align: text-top;
+      font-family: $palanquin;
+      font-weight: 300;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      text-transform: uppercase;
+      @include wordwrap();
+      @include hyphens;
+      color: rgba(240, 250, 255, 0.9);
+      @include transition(color 0.25s);
+
+      &+a::before {
+        content: "\\ ";
+        font-weight: 400;
+        color: rgba(240,244,246,0.75);
+        padding: 0 0 0 2px;
+      }
+
+      &:hover {
+        cursor: pointer;
+        color: #fff;
+        text-decoration: none;
+      }
+
+    }
+
   }
 
   .intro {
