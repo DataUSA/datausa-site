@@ -310,6 +310,10 @@ body {
   &.hidden {
     top: -$nav-height + 9;
   }
+
+  img {
+    margin: 5px 5px 0 0;
+  }
 }
 
 #search-btn {
@@ -373,6 +377,38 @@ body {
   left: 0;
   opacity: 0.8;
   z-index: 6;
+}
+
+#title-bar {
+  text-align: center;
+  height: $nav-height;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  z-index: 3;
+
+  span {
+    @include flex();
+    @include align-items(center);
+    position: relative;
+    top: 0;
+    padding: 7px;
+    @include box();
+    color: $red-w;
+    font-family: $pathway;
+    font-size: 24px;
+  }
+
+  img {
+    width: 76px;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
+
 }
 
 /* tablet design */

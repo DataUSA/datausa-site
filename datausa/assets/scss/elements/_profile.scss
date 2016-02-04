@@ -13,6 +13,177 @@ body.profile {
       @include box();
     }
   }
+
+  #title-bar {
+    max-width: 860px;
+
+    span {
+      @include flex();
+      @include align-items(flex-start);
+      top: $nav-height - 10;
+      @include transition(top 0.55s 0.03s);
+      padding: 6px;
+    }
+
+    .expand-stats-btn {
+      opacity: 0;
+      display: inline-block;
+      border-radius: 50%;
+      border: 1px solid $max-color;
+      @include box();
+      background: url("/static/img/splash/max.svg") no-repeat 50%;
+      background-size: 80%;
+      width: 17px;
+      height: 17px;
+      margin-left: 5px;
+      margin-top: 6px;
+      @include transition(opacity 0.25s, border 0.5s);
+
+      &.show {
+        opacity: 1;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &.close{
+        border-radius: 50%;
+        border: 1px solid $min-color;
+        @include box();
+        background: url("/static/img/splash/min.svg") no-repeat 50%;
+        background-size: 80%;
+        width: 17px;
+        height: 17px;
+        margin-left: 5px;
+      }
+    }
+
+    a {
+      color: #fff;
+    }
+
+    &.visible {
+
+      span {
+        top: 0;
+      }
+    }
+
+  }
+
+  #stats-bar {
+    @include flex();
+    position: absolute;
+    height: $stats-bar-height;
+    width: 100%;
+    right: 0;
+    left: 0;
+    top: -$stats-bar-height;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    z-index: 2;
+    background-color: $black2;
+    color: rgba(237, 240, 245, 0.5);
+    @include transition(top 0.5s, box-shadow 0.5s);
+
+    &.visible {
+      top: 0;
+      @include shadow(0 3px 3px rgba(20, 27, 46, 0.25) inset);
+    }
+
+    #title-stats {
+      width: 60%;
+      max-width: 550px;
+      font-family: $palanquin;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 10px;
+      @include flex();
+      @include justify(space-between);
+      @include align-items(center);
+    }
+
+    .title-stat {
+      @include flex();
+      @include align-items(flex-end);
+      @include transition(opacity 0.25s);
+      cursor: default;
+
+      &:hover {
+        color: #fff;
+
+        .title-stat-text a {
+          color: #fff;
+          border-bottom: 1px solid #fff;
+        }
+      }
+    }
+
+    .title-stat-text {
+      margin: 0 5px;
+      text-align: center;
+
+      a {
+        color: rgba(237,240,245,0.65);
+        border-bottom: 1px solid rgba(195,219,225,0.5);
+        text-decoration: none;
+
+        &:hover {
+          border-bottom: 0;
+          color: #fff;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .title-stat-value {
+      text-align: center;
+      font-family: $source;
+      font-size: 16px;
+      font-weight: 300;
+
+      a {
+        padding-bottom: 1px;
+        color: $link-color-geo;
+        text-decoration: none;
+        text-transform: capitalize;
+
+        &:hover {
+          border-bottom: 0;
+          color: $alt-link-color-geo;
+          border-bottom: 1px solid $alt-link-color-geo;
+          text-decoration: none;
+        }
+
+      }
+    }
+  }
+
+  #nav-bar-scroll {
+    position: fixed;
+    height: $prof-nav-height + $stats-bar-height;
+    width: 100%;
+    right: 0;
+    left: 0;
+    top: $nav-height;
+    overflow: hidden;
+    z-index: 2;
+    @include transition(height 0.45s);
+
+    &.stat-hidden {
+      height: $prof-nav-height;
+
+      #stats-bar {
+        top: -$stats-bar-height;
+      }
+
+      #profile-nav.visible {
+        top: 0;
+      }
+    }
+  }
 }
 
 body.profile, body.map, body.story {
@@ -636,198 +807,6 @@ body.profile, body.map, body.story {
 
     }
 
-  }
-
-  #title-bar {
-    text-align: center;
-    height: $nav-height;
-    max-width: 860px;
-    right: 0;
-    left: 0;
-    margin-right: auto;
-    margin-left: auto;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    z-index: 3;
-
-    span {
-      @include flex();
-      @include align-items(flex-start);
-      position: relative;
-      top: $nav-height - 10;
-      @include transition(top 0.55s 0.03s);
-      padding: 6px;
-      @include box();
-      color: #ef6145;
-      font-family: $pathway;
-      font-size: 24px;
-    }
-
-    img {
-      width: 78px;
-      margin-top: 4px;
-      margin-right: 5px;
-    }
-
-    .expand-stats-btn {
-      opacity: 0;
-      display: inline-block;
-      border-radius: 50%;
-      border: 1px solid $max-color;
-      @include box();
-      background: url("/static/img/splash/max.svg") no-repeat 50%;
-      background-size: 80%;
-      width: 17px;
-      height: 17px;
-      margin-left: 5px;
-      margin-top: 6px;
-      @include transition(opacity 0.25s, border 0.5s);
-
-      &.show {
-        opacity: 1;
-        &:hover {
-          cursor: pointer;
-        }
-      }
-
-      &.close{
-        border-radius: 50%;
-        border: 1px solid $min-color;
-        @include box();
-        background: url("/static/img/splash/min.svg") no-repeat 50%;
-        background-size: 80%;
-        width: 17px;
-        height: 17px;
-        margin-left: 5px;
-      }
-    }
-
-    a {
-      color: #fff;
-    }
-
-    &.visible {
-
-      span {
-        top: 0;
-      }
-    }
-
-  }
-
-  #stats-bar {
-    @include flex();
-    position: absolute;
-    height: $stats-bar-height;
-    width: 100%;
-    right: 0;
-    left: 0;
-    top: -$stats-bar-height;
-    margin-right: auto;
-    margin-left: auto;
-    overflow: hidden;
-    z-index: 2;
-    background-color: $black2;
-    color: rgba(237, 240, 245, 0.5);
-    @include transition(top 0.5s, box-shadow 0.5s);
-
-    &.visible {
-      top: 0;
-      @include shadow(0 3px 3px rgba(20, 27, 46, 0.25) inset);
-    }
-
-    #title-stats {
-      width: 60%;
-      max-width: 550px;
-      font-family: $palanquin;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-size: 10px;
-      @include flex();
-      @include justify(space-between);
-      @include align-items(center);
-    }
-
-    .title-stat {
-      @include flex();
-      @include align-items(flex-end);
-      @include transition(opacity 0.25s);
-      cursor: default;
-
-      &:hover {
-        color: #fff;
-
-        .title-stat-text a {
-          color: #fff;
-          border-bottom: 1px solid #fff;
-        }
-      }
-    }
-
-    .title-stat-text {
-      margin: 0 5px;
-      text-align: center;
-
-      a {
-        color: rgba(237,240,245,0.65);
-        border-bottom: 1px solid rgba(195,219,225,0.5);
-        text-decoration: none;
-
-        &:hover {
-          border-bottom: 0;
-          color: #fff;
-          text-decoration: none;
-        }
-      }
-    }
-
-    .title-stat-value {
-      text-align: center;
-      font-family: $source;
-      font-size: 16px;
-      font-weight: 300;
-
-      a {
-        padding-bottom: 1px;
-        color: $link-color-geo;
-        text-decoration: none;
-        text-transform: capitalize;
-
-        &:hover {
-          border-bottom: 0;
-          color: $alt-link-color-geo;
-          border-bottom: 1px solid $alt-link-color-geo;
-          text-decoration: none;
-        }
-
-      }
-    }
-  }
-
-  #nav-bar-scroll {
-    position: fixed;
-    height: $prof-nav-height + $stats-bar-height;
-    width: 100%;
-    right: 0;
-    left: 0;
-    top: $nav-height;
-    overflow: hidden;
-    z-index: 2;
-    @include transition(height 0.45s);
-
-    &.stat-hidden {
-      height: $prof-nav-height;
-
-      #stats-bar {
-        top: -$stats-bar-height;
-      }
-
-      #profile-nav.visible {
-        top: 0;
-      }
-    }
   }
 
   #profile-nav {

@@ -16,37 +16,6 @@ body.story {
     display: none;
   }
 
-  #title-bar {
-    text-align: center;
-    height: $nav-height;
-    right: 0;
-    left: 0;
-    margin-right: auto;
-    margin-left: auto;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    z-index: 3;
-
-    span {
-      @include flex();
-      @include align-items(center);
-      position: relative;
-      top: 0;
-      padding: 7px;
-      color: $red-w;
-      font-family: $pathway;
-      font-size: 24px;
-    }
-
-    img {
-      width: 78px;
-      margin-top: 4px;
-      margin-right: 5px;
-    }
-
-  }
-
   h1 {
     font-family: $pathway;
     font-weight: 300;
