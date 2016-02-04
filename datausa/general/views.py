@@ -5,7 +5,7 @@ from flask import Blueprint, g, render_template, request, url_for, redirect, abo
 from config import API
 from datausa import app
 from datausa.consts import AFFIXES, DICTIONARY, PERCENTAGES, PROPORTIONS, SUMLEVELS
-from datausa.utils.data import attr_cache
+from datausa.utils.data import attr_cache, get_parents
 from pagination import Pagination
 
 mod = Blueprint("general", __name__)
@@ -85,7 +85,20 @@ def attributes(attr_type, sumlevel, page):
         anchor_key = "id"
         name_key = "name"
     
-    sort_key = name_key if sorting == "name" else "id"
+    headers = [{"name":"ID", "id":"id", "key":"id"}, {"name":"Name", "id":"name", "key":name_key, "anchor_key":anchor_key}]
+    
+    # fetch parent State for PUMAs, Places and Counties
+    if this_sumlevel["id"] in ['795', '160', '050']:
+        headers = headers[:1] + [{"name":"State", "id":"state_name", "key":"state_name", "anchor_key":"state_anchor"},] + headers[1:]
+        states = {a["id"][7:9]:a for a in attr_cache[attr_type].values() if a['sumlevel'] == "040" and 'pretty' in a}
+        for a in attrs:
+            state_id = a["id"][7:9]
+            # raise Exception(states[state_id])
+            a["state_name"] = states[state_id]["name"]
+            a["state_anchor"] = states[state_id]["url_name"]
+    
+    sort_key = name_key if sorting == "name" else sorting
+    sort_key = sort_key or "id"
     isreversed = True if ordering == "asc" else False
     attrs = sorted(attrs, key=lambda x: x[sort_key], reverse=isreversed)
     
@@ -93,8 +106,8 @@ def attributes(attr_type, sumlevel, page):
     attrs = attrs[offset:(offset+PER_PAGE)]
     if not attrs and page != 1:
         abort(404)
+    
     pagination = Pagination(page, PER_PAGE, count, sorting, ordering)
-    # raise Exception(pagination.next_order)
 
     return render_template("about/attributes.html",
                             attr_type=attr_type,
@@ -103,6 +116,7 @@ def attributes(attr_type, sumlevel, page):
                             sumlevels=sumlevels,
                             pagination=pagination,
                             this_sumlevel=this_sumlevel,
+                            headers=headers,
                             attrs=attrs)
 
 @mod.route("/about/usage/")

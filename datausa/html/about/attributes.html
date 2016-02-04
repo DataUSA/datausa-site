@@ -38,11 +38,11 @@
         <table class="{{ attr_type }}">
           <thead>
             <tr>
-              {%- for header in ["id", "name"] %}
-                {% if pagination.sort == header %}
-                <th class="{{ header }}"><a href="{{ url_for_other_page(pagination.page, header, pagination.next_order) }}">{{ header }} {% if pagination.order == "desc" %}<i class="fa fa-caret-down"></i>{% else %}<i class="fa fa-caret-up"></i>{% endif %}</a></th>
+              {%- for header in headers %}
+                {% if pagination.sort == header.id %}
+                <th class="{{ header.id }}"><a href="{{ url_for_other_page(pagination.page, header.id, pagination.next_order) }}">{{ header.name }} {% if pagination.order == "desc" %}<i class="fa fa-caret-down"></i>{% else %}<i class="fa fa-caret-up"></i>{% endif %}</a></th>
                 {% else %}
-                <th class="{{ header }}"><a href="{{ url_for_other_page(pagination.page, header, 'desc') }}">{{ header }}</a></th>
+                <th class="{{ header.id }}"><a href="{{ url_for_other_page(pagination.page, header.id, 'desc') }}">{{ header.name }}</a></th>
                 {% endif %}
               {%- endfor %}
             </tr>
@@ -50,8 +50,15 @@
           <tbody>
             {% for attr in attrs %}
             <tr>
-              <td class="id">{{ attr['id'] }}</td>
-              <td class="name"><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td>
+              {%- for header in headers %}
+                {% if header.anchor_key %}
+                <td class="{{ header.id }}"><a href="/profile/{{ attr_type }}/{{ attr[header.anchor_key] }}/">{{ attr[header.key] }}</a></td>
+                {% else %}
+                <td class="{{ header.id }}">{{ attr[header.key] }}</td>
+                {% endif %}
+              {%- endfor %}
+              <!-- <td class="id">{{ attr['id'] }}</td>
+              <td class="name"><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td> -->
             </tr>
             {% endfor %}
           </tbody>
