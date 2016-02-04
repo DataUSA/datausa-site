@@ -340,7 +340,7 @@ body.profile, body.map, body.story {
       }
     }
 
-    sub {
+    .sub {
       font-family: $palanquin;
       font-size: 13px;
       line-height: 1.35;
@@ -349,6 +349,9 @@ body.profile, body.map, body.story {
       letter-spacing: 0.05em;
       color: #666;
 
+      vertical-align: baseline;
+      position: relative;
+
       a {
         color: #666;
         &:hover {
@@ -356,6 +359,10 @@ body.profile, body.map, body.story {
           border-bottom: 1px solid #666;
         }
       }
+    }
+
+    .sub-title {
+      color: $red-w;
     }
 
     .sub-source {
@@ -419,10 +426,13 @@ body.profile, body.map, body.story {
     margin-bottom: 8px;
 
     &.stat-small {
-      font-size: 20px;
+      font-size: 14px;
       font-weight: 400;
-      margin-left: 2px;
       margin-top: 2px;
+    }
+
+    .stat-span, .stat-text, a {
+      vertical-align: baseline;
     }
 
     a {

@@ -10,14 +10,14 @@
   <h2>{{ topic.title|safe }} <a href="#" class="data-btn" data-ga="show data" data-ga-cat="profile" data-ga-label="User click" data-ga-target=".data-table"><span>Show Data</span>&nbsp;<i class="fa fa-table"></i></a></h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
-  <sub>{{ topic.subtitle|safe }}</sub>
+  <div class="sub sub-title">{{ topic.subtitle|safe }}</div>
   {% endif %}
   {% if content %}
   <div class="content{% if not aside %} full-width{% endif %}">
     {% if aside %}
     <aside>
       {% if topic.subtitle %}
-      <sub>{{ topic.subtitle|safe }}</sub>
+      <div class="sub sub-title">{{ topic.subtitle|safe }}</div>
       {% endif %}
       {% if topic.select %}
       <select id="topic-select-{{ loop.index0 }}" data-param="{{ topic.select.param }}" data-method="{{ topic.select.method }}" data-default="{{ topic.select.default }}">

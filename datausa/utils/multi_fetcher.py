@@ -44,7 +44,7 @@ def render_col(my_data, headers, col, url=False, dataset=False):
         return_value = attr
 
     if url:
-        return_value = u"<span data-url='{}'>{}</span>".format(url, return_value)
+        return_value = u"<span class='stat-span' data-url='{}'>{}</span>".format(url, return_value)
     return {"raw": value, "pretty": return_value}
 
 

@@ -359,7 +359,7 @@ class Profile(BaseObject):
                     if col == "id":
                         val = val["value"]
                     else:
-                        val = u"<span data-url='{}'>{}</span>".format(val["url"], val["value"])
+                        val = u"<span class='stat-span' data-url='{}'>{}</span>".format(val["url"], val["value"])
 
                 # replace all instances of key with the returned value
                 # !! TODO: fix unicode black magic !!
