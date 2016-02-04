@@ -1550,21 +1550,6 @@ body.profile, body.map, body.story {
   to {top: 5px;}
 }
 
-.viz {
-  .attribution, .attribution a {
-    font-family: $palanquin !important;
-    color: $gray-d !important;
-  }
-
-  .zoom-in, .zoom-out, .zoom-reset {
-    border: 1px solid $gray-d !important;
-
-    &::after {
-      color: $gray-d !important;
-    }
-  }
-}
-
 .d3plus_node {
   margin: 10px 0 0 !important;
   border: 1px solid $gray !important;
