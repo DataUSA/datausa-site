@@ -3939,21 +3939,30 @@ body.map {
     position: relative; }
     body.map nav #top-nav {
       background-color: #141b2e; }
+  body.map #home-btn {
+    display: none; }
 
 #map-controls {
-  background-color: #141b2e;
-  padding: 5px 5px 10px;
+  background-color: #c1c1c1;
+  padding: 0px 5px 10px;
   text-align: center;
-  z-index: 2; }
-  #map-controls #map-preposition {
-    color: white;
-    display: inline-block;
-    font-family: "Palanquin", sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    margin: 8px 0 0 4px; }
+  z-index: 2;
+  position: relative;
+  top: 40px; }
+  #map-controls > div {
+    margin: 0 !important; }
+    #map-controls #map-preposition {
+      color: #666;
+      display: inline-block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 13px 5px 0 9px; }
 
 #map-fullscreen {
+  top: 40px;
   width: 100vw;
   z-index: 1; }
   #map-fullscreen svg {
@@ -4021,7 +4030,7 @@ body.map {
       .map-controls .zoom-out:after {
         content: "\f068"; }
         .map-controls .zoom-reset:after {
-          content: "\f015"; }
+          content: "\f0e2"; }
 body.story {
   background-color: #E9E9E9; }
   body.story #top-nav {

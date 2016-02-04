@@ -10,26 +10,39 @@ body.map {
     }
   }
 
+  #home-btn {
+    display: none;
+  }
+
 }
 
 #map-controls {
-  background-color: $black2;
-  padding: 5px 5px 10px;
+  background-color: #c1c1c1;
+  padding: 0px 5px 10px;
   text-align: center;
   z-index: 2;
+  position: relative;
+  top: $title-height;
+
+  & > div {
+    margin: 0 !important;
+  }
 
   #map-preposition {
-    color: white;
+    color: #666;
     display: inline-block;
     font-family: $palanquin;
-    font-size: 13px;
-    font-weight: 400;
-    margin: 8px 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 13px 5px 0 9px;
   }
 
 }
 
 #map-fullscreen {
+  top: $title-height;
   width: 100vw;
   z-index: 1;
   svg {
@@ -142,7 +155,7 @@ body.map {
   }
 
   .zoom-reset:after {
-    content: unicode("f015");
+    content: unicode("f0e2");
 
   }
 
