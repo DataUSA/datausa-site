@@ -4,10 +4,10 @@ description: "Explore the employment, industries, education, and demographics of
 stats:
   - title: "Employees"
     value: "<<var namespace=data|key=num_ppl>>"
-    rank: "<<var namespace=data|key=num_ppl_rank>> of <<rank_max>> <<level plural=True|short=True>>"
+    rank: "<<var namespace=data|key=num_ppl_rank>> of <<rank_max>> <<level plural=True>>"
   - title: "Average Salary"
     value: "<<var namespace=data|key=avg_wage>>"
-    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>> <<level plural=True|short=True>>"
+    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>> <<level plural=True>>"
   - title: "Average Age"
     value: "<<var namespace=data|key=avg_age>>"
 facts:

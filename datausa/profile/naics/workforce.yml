@@ -185,7 +185,7 @@ topics:
   - category: "Wages"
     title: "Average Salary"
     slug: "wages"
-    description: "On average, employees in the <<name>> <<level>> have a salary of <<var namespace=data|key=avg_wage>>. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True|short=True>>."
+    description: "On average, employees in the <<name>> <<level>> have a salary of <<var namespace=data|key=avg_wage>>. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True>>."
     stat:
       - title: "Average Wage"
         value: "<<var namespace=data|key=avg_wage>>"
