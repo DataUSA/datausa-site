@@ -1383,19 +1383,24 @@ body.search {
                   border-bottom: 0; }
                 body.search .search-results-container .search-results .search-item .info p {
                   display: block; }
-                  body.search .search-results-container .search-results .search-item .info h2 a:focus {
-                    border-bottom: solid black 1px; }
-                    body.search .search-results-container .search-results .search-item .info h2 a::after {
-                      content: "\00bb";
-                      top: -1px;
-                      position: relative;
-                      font-family: "Palanquin", sans-serif;
-                      font-weight: 400;
-                      letter-spacing: 0.05em;
-                      line-height: 1;
-                      margin-left: 2px; }
-                      body.search .search-results-container .search-results .search-item .info h2 a:hover {
-                        text-decoration: none; }
+                  body.search .search-results-container .search-results .search-item .info .stem {
+                    border: solid 1px #aaa;
+                    border-radius: 4px;
+                    margin: 0 0 0 5px;
+                    padding: 0 4px; }
+                    body.search .search-results-container .search-results .search-item .info h2 a:focus {
+                      border-bottom: solid black 1px; }
+                      body.search .search-results-container .search-results .search-item .info h2 a::after {
+                        content: "\00bb";
+                        top: -1px;
+                        position: relative;
+                        font-family: "Palanquin", sans-serif;
+                        font-weight: 400;
+                        letter-spacing: 0.05em;
+                        line-height: 1;
+                        margin-left: 2px; }
+                        body.search .search-results-container .search-results .search-item .info h2 a:hover {
+                          text-decoration: none; }
                 body.search .search-results-container .search-results .search-item .info h2 .expand {
                   position: relative;
                   top: 1px;

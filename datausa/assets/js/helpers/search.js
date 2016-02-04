@@ -124,7 +124,8 @@ search.reload = function() {
   }
 
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
-  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+"&is_stem="+this.stem_only+query_sumlevel, function(data, url, raw) {
+  var query_is_stem = this.stem_only ? "&is_stem=2" : "";
+  load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+query_is_stem+query_sumlevel, function(data, url, raw) {
     // console.log(data, url, raw)
     // console.log(url)
 
@@ -221,7 +222,10 @@ search.btnExplore = function(d) {
   // title.append("i").attr("class", "fa fa-angle-down")
   // title.append("i").attr("class", "fa fa-angle-up")
   if(sumlevels_cy_id[d.kind][d.sumlevel]){
-    info.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name)
+    var subtitle = info.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+    if(d.is_stem){
+      subtitle.append("span").attr("class", "stem").text("STEM");
+    }
   }
   if(search.zip){
     info.append("span")

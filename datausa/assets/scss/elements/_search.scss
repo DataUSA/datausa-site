@@ -615,6 +615,13 @@ body.search {
           p {
             display: block;
           }
+          
+          .stem {
+            border: solid 1px #aaa;
+            border-radius: 4px;
+            margin: 0 0 0 5px;
+            padding: 0 4px;
+          }
 
           h2 a {
 
