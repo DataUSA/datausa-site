@@ -2,17 +2,17 @@
 
 {% block body %}
 <div class="home-container">
-	<div class="bg">
-		<div class="landing"></div>
-		<div class="strip"></div>
-	</div>
+  <div class="hero-container">
+    <div class="hero-img bg"></div>
+    <div id="logo"></div>
+    <div class="hero-img fg"></div>
+    <div id="logo-shadow"></div>
+    <div id="desc"></div>
+    <div id="desc-shadow"></div>
+  </div>
 
 <div class="content">
-	<article class="landing">
-		<div class="home-logo">
-			<img class="logo" src="/static/img/home/logo_p2.png" alt="DataUSA" />
-		</div>
-    <!-- <section class="home-desc"><h2>An open source </br>platform to explore </br>public U.S. data</h2></section> -->
+	<article id="landing">
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<div class="search-input-btn">
@@ -27,6 +27,10 @@
       </section>
 		</section>
 	</article>
+  <article id="profile-trends"></article>
+  <article id="stories-summary"></article>
+  <article id="map-summary"></article>
+  <footer></footer>
 </div>
 
 </div>
@@ -36,10 +40,10 @@
 
 <script>
 
-var bg_imgs = [1, 6];
-var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
-d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
-localforage.setItem("homepage_image", bg_img);
+// var bg_imgs = [1, 6];
+// var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
+// d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
+// localforage.setItem("homepage_image", bg_img);
 
 var homeInput = d3.select("#home-search-input");
 d3.select("#search-switch.adv").on("click", function(){
