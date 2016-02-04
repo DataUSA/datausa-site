@@ -52,7 +52,7 @@ body.home {
 
     & div {
       width: 100%;
-      max-width: 100vw;
+      // max-width: 100vw;
       height: 100%;
       position: absolute;
       top: 0;
@@ -63,52 +63,64 @@ body.home {
       @include transform(scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg));
       opacity: 1;
     }
-  }
 
-  .hero-img {
-    position: absolute;
-    width: 100%;
-    max-width: 100vw !important;
-    height: 100% !important;
-    background-position: 50% 0;
-    background-size: cover;
-    background-repeat: no-repeat;
+    .hero-img {
+      // position: absolute;
+      // width: 100%;
+      // max-width: 100vw !important;
+      // height: 100% !important;
+      // background-position: 50% 0;
+      background-size: cover !important;
+      // background-repeat: no-repeat;
 
-    &.bg {
-      background-image: url('/static/img/home/hero-bg.jpg');
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 0;
+      &#bg {
+        background-image: url('/static/img/home/hero-bg.jpg');
+        z-index: 0;
+      }
+
+      &#fg {
+        background-image: url('/static/img/home/hero-fg.png');
+        z-index: 5;
+      }
     }
 
-    &.fg {
-      background-image: url('/static/img/home/hero-fg.png');
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 5;
+    $paralax_mods: (
+      logo-shadow: 1%,
+      logo: 1.5%,
+      desc-shadow: 2%,
+      desc: 2.5%,
+      fg: 3%
+    );
+
+    @each $id, $mod in $paralax_mods {
+      ##{$id} {
+        top: -($mod / 2);
+        left: -($mod / 2);
+        height: 100% + $mod;
+        width: 100% + $mod;
+      }
     }
-  }
 
-  #logo {
-    background-image: url('/static/img/home/logo.png');
-    z-index: 2;
-  }
+    #logo {
+      background-image: url('/static/img/home/logo.png');
+      z-index: 2;
+    }
 
-  #logo-shadow {
-    background-image: url('/static/img/home/logo_shadow.png');
-    z-index: 1;
-  }
+    #logo-shadow {
+      background-image: url('/static/img/home/logo_shadow.png');
+      z-index: 1;
+    }
 
-  #desc {
-    background-image: url('/static/img/home/desc.png');
-    z-index: 4;
-  }
+    #desc {
+      background-image: url('/static/img/home/desc.png');
+      z-index: 4;
+    }
 
-  #desc-shadow {
-    background-image: url('/static/img/home/desc_shadow.png');
-    z-index: 3;
+    #desc-shadow {
+      background-image: url('/static/img/home/desc_shadow.png');
+      z-index: 3;
+    }
+
   }
 
   /* end hero */
