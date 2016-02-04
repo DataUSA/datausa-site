@@ -23,7 +23,7 @@ body.about {
     .fa-link {
       color: $black2;
       visibility: hidden;
-      margin: 10px 0 0 -10px;
+      margin: 10px 0 0 -20px;
       padding-right: 5px;
       font-size: 14px;
     }
@@ -33,6 +33,10 @@ body.about {
         visibility: visible;
       }
     }
+  }
+
+  .katex-html {
+    font-family: $palanquin;
   }
 
   a {
@@ -318,93 +322,66 @@ body.about {
     padding-top: 30px;
   }
 
-  .datasets {
+  .dataset-panel {
     @include flex();
-    @include flex-direction(column);
+    @include flex-direction(row);
+    @include justify(space-between);
 
-    .dataset-panel-container {
+    li {
       @include flex-size(1);
-      // margin-top: 30px;
+      padding: 0 0 10px;
+      text-align: center;
+      font-family: $palanquin;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0.03em;
 
-      .dataset-panel {
-        @include flex();
-        @include flex-direction(row);
-        @include justify(space-between);
+      a {
+        color: $black2;
 
-        li {
-          @include flex-size(1);
-          padding: 0 0 10px;
-          text-align: center;
-          font-family: $palanquin;
-          font-weight: 300;
-          font-size: 16px;
-          letter-spacing: 0.03em;
-
-          a {
-            color: $black2;
-
-            i {
-              display: block;
-            }
-            img {
-              display: block;
-              margin: 0 auto;
-              width: 25px;
-            }
-          }
-
-          &.active {
-            a {
-              color: $red-w;
-            }
-
-            .geo {
-              color: $geo-bg-color;
-            }
-            .cip {
-              color: $cip-bg-color;
-            }
-            .soc {
-              color: $soc-bg-color;
-            }
-            .naics {
-              color: $naics-bg-color;
-            }
-          }
-        }
-      }
-    }
-
-    .dataset-list {
-      @include flex-size(3);
-
-      .dataset-tab {
-        display: none;
-
-        &.active {
+        i {
           display: block;
         }
-        h2 {
+        img {
+          display: block;
+          margin: 0 auto;
+          width: 25px;
+        }
+      }
+
+      &.active {
+        a {
           color: $red-w;
-          padding-top: 10px;
         }
       }
     }
   }
 
+  .dataset-list {
+    @include flex-size(3);
+
+    .dataset-tab {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+      h2 {
+        // color: $red-w;
+        margin: 20px 0 10px;
+      }
+    }
+  }
+
   .attr-body {
-    background-color: white;
-    border: 1px solid $black4;
-    padding: 15px;
-    @include box();
+    margin-top: 10px;
+    padding-top: 10px;
     width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
     @include flex();
     @include flex-direction(row);
     @include justify(flex-start);
 
-    section {
+    & > * {
       margin: 0;
       padding: 0;
 
@@ -413,7 +390,7 @@ body.about {
         padding-right: 30px;
       }
       &:last-child {
-        @include flex-size(2);
+        @include flex-size(3);
       }
     }
   }
@@ -421,14 +398,16 @@ body.about {
   .sumlevels {
 
     li {
-      margin-left: 30px;
+      margin-left: 15px;
       padding: 8px 5px 4px;
       font-family: $palanquin;
-      text-transform: uppercase;
-      font-weight: 400;
+      font-weight: 300;
       font-size: 14px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.03em;
+      line-height: 17px;
       opacity: 0.7;
+      position: relative;
+      text-transform: capitalize;
       white-space: nowrap;
       @include transition(opacity 0.25s);
 
@@ -436,73 +415,91 @@ body.about {
         opacity: 1;
       }
 
-      &::before {
-        content: '';
-        background: url('/static/img/about/dataprofiles.svg') no-repeat 50%;
-        width: 25px;
-        height: 25px;
-        display: inline-block;
-        position: absolute;
-        margin-left: -35px;
-        background-size: 25px;
-        margin-right: 10px;
-      }
-
       a {
         white-space: normal;
       }
 
-      .geo {
-        color: $geo-bg-color;
+      &:before {
+        content: unicode("f1db");
+        font-family: FontAwesome;
+        font-size: 8px;
+        left: -9px;
+        position: absolute;
+        top: 9px;
       }
-      .cip {
-        color: $cip-bg-color;
+
+      &.active {
+
+        a {
+          color: $red-w;
+          font-weight: 600;
+        }
+
+        &:before {
+          color: $red-w;
+          content: unicode("f111");
+        }
       }
-      .soc {
-        color: $soc-bg-color;
-      }
-      .naics {
-        color: $naics-bg-color;
-      }
+
     }
   }
 
   table {
     font-family: $palanquin;
-    text-transform: uppercase;
+    text-transform: capitalize;
     font-weight: 400;
     font-size: 14px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.03em;
     text-align: left;
+    width: 100%;
 
     th, td {
-      padding: 4px 5px;
+      padding: 5px 5px;
+    }
+
+    th.id {
+      text-transform: uppercase;
+    }
+
+    td.id {
+      white-space: nowrap;
     }
 
     td {
+      border-top: 1px solid $d-profile-bg;
       color: $black2;
+      line-height: 1.5;
     }
 
-    &.geo {
-      thead th, a:hover, a:focus {
-        color: $geo-bg-color;
+    thead th, a:hover, a:focus {
+      color: $red-w;
+    }
+
+  }
+
+  .pagination {
+    @include flex();
+    @include justify(space-around);
+    margin-top: 20px;
+
+    .page-nav {
+      width: 70px;
+      font-size: 14px;
+      margin-top: 3px;
+      &.next {
+        text-align: right;
+      }
+      &.prev {
+        text-align: left;
       }
     }
-    &.cip {
-      thead th, a:hover, a:focus {
-        color: $cip-bg-color;
+
+    .pages {
+      strong {
+        color: $red-w;
       }
     }
-    &.soc {
-      thead th, a:hover, a:focus {
-        color: $soc-bg-color;
-      }
-    }
-    &.naics {
-      thead th, a:hover, a:focus {
-        color: $naics-bg-color;
-      }
-    }
+
   }
 
   section {
@@ -542,10 +539,24 @@ body.about {
         }
       }
       ol {
+        list-style: none;
         // @include column-count(2);
         h2 {
-          padding-top: 10px;
+          margin: 20px 0 10px;
         }
+
+        a {
+          position: relative;
+
+          &:before {
+            content: "";
+            position: absolute;
+            visibility: hidden;
+            top: -$nav-height - 20px;
+          }
+
+        }
+
       }
     }
 

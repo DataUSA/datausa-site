@@ -14,21 +14,17 @@
 {% block about_content %}
 <article>
   <section>
-    <div class="datasets">
-      <div class="dataset-panel-container">
-        <ul class="dataset-panel">
-          <li {% if attr_type == "geo" %}class="active"{% endif %}><a href="/about/attributes/geo/" class="geo" data-value="1"><img src="/static/img/icons/geo_b.svg" />Locations</a></li>
-          <li {% if attr_type == "naics" %}class="active"{% endif %}><a href="/about/attributes/naics/" class="naics" data-value="2"><img src="/static/img/icons/naics_b.svg" />Industries</a></li>
-          <li {% if attr_type == "soc" %}class="active"{% endif %}><a href="/about/attributes/soc/" class="soc" data-value="3"><img src="/static/img/icons/soc_b.svg" />Occupations</a></li>
-          <li {% if attr_type == "cip" %}class="active"{% endif %}><a href="/about/attributes/cip/" class="cip" data-value="4"><img src="/static/img/icons/cip_b.svg" />Education</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-  <div class="attr-body">
-    <section>
+    <ul class="dataset-panel">
+      <li {% if attr_type == "geo" %}class="active"{% endif %}><a href="/about/attributes/geo/" class="geo" data-value="1"><img src="/static/img/icons/geo_b.svg" />Locations</a></li>
+      <li {% if attr_type == "naics" %}class="active"{% endif %}><a href="/about/attributes/naics/" class="naics" data-value="2"><img src="/static/img/icons/naics_b.svg" />Industries</a></li>
+      <li {% if attr_type == "soc" %}class="active"{% endif %}><a href="/about/attributes/soc/" class="soc" data-value="3"><img src="/static/img/icons/soc_b.svg" />Occupations</a></li>
+      <li {% if attr_type == "cip" %}class="active"{% endif %}><a href="/about/attributes/cip/" class="cip" data-value="4"><img src="/static/img/icons/cip_b.svg" />Education</a></li>
+    </ul>
+
+    <div class="attr-body">
+
       <ul class="sumlevels">
-        {%- for slevel in sumlevels.values() %}
+        {%- for slevel in sumlevels.values()|sort %}
           {% if attr_type == "geo" %}
             {% set slevel_id = "sumlevel" %}
           {% else %}
@@ -37,36 +33,38 @@
           <li {% if slevel[slevel_id] == this_sumlevel[slevel_id] %}class="active"{% endif %}><a href="/about/attributes/{{ attr_type }}/{{ slevel[slevel_id] }}/" class="{{ attr_type }}" data-value="1">{{ slevel['label'] }}</a></li>
         {%- endfor %}
       </ul>
-    </section>
-  
-    <section>
-      <table class="{{ attr_type }}">
-        <thead>
-          <tr>
-            {%- for header in ["id", "name"] %}
-              {% if pagination.sort == header %}
-              <th><a href="{{ url_for_other_page(pagination.page, header, pagination.next_order) }}">{{ header }} {% if pagination.order == "desc" %}<i class="fa fa-caret-down"></i>{% else %}<i class="fa fa-caret-up"></i>{% endif %}</a></th>
-              {% else %}
-              <th><a href="{{ url_for_other_page(pagination.page, header, 'desc') }}">{{ header }}</a></th>
-              {% endif %}
-            {%- endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for attr in attrs %}
-          <tr>
-            <td>{{ attr['id'] }}</td>
-            <td><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      
+
+      <div>
+        <table class="{{ attr_type }}">
+          <thead>
+            <tr>
+              {%- for header in ["id", "name"] %}
+                {% if pagination.sort == header %}
+                <th class="{{ header }}"><a href="{{ url_for_other_page(pagination.page, header, pagination.next_order) }}">{{ header }} {% if pagination.order == "desc" %}<i class="fa fa-caret-down"></i>{% else %}<i class="fa fa-caret-up"></i>{% endif %}</a></th>
+                {% else %}
+                <th class="{{ header }}"><a href="{{ url_for_other_page(pagination.page, header, 'desc') }}">{{ header }}</a></th>
+                {% endif %}
+              {%- endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for attr in attrs %}
+            <tr>
+              <td class="id">{{ attr['id'] }}</td>
+              <td class="name"><a href="/profile/{{ attr_type }}/{{ attr[anchor_key] }}/">{{ attr[name_key] }}</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
         <div class=pagination>
         {% if pagination.has_prev %}
-          <a href="{{ url_for_other_page(pagination.page - 1, pagination.sort, pagination.order) }}">&laquo; Previous </a>
+          <a class="page-nav prev" href="{{ url_for_other_page(pagination.page - 1, pagination.sort, pagination.order) }}">&laquo; Previous </a>
+        {% else %}
+          <div class="page-nav"></div>
         {% endif %}
         {% if pagination.has_prev or pagination.has_next %}
+          <div class="pages">
           {%- for page in pagination.iter_pages() %}
             {% if page %}
               {% if page != pagination.page %}
@@ -78,15 +76,19 @@
               <span class=ellipsis>…</span>
             {% endif %}
           {%- endfor %}
+          </div>
         {% endif %}
         {% if pagination.has_next %}
-          <a href="{{ url_for_other_page(pagination.page + 1, pagination.sort, pagination.order) }}">Next &raquo;</a>
+          <a class="page-nav next" href="{{ url_for_other_page(pagination.page + 1, pagination.sort, pagination.order) }}">Next &raquo;</a>
+        {% else %}
+          <div class="page-nav"></div>
         {% endif %}
         </div>
-      
-      
-    </section>
-  </div>
+
+      </div>
+
+    </div>
+  </section>
 </article>
 
 {% endblock %}
