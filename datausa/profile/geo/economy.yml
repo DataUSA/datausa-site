@@ -443,7 +443,7 @@ topics:
     subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
     slug: "income_distro"
     description:
-      - "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average.}}"
+      - "<<name>> has an income GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average.}}"
     stat:
       - title: "Income GINI"
         value: "<<var namespace=wagegap|key=gini>>"
