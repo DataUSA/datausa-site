@@ -11,7 +11,7 @@ body.home {
   }
 
   #top-nav {
-    position: fixed;
+    position: fixed; 
   }
 
   a {
@@ -49,6 +49,32 @@ body.home {
       height: 1.5vh;
       background: $home-red;
       z-index: -9;
+    }
+  }
+
+  .hero-img {
+    position: absolute;
+    width: 100%;
+    max-width: 100vw !important;
+    height: 100% !important;
+    background-position: 50% 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &.bg {
+      background-image: url('/static/img/home/hero-bg.jpg');
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+    }
+
+    &.fg {
+      background-image: url('/static/img/home/hero-fg.png');
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
     }
   }
 

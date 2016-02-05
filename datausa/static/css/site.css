@@ -1658,6 +1658,26 @@ body.home {
                 height: 1.5vh;
                 background: #dc5137;
                 z-index: -9; }
+  body.home .hero-img {
+    position: absolute;
+    width: 100%;
+    max-width: 100vw !important;
+    height: 100% !important;
+    background-position: 50% 0;
+    background-size: cover;
+    background-repeat: no-repeat; }
+    body.home .hero-img.bg {
+      background-image: url('/static/img/home/hero-bg.jpg');
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 0; }
+      body.home .hero-img.fg {
+        background-image: url('/static/img/home/hero-fg.png');
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 5; }
   body.home article.landing {
     position: relative;
     top: 0;
