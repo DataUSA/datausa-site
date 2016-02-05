@@ -10,10 +10,6 @@ body.map {
     }
   }
 
-  #home-btn {
-    display: none;
-  }
-
 }
 
 #map-controls {
@@ -22,7 +18,7 @@ body.map {
   text-align: center;
   z-index: 2;
   position: relative;
-  top: $title-height;
+  // top: $title-height;
 
   & > div {
     margin: 0 !important;
@@ -42,7 +38,7 @@ body.map {
 }
 
 #map-fullscreen {
-  top: $title-height;
+  // top: $title-height;
   width: 100vw;
   z-index: 1;
   svg {

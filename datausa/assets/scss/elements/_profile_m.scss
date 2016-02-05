@@ -42,11 +42,13 @@ body.profile, body.story {
           display: none;
         }
         .splash-icon-nav {
+          width: 100%;
           margin-right: 0;
           @include justify(center);
 
           a {
             padding: 0 5px;
+            margin: 0;
           }
           img {
             width: 20px;
