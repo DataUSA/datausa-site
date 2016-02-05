@@ -4798,16 +4798,20 @@ body.about {
     width: 100%; }
     body.about table th, body.about table td {
       padding: 5px 5px; }
-      body.about table th.id {
-        text-transform: uppercase; }
-        body.about table td.id {
-          white-space: nowrap; }
-          body.about table td {
-            border-top: 1px solid #E9E9E9;
-            color: #141b2e;
-            line-height: 1.5; }
-            body.about table thead th, body.about table a:hover, body.about table a:focus {
-              color: #ef6145; }
+      body.about table th a i {
+        margin: 6px 0 0 4px; }
+    body.about table th.id {
+      text-transform: uppercase; }
+      body.about table td.id {
+        white-space: nowrap; }
+        body.about table td {
+          border-top: 1px solid #E9E9E9;
+          color: #141b2e;
+          line-height: 1.5; }
+          body.about table td a {
+            text-decoration: underline; }
+    body.about table thead th, body.about table a:hover, body.about table a:focus {
+      color: #ef6145; }
   body.about .pagination {
     -webkit-justify-content: center;
     -moz-justify-content: center;

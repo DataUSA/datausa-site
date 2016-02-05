@@ -40,9 +40,9 @@
             <tr>
               {%- for header in headers %}
                 {% if pagination.sort == header.id %}
-                <th class="{{ header.id }}"><a href="{{ url_for_other_page(pagination.page, header.id, pagination.next_order) }}">{{ header.name }} {% if pagination.order == "desc" %}<i class="fa fa-caret-down"></i>{% else %}<i class="fa fa-caret-up"></i>{% endif %}</a></th>
+                <th class="{{ header.id }}"><a href="{{ url_for_other_page(pagination.page, header.id, pagination.next_order) }}">{{ header.name }} {% if pagination.order == "desc" %}<i class="fa fa-sort-desc"></i>{% else %}<i class="fa fa-sort-asc"></i>{% endif %}</a></th>
                 {% else %}
-                <th class="{{ header.id }}"><a href="{{ url_for_other_page(pagination.page, header.id, 'desc') }}">{{ header.name }}</a></th>
+                <th class="{{ header.id }}"><a href="{{ url_for_other_page(pagination.page, header.id, 'desc') }}">{{ header.name }} <i class="fa fa-sort"></i></a></th>
                 {% endif %}
               {%- endfor %}
             </tr>

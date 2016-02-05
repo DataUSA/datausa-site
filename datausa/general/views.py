@@ -93,7 +93,6 @@ def attributes(attr_type, sumlevel, page):
         states = {a["id"][7:9]:a for a in attr_cache[attr_type].values() if a['sumlevel'] == "040" and 'pretty' in a}
         for a in attrs:
             state_id = a["id"][7:9]
-            # raise Exception(states[state_id])
             a["state_name"] = states[state_id]["name"]
             a["state_anchor"] = states[state_id]["url_name"]
     
