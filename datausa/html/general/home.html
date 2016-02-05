@@ -2,17 +2,17 @@
 
 {% block body %}
 <div class="home-container">
-  <div class="hero-container">
-    <div id="bg" class="hero-img"></div>
-    <div id="logo"></div>
-    <div id="fg" class="hero-img"></div>
-    <div id="logo-shadow"></div>
-    <div id="desc"></div>
-    <div id="desc-shadow"></div>
-  </div>
+	<div class="bg">
+		<div class="landing"></div>
+		<div class="strip"></div>
+	</div>
 
 <div class="content">
-	<article id="landing">
+	<article class="landing">
+		<div class="home-logo">
+			<img class="logo" src="/static/img/home/logo.png" alt="DataUSA" />
+		</div>
+    <!-- <section class="home-desc"><h2>An open source </br>platform to explore </br>public U.S. data</h2></section> -->
 		<section class="search-home-container">
 			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
 			<div class="search-input-btn">
@@ -27,10 +27,6 @@
       </section>
 		</section>
 	</article>
-  <article id="profile-trends"></article>
-  <article id="stories-summary"></article>
-  <article id="map-summary"></article>
-  <footer></footer>
 </div>
 
 </div>
@@ -40,32 +36,33 @@
 
 <script>
 
-// var bg_imgs = [1, 6];
-// var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
-// d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
-// localforage.setItem("homepage_image", bg_img);
-var h = window.innerHeight,
-    w = window.innerWidth;
+// var h = window.innerHeight,
+//     w = window.innerWidth;
 
-var paralax_ids = ["logo-shadow", "logo", "desc-shadow", "desc", "fg"];
+// var paralax_ids = ["logo-shadow", "logo", "desc-shadow", "desc", "fg"];
 
-var paralax_data = paralax_ids.map(function(d){
-  var elem = d3.select("#" + d),
-      mod = ((parseFloat(elem.style("width"), 10) - w)/w) * 100;
-  return {
-    "elem": elem,
-    "mod": mod,
-    "x": d3.scale.linear().domain([0, w]).range([0, -mod]),
-    "y": d3.scale.linear().domain([0, h]).range([0, -mod])
-  }
-})
+// var paralax_data = paralax_ids.map(function(d){
+//   var elem = d3.select("#" + d),
+//       mod = ((parseFloat(elem.style("width"), 10) - w)/w) * 100;
+//   return {
+//     "elem": elem,
+//     "mod": mod,
+//     "x": d3.scale.linear().domain([0, w]).range([0, -mod]),
+//     "y": d3.scale.linear().domain([0, h]).range([0, -mod])
+//   }
+// })
 
-d3.select("body").on(d3plus.client.pointer.move, function(){
-  var mouse = d3.mouse(this);
-  paralax_data.forEach(function(d){
-    d.elem.style("left", d.x(mouse[0]) + "%").style("top", d.y(mouse[1]) + "%");
-  });
-});
+// d3.select("body").on(d3plus.client.pointer.move, function(){
+//   var mouse = d3.mouse(this);
+//   paralax_data.forEach(function(d){
+//     d.elem.style("left", d.x(mouse[0]) + "%").style("top", d.y(mouse[1]) + "%");
+//   });
+// });
+
+var bg_imgs = [1, 6];
+var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
+d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
+localforage.setItem("homepage_image", bg_img);
 
 var homeInput = d3.select("#home-search-input");
 d3.select("#search-switch.adv").on("click", function(){
@@ -132,7 +129,7 @@ search_input.on("click.clear", function(){
   window.clearTimeout(tout);
 })
 
-// next_letter();
+next_letter();
 
 </script>
 

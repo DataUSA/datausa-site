@@ -19,7 +19,7 @@ body {
       display: none;
     }
 
-    #home-btn {
+    #search-btn, #home-btn {
       display: none;
     }
   }
@@ -90,6 +90,16 @@ body {
       h2 {
         color: $red-w;
       }
+      // & > h2:after {
+      //   content: unicode("00bb");
+      //   top: -2px;
+      //   position: relative;
+      //   font-family: $playfair;
+      //   font-weight: 400;
+      //   letter-spacing: 0.05em;
+      //   line-height: 1;
+      //   margin-left: 5px;
+      // }
     }
   }
 
@@ -186,11 +196,6 @@ body {
   @include justify(space-between);
   height: $nav-height;
   overflow: hidden;
-
-  position: absolute;
-  top: 0;
-  z-index: 5;
-  width: 100vw;
 }
 
 .btn-container {
@@ -413,15 +418,34 @@ body {
 
 /* tablet design */
 
+@media all and (min-width: 751px) and (max-width: 925px) {
+  body.home {
+    #menu {
+      $nav-width: 45%;
+      width: $nav-width;
+      left: 0;
+    }
+
+    .content {
+      $nav-width: 45%;
+      padding-left: $nav-width;
+    }
+  }
+}
+
 @media all and (min-width: 751px) {
   body.home {
+    #menu-btn {
+      display: none;
+    }
+
     #menu {
       background-color: rgba(34, 34, 34, 0.75);
     }
   }
 }
 
-@media all (max-width: 750px) {
+@media all and (min-width: 416px) and (max-width: 750px) {
   body.home {
     #menu {
       background-color: rgba(34, 34, 34, 0.9);
@@ -432,21 +456,37 @@ body {
         left: 0;
       }
     }
+
+    #menu-btn {
+      display: block;
+    }
+
+    .content {
+      padding-left: 0;
+    }
   }
 }
 
 /* small design */
 
 @media all and (max-width: 415px) {
+  #top-nav {
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    width: 100vw;
+  }
 
   #menu {
     @include justify(space-around);
     width: 100%;
+    left: 0;
+    top: -100%;
     height: 100%;
-    @include transition(left 0.7s ease);
+    @include transition(top 0.7s ease);
 
     &.open {
-      // top: 0;
+      top: 0;
     }
 
     .menu-content {
@@ -457,6 +497,10 @@ body {
       text-align: center;
     }
   }
+
+  // #menu footer {
+  //   display: none;
+  // }
 
   .hidden {
     display: none;

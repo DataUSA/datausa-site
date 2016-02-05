@@ -1,144 +1,101 @@
 body.home {
   position: relative;
-  background-color: $black2;
+  background-color: #222;
+
+  #menu {
+    height: auto;
+  }
+
+  .close-btn {
+    display: none;
+  }
 
   #top-nav {
     position: fixed;
   }
 
   a {
-    font-family: $palanquin;
+    font-family: $lato;
     font-weight: 400;
   }
 
-  .home-container {
+  /* background styles */
+
+  .bg {
     position: absolute;
+    top: 0;
+    bottom: 0;
     left: 0;
-    top: 0;
     right: 0;
-  }
+    overflow: hidden;
+    z-index: -11;
 
-  nav {
-    li {
-      display: none;
-    }
-  }
-
-  .content {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    @include box();
-    @include transition(padding-left 0.65s ease);
-
-    li {
-      display: none;
-    }
-  }
-
-  article {
-    //height: 100vh;
-    position: absolute;
-  }
-
-  /* hero */
-
-  .hero-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    z-index: 0;
-
-    & div {
-      width: 100%;
-      // max-width: 100vw;
-      height: 100%;
+    .landing {
       position: absolute;
       top: 0;
-      left: 0;
-      background-size: 100%;
-      background-position: 50% 0;
+      width: 100%;
+      height: 100vh;
+      background-image: url('/static/img/home/bg/6.jpg');
       background-repeat: no-repeat;
-      @include transform(scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg));
-      opacity: 1;
+      background-position:  50% 0%;
+      background-size: cover;
+      z-index: -10;
     }
 
-    .hero-img {
-      // position: absolute;
-      // width: 100%;
-      // max-width: 100vw !important;
-      // height: 100% !important;
-      // background-position: 50% 0;
-      background-size: cover !important;
-      // background-repeat: no-repeat;
-
-      &#bg {
-        background-image: url('/static/img/home/hero-bg.jpg');
-        z-index: 0;
-      }
-
-      &#fg {
-        background-image: url('/static/img/home/hero-fg.png');
-        z-index: 5;
-      }
+    .strip {
+      position: absolute;
+      bottom: 0;
+      width: 100vw;
+      height: 1.5vh;
+      background: $home-red;
+      z-index: -9;
     }
-
-    $paralax_mods: (
-      logo-shadow: 1%,
-      logo: 1.5%,
-      desc-shadow: 2%,
-      desc: 2.5%,
-      fg: 3%
-    );
-
-    @each $id, $mod in $paralax_mods {
-      ##{$id} {
-        top: -($mod / 2);
-        left: -($mod / 2);
-        height: 100% + $mod;
-        width: 100% + $mod;
-      }
-    }
-
-    #logo {
-      background-image: url('/static/img/home/logo.png');
-      z-index: 2;
-    }
-
-    #logo-shadow {
-      background-image: url('/static/img/home/logo_shadow.png');
-      z-index: 1;
-    }
-
-    #desc {
-      background-image: url('/static/img/home/desc.png');
-      z-index: 4;
-    }
-
-    #desc-shadow {
-      background-image: url('/static/img/home/desc_shadow.png');
-      z-index: 3;
-    }
-
   }
 
-  /* end hero */
-
-  #landing {
+  article.landing {
     position: relative;
-    top: 40vh;
+    top: 0;
     width: 100%;
-    height: 59vh;
+    height: 97vh;
     margin: 0 auto;
-    padding: 0 10%;
+    padding: 0 40px;
     @include box();
+    @include flex();
+    @include flex-direction(column);
+    @include justify(flex-start);
+  }
+
+  .home-logo {
+    width: 90%;
+    text-align: center;
+    margin: 16vh auto 5vh;
+  }
+
+  // .home-desc {
+  //   color: #fff;
+  //   text-align: center;
+  //   margin: 2vh auto;
+  //   h2 {
+  //     font-weight: 600;
+  //     font-size: 28px;
+  //     line-height: 1.3;
+  //     @include text-shadow(0 0 30px rgba(0,0,0,0.4));
+  //   }
+  // }
+
+  .logo {
+    width: 100%;
+    margin: 0 auto;
+
+    @media all and (min-width: 416px) {
+      max-width: 500px;
+    }
   }
 
   .search-home-container {
     @include flex();
     @include flex-direction(column);
-    @include align-items(flex-end);
+    @include align-items(flex-start);
     @include justify(flex-start);
     height: 100%;
     overflow: hidden;
@@ -148,16 +105,24 @@ body.home {
     display: none;
     @include flex-size(1 auto);
     width: 100%;
+    // height: 40vh;
     @include box();
     @include shadow(0 1px 2px rgba(255,255,255,0.25),0 0 1px rgba(255,255,255,0.4));
+    margin: 13px 0 0 0;
     overflow-y: scroll;
     border: 1px solid rgba(255,255,255,0.5);
-    background-color: $black2;
+    background-color: rgba(255, 255, 255, 0.85);
+
+    &::before {
+      position: relative;
+      left: 49%;
+      top: -16px;
+      background: rgba(255, 255, 255, 0.85);
+      @include shadow(-1px -1px 1px -1px rgba(255, 255, 255, 0.44));
+    }
 
     &.open{
       display: block;
-      @include justify(flex-start);
-      top: 0;
     }
 
     .search-item {
@@ -166,31 +131,171 @@ body.home {
     }
 
     .search-results {
-      background-color: transparent;
+      background-color: $l-profile-bg;
       width: 100%;
+      margin-top: -16px;
       overflow: hidden;
       max-height: inherit;
     }
+  }
 
-    .search-item {
-      color: #fff;
+  /* small design */
 
-      h2 {
-        color: #fff;
-      }
+  @media all and (max-width: 415px){
 
-      p {
-        color: #fff;
+    .home-container {
+      height: 100vh;
+      overflow-y: hidden;
+    }
+
+    article.landing {
+      padding: 0 30px;
+    }
+
+    .content {
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    #menu-btn .bd {
+      padding: 17px 15px;
+    }
+
+    #menu {
+      background-color: $home-red;
+      left: 0;
+      top: 100vh;
+      height: 100%;
+      @include transition(top 0.7s ease);
+
+      &.open {
+        top: 0;
       }
     }
   }
 
-  .search-input-btn {
-    width: 100%;
+  /* large design */
+
+  @media all and (min-width: 926px) {
+    .content {
+      $nav-width: 415px;
+      padding-left: $nav-width + 10;
+    }
+
+    #menu {
+      left: 0;
+    }
   }
 
+  @media all and (min-width: 416px){
+
+    .bg {
+      // margin-left: $nav-width;
+    }
+
+    .home-container {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    nav {
+      li {
+        display: none;
+      }
+    }
+
+    #menu {
+      height: 98.5vh;
+
+      footer {
+        background-color: rgba(255,255,255,0);
+      }
+    }
+
+    .content {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      @include box();
+      @include transition(padding-left 0.65s ease);
+
+      li {
+        display: none;
+      }
+    }
+
+    article {
+      //height: 100vh;
+      position: absolute;
+    }
+  }
+}
+.search-body {
+  background-color: $l-profile-bg;
+}
+
+#search-home {
+  @include flex();
+  @include flex-direction(column);
+  @include justify(center);
+  margin: 0;
+  width: 80%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    right: $search-mini-width/2 - 7;
+    top: -14px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    @include transform(rotate(45deg) translate(6px, 6px));
+    @include shadow(-1px -1px 1px -1px rgba(0,0,0,0.44));
+  }
+
+  &.open {
+    @include justify(flex-start);
+    top: 0;
+    margin: 0 2vw;
+
+    .search-input {
+      display: none;
+    }
+
+    .search-body {
+      height: 0 !important;
+    }
+
+    #search-switch {
+      margin-top: 40px;
+    }
+
+  }
+}
+
+.search-input-btn {
+  // @include flex-size(0 0 53px);
+  // @include flex();
+  width: 100%;
+
+  // &.closed {
+  //   width: 67px;
+  //   margin: 0 auto;
+  //   background-color: #fff;
+  //   // border-radius: 4px;
+  // }
+
+}
+
+@media all and (min-width: 415px) {
   .search-input-btn {
-    // @include flex-size(0 0 67px);
+    @include flex-size(0 0 67px);
 
     .search-glass {
       height: 67px;
@@ -199,55 +304,73 @@ body.home {
       background-size: 38px 38px;
     }
   }
+}
+
+#home-search-input {
+  width: 100%;
+  padding: 5px 20px 7px 70px;
+  @include box();
+  border-radius: 0;
+  font-family: $palanquin;
+  font-size: 30px;
+  font-weight: 400;
+  border: 0;
+  outline: 0;
+  background-color: rgba(250, 253, 255, 0.65);
+  background-image: url('/static/img/search/search.svg');
+  background-repeat: no-repeat;
+  background-position: 20px 17px;
+  background-size: 35px 35px;
+  color: $home-blue;
+  @include placeholder {color: $home-blue; opacity: 0.8;}
+  // @include transition(width 1s);
+
+  &:focus {
+    background-color: rgba(250, 253, 255, 0.85);
+    outline: 0;
+  }
+
+}
+
+@media only screen and (max-width : 480px) {
+  article.landing {
+    height: 87vh !important;
+  }
+
+  .home-logo {
+    margin: 12vh auto 5vh;
+  }
 
   #home-search-input {
-    width: 100%;
-    padding: 5px 20px 7px 70px;
-    @include box();
-    border-radius: 0;
-    font-family: $palanquin;
-    font-size: 30px;
-    font-weight: 400;
-    border: 1px solid #fff;
-    outline: 0;
-    background-color: rgba(255,255,255,0);
-    background-image: url('/static/img/search/search_w.svg');
-    background-repeat: no-repeat;
-    background-position: 20px 17px;
-    background-size: 35px 35px;
-    color: #fff;
-    @include placeholder {color: #fff; opacity: 0.8;}
-
-    &:focus {
-      outline: 0;
-    }
-  }
-
-  #search-switch.adv {
-    @include flex-size(0 0 19px);
-    border-bottom: 1px solid rgba(255,255,255,0);
-    margin: 5px 0;
-    text-align: right;
-    color: #fff;
-    font-family: $roboto;
-    font-weight: 400;
-    text-transform: uppercase;
-
-    &:hover {
-      border-bottom: 1px solid #fff;
-    }
-  }
-
-  .open + .results-show-all {
-    display: block;
-  }
-
-  .results-show-all {
-    padding: 0;
-    display: none;
-    width: 100%;
-    background-color: $red-w;
+    padding: 5px 10px 5px 50px;
+    font-size: 21px;
+    background-size: 28px 28px;
+    background-position: 10px 11px;
   }
 }
 
-@import "elements/home_m";
+#search-switch.adv {
+  @include flex-size(0 0 19px);
+  border-bottom: 1px solid rgba(255,255,255,0);
+  margin: 5px 0;
+  text-align: right;
+  color: #fff;
+  font-family: $roboto;
+  font-weight: 400;
+  text-transform: uppercase;
+
+  &:hover {
+    border-bottom: 1px solid #fff;
+  }
+}
+
+.open + .results-show-all {
+  display: block;
+}
+
+.results-show-all {
+  @include flex-size(0 0 38px);
+  background: rgba(255, 255, 255, 0.85);
+  display: none;
+  width: 100%;
+}
