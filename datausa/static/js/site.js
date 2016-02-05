@@ -789,7 +789,7 @@ search.btnExplore = function(d) {
   var xtra = search_item.append("div").attr("class", 'xtra');
 
   // set thumbnail
-  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_c.svg")
+  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_b.svg")
 
   // set info
   var title = info.append("h2")
@@ -818,7 +818,7 @@ search.btnExplore = function(d) {
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
         .append("img")
-        .attr("src", "/static/img/icons/" + anchor.anchor + "_c.svg")
+        .attr("src", "/static/img/icons/" + anchor.anchor + "_b.svg")
         .on("click", function(){ d3.event.stopPropagation(); })
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
@@ -840,7 +840,7 @@ search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){
                       return "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
                     });
-  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
+  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
   search_item_text.append("h2").text(d.display);
   search_item_text.append("p").attr("class", "subtitle").text(function(d){
