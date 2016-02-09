@@ -3882,7 +3882,7 @@ viz.mapDraw = function(vars) {
     // Update the projection to use computed scale & translate.
     if (!vars.zoom.set) {
 
-      projection.scale(s).translate(t);
+      // projection.scale(s).translate(t);
 
       vars.zoom.behavior = d3.behavior.zoom()
         .scale(s * 2 * Math.PI)
@@ -3934,15 +3934,16 @@ viz.mapDraw = function(vars) {
         zoomed(timing);
       }
 
-      controls_enter.append("div").attr("class", "zoom-in").on("click", function(){
+      controls_enter.append("div").attr("class", "zoom-in").on(d3plus.client.pointer.click, function(){
         zoomMath(zoomFactor);
       });
 
-      controls_enter.append("div").attr("class", "zoom-out").on("click", function(){
+      controls_enter.append("div").attr("class", "zoom-out").on(d3plus.client.pointer.click, function(){
         zoomMath(1/zoomFactor);
       });
 
-      controls_enter.append("div").attr("class", "zoom-reset").on("click", function(){
+      controls_enter.append("div").attr("class", "zoom-reset").on(d3plus.client.pointer.click, function(){
+        d3plus.tooltip.remove("geo_map_sidebar");
         zoom.scale(s * 2 * Math.PI).translate(t);
         zoomed(timing);
       });
@@ -3966,6 +3967,7 @@ viz.mapDraw = function(vars) {
 
     var polys = polyGroup.selectAll("path")
       .data(coordData.features, function(d){
+        if (vars.mouse.value && vars.highlight.value === d.id) createTooltip(d, true);
         return d.id;
       });
 
@@ -3985,45 +3987,98 @@ viz.mapDraw = function(vars) {
       })
       .call(polyStyle);
 
-    if (vars.mouse.value) {
+    function createTooltip(d, big) {
+      var dat = dataMap[d.id];
 
-      var createTooltip = function(d) {
-        var dat = dataMap[d.id];
+      var id = big ? "geo_map_sidebar" : "geo_map";
 
-        var mouse = d3.mouse(d3.select("html").node()), tooltip_data = [];
+      if (big) {
+        var margin = 0, x = window.innerWidth - margin - vizStyles.tooltip.small/2, y = margin;
+      }
+      else {
+        var mouse = d3.mouse(d3.select("html").node()),
+            x = mouse[0], y = mouse[1];
+      }
+      var tooltip_data = [];
 
-        var tooltip_data = vars.tooltip.value.reduce(function(arr, t){
-          if (dat && t in dat && dat[t] !== null && dat[t] !== undefined) {
-            arr.push({
-              "group": "",
-              "name": vars.format.text(t, {}),
-              "value": vars.format.value(dat[t], {"key": t}),
-              "highlight": t === vars.color.value
-            });
-          }
-          return arr;
-        }, []);
+      var tooltip_data = vars.tooltip.value.reduce(function(arr, t){
+        if (dat && t in dat && dat[t] !== null && dat[t] !== undefined) {
+          arr.push({
+            "group": "",
+            "name": vars.format.text(t, {}),
+            "value": vars.format.value(dat[t], {"key": t}),
+            "highlight": t === vars.color.value
+          });
+        }
+        return arr;
+      }, []);
 
-        d3plus.tooltip.remove("geo_map");
-        d3plus.tooltip.create({
-          "arrow": true,
-          "background": vizStyles.tooltip.background,
-          "fontcolor": vizStyles.tooltip.font.color,
-          "fontfamily": vizStyles.tooltip.font.family,
-          "fontsize": vizStyles.tooltip.font.size,
-          "fontweight": vizStyles.tooltip.font.weight,
-          "data": tooltip_data,
-          "color": d.color,
-          "id": "geo_map",
-          "max_width": vizStyles.tooltip.small,
-          "offset": 3,
-          "parent": d3.select("body"),
-          "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}),
-          "width": vizStyles.tooltip.small,
-          "x": mouse[0],
-          "y": mouse[1]
+      var html = false, link = "/profile/geo/" + d.id + "/";
+      if (big && vars.tooltip.url) {
+        html = "<div class='d3plus_tooltip_html_seperator'></div>";
+        // html = "<a class='btn pri-btn' href='" + link + "'>View Profile</a>";
+        if (big.constructor === String) {
+          html += big;
+        }
+        else {
+          html += "<div class='loader'><i class='fa fa-circle-o-notch fa-spin'></i>Loading Data</div>";
+        }
+      }
+
+      var tooltip_obj = {
+        "arrow": big ? false : true,
+        "background": vizStyles.tooltip.background,
+        "color": big ? false : d.color,
+        "data": tooltip_data,
+        "description": big ? "Last selected geography" : false,
+        "fontcolor": vizStyles.tooltip.font.color,
+        "fontfamily": vizStyles.tooltip.font.family,
+        "fontsize": vizStyles.tooltip.font.size,
+        "fontweight": vizStyles.tooltip.font.weight,
+        "footer": big ? false : "Click for More Info",
+        "html": html,
+        "id": id,
+        "js": big ? function(elem) {
+          elem.select(".d3plus_tooltip_title").on(d3plus.client.pointer.click, function(){
+            window.location = link;
+          });
+        } : false,
+        "max_width": vizStyles.tooltip.small,
+        "mouseevents": big ? true : false,
+        "offset": big ? 0 : 3,
+        "parent": big ? vars.container.value : d3.select("body"),
+        "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}),
+        "width": vizStyles.tooltip.small,
+        "x": x,
+        "y": y
+      };
+
+      d3plus.tooltip.remove(id);
+      d3plus.tooltip.create(tooltip_obj);
+
+      if (big === true && vars.tooltip.url) {
+        var url = vars.tooltip.url + "&limit=10";
+        var prefix = d.id.slice(0, 3)
+        if (prefix == "040") {
+          url += "&where=geo:^" + d.id.replace("040", "050");
+        }
+        else {
+          url += "&geo=" + d.id;
+        }
+        load(url, function(data) {
+          var list = data.map(function(c){
+            return "<li><a href='/profile/geo/" + c.geo + "/'>" + vars.attrs.value[c.geo].name + "</a></li>";
+          }).join("");
+          list = "<ol>Top 10 Counties" + list + "</ol>";
+          createTooltip(d, list);
         });
       }
+
+    }
+
+    if (vars.mouse.value) {
+
+      var drag = true;
 
       polys
         .on(d3plus.client.pointer.over, function(d){
@@ -4031,12 +4086,25 @@ viz.mapDraw = function(vars) {
           createTooltip(d);
         })
         .on(d3plus.client.pointer.move, function(d){
+          drag = d3.event.buttons ? true : false;
           d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
           createTooltip(d);
         })
         .on(d3plus.client.pointer.out, function(d){
           d3.select(this).attr("fill-opacity", pathOpacity);
           d3plus.tooltip.remove("geo_map");
+        })
+        .on(d3plus.client.pointer.click, function(d){
+          if (drag) {
+            drag = false;
+          }
+          else {
+            vars.highlight.value = d.id;
+            d3.select(this).attr("fill-opacity", pathOpacity);
+            d3plus.tooltip.remove("geo_map");
+            zoomToBounds(path.bounds(d));
+            createTooltip(d, true);
+          }
         });
 
     }
@@ -4074,6 +4142,20 @@ viz.mapDraw = function(vars) {
       zoomed();
       vars.zoom.set = true;
     }
+
+  }
+
+  function zoomToBounds(b) {
+
+    var w = width - 300;
+
+    var s = defaultZoom / Math.max((b[1][0] - b[0][0]) / w, (b[1][1] - b[0][1]) / (height - key_height)),
+        t = [(w - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
+
+    s = (s/Math.PI/2) * polyZoom;
+
+    zoom.scale(s * 2 * Math.PI).translate(t);
+    zoomed(timing);
 
   }
 
@@ -4161,7 +4243,7 @@ viz.map = function() {
     "pins": {"value": []},
     "text": {"value": "name"},
     "tiles": {"value": true},
-    "tooltip": {"value": []},
+    "tooltip": {"url": false, "value": []},
     "width": {"value": false},
     "zoom": {"scroll": false, "set": false, "value": true}
   };

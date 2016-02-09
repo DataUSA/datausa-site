@@ -44,7 +44,10 @@
     .data("#map-sumlevels")
     // .type("drop")
     .focus("{{ defaultLevel }}", function(d, viz){
-      if (!viz.draw(Object).first) makeURL();
+      if (!viz.draw(Object).first) {
+        d3plus.tooltip.remove("geo_map_sidebar");
+        makeURL();
+      }
     })
     .config(formConfig)
     .ui(vizStyles.ui_map)
@@ -84,6 +87,10 @@
   function makeURL() {
     d3.select("#map-loading").classed("hidden", false);
     var level = levels.focus(), key = keys.focus();
+    var county = levels.data().reduce(function(b, d){
+      if (d.value === "county") b = true;
+      return b;
+    }, false);
     var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + key;
     var topo = level === "county" ? "counties" : level + "s";
 
@@ -99,7 +106,15 @@
     load("/static/topojson/" + topo + ".json", function(coords){
       load(api + url, function(data){
         d3.select("#map-loading").classed("hidden", true);
-        map.coords(coords).data(data).draw();
+        var tooltip_url = false;
+        if (county && (level == "state" || level == "msa")) {
+          tooltip_url = api + url.replace("sumlevel=" + level, "sumlevel=county");
+          tooltip_url += "&sort=desc&order=" + key.split(",")[0];
+        }
+        else {
+          map.highlight(false);
+        }
+        map.coords(coords).data(data).tooltip({"url": tooltip_url}).draw();
       });
     });
   }

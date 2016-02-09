@@ -145,22 +145,56 @@ body.frozen {
     margin-top: 3px;
     display: inline-block; }
 
-    #d3plus_tooltip_id_data-tooltip-sidenav {
-      -webkit-box-shadow: none !important;
-      -moz-box-shadow: none !important;
-      box-shadow: none !important; }
-      #d3plus_tooltip_id_data-tooltip-sidenav .d3plus_tooltip_container {
-        background-color: white !important;
-        border: 1px solid #ccc !important;
-        padding: 5px !important; }
-        #d3plus_tooltip_id_data-tooltip-sidenav .d3plus_tooltip_container .d3plus_tooltip_description {
-          padding: 0 2px !important;
-          color: #dc5137;
-          font-family: "Roboto", sans-serif;
-          font-size: 20px;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          font-weight: 400; }
+    .d3plus_tooltip .d3plus_tooltip_description {
+      line-height: 1.35;
+      font-weight: 300;
+      padding: 0 6px 6px !important; }
+      .d3plus_tooltip .d3plus_tooltip_data_seperator {
+        background-color: rgba(224, 224, 224, 0.64) !important; }
+
+#d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
+  background-color: #E9E9E9 !important;
+  color: #1B191D !important; }
+  #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:hover {
+    cursor: pointer;
+    text-decoration: underline; }
+  #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_description {
+    margin-top: -5px; }
+    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_html_seperator {
+      background-color: #ccc !important; }
+      #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_html_seperator {
+        background-color: #a9a9a9 !important;
+        display: block;
+        height: 1px;
+        margin: 5px 0; }
+        #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .loader {
+          color: #434958;
+          font-size: 12px;
+          text-align: center; }
+          #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .loader i {
+            color: #727682;
+            margin: 6px 5px 0 0; }
+  #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol {
+    font-size: 12px; }
+    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li a:hover {
+      text-decoration: underline; }
+
+#d3plus_tooltip_id_data-tooltip-sidenav {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important; }
+  #d3plus_tooltip_id_data-tooltip-sidenav .d3plus_tooltip_container {
+    background-color: white !important;
+    border: 1px solid #ccc !important;
+    padding: 5px !important; }
+    #d3plus_tooltip_id_data-tooltip-sidenav .d3plus_tooltip_container .d3plus_tooltip_description {
+      padding: 0 2px !important;
+      color: #dc5137;
+      font-family: "Roboto", sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 400; }
 
 #d3plus_tooltip_id_data-tooltip-term .d3plus_tooltip_container {
   background-color: white !important;
@@ -3765,12 +3799,6 @@ body.profile .share-section, body.map .share-section, body.story .share-section 
         .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active .d3plus_button_selected::before {
           content: ''; }
 
-.d3plus_tooltip .d3plus_tooltip_description {
-  line-height: 1.35;
-  font-weight: 300; }
-  .d3plus_tooltip .d3plus_tooltip_data_seperator {
-    background-color: rgba(224, 224, 224, 0.64) !important; }
-
 body.redirect nav {
   position: relative; }
   body.redirect nav #top-nav {
@@ -4086,7 +4114,10 @@ body.map {
       background-color: #141b2e; }
 
 #map-controls {
-  background-color: #c1c1c1;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  background-color: #F6F6F6;
   padding: 0px 5px 10px;
   text-align: center;
   z-index: 2;

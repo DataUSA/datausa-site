@@ -32,7 +32,7 @@ viz.map = function() {
     "pins": {"value": []},
     "text": {"value": "name"},
     "tiles": {"value": true},
-    "tooltip": {"value": []},
+    "tooltip": {"url": false, "value": []},
     "width": {"value": false},
     "zoom": {"scroll": false, "set": false, "value": true}
   };
