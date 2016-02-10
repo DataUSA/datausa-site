@@ -1,4 +1,4 @@
-- required: ["avg_age", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank"]
+- required: ["avg_age", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank", "avg_wage_ft", "avg_wage_pt", "avg_hrs_ft", "avg_hrs_pt"]
   year: latest
   naics_level: <<sumlevel>>
   namespace: data
