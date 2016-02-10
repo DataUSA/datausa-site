@@ -734,10 +734,10 @@ viz.mapDraw = function(vars) {
     var pz = zoom.scale() / polyZoom;
     polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")")
       .selectAll("path").attr("stroke-width", pathStroke/pz);
-    pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")")
+    pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")")
       .selectAll(".pin")
       .attr("transform", function(d){
-        return "translate(" + d + ")scale(" + (1/zoom.scale()*vizStyles.pin.scale) + ")";
+        return "translate(" + d + ")scale(" + (1/pz*vizStyles.pin.scale) + ")";
       });
 
     if (vars.tiles.value) {
