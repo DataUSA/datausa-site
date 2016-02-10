@@ -30,6 +30,16 @@
   year: latest
   namespace: puma_rca
 
+- required: ["geo"]
+  sumlevel: puma
+  show: geo
+  order: num_ppl
+  sort: desc
+  rows: True
+  limit: 3
+  year: latest
+  namespace: puma_ppl
+
 - required: ["sex", "avg_age", "avg_age_moe"]
   sex: "1,2"
   order: sex
@@ -91,3 +101,13 @@
   rows: True
   limit: 2
   namespace: growth
+
+- required: ["soc"]
+  soc: ""
+  show: "soc"
+  sumlevel: "<<sumlevel>>"
+  avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+  where: "num_records:>4,soc:~^<<id>>"
+  rows: True
+  limit: 4
+  namespace: similar
