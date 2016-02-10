@@ -12,4 +12,7 @@ stats:
     value: "<<var namespace=data|key=avg_age>>"
 facts:
   - "The area with an unusually large workforce is <<top show=geo|sumlevel=puma|order=num_ppl_rca>>."
-sections: []
+sections:
+  - workforce
+  - io
+  - growth
