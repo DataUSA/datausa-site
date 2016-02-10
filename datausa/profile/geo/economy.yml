@@ -2,6 +2,196 @@ title: "Economy"
 description: "Here we present trends in jobs, wages and industries over time in <<name>>."
 
 topics:
+  - category: "Wages"
+    title: "Median Household Income"
+    slug: "income"
+    description: "Households in <<name>> have a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank|row=0>> richest <<level>> in the United States.}}{{<<sumlevel>>:nation|| This chart shows the average wage of US citizens compared to the top 2 and bottom 2 states.}}"
+    stat:
+      - title: "<<var namespace=splash|key=year|row=0>> value"
+        value: "<<var namespace=splash|key=income|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe|row=0>>"
+    viz:
+      attrs: "geo"
+      data:
+        - geo: "<<parents id_only=True|col=income>>,<<id>>"
+          required: "income,income_moe"
+          show: "geo"
+      id: "geo"
+      labels: YES
+      order:
+        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
+        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||income}}"
+      type: "bar"
+      x: "income"
+      y:
+        scale: "discrete"
+        value: "geo"
+  - title: "Wage by Gender"
+    subtitle: "<<sub show=sex|sex=1|col=avg_wage_ft>>"
+    slug: "income_gender"
+    description: "<<var namespace=gender|key=sex|row=0>> full-time employees in <<name>> make <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|ratio=True>> times <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|text=moreless>> <<var namespace=gender|key=sex|row=1>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
+    stat:
+      - title: "Average Male Salary"
+        value: "<<var namespace=gender|key=avg_wage_ft|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=0>>"
+      - title: "Average Female Salary"
+        value: "<<var namespace=gender|key=avg_wage_ft|row=1>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=1>>"
+    viz:
+      attrs:
+        - "sex"
+        - "soc"
+      color: "sex"
+      data:
+        - geo: "<<id>>"
+          limit: "10"
+          required: "num_ppl,num_ppl_moe,avg_wage_ft,avg_wage_ft_moe"
+          show: "soc,sex"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
+          sumlevel: "3,all"
+      id: "sex"
+      order: "avg_wage_ft"
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: "soc"
+      y: "avg_wage_ft"
+  - title: "Wage by Race & Ethnicity"
+    subtitle: "<<sub show=race|col=avg_wage>>"
+    slug: "income_ethnicity"
+    description: "<<var namespace=race|key=race|row=0>> citizens earn, on average, <<percent num=var:race,avg_wage,0|den=var:race,avg_wage,1|ratio=True>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations."
+    stat_stack: YES
+    stat:
+      - title: "Race or Ethnicity with Highest Average Salary"
+        value: "<<var namespace=race|key=race|row=0>>"
+        subtitle: "<<var namespace=race|key=avg_wage|row=0>> <span class='plus-minus'>±</span> <<var namespace=race|key=avg_wage_moe|row=0>>"
+    viz:
+      attrs:
+        - "race"
+        - "soc"
+      color: "race"
+      data:
+        - geo: "<<id>>"
+          limit: "45"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          show: "soc,race"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
+          sumlevel: "3,all"
+      id: "race"
+      order: "avg_wage"
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: "soc"
+      y: "avg_wage"
+  - title: "Income Distribution"
+    subtitle: "Please note that the buckets used in this visualization were not evenly distributed by ACS when publishing the data.{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| Additionally, the closest comparable GINI value for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
+    slug: "income_distro"
+    description:
+      - "<<var namespace=wagegap|key=geo>> has an income GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
+    stat:
+      - title: "Income GINI"
+        value: "<<var namespace=wagegap|key=gini>>"
+    viz:
+      attrs: "geo"
+      data:
+        - geo: "<<id>>,01000US"
+          force: "acs.yg_income_distribution"
+          show: "geo"
+          share: "num_ppl.geo"
+          split:
+            id: "bucket"
+            regex: "^income_([a-zA-Z0-9]*)$"
+            value: "num_ppl"
+      id: "geo"
+      order: "bucket"
+      type: "bar"
+      x:
+        label: "income"
+        persist:
+          position: "{{<<sumlevel>>:!nation||True}}"
+        value: "bucket"
+      y: "share"
+  - title: "Wage by Location"
+    sumlevel: "!puma"
+    slug: "income_geo"
+    stat:
+      - title: "<<level child=True|plural=True>> with the highest median wage"
+        value: "<<top child=True|order=income>>"
+        sumlevel: "!county,!place"
+        subvalues:
+          - "<<top child=True|order=income|rank=2>>"
+          - "<<top child=True|order=income|rank=3>>"
+    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
+    viz:
+      attrs: "geo"
+      coords:
+        solo: "<<children>>"
+        value: "<<sumlevel plural=True|child=True>>"
+      color: "income"
+      data:
+        - required: "income,income_moe"
+          show: "geo"
+          sumlevel: "<<sumlevel child=True>>"
+          where: "geo:<<children prefix=True>>"
+      height: 400
+      id: "geo"
+      type: "geo_map"
+  - title: "Poverty by Age and Gender"
+    slug: poverty_age_gender
+    stat:
+      - title: "Largest demographic living in poverty"
+        value: "<<var namespace=sex_age|key=name|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|key=moe|row=0>>"
+    description: "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population for whom poverty status is determined in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line.{{<<sumlevel>>:!nation|| This is <<percent num=income_below_poverty,pop_poverty_status|den=income_below_poverty,pop_poverty_status|den_id=01000US|text=highlow>> the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>.}}"
+    viz:
+      color: "sex"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_poverty"
+        share: "num_ppl"
+        split:
+          id: "sex_age"
+          regex: "^poverty_([a-z0-9]*_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
+          map:
+            sex: "^poverty_([a-z0-9]*)_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*$"
+            bucket: "^poverty_[a-z0-9]*_(([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
+          value: "num_ppl"
+      id: "sex"
+      order: "bucket"
+      type: "bar"
+      x:
+        label: "age"
+        persist:
+          position: True
+        value: "bucket"
+      y: "num_ppl"
+  - title: "Poverty by Race & Ethnicity"
+    slug: "poverty_ethnicity"
+    stat:
+      - title: "Largest race or ethnicity living in poverty"
+        value: "<<var namespace=poverty_race|key=name|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=poverty_race|key=moe|row=0>>"
+    description: "The most common race or ethnicity living below the poverty line in <<name>> is <<var namespace=poverty_race|key=name|row=0>>, followed by <<var namespace=poverty_race|key=name|row=1>> and <<var namespace=poverty_race|key=name|row=2>>."
+    viz:
+      color: "race"
+      data:
+        show: "geo"
+        geo: "<<id>>"
+        force: "acs.yg_poverty_race"
+        share: "num_ppl"
+        split:
+          id: "race"
+          regex: "^poverty_([a-z]*)$"
+          value: "num_ppl"
+      id: "race"
+      order: "num_ppl"
+      type: "bar"
+      x: "race"
+      y: "num_ppl"
   - category: "Occupations"
     sumlevel: "!nation,!state"
     title: "Most Common"
@@ -355,196 +545,6 @@ topics:
         - "soc"
       size: "num_ppl"
       type: "tree_map"
-  - category: "Wages"
-    title: "Median Household Income"
-    slug: "income"
-    description: "Households in <<name>> have a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This makes <<name>> the <<var namespace=splash|key=income_rank|row=0>> richest <<level>> in the United States.}}{{<<sumlevel>>:nation|| This chart shows the average wage of US citizens compared to the top 2 and bottom 2 states.}}"
-    stat:
-      - title: "<<var namespace=splash|key=year|row=0>> value"
-        value: "<<var namespace=splash|key=income|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=splash|key=income_moe|row=0>>"
-    viz:
-      attrs: "geo"
-      data:
-        - geo: "<<parents id_only=True|col=income>>,<<id>>"
-          required: "income,income_moe"
-          show: "geo"
-      id: "geo"
-      labels: YES
-      order:
-        sort: "{{<<sumlevel>>:!nation||desc}}{{<<sumlevel>>:nation||asc}}"
-        value: "{{<<sumlevel>>:!nation||geo}}{{<<sumlevel>>:nation||income}}"
-      type: "bar"
-      x: "income"
-      y:
-        scale: "discrete"
-        value: "geo"
-  - title: "Wage by Gender"
-    subtitle: "<<sub show=sex|sex=1|col=avg_wage_ft>>"
-    slug: "income_gender"
-    description: "<<var namespace=gender|key=sex|row=0>> full-time employees in <<name>> make <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|ratio=True>> times <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|text=moreless>> <<var namespace=gender|key=sex|row=1>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
-    stat:
-      - title: "Average Male Salary"
-        value: "<<var namespace=gender|key=avg_wage_ft|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=0>>"
-      - title: "Average Female Salary"
-        value: "<<var namespace=gender|key=avg_wage_ft|row=1>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=1>>"
-    viz:
-      attrs:
-        - "sex"
-        - "soc"
-      color: "sex"
-      data:
-        - geo: "<<id>>"
-          limit: "10"
-          required: "num_ppl,num_ppl_moe,avg_wage_ft,avg_wage_ft_moe"
-          show: "soc,sex"
-          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
-          sumlevel: "3,all"
-      id: "sex"
-      order: "avg_wage_ft"
-      type: "bar"
-      x:
-        persist:
-          position: True
-        value: "soc"
-      y: "avg_wage_ft"
-  - title: "Wage by Race & Ethnicity"
-    subtitle: "<<sub show=race|col=avg_wage>>"
-    slug: "income_ethnicity"
-    description: "<<var namespace=race|key=race|row=0>> citizens earn, on average, <<percent num=var:race,avg_wage,0|den=var:race,avg_wage,1|ratio=True>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations."
-    stat_stack: YES
-    stat:
-      - title: "Race or Ethnicity with Highest Average Salary"
-        value: "<<var namespace=race|key=race|row=0>>"
-        subtitle: "<<var namespace=race|key=avg_wage|row=0>> <span class='plus-minus'>±</span> <<var namespace=race|key=avg_wage_moe|row=0>>"
-    viz:
-      attrs:
-        - "race"
-        - "soc"
-      color: "race"
-      data:
-        - geo: "<<id>>"
-          limit: "45"
-          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
-          show: "soc,race"
-          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id>>"
-          sumlevel: "3,all"
-      id: "race"
-      order: "avg_wage"
-      type: "bar"
-      x:
-        persist:
-          position: True
-        value: "soc"
-      y: "avg_wage"
-  - title: "Income Distribution"
-    subtitle: "Please note that the buckets used in this visualization were not evenly distributed by ACS when publishing the data.{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| Additionally, the closest comparable GINI value for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
-    slug: "income_distro"
-    description:
-      - "<<var namespace=wagegap|key=geo>> has an income GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
-    stat:
-      - title: "Income GINI"
-        value: "<<var namespace=wagegap|key=gini>>"
-    viz:
-      attrs: "geo"
-      data:
-        - geo: "<<id>>,01000US"
-          force: "acs.yg_income_distribution"
-          show: "geo"
-          share: "num_ppl.geo"
-          split:
-            id: "bucket"
-            regex: "^income_([a-zA-Z0-9]*)$"
-            value: "num_ppl"
-      id: "geo"
-      order: "bucket"
-      type: "bar"
-      x:
-        label: "income"
-        persist:
-          position: "{{<<sumlevel>>:!nation||True}}"
-        value: "bucket"
-      y: "share"
-  - title: "Wage by Location"
-    sumlevel: "!puma"
-    slug: "income_geo"
-    stat:
-      - title: "<<level child=True|plural=True>> with the highest median wage"
-        value: "<<top child=True|order=income>>"
-        sumlevel: "!county,!place"
-        subvalues:
-          - "<<top child=True|order=income|rank=2>>"
-          - "<<top child=True|order=income|rank=3>>"
-    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
-    viz:
-      attrs: "geo"
-      coords:
-        solo: "<<children>>"
-        value: "<<sumlevel plural=True|child=True>>"
-      color: "income"
-      data:
-        - required: "income,income_moe"
-          show: "geo"
-          sumlevel: "<<sumlevel child=True>>"
-          where: "geo:<<children prefix=True>>"
-      height: 400
-      id: "geo"
-      type: "geo_map"
-  - title: "Poverty by Age and Gender"
-    slug: poverty_age_gender
-    stat:
-      - title: "Largest demographic living in poverty"
-        value: "<<var namespace=sex_age|key=name|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|key=moe|row=0>>"
-    description: "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population for whom poverty status is determined in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line.{{<<sumlevel>>:!nation|| This is <<percent num=income_below_poverty,pop_poverty_status|den=income_below_poverty,pop_poverty_status|den_id=01000US|text=highlow>> the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>.}}"
-    viz:
-      color: "sex"
-      data:
-        show: "geo"
-        geo: "<<id>>"
-        force: "acs.yg_poverty"
-        share: "num_ppl"
-        split:
-          id: "sex_age"
-          regex: "^poverty_([a-z0-9]*_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
-          map:
-            sex: "^poverty_([a-z0-9]*)_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*$"
-            bucket: "^poverty_[a-z0-9]*_(([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
-          value: "num_ppl"
-      id: "sex"
-      order: "bucket"
-      type: "bar"
-      x:
-        label: "age"
-        persist:
-          position: True
-        value: "bucket"
-      y: "num_ppl"
-  - title: "Poverty by Race & Ethnicity"
-    slug: "poverty_ethnicity"
-    stat:
-      - title: "Largest race or ethnicity living in poverty"
-        value: "<<var namespace=poverty_race|key=name|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=poverty_race|key=moe|row=0>>"
-    description: "The most common race or ethnicity living below the poverty line in <<name>> is <<var namespace=poverty_race|key=name|row=0>>, followed by <<var namespace=poverty_race|key=name|row=1>> and <<var namespace=poverty_race|key=name|row=2>>."
-    viz:
-      color: "race"
-      data:
-        show: "geo"
-        geo: "<<id>>"
-        force: "acs.yg_poverty_race"
-        share: "num_ppl"
-        split:
-          id: "race"
-          regex: "^poverty_([a-z]*)$"
-          value: "num_ppl"
-      id: "race"
-      order: "num_ppl"
-      type: "bar"
-      x: "race"
-      y: "num_ppl"
   - category: "Industries"
     sumlevel: "!nation,!state"
     class: "flex"
