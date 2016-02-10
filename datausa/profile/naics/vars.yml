@@ -3,6 +3,10 @@
   naics_level: <<sumlevel>>
   namespace: data
 
+- required: ["employees_thousands"]
+  year: latest
+  namespace: ces
+
 - required: ["avg_wage", "avg_wage_moe"]
   sex: "1,2"
   limit: 2

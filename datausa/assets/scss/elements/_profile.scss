@@ -475,7 +475,7 @@ body.profile, body.map, body.story {
           @include flex-direction(column);
           @include justify(flex-start);
           @include align-items(center);
-          width: 150px;
+          width: 175px;
 
           @media all and (max-width: 950px){
             @include justify(flex-start);
@@ -484,7 +484,7 @@ body.profile, body.map, body.story {
           .stat-text {
             font-size: 12px;
             text-align: center;
-            color: rgba(240, 250, 255, 0.85);
+            color: rgba(240, 250, 255, 1);
             line-height: 1.35;
             margin-bottom: 0;
 
@@ -503,7 +503,7 @@ body.profile, body.map, body.story {
 
           .stat-rank {
             font-size: 12px;
-            color: rgba(240, 250, 255, 0.6);
+            color: rgba(240, 250, 255, 0.8);
             line-height: 1.35;
             text-transform: uppercase;
           }

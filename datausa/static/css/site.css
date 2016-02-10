@@ -2496,7 +2496,7 @@ body.profile nav, body.map nav, body.story nav {
                   align-items: center;
                   -ms-flex-align: center;
                   flex-align: center;
-                  width: 150px; }
+                  width: 175px; }
                   @media all and (max-width: 950px) {
                     body.profile #splash .content #splash-stats .stat,
                     body.map #splash .content #splash-stats .stat,
@@ -2512,7 +2512,7 @@ body.profile nav, body.map nav, body.story nav {
                     body.story #splash .content #splash-stats .stat .stat-text {
                       font-size: 12px;
                       text-align: center;
-                      color: rgba(240, 250, 255, 0.85);
+                      color: #f0faff;
                       line-height: 1.35;
                       margin-bottom: 0; }
                       body.profile #splash .content #splash-stats .stat .stat-text a,
@@ -2531,7 +2531,7 @@ body.profile nav, body.map nav, body.story nav {
                   body.map #splash .content #splash-stats .stat .stat-rank,
                   body.story #splash .content #splash-stats .stat .stat-rank {
                     font-size: 12px;
-                    color: rgba(240, 250, 255, 0.6);
+                    color: rgba(240, 250, 255, 0.8);
                     line-height: 1.35;
                     text-transform: uppercase; }
                     body.profile #splash .content #splash-stats .stat .stat-value,
