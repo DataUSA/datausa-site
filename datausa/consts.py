@@ -101,11 +101,11 @@ SUMLEVELS = {
 }
 
 TEXTCOMPARATORS = {
-    "age": ("older than", "younger than", "the same age as"),
-    "highlow": ("higher than", "lower than", "the same as"),
-    "longshort": ("longer", "shorter", "equal"),
-    "moreless": ("more than", "less than", "the same as"),
-    "moreless2": ("more", "less", "the same")
+    "age": ("older than", "younger than", "approximately the same age as"),
+    "highlow": ("higher than", "lower than", "approximately the same as"),
+    "longshort": ("longer", "shorter", "approximately equal"),
+    "moreless": ("more than", "less than", "approximately the same as"),
+    "moreless2": ("more", "less", "approximately the same")
 }
 
 DICTIONARY = {

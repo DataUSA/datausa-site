@@ -11,7 +11,7 @@ def jinja_formatter(value, key=None):
     else:
         return value.title()
 
-def num_format(number, key=None, labels=True, condense=True):
+def num_format(number, key=None, labels=True, condense=True, suffix=True):
 
     if number == float("inf"):
         return "N/A"
@@ -71,9 +71,11 @@ def num_format(number, key=None, labels=True, condense=True):
         n = int(n)
 
     # Initializes the number suffix based on the group.
-    n = u"{}{}".format("{:,}".format(n), groups[m])
+    n = u"{:,}".format(n)
+    if suffix:
+        n = u"{}{}".format(n, groups[m])
 
-    if key and (key in PERCENTAGES or key in PROPORTIONS):
+    if suffix and key and (key in PERCENTAGES or key in PROPORTIONS):
         n = u"{}%".format(n)
 
     if key and labels:

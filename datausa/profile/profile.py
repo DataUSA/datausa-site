@@ -356,7 +356,7 @@ class Profile(BaseObject):
 
         results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
         results = self.get_uniques(results)
-        
+
         if prefix:
             results = [r for r in results if r["id"].startswith(prefix)]
         
@@ -423,6 +423,7 @@ class Profile(BaseObject):
             if "top:" in key:
 
                 params["col"], params["force"] = key.split(":")[1].split(",")
+                r["{}_key".format(t)] = params["col"]
                 r[t] = self.top(**params)["data"][0]
 
             elif "var:" in key:
@@ -431,6 +432,7 @@ class Profile(BaseObject):
                 if len(keys) == 2:
                     keys.append(None)
                 ns, col, row = keys
+                r["{}_key".format(t)] = col
                 r[t] = self.var(namespace=ns, key=col, row=row, format="raw")
 
             elif "," in key:
@@ -442,11 +444,13 @@ class Profile(BaseObject):
                 subparams["data_only"] = True
                 subparams["num_id"] = params[t_type]
                 subparams["den_id"] = params[t_type]
+                r["{}_key".format(t)] = None
                 r[t] = self.percent(**subparams)
 
             else:
 
                 params["required"] = key
+                r["{}_key".format(t)] = key
 
                 # convert request arguments into a url query string
                 query = RequestEncodingMixin._encode_params(params)
@@ -466,6 +470,11 @@ class Profile(BaseObject):
                 return "N/A"
 
         diff = kwargs.get("diff", False)
+        text = kwargs.get("text", False)
+        if text and text in TEXTCOMPARATORS:
+            r["num"] = float(num_format(r["num"], r["num_key"], False, suffix=False).replace(",", ""))
+            r["den"] = float(num_format(r["den"], r["den_key"], False, suffix=False).replace(",", ""))
+
         if r["num"] == 0 or r["den"] == 0:
             val = 0
         elif diff:
@@ -479,7 +488,6 @@ class Profile(BaseObject):
         if kwargs.get("data_only", False):
             return val
 
-        text = kwargs.get("text", False)
         if text and text in TEXTCOMPARATORS:
             text = TEXTCOMPARATORS[text]
             if diff:
