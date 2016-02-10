@@ -1,4 +1,12 @@
 {% extends "templates/nav.html" %}
+{% set image = profile.image() %}
+
+{% block social_meta %}
+<meta property="og:site_name" content="DataUSA" />
+<meta property="og:title" content="{{ profile.splash.title }}" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="http://{{ request.host }}{{ image.url }}" />
+{% endblock %}
 
 {% block title %}{{ profile.splash.title }}{% endblock %}
 
@@ -20,7 +28,6 @@
   <article id="splash">
 
     {% set sections = profile.sections() %}
-    {% set image = profile.image() %}
 
     <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
 
