@@ -271,6 +271,17 @@ class Profile(BaseObject):
         profile_path = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(f))
         return open(file_path)
+    
+    @staticmethod
+    def get_uniques(list_of_dict):
+        seen = set()
+        new_list_of_dict = []
+        for d in list_of_dict:
+            t = tuple(d.items())
+            if t not in seen:
+                seen.add(t)
+                new_list_of_dict.append(d)
+        return new_list_of_dict
 
     def parents(self, **kwargs):
         id_only = kwargs.get("id_only", False)
@@ -333,6 +344,8 @@ class Profile(BaseObject):
                     return results
 
         results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
+        results = self.get_uniques(results)
+        
         if prefix:
             results = [r for r in results if r["id"].startswith(prefix)]
         if id_only:
