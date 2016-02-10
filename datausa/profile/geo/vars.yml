@@ -39,7 +39,7 @@
   year: latest
   namespace: race
 
-- required: ["gini"]
+- required: ["gini", "geo"]
   show: geo
   sumlevel: all
   year: latest

@@ -192,6 +192,9 @@ body.profile, body.map, body.story {
 
     .sub-title {
       color: $red-w;
+      a {
+        color: $red-w;
+      }
     }
 
     .sub-source {

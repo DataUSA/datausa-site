@@ -2143,23 +2143,26 @@ body.profile .topic .sub, body.map .topic .sub, body.story .topic .sub {
 body.profile .topic .sub-title, body.map .topic .sub-title,
 body.story .topic .sub-title {
   color: #ef6145; }
-  body.profile .topic .sub-source, body.map .topic .sub-source,
-  body.story .topic .sub-source {
-    display: block;
-    color: #a8a8a8;
-    font-family: "Palanquin", sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1.5; }
-    body.profile .topic .sub-source a, body.map .topic .sub-source a,
-    body.story .topic .sub-source a {
-      color: #888; }
-      body.profile .topic .sub-source a:hover, body.map .topic .sub-source a:hover,
-      body.story .topic .sub-source a:hover {
-        border-bottom: 1px solid #888; }
-    body.profile .topic .sub-source span, body.map .topic .sub-source span,
-    body.story .topic .sub-source span {
-      vertical-align: baseline; }
+  body.profile .topic .sub-title a, body.map .topic .sub-title a,
+  body.story .topic .sub-title a {
+    color: #ef6145; }
+body.profile .topic .sub-source, body.map .topic .sub-source,
+body.story .topic .sub-source {
+  display: block;
+  color: #a8a8a8;
+  font-family: "Palanquin", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5; }
+  body.profile .topic .sub-source a, body.map .topic .sub-source a,
+  body.story .topic .sub-source a {
+    color: #888; }
+    body.profile .topic .sub-source a:hover, body.map .topic .sub-source a:hover,
+    body.story .topic .sub-source a:hover {
+      border-bottom: 1px solid #888; }
+  body.profile .topic .sub-source span, body.map .topic .sub-source span,
+  body.story .topic .sub-source span {
+    vertical-align: baseline; }
 body.profile .stat-text, body.profile .stat-rank, body.map .stat-text,
 body.map .stat-rank, body.story .stat-text, body.story .stat-rank {
   font-family: "Palanquin", sans-serif; }
