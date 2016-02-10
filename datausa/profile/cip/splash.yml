@@ -8,9 +8,9 @@ stats:
   - title: "<<var namespace=gdata|key=year>> Degrees Awarded"
     value: "<<var namespace=gdata|key=grads_total>>"
     rank: "<<var namespace=gdata|key=grads_rank>> of <<rank_max>>"
-  - title: "Average Income{{<<name>>:!<<name dataset=pums>>|| for <<name dataset=pums>> majors}}"
+  - title: "Average Income{{<<name>>:!<<name dataset=pums>>|| for <<name dataset=pums>>}}"
     value: "<<var namespace=data|key=avg_wage>>"
-    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>>"
+    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max dataset=pums>>"
 facts:
   - "The county with the most degrees awarded in <<name>> is <<top show=geo|sumlevel=county|order=grads_total>>."
   - "The most common occupation for <<name>> majors is <<top show=soc|sumlevel=3|order=num_ppl>>."
