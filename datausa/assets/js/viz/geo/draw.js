@@ -592,7 +592,7 @@ viz.mapDraw = function(vars) {
         "fontfamily": vizStyles.tooltip.font.family,
         "fontsize": vizStyles.tooltip.font.size,
         "fontweight": vizStyles.tooltip.font.weight,
-        "footer": big ? false : "Click for More Info",
+        "footer": big || !vars.zoom.value ? false : "Click for More Info",
         "html": html,
         "id": id,
         "js": big ? function(elem) {
@@ -651,18 +651,22 @@ viz.mapDraw = function(vars) {
           d3.select(this).attr("fill-opacity", pathOpacity);
           d3plus.tooltip.remove("geo_map");
         })
-        .on(d3plus.client.pointer.click, function(d){
-          if (drag) {
-            drag = false;
-          }
-          else {
-            vars.highlight.value = d.id;
-            d3.select(this).attr("fill-opacity", pathOpacity);
-            d3plus.tooltip.remove("geo_map");
-            zoomToBounds(path.bounds(d));
-            createTooltip(d, true);
-          }
-        });
+
+      if (vars.zoom.value) {
+        polys
+          .on(d3plus.client.pointer.click, function(d){
+            if (drag) {
+              drag = false;
+            }
+            else {
+              vars.highlight.value = d.id;
+              d3.select(this).attr("fill-opacity", pathOpacity);
+              d3plus.tooltip.remove("geo_map");
+              zoomToBounds(path.bounds(d));
+              createTooltip(d, true);
+            }
+          });
+      }
 
     }
 

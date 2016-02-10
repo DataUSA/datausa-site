@@ -64,6 +64,12 @@ class Viz(object):
         # set self.config to the params
         self.config = params
 
+        if "mouse" in params:
+            if params["mouse"] == "NO":
+                self.config["mouse"] = False
+            else:
+                self.config["mouse"] = True
+
         # set the tooltip config using the function
         self.config["tooltip"] = params.pop("tooltip", {})
         self.config["tooltip"]["value"] = self.tooltip()
