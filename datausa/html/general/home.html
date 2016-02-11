@@ -111,7 +111,7 @@ window.next_letter = function() {
   if (letter_index <= type_this.length) {
     search_input.property("value", type_this.substr(0, letter_index++));
     if(letter_index > type_this.length){
-      interval = interval * 22;
+      interval = interval * 30;
       search_input.on("click")();
     }
   }
