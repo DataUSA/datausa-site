@@ -224,8 +224,8 @@ body.profile, body.map, body.story {
 
   .stat-text {
     font-size: 14px;
-    font-weight: 300;
-    letter-spacing: 0.05em;
+    font-weight: 600;
+    letter-spacing: 0;
     text-transform: uppercase;
     line-height: 1.5;
     margin-bottom: 10px;
@@ -246,13 +246,13 @@ body.profile, body.map, body.story {
   }
 
   .stat-rank {
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.05em;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
   .stat-value {
-    font-family: $source;
+    font-family: $lato;
     font-size: 22px;
     font-weight: 300;
     margin-bottom: 8px;
@@ -296,7 +296,6 @@ body.profile, body.map, body.story {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    // border-bottom: 1px solid $black3;
 
     .has-p-link a {
       text-align: left;
@@ -352,12 +351,14 @@ body.profile, body.map, body.story {
     .content {
       @include flex();
       @include flex-direction(column);
-      @include justify(space-around);
+      @include justify(flex-end);
       @include align-items(center);
       @include transition(opacity 0.5s);
       width: 100%;
+      max-width: 1080px;
       height: 100%;
       opacity: 1;
+      margin: 0 auto;
       padding: 7% 10%;
       @include box();
       z-index: 1;
@@ -368,12 +369,18 @@ body.profile, body.map, body.story {
         pointer-events: none;
       }
 
+      .f {
+        @include flex-size(1.5);
+      }
+
       .splash-titles {
-        // @include flex-size(1);
+        @include flex-size(2);
         color: #efefef;
         width: 100%;
         max-width: 750px;
         text-align: center;
+        @include flex();
+        @include flex-direction(column);
 
         h1 {
           text-transform: none;
@@ -395,44 +402,94 @@ body.profile, body.map, body.story {
       }
 
       #splash-stats {
-        // @include flex-size(1);
+        @include flex-size(2);
         width: 100%;
         max-width: 900px;
+        @include box();
         @include flex();
         @include align-items(flex-start);
-        @include justify(space-around);
+        @include justify(space-between);
         @include text-shadow(0px 0px 5px rgba(20, 27, 46, 0.6));
+        
+        .stat {
+          @include flex-size(1);
+          padding: 0 15px;
+
+          @include flex();
+          @include flex-direction(column);
+          @include justify(flex-start);
+          @include align-items(center);
+
+          @media all and (max-width: 950px){
+            @include justify(flex-start);
+          }
+
+          .stat-text {
+            font-size: 17px;
+            text-align: center;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 0;
+
+            a {
+              color: #fff;
+              border-bottom: 1px solid rgba(255,255,255,0.85);
+              text-decoration: none;
+
+              &:hover {
+                border-bottom: 0;
+                color: #fff;
+                text-decoration: none;
+              }
+            }
+          }
+
+          .stat-rank {
+            font-size: 14px;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.35;
+            text-transform: uppercase;
+          }
+
+          .stat-value {
+            margin: 6px 0 7px;
+            font-size: 38px;
+            color: #fff;
+          }
+
+        }
       }
 
       .splash-icon-nav {
-        // @include flex-size(1);
+        @include flex-size(1);
         @include flex();
 
         a {
-          // @include flex-size(1);
           text-align: center;
           margin: 0 10px;
-          opacity: 0.7;
           width: 100px;
-          @include transition(opacity 0.25s);
+          @include transition(all 0.25s);
 
           &:hover {
-            opacity: 1;
+            span {
+              @include text-shadow(0px 0px 1px rgba(255,255,255,0.8));
+            }
           }
 
           img {
-            width: 23px;
-            height: 23px;
+            width: 30px;
+            height: 30px;
           }
 
           span {
             display: block;
-            margin-top: 7px;
+            margin-top: 5px;
             font-family: $palanquin;
             text-transform: uppercase;
-            font-weight: 300;
+            font-weight: 400;
             font-size: 10px;
             letter-spacing: 0.1em;
+            line-height: 1.3;
             color: #fff;
           }
         }
@@ -464,66 +521,12 @@ body.profile, body.map, body.story {
         opacity: 0.9;
       }
 
-      #splash-stats {
-        @include flex();
-        @include justify(space-around);
-        @include align-items(stretch);
-        width: 100%;
-
-        .stat {
-          @include flex();
-          @include flex-direction(column);
-          @include justify(flex-start);
-          @include align-items(center);
-          width: 175px;
-
-          @media all and (max-width: 950px){
-            @include justify(flex-start);
-          }
-
-          .stat-text {
-            font-size: 12px;
-            text-align: center;
-            color: rgba(240, 250, 255, 1);
-            line-height: 1.35;
-            margin-bottom: 0;
-
-            a {
-              color: rgba(237,240,245,0.65);
-              border-bottom: 1px solid rgba(195,219,225,0.85);
-              text-decoration: none;
-
-              &:hover {
-                border-bottom: 0;
-                color: #fff;
-                text-decoration: none;
-              }
-            }
-          }
-
-          .stat-rank {
-            font-size: 12px;
-            color: rgba(240, 250, 255, 0.8);
-            line-height: 1.35;
-            text-transform: uppercase;
-          }
-
-          .stat-value {
-            margin: 6px 0 7px;
-            font-size: 34px;
-            color: #fff;
-          }
-
-        }
-
-      }
-
       .carousel {
         margin-top: 30px;
 
         .carousel-title {
           color: rgba(240, 250, 255, 0.85);
-          font-family: $playfair;
+          font-family: $palanquin;
           font-size: 18px;
           font-style: italic;
           font-weight: 400;
@@ -971,6 +974,11 @@ body.profile, body.map, body.story {
 
     .intro-txt {
       @include flex-size(2);
+
+      .desc {
+        font-size: 14px;
+      }
+
       a {
         &.show-more{
           border-bottom: 1px solid rgba(0,0,0,0.95);
@@ -1739,7 +1747,7 @@ body.redirect {
           padding: 20px;
           h2 {
             color: rgba(51, 51, 51, 0.93);
-            font-family: $playfair;
+            font-family: $palanquin;
             font-size: 28px;
             font-style: normal;
             margin: 0 0 5px 0;
