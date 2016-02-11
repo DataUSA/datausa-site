@@ -43,7 +43,7 @@ def map():
     keys = sorted([k for k in mapdata], key=lambda x: DICTIONARY[x.split(",")[0]])
 
     defaultKey = request.args.get("key", "pop").split(",")[0]
-    defaultLevel = request.args.get("level", "state")
+    defaultLevel = request.args.get("level", "county")
 
     return render_template("map/index.html", mapdata=mapdata, keys=keys, sumlevels=sumlevels,
                                              defaultKey=defaultKey, defaultLevel=defaultLevel)
