@@ -9,17 +9,23 @@
 {% block body %}
 
 <div id="map-controls">
-  <select id="map-datasets">
-    {% for key in keys %}
-    <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
-    {% endfor %}
-  </select>
-  <span id="map-preposition">by</span>
-  <select id="map-sumlevels">
-    {% for level in sumlevels %}
-    <option value="{{ level }}"{% if level == defaultLevel %} selected{% endif %}>{{ level|format }}</option>
-    {% endfor %}
-  </select>
+  <div id="map-filters">
+    <select id="map-datasets">
+      {% for db in datasets %}
+      <option value="{{ db }}"{% if db == defaultDataset %} selected{% endif %}>{{ db|format }}</option>
+      {% endfor %}
+    </select>
+    <select id="map-keys">
+      {% for key in keys %}
+      <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
+      {% endfor %}
+    </select>
+    <select id="map-sumlevels">
+      {% for level in sumlevels %}
+      <option value="{{ level }}"{% if level == defaultLevel %} selected{% endif %}>{{ level|format }}</option>
+      {% endfor %}
+    </select>
+  </div>
 </div>
 <div id="map-fullscreen"></div>
 <div id="map-loading">
@@ -31,11 +37,15 @@
 {% block js %}
 <script>
 
+  var dataset = "{{ defaultDataset }}";
+
   var formConfig = {
     "font": vizStyles.ui_map.font,
     "ui": {
+      "display": "block",
       "padding": "3 7"
-    }
+    },
+    "width": 230
   };
 
   var mapdata = JSON.parse("{{ mapdata|safe }}".replace(/'/g, '"'));
@@ -46,9 +56,11 @@
     .focus("{{ defaultLevel }}", function(d, viz){
       if (!viz.draw(Object).first) {
         d3plus.tooltip.remove("geo_map_sidebar");
+        map.highlight(false);
         makeURL();
       }
     })
+    .id("value")
     .config(formConfig)
     .ui(vizStyles.ui_map)
     .draw();
@@ -56,32 +68,55 @@
   var levelData = levels.data();
 
   var keys = d3plus.form()
-    .data("#map-datasets")
+    .data("#map-keys")
     .type("drop")
     .focus("{{ defaultKey }}", function(d, viz){
-      var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
-      if (mapdata[d].indexOf(levels.focus()) < 0) {
-        levels.focus(mapdata[d][mapdata[d].length - 1]);
+      var newLevelData = levelData.filter(function(dd) { return mapdata[dataset][d].indexOf(dd.value) >= 0; });
+      if (mapdata[dataset][d].indexOf(levels.focus()) < 0) {
+        levels.focus(mapdata[dataset][d][mapdata[d].length - 1]);
       }
       levels.data(newLevelData).draw();
       if (!viz.draw(Object).first) {
         makeURL();
       }
     })
+    .id("value")
     .config(formConfig)
     .ui(vizStyles.ui_map)
     .draw();
 
-  var navheight = d3.select("#top-nav").node().offsetHeight +
-                  d3.select("#map-controls").node().offsetHeight;
+  var keyData = keys.data();
+
+  var datasets = d3plus.form()
+    .data("#map-datasets")
+    .type("drop")
+    .focus(dataset, function(d, viz){
+      dataset = d;
+      var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
+      if (!mapdata[d][keys.focus()]) {
+        keys.focus(d3.keys(mapdata[d])[0]);
+      }
+      keys.data(newKeyData).draw();
+      if (!viz.draw(Object).first) {
+        makeURL();
+      }
+    })
+    .id("value")
+    .config(formConfig)
+    .ui(vizStyles.ui_map)
+    .draw();
+
+  var navheight = d3.select("#top-nav").node().offsetHeight;
   d3.select("#map-fullscreen")
-    .style("height", window.innerHeight - navheight + "px");
+    .style("height", window.innerHeight - navheight + "px")
+    .style("width", window.innerWidth - 250 + "px");
 
   var map = viz.map()
     .container(d3.select("#map-fullscreen"))
     .id("geo")
     .messages({"background": "#cdd1d3"})
     .zoom({"scroll": true})
+    .width(window.innerWidth - 250)
     .draw();
 
   function makeURL() {
@@ -121,6 +156,7 @@
 
   load(api + "/attrs/geo/", function(attrs) {
     map.attrs(attrs.reduce(function(obj, d) { obj[d.id] = d; return obj; }, {}));
+    d3.select("#map-controls").style("visibility", "visible");
     makeURL();
   });
 

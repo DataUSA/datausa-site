@@ -28,13 +28,24 @@ body.frozen {
 
 #d3plus_tooltip_id_geo_map_sidebar {
 	.d3plus_tooltip_container {
-		background-color: $d-profile-bg !important;
+		background-color: $l-profile-bg !important;
 		color: $black !important;
 
 		.d3plus_tooltip_title {
+			border-bottom: 1px solid transparent;
+			width: auto !important;
+			&:after {
+				color: $black4;
+				content: unicode("f101");
+				font-family: FontAwesome;
+				margin-left: 5px;
+			}
 			&:hover {
+				border-bottom: 1px solid $black;
 				cursor: pointer;
-				text-decoration: underline;
+				&:after {
+					color: $black2;
+				}
 			}
 		}
 
@@ -64,9 +75,15 @@ body.frozen {
 		}
 
 		ol {
+			font-weight: 500;
 			font-size: 12px;
-			li a:hover {
-				text-decoration: underline;
+			margin-left: -20px;
+			li {
+				font-weight: 300;
+				margin-left: 20px;
+				a:hover {
+					text-decoration: underline;
+				}
 			}
 		}
 

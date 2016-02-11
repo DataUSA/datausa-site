@@ -17238,14 +17238,10 @@ module.exports = function(vars) {
         }
       });
     }
-    if (vars.data.changed) {
-      vars.container.items.data({
-        large: large,
-        value: vars.data.filtered
-      });
-    }
     vars.container.items.active(vars.active.value).data({
-      "sort": vars.data.sort.value
+      large: large,
+      sort: vars.data.sort.value,
+      value: vars.data.filtered
     }).draw({
       update: vars.draw.update
     }).font(vars.font.secondary).format(vars.format).hover(vars.hover.value).id(vars.id.value).icon({
@@ -20388,7 +20384,11 @@ module.exports = {
   },
   split: {
     accepted: [Array],
-    value: ["-", "/", ";", ":", "&"]
+    process: function(s) {
+      this["break"] = new RegExp("[^\\s\\" + s.join("\\") + "]+\\" + s.join("?\\") + "?", "g");
+      return s;
+    },
+    value: ["-", "/", ";", ":", "&", "."]
   }
 };
 

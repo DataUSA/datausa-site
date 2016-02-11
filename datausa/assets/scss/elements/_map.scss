@@ -10,36 +10,41 @@ body.map {
     }
   }
 
+  #d3plus_tooltip_id_geo_map_sidebar {
+    @include shadow(none !important);
+    .d3plus_tooltip_container {
+  		background-color: transparent !important;
+    }
+  }
+
 }
 
+$map-sidebar: 250px;
+
 #map-controls {
-  @include shadow(rgba(0, 0, 0, 0.2) 0 1px 3px);
+  @include box();
+  @include shadow(rgba(0, 0, 0, 0.2) 1px 0 3px);
   background-color: $l-profile-bg;
+  display: inline-block;
+  height: 100vh;
   padding: 0px 5px 10px;
-  text-align: center;
+  // text-align: center;
   z-index: 2;
   position: relative;
+  width: $map-sidebar;
+  visibility: hidden;
   // top: $title-height;
 
-  & > div {
-    margin: 0 !important;
-  }
-
-  #map-preposition {
-    color: #666;
-    display: inline-block;
-    font-family: $palanquin;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin: 13px 5px 0 9px;
-  }
+  // & > div {
+  //   margin: 0 !important;
+  // }
 
 }
 
 #map-fullscreen {
-  // top: $title-height;
+  left: $map-sidebar;
+  position: absolute;
+  top: $title-height;
   width: 100vw;
   z-index: 1;
   svg {

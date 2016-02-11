@@ -3993,7 +3993,14 @@ viz.mapDraw = function(vars) {
       var id = big ? "geo_map_sidebar" : "geo_map";
 
       if (big) {
-        var margin = 0, x = window.innerWidth - margin - vizStyles.tooltip.small/2, y = margin;
+        if (vars.zoom.scroll) {
+          var x = 0, y = d3.select("#top-nav").node().offsetHeight + d3.select("#map-filters").node().offsetHeight + 10;
+        }
+        else {
+          var margin = 0,
+              x = window.innerWidth - margin - vizStyles.tooltip.small/2,
+              y = margin;
+        }
       }
       else {
         var mouse = d3.mouse(d3.select("html").node()),
@@ -4026,6 +4033,7 @@ viz.mapDraw = function(vars) {
       }
 
       var tooltip_obj = {
+        "align": !big ? "top center" : "bottom center",
         "arrow": big ? false : true,
         "background": vizStyles.tooltip.background,
         "color": big ? false : d.color,
@@ -4046,7 +4054,7 @@ viz.mapDraw = function(vars) {
         "max_width": vizStyles.tooltip.small,
         "mouseevents": big ? true : false,
         "offset": big ? 0 : 3,
-        "parent": big ? vars.container.value : d3.select("body"),
+        "parent": big && !vars.zoom.scroll ? vars.container.value : d3.select("body"),
         "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}),
         "width": vizStyles.tooltip.small,
         "x": x,
@@ -4105,9 +4113,11 @@ viz.mapDraw = function(vars) {
             vars.highlight.value = d.id;
             d3.select(this).attr("fill-opacity", pathOpacity);
             d3plus.tooltip.remove("geo_map");
+            var tract = d.id.slice(0, 3) === "140";
+            var mod = vars.zoom.scroll || tract ? 0 : 250;
+            zoomToBounds(path.bounds(d), mod);
             var dat = dataMap[d.id];
-            zoomToBounds(path.bounds(d), dat ? 250 : 0);
-            if (dat) createTooltip(d, true);
+            if (!tract && dat) createTooltip(d, true);
             else d3plus.tooltip.remove("geo_map_sidebar");
           }
         });
@@ -4151,8 +4161,6 @@ viz.mapDraw = function(vars) {
   }
 
   function zoomToBounds(b, mod) {
-
-    console.log(width, height, mod, key_height)
 
     var w = width - mod;
 

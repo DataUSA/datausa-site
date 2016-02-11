@@ -153,11 +153,21 @@ body.frozen {
         background-color: rgba(224, 224, 224, 0.64) !important; }
 
 #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
-  background-color: #E9E9E9 !important;
+  background-color: #F6F6F6 !important;
   color: #1B191D !important; }
-  #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:hover {
-    cursor: pointer;
-    text-decoration: underline; }
+  #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title {
+    border-bottom: 1px solid transparent;
+    width: auto !important; }
+    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:after {
+      color: #727682;
+      content: "\f101";
+      font-family: FontAwesome;
+      margin-left: 5px; }
+      #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:hover {
+        border-bottom: 1px solid #1B191D;
+        cursor: pointer; }
+        #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:hover:after {
+          color: #141b2e; }
   #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_description {
     margin-top: -5px; }
     #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_html_seperator {
@@ -175,9 +185,14 @@ body.frozen {
             color: #727682;
             margin: 6px 5px 0 0; }
   #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol {
-    font-size: 12px; }
-    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li a:hover {
-      text-decoration: underline; }
+    font-weight: 500;
+    font-size: 12px;
+    margin-left: -20px; }
+    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li {
+      font-weight: 300;
+      margin-left: 20px; }
+      #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li a:hover {
+        text-decoration: underline; }
 
 #d3plus_tooltip_id_data-tooltip-sidenav {
   -webkit-box-shadow: none !important;
@@ -3789,7 +3804,7 @@ body.profile .share-section, body.map .share-section, body.story .share-section 
   border: 1px solid #a9a9a9 !important;
   font-family: "Palanquin", sans-serif !important;
   letter-spacing: 0.03em !important;
-  font-size: 16px !important; }
+  font-size: 13px !important; }
 
   .d3plus_drop_selector {
     background-color: #a9a9a9 !important; }
@@ -4115,33 +4130,37 @@ body.map {
     position: relative; }
     body.map nav #top-nav {
       background-color: #141b2e; }
+  body.map #d3plus_tooltip_id_geo_map_sidebar {
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important; }
+    body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
+      background-color: transparent !important; }
 
 #map-controls {
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 3px;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 0 3px;
   background-color: #F6F6F6;
+  display: inline-block;
+  height: 100vh;
   padding: 0px 5px 10px;
-  text-align: center;
   z-index: 2;
-  position: relative; }
-  #map-controls > div {
-    margin: 0 !important; }
-    #map-controls #map-preposition {
-      color: #666;
-      display: inline-block;
-      font-family: "Palanquin", sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin: 13px 5px 0 9px; }
+  position: relative;
+  width: 250px;
+  visibility: hidden; }
 
-#map-fullscreen {
-  width: 100vw;
-  z-index: 1; }
-  #map-fullscreen svg {
-    overflow: hidden; }
+  #map-fullscreen {
+    left: 250px;
+    position: absolute;
+    top: 40px;
+    width: 100vw;
+    z-index: 1; }
+    #map-fullscreen svg {
+      overflow: hidden; }
 
 #map-loading {
   height: 100vh;

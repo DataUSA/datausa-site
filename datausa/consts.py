@@ -110,6 +110,11 @@ TEXTCOMPARATORS = {
 
 DICTIONARY = {
 
+    "acs": "American Community Survey",
+    "chr": "County Health Records",
+    "ipeds": "IPEDS",
+    "pums": "ACS PUMS",
+
     "geo": "Location Name",
     "cip": "College Degree",
     "naics": "Industry",
