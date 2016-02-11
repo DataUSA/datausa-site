@@ -189,7 +189,7 @@ class Profile(BaseObject):
         if "desc" in labels:
             name = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</span>".format(labels['desc'], name)
             if "link" in labels:
-                name = u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>".format(labels['link'], labels['desc'], name)
+                name = u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}' target='_blank'>{}</a>".format(labels['link'], labels['desc'], name)
 
         return name
 
@@ -711,9 +711,10 @@ class Profile(BaseObject):
         child = kwargs.get("child", False)
         if attr_id == False:
             if child:
-                kwargs["prefix"] = True
+                kwargs["prefix"] = kwargs.get("prefix", True)
                 where = self.children(**kwargs)
-                pre = kwargs.pop("prefix")
+                if kwargs["prefix"] is True:
+                    pre = kwargs.pop("prefix")
                 if len(where) > 0:
                     params["where"] = "{}:{}".format(self.attr_type, where)
                     attr_id = ""
