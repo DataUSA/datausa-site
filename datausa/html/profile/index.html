@@ -14,7 +14,7 @@
 
 {% block subtitle %}
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/home/logo.png" alt="DataUSA" /></a> {{ profile.splash.title }}
+  <span><a href="/"><img src="/static/img/logo_sm.png" alt="DataUSA" /></a> {{ profile.splash.title }}
   <a href="#" class="expand-stats-btn close"></a></span>
 </div>
 {% endblock %}
@@ -34,6 +34,8 @@
     <div id="splash-image"{% if image %} style="background-image: url('{{ image.url }}');"{% endif %}></div>
 
     <div class="content">
+
+      <div class="f"></div>
 
       <div class="splash-titles">
 
@@ -83,15 +85,9 @@
   </article> <!-- end splash  -->
 
   <header class="intro">
-    <!-- <div class="color-blocks">
-      <span class="b"></span>
-      <span class="b"></span>
-      <span class="b"></span>
-      <span class="b"></span>
-      <span class="b"></span>
-      <span class="b"></span>
-    </div> -->
-    <h1 class="category"><a name="intro">About {{ profile.splash.title }}</a></h1>
+
+    <!-- <h1 class="category"><a name="intro">About {{ profile.splash.title }}</a></h1> -->
+    
     <div class="breadcrumb">
       <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
       {% set parents = profile.parents() %}
