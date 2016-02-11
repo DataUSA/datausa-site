@@ -3451,7 +3451,7 @@ viz.mapDraw = function(vars) {
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       pathOpacity = 0.25,
       pathStroke = 1,
-      polyZoom = 1000,
+      polyZoom = 20000,
       scaleAlign = "middle",
       scaleHeight = 10,
       scalePadding = 5,
@@ -3886,7 +3886,7 @@ viz.mapDraw = function(vars) {
 
       vars.zoom.behavior = d3.behavior.zoom()
         .scale(s * 2 * Math.PI)
-        .scaleExtent([1 << 9, 1 << 22])
+        .scaleExtent([1 << 9, 1 << 25])
         .translate(t)
         .on("zoom", zoomed);
 
@@ -4151,6 +4151,8 @@ viz.mapDraw = function(vars) {
   }
 
   function zoomToBounds(b, mod) {
+
+    console.log(width, height, mod, key_height)
 
     var w = width - mod;
 
