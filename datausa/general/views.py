@@ -12,7 +12,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 15
+    g.cache_version = 16
     g.affixes = json.dumps(AFFIXES)
     g.dictionary = json.dumps(DICTIONARY)
     g.percentages = json.dumps(PERCENTAGES)
@@ -84,9 +84,9 @@ def attributes(attr_type, sumlevel, page):
         attrs = [a for a in attr_cache[attr_type].values() if str(a['level']) == this_sumlevel['id']]
         anchor_key = "id"
         name_key = "name"
-    
+
     headers = [{"name":"ID", "id":"id", "key":"id"}, {"name":"Name", "id":"name", "key":name_key, "anchor_key":anchor_key}]
-    
+
     # fetch parent State for PUMAs, Places and Counties
     if this_sumlevel["id"] in ['795', '160', '050']:
         headers = headers[:1] + [{"name":"State", "id":"state_name", "key":"state_name", "anchor_key":"state_anchor"},] + headers[1:]
@@ -95,17 +95,17 @@ def attributes(attr_type, sumlevel, page):
             state_id = a["id"][7:9]
             a["state_name"] = states[state_id]["name"]
             a["state_anchor"] = states[state_id]["url_name"]
-    
+
     sort_key = name_key if sorting == "name" else sorting
     sort_key = sort_key or "id"
     isreversed = True if ordering == "asc" else False
     attrs = sorted(attrs, key=lambda x: x[sort_key], reverse=isreversed)
-    
+
     count = len(attrs)
     attrs = attrs[offset:(offset+PER_PAGE)]
     if not attrs and page != 1:
         abort(404)
-    
+
     pagination = Pagination(page, PER_PAGE, count, sorting, ordering)
 
     return render_template("about/attributes.html",
