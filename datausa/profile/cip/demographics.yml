@@ -101,106 +101,24 @@ topics:
           - "<<var namespace=race|key=name|row=2>>"
     description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
     viz:
-      attrs:
-        - "university"
-        - "race"
       color: "race"
       data:
-        - show: "university"
-          limit: 5
-          order: "grads_asian"
+        - cip: "<<id>>"
           required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_asian"
-          static:
-            race: "asian"
-        - show: "university"
-          limit: 5
-          order: "grads_black"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_black"
-          static:
-            race: "black"
-        - show: "university"
-          limit: 5
-          order: "grads_multi"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_multi"
-          static:
-            race: "multi"
-        - show: "university"
-          limit: 5
-          order: "grads_native"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_native"
-          static:
-            race: "native"
-        - show: "university"
-          limit: 5
-          order: "grads_hispanic"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_hispanic"
-          static:
-            race: "hispanic"
-        - show: "university"
-          limit: 5
-          order: "grads_white"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_white"
-          static:
-            race: "white"
-        - show: "university"
-          limit: 5
-          order: "grads_hawaiian"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_hawaiian"
-          static:
-            race: "hawaiian"
-        - show: "university"
-          limit: 5
-          order: "grads_unknown"
-          required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
-          cip: "<<id>>"
-          map:
-            delete: NO
-            grads_total: "grads_unknown"
-          static:
-            race: "unknown"
-      id: "university"
-      legend: NO
+          show: "cip"
+          split:
+            id: "race"
+            regex: "grads_([0-9a-z]*)"
+            value: "grads_total"
+      id: "race"
       order:
         sort: "asc"
         value: "grads_total"
-      tooltip:
-        exclude: "grads_total"
-        size: NO
       type: "bar"
-      x:
-        stacked: YES
-        value: "grads_total"
       y:
         scale: "discrete"
         value: "race"
+      x: "grads_total"
   - title: "Race & Ethnicity by Gender"
     slug: "grads_ethnicity_gender"
     select:
