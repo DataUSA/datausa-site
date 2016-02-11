@@ -587,12 +587,12 @@ viz.mapDraw = function(vars) {
         "background": vizStyles.tooltip.background,
         "color": big ? false : d.color,
         "data": tooltip_data,
-        "description": big ? "Last selected geography" : false,
+        "description": big ? "Last selected geography" : tooltip_data.length ? false : "No Data Available",
         "fontcolor": vizStyles.tooltip.font.color,
         "fontfamily": vizStyles.tooltip.font.family,
         "fontsize": vizStyles.tooltip.font.size,
         "fontweight": vizStyles.tooltip.font.weight,
-        "footer": big ? false : !vars.zoom.value ? "Click to View Profile" : "Click for More Info",
+        "footer": big ? false : !vars.zoom.value ? "Click to View Profile" : tooltip_data.length ? d.id === vars.highlight.value ? "Click to Recenter Map" : "Click for More Info" : "Click to Zoom In",
         "html": html,
         "id": id,
         "js": big ? function(elem) {
@@ -662,8 +662,10 @@ viz.mapDraw = function(vars) {
             vars.highlight.value = d.id;
             d3.select(this).attr("fill-opacity", pathOpacity);
             d3plus.tooltip.remove("geo_map");
-            zoomToBounds(path.bounds(d));
-            createTooltip(d, true);
+            var dat = dataMap[d.id];
+            zoomToBounds(path.bounds(d), dat ? 250 : 0);
+            if (dat) createTooltip(d, true);
+            else d3plus.tooltip.remove("geo_map_sidebar");
           }
         });
 
@@ -705,9 +707,9 @@ viz.mapDraw = function(vars) {
 
   }
 
-  function zoomToBounds(b) {
+  function zoomToBounds(b, mod) {
 
-    var w = width - 300;
+    var w = width - mod;
 
     var s = defaultZoom / Math.max((b[1][0] - b[0][0]) / w, (b[1][1] - b[0][1]) / (height - key_height)),
         t = [(w - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
