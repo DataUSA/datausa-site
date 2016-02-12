@@ -955,27 +955,27 @@ var attrStyles = {
 
   "sex": {
     "1": {
-        "color": "#184665",
+        "color": "#1A3E61",
         "icon": "gender_mars.png"
     },
     "2": {
-        "color": "#f33535",
+        "color": "#CA3434",
         "icon": "gender_venus.png"
     },
     "men": {
-        "color": "#184665",
+        "color": "#1A3E61",
         "icon": "gender_mars.png"
     },
     "women": {
-        "color": "#f33535",
+        "color": "#CA3434",
         "icon": "gender_venus.png"
     },
     "male": {
-        "color": "#184665",
+        "color": "#1A3E61",
         "icon": "gender_mars.png"
     },
     "female": {
-        "color": "#f33535",
+        "color": "#CA3434",
         "icon": "gender_venus.png"
     }
 },
@@ -1915,8 +1915,8 @@ var chartStyles = {
 
 var vizStyles = {
 
-  "top": "#003651", // top 5 bars
-  "bottom": "#336a81", // bottom 5 bars
+  "top": "#1A3E61", // top 5 bars
+  "bottom": "#58879A", // bottom 5 bars
 
   "default": {
     "pri": "#ef6145",
