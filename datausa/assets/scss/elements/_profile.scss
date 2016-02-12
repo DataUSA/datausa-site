@@ -469,7 +469,7 @@ body.profile, body.map, body.story {
           text-align: center;
           margin: 0 10px;
           width: 100px;
-          @include transition(all 0.25s);
+          @include transition(all 0.35s);
 
           &:hover {
             span {
@@ -567,7 +567,7 @@ body.profile, body.map, body.story {
             margin: 10px 5px;
             opacity: 0.35;
             color: rgba(237,240,245,0.85);
-            @include transition(color 0.25s);
+            @include transition(color 0.35s);
             pointer-events: none;
             cursor: default;
 
@@ -698,7 +698,12 @@ body.profile, body.map, body.story {
       height: 17px;
       margin-left: 5px;
       margin-top: 6px;
-      @include transition(opacity 0.25s, border 0.5s);
+      @include transition(opacity 0.35s, border 0.5s, background-color 0.6s);
+
+      &:hover {
+        background: $max-color url("/static/img/splash/max.svg") no-repeat 50%;
+        background-size: 80%;
+      }
 
       &.show {
         opacity: 1;
@@ -716,6 +721,11 @@ body.profile, body.map, body.story {
         width: 17px;
         height: 17px;
         margin-left: 5px;
+
+        &:hover {
+          background: $min-color url("/static/img/splash/min.svg") no-repeat 50%;
+          background-size: 80%;
+        }
       }
     }
 
@@ -765,7 +775,7 @@ body.profile, body.map, body.story {
     .title-stat {
       @include flex();
       @include align-items(flex-end);
-      @include transition(opacity 0.25s);
+      @include transition(opacity 0.35s);
       cursor: default;
 
       &:hover {
@@ -866,7 +876,7 @@ body.profile, body.map, body.story {
       top: 16px;
       color: #fff;
       opacity: 1;
-      @include transition(all 0.25s);
+      @include transition(all 0.35s);
 
       span {
         font-family: $palanquin;
@@ -930,12 +940,15 @@ body.profile, body.map, body.story {
     }
 
     .breadcrumb {
+      @include flex();
+      @include align-items(flex-start);
+      
       img {
         position: relative;
         display: inline-block;
         width: 18px;
         height: 18px;
-        padding: 3px;
+        margin: 3px 6px 3px 3px;
         bottom: 4px;
       }
 
@@ -956,7 +969,7 @@ body.profile, body.map, body.story {
           content: "\\ ";
           font-weight: 400;
           color: rgba(240,244,246,0.75);
-          padding: 0 0 0 2px;
+          padding: 0 2px 0;
         }
       }
     }
@@ -965,7 +978,7 @@ body.profile, body.map, body.story {
       i {
         opacity: 0.6;
         cursor: pointer;
-        @include transition(all 0.25s);
+        @include transition(all 0.35s);
       }
 
       &:hover, &:focus {
@@ -981,7 +994,7 @@ body.profile, body.map, body.story {
     .intro-head {
       @include flex();
       @include justify(space-between);
-      padding: 30px 0 20px;
+      padding: 30px 0;
 
       .photo-cred, .breadcrumb {
         height: 18px;
@@ -1012,7 +1025,7 @@ body.profile, body.map, body.story {
           text-transform: uppercase;
           @include wordwrap();
           @include hyphens;
-          @include transition(all 0.25s);
+          @include transition(all 0.35s);
 
           &:hover, &:focus {
             @include text-shadow(0 0 1px rgba(255,255,255,0.8));
@@ -1031,11 +1044,13 @@ body.profile, body.map, body.story {
       .desc {
         font-size: 16px;
         line-height: 2;
+        padding: 15px 0;
 
         .stat-span {
           a {
             opacity: 1;
             color: #fff;
+            vertical-align: baseline;
             @include transition(all 0.35s);
             border-bottom: 1px solid $black4;
 
@@ -1046,10 +1061,15 @@ body.profile, body.map, body.story {
 
             &.show-more {
               color: #fff;
+              opacity: 0.9;
+              font-size: 14px;
+              line-height: 2;
               border-bottom: none;
+              margin-left: 3px;
 
               &:hover, &:focus {
-                @include text-shadow(0 0 1px rgba(255,255,255,0.6));
+                opacity: 1;
+                @include text-shadow(0 0 1px rgba(255,255,255,0.8));
 
                 &::after {
                   background: $max-color url("/static/img/splash/max.svg") no-repeat 50%;
@@ -1064,11 +1084,11 @@ body.profile, body.map, body.story {
                 background-size: 80%;
                 width: 17px;
                 height: 17px;
-                margin: 9px 5px 0;
+                margin: 9px 5px -4px;
                 border-radius: 50%;
                 @include box();
                 border: 1px solid $max-color;
-                @include transition(all 0.25s);
+                @include transition(all 0.35s);
               }
             }
           }
@@ -1123,34 +1143,38 @@ body.profile, body.map, body.story {
         min-width: 200px;
 
         h2 {
-          font-size: 24px;
+          font-size: 18px;
+          letter-spacing: 0.05em;
+          font-weight: 600;
+          
           img {
             display: inline-block;
-            height: 20px;
-            margin-top: 3px;
+            margin-top: 9px;
             width: 20px;
           }
         }
 
-        ul {
-          padding: 10px 10px 0;
-          li {
-            font-family: $palanquin;
+        p {
+          font-size: 14px;
+        }
 
+        ul {
+          padding: 10px 0 0;
+
+          li {
             a {
-              line-height: 12px;
-              &:hover {
-                text-decoration: underline;
-              }
+              font-size: 13px;
 
               &::after {
                 content: unicode('203A');
-                font-size: 19px;
-                margin-left: 3px;
-                text-decoration: none;
                 position: relative;
-                top: 1px;
+                top: -7px;
                 right: 0;
+                font-size: 27px;
+                font-weight: 400;
+                line-height: 0;
+                margin-left: 4px;
+                text-decoration: none;
               }
             }
 
@@ -1211,7 +1235,7 @@ body.profile, body.map, body.story {
       }
 
       .section-sidenav-button {
-        @include transition(opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s);
+        @include transition(opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s);
         @include rounded(50%);
         display: block;
         height: 6px;
@@ -1511,7 +1535,7 @@ body.profile, body.map, body.story {
 
     div {
       opacity: 0;
-      @include transition(opacity 0.25s);
+      @include transition(opacity 0.35s);
 
       &:hover {
         cursor: pointer;

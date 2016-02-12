@@ -380,8 +380,16 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0.8;
+  background: $black;
+  opacity: 0.05;
   z-index: 6;
+  @include transition(all 0.35s);
+}
+
+body.frozen {
+  #menu.open {
+    @include shadow(3px 0 0 rgba(27,25,29,0.3));
+  }
 }
 
 /* tablet design */

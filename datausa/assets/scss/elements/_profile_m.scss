@@ -12,7 +12,37 @@ body.profile, body.story {
 
   /* Small Devices, Tablets */
   @media only screen and (max-width : 768px) {
+    .intro {
 
+      .intro-head {
+        @include flex-direction(column);
+        padding: 30px 0 10px;
+
+        .r {
+          max-width: 100%;
+          padding: 20px 0 0;
+          @include align-items(flex-end);
+        }
+
+        .photo-cred, .breadcrumb {
+          @include flex();
+          @include flex-direction(row-reverse);
+        }
+        
+        .photo-cred {
+          padding-bottom: 10px;
+        }
+        
+        .breadcrumb {
+          height: auto;
+          text-align: right;
+
+          img {
+            @include flip();
+          }
+        }
+      }
+    }
   }
 
   /* Extra Small Devices, Phones */

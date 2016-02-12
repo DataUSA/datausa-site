@@ -751,15 +751,25 @@ body.search #search-btn {
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0.8;
-  z-index: 6; }
+  background: #1B191D;
+  opacity: 0.05;
+  z-index: 6;
+  -moz-transition: all 0.35s;
+  -o-transition: all 0.35s;
+  -webkit-transition: all 0.35s;
+  transition: all 0.35s; }
 
-  @media all and (min-width: 751px) and (max-width: 925px) {
-    body.home #menu {
-      width: 45%;
-      left: 0;   }
-      body.home .content {
-        padding-left: 45%;   }
+  body.frozen #menu.open {
+    -webkit-box-shadow: 3px 0 0 rgba(27, 25, 29, 0.3);
+    -moz-box-shadow: 3px 0 0 rgba(27, 25, 29, 0.3);
+    box-shadow: 3px 0 0 rgba(27, 25, 29, 0.3); }
+
+@media all and (min-width: 751px) and (max-width: 925px) {
+  body.home #menu {
+    width: 45%;
+    left: 0;   }
+    body.home .content {
+      padding-left: 45%;   }
 }
 
 @media all and (min-width: 751px) {
@@ -2533,10 +2543,10 @@ body.profile nav, body.map nav, body.story nav {
             text-align: center;
             margin: 0 10px;
             width: 100px;
-            -moz-transition: all 0.25s;
-            -o-transition: all 0.25s;
-            -webkit-transition: all 0.25s;
-            transition: all 0.25s; }
+            -moz-transition: all 0.35s;
+            -o-transition: all 0.35s;
+            -webkit-transition: all 0.35s;
+            transition: all 0.35s; }
             body.profile #splash .content .splash-icon-nav a:hover span,
             body.map #splash .content .splash-icon-nav a:hover span,
             body.story #splash .content .splash-icon-nav a:hover span {
@@ -2644,10 +2654,10 @@ body.profile nav, body.map nav, body.story nav {
                     margin: 10px 5px;
                     opacity: 0.35;
                     color: rgba(237, 240, 245, 0.85);
-                    -moz-transition: color 0.25s;
-                    -o-transition: color 0.25s;
-                    -webkit-transition: color 0.25s;
-                    transition: color 0.25s;
+                    -moz-transition: color 0.35s;
+                    -o-transition: color 0.35s;
+                    -webkit-transition: color 0.35s;
+                    transition: color 0.35s;
                     pointer-events: none;
                     cursor: default; }
                     body.profile #splash .content .carousel .carousel-btns .carousel-btn.active,
@@ -2790,18 +2800,23 @@ body.profile #title-bar, body.map #title-bar, body.story #title-bar {
         height: 17px;
         margin-left: 5px;
         margin-top: 6px;
-        -moz-transition: opacity 0.25s, border 0.5s;
-        -o-transition: opacity 0.25s, border 0.5s;
-        -webkit-transition: opacity 0.25s, border 0.5s;
-        transition: opacity 0.25s, border 0.5s; }
-        body.profile #title-bar .expand-stats-btn.show,
-        body.map #title-bar .expand-stats-btn.show,
-        body.story #title-bar .expand-stats-btn.show {
-          opacity: 1; }
-          body.profile #title-bar .expand-stats-btn.show:hover,
-          body.map #title-bar .expand-stats-btn.show:hover,
-          body.story #title-bar .expand-stats-btn.show:hover {
-            cursor: pointer; }
+        -moz-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
+        -o-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
+        -webkit-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
+        transition: opacity 0.35s, border 0.5s, background-color 0.6s; }
+        body.profile #title-bar .expand-stats-btn:hover,
+        body.map #title-bar .expand-stats-btn:hover,
+        body.story #title-bar .expand-stats-btn:hover {
+          background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
+          background-size: 80%; }
+          body.profile #title-bar .expand-stats-btn.show,
+          body.map #title-bar .expand-stats-btn.show,
+          body.story #title-bar .expand-stats-btn.show {
+            opacity: 1; }
+            body.profile #title-bar .expand-stats-btn.show:hover,
+            body.map #title-bar .expand-stats-btn.show:hover,
+            body.story #title-bar .expand-stats-btn.show:hover {
+              cursor: pointer; }
         body.profile #title-bar .expand-stats-btn.close,
         body.map #title-bar .expand-stats-btn.close,
         body.story #title-bar .expand-stats-btn.close {
@@ -2815,6 +2830,11 @@ body.profile #title-bar, body.map #title-bar, body.story #title-bar {
           width: 17px;
           height: 17px;
           margin-left: 5px; }
+          body.profile #title-bar .expand-stats-btn.close:hover,
+          body.map #title-bar .expand-stats-btn.close:hover,
+          body.story #title-bar .expand-stats-btn.close:hover {
+            background: #8d7a40 url("/static/img/splash/min.svg") no-repeat 50%;
+            background-size: 80%; }
   body.profile #title-bar a, body.map #title-bar a, body.story #title-bar a {
     color: #fff; }
     body.profile #title-bar.visible span, body.map #title-bar.visible span,
@@ -2893,10 +2913,10 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
         align-items: flex-end;
         -ms-flex-align: end;
         flex-align: end;
-        -moz-transition: opacity 0.25s;
-        -o-transition: opacity 0.25s;
-        -webkit-transition: opacity 0.25s;
-        transition: opacity 0.25s;
+        -moz-transition: opacity 0.35s;
+        -o-transition: opacity 0.35s;
+        -webkit-transition: opacity 0.35s;
+        transition: opacity 0.35s;
         cursor: default; }
         body.profile #stats-bar .title-stat:hover .title-stat-text a,
         body.map #stats-bar .title-stat:hover .title-stat-text a,
@@ -2998,10 +3018,10 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
       top: 16px;
       color: #fff;
       opacity: 1;
-      -moz-transition: all 0.25s;
-      -o-transition: all 0.25s;
-      -webkit-transition: all 0.25s;
-      transition: all 0.25s; }
+      -moz-transition: all 0.35s;
+      -o-transition: all 0.35s;
+      -webkit-transition: all 0.35s;
+      transition: all 0.35s; }
       body.profile #profile-nav #back-to-top span,
       body.map #profile-nav #back-to-top span, body.story #profile-nav #back-to-top span {
         font-family: "Palanquin", sans-serif;
@@ -3065,41 +3085,57 @@ body.profile .intro, body.map .intro, body.story .intro {
   body.map .intro h2, body.map .intro a, body.map .intro p, body.story .intro h2,
   body.story .intro a, body.story .intro p {
     color: #fff; }
-    body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
-    body.story .intro .breadcrumb img {
-      position: relative;
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      padding: 3px;
-      bottom: 4px; }
-      body.profile .intro .breadcrumb .crumb-trail,
-      body.map .intro .breadcrumb .crumb-trail,
-      body.story .intro .breadcrumb .crumb-trail {
+    body.profile .intro .breadcrumb, body.map .intro .breadcrumb,
+    body.story .intro .breadcrumb {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      flex-pack: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: flex-start;
+      align-items: flex-start;
+      -ms-flex-align: start;
+      flex-align: start; }
+      body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
+      body.story .intro .breadcrumb img {
         position: relative;
         display: inline-block;
-        top: 3px; }
-        body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
-        body.story .intro .breadcrumb a {
-          display: inline;
-          padding: 2px 0;
-          margin-top: -4px;
-          vertical-align: text-top; }
-          body.profile .intro .breadcrumb a + a::before,
-          body.map .intro .breadcrumb a + a::before,
-          body.story .intro .breadcrumb a + a::before {
-            content: "\\ ";
-            font-weight: 400;
-            color: rgba(240, 244, 246, 0.75);
-            padding: 0 0 0 2px; }
+        width: 18px;
+        height: 18px;
+        margin: 3px 6px 3px 3px;
+        bottom: 4px; }
+        body.profile .intro .breadcrumb .crumb-trail,
+        body.map .intro .breadcrumb .crumb-trail,
+        body.story .intro .breadcrumb .crumb-trail {
+          position: relative;
+          display: inline-block;
+          top: 3px; }
+          body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
+          body.story .intro .breadcrumb a {
+            display: inline;
+            padding: 2px 0;
+            margin-top: -4px;
+            vertical-align: text-top; }
+            body.profile .intro .breadcrumb a + a::before,
+            body.map .intro .breadcrumb a + a::before,
+            body.story .intro .breadcrumb a + a::before {
+              content: "\\ ";
+              font-weight: 400;
+              color: rgba(240, 244, 246, 0.75);
+              padding: 0 2px 0; }
   body.profile .intro .photo-cred i, body.map .intro .photo-cred i,
   body.story .intro .photo-cred i {
     opacity: 0.6;
     cursor: pointer;
-    -moz-transition: all 0.25s;
-    -o-transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    transition: all 0.25s; }
+    -moz-transition: all 0.35s;
+    -o-transition: all 0.35s;
+    -webkit-transition: all 0.35s;
+    transition: all 0.35s; }
     body.profile .intro .photo-cred:hover i, body.profile .intro .photo-cred:focus i,
     body.map .intro .photo-cred:hover i, body.map .intro .photo-cred:focus i,
     body.story .intro .photo-cred:hover i, body.story .intro .photo-cred:focus i {
@@ -3127,7 +3163,7 @@ body.profile .intro, body.map .intro, body.story .intro {
     justify-content: space-between;
     -ms-flex-pack: justify;
     flex-pack: justify;
-    padding: 30px 0 20px; }
+    padding: 30px 0; }
     body.profile .intro .intro-head .photo-cred,
     body.profile .intro .intro-head .breadcrumb,
     body.map .intro .intro-head .photo-cred, body.map .intro .intro-head .breadcrumb,
@@ -3184,10 +3220,10 @@ body.profile .intro, body.map .intro, body.story .intro {
             -ms-hyphens: auto;
             -moz-hyphens: auto;
             hyphens: auto;
-            -moz-transition: all 0.25s;
-            -o-transition: all 0.25s;
-            -webkit-transition: all 0.25s;
-            transition: all 0.25s; }
+            -moz-transition: all 0.35s;
+            -o-transition: all 0.35s;
+            -webkit-transition: all 0.35s;
+            transition: all 0.35s; }
             body.profile .intro .intro-head .r a:hover,
             body.profile .intro .intro-head .r a:focus, body.map .intro .intro-head .r a:hover,
             body.map .intro .intro-head .r a:focus, body.story .intro .intro-head .r a:hover,
@@ -3209,12 +3245,14 @@ body.profile .intro, body.map .intro, body.story .intro {
     body.profile .intro .intro-txt .desc, body.map .intro .intro-txt .desc,
     body.story .intro .intro-txt .desc {
       font-size: 16px;
-      line-height: 2; }
+      line-height: 2;
+      padding: 15px 0; }
       body.profile .intro .intro-txt .desc .stat-span a,
       body.map .intro .intro-txt .desc .stat-span a,
       body.story .intro .intro-txt .desc .stat-span a {
         opacity: 1;
         color: #fff;
+        vertical-align: baseline;
         -moz-transition: all 0.35s;
         -o-transition: all 0.35s;
         -webkit-transition: all 0.35s;
@@ -3234,23 +3272,29 @@ body.profile .intro, body.map .intro, body.story .intro {
           body.map .intro .intro-txt .desc .stat-span a.show-more,
           body.story .intro .intro-txt .desc .stat-span a.show-more {
             color: #fff;
-            border-bottom: none; }
+            opacity: 0.9;
+            font-size: 14px;
+            line-height: 2;
+            border-bottom: none;
+            margin-left: 3px; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more:hover,
             body.profile .intro .intro-txt .desc .stat-span a.show-more:focus,
             body.map .intro .intro-txt .desc .stat-span a.show-more:hover,
             body.map .intro .intro-txt .desc .stat-span a.show-more:focus,
             body.story .intro .intro-txt .desc .stat-span a.show-more:hover,
             body.story .intro .intro-txt .desc .stat-span a.show-more:focus {
-              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-              text-shadow: 0 0 1px rgba(255, 255, 255, 0.6); }
+              opacity: 1;
+              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+              text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
               body.profile .intro .intro-txt .desc .stat-span a.show-more:hover::after,
               body.profile .intro .intro-txt .desc .stat-span a.show-more:focus::after,
               body.map .intro .intro-txt .desc .stat-span a.show-more:hover::after,
               body.map .intro .intro-txt .desc .stat-span a.show-more:focus::after,
               body.story .intro .intro-txt .desc .stat-span a.show-more:hover::after,
               body.story .intro .intro-txt .desc .stat-span a.show-more:focus::after {
-                background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%; }
+                background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
+                background-size: 80%; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more::after,
             body.map .intro .intro-txt .desc .stat-span a.show-more::after,
             body.story .intro .intro-txt .desc .stat-span a.show-more::after {
@@ -3260,16 +3304,16 @@ body.profile .intro, body.map .intro, body.story .intro {
               background-size: 80%;
               width: 17px;
               height: 17px;
-              margin: 9px 5px 0;
+              margin: 9px 5px -4px;
               border-radius: 50%;
               -webkit-box-sizing: border-box;
               -moz-box-sizing: border-box;
               box-sizing: border-box;
               border: 1px solid #306a62;
-              -moz-transition: all 0.25s;
-              -o-transition: all 0.25s;
-              -webkit-transition: all 0.25s;
-              transition: all 0.25s; }
+              -moz-transition: all 0.35s;
+              -o-transition: all 0.35s;
+              -webkit-transition: all 0.35s;
+              transition: all 0.35s; }
     body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest,
     body.story .intro .intro-txt .the_rest {
       display: none; }
@@ -3339,40 +3383,39 @@ body.profile .intro, body.map .intro, body.story .intro {
       body.profile .intro #profile-toc .profile-toc-section h2,
       body.map .intro #profile-toc .profile-toc-section h2,
       body.story .intro #profile-toc .profile-toc-section h2 {
-        font-size: 24px; }
+        font-size: 18px;
+        letter-spacing: 0.05em;
+        font-weight: 600; }
         body.profile .intro #profile-toc .profile-toc-section h2 img,
         body.map .intro #profile-toc .profile-toc-section h2 img,
         body.story .intro #profile-toc .profile-toc-section h2 img {
           display: inline-block;
-          height: 20px;
-          margin-top: 3px;
+          margin-top: 9px;
           width: 20px; }
-      body.profile .intro #profile-toc .profile-toc-section ul,
-      body.map .intro #profile-toc .profile-toc-section ul,
-      body.story .intro #profile-toc .profile-toc-section ul {
-        padding: 10px 10px 0; }
-        body.profile .intro #profile-toc .profile-toc-section ul li,
-        body.map .intro #profile-toc .profile-toc-section ul li,
-        body.story .intro #profile-toc .profile-toc-section ul li {
-          font-family: "Palanquin", sans-serif; }
+      body.profile .intro #profile-toc .profile-toc-section p,
+      body.map .intro #profile-toc .profile-toc-section p,
+      body.story .intro #profile-toc .profile-toc-section p {
+        font-size: 14px; }
+        body.profile .intro #profile-toc .profile-toc-section ul,
+        body.map .intro #profile-toc .profile-toc-section ul,
+        body.story .intro #profile-toc .profile-toc-section ul {
+          padding: 10px 0 0; }
           body.profile .intro #profile-toc .profile-toc-section ul li a,
           body.map .intro #profile-toc .profile-toc-section ul li a,
           body.story .intro #profile-toc .profile-toc-section ul li a {
-            line-height: 12px; }
-            body.profile .intro #profile-toc .profile-toc-section ul li a:hover,
-            body.map .intro #profile-toc .profile-toc-section ul li a:hover,
-            body.story .intro #profile-toc .profile-toc-section ul li a:hover {
-              text-decoration: underline; }
-              body.profile .intro #profile-toc .profile-toc-section ul li a::after,
-              body.map .intro #profile-toc .profile-toc-section ul li a::after,
-              body.story .intro #profile-toc .profile-toc-section ul li a::after {
-                content: "\203A";
-                font-size: 19px;
-                margin-left: 3px;
-                text-decoration: none;
-                position: relative;
-                top: 1px;
-                right: 0; }
+            font-size: 13px; }
+            body.profile .intro #profile-toc .profile-toc-section ul li a::after,
+            body.map .intro #profile-toc .profile-toc-section ul li a::after,
+            body.story .intro #profile-toc .profile-toc-section ul li a::after {
+              content: "\203A";
+              position: relative;
+              top: -7px;
+              right: 0;
+              font-size: 27px;
+              font-weight: 400;
+              line-height: 0;
+              margin-left: 4px;
+              text-decoration: none; }
 body.profile .prof-body, body.map .prof-body, body.story .prof-body {
   padding: 60px 50px 25px;
   position: relative; }
@@ -3427,10 +3470,10 @@ body.story #section-sidenav {
       body.profile #section-sidenav .section-sidenav-group .section-sidenav-button,
       body.map #section-sidenav .section-sidenav-group .section-sidenav-button,
       body.story #section-sidenav .section-sidenav-group .section-sidenav-button {
-        -moz-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
-        -o-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
-        -webkit-transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
-        transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        -moz-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+        -o-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+        -webkit-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+        transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         border-radius: 50%;
@@ -3804,10 +3847,10 @@ body.profile #show-bg, body.map #show-bg, body.story #show-bg {
   z-index: 3; }
   body.profile #show-bg div, body.map #show-bg div, body.story #show-bg div {
     opacity: 0;
-    -moz-transition: opacity 0.25s;
-    -o-transition: opacity 0.25s;
-    -webkit-transition: opacity 0.25s;
-    transition: opacity 0.25s; }
+    -moz-transition: opacity 0.35s;
+    -o-transition: opacity 0.35s;
+    -webkit-transition: opacity 0.35s;
+    transition: opacity 0.35s; }
     body.profile #show-bg div:hover, body.map #show-bg div:hover,
     body.story #show-bg div:hover {
       cursor: pointer;
@@ -4135,6 +4178,52 @@ body.redirect nav {
             font-style: normal;
             margin: 0 0 5px 0;
             text-transform: uppercase; }
+@media only screen and (max-width : 768px) {
+  body.profile .intro .intro-head, body.story .intro .intro-head {
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+    padding: 30px 0 10px;   }
+    body.profile .intro .intro-head .r, body.story .intro .intro-head .r {
+      max-width: 100%;
+      padding: 20px 0 0;
+      -webkit-align-items: flex-end;
+      align-items: flex-end;
+      -ms-flex-align: end;
+      flex-align: end;   }
+      body.profile .intro .intro-head .photo-cred,
+      body.profile .intro .intro-head .breadcrumb,
+      body.story .intro .intro-head .photo-cred,
+      body.story .intro .intro-head .breadcrumb {
+        -webkit-justify-content: center;
+        -moz-justify-content: center;
+        justify-content: center;
+        -ms-flex-pack: center;
+        flex-pack: center;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row-reverse;
+        -moz-flex-direction: row-reverse;
+        flex-direction: row-reverse;   }
+        body.profile .intro .intro-head .photo-cred,
+        body.story .intro .intro-head .photo-cred {
+          padding-bottom: 10px;   }
+          body.profile .intro .intro-head .breadcrumb,
+          body.story .intro .intro-head .breadcrumb {
+            height: auto;
+            text-align: right;   }
+            body.profile .intro .intro-head .breadcrumb img,
+            body.story .intro .intro-head .breadcrumb img {
+              -moz-transform: scaleX(-1);
+              -o-transform: scaleX(-1);
+              -webkit-transform: scaleX(-1);
+              transform: scaleX(-1);
+              filter: FlipH;
+              -ms-filter: "FlipH";   }
+}
 @media only screen and (max-width : 480px) {
   body.profile #profile-nav, body.profile #stats-bar, body.story #profile-nav,
   body.story #stats-bar {

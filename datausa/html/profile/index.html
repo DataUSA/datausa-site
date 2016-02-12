@@ -92,7 +92,7 @@
       <div class="r">
         <div class="photo-cred">
           <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
-          <div class="image-author"><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></div>
+          <div class="image-author"><a href="{{ image.link }}" target="_blank">Photo by {{ image.author }}</a></div>
           {% if image.meta %}
           <div class="image-meta">{{ image.meta }}</div>
           {% endif %}
@@ -142,11 +142,11 @@
           {% if topic.category %}
           {% if categories.update({"count": categories.count + 1}) %}{% endif %}
           {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
-          <li><a href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
+          <li><a class="pri-link" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
           {% endif %}
         {% endfor %}
         {% if categories.count == 0 %}
-        <li><a href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">Start Exploring</a></li>
+        <li><a class="pri-link" href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">Start Exploring</a></li>
         {% endif %}
         </ul>
       </div>
