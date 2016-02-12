@@ -122,17 +122,31 @@ body.profile, body.map, body.story {
   .data-btn {
     float: right;
     position: relative;
-    color: #a3a3a3;
-    font-family: $palanquin;
-    font-size: 12px;
+    width: 90px;
+    padding: 6px 5px;
+    border: 1px solid #BDBDBD;
+    color: #949494;
+    text-align: center;
 
-    i {
-      position: relative;
-      top: 7px;
+    span {
+      color: #949494;
+      font-family: $palanquin;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: normal;
+      z-index: 2;
+      @include transition(color 0.45s);
+    }
+
+    &::before {
+      background-color: rgba(163, 163, 163, 0.35);
+      z-index: 1;
     }
 
     &:hover {
-      border-bottom: 1px solid #bbb;
+      span {
+        color: #4E4E4E !important;
+      }
     }
   }
 
@@ -148,15 +162,7 @@ body.profile, body.map, body.story {
     }
 
     .data-btn {
-      top: 18px;
-
-      span {
-        color: #999;
-        font-family: $palanquin;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: normal;
-      }
+      top: 5px;
     }
 
     &.flex {
@@ -165,7 +171,7 @@ body.profile, body.map, body.story {
       }
 
       .data-btn {
-        top: 13px;
+        top: -4px;
       }
     }
 
@@ -445,7 +451,7 @@ body.profile, body.map, body.story {
           }
 
           .stat-rank {
-            font-size: 14px;
+            font-size: 12px;
             color: rgba(255,255,255,0.75);
             line-height: 1.35;
             text-transform: uppercase;
@@ -454,8 +460,9 @@ body.profile, body.map, body.story {
 
           .stat-value {
             margin: 6px 0 7px;
-            font-size: 38px;
+            font-size: 37px;
             color: #fff;
+            opacity: 0.9;
           }
 
         }
@@ -1042,21 +1049,25 @@ body.profile, body.map, body.story {
       @include flex-size(2);
 
       .desc {
-        font-size: 16px;
-        line-height: 2;
+        font-size: 14px;
+        line-height: 1.7;
         padding: 15px 0;
+        color: $black5;
+        
+        a {
+          color: $black-link;
+          @include transition(all 0.35s);
+          border-bottom: 1px solid $black3;
+        }
 
         .stat-span {
           a {
             opacity: 1;
-            color: #fff;
             vertical-align: baseline;
-            @include transition(all 0.35s);
-            border-bottom: 1px solid $black4;
 
             &:hover, &:focus {
               @include text-shadow(0 0 1px rgba(255,255,255,0.6));
-              border-bottom: 1px solid #fff;
+              border-bottom: 1px solid $black-link;
             }
 
             &.show-more {

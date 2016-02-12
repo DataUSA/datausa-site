@@ -203,13 +203,6 @@ a.term {
     @include transition(transform 0s 0.1s, opacity 0.1s);
   }
 
-  // &::before, &::after, .pri-tab-link::after {
-  //   content: '';
-  //   position: absolute;
-  //   bottom: 0;
-  //   background: $black4;
-  // }
-
   .pri-tab-link {
     display: block;
     position: relative;
