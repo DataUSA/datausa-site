@@ -1,7 +1,7 @@
 var vizStyles = {
 
-  "top": "#c19a1f", // top 5 bars
-  "bottom": "#e6d26e", // bottom 5 bars
+  "top": "#003651", // top 5 bars
+  "bottom": "#336a81", // bottom 5 bars
 
   "default": {
     "pri": "#ef6145",
