@@ -4337,25 +4337,21 @@ body.redirect nav {
           body.story .profile-section .topic .content .viz {
             margin-left: 0;
             width: 100%;   }
-  body.profile .data-btn, body.story .data-btn {
-    float: none;
-    display: block;
-    margin: -10px 0 15px;   }
-    body.profile .stat-value, body.story .stat-value {
+  body.profile .stat-value, body.story .stat-value {
+    display: inline-block;   }
+    body.profile .stat-subtitle, body.story .stat-subtitle {
       display: inline-block;   }
-      body.profile .stat-subtitle, body.story .stat-subtitle {
-        display: inline-block;   }
-        body.profile .profile-end .follow-up, body.story .profile-end .follow-up {
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          flex-direction: column;   }
-          body.profile .profile-end .follow-up > div,
-          body.story .profile-end .follow-up > div {
-            -webkit-box-flex: 1 1 auto;
-            -moz-box-flex: 1 1 auto;
-            -webkit-flex: 1 1 auto;
-            -ms-flex: 1 1 auto;
-            flex: 1 1 auto;   }
+      body.profile .profile-end .follow-up, body.story .profile-end .follow-up {
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        flex-direction: column;   }
+        body.profile .profile-end .follow-up > div,
+        body.story .profile-end .follow-up > div {
+          -webkit-box-flex: 1 1 auto;
+          -moz-box-flex: 1 1 auto;
+          -webkit-flex: 1 1 auto;
+          -ms-flex: 1 1 auto;
+          flex: 1 1 auto;   }
 }
 body.embed {
   overflow: hidden; }
