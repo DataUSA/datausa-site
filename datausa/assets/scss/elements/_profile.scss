@@ -955,7 +955,7 @@ body.profile, body.map, body.story {
       .crumb-trail {
         position: relative;
         display: inline-block;
-        // top: -18px - 3px - 4px - 2px;
+        line-height: 0.5;
         top: 3px;
       }
 

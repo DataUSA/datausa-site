@@ -3114,6 +3114,7 @@ body.profile .intro, body.map .intro, body.story .intro {
         body.story .intro .breadcrumb .crumb-trail {
           position: relative;
           display: inline-block;
+          line-height: 0.5;
           top: 3px; }
           body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
           body.story .intro .breadcrumb a {
