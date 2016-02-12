@@ -129,19 +129,19 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     top = [u"{}".format(t) if t != "" else u"N/A" for t in top]
 
     if col == "id":
-        top = ",".join(top)
+        top = u",".join(top)
     else:
         num_items = len(top)
 
         if truncate and num_items > truncate:
             top, rest = top[:int(truncate)], top[int(truncate):]
             # now stringify
-            top = "{}; <a href='#' class='show-more'>and {} more</a>".format(u"; ".join(top), len(rest))
+            top = u"{}; <a href='#' class='show-more'>and {} more</a>".format(u"; ".join(top), len(rest))
             if len(rest) > 1:
                 rest = u"; ".join(rest)
             else:
                 rest = u"and {}".join(rest[-1])
-            top = "<span>{}</span><span class='the_rest'>{}</span>".format(top, rest)
+            top = u"<span>{}</span><span class='the_rest'>{}</span>".format(top, rest)
 
         else:
             if num_items > 1:
