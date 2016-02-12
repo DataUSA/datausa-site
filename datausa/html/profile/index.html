@@ -86,28 +86,37 @@
 
   <header class="intro">
 
-    <h1 class="category"><a name="intro">About</a></h1>
-    
-    <div class="breadcrumb">
-      <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
-      {% set parents = profile.parents() %}
-      {% if parents|length %}
-        <sub>
-          {% for p in parents %}
-            <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id'] ) }}">{{ p["name"] }}</a>
-          {% endfor %}
-        </sub>
-      {% endif %}
+    <div class="intro-head">
+      <h2 class="section-title"><a name="intro">About</a></h2>
+      
+      <div class="r">
+        <div class="photo-cred">
+          <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
+          <div class="image-author"><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></div>
+          {% if image.meta %}
+          <div class="image-meta">{{ image.meta }}</div>
+          {% endif %}
+        </div>
+
+        <div class="breadcrumb">
+          <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
+          {% set parents = profile.parents() %}
+          {% if parents|length %}
+          <div class="crumb-trail">
+            {% for p in parents %}
+              <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id'] ) }}">{{ p["name"] }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
     </div>
+
     <div class="col">
       <div class="intro-txt">
-      {% for desc in profile.splash.description %}
-      <p class="desc has-p-link">{{ desc|safe }}</p>
-      {% endfor %}
-      <sub class="image-author"><a href="{{ image.link }}" target="_blank">Image by {{ image.author }}</a></sub>
-      {% if image.meta %}
-      <sub class="image-meta">{{ image.meta }}</sub>
-      {% endif %}
+        {% for desc in profile.splash.description %}
+        <p class="desc has-p-link">{{ desc|safe }}</p>
+        {% endfor %}
       </div>
 
       {% if profile.splash.viz %}
@@ -192,8 +201,8 @@
 </div>
 
 {% for section in sections %}
-<header class="{{ section.anchor }}">
-  <h2><a name="{{ section.anchor }}">{{ section.title|safe }}</a></h2>
+<header class="{{ section.anchor }} prof-body">
+  <h2 class="section-title"><a name="{{ section.anchor }}">{{ section.title|safe }}</a></h2>
   {% for desc in section.description %}
   <p>{{ desc|safe }}</p>
   {% endfor %}

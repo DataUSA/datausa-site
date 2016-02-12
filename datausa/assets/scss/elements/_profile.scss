@@ -88,12 +88,12 @@ body.profile, body.map, body.story {
     line-height: 1.1;
   }
 
-  header h2 {
+  header .section-title {
     font-family: $pathway;
     font-size: 47px;
     font-weight: 300;
     line-height: 1;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
   }
 
@@ -449,6 +449,7 @@ body.profile, body.map, body.story {
             color: rgba(255,255,255,0.75);
             line-height: 1.35;
             text-transform: uppercase;
+            @include wordwrap();
           }
 
           .stat-value {
@@ -914,53 +915,8 @@ body.profile, body.map, body.story {
 
     }
   }
-
-  .breadcrumb {
-    margin: 5px auto;
-    text-align: center;
-    width: 100%;
-
-    img {
-      position: relative;
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      padding: 3px;
-      bottom: 4px;
-    }
-
-    a {
-      display: inline;
-      padding: 2px 0;
-      margin-top: -4px;
-      vertical-align: text-top;
-      font-family: $palanquin;
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.05em;
-      line-height: 1;
-      text-transform: uppercase;
-      @include wordwrap();
-      @include hyphens;
-      color: rgba(240, 250, 255, 0.9);
-      @include transition(color 0.25s);
-
-      &+a::before {
-        content: "\\ ";
-        font-weight: 400;
-        color: rgba(240,244,246,0.75);
-        padding: 0 0 0 2px;
-      }
-
-      &:hover {
-        cursor: pointer;
-        color: #fff;
-        text-decoration: none;
-      }
-
-    }
-
-  }
+  
+  /* about section */
 
   .intro {
     background-color: $black2;
@@ -969,36 +925,162 @@ body.profile, body.map, body.story {
     background-position: 90% 100%;
     padding: 25px 50px;
 
-    .color-blocks {
-      text-align: center;
-      margin-bottom: 20px;
+    h2, a, p {
+      color: #fff;
+    }
+
+    .breadcrumb {
+      img {
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        padding: 3px;
+        bottom: 4px;
+      }
+
+      .crumb-trail {
+        position: relative;
+        display: inline-block;
+        // top: -18px - 3px - 4px - 2px;
+        top: 3px;
+      }
+
+      a {
+        display: inline;
+        padding: 2px 0;
+        margin-top: -4px;
+        vertical-align: text-top;
+
+        &+a::before {
+          content: "\\ ";
+          font-weight: 400;
+          color: rgba(240,244,246,0.75);
+          padding: 0 0 0 2px;
+        }
+      }
+    }
+
+    .photo-cred {
+      i {
+        opacity: 0.6;
+        cursor: pointer;
+        @include transition(all 0.25s);
+      }
+
+      &:hover, &:focus {
+        i {
+          opacity: 1;
+        }
+        a {
+          @include text-shadow(0 0 1px rgba(255,255,255,0.6));
+        }
+      }
+    }
+
+    .intro-head {
+      @include flex();
+      @include justify(space-between);
+      padding: 30px 0 20px;
+
+      .photo-cred, .breadcrumb {
+        height: 18px;
+        overflow: visible;
+        margin: 0;
+      }
+
+      .fa {
+        padding: 1px 6px;
+        font-size: 11px;
+        color: #fff;
+        display: inline-block;
+      }
+      
+      .r {
+        max-width: 50vw;
+        @include flex();
+        @include flex-direction(column);
+        @include justify(center);
+        @include align-items(flex-start);
+
+        a {
+          font-family: $palanquin;
+          font-weight: 400;
+          font-size: 10px;
+          letter-spacing: 0.05em;
+          line-height: 1;
+          text-transform: uppercase;
+          @include wordwrap();
+          @include hyphens;
+          @include transition(all 0.25s);
+
+          &:hover, &:focus {
+            @include text-shadow(0 0 1px rgba(255,255,255,0.8));
+          }
+        }
+      }
+      
+      .image-author {
+        display: inline-block; 
+      }
     }
 
     .intro-txt {
       @include flex-size(2);
 
       .desc {
-        font-size: 14px;
-      }
+        font-size: 16px;
+        line-height: 2;
 
-      a {
-        &.show-more{
-          border-bottom: 1px solid rgba(0,0,0,0.95);
-          &::after{
-            content: unicode("f196");
-            font-family: FontAwesome;
-            margin: 0 0 0 4px;
+        .stat-span {
+          a {
+            opacity: 1;
+            color: #fff;
+            @include transition(all 0.35s);
+            border-bottom: 1px solid $black4;
+
+            &:hover, &:focus {
+              @include text-shadow(0 0 1px rgba(255,255,255,0.6));
+              border-bottom: 1px solid #fff;
+            }
+
+            &.show-more {
+              color: #fff;
+              border-bottom: none;
+
+              &:hover, &:focus {
+                @include text-shadow(0 0 1px rgba(255,255,255,0.6));
+
+                &::after {
+                  background: $max-color url("/static/img/splash/max.svg") no-repeat 50%;
+                  background-size: 80%;
+                }
+              }
+            
+              &::after {
+                content: '';
+                display: inline-block;
+                background: url("/static/img/splash/max.svg") no-repeat 50%;
+                background-size: 80%;
+                width: 17px;
+                height: 17px;
+                margin: 9px 5px 0;
+                border-radius: 50%;
+                @include box();
+                border: 1px solid $max-color;
+                @include transition(all 0.25s);
+              }
+            }
           }
         }
       }
+
       .the_rest {
         display: none;
       }
 
       .image-author, .image-meta {
-        color: white;
-        display: block;
-        font-size: 16px;
+        display: inline-block;
       }
 
       .image-author {
@@ -1013,6 +1095,7 @@ body.profile, body.map, body.story {
     .intro-viz {
       @include flex-size(1);
       height: 200px;
+      margin: 20px 0;
       text-align: center;
 
       .d3plus_coordinates.outline {
@@ -1026,7 +1109,6 @@ body.profile, body.map, body.story {
         fill: white !important;
         fill-opacity: 1 !important;
       }
-
     }
 
     #profile-toc {
@@ -1081,11 +1163,13 @@ body.profile, body.map, body.story {
 
   }
 
-  header {
+  /* end about section */
+
+  .prof-body {
     padding: 60px 50px 25px;
     position: relative;
 
-    h2 {
+    .section-title {
       margin: 0 auto 15px;
       color: #333;
 
@@ -1098,15 +1182,8 @@ body.profile, body.map, body.story {
       }
     }
 
-    &.intro {
-      h2, a, p {
-        color: #fff;
-      }
-    }
-
     p {
       font-size: 16px;
-      // text-align: center;
     }
   }
 

@@ -2082,12 +2082,13 @@ body.profile h1, body.map h1, body.story h1 {
   font-weight: 300;
   font-size: 55px;
   line-height: 1.1; }
-  body.profile header h2, body.map header h2, body.story header h2 {
+  body.profile header .section-title, body.map header .section-title,
+  body.story header .section-title {
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 47px;
     font-weight: 300;
     line-height: 1;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     text-transform: uppercase; }
     body.profile h1.category, body.map h1.category, body.story h1.category {
       position: relative;
@@ -2496,7 +2497,12 @@ body.profile nav, body.map nav, body.story nav {
               font-size: 14px;
               color: rgba(255, 255, 255, 0.75);
               line-height: 1.35;
-              text-transform: uppercase; }
+              text-transform: uppercase;
+              overflow-wrap: break-word;
+              word-wrap: break-word;
+              -ms-word-break: break-all;
+              word-break: break-word;
+              white-space: initial !important; }
               body.profile #splash .content #splash-stats .stat .stat-value,
               body.map #splash .content #splash-stats .stat .stat-value,
               body.story #splash .content #splash-stats .stat .stat-value {
@@ -3049,100 +3055,237 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
       width: 23px;
       height: 23px;
       margin: -3px auto 2px; }
-body.profile .breadcrumb, body.map .breadcrumb, body.story .breadcrumb {
-  margin: 5px auto;
-  text-align: center;
-  width: 100%; }
-  body.profile .breadcrumb img, body.map .breadcrumb img, body.story .breadcrumb img {
-    position: relative;
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    padding: 3px;
-    bottom: 4px; }
-    body.profile .breadcrumb a, body.map .breadcrumb a, body.story .breadcrumb a {
-      display: inline;
-      padding: 2px 0;
-      margin-top: -4px;
-      vertical-align: text-top;
-      font-family: "Palanquin", sans-serif;
-      font-weight: 300;
-      font-size: 10px;
-      letter-spacing: 0.05em;
-      line-height: 1;
-      text-transform: uppercase;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      -ms-word-break: break-all;
-      word-break: break-word;
-      white-space: initial !important;
-      -webkit-hyphens: auto;
-      -ms-hyphens: auto;
-      -moz-hyphens: auto;
-      hyphens: auto;
-      color: rgba(240, 250, 255, 0.9);
-      -moz-transition: color 0.25s;
-      -o-transition: color 0.25s;
-      -webkit-transition: color 0.25s;
-      transition: color 0.25s; }
-      body.profile .breadcrumb a + a::before, body.map .breadcrumb a + a::before,
-      body.story .breadcrumb a + a::before {
-        content: "\\ ";
-        font-weight: 400;
-        color: rgba(240, 244, 246, 0.75);
-        padding: 0 0 0 2px; }
-        body.profile .breadcrumb a:hover, body.map .breadcrumb a:hover,
-        body.story .breadcrumb a:hover {
-          cursor: pointer;
-          color: #fff;
-          text-decoration: none; }
 body.profile .intro, body.map .intro, body.story .intro {
   background-color: #141b2e;
   background-repeat: no-repeat;
   background-size: 30%;
   background-position: 90% 100%;
   padding: 25px 50px; }
-  body.profile .intro .color-blocks, body.map .intro .color-blocks,
-  body.story .intro .color-blocks {
-    text-align: center;
-    margin-bottom: 20px; }
-    body.profile .intro .intro-txt, body.map .intro .intro-txt,
-    body.story .intro .intro-txt {
-      -webkit-box-flex: 2;
-      -moz-box-flex: 2;
-      -webkit-flex: 2;
-      -ms-flex: 2;
-      flex: 2; }
-      body.profile .intro .intro-txt .desc, body.map .intro .intro-txt .desc,
-      body.story .intro .intro-txt .desc {
-        font-size: 14px; }
-        body.profile .intro .intro-txt a.show-more, body.map .intro .intro-txt a.show-more,
-        body.story .intro .intro-txt a.show-more {
-          border-bottom: 1px solid rgba(0, 0, 0, 0.95); }
-          body.profile .intro .intro-txt a.show-more::after,
-          body.map .intro .intro-txt a.show-more::after,
-          body.story .intro .intro-txt a.show-more::after {
-            content: "\f196";
-            font-family: FontAwesome;
-            margin: 0 0 0 4px; }
-      body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest,
-      body.story .intro .intro-txt .the_rest {
-        display: none; }
+  body.profile .intro h2, body.profile .intro a, body.profile .intro p,
+  body.map .intro h2, body.map .intro a, body.map .intro p, body.story .intro h2,
+  body.story .intro a, body.story .intro p {
+    color: #fff; }
+    body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
+    body.story .intro .breadcrumb img {
+      position: relative;
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      padding: 3px;
+      bottom: 4px; }
+      body.profile .intro .breadcrumb .crumb-trail,
+      body.map .intro .breadcrumb .crumb-trail,
+      body.story .intro .breadcrumb .crumb-trail {
+        position: relative;
+        display: inline-block;
+        top: 3px; }
+        body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
+        body.story .intro .breadcrumb a {
+          display: inline;
+          padding: 2px 0;
+          margin-top: -4px;
+          vertical-align: text-top; }
+          body.profile .intro .breadcrumb a + a::before,
+          body.map .intro .breadcrumb a + a::before,
+          body.story .intro .breadcrumb a + a::before {
+            content: "\\ ";
+            font-weight: 400;
+            color: rgba(240, 244, 246, 0.75);
+            padding: 0 0 0 2px; }
+  body.profile .intro .photo-cred i, body.map .intro .photo-cred i,
+  body.story .intro .photo-cred i {
+    opacity: 0.6;
+    cursor: pointer;
+    -moz-transition: all 0.25s;
+    -o-transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    transition: all 0.25s; }
+    body.profile .intro .photo-cred:hover i, body.profile .intro .photo-cred:focus i,
+    body.map .intro .photo-cred:hover i, body.map .intro .photo-cred:focus i,
+    body.story .intro .photo-cred:hover i, body.story .intro .photo-cred:focus i {
+      opacity: 1; }
+      body.profile .intro .photo-cred:hover a, body.profile .intro .photo-cred:focus a,
+      body.map .intro .photo-cred:hover a, body.map .intro .photo-cred:focus a,
+      body.story .intro .photo-cred:hover a, body.story .intro .photo-cred:focus a {
+        -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+        -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+        text-shadow: 0 0 1px rgba(255, 255, 255, 0.6); }
+  body.profile .intro .intro-head, body.map .intro .intro-head,
+  body.story .intro .intro-head {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    flex-pack: justify;
+    padding: 30px 0 20px; }
+    body.profile .intro .intro-head .photo-cred,
+    body.profile .intro .intro-head .breadcrumb,
+    body.map .intro .intro-head .photo-cred, body.map .intro .intro-head .breadcrumb,
+    body.story .intro .intro-head .photo-cred,
+    body.story .intro .intro-head .breadcrumb {
+      height: 18px;
+      overflow: visible;
+      margin: 0; }
+      body.profile .intro .intro-head .fa, body.map .intro .intro-head .fa,
+      body.story .intro .intro-head .fa {
+        padding: 1px 6px;
+        font-size: 11px;
+        color: #fff;
+        display: inline-block; }
+        body.profile .intro .intro-head .r, body.map .intro .intro-head .r,
+        body.story .intro .intro-head .r {
+          max-width: 50vw;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          -ms-flex-pack: center;
+          flex-pack: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-flex-direction: column;
+          -moz-flex-direction: column;
+          flex-direction: column;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          -ms-flex-pack: center;
+          flex-pack: center;
+          -webkit-align-items: flex-start;
+          align-items: flex-start;
+          -ms-flex-align: start;
+          flex-align: start; }
+          body.profile .intro .intro-head .r a, body.map .intro .intro-head .r a,
+          body.story .intro .intro-head .r a {
+            font-family: "Palanquin", sans-serif;
+            font-weight: 400;
+            font-size: 10px;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            text-transform: uppercase;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+            white-space: initial !important;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            hyphens: auto;
+            -moz-transition: all 0.25s;
+            -o-transition: all 0.25s;
+            -webkit-transition: all 0.25s;
+            transition: all 0.25s; }
+            body.profile .intro .intro-head .r a:hover,
+            body.profile .intro .intro-head .r a:focus, body.map .intro .intro-head .r a:hover,
+            body.map .intro .intro-head .r a:focus, body.story .intro .intro-head .r a:hover,
+            body.story .intro .intro-head .r a:focus {
+              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+              text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
+    body.profile .intro .intro-head .image-author,
+    body.map .intro .intro-head .image-author,
+    body.story .intro .intro-head .image-author {
+      display: inline-block; }
+  body.profile .intro .intro-txt, body.map .intro .intro-txt,
+  body.story .intro .intro-txt {
+    -webkit-box-flex: 2;
+    -moz-box-flex: 2;
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2; }
+    body.profile .intro .intro-txt .desc, body.map .intro .intro-txt .desc,
+    body.story .intro .intro-txt .desc {
+      font-size: 16px;
+      line-height: 2; }
+      body.profile .intro .intro-txt .desc .stat-span a,
+      body.map .intro .intro-txt .desc .stat-span a,
+      body.story .intro .intro-txt .desc .stat-span a {
+        opacity: 1;
+        color: #fff;
+        -moz-transition: all 0.35s;
+        -o-transition: all 0.35s;
+        -webkit-transition: all 0.35s;
+        transition: all 0.35s;
+        border-bottom: 1px solid #727682; }
+        body.profile .intro .intro-txt .desc .stat-span a:hover,
+        body.profile .intro .intro-txt .desc .stat-span a:focus,
+        body.map .intro .intro-txt .desc .stat-span a:hover,
+        body.map .intro .intro-txt .desc .stat-span a:focus,
+        body.story .intro .intro-txt .desc .stat-span a:hover,
+        body.story .intro .intro-txt .desc .stat-span a:focus {
+          -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+          -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+          text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+          border-bottom: 1px solid #fff; }
+          body.profile .intro .intro-txt .desc .stat-span a.show-more,
+          body.map .intro .intro-txt .desc .stat-span a.show-more,
+          body.story .intro .intro-txt .desc .stat-span a.show-more {
+            color: #fff;
+            border-bottom: none; }
+            body.profile .intro .intro-txt .desc .stat-span a.show-more:hover,
+            body.profile .intro .intro-txt .desc .stat-span a.show-more:focus,
+            body.map .intro .intro-txt .desc .stat-span a.show-more:hover,
+            body.map .intro .intro-txt .desc .stat-span a.show-more:focus,
+            body.story .intro .intro-txt .desc .stat-span a.show-more:hover,
+            body.story .intro .intro-txt .desc .stat-span a.show-more:focus {
+              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+              text-shadow: 0 0 1px rgba(255, 255, 255, 0.6); }
+              body.profile .intro .intro-txt .desc .stat-span a.show-more:hover::after,
+              body.profile .intro .intro-txt .desc .stat-span a.show-more:focus::after,
+              body.map .intro .intro-txt .desc .stat-span a.show-more:hover::after,
+              body.map .intro .intro-txt .desc .stat-span a.show-more:focus::after,
+              body.story .intro .intro-txt .desc .stat-span a.show-more:hover::after,
+              body.story .intro .intro-txt .desc .stat-span a.show-more:focus::after {
+                background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%; }
+            body.profile .intro .intro-txt .desc .stat-span a.show-more::after,
+            body.map .intro .intro-txt .desc .stat-span a.show-more::after,
+            body.story .intro .intro-txt .desc .stat-span a.show-more::after {
+              content: '';
+              display: inline-block;
+              background: url("/static/img/splash/max.svg") no-repeat 50%;
+              background-size: 80%;
+              width: 17px;
+              height: 17px;
+              margin: 9px 5px 0;
+              border-radius: 50%;
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+              border: 1px solid #306a62;
+              -moz-transition: all 0.25s;
+              -o-transition: all 0.25s;
+              -webkit-transition: all 0.25s;
+              transition: all 0.25s; }
+    body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest,
+    body.story .intro .intro-txt .the_rest {
+      display: none; }
+      body.profile .intro .intro-txt .image-author,
+      body.profile .intro .intro-txt .image-meta,
+      body.map .intro .intro-txt .image-author, body.map .intro .intro-txt .image-meta,
+      body.story .intro .intro-txt .image-author,
+      body.story .intro .intro-txt .image-meta {
+        display: inline-block; }
         body.profile .intro .intro-txt .image-author,
-        body.profile .intro .intro-txt .image-meta,
-        body.map .intro .intro-txt .image-author, body.map .intro .intro-txt .image-meta,
-        body.story .intro .intro-txt .image-author,
-        body.story .intro .intro-txt .image-meta {
-          color: white;
-          display: block;
-          font-size: 16px; }
-          body.profile .intro .intro-txt .image-author,
-          body.map .intro .intro-txt .image-author,
-          body.story .intro .intro-txt .image-author {
-            margin: 25px 0 -5px; }
-            body.profile .intro .intro-txt .image-meta, body.map .intro .intro-txt .image-meta,
-            body.story .intro .intro-txt .image-meta {
-              font-style: italic; }
+        body.map .intro .intro-txt .image-author,
+        body.story .intro .intro-txt .image-author {
+          margin: 25px 0 -5px; }
+          body.profile .intro .intro-txt .image-meta, body.map .intro .intro-txt .image-meta,
+          body.story .intro .intro-txt .image-meta {
+            font-style: italic; }
   body.profile .intro .intro-viz, body.map .intro .intro-viz,
   body.story .intro .intro-viz {
     -webkit-box-flex: 1;
@@ -3151,6 +3294,7 @@ body.profile .intro, body.map .intro, body.story .intro {
     -ms-flex: 1;
     flex: 1;
     height: 200px;
+    margin: 20px 0;
     text-align: center; }
     body.profile .intro .intro-viz .d3plus_coordinates.outline,
     body.map .intro .intro-viz .d3plus_coordinates.outline,
@@ -3229,24 +3373,21 @@ body.profile .intro, body.map .intro, body.story .intro {
                 position: relative;
                 top: 1px;
                 right: 0; }
-body.profile header, body.map header, body.story header {
+body.profile .prof-body, body.map .prof-body, body.story .prof-body {
   padding: 60px 50px 25px;
   position: relative; }
-  body.profile header h2, body.map header h2, body.story header h2 {
+  body.profile .prof-body .section-title, body.map .prof-body .section-title,
+  body.story .prof-body .section-title {
     margin: 0 auto 15px;
     color: #333; }
-    body.profile header h2 a::before, body.map header h2 a::before,
-    body.story header h2 a::before {
+    body.profile .prof-body .section-title a::before,
+    body.map .prof-body .section-title a::before,
+    body.story .prof-body .section-title a::before {
       content: "";
       position: absolute;
       visibility: hidden;
       top: -85px; }
-  body.profile header.intro h2, body.profile header.intro a,
-  body.profile header.intro p, body.map header.intro h2, body.map header.intro a,
-  body.map header.intro p, body.story header.intro h2, body.story header.intro a,
-  body.story header.intro p {
-    color: #fff; }
-  body.profile header p, body.map header p, body.story header p {
+  body.profile .prof-body p, body.map .prof-body p, body.story .prof-body p {
     font-size: 16px; }
 body.profile #section-sidenav, body.map #section-sidenav,
 body.story #section-sidenav {
