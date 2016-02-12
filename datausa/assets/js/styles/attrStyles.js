@@ -13,27 +13,27 @@ var attrStyles = {
 
   "sex": {
     "1": {
-        "color": "#1a486f",
+        "color": "#184665",
         "icon": "gender_mars.png"
     },
     "2": {
-        "color": "#ef6145",
+        "color": "#f33535",
         "icon": "gender_venus.png"
     },
     "men": {
-        "color": "#1a486f",
+        "color": "#184665",
         "icon": "gender_mars.png"
     },
     "women": {
-        "color": "#ef6145",
+        "color": "#f33535",
         "icon": "gender_venus.png"
     },
     "male": {
-        "color": "#1a486f",
+        "color": "#184665",
         "icon": "gender_mars.png"
     },
     "female": {
-        "color": "#ef6145",
+        "color": "#f33535",
         "icon": "gender_venus.png"
     }
 },

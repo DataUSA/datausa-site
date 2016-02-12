@@ -955,27 +955,27 @@ var attrStyles = {
 
   "sex": {
     "1": {
-        "color": "#1a486f",
+        "color": "#184665",
         "icon": "gender_mars.png"
     },
     "2": {
-        "color": "#ef6145",
+        "color": "#f33535",
         "icon": "gender_venus.png"
     },
     "men": {
-        "color": "#1a486f",
+        "color": "#184665",
         "icon": "gender_mars.png"
     },
     "women": {
-        "color": "#ef6145",
+        "color": "#f33535",
         "icon": "gender_venus.png"
     },
     "male": {
-        "color": "#1a486f",
+        "color": "#184665",
         "icon": "gender_mars.png"
     },
     "female": {
-        "color": "#ef6145",
+        "color": "#f33535",
         "icon": "gender_venus.png"
     }
 },
@@ -1915,28 +1915,28 @@ var chartStyles = {
 
 var vizStyles = {
 
-  "top": "#ffb563", // top 5 bars
-  "bottom": "#455a7d", // bottom 5 bars
+  "top": "#c19a1f", // top 5 bars
+  "bottom": "#e6d26e", // bottom 5 bars
 
   "default": {
     "pri": "#ef6145",
-    "sec": "#d0d1d5"
+    "sec": "#C6C7CA"
   },
   "geo": {
     "pri": "#ef6145",
-    "sec": "#d0d1d5"
+    "sec": "#C6C7CA"
   },
   "cip": {
     "pri": "#ef6145",
-    "sec": "#d0d1d5"
+    "sec": "#C6C7CA"
   },
   "soc": {
     "pri": "#ef6145",
-    "sec": "#d0d1d5"
+    "sec": "#C6C7CA"
   },
   "naics": {
     "pri": "#ef6145",
-    "sec": "#d0d1d5"
+    "sec": "#C6C7CA"
   },
 
     // "pri": "#ffb563",

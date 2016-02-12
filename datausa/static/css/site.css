@@ -2200,7 +2200,7 @@ body.profile .stat-group, body.map .stat-group, body.story .stat-group {
   body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.05em; }
+    letter-spacing: 0; }
     body.profile .stat-value, body.map .stat-value, body.story .stat-value {
       font-family: "Lato", sans-serif;
       font-size: 22px;
@@ -2285,10 +2285,10 @@ body.profile nav, body.map nav, body.story nav {
           left: 0;
           top: 0;
           background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#141b2e));
-          background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
-          background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
-          background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
-          background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
+          background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
+          background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
+          background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
           -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')"; }
           body.profile #splash #splash-image.color, body.map #splash #splash-image.color,
           body.story #splash #splash-image.color {
@@ -2353,11 +2353,11 @@ body.profile nav, body.map nav, body.story nav {
             body.profile #splash .content .splash-titles,
             body.map #splash .content .splash-titles,
             body.story #splash .content .splash-titles {
-              -webkit-box-flex: 2;
-              -moz-box-flex: 2;
-              -webkit-flex: 2;
-              -ms-flex: 2;
-              flex: 2;
+              -webkit-box-flex: 2.5;
+              -moz-box-flex: 2.5;
+              -webkit-flex: 2.5;
+              -ms-flex: 2.5;
+              flex: 2.5;
               color: #efefef;
               width: 100%;
               max-width: 750px;
@@ -2546,12 +2546,13 @@ body.profile nav, body.map nav, body.story nav {
               body.map #splash .content .splash-icon-nav a span,
               body.story #splash .content .splash-icon-nav a span {
                 display: block;
-                margin-top: 3px;
+                margin-top: 5px;
                 font-family: "Palanquin", sans-serif;
                 text-transform: uppercase;
                 font-weight: 400;
                 font-size: 10px;
                 letter-spacing: 0.1em;
+                line-height: 1.3;
                 color: #fff; }
         body.profile #splash .content h1, body.map #splash .content h1,
         body.story #splash .content h1 {
@@ -2835,7 +2836,7 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
   overflow: hidden;
   z-index: 2;
   background-color: #141b2e;
-  color: rgba(237, 240, 245, 0.5);
+  color: rgba(255, 255, 255, 0.8);
   -moz-transition: top 0.5s, box-shadow 0.5s;
   -o-transition: top 0.5s, box-shadow 0.5s;
   -webkit-transition: top 0.5s, box-shadow 0.5s;
@@ -2849,12 +2850,8 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
     body.profile #stats-bar #title-stats, body.map #stats-bar #title-stats,
     body.story #stats-bar #title-stats {
       width: 60%;
-      max-width: 550px;
-      font-family: "Palanquin", sans-serif;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-size: 10px;
+      max-width: 580px;
+      margin-bottom: 5px;
       -webkit-justify-content: center;
       -moz-justify-content: center;
       justify-content: center;
@@ -2895,18 +2892,20 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
         -webkit-transition: opacity 0.25s;
         transition: opacity 0.25s;
         cursor: default; }
-        body.profile #stats-bar .title-stat:hover, body.map #stats-bar .title-stat:hover,
-        body.story #stats-bar .title-stat:hover {
-          color: #fff; }
-          body.profile #stats-bar .title-stat:hover .title-stat-text a,
-          body.map #stats-bar .title-stat:hover .title-stat-text a,
-          body.story #stats-bar .title-stat:hover .title-stat-text a {
-            color: #fff;
-            border-bottom: 1px solid #fff; }
+        body.profile #stats-bar .title-stat:hover .title-stat-text a,
+        body.map #stats-bar .title-stat:hover .title-stat-text a,
+        body.story #stats-bar .title-stat:hover .title-stat-text a {
+          color: #fff;
+          border-bottom: 1px solid #fff; }
   body.profile #stats-bar .title-stat-text, body.map #stats-bar .title-stat-text,
   body.story #stats-bar .title-stat-text {
-    margin: 0 5px;
-    text-align: center; }
+    margin: 0 5px -1px;
+    text-align: center;
+    font-family: "Palanquin", sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 10px; }
     body.profile #stats-bar .title-stat-text a, body.map #stats-bar .title-stat-text a,
     body.story #stats-bar .title-stat-text a {
       color: rgba(237, 240, 245, 0.65);
@@ -2921,9 +2920,9 @@ body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
   body.profile #stats-bar .title-stat-value, body.map #stats-bar .title-stat-value,
   body.story #stats-bar .title-stat-value {
     text-align: center;
-    font-family: "Source Sans Pro", sans-serif;
-    font-size: 16px;
-    font-weight: 300; }
+    font-family: "Lato", sans-serif;
+    font-size: 15px;
+    font-weight: 400; }
     body.profile #stats-bar .title-stat-value a,
     body.map #stats-bar .title-stat-value a, body.story #stats-bar .title-stat-value a {
       padding-bottom: 1px;
@@ -2992,22 +2991,24 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
       right: 15px;
       top: 16px;
       color: #fff;
-      opacity: 0.7;
-      -moz-transition: opacity 0.25s;
-      -o-transition: opacity 0.25s;
-      -webkit-transition: opacity 0.25s;
-      transition: opacity 0.25s; }
+      opacity: 1;
+      -moz-transition: all 0.25s;
+      -o-transition: all 0.25s;
+      -webkit-transition: all 0.25s;
+      transition: all 0.25s; }
       body.profile #profile-nav #back-to-top span,
       body.map #profile-nav #back-to-top span, body.story #profile-nav #back-to-top span {
         font-family: "Palanquin", sans-serif;
         text-transform: uppercase;
-        font-weight: 400;
-        font-size: 10px;
-        letter-spacing: 0.1em; }
-        body.profile #profile-nav #back-to-top:hover,
-        body.map #profile-nav #back-to-top:hover,
-        body.story #profile-nav #back-to-top:hover {
-          opacity: 1; }
+        font-weight: 600;
+        font-size: 11px;
+        letter-spacing: 0.05em; }
+        body.profile #profile-nav #back-to-top:hover span,
+        body.map #profile-nav #back-to-top:hover span,
+        body.story #profile-nav #back-to-top:hover span {
+          -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+          -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+          text-shadow: 0 0 1px rgba(255, 255, 255, 0.6); }
   body.profile #profile-nav ul, body.map #profile-nav ul, body.story #profile-nav ul {
     width: 90%;
     margin: 0 150px 0 50px;
@@ -3035,6 +3036,7 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
       -ms-flex: 1;
       flex: 1;
       color: #fff;
+      opacity: 1;
       font-size: 10px; }
       body.profile #profile-nav ul li.active::before,
       body.map #profile-nav ul li.active::before,
@@ -3044,9 +3046,9 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
     body.profile #profile-nav ul img, body.map #profile-nav ul img,
     body.story #profile-nav ul img {
       display: block;
-      width: 20px;
-      height: 20px;
-      margin: 0 auto 2px; }
+      width: 23px;
+      height: 23px;
+      margin: -3px auto 2px; }
 body.profile .breadcrumb, body.map .breadcrumb, body.story .breadcrumb {
   margin: 5px auto;
   text-align: center;
@@ -3095,11 +3097,11 @@ body.profile .breadcrumb, body.map .breadcrumb, body.story .breadcrumb {
           color: #fff;
           text-decoration: none; }
 body.profile .intro, body.map .intro, body.story .intro {
-  min-height: 190px;
   background-color: #141b2e;
   background-repeat: no-repeat;
   background-size: 30%;
-  background-position: 90% 100%; }
+  background-position: 90% 100%;
+  padding: 25px 50px; }
   body.profile .intro .color-blocks, body.map .intro .color-blocks,
   body.story .intro .color-blocks {
     text-align: center;
@@ -3497,7 +3499,8 @@ body.story .profile-section {
             -webkit-align-items: flex-end;
             align-items: flex-end;
             -ms-flex-align: end;
-            flex-align: end; }
+            flex-align: end;
+            color: #333; }
             body.profile .profile-section .topic .content aside .topic-stats.stacked,
             body.map .profile-section .topic .content aside .topic-stats.stacked,
             body.story .profile-section .topic .content aside .topic-stats.stacked {
@@ -3928,10 +3931,10 @@ body.redirect nav {
           left: 0;
           top: 0;
           background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#141b2e));
-          background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
-          background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
-          background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
-          background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.1) 20%,#141b2e 100%);
+          background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
+          background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
+          background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
+          background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
           -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')"; }
       #crosswalk #crosswalk-list a .info {
         color: white;
