@@ -21,12 +21,13 @@ body.profile, body.story {
         .r {
           max-width: 100%;
           padding: 20px 0 0;
-          @include align-items(flex-end);
+          @include align-items(flex-start);
         }
 
         .photo-cred, .breadcrumb {
           @include flex();
-          @include flex-direction(row-reverse);
+          @include flex-direction(row);
+          margin-left: -5px;
         }
         
         .photo-cred {
@@ -35,11 +36,6 @@ body.profile, body.story {
         
         .breadcrumb {
           height: auto;
-          text-align: right;
-
-          img {
-            @include flip();
-          }
         }
       }
     }
