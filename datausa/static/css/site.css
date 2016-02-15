@@ -157,6 +157,7 @@ body.frozen {
   color: #1B191D !important; }
   #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title {
     border-bottom: 1px solid transparent;
+    display: inline-block;
     width: auto !important; }
     #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:after {
       color: #727682;
@@ -195,6 +196,7 @@ body.frozen {
       #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li a:hover {
         text-decoration: underline; }
   #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table {
+    font-family: "Palanquin", sans-serif;
     font-weight: 300;
     font-size: 12px;
     line-height: 16px;
@@ -4490,6 +4492,7 @@ body.map {
   top: 5px; }
   .map-controls .zoom-in, .map-controls .zoom-out, .map-controls .zoom-reset {
     border: 1px solid #999;
+    cursor: pointer;
     display: block;
     height: 15px;
     margin: 5px;

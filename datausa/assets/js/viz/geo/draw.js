@@ -592,7 +592,7 @@ viz.mapDraw = function(vars) {
         return arr;
       }, []);
 
-      var html = false, link = "/profile/geo/" + d.id + "/";
+      var html = " ", link = "/profile/geo/" + d.id + "/";
       if (d.id && big && vars.tooltip.url) {
         html = "<div class='d3plus_tooltip_html_seperator'></div>";
         // html = "<a class='btn pri-btn' href='" + link + "'>View Profile</a>";

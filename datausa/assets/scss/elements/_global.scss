@@ -33,6 +33,7 @@ body.frozen {
 
 		.d3plus_tooltip_title {
 			border-bottom: 1px solid transparent;
+			display: inline-block;
 			width: auto !important;
 			&:after {
 				color: $black4;
@@ -89,6 +90,7 @@ body.frozen {
 		}
 
 		table {
+			font-family: $palanquin;
 			font-weight: 300;
 			font-size: 12px;
 			line-height: 16px;

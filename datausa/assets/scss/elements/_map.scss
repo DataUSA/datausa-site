@@ -123,6 +123,7 @@ $map-sidebar: 250px;
 
   .zoom-in, .zoom-out, .zoom-reset {
     border: 1px solid $gray-d;
+    cursor: pointer;
     display: block;
     height: 15px;
     margin: 5px;
