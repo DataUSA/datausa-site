@@ -4402,7 +4402,8 @@ body.map {
   body.map #d3plus_tooltip_id_geo_map_sidebar {
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
-    box-shadow: none !important; }
+    box-shadow: none !important;
+    z-index: 2 !important; }
     body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
       background-color: transparent !important; }
 
@@ -4417,7 +4418,7 @@ body.map {
   display: inline-block;
   height: 100vh;
   padding: 0px 5px 10px;
-  z-index: 2;
+  z-index: 1;
   position: relative;
   width: 250px;
   visibility: hidden; }

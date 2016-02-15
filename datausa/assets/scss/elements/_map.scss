@@ -12,6 +12,8 @@ body.map {
 
   #d3plus_tooltip_id_geo_map_sidebar {
     @include shadow(none !important);
+    z-index: 2 !important;
+
     .d3plus_tooltip_container {
   		background-color: transparent !important;
     }
@@ -28,16 +30,10 @@ $map-sidebar: 250px;
   display: inline-block;
   height: 100vh;
   padding: 0px 5px 10px;
-  // text-align: center;
-  z-index: 2;
+  z-index: 1;
   position: relative;
   width: $map-sidebar;
   visibility: hidden;
-  // top: $title-height;
-
-  // & > div {
-  //   margin: 0 !important;
-  // }
 
 }
 

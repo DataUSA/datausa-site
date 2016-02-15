@@ -3994,7 +3994,7 @@ viz.mapDraw = function(vars) {
 
       if (big) {
         if (vars.zoom.scroll) {
-          var x = 0, y = d3.select("#top-nav").node().offsetHeight + d3.select("#map-filters").node().offsetHeight + 10;
+          var x = 0, y = d3.select("#map-filters").node().offsetHeight + 10;
         }
         else {
           var margin = 0,
@@ -4054,7 +4054,7 @@ viz.mapDraw = function(vars) {
         "max_width": vizStyles.tooltip.small,
         "mouseevents": big ? true : false,
         "offset": big ? 0 : 3,
-        "parent": big && !vars.zoom.scroll ? vars.container.value : d3.select("body"),
+        "parent": big && !vars.zoom.scroll ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
         "title": vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}),
         "width": vizStyles.tooltip.small,
         "x": x,
