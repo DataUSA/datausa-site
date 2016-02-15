@@ -106,17 +106,19 @@
     .ui(vizStyles.ui_map)
     .draw();
 
+  var sidebarWidth = 250;
+
   var navheight = d3.select("#top-nav").node().offsetHeight;
-  d3.select("#map-fullscreen")
+  var container = d3.select("#map-fullscreen")
     .style("height", window.innerHeight - navheight + "px")
-    .style("width", window.innerWidth - 250 + "px");
+    .style("width", window.innerWidth - sidebarWidth + "px");
 
   var map = viz.map()
-    .container(d3.select("#map-fullscreen"))
+    .container(container)
     .id("geo")
     .messages({"background": "#cdd1d3"})
     .zoom({"scroll": true})
-    .width(window.innerWidth - 250)
+    .width(window.innerWidth - sidebarWidth)
     .draw();
 
   function makeURL() {
@@ -158,6 +160,16 @@
     map.attrs(attrs.reduce(function(obj, d) { obj[d.id] = d; return obj; }, {}));
     d3.select("#map-controls").style("visibility", "visible");
     makeURL();
+  });
+
+  resizeFunctions.push(function(){
+    container
+      .style("height", window.innerHeight - navheight + "px")
+      .style("width", window.innerWidth - sidebarWidth + "px");
+    map
+      .height(window.innerHeight - navheight)
+      .width(window.innerWidth - sidebarWidth)
+      .draw();
   });
 
 </script>

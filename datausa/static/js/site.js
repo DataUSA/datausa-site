@@ -3520,15 +3520,17 @@ viz.mapDraw = function(vars) {
 
   var svg = vars.container.value.selectAll("svg").data([0]);
   svg.enter().append("svg")
+
+  svg
     .attr("width", width)
     .attr("height", height);
 
   var coords = vars.coords.value;
   if (coords && vars.coords.key) {
 
-    var projection = "mercator";
+    var projectionType = "mercator";
     if (vars.coords.key === "states" && location.href.indexOf("/map/") < 0) {
-      projection = "albersUsaPr";
+      projectionType = "albersUsaPr";
       vars.tiles.value = false;
     }
 
@@ -3860,23 +3862,21 @@ viz.mapDraw = function(vars) {
 
     if (!vars.zoom.set) {
 
-      vars.zoom.projection = d3.geo[projection]()
+      vars.zoom.projection = d3.geo[projectionType]()
         .scale(1)
         .translate([0, 0]);
 
-      if (projection === "mercator") vars.zoom.projection.rotate(defaultRotate);
+      if (projectionType === "mercator") vars.zoom.projection.rotate(defaultRotate);
 
     }
 
-    var b = projection === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length ? us_bounds : false;
-
-    projection = vars.zoom.projection;
+    var projection = vars.zoom.projection;
 
     var path = d3.geo.path()
       .projection(projection);
 
-    b = b || path.bounds(coordData);
-    var s = defaultZoom / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / (height - key_height)),
+    var b = projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length ? us_bounds : path.bounds(coordData),
+        s = defaultZoom / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / (height - key_height)),
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
 
     // Update the projection to use computed scale & translate.
@@ -3942,10 +3942,11 @@ viz.mapDraw = function(vars) {
         zoomMath(1/zoomFactor);
       });
 
-      controls_enter.append("div").attr("class", "zoom-reset").on(d3plus.client.pointer.click, function(){
+      controls_enter.append("div").attr("class", "zoom-reset")
+      controls.select(".zoom-reset").on(d3plus.client.pointer.click, function(){
         d3plus.tooltip.remove("geo_map_sidebar");
-        zoom.scale(s * 2 * Math.PI).translate(t);
-        zoomed(timing);
+        vars.highlight.path = undefined;
+        zoomLogic();
       });
 
     }
@@ -4095,6 +4096,7 @@ viz.mapDraw = function(vars) {
         })
         .on(d3plus.client.pointer.move, function(d){
           drag = d3.event.buttons ? true : false;
+          if (drag) vars.zoom.reset = false;
           d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
           createTooltip(d);
         })
@@ -4111,13 +4113,12 @@ viz.mapDraw = function(vars) {
           }
           else {
             vars.highlight.value = d.id;
+            vars.highlight.path = d;
             d3.select(this).attr("fill-opacity", pathOpacity);
             d3plus.tooltip.remove("geo_map");
-            var tract = d.id.slice(0, 3) === "140";
-            var mod = vars.zoom.scroll || tract ? 0 : 250;
-            zoomToBounds(path.bounds(d), mod);
+            zoomLogic(d);
             var dat = dataMap[d.id];
-            if (!tract && dat) createTooltip(d, true);
+            if (d.id.slice(0, 3) !== "140" && dat) createTooltip(d, true);
             else d3plus.tooltip.remove("geo_map_sidebar");
           }
         });
@@ -4139,7 +4140,6 @@ viz.mapDraw = function(vars) {
 
     if (vars.tiles.value) {
       var tile = d3.geo.tile()
-        .size([width, height])
         .overflow([true, false]);
     }
 
@@ -4156,6 +4156,26 @@ viz.mapDraw = function(vars) {
     if (!vars.zoom.set) {
       zoomed();
       vars.zoom.set = true;
+    }
+    else if (vars.zoom.reset) {
+      zoomLogic(vars.highlight.path);
+    }
+
+  }
+
+  function zoomLogic(d) {
+
+    vars.zoom.reset = true;
+
+    var mod = 0;
+    if (d) {
+      var bounds = path.bounds(d);
+      mod = vars.zoom.scroll || d.id.slice(0, 3) === "140" ? 0 : 250;
+      zoomToBounds(bounds, mod);
+    }
+    else {
+      zoom.scale(s * 2 * Math.PI).translate(t);
+      zoomed(timing);
     }
 
   }
@@ -4181,6 +4201,7 @@ viz.mapDraw = function(vars) {
           d = projection(defaultRotate)[0] - projection([0, 0])[0];
       t[0] += (d/polyZoom) * zoom.scale();
       var tileData = tile
+        .size([width, height])
         .scale(zoom.scale())
         .translate(t)
         ();
@@ -4260,7 +4281,7 @@ viz.map = function() {
     "tiles": {"value": true},
     "tooltip": {"url": false, "value": []},
     "width": {"value": false},
-    "zoom": {"scroll": false, "set": false, "value": true}
+    "zoom": {"scroll": false, "set": false, "value": true, "reset": true}
   };
 
   // the drawing function
