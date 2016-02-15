@@ -115,6 +115,9 @@ DICTIONARY = {
     "ipeds": "IPEDS",
     "pums": "ACS PUMS",
 
+    "msa": "MSA",
+    "puma": "PUMA",
+
     "geo": "Location Name",
     "cip": "College Degree",
     "naics": "Industry",
