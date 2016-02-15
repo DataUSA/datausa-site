@@ -167,6 +167,15 @@ viz.loadBuilds = function(builds) {
           b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
           b.height = b.container.node().parentNode.offsetHeight;
         }
+        if (b.loaded) {
+          b.container.select(".d3plus")
+            .style("height", "0px")
+            .style("width", "0px");
+          b.viz
+            .height(false)
+            .width(false)
+            .draw();
+        }
       });
 
     }
