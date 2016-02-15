@@ -75,6 +75,10 @@ viz.mapDraw = function(vars) {
       height = vars.height.value,
       center = [width/2, height/2];
 
+  vars.container.value
+    .style("width", width + "px")
+    .style("height", height + "px");
+
   var svg = vars.container.value.selectAll("svg").data([0]);
   svg.enter().append("svg")
 
@@ -420,7 +424,7 @@ viz.mapDraw = function(vars) {
     if (!vars.zoom.set) {
 
       vars.zoom.projection = d3.geo[projectionType]()
-        .scale(1)
+        .scale((1 * polyZoom) / 2 / Math.PI)
         .translate([0, 0]);
 
       if (projectionType === "mercator") vars.zoom.projection.rotate(defaultRotate);
@@ -440,18 +444,20 @@ viz.mapDraw = function(vars) {
     if (!vars.zoom.set) {
 
       // projection.scale(s).translate(t);
+      var zs = s;
+      if (!(projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length)) {
+        zs = (s/Math.PI/2) * polyZoom;
+      }
 
       vars.zoom.behavior = d3.behavior.zoom()
-        .scale(s * 2 * Math.PI)
+        .scale(zs * 2 * Math.PI)
         .scaleExtent([1 << 9, 1 << 25])
         .translate(t)
         .on("zoom", zoomed);
 
       // With the center computed, now adjust the projection such that
       // it uses the zoom behavior’s translate and scale.
-      projection
-        .scale((1 * polyZoom) / 2 / Math.PI)
-        .translate([0, 0]);
+      // projection.scale((1 * polyZoom) / 2 / Math.PI);
 
     }
 
@@ -499,9 +505,10 @@ viz.mapDraw = function(vars) {
         zoomMath(1/zoomFactor);
       });
 
-      controls_enter.append("div").attr("class", "zoom-reset")
+      controls_enter.append("div").attr("class", "zoom-reset");
       controls.select(".zoom-reset").on(d3plus.client.pointer.click, function(){
         d3plus.tooltip.remove("geo_map_sidebar");
+        vars.highlight.value = false;
         vars.highlight.path = undefined;
         zoomLogic();
       });
@@ -526,7 +533,7 @@ viz.mapDraw = function(vars) {
     var polys = polyGroup.selectAll("path")
       .data(coordData.features, function(d){
         if (vars.highlight.value === d.id) {
-          if (vars.mouse.value) createTooltip(d, true);
+          if (vars.mouse.value && d.id.slice(0, 3) !== "140") createTooltip(d, true);
           vars.highlight.path = d;
         }
         return d.id;
@@ -757,7 +764,11 @@ viz.mapDraw = function(vars) {
     }
     else {
       if (vars.zoom.scroll) createTooltip({}, true);
-      zoom.scale(s * 2 * Math.PI).translate(t);
+      var ns = s;
+      if (!(projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length)) {
+        ns = (ns/Math.PI/2) * polyZoom;
+      }
+      zoom.scale(ns * 2 * Math.PI).translate(t);
       zoomed(timing);
     }
 
@@ -767,12 +778,12 @@ viz.mapDraw = function(vars) {
 
     var w = width - mod;
 
-    var s = defaultZoom / Math.max((b[1][0] - b[0][0]) / w, (b[1][1] - b[0][1]) / (height - key_height)),
-        t = [(w - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
+    var ns = defaultZoom / Math.max((b[1][0] - b[0][0]) / w, (b[1][1] - b[0][1]) / (height - key_height)),
+        nt = [(w - ns * (b[1][0] + b[0][0])) / 2, (height - ns * (b[1][1] + b[0][1])) / 2 - key_height/2];
 
-    s = (s/Math.PI/2) * polyZoom;
+    ns = (ns/Math.PI/2) * polyZoom;
 
-    zoom.scale(s * 2 * Math.PI).translate(t);
+    zoom.scale(ns * 2 * Math.PI).translate(nt);
     zoomed(timing);
 
   }
@@ -780,13 +791,13 @@ viz.mapDraw = function(vars) {
   function zoomed(zoomtiming) {
 
     if (vars.tiles.value) {
-      var t = zoom.translate(),
+      var trans = zoom.translate(),
           d = projection(defaultRotate)[0] - projection([0, 0])[0];
-      t[0] += (d/polyZoom) * zoom.scale();
+      trans[0] += (d/polyZoom) * zoom.scale();
       var tileData = tile
         .size([width, height])
         .scale(zoom.scale())
-        .translate(t)
+        .translate(trans)
         ();
     }
     else {
