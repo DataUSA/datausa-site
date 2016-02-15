@@ -133,7 +133,7 @@
       if (d.value === "county") b = true;
       return b;
     }, false);
-    var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + key;
+    var url = "/api?show=geo&year=latest&sumlevel=" + level + "&required=" + key + "&sort=desc&order=" + key.split(",")[0];
     var topo = level === "county" ? "counties" : level + "s";
 
     if (history.pushState) {

@@ -169,7 +169,7 @@ body.frozen {
         #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_title:hover:after {
           color: #141b2e; }
   #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_description {
-    margin-top: -5px; }
+    margin-top: 0; }
     #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_html_seperator {
       background-color: #ccc !important; }
       #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container .d3plus_tooltip_html_seperator {
@@ -190,9 +190,27 @@ body.frozen {
     margin-left: -20px; }
     #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li {
       font-weight: 300;
-      margin-left: 20px; }
+      line-height: 16px;
+      margin: 5px 10px 7px 20px; }
       #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container ol li a:hover {
         text-decoration: underline; }
+  #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 20px;
+    width: 228px; }
+    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table td {
+      padding: 5px; }
+      #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-rank {
+        text-align: right;
+        width: 15px; }
+        #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-name:hover {
+          cursor: pointer;
+          text-decoration: underline; }
+    #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-value {
+      font-weight: 500;
+      text-align: right; }
 
 #d3plus_tooltip_id_data-tooltip-sidenav {
   -webkit-box-shadow: none !important;
