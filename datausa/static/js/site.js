@@ -2454,13 +2454,25 @@ viz.sankey = function(build) {
       "tooltip": false,
       "value": network.focus
     },
+    "history": {
+      "reset": function(){},
+    },
     "labels": {
       "resize": false
     },
     "mouse": {
       "click": function(d, v) {
-        if (d.id !== v.focus()[0]) {
+        var old_focus = v.focus()[0];
+        if (d.id !== old_focus) {
           v.error("Loading...").draw();
+          var states = v.history(Object).states;
+          states.push(function(){
+            build.data.forEach(function(data){
+              data.url = data.url.replace(build.highlight, old_focus);
+            });
+            viz.loadData(build, "sankeyData");
+          });
+          v.history({"states": states});
           build.data.forEach(function(data){
             data.url = data.url.replace(build.highlight, d.id);
           });
