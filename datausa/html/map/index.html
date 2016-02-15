@@ -41,6 +41,11 @@
 
   var formConfig = {
     "font": vizStyles.ui_map.font,
+    "format": {
+      "text": function(d) {
+        return d;
+      }
+    },
     "ui": {
       "display": "block",
       "padding": "3 7"
