@@ -18285,7 +18285,7 @@ module.exports = d3plus;
  * @static
  */
 
-d3plus.version = "1.9.0 - Cornflower";
+d3plus.version = "1.9.1 - Cornflower";
 
 
 /**
@@ -23122,7 +23122,16 @@ module.exports = function(vars) {
           }
           else {
 
-            d3.select(this).style("cursor","pointer")
+            var zoomDir = zoomDirection(d.d3plus_data || d, vars)
+            var pointer = typeof vars.mouse.viz === "function" ||
+                          typeof vars.mouse.viz[events.click] === "function" ||
+                          (vars.zoom.value && (vars.types[vars.type.value].zoom ||
+                                              (d.d3plus.threshold && d.d3plus.merged) ||
+                                              zoomDir === 1 ||
+                                              (zoomDir === -1 && vars.history.states.length && !vars.tooltip.value.long)));
+
+            d3.select(this)
+              .style("cursor", pointer ? "pointer" : "auto")
               .transition().duration(vars.timing.mouseevents)
               .call(transform,true)
 
@@ -23178,6 +23187,17 @@ module.exports = function(vars) {
             vars.mouse.move.value(d, vars.self);
           }
           else {
+
+            var zoomDir = zoomDirection(d.d3plus_data || d, vars)
+            var pointer = typeof vars.mouse.viz === "function" ||
+                          typeof vars.mouse.viz[events.click] === "function" ||
+                          (vars.zoom.value && (vars.types[vars.type.value].zoom ||
+                                              (d.d3plus.threshold && d.d3plus.merged) ||
+                                              zoomDir === 1 ||
+                                              (zoomDir === -1 && vars.history.states.length && !vars.tooltip.value.long)));
+
+
+            d3.select(this).style("cursor", pointer ? "pointer" : "auto");
 
             // vars.covered = false
             var tooltipType = vars.types[vars.type.value].tooltip || "follow"
@@ -32325,7 +32345,7 @@ module.exports = function(vars) {
         d = +d;
       }
       if (!vars[axis].ticks.hidden && vars[axis].ticks.visible.indexOf(d) >= 0) {
-        return textwrap().container(d3.select(this)).rotate(vars[axis].ticks.rotate).valign(rotated ? "middle" : axis === "x" ? "top" : "bottom").width(vars[axis].ticks.maxWidth).height(vars[axis].ticks.maxHeight).padding(0).x(-vars[axis].ticks.maxWidth / 2).y(axis === "x2" ? -(vars[axis].ticks.maxHeight + vars.labels.padding * 2) : 0).draw();
+        return textwrap().container(d3.select(this)).rotate(vars[axis].ticks.rotate).align(rotated ? "end" : "center").valign(rotated ? "middle" : axis === "x" ? "top" : "bottom").width(vars[axis].ticks.maxWidth).height(vars[axis].ticks.maxHeight).padding(0).x(-vars[axis].ticks.maxWidth / 2).y(axis === "x2" ? -(vars[axis].ticks.maxHeight + vars.labels.padding * 2) : 0).draw();
       }
     });
   };
