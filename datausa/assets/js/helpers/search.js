@@ -223,7 +223,7 @@ search.btnExplore = function(d) {
   // title.append("i").attr("class", "fa fa-angle-up")
   if(sumlevels_cy_id[d.kind][d.sumlevel]){
     var subtitle = info.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
-    if(d.is_stem){
+    if(d.is_stem > 0){
       subtitle.append("span").attr("class", "stem").text("STEM");
     }
   }

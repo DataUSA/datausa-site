@@ -29,8 +29,8 @@ body {
       visibility: hidden;
     }
   }
-
-  &.about, &.story, &.map {
+  
+  &.about, &.story, &.map, &.search {
     nav {
       position: fixed;
       top: 0;
@@ -41,6 +41,9 @@ body {
     #top-nav {
       background-color: $black2;
     }
+  }
+
+  &.about, &.story, &.map {
 
     #home-btn {
       display: none;

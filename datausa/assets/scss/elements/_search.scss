@@ -1,19 +1,6 @@
-body.search {
-
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 3;
-    #top-nav {
-      background-color: $black2;
-    }
-  }
-
-}
+/* Adv Search page */
 
 .search-results {
-  background-color: $l-profile-bg;
 
   #search-loading {
     @include box();
@@ -114,7 +101,11 @@ body.home, body.search {
 }
 
 body.search {
-  background-color: $l-profile-bg;
+  // background-color: $black3;
+
+  p, span, a {
+    // color: #fff !important;
+  }
 
   .bg {
     margin-top: -$nav-height;
@@ -129,7 +120,6 @@ body.search {
     width: 100vw;
     background-repeat: no-repeat;
     background-position: 50% 0%;
-    // background: url("/static/img/home/bg/1.jpg") no-repeat 0 0;
     @include background-stretch();
   }
 
@@ -300,7 +290,6 @@ body.search {
     letter-spacing: 0.06em;
     color: $text-color;
     text-align: center;
-    // background-color: rgba(255, 255, 255, 0.3);
     span {
       font-weight: 700;
     }
@@ -309,7 +298,6 @@ body.search {
   .search-results-container{
     @include flex();
     @include justify(space-between);
-    // background: rgba(250, 253, 255, 0.85);
 
     .search-refine {
 
@@ -522,31 +510,6 @@ body.search {
         @include align-items(flex-start);
         padding: 13px 0;
         margin: 0px 20px 0px 10px;
-//        border-bottom: 1px solid #ccc;
-
-        // &.geo {
-        //   .subtitle {
-        //     color: $bg-color-geo;
-        //   }
-        // }
-        //
-        // &.cip {
-        //   .subtitle {
-        //     color: $bg-color-cip;
-        //   }
-        // }
-        //
-        // &.soc {
-        //   .subtitle {
-        //     color: $bg-color-soc;
-        //   }
-        // }
-        //
-        // &.naics {
-        //   .subtitle {
-        //     color: $bg-color-naics;
-        //   }
-        // }
 
         &.active{
           border: solid black 1px;
