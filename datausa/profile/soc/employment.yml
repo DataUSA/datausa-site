@@ -68,7 +68,7 @@ topics:
   - title: "Wage by Location"
     slug: "wage_locations"
     stat:
-      - title: "The reqions where <<name>> are paid the highest are"
+      - title: "The regions where <<name>> are paid the highest are"
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_wage|key=geo|row=1>>"
