@@ -30,7 +30,7 @@
       <div id="search-btn" data-results="search-simple-nav">
         <a href="/search/?q=" class="m-hotspot"></a>
         <div class="search-box">
-          <input id="nav-search-input" class="search-input" data-search="simple-nav" type="text" placeholder="Start typing&hellip;" data-ga="navSearchClick" data-ga-cat="navigation" data-ga-label="Search icon clicked" />
+          <input id="nav-search-input" class="search-input" data-search="simple-nav" type="text" placeholder="Press Enter to refine search" data-ga="navSearchClick" data-ga-cat="navigation" data-ga-label="Search icon clicked" />
         </div>
         <div class="search-i"><img src="/static/img/search/search_w.svg" alt="Search" /></div>
         <!-- <i class="fa fa-search"></i> -->
@@ -170,6 +170,12 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   // open search box if not home page
   if(!d3.select("body").classed("home")){
     d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
+
+    // close search body if search box is closed
+    if (!d3.select(".search-box").classed("open")) {
+      d3.select(".search-body").classed("open", false);  
+    }
+    
   }
 
   // focus input
@@ -199,9 +205,14 @@ d3.select(document).on("click", function(){
   // close all search results
   d3.selectAll(".search-body").classed("open", false);
   d3.selectAll(".search-input").each(function(){ this.blur(); });
-  d3.select(".search-box").classed("open", false);
   d3.select("#search-simple-nav").classed("open", false);
 
+  // close nav search only if empty
+  if (d3.select(".search-box input").property("value") !== "") {
+    d3.select(".search-box").classed("open", true);
+  } else {
+    d3.select(".search-box").classed("open", false);
+  }
 })
 
 </script>

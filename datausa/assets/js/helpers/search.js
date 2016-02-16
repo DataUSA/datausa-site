@@ -98,7 +98,7 @@ var search = {
 
 search.reload = function() {
 
-  this.container.select(".search-results").html("<div id='search-loading'><p><i class='fa fa-circle-o-notch fa-spin'></i> Loading Results...</p></div>");
+  this.container.select(".search-results").html("<div id='search-loading'><p><i class='fa fa-spinner fa-spin'></i> Searching...</p></div>");
 
   this.type = this.type || "";
   // var sumlevel = (this.type && this.current_depth[this.type]) ? this.nesting[this.type][this.current_depth[this.type]] : ""
@@ -115,7 +115,7 @@ search.reload = function() {
     window.history.replaceState({}, "", "/search/"+q_params);
   }
   else {
-    d3.select(".results-show-all a").attr("href", "/search/"+q_params)
+    d3.select(".results-show-all a").attr("href", "/search/"+q_params).classed("pri-link", true);
   }
 
   // if contrained, show "clear refinements"
@@ -212,7 +212,7 @@ search.btnExplore = function(d) {
   var xtra = search_item.append("div").attr("class", 'xtra');
 
   // set thumbnail
-  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_b.svg")
+  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_c.svg")
 
   // set info
   var title = info.append("h2")
@@ -263,7 +263,7 @@ search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){
                       return "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
                     });
-  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_b.svg")
+  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
   search_item_text.append("h2").text(d.display);
   search_item_text.append("p").attr("class", "subtitle").text(function(d){

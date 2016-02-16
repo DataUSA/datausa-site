@@ -323,8 +323,8 @@ body {
 
 #search-btn {
   position: relative;
-  top: 2px;
-  padding: 15px;
+  top: 0;
+  padding: 17px 15px 15px;
   opacity: 0.9;
   @include transition(opacity 1s);
   z-index: 5;
@@ -334,42 +334,64 @@ body {
     cursor: pointer;
   }
 
+  .search-i {
+    position: relative;
+    right: 0;
+    @include transition(right 0.5s cubic-bezier(0.4, 0, 0.59, 1));
+  }
+
   .search-box {
     position: absolute;
     right: 0;
-    margin-right: 46px;
+    top: 14px;
+    height: $nav-height;
+    // margin-right: 46px;
+    margin-right: 5px;
     width: 0;
     padding: 0px;
     display: inline-block;
     // overflow: hidden;
     text-align: left;
     opacity: 0;
-    @include transition(width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s);
+    // @include transition(width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s);
+    @include transition(all 0.5s cubic-bezier(0.4, 0, 0.59, 1));
 
-    input {
+    #nav-search-input {
       cursor: pointer;
     }
   }
 
   .search-box.open {
-    width: $search-mini-width - 30;
+    // width: $search-mini-width - 30;
+    width: $search-mini-width;
     opacity: 1;
 
-    input {
+    #nav-search-input {
       cursor: text;
+      
+      &:focus {
+        opacity: 1;
+      }
+    }
+
+    & ~ .search-i {
+      right: $search-mini-width;
     }
   }
-  .search-box input {
+  
+  #nav-search-input {
     @include box();
     width: 100%;
     border: 0;
-    margin-top: -3px;
-    padding: 4px 25px 4px 10px;
+    padding: 4px 25px 3px 10px;
     outline: 0;
-    background-color: rgba(255,255,255,1);
+    opacity: 0.5;
+    background-color: $black3;
     font-family: $palanquin;
     font-size: 14px;
     letter-spacing: 0.06em;
+    color: #fff;
+    @include placeholder {font-size: 13px; color: $black4;}
   }
 
 }
