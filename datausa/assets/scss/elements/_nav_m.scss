@@ -19,13 +19,21 @@
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
+  
+  #search-btn {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 7px;
+  }
+
   .m-hotspot {
+    display: block;
   	height: 52px;
   	width: 52px;
   	position: absolute;
   	top: 0;
   	right: 0;
-  	display: block;
   	z-index: 1;
   }
 

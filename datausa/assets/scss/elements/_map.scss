@@ -3,13 +3,6 @@ body.map {
   overflow: hidden;
   position: relative;
 
-  nav {
-    position: relative;
-    #top-nav {
-      background-color: $black2;
-    }
-  }
-
   #d3plus_tooltip_id_geo_map_sidebar {
     @include shadow(none !important);
     z-index: 2 !important;

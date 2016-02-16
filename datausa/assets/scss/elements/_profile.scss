@@ -38,31 +38,6 @@ body.profile {
       }
     }
   }
-
-  @media only screen and (min-width : 769px) {
-    
-    #home-btn {
-      position: relative;
-      margin: 0;
-      padding: 5px 15px;
-    }
-
-    #search-btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      padding: 7px 10px 15px 15px;
-    
-      .search-box {
-        top: 4px;
-      }
-    }
-
-    #top-nav {
-      display: block;
-      text-align: center;
-    }
-  }
 }
 
 body.profile, body.map, body.story {
@@ -732,15 +707,9 @@ body.profile, body.map, body.story {
       @include transition(top 0.55s 0.03s);
       padding: 6px;
       @include box();
-      color: #ef6145;
+      color: $red-w;
       font-family: $pathway;
       font-size: 24px;
-    }
-
-    img {
-      width: 78px;
-      margin-top: 4px;
-      margin-right: 5px;
     }
 
     .expand-stats-btn {
@@ -812,7 +781,7 @@ body.profile, body.map, body.story {
     overflow: hidden;
     z-index: 2;
     background-color: $black2;
-    color: rgba(255,255,255,0.8);
+    color: $black5;
     @include transition(top 0.5s, box-shadow 0.5s);
 
     &.visible {

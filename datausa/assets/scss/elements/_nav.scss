@@ -29,6 +29,53 @@ body {
       visibility: hidden;
     }
   }
+
+  &.about, &.story, &.map {
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 3;
+    }
+
+    #top-nav {
+      background-color: $black2;
+    }
+
+    #home-btn {
+      display: none;
+    }
+
+    #title-bar {
+      text-align: center;
+      height: $nav-height;
+      right: 0;
+      left: 0;
+      margin-right: auto;
+      margin-left: auto;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      z-index: 3;
+
+      span {
+        @include flex();
+        @include align-items(center);
+        position: relative;
+        top: 0 !important;
+        padding: 7px;
+        color: $red-w;
+        font-family: $pathway;
+        font-size: 24px;
+      }
+
+      img {
+        width: 78px;
+        margin-top: 4px;
+        margin-right: 5px;
+      }
+    }
+  }
 }
 
 /* side nav */
@@ -191,11 +238,13 @@ body {
 /* top nav */
 
 #top-nav {
-  @include flex();
-  @include align-items(center);
-  @include justify(space-between);
+  // @include flex();
+  // @include align-items(center);
+  // @include justify(space-between);
   height: $nav-height;
   overflow: hidden;
+  display: block;
+  text-align: center;
 }
 
 .btn-container {
@@ -307,8 +356,8 @@ body {
 #home-btn {
   position: relative;
   top: 0;
-  padding: 15px;
-  margin-top: 3px;
+  margin: 0;
+  padding: 5px 15px;
   z-index: 5;
   @include transition(top 0.55s);
 
@@ -322,9 +371,10 @@ body {
 }
 
 #search-btn {
-  position: relative;
+  position: absolute;
+  right: 0;
   top: 0;
-  padding: 17px 15px 15px;
+  padding: 9px 10px 15px 15px;
   opacity: 0.9;
   @include transition(opacity 1s);
   z-index: 5;
@@ -334,67 +384,75 @@ body {
     cursor: pointer;
   }
 
-  .search-i {
-    position: relative;
-    right: 0;
-    @include transition(right 0.5s cubic-bezier(0.4, 0, 0.59, 1));
-  }
+  @media only screen and (min-width : 481px) {
+    .search-i {
+      position: relative;
+      right: 0;
+      @include transition(right 0.35s cubic-bezier(0.4, 0, 0.59, 1));
 
-  .search-box {
-    position: absolute;
-    right: 0;
-    top: 14px;
-    height: $nav-height;
-    // margin-right: 46px;
-    margin-right: 5px;
-    width: 0;
-    padding: 0px;
-    display: inline-block;
-    // overflow: hidden;
-    text-align: left;
-    opacity: 0;
-    // @include transition(width 0.45s cubic-bezier(0.4, 0, 0.59, 1), opacity 0.53s);
-    @include transition(all 0.5s cubic-bezier(0.4, 0, 0.59, 1));
-
-    #nav-search-input {
-      cursor: pointer;
-    }
-  }
-
-  .search-box.open {
-    // width: $search-mini-width - 30;
-    width: $search-mini-width;
-    opacity: 1;
-
-    #nav-search-input {
-      cursor: text;
-      
-      &:focus {
-        opacity: 1;
+      img {
+        @include transform(rotate(0deg));
+        @include transition(all 0.35s cubic-bezier(0.4, 0, 0.59, 1));
       }
     }
 
-    & ~ .search-i {
-      right: $search-mini-width;
-    }
-  }
-  
-  #nav-search-input {
-    @include box();
-    width: 100%;
-    border: 0;
-    padding: 4px 25px 3px 10px;
-    outline: 0;
-    opacity: 0.5;
-    background-color: $black3;
-    font-family: $palanquin;
-    font-size: 14px;
-    letter-spacing: 0.06em;
-    color: #fff;
-    @include transition(opacity 0.25s);
-    @include placeholder {font-size: 13px; color: $black4;}
-  }
+    .search-box {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      height: $nav-height;
+      width: 0;
+      padding: 0px;
+      display: inline-block;
+      // overflow: hidden;
+      text-align: left;
+      opacity: 0;
+      @include transition(all 0.35s cubic-bezier(0.4, 0, 0.59, 1));
 
+      #nav-search-input {
+        cursor: pointer;
+      }
+    }
+
+    .search-box.open {
+      width: $search-mini-width;
+      opacity: 1;
+
+      #nav-search-input {
+        cursor: text;
+        
+        &:focus {
+          opacity: 1;
+        }
+      }
+
+      & ~ .search-i {
+        right: $search-mini-width - 33;
+
+        img {
+          @include transform(rotate(90deg));
+        }
+      }
+    }
+    
+    #nav-search-input {
+      @include box();
+      width: 100%;
+      border: 0;
+      padding: 3px 10px 2px 31px;
+      outline: 0;
+      opacity: 0.5;
+      background-color: $black3;
+      font-family: $palanquin;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      font-weight: 400;
+      color: #fff;
+      @include transition(opacity 0.25s);
+      @include placeholder {font-size: 13px; color: $black4;}
+    }
+  
+  }
 }
 
 #mask {
@@ -550,7 +608,7 @@ body.frozen {
 
   #menu {
     @include justify(center);
-    @include transition(left 0.7s ease);
+    @include transition(left 0.5s ease);
 
     ul {
       border-radius: 3px;
