@@ -2952,56 +2952,60 @@ body.profile #title-bar, body.map #title-bar, body.story #title-bar {
     color: #ef6145;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 24px; }
-    body.profile #title-bar .expand-stats-btn, body.map #title-bar .expand-stats-btn,
-    body.story #title-bar .expand-stats-btn {
-      opacity: 0;
-      display: inline-block;
-      border-radius: 50%;
-      border: 1px solid #306a62;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      background: url("/static/img/splash/max.svg") no-repeat 50%;
-      background-size: 80%;
-      width: 17px;
-      height: 17px;
-      margin-left: 5px;
-      margin-top: 6px;
-      -moz-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
-      -o-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
-      -webkit-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
-      transition: opacity 0.35s, border 0.5s, background-color 0.6s; }
-      body.profile #title-bar .expand-stats-btn:hover,
-      body.map #title-bar .expand-stats-btn:hover,
-      body.story #title-bar .expand-stats-btn:hover {
-        background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
-        background-size: 80%; }
-        body.profile #title-bar .expand-stats-btn.show,
-        body.map #title-bar .expand-stats-btn.show,
-        body.story #title-bar .expand-stats-btn.show {
-          opacity: 1; }
-          body.profile #title-bar .expand-stats-btn.show:hover,
-          body.map #title-bar .expand-stats-btn.show:hover,
-          body.story #title-bar .expand-stats-btn.show:hover {
-            cursor: pointer; }
-      body.profile #title-bar .expand-stats-btn.close,
-      body.map #title-bar .expand-stats-btn.close,
-      body.story #title-bar .expand-stats-btn.close {
+    body.profile #title-bar img, body.map #title-bar img, body.story #title-bar img {
+      width: 78px;
+      margin-top: 4px;
+      margin-right: 5px; }
+      body.profile #title-bar .expand-stats-btn, body.map #title-bar .expand-stats-btn,
+      body.story #title-bar .expand-stats-btn {
+        opacity: 0;
+        display: inline-block;
         border-radius: 50%;
-        border: 1px solid #8d7a40;
+        border: 1px solid #306a62;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        background: url("/static/img/splash/min.svg") no-repeat 50%;
+        background: url("/static/img/splash/max.svg") no-repeat 50%;
         background-size: 80%;
         width: 17px;
         height: 17px;
-        margin-left: 5px; }
-        body.profile #title-bar .expand-stats-btn.close:hover,
-        body.map #title-bar .expand-stats-btn.close:hover,
-        body.story #title-bar .expand-stats-btn.close:hover {
-          background: #8d7a40 url("/static/img/splash/min.svg") no-repeat 50%;
+        margin-left: 5px;
+        margin-top: 6px;
+        -moz-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
+        -o-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
+        -webkit-transition: opacity 0.35s, border 0.5s, background-color 0.6s;
+        transition: opacity 0.35s, border 0.5s, background-color 0.6s; }
+        body.profile #title-bar .expand-stats-btn:hover,
+        body.map #title-bar .expand-stats-btn:hover,
+        body.story #title-bar .expand-stats-btn:hover {
+          background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
           background-size: 80%; }
+          body.profile #title-bar .expand-stats-btn.show,
+          body.map #title-bar .expand-stats-btn.show,
+          body.story #title-bar .expand-stats-btn.show {
+            opacity: 1; }
+            body.profile #title-bar .expand-stats-btn.show:hover,
+            body.map #title-bar .expand-stats-btn.show:hover,
+            body.story #title-bar .expand-stats-btn.show:hover {
+              cursor: pointer; }
+        body.profile #title-bar .expand-stats-btn.close,
+        body.map #title-bar .expand-stats-btn.close,
+        body.story #title-bar .expand-stats-btn.close {
+          border-radius: 50%;
+          border: 1px solid #8d7a40;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          background: url("/static/img/splash/min.svg") no-repeat 50%;
+          background-size: 80%;
+          width: 17px;
+          height: 17px;
+          margin-left: 5px; }
+          body.profile #title-bar .expand-stats-btn.close:hover,
+          body.map #title-bar .expand-stats-btn.close:hover,
+          body.story #title-bar .expand-stats-btn.close:hover {
+            background: #8d7a40 url("/static/img/splash/min.svg") no-repeat 50%;
+            background-size: 80%; }
   body.profile #title-bar a, body.map #title-bar a, body.story #title-bar a {
     color: #fff; }
     body.profile #title-bar.visible span, body.map #title-bar.visible span,
