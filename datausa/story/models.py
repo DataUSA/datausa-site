@@ -10,6 +10,7 @@ from os.path import join, isfile
 import os
 from datausa.utils.format import num_format
 from datausa.utils.data import fetch
+from dateutil import parser
 
 STORIES_DIR = join(base_dir, "story", "stories")
 
@@ -27,6 +28,7 @@ class StoryPreview(object):
         self.date = story_conf['date'] if 'date' in story_conf else ''
         if not self.date:
             self.date = date_from_filename(filename)
+        self._date_obj = parser.parse(self.date) if self.date else None
         self.authors = story_conf['authors'] if 'authors' in story_conf else []
         self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
 
@@ -34,7 +36,7 @@ class StoryPreview(object):
     def generate_list(cls, to_feature=[]):
         available = [(f, join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if isfile(join(STORIES_DIR, f)) and not "-draft" in f]
         stories = [StoryPreview(filename, path) for filename, path in available]
-        stories.sort(key = lambda x: x.date, reverse=True)
+        stories.sort(key = lambda x: x._date_obj, reverse=True)
         featured_stories = []
         if to_feature:
             tmp_stories = []
