@@ -103,9 +103,15 @@ viz.mapDraw = function(vars) {
 
       var attribution = vars.container.value.selectAll(".attribution").data([0]);
 
+      var attr_text =  "";
+      if (vars.zoom.value) {
+        attr_text += "Hold <b>SHIFT</b> for box zoom<br />";
+      }
+      attr_text += "Map tiles by <a target='_blank' href='http://cartodb.com/attributions'>CartoDB</a>";
+
       attribution.enter().append("div")
         .attr("class", "attribution")
-        .html('Map tiles by <a target="_blank" href="http://cartodb.com/attributions">CartoDB</a>')
+        .html(attr_text)
         // .html('&copy; <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a target="_blank" href="http://cartodb.com/attributions">CartoDB</a>')
 
     }
@@ -121,6 +127,34 @@ viz.mapDraw = function(vars) {
     var pinGroup = svg.selectAll("g.pins").data([0]);
     pinGroup.enter().append("g").attr("class", "pins")
       .attr("opacity", 0).transition().duration(timing).attr("opacity", 1);
+
+    var brushGroup = svg.selectAll("g.brush").data([0]);
+    brushGroup.enter().append("g").attr("class", "brush");
+
+    var xBrush = d3.scale.identity().domain([0, width]),
+        yBrush = d3.scale.identity().domain([0, height]);
+
+    var brush = d3.svg.brush()
+      .x(xBrush)
+      .y(yBrush)
+      .on("brushend", brushended);
+
+    brushGroup.call(brush);
+
+    function brushended(e) {
+      if (!d3.event.sourceEvent) return;
+
+      var extent = brush.extent();
+      brushGroup.call(brush.clear());
+
+      var zs = zoom.scale(), zt = zoom.translate();
+
+      var pos1 = extent[0].map(function(p, i){return (p - zt[i])/(zs/polyZoom); })
+      var pos2 = extent[1].map(function(p, i){return (p - zt[i])/(zs/polyZoom); })
+
+      zoomToBounds([pos1, pos2]);
+
+    }
 
     var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
@@ -674,14 +708,24 @@ viz.mapDraw = function(vars) {
 
       polys
         .on(d3plus.client.pointer.over, function(d){
-          d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
-          createTooltip(d);
+          if (vars.zoom.brush) {
+            d3plus.tooltip.remove("geo_map");
+          }
+          else {
+            d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
+            createTooltip(d);
+          }
         })
         .on(d3plus.client.pointer.move, function(d){
           drag = d3.event.buttons ? true : false;
           if (drag) vars.zoom.reset = false;
-          d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
-          createTooltip(d);
+          if (vars.zoom.brush) {
+            d3plus.tooltip.remove("geo_map");
+          }
+          else {
+            d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
+            createTooltip(d);
+          }
         })
         .on(d3plus.client.pointer.out, function(d){
           d3.select(this).attr("fill-opacity", pathOpacity);
@@ -732,13 +776,7 @@ viz.mapDraw = function(vars) {
     }
 
     if (vars.zoom.value) {
-      svg.call(zoom)
-      if (!vars.zoom.scroll) {
-        svg
-          .on("mousewheel.zoom",null)
-          .on("MozMousePixelScroll.zoom",null)
-          .on("wheel.zoom",null);
-      }
+      zoomEvents();
     }
 
     if (!vars.zoom.set) {
@@ -750,6 +788,23 @@ viz.mapDraw = function(vars) {
       zoomLogic(vars.highlight.path);
     }
 
+  }
+
+  function zoomEvents() {
+    if (vars.zoom.brush) {
+      brushGroup.style("display", "inline");
+      svg.on(".zoom", null);
+    }
+    else {
+      brushGroup.style("display", "none");
+      svg.call(zoom);
+      if (!vars.zoom.scroll) {
+        svg
+          .on("mousewheel.zoom",null)
+          .on("MozMousePixelScroll.zoom",null)
+          .on("wheel.zoom",null);
+      }
+    }
   }
 
   function zoomLogic(d) {
@@ -775,6 +830,10 @@ viz.mapDraw = function(vars) {
   }
 
   function zoomToBounds(b, mod) {
+
+    if (mod === void 0) {
+      mod = vars.zoom.scroll || !vars.highlight.path || vars.highlight.path.id.slice(0, 3) === "140" ? 0 : 250;
+    }
 
     var w = width - mod;
 
@@ -834,6 +893,20 @@ viz.mapDraw = function(vars) {
       .attr("y", function(d) { return d[1]; });
 
   }
+
+  d3.select("body")
+    .on("keydown.map", function() {
+      if (d3.event.keyCode === 16) {
+        vars.zoom.brush = true;
+        zoomEvents();
+      }
+    })
+    .on("keyup.map", function() {
+      if (d3.event.keyCode === 16) {
+        vars.zoom.brush = false;
+        zoomEvents();
+      }
+    });
 
   return vars.self;
 

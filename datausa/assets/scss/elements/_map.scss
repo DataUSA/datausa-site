@@ -96,18 +96,27 @@ $map-sidebar: 250px;
 
 .attribution {
   bottom: 4px;
-  color: $gray-d;
+  color: $gray-d2;
   display: block;
   font-family: $palanquin !important;
-  position: absolute;
-  right: 4px;
-  // background-color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  line-height: 13px;
   padding: 4px 7px 7px;
-  font-size: 9px;
+  position: absolute;
+  right: 5px;
+  text-align: right;
+
   a {
-    color: $gray-d !important;
+    color: $gray-d2 !important;
   }
 }
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
 
 .map-controls {
   left: 5px;

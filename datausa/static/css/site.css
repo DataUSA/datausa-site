@@ -4613,49 +4613,56 @@ body.map {
 
 .attribution {
   bottom: 4px;
-  color: #999;
+  color: #666;
   display: block;
   font-family: "Palanquin", sans-serif !important;
-  position: absolute;
-  right: 4px;
+  font-size: 10px;
+  line-height: 13px;
   padding: 4px 7px 7px;
-  font-size: 9px; }
-  .attribution a {
-    color: #999 !important; }
-
-.map-controls {
-  left: 5px;
   position: absolute;
-  top: 5px; }
-  .map-controls .zoom-in, .map-controls .zoom-out, .map-controls .zoom-reset {
-    border: 1px solid #999;
-    cursor: pointer;
-    display: block;
-    height: 15px;
-    margin: 5px;
-    position: relative;
-    width: 15px;
-    background-color: white; }
-    .map-controls .zoom-in::after, .map-controls .zoom-out::after,
-    .map-controls .zoom-reset::after {
-      top: 2px;
-      position: absolute;
+  right: 5px;
+  text-align: right; }
+  .attribution a {
+    color: #666 !important; }
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: 0.125;
+  shape-rendering: crispEdges; }
+
+  .map-controls {
+    left: 5px;
+    position: absolute;
+    top: 5px; }
+    .map-controls .zoom-in, .map-controls .zoom-out, .map-controls .zoom-reset {
+      border: 1px solid #999;
+      cursor: pointer;
+      display: block;
+      height: 15px;
+      margin: 5px;
+      position: relative;
       width: 15px;
-      color: #999;
-      font-family: FontAwesome;
-      font-size: 12px;
-      font-weight: 400;
-      text-align: center; }
-      .map-controls .zoom-in:hover, .map-controls .zoom-out:hover,
-      .map-controls .zoom-reset:hover {
-        cursor: pointer;
-        background-color: #f1f1f1; }
-  .map-controls .zoom-in:after {
-    content: "\f067"; }
-    .map-controls .zoom-out:after {
-      content: "\f068"; }
-      .map-controls .zoom-reset:after {
-        content: "\f0e2"; }
+      background-color: white; }
+      .map-controls .zoom-in::after, .map-controls .zoom-out::after,
+      .map-controls .zoom-reset::after {
+        top: 2px;
+        position: absolute;
+        width: 15px;
+        color: #999;
+        font-family: FontAwesome;
+        font-size: 12px;
+        font-weight: 400;
+        text-align: center; }
+        .map-controls .zoom-in:hover, .map-controls .zoom-out:hover,
+        .map-controls .zoom-reset:hover {
+          cursor: pointer;
+          background-color: #f1f1f1; }
+    .map-controls .zoom-in:after {
+      content: "\f067"; }
+      .map-controls .zoom-out:after {
+        content: "\f068"; }
+        .map-controls .zoom-reset:after {
+          content: "\f0e2"; }
 body.story {
   background-color: #E9E9E9; }
   body.story h1 {
