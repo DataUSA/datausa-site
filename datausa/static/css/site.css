@@ -3186,8 +3186,8 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
     body.story #profile-nav #back-to-top {
       position: absolute;
       right: 15px;
-      top: 16px;
-      color: #fff;
+      top: 26px;
+      color: #ef6145;
       opacity: 1;
       -moz-transition: all 0.35s;
       -o-transition: all 0.35s;
@@ -3198,14 +3198,14 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
         font-family: "Palanquin", sans-serif;
         text-transform: uppercase;
         font-weight: 600;
-        font-size: 11px;
+        font-size: 10px;
         letter-spacing: 0.05em; }
         body.profile #profile-nav #back-to-top:hover span,
         body.map #profile-nav #back-to-top:hover span,
         body.story #profile-nav #back-to-top:hover span {
-          -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-          -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-          text-shadow: 0 0 1px rgba(255, 255, 255, 0.6); }
+          -webkit-text-shadow: 0 0 1px #ef6145;
+          -moz-text-shadow: 0 0 1px #ef6145;
+          text-shadow: 0 0 1px #ef6145; }
   body.profile #profile-nav ul, body.map #profile-nav ul, body.story #profile-nav ul {
     width: 90%;
     margin: 0 150px 0 50px;
@@ -3233,13 +3233,20 @@ body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
       -ms-flex: 1;
       flex: 1;
       color: #fff;
-      opacity: 1;
+      opacity: 0.9;
       font-size: 10px; }
-      body.profile #profile-nav ul li.active::before,
-      body.map #profile-nav ul li.active::before,
-      body.story #profile-nav ul li.active::before {
-        bottom: 3px;
-        background: #fff; }
+      body.profile #profile-nav ul li.active, body.map #profile-nav ul li.active,
+      body.story #profile-nav ul li.active {
+        opacity: 1;
+        -webkit-text-shadow: 0 0 0 #fff;
+        -moz-text-shadow: 0 0 0 #fff;
+        text-shadow: 0 0 0 #fff;
+        font-weight: 700; }
+        body.profile #profile-nav ul li.active::before,
+        body.map #profile-nav ul li.active::before,
+        body.story #profile-nav ul li.active::before {
+          bottom: 3px;
+          background: #fff; }
     body.profile #profile-nav ul img, body.map #profile-nav ul img,
     body.story #profile-nav ul img {
       display: block;

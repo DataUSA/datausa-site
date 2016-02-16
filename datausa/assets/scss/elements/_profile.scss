@@ -905,8 +905,8 @@ body.profile, body.map, body.story {
     #back-to-top {
       position: absolute;
       right: 15px;
-      top: 16px;
-      color: #fff;
+      top: 26px;
+      color: $red-w;
       opacity: 1;
       @include transition(all 0.35s);
 
@@ -914,13 +914,13 @@ body.profile, body.map, body.story {
         font-family: $palanquin;
         text-transform: uppercase;
         font-weight: 600;
-        font-size: 11px;
+        font-size: 10px;
         letter-spacing: 0.05em;
       }
 
       &:hover {
         span {
-          @include text-shadow(0 0 1px rgba(255,255,255,0.6));
+          @include text-shadow(0 0 1px $red-w);
         }
       }
 
@@ -936,10 +936,13 @@ body.profile, body.map, body.story {
       li {
         @include flex-size(1);
         color: #fff;
-        opacity: 1;
+        opacity: 0.9;
         font-size: 10px;
 
         &.active {
+          opacity: 1;
+          @include text-shadow(0 0 0 #fff);
+          font-weight: 700;
 
           &::before {
             bottom: 3px;
