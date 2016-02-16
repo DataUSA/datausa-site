@@ -99,7 +99,7 @@ topics:
         subvalues:
           - "<<var namespace=race|key=name|row=1>>"
           - "<<var namespace=race|key=name|row=2>>"
-    description: "Here we see the 5 most common universities for each race & ethnicity with degrees awarded in <<name>>."
+    description: "Here we see the number of degrees awarded in <<name>> for each race & ethnicity."
     viz:
       color: "race"
       data:
