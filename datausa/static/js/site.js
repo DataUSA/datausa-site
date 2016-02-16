@@ -4027,7 +4027,7 @@ viz.mapDraw = function(vars) {
 
       if (big) {
         if (vars.zoom.scroll) {
-          var x = 0, y = d3.select("#map-filters").node().offsetHeight + 15,
+          var x = 0, y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
               mh = window.innerHeight - d3.select("#map-filters").node().offsetHeight - d3.select("#top-nav").node().offsetHeight - 15 - 10;
         }
         else {

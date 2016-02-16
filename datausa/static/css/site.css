@@ -4575,7 +4575,7 @@ body.map {
   background-color: #F6F6F6;
   display: inline-block;
   height: 100vh;
-  padding: 0px 5px 10px;
+  padding: 40px 5px 10px;
   z-index: 1;
   position: relative;
   width: 250px;

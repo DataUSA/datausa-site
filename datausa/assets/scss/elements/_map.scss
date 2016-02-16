@@ -22,7 +22,7 @@ $map-sidebar: 250px;
   background-color: $l-profile-bg;
   display: inline-block;
   height: 100vh;
-  padding: 0px 5px 10px;
+  padding: $title-height 5px 10px;
   z-index: 1;
   position: relative;
   width: $map-sidebar;
