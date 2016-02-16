@@ -13,6 +13,56 @@ body.profile {
       @include box();
     }
   }
+
+  nav {
+    #top-nav #search-btn #nav-search-input,
+    & ~ #search-simple-nav,
+    & ~ #search-simple-nav::before {
+      background-color: $black2;
+      @include transition(all 0.75s);
+    }
+
+    & ~ #search-simple-nav .results-show-all {
+      border-top: 1px solid $black3;
+    }
+
+    &.filled {
+      #top-nav #search-btn #nav-search-input,
+      & ~ #search-simple-nav,
+      & ~ #search-simple-nav::before {
+        background-color: $black3;
+      }
+
+      & ~ #search-simple-nav .results-show-all {
+        border-top: 1px solid $black2;
+      }
+    }
+  }
+
+  @media only screen and (min-width : 769px) {
+    
+    #home-btn {
+      position: relative;
+      margin: 0;
+      padding: 5px 15px;
+    }
+
+    #search-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 7px 10px 15px 15px;
+    
+      .search-box {
+        top: 4px;
+      }
+    }
+
+    #top-nav {
+      display: block;
+      text-align: center;
+    }
+  }
 }
 
 body.profile, body.map, body.story {

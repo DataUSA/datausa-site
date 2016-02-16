@@ -777,7 +777,11 @@ body.search #search-btn {
     font-family: "Palanquin", sans-serif;
     font-size: 14px;
     letter-spacing: 0.06em;
-    color: #fff; }
+    color: #fff;
+    -moz-transition: opacity 0.25s;
+    -o-transition: opacity 0.25s;
+    -webkit-transition: opacity 0.25s;
+    transition: opacity 0.25s; }
     #search-btn #nav-search-input::-webkit-input-placeholder {
       font-size: 13px;
       color: #727682; }
@@ -1641,7 +1645,7 @@ body.search {
           -moz-box-sizing: border-box;
           box-sizing: border-box;
           padding: 15px 15px 0px;
-          border-top: 1px solid #B8C0D4;
+          border-top: 1px solid #141b2e;
           text-align: center;
           cursor: pointer;
           background: rgba(255, 255, 255, 0); }
@@ -2126,6 +2130,38 @@ body.profile {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
+  body.profile nav #top-nav #search-btn #nav-search-input,
+  body.profile nav ~ #search-simple-nav,
+  body.profile nav ~ #search-simple-nav::before {
+    background-color: #141b2e;
+    -moz-transition: all 0.75s;
+    -o-transition: all 0.75s;
+    -webkit-transition: all 0.75s;
+    transition: all 0.75s; }
+    body.profile nav ~ #search-simple-nav .results-show-all {
+      border-top: 1px solid #434958; }
+      body.profile nav.filled #top-nav #search-btn #nav-search-input,
+      body.profile nav.filled ~ #search-simple-nav,
+      body.profile nav.filled ~ #search-simple-nav::before {
+        background-color: #434958; }
+        body.profile nav.filled ~ #search-simple-nav .results-show-all {
+          border-top: 1px solid #141b2e; }
+  @media only screen and (min-width : 769px) {
+    body.profile #home-btn {
+      position: relative;
+      margin: 0;
+      padding: 5px 15px;   }
+      body.profile #search-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 7px 10px 15px 15px;   }
+        body.profile #search-btn .search-box {
+          top: 4px;   }
+    body.profile #top-nav {
+      display: block;
+      text-align: center;   }
+}
 
 body.profile #profile-nav, body.map #profile-nav, body.story #profile-nav {
   background-color: #141b2e; }

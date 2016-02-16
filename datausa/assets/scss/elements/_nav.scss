@@ -391,6 +391,7 @@ body {
     font-size: 14px;
     letter-spacing: 0.06em;
     color: #fff;
+    @include transition(opacity 0.25s);
     @include placeholder {font-size: 13px; color: $black4;}
   }
 

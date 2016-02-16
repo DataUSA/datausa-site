@@ -296,6 +296,7 @@
         showProfNav = y > boundHeight - titleNavHeight - statNavHeight;
 
     d3.select("#top-nav").classed("filled", colorTitleNav);
+    d3.select("nav").classed("filled", colorTitleNav);
     d3.select("#title-bar").classed("visible", showTitleNav);
     d3.select("#home-btn").classed("hidden", showTitleNav);
 
