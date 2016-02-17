@@ -2,6 +2,16 @@ var save = function(svg, options) {
 
   options = options ? options : {};
 
+  if (!options.mode) options.mode = "png";
+  if (!options.name) options.name = "download";
+  options.filename = options.name + "." + options.mode;
+
+  if (options.mode === "svg") {
+    var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(svg.node()) : svg.node().outerHTML;
+    saveAs(new Blob([outer], {type:"application/svg+xml"}), options.filename)
+    return;
+  }
+
   var canvas = document.createElement("canvas");
   canvas.width = parseFloat(svg.attr("width"), 10);
   canvas.height = parseFloat(svg.attr("height"), 10);
@@ -102,12 +112,7 @@ var save = function(svg, options) {
 
   function render() {
 
-    var mode = options.mode ? options.mode : "png",
-        filename = options.name ? options.name : "download";
-
-    filename = filename + "." + mode;
-
-    if (mode === "pdf") {
+    if (options.mode === "pdf") {
 
       var outputWidth = 8.5,
           outputHeight = 11,
@@ -139,10 +144,10 @@ var save = function(svg, options) {
       }
 
       pdf.addImage(canvas, "canvas", left, top, width, height);
-      pdf.save(filename);
+      pdf.save(options.filename);
 
     }
-    else canvas.toBlob(function(blob) { saveAs(blob, filename); });
+    else canvas.toBlob(function(blob) { saveAs(blob, options.filename); });
 
   }
 
