@@ -2,82 +2,185 @@ body {
   background-color: $black;
 }
 
-.bg {
+/* hero */
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+
+  & div {
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: 100%;
+    background-position: 50% 0;
+    background-repeat: no-repeat;
+    @include transform(scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg));
+    opacity: 1;
+  }
+}
+
+.hero-img {
   position: absolute;
   width: 100%;
-  height: 150%;
-  z-index: -1;
-}
-
-#hero-img {
-  position: relative;
-  background-image: url('/img/jjj56cp_CoveMountain.jpg');
-  width: 100%;
-  height: 100%;
-  background-position: 0 0;
-  background-size: contain;
+  max-width: 100vw !important;
+  height: 100% !important;
+  background-position: 50% 0;
+  background-size: cover;
   background-repeat: no-repeat;
 
-  @media all and (max-width: 500px){
-    
+  &.bg {
+    background-image: url('/img/hero-bg.jpg');
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+  }
+
+  &.fg {
+    background-image: url('/img/hero-fg.png');
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
   }
 }
 
-.seal-container {
-  margin: 13vh auto 0vh;
-//   position: relative;
-//   width: 100%;
-//   top: 5vh;
+#logo {
+  background-image: url('/img/logo.png');
+  z-index: 2;
 }
 
-// .seal-ring {
-//   display: block;
-//   width: 60%;
-//   max-width: 675px;
-//   margin: 0 auto;
-// }
-
-.logo {
-  position: relative;
-  top: 43%;
-  text-align: center;
+#logo-shadow {
+  background-image: url('/img/logo_shadow.png');
   z-index: 1;
+}
 
-  img {
-    width: 70%;
-    max-width: 570px;
+#desc {
+  background-image: url('/img/desc.png');
+  z-index: 4;
+}
+
+#desc-shadow {
+  background-image: url('/img/desc_shadow.png');
+  z-index: 3;
+}
+
+.countdown {
+  margin: 0 auto;
+  @include flex();
+  @include flex-direction(row);
+  @include justify(center);
+  color: white;
+  
+  .clock-hand {
+    @include flex-size(1);
+    text-align: center;
   }
 
-  @media all and (min-width: 501px){
-    img.l {
-      display: none;
+  .colon {
+    @include flex-size(0);
+    text-align: center;
+  }
+
+  .time {
+    display: inline-block;
+    font-family: $pathway;
+  }
+
+  .label {
+    display: block;
+    font-family: $palanquin;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  &#countdown {
+    width: 60%;
+    max-width: 500px;
+
+    .time {
+      @media all and (max-width: 500px){
+        font-size: 20vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 100px;
+      }
     }
-    img.d {
-      display: inline-block;
+
+    .label {
+      @media all and (max-width: 500px){
+        font-size: 3.2vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 16px;
+      }
     }
   }
 
-  @media all and (max-width: 500px){
-    img.l {
-      display: inline-block;
+  &#countdown-sm {
+    width: 60%;
+    max-width: 350px;
+    margin-top: 5vh;
+
+    .time {
+      @media all and (max-width: 500px){
+        font-size: 11vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 55px;
+      }
     }
-    img.d {
-      display: none;
+    
+    .label {
+      @media all and (max-width: 500px){
+        font-size: 2.6vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 13px;
+      }
     }
   }
 }
 
-// .eagle {
-//   position: absolute;
-//   top: 0;
-//   left: 50%;
-//   margin-left: -25%;
-//   width: 50%;
-//   max-width: 569px;
-//   z-index: 0;
-// }
+.sign-up {
+  margin: 10vh auto 13vh;
+}
 
-#section1, #section2, #section4 {
+#section1 {
+  position: absolute;
+  top: 40vh;
+  width: 100%;
+  height: 60vh;
+  @include flex();
+  @include flex-direction(column);
+  @include align-items(flex-end);
+
+  .subheader {
+    max-width: 500px;
+    width: 67%;
+    margin: 50px auto 0;
+    visibility: hidden;
+
+    h2 {
+      font-size: 24px;
+
+      @media all and (max-width: 600px){
+        font-size: 22px;
+      }
+      @media all and (max-width: 400px){
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+#section2, #section4 {
   min-height: 100vh;
 }
 
@@ -110,45 +213,13 @@ body {
   }
 }
 
-#section1 {
-  @include flex();
-  @include flex-direction(column);
-  @include align-items(center);
-
-  .subheader {
-    max-width: 335px;
-    margin: 50px auto 0;
-
-    h2 {
-      font-size: 24px;
-
-      @media all and (max-width: 600px){
-        font-size: 22px;
-      }
-      @media all and (max-width: 400px){
-        font-size: 18px;
-      }
-    }
-  }
-}
-
 #section2 {
-  background: url('/img/stardust_e.png') repeat 0 0;
+  background: url('/img/stardust_e_b.png') repeat 0 0;
 }
 
 #section3 {
   .main {
     max-width: 550px;
-  }
-}
-
-.sign-up {
-  // display: block;
-  // text-align: center;
-  margin: 10vh auto 13vh;
-
-  @media all and (max-width: 768px){
-    //margin: 7vh auto;
   }
 }
 
@@ -179,9 +250,12 @@ body {
   z-index: 0;
 }
 
+/* delete */
+
 .cross {
-  padding: 40px 0 20px;
   width: 113px;
+  visibility: hidden;
+  padding: 40px 0 0;
 
   @media all and (max-width: 500px){
     padding: 30px 0 10px;
@@ -190,19 +264,13 @@ body {
 }
 
 .arrows {
-  padding: 60px 0 30px;
   width: 121px;
   height: 26px;
+  visibility: hidden;
+  padding: 60px 0 0;
 }
 
-.wreath {
-  width: 115px;
-  margin-top: 7vh;
-  @media all and (max-width: 400px){
-    width: 90px;
-    margin-top: 4.5vh;
-  }
-}
+/* end delete */
 
 .bullet-container {
   text-align: left;
@@ -239,17 +307,17 @@ body {
     }
 
     &.bullet1 {
-      background-image: url('/img/bullets/datajoin.svg');
+      background-image: url('/img/bullets/datajoin_w.svg');
     }
 
     &.bullet2 {
-      background-image: url('/img/bullets/dataconnect.svg');
+      background-image: url('/img/bullets/dataconnect_w.svg');
     }
     &.bullet3 {
-      background-image: url('/img/bullets/dataexport.svg');
+      background-image: url('/img/bullets/dataexport_w.svg');
     }
     &.bullet4 {
-      background-image: url('/img/bullets/dataprofiles.svg');
+      background-image: url('/img/bullets/dataprofiles_w.svg');
     }
   }
 
@@ -335,7 +403,7 @@ body {
 }
 
 .profile-category-container {
-  margin-top: 130px;
+  margin-top: 90px;
   @include flex();
   @include justify(space-between);
   @include flex-direction(row);
@@ -358,20 +426,19 @@ body {
 
 .profile-category {
   @include flex-size();
-  margin-top: -98px;
 
   .category-img {
     background-repeat: no-repeat;
     background-size: 100%;
     width: 100%;
-    padding-top: 31.30%;
     height: 0;
   }
 
   .category-section {
-    min-height: 225px;
+    min-height: 286px;
     padding-bottom: 100px;
-    padding-top: 20px;
+    // padding-top: 20px;
+    padding-top: 70px;
     margin-top: -5px;
 
     @media all and (min-width: 1250px) {
@@ -379,11 +446,13 @@ body {
     }
 
     h2 {
+      font-family: $pathway;
+      letter-spacing: 0.05em;
       line-height: 1;
       margin-top: -10px;
       margin-bottom: 20px;
       text-align: center;
-      font-size: 26px;
+      font-size: 36px;
     }
 
     ul {
@@ -405,16 +474,20 @@ body {
       }
 
       h3 {
-        line-height: 2.5;
-        font-size: 18px;
-        text-transform: none;
+        letter-spacing: 0.03em;
+        line-height: 3;
+        font-size: 15px;
+
+        @media all and (max-width: 1250px){
+          font-size: 20px;
+        }
       }
     }
   }
 
   &#geo {
     .category-img {
-      background-image: url('img/prof/geo.png');
+      // background-image: url('img/prof/geo.png');
     }
     .category-section {
       background-color: $geo-bg-color;
@@ -423,7 +496,7 @@ body {
 
   &#soc {
     .category-img {
-      background-image: url('img/prof/soc.png');
+      // background-image: url('img/prof/soc.png');
     }
     .category-section {
       background-color: $soc-bg-color;
@@ -432,7 +505,7 @@ body {
 
   &#cip {
     .category-img {
-      background-image: url('img/prof/cip.png');
+      // background-image: url('img/prof/cip.png');
     }
     .category-section {
       background-color: $cip-bg-color;
@@ -441,7 +514,7 @@ body {
 
   &#naics {
     .category-img {
-      background-image: url('img/prof/naics.png');
+      // background-image: url('img/prof/naics.png');
     }
     .category-section {
       background-color: $naics-bg-color;
@@ -459,7 +532,7 @@ body {
 .sign-up-container {
   position: relative;
   height: 80vh;
-  width: 100vw;
+  width: 100%;
   background-color: #161527;
   background-image: url('/img/earth1.jpg');
   background-position: 50% 100%;
@@ -477,7 +550,7 @@ body {
   line-height: 1;
   margin-bottom: 10px;
   text-align: center;
-  margin: 15px auto 0;
+  margin: 15.42vh auto 0;
   color: $launch-msg-color;
 
   @media all and (max-width: 768px){

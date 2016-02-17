@@ -12,22 +12,32 @@
 	<script src="js/script.js"></script>
 </head>
 <body>
-	<div class="bg">
-		<div id="hero-img"></div>
+	<div class="hero-container">
+		<div class="hero-img bg"></div>
+		<div id="logo"></div>
+		<div class="hero-img fg"></div>
+		<div id="logo-shadow"></div>
+		<div id="desc"></div>
+		<div id="desc-shadow"></div>
 	</div>
 	
 	<div id="section1" class="cd-section">
-		<div class="seal-container">
-			<!-- <img class="seal-ring" src="/img/seal-ring.png" /> -->
-			<!-- <img class="eagle" src="/img/eagle.png" /> -->
-			<div class="logo">
-				<img class="d" src="img/logo.png" />
-				<img class="l" src="img/logo-l.png" />
-			</div>
-			
-			<article class="main subheader">
-				<h2>An open source platform to explore public U.S. data</h2>
-			</article>
+		<div class="countdown" id="countdown">
+		    <div class="clock-hand">
+		    	<span class="time days"></span><span class="label">Days</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time hours"></span><span class="label">Hours</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time minutes"></span><span class="label">Minutes</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time seconds"></span><span class="label">Seconds</span>
+		    </div>	
 		</div>
 
 		<div class="sign-up">
@@ -51,20 +61,25 @@
 					<div>
 						<h3>institutional datasets - organized, cleaned, & linked</h3>
 						<p class="data-source-dynamic">including data from <span class="txt-rotate" data-period="500" data-rotate='[ 
-							"the American Community Survey.",
-							"County Business Patterns.",
-							"the U.S. Census Bureau.",
-							"the Bureau of Labor Statistics.",
-							"the National Center for Education Statistics." ]'></span></p>
+							"the US Census Bureau.",
+							"the US Dept. of Labor.",
+							"the US Dept. of Education",
+							"U. of Wisconsin Population Health Institute" ]'></span></p>
 					</div>
 				</li>
 				<li>
 					<i class="bullet2"></i>
-					<h3>consolidated, ready-to-use API</h3>
+					<div>
+						<h3>API</h3>
+						<p>consolidated and ready-to-use</p>
+					</div>
 				</li>
 				<li>
 					<i class="bullet3"></i>
-					<h3>embed, download & share datasets and visualizations</h3>
+					<div>
+						<h3>datasets and visualizations</h3>
+						<p>ready to embed, download & share</p>
+					</div>
 				</li>
 				<li>
 					<i class="bullet4"></i>
@@ -216,8 +231,25 @@
 
 
 		<div class="main">
-			<img class="wreath" src="/img/wreath.png" />
-			<h3 class="launch-msg">Launching in 2016<span class="end-blink">&#95;</span></h3>
+			<h3 class="launch-msg">Launching April 4, 2016</h3>
+		</div>
+
+		<div class="countdown" id="countdown-sm">
+		    <div class="clock-hand">
+		    	<span class="time days"></span><span class="label">Days</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time hours"></span><span class="label">Hours</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time minutes"></span><span class="label">Minutes</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time seconds"></span><span class="label">Seconds</span>
+		    </div>	
 		</div>
 
 		<!-- Begin MailChimp Signup Form -->

@@ -28,7 +28,8 @@ $dark-home-red: #B35E49;
 $home-red: #dc5137;
 $light-home-red: #fdc8b8;
 
-$black: #1B191D;
+// $black: #1B191D;
+$black: #131a2d;
 $white: #D7E8EF;
 $red: #F23434;
 $blue: #32415A;
@@ -38,17 +39,18 @@ $subtitle-color: #616CA5;
 $bullet-txt-color: #BACACB;
 $bullet-subtxt-color: #A1AEB3;
 $launch-msg-color: $white;
-$geo-bg-color: #4268B1;
-$cip-bg-color: #4B928B;
-$soc-bg-color: #d1685e;
-$naics-bg-color: #505876;
+// $geo-bg-color: #4268B1;
+$geo-bg-color: #43567B;
+// $cip-bg-color: #4B928B;
+$cip-bg-color: #3B7D77;
+// $soc-bg-color: #d1685e;
+$soc-bg-color: #BF584E;
+// $naics-bg-color: #505876;
+$naics-bg-color: #424B6F;
 
-$enriqueta: "Enriqueta", serif;
 $palanquin: "Palanquin", sans-serif;
-$noticia: "Noticia Text", serif;
-$lato: "Lato", sans-serif;
-$playfair: "Playfair Display", serif;
-$roboto: "Roboto", sans-serif;
+$pathway: "Pathway Gothic One", sans-serif;
+$source: "Source Sans Pro", sans-serif;
 
 /* download Google Fonts */
-@import url(https://fonts.googleapis.com/css?family=Enriqueta:400,700|Palanquin:300,400,600,700|Noticia+Text:400,700|Lato:100,300,400,700|Playfair+Display:400,400italic|Roboto:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Palanquin:300,400,600,700|Pathway+Gothic+One|Source+Sans+Pro:400,300);

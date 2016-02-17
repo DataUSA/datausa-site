@@ -1,5 +1,7 @@
 $(function() {
-  heroImg();
+
+  initializeClock('countdown', deadline);
+  initializeClock('countdown-sm', deadline);
 
   $('a[href*=#]:not([href=#])').click(function() {
     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
@@ -70,18 +72,58 @@ TxtRotate.prototype.tick = function() {
   }, delta);
 };
 
-function heroImg() {
-  var heroW = $('#hero-img').width(),
-      heroH = $('#hero-img').height(),
-      heroR = heroW/heroH;
+// function heroImg() {
+//   var heroW = $('#hero-img').width(),
+//       heroH = $('#hero-img').height(),
+//       heroR = heroW/heroH;
 
-  if (heroR > 4587 / 3677) {
-    $('#hero-img').css("background-size", "cover").css("background-position", "0 100%");
-  } else {
-    $('#hero-img').css("background-size", "contain").css("background-position", "0 0");
-  }
+//   if (heroR > 4587 / 3677) {
+//     $('#hero-img').css("background-size", "cover").css("background-position", "0 100%");
+//   } else {
+//     $('#hero-img').css("background-size", "contain").css("background-position", "0 0");
+//   }
+// }
+
+// $( window ).resize(function() {
+//   heroImg();
+// });
+
+// countdown clock
+var deadline = 'April 04 2016 12:00:00 GMT+05:00';
+
+function getTimeRemaining(endtime){
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor( (t/1000) % 60 );
+  var minutes = Math.floor( (t/1000/60) % 60 );
+  var hours = Math.floor( (t/(1000*60*60)) % 24 );
+  var days = Math.floor( t/(1000*60*60*24) );
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
 }
 
-$( window ).resize(function() {
-  heroImg();
-});
+function initializeClock(id, endtime){
+  var clock = document.getElementById(id);
+  var daysSpan = clock.querySelector('.days');
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock(){
+    var t = getTimeRemaining(endtime);
+    daysSpan.innerHTML = t.days;
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    if(t.total<=0){
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock(); // run function once at first to avoid delay
+  var timeinterval = setInterval(updateClock,1000);
+}
