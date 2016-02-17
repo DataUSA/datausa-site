@@ -47,6 +47,7 @@ body.story {
   #feature-image, #article-image {
     width: 100%;
     @include background-stretch();
+    background-attachment: fixed;
     @include transition(all 0.5s);
     top: 0;
     position: absolute;

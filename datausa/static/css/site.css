@@ -4979,6 +4979,7 @@ body.story {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    background-attachment: fixed;
     -moz-transition: all 0.5s;
     -o-transition: all 0.5s;
     -webkit-transition: all 0.5s;
