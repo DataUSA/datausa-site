@@ -5377,11 +5377,7 @@ var save = function(svg, options) {
           height = orientation === "landscape" ? outputWidth : outputHeight,
           top, left, margin = 0.5;
 
-      console.log("\n");
-      console.log(aspect);
-
       if (aspect < width/height) {
-        console.log("first")
         height -= (margin * 2);
         var tempWidth = height * aspect;
         top = margin;
@@ -5389,15 +5385,12 @@ var save = function(svg, options) {
         width = tempWidth;
       }
       else {
-        console.log("second")
         width -= (margin * 2);
         var tempHeight = width / aspect;
         left = margin;
         top = (height - tempHeight) / 2;
         height = tempHeight;
       }
-
-      console.log(width, height, top, left);
 
       pdf.addImage(canvas, "canvas", left, top, width, height);
       pdf.save(filename);
