@@ -8424,7 +8424,7 @@ viz.mapDraw = function(vars) {
       .y(yBrush)
       .on("brushend", brushended);
 
-    brushGroup.call(brush);
+    if (vars.zoom.value) brushGroup.call(brush);
 
     function brushended(e) {
       if (!d3.event.sourceEvent) return;
@@ -9081,7 +9081,7 @@ viz.mapDraw = function(vars) {
       brushGroup.style("display", "inline");
       svg.on(".zoom", null);
     }
-    else {
+    else if (vars.zoom.value) {
       brushGroup.style("display", "none");
       svg.call(zoom);
       if (!vars.zoom.scroll) {
