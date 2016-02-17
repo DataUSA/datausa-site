@@ -25693,6 +25693,7 @@ module.exports = function(vars) {
   vars.g.bg.enter().append("rect")
     .attr("id","bg")
     .attr("fill",vars.background.value)
+    .attr("stroke", "none")
     .attr("width",vars.width.value)
     .attr("height",vars.height.value);
 
@@ -32376,7 +32377,7 @@ module.exports = function(vars) {
     axisGroup.transition().duration(vars.draw.timing).call(style, axis);
     axisGroup.selectAll("line").transition().duration(vars.draw.timing).call(tickStyle, axis);
     groupEnter = axisGroup.enter().append("g").attr("id", "d3plus_graph_" + axis + "ticks").call(style, axis);
-    groupEnter.selectAll("path").attr("fill", "none");
+    groupEnter.selectAll("path").attr("fill", "none").attr("stroke", "none");
     groupEnter.selectAll("line").call(tickStyle, axis);
     axisGroup.exit().transition().duration(vars.data.timing).attr("opacity", 0).remove();
   }

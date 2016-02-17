@@ -8,6 +8,12 @@ var save = function(svg, options) {
 
   var context = canvas.getContext('2d');
   context.clearRect(0, 0, canvas.width, canvas.height);
+  if (options.mode === "pdf") {
+    context.beginPath();
+    context.rect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "white";
+    context.fill();
+  }
 
   var imageTiles = {},
       tileGroup = svg.select("g.tiles");
@@ -36,9 +42,6 @@ var save = function(svg, options) {
           ctx2.drawImage(this, 0, 0);
           var himg = document.createElement('img');
           himg.src = canvas2.toDataURL('image/png');
-          // console.log(himg)
-          // cachedTiles[url] = [params, himg];
-          // canvas2 = null;
           imageTiles[url] = {
             "img": himg,
             "loaded": true,
@@ -85,7 +88,6 @@ var save = function(svg, options) {
     svg.selectAll("svg > *").each(function(){
       if (!d3.select(this).classed("tiles")) {
         var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
-        console.log(this)
         context.drawSvg(outer);
       }
     });
@@ -107,25 +109,36 @@ var save = function(svg, options) {
 
     if (mode === "pdf") {
 
-      var orientation = canvas.width > canvas.height ? "landscape" : "portrait";
+      var outputWidth = 8.5,
+          outputHeight = 11,
+          outputUnit = "in";
 
-      // A4 page size is 210 × 297
-      var pdf = new jsPDF(orientation);
       var aspect = canvas.width / canvas.height;
-      // zaspect = aspect;
 
-      var width, height;
-      if (orientation === "landscape") {
-         height = Math.min(210, canvas.height);
-         width = height * aspect;
+      var orientation = aspect > 1 ? "landscape" : "portrait";
+
+      var pdf = new jsPDF(orientation, outputUnit, [outputWidth, outputHeight]);
+
+      var width = orientation === "landscape" ? outputHeight : outputWidth,
+          height = orientation === "landscape" ? outputWidth : outputHeight,
+          top, left, margin = 0.5;
+
+      if (aspect < width/height) {
+        height -= (margin * 2);
+        var tempWidth = height * aspect;
+        top = margin;
+        left = (width - tempWidth) / 2;
+        width = tempWidth;
       }
       else {
-         width = 210;
-         height = 297 * aspect;
+        width -= (margin * 2);
+        var tempHeight = width / aspect;
+        left = margin;
+        top = (height - tempHeight) / 2;
+        height = tempHeight;
       }
 
-      pdf.addImage(canvas, "canvas", 0, 0, width, height);
-      // zcanvas=canvas;
+      pdf.addImage(canvas, "canvas", left, top, width, height);
       pdf.save(filename);
 
     }

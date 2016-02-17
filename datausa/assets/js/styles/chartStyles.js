@@ -2,7 +2,9 @@ var chartStyles = {
 
   "background": {
     "color": "transparent",
-    "stroke": 1
+    "stroke": {
+      "width": 0
+    }
   },
 
   "labels": {
