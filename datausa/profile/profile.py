@@ -45,18 +45,20 @@ class Profile(BaseObject):
     def children(self, **kwargs):
 
         attr_id = kwargs.get("attr_id", self.id(**kwargs))
-        prefix = attr_id[:3]
+        my_prefix = attr_id[:3]
+        requested_prefix = kwargs.get("prefix", False)
 
-        if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
+        if kwargs.get("dataset", False) == "chr" and my_prefix not in ["010", "040"]:
             attr_id = self.parents()[1]["id"]
-            prefix = "040"
+            my_prefix = "040"
 
-        if kwargs.get("prefix", False) and "children" in SUMLEVELS["geo"][prefix]:
-            if prefix in ("310", "160"):
+        if requested_prefix and "children" in SUMLEVELS["geo"][my_prefix]:
+            if my_prefix in ("310", "160"):
                 return attr_id
-            return "^{}".format(attr_id.replace(prefix, SUMLEVELS["geo"][prefix]["children"]))
-        if "children" in SUMLEVELS["geo"][prefix]:
-            sumlevel = SUMLEVELS["geo"][prefix]["children"]
+            requested_prefix = SUMLEVELS["geo"][my_prefix]["children"] if requested_prefix is True else requested_prefix
+            return "^{}".format(attr_id.replace(my_prefix, requested_prefix))
+        if "children" in SUMLEVELS["geo"][my_prefix]:
+            sumlevel = SUMLEVELS["geo"][my_prefix]["children"]
         else:
             sumlevel = False
 
@@ -665,14 +667,18 @@ class Profile(BaseObject):
         """str: A string representation of the depth type. """
         attr_type = kwargs.get("attr_type", self.attr_type)
         attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        requested_prefix = kwargs.get("prefix", False)
 
         if attr_type == "geo":
-            prefix = attr_id[:3]
-            if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
-                prefix = "040"
-            if kwargs.get("child", False) and "children" in SUMLEVELS["geo"][prefix]:
-                prefix = SUMLEVELS["geo"][prefix]["children"]
-            name = SUMLEVELS["geo"][prefix]["sumlevel"]
+            if requested_prefix:
+                name = SUMLEVELS["geo"][requested_prefix]["sumlevel"]
+            else:
+                prefix = attr_id[:3]
+                if kwargs.get("dataset", False) == "chr" and prefix not in ["010", "040"]:
+                    prefix = "040"
+                if kwargs.get("child", False) and "children" in SUMLEVELS["geo"][prefix]:
+                    prefix = SUMLEVELS["geo"][prefix]["children"]
+                name = SUMLEVELS["geo"][prefix]["sumlevel"]
 
             if "plural" in kwargs:
                 name = u"{}ies".format(name[:-1]) if name[-1] == "y" else u"{}s".format(name)
