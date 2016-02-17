@@ -5,17 +5,17 @@
   
 <div class="share-section">
   {% if not story %}
-  <a href="#" title="Share" class="share-embed" data-target-id="share">
+  <a href="#" title="Share" class="share-embed" data-target-id="share" data-url="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/">
     <i class="fa fa-share"></i> Share
   </a>
   &nbsp;
   &nbsp;
-  <a href="#" title="Share" class="share-embed" data-target-id="embed">
+  <a href="#" title="Share" class="share-embed" data-target-id="embed" data-url="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/">
     <i class="fa fa-code"></i> Embed
   </a>
   &nbsp;
   &nbsp;
-  <a href="#" title="Share" class="share-embed" data-target-id="download">
+  <a href="#" title="Share" class="share-embed" data-target-id="download" data-url="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/">
     <i class="fa fa-download"></i> Download
   </a>
   {% endif %}

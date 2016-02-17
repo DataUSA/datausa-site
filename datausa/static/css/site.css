@@ -85,14 +85,14 @@ div.overlay {
                 display: block;
                 position: absolute;
                 top: 36px;
-                left: 126px;
+                left: 111px;
                 height: 3px;
                 background-color: #004994;
                 -moz-transition: left 0.5s;
                 -o-transition: left 0.5s;
                 -webkit-transition: left 0.5s;
                 transition: left 0.5s;
-                width: 75px; }
+                width: 65px; }
                 div.overlay#view .modal .body .nav span.highlight.noslide {
                   -moz-transition: none;
                   -o-transition: none;
@@ -108,7 +108,9 @@ div.overlay {
             -o-transition: transform 0.5s;
             -webkit-transition: transform 0.5s;
             transition: transform 0.5s;
-            transform: translateX(0px); }
+            -webkit-transform: translateX 0px;
+            -ms-transform: translateX 0px;
+            transform: translateX 0px; }
             div.overlay#view .modal .body .panels.noslide {
               -moz-transition: none;
               -o-transition: none;

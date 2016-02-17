@@ -6,7 +6,7 @@ dusa_popover.close = function() {
   d3.selectAll(".overlay").remove();
 }
 
-dusa_popover.open = function(panels, active_panel_id) {
+dusa_popover.open = function(panels, active_panel_id, url) {
   
   d3.select("body")
     .append("div")
@@ -56,15 +56,15 @@ dusa_popover.open = function(panels, active_panel_id) {
         .on("click", function(){
           var target_id = d3.select(d3.event.srcElement).attr("data-target-id");
           var this_tab = d3.select(".change_share#"+target_id)
-          var pos = this_tab.node().offsetLeft + 5;
+          var pos = this_tab.node().offsetLeft;
+          var w = this_tab.node().offsetWidth;
           d3.select(".panels")
             .classed("noslide", this === window)
             .style("transform", "translateX("+(i*560)*-1+"px)")
           d3.select("span.highlight")
             .classed("noslide", this === window)
-            .style("left", function(){
-              return pos+"px"
-            })
+            .style("width", w+"px")
+            .style("left", pos+"px")
         })
     if(p.title.toLowerCase() == active_panel_id){
       active_panel = panel_link;
@@ -102,14 +102,16 @@ dusa_popover.open = function(panels, active_panel_id) {
         .attr("type", "text")
         .attr("readonly", true)
         .attr("class", "share-link")
-        .property("value", "https://datausa.io/4RF99U")
+        .property("value", url)
+        .on("click", function(){ this.select(); })
     }
     else if(p.title.toLowerCase() == "embed"){
       panel.append("input")
         .attr("type", "text")
         .attr("readonly", true)
         .attr("class", "embed-link")
-        .property("value", '<iframe width="360" height="240" src="http://atlas.media.mit.edu/en/visualize/embed/tree_map/hs92/export/show/all/7108/2013/?controls=false" frameborder="0" ></iframe>')
+        .property("value", '<iframe width="360px" height="240px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
+        .on("click", function(){ this.select(); })
       
       var embed_options = panel.append("div")
         .attr("class", "embed_options")
@@ -127,11 +129,15 @@ dusa_popover.open = function(panels, active_panel_id) {
         .attr("type", "checkbox")
         .on("change", function(){
           var demo_img = d3.select(".demo img");
+          var embed_link_input = d3.select(".embed-link");
+          var old_embed_link = embed_link_input.property("value")
           if(this.checked){
             demo_img.attr("src", "/static/img/profiles/embed.svg")
+            embed_link_input.property("value", old_embed_link.replace("?viz=True", "?"))
           }
           else {
             demo_img.attr("src", "/static/img/profiles/embed_viz.svg")
+            embed_link_input.property("value", old_embed_link.replace("?", "?viz=True"))
           }
         })
       option.append("label").text("Description")
@@ -143,12 +149,13 @@ dusa_popover.open = function(panels, active_panel_id) {
       sizes.append("option").attr("value", "").text("Fullscreen")
       
       sizes.on("change", function(){
-        var w = this[this.selectedIndex].value.split("|")[0];
-        var h = this[this.selectedIndex].value.split("|")[1];
+        var dimensions = this[this.selectedIndex].value.split("|");
+        var w = dimensions.length == 2 ? dimensions[0]+"px" : "100%";
+        var h = dimensions.length == 2 ? dimensions[1]+"px" : "100%";
         d3.select(".embed-link").property("value", function(){
           var cur_val = d3.select(this).property("value")
-          cur_val = cur_val.replace(/width="(\w+)"/, 'width="'+w+'"')
-          cur_val = cur_val.replace(/height="(\w+)"/, 'height="'+h+'"')
+          cur_val = cur_val.replace(/width="([px0-9%]+)"/, 'width="'+w+'"')
+          cur_val = cur_val.replace(/height="([px0-9%]+)"/, 'height="'+h+'"')
           return cur_val;
         })
       })

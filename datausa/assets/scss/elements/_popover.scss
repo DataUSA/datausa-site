@@ -62,11 +62,11 @@ div.overlay {
             display: block;
             position: absolute;
             top: 36px;
-            left: 126px;
+            left: 111px;
             height: 3px;
             background-color: $d-blue;
             @include transition(left 0.5s);
-            width: 75px;
+            width: 65px;
             &.noslide {
               @include transition(none);
             }
@@ -81,8 +81,7 @@ div.overlay {
           display: block;
           position: relative;
           @include transition(transform 0.5s);
-//          @include transform(translateX 0px);
-          transform: translateX(0px);
+          @include transform(translateX, 0px);
           
           &.noslide {
             @include transition(none);

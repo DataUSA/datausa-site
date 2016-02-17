@@ -101,7 +101,9 @@ viz.loadBuilds = function(builds) {
             {"title":"Social"},
             {"title":"Embed"},
             {"title":"Download"}
-          ], d3.select(this).attr("data-target-id"))
+          ], 
+          d3.select(this).attr("data-target-id"),
+          d3.select(this).attr("data-url"))
       //     var type = d3.select(this).attr("data-ga").split(" ")[0];
       //     if (type === "embed") {
       //       var link_open = shares.select(".embed-input").classed("open");
