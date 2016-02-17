@@ -38,6 +38,8 @@ from flask.ext.assets import Environment, Bundle
 assets = Environment(app)
 assets.load_path.append(os.path.join(base_dir, "assets/js/"))
 js = Bundle(
+    "libs/first/*.js",
+    "libs/second/*.js",
     "base.js",
     "plugins/*.js",
     "helpers/*.js",
