@@ -29,7 +29,7 @@ body {
       visibility: hidden;
     }
   }
-  
+
   &.about, &.story, &.map, &.search {
     nav {
       position: fixed;
@@ -423,7 +423,7 @@ body {
 
       #nav-search-input {
         cursor: text;
-        
+
         &:focus {
           opacity: 1;
         }
@@ -437,7 +437,7 @@ body {
         }
       }
     }
-    
+
     #nav-search-input {
       @include box();
       width: 100%;
@@ -454,7 +454,7 @@ body {
       @include transition(opacity 0.25s);
       @include placeholder {font-size: 13px; color: $black4;}
     }
-  
+
   }
 }
 

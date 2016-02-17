@@ -306,18 +306,29 @@ a.term {
 }
 
 .pri-menu {
-  position: relative;
   @include flex();
-  @include flex-wrap(wrap);
+	@include flex-direction(row);
+  // @include flex-wrap(wrap);
   @include justify(space-between);
+  // position: relative;
+	margin: 0 auto;
+	max-width: 800px;
+	text-align: center;
+	width: 90%;
+
+	a {
+    @include flex-size(1);
+    display: inline-block;
+		min-width: 100px;
+	}
 
   li {
-    @include flex-size(1);
     position: relative;
-    display: block;
+    display: inline-block;
     @include box();
     margin: 0 auto;
     padding: 8px 5px;
+		position: relative;
     text-align: center;
     opacity: 0.7;
     color: $white;
@@ -335,9 +346,9 @@ a.term {
         position: absolute;
         z-index: 10;
         bottom: 3px;
-        left: 50%;
+        left: 10%;
         height: 1px;
-        @include transform(translateX(-50%));
+        @include transform(translate, -50%);
         @include transition(all .25s ease);
         background: $white;
         @include box();

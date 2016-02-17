@@ -29,6 +29,11 @@
   -webkit-box-sizing: $style;
   -moz-box-sizing: $style;
   box-sizing: $style;
+  &:before, &:after {
+    -webkit-box-sizing: $style;
+    -moz-box-sizing: $style;
+    box-sizing: $style;
+  }
 }
 
 @mixin blur($radius: 5) {
@@ -256,11 +261,13 @@
 @mixin flex-direction($flow: row) {
   -webkit-flex-direction: $flow;
   -moz-flex-direction: $flow;
+  -ms-flex-direction: $flow;
   flex-direction: $flow;
 }
 
 @mixin flex-wrap($wrap: wrap) {
   -webkit-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
   flex-wrap: $wrap;
 }
 

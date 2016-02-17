@@ -441,7 +441,7 @@ body.profile, body.map, body.story {
         @include align-items(flex-start);
         @include justify(space-between);
         @include text-shadow(0px 0px 5px rgba(20, 27, 46, 0.6));
-        
+
         .stat {
           @include flex-size(1);
           padding: 0 15px;
@@ -498,6 +498,7 @@ body.profile, body.map, body.story {
         @include flex();
 
         a {
+          display: inline-block;
           text-align: center;
           margin: 0 10px;
           width: 100px;
@@ -690,10 +691,10 @@ body.profile, body.map, body.story {
     text-align: center;
     height: $nav-height;
     max-width: 860px;
+    width: 100%;
     right: 0;
     left: 0;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 0 auto;
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -775,7 +776,6 @@ body.profile, body.map, body.story {
   }
 
   #stats-bar {
-    @include flex();
     position: absolute;
     height: $stats-bar-height;
     width: 100%;
@@ -796,6 +796,7 @@ body.profile, body.map, body.story {
     }
 
     #title-stats {
+      margin: 0 auto;
       width: 60%;
       max-width: 580px;
       margin-bottom: 5px;
@@ -806,7 +807,9 @@ body.profile, body.map, body.story {
 
     .title-stat {
       @include flex();
+      @include flex-direction(row);
       @include align-items(flex-end);
+      @include justify(center);
       @include transition(opacity 0.35s);
       cursor: default;
 
@@ -888,7 +891,6 @@ body.profile, body.map, body.story {
   }
 
   #profile-nav {
-    @include flex();
     height: $prof-nav-height;
     width: 100%;
     left: 0;
@@ -905,7 +907,7 @@ body.profile, body.map, body.story {
     #back-to-top {
       position: absolute;
       right: 15px;
-      top: 26px;
+      bottom: 7px;
       color: $red-w;
       opacity: 1;
       @include transition(all 0.35s);
@@ -926,15 +928,9 @@ body.profile, body.map, body.story {
 
     }
 
-    ul {
-      width: 90%;
-      margin: 0 150px 0 50px;
-      max-width: 800px;
-      @include flex();
-      @include justify(space-between);
+    .pri-menu {
 
       li {
-        @include flex-size(1);
         color: #fff;
         opacity: 0.9;
         font-size: 10px;
@@ -949,18 +945,20 @@ body.profile, body.map, body.story {
             background: #fff;
           }
         }
-      }
 
-      img {
-        display: block;
-        width: 23px;
-        height: 23px;
-        margin: -3px auto 2px;
+        img {
+          display: block;
+          width: 23px;
+          height: 23px;
+          margin: -3px auto 2px;
+        }
+
       }
 
     }
+
   }
-  
+
   /* about section */
 
   .intro {
@@ -977,7 +975,7 @@ body.profile, body.map, body.story {
     .breadcrumb {
       @include flex();
       @include align-items(flex-start);
-      
+
       img {
         position: relative;
         display: inline-block;
@@ -1043,7 +1041,7 @@ body.profile, body.map, body.story {
         color: #fff;
         display: inline-block;
       }
-      
+
       .r {
         max-width: 50vw;
         @include flex();
@@ -1067,9 +1065,9 @@ body.profile, body.map, body.story {
           }
         }
       }
-      
+
       .image-author {
-        display: inline-block; 
+        display: inline-block;
       }
     }
 
@@ -1081,7 +1079,7 @@ body.profile, body.map, body.story {
         line-height: 1.7;
         padding: 15px 0;
         color: $black5;
-        
+
         a {
           color: $black-link;
           @include transition(all 0.35s);
@@ -1115,7 +1113,7 @@ body.profile, body.map, body.story {
                   background-size: 80%;
                 }
               }
-            
+
               &::after {
                 content: '';
                 display: inline-block;
@@ -1185,7 +1183,7 @@ body.profile, body.map, body.story {
           font-size: 18px;
           letter-spacing: 0.05em;
           font-weight: 600;
-          
+
           img {
             display: inline-block;
             margin-top: 9px;
@@ -1302,11 +1300,11 @@ body.profile, body.map, body.story {
   }
 
   .profile-section {
+    @include box();
     @include flex();
     @include flex-direction(row);
     @include flex-wrap();
     padding: 0 25px;
-    @include box();
     width: 100vw;
 
     .category {
@@ -1325,8 +1323,8 @@ body.profile, body.map, body.story {
     }
 
     .topic {
-      @include flex-size(1 0 100%);
       @include box();
+      @include flex-size(1 1 100%);
       margin: 0;
       min-width: 100%;
       padding: 0 25px 50px;
@@ -1344,7 +1342,7 @@ body.profile, body.map, body.story {
 
       &.flex {
         @include flex();
-        @include flex-size(1 0 0);
+        @include flex-size(1);
         @include flex-direction(column);
         @include align-items(stretch);
         margin: 0 25px 50px;
