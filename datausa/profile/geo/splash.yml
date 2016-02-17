@@ -32,7 +32,7 @@ stats:
 facts:
   - "<<name>> has a higher than average number of people employed as <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca>>."
   - "There is a large concentration of <<top show=cip|order=num_ppl>> majors living in <<name>>."
-sections:
+sections: 
   - economy
   - demographics
   - education

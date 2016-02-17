@@ -5,20 +5,27 @@
   
 <div class="share-section">
   {% if not story %}
-  <a href="#" title="Share on Facebook" data-ga="facebook share" data-ga-cat="profile" data-ga-label="share buttons click">
-    <i class="fa fa-facebook"></i>
+  <a href="#" title="Share" class="share-embed" data-target-id="share">
+    <i class="fa fa-share"></i> Share
   </a>
-  <a href="#" title="Share on Twitter" data-ga="twitter share" data-ga-cat="profile" data-ga-label="share buttons click">
-    <i class="fa fa-twitter"></i>
+  &nbsp;
+  &nbsp;
+  <a href="#" title="Share" class="share-embed" data-target-id="embed">
+    <i class="fa fa-code"></i> Embed
+  </a>
+  &nbsp;
+  &nbsp;
+  <a href="#" title="Share" class="share-embed" data-target-id="download">
+    <i class="fa fa-download"></i> Download
   </a>
   {% endif %}
   {% if profile %}
-  <a href="#" title="Share with Embed" data-ga="embed share" data-ga-cat="profile" data-ga-label="share buttons click">
+  <!-- <a href="#" title="Share with Embed" data-ga="embed share" data-ga-cat="profile" data-ga-label="share buttons click">
     <i class="fa fa-link"></i>
   </a>
   <div class="embed-input">
     <input type="text" class="embed-link" value="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/" onclick="this.focus();this.select()" readonly />
     <label><input type="checkbox" class="viz_only" />Visualization Only</label>
-  </div>
+  </div> -->
   {% endif %}
 </div>
