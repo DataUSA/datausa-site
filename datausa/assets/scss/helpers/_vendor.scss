@@ -17,7 +17,7 @@
 
 @mixin background-stretch() {
   background-position: center center;
-  background-attachment: fixed;
+  // background-attachment: fixed;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;

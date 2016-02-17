@@ -358,25 +358,7 @@ body.profile, body.map, body.story {
       width: 100%;
       @include background-stretch();
       z-index: 0;
-      @include transition(all 0.5s);
-
-      &::after {
-        content: "";
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        left: 0;
-        top: 0;
-        @include gradient(top, $splash-gradient);
-      }
-
-      &.color {
-        @include filter(saturate(1) brightness(1) contrast(1));
-
-        &::after {
-          opacity: 0;
-        }
-      }
+      // @include transition(top 0.5s);
     }
 
     .content {
@@ -386,14 +368,24 @@ body.profile, body.map, body.story {
       @include align-items(center);
       @include transition(opacity 0.5s);
       width: 100%;
-      max-width: 1080px;
       height: 100%;
       opacity: 1;
-      margin: 0 auto;
+      margin: 0;
       padding: 7% 10%;
       @include box();
       z-index: 1;
       position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        @include gradient(top, $splash-gradient);
+      }
 
       &.hide {
         opacity: 0;

@@ -88,7 +88,7 @@
 
     <div class="intro-head">
       <h2 class="section-title"><a name="intro">About</a></h2>
-      
+
       <div class="r">
         <div class="photo-cred">
           <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
@@ -294,6 +294,13 @@
         showTitleNav = y > splashHeight/2.75,
         showStatNav = y > splashHeight,
         showProfNav = y > boundHeight - titleNavHeight - statNavHeight;
+
+    var parallaxScroll = d3.scale.linear()
+      .domain([0, window.innerHeight])
+      .rangeRound([0, window.innerHeight/3])
+      .clamp(true);
+
+    d3.select("#splash-image").style("top", parallaxScroll(y) + "px")
 
     d3.select("#top-nav").classed("filled", colorTitleNav);
     d3.select("nav").classed("filled", colorTitleNav);
