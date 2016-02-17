@@ -327,7 +327,7 @@ body.frozen {
     font-size: 12px;
     line-height: 16px;
     margin-bottom: 20px;
-    width: 228px; }
+    width: 100%; }
     #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table td {
       padding: 5px; }
       #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-rank {
