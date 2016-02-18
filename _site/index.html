@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="Description" content="An open source platform to explore public American big data, with data available on its cities, jobs, industries, education, cost of living, health, and more.">
+	<meta name = "viewport" content = "user-scalable=no, width=device-width">
+    <meta name="viewport" content="initial-scale=1.0">
+	<title>DataUSA: Public American Big Data</title>
+	<link rel="shortcut icon" type="image/png" href="img/favicon.ico">
+	<link rel="stylesheet" href="site.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="js/script.js"></script>
+</head>
+<body>
+	<div class="hero-container">
+		<div class="hero-img bg"></div>
+	</div>
+	
+	<div id="section1" class="cd-section">
+		<div id="logo-container" class="title">
+			<div class="title-img" id="logo"></div>
+			<div class="title-img" id="logo-shadow"></div>
+		</div>
+		<div id="desc-container" class="title">
+			<div class="title-img" id="desc"></div>
+			<div class="title-img" id="desc-shadow"></div>
+		</div>
+		
+		<div class="countdown main" id="countdown-lg">
+		    <div class="clock-hand">
+		    	<span class="time days"></span><span class="label">Days</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time hours"></span><span class="label">Hours</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time minutes"></span><span class="label">Minutes</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time seconds"></span><span class="label">Seconds</span>
+		    </div>	
+		</div>
+
+		<div class="sign-up">
+			<a href="#sign-up" id="sign-up-btn" class="btn material-btn scroll-btn" alt="Sign up">Sign up</a>
+		</div>
+
+		<div class="co-logos">
+			<a class="co" href="http://www2.deloitte.com/us/en.html" target="_blank">
+				<img class="deloitte" src="img/company-logos/deloitte.svg" />
+			</a>
+			<a class="co" href="http://macro.media.mit.edu/" target="_blank">
+				<img class="mit" src="img/company-logos/mit.svg" />
+			</a>
+			<a class="co" href="http://www.datawheel.us/" target="_blank">
+				<img class="datawheel" src="img/company-logos/datawheel.svg" />
+			</a>
+		</div>
+
+		<a href="#features" class="cd-scroll-down"></a>
+	</div>
+
+	<div id="section2" class="cd-section">
+		<div class="main">
+			<a href="#" name="features"></a>
+			<h3 class="section-title">Features</h3>
+		</div>
+
+		<article class="main bullet-container">
+			<ul>
+				<li>
+					<i class="bullet1"></i>
+					<div>
+						<h3>institutional datasets - organized, cleaned, & linked</h3>
+						<p class="data-source-dynamic">including data from <span class="txt-rotate" data-period="500" data-rotate='[ 
+							"the US Census Bureau.",
+							"the US Dept. of Labor.",
+							"the US Dept. of Education",
+							"U. of Wisconsin Population Health Institute" ]'></span></p>
+					</div>
+				</li>
+				<li>
+					<i class="bullet2"></i>
+					<div>
+						<h3>API</h3>
+						<p>consolidated and ready-to-use</p>
+					</div>
+				</li>
+				<li>
+					<i class="bullet3"></i>
+					<div>
+						<h3>datasets and visualizations</h3>
+						<p>ready to embed, download & share</p>
+					</div>
+				</li>
+				<li>
+					<i class="bullet4"></i>
+					<div>
+						<h3>data organized into 4 profiles to explore</h3>
+						<ul>
+							<li><a href="#geo" class="geo">by geography<span class="mobile-hide"> - on the state, county, and city levels</span></a></li>
+							<li><a href="#soc" class="soc">by occupation</a></li>
+							<li><a href="#cip" class="cip">by education<span class="mobile-hide"> - for college majors, vocations, and trades</span></a></li>
+							<li><a href="#naics" class="naics">by industry</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</article>
+	</div>
+
+	<div id="section3" class="cd-section">
+		<div class="main subheader">
+			<h3 class="section-desc">Each of the 4 profile types is divided into more specialized sections.</h3>
+		</div>
+		
+		<div class="profile-category-container">
+			<div class="top">
+				<div class="profile-category" id="geo">
+					<a href="#" name="geo"></a>
+					<div class="category-img"></div>
+					<div class="category-section">
+						<h2>Geographies</h2>
+						<ul>
+							<li>
+								<img src="img/icons/economy.svg" />
+								<h3>Economy</h3>
+							</li>
+							<li>
+								<img src="img/icons/demographics.svg" />
+								<h3>Demographics</h3>
+							</li>
+							<li>
+								<img src="img/icons/education.svg" />
+								<h3>Education</h3>
+							</li>
+							<li>
+								<img src="img/icons/housing.svg" />
+								<h3>Housing & Living</h3>
+							</li>
+							<li>
+								<img src="img/icons/health.svg" />
+								<h3>Health & Safety</h3>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="profile-category" id="soc">
+					<a href="#" name="soc"></a>
+					<div class="category-img"></div>
+					<div class="category-section">
+						<h2>Occupations</h2>
+						<ul>
+							<li>
+								<img src="img/icons/employment.svg" />
+								<h3>Employment</h3>
+							</li>
+							<li>
+								<img src="img/icons/demographics.svg" />
+								<h3>Demographics</h3>
+							</li>
+							<li>
+								<img src="img/icons/education.svg" />
+								<h3>Education</h3>
+							</li>
+							<li>
+								<img src="img/icons/growth.svg" />
+								<h3>Projections</h3>
+							</li>
+							<li>
+								<img src="img/icons/skills.svg" />
+								<h3>Skills</h3>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="profile-category" id="cip">
+					<a href="#" name="cip"></a>
+					<div class="category-img"></div>
+					<div class="category-section">
+						<h2>Education</h2>
+						<ul>
+							<li>
+								<img src="img/icons/institutions.svg" />
+								<h3>Institutions</h3>
+							</li>
+							<li>
+								<img src="img/icons/demographics.svg" />
+								<h3>Demographics</h3>
+							</li>
+							<li>
+								<img src="img/icons/employment.svg" />
+								<h3>Employment</h3>
+							</li>
+							<li>
+								<img src="img/icons/skills.svg" />
+								<h3>Skills</h3>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="profile-category" id="naics">
+					<a href="#" name="naics"></a>
+					<div class="category-img"></div>
+					<div class="category-section">
+						<h2>Industries</h2>
+						<ul>
+							<li>
+								<img src="img/icons/workforce.svg" />
+								<h3>Workforce</h3>
+							</li>
+							<li>
+								<img src="img/icons/io.svg" />
+								<h3>Input/Output</h3>
+							</li>
+							<li>
+								<img src="img/icons/growth.svg" />
+								<h3>Projections</h3>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div id="section4" class="cd-section">
+	
+		<div class="main tagline">
+			<h3 class="section-desc">Public data in your hands.</h3>
+		</div>
+
+		<article name="sign-up" class="sign-up-container">
+
+
+		<div class="main launchdate">
+			<h3 class="launch-msg">Launching April 4, 2016</h3>
+		</div>
+
+		<div class="countdown" id="countdown-sm">
+		    <div class="clock-hand">
+		    	<span class="time days"></span><span class="label">Days</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time hours"></span><span class="label">Hours</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time minutes"></span><span class="label">Minutes</span>
+		    </div>
+		    <div class="colon"><span class="time">:</span></div>
+		    <div class="clock-hand">
+		    	<span class="time seconds"></span><span class="label">Seconds</span>
+		    </div>	
+		</div>
+
+		<!-- Begin MailChimp Signup Form -->
+			<div id="mc_embed_signup" class="sign-up-form main">
+				<form action="//datawheel.us12.list-manage.com/subscribe/post?u=458059cf58ada1fd2b7de3e39&amp;id=9a3f9a9f32" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			    	<div id="mc_embed_signup_scroll">
+						<label for="mce-EMAIL">Sign up to keep updated</label>
+						<div class="input-container">
+							<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+				    		<input type="submit" value="" name="subscribe" id="mc-embedded-subscribe" class="icon-btn btn sign-up-btn">
+						</div>
+
+			    		<div style="position: absolute; left: -5000px;" aria-hidden="true">
+			    			<input type="text" name="b_458059cf58ada1fd2b7de3e39_9a3f9a9f32" tabindex="-1" value="">
+			    		</div>
+						
+			    	</div>
+				</form>
+			</div>
+			<!--End mc_embed_signup-->
+
+			<footer class="co-logos">
+				<a class="co" href="http://www2.deloitte.com/us/en.html" target="_blank">
+					<img class="deloitte" src="img/company-logos/deloitte.svg" />
+				</a>
+				<a class="co" href="http://macro.media.mit.edu/" target="_blank">
+					<img class="mit" src="img/company-logos/mit.svg" />
+				</a>
+				<a class="co" href="http://www.datawheel.us/" target="_blank">
+					<img class="datawheel" src="img/company-logos/datawheel.svg" />
+				</a>
+			</footer>
+
+			<div class="skrim"></div>
+		</article>
+	</div>
+
+</body>
+</html>
