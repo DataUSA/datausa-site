@@ -7,7 +7,7 @@
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
   {% if topic.title %}
-  <h2>{{ topic.title|safe }} <a href="#" class="btn pri-btn data-btn" data-ga="show data" data-ga-cat="profile" data-ga-label="User click" data-ga-target=".data-table"><span>Show Data</span></a></h2>
+  <h2>{{ topic.title|safe }}{% if topic.viz %} <a href="#" class="btn pri-btn data-btn" data-ga="show data" data-ga-cat="profile" data-ga-label="User click" data-ga-target=".data-table"><span>Show Data</span></a>{% endif %}</h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
   <div class="sub sub-title">{{ topic.subtitle|safe }}</div>
