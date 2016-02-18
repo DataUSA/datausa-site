@@ -101,7 +101,7 @@ body.profile, body.story {
 
         #splash-stats {
           @include align-items(flex-end);
-          
+
           .stat {
             .stat-text {
               font-size: 13px;
@@ -128,7 +128,7 @@ body.profile, body.story {
             width: 80px;
             padding: 0 5px;
             margin: 10px 0;
-            
+
             img {
               width: 20px;
               height: 20px;
@@ -141,6 +141,12 @@ body.profile, body.story {
             }
           }
         }
+      }
+    }
+
+    .intro {
+      .col {
+        @include flex-direction(column-reverse);
       }
     }
 
@@ -157,7 +163,7 @@ body.profile, body.story {
           content: none;
         }
       }
-      
+
       .topic.flex {
         margin: 0 0 50px;
       }
@@ -170,7 +176,7 @@ body.profile, body.story {
 
         &.flex {
           @include flex-size(1 0 auto);
-          
+
           /* selector for health data */
           .content aside > .topic-stats:first-child .stat:only-child {
             margin-top: 0;

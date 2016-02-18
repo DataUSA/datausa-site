@@ -3645,7 +3645,8 @@ body.profile .intro, body.map .intro, body.story .intro {
     -moz-box-flex: 2;
     -webkit-flex: 2;
     -ms-flex: 2;
-    flex: 2; }
+    flex: 2;
+    padding-right: 20px; }
     body.profile .intro .intro-txt .desc, body.map .intro .intro-txt .desc,
     body.story .intro .intro-txt .desc {
       font-size: 14px;
@@ -4797,6 +4798,11 @@ body.redirect nav {
                       -ms-word-break: break-all;
                       word-break: break-word;
                       white-space: initial !important;   }
+  body.profile .intro .col, body.story .intro .col {
+    -webkit-flex-direction: column-reverse;
+    -moz-flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;   }
   body.profile .profile-section, body.story .profile-section {
     -webkit-flex-direction: column;
     -moz-flex-direction: column;

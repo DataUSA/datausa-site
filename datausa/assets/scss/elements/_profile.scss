@@ -1065,6 +1065,7 @@ body.profile, body.map, body.story {
 
     .intro-txt {
       @include flex-size(2);
+      padding-right: 20px;
 
       .desc {
         font-size: 14px;
