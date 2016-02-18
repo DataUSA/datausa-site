@@ -193,8 +193,8 @@ body.profile, body.story {
       @include box();
 
       .category {
-        margin: 0 auto;
-        padding: 30px 25px 25px;
+        margin: 0 auto 30px;
+        padding: 10px 25px 20px;
 
         &::before, &::after {
           content: none;

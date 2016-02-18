@@ -5040,8 +5040,8 @@ body.redirect nav {
       -moz-box-sizing: border-box;
       box-sizing: border-box;   }
       body.profile .profile-section .category, body.story .profile-section .category {
-        margin: 0 auto;
-        padding: 30px 25px 25px;   }
+        margin: 0 auto 30px;
+        padding: 10px 25px 20px;   }
         body.profile .profile-section .category::before,
         body.profile .profile-section .category::after,
         body.story .profile-section .category::before,
