@@ -55,7 +55,7 @@ class Profile(BaseObject):
         if requested_prefix and "children" in SUMLEVELS["geo"][my_prefix]:
             if my_prefix in ("310", "160"):
                 return attr_id
-            requested_prefix = SUMLEVELS["geo"][my_prefix]["children"] if requested_prefix is True else requested_prefix
+            requested_prefix = SUMLEVELS["geo"][my_prefix]["children"] if requested_prefix == "True" or requested_prefix is True else requested_prefix
             return "^{}".format(attr_id.replace(my_prefix, requested_prefix))
         if "children" in SUMLEVELS["geo"][my_prefix]:
             sumlevel = SUMLEVELS["geo"][my_prefix]["children"]
@@ -301,7 +301,7 @@ class Profile(BaseObject):
         limit = kwargs.pop("limit", None)
         attr_id = self.id(**kwargs)
         prefix = kwargs.get("prefix", None)
-        
+
         if (prefix or limit) and id_only == False:
             top = get_parents(attr_id, self.attr_type)
             if prefix:
@@ -361,10 +361,10 @@ class Profile(BaseObject):
 
         if prefix:
             results = [r for r in results if r["id"].startswith(prefix)]
-        
+
         if limit:
             results = results[-int(limit):]
-        
+
         if id_only:
             return ",".join([r["id"] for r in results])
         else:
@@ -609,13 +609,13 @@ class Profile(BaseObject):
         parent = get_parents(self.attr["id"], self.attr_type)
         parent = self.get_uniques(parent)
         parent = parent[-1]
-        
+
         siblings = [c for c in get_children(parent["id"], self.attr_type, self.sumlevel()) if c['id'] != self.attr["id"]]
         siblings = siblings[:limit+1]
-        
+
         return self.make_links(siblings)
-        
-    
+
+
     def solo(self):
         attr_id = self.attr["id"]
         if attr_id[:3] in ["010", "040"]:
