@@ -13,22 +13,21 @@ div.overlay {
   }
   
   &#view {
+    @include flex();
+    @include align-items(center);
+    @include justify(center);
     
     .modal {
-      box-sizing: border-box;
+      @include box();
+      @include shadow(0 1px 6px rgba(0,0,0,0.2));
       background-color: #fff;
       border-radius: 3px;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.2);
-      top: 50%;
-      left: 50%;
       width: 560px;
-//      max-height: 150px;
-      max-width: inherit;
       padding: 20px;
-      position: absolute;
-      margin-top: -196.5px;
-      margin-left: -280px;
       z-index: 2002;
+      max-height: 90vh;
+      overflow: auto;
+      position: relative;
       
       .close {
         cursor: pointer;
@@ -76,7 +75,7 @@ div.overlay {
         
         .panels {
           overflow: hidden;
-          height: 300px;
+//          height: 300px;
           width: 400%;
           display: block;
           position: relative;
@@ -89,11 +88,11 @@ div.overlay {
           
           .panel {
 //            border: solid red 1px;
+            @include box();
             width: 520px;
             height: 250px;
             float: left;
             margin: 20px 40px 0 0;
-            box-sizing: border-box;
             padding: 0 20px;
             
             .social {
@@ -106,6 +105,7 @@ div.overlay {
             }
             
             input[type='text'] {
+              @include box();
               width: 100%;
               border: 1px solid #d5dbdd;
               border-radius: 3px;
@@ -113,7 +113,6 @@ div.overlay {
               display: block;
               margin: 20px auto;
               text-align: center;
-              box-sizing: border-box;
               padding: 0 40px;
               cursor: text;
               font-size: 20px;

@@ -49,123 +49,161 @@ div.overlay {
     opacity: 0.9;
     background-color: #f3f5f6;
     visibility: visible; }
-    div.overlay#view .modal {
-      box-sizing: border-box;
-      background-color: #fff;
-      border-radius: 3px;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
-      top: 50%;
-      left: 50%;
-      width: 560px;
-      max-width: inherit;
-      padding: 20px;
-      position: absolute;
-      margin-top: -196.5px;
-      margin-left: -280px;
-      z-index: 2002; }
-      div.overlay#view .modal .close {
-        cursor: pointer;
-        position: absolute;
-        padding: 0 20px 20px 20px;
-        right: 0; }
-        div.overlay#view .modal .body {
-          overflow: hidden; }
-          div.overlay#view .modal .body .nav {
-            text-align: center;
-            border-bottom: 1px solid #d5dbdd;
-            position: relative; }
-            div.overlay#view .modal .body .nav span.change_share {
-              display: inline-block;
-              text-align: center;
-              margin: 0 20px 0 0;
-              padding: 0 10px 10px 10px;
-              cursor: pointer;
-              padding-bottom: 10px; }
-              div.overlay#view .modal .body .nav span.highlight {
+    div.overlay#view {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      flex-pack: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -ms-flex-align: center;
+      flex-align: center;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      flex-pack: center; }
+      div.overlay#view .modal {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        border-radius: 3px;
+        width: 560px;
+        padding: 20px;
+        z-index: 2002;
+        max-height: 90vh;
+        overflow: auto;
+        position: relative; }
+        div.overlay#view .modal:before, div.overlay#view .modal:after {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box; }
+          div.overlay#view .modal .close {
+            cursor: pointer;
+            position: absolute;
+            padding: 0 20px 20px 20px;
+            right: 0; }
+            div.overlay#view .modal .body {
+              overflow: hidden; }
+              div.overlay#view .modal .body .nav {
+                text-align: center;
+                border-bottom: 1px solid #d5dbdd;
+                position: relative; }
+                div.overlay#view .modal .body .nav span.change_share {
+                  display: inline-block;
+                  text-align: center;
+                  margin: 0 20px 0 0;
+                  padding: 0 10px 10px 10px;
+                  cursor: pointer;
+                  padding-bottom: 10px; }
+                  div.overlay#view .modal .body .nav span.highlight {
+                    display: block;
+                    position: absolute;
+                    top: 36px;
+                    left: 111px;
+                    height: 3px;
+                    background-color: #004994;
+                    -moz-transition: left 0.5s;
+                    -o-transition: left 0.5s;
+                    -webkit-transition: left 0.5s;
+                    transition: left 0.5s;
+                    width: 65px; }
+                    div.overlay#view .modal .body .nav span.highlight.noslide {
+                      -moz-transition: none;
+                      -o-transition: none;
+                      -webkit-transition: none;
+                      transition: none; }
+              div.overlay#view .modal .body .panels {
+                overflow: hidden;
+                width: 400%;
                 display: block;
-                position: absolute;
-                top: 36px;
-                left: 111px;
-                height: 3px;
-                background-color: #004994;
-                -moz-transition: left 0.5s;
-                -o-transition: left 0.5s;
-                -webkit-transition: left 0.5s;
-                transition: left 0.5s;
-                width: 65px; }
-                div.overlay#view .modal .body .nav span.highlight.noslide {
+                position: relative;
+                -moz-transition: transform 0.5s;
+                -o-transition: transform 0.5s;
+                -webkit-transition: transform 0.5s;
+                transition: transform 0.5s;
+                -webkit-transform: translateX 0px;
+                -ms-transform: translateX 0px;
+                transform: translateX 0px; }
+                div.overlay#view .modal .body .panels.noslide {
                   -moz-transition: none;
                   -o-transition: none;
                   -webkit-transition: none;
                   transition: none; }
-          div.overlay#view .modal .body .panels {
-            overflow: hidden;
-            height: 300px;
-            width: 400%;
-            display: block;
-            position: relative;
-            -moz-transition: transform 0.5s;
-            -o-transition: transform 0.5s;
-            -webkit-transition: transform 0.5s;
-            transition: transform 0.5s;
-            -webkit-transform: translateX 0px;
-            -ms-transform: translateX 0px;
-            transform: translateX 0px; }
-            div.overlay#view .modal .body .panels.noslide {
-              -moz-transition: none;
-              -o-transition: none;
-              -webkit-transition: none;
-              transition: none; }
-              div.overlay#view .modal .body .panels .panel {
-                width: 520px;
-                height: 250px;
-                float: left;
-                margin: 20px 40px 0 0;
-                box-sizing: border-box;
-                padding: 0 20px; }
-                div.overlay#view .modal .body .panels .panel .social {
-                  margin: 20px 0 40px 0;
-                  text-align: center; }
-                  div.overlay#view .modal .body .panels .panel .social span {
-                    font-size: 45px;
+                  div.overlay#view .modal .body .panels .panel {
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                    width: 520px;
+                    height: 250px;
+                    float: left;
+                    margin: 20px 40px 0 0;
                     padding: 0 20px; }
-                div.overlay#view .modal .body .panels .panel input[type='text'] {
-                  width: 100%;
-                  border: 1px solid #d5dbdd;
-                  border-radius: 3px;
-                  height: 53px;
-                  display: block;
-                  margin: 20px auto;
-                  text-align: center;
-                  box-sizing: border-box;
-                  padding: 0 40px;
-                  cursor: text;
-                  font-size: 20px; }
-                  div.overlay#view .modal .body .panels .panel .embed_options {
-                    overflow: hidden; }
-                    div.overlay#view .modal .body .panels .panel .embed_options div.demo {
-                      float: left;
-                      width: 150px;
-                      height: 150px; }
-                      div.overlay#view .modal .body .panels .panel .embed_options div.demo img {
-                        width: 150px; }
-                    div.overlay#view .modal .body .panels .panel .embed_options div.options {
-                      width: 290px;
-                      float: right; }
-                      div.overlay#view .modal .body .panels .panel .embed_options div.options input[type='checkbox'] {
-                        display: inline-block;
-                        margin: 10px 10px 10px 0; }
-                div.overlay#view .modal .body .panels .panel .filetypes {
-                  margin: 20px 0 40px 0;
-                  text-align: center; }
-                  div.overlay#view .modal .body .panels .panel .filetypes div {
-                    cursor: pointer;
-                    display: inline-block;
-                    padding: 0 20px;
-                    width: 120px; }
-                    div.overlay#view .modal .body .panels .panel .filetypes div i {
+                    div.overlay#view .modal .body .panels .panel:before,
+                    div.overlay#view .modal .body .panels .panel:after {
+                      -webkit-box-sizing: border-box;
+                      -moz-box-sizing: border-box;
+                      box-sizing: border-box; }
+                      div.overlay#view .modal .body .panels .panel .social {
+                        margin: 20px 0 40px 0;
+                        text-align: center; }
+                        div.overlay#view .modal .body .panels .panel .social span {
+                          font-size: 45px;
+                          padding: 0 20px; }
+                    div.overlay#view .modal .body .panels .panel input[type='text'] {
+                      -webkit-box-sizing: border-box;
+                      -moz-box-sizing: border-box;
+                      box-sizing: border-box;
+                      width: 100%;
+                      border: 1px solid #d5dbdd;
+                      border-radius: 3px;
+                      height: 53px;
                       display: block;
-                      font-size: 45px; }
+                      margin: 20px auto;
+                      text-align: center;
+                      padding: 0 40px;
+                      cursor: text;
+                      font-size: 20px; }
+                      div.overlay#view .modal .body .panels .panel input[type='text']:before,
+                      div.overlay#view .modal .body .panels .panel input[type='text']:after {
+                        -webkit-box-sizing: border-box;
+                        -moz-box-sizing: border-box;
+                        box-sizing: border-box; }
+                    div.overlay#view .modal .body .panels .panel .embed_options {
+                      overflow: hidden; }
+                      div.overlay#view .modal .body .panels .panel .embed_options div.demo {
+                        float: left;
+                        width: 150px;
+                        height: 150px; }
+                        div.overlay#view .modal .body .panels .panel .embed_options div.demo img {
+                          width: 150px; }
+                      div.overlay#view .modal .body .panels .panel .embed_options div.options {
+                        width: 290px;
+                        float: right; }
+                        div.overlay#view .modal .body .panels .panel .embed_options div.options input[type='checkbox'] {
+                          display: inline-block;
+                          margin: 10px 10px 10px 0; }
+                    div.overlay#view .modal .body .panels .panel .filetypes {
+                      margin: 20px 0 40px 0;
+                      text-align: center; }
+                      div.overlay#view .modal .body .panels .panel .filetypes div {
+                        cursor: pointer;
+                        display: inline-block;
+                        padding: 0 20px;
+                        width: 120px; }
+                        div.overlay#view .modal .body .panels .panel .filetypes div i {
+                          display: block;
+                          font-size: 45px; }
 html {
   width: 100%;
   height: 100%;

@@ -4,6 +4,7 @@ dusa_popover = function() {
 
 dusa_popover.close = function() {
   d3.selectAll(".overlay").remove();
+  d3.select("body").on("keyup.popover", null);
 }
 
 dusa_popover.open = function(panels, active_panel_id, url, build) {
@@ -17,11 +18,12 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
     .append("div")
       .attr("class", "overlay")
       .attr("id", "view")
+      .on("click", dusa_popover.close)
   
-  // TODO: calculate margin-left/right dynamically
   var modal = view
     .append("div")
       .attr("class", "modal")
+      .on("click", function(){ d3.event.stopPropagation() })
   
   modal
     .append("i")
@@ -193,5 +195,15 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
     }
   })
   
-  active_panel.on("click")()
+  if(active_panel){
+    active_panel.on("click")()
+  }
+  
+  // "ESC" button will close popover
+  d3.select("body").on("keyup.popover", function(){
+    if (d3.event.keyCode === 27) {
+      dusa_popover.close();
+    }
+  })
+  
 }
