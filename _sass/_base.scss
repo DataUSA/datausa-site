@@ -49,8 +49,8 @@ body {
 
   &#logo-container {
     height: 120px;
-    width: 61%;
-    max-width: 405px;
+    width: 55%;
+    max-width: 375px;
 
     @media all and (max-width: 600px){
       width: 71%;
@@ -59,8 +59,8 @@ body {
   &#desc-container {
     height: 65px;
     margin: 0 auto 5vh;
-    width: 61%;
-    max-width: 505px;
+    width: 60%;
+    max-width: 480px;
 
     @media all and (max-width: 600px){
       width: 85%;
@@ -328,7 +328,7 @@ body {
     font-family: $palanquin;
     font-size: 19px;
     font-weight: 300;
-    line-height: 2;
+    line-height: 1.8;
     color: $bullet-subtxt-color;
     @include transition(color 0.3s);
 
@@ -506,7 +506,7 @@ body {
 
 }
 
-#section4 > .main {
+.tagline {
   height: 20vh;
   @include flex();
   @include align-items(center);  
@@ -526,6 +526,10 @@ body {
   @include justify(space-between);
 }
 
+.launchdate {
+  margin-top: 15vh;
+}
+
 .launch-msg {
   font-size: 40px;
   font-weight: 400;
@@ -534,7 +538,6 @@ body {
   margin-bottom: 10px;
   text-align: center;
   margin: 0 auto;
-  padding-top: 10vh;
   color: $launch-msg-color;
 
   @media all and (max-width: 768px){
@@ -574,7 +577,7 @@ body {
   line-height: 1;
   letter-spacing: 0.21em;
   color: #fff;
-  @include placeholder {color: #ffffff;}
+  @include placeholder {opacity: 0.5;}
 
   @media all and (max-width: 400px){
     padding: 15px 35px 15px 15px;
