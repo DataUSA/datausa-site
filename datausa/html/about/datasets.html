@@ -22,7 +22,7 @@
         <h2>Where is it used?</h2>
         <p>The ACS dataset is used on the Geography, Occupation and Industry profiles. Although the ACS dataset includes some data on occupations and industries, DataUSA is mostly using the ACS dataset for demographics on the Geography profiles.</p>
         <h2>Caveats</h2>
-        <p>Due to the the annonymization process utilized by the US Census, there is often a high margin of error when looking at data for smaller geographies.</p>
+        <p>Due to sampling constraints, there is often a high margin of error when looking at data for smaller geographies. Apply caution when drawing conclusions from small geographic areas (for example: small counties, places and particularly tracts).</p>
       </div>
       <div class="dataset-tab" data-tab="2">
         <h2>Description</h2>
@@ -32,15 +32,22 @@
         <h2>Caveats</h2>
         <p>Similar to the ACS dataset there are sometimes sampling biases when looking at data from a specifc slice of data. Due to the way the data is aggregated, ACS PUMS data is only availabe for the Nation, States and Public Use Microdata Areas (PUMAs).</p>
         <p>Wage values are adjusted using the ADJINC variable from the PUMS file.</p>
-        <p>There are two universes of tables: "workforce" and "5 and over". The default and most prevalent universe for our PUMS data uses the workforce universe. The conditions for this universe:
+        <p>There are four main universes of tables: "workforce", "full-time" and "part-time". The default and most prevalent universe for our PUMS data uses the workforce universe. The conditions for this universe:
         </p>
+        <br>
           <ol>
             <li>Age of 16 years or older</li>
             <li>Wage greater than zero</li>
             <li>In the workforce (i.e. ESR code of 1,2,4,5)</li>
           </ol>
+          <br>
+          <p>In addition, the above criteria full-time universe rows must have WKHP &gt;= 35, whereas part-time universe rows have WKHP &lt; 35.</p>
+          <br>
         <p>
         The other universe is everyone five years of age and older (that is the only restriction). This universe is only used for visualizations showing birthplaces for a location from PUMS.
+        </p>
+        <br>
+        <p>For more detailed technical information on the PUMS aggregation methodology, please visit our technical <a href="https://github.com/DataUSA/datausa-api/wiki/PUMS-Aggregation-Methodology">PUMS Aggregation Methodology page.</a>
         </p>
       </div>
       <div class="dataset-tab" data-tab="3">
@@ -49,7 +56,7 @@
         <h2>Where is it used?</h2>
         <p>The BEA I/O tables are used on the industry pages showing the input and output industries for the specified industry profile page.</p>
         <h2>Caveats</h2>
-        <p>The BEA I/O tables use a modified version of the North American Industry Classification (NAICs) meaning that certain industtry pages do not have a corresponding BEA I/O table industry and are thus swapped for the closest match.</p>
+        <p>The BEA I/O tables use a modified version of the North American Industry Classification (NAICS) meaning that certain industtry pages do not have a corresponding BEA I/O table industry and are thus swapped for the closest match.</p>
       </div>
       <div class="dataset-tab" data-tab="4">
         <h2>Description</h2>
