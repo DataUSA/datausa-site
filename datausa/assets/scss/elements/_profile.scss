@@ -1265,6 +1265,8 @@ body.profile, body.map, body.story {
     }
 
     .section-sidenav-group {
+      @include box();
+
       &:not(:last-child) {
         border-bottom: 1px solid #ccc;
       }
@@ -1272,18 +1274,19 @@ body.profile, body.map, body.story {
       .section-sidenav-button {
         @include transition(opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s);
         @include rounded(50%);
+        @include box();
         display: block;
-        height: 6px;
-        margin: 20px 6px;
-        width: 6px;
+        height: 8px;
+        margin: 12px 4px;
+        width: 8px;
         background-color: transparent;
         border: 1px solid #999;
         opacity: 0.7;
 
         &:hover, &.active {
-          height: 10px;
-          margin: 18px 4px;
-          width: 10px;
+          height: 12px;
+          margin: 10px 2px;
+          width: 12px;
           opacity: 1;
         }
 

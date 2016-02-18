@@ -3883,41 +3883,68 @@ body.story #section-sidenav {
     left: 15px;
     top: 50%;
     opacity: 1; }
-    body.profile #section-sidenav .section-sidenav-group:not(:last-child),
-    body.map #section-sidenav .section-sidenav-group:not(:last-child),
-    body.story #section-sidenav .section-sidenav-group:not(:last-child) {
-      border-bottom: 1px solid #ccc; }
-      body.profile #section-sidenav .section-sidenav-group .section-sidenav-button,
-      body.map #section-sidenav .section-sidenav-group .section-sidenav-button,
-      body.story #section-sidenav .section-sidenav-group .section-sidenav-button {
-        -moz-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
-        -o-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
-        -webkit-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
-        transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        display: block;
-        height: 6px;
-        margin: 20px 6px;
-        width: 6px;
-        background-color: transparent;
-        border: 1px solid #999;
-        opacity: 0.7; }
-        body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
-        body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-        body.map #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
-        body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-        body.story #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
-        body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
-          height: 10px;
-          margin: 18px 4px;
-          width: 10px;
-          opacity: 1; }
-          body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-          body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active,
-          body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
-            background-color: #999; }
+    body.profile #section-sidenav .section-sidenav-group,
+    body.map #section-sidenav .section-sidenav-group,
+    body.story #section-sidenav .section-sidenav-group {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box; }
+      body.profile #section-sidenav .section-sidenav-group:before,
+      body.profile #section-sidenav .section-sidenav-group:after,
+      body.map #section-sidenav .section-sidenav-group:before,
+      body.map #section-sidenav .section-sidenav-group:after,
+      body.story #section-sidenav .section-sidenav-group:before,
+      body.story #section-sidenav .section-sidenav-group:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+        body.profile #section-sidenav .section-sidenav-group:not(:last-child),
+        body.map #section-sidenav .section-sidenav-group:not(:last-child),
+        body.story #section-sidenav .section-sidenav-group:not(:last-child) {
+          border-bottom: 1px solid #ccc; }
+          body.profile #section-sidenav .section-sidenav-group .section-sidenav-button,
+          body.map #section-sidenav .section-sidenav-group .section-sidenav-button,
+          body.story #section-sidenav .section-sidenav-group .section-sidenav-button {
+            -moz-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+            -o-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+            -webkit-transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+            transition: opacity 0.35s, width 0.35s, height 0.35s, margin 0.35s;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            height: 8px;
+            margin: 12px 4px;
+            width: 8px;
+            background-color: transparent;
+            border: 1px solid #999;
+            opacity: 0.7; }
+            body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:before,
+            body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:after,
+            body.map #section-sidenav .section-sidenav-group .section-sidenav-button:before,
+            body.map #section-sidenav .section-sidenav-group .section-sidenav-button:after,
+            body.story #section-sidenav .section-sidenav-group .section-sidenav-button:before,
+            body.story #section-sidenav .section-sidenav-group .section-sidenav-button:after {
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box; }
+              body.profile #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
+              body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+              body.map #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
+              body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+              body.story #section-sidenav .section-sidenav-group .section-sidenav-button:hover,
+              body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
+                height: 12px;
+                margin: 10px 2px;
+                width: 12px;
+                opacity: 1; }
+                body.profile #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+                body.map #section-sidenav .section-sidenav-group .section-sidenav-button.active,
+                body.story #section-sidenav .section-sidenav-group .section-sidenav-button.active {
+                  background-color: #999; }
 body.profile .profile-section, body.map .profile-section,
 body.story .profile-section {
   -webkit-box-sizing: border-box;
