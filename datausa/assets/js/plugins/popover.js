@@ -3,6 +3,7 @@ dusa_popover = function() {
 }
 
 dusa_popover.close = function() {
+  d3.selectAll(".close-btn .b").classed("close", !d3.selectAll(".close-btn .b").classed("close"));
   d3.selectAll(".overlay").remove();
   d3.select("body").on("keyup.popover", null);
 }
@@ -25,11 +26,11 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
       .attr("class", "modal")
       .on("click", function(){ d3.event.stopPropagation() })
   
-  modal
-    .append("i")
-      .attr("class", "fa fa-times close")
-      .on("click", dusa_popover.close)
-  
+  modal.append("div")
+    .attr("class", "close-btn")
+    .html('<div class="in"><div class="bd"><div class="b-1 b close"><span></span></div><div class="b-2 b close"><span></span></div><div class="b-3 b close"><span></span></div></div></div>')
+    .on("click", dusa_popover.close)
+
   var header = modal
     .append("div")
       .attr("class", "header")
@@ -142,7 +143,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
             embed_link_input.property("value", old_embed_link.replace("?", "?viz=True"))
           }
         })
-      option.append("label").text("Description")
+      option.append("label").text("Include visualization description")
       
       var sizes = options.append("select")
       sizes.append("option").attr("value", "360|240").text("Small 360 x 240")

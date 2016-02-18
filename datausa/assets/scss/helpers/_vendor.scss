@@ -154,10 +154,10 @@
   text-shadow: $style;
 }
 
-@mixin transform($style, $val) {
-  -webkit-transform: $style($val);
-  -ms-transform: $style($val);
-  transform: $style($val);
+@mixin transform($transform...) {
+  -webkit-transform: $transform;
+  -ms-transform: $transform;
+  transform: $transform;
 }
 
 @mixin transform-origin($style) {

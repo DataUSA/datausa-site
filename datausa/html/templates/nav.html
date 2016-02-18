@@ -135,7 +135,7 @@
 
 d3.select("#menu-btn").on(d3plus.client.pointer.click, function(){
   d3.event.preventDefault();
-  d3.selectAll(".b").classed("close", !d3.selectAll(".b").classed("close"));
+  d3.selectAll("#menu-btn .b").classed("close", !d3.selectAll("#menu-btn .b").classed("close"));
 
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));
 
@@ -144,14 +144,14 @@ d3.select("#menu-btn").on(d3plus.client.pointer.click, function(){
   body.classed("frozen", !d3.select("body").classed("frozen"));
 
   if (body.classed("frozen") === true) {
-    body.append("div").attr("id", "mask");
+    body.append("div").attr("class", "page-mask");
   } else {
-    d3.select("#mask").remove();
+    d3.select(".page-mask").remove();
   }
 
-  d3.select("#mask").on("click", function(){
+  d3.select(".page-mask").on("click", function(){
     d3.select(this).remove();
-    d3.selectAll(".b").classed("close", false);
+    d3.selectAll("#menu-btn .b").classed("close", false);
     d3.select("#menu").classed("open", false);
     d3.select("body").classed("frozen", false);
   });

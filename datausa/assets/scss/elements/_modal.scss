@@ -1,0 +1,333 @@
+.page-mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: $black;
+  opacity: 0.05;
+  z-index: 6;
+  @include transition(all 0.35s);
+}
+
+.overlay {
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  
+  &#bg {
+    opacity: 0.3;
+    background-color: $d-profile-bg;
+    visibility: visible;
+  }
+  
+  &#view {
+    @include flex();
+    @include align-items(center);
+    @include justify(center);
+
+    .close-btn {
+      z-index: 20;
+      position: absolute;
+      display: block;
+      cursor: pointer;
+      overflow: hidden;
+      height: 40px;
+      width: 40px;
+      top: 0;
+      right: 0;
+      margin: 0;
+
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      .in {
+        position: relative;
+        height: 40px;
+        width: 40px;
+       }
+
+      .bd {
+        padding: 13px;
+        width: 15px;
+
+        div {
+          position: relative;
+          overflow: hidden;
+         }
+
+        div, span {
+          display: block;
+          height: 2px;
+          width: 15px;
+          transition: all 0.75s;
+        }
+
+        span {
+         position: absolute;
+         top: 0;
+         left: -100%;
+         background: #fff;
+        }
+
+        .b {
+          background-color: #fff;
+        }
+      }
+
+      .b-1 {
+        @include transform(matrix(1,0,0,1,0,0));
+        @include transition-delay(0.3s);
+
+        span {
+          @include transform(translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0));
+          @include transition-delay(0.3s);
+         }
+
+        &.close {
+          @include transform(matrix(-0.7071, 0.7071, -0.7071, -0.7071, 0, 6));
+         }
+      }
+
+       .b-2 {
+        opacity: 1;
+        margin: 4px 0;
+        @include transition-delay(0s);
+
+        span {
+          transition: all 0.15s;
+          @include transform(translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0));
+         }
+
+        &.close {
+          opacity: 0;
+
+          span {
+            @include transform(translate(-100%, 0%));
+           }
+         }
+       }
+
+       .b-3 {
+        @include transform(matrix(1,0,0,1,0,0));
+        @include transition-delay(0.5s);
+
+        &.close {
+          @include transform(matrix(-0.7071, -0.7071, 0.7071, -0.7071, 0, -6));
+         }
+
+        span {
+         @include transform(translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0));
+         @include transition-delay(0.5s);
+        }
+       }
+    }
+    
+    .modal {
+      @include box();
+      @include shadow(2px 5px 15px rgba(27,25,29,0.1));
+      background-color: $l-profile-bg;
+      width: 560px;
+      z-index: 2002;
+      max-height: 90vh;
+      overflow: auto;
+      position: relative;
+      
+      span, p {
+        font-family: $palanquin;
+        font-size: 15px;
+        line-height: 1.6;
+        font-weight: 400;
+        color: $black3;
+      }
+
+      .header {
+        padding: 13px 20px;
+        background-color: $black2;
+        margin-bottom: 5px;
+        color: #fff;
+      }
+
+      .body {
+        overflow: hidden;
+        padding: 5px 20px 20px;
+        
+        .nav {
+          text-align: center;
+          position: relative;
+          
+          .change_share {
+            display: inline-block;
+            text-align: center;
+            margin: 0 20px 0 0;
+            padding: 0px 9px 10px 9px;
+            cursor: pointer;
+            font-family: $palanquin;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 11px;
+            line-height: normal;
+            letter-spacing: 0.1em;
+            opacity: 1;
+            color: $black3;
+            white-space: nowrap;
+            @include transition(all 0.25s);
+            cursor: pointer;
+
+            &:hover, &:focus {
+              color: $red-w;
+            }
+          }
+          
+          .highlight {
+            display: block;
+            position: absolute;
+            top: 26px;
+            left: 111px;
+            height: 3px;
+            background-color: $red-w;
+            @include transition(left 0.5s);
+            width: 65px;
+            &.noslide {
+              @include transition(none);
+            }
+          }
+          
+        } // end .nav
+        
+        .panels {
+          overflow: hidden;
+          width: 400%;
+          display: block;
+          position: relative;
+          @include transition(transform 0.5s);
+          @include transform(translateX(0px));
+          
+          &.noslide {
+            @include transition(none);
+          }
+          
+          .panel {
+            @include box();
+            width: 520px;
+            height: 250px;
+            float: left;
+            margin: 20px 40px 0 0;
+            padding: 0 20px;
+            
+            .social {
+              margin: 20px 0 40px 0;
+              text-align: center;
+              opacity: 0.3;
+
+              span {
+                font-size: 45px;
+                padding: 0 20px;
+              }
+              
+              &::after {
+                content: 'Sharing is disabled until launch';
+                display: block;
+                font-family: $palanquin;
+                text-transform: uppercase;
+                font-weight: 600;
+                font-size: 15px;
+                line-height: normal;
+                letter-spacing: 0.1em;
+                opacity: 1;
+                color: $black3;
+              }
+            }
+            
+            input[type='text'] {
+              @include box();
+              width: 100%;
+              border: 1px solid $black5;
+              color: $black3;
+              height: 53px;
+              display: block;
+              margin: 20px auto;
+              text-align: center;
+              padding: 0 15px;
+              cursor: text;
+              font-size: 16px;
+            }
+            
+            .embed_options{
+              overflow: hidden;
+              
+              .demo {
+                float: left;
+                width: 150px;
+                height: 150px;
+                img {
+                  width: 150px;
+                }
+              }
+
+              .options {
+                width: 290px;
+                float: right;
+
+                input[type='checkbox'] {
+                  display: inline-block;
+                  margin: 10px 10px 10px 0;
+                  border: 1px solid $black4;
+                  background-color: #fff;
+                  border-radius: 0;
+                  -webkit-appearance: none;
+                  width: 13px;
+                  height: 13px;
+
+                  &:checked {
+                    background-color: $black4;
+                  }
+                }
+              }
+
+              label {
+                font-family: $palanquin;
+                font-size: 16px;
+                line-height: normal;
+                font-weight: 400;
+                color: $black3;
+              }
+            }
+            
+            .filetypes {
+              margin: 20px 0 40px 0;
+              text-align: center;
+
+              span {
+                font-size: 20px;
+                color: $black3;
+                display: block;
+                margin: 10px 0;
+              }
+
+              div {
+                cursor: pointer;
+                display: inline-block;
+                padding: 0 20px;
+                width: 120px;
+
+                i {
+                  display: block;
+                  font-size: 45px;
+                }
+              }
+            }
+            
+          }
+        }
+        
+      }
+      
+    } // end .modal
+  } // end #view
+} // end .overlay

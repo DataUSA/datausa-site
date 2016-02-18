@@ -306,49 +306,49 @@ body {
   }
 
   .b-1 {
-    transform: matrix(1,0,0,1,0,0);
-    transition-delay: 0.3s;
+    @include transform(matrix(1,0,0,1,0,0));
+    @include transition-delay(0.3s);
 
     span {
-      transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
-      transition-delay: 0.3s;
+      @include transform(translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0));
+      @include transition-delay(0.3s);
      }
 
     &.close {
-      transform: matrix(-0.7071, 0.7071, -0.7071, -0.7071, 0, 6);
+      @include transform(matrix(-0.7071, 0.7071, -0.7071, -0.7071, 0, 6));
      }
   }
 
    .b-2 {
     opacity: 1;
     margin: 4px 0;
-    transition-delay: 0s;
+    @include transition-delay(0s);
 
     span {
       transition: all 0.15s;
-      transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
+      @include transform(translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0));
      }
 
     &.close {
       opacity: 0;
 
       span {
-        transform: translate(-100%, 0%);
+        @include transform(translate(-100%, 0%));
        }
      }
    }
 
    .b-3 {
-    transform: matrix(1,0,0,1,0,0);
-    transition-delay: 0.5s;
+    @include transform(matrix(1,0,0,1,0,0));
+    @include transition-delay(0.5s);
 
     &.close {
-      transform: matrix(-0.7071, -0.7071, 0.7071, -0.7071, 0, -6);
+      @include transform(matrix(-0.7071, -0.7071, 0.7071, -0.7071, 0, -6));
      }
 
     span {
-     transform: translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0);
-     transition-delay: 0.5s;
+     @include transform(translate(100%, 0%) matrix(1, 0, 0, 1, 0, 0));
+     @include transition-delay(0.5s);
     }
 
    }
@@ -456,18 +456,6 @@ body {
     }
 
   }
-}
-
-#mask {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: $black;
-  opacity: 0.05;
-  z-index: 6;
-  @include transition(all 0.35s);
 }
 
 body.frozen {
