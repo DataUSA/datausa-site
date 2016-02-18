@@ -1163,23 +1163,30 @@ body.profile, body.map, body.story {
     #profile-toc {
       @include flex();
       @include flex-direction(row);
-      @include flex-wrap();
+      // @include flex-wrap();
       margin-top: 25px;
 
       .profile-toc-section {
         @include flex-size(1);
         margin: 10px;
-        min-width: 200px;
+        // min-width: 200px;
 
         h2 {
-          font-size: 18px;
+          font-size: 16px;
           letter-spacing: 0.05em;
+          line-height: 20px;
           font-weight: 600;
+          margin-bottom: 5px;
 
-          img {
-            display: inline-block;
-            margin-top: 9px;
-            width: 20px;
+          a {
+            line-height: 1;
+
+            img {
+              display: inline-block;
+              margin-top: 1px;
+              width: 20px;
+            }
+
           }
         }
 
@@ -1193,16 +1200,15 @@ body.profile, body.map, body.story {
           li {
             a {
               font-size: 13px;
+              position: relative;
 
               &::after {
                 content: unicode('203A');
-                position: relative;
-                top: -7px;
-                right: 0;
                 font-size: 27px;
                 font-weight: 400;
-                line-height: 0;
+                line-height: 5px;
                 margin-left: 4px;
+                position: absolute;
                 text-decoration: none;
               }
             }

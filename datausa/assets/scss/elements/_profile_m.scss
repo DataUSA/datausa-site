@@ -8,6 +8,26 @@ body.profile, body.story {
   /* Medium Devices, Desktops */
   @media only screen and (max-width : 992px) {
 
+    .intro {
+
+      #profile-toc {
+        h2 {
+          font-size: 12px !important;
+        }
+        p {
+          display: none;
+        }
+        ul {
+          padding-top: 0 !important;
+        }
+        ul li a {
+          font-size: 12px;
+          letter-spacing: 0;
+        }
+      }
+
+    }
+
   }
 
   /* Small Devices, Tablets */
@@ -29,15 +49,29 @@ body.profile, body.story {
           @include flex-direction(row);
           margin-left: -5px;
         }
-        
+
         .photo-cred {
           padding-bottom: 10px;
         }
-        
+
         .breadcrumb {
           height: auto;
         }
       }
+
+      #profile-toc {
+        @include flex-direction(column);
+
+        h2 {
+          font-size: 16px !important;
+        }
+        ul {
+          padding-left: 10px !important;
+        }
+
+      }
+
+
     }
   }
 

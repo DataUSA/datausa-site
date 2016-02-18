@@ -3746,9 +3746,6 @@ body.profile .intro, body.map .intro, body.story .intro {
     -moz-flex-direction: row;
     -ms-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
     margin-top: 25px; }
     body.profile .intro #profile-toc .profile-toc-section,
     body.map .intro #profile-toc .profile-toc-section,
@@ -3758,20 +3755,25 @@ body.profile .intro, body.map .intro, body.story .intro {
       -webkit-flex: 1;
       -ms-flex: 1;
       flex: 1;
-      margin: 10px;
-      min-width: 200px; }
+      margin: 10px; }
       body.profile .intro #profile-toc .profile-toc-section h2,
       body.map .intro #profile-toc .profile-toc-section h2,
       body.story .intro #profile-toc .profile-toc-section h2 {
-        font-size: 18px;
+        font-size: 16px;
         letter-spacing: 0.05em;
-        font-weight: 600; }
-        body.profile .intro #profile-toc .profile-toc-section h2 img,
-        body.map .intro #profile-toc .profile-toc-section h2 img,
-        body.story .intro #profile-toc .profile-toc-section h2 img {
-          display: inline-block;
-          margin-top: 9px;
-          width: 20px; }
+        line-height: 20px;
+        font-weight: 600;
+        margin-bottom: 5px; }
+        body.profile .intro #profile-toc .profile-toc-section h2 a,
+        body.map .intro #profile-toc .profile-toc-section h2 a,
+        body.story .intro #profile-toc .profile-toc-section h2 a {
+          line-height: 1; }
+          body.profile .intro #profile-toc .profile-toc-section h2 a img,
+          body.map .intro #profile-toc .profile-toc-section h2 a img,
+          body.story .intro #profile-toc .profile-toc-section h2 a img {
+            display: inline-block;
+            margin-top: 1px;
+            width: 20px; }
       body.profile .intro #profile-toc .profile-toc-section p,
       body.map .intro #profile-toc .profile-toc-section p,
       body.story .intro #profile-toc .profile-toc-section p {
@@ -3783,18 +3785,17 @@ body.profile .intro, body.map .intro, body.story .intro {
           body.profile .intro #profile-toc .profile-toc-section ul li a,
           body.map .intro #profile-toc .profile-toc-section ul li a,
           body.story .intro #profile-toc .profile-toc-section ul li a {
-            font-size: 13px; }
+            font-size: 13px;
+            position: relative; }
             body.profile .intro #profile-toc .profile-toc-section ul li a::after,
             body.map .intro #profile-toc .profile-toc-section ul li a::after,
             body.story .intro #profile-toc .profile-toc-section ul li a::after {
               content: "\203A";
-              position: relative;
-              top: -7px;
-              right: 0;
               font-size: 27px;
               font-weight: 400;
-              line-height: 0;
+              line-height: 5px;
               margin-left: 4px;
+              position: absolute;
               text-decoration: none; }
 body.profile .prof-body, body.map .prof-body, body.story .prof-body {
   padding: 60px 50px 25px;
@@ -4609,6 +4610,17 @@ body.redirect nav {
             font-style: normal;
             margin: 0 0 5px 0;
             text-transform: uppercase; }
+@media only screen and (max-width : 992px) {
+  body.profile .intro #profile-toc h2, body.story .intro #profile-toc h2 {
+    font-size: 12px !important;   }
+    body.profile .intro #profile-toc p, body.story .intro #profile-toc p {
+      display: none;   }
+      body.profile .intro #profile-toc ul, body.story .intro #profile-toc ul {
+        padding-top: 0 !important;   }
+        body.profile .intro #profile-toc ul li a, body.story .intro #profile-toc ul li a {
+          font-size: 12px;
+          letter-spacing: 0;   }
+}
 @media only screen and (max-width : 768px) {
   body.profile .intro .intro-head, body.story .intro .intro-head {
     -webkit-flex-direction: column;
@@ -4648,6 +4660,15 @@ body.redirect nav {
           body.profile .intro .intro-head .breadcrumb,
           body.story .intro .intro-head .breadcrumb {
             height: auto;   }
+  body.profile .intro #profile-toc, body.story .intro #profile-toc {
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;   }
+    body.profile .intro #profile-toc h2, body.story .intro #profile-toc h2 {
+      font-size: 16px !important;   }
+      body.profile .intro #profile-toc ul, body.story .intro #profile-toc ul {
+        padding-left: 10px !important;   }
 }
 @media only screen and (max-width : 480px) {
   body.profile #profile-nav, body.profile #stats-bar, body.story #profile-nav,
