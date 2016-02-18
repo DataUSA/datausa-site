@@ -6,7 +6,7 @@ dusa_popover.close = function() {
   d3.selectAll(".overlay").remove();
 }
 
-dusa_popover.open = function(panels, active_panel_id, url) {
+dusa_popover.open = function(panels, active_panel_id, url, build) {
   
   d3.select("body")
     .append("div")
@@ -165,21 +165,27 @@ dusa_popover.open = function(panels, active_panel_id, url) {
         .attr("class", "filetypes")
     
       var file_svg = social.append("div")
-        .on("click", function(){})
+        .on("click", function(){
+          save(build.container.select(".d3plus").select("svg"), {"mode": "svg", "name":build.title})
+        })
       file_svg.append("i")
         .attr("class", "fa fa-file-code-o")
       file_svg.append("span")
         .text("SVG")
     
       var file_pdf = social.append("div")
-        .on("click", function(){})
+        .on("click", function(){
+          save(build.container.select(".d3plus").select("svg"), {"mode": "pdf", "name":build.title})
+        })
       file_pdf.append("i")
         .attr("class", "fa fa-file-pdf-o")
       file_pdf.append("span")
         .text("PDF")
     
       var file_img = social.append("div")
-        .on("click", function(){})
+        .on("click", function(){
+          save(build.container.select(".d3plus").select("svg"), {"mode": "png", "name":build.title})
+        })
       file_img.append("i")
         .attr("class", "fa fa-file-image-o")
       file_img.append("span")

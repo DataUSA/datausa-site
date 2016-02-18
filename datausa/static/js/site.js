@@ -4494,7 +4494,7 @@ dusa_popover.close = function() {
   d3.selectAll(".overlay").remove();
 }
 
-dusa_popover.open = function(panels, active_panel_id, url) {
+dusa_popover.open = function(panels, active_panel_id, url, build) {
   
   d3.select("body")
     .append("div")
@@ -4672,6 +4672,11 @@ dusa_popover.open = function(panels, active_panel_id, url) {
         .attr("class", "fa fa-file-image-o")
       file_img.append("span")
         .text("Image")
+        .on("click", function(){
+          
+            save(build.container.select(".d3plus").select("svg"), {"mode": "png", "name":build.title})
+          
+        })
     }
   })
   
@@ -7711,7 +7716,8 @@ viz.loadBuilds = function(builds) {
             {"title":"Download"}
           ], 
           d3.select(this).attr("data-target-id"),
-          d3.select(this).attr("data-url"))
+          d3.select(this).attr("data-url"),
+          build)
       //     var type = d3.select(this).attr("data-ga").split(" ")[0];
       //     if (type === "embed") {
       //       var link_open = shares.select(".embed-input").classed("open");

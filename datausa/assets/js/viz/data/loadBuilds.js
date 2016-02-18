@@ -103,7 +103,8 @@ viz.loadBuilds = function(builds) {
             {"title":"Download"}
           ], 
           d3.select(this).attr("data-target-id"),
-          d3.select(this).attr("data-url"))
+          d3.select(this).attr("data-url"),
+          build)
       //     var type = d3.select(this).attr("data-ga").split(" ")[0];
       //     if (type === "embed") {
       //       var link_open = shares.select(".embed-input").classed("open");
