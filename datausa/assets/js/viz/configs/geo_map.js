@@ -2,6 +2,8 @@ viz.geo_map = function(build) {
 
   var key = build.config.coords.key;
 
+  var profile = d3.select("body").classed("profile") && !d3.select("body").classed("embed");
+
   return {
     "coords": {
       "center": [0, 0],
@@ -15,7 +17,8 @@ viz.geo_map = function(build) {
       "click": false
     },
     "zoom": {
-      "scroll": false
+      "pan": profile ? false : true,
+      "scroll": profile ? false : true
     }
   };
 }

@@ -7253,6 +7253,8 @@ viz.geo_map = function(build) {
 
   var key = build.config.coords.key;
 
+  var profile = d3.select("body").classed("profile") && !d3.select("body").classed("embed");
+
   return {
     "coords": {
       "center": [0, 0],
@@ -7266,7 +7268,8 @@ viz.geo_map = function(build) {
       "click": false
     },
     "zoom": {
-      "scroll": false
+      "pan": profile ? false : true,
+      "scroll": profile ? false : true
     }
   };
 }
@@ -8920,7 +8923,7 @@ viz.mapDraw = function(vars) {
       var id = big ? "geo_map_sidebar" : "geo_map";
 
       if (big) {
-        if (vars.zoom.scroll) {
+        if (d3.select("#map-filters").size()) {
           var x = 0, y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
               mh = window.innerHeight - y - 15;
           if (d3plus.client.ie) mh -= 35;
@@ -8997,7 +9000,7 @@ viz.mapDraw = function(vars) {
         "max_width": vizStyles.tooltip.small,
         "mouseevents": big ? true : false,
         "offset": big ? 0 : 3,
-        "parent": big && !vars.zoom.scroll ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
+        "parent": big && !d3.select("#map-filters").size() ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
         "title": d.id ? vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}) : undefined,
         "width": vizStyles.tooltip.small,
         "x": x,
@@ -9105,7 +9108,7 @@ viz.mapDraw = function(vars) {
     }
 
     if (!vars.zoom.set) {
-      if (vars.zoom.scroll) createTooltip({}, true);
+      if (d3.select("#map-filters").size()) createTooltip({}, true);
       zoomed();
       vars.zoom.set = true;
     }
@@ -9125,9 +9128,16 @@ viz.mapDraw = function(vars) {
       svg.call(zoom);
       if (!vars.zoom.scroll) {
         svg
-          .on("mousewheel.zoom",null)
-          .on("MozMousePixelScroll.zoom",null)
-          .on("wheel.zoom",null);
+          .on("mousewheel.zoom", null)
+          .on("MozMousePixelScroll.zoom", null)
+          .on("wheel.zoom", null);
+      }
+      if (!vars.zoom.pan) {
+        svg
+          .on("mousedown.zoom", null)
+          .on("mousemove.zoom", null)
+          .on("touchstart.zoom", null)
+          .on("touchmove.zoom", null);
       }
     }
   }
@@ -9139,11 +9149,11 @@ viz.mapDraw = function(vars) {
     var mod = 0;
     if (d) {
       var bounds = path.bounds(d);
-      mod = vars.zoom.scroll || d.id.slice(0, 3) === "140" ? 0 : 250;
+      mod = d3.select("#map-filters").size() || d.id.slice(0, 3) === "140" ? 0 : 250;
       zoomToBounds(bounds, mod);
     }
     else {
-      if (vars.zoom.scroll) createTooltip({}, true);
+      if (d3.select("#map-filters").size()) createTooltip({}, true);
       var ns = s;
       if (!(projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length)) {
         ns = (ns/Math.PI/2) * polyZoom;
@@ -9157,7 +9167,7 @@ viz.mapDraw = function(vars) {
   function zoomToBounds(b, mod) {
 
     if (mod === void 0) {
-      mod = vars.zoom.scroll || !vars.highlight.path || vars.highlight.path.id.slice(0, 3) === "140" ? 0 : 250;
+      mod = d3.select("#map-filters").size() || !vars.highlight.path || vars.highlight.path.id.slice(0, 3) === "140" ? 0 : 250;
     }
 
     var w = width - mod;
@@ -9173,6 +9183,11 @@ viz.mapDraw = function(vars) {
   }
 
   function zoomed(zoomtiming) {
+
+    if (d3.event && !vars.zoom.pan) {
+      vars.zoom.pan = true;
+      zoomEvents();
+    }
 
     if (vars.tiles.value) {
       var trans = zoom.translate(),
@@ -9273,7 +9288,7 @@ viz.map = function() {
     "tiles": {"value": true},
     "tooltip": {"url": false, "value": []},
     "width": {"value": false},
-    "zoom": {"scroll": false, "set": false, "value": true, "reset": true}
+    "zoom": {"pan": false, "scroll": false, "set": false, "value": true, "reset": true}
   };
 
   // the drawing function
