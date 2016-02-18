@@ -1,0 +1,160 @@
+.countdown {
+  margin: 0 auto;
+  @include flex();
+  @include flex-direction(row);
+  @include justify(center);
+  color: white;
+  
+  .clock-hand {
+    @include flex-size(1);
+    text-align: center;
+  }
+
+  .colon {
+    @include flex-size(0);
+    text-align: center;
+  }
+
+  .time {
+    display: inline-block;
+    font-family: $pathway;
+  }
+
+  .label {
+    display: block;
+    font-family: $palanquin;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  &#countdown-lg {
+    .time {
+      @media all and (max-width: 500px){
+        font-size: 16vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 80px;
+      }
+    }
+
+    .label {
+      @media all and (max-width: 500px){
+        font-size: 3.2vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 16px;
+      }
+    }
+  }
+
+  &#countdown-sm {
+    width: 60%;
+    max-width: 350px;
+    padding-top: 5vh;
+
+    .time {
+      @media all and (max-width: 500px){
+        font-size: 11vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 55px;
+      }
+    }
+    
+    .label {
+      @media all and (max-width: 500px){
+        font-size: 2.6vw;
+      }
+      @media all and (min-width: 501px){
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.cd-scroll-down {
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 26px;
+  height: 38px;
+  background: url('/img/cd-arrow-bottom.svg') no-repeat center center;
+}
+
+.btn {
+  @include box();
+  position: relative;
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+  display: inline-block;
+  padding: 15px 27px;
+  font-family: $palanquin;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 0.78571rem;
+  line-height: 1;
+  letter-spacing: 0.21em;
+  text-transform: uppercase;
+  color: #fff;
+
+  @media all and (max-width: 600px){
+    padding: 15px 35px;
+  }
+}
+
+.material-btn {
+  color: #fff;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid #fff;
+  z-index: 0;
+  @include transition(color 0.4s cubic-bezier(0.19, 0.8, 0.22, 0.8));
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    @include transform(translate3d(0, 50px, 0));
+    z-index: -1;
+    @include transition(all 0.4s cubic-bezier(0.19, 0.8, 0.22, 0.8));
+  }
+
+  &:hover {
+    color: $black;
+    
+    &::before {
+      top: 0;
+      @include transform(translate3d(0, 0, 0));  
+    }
+  }
+}
+
+.icon-btn {
+  background-image: url('/img/arrow-right2.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 55%;
+
+  @media all and (max-width: 600px){
+    background-size: 40%;
+  }
+}
+
+.sign-up-btn {
+  background-color: transparent;
+  border: 0;
+  margin-left: -60px;
+  @include transition(all 0.3s ease-out);
+
+  &:hover {
+    background-position: 65% center;
+  }
+}

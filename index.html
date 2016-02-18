@@ -14,15 +14,19 @@
 <body>
 	<div class="hero-container">
 		<div class="hero-img bg"></div>
-		<div id="logo"></div>
-		<div class="hero-img fg"></div>
-		<div id="logo-shadow"></div>
-		<div id="desc"></div>
-		<div id="desc-shadow"></div>
 	</div>
 	
 	<div id="section1" class="cd-section">
-		<div class="countdown" id="countdown">
+		<div id="logo-container" class="title">
+			<div class="title-img" id="logo"></div>
+			<div class="title-img" id="logo-shadow"></div>
+		</div>
+		<div id="desc-container" class="title">
+			<div class="title-img" id="desc"></div>
+			<div class="title-img" id="desc-shadow"></div>
+		</div>
+		
+		<div class="countdown main" id="countdown-lg">
 		    <div class="clock-hand">
 		    	<span class="time days"></span><span class="label">Days</span>
 		    </div>
@@ -44,13 +48,24 @@
 			<a href="#sign-up" id="sign-up-btn" class="btn material-btn scroll-btn" alt="Sign up">Sign up</a>
 		</div>
 
+		<div class="co-logos">
+			<a class="co" href="http://www2.deloitte.com/us/en.html" target="_blank">
+				<img class="deloitte" src="img/company-logos/deloitte.svg" />
+			</a>
+			<a class="co" href="http://macro.media.mit.edu/" target="_blank">
+				<img class="mit" src="img/company-logos/mit.svg" />
+			</a>
+			<a class="co" href="http://www.datawheel.us/" target="_blank">
+				<img class="datawheel" src="img/company-logos/datawheel.svg" />
+			</a>
+		</div>
+
 		<a href="#features" class="cd-scroll-down"></a>
 	</div>
 
 	<div id="section2" class="cd-section">
 		<div class="main">
 			<a href="#" name="features"></a>
-			<img class="cross" src="/img/cross.png" />
 			<h3 class="section-title">Features</h3>
 		</div>
 
@@ -98,10 +113,6 @@
 	</div>
 
 	<div id="section3" class="cd-section">
-		<div class="main">
-			<img class="arrows" src="/img/arrows.png" />
-		</div>
-
 		<div class="main subheader">
 			<h3 class="section-desc">Each of the 4 data profiles is divided into more specialized sections.</h3>
 		</div>
@@ -271,15 +282,15 @@
 			</div>
 			<!--End mc_embed_signup-->
 
-			<footer>
+			<footer class="co-logos">
 				<a class="co" href="http://www2.deloitte.com/us/en.html" target="_blank">
 					<img class="deloitte" src="img/company-logos/deloitte.svg" />
 				</a>
-				<a class="co" href="http://www.datawheel.us/" target="_blank">
-					<img class="datawheel" src="img/company-logos/datawheel.svg" />
-				</a>
 				<a class="co" href="http://macro.media.mit.edu/" target="_blank">
 					<img class="mit" src="img/company-logos/mit.svg" />
+				</a>
+				<a class="co" href="http://www.datawheel.us/" target="_blank">
+					<img class="datawheel" src="img/company-logos/datawheel.svg" />
 				</a>
 			</footer>
 
