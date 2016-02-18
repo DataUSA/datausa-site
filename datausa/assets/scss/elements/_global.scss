@@ -284,12 +284,12 @@ a.term {
   &::before {
     content: '';
     position: absolute;
-    top: 3px;
+    top: 100%;
     left: -1%;
     height: 100%;
     width: 102%;
     background: #fff;
-    @include transition(transform 0.4s cubic-bezier(1, 0, 0, 1));
+    @include transition(all 0.4s cubic-bezier(1, 0, 0, 1));
     @include transform(translate3d(0, 50px, 0));
     z-index: -1;
   }

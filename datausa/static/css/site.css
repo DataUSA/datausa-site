@@ -545,15 +545,15 @@ a.term {
   .pri-btn::before {
     content: '';
     position: absolute;
-    top: 3px;
+    top: 100%;
     left: -1%;
     height: 100%;
     width: 102%;
     background: #fff;
-    -moz-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
-    -o-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
-    -webkit-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
-    transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+    -moz-transition: all 0.4s cubic-bezier(1, 0, 0, 1);
+    -o-transition: all 0.4s cubic-bezier(1, 0, 0, 1);
+    -webkit-transition: all 0.4s cubic-bezier(1, 0, 0, 1);
+    transition: all 0.4s cubic-bezier(1, 0, 0, 1);
     z-index: -1; }
     .pri-btn:hover {
       color: #1B191D;
@@ -2848,7 +2848,7 @@ body.profile nav, body.map nav, body.story nav {
                   body.profile #splash .content #splash-stats .stat .stat-text,
                   body.map #splash .content #splash-stats .stat .stat-text,
                   body.story #splash .content #splash-stats .stat .stat-text {
-                    font-size: 17px;
+                    font-size: 16px;
                     text-align: center;
                     color: #fff;
                     line-height: 1.15;
@@ -4674,45 +4674,65 @@ body.redirect nav {
   body.profile #profile-nav, body.profile #stats-bar, body.story #profile-nav,
   body.story #stats-bar {
     display: none;   }
-    body.profile #splash, body.story #splash {
-      width: 100%;   }
-      body.profile #splash #splash-image, body.story #splash #splash-image {
-        background-attachment: scroll;   }
+    body.profile #show-bg i, body.story #show-bg i {
+      padding: 15px 10px;   }
+      body.profile #splash, body.story #splash {
+        width: 100%;   }
         body.profile #splash #splash-image::after, body.story #splash #splash-image::after {
           background: -webkit-linear-gradient(top, transparent 10%, rgba(20, 27, 46, 0.7) 60%,
                     #141b2e 97%);   }
-      body.profile #splash .content, body.story #splash .content {
-        padding: 40px 10px 100px;   }
-        body.profile #splash .content .row-last, body.story #splash .content .row-last {
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          -ms-flex-direction: column;
-          flex-direction: column;   }
-          body.profile #splash .content .splash-breadcrumb,
-          body.story #splash .content .splash-breadcrumb {
-            display: none;   }
-            body.profile #splash .content .splash-icon-nav,
-            body.story #splash .content .splash-icon-nav {
-              width: 100%;
-              margin-right: 0;
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;   }
-              body.profile #splash .content .splash-icon-nav a,
-              body.story #splash .content .splash-icon-nav a {
-                padding: 0 5px;
-                margin: 0;   }
-                body.profile #splash .content .splash-icon-nav img,
-                body.story #splash .content .splash-icon-nav img {
-                  width: 20px;
-                  height: 20px;   }
-                  body.profile #splash .content .splash-icon-nav span,
-                  body.story #splash .content .splash-icon-nav span {
-                    margin-top: 3px;
-                    font-size: 9px;
-                    line-height: 1.3;   }
+        body.profile #splash .content, body.story #splash .content {
+          padding: 40px 10px 100px;   }
+          body.profile #splash .content #splash-stats,
+          body.story #splash .content #splash-stats {
+            -webkit-align-items: flex-end;
+            align-items: flex-end;
+            -ms-flex-align: end;
+            flex-align: end;   }
+            body.profile #splash .content #splash-stats .stat .stat-text,
+            body.story #splash .content #splash-stats .stat .stat-text {
+              font-size: 13px;   }
+              body.profile #splash .content #splash-stats .stat .stat-value,
+              body.story #splash .content #splash-stats .stat .stat-value {
+                font-size: 26px;
+                opacity: 1;   }
+          body.profile #splash .content .row-last, body.story #splash .content .row-last {
+            -webkit-flex-direction: column;
+            -moz-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;   }
+            body.profile #splash .content .splash-breadcrumb,
+            body.story #splash .content .splash-breadcrumb {
+              display: none;   }
+              body.profile #splash .content .splash-icon-nav,
+              body.story #splash .content .splash-icon-nav {
+                width: 100%;
+                margin-right: 0;
+                margin-top: 3vh;
+                -webkit-justify-content: space-between;
+                -moz-justify-content: space-between;
+                justify-content: space-between;
+                -ms-flex-pack: justify;
+                flex-pack: justify;   }
+                body.profile #splash .content .splash-icon-nav a,
+                body.story #splash .content .splash-icon-nav a {
+                  width: 80px;
+                  padding: 0 5px;
+                  margin: 10px 0;   }
+                  body.profile #splash .content .splash-icon-nav a img,
+                  body.story #splash .content .splash-icon-nav a img {
+                    width: 20px;
+                    height: 20px;   }
+                    body.profile #splash .content .splash-icon-nav a span,
+                    body.story #splash .content .splash-icon-nav a span {
+                      margin-top: 3px;
+                      font-size: 8px;
+                      line-height: 1.3;
+                      overflow-wrap: break-word;
+                      word-wrap: break-word;
+                      -ms-word-break: break-all;
+                      word-break: break-word;
+                      white-space: initial !important;   }
   body.profile .profile-section, body.story .profile-section {
     -webkit-flex-direction: column;
     -moz-flex-direction: column;
