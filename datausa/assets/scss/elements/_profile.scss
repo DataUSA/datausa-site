@@ -268,7 +268,7 @@ body.profile, body.map, body.story {
     margin-top: 7px;
 
     .plus-minus {
-      color: $home-red;
+      color: $red-w;
     }
   }
 
@@ -1666,34 +1666,35 @@ body.profile, body.map, body.story {
   }
 
   .share-section {
-    margin-top: 10px;
-    a {
-      color: #a8a8a8;
-      cursor: pointer;
-      font-size: 15px;
-      padding: 10px;
-      margin-left: -10px;
+    margin-top: 13px;
 
-      i {
-        @include transition(opacity 0.1s);
-        opacity: 0.7;
+    .share-embed {
+      position: relative;
+      width: 90px;
+      padding: 6px 5px;
+      border: 1px solid #BDBDBD;
+      color: #949494;
+      text-align: center;
+
+      &::before {
+        background-color: rgba(163, 163, 163, 0.35);
+        z-index: 1;
       }
 
       &:hover {
-        i {
-          opacity: 1;
+        span {
+          color: #4E4E4E !important;
         }
       }
-    }
 
-    .share-embed {
-      border: solid 1px #aaa;
-      border-radius: 4px;
-      margin: 0;
-      padding: 0 4px;
-      i {
-        display: inline-block;
-        margin: 7px 5px 0 0;
+      span {
+        color: #949494;
+        font-family: $palanquin;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: normal;
+        z-index: 2;
+        @include transition(color 0.45s);
       }
     }
 

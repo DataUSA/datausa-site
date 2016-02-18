@@ -7,25 +7,25 @@ topics:
     slug: "clinician_patient_ratio"
     subtitle: "<<sub dataset=chr>>"
     sumlevel: "!nation"
-  - class: "flex"
+  - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     stat:
       - title: "Primary Care"
         value: "1 to <<var namespace=health|key=primary_care_physicians>>"
-  - class: "flex"
+  - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     stat:
       - title: "Dentists"
         value: "1 to <<var namespace=health|key=dentists>>"
-  - class: "flex"
+  - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     stat:
       - title: "Mental Health"
         value: "1 to <<var namespace=health|key=mental_health_providers>>"
-  - class: "flex"
+  - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     stat:

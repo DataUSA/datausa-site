@@ -168,6 +168,21 @@ body.profile, body.story {
         margin: 0 0 50px;
       }
 
+      .topic.stat-flex {
+        margin: 10px 0 15px;
+
+        .content {
+          width: 60%;
+          margin: 0 auto;
+          text-align: center;
+
+          .stat {
+            margin-right: 0 !important;
+            text-align: center !important;
+          }
+        }
+      }
+
       .topic {
         @include flex-size(1 0 auto);
         padding: 0 0 50px 0;
@@ -186,13 +201,18 @@ body.profile, body.story {
         .content {
           @include flex-direction(column);
           width: 100%;
+          margin-top: 0;
 
           aside {
             width: 100%;
             max-width: 100%;
 
+            p {
+              margin: 10px 0;
+            }
+
             .sub {
-              margin-bottom: 20px;
+              margin-bottom: 5px;
             }
 
             & > .topic-stats:first-child {
@@ -206,7 +226,7 @@ body.profile, body.story {
               .stat {
                 @include flex();
                 @include flex-direction(column);
-                margin: 0;
+                margin: 5px 3px;
                 text-align: left;
 
                 .stat-text {
@@ -215,6 +235,11 @@ body.profile, body.story {
 
                 .stat-value {
                   margin-bottom: 0;
+
+                  &.stat-small {
+                    font-size: 16px;
+                    margin-top: 5px;
+                  }
                 }
 
                 .stat-subtitle {
@@ -223,6 +248,7 @@ body.profile, body.story {
               }
             }
           }
+
           .viz {
             margin-top: 10px;
             margin-left: 0;
@@ -235,7 +261,7 @@ body.profile, body.story {
     .data-btn {
       float: none;
       display: block;
-      margin: 5px 0 5px auto;
+      margin: 5px 0 15px auto;
     }
 
     .stat-value {
