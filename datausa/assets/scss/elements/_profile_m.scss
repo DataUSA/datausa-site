@@ -77,8 +77,45 @@ body.profile, body.story {
 
   /* Extra Small Devices, Phones */
   @media only screen and (max-width : 480px) {
-    #profile-nav, #stats-bar {
-      display: none;
+
+    #stats-bar {
+      height: 0 !important;
+    }
+
+    .expand-stats-btn, #back-to-top {
+      display: none !important;
+    }
+
+    #nav-bar-scroll {
+
+      height: 43px;
+
+    }
+
+    #profile-nav {
+
+      height: 43px;
+
+      &.visible {
+        top: 0 !important;
+      }
+
+      a {
+        min-width: 60px;
+
+        li {
+
+          img {
+            padding: 8px 15px 0;
+          }
+
+          .profile-nav-text {
+            display: none;
+          }
+        }
+
+      }
+
     }
 
     #show-bg i {
@@ -279,6 +316,7 @@ body.profile, body.story {
         @include flex-size(1 1 auto);
       }
     }
+
   }
 
   /* Custom, iPhone Retina */

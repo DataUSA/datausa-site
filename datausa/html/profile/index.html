@@ -172,7 +172,7 @@
   <div id="profile-nav">
     <ul class="pri-menu">
     {% for section in sections %}
-      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}" class="pri-link"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</li></a>
+      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}" class="pri-link"><img src="/static/img/icons/{{ section.anchor }}.svg" /><span class="profile-nav-text">{{ section.title|safe }}</span></li></a>
     {% endfor %}
     </ul>
     <a href="#top" id="back-to-top">
@@ -319,10 +319,11 @@
     d3.select("#section-sidenav").classed("visible", showProfNav);
 
     var active_section;
+    var top_buffer = titleNavHeight + profNavHeight + statNavHeight + 5;
     d3.selectAll("header a[name]")
       .each(function(){
         var top = this.parentNode.parentNode.offsetTop;
-        if (top - titleNavHeight - profNavHeight - statNavHeight < y) {
+        if (top - top_buffer < y) {
           active_section = this.name;
         }
       })
@@ -336,7 +337,7 @@
     if (subs.size()) {
       subs.each(function(){
           var top = this.parentNode.offsetTop;
-          if (top - titleNavHeight - profNavHeight - statNavHeight < y) {
+          if (top - top_buffer < y) {
             active_sub = this.name;
           }
         });
