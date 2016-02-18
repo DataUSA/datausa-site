@@ -1250,9 +1250,9 @@ body.profile, body.map, body.story {
     @include flex();
     @include flex-direction(column);
     @include transition(opacity 0.5s);
-    height: 200px;
+    height: 100vh;
     left: -30px;
-    margin-top: -100px + $nav-height;
+    // padding-top: $nav-height;
     position: fixed;
     top: 0;
     z-index: 6;
@@ -1260,12 +1260,13 @@ body.profile, body.map, body.story {
 
     &.visible {
       left: 15px;
-      top: 50%;
+      // top: 50%;
       opacity: 1;
     }
 
     .section-sidenav-group {
       @include box();
+      display: block;
 
       &:not(:last-child) {
         border-bottom: 1px solid #ccc;

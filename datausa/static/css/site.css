@@ -3871,9 +3871,8 @@ body.story #section-sidenav {
   -o-transition: opacity 0.5s;
   -webkit-transition: opacity 0.5s;
   transition: opacity 0.5s;
-  height: 200px;
+  height: 100vh;
   left: -30px;
-  margin-top: -60px;
   position: fixed;
   top: 0;
   z-index: 6;
@@ -3881,14 +3880,14 @@ body.story #section-sidenav {
   body.profile #section-sidenav.visible, body.map #section-sidenav.visible,
   body.story #section-sidenav.visible {
     left: 15px;
-    top: 50%;
     opacity: 1; }
     body.profile #section-sidenav .section-sidenav-group,
     body.map #section-sidenav .section-sidenav-group,
     body.story #section-sidenav .section-sidenav-group {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
-      box-sizing: border-box; }
+      box-sizing: border-box;
+      display: block; }
       body.profile #section-sidenav .section-sidenav-group:before,
       body.profile #section-sidenav .section-sidenav-group:after,
       body.map #section-sidenav .section-sidenav-group:before,
