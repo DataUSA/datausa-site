@@ -146,7 +146,8 @@ body.profile, body.story {
 
     .profile-section {
       @include flex-direction(column);
-      padding: 0 15px 0 25px;
+      padding: 0 30px 0 50px;
+      @include box();
 
       .category {
         margin: 30px 0;
@@ -158,7 +159,9 @@ body.profile, body.story {
 
       .topic {
         @include flex-size(1 0 auto);
-        padding: 0 15px 50px 25px;
+        padding: 0 0 50px 0;
+        width: 100%;
+        @include box();
 
         &.flex {
           @include flex-size(1 0 auto);
@@ -166,25 +169,46 @@ body.profile, body.story {
 
         .content {
           @include flex-direction(column);
+          width: 100%;
 
           aside {
             width: 100%;
             max-width: 100%;
 
+            .sub {
+              margin-bottom: 20px;
+            }
+
+            & > .topic-stats {
+              .stat:only-child {
+                margin-right: 90px;
+                margin-top: -40px
+              }
+            }
+
             .topic-stats {
               .stat {
                 @include flex();
                 @include flex-direction(column);
-                margin: 20px 10px 0;
-                text-align: center;
+                margin: 0;
+                text-align: left;
 
                 .stat-text {
                   margin-bottom: 0;
+                }
+
+                .stat-value {
+                  margin-bottom: 0;
+                }
+
+                .stat-subtitle {
+                  margin-top: 0;
                 }
               }
             }
           }
           .viz {
+            margin-top: 10px;
             margin-left: 0;
             width:100%;
           }
@@ -192,11 +216,11 @@ body.profile, body.story {
       }
     }
 
-    // .data-btn {
-    //   float: none;
-    //   display: block;
-    //   margin: -10px 0 15px;
-    // }
+    .data-btn {
+      float: none;
+      display: block;
+      margin: 5px 0 5px auto;
+    }
 
     .stat-value {
       display: inline-block;

@@ -243,7 +243,7 @@
 
   var fontRange = [50, 65];
   if (window.innerWidth <= 480) {
-    fontRange = [50, 65];
+    fontRange = [45, 60];
   }
 
   var fontScale = d3.scale.linear()
@@ -303,7 +303,7 @@
 
     var parallaxScroll = d3.scale.linear()
       .domain([0, window.innerHeight])
-      .rangeRound([0, window.innerHeight/3])
+      .rangeRound([0, window.innerHeight/3.6])
       .clamp(true);
 
     d3.select("#splash-image").style("top", parallaxScroll(y) + "px")
