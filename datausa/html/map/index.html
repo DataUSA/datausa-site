@@ -78,7 +78,7 @@
     .focus("{{ defaultKey }}", function(d, viz){
       var newLevelData = levelData.filter(function(dd) { return mapdata[dataset][d].indexOf(dd.value) >= 0; });
       if (mapdata[dataset][d].indexOf(levels.focus()) < 0) {
-        levels.focus(mapdata[dataset][d][mapdata[d].length - 1]);
+        levels.focus(newLevelData[newLevelData.length - 1].value);
       }
       levels.data(newLevelData).draw();
       if (!viz.draw(Object).first) {
