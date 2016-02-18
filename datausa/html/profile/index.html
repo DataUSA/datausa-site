@@ -241,9 +241,15 @@
 
 <script>
 
+  var fontRange = [50, 65];
+  if (window.innerWidth <= 480) {
+    fontRange = [50, 65];
+  }
+
   var fontScale = d3.scale.linear()
     .domain([60, 20])
-    .range([50, 65]);
+    .range(fontRange)
+    .clamp(true);
 
   var title = d3.select(".splash-titles h1");
   title.style("font-size", fontScale(title.text().length) + "px");
