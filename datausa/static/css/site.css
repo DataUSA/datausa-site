@@ -6269,3 +6269,78 @@ body.about {
         body.about .sumlevels li::before {
           position: relative;   }
 }
+@media print {
+  #menu-btn, nav, #nav-bar-scroll, #section-sidenav, .share-section, .profile-end,
+  .data-btn {
+    display: none !important;   }
+    #splash {
+      display: block !important;
+      height: 3in !important;   }
+      #splash .content {
+        display: block !important;
+        text-align: center !important;   }
+        #splash .content .splash-titles, #splash .content #splash-stats {
+          display: block !important;
+          margin: 10px auto !important;   }
+          #splash .content .splash-titles .stat, #splash .content #splash-stats .stat {
+            display: inline-block !important;
+            width: 20% !important;   }
+      #splash #scroll-btn, #splash .f, #splash .splash-icon-nav {
+        display: none !important;   }
+  .intro {
+    padding: 25px 0 !important;   }
+    .intro .intro-head {
+      display: block !important;   }
+      .intro .intro-head .section-title, .intro .intro-head .r {
+        display: block !important;   }
+        .intro .intro-head .section-title .photo-cred,
+        .intro .intro-head .section-title .breadcrumb, .intro .intro-head .r .photo-cred,
+        .intro .intro-head .r .breadcrumb {
+          display: block !important;
+          width: 100% !important;   }
+    .intro .col {
+      display: block !important;   }
+      .intro .col > * {
+        display: block !important;   }
+    .intro #profile-toc {
+      display: block !important;   }
+      .intro #profile-toc .profile-toc-section {
+        display: inline-block !important;
+        margin: 0 2% !important;
+        width: 28% !important;   }
+        .intro #profile-toc .profile-toc-section ul {
+          display: none !important;   }
+  .prof-body {
+    background-color: transparent !important;
+    padding: 60px 0 25px !important;   }
+    .profile-section {
+      background-color: transparent !important;
+      display: block !important;
+      padding: 0 !important;
+      width: 100% !important;   }
+      .profile-section .topic {
+        display: block !important;
+        page-break-inside: avoid;
+        -webkit-region-break-inside: avoid;
+        padding: 0 0 50px !important;
+        width: 100% !important;   }
+        .profile-section .topic.flex {
+          display: inline-block !important;
+          margin: 0 2% !important;
+          width: 29% !important;   }
+          .profile-section .topic.flex.stat-flex {
+            margin: 0 2% !important;
+            width: 23% !important;   }
+        .profile-section .topic .content {
+          display: block !important;
+          page-break-inside: avoid;
+          -webkit-region-break-inside: avoid;
+          width: 100% !important;   }
+          .profile-section .topic .content aside {
+            display: inline-block !important;
+            width: 40% !important;   }
+            .profile-section .topic .content .viz {
+              display: inline-block !important;
+              margin-left: 4% !important;
+              width: 55% !important;   }
+}

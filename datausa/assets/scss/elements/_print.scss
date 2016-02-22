@@ -1,0 +1,132 @@
+@media print {
+
+  #menu-btn, nav, #nav-bar-scroll, #section-sidenav, .share-section, .profile-end, .data-btn {
+    display: none !important;
+  }
+
+  #splash {
+    display: block !important;
+    height: 3in !important;
+
+    .content {
+      display: block !important;
+      text-align: center !important;
+
+      .splash-titles, #splash-stats {
+        display: block !important;
+        margin: 10px auto !important;
+
+        .stat {
+          display: inline-block !important;
+          width: 20% !important;
+        }
+      }
+
+    }
+
+    #scroll-btn, .f, .splash-icon-nav {
+      display: none !important;
+    }
+
+  }
+
+  .intro {
+    padding: 25px 0 !important;
+
+    .intro-head {
+      display: block !important;
+
+      .section-title, .r {
+        display: block !important;
+
+        .photo-cred, .breadcrumb {
+          display: block !important;
+          width: 100% !important;
+        }
+
+      }
+
+    }
+
+    .col {
+      display: block !important;
+
+      & > * {
+        display: block !important;
+      }
+
+    }
+
+    #profile-toc {
+      display: block !important;
+
+      .profile-toc-section {
+        display: inline-block !important;
+        margin: 0 2% !important;
+        width: 28% !important;
+
+        ul {
+          display: none !important;
+        }
+
+      }
+
+    }
+
+  }
+
+  .prof-body {
+    background-color: transparent !important;
+    padding: 60px 0 25px !important;
+  }
+
+  .profile-section {
+    background-color: transparent !important;
+    display: block !important;
+    padding: 0 !important;
+    width: 100% !important;
+
+    .topic {
+      display: block !important;
+      page-break-inside: avoid;
+      -webkit-region-break-inside: avoid;
+      padding: 0 0 50px !important;
+      width: 100% !important;
+
+      &.flex {
+        display: inline-block !important;
+        margin: 0 2% !important;
+        width: 29% !important;
+
+        &.stat-flex {
+          margin: 0 2% !important;
+          width: 23% !important;
+        }
+
+      }
+
+      .content {
+        display: block !important;
+          page-break-inside: avoid;
+          -webkit-region-break-inside: avoid;
+        width: 100% !important;
+
+        aside {
+          display: inline-block !important;
+          width: 40% !important;
+        }
+
+        .viz {
+          display: inline-block !important;
+          margin-left: 4% !important;
+          width: 55% !important;
+        }
+
+      }
+
+    }
+
+  }
+
+
+}
