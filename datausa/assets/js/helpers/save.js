@@ -29,27 +29,32 @@ var save = function(svg, options) {
       tileGroup = svg.select("g.tiles");
 
   if (tileGroup.size()) {
-    var transform = tileGroup.attr("transform").split(")translate("),
-        scale = parseFloat(transform[0].split("scale(")[1]),
-        translate = transform[1].split(")")[0].split(",").map(function(d){
-          return parseFloat(d) * scale;
-        });
+    var scale = Math.round(parseFloat(tileGroup.attr("transform").match(/scale\(([^a-z]+)\)/i)[1])),
+        translate = tileGroup.attr("transform").match(/translate\(([^a-z]+)\)/i)[1];
+
+    translate = translate.replace(/([^a-z])\s([^a-z])/gi, "$1,$2");
+    translate = translate.split(",").map(function(d){
+        return Math.round(parseFloat(d) * scale);
+      });
 
     svg.select("g.tiles").selectAll("image").each(function(){
-      var x = parseFloat(d3.select(this).attr("x")) * 256 + translate[0],
-          y = parseFloat(d3.select(this).attr("y")) * 256 + translate[1],
+      var x = parseFloat(d3.select(this).attr("x")) * scale + translate[0],
+          y = parseFloat(d3.select(this).attr("y")) * scale + translate[1],
           url = d3.select(this).attr("href");
 
       imageTiles[url] = {"loaded": false};
+
+      // console.log(d3.select(this).attr("x"), x);
+      // console.log(d3.select(this).attr("y"), y);
 
       var img = new Image();
       img.crossOrigin = 'Anonymous';
       img.onload = function(){
           var canvas2 = document.createElement('CANVAS');
           var ctx2 = canvas2.getContext('2d');
-          canvas2.height = this.height;
-          canvas2.width = this.width;
-          ctx2.drawImage(this, 0, 0);
+          canvas2.height = scale;
+          canvas2.width = scale;
+          ctx2.drawImage(this, 0, 0, scale, scale);
           var himg = document.createElement('img');
           himg.src = canvas2.toDataURL('image/png');
           imageTiles[url] = {
