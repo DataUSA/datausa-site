@@ -30,9 +30,7 @@ topics:
         value: "soc"
   - title: "Income Distribution"
     slug: "wage_distribution"
-    description:
-      - "<<name>> had an income GINI coefficient of <<var namespace=data|key=gini>> in <<var namespace=data|key=year>>, which is <<percent num=var:data,gini|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are <<percent num=var:data,gini|den=var:nation,gini|text=moreless2>> evenly distributed for <<name>> than the overall labor force."
-      - "The GINI coefficient is a measure of statistical dispersion intended to represent income distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality."
+    description: "<<name>> had an income GINI coefficient of <<var namespace=data|key=gini>> in <<var namespace=data|key=year>>, which is <<percent num=var:data,gini|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are <<percent den=var:data,gini|num=var:nation,gini|text=moreless2>> evenly distributed for <<name>> than the overall labor force."
     stat:
       - title: "Income GINI"
         value: "<<var namespace=data|key=gini>>"

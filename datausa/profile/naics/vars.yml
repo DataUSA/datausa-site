@@ -19,7 +19,7 @@
   naics_level: <<sumlevel>>
   namespace: gender
 
-- required: ["gini"]
+- required: ["gini", "naics"]
   naics_level: <<sumlevel>>
   namespace: wagegap
 
