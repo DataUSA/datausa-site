@@ -1,136 +1,161 @@
 {% extends "templates/nav.html" %}
 
 {% block body %}
-<div class="home-container">
 
-	<div class="bg">
-		<div class="landing"></div>
-		<div class="strip"></div>
+<div class="bg"></div>
+
+<section class="home-desc">
+	<h2 class="first-line">The most comprehensive</h2>
+	<h2 class="second-line">visualization of U.S. public data</h2>
+</section>
+<section class="search-home-container">
+	<div class="search-input-btn">
+		<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" autofocus />
+		<select id="search-type">
+			<option value="all">All</option>
+			<option value="geo">Locations</option>
+			<option value="naics">Industries</option>
+			<option value="soc">Occupations</option>
+			<option value="cip">Education</option>
+		</select>
+		<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Search</a>
 	</div>
+	<div id="search-home" class="search-body">
+    <div class="no-search-results">No results found</div>
+		<div class="search-results"></div>
+	</div>
+  <section class="results-show-all">
+    <a href="/search/" class="pri-link">Show all results <span class="more"></span></a>
+  </section>
+</section>
 
-<div class="content">
-	<article class="landing">
-		<div class="home-logo">
-			<img class="logo" src="/static/img/home/logo.png" alt="DataUSA" />
-		</div>
-    <!-- <section class="home-desc"><h2>An open source </br>platform to explore </br>public U.S. data</h2></section> -->
-		<section class="search-home-container">
-			<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Advanced Search</a>
-			<div class="search-input-btn">
-				<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" autofocus />
-			</div>
-			<div id="search-home" class="search-body">
-        <div class="no-search-results">No results found</div>
-				<div class="search-results"></div>
-			</div>
-      <section class="results-show-all">
-        <a href="/search/" class="pri-link">Show all results <span class="more"></span></a>
-      </section>
-		</section>
-	</article>
+<div class="home-collab">
+	<span class="collab-text">Created in Collaboration</span>
+	<a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
+	<a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
+	<a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
 </div>
 
-</div>
 {% endblock %}
 
 {% block js %}
 
 <script>
 
-// var h = window.innerHeight,
-//     w = window.innerWidth;
+	var firstForm = true;
+	var searchForm = d3plus.form()
+		.data("#search-type")
+		.font("Palanquin")
+		.focus("all", function(f){
+			if (firstForm) {
+				firstForm = false;
+			}
+			else {
+			  window.clearTimeout(tout);
+				search.type = f === "all" ? "" : f;
+				// search.reload();
+				console.log(search_input.node())
+		    search_input.node().focus();
+			}
+		})
+		.ui({
+			"margin": 0
+		})
+		.draw();
 
-// var paralax_ids = ["logo-shadow", "logo", "desc-shadow", "desc", "fg"];
+	// var h = window.innerHeight,
+	//     w = window.innerWidth;
 
-// var paralax_data = paralax_ids.map(function(d){
-//   var elem = d3.select("#" + d),
-//       mod = ((parseFloat(elem.style("width"), 10) - w)/w) * 100;
-//   return {
-//     "elem": elem,
-//     "mod": mod,
-//     "x": d3.scale.linear().domain([0, w]).range([0, -mod]),
-//     "y": d3.scale.linear().domain([0, h]).range([0, -mod])
-//   }
-// })
+	// var paralax_ids = ["logo-shadow", "logo", "desc-shadow", "desc", "fg"];
 
-// d3.select("body").on(d3plus.client.pointer.move, function(){
-//   var mouse = d3.mouse(this);
-//   paralax_data.forEach(function(d){
-//     d.elem.style("left", d.x(mouse[0]) + "%").style("top", d.y(mouse[1]) + "%");
-//   });
-// });
+	// var paralax_data = paralax_ids.map(function(d){
+	//   var elem = d3.select("#" + d),
+	//       mod = ((parseFloat(elem.style("width"), 10) - w)/w) * 100;
+	//   return {
+	//     "elem": elem,
+	//     "mod": mod,
+	//     "x": d3.scale.linear().domain([0, w]).range([0, -mod]),
+	//     "y": d3.scale.linear().domain([0, h]).range([0, -mod])
+	//   }
+	// })
 
-var bg_imgs = [1, 6];
-var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
-d3.select(".landing").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
-localforage.setItem("homepage_image", bg_img);
+	// d3.select("body").on(d3plus.client.pointer.move, function(){
+	//   var mouse = d3.mouse(this);
+	//   paralax_data.forEach(function(d){
+	//     d.elem.style("left", d.x(mouse[0]) + "%").style("top", d.y(mouse[1]) + "%");
+	//   });
+	// });
 
-var homeInput = d3.select("#home-search-input");
-d3.select("#search-switch.adv").on("click", function(){
-	d3.event.preventDefault();
-	window.location = "/search/?q=" + homeInput.node().value;
-});
+	// var bg_imgs = [1, 6];
+	// var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
+	// d3.select(".bg").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
+	var bg_img = "1";
+	localforage.setItem("homepage_image", bg_img);
 
-d3.select("#home-search-input").on("input", function() {
-  window.clearTimeout(tout);
-  var inputText = document.getElementById("home-search-input").value;
-  d3.select(".search-input-text").text(inputText);
-});
+	var homeInput = d3.select("#home-search-input");
+	d3.select("#search-switch.adv").on("click", function(){
+		d3.event.preventDefault();
+		window.location = "/search/?q=" + homeInput.node().value + "&kind=" + search.type;
+	});
 
-d3.select("#home-search-input").on("keyup.clear_demo", function() {
-  window.clearTimeout(tout);
-	d3.event.preventDefault();
-});
+	d3.select("#home-search-input").on("input", function() {
+	  window.clearTimeout(tout);
+	  var inputText = document.getElementById("home-search-input").value;
+	  d3.select(".search-input-text").text(inputText);
+	});
 
-var search_input = d3.select("#home-search-input");
-var current_search_term = search_input.property("value");
-if(current_search_term){
+	d3.select("#home-search-input").on("keyup.clear_demo", function() {
+	  window.clearTimeout(tout);
+		d3.event.preventDefault();
+	});
 
-  var results_div_id = search_input.attr("data-results");
-  var results_div = d3.select("#"+results_div_id)
-  results_div.classed("open", true);
+	var search_input = d3.select("#home-search-input");
+	var current_search_term = search_input.property("value");
+	var results_div_id = search_input.attr("data-results");
+	var results_div = d3.select("#"+results_div_id);
+	search.term = current_search_term;
+	search.container = d3.select("#search-" + search_input.attr("data-search"));
+	if(current_search_term){
+	  results_div.classed("open", true);
+	  search.reload();
 
-  search.term = current_search_term;
-  search.container = d3.select("#search-" + search_input.attr("data-search"));
-  search.reload();
+	  search_input.node().focus();
+	}
 
-  search_input.node().focus();
-}
+	var demo_input = document.getElementById('home-search-input');
 
-var demo_input = document.getElementById('home-search-input');
+	var letter_index = 0;
+	var tout = 0;
+	var sterms = ["Boston", "Computer Science", "Civil Engineers", "Cook County", "Hospitals", "02139", "California", "Biology"]
+	var sterm_index = 0;
+	var type_this = sterms[sterm_index];
+	var ready = true;
 
-var letter_index = 0;
-var tout = 0;
-var sterms = ["Boston", "Computer Science", "Civil Engineers", "Cook County", "Hospitals", "02139", "California", "Biology"]
-var sterm_index = 0;
-var type_this = sterms[sterm_index];
-var ready = true;
+	window.next_letter = function() {
+	  var interval = 100;
+	  if (letter_index <= type_this.length) {
+	    search_input.property("value", type_this.substr(0, letter_index++));
+	    if(letter_index > type_this.length){
+	      interval = interval * 30;
+	      // search_input.on("click")();
+	    }
+	  }
+	  else {
+	    letter_index = 0;
+	    d3.select(document).on("click")();
+	    search_input.node().focus();
+	    sterm_index = (sterm_index+1)%sterms.length;
+	    type_this = sterms[sterm_index];
+	  }
+	  tout = setTimeout("next_letter()", interval);
+	}
 
-window.next_letter = function() {
-  var interval = 130;
-  if (letter_index <= type_this.length) {
-    search_input.property("value", type_this.substr(0, letter_index++));
-    if(letter_index > type_this.length){
-      interval = interval * 30;
-      search_input.on("click")();
-    }
-  }
-  else {
-    letter_index = 0;
-    d3.select(document).on("click")();
-    search_input.node().focus();
-    sterm_index = (sterm_index+1)%sterms.length;
-    type_this = sterms[sterm_index];
-  }
-  tout = setTimeout("next_letter()", interval);
-}
+	search_input.on("click.clear", function(){
+	  this.select();
+	  window.clearTimeout(tout);
+	})
 
-search_input.on("click.clear", function(){
-  this.select();
-  window.clearTimeout(tout);
-})
-
-next_letter();
+	next_letter();
 
 </script>
 

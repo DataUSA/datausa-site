@@ -41,75 +41,22 @@
 
 <div id="menu">
   <div class="menu-content">
+    <img class="logo" src="/static/img/logo_sm.png" alt="DataUSA" />
     <ul>
-      <li class="home-sum">
-        <a href="/">
-          <img src="/static/img/icons/housing.svg" alt="icon" />
-          <h2>Home</h2>
-        </a>
-      </li>
       <li class="profile-sum">
-        <a href="/search/?q=" class="profile-link">
-          <img src="/static/img/search/search_w.svg" alt="icon" />
-          <h2>Explore</h2>
-        </a>
-        <ul class="profiles-drawer">
-          <li>
-            <a href="/search/?kind=geo" class="profile-link-carousel">
-              <h2>
-                Locations
-              </h2>
-            </a>
-          </li>
-          <li>
-            <a href="/search/?kind=naics" class="profile-link-carousel">
-              <h2>
-                Industries
-              </h2>
-            </a>
-          </li>
-          <li>
-            <a href="/search/?kind=soc" class="profile-link-carousel">
-              <h2>
-                Occupations
-              </h2>
-            </a>
-          </li>
-          <li>
-            <a href="/search/?kind=cip" class="profile-link-carousel">
-              <h2>
-                Education
-              </h2>
-            </a>
-          </li>
-        </ul>
+        <a href="/search/?q="><h2>Profiles</h2></a>
       </li>
       <li class="map-sum">
-        <a href="/map/">
-            <img src="/static/img/icons/demographics.svg" alt="icon" />
-            <h2>Map</h2>
-        </a>
+        <a href="/map/"><h2>Map</h2></a>
       </li>
       <li class="stories-sum">
-        <a href="/story/">
-            <img src="/static/img/search/stories_w.svg" alt="icon" />
-            <h2>Stories</h2>
-        </a>
+        <a href="/story/"><h2>Stories</h2></a>
       </li>
       <li class="about-sum">
-        <a href="/about/">
-            <img src="/static/img/search/about_w.svg" alt="icon" />
-            <h2>About</h2>
-        </a>
+        <a href="/about/"><h2>About</h2></a>
       </li>
     </ul>
   </div>
-
-  <footer>
-    <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
-    <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
-    <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
-  </footer>
 
 </div>
 
@@ -126,9 +73,7 @@
 {% endblock %}
 
 <footer>
-  <a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
-  <a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
-  <a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
+  <img class="logo" src="/static/img/logo_sm.png" alt="DataUSA" />
 </footer>
 
 <script>
@@ -173,9 +118,9 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
 
     // close search body if search box is closed
     if (!d3.select(".search-box").classed("open")) {
-      d3.select(".search-body").classed("open", false);  
+      d3.select(".search-body").classed("open", false);
     }
-    
+
   }
 
   // focus input
