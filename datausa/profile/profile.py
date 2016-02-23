@@ -221,41 +221,59 @@ class Profile(BaseObject):
         config = json.dumps(config)
 
         # regex to find all keys matching {{*}}
-        keys = re.findall(r"\{\{([^\}]+)\}\}", config)
-
-        # loop through each key
-        for k in keys:
-            # split the key at a blank space to find params
-            condition, text = k.split("||")
-
-            condition = self.parse_stats(condition)
-            first, second = condition.split(":")
-            not_equals = second.startswith("!")
-
-            if not_equals:
-                second = second[1:]
-
-            if text == "True":
-                text = True
-            elif text == "False":
-                text = False
-
-            if (not_equals and first == second) or (not not_equals and first != second):
-                if isinstance(text, bool):
-                    if text:
-                        text = False
-                    else:
-                        text = True
-                else:
-                    text = ""
-
-            k = k.decode("utf-8", 'ignore')
-
-            # replace all instances of key with the returned value
-            if isinstance(text, bool):
-                config = config.replace("\"{{{{{}}}}}\"".format(k), str(text))
+        def conditionalParse(s, o="{", c="}"):
+            if o == "{":
+                ro = "\{"
+                rc = "\}"
             else:
-                config = config.replace("{{{{{}}}}}".format(k), text)
+                ro = "\["
+                rc = "\]"
+            keys = re.findall(r"{0}{0}(.*?){1}{1}".format(ro, rc), s)
+
+            # loop through each key
+            for k in keys:
+                # split the key at a blank space to find params
+                condition, text = k.split("||", 1)
+
+                condition = self.parse_stats(condition)
+                first, second = condition.split(":")
+                not_equals = second.startswith("!")
+
+                if not_equals:
+                    second = second[1:]
+
+                if text == "True":
+                    text = True
+                elif text == "False":
+                    text = False
+
+                if (not_equals and first == second) or (not not_equals and first != second):
+                    if isinstance(text, bool):
+                        if text:
+                            text = False
+                        else:
+                            text = True
+                    else:
+                        text = ""
+
+                k = k.decode("utf-8", 'ignore')
+
+                # replace all instances of key with the returned value
+                if isinstance(text, bool):
+                    s = s.replace("\"{{{{{0}}}}}\"".format(k), str(text))
+                else:
+                    if o == "{":
+                        if "[[" in text:
+                            # raise Exception(text, k, s)
+                            text = conditionalParse(text, "[", "]")
+                            # raise Exception(k, text, s)
+                        s = s.replace("{{{{{0}}}}}".format(k), text)
+                    else:
+                        s = s.replace("[[{0}]]".format(k), text)
+
+            return s
+
+        config = conditionalParse(config)
 
         # regex to find all keys matching <<*>>
         config = self.parse_stats(config)
