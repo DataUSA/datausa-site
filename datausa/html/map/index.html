@@ -57,6 +57,7 @@
 
   var levels = d3plus.form()
     .data("#map-sumlevels")
+    .search(false)
     // .type("drop")
     .focus("{{ defaultLevel }}", function(d, viz){
       if (!viz.draw(Object).first) {
@@ -74,6 +75,7 @@
 
   var keys = d3plus.form()
     .data("#map-keys")
+    .search(false)
     .type("drop")
     .focus("{{ defaultKey }}", function(d, viz){
       var newLevelData = levelData.filter(function(dd) { return mapdata[dataset][d].indexOf(dd.value) >= 0; });

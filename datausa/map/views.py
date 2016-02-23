@@ -38,7 +38,18 @@ def map():
 
         "pums": {
             "avg_wage,avg_wage_moe": ["state", "puma"],
-            "num_ppl,num_ppl_moe": ["state", "puma"]
+            "avg_wage_ft,avg_wage_ft_moe": ["state", "puma"],
+            "avg_wage_pt,avg_wage_pt_moe": ["state", "puma"],
+            "num_ppl,num_ppl_moe": ["state", "puma"],
+            "num_ppl_ft,num_ppl_ft_moe": ["state", "puma"],
+            "num_ppl_pt,num_ppl_pt_moe": ["state", "puma"],
+            "avg_age,avg_age_moe": ["state", "puma"],
+            "avg_age_ft,avg_age_ft_moe": ["state", "puma"],
+            "avg_age_pt,avg_age_pt_moe": ["state", "puma"],
+            "avg_hrs,avg_hrs_moe": ["state", "puma"],
+            "avg_hrs_ft,avg_hrs_ft_moe": ["state", "puma"],
+            "avg_hrs_pt,avg_hrs_pt_moe": ["state", "puma"],
+            "gini": ["state", "puma"]
         }
 
     }
