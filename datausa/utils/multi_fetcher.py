@@ -17,7 +17,7 @@ from datausa.utils.manip import datapivot
 def render_col(my_data, headers, col, url=False, dataset=False):
     value = my_data[headers.index(col)]
     if not value:
-        return {"raw": None, "pretty": "N/A"}
+        return {"raw": None, "pretty": "N/A", "name": "N/A"}
 
     attr_type = col
     if "_iocode" in col:
@@ -34,18 +34,20 @@ def render_col(my_data, headers, col, url=False, dataset=False):
         else:
             # do simple number formating
             return_value = num_format(value, col)
+        name = return_value
     else:
         # lookup the attr object and get the name
         attr = fetch(value, attr_type)
         url_name = attr["url_name"] if "url_name" in attr and attr["url_name"] else attr["id"]
         attr = attr["display_name"] if "display_name" in attr else attr["name"]
+        name = attr
         if attr_type in PROFILES or attr_type in CROSSWALKS:
             attr = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=url_name), attr)
         return_value = attr
 
     if url:
         return_value = u"<span class='stat-span' data-url='{}'>{}</span>".format(url, return_value)
-    return {"raw": value, "pretty": return_value}
+    return {"raw": value, "pretty": return_value, "name": name}
 
 
 def merge_dicts(*dict_args):
