@@ -8,7 +8,7 @@ stats:
   - title: "<<var namespace=gdata|key=year>> Degrees Awarded"
     value: "<<var namespace=gdata|key=grads_total>>"
     rank: "<<var namespace=gdata|key=grads_rank>> of <<rank_max>>"
-  - title: "Average Wage{{<<name>>:!<<name dataset=pums>>|| for <<name dataset=pums>>}}"
+  - title: "{{<<name>>:<<name dataset=pums>>||Average Wage}}{{<<name>>:!<<name dataset=pums>>||<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='Using data from the \"<<name dataset=pums|text_only=True>>\" parent course.'>Average Wage</span>}}"
     value: "<<var namespace=data|key=avg_wage>>"
     rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max dataset=pums>>"
 facts:
