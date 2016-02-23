@@ -3,7 +3,7 @@ group: "<<level>>"
 description: >
   The top occupations employed by the <<name>> industry are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>. On average full time employees in the <<name>> industry work <<var namespace=data|key=avg_hrs_ft>> hours per week and have an average yearly salary of <<var namespace=data|key=avg_wage_ft>>. As opposed to part time employees, who work <<var namespace=data|key=avg_hrs_pt>> hours and earn an average yearly salary of <<var namespace=data|key=avg_wage_pt>>. The top locations with a relatively high concentration of employees in the <<name>> industry are <<top show=geo|sumlevel=puma|order=num_ppl_rca|limit=3>>. The largest purchasing industry of products or services are <<var namespace=io_industry|key=industry_iocode|row=0>>.
 stats:
-  - title: "Employees{{<<var namespace=ces|key=employees_thousands>>:!N/A|| (BLS Estimate)}}{{<<var namespace=ces|key=employees_thousands>>:N/A|| (ACS Estimate)}}"
+  - title: "Employees{{<<var namespace=ces|key=employees_thousands>>:!N/A|| [[<<var namespace=ces|key=naics|format=raw>>:<<id>>||(BLS Estimate)]][[<<var namespace=ces|key=naics|format=raw>>:!<<id>>||(<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='Using data from the \"<<var namespace=ces|key=naics|format=name>>\" sector.'>BLS Estimate</span>)]]}}{{<<var namespace=ces|key=employees_thousands>>:N/A|| (ACS Estimate)}}"
     value: "{{<<var namespace=ces|key=employees_thousands>>:!N/A||<<var namespace=ces|key=employees_thousands>>}}{{<<var namespace=ces|key=employees_thousands>>:N/A||<<var namespace=data|key=num_ppl>>}}"
     rank: "{{<<var namespace=ces|key=employees_thousands>>:N/A||<<var namespace=data|key=num_ppl_rank>> of <<rank_max>> <<level plural=True>>}}{{<<var namespace=ces|key=employees_thousands>>:!N/A||ACS Estimate: <<var namespace=data|key=num_ppl>>}}"
   - title: "Average Salary"
@@ -13,7 +13,7 @@ stats:
     value: "<<var namespace=data|key=avg_age>>"
 facts:
   - "The area with an unusually large workforce is <<top show=geo|sumlevel=puma|order=num_ppl_rca>>."
-sections:
-  - workforce
-  - io
-  - growth
+sections: []
+  # - workforce
+  # - io
+  # - growth

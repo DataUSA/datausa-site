@@ -3,8 +3,9 @@
   naics_level: <<sumlevel>>
   namespace: data
 
-- required: ["employees_thousands"]
+- required: ["employees_thousands", "naics"]
   year: latest
+  dataset: bls
   namespace: ces
 
 - required: ["avg_wage", "avg_wage_moe"]
