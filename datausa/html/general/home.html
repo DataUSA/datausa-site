@@ -36,6 +36,19 @@
 	<a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
 </div>
 
+<div id="feed">
+{% for box in feed %}
+	<div class="feed-box {{ box.type.type }}{% if box.featured %} featured{% endif %}">
+		<div class="feed-box-type">
+			<img src="{{ box.type.icon }}" />
+			<span class="feed-box-type-title">{{ box.type.title }}</span>
+		</div>
+		<div class="feed-box-title">{{ box.title }}</div>
+		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
+	</div>
+{% endfor %}
+</div>
+
 {% endblock %}
 
 {% block js %}
@@ -143,7 +156,7 @@
 	  else {
 	    letter_index = 0;
 	    d3.select(document).on("click")();
-	    search_input.node().focus();
+	    // search_input.node().focus();
 	    sterm_index = (sterm_index+1)%sterms.length;
 	    type_this = sterms[sterm_index];
 	  }

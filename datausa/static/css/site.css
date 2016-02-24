@@ -2113,7 +2113,9 @@ body.home {
   position: relative;
   background-color: #222; }
   body.home #menu {
-    height: auto; }
+    bottom: auto !important;
+    height: auto !important;
+    position: absolute; }
     body.home #menu .logo {
       display: block; }
   body.home .close-btn {
@@ -2415,6 +2417,91 @@ body.home {
       margin: 10px; }
       .home-collab img:hover {
         cursor: pointer; }
+
+#feed {
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  flex-pack: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-top: 70px;
+  position: relative; }
+  #feed .feed-box {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    flex-align: center;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -moz-transition: border 0.25s;
+    -o-transition: border 0.25s;
+    -webkit-transition: border 0.25s;
+    transition: border 0.25s;
+    background-color: #141b2e;
+    border: 1px solid #D7E8EF;
+    color: white;
+    height: 200px;
+    margin: 10px;
+    min-width: 30%;
+    overflow: hidden;
+    position: relative; }
+    #feed .feed-box.featured {
+      -webkit-box-flex: 2;
+      -moz-box-flex: 2;
+      -webkit-flex: 2;
+      -ms-flex: 2;
+      flex: 2;
+      min-width: 60%; }
+      #feed .feed-box:hover {
+        border: 1px solid #f66767;
+        cursor: pointer; }
+        #feed .feed-box .feed-box-type {
+          left: 10px;
+          position: absolute;
+          top: 10px; }
+          #feed .feed-box .feed-box-type img {
+            height: 25px;
+            width: 25px; }
+            #feed .feed-box .feed-box-type .feed-box-type-title {
+              text-transform: uppercase; }
+    #feed .feed-box .feed-box-title {
+      text-transform: uppercase;
+      margin: 0 50px;
+      text-align: center; }
+      #feed .feed-box .feed-box-subtitle {
+        text-transform: uppercase;
+        margin: 0 50px;
+        text-align: center; }
 body.profile {
   position: relative;
   left: 0;

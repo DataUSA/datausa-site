@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-import json
+import copy, json
 from random import randint
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
 from datausa.consts import AFFIXES, DICTIONARY, PERCENTAGES, PROPORTIONS, SUMLEVELS
-from datausa.utils.data import attr_cache, get_parents
+from datausa.utils.data import attr_cache, fetch, profile_cache, story_cache
 from pagination import Pagination
+
+from .home import HOMEFEED, TYPEMAP
 
 mod = Blueprint("general", __name__)
 
@@ -22,7 +24,49 @@ def before_request():
 @mod.route("/")
 def home():
     g.page_type = "home"
-    return render_template("general/home.html")
+
+    feed = [copy.copy(f) for f in HOMEFEED]
+    for box in feed:
+        if "featured" not in box:
+            box["featured"] = False
+        if "/profile/" in box["link"]:
+            attr_type = box["link"].split("/")[2]
+            attr_id = box["link"].split("/")[3]
+            attr = fetch(attr_id, attr_type)
+            box["title"] = attr["display_name"]
+            section = [s for s in profile_cache[attr_type]["sections"] if s["anchor"] == box["section"]][0]
+            box["section"] = {
+                "title": section["title"],
+                "icon": "/static/img/icons/{}.svg".format(box["section"])
+            }
+            sumlevel = SUMLEVELS[attr_type][attr["sumlevel"]]
+            sumlevel = sumlevel["shortlabel"] if "shortlabel" in sumlevel else sumlevel["label"]
+            box["type"] = {
+                "icon": "/static/img/icons/{}.svg".format(attr_type),
+                "title": "Profile",
+                "type": TYPEMAP[attr_type],
+                "depth": sumlevel
+            }
+            box["image"] = "/static/img/thumb/{}".format(attr["image_path"])
+        elif "/story/" in box["link"]:
+            box["type"] = {
+                "icon": "/static/img/icons/about.svg",
+                "title": TYPEMAP["story"],
+                "type": "story"
+            }
+            story = [s for s in story_cache if s["story_id"] == box["link"].split("/")[2]][0]
+            box["image"] = story["background_image"]
+            box["title"] = story["title"]
+            box["subtitle"] = story["description"]
+            box["author"] = story["authors"][0]["name"]
+        elif "/map/" in box["link"]:
+            box["type"] = {
+                "icon": "/static/img/icons/demographics.svg",
+                "title": TYPEMAP["map"],
+                "type": "map"
+            }
+
+    return render_template("general/home.html", feed=feed)
 
 @mod.route("/about/")
 def about():
