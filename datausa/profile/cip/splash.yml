@@ -1,6 +1,7 @@
 title: "<<name>>"
 group: "<<level>>"
-description: "Explore data on the <<name>> major in the United States."
+description: >
+  The locations with the highest concentration of <<name>> graduates are <<var namespace=grads_total_places|key=geo|row=0>>, <<var namespace=grads_total_places|key=geo|row=1>> and <<var namespace=grads_total_places|key=geo|row=2>>. The locations with a relatively high number of <<name>> graduates are <<var namespace=grads_rca_places|key=geo|row=0>>, <<var namespace=grads_rca_places|key=geo|row=1>> and <<var namespace=grads_rca_places|key=geo|row=2>>. The top degree awarded to students studying <<name>> is <<var namespace=degree_student|key=degree|row=0>>.
 stats:
   - title: "Median In-State Public Tuition"
     value: "<<top show=sector|sector=1|col=state_tuition>>"
@@ -14,8 +15,8 @@ stats:
 facts:
   - "The county with the most degrees awarded in <<name>> is <<top show=geo|sumlevel=county|order=grads_total>>."
   - "The most common occupation for <<name>> majors is <<top show=soc|sumlevel=3|order=num_ppl>>."
-sections:
-  - institutions
-  - demographics
-  - employment
-  - skills
+sections: []
+  # - institutions
+  # - demographics
+  # - employment
+  # - skills

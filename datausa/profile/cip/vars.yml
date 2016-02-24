@@ -133,6 +133,26 @@
   year: latest
   namespace: puma_rca
 
+- required: ["geo", "grads_total_rca"]
+  sumlevel: place
+  show: geo
+  rows: True
+  limit: 3
+  order: grads_total_rca
+  sort: desc
+  year: latest
+  namespace: grads_rca_places
+
+- required: ["geo", "grads_total"]
+  sumlevel: place
+  show: geo
+  rows: True
+  limit: 3
+  order: grads_total
+  sort: desc
+  year: latest
+  namespace: grads_total_places
+
 - force: "ipeds.grads_ycd"
   degree: "5"
   limit: 1
