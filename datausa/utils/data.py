@@ -2,6 +2,7 @@ import os, requests, yaml
 from config import API, basedir, CROSSWALKS, PROFILES
 from datausa import cache, app
 from datausa.consts import COLMAP, DICTIONARY
+from dateutil import parser
 
 def datafold(data):
     """List[dict]: combines the headers and data from an API call """
@@ -74,6 +75,30 @@ def acs_crosswalk(attr_type, attr_id):
         return [fetch(row["attr_id"], row["attr_kind"]) for row in results]
     except ValueError:
         return []
+
+@cache.memoize()
+def build_story_cache():
+    STORIES_DIR = os.path.join(basedir, "datausa/story/stories")
+    available = [(f, os.path.join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if os.path.isfile(os.path.join(STORIES_DIR, f)) and not "-draft" in f]
+    def build_preview(filename, path):
+        s = {}
+        s["story_id"] = filename[:-4]
+        story_conf = yaml.load(open(path))
+        s["title"] = story_conf['title'] if 'title' in story_conf else ''
+        s["description"] = story_conf['description'] if 'description' in story_conf else ''
+        s["date"] = story_conf['date'] if 'date' in story_conf else ''
+        if not s["date"]:
+            s["date"] = date_from_filename(filename)
+        s["_date_obj"] = parser.parse(s["date"]) if s["date"] else None
+        s["authors"] = story_conf['authors'] if 'authors' in story_conf else []
+        s["background_image"] = story_conf['background_image'] if 'background_image' in story_conf else None
+        return s
+    stories = [build_preview(filename, path) for filename, path in available]
+    stories.sort(key = lambda x: x["_date_obj"], reverse=True)
+    app.logger.info("Cached {} stories".format(len(stories)))
+    return stories
+
+story_cache = build_story_cache()
 
 @cache.memoize()
 def build_attr_cache():
