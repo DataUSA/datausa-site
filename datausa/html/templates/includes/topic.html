@@ -1,13 +1,14 @@
 {% for topic in section.topics %}
 {% if topic.category %}
-<h1 class="category"><a name="{{ topic.category|safe|lower|replace(" ", "_") }}">{{ topic.category|safe }}</a></h1>
+{% set category_slug = topic.category|safe|lower|replace(" ", "_") %}
+<h1 class="category"><a href="#{{ category_slug }}" name="{{ category_slug }}">{{ topic.category|safe }}</a></h1>
 {% endif %}
 {% set aside = topic.stat or topic.description %}
 {% set content = aside or topic.viz or topic.miniviz or topic.source %}
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
   {% if topic.title %}
-  <h2>{{ topic.title|safe }}{% if topic.viz %} <a href="#" class="btn pri-btn data-btn" data-ga="show data" data-ga-cat="profile" data-ga-label="User click" data-ga-target=".data-table"><span>Show Data</span></a>{% endif %}</h2>
+  <h2><a href="#{{ topic.slug }}" name="{{ topic.slug }}">{{ topic.title|safe }}</a>{% if topic.viz %} <a href="#" class="btn pri-btn data-btn" data-ga="show data" data-ga-cat="profile" data-ga-label="User click" data-ga-target=".data-table"><span>Show Data</span></a>{% endif %}</h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
   <div class="sub sub-title">{{ topic.subtitle|safe }}</div>

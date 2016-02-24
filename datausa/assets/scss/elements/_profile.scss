@@ -184,6 +184,15 @@ body.profile, body.map, body.story {
       text-transform: none;
       font-style: normal;
       letter-spacing: 0;
+      position: relative;
+
+      a:before {
+        content: "";
+        position: absolute;
+        visibility: hidden;
+        top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      }
+
     }
 
     .data-btn {

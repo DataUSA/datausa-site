@@ -2580,15 +2580,22 @@ body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
   color: #333;
   text-transform: none;
   font-style: normal;
-  letter-spacing: 0; }
-  body.profile .topic .data-btn, body.map .topic .data-btn,
-  body.story .topic .data-btn {
-    top: 5px; }
-    body.profile .topic.flex h2, body.map .topic.flex h2, body.story .topic.flex h2 {
-      font-size: 24px; }
-      body.profile .topic.flex .data-btn, body.map .topic.flex .data-btn,
-      body.story .topic.flex .data-btn {
-        top: -4px; }
+  letter-spacing: 0;
+  position: relative; }
+  body.profile .topic h2 a:before, body.map .topic h2 a:before,
+  body.story .topic h2 a:before {
+    content: "";
+    position: absolute;
+    visibility: hidden;
+    top: -118px; }
+body.profile .topic .data-btn, body.map .topic .data-btn,
+body.story .topic .data-btn {
+  top: 5px; }
+  body.profile .topic.flex h2, body.map .topic.flex h2, body.story .topic.flex h2 {
+    font-size: 24px; }
+    body.profile .topic.flex .data-btn, body.map .topic.flex .data-btn,
+    body.story .topic.flex .data-btn {
+      top: -4px; }
 body.profile .topic .sub, body.map .topic .sub, body.story .topic .sub {
   font-family: "Palanquin", sans-serif;
   font-size: 13px;
