@@ -8959,8 +8959,8 @@ viz.mapDraw = function(vars) {
         }
         return arr;
       }, []);
-
-      var html = " ", link = "/profile/geo/" + d.id + "/";
+      var link_id = vars.attrs.value[d.id] ? vars.attrs.value[d.id].url_name : d.id;
+      var html = " ", link = "/profile/geo/" + link_id + "/";
       if (d.id && big && vars.tooltip.url) {
         html = "<div class='d3plus_tooltip_html_seperator'></div>";
         // html = "<a class='btn pri-btn' href='" + link + "'>View Profile</a>";
@@ -9027,7 +9027,8 @@ viz.mapDraw = function(vars) {
         }
         load(url, function(data) {
           var list = data.map(function(c){
-            return "<li><a href='/profile/geo/" + c.geo + "/'>" + vars.attrs.value[c.geo].name + "</a></li>";
+            var link_id = vars.attrs.value[c.geo] ? vars.attrs.value[c.geo].url_name : c.geo;
+            return "<li><a href='/profile/geo/" + link_id + "/'>" + vars.attrs.value[c.geo].name + "</a></li>";
           }).join("");
           list = "<ol>Top 10 Counties" + list + "</ol>";
           createTooltip(d, list);
@@ -9067,7 +9068,8 @@ viz.mapDraw = function(vars) {
         })
         .on(d3plus.client.pointer.click, function(d){
           if (!vars.zoom.value) {
-            window.location = "/profile/geo/" + d.id + "/";
+            var link_id = vars.attrs.value[d.id] ? vars.attrs.value[d.id].url_name : d.id;
+            window.location = "/profile/geo/" + link_id + "/";
           }
           else if (drag) {
             drag = false;
