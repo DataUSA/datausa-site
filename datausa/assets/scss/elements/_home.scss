@@ -1,6 +1,6 @@
 body.home {
   position: relative;
-  background-color: #222;
+  background-color: $black2;
 
   #menu {
     bottom: auto !important;
@@ -300,7 +300,7 @@ body.home {
   width: 100%;
   padding: 5px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.85);
+  background: $d-profile-bg;
 
   .pri-link {
     // padding-top: 15px;
@@ -440,13 +440,14 @@ body.home {
   margin: 70px auto;
   max-width: 1200px;
   position: relative;
+  z-index: -1;
 
   .feed-box {
     @include flex();
     @include flex-direction(column);
     @include justify(center);
     @include align-items(center);
-    @include flex-size(1);
+    @include flex-size(1 0 300px);
     @include transition(border 0.25s);
     background-color: $black2;
     border: 1px solid $white;
@@ -473,7 +474,7 @@ body.home {
         bottom: 0;
         content: "";
         position: absolute;
-        height: 75vh;
+        height: 100%;
         width: 100%;
         left: 0;
         @include gradient(top, $splash-gradient);
@@ -578,7 +579,7 @@ body.home {
     }
 
     &.featured {
-      @include flex-size(2);
+      @include flex-size(2 0 600px);
       @include align-items(flex-start);
       @include justify(flex-end);
       min-width: 600px;

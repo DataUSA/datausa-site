@@ -68,6 +68,7 @@ ol {
 
 footer {
   @include box();
+  background-color: $black2;
   padding: 50px;
   width: 100%;
 
