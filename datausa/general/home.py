@@ -12,7 +12,7 @@ HOMEFEED = [
         "link": "/profile/geo/new-york-ny/#income_gender",
         "subtitle": "What is the gender wage gap for the 5 most common occupations?",
         "section": "economy",
-        "viz": "tree_map"
+        "viz": "bar_double"
     },
     {
         "link": "/story/11-19-2015_cost-of-living/",

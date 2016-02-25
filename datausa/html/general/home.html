@@ -38,9 +38,12 @@
 
 <div id="feed">
 {% for box in feed %}
-	<div class="feed-box {{ box.type.type }}{% if box.featured %} featured{% endif %}">
+	<a href="{{ box.link }}" class="feed-box {{ box.type.type }}{% if box.featured %} featured{% endif %}">
 		{% if box.image %}
 		<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
+		{% endif %}
+		{% if box.viz %}
+		<div class="feed-box-viz {{ box.viz }}" style="background-image:url('/static/img/viz_type/{{ box.viz }}.svg');"></div>
 		{% endif %}
 		<div class="feed-box-type">
 			<img src="{{ box.type.icon }}" />
@@ -64,7 +67,7 @@
 		{% if box.featured %}
 		<div class="feed-box-tag">Featured</div>
 		{% endif %}
-	</div>
+	</a>
 {% endfor %}
 </div>
 

@@ -26,7 +26,7 @@ $map-sidebar: 250px;
   padding: $title-height 5px 10px;
   z-index: 2;
   position: relative;
-  width: $map-sidebar;
+  width: $map-sidebar + 1;
   visibility: hidden;
 
 }

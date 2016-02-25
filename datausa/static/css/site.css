@@ -2244,7 +2244,9 @@ body.home {
 .search-home-container {
   height: 45px;
   margin: 0 auto 100px;
-  width: 50%; }
+  position: relative;
+  width: 50%;
+  z-index: 1; }
 
   #search-home.open .search-input {
     display: none; }
@@ -2436,7 +2438,7 @@ body.home {
   margin: 70px auto;
   max-width: 1200px;
   position: relative;
-  z-index: -1; }
+  z-index: 0; }
   #feed .feed-box {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -2505,6 +2507,17 @@ body.home {
           background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
           background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
           -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')"; }
+    #feed .feed-box .feed-box-viz {
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%; }
+      #feed .feed-box .feed-box-viz.geo_map {
+        background-position: center center; }
     #feed .feed-box .feed-box-header {
       font-family: "Palanquin", sans-serif;
       font-size: 10px;
@@ -5299,7 +5312,7 @@ body.map {
   padding: 40px 5px 10px;
   z-index: 2;
   position: relative;
-  width: 250px;
+  width: 251px;
   visibility: hidden; }
   #map-controls:before, #map-controls:after {
     -webkit-box-sizing: border-box;
