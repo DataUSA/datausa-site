@@ -207,10 +207,17 @@
   year: latest
   namespace: "transport"
 
+- required: ["degree", "grads_total"]
+  order: grads_total
+  show: degree
+  dataset: ipeds
+  year: latest
+  namespace: "top_degree"
+
 - required: ["cip"]
   order: grads_total_rca
   sumlevel: "6"
-  degree: "5"
+  degree: "<<top show=degree|order=grads_total|sort=desc|col=id|dataset=ipeds>>"
   show: cip
   dataset: ipeds
   rows: True
@@ -221,7 +228,7 @@
 - required: ["cip"]
   order: grads_total
   sumlevel: "6"
-  degree: "5"
+  degree: "<<top show=degree|order=grads_total|sort=desc|col=id|dataset=ipeds>>"
   show: cip
   dataset: ipeds
   rows: True

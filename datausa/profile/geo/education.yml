@@ -7,7 +7,7 @@ topics:
     subtitle: "<<sub dataset=ipeds>>"
     select:
       data: "degree"
-      default: "5"
+      default: "<<var namespace=top_degree|key=degree|format=raw>>"
     stat_stack: YES
     stat:
       - title: "High relative number of people major in"
@@ -27,7 +27,7 @@ topics:
       color: "cip_2"
       data:
         show: "cip"
-        degree: "5"
+        degree: "<<var namespace=top_degree|key=degree|format=raw>>"
         geo: "<<id dataset=ipeds>>"
         required: "grads_total"
         sumlevel: "6"
