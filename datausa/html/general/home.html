@@ -39,12 +39,31 @@
 <div id="feed">
 {% for box in feed %}
 	<div class="feed-box {{ box.type.type }}{% if box.featured %} featured{% endif %}">
+		{% if box.image %}
+		<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
+		{% endif %}
 		<div class="feed-box-type">
 			<img src="{{ box.type.icon }}" />
-			<span class="feed-box-type-title">{{ box.type.title }}</span>
+			<span class="feed-box-header">{{ box.type.title }}</span>
 		</div>
+		{% if box.type.depth %}
+		<span class="feed-box-depth feed-box-header">{{ box.type.depth }}</span>
+		{% endif %}
+		{% if box.section %}
+		<div class="feed-box-section">
+			<img src="{{ box.section.icon }}" />
+			<span class="feed-box-header">{{ box.section.title }}</span>
+		</div>
+		{% endif %}
 		<div class="feed-box-title">{{ box.title }}</div>
 		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
+		{% if box.author %}
+		<div class="feed-box-header feed-box-author">{{ box.author }}</div>
+		<div class="feed-box-header feed-box-link">Read More</div>
+		{% endif %}
+		{% if box.featured %}
+		<div class="feed-box-tag">Featured</div>
+		{% endif %}
 	</div>
 {% endfor %}
 </div>

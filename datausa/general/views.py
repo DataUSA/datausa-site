@@ -58,7 +58,7 @@ def home():
             box["image"] = story["background_image"]
             box["title"] = story["title"]
             box["subtitle"] = story["description"]
-            box["author"] = story["authors"][0]["name"]
+            box["author"] = "By {}".format(story["authors"][0]["name"])
         elif "/map/" in box["link"]:
             box["type"] = {
                 "icon": "/static/img/icons/demographics.svg",
