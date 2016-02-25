@@ -33,13 +33,14 @@ def home():
             attr_type = box["link"].split("/")[2]
             attr_id = box["link"].split("/")[3]
             attr = fetch(attr_id, attr_type)
-            box["title"] = attr["display_name"]
+            box["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
             section = [s for s in profile_cache[attr_type]["sections"] if s["anchor"] == box["section"]][0]
             box["section"] = {
                 "title": section["title"],
                 "icon": "/static/img/icons/{}.svg".format(box["section"])
             }
-            sumlevel = SUMLEVELS[attr_type][attr["sumlevel"]]
+            sumlevel = attr["sumlevel"] if "sumlevel" in attr else str(attr["level"])
+            sumlevel = SUMLEVELS[attr_type][sumlevel]
             sumlevel = sumlevel["shortlabel"] if "shortlabel" in sumlevel else sumlevel["label"]
             box["type"] = {
                 "icon": "/static/img/icons/{}.svg".format(attr_type),

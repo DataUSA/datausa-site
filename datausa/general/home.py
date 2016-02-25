@@ -19,8 +19,20 @@ HOMEFEED = [
         "featured": True
     },
     {
+        "link": "/profile/soc/291060/employment/wage_locations",
+        "subtitle": "Where in the U.S. are Physicians & Surgeons paid the most?",
+        "section": "employment",
+        "viz": "geo_map"
+    },
+    {
         "link": "/map/?level=county&key=age,age_moe,age_rank",
         "title": "Map a Generation",
         "subtitle": "Which regions of the U.S. have the youngest average population age?"
+    },
+    {
+        "link": "/profile/soc/291060/employment/wage_locations",
+        "subtitle": "Where in the U.S. are Physicians & Surgeons paid the most?",
+        "section": "employment",
+        "viz": "geo_map"
     }
 ]
