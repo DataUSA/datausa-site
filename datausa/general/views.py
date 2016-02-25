@@ -39,14 +39,17 @@ def home():
                 "title": section["title"],
                 "icon": "/static/img/icons/{}.svg".format(box["section"])
             }
-            sumlevel = attr["sumlevel"] if "sumlevel" in attr else str(attr["level"])
+            sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
+            if attr_type == "cip":
+                sumlevel = (sumlevel + 1) * 2
+            sumlevel = str(sumlevel)
             sumlevel = SUMLEVELS[attr_type][sumlevel]
             sumlevel = sumlevel["shortlabel"] if "shortlabel" in sumlevel else sumlevel["label"]
             box["type"] = {
                 "icon": "/static/img/icons/{}.svg".format(attr_type),
                 "title": "Profile",
                 "type": TYPEMAP[attr_type],
-                "depth": sumlevel
+                "depth": sumlevel.replace("_"," ")
             }
             box["image"] = "/static/img/thumb/{}".format(attr["image_path"])
         elif "/story/" in box["link"]:
