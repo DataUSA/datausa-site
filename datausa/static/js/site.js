@@ -4487,7 +4487,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 /* Only edit javascript files in the assets/js directory */
 
 dusa_popover = function() {
-  
+
 }
 
 dusa_popover.close = function() {
@@ -4497,23 +4497,23 @@ dusa_popover.close = function() {
 }
 
 dusa_popover.open = function(panels, active_panel_id, url, build) {
-  
+
   d3.select("body")
     .append("div")
       .attr("class", "overlay")
       .attr("id", "bg")
-  
+
   var view = d3.select("body")
     .append("div")
       .attr("class", "overlay")
       .attr("id", "view")
       .on("click", dusa_popover.close)
-  
+
   var modal = view
     .append("div")
       .attr("class", "modal")
       .on("click", function(){ d3.event.stopPropagation() })
-  
+
   modal.append("div")
     .attr("class", "close-btn")
     .html('<div class="in"><div class="bd"><div class="b-1 b close"><span></span></div><div class="b-2 b close"><span></span></div><div class="b-3 b close"><span></span></div></div></div>')
@@ -4522,21 +4522,21 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
   var header = modal
     .append("div")
       .attr("class", "header")
-  
+
   header
     .append("h2")
       .text("Share")
-  
+
   var body = modal
     .append("div")
       .attr("class", "body")
-  
+
   var nav = body
     .append("div")
       .attr("class", "nav")
-  
+
   var active_panel = null;
-  
+
   panels.forEach(function(p, i){
     var panel_link = nav
       .append("span")
@@ -4546,6 +4546,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
         .text(p.title)
         .on("click", function(){
           var target_id = d3.select(d3.event.srcElement).attr("data-target-id");
+          if (!target_id) target_id = d3.select(d3.event.srcElement.parentNode).attr("data-target-id");
           var this_tab = d3.select(".change_share#"+target_id)
           var pos = this_tab.node().offsetLeft;
           var w = this_tab.node().offsetWidth;
@@ -4564,7 +4565,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
   nav
     .append("span")
       .attr("class", "highlight")
-  
+
   var panel_divs = body
     .append("div")
       .attr("class", "panels")
@@ -4574,21 +4575,21 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
       .append("div")
         .attr("class", "panel")
         .attr("id", p.title.toLowerCase())
-    
-    if(p.title.toLowerCase() == "social"){    
+
+    if(p.title.toLowerCase() == "social"){
       var social = panel.append("div")
         .attr("class", "social")
-    
+
       social.append("span")
         .on("click", function(){})
         .append("i")
         .attr("class", "fa fa-facebook")
-    
+
       social.append("span")
         .on("click", function(){})
         .append("i")
         .attr("class", "fa fa-twitter")
-    
+
       panel.append("input")
         .attr("type", "text")
         .attr("readonly", true)
@@ -4603,15 +4604,15 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
         .attr("class", "embed-link")
         .property("value", '<iframe width="360px" height="240px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
         .on("click", function(){ this.select(); })
-      
+
       var embed_options = panel.append("div")
         .attr("class", "embed_options")
-      
+
       var demo = embed_options.append("div")
         .attr("class", "demo")
         .append("img")
           .attr("src", "/static/img/profiles/embed_viz.svg")
-        
+
       var options = embed_options.append("div")
         .attr("class", "options")
 
@@ -4632,13 +4633,13 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
           }
         })
       option.append("label").text("Include visualization description")
-      
+
       var sizes = options.append("select")
       sizes.append("option").attr("value", "360|240").text("Small 360 x 240")
       sizes.append("option").attr("value", "720|480").text("Medium 720 x 480")
       sizes.append("option").attr("value", "1440|1080").text("Large 1440 x 1080")
       sizes.append("option").attr("value", "").text("Fullscreen")
-      
+
       sizes.on("change", function(){
         var dimensions = this[this.selectedIndex].value.split("|");
         var w = dimensions.length == 2 ? dimensions[0]+"px" : "100%";
@@ -4654,28 +4655,36 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
     else if(p.title.toLowerCase() == "download"){
       var social = panel.append("div")
         .attr("class", "filetypes")
-    
+
+      var container = build.container.select(".d3plus")
+      if (container.size()) {
+        container = container.select("svg");
+      }
+      else {
+        container = build.container.select("svg");
+      }
+
       var file_svg = social.append("div")
         .on("click", function(){
-          save(build.container.select(".d3plus").select("svg"), {"mode": "svg", "name":build.title})
+          save(container, {"mode": "svg", "name":build.title})
         })
       file_svg.append("i")
         .attr("class", "fa fa-file-code-o")
       file_svg.append("span")
         .text("SVG")
-    
+
       var file_pdf = social.append("div")
         .on("click", function(){
-          save(build.container.select(".d3plus").select("svg"), {"mode": "pdf", "name":build.title})
+          save(container, {"mode": "pdf", "name":build.title})
         })
       file_pdf.append("i")
         .attr("class", "fa fa-file-pdf-o")
       file_pdf.append("span")
         .text("PDF")
-    
+
       var file_img = social.append("div")
         .on("click", function(){
-          save(build.container.select(".d3plus").select("svg"), {"mode": "png", "name":build.title})
+          save(container, {"mode": "png", "name":build.title})
         })
       file_img.append("i")
         .attr("class", "fa fa-file-image-o")
@@ -4683,19 +4692,20 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
         .text("Image")
     }
   })
-  
+
   if(active_panel){
     active_panel.on("click")()
   }
-  
+
   // "ESC" button will close popover
   d3.select("body").on("keyup.popover", function(){
     if (d3.event.keyCode === 27) {
       dusa_popover.close();
     }
   })
-  
+
 }
+
 d3.sankey = function() {
   var sankey = {},
       nodeWidth = 24,
@@ -8352,7 +8362,8 @@ viz.mapDraw = function(vars) {
     "fill": vizStyles.legend.font.color,
     "font-family": vizStyles.legend.font.family,
     "font-size": vizStyles.legend.font.size,
-    "font-weight": vizStyles.legend.font.weight
+    "font-weight": vizStyles.legend.font.weight,
+    "stroke": "transparent"
   }
 
   var borderColor = function(c) {
@@ -8694,6 +8705,7 @@ viz.mapDraw = function(vars) {
             return scalePadding + scaleHeight;
           })
           // .attr("fill", scaleText.fill)
+          .attr("stroke", "transparent")
           .attr("fill", function(d){
             return borderColor(colorScale(d));
           });

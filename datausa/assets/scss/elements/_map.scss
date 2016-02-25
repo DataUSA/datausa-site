@@ -20,10 +20,11 @@ $map-sidebar: 250px;
   @include box();
   @include shadow(rgba(0, 0, 0, 0.2) 1px 0 3px);
   background-color: $l-profile-bg;
+  border-right: 1px solid $gray-d;
   display: inline-block;
   height: 100vh;
   padding: $title-height 5px 10px;
-  z-index: 1;
+  z-index: 2;
   position: relative;
   width: $map-sidebar;
   visibility: hidden;
@@ -38,6 +39,21 @@ $map-sidebar: 250px;
   z-index: 1;
   svg {
     overflow: hidden;
+  }
+}
+
+#map-sharing {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid $gray-d;
+  bottom: 10px;
+  left: $map-sidebar + 10;
+  position: fixed;
+  z-index: 2;
+
+  .pri-btn {
+    // margin: 1px;
+    color: $gray-d;
+    padding: 10px 10px;
   }
 }
 
@@ -131,7 +147,7 @@ $map-sidebar: 250px;
     margin: 5px;
     position: relative;
     width: 15px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.5);
 
     &::after {
       top: 2px;
@@ -146,7 +162,7 @@ $map-sidebar: 250px;
 
     &:hover {
       cursor: pointer;
-      background-color: rgb(241, 241, 241);
+      background-color: white;
     }
 
   }

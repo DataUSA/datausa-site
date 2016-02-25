@@ -28,6 +28,10 @@
   </div>
 </div>
 <div id="map-fullscreen"></div>
+<div id="map-sharing">
+  <a href="#" class="btn pri-btn" data-target-id="share"><span>Share</span></a>
+  <a href="#" class="btn pri-btn" data-target-id="download"><span>Download</span></a>
+</div>
 <div id="map-loading">
   <div id="map-loading-text"><i class="fa fa-circle-o-notch fa-spin"></i>Please Wait</div>
 </div>
@@ -178,6 +182,17 @@
       .height(window.innerHeight - navheight)
       .width(window.innerWidth - sidebarWidth)
       .draw();
+  });
+
+  d3.select("#map-sharing").selectAll("a").on("click.share", function(){
+    d3.event.preventDefault();
+    dusa_popover.open([
+      {"title":"Social"},
+      {"title":"Download"}
+    ],
+    d3.select(this).attr("data-target-id"),
+    location.href,
+    {"container": container, "title": "DataUSA " + viz.format.text(map.color()) + " Map"})
   });
 
 </script>

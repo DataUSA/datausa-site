@@ -5293,10 +5293,11 @@ body.map {
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 1px 0 3px;
   box-shadow: rgba(0, 0, 0, 0.2) 1px 0 3px;
   background-color: #F6F6F6;
+  border-right: 1px solid #999;
   display: inline-block;
   height: 100vh;
   padding: 40px 5px 10px;
-  z-index: 1;
+  z-index: 2;
   position: relative;
   width: 250px;
   visibility: hidden; }
@@ -5313,6 +5314,17 @@ body.map {
   z-index: 1; }
   #map-fullscreen svg {
     overflow: hidden; }
+
+#map-sharing {
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid #999;
+  bottom: 10px;
+  left: 260px;
+  position: fixed;
+  z-index: 2; }
+  #map-sharing .pri-btn {
+    color: #999;
+    padding: 10px 10px; }
 
 #map-loading {
   height: 100vh;
@@ -5367,7 +5379,7 @@ body.map {
       margin: 5px;
       position: relative;
       width: 15px;
-      background-color: white; }
+      background-color: rgba(255, 255, 255, 0.5); }
       .map-controls .zoom-in::after, .map-controls .zoom-out::after,
       .map-controls .zoom-reset::after {
         top: 2px;
@@ -5381,7 +5393,7 @@ body.map {
         .map-controls .zoom-in:hover, .map-controls .zoom-out:hover,
         .map-controls .zoom-reset:hover {
           cursor: pointer;
-          background-color: #f1f1f1; }
+          background-color: white; }
     .map-controls .zoom-in:after {
       content: "\f067"; }
       .map-controls .zoom-out:after {

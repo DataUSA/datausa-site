@@ -19,7 +19,8 @@ viz.mapDraw = function(vars) {
     "fill": vizStyles.legend.font.color,
     "font-family": vizStyles.legend.font.family,
     "font-size": vizStyles.legend.font.size,
-    "font-weight": vizStyles.legend.font.weight
+    "font-weight": vizStyles.legend.font.weight,
+    "stroke": "transparent"
   }
 
   var borderColor = function(c) {
@@ -361,6 +362,7 @@ viz.mapDraw = function(vars) {
             return scalePadding + scaleHeight;
           })
           // .attr("fill", scaleText.fill)
+          .attr("stroke", "transparent")
           .attr("fill", function(d){
             return borderColor(colorScale(d));
           });
