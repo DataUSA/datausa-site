@@ -373,7 +373,7 @@ topics:
       coords: "pumas"
       data:
         - cip: "<<id>>"
-          order: "num_ppl_rca,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          required: "num_ppl_rca,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "geo"
           sumlevel: "puma"
           where: "num_records:>4"
