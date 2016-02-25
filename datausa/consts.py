@@ -468,7 +468,7 @@ GLOSSARY = {
         "link": "/about/glossary/#rca"
     },
     "Wage GINI": {
-        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent income distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
+        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
         "link": "/about/glossary/#gini"
     }
 }
