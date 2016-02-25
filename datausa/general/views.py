@@ -14,7 +14,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 17
+    g.cache_version = 18
     g.affixes = json.dumps(AFFIXES)
     g.dictionary = json.dumps(DICTIONARY)
     g.percentages = json.dumps(PERCENTAGES)
@@ -65,6 +65,7 @@ def home():
                 "title": TYPEMAP["map"],
                 "type": "map"
             }
+            box["viz"] = "geo_map"
 
     return render_template("general/home.html", feed=feed)
 
