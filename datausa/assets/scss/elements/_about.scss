@@ -234,6 +234,7 @@ body.about {
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: -1;
   }
 
   #hero {
@@ -266,7 +267,7 @@ body.about {
   article {
     position: relative;
     width: 100%;
-    margin: 0 auto;
+    margin: 0 auto 50px;
     z-index: 1;
     @include box();
     padding: 0 25px $nav-height;
@@ -410,7 +411,7 @@ body.about {
     th, td {
       padding: 5px 5px;
     }
-    
+
     th a {
       i {
         margin: 6px 0 0 4px;
@@ -469,7 +470,7 @@ body.about {
     @include box();
     position: relative;
     padding: 1px 50px 50px;
-    max-width: 800px;
+    max-width: 850px;
     margin: 0 auto;
     background-color: $l-profile-bg;
 
