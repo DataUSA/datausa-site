@@ -43,4 +43,11 @@ body.home {
 
   }
 
+  @media only screen and (max-width: 645px) {
+    #feed .feed-box.featured {
+      min-width: 300px !important;
+      @include flex-size(1 0 300px);
+    }
+  }
+
 }

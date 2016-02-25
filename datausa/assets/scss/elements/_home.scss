@@ -217,6 +217,7 @@ body.home {
   #d3plus_drop_search-type {
     min-width: $search-type-width;
     width: $search-type-width;
+    border-left: 1px solid $gray-w;
 
     .d3plus_node {
       background-color: rgba(255, 255, 255, 0.9) !important;
@@ -266,6 +267,14 @@ body.home {
     min-width: 105px;
     text-align: center;
     width: 105px;
+
+    &:hover, &:focus {
+      background-color: $red-w-l;
+    }
+
+    &:active {
+      background-color: $red-w-d;
+    }
   }
 
 }
