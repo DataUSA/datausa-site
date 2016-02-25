@@ -1,28 +1,46 @@
-// @media all and (min-width: 415px) {
-//   .search-input-btn {
-//
-//     .search-glass {
-//       height: 67px;
-//       width: 67px;
-//       background-position: 14px;
-//       background-size: 38px 38px;
-//     }
-//   }
-// }
-//
-// @media only screen and (max-width : 480px) {
-//   // article.landing {
-//   //   height: 87vh !important;
-//   // }
-//
-//   // .home-logo {
-//   //   margin: 12vh auto 5vh;
-//   // }
-//
-//   #home-search-input {
-//     padding: 5px 10px 5px 50px;
-//     font-size: 21px;
-//     background-size: 28px 28px;
-//     background-position: 10px 11px;
-//   }
-// }
+body.home {
+
+  @media only screen and (max-width : 1150px) {
+
+    .home-desc {
+      h2 {
+        font-size: 32px !important;
+        line-height: 40px !important;
+
+        &.second-line {
+          font-size: 35px !important;
+        }
+
+      }
+    }
+
+  }
+
+  @media only screen and (max-width: 900px) {
+
+    #menu {
+      background-color: rgba(34, 34, 34, 0.9) !important;
+      left: -$nav-width !important;
+      height: 100vh !important;
+
+      &.open {
+        left: 0 !important;
+      }
+    }
+
+    #menu-btn {
+      display: block !important;
+    }
+
+  }
+
+
+  @media only screen and (max-width : 480px) {
+
+    #d3plus_drop_search-type {
+      display: none !important;
+    }
+
+  }
+
+}

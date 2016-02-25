@@ -2,9 +2,15 @@ body.home {
   position: relative;
   background-color: $black2;
 
+  #menu-btn {
+    display: none;
+  }
+
   #menu {
+    background-color: transparent;
     bottom: auto !important;
     height: auto !important;
+    left: 0 !important;
     position: absolute;
 
     .logo {
@@ -52,45 +58,6 @@ body.home {
     }
   }
 
-  .hero-img {
-    position: absolute;
-    width: 100%;
-    max-width: 100vw !important;
-    height: 100% !important;
-    background-position: 50% 0;
-    background-size: cover;
-    background-repeat: no-repeat;
-
-    &.bg {
-      background-image: url('/static/img/home/hero-bg.jpg');
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 0;
-    }
-
-    &.fg {
-      background-image: url('/static/img/home/hero-fg.png');
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 5;
-    }
-  }
-
-  // article.landing {
-  //   position: relative;
-  //   top: 0;
-  //   width: 100%;
-  //   height: 97vh;
-  //   margin: 0 auto;
-  //   padding: 0 40px;
-  //   @include box();
-  //   @include flex();
-  //   @include flex-direction(column);
-  //   @include justify(flex-start);
-  // }
-
   .home-logo {
     width: 90%;
     text-align: center;
@@ -117,126 +84,20 @@ body.home {
     }
   }
 
-  // .logo {
-  //   width: 100%;
-  //   margin: 0 auto;
-  //
-  //   @media all and (min-width: 416px) {
-  //     max-width: 500px;
-  //   }
-  // }
-
-  /* small design */
-
-  @media all and (max-width: 415px){
-
-    // .home-container {
-    //   height: 100vh;
-    //   overflow-y: hidden;
-    // }
-
-    // article.landing {
-    //   padding: 0 30px;
-    // }
-
-    // .content {
-    //   position: absolute;
-    //   top: 0;
-    //   width: 100%;
-    // }
-
-    #menu-btn .bd {
-      padding: 17px 15px;
-    }
-
-    #menu {
-      background-color: $home-red;
-      left: 0;
-      top: 100vh;
-      height: 100%;
-      @include transition(top 0.7s ease);
-
-      &.open {
-        top: 0;
-      }
-    }
-  }
-
-  /* large design */
-
-  @media all and (min-width: 926px) {
-    // .content {
-    //   $nav-width: 415px;
-    //   padding-left: $nav-width + 10;
-    // }
-
-    #menu {
-      left: 0;
-    }
-  }
-
-  @media all and (min-width: 416px){
-
-    .bg {
-      // margin-left: $nav-width;
-    }
-
-    // .home-container {
-    //   position: fixed;
-    //   left: 0;
-    //   top: 0;
-    //   bottom: 0;
-    //   right: 0;
-    // }
-
-    nav {
-      li {
-        display: none;
-      }
-    }
-
-    #menu {
-      height: 98.5vh;
-
-      footer {
-        background-color: rgba(255,255,255,0);
-      }
-    }
-
-    .content {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      @include box();
-      @include transition(padding-left 0.65s ease);
-
-      li {
-        display: none;
-      }
-    }
-
-    article {
-      //height: 100vh;
-      position: absolute;
-    }
-  }
-
   .search-body {
     background-color: $l-profile-bg;
   }
 }
 
 .search-home-container {
-  // @include flex();
-  // @include flex-direction(column);
-  // @include align-items(flex-start);
-  // @include justify(flex-start);
+  @include box();
   height: 45px;
   margin: 0 auto 100px;
   // overflow: hidden;
+  padding: 0 25px;
   position: relative;
-  width: 50%;
+  max-width: 650px;
+  width: 100%;
   z-index: 1;
 }
 
@@ -257,7 +118,6 @@ body.home {
 
 #search-home {
   display: none;
-  // @include flex-size(1 auto);
   width: 100%;
   max-height: 30vh;
   @include box();
@@ -318,13 +178,16 @@ body.home {
 }
 
 .search-input-btn {
+  @include box();
   @include flex();
   @include flex-direction(row);
   height: 45px;
+  position: relative;
   width: 100%;
 
   #home-search-input {
     @include box();
+    height: 45px;
     width: 100%;
     padding: 2px 20px 5px 40px;
     border-radius: 0;
@@ -342,10 +205,8 @@ body.home {
     background-size: 25px 25px;
     color: $home-blue;
     @include placeholder {color: $home-blue; opacity: 0.8;}
-    // @include transition(width 1s);
 
     &:focus {
-      // background-color: rgba(255, 255, 255, 1);
       outline: 0;
     }
 
@@ -354,6 +215,8 @@ body.home {
   $search-type-width: 150px;
 
   #d3plus_drop_search-type {
+    min-width: $search-type-width;
+    width: $search-type-width;
 
     .d3plus_node {
       background-color: rgba(255, 255, 255, 0.9) !important;
@@ -392,6 +255,7 @@ body.home {
   }
 
   #search-switch.adv {
+    @include box();
     background-color: $red-w;
     color: white;
     display: inline-block;
@@ -403,13 +267,6 @@ body.home {
     text-align: center;
     width: 105px;
   }
-
-  // &.closed {
-  //   width: 67px;
-  //   margin: 0 auto;
-  //   background-color: #fff;
-  //   // border-radius: 4px;
-  // }
 
 }
 
@@ -687,3 +544,4 @@ body.home {
   }
 
 }
+@import "elements/home_m";
