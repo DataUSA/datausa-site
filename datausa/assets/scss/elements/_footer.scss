@@ -1,0 +1,128 @@
+footer {
+  @include box();
+  background-color: $black2;
+  padding: 50px;
+  width: 100%;
+
+  .logo {
+    width: 150px;
+  }
+
+  .content {
+    @include flex();
+    @include flex-direction(row);
+    @include justify(space-between);
+    color: white;
+    margin: 30px 0 0;
+
+    .footer-links {
+      @include flex();
+      @include flex-direction(row);
+      max-width: 500px;
+      width: 100%;
+
+      ul {
+        @include flex-size(1);
+
+        h4 {
+          font-size: 18px;
+          text-transform: uppercase;
+        }
+
+        li a {
+          color: white;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 0;
+        }
+
+      }
+
+    }
+
+    .footer-contact {
+      @include flex();
+      @include flex-direction(column);
+      @include justify(space-between);
+      max-width: 400px;
+      width: 100%;
+
+      .footer-mailer {
+        font-size: 14px;
+        font-weight: 800;
+
+        .input-container {
+          @include flex();
+          border-bottom: 1px solid white;
+          padding: 5px 0 10px;
+
+          i {
+            font-size: 16px;
+            margin-top: 8px;
+            width: 35px;
+          }
+
+          .email {
+            @include box();
+            background-color: transparent;
+            border: 0;
+            color: white;
+            font-family: $palanquin;
+            font-size: 14px;
+            font-weight: 400;
+            width: 100%;
+
+            &:focus {
+              border: 0;
+              outline: 0;
+            }
+
+          }
+
+          .email-btn {
+            @include box();
+            @include transition(background-position 0.1s);
+            background-position: 95% center;
+            background-color: transparent;
+            background-image: url("/static/img/home/arrow.svg");
+            background-repeat: no-repeat;
+            border: 0;
+            color: white;
+            font-family: $palanquin;
+            font-size: 14px;
+            font-weight: 800;
+            padding-right: 25px;
+            text-transform: uppercase;
+            width: 90px;
+
+            &:hover {
+              background-position: 100% center;
+              cursor: pointer;
+            }
+
+          }
+
+        }
+
+      }
+
+      .footer-logos {
+        @include flex();
+        @include justify(space-between);
+        margin-top: 25px;
+        a {
+          display: inline-block;
+
+          img {
+            height: 20px;
+          }
+        }
+      }
+
+    }
+
+  }
+
+}
+
+@import "elements/footer_m";

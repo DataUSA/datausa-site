@@ -65,14 +65,3 @@ ol {
   -webkit-margin-end: 0px;
   -webkit-padding-start: 26px;
 }
-
-footer {
-  @include box();
-  background-color: $black2;
-  padding: 50px;
-  width: 100%;
-
-  .logo {
-    width: 150px;
-  }
-}
