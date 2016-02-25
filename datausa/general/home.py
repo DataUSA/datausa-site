@@ -76,5 +76,9 @@ HOMEFEED = [
         "subtitle": "What are the 5 most common, specialized, & highest paid jobs within the industry?",
         "section": "workforce",
         "viz": "bar_triptych"
+    },
+    {
+        "link": "/story/11-11-2015_gender-bias-workplace/",
+        "featured": False
     }
 ]
