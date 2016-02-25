@@ -59,12 +59,14 @@
 		</div>
 		{% endif %}
 		<div class="feed-box-title">{{ box.title }}</div>
+		{% if box.featured or box.type.type != "story" %}
 		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
+		{% endif %}
 		{% if box.author %}
 		<div class="feed-box-header feed-box-author">{{ box.author }}</div>
 		<div class="feed-box-header feed-box-link">Read More</div>
 		{% endif %}
-		{% if box.featured %}
+		{% if box.featured and box.type.title != "Profile" %}
 		<div class="feed-box-tag">Featured</div>
 		{% endif %}
 	</a>
