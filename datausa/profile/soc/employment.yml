@@ -3,13 +3,13 @@ description: "The Census Bureau provides detailed information on the businesses 
 
 topics:
   - category: "Wages"
-    title: "Yearly Income"
+    title: "Yearly Wage"
     slug: "wage_by_industry"
     stat:
       - title: "Average Salary"
         value: "<<var namespace=data|key=avg_wage>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|key=avg_wage_moe>>"
-    description: "In <<var namespace=data|key=year>>, average <<name>> earned <<var namespace=data|key=avg_wage>>, compared to the national average of <<var namespace=nation|key=avg_wage>>. Here are the 4 occupations closest to <<name>> by median income."
+    description: "In <<var namespace=data|key=year>>, average <<name>> earned <<var namespace=data|key=avg_wage>>, compared to the national average of <<var namespace=nation|key=avg_wage>>. Here are the 4 occupations closest to <<name>> by average wage."
     viz:
       attrs: "soc"
       data:
@@ -28,11 +28,11 @@ topics:
       y:
         scale: "discrete"
         value: "soc"
-  - title: "Income Distribution"
+  - title: "Wage Distribution"
     slug: "wage_distribution"
-    description: "<<name>> had an income GINI coefficient of <<var namespace=data|key=gini>> in <<var namespace=data|key=year>>, which is <<percent num=var:data,gini|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are <<percent den=var:data,gini|num=var:nation,gini|text=moreless2>> evenly distributed for <<name>> than the overall labor force."
+    description: "<<name>> had a wage GINI coefficient of <<var namespace=data|key=gini>> in <<var namespace=data|key=year>>, which is <<percent num=var:data,gini|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are <<percent den=var:data,gini|num=var:nation,gini|text=moreless2>> evenly distributed for <<name>> than the overall labor force."
     stat:
-      - title: "Income GINI"
+      - title: "Wage GINI"
         value: "<<var namespace=data|key=gini>>"
     viz:
       attrs:

@@ -293,11 +293,11 @@ topics:
           position: True
         value: "soc"
       y: "avg_wage"
-  - title: "Income Distribution"
+  - title: "Wage Distribution"
     slug: "wage_distro"
-    description: "<<var namespace=wagegap|key=naics>> has an income GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average."
+    description: "<<var namespace=wagegap|key=naics>> has a wage GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average."
     stat:
-      - title: "Income GINI"
+      - title: "Wage GINI"
         value: "<<var namespace=wagegap|key=gini>>"
     viz:
       attrs:
