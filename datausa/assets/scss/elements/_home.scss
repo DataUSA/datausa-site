@@ -85,7 +85,7 @@ body.home {
   }
 
   .search-body {
-    background-color: $l-profile-bg;
+    // background-color: $l-profile-bg;
   }
 }
 
@@ -118,14 +118,15 @@ body.home {
 
 #search-home {
   display: none;
-  width: 100%;
+  // width: 100%;
+  padding-right: 105px;
   max-height: 30vh;
   @include box();
-  @include shadow(0 1px 2px rgba(255,255,255,0.25),0 0 1px rgba(255,255,255,0.4));
+  // @include shadow(0 1px 2px rgba(255,255,255,0.25),0 0 1px rgba(255,255,255,0.4));
   overflow-y: scroll;
   margin: 0;
-  border: 1px solid rgba(255,255,255,0.5);
-  background-color: rgba(255, 255, 255, 0.85);
+  // border: 1px solid rgba(255,255,255,0.5);
+  // background-color: rgba(255, 255, 255, 0.85);
 
   &::before {
     position: relative;
@@ -141,7 +142,7 @@ body.home {
 
   .search-item {
     display: block;
-    padding: 10px 15px 3px;
+    padding: 10px 6px 3px;
   }
 
   .search-results {
@@ -149,6 +150,8 @@ body.home {
     width: 100%;
     overflow: hidden;
     max-height: inherit;
+    border-top: 1px solid $gray-l;
+    padding-right: 1px;
   }
 }
 
@@ -159,15 +162,17 @@ body.home {
 .results-show-all {
   @include box();
   display: none;
-  width: 100%;
-  padding: 5px;
+  // width: 100%;
+  padding-right: 105px;
   text-align: center;
-  background: $d-profile-bg;
-
+  
   .pri-link {
-    // padding-top: 15px;
+    width: 100%;
+    display: block;
+    padding: 5px 1px 5px 0;
     font-size: 12px;
     color: #333;
+    background: $d-profile-bg;
     opacity: 1;
     line-height: 32px;
 
@@ -218,6 +223,7 @@ body.home {
     min-width: $search-type-width;
     width: $search-type-width;
     border-left: 1px solid $gray-w;
+    @include box();
 
     .d3plus_node {
       background-color: rgba(255, 255, 255, 0.9) !important;
@@ -251,6 +257,13 @@ body.home {
     .d3plus_drop_selector, .d3plus_drop_list {
       padding: 0 !important;
       width: $search-type-width !important;
+    }
+
+    .d3plus_drop_selector {
+      border-color: $gray-w;
+      border-style: solid;
+      border-width: 0 1px 1px 1px;
+      left: -1px !important;
     }
 
   }
