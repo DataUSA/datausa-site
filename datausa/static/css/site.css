@@ -6402,6 +6402,10 @@ body.about {
           body.about section h2 a {
             color: #141b2e;
             cursor: default; }
+    body.about section p {
+      margin: 0 0 20px; }
+      body.about section p:last-child {
+        margin-bottom: 0; }
     body.about section > ul h1 {
       text-align: left;
       font-size: 42px;

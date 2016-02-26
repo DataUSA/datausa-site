@@ -488,7 +488,10 @@ body.about {
     }
 
     p {
-      // margin: 0 10px 10px;
+      margin: 0 0 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     & > ul {
