@@ -105,7 +105,9 @@ class Section(BaseObject):
     @staticmethod
     def tooltipify(txt):
         for gk, gt in GLOSSARY.items():
-            txt = txt.replace(gk, u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>".format(gt['link'], gt["def"], gk))
+            tooltip = u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>"
+            txt = txt.replace(gk, tooltip.format(gt['link'], gt["def"], gk))
+            txt = txt.replace(gk.lower(), tooltip.format(gt['link'], gt["def"], gk.lower()))
         return txt
 
     def __repr__(self):
