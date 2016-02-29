@@ -147,7 +147,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
             if num_items > 1:
                 top[-1] = u"and {}".format(top[-1])
             if num_items == 2:
-                top = u" and ".join(top)
+                top = u" ".join(top)
             else:
                 top = u"; ".join(top)
 

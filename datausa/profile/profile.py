@@ -285,11 +285,11 @@ class Profile(BaseObject):
         attr_type = attr_type or self.attr_type
         top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles]
         if len(top) > 1:
-            top[-1] = "and {}".format(top[-1])
+            top[-1] = u"and {}".format(top[-1])
         if len(top) == 2:
-            top = " ".join(top)
+            top = u" ".join(top)
         else:
-            top = "; ".join(top)
+            top = u"; ".join(top)
         return top
 
     def name(self, **kwargs):
@@ -302,7 +302,12 @@ class Profile(BaseObject):
         else:
             attr = self.attr
 
-        name = attr["display_name"] if "display_name" in attr else attr["name"]
+        long_version = kwargs.get("long")
+
+        if long_version:
+            name = attr["name_long"]
+        else:
+            name = attr["display_name"] if "display_name" in attr else attr["name"]
         text_only = kwargs.get("text_only", False)
         if not text_only and attr["id"] != self.attr["id"]:
             url_name = attr["url_name"] if "url_name" in attr and attr["url_name"] else attr["id"]
