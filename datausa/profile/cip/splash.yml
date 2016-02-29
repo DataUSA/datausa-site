@@ -12,9 +12,7 @@ stats:
   - title: "{{<<name>>:<<name dataset=pums>>||Average Wage}}{{<<name>>:!<<name dataset=pums>>||<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='Using data from the \"<<name dataset=pums|text_only=True>>\" parent course.'>Average Wage</span>}}"
     value: "<<var namespace=data|key=avg_wage>>"
     rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max dataset=pums>>"
-facts:
-  - "The county with the most degrees awarded in <<name>> is <<top show=geo|sumlevel=county|order=grads_total>>."
-  - "The most common occupation for <<name>> majors is <<top show=soc|sumlevel=3|order=num_ppl>>."
+
 sections:
   - institutions
   - demographics

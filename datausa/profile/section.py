@@ -101,8 +101,6 @@ class Section(BaseObject):
         if "stats" in config:
             self.stats = config["stats"]
 
-        if "facts" in config:
-            self.facts = config["facts"]
 
     @staticmethod
     def tooltipify(txt):
