@@ -1,5 +1,5 @@
 title: "Skills"
-description: "The O*NET dataset has very detailed information on the skills generally required to succeed as a <<name>> major."
+description: "The visualizations in this section allow you to explore what skills are critical for succeeding in jobs that employ people from <<name>> and which skills are most distinctive."
 
 topics:
   - class: "flex"

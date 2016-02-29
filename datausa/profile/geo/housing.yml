@@ -59,7 +59,7 @@ topics:
       - title: "Median Property Value"
         value: "<<var namespace=acsgeo|key=median_property_value>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=acsgeo|key=median_property_value_moe>>"
-    description: "The largest share of property values for owner-occupied housing units in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| The chart on the right displays the distribution versus the national values.}}{{<<sumlevel>>:nation|| The chart below shows the median property value of the nation in comparison with the top 2 and bottom 2 states.}}"
+    description: "The largest share of property values for owner-occupied housing units in <<name>> fall within the <<top col=propertyvalBucket|force=acs.yg_property_value>> range.{{<<sumlevel>>:!nation|| This chart displays the distribution versus the national values.}}{{<<sumlevel>>:nation|| The chart below shows the median property value of the nation in comparison with the top 2 and bottom 2 states.}}"
     miniviz:
       attrs: "geo"
       data:

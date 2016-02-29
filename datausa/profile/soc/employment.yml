@@ -71,7 +71,7 @@ topics:
         subvalues:
           - "<<var namespace=puma_wage|key=geo|row=1>>"
           - "<<var namespace=puma_wage|key=geo|row=2>>"
-    description: "The map to the right shows the PUMAs in the United States shaded by wage for <<name>>."
+    description: "This map shows the PUMAs in the United States shaded by wage for <<name>>."
     viz:
       attrs: "geo"
       coords: "pumas"
@@ -213,7 +213,7 @@ topics:
         subvalues:
           - "<<var namespace=puma_rca|key=geo|row=1>>"
           - "<<var namespace=puma_rca|key=geo|row=2>>"
-    description: "The map to the right shows the areas in the United States where there are a relatively high population of <<name>>."
+    description: "This map shows the areas in the United States where there are a relatively high population of <<name>>."
     viz:
       attrs: "geo"
       color: "num_ppl_rca"

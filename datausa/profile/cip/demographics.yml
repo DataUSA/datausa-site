@@ -1,7 +1,37 @@
 title: "Demographics"
-description: "The American Census Survey collects an enormous amount of data on the citizens with <<name>> degrees. This section illustrates some of the insights that can be obtained when visualizing this data."
+description: "The next section will allow you to explore demographic profiles of Americans who obtained a degree in <<name>>, to paint a rich picture of the kind of people who have chosen this as their field of study."
 
 topics:
+  - title: "Workforce Age"
+    slug: "workforce_age"
+    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
+    stat:
+      - title: "Average Age"
+        value: "<<var namespace=age|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=age|key=avg_age_moe>> years"
+    description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
+    viz:
+      attrs: "cip"
+      data:
+        - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          cip: "<<id dataset=pums>>"
+          show: "age"
+          share: "num_ppl"
+        - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          show: "age"
+          share: "num_ppl"
+          static:
+            cip: "National Average"
+      highlight: "<<id dataset=pums>>"
+      id: "cip"
+      type: "line"
+      x:
+        range: [16, 95]
+        ticks:
+          labels: [16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
+          value: "<<range min=16|max=95>>"
+        value: "age"
+      y: "share"
   - title: "Degree Obtainment"
     stat_stack: YES
     slug: "degree_obtainment"
@@ -67,12 +97,12 @@ topics:
           position: True
         value: "degree"
       y: "share"
-  - title: "Enrolled Gender"
+  - title: "Gender Imbalance"
     slug: "enrolled_gender"
     stat:
       - title: "Most Common Gender"
         value: "<<top col=sex|required=grads_men,grads_women|order=grads_total>>"
-    description: "To the right, we see the 5 most common institutions that offer <<name>> broken down by degrees awarded for each gender."
+    description: "Here we see the 5 most common institutions that offer <<name>> broken down by degrees awarded for each gender."
     viz:
       attrs: "university"
       color: "sex"
@@ -151,36 +181,6 @@ topics:
       type: "bar"
       x: "race"
       y: "grads_total"
-  - title: "Workforce Age"
-    slug: "workforce_age"
-    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
-    stat:
-      - title: "Average Age"
-        value: "<<var namespace=age|key=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=age|key=avg_age_moe>> years"
-    description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
-    viz:
-      attrs: "cip"
-      data:
-        - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
-          cip: "<<id dataset=pums>>"
-          show: "age"
-          share: "num_ppl"
-        - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
-          show: "age"
-          share: "num_ppl"
-          static:
-            cip: "National Average"
-      highlight: "<<id dataset=pums>>"
-      id: "cip"
-      type: "line"
-      x:
-        range: [16, 95]
-        ticks:
-          labels: [16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
-          value: "<<range min=16|max=95>>"
-        value: "age"
-      y: "share"
   - title: "Global Diversity"
     slug: "global_diversity"
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."

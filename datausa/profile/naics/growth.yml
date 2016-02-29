@@ -10,7 +10,7 @@ topics:
         value: "<<top col=emp_carc_2012_2022|year=none>>"
       - title: "National Average"
         value: "<<top col=emp_carc_2012_2022|year=none|naics=000000>>"
-    description: "The line chart on the right shows the estimated growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=emp_carc_2012_2022|den=emp_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2012_2022|year=none|naics=000000>>."
+    description: "This line chart shows the estimated growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=emp_carc_2012_2022|den=emp_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2012_2022|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
@@ -52,7 +52,7 @@ topics:
         value: "<<top col=output_carc_2012_2022|year=none>>"
       - title: "National Average"
         value: "<<top col=output_carc_2012_2022|year=none|naics=000000>>"
-    description: "The line chart on the right shows the estimated growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=output_carc_2012_2022|den=output_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2012_2022|year=none|naics=000000>>."
+    description: "This line chart shows the estimated growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=output_carc_2012_2022|den=output_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2012_2022|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
