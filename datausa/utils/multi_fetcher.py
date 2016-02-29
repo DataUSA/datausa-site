@@ -63,6 +63,7 @@ def merge_dicts(*dict_args):
 
 def multi_col_top(profile, params):
     namespace = params.pop("namespace")
+    after = params.pop("after", None)
     attr_type = params.get("attr_type", profile.attr_type)
     rows = params.pop("rows", False)
     cols = params.pop("required", [])
@@ -135,6 +136,12 @@ def multi_col_top(profile, params):
             stat_url = u"{}?{}&col={}&dataset={}".format(url_for("profile.statView"), query, stat_col, dataset)
             return_obj[namespace][col] = render_col(api_data, headers, col, stat_url, dataset)
     else:
+        if after:
+            new_order = after.get("order", None)
+            if new_order:
+                new_sort = after.get("sort", "desc")
+                reverse = True if new_sort == "desc" else False
+                r["data"] = sorted(r["data"], key=lambda k: k[headers.index(new_order)], reverse=reverse)
         for index, data_row in enumerate(r["data"]):
             myobject = {}
             for col in cols:
