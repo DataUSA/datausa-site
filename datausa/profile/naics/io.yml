@@ -1,5 +1,5 @@
 title: "Input/Output"
-description: "The Bureau of Economic Analysis publishes estimates of the relationships between industries. The data shows what industries supply goods and services to a specific industry, and what further industries use the products of that industry. Inputs (left hand side) include products of other industries, value added (including the value of labor, capital, and certain taxes), and imports. Uses (right hand side) include sales to other industries and sales for final consumption (including personal consumption, private investment, government, and exports)."
+description: "The Bureau of Economic Analysis publishes estimates of the sources of costs and the purchasers of products for individual industries. Inputs (left hand side) include products of other industries, value added (including the value of labor, capital, and certain taxes), and imports. Uses (right hand side) include sales to other industries and sales for final consumption (including personal consumption, private investment, government consumption and investment, and exports)."
 
 topics:
   - slug: "sankey"
@@ -38,7 +38,7 @@ topics:
         subvalues:
           - "<<var namespace=io_commodity|key=commodity_iocode|row=1>>"
           - "<<var namespace=io_commodity|key=commodity_iocode|row=2>>"
-    description: "This shows the sources of inputs used by <<name>> by their share of the overall industry costs. <<var namespace=io_commodity|key=commodity_iocode|row=0>> provide the largest share of intermediate products to the <<name>> industry."
+    description: "This shows the sources of inputs from all industries used by <<name>> (but not labor and capital costs) by their share of the cost of all intermediate input. <<var namespace=io_commodity|key=commodity_iocode|row=0>> provides the largest share of intermediate products to the <<name>> <<level>>."
     viz:
       attrs: "iocode"
       color: "iocode"
@@ -64,7 +64,7 @@ topics:
         subvalues:
           - "<<var namespace=io_industry|key=industry_iocode|row=1>>"
           - "<<var namespace=io_industry|key=industry_iocode|row=2>>"
-    description: "Here, we see the industries by their use of the <<name>> <<level>>."
+    description: "This shows industries that purchase products of <<name>> in order to produce other goods and services. It does not include purchases of <<name>> for final consumption by consumers, businesses, and government."
     viz:
       attrs: "iocode"
       color: "iocode"
