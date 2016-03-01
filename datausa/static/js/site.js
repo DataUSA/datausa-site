@@ -4497,7 +4497,8 @@ dusa_popover.close = function() {
   d3.select("body").style("overflow", "visible");
 }
 
-dusa_popover.open = function(panels, active_panel_id, url, build) {
+dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
+  console.log(build)
 
   d3.select("body")
     .style("overflow", "hidden")
@@ -4527,7 +4528,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
 
   header
     .append("h2")
-      .text("Share")
+      .text("Options")
 
   var body = modal
     .append("div")
@@ -4597,7 +4598,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
         .attr("type", "text")
         .attr("readonly", true)
         .attr("class", "share-link")
-        .property("value", url)
+        .property("value", embed_url)
         .on("click", function(){ this.select(); })
     }
     else if(p.title.toLowerCase() == "embed"){
@@ -7838,6 +7839,7 @@ viz.loadBuilds = function(builds) {
           ],
           d3.select(this).attr("data-target-id"),
           d3.select(this).attr("data-url"),
+          d3.select(this).attr("data-embed"),
           build)
       //     var type = d3.select(this).attr("data-ga").split(" ")[0];
       //     if (type === "embed") {

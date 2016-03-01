@@ -1,5 +1,5 @@
 import json, math, os, re, requests, string, yaml
-from flask import url_for
+from flask import url_for, request
 from itertools import combinations
 from requests.models import RequestEncodingMixin
 
@@ -793,6 +793,32 @@ class Profile(BaseObject):
 
         # make the API request using the params
         return stat(params, col=col, dataset=dataset, data_only=data_only, moe=moe, truncate=truncate)
+
+    def url(self, **kwargs):
+        pretty = kwargs.get("pretty", True)
+        full = kwargs.get("full", False)
+        section = kwargs.get("section")
+        topic = kwargs.get("topic")
+        as_hash = kwargs.get("as_hash", False)
+        attr_id = self.attr['id']
+
+        if pretty and "url_name" in self.attr:
+            attr_id = self.attr['url_name']
+
+        url = url_for("profile.profile", attr_type=self.attr_type, attr_id=attr_id)
+
+        if section:
+            url = u"{}{}".format(url, section)
+            if topic:
+                url = u"{}/{}".format(url, topic)
+
+        if topic and as_hash:
+            url = u"{}#{}".format(url, topic)
+
+        if full:
+            url = u"{}{}".format(request.url_root[:-1], url)
+
+        return url
 
     def var(self, **kwargs):
         namespace = kwargs["namespace"]

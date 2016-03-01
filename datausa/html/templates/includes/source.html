@@ -5,9 +5,9 @@
 
 <div class="share-section">
   {% if not story %}
-  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="social" data-url="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/"><span>Share</span></a>
-  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="embed" data-url="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/"><span>Embed</span></a>
-  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="download" data-url="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/"><span>Download</span></a>
+  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="social" data-embed="{{ profile.url(full=True, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Share</span></a>
+  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="embed" data-embed="{{ profile.url(full=True, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Embed</span></a>
+  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="download" data-embed="{{ profile.url(full=True, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"}><span>Download</span></a>
   {% endif %}
   {% if profile %}
   <!-- <a href="#" title="Share with Embed" data-ga="embed share" data-ga-cat="profile" data-ga-label="share buttons click">
