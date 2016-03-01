@@ -4,13 +4,13 @@ TYPEMAP = {
     "naics": "Industry",
     "soc": "Occupation",
     "story": "Story",
-    "map": "Geomap"
+    "map": "Map"
 }
 
 HOMEFEED = [
     {
         "link": "/profile/geo/new-york-ny/#income_gender",
-        "subtitle": "What is the gender wage gap for the 5 most common occupations?",
+        "subtitle": "What is the male-to-female wage gap in New York City?",
         "section": "economy",
         "viz": "bar_double"
     },
@@ -20,19 +20,19 @@ HOMEFEED = [
     },
     {
         "link": "/profile/soc/291060/#employment",
-        "subtitle": "Where in the U.S. are Physicians & Surgeons paid the most?",
+        "subtitle": "Where are physicians and surgeons paid the highest and lowest?",
         "section": "employment",
         "viz": "geo_map"
     },
     {
         "link": "/profile/cip/4506/#skills",
-        "subtitle": "Which skills are most relevant for Economics students?",
+        "subtitle": "What skills do you need the most to succeed in an Economics major?",
         "section": "skills",
         "viz": "radar"
     },
     {
         "link": "/profile/soc/172051/#growth",
-        "subtitle": "What is the estimated job growth of Civil Engineers over the next 10 years, & how does it compare to the estimated national average?",
+        "subtitle": "What is the estimated job growth for Civil Engineers over the next ten years, compared to the national average?",
         "section": "growth",
         "viz": "line",
         "featured": True
@@ -50,7 +50,7 @@ HOMEFEED = [
     },
     {
         "link": "/profile/cip/110701/#institutions",
-        "subtitle": "Which private or public institutions award the most degrees in Computer Science per year?",
+        "subtitle": "What university awards the most degrees in Computer Science per year?",
         "section": "institutions",
         "viz": "tree_map"
     },
@@ -67,13 +67,13 @@ HOMEFEED = [
     },
     {
         "link": "/profile/geo/st.-louis-mo/#education",
-        "subtitle": "What are the most common & most specialized university majors in St. Louis?",
+        "subtitle": "What is most specialized college major in St. Louis?",
         "section": "education",
         "viz": "tree_map"
     },
     {
         "link": "/profile/naics/531/#workforce",
-        "subtitle": "What are the 5 most common, specialized, & highest paid jobs within the industry?",
+        "subtitle": "Within the real estate industry, what is the highest paid occupation?",
         "section": "workforce",
         "viz": "bar_triptych"
     },

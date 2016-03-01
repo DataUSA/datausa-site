@@ -96,8 +96,20 @@ $splash-gradient: (
 
 $search-gradient: (
   0%: rgba(0,0,0,0),
-  70%: rgba(20, 27, 46, 0.3),
+  70%: rgba(20, 27, 46, 0.5),
   97%: rgba(20, 27, 46, 0.9),
+  100%: $black2
+);
+
+$feed-box-label-gradient: (
+  0%: rgba(0,0,0,0),
+  31%: rgba(20, 27, 46, 0.1),
+  100%: rgba(20, 27, 46, 0.2)
+);
+
+$ft-feed-box-gradient: (
+  0%: rgba(0,0,0,0),
+  40%: rgba(20, 27, 46, 0.7),
   100%: $black2
 );
 

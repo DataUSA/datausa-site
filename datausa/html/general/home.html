@@ -38,26 +38,28 @@
 
 <div id="feed">
 {% for box in feed %}
-	<a href="{{ box.link }}" class="feed-box {{ box.type.type }}{% if box.featured %} featured{% endif %}">
+	<a href="{{ box.link }}" class="feed-box {{ box.type.title|lower }} {{ box.type.type|lower }}{% if box.featured %} featured{% endif %}">
 		{% if box.image %}
 		<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
 		{% endif %}
 		{% if box.viz %}
 		<div class="feed-box-viz {{ box.viz }}" style="background-image:url('/static/img/viz_type/{{ box.viz }}.svg');"></div>
 		{% endif %}
-		<div class="feed-box-type">
-			<img src="{{ box.type.icon }}" />
-			<span class="feed-box-header">{{ box.type.title }}</span>
+		<div class="feed-box-label">
+			<div class="feed-box-type">
+				<img src="{{ box.type.icon }}" />
+				<span class="feed-box-header">{{ box.type.title }}</span>
+			</div>
+			{% if box.type.depth %}
+			<span class="feed-box-depth feed-box-header">{{ box.type.depth }}</span>
+			{% endif %}
+			{% if box.section %}
+			<div class="feed-box-section">
+				<img src="{{ box.section.icon }}" />
+				<span class="feed-box-header">{{ box.section.title }}</span>
+			</div>
+			{% endif %}
 		</div>
-		{% if box.type.depth %}
-		<span class="feed-box-depth feed-box-header">{{ box.type.depth }}</span>
-		{% endif %}
-		{% if box.section %}
-		<div class="feed-box-section">
-			<img src="{{ box.section.icon }}" />
-			<span class="feed-box-header">{{ box.section.title }}</span>
-		</div>
-		{% endif %}
 		<div class="feed-box-title">{{ box.title }}</div>
 		{% if box.featured or box.type.type != "story" %}
 		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
