@@ -1442,7 +1442,7 @@ footer {
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
     .search-results #search-loading p {
-      color: #333;
+      color: #fff;
       text-align: center;
       font-family: "Palanquin", sans-serif;
       font-weight: 400;
@@ -2261,10 +2261,10 @@ body.search .search-results-container {
             body.search .search-results-container .search-results .search-item .xtra ul li > a {
               font-size: 9px;   }
   body.search #search-advanced .search-input {
-    padding: 16px 20px 16px 39px;
-    background-position: 0 19px;   }
+    padding: 6px 0px 6px 46px;
+    background-position: 0 20px;   }
     body.search #search-advanced .search-meta .search-suggestions {
-      padding: 10px 15px 10px 40px;   }
+      padding: 10px 0;   }
   body.search .search-autocorrected {
     padding: 5px 40px;
     text-align: left;   }
