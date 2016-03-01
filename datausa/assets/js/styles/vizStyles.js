@@ -144,6 +144,7 @@ var vizStyles = {
     "scale": 0.5
   },
 
-  "tiles": "light_all" // either light_all or dark_all
+  "tiles_viz": "light_all", // either light_all or dark_all
+  "tiles_map": "dark_all" // either light_all or dark_all
 
 }

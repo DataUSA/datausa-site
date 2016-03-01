@@ -7014,7 +7014,8 @@ var vizStyles = {
     "scale": 0.5
   },
 
-  "tiles": "light_all" // either light_all or dark_all
+  "tiles_viz": "light_all", // either light_all or dark_all
+  "tiles_map": "dark_all" // either light_all or dark_all
 
 }
 
@@ -8434,9 +8435,11 @@ viz.mapDraw = function(vars) {
   var hiddenTopo = ["04000US69", "04000US66", "04000US60", "04000US78", "05000US60050", "05000US60010", "05000US60020", "05000US66010", "05000US69100", "05000US69110", "05000US69120", "05000US69085", "79500US6600100"];
   var us_bounds = [[-0.6061309513487787,-0.9938707206384574],[0.40254429811306913,-0.44220355964829655]];
 
-  var cartodb = vizStyles.tiles,
+  var fullscreen = d3.select("#map-filters").size(),
+      cartodb = fullscreen ? vizStyles.tiles_map : vizStyles.tiles_viz,
       defaultRotate = vars.id && vars.id.value === "birthplace" ? [0, 0] : [90, 0],
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
+      ocean = cartodb === "light_all" ? "#cdd1d3" : "#242426",
       pathOpacity = 0.25,
       pathStroke = 1,
       polyZoom = 20000,
@@ -8531,7 +8534,7 @@ viz.mapDraw = function(vars) {
 
       svg.style("background-color", vars.messages.background)
         .transition().duration(timing)
-        .style("background-color", "#cdd1d3");
+        .style("background-color", ocean);
 
       var attribution = vars.container.value.selectAll(".attribution").data([0]);
 
@@ -9029,7 +9032,7 @@ viz.mapDraw = function(vars) {
       var id = big ? "geo_map_sidebar" : "geo_map";
 
       if (big) {
-        if (d3.select("#map-filters").size()) {
+        if (fullscreen) {
           var x = 0, y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
               mh = window.innerHeight - y - 15;
           if (d3plus.client.ie) mh -= 35;
@@ -9106,7 +9109,7 @@ viz.mapDraw = function(vars) {
         "max_width": vizStyles.tooltip.small,
         "mouseevents": big ? true : false,
         "offset": big ? 0 : 3,
-        "parent": big && !d3.select("#map-filters").size() ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
+        "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
         "title": d.id ? vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}) : undefined,
         "width": vizStyles.tooltip.small,
         "x": x,
@@ -9216,7 +9219,7 @@ viz.mapDraw = function(vars) {
     }
 
     if (!vars.zoom.set) {
-      if (d3.select("#map-filters").size()) createTooltip({}, true);
+      if (fullscreen) createTooltip({}, true);
       zoomed();
       vars.zoom.set = true;
     }
@@ -9257,11 +9260,11 @@ viz.mapDraw = function(vars) {
     var mod = 0;
     if (d) {
       var bounds = path.bounds(d);
-      mod = d3.select("#map-filters").size() || d.id.slice(0, 3) === "140" ? 0 : 250;
+      mod = fullscreen || d.id.slice(0, 3) === "140" ? 0 : 250;
       zoomToBounds(bounds, mod);
     }
     else {
-      if (d3.select("#map-filters").size()) createTooltip({}, true);
+      if (fullscreen) createTooltip({}, true);
       var ns = s;
       if (!(projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length)) {
         ns = (ns/Math.PI/2) * polyZoom;
@@ -9275,7 +9278,7 @@ viz.mapDraw = function(vars) {
   function zoomToBounds(b, mod) {
 
     if (mod === void 0) {
-      mod = d3.select("#map-filters").size() || !vars.highlight.path || vars.highlight.path.id.slice(0, 3) === "140" ? 0 : 250;
+      mod = fullscreen || !vars.highlight.path || vars.highlight.path.id.slice(0, 3) === "140" ? 0 : 250;
     }
 
     var w = width - mod;
