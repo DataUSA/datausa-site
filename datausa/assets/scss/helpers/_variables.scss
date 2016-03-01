@@ -15,6 +15,7 @@ $search-mini-width: 250px;
 
 $black: #1B191D;
 $black2: #141b2e;
+$black2-5: #23293A;
 $black3: #434958;
 $black4: #727682;
 $black5: #979AA2;
@@ -49,10 +50,10 @@ $subtitle-color: #616CA5;
 $bullet-txt-color: #BACACB;
 $bullet-subtxt-color: #A1AEB3;
 $launch-msg-color: $white;
-$geo-bg-color: #4268B1;
-$cip-bg-color: #4B928B;
-$soc-bg-color: #d1685e;
-$naics-bg-color: #505876;
+$geo-bg-color: #879bf5;
+$cip-bg-color: #ef7760;
+$soc-bg-color: #5cb3aa;
+$naics-bg-color: #e2cfe6;
 
 $link-color: #666;
 $alt-link-color: #999;
@@ -90,6 +91,13 @@ $light-home-red: #fdc8b8;
 $splash-gradient: (
   0%: rgba(0,0,0,0),
   40%: rgba(20, 27, 46, 0.5),
+  100%: $black2
+);
+
+$search-gradient: (
+  0%: rgba(0,0,0,0),
+  70%: rgba(20, 27, 46, 0.3),
+  97%: rgba(20, 27, 46, 0.9),
   100%: $black2
 );
 

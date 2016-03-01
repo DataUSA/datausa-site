@@ -2,13 +2,9 @@
 
 {% block body %}
 
-<div class="bg">
-  <div class="bg-filter"></div>
-</div>
-
 <div id="search-advanced">
   <div class="search-nav">
-    <input class="search-input" data-search="advanced" type="text" placeholder="Search DataUSA&hellip;" autofocus />
+    <input class="search-input" data-search="advanced" type="text" placeholder="Find a profile&hellip;" autofocus />
   </div>
 
   <div class="search-helpers">
@@ -19,11 +15,11 @@
 
   <div class="search-results-container">
     <div class="search-refine">
-      <!-- <h2>Refine By:</h2> -->
       <a href="#" class="clear"><span>&times;</span> Clear Filter</a>
+      <div id="refine-label">Profile Type <span>Results</span></div>
 
       <div class="geo">
-        <h2><a href="#" data-filter="geo"><img src="/static/img/icons/geo_b.svg">Locations <span class="num_res" data-default="143,336">0</span></a></h2>
+        <h2><a href="#" data-filter="geo"><img src="/static/img/icons/geo_c.svg">Locations <span class="num_res" data-default="143,336">0</span></a></h2>
         <ul>
           <li><a href="#" data-filter="geo" data-depth="040">States <span class="num_res" data-default="52">0</span></a></li>
           <li><a href="#" data-filter="geo" data-depth="050">Counties <span class="num_res" data-default="3,221">0</span></a></li>
@@ -34,7 +30,7 @@
       </div>
 
       <div class="naics">
-        <h2><a href="#" data-filter="naics"><img src="/static/img/icons/naics_b.svg">Industries <span class="num_res" data-default="301">0</span></a></h2>
+        <h2><a href="#" data-filter="naics"><img src="/static/img/icons/naics_c.svg">Industries <span class="num_res" data-default="301">0</span></a></h2>
         <ul>
           <li><a href="#" data-filter="naics" data-depth="0">Sector <span class="num_res" data-default="14">0</span></a></li>
           <li><a href="#" data-filter="naics" data-depth="1">Subsector <span class="num_res" data-default="21">0</span></a></li>
@@ -43,7 +39,7 @@
       </div>
 
       <div class="soc">
-        <h2><a href="#" data-filter="soc"><img src="/static/img/icons/soc_b.svg">Occupations <span class="num_res" data-default="525">0</span></a></h2>
+        <h2><a href="#" data-filter="soc"><img src="/static/img/icons/soc_c.svg">Occupations <span class="num_res" data-default="525">0</span></a></h2>
         <ul>
           <li><a href="#" data-filter="soc" data-depth="0">Major Group <span class="num_res" data-default="6">0</span></a></li>
           <li><a href="#" data-filter="soc" data-depth="1">Minor Group <span class="num_res" data-default="17">0</span></a></li>
@@ -53,7 +49,7 @@
       </div>
 
       <div class="cip">
-        <h2><a href="#" data-filter="cip"><img src="/static/img/icons/cip_b.svg">Education <span class="num_res" data-default="2,319">0</span></a></h2>
+        <h2><a href="#" data-filter="cip"><img src="/static/img/icons/cip_c.svg">Education <span class="num_res" data-default="2,319">0</span></a></h2>
         <ul>
           <li><a href="#" data-filter="cip" data-depth="0">2 Digit Course <span class="num_res" data-default="49">0</span></a></li>
           <li><a href="#" data-filter="cip" data-depth="1">4 Digit Course <span class="num_res" data-default="422">0</span></a></li>
@@ -123,10 +119,10 @@
 {% block js %}
 <script>
 
-  localforage.getItem("homepage_image", function(e, d){
-    if (!d) d = "1";
-    d3.select(".bg-filter").style("background-image", "url('/static/img/home/bg/" + d + ".jpg')");
-  });
+  // localforage.getItem("homepage_image", function(e, d){
+  //   if (!d) d = "1";
+  //   d3.select(".bg-filter").style("background-image", "url('/static/img/home/bg/" + d + ".jpg')");
+  // });
 
   search.anchors = {{anchors|safe}};
 

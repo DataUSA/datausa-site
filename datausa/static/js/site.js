@@ -5676,11 +5676,12 @@ search.reload = function() {
         if(search_suggestions.length){
           var suggestions_span = d3.select(".search-suggestions")
             .style("display", "inline-block")
-            .text("Suggestions: ")
+            .text("Did you mean: ")
           var search_suggestions_a = search_suggestions.map(function(s, i){
-            return "<a href='/search/?q="+s+"'>"+s+"</a>"
+            return "<a class='suggestion-link' href='/search/?q="+s+"'>"+s+"</a>"
           })
           suggestions_span.append("span").html(search_suggestions_a.join(", "))
+          suggestions_span.append("span").text("?")
         }
       }
       this.update_refine(data);
@@ -5770,7 +5771,7 @@ search.btnExplore = function(d) {
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
         .append("img")
-        .attr("src", "/static/img/icons/" + anchor.anchor + "_b.svg")
+        .attr("src", "/static/img/icons/" + anchor.anchor + ".svg")
         .on("click", function(){ d3.event.stopPropagation(); })
       li.append("a")
         .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/#" + anchor.anchor)
@@ -5784,7 +5785,7 @@ search.btnExplore = function(d) {
   // set profile link
   profile.append("a")
     .attr("href", "#")
-    .html("Sections")
+    .html("Details")
     .on("click", search.open_details);
 }
 

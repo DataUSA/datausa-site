@@ -25,27 +25,20 @@
     @include flex();
     @include justify(flex-start);
     @include box();
-    padding: 6px 8px 4px;
-
-    &:active, &:focus, &:hover {
-      h2 {
-        display: inline-block;
-        border-bottom: 1px solid #333;
-      }
-    }
+    padding: 5px 8px;
 
     img {
       @include align-self(flex-start);
       width: 26px;
       padding-right: 10px;
-      margin-top: 4px;
+      margin-top: 0;
       margin-left: -2px;
-      opacity: 0.8;
     }
 
     .search-item-t {
       display: inline-block;
       width: 85%;
+      line-height: 1.5;
     }
 
     h2 {
@@ -66,14 +59,14 @@
 
     p {
       margin-left: 1px;
-      line-height: 1.5;
+      line-height: 1;
       opacity: 1;
       font-family: $palanquin;
-      font-weight: 300;
+      font-weight: 700;
       font-size: 12px;
+      color: $black4;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(51,51,51,0.75);
     }
   }
 }
@@ -101,37 +94,12 @@ body.home, body.search {
 }
 
 body.search {
-  // background-color: $black3;
-
-  p, span, a {
-    // color: #fff !important;
-  }
-
-  .bg {
-    margin-top: -$nav-height;
-    @include filter(brightness(0.55) contrast(1));
-
-    @media all and (max-width: 415px){
-      margin-top: 0;
-    }
-  }
-
-  .bg-filter {
-    width: 100vw;
-    background-repeat: no-repeat;
-    background-position: 50% 0%;
-    @include background-stretch();
-  }
 
   a {
-    color: #333;
-    @include transition(color 0.15s);
-
-    &:hover {
-      color: #000;
-    }
+    color: #fff;
+    @include transition(color 0.25s);
   }
-
+  
   .bound {
     position: absolute;
     top: 40px;
@@ -144,10 +112,12 @@ body.search {
     @include flex();
     @include flex-direction(column);
     @include justify(space-around);
-    margin: $nav-height + 50 40px;
+    padding: $nav-height 40px $nav-height + 50;
+    background-color: $black2-5;
+    @include gradient(top, $search-gradient);
 
     .search-nav {
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .search-helpers {
@@ -168,12 +138,13 @@ body.search {
       text-transform: uppercase;
       @include wordwrap();
       @include hyphens;
-      color: #333;
+      color: #fff;
 
       .search-suggestions {
         @include box();
         padding: 10px 15px;
         width: 100%;
+        color: $black5;
       }
 
       span {
@@ -182,18 +153,15 @@ body.search {
         font-size: 12px;
 
         a {
-          color: #333;
-          opacity: 0.75;
-          @include transition(opacity 0.25s);
-          padding-bottom: 1px;
-          border-bottom: 1px solid rgba(51,51,51,0.5);
+          color: #fff;
+          opacity: 1;
+          @include transition(all 0.25s);
           text-decoration: none;
 
           &:hover {
-            border-bottom: 0;
             cursor: pointer;
-            opacity: 1;
             text-decoration: none;
+            @include text-shadow(0px 0px 1px rgba(255,255,255,0.8));
           }
         }
 
@@ -208,24 +176,25 @@ body.search {
 
     .search-input {
       width: 100%;
-      border: 1px solid $alt-link-color;
-      margin-top: 10px;
-      padding: 16px 20px 16px 70px;
+      border-width: 0 0 1px 0;
+      border-color: $black5;
+      border-style: solid;
+      padding: 16px 20px 5px 45px;
       @include box();
       font-family: $palanquin;
       font-size: 20px;
       font-weight: 400;
-      // background-color: rgba(250, 253, 255, 0.85);
+      color: #fff;
       background-color: transparent;
-      background-image: url('/static/img/search/search.svg');
+      background-image: url('/static/img/search/search_w.svg');
       background-repeat: no-repeat;
-      background-position: 26px 26px;
+      background-position: 0px 28px;
       background-size: 35px 35px;
       @include placeholder {opacity: 0.8; font-weight: 300;}
       @include transition(box-shadow 1s);
 
       &:focus {
-        border: 1px solid $link-color;
+        border-color: #fff;
         outline: 0;
       }
 
@@ -288,7 +257,7 @@ body.search {
     font-weight: 300;
     font-size: 14px;
     letter-spacing: 0.06em;
-    color: $text-color;
+    color: #fff;
     text-align: center;
     span {
       font-weight: 700;
@@ -300,39 +269,59 @@ body.search {
     @include justify(space-between);
 
     .search-refine {
+      @include flex-size(0 0 200px);
+      border-right: 1px solid $black4;
+      margin-right: 25px;
+      padding: 5px 25px 5px 0px;
 
-      @include flex-size(0 0 250px);
-      border-right: 1px solid $d-profile-bg;
-      margin-right: 20px;
-      padding-right: 30px;
+      #refine-label {
+        padding: 0;
+        font-family: $palanquin;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 12px;
+        font-weight: 400;
+        margin: 12px 0 6px;
+        line-height: 1;
+        color: $black4;
+
+        span {
+          float: right;
+        }
+      }
 
       .clear {
         display: none;
-        padding: 2px 0 2px 10px;
-        line-height: 1.5;
+        padding: 6px 0 9px;
+        margin-bottom: 15px;
+        line-height: 1;
         opacity: 1;
         font-family: $palanquin;
-        font-weight: 300;
-        font-size: 13px;
-        letter-spacing: 0.06em;
+        font-weight: 600;
+        font-size: 12px;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
-        color: #9F6000;
-        background-color: #FEEFB3;
-        width: 250px;
+        color: $black5;
+        width: 100%;
+        background-color: $black3;
         text-align: center;
+        @include transition(all 0.25s);
 
         span {
           display: inline-block;
-          font-size: 18px;
+          font-size: 17px;
+          font-weight: 300;
+          padding: 0 2px;
           vertical-align: baseline;
         }
 
         &:hover {
-          color: #000;
+          background-color: $black4;
+          color: #fff;
         }
       }
 
-      &> h2 {
+      & > h2 {
         color: #868686;
         border-bottom: 1px solid #868686;
         padding: 0 0 5px 0;
@@ -340,27 +329,35 @@ body.search {
       }
 
       div {
-        padding: 10px;
+        padding: 10px 0;
 
-        &.geo h2 a {
-          color: $bg-color-geo;
+        &.geo {
+          h2 a, h2 a span {
+            color: $geo-bg-color;
+          }
         }
 
-        &.cip h2 a {
-          color: $bg-color-cip;
+        &.cip {
+          h2 a, h2 a span {
+            color: $cip-bg-color;
+          }
         }
 
-        &.soc h2 a {
-          color: $bg-color-soc;
+        &.soc {
+          h2 a, h2 a span {
+            color: $soc-bg-color;
+          }
         }
 
-        &.naics h2 a {
-          color: $bg-color-naics;
+        &.naics {
+          h2 a, h2 a span {
+            color: $naics-bg-color;
+          }
         }
 
         &.active {
           h2 {
-            color: #666;
+            color: #fff;
             font-weight: 700;
           }
           ul {
@@ -370,12 +367,14 @@ body.search {
 
         &.no-results {
           h2 a {
-            opacity: 0.4;
+            // opacity: 0.4;
           }
         }
-
+        
+        /* profile type labels */
         h2 {
-          font-size: 15px;
+          font-size: 13px;
+          font-weight: 600;
           margin: 5px 0;
           line-height: 1.3;
 
@@ -387,60 +386,67 @@ body.search {
               margin: 0 5px 0 0;
             }
 
-            span {
-              color: #aaa;
+            .num_res {
+              color: #fff;
               display: inline-block;
               float: right;
             }
-
           }
         }
+        
+        /* profile type depth label */
 
         ul {
           display: none;
 
           li {
             margin-left: 25px;
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 1.5;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 2;
 
             a {
-              color: #aaa;
+              color: $black5;
               display: block;
               @include transition(color 0.15s);
 
               span {
-                color: #aaa;
+                color: $black5;
                 display: inline-block;
                 float: right;
               }
 
               &.active {
-                color: #666;
+                color: #fff;
                 font-weight: 700;
+
                 span {
-                  color: #666;
+                  color: #fff;
                   font-weight: 700;
                 }
               }
 
               &:not(.no-results):hover {
-                color: #666;
+                color: #fff;
               }
 
               &.no-results {
-                opacity: 0.5;
+                color: $black3;
                 cursor: default;
+
+                .num_res {
+                  color: $black3;
+                }
               }
             }
 
             &.stem_only {
-              border-top: dashed 1px #aaa;
+              border-top: dashed 1px $black5;
               margin-top: 10px;
               padding-top: 5px;
 
               a {
+                color: $cip-bg-color !important;
 
                 span.check {
                   background-image: url('/static/img/search/checkbox-sprite.png');
@@ -508,12 +514,12 @@ body.search {
         @include flex-direction(row);
         @include flex-wrap();
         @include align-items(flex-start);
-        padding: 13px 0;
-        margin: 0px 20px 0px 10px;
+        padding: 13px 20px 13px 0;
+        margin: 0;
 
-        &.active{
+        &.active {
           border: solid black 1px;
-          background-color: #666;
+          background-color: #fff;
         }
 
         &:empty {
@@ -543,6 +549,7 @@ body.search {
         .info {
           @include flex-size(1);
           margin: 0 10px;
+          line-height: 1.5;
 
           &:hover {
             .expand {
@@ -554,34 +561,14 @@ body.search {
 
           p {
             display: block;
+            color: $black5;
           }
           
           .stem {
-            border: solid 1px #aaa;
+            border: solid 1px $black5;
             border-radius: 4px;
             margin: 0 0 0 5px;
             padding: 0 4px;
-          }
-
-          h2 a {
-
-            &:focus {
-              border-bottom: solid black 1px;
-            }
-
-            &::after {
-              content: unicode("00bb");
-              top: -1px;
-              position: relative;
-              font-family: $palanquin;
-              font-weight: 400;
-              letter-spacing: 0.05em;
-              line-height: 1;
-              margin-left: 2px;
-            }
-            &:hover {
-              text-decoration: none;
-            }
           }
 
           h2 {
@@ -632,14 +619,15 @@ body.search {
 
           a {
             font-family: $palanquin;
-            font-weight: 300;
-            font-size: 13px;
+            font-weight: 700;
+            font-size: 12px;
+            color: $black5;
             text-transform: uppercase;
             letter-spacing: 0.05em;
 
             &::after {
               content: unicode("f107");
-              top: 0;
+              top: -5px;
               position: relative;
               font-family: FontAwesome;
               font-weight: 400;
@@ -648,54 +636,79 @@ body.search {
               margin-left: 5px;
             }
           }
+        }
 
-          &:hover {
-            a {
-              // border-bottom: 1px solid rgba(51,51,51,0.3);
-            }
+        &.geo {
+          .profile a,
+          .parents a,
+          .parents {
+            color: $geo-bg-color;
+          }
+        }
+
+        &.cip {
+          .profile a,
+          .parents a,
+          .parents {
+            color: $cip-bg-color;
+          }
+        }
+
+        &.soc {
+          .profile a,
+          .parents a,
+          .parents {
+            color: $soc-bg-color;
+          }
+        }
+
+        &.naics {
+          .profile a,
+          .parents a,
+          .parents {
+            color: $naics-bg-color;
           }
         }
 
       }
 
       .xtra {
-
         .parents {
           margin-top: 13px;
-          line-height: 1.1;
+          line-height: 1.7;
 
           &::before {
-            content: "Related Profiles: ";
-            font-size: 11px;
+            content: "Related Profiles ";
+            font-size: 12px;
             font-weight: 700;
             letter-spacing: 0.1em;
-            line-height: 1.1;
+            line-height: 1.7;
           }
 
           a {
             padding: 0;
-            line-height: 1.1;
-            vertical-align: text-bottom;
+            line-height: 1.7;
             font-family: $palanquin;
             font-weight: 400;
-            font-size: 11px;
+            font-size: 12px;
             letter-spacing: 0.1em;
             text-transform: uppercase;
+            opacity: 0.7;
             @include wordwrap();
             @include hyphens;
-            color: rgba(51, 51, 51, 0.6);
-            @include transition(color 0.25s);
+            @include transition(all 0.25s);
 
             &+a::before {
               content: "\\ ";
-              font-weight: 400;
-              color: rgba(51,51,51,0.45);
+              opacity: 1;
+              color: #fff;
+              font-weight: 700;
               padding: 0 0 0 2px;
             }
 
             &:hover {
+              opacity: 1;
               cursor: pointer;
-              color: #000;
               text-decoration: none;
             }
 
@@ -713,32 +726,31 @@ body.search {
             padding: 2px 5px;
 
             a {
-              color: #333;
+              color: #fff;
               opacity: 0.7;
               @include transition(opacity 0.25s);
             }
 
             &:hover {
               a {
-                color: #000;
                 opacity: 1;
               }
             }
 
             & > a {
               display: block;
-              margin-top: 7px;
+              margin-top: 3px;
               font-family: $palanquin;
               text-transform: uppercase;
-              font-weight: 400;
-              font-size: 11px;
+              font-weight: 700;
+              font-size: 10px;
               letter-spacing: 0.1em;
             }
           }
 
           img {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
           }
         }
       }
@@ -752,7 +764,7 @@ body.search {
 
 .no-search-results{
   display: none;
-  color: #333;
+  color: #fff;
   padding: 10px 0;
   text-align: center;
   font-family: $palanquin;
@@ -776,18 +788,18 @@ body.search {
   @include box();
   z-index: 5;
 
-  &::before {
-    content: "";
-    position: absolute;
-    right: $search-mini-width/2 - 7;
-    top: -14px;
-    display: block;
-    width: 14px;
-    height: 14px;
-    background: $black3;
-    @include transform(rotate(45deg) translate(6px, 6px));
-    @include shadow(-1px -1px 1px -1px rgba(0,0,0,0.44));
-  }
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   right: $search-mini-width/2 - 7;
+  //   top: -14px;
+  //   display: block;
+  //   width: 14px;
+  //   height: 14px;
+  //   background: $black3;
+  //   @include transform(rotate(45deg) translate(6px, 6px));
+  //   @include shadow(-1px -1px 1px -1px rgba(0,0,0,0.44));
+  // }
 
   &.open {
     display: block;
@@ -796,22 +808,25 @@ body.search {
   .results-show-all {
     display: block;
     @include box();
-    padding: 15px 15px 0px;
+    padding: 0px 15px;
     border-top: 1px solid $black2;
     text-align: center;
     cursor: pointer;
-    // display: block;
-    background: rgba(255,255,255,0);
+    background-color: rgba(255,255,255,0);
 
     .pri-link {
-      padding-top: 15px;
+      width: 100%;
+      display: block;
+      padding: 5px 1px 5px 0;
       font-size: 12px;
+      opacity: 1;
+      line-height: 32px;
       color: #fff;
       opacity: 1;
+    }
 
-      &:hover {
-        border-bottom: 1px solid #fff;
-      }
+    &:hover {
+      background-color: $black4;
     }
   }
 
@@ -839,8 +854,12 @@ body.search {
 
     .search-item {
       @include justify(center);
-      padding: 0;
-      margin: 10px 8px;
+      margin: 0;
+      padding: 5px 8px;
+
+      &:active, &:focus, &:hover {
+        background-color: $black4;
+      }
 
       img {
         margin-left: 0;
