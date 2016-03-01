@@ -6,6 +6,7 @@ viz.mapDraw = function(vars) {
   var cartodb = vizStyles.tiles,
       defaultRotate = vars.id && vars.id.value === "birthplace" ? [0, 0] : [90, 0],
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
+      ocean = cartodb === "light_all" ? "#cdd1d3" : "#242426",
       pathOpacity = 0.25,
       pathStroke = 1,
       polyZoom = 20000,
@@ -100,7 +101,7 @@ viz.mapDraw = function(vars) {
 
       svg.style("background-color", vars.messages.background)
         .transition().duration(timing)
-        .style("background-color", "#cdd1d3");
+        .style("background-color", ocean);
 
       var attribution = vars.container.value.selectAll(".attribution").data([0]);
 
