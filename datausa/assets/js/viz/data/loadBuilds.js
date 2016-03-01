@@ -100,8 +100,9 @@ viz.loadBuilds = function(builds) {
           dusa_popover.open([
             {"title":"Social"},
             {"title":"Embed"},
-            {"title":"Download"}
-          ], 
+            {"title":"Download"},
+            {"title":"Data"}
+          ],
           d3.select(this).attr("data-target-id"),
           d3.select(this).attr("data-url"),
           build)

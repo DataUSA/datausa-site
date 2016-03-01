@@ -17,13 +17,13 @@
   right: 0;
   bottom: 0;
   left: 0;
-  
+
   &#bg {
     opacity: 0.3;
     background-color: $d-profile-bg;
     visibility: visible;
   }
-  
+
   &#view {
     @include flex();
     @include align-items(center);
@@ -127,17 +127,18 @@
         }
        }
     }
-    
+
     .modal {
       @include box();
       @include shadow(2px 5px 15px rgba(27,25,29,0.1));
       background-color: $l-profile-bg;
-      width: 560px;
+      // width: 560px;
+      width: 80vw;
       z-index: 2002;
       max-height: 90vh;
       overflow: auto;
       position: relative;
-      
+
       span, p {
         font-family: $palanquin;
         font-size: 15px;
@@ -155,12 +156,12 @@
 
       .body {
         overflow: hidden;
-        padding: 5px 20px 20px;
-        
+        // padding: 5px 20px 20px;
+
         .nav {
           text-align: center;
           position: relative;
-          
+
           .change_share {
             display: inline-block;
             text-align: center;
@@ -183,7 +184,7 @@
               color: $red-w;
             }
           }
-          
+
           .highlight {
             display: block;
             position: absolute;
@@ -197,29 +198,41 @@
               @include transition(none);
             }
           }
-          
+
         } // end .nav
-        
+
         .panels {
-          overflow: hidden;
-          width: 400%;
+          overflow: auto;
+          width: 500%;
           display: block;
           position: relative;
           @include transition(transform 0.5s);
           @include transform(translateX(0px));
-          
+
           &.noslide {
             @include transition(none);
           }
-          
+
           .panel {
             @include box();
-            width: 520px;
+            overflow: hidden;
+            // width: 520px;
+            // width: 100%;
+            width: 80vw;
             height: 250px;
             float: left;
-            margin: 20px 40px 0 0;
+            // margin: 20px 40px 0 0;
             padding: 0 20px;
-            
+
+
+            &#data {
+              overflow: auto;
+
+              table {
+                width: 100%
+              }
+            }
+
             .social {
               margin: 20px 0 40px 0;
               text-align: center;
@@ -229,7 +242,7 @@
                 font-size: 45px;
                 padding: 0 20px;
               }
-              
+
               &::after {
                 content: 'Sharing is disabled until launch';
                 display: block;
@@ -243,7 +256,7 @@
                 color: $black3;
               }
             }
-            
+
             input[type='text'] {
               @include box();
               width: 100%;
@@ -251,16 +264,18 @@
               color: $black3;
               height: 53px;
               display: block;
-              margin: 20px auto;
+              // margin: 20px auto;
               text-align: center;
               padding: 0 15px;
               cursor: text;
               font-size: 16px;
             }
-            
+
             .embed_options{
               overflow: hidden;
-              
+              max-width: 500px;
+              margin: 20px auto 0 auto;
+
               .demo {
                 float: left;
                 width: 150px;
@@ -298,7 +313,7 @@
                 color: $black3;
               }
             }
-            
+
             .filetypes {
               margin: 20px 0 40px 0;
               text-align: center;
@@ -322,12 +337,12 @@
                 }
               }
             }
-            
+
           }
         }
-        
+
       }
-      
+
     } // end .modal
   } // end #view
 } // end .overlay

@@ -1250,7 +1250,7 @@ footer {
           -moz-box-shadow: 2px 5px 15px rgba(27, 25, 29, 0.1);
           box-shadow: 2px 5px 15px rgba(27, 25, 29, 0.1);
           background-color: #F6F6F6;
-          width: 560px;
+          width: 80vw;
           z-index: 2002;
           max-height: 90vh;
           overflow: auto;
@@ -1271,8 +1271,7 @@ footer {
                 margin-bottom: 5px;
                 color: #fff; }
                 .overlay#view .modal .body {
-                  overflow: hidden;
-                  padding: 5px 20px 20px; }
+                  overflow: hidden; }
                   .overlay#view .modal .body .nav {
                     text-align: center;
                     position: relative; }
@@ -1317,8 +1316,8 @@ footer {
                         -webkit-transition: none;
                         transition: none; }
                   .overlay#view .modal .body .panels {
-                    overflow: hidden;
-                    width: 400%;
+                    overflow: auto;
+                    width: 500%;
                     display: block;
                     position: relative;
                     -moz-transition: transform 0.5s;
@@ -1337,34 +1336,38 @@ footer {
                         -webkit-box-sizing: border-box;
                         -moz-box-sizing: border-box;
                         box-sizing: border-box;
-                        width: 520px;
+                        overflow: hidden;
+                        width: 80vw;
                         height: 250px;
                         float: left;
-                        margin: 20px 40px 0 0;
                         padding: 0 20px; }
                         .overlay#view .modal .body .panels .panel:before,
                         .overlay#view .modal .body .panels .panel:after {
                           -webkit-box-sizing: border-box;
                           -moz-box-sizing: border-box;
                           box-sizing: border-box; }
-                          .overlay#view .modal .body .panels .panel .social {
-                            margin: 20px 0 40px 0;
-                            text-align: center;
-                            opacity: 0.3; }
-                            .overlay#view .modal .body .panels .panel .social span {
-                              font-size: 45px;
-                              padding: 0 20px; }
-                              .overlay#view .modal .body .panels .panel .social::after {
-                                content: 'Sharing is disabled until launch';
-                                display: block;
-                                font-family: "Palanquin", sans-serif;
-                                text-transform: uppercase;
-                                font-weight: 600;
-                                font-size: 15px;
-                                line-height: normal;
-                                letter-spacing: 0.1em;
-                                opacity: 1;
-                                color: #434958; }
+                          .overlay#view .modal .body .panels .panel#data {
+                            overflow: auto; }
+                            .overlay#view .modal .body .panels .panel#data table {
+                              width: 100%; }
+                        .overlay#view .modal .body .panels .panel .social {
+                          margin: 20px 0 40px 0;
+                          text-align: center;
+                          opacity: 0.3; }
+                          .overlay#view .modal .body .panels .panel .social span {
+                            font-size: 45px;
+                            padding: 0 20px; }
+                            .overlay#view .modal .body .panels .panel .social::after {
+                              content: 'Sharing is disabled until launch';
+                              display: block;
+                              font-family: "Palanquin", sans-serif;
+                              text-transform: uppercase;
+                              font-weight: 600;
+                              font-size: 15px;
+                              line-height: normal;
+                              letter-spacing: 0.1em;
+                              opacity: 1;
+                              color: #434958; }
                         .overlay#view .modal .body .panels .panel input[type='text'] {
                           -webkit-box-sizing: border-box;
                           -moz-box-sizing: border-box;
@@ -1374,7 +1377,6 @@ footer {
                           color: #434958;
                           height: 53px;
                           display: block;
-                          margin: 20px auto;
                           text-align: center;
                           padding: 0 15px;
                           cursor: text;
@@ -1385,7 +1387,9 @@ footer {
                             -moz-box-sizing: border-box;
                             box-sizing: border-box; }
                         .overlay#view .modal .body .panels .panel .embed_options {
-                          overflow: hidden; }
+                          overflow: hidden;
+                          max-width: 500px;
+                          margin: 20px auto 0 auto; }
                           .overlay#view .modal .body .panels .panel .embed_options .demo {
                             float: left;
                             width: 150px;

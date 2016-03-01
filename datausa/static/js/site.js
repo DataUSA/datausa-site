@@ -4494,11 +4494,13 @@ dusa_popover.close = function() {
   d3.selectAll(".close-btn .b").classed("close", !d3.selectAll(".close-btn .b").classed("close"));
   d3.selectAll(".overlay").remove();
   d3.select("body").on("keyup.popover", null);
+  d3.select("body").style("overflow", "visible");
 }
 
 dusa_popover.open = function(panels, active_panel_id, url, build) {
 
   d3.select("body")
+    .style("overflow", "hidden")
     .append("div")
       .attr("class", "overlay")
       .attr("id", "bg")
@@ -4552,7 +4554,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
           var w = this_tab.node().offsetWidth;
           d3.select(".panels")
             .classed("noslide", this === window)
-            .style("transform", "translateX("+(i*560)*-1+"px)")
+            .style("transform", "translateX("+(i*80)*-1+"vw)")
           d3.select("span.highlight")
             .classed("noslide", this === window)
             .style("width", w+"px")
@@ -4569,6 +4571,7 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
   var panel_divs = body
     .append("div")
       .attr("class", "panels")
+      // .style("width", (panels.length+1)*100+"%")
 
   panels.forEach(function(p){
     var panel = panel_divs
@@ -4598,13 +4601,6 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
         .on("click", function(){ this.select(); })
     }
     else if(p.title.toLowerCase() == "embed"){
-      panel.append("input")
-        .attr("type", "text")
-        .attr("readonly", true)
-        .attr("class", "embed-link")
-        .property("value", '<iframe width="360px" height="240px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
-        .on("click", function(){ this.select(); })
-
       var embed_options = panel.append("div")
         .attr("class", "embed_options")
 
@@ -4651,6 +4647,14 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
           return cur_val;
         })
       })
+
+
+      panel.append("input")
+        .attr("type", "text")
+        .attr("readonly", true)
+        .attr("class", "embed-link")
+        .property("value", '<iframe width="360px" height="240px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
+        .on("click", function(){ this.select(); })
     }
     else if(p.title.toLowerCase() == "download"){
       var social = panel.append("div")
@@ -4690,6 +4694,88 @@ dusa_popover.open = function(panels, active_panel_id, url, build) {
         .attr("class", "fa fa-file-image-o")
       file_img.append("span")
         .text("Image")
+    }
+    else if(p.title.toLowerCase() == "data"){
+      var data_panel = panel.append("div")
+        .attr("class", "data")
+
+      if (build.data.length) {
+        var loaded = 0, dataArray = [], headers = [], tblData = [];
+        var format = build.viz.format(Object),
+            textFormat = format.text.value || format.text,
+            numFormat = format.number.value || format.number;
+
+        format = function(v, key) {
+          if (v === undefined || v === null) {
+            return "N/A";
+          }
+          else if (v.constructor === Number) {
+            return numFormat(v, {"key": key});
+          }
+          else {
+            return textFormat(v, {"key": key});
+          }
+        }
+
+        var tbl = data_panel.html("<table><thead><tr></tr></thead><tbody></tbody></table>").select("table")
+
+        for (var i = 0; i < build.data.length; i++) {
+          var dataURL = build.data[i].url.replace(/\?limit=[0-9]+&/gi, "?").replace(/&limit=[0-9]+/gi, "")
+          load(dataURL, function(data, url, return_data){
+            headers = headers.concat(return_data.headers);
+            dataArray = dataArray.concat(data);
+            loaded++;
+            if(loaded === build.data.length){
+              headers = d3plus.util.uniques(headers);
+              dataArray.forEach(function(dArr){
+                var newArr = [];
+                headers.forEach(function(header){
+                  var datum = dArr[header] || " - ";
+                  newArr.push(datum);
+                })
+                tblData.push(newArr);
+              })
+              // console.log(headers, tblData);
+
+              /*
+               *  Table Headers
+               */
+              var thead = tbl.select("thead > tr").selectAll("th")
+                .data(headers);
+              thead.enter().append("th");
+              thead.text(function(d){
+                return format(d).replace(/&nbsp;/g, "");
+              });
+              thead.exit().remove();
+
+              // set new width of table based on headers
+              // var tbl_w = 0;
+              // tbl.selectAll("th").each(function() { tbl_w += this.offsetWidth });
+              // data_panel.style("width", tbl_w+"px");
+
+              /*
+               *  Table Rows
+               */
+              var rows = tbl.select("tbody").selectAll("tr")
+                .data(tblData);
+              rows.enter().append("tr");
+              rows.each(function(d){
+                var cols = d3.select(this).selectAll("td")
+                  .data(d);
+                cols.enter().append("td")
+                cols.html(function(d, i){
+                  return format(d, headers[i]);
+                })
+                cols.exit().remove();
+              });
+              rows.exit().remove();
+
+            }
+          })
+        }
+
+      }
+
     }
   })
 
@@ -7745,8 +7831,9 @@ viz.loadBuilds = function(builds) {
           dusa_popover.open([
             {"title":"Social"},
             {"title":"Embed"},
-            {"title":"Download"}
-          ], 
+            {"title":"Download"},
+            {"title":"Data"}
+          ],
           d3.select(this).attr("data-target-id"),
           d3.select(this).attr("data-url"),
           build)
