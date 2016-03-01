@@ -803,8 +803,9 @@ class Profile(BaseObject):
         attr_id = self.attr['id']
 
         if pretty and "url_name" in self.attr:
-            attr_id = self.attr['url_name']
+            attr_id = self.attr['url_name'] or attr_id
 
+        # raise Exception(self.attr_type, attr_id, self.attr)
         url = url_for("profile.profile", attr_type=self.attr_type, attr_id=attr_id)
 
         if section:

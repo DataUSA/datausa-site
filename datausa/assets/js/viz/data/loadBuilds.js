@@ -101,7 +101,8 @@ viz.loadBuilds = function(builds) {
             {"title":"Social"},
             {"title":"Embed"},
             {"title":"Download"},
-            {"title":"Data"}
+            {"title":"Data"},
+            {"title":"API"}
           ],
           d3.select(this).attr("data-target-id"),
           d3.select(this).attr("data-url"),

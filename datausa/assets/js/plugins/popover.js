@@ -7,10 +7,11 @@ dusa_popover.close = function() {
   d3.selectAll(".overlay").remove();
   d3.select("body").on("keyup.popover", null);
   d3.select("body").style("overflow", "visible");
+  d3.select(window).on("resize.popover", null);
 }
 
 dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
-  console.log(build)
+  var active_panel = null;
 
   d3.select("body")
     .style("overflow", "hidden")
@@ -50,8 +51,6 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     .append("div")
       .attr("class", "nav")
 
-  var active_panel = null;
-
   panels.forEach(function(p, i){
     var panel_link = nav
       .append("span")
@@ -60,8 +59,13 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("data-target-id", p.title.toLowerCase())
         .text(p.title)
         .on("click", function(){
-          var target_id = d3.select(d3.event.srcElement).attr("data-target-id");
-          if (!target_id) target_id = d3.select(d3.event.srcElement.parentNode).attr("data-target-id");
+          if(d3.event.srcElement === window){
+            var target_id = active_panel.attr("data-target-id");
+          }
+          else {
+            var target_id = d3.select(d3.event.srcElement).attr("data-target-id");
+            if (!target_id || typeof(target_id) != "string") target_id = d3.select(d3.event.srcElement.parentNode).attr("data-target-id");
+          }
           var this_tab = d3.select(".change_share#"+target_id)
           var pos = this_tab.node().offsetLeft;
           var w = this_tab.node().offsetWidth;
@@ -207,6 +211,38 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("class", "fa fa-file-image-o")
       file_img.append("span")
         .text("Image")
+
+      var file_csv = social.append("div")
+        .on("click", function(){
+          // save(container, {"mode": "png", "name":build.title})
+
+          d3.event.preventDefault();
+          var urls = build.data.reduce(function(arr, dataobj){ return arr.concat(dataobj.url) }, []),
+              limit_regex = new RegExp("&limit=([0-9]*)"),
+              zip = new JSZip();
+
+          function loadCSV() {
+            var u = urls.pop(), r = limit_regex.exec(u);
+            if (r) u = u.replace(r[0], "");
+            u = u.replace("/api", "/api/csv");
+            JSZipUtils.getBinaryContent(u, function(e, d){
+              zip.file("data-" + (urls.length + 1) + ".csv", d);
+              if (urls.length) {
+                loadCSV();
+              }
+              else {
+                saveAs(zip.generate({type:"blob"}), build.title + ".zip");
+              }
+            });
+          }
+
+          loadCSV();
+
+        })
+      file_csv.append("i")
+        .attr("class", "fa fa-file-text-o")
+      file_csv.append("span")
+        .text("CSV")
     }
     else if(p.title.toLowerCase() == "data"){
       var data_panel = panel.append("div")
@@ -286,8 +322,29 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             }
           })
         }
-
       }
+
+    }
+    else if(p.title.toLowerCase() == "api"){
+      var api_panel = panel.append("div")
+        .attr("class", "api")
+      console.log(build)
+
+      build.data.forEach(function(d, i){
+        api_panel.append("h3")
+          .text(function(){
+            if(build.data.length === 1){
+              return "API URL"
+            }
+            return "API URL #"+i;
+          })
+
+        api_panel.append("input")
+          .attr("type", "text")
+          .attr("readonly", true)
+          .property("value", d.url)
+          .on("click", function(){ this.select(); })
+      })
 
     }
   })
@@ -301,6 +358,10 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     if (d3.event.keyCode === 27) {
       dusa_popover.close();
     }
+  })
+
+  d3.select(window).on("resize.popover", function(){
+    active_panel.on("click")();
   })
 
 }
