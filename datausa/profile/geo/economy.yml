@@ -90,9 +90,9 @@ topics:
     subtitle: "Please note that the buckets used in this visualization were not evenly distributed by ACS when publishing the data.{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| Additionally, the closest comparable GINI value for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
     slug: "income_distro"
     description:
-      - "<<var namespace=wagegap|key=geo>> has an income GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
+      - "<<var namespace=wagegap|key=geo>> has a wage GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
     stat:
-      - title: "Income GINI"
+      - title: "Wage GINI"
         value: "<<var namespace=wagegap|key=gini>>"
     viz:
       attrs: "geo"
