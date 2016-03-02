@@ -10,6 +10,16 @@ dusa_popover.close = function() {
   d3.select(window).on("resize.popover", null);
 }
 
+function getElDimensions(el) {
+  if(el === undefined){
+    return [window.innerWidth, window.innerHeight];
+  }
+  return [
+    Math.max(el.scrollWidth, el.offsetWidth, el.clientWidth),
+    Math.max(el.scrollHeight, el.offsetHeight, el.clientHeight)
+  ];
+}
+
 dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
   var active_panel = null;
 
@@ -51,6 +61,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     .append("div")
       .attr("class", "nav")
 
+  var s = 250;
   panels.forEach(function(p, i){
     var panel_link = nav
       .append("span")
@@ -76,6 +87,15 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             .classed("noslide", this === window)
             .style("width", w+"px")
             .style("left", pos+"px")
+          if(target_id === "data"){
+            var window_h = getElDimensions()[1];
+            var el_h = getElDimensions(d3.select("div.panel#data").node())[1];
+            var new_h = Math.round(Math.max(250, (Math.min(window_h, el_h) * 0.8)));
+            d3.selectAll(".panel").style("height", new_h+"px")
+          }
+          else {
+            d3.selectAll(".panel").style("height", 250+"px")
+          }
         })
     if(p.title.toLowerCase() == active_panel_id){
       active_panel = panel_link;
@@ -336,7 +356,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             if(build.data.length === 1){
               return "API URL"
             }
-            return "API URL #"+i;
+            return "API URL #"+(i+1);
           })
 
         api_panel.append("input")

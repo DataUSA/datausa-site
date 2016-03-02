@@ -1259,7 +1259,6 @@ footer {
           background-color: #F6F6F6;
           width: 80vw;
           z-index: 2002;
-          max-height: 90vh;
           overflow: auto;
           position: relative; }
           .overlay#view .modal:before, .overlay#view .modal:after {
@@ -1343,6 +1342,10 @@ footer {
                         -webkit-box-sizing: border-box;
                         -moz-box-sizing: border-box;
                         box-sizing: border-box;
+                        -moz-transition: height 0.35s;
+                        -o-transition: height 0.35s;
+                        -webkit-transition: height 0.35s;
+                        transition: height 0.35s;
                         overflow: hidden;
                         width: 80vw;
                         height: 250px;

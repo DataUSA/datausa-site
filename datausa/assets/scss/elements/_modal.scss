@@ -135,7 +135,7 @@
       // width: 560px;
       width: 80vw;
       z-index: 2002;
-      max-height: 90vh;
+      // max-height: 90vh;
       overflow: auto;
       position: relative;
 
@@ -215,6 +215,7 @@
 
           .panel {
             @include box();
+            @include transition(height 0.35s);
             overflow: hidden;
             // width: 520px;
             // width: 100%;
