@@ -2,20 +2,3 @@
 <sub class="sub-source">Dataset: <span class="source"></span></sub>
 <sub class="sub-source">Source: <span class="org"></span></sub>
 {% endif %}
-
-<div class="share-section">
-  {% if not story %}
-  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="social" data-embed="{{ profile.url(full=True, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Share</span></a>
-  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="embed" data-embed="{{ profile.url(full=True, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Embed</span></a>
-  <a href="#" title="Share" class="share-embed btn pri-btn" data-target-id="download" data-embed="{{ profile.url(full=True, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"}><span>Download</span></a>
-  {% endif %}
-  {% if profile %}
-  <!-- <a href="#" title="Share with Embed" data-ga="embed share" data-ga-cat="profile" data-ga-label="share buttons click">
-    <i class="fa fa-link"></i>
-  </a>
-  <div class="embed-input">
-    <input type="text" class="embed-link" value="http://beta.datausa.io/profile/{{ profile.attr_type }}/{{ profile.id() }}/{{ section.anchor }}/{{ topic.slug }}/" onclick="this.focus();this.select()" readonly />
-    <label><input type="checkbox" class="viz_only" />Visualization Only</label>
-  </div> -->
-  {% endif %}
-</div>

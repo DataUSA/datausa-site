@@ -4547,8 +4547,6 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("data-target-id", p.title.toLowerCase())
         .text(p.title)
         .on("click", function(){
-          // console.log("d3 event -- ",d3.event)
-          // console.log("d3 src -- ",d3.event.srcElement)
           if(d3.event.srcElement === window){
             var target_id = active_panel.attr("data-target-id");
           }
@@ -7890,9 +7888,8 @@ viz.loadBuilds = function(builds) {
 
       }
 
-      var shares = d3.select(build.container.node().parentNode.parentNode).select(".share-section");
-      if (shares.size()) {
-        shares.selectAll("a").on("click.share", function(){
+      d3.select(build.container.node().parentNode.parentNode).select("a.share-embed")
+        .on("click", function(){
           d3.event.preventDefault();
           dusa_popover.open([
             {"title":"Social"},
@@ -7905,64 +7902,23 @@ viz.loadBuilds = function(builds) {
           d3.select(this).attr("data-url"),
           d3.select(this).attr("data-embed"),
           build)
-      //     var type = d3.select(this).attr("data-ga").split(" ")[0];
-      //     if (type === "embed") {
-      //       var link_open = shares.select(".embed-input").classed("open");
-      //       shares.select(".embed-input").classed("open", !link_open);
-      //     }
-      //     else {
-      //       alert("Sharing not enabled in beta.");
-      //     }
-        });
-      //   shares.select(".viz_only").on("change", function(){
-      //     var link = shares.select(".embed-link").node();
-      //     if (this.checked) {
-      //       link.value = link.value + "?viz=True";
-      //     }
-      //     else {
-      //       link.value = link.value.split("?")[0];
-      //     }
-      //   })
-      }
-
-      var table = d3.select(build.container.node().parentNode).selectAll(".data-table");
-      if (table.size()) {
-        d3.select(build.container.node().parentNode.parentNode)
-          .select(".data-btn")
-          .on("click", function(){
-            d3.event.preventDefault();
-            table.classed("visible", !table.classed("visible"));
-            var tbl_visible = table.classed("visible");
-            var text = tbl_visible ? "Hide Data" : "Show Data";
-            d3.select(this).select("span").text(text);
-          });
-        table.select(".csv-btn")
-          .on("click", function(){
-            d3.event.preventDefault();
-            var urls = d3.select(this.parentNode.parentNode).attr("data-urls").split("|"),
-                limit_regex = new RegExp("&limit=([0-9]*)"),
-                zip = new JSZip();
-
-            function loadCSV() {
-              var u = urls.pop(), r = limit_regex.exec(u);
-              if (r) u = u.replace(r[0], "");
-              u = u.replace("/api", "/api/csv");
-              JSZipUtils.getBinaryContent(u, function(e, d){
-                zip.file("data-" + (urls.length + 1) + ".csv", d);
-                if (urls.length) {
-                  loadCSV();
-                }
-                else {
-                  saveAs(zip.generate({type:"blob"}), build.title + ".zip");
-                }
-              });
-            }
-
-            loadCSV();
-
-          });
-
-      }
+        })
+        // d3.select(build.container.node().parentNode.parentNode)
+        //   .select(".data-btn")
+        //   .on("click", function(){
+        //
+        //     d3.event.preventDefault();
+        //     dusa_popover.open([
+        //       {"title":"Social"},
+        //       {"title":"Embed"},
+        //       {"title":"Download"},
+        //       {"title":"Data"},
+        //       {"title":"API"}
+        //     ],
+        //     d3.select(this).attr("data-target-id"),
+        //     d3.select(this).attr("data-url"),
+        //     d3.select(this).attr("data-embed"),
+        //     build)
 
     });
 
