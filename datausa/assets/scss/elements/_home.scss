@@ -480,6 +480,10 @@ body.home {
         z-index: 1;
       }
 
+      .feed-box-subtitle {
+        margin-top: 10px;
+      }
+
       .feed-box-link {
         bottom: 10px;
         color: $red-w;
@@ -511,6 +515,7 @@ body.home {
         font-weight: 400;
         font-size: 32px;
         letter-spacing: 0.05em;
+        line-height: 1;
         text-transform: uppercase;
         margin: 0 10%;
         text-align: center;

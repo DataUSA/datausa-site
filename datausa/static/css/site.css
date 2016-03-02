@@ -2752,36 +2752,39 @@ body.home {
         body.home #feed .feed-box .feed-box-author,
         body.home #feed .feed-box .feed-box-subtitle {
           z-index: 1; }
-          body.home #feed .feed-box .feed-box-link {
-            bottom: 10px;
-            color: #ef6145;
-            position: absolute;
-            right: 10px;
-            -moz-transition: all 0.25s;
-            -o-transition: all 0.25s;
-            -webkit-transition: all 0.25s;
-            transition: all 0.25s; }
-            body.home #feed .feed-box .feed-box-link::after {
-              border-bottom: 5px solid transparent;
-              border-right: 5px solid transparent;
-              border-left: 5px solid #ef6145;
-              border-top: 5px solid transparent;
-              content: "";
-              display: inline-block;
-              height: 0;
-              margin-left: 5px;
-              margin-right: -5px;
-              width: 0;
+          body.home #feed .feed-box .feed-box-subtitle {
+            margin-top: 10px; }
+            body.home #feed .feed-box .feed-box-link {
+              bottom: 10px;
+              color: #ef6145;
+              position: absolute;
+              right: 10px;
               -moz-transition: all 0.25s;
               -o-transition: all 0.25s;
               -webkit-transition: all 0.25s;
               transition: all 0.25s; }
+              body.home #feed .feed-box .feed-box-link::after {
+                border-bottom: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-left: 5px solid #ef6145;
+                border-top: 5px solid transparent;
+                content: "";
+                display: inline-block;
+                height: 0;
+                margin-left: 5px;
+                margin-right: -5px;
+                width: 0;
+                -moz-transition: all 0.25s;
+                -o-transition: all 0.25s;
+                -webkit-transition: all 0.25s;
+                transition: all 0.25s; }
       body.home #feed .feed-box .feed-box-title {
         font-family: "Pathway Gothic One", sans-serif;
         line-height: 1.3;
         font-weight: 400;
         font-size: 32px;
         letter-spacing: 0.05em;
+        line-height: 1;
         text-transform: uppercase;
         margin: 0 10%;
         text-align: center;
