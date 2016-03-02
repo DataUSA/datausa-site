@@ -10,7 +10,7 @@
 </section>
 <section class="search-home-container">
 	<div class="search-input-btn">
-		<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" autofocus />
+		<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" />
 		<select id="search-type">
 			<option value="all">All</option>
 			<option value="geo">Locations</option>
@@ -40,7 +40,9 @@
 {% for box in feed %}
 	<a href="{{ box.link }}" class="feed-box {{ box.type.title|lower }} {{ box.type.type|lower }}{% if box.featured %} featured{% endif %}">
 		{% if box.image %}
-		<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
+		<div class="feed-box-image-holder">
+			<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
+		</div>
 		{% endif %}
 		{% if box.viz %}
 		<div class="feed-box-viz {{ box.viz }}" style="background-image:url('/static/img/viz_type/{{ box.viz }}.svg');"></div>
@@ -62,7 +64,7 @@
 		</div>
 		<div class="feed-box-title">{{ box.title }}</div>
 		{% if box.featured or box.type.type != "story" %}
-		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
+		<div class="feed-box-header feed-box-subtitle">{{ box.subtitle }}</div>
 		{% endif %}
 		{% if box.author %}
 		<div class="feed-box-header feed-box-author">{{ box.author }}</div>
@@ -93,7 +95,6 @@
 			  window.clearTimeout(tout);
 				search.type = f === "all" ? "" : f;
 				// search.reload();
-				console.log(search_input.node())
 		    search_input.node().focus();
 			}
 		})
@@ -154,7 +155,7 @@
 	var results_div = d3.select("#"+results_div_id);
 	search.term = current_search_term;
 	search.container = d3.select("#search-" + search_input.attr("data-search"));
-	if(current_search_term){
+	if(current_search_term.length){
 	  results_div.classed("open", true);
 	  search.reload();
 
