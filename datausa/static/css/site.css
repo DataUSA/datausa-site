@@ -2294,6 +2294,7 @@ body.home {
           top: 0;
           width: 100%;
           height: 100vh;
+          background-image: url('/static/img/home/bg/1.jpg');
           background-repeat: no-repeat;
           background-position: 50% 0%;
           background-size: cover;
@@ -2323,19 +2324,22 @@ body.home {
       padding: 20vh 0 40px; }
       body.home .home-desc h2 {
         font-family: "Palanquin", sans-serif;
-        -webkit-text-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-        -moz-text-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-        text-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
         line-height: 1; }
         body.home .home-desc h2.first-line {
           font-weight: 400;
           font-size: 40px;
           letter-spacing: 0.05em;
-          padding-bottom: 10px; }
+          padding-bottom: 10px;
+          -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+          -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+          text-shadow: 0 0 12px rgba(0, 0, 0, 0.5); }
           body.home .home-desc h2.second-line {
             font-size: 42px;
             font-weight: 600;
-            letter-spacing: 0; }
+            letter-spacing: 0;
+            -webkit-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            -moz-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
   body.home .search-home-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -2612,7 +2616,7 @@ body.home {
       -webkit-transition: border 0.25s;
       transition: border 0.25s;
       background-color: #141b2e;
-      border: 1px solid #D7E8EF;
+      border: 1px solid #979AA2;
       color: white;
       height: 300px;
       margin: 10px;
@@ -2627,14 +2631,19 @@ body.home {
         background-size: cover;
         bottom: 0;
         left: 0;
-        opacity: 1;
-        -moz-transition: opacity 0.5s;
-        -o-transition: opacity 0.5s;
-        -webkit-transition: opacity 0.5s;
-        transition: opacity 0.5s;
+        opacity: 0.7;
+        -webkit-filter: blur(0px);
+        -moz-filter: blur(0px);
+        -o-filter: blur(0px);
+        filter: blur(0px);
+        -moz-transition: all 0.7s;
+        -o-transition: all 0.7s;
+        -webkit-transition: all 0.7s;
+        transition: all 0.7s;
         position: absolute;
         top: 0;
-        width: 100%; }
+        width: 100%;
+        overflow: hidden; }
         body.home #feed .feed-box .feed-box-image::after {
           bottom: 0;
           content: "";
@@ -2759,7 +2768,7 @@ body.home {
           line-height: 1.5;
           font-weight: 400;
           letter-spacing: 0;
-          margin: 15px 11% 45px;
+          margin: 5px 11% 40px;
           text-align: center;
           z-index: 1; }
           body.home #feed .feed-box.story .feed-box-title {
@@ -2831,14 +2840,14 @@ body.home {
           right: 30px;
           top: 20px; }
           body.home #feed .feed-box.featured .feed-box-title {
-            font-size: 50px;
+            font-size: 40px;
             line-spacing: 71px;
             letter-spacing: 3px;
-            margin: 40px 30px 10px;
+            margin: 40px 30px 5px;
             text-align: left; }
             body.home #feed .feed-box.featured .feed-box-subtitle {
-              font-size: 20px;
-              letter-spacing: 0;
+              font-size: 17px;
+              letter-spacing: 0.03em;
               line-height: 1.5;
               margin: 0 30px 30px;
               max-width: 480px;
@@ -2865,18 +2874,24 @@ body.home {
           body.home #feed .feed-box.featured:focus .feed-box-link::after,
           body.home #feed .feed-box.featured:active .feed-box-link::after {
             border-left: 5px solid #F3837B; }
-    body.home #feed .feed-box:hover, body.home #feed .feed-box:focus,
-    body.home #feed .feed-box:active {
-      border: 1px solid #ef6145;
+    body.home #feed .feed-box:hover {
+      border: 1px solid #D7E8EF;
       cursor: pointer; }
-      body.home #feed .feed-box:hover .feed-box-image,
-      body.home #feed .feed-box:focus .feed-box-image,
-      body.home #feed .feed-box:active .feed-box-image {
-        opacity: 0.15; }
-        body.home #feed .feed-box:hover .feed-box-viz,
-        body.home #feed .feed-box:focus .feed-box-viz,
-        body.home #feed .feed-box:active .feed-box-viz {
-          opacity: 1; }
+      body.home #feed .feed-box:focus, body.home #feed .feed-box:active {
+        border: 1px solid #ef6145;
+        cursor: pointer; }
+        body.home #feed .feed-box:hover .feed-box-image,
+        body.home #feed .feed-box:focus .feed-box-image,
+        body.home #feed .feed-box:active .feed-box-image {
+          opacity: 0.5;
+          -webkit-filter: blur(30px);
+          -moz-filter: blur(30px);
+          -o-filter: blur(30px);
+          filter: blur(30px); }
+          body.home #feed .feed-box:hover .feed-box-viz,
+          body.home #feed .feed-box:focus .feed-box-viz,
+          body.home #feed .feed-box:active .feed-box-viz {
+            opacity: 1; }
 @media only screen and (max-width : 1150px) {
   body.home .home-desc h2 {
     font-size: 32px !important;

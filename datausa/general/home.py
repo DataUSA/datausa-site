@@ -10,7 +10,7 @@ TYPEMAP = {
 HOMEFEED = [
     {
         "link": "/profile/geo/new-york-ny/#income_gender",
-        "subtitle": "What is the male-to-female wage gap in New York City?",
+        "subtitle": "What is the gender wage gap in New York City?",
         "section": "economy",
         "viz": "bar_double"
     },
@@ -19,14 +19,14 @@ HOMEFEED = [
         "featured": True
     },
     {
-        "link": "/profile/soc/291060/#employment",
-        "subtitle": "Where are physicians and surgeons paid the highest and lowest?",
+        "link": "/profile/soc/291060/#wage_locations",
+        "subtitle": "In what part of the U.S. are physicians and surgeons paid the highest and lowest?",
         "section": "employment",
         "viz": "geo_map"
     },
     {
         "link": "/profile/cip/4506/#skills",
-        "subtitle": "What skills do you need the most to succeed in an Economics major?",
+        "subtitle": "What skills do you need the most to succeed as an Economics major?",
         "section": "skills",
         "viz": "radar"
     },
@@ -73,7 +73,7 @@ HOMEFEED = [
     },
     {
         "link": "/profile/naics/531/#workforce",
-        "subtitle": "Within the real estate industry, what is the highest paid occupation?",
+        "subtitle": "What is the highest paid occupation within the real estate industry?",
         "section": "workforce",
         "viz": "bar_triptych"
     },
