@@ -1,21 +1,5 @@
 body.home {
 
-  @media only screen and (max-width : 1150px) {
-
-    .home-desc {
-      h2 {
-        font-size: 32px !important;
-        line-height: 40px !important;
-
-        &.second-line {
-          font-size: 35px !important;
-        }
-
-      }
-    }
-
-  }
-
   @media only screen and (max-width: 900px) {
 
     #menu {
@@ -36,6 +20,17 @@ body.home {
 
 
   @media only screen and (max-width : 480px) {
+
+    .home-desc {
+      h2 {
+        font-size: 18px !important;
+
+        &.second-line {
+          font-size: 21px !important;
+        }
+
+      }
+    }
 
     #d3plus_drop_search-type {
       display: none !important;

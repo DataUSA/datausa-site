@@ -566,13 +566,10 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
   -webkit-transition: left 0.7s ease;
   transition: left 0.7s ease;
   z-index: 7; }
-  #menu .logo {
-    display: none;
-    width: 150px; }
-    #menu.open {
-      left: 0; }
-      #menu .desc {
-        display: none; }
+  #menu.open {
+    left: 0; }
+    #menu .desc {
+      display: none; }
 
 .close-btn {
   position: absolute;
@@ -584,26 +581,36 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
   .menu-content {
     margin: 50px;
     text-align: left; }
-    .menu-content ul {
+    .menu-content > ul {
       margin-top: 30px; }
       .menu-content li {
         margin: 0; }
-        .menu-content li a > h2 {
+        .menu-content li h2 {
           font-family: "Palanquin", sans-serif !important;
           letter-spacing: 0.1em !important;
           font-size: 14px !important;
           font-weight: 600 !important;
           text-transform: uppercase !important; }
+          .menu-content li ul {
+            margin-top: -5px; }
+            .menu-content li ul li {
+              font-size: 14px !important;
+              font-weight: 400 !important;
+              letter-spacing: 0 !important;
+              text-transform: none !important; }
+              .menu-content li ul li img {
+                margin: 7px 5px 0;
+                width: 14px; }
+                .menu-content li ul li a {
+                  color: white;
+                  -moz-transition: color 0.1s;
+                  -o-transition: color 0.1s;
+                  -webkit-transition: color 0.1s;
+                  transition: color 0.1s; }
+                  .menu-content li ul li a:hover {
+                    color: #ef6145; }
         .menu-content li a:hover h2 {
           color: #ef6145; }
-    .menu-content .profile-sum img {
-      width: 20px;
-      height: 20px;
-      padding: 15px 22.5px; }
-    .menu-content .stories-sum img {
-      width: 22px;
-      height: 22px;
-      padding: 15px 23px; }
     .menu-content a {
       display: inline-block; }
       .menu-content a:hover h2:before {
@@ -2280,40 +2287,42 @@ body.home {
       height: auto !important;
       left: 0 !important;
       position: absolute; }
-      body.home #menu .logo {
-        display: block; }
-  body.home .close-btn {
-    display: none; }
-    body.home #top-nav {
-      position: fixed; }
-      body.home a {
-        font-family: "Palanquin", sans-serif;
-        font-weight: 400; }
-        body.home .bg {
-          position: absolute;
-          top: 0;
-          width: 100%;
-          height: 100vh;
-          background-image: url('/static/img/home/bg/1.jpg');
-          background-repeat: no-repeat;
-          background-position: 50% 0%;
-          background-size: cover;
-          overflow: hidden;
-          z-index: -11; }
-          body.home .bg::after {
-            bottom: 0;
-            content: "";
-            position: absolute;
-            height: 75vh;
-            width: 100%;
-            left: 0;
-            z-index: -1;
-            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(transparent), to(#141b2e));
-            background-image: -webkit-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
-            background-image: -moz-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
-            background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
-            background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.5) 40%,#141b2e 100%);
-            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')"; }
+      body.home .close-btn {
+        display: none; }
+        body.home #top-nav {
+          position: fixed; }
+          body.home a {
+            font-family: "Palanquin", sans-serif;
+            font-weight: 400; }
+            body.home .bg {
+              position: absolute;
+              top: 0;
+              width: 100%;
+              height: 100vh;
+              background-image: url('/static/img/home/bg/1.jpg');
+              background-repeat: no-repeat;
+              background-position: 50% 0%;
+              background-size: cover;
+              overflow: hidden;
+              z-index: -11; }
+              body.home .bg::after {
+                bottom: 0;
+                content: "";
+                position: absolute;
+                height: 100vh;
+                width: 100%;
+                left: 0;
+                z-index: -1;
+                background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0, 0, 0, 0.5)), to(#141b2e));
+                background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%,rgba(0, 0, 0, 0.35) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%,rgba(0, 0, 0, 0.35) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%,rgba(0, 0, 0, 0.35) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%,rgba(0, 0, 0, 0.35) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='rgba(0, 0, 0, 0.5)', EndColorStr='#141b2e')"; }
   body.home .home-logo {
     width: 90%;
     text-align: center;
@@ -2321,31 +2330,37 @@ body.home {
     body.home .home-desc {
       color: white;
       text-align: center;
-      padding: 20vh 0 40px; }
-      body.home .home-desc h2 {
-        font-family: "Palanquin", sans-serif;
-        line-height: 1; }
-        body.home .home-desc h2.first-line {
-          font-weight: 400;
-          font-size: 40px;
-          letter-spacing: 0.05em;
-          padding-bottom: 10px;
-          -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-          -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
-          text-shadow: 0 0 12px rgba(0, 0, 0, 0.5); }
-          body.home .home-desc h2.second-line {
-            font-size: 42px;
-            font-weight: 600;
-            letter-spacing: 0;
-            -webkit-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            -moz-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
+      padding: 15vh 0 40px; }
+      body.home .home-desc .logo {
+        margin-bottom: 25px;
+        max-width: 400px;
+        width: 80%; }
+        body.home .home-desc h2 {
+          font-family: "Palanquin", sans-serif;
+          line-height: 1;
+          margin: 0 auto;
+          width: 90%; }
+          body.home .home-desc h2.first-line {
+            font-weight: 400;
+            font-size: 24px;
+            letter-spacing: 0.05em;
+            padding-bottom: 5px;
+            -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+            -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 12px rgba(0, 0, 0, 0.5); }
+            body.home .home-desc h2.second-line {
+              font-size: 28px;
+              font-weight: 600;
+              letter-spacing: 0;
+              -webkit-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+              -moz-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+              text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
   body.home .search-home-container {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     height: 45px;
-    margin: 0 auto 100px;
+    margin: 0 auto 20vh;
     padding: 0 25px;
     position: relative;
     max-width: 650px;
@@ -2890,13 +2905,6 @@ body.home {
           body.home #feed .feed-box:focus .feed-box-viz,
           body.home #feed .feed-box:active .feed-box-viz {
             opacity: 1; }
-@media only screen and (max-width : 1150px) {
-  body.home .home-desc h2 {
-    font-size: 32px !important;
-    line-height: 40px !important;   }
-    body.home .home-desc h2.second-line {
-      font-size: 35px !important;   }
-}
 @media only screen and (max-width: 900px) {
   body.home #menu {
     background-color: rgba(34, 34, 34, 0.9) !important;
@@ -2908,6 +2916,10 @@ body.home {
     display: block !important;   }
 }
 @media only screen and (max-width : 480px) {
+  body.home .home-desc h2 {
+    font-size: 18px !important;   }
+    body.home .home-desc h2.second-line {
+      font-size: 21px !important;   }
   body.home #d3plus_drop_search-type {
     display: none !important;   }
 }

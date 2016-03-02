@@ -13,9 +13,9 @@ body.home {
     left: 0 !important;
     position: absolute;
 
-    .logo {
-      display: block;
-    }
+    // .logo {
+    //   display: block;
+    // }
 
   }
 
@@ -50,11 +50,16 @@ body.home {
       bottom: 0;
       content: "";
       position: absolute;
-      height: 75vh;
+      height: 100vh;
       width: 100%;
       left: 0;
       z-index: -1;
-      @include gradient(top, $splash-gradient);
+      @include gradient(top, (
+        0%: rgba(0,0,0,0.5),
+        25%: rgba(0,0,0,0.35),
+        55%: rgba(20, 27, 46, 0.5),
+        100%: $black2
+      ));
     }
   }
 
@@ -67,22 +72,30 @@ body.home {
   .home-desc {
     color: white;
     text-align: center;
-    padding: 20vh 0 40px;
+    padding: 15vh 0 40px;
+
+    .logo {
+      margin-bottom: 25px;
+      max-width: 400px;
+      width: 80%;
+    }
 
     h2 {
       font-family: $palanquin;
       line-height: 1;
+      margin: 0 auto;
+      width: 90%;
 
       &.first-line {
         font-weight: 400;
-        font-size: 40px;
+        font-size: 24px;
         letter-spacing: 0.05em;
-        padding-bottom: 10px;
+        padding-bottom: 5px;
         @include text-shadow(0 0 12px rgba(0, 0, 0, 0.5));
       }
 
       &.second-line {
-        font-size: 42px;
+        font-size: 28px;
         font-weight: 600;
         letter-spacing: 0;
         @include text-shadow(0 0 10px rgba(0,0,0,0.3));
@@ -98,7 +111,7 @@ body.home {
   .search-home-container {
     @include box();
     height: 45px;
-    margin: 0 auto 100px;
+    margin: 0 auto 20vh;
     // overflow: hidden;
     padding: 0 25px;
     position: relative;
