@@ -7903,22 +7903,6 @@ viz.loadBuilds = function(builds) {
           d3.select(this).attr("data-embed"),
           build)
         })
-        // d3.select(build.container.node().parentNode.parentNode)
-        //   .select(".data-btn")
-        //   .on("click", function(){
-        //
-        //     d3.event.preventDefault();
-        //     dusa_popover.open([
-        //       {"title":"Social"},
-        //       {"title":"Embed"},
-        //       {"title":"Download"},
-        //       {"title":"Data"},
-        //       {"title":"API"}
-        //     ],
-        //     d3.select(this).attr("data-target-id"),
-        //     d3.select(this).attr("data-url"),
-        //     d3.select(this).attr("data-embed"),
-        //     build)
 
     });
 

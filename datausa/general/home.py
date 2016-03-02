@@ -10,25 +10,25 @@ TYPEMAP = {
 HOMEFEED = [
     {
         "link": "/profile/geo/new-york-ny/#income_gender",
-        "subtitle": "Gender wage gap in New York City",
+        "title": "Gender Wage Gap in New York City",
         "section": "economy",
         "viz": "bar_double"
     },
     {
         "link": "/profile/geo/flint-mi/#poverty_ethnicity",
-        "subtitle": "Racial breakdown of those living below the poverty line in Flint, Michigan",
+        "title": "Racial Breakdown of Poverty in Flint, Michigan",
         "section": "economy",
         "viz": "bar_double"
     },
     {
         "link": "/profile/soc/291060/#wage_locations",
-        "subtitle": "In what part of the U.S. are physicians and surgeons paid the highest and lowest?",
+        "title": "Physicians & Surgeons Income by Location?",
         "section": "employment",
         "viz": "geo_map"
     },
     {
         "link": "/profile/cip/4506/#skills",
-        "subtitle": "What skills do you need the most to succeed as an Economics major?",
+        "title": "Required Skills for an Economics Degree",
         "section": "skills",
         "viz": "radar"
     },
@@ -38,25 +38,24 @@ HOMEFEED = [
     },
     {
         "link": "/profile/geo/philadelphia-pa/#housing",
-        "subtitle": "What is the spread of median household incomes compared to that of the U.S.?",
+        "title": "Median Household Income in Philly Compared to the Nation?",
         "section": "housing",
         "viz": "bar_dist"
     },
     {
         "link": "/map/?level=county&key=age,age_moe,age_rank",
-        "title": "Map a Generation",
-        "subtitle": "Which regions of the U.S. have the youngest average population age?"
+        "title": "Counties by Average Age"
     },
     {
         "link": "/profile/soc/172051/#growth",
-        "subtitle": "What is the estimated job growth for Civil Engineers over the next ten years, compared to the national average?",
+        "title": "Job Growth for Civil Engineers",
         "section": "growth",
         "viz": "line",
         "featured": True
     },
     {
         "link": "/profile/cip/110701/#institutions",
-        "subtitle": "What university awards the most degrees in Computer Science per year?",
+        "title": "Most Common Universities for Computer Science",
         "section": "institutions",
         "viz": "tree_map"
     },
@@ -66,20 +65,20 @@ HOMEFEED = [
     },
     {
         "link": "/profile/geo/los-angeles-ca/#health",
-        "subtitle": "What is the prevalence of obesity & diabetes in California by county?",
+        "title": "Obesity & Diabetes in California",
         "section": "health",
         "viz": "scatter",
         "featured": True
     },
     {
         "link": "/profile/geo/st.-louis-mo/#education",
-        "subtitle": "What is most specialized college major in St. Louis?",
+        "title": "Most Specialized Degrees in St. Louis",
         "section": "education",
         "viz": "tree_map"
     },
     {
         "link": "/profile/naics/531/#workforce",
-        "subtitle": "What is the highest paid occupation within the real estate industry?",
+        "title": "Highest Earning Jobs in the Real Estate Industry",
         "section": "workforce",
         "viz": "bar_triptych"
     },

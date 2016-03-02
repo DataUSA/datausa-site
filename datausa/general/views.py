@@ -33,7 +33,7 @@ def home():
             attr_type = box["link"].split("/")[2]
             attr_id = box["link"].split("/")[3]
             attr = fetch(attr_id, attr_type)
-            box["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
+            box["subtitle"] = attr["display_name"] if "display_name" in attr else attr["name"]
             section = [s for s in profile_cache[attr_type]["sections"] if s["anchor"] == box["section"]][0]
             box["section"] = {
                 "title": section["title"],
