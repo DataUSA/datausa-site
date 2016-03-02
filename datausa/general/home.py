@@ -10,13 +10,15 @@ TYPEMAP = {
 HOMEFEED = [
     {
         "link": "/profile/geo/new-york-ny/#income_gender",
-        "subtitle": "What is the gender wage gap in New York City?",
+        "subtitle": "Gender wage gap in New York City",
         "section": "economy",
         "viz": "bar_double"
     },
     {
-        "link": "/story/11-19-2015_cost-of-living/",
-        "featured": True
+        "link": "/profile/geo/flint-mi/#poverty_ethnicity",
+        "subtitle": "Racial breakdown of those living below the poverty line in Flint, Michigan",
+        "section": "economy",
+        "viz": "bar_double"
     },
     {
         "link": "/profile/soc/291060/#wage_locations",
@@ -31,11 +33,14 @@ HOMEFEED = [
         "viz": "radar"
     },
     {
-        "link": "/profile/soc/172051/#growth",
-        "subtitle": "What is the estimated job growth for Civil Engineers over the next ten years, compared to the national average?",
-        "section": "growth",
-        "viz": "line",
+        "link": "/story/11-19-2015_cost-of-living/",
         "featured": True
+    },
+    {
+        "link": "/profile/geo/philadelphia-pa/#housing",
+        "subtitle": "What is the spread of median household incomes compared to that of the U.S.?",
+        "section": "housing",
+        "viz": "bar_dist"
     },
     {
         "link": "/map/?level=county&key=age,age_moe,age_rank",
@@ -43,10 +48,11 @@ HOMEFEED = [
         "subtitle": "Which regions of the U.S. have the youngest average population age?"
     },
     {
-        "link": "/profile/geo/philadelphia-pa/#housing",
-        "subtitle": "What is the spread of median household incomes compared to that of the U.S.?",
-        "section": "housing",
-        "viz": "bar_dist"
+        "link": "/profile/soc/172051/#growth",
+        "subtitle": "What is the estimated job growth for Civil Engineers over the next ten years, compared to the national average?",
+        "section": "growth",
+        "viz": "line",
+        "featured": True
     },
     {
         "link": "/profile/cip/110701/#institutions",
