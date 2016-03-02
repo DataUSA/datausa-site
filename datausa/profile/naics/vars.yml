@@ -73,6 +73,7 @@
   rows: True
   limit: 3
   year: latest
+  where: "commodity_iocode:str!F050"
   industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|key=level>>"
   namespace: io_commodity
 

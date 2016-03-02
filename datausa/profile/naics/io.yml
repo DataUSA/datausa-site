@@ -48,7 +48,7 @@ topics:
           sumlevel: "no_value_added"
           required: "value_millions"
           show: "commodity_iocode"
-          where: "value_millions:!0"
+          where: "value_millions:!0,commodity_iocode:str!F050"
       depth: 1
       id:
         - "parent"
