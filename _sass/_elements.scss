@@ -30,8 +30,14 @@
   }
 
   &#countdown-lg {
+
     .colon {
-      margin: 0;
+      @media all and (max-width: 500px){
+        margin: 0 1.3vw 0 -1.3vw;
+      }
+      @media all and (min-width: 501px){
+        margin: 0 8px 0 -8px;
+      }
     }
 
     .time {
@@ -58,7 +64,12 @@
     max-width: 350px;
 
     .colon {
-      margin: 0 6px 0 -6px;
+      @media all and (max-width: 500px){
+        margin: 0 1.1vw 0 -1.1vw;
+      }
+      @media all and (min-width: 501px){
+        margin: 0 5.5px 0 -5.5px;
+      }
     }
 
     .time {
@@ -170,6 +181,7 @@
 #sign-up-btn {
   border: 1px solid $red-w;
   color: #fff;
+  width: 123px;
 
   &::before {
     background: $red-w;

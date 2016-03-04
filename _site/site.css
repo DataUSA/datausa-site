@@ -811,8 +811,12 @@ ul {
     text-transform: uppercase;
     font-weight: 400;
     opacity: 0.9; }
-  .countdown#countdown-lg .colon {
-    margin: 0; }
+  @media all and (max-width: 500px) {
+    .countdown#countdown-lg .colon {
+      margin: 0 1.3vw 0 -1.3vw; } }
+  @media all and (min-width: 501px) {
+    .countdown#countdown-lg .colon {
+      margin: 0 8px 0 -8px; } }
   @media all and (max-width: 500px) {
     .countdown#countdown-lg .time {
       font-size: 13vw; } }
@@ -828,8 +832,12 @@ ul {
   .countdown#countdown-sm {
     width: 60%;
     max-width: 350px; }
-    .countdown#countdown-sm .colon {
-      margin: 0 6px 0 -6px; }
+    @media all and (max-width: 500px) {
+      .countdown#countdown-sm .colon {
+        margin: 0 1.1vw 0 -1.1vw; } }
+    @media all and (min-width: 501px) {
+      .countdown#countdown-sm .colon {
+        margin: 0 5.5px 0 -5.5px; } }
     @media all and (max-width: 500px) {
       .countdown#countdown-sm .time {
         font-size: 11vw; } }
@@ -935,7 +943,8 @@ ul {
 
 #sign-up-btn {
   border: 1px solid #ef6145;
-  color: #fff; }
+  color: #fff;
+  width: 123px; }
   #sign-up-btn::before {
     background: #ef6145; }
   #sign-up-btn:hover {
