@@ -2403,13 +2403,12 @@ body.home {
       height: 0 !important; }
   body.home #search-home {
     display: none;
-    padding-right: 105px;
     max-height: 30vh;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     overflow-y: scroll;
-    margin: 0; }
+    margin: 0 104px 0 0; }
     body.home #search-home:before, body.home #search-home:after {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -2428,16 +2427,23 @@ body.home {
             display: block;
             padding: 7px 6px; }
             body.home #search-home .search-results {
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
               background-color: #F6F6F6;
               width: 100%;
               overflow: hidden;
-              max-height: inherit;
               border-top: 1px solid #ccc;
               padding-right: 1px; }
-              body.home #search-home .search-results .search-item:active,
-              body.home #search-home .search-results .search-item:focus,
-              body.home #search-home .search-results .search-item:hover {
-                background-color: #E9E9E9; }
+              body.home #search-home .search-results:before,
+              body.home #search-home .search-results:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box; }
+                body.home #search-home .search-results .search-item:active,
+                body.home #search-home .search-results .search-item:focus,
+                body.home #search-home .search-results .search-item:hover {
+                  background-color: #E9E9E9; }
   body.home .open + .results-show-all {
     display: block; }
     body.home .results-show-all {
@@ -2445,7 +2451,7 @@ body.home {
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       display: none;
-      padding-right: 105px;
+      margin-right: 105px;
       text-align: center; }
       body.home .results-show-all:before, body.home .results-show-all:after {
         -webkit-box-sizing: border-box;

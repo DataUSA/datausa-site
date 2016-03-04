@@ -138,12 +138,13 @@ body.home {
   #search-home {
     display: none;
     // width: 100%;
-    padding-right: 105px;
+    // padding-right: 105px;
     max-height: 30vh;
     @include box();
     // @include shadow(0 1px 2px rgba(255,255,255,0.25),0 0 1px rgba(255,255,255,0.4));
+    // overflow-x: hidden;
     overflow-y: scroll;
-    margin: 0;
+    margin: 0 104px 0 0;
     // border: 1px solid rgba(255,255,255,0.5);
     // background-color: rgba(255, 255, 255, 0.85);
 
@@ -165,10 +166,11 @@ body.home {
     }
 
     .search-results {
+      @include box();
       background-color: $l-profile-bg;
       width: 100%;
       overflow: hidden;
-      max-height: inherit;
+      // max-height: inherit;
       border-top: 1px solid $gray-l;
       padding-right: 1px;
 
@@ -188,7 +190,7 @@ body.home {
     @include box();
     display: none;
     // width: 100%;
-    padding-right: 105px;
+    margin-right: 105px;
     text-align: center;
 
     .pri-link {
