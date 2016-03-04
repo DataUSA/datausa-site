@@ -93,9 +93,6 @@
         <div class="photo-cred">
           <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
           <div class="image-author"><a href="{{ image.link }}" target="_blank">Photo by {{ image.author }}</a></div>
-          {% if image.meta %}
-          <div class="image-meta">{{ image.meta }}</div>
-          {% endif %}
         </div>
 
         <div class="breadcrumb">
@@ -117,6 +114,9 @@
         {% for desc in profile.splash.description %}
         <p class="desc has-p-link">{{ desc|safe }}</p>
         {% endfor %}
+        {% if image.meta %}
+        <p class="desc image-meta">{{ image.meta }}</p>
+        {% endif %}
       </div>
 
       {% if profile.splash.viz %}
