@@ -31,12 +31,12 @@
 
   &#countdown-lg {
     .colon {
-      margin: 0 8px 0 -8px;
+      margin: 0;
     }
 
     .time {
       @media all and (max-width: 500px){
-        font-size: 16vw;
+        font-size: 13vw;
       }
       @media all and (min-width: 501px){
         font-size: 80px;
@@ -56,7 +56,6 @@
   &#countdown-sm {
     width: 60%;
     max-width: 350px;
-    padding-top: 5vh;
 
     .colon {
       margin: 0 6px 0 -6px;
@@ -165,5 +164,18 @@
 
   &:hover {
     background-position: 65% center;
+  }
+}
+
+#sign-up-btn {
+  border: 1px solid $red-w;
+  color: #fff;
+
+  &::before {
+    background: $red-w;
+  }
+
+  &:hover {
+    color: white;
   }
 }

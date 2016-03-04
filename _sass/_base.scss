@@ -24,7 +24,7 @@ body {
     opacity: 1;
 
     &.bg {
-      background-image: url('/img/hero-bg.jpg');
+      background-image: url('/img/bg1.jpg');
       top: 0;
       left: 0;
       right: 0;
@@ -32,7 +32,7 @@ body {
     }
 
     &::after {
-      @include gradient(top, (0%: rgba(0, 0, 0, 0.15), 60%: rgba(0, 0, 0, 0.15), 100%: $black));
+      @include gradient(top, (0%: rgba(0, 0, 0, 0.15), 10%: rgba(0, 0, 0, 0.15), 100%: $black));
       bottom: 0;
       content: "";
       height: 100vh;
@@ -64,20 +64,24 @@ body {
   &#logo-container {
     height: 120px;
     width: 55%;
-    max-width: 375px;
+    max-width: 340px;
+    margin-top: 45px;
 
     @media all and (max-width: 600px){
-      width: 71%;
+      width: 60%;
+      margin-top: 13vh;
     }
   }
   &#desc-container {
     height: 65px;
-    margin: 0 auto 5vh;
+    margin: 2vh auto 7vh;
     width: 60%;
     max-width: 480px;
 
     @media all and (max-width: 600px){
       width: 85%;
+      margin-top: 0;
+      margin-bottom: 5vh;
     }
   }
 
@@ -98,7 +102,7 @@ body {
     z-index: 2;
   }
 
-  #logo-shadow {
+  .logo-shadow {
     background-image: url('/img/logo_shadow.png');
     height: 100px;
     z-index: 1;
@@ -110,7 +114,7 @@ body {
     z-index: 4;
   }
 
-  #desc-shadow {
+  .desc-shadow {
     background-image: url('/img/desc_shadow.png');
     height: 65px;
     z-index: 3;
@@ -124,14 +128,20 @@ body {
   .co {
     z-index: 1;
     margin-top: 10vh;
+    @include filter(saturate(0));
+    @include transition(all 0.5s);
+
+    &:hover {
+      @include filter(saturate(1));
+    }
 
     img {
       height: 30px;
-      width: 30vw;
-      max-width: 121px;
+      width: 20vw;
+      max-width: 100px;
       box-sizing: border-box;
       margin: 0 2vh;
-      height: 30px;
+      height: 23px;
 
       @media all and (max-width: 600px){
         max-width: 100px;
@@ -174,7 +184,7 @@ body {
   }
 
   .sign-up {
-    margin: 10vh auto 3vh;
+    margin: 7vh auto 3vh;
   }
 
   .co-logos {
@@ -205,8 +215,8 @@ body {
     text-transform: uppercase;
     font-weight: 300;
     letter-spacing: 0.08em;
-    font-size: 28px;
-    font-family: $palanquin;
+    font-size: 45px;
+    font-family: $pathway;
 
     @media all and (max-width: 400px){
       font-size: 24px;
@@ -228,22 +238,83 @@ body {
 }
 
 #section5 {
+  background: url('/img/scenario_bg.jpg') no-repeat 50% 50%;
+  background-size: cover;
+  background-attachment: fixed;
+
+  article.main {
+    padding-bottom: 80px;
+  }
 
   .section-title {
     padding-top: 10vh;
   }
 
   p {
-    color: #BACACB;
+    color: #CBD2E8;
     font-size: 18px;
     margin: 25px auto;
-    line-height: 1.5;
+    line-height: 1.7;
     text-align: left;
 
+    @media all and (max-width: 600px){
+      font-size: 16px;
+    }
+
+    &.scenario {
+      margin-left: 50px;
+      font-size: 16px;
+
+      @media all and (max-width: 600px){
+        font-size: 14px;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 35px;
+        height: 35px;
+        margin-left: -50px;
+        margin-top: 7px;
+      }
+
+      &.business::before {
+        background: url('/img/business.svg') no-repeat 50% 50%;
+        background-size: contain; 
+      }
+
+      &.market::before {
+        background: url('/img/market.svg') no-repeat 50% 50%;
+        background-size: contain; 
+      }
+
+      &.college::before {
+        background: url('/img/college.svg') no-repeat 50% 50%;
+        background-size: contain; 
+      }
+
+      &.complexity::before {
+        background: url('/img/complexity.svg') no-repeat 50% 50%;
+        background-size: contain; 
+      }
+    }
+
     .leading-sentence {
-      color: $subtitle-color;
+      color: $bullet-subtxt-color;
       display: block;
-      font-weight: 800;
+      font-size: 22px;
+      font-weight: 600;
+      text-transform: none;
+      line-height: 1.5;
+      margin-bottom: 5px;
+
+      @media all and (max-width: 768px){
+        font-size: 20px;
+      }
+      @media all and (max-width: 450px){
+        font-size: 16px;
+        line-height: 1.3;
+      }
     }
 
   }
@@ -251,7 +322,7 @@ body {
 }
 
 #section2 {
-  background: url('/img/stardust_e_b.png') repeat 0 0;
+  background: url('/img/stardust_e_b2.png') repeat 0 0;
 
   .section-title {
     padding-top: 10vh;
@@ -259,10 +330,21 @@ body {
 }
 
 #section3 {
+  background-color: #111;
+
   .main {
     max-width: 450px;
-    padding: 30px 0 30px;
+    padding: 50px 0;
     width: 100%;
+  }
+  
+  .section-desc {
+    color: #ddd;
+
+    @media all and (max-width: 600px){
+      font-size: 22px;
+      padding: 0 25px;
+    }
   }
 }
 
@@ -316,6 +398,7 @@ body {
     background-image: url('/img/bullet.png');
     background-repeat: no-repeat;
     background-position: 0 0;
+    background-size: contain;
     height: 35px;
     width: 35px;
     background-size: 35px;
@@ -345,8 +428,7 @@ body {
 
   h3 {
     font-size: 22px;
-    letter-spacing: 0.02em;
-    font-weight: 300;
+    font-weight: 600;
     text-transform: none;
     color: $bullet-txt-color;
     line-height: 1.5;
@@ -359,6 +441,10 @@ body {
       font-size: 16px;
       line-height: 1.3;
     }
+  }
+
+  p {
+    margin-bottom: 10px;
   }
 
   a, p {
@@ -398,7 +484,7 @@ body {
 
       &::before {
         content: '';
-        background-image: url('/img/sub-bullet.png');
+        // background-image: url('/img/sub-bullet.png');
         background-size: 100%;
         width: 15px;
         height: 12px;
@@ -567,13 +653,14 @@ body {
 .launchdate {
   margin-top: 15vh;
   img {
-    margin-bottom: 15px;
-    width: 300px;
+    max-width: 279px;
+    margin: 0 auto 5vh;
+    width: 100%;
   }
 }
 
 .launch-msg {
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 400;
   text-transform: none;
   line-height: 1;
@@ -584,11 +671,15 @@ body {
 
   @media all and (max-width: 768px){
     font-size: 30px;
+    span {
+      display: block;
+      padding-top: 8px;
+    }
   }
 }
 
 .sign-up-form {
-  margin: 0 auto;
+  margin: 0 auto 7vh;
 
   label {
     display: block;
