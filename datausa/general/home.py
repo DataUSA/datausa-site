@@ -22,7 +22,7 @@ HOMEFEED = [
     },
     {
         "link": "/profile/soc/291060/#wage_locations",
-        "title": "Physicians & Surgeons Income by Location?",
+        "title": "Physicians & Surgeons Income by Location",
         "section": "employment",
         "viz": "geo_map"
     },
@@ -38,7 +38,7 @@ HOMEFEED = [
     },
     {
         "link": "/profile/geo/philadelphia-pa/#housing",
-        "title": "Median Household Income in Philly Compared to the Nation?",
+        "title": "Median Household Income in Philly Compared to the Nation",
         "section": "housing",
         "viz": "bar_dist"
     },
