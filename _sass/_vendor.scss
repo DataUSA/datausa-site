@@ -1,3 +1,13 @@
+@mixin clean-tap() {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 @mixin animation($animation) {
   -webkit-animation: $animation;
   -moz-animation: $animation;
@@ -7,7 +17,7 @@
 
 @mixin background-stretch() {
   background-position: center center;
-  background-attachment: fixed;
+  // background-attachment: fixed;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -15,10 +25,15 @@
   background-size: cover;
 }
 
-@mixin box() {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+@mixin box($style: border-box) {
+  -webkit-box-sizing: $style;
+  -moz-box-sizing: $style;
+  box-sizing: $style;
+  &:before, &:after {
+    -webkit-box-sizing: $style;
+    -moz-box-sizing: $style;
+    box-sizing: $style;
+  }
 }
 
 @mixin blur($radius: 5) {
@@ -26,6 +41,8 @@
   -moz-filter: blur($radius + px);
   -ms-filter: blur($radius + px);
   -o-filter: blur($radius + px);
+  // filter: url(blur.svg#blur);
+  // filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='#{$radius}');
 }
 
 @mixin column-count($num: 2) {
@@ -112,15 +129,6 @@
     }
 }
 
-@mixin gradient($start, $startP, $end, $endP) {
-  background: -moz-linear-gradient(top, $start $startP, $end $endP);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop($startP, $start), color-stop($endP, $end));
-  background: -webkit-linear-gradient(top, $start $startP, $end $endP);
-  background: -o-linear-gradient(top, $start $startP, $end $endP);
-  background: -ms-linear-gradient(top, $start $startP, $end $endP);
-  background: linear-gradient(to bottom, $start $startP, $end $endP);
-}
-
 @mixin rounded($size: 5px, $corner: "none") {
   @if $corner == "none" {
     -webkit-border-radius: $size;
@@ -134,10 +142,22 @@
   }
 }
 
-@mixin transform($style) {
-  -webkit-transform: $style;
-  -ms-transform: $style;
-  transform: $style;
+@mixin shadow($style: $shadow) {
+  -webkit-box-shadow: $style;
+  -moz-box-shadow: $style;
+  box-shadow: $style;
+}
+
+@mixin text-shadow($style: $shadow) {
+  -webkit-text-shadow: $style;
+  -moz-text-shadow: $style;
+  text-shadow: $style;
+}
+
+@mixin transform($transform...) {
+  -webkit-transform: $transform;
+  -ms-transform: $transform;
+  transform: $transform;
 }
 
 @mixin transform-origin($style) {
@@ -146,12 +166,39 @@
   transform-origin: $style;
 }
 
-@mixin transition($animation) {
-  -webkit-transition: $animation;
-  -moz-transition: $animation;
-  -ms-transition: $animation;
-  -o-transition: $animation;
-  transition: $animation;
+@mixin transition($transition...) {
+  -moz-transition:    $transition;
+  -o-transition:      $transition;
+  -webkit-transition: $transition;
+  transition:         $transition;
+}
+
+@mixin transition-property($property...) {
+    -moz-transition-property:    $property;
+    -o-transition-property:      $property;
+    -webkit-transition-property: $property;
+    transition-property:         $property;
+}
+
+@mixin transition-duration($duration...) {
+    -moz-transition-property:    $duration;
+    -o-transition-property:      $duration;
+    -webkit-transition-property: $duration;
+    transition-property:         $duration;
+}
+
+@mixin transition-timing-function($timing...) {
+    -moz-transition-timing-function:    $timing;
+    -o-transition-timing-function:      $timing;
+    -webkit-transition-timing-function: $timing;
+    transition-timing-function:         $timing;
+}
+
+@mixin transition-delay($delay...) {
+    -moz-transition-delay:    $delay;
+    -o-transition-delay:      $delay;
+    -webkit-transition-delay: $delay;
+    transition-delay:         $delay;
 }
 
 @mixin wordwrap() {
@@ -214,31 +261,136 @@
 @mixin flex-direction($flow: row) {
   -webkit-flex-direction: $flow;
   -moz-flex-direction: $flow;
+  -ms-flex-direction: $flow;
   flex-direction: $flow;
 }
 
 @mixin flex-wrap($wrap: wrap) {
   -webkit-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
   flex-wrap: $wrap;
 }
 
 @mixin align-content($align: center) {
   -webkit-align-content: $align;
   align-content: $align;
+  $old: $align;
+  @if $align == flex-start {
+    $old: start;
+  } @else if $align == flex-end {
+    $old: end;
+  } @else if $align == space-between {
+    $old: justify;
+  } @else if $align == space-around {
+    $old: distribute;
+  }
+  -ms-flex-line-pack: $old;
+  flex-line-pack: $old;
 }
 
 @mixin align-items($align: center) {
   -webkit-align-items: $align;
   align-items: $align;
+  $old: $align;
+  @if $align == flex-start {
+    $old: start;
+  } @else if $align == flex-end {
+    $old: end;
+  }
+  -ms-flex-align: $old;
+  flex-align: $old;
 }
 
 @mixin align-self($align: center) {
   -webkit-align-self: $align;
   align-self: $align;
+  $old: $align;
+  @if $align == flex-start {
+    $old: start;
+  } @else if $align == flex-end {
+    $old: end;
+  }
+  -ms-flex-item-align: $old;
+  flex-item-align: $old;
 }
 
 @mixin justify($align: center) {
   -webkit-justify-content: $align;
   -moz-justify-content: $align;
   justify-content: $align;
+  $old: $align;
+  @if $align == flex-start {
+    $old: start;
+  } @else if $align == flex-end {
+    $old: end;
+  } @else if $align == space-between {
+    $old: justify;
+  } @else if $align == space-around {
+    $old: distribute;
+  }
+  -ms-flex-pack: $old;
+  flex-pack: $old;
+}
+
+// @include gradient(gradient--concat($gradient--concat));
+@mixin gradient($gradient-degrees, $gradient--concat) {
+    $ie_variables: gradient--ie($gradient--concat);
+    $start-color: map-get($ie_variables, 'start');
+    $finish-color: map-get($ie_variables, 'finish');
+
+  // background-color: mix($start-color, $finish-color); /* Fallback */
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($start-color), to($finish-color));
+  background-image: -webkit-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  background-image:    -moz-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  background-image:     -ms-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  background-image:      -o-linear-gradient($gradient-degrees, gradient--concat($gradient--concat));
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#{$start-color}', EndColorStr='#{$finish-color}')";
+}
+
+
+// Concat :: Gradient Mixin
+// Concatinate the gradient map properties and values into structured CSS
+@function gradient--concat($gradient--concat){
+    $return-new: '';
+
+    @each $position, $color in $gradient--concat {
+        $return: $color + ' ' + $position + gradient--position($position);
+        $return-new: $return-new + '' + $return;
+    }
+
+    @return unquote($return-new);
+}
+
+// Position :: Gradient Mixin
+// Add commas to the end of every property concationation, except the last one.
+@function gradient--position($position){
+    @if ( $position != 100%) {
+        @return ",";
+    }
+    @else {
+        @return "";
+    }
+}
+
+// Internet Explore Fallback
+// Extract the first and last color variables for "-ms-filter"
+@function gradient--ie($gradient--concat){
+    $start_map: '';
+    $end_map: '';
+
+    @each $position, $color in $gradient--concat {
+        @if ( $position == 0%) {
+            $start_map: (
+                'start': $color
+                )
+        }
+        @if ( $position == 100%) {
+            $end_map: (
+                'finish': $color
+                )
+        }
+    }
+
+    @return map-merge($start_map, $end_map)
+
 }

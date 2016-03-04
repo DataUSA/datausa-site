@@ -13,35 +13,49 @@ body {
   .hero-img {
     width: 100%;
     max-width: 100vw;
-    height: 100%;
+    height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
-    background-size: 100%;
-    background-position: 50% 0;
+    background-size: cover;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
-    @include transform(scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg));
+    // @include transform(scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg));
     opacity: 1;
+
+    &.bg {
+      background-image: url('/img/hero-bg.jpg');
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+    }
+
+    &::after {
+      @include gradient(top, (0%: rgba(0, 0, 0, 0.15), 60%: rgba(0, 0, 0, 0.15), 100%: $black));
+      bottom: 0;
+      content: "";
+      height: 100vh;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
   }
+
 }
 
-.hero-img {
-  position: absolute;
-  width: 100%;
-  max-width: 100vw !important;
-  height: 100% !important;
-  background-position: 50% 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-
-  &.bg {
-    background-image: url('/img/hero-bg.jpg');
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 0;
-  }
-}
+// .hero-img {
+//   position: absolute;
+//   width: 100%;
+//   max-width: 100vw !important;
+//   height: 100% !important;
+//   background-position: 50% 0;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//
+// }
 
 .title {
   position: relative;
@@ -106,7 +120,7 @@ body {
 .co-logos {
   @include flex();
   @include justify(center);
-  
+
   .co {
     z-index: 1;
     margin-top: 10vh;
@@ -185,7 +199,7 @@ body {
 }
 
 .cd-section {
-  
+
   .section-title {
     color: $sectiontitle-color;
     text-transform: uppercase;
@@ -202,15 +216,38 @@ body {
   .section-desc {
     color: $subtitle-color;
     font-family: $palanquin;
-    font-size: 32px;
+    font-size: 26px;
     text-transform: none;
-    font-weight: 300;
+    font-weight: 400;
 
     @media all and (max-width: 600px){
       font-size: 26px;
       line-height: 1.3;
     }
   }
+}
+
+#section5 {
+
+  .section-title {
+    padding-top: 10vh;
+  }
+
+  p {
+    color: #BACACB;
+    font-size: 18px;
+    margin: 25px auto;
+    line-height: 1.5;
+    text-align: left;
+
+    .leading-sentence {
+      color: $subtitle-color;
+      display: block;
+      font-weight: 800;
+    }
+
+  }
+
 }
 
 #section2 {
@@ -223,8 +260,9 @@ body {
 
 #section3 {
   .main {
-    max-width: 550px;
-    padding: 8vh 0 10vh;
+    max-width: 450px;
+    padding: 30px 0 30px;
+    width: 100%;
   }
 }
 
@@ -251,7 +289,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 100px;
-  @include gradient(rgba(0,0,0,0), 30%, rgba(40, 36, 43, 0.6), 100%);
+  @include gradient(top, (0%: rgba(0, 0, 0, 0), 100%: rgba(40, 36, 43, 0.75)));
   z-index: 0;
 }
 
@@ -261,7 +299,7 @@ body {
   width: 75%;
   max-width: 600px;
   padding-bottom: 10vh;
-  
+
   & > ul {
     & > li {
       @include flex();
@@ -357,7 +395,7 @@ body {
       &.naics {
         color: $naics-bg-color;
       }
-    
+
       &::before {
         content: '';
         background-image: url('/img/sub-bullet.png');
@@ -443,7 +481,7 @@ body {
       max-width: 600px;
       margin: 0 auto;
       text-align: left;
-      
+
       li {
         @include flex();
         @include justify(flex-start);
@@ -509,12 +547,12 @@ body {
 .tagline {
   height: 20vh;
   @include flex();
-  @include align-items(center);  
+  @include align-items(center);
 }
 
 .sign-up-container {
   position: relative;
-  height: 80vh;
+  height: 100vh;
   width: 100%;
   background-color: #161527;
   background-image: url('/img/earth1.jpg');
@@ -528,6 +566,10 @@ body {
 
 .launchdate {
   margin-top: 15vh;
+  img {
+    margin-bottom: 15px;
+    width: 300px;
+  }
 }
 
 .launch-msg {
@@ -556,7 +598,7 @@ body {
     font-size: 28px;
     font-weight: 300;
     line-height: 1.3;
-    
+
     @media all and (max-width: 768px){
       padding-bottom: 10px;
       font-size: 20px;
@@ -570,14 +612,14 @@ body {
 
 #mce-EMAIL {
   border: 1px solid white;
-  background-color: rgba(56,62,88,0.4);
+  background-color: rgba(56,62,88,0.6);
   padding: 18px 35px 18px 18px;
   width: 60%;
   font-size: 0.78571rem;
   line-height: 1;
   letter-spacing: 0.21em;
   color: #fff;
-  @include placeholder {opacity: 0.5;}
+  @include placeholder {color: white; opacity: 0.75;}
 
   @media all and (max-width: 400px){
     padding: 15px 35px 15px 15px;

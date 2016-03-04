@@ -4,7 +4,7 @@
   @include flex-direction(row);
   @include justify(center);
   color: white;
-  
+
   .clock-hand {
     @include flex-size(1);
     text-align: center;
@@ -18,6 +18,7 @@
   .time {
     display: inline-block;
     font-family: $pathway;
+    letter-spacing: 2px;
   }
 
   .label {
@@ -29,6 +30,10 @@
   }
 
   &#countdown-lg {
+    .colon {
+      margin: 0 8px 0 -8px;
+    }
+
     .time {
       @media all and (max-width: 500px){
         font-size: 16vw;
@@ -53,6 +58,10 @@
     max-width: 350px;
     padding-top: 5vh;
 
+    .colon {
+      margin: 0 6px 0 -6px;
+    }
+
     .time {
       @media all and (max-width: 500px){
         font-size: 11vw;
@@ -61,7 +70,7 @@
         font-size: 55px;
       }
     }
-    
+
     .label {
       @media all and (max-width: 500px){
         font-size: 2.6vw;
@@ -113,7 +122,7 @@
   border: 1px solid #fff;
   z-index: 0;
   @include transition(color 0.4s cubic-bezier(0.19, 0.8, 0.22, 0.8));
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -129,10 +138,10 @@
 
   &:hover {
     color: $black;
-    
+
     &::before {
       top: 0;
-      @include transform(translate3d(0, 0, 0));  
+      @include transform(translate3d(0, 0, 0));
     }
   }
 }

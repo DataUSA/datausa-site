@@ -72,21 +72,21 @@ TxtRotate.prototype.tick = function() {
   }, delta);
 };
 
-function heroImg() {
-  var heroW = $('.hero-img').width(),
-      heroH = $('.hero-img').height(),
-      heroR = heroW/heroH;
-
-  if (heroR > 3000 / 2521) {
-    $('.hero-img').css("background-size", "cover").css("background-position", "0 100%");
-  } else {
-    $('.hero-img').css("background-size", "contain").css("background-position", "0 0");
-  }
-}
-
-$( window ).resize(function() {
-  heroImg();
-});
+// function heroImg() {
+//   var heroW = $('.hero-img').width(),
+//       heroH = $('.hero-img').height(),
+//       heroR = heroW/heroH;
+//
+//   if (heroR > 3000 / 2521) {
+//     $('.hero-img').css("background-size", "cover").css("background-position", "0 100%");
+//   } else {
+//     $('.hero-img').css("background-size", "contain").css("background-position", "0 0");
+//   }
+// }
+//
+// $( window ).resize(function() {
+//   heroImg();
+// });
 
 // countdown clock
 var deadline = 'April 04 2016 12:00:00 GMT+05:00';
