@@ -90,15 +90,35 @@ body {
         width: 60%;
         margin-top: 13vh; } }
   .title#desc-container {
-    height: 65px;
-    margin: 2vh auto 7vh;
-    width: 60%;
-    max-width: 480px; }
-    @media all and (max-width: 600px) {
-      .title#desc-container {
-        width: 85%;
-        margin-top: 0;
-        margin-bottom: 5vh; } }
+    max-width: 480px;
+    color: white;
+    text-align: center;
+    padding: 0 0 40px; }
+    .title#desc-container h2 {
+      font-family: "Palanquin", sans-serif;
+      line-height: 1;
+      margin: 0 auto; }
+    .title#desc-container .first-line {
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      padding-bottom: 5px;
+      -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+      -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.5); }
+      @media all and (max-width: 480px) {
+        .title#desc-container .first-line {
+          font-size: 18px; } }
+    .title#desc-container .second-line {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0;
+      -webkit-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      -moz-text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3); }
+      @media all and (max-width: 480px) {
+        .title#desc-container .second-line {
+          font-size: 21px; } }
   .title .title-img {
     position: absolute;
     width: 100%;
@@ -223,6 +243,31 @@ body {
     #section1 .cd-scroll-down:hover, #section1 .cd-scroll-down:focus {
       bottom: 17px; }
 
+#section1-5 {
+  background: url("/img/stardust_e_b2.png") repeat 0 0;
+  background-attachment: fixed;
+  background-size: cover; }
+  #section1-5 > div {
+    margin: 0 auto;
+    text-align: center; }
+  #section1-5 p {
+    color: #CBD2E8;
+    font-size: 18px;
+    margin: 25px auto;
+    line-height: 1.7;
+    text-align: justify; }
+    @media all and (max-width: 600px) {
+      #section1-5 p {
+        text-align: left; } }
+  #section1-5 .section-title {
+    max-width: 615px;
+    width: 70%;
+    margin: 0 auto;
+    line-height: 1; }
+  #section1-5 .main {
+    max-width: 605px;
+    padding-bottom: 80px; }
+
 #section2, #section4 {
   min-height: 100vh; }
 
@@ -306,8 +351,9 @@ body {
           line-height: 1.3; } }
 
 #section2 {
-  background: url("/img/stardust_e_b2.png") repeat 0 0; }
+  background: #8A3220; }
   #section2 .section-title {
+    color: #fff;
     padding-top: 10vh; }
 
 #section3 {
@@ -437,13 +483,13 @@ body {
   .bullet-container a:hover {
     cursor: pointer; }
     .bullet-container a:hover.geo {
-      color: #43567B; }
+      color: #253A63; }
     .bullet-container a:hover.soc {
-      color: #BF584E; }
+      color: #275854; }
     .bullet-container a:hover.cip {
-      color: #3B7D77; }
+      color: #802820; }
     .bullet-container a:hover.naics {
-      color: #424B6F; }
+      color: #2D2840; }
     .bullet-container a:hover::before {
       content: '';
       background-size: 100%;
@@ -584,13 +630,13 @@ body {
           .profile-category .category-section ul h3 {
             font-size: 20px; } }
   .profile-category#geo .category-section {
-    background-color: #43567B; }
+    background-color: #253A63; }
   .profile-category#soc .category-section {
-    background-color: #BF584E; }
+    background-color: #275854; }
   .profile-category#cip .category-section {
-    background-color: #3B7D77; }
+    background-color: #802820; }
   .profile-category#naics .category-section {
-    background-color: #424B6F; }
+    background-color: #2D2840; }
 
 .tagline {
   height: 20vh;
@@ -885,7 +931,8 @@ ul {
     box-sizing: border-box; }
   @media all and (max-width: 600px) {
     .btn {
-      padding: 15px 35px; } }
+      padding: 15px;
+      text-align: center; } }
 
 .material-btn {
   color: #fff;

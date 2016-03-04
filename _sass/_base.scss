@@ -73,15 +73,47 @@ body {
     }
   }
   &#desc-container {
-    height: 65px;
-    margin: 2vh auto 7vh;
-    width: 60%;
+    // height: 65px;
+    // margin: 2vh auto 7vh;
+    // width: 60%;
     max-width: 480px;
+    color: white;
+    text-align: center;
+    padding: 0 0 40px;
+
+    h2 {
+      font-family: $palanquin;
+      line-height: 1;
+      margin: 0 auto;
+    }
+
+    .first-line {
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 0.05em;
+      padding-bottom: 5px;
+      @include text-shadow(0 0 12px rgba(0,0,0,0.5));
+
+      @media all and (max-width: 480px){
+        font-size: 18px;
+      }
+    }
+
+    .second-line {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0;
+      @include text-shadow(0 0 10px rgba(0,0,0,0.3));
+
+      @media all and (max-width: 480px){
+        font-size: 21px;
+      }
+    }
 
     @media all and (max-width: 600px){
-      width: 85%;
-      margin-top: 0;
-      margin-bottom: 5vh;
+      // width: 85%;
+      // margin-top: 0;
+      // margin-bottom: 5vh;
     }
   }
 
@@ -204,6 +236,41 @@ body {
   }
 }
 
+#section1-5 {
+  background: url('/img/stardust_e_b2.png') repeat 0 0;
+  background-attachment: fixed;
+  background-size: cover;
+
+  & > div {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  p {
+    color: #CBD2E8;
+    font-size: 18px;
+    margin: 25px auto;
+    line-height: 1.7;
+    text-align: justify;
+
+    @media all and (max-width: 600px){
+      text-align: left;
+    }
+  }
+  
+  .section-title {
+    max-width: 615px;
+    width: 70%;
+    margin: 0 auto;
+    line-height: 1;
+  }
+
+  .main {
+    max-width: 605px;
+    padding-bottom: 80px;    
+  }
+}
+
 #section2, #section4 {
   min-height: 100vh;
 }
@@ -322,9 +389,10 @@ body {
 }
 
 #section2 {
-  background: url('/img/stardust_e_b2.png') repeat 0 0;
+  background: #8A3220;
 
   .section-title {
+    color: #fff;
     padding-top: 10vh;
   }
 }
