@@ -10,16 +10,16 @@ topics:
       default: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
     stat_stack: YES
     stat:
-      - title: "High relative number of people major in"
-        value: "<<var namespace=cip_rca|key=cip|row=0>>"
-        subvalues:
-          - "<<var namespace=cip_rca|key=cip|row=1>>"
-          - "<<var namespace=cip_rca|key=cip|row=2>>"
       - title: "Most common major is"
         value: "<<var namespace=cip|key=cip|row=0>>"
         subvalues:
           - "<<var namespace=cip|key=cip|row=1>>"
           - "<<var namespace=cip|key=cip|row=2>>"
+      - title: "High relative number of people major in"
+        value: "<<var namespace=cip_rca|key=cip|row=0>>"
+        subvalues:
+          - "<<var namespace=cip_rca|key=cip|row=1>>"
+          - "<<var namespace=cip_rca|key=cip|row=2>>"
     description: "Here we see the share of degrees held by <<name>> whose highest degree obtained is a <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span>."
     viz:
       attrs: "cip"
