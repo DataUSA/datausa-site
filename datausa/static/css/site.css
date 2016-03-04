@@ -5966,10 +5966,10 @@ body.story {
       justify-content: flex-start;
       -ms-flex-pack: start;
       flex-pack: start;
-      -webkit-align-items: center;
-      align-items: center;
-      -ms-flex-align: center;
-      flex-align: center;
+      -webkit-align-items: flex-start;
+      align-items: flex-start;
+      -ms-flex-align: start;
+      flex-align: start;
       background-color: #E9E9E9;
       width: 76%;
       margin: 0 auto;
@@ -5985,10 +5985,7 @@ body.story {
       body.story .article-more-options .author-text .info {
         text-transform: none;
         line-height: 1.5;
-        margin: 7px 0;
-        max-height: 57px;
-        text-overflow: ellipsis;
-        overflow: scroll; }
+        margin: 7px 0; }
         body.story .article-more-options .author-text .social {
           line-height: 1; }
           body.story .article-more-options .author-text .social a {

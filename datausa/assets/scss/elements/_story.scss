@@ -288,7 +288,7 @@ body.story {
       @include flex();
       @include flex-direction(row);
       @include justify(flex-start);
-      @include align-items(center);
+      @include align-items(flex-start);
       background-color: $d-profile-bg;
       width: 76%;
       margin: 0 auto;
@@ -311,9 +311,6 @@ body.story {
         text-transform: none;
         line-height: 1.5;
         margin: 7px 0;
-        max-height: 57px;
-        text-overflow: ellipsis;
-        overflow: scroll;
       }
 
       .social {
