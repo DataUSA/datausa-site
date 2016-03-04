@@ -5226,8 +5226,12 @@ window.onload = function() {
 
     // Enter button
     if (d3.event.keyCode === 13) {
-      var search_txt = d3.select(this).property("value");
-      window.location = "/search/?q="+encodeURIComponent(search_txt);
+      var curr_el = d3.select(this).select("a.search-item:focus").node() || d3.select("a.search-item").node();
+      if(curr_el) {
+        window.location = d3.select(curr_el).attr("href");
+      }
+      // var search_txt = d3.select(this).property("value");
+      // window.location = "/search/?q="+encodeURIComponent(search_txt);
     }
 
     var q = this.value.toLowerCase();
@@ -5244,25 +5248,30 @@ window.onload = function() {
       }
     }
 
-    if (q !== search.term) {
-      clearInterval(searchInterval);
-      search.term = q;
-      search.container = d3.select("#search-" + d3.select(this).attr("data-search"));
+    // only execute search if it's a character not ctl, alt, arrows eventCategory
+    var non_alpha_keys = [37, 38, 39, 40]
+    if (d3.event.which !== 0 && String.fromCharCode(d3.event.keyCode) !== "" && non_alpha_keys.indexOf(d3.event.keyCode) < 0) {
+      if (q !== search.term) {
+        clearInterval(searchInterval);
+        search.term = q;
+        search.container = d3.select("#search-" + d3.select(this).attr("data-search"));
 
-      if (q.length) {
-        searchInterval = setTimeout(function(){
+        if (q.length) {
+          searchInterval = setTimeout(function(){
+            search.reload();
+            clearInterval(searchInterval);
+          }, keywait);
+        }
+        else {
           search.reload();
-          clearInterval(searchInterval);
-        }, keywait);
-      }
-      else {
-        search.reload();
+        }
       }
     }
 
   });
 
   d3.selectAll(".search-input, .search-results").on("keyup.search-results", function(){
+    d3.event.preventDefault();
 
     // Up/Down Arrows
     if (d3.event.keyCode === 40 || d3.event.keyCode === 38) {
@@ -5286,17 +5295,28 @@ window.onload = function() {
         var next_el = document.querySelectorAll(".search-item")[0];
       }
 
-      if(next_el) next_el.focus();
+      if(next_el) {
+        d3.select(next_el)
+          .on("focus", function(){
+            d3.select("body").style("overflow", "hidden");
+          })
+          .on("blur", function(){
+            d3.select("body").style("overflow", null);
+          })
+        next_el.focus();
+      }
+
 
       return false;
     }
 
     // Enter
     if (d3.event.keyCode === 13) {
-      var curr_el = d3.select(this).select("a.search-item:focus").node();
+      var curr_el = d3.select(this).select("a.search-item:focus").node() || document.querySelectorAll("a.search-item")[0];
+      console.log(curr_el)
       if(!curr_el){
-        var search_txt = d3.select(this).property("value");
-        window.location = "/search/?q="+encodeURIComponent(search_txt);
+        // var search_txt = d3.select(this).property("value");
+        // window.location = "/search/?q="+encodeURIComponent(search_txt);
       }
     }
 
