@@ -29,8 +29,7 @@
 </div>
 <div id="map-fullscreen"></div>
 <div id="map-sharing">
-  <a href="#" class="btn pri-btn" data-target-id="share"><span>Share</span></a>
-  <a href="#" class="btn pri-btn" data-target-id="download"><span>Download</span></a>
+  <a href="#" class="btn pri-btn" data-target-id="share"><span>Options</span></a>
 </div>
 <div id="map-loading">
   <div id="map-loading-text"><i class="fa fa-circle-o-notch fa-spin"></i>Please Wait</div>
@@ -41,7 +40,7 @@
 {% block js %}
 <script>
 
-  var dataset = "{{ defaultDataset }}";
+  var dataset = "{{ defaultDataset }}", data_url;
 
   var formConfig = {
     "font": vizStyles.ui_map.font,
@@ -152,8 +151,10 @@
       .coords({"key": topo})
       .tooltip(key.split(","));
 
+    data_url = api + url;
+
     load("/static/topojson/" + topo + ".json", function(coords){
-      load(api + url, function(data){
+      load(data_url, function(data){
         d3.select("#map-loading").classed("hidden", true);
         var tooltip_url = false;
         if (county && (level == "state" || level == "msa")) {
@@ -187,12 +188,20 @@
   d3.select("#map-sharing").selectAll("a").on("click.share", function(){
     d3.event.preventDefault();
     dusa_popover.open([
-      {"title":"Social"},
-      {"title":"Download"}
+      {"title":"Share"},
+      {"title":"Download"},
+      {"title":"Data"},
+      {"title":"API"}
     ],
     d3.select(this).attr("data-target-id"),
     location.href,
-    {"container": container, "title": "DataUSA " + viz.format.text(map.color()) + " Map"})
+    location.href,
+    {
+      "container": container,
+      "title": "DataUSA " + viz.format.text(map.color()) + " Map",
+      "data": [{"url": data_url}],
+      "viz": map
+    })
   });
 
 </script>

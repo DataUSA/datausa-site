@@ -116,7 +116,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("class", "panel")
         .attr("id", p.title.toLowerCase())
 
-    if(p.title.toLowerCase() == "social"){
+    if(p.title.toLowerCase() == "share"){
       var social = panel.append("div")
         .attr("class", "social")
 
@@ -168,8 +168,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       option.append("label").text("Include visualization description")
 
       var sizes = options.append("select")
-      sizes.append("option").attr("value", "360|240").text("Small 360 x 240")
-      sizes.append("option").attr("value", "720|480").text("Medium 720 x 480")
+      sizes.append("option").attr("value", "720|480").text("Small 720 x 480")
       sizes.append("option").attr("value", "1440|1080").text("Large 1440 x 1080")
       sizes.append("option").attr("value", "").text("Fullscreen")
 

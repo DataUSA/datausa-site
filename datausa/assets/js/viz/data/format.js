@@ -8,6 +8,8 @@ viz.format = {
       var key = params.key;
       delete params.key;
 
+      if (key === "year") return number;
+
       if (key.indexOf("_moe") > 0) {
         prefix = "<span class='plus-minus'>±</span> ";
         key = key.replace("_moe", "");

@@ -339,6 +339,47 @@
               }
             }
 
+
+
+            .data {
+
+              table {
+                width: 100%;
+              }
+
+              thead, tbody {
+                font-family: $palanquin;
+              }
+
+              thead {
+
+                th {
+                  padding: 3px;
+                  font-weight: 800;
+                  letter-spacing: 0.1em;
+                  text-transform: uppercase;
+                  font-size: 11px;
+                  text-align: left;
+                }
+              }
+
+              tbody {
+                color: $black2;
+
+                td {
+                  font-size: 12px;
+                  font-weight: 300;
+                  padding: 3px;
+                }
+
+                tr {
+                  &:hover {
+                    background-color: $d-profile-bg;
+                  }
+                }
+              }
+            }
+
           }
         }
 

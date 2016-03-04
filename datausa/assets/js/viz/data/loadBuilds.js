@@ -97,7 +97,7 @@ viz.loadBuilds = function(builds) {
         .on("click", function(){
           d3.event.preventDefault();
           dusa_popover.open([
-            {"title":"Social"},
+            {"title":"Share"},
             {"title":"Embed"},
             {"title":"Download"},
             {"title":"Data"},

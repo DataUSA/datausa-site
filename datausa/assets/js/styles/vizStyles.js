@@ -145,6 +145,6 @@ var vizStyles = {
   },
 
   "tiles_viz": "light_all", // either light_all or dark_all
-  "tiles_map": "dark_all" // either light_all or dark_all
+  "tiles_map": "light_all" // either light_all or dark_all
 
 }
