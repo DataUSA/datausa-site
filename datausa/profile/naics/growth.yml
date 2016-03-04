@@ -88,7 +88,7 @@ topics:
         value: "y2_output"
   - title: "Top Changing Occupations"
     slug: "changing_occs"
-    description: "Filtered by the occupations employed in the <<name>> <<level>>, here are the top 5 occupations by number of employees with the largest estimated change in employment across all industries."
+    description: "Filtered by the occupations employed in the <<name>> <<level>>, here are the 5 occupations with the largest estimated change in employment across all industries."
     viz:
       attrs: "bls_soc"
       data:
