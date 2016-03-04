@@ -101,7 +101,7 @@ topics:
     slug: "enrolled_gender"
     stat:
       - title: "Most Common Gender"
-        value: "<<top col=sex|required=grads_men,grads_women|order=grads_total>>"
+        value: "<<var namespace=grads_sex|key=name>> (<<percent num=var:grads_sex,value|den=var:gdata,grads_total>>)"
     description: "Here we see the 5 most common institutions that offer <<name>> broken down by degrees awarded for each gender."
     viz:
       attrs: "university"

@@ -103,7 +103,7 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Degrees Awarded by Growth"
+  - title: "Growth in Degrees Awarded"
     slug: "counties_growth_degrees"
     stat:
       - title: "County with the Fastest Growing Number of Degrees Awarded"

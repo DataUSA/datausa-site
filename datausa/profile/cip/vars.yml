@@ -166,3 +166,12 @@
     limit: 3
   year: "latest"
   namespace: "race_sex"
+
+- required: ["grads_men", "grads_women"]
+  limit: 1
+  pivot:
+    keys: ["sex"]
+    cols: ["name", "value"]
+    limit: 1
+  year: "latest"
+  namespace: "grads_sex"

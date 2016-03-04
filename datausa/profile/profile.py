@@ -505,7 +505,7 @@ class Profile(BaseObject):
         elif diff:
             val = r["num"] - r["den"]
         else:
-            val = r["num"]/r["den"]
+            val = float(r["num"])/float(r["den"])
 
         if kwargs.get("invert", False):
             val = 1 - val
@@ -847,4 +847,5 @@ class Profile(BaseObject):
         my_topics = [t for t in section_dict['topics'] if 'slug' in t and t['slug'] in topics]
         raw_topics = json.dumps(my_topics)
         keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
-        return keys
+        percents = re.findall(r"var:([^,]+)", raw_topics)
+        return list(set(keys + percents))
