@@ -2,6 +2,61 @@ title: "Employment"
 description: "The next set of visualizations allows you to explore which businesses hire employees from <<name>> and what occupations they practice."
 
 topics:
+  - category: "Wages"
+    slug: "top_income"
+    title: "Yearly Income"
+    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
+    stat:
+      - title: "Most Common Occupations"
+        value: "<<var namespace=occ_wage|key=soc|row=0>>"
+        subvalues:
+          - "<<var namespace=occ_wage|key=soc|row=1>>"
+          - "<<var namespace=occ_wage|key=soc|row=2>>"
+    description: "Here are the average salaries of the top 5 most common occupations for <<name>> majors."
+    viz:
+      attrs: "soc"
+      data:
+        - cip: "<<id>>"
+          limit: "5"
+          order: "num_ppl"
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe,num_ppl_rca"
+          where: "num_records:>4"
+          sumlevel: "3"
+          show: "soc"
+      id: "soc"
+      labels: YES
+      order:
+        sort: "asc"
+        value: "num_ppl"
+      type: "bar"
+      x: "avg_wage"
+      y:
+        scale: "discrete"
+        value: "soc"
+  - title: "Location"
+    slug: "locations"
+    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
+    stat:
+      - title: "<<name>> majors are paid the highest in"
+        value: "<<var namespace=puma_wage|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=puma_wage|key=geo|row=1>>"
+          - "<<var namespace=puma_wage|key=geo|row=2>>"
+    description: "This map shows the public-use micro areas in the United States colored by the average salary of <<name>> majors."
+    viz:
+      attrs: "geo"
+      color: "avg_wage"
+      coords: "pumas"
+      data:
+        - cip: "<<id>>"
+          order: "avg_wage"
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
+          show: "geo"
+          sumlevel: "puma"
+          where: "num_records:>4"
+      id: "geo"
+      height: 500
+      type: "geo_map"
   - category: "Occupations"
     class: "flex"
     title: "Most Common"
@@ -179,60 +234,6 @@ topics:
         - "soc"
       size: "num_ppl"
       type: "tree_map"
-  - category: "Wages"
-    slug: "wages"
-    title: "Yearly Income"
-    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
-    stat:
-      - title: "Highest Average Salary"
-        value: "<<var namespace=occ_wage|key=soc|row=0>>"
-        subvalues:
-          - "<<var namespace=occ_wage|key=soc|row=1>>"
-          - "<<var namespace=occ_wage|key=soc|row=2>>"
-    description: "Here are the top 5 most specialized occupations for <<name>> majors sorted by average salary."
-    viz:
-      attrs: "soc"
-      data:
-        - cip: "<<id>>"
-          limit: "5"
-          order: "num_ppl_rca"
-          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe,num_ppl_rca"
-          where: "num_records:>4"
-          show: "soc"
-      id: "soc"
-      labels: YES
-      order:
-        sort: "asc"
-        value: "avg_wage"
-      type: "bar"
-      x: "avg_wage"
-      y:
-        scale: "discrete"
-        value: "soc"
-  - title: "Location"
-    slug: "locations"
-    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
-    stat:
-      - title: "<<name>> majors are paid the highest in"
-        value: "<<var namespace=puma_wage|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=puma_wage|key=geo|row=1>>"
-          - "<<var namespace=puma_wage|key=geo|row=2>>"
-    description: "This map shows the public-use micro areas in the United States colored by the average salary of <<name>> majors."
-    viz:
-      attrs: "geo"
-      color: "avg_wage"
-      coords: "pumas"
-      data:
-        - cip: "<<id>>"
-          order: "avg_wage"
-          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
-          show: "geo"
-          sumlevel: "puma"
-          where: "num_records:>4"
-      id: "geo"
-      height: 500
-      type: "geo_map"
   - category: "Industries"
     slug: "top_ind_num_emp"
     class: "flex"

@@ -106,17 +106,16 @@
   year: latest
   namespace: county_growth
 
-- required: ["soc", "avg_wage", "num_ppl_rca"]
+- required: ["soc", "num_ppl"]
   rows: True
   limit: 5
-  order: num_ppl_rca
+  sumlevel: 3
+  show: soc
+  order: num_ppl
   sort: desc
   where: "num_records:>4"
   year: latest
   namespace: occ_wage
-  after:
-    order: avg_wage
-    sort: desc
 
 - required: ["geo", "avg_wage"]
   rows: True
