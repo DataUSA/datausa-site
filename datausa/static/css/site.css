@@ -598,10 +598,14 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
               font-weight: 400 !important;
               letter-spacing: 0 !important;
               text-transform: none !important; }
+              .menu-content li ul li:last-child a {
+                margin-bottom: 3px; }
               .menu-content li ul li img {
                 margin: 7px 5px 0;
                 width: 14px; }
                 .menu-content li ul li a {
+                  margin-left: 13px;
+                  font-size: 13px;
                   color: white;
                   -moz-transition: color 0.1s;
                   -o-transition: color 0.1s;

@@ -144,6 +144,12 @@ body {
         letter-spacing: 0 !important;
         // margin-left: 10px;
         text-transform: none !important;
+        
+        &:last-child {
+          a {
+            margin-bottom: 3px;
+          }
+        }
 
         img {
           margin: 7px 5px 0;
@@ -151,6 +157,8 @@ body {
         }
 
         a {
+          margin-left: 13px;
+          font-size: 13px;
           color: white;
           @include transition(color 0.1s);
           &:hover {
