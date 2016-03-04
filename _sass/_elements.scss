@@ -168,6 +168,10 @@
   }
 }
 
+.sign-up {
+  text-align: center;
+}
+
 .sign-up-btn {
   background-color: transparent;
   border: 0;
@@ -182,7 +186,8 @@
 #sign-up-btn {
   border: 1px solid $red-w;
   color: #fff;
-  width: 123px;
+  text-align: center;
+  width: 130px;
 
   &::before {
     background: $red-w;

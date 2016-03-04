@@ -977,6 +977,9 @@ ul {
     .icon-btn {
       background-size: 40%; } }
 
+.sign-up {
+  text-align: center; }
+
 .sign-up-btn {
   background-color: transparent;
   border: 0;
@@ -991,7 +994,8 @@ ul {
 #sign-up-btn {
   border: 1px solid #ef6145;
   color: #fff;
-  width: 123px; }
+  text-align: center;
+  width: 130px; }
   #sign-up-btn::before {
     background: #ef6145; }
   #sign-up-btn:hover {
