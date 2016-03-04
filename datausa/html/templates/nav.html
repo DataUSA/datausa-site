@@ -47,50 +47,28 @@
         <a href="/"><h2>Home</h2></a>
       </li>
       {% endif %}
-      <li class="explore-sum">
-        <h2>Explore</h2>
+      <li class="profile-sum">
+        <a href="/search/"><h2>Profiles</h2></a>
         <ul>
-          <li class="profile-sum">
-            <a href="/search/?q=">Profiles</a>
+          <li class="geo-sum">
+            <a href="/search/?kind=geo">Locations</a>
           </li>
-          <li class="stories-sum">
-            <a href="/story/">Stories</a>
+          <li class="naics-sum">
+            <a href="/search/?kind=naics">Industries</a>
           </li>
-          <li class="map-sum">
-            <a href="/map/">Maps</a>
+          <li class="soc-sum">
+            <a href="/search/?kind=soc">Occupations</a>
+          </li>
+          <li class="cip-sum">
+            <a href="/search/?kind=cip">Education</a>
           </li>
         </ul>
       </li>
       <li class="data-sum">
-        <h2>Data</h2>
-        <ul>
-          <li class="info-sum">
-            <a href="/about/datasets/">Data Sources</a>
-          </li>
-          <li class="info-sum">
-            <a href="/about/api/">API</a>
-          </li>
-          <li class="info-sum">
-            <a href="/about/attributes/">Classifications</a>
-          </li>
-        </ul>
+        <a href="/about/datasets/"><h2>Data</h2></a>
       </li>
-      <li class="about-sum">
-        <h2>About</h2>
-        <ul>
-          <li class="info-sum">
-            <a href="/about/">Platform Info</a>
-          </li>
-          <li class="glossary-sum">
-            <a href="/about/glossary/">Glossary</a>
-          </li>
-          <li class="contact-sum">
-            <a href="mailto:hello@datausa.io">Contact Us</a>
-          </li>
-          <li class="usage-sum">
-            <a href="/about/usage/">Term of Use</a>
-          </li>
-        </ul>
+      <li class="data-sum">
+        <a href="/about/"><h2>About</h2></a>
       </li>
     </ul>
   </div>
@@ -125,9 +103,9 @@
       </ul>
       <ul><h4>About</h4>
         <li><a href="/about/">Platform Info</a></li>
-        <li><a href="mailto:hello@datausa.io">Contact Us</a></li>
-        <li><a href="/about/usage/">Terms of Use</a></li>
         <li><a href="/about/glossary/">Glossary</a></li>
+        <li><a href="/about/usage/">Terms of Use</a></li>
+        <li><a href="mailto:hello@datausa.io">Contact Us</a></li>
       </ul>
     </div>
     <div class="footer-contact">
