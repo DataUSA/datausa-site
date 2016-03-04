@@ -13,17 +13,11 @@
   <div id="about-container" class="{{ g.page_sub_type }}">
     <header>
       <div>
-        <!-- <section>
-          <h2>Public data in your hands</h2>
-        </section> -->
         <section>
           <ul class="tab-container">
-            <li class="pri-tab {% if g.page_sub_type == 'index' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/">About</a></li>
-            <li class="pri-tab {% if g.page_sub_type == 'datasets' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/datasets/">Datasets</a></li>
-            <li class="pri-tab {% if g.page_sub_type == 'glossary' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/glossary/" >Glossary</a></li>
-            <li class="pri-tab {% if g.page_sub_type == 'api' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/api/" >API</a></li>
-            <li class="pri-tab {% if g.page_sub_type == 'attributes' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/attributes/" >Classifications</a></li>
-            <li class="pri-tab {% if g.page_sub_type == 'usage' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/usage/" >Terms of Use</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'index' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/">Platform Info</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'usage' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/usage/">Terms of Use</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'glossary' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/glossary/">Glossary</a></li>
           </ul>
         </section>
       </div>
@@ -34,25 +28,4 @@
 
   </div>
 
-{% endblock %}
-
-{% block js %}
-  <!-- <script>
-
-  heroImg();
-
-  function heroImg() {
-    var heroW = window.innerWidth,
-        heroH = window.innerHeight,
-        heroR = heroW/heroH;
-    if (heroR > 1200 / 636) {
-      d3.selectAll('.hero-bg').style("background-size", "cover");
-    } else {
-      d3.selectAll('.hero-bg').style("background-size", "contain");
-    }
-  };
-
-  resizeInstantFunctions.push(heroImg);
-
-  </script> -->
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends "templates/nav.html" %}
+
+{% block subtitle %}
+<div id="title-bar">
+  <span><a href="/"><img src="/static/img/logo_sm.png" alt="DataUSA" /></a> Data</span>
+</div>
+{% endblock %}
+
+{% block body %}
+
+  <!-- <div id="hero" class="hero-bg"></div> -->
+  <img id="hero-img" src="/static/img/about/landscape.jpg" />
+  <div id="about-container" class="{{ g.page_sub_type }}">
+    <header>
+      <div>
+        <section>
+          <ul class="tab-container">
+            <li class="pri-tab {% if g.page_sub_type == 'datasets' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/datasets/">Data Sources</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'api' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/api/">API</a></li>
+            <li class="pri-tab {% if g.page_sub_type == 'attributes' %} active{% endif %}"><a class="btn pri-tab-link" href="/about/attributes/">Classifications</a></li>
+          </ul>
+        </section>
+      </div>
+    </header>
+
+    {% block about_content %}
+    {% endblock %}
+
+  </div>
+
+{% endblock %}

@@ -17,6 +17,41 @@
 <article>
   <section>
     <ul>
+
+      <li>
+        <h1><a name="calcs">Calculations</a></h1>
+        <ol>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#gini" name="gini">GINI</a></h2>
+            <p>The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality. Note that the GINI is a measure that is looking at the spread of a distribution and does not necessarily imply a higher or lower average value of the distribution. For instance if everyone in a given distribution earned a salary of $1,000,000 the GINI of that distribution would be 0, or perfect equality. For more information on GINI, <a href="https://en.wikipedia.org/wiki/Gini_coefficient">visit this Wikipedia article</a>.</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#margin_of_error" name="margin_of_error">Margin of Error</a></h2>
+            <p>"The margin of error is a statistic expressing the amount of random sampling error in a survey's results. It asserts a likelihood (not a certainty) that the result from a sample is close to the number one would get if the whole population had been queried." (<a href="https://en.wikipedia.org/wiki/Margin_of_error">Wikipedia</a>).</p>
+              <p>ACS data is computed at a 90% confidence level (p=0.10). This means that the U.S. Census Bureau is 90% confident (there is a 90% chance) that the true value for the population is within the bounds of the margin of error for the estimate. </p>
+              <p>For ACS data, estimates and margins of error are provided by the Census Bureau. For ACS PUMS data, estimates and margins of error are computed by aggregating the records in the PUMS files. The formula below shows how the standard error is calculated for PUMS estimates using the provided replicate weights:</p>
+              <br/>
+            <img src="/static/img/about/standard_error.gif" alt="standard error formula"/>
+            <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
+            <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
+
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#num_records" name="num_records">Number of Records</a></h2>
+            <p>The number of records a technical variable we track for ACS PUMS data. Number of records, or the num_records variable tracks how many rows from the raw PUMS data file were collapsed to form the estimate. It can be useful in conjunction with the margin of error for understanding data quality.</p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#rca" name="rca">RCA</a></h2>
+            <p>Revealed Comparative Advantage or RCA is a calculation used to determine what is special or unique about a certain location/occupation or location/industry combination. The calculation (shown below) takes into account 2 shares; the share of the number of citizens in a location that work in a given occupation and the share of the total number of employees in that occupation vis-a-vis all other occupations. The reason this is useful is that if we were to use nominal values, the most populated locations would always dominate and on the flip-side if we were to use percentages, smaller locations with only a few employees in a rare occupation would dominate, biasing the dataset. Using an RCA calculation is a great way to find which classifications are being over (or under) expressed.</p>
+            <p class="calc" data-calc="g = location"></p>
+            <p class="calc" data-calc="o = occupation"></p>
+            <p class="calc" data-calc="X = number Of Employees"></p>
+            <br />
+            <p class="calc" data-calc="RCA_{go} = \frac{X_{go}}{\sum _{g} X_{go}} / \frac{\sum _{o} X_{go}}{\sum _{g,o} X_{go}}" data-calc-block="true"></p>
+          </li>
+        </ol>
+      </li>
+
       <li>
         <h1><a name="geography">Geography</a></h1>
         <ol>
@@ -57,40 +92,6 @@
             <h2><i class="fa fa-link"></i><a href="#zip" name="zip">Census Tracts</a></h2>
            <p>According to the Census Bureau: "Census tracts are small, relatively permanent statistical subdivisions of a county or equivalent entity that are updated by local participants prior to each decennial census as part of the Census Bureau's Participant Statistical Areas Program.  The Census Bureau delineates census tracts in situations where no local participant existed or where state, local, or tribal governments declined to participate. The primary purpose of census tracts is to provide a stable set of geographic units for the presentation of statistical data."</p>
            <p>For more information on Census tracts <a href="https://www.census.gov/geo/reference/gtc/gtc_ct.html">visit the Census Bureau website</a>.<p>
-          </li>
-        </ol>
-      </li>
-
-      <li>
-        <h1><a name="calcs">Calculations</a></h1>
-        <ol>
-          <li>
-            <h2><i class="fa fa-link"></i><a href="#gini" name="gini">GINI</a></h2>
-            <p>The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality. Note that the GINI is a measure that is looking at the spread of a distribution and does not necessarily imply a higher or lower average value of the distribution. For instance if everyone in a given distribution earned a salary of $1,000,000 the GINI of that distribution would be 0, or perfect equality. For more information on GINI, <a href="https://en.wikipedia.org/wiki/Gini_coefficient">visit this Wikipedia article</a>.</p>
-          </li>
-          <li>
-            <h2><i class="fa fa-link"></i><a href="#margin_of_error" name="margin_of_error">Margin of Error</a></h2>
-            <p>"The margin of error is a statistic expressing the amount of random sampling error in a survey's results. It asserts a likelihood (not a certainty) that the result from a sample is close to the number one would get if the whole population had been queried." (<a href="https://en.wikipedia.org/wiki/Margin_of_error">Wikipedia</a>).</p>
-              <p>ACS data is computed at a 90% confidence level (p=0.10). This means that the U.S. Census Bureau is 90% confident (there is a 90% chance) that the true value for the population is within the bounds of the margin of error for the estimate. </p>
-              <p>For ACS data, estimates and margins of error are provided by the Census Bureau. For ACS PUMS data, estimates and margins of error are computed by aggregating the records in the PUMS files. The formula below shows how the standard error is calculated for PUMS estimates using the provided replicate weights:</p>
-              <br/>
-            <img src="/static/img/about/standard_error.gif" alt="standard error formula"/>
-            <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
-            <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
-
-          </li>
-          <li>
-            <h2><i class="fa fa-link"></i><a href="#num_records" name="num_records">Number of Records</a></h2>
-            <p>The number of records a technical variable we track for ACS PUMS data. Number of records, or the num_records variable tracks how many rows from the raw PUMS data file were collapsed to form the estimate. It can be useful in conjunction with the margin of error for understanding data quality.</p>
-          </li>
-          <li>
-            <h2><i class="fa fa-link"></i><a href="#rca" name="rca">RCA</a></h2>
-            <p>Revealed Comparative Advantage or RCA is a calculation used to determine what is special or unique about a certain location/occupation or location/industry combination. The calculation (shown below) takes into account 2 shares; the share of the number of citizens in a location that work in a given occupation and the share of the total number of employees in that occupation vis-a-vis all other occupations. The reason this is useful is that if we were to use nominal values, the most populated locations would always dominate and on the flip-side if we were to use percentages, smaller locations with only a few employees in a rare occupation would dominate, biasing the dataset. Using an RCA calculation is a great way to find which classifications are being over (or under) expressed.</p>
-            <p class="calc" data-calc="g = location"></p>
-            <p class="calc" data-calc="o = occupation"></p>
-            <p class="calc" data-calc="X = number Of Employees"></p>
-            <br />
-            <p class="calc" data-calc="RCA_{go} = \frac{X_{go}}{\sum _{g} X_{go}} / \frac{\sum _{o} X_{go}}{\sum _{g,o} X_{go}}" data-calc-block="true"></p>
           </li>
         </ol>
       </li>
