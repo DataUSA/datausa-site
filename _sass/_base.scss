@@ -168,12 +168,12 @@ body {
     }
 
     img {
-      height: 30px;
+      // height: 30px;
       width: 20vw;
       max-width: 100px;
       box-sizing: border-box;
       margin: 0 2vh;
-      height: 23px;
+      height: 30px;
 
       @media all and (max-width: 600px){
         max-width: 100px;
@@ -257,7 +257,7 @@ body {
       text-align: left;
     }
   }
-  
+
   .section-title {
     max-width: 615px;
     width: 70%;
@@ -267,7 +267,7 @@ body {
 
   .main {
     max-width: 605px;
-    padding-bottom: 80px;    
+    padding-bottom: 80px;
   }
 }
 
@@ -347,22 +347,22 @@ body {
 
       &.business::before {
         background: url('/img/business.svg') no-repeat 50% 50%;
-        background-size: contain; 
+        background-size: contain;
       }
 
       &.market::before {
         background: url('/img/market.svg') no-repeat 50% 50%;
-        background-size: contain; 
+        background-size: contain;
       }
 
       &.college::before {
         background: url('/img/college.svg') no-repeat 50% 50%;
-        background-size: contain; 
+        background-size: contain;
       }
 
       &.complexity::before {
         background: url('/img/complexity.svg') no-repeat 50% 50%;
-        background-size: contain; 
+        background-size: contain;
       }
     }
 
@@ -405,7 +405,7 @@ body {
     padding: 50px 0;
     width: 100%;
   }
-  
+
   .section-desc {
     color: #ddd;
 

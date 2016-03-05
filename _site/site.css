@@ -177,12 +177,11 @@ body {
       -o-filter: saturate(1);
       filter: saturate(1); }
     .co-logos .co img {
-      height: 30px;
       width: 20vw;
       max-width: 100px;
       box-sizing: border-box;
       margin: 0 2vh;
-      height: 23px; }
+      height: 30px; }
       @media all and (max-width: 600px) {
         .co-logos .co img {
           max-width: 100px;
