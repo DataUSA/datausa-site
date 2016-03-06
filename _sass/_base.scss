@@ -62,10 +62,13 @@ body {
   margin: 0 auto;
 
   &#logo-container {
+    @include box();
+    display: block;
     height: 120px;
     width: 55%;
+    text-align: center;
     max-width: 340px;
-    margin-top: 45px;
+    margin: 45px auto 20px;
 
     @media all and (max-width: 600px){
       width: 60%;
@@ -76,7 +79,7 @@ body {
     // height: 65px;
     // margin: 2vh auto 7vh;
     // width: 60%;
-    max-width: 480px;
+    // max-width: 480px;
     color: white;
     text-align: center;
     padding: 0 0 40px;
@@ -118,25 +121,31 @@ body {
   }
 
   .title-img {
+    @include box();
+    display: block;
     position: absolute;
+    height: 120px;
     width: 100%;
+    left: 0;
     top: 0;
+    // @include background-contain();
+    margin: 0 auto;
     background-size: 100%;
-    background-position: 50%;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
     // @include transform(scale(1) rotate(0deg) translate(0px, 0px) skew(0deg, 0deg));
     opacity: 1;
   }
 
   #logo {
-    background-image: url('/img/logo.svg');
-    height: 100px;
+    background-image: url('/img/logo.png');
+    // height: 100px;
     z-index: 2;
   }
 
   .logo-shadow {
     background-image: url('/img/logo_shadow.png');
-    height: 100px;
+    // height: 100px;
     z-index: 1;
   }
 
@@ -580,15 +589,15 @@ body {
 
 .profile-category-container {
   @include flex();
-  @include justify(space-between);
+  // @include justify(space-between);
   @include flex-direction(row);
 
-  @media all and (max-width: 1250px){
+  @media all and (max-width: 1080px){
     @include flex-direction(column);
   }
 
   .top, .bottom {
-    @include flex-size();
+    @include flex-size(1 1 auto);
     @include flex();
     @include justify(space-between);
     @include flex-direction(row);
@@ -600,7 +609,7 @@ body {
 }
 
 .profile-category {
-  @include flex-size();
+  @include flex-size(1 1 auto);
 
   .category-img {
     background-repeat: no-repeat;
@@ -610,14 +619,14 @@ body {
   }
 
   .category-section {
-    min-height: 286px;
+    min-height: 275px;
     padding-bottom: 100px;
     // padding-top: 20px;
     padding-top: 70px;
     margin-top: -5px;
 
-    @media all and (min-width: 1250px) {
-      max-height: 225px;
+    @media all and (min-width: 1080px) {
+      // max-height: 225px;
     }
 
     h2 {
@@ -653,7 +662,7 @@ body {
         line-height: 3;
         font-size: 15px;
 
-        @media all and (max-width: 1250px){
+        @media all and (max-width: 1080px){
           font-size: 20px;
         }
       }

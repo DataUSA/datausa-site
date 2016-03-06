@@ -1,5 +1,7 @@
 $(function() {
 
+  var deadline = new Date("04/04/2016 12:00:00 GMT-0500");
+
   initializeClock('countdown-lg', deadline);
   initializeClock('countdown-sm', deadline);
 
@@ -89,7 +91,6 @@ TxtRotate.prototype.tick = function() {
 // });
 
 // countdown clock
-var deadline = 'April 04 2016 12:00:00 GMT+05:00';
 
 function getTimeRemaining(endtime){
   var t = Date.parse(endtime) - Date.parse(new Date());

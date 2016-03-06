@@ -15,6 +15,16 @@
   animation: $animation;
 }
 
+@mixin background-contain() {
+  background-position: center center;
+  // background-attachment: fixed;
+  background-repeat: no-repeat;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
+
 @mixin background-stretch() {
   background-position: center center;
   // background-attachment: fixed;
