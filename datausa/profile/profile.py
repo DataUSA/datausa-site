@@ -542,9 +542,9 @@ class Profile(BaseObject):
                 val = self.var(**kwargs)
             else:
                 val = self.top(**kwargs)[0]
-            if val:
+            try:
                 val = float(val)
-            else:
+            except:
                 val = 2
         except ValueError:
             val = 2

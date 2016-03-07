@@ -41,17 +41,17 @@ topics:
     subtitle: "<<sub dataset=pums>>"
     stat_stack: YES
     stat:
-      - title: "High relative number of people born in"
-        value: "<<var namespace=heritage_rca|key=birthplace|row=0>>"
-        subvalues:
-          - "<<var namespace=heritage_rca|key=birthplace|row=1>>"
-          - "<<var namespace=heritage_rca|key=birthplace|row=2>>"
       - title: "Most common foreign-born country is"
         value: "<<var namespace=heritage_total|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=heritage_total|key=birthplace|row=1>>"
           - "<<var namespace=heritage_total|key=birthplace|row=2>>"
-    description: "<<name>> has a relatively high number of foreign-born citizens from <<var namespace=heritage_rca|key=birthplace|row=0>>."
+      - title: "High relative number of people born in"
+        value: "<<var namespace=heritage_rca|key=birthplace|row=0>>"
+        subvalues:
+          - "<<var namespace=heritage_rca|key=birthplace|row=1>>"
+          - "<<var namespace=heritage_rca|key=birthplace|row=2>>"
+    description: "<<name dataset=pums>> has a relatively high number of foreign-born citizens from <<var namespace=heritage_rca|key=birthplace|row=0>>."
     viz:
       attrs: "birthplace"
       coords: "birthplace"

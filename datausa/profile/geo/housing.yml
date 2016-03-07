@@ -139,7 +139,7 @@ topics:
   - category: "Transportation"
     title: "Car Ownership"
     slug: "num_vehicles"
-    description: "The largest share of households in <<name>> have <<var namespace=vehicles|key=name|row=0>> cars, followed by <<var namespace=vehicles|key=name|row=1>> <<plural text=car|namespace=vehicles|key=value|row=1>>."
+    description: "The largest share of households in <<name>> have <<var namespace=vehicles|key=name|row=0>> <<plural text=car|namespace=vehicles|key=name|row=0>>, followed by <<var namespace=vehicles|key=name|row=1>> <<plural text=car|namespace=vehicles|key=name|row=1>>."
     viz:
       attrs: "geo"
       data:

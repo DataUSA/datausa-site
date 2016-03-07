@@ -1,5 +1,5 @@
 title: "Economy"
-description: "Here we present trends in jobs, wages and industries over time in <<name>>."
+description: "The Census Bureau collects occupation, wage, and industry data over time using the American Community Survey in <<name>>."
 
 topics:
   - category: "Wages"
@@ -27,9 +27,9 @@ topics:
         scale: "discrete"
         value: "geo"
   - title: "Wage by Gender"
-    subtitle: "<<sub show=sex|sex=1|col=avg_wage_ft>>"
+    subtitle: "<<sub dataset=pums>>"
     slug: "income_gender"
-    description: "<<var namespace=gender|key=sex|row=0>> full-time employees in <<name>> make <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|ratio=True>> times <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|text=moreless>> <<var namespace=gender|key=sex|row=1>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
+    description: "<<var namespace=gender|key=sex|row=0>> full-time employees in <<name dataset=pums>> make <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|ratio=True>> times <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|text=moreless>> <<var namespace=gender|key=sex|row=1>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
     stat:
       - title: "Average Male Salary"
         value: "<<var namespace=gender|key=avg_wage_ft|row=0>>"
