@@ -55,13 +55,13 @@ topics:
     viz:
       attrs: "birthplace"
       coords: "birthplace"
-      color: "num_ppl"
+      color: "num_over5"
       data:
         show: "birthplace"
         geo: "<<id>>"
-        required: "num_ppl,num_ppl_moe"
+        required: "num_over5,num_over5_moe"
         where: "birthplace:~^04000US"
-        share: "num_ppl"
+        share: "num_over5"
       height: 400
       id: "birthplace"
       type: "geo_map"

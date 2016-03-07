@@ -155,7 +155,7 @@
 - required: ["birthplace"]
   limit: 3
   rows: True
-  order: "num_ppl"
+  order: "num_over5"
   sort: "desc"
   year: latest
   namespace: "heritage_total"
@@ -164,7 +164,7 @@
 - required: ["birthplace"]
   limit: 3
   rows: True
-  order: "num_ppl_rca"
+  order: "num_over5_rca"
   sort: "desc"
   year: latest
   namespace: "heritage_rca"

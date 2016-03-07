@@ -220,6 +220,8 @@ DICTIONARY = {
     "num_emp": "Total Employees",
     "num_emp_rca": "Total Employees (RCA)",
     "num_households": "Households",
+    "num_over5": "People (5 Years and Over)",
+    "num_over5_rca": "People (RCA, 5 Years and Over)",
     "num_ppl": "People in Workforce",
     "num_ppl_ft": "Full-Time People in Workforce",
     "num_ppl_pt": "Part-Time People in Workforce",
