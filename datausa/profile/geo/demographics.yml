@@ -59,7 +59,7 @@ topics:
       data:
         show: "birthplace"
         geo: "<<id>>"
-        required: "num_over5,num_over5_moe"
+        required: "num_over5,num_over5_moe,num_over5_rca"
         where: "birthplace:~^04000US"
         share: "num_over5"
       height: 400

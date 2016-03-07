@@ -44,6 +44,7 @@ topics:
         show: "university"
         limit: 5
         order: "grads_total"
+        where: "oos_tuition:>0,state_tuition:>0"
       id: "university"
       labels: YES
       order:
@@ -56,7 +57,7 @@ topics:
             - "grads_total"
             - "oos_tuition"
             - "state_tuition"
-      x: "grads_total"
+      x: "oos_tuition"
       y:
         scale: "discrete"
         value: "university"

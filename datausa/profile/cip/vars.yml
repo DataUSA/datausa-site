@@ -155,8 +155,15 @@
   year: latest
   namespace: grads_total_places
 
+- required: ["degree", "grads_total"]
+  order: grads_total
+  show: degree
+  dataset: ipeds
+  year: latest
+  namespace: "top_degree"
+
 - force: "ipeds.grads_ycd"
-  degree: "5"
+  degree: "<<top show=degree|order=grads_total|sort=desc|col=id|dataset=ipeds>>"
   limit: 1
   rows: True
   pivot:

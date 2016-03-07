@@ -153,20 +153,20 @@ topics:
     slug: "grads_ethnicity_gender"
     select:
       data: "degree"
-      default: "5"
+      default: "<<var namespace=top_degree|key=degree|format=raw>>"
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
         value: "<<var namespace=race_sex|key=name|row=0>>"
         subvalues:
           - "<<var namespace=race_sex|key=name|row=1>>"
           - "<<var namespace=race_sex|key=name|row=2>>"
-    description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <span class='select-text'><<name id=5|attr=degree>></span> in <<name>>."
+    description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <<var namespace=top_degree|key=degree>> in <<name>>."
     viz:
       color: "sex"
       data:
         show: "cip"
         cip: "<<id>>"
-        degree: "5"
+        degree: "<<var namespace=top_degree|key=degree|format=raw>>"
         exclude: "grads_native_men,grads_native_women,grads_nonresident_men,grads_nonresident_women"
         force: "ipeds.grads_ycd"
         split:
@@ -186,25 +186,27 @@ topics:
     subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
     stat_stack: true
     stat:
-      - title: "High Relative Number of People born in"
-        value: "<<var namespace=birthplace_rca|key=birthplace|row=0>>"
-        subvalues:
-          - "<<var namespace=birthplace_rca|key=birthplace|row=1>>"
-          - "<<var namespace=birthplace_rca|key=birthplace|row=2>>"
       - title: "Most Common Foreign-Born Country is"
         value: "<<var namespace=birthplace|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=birthplace|key=birthplace|row=1>>"
           - "<<var namespace=birthplace|key=birthplace|row=2>>"
+      - title: "High Relative Number of People born in"
+        value: "<<var namespace=birthplace_rca|key=birthplace|row=0>>"
+        subvalues:
+          - "<<var namespace=birthplace_rca|key=birthplace|row=1>>"
+          - "<<var namespace=birthplace_rca|key=birthplace|row=2>>"
     description: "There are a relatively high number of foreign-born citizens from <<var namespace=birthplace_rca|key=birthplace|row=0>> that hold <<name dataset=pums>> degrees."
     viz:
       attrs: "birthplace"
       coords: "birthplace"
-      color: "num_ppl_rca"
+      color: "num_ppl"
       data:
         show: "birthplace"
+        required: "num_ppl,num_ppl_rca"
         cip: "<<id>>"
         where: "birthplace:~^04000US"
+        share: "num_ppl"
       height: 400
       id: "birthplace"
       type: "geo_map"

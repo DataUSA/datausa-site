@@ -10,7 +10,7 @@ var chartStyles = {
   "labels": {
     "default": {
       "pri": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -18,7 +18,7 @@ var chartStyles = {
         // "spacing": 1
       },
       "sec": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -28,7 +28,7 @@ var chartStyles = {
     },
     "discrete": {
       "pri": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -36,7 +36,7 @@ var chartStyles = {
         "spacing": 1
       },
       "sec": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -62,20 +62,20 @@ var chartStyles = {
       "pri": {
         "color": "#ccc",
         "font": {
-          "color": "#a8a8a8",
+          "color": "#211f1a",
           "family": "Source Sans Pro",
           "size": 12,
-          "weight": 300
+          "weight": 400
         },
         "size": 10
       },
       "sec": {
         "color": "#ccc",
         "font": {
-          "color": "#a8a8a8",
+          "color": "#211f1a",
           "family": "Source Sans Pro",
           "size": 12,
-          "weight": 300
+          "weight": 400
         },
         "size": 10
       }

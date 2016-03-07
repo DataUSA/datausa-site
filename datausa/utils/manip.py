@@ -35,7 +35,11 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
 
     # convert request arguments into a url query string
     rank = int(params.pop("rank", "1"))
-    if rank > 1 and params["limit"] == 1:
+    if "limit" in params:
+        limit = int(params["limit"])
+    else:
+        limit = 1
+    if rank > 1 and limit == 1:
         params["limit"] = rank
     query = RequestEncodingMixin._encode_params(params)
     url = "{}/api?{}".format(API, query)
@@ -71,7 +75,7 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     vals = []
     show = params["show"].split(",")[-1]
     if col == "ratio":
-        if params["limit"] == 1:
+        if limit == 1:
             vals = sorted([v for k, v in r[0].iteritems() if k in params["required"].split(",")], reverse=True)
             if vals[0] == 0 or vals[1] == 0:
                 val = 0
@@ -89,11 +93,13 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     if col in COLMAP or "-" in col:
         vals = datapivot(r, col.split("-"), sort="desc")
 
+        vals = [v for v in vals[rank - 1:limit]]
+
         if moe:
-            top = [vals[rank - 1]["moe"]]
+            top = [v["moe"] for v in vals]
         else:
-            top = [vals[rank - 1]["name"]]
-            vals = [vals[rank - 1]["value"]]
+            top = [v["name"] for v in vals]
+            vals = [v["value"] for v in vals]
 
     else:
         if rank > 1:

@@ -6854,7 +6854,7 @@ var chartStyles = {
   "labels": {
     "default": {
       "pri": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -6862,7 +6862,7 @@ var chartStyles = {
         // "spacing": 1
       },
       "sec": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -6872,7 +6872,7 @@ var chartStyles = {
     },
     "discrete": {
       "pri": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -6880,7 +6880,7 @@ var chartStyles = {
         "spacing": 1
       },
       "sec": {
-        "color": "#6F6F6F",
+        "color": "#211f1a",
         "family": "Palanquin",
         "size": 12,
         "weight": 400,
@@ -6906,20 +6906,20 @@ var chartStyles = {
       "pri": {
         "color": "#ccc",
         "font": {
-          "color": "#a8a8a8",
+          "color": "#211f1a",
           "family": "Source Sans Pro",
           "size": 12,
-          "weight": 300
+          "weight": 400
         },
         "size": 10
       },
       "sec": {
         "color": "#ccc",
         "font": {
-          "color": "#a8a8a8",
+          "color": "#211f1a",
           "family": "Source Sans Pro",
           "size": 12,
-          "weight": 300
+          "weight": 400
         },
         "size": 10
       }
@@ -7863,7 +7863,7 @@ viz.loadBuilds = function(builds) {
             "margin": 0
           })
           .ui(vizStyles.ui)
-          .focus({"callback": function(id){
+          .focus({"callback": function(id, form){
 
             var param = this.getAttribute("data-param"),
                 method = this.getAttribute("data-method"),
@@ -7881,31 +7881,46 @@ viz.loadBuilds = function(builds) {
 
                  d3.select(this.parentNode).classed("loading", true);
                  var url = this.getAttribute("data-url");
-                 if (param.length) {
-                   url = url.replace(param + "=" + prev, param + "=" + id);
+
+                 if (url.indexOf("show=" + param) > 0) {
+                   var attr = form.data().filter(function(d){ return d.value === id; });
+                   if (attr.length && attr[0].text) {
+                     d3.select(this).html(attr[0].text);
+                   }
                  }
                  else {
-                   url = url.replace("order=" + prev, "order=" + id);
-                   url = url.replace("required=" + prev, "required=" + id);
-                 }
-                 d3.select(this).attr("data-url", url);
 
-                 var rank = 1;
-                 if (url.indexOf("rank=") > 0) {
-                   var rank = new RegExp("&rank=([0-9]*)").exec(url);
-                   url = url.replace(rank[0], "");
-                   rank = parseFloat(rank[1])
-                 }
-
-                 load(url, function(data, u){
-                   d3.select(this.parentNode).classed("loading", false)
-                   var text = data.value.split("; ")[rank - 1];
-                   if (!text) text = "N/A";
-                   if (text.indexOf("and ") === 0) {
-                     text = text.replace("and ", "");
+                   if (param.length) {
+                     url = url.replace(param + "=" + prev, param + "=" + id);
                    }
-                   d3.select(this).html(text);
-                 }.bind(this));
+                   else {
+                     url = url.replace("order=" + prev, "order=" + id);
+                     url = url.replace("required=" + prev, "required=" + id);
+                   }
+                   d3.select(this).attr("data-url", url);
+
+                   var rank = 1;
+                   if (url.indexOf("rank=") > 0) {
+                     var rank = new RegExp("&rank=([0-9]*)").exec(url);
+                     url = url.replace(rank[0], "");
+                     rank = parseFloat(rank[1])
+                   }
+                   if (url.indexOf("limit=") > 0) {
+                     var limit = new RegExp("&limit=([0-9]*)").exec(url);
+                     url = url.replace(limit[0], "&limit=3");
+                   }
+
+                   load(url, function(data, u){
+                     d3.select(this.parentNode).classed("loading", false)
+                     var text = data.value.split("; ")[rank - 1];
+                     if (!text) text = "N/A";
+                     if (text.indexOf("and ") === 0) {
+                       text = text.replace("and ", "");
+                     }
+                     d3.select(this).html(text);
+                   }.bind(this));
+
+                 }
 
                });
 
