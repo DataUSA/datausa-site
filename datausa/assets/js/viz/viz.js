@@ -16,6 +16,9 @@ var viz = function(build) {
   build.viz
     .messages(!build.container.classed("thumbprint"))
     .config(viz.defaults(build))
+    .tooltip({
+      "children": build.config.tooltip.value.length < 3
+    })
     .background("transparent")
     .container(build.container.select(".d3plus"))
     .error("Please Wait")
