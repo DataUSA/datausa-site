@@ -1,5 +1,7 @@
 {% extends "templates/base.html" %}
 
+{% block title %}{{ profile.splash.title }} | {{ section.topics[0].title }}{% endblock %}
+
 {% block content %}
 <section class="profile-section">
   {% include "templates/includes/topic.html" %}
