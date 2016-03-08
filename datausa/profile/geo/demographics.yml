@@ -25,7 +25,7 @@ topics:
           map:
             nationality: "^nativity_([a-z]*)_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*$"
             bucket: "^nativity_[a-z]*_(([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
-          value: "num_ppl"
+          value: "people"
       id: "nationality"
       order: "bucket"
       type: "bar"
@@ -34,7 +34,7 @@ topics:
         persist:
           position: True
         value: "bucket"
-      y: "num_ppl"
+      y: "people"
   - category: "Heritage"
     title: "Global Diversity"
     slug: "global_diversity"
@@ -102,17 +102,18 @@ topics:
         - geo: "<<id>>"
           force: "acs.yg_race"
           show: "geo"
+          share: "people"
           split:
             id: "race"
             regex: "pop_([0-9a-z]*)"
-            value: "num_ppl"
+            value: "people"
       id: "race"
-      order: "num_ppl"
+      order: "people"
       type: "bar"
       x:
         scale: "discrete"
         value: "race"
-      y: "num_ppl"
+      y: "people"
   - title: "Languages"
     slug: "languages"
     description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are speakers of a non-English language.{{<<sumlevel>>:!nation|| That is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>.}}"
@@ -162,11 +163,11 @@ topics:
           force: "acs.yg_conflict"
           exclude: "conflict_total,conflict_total_moe"
           show: "geo"
-          share: "num_ppl.geo"
+          share: "people.geo"
           split:
             id: "conflict"
             regex: "^conflict_([0-9a-z]*)$"
-            value: "num_ppl"
+            value: "people"
       id: "geo"
       order: "conflict"
       type: "bar"

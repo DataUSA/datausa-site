@@ -232,6 +232,7 @@ DICTIONARY = {
     "other_primary_care_providers": "Other PCPs",
     "owner_occupied_housing_units": "Homeowners",
     "pct_total": "Percentage of Degrees Awarded",
+    "people": "People",
 
     "pop": "Population",
     "pop_2ormore": "2+",
