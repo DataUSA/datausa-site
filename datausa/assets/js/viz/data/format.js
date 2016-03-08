@@ -34,7 +34,12 @@ viz.format = {
         return prefix + d3plus.number.format(number, params) + "%";
       }
       else {
-        number = d3plus.number.format(number, params);
+        if (number < 999999.99) {
+          number = d3.format(",")(number);
+        }
+        else {
+          number = d3plus.number.format(number, params);
+        }
         if (key in affixes) {
           var a = affixes[key];
           number = a[0] + number + a[1];

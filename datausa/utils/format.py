@@ -49,7 +49,7 @@ def num_format(number, key=None, labels=True, condense=True, suffix=True):
 
     # Determines which index of "groups" to move the decimal point to.
     groups = ["", "k", "M", "B", "T"]
-    if n == 0 or not condense or (key and key in NEVERCONDENSE):
+    if n < 999999.99 or not condense or (key and key in NEVERCONDENSE):
         m = 0
     else:
         m = max(0,min(len(groups)-1, int(math.floor(math.log10(abs(n))/3))))
