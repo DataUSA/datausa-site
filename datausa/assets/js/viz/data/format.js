@@ -35,7 +35,9 @@ viz.format = {
       }
       else {
         if (number < 999999.99) {
-          number = d3.format(",")(number);
+          var prec = key in affixes ? "2" : "1";
+          number = d3.format(",." + prec + "f")(number);
+          number = prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
         }
         else {
           number = d3plus.number.format(number, params);
