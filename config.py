@@ -13,6 +13,6 @@ CROSSWALKS = ["acs_ind", "acs_occ", "commodity_iocode", "industry_iocode", "ioco
 basedir = os.path.abspath(os.path.dirname(__file__))
 CACHE_TYPE = 'filesystem'
 CACHE_DIR = os.path.join(basedir, 'cache_data/')
-CACHE_DEFAULT_TIMEOUT = os.environ.get("CACHE_DEFAULT_TIMEOUT", (60 * 60))
-
+CACHE_DEFAULT_TIMEOUT = os.environ.get("CACHE_DEFAULT_TIMEOUT", 60 * 60 * 24 * 7 * 4) # 28 days
+CACHE_THRESHOLD = 10000
 SPLASH_IMG_DIR = "/static/img/{}/{}/"
