@@ -9079,7 +9079,7 @@ viz.mapDraw = function(vars) {
         "background": vizStyles.tooltip.background,
         "color": big ? false : d.color,
         "data": tooltip_data,
-        "description": big && d.id ? "Last selected geography" : big ? "Top 10 Locations" : tooltip_data.length || d.id === void 0 ? false : "No Data Available",
+        "description": big && d.id ? "Last selected geography" : big ? "Top 10 Locations" : tooltip_data.length || d.id === void 0 ? false : vars.tooltip.value.length ? "No Data Available" : false,
         "fontcolor": vizStyles.tooltip.font.color,
         "fontfamily": vizStyles.tooltip.font.family,
         "fontsize": vizStyles.tooltip.font.size,
