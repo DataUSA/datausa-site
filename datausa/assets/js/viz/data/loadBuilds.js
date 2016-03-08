@@ -11,7 +11,7 @@ viz.loadBuilds = function(builds) {
 
       var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
       if (title.size()) {
-        build.title = title.text().replace(" Show Data", "").replace(/\u00a0/g, "");
+        build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
         build.title = d3plus.string.strip(build.title).replace("__", "_").toLowerCase();
       }
       else {

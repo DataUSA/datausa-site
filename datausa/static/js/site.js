@@ -4733,7 +4733,11 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             if (r) u = u.replace(r[0], "");
             u = u.replace("/api", "/api/csv");
             JSZipUtils.getBinaryContent(u, function(e, d){
-              zip.file("data-" + (urls.length + 1) + ".csv", d);
+              var csv_title = build.title;
+              if (build.data.length > 1) {
+                csv_title += ("-" + (urls.length + 1));
+              }
+              zip.file(csv_title + ".csv", d);
               if (urls.length) {
                 loadCSV();
               }
@@ -7852,7 +7856,7 @@ viz.loadBuilds = function(builds) {
 
       var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
       if (title.size()) {
-        build.title = title.text().replace(" Show Data", "").replace(/\u00a0/g, "");
+        build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
         build.title = d3plus.string.strip(build.title).replace("__", "_").toLowerCase();
       }
       else {
