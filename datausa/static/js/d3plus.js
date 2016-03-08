@@ -11771,6 +11771,7 @@ module.exports = function(vars, years, depth) {
       var f = vars.data[filter][di];
       var vals = vars[f][filter].value.slice(0);
       vals.unshift(f);
+      vals.unshift(filter);
       cacheID = cacheID.concat(vals);
     }
   }
