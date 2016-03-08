@@ -61,10 +61,12 @@ body.profile, body.map, body.story {
 
   .stat-value a {
     color: $link-color;
+    border-bottom: 1px solid transparent;
+    @include transition(all 0.15s);
 
     &:hover {
       color: $alt-link-color;
-      border-bottom: 1px solid $alt-link-color;
+      border-color: $alt-link-color;
     }
   }
 
@@ -260,8 +262,10 @@ body.profile, body.map, body.story {
 
       a {
         color: #888;
+        border-bottom: 1px solid transparent;
+        @include transition(all 0.15s);
         &:hover {
-          border-bottom: 1px solid #888;
+          border-color: #888;
         }
       }
 
@@ -1414,11 +1418,11 @@ body.profile, body.map, body.story {
           p {
             a {
               border-bottom: 1px solid #C1C1C1;
-              @include transition(opacity 0.15s);
+              @include transition(all 0.15s);
 
               &:hover {
                 opacity: 0.5;
-                border-bottom: 0;
+                border-color: transparent;
               }
             }
           }
