@@ -5,7 +5,7 @@ viz.format = {
 
     if (params.key) {
 
-      var key = params.key;
+      var key = params.key + "";
       delete params.key;
 
       if (key === "year") return number;

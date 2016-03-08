@@ -24,10 +24,15 @@ topics:
           map:
             id: "commodity_iocode"
             make: "industry_iocode"
+      depth: 1
       highlight: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|key=id>>"
-      id: "id"
+      id:
+        - "parent"
+        - "id"
       legend:
         order: "color"
+      tooltip:
+        children: NO
       type: "sankey"
   - title: "Intermediate Inputs"
     slug: "tmap_consumption"

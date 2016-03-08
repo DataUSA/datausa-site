@@ -129,7 +129,8 @@ viz.loadData = function(build, next) {
 
         for (var i = 0; i < build.attrs.length; i++) {
           var type = build.attrs[i].type,
-              nesting = attrNesting[type];
+              nesting = attrNesting[type],
+              attr_key = attrStyles[type + "_key"];
 
           if (nesting && nesting.constructor === Array) {
             for (var ii = 0; ii < data.length; ii++) {
@@ -144,9 +145,21 @@ viz.loadData = function(build, next) {
               }
             }
           }
-          else if (build.config.id instanceof Array && build.config.id.indexOf(type) > 0) {
+          else if (build.config.type === "sankey") {
+
+            var attrs = build.viz.attrs();
+            for (var ii = 0; ii < data.length; ii++) {
+              var datum = data[ii];
+              type = "use" in datum ? "use" : "make";
+              console.log(type, datum, attrs[datum[type]])
+              datum.icon = attrs[datum[type]].icon;
+            }
+
+          }
+          else if (build.config.id instanceof Array) {
 
             nesting = build.config.id;
+            type = nesting[nesting.length - 1];
             var attrs = build.viz.attrs();
             for (var ii = 0; ii < data.length; ii++) {
               var datum = data[ii];
