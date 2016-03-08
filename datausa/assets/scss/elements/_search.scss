@@ -94,12 +94,13 @@ body.home, body.search {
 }
 
 body.search {
+  min-height: 100vh;
 
   a {
     color: #fff;
     @include transition(color 0.25s);
   }
-  
+
   .bound {
     position: absolute;
     top: 40px;
@@ -111,7 +112,7 @@ body.search {
   #search-advanced {
     @include flex();
     @include flex-direction(column);
-    @include justify(space-around);
+    @include justify(flex-start);
     padding: $nav-height 40px $nav-height + 50;
     background-color: $black2-5;
     @include gradient(top, $search-gradient);
@@ -126,7 +127,7 @@ body.search {
     }
 
     .search-results-container {
-      @include flex-size(1);
+      @include flex-size(1 1 auto);
     }
 
     .search-meta {
@@ -370,7 +371,7 @@ body.search {
             // opacity: 0.4;
           }
         }
-        
+
         /* profile type labels */
         h2 {
           font-size: 13px;
@@ -393,7 +394,7 @@ body.search {
             }
           }
         }
-        
+
         /* profile type depth label */
 
         ul {
@@ -563,7 +564,7 @@ body.search {
             display: block;
             color: $black5;
           }
-          
+
           .stem {
             border: solid 1px $black5;
             border-radius: 4px;
