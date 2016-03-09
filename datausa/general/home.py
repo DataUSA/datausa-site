@@ -9,8 +9,8 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/profile/geo/new-york-ny/#income_gender",
-        "title": "Gender Wage Gap in New York City",
+        "link": "/profile/geo/california/#income_gender",
+        "title": "Gender Wage Gap in California",
         "section": "economy",
         "viz": "bar_double"
     },
