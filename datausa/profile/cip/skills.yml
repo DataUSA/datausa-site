@@ -45,6 +45,11 @@ topics:
           value:
             - Group: "parent"
             - Value: "value"
+            - RCA: "value_rca"
+        - method: "x"
+          value:
+            - Value: "value"
+            - RCA: "value_rca"
       x: "value"
       y:
         scale: "discrete"
