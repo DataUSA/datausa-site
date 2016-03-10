@@ -8109,15 +8109,15 @@ var attrNesting = {
   "cip": [2, 4, 6]
 };
 
-var attrMapping = {
-  "degree": {
-    "20": "3",
-    "21": "5",
-    "22": "7",
-    "23": "18",
-    "24": "17"
-  }
-}
+// var attrMapping = {
+//   "degree": {
+//     "20": "3",
+//     "21": "5",
+//     "22": "7",
+//     "23": "18",
+//     "24": "17"
+//   }
+// }
 
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
@@ -8133,15 +8133,15 @@ viz.loadData = function(build, next) {
 
         var d = build.data.filter(function(d){ return d.url === url; })[0];
 
-        if (d.params.show in attrMapping) {
-          var show = d.params.show, map = attrMapping[show];
-          if (return_data.source.dataset.indexOf("PUMS") >= 0) {
-            for (var i = 0; i < data.length; i++) {
-              data[i][show] = map[data[i][show]];
-            }
-          }
-
-        }
+        // if (d.params.show in attrMapping) {
+        //   var show = d.params.show, map = attrMapping[show];
+        //   if (return_data.source.dataset.indexOf("PUMS") >= 0) {
+        //     for (var i = 0; i < data.length; i++) {
+        //       data[i][show] = map[data[i][show]];
+        //     }
+        //   }
+        //
+        // }
 
         if (d.static) {
           for (var i = 0; i < data.length; i++) {
