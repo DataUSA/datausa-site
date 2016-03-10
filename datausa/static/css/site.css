@@ -5322,7 +5322,7 @@ body.redirect nav {
         background: -webkit-linear-gradient(top, transparent 10%, rgba(20, 27, 46, 0.7) 60%,
                 #141b2e 97%);   }
       body.profile #splash .content, body.story #splash .content {
-        padding: 40px 10px 100px;   }
+        padding: 40px 10px;   }
         body.profile #splash .content #splash-stats,
         body.story #splash .content #splash-stats {
           -webkit-align-items: flex-end;
@@ -5336,6 +5336,9 @@ body.redirect nav {
             body.story #splash .content #splash-stats .stat .stat-value {
               font-size: 26px;
               opacity: 1;   }
+              body.profile #splash .content #splash-stats .stat .stat-rank,
+              body.story #splash .content #splash-stats .stat .stat-rank {
+                display: none;   }
         body.profile #splash .content .row-last, body.story #splash .content .row-last {
           -webkit-flex-direction: column;
           -moz-flex-direction: column;

@@ -32,6 +32,7 @@ body.profile, body.story {
 
   /* Small Devices, Tablets */
   @media only screen and (max-width : 768px) {
+
     .intro {
 
       .intro-head {
@@ -134,7 +135,7 @@ body.profile, body.story {
       }
 
       .content {
-        padding: $nav-height 10px 100px;
+        padding: $nav-height 10px;
 
         #splash-stats {
           @include align-items(flex-end);
@@ -146,6 +147,9 @@ body.profile, body.story {
             .stat-value {
               font-size: 26px;
               opacity: 1;
+            }
+            .stat-rank {
+              display: none;
             }
           }
         }

@@ -254,9 +254,11 @@
   var title = d3.select(".splash-titles h1");
   title.style("font-size", fontScale(title.text().length) + "px");
 
-  var scrollTimeout = setTimeout(function(){
-    d3.select("#scroll-btn").classed("visible", true);
-  }, 5000);
+  if (!d3plus.client.touch) {
+    var scrollTimeout = setTimeout(function(){
+      d3.select("#scroll-btn").classed("visible", true);
+    }, 5000);
+  }
 
   var maxCarousel = d3.selectAll(".carousel-text").size() - 1, currentPage = 0;
   d3.selectAll(".carousel-btn").on("click", function(d, i){
