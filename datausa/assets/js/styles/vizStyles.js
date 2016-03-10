@@ -85,9 +85,17 @@ var vizStyles = {
   "background": "transparent",
   "color": {
     "missing": "#efefef",
-    "heatmap": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"],
+    // "heatmap": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"],
+    // "heatmap": ['#2c7bb6', '#abd9e9', '#ffffbf', '#fdae61', '#d7191c'],
+    "heatmap": ['#273b98', '#abd9e9', '#E8EA94', '#fdae61', '#992E3F'],
+    // "heatmap": ["#E8EA94", "#84D3B6", "#374b98"],
+    // "heatmap": ["#ccc", "#ef6145"],
+    // "heatmap": ["#374b98", "#84D3B6", "#e88577", "#992E3F"],
+    // "heatmap": ["#141b2e", "#374b98", "#e88577", "#992E3F"],
+    // "heatmap": ['#CEF0DE','#41b6c4','#2c7fb8','#253494'],
+    // "heatmap": ['#f0f9e8','#bae4bc','#7bccc4','#43a2ca','#0868ac'],
     "primary": "#aaa",
-    "range": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"]
+    // "range": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"]
   },
   "edges": {
     "color": "#d0d0d0"

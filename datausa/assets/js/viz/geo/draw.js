@@ -8,7 +8,7 @@ viz.mapDraw = function(vars) {
       defaultRotate = vars.id && vars.id.value === "birthplace" ? [0, 0] : [90, 0],
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       ocean = cartodb === "light_all" ? "#cdd1d3" : "#242426",
-      pathOpacity = 0.25,
+      pathOpacity = 0.75,
       pathStroke = 1,
       polyZoom = 20000,
       scaleAlign = "middle",
@@ -26,6 +26,8 @@ viz.mapDraw = function(vars) {
   }
 
   var borderColor = function(c) {
+    // return "transparent";
+    if (c === vizStyles.color.missing) return "#b9b9b9";
     return d3plus.color.legible(c);
   }
 
@@ -563,6 +565,7 @@ viz.mapDraw = function(vars) {
         })
         .attr("fill-opacity", pathOpacity)
         .attr("stroke-width", pathStroke/(zoom.scale()/polyZoom))
+        .attr("stroke-opacity", 0.35)
         .attr("stroke", function(d){
           return borderColor(d.color);
         });

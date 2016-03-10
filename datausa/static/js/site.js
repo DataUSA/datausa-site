@@ -7060,9 +7060,17 @@ var vizStyles = {
   "background": "transparent",
   "color": {
     "missing": "#efefef",
-    "heatmap": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"],
+    // "heatmap": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"],
+    // "heatmap": ['#2c7bb6', '#abd9e9', '#ffffbf', '#fdae61', '#d7191c'],
+    "heatmap": ['#273b98', '#abd9e9', '#E8EA94', '#fdae61', '#992E3F'],
+    // "heatmap": ["#E8EA94", "#84D3B6", "#374b98"],
+    // "heatmap": ["#ccc", "#ef6145"],
+    // "heatmap": ["#374b98", "#84D3B6", "#e88577", "#992E3F"],
+    // "heatmap": ["#141b2e", "#374b98", "#e88577", "#992E3F"],
+    // "heatmap": ['#CEF0DE','#41b6c4','#2c7fb8','#253494'],
+    // "heatmap": ['#f0f9e8','#bae4bc','#7bccc4','#43a2ca','#0868ac'],
     "primary": "#aaa",
-    "range": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"]
+    // "range": ["#374b98", "#84D3B6", "#E8EA94", "#e88577", "#992E3F"]
   },
   "edges": {
     "color": "#d0d0d0"
@@ -8454,7 +8462,7 @@ viz.mapDraw = function(vars) {
       defaultRotate = vars.id && vars.id.value === "birthplace" ? [0, 0] : [90, 0],
       defaultZoom = vars.id && vars.id.value === "birthplace" ? 1 : 0.95,
       ocean = cartodb === "light_all" ? "#cdd1d3" : "#242426",
-      pathOpacity = 0.25,
+      pathOpacity = 0.75,
       pathStroke = 1,
       polyZoom = 20000,
       scaleAlign = "middle",
@@ -8472,6 +8480,8 @@ viz.mapDraw = function(vars) {
   }
 
   var borderColor = function(c) {
+    // return "transparent";
+    if (c === vizStyles.color.missing) return "#b9b9b9";
     return d3plus.color.legible(c);
   }
 
@@ -9009,6 +9019,7 @@ viz.mapDraw = function(vars) {
         })
         .attr("fill-opacity", pathOpacity)
         .attr("stroke-width", pathStroke/(zoom.scale()/polyZoom))
+        .attr("stroke-opacity", 0.35)
         .attr("stroke", function(d){
           return borderColor(d.color);
         });
