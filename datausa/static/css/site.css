@@ -1531,10 +1531,16 @@ footer {
           font-style: normal;
           letter-spacing: 0;
           line-height: 1.2;
-          display: inline-block;
-          border-bottom: 1px solid transparent; }
-          .search-results .search-item h2:focus {
-            color: red !important; }
+          display: inline-block; }
+          .search-results .search-item h2 a {
+            border-bottom: 1px solid transparent;
+            color: white;
+            -moz-transition: border-color 0.25s;
+            -o-transition: border-color 0.25s;
+            -webkit-transition: border-color 0.25s;
+            transition: border-color 0.25s; }
+            .search-results .search-item h2 a:focus, .search-results .search-item h2 a:hover {
+              border-color: white; }
   .search-results .search-item p {
     margin-left: 1px;
     line-height: 1;
@@ -1545,6 +1551,8 @@ footer {
     color: #727682;
     letter-spacing: 0.06em;
     text-transform: uppercase; }
+    .search-results .search-item p.subtitle {
+      margin-top: 5px; }
 
 body.home .search-results .search-item h2,
 body.search .search-results .search-item h2 {

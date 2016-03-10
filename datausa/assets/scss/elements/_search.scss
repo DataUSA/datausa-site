@@ -51,9 +51,13 @@
       letter-spacing: 0;
       line-height: 1.2;
       display: inline-block;
-      border-bottom: 1px solid transparent;
-      &:focus {
-        color: red !important;
+      a {
+        border-bottom: 1px solid transparent;
+        color: white;
+        @include transition(border-color 0.25s);
+        &:focus, &:hover {
+          border-color: white;
+        }
       }
     }
 
@@ -67,6 +71,10 @@
       color: $black4;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+
+      &.subtitle {
+        margin-top: 5px;
+      }
     }
   }
 }
