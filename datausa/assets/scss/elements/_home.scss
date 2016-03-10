@@ -121,21 +121,6 @@ body.home {
   }
 
   #search-home {
-
-    &.open {
-
-      .search-input {
-        display: none;
-      }
-
-      .search-body {
-        height: 0 !important;
-      }
-
-    }
-  }
-
-  #search-home {
     display: none;
     // width: 100%;
     // padding-right: 105px;
@@ -158,11 +143,25 @@ body.home {
 
     &.open{
       display: block;
+
+      .search-input {
+        display: none;
+      }
+
+      .search-body {
+        height: 0 !important;
+      }
+
     }
 
     .search-item {
       display: block;
       padding: 7px 6px;
+    }
+
+    .no-search-results {
+      background-color: $l-profile-bg;
+      color: $black;
     }
 
     .search-results {

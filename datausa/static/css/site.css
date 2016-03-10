@@ -2399,10 +2399,6 @@ body.home {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
-  body.home #search-home.open .search-input {
-    display: none; }
-    body.home #search-home.open .search-body {
-      height: 0 !important; }
   body.home #search-home {
     display: none;
     max-height: 30vh;
@@ -2425,27 +2421,34 @@ body.home {
         box-shadow: -1px -1px 1px -1px rgba(255, 255, 255, 0.44); }
         body.home #search-home.open {
           display: block; }
-          body.home #search-home .search-item {
-            display: block;
-            padding: 7px 6px; }
-            body.home #search-home .search-results {
-              -webkit-box-sizing: border-box;
-              -moz-box-sizing: border-box;
-              box-sizing: border-box;
-              background-color: #F6F6F6;
-              width: 100%;
-              overflow: hidden;
-              border-top: 1px solid #ccc;
-              padding-right: 1px; }
-              body.home #search-home .search-results:before,
-              body.home #search-home .search-results:after {
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                box-sizing: border-box; }
-                body.home #search-home .search-results .search-item:active,
-                body.home #search-home .search-results .search-item:focus,
-                body.home #search-home .search-results .search-item:hover {
-                  background-color: #E9E9E9; }
+          body.home #search-home.open .search-input {
+            display: none; }
+            body.home #search-home.open .search-body {
+              height: 0 !important; }
+    body.home #search-home .search-item {
+      display: block;
+      padding: 7px 6px; }
+      body.home #search-home .no-search-results {
+        background-color: #F6F6F6;
+        color: #1B191D; }
+        body.home #search-home .search-results {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          background-color: #F6F6F6;
+          width: 100%;
+          overflow: hidden;
+          border-top: 1px solid #ccc;
+          padding-right: 1px; }
+          body.home #search-home .search-results:before,
+          body.home #search-home .search-results:after {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box; }
+            body.home #search-home .search-results .search-item:active,
+            body.home #search-home .search-results .search-item:focus,
+            body.home #search-home .search-results .search-item:hover {
+              background-color: #E9E9E9; }
   body.home .open + .results-show-all {
     display: block; }
     body.home .results-show-all {
