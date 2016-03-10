@@ -130,7 +130,7 @@ DICTIONARY = {
     "adult_obesity": "Adult Obesity",
     "adult_smoking": "Adult Smoking",
     "alcoholimpaired_driving_deaths": "Alcohol-Impaired Driving Deaths",
-    "age": "Age",
+    "age": "Median Age",
     "avg_wage": "Average Salary",
     "avg_wage_ft": "Average Full-Time Salary",
     "avg_wage_pt": "Average Part-Time Salary",

@@ -14,7 +14,6 @@ def map():
             "pop,pop_moe,pop_rank": ["state", "county", "msa", "puma"],
             "age,age_moe,age_rank": ["state", "county", "msa", "puma"],
             "income,income_moe,income_rank": ["state", "county", "msa", "puma"],
-            "non_us_citizens": ["state", "county", "msa", "puma"],
             "mean_commute_minutes": ["state", "county", "msa", "puma"],
             "non_eng_speakers_pct": ["state", "county", "msa", "puma"],
             "median_property_value,median_property_value_moe": ["state", "county", "msa", "puma"],
