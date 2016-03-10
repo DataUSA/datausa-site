@@ -47,6 +47,7 @@ topics:
           - "<<var namespace=heritage_total|key=birthplace|row=1>>"
           - "<<var namespace=heritage_total|key=birthplace|row=2>>"
       - title: "High relative number of people born in"
+        sumlevel: "!nation"
         value: "<<var namespace=heritage_rca|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=heritage_rca|key=birthplace|row=1>>"
@@ -119,16 +120,17 @@ topics:
     description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are speakers of a non-English language.{{<<sumlevel>>:!nation|| That is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>.}}"
     stat_stack: YES
     stat:
-      - title: "<<name>> has a relatively high number of speakers of"
-        value: "<<var namespace=speakers_rca|key=language|row=0>>"
-        subvalues:
-          - "<<var namespace=speakers_rca|key=language|row=1>>"
-          - "<<var namespace=speakers_rca|key=language|row=2>>"
       - title: "The most common non-English language is"
         value: "<<var namespace=speakers_total|key=language|row=0>>"
         subvalues:
           - "<<var namespace=speakers_total|key=language|row=1>>"
           - "<<var namespace=speakers_total|key=language|row=2>>"
+      - title: "<<name>> has a relatively high number of speakers of"
+        sumlevel: "!nation"
+        value: "<<var namespace=speakers_rca|key=language|row=0>>"
+        subvalues:
+          - "<<var namespace=speakers_rca|key=language|row=1>>"
+          - "<<var namespace=speakers_rca|key=language|row=2>>"
     viz:
       attrs: "language"
       data:
