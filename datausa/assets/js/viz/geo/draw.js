@@ -139,13 +139,6 @@ viz.mapDraw = function(vars) {
     var xBrush = d3.scale.identity().domain([0, width]),
         yBrush = d3.scale.identity().domain([0, height]);
 
-    var brush = d3.svg.brush()
-      .x(xBrush)
-      .y(yBrush)
-      .on("brushend", brushended);
-
-    if (vars.zoom.value) brushGroup.call(brush);
-
     function brushended(e) {
       if (!d3.event.sourceEvent) return;
 
@@ -160,6 +153,13 @@ viz.mapDraw = function(vars) {
       zoomToBounds([pos1, pos2]);
 
     }
+
+    var brush = d3.svg.brush()
+      .x(xBrush)
+      .y(yBrush)
+      .on("brushend", brushended);
+
+    if (vars.zoom.value) brushGroup.call(brush);
 
     var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
