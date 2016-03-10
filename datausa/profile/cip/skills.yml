@@ -33,7 +33,9 @@ topics:
         - cip: "<<id>>"
           show: "skill"
       depth: 1
-      id: "skill"
+      id:
+        - "parent"
+        - "skill"
       legend:
         order: "id"
       order:

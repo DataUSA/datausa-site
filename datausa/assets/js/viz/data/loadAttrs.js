@@ -35,9 +35,20 @@ viz.loadAttrs = function(build) {
               d.color = lookup.color;
               d.icon = "/static/img/attrs/" + lookup.icon;
             }
+            if (a.type === "skill") {
+              d.skill = d.id;
+            }
           }
           attrs[d.id] = d;
         }
+        // if (a.type === "skill") {
+        //   d3.keys(attrStyles.skill).forEach(function(p){
+        //     attrs[p] = attrStyles.skill[p];
+        //     attrs[p].icon = "/static/img/attrs/" + attrs[p].icon;
+        //     attrs[p].parent = p;
+        //     attrs[p].id = p;
+        //   });
+        // }
         loaded++;
         if (loaded === build.attrs.length) {
           build.viz.attrs(attrs);

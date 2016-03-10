@@ -151,7 +151,6 @@ viz.loadData = function(build, next) {
             for (var ii = 0; ii < data.length; ii++) {
               var datum = data[ii];
               type = "use" in datum ? "use" : "make";
-              console.log(type, datum, attrs[datum[type]])
               datum.icon = attrs[datum[type]].icon;
             }
 
@@ -166,7 +165,9 @@ viz.loadData = function(build, next) {
               for (var iii = 0; iii < nesting.length; iii++) {
                 var id = nesting[iii];
                 if (attrs[datum[type]] && attrs[datum[type]][id]) {
-                  datum[id] = attrs[datum[type]][id];
+                  var a = attrs[datum[type]];
+                  datum[id] = a[id];
+                  datum.icon = a.icon;
                 }
               }
             }
