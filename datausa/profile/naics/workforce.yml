@@ -256,13 +256,13 @@ topics:
           sumlevel: "3,all"
           where: "num_records:>4"
       id: "sex"
-      order: "num_ppl"
+      order: "avg_wage"
       type: "bar"
       x:
         persist:
           position: True
         value: "soc"
-      y: "num_ppl"
+      y: "avg_wage"
   - title: "Wage by Race & Ethnicity"
     slug: "wage_ethnicity"
     description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level>>."
