@@ -46,7 +46,7 @@ viz.loadBuilds = function(builds) {
                  d3.select(this.parentNode).classed("loading", true);
                  var url = this.getAttribute("data-url");
 
-                 if (url.indexOf("show=" + param) > 0) {
+                 if (param.length && url.indexOf("show=" + param) > 0) {
                    var attr = form.data().filter(function(d){ return d.value === id; });
                    if (attr.length && attr[0].text) {
                      d3.select(this).html(attr[0].text);
