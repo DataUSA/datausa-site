@@ -88,7 +88,7 @@ topics:
     class: "flex"
     title: "Most Common"
     slug: "top_ind_num_emp"
-    description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "naics"
         color: "top"
@@ -100,6 +100,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
+            where: "num_records:>4"
         height: 250
         id: "naics"
         labels: YES
@@ -122,7 +123,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
-            where: "num_ppl:!0"
+            where: "num_records:>4,num_ppl:!0"
         height: 250
         id: "naics"
         labels: YES
@@ -196,7 +197,7 @@ topics:
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
-          where: "num_ppl:!0"
+          where: "num_records:>4,num_ppl:!0"
       depth: 2
       height: 500
       id:
