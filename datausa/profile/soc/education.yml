@@ -6,6 +6,7 @@ topics:
     slug: "majors"
     select:
       data: "pums_degree"
+      filter: degrees
       param: "degree"
       default: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
     stat_stack: YES

@@ -7,27 +7,28 @@ topics:
     subtitle: "<<sub dataset=ipeds>>"
     select:
       data: "degree"
-      default: "{{<<var namespace=top_degree|key=degree|format=raw>>:N/A||5}}{{<<var namespace=top_degree|key=degree|format=raw>>:!N/A||<<var namespace=top_degree|key=degree|format=raw>>}}"
+      filter: top_degree
+      default: "{{<<var namespace=top_degree|row=0|key=degree|format=raw>>:N/A||5}}{{<<var namespace=top_degree|row=0|key=degree|format=raw>>:!N/A||<<var namespace=top_degree|row=0|key=degree|format=raw>>}}"
     stat_stack: YES
     stat:
+      - title: "Most common major is"
+        value: "<<var namespace=grads_total|key=cip|row=0>>"
+        subvalues:
+          - "<<var namespace=grads_total|key=cip|row=1>>"
+          - "<<var namespace=grads_total|key=cip|row=2>>"
       - title: "High relative number of people major in"
         sumlevel: "!nation"
         value: "<<var namespace=grads_total_rca|key=cip|row=0>>"
         subvalues:
           - "<<var namespace=grads_total_rca|key=cip|row=1>>"
           - "<<var namespace=grads_total_rca|key=cip|row=2>>"
-      - title: "Most common major is"
-        value: "<<var namespace=grads_total|key=cip|row=0>>"
-        subvalues:
-          - "<<var namespace=grads_total|key=cip|row=1>>"
-          - "<<var namespace=grads_total|key=cip|row=2>>"
     description: "This tree map shows the composition of the student population in <<name dataset=ipeds>> by major."
     viz:
       attrs: "cip"
       color: "cip_2"
       data:
         show: "cip"
-        degree: "{{<<var namespace=top_degree|key=degree|format=raw>>:N/A||5}}{{<<var namespace=top_degree|key=degree|format=raw>>:!N/A||<<var namespace=top_degree|key=degree|format=raw>>}}"
+        degree: "{{<<var namespace=top_degree|row=0|key=degree|format=raw>>:N/A||5}}{{<<var namespace=top_degree|row=0|key=degree|format=raw>>:!N/A||<<var namespace=top_degree|row=0|key=degree|format=raw>>}}"
         geo: "<<id dataset=ipeds>>"
         required: "grads_total"
         sumlevel: "6"

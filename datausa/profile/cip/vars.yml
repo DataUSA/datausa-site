@@ -160,6 +160,8 @@
   show: degree
   dataset: ipeds
   year: latest
+  rows: True
+  limit: 11
   namespace: "top_degree"
 
 - force: "ipeds.grads_ycd"

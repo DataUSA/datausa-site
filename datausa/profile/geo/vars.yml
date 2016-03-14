@@ -210,9 +210,12 @@
 
 - required: ["degree", "grads_total"]
   order: grads_total
+  sort: desc
   show: degree
   dataset: ipeds
   year: latest
+  rows: True
+  limit: 11
   namespace: "top_degree"
 
 - required: ["cip"]

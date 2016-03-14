@@ -132,20 +132,21 @@ topics:
     slug: "grads_ethnicity_gender"
     select:
       data: "degree"
-      default: "<<var namespace=top_degree|key=degree|format=raw>>"
+      filter: top_degree
+      default: "<<var namespace=top_degree|row=0|key=degree|format=raw>>"
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
         value: "<<var namespace=race_sex|key=name|row=0>>"
         subvalues:
           - "<<var namespace=race_sex|key=name|row=1>>"
           - "<<var namespace=race_sex|key=name|row=2>>"
-    description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <<var namespace=top_degree|key=degree>> in <<name>>."
+    description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <<var namespace=top_degree|row=0|key=degree>> in <<name>>."
     viz:
       color: "sex"
       data:
         show: "cip"
         cip: "<<id>>"
-        degree: "<<var namespace=top_degree|key=degree|format=raw>>"
+        degree: "<<var namespace=top_degree|row=0|key=degree|format=raw>>"
         exclude: "grads_native_men,grads_native_women,grads_nonresident_men,grads_nonresident_women"
         force: "ipeds.grads_ycd"
         split:

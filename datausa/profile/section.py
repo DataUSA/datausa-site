@@ -92,8 +92,13 @@ class Section(BaseObject):
                         if "param" not in topic["select"]:
                             topic["select"]["param"] = topic["select"]["data"]
                         topic["select"]["data"] = [v for k, v in attr_cache[topic["select"]["data"]].iteritems()]
+                        if "filter" in topic["select"] and topic["select"]["filter"] in profile.variables:
+                            f = [v[topic["select"]["param"]]["raw"] for v in profile.variables[topic["select"]["filter"]]]
+                            topic["select"]["data"] = [d for d in topic["select"]["data"] if d["id"] in f]
                     elif isinstance(topic["select"]["data"], list):
                         topic["select"]["data"] = [fetch(v, False) for v in topic["select"]["data"]]
+                    if len(topic["select"]["data"]) < 2:
+                        del topic["select"]
 
         if "sections" in config:
             self.sections = config["sections"]
