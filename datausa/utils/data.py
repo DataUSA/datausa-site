@@ -18,8 +18,15 @@ def fetch(attr_id, attr_type):
     """dict: Returns an attribute dict container information like 'name' and 'color' """
     if isinstance(attr_type, basestring) and "_iocode" in attr_type:
         attr_type = "iocode"
+
+    attr_alt = False
+    if attr_type in ("naics", "soc"):
+        attr_alt = "bls_{}".format(attr_type)
+
     if attr_type in attr_cache and attr_id in attr_cache[attr_type]:
         return attr_cache[attr_type][attr_id]
+    elif attr_alt and attr_alt in attr_cache and attr_id in attr_cache[attr_alt]:
+        return attr_cache[attr_alt][attr_id]
     else:
         if attr_id in DICTIONARY:
             name = DICTIONARY[attr_id]

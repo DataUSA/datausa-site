@@ -102,6 +102,7 @@ SUMLEVELS = {
 
 TEXTCOMPARATORS = {
     "age": ("older than", "younger than", "approximately the same age as"),
+    "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
