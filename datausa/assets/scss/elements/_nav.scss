@@ -158,7 +158,10 @@ body {
 
         a {
           margin-left: 13px;
-          font-size: 13px;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
           color: white;
           @include transition(color 0.1s);
           &:hover {
