@@ -43,11 +43,11 @@ $map-sidebar: 250px;
 }
 
 #map-sharing {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.75);
   border: 1px solid $gray-d;
-  bottom: 10px;
-  left: $map-sidebar + 10;
+  right: 10px;
   position: fixed;
+  top: $title-height + 10;
   z-index: 2;
 
   .pri-btn {
@@ -147,7 +147,7 @@ $map-sidebar: 250px;
     margin: 5px;
     position: relative;
     width: 15px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.75);
 
     &::after {
       top: 2px;

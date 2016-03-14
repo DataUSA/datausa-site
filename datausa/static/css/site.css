@@ -5604,11 +5604,11 @@ body.map {
     overflow: hidden; }
 
 #map-sharing {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.75);
   border: 1px solid #999;
-  bottom: 10px;
-  left: 260px;
+  right: 10px;
   position: fixed;
+  top: 50px;
   z-index: 2; }
   #map-sharing .pri-btn {
     color: #999;
@@ -5667,7 +5667,7 @@ body.map {
       margin: 5px;
       position: relative;
       width: 15px;
-      background-color: rgba(255, 255, 255, 0.5); }
+      background-color: rgba(255, 255, 255, 0.75); }
       .map-controls .zoom-in::after, .map-controls .zoom-out::after,
       .map-controls .zoom-reset::after {
         top: 2px;
