@@ -86,7 +86,7 @@ topics:
     stat:
       - title: "Most common gender"
         value: "<<var namespace=sex|key=sex>>"
-    description: "Here we see the gender composition for the top 5 most common majors held by <<name>>."
+    description: "Here we see the overall gender composition across all occupations for the top 5 most common majors held by <<name>>."
     viz:
       attrs:
         - "cip"
