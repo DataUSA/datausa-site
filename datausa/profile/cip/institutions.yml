@@ -61,7 +61,7 @@ topics:
       y:
         scale: "discrete"
         value: "university"
-  - title: "Popular Colleges"
+  - title: "Specialized Colleges"
     slug: "institutions_most_degrees"
     stat:
       - title: "Highest Concentration Institution"
