@@ -454,7 +454,7 @@ topics:
     title: "Highest Paid"
     sumlevel: "nation,state"
     slug: "top_occ_med_earnings"
-    description: "The highest paid occupations in <<name>>, by median earnings, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paid occupations in <<name>>, by average salary, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         color: "top"
@@ -807,7 +807,7 @@ topics:
     sumlevel: "nation,state"
     title: "Highest Paying"
     slug: "top_ind_med_earnings"
-    description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,naics|sumlevel=sumlevel,2|order=avg_wage|sort=desc|limit=3>>."
+    description: "The highest paying industries in <<name>>, by average salary, are <<top show=geo,naics|sumlevel=sumlevel,2|order=avg_wage|sort=desc|limit=3>>."
     viz:
       - attrs: "naics"
         color: "top"
