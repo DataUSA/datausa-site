@@ -4775,12 +4775,18 @@ body.story .profile-section {
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         -ms-flex-direction: column;
-        flex-direction: column; }
+        flex-direction: column;
+        -webkit-box-flex: 1 1 600px;
+        -moz-box-flex: 1 1 600px;
+        -webkit-flex: 1 1 600px;
+        -ms-flex: 1 1 600px;
+        flex: 1 1 600px; }
         body.profile .profile-section .topic .content.full-width .viz,
         body.map .profile-section .topic .content.full-width .viz,
         body.story .profile-section .topic .content.full-width .viz {
           margin-left: 0;
-          min-height: 500px; }
+          height: 550px;
+          min-height: 550px; }
       body.profile .profile-section .topic .content aside,
       body.map .profile-section .topic .content aside,
       body.story .profile-section .topic .content aside {

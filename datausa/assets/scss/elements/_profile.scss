@@ -1403,10 +1403,12 @@ body.profile, body.map, body.story {
 
         &.full-width {
           @include flex-direction(column);
+          @include flex-size(1 1 600px);
 
           .viz {
             margin-left: 0;
-            min-height: 500px;
+            height: 550px;
+            min-height: 550px;
           }
 
         }
