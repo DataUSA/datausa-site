@@ -22,6 +22,11 @@ def map():
         },
 
         "chr": {
+            "health_care_costs": ["state", "county"],
+            "adult_obesity": ["state", "county"],
+            "diabetes": ["state", "county"],
+            "sexually_transmitted_infections": ["state", "county"],
+            "hiv_prevalence_rate": ["state", "county"],
             "alcoholimpaired_driving_deaths": ["state", "county"],
             "excessive_drinking": ["state", "county"],
             "adult_smoking": ["state", "county"],
