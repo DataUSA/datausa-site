@@ -8764,7 +8764,7 @@ viz.mapDraw = function(vars) {
           }
         })
         .attr("y",function(d){
-          return this.getBBox().height + scaleHeight + scalePadding * 2;
+          return this.getBBox().height + scaleHeight;
         });
 
       var label_width = 0;
@@ -8777,7 +8777,7 @@ viz.mapDraw = function(vars) {
           return vars.format.number(values[d], {"key": vars.color.value, "vars": vars});
         })
         .attr("y",function(d){
-          return this.getBBox().height+scaleHeight+scalePadding*2;
+          return this.getBBox().height + scaleHeight;
         })
         .each(function(d){
           var w = this.offsetWidth;
