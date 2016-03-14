@@ -1,5 +1,6 @@
 var all_caps = ["cip", "naics", "rca", "soc", "usa"],
-    attr_ids = ["geo", "cip", "soc", "naics"];
+    attr_ids = ["geo", "cip", "soc", "naics"],
+    range100 = ["non_eng_speakers_pct", "owner_occupied_housing_units", "us_citizens", "grads_total_growth"];
 
 viz.defaults = function(build) {
 
@@ -47,7 +48,7 @@ viz.defaults = function(build) {
       build.config[axis].ticks.value = JSON.parse(build.config[axis].ticks.value);
     }
 
-    var range = proportions.indexOf(key) >= 0 && key !== "pct_total" ? [0, 1] : false;
+    var range = range100.indexOf(key) >= 0 ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default",

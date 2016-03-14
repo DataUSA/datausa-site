@@ -267,15 +267,15 @@
   children: True
   namespace: diabetes
 
-- required: ["geo", "alcoholimpaired_driving_deaths"]
-  order: alcoholimpaired_driving_deaths
+- required: ["geo", "adult_smoking"]
+  order: adult_smoking
   show: geo
   dataset: chr
   rows: True
   limit: 3
   year: latest
   children: True
-  namespace: alcohol
+  namespace: smoking
 
 - required: ["geo", "hiv_prevalence_rate"]
   order: hiv_prevalence_rate

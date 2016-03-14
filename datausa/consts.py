@@ -128,9 +128,10 @@ DICTIONARY = {
     "acs_ind": "ACS Industry",
     "acs_occ": "ACS Occupation",
 
-    "adult_obesity": "Adult Obesity",
-    "adult_smoking": "Adult Smoking",
-    "alcoholimpaired_driving_deaths": "Alcohol-Impaired Driving Deaths",
+    "adult_obesity": "Obesity Prevalence",
+    "adult_smoking": "Adult Smoking Prevalence",
+    "alcoholimpaired_driving_deaths": "Alcohol-Related Driving Deaths",
+    "diabetes": "Diabetes Prevalence",
     "age": "Median Age",
     "avg_wage": "Average Salary",
     "avg_wage_ft": "Average Full-Time Salary",
@@ -149,7 +150,7 @@ DICTIONARY = {
     "district_tuition": "District Tuition",
     "foreign": "Foreign Born",
     "emp_thousands": "Total Employees",
-    "excessive_drinking": "Excessive Drinking",
+    "excessive_drinking": "Excessive Drinking Prevalence",
 
     "grads_asian": "Asian",
     "grads_asian_men": "Asian Men",
@@ -206,9 +207,9 @@ DICTIONARY = {
     "unknown_men": "Unknown Men",
     "unknown_women": "Unknown Women",
 
-    "health_care_costs": "Healthcare Cost",
-    "hiv_prevalence_rate": "HIV Prevalence Rate",
-    "homicide_rate": "Homicide Rate",
+    "health_care_costs": "Medicare Reimbursements per Enrollee",
+    "hiv_prevalence_rate": "HIV Diagnoses",
+    "homicide_rate": "Homicide Deaths",
     "income": "Yearly Income",
     "mean_commute_minutes": "Average Travel Time",
     "median_property_value": "Median Property Value",
@@ -277,7 +278,7 @@ DICTIONARY = {
     "property_val": "Property Value",
     "race": "Race or Ethnicity",
     "sex": "Gender",
-    "sexually_transmitted_infections": "Sexually Transmitted Infections",
+    "sexually_transmitted_infections": "Chlamydia Diagnoses",
     "state_tuition": "In State Tuition",
 
     "transport": "Method of Travel",
@@ -305,7 +306,7 @@ DICTIONARY = {
     "us_citizens": "Citizenship",
     "value_millions": "Value",
     "vehicles": "Vehicles",
-    "violent_crime": "Violent Crime",
+    "violent_crime": "Violent Crimes",
     "wage_bin": "Wage Bin",
     "women": "Women"
 }
@@ -332,7 +333,12 @@ PROPORTIONS = [
     "owner_occupied_housing_units",
     "pct_total",
     "us_citizens",
-    "grads_total_growth"
+    "grads_total_growth",
+    "diabetes",
+    "adult_obesity",
+    "adult_smoking",
+    "excessive_drinking",
+    "alcoholimpaired_driving_deaths"
 ]
 
 PERCENTAGES = [

@@ -7329,7 +7329,8 @@ viz.bar = function(build) {
 }
 
 var all_caps = ["cip", "naics", "rca", "soc", "usa"],
-    attr_ids = ["geo", "cip", "soc", "naics"];
+    attr_ids = ["geo", "cip", "soc", "naics"],
+    range100 = ["non_eng_speakers_pct", "owner_occupied_housing_units", "us_citizens", "grads_total_growth"];
 
 viz.defaults = function(build) {
 
@@ -7377,7 +7378,7 @@ viz.defaults = function(build) {
       build.config[axis].ticks.value = JSON.parse(build.config[axis].ticks.value);
     }
 
-    var range = proportions.indexOf(key) >= 0 && key !== "pct_total" ? [0, 1] : false;
+    var range = range100.indexOf(key) >= 0 ? [0, 1] : false;
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default",
@@ -7665,25 +7666,25 @@ viz.format = {
         key = key.slice(3);
       }
 
-      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
-        if (proportions.indexOf(key) >= 0) number = number * 100;
-        return prefix + d3plus.number.format(number, params) + "%";
+      if (proportions.indexOf(key) >= 0) number = number * 100;
+
+      if (number < 999999.99) {
+        var prec = key in affixes ? "2" : "1";
+        number = d3.format(",." + prec + "f")(number);
+        number = prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
       }
       else {
-        if (number < 999999.99) {
-          var prec = key in affixes ? "2" : "1";
-          number = d3.format(",." + prec + "f")(number);
-          number = prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
-        }
-        else {
-          number = d3plus.number.format(number, params);
-        }
-        if (key in affixes) {
-          var a = affixes[key];
-          number = a[0] + number + a[1];
-        }
-        return prefix + number;
+        number = d3plus.number.format(number, params);
       }
+      if (key in affixes) {
+        var a = affixes[key];
+        number = a[0] + number + a[1];
+      }
+
+      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+        number = number + "%";
+      }
+      return prefix + number;
 
     }
 
@@ -7915,7 +7916,7 @@ viz.loadBuilds = function(builds) {
                  d3.select(this.parentNode).classed("loading", true);
                  var url = this.getAttribute("data-url");
 
-                 if (url.indexOf("show=" + param) > 0) {
+                 if (param.length && url.indexOf("show=" + param) > 0) {
                    var attr = form.data().filter(function(d){ return d.value === id; });
                    if (attr.length && attr[0].text) {
                      d3.select(this).html(attr[0].text);

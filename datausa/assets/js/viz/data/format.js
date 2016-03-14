@@ -29,25 +29,25 @@ viz.format = {
         key = key.slice(3);
       }
 
-      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
-        if (proportions.indexOf(key) >= 0) number = number * 100;
-        return prefix + d3plus.number.format(number, params) + "%";
+      if (proportions.indexOf(key) >= 0) number = number * 100;
+
+      if (number < 999999.99) {
+        var prec = key in affixes ? "2" : "1";
+        number = d3.format(",." + prec + "f")(number);
+        number = prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
       }
       else {
-        if (number < 999999.99) {
-          var prec = key in affixes ? "2" : "1";
-          number = d3.format(",." + prec + "f")(number);
-          number = prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
-        }
-        else {
-          number = d3plus.number.format(number, params);
-        }
-        if (key in affixes) {
-          var a = affixes[key];
-          number = a[0] + number + a[1];
-        }
-        return prefix + number;
+        number = d3plus.number.format(number, params);
       }
+      if (key in affixes) {
+        var a = affixes[key];
+        number = a[0] + number + a[1];
+      }
+
+      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+        number = number + "%";
+      }
+      return prefix + number;
 
     }
 

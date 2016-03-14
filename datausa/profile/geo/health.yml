@@ -34,9 +34,9 @@ topics:
   - title: "Healthcare Costs"
     subtitle: "<<sub dataset=chr>>"
     slug: "healthcare_cost"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the cost of healthcare in relation to each other."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the amount of price-adjusted Medicare reimbursements per enrollee."
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest healthcare cost"
+      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> with the highest Medicare reimbursement"
         value: "<<var namespace=health_care_costs|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=health_care_costs|key=geo|row=1>>"
@@ -58,15 +58,15 @@ topics:
   - title: "Obesity and Diabetes"
     subtitle: "<<sub dataset=chr>>"
     slug: "obesity_diabetes"
-    description: "Here we can compare the obesity and diabetes rates for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
+    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest adult obesity rate"
+      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by obesity prevalence"
         value: "<<var namespace=obesity|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=obesity|key=geo|row=1>>"
           - "<<var namespace=obesity|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest diabetes rate"
+      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by diabetes prevalence"
         value: "<<var namespace=diabetes|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=diabetes|key=geo|row=1>>"
@@ -90,20 +90,20 @@ topics:
     select:
       method: "color"
       data:
-        - "alcoholimpaired_driving_deaths"
-        - "excessive_drinking"
         - "adult_smoking"
-      default: "alcoholimpaired_driving_deaths"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the relative amount of <span class='select-text'>Alcohol-Impaired Driving Deaths</span> per year."
+        - "excessive_drinking"
+        - "alcoholimpaired_driving_deaths"
+      default: "adult_smoking"
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by <span class='select-text'>Adult Smoking Prevalence</span>."
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
-        value: "<<var namespace=alcohol|key=geo|row=0>>"
+      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
+        value: "<<var namespace=smoking|key=geo|row=0>>"
         subvalues:
-          - "<<var namespace=alcohol|key=geo|row=1>>"
-          - "<<var namespace=alcohol|key=geo|row=2>>"
+          - "<<var namespace=smoking|key=geo|row=1>>"
+          - "<<var namespace=smoking|key=geo|row=2>>"
     viz:
       attrs: "geo"
-      color: "alcoholimpaired_driving_deaths"
+      color: "adult_smoking"
       coords:
           solo: "<<children dataset=chr>>"
           value: "<<sumlevel child=True|dataset=chr|plural=True>>"
@@ -111,22 +111,22 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "alcoholimpaired_driving_deaths,excessive_drinking,adult_smoking"
+        required: "adult_smoking,excessive_drinking,alcoholimpaired_driving_deaths"
       height: 400
       id: "geo"
       type: "geo_map"
   - title: "Sexually Transmitted Diseases"
     subtitle: "<<sub dataset=chr>>"
     slug: "stds"
-    description: "Here we can compare HIV prevalence and sexually transmitted infections for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
+    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, sized by the estimated population in 2011."
     stat_stack: YES
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest HIV prevalence"
+      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by HIV prevalence"
         value: "<<var namespace=hiv|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=hiv|key=geo|row=1>>"
           - "<<var namespace=hiv|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the most sexually transmitted infections"
+      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by chlamydia prevalence"
         value: "<<var namespace=sti|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=sti|key=geo|row=1>>"
@@ -155,9 +155,9 @@ topics:
         - "violent_crime"
         - "motor_vehicle_crash_deaths"
       default: "homicide_rate"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the relative amount of <span class='select-text'>Homicide Rate</span> per year."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths</span> per 100,000 people."
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest rate"
+      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=homicide_rate|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=homicide_rate|key=geo|row=1>>"
