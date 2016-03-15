@@ -21,3 +21,6 @@ Flask-Cache
 
 # Date parsing
 python-dateutil
+
+# For deploying site
+gunicorn
