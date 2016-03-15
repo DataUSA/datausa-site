@@ -4,7 +4,7 @@ description: "The next section will allow you to explore demographic profiles of
 topics:
   - title: "Workforce Age"
     slug: "workforce_age"
-    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
+    subtitle: "<<sub dataset=pums>>"
     stat:
       - title: "Average Age"
         value: "<<var namespace=age|key=avg_age>>"
@@ -163,7 +163,7 @@ topics:
       y: "grads_total"
   - title: "Global Diversity"
     slug: "global_diversity"
-    subtitle: "Showing data for people over the age of 16 in the workforce with <<name dataset=pums>> degrees."
+    subtitle: "<<sub dataset=pums>>"
     stat_stack: true
     stat:
       - title: "Most Common Foreign-Born Country is"
