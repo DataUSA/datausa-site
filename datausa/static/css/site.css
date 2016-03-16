@@ -2631,11 +2631,12 @@ body.home {
       color: white;
       display: block;
       font-family: "Palanquin", sans-serif;
-      font-size: 10px;
+      font-size: 11px;
+      letter-spacing: 0.05em;
       text-transform: uppercase; }
       body.home .home-collab img {
-        height: 20px;
-        margin: 10px; }
+        height: 25px;
+        margin: 15px 20px; }
         body.home .home-collab img:hover {
           cursor: pointer; }
   body.home #feed {

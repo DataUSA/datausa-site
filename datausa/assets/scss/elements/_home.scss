@@ -327,13 +327,14 @@ body.home {
       color: white;
       display: block;
       font-family: $palanquin;
-      font-size: 10px;
+      font-size: 11px;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
     }
 
     img {
-      height: 20px;
-      margin: 10px;
+      height: 25px;
+      margin: 15px 20px;
 
       &:hover {
         cursor: pointer;
