@@ -1390,6 +1390,7 @@ body.profile, body.map, body.story {
           .viz {
             @include flex-size(1 1 200px);
             margin-left: 0;
+            max-height: 200px;
             min-height: 200px;
           }
 
