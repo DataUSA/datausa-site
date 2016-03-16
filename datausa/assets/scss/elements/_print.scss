@@ -6,19 +6,30 @@
 
   #splash {
     display: block !important;
-    height: 3in !important;
+    height: auto !important;
+    width: 100% !important;
 
     .content {
       display: block !important;
       text-align: center !important;
+      width: 100% !important;
 
       .splash-titles, #splash-stats {
         display: block !important;
-        margin: 10px auto !important;
+        margin: 20px auto !important;
 
         .stat {
           display: inline-block !important;
-          width: 20% !important;
+          width: 25% !important;
+
+
+          .stat-value {
+            font-size: 8px !important;
+          }
+
+          .stat-value {
+            font-size: 20px !important;
+          }
         }
       }
 
@@ -31,17 +42,40 @@
   }
 
   .intro {
+    background-color: transparent !important;
+    color: $black !important;
     padding: 25px 0 !important;
 
     .intro-head {
+      color: $black !important;
       display: block !important;
+      padding: 0 !important;
+      width: 100% !important;
 
       .section-title, .r {
+        color: $black !important;
         display: block !important;
+        max-width: 100% !important;
+        width: 100% !important;
 
-        .photo-cred, .breadcrumb {
+        * {
+          color: $black !important;
+        }
+
+        .photo-cred {
+          color: $black !important;
           display: block !important;
           width: 100% !important;
+
+          * {
+            color: $black !important;
+            display: inline-block !important;
+          }
+
+        }
+
+        .breadcrumb {
+          display: none !important;
         }
 
       }
@@ -50,15 +84,29 @@
 
     .col {
       display: block !important;
+      width: 100% !important;
 
       & > * {
+        color: $black !important;
         display: block !important;
+      }
+
+      .intro-txt p {
+        color: $black !important;
+        a {
+          border: 0 !important;
+          color: $black !important;
+        }
       }
 
     }
 
     #profile-toc {
       display: block !important;
+
+      * {
+        color: $black !important;
+      }
 
       .profile-toc-section {
         display: inline-block !important;
@@ -93,18 +141,6 @@
       padding: 0 0 50px !important;
       width: 100% !important;
 
-      &.flex {
-        display: inline-block !important;
-        margin: 0 2% !important;
-        width: 29% !important;
-
-        &.stat-flex {
-          margin: 0 2% !important;
-          width: 23% !important;
-        }
-
-      }
-
       .content {
         display: block !important;
           page-break-inside: avoid;
@@ -122,10 +158,46 @@
           width: 55% !important;
         }
 
+        &.full-width {
+
+          .viz {
+            display: inline-block !important;
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
+
+        }
+
+      }
+
+      &.flex {
+        display: inline-block !important;
+        margin: 0 2% !important;
+        width: 28% !important;
+
+        &.stat-flex {
+          margin: 0 2% !important;
+          width: 23% !important;
+        }
+
+        .content {
+          aside {
+            width: 100% !important;
+          }
+          .viz {
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
+        }
+
       }
 
     }
 
+  }
+
+  footer {
+    display: none;
   }
 
 

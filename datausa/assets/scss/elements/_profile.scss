@@ -1074,8 +1074,8 @@ body.profile, body.map, body.story {
           letter-spacing: 0.05em;
           line-height: 1;
           text-transform: uppercase;
-          @include wordwrap();
-          @include hyphens;
+          // @include wordwrap();
+          // @include hyphens;
           @include transition(all 0.35s);
 
           &:hover, &:focus {
