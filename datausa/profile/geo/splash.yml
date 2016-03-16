@@ -30,4 +30,8 @@ stats:
   - title: "Median Age"
     value: "<<var namespace=splash|key=age|row=0>>"
 sections:
+  - economy
+  - demographics
+  - education
+  - housing
   - health
