@@ -3,6 +3,7 @@ description: "The Bureau of Economic Analysis publishes estimates of the sources
 
 topics:
   - slug: "sankey"
+    title: "Industrial Flow"
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0>>"
     viz:
       attrs: "iocode"
