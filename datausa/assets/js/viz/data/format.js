@@ -31,7 +31,7 @@ viz.format = {
 
       if (proportions.indexOf(key) >= 0) number = number * 100;
 
-      if (number < 999999.99) {
+      if (number < 999999.99 && number >= 0.1) {
         var prec = key in affixes ? "2" : "1";
         number = d3.format(",." + prec + "f")(number);
         number = prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
