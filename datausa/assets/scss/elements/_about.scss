@@ -1,5 +1,26 @@
 body.about {
 
+  a.anchor {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      visibility: hidden;
+      top: -$nav-height;
+    }
+
+  }
+
+  #logos {
+    margin-bottom: 20px;
+    text-align: center;
+    img {
+      height: 35px;
+      margin: 20px 20px;
+    }
+  }
+
   /* visuals */
 
   background-color: #1b191e;

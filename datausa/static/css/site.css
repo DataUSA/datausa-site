@@ -6208,6 +6208,19 @@ body.story {
 }
 body.about {
   background-color: #1b191e; }
+  body.about a.anchor {
+    position: relative; }
+    body.about a.anchor::before {
+      content: "";
+      position: absolute;
+      visibility: hidden;
+      top: -40px; }
+  body.about #logos {
+    margin-bottom: 20px;
+    text-align: center; }
+    body.about #logos img {
+      height: 35px;
+      margin: 20px 20px; }
   body.about h1 {
     font-family: "Pathway Gothic One", sans-serif;
     text-transform: uppercase;
