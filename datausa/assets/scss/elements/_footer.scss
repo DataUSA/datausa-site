@@ -5,7 +5,7 @@ footer {
   width: 100%;
 
   .logo {
-    width: 150px;
+    width: 100px;
   }
 
   .content {
@@ -13,7 +13,7 @@ footer {
     @include flex-direction(row);
     @include justify(space-between);
     color: white;
-    margin: 30px 0 0;
+    margin: 0;
 
     .footer-links {
       @include flex();
@@ -25,15 +25,25 @@ footer {
         @include flex-size(1);
 
         h4 {
-          font-size: 18px;
+          font-size: 14px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
         }
 
-        li a {
-          color: white;
-          display: inline-block;
-          font-size: 16px;
-          margin: 4px 0;
+        li {
+          a {
+            color: white;
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            margin: 2px 0;
+            text-transform: uppercase;
+            @include transition(color 0.1s);
+            &:hover {
+              color: $red-w;
+            }
+          }
         }
 
       }

@@ -230,9 +230,6 @@
     {% endif %}
   </div>
   <!-- end .follow-up -->
-
-  <a href="#" class="to-top-btn" data-ga="back to top" data-ga-cat="profile" data-ga-label="top">Go back top &uarr;</a>
-  <!-- ending footer  -->
 </div>
 
 {% endblock %}
@@ -286,7 +283,13 @@
       titleNavHeight = d3.select("#title-bar").node().offsetHeight,
       statNavHeight = d3.select("#stats-bar").node().offsetHeight,
       profNavHeight = d3.select("#profile-nav").node().offsetHeight,
+      footerTop = d3.select(".profile-end").node().offsetTop,
       attr_type = "{{ profile.attr_type }}";
+
+  var sideButtons = d3.selectAll(".section-sidenav-button"), sideNavBottom = 0;
+  if (sideButtons.size()) {
+    sideNavBottom = sideButtons[0][sideButtons.length - 1].offsetTop + 30;
+  }
 
   var firstScroll = true;
   function navScroll(){
@@ -301,7 +304,8 @@
         colorTitleNav = y > titleNavHeight,
         showTitleNav = y > splashHeight/2.75,
         showStatNav = y > splashHeight,
-        showProfNav = y > boundHeight - titleNavHeight - statNavHeight;
+        showProfNav = y > (boundHeight - titleNavHeight - statNavHeight) &&
+                      (y + sideNavBottom) < footerTop;
 
     var parallaxScroll = d3.scale.linear()
       .domain([0, window.innerHeight])
@@ -321,7 +325,7 @@
     d3.select("#section-sidenav").classed("visible", showProfNav);
 
     var active_section;
-    var top_buffer = titleNavHeight + profNavHeight + statNavHeight + 5;
+    var top_buffer = titleNavHeight + profNavHeight + statNavHeight + 15;
     d3.selectAll("header a[name]")
       .each(function(){
         var top = this.parentNode.parentNode.offsetTop;
