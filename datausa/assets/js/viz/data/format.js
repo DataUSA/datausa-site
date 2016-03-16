@@ -147,8 +147,8 @@ viz.format = {
       }
 
       if (params.key === "geo" && text.indexOf("140") === 0) {
-        text = text.slice(13);
-        var num = text.slice(0, 3), suffix = text.slice(3);
+        text = text.slice(12);
+        var num = text.slice(0, 4), suffix = text.slice(4);
         suffix = suffix === "00" ? "" : "." + suffix;
         return "Census Tract " + num + suffix;
       }
