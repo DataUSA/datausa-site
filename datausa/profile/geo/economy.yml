@@ -197,7 +197,7 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
+    description: "The most common jobs in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         color: "top"
@@ -249,7 +249,7 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in <<name>> by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common jobs in <<name>> by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         color: "top"
@@ -403,7 +403,7 @@ topics:
     title: "Highest Paid"
     sumlevel: "!nation,!state"
     slug: "top_occ_med_earnings"
-    description: "The highest paid occupations in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
+    description: "The highest paid jobs in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - attrs: "acs_occ"
         color: "top"
@@ -454,7 +454,7 @@ topics:
     title: "Highest Paid"
     sumlevel: "nation,state"
     slug: "top_occ_med_earnings"
-    description: "The highest paid occupations in <<name>>, by average salary, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paid jobs in <<name>>, by average salary, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         color: "top"
