@@ -561,6 +561,25 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
   width: 300px;
   overflow: hidden;
   background-color: #1B191D;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  flex-pack: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
+  -ms-flex-pack: justify;
+  flex-pack: justify;
   -moz-transition: left 0.7s ease;
   -o-transition: left 0.7s ease;
   -webkit-transition: left 0.7s ease;
@@ -570,6 +589,19 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
     left: 0; }
     #menu .desc {
       display: none; }
+      #menu #menu-collab {
+        padding-bottom: 20px;
+        text-align: center; }
+        #menu #menu-collab img {
+          height: 15px;
+          margin: 10px;
+          opacity: 0.75;
+          -moz-transition: opacity 0.1s;
+          -o-transition: opacity 0.1s;
+          -webkit-transition: opacity 0.1s;
+          transition: opacity 0.1s; }
+          #menu #menu-collab img:hover {
+            opacity: 1; }
 
 .close-btn {
   position: absolute;
@@ -579,45 +611,41 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
   cursor: pointer; }
 
   .menu-content {
-    margin: 50px;
+    margin: 40px 50px 50px 50px;
     text-align: left; }
-    .menu-content > ul {
-      margin-top: 30px; }
-      .menu-content li {
-        margin: 0; }
-        .menu-content li h2 {
-          font-family: "Palanquin", sans-serif !important;
-          letter-spacing: 0.1em !important;
+    .menu-content li {
+      margin: 0; }
+      .menu-content li h2 {
+        font-family: "Palanquin", sans-serif !important;
+        letter-spacing: 0.1em !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important; }
+        .menu-content li ul li {
           font-size: 14px !important;
-          font-weight: 600 !important;
-          text-transform: uppercase !important; }
-          .menu-content li ul {
-            margin-top: -5px; }
-            .menu-content li ul li {
-              font-size: 14px !important;
-              font-weight: 400 !important;
-              letter-spacing: 0 !important;
-              text-transform: none !important; }
-              .menu-content li ul li:last-child a {
-                margin-bottom: 3px; }
-              .menu-content li ul li img {
-                margin: 7px 5px 0;
-                width: 14px; }
-                .menu-content li ul li a {
-                  margin-left: 13px;
-                  font-size: 12px;
-                  font-weight: 600;
-                  letter-spacing: 0.05em;
-                  text-transform: uppercase;
-                  color: white;
-                  -moz-transition: color 0.1s;
-                  -o-transition: color 0.1s;
-                  -webkit-transition: color 0.1s;
-                  transition: color 0.1s; }
-                  .menu-content li ul li a:hover {
-                    color: #ef6145; }
-        .menu-content li a:hover h2 {
-          color: #ef6145; }
+          font-weight: 400 !important;
+          letter-spacing: 0 !important;
+          text-transform: none !important; }
+          .menu-content li ul li:last-child a {
+            margin-bottom: 3px; }
+          .menu-content li ul li img {
+            margin: 7px 5px 0;
+            width: 14px; }
+            .menu-content li ul li a {
+              margin-left: 13px;
+              font-size: 12px;
+              font-weight: 600;
+              letter-spacing: 0.05em;
+              text-transform: uppercase;
+              color: white;
+              -moz-transition: color 0.1s;
+              -o-transition: color 0.1s;
+              -webkit-transition: color 0.1s;
+              transition: color 0.1s; }
+              .menu-content li ul li a:hover {
+                color: #ef6145; }
+      .menu-content li a:hover h2 {
+        color: #ef6145; }
     .menu-content a {
       display: inline-block; }
       .menu-content a:hover h2:before {

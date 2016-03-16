@@ -88,8 +88,9 @@ body {
   width: $nav-width;
   overflow: hidden;
   background-color: $black;
-  // @include flex();
-  // @include flex-direction(column);
+  @include flex();
+  @include flex-direction(column);
+  @include justify(space-between);
   @include transition(left 0.7s ease);
   z-index: 7;
 
@@ -106,6 +107,20 @@ body {
     display: none;
   }
 
+  #menu-collab {
+    padding-bottom: 20px;
+    text-align: center;
+    img {
+      height: 15px;
+      margin: 10px;
+      opacity: 0.75;
+      @include transition(opacity 0.1s);
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
 }
 
 .close-btn {
@@ -117,12 +132,8 @@ body {
 }
 
 .menu-content {
-  margin: 50px;
+  margin: 40px 50px 50px 50px;
   text-align: left;
-
-  & > ul {
-    margin-top: 30px;
-  }
 
   li {
     margin: 0;
@@ -136,7 +147,7 @@ body {
     }
 
     ul {
-      margin-top: -5px;
+      // margin-top: -5px;
 
       li {
         font-size: 14px !important;
