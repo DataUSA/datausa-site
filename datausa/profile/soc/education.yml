@@ -4,6 +4,7 @@ description: "The Department of Education and Census Bureau provide data on high
 topics:
   - title: "Majors"
     slug: "majors"
+    subtitle: "ACS PUMS data only shows the major for bachelor's degrees. However, we can filter the data based on highest degree obtained."
     select:
       data: "pums_degree"
       filter: degrees
@@ -21,7 +22,7 @@ topics:
         subvalues:
           - "<<var namespace=cip_rca|key=cip|row=1>>"
           - "<<var namespace=cip_rca|key=cip|row=2>>"
-    description: "Here we see the share of degrees held by <<name>> whose highest degree obtained is a <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span>."
+    description: "Here we see the share of bachelor's degrees held by <<name>> whose highest degree obtained is a <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span>."
     viz:
       attrs: "cip"
       color: "cip_2"
