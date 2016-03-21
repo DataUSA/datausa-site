@@ -166,7 +166,7 @@ topics:
     subtitle: "<<sub dataset=pums>>"
     stat_stack: true
     stat:
-      - title: "Most Common Foreign-Born Country is"
+      - title: "Most Common Country of Origin is"
         value: "<<var namespace=birthplace|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=birthplace|key=birthplace|row=1>>"
@@ -176,7 +176,7 @@ topics:
         subvalues:
           - "<<var namespace=birthplace_rca|key=birthplace|row=1>>"
           - "<<var namespace=birthplace_rca|key=birthplace|row=2>>"
-    description: "There are a relatively high number of foreign-born citizens from <<var namespace=birthplace_rca|key=birthplace|row=0>> that hold <<name dataset=pums>> degrees."
+    description: "There are a relatively high number of people that were born in <<var namespace=birthplace_rca|key=birthplace|row=0>> that hold <<name dataset=pums>> degrees."
     viz:
       attrs: "birthplace"
       coords: "birthplace"

@@ -41,7 +41,7 @@ topics:
     subtitle: "<<sub dataset=pums>>"
     stat_stack: YES
     stat:
-      - title: "Most common foreign-born country is"
+      - title: "Most common country of origin is"
         value: "<<var namespace=heritage_total|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=heritage_total|key=birthplace|row=1>>"
@@ -52,7 +52,7 @@ topics:
         subvalues:
           - "<<var namespace=heritage_rca|key=birthplace|row=1>>"
           - "<<var namespace=heritage_rca|key=birthplace|row=2>>"
-    description: "<<name dataset=pums>> has a relatively high number of foreign-born citizens from <<var namespace=heritage_rca|key=birthplace|row=0>>."
+    description: "<<name dataset=pums>> has a relatively high number of people that were born in <<var namespace=heritage_rca|key=birthplace|row=0>>."
     viz:
       attrs: "birthplace"
       coords: "birthplace"
