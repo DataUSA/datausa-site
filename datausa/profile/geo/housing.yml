@@ -118,7 +118,7 @@ topics:
       y: "share"
   - title: "Rent vs Own"
     slug: "rent_own"
-    description: "The largest share, <<var namespace=splash|key=owner_occupied_housing_units|row=0>>, of the population of <<name>> owns their home.{{<<sumlevel>>:!nation|| This is <<percent num=var:splash,owner_occupied_housing_units,0|den=var:splash,owner_occupied_housing_units,1|text=highlow>> the national average of <<var namespace=splash|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
+    description: "<<var namespace=splash|key=owner_occupied_housing_units|row=0>> of the housing units in <<name>> are occupied by their owner.{{<<sumlevel>>:!nation|| This is <<percent num=var:splash,owner_occupied_housing_units,0|den=var:splash,owner_occupied_housing_units,1|text=highlow>> the national average of <<var namespace=splash|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
     viz:
       attrs: "geo"
       data:
