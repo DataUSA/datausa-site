@@ -125,10 +125,7 @@ viz.finish = function(build) {
     .config(build.config)
     .depth(build.config.depth)
 
-  if (build.config.id.constructor === String) {
-    console.log(build.config.id);
-    build.viz.text(build.config.id);
-  }
+  if (build.config.id.constructor === String) build.viz.text(build.config.id);
 
   build.viz.error(false).draw();
 
