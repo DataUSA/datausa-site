@@ -1,4 +1,9 @@
 {% if topic.viz %}
 <sub class="sub-source">Dataset: <span class="source"></span></sub>
-<sub class="sub-source">Source: <span class="org"></span></sub>
+<sub class="sub-source">
+  Source: <span class="org"></span>
+  {% if "embed" in g.page_class %}
+  <a class="datausa-link" href="http://www.datausa.io"><img src="/static/img/logo_sm_dark.png" /></a>
+  {% endif %}
+</sub>
 {% endif %}

@@ -8,7 +8,7 @@ body.embed {
       @include flex();
       @include flex-direction(column);
       height: 100vh;
-      padding: 25px;
+      padding: 15px;
 
       sub:last-child {
         margin-bottom: 0;
@@ -20,6 +20,32 @@ body.embed {
 
       .content {
         @include flex-size(1);
+
+        .sub-source {
+          position: relative;
+          width: 315px;
+
+          .datausa-link {
+            bottom: 6px;
+            position: absolute;
+            right: -100px;
+            img {
+              display: block;
+              width: 90px;
+            }
+          }
+
+        }
+
+        &.full-width {
+          .sub-source {
+            width: 100%;
+
+            .datausa-link {
+              right: 0;
+            }
+          }
+        }
 
         .viz:not(.mini), .viz.full-width {
           height: 100% !important;

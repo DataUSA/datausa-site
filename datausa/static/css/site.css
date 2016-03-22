@@ -5592,7 +5592,7 @@ body.embed {
       -ms-flex-direction: column;
       flex-direction: column;
       height: 100vh;
-      padding: 25px; }
+      padding: 15px; }
       body.embed .profile-section .topic sub:last-child {
         margin-bottom: 0; }
         body.embed .profile-section .topic h2 {
@@ -5607,6 +5607,20 @@ body.embed {
             -webkit-flex: 1;
             -ms-flex: 1;
             flex: 1; }
+            body.embed .profile-section .topic .content .sub-source {
+              position: relative;
+              width: 315px; }
+              body.embed .profile-section .topic .content .sub-source .datausa-link {
+                bottom: 6px;
+                position: absolute;
+                right: -100px; }
+                body.embed .profile-section .topic .content .sub-source .datausa-link img {
+                  display: block;
+                  width: 90px; }
+            body.embed .profile-section .topic .content.full-width .sub-source {
+              width: 100%; }
+              body.embed .profile-section .topic .content.full-width .sub-source .datausa-link {
+                right: 0; }
             body.embed .profile-section .topic .content .viz:not(.mini),
             body.embed .profile-section .topic .content .viz.full-width {
               height: 100% !important;
