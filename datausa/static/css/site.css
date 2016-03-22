@@ -4888,11 +4888,11 @@ body.story .profile-section {
               body.profile .profile-section .topic .content aside .topic-stats .stat,
               body.map .profile-section .topic .content aside .topic-stats .stat,
               body.story .profile-section .topic .content aside .topic-stats .stat {
-                -webkit-box-flex: 1 0;
-                -moz-box-flex: 1 0;
-                -webkit-flex: 1 0;
-                -ms-flex: 1 0;
-                flex: 1 0;
+                -webkit-box-flex: 1 1 auto;
+                -moz-box-flex: 1 1 auto;
+                -webkit-flex: 1 1 auto;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
                 margin: 10px 15px 10px 0; }
                 body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
                 body.map .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
@@ -4901,7 +4901,8 @@ body.story .profile-section {
         body.profile .profile-section .topic .content aside p,
         body.map .profile-section .topic .content aside p,
         body.story .profile-section .topic .content aside p {
-          margin: 3px 0 6px; }
+          margin: 3px 0 6px;
+          width: 100%; }
       body.profile .profile-section .topic .content .viz,
       body.map .profile-section .topic .content .viz,
       body.story .profile-section .topic .content .viz {

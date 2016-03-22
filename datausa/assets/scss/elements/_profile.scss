@@ -1445,7 +1445,7 @@ body.profile, body.map, body.story {
             }
 
             .stat {
-              @include flex-size(1 0);
+              @include flex-size(1 1 auto);
               margin: 10px 15px 10px 0;
 
               .stat-value {
@@ -1460,6 +1460,7 @@ body.profile, body.map, body.story {
 
           p {
             margin: 3px 0 6px;
+            width: 100%;
           }
 
         }
