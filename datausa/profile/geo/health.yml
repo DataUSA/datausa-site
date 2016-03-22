@@ -34,7 +34,7 @@ topics:
   - title: "Healthcare Costs"
     subtitle: "<<sub dataset=chr>>"
     slug: "healthcare_cost"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the amount of price-adjusted Medicare reimbursements per enrollee."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the amount of price-adjusted Medicare reimbursements per enrollee."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> with the highest Medicare reimbursement"
         value: "<<var namespace=health_care_costs|key=geo|row=0>>"
@@ -58,7 +58,7 @@ topics:
   - title: "Obesity and Diabetes"
     subtitle: "<<sub dataset=chr>>"
     slug: "obesity_diabetes"
-    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>> sized by the estimated population in 2011."
+    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>> sized by the estimated population in 2011."
     stat_stack: YES
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by obesity prevalence"
@@ -94,7 +94,7 @@ topics:
         - "excessive_drinking"
         - "alcoholimpaired_driving_deaths"
       default: "adult_smoking"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by <span class='select-text'>Adult Smoking Prevalence</span>."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by <span class='select-text'>Adult Smoking Prevalence</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=smoking|key=geo|row=0>>"
@@ -118,7 +118,7 @@ topics:
   - title: "Sexually Transmitted Diseases"
     subtitle: "<<sub dataset=chr>>"
     slug: "stds"
-    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, sized by the estimated population in 2011."
+    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, sized by the estimated population in 2011."
     stat_stack: YES
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by HIV prevalence"
@@ -155,7 +155,7 @@ topics:
         - "violent_crime"
         - "motor_vehicle_crash_deaths"
       default: "homicide_rate"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name parent=True|dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths</span> per 100,000 people."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths</span> per 100,000 people."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=homicide_rate|key=geo|row=0>>"
