@@ -7258,8 +7258,13 @@ viz.finish = function(build) {
     .config(viz[build.config.type](build))
     .config(build.config)
     .depth(build.config.depth)
-    .error(false)
-    .draw();
+
+  if (build.config.id.constructor === String) {
+    console.log(build.config.id);
+    build.viz.text(build.config.id);
+  }
+
+  build.viz.error(false).draw();
 
 };
 
