@@ -40,15 +40,10 @@ viz.loadAttrs = function(build) {
             }
           }
           attrs[d.id] = d;
+          if (type === "iocode") {
+            attrs[d.id + "_alt"] = d;
+          }
         }
-        // if (a.type === "skill") {
-        //   d3.keys(attrStyles.skill).forEach(function(p){
-        //     attrs[p] = attrStyles.skill[p];
-        //     attrs[p].icon = "/static/img/attrs/" + attrs[p].icon;
-        //     attrs[p].parent = p;
-        //     attrs[p].id = p;
-        //   });
-        // }
         loaded++;
         if (loaded === build.attrs.length) {
           build.viz.attrs(attrs);

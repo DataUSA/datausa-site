@@ -7570,10 +7570,12 @@ viz.sankeyData = function(b) {
       focus = e.id;
     }
     if ("use" in e) {
+      if (e.use === focus) e.use += "_alt";
       if (!(e.use in nodes)) nodes[e.use] = {"id": e.use};
       var s = nodes[e.use], t = nodes[e.id];
     }
     else if ("make" in e) {
+      if (e.make === focus) e.make += "_alt";
       if (!(e.make in nodes)) nodes[e.make] = {"id": e.make};
       var s = nodes[e.id], t = nodes[e.make];
     }
@@ -7584,7 +7586,7 @@ viz.sankeyData = function(b) {
     };
   });
 
-  data = data.filter(function(d){
+  data.forEach(function(d){
 
     if ("use" in d) {
       d.id = d.use;
@@ -7595,9 +7597,12 @@ viz.sankeyData = function(b) {
       delete d.make;
     }
 
-    return d.id !== focus;
+    if (d.id === focus) {
+      d.id += "_alt";
+    }
 
-  })
+  });
+
   b.viz.data(data);
 
   if (!b.sankeyInit) {
@@ -7846,15 +7851,10 @@ viz.loadAttrs = function(build) {
             }
           }
           attrs[d.id] = d;
+          if (type === "iocode") {
+            attrs[d.id + "_alt"] = d;
+          }
         }
-        // if (a.type === "skill") {
-        //   d3.keys(attrStyles.skill).forEach(function(p){
-        //     attrs[p] = attrStyles.skill[p];
-        //     attrs[p].icon = "/static/img/attrs/" + attrs[p].icon;
-        //     attrs[p].parent = p;
-        //     attrs[p].id = p;
-        //   });
-        // }
         loaded++;
         if (loaded === build.attrs.length) {
           build.viz.attrs(attrs);
