@@ -19,6 +19,7 @@ topics:
         show: "geo"
         geo: "<<id>>"
         force: "acs.yg_nativity_age"
+        share: "people"
         split:
           id: "nativity_age"
           regex: "^nativity_([a-z]*_([0-9]+[a-z]+|[a-z]+[0-9]+)[0-9a-z]*)$"
