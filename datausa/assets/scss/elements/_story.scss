@@ -68,8 +68,6 @@ body.story {
   }
 
   #feature-text, #article-text {
-    // @include flex();
-    // @include justify(center);
     @include box();
   }
 
@@ -77,7 +75,7 @@ body.story {
     background-color: $l-profile-bg;
     z-index: 1;
     width: 100%;
-    padding: 25px 12%;
+    padding: 25px 50px;
     margin: 20px 0 0;
   }
 
@@ -94,10 +92,6 @@ body.story {
     border-color: rgba(0, 0, 0, 0.05);
     border-style: solid;
   }
-
-  // #article-text {
-  //   @include flex-direction(column);
-  // }
 
   .post-feat-label {
     @include flex-size(1);
@@ -120,8 +114,9 @@ body.story {
   }
 
   .post-titles {
-    @include flex-size(4);
-    width: 100%;
+    // @include flex-size(4);
+    margin: 0 auto;
+    max-width: 700px;
     // @include flex();
     // @include flex-direction(column);
     // @include justify(flex-start);
@@ -207,7 +202,8 @@ body.story {
 
   .back-btn {
     position: relative;
-    margin-bottom: 25px;
+    margin: 0 auto 25px;
+    max-width: 700px;
 
     span {
       vertical-align: baseline;
@@ -280,32 +276,62 @@ body.story {
     }
   }
 
+  .article-footnotes {
+    background-color: $l-profile-bg;
+    padding: 50px 0 0;
+
+    ol {
+      font-size: 12px;
+      line-height: 16px;
+      max-width: 600px;
+      padding: 0 10px;
+      width: 100%;
+      margin: 0 auto;
+
+      li {
+        padding: 5px 0;
+        position: relative;
+
+        a:hover {
+          text-decoration: underline;
+        }
+
+        a:before {
+          content: "";
+          position: absolute;
+          visibility: hidden;
+          top: -$nav-height - 10;
+        }
+      }
+    }
+
+  }
+
   .article-more-options {
     background-color: $l-profile-bg;
     padding: 50px 0;
 
     .author-meta {
+      @include box();
       @include flex();
       @include flex-direction(row);
       @include justify(flex-start);
       @include align-items(flex-start);
       background-color: $d-profile-bg;
-      width: 76%;
+      max-width: 700px;
+      width: 100%;
       margin: 0 auto;
-      padding: 5px;
+      padding: 10px;
     }
 
     .author-avatar {
       max-width: 100px;
       min-width: 100px;
       width: 100px;
-      img {
-        width: 100px;
-      }
     }
 
     .author-text {
-      padding-left: 10px;
+      padding: 10px;
 
       .info {
         text-transform: none;

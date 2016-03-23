@@ -34,14 +34,25 @@
   {% include "templates/includes/topic.html" %}
 </section>
 
+{% if story.footnotes %}
+<div class="article-footnotes">
+  <ol>
+    {% for note in story.footnotes %}
+    <li><a name="footnote{{ loop.index }}"></a>{{ note|safe }}</li>
+    {% endfor %}
+  </ol>
+</div>
+{% endif %}
+
 <div class="article-more-options">
   <div class="author-meta">
     {% for author in story.authors %}
-    <a href="{{ author.twitter }}" class="author-avatar" title="{{ author.name }}"><img alt="{{ author.name }}" src="{{ author.img }}"></a>
+    <img class="author-avatar" alt="{{ author.name }}" src="{% if author.img %}{{ author.img }}{% else %}/static/img/story/author.png{% endif %}">
     <div class="author-text">
-      <div class="name"><a href="{{ author.twitter }}" target="_blank">{{ author.name }}</a></div>
-      <div class="info">{{ author.about }}</div>
-      <div class="social"><a href="{{ author.twitter }}" target="_blank">Twitter</a></div>
+      <div class="name">{{ author.name }}</div>
+      {% if author.title %}<sub class="title">{{ author.title }}</div>{% endif %}
+      {% if author.about %}<div class="info">{{ author.about }}</div>{% endif %}
+      {% if author.twitter %}<div class="social"><a href="{{ author.twitter }}" target="_blank">Twitter</a></div>{% endif %}
     </div>
     {% endfor %}
   </div>

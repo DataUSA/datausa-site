@@ -28,7 +28,8 @@ class StoryPreview(object):
         self.date = story_conf['date'] if 'date' in story_conf else ''
         if not self.date:
             self.date = date_from_filename(filename)
-        self._date_obj = parser.parse(self.date) if self.date else None
+        self._date_obj = parser.parse(self.date)
+        self.date = self._date_obj.strftime("%B %-d, %Y")
         self.authors = story_conf['authors'] if 'authors' in story_conf else []
         self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
 
@@ -62,11 +63,14 @@ class Story(Profile):
         story_conf = yaml.load(file_obj)
         self.title = story_conf['title'] if 'title' in story_conf else ''
         self.description = story_conf['description'] if 'description' in story_conf else ''
+        self.footnotes = story_conf['footnotes'] if 'footnotes' in story_conf else None
         self.date = story_conf['date'] if 'date' in story_conf else ''
-        self.authors = story_conf['authors'] if 'authors' in story_conf else []
-        self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
         if not self.date:
             self.date = date_from_filename(attr_id)
+        self._date_obj = parser.parse(self.date)
+        self.date = self._date_obj.strftime("%B %-d, %Y")
+        self.authors = story_conf['authors'] if 'authors' in story_conf else []
+        self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
 
         tmp_obj = {"topics": story_conf['topics']}
         for t in tmp_obj["topics"]:

@@ -66,6 +66,9 @@ class Profile(BaseObject):
 
         return u",".join([c["id"] for c in children])
 
+    def foot(self, **kwargs):
+        return "<sup><a href='#footnote{0}'>{0}</a></sup>".format(kwargs.get("note"))
+
     @staticmethod
     def get_uniques(list_of_dict):
         seen = set()

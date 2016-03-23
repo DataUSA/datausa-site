@@ -1418,7 +1418,15 @@ body.profile, body.map, body.story {
           @include flex-size(none);
           max-width: 415px;
 
+          &.full-width {
+            @include box();
+            max-width: 700px;
+            width: 100%;
+          }
+
           p {
+            margin: 3px 0 12px;
+            width: 100%;
             a {
               border-bottom: 1px solid #C1C1C1;
               @include transition(all 0.15s);
@@ -1456,11 +1464,6 @@ body.profile, body.map, body.story {
 
             }
 
-          }
-
-          p {
-            margin: 3px 0 6px;
-            width: 100%;
           }
 
         }
