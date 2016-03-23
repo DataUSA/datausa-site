@@ -2,7 +2,7 @@ viz.geo_map = function(build) {
 
   var key = build.config.coords.key;
 
-  var profile = d3.select("body").classed("profile") && !d3.select("body").classed("embed");
+  var profile = (d3.select("body").classed("profile") || d3.select("body").classed("story")) && !d3.select("body").classed("embed");
 
   return {
     "coords": {
