@@ -1,4 +1,4 @@
-import os, requests, yaml
+import os, re, requests, yaml
 from config import API, basedir, CROSSWALKS, PROFILES
 from datausa import cache, app
 from datausa.consts import COLMAP, DICTIONARY
@@ -95,8 +95,9 @@ def build_story_cache():
         s["description"] = story_conf['description'] if 'description' in story_conf else ''
         s["date"] = story_conf['date'] if 'date' in story_conf else ''
         if not s["date"]:
-            s["date"] = date_from_filename(filename)
-        s["_date_obj"] = parser.parse(s["date"]) if s["date"] else None
+            s["date"] = re.match("(\d+-\d+-\d+)", filename).group(0)
+        s["_date_obj"] = parser.parse(s["date"])
+        s["date"] = s["_date_obj"].strftime("%B %-d, %Y")
         s["authors"] = story_conf['authors'] if 'authors' in story_conf else []
         s["background_image"] = story_conf['background_image'] if 'background_image' in story_conf else None
         return s

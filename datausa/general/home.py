@@ -33,7 +33,7 @@ HOMEFEED = [
         "viz": "radar"
     },
     {
-        "link": "/story/11-19-2015_cost-of-living/",
+        "link": "/story/04-04-2016_dangerous-running-mates/",
         "featured": True
     },
     {
@@ -60,7 +60,7 @@ HOMEFEED = [
         "viz": "tree_map"
     },
     {
-        "link": "/story/11-16-2015_minority-education/",
+        "link": "/story/04-04-2016_urban-planning-degrees/",
         "featured": False
     },
     {
@@ -83,7 +83,7 @@ HOMEFEED = [
         "viz": "bar_triptych"
     },
     {
-        "link": "/story/11-11-2015_gender-bias-workplace/",
+        "link": "/story/04-04-2016_men-still-dominate/",
         "featured": False
     }
 ]
