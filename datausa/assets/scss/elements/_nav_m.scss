@@ -4,7 +4,7 @@
 
 /* Large Devices, Wide Screens */
 @media only screen and (max-width : 1200px) {
-  
+
 }
 
 /* Medium Devices, Desktops */
@@ -17,9 +17,9 @@
 
 }
 
-/* Extra Small Devices, Phones */ 
+/* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
-  
+
   #search-btn {
     position: fixed;
     top: 0;
@@ -41,18 +41,18 @@
     display: none;
   }
 
-  .menu-content {
-    h2, a img {
-      padding: 5px 20px;
-    }
-
-    li a > h2 {
-      font-size: 16px !important;
-    }
-  }
+  // .menu-content {
+  //   h2, a img {
+  //     padding: 5px 20px;
+  //   }
+  //
+  //   li a > h2 {
+  //     font-size: 16px !important;
+  //   }
+  // }
 }
 
-/* Custom, iPhone Retina */ 
+/* Custom, iPhone Retina */
 @media only screen and (max-width : 320px) {
 
 }
