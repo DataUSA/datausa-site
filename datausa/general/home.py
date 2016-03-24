@@ -47,13 +47,6 @@ HOMEFEED = [
         "title": "Counties by Average Age"
     },
     {
-        "link": "/profile/soc/172051/#growth",
-        "title": "Job Growth for Civil Engineers",
-        "section": "growth",
-        "viz": "line",
-        "featured": True
-    },
-    {
         "link": "/profile/cip/110701/#institutions",
         "title": "Most Common Universities for Computer Science",
         "section": "institutions",
