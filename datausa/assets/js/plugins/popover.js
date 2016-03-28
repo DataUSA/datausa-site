@@ -365,7 +365,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         api_panel.append("input")
           .attr("type", "text")
           .attr("readonly", true)
-          .property("value", d.url)
+          .property("value", "http://api.datausa.io/api/" + d.url.split("/api/")[1])
           .on("click", function(){ this.select(); })
       })
 
