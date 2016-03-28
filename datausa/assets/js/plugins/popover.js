@@ -189,7 +189,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("type", "text")
         .attr("readonly", true)
         .attr("class", "embed-link")
-        .property("value", '<iframe width="360px" height="240px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
+        .property("value", '<iframe width="720px" height="480px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
         .on("click", function(){ this.select(); })
     }
     else if(p.title.toLowerCase() == "download"){
