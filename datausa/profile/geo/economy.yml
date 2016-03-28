@@ -114,17 +114,17 @@ topics:
           position: "{{<<sumlevel>>:!nation||True}}"
         value: "bucket"
       y: "share"
-  - title: "Wage by Location"
+  - title: "Income by Location"
     sumlevel: "!puma"
     slug: "income_geo"
     stat:
-      - title: "<<level child=True|plural=True>> with the highest median wage"
+      - title: "<<level child=True|plural=True>> with the highest median income"
         value: "<<top child=True|order=income>>"
         sumlevel: "!county,!place"
         subvalues:
           - "<<top child=True|order=income|rank=2>>"
           - "<<top child=True|order=income|rank=3>>"
-    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median wage for that <<level child=True>>."
+    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median income for that <<level child=True>>."
     viz:
       attrs: "geo"
       coords:
