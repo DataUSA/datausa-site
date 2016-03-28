@@ -4508,6 +4508,17 @@ function getElDimensions(el) {
   ];
 }
 
+
+function getLinkPath(href) {
+    var l = document.createElement("a");
+    l.href = href;
+    var tmp_url = l.pathname + l.search;
+    if (tmp_url[0] != '/') {
+      tmp_url = '/' + tmp_url;
+    }
+    return tmp_url;
+}
+
 dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
   var active_panel = null;
 
@@ -4677,7 +4688,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("type", "text")
         .attr("readonly", true)
         .attr("class", "embed-link")
-        .property("value", '<iframe width="360px" height="240px" src="'+url+'?viz=True" frameborder="0" ></iframe>')
+        .property("value", '<iframe width="720px" height="480px" src="http://embed.datausa.io'+getLinkPath(url)+'?viz=True" frameborder="0" ></iframe>')
         .on("click", function(){ this.select(); })
     }
     else if(p.title.toLowerCase() == "download"){
@@ -4853,7 +4864,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         api_panel.append("input")
           .attr("type", "text")
           .attr("readonly", true)
-          .property("value", d.url)
+          .property("value", "http://api.datausa.io" + getLinkPath(d.url))
           .on("click", function(){ this.select(); })
       })
 
