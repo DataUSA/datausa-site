@@ -1,0 +1,19 @@
+title: "The well-heeled philosophy major"
+background_image: "/static/img/story/philosophers.jpg"
+authors:
+  - name: Danny Bachman
+    title: Deloitte US Economist
+    img: "/static/img/story/authors/bachman.png"
+    about: "Danny Bachman is in charge of U.S. economic forecasting for Deloitte’s Eminence and Strategy functions. He is an experienced U.S. and international macroeconomic forecaster and modeler. Dr. Bachman came to Deloitte from IHS economics, where he was in charge of IHS’s Center for Forecasting and Modeling. Prior to that, he worked as a forecaster and economic analyst at the US Commerce Department, was responsible for U.S. economic forecasting and modeling at WEFA (previously Wharton Econometric Forecasting Associates) and taught international economics at Temple University. His first professional job was at Israel’s Ministry of Finance.
+    Dr. Bachman is a native of Philadelphia. He has a B.A. from Johns Hopkins and Ph.D. from Brown University. Dr. Bachman lives in Rockville, Maryland with his wife, but without his two millennial children, who—evidently defying the odds—have not returned home after college. Yet."
+topics:
+  - description:
+      - "Most people think that philosophy ranks up there as the ultimate “basket-weaving” line of study. Of what possible use in the labor market is the study of “why do we exist” or “do humans have free will?” Compared to the training in, say, computer science or business, somebody who has earned a philosophy degree doesn’t appear to have studied much of interest in the “real world.”"
+      - "Yet…the salaries of philosophy majors rank 14th highest (out of 38 courses of study in the database). Studying philosophy—contrary to what you might think—leads to higher than average incomes. We’ll leave to philosophers themselves the question of whether that is morally just, and instead explore what they do with their degrees—and what industries hire them."
+      - "The occupational tree map for philosophers shows that the largest occupation of philosophy majors is—the clergy. But clergy is not a very well paid occupation (average annual income of $43,000, while all Philosophy majors earn $75,000). Non-clergy Philosophy majors must be doing pretty well, indeed, to pull up the average when one of ten is in such a non-lucrative field."
+    viz_url: "/profile/cip/38/employment/tmap_occ_num_emp_degree"
+  - description:
+      - "Just how do philosophy majors make money? The tree map shows that philosophy majors work largely in Management, business, science and arts occupations. The specific occupations that stand out are mostly well paid:  Lawyers, judges, magistrates and other judicial officials ($184,000), postsecondary teachers ($70,000), miscellaneous managers ($105,000), elementary and middle school teachers (an outlier among these at just $45,000), and physicians and surgeons ($194,000). Many of the wide variety of management and business support occupations where philosophy majors can be found are also paid above average salaries."
+      - "Just what is it that Philosophy majors bring to the table? O*Net shows that the strong training in verbal skills (reading, writing, speaking active listening) as well as critical thinking are the key strengths of Philosophy majors. Skill in these areas must provide substantial value in legal and management occupations—enough that majoring in philosophy is no handicap when it ultimately comes to pay."
+      - "So the next time you meet a philosophy major, don’t feel guilty about having him (about two-thirds of philosophy majors are 2/3 male) buy you a drink. He can afford it."
+    viz_url: "/profile/cip/38/skills/radar"
