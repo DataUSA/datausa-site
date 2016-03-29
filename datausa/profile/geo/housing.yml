@@ -4,7 +4,7 @@ description: "The American Census Survey contains a lot of rich information pert
 topics:
   - category: "Income"
     title: "Household Income"
-    subtitle: "Please note that the buckets used in collecting this data are not evenly distributed."
+    subtitle: "Please note that the buckets used in this visualization were not evenly distributed by ACS when publishing the data."
     slug: "household_income"
     stat:
       - title: "Number of Households"
