@@ -5,7 +5,7 @@ import os
 DEBUG = not os.environ.get("DATAUSA_PRODUCTION", False)
 
 ''' Base URL used for API calls '''
-API = os.environ.get("DATAUSA_API", "http://postgres.datawheel.us")
+API = os.environ.get("DATAUSA_API", "http://api.datausa.io")
 PROFILES = ["cip", "soc", "naics", "geo"]
 CROSSWALKS = ["acs_ind", "acs_occ", "commodity_iocode", "industry_iocode", "iocode"]
 
