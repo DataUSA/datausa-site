@@ -33,7 +33,7 @@ HOMEFEED = [
         "viz": "radar"
     },
     {
-        "link": "/story/04-04-2016_dangerous-running-mates/",
+        "link": "/story/04-04-2016_men-still-dominate/",
         "featured": True
     },
     {
@@ -76,7 +76,7 @@ HOMEFEED = [
         "viz": "bar_triptych"
     },
     {
-        "link": "/story/04-04-2016_men-still-dominate/",
+        "link": "/story/04-04-2016_dangerous-running-mates/",
         "featured": False
     }
 ]
