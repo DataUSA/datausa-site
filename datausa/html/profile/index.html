@@ -106,6 +106,14 @@
           </div>
           {% endif %}
         </div>
+        {% if profile.attr_type in ['soc', 'naics'] %}
+        <div class="breadcrumb">
+          <img src="/static/img/splash/database.svg" alt="Statistics Source."/>
+          <div class="crumb-trail">
+            <a>All statistics above are from ACS (PUMS) unless otherwise noted.</a>
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
 
