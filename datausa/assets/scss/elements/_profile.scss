@@ -990,17 +990,27 @@ body.profile, body.map, body.story {
       color: #fff;
     }
 
-    .breadcrumb {
-      @include flex();
-      @include align-items(flex-start);
-
+    .breadcrumb, .data-source-crumb {
       img {
         position: relative;
         display: inline-block;
+        bottom: 4px;
+      }
+    }
+
+    .data-source-crumb {
+      img {
+        width: 15px;
+        height: 15px;
+        margin: 3px 8px 0px 4px;
+      }
+    }
+
+    .breadcrumb {
+      img {
         width: 18px;
         height: 18px;
         margin: 3px 6px 3px 3px;
-        bottom: 4px;
       }
 
       .crumb-trail {
@@ -1008,6 +1018,7 @@ body.profile, body.map, body.story {
         display: inline-block;
         line-height: 0.5;
         top: 3px;
+        margin-bottom: 3px;
       }
 
       a {
@@ -1047,10 +1058,25 @@ body.profile, body.map, body.story {
       @include justify(space-between);
       padding: 30px 0;
 
-      .photo-cred, .breadcrumb {
+
+      .photo-cred, .breadcrumb, .data-source-crumb {
+        margin: 0;
+      }
+
+      .photo-cred {
         height: 18px;
         overflow: visible;
-        margin: 0;
+      }
+
+      .data-source-crumb {
+        position: relative;
+        display: inline-block;
+        line-height: 0.5;
+      }
+
+      .breadcrumb, .data-source-crumb {
+        @include flex();
+        @include align-items(flex-start);
       }
 
       .fa {

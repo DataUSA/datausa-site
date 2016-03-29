@@ -633,9 +633,10 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
             width: 14px; }
             .menu-content li ul li a {
               margin-left: 13px;
-              font-size: 13px;
+              font-size: 14px;
               font-weight: 600;
               letter-spacing: 0.05em;
+              line-height: 30px;
               text-transform: uppercase;
               color: white;
               -moz-transition: color 0.1s;
@@ -2943,9 +2944,9 @@ body.home {
           right: 30px;
           top: 20px; }
           body.home #feed .feed-box.featured .feed-box-title {
-            font-size: 40px;
+            font-size: 36px;
             line-spacing: 71px;
-            letter-spacing: 3px;
+            letter-spacing: 1px;
             margin: 40px 30px 5px;
             text-align: left; }
             body.home #feed .feed-box.featured .feed-box-subtitle {
@@ -4193,50 +4194,43 @@ body.profile .intro, body.map .intro, body.story .intro {
   body.map .intro h2, body.map .intro a, body.map .intro p, body.story .intro h2,
   body.story .intro a, body.story .intro p {
     color: #fff; }
-    body.profile .intro .breadcrumb, body.map .intro .breadcrumb,
-    body.story .intro .breadcrumb {
-      -webkit-justify-content: center;
-      -moz-justify-content: center;
-      justify-content: center;
-      -ms-flex-pack: center;
-      flex-pack: center;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-align-items: flex-start;
-      align-items: flex-start;
-      -ms-flex-align: start;
-      flex-align: start; }
-      body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
-      body.story .intro .breadcrumb img {
-        position: relative;
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin: 3px 6px 3px 3px;
-        bottom: 4px; }
-        body.profile .intro .breadcrumb .crumb-trail,
-        body.map .intro .breadcrumb .crumb-trail,
-        body.story .intro .breadcrumb .crumb-trail {
-          position: relative;
-          display: inline-block;
-          line-height: 0.5;
-          top: 3px; }
-          body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
-          body.story .intro .breadcrumb a {
-            display: inline;
-            padding: 2px 0;
-            margin-top: -4px;
-            vertical-align: text-top; }
-            body.profile .intro .breadcrumb a + a::before,
-            body.map .intro .breadcrumb a + a::before,
-            body.story .intro .breadcrumb a + a::before {
-              content: "\\ ";
-              font-weight: 400;
-              color: rgba(240, 244, 246, 0.75);
-              padding: 0 2px 0; }
+    body.profile .intro .breadcrumb img, body.profile .intro .data-source-crumb img,
+    body.map .intro .breadcrumb img, body.map .intro .data-source-crumb img,
+    body.story .intro .breadcrumb img, body.story .intro .data-source-crumb img {
+      position: relative;
+      display: inline-block;
+      bottom: 4px; }
+  body.profile .intro .data-source-crumb img, body.map .intro .data-source-crumb img,
+  body.story .intro .data-source-crumb img {
+    width: 15px;
+    height: 15px;
+    margin: 3px 8px 0px 4px; }
+  body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
+  body.story .intro .breadcrumb img {
+    width: 18px;
+    height: 18px;
+    margin: 3px 6px 3px 3px; }
+    body.profile .intro .breadcrumb .crumb-trail,
+    body.map .intro .breadcrumb .crumb-trail,
+    body.story .intro .breadcrumb .crumb-trail {
+      position: relative;
+      display: inline-block;
+      line-height: 0.5;
+      top: 3px;
+      margin-bottom: 3px; }
+      body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
+      body.story .intro .breadcrumb a {
+        display: inline;
+        padding: 2px 0;
+        margin-top: -4px;
+        vertical-align: text-top; }
+        body.profile .intro .breadcrumb a + a::before,
+        body.map .intro .breadcrumb a + a::before,
+        body.story .intro .breadcrumb a + a::before {
+          content: "\\ ";
+          font-weight: 400;
+          color: rgba(240, 244, 246, 0.75);
+          padding: 0 2px 0; }
   body.profile .intro .photo-cred i, body.map .intro .photo-cred i,
   body.story .intro .photo-cred i {
     opacity: 0.6;
@@ -4275,63 +4269,94 @@ body.profile .intro, body.map .intro, body.story .intro {
     padding: 30px 0; }
     body.profile .intro .intro-head .photo-cred,
     body.profile .intro .intro-head .breadcrumb,
+    body.profile .intro .intro-head .data-source-crumb,
     body.map .intro .intro-head .photo-cred, body.map .intro .intro-head .breadcrumb,
+    body.map .intro .intro-head .data-source-crumb,
     body.story .intro .intro-head .photo-cred,
-    body.story .intro .intro-head .breadcrumb {
-      height: 18px;
-      overflow: visible;
+    body.story .intro .intro-head .breadcrumb,
+    body.story .intro .intro-head .data-source-crumb {
       margin: 0; }
-      body.profile .intro .intro-head .fa, body.map .intro .intro-head .fa,
-      body.story .intro .intro-head .fa {
-        padding: 1px 6px;
-        font-size: 11px;
-        color: #fff;
-        display: inline-block; }
-        body.profile .intro .intro-head .r, body.map .intro .intro-head .r,
-        body.story .intro .intro-head .r {
-          max-width: 50vw;
-          -webkit-justify-content: center;
-          -moz-justify-content: center;
-          justify-content: center;
-          -ms-flex-pack: center;
-          flex-pack: center;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          -ms-flex-direction: column;
-          flex-direction: column;
-          -webkit-justify-content: center;
-          -moz-justify-content: center;
-          justify-content: center;
-          -ms-flex-pack: center;
-          flex-pack: center;
-          -webkit-align-items: flex-start;
-          align-items: flex-start;
-          -ms-flex-align: start;
-          flex-align: start; }
-          body.profile .intro .intro-head .r a, body.map .intro .intro-head .r a,
-          body.story .intro .intro-head .r a {
-            font-family: "Palanquin", sans-serif;
-            font-weight: 400;
-            font-size: 10px;
-            letter-spacing: 0.05em;
-            line-height: 1;
-            text-transform: uppercase;
-            -moz-transition: all 0.35s;
-            -o-transition: all 0.35s;
-            -webkit-transition: all 0.35s;
-            transition: all 0.35s; }
-            body.profile .intro .intro-head .r a:hover,
-            body.profile .intro .intro-head .r a:focus, body.map .intro .intro-head .r a:hover,
-            body.map .intro .intro-head .r a:focus, body.story .intro .intro-head .r a:hover,
-            body.story .intro .intro-head .r a:focus {
-              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-              text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
+      body.profile .intro .intro-head .photo-cred,
+      body.map .intro .intro-head .photo-cred, body.story .intro .intro-head .photo-cred {
+        height: 18px;
+        overflow: visible; }
+        body.profile .intro .intro-head .data-source-crumb,
+        body.map .intro .intro-head .data-source-crumb,
+        body.story .intro .intro-head .data-source-crumb {
+          position: relative;
+          display: inline-block;
+          line-height: 0.5; }
+          body.profile .intro .intro-head .breadcrumb,
+          body.profile .intro .intro-head .data-source-crumb,
+          body.map .intro .intro-head .breadcrumb,
+          body.map .intro .intro-head .data-source-crumb,
+          body.story .intro .intro-head .breadcrumb,
+          body.story .intro .intro-head .data-source-crumb {
+            -webkit-justify-content: center;
+            -moz-justify-content: center;
+            justify-content: center;
+            -ms-flex-pack: center;
+            flex-pack: center;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+            -ms-flex-align: start;
+            flex-align: start; }
+            body.profile .intro .intro-head .fa, body.map .intro .intro-head .fa,
+            body.story .intro .intro-head .fa {
+              padding: 1px 6px;
+              font-size: 11px;
+              color: #fff;
+              display: inline-block; }
+              body.profile .intro .intro-head .r, body.map .intro .intro-head .r,
+              body.story .intro .intro-head .r {
+                max-width: 50vw;
+                -webkit-justify-content: center;
+                -moz-justify-content: center;
+                justify-content: center;
+                -ms-flex-pack: center;
+                flex-pack: center;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-direction: column;
+                -moz-flex-direction: column;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -webkit-justify-content: center;
+                -moz-justify-content: center;
+                justify-content: center;
+                -ms-flex-pack: center;
+                flex-pack: center;
+                -webkit-align-items: flex-start;
+                align-items: flex-start;
+                -ms-flex-align: start;
+                flex-align: start; }
+                body.profile .intro .intro-head .r a, body.map .intro .intro-head .r a,
+                body.story .intro .intro-head .r a {
+                  font-family: "Palanquin", sans-serif;
+                  font-weight: 400;
+                  font-size: 10px;
+                  letter-spacing: 0.05em;
+                  line-height: 1;
+                  text-transform: uppercase;
+                  -moz-transition: all 0.35s;
+                  -o-transition: all 0.35s;
+                  -webkit-transition: all 0.35s;
+                  transition: all 0.35s; }
+                  body.profile .intro .intro-head .r a:hover,
+                  body.profile .intro .intro-head .r a:focus, body.map .intro .intro-head .r a:hover,
+                  body.map .intro .intro-head .r a:focus, body.story .intro .intro-head .r a:hover,
+                  body.story .intro .intro-head .r a:focus {
+                    -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+                    -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+                    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
     body.profile .intro .intro-head .image-author,
     body.map .intro .intro-head .image-author,
     body.story .intro .intro-head .image-author {
