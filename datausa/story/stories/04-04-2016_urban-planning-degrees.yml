@@ -3,6 +3,7 @@ background_image: "/static/img/splash/cip/0403.jpg"
 authors:
   - name: Andrew Killian
     title: Deloitte Consulting LLP
+    img: "/static/img/story/authors/killian.png"
 
 topics:
   - description:

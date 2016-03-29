@@ -4,6 +4,7 @@ background_image: "/static/img/story/pizza.jpg"
 authors:
   - name: Sarah Thomas
     title: Research Director of Deloitte Center for Health Solutions
+    img: "/static/img/story/authors/thomas.png"
 
 topics:
   - description:
