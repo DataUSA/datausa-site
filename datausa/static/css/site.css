@@ -1397,11 +1397,10 @@ footer {
                           margin: 20px 0 40px 0;
                           text-align: center;
                           opacity: 0.3; }
-                          .overlay#view .modal .body .panels .panel .social span {
+                          .overlay#view .modal .body .panels .panel .social a {
                             font-size: 45px;
                             padding: 0 20px; }
                             .overlay#view .modal .body .panels .panel .social::after {
-                              content: 'Sharing is disabled until launch';
                               display: block;
                               font-family: "Palanquin", sans-serif;
                               text-transform: uppercase;

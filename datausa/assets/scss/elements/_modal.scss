@@ -239,13 +239,12 @@
               text-align: center;
               opacity: 0.3;
 
-              span {
+              a {
                 font-size: 45px;
                 padding: 0 20px;
               }
 
               &::after {
-                content: 'Sharing is disabled until launch';
                 display: block;
                 font-family: $palanquin;
                 text-transform: uppercase;

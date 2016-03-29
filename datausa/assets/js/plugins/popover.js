@@ -131,14 +131,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       var social = panel.append("div")
         .attr("class", "social")
 
-      social.append("span")
-        .on("click", function(){})
-        .append("i")
+      social.append("a")
+        .attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.href))
+        .attr("target", "_blank")
         .attr("class", "fa fa-facebook")
 
-      social.append("span")
-        .on("click", function(){})
-        .append("i")
+      social.append("a")
+        .attr("href", "https://twitter.com/home?status=" + encodeURIComponent(window.location.href))
+        .attr("target", "_blank")
         .attr("class", "fa fa-twitter")
 
       panel.append("input")

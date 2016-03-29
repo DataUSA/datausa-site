@@ -4619,14 +4619,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       var social = panel.append("div")
         .attr("class", "social")
 
-      social.append("span")
-        .on("click", function(){})
-        .append("i")
+      social.append("a")
+        .attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.href))
+        .attr("target", "_blank")
         .attr("class", "fa fa-facebook")
 
-      social.append("span")
-        .on("click", function(){})
-        .append("i")
+      social.append("a")
+        .attr("href", "https://twitter.com/home?status=" + encodeURIComponent(window.location.href))
+        .attr("target", "_blank")
         .attr("class", "fa fa-twitter")
 
       panel.append("input")
@@ -5760,7 +5760,6 @@ search.reload = function() {
     window.history.replaceState({}, "", "/search/"+q_params);
   }
   else {
-    console.log(q_params, d3.select(".results-show-all a").size());
     d3.selectAll(".results-show-all a").attr("href", "/search/"+q_params).classed("pri-link", true);
   }
 
