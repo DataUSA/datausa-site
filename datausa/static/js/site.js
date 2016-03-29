@@ -5760,7 +5760,8 @@ search.reload = function() {
     window.history.replaceState({}, "", "/search/"+q_params);
   }
   else {
-    d3.select(".results-show-all a").attr("href", "/search/"+q_params).classed("pri-link", true);
+    console.log(q_params, d3.select(".results-show-all a").size());
+    d3.selectAll(".results-show-all a").attr("href", "/search/"+q_params).classed("pri-link", true);
   }
 
   // if contrained, show "clear refinements"
