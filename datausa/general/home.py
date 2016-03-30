@@ -9,8 +9,8 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/profile/geo/california/#income_gender",
-        "title": "Gender Wage Gap in California",
+        "link": "/profile/geo/connecticut/#income_gender",
+        "title": "Gender Wage Gap in Connecticut",
         "section": "economy",
         "viz": "bar_double"
     },
@@ -27,20 +27,20 @@ HOMEFEED = [
         "viz": "geo_map"
     },
     {
-        "link": "/profile/cip/4506/#skills",
-        "title": "Required Skills for an Economics Degree",
-        "section": "skills",
-        "viz": "radar"
-    },
-    {
         "link": "/story/04-04-2016_men-still-dominate/",
         "featured": True
     },
     {
-        "link": "/profile/geo/philadelphia-pa/#housing",
-        "title": "Median Household Income in Philly Compared to the Nation",
+        "link": "/profile/geo/pennsylvania/#housing",
+        "title": "Median Household Income in Pennsylvania",
         "section": "housing",
-        "viz": "bar_dist"
+        "viz": "bar_double"
+    },
+    {
+        "link": "/profile/cip/4506/#skills",
+        "title": "Required Skills for an Economics Degree",
+        "section": "skills",
+        "viz": "radar"
     },
     {
         "link": "/map/?level=county&key=age,age_moe,age_rank",
@@ -53,8 +53,14 @@ HOMEFEED = [
         "viz": "tree_map"
     },
     {
-        "link": "/story/04-04-2016_urban-planning-degrees/",
+        "link": "/story/04-04-2016_characteristics-power-occupations/",
         "featured": False
+    },
+    {
+        "link": "/profile/geo/chicago-il/#income_geo",
+        "title": "Income by Location in Chicago",
+        "section": "economy",
+        "viz": "geo_map"
     },
     {
         "link": "/profile/geo/los-angeles-ca/#health",
@@ -70,6 +76,10 @@ HOMEFEED = [
         "viz": "tree_map"
     },
     {
+        "link": "/story/04-04-2016_urban-planning-degrees/",
+        "featured": False
+    },
+    {
         "link": "/profile/naics/531/#workforce",
         "title": "Highest Earning Jobs in the Real Estate Industry",
         "section": "workforce",
@@ -78,5 +88,5 @@ HOMEFEED = [
     {
         "link": "/story/04-04-2016_dangerous-running-mates/",
         "featured": False
-    }
+    },
 ]
