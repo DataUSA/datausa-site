@@ -54,7 +54,7 @@ HOMEFEED = [
     },
     {
         "link": "/story/04-04-2016_characteristics-power-occupations/",
-        "featured": False
+        "featured": True
     },
     {
         "link": "/profile/geo/chicago-il/#income_geo",
@@ -63,11 +63,19 @@ HOMEFEED = [
         "viz": "geo_map"
     },
     {
+        "link": "/story/04-04-2016_the-well-heeled-philosophy-major/",
+        "featured": False
+    },
+    {
         "link": "/profile/geo/los-angeles-ca/#health",
         "title": "Obesity & Diabetes in California",
         "section": "health",
         "viz": "scatter",
         "featured": True
+    },
+    {
+        "link": "/story/04-04-2016_are-we-having-fun-yet/",
+        "featured": False
     },
     {
         "link": "/profile/geo/st.-louis-mo/#education",
