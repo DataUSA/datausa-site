@@ -1,6 +1,6 @@
 $(function() {
 
-  var deadline = new Date("04/04/2016 12:00:00 GMT-0500");
+  var deadline = new Date("04/04/2016 8:00:00 GMT-0500");
 
   initializeClock('countdown-lg', deadline);
   initializeClock('countdown-sm', deadline);
