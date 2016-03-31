@@ -6355,13 +6355,19 @@ body.story {
 }
 body.about {
   background-color: #1b191e; }
-  body.about a.anchor {
-    position: relative; }
-    body.about a.anchor::before {
-      content: "";
-      position: absolute;
-      visibility: hidden;
-      top: -40px; }
+  body.about .video {
+    border: 1px solid #141b2e;
+    display: block;
+    height: 315px;
+    margin: 0 auto;
+    width: 560px; }
+    body.about a.anchor {
+      position: relative; }
+      body.about a.anchor::before {
+        content: "";
+        position: absolute;
+        visibility: hidden;
+        top: -40px; }
   body.about #logos {
     margin-bottom: 20px;
     text-align: center; }
@@ -6759,6 +6765,22 @@ body.about {
             position: absolute;
             visibility: hidden;
             top: -60px; }
+@media only screen and (max-width : 768px) {
+  body.about .video {
+    height: 225px;
+    width: 400px;   }
+    body.about #logos img {
+      height: 25px;
+      margin: 20px 10px;   }
+}
+@media only screen and (max-width : 570px) {
+  body.about .video {
+    height: 152px;
+    width: 270px;   }
+    body.about #logos img {
+      height: 15px;
+      margin: 20px 5px;   }
+}
 @media only screen and (max-width : 480px) {
   body.about {
     background-color: #F6F6F6;   }

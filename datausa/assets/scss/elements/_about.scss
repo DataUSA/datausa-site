@@ -1,5 +1,13 @@
 body.about {
 
+  .video {
+    border: 1px solid $black2;
+    display: block;
+    height: 315px;
+    margin: 0 auto;
+    width: 560px;
+  }
+
   a.anchor {
     position: relative;
 

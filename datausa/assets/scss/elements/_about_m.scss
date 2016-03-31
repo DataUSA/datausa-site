@@ -12,6 +12,29 @@ body.about {
 
   /* Small Devices, Tablets */
   @media only screen and (max-width : 768px) {
+    .video {
+      height: 225px;
+      width: 400px;
+    }
+
+    #logos img {
+      height: 25px;
+      margin: 20px 10px;
+    }
+  }
+
+  @media only screen and (max-width : 570px) {
+
+    .video {
+      height: 152px;
+      width: 270px;
+    }
+
+    #logos img {
+      height: 15px;
+      margin: 20px 5px;
+    }
+
   }
 
   /* Extra Small Devices, Phones */
