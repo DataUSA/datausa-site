@@ -1,0 +1,23 @@
+title: "For the love of teaching"
+background_image: "/static/img/story/teaching.jpg"
+authors:
+  - name: Mahesh Kelkar
+    title: Deloitte Public Sector Research
+    img: "/static/img/story/authors/kelkar.png"
+    about: "Mahesh Kelkar is a Manager with Deloitte Public Sector Research. He closely tracks the public sector, including federal and state government sectors. His professional experience includes in-depth research and analysis in areas such as the federal contracting marketplace, market sizing, technology trends in public sector, and competitive intelligence. You can connect with him at @Mahesh_Kelkar or by email at mkelkar@deloitte.com."
+topics:
+  - description:
+      - "It is often said that a good teacher has the ability to shape a student’s future. An elementary or a middle school teacher has the added responsibility of making an impact on a student at a highly impressionable age. This is especially true in today’s digital-age as teaching moves from classrooms to tablets and teachers become technological facilitators in addition to pedagogues. What can the data in DataUSA reveal to us about this occupational group?"
+      - "The first thing it tells us is, there are a LOT of teachers.  “Elementary and middle school teachers” is the second largest occupation group in the U.S., out of 438 detailed occupations available on DataUSA. It employs more than 3.5 million people—about 2.5 percent of the total working population in the U.S. economy. However, it is expected to grow at a rate lower than the national average until 2024 (5.8 vs. 6.5 percent).<<foot note=1>>"
+  - description:
+      - "They are also one of the most equitable of occupations. The GINI coefficient (a parameter that measures income inequality) for the occupation across the U.S. is low at 0.292. In other words, wages are more evenly distributed for elementary and middle school teachers than the overall labor force. Of course, equitable does not mean highly paid. The average wage for elementary and middle school teachers is $46,374. It is lower than the two other comparable teaching occupation groups in the U.S.—secondary school teachers ($49,690) and postsecondary school teachers ($56,701). Overall an elementary and middle school teacher earns wages that are comparable to bailiffs, correctional officers & jailers and postal service mail sorters and processors (see graph)."
+    viz_url: "/profile/soc/252020/employment/wage_by_industry/"
+  - description:
+      - "If you are passionate about the teaching profession and want to be an elementary or a middle school teacher, data suggests that you should head to the Northeastern states of the U.S. The states of New York ($62,309), Connecticut ($59,124), and New Jersey ($57,551) are the places where the elementary & middle school teachers are paid the highest in the country. At nearly $60,000 average wage, these three states are ahead of the rest of the country."
+    viz_url: "/profile/soc/252020/employment/wage_locations/"
+  - description:
+      - "Will relatively low but equitable wages with low employment growth potential infuse a sense of confidence in the next generation of teachers entering the workforce? There is a lot of research exploring the question “why do teachers teach?” and it is clear that answer generally does not lie in the economic data. More often the answer varies from ‘enjoy working with young minds’ to ‘want to make a difference’ to ‘love for the subject’.<<foot note=2>>"
+
+footnotes:
+  - "Bureau of Labor Statistics, Table 1.2 Employment by detailed occupation, 2014 and projected 2024, accessed March 22, 2015, http://www.bls.gov/emp/ep_table_102.htm"
+  - "Sarah Marsh, “Five top reasons people become teachers – and why they quit,” Guardian, January 27, 2015 http://www.theguardian.com/teacher-network/2015/jan/27/five-top-reasons-teachers-join-and-quit"
