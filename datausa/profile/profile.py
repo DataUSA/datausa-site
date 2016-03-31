@@ -368,13 +368,13 @@ class Profile(BaseObject):
                     return [fetch(r["geo"], "geo") for r in results]
             else:
                 results = [
-                    {"id": "04000US06", "name": "California"},
-                    {"id": "04000US48", "name": "Texas"},
-                    {"id": "04000US36", "name": "New York"},
-                    {"id": "16000US1150000", "name":"Washington D.C."},
-                    {"id": "16000US3651000", "name":"New York, NY"},
-                    {"id": "16000US0644000", "name":"Los Angeles, CA"},
-                    {"id": "16000US1714000", "name":"Chicago, IL"}
+                    {"id": "04000US06", "name": "California", "url_name": "california"},
+                    {"id": "04000US48", "name": "Texas", "url_name": "texas"},
+                    {"id": "04000US36", "name": "New York", "url_name": "new-york"},
+                    {"id": "16000US1150000", "name":"Washington D.C.", "url_name": "washington-dc"},
+                    {"id": "16000US3651000", "name":"New York, NY", "url_name": "new-york-ny"},
+                    {"id": "16000US0644000", "name":"Los Angeles, CA", "url_name": "los-angeles-ca"},
+                    {"id": "16000US1714000", "name":"Chicago, IL", "url_name": "chicago-il"}
                 ]
 
                 if id_only:
