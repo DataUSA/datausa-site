@@ -314,7 +314,7 @@ viz.mapDraw = function(vars) {
           return this.getBBox().height + scaleHeight;
         })
         .each(function(d){
-          var w = this.offsetWidth;
+          var w = Math.ceil(this.getBBox().width);
           if (w > label_width) label_width = w;
         });
 
