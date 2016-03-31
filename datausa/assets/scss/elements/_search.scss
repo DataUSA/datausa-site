@@ -188,6 +188,8 @@ body.search {
       border-width: 0 0 1px 0;
       border-color: $black5;
       border-style: solid;
+      border-radius: 0px;
+      @include appearance(none);
       padding: 16px 20px 5px 45px;
       @include box();
       font-family: $palanquin;

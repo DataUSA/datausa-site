@@ -12,6 +12,7 @@ body.home {
     height: auto !important;
     left: 0 !important;
     position: absolute;
+    @include transition(left 0.7s ease);
 
     // .logo {
     //   display: block;

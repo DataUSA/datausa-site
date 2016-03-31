@@ -3,12 +3,15 @@ body.home {
   @media only screen and (max-width: 900px) {
 
     #menu {
-      background-color: rgba(34, 34, 34, 0.9) !important;
-      left: -$nav-width !important;
+      position: fixed;
+      background-color: $black !important;
+      left: -100vh !important;
       height: 100vh !important;
+      top:0;
 
       &.open {
         left: 0 !important;
+        top:0;
       }
     }
 

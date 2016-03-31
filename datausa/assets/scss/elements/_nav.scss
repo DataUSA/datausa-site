@@ -169,10 +169,10 @@ body {
 
         a {
           margin-left: 13px;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 600;
           letter-spacing: 0.05em;
-          line-height: 30px;
+          line-height: 34px;
           text-transform: uppercase;
           color: white;
           @include transition(color 0.1s);
@@ -499,13 +499,13 @@ body.frozen {
   #menu {
     @include justify(space-between);
     width: 100%;
-    left: 0;
-    top: -100%;
+    left: -100vw;
+    top: 0;
     height: 100vh;
-    @include transition(top 0.7s ease);
+    @include transition(left 0.7s ease);
 
     &.open {
-      top: 0;
+      left: 0;
     }
 
     // .profile-sum ul {

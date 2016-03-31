@@ -1,3 +1,9 @@
+@mixin appearance($appearance) {
+  -webkit-appearance: $appearance;
+  -moz-appearance: $appearance;
+  appearance: $appearance;
+}
+
 @mixin clean-tap() {
   -webkit-user-select: none;
   -moz-user-select: none;
