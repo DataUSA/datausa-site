@@ -3,7 +3,7 @@
 {% set meta_desc = profile.splash.description[0]|striptags %}
 {% block social_meta %}
     <meta name="description" content="{{ meta_desc }}">
-    <meta property="og:site_name" content="DataUSA" />
+    <meta property="og:site_name" content="Data USA" />
     <meta property="og:title" content="{{ profile.splash.title }}" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="http://{{ request.host }}{{ image.url }}" />
@@ -14,7 +14,7 @@
 
 {% block subtitle %}
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/logo_sm.png" alt="DataUSA" /></a> {{ profile.splash.title }}
+  <span><a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a> {{ profile.splash.title }}
   <a href="#" class="expand-stats-btn close"></a></span>
 </div>
 {% endblock %}
