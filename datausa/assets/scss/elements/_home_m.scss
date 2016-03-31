@@ -20,6 +20,9 @@ body.home {
 
 
   @media only screen and (max-width : 480px) {
+    #feed .feed-box .feed-box-link {
+      display: none;
+    }
 
     .home-desc {
       h2 {
@@ -36,12 +39,21 @@ body.home {
       display: none !important;
     }
 
+    #feed .feed-box.featured .feed-box-title {
+      font-size: 32px;
+    }
+
   }
 
   @media only screen and (max-width: 645px) {
     #feed .feed-box.featured {
       min-width: 300px !important;
       @include flex-size(1 0 300px);
+      
+      .feed-box-type {
+        top: 7px;
+        left: 10px;
+      }
     }
   }
 

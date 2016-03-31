@@ -21,8 +21,8 @@
         <div class="author-meta">
           {% for author in story.authors %}
           <div class="name"><span>Written by</span> <a href="#authorBio">{{ author.name }}</a></div>
-          {% if story.attr.image_author %}<div class="name"><span>Image by</span> <a href="{{ story.attr.image_link }}" target="_blank">{{ story.attr.image_author }}</a></div>{% endif %}
           <div class="post-date">{{ story.date }}</div>
+          {% if story.attr.image_author %}<div class="name"><span>Image by</span> <a href="{{ story.attr.image_link }}" target="_blank">{{ story.attr.image_author }}</a></div>{% endif %}
           {% endfor %}
         </div>
     </div>

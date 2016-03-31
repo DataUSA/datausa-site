@@ -486,10 +486,6 @@ body.home {
         z-index: 1;
       }
 
-      .feed-box-subtitle {
-        margin-top: 10px;
-      }
-
       .feed-box-link {
         bottom: 10px;
         color: $red-w;
@@ -525,7 +521,7 @@ body.home {
         line-height: 1;
         max-width: 80%;
         text-transform: uppercase;
-        margin: 0 10%;
+        margin: 0 10% 15px;
         text-align: center;
         z-index: 1;
       }
