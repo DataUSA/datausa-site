@@ -72,6 +72,13 @@ class Story(Profile):
         self.authors = story_conf['authors'] if 'authors' in story_conf else []
         self.background_image = story_conf['background_image'] if 'background_image' in story_conf else None
 
+        if self.background_image and "splash" in self.background_image:
+            image_array = self.background_image.split("/")
+            attr_type = image_array[4]
+            attr_id = image_array[5].split(".")[0]
+            attr = fetch(attr_id, attr_type)
+            self.attr = fetch(attr_id, attr_type)
+
         tmp_obj = {"topics": story_conf['topics']}
         for t in tmp_obj["topics"]:
             if "viz_url" in t:
