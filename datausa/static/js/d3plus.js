@@ -18270,12 +18270,6 @@ var d3plus, message, stylesheet;
 
 d3plus = {};
 
-if (typeof window !== "undefined") {
-  window.d3plus = d3plus;
-}
-
-module.exports = d3plus;
-
 
 /**
  * The current version of **D3plus** you are using. Returns a string in
@@ -18286,7 +18280,7 @@ module.exports = d3plus;
  * @static
  */
 
-d3plus.version = "1.9.1 - Cornflower";
+d3plus.version = "1.9.2 - Cornflower";
 
 
 /**
@@ -18515,6 +18509,12 @@ message = require("./core/console/print.coffee");
 if (stylesheet("d3plus.css")) {
   message.warning("d3plus.css has been deprecated, you do not need to load this file.", d3plus.repo + "releases/tag/v1.4.0");
 }
+
+if (typeof window !== "undefined") {
+  window.d3plus = d3plus;
+}
+
+module.exports = d3plus;
 
 
 },{"./array/comparator.coffee":32,"./array/contains.coffee":33,"./array/sort.coffee":34,"./array/update.coffee":35,"./client/css.coffee":36,"./client/ie.js":37,"./client/pointer.coffee":38,"./client/prefix.coffee":39,"./client/rtl.coffee":40,"./client/scroll.js":41,"./client/scrollbar.coffee":42,"./client/touch.coffee":43,"./color/legible.coffee":44,"./color/lighter.coffee":45,"./color/mix.coffee":46,"./color/random.coffee":47,"./color/scale.coffee":48,"./color/sort.coffee":49,"./color/text.coffee":50,"./color/validate.coffee":51,"./core/console/print.coffee":52,"./data/bestRegress.coffee":98,"./data/lof.coffee":99,"./data/mad.coffee":100,"./font/sizes.coffee":101,"./font/validate.coffee":102,"./form/form.js":103,"./geom/largestRect.coffee":159,"./geom/offset.coffee":160,"./geom/path2poly.coffee":161,"./network/cluster.coffee":163,"./network/distance.coffee":164,"./network/normalize.coffee":165,"./network/shortestPath.coffee":166,"./network/smallestGap.coffee":167,"./network/subgraph.coffee":168,"./number/format.coffee":169,"./object/merge.coffee":170,"./object/validate.coffee":171,"./string/format.js":172,"./string/list.coffee":173,"./string/strip.js":174,"./string/title.coffee":175,"./textwrap/textwrap.coffee":199,"./tooltip/create.js":200,"./tooltip/move.coffee":201,"./tooltip/remove.coffee":202,"./util/buckets.coffee":203,"./util/child.coffee":204,"./util/closest.coffee":205,"./util/copy.coffee":206,"./util/d3selection.coffee":207,"./util/dataURL.coffee":208,"./util/uniques.coffee":209,"./viz/viz.coffee":332}],163:[function(require,module,exports){
@@ -34243,7 +34243,8 @@ sankey = function(vars) {
       s = {
         id: "left_" + e[vars.edges.source][vars.id.value],
         dupe: "left",
-        data: e[vars.edges.source]
+        data: e[vars.edges.source],
+        value: e[vars.edges.strength.value]
       };
       t = e[vars.edges.target];
     } else {
@@ -34251,7 +34252,8 @@ sankey = function(vars) {
       t = {
         id: "right_" + e[vars.edges.target][vars.id.value],
         dupe: "right",
-        data: e[vars.edges.target]
+        data: e[vars.edges.target],
+        value: e[vars.edges.strength.value]
       };
     }
     if (placed.indexOf(s.id) < 0) {
@@ -34283,6 +34285,9 @@ sankey = function(vars) {
       height: n.dy,
       suffix: n.dupe
     };
+    if (d.id !== focus) {
+      d[vars.edges.strength.value] = n.value;
+    }
     returnData.push(d);
   }
   vars.edges.path = layout.link();
