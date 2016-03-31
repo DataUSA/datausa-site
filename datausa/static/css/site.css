@@ -5688,6 +5688,27 @@ body.map {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
+    #map-controls .sub-source {
+      display: block;
+      color: #a8a8a8;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.5;
+      margin: 10px 5px 2px; }
+      #map-controls .sub-source:last-child {
+        margin-top: 2px; }
+        #map-controls .sub-source a {
+          color: #888;
+          border-bottom: 1px solid transparent;
+          -moz-transition: all 0.15s;
+          -o-transition: all 0.15s;
+          -webkit-transition: all 0.15s;
+          transition: all 0.15s; }
+          #map-controls .sub-source a:hover {
+            border-color: #888; }
+      #map-controls .sub-source span {
+        vertical-align: baseline; }
 
 #map-fullscreen {
   left: 250px;

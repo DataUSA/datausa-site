@@ -64,12 +64,15 @@ def map():
     datasets = sorted([d for d in mapdata], key=lambda x: DICTIONARY[d])
     sumlevels = ["state", "county", "msa", "puma"]
     keys = []
+    mapdataFlat = {}
     for d in mapdata:
         if defaultKey in mapdata[d]:
             defaultDataset = d
         keys += [k for k in mapdata[d]]
+        for k in mapdata[d]:
+            mapdataFlat[k] = mapdata[d][k]
     keys = sorted(keys, key=lambda x: DICTIONARY[x.split(",")[0]])
     defaultKey = defaultKey.split(",")[0]
 
-    return render_template("map/index.html", mapdata=mapdata, datasets=datasets, keys=keys, sumlevels=sumlevels,
+    return render_template("map/index.html", mapdata=mapdataFlat, datasets=datasets, keys=keys, sumlevels=sumlevels,
                                              defaultKey=defaultKey, defaultLevel=defaultLevel, defaultDataset=defaultDataset)

@@ -29,6 +29,33 @@ $map-sidebar: 250px;
   width: $map-sidebar + 1;
   visibility: hidden;
 
+  .sub-source {
+    display: block;
+    color: #a8a8a8;
+    font-family: $palanquin;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 10px 5px 2px;
+
+    &:last-child {
+      margin-top: 2px;
+    }
+
+    a {
+      color: #888;
+      border-bottom: 1px solid transparent;
+      @include transition(all 0.15s);
+      &:hover {
+        border-color: #888;
+      }
+    }
+
+    span {
+      vertical-align: baseline;
+    }
+  }
+
 }
 
 #map-fullscreen {
@@ -88,27 +115,6 @@ $map-sidebar: 250px;
   }
 
 }
-
-// #map-teaser {
-//   left: 0;
-//   position: absolute;
-//   top: 0;
-//   width: 100vw;
-//   background-color: rgba(0, 0, 0, 0.75);
-//
-//   #coming-soon {
-//     left: 0;
-//     margin-top: -30px;
-//     position: absolute;
-//     top: 50%;
-//     width: 100%;
-//     color: white;
-//     font-family: $lato;
-//     font-size: 30px;
-//     text-align: center;
-//   }
-//
-// }
 
 .attribution {
   bottom: 4px;

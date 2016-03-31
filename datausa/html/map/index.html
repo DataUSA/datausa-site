@@ -10,11 +10,11 @@
 
 <div id="map-controls">
   <div id="map-filters">
-    <select id="map-datasets">
+    <!-- <select id="map-datasets">
       {% for db in datasets %}
       <option value="{{ db }}"{% if db == defaultDataset %} selected{% endif %}>{{ db|format }}</option>
       {% endfor %}
-    </select>
+    </select> -->
     <select id="map-keys">
       {% for key in keys %}
       <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
@@ -25,6 +25,8 @@
       <option value="{{ level }}"{% if level == defaultLevel %} selected{% endif %}>{{ level|format }}</option>
       {% endfor %}
     </select>
+    <sub class="sub-source">Dataset: <span class="source"></span></sub>
+    <sub class="sub-source">Source: <span class="org"></span></sub>
   </div>
 </div>
 <div id="map-fullscreen"></div>
@@ -78,11 +80,11 @@
 
   var keys = d3plus.form()
     .data("#map-keys")
-    .search(false)
+    .search(true)
     .type("drop")
     .focus("{{ defaultKey }}", function(d, viz){
-      var newLevelData = levelData.filter(function(dd) { return mapdata[dataset][d].indexOf(dd.value) >= 0; });
-      if (mapdata[dataset][d].indexOf(levels.focus()) < 0) {
+      var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
+      if (mapdata[d].indexOf(levels.focus()) < 0) {
         levels.focus(newLevelData[newLevelData.length - 1].value);
       }
       levels.data(newLevelData).draw();
@@ -97,24 +99,24 @@
 
   var keyData = keys.data();
 
-  var datasets = d3plus.form()
-    .data("#map-datasets")
-    .type("drop")
-    .focus(dataset, function(d, viz){
-      dataset = d;
-      var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
-      if (!mapdata[d][keys.focus()]) {
-        keys.focus(d3.keys(mapdata[d])[0]);
-      }
-      keys.data(newKeyData).draw();
-      if (!viz.draw(Object).first) {
-        makeURL();
-      }
-    })
-    .id("value")
-    .config(formConfig)
-    .ui(vizStyles.ui_map)
-    .draw();
+  // var datasets = d3plus.form()
+  //   .data("#map-datasets")
+  //   .type("drop")
+  //   .focus(dataset, function(d, viz){
+  //     dataset = d;
+  //     var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
+  //     if (!mapdata[d][keys.focus()]) {
+  //       keys.focus(d3.keys(mapdata[d])[0]);
+  //     }
+  //     keys.data(newKeyData).draw();
+  //     if (!viz.draw(Object).first) {
+  //       makeURL();
+  //     }
+  //   })
+  //   .id("value")
+  //   .config(formConfig)
+  //   .ui(vizStyles.ui_map)
+  //   .draw();
 
   var sidebarWidth = 250;
 
@@ -154,7 +156,16 @@
     data_url = api + url;
 
     load("/static/topojson/" + topo + ".json", function(coords){
-      load(data_url, function(data){
+      load(data_url, function(data, x, json){
+
+        var source = json.source.dataset;
+        if (json.source.link) {
+          source = "<a class='source-link' href='" + json.source.link + "' target='_blank'>" + source + "</a>";
+        }
+
+        d3.select(".source").html(source);
+        d3.select(".org").html(json.source.org);
+
         d3.select("#map-loading").classed("hidden", true);
         var tooltip_url = false;
         if (county && (level == "state" || level == "msa")) {
