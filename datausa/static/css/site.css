@@ -959,7 +959,9 @@ footer {
   box-sizing: border-box;
   background-color: #141b2e;
   padding: 50px;
-  width: 100%; }
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; }
   footer:before, footer:after {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1140,6 +1142,11 @@ footer {
               display: inline-block; }
               footer .content .footer-contact .footer-logos a img {
                 height: 20px; }
+@media only screen and (max-width : 1200px) {
+  footer {
+    padding: 15px 15px 50px;   }
+}
+
 @media only screen and (max-width : 950px) {
   footer .content {
     -webkit-flex-direction: column;
@@ -1150,6 +1157,16 @@ footer {
       margin-bottom: 50px;
       min-width: 100% !important;
       width: 100% !important;   }
+}
+
+@media only screen and (max-width : 560px) {
+  footer .content .footer-links ul li a {
+    font-size: 11px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    white-space: initial !important;   }
 }
 .page-mask {
   position: fixed;

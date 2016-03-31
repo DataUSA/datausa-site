@@ -1,3 +1,9 @@
+@media only screen and (max-width : 1200px) {
+  footer {
+    padding: 15px 15px 50px;
+  }
+}
+
 @media only screen and (max-width : 950px) {
 
   footer {
@@ -10,6 +16,15 @@
       min-width: 100% !important;
       width: 100% !important;
     }
+  }
+
+}
+
+@media only screen and (max-width : 560px) {
+
+  footer .content .footer-links ul li a {
+    font-size: 11px;
+    @include wordwrap();
   }
 
 }
