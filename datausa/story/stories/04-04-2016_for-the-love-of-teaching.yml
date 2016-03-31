@@ -4,7 +4,8 @@ authors:
   - name: Mahesh Kelkar
     title: Deloitte Public Sector Research
     img: "/static/img/story/authors/kelkar.png"
-    about: "Mahesh Kelkar is a Manager with Deloitte Public Sector Research. He closely tracks the public sector, including federal and state government sectors. His professional experience includes in-depth research and analysis in areas such as the federal contracting marketplace, market sizing, technology trends in public sector, and competitive intelligence. You can connect with him at @Mahesh_Kelkar or by email at mkelkar@deloitte.com."
+    about:
+      - "Mahesh Kelkar is a Manager with Deloitte Public Sector Research. He closely tracks the public sector, including federal and state government sectors. His professional experience includes in-depth research and analysis in areas such as the federal contracting marketplace, market sizing, technology trends in public sector, and competitive intelligence. You can connect with him at @Mahesh_Kelkar or by email at mkelkar@deloitte.com."
 topics:
   - description:
       - "It is often said that a good teacher has the ability to shape a student’s future. An elementary or a middle school teacher has the added responsibility of making an impact on a student at a highly impressionable age. This is especially true in today’s digital-age as teaching moves from classrooms to tablets and teachers become technological facilitators in addition to pedagogues. What can the data in DataUSA reveal to us about this occupational group?"
