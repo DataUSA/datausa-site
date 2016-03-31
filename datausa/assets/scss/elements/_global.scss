@@ -51,6 +51,7 @@ body.frozen {
 		}
 
 		.d3plus_tooltip_description {
+			font-weight: 500;
 			margin-top: 0;
 		}
 
@@ -89,6 +90,15 @@ body.frozen {
 			}
 		}
 
+		.list-title {
+			display: block;
+			font-family: $palanquin;
+			font-weight: 500;
+			font-size: 12px;
+			line-height: 16px;
+			margin: 0 5px 5px;
+		}
+
 		table {
 			font-family: $palanquin;
 			font-weight: 300;
@@ -97,7 +107,7 @@ body.frozen {
 			margin-bottom: 20px;
 			width: 100%;
 			td {
-				padding: 5px;
+				padding: 2px 5px;
 			}
 			.list-rank {
 				text-align: right;

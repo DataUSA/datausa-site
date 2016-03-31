@@ -646,10 +646,21 @@ viz.mapDraw = function(vars) {
         }
       }
       else if (d.id === void 0) {
-        var html = vars.data.value.slice(0, 10).map(function(c, i){
-          return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
-        }).join("");
-        html = "<table>" + html + "</table>";
+        if (vars.data.value.length > 20) {
+          var top = vars.data.value.slice(0, 10).map(function(c, i){
+            return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+          }).join("");
+          var bottom = vars.data.value.slice().reverse().slice(0, 10).reverse().map(function(c, i){
+            return "<tr><td class='list-rank'>" + ((vars.data.value.length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+          }).join("");
+          var html = "<div class='list-title'>Top 10 Locations</div><table>" + top + "</table><div class='list-title'>Bottom 10 Locations</div><table>" + bottom + "</table>";
+        }
+        else {
+          var html = vars.data.value.map(function(c, i){
+            return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+          }).join("");
+          html = "<div class='list-title'>Location Ranking</div><table>" + html + "</table>";
+        }
       }
 
       var tooltip_obj = {
@@ -658,7 +669,7 @@ viz.mapDraw = function(vars) {
         "background": vizStyles.tooltip.background,
         "color": big ? false : d.color,
         "data": tooltip_data,
-        "description": big && d.id ? "Last selected geography" : big ? "Top 10 Locations" : tooltip_data.length || d.id === void 0 ? false : vars.tooltip.value.length ? "No Data Available" : false,
+        "description": big && d.id ? "Last selected geography" : tooltip_data.length || d.id === void 0 ? false : vars.tooltip.value.length ? "No Data Available" : false,
         "fontcolor": vizStyles.tooltip.font.color,
         "fontfamily": vizStyles.tooltip.font.family,
         "fontsize": vizStyles.tooltip.font.size,
@@ -691,7 +702,7 @@ viz.mapDraw = function(vars) {
       d3plus.tooltip.create(tooltip_obj);
 
       if (d.id && big === true && vars.tooltip.url) {
-        var url = vars.tooltip.url + "&limit=10";
+        var url = vars.tooltip.url;
         var prefix = d.id.slice(0, 3)
         if (prefix == "040") {
           url += "&where=geo:^" + d.id.replace("040", "050");
@@ -700,12 +711,24 @@ viz.mapDraw = function(vars) {
           url += "&geo=" + d.id;
         }
         load(url, function(data) {
-          var list = data.map(function(c){
-            var link_id = vars.attrs.value[c.geo] ? vars.attrs.value[c.geo].url_name : c.geo;
-            return "<li><a href='/profile/geo/" + link_id + "/'>" + vars.attrs.value[c.geo].name + "</a></li>";
-          }).join("");
-          list = "<ol>Top 10 Counties" + list + "</ol>";
-          createTooltip(d, list);
+
+          if (data.length > 20) {
+            var top = data.slice(0, 10).map(function(c, i){
+              return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+            }).join("");
+            var bottom = data.slice().reverse().slice(0, 10).reverse().map(function(c, i){
+              return "<tr><td class='list-rank'>" + ((data.length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+            }).join("");
+            var html = "<div class='list-title'>Top 10 Locations</div><table>" + top + "</table><div class='list-title'>Bottom 10 Locations</div><table>" + bottom + "</table>";
+          }
+          else {
+            var html = data.map(function(c, i){
+              return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+            }).join("");
+            html = "<div class='list-title'>County Ranking</div><table>" + html + "</table>";
+          }
+
+          createTooltip(d, html);
         });
       }
 
