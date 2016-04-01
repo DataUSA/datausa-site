@@ -646,17 +646,21 @@ viz.mapDraw = function(vars) {
         }
       }
       else if (d.id === void 0) {
-        if (vars.data.value.length > 20) {
-          var top = vars.data.value.slice(0, 10).map(function(c, i){
+        var length = vars.data.value.length,
+            tdata = vars.data.value.filter(function(d){
+              return d[vars.color.value] !== void 0 && d[vars.color.value] !== null;
+            });
+        if (tdata.length > 20) {
+          var top = tdata.slice(0, 10).map(function(c, i){
             return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
-          var bottom = vars.data.value.slice().reverse().slice(0, 10).reverse().map(function(c, i){
-            return "<tr><td class='list-rank'>" + ((vars.data.value.length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+          var bottom = tdata.slice().reverse().slice(0, 10).reverse().map(function(c, i){
+            return "<tr><td class='list-rank'>" + ((length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           var html = "<div class='list-title'>Top 10 Locations</div><table>" + top + "</table><div class='list-title'>Bottom 10 Locations</div><table>" + bottom + "</table>";
         }
         else {
-          var html = vars.data.value.map(function(c, i){
+          var html = tdata.map(function(c, i){
             return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           html = "<div class='list-title'>Location Ranking</div><table>" + html + "</table>";

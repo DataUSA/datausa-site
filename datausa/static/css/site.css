@@ -117,8 +117,11 @@ body.frozen {
       line-height: 1.35;
       font-weight: 300;
       padding: 0 6px 6px !important; }
-      .d3plus_tooltip .d3plus_tooltip_data_seperator {
-        background-color: rgba(224, 224, 224, 0.64) !important; }
+      .d3plus_tooltip .d3plus_tooltip_data_block {
+        line-height: 14px;
+        overflow: hidden; }
+        .d3plus_tooltip .d3plus_tooltip_data_seperator {
+          background-color: rgba(224, 224, 224, 0.64) !important; }
 
 #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
   background-color: #F6F6F6 !important;

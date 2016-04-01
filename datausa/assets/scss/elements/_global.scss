@@ -20,6 +20,11 @@ body.frozen {
 		padding: 0 6px 6px !important;
   }
 
+	.d3plus_tooltip_data_block {
+		line-height: 14px;
+		overflow: hidden;
+	}
+
   .d3plus_tooltip_data_seperator {
     background-color: rgba(224, 224, 224, 0.64) !important;
   }

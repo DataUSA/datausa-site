@@ -79,7 +79,12 @@ viz.format = {
       });
     }
 
-    if (dictionary[text]) return dictionary[text];
+    if (dictionary[text]) {
+      if (["hiv_prevalence_rate", "homicide_rate", "motor_vehicle_crash_deaths", "sexually_transmitted_infections", "violent_crime"].indexOf(text) >= 0) {
+        return dictionary[text] + " per 100,000 people in 2015";
+      }
+      return dictionary[text];
+    }
 
     // All caps text
     if (all_caps.indexOf(text.toLowerCase()) >= 0) {

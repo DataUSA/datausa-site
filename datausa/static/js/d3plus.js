@@ -19048,6 +19048,9 @@ defaultLocale = require("../core/locale/languages/en_US.coffee");
 
 module.exports = function(number, opts) {
   var affixes, format, key, labels, length, locale, ret, sigs, symbol, time, vars, zeros;
+  if (number === void 0 || number === null || number === false) {
+    return "";
+  }
   if (!opts) {
     opts = {};
   }
@@ -27364,7 +27367,7 @@ module.exports = function(vars) {
           return this.getBBox().height+vars.legend.gradient.height+vars.ui.padding*2;
         })
         .each(function(d){
-          var w = this.offsetWidth;
+          var w = Math.ceil(this.getBBox().width);
           if (w > label_width) label_width = w;
         });
 
