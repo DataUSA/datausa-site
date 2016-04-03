@@ -81,12 +81,13 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("data-target-id", p.title.toLowerCase())
         .text(p.title)
         .on("click", function(){
-          if(d3.event.srcElement === window){
+          var src = d3.event.srcElement || d3.event.target;
+          if(src === window){
             var target_id = active_panel.attr("data-target-id");
           }
           else {
-            var target_id = d3.select(d3.event.srcElement).attr("data-target-id");
-            if (!target_id || typeof(target_id) != "string") target_id = d3.select(d3.event.srcElement.parentNode).attr("data-target-id");
+            var target_id = d3.select(src).attr("data-target-id");
+            if (!target_id || typeof(target_id) != "string") target_id = d3.select(src.parentNode).attr("data-target-id");
           }
           var this_tab = d3.select(".change_share#"+target_id)
           var pos = this_tab.node().offsetLeft;
