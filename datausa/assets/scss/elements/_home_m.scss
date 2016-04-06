@@ -42,6 +42,14 @@ body.home {
       display: none !important;
     }
 
+    .home-collab {
+
+      img {
+        height: 17px;
+        margin: 15px 10px;
+      }
+    }
+
     #feed .feed-box.featured .feed-box-title {
       font-size: 32px;
     }
@@ -52,7 +60,7 @@ body.home {
     #feed .feed-box.featured {
       min-width: 300px !important;
       @include flex-size(1 0 300px);
-      
+
       .feed-box-type {
         top: 7px;
         left: 10px;

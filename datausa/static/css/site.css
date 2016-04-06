@@ -3052,8 +3052,11 @@ body.home {
         font-size: 21px !important;   }
   body.home #d3plus_drop_search-type {
     display: none !important;   }
-    body.home #feed .feed-box.featured .feed-box-title {
-      font-size: 32px;   }
+    body.home .home-collab img {
+      height: 17px;
+      margin: 15px 10px;   }
+  body.home #feed .feed-box.featured .feed-box-title {
+    font-size: 32px;   }
 }
 @media only screen and (max-width: 645px) {
   body.home #feed .feed-box.featured {
