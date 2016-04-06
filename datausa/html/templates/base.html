@@ -5,8 +5,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    {% block social_meta %}
-    {% endblock %}
+    {% if self.social_meta() %}
+      {% block social_meta %}{% endblock %}
+    {% else %}
+      {% set meta_desc = "The most comprehensive visualization of U.S. public data. Data USA provides an open, easy-to-use platform that turns data into knowledge." %}
+      <meta name="description" content="{{ meta_desc }}">
+      <meta property="og:title" content="Data USA" />
+      <meta property="og:type" content="article" />
+      <meta property="og:image" content="http://{{ request.host }}/static/img/share.jpg" />
+      <meta property="og:description" content="{{ meta_desc }}"/>
+    {% endif %}
     <link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico?v={{ g.cache_version }}">
 
     <!-- Page title block -->

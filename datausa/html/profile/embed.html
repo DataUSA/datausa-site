@@ -1,5 +1,16 @@
 {% extends "templates/base.html" %}
 
+{% set image = profile.image() %}
+{% set meta_desc = profile.splash.description[0]|striptags %}
+{% block social_meta %}
+    <meta name="description" content="{{ meta_desc }}">
+    <meta property="og:site_name" content="Data USA" />
+    <meta property="og:title" content="{{ profile.splash.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="http://{{ request.host }}{{ image.url }}" />
+    <meta property="og:description" content="{{ meta_desc }}"/>
+{% endblock %}
+
 {% block title %}{{ profile.splash.title }} | {{ section.topics[0].title }}{% endblock %}
 
 {% block content %}

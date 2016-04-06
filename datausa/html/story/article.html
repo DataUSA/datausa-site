@@ -1,5 +1,14 @@
 {% extends "templates/nav.html" %}
 
+{% block social_meta %}
+    <meta name="description" content="{{ story.description }}">
+    <meta property="og:site_name" content="Data USA" />
+    <meta property="og:title" content="{{ story.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="http://{{ request.host }}{{ story.background_image }}" />
+    <meta property="og:description" content="{{ story.description }}"/>
+{% endblock %}
+
 {% block title %}{{ story.title }}{% endblock %}
 
 {% block subtitle %}
