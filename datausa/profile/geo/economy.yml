@@ -5,7 +5,7 @@ topics:
   - category: "Wages"
     title: "Median Household Income"
     slug: "income"
-    description: "Households in <<name>> have a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This chart shows the median household income of <<name>> compared to [[<<sumlevel>>:!state||it's parent locations]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation|| This chart shows the median household income of US citizens compared to the top 2 and bottom 2 states.}}"
+    description: "Households in <<name>> have a median income of <<var namespace=splash|key=income|row=0>>.{{<<sumlevel>>:!nation|| This chart shows the median household income of <<name>> compared to [[<<sumlevel>>:!state||its parent locations]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation|| This chart shows the median household income of US citizens compared to the top 2 and bottom 2 states.}}"
     stat:
       - title: "<<var namespace=splash|key=year|row=0>> value"
         value: "<<var namespace=splash|key=income|row=0>>"
