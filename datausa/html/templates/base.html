@@ -15,6 +15,9 @@
       <meta property="og:image" content="http://{{ request.host }}/static/img/share.jpg" />
       <meta property="og:description" content="{{ meta_desc }}"/>
     {% endif %}
+    <meta property="og:url" content="{{ request.url }}"/>
+    <meta property="fb:app_id" content="1705281333093640"/>
+
     <link rel="shortcut icon" type="image/png" href="/static/img/favicon.ico?v={{ g.cache_version }}">
 
     <!-- Page title block -->
@@ -151,6 +154,24 @@
           d3plus.tooltip.remove(d3.select(this).attr("data-tooltip-id") || "data-tooltip");
         })
 
+    </script>
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1705281333093640',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
     </script>
 
   </body>
