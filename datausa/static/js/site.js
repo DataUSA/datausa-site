@@ -9139,16 +9139,19 @@ viz.mapDraw = function(vars) {
             });
         if (tdata.length > 20) {
           var top = tdata.slice(0, 10).map(function(c, i){
-            return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+            var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+            return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           var bottom = tdata.slice().reverse().slice(0, 10).reverse().map(function(c, i){
-            return "<tr><td class='list-rank'>" + ((length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+            var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+            return "<tr><td class='list-rank'>" + ((length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           var html = "<div class='list-title'>Top 10 Locations</div><table>" + top + "</table><div class='list-title'>Bottom 10 Locations</div><table>" + bottom + "</table>";
         }
         else {
           var html = tdata.map(function(c, i){
-            return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+            var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+            return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           html = "<div class='list-title'>Location Ranking</div><table>" + html + "</table>";
         }
@@ -9205,16 +9208,19 @@ viz.mapDraw = function(vars) {
 
           if (data.length > 20) {
             var top = data.slice(0, 10).map(function(c, i){
-              return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+              var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+              return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
             }).join("");
             var bottom = data.slice().reverse().slice(0, 10).reverse().map(function(c, i){
-              return "<tr><td class='list-rank'>" + ((data.length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+              var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+              return "<tr><td class='list-rank'>" + ((data.length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
             }).join("");
             var html = "<div class='list-title'>Top 10 Locations</div><table>" + top + "</table><div class='list-title'>Bottom 10 Locations</div><table>" + bottom + "</table>";
           }
           else {
             var html = data.map(function(c, i){
-              return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + vars.attrs.value[c.geo].name + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
+              var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+              return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
             }).join("");
             html = "<div class='list-title'>County Ranking</div><table>" + html + "</table>";
           }
