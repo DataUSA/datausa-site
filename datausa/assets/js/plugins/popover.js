@@ -362,8 +362,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     }
     else if(p.title.toLowerCase() == "api"){
       var api_panel = panel.append("div")
-        .attr("class", "api")
-      console.log(build)
+        .attr("class", "api");
 
       build.data.forEach(function(d, i){
         api_panel.append("h3")
