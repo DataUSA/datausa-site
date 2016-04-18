@@ -26188,7 +26188,7 @@ module.exports = function(params) {
     var depth = "depth" in params ? params.depth : dataDepth,
         title = params.title || fetchText(vars,d,depth)[0],
         icon = uniques(d, vars.icon.value, fetchValue, vars, vars.id.nesting[depth]),
-        tooltip_data = fetchData(vars,d,length,ex,children,depth)
+        tooltip_data = params.titleOnly ? [] : fetchData(vars,d,length,ex,children,depth);
 
     if (icon.length === 1 && typeof icon[0] === "string") {
       icon = icon[0];
@@ -27243,6 +27243,7 @@ module.exports = function(vars) {
                 "y": y,
                 "mouseevents": this,
                 "title": title,
+                "titleOnly": !vars.legend.data.value,
                 "offset": square_size*0.4
               });
 
@@ -29652,6 +29653,10 @@ family = require("../../core/methods/font/family.coffee");
 module.exports = {
   accepted: [Boolean],
   align: "middle",
+  data: {
+    accepted: [Boolean],
+    value: true
+  },
   filters: {
     accepted: [Boolean],
     value: false

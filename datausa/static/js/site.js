@@ -7360,6 +7360,9 @@ viz.bar = function(build) {
       "resize": false,
       "value": false
     },
+    "legend": {
+      "data": build.data[0].url.indexOf("limit=") < 0
+    },
     "order": {
       "agg": "max"
     },
