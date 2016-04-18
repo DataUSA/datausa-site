@@ -209,7 +209,7 @@
     location.href,
     {
       "container": container,
-      "title": "Data USA " + viz.format.text(map.color()) + " Map",
+      "title": "Data USA - Map of " + viz.format.text(map.color(), {}) + " by " + viz.format.text(levels.focus(), {}),
       "data": [{"url": data_url}],
       "viz": map
     })

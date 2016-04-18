@@ -43,7 +43,8 @@ class Section(BaseObject):
                 self.description = [self.description]
 
         if "viz" in config:
-            self.viz = Viz(config["viz"])
+            self.viz = Viz(config["viz"], profile = profile)
+
 
         if "topics" in config:
             self.topics = config["topics"]
@@ -81,10 +82,12 @@ class Section(BaseObject):
                     if not isinstance(topic["viz"], list):
                         topic["viz"] = [topic["viz"]]
                     topic["viz"] = [v for v in topic["viz"] if self.allowed_levels(v)]
-                    topic["viz"] = [Viz(viz, getHighlight(viz)) for viz in topic["viz"]]
+                    topic["viz"] = [Viz(viz, getHighlight(viz), profile = profile) for viz in topic["viz"]]
+
 
                 if "miniviz" in topic:
-                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]))
+                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"], profile = profile))
+
 
                 # fill selector if present
                 if "select" in topic:
