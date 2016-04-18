@@ -18280,7 +18280,7 @@ d3plus = {};
  * @static
  */
 
-d3plus.version = "1.9.2 - Cornflower";
+d3plus.version = "1.9.3 - Cornflower";
 
 
 /**
@@ -27063,6 +27063,7 @@ module.exports = function(vars) {
 
                 pattern_enter.append("rect")
                   .attr("fill",color)
+                  .attr("stroke", "none")
                   .attr("width",square_size)
                   .attr("height",square_size);
 
@@ -28276,7 +28277,7 @@ module.exports = function(vars) {
       textWrap()
         .align(align)
         .container(container)
-        .height(vars.height.value / 8)
+        .height(vars.height.value / 2)
         .size(false)
         .text(d.value)
         .width(titleWidth)
@@ -32968,7 +32969,7 @@ line = function(vars) {
     for (j = 0, len1 = ref.length; j < len1; j++) {
       d = ref[j];
       xval = fetchValue(vars, d, vars.x.value);
-      if (xval) {
+      if (xval !== null) {
         d.d3plus.x2 = false;
         d.d3plus.x = vars.x.scale.viz(xval);
       } else {
@@ -32977,7 +32978,7 @@ line = function(vars) {
       }
       d.d3plus.x += vars.axes.margin.left;
       yval = fetchValue(vars, d, vars.y.value);
-      if (yval) {
+      if (yval !== null) {
         d.d3plus.y2 = false;
         d.d3plus.y = vars.y.scale.viz(yval);
       } else {

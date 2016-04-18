@@ -4850,8 +4850,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     }
     else if(p.title.toLowerCase() == "api"){
       var api_panel = panel.append("div")
-        .attr("class", "api")
-      console.log(build)
+        .attr("class", "api");
 
       build.data.forEach(function(d, i){
         api_panel.append("h3")
@@ -5530,9 +5529,6 @@ var save = function(svg, options) {
 
       imageTiles[url] = {"loaded": false};
 
-      // console.log(d3.select(this).attr("x"), x);
-      // console.log(d3.select(this).attr("y"), y);
-
       var img = new Image();
       img.crossOrigin = 'Anonymous';
       img.onload = function(){
@@ -5552,6 +5548,37 @@ var save = function(svg, options) {
       };
       img.src = url;
 
+    });
+  }
+
+  var legendIcons = svg.selectAll("#key rect");
+
+  if (legendIcons.size()) {
+    var keyBox = d3.select("#key").node().getBBox();
+
+    var translate = d3.select("#key").attr("transform").match(/translate\(([^a-z]+)\)/i)[1];
+    translate = translate.replace(/([^a-z])\s([^a-z])/gi, "$1,$2").split(",").map(Number);
+    keyBox.y += translate[1];
+
+    legendIcons.each(function(d, i){
+      var pattern = d3.select(this).attr("fill").split("#")[1];
+      pattern = svg.select("#" + pattern.substring(0, pattern.length-1));
+      var size = parseFloat(pattern.select("image").attr("width"));
+
+      var x = keyBox.x + (i * (size + 5)), y = keyBox.y;
+      console.log(x, y);
+
+      var rect = pattern.select("rect").node();
+      rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
+      context.drawSvg(rect, x, y);
+
+      var img = document.createElement('img');
+      img.src = pattern.select("image").attr("href");
+
+      context.save();
+      context.translate(x, y);
+      context.drawImage(img, 0, 0, size, size);
+      context.restore();
     });
   }
 
@@ -5587,7 +5614,7 @@ var save = function(svg, options) {
 
     // // draw svg path
     svg.selectAll("svg > *").each(function(){
-      if (!d3.select(this).classed("tiles")) {
+      if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
         var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
         context.drawSvg(outer);
       }
