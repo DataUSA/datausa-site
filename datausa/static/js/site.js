@@ -5489,6 +5489,8 @@ var save = function(svg, options) {
 
   if (!options.mode) options.mode = "png";
   if (!options.name) options.name = "download";
+  if (!options.padding) options.padding = 15;
+  if (!options.scale) options.scale = 2;
   options.filename = options.name + "." + options.mode;
 
   if (options.mode === "svg") {
@@ -5497,14 +5499,32 @@ var save = function(svg, options) {
     return;
   }
 
-  var upscale = 2;
+  var parent = d3.select(svg.node().parentNode.parentNode.parentNode.parentNode)
+      sources = parent.selectAll(".sub-source"),
+      footerHeight = options.padding,
+      sourceData = [];
+
+  if (sources.size()) {
+    sources.each(function(d){
+      sourceData.push({"y": footerHeight, "loaded": false});
+      footerHeight += this.offsetHeight;
+    });
+  }
+
+  var svgWidth = parseFloat(svg.attr("width"), 10),
+      svgHeight = parseFloat(svg.attr("height"), 10);
+
+  var ui = d3.select(svg.node().parentNode).select("#d3plus_drawer");
+  if (ui.size()) {
+    svgHeight -= ui.node().offsetHeight;
+  }
 
   var canvas = document.createElement("canvas");
-  canvas.width = parseFloat(svg.attr("width"), 10) * upscale;
-  canvas.height = parseFloat(svg.attr("height"), 10) * upscale;
+  canvas.width = (svgWidth + (options.padding * 2)) * options.scale;
+  canvas.height = (svgHeight + options.padding + footerHeight) * options.scale;
 
   var context = canvas.getContext('2d');
-  context.scale(upscale, upscale);
+  context.scale(options.scale, options.scale);
   context.clearRect(0, 0, canvas.width, canvas.height);
   if (options.mode === "pdf") {
     context.beginPath();
@@ -5568,7 +5588,7 @@ var save = function(svg, options) {
       pattern = svg.select("#" + pattern.substring(0, pattern.length-1));
       var size = parseFloat(pattern.select("image").attr("width"));
 
-      var x = keyBox.x + (i * (size + 5)), y = keyBox.y;
+      var x = options.padding + keyBox.x + (i * (size + 5)), y = options.padding + keyBox.y;
 
       var rect = pattern.select("rect").node();
       rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
@@ -5597,6 +5617,15 @@ var save = function(svg, options) {
       }
     }
 
+    // if (allDone) {
+    //   for (var i = 0; i < sources.size(); i++) {
+    //     if (!sourceData[i].loaded) {
+    //       allDone = false;
+    //       break;
+    //     }
+    //   }
+    // }
+
     if (allDone) {
       finish();
     } else {
@@ -5605,12 +5634,16 @@ var save = function(svg, options) {
   }
 
   function finish() {
+
     // draw image tiles
     for (var key in imageTiles) {
       var tile = imageTiles[key];
       context.save();
-      context.translate(tile.x, tile.y);
-      context.drawImage(tile.img, 0, 0);
+      context.beginPath();
+      context.translate(options.padding, options.padding);
+      context.rect(0, 0, svgWidth, svgHeight);
+      context.clip();
+      context.drawImage(tile.img, tile.x, tile.y);
       context.restore();
     }
 
@@ -5618,12 +5651,43 @@ var save = function(svg, options) {
     svg.selectAll("svg > *").each(function(){
       if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
         var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
+        context.save();
+        context.translate(options.padding, options.padding);
+        context.rect(0, 0, svgWidth, svgHeight);
+        context.clip();
         context.drawSvg(outer);
+        context.restore();
       }
     });
 
-    // var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(svg.node()) : svg.node().outerHTML;
-    // canvg(canvas, outer);
+    function text2svg(text) {
+      text = d3.select(text);
+      var fC = text.style("color"),
+          fF = text.style("font-family").split(",")[0],
+          fS = text.style("font-size");
+      return "<text stroke='none' fill='" + fC + "' font-family='" + fF + "' font-size='" + fS + "'>" + text.text().trim() + "</text>";
+    }
+
+    sources.each(function(d, i){
+
+      var text = text2svg(this);
+      context.save();
+      context.translate(options.padding, options.padding + svgHeight + sourceData[i].y);
+      context.drawSvg(text);
+      context.restore();
+
+    });
+
+    var logo = d3.select(".datausa-link").select("img"),
+        logoHeight = logo.node().offsetHeight,
+        logoWidth = logo.node().offsetWidth,
+        logoX = canvas.width/options.scale - logoWidth - options.padding,
+        logoY = canvas.height/options.scale - logoHeight - options.padding - 3;
+
+    context.save();
+    context.translate(logoX, logoY);
+    context.drawImage(logo.node(), 0, 0, logoWidth, logoHeight);
+    context.restore();
 
     // save the canvas
     render();

@@ -1,3 +1,17 @@
+.datausa-link {
+  &.hidden {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: -9999;
+  }
+
+  img {
+    display: block;
+    width: 90px;
+  }
+}
+
 body.embed {
   overflow: hidden;
 
@@ -29,10 +43,6 @@ body.embed {
             bottom: 6px;
             position: absolute;
             right: -100px;
-            img {
-              display: block;
-              width: 90px;
-            }
           }
 
         }

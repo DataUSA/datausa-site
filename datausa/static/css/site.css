@@ -5651,6 +5651,15 @@ body.redirect nav {
             -ms-flex: 1 1 auto;
             flex: 1 1 auto;   }
 }
+.datausa-link.hidden {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: -9999; }
+  .datausa-link img {
+    display: block;
+    width: 90px; }
+
 body.embed {
   overflow: hidden; }
   body.embed .profile-section {
@@ -5693,9 +5702,6 @@ body.embed {
                 bottom: 6px;
                 position: absolute;
                 right: -100px; }
-                body.embed .profile-section .topic .content .sub-source .datausa-link img {
-                  display: block;
-                  width: 90px; }
             body.embed .profile-section .topic .content.full-width .sub-source {
               width: 100%; }
               body.embed .profile-section .topic .content.full-width .sub-source .datausa-link {
