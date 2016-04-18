@@ -81,7 +81,6 @@ var save = function(svg, options) {
       var size = parseFloat(pattern.select("image").attr("width"));
 
       var x = keyBox.x + (i * (size + 5)), y = keyBox.y;
-      console.log(x, y);
 
       var rect = pattern.select("rect").node();
       rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
