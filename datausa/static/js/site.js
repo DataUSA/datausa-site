@@ -5497,11 +5497,14 @@ var save = function(svg, options) {
     return;
   }
 
+  var upscale = 2;
+
   var canvas = document.createElement("canvas");
-  canvas.width = parseFloat(svg.attr("width"), 10);
-  canvas.height = parseFloat(svg.attr("height"), 10);
+  canvas.width = parseFloat(svg.attr("width"), 10) * upscale;
+  canvas.height = parseFloat(svg.attr("height"), 10) * upscale;
 
   var context = canvas.getContext('2d');
+  context.scale(upscale, upscale);
   context.clearRect(0, 0, canvas.width, canvas.height);
   if (options.mode === "pdf") {
     context.beginPath();
@@ -5566,7 +5569,6 @@ var save = function(svg, options) {
       var size = parseFloat(pattern.select("image").attr("width"));
 
       var x = keyBox.x + (i * (size + 5)), y = keyBox.y;
-      console.log(x, y);
 
       var rect = pattern.select("rect").node();
       rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
