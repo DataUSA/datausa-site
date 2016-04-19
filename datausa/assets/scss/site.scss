@@ -26,3 +26,10 @@ body {
 @import "elements/about";
 
 @import "elements/print";
+
+.hidden {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: -9999;
+}

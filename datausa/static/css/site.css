@@ -3,6 +3,12 @@
     position: relative; }
     body.open {
       overflow: hidden; }
+
+  .hidden {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: -9999; }
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6,
 p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
 em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
@@ -5651,14 +5657,9 @@ body.redirect nav {
             -ms-flex: 1 1 auto;
             flex: 1 1 auto;   }
 }
-.datausa-link.hidden {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  z-index: -9999; }
-  .datausa-link img {
-    display: block;
-    width: 90px; }
+.datausa-link img {
+  display: block;
+  width: 90px; }
 
 body.embed {
   overflow: hidden; }
@@ -5715,13 +5716,21 @@ body.map {
   background-color: #cdd1d3;
   overflow: hidden;
   position: relative; }
-  body.map #d3plus_tooltip_id_geo_map_sidebar {
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-    z-index: 2 !important; }
-    body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
-      background-color: transparent !important; }
+  body.map h2.hidden {
+    font-family: "Pathway Gothic One", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: #333;
+    text-transform: none;
+    font-style: normal;
+    letter-spacing: 0; }
+    body.map #d3plus_tooltip_id_geo_map_sidebar {
+      -webkit-box-shadow: none !important;
+      -moz-box-shadow: none !important;
+      box-shadow: none !important;
+      z-index: 2 !important; }
+      body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
+        background-color: transparent !important; }
 
 #map-controls {
   -webkit-box-sizing: border-box;

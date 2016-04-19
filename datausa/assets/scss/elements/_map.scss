@@ -3,6 +3,16 @@ body.map {
   overflow: hidden;
   position: relative;
 
+  h2.hidden {
+    font-family: $pathway;
+    font-size: 30px;
+    font-weight: 400;
+    color: #333;
+    text-transform: none;
+    font-style: normal;
+    letter-spacing: 0;
+  }
+
   #d3plus_tooltip_id_geo_map_sidebar {
     @include shadow(none !important);
     z-index: 2 !important;

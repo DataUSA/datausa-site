@@ -5499,11 +5499,15 @@ var save = function(svg, options) {
     return;
   }
 
-  var parent = d3.select(svg.node().parentNode.parentNode.parentNode.parentNode)
-      sources = parent.selectAll(".sub-source"),
+  var parent = d3.select("body.map");
+  if (!parent.size()) parent = d3.select(svg.node().parentNode.parentNode.parentNode.parentNode);
+  var sources = parent.selectAll(".sub-source"),
       footerHeight = options.padding,
-      sourceData = [];
-
+      sourceData = [],
+      title = d3.select(parent.node().parentNode).select(".embed-title"),
+      titleHeight = title.size() ? title.node().offsetHeight + options.padding : 0,
+      sub = d3.select(parent.node().parentNode).select(".sub-title"),
+      subHeight = sub.size() ? sub.node().offsetHeight + 5 : 0;
   if (sources.size()) {
     sources.each(function(d){
       sourceData.push({"y": footerHeight, "loaded": false});
@@ -5521,14 +5525,14 @@ var save = function(svg, options) {
 
   var canvas = document.createElement("canvas");
   canvas.width = (svgWidth + (options.padding * 2)) * options.scale;
-  canvas.height = (svgHeight + options.padding + footerHeight) * options.scale;
+  canvas.height = ((options.padding * 2) + titleHeight + subHeight + svgHeight + footerHeight) * options.scale;
 
   var context = canvas.getContext('2d');
   context.scale(options.scale, options.scale);
-  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.clearRect(0, 0, canvas.width / 2, canvas.height / 2);
   if (options.mode === "pdf") {
     context.beginPath();
-    context.rect(0, 0, canvas.width, canvas.height);
+    context.rect(0, 0, canvas.width / 2, canvas.height / 2);
     context.fillStyle = "white";
     context.fill();
   }
@@ -5577,9 +5581,9 @@ var save = function(svg, options) {
   var legendIcons = svg.selectAll("#key rect");
 
   if (legendIcons.size()) {
-    var keyBox = d3.select("#key").node().getBBox();
+    var keyBox = svg.select("#key").node().getBBox();
 
-    var translate = d3.select("#key").attr("transform").match(/translate\(([^a-z]+)\)/i)[1];
+    var translate = svg.select("#key").attr("transform").match(/translate\(([^a-z]+)\)/i)[1];
     translate = translate.replace(/([^a-z])\s([^a-z])/gi, "$1,$2").split(",").map(Number);
     keyBox.y += translate[1];
 
@@ -5588,7 +5592,7 @@ var save = function(svg, options) {
       pattern = svg.select("#" + pattern.substring(0, pattern.length-1));
       var size = parseFloat(pattern.select("image").attr("width"));
 
-      var x = options.padding + keyBox.x + (i * (size + 5)), y = options.padding + keyBox.y;
+      var x = options.padding + keyBox.x + (i * (size + 5)), y = options.padding + titleHeight + subHeight + keyBox.y;
 
       var rect = pattern.select("rect").node();
       rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
@@ -5640,7 +5644,7 @@ var save = function(svg, options) {
       var tile = imageTiles[key];
       context.save();
       context.beginPath();
-      context.translate(options.padding, options.padding);
+      context.translate(options.padding, options.padding + titleHeight + subHeight);
       context.rect(0, 0, svgWidth, svgHeight);
       context.clip();
       context.drawImage(tile.img, tile.x, tile.y);
@@ -5652,7 +5656,7 @@ var save = function(svg, options) {
       if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
         var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
         context.save();
-        context.translate(options.padding, options.padding);
+        context.translate(options.padding, options.padding + titleHeight + subHeight);
         context.rect(0, 0, svgWidth, svgHeight);
         context.clip();
         context.drawSvg(outer);
@@ -5660,29 +5664,48 @@ var save = function(svg, options) {
       }
     });
 
-    function text2svg(text) {
+    function text2svg(text, title) {
       text = d3.select(text);
+      title = title || text.text().replace(" Options", "").trim();
       var fC = text.style("color"),
           fF = text.style("font-family").split(",")[0],
           fS = text.style("font-size");
-      return "<text stroke='none' fill='" + fC + "' font-family='" + fF + "' font-size='" + fS + "'>" + text.text().trim() + "</text>";
+
+      if (fF.indexOf("'") !== 0) fF = "'" + fF + "'";
+      return "<text stroke='none' dy='" + fS + "' fill='" + fC + "' font-family=" + fF + " font-size='" + fS + "'>" + title + "</text>";
     }
 
     sources.each(function(d, i){
 
       var text = text2svg(this);
       context.save();
-      context.translate(options.padding, options.padding + svgHeight + sourceData[i].y);
+      context.translate(options.padding, options.padding + titleHeight + subHeight + svgHeight + sourceData[i].y);
       context.drawSvg(text);
       context.restore();
 
     });
 
+    if (title.size()) {
+      var titleText = text2svg(title.node(), options.name.split(" of ").slice(1).join(" of "));
+      context.save();
+      context.translate(options.padding, options.padding);
+      context.drawSvg(titleText);
+      context.restore();
+    }
+
+    if (sub.size()) {
+      var subText = text2svg(sub.node());
+      context.save();
+      context.translate(options.padding, titleHeight + 5);
+      context.drawSvg(subText);
+      context.restore();
+    }
+
     var logo = d3.select(".datausa-link").select("img"),
         logoHeight = logo.node().offsetHeight,
         logoWidth = logo.node().offsetWidth,
         logoX = canvas.width/options.scale - logoWidth - options.padding,
-        logoY = canvas.height/options.scale - logoHeight - options.padding - 3;
+        logoY = canvas.height/options.scale - logoHeight - options.padding - 10;
 
     context.save();
     context.translate(logoX, logoY);
@@ -7998,7 +8021,9 @@ viz.loadBuilds = function(builds) {
       var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
       if (title.size()) {
         build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
-        build.title = "Data USA - " + d3plus.viz().format(Object).locale.value.visualization[build.config.type] + " of " + build.title;
+        var locale = d3plus.viz().format(Object).locale.value.visualization,
+            type = locale[build.config.type] || d3plus.string.title(type);
+        build.title = "Data USA - " + type + " of " + build.title;
         if (build.profile) {
           var joiner = build.profile_type === "geo" ? " in " : " for ";
           build.title += joiner + build.profile.name;

@@ -12,7 +12,9 @@ viz.loadBuilds = function(builds) {
       var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
       if (title.size()) {
         build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
-        build.title = "Data USA - " + d3plus.viz().format(Object).locale.value.visualization[build.config.type] + " of " + build.title;
+        var locale = d3plus.viz().format(Object).locale.value.visualization,
+            type = locale[build.config.type] || d3plus.string.title(type);
+        build.title = "Data USA - " + type + " of " + build.title;
         if (build.profile) {
           var joiner = build.profile_type === "geo" ? " in " : " for ";
           build.title += joiner + build.profile.name;

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-
+<h2 class="embed-title hidden">Map Title</h2>
 <div id="map-controls">
   <div id="map-filters">
     <!-- <select id="map-datasets">
@@ -42,7 +42,7 @@
 {% block js %}
 <script>
 
-  var dataset = "{{ defaultDataset }}", data_url;
+  var dataset = "{{ defaultDataset }}", data_url, buildTitle;
 
   var formConfig = {
     "font": vizStyles.ui_map.font,
@@ -153,6 +153,9 @@
       .coords({"key": topo})
       .tooltip(key.split(","));
 
+    buildTitle = viz.format.text(map.color(), {}) + " by " + viz.format.text(level, {});
+    d3.select(".embed-title").html(buildTitle);
+
     data_url = api + url;
 
     load("/static/topojson/" + topo + ".json", function(coords){
@@ -209,7 +212,7 @@
     location.href,
     {
       "container": container,
-      "title": "Data USA - Map of " + viz.format.text(map.color(), {}) + " by " + viz.format.text(levels.focus(), {}),
+      "title": "Data USA - Map of " + buildTitle,
       "data": [{"url": data_url}],
       "viz": map
     })
