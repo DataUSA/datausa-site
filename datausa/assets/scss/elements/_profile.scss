@@ -708,11 +708,9 @@ body.profile, body.map, body.story {
   #title-bar {
     text-align: center;
     height: $nav-height;
-    max-width: 860px;
     width: 100%;
     right: 0;
     left: 0;
-    margin: 0 auto;
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -727,8 +725,8 @@ body.profile, body.map, body.story {
       color: $red-w;
       font-family: $pathway;
       font-size: 24px;
-      margin-left: auto;
       margin-right: auto;
+      margin-left: auto;
       max-width: 75%;
       text-align: center;
       width: 100%;

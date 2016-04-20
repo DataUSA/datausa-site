@@ -535,10 +535,9 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
   body.about #title-bar, body.story #title-bar, body.map #title-bar {
     text-align: center;
     height: 40px;
+    width: 100%;
     right: 0;
     left: 0;
-    margin-right: auto;
-    margin-left: auto;
     overflow: hidden;
     position: fixed;
     top: 0;
@@ -554,6 +553,8 @@ body.about #home-btn, body.story #home-btn, body.map #home-btn {
       color: #ef6145;
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 24px;
+      margin-right: auto;
+      margin-left: auto;
       max-width: 75%;
       text-align: center;
       width: 100%;
@@ -3911,11 +3912,9 @@ body.profile nav, body.map nav, body.story nav {
 body.profile #title-bar, body.map #title-bar, body.story #title-bar {
   text-align: center;
   height: 40px;
-  max-width: 860px;
   width: 100%;
   right: 0;
   left: 0;
-  margin: 0 auto;
   overflow: hidden;
   position: fixed;
   top: 0;
@@ -3930,8 +3929,8 @@ body.profile #title-bar, body.map #title-bar, body.story #title-bar {
     color: #ef6145;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 24px;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
     max-width: 75%;
     text-align: center;
     width: 100%;
