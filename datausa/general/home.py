@@ -9,32 +9,36 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/profile/geo/connecticut/#income_gender",
-        "title": "Gender Wage Gap in Connecticut",
-        "section": "economy",
+        "link": "/profile/geo/new-york/#property_taxes",
+        "title": "Property Taxes in New York",
+        "section": "housing",
         "viz": "bar_double"
     },
     {
-        "link": "/profile/geo/flint-mi/#poverty_ethnicity",
-        "title": "Racial Breakdown of Poverty in Flint, Michigan",
-        "section": "economy",
-        "viz": "bar_double"
-    },
-    {
-        "link": "/profile/soc/291060/#wage_locations",
-        "title": "Physicians & Surgeons Income by Location",
-        "section": "employment",
-        "viz": "geo_map"
-    },
-    {
-        "link": "/story/04-04-2016_men-still-dominate/",
+        "link": "/story/04-21-2016_gini-out-of-the-bottle/",
         "featured": True
     },
     {
-        "link": "/profile/geo/pennsylvania/#housing",
-        "title": "Median Household Income in Pennsylvania",
-        "section": "housing",
-        "viz": "bar_double"
+        "link": "/profile/geo/pennsylvania/#global_diversity",
+        "title": "Global Diversity in Pennsylvania",
+        "section": "demographics",
+        "viz": "geo_map",
+        "featured": True
+    },
+    {
+        "link": "/story/04-21-2016_keeping-america-on-its-feet/"
+    },
+    {
+        "link": "/story/04-21-2016_super-commuters/"
+    },
+    {
+        "link": "/profile/geo/california/#income_geo",
+        "title": "Counties in California by Income",
+        "section": "economy",
+        "viz": "geo_map"
+    },
+    {
+        "link": "/story/04-04-2016_men-still-dominate/"
     },
     {
         "link": "/profile/cip/4506/#skills",
@@ -65,13 +69,6 @@ HOMEFEED = [
     {
         "link": "/story/04-04-2016_the-well-heeled-philosophy-major/",
         "featured": False
-    },
-    {
-        "link": "/profile/geo/los-angeles-ca/#health",
-        "title": "Obesity & Diabetes in California",
-        "section": "health",
-        "viz": "scatter",
-        "featured": True
     },
     {
         "link": "/story/04-04-2016_are-we-having-fun-yet/",
