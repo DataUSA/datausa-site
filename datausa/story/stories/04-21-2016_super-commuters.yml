@@ -1,0 +1,33 @@
+title: "Are super commuters America's super heroes?"
+description: A look at commute times around the country and the various factors impacting the length of time it takes to get to work.
+background_image: "/static/img/splash/soc/474051.jpg"
+authors:
+  - name: Brenna Sniderman
+    title: Senior Manager, Deloitte Center for Integrated Research
+    img: "/static/img/story/authors/sniderman.jpg"
+    twitter: https://twitter.com/BrennaSniderman
+    about:
+      - "Brenna Sniderman is a senior manager and subject matter specialist at Deloitte's Center for Integrated Research. She focuses on cross-industry themes and trends, specifically as they relate to additive and advanced manufacturing, Industry 4.0, the Internet of Things and advanced technologies, and works with other thought leaders to deliver valuable insights into the strategic implications of these technologies."
+      - "Prior to joining Deloitte, Brenna was the Senior Director of Research for Forbes Insights, the thought leadership and sponsored research division of Forbes Media. While there, she researched global trends among senior executives, developing perspectives on cloud computing, analytics, business transformation, talent management and green technology, along with women's leadership roles and diversity. Brenna also wrote about research for Forbes.com. Brenna has deep experience in research, focused largely on primary qualitative and quantitative approaches."
+      - "Brenna holds a B.A. in economics and international relations from the University of Pennsylvania Master's degree in strategic communications at Columbia University."
+
+topics:
+  - description:
+      - "Ah, the dreaded commute. It's the bane of every employee's existence: traffic congestion, stalled trains, packed buses with no place to sit. It takes the average American 24.6 minutes to get to and from work each day, but it can sometimes feel far longer. While a lucky 4.2 million households – or 3.2 percent – have a commute of less than five minutes, on the other end of the spectrum are the \"super commuters.\" Far from having superpowers, as the name might suggest, the 2.5 percent of Americans in this category are exceptional due to the sheer amount of time they spend in transit: 90 minutes or more each day."
+      - "The numbers are fairly stark, and concentrated, as the figure below shows – New Yorkers and Maryland residents spend the most time heading to and from work, at close to 31 minutes per day, while those in North and South Dakota spend the least, at an average of around 16 minutes each. Five percent of New Yorkers, and 4.3 percent of Maryland residents are super commuters. But that's not the whole story: 27.4 percent of Maryland residents spent 45 minutes or more on their commute, compared with 7.5 percent of North Dakotans. That adds up to a lot of people just trying to get home."
+  - viz:
+      - attrs: "geo"
+        coords: "states"
+        color: "mean_commute_minutes"
+        data:
+          - required: "mean_commute_minutes"
+            show: "geo"
+            sumlevel: "state"
+        id: "geo"
+        type: "geo_map"
+  - description:
+      - "These commute times are not just because of too many road hogs. Maryland commuters, for example, are nearly twice as likely to use public transport as the US average, at 9.1 percent vs. 5.2 percent. They are also no likelier than the average American to drive alone. In New York, the numbers are even starker: 27.9 percent use public transit, more than quintuple the national average, while just over half (52.8 percent) commute alone in their cars, compared to three-quarters (76.4 percent) of Americans."
+      - "These commute times are not just because of too many road hogs. Maryland commuters, for example, are nearly twice as likely to use public transport as the US average, at 9.1 percent vs. 5.2 percent. They are also no likelier than the average American to drive alone. In New York, the numbers are even starker: 27.9 percent use public transit, more than quintuple the national average, while just over half (52.8 percent) commute alone in their cars, compared to three-quarters (76.4 percent) of Americans."
+  - title: "New York Commuter Detail"
+    viz_url: "/profile/geo/new-york/housing/mode_transport"
+  - description: "DataUSA provides further insights about car ownership that suggest the number of cars may not be a factor in commuting challenges, but rather simply the sheer number of people living in a given area... North and South Dakotans are far likelier than New Yorkers and Maryland residents to own multiple cars. While 40.9 percent of South Dakotans own three or more cars, just 20.7 percent of New Yorkers do. At the same time, however, there are simply far more New Yorkers than South Dakotans: 18.7 million more, to be exact. With that many more people trying to get to work, it stands to reason the commute gets a lot more crowded – and possibly slower."

@@ -14,6 +14,31 @@ body.story {
     line-height: 1.5;
     font-weight: 400;
     font-size: 16px;
+
+    img {
+      display: block;
+      margin: 10px auto;
+    }
+  }
+
+  ul {
+    margin: 0 30px;
+
+    li {
+      color: rgba(51, 51, 51, 0.93);
+      position: relative;
+
+      &::before {
+        @include rounded(3px);
+        background-color: rgba(51, 51, 51, 0.75);
+        content: "";
+        height: 5px;
+        left: -15px;
+        position: absolute;
+        top: 14px;
+        width: 5px;
+      }
+    }
   }
 
   .pri-link {

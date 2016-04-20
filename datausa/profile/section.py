@@ -86,7 +86,7 @@ class Section(BaseObject):
 
 
                 if "miniviz" in topic:
-                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"], profile = profile))
+                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]), profile = profile)
 
 
                 # fill selector if present

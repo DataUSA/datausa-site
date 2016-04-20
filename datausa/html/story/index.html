@@ -24,9 +24,16 @@
       <div class="more-options">
         <a href="/story/{{story.story_id}}" class="read-more pri-link">Read More</a>
         <div class="author-meta">
-          {% for author in story.authors %}
-          <div class="name"><span>Written by</span> <a href="{{ author.twitter }}" target="_blank">{{ author.name }}</a></div>
-          {% endfor %}
+          <div class="name"><span>Written by </span>
+            {% for author in story.authors %}
+              {% if loop.index > 1 %}
+                {% set joiner = " and " %}
+              {% else %}
+                {% set joiner = "" %}
+              {% endif %}
+              {{ joiner }}{{ author.name }}
+            {% endfor %}
+          </div>
           <div class="post-date">{{ story.date }}</div>
         </div>
       </div>
@@ -52,9 +59,16 @@
       <div class="more-options">
         <a href="/story/{{story.story_id}}" class="read-more pri-link">Read More</a>
         <div class="author-meta">
-          {% for author in story.authors %}
-          <div class="name"><span>Written by</span> <a href="{{ author.twitter }}" target="_blank">{{ author.name }}</a></div>
-          {% endfor %}
+          <div class="name"><span>Written by </span>
+            {% for author in story.authors %}
+              {% if loop.index > 1 %}
+                {% set joiner = " and " %}
+              {% else %}
+                {% set joiner = "" %}
+              {% endif %}
+              {{ joiner }}{{ author.name }}
+            {% endfor %}
+          </div>
           <div class="post-date">{{ story.date }}</div>
         </div>
       </div>

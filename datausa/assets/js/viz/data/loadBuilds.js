@@ -15,9 +15,9 @@ viz.loadBuilds = function(builds) {
         var locale = d3plus.viz().format(Object).locale.value.visualization,
             type = locale[build.config.type] || d3plus.string.title(type);
         build.title = "Data USA - " + type + " of " + build.title;
-        if (build.profile) {
+        if (build.profile && location.href.indexOf("/story/") < 0) {
           var joiner = build.profile_type === "geo" ? " in " : " for ";
-          build.title += joiner + build.profile.name;
+          build.title += joiner + d3plus.string.title(build.profile.name);
           if (build.profile_type === "cip") build.title += " Majors";
         }
       }

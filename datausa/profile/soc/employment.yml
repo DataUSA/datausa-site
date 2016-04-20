@@ -51,6 +51,7 @@ topics:
           share: "num_ppl"
           static:
             soc: "USA"
+      highlight: "<<id>>"
       id: "soc"
       order:
         sort: "asc"

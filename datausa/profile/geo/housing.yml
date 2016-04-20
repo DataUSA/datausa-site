@@ -222,6 +222,7 @@ topics:
           id: "transport"
           regex: "^transport_([a-z]*)$"
           value: "num_households"
+      highlight: "<<id>>"
       id: "geo"
       order: "share"
       type: "bar"

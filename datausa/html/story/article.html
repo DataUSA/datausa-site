@@ -28,11 +28,19 @@
         <h1>{{ story.title }}</h1>
         <p class="desc">{{ story.description }}</p>
         <div class="author-meta">
-          {% for author in story.authors %}
-          <div class="name"><span>Written by</span> <a href="#authorBio">{{ author.name }}</a></div>
+
+          <div class="name"><span>Written by</span> <a href="#authorBio">
+            {% for author in story.authors %}
+              {% if loop.index > 1 %}
+                {% set joiner = " and " %}
+              {% else %}
+                {% set joiner = "" %}
+              {% endif %}
+              {{ joiner }}{{ author.name }}
+            {% endfor %}
+          </a></div>
           <div class="post-date">{{ story.date }}</div>
           {% if story.attr.image_author %}<div class="name image-by"><span>Image by</span> <a href="{{ story.attr.image_link }}" target="_blank">{{ story.attr.image_author }}</a></div>{% endif %}
-          {% endfor %}
         </div>
     </div>
   </div>
@@ -56,8 +64,8 @@
 
 <a name="authorBio" class="anchor"></a>
 <div class="article-more-options">
+  {% for author in story.authors %}
   <div class="author-meta">
-    {% for author in story.authors %}
     <img class="author-avatar" alt="{{ author.name }}" src="{% if author.img %}{{ author.img }}{% else %}/static/img/story/author.png{% endif %}">
     <div class="author-text">
       <div class="name">{{ author.name }}</div>
@@ -69,7 +77,7 @@
       {% endif %}
       {% if author.twitter %}<div class="social"><a href="{{ author.twitter }}" target="_blank">Twitter</a></div>{% endif %}
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </div>
 {% endblock %}
