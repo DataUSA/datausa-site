@@ -58,14 +58,22 @@ body {
       z-index: 3;
 
       span {
-        @include flex();
-        @include align-items(center);
+        @include box();
+        display: block;
         position: relative;
         top: 0 !important;
         padding: 7px;
         color: $red-w;
         font-family: $pathway;
         font-size: 24px;
+        max-width: 75%;
+        text-align: center;
+        width: 100%;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
       }
 
       img {
