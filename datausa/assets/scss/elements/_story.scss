@@ -21,26 +21,6 @@ body.story {
     }
   }
 
-  ul {
-    margin: 0 30px;
-
-    li {
-      color: rgba(51, 51, 51, 0.93);
-      position: relative;
-
-      &::before {
-        @include rounded(3px);
-        background-color: rgba(51, 51, 51, 0.75);
-        content: "";
-        height: 5px;
-        left: -15px;
-        position: absolute;
-        top: 14px;
-        width: 5px;
-      }
-    }
-  }
-
   .pri-link {
     font-family: $palanquin;
     font-weight: 700;
@@ -299,6 +279,31 @@ body.story {
     .author-meta {
       @include align-self(flex-end);
     }
+
+  }
+
+  .topic {
+
+    ul {
+      margin: 0 30px;
+
+      li {
+        color: rgba(51, 51, 51, 0.93);
+        position: relative;
+
+        &::before {
+          @include rounded(3px);
+          background-color: rgba(51, 51, 51, 0.75);
+          content: "";
+          height: 5px;
+          left: -15px;
+          position: absolute;
+          top: 14px;
+          width: 5px;
+        }
+      }
+    }
+
   }
 
   .article-footnotes {

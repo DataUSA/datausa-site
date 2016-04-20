@@ -5881,22 +5881,6 @@ body.story {
       body.story p img {
         display: block;
         margin: 10px auto; }
-  body.story ul {
-    margin: 0 30px; }
-    body.story ul li {
-      color: rgba(51, 51, 51, 0.93);
-      position: relative; }
-      body.story ul li::before {
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        background-color: rgba(51, 51, 51, 0.75);
-        content: "";
-        height: 5px;
-        left: -15px;
-        position: absolute;
-        top: 14px;
-        width: 5px; }
   body.story .pri-link {
     font-family: "Palanquin", sans-serif;
     font-weight: 700;
@@ -6162,6 +6146,22 @@ body.story {
           align-self: flex-end;
           -ms-flex-item-align: end;
           flex-item-align: end; }
+  body.story .topic ul {
+    margin: 0 30px; }
+    body.story .topic ul li {
+      color: rgba(51, 51, 51, 0.93);
+      position: relative; }
+      body.story .topic ul li::before {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        background-color: rgba(51, 51, 51, 0.75);
+        content: "";
+        height: 5px;
+        left: -15px;
+        position: absolute;
+        top: 14px;
+        width: 5px; }
   body.story .article-footnotes {
     background-color: #F6F6F6;
     padding: 50px 0 0; }
