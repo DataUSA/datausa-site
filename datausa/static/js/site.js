@@ -4522,6 +4522,8 @@ function getLinkPath(href) {
 dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
   var active_panel = null;
 
+  embed_url = "http://datausa.io" + embed_url;
+
   d3.select("body")
     .style("overflow", "hidden")
     .append("div")
@@ -4621,12 +4623,12 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("class", "social")
 
       social.append("a")
-        .attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.href))
+        .attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(embed_url))
         .attr("target", "_blank")
         .attr("class", "fa fa-facebook")
 
       social.append("a")
-        .attr("href", "https://twitter.com/home?status=" + encodeURIComponent(window.location.href))
+        .attr("href", "https://twitter.com/home?status=" + encodeURIComponent(embed_url))
         .attr("target", "_blank")
         .attr("class", "fa fa-twitter")
 

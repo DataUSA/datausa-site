@@ -42,7 +42,7 @@
 {% block js %}
 <script>
 
-  var dataset = "{{ defaultDataset }}", data_url, buildTitle;
+  var dataset = "{{ defaultDataset }}", data_url, buildTitle, urlPath;
 
   var formConfig = {
     "font": vizStyles.ui_map.font,
@@ -145,8 +145,8 @@
     var topo = level === "county" ? "counties" : level + "s";
 
     if (history.pushState) {
-      var newurl = "/map/?level=" + level + "&key=" + key;
-      window.history.pushState({"path": newurl}, '', newurl);
+      urlPath = "/map/?level=" + level + "&key=" + key;
+      window.history.pushState({"path": urlPath}, '', urlPath);
     }
 
     map.color(key.split(",")[0])
@@ -209,7 +209,7 @@
     ],
     d3.select(this).attr("data-target-id"),
     location.href,
-    location.href,
+    urlPath,
     {
       "container": container,
       "title": "Data USA - Map of " + buildTitle,
