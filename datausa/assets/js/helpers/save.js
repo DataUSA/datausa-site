@@ -45,6 +45,7 @@ var save = function(svg, options) {
   var context = canvas.getContext('2d');
   context.scale(options.scale, options.scale);
   context.clearRect(0, 0, canvas.width / 2, canvas.height / 2);
+
   if (options.mode === "pdf") {
     context.beginPath();
     context.rect(0, 0, canvas.width / 2, canvas.height / 2);
@@ -100,14 +101,14 @@ var save = function(svg, options) {
 
     var translate = svg.select("#key").attr("transform").match(/translate\(([^a-z]+)\)/i)[1];
     translate = translate.replace(/([^a-z])\s([^a-z])/gi, "$1,$2").split(",").map(Number);
-    keyBox.y += translate[1];
+    var startY = keyBox.y + translate[1];
 
     legendIcons.each(function(d, i){
       var pattern = d3.select(this).attr("fill").split("#")[1];
       pattern = svg.select("#" + pattern.substring(0, pattern.length-1));
       var size = parseFloat(pattern.select("image").attr("width"));
 
-      var x = options.padding + keyBox.x + (i * (size + 5)), y = options.padding + titleHeight + subHeight + keyBox.y;
+      var x = options.padding + keyBox.x + (i * (size + 5)), y = options.padding + titleHeight + subHeight + startY;
 
       var rect = pattern.select("rect").node();
       rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
@@ -182,6 +183,10 @@ var save = function(svg, options) {
     function text2svg(text, title) {
       text = d3.select(text);
       title = title || text.text().replace(" Options", "").trim();
+      title = title
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
       var fC = text.style("color"),
           fF = text.style("font-family").split(",")[0],
           fS = text.style("font-size");
