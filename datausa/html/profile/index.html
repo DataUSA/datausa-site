@@ -140,7 +140,7 @@
     <div id="profile-toc">
     {% for section in sections %}
       <div class="profile-toc-section">
-        <h2><a href="#{{ section.anchor }}"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</a></h2>
+        <h2><a href="#{{ section.anchor }}" data-ga="toc {{ section.anchor }}" data-ga-cat="navigation" data-ga-label="User click"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</a></h2>
         {% for desc in section.description %}
         <p>{{ desc|safe }}</p>
         {% endfor %}
@@ -150,11 +150,11 @@
           {% if topic.category %}
           {% if categories.update({"count": categories.count + 1}) %}{% endif %}
           {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
-          <li><a class="pri-link" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
+          <li><a class="pri-link" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc {{ section.anchor }} topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
           {% endif %}
         {% endfor %}
         {% if categories.count == 0 %}
-        <li><a class="pri-link" href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-ga="toc topic" data-ga-cat="navigation" data-ga-label="User click">Start Exploring</a></li>
+        <li><a class="pri-link" href="#{{ section.anchor }}" data-anchor="{{ section.anchor }}" data-ga="toc {{ section.anchor }} topic" data-ga-cat="navigation" data-ga-label="User click">Start Exploring</a></li>
         {% endif %}
         </ul>
       </div>
@@ -180,7 +180,7 @@
   <div id="profile-nav">
     <ul class="pri-menu">
     {% for section in sections %}
-      <a href="#{{ section.anchor }}"><li data-anchor="{{ section.anchor }}" class="pri-link"><img src="/static/img/icons/{{ section.anchor }}.svg" /><span class="profile-nav-text">{{ section.title|safe }}</span></li></a>
+      <a href="#{{ section.anchor }}" data-ga="subnav {{ section.anchor }}" data-ga-cat="navigation" data-ga-label="User click"><li data-anchor="{{ section.anchor }}" class="pri-link"><img src="/static/img/icons/{{ section.anchor }}.svg" /><span class="profile-nav-text">{{ section.title|safe }}</span></li></a>
     {% endfor %}
     </ul>
     <a href="#top" id="back-to-top">
