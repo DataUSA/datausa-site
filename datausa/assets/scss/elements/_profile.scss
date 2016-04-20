@@ -1124,7 +1124,7 @@ body.profile, body.map, body.story {
     }
 
     .intro-txt {
-      @include flex-size(2);
+      @include flex-size(2 0 100px);
       padding-right: 20px;
 
       .desc {
@@ -1203,7 +1203,7 @@ body.profile, body.map, body.story {
     }
 
     .intro-viz {
-      @include flex-size(1);
+      @include flex-size(1 0 100px);
       height: 200px;
       margin: 20px 0;
       text-align: center;
@@ -1224,13 +1224,11 @@ body.profile, body.map, body.story {
     #profile-toc {
       @include flex();
       @include flex-direction(row);
-      // @include flex-wrap();
       margin-top: 25px;
 
       .profile-toc-section {
-        @include flex-size(1);
+        @include flex-size(1 0 100px);
         margin: 10px;
-        // min-width: 200px;
 
         h2 {
           font-size: 16px;
@@ -1244,6 +1242,7 @@ body.profile, body.map, body.story {
 
             img {
               display: inline-block;
+              height: 20px;
               margin-top: 1px;
               width: 20px;
             }

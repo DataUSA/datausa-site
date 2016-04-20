@@ -4413,11 +4413,11 @@ body.profile .intro, body.map .intro, body.story .intro {
       display: inline-block; }
   body.profile .intro .intro-txt, body.map .intro .intro-txt,
   body.story .intro .intro-txt {
-    -webkit-box-flex: 2;
-    -moz-box-flex: 2;
-    -webkit-flex: 2;
-    -ms-flex: 2;
-    flex: 2;
+    -webkit-box-flex: 2 0 100px;
+    -moz-box-flex: 2 0 100px;
+    -webkit-flex: 2 0 100px;
+    -ms-flex: 2 0 100px;
+    flex: 2 0 100px;
     padding-right: 20px; }
     body.profile .intro .intro-txt .desc, body.map .intro .intro-txt .desc,
     body.story .intro .intro-txt .desc {
@@ -4521,11 +4521,11 @@ body.profile .intro, body.map .intro, body.story .intro {
             font-style: italic; }
   body.profile .intro .intro-viz, body.map .intro .intro-viz,
   body.story .intro .intro-viz {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
+    -webkit-box-flex: 1 0 100px;
+    -moz-box-flex: 1 0 100px;
+    -webkit-flex: 1 0 100px;
+    -ms-flex: 1 0 100px;
+    flex: 1 0 100px;
     height: 200px;
     margin: 20px 0;
     text-align: center; }
@@ -4561,11 +4561,11 @@ body.profile .intro, body.map .intro, body.story .intro {
     body.profile .intro #profile-toc .profile-toc-section,
     body.map .intro #profile-toc .profile-toc-section,
     body.story .intro #profile-toc .profile-toc-section {
-      -webkit-box-flex: 1;
-      -moz-box-flex: 1;
-      -webkit-flex: 1;
-      -ms-flex: 1;
-      flex: 1;
+      -webkit-box-flex: 1 0 100px;
+      -moz-box-flex: 1 0 100px;
+      -webkit-flex: 1 0 100px;
+      -ms-flex: 1 0 100px;
+      flex: 1 0 100px;
       margin: 10px; }
       body.profile .intro #profile-toc .profile-toc-section h2,
       body.map .intro #profile-toc .profile-toc-section h2,
@@ -4583,6 +4583,7 @@ body.profile .intro, body.map .intro, body.story .intro {
           body.map .intro #profile-toc .profile-toc-section h2 a img,
           body.story .intro #profile-toc .profile-toc-section h2 a img {
             display: inline-block;
+            height: 20px;
             margin-top: 1px;
             width: 20px; }
       body.profile .intro #profile-toc .profile-toc-section p,
