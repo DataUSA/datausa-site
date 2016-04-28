@@ -14,12 +14,11 @@ body.about {
   @media only screen and (max-width : 768px) {
     .video {
       height: 225px;
-      width: 400px;
     }
 
     #logos img {
       height: 25px;
-      margin: 20px 10px;
+      margin: 30px 10px 5px;
     }
   }
 
@@ -27,14 +26,12 @@ body.about {
 
     .video {
       height: 152px;
-      width: 270px;
     }
 
     #logos img {
-      height: 15px;
-      margin: 20px 5px;
+      height: 20px;
+      margin: 30px 10px 5px;
     }
-
   }
 
   /* Extra Small Devices, Phones */

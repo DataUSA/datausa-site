@@ -214,19 +214,21 @@ body.about {
   }
 
   .video {
-    border: 1px solid $black2;
     display: block;
     height: 315px;
-    margin: 0 auto;
-    width: 560px;
+    width: 100%;
+    background-color: $black2;
+    margin: -50px auto 0 -50px;
+    padding: 20px 50px;
   }
 
   #logos {
     margin-bottom: 20px;
     text-align: center;
+    
     img {
-      height: 35px;
-      margin: 20px 20px;
+      height: 25px;
+      margin: 30px 25px 10px;
     }
   }
 

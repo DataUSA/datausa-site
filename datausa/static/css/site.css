@@ -6567,17 +6567,18 @@ body.about {
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
   body.about .video {
-    border: 1px solid #141b2e;
     display: block;
     height: 315px;
-    margin: 0 auto;
-    width: 560px; }
+    width: 100%;
+    background-color: #141b2e;
+    margin: -50px auto 0 -50px;
+    padding: 20px 50px; }
     body.about #logos {
       margin-bottom: 20px;
       text-align: center; }
       body.about #logos img {
-        height: 35px;
-        margin: 20px 20px; }
+        height: 25px;
+        margin: 30px 25px 10px; }
   body.about .code-box {
     background: #fff;
     color: #141b2e;
@@ -6856,19 +6857,17 @@ body.about {
             top: -60px; }
 @media only screen and (max-width : 768px) {
   body.about .video {
-    height: 225px;
-    width: 400px;   }
+    height: 225px;   }
     body.about #logos img {
       height: 25px;
-      margin: 20px 10px;   }
+      margin: 30px 10px 5px;   }
 }
 @media only screen and (max-width : 570px) {
   body.about .video {
-    height: 152px;
-    width: 270px;   }
+    height: 152px;   }
     body.about #logos img {
-      height: 15px;
-      margin: 20px 5px;   }
+      height: 20px;
+      margin: 30px 10px 5px;   }
 }
 @media only screen and (max-width : 480px) {
   body.about {
