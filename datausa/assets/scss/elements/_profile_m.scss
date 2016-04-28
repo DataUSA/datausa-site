@@ -34,7 +34,12 @@ body.profile, body.story {
   @media only screen and (max-width : 768px) {
 
     .intro {
-
+      
+      .intro-txt {
+        @include flex-size(2 0 200px);
+        padding-right: 0px;
+      }
+      
       .intro-head {
         @include flex-direction(column);
         padding: 30px 0 10px;
@@ -62,6 +67,10 @@ body.profile, body.story {
 
       #profile-toc {
         @include flex-direction(column);
+
+        .profile-toc-section {
+          @include flex-size(1 0 auto);
+        }
 
         h2 {
           font-size: 16px !important;

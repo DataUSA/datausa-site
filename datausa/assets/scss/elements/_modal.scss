@@ -264,7 +264,6 @@
               color: $black3;
               height: 53px;
               display: block;
-              // margin: 20px auto;
               text-align: center;
               padding: 0 15px;
               cursor: text;
@@ -280,6 +279,11 @@
                 float: left;
                 width: 150px;
                 height: 150px;
+
+                @media only screen and (max-width : 768px) {
+                  display: none;
+                }
+
                 img {
                   width: 150px;
                 }
@@ -288,6 +292,11 @@
               .options {
                 width: 290px;
                 float: right;
+
+                @media only screen and (max-width : 768px) {
+                  width: 100%;
+                  float: none;
+                }
 
                 input[type='checkbox'] {
                   display: inline-block;
@@ -301,6 +310,29 @@
 
                   &:checked {
                     background-color: $black4;
+                  }
+                }
+
+                select {
+                  background-color: #fff;
+                  background-image: url('/static/img/profiles/drop_triangle.png');
+                  background-repeat: no-repeat;
+                  background-position: 96% 50%;
+                  background-size: 16px;
+                  padding: 0 35px 0 15px;
+                  @include box();
+                  @include appearance(none);
+                  border-radius: 0px;
+                  border: 1px solid $black5;
+                  color: $black3;
+                  height: 53px;
+                  display: block;
+                  text-align: center;
+                  cursor: pointer;
+                  font-size: 16px;
+
+                  @media only screen and (max-width : 768px) {
+                    margin-bottom: 18px;
                   }
                 }
               }

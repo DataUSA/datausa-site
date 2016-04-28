@@ -360,7 +360,7 @@ body.frozen {
         z-index: 10;
         bottom: 3px;
         left: 10%;
-        height: 1px;
+        height: 2px;
         @include transform(translate(0%, -50%));
         @include transition(all .25s ease);
         background: $white;

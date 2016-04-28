@@ -722,21 +722,23 @@ body.profile, body.map, body.story {
       position: relative;
       // top: 0 !important;
       padding: 6px;
-      color: $red-w;
-      font-family: $pathway;
-      font-size: 24px;
       margin-right: auto;
       margin-left: auto;
       max-width: 75%;
       text-align: center;
       width: 100%;
 
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
       top: $nav-height - 10;
       @include transition(top 0.55s 0.03s);
+
+      a {
+        color: $red-w;
+        font-family: $pathway;
+        font-size: 24px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     img {
@@ -963,12 +965,12 @@ body.profile, body.map, body.story {
 
         &.active {
           opacity: 1;
-          @include text-shadow(0 0 0 #fff);
+          @include text-shadow(0 0 1px #fff);
           font-weight: 700;
 
           &::before {
-            bottom: 3px;
-            background: #fff;
+            bottom: 2px;
+            background: $red-w;
           }
         }
 
@@ -1016,9 +1018,9 @@ body.profile, body.map, body.story {
 
     .breadcrumb {
       img {
-        width: 18px;
+        width: 45px;
         height: 18px;
-        margin: 3px 6px 3px 3px;
+        margin: 3px 3px 3px 0;
       }
 
       .crumb-trail {
