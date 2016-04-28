@@ -1,37 +1,26 @@
 body.about {
-
-  .video {
-    border: 1px solid $black2;
-    display: block;
-    height: 315px;
-    margin: 0 auto;
-    width: 560px;
-  }
-
-  a.anchor {
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      visibility: hidden;
-      top: -$nav-height;
-    }
-
-  }
-
-  #logos {
-    margin-bottom: 20px;
-    text-align: center;
-    img {
-      height: 35px;
-      margin: 20px 20px;
-    }
-  }
-
-  /* visuals */
-
   background-color: #1b191e;
+
+  #hero-img {
+    background-color: $black2-5;
+    @include gradient(top, $search-gradient);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+  }
+
+  #hero {
+    top: 0;
+    position: absolute;
+    z-index: 0;
+
+    &.hero-bg {
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  }
 
   h1 {
     font-family: $pathway;
@@ -72,23 +61,34 @@ body.about {
     color: $black2;
     @include transition(all 0.25s);
     cursor: pointer;
-  }
 
-  a[href="#top"] {
-    color: $black;
-    font-family: $palanquin;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-  }
-
-  a[name="top"] {
-    &::before {
-      content: "";
+    &.anchor {
       position: relative;
-      visibility: hidden;
-      top: -$nav-height - $prof-nav-height;
+
+      &::before {
+        content: "";
+        position: absolute;
+        visibility: hidden;
+        top: -$nav-height;
+      }
+    }
+    
+    &[href="#top"] {
+      color: $black;
+      font-family: $palanquin;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+    
+    &[name="top"] {
+      &::before {
+        content: "";
+        position: relative;
+        visibility: hidden;
+        top: -$nav-height - $prof-nav-height;
+      }
     }
   }
 
@@ -145,6 +145,24 @@ body.about {
     opacity: 0.8;
   }
 
+  .pri-tab {
+    .pri-tab-link {
+      color: $black-link;
+      height: auto;
+    }
+
+    .btn {
+      padding: 30px 30px 17px;
+    }
+
+    &.active {
+      background-color: rgba(255,255,255,0);
+      .pri-tab-link {
+        color: $red-w;
+      }
+    }
+  }
+
   .pri-link {
     font-size: 11px;
   }
@@ -157,45 +175,60 @@ body.about {
     font-style: italic;
   }
 
-  // #about-nav {
-  //   background-color: $black2;
-  //   @include flex();
-  //   height: $about-nav-height;
-  //   width: 100%;
-  //   left: 0;
-  //   position: fixed;
-  //   top: $nav-height;
-  //   text-align: center;
-  //   @include transition(top 0.5s);
-  //   z-index: 4;
+  header {
+    & > div {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      z-index: 1;
+      @include box();
+      padding: $nav-height 25px 0;
 
-  //   a {
-  //     color: $black2;
-  //   }
+      section {
+        padding-top: 0 !important;
+      }
+    }
 
-  //   ul {
-  //     width: 100%;
-  //     max-width: 800px;
-  //     @include flex();
-  //     @include justify(space-between);
+    section {
+      padding: 0;
+      background-color: transparent;
+    }
 
-  //     li {
-  //       @include flex-size(1);
-  //       padding: 4px 5px;
+    h2 {
+      font-size: 60px;
+      letter-spacing: 0.03em;
+      color: $black3;
+      text-align: center;
+      margin-bottom: 45px;
+      @include text-shadow(0 0 30px rgba(20, 27, 46, 0.1));
+    }
+  }
 
-  //       &.active {
-  //         a {
-  //           color: $red-w;
-  //         }
+  article {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 50px;
+    z-index: 1;
+    @include box();
+    padding: 0 25px $nav-height;
+  }
 
-  //         &::before {
-  //           bottom: 0;
-  //           background: $red-w;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  .video {
+    border: 1px solid $black2;
+    display: block;
+    height: 315px;
+    margin: 0 auto;
+    width: 560px;
+  }
+
+  #logos {
+    margin-bottom: 20px;
+    text-align: center;
+    img {
+      height: 35px;
+      margin: 20px 20px;
+    }
+  }
 
   .code-box {
     background: #fff;
@@ -228,124 +261,86 @@ body.about {
     }
   }
 
-  // #about-container {
-  //   position: relative;
-  //
-  //   &.index {
-  //     // section{
-  //     //   margin-top: 30px;
-  //     // }
-  //     p {
-  //       color: $black2;
-  //       line-height: 2;
-  //       font-size: 18px;
-  //       opacity: 1;
-  //       text-align: justify;
-  //     }
-  //   }
-  // }
-
-  header {
-    & > div {
-      position: relative;
-      width: 100%;
-      margin: 0 auto;
-      z-index: 1;
-      @include box();
-      padding: 25px 25px 0;
-    }
-
-    section {
-      padding: 0;
-      background-color: transparent;
-    }
-    h2 {
-      font-size: 60px;
-      letter-spacing: 0.03em;
-      color: $black3;
-      text-align: center;
-      margin-bottom: 45px;
-      @include text-shadow(0 0 30px rgba(20, 27, 46, 0.1));
-    }
-  }
-
-  #hero-img {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: -1;
-  }
-
-  #hero {
-    // width: 100%;
-    // min-height: 100vh;
-    top: 0;
-    position: absolute;
-    // @include transition(all 0.5s);
-    z-index: 0;
-
-    &.hero-bg {
-      background-image: url('/static/img/about/landscape.jpg');
-      // background-attachment: fixed;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      // background-position: 50% 100%;
-    }
-
-    // &::after {
-    //   content: "";
-    //   position: fixed;
-    //   height: 100%;
-    //   width: 100%;
-    //   left: 0;
-    //   top: $nav-height;
-    //   // @include gradient(top, (0%: white, 10%: rgba(255, 255, 255, 0.1), 30%: transparent, 100%: transparent));
-    // }
-  }
-
-  article {
-    position: relative;
-    width: 100%;
-    margin: 0 auto 50px;
-    z-index: 1;
-    @include box();
-    padding: 0 25px $nav-height;
-  }
-
   .usage-scenarios {
     padding-top: 30px;
   }
 
   .dataset-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
     @include flex();
     @include flex-direction(row);
     @include justify(space-between);
 
+    &.datasets {
+      li {
+        a {
+          &.acs {
+            background-image: url('/static/img/about/ACS.png');
+          }
+          &.acspums {
+            background-image: url('/static/img/about/ACS_PUMS.png');
+          }
+          &.bea {
+            background-image: url('/static/img/about/BEA.png');
+          }
+          &.bls {
+            background-image: url('/static/img/about/BLS.png');
+          }
+          &.chr {
+            background-image: url('/static/img/about/CHR.png');
+          }
+          &.ipeds {
+            background-image: url('/static/img/about/IPEDS.png');
+          }
+          &.onet {
+            background-image: url('/static/img/about/ONet.png');
+          }
+        }
+      }
+    }
+
     li {
       @include flex-size(1);
-      padding: 0 0 10px;
       text-align: center;
       font-family: $palanquin;
       font-weight: 400;
       font-size: 16px;
       letter-spacing: 0.03em;
 
-      a {
-        color: $black2;
+      &.active {
+        a {
+          background-color: $red-w;
+        }
+      }
 
+      a {
+        display: block;
+        background-color: $black35;
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        color: #ffffff;
+        display: block;
+        width: 100%;
+        height: 60px;
+        padding: 13px 0;
+        @include box();
+        font-size: 16px;
+        line-height: 1;
+        font-weight: 600;
+        
         i {
           display: block;
         }
+
         img {
           display: block;
           margin: 0 auto;
           width: 25px;
-        }
-      }
-
-      &.active {
-        a {
-          color: $red-w;
         }
       }
     }
@@ -372,7 +367,7 @@ body.about {
     padding-top: 10px;
     width: 100%;
     @include flex();
-    @include flex-direction(row);
+    @include flex-direction(column);
     @include justify(flex-start);
 
     & > * {
@@ -390,15 +385,17 @@ body.about {
   }
 
   .sumlevels {
+    margin-bottom: 20px;
+    padding-right: 0 !important;
+    text-align: center;
 
     li {
-      margin-left: 15px;
-      padding: 8px 5px 4px;
-      font-family: $palanquin;
+      display: inline-block;
+      padding: 8px 10px 4px;
       font-weight: 300;
-      font-size: 14px;
+      font-size: 16px;
       letter-spacing: 0.03em;
-      line-height: 17px;
+      line-height: 20px;
       opacity: 0.7;
       position: relative;
       text-transform: capitalize;
@@ -413,25 +410,10 @@ body.about {
         white-space: normal;
       }
 
-      &:before {
-        content: unicode("f1db");
-        font-family: FontAwesome;
-        font-size: 8px;
-        left: -9px;
-        position: absolute;
-        top: 9px;
-      }
-
       &.active {
-
         a {
           color: $red-w;
           font-weight: 600;
-        }
-
-        &:before {
-          color: $red-w;
-          content: unicode("f111");
         }
       }
 

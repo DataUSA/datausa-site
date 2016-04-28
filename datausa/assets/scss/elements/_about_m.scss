@@ -101,7 +101,9 @@ body.about {
     .pri-tab {
       .pri-tab-link {
         min-width: 0px;
-        height: 30px;
+      }
+      .btn {
+        padding: 20px;
       }
     }
 
@@ -117,6 +119,10 @@ body.about {
     .dataset-panel li {
       padding: 0;
       font-size: 14px;
+
+      a {
+        font-size: 14px;
+      }
     }
 
     #index-page {
@@ -158,11 +164,13 @@ body.about {
 
     .sumlevels {
       @include column-count(2);
+      text-align: left;
 
       li {
-        line-height: 1;
-        font-size: 12px;
-        padding: 0;
+        display: block;
+        line-height: 24px;
+        font-size: 14px;
+        padding: 0 10px;
 
         &::before {
           position: relative;
