@@ -6755,68 +6755,33 @@ body.about {
   body.about .attr-body {
     margin-top: 10px;
     padding-top: 10px;
-    width: 100%;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -ms-flex-pack: center;
-    flex-pack: center;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    -moz-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-justify-content: flex-start;
-    -moz-justify-content: flex-start;
-    justify-content: flex-start;
-    -ms-flex-pack: start;
-    flex-pack: start; }
-    body.about .attr-body > * {
-      margin: 0;
-      padding: 0; }
-      body.about .attr-body > *:first-child {
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-        padding-right: 30px; }
-        body.about .attr-body > *:last-child {
-          -webkit-box-flex: 3;
-          -moz-box-flex: 3;
-          -webkit-flex: 3;
-          -ms-flex: 3;
-          flex: 3; }
-  body.about .sumlevels {
-    margin-bottom: 20px;
-    padding-right: 0 !important;
-    text-align: center; }
-    body.about .sumlevels li {
-      display: inline-block;
-      padding: 8px 10px 4px;
-      font-weight: 300;
-      font-size: 16px;
-      letter-spacing: 0.03em;
-      line-height: 20px;
-      opacity: 0.7;
-      position: relative;
-      text-transform: capitalize;
-      white-space: nowrap;
-      -moz-transition: opacity 0.25s;
-      -o-transition: opacity 0.25s;
-      -webkit-transition: opacity 0.25s;
-      transition: opacity 0.25s; }
-      body.about .sumlevels li:hover {
-        opacity: 1; }
-        body.about .sumlevels li a {
-          white-space: normal; }
-          body.about .sumlevels li.active a {
-            color: #ef6145;
-            font-weight: 600; }
+    width: 100%; }
+    body.about .sumlevels {
+      margin-bottom: 20px;
+      padding-right: 0 !important;
+      text-align: center; }
+      body.about .sumlevels li {
+        display: inline-block;
+        padding: 8px 10px 4px;
+        font-weight: 300;
+        font-size: 16px;
+        letter-spacing: 0.03em;
+        line-height: 20px;
+        opacity: 0.7;
+        position: relative;
+        text-transform: capitalize;
+        white-space: nowrap;
+        -moz-transition: opacity 0.25s;
+        -o-transition: opacity 0.25s;
+        -webkit-transition: opacity 0.25s;
+        transition: opacity 0.25s; }
+        body.about .sumlevels li:hover {
+          opacity: 1; }
+          body.about .sumlevels li a {
+            white-space: normal; }
+            body.about .sumlevels li.active a {
+              color: #ef6145;
+              font-weight: 600; }
   body.about table {
     font-family: "Palanquin", sans-serif;
     text-transform: capitalize;

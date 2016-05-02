@@ -72,7 +72,7 @@ body.about {
         top: -$nav-height;
       }
     }
-    
+
     &[href="#top"] {
       color: $black;
       font-family: $palanquin;
@@ -81,7 +81,7 @@ body.about {
       font-size: 10px;
       letter-spacing: 0.1em;
     }
-    
+
     &[name="top"] {
       &::before {
         content: "";
@@ -225,7 +225,7 @@ body.about {
   #logos {
     margin-bottom: 20px;
     text-align: center;
-    
+
     img {
       height: 25px;
       margin: 30px 25px 10px;
@@ -334,7 +334,7 @@ body.about {
         font-size: 16px;
         line-height: 1;
         font-weight: 600;
-        
+
         i {
           display: block;
         }
@@ -368,22 +368,6 @@ body.about {
     margin-top: 10px;
     padding-top: 10px;
     width: 100%;
-    @include flex();
-    @include flex-direction(column);
-    @include justify(flex-start);
-
-    & > * {
-      margin: 0;
-      padding: 0;
-
-      &:first-child {
-        @include flex-size(1);
-        padding-right: 30px;
-      }
-      &:last-child {
-        @include flex-size(3);
-      }
-    }
   }
 
   .sumlevels {
