@@ -97,6 +97,9 @@ class Viz(object):
         """List[str]: A list of important data keys to be displayed in tooltips """
 
         tooltip = []
+        if self.config["type"] == "radar":
+            return tooltip
+
         ids = self.config["id"]
         if not isinstance(ids, list):
             ids = [ids]
