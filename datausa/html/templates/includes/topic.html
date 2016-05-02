@@ -54,7 +54,7 @@
       </div>
       <script>builds.push({{ topic.miniviz.serialize()|safe }});</script>
       {% endif %}
-      {% if topic.source != False %}
+      {% if topic.source != False and topic.class != "flex" %}
       {% include "templates/includes/source.html" %}
       {% endif %}
 
@@ -66,7 +66,7 @@
     </div>
     <script>builds.push({{ viz.serialize()|safe }});</script>
     {% endfor %}
-    {% if topic.source != False and not aside and topic.viz %}
+    {% if topic.source != False and ((not aside and topic.viz) or topic.class == "flex") %}
     {% include "templates/includes/source.html" %}
     {% endif %}
   </div>

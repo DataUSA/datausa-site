@@ -5732,8 +5732,9 @@ body.embed {
       -moz-flex-direction: column;
       -ms-flex-direction: column;
       flex-direction: column;
-      height: 100vh;
-      padding: 15px; }
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 15px !important; }
       body.embed .profile-section .topic sub:last-child {
         margin-bottom: 0; }
         body.embed .profile-section .topic h2 {
@@ -5741,29 +5742,40 @@ body.embed {
           -moz-box-flex: none;
           -webkit-flex: none;
           -ms-flex: none;
-          flex: none; }
-          body.embed .profile-section .topic .content {
-            -webkit-box-flex: 1;
-            -moz-box-flex: 1;
-            -webkit-flex: 1;
-            -ms-flex: 1;
-            flex: 1; }
-            body.embed .profile-section .topic .content .sub-source {
-              position: relative;
-              width: 315px; }
-              body.embed .profile-section .topic .content .sub-source .datausa-link {
-                bottom: 6px;
-                position: absolute;
-                right: -100px; }
-            body.embed .profile-section .topic .content.full-width .sub-source {
-              width: 100%; }
-              body.embed .profile-section .topic .content.full-width .sub-source .datausa-link {
-                right: 0; }
-            body.embed .profile-section .topic .content .viz:not(.mini),
-            body.embed .profile-section .topic .content .viz.full-width {
-              height: 100% !important;
-              max-height: 100% !important;
-              min-height: 100% !important; }
+          flex: none;
+          font-size: 30px !important; }
+          body.embed .profile-section .topic h2 .data-btn {
+            top: 5px; }
+      body.embed .profile-section .topic .content {
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1; }
+        body.embed .profile-section .topic .content aside {
+          -webkit-box-flex: 0 0 auto !important;
+          -moz-box-flex: 0 0 auto !important;
+          -webkit-flex: 0 0 auto !important;
+          -ms-flex: 0 0 auto !important;
+          flex: 0 0 auto !important; }
+          body.embed .profile-section .topic .content .sub-source {
+            position: relative;
+            width: 315px; }
+            body.embed .profile-section .topic .content .sub-source .datausa-link {
+              bottom: 6px;
+              position: absolute;
+              right: -100px; }
+        body.embed .profile-section .topic .content .viz:not(.mini),
+        body.embed .profile-section .topic .content .viz.full-width {
+          height: 100% !important;
+          max-height: 100% !important;
+          min-height: 100% !important; }
+      body.embed .profile-section .topic.flex .sub-source,
+      body.embed .profile-section .topic .content.full-width .sub-source {
+        width: 100%; }
+        body.embed .profile-section .topic.flex .sub-source .datausa-link,
+        body.embed .profile-section .topic .content.full-width .sub-source .datausa-link {
+          right: 0; }
 body.map {
   background-color: #cdd1d3;
   overflow: hidden;

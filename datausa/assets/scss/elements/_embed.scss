@@ -14,8 +14,9 @@ body.embed {
     .topic {
       @include flex();
       @include flex-direction(column);
-      height: 100vh;
-      padding: 15px;
+      height: 100vh !important;
+      margin: 0 !important;
+      padding: 15px !important;
 
       sub:last-child {
         margin-bottom: 0;
@@ -23,10 +24,19 @@ body.embed {
 
       h2 {
         @include flex-size(none);
+        font-size: 30px !important;
+
+        .data-btn {
+          top: 5px;
+        }
       }
 
       .content {
         @include flex-size(1);
+
+        aside {
+          @include flex-size(0 0 auto !important);
+        }
 
         .sub-source {
           position: relative;
@@ -40,22 +50,22 @@ body.embed {
 
         }
 
-        &.full-width {
-          .sub-source {
-            width: 100%;
-
-            .datausa-link {
-              right: 0;
-            }
-          }
-        }
-
         .viz:not(.mini), .viz.full-width {
           height: 100% !important;
           max-height: 100% !important;
           min-height: 100% !important;
         }
 
+      }
+
+      &.flex, .content.full-width {
+        .sub-source {
+          width: 100%;
+
+          .datausa-link {
+            right: 0;
+          }
+        }
       }
 
     }
