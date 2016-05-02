@@ -210,12 +210,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       var social = panel.append("div")
         .attr("class", "filetypes")
 
-      var container = build.container.select(".d3plus")
-      if (container.size()) {
-        container = container.select("svg");
+      var container;
+      if (["top", "bottom"].indexOf(build.color) >= 0) {
+        container = d3.select(build.container.node().parentNode).selectAll("svg");
       }
       else {
-        container = build.container.select("svg");
+        container = build.container.selectAll(".d3plus");
+        if (container.size()) container = container.selectAll("svg");
+        else container = build.container.selectAll("svg");
       }
 
       var file_svg = social.append("div")

@@ -9,8 +9,10 @@ var save = function(svg, options) {
   options.filename = options.name + "." + options.mode;
 
   if (options.mode === "svg") {
-    var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(svg.node()) : svg.node().outerHTML;
-    saveAs(new Blob([outer], {type:"application/svg+xml"}), options.filename)
+    svg.each(function(){
+      var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
+      saveAs(new Blob([outer], {type:"application/svg+xml"}), options.filename);
+    })
     return;
   }
 
@@ -40,7 +42,7 @@ var save = function(svg, options) {
 
   var canvas = document.createElement("canvas");
   canvas.width = (svgWidth + (options.padding * 2)) * options.scale;
-  canvas.height = ((options.padding * 2) + titleHeight + subHeight + svgHeight + footerHeight) * options.scale;
+  canvas.height = ((options.padding * 2) + titleHeight + subHeight + (svgHeight * svg.size()) + footerHeight) * options.scale;
 
   var context = canvas.getContext('2d');
   context.scale(options.scale, options.scale);
@@ -161,23 +163,25 @@ var save = function(svg, options) {
       context.save();
       context.beginPath();
       context.translate(options.padding, options.padding + titleHeight + subHeight);
-      context.rect(0, 0, svgWidth, svgHeight);
+      context.rect(0, 0, svgWidth, svgHeight * svg.size());
       context.clip();
       context.drawImage(tile.img, tile.x, tile.y);
       context.restore();
     }
 
     // // draw svg path
-    svg.selectAll("svg > *").each(function(){
-      if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
-        var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
-        context.save();
-        context.translate(options.padding, options.padding + titleHeight + subHeight);
-        context.rect(0, 0, svgWidth, svgHeight);
-        context.clip();
-        context.drawSvg(outer);
-        context.restore();
-      }
+    svg.each(function(d, i){
+      d3.select(this).selectAll("svg > *").each(function(){
+        if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
+          var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
+          context.save();
+          context.translate(options.padding, options.padding + titleHeight + subHeight + (svgHeight * i));
+          context.rect(0, 0, svgWidth, svgHeight);
+          context.clip();
+          context.drawSvg(outer);
+          context.restore();
+        }
+      });
     });
 
     function text2svg(text, title) {
@@ -199,7 +203,7 @@ var save = function(svg, options) {
 
       var text = text2svg(this);
       context.save();
-      context.translate(options.padding, options.padding + titleHeight + subHeight + svgHeight + sourceData[i].y);
+      context.translate(options.padding, options.padding + titleHeight + subHeight + (svgHeight * svg.size()) + sourceData[i].y);
       context.drawSvg(text);
       context.restore();
 

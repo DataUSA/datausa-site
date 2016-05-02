@@ -4698,12 +4698,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       var social = panel.append("div")
         .attr("class", "filetypes")
 
-      var container = build.container.select(".d3plus")
-      if (container.size()) {
-        container = container.select("svg");
+      var container;
+      if (["top", "bottom"].indexOf(build.color) >= 0) {
+        container = d3.select(build.container.node().parentNode).selectAll("svg");
       }
       else {
-        container = build.container.select("svg");
+        container = build.container.selectAll(".d3plus");
+        if (container.size()) container = container.selectAll("svg");
+        else container = build.container.selectAll("svg");
       }
 
       var file_svg = social.append("div")
@@ -5496,8 +5498,10 @@ var save = function(svg, options) {
   options.filename = options.name + "." + options.mode;
 
   if (options.mode === "svg") {
-    var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(svg.node()) : svg.node().outerHTML;
-    saveAs(new Blob([outer], {type:"application/svg+xml"}), options.filename)
+    svg.each(function(){
+      var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
+      saveAs(new Blob([outer], {type:"application/svg+xml"}), options.filename);
+    })
     return;
   }
 
@@ -5527,7 +5531,7 @@ var save = function(svg, options) {
 
   var canvas = document.createElement("canvas");
   canvas.width = (svgWidth + (options.padding * 2)) * options.scale;
-  canvas.height = ((options.padding * 2) + titleHeight + subHeight + svgHeight + footerHeight) * options.scale;
+  canvas.height = ((options.padding * 2) + titleHeight + subHeight + (svgHeight * svg.size()) + footerHeight) * options.scale;
 
   var context = canvas.getContext('2d');
   context.scale(options.scale, options.scale);
@@ -5648,23 +5652,25 @@ var save = function(svg, options) {
       context.save();
       context.beginPath();
       context.translate(options.padding, options.padding + titleHeight + subHeight);
-      context.rect(0, 0, svgWidth, svgHeight);
+      context.rect(0, 0, svgWidth, svgHeight * svg.size());
       context.clip();
       context.drawImage(tile.img, tile.x, tile.y);
       context.restore();
     }
 
     // // draw svg path
-    svg.selectAll("svg > *").each(function(){
-      if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
-        var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
-        context.save();
-        context.translate(options.padding, options.padding + titleHeight + subHeight);
-        context.rect(0, 0, svgWidth, svgHeight);
-        context.clip();
-        context.drawSvg(outer);
-        context.restore();
-      }
+    svg.each(function(d, i){
+      d3.select(this).selectAll("svg > *").each(function(){
+        if (!d3.select(this).classed("tiles") && d3.select(this).attr("id") !== "key") {
+          var outer = d3plus.client.ie ? (new XMLSerializer()).serializeToString(this) : this.outerHTML;
+          context.save();
+          context.translate(options.padding, options.padding + titleHeight + subHeight + (svgHeight * i));
+          context.rect(0, 0, svgWidth, svgHeight);
+          context.clip();
+          context.drawSvg(outer);
+          context.restore();
+        }
+      });
     });
 
     function text2svg(text, title) {
@@ -5686,7 +5692,7 @@ var save = function(svg, options) {
 
       var text = text2svg(this);
       context.save();
-      context.translate(options.padding, options.padding + titleHeight + subHeight + svgHeight + sourceData[i].y);
+      context.translate(options.padding, options.padding + titleHeight + subHeight + (svgHeight * svg.size()) + sourceData[i].y);
       context.drawSvg(text);
       context.restore();
 
@@ -8028,11 +8034,18 @@ viz.loadBuilds = function(builds) {
       var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
       if (title.size()) {
         build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
+        if (["top", "bottom"].indexOf(build.config.color) >= 0) {
+          var cat = dictionary[build.attrs[0].type];
+          if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
+          else cat = cat + "s";
+          build.title = build.title + " " + cat;
+        }
         var locale = d3plus.viz().format(Object).locale.value.visualization,
             type = locale[build.config.type] || d3plus.string.title(type);
         build.title = "Data USA - " + type + " of " + build.title;
         if (build.profile && location.href.indexOf("/story/") < 0) {
           var joiner = build.profile_type === "geo" ? " in " : " for ";
+          if (build.profile.id === "01000US") joiner = " in the ";
           build.title += joiner + d3plus.string.title(build.profile.name);
           if (build.profile_type === "cip") build.title += " Majors";
         }
