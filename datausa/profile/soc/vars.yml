@@ -1,5 +1,6 @@
 - required: ["year", "avg_age", "avg_age_moe", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank", "gini"]
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: data
 
 - required: ["avg_wage", "gini"]
@@ -17,6 +18,7 @@
   limit: 3
   where: "num_records:>4"
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: state_wage
 
 - required: ["geo", "num_ppl_rca"]
@@ -28,6 +30,7 @@
   limit: 3
   where: "num_records:>4"
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: puma_rca
 
 - required: ["geo"]
@@ -38,6 +41,7 @@
   rows: True
   limit: 3
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: puma_ppl
 
 - required: ["sex", "avg_age", "avg_age_moe"]
@@ -47,6 +51,7 @@
   limit: 2
   sort: asc
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: sex_age
 
 - required: ["race"]
@@ -55,12 +60,14 @@
   limit: 3
   sort: desc
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: race
 
 - required: ["sex"]
   order: num_ppl
   sort: desc
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: sex
 
 - required: ["degree", "num_ppl"]
@@ -72,6 +79,7 @@
   dataset: pums
   degree: "21,22,23,24"
   show: degree
+  soc_level: "<<sumlevel>>"
   namespace: degrees
 
 - required: ["cip"]
@@ -83,6 +91,7 @@
   sumlevel: 2
   show: cip
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: cip_rca
 
 - required: ["cip"]
@@ -94,6 +103,7 @@
   sumlevel: 2
   show: cip
   year: latest
+  soc_level: "<<sumlevel>>"
   namespace: cip
 
 - required: ["pct_change"]

@@ -17,6 +17,7 @@ topics:
           show: "soc"
           sumlevel: "<<sumlevel>>"
           avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+          soc_level: "<<sumlevel>>"
           where: "num_records:>4"
       id: "soc"
       labels: YES
@@ -43,6 +44,7 @@ topics:
           required: "num_ppl,num_ppl_moe,wage_bin"
           show: "soc"
           share: "num_ppl"
+          soc_level: "<<sumlevel>>"
           static:
             geo: "<<id>>"
         - geo: "01000US"
@@ -82,6 +84,7 @@ topics:
         sumlevel: "state"
         show: "geo"
         required: "avg_wage,avg_wage_moe"
+        soc_level: "<<sumlevel>>"
         where: "num_records:>4"
       id: "geo"
       type: "geo_map"
@@ -89,7 +92,7 @@ topics:
     class: "flex"
     title: "Most Common"
     slug: "top_ind_num_emp"
-    description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
     viz:
       - attrs: "naics"
         color: "top"
@@ -101,6 +104,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
+            soc_level: "<<sumlevel>>"
             where: "num_records:>4"
         height: 250
         id: "naics"
@@ -124,6 +128,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
+            soc_level: "<<sumlevel>>"
             where: "num_records:>4,num_ppl:!0"
         height: 250
         id: "naics"
@@ -140,7 +145,7 @@ topics:
   - class: "flex"
     title: "Highest Paid"
     slug: "top_ind_wage"
-    description: "The highest paid industries for <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paid industries for <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
     viz:
       - attrs: "naics"
         color: "top"
@@ -152,6 +157,7 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
+            soc_level: "<<sumlevel>>"
             where: "num_records:>4"
         height: 250
         id: "naics"
@@ -175,6 +181,7 @@ topics:
             sort: "asc"
             show: "naics"
             sumlevel: "2"
+            soc_level: "<<sumlevel>>"
             where: "avg_wage:!0,num_records:>4"
         height: 250
         id: "naics"
@@ -198,6 +205,7 @@ topics:
           required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "naics"
           sumlevel: "2"
+          soc_level: "<<sumlevel>>"
           where: "num_records:>4,num_ppl:!0"
       depth: 2
       height: 500
@@ -226,6 +234,7 @@ topics:
           show: "geo"
           required: "num_ppl_rca,num_ppl,num_ppl_moe"
           sumlevel: "puma"
+          soc_level: "<<sumlevel>>"
           where: "num_records:>4"
       id: "geo"
       height: 500

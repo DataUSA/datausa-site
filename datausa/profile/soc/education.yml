@@ -32,6 +32,7 @@ topics:
         soc: "<<id>>"
         required: "num_ppl,num_ppl_moe,num_ppl_rca"
         sumlevel: "2"
+        soc_level: "<<sumlevel>>"
         where: "num_ppl:!0"
       id: "cip_2"
       size: "num_ppl"
@@ -43,13 +44,13 @@ topics:
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=state_tuition|col=state_tuition|agg=sum>>"
       - title: "Median Out of State Private"
         value: "<<top attr_type=cip|attr_id=top1:num_ppl|required=oos_tuition|col=oos_tuition|agg=sum>>"
-    description: "Explore the number of degrees awarded by each college and university in the 5 most common majors for <<name>>: <<top order=num_ppl|sort=desc|show=cip|limit=5>>."
+    description: "Explore the number of degrees awarded by each college and university in the 5 most common majors for <<name>>: <<top order=num_ppl|sort=desc|show=cip|limit=5|soc_level=sumlevel>>."
     miniviz:
       attrs: "sector"
       color: "sector"
       data:
         show: "sector"
-        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5|soc_level=sumlevel>>"
         required: "district_tuition,oos_tuition,state_tuition"
       height: 250
       id: "sector"
@@ -73,7 +74,7 @@ topics:
       color: "sector"
       data:
         show: "university"
-        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5|soc_level=sumlevel>>"
         required: "grads_total"
         where: "grads_total:!0"
       depth: 1
@@ -96,7 +97,7 @@ topics:
       data:
         show: "cip,sex"
         sumlevel: "2,all"
-        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5>>"
+        cip: "<<top col=id|order=num_ppl|sort=desc|show=cip|limit=5|soc_level=sumlevel>>"
         required: "num_ppl,num_ppl_moe"
       id: "sex"
       order: "num_ppl"

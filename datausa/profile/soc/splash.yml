@@ -1,7 +1,7 @@
 title: "<<name>>"
 group: "<<level>>"
 description: >
-  <<name>> are most often employed by the <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=1>> industry. The average yearly wage in the US for <<name>> is <<var namespace=data|key=avg_wage>>. The top 3 most similar occupations to <<name>> by wage are <<var namespace=similar|key=soc|row=0>>, <<var namespace=similar|key=soc|row=1>> and <<var namespace=similar|key=soc|row=2>>.
+  <<name>> are most often employed by the <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=1|soc_level=sumlevel>> industry. The average yearly wage in the US for <<name>> is <<var namespace=data|key=avg_wage>>. The top 3 most similar occupations to <<name>> by wage are <<var namespace=similar|key=soc|row=0>>, <<var namespace=similar|key=soc|row=1>> and <<var namespace=similar|key=soc|row=2>>.
   {{<<sumlevel>>:!0|| <<name>> are part of the <<parents limit=1>> category along with <<siblings>>.}}
   The top 3 locations that employ the most <<name>> are <<var namespace=puma_ppl|key=geo|row=0>>, <<var namespace=puma_ppl|key=geo|row=1>> and <<var namespace=puma_ppl|key=geo|row=2>>. The top 3 locations with a relatively high concentration of <<name>> are <<var namespace=puma_rca|key=geo|row=0>>, <<var namespace=puma_rca|key=geo|row=1>> and <<var namespace=puma_rca|key=geo|row=2>>.
 stats:
