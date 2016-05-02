@@ -173,7 +173,6 @@ viz.loadBuilds = function(builds) {
               clearTimeout(build.timer);
               build.timer = false;
               if (buildInView(build)) {
-              // if (buildInView(build) && n.indexOf(build.index) >= 0) {
                 current_build = viz(build);
                 build.loaded = true;
               }
