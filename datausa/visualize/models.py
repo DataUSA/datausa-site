@@ -117,6 +117,9 @@ class Viz(object):
                 share = d["share"].split(".")[0]
                 if share not in tooltip:
                     tooltip.append(share)
+                    moe = "{}_moe".format(share)
+                    if moe not in tooltip:
+                        tooltip.append(moe)
                 tooltip.append("share")
 
         # check the config for 'x' 'y' and 'size'

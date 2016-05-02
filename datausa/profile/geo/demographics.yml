@@ -107,7 +107,7 @@ topics:
           share: "people"
           split:
             id: "race"
-            regex: "pop_([0-9a-z]*)"
+            regex: "pop_([0-9a-z]*)$"
             value: "people"
       id: "race"
       order: "people"

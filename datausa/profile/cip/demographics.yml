@@ -93,7 +93,7 @@ topics:
         show: "university"
         split:
           id: "sex"
-          regex: "grads_([a-z]*)"
+          regex: "grads_([a-z]*)$"
           value: "grads_total"
       id: "sex"
       order: "grads_total"
@@ -117,7 +117,7 @@ topics:
           show: "cip"
           split:
             id: "race"
-            regex: "grads_([0-9a-z]*)"
+            regex: "grads_([0-9a-z]*)$"
             value: "grads_total"
       id: "race"
       order:

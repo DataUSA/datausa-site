@@ -100,7 +100,7 @@ topics:
         required: "grads_men,grads_women"
         split:
           id: "sex"
-          regex: "grads_([a-z]*)"
+          regex: "grads_([a-z]*)$"
           value: "grads_total"
         university: "<<top dataset=ipeds|col=id|order=grads_total|show=university|limit=5>>"
       id: "sex"
