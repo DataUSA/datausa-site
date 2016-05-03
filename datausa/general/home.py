@@ -9,21 +9,29 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/profile/geo/new-york/#property_taxes",
-        "title": "Property Taxes in New York",
-        "section": "housing",
+        "link": "/story/05-05-2016_manufacturing-connections/",
+        "featured": True
+    },
+    {
+        "link": "/profile/geo/west-virginia/#income_ethnicity",
+        "title": "Wage by Race & Ethnicity in New York",
+        "section": "economy",
         "viz": "bar_double"
     },
     {
-        "link": "/story/04-21-2016_gini-out-of-the-bottle/",
-        "featured": True
+        "link": "/story/04-21-2016_gini-out-of-the-bottle/"
     },
     {
-        "link": "/profile/geo/pennsylvania/#global_diversity",
-        "title": "Global Diversity in Pennsylvania",
+        "link": "/profile/geo/oregon/#global_diversity",
+        "title": "Global Diversity in Oregon",
         "section": "demographics",
-        "viz": "geo_map",
-        "featured": True
+        "viz": "geo_map"
+    },
+    {
+        "link": "/profile/geo/kentucky/#property_taxes",
+        "title": "Property Taxes in Kentucky",
+        "section": "housing",
+        "viz": "bar_double"
     },
     {
         "link": "/story/04-21-2016_keeping-america-on-its-feet/"
@@ -41,10 +49,10 @@ HOMEFEED = [
         "link": "/story/04-04-2016_men-still-dominate/"
     },
     {
-        "link": "/profile/cip/4506/#skills",
-        "title": "Required Skills for an Economics Degree",
-        "section": "skills",
-        "viz": "radar"
+        "link": "/profile/geo/new-york/#property_taxes",
+        "title": "Property Taxes in New York",
+        "section": "housing",
+        "viz": "bar_double"
     },
     {
         "link": "/map/?level=county&key=age,age_moe,age_rank",
