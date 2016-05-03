@@ -7,9 +7,9 @@ authors:
     img: "/static/img/story/authors/sniderman.jpg"
     twitter: https://twitter.com/BrennaSniderman
     about:
-      - "Brenna Sniderman is a senior manager and subject matter specialist at Deloitte's Center for Integrated Research. She focuses on cross-industry themes and trends, specifically as they relate to additive and advanced manufacturing, Industry 4.0, the Internet of Things and advanced technologies, and works with other thought leaders to deliver valuable insights into the strategic implications of these technologies."
-      - "Prior to joining Deloitte, Brenna was the Senior Director of Research for Forbes Insights, the thought leadership and sponsored research division of Forbes Media. While there, she researched global trends among senior executives, developing perspectives on cloud computing, analytics, business transformation, talent management and green technology, along with women's leadership roles and diversity. Brenna also wrote about research for Forbes.com. Brenna has deep experience in research, focused largely on primary qualitative and quantitative approaches."
-      - "Brenna holds a B.A. in economics and international relations from the University of Pennsylvania Master's degree in strategic communications at Columbia University."
+      - "Brenna Sniderman is a senior manager and subject matter specialist at Deloitte’s Center for Integrated Research. She focuses on cross-industry themes and trends, specifically as they relate to additive and advanced manufacturing, Industry 4.0, the Internet of Things and advanced technologies, and works with other thought leaders to deliver valuable insights into the strategic implications of these technologies."
+      - "Prior to joining Deloitte, Brenna was the Senior Director of Research for Forbes Insights, the thought leadership and sponsored research division of Forbes Media. While there, she researched global trends among senior executives, developing perspectives on cloud computing, analytics, business transformation, talent management and green technology, along with women’s leadership roles and diversity. Brenna also wrote about research for Forbes.com. Brenna has deep experience in research, focused largely on primary qualitative and quantitative approaches."
+      - "Brenna holds a B.A. in economics from the University of Pennsylvania and a Master's degree in strategic communications from Columbia University."
 
 topics:
   - description:
@@ -26,7 +26,6 @@ topics:
         id: "geo"
         type: "geo_map"
   - description:
-      - "These commute times are not just because of too many road hogs. Maryland commuters, for example, are nearly twice as likely to use public transport as the US average, at 9.1 percent vs. 5.2 percent. They are also no likelier than the average American to drive alone. In New York, the numbers are even starker: 27.9 percent use public transit, more than quintuple the national average, while just over half (52.8 percent) commute alone in their cars, compared to three-quarters (76.4 percent) of Americans."
       - "These commute times are not just because of too many road hogs. Maryland commuters, for example, are nearly twice as likely to use public transport as the US average, at 9.1 percent vs. 5.2 percent. They are also no likelier than the average American to drive alone. In New York, the numbers are even starker: 27.9 percent use public transit, more than quintuple the national average, while just over half (52.8 percent) commute alone in their cars, compared to three-quarters (76.4 percent) of Americans."
   - title: "New York Commuter Detail"
     viz_url: "/profile/geo/new-york/housing/mode_transport"
