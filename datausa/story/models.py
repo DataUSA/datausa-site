@@ -80,9 +80,11 @@ class Story(Profile):
             self.attr = fetch(attr_id, attr_type)
 
         tmp_obj = {"topics": story_conf['topics']}
-        for t in tmp_obj["topics"]:
+        for i, t in enumerate(tmp_obj["topics"]):
             if "viz_url" in t:
                 t["viz"] = Story.grab(t["viz_url"])
+            if "topic_url" in t:
+                tmp_obj["topics"][i] = Story.grab(t["topic_url"], True)
         section = Section(self.load_yaml(tmp_obj), self)
         self.topics = section.topics
 
@@ -90,7 +92,7 @@ class Story(Profile):
         return self._id
 
     @classmethod
-    def grab(cls, viz_url):
+    def grab(cls, viz_url, whole_topic=False):
         junk, needed = viz_url.split("/profile/")
         attr_type, attr_id, section, slug = [x for x in needed.split("/") if x]
         target_dir = join(base_dir, "profile", attr_type)
@@ -100,6 +102,14 @@ class Story(Profile):
             section_dict = yaml.load(section_file)
             for t in section_dict['topics']:
                 if 'slug' in t and t['slug'] == slug:
+                    if whole_topic:
+                        topic = t
+                        viz_data = topic["viz"]
+                        viz_data = [viz_data] if not isinstance(viz_data, list) else viz_data
+                        del topic["viz"]
+                        ret_obj = cls.process_viz(attr_id, attr_type, {"topics" : [t]})[0]
+                        ret_obj["viz"] = cls.process_viz(attr_id, attr_type, {"topics" : viz_data})
+                        return ret_obj
                     viz_data = t['viz']
                     viz_data = [viz_data] if not isinstance(viz_data, list) else viz_data
                     result = cls.process_viz(attr_id, attr_type, {"topics" : viz_data})
