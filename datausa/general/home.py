@@ -14,7 +14,7 @@ HOMEFEED = [
     },
     {
         "link": "/profile/geo/west-virginia/#income_ethnicity",
-        "title": "Wage by Race & Ethnicity in New York",
+        "title": "Wage by Race & Ethnicity in West Virginia",
         "section": "economy",
         "viz": "bar_double"
     },
