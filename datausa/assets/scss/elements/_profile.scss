@@ -1018,9 +1018,10 @@ body.profile, body.map, body.story {
 
     .breadcrumb {
       img {
-        width: 45px;
+        width: 18px;
         height: 18px;
-        margin: 3px 3px 3px 0;
+        padding: 1px 7px 1px 3px;
+        @include box(content-box);
       }
 
       .crumb-trail {

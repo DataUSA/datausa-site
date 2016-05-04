@@ -4298,30 +4298,40 @@ body.profile .intro, body.map .intro, body.story .intro {
     margin: 3px 8px 0px 4px; }
   body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
   body.story .intro .breadcrumb img {
-    width: 45px;
+    width: 18px;
     height: 18px;
-    margin: 3px 3px 3px 0; }
-    body.profile .intro .breadcrumb .crumb-trail,
-    body.map .intro .breadcrumb .crumb-trail,
-    body.story .intro .breadcrumb .crumb-trail {
-      position: relative;
-      display: inline-block;
-      line-height: 0.5;
-      top: 3px;
-      margin-bottom: 3px; }
-      body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
-      body.story .intro .breadcrumb a {
-        display: inline;
-        padding: 2px 0;
-        margin-top: -4px;
-        vertical-align: text-top; }
-        body.profile .intro .breadcrumb a + a::before,
-        body.map .intro .breadcrumb a + a::before,
-        body.story .intro .breadcrumb a + a::before {
-          content: "\\ ";
-          font-weight: 400;
-          color: rgba(240, 244, 246, 0.75);
-          padding: 0 2px 0; }
+    padding: 1px 7px 1px 3px;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box; }
+    body.profile .intro .breadcrumb img:before,
+    body.profile .intro .breadcrumb img:after, body.map .intro .breadcrumb img:before,
+    body.map .intro .breadcrumb img:after, body.story .intro .breadcrumb img:before,
+    body.story .intro .breadcrumb img:after {
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box; }
+  body.profile .intro .breadcrumb .crumb-trail,
+  body.map .intro .breadcrumb .crumb-trail,
+  body.story .intro .breadcrumb .crumb-trail {
+    position: relative;
+    display: inline-block;
+    line-height: 0.5;
+    top: 3px;
+    margin-bottom: 3px; }
+    body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
+    body.story .intro .breadcrumb a {
+      display: inline;
+      padding: 2px 0;
+      margin-top: -4px;
+      vertical-align: text-top; }
+      body.profile .intro .breadcrumb a + a::before,
+      body.map .intro .breadcrumb a + a::before,
+      body.story .intro .breadcrumb a + a::before {
+        content: "\\ ";
+        font-weight: 400;
+        color: rgba(240, 244, 246, 0.75);
+        padding: 0 2px 0; }
   body.profile .intro .photo-cred i, body.map .intro .photo-cred i,
   body.story .intro .photo-cred i {
     opacity: 0.6;
