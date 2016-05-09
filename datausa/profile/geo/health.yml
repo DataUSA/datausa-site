@@ -58,7 +58,7 @@ topics:
   - title: "Obesity and Diabetes"
     subtitle: "<<sub dataset=chr>>"
     slug: "obesity_diabetes"
-    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>> sized by the estimated population in 2011."
+    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>> sized by the estimated population."
     stat_stack: YES
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by obesity prevalence"
@@ -77,10 +77,10 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "diabetes,adult_obesity,population_estimate_2011"
+        required: "diabetes,adult_obesity,population_estimate"
       highlight: "<<id dataset=chr>>"
       id: "geo"
-      size: "population_estimate_2011"
+      size: "population_estimate"
       type: "scatter"
       x: "diabetes"
       y: "adult_obesity"
@@ -118,7 +118,7 @@ topics:
   - title: "Sexually Transmitted Diseases"
     subtitle: "<<sub dataset=chr>>"
     slug: "stds"
-    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, sized by the estimated population in 2011."
+    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, sized by the estimated population."
     stat_stack: YES
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by HIV prevalence"
@@ -137,10 +137,10 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate_2011"
+        required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate"
       highlight: "<<id dataset=chr>>"
       id: "geo"
-      size: "population_estimate_2011"
+      size: "population_estimate"
       type: "scatter"
       x: "sexually_transmitted_infections"
       y: "hiv_prevalence_rate"

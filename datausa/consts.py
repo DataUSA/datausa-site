@@ -254,7 +254,7 @@ DICTIONARY = {
     "other": "Other",
     "white": "White",
 
-    "population_estimate_2011": "2011 Population Estimate",
+    "population_estimate": "Population Estimate",
 
     "poverty_2ormore": "2+",
     "poverty_asian": "Asian",
