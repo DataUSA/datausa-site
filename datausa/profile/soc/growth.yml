@@ -16,7 +16,7 @@ topics:
       data:
         soc: "<<id>>"
         show: "soc"
-        required: "emp_2012_thousands,emp_2022_thousands"
+        required: "emp_2014_thousands,emp_2024_thousands"
         year: "none"
         split:
           id: "year"
