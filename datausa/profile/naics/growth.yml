@@ -4,19 +4,19 @@ description: "The Bureau of Labor and Statistics projects the growth of the <<na
 topics:
   - title: "Job Growth"
     slug: "job_growth"
-    subtitle: "<<sub col=emp_carc_2012_2022|year=none>>"
+    subtitle: "<<sub col=emp_carc_2014_2024|year=none>>"
     stat:
       - title: "Estimated Growth"
-        value: "<<top col=emp_carc_2012_2022|year=none>>"
+        value: "<<top col=emp_carc_2014_2024|year=none>>"
       - title: "National Average"
-        value: "<<top col=emp_carc_2012_2022|year=none|naics=000000>>"
-    description: "This line chart shows the projected growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=emp_carc_2012_2022|den=emp_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2012_2022|year=none|naics=000000>>."
+        value: "<<top col=emp_carc_2014_2024|year=none|naics=000000>>"
+    description: "This line chart shows the projected growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=emp_carc_2014_2024|den=emp_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2014_2024|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
         - naics: "<<id>>"
           show: "naics"
-          required: "emp_2002_thousands,emp_2012_thousands,emp_2022_thousands"
+          required: "emp_2004_thousands,emp_2014_thousands,emp_2024_thousands"
           year: "none"
           split:
             id: "year"
@@ -24,19 +24,19 @@ topics:
             value: "emp_thousands"
         - naics: "000000"
           show: "naics"
-          required: "emp_2002_thousands,emp_2012_thousands,emp_2022_thousands"
+          required: "emp_2004_thousands,emp_2014_thousands,emp_2024_thousands"
           year: "none"
           split:
             id: "year"
             regex: "^emp_([0-9]*)_thousands$"
             value: "y2_emp_thousands"
-      highlight: "<<sub col=emp_carc_2012_2022|year=none|key=id>>"
+      highlight: "<<sub col=emp_carc_2014_2024|year=none|key=id>>"
       id: "naics"
       type: "line"
       x:
         lines:
           - text: "Most Recent"
-            position: "2012"
+            position: "2014"
         value: "year"
       y:
         label: "Industry"
@@ -46,19 +46,19 @@ topics:
         value: "y2_emp_thousands"
   - title: "Output Growth"
     slug: "output_growth"
-    subtitle: "<<sub col=output_carc_2012_2022|year=none>>"
+    subtitle: "<<sub col=output_carc_2014_2024|year=none>>"
     stat:
       - title: "Estimated Growth"
-        value: "<<top col=output_carc_2012_2022|year=none>>"
+        value: "<<top col=output_carc_2014_2024|year=none>>"
       - title: "National Average"
-        value: "<<top col=output_carc_2012_2022|year=none|naics=000000>>"
-    description: "This line chart shows the projected growth in output of the <<name>> <<level>>, which is <<percent num=output_carc_2012_2022|den=output_carc_2012_2022|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2012_2022|year=none|naics=000000>>."
+        value: "<<top col=output_carc_2014_2024|year=none|naics=000000>>"
+    description: "This line chart shows the projected growth in output of the <<name>> <<level>>, which is <<percent num=output_carc_2014_2024|den=output_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2014_2024|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
         - naics: "<<id>>"
           show: "naics"
-          required: "output_2002,output_2012,output_2022"
+          required: "output_2004,output_2014,output_2024"
           year: "none"
           split:
             id: "year"
@@ -66,19 +66,19 @@ topics:
             value: "output"
         - naics: "000000"
           show: "naics"
-          required: "output_2002,output_2012,output_2022"
+          required: "output_2004,output_2014,output_2024"
           year: "none"
           split:
             id: "year"
             regex: "^output_([0-9]*)$"
             value: "y2_output"
-      highlight: "<<sub col=output_carc_2012_2022|year=none|key=id>>"
+      highlight: "<<sub col=output_carc_2014_2024|year=none|key=id>>"
       id: "naics"
       type: "line"
       x:
         lines:
           - text: "Most Recent"
-            position: "2012"
+            position: "2014"
         value: "year"
       y:
         label: "Industry"
@@ -96,7 +96,7 @@ topics:
           show: "soc"
           limit: 5
           order: "abs(pct_change)"
-          required: "emp_2012_thousands,emp_2022_thousands"
+          required: "emp_2014_thousands,emp_2024_thousands"
           year: "none"
           split:
             id: "year"
