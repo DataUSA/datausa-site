@@ -342,8 +342,8 @@ PROPORTIONS = [
 ]
 
 PERCENTAGES = [
-    "emp_carc_2012_2022",
-    "output_carc_2012_2022",
+    "emp_carc_2014_2024",
+    "output_carc_2014_2024",
     "pct_change",
     "share"
 ]
