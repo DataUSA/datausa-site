@@ -1,5 +1,5 @@
 title: "Projections"
-description: "The Bureau of Labor and Statistics projects the growth of the <<name>> <<level>>, both by number of employees and output."
+description: "The Bureau of Labor and Statistics projects the growth of the <<name>> <<level>>, both by number of employees and output. The growth rates presented below represent compound annual rates of change."
 
 topics:
   - title: "Job Growth"
