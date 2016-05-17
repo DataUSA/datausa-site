@@ -88,3 +88,7 @@
   year: latest
   industry_level: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added|key=level>>"
   namespace: io_industry
+
+- required: ["emp_carc_2014_2024", "output_carc_2014_2024", "naics"]
+  show: naics
+  namespace: growth

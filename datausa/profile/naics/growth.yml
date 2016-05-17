@@ -7,10 +7,10 @@ topics:
     subtitle: "<<sub col=emp_carc_2014_2024|year=none>>"
     stat:
       - title: "Estimated Growth"
-        value: "<<top col=emp_carc_2014_2024|year=none>>"
+        value: "<<var namespace=growth|key=emp_carc_2014_2024>>"
       - title: "National Average"
         value: "<<top col=emp_carc_2014_2024|year=none|naics=000000>>"
-    description: "This line chart shows the projected growth in the number of jobs for the <<name>> <<level>>, which is <<percent num=emp_carc_2014_2024|den=emp_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2014_2024|year=none|naics=000000>>."
+    description: "This line chart shows the projected growth in the number of jobs for the <<name>> <<level>>, {{<<id>>:!<<var namespace=growth|key=naics|format=raw>>||based on it's parent classification of <<var namespace=growth|key=naics>>, }}which is <<percent num=emp_carc_2014_2024|den=emp_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2014_2024|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
@@ -49,10 +49,10 @@ topics:
     subtitle: "<<sub col=output_carc_2014_2024|year=none>>"
     stat:
       - title: "Estimated Growth"
-        value: "<<top col=output_carc_2014_2024|year=none>>"
+        value: "<<var namespace=growth|key=output_carc_2014_2024>>"
       - title: "National Average"
         value: "<<top col=output_carc_2014_2024|year=none|naics=000000>>"
-    description: "This line chart shows the projected growth in output of the <<name>> <<level>>, which is <<percent num=output_carc_2014_2024|den=output_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2014_2024|year=none|naics=000000>>."
+    description: "This line chart shows the projected growth in output of the <<name>> <<level>>, {{<<id>>:!<<var namespace=growth|key=naics|format=raw>>||based on it's parent classification of <<var namespace=growth|key=naics>>, }}which is <<percent num=output_carc_2014_2024|den=output_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2014_2024|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
