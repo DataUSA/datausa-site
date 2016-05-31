@@ -20254,6 +20254,7 @@ var defaultLocale = require("../core/locale/languages/en_US.coffee"),
     rtl           = require("../client/rtl.coffee"),
     removeTooltip = require("./remove.coffee"),
     scroll        = require("../client/scroll.js"),
+    scrollBar     = require("../client/scrollBar.coffee"),
     stringList    = require("../string/list.coffee"),
     textColor     = require("../color/text.coffee")
 
@@ -20295,6 +20296,8 @@ module.exports = function(params) {
 
   if (params.parent.node() === document.body) {
     params.limit = [window.innerWidth + scroll.x(), window.innerHeight + scroll.y()];
+    var sb = scrollBar();
+    if (document.body.scrollHeight > window.innerHeight) params.limit[0] -= sb;
   }
   else {
     params.limit = [
@@ -20828,7 +20831,7 @@ function close_descriptions() {
   d3.selectAll("div.d3plus_tooltip_data_help").style("background-color","#ccc");
 }
 
-},{"../client/pointer.coffee":38,"../client/prefix.coffee":39,"../client/rtl.coffee":40,"../client/scroll.js":41,"../color/legible.coffee":44,"../color/text.coffee":50,"../core/locale/languages/en_US.coffee":70,"../string/list.coffee":174,"./move.coffee":202,"./remove.coffee":203}],202:[function(require,module,exports){
+},{"../client/pointer.coffee":38,"../client/prefix.coffee":39,"../client/rtl.coffee":40,"../client/scroll.js":41,"../client/scrollBar.coffee":42,"../color/legible.coffee":44,"../color/text.coffee":50,"../core/locale/languages/en_US.coffee":70,"../string/list.coffee":174,"./move.coffee":202,"./remove.coffee":203}],202:[function(require,module,exports){
 var arrowStyle, scroll;
 
 scroll = require("../client/scroll.js");
