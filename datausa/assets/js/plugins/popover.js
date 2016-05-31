@@ -164,6 +164,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         .attr("class", "options")
 
       var option = options.append("div").attr("class", "option")
+      option.append("p").text("Copy and paste the following code to place an interactive version of this visualization on your website.");
       option.append("input")
         .attr("type", "checkbox")
         .on("change", function(){
@@ -179,7 +180,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             embed_link_input.property("value", old_embed_link.replace("?", "?viz=True"))
           }
         })
-      option.append("label").text("Include visualization description")
+      option.append("label").text("Include paragraph and stats")
 
       var sizes = options.append("select")
       sizes.append("option").attr("value", "720|480").text("Small 720 x 480")

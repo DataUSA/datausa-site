@@ -1482,7 +1482,8 @@ footer {
                               .overlay#view .modal .body .panels .panel .embed_options .demo img {
                                 width: 150px; }
                           .overlay#view .modal .body .panels .panel .embed_options .options {
-                            width: 290px;
+                            margin-bottom: 15px;
+                            width: 300px;
                             float: right; }
                             @media only screen and (max-width : 768px) {
                               .overlay#view .modal .body .panels .panel .embed_options .options {
@@ -1491,7 +1492,7 @@ footer {
 }
                               .overlay#view .modal .body .panels .panel .embed_options .options input[type='checkbox'] {
                                 display: inline-block;
-                                margin: 10px 10px 10px 0;
+                                margin: 6px 6px 6px 0;
                                 border: 1px solid #727682;
                                 background-color: #fff;
                                 border-radius: 0;
@@ -1516,7 +1517,7 @@ footer {
                               border-radius: 0px;
                               border: 1px solid #979AA2;
                               color: #434958;
-                              height: 53px;
+                              height: 35px;
                               display: block;
                               text-align: center;
                               cursor: pointer;
@@ -1532,7 +1533,7 @@ footer {
 }
                           .overlay#view .modal .body .panels .panel .embed_options label {
                             font-family: "Palanquin", sans-serif;
-                            font-size: 16px;
+                            font-size: 14px;
                             line-height: normal;
                             font-weight: 400;
                             color: #434958; }
