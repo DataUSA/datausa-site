@@ -57,12 +57,23 @@ body.story {
       top: $nav-height;
 
       &::after {
-        background: -webkit-linear-gradient(top, rgba(20,27,46,0.5) 0%, rgba(20,27,46,0.25) 21%, rgba(20,27,46,0) 60%);
+        @include gradient(top, (
+          0%: rgba(20,27,46,0.5),
+          21%: rgba(20,27,46,0.25),
+          60%: rgba(20,27,46,0),
+          100%: rgba(20,27,46,0)
+        ));
       }
     }
 
     #article-image::after {
-      background: -webkit-linear-gradient(top, rgba(20,27,46,0.5) 0%, rgba(20,27,46,0.25) 11%, rgba(20,27,46,0) 21%, rgba(20,27,46,0.25) 68%, rgba(20,27,46,0.6) 100%);
+      @include gradient(top, (
+        0%: rgba(20,27,46,0.85),
+        11%: rgba(20,27,46,0.75),
+        21%: rgba(20,27,46,0.65),
+        68%: rgba(20,27,46,0.75),
+        100%: rgba(20,27,46,0.85)
+      ));
     }
 
     #article-text, #feature-text {
@@ -91,11 +102,19 @@ body.story {
           font-weight: 400;
         }
       }
+
+    }
+
+    .author-meta {
+      margin-left: 20px;
+      * {
+        font-size: 12px !important;
+      }
     }
 
     #article-text {
       padding: 13px 0 0;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
       background-color: transparent;
       background-color: rgba(255,255,255,0);
 
@@ -104,20 +123,27 @@ body.story {
 
         h1 {
           color: #fff;
-          font-size: 32px;
+          font-size: 28px;
           @include text-shadow(0px 0px 10px rgba(20,27,46,0.4));
+        }
+
+        p {
+          font-size: 16px;
+        }
+
+        .author-meta {
+          margin-left: 0;
         }
 
         p, .author-meta * {
           opacity: 1;
           color: #fff;
-          font-size: 16px;
           @include text-shadow(2px 0px 6px $black2);
         }
 
         .image-by {
           span, a {
-            font-size: 14px;
+            font-size: 12px;
             line-height: 30px;
           }
         }
