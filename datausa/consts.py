@@ -130,7 +130,7 @@ DICTIONARY = {
 
     "adult_obesity": "Obesity Prevalence",
     "adult_smoking": "Adult Smoking Prevalence",
-    "alcoholimpaired_driving_deaths": "Alcohol-Related Driving Deaths",
+    "alcoholimpaired_driving_deaths": "Percentage of Driving Deaths Involving Alcohol",
     "diabetes": "Diabetes Prevalence",
     "age": "Median Age",
     "avg_wage": "Average Salary",
