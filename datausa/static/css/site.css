@@ -4568,9 +4568,6 @@ body.profile .intro, body.map .intro, body.story .intro {
         body.map .intro .intro-txt .image-author,
         body.story .intro .intro-txt .image-author {
           margin: 25px 0 -5px; }
-          body.profile .intro .intro-txt .image-meta, body.map .intro .intro-txt .image-meta,
-          body.story .intro .intro-txt .image-meta {
-            font-style: italic; }
   body.profile .intro .intro-viz, body.map .intro .intro-viz,
   body.story .intro .intro-viz {
     -webkit-box-flex: 1 0 100px;
