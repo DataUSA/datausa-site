@@ -32760,7 +32760,7 @@ module.exports = function(vars) {
         d = +d;
       }
       if (!vars[axis].ticks.hidden && vars[axis].ticks.visible.indexOf(d) >= 0) {
-        return textwrap().container(d3.select(this)).rotate(vars[axis].ticks.rotate).align(rotated ? "end" : "center").valign(rotated ? "middle" : axis === "x" ? "top" : "bottom").width(vars[axis].ticks.maxWidth).height(vars[axis].ticks.maxHeight).padding(0).x(-vars[axis].ticks.maxWidth / 2).y(axis === "x2" ? -(vars[axis].ticks.maxHeight + vars.labels.padding * 2) : 0).draw();
+        return textwrap().container(d3.select(this)).rotate(vars[axis].ticks.rotate).align(rotated ? "end" : "center").valign(rotated ? "middle" : axis === "x" ? "top" : "bottom").width(vars[axis].ticks.maxWidth + 2).height(vars[axis].ticks.maxHeight).padding(0).x(-vars[axis].ticks.maxWidth / 2).y(axis === "x2" ? -(vars[axis].ticks.maxHeight + vars.labels.padding * 2) : 0).draw();
       }
     });
   };
