@@ -18,6 +18,7 @@ body.story {
     img {
       display: block;
       margin: 10px auto;
+      max-width: 100%;
     }
   }
 
@@ -168,7 +169,7 @@ body.story {
     }
 
     .read-more {
-      @include flex-size(1);
+      // @include flex-size(1);
 
       &::after {
         content: unicode('203A');
@@ -327,6 +328,10 @@ body.story {
       li {
         padding: 5px 0;
         position: relative;
+
+        a {
+          // @include wordwrap();
+        }
 
         a:hover {
           text-decoration: underline;

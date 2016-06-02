@@ -17,6 +17,11 @@ body.story {
 
   /* Extra Small Devices, Phones */
   @media only screen and (max-width : 480px) {
+
+    .profile-section {
+      padding: 0 30px;
+    }
+
     #featured-story {
       @include box();
       height: 80vh;
@@ -84,7 +89,7 @@ body.story {
     }
 
     #feature-text {
-      @include flex-size(1 1 100%);
+      @include flex-size(1 0 auto);
       padding: 13px 0 0;
 
       .post-feat-label {

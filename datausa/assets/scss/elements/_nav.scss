@@ -502,12 +502,12 @@ body.frozen {
     position: absolute;
     top: 0;
     z-index: 5;
-    width: 100vw;
+    width: 100%;
   }
 
   #menu {
     @include justify(space-between);
-    width: 100%;
+    width: 100vw;
     left: -100vw;
     top: 0;
     height: 100vh;

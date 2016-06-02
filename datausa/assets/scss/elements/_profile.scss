@@ -1127,7 +1127,7 @@ body.profile, body.map, body.story {
     }
 
     .intro-txt {
-      @include flex-size(2 0 100px);
+      @include flex-size(2);
       padding-right: 20px;
 
       .desc {
@@ -1203,7 +1203,7 @@ body.profile, body.map, body.story {
     }
 
     .intro-viz {
-      @include flex-size(1 0 100px);
+      @include flex-size(1);
       height: 200px;
       margin: 20px 0;
       text-align: center;
@@ -1227,7 +1227,7 @@ body.profile, body.map, body.story {
       margin-top: 25px;
 
       .profile-toc-section {
-        @include flex-size(1 0 100px);
+        @include flex-size(1);
         margin: 10px;
 
         h2 {
@@ -1371,7 +1371,7 @@ body.profile, body.map, body.story {
 
     .category {
       @include box();
-      @include flex-size(1 1 100%);
+      @include flex-size(1 0 auto);
       padding: 5px 24px 30px;
       min-width: 100%;
 
@@ -1386,7 +1386,7 @@ body.profile, body.map, body.story {
 
     .topic {
       @include box();
-      @include flex-size(1 1 100%);
+      @include flex-size(1 0 auto);
       margin: 0;
       min-width: 100%;
       padding: 0 25px 50px;

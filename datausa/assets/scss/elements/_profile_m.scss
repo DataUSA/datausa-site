@@ -36,7 +36,7 @@ body.profile, body.story {
     .intro {
 
       .intro-txt {
-        @include flex-size(2 0 200px);
+        @include flex-size(2);
         padding-right: 0px;
       }
 
