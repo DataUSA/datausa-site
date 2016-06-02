@@ -6991,9 +6991,18 @@ body.about {
 }
 @media only screen and (max-width : 570px) {
   body.about #video-container {
-    height: 152px;   }
-    body.about #video-container .video {
-      height: 202px;   }
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 202px;
+    margin: -50px auto 0 -25px;
+    width: 100vw;   }
+    body.about #video-container:before, body.about #video-container:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;   }
+      body.about #video-container .video {
+        height: 202px;   }
   body.about #logos img {
     height: 20px;
     margin: 30px 10px 5px;   }
