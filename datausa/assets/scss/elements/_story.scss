@@ -165,7 +165,7 @@ body.story {
     .more-options {
       @include flex();
       @include flex-direction(row);
-      @include justify(flex-start);
+      @include justify(space-between);
     }
 
     .read-more {
@@ -318,10 +318,11 @@ body.story {
     padding: 50px 0 0;
 
     ol {
+      @include box();
       font-size: 12px;
       line-height: 16px;
       max-width: 600px;
-      padding: 0 10px;
+      padding: 0 25px;
       width: 100%;
       margin: 0 auto;
 
@@ -330,7 +331,7 @@ body.story {
         position: relative;
 
         a {
-          // @include wordwrap();
+          @include wordwrap();
         }
 
         a:hover {

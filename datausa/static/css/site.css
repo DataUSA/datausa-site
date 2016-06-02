@@ -6124,11 +6124,11 @@ body.story {
         -moz-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
-        -webkit-justify-content: flex-start;
-        -moz-justify-content: flex-start;
-        justify-content: flex-start;
-        -ms-flex-pack: start;
-        flex-pack: start; }
+        -webkit-justify-content: space-between;
+        -moz-justify-content: space-between;
+        justify-content: space-between;
+        -ms-flex-pack: justify;
+        flex-pack: justify; }
         body.story .post-titles .read-more::after {
           content: "\203A";
           font-size: 19px;
@@ -6249,22 +6249,35 @@ body.story {
     background-color: #F6F6F6;
     padding: 50px 0 0; }
     body.story .article-footnotes ol {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
       font-size: 12px;
       line-height: 16px;
       max-width: 600px;
-      padding: 0 10px;
+      padding: 0 25px;
       width: 100%;
       margin: 0 auto; }
-      body.story .article-footnotes ol li {
-        padding: 5px 0;
-        position: relative; }
-        body.story .article-footnotes ol li a:hover {
-          text-decoration: underline; }
-          body.story .article-footnotes ol li a:before {
-            content: "";
-            position: absolute;
-            visibility: hidden;
-            top: -50px; }
+      body.story .article-footnotes ol:before, body.story .article-footnotes ol:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+        body.story .article-footnotes ol li {
+          padding: 5px 0;
+          position: relative; }
+          body.story .article-footnotes ol li a {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+            white-space: initial !important; }
+            body.story .article-footnotes ol li a:hover {
+              text-decoration: underline; }
+              body.story .article-footnotes ol li a:before {
+                content: "";
+                position: absolute;
+                visibility: hidden;
+                top: -50px; }
   body.story .article-more-options {
     background-color: #F6F6F6;
     padding: 50px 0; }
