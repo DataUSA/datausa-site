@@ -7,7 +7,12 @@
 <!-- <p>Learn the full story of how the Data USA platform was made and its goals of delivering trusted and intuitive insights about US economic data to inform citizens, policy makers and business leaders.</p> -->
 <article>
   <section>
-    <iframe class="video" src="https://www.youtube.com/embed/VJ29nJl-xWw" frameborder="0" allowfullscreen></iframe>
+    <div id="video-container">
+      <iframe class="video active" src="https://www.youtube.com/embed/VJ29nJl-xWw" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <iframe class="video next" src="https://player.vimeo.com/video/166762095" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <div class="video-prev"><i class="fa fa-angle-left"></i></div>
+      <div class="video-next"><i class="fa fa-angle-right"></i></div>
+    </div>
     <div id="logos">
       <a href="#about-deloitte"><img src="/static/img/footer/deloitte_dark.png" /></a>
       <a href="#about-macro"><img src="/static/img/footer/mit_dark.png" /></a>
@@ -27,5 +32,34 @@
     <p>The visualizations in Data USA are powered by <a href="http://d3plus.org/">D3plus</a>, an open-source visualization engine that was created by members of the Datawheel team.</p>
   </section>
 </article>
+
+<script>
+
+  d3.select(".video-next").on("click", function() {
+    var next = d3.select(".video.next");
+    if (next.size()) {
+      d3.select(".video.active").attr("class", "video prev");
+      next.attr("class", "video active");
+    }
+    else {
+      d3.select(".video.active").attr("class", "video next");
+      d3.select(".video.prev").attr("class", "video active");
+    }
+  });
+
+  d3.select(".video-prev").on("click", function() {
+    var prev = d3.select(".video.prev");
+    if (prev.size()) {
+      d3.select(".video.active").attr("class", "video next");
+      prev.attr("class", "video active");
+    }
+    else {
+      d3.select(".video.active").attr("class", "video prev");
+      var vids = d3.selectAll(".video");
+      d3.select(vids[0][vids.size() - 1]).attr("class", "video active");
+    }
+  });
+
+</script>
 
 {% endblock %}

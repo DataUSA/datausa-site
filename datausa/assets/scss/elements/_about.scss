@@ -213,13 +213,65 @@ body.about {
     padding: 0 25px $nav-height;
   }
 
-  .video {
-    display: block;
-    height: 315px;
-    width: 100%;
+  #video-container {
     background-color: $black2;
+    height: 315px;
     margin: -50px auto 0 -50px;
+    overflow: hidden;
     padding: 20px 50px;
+    position: relative;
+    width: 100%;
+
+    .video {
+      @include box();
+      @include transition(left 0.5s);
+      display: block;
+      height: 355px;
+      left: 0;
+      padding: 20px 50px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+
+      &.active {
+        left: 0;
+      }
+
+      &.next {
+        left: 100%;
+      }
+
+      &.prev {
+        left: -100%;
+      }
+    }
+
+    .video-prev, .video-next {
+      color: $white-l;
+      font-size: 20px;
+      height: 100%;
+      margin-top: -10px;
+      opacity: 0.5;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      width: 20px;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+
+    .video-prev {
+      left: 0;
+    }
+
+    .video-next {
+      right: 0;
+    }
+
+
   }
 
   #logos {

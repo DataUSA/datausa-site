@@ -12,8 +12,13 @@ body.about {
 
   /* Small Devices, Tablets */
   @media only screen and (max-width : 768px) {
-    .video {
+    #video-container {
       height: 225px;
+
+      .video {
+        height: 275px;
+      }
+
     }
 
     #logos img {
@@ -24,8 +29,13 @@ body.about {
 
   @media only screen and (max-width : 570px) {
 
-    .video {
+    #video-container {
       height: 152px;
+
+      .video {
+        height: 202px;
+      }
+
     }
 
     #logos img {

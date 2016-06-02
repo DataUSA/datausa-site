@@ -6682,19 +6682,63 @@ body.about {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
-  body.about .video {
-    display: block;
-    height: 315px;
-    width: 100%;
+  body.about #video-container {
     background-color: #141b2e;
+    height: 315px;
     margin: -50px auto 0 -50px;
-    padding: 20px 50px; }
-    body.about #logos {
-      margin-bottom: 20px;
-      text-align: center; }
-      body.about #logos img {
-        height: 25px;
-        margin: 30px 25px 10px; }
+    overflow: hidden;
+    padding: 20px 50px;
+    position: relative;
+    width: 100%; }
+    body.about #video-container .video {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      -moz-transition: left 0.5s;
+      -o-transition: left 0.5s;
+      -webkit-transition: left 0.5s;
+      transition: left 0.5s;
+      display: block;
+      height: 355px;
+      left: 0;
+      padding: 20px 50px;
+      position: absolute;
+      top: 0;
+      width: 100%; }
+      body.about #video-container .video:before, body.about #video-container .video:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+        body.about #video-container .video.active {
+          left: 0; }
+          body.about #video-container .video.next {
+            left: 100%; }
+            body.about #video-container .video.prev {
+              left: -100%; }
+    body.about #video-container .video-prev, body.about #video-container .video-next {
+      color: #f2f9fc;
+      font-size: 20px;
+      height: 100%;
+      margin-top: -10px;
+      opacity: 0.5;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      width: 20px; }
+      body.about #video-container .video-prev:hover,
+      body.about #video-container .video-next:hover {
+        cursor: pointer;
+        opacity: 1; }
+    body.about #video-container .video-prev {
+      left: 0; }
+      body.about #video-container .video-next {
+        right: 0; }
+  body.about #logos {
+    margin-bottom: 20px;
+    text-align: center; }
+    body.about #logos img {
+      height: 25px;
+      margin: 30px 25px 10px; }
   body.about .code-box {
     background: #fff;
     color: #141b2e;
@@ -6937,18 +6981,22 @@ body.about {
             visibility: hidden;
             top: -60px; }
 @media only screen and (max-width : 768px) {
-  body.about .video {
+  body.about #video-container {
     height: 225px;   }
-    body.about #logos img {
-      height: 25px;
-      margin: 30px 10px 5px;   }
+    body.about #video-container .video {
+      height: 275px;   }
+  body.about #logos img {
+    height: 25px;
+    margin: 30px 10px 5px;   }
 }
 @media only screen and (max-width : 570px) {
-  body.about .video {
+  body.about #video-container {
     height: 152px;   }
-    body.about #logos img {
-      height: 20px;
-      margin: 30px 10px 5px;   }
+    body.about #video-container .video {
+      height: 202px;   }
+  body.about #logos img {
+    height: 20px;
+    margin: 30px 10px 5px;   }
 }
 @media only screen and (max-width : 480px) {
   body.about {
