@@ -9,14 +9,26 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/story/05-05-2016_manufacturing-connections/",
+        "link": "/profile/geo/washington-dc/#global_diversity",
+        "title": "Global Diversity in Washington, DC",
+        "section": "demographics",
+        "viz": "geo_map"
+    },
+    {
+        "link": "/story/06-16-2016_millennials/",
         "featured": True
+    },
+    {
+        "link": "/story/06-16-2016_math-teachers/",
     },
     {
         "link": "/profile/geo/west-virginia/#income_ethnicity",
         "title": "Wage by Race & Ethnicity in West Virginia",
         "section": "economy",
         "viz": "bar_double"
+    },
+    {
+        "link": "/story/05-05-2016_manufacturing-connections/",
     },
     {
         "link": "/story/04-21-2016_gini-out-of-the-bottle/"
