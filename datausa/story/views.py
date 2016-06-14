@@ -3,14 +3,13 @@ import os
 from os.path import isfile, join
 from flask import Blueprint, g, render_template, abort
 from datausa.story.models import Story, StoryPreview, STORIES_DIR
-from datausa import base_dir
 mod = Blueprint("story", __name__, url_prefix="/story")
 
 
 @mod.route("/")
 def index():
     g.page_type = "story"
-    to_feature = ["05-05-2016_manufacturing-connections"]
+    to_feature = ["06-16-2016_millennials"]
     stories, featured_stories = StoryPreview.generate_list(to_feature=to_feature)
     return render_template("story/index.html", stories=stories, featured_stories=featured_stories)
 
