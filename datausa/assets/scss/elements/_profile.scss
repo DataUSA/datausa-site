@@ -1371,7 +1371,7 @@ body.profile, body.map, body.story {
 
     .category {
       @include box();
-      @include flex-size(1 0 auto);
+      @include flex-size(1 1 100%);
       padding: 5px 24px 30px;
       min-width: 100%;
 
@@ -1386,7 +1386,7 @@ body.profile, body.map, body.story {
 
     .topic {
       @include box();
-      @include flex-size(1 0 auto);
+      @include flex-size(1 1 100%);
       margin: 0;
       min-width: 100%;
       padding: 0 25px 50px;

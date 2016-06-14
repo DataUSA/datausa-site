@@ -4802,11 +4802,11 @@ body.story .profile-section {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      -webkit-box-flex: 1 0 auto;
-      -moz-box-flex: 1 0 auto;
-      -webkit-flex: 1 0 auto;
-      -ms-flex: 1 0 auto;
-      flex: 1 0 auto;
+      -webkit-box-flex: 1 1 100%;
+      -moz-box-flex: 1 1 100%;
+      -webkit-flex: 1 1 100%;
+      -ms-flex: 1 1 100%;
+      flex: 1 1 100%;
       padding: 5px 24px 30px;
       min-width: 100%; }
       body.profile .profile-section .category:before,
@@ -4830,11 +4830,11 @@ body.story .profile-section {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-box-flex: 1 0 auto;
-    -moz-box-flex: 1 0 auto;
-    -webkit-flex: 1 0 auto;
-    -ms-flex: 1 0 auto;
-    flex: 1 0 auto;
+    -webkit-box-flex: 1 1 100%;
+    -moz-box-flex: 1 1 100%;
+    -webkit-flex: 1 1 100%;
+    -ms-flex: 1 1 100%;
+    flex: 1 1 100%;
     margin: 0;
     min-width: 100%;
     padding: 0 25px 50px; }
