@@ -28,5 +28,6 @@ topics:
   - description:
       - "These commute times are not just because of too many road hogs. Maryland commuters, for example, are nearly twice as likely to use public transport as the US average, at 9.1 percent vs. 5.2 percent. They are also no likelier than the average American to drive alone. In New York, the numbers are even starker: 27.9 percent use public transit, more than quintuple the national average, while just over half (52.8 percent) commute alone in their cars, compared to three-quarters (76.4 percent) of Americans."
   - title: "New York Commuter Detail"
+    class: constrained
     viz_url: "/profile/geo/new-york/housing/mode_transport"
   - description: "DataUSA provides further insights about car ownership that suggest the number of cars may not be a factor in commuting challenges, but rather simply the sheer number of people living in a given area... North and South Dakotans are far likelier than New Yorkers and Maryland residents to own multiple cars. While 40.9 percent of South Dakotans own three or more cars, just 20.7 percent of New Yorkers do. At the same time, however, there are simply far more New Yorkers than South Dakotans: 18.7 million more, to be exact. With that many more people trying to get to work, it stands to reason the commute gets a lot more crowded – and possibly slower."

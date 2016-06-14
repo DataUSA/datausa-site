@@ -4852,66 +4852,86 @@ body.story .profile-section {
     body.profile .profile-section .topic.short, body.map .profile-section .topic.short,
     body.story .profile-section .topic.short {
       padding-bottom: 0; }
-      body.profile .profile-section .topic.flex, body.map .profile-section .topic.flex,
-      body.story .profile-section .topic.flex {
-        -webkit-justify-content: center;
-        -moz-justify-content: center;
-        justify-content: center;
-        -ms-flex-pack: center;
-        flex-pack: center;
-        display: -webkit-box;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
+      body.profile .profile-section .topic.constrained,
+      body.map .profile-section .topic.constrained,
+      body.story .profile-section .topic.constrained {
+        display: block;
+        max-width: 700px;
+        min-width: auto;
+        width: 100%; }
+        body.profile .profile-section .topic.constrained .content.full-width,
+        body.map .profile-section .topic.constrained .content.full-width,
+        body.story .profile-section .topic.constrained .content.full-width {
+          -webkit-box-flex: 1 1 400px;
+          -moz-box-flex: 1 1 400px;
+          -webkit-flex: 1 1 400px;
+          -ms-flex: 1 1 400px;
+          flex: 1 1 400px; }
+          body.profile .profile-section .topic.constrained .content.full-width .viz,
+          body.map .profile-section .topic.constrained .content.full-width .viz,
+          body.story .profile-section .topic.constrained .content.full-width .viz {
+            height: 350px;
+            min-height: 350px; }
+    body.profile .profile-section .topic.flex, body.map .profile-section .topic.flex,
+    body.story .profile-section .topic.flex {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      flex-pack: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: stretch;
+      align-items: stretch;
+      -ms-flex-align: stretch;
+      flex-align: stretch;
+      margin: 0 25px 50px;
+      min-width: 10px;
+      padding: 0; }
+      body.profile .profile-section .topic.flex .content,
+      body.map .profile-section .topic.flex .content,
+      body.story .profile-section .topic.flex .content {
+        -webkit-box-flex: 1 0 auto;
+        -moz-box-flex: 1 0 auto;
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
         -webkit-flex-direction: column;
         -moz-flex-direction: column;
         -ms-flex-direction: column;
-        flex-direction: column;
-        -webkit-align-items: stretch;
-        align-items: stretch;
-        -ms-flex-align: stretch;
-        flex-align: stretch;
-        margin: 0 25px 50px;
-        min-width: 10px;
-        padding: 0; }
-        body.profile .profile-section .topic.flex .content,
-        body.map .profile-section .topic.flex .content,
-        body.story .profile-section .topic.flex .content {
+        flex-direction: column; }
+        body.profile .profile-section .topic.flex .content aside,
+        body.map .profile-section .topic.flex .content aside,
+        body.story .profile-section .topic.flex .content aside {
           -webkit-box-flex: 1 0 auto;
           -moz-box-flex: 1 0 auto;
           -webkit-flex: 1 0 auto;
           -ms-flex: 1 0 auto;
           flex: 1 0 auto;
-          -webkit-flex-direction: column;
-          -moz-flex-direction: column;
-          -ms-flex-direction: column;
-          flex-direction: column; }
-          body.profile .profile-section .topic.flex .content aside,
-          body.map .profile-section .topic.flex .content aside,
-          body.story .profile-section .topic.flex .content aside {
-            -webkit-box-flex: 1 0 auto;
-            -moz-box-flex: 1 0 auto;
-            -webkit-flex: 1 0 auto;
-            -ms-flex: 1 0 auto;
-            flex: 1 0 auto;
-            max-width: 100%; }
-            body.profile .profile-section .topic.flex .content .viz,
-            body.map .profile-section .topic.flex .content .viz,
-            body.story .profile-section .topic.flex .content .viz {
-              -webkit-box-flex: 1 1 200px;
-              -moz-box-flex: 1 1 200px;
-              -webkit-flex: 1 1 200px;
-              -ms-flex: 1 1 200px;
-              flex: 1 1 200px;
-              margin-left: 0;
-              max-height: 200px;
-              min-height: 200px; }
+          max-width: 100%; }
+          body.profile .profile-section .topic.flex .content .viz,
+          body.map .profile-section .topic.flex .content .viz,
+          body.story .profile-section .topic.flex .content .viz {
+            -webkit-box-flex: 1 1 200px;
+            -moz-box-flex: 1 1 200px;
+            -webkit-flex: 1 1 200px;
+            -ms-flex: 1 1 200px;
+            flex: 1 1 200px;
+            margin-left: 0;
+            max-height: 200px;
+            min-height: 200px; }
     body.profile .profile-section .topic .content,
     body.map .profile-section .topic .content,
     body.story .profile-section .topic .content {
