@@ -9,7 +9,8 @@ authors:
       - "Daniel Byler is a data scientist with Deloitte Services LP where he manages a portfolio of quantitative projects across Deloitte’s research agenda. Prior to his current role, he supported clients in large federal agencies on data-focused projects."
 
 topics:
-  - description:
+  - title: Most Common Occupations
+    description:
       - "What occupation contains the greatest number of people who studied math? The answer is—teachers. Among people who have undergraduate math degrees, three out of the top 5 most common professions are teaching related, whether it is at the elementary, high school, or collegiate levels."
     viz:
       - attrs: "soc"
@@ -34,7 +35,8 @@ topics:
           label: "5 Most Common"
           scale: "discrete"
           value: "soc"
-  - description:
+  - title: Most Specialized Occupations
+    description:
       - "This might surprise some people who might guess that mathematics degree holders work as actuaries, scientists, or other technical professions. While it is true that the chart here shows someone who is an actuary is almost 35 times more likely to have studied math than someone in another profession, the number of people employed in these occupations is relatively small compared to teaching occupations. So, while only 4% of all <a href='http://datausa.io/profile/soc/251000/'>postsecondary teachers</a> have math degrees, there are 1.45 million postsecondary teachers and only 31,000 <a href='http://datausa.io/profile/soc/152011/'>actuaries</a> nationwide. As a result, a small percentage of teachers having math degrees can outnumber the size of a small but math focused occupation."
     viz:
       - attrs: "soc"
