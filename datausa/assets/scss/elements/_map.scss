@@ -39,6 +39,10 @@ $map-sidebar: 250px;
   width: $map-sidebar + 1;
   visibility: hidden;
 
+  #d3plus_drop_map-keys {
+    margin: 1px 5px 5px !important;
+  }
+
   .sub-source {
     display: block;
     color: #a8a8a8;
@@ -162,12 +166,13 @@ $map-sidebar: 250px;
     display: block;
     height: 15px;
     margin: 5px;
+    padding: 3px;
     position: relative;
     width: 15px;
     background-color: rgba(255, 255, 255, 0.75);
 
     &::after {
-      top: 2px;
+      top: 5px;
       position: absolute;
       width: 15px;
       color: $gray-d;
