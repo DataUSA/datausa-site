@@ -5887,10 +5887,11 @@ body.map {
       width: 100%;
       color: white;
       font-family: "Lato", sans-serif;
-      font-size: 30px;
+      font-size: 20px;
+      font-weight: 400;
       text-align: center; }
       #map-loading #map-loading-text i {
-        margin: 3px 5px; }
+        margin: 3px 10px; }
 
 .attribution {
   bottom: 4px;
