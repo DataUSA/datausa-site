@@ -1405,7 +1405,7 @@ body.profile, body.map, body.story {
       &.constrained {
         display: block;
         max-width: 700px;
-        min-width: auto;
+        min-width: 0;
         width: 100%;
 
         .content.full-width {
@@ -1415,6 +1415,7 @@ body.profile, body.map, body.story {
             min-height: 350px;
           }
         }
+
       }
 
       &.flex {

@@ -4857,7 +4857,7 @@ body.story .profile-section {
       body.story .profile-section .topic.constrained {
         display: block;
         max-width: 700px;
-        min-width: auto;
+        min-width: 0;
         width: 100%; }
         body.profile .profile-section .topic.constrained .content.full-width,
         body.map .profile-section .topic.constrained .content.full-width,
