@@ -15,6 +15,7 @@ topics:
       - "That’s the idea behind the Gini coefficient, devised in 1912 by Italian sociologist Corrado Gini. In theory, it ranges from zero (perfect equality) to one (complete inequality). In the real world, it ranges from around 0.25-30 in the world’s most equal countries (think Scandinavia) to 0.60-65 in the most unequal ones (South Africa, Namibia and several island nations).<<foot note=2>> Among US states, the range is narrower: from 0.42 (the most equal state, Hawaii) to 0.51 (the most unequal one, Connecticut)."
       - "To find the Gini coefficient on the DataUSA site, pick a location from the left menu – a state, county, metropolitan area or other geographical unit – and scroll down to \"Income Distribution\" in the economy section. For each of the 143,000 locations on the site, you’ll see the population broken into income buckets.<<foot note=3>> Here’s one of the most equal states, South Dakota (which has a Gini of 0.436, well below the national average of 0.485)."
   - class: constrained
+    title: Wage Distribution for South Dakota
     viz:
       attrs:
         - "geo"
@@ -41,6 +42,7 @@ topics:
       - "Like South Dakota, every state has a big group of wage-earners on the left, making less than $100,000 a year. What drives the differences are spikes at the rich and poor ends – those making over $200,000 or under $10,000. States where there are large numbers of rich and poor have high Gini coefficients, even if most wage-earners are still in the middle."
       - "For instance, Mississippi (right) has a high Gini coefficient because of large numbers of the very poor, as seen by the high values on the far left of the distribution – over 15% make less than $10,000 per year."
   - class: constrained
+    title: Wage Distribution for Mississippi
     viz:
       attrs:
         - "geo"
@@ -66,6 +68,7 @@ topics:
   - description:
       - "Meanwhile, California has a lower percentage of the very poor, but the big difference accounting for the higher Gini is the fact that a significant minority – about one person out of 40, or almost a million people in a state with a population of 39 million – makes more than $200,000 per year."
   - class: constrained
+    title: Wage Distribution for California
     viz:
       attrs:
         - "geo"
