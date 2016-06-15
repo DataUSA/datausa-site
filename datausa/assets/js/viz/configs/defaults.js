@@ -82,7 +82,7 @@ viz.defaults = function(build) {
     function findSection(node) {
       if (node.tagName.toLowerCase() === "section") {
         var bg = d3.select(node).style("background-color");
-        return bg !== "rgba(0, 0, 0, 0)" ? bg : "white";
+        return bg !== "rgba(0, 0, 0, 0)" ? bg : d3.select("body").style("background-color");
       }
       else if (node.tagName.toLowerCase() === "body") {
         return messageBg;
