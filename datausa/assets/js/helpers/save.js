@@ -106,23 +106,33 @@ var save = function(svg, options) {
     var startY = keyBox.y + translate[1];
 
     legendIcons.each(function(d, i){
-      var pattern = d3.select(this).attr("fill").split("#")[1];
-      pattern = svg.select("#" + pattern.substring(0, pattern.length-1));
-      var size = parseFloat(pattern.select("image").attr("width"));
+      var pattern = d3.select(this).attr("fill");
+      var image = pattern.indexOf("url") === 0;
+      if (image) {
+        pattern = pattern.split("#")[1];
+        pattern = svg.select("#" + pattern.substring(0, pattern.length-1));
+        var size = parseFloat(pattern.select("image").attr("width"));
+        var rect = pattern.select("rect").node();
+      }
+      else {
+        var rect = d3.select(this).attr("stroke", "none").node();
+        var size = parseFloat(d3.select(this).attr("width"));
+      }
 
       var x = options.padding + keyBox.x + (i * (size + 5)), y = options.padding + titleHeight + subHeight + startY;
 
-      var rect = pattern.select("rect").node();
       rect = d3plus.client.ie ? (new XMLSerializer()).serializeToString(rect) : rect.outerHTML;
       context.drawSvg(rect, x, y);
 
-      var img = document.createElement('img');
-      img.src = pattern.select("image").attr("href");
-
       context.save();
-      context.translate(x, y);
-      context.drawImage(img, 0, 0, size, size);
+      if (image) {
+        var img = document.createElement('img');
+        img.src = pattern.select("image").attr("href");
+        context.translate(x, y);
+        context.drawImage(img, 0, 0, size, size);
+      }
       context.restore();
+
     });
   }
 
