@@ -1173,7 +1173,7 @@ body.profile, body.map, body.story {
               &::after {
                 content: '';
                 display: inline-block;
-                background: url("/static/img/splash/max.svg") no-repeat 50%;
+                background: transparent url("/static/img/splash/max.svg") no-repeat 50%;
                 background-size: 80%;
                 width: 17px;
                 height: 17px;
@@ -1182,6 +1182,20 @@ body.profile, body.map, body.story {
                 @include box();
                 border: 1px solid $max-color;
                 @include transition(all 0.35s);
+              }
+
+              &.open {
+
+                &:hover, &:focus {
+                  &::after {
+                    background: $max-color url("/static/img/splash/min.svg") no-repeat 50% !important;
+                  }
+                }
+
+                &::after {
+                  background: transparent url("/static/img/splash/min.svg") no-repeat 50% !important;
+                }
+
               }
             }
           }

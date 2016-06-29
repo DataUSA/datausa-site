@@ -378,8 +378,13 @@
   // toggle extra items in long list
   d3.selectAll(".show-more").on("click", function(){
     d3.event.preventDefault();
-    d3.select(this).style("display", "none");
-    d3.select(this.parentNode.nextSibling).style("display", "inline");
+    var elem = d3.select(this),
+        open = elem.classed("open"),
+        text = elem.attr("data-text") || elem.text();
+    elem.attr("data-text", text);
+    if (!open) text = "";
+    d3.select(this.previousSibling).style("display", open ? "none" : "inline");
+    elem.classed("open", !open).text(text);
   })
 
 </script>
