@@ -336,7 +336,7 @@ topics:
       - "This map shows the PUMAs in the United States that have revealed comparative advantage in the <<name>> <<level>>."
       - "These are locations that employ more people in the <<name>> <<level>> than expected given the size of their overall labor pool and the size of <<name>> <<level>> as a whole for the nation."
     stat:
-      - title: "Public Use Microdata Area with highest comparative advantage"
+      - title: "Public Use Microdata Areas with Revealed Comparative Advantage"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_rca|key=geo|row=1>>"

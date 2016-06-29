@@ -17,7 +17,7 @@ topics:
         subvalues:
           - "<<var namespace=cip|key=cip|row=1>>"
           - "<<var namespace=cip|key=cip|row=2>>"
-      - title: "High relative number of people major in"
+      - title: "High Relative Number of People major in"
         value: "<<var namespace=cip_rca|key=cip|row=0>>"
         subvalues:
           - "<<var namespace=cip_rca|key=cip|row=1>>"

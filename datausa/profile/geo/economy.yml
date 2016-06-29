@@ -87,7 +87,7 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Distribution"
-    subtitle: "{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| The closest comparable GINI value for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
+    subtitle: "{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| The closest comparable wage GINI for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
     slug: "income_distro"
     description:
       - "<<var namespace=wagegap|key=geo>> has a wage GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"

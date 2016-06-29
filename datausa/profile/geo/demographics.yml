@@ -47,7 +47,7 @@ topics:
         subvalues:
           - "<<var namespace=heritage_total|key=birthplace|row=1>>"
           - "<<var namespace=heritage_total|key=birthplace|row=2>>"
-      - title: "High relative number of people born in"
+      - title: "High Relative Number of People born in"
         sumlevel: "!nation"
         value: "<<var namespace=heritage_rca|key=birthplace|row=0>>"
         subvalues:

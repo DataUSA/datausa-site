@@ -112,10 +112,16 @@ class Section(BaseObject):
 
     @staticmethod
     def tooltipify(txt):
-        for gk, gt in GLOSSARY.items():
+
+        def replaceText(t, k, gt):
             tooltip = u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>"
-            txt = txt.replace(gk, tooltip.format(gt['link'], gt["def"], gk))
-            txt = txt.replace(gk.lower(), tooltip.format(gt['link'], gt["def"], gk.lower()))
+            return t.replace(k, tooltip.format(gt["link"], gt["def"], k))
+
+        for gk, gt in GLOSSARY.items():
+            txt = replaceText(txt, gk, gt)
+            if "alts" in gt:
+                for a in gt["alts"]:
+                    txt = replaceText(txt, a, gt)
         return txt
 
     def __repr__(self):
