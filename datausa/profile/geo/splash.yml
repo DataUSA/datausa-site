@@ -27,9 +27,9 @@ stats:
     value: "<<var namespace=splash|key=income|row=0>>"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age|row=0>>"
-sections: []
-  # - economy
-  # - demographics
-  # - education
-  # - housing
-  # - health
+sections:
+  - economy
+  - demographics
+  - education
+  - housing
+  - health
