@@ -8,7 +8,33 @@ topics:
     class: "flex"
     description: "The most common occupations in the <<name>> <<level>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>."
     viz:
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:!11"
+        attrs: "soc"
+        class: "tall"
+        color: "top"
+        data:
+          - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+            where: "num_ppl:!0"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Most"
+          scale: "discrete"
+          value: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:11"
+        attrs: "soc"
         color: "top"
         data:
           - naics: "<<id>>"
@@ -31,7 +57,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "soc"
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:11"
+        attrs: "soc"
         color: "bottom"
         data:
           - naics: "<<id>>"
@@ -60,7 +87,32 @@ topics:
     slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> employs an unusually high number of <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4|naics_level=sumlevel>>."
     viz:
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:!11"
+        attrs: "soc"
+        class: "tall"
+        color: "top"
+        data:
+          - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
+            order: "num_ppl_rca"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+            where: "num_ppl_rca:!0,num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          scale: "discrete"
+          value: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:11"
+        attrs: "soc"
         color: "top"
         data:
           - naics: "<<id>>"
@@ -84,7 +136,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "soc"
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:11"
+        attrs: "soc"
         color: "bottom"
         data:
           - naics: "<<id>>"
@@ -113,7 +166,32 @@ topics:
     slug: "top_occ_wage"
     description: "The highest paid occupations in <<name>>, by average wage, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4|naics_level=sumlevel>>."
     viz:
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:!11"
+        attrs: "soc"
+        class: "tall"
+        color: "top"
+        data:
+          - naics: "<<id>>"
+            naics_level: "<<sumlevel>>"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+            where: "avg_wage:!0,num_records:>4"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          scale: "discrete"
+          value: "soc"
+      - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:11"
+        attrs: "soc"
         color: "top"
         data:
           - naics: "<<id>>"
@@ -137,7 +215,8 @@ topics:
           label: "Highest"
           scale: "discrete"
           value: "soc"
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:11"
+        attrs: "soc"
         color: "bottom"
         data:
           - naics: "<<id>>"

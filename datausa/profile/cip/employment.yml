@@ -64,7 +64,29 @@ topics:
     slug: "top_occ_num_emp"
     description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:!11"
+        attrs: "soc"
+        class: "tall"
+        color: "top"
+        data:
+          - cip: "<<id>>"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          scale: "discrete"
+          value: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:11"
+        attrs: "soc"
         color: "top"
         data:
           - cip: "<<id>>"
@@ -74,7 +96,6 @@ topics:
             sort: "desc"
             show: "soc"
             sumlevel: "3"
-        height: 250
         id: "soc"
         labels: YES
         order:
@@ -86,7 +107,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "soc"
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:11"
+        attrs: "soc"
         color: "bottom"
         data:
           - cip: "<<id>>"
@@ -97,7 +119,6 @@ topics:
             show: "soc"
             sumlevel: "3"
             where: "num_ppl:!0"
-        height: 250
         id: "soc"
         labels: YES
         order:
@@ -115,7 +136,30 @@ topics:
     slug: "top_occ_rca"
     description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
     viz:
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:!11"
+        attrs: "soc"
+        class: "tall"
+        color: "top"
+        data:
+          - cip: "<<id>>"
+            order: "num_ppl_rca"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+            where: "num_ppl_rca:!0,num_records:>4"
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl_rca"
+        type: "bar"
+        x: "num_ppl_rca"
+        y:
+          scale: "discrete"
+          value: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:11"
+        attrs: "soc"
         color: "top"
         data:
           - cip: "<<id>>"
@@ -126,7 +170,6 @@ topics:
             show: "soc"
             sumlevel: "3"
             where: "num_records:>4"
-        height: 250
         id: "soc"
         labels: YES
         order:
@@ -138,7 +181,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "soc"
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:11"
+        attrs: "soc"
         color: "bottom"
         data:
           - cip: "<<id>>"
@@ -149,7 +193,6 @@ topics:
             show: "soc"
             sumlevel: "3"
             where: "num_ppl_rca:!0,num_records:>4"
-        height: 250
         id: "soc"
         labels: YES
         order:
@@ -167,7 +210,30 @@ topics:
     slug: "top_occ_wage"
     description: "The highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:!11"
+        attrs: "soc"
+        class: "tall"
+        color: "top"
+        data:
+          - cip: "<<id>>"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "soc"
+            sumlevel: "3"
+            where: "avg_wage:!0,num_records:>4"
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          scale: "discrete"
+          value: "soc"
+      - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:11"
+        attrs: "soc"
         color: "top"
         data:
           - cip: "<<id>>"
@@ -178,7 +244,6 @@ topics:
             show: "soc"
             sumlevel: "3"
             where: "num_records:>4"
-        height: 250
         id: "soc"
         labels: YES
         order:
@@ -190,7 +255,8 @@ topics:
           label: "Highest"
           scale: "discrete"
           value: "soc"
-      - attrs: "soc"
+      - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:11"
+        attrs: "soc"
         color: "bottom"
         data:
           - cip: "<<id>>"
@@ -201,7 +267,6 @@ topics:
             show: "soc"
             sumlevel: "3"
             where: "avg_wage:!0,num_records:>4"
-        height: 250
         id: "soc"
         labels: YES
         order:
@@ -241,7 +306,30 @@ topics:
     subtitle: "<<sub dataset=pums>>"
     description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:!11"
+        attrs: "naics"
+        class: "tall"
+        color: "top"
+        data:
+          - cip: "<<id>>"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+            where: "num_ppl:!0"
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          scale: "discrete"
+          value: "naics"
+      - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:11"
+        attrs: "naics"
         color: "top"
         data:
           - cip: "<<id>>"
@@ -251,7 +339,6 @@ topics:
             sort: "desc"
             show: "naics"
             sumlevel: "2"
-        height: 250
         id: "naics"
         labels: YES
         order:
@@ -263,7 +350,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "naics"
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:11"
+        attrs: "naics"
         color: "bottom"
         data:
           - cip: "<<id>>"
@@ -274,7 +362,6 @@ topics:
             show: "naics"
             sumlevel: "2"
             where: "num_ppl:!0"
-        height: 250
         id: "naics"
         labels: YES
         order:
@@ -292,7 +379,30 @@ topics:
     slug: "top_ind_wage"
     description: "The highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:!11"
+        attrs: "naics"
+        class: "tall"
+        color: "top"
+        data:
+          - cip: "<<id>>"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+            where: "avg_wage:!0,num_records:>4"
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          scale: "discrete"
+          value: "naics"
+      - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:11"
+        attrs: "naics"
         color: "top"
         data:
           - cip: "<<id>>"
@@ -303,7 +413,6 @@ topics:
             show: "naics"
             sumlevel: "2"
             where: "num_records:>4"
-        height: 250
         id: "naics"
         labels: YES
         order:
@@ -315,7 +424,8 @@ topics:
           label: "Highest"
           scale: "discrete"
           value: "naics"
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:11"
+        attrs: "naics"
         color: "bottom"
         data:
           - cip: "<<id>>"
@@ -326,7 +436,6 @@ topics:
             show: "naics"
             sumlevel: "2"
             where: "avg_wage:!0,num_records:>4"
-        height: 250
         id: "naics"
         labels: YES
         order:

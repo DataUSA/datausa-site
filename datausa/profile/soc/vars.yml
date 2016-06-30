@@ -123,3 +123,25 @@
   rows: True
   limit: 4
   namespace: similar
+
+- required: ["naics", "num_ppl"]
+  limit: 11
+  order: "num_ppl"
+  sort: "desc"
+  show: "naics"
+  sumlevel: "2"
+  soc_level: "<<sumlevel>>"
+  where: "num_records:>4"
+  rows: True
+  namespace: top10_naics_num_ppl
+
+- required: ["naics", "avg_wage"]
+  limit: 11
+  order: "avg_wage"
+  sort: "desc"
+  show: "naics"
+  sumlevel: "2"
+  soc_level: "<<sumlevel>>"
+  where: "avg_wage:!0,num_records:>4"
+  rows: True
+  namespace: top10_naics_avg_wage

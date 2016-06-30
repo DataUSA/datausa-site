@@ -183,3 +183,53 @@
     limit: 1
   year: "latest"
   namespace: "grads_sex"
+
+- required: ["soc", "num_ppl"]
+  limit: 11
+  order: "num_ppl"
+  sort: "desc"
+  show: "soc"
+  sumlevel: "3"
+  where: "num_ppl:!0"
+  rows: True
+  namespace: top10_soc_num_ppl
+
+- required: ["soc", "num_ppl_rca"]
+  limit: 11
+  order: "num_ppl_rca"
+  sort: "desc"
+  show: "soc"
+  sumlevel: "3"
+  where: "num_ppl_rca:!0,num_records:>4"
+  rows: True
+  namespace: top10_soc_num_ppl_rca
+
+- required: ["soc", "avg_wage"]
+  limit: 11
+  order: "avg_wage"
+  sort: "desc"
+  show: "soc"
+  sumlevel: "3"
+  where: "avg_wage:!0,num_records:>4"
+  rows: True
+  namespace: top10_soc_avg_wage
+
+- required: ["naics", "num_ppl"]
+  limit: 11
+  order: "num_ppl"
+  sort: "desc"
+  show: "naics"
+  sumlevel: "2"
+  where: "num_ppl:!0"
+  rows: True
+  namespace: top10_naics_num_ppl
+
+- required: ["naics", "avg_wage"]
+  limit: 11
+  order: "avg_wage"
+  sort: "desc"
+  show: "naics"
+  sumlevel: "2"
+  where: "avg_wage:!0,num_records:>4"
+  rows: True
+  namespace: top10_naics_avg_wage

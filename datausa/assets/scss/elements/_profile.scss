@@ -1455,6 +1455,11 @@ body.profile, body.map, body.story {
             margin-left: 0;
             max-height: 200px;
             min-height: 200px;
+            &.tall {
+              @include flex-size(1 1 400px);
+              max-height: 400px;
+              min-height: 400px;
+            }
           }
 
         }

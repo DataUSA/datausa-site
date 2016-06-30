@@ -94,7 +94,32 @@ topics:
     slug: "top_ind_num_emp"
     description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
     viz:
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:!11"
+        attrs: "naics"
+        class: "tall"
+        color: "top"
+        data:
+          - soc: "<<id>>"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+            soc_level: "<<sumlevel>>"
+            where: "num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          scale: "discrete"
+          value: "naics"
+      - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:11"
+        attrs: "naics"
         color: "top"
         data:
           - soc: "<<id>>"
@@ -118,7 +143,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "naics"
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:11"
+        attrs: "naics"
         color: "bottom"
         data:
           - soc: "<<id>>"
@@ -147,7 +173,31 @@ topics:
     slug: "top_ind_wage"
     description: "The highest paid industries for <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
     viz:
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:!11"
+        attrs: "naics"
+        class: "tall"
+        color: "top"
+        data:
+          - soc: "<<id>>"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+            soc_level: "<<sumlevel>>"
+            where: "num_records:>4"
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          scale: "discrete"
+          value: "naics"
+      - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:11"
+        attrs: "naics"
         color: "top"
         data:
           - soc: "<<id>>"
@@ -159,7 +209,6 @@ topics:
             sumlevel: "2"
             soc_level: "<<sumlevel>>"
             where: "num_records:>4"
-        height: 250
         id: "naics"
         labels: YES
         order:
@@ -171,7 +220,8 @@ topics:
           label: "Highest"
           scale: "discrete"
           value: "naics"
-      - attrs: "naics"
+      - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:11"
+        attrs: "naics"
         color: "bottom"
         data:
           - soc: "<<id>>"
@@ -183,7 +233,6 @@ topics:
             sumlevel: "2"
             soc_level: "<<sumlevel>>"
             where: "avg_wage:!0,num_records:>4"
-        height: 250
         id: "naics"
         labels: YES
         order:

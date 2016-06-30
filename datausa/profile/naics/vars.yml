@@ -92,3 +92,36 @@
 - required: ["emp_carc_2014_2024", "output_carc_2014_2024", "naics"]
   show: naics
   namespace: growth
+
+- required: ["soc", "num_ppl"]
+  limit: 11
+  order: "num_ppl"
+  sort: "desc"
+  show: "soc"
+  sumlevel: "3"
+  naics_level: "<<sumlevel>>"
+  where: "num_ppl:!0"
+  rows: True
+  namespace: top10_soc_num_ppl
+
+- required: ["soc", "num_ppl_rca"]
+  limit: 11
+  order: "num_ppl_rca"
+  sort: "desc"
+  show: "soc"
+  sumlevel: "3"
+  naics_level: "<<sumlevel>>"
+  where: "num_ppl_rca:!0,num_records:>4"
+  rows: True
+  namespace: top10_soc_num_ppl_rca
+
+- required: ["soc", "avg_wage"]
+  limit: 11
+  order: "avg_wage"
+  sort: "desc"
+  show: "soc"
+  sumlevel: "3"
+  naics_level: "<<sumlevel>>"
+  where: "avg_wage:!0,num_records:>4"
+  rows: True
+  namespace: top10_soc_avg_wage

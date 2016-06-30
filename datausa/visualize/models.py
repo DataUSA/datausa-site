@@ -24,6 +24,7 @@ class Viz(object):
         self.highlight = params.pop("highlight", highlight)
         self.profile = profile.attr
         self.profile_type = profile.attr_type
+        self.className = params.pop("class", False)
 
         # force the data of params into a list
         data = params.pop("data") if isinstance(params["data"], list) else [params.pop("data")]

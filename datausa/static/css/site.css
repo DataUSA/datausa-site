@@ -4943,6 +4943,16 @@ body.story .profile-section {
             margin-left: 0;
             max-height: 200px;
             min-height: 200px; }
+            body.profile .profile-section .topic.flex .content .viz.tall,
+            body.map .profile-section .topic.flex .content .viz.tall,
+            body.story .profile-section .topic.flex .content .viz.tall {
+              -webkit-box-flex: 1 1 400px;
+              -moz-box-flex: 1 1 400px;
+              -webkit-flex: 1 1 400px;
+              -ms-flex: 1 1 400px;
+              flex: 1 1 400px;
+              max-height: 400px;
+              min-height: 400px; }
     body.profile .profile-section .topic .content,
     body.map .profile-section .topic .content,
     body.story .profile-section .topic .content {

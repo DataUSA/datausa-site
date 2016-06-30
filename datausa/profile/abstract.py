@@ -15,5 +15,12 @@ class BaseObject(object):
                 return not "!{}".format(level) in levels
             else:
                 return level in levels
+        elif "allowed" in obj:
+            first, second = obj["allowed"].split(":")
+            if second.startswith("!"):
+                second = second[1:]
+                return first != second
+            else:
+                return first == second
 
         return True
