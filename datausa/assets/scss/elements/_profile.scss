@@ -1732,9 +1732,14 @@ body.profile, body.map, body.story {
   to {top: 5px;}
 }
 
+.d3plus_title {
+  color: rgb(111, 111, 111) !important;
+  margin: 10px 0 0 !important;
+}
+
 .d3plus_node {
   margin: 10px 0 0 !important;
-  border: 1px solid $gray !important;
+  border: 1px solid rgb(111, 111, 111) !important;
   font-family: $palanquin !important;
   letter-spacing: 0.03em !important;
   font-size: 13px !important;

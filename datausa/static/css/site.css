@@ -5291,23 +5291,27 @@ body.profile .share-section, body.map .share-section, body.story .share-section 
       top: 5px;   }
 }
 
-.d3plus_node {
-  margin: 10px 0 0 !important;
-  border: 1px solid #a9a9a9 !important;
-  font-family: "Palanquin", sans-serif !important;
-  letter-spacing: 0.03em !important;
-  font-size: 13px !important; }
+.d3plus_title {
+  color: #6f6f6f !important;
+  margin: 10px 0 0 !important; }
 
-  .d3plus_drop_selector {
-    background-color: #a9a9a9 !important; }
-    .d3plus_drop_selector .d3plus_drop_list .d3plus_node {
-      border: inherit !important;
-      margin: 0 !important; }
-      .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active {
-        color: #666 !important;
-        background-color: #ccc !important; }
-        .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active .d3plus_button_selected::before {
-          content: ''; }
+  .d3plus_node {
+    margin: 10px 0 0 !important;
+    border: 1px solid #6f6f6f !important;
+    font-family: "Palanquin", sans-serif !important;
+    letter-spacing: 0.03em !important;
+    font-size: 13px !important; }
+
+    .d3plus_drop_selector {
+      background-color: #a9a9a9 !important; }
+      .d3plus_drop_selector .d3plus_drop_list .d3plus_node {
+        border: inherit !important;
+        margin: 0 !important; }
+        .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active {
+          color: #666 !important;
+          background-color: #ccc !important; }
+          .d3plus_drop_selector .d3plus_drop_list .d3plus_button_active .d3plus_button_selected::before {
+            content: ''; }
 
 body.redirect nav {
   position: relative; }
