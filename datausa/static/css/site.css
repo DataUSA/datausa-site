@@ -5941,7 +5941,7 @@ body.map {
         margin: 3px 10px; }
 
 .attribution {
-  bottom: 4px;
+  top: 4px;
   color: #666;
   display: block;
   font-family: "Palanquin", sans-serif !important;
@@ -5949,8 +5949,8 @@ body.map {
   line-height: 13px;
   padding: 4px 7px 7px;
   position: absolute;
-  right: 5px;
-  text-align: right; }
+  left: 35px;
+  text-align: left; }
   .attribution a {
     color: #666 !important; }
 

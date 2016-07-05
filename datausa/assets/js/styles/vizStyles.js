@@ -115,7 +115,7 @@ var vizStyles = {
   },
   "legend": {
     "font": {
-      "color": "#211f1a",
+      "color": "#444",
       "family": "Palanquin",
       "size": 12,
       "weight": 400

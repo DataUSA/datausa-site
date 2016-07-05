@@ -132,7 +132,7 @@ $map-sidebar: 250px;
 }
 
 .attribution {
-  bottom: 4px;
+  top: 4px;
   color: $gray-d2;
   display: block;
   font-family: $palanquin !important;
@@ -140,8 +140,8 @@ $map-sidebar: 250px;
   line-height: 13px;
   padding: 4px 7px 7px;
   position: absolute;
-  right: 5px;
-  text-align: right;
+  left: 35px;
+  text-align: left;
 
   a {
     color: $gray-d2 !important;
