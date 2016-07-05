@@ -14,6 +14,7 @@ viz.mapDraw = function(vars) {
       scaleAlign = "middle",
       scaleHeight = 10,
       scalePadding = 5,
+      strokeOpacity = 0.35,
       timing = 600,
       zoomFactor = 2;
 
@@ -28,6 +29,7 @@ viz.mapDraw = function(vars) {
   var borderColor = function(c) {
     // return "transparent";
     if (c === vizStyles.color.missing) return "#b9b9b9";
+    return d3.rgb(c).darker(0.5);
     return d3plus.color.legible(c);
   }
 
@@ -239,6 +241,7 @@ viz.mapDraw = function(vars) {
         .attr("class", "d3plus_legend_break")
         .attr("x", width / 2)
         .attr("width", 0)
+        .attr("fill-opacity", pathOpacity)
         .call(breakStyle);
 
       heatmap.transition().duration(timing)
@@ -692,7 +695,7 @@ viz.mapDraw = function(vars) {
         })
         .attr("fill-opacity", pathOpacity)
         .attr("stroke-width", pathStroke/(zoom.scale()/polyZoom))
-        .attr("stroke-opacity", 0.35)
+        .attr("stroke-opacity", strokeOpacity)
         .attr("stroke", function(d){
           return borderColor(d.color);
         });
@@ -881,7 +884,8 @@ viz.mapDraw = function(vars) {
             d3plus.tooltip.remove("geo_map");
           }
           else {
-            d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
+            this.parentNode.appendChild(this);
+            d3.select(this).attr("stroke-opacity", 1).style("cursor", "pointer");
             createTooltip(d);
           }
         })
@@ -892,12 +896,13 @@ viz.mapDraw = function(vars) {
             d3plus.tooltip.remove("geo_map");
           }
           else {
-            d3.select(this).attr("fill-opacity", pathOpacity * 2).style("cursor", "pointer");
+            this.parentNode.appendChild(this);
+            d3.select(this).attr("stroke-opacity", 1).style("cursor", "pointer");
             createTooltip(d);
           }
         })
         .on(d3plus.client.pointer.out, function(d){
-          d3.select(this).attr("fill-opacity", pathOpacity);
+          d3.select(this).attr("stroke-opacity", strokeOpacity);
           d3plus.tooltip.remove("geo_map");
         })
         .on(d3plus.client.pointer.click, function(d){
