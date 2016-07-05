@@ -606,9 +606,12 @@ viz.mapDraw = function(vars) {
     var path = d3.geo.path()
       .projection(projection);
 
-    var b = projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length ? us_bounds : path.bounds(coordData),
+    var coordBounds = path.bounds(coordData),
+        b = projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length ? us_bounds : coordBounds,
         s = defaultZoom / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / (height - key_height)),
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
+
+    var minZoom = defaultZoom / Math.max((coordBounds[1][0] - coordBounds[0][0]) / width, (coordBounds[1][1] - coordBounds[0][1]) / (height - key_height));
 
     // Update the projection to use computed scale & translate.
     if (!vars.zoom.set) {
@@ -1036,24 +1039,63 @@ viz.mapDraw = function(vars) {
       zoomEvents();
     }
 
+    var trans = zoom.translate(),
+        s = zoom.scale();
+    var pz = s / polyZoom;
+
+    if (pz < minZoom) {
+      pz = minZoom;
+      s = pz * polyZoom;
+      zoom.scale(s);
+    }
+
+
+    var nh = height - key_height;
+    var bh = coordBounds[1][1] - coordBounds[0][1];
+    var bw = coordBounds[1][0] - coordBounds[0][0];
+    var xoffset = (width - (bw * pz)) / 2;
+    var xmin = xoffset > 0 ? xoffset : 0;
+    var xmax = xoffset > 0 ? width - xoffset : width;
+    var yoffset = (nh - (bh * pz)) / 2;
+    var ymin = yoffset > 0 ? yoffset : 0;
+    var ymax = yoffset > 0 ? nh - yoffset : nh;
+
+    if (trans[0] + coordBounds[0][0] * pz > xmin) {
+      trans[0] = -coordBounds[0][0] * pz + xmin
+    }
+    else if (trans[0] + coordBounds[1][0] * pz < xmax) {
+      trans[0] = xmax - (coordBounds[1][0] * pz)
+    }
+
+    if (trans[1] + coordBounds[0][1] * pz > ymin) {
+      trans[1] = -coordBounds[0][1] * pz + ymin
+    }
+    else if (trans[1] + coordBounds[1][1] * pz < ymax) {
+      trans[1] = ymax - (coordBounds[1][1] * pz)
+    }
+    zoom.translate(trans);
+
+    // console.log(trans[1], t[1]);
+    // console.log(width, height, trans, s);
+    // console.log(coordBounds);
+
     if (vars.tiles.value) {
-      var trans = zoom.translate(),
-          d = projection(defaultRotate)[0] - projection([0, 0])[0];
-      trans[0] += (d/polyZoom) * zoom.scale();
+      var d = projection(defaultRotate)[0] - projection([0, 0])[0];
+      var tileTrans = trans.slice();
+      tileTrans[0] += (d/polyZoom) * s;
       var tileData = tile
         .size([width, height])
-        .scale(zoom.scale())
-        .translate(trans)
+        .scale(s)
+        .translate(tileTrans)
         ();
     }
     else {
       var tileData = [];
     }
 
-    var pz = zoom.scale() / polyZoom;
-    polyGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")")
+    polyGroup.attr("transform", "translate(" + trans + ")scale(" + pz + ")")
       .selectAll("path").attr("stroke-width", pathStroke/pz);
-    pinGroup.attr("transform", "translate(" + zoom.translate() + ")scale(" + pz + ")")
+    pinGroup.attr("transform", "translate(" + trans + ")scale(" + pz + ")")
       .selectAll(".pin")
       .attr("transform", function(d){
         return "translate(" + d + ")scale(" + (1/pz*vizStyles.pin.scale) + ")";
