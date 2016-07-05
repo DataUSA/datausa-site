@@ -5,8 +5,9 @@ dusa_popover = function() {
 dusa_popover.close = function() {
   d3.selectAll(".close-btn .b").classed("close", !d3.selectAll(".close-btn .b").classed("close"));
   d3.selectAll(".overlay").remove();
-  d3.select("body").on("keyup.popover", null);
-  d3.select("body").style("overflow", "visible");
+  var body = d3.select("body");
+  body.on("keyup.popover", null);
+  if (!body.classed("embed") && !body.classed("map")) body.style("overflow", "visible");
   d3.select(window).on("resize.popover", null);
 }
 
