@@ -10,7 +10,7 @@ description: >
 viz:
   attrs: "geo"
   coords:
-    solo: "{{<<sumlevel>>:!place||<<solo>>}}{{<<sumlevel>>:place||<<parents id_only=true|prefix=040>>}}"
+    solo: "{{<<sumlevel>>:!place||<<solo>>}}{{<<sumlevel>>:place||<<parents id_only=true|prefix=040>>}}{{<<sumlevel>>:msa||,<<parents id_only=true|prefix=040>>}}"
     value: "<<sumlevel plural=True>>"
   data: []
   highlight: "<<id>>"
