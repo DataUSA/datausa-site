@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import copy, json
-from random import randint
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
@@ -14,7 +13,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 29
+    g.cache_version = 30
     g.affixes = json.dumps(AFFIXES)
     g.dictionary = json.dumps(DICTIONARY)
     g.percentages = json.dumps(PERCENTAGES)
