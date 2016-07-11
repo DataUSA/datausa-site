@@ -9561,7 +9561,7 @@ viz.mapDraw = function(vars) {
       var drag = true;
 
       polys
-        .on(d3plus.client.pointer.over, function(d){
+        .on("mouseover", function(d){
           if (vars.zoom.brush) {
             d3plus.tooltip.remove("geo_map");
           }
@@ -9583,7 +9583,7 @@ viz.mapDraw = function(vars) {
             createTooltip(d);
           }
         })
-        .on(d3plus.client.pointer.out, function(d){
+        .on("mouseout", function(d){
           d3.select(this).attr("stroke-opacity", strokeOpacity);
           d3plus.tooltip.remove("geo_map");
         })
@@ -9594,6 +9594,12 @@ viz.mapDraw = function(vars) {
           }
           else if (drag) {
             drag = false;
+          }
+          else if (vars.highlight.value === d.id) {
+            d3plus.tooltip.remove("geo_map_sidebar");
+            vars.highlight.value = false;
+            vars.highlight.path = undefined;
+            zoomLogic();
           }
           else {
             vars.highlight.value = d.id;
