@@ -888,7 +888,7 @@ viz.mapDraw = function(vars) {
             d3plus.tooltip.remove("geo_map");
           }
           else {
-            this.parentNode.appendChild(this);
+            if (!d3plus.client.ie) this.parentNode.appendChild(this);
             d3.select(this).attr("stroke-opacity", 1).style("cursor", "pointer");
             createTooltip(d);
           }
@@ -900,7 +900,7 @@ viz.mapDraw = function(vars) {
             d3plus.tooltip.remove("geo_map");
           }
           else {
-            this.parentNode.appendChild(this);
+            if (!d3plus.client.ie) this.parentNode.appendChild(this);
             d3.select(this).attr("stroke-opacity", 1).style("cursor", "pointer");
             createTooltip(d);
           }
