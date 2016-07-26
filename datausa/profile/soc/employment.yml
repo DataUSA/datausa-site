@@ -13,10 +13,12 @@ topics:
     viz:
       attrs: "soc"
       data:
-        - required: "avg_wage,avg_wage_moe"
+        - required: "avg_wage,avg_wage_moe,avg_wage_rank"
           show: "soc"
           sumlevel: "<<sumlevel>>"
           avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+          order: "avg_wage"
+          sort: "desc"
           soc_level: "<<sumlevel>>"
           where: "num_records:>4"
       id: "soc"
