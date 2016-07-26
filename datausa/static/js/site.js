@@ -6286,7 +6286,11 @@ var attrStyles = {
     "9": {
         "color": "#33425b",
         "icon": "thing_stripewheel.png"
-    }
+    },
+    "99": {
+        "color": "#ccc",
+        "icon": "thing_question.png"
+    },
 },
 
   "race": {
