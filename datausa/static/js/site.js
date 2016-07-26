@@ -4540,8 +4540,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     if (d.params.show) {
       var sums = d.params.sumlevel.split(",");
       d.params.show.split(",").forEach(function(s, i){
-        var allowed = s !== "geo" || sums[i] !== "all";
-        if (allowed && s in d.params && url.indexOf(s + "=") > 0) {
+        if (s !== "geo" && s in d.params && url.indexOf(s + "=") > 0) {
           var show = new RegExp("&" + s + "=([a-zA-Z0-9,%C]*)").exec(url);
           console.log("show:", show);
           url = url.replace(show[0], "");
@@ -4560,6 +4559,48 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
     return d;
   });
 
+  d3.select("body")
+    .style("overflow", "hidden")
+    .append("div")
+      .attr("class", "overlay")
+      .attr("id", "bg")
+
+  var view = d3.select("body")
+    .append("div")
+      .attr("class", "overlay")
+      .attr("id", "view")
+      .on("click", dusa_popover.close)
+
+  var modal = view
+    .append("div")
+      .attr("class", "modal")
+      .on("click", function(){ d3.event.stopPropagation() })
+
+  modal.append("div")
+    .attr("class", "close-btn")
+    .html('<div class="in"><div class="bd"><div class="b-1 b close"><span></span></div><div class="b-2 b close"><span></span></div><div class="b-3 b close"><span></span></div></div></div>')
+    .on("click", dusa_popover.close)
+
+  var header = modal
+    .append("div")
+      .attr("class", "header")
+
+  header
+    .append("h2")
+      .text("Options")
+
+  var body = modal
+    .append("div")
+      .attr("class", "body")
+
+  var loader = body.append("div")
+    .attr("class", "loader")
+    .html("<i class='fa fa-spinner fa-spin'></i>Loading Data");
+
+  var nav = body
+    .append("div")
+      .attr("class", "nav")
+
   function ready() {
 
     if (loaded < total) {
@@ -4567,45 +4608,11 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       return;
     }
 
+    // return;
+
     embed_url = "http://datausa.io" + embed_url;
 
-    d3.select("body")
-      .style("overflow", "hidden")
-      .append("div")
-        .attr("class", "overlay")
-        .attr("id", "bg")
-
-    var view = d3.select("body")
-      .append("div")
-        .attr("class", "overlay")
-        .attr("id", "view")
-        .on("click", dusa_popover.close)
-
-    var modal = view
-      .append("div")
-        .attr("class", "modal")
-        .on("click", function(){ d3.event.stopPropagation() })
-
-    modal.append("div")
-      .attr("class", "close-btn")
-      .html('<div class="in"><div class="bd"><div class="b-1 b close"><span></span></div><div class="b-2 b close"><span></span></div><div class="b-3 b close"><span></span></div></div></div>')
-      .on("click", dusa_popover.close)
-
-    var header = modal
-      .append("div")
-        .attr("class", "header")
-
-    header
-      .append("h2")
-        .text("Options")
-
-    var body = modal
-      .append("div")
-        .attr("class", "body")
-
-    var nav = body
-      .append("div")
-        .attr("class", "nav")
+    loader.remove();
 
     var s = 250;
     panels.forEach(function(p, i){

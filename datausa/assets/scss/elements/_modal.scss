@@ -156,7 +156,24 @@
 
       .body {
         overflow: hidden;
+        min-height: 100px;
         // padding: 5px 20px 20px;
+
+        .loader {
+          padding-top: 30px;
+          position: absolute;
+          width: 100%;
+
+          font-family: $lato;
+          font-size: 20px;
+          font-weight: 400;
+          text-align: center;
+
+          i {
+            margin: 3px 10px;
+          }
+
+        }
 
         .nav {
           text-align: center;
