@@ -2,7 +2,8 @@ title: "Skills"
 description: "The visualizations in this section allow you to explore what skills are critical for succeeding in jobs that employ people from <<name>> and which skills are most distinctive."
 
 topics:
-  - class: "flex"
+  - title: "Radar Distribution"
+    class: "flex"
     slug: "radar"
     viz:
       attrs:
@@ -22,7 +23,8 @@ topics:
           value:
             - Value: "value"
             - RCA: "value_rca"
-  - class: "flex"
+  - title: "Bar Chart"
+    class: "flex"
     slug: "bar"
     viz:
       attrs:

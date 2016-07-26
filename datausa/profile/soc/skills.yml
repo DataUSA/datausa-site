@@ -2,7 +2,8 @@ title: "Skills"
 description: "What skills are generally required for the occupation of <<name>>?  Explore using data provided by the Bureau of Labor Statistics."
 
 topics:
-  - class: "flex"
+  - title: "Radar Distribution"
+    class: "flex"
     subtitle: "<<sub show=skill|attrs=bls_soc>>"
     slug: "radar"
     viz:
@@ -24,7 +25,8 @@ topics:
           value:
             - Value: "value"
             - RCA: "value_rca"
-  - class: "flex"
+  - title: "Bar Chart"
+    class: "flex"
     slug: "bar"
     viz:
       attrs:
