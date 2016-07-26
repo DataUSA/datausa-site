@@ -9343,8 +9343,10 @@ viz.mapDraw = function(vars) {
     var path = d3.geo.path()
       .projection(projection);
 
+    var showUS = projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length;
+
     var coordBounds = path.bounds(coordData),
-        b = projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length ? us_bounds : coordBounds,
+        b = showUS ? us_bounds : coordBounds,
         s = defaultZoom / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / (height - key_height)),
         t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2 - key_height/2];
 
@@ -9793,29 +9795,34 @@ viz.mapDraw = function(vars) {
     }
 
 
-    var nh = height - key_height;
-    var bh = coordBounds[1][1] - coordBounds[0][1];
-    var bw = coordBounds[1][0] - coordBounds[0][0];
-    var xoffset = (width - (bw * pz)) / 2;
-    var xmin = xoffset > 0 ? xoffset : 0;
-    var xmax = xoffset > 0 ? width - xoffset : width;
-    var yoffset = (nh - (bh * pz)) / 2;
-    var ymin = yoffset > 0 ? yoffset : 0;
-    var ymax = yoffset > 0 ? nh - yoffset : nh;
+    if (!showUS) {
 
-    if (trans[0] + coordBounds[0][0] * pz > xmin) {
-      trans[0] = -coordBounds[0][0] * pz + xmin
-    }
-    else if (trans[0] + coordBounds[1][0] * pz < xmax) {
-      trans[0] = xmax - (coordBounds[1][0] * pz)
+      var nh = height - key_height;
+      var bh = coordBounds[1][1] - coordBounds[0][1];
+      var bw = coordBounds[1][0] - coordBounds[0][0];
+      var xoffset = (width - (bw * pz)) / 2;
+      var xmin = xoffset > 0 ? xoffset : 0;
+      var xmax = xoffset > 0 ? width - xoffset : width;
+      var yoffset = (nh - (bh * pz)) / 2;
+      var ymin = yoffset > 0 ? yoffset : 0;
+      var ymax = yoffset > 0 ? nh - yoffset : nh;
+
+      if (trans[0] + coordBounds[0][0] * pz > xmin) {
+        trans[0] = -coordBounds[0][0] * pz + xmin
+      }
+      else if (trans[0] + coordBounds[1][0] * pz < xmax) {
+        trans[0] = xmax - (coordBounds[1][0] * pz)
+      }
+
+      if (trans[1] + coordBounds[0][1] * pz > ymin) {
+        trans[1] = -coordBounds[0][1] * pz + ymin
+      }
+      else if (trans[1] + coordBounds[1][1] * pz < ymax) {
+        trans[1] = ymax - (coordBounds[1][1] * pz)
+      }
+
     }
 
-    if (trans[1] + coordBounds[0][1] * pz > ymin) {
-      trans[1] = -coordBounds[0][1] * pz + ymin
-    }
-    else if (trans[1] + coordBounds[1][1] * pz < ymax) {
-      trans[1] = ymax - (coordBounds[1][1] * pz)
-    }
     zoom.translate(trans);
 
     if (vars.tiles.value) {
