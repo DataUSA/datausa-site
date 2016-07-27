@@ -1,0 +1,20 @@
+{% extends "templates/about.html" %}
+
+{% block title %} In the Press{% endblock %}
+
+{% block about_content %}
+
+
+<article>
+  <section>
+    {% for source in press %}
+      <div class="press-source">
+        <div class="title"><a href="{{ source.link }}">{{ source.title }}</a></div>
+        <div class="source">{{ source.source }}</div>
+        <div class="quote">"{{ source.quote }}"</div>
+      </div>
+    {% endfor %}
+  </section>
+</article>
+
+{% endblock %}

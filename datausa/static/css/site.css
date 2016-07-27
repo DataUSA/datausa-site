@@ -7157,6 +7157,32 @@
                   line-height: 1;
                   letter-spacing: 0.06em;
                   color: #ef6145; }
+    body.about .press-source {
+      margin-bottom: 40px; }
+      body.about .press-source:last-child {
+        margin-bottom: 0; }
+        body.about .press-source .title {
+          font-family: "Palanquin", sans-serif;
+          font-weight: 700;
+          font-size: 15px;
+          line-height: 1.35;
+          letter-spacing: 0.05em;
+          text-transform: uppercase; }
+          body.about .press-source .title a {
+            color: #ef6145; }
+      body.about .press-source .source {
+        color: #141b2e;
+        font-family: "Palanquin", sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 1.35;
+        letter-spacing: 0.05em;
+        text-transform: uppercase; }
+        body.about .press-source .quote {
+          color: #666;
+          font-style: italic;
+          line-height: 1.35;
+          margin-top: 5px; }
 
   @media only screen and (max-width : 768px) {
     body.about #video-container {

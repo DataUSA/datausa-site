@@ -673,6 +673,44 @@ body.about {
     }
   }
 
+  .press-source {
+    margin-bottom: 40px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .title {
+      font-family: $palanquin;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.35;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      a {
+        color: $red-w;
+      }
+    }
+
+    .source {
+      color: $black2;
+      font-family: $palanquin;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.35;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .quote {
+      color: $gray-d2;
+      font-style: italic;
+      line-height: 1.35;
+      margin-top: 5px;
+    }
+
+  }
+
+
 }
 
 @import "elements/about_m";
