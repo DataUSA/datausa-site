@@ -588,6 +588,91 @@ body.about {
 
   }
 
+  .team-list {
+    padding: 0 0 50px;
+
+    .logo {
+      display: block;
+      height: 40px;
+      margin: 20px auto 20px;
+    }
+
+    .author-meta {
+      @include box();
+      @include flex();
+      @include flex-direction(row);
+      @include justify(flex-start);
+      @include align-items(flex-start);
+      max-width: 700px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px;
+
+      @media only screen and (max-width : 570px) {
+        @include flex-direction(column);
+        padding: 10px 0;
+      }
+
+      & > div {
+        margin-bottom: 3px;
+      }
+
+      span, a, div {
+        color: $black2;
+        font-family: $palanquin;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 1.35;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+    }
+
+    .author-avatar {
+      margin-right: 10px;
+      margin-top: 15px;
+      max-width: 150px;
+      min-width: 150px;
+      width: 100px;
+
+      @media only screen and (max-width : 570px) {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+
+    .author-text {
+      padding: 10px;
+
+      @media only screen and (max-width : 570px) {
+        padding: 10px 0;
+      }
+
+      .name {
+        font-size: 20px;
+      }
+
+      .info {
+        text-transform: none;
+        line-height: 1.5;
+        margin: 7px 0;
+      }
+
+      .social {
+        line-height: 1;
+
+        a {
+          font-weight: 700;
+          font-size: 11px;
+          line-height: 1;
+          letter-spacing: 0.06em;
+          color: $red-w;
+        }
+      }
+    }
+  }
+
 }
 
 @import "elements/about_m";

@@ -195,6 +195,7 @@ body.frozen {
 
 .tab-container {
   @include flex();
+	@include flex-wrap();
 
   & > * {
     text-align: center;

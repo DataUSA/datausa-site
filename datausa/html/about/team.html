@@ -1,0 +1,33 @@
+{% extends "templates/about.html" %}
+
+{% block title %} Team{% endblock %}
+
+{% block about_content %}
+
+
+<article>
+  <section>
+    {% for team in teams %}
+      <div class="team-list">
+        <img class="logo" src="/static/img/footer/{{ team.name }}_dark.png" />
+        {% for author in team.members %}
+        <div class="author-meta">
+          <img class="author-avatar" alt="{{ author.name }}" src="{% if author.img %}{{ author.img }}{% else %}/static/img/story/author.png{% endif %}">
+          <div class="author-text">
+            <div class="name">{{ author.name }}</div>
+            {% if author.title %}<sub class="title">{{ author.title }}</sub>{% endif %}
+            {% if author.about %}
+              {% for p in author.about %}
+              <div class="info">{{ p }}</div>
+              {% endfor %}
+            {% endif %}
+            {% if author.twitter %}<div class="social"><a href="{{ author.twitter }}" target="_blank">Twitter</a></div>{% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </section>
+</article>
+
+{% endblock %}

@@ -276,7 +276,10 @@
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
-    display: flex; }
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
     .tab-container > * {
       text-align: center;
       -webkit-box-flex: auto;
@@ -7063,6 +7066,97 @@
               position: absolute;
               visibility: hidden;
               top: -60px; }
+    body.about .team-list {
+      padding: 0 0 50px; }
+      body.about .team-list .logo {
+        display: block;
+        height: 40px;
+        margin: 20px auto 20px; }
+        body.about .team-list .author-meta {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          -ms-flex-pack: center;
+          flex-pack: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-flex-direction: row;
+          -moz-flex-direction: row;
+          -ms-flex-direction: row;
+          flex-direction: row;
+          -webkit-justify-content: flex-start;
+          -moz-justify-content: flex-start;
+          justify-content: flex-start;
+          -ms-flex-pack: start;
+          flex-pack: start;
+          -webkit-align-items: flex-start;
+          align-items: flex-start;
+          -ms-flex-align: start;
+          flex-align: start;
+          max-width: 700px;
+          width: 100%;
+          margin: 0 auto;
+          padding: 10px; }
+          body.about .team-list .author-meta:before, body.about .team-list .author-meta:after {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box; }
+            @media only screen and (max-width : 570px) {
+              body.about .team-list .author-meta {
+                -webkit-flex-direction: column;
+                -moz-flex-direction: column;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                padding: 10px 0;   }
+}
+              body.about .team-list .author-meta > div {
+                margin-bottom: 3px; }
+                body.about .team-list .author-meta span, body.about .team-list .author-meta a,
+                body.about .team-list .author-meta div {
+                  color: #141b2e;
+                  font-family: "Palanquin", sans-serif;
+                  font-weight: 300;
+                  font-size: 14px;
+                  line-height: 1.35;
+                  letter-spacing: 0.05em;
+                  text-transform: uppercase; }
+      body.about .team-list .author-avatar {
+        margin-right: 10px;
+        margin-top: 15px;
+        max-width: 150px;
+        min-width: 150px;
+        width: 100px; }
+        @media only screen and (max-width : 570px) {
+          body.about .team-list .author-avatar {
+            display: block;
+            margin: 0 auto;   }
+}
+      body.about .team-list .author-text {
+        padding: 10px; }
+        @media only screen and (max-width : 570px) {
+          body.about .team-list .author-text {
+            padding: 10px 0;   }
+}
+          body.about .team-list .author-text .name {
+            font-size: 20px; }
+            body.about .team-list .author-text .info {
+              text-transform: none;
+              line-height: 1.5;
+              margin: 7px 0; }
+              body.about .team-list .author-text .social {
+                line-height: 1; }
+                body.about .team-list .author-text .social a {
+                  font-weight: 700;
+                  font-size: 11px;
+                  line-height: 1;
+                  letter-spacing: 0.06em;
+                  color: #ef6145; }
 
   @media only screen and (max-width : 768px) {
     body.about #video-container {
