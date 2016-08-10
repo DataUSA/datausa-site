@@ -9,17 +9,21 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
+        "link": "/story/08-11-2016_rust-belt/",
+        "featured": True
+    },
+    {
         "link": "/profile/geo/washington-dc/#global_diversity",
         "title": "Global Diversity in Washington, DC",
         "section": "demographics",
         "viz": "geo_map"
     },
     {
-        "link": "/story/06-16-2016_millennials/",
-        "featured": True
+        "link": "/story/06-16-2016_millennials/"
     },
     {
         "link": "/story/06-16-2016_math-teachers/",
+        "featured": True
     },
     {
         "link": "/profile/geo/west-virginia/#income_ethnicity",
