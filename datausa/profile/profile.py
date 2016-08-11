@@ -384,6 +384,14 @@ class Profile(BaseObject):
 
         results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
         results = self.get_uniques(results)
+        for p in results:
+            if self.attr_type == "geo":
+                level = p["id"][:3]
+            elif self.attr_type == "cip":
+                level = str(len(p["id"]))
+            else:
+                level = str(fetch(p["id"], self.attr_type)["level"])
+            p["sumlevel"] = SUMLEVELS[self.attr_type][level]["label"]
 
         if prefix:
             results = [r for r in results if r["id"].startswith(prefix)]

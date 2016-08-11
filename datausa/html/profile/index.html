@@ -222,6 +222,8 @@
 
 {% endfor %}
 
+
+{% if parents|length %}
 <div class="profile-end">
 
   <h2>Keep Exploring</h2>
@@ -229,16 +231,19 @@
   <!-- follow up profile links -->
   <div class="follow-up">
 
-    {% if parents|length %}
     {% for p in parents %}
     <div style="background: url('/profile/{{ profile.attr_type }}/{{ p.id }}/img/');">
-      <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}" class="explore-title">{{ p["name"] }}</a>
+      <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}" class="explore-title">
+        {{ p["name"] }}
+        <br />
+        <span class="sumlevel">{{ p["sumlevel"] }}</span>
+      </a>
     </div>
     {% endfor %}
-    {% endif %}
   </div>
   <!-- end .follow-up -->
 </div>
+{% endif %}
 
 {% endblock %}
 

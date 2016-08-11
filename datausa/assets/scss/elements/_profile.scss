@@ -1655,6 +1655,12 @@ body.profile, body.map, body.story {
           padding: 20% 20px;
           @include box();
           margin: auto;
+
+          .sumlevel {
+            display: block;
+            font-size: 16px;
+            margin-top: 5px;
+          }
         }
       }
     }

@@ -5246,6 +5246,12 @@
                     -webkit-box-sizing: border-box;
                     -moz-box-sizing: border-box;
                     box-sizing: border-box; }
+                    body.profile .profile-end .follow-up > div .explore-title .sumlevel,
+                    body.map .profile-end .follow-up > div .explore-title .sumlevel,
+                    body.story .profile-end .follow-up > div .explore-title .sumlevel {
+                      display: block;
+                      font-size: 16px;
+                      margin-top: 5px; }
   body.profile .share-section, body.map .share-section, body.story .share-section {
     margin-top: 13px; }
     body.profile .share-section .share-embed, body.map .share-section .share-embed,
