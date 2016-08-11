@@ -1695,6 +1695,7 @@
     font-size: 12px; }
 
   body.search {
+    background-color: #141b2e;
     min-height: 100vh; }
     body.search a {
       color: #fff;
