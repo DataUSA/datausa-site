@@ -2,17 +2,18 @@ viz.map = function() {
 
   // setup default vars, mimicing D3plus
   var vars = {
-    "attrs": {"objectOnly": true, "value": {}},
-    "background": {"value": "transparent"},
-    "class": {"value": false},
-    "color": {"value": false},
-    "container": {"value": false},
-    "coords": {"value": false, "solo": [], "mute": []},
-    "data": {"value": []},
-    "depth": {"value": 0},
-    "error": {"value": false},
-    "format": {
-      "value": function(value, opts){
+    attrs: {objectOnly: true, value: {}},
+    background: {value: "transparent"},
+    class: {value: false},
+    color: {value: false},
+    container: {value: false},
+    coords: {value: false, solo: [], mute: []},
+    data: {value: []},
+    depth: {value: 0},
+    error: {value: false},
+    form: false,
+    format: {
+      value: function(value, opts){
         if (typeof value === "number") {
           return this.number(value, opts);
         }
@@ -21,24 +22,64 @@ viz.map = function() {
         }
         return JSON.stringify(value);
       },
-      "number": viz.format.number,
-      "text": viz.format.text
+      number: viz.format.number,
+      text: viz.format.text
     },
-    "height": {"value": false},
-    "highlight": {"value": false},
-    "id": {"value": false},
-    "messages": {"value": true},
-    "mouse": {"value": true},
-    "pins": {"value": []},
-    "text": {"value": "name"},
-    "tiles": {"value": true},
-    "tooltip": {"url": false, "value": []},
-    "width": {"value": false},
-    "zoom": {"pan": false, "scroll": false, "set": false, "value": true, "reset": true}
+    height: {value: false},
+    highlight: {value: false},
+    id: {value: false},
+    messages: {value: true},
+    mouse: {value: true},
+    pins: {value: []},
+    text: {value: "name"},
+    tiles: {value: true},
+    time: {value: false, solo: false, years: false},
+    tooltip: {url: false, value: []},
+    width: {value: false},
+    zoom: {pan: false, scroll: false, set: false, value: true, reset: true}
   };
 
   // the drawing function
   vars.self = function() {
+
+    if (vars.data.value.length && !vars.time.years) {
+      vars.time.years = d3plus.util.uniques(vars.data.value, function(d) { return d.year; }).sort(function(a, b) { return a - b; });
+    }
+
+    var time = vars.time.years && vars.time.years.length > 1;
+
+    var toggle = vars.container.value.selectAll(".year-toggle").data([null]);
+    toggle.enter().append("div").attr("class", "year-toggle");
+    toggle.transition().duration(600).style("opacity", time ? 1 : 0);
+
+    if (time) {
+      if (!vars.time.solo) vars.time.solo = vars.time.years[vars.time.years.length - 1];
+      vars.data.filtered = vars.data.value.filter(function(d) { return d.year === vars.time.solo });
+
+      if (!vars.form) {
+        vars.form = d3plus.form()
+          .container(toggle)
+          .id("value")
+          .focus(vars.time.solo, function(d) {
+            if (d !== vars.time.solo) {
+              vars.time.solo = d;
+              vars.self.draw();
+            }
+          })
+          .text("text")
+          .type("toggle")
+          .ui({margin: 0})
+          .ui(vizStyles.ui)
+          // .title("Year")
+          .draw();
+      }
+      vars.form
+        .data(vars.time.years.map(function(d) { return {value: d, text: d + ""}; }))
+        .focus(vars.time.solo)
+        .draw();
+    }
+    else vars.data.filtered = vars.data.value;
+
     viz.mapDraw(vars);
     return vars.self;
   }

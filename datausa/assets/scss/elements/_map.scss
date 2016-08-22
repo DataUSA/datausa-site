@@ -154,6 +154,14 @@ $map-sidebar: 250px;
   shape-rendering: crispEdges;
 }
 
+.year-toggle {
+  bottom: 5px;
+  display: block;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
 
 .map-controls {
   left: 5px;

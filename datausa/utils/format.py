@@ -89,7 +89,7 @@ def num_format(number, key=None, labels=True, condense=True, suffix=True):
 
 def param_format(params):
     params["sumlevel"] = params.get("sumlevel", "all")
-    params["year"] = params.get("year", "latest")
+    params["year"] = params.get("year", "all")
     params["sort"] = params.get("sort", "desc")
     params["order"] = params.get("order", "")
     params["exclude"] = params.get("exclude", "")

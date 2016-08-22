@@ -120,6 +120,28 @@ viz.finish = function(build) {
     };
   }
 
+  var years = d3plus.util.uniques(build.viz.data(), function(d) { return d.year; }),
+      axis = build.config.x ? build.config.x.value : null;
+
+  console.log(years);
+
+  if (years.length > 1 && axis !== build.viz.time()) {
+    if (!build.config.ui) build.config.ui = [];
+    var focus = d3.max(build.viz.data(), function(d) { return d.year; });
+    build.viz.time({solo: focus})
+    build.config.ui.push({
+      focus: focus,
+      method: function(d, viz) {
+        viz.time({solo: [d]}).draw();
+      },
+      label: "Year",
+      value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
+    });
+  }
+  else {
+    build.viz.time(false);
+  }
+
   build.viz
     .config(viz[build.config.type](build))
     .config(build.config)

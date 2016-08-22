@@ -92,82 +92,56 @@ viz.defaults = function(build) {
       }
     }
     messageBg = findSection(build.container.node());
-  }
-
-  function noAgg(k) {
-    return function(leaves) {
-      if (leaves.length === 1) return leaves[0][k];
-      else return null;
-    }
+    if (messageBg === "rgba(0, 0, 0, 0)") messageBg = "#fff";
   }
 
   return {
-    "aggs": {
-      "avg_wage": noAgg("avg_wage"),
-      "avg_wage_moe": noAgg("avg_wage_moe"),
-      "avg_wage_rank": noAgg("avg_wage_rank"),
-      "avg_wage_ft": noAgg("avg_wage_ft"),
-      "avg_wage_ft_moe": noAgg("avg_wage_ft_moe"),
-      "avg_wage_ft_rank": noAgg("avg_wage_ft_rank"),
-      "avg_wage_pt": noAgg("avg_wage_pt"),
-      "avg_wage_pt_moe": noAgg("avg_wage_pt_moe"),
-      "avg_wage_pt_rank": noAgg("avg_wage_pt_rank"),
-      "avg_hrs": noAgg("avg_hrs"),
-      "avg_hrs_moe": noAgg("avg_hrs_moe"),
-      "avg_hrs_rank": noAgg("avg_hrs_rank"),
-      "avg_hrs_ft": noAgg("avg_hrs_ft"),
-      "avg_hrs_ft_moe": noAgg("avg_hrs_ft_moe"),
-      "avg_hrs_ft_rank": noAgg("avg_hrs_ft_rank"),
-      "avg_hrs_pt": noAgg("avg_hrs_pt"),
-      "avg_hrs_pt_moe": noAgg("avg_hrs_pt_moe"),
-      "avg_hrs_pt_rank": noAgg("avg_hrs_pt_rank"),
-      "avg_age": noAgg("avg_age"),
-      "avg_age_moe": noAgg("avg_age_moe"),
-      "avg_age_rank": noAgg("avg_age_rank"),
-      "med_earnings": noAgg("med_earnings"),
-      "med_earnings_moe": noAgg("med_earnings_moe")
+    axes: {
+      background: chartStyles.background,
+      ticks: false
     },
-    "axes": {
-      "background": chartStyles.background,
-      "ticks": false
-    },
-    "background": vizStyles.background,
-    "color": vizStyles.color,
-    "data": vizStyles.shapes,
-    "edges": vizStyles.edges,
-    "format": {
-      "number": viz.format.number,
-      "text": function(text, params) {
+    background: vizStyles.background,
+    color: vizStyles.color,
+    data: vizStyles.shapes,
+    edges: vizStyles.edges,
+    format: {
+      number: viz.format.number,
+      text: function(text, params) {
         return viz.format.text(text, params, build);
       }
     },
-    "height": {
-      "small": 10
+    height: {
+      small: 10
     },
-    "icon": {
-      "style": "knockout"
+    icon: {
+      style: "knockout"
     },
-    "labels": {
-      "font": vizStyles.labels.font[build.config.type] || vizStyles.labels.font.default
+    labels: {
+      font: vizStyles.labels.font[build.config.type] || vizStyles.labels.font.default
     },
-    "legend": {
-      "font": vizStyles.legend.font,
-      "labels": false,
-      "order": {
-        "sort": "desc",
-        "value": "size"
+    legend: {
+      font: vizStyles.legend.font,
+      labels: false,
+      order: {
+        sort: "desc",
+        value: "size"
       }
     },
-    "messages": {
-      "background": messageBg,
-      "font": vizStyles.messages.font,
-      "style": "large"
+    messages: {
+      background: messageBg,
+      font: vizStyles.messages.font,
+      style: "large"
     },
-    "tooltip": vizStyles.tooltip,
-    "ui": vizStyles.ui,
-    "x": axis_style("x"),
-    "x2": axis_style("x2"),
-    "y": axis_style("y"),
-    "y2": axis_style("y2")
+    time: {
+      fixed: false,
+      value: "year"
+    },
+    timeline: false,
+    tooltip: vizStyles.tooltip,
+    ui: vizStyles.ui,
+    x: axis_style("x"),
+    x2: axis_style("x2"),
+    y: axis_style("y"),
+    y2: axis_style("y2")
   }
 }

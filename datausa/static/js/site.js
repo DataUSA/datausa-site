@@ -7461,6 +7461,28 @@ viz.finish = function(build) {
     };
   }
 
+  var years = d3plus.util.uniques(build.viz.data(), function(d) { return d.year; }),
+      axis = build.config.x ? build.config.x.value : null;
+
+  console.log(years);
+
+  if (years.length > 1 && axis !== build.viz.time()) {
+    if (!build.config.ui) build.config.ui = [];
+    var focus = d3.max(build.viz.data(), function(d) { return d.year; });
+    build.viz.time({solo: focus})
+    build.config.ui.push({
+      focus: focus,
+      method: function(d, viz) {
+        viz.time({solo: [d]}).draw();
+      },
+      label: "Year",
+      value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
+    });
+  }
+  else {
+    build.viz.time(false);
+  }
+
   build.viz
     .config(viz[build.config.type](build))
     .config(build.config)
@@ -7503,18 +7525,24 @@ viz.bar = function(build) {
 
   var axis_style = function(axis) {
 
-    var key = axis.length === 1 ? "pri" : "sec";
+    var key = axis.length === 1 ? "pri" : "sec",
+        range = false;
+
+    if (build.config[axis] && axis !== discrete) {
+      range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
+    }
 
     return {
-      "axis": {
-        "color": discrete === axis ? "none" : chartStyles.zeroline.default[key].color,
-        "value": discrete !== axis
+      axis: {
+        color: discrete === axis ? "none" : chartStyles.zeroline.default[key].color,
+        value: discrete !== axis
       },
-      "grid": discrete !== axis,
-      "ticks": {
-        "color": discrete === axis ? "none" : chartStyles.ticks.default[key].color,
-        "labels": discrete !== axis || !build.config.labels,
-        "size": discrete === axis ? 0 : chartStyles.ticks.default[key].size
+      grid: discrete !== axis,
+      range: range,
+      ticks: {
+        color: discrete === axis ? "none" : chartStyles.ticks.default[key].color,
+        labels: discrete !== axis || !build.config.labels,
+        size: discrete === axis ? 0 : chartStyles.ticks.default[key].size
       }
     }
 
@@ -7634,83 +7662,57 @@ viz.defaults = function(build) {
       }
     }
     messageBg = findSection(build.container.node());
-  }
-
-  function noAgg(k) {
-    return function(leaves) {
-      if (leaves.length === 1) return leaves[0][k];
-      else return null;
-    }
+    if (messageBg === "rgba(0, 0, 0, 0)") messageBg = "#fff";
   }
 
   return {
-    "aggs": {
-      "avg_wage": noAgg("avg_wage"),
-      "avg_wage_moe": noAgg("avg_wage_moe"),
-      "avg_wage_rank": noAgg("avg_wage_rank"),
-      "avg_wage_ft": noAgg("avg_wage_ft"),
-      "avg_wage_ft_moe": noAgg("avg_wage_ft_moe"),
-      "avg_wage_ft_rank": noAgg("avg_wage_ft_rank"),
-      "avg_wage_pt": noAgg("avg_wage_pt"),
-      "avg_wage_pt_moe": noAgg("avg_wage_pt_moe"),
-      "avg_wage_pt_rank": noAgg("avg_wage_pt_rank"),
-      "avg_hrs": noAgg("avg_hrs"),
-      "avg_hrs_moe": noAgg("avg_hrs_moe"),
-      "avg_hrs_rank": noAgg("avg_hrs_rank"),
-      "avg_hrs_ft": noAgg("avg_hrs_ft"),
-      "avg_hrs_ft_moe": noAgg("avg_hrs_ft_moe"),
-      "avg_hrs_ft_rank": noAgg("avg_hrs_ft_rank"),
-      "avg_hrs_pt": noAgg("avg_hrs_pt"),
-      "avg_hrs_pt_moe": noAgg("avg_hrs_pt_moe"),
-      "avg_hrs_pt_rank": noAgg("avg_hrs_pt_rank"),
-      "avg_age": noAgg("avg_age"),
-      "avg_age_moe": noAgg("avg_age_moe"),
-      "avg_age_rank": noAgg("avg_age_rank"),
-      "med_earnings": noAgg("med_earnings"),
-      "med_earnings_moe": noAgg("med_earnings_moe")
+    axes: {
+      background: chartStyles.background,
+      ticks: false
     },
-    "axes": {
-      "background": chartStyles.background,
-      "ticks": false
-    },
-    "background": vizStyles.background,
-    "color": vizStyles.color,
-    "data": vizStyles.shapes,
-    "edges": vizStyles.edges,
-    "format": {
-      "number": viz.format.number,
-      "text": function(text, params) {
+    background: vizStyles.background,
+    color: vizStyles.color,
+    data: vizStyles.shapes,
+    edges: vizStyles.edges,
+    format: {
+      number: viz.format.number,
+      text: function(text, params) {
         return viz.format.text(text, params, build);
       }
     },
-    "height": {
-      "small": 10
+    height: {
+      small: 10
     },
-    "icon": {
-      "style": "knockout"
+    icon: {
+      style: "knockout"
     },
-    "labels": {
-      "font": vizStyles.labels.font[build.config.type] || vizStyles.labels.font.default
+    labels: {
+      font: vizStyles.labels.font[build.config.type] || vizStyles.labels.font.default
     },
-    "legend": {
-      "font": vizStyles.legend.font,
-      "labels": false,
-      "order": {
-        "sort": "desc",
-        "value": "size"
+    legend: {
+      font: vizStyles.legend.font,
+      labels: false,
+      order: {
+        sort: "desc",
+        value: "size"
       }
     },
-    "messages": {
-      "background": messageBg,
-      "font": vizStyles.messages.font,
-      "style": "large"
+    messages: {
+      background: messageBg,
+      font: vizStyles.messages.font,
+      style: "large"
     },
-    "tooltip": vizStyles.tooltip,
-    "ui": vizStyles.ui,
-    "x": axis_style("x"),
-    "x2": axis_style("x2"),
-    "y": axis_style("y"),
-    "y2": axis_style("y2")
+    time: {
+      fixed: false,
+      value: "year"
+    },
+    timeline: false,
+    tooltip: vizStyles.tooltip,
+    ui: vizStyles.ui,
+    x: axis_style("x"),
+    x2: axis_style("x2"),
+    y: axis_style("y"),
+    y2: axis_style("y2")
   }
 }
 
@@ -7873,11 +7875,68 @@ viz.sankeyData = function(b) {
 }
 
 viz.scatter = function(build) {
-  return {};
+
+  function getRange(axis) {
+
+    var h = build.viz.height(),
+        w = build.viz.width();
+
+    var max = Math.floor(d3.max([d3.min([w, h])/15, 6]));
+
+    if (build.config[axis]) {
+      var k = build.config[axis].value;
+      if (k !== build.config.id) {
+        var d = axis.indexOf("x") === 0 ? w : h,
+            range = d3.extent(build.viz.data(), function(d) { return d[k]; });
+        range[0] -= range[0] * (max / d);
+        range[1] += range[1] * (max / d);
+        return range;
+      }
+    }
+    return false;
+  }
+
+  return {
+    x: {range: getRange("x")},
+    y: {range: getRange("y")}
+  };
 }
 
 viz.tree_map = function(build) {
+
+  function noAgg(k) {
+    return function(leaves) {
+      if (leaves.length === 1) return leaves[0][k];
+      else return null;
+    }
+  }
+
   return {
+    "aggs": {
+      "avg_wage": noAgg("avg_wage"),
+      "avg_wage_moe": noAgg("avg_wage_moe"),
+      "avg_wage_rank": noAgg("avg_wage_rank"),
+      "avg_wage_ft": noAgg("avg_wage_ft"),
+      "avg_wage_ft_moe": noAgg("avg_wage_ft_moe"),
+      "avg_wage_ft_rank": noAgg("avg_wage_ft_rank"),
+      "avg_wage_pt": noAgg("avg_wage_pt"),
+      "avg_wage_pt_moe": noAgg("avg_wage_pt_moe"),
+      "avg_wage_pt_rank": noAgg("avg_wage_pt_rank"),
+      "avg_hrs": noAgg("avg_hrs"),
+      "avg_hrs_moe": noAgg("avg_hrs_moe"),
+      "avg_hrs_rank": noAgg("avg_hrs_rank"),
+      "avg_hrs_ft": noAgg("avg_hrs_ft"),
+      "avg_hrs_ft_moe": noAgg("avg_hrs_ft_moe"),
+      "avg_hrs_ft_rank": noAgg("avg_hrs_ft_rank"),
+      "avg_hrs_pt": noAgg("avg_hrs_pt"),
+      "avg_hrs_pt_moe": noAgg("avg_hrs_pt_moe"),
+      "avg_hrs_pt_rank": noAgg("avg_hrs_pt_rank"),
+      "avg_age": noAgg("avg_age"),
+      "avg_age_moe": noAgg("avg_age_moe"),
+      "avg_age_rank": noAgg("avg_age_rank"),
+      "med_earnings": noAgg("med_earnings"),
+      "med_earnings_moe": noAgg("med_earnings_moe")
+    },
     "labels": {
       "align": "left",
       "valign": "top"
@@ -8917,7 +8976,7 @@ viz.mapDraw = function(vars) {
 
     if (vars.zoom.value) brushGroup.call(brush);
 
-    var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
+    var data_range = d3plus.util.uniques(vars.data.filtered, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
     });
 
@@ -8925,20 +8984,7 @@ viz.mapDraw = function(vars) {
 
       var color_range = vizStyles.color.heatmap;
 
-      // OLD GRADIENT COLOR SCALE
-      //
-      // data_range = d3plus.util.buckets(d3.extent(data_range), color_range.length);
-      //
-      // if (data_range.length > color_range.length) {
-      //   data_range.pop();
-      // }
-      //
-      // var colorScale = d3.scale.sqrt()
-      //   .domain(data_range)
-      //   .range(color_range)
-      //   .interpolate(d3.interpolateRgb)
-
-      var jenks = ss.ckmeans(vars.data.value
+      var jenks = ss.ckmeans(vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; }), color_range.length);
       jenks = d3.merge(jenks.map(function(c, i) { return i === jenks.length - 1 ? [c[0], c[c.length - 1]] : [c[0]]; }));
@@ -8954,7 +9000,7 @@ viz.mapDraw = function(vars) {
       var colorScale = false;
     }
 
-    var dataMap = vars.data.value.reduce(function(obj, d){
+    var dataMap = vars.data.filtered.reduce(function(obj, d){
       obj[d[vars.id.value]] = d;
       return obj;
     }, {});
@@ -9083,223 +9129,6 @@ viz.mapDraw = function(vars) {
         .attr("opacity", 0)
         .remove();
 
-      // var values = colorScale.domain(),
-      //     colors = colorScale.range();
-      //
-      // var heatmap = scale.selectAll("#d3plus_legend_heatmap")
-      //   .data(["heatmap"]);
-      //
-      // heatmap.enter().append("linearGradient")
-      //   .attr("id", "d3plus_legend_heatmap")
-      //   .attr("x1", "0%")
-      //   .attr("y1", "0%")
-      //   .attr("x2", "100%")
-      //   .attr("y2", "0%")
-      //   .attr("spreadMethod", "pad");
-      //
-      // var stops = heatmap.selectAll("stop")
-      //   .data(d3.range(0, colors.length));
-      //
-      // stops.enter().append("stop")
-      //   .attr("stop-opacity",1);
-      //
-      // stops
-      //   .attr("offset",function(i){
-      //     return Math.round((i/(colors.length-1))*100)+"%";
-      //   })
-      //   .attr("stop-color",function(i){
-      //     return colors[i];
-      //   });
-      //
-      // stops.exit().remove();
-      //
-      // var heatmap2 = scale.selectAll("#d3plus_legend_heatmap_legible")
-      //   .data(["heatmap"]);
-      //
-      // heatmap2.enter().append("linearGradient")
-      //   .attr("id", "d3plus_legend_heatmap_legible")
-      //   .attr("x1", "0%")
-      //   .attr("y1", "0%")
-      //   .attr("x2", "100%")
-      //   .attr("y2", "0%")
-      //   .attr("spreadMethod", "pad");
-      //
-      // var stops = heatmap2.selectAll("stop")
-      //   .data(d3.range(0, colors.length));
-      //
-      // stops.enter().append("stop")
-      //   .attr("stop-opacity",1);
-      //
-      // stops
-      //   .attr("offset",function(i){
-      //     return Math.round((i/(colors.length-1))*100)+"%";
-      //   })
-      //   .attr("stop-color",function(i){
-      //     return borderColor(colors[i]);
-      //   });
-      //
-      // stops.exit().remove();
-      //
-      // var gradient = scale.selectAll("rect#gradient")
-      //   .data(["gradient"]);
-      //
-      // gradient.enter().append("rect")
-      //   .attr("id","gradient")
-      //   .attr("x",function(d){
-      //     if (scaleAlign == "middle") {
-      //       return Math.floor(width/2);
-      //     }
-      //     else if (scaleAlign == "end") {
-      //       return width;
-      //     }
-      //     else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("y", scalePadding)
-      //   .attr("width", 0)
-      //   .attr("height", scaleHeight)
-      //   // .attr("stroke", scaleText.fill)
-      //   .style("stroke", "url(#d3plus_legend_heatmap_legible)")
-      //   .attr("stroke-width",1)
-      //   .attr("fill-opacity", pathOpacity)
-      //   .style("fill", "url(#d3plus_legend_heatmap)");
-      //
-      // var text = scale.selectAll("text.d3plus_tick")
-      //   .data(d3.range(0, values.length));
-      //
-      // text.enter().append("text")
-      //   .attr("class","d3plus_tick")
-      //   .attr("x",function(d){
-      //     if (scaleAlign === "middle") {
-      //       return Math.floor(width/2);
-      //     }
-      //     else if (scaleAlign === "end") {
-      //       return width;
-      //     }
-      //     else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("y",function(d){
-      //     return this.getBBox().height + scaleHeight;
-      //   });
-      //
-      // var label_width = 0;
-      //
-      // text
-      //   .order()
-      //   .style("text-anchor", "middle")
-      //   .attr(scaleText)
-      //   .text(function(d){
-      //     return vars.format.number(values[d], {"key": vars.color.value, "vars": vars});
-      //   })
-      //   .attr("y",function(d){
-      //     return this.getBBox().height + scaleHeight;
-      //   })
-      //   .each(function(d){
-      //     var w = Math.ceil(this.getBBox().width);
-      //     if (w > label_width) label_width = w;
-      //   });
-      //
-      // label_width += scalePadding*2;
-      //
-      // var key_width = label_width * (values.length-1);
-      //
-      // if (key_width+label_width < width/2) {
-      //   key_width = width/2;
-      //   label_width = key_width/values.length;
-      //   key_width -= label_width;
-      // }
-      //
-      // var start_x;
-      // if (scaleAlign == "start") {
-      //   start_x = scalePadding;
-      // }
-      // else if (scaleAlign == "end") {
-      //   start_x = width - scalePadding - key_width;
-      // }
-      // else {
-      //   start_x = width/2 - key_width/2;
-      // }
-      //
-      // text.transition().duration(timing)
-      //   .attr("x",function(d){
-      //     return Math.floor(start_x + (label_width * d));
-      //   });
-      //
-      // text.exit().transition().duration(timing)
-      //   .attr("opacity", 0)
-      //   .remove();
-      //
-      // var ticks = scale.selectAll("rect.d3plus_tick")
-      //   .data(values, function(d, i){ return i; });
-      //
-      // function tickStyle(tick) {
-      //   tick
-      //     .attr("y", function(d, i){
-      //       if (i === 0 || i === values.length - 1) {
-      //         return scalePadding;
-      //       }
-      //       return scalePadding + scaleHeight;
-      //     })
-      //     .attr("height", function(d, i){
-      //       if (i !== 0 && i !== values.length - 1) {
-      //         return scalePadding;
-      //       }
-      //       return scalePadding + scaleHeight;
-      //     })
-      //     // .attr("fill", scaleText.fill)
-      //     .attr("stroke", "transparent")
-      //     .attr("fill", function(d){
-      //       return borderColor(colorScale(d));
-      //     });
-      // }
-      //
-      // ticks.enter().append("rect")
-      //   .attr("class", "d3plus_tick")
-      //   .attr("x", function(d){
-      //     if (scaleAlign == "middle") {
-      //       return Math.floor(width/2);
-      //     }
-      //     else if (scaleAlign == "end") {
-      //       return width;
-      //     }
-      //     else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("width", 0)
-      //   .call(tickStyle);
-      //
-      // ticks.transition().duration(timing)
-      //   .attr("x",function(d, i){
-      //     var mod = i === 0 ? 1 : 0;
-      //     return Math.floor(start_x + (label_width * i) - mod);
-      //   })
-      //   .attr("width", 1)
-      //   .call(tickStyle);
-      //
-      // ticks.exit().transition().duration(timing)
-      //   .attr("width",0)
-      //   .remove();
-      //
-      // gradient.transition().duration(timing)
-      //   .attr("x",function(d){
-      //     if (scaleAlign === "middle") {
-      //       return Math.floor(width/2 - key_width/2);
-      //     }
-      //     else if (scaleAlign === "end") {
-      //       return Math.floor(width - key_width - scalePadding);
-      //     }
-      //     else {
-      //       return Math.floor(scalePadding);
-      //     }
-      //   })
-      //   .attr("y", scalePadding)
-      //   .attr("width", key_width)
-      //   .attr("height", scaleHeight);
-
       var label = scale.selectAll("text.scale_label").data([0]);
       label.enter().append("text").attr("class", "scale_label")
 
@@ -9325,6 +9154,8 @@ viz.mapDraw = function(vars) {
 
       // key_height += attribution.node().offsetHeight;
       key_height += scalePadding;
+
+      if (vars.time.years.length > 1) key_height += vars.container.value.select(".year-toggle").node().offsetHeight;
 
       scale.attr("transform" , "translate(0, " + (height - key_height) + ")")
         .transition().duration(timing).attr("opacity", 1);
@@ -9536,8 +9367,8 @@ viz.mapDraw = function(vars) {
         }
       }
       else if (d.id === void 0) {
-        var length = vars.data.value.length,
-            tdata = vars.data.value.filter(function(d){
+        var length = vars.data.filtered.length,
+            tdata = vars.data.filtered.filter(function(d){
               return d[vars.color.value] !== void 0 && d[vars.color.value] !== null;
             });
         if (tdata.length > 20) {
@@ -9909,17 +9740,18 @@ viz.map = function() {
 
   // setup default vars, mimicing D3plus
   var vars = {
-    "attrs": {"objectOnly": true, "value": {}},
-    "background": {"value": "transparent"},
-    "class": {"value": false},
-    "color": {"value": false},
-    "container": {"value": false},
-    "coords": {"value": false, "solo": [], "mute": []},
-    "data": {"value": []},
-    "depth": {"value": 0},
-    "error": {"value": false},
-    "format": {
-      "value": function(value, opts){
+    attrs: {objectOnly: true, value: {}},
+    background: {value: "transparent"},
+    class: {value: false},
+    color: {value: false},
+    container: {value: false},
+    coords: {value: false, solo: [], mute: []},
+    data: {value: []},
+    depth: {value: 0},
+    error: {value: false},
+    form: false,
+    format: {
+      value: function(value, opts){
         if (typeof value === "number") {
           return this.number(value, opts);
         }
@@ -9928,24 +9760,64 @@ viz.map = function() {
         }
         return JSON.stringify(value);
       },
-      "number": viz.format.number,
-      "text": viz.format.text
+      number: viz.format.number,
+      text: viz.format.text
     },
-    "height": {"value": false},
-    "highlight": {"value": false},
-    "id": {"value": false},
-    "messages": {"value": true},
-    "mouse": {"value": true},
-    "pins": {"value": []},
-    "text": {"value": "name"},
-    "tiles": {"value": true},
-    "tooltip": {"url": false, "value": []},
-    "width": {"value": false},
-    "zoom": {"pan": false, "scroll": false, "set": false, "value": true, "reset": true}
+    height: {value: false},
+    highlight: {value: false},
+    id: {value: false},
+    messages: {value: true},
+    mouse: {value: true},
+    pins: {value: []},
+    text: {value: "name"},
+    tiles: {value: true},
+    time: {value: false, solo: false, years: false},
+    tooltip: {url: false, value: []},
+    width: {value: false},
+    zoom: {pan: false, scroll: false, set: false, value: true, reset: true}
   };
 
   // the drawing function
   vars.self = function() {
+
+    if (vars.data.value.length && !vars.time.years) {
+      vars.time.years = d3plus.util.uniques(vars.data.value, function(d) { return d.year; }).sort(function(a, b) { return a - b; });
+    }
+
+    var time = vars.time.years && vars.time.years.length > 1;
+
+    var toggle = vars.container.value.selectAll(".year-toggle").data([null]);
+    toggle.enter().append("div").attr("class", "year-toggle");
+    toggle.transition().duration(600).style("opacity", time ? 1 : 0);
+
+    if (time) {
+      if (!vars.time.solo) vars.time.solo = vars.time.years[vars.time.years.length - 1];
+      vars.data.filtered = vars.data.value.filter(function(d) { return d.year === vars.time.solo });
+
+      if (!vars.form) {
+        vars.form = d3plus.form()
+          .container(toggle)
+          .id("value")
+          .focus(vars.time.solo, function(d) {
+            if (d !== vars.time.solo) {
+              vars.time.solo = d;
+              vars.self.draw();
+            }
+          })
+          .text("text")
+          .type("toggle")
+          .ui({margin: 0})
+          .ui(vizStyles.ui)
+          // .title("Year")
+          .draw();
+      }
+      vars.form
+        .data(vars.time.years.map(function(d) { return {value: d, text: d + ""}; }))
+        .focus(vars.time.solo)
+        .draw();
+    }
+    else vars.data.filtered = vars.data.value;
+
     viz.mapDraw(vars);
     return vars.self;
   }

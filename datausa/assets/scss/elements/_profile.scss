@@ -1451,10 +1451,10 @@ body.profile, body.map, body.story {
           }
 
           .viz {
-            @include flex-size(1 1 200px);
+            @include flex-size(1 1 250px);
             margin-left: 0;
-            max-height: 200px;
-            min-height: 200px;
+            max-height: 250px;
+            min-height: 250px;
             &.tall {
               @include flex-size(1 1 400px);
               max-height: 400px;
@@ -1740,19 +1740,20 @@ body.profile, body.map, body.story {
 
 .d3plus_title {
   color: rgb(111, 111, 111) !important;
-  margin: 10px 0 0 !important;
+  margin: 5px 0 0 !important;
+  padding: 0 5px 2px !important;
 }
 
 .d3plus_node {
-  margin: 10px 0 0 !important;
+  margin: 5px 0 0 !important;
   border: 1px solid rgb(111, 111, 111) !important;
   font-family: $palanquin !important;
   letter-spacing: 0.03em !important;
   font-size: 13px !important;
 
-  // .d3plus_button_label {
-  //   padding: 5px 23px 5px 10px !important;
-  // }
+  .d3plus_button_label {
+    padding: 0 5px 2px !important;
+  }
 }
 
 .d3plus_drop_selector {

@@ -1,7 +1,8 @@
-import json
+import copy, json, requests
 from requests.models import RequestEncodingMixin
 from config import API
 from datausa.utils.format import param_format
+from datausa.utils.data import year_cache
 
 class Viz(object):
     """A visualization object to be built using D3plus.
@@ -54,8 +55,18 @@ class Viz(object):
             # store the params in the return dict
             data_obj["params"] = d
 
-            # append the data dict to self.data
-            self.data.append(data_obj)
+            # self.data.append(data_obj)
+
+            if "limit" in d and "year" in d and d["year"] == "all":
+                for year in year_cache[requests.get(data_obj["url"].replace("/api/", "/api/logic/")).json()["tables"][0]["table"]]:
+                    new_obj = copy.deepcopy(data_obj)
+                    year = str(int(year))
+                    new_obj["url"] = new_obj["url"].replace("year=all", "year={}".format(year))
+                    new_obj["params"]["year"] = year
+                    self.data.append(new_obj)
+            else:
+                # append the data dict to self.data
+                self.data.append(data_obj)
 
         self.attrs = []
         if "attrs" in params:

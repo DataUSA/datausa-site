@@ -25,18 +25,24 @@ viz.bar = function(build) {
 
   var axis_style = function(axis) {
 
-    var key = axis.length === 1 ? "pri" : "sec";
+    var key = axis.length === 1 ? "pri" : "sec",
+        range = false;
+
+    if (build.config[axis] && axis !== discrete) {
+      range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
+    }
 
     return {
-      "axis": {
-        "color": discrete === axis ? "none" : chartStyles.zeroline.default[key].color,
-        "value": discrete !== axis
+      axis: {
+        color: discrete === axis ? "none" : chartStyles.zeroline.default[key].color,
+        value: discrete !== axis
       },
-      "grid": discrete !== axis,
-      "ticks": {
-        "color": discrete === axis ? "none" : chartStyles.ticks.default[key].color,
-        "labels": discrete !== axis || !build.config.labels,
-        "size": discrete === axis ? 0 : chartStyles.ticks.default[key].size
+      grid: discrete !== axis,
+      range: range,
+      ticks: {
+        color: discrete === axis ? "none" : chartStyles.ticks.default[key].color,
+        labels: discrete !== axis || !build.config.labels,
+        size: discrete === axis ? 0 : chartStyles.ticks.default[key].size
       }
     }
 

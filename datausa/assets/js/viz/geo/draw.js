@@ -163,7 +163,7 @@ viz.mapDraw = function(vars) {
 
     if (vars.zoom.value) brushGroup.call(brush);
 
-    var data_range = d3plus.util.uniques(vars.data.value, vars.color.value).filter(function(d){
+    var data_range = d3plus.util.uniques(vars.data.filtered, vars.color.value).filter(function(d){
       return d !== null && typeof d === "number";
     });
 
@@ -171,20 +171,7 @@ viz.mapDraw = function(vars) {
 
       var color_range = vizStyles.color.heatmap;
 
-      // OLD GRADIENT COLOR SCALE
-      //
-      // data_range = d3plus.util.buckets(d3.extent(data_range), color_range.length);
-      //
-      // if (data_range.length > color_range.length) {
-      //   data_range.pop();
-      // }
-      //
-      // var colorScale = d3.scale.sqrt()
-      //   .domain(data_range)
-      //   .range(color_range)
-      //   .interpolate(d3.interpolateRgb)
-
-      var jenks = ss.ckmeans(vars.data.value
+      var jenks = ss.ckmeans(vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; }), color_range.length);
       jenks = d3.merge(jenks.map(function(c, i) { return i === jenks.length - 1 ? [c[0], c[c.length - 1]] : [c[0]]; }));
@@ -200,7 +187,7 @@ viz.mapDraw = function(vars) {
       var colorScale = false;
     }
 
-    var dataMap = vars.data.value.reduce(function(obj, d){
+    var dataMap = vars.data.filtered.reduce(function(obj, d){
       obj[d[vars.id.value]] = d;
       return obj;
     }, {});
@@ -329,223 +316,6 @@ viz.mapDraw = function(vars) {
         .attr("opacity", 0)
         .remove();
 
-      // var values = colorScale.domain(),
-      //     colors = colorScale.range();
-      //
-      // var heatmap = scale.selectAll("#d3plus_legend_heatmap")
-      //   .data(["heatmap"]);
-      //
-      // heatmap.enter().append("linearGradient")
-      //   .attr("id", "d3plus_legend_heatmap")
-      //   .attr("x1", "0%")
-      //   .attr("y1", "0%")
-      //   .attr("x2", "100%")
-      //   .attr("y2", "0%")
-      //   .attr("spreadMethod", "pad");
-      //
-      // var stops = heatmap.selectAll("stop")
-      //   .data(d3.range(0, colors.length));
-      //
-      // stops.enter().append("stop")
-      //   .attr("stop-opacity",1);
-      //
-      // stops
-      //   .attr("offset",function(i){
-      //     return Math.round((i/(colors.length-1))*100)+"%";
-      //   })
-      //   .attr("stop-color",function(i){
-      //     return colors[i];
-      //   });
-      //
-      // stops.exit().remove();
-      //
-      // var heatmap2 = scale.selectAll("#d3plus_legend_heatmap_legible")
-      //   .data(["heatmap"]);
-      //
-      // heatmap2.enter().append("linearGradient")
-      //   .attr("id", "d3plus_legend_heatmap_legible")
-      //   .attr("x1", "0%")
-      //   .attr("y1", "0%")
-      //   .attr("x2", "100%")
-      //   .attr("y2", "0%")
-      //   .attr("spreadMethod", "pad");
-      //
-      // var stops = heatmap2.selectAll("stop")
-      //   .data(d3.range(0, colors.length));
-      //
-      // stops.enter().append("stop")
-      //   .attr("stop-opacity",1);
-      //
-      // stops
-      //   .attr("offset",function(i){
-      //     return Math.round((i/(colors.length-1))*100)+"%";
-      //   })
-      //   .attr("stop-color",function(i){
-      //     return borderColor(colors[i]);
-      //   });
-      //
-      // stops.exit().remove();
-      //
-      // var gradient = scale.selectAll("rect#gradient")
-      //   .data(["gradient"]);
-      //
-      // gradient.enter().append("rect")
-      //   .attr("id","gradient")
-      //   .attr("x",function(d){
-      //     if (scaleAlign == "middle") {
-      //       return Math.floor(width/2);
-      //     }
-      //     else if (scaleAlign == "end") {
-      //       return width;
-      //     }
-      //     else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("y", scalePadding)
-      //   .attr("width", 0)
-      //   .attr("height", scaleHeight)
-      //   // .attr("stroke", scaleText.fill)
-      //   .style("stroke", "url(#d3plus_legend_heatmap_legible)")
-      //   .attr("stroke-width",1)
-      //   .attr("fill-opacity", pathOpacity)
-      //   .style("fill", "url(#d3plus_legend_heatmap)");
-      //
-      // var text = scale.selectAll("text.d3plus_tick")
-      //   .data(d3.range(0, values.length));
-      //
-      // text.enter().append("text")
-      //   .attr("class","d3plus_tick")
-      //   .attr("x",function(d){
-      //     if (scaleAlign === "middle") {
-      //       return Math.floor(width/2);
-      //     }
-      //     else if (scaleAlign === "end") {
-      //       return width;
-      //     }
-      //     else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("y",function(d){
-      //     return this.getBBox().height + scaleHeight;
-      //   });
-      //
-      // var label_width = 0;
-      //
-      // text
-      //   .order()
-      //   .style("text-anchor", "middle")
-      //   .attr(scaleText)
-      //   .text(function(d){
-      //     return vars.format.number(values[d], {"key": vars.color.value, "vars": vars});
-      //   })
-      //   .attr("y",function(d){
-      //     return this.getBBox().height + scaleHeight;
-      //   })
-      //   .each(function(d){
-      //     var w = Math.ceil(this.getBBox().width);
-      //     if (w > label_width) label_width = w;
-      //   });
-      //
-      // label_width += scalePadding*2;
-      //
-      // var key_width = label_width * (values.length-1);
-      //
-      // if (key_width+label_width < width/2) {
-      //   key_width = width/2;
-      //   label_width = key_width/values.length;
-      //   key_width -= label_width;
-      // }
-      //
-      // var start_x;
-      // if (scaleAlign == "start") {
-      //   start_x = scalePadding;
-      // }
-      // else if (scaleAlign == "end") {
-      //   start_x = width - scalePadding - key_width;
-      // }
-      // else {
-      //   start_x = width/2 - key_width/2;
-      // }
-      //
-      // text.transition().duration(timing)
-      //   .attr("x",function(d){
-      //     return Math.floor(start_x + (label_width * d));
-      //   });
-      //
-      // text.exit().transition().duration(timing)
-      //   .attr("opacity", 0)
-      //   .remove();
-      //
-      // var ticks = scale.selectAll("rect.d3plus_tick")
-      //   .data(values, function(d, i){ return i; });
-      //
-      // function tickStyle(tick) {
-      //   tick
-      //     .attr("y", function(d, i){
-      //       if (i === 0 || i === values.length - 1) {
-      //         return scalePadding;
-      //       }
-      //       return scalePadding + scaleHeight;
-      //     })
-      //     .attr("height", function(d, i){
-      //       if (i !== 0 && i !== values.length - 1) {
-      //         return scalePadding;
-      //       }
-      //       return scalePadding + scaleHeight;
-      //     })
-      //     // .attr("fill", scaleText.fill)
-      //     .attr("stroke", "transparent")
-      //     .attr("fill", function(d){
-      //       return borderColor(colorScale(d));
-      //     });
-      // }
-      //
-      // ticks.enter().append("rect")
-      //   .attr("class", "d3plus_tick")
-      //   .attr("x", function(d){
-      //     if (scaleAlign == "middle") {
-      //       return Math.floor(width/2);
-      //     }
-      //     else if (scaleAlign == "end") {
-      //       return width;
-      //     }
-      //     else {
-      //       return 0;
-      //     }
-      //   })
-      //   .attr("width", 0)
-      //   .call(tickStyle);
-      //
-      // ticks.transition().duration(timing)
-      //   .attr("x",function(d, i){
-      //     var mod = i === 0 ? 1 : 0;
-      //     return Math.floor(start_x + (label_width * i) - mod);
-      //   })
-      //   .attr("width", 1)
-      //   .call(tickStyle);
-      //
-      // ticks.exit().transition().duration(timing)
-      //   .attr("width",0)
-      //   .remove();
-      //
-      // gradient.transition().duration(timing)
-      //   .attr("x",function(d){
-      //     if (scaleAlign === "middle") {
-      //       return Math.floor(width/2 - key_width/2);
-      //     }
-      //     else if (scaleAlign === "end") {
-      //       return Math.floor(width - key_width - scalePadding);
-      //     }
-      //     else {
-      //       return Math.floor(scalePadding);
-      //     }
-      //   })
-      //   .attr("y", scalePadding)
-      //   .attr("width", key_width)
-      //   .attr("height", scaleHeight);
-
       var label = scale.selectAll("text.scale_label").data([0]);
       label.enter().append("text").attr("class", "scale_label")
 
@@ -571,6 +341,8 @@ viz.mapDraw = function(vars) {
 
       // key_height += attribution.node().offsetHeight;
       key_height += scalePadding;
+
+      if (vars.time.years.length > 1) key_height += vars.container.value.select(".year-toggle").node().offsetHeight;
 
       scale.attr("transform" , "translate(0, " + (height - key_height) + ")")
         .transition().duration(timing).attr("opacity", 1);
@@ -782,8 +554,8 @@ viz.mapDraw = function(vars) {
         }
       }
       else if (d.id === void 0) {
-        var length = vars.data.value.length,
-            tdata = vars.data.value.filter(function(d){
+        var length = vars.data.filtered.length,
+            tdata = vars.data.filtered.filter(function(d){
               return d[vars.color.value] !== void 0 && d[vars.color.value] !== null;
             });
         if (tdata.length > 20) {
