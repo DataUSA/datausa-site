@@ -54,6 +54,13 @@ def pivotname(id_string, keys):
     return " ".join(names)
 
 @cache.memoize()
+def build_year_cache():
+    app.logger.info("Cached year list for datasets.")
+    return requests.get("{}/api/years/".format(API)).json()["data"]
+
+year_cache = build_year_cache()
+
+@cache.memoize()
 def get_parents(attr_id, attr_type):
     """get parents from API"""
     url = "{}/attrs/{}/{}/parents".format(API, attr_type, attr_id)
