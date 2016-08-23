@@ -1475,8 +1475,10 @@ body.profile, body.map, body.story {
           @include flex-size(1 1 600px);
 
           .viz {
+            @include flex-size(1 1 550px);
             margin-left: 0;
             height: 550px;
+            max-height: 550px;
             min-height: 550px;
           }
 

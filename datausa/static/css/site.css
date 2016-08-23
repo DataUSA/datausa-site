@@ -5004,8 +5004,14 @@
           body.profile .profile-section .topic .content.full-width .viz,
           body.map .profile-section .topic .content.full-width .viz,
           body.story .profile-section .topic .content.full-width .viz {
+            -webkit-box-flex: 1 1 550px;
+            -moz-box-flex: 1 1 550px;
+            -webkit-flex: 1 1 550px;
+            -ms-flex: 1 1 550px;
+            flex: 1 1 550px;
             margin-left: 0;
             height: 550px;
+            max-height: 550px;
             min-height: 550px; }
         body.profile .profile-section .topic .content aside,
         body.map .profile-section .topic .content aside,
