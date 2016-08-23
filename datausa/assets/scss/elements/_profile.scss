@@ -1740,22 +1740,90 @@ body.profile, body.map, body.story {
   to {top: 5px;}
 }
 
+.d3plus_drawer_ui {
+  padding: 5px 10px 10px 20px !important;
+}
+
 .d3plus_title {
-  color: rgb(111, 111, 111) !important;
-  margin: 5px 0 0 !important;
-  padding: 0 5px 2px !important;
+  color: #4E4E4E !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  // margin: 6px 0 0 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  padding: 3px 0 2px 5px !important;
+  &:after {
+    content: ":";
+  }
 }
 
 .d3plus_node {
   margin: 5px 0 0 !important;
-  border: 1px solid rgb(111, 111, 111) !important;
+  // background-color: rgba(0, 0, 0, 0) !important;
+  border: 1px solid #BDBDBD !important;
+  color: #949494 !important;
   font-family: $palanquin !important;
   letter-spacing: 0.03em !important;
   font-size: 13px !important;
 
+  // &:hover {
+  //   background-color: rgba(0, 0, 0, 0) !important;
+  //   border: 1px solid #6E6E6E !important;
+  //   color: #4E4E4E !important;
+  // }
+  //
+  // &.d3plus_button_active {
+  //   background-color: rgba(0, 0, 0, 0) !important;
+  //   border: 1px solid #6E6E6E !important;
+  //   color: $red-w !important;
+  // }
+
   .d3plus_button_label {
-    padding: 0 5px 2px !important;
+    padding: 3px 10px 5px !important;
   }
+}
+
+.d3plus_toggle {
+  margin: 0 !important;
+  & > div {
+    display: block !important;
+  }
+  .d3plus_node {
+    background-color: rgba(0, 0, 0, 0) !important;
+    border: 0 !important;
+    // border: 0 solid #BDBDBD !important;
+    // border-bottom: 1px solid #BDBDBD !important;
+    display: block !important;
+    // font-size: 14px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    margin: 0 10px !important;
+    text-transform: uppercase !important;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0) !important;
+      // border: 1px solid #6E6E6E !important;
+      color: #4E4E4E !important;
+    }
+
+    &.d3plus_button_active {
+      background-color: rgba(0, 0, 0, 0) !important;
+      // border: 1px solid #6E6E6E !important;
+      color: $red-w !important;
+    }
+
+    &.d3plus_button_active {
+      border-bottom: 0 !important;
+    }
+  }
+
+  .d3plus_button_label {
+    padding: 0 0 4px !important;
+  }
+}
+
+.d3plus_toggle:not(:last-child) {
+  border-right: 1px solid #ccc !important;
 }
 
 .d3plus_drop_selector {

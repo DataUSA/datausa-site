@@ -7228,17 +7228,17 @@ var vizStyles = {
   "ui": {
     "border": 1,
     "color": {
-      "primary": "#fff",
-      "secondary": "#6F6F6F"
+      "primary": "white",
+      "secondary": "#ccc"
     },
     "font": {
-      "color": "#888",
+      "color": "#1B191D",
       "family": "Palanquin",
       "size": 12,
       "transform": "none",
       "weight": 300,
       "secondary": {
-        "color": "#888",
+        "color": "#949494",
         "family": "Palanquin",
         "size": 12,
         "transform": "none",
@@ -7473,7 +7473,7 @@ viz.finish = function(build) {
       method: function(d, viz) {
         viz.time({solo: [d]}).draw();
       },
-      label: "Year",
+      // label: "Year",
       value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
     });
   }
