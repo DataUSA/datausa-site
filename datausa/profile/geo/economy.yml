@@ -221,7 +221,31 @@ topics:
     class: "flex"
     description: "The most common jobs in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
     viz:
-      - attrs: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_num_emp|format=length>>:!11"
+        attrs: "acs_occ"
+        class: "tall"
+        color: "top"
+        data:
+          - geo: "<<id>>"
+            order: "num_emp"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_occ"
+            sumlevel: "<<sumlevel>>,4"
+            where: "num_emp:!0"
+        height: 250
+        id: "acs_occ"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp"
+        type: "bar"
+        x: "num_emp"
+        y:
+          scale: "discrete"
+          value: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_num_emp|format=length>>:11"
+        attrs: "acs_occ"
         color: "top"
         data:
           - geo: "<<id>>"
@@ -243,7 +267,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "acs_occ"
-      - attrs: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_num_emp|format=length>>:11"
+        attrs: "acs_occ"
         color: "bottom"
         data:
           - geo: "<<id>>"
@@ -324,7 +349,31 @@ topics:
     slug: "top_occ_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
-      - attrs: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_num_emp_rca|format=length>>:!11"
+        attrs: "acs_occ"
+        class: "tall"
+        color: "top"
+        data:
+          - geo: "<<id>>"
+            order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_occ"
+            sumlevel: "<<sumlevel>>,4"
+            where: "num_emp_rca:!0"
+        height: 250
+        id: "acs_occ"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          scale: "discrete"
+          value: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_num_emp_rca|format=length>>:11"
+        attrs: "acs_occ"
         color: "top"
         data:
           - geo: "<<id>>"
@@ -346,7 +395,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "acs_occ"
-      - attrs: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_num_emp_rca|format=length>>:11"
+        attrs: "acs_occ"
         color: "bottom"
         data:
           - geo: "<<id>>"
@@ -427,7 +477,31 @@ topics:
     slug: "top_occ_med_earnings"
     description: "The highest paid jobs in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
-      - attrs: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_med_earnings|format=length>>:!11"
+        attrs: "acs_occ"
+        class: "tall"
+        color: "top"
+        data:
+          - geo: "<<id>>"
+            order: "med_earnings"
+            required: "med_earnings,med_earnings_moe"
+            sort: "desc"
+            show: "geo,acs_occ"
+            sumlevel: "<<sumlevel>>,4"
+            where: "med_earnings:!0"
+        height: 250
+        id: "acs_occ"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "med_earnings"
+        type: "bar"
+        x: "med_earnings"
+        y:
+          scale: "discrete"
+          value: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_med_earnings|format=length>>:11"
+        attrs: "acs_occ"
         color: "top"
         data:
           - geo: "<<id>>"
@@ -449,7 +523,8 @@ topics:
           label: "Highest"
           scale: "discrete"
           value: "acs_occ"
-      - attrs: "acs_occ"
+      - allowed: "<<var namespace=top10_occ_med_earnings|format=length>>:11"
+        attrs: "acs_occ"
         color: "bottom"
         data:
           - geo: "<<id>>"
@@ -574,7 +649,31 @@ topics:
     slug: "top_ind_num_emp"
     description: "The most common industries in <<name>> by number of employees are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp|sort=desc|limit=3>>."
     viz:
-      - attrs: "acs_ind"
+      - allowed: "<<var namespace=top10_num_emp|format=length>>:!11"
+        attrs: "acs_ind"
+        class: "tall"
+        color: "top"
+        data:
+          - geo: "<<id>>"
+            order: "num_emp"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_ind"
+            sumlevel: "<<sumlevel>>,1"
+            where: "num_emp:!0"
+        height: 250
+        id: "acs_ind"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp"
+        type: "bar"
+        x: "num_emp"
+        y:
+          scale: "discrete"
+          value: "acs_ind"
+      - allowed: "<<var namespace=top10_num_emp|format=length>>:11"
+        attrs: "acs_ind"
         color: "top"
         data:
           - geo: "<<id>>"
@@ -596,7 +695,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "acs_ind"
-      - attrs: "acs_ind"
+      - allowed: "<<var namespace=top10_num_emp|format=length>>:11"
+        attrs: "acs_ind"
         color: "bottom"
         data:
           - geo: "<<id>>"
@@ -677,7 +777,31 @@ topics:
     slug: "top_ind_rca"
     description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
-      - attrs: "acs_ind"
+      - allowed: "<<var namespace=top10_num_emp_rca|format=length>>:!11"
+        attrs: "acs_ind"
+        class: "tall"
+        color: "top"
+        data:
+          - geo: "<<id>>"
+            order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_ind"
+            sumlevel: "<<sumlevel>>,1"
+            where: "num_emp_rca:!0"
+        height: 250
+        id: "acs_ind"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          scale: "discrete"
+          value: "acs_ind"
+      - allowed: "<<var namespace=top10_num_emp_rca|format=length>>:11"
+        attrs: "acs_ind"
         color: "top"
         data:
           - geo: "<<id>>"
@@ -699,7 +823,8 @@ topics:
           label: "Most"
           scale: "discrete"
           value: "acs_ind"
-      - attrs: "acs_ind"
+      - allowed: "<<var namespace=top10_num_emp_rca|format=length>>:11"
+        attrs: "acs_ind"
         color: "bottom"
         data:
           - geo: "<<id>>"
@@ -780,7 +905,32 @@ topics:
     slug: "top_ind_med_earnings"
     description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
     viz:
-      - attrs: "acs_ind"
+      - allowed: "<<var namespace=top10_med_earnings|format=length>>:!11"
+        attrs: "acs_ind"
+        class: "tall"
+        color: "top"
+        data:
+          - geo: "<<id>>"
+            limit: "5"
+            order: "med_earnings"
+            required: "med_earnings,med_earnings_moe"
+            sort: "desc"
+            show: "geo,acs_ind"
+            sumlevel: "<<sumlevel>>,1"
+            where: "med_earnings:!0"
+        height: 250
+        id: "acs_ind"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "med_earnings"
+        type: "bar"
+        x: "med_earnings"
+        y:
+          scale: "discrete"
+          value: "acs_ind"
+      - allowed: "<<var namespace=top10_med_earnings|format=length>>:11"
+        attrs: "acs_ind"
         color: "top"
         data:
           - geo: "<<id>>"
@@ -802,7 +952,8 @@ topics:
           label: "Highest"
           scale: "discrete"
           value: "acs_ind"
-      - attrs: "acs_ind"
+      - allowed: "<<var namespace=top10_med_earnings|format=length>>:11"
+        attrs: "acs_ind"
         color: "bottom"
         data:
           - geo: "<<id>>"

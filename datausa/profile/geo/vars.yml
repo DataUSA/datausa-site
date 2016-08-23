@@ -218,6 +218,72 @@
   limit: 11
   namespace: "top_degree"
 
+- required: ["acs_occ", "num_emp"]
+  limit: 11
+  order: "num_emp"
+  sort: "desc"
+  show: "acs_occ"
+  sumlevel: "4"
+  where: "num_emp:!0"
+  rows: True
+  year: latest
+  namespace: top10_occ_num_emp
+
+- required: ["acs_occ", "num_emp_rca"]
+  limit: 11
+  order: "num_emp_rca"
+  sort: "desc"
+  show: "acs_occ"
+  sumlevel: "4"
+  where: "num_emp_rca:!0"
+  rows: True
+  year: latest
+  namespace: top10_occ_num_emp_rca
+
+- required: ["acs_occ", "med_earnings"]
+  limit: 11
+  order: "med_earnings"
+  sort: "desc"
+  show: "acs_occ"
+  sumlevel: "4"
+  where: "med_earnings:!0"
+  rows: True
+  year: latest
+  namespace: top10_occ_med_earnings
+
+- required: ["acs_ind", "num_emp"]
+  limit: 11
+  order: "num_emp"
+  sort: "desc"
+  show: "acs_ind"
+  sumlevel: "1"
+  where: "num_emp:!0"
+  rows: True
+  year: latest
+  namespace: top10_num_emp
+
+- required: ["acs_ind", "num_emp_rca"]
+  limit: 11
+  order: "num_emp_rca"
+  sort: "desc"
+  show: "acs_ind"
+  sumlevel: "1"
+  where: "num_emp_rca:!0"
+  rows: True
+  year: latest
+  namespace: top10_num_emp_rca
+
+- required: ["acs_ind", "med_earnings"]
+  limit: 11
+  order: "med_earnings"
+  sort: "desc"
+  show: "acs_ind"
+  sumlevel: "1"
+  where: "med_earnings:!0"
+  rows: True
+  year: latest
+  namespace: top10_med_earnings
+
 - required: ["cip"]
   order: grads_total_rca
   sumlevel: "6"
