@@ -95,17 +95,17 @@
           <div class="image-author"><a href="{{ image.link }}" target="_blank">Photo by {{ image.author }}</a></div>
         </div>
 
+        {% set parents = profile.parents() %}
+        {% if parents|length and profile.attr.id != "01000US" %}
         <div class="breadcrumb">
           <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
-          {% set parents = profile.parents() %}
-          {% if parents|length %}
           <div class="crumb-trail">
             {% for p in parents %}
               <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id'] ) }}">{{ p["name"] }}</a>
             {% endfor %}
           </div>
-          {% endif %}
         </div>
+        {% endif %}
         {% if profile.attr_type in ['soc', 'naics'] %}
         <div class="data-source-crumb">
           <img src="/static/img/splash/database.svg" alt="Statistics Source."/>
