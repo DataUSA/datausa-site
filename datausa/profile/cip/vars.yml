@@ -192,6 +192,7 @@
   sumlevel: "3"
   where: "num_ppl:!0"
   rows: True
+  year: latest
   namespace: top10_soc_num_ppl
 
 - required: ["soc", "num_ppl_rca"]
@@ -202,6 +203,7 @@
   sumlevel: "3"
   where: "num_ppl_rca:!0,num_records:>4"
   rows: True
+  year: latest
   namespace: top10_soc_num_ppl_rca
 
 - required: ["soc", "avg_wage"]
@@ -212,6 +214,7 @@
   sumlevel: "3"
   where: "avg_wage:!0,num_records:>4"
   rows: True
+  year: latest
   namespace: top10_soc_avg_wage
 
 - required: ["naics", "num_ppl"]
@@ -222,6 +225,7 @@
   sumlevel: "2"
   where: "num_ppl:!0"
   rows: True
+  year: latest
   namespace: top10_naics_num_ppl
 
 - required: ["naics", "avg_wage"]
@@ -232,4 +236,5 @@
   sumlevel: "2"
   where: "avg_wage:!0,num_records:>4"
   rows: True
+  year: latest
   namespace: top10_naics_avg_wage

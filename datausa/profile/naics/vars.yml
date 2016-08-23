@@ -102,6 +102,7 @@
   naics_level: "<<sumlevel>>"
   where: "num_ppl:!0"
   rows: True
+  year: latest
   namespace: top10_soc_num_ppl
 
 - required: ["soc", "num_ppl_rca"]
@@ -113,6 +114,7 @@
   naics_level: "<<sumlevel>>"
   where: "num_ppl_rca:!0,num_records:>4"
   rows: True
+  year: latest
   namespace: top10_soc_num_ppl_rca
 
 - required: ["soc", "avg_wage"]
@@ -124,4 +126,5 @@
   naics_level: "<<sumlevel>>"
   where: "avg_wage:!0,num_records:>4"
   rows: True
+  year: latest
   namespace: top10_soc_avg_wage
