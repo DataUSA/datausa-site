@@ -92,11 +92,12 @@ def multi_col_top(profile, params):
         app.logger.info("VAR ERROR: {}".format(url))
         return {}
 
-    headers = r["headers"]
     return_obj = {namespace: {} if not rows else []}
 
-    if len(r["data"]) == 0:
+    if "error" in r or len(r["data"]) == 0:
         return return_obj
+
+    headers = r["headers"]
 
     if pivot:
 
