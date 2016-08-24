@@ -39,7 +39,7 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      label = build.config[axis].label ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
+      label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
       if (label in dictionary) label = dictionary[label];
       build.config[axis].label = label;
     }

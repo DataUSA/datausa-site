@@ -61,7 +61,9 @@ topics:
       labels: YES
       legend: NO
       type: "bar"
-      x: "state_tuition"
+      x:
+        label: NO
+        value: "state_tuition"
       y:
         scale: "discrete"
         value: "sector"
