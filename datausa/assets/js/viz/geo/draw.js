@@ -171,9 +171,21 @@ viz.mapDraw = function(vars) {
 
       var color_range = vizStyles.color.heatmap;
 
-      var jenks = ss.ckmeans(vars.data.filtered
+      var jenksData = vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
-        .map(function(d) { return d[vars.color.value]; }), color_range.length);
+        .map(function(d) { return d[vars.color.value]; }).sort();
+
+      if (jenksData.length < color_range.length) {
+        var step = (jenksData.length - 1) / (color_range.length - 1);
+        var ts = d3.scale.linear()
+          .domain(d3.range(0, jenksData.length + step, step))
+          .interpolate(d3.interpolateHsl)
+          .range(color_range);
+
+        color_range = jenksData.map(function(d, i) { return ts(i);});
+      }
+
+      var jenks = ss.ckmeans(jenksData, color_range.length);
       jenks = d3.merge(jenks.map(function(c, i) { return i === jenks.length - 1 ? [c[0], c[c.length - 1]] : [c[0]]; }));
       var colorScale = d3.scale.threshold()
         .domain(jenks)
@@ -181,7 +193,7 @@ viz.mapDraw = function(vars) {
 
     }
     else if (data_range.length) {
-      var colorScale = function(d){ return vizStyles.color.heatmap[vizStyles.color.heatmap.length - 1]; }
+      var colorScale = function(d){ return color_range[color_range.length - 1]; }
     }
     else {
       var colorScale = false;
@@ -200,7 +212,7 @@ viz.mapDraw = function(vars) {
         .attr("opacity", 0);
 
       var values = colorScale.domain(),
-          colors = vizStyles.color.heatmap;
+          colors = color_range;
 
       var key_width = d3.min([width * 0.9, 600]);
 
