@@ -43,7 +43,8 @@ viz.map = function() {
   vars.self = function() {
 
     if (vars.data.value.length && !vars.time.years) {
-      vars.time.years = d3plus.util.uniques(vars.data.value, function(d) { return d.year; }).sort(function(a, b) { return a - b; });
+      vars.time.years = d3plus.util.uniques(vars.data.value.filter(function(d) { return typeof d[vars.color.value] === "number"; }), function(d) { return d.year; }).sort(function(a, b) { return a - b; });
+      vars.data.value = vars.data.value.filter(function(d) { return vars.time.years.indexOf(d.year) >= 0; });
     }
 
     var time = vars.time.years && vars.time.years.length > 1;
