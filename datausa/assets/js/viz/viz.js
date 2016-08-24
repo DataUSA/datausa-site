@@ -140,10 +140,13 @@ viz.finish = function(build) {
     build.viz.time(false);
   }
 
+  var large = 100;
+
   build.viz
     .config(viz[build.config.type](build))
     .config(build.config)
     .depth(build.config.depth)
+    .data({large: large})
 
   if (build.config.id.constructor === String) build.viz.text(build.config.id);
 

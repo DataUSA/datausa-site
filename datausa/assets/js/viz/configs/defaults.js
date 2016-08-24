@@ -130,7 +130,8 @@ viz.defaults = function(build) {
     messages: {
       background: messageBg,
       font: vizStyles.messages.font,
-      style: "large"
+      style: "large",
+      value: "Drawing Visualization"
     },
     time: {
       fixed: false,
