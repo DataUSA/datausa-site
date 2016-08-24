@@ -35,6 +35,7 @@
 - required: ["sector", "num_universities"]
   show: sector
   order: num_universities
+  year: latest
   namespace: sectors
 
 - required: ["state_tuition", "oos_tuition"]
@@ -44,6 +45,7 @@
   sort: asc
   rows: True
   limit: 2
+  year: latest
   namespace: tuition
 
 - required: ["university", "pct_total"]

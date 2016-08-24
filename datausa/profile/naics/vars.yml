@@ -22,11 +22,13 @@
 
 - required: ["gini", "naics"]
   naics_level: <<sumlevel>>
+  year: latest
   namespace: wagegap
 
 - required: ["gini"]
   attr_type: geo
   geo: 01000US
+  year: latest
   namespace: wagegap_us
 
 - required: ["geo"]
@@ -91,6 +93,7 @@
 
 - required: ["emp_carc_2014_2024", "output_carc_2014_2024", "naics"]
   show: naics
+  year: latest
   namespace: growth
 
 - required: ["soc", "num_ppl"]

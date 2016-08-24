@@ -105,12 +105,14 @@
   rows: True
   limit: 2
   dataset: ipeds
+  year: latest
   namespace: tuition
 
 - required: ["sector", "grads_total"]
   show: sector
   order: grads_total
   dataset: ipeds
+  year: latest
   namespace: sectors
 
 - force: "ipeds.grads_yg"
@@ -190,6 +192,7 @@
   where: "language:~^002"
 
 - required: ["median_property_value", "median_property_value_moe"]
+  year: latest
   namespace: "acsgeo"
 
 - force: "acs.yg_transport"

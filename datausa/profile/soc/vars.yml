@@ -112,6 +112,7 @@
   sort: desc
   rows: True
   limit: 2
+  year: latest
   namespace: growth
 
 - required: ["soc"]
@@ -122,6 +123,7 @@
   where: "num_records:>4,soc:~^<<id>>"
   rows: True
   limit: 4
+  year: latest
   namespace: similar
 
 - required: ["naics", "num_ppl"]
