@@ -43,6 +43,15 @@ $map-sidebar: 250px;
     margin: 1px 5px 5px !important;
   }
 
+  #d3plus_toggle_map-sumlevels {
+    text-align: center;
+
+    .d3plus_toggle .d3plus_node {
+      margin: 0 6px !important;
+    }
+
+  }
+
   .sub-source {
     display: block;
     color: #a8a8a8;
