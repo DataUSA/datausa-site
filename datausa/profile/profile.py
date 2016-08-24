@@ -776,6 +776,7 @@ class Profile(BaseObject):
         params = dict(params.items()+kwargs.items())
 
         # set default params
+        params["year"] = params.get("year", "latest")
         params["limit"] = params.get("limit", 1)
         params["show"] = params.get("show", attr_type)
         params["sumlevel"] = params.get("sumlevel", "all")
