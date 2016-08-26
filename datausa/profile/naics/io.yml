@@ -12,6 +12,7 @@ topics:
         - industry_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|key=id>>"
           industry_level: 0
           sumlevel: "naics"
+          year: latest
           required: "value_millions"
           show: "commodity_iocode"
           map:
@@ -20,6 +21,7 @@ topics:
         - commodity_iocode: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0|key=id>>"
           industry_level: 0
           sumlevel: "naics"
+          year: latest
           required: "value_millions"
           show: "industry_iocode"
           map:
