@@ -96,21 +96,32 @@ viz.formatData = function(data, d, build) {
   if (d.share) {
     var share = d.share.split("."), share_id = share[1] || false;
     share = share[0];
+    var shareData = data.reduce(function(obj, s) {
+      if (!obj[s.year]) obj[s.year] = [];
+      obj[s.year].push(s);
+      return obj;
+    }, {});
+    for (var year in shareData) {
+      if (share_id) {
+        shareData[year] = d3plus.util.uniques(shareData[year], share_id).reduce(function(obj, id){
+          obj[id] = d3.sum(shareData[year], function(dat){
+            return dat[share_id] === id ? dat[share] : 0;
+          });
+          return obj;
+        }, {});
+      }
+      else {
+        shareData[year] = d3.sum(shareData[year], function(dat){ return dat[share]; });
+      }
+    }
     if (share_id) {
-      var totals = d3plus.util.uniques(data, share_id).reduce(function(obj, id){
-        obj[id] = d3.sum(data, function(dat){
-          return dat[share_id] === id ? dat[share] : 0;
-        });
-        return obj;
-      }, {});
       for (var i = 0; i < data.length; i++) {
-        data[i].share = data[i][share]/totals[data[i][share_id]] * 100;
+        data[i].share = data[i][share]/shareData[data[i].year][data[i][share_id]] * 100;
       }
     }
     else {
-      var total = d3.sum(data, function(dat){ return dat[share]; });
       for (var i = 0; i < data.length; i++) {
-        data[i].share = data[i][share]/total * 100;
+        data[i].share = data[i][share]/shareData[data[i].year] * 100;
       }
     }
   }
