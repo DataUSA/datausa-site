@@ -76,7 +76,7 @@ topics:
       y:
         scale: "discrete"
         value: "degree"
-  - title: "Gender Imbalance"
+  - title: "Gender Imbalance for Common Institutions"
     slug: "enrolled_gender"
     stat:
       - title: "Most Common Gender"

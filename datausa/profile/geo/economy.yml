@@ -26,7 +26,7 @@ topics:
       y:
         scale: "discrete"
         value: "geo"
-  - title: "Wage by Gender"
+  - title: "Wage by Gender for Common Jobs"
     subtitle: "<<sub dataset=pums>>"
     slug: "income_gender"
     description: "<<var namespace=gender|key=sex|row=0>> full-time employees in <<name dataset=pums>> make <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|ratio=True>> times <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|text=moreless>> <<var namespace=gender|key=sex|row=1>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
@@ -57,7 +57,7 @@ topics:
           position: True
         value: "soc"
       y: "avg_wage_ft"
-  - title: "Wage by Race & Ethnicity"
+  - title: "Wage by Race & Ethnicity for Common Jobs"
     subtitle: "<<sub show=race|col=avg_wage>>"
     slug: "income_ethnicity"
     description: "<<var namespace=race|key=race|row=0>> citizens earn, on average, <<percent num=var:race,avg_wage,0|den=var:race,avg_wage,1|ratio=True>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations."

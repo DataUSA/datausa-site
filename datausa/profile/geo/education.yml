@@ -89,7 +89,7 @@ topics:
         - "university"
       size: "grads_total"
       type: "tree_map"
-  - title: "Gender"
+  - title: "Gender for Common Institutions"
     slug: "edu_gender"
     subtitle: "<<sub dataset=ipeds>>"
     description: "Here we see the top 5 institutions in <<name dataset=ipeds>>, by degrees awarded, broken out by gender."

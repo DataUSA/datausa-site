@@ -28,7 +28,7 @@ topics:
         - "university"
       type: "tree_map"
       size: "grads_total"
-  - title: "Tuition Costs"
+  - title: "Tuition Costs for Common Institutions"
     slug: "tuition_costs"
     stat:
       - title: "Median In-State Public"

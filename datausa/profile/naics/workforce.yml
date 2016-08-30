@@ -311,7 +311,7 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Wage by Gender"
+  - title: "Wage by Gender for Common Jobs"
     slug: "wage_gender"
     description: "<<top show=sex|order=avg_wage|sort=desc|naics_level=sumlevel>> workers in the <<name>> <<level>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<top show=sex|order=avg_wage|sort=asc|naics_level=sumlevel>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
     stat:
@@ -343,7 +343,7 @@ topics:
           position: True
         value: "soc"
       y: "avg_wage"
-  - title: "Wage by Race & Ethnicity"
+  - title: "Wage by Race & Ethnicity for Common Jobs"
     slug: "wage_ethnicity"
     description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level>>."
     stat:

@@ -37,7 +37,7 @@ topics:
       id: "cip_2"
       size: "num_ppl"
       type: "tree_map"
-  - title: "Universities"
+  - title: "Universities for Common Majors"
     slug: "universities"
     stat:
       - title: "Median In-State Public"
@@ -83,7 +83,7 @@ topics:
         - "university"
       size: "grads_total"
       type: "tree_map"
-  - title: "Gender"
+  - title: "Gender for Common Majors"
     slug: "gender"
     stat:
       - title: "Most common gender"

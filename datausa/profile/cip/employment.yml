@@ -4,7 +4,7 @@ description: "The next set of visualizations allows you to explore which busines
 topics:
   - category: "Wages"
     slug: "top_income"
-    title: "Yearly Income"
+    title: "Yearly Income for Common Jobs"
     subtitle: "<<sub dataset=pums>>"
     stat:
       - title: "Most Common Occupations"
