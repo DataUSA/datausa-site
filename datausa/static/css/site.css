@@ -4498,96 +4498,95 @@
         font-size: 14px;
         line-height: 1.7;
         padding: 15px 0;
-        color: #979AA2; }
+        color: #B9B9B9; }
         body.profile .intro .intro-txt .desc a, body.map .intro .intro-txt .desc a,
         body.story .intro .intro-txt .desc a {
-          color: #B8C0D4;
+          color: #cfedff;
           -moz-transition: all 0.35s;
           -o-transition: all 0.35s;
           -webkit-transition: all 0.35s;
           transition: all 0.35s;
           border-bottom: 1px solid #434958; }
-          body.profile .intro .intro-txt .desc .stat-span a,
-          body.map .intro .intro-txt .desc .stat-span a,
-          body.story .intro .intro-txt .desc .stat-span a {
-            opacity: 1;
-            vertical-align: baseline; }
-            body.profile .intro .intro-txt .desc .stat-span a:hover,
-            body.profile .intro .intro-txt .desc .stat-span a:focus,
-            body.map .intro .intro-txt .desc .stat-span a:hover,
-            body.map .intro .intro-txt .desc .stat-span a:focus,
-            body.story .intro .intro-txt .desc .stat-span a:hover,
-            body.story .intro .intro-txt .desc .stat-span a:focus {
-              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-              text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-              border-bottom: 1px solid #B8C0D4; }
-              body.profile .intro .intro-txt .desc .stat-span a.show-more,
-              body.map .intro .intro-txt .desc .stat-span a.show-more,
-              body.story .intro .intro-txt .desc .stat-span a.show-more {
-                color: #fff;
-                opacity: 0.9;
-                font-size: 14px;
-                line-height: 2;
-                border-bottom: none;
-                margin-left: 3px; }
-                body.profile .intro .intro-txt .desc .stat-span a.show-more:hover,
-                body.profile .intro .intro-txt .desc .stat-span a.show-more:focus,
-                body.map .intro .intro-txt .desc .stat-span a.show-more:hover,
-                body.map .intro .intro-txt .desc .stat-span a.show-more:focus,
-                body.story .intro .intro-txt .desc .stat-span a.show-more:hover,
-                body.story .intro .intro-txt .desc .stat-span a.show-more:focus {
-                  opacity: 1;
-                  -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-                  -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-                  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
-                  body.profile .intro .intro-txt .desc .stat-span a.show-more:hover::after,
-                  body.profile .intro .intro-txt .desc .stat-span a.show-more:focus::after,
-                  body.map .intro .intro-txt .desc .stat-span a.show-more:hover::after,
-                  body.map .intro .intro-txt .desc .stat-span a.show-more:focus::after,
-                  body.story .intro .intro-txt .desc .stat-span a.show-more:hover::after,
-                  body.story .intro .intro-txt .desc .stat-span a.show-more:focus::after {
-                    background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
-                    background-size: 80%; }
-                body.profile .intro .intro-txt .desc .stat-span a.show-more::after,
-                body.map .intro .intro-txt .desc .stat-span a.show-more::after,
-                body.story .intro .intro-txt .desc .stat-span a.show-more::after {
-                  content: '';
-                  display: inline-block;
-                  background: transparent url("/static/img/splash/max.svg") no-repeat 50%;
-                  background-size: 80%;
-                  width: 17px;
-                  height: 17px;
-                  margin: 9px 5px -4px;
-                  border-radius: 50%;
-                  -webkit-box-sizing: border-box;
-                  -moz-box-sizing: border-box;
-                  box-sizing: border-box;
-                  border: 1px solid #306a62;
-                  -moz-transition: all 0.35s;
-                  -o-transition: all 0.35s;
-                  -webkit-transition: all 0.35s;
-                  transition: all 0.35s; }
-                  body.profile .intro .intro-txt .desc .stat-span a.show-more::after:before,
-                  body.profile .intro .intro-txt .desc .stat-span a.show-more::after:after,
-                  body.map .intro .intro-txt .desc .stat-span a.show-more::after:before,
-                  body.map .intro .intro-txt .desc .stat-span a.show-more::after:after,
-                  body.story .intro .intro-txt .desc .stat-span a.show-more::after:before,
-                  body.story .intro .intro-txt .desc .stat-span a.show-more::after:after {
-                    -webkit-box-sizing: border-box;
-                    -moz-box-sizing: border-box;
-                    box-sizing: border-box; }
-                body.profile .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
-                body.profile .intro .intro-txt .desc .stat-span a.show-more.open:focus::after,
-                body.map .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
-                body.map .intro .intro-txt .desc .stat-span a.show-more.open:focus::after,
-                body.story .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
-                body.story .intro .intro-txt .desc .stat-span a.show-more.open:focus::after {
-                  background: #306a62 url("/static/img/splash/min.svg") no-repeat 50% !important; }
-                body.profile .intro .intro-txt .desc .stat-span a.show-more.open::after,
-                body.map .intro .intro-txt .desc .stat-span a.show-more.open::after,
-                body.story .intro .intro-txt .desc .stat-span a.show-more.open::after {
-                  background: transparent url("/static/img/splash/min.svg") no-repeat 50% !important; }
+          body.profile .intro .intro-txt .desc a:hover,
+          body.profile .intro .intro-txt .desc a:focus,
+          body.map .intro .intro-txt .desc a:hover, body.map .intro .intro-txt .desc a:focus,
+          body.story .intro .intro-txt .desc a:hover,
+          body.story .intro .intro-txt .desc a:focus {
+            -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+            -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
+            border-bottom: 1px solid #cfedff; }
+        body.profile .intro .intro-txt .desc .stat-span a,
+        body.map .intro .intro-txt .desc .stat-span a,
+        body.story .intro .intro-txt .desc .stat-span a {
+          opacity: 1;
+          vertical-align: baseline; }
+          body.profile .intro .intro-txt .desc .stat-span a.show-more,
+          body.map .intro .intro-txt .desc .stat-span a.show-more,
+          body.story .intro .intro-txt .desc .stat-span a.show-more {
+            color: #fff;
+            opacity: 0.9;
+            font-size: 14px;
+            line-height: 2;
+            border-bottom: none;
+            margin-left: 3px; }
+            body.profile .intro .intro-txt .desc .stat-span a.show-more:hover,
+            body.profile .intro .intro-txt .desc .stat-span a.show-more:focus,
+            body.map .intro .intro-txt .desc .stat-span a.show-more:hover,
+            body.map .intro .intro-txt .desc .stat-span a.show-more:focus,
+            body.story .intro .intro-txt .desc .stat-span a.show-more:hover,
+            body.story .intro .intro-txt .desc .stat-span a.show-more:focus {
+              opacity: 1;
+              -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+              -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+              text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
+              body.profile .intro .intro-txt .desc .stat-span a.show-more:hover::after,
+              body.profile .intro .intro-txt .desc .stat-span a.show-more:focus::after,
+              body.map .intro .intro-txt .desc .stat-span a.show-more:hover::after,
+              body.map .intro .intro-txt .desc .stat-span a.show-more:focus::after,
+              body.story .intro .intro-txt .desc .stat-span a.show-more:hover::after,
+              body.story .intro .intro-txt .desc .stat-span a.show-more:focus::after {
+                background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
+                background-size: 80%; }
+            body.profile .intro .intro-txt .desc .stat-span a.show-more::after,
+            body.map .intro .intro-txt .desc .stat-span a.show-more::after,
+            body.story .intro .intro-txt .desc .stat-span a.show-more::after {
+              content: '';
+              display: inline-block;
+              background: transparent url("/static/img/splash/max.svg") no-repeat 50%;
+              background-size: 80%;
+              width: 17px;
+              height: 17px;
+              margin: 9px 5px -4px;
+              border-radius: 50%;
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+              border: 1px solid #306a62;
+              -moz-transition: all 0.35s;
+              -o-transition: all 0.35s;
+              -webkit-transition: all 0.35s;
+              transition: all 0.35s; }
+              body.profile .intro .intro-txt .desc .stat-span a.show-more::after:before,
+              body.profile .intro .intro-txt .desc .stat-span a.show-more::after:after,
+              body.map .intro .intro-txt .desc .stat-span a.show-more::after:before,
+              body.map .intro .intro-txt .desc .stat-span a.show-more::after:after,
+              body.story .intro .intro-txt .desc .stat-span a.show-more::after:before,
+              body.story .intro .intro-txt .desc .stat-span a.show-more::after:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box; }
+            body.profile .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
+            body.profile .intro .intro-txt .desc .stat-span a.show-more.open:focus::after,
+            body.map .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
+            body.map .intro .intro-txt .desc .stat-span a.show-more.open:focus::after,
+            body.story .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
+            body.story .intro .intro-txt .desc .stat-span a.show-more.open:focus::after {
+              background: #306a62 url("/static/img/splash/min.svg") no-repeat 50% !important; }
+            body.profile .intro .intro-txt .desc .stat-span a.show-more.open::after,
+            body.map .intro .intro-txt .desc .stat-span a.show-more.open::after,
+            body.story .intro .intro-txt .desc .stat-span a.show-more.open::after {
+              background: transparent url("/static/img/splash/min.svg") no-repeat 50% !important; }
       body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest,
       body.story .intro .intro-txt .the_rest {
         display: none; }

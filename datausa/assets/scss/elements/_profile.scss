@@ -1134,23 +1134,23 @@ body.profile, body.map, body.story {
         font-size: 14px;
         line-height: 1.7;
         padding: 15px 0;
-        color: $black5;
+        color: $gray-map;
 
         a {
-          color: $black-link;
+          color: $light-home-blue;
           @include transition(all 0.35s);
           border-bottom: 1px solid $black3;
+
+          &:hover, &:focus {
+            @include text-shadow(0 0 1px rgba(255,255,255,0.6));
+            border-bottom: 1px solid $light-home-blue;
+          }
         }
 
         .stat-span {
           a {
             opacity: 1;
             vertical-align: baseline;
-
-            &:hover, &:focus {
-              @include text-shadow(0 0 1px rgba(255,255,255,0.6));
-              border-bottom: 1px solid $black-link;
-            }
 
             &.show-more {
               color: #fff;
