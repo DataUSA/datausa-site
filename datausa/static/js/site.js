@@ -8573,7 +8573,6 @@ viz.formatData = function(data, d, build) {
         shareData[year] = d3.sum(shareData[year], function(dat){ return dat[share]; });
       }
     }
-    console.log(shareData);
     if (share_id) {
       for (var i = 0; i < data.length; i++) {
         data[i].share = data[i][share]/shareData[data[i].year][data[i][share_id]] * 100;

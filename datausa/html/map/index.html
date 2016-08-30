@@ -67,7 +67,7 @@
     .focus("{{ defaultLevel }}", function(d, viz){
       if (!viz.draw(Object).first) {
         d3plus.tooltip.remove("geo_map_sidebar");
-        map.highlight(false);
+        map.highlight(false).zoom({reset: false});
         makeURL();
       }
     })
@@ -90,6 +90,7 @@
       }
       levels.data(newLevelData).draw();
       if (!viz.draw(Object).first) {
+        map.zoom({reset: false});
         makeURL();
       }
     })
