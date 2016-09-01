@@ -4531,21 +4531,15 @@
             border-bottom: none;
             margin-left: 3px; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more:hover,
-            body.profile .intro .intro-txt .desc .stat-span a.show-more:focus,
             body.map .intro .intro-txt .desc .stat-span a.show-more:hover,
-            body.map .intro .intro-txt .desc .stat-span a.show-more:focus,
-            body.story .intro .intro-txt .desc .stat-span a.show-more:hover,
-            body.story .intro .intro-txt .desc .stat-span a.show-more:focus {
+            body.story .intro .intro-txt .desc .stat-span a.show-more:hover {
               opacity: 1;
               -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
               -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
               text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
               body.profile .intro .intro-txt .desc .stat-span a.show-more:hover::after,
-              body.profile .intro .intro-txt .desc .stat-span a.show-more:focus::after,
               body.map .intro .intro-txt .desc .stat-span a.show-more:hover::after,
-              body.map .intro .intro-txt .desc .stat-span a.show-more:focus::after,
-              body.story .intro .intro-txt .desc .stat-span a.show-more:hover::after,
-              body.story .intro .intro-txt .desc .stat-span a.show-more:focus::after {
+              body.story .intro .intro-txt .desc .stat-span a.show-more:hover::after {
                 background: #306a62 url("/static/img/splash/max.svg") no-repeat 50%;
                 background-size: 80%; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more::after,
@@ -4577,16 +4571,16 @@
                 -moz-box-sizing: border-box;
                 box-sizing: border-box; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
-            body.profile .intro .intro-txt .desc .stat-span a.show-more.open:focus::after,
             body.map .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
-            body.map .intro .intro-txt .desc .stat-span a.show-more.open:focus::after,
-            body.story .intro .intro-txt .desc .stat-span a.show-more.open:hover::after,
-            body.story .intro .intro-txt .desc .stat-span a.show-more.open:focus::after {
-              background: #306a62 url("/static/img/splash/min.svg") no-repeat 50% !important; }
+            body.story .intro .intro-txt .desc .stat-span a.show-more.open:hover::after {
+              background: #8d7a40 url("/static/img/splash/min.svg") no-repeat 50%;
+              background-size: 80%; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more.open::after,
             body.map .intro .intro-txt .desc .stat-span a.show-more.open::after,
             body.story .intro .intro-txt .desc .stat-span a.show-more.open::after {
-              background: transparent url("/static/img/splash/min.svg") no-repeat 50% !important; }
+              border: 1px solid #8d7a40;
+              background: transparent url("/static/img/splash/min.svg") no-repeat 50%;
+              background-size: 80%; }
       body.profile .intro .intro-txt .the_rest, body.map .intro .intro-txt .the_rest,
       body.story .intro .intro-txt .the_rest {
         display: none; }

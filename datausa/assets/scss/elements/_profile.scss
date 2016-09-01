@@ -1160,7 +1160,7 @@ body.profile, body.map, body.story {
               border-bottom: none;
               margin-left: 3px;
 
-              &:hover, &:focus {
+              &:hover {
                 opacity: 1;
                 @include text-shadow(0 0 1px rgba(255,255,255,0.8));
 
@@ -1186,14 +1186,17 @@ body.profile, body.map, body.story {
 
               &.open {
 
-                &:hover, &:focus {
+                &:hover {
                   &::after {
-                    background: $max-color url("/static/img/splash/min.svg") no-repeat 50% !important;
+                    background: $min-color url("/static/img/splash/min.svg") no-repeat 50%;
+                    background-size: 80%;
                   }
                 }
 
                 &::after {
-                  background: transparent url("/static/img/splash/min.svg") no-repeat 50% !important;
+                  border: 1px solid $min-color;
+                  background: transparent url("/static/img/splash/min.svg") no-repeat 50%;
+                  background-size: 80%;
                 }
 
               }
