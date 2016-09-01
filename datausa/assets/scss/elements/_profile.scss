@@ -1150,13 +1150,12 @@ body.profile, body.map, body.story {
         .stat-span {
           a {
             opacity: 1;
-            vertical-align: baseline;
 
             &.show-more {
               color: #fff;
               opacity: 0.9;
               font-size: 14px;
-              line-height: 2;
+              line-height: 24px;
               border-bottom: none;
               margin-left: 3px;
 
@@ -1177,7 +1176,7 @@ body.profile, body.map, body.story {
                 background-size: 80%;
                 width: 17px;
                 height: 17px;
-                margin: 9px 5px -4px;
+                margin: 0 5px -4px;
                 border-radius: 50%;
                 @include box();
                 border: 1px solid $max-color;

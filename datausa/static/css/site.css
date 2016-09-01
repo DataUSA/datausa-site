@@ -4519,15 +4519,14 @@
         body.profile .intro .intro-txt .desc .stat-span a,
         body.map .intro .intro-txt .desc .stat-span a,
         body.story .intro .intro-txt .desc .stat-span a {
-          opacity: 1;
-          vertical-align: baseline; }
+          opacity: 1; }
           body.profile .intro .intro-txt .desc .stat-span a.show-more,
           body.map .intro .intro-txt .desc .stat-span a.show-more,
           body.story .intro .intro-txt .desc .stat-span a.show-more {
             color: #fff;
             opacity: 0.9;
             font-size: 14px;
-            line-height: 2;
+            line-height: 24px;
             border-bottom: none;
             margin-left: 3px; }
             body.profile .intro .intro-txt .desc .stat-span a.show-more:hover,
@@ -4551,7 +4550,7 @@
               background-size: 80%;
               width: 17px;
               height: 17px;
-              margin: 9px 5px -4px;
+              margin: 0 5px -4px;
               border-radius: 50%;
               -webkit-box-sizing: border-box;
               -moz-box-sizing: border-box;
