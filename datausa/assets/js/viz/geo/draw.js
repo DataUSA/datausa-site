@@ -750,8 +750,9 @@ viz.mapDraw = function(vars) {
       zoomEvents();
     }
 
+    if ((!vars.zoom.set || vars.color.changed) && fullscreen) createTooltip({}, true);
+
     if (!vars.zoom.set) {
-      if (fullscreen) createTooltip({}, true);
       zoomed();
       vars.zoom.set = true;
     }

@@ -82,6 +82,7 @@ viz.map = function() {
     else vars.data.filtered = vars.data.value;
 
     viz.mapDraw(vars);
+    vars.color.changed = false;
     return vars.self;
   }
 
@@ -89,6 +90,7 @@ viz.map = function() {
   var methodSet = function(method, _) {
     if (!vars[method]) vars[method] = {};
     if (_.constructor === Object && _.type === "Topology") {
+      vars[method].changed = true;
       vars[method].value = _;
     }
     else if (_.constructor === Object && vars[method].objectOnly !== true) {
@@ -97,6 +99,7 @@ viz.map = function() {
       }
     }
     else {
+      vars[method].changed = true;
       vars[method].value = _;
     }
   }
