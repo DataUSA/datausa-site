@@ -42,16 +42,13 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
     if (url.indexOf("rank=") > 0) {
       var rank = new RegExp("&([a-z_]*)rank=([0-9,%C]*)").exec(url);
-      console.log("rank:", rank);
       url = url.replace(rank[0], "");
     }
 
-    if (d.params.show) {
-      var sums = d.params.sumlevel.split(",");
+    if (d.params && d.params.show) {
       d.params.show.split(",").forEach(function(s, i){
         if (s !== "geo" && s in d.params && url.indexOf(s + "=") > 0) {
           var show = new RegExp("&" + s + "=([a-zA-Z0-9,%C]*)").exec(url);
-          console.log("show:", show);
           url = url.replace(show[0], "");
         }
       });
