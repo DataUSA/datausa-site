@@ -8045,9 +8045,9 @@ viz.format = {
     }
 
     if (dictionary[text]) {
-      if (["hiv_prevalence_rate", "homicide_rate", "motor_vehicle_crash_deaths", "sexually_transmitted_infections", "violent_crime"].indexOf(text) >= 0) {
-        return dictionary[text] + " per 100,000 People";
-      }
+      if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
+      if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
+      if (per100000.indexOf(text) >= 0) return dictionary[text] + " per 100,000 People";
       return dictionary[text];
     }
 
@@ -9576,8 +9576,9 @@ viz.mapDraw = function(vars) {
       zoomEvents();
     }
 
+    if ((!vars.zoom.set || vars.color.changed) && fullscreen) createTooltip({}, true);
+
     if (!vars.zoom.set) {
-      if (fullscreen) createTooltip({}, true);
       zoomed();
       vars.zoom.set = true;
     }
@@ -9845,6 +9846,7 @@ viz.map = function() {
     else vars.data.filtered = vars.data.value;
 
     viz.mapDraw(vars);
+    vars.color.changed = false;
     return vars.self;
   }
 
@@ -9852,6 +9854,7 @@ viz.map = function() {
   var methodSet = function(method, _) {
     if (!vars[method]) vars[method] = {};
     if (_.constructor === Object && _.type === "Topology") {
+      vars[method].changed = true;
       vars[method].value = _;
     }
     else if (_.constructor === Object && vars[method].objectOnly !== true) {
@@ -9860,6 +9863,7 @@ viz.map = function() {
       }
     }
     else {
+      vars[method].changed = true;
       vars[method].value = _;
     }
   }

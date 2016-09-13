@@ -130,10 +130,6 @@ DICTIONARY = {
     "acs_ind": "ACS Industry",
     "acs_occ": "ACS Occupation",
 
-    "adult_obesity": "Obesity Prevalence",
-    "adult_smoking": "Adult Smoking Prevalence",
-    "alcoholimpaired_driving_deaths": "Percentage of Driving Deaths Involving Alcohol",
-    "diabetes": "Diabetes Prevalence",
     "age": "Median Age",
     "avg_wage": "Average Salary",
     "avg_wage_ft": "Average Full-Time Salary",
@@ -152,7 +148,6 @@ DICTIONARY = {
     "district_tuition": "District Tuition",
     "foreign": "Foreign Born",
     "emp_thousands": "Total Employees",
-    "excessive_drinking": "Excessive Drinking Prevalence",
 
     "grads_asian": "Asian",
     "grads_asian_men": "Asian Men",
@@ -209,16 +204,71 @@ DICTIONARY = {
     "unknown_men": "Unknown Men",
     "unknown_women": "Unknown Women",
 
-    "health_care_costs": "Medicare Reimbursements per Enrollee",
-    "hiv_prevalence_rate": "HIV Diagnoses",
-    "homicide_rate": "Homicide Deaths",
     "income": "Yearly Income",
     "mean_commute_minutes": "Average Travel Time",
     "median_property_value": "Median Property Value",
     "med_earnings": "Median Yearly Earnings",
     "men": "Men",
-    "mental_health_providers": "Mental Health Providers",
+
+    "sexually_transmitted_infections": "Chlamydia Diagnoses",
+    "violent_crime": "Violent Crimes",
+    "adult_obesity": "Obesity Prevalence",
+    "adult_smoking": "Adult Smoking Prevalence",
+    "alcoholimpaired_driving_deaths": "Percentage of Driving Deaths Involving Alcohol",
+    "diabetes": "Diabetes Prevalence",
+    "health_care_costs": "Medicare Reimbursements per Enrollee",
+    "hiv_prevalence_rate": "HIV Diagnoses",
+    "homicide_rate": "Homicide Deaths",
     "motor_vehicle_crash_deaths": "Motor Vehicle Crash Deaths",
+    "excessive_drinking": "Excessive Drinking Prevalence",
+
+    "primary_care_physicians": "Primary Care Physicians",
+    "dentists": "Dentists",
+    "mental_health_providers": "Mental Health Providers",
+    "other_primary_care_providers": "Other PCPs",
+
+    "premature_death": "Years of Potential Life Lost",
+    "poor_or_fair_health": "Poor to Fair Health",
+    "poor_physical_health_days": "Physically Unhealthy Days per Month",
+    "poor_mental_health_days": "Mentally Unhealthy Days per Month",
+    "low_birthweight": "Low Birthweight",
+    "food_environment_index": "Food Environment Index",
+    "physical_inactivity": "Physical Inactivity",
+    "access_to_exercise_opportunities": "Access to Exercise Opportunities",
+    "teen_births": "Teen Births",
+    "uninsured": "Uninsured",
+    "preventable_hospital_stays": "Preventable Hospital Stays",
+    "diabetic_screening": "Diabetic Monitoring",
+    "mammography_screening": "Mammography Screening",
+    "high_school_graduation": "High School Graduation",
+    "some_college": "Some College",
+    "children_in_poverty": "Children in Poverty",
+    "children_in_singleparent_households": "Children in Single-Parent Households",
+    "social_associations": "Social Associations",
+    "injury_deaths": "Injury Deaths",
+    "polution_ppm": "Air Pollution",
+    "drinking_water_violations": "Drinking Water Violations",
+    "severe_housing_problems": "Severe Housing Problems",
+    "population_living_in_a_rural_area": "Rural Population",
+    "premature_ageadjusted_mortality": "Years of Potential Life Lost (Age-Adjusted)",
+    "infant_mortality": "Infant Mortality",
+    "child_mortality": "Child Mortality",
+    "food_insecurity": "Food Insecurity",
+    "limited_access_to_healthy_foods": "Limited Access to Healthy Foods",
+    "drug_poisoning_deaths": "Drug Overdose Deaths",
+    "uninsured_adults": "Uninsured Adults",
+    "uninsured_children": "Uninsured Children",
+    "could_not_see_doctor_due_to_cost": "Could Not See Doctor Due to Cost",
+    "children_eligible_for_free_lunch": "Children Eligible for Free Lunch",
+
+    "unemployment": "Unemployment",
+    "income_inequality": "Income Inequality",
+    "driving_alone_to_work": "Commuting Alone",
+    "long_commute__driving_alone": "Commuting Alone over 30 Minutes",
+    "population_that_is_not_proficient_in_english": "Population not Proficient in English",
+    "population_estimate": "Resident Population",
+    "median_household_income": "Median Household Income",
+
     "non_eng_speakers_pct": "Non English Speakers",
     "non_us_citizens": "Non US Citizens",
     "num_emp": "Total Employees",
@@ -233,7 +283,6 @@ DICTIONARY = {
     "num_speakers": "Speakers",
     "num_speakers_rca": "Speakers (RCA)",
     "oos_tuition": "Out of State Tuition",
-    "other_primary_care_providers": "Other PCPs",
     "owner_occupied_housing_units": "Homeowners",
     "pct_total": "Percentage of Degrees Awarded",
     "people": "People",
@@ -275,12 +324,10 @@ DICTIONARY = {
     "other": "Other",
     "white": "White",
 
-    "primary_care_physicians": "Primary Care Physicians",
     "property_tax": "Property Taxes",
     "property_val": "Property Value",
     "race": "Race or Ethnicity",
     "sex": "Gender",
-    "sexually_transmitted_infections": "Chlamydia Diagnoses",
     "state_tuition": "In State Tuition",
 
     "transport": "Method of Travel",
@@ -308,7 +355,6 @@ DICTIONARY = {
     "us_citizens": "Citizenship",
     "value_millions": "Value",
     "vehicles": "Vehicles",
-    "violent_crime": "Violent Crimes",
     "wage_bin": "Wage Bin",
     "women": "Women"
 }
@@ -323,7 +369,9 @@ AFFIXES = {
     "income": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
+    "median_household_income": ["$", ""],
     "output": ["$", ""],
+    "polution_ppm": ["", u"\u00B5g/m\u00B3"],
     "property_tax": ["$", ""],
     "property_val": ["$", ""],
     "health_care_costs": ["$", ""],
@@ -340,7 +388,31 @@ PROPORTIONS = [
     "adult_obesity",
     "adult_smoking",
     "excessive_drinking",
-    "alcoholimpaired_driving_deaths"
+    "alcoholimpaired_driving_deaths",
+    "physical_inactivity",
+    "access_to_exercise_opportunities",
+    "food_insecurity",
+    "limited_access_to_healthy_foods",
+    "uninsured",
+    "uninsured_children",
+    "diabetic_screening",
+    "uninsured_adults",
+    "mammography_screening",
+    "high_school_graduation",
+    "some_college",
+    "unemployment",
+    "children_in_singleparent_households",
+    "children_in_poverty",
+    "children_eligible_for_free_lunch",
+    "drinking_water_violations",
+    "severe_housing_problems",
+    "driving_alone_to_work",
+    "long_commute__driving_alone",
+    "population_that_is_not_proficient_in_english",
+    "population_living_in_a_rural_area",
+    "poor_or_fair_health",
+    "low_birthweight",
+    "could_not_see_doctor_due_to_cost"
 ]
 
 PERCENTAGES = [
@@ -348,6 +420,29 @@ PERCENTAGES = [
     "output_carc_2014_2024",
     "pct_change",
     "share"
+]
+
+PER1000 = [
+    "infant_mortality",
+    "teen_births",
+    "preventable_hospital_stays"
+]
+
+PER10000 = [
+    "social_associations"
+]
+
+PER100000 = [
+    "hiv_prevalence_rate",
+    "homicide_rate",
+    "motor_vehicle_crash_deaths",
+    "sexually_transmitted_infections",
+    "violent_crime",
+    "premature_death",
+    "premature_ageadjusted_mortality",
+    "child_mortality",
+    "drug_poisoning_deaths",
+    "injury_deaths"
 ]
 
 NEVERCONDENSE = [

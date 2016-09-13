@@ -80,9 +80,9 @@ viz.format = {
     }
 
     if (dictionary[text]) {
-      if (["hiv_prevalence_rate", "homicide_rate", "motor_vehicle_crash_deaths", "sexually_transmitted_infections", "violent_crime"].indexOf(text) >= 0) {
-        return dictionary[text] + " per 100,000 People";
-      }
+      if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
+      if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
+      if (per100000.indexOf(text) >= 0) return dictionary[text] + " per 100,000 People";
       return dictionary[text];
     }
 

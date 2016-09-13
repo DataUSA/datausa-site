@@ -8,53 +8,101 @@ mod = Blueprint("map", __name__, url_prefix="/map")
 def map():
     g.page_type = "map"
 
+    datalevels = {
+        "acs": ["state", "county", "msa", "puma"],
+        "chr": ["state", "county"],
+        "ipeds": ["state", "county", "msa", "puma"],
+        "pums": ["state", "puma"]
+    }
+
     mapdata = {
 
-        "acs": {
-            "pop,pop_moe,pop_rank": ["state", "county", "msa", "puma"],
-            "age,age_moe,age_rank": ["state", "county", "msa", "puma"],
-            "income,income_moe,income_rank": ["state", "county", "msa", "puma"],
-            "mean_commute_minutes": ["state", "county", "msa", "puma"],
-            "non_eng_speakers_pct": ["state", "county", "msa", "puma"],
-            "median_property_value,median_property_value_moe": ["state", "county", "msa", "puma"],
-            "owner_occupied_housing_units": ["state", "county", "msa", "puma"],
-            "us_citizens": ["state", "county", "msa", "puma"]
-        },
+        "acs": [
+            "pop,pop_moe,pop_rank",
+            "age,age_moe,age_rank",
+            "income,income_moe,income_rank",
+            "mean_commute_minutes",
+            "non_eng_speakers_pct",
+            "median_property_value,median_property_value_moe",
+            "owner_occupied_housing_units",
+            "us_citizens"
+        ],
 
-        "chr": {
-            "health_care_costs": ["state", "county"],
-            "adult_obesity": ["state", "county"],
-            "diabetes": ["state", "county"],
-            "sexually_transmitted_infections": ["state", "county"],
-            "hiv_prevalence_rate": ["state", "county"],
-            "alcoholimpaired_driving_deaths": ["state", "county"],
-            "excessive_drinking": ["state", "county"],
-            "adult_smoking": ["state", "county"],
-            "homicide_rate": ["state", "county"],
-            "violent_crime": ["state", "county"],
-            "motor_vehicle_crash_deaths": ["state", "county"]
-        },
+        "chr": [
+            "health_care_costs",
+            "adult_obesity",
+            "diabetes",
+            "sexually_transmitted_infections",
+            "hiv_prevalence_rate",
+            "alcoholimpaired_driving_deaths",
+            "excessive_drinking",
+            "adult_smoking",
+            "homicide_rate",
+            "violent_crime",
+            "motor_vehicle_crash_deaths",
 
-        "ipeds": {
-            "grads_total": ["state", "county", "msa", "puma"],
-            "grads_total_growth": ["state", "county", "msa", "puma"]
-        },
+            "premature_death",
+            "poor_or_fair_health",
+            "poor_physical_health_days",
+            "poor_mental_health_days",
+            "low_birthweight",
+            "food_environment_index",
+            "physical_inactivity",
+            "access_to_exercise_opportunities",
+            "teen_births",
+            "uninsured",
+            "preventable_hospital_stays",
+            "diabetic_screening",
+            "mammography_screening",
+            "high_school_graduation",
+            "some_college",
+            "children_in_poverty",
+            "children_in_singleparent_households",
+            "social_associations",
+            "injury_deaths",
+            "polution_ppm",
+            "drinking_water_violations",
+            "severe_housing_problems",
+            "population_living_in_a_rural_area",
+            "premature_ageadjusted_mortality",
+            "infant_mortality",
+            "child_mortality",
+            "food_insecurity",
+            "limited_access_to_healthy_foods",
+            "drug_poisoning_deaths",
+            "uninsured_adults",
+            "uninsured_children",
+            "could_not_see_doctor_due_to_cost",
+            "children_eligible_for_free_lunch",
 
-        "pums": {
-            "avg_wage,avg_wage_moe": ["state", "puma"],
-            "avg_wage_ft,avg_wage_ft_moe": ["state", "puma"],
-            "avg_wage_pt,avg_wage_pt_moe": ["state", "puma"],
-            "num_ppl,num_ppl_moe": ["state", "puma"],
-            "num_ppl_ft,num_ppl_ft_moe": ["state", "puma"],
-            "num_ppl_pt,num_ppl_pt_moe": ["state", "puma"],
-            "avg_age,avg_age_moe": ["state", "puma"],
-            "avg_age_ft,avg_age_ft_moe": ["state", "puma"],
-            "avg_age_pt,avg_age_pt_moe": ["state", "puma"],
-            "avg_hrs,avg_hrs_moe": ["state", "puma"],
-            "avg_hrs_ft,avg_hrs_ft_moe": ["state", "puma"],
-            "avg_hrs_pt,avg_hrs_pt_moe": ["state", "puma"],
-            "gini": ["state", "puma"]
-        }
+            "unemployment",
+            "income_inequality",
+            "driving_alone_to_work",
+            "long_commute__driving_alone",
+            "population_that_is_not_proficient_in_english",
+            "median_household_income"
+        ],
+
+        "ipeds": [
+            "grads_total",
+            "grads_total_growth"
+        ],
+
+        "pums": [
+            "avg_wage,avg_wage_moe",
+            "avg_wage_ft,avg_wage_ft_moe",
+            "avg_wage_pt,avg_wage_pt_moe",
+            "num_ppl,num_ppl_moe",
+            "num_ppl_ft,num_ppl_ft_moe",
+            "num_ppl_pt,num_ppl_pt_moe",
+            "avg_age,avg_age_moe",
+            "avg_age_ft,avg_age_ft_moe",
+            "avg_age_pt,avg_age_pt_moe",
+            "avg_hrs,avg_hrs_moe",
+            "avg_hrs_ft,avg_hrs_ft_moe",
+            "avg_hrs_pt,avg_hrs_pt_moe",
+            "gini"
+        ]
 
     }
 
@@ -65,12 +113,12 @@ def map():
     sumlevels = ["state", "county", "msa", "puma"]
     keys = []
     mapdataFlat = {}
-    for d in mapdata:
-        if defaultKey in mapdata[d]:
-            defaultDataset = d
-        keys += [k for k in mapdata[d]]
-        for k in mapdata[d]:
-            mapdataFlat[k] = mapdata[d][k]
+    for dataset in mapdata:
+        if defaultKey in mapdata[dataset]:
+            defaultDataset = dataset
+        keys += [k for k in mapdata[dataset]]
+        for k in mapdata[dataset]:
+            mapdataFlat[k] = datalevels[dataset]
     keys = sorted(keys, key=lambda x: DICTIONARY[x.split(",")[0]])
     defaultKey = defaultKey.split(",")[0]
 

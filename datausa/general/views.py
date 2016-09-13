@@ -3,7 +3,7 @@ import copy, json
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
-from datausa.consts import AFFIXES, DICTIONARY, PERCENTAGES, PROPORTIONS, SUMLEVELS
+from datausa.consts import AFFIXES, DICTIONARY, PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
 from datausa.utils.data import attr_cache, fetch, profile_cache, story_cache
 from pagination import Pagination
 
@@ -13,11 +13,14 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 30
+    g.cache_version = 31
     g.affixes = json.dumps(AFFIXES)
     g.dictionary = json.dumps(DICTIONARY)
     g.percentages = json.dumps(PERCENTAGES)
     g.proportions = json.dumps(PROPORTIONS)
+    g.per1000 = json.dumps(PER1000)
+    g.per10000 = json.dumps(PER10000)
+    g.per100000 = json.dumps(PER100000)
     g.api = API
 
 @mod.route("/")
