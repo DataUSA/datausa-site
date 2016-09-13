@@ -141,14 +141,14 @@ window.onload = function() {
     }
 
     // Enter
-    if (d3.event.keyCode === 13) {
-      var curr_el = d3.select(this).select("a.search-item:focus").node() || document.querySelectorAll("a.search-item")[0];
-      console.log(curr_el)
-      if(!curr_el){
-        // var search_txt = d3.select(this).property("value");
-        // window.location = "/search/?q="+encodeURIComponent(search_txt);
-      }
-    }
+    // if (d3.event.keyCode === 13) {
+    //   var curr_el = d3.select(this).select("a.search-item:focus").node() || document.querySelectorAll("a.search-item")[0];
+    //   console.log(curr_el)
+    //   if(!curr_el){
+    //     // var search_txt = d3.select(this).property("value");
+    //     // window.location = "/search/?q="+encodeURIComponent(search_txt);
+    //   }
+    // }
 
   });
 
