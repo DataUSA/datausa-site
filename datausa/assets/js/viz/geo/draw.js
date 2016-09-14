@@ -909,7 +909,7 @@ viz.mapDraw = function(vars) {
       .attr("xlink:href", function(d) {
         var x = d[0] % tileData.width;
         if (x < 0) x += tileData.width;
-        return "http://" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".basemaps.cartocdn.com/" + cartodb + "/" + d[2] + "/" + x + "/" + d[1] + ".png";
+        return "https://cartodb-basemaps-" + ["a", "b", "c", "d"][Math.random() * 3 | 0] + ".global.ssl.fastly.net/" + cartodb + "/" + d[2] + "/" + x + "/" + d[1] + ".png";
       })
       .attr("width", 1)
       .attr("height", 1)
