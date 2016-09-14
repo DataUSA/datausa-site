@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from flask import Blueprint, g, render_template, request, redirect
+from flask import Blueprint, g, render_template, request, redirect, url_for
 from datausa.utils.data import profile_cache
 from datausa.utils.data import fetch, get_parents
 from config import SPLASH_IMG_DIR
@@ -26,4 +26,4 @@ def get_img(attr_kind, attr_id, mode="thumb"):
                 break
     static_root_url = SPLASH_IMG_DIR.format(mode, attr_kind)
     img_url = static_root_url.format(mode, attr_kind) + "{}.jpg".format(my_id)
-    return redirect(img_url)
+    return redirect(url_for(img_url, _external=True))
