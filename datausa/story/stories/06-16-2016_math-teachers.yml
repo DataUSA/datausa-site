@@ -37,7 +37,7 @@ topics:
           scale: "discrete"
           value: "soc"
   - description:
-      - "This might surprise some people who might guess that mathematics degree holders work as actuaries, scientists, or other technical professions. While it is true that the chart here shows someone who is an actuary is almost 35 times more likely to have studied math than someone in another profession, the number of people employed in these occupations is relatively small compared to teaching occupations. So, while only 4% of all <a href='http://datausa.io/profile/soc/251000/'>postsecondary teachers</a> have math degrees, there are 1.45 million postsecondary teachers and only 31,000 <a href='http://datausa.io/profile/soc/152011/'>actuaries</a> nationwide. As a result, a small percentage of teachers having math degrees can outnumber the size of a small but math focused occupation."
+      - "This might surprise some people who might guess that mathematics degree holders work as actuaries, scientists, or other technical professions. While it is true that the chart here shows someone who is an actuary is almost 35 times more likely to have studied math than someone in another profession, the number of people employed in these occupations is relatively small compared to teaching occupations. So, while only 4% of all <a href='https://datausa.io/profile/soc/251000/'>postsecondary teachers</a> have math degrees, there are 1.45 million postsecondary teachers and only 31,000 <a href='https://datausa.io/profile/soc/152011/'>actuaries</a> nationwide. As a result, a small percentage of teachers having math degrees can outnumber the size of a small but math focused occupation."
   - title: Most Specialized Occupations
     class: constrained
     viz:
@@ -65,5 +65,5 @@ topics:
           scale: "discrete"
           value: "soc"
   - description:
-      - "Having studied math also helps teachers command a small wage premium. High school teachers trained in math make $54,575 vs. $49,690 vs. the average <a href='http://datausa.io/profile/soc/252030/'>high school teacher</a>. A larger math premium can be found in another large math based profession—management.  “Miscellaneous managers” with a math degree make an average salary of $126,784 compared to the average <a href='http://datausa.io/profile/soc/119XXX/'>manager</a> who makes $90,003 a year."
+      - "Having studied math also helps teachers command a small wage premium. High school teachers trained in math make $54,575 vs. $49,690 vs. the average <a href='https://datausa.io/profile/soc/252030/'>high school teacher</a>. A larger math premium can be found in another large math based profession—management.  “Miscellaneous managers” with a math degree make an average salary of $126,784 compared to the average <a href='https://datausa.io/profile/soc/119XXX/'>manager</a> who makes $90,003 a year."
       - "So, the next time you think of what someone with a degree in math might look like, don’t just think of a scientist. Think of your teachers from school and the investment they made in you."

@@ -116,7 +116,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
     // return;
 
-    embed_url = "http://datausa.io" + embed_url;
+    embed_url = "https://datausa.io" + embed_url;
 
     loader.remove();
 
@@ -250,7 +250,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           .attr("type", "text")
           .attr("readonly", true)
           .attr("class", "embed-link")
-          .property("value", '<iframe width="720px" height="480px" src="http://embed.datausa.io'+getLinkPath(url)+'?viz=True" frameborder="0" ></iframe>')
+          .property("value", '<iframe width="720px" height="480px" src="https://embed.datausa.io'+getLinkPath(url)+'?viz=True" frameborder="0" ></iframe>')
           .on("click", function(){ this.select(); })
       }
       else if(p.title.toLowerCase() == "download"){
@@ -427,7 +427,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           api_panel.append("input")
             .attr("type", "text")
             .attr("readonly", true)
-            .property("value", "http://api.datausa.io" + getLinkPath(d.url))
+            .property("value", "https://api.datausa.io" + getLinkPath(d.url))
             .on("click", function(){ this.select(); })
         })
 
