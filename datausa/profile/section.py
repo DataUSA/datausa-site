@@ -82,11 +82,11 @@ class Section(BaseObject):
                     if not isinstance(topic["viz"], list):
                         topic["viz"] = [topic["viz"]]
                     topic["viz"] = [v for v in topic["viz"] if self.allowed_levels(v)]
-                    topic["viz"] = [Viz(viz, getHighlight(viz), profile = profile) for viz in topic["viz"]]
+                    topic["viz"] = [Viz(viz, getHighlight(viz), profile = profile, select = "select" in topic) for viz in topic["viz"]]
 
 
                 if "miniviz" in topic:
-                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]), profile = profile)
+                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]), profile = profile, select = "select" in topic)
 
 
                 # fill selector if present

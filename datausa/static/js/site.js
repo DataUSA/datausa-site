@@ -7526,7 +7526,9 @@ viz.bar = function(build) {
     var key = axis.length === 1 ? "pri" : "sec",
         range = false;
 
-    if (build.config[axis] && axis !== discrete) {
+    var toggle = build.select || build.config.ui && build.config.ui.filter(function(u) { return u.method === axis; }).length;
+
+    if (!toggle && build.config[axis] && axis !== discrete) {
       range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
     }
 
