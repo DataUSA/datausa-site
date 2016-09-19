@@ -21,6 +21,7 @@ def map():
             "pop,pop_moe,pop_rank",
             "age,age_moe,age_rank",
             "income,income_moe,income_rank",
+            "income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
             "mean_commute_minutes",
             "non_eng_speakers_pct",
             "median_property_value,median_property_value_moe",

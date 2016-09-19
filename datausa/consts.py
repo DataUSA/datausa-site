@@ -307,6 +307,8 @@ DICTIONARY = {
 
     "population_estimate": "Population Estimate",
 
+    "income_below_poverty": "Population in Poverty",
+    "pop_poverty_status": "Overall Population",
     "poverty_2ormore": "2+",
     "poverty_asian": "Asian",
     "poverty_black": "Black",
