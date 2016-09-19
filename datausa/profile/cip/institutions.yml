@@ -57,7 +57,9 @@ topics:
             - "grads_total"
             - "oos_tuition"
             - "state_tuition"
-      x: "oos_tuition"
+      x:
+        label: NO
+        value: "oos_tuition"
       y:
         scale: "discrete"
         value: "university"
