@@ -511,42 +511,6 @@ body.profile, body.map, body.story {
         }
       }
 
-      .splash-icon-nav {
-        @include flex-size(1);
-        @include flex();
-
-        a {
-          display: inline-block;
-          text-align: center;
-          margin: 0 10px;
-          width: 100px;
-          @include transition(all 0.35s);
-
-          &:hover {
-            span {
-              @include text-shadow(0px 0px 1px rgba(255,255,255,0.8));
-            }
-          }
-
-          img {
-            width: 30px;
-            height: 30px;
-          }
-
-          span {
-            display: block;
-            margin-top: 5px;
-            font-family: $palanquin;
-            text-transform: uppercase;
-            font-weight: 400;
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            line-height: 1.3;
-            color: #fff;
-          }
-        }
-      }
-
       h1 {
         line-height: 1;
         color: #efefef;
@@ -645,6 +609,53 @@ body.profile, body.map, body.story {
 
       }
 
+    }
+
+    .splash-icon-nav {
+      @include flex-size(1);
+      @include flex();
+      z-index: 1;
+
+      a {
+        display: inline-block;
+        text-align: center;
+        margin: 0 10px;
+        width: 100px;
+        @include transition(all 0.35s);
+
+        &:hover {
+          span {
+            @include text-shadow(0px 0px 1px rgba(255,255,255,0.8));
+          }
+        }
+
+        img {
+          width: 30px;
+          height: 30px;
+        }
+
+        span {
+          display: block;
+          margin-top: 5px;
+          font-family: $palanquin;
+          text-transform: uppercase;
+          font-weight: 400;
+          font-size: 10px;
+          letter-spacing: 0.1em;
+          line-height: 1.3;
+          color: #fff;
+        }
+
+        &.small {
+          img {
+            height: 20px;
+            width: 20px;
+          }
+          span {
+            margin-top: -5px;
+          }
+        }
+      }
     }
 
     #scroll-btn {
@@ -998,6 +1009,14 @@ body.profile, body.map, body.story {
 
     h2, a, p {
       color: #fff;
+      position: relative;
+    }
+
+    h2 a:before {
+      content: "";
+      position: absolute;
+      top: -$nav-height - $prof-nav-height - 10;
+      visibility: hidden;
     }
 
     .breadcrumb, .data-source-crumb {

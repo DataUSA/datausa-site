@@ -3748,58 +3748,6 @@
                       font-size: 37px;
                       color: #fff;
                       opacity: 0.9; }
-            body.profile #splash .content .splash-icon-nav,
-            body.map #splash .content .splash-icon-nav,
-            body.story #splash .content .splash-icon-nav {
-              -webkit-box-flex: 1;
-              -moz-box-flex: 1;
-              -webkit-flex: 1;
-              -ms-flex: 1;
-              flex: 1;
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: -webkit-flex;
-              display: flex; }
-              body.profile #splash .content .splash-icon-nav a,
-              body.map #splash .content .splash-icon-nav a,
-              body.story #splash .content .splash-icon-nav a {
-                display: inline-block;
-                text-align: center;
-                margin: 0 10px;
-                width: 100px;
-                -moz-transition: all 0.35s;
-                -o-transition: all 0.35s;
-                -webkit-transition: all 0.35s;
-                transition: all 0.35s; }
-                body.profile #splash .content .splash-icon-nav a:hover span,
-                body.map #splash .content .splash-icon-nav a:hover span,
-                body.story #splash .content .splash-icon-nav a:hover span {
-                  -webkit-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
-                  -moz-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
-                  text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8); }
-                body.profile #splash .content .splash-icon-nav a img,
-                body.map #splash .content .splash-icon-nav a img,
-                body.story #splash .content .splash-icon-nav a img {
-                  width: 30px;
-                  height: 30px; }
-                  body.profile #splash .content .splash-icon-nav a span,
-                  body.map #splash .content .splash-icon-nav a span,
-                  body.story #splash .content .splash-icon-nav a span {
-                    display: block;
-                    margin-top: 5px;
-                    font-family: "Palanquin", sans-serif;
-                    text-transform: uppercase;
-                    font-weight: 400;
-                    font-size: 10px;
-                    letter-spacing: 0.1em;
-                    line-height: 1.3;
-                    color: #fff; }
             body.profile #splash .content h1, body.map #splash .content h1,
             body.story #splash .content h1 {
               line-height: 1;
@@ -3908,6 +3856,65 @@
                         font-weight: 300;
                         font-size: 11.5px;
                         letter-spacing: 0.1em; }
+        body.profile #splash .splash-icon-nav, body.map #splash .splash-icon-nav,
+        body.story #splash .splash-icon-nav {
+          -webkit-box-flex: 1;
+          -moz-box-flex: 1;
+          -webkit-flex: 1;
+          -ms-flex: 1;
+          flex: 1;
+          -webkit-justify-content: center;
+          -moz-justify-content: center;
+          justify-content: center;
+          -ms-flex-pack: center;
+          flex-pack: center;
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          z-index: 1; }
+          body.profile #splash .splash-icon-nav a, body.map #splash .splash-icon-nav a,
+          body.story #splash .splash-icon-nav a {
+            display: inline-block;
+            text-align: center;
+            margin: 0 10px;
+            width: 100px;
+            -moz-transition: all 0.35s;
+            -o-transition: all 0.35s;
+            -webkit-transition: all 0.35s;
+            transition: all 0.35s; }
+            body.profile #splash .splash-icon-nav a:hover span,
+            body.map #splash .splash-icon-nav a:hover span,
+            body.story #splash .splash-icon-nav a:hover span {
+              -webkit-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+              -moz-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+              text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8); }
+            body.profile #splash .splash-icon-nav a img,
+            body.map #splash .splash-icon-nav a img, body.story #splash .splash-icon-nav a img {
+              width: 30px;
+              height: 30px; }
+              body.profile #splash .splash-icon-nav a span,
+              body.map #splash .splash-icon-nav a span,
+              body.story #splash .splash-icon-nav a span {
+                display: block;
+                margin-top: 5px;
+                font-family: "Palanquin", sans-serif;
+                text-transform: uppercase;
+                font-weight: 400;
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                line-height: 1.3;
+                color: #fff; }
+                body.profile #splash .splash-icon-nav a.small img,
+                body.map #splash .splash-icon-nav a.small img,
+                body.story #splash .splash-icon-nav a.small img {
+                  height: 20px;
+                  width: 20px; }
+                  body.profile #splash .splash-icon-nav a.small span,
+                  body.map #splash .splash-icon-nav a.small span,
+                  body.story #splash .splash-icon-nav a.small span {
+                    margin-top: -5px; }
         body.profile #splash #scroll-btn, body.map #splash #scroll-btn,
         body.story #splash #scroll-btn {
           bottom: 15px;
@@ -4307,13 +4314,20 @@
     body.profile .intro h2, body.profile .intro a, body.profile .intro p,
     body.map .intro h2, body.map .intro a, body.map .intro p, body.story .intro h2,
     body.story .intro a, body.story .intro p {
-      color: #fff; }
-      body.profile .intro .breadcrumb img, body.profile .intro .data-source-crumb img,
-      body.map .intro .breadcrumb img, body.map .intro .data-source-crumb img,
-      body.story .intro .breadcrumb img, body.story .intro .data-source-crumb img {
-        position: relative;
-        display: inline-block;
-        bottom: 4px; }
+      color: #fff;
+      position: relative; }
+      body.profile .intro h2 a:before, body.map .intro h2 a:before,
+      body.story .intro h2 a:before {
+        content: "";
+        position: absolute;
+        top: -95px;
+        visibility: hidden; }
+        body.profile .intro .breadcrumb img, body.profile .intro .data-source-crumb img,
+        body.map .intro .breadcrumb img, body.map .intro .data-source-crumb img,
+        body.story .intro .breadcrumb img, body.story .intro .data-source-crumb img {
+          position: relative;
+          display: inline-block;
+          bottom: 4px; }
     body.profile .intro .data-source-crumb img, body.map .intro .data-source-crumb img,
     body.story .intro .data-source-crumb img {
       width: 15px;

@@ -75,19 +75,26 @@
 
     </div>
 
-    <div id="scroll-btn">
+    <div id="scroll-btn" class="splash-icon-nav">
+      <a href="#intro" class="small" data-ga="splash more" data-ga-cat="navigation" data-ga-label="User click">
+        <img src="/static/img/icons/bottom-arrow.svg" />
+        <span>Read More</span>
+      </a>
+    </div>
+
+    <!-- <div id="scroll-btn">
       <div class="mouse">
         <span class="ball"></span>
       </div>
       <div class="mouse-text">Scroll to Explore</div>
-    </div>
+    </div> -->
 
   </article> <!-- end splash  -->
 
   <header class="intro">
 
     <div class="intro-head">
-      <h2 class="section-title"><a name="intro">About</a></h2>
+      <h2 class="section-title"><a href="#intro" name="intro">About</a></h2>
 
       <div class="r">
         <div class="photo-cred">
@@ -264,11 +271,11 @@
   var title = d3.select(".splash-titles h1");
   title.style("font-size", fontScale(title.text().length) + "px");
 
-  if (!d3plus.client.touch) {
-    var scrollTimeout = setTimeout(function(){
-      d3.select("#scroll-btn").classed("visible", true);
-    }, 5000);
-  }
+  // if (!d3plus.client.touch) {
+  //   var scrollTimeout = setTimeout(function(){
+  //     d3.select("#scroll-btn").classed("visible", true);
+  //   }, 5000);
+  // }
 
   var maxCarousel = d3.selectAll(".carousel-text").size() - 1, currentPage = 0;
   d3.selectAll(".carousel-btn").on("click", function(d, i){
@@ -306,14 +313,14 @@
     sideNavBottom = sideButtons[0][sideButtons.length - 1].offsetTop + 30;
   }
 
-  var firstScroll = true;
+  // var firstScroll = true;
   function navScroll(){
 
-    if (!firstScroll) {
-      clearTimeout(scrollTimeout);
-      d3.select("#scroll-btn").classed("visible", false);
-    }
-    firstScroll = false;
+    // if (!firstScroll) {
+    //   clearTimeout(scrollTimeout);
+    //   d3.select("#scroll-btn").classed("visible", false);
+    // }
+    // firstScroll = false;
 
     var y = d3plus.client.scroll.y(),
         colorTitleNav = y > titleNavHeight,
