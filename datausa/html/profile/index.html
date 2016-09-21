@@ -411,9 +411,15 @@
     elem.classed("open", !open).text(text);
   });
 
+  var compare = {{ compare|tojson }};
   function addComparison(attr) {
-    console.log(attr);
+    console.log(attr.id, attr.display || attr.display_name);
+    if (history.pushState) {
+      urlPath = location.pathname + "?compare=" + attr.id;
+      window.history.pushState({path: urlPath}, "", urlPath);
+    }
   }
+  if (compare) addComparison(compare);
 
   d3.selectAll(".compare-search").on("click", function() {
 

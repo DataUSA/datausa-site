@@ -2,7 +2,7 @@
 from flask import abort, Blueprint, g, jsonify, render_template, request, redirect, url_for
 from config import CROSSWALKS, PROFILES
 from datausa.profile.profile import Profile
-from datausa.utils.data import attr_cache, acs_crosswalk
+from datausa.utils.data import attr_cache, acs_crosswalk, fetch
 from datausa.utils.manip import stat
 from datausa.search.views import get_img
 from random import randint
@@ -31,7 +31,7 @@ def profile(attr_type, attr_id):
     allowed_type = attr_type in PROFILES or attr_type in CROSSWALKS
     allowed_id = attr_type in attr_cache and attr_id in attr_cache[attr_type]
     if not allowed_type or not allowed_id:
-        abort(404);
+        abort(404)
     if attr_type in CROSSWALKS:
         attr = attr_cache[attr_type][attr_id]
 
@@ -51,8 +51,13 @@ def profile(attr_type, attr_id):
     attr_data = attr_cache[attr_type][attr_id]
     p = Profile(attr_data["id"], attr_type)
 
+
+    compare = request.args.get("compare", False)
+    if compare:
+        compare = fetch(compare, attr_type)
+
     # render the profile template and pass the profile to jinja
-    return render_template("profile/index.html", profile = p)
+    return render_template("profile/index.html", profile = p, compare = compare)
 
 # create a route and function for the education profile that accepts a CIP id
 @mod.route("/dataloca/<attr_type>/<attr_id>/")
