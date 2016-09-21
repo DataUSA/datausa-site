@@ -662,10 +662,10 @@ body.profile, body.map, body.story {
       bottom: 15px;
       display: block;
       left: 50%;
-      margin-left: -100px;
+      margin-left: -150px;
       position: absolute;
       text-align: center;
-      width: 200px;
+      width: 300px;
 
       .mouse {
         @include transition(opacity 1s);

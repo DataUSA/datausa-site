@@ -80,6 +80,10 @@
         <img src="/static/img/icons/bottom-arrow.svg" />
         <span>Read More</span>
       </a>
+      <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
+        <img src="/static/img/icons/compare.svg" />
+        <span>Add Comparison</span>
+      </a>
     </div>
 
     <!-- <div id="scroll-btn">
@@ -252,6 +256,12 @@
 </div>
 {% endif %}
 
+<div id="search-compare-modal" class="search-body">
+  <input id="compare-search-input" class="search-input" data-search="compare-modal" type="text" placeholder="Search Locations" data-ga="compareSearchClick" data-ga-cat="compare" />
+  <div class="no-search-results">No results found</div>
+  <div class="search-results"></div>
+</div>
+
 {% endblock %}
 
 {% block js %}
@@ -399,7 +409,43 @@
     if (!open) text = "";
     d3.select(this.previousSibling).style("display", open ? "none" : "inline");
     elem.classed("open", !open).text(text);
-  })
+  });
+
+  function addComparison(attr) {
+    console.log(attr);
+  }
+
+  d3.selectAll(".compare-search").on("click", function() {
+
+    d3.event.preventDefault();
+    d3.event.stopPropagation();
+
+    var modal = d3.select("#search-compare-modal"),
+        rect = d3.select(this).node().getBoundingClientRect();
+
+    if (modal.classed("open")) {
+      modal.classed("open", false);
+      return;
+    }
+
+    modal
+      .classed("open", true)
+      .style("top", rect.top - parseFloat(modal.style("height"), 10) + window.scrollY - 10 + "px")
+      .style("left", rect.left + rect.width / 2 - parseFloat(modal.style("width"), 10) / 2 + "px");
+
+    // focus input
+    var search_input = modal.select("input");
+    search_input.node().focus();
+
+    // initialize search if input box is empty
+    search.container = modal;
+    search.click = addComparison;
+    search.type = attr_type;
+    search.max = 20;
+    search.term = search_input.property("value");
+    search.reload();
+
+  });
 
 </script>
 

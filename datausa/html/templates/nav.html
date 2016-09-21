@@ -177,6 +177,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   if(d3.event){
     d3.event.stopPropagation();
   }
+  d3.select("#search-compare-modal").classed("open", false);
   var _this = this === window ? d3.select("#home-search-input").node() : this;
   var is_home = this.id === "home-search-input";
   var results_div_id = d3.select(_this).attr("data-results");
@@ -200,6 +201,9 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
 
   // initialize search if input box is empty
   // console.log(search_input.property("value"))
+  search.click = false;
+  search.type = "";
+  search.max = 10;
   if(search_input.property("value") !== "" || is_home){
     search.container = d3.select("#search-" + search_input.attr("data-search"));
     search.term = search_input.property("value");
@@ -210,7 +214,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   }
 });
 
-d3.selectAll("#nav-search-input").on("click", function(){
+d3.selectAll("#nav-search-input, #compare-search-input").on("click", function(){
   if(d3.select(this.parentNode).classed("open")){
     d3.event.stopPropagation();
   }

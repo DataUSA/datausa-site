@@ -69,6 +69,7 @@ function prettyUrl(d) {
 var search = {
   "advanced": false,
   "anchors": {},
+  "click": false,
   "container": false,
   "current_depth": {
     "cip": null,
@@ -262,8 +263,14 @@ search.btnExplore = function(d) {
 
 search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){
-                      return "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
-                    });
+    return search.click ? "#" : "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
+  });
+  if (search.click) {
+    d3.select(this).on("click", function(d) {
+      d3.event.preventDefault();
+      search.click(d)
+    })
+  }
   search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
   search_item_text.append("h2").text(d.display);
