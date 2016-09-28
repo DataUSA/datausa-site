@@ -159,7 +159,7 @@
           d3plus.tooltip.remove(d3.select(this).attr("data-tooltip-id") || "data-tooltip");
         });
 
-      var compare = {% if compare %}{{ compare|tojson }}{% else %}false{% endif %};
+      var compare = {{ g.compare|tojson }};
       function addComparison(attr) {
 
         console.log(attr);

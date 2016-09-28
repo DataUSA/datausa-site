@@ -22,6 +22,7 @@ def before_request():
     g.per10000 = json.dumps(PER10000)
     g.per100000 = json.dumps(PER100000)
     g.api = API
+    g.compare = False
 
 @mod.route("/")
 def home():

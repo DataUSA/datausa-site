@@ -51,13 +51,12 @@ def profile(attr_type, attr_id):
     attr_data = attr_cache[attr_type][attr_id]
     p = Profile(attr_data["id"], attr_type)
 
-
-    compare = request.args.get("compare", False)
-    if compare:
-        compare = fetch(compare, attr_type)
+    g.compare = request.args.get("compare", False)
+    if g.compare:
+        g.compare = fetch(g.compare, attr_type)
 
     # render the profile template and pass the profile to jinja
-    return render_template("profile/index.html", profile = p, compare = compare)
+    return render_template("profile/index.html", profile = p)
 
 # create a route and function for the education profile that accepts a CIP id
 @mod.route("/dataloca/<attr_type>/<attr_id>/")
@@ -105,5 +104,9 @@ def embed_view(attr_type, attr_id, section, topic):
                 del t["stat"]
         if "category" in t:
             del t["category"]
+
+    g.compare = request.args.get("compare", False)
+    if g.compare:
+        g.compare = fetch(g.compare, attr_type)
 
     return render_template("profile/embed.html", profile = p, section = section)
