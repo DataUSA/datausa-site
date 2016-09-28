@@ -157,7 +157,64 @@
         })
         .on(d3plus.client.pointer.out,function(){
           d3plus.tooltip.remove(d3.select(this).attr("data-tooltip-id") || "data-tooltip");
-        })
+        });
+
+      var compare = {% if compare %}{{ compare|tojson }}{% else %}false{% endif %};
+      function addComparison(attr) {
+
+        console.log(attr);
+
+        var name = attr ? attr.display || attr.display_name : "";
+        d3.selectAll(".compare-title").text(name);
+        d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
+        d3.selectAll(".compare-text").text(attr ? "Remove Comparison" : "Add Comparison");
+
+        if (history.pushState) {
+          urlPath = attr ? location.pathname + "?compare=" + attr.id : location.pathname;
+          window.history.pushState({path: urlPath}, "", urlPath);
+        }
+
+        compare = attr;
+
+      }
+      if (compare) addComparison(compare);
+
+      d3.selectAll(".compare-search").on("click", function() {
+
+        d3.event.preventDefault();
+        d3.event.stopPropagation();
+
+        if (compare) {
+          addComparison(false);
+          return;
+        }
+
+        var modal = d3.select("#search-compare-modal"),
+            rect = d3.select(this).node().getBoundingClientRect();
+
+        if (modal.classed("open")) {
+          modal.classed("open", false);
+          return;
+        }
+
+        modal
+          .classed("open", true)
+          .style("top", rect.top - parseFloat(modal.style("height"), 10) + window.scrollY - 10 + "px")
+          .style("left", rect.left + rect.width / 2 - parseFloat(modal.style("width"), 10) / 2 + "px");
+
+        // focus input
+        var search_input = modal.select("input");
+        search_input.node().focus();
+
+        // initialize search if input box is empty
+        search.container = modal;
+        search.click = addComparison;
+        search.type = attr_type;
+        search.max = 20;
+        search.term = search_input.property("value");
+        search.reload();
+
+      });
 
     </script>
 
