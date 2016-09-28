@@ -423,21 +423,26 @@ body.profile, body.map, body.story {
       }
 
       .splash-titles {
-        @include flex-size(2.5);
-        color: #efefef;
-        width: 100%;
-        max-width: 750px;
-        text-align: center;
         @include flex();
         @include flex-direction(column);
+        @include flex-size(2.5);
+        color: #efefef;
+        max-width: 750px;
+        text-align: center;
+        width: 100%;
 
         h1 {
-          text-transform: none;
           font-family: $pathway;
           font-weight: 400;
-          text-transform: uppercase;
           letter-spacing: 0.03em;
+          text-transform: uppercase;
           @include text-shadow(0px 0px 15px rgba(20, 27, 46, 0.6));
+
+          .compare-separator {
+            display: none;
+            margin: 0 10px;
+          }
+
         }
 
         sub {
@@ -727,7 +732,7 @@ body.profile, body.map, body.story {
     top: 0;
     z-index: 3;
 
-    span {
+    & > span {
       @include box();
       display: block;
       position: relative;
@@ -749,6 +754,12 @@ body.profile, body.map, body.story {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        .compare-separator {
+          display: none;
+          margin: 0 5px;
+        }
+
       }
     }
 

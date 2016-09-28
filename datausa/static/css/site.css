@@ -543,7 +543,8 @@
       position: fixed;
       top: 0;
       z-index: 3; }
-      body.about #title-bar span, body.story #title-bar span, body.map #title-bar span {
+      body.about #title-bar > span, body.story #title-bar > span,
+      body.map #title-bar > span {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
@@ -562,9 +563,9 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis; }
-        body.about #title-bar span:before, body.about #title-bar span:after,
-        body.story #title-bar span:before, body.story #title-bar span:after,
-        body.map #title-bar span:before, body.map #title-bar span:after {
+        body.about #title-bar > span:before, body.about #title-bar > span:after,
+        body.story #title-bar > span:before, body.story #title-bar > span:after,
+        body.map #title-bar > span:before, body.map #title-bar > span:after {
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box; }
@@ -3649,15 +3650,6 @@
                     body.profile #splash .content .splash-titles,
                     body.map #splash .content .splash-titles,
                     body.story #splash .content .splash-titles {
-                      -webkit-box-flex: 2.5;
-                      -moz-box-flex: 2.5;
-                      -webkit-flex: 2.5;
-                      -ms-flex: 2.5;
-                      flex: 2.5;
-                      color: #efefef;
-                      width: 100%;
-                      max-width: 750px;
-                      text-align: center;
                       -webkit-justify-content: center;
                       -moz-justify-content: center;
                       justify-content: center;
@@ -3671,27 +3663,40 @@
                       -webkit-flex-direction: column;
                       -moz-flex-direction: column;
                       -ms-flex-direction: column;
-                      flex-direction: column; }
+                      flex-direction: column;
+                      -webkit-box-flex: 2.5;
+                      -moz-box-flex: 2.5;
+                      -webkit-flex: 2.5;
+                      -ms-flex: 2.5;
+                      flex: 2.5;
+                      color: #efefef;
+                      max-width: 750px;
+                      text-align: center;
+                      width: 100%; }
                       body.profile #splash .content .splash-titles h1,
                       body.map #splash .content .splash-titles h1,
                       body.story #splash .content .splash-titles h1 {
-                        text-transform: none;
                         font-family: "Pathway Gothic One", sans-serif;
                         font-weight: 400;
-                        text-transform: uppercase;
                         letter-spacing: 0.03em;
+                        text-transform: uppercase;
                         -webkit-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
                         -moz-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
                         text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6); }
-                        body.profile #splash .content .splash-titles sub,
-                        body.map #splash .content .splash-titles sub,
-                        body.story #splash .content .splash-titles sub {
-                          text-transform: none;
-                          font-family: "Pathway Gothic One", sans-serif;
-                          font-size: 18px;
-                          font-weight: 400;
-                          text-transform: uppercase;
-                          letter-spacing: 0.03em; }
+                        body.profile #splash .content .splash-titles h1 .compare-separator,
+                        body.map #splash .content .splash-titles h1 .compare-separator,
+                        body.story #splash .content .splash-titles h1 .compare-separator {
+                          display: none;
+                          margin: 0 10px; }
+                      body.profile #splash .content .splash-titles sub,
+                      body.map #splash .content .splash-titles sub,
+                      body.story #splash .content .splash-titles sub {
+                        text-transform: none;
+                        font-family: "Pathway Gothic One", sans-serif;
+                        font-size: 18px;
+                        font-weight: 400;
+                        text-transform: uppercase;
+                        letter-spacing: 0.03em; }
             body.profile #splash .content #splash-stats,
             body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
               -webkit-box-flex: 2;
@@ -4056,7 +4061,8 @@
     position: fixed;
     top: 0;
     z-index: 3; }
-    body.profile #title-bar span, body.map #title-bar span, body.story #title-bar span {
+    body.profile #title-bar > span, body.map #title-bar > span,
+    body.story #title-bar > span {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
@@ -4073,20 +4079,25 @@
       -o-transition: top 0.55s 0.03s;
       -webkit-transition: top 0.55s 0.03s;
       transition: top 0.55s 0.03s; }
-      body.profile #title-bar span:before, body.profile #title-bar span:after,
-      body.map #title-bar span:before, body.map #title-bar span:after,
-      body.story #title-bar span:before, body.story #title-bar span:after {
+      body.profile #title-bar > span:before, body.profile #title-bar > span:after,
+      body.map #title-bar > span:before, body.map #title-bar > span:after,
+      body.story #title-bar > span:before, body.story #title-bar > span:after {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box; }
-        body.profile #title-bar span a, body.map #title-bar span a,
-        body.story #title-bar span a {
+        body.profile #title-bar > span a, body.map #title-bar > span a,
+        body.story #title-bar > span a {
           color: #ef6145;
           font-family: "Pathway Gothic One", sans-serif;
           font-size: 24px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis; }
+          body.profile #title-bar > span a .compare-separator,
+          body.map #title-bar > span a .compare-separator,
+          body.story #title-bar > span a .compare-separator {
+            display: none;
+            margin: 0 5px; }
     body.profile #title-bar img, body.map #title-bar img, body.story #title-bar img {
       width: 72px;
       margin-top: 6px;

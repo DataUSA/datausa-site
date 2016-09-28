@@ -14,8 +14,11 @@
 
 {% block subtitle %}
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a> <a href="#">{{ profile.splash.title }}</a>
-  <a href="#" class="expand-stats-btn close"></a></span>
+  <span>
+    <a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a>
+    <a href="#">{{ profile.splash.title }}<span class="compare-separator">&amp;</span><span class="compare-title"></span></a>
+    <a href="#" class="expand-stats-btn close"></a>
+  </span>
 </div>
 {% endblock %}
 
@@ -39,7 +42,7 @@
 
       <div class="splash-titles">
 
-        <h1>{{ profile.splash.title }}</h1>
+        <h1>{{ profile.splash.title }}<span class="compare-separator">&amp;</span><span class="compare-title"></span></h1>
         {% if profile.attr_type == "cip" and profile.attr.is_stem %}
         <sub class="stem-label">
           {% if profile.attr.is_stem == 1 %}STEM Major{% else %}Contains STEM Majors{% endif %}
@@ -413,7 +416,11 @@
 
   var compare = {{ compare|tojson }};
   function addComparison(attr) {
-    console.log(attr.id, attr.display || attr.display_name);
+    console.log(attr);
+    var name = attr ? attr.display || attr.display_name : "";
+    d3.selectAll(".compare-title").text(name);
+    d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none")
+    compare = attr;
     if (history.pushState) {
       urlPath = location.pathname + "?compare=" + attr.id;
       window.history.pushState({path: urlPath}, "", urlPath);
