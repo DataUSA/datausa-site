@@ -628,6 +628,10 @@ body.profile, body.map, body.story {
         width: 100px;
         @include transition(all 0.35s);
 
+        &.compare-search {
+          width: 120px;
+        }
+
         &:hover {
           span {
             @include text-shadow(0px 0px 1px rgba(255,255,255,0.8));

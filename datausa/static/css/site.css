@@ -3957,12 +3957,16 @@
             -o-transition: all 0.35s;
             -webkit-transition: all 0.35s;
             transition: all 0.35s; }
-            body.profile #splash .splash-icon-nav a:hover span,
-            body.map #splash .splash-icon-nav a:hover span,
-            body.story #splash .splash-icon-nav a:hover span {
-              -webkit-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
-              -moz-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
-              text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8); }
+            body.profile #splash .splash-icon-nav a.compare-search,
+            body.map #splash .splash-icon-nav a.compare-search,
+            body.story #splash .splash-icon-nav a.compare-search {
+              width: 120px; }
+              body.profile #splash .splash-icon-nav a:hover span,
+              body.map #splash .splash-icon-nav a:hover span,
+              body.story #splash .splash-icon-nav a:hover span {
+                -webkit-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+                -moz-text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+                text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8); }
             body.profile #splash .splash-icon-nav a img,
             body.map #splash .splash-icon-nav a img, body.story #splash .splash-icon-nav a img {
               width: 30px;

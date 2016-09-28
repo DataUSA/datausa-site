@@ -85,7 +85,7 @@
       </a>
       <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
         <img src="/static/img/icons/compare.svg" />
-        <span>Add Comparison</span>
+        <span class="compare-text">Add Comparison</span>
       </a>
     </div>
 
@@ -416,15 +416,21 @@
 
   var compare = {{ compare|tojson }};
   function addComparison(attr) {
+
     console.log(attr);
+
     var name = attr ? attr.display || attr.display_name : "";
     d3.selectAll(".compare-title").text(name);
-    d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none")
-    compare = attr;
+    d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
+    d3.selectAll(".compare-text").text(attr ? "Remove Comparison" : "Add Comparison");
+
     if (history.pushState) {
-      urlPath = location.pathname + "?compare=" + attr.id;
+      urlPath = attr ? location.pathname + "?compare=" + attr.id : location.pathname;
       window.history.pushState({path: urlPath}, "", urlPath);
     }
+
+    compare = attr;
+
   }
   if (compare) addComparison(compare);
 
@@ -432,6 +438,11 @@
 
     d3.event.preventDefault();
     d3.event.stopPropagation();
+
+    if (compare) {
+      addComparison(false);
+      return;
+    }
 
     var modal = d3.select("#search-compare-modal"),
         rect = d3.select(this).node().getBoundingClientRect();
