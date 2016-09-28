@@ -86,10 +86,11 @@
     <!-- All Pages -->
     <script type="text/javascript">
 
-      var compare = {{ g.compare|tojson }};
+      var compare = {{ g.compare|tojson }}, compares = [];
       function addComparison(attr) {
 
         console.log(attr);
+        if (compare !== attr) compares.push(compare);
 
         builds.forEach(function(build) {
 
@@ -128,6 +129,10 @@
         scrollFunctions.forEach(function(f) { f(0); });
 
       }
+
+      d3.select(window).on("popstate", function() {
+        addComparison(compares.length ? compares.pop() : false);
+      })
 
       d3.selectAll(".compare-search").on("click", function() {
 
