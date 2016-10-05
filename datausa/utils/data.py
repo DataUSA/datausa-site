@@ -93,7 +93,7 @@ def acs_crosswalk(attr_type, attr_id):
 @cache.memoize()
 def build_story_cache():
     STORIES_DIR = os.path.join(basedir, "datausa/story/stories")
-    available = [(f, os.path.join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if os.path.isfile(os.path.join(STORIES_DIR, f)) and not "-draft" in f]
+    available = [(f, os.path.join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if os.path.isfile(os.path.join(STORIES_DIR, f)) and not "-draft" in f and not "DS_Store" in f]
     def build_preview(filename, path):
         s = {}
         s["story_id"] = filename[:-4]
