@@ -35,7 +35,7 @@ class StoryPreview(object):
 
     @classmethod
     def generate_list(cls, to_feature=[]):
-        available = [(f, join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if isfile(join(STORIES_DIR, f)) and not "-draft" in f]
+        available = [(f, join(STORIES_DIR, f)) for f in os.listdir(STORIES_DIR) if isfile(join(STORIES_DIR, f)) and not "-draft" in f and not "DS_Store" in f]
         stories = [StoryPreview(filename, path) for filename, path in available]
         stories.sort(key = lambda x: x._date_obj, reverse=True)
         featured_stories = []
