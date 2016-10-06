@@ -110,6 +110,12 @@ body.profile, body.map, body.story {
     }
   }
 
+  &.embed {
+    section {
+      background-color: transparent !important;
+    }
+  }
+
   &.cip {
     #stats-bar #title-stats {
       width: 100%;

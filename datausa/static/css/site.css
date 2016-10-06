@@ -3334,6 +3334,8 @@
     background-color: #E9E9E9; }
     body.profile.naics .io, body.map.naics .io, body.story.naics .io {
       background-color: #F6F6F6; }
+  body.profile.embed section, body.map.embed section, body.story.embed section {
+    background-color: transparent !important; }
   body.profile.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats,
   body.story.cip #stats-bar #title-stats {
     width: 100%;
