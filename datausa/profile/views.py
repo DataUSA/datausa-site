@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from flask import abort, Blueprint, g, jsonify, render_template, request, redirect, url_for
 from config import CROSSWALKS, PROFILES
 from datausa import cache
@@ -6,10 +7,22 @@ from datausa.profile.profile import Profile
 from datausa.utils.data import attr_cache, acs_crosswalk, fetch
 from datausa.utils.manip import stat
 from datausa.search.views import get_img
+from json import JSONEncoder
 from random import randint
 
 # create the profile Blueprint
 mod = Blueprint("profile", __name__, url_prefix="/profile")
+
+
+class MyEncoder(JSONEncoder):
+    def default(self, o):
+        ret_obj = o.__dict__
+        if "variables" in ret_obj:
+            del ret_obj["variables"]
+        if "section_cache" in ret_obj:
+            ret_obj["sections"] = ret_obj["section_cache"]
+            del ret_obj["section_cache"]
+        return ret_obj
 
 @mod.before_request
 def before_request():
@@ -55,6 +68,9 @@ def profile(attr_type, attr_id):
 
     # pass id and type to Profile class
     p = profile_fetch(attr_type, attr_id)
+
+    if request.args.get("json", False):
+        return json.dumps(p, cls=MyEncoder)
 
     g.compare = request.args.get("compare", False)
     if g.compare:
