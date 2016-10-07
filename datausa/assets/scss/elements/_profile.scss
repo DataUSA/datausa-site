@@ -391,6 +391,12 @@ body.profile, body.map, body.story {
       @include background-stretch();
       z-index: 0;
       // @include transition(top 0.5s);
+      &.compare-flex {
+        width: 50%;
+      }
+      &.compare-add {
+        left: auto;
+      }
     }
 
     .content {
@@ -777,6 +783,22 @@ body.profile, body.map, body.story {
       width: 72px;
       margin-top: 6px;
       margin-right: 5px;
+    }
+
+    .compare-search {
+      .compare-img {
+        margin-left: 10px;
+        width: 22px;
+      }
+      .compare-text {
+        color: white;
+        font-family: $palanquin;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        line-height: 3;
+        text-transform: uppercase;
+      }
     }
 
     .expand-stats-btn {
@@ -1474,7 +1496,7 @@ body.profile, body.map, body.story {
 
       }
 
-      &.flex {
+      &.flex, &.compare-flex {
         @include flex();
         @include flex-size(1);
         @include flex-direction(column);
@@ -1490,6 +1512,7 @@ body.profile, body.map, body.story {
           aside {
             @include flex-size(1 0 auto);
             max-width: 100%;
+            min-width: 100%; // added for compare-flex
           }
 
           .viz {
@@ -1506,6 +1529,13 @@ body.profile, body.map, body.story {
 
         }
 
+      }
+
+      &.compare-flex {
+        min-width: 40%;
+        &:not(.compare-add) .datausa-link {
+          display: none;
+        }
       }
 
       .content {

@@ -10,24 +10,28 @@ topics:
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
+    slug: "primary_care_physicians"
     stat:
       - title: "Primary Care"
         value: "1 to <<var namespace=health|key=primary_care_physicians>>"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
+    slug: "dentists"
     stat:
       - title: "Dentists"
         value: "1 to <<var namespace=health|key=dentists>>"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
+    slug: "mental_health_providers"
     stat:
       - title: "Mental Health"
         value: "1 to <<var namespace=health|key=mental_health_providers>>"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
+    slug: "other_primary_care_providers"
     stat:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"

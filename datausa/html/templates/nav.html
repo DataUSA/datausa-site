@@ -202,6 +202,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   // initialize search if input box is empty
   // console.log(search_input.property("value"))
   search.click = false;
+  search.filterID = false;
   search.type = "";
   search.max = 10;
   if(search_input.property("value") !== "" || is_home){

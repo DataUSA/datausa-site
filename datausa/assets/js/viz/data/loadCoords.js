@@ -12,10 +12,13 @@ viz.loadCoords = function(build) {
     if (type.constructor === String) {
       build.config.coords = {"key": type};
     }
-    else {
+    else if (!type.key) {
       type = type.value;
       build.config.coords.key = type;
       delete build.config.coords.value;
+    }
+    else {
+      type = type.key;
     }
 
     if (type === "nations") {
@@ -24,12 +27,11 @@ viz.loadCoords = function(build) {
     }
 
     var solo = build.config.coords.solo;
-    if (solo && solo.length) {
-      build.config.coords.solo = solo.split(",");
+    if (!(solo instanceof Array)) {
+      if (solo && solo.length) build.config.coords.solo = solo.split(",");
+      else build.config.coords.solo = [];
     }
-    else {
-      build.config.coords.solo = [];
-    }
+
     build.config.coords.solo = build.config.coords.solo.filter(function(c){
       return excludedGeos.indexOf(c) < 0;
     });

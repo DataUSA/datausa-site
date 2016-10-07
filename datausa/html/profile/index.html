@@ -17,7 +17,10 @@
   <span>
     <a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a>
     <a href="#">{{ profile.splash.title }}<span class="compare-separator">&amp;</span><span class="compare-title"></span></a>
-    <a href="#" class="expand-stats-btn close"></a>
+    <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
+      <img class="compare-img" src="/static/img/icons/compare.svg" />
+      <span class="compare-text">Add Comparison</span>
+    </a>
   </span>
 </div>
 {% endblock %}
@@ -57,7 +60,7 @@
           <div class="stat-text">{{ stat.title|safe }}</div>
           <div class="stat-group">
             <div class="stat-value">{{ stat.value|safe }}</div>
-            <div class="stat-rank">{{ stat.rank|safe }}</div>
+            <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
           </div>
         </div>
         {% endfor %}
@@ -84,7 +87,7 @@
         <span>Read More</span>
       </a>
       <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
-        <img src="/static/img/icons/compare.svg" />
+        <img class="compare-img" src="/static/img/icons/compare.svg" />
         <span class="compare-text">Add Comparison</span>
       </a>
     </div>
@@ -347,7 +350,7 @@
       .rangeRound([0, window.innerHeight/3.6])
       .clamp(true);
 
-    d3.select("#splash-image").style("top", parallaxScroll(y) + "px")
+    d3.selectAll("#splash-image").style("top", parallaxScroll(y) + "px")
 
     d3.select("#top-nav").classed("filled", colorTitleNav);
     d3.select("nav").classed("filled", colorTitleNav);

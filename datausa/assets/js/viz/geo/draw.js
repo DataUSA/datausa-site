@@ -367,14 +367,15 @@ viz.mapDraw = function(vars) {
     }
     var thumb = d3.select(vars.container.value.node().parentNode).classed("thumbprint");
     var pinData = [];
-    coords.objects[vars.coords.key].geometries = coords.objects[vars.coords.key].geometries.filter(function(c){
+    var coordTopo = d3plus.util.copy(coords.objects[vars.coords.key]);
+    coordTopo.geometries = coordTopo.geometries.filter(function(c){
       if (vars.pins.value.indexOf(c.id) >= 0) pinData.push(c);
       if (hiddenTopo.indexOf(c.id) >= 0) return false;
       if (!thumb && vars.coords.key !== "states" && c.id.indexOf("040") === 0) return false;
       return vars.coords.solo.length ? vars.coords.solo.indexOf(c.id) >= 0 :
              vars.coords.mute.length ? vars.coords.mute.indexOf(c.id) < 0 : true;
     })
-    var coordData = topojson.feature(coords, coords.objects[vars.coords.key]);
+    var coordData = topojson.feature(coords, coordTopo);
 
     if (!vars.zoom.set) {
 
@@ -842,7 +843,6 @@ viz.mapDraw = function(vars) {
       s = pz * polyZoom;
       zoom.scale(s);
     }
-
 
     if (!showUS) {
 

@@ -288,6 +288,9 @@ search.filter = function(data) {
   if(this.depth){
     data = data.filter(function(d){ return d.sumlevel == this.depth; }.bind(this))
   }
+  if (this.filterID) {
+    data = data.filter(function(d){ return d.id !== this.filterID && d.url_name !== this.filterID; }.bind(this));
+  }
   return data;
 }
 

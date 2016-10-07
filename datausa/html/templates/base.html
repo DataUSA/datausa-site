@@ -38,7 +38,8 @@
 
     <script>
 
-      var resizeFunctions = [],
+      var compare = {{ g.compare|tojson }},
+          resizeFunctions = [],
           resizeInstantFunctions = [],
           scrollFunctions = [],
           cache_version = "{{ g.cache_version }}",
@@ -86,52 +87,222 @@
     <!-- All Pages -->
     <script type="text/javascript">
 
-      var compare = {{ g.compare|tojson }}, compares = [];
-      function addComparison(attr) {
+      var compares = [],
+          init_compare = compare !== false;
+          embed = d3.select("body").classed("embed"),
+          num_builds = builds.length;
+      function addComparison(attr, back) {
 
-        console.log(attr);
-        if (compare !== attr) compares.push(compare);
+        if (!attr && !compare || (attr && !init_compare && compare === attr)) return;
+        init_compare = false;
 
-        builds.forEach(function(build) {
+        if (!back) compares.push(compare);
+        // console.log(attr);
+        var name = attr ? attr.display || attr.display_name : "";
+        var type = (attr || compare).kind || (attr || compare).image_path.split("/")[0];
 
-          if (build.loaded) {
-            build.loaded = false;
-            build.container.select(".d3plus").select("div").remove();
+        function update_builds(data) {
+
+          builds = builds.slice(0, num_builds);
+
+          d3.selectAll(".compare-add").remove();
+          d3.selectAll(".compare-flex").classed("compare-flex", false);
+          d3.select("#splash").selectAll(".stat-rank").html(function(d, i) {
+            if (!data) return d3.select(this).attr("data-text");
+            return name + ": " + data.splash.stats[i].value;
+          });
+
+          builds.forEach(function(build) {
+
+            build.data.forEach(function(d) {
+              d.url = d.orig_url || d.url;
+            });
+            build.config.color = build.orig_color;
+
+            if (build.loaded) {
+              build.loaded = false;
+              build.container.select(".d3plus")
+                .style("width", "auto").style("height", "auto")
+                .selectAll("*").remove();
+              build.viz.height(false).width(false);
+            }
+
+          });
+
+          if (data) {
+
+            var counter = 0;
+            var sections = data.sections.reduce(function(obj, d) {
+              d.topics = d.topics.reduce(function(obj, t) {
+                if (t.miniviz) counter++;
+                if (t.viz) {
+                  t.index = counter;
+                  counter += t.viz.length;
+                }
+                obj[t.slug] = t;
+                return obj;
+              }, {});
+              obj[d.anchor] = d;
+              return obj;
+            }, {});
+
+            d3.select("#splash-image").each(function() {
+              d3.select(this).classed("compare-flex", true);
+              var clone = this.cloneNode(true);
+              d3.select(clone)
+                .classed("compare-add", true)
+                .style("background-image", "url('/static/img/splash/" + data.attr.image_path + "')");
+              this.parentNode.insertBefore(clone, this.nextSibling);
+            });
+
+            d3.select(".intro .col").each(function() {
+              d3.select(this).classed("compare-flex", true);
+              var clone = this.cloneNode(true);
+              d3.select(clone).classed("compare-add", true);
+              d3.select(clone).select(".intro-txt p").html(data.splash.description[0]);
+              this.parentNode.insertBefore(clone, this.nextSibling);
+              if (data.splash.viz) {
+                data.splash.viz.container = d3.select(clone).select(".viz");
+                viz.prepBuild(data.splash.viz);
+                builds = builds.concat(data.splash.viz);
+              }
+            });
+
+            d3.selectAll("section").each(function(){
+
+              var anchor = this.className.split(" ")[0];
+
+              d3.select(this).selectAll("article").each(function() {
+
+                var slug = d3.select(this).attr("data-slug");
+                var topic = sections[anchor].topics[slug];
+                if (topic.viz || topic.stat) {
+
+                  // console.log(topic);
+
+                  var topic_name = name;
+                  if (topic.subtitle) {
+                    var sub_name = new RegExp(/<a[^>]*>([^<]*)/g).exec(topic.subtitle);
+                    if (sub_name) topic_name = sub_name[1];
+                  }
+
+                  var build = embed ? builds[num_builds - 1] : builds[topic.index];
+                  if (build && build.config.type === "bar" && topic.viz.length === 1 && type === build.config.id) {
+
+                    build.compare = attr ? attr.id : false;
+
+                    function changeURL(d) {
+
+                      var show = new RegExp("[&|?]" + type + "=([%a-zA-Z0-9]*)").exec(d.url);
+                      d.url = d.url.replace(show[0], show[0] + "%2C" + attr.id);
+
+                    }
+
+                    build.data.forEach(changeURL);
+
+                    var stats = d3.select(this).selectAll(".stat");
+                    if (stats.size() === 1) {
+                      var clone = stats.node().cloneNode(true),
+                          stat = topic.stat[0];
+                      d3.select(clone).classed("compare-add", true);
+                      d3.select(clone).select(".stat-text").html(topic_name);
+                      d3.select(clone).select(".stat-value").html(stat.value);
+                      d3.select(clone).select(".stat-subtitle").html(stat.subtitle);
+                      stats.node().parentNode.insertBefore(clone, stats.node().nextSibling);
+                    }
+
+                    if (topic.miniviz) {
+                      var miniviz = builds[builds.indexOf(build) - 1];
+                      miniviz.compare = attr ? attr.id : false;
+                      if (miniviz.config.type === "bar" && type === miniviz.config.id) {
+                        miniviz.data.forEach(changeURL);
+                      }
+                    }
+
+                  }
+                  else {
+
+                    d3.select(this).classed("compare-flex", true);
+                    var clone = this.cloneNode(true);
+                    d3.select(clone).classed("compare-add", true);
+
+                    var title = d3.select(clone).select("h2");
+                    title.html(function() {
+                      var html = d3.select(this).html().match(/<\s*(\w+\b)(?:(?!<\s*\/\s*\1\b)[\s\S])*<\s*\/\s*\1\s*>|\S+/g);
+                      html[0] = "Compared to " + topic_name;
+                      return html.join(" ");
+                    });
+
+                    d3.select(clone).selectAll(".sub-title").html(topic.subtitle);
+
+                    d3.select(clone).selectAll(".stat").each(function(d, i) {
+                      var div = d3.select(this), stat = topic.stat[i];
+                      div.select(".stat-text").html(title.size() ? stat.title : topic_name);
+                      div.select(".stat-value").html(stat.value);
+                      div.select(".stat-subtitle").html(stat.subtitle);
+                    });
+
+                    d3.select(clone).selectAll("p").html(function(d, i) {
+                      return topic.description[i];
+                    });
+
+                    if (topic.select) {
+                      d3.select(clone).select("#d3plus_drop_topic-select-0").remove();
+                      d3.select(clone).select("select").attr("data-default", topic.select.default).node().value = topic.select.default;
+                    }
+
+                    this.parentNode.insertBefore(clone, this.nextSibling);
+
+                    if (topic.miniviz) {
+                      topic.miniviz.container = d3.select(clone).select(".viz.mini");
+                      viz.prepBuild(topic.miniviz);
+                      builds = builds.concat(topic.miniviz);
+                    }
+
+                    if (topic.viz) {
+                      topic.viz.forEach(function(v, i) {
+                        v.container = d3.select(d3.select(clone).selectAll(".viz.main")[0][i]);
+                      });
+                      topic.viz.forEach(viz.prepBuild);
+                      builds = builds.concat(topic.viz);
+                    }
+
+                  }
+
+                }
+
+              });
+
+            })
           }
 
-          build.compare = attr ? attr.id : false;
-          build.data.forEach(function(d) {
-            var type = (attr || compare).image_path.split("/")[0];
-            if (build.config.type === "bar") {
-              if (type === d.params.show) {
-                if (attr) {
-                  var show = new RegExp("&" + type + "=([%a-zA-Z0-9]*)").exec(d.url);
-                  d.url = d.url.replace(show[0], show[0] + "%2C" + attr.id);
-                }
-                else d.url = d.url.replace("%2C" + compare.id, "");
-              }
-            }
-          });
-        });
+          if (document.onscroll) document.onscroll();
 
-        var name = attr ? attr.display || attr.display_name : "";
+        }
+
+        if (attr) {
+          d3.json("/profile/" + type + "/" + attr.id + "/?json=True", function(error, data) {
+            update_builds(data);
+          });
+        }
+        else update_builds();
+
         d3.selectAll(".compare-title").text(name);
         d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
+        d3.selectAll(".compare-img").attr("src", attr ? "/static/img/icons/compare-active.svg" : "/static/img/icons/compare.svg");
         d3.selectAll(".compare-text").text(attr ? "Remove Comparison" : "Add Comparison");
 
-        if (history.pushState) {
+        if (!back && history.pushState) {
           urlPath = attr ? location.pathname + "?compare=" + attr.id : location.pathname;
           window.history.pushState({path: urlPath}, "", urlPath);
         }
 
         compare = attr;
 
-        scrollFunctions.forEach(function(f) { f(0); });
-
       }
 
       d3.select(window).on("popstate", function() {
-        addComparison(compares.length ? compares.pop() : false);
+        addComparison(location.href.indexOf("compare=") >= 0 ? compare : compares.length ? compares.pop() : false, true);
       })
 
       d3.selectAll(".compare-search").on("click", function() {
@@ -154,7 +325,9 @@
 
         modal
           .classed("open", true)
-          .style("top", rect.top - parseFloat(modal.style("height"), 10) + window.scrollY - 10 + "px")
+          .style("top", this.parentNode.parentNode.id === "title-bar"
+            ? window.scrollY + rect.top + rect.height + 10 + "px"
+            : rect.top - parseFloat(modal.style("height"), 10) + window.scrollY - 10 + "px")
           .style("left", rect.left + rect.width / 2 - parseFloat(modal.style("width"), 10) / 2 + "px");
 
         // focus input
@@ -167,6 +340,7 @@
         search.type = attr_type;
         search.max = 20;
         search.term = search_input.property("value");
+        search.filterID = location.pathname.split("/")[3];
         search.reload();
 
       });
@@ -204,6 +378,7 @@
           firstScroll = false;
         }
       }
+      if (!compare) document.onscroll();
 
       d3.selectAll("[data-tooltip]")
         .on(d3plus.client.pointer.over,function(){
