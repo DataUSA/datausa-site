@@ -8356,15 +8356,13 @@ viz.prepBuild = function(build, i) {
 
 };
 
-viz.resizeBuild = function(b, i) {
+viz.resizeBuild = function(b) {
   b.top = b.container.node().offsetTop;
   b.height = b.container.node().offsetHeight;
   if (!b.height) {
     b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
     b.height = b.container.node().parentNode.offsetHeight;
   }
-  if (i === 28) console.log(i, b.top);
-  if (i === 28) console.log("\n");
   if (b.loaded) {
     b.container.select(".d3plus")
       .style("height", "auto")

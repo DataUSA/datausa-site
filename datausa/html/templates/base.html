@@ -200,14 +200,14 @@
                   }
 
                   var build = embed ? builds[num_builds - 1] : builds[topic.index];
-                  if (build && build.config.type === "bar" && topic.viz.length === 1 && type === build.config.id) {
+                  if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id) {
 
                     build.compare = attr ? attr.id : false;
 
                     function changeURL(d) {
 
                       var show = new RegExp("[&|?]" + type + "=([%a-zA-Z0-9]*)").exec(d.url);
-                      d.url = d.url.replace(show[0], show[0] + "%2C" + attr.id);
+                      if (show) d.url = d.url.replace(show[0], show[0] + "%2C" + attr.id);
 
                     }
 
