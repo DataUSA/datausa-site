@@ -131,7 +131,7 @@
 
           if (data) {
 
-            var counter = 0;
+            var counter = data.splash.viz ? 1 : 0;
             var sections = data.sections.reduce(function(obj, d) {
               d.topics = d.topics.reduce(function(obj, t) {
                 if (t.miniviz) counter++;
