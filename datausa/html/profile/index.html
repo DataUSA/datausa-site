@@ -323,15 +323,7 @@
       titleNavHeight = d3.select("#title-bar").node().offsetHeight,
       statNavHeight = d3.select("#stats-bar").node().offsetHeight,
       profNavHeight = d3.select("#profile-nav").node().offsetHeight,
-      footerTop = d3.select(".profile-end"),
       attr_type = "{{ profile.attr_type }}";
-
-  footerTop = footerTop.size() ? footerTop.node().offsetTop : d3.select("footer").node().offsetTop;
-
-  var sideButtons = d3.selectAll(".section-sidenav-button"), sideNavBottom = 0;
-  if (sideButtons.size()) {
-    sideNavBottom = sideButtons[0][sideButtons.length - 1].offsetTop + 30;
-  }
 
   // var firstScroll = true;
   function navScroll(){
@@ -341,6 +333,14 @@
     //   d3.select("#scroll-btn").classed("visible", false);
     // }
     // firstScroll = false;
+
+    var footerTop = d3.select(".profile-end");
+    footerTop = footerTop.size() ? footerTop.node().offsetTop : d3.select("footer").node().offsetTop;
+
+    var sideButtons = d3.selectAll(".section-sidenav-button"), sideNavBottom = 0;
+    if (sideButtons.size()) {
+      sideNavBottom = sideButtons[0][sideButtons.length - 1].offsetTop + 30;
+    }
 
     var y = d3plus.client.scroll.y(),
         colorTitleNav = y > titleNavHeight,
