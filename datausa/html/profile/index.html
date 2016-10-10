@@ -10,7 +10,7 @@
     <meta property="og:description" content="{{ meta_desc }}"/>
 {% endblock %}
 
-{% block title %}{{ profile.splash.title }}{% endblock %}
+{% block title %}{{ profile.splash.title }}{% if g.compare %} & {% if g.compare.display_name %}{{ g.compare.display_name }}{% else %}{{ g.compare.name }}{% endif %}{% endif %}{% endblock %}
 
 {% block subtitle %}
 <div id="title-bar">

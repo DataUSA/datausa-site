@@ -90,7 +90,9 @@
       var compares = [],
           init_compare = compare !== false;
           embed = d3.select("body").classed("embed"),
-          num_builds = builds.length;
+          num_builds = builds.length,
+          titles = [];
+
       function addComparison(attr, back) {
 
         if (!attr && !compare || (attr && !init_compare && compare === attr)) return;
@@ -101,7 +103,7 @@
 
         if (!back) compares.push(compare);
         // console.log(attr);
-        var name = attr ? attr.display || attr.display_name : "";
+        var name = attr ? attr.display || attr.display_name || attr.name : "";
         var type = location.pathname.split("/")[2];
 
         function update_builds(data) {
@@ -306,6 +308,10 @@
         });
 
         if (!back && history.pushState) {
+          titles.push(document.title);
+          if (attr) document.title = titles[0].split(" & ")[0] + " & " + name;
+          else document.title = titles[0].split(" & ")[0];
+
           urlPath = attr ? location.pathname + "?compare=" + (attr.url_name || attr.id) : location.pathname;
           window.history.pushState({path: urlPath}, "", urlPath);
         }
@@ -315,7 +321,8 @@
       }
 
       d3.select(window).on("popstate", function() {
-        addComparison(location.href.indexOf("compare=") >= 0 ? compare : compares.length ? compares.pop() : false, true);
+        if (titles.length) document.title = titles.pop();
+        addComparison(compares.length ? compares.pop() : false, true);
       })
 
       d3.selectAll(".compare-search").on("click", function() {
