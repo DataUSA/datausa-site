@@ -248,8 +248,11 @@
                     });
 
                     if (topic.select) {
-                      d3.select(clone).select("#d3plus_drop_topic-select-0").remove();
-                      d3.select(clone).select("select").attr("data-default", topic.select.default).node().value = topic.select.default;
+                      d3.select(clone).select("[id^=d3plus_drop_topic-select-]").remove();
+                      d3.select(clone).select("select")
+                        .attr("data-default", topic.select.default)
+                        .attr("id", "topic-select-" + (builds.length + (topic.miniviz ? 1 : 0)))
+                        .node().value = topic.select.default;
                     }
 
                     this.parentNode.insertBefore(clone, this.nextSibling);
