@@ -153,14 +153,8 @@
 
           if (data) {
 
-            var counter = data.splash.viz ? 1 : 0;
             var sections = data.sections.reduce(function(obj, d) {
               d.topics = d.topics.reduce(function(obj, t) {
-                if (t.miniviz) counter++;
-                if (t.viz) {
-                  t.index = counter;
-                  counter += t.viz.length;
-                }
                 obj[t.slug] = t;
                 return obj;
               }, {});
@@ -199,7 +193,8 @@
                     if (sub_name) topic_name = sub_name[1];
                   }
 
-                  var build = embed ? builds[num_builds - 1] : builds[topic.index];
+                  var build = builds.filter(function(b) { return b.slug === slug; });
+                  build = build.length ? build[0] : false;
                   if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id) {
 
                     build.compare = attr ? attr.id : false;

@@ -13,7 +13,7 @@ class Viz(object):
 
     """
 
-    def __init__(self, params, highlight=False, profile=False, select=False):
+    def __init__(self, params, highlight=False, profile=False, select=False, slug=False):
         """Initializes a new Viz class.
 
         Args:
@@ -27,6 +27,7 @@ class Viz(object):
         self.select = select
         self.profile_type = profile.attr_type
         self.className = params.pop("class", False)
+        self.slug = slug
 
         # force the data of params into a list
         data = params.pop("data") if isinstance(params["data"], list) else [params.pop("data")]
@@ -104,7 +105,8 @@ class Viz(object):
             "highlight": self.highlight,
             "profile": self.profile,
             "profile_type": self.profile_type,
-            "select": self.select
+            "select": self.select,
+            "slug": self.slug
         })
 
     def tooltip(self):

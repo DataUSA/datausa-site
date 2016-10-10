@@ -77,16 +77,20 @@ class Section(BaseObject):
                         if "title" in s:
                             s["title"] = self.tooltipify(s["title"])
 
+                slug = False
+                if "slug" in topic:
+                    slug = topic["slug"]
+
                 # instantiate the "viz" config into an array of Viz classes
                 if "viz" in topic:
                     if not isinstance(topic["viz"], list):
                         topic["viz"] = [topic["viz"]]
                     topic["viz"] = [v for v in topic["viz"] if self.allowed_levels(v)]
-                    topic["viz"] = [Viz(viz, getHighlight(viz), profile = profile, select = "select" in topic) for viz in topic["viz"]]
+                    topic["viz"] = [Viz(viz, getHighlight(viz), profile = profile, select = "select" in topic, slug = slug) for viz in topic["viz"]]
 
 
                 if "miniviz" in topic:
-                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]), profile = profile, select = "select" in topic)
+                    topic["miniviz"] = Viz(topic["miniviz"], getHighlight(topic["miniviz"]), profile = profile, select = "select" in topic, slug = slug)
 
 
                 # fill selector if present
