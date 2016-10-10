@@ -139,8 +139,6 @@ viz.prepBuild = function(build, i) {
       build)
     });
 
-  viz.resizeBuild(build);
-
 };
 
 viz.resizeBuild = function(b) {
@@ -152,8 +150,8 @@ viz.resizeBuild = function(b) {
   }
   if (b.loaded) {
     b.container.select(".d3plus")
-      .style("height", "0px")
-      .style("width", "0px");
+      .style("height", "auto")
+      .style("width", "auto");
     b.viz
       .height(false)
       .width(false)
@@ -166,6 +164,7 @@ viz.loadBuilds = function() {
   if (builds.length) {
 
     builds.forEach(viz.prepBuild);
+    builds.forEach(viz.resizeBuild);
 
     function resizeApps() {
       builds.forEach(viz.resizeBuild);

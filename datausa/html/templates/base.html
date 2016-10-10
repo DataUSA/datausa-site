@@ -106,6 +106,25 @@
         var name = attr ? attr.display || attr.display_name || attr.name : "";
         var type = location.pathname.split("/")[2];
 
+        d3.selectAll(".compare-add").remove();
+        d3.selectAll(".compare-flex").classed("compare-flex", false);
+
+        d3.selectAll(".compare-title").text(name);
+        d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
+        d3.selectAll(".compare-img").attr("src", attr ? "/static/img/icons/compare-active.svg" : "/static/img/icons/compare.svg");
+        d3.selectAll(".compare-text").text(attr ? "Remove Comparison" : "Add Comparison");
+
+        d3.select("#splash-image").each(function() {
+          if (attr) {
+            d3.select(this).classed("compare-flex", true);
+            var clone = this.cloneNode(true);
+            d3.select(clone)
+              .classed("compare-add", true)
+              .style("background-image", "url('/profile/" + type + "/" + attr.id + "/img')");
+            this.parentNode.insertBefore(clone, this.nextSibling);
+          }
+        });
+
         function update_builds(data) {
 
           builds = builds.slice(0, num_builds);
@@ -125,7 +144,7 @@
             if (build.loaded) {
               build.loaded = false;
               build.container.select(".d3plus")
-                .style("width", "auto").style("height", "auto")
+                .style("width", "0px").style("height", "0px")
                 .selectAll("*").remove();
               build.viz.height(false).width(false);
             }
@@ -274,6 +293,7 @@
             })
           }
 
+          builds.forEach(viz.resizeBuild);
           if (document.onscroll) document.onscroll();
 
           d3.select("body").classed("frozen", false);
@@ -286,26 +306,7 @@
             update_builds(data);
           });
         }
-        else update_builds();
-
-        d3.selectAll(".compare-add").remove();
-        d3.selectAll(".compare-flex").classed("compare-flex", false);
-
-        d3.selectAll(".compare-title").text(name);
-        d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
-        d3.selectAll(".compare-img").attr("src", attr ? "/static/img/icons/compare-active.svg" : "/static/img/icons/compare.svg");
-        d3.selectAll(".compare-text").text(attr ? "Remove Comparison" : "Add Comparison");
-
-        d3.select("#splash-image").each(function() {
-          if (attr) {
-            d3.select(this).classed("compare-flex", true);
-            var clone = this.cloneNode(true);
-            d3.select(clone)
-              .classed("compare-add", true)
-              .style("background-image", "url('/profile/" + type + "/" + attr.id + "/img')");
-            this.parentNode.insertBefore(clone, this.nextSibling);
-          }
-        });
+        else update_builds(false);
 
         if (!back && history.pushState) {
           titles.push(document.title);
@@ -321,8 +322,10 @@
       }
 
       d3.select(window).on("popstate", function() {
-        if (titles.length) document.title = titles.pop();
-        addComparison(compares.length ? compares.pop() : false, true);
+        if (compares.length && !compares[compares.length - 1] === location.href.indexOf("compare=") < 0) {
+          if (titles.length) document.title = titles.pop();
+          addComparison(compares.length ? compares.pop() : false, true);
+        }
       })
 
       d3.selectAll(".compare-search").on("click", function() {

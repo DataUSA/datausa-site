@@ -7631,7 +7631,7 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
-    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value) {
+    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value && build.config[axis].ticks.value.constructor === String) {
       build.config[axis].ticks.value = JSON.parse(build.config[axis].ticks.value);
     }
 
@@ -8354,21 +8354,21 @@ viz.prepBuild = function(build, i) {
       build)
     });
 
-  viz.resizeBuild(build);
-
 };
 
-viz.resizeBuild = function(b) {
+viz.resizeBuild = function(b, i) {
   b.top = b.container.node().offsetTop;
   b.height = b.container.node().offsetHeight;
   if (!b.height) {
     b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
     b.height = b.container.node().parentNode.offsetHeight;
   }
+  if (i === 28) console.log(i, b.top);
+  if (i === 28) console.log("\n");
   if (b.loaded) {
     b.container.select(".d3plus")
-      .style("height", "0px")
-      .style("width", "0px");
+      .style("height", "auto")
+      .style("width", "auto");
     b.viz
       .height(false)
       .width(false)
@@ -8381,6 +8381,7 @@ viz.loadBuilds = function() {
   if (builds.length) {
 
     builds.forEach(viz.prepBuild);
+    builds.forEach(viz.resizeBuild);
 
     function resizeApps() {
       builds.forEach(viz.resizeBuild);
