@@ -108,8 +108,6 @@
 
           builds = builds.slice(0, num_builds);
 
-          d3.selectAll(".compare-add").remove();
-          d3.selectAll(".compare-flex").classed("compare-flex", false);
           d3.select("#splash").selectAll(".stat-rank").html(function(d, i) {
             if (!data) return d3.select(this).attr("data-text");
             return name + ": " + data.splash.stats[i].value;
@@ -148,15 +146,6 @@
               obj[d.anchor] = d;
               return obj;
             }, {});
-
-            d3.select("#splash-image").each(function() {
-              d3.select(this).classed("compare-flex", true);
-              var clone = this.cloneNode(true);
-              d3.select(clone)
-                .classed("compare-add", true)
-                .style("background-image", "url('/profile/geo/" + data.attr.id + "/img')");
-              this.parentNode.insertBefore(clone, this.nextSibling);
-            });
 
             d3.select(".intro .col").each(function() {
               d3.select(this).classed("compare-flex", true);
@@ -297,13 +286,27 @@
         }
         else update_builds();
 
+        d3.selectAll(".compare-add").remove();
+        d3.selectAll(".compare-flex").classed("compare-flex", false);
+
         d3.selectAll(".compare-title").text(name);
         d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
         d3.selectAll(".compare-img").attr("src", attr ? "/static/img/icons/compare-active.svg" : "/static/img/icons/compare.svg");
         d3.selectAll(".compare-text").text(attr ? "Remove Comparison" : "Add Comparison");
 
+        d3.select("#splash-image").each(function() {
+          if (attr) {
+            d3.select(this).classed("compare-flex", true);
+            var clone = this.cloneNode(true);
+            d3.select(clone)
+              .classed("compare-add", true)
+              .style("background-image", "url('/profile/" + type + "/" + attr.id + "/img')");
+            this.parentNode.insertBefore(clone, this.nextSibling);
+          }
+        });
+
         if (!back && history.pushState) {
-          urlPath = attr ? location.pathname + "?compare=" + attr.id : location.pathname;
+          urlPath = attr ? location.pathname + "?compare=" + (attr.url_name || attr.id) : location.pathname;
           window.history.pushState({path: urlPath}, "", urlPath);
         }
 
