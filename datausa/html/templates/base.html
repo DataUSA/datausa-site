@@ -230,6 +230,7 @@
                     title.html(function() {
                       var html = d3.select(this).html().match(/<\s*(\w+\b)(?:(?!<\s*\/\s*\1\b)[\s\S])*<\s*\/\s*\1\s*>|\S+/g);
                       html[0] = "Compared to " + topic_name;
+                      html = html.filter(function(h) { return h.indexOf('class="term"') < 0; });
                       return html.join(" ");
                     });
 
