@@ -96,6 +96,9 @@
         if (!attr && !compare || (attr && !init_compare && compare === attr)) return;
         init_compare = false;
 
+        d3.select("body").classed("frozen", true);
+        d3.select("#compare-loading").style("display", "block");
+
         if (!back) compares.push(compare);
         // console.log(attr);
         var name = attr ? attr.display || attr.display_name : "";
@@ -281,6 +284,9 @@
           }
 
           if (document.onscroll) document.onscroll();
+
+          d3.select("body").classed("frozen", false);
+          d3.select("#compare-loading").style("display", "none");
 
         }
 

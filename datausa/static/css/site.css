@@ -3222,6 +3222,29 @@
     left: 0;
     right: 0;
     overflow-x: hidden; }
+    body.profile #compare-loading {
+      display: none;
+      height: 100vh;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      background-color: rgba(0, 0, 0, 0.75);
+      z-index: 3; }
+      body.profile #compare-loading.hidden {
+        display: none; }
+        body.profile #compare-loading #compare-loading-text {
+          left: 0;
+          position: absolute;
+          top: 50%;
+          width: 100%;
+          color: white;
+          font-family: "Lato", sans-serif;
+          font-size: 20px;
+          font-weight: 400;
+          text-align: center; }
+          body.profile #compare-loading #compare-loading-text i {
+            margin: 3px 10px; }
     body.profile #top-nav {
       -moz-transition: background-color 0.75s;
       -o-transition: background-color 0.75s;

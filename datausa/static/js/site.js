@@ -8251,8 +8251,6 @@ viz.prepBuild = function(build, i) {
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
-    console.log(select.node());
-
     d3plus.form()
       .search(false)
       .ui({
@@ -8264,7 +8262,7 @@ viz.prepBuild = function(build, i) {
         var param = this.getAttribute("data-param"),
             method = this.getAttribute("data-method"),
             prev = this.getAttribute("data-default");
-        console.log(id, prev);
+
         if (id !== prev) {
 
           d3.select(this).attr("data-default", id);
