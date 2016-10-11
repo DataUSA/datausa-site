@@ -202,11 +202,11 @@
 
                     function changeURL(d) {
 
-                      var show = new RegExp("[&|?]" + type + "=([%a-zA-Z0-9\,\-\s]*)").exec(d.url);
+                      var show = new RegExp("[&|?]" + type + "=([%a-zA-Z0-9\+\-]*)").exec(d.url);
                       if (show) d.url = d.url.replace(show[0], show[0] + "%2C" + attr.id);
 
                       if (show && ["naics", "soc"].indexOf(type) >= 0) {
-                        var level = new RegExp("[&|?]" + type + "_level=([%a-zA-Z0-9\,\-\s]*)").exec(d.url);
+                        var level = new RegExp("[&|?]" + type + "_level=([%a-zA-Z0-9]*)").exec(d.url);
                         if (level) d.url = d.url.replace(level[0], level[0] + "%2C" + attr.level);
                       }
 
