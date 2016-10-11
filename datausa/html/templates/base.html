@@ -195,7 +195,7 @@
                   }
 
                   var build = builds.filter(function(b) { return b.slug === slug; });
-                  build = build.length ? build[0] : false;
+                  build = build.length ? build[build.length - 1] : false;
                   if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id) {
 
                     build.compare = attr ? attr.id : false;
