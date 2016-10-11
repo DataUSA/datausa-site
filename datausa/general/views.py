@@ -54,8 +54,8 @@ def home():
                 "type": TYPEMAP[attr_type],
                 "depth": sumlevel.replace("_"," ")
             }
-            img_type = "feature" if box["featured"] else "thumb"
-            box["image"] = "/static/img/{}/{}".format(img_type, attr["image_path"])
+            img_type = "profile" if box["featured"] else "search"
+            box["image"] = "/{}/{}/{}/img".format(img_type, attr_type, attr_id)
         elif "/story/" in box["link"]:
             box["type"] = {
                 "icon": "/static/img/icons/about.svg",
