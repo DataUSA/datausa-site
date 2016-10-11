@@ -40,12 +40,12 @@ body.embed {
 
         .sub-source {
           position: relative;
-          width: 315px;
+          width: 100%;
 
           .datausa-link {
             bottom: 6px;
             position: absolute;
-            right: -100px;
+            right: 0;
           }
 
         }
@@ -56,16 +56,6 @@ body.embed {
           min-height: 100% !important;
         }
 
-      }
-
-      &.flex, .content.full-width {
-        .sub-source {
-          width: 100%;
-
-          .datausa-link {
-            right: 0;
-          }
-        }
       }
 
     }

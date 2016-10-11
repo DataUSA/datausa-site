@@ -1,31 +1,37 @@
 var vizStyles = {
 
-  "top": "#1A3E61", // top 5 bars
-  "bottom": "#58879A", // bottom 5 bars
+  top: "#1A3E61", // top 5 bars
+  bottom: "#58879A", // bottom 5 bars
 
-  "default": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  default: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "geo": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  geo: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "cip": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  cip: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "soc": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  soc: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "naics": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  naics: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
 
-    // "pri": "#ffb563",
-    // "sec": "#455a7d"
+  // pri: "#ffb563",
+  // sec: "#455a7d",
+  compare: "#455a7d",
 
   "tooltip": {
     "background": "white",

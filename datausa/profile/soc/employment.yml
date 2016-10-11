@@ -45,14 +45,14 @@ topics:
         - soc: "<<id>>"
           required: "num_ppl,num_ppl_moe,wage_bin"
           show: "soc"
-          share: "num_ppl"
+          share: "num_ppl.soc"
           soc_level: "<<sumlevel>>"
           static:
             geo: "<<id>>"
         - geo: "01000US"
           required: "num_ppl,num_ppl_moe,wage_bin"
           show: "geo"
-          share: "num_ppl"
+          share: "num_ppl.geo"
           static:
             soc: "USA"
       highlight: "<<id>>"

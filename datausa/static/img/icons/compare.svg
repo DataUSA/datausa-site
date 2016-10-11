@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="23px" height="18px" viewBox="0 0 23 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+    <title>photo-gallery</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="2-homepage-select" transform="translate(-634.000000, -582.000000)" fill="#FFFFFF">
+            <g id="icons" transform="translate(521.000000, 582.000000)">
+                <g id="Group" transform="translate(78.000000, 0.000000)">
+                    <g id="photo-gallery" transform="translate(35.000000, 0.000000)">
+                        <path d="M19.2465,3.402 L19.2465,0.20325 L0.45375,0.20325 L0.45375,14.59725 L3.25275,14.59725 L3.25275,17.796 L22.0455,17.796 L22.0455,3.402 L19.2465,3.402 L19.2465,3.402 Z M1.254,13.7985 L1.254,1.0035 L18.447,1.0035 L18.447,3.40275 L3.25275,3.40275 L3.25275,13.7985 L1.25325,13.7985 L1.254,13.7985 Z M21.246,16.99725 L4.053,16.99725 L4.053,4.20225 L21.246,4.20225 L21.246,16.99725 L21.246,16.99725 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

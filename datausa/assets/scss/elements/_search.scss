@@ -788,7 +788,7 @@ body.search {
 
 /* nav search */
 
-#search-simple-nav {
+#search-simple-nav, #search-compare-modal {
   display: none;
   position: fixed;
   top: $nav-height + 7;
@@ -913,6 +913,47 @@ body.search {
       float: right;
     }
   }
+}
+
+#search-compare-modal {
+  bottom: auto;
+  left: auto;
+  position: absolute;
+  right: auto;
+  top: auto;
+
+  .search-input {
+    @include box();
+    background-color: $black3;
+    background-image: url("/static/img/search/search_w_flip.svg");
+    background-repeat: no-repeat;
+    background-position: 8px 5px;
+    background-size: 24px 23px;
+    border: 0;
+    border-bottom: 1px solid $black2;
+    width: 100%;
+    padding: 3px 10px 8px 45px;
+    outline: 0;
+    opacity: 1;
+    font-family: $palanquin;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    font-weight: 400;
+    color: #fff;
+    @include placeholder {font-size: 13px; color: $black4;};
+
+    &:focus {
+      border-color: #fff;
+      outline: 0;
+    }
+
+  }
+
+  .search-results {
+    height: 250px;
+    overflow-y: scroll;
+  }
+
 }
 
 @import "elements/search_m";

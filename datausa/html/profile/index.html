@@ -10,12 +10,18 @@
     <meta property="og:description" content="{{ meta_desc }}"/>
 {% endblock %}
 
-{% block title %}{{ profile.splash.title }}{% endblock %}
+{% block title %}{{ profile.splash.title }}{% if g.compare %} & {% if g.compare.display_name %}{{ g.compare.display_name }}{% else %}{{ g.compare.name }}{% endif %}{% endif %}{% endblock %}
 
 {% block subtitle %}
 <div id="title-bar">
-  <span><a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a> <a href="#">{{ profile.splash.title }}</a>
-  <a href="#" class="expand-stats-btn close"></a></span>
+  <span>
+    <a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a>
+    <a href="#">{{ profile.splash.title }}<span class="compare-separator">&amp;</span><span class="compare-title"></span></a>
+    <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
+      <img class="compare-img" src="/static/img/icons/compare.svg" />
+      <span class="compare-text">Add Comparison</span>
+    </a>
+  </span>
 </div>
 {% endblock %}
 
@@ -39,7 +45,7 @@
 
       <div class="splash-titles">
 
-        <h1>{{ profile.splash.title }}</h1>
+        <h1>{{ profile.splash.title }}<span class="compare-separator">&amp;</span><span class="compare-title"></span></h1>
         {% if profile.attr_type == "cip" and profile.attr.is_stem %}
         <sub class="stem-label">
           {% if profile.attr.is_stem == 1 %}STEM Major{% else %}Contains STEM Majors{% endif %}
@@ -54,7 +60,7 @@
           <div class="stat-text">{{ stat.title|safe }}</div>
           <div class="stat-group">
             <div class="stat-value">{{ stat.value|safe }}</div>
-            <div class="stat-rank">{{ stat.rank|safe }}</div>
+            <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
           </div>
         </div>
         {% endfor %}
@@ -75,19 +81,30 @@
 
     </div>
 
-    <div id="scroll-btn">
+    <div id="scroll-btn" class="splash-icon-nav">
+      <a href="#intro" class="small" data-ga="splash more" data-ga-cat="navigation" data-ga-label="User click">
+        <img src="/static/img/icons/bottom-arrow.svg" />
+        <span>Read More</span>
+      </a>
+      <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
+        <img class="compare-img" src="/static/img/icons/compare.svg" />
+        <span class="compare-text">Add Comparison</span>
+      </a>
+    </div>
+
+    <!-- <div id="scroll-btn">
       <div class="mouse">
         <span class="ball"></span>
       </div>
       <div class="mouse-text">Scroll to Explore</div>
-    </div>
+    </div> -->
 
   </article> <!-- end splash  -->
 
   <header class="intro">
 
     <div class="intro-head">
-      <h2 class="section-title"><a name="intro">About</a></h2>
+      <h2 class="section-title"><a href="#intro" name="intro">About</a></h2>
 
       <div class="r">
         <div class="photo-cred">
@@ -245,6 +262,16 @@
 </div>
 {% endif %}
 
+<div id="search-compare-modal" class="search-body">
+  <input id="compare-search-input" class="search-input" data-search="compare-modal" type="text" placeholder="Search Locations" data-ga="compareSearchClick" data-ga-cat="compare" />
+  <div class="no-search-results">No results found</div>
+  <div class="search-results"></div>
+</div>
+
+<div id="compare-loading">
+  <div id="compare-loading-text"><i class="fa fa-spinner fa-spin"></i>Loading Comparison</div>
+</div>
+
 {% endblock %}
 
 {% block js %}
@@ -264,11 +291,11 @@
   var title = d3.select(".splash-titles h1");
   title.style("font-size", fontScale(title.text().length) + "px");
 
-  if (!d3plus.client.touch) {
-    var scrollTimeout = setTimeout(function(){
-      d3.select("#scroll-btn").classed("visible", true);
-    }, 5000);
-  }
+  // if (!d3plus.client.touch) {
+  //   var scrollTimeout = setTimeout(function(){
+  //     d3.select("#scroll-btn").classed("visible", true);
+  //   }, 5000);
+  // }
 
   var maxCarousel = d3.selectAll(".carousel-text").size() - 1, currentPage = 0;
   d3.selectAll(".carousel-btn").on("click", function(d, i){
@@ -296,24 +323,24 @@
       titleNavHeight = d3.select("#title-bar").node().offsetHeight,
       statNavHeight = d3.select("#stats-bar").node().offsetHeight,
       profNavHeight = d3.select("#profile-nav").node().offsetHeight,
-      footerTop = d3.select(".profile-end"),
       attr_type = "{{ profile.attr_type }}";
 
-  footerTop = footerTop.size() ? footerTop.node().offsetTop : d3.select("footer").node().offsetTop;
-
-  var sideButtons = d3.selectAll(".section-sidenav-button"), sideNavBottom = 0;
-  if (sideButtons.size()) {
-    sideNavBottom = sideButtons[0][sideButtons.length - 1].offsetTop + 30;
-  }
-
-  var firstScroll = true;
+  // var firstScroll = true;
   function navScroll(){
 
-    if (!firstScroll) {
-      clearTimeout(scrollTimeout);
-      d3.select("#scroll-btn").classed("visible", false);
+    // if (!firstScroll) {
+    //   clearTimeout(scrollTimeout);
+    //   d3.select("#scroll-btn").classed("visible", false);
+    // }
+    // firstScroll = false;
+
+    var footerTop = d3.select(".profile-end");
+    footerTop = footerTop.size() ? footerTop.node().offsetTop : d3.select("footer").node().offsetTop;
+
+    var sideButtons = d3.selectAll(".section-sidenav-button"), sideNavBottom = 0;
+    if (sideButtons.size()) {
+      sideNavBottom = sideButtons[0][sideButtons.length - 1].offsetTop + 30;
     }
-    firstScroll = false;
 
     var y = d3plus.client.scroll.y(),
         colorTitleNav = y > titleNavHeight,
@@ -327,7 +354,7 @@
       .rangeRound([0, window.innerHeight/3.6])
       .clamp(true);
 
-    d3.select("#splash-image").style("top", parallaxScroll(y) + "px")
+    d3.selectAll("#splash-image").style("top", parallaxScroll(y) + "px")
 
     d3.select("#top-nav").classed("filled", colorTitleNav);
     d3.select("nav").classed("filled", colorTitleNav);
@@ -392,7 +419,7 @@
     if (!open) text = "";
     d3.select(this.previousSibling).style("display", open ? "none" : "inline");
     elem.classed("open", !open).text(text);
-  })
+  });
 
 </script>
 

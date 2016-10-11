@@ -198,6 +198,14 @@ viz.loadData = function(build, next) {
     for (var i = 0; i < build.data.length; i++) {
       load(build.data[i].url, function(data, url, return_data){
 
+        if (build.compare && return_data.subs) {
+          for (var type in return_data.subs) {
+            var show = new RegExp("&" + type + "=([%a-zA-Z0-9]*)").exec(url);
+            var subIndex = show[1].split("%2C").indexOf(build.compare);
+            if (subIndex >= 0) build.compare = return_data.subs[type].split(",")[subIndex];
+          }
+        }
+
         var d = build.data.filter(function(d){ return d.url === url; })[0];
 
         d.data = viz.formatData(data, d, build);

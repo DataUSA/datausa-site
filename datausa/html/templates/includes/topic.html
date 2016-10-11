@@ -6,7 +6,7 @@
 {% set aside = topic.stat or topic.description %}
 {% set content = aside or topic.viz or topic.miniviz or topic.source %}
 {% if topic.items()|length > 1 or "category" not in topic %}
-<article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}">
+<article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}" data-slug="{{ topic.slug }}">
   {% if topic.title %}
   <h2 class="embed-title"><a href="#{{ topic.slug }}" name="{{ topic.slug }}">{{ topic.title|safe }}</a>{% if topic.viz and (g.page_class != 'story') %} <a href="#" title="Share" class="share-embed btn pri-btn data-btn" data-target-id="share" data-embed="{{ profile.url(full=False, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Options</span></a>{% endif %}</h2>
   {% endif %}
@@ -61,7 +61,7 @@
     </aside>
     {% endif %}
     {% for viz in topic.viz %}
-    <div class="viz{% if viz.className %} {{ viz.className }}{% endif %}"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
+    <div class="viz main{% if viz.className %} {{ viz.className }}{% endif %}"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
       <div class="d3plus"></div>
     </div>
     <script>builds.push({{ viz.serialize()|safe }});</script>

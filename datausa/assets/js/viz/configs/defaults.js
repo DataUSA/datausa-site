@@ -44,7 +44,7 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
-    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value) {
+    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value && build.config[axis].ticks.value.constructor === String) {
       build.config[axis].ticks.value = JSON.parse(build.config[axis].ticks.value);
     }
 
@@ -52,7 +52,7 @@ viz.defaults = function(build) {
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default",
-        labelFont = chartStyles.labels[style][key];
+        labelFont = d3plus.util.copy(chartStyles.labels[style][key]);
 
     if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
       if (build.config.y2.value === "01000US" || build.config.y2.label === "National Average" || build.config.y2.label === "USA") {
@@ -68,7 +68,7 @@ viz.defaults = function(build) {
 
     return {
       "label": {
-        "font": chartStyles.labels[style][key],
+        "font": labelFont,
         "padding": 0
       },
       "lines": chartStyles.lines,

@@ -275,14 +275,14 @@ topics:
         - required: "avg_wage_rank,avg_wage,avg_wage_moe"
           show: "naics"
           order: "avg_wage"
-          sumlevel: "<<sumlevel>>"
-          avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+          naics_level: "<<sumlevel>>"
+          naics: "<<ranks col=avg_wage_rank|limit=5|key=id>>"
           where: "num_records:>4"
       id: "naics"
       labels: YES
       order:
-        sort: "desc"
-        value: "avg_wage_rank"
+        sort: "asc"
+        value: "avg_wage"
       type: "bar"
       x: "avg_wage"
       y:
@@ -388,13 +388,11 @@ topics:
           naics_level: "<<sumlevel>>"
           required: "wage_bin,num_ppl,num_ppl_moe"
           show: "naics"
-          share: "num_ppl"
-          static:
-            naics: "<<id>>"
+          share: "num_ppl.naics"
         - geo: "01000US"
           required: "num_ppl,num_ppl_moe,wage_bin"
           show: "geo"
-          share: "num_ppl"
+          share: "num_ppl.geo"
           static:
             naics: "USA"
       id: "naics"

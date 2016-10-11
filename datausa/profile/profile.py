@@ -41,6 +41,7 @@ class Profile(BaseObject):
         self.attr_type = attr_type
         self.variables = self.load_vars(required_namespaces)
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
+        self.section_cache = False
 
     def children(self, **kwargs):
 
@@ -224,7 +225,7 @@ class Profile(BaseObject):
         config = json.dumps(config)
 
         # regex to find all keys matching {{*}}
-        def conditionalParse(s, o="{", c="}"):
+        def conditionalParse(s, o="{"):
             if o == "{":
                 ro = "\{"
                 rc = "\}"
@@ -267,9 +268,7 @@ class Profile(BaseObject):
                 else:
                     if o == "{":
                         if "[[" in text:
-                            # raise Exception(text, k, s)
-                            text = conditionalParse(text, "[", "]")
-                            # raise Exception(k, text, s)
+                            text = conditionalParse(text, "[")
                         s = s.replace("{{{{{0}}}}}".format(k), text)
                     else:
                         s = s.replace("[[{0}]]".format(k), text)
@@ -578,7 +577,7 @@ class Profile(BaseObject):
         params[attr_type] = self.attr["id"]
         params["required"] = col
         params["show"] = kwargs.get("show", self.attr_type)
-        params["sumlevel"] = "all"
+        params["sumlevel"] = kwargs.get("sumlevel", self.sumlevel(**kwargs))
 
         query = RequestEncodingMixin._encode_params(params)
         url = "{}/api?{}".format(API, query)
@@ -611,6 +610,17 @@ class Profile(BaseObject):
         else:
             results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
 
+        if kwargs.get("key", False) == "id":
+            del params["limit"]
+            params[col] = ",".join([str(r) for r in results])
+            query = RequestEncodingMixin._encode_params(params)
+            url = "{}/api?{}".format(API, query)
+            try:
+                results = [d[params["show"]] for d in datafold(requests.get(url).json())]
+            except ValueError:
+                app.logger.info("STAT ERROR: {}".format(url))
+                return ""
+
         return ",".join([str(r) for r in results])
 
     def rank_max(self, **kwargs):
@@ -618,9 +628,11 @@ class Profile(BaseObject):
 
     def sections(self):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
+        if not self.section_cache:
+            # pass each file to the Section class and return the final array
+            self.section_cache = [Section(self.load_yaml(self.open_file(f)), self, f) for f in self.splash.sections]
 
-        # pass each file to the Section class and return the final array
-        return [Section(self.load_yaml(self.open_file(f)), self, f) for f in self.splash.sections]
+        return self.section_cache
 
     def section_by_topic(self, section_name, slugs):
         '''Section: Creates a custom Section object with the desired topics by slug'''

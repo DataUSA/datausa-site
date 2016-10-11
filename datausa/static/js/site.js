@@ -5908,6 +5908,7 @@ function prettyUrl(d) {
 var search = {
   "advanced": false,
   "anchors": {},
+  "click": false,
   "container": false,
   "current_depth": {
     "cip": null,
@@ -6101,8 +6102,14 @@ search.btnExplore = function(d) {
 
 search.btnProfile = function(d) {
   var search_item = d3.select(this).attr("href", function(d){
-                      return "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
-                    });
+    return search.click ? "#" : "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
+  });
+  if (search.click) {
+    d3.select(this).on("click", function(d) {
+      d3.event.preventDefault();
+      search.click(d)
+    })
+  }
   search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
   var search_item_text = search_item.append("div").attr("class", "search-item-t")
   search_item_text.append("h2").text(d.display);
@@ -6119,6 +6126,9 @@ search.filter = function(data) {
   }
   if(this.depth){
     data = data.filter(function(d){ return d.sumlevel == this.depth; }.bind(this))
+  }
+  if (this.filterID) {
+    data = data.filter(function(d){ return d.id !== this.filterID && d.url_name !== this.filterID; }.bind(this));
   }
   return data;
 }
@@ -7184,32 +7194,38 @@ var chartStyles = {
 
 var vizStyles = {
 
-  "top": "#1A3E61", // top 5 bars
-  "bottom": "#58879A", // bottom 5 bars
+  top: "#1A3E61", // top 5 bars
+  bottom: "#58879A", // bottom 5 bars
 
-  "default": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  default: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "geo": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  geo: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "cip": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  cip: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "soc": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  soc: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
-  "naics": {
-    "pri": "#ef6145",
-    "sec": "#C6C7CA"
+  naics: {
+    pri: "#ef6145",
+    sec: "#C6C7CA",
+    compare: "#455a7d"
   },
 
-    // "pri": "#ffb563",
-    // "sec": "#455a7d"
+  // pri: "#ffb563",
+  // sec: "#455a7d",
+  compare: "#455a7d",
 
   "tooltip": {
     "background": "white",
@@ -7407,12 +7423,14 @@ viz.finish = function(build) {
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
       build.config.color = function(d, viz) {
-        return d[viz.id.value] === build.highlight ? build.colors.pri : build.colors.sec;
+        return d[viz.id.value] === build.compare ? build.colors.compare
+             : d[viz.id.value] === build.highlight ? build.colors.pri
+             : build.colors.sec;
       };
     }
     else {
       build.config.color = function(d, viz) {
-        return build.colors.pri;
+        return d[viz.id.value] === build.compare ? build.colors.compare : build.colors.pri;
       };
     }
     build.config.legend = false;
@@ -7614,7 +7632,7 @@ viz.defaults = function(build) {
       build.config[axis].label = label;
     }
 
-    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value) {
+    if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value && build.config[axis].ticks.value.constructor === String) {
       build.config[axis].ticks.value = JSON.parse(build.config[axis].ticks.value);
     }
 
@@ -7622,7 +7640,7 @@ viz.defaults = function(build) {
 
     var key = axis.length === 1 ? "pri" : "sec",
         style = axis === discrete ? "discrete" : "default",
-        labelFont = chartStyles.labels[style][key];
+        labelFont = d3plus.util.copy(chartStyles.labels[style][key]);
 
     if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
       if (build.config.y2.value === "01000US" || build.config.y2.label === "National Average" || build.config.y2.label === "USA") {
@@ -7638,7 +7656,7 @@ viz.defaults = function(build) {
 
     return {
       "label": {
-        "font": chartStyles.labels[style][key],
+        "font": labelFont,
         "padding": 0
       },
       "lines": chartStyles.lines,
@@ -8196,170 +8214,177 @@ viz.loadAttrs = function(build) {
 
 };
 
-viz.loadBuilds = function(builds) {
+viz.prepBuild = function(build, i) {
+
+  if (!build.container) build.container = d3.select(d3.selectAll(".viz")[0][i]);
+  build.loaded = false;
+  build.timer = false;
+  build.index = i;
+  build.colors = vizStyles[attr_type];
+  build.data.forEach(function(d) {
+    d.orig_url = d.url;
+  })
+  build.orig_color = build.config.color;
+
+  var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
+  if (title.size()) {
+    build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
+    if (["top", "bottom"].indexOf(build.config.color) >= 0) {
+      var cat = dictionary[build.attrs[0].type];
+      if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
+      else cat = cat + "s";
+      build.title = build.title + " " + cat;
+    }
+    var locale = d3plus.viz().format(Object).locale.value.visualization,
+        type = locale[build.config.type] || d3plus.string.title(type);
+    build.title = "Data USA - " + type + " of " + build.title;
+    if (build.profile && location.href.indexOf("/story/") < 0) {
+      var joiner = build.profile_type === "geo" ? " in " : " for ";
+      if (build.profile.id === "01000US") joiner = " in the ";
+      build.title += joiner + d3plus.string.title(build.profile.name);
+      if (build.profile_type === "cip") build.title += " Majors";
+    }
+  }
+  else {
+    build.title = "data";
+  }
+
+  var select = d3.select(build.container.node().parentNode).select("select");
+  if (select.size()) {
+
+    d3plus.form()
+      .search(false)
+      .ui({
+        "margin": 0
+      })
+      .ui(vizStyles.ui)
+      .focus({"callback": function(id, form){
+
+        var param = this.getAttribute("data-param"),
+            method = this.getAttribute("data-method"),
+            prev = this.getAttribute("data-default");
+
+        if (id !== prev) {
+
+          d3.select(this).attr("data-default", id);
+
+          d3.select(this.parentNode).selectAll(".select-text")
+           .html(d3.select(this).select("option[value='"+ id +"']").text());
+
+          d3.select(this.parentNode).selectAll("span[data-url]")
+           .each(function(){
+
+             d3.select(this.parentNode).classed("loading", true);
+             var url = this.getAttribute("data-url");
+
+             if (param.length && url.indexOf("show=" + param) > 0) {
+               var attr = form.data().filter(function(d){ return d.value === id; });
+               if (attr.length && attr[0].text) {
+                 d3.select(this).html(attr[0].text);
+               }
+             }
+             else {
+
+               if (param.length) {
+                 url = url.replace(param + "=" + prev, param + "=" + id);
+               }
+               else {
+                 url = url.replace("order=" + prev, "order=" + id);
+                 url = url.replace("required=" + prev, "required=" + id);
+               }
+               d3.select(this).attr("data-url", url);
+
+               var rank = 1;
+               if (url.indexOf("rank=") > 0) {
+                 var rank = new RegExp("&rank=([0-9]*)").exec(url);
+                 url = url.replace(rank[0], "");
+                 rank = parseFloat(rank[1])
+               }
+               if (url.indexOf("limit=") > 0) {
+                 var limit = new RegExp("&limit=([0-9]*)").exec(url);
+                 url = url.replace(limit[0], "&limit=3");
+               }
+
+               load(url, function(data, u){
+                 d3.select(this.parentNode).classed("loading", false)
+                 var text = data.value.split("; ")[rank - 1];
+                 if (!text) text = "N/A";
+                 if (text.indexOf("and ") === 0) {
+                   text = text.replace("and ", "");
+                 }
+                 d3.select(this).html(text);
+               }.bind(this));
+
+             }
+
+           });
+
+          if (param.length) {
+           build.data.forEach(function(b){
+             b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+           });
+           viz.loadData(build, "redraw");
+          }
+          else if (method.length) {
+           build.viz[method](id).draw();
+          }
+
+        }
+
+      }.bind(select.node())})
+      .data(select)
+      .width(select.node().parentNode.offsetWidth)
+      .type("drop")
+      .draw();
+
+  }
+
+  d3.select(build.container.node().parentNode.parentNode).select("a.share-embed")
+    .on("click", function(){
+      d3.event.preventDefault();
+      dusa_popover.open([
+        {"title":"Share"},
+        {"title":"Embed"},
+        {"title":"Download"},
+        {"title":"Data"},
+        {"title":"API"}
+      ],
+      d3.select(this).attr("data-target-id"),
+      d3.select(this).attr("data-url"),
+      d3.select(this).attr("data-embed"),
+      build)
+    });
+
+};
+
+viz.resizeBuild = function(b) {
+  b.top = b.container.node().offsetTop;
+  b.height = b.container.node().offsetHeight;
+  if (!b.height) {
+    b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
+    b.height = b.container.node().parentNode.offsetHeight;
+  }
+  if (b.loaded) {
+    b.container.select(".d3plus")
+      .style("height", "auto")
+      .style("width", "auto");
+    b.viz
+      .height(false)
+      .width(false)
+      .draw();
+  }
+}
+
+viz.loadBuilds = function() {
 
   if (builds.length) {
 
-    builds.forEach(function(build, i){
-      build.container = d3.select(d3.selectAll(".viz")[0][i]);
-      build.loaded = false;
-      build.timer = false;
-      build.index = i;
-      build.colors = vizStyles[attr_type];
-
-      var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
-      if (title.size()) {
-        build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
-        if (["top", "bottom"].indexOf(build.config.color) >= 0) {
-          var cat = dictionary[build.attrs[0].type];
-          if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
-          else cat = cat + "s";
-          build.title = build.title + " " + cat;
-        }
-        var locale = d3plus.viz().format(Object).locale.value.visualization,
-            type = locale[build.config.type] || d3plus.string.title(type);
-        build.title = "Data USA - " + type + " of " + build.title;
-        if (build.profile && location.href.indexOf("/story/") < 0) {
-          var joiner = build.profile_type === "geo" ? " in " : " for ";
-          if (build.profile.id === "01000US") joiner = " in the ";
-          build.title += joiner + d3plus.string.title(build.profile.name);
-          if (build.profile_type === "cip") build.title += " Majors";
-        }
-      }
-      else {
-        build.title = "data";
-      }
-
-      var select = d3.select(build.container.node().parentNode).select("select");
-      if (select.size()) {
-
-        d3plus.form()
-          .search(false)
-          .ui({
-            "margin": 0
-          })
-          .ui(vizStyles.ui)
-          .focus({"callback": function(id, form){
-
-            var param = this.getAttribute("data-param"),
-                method = this.getAttribute("data-method"),
-                prev = this.getAttribute("data-default");
-
-            if (id !== prev) {
-
-              d3.select(this).attr("data-default", id);
-
-              d3.select(this.parentNode).selectAll(".select-text")
-               .html(d3.select(this).select("option[value='"+ id +"']").text());
-
-              d3.select(this.parentNode).selectAll("span[data-url]")
-               .each(function(){
-
-                 d3.select(this.parentNode).classed("loading", true);
-                 var url = this.getAttribute("data-url");
-
-                 if (param.length && url.indexOf("show=" + param) > 0) {
-                   var attr = form.data().filter(function(d){ return d.value === id; });
-                   if (attr.length && attr[0].text) {
-                     d3.select(this).html(attr[0].text);
-                   }
-                 }
-                 else {
-
-                   if (param.length) {
-                     url = url.replace(param + "=" + prev, param + "=" + id);
-                   }
-                   else {
-                     url = url.replace("order=" + prev, "order=" + id);
-                     url = url.replace("required=" + prev, "required=" + id);
-                   }
-                   d3.select(this).attr("data-url", url);
-
-                   var rank = 1;
-                   if (url.indexOf("rank=") > 0) {
-                     var rank = new RegExp("&rank=([0-9]*)").exec(url);
-                     url = url.replace(rank[0], "");
-                     rank = parseFloat(rank[1])
-                   }
-                   if (url.indexOf("limit=") > 0) {
-                     var limit = new RegExp("&limit=([0-9]*)").exec(url);
-                     url = url.replace(limit[0], "&limit=3");
-                   }
-
-                   load(url, function(data, u){
-                     d3.select(this.parentNode).classed("loading", false)
-                     var text = data.value.split("; ")[rank - 1];
-                     if (!text) text = "N/A";
-                     if (text.indexOf("and ") === 0) {
-                       text = text.replace("and ", "");
-                     }
-                     d3.select(this).html(text);
-                   }.bind(this));
-
-                 }
-
-               });
-
-              if (param.length) {
-               build.data.forEach(function(b){
-                 b.url = b.url.replace(param + "=" + prev, param + "=" + id);
-               });
-               viz.loadData(build, "redraw");
-              }
-              else if (method.length) {
-               build.viz[method](id).draw();
-              }
-
-            }
-
-          }.bind(select.node())})
-          .data(select)
-          .width(select.node().parentNode.offsetWidth)
-          .type("drop")
-          .draw();
-
-      }
-
-      d3.select(build.container.node().parentNode.parentNode).select("a.share-embed")
-        .on("click", function(){
-          d3.event.preventDefault();
-          dusa_popover.open([
-            {"title":"Share"},
-            {"title":"Embed"},
-            {"title":"Download"},
-            {"title":"Data"},
-            {"title":"API"}
-          ],
-          d3.select(this).attr("data-target-id"),
-          d3.select(this).attr("data-url"),
-          d3.select(this).attr("data-embed"),
-          build)
-        })
-
-    });
+    builds.forEach(viz.prepBuild);
+    builds.forEach(viz.resizeBuild);
 
     function resizeApps() {
-
-      builds.forEach(function(b, i){
-        b.top = b.container.node().offsetTop;
-        b.height = b.container.node().offsetHeight;
-        if (!b.height) {
-          b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
-          b.height = b.container.node().parentNode.offsetHeight;
-        }
-        if (b.loaded) {
-          b.container.select(".d3plus")
-            .style("height", "0px")
-            .style("width", "0px");
-          b.viz
-            .height(false)
-            .width(false)
-            .draw();
-        }
-      });
-
+      builds.forEach(viz.resizeBuild);
     }
-    resizeApps();
     resizeFunctions.push(resizeApps);
 
     var scrollBuffer = -200, n = [32];
@@ -8387,7 +8412,6 @@ viz.loadBuilds = function(builds) {
       }
     }
 
-    buildScroll();
     scrollFunctions.push(buildScroll);
 
   }
@@ -8408,10 +8432,13 @@ viz.loadCoords = function(build) {
     if (type.constructor === String) {
       build.config.coords = {"key": type};
     }
-    else {
+    else if (!type.key) {
       type = type.value;
       build.config.coords.key = type;
       delete build.config.coords.value;
+    }
+    else {
+      type = type.key;
     }
 
     if (type === "nations") {
@@ -8420,12 +8447,11 @@ viz.loadCoords = function(build) {
     }
 
     var solo = build.config.coords.solo;
-    if (solo && solo.length) {
-      build.config.coords.solo = solo.split(",");
+    if (!(solo instanceof Array)) {
+      if (solo && solo.length) build.config.coords.solo = solo.split(",");
+      else build.config.coords.solo = [];
     }
-    else {
-      build.config.coords.solo = [];
-    }
+
     build.config.coords.solo = build.config.coords.solo.filter(function(c){
       return excludedGeos.indexOf(c) < 0;
     });
@@ -8655,6 +8681,14 @@ viz.loadData = function(build, next) {
     var loaded = 0, dataArray = [];
     for (var i = 0; i < build.data.length; i++) {
       load(build.data[i].url, function(data, url, return_data){
+
+        if (build.compare && return_data.subs) {
+          for (var type in return_data.subs) {
+            var show = new RegExp("&" + type + "=([%a-zA-Z0-9]*)").exec(url);
+            var subIndex = show[1].split("%2C").indexOf(build.compare);
+            if (subIndex >= 0) build.compare = return_data.subs[type].split(",")[subIndex];
+          }
+        }
 
         var d = build.data.filter(function(d){ return d.url === url; })[0];
 
@@ -9192,14 +9226,15 @@ viz.mapDraw = function(vars) {
     }
     var thumb = d3.select(vars.container.value.node().parentNode).classed("thumbprint");
     var pinData = [];
-    coords.objects[vars.coords.key].geometries = coords.objects[vars.coords.key].geometries.filter(function(c){
+    var coordTopo = d3plus.util.copy(coords.objects[vars.coords.key]);
+    coordTopo.geometries = coordTopo.geometries.filter(function(c){
       if (vars.pins.value.indexOf(c.id) >= 0) pinData.push(c);
       if (hiddenTopo.indexOf(c.id) >= 0) return false;
       if (!thumb && vars.coords.key !== "states" && c.id.indexOf("040") === 0) return false;
       return vars.coords.solo.length ? vars.coords.solo.indexOf(c.id) >= 0 :
              vars.coords.mute.length ? vars.coords.mute.indexOf(c.id) < 0 : true;
     })
-    var coordData = topojson.feature(coords, coords.objects[vars.coords.key]);
+    var coordData = topojson.feature(coords, coordTopo);
 
     if (!vars.zoom.set) {
 
@@ -9667,7 +9702,6 @@ viz.mapDraw = function(vars) {
       s = pz * polyZoom;
       zoom.scale(s);
     }
-
 
     if (!showUS) {
 

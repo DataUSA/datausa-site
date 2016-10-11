@@ -16,7 +16,7 @@ topics:
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           cip: "<<id dataset=pums>>"
           show: "age"
-          share: "num_ppl"
+          share: "num_ppl.cip"
         - required: "age,num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
           show: "age"
           share: "num_ppl"
