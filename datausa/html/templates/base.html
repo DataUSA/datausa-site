@@ -273,12 +273,15 @@
                     if (topic.miniviz) {
                       topic.miniviz.container = d3.select(clone).select(".viz.mini");
                       viz.prepBuild(topic.miniviz);
+                      topic.miniviz.compare = attr.id;
                       builds = builds.concat(topic.miniviz);
                     }
 
                     if (topic.viz) {
                       topic.viz.forEach(function(v, i) {
                         v.container = d3.select(d3.select(clone).selectAll(".viz.main")[0][i]);
+                        v.compare = attr.id;
+                        if (!v.config.color) v.config.color = "compare";
                       });
                       topic.viz.forEach(viz.prepBuild);
                       builds = builds.concat(topic.viz);
