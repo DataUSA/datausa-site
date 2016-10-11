@@ -65,6 +65,7 @@
 <a name="authorBio" class="anchor"></a>
 <div class="article-more-options">
   {% for author in story.authors %}
+  {% if author.about or author.title %}
   <div class="author-meta">
     <img class="author-avatar" alt="{{ author.name }}" src="{% if author.img %}{{ author.img }}{% else %}/static/img/story/author.png{% endif %}">
     <div class="author-text">
@@ -78,6 +79,7 @@
       {% if author.twitter %}<div class="social"><a href="{{ author.twitter }}" target="_blank">Twitter</a></div>{% endif %}
     </div>
   </div>
+  {% endif %}
   {% endfor %}
 </div>
 {% endblock %}
