@@ -389,8 +389,6 @@ topics:
           required: "wage_bin,num_ppl,num_ppl_moe"
           show: "naics"
           share: "num_ppl.naics"
-          static:
-            naics: "<<id>>"
         - geo: "01000US"
           required: "num_ppl,num_ppl_moe,wage_bin"
           show: "geo"
