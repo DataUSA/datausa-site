@@ -577,7 +577,7 @@ class Profile(BaseObject):
         params[attr_type] = self.attr["id"]
         params["required"] = col
         params["show"] = kwargs.get("show", self.attr_type)
-        params["sumlevel"] = "all"
+        params["sumlevel"] = kwargs.get("sumlevel", self.sumlevel(**kwargs))
 
         query = RequestEncodingMixin._encode_params(params)
         url = "{}/api?{}".format(API, query)
@@ -609,6 +609,17 @@ class Profile(BaseObject):
             results = range(max_rank - ranks + 1, max_rank + 1)
         else:
             results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
+
+        if kwargs.get("key", False) == "id":
+            del params["limit"]
+            params[col] = ",".join([str(r) for r in results])
+            query = RequestEncodingMixin._encode_params(params)
+            url = "{}/api?{}".format(API, query)
+            try:
+                results = [d[params["show"]] for d in datafold(requests.get(url).json())]
+            except ValueError:
+                app.logger.info("STAT ERROR: {}".format(url))
+                return ""
 
         return ",".join([str(r) for r in results])
 
