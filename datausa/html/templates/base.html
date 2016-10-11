@@ -108,6 +108,7 @@
 
         d3.selectAll(".compare-add").remove();
         d3.selectAll(".compare-flex").classed("compare-flex", false);
+        d3.selectAll(".compare-tall").classed("compare-tall", false);
 
         d3.selectAll(".compare-title").text(name);
         d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
@@ -238,6 +239,7 @@
                     d3.select(this).classed("compare-flex", true);
                     var clone = this.cloneNode(true);
                     d3.select(clone).classed("compare-add", true);
+                    if (d3.select(this).selectAll(".viz.main").size() === 1 && !build.config.height) d3.select(this).selectAll(".viz.main").classed("compare-tall", true);
 
                     var title = d3.select(clone).select("h2");
                     title.html(function() {
@@ -281,6 +283,7 @@
                       topic.viz.forEach(function(v, i) {
                         v.container = d3.select(d3.select(clone).selectAll(".viz.main")[0][i]);
                         v.compare = attr.id;
+                        if (!v.config.height && topic.viz.length === 1) v.container.classed("compare-tall", true);
                         if (!v.config.color) v.config.color = "compare";
                       });
                       topic.viz.forEach(viz.prepBuild);

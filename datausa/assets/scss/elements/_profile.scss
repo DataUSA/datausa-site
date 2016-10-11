@@ -1554,11 +1554,19 @@ body.profile, body.map, body.story {
             margin-left: 0;
             max-height: 250px;
             min-height: 250px;
+
             &.tall {
               @include flex-size(1 1 400px);
               max-height: 400px;
               min-height: 400px;
             }
+
+            &.compare-tall {
+              @include flex-size(1 1 400px);
+              max-height: 400px;
+              min-height: 400px;
+            }
+
           }
 
         }
