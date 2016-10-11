@@ -407,7 +407,7 @@
           firstScroll = false;
         }
       }
-      if (!compare) document.onscroll();
+      if (document.onscroll && !compare) document.onscroll();
 
       d3.selectAll("[data-tooltip]")
         .on(d3plus.client.pointer.over,function(){
