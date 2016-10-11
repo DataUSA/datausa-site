@@ -30,7 +30,8 @@ var vizStyles = {
   },
 
   // pri: "#ffb563",
-  // sec: "#455a7d"
+  // sec: "#455a7d",
+  compare: "#455a7d",
 
   "tooltip": {
     "background": "white",
