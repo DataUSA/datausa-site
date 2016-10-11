@@ -184,7 +184,7 @@
 
                 var slug = d3.select(this).attr("data-slug");
                 var topic = sections[anchor].topics[slug];
-                if (topic.viz || topic.stat) {
+                if (topic && (topic.viz || topic.stat)) {
 
                   // console.log(topic);
 
@@ -319,7 +319,7 @@
           if (attr) document.title = titles[0].split(" & ")[0] + " & " + name;
           else document.title = titles[0].split(" & ")[0];
 
-          urlPath = attr ? location.pathname + "?compare=" + (attr.url_name || attr.id) : location.pathname;
+          urlPath = attr ? location.pathname + "?compare=" + encodeURIComponent(attr.url_name || attr.id) : location.pathname;
           window.history.pushState({path: urlPath}, "", urlPath);
         }
 
