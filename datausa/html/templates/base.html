@@ -159,7 +159,7 @@
               var stat = data.splash.stats[i];
               d3.select(clone).select(".stat-text").html(stat.title);
               d3.select(clone).select(".stat-value").html(stat.value);
-              d3.select(clone).select(".stat-subtitle").html(stat.subtitle || "");
+              d3.select(clone).select(".stat-rank").html(stat.rank || "");
               this.parentNode.appendChild(clone);
             });
 
