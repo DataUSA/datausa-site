@@ -443,7 +443,7 @@ body.profile, body.map, body.story {
       height: 100%;
       opacity: 1;
       margin: 0;
-      padding: 7% 10%;
+      padding: 7% 0;
       @include box();
       z-index: 1;
       position: relative;
@@ -475,19 +475,35 @@ body.profile, body.map, body.story {
         @include align-items(center);
         color: #efefef;
         max-width: 750px;
+        position: relative;
         text-align: center;
         width: 100%;
 
+        &.compare-flex {
+          max-width: 100%;
+        }
+
         h1 {
+          @include flex();
+          @include flex-direction(row);
+          @include align-items(center);
           font-family: $pathway;
           font-weight: 400;
           letter-spacing: 0.03em;
           text-transform: uppercase;
+          width: 100%;
           @include text-shadow(0px 0px 15px rgba(20, 27, 46, 0.6));
+
+          .compare-flex {
+            width: 40%;
+          }
 
           .compare-separator {
             display: none;
-            margin: 0 10px;
+            font-family: $palanquin;
+            font-size: 45px;
+            font-weight: 400;
+            width: 10%;
           }
 
         }
@@ -533,14 +549,17 @@ body.profile, body.map, body.story {
         @include justify(space-between);
         @include text-shadow(0px 0px 5px rgba(20, 27, 46, 0.6));
 
-        .stat {
-          @include flex-size(1);
-          padding: 0 15px;
+        &.compare-flex {
+          max-width: 100%;
+        }
 
+        .stat {
           @include flex();
+          @include flex-size(1);
           @include flex-direction(column);
           @include justify(flex-start);
           @include align-items(center);
+          padding: 0 15px;
 
           @media all and (max-width: 950px){
             @include justify(flex-start);

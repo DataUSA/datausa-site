@@ -3649,7 +3649,7 @@
           height: 100%;
           opacity: 1;
           margin: 0;
-          padding: 7% 10%;
+          padding: 7% 0;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -3715,23 +3715,54 @@
                     flex-align: center;
                     color: #efefef;
                     max-width: 750px;
+                    position: relative;
                     text-align: center;
                     width: 100%; }
-                    body.profile #splash .content .splash-titles h1,
-                    body.map #splash .content .splash-titles h1,
-                    body.story #splash .content .splash-titles h1 {
-                      font-family: "Pathway Gothic One", sans-serif;
-                      font-weight: 400;
-                      letter-spacing: 0.03em;
-                      text-transform: uppercase;
-                      -webkit-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
-                      -moz-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
-                      text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6); }
-                      body.profile #splash .content .splash-titles h1 .compare-separator,
-                      body.map #splash .content .splash-titles h1 .compare-separator,
-                      body.story #splash .content .splash-titles h1 .compare-separator {
-                        display: none;
-                        margin: 0 10px; }
+                    body.profile #splash .content .splash-titles.compare-flex,
+                    body.map #splash .content .splash-titles.compare-flex,
+                    body.story #splash .content .splash-titles.compare-flex {
+                      max-width: 100%; }
+                      body.profile #splash .content .splash-titles h1,
+                      body.map #splash .content .splash-titles h1,
+                      body.story #splash .content .splash-titles h1 {
+                        -webkit-justify-content: center;
+                        -moz-justify-content: center;
+                        justify-content: center;
+                        -ms-flex-pack: center;
+                        flex-pack: center;
+                        display: -webkit-box;
+                        display: -moz-box;
+                        display: -ms-flexbox;
+                        display: -webkit-flex;
+                        display: flex;
+                        -webkit-flex-direction: row;
+                        -moz-flex-direction: row;
+                        -ms-flex-direction: row;
+                        flex-direction: row;
+                        -webkit-align-items: center;
+                        align-items: center;
+                        -ms-flex-align: center;
+                        flex-align: center;
+                        font-family: "Pathway Gothic One", sans-serif;
+                        font-weight: 400;
+                        letter-spacing: 0.03em;
+                        text-transform: uppercase;
+                        width: 100%;
+                        -webkit-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
+                        -moz-text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6);
+                        text-shadow: 0px 0px 15px rgba(20, 27, 46, 0.6); }
+                        body.profile #splash .content .splash-titles h1 .compare-flex,
+                        body.map #splash .content .splash-titles h1 .compare-flex,
+                        body.story #splash .content .splash-titles h1 .compare-flex {
+                          width: 40%; }
+                          body.profile #splash .content .splash-titles h1 .compare-separator,
+                          body.map #splash .content .splash-titles h1 .compare-separator,
+                          body.story #splash .content .splash-titles h1 .compare-separator {
+                            display: none;
+                            font-family: "Palanquin", sans-serif;
+                            font-size: 45px;
+                            font-weight: 400;
+                            width: 10%; }
                     body.profile #splash .content .splash-titles sub,
                     body.map #splash .content .splash-titles sub,
                     body.story #splash .content .splash-titles sub {
@@ -3803,87 +3834,91 @@
               -webkit-box-sizing: border-box;
               -moz-box-sizing: border-box;
               box-sizing: border-box; }
-              body.profile #splash .content #splash-stats .stat,
-              body.map #splash .content #splash-stats .stat,
-              body.story #splash .content #splash-stats .stat {
-                -webkit-box-flex: 1;
-                -moz-box-flex: 1;
-                -webkit-flex: 1;
-                -ms-flex: 1;
-                flex: 1;
-                padding: 0 15px;
-                -webkit-justify-content: center;
-                -moz-justify-content: center;
-                justify-content: center;
-                -ms-flex-pack: center;
-                flex-pack: center;
-                display: -webkit-box;
-                display: -moz-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-flex-direction: column;
-                -moz-flex-direction: column;
-                -ms-flex-direction: column;
-                flex-direction: column;
-                -webkit-justify-content: flex-start;
-                -moz-justify-content: flex-start;
-                justify-content: flex-start;
-                -ms-flex-pack: start;
-                flex-pack: start;
-                -webkit-align-items: center;
-                align-items: center;
-                -ms-flex-align: center;
-                flex-align: center; }
-                @media all and (max-width: 950px) {
-                  body.profile #splash .content #splash-stats .stat,
-                  body.map #splash .content #splash-stats .stat,
-                  body.story #splash .content #splash-stats .stat {
-                    -webkit-justify-content: flex-start;
-                    -moz-justify-content: flex-start;
-                    justify-content: flex-start;
-                    -ms-flex-pack: start;
-                    flex-pack: start;   }
+              body.profile #splash .content #splash-stats.compare-flex,
+              body.map #splash .content #splash-stats.compare-flex,
+              body.story #splash .content #splash-stats.compare-flex {
+                max-width: 100%; }
+                body.profile #splash .content #splash-stats .stat,
+                body.map #splash .content #splash-stats .stat,
+                body.story #splash .content #splash-stats .stat {
+                  -webkit-justify-content: center;
+                  -moz-justify-content: center;
+                  justify-content: center;
+                  -ms-flex-pack: center;
+                  flex-pack: center;
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -ms-flexbox;
+                  display: -webkit-flex;
+                  display: flex;
+                  -webkit-box-flex: 1;
+                  -moz-box-flex: 1;
+                  -webkit-flex: 1;
+                  -ms-flex: 1;
+                  flex: 1;
+                  -webkit-flex-direction: column;
+                  -moz-flex-direction: column;
+                  -ms-flex-direction: column;
+                  flex-direction: column;
+                  -webkit-justify-content: flex-start;
+                  -moz-justify-content: flex-start;
+                  justify-content: flex-start;
+                  -ms-flex-pack: start;
+                  flex-pack: start;
+                  -webkit-align-items: center;
+                  align-items: center;
+                  -ms-flex-align: center;
+                  flex-align: center;
+                  padding: 0 15px; }
+                  @media all and (max-width: 950px) {
+                    body.profile #splash .content #splash-stats .stat,
+                    body.map #splash .content #splash-stats .stat,
+                    body.story #splash .content #splash-stats .stat {
+                      -webkit-justify-content: flex-start;
+                      -moz-justify-content: flex-start;
+                      justify-content: flex-start;
+                      -ms-flex-pack: start;
+                      flex-pack: start;   }
 }
-                  body.profile #splash .content #splash-stats .stat .stat-text,
-                  body.map #splash .content #splash-stats .stat .stat-text,
-                  body.story #splash .content #splash-stats .stat .stat-text {
-                    font-size: 16px;
-                    text-align: center;
-                    color: #fff;
-                    line-height: 1.15;
-                    margin-bottom: 0; }
-                    body.profile #splash .content #splash-stats .stat .stat-text a,
-                    body.map #splash .content #splash-stats .stat .stat-text a,
-                    body.story #splash .content #splash-stats .stat .stat-text a {
+                    body.profile #splash .content #splash-stats .stat .stat-text,
+                    body.map #splash .content #splash-stats .stat .stat-text,
+                    body.story #splash .content #splash-stats .stat .stat-text {
+                      font-size: 16px;
+                      text-align: center;
                       color: #fff;
-                      border-bottom: 1px solid rgba(255, 255, 255, 0.85);
-                      text-decoration: none; }
-                      body.profile #splash .content #splash-stats .stat .stat-text a:hover,
-                      body.map #splash .content #splash-stats .stat .stat-text a:hover,
-                      body.story #splash .content #splash-stats .stat .stat-text a:hover {
-                        border-bottom: 0;
+                      line-height: 1.15;
+                      margin-bottom: 0; }
+                      body.profile #splash .content #splash-stats .stat .stat-text a,
+                      body.map #splash .content #splash-stats .stat .stat-text a,
+                      body.story #splash .content #splash-stats .stat .stat-text a {
                         color: #fff;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.85);
                         text-decoration: none; }
-                body.profile #splash .content #splash-stats .stat .stat-rank,
-                body.map #splash .content #splash-stats .stat .stat-rank,
-                body.story #splash .content #splash-stats .stat .stat-rank {
-                  font-size: 12px;
-                  color: rgba(255, 255, 255, 0.75);
-                  line-height: 1.35;
-                  text-transform: uppercase;
-                  overflow-wrap: break-word;
-                  word-wrap: break-word;
-                  -ms-word-break: break-all;
-                  word-break: break-word;
-                  white-space: initial !important; }
-                  body.profile #splash .content #splash-stats .stat .stat-value,
-                  body.map #splash .content #splash-stats .stat .stat-value,
-                  body.story #splash .content #splash-stats .stat .stat-value {
-                    margin: 6px 0 7px;
-                    font-size: 37px;
-                    color: #fff;
-                    opacity: 0.9; }
+                        body.profile #splash .content #splash-stats .stat .stat-text a:hover,
+                        body.map #splash .content #splash-stats .stat .stat-text a:hover,
+                        body.story #splash .content #splash-stats .stat .stat-text a:hover {
+                          border-bottom: 0;
+                          color: #fff;
+                          text-decoration: none; }
+                  body.profile #splash .content #splash-stats .stat .stat-rank,
+                  body.map #splash .content #splash-stats .stat .stat-rank,
+                  body.story #splash .content #splash-stats .stat .stat-rank {
+                    font-size: 12px;
+                    color: rgba(255, 255, 255, 0.75);
+                    line-height: 1.35;
+                    text-transform: uppercase;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+                    -ms-word-break: break-all;
+                    word-break: break-word;
+                    white-space: initial !important; }
+                    body.profile #splash .content #splash-stats .stat .stat-value,
+                    body.map #splash .content #splash-stats .stat .stat-value,
+                    body.story #splash .content #splash-stats .stat .stat-value {
+                      margin: 6px 0 7px;
+                      font-size: 37px;
+                      color: #fff;
+                      opacity: 0.9; }
           body.profile #splash .content h1, body.map #splash .content h1,
           body.story #splash .content h1 {
             line-height: 1;

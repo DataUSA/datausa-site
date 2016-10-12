@@ -110,6 +110,9 @@
         d3.selectAll(".compare-flex").classed("compare-flex", false);
         d3.selectAll(".compare-tall").classed("compare-tall", false);
 
+        d3.select(".splash-titles").classed("compare-flex", attr ? true : false);
+        d3.select(".splash-titles h1").selectAll("span").classed("compare-flex", attr ? true : false);
+        d3.select("#splash-stats").classed("compare-flex", attr ? true : false);
         d3.selectAll(".compare-title").text(name);
         d3.selectAll(".compare-separator").style("display", attr ? "inline-block" : "none");
         d3.selectAll(".compare-img").attr("src", attr ? "/static/img/icons/compare-active.svg" : "/static/img/icons/compare.svg");
@@ -130,11 +133,6 @@
 
           builds = builds.slice(0, num_builds);
 
-          d3.select("#splash").selectAll(".stat-rank").html(function(d, i) {
-            if (!data) return d3.select(this).attr("data-text");
-            return name + ": " + data.splash.stats[i].value;
-          });
-
           builds.forEach(function(build) {
 
             build.data.forEach(function(d) {
@@ -153,6 +151,17 @@
           });
 
           if (data) {
+
+            d3.selectAll("#splash-stats .stat").each(function(d, i) {
+              d3.select(this).classed("compare-flex", true);
+              var clone = this.cloneNode(true);
+              d3.select(clone).classed("compare-add", true);
+              var stat = data.splash.stats[i];
+              d3.select(clone).select(".stat-text").html(stat.title);
+              d3.select(clone).select(".stat-value").html(stat.value);
+              d3.select(clone).select(".stat-subtitle").html(stat.subtitle || "");
+              this.parentNode.appendChild(clone);
+            });
 
             var sections = data.sections.reduce(function(obj, d) {
               d.topics = d.topics.reduce(function(obj, t) {
