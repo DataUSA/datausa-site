@@ -354,9 +354,7 @@
 
         modal
           .classed("open", true)
-          .style("top", this.parentNode.parentNode.id === "title-bar"
-            ? window.scrollY + rect.top + rect.height + 10 + "px"
-            : rect.top - parseFloat(modal.style("height"), 10) + window.scrollY - 10 + "px")
+          .style("top", window.scrollY + rect.top + rect.height + 10 + "px")
           .style("left", rect.left + rect.width / 2 - parseFloat(modal.style("width"), 10) / 2 + "px");
 
         // focus input
