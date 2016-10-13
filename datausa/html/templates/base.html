@@ -378,9 +378,12 @@
           return;
         }
 
+        var navCompare = this.parentNode.parentNode.id === "title-bar";
+
         modal
           .classed("open", true)
-          .style("top", window.pageYOffset + rect.top + rect.height + 10 + "px")
+          .style("position", navCompare ? "fixed" : "absolute")
+          .style("top", (navCompare ? 0 : window.pageYOffset) + rect.top + rect.height + 10 + "px")
           .style("left", rect.left + rect.width / 2 - parseFloat(modal.style("width"), 10) / 2 + "px");
 
         // focus input
