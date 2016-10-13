@@ -93,6 +93,22 @@
           num_builds = builds.length,
           titles = [];
 
+      function profileEvents() {
+
+        // toggle extra items in long list
+        d3.selectAll(".show-more").on("click", function(){
+          d3.event.preventDefault();
+          var elem = d3.select(this),
+              open = elem.classed("open"),
+              text = elem.attr("data-text") || elem.text();
+          elem.attr("data-text", text);
+          if (!open) text = "";
+          d3.select(this.previousSibling).style("display", open ? "none" : "inline");
+          elem.classed("open", !open).text(text);
+        });
+
+      }
+
       function addComparison(attr, back) {
 
         if (!attr && !compare || (attr && !init_compare && compare === attr)) return;
@@ -367,6 +383,7 @@
           }
 
           builds.forEach(viz.resizeBuild);
+          profileEvents();
           if (document.onscroll) document.onscroll();
 
           d3.select("body").classed("frozen", false);
