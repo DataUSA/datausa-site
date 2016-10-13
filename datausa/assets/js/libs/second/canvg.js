@@ -2881,8 +2881,8 @@
 					p.y -= e.offsetTop;
 					e = e.offsetParent;
 				}
-				if (window.scrollX) p.x += window.scrollX;
-				if (window.scrollY) p.y += window.scrollY;
+				if (window.pageXOffset) p.x += window.pageXOffset;
+				if (window.pageYOffset) p.y += window.pageYOffset;
 				return p;
 			}
 

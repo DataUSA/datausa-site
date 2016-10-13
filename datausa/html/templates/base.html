@@ -380,7 +380,7 @@
 
         modal
           .classed("open", true)
-          .style("top", window.scrollY + rect.top + rect.height + 10 + "px")
+          .style("top", window.pageYOffset + rect.top + rect.height + 10 + "px")
           .style("left", rect.left + rect.width / 2 - parseFloat(modal.style("width"), 10) / 2 + "px");
 
         // focus input
