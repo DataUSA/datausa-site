@@ -5209,6 +5209,11 @@
       body.profile .profile-section .topic.compare-flex,
       body.map .profile-section .topic.compare-flex,
       body.story .profile-section .topic.compare-flex {
+        -webkit-box-flex: 1 1 40%;
+        -moz-box-flex: 1 1 40%;
+        -webkit-flex: 1 1 40%;
+        -ms-flex: 1 1 40%;
+        flex: 1 1 40%;
         min-width: 40%; }
         body.profile .profile-section .topic.compare-flex:not(.compare-add) .datausa-link,
         body.map .profile-section .topic.compare-flex:not(.compare-add) .datausa-link,

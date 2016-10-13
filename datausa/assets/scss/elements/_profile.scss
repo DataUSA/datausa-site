@@ -1614,6 +1614,7 @@ body.profile, body.map, body.story {
       }
 
       &.compare-flex {
+        @include flex-size(1 1 40%);
         min-width: 40%;
         &:not(.compare-add) .datausa-link {
           display: none;
