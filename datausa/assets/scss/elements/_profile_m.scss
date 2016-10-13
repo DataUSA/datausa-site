@@ -145,20 +145,56 @@ body.profile, body.story {
             100%: $black2
           ));
         }
+
+        &.compare-flex {
+          height: 50%;
+          width: 100%;
+        }
+        &.compare-add {
+          left: 0;
+          margin-top: 50vh;
+        }
+
       }
 
       .content {
         padding: $nav-height 10px;
 
+        .splash-titles {
+
+          h1 {
+            display: block;
+
+
+            .compare-flex {
+              width: auto;
+            }
+
+            .compare-separator {
+              font-family: $pathway;
+              font-size: auto;
+              margin: 0 7px;
+            }
+
+          }
+
+        }
+
         #splash-stats {
           @include align-items(flex-end);
+          @include flex-wrap();
 
           .stat {
+            @include box();
+            max-width: 30%;
+            min-width: 30%;
+            width: 30%;
+
             .stat-text {
-              font-size: 13px;
+              font-size: 10px;
             }
             .stat-value {
-              font-size: 26px;
+              font-size: 20px;
               opacity: 1;
             }
             .stat-rank {
@@ -188,10 +224,11 @@ body.profile, body.story {
               height: 20px;
             }
             span {
-              margin-top: 3px;
-              font-size: 8px;
-              line-height: 1.3;
-              @include wordwrap();
+              display: none;
+              // margin-top: 3px;
+              // font-size: 8px;
+              // line-height: 1.3;
+              // @include wordwrap();
             }
           }
         }
@@ -201,6 +238,9 @@ body.profile, body.story {
     .intro {
       .col {
         @include flex-direction(column-reverse);
+        &.compare-flex {
+          width: 100%;
+        }
       }
     }
 
@@ -242,6 +282,11 @@ body.profile, body.story {
         padding: 0 0 50px 0;
         width: 100%;
         @include box();
+
+        &.compare-flex {
+          margin: 0;
+          min-width: auto;
+        }
 
         &.flex {
           @include flex-size(1 0 auto);

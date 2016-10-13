@@ -3761,7 +3761,6 @@
                             display: none;
                             font-family: "Palanquin", sans-serif;
                             font-size: 45px;
-                            font-weight: 400;
                             width: 10%; }
                     body.profile #splash .content .splash-titles sub,
                     body.map #splash .content .splash-titles sub,
@@ -5878,24 +5877,61 @@
           background-image: -ms-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.7) 60%,#141b2e 100%);
           background-image: -o-linear-gradient(top, transparent 0%,rgba(20, 27, 46, 0.7) 60%,#141b2e 100%);
           -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='transparent', EndColorStr='#141b2e')";   }
+          body.profile #splash #splash-image.compare-flex,
+          body.story #splash #splash-image.compare-flex {
+            height: 50%;
+            width: 100%;   }
+            body.profile #splash #splash-image.compare-add,
+            body.story #splash #splash-image.compare-add {
+              left: 0;
+              margin-top: 50vh;   }
         body.profile #splash .content, body.story #splash .content {
           padding: 40px 10px;   }
+          body.profile #splash .content .splash-titles h1,
+          body.story #splash .content .splash-titles h1 {
+            display: block;   }
+            body.profile #splash .content .splash-titles h1 .compare-flex,
+            body.story #splash .content .splash-titles h1 .compare-flex {
+              width: auto;   }
+              body.profile #splash .content .splash-titles h1 .compare-separator,
+              body.story #splash .content .splash-titles h1 .compare-separator {
+                font-family: "Pathway Gothic One", sans-serif;
+                font-size: auto;
+                margin: 0 7px;   }
           body.profile #splash .content #splash-stats,
           body.story #splash .content #splash-stats {
             -webkit-align-items: flex-end;
             align-items: flex-end;
             -ms-flex-align: end;
-            flex-align: end;   }
-            body.profile #splash .content #splash-stats .stat .stat-text,
-            body.story #splash .content #splash-stats .stat .stat-text {
-              font-size: 13px;   }
-              body.profile #splash .content #splash-stats .stat .stat-value,
-              body.story #splash .content #splash-stats .stat .stat-value {
-                font-size: 26px;
-                opacity: 1;   }
-                body.profile #splash .content #splash-stats .stat .stat-rank,
-                body.story #splash .content #splash-stats .stat .stat-rank {
-                  display: none;   }
+            flex-align: end;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;   }
+            body.profile #splash .content #splash-stats .stat,
+            body.story #splash .content #splash-stats .stat {
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box;
+              max-width: 30%;
+              min-width: 30%;
+              width: 30%;   }
+              body.profile #splash .content #splash-stats .stat:before,
+              body.profile #splash .content #splash-stats .stat:after,
+              body.story #splash .content #splash-stats .stat:before,
+              body.story #splash .content #splash-stats .stat:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;   }
+                body.profile #splash .content #splash-stats .stat .stat-text,
+                body.story #splash .content #splash-stats .stat .stat-text {
+                  font-size: 10px;   }
+                  body.profile #splash .content #splash-stats .stat .stat-value,
+                  body.story #splash .content #splash-stats .stat .stat-value {
+                    font-size: 20px;
+                    opacity: 1;   }
+                    body.profile #splash .content #splash-stats .stat .stat-rank,
+                    body.story #splash .content #splash-stats .stat .stat-rank {
+                      display: none;   }
           body.profile #splash .content .row-last, body.story #splash .content .row-last {
             -webkit-flex-direction: column;
             -moz-flex-direction: column;
@@ -5925,19 +5961,14 @@
                     height: 20px;   }
                     body.profile #splash .content .splash-icon-nav a span,
                     body.story #splash .content .splash-icon-nav a span {
-                      margin-top: 3px;
-                      font-size: 8px;
-                      line-height: 1.3;
-                      overflow-wrap: break-word;
-                      word-wrap: break-word;
-                      -ms-word-break: break-all;
-                      word-break: break-word;
-                      white-space: initial !important;   }
+                      display: none;   }
     body.profile .intro .col, body.story .intro .col {
       -webkit-flex-direction: column-reverse;
       -moz-flex-direction: column-reverse;
       -ms-flex-direction: column-reverse;
       flex-direction: column-reverse;   }
+      body.profile .intro .col.compare-flex, body.story .intro .col.compare-flex {
+        width: 100%;   }
     body.profile .profile-section, body.story .profile-section {
       -webkit-flex-direction: column;
       -moz-flex-direction: column;
@@ -5991,15 +6022,19 @@
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;   }
-          body.profile .profile-section .topic.flex, body.story .profile-section .topic.flex {
-            -webkit-box-flex: 1 0 auto;
-            -moz-box-flex: 1 0 auto;
-            -webkit-flex: 1 0 auto;
-            -ms-flex: 1 0 auto;
-            flex: 1 0 auto;   }
-            body.profile .profile-section .topic.flex .content aside > .topic-stats:first-child .stat:only-child,
-            body.story .profile-section .topic.flex .content aside > .topic-stats:first-child .stat:only-child {
-              margin-top: 0;   }
+          body.profile .profile-section .topic.compare-flex,
+          body.story .profile-section .topic.compare-flex {
+            margin: 0;
+            min-width: auto;   }
+            body.profile .profile-section .topic.flex, body.story .profile-section .topic.flex {
+              -webkit-box-flex: 1 0 auto;
+              -moz-box-flex: 1 0 auto;
+              -webkit-flex: 1 0 auto;
+              -ms-flex: 1 0 auto;
+              flex: 1 0 auto;   }
+              body.profile .profile-section .topic.flex .content aside > .topic-stats:first-child .stat:only-child,
+              body.story .profile-section .topic.flex .content aside > .topic-stats:first-child .stat:only-child {
+                margin-top: 0;   }
         body.profile .profile-section .topic .content,
         body.story .profile-section .topic .content {
           -webkit-flex-direction: column;
