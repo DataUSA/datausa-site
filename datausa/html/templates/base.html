@@ -292,8 +292,22 @@
                     }
 
                     if (topic.viz) {
+                      var containers = d3.select(clone).selectAll(".viz.main");
+                      if (topic.viz.length < containers.size()) {
+                        containers.classed("tall", true);
+                        containers.each(function(d, i) {
+                          if (i >= topic.viz.length) d3.select(this).remove();
+                        });
+                      }
                       topic.viz.forEach(function(v, i) {
-                        v.container = d3.select(d3.select(clone).selectAll(".viz.main")[0][i]);
+                        v.container = d3.select(containers[0][i]);
+                        if (!v.container.size()) {
+                          var first = topic.viz[0].container.node();
+                          topic.viz[0].container.classed("tall", false);
+                          var container = first.cloneNode(true);
+                          first.parentNode.insertBefore(container, first.nextSibling);
+                          v.container = d3.select(container);
+                        }
                         v.compare = attr.id;
                         if (!v.config.height && topic.viz.length === 1) v.container.classed("compare-tall", true);
                         if (!v.config.color) v.config.color = "compare";
