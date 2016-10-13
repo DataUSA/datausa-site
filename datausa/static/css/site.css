@@ -4197,8 +4197,13 @@
           body.profile #title-bar > span a .compare-separator,
           body.map #title-bar > span a .compare-separator,
           body.story #title-bar > span a .compare-separator {
+            color: white;
             display: none;
             margin: 0 5px; }
+            body.profile #title-bar > span a .compare-title,
+            body.map #title-bar > span a .compare-title,
+            body.story #title-bar > span a .compare-title {
+              color: #ff976c; }
     body.profile #title-bar img, body.map #title-bar img, body.story #title-bar img {
       width: 72px;
       margin-top: 6px;

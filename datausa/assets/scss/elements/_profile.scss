@@ -846,8 +846,13 @@ body.profile, body.map, body.story {
         text-overflow: ellipsis;
 
         .compare-separator {
+          color: white;
           display: none;
           margin: 0 5px;
+        }
+
+        .compare-title {
+          color: #ff976c;
         }
 
       }

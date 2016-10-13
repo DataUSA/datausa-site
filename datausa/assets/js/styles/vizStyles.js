@@ -6,32 +6,32 @@ var vizStyles = {
   default: {
     pri: "#ef6145",
     sec: "#C6C7CA",
-    compare: "#455a7d"
+    compare: "#ff976c"
   },
   geo: {
     pri: "#ef6145",
     sec: "#C6C7CA",
-    compare: "#455a7d"
+    compare: "#ff976c"
   },
   cip: {
     pri: "#ef6145",
     sec: "#C6C7CA",
-    compare: "#455a7d"
+    compare: "#ff976c"
   },
   soc: {
     pri: "#ef6145",
     sec: "#C6C7CA",
-    compare: "#455a7d"
+    compare: "#ff976c"
   },
   naics: {
     pri: "#ef6145",
     sec: "#C6C7CA",
-    compare: "#455a7d"
+    compare: "#ff976c"
   },
 
-  // pri: "#ffb563",
-  // sec: "#455a7d",
-  compare: "#455a7d",
+  // pri: "#ef6145",
+  // sec: "#C6C7CA",
+  compare: "#ff976c",
 
   "tooltip": {
     "background": "white",
