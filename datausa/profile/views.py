@@ -21,6 +21,8 @@ class MyEncoder(JSONEncoder):
             del ret_obj["variables"]
         if "section_cache" in ret_obj:
             ret_obj["sections"] = ret_obj["section_cache"]
+            ret_obj["image"] = o.image()
+            ret_obj["parents"] = o.parents()
             del ret_obj["section_cache"]
         return ret_obj
 
