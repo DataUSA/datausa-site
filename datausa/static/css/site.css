@@ -4530,9 +4530,29 @@
           bottom: 4px; }
     body.profile .intro .data-source-crumb img, body.map .intro .data-source-crumb img,
     body.story .intro .data-source-crumb img {
-      width: 15px;
-      height: 15px;
-      margin: 3px 8px 0px 4px; }
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
+      box-sizing: content-box;
+      width: 13px;
+      height: 13px;
+      margin: 3px 4px 3px 6px; }
+      body.profile .intro .data-source-crumb img:before,
+      body.profile .intro .data-source-crumb img:after,
+      body.map .intro .data-source-crumb img:before,
+      body.map .intro .data-source-crumb img:after,
+      body.story .intro .data-source-crumb img:before,
+      body.story .intro .data-source-crumb img:after {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box; }
+    body.profile .intro .data-source-crumb .crumb-trail,
+    body.map .intro .data-source-crumb .crumb-trail,
+    body.story .intro .data-source-crumb .crumb-trail {
+      display: inline-block;
+      line-height: 1;
+      min-width: 80%;
+      max-width: 80%;
+      width: 80%; }
     body.profile .intro .breadcrumb img, body.map .intro .breadcrumb img,
     body.story .intro .breadcrumb img {
       width: 18px;

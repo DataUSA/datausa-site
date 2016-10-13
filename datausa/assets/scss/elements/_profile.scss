@@ -1151,9 +1151,17 @@ body.profile, body.map, body.story {
 
     .data-source-crumb {
       img {
-        width: 15px;
-        height: 15px;
-        margin: 3px 8px 0px 4px;
+        @include box(content-box);
+        width: 13px;
+        height: 13px;
+        margin: 3px 4px 3px 6px;
+      }
+      .crumb-trail {
+        display: inline-block;
+        line-height: 1;
+        min-width: 80%;
+        max-width: 80%;
+        width: 80%;
       }
     }
 
