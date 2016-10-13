@@ -47,6 +47,7 @@ body.profile, body.story {
         .r {
           min-width: 100%;
           max-width: 100%;
+          width: 100%;
           padding: 20px 0 0;
           @include align-items(flex-start);
           &.compare-flex {
@@ -56,8 +57,6 @@ body.profile, body.story {
         }
 
         .photo-cred, .breadcrumb {
-          @include flex();
-          @include flex-direction(row);
           margin-left: -5px;
         }
 

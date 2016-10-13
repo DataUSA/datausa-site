@@ -4537,7 +4537,7 @@
     body.story .intro .breadcrumb img {
       width: 18px;
       height: 18px;
-      padding: 1px 7px 1px 3px;
+      padding: 1px 3px;
       -webkit-box-sizing: content-box;
       -moz-box-sizing: content-box;
       box-sizing: content-box; }
@@ -4551,13 +4551,20 @@
     body.profile .intro .breadcrumb .crumb-trail,
     body.map .intro .breadcrumb .crumb-trail,
     body.story .intro .breadcrumb .crumb-trail {
-      position: relative;
       display: inline-block;
       line-height: 0.5;
       top: 3px;
-      margin-bottom: 3px; }
+      margin-bottom: 3px;
+      min-width: 80%;
+      max-width: 80%;
+      width: 80%; }
       body.profile .intro .breadcrumb a, body.map .intro .breadcrumb a,
       body.story .intro .breadcrumb a {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -ms-word-break: break-all;
+        word-break: break-word;
+        white-space: initial !important;
         display: inline;
         padding: 2px 0;
         margin-top: -4px;
@@ -4634,85 +4641,43 @@
           body.map .intro .intro-head .photo-cred .image-author,
           body.story .intro .intro-head .photo-cred .image-author {
             line-height: 1;
-            max-width: 90%; }
+            max-width: 80%; }
       body.profile .intro .intro-head .data-source-crumb,
       body.map .intro .intro-head .data-source-crumb,
       body.story .intro .intro-head .data-source-crumb {
         position: relative;
         display: inline-block;
         line-height: 0.5; }
-        body.profile .intro .intro-head .breadcrumb,
-        body.profile .intro .intro-head .data-source-crumb,
-        body.map .intro .intro-head .breadcrumb,
-        body.map .intro .intro-head .data-source-crumb,
-        body.story .intro .intro-head .breadcrumb,
-        body.story .intro .intro-head .data-source-crumb {
-          -webkit-justify-content: center;
-          -moz-justify-content: center;
-          justify-content: center;
-          -ms-flex-pack: center;
-          flex-pack: center;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-align-items: flex-start;
-          align-items: flex-start;
-          -ms-flex-align: start;
-          flex-align: start; }
-          body.profile .intro .intro-head .fa, body.map .intro .intro-head .fa,
-          body.story .intro .intro-head .fa {
-            padding: 1px 6px;
-            font-size: 11px;
-            color: #fff;
-            display: inline-block; }
-            body.profile .intro .intro-head .r, body.map .intro .intro-head .r,
-            body.story .intro .intro-head .r {
-              min-width: 25%;
-              max-width: 25%;
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: -webkit-flex;
-              display: flex;
-              -webkit-flex-direction: column;
-              -moz-flex-direction: column;
-              -ms-flex-direction: column;
-              flex-direction: column;
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;
-              -webkit-align-items: flex-start;
-              align-items: flex-start;
-              -ms-flex-align: start;
-              flex-align: start; }
-              body.profile .intro .intro-head .r a, body.map .intro .intro-head .r a,
-              body.story .intro .intro-head .r a {
-                font-family: "Palanquin", sans-serif;
-                font-weight: 400;
-                font-size: 10px;
-                letter-spacing: 0.05em;
-                line-height: 1;
-                text-transform: uppercase;
-                -moz-transition: all 0.35s;
-                -o-transition: all 0.35s;
-                -webkit-transition: all 0.35s;
-                transition: all 0.35s; }
-                body.profile .intro .intro-head .r a:hover,
-                body.profile .intro .intro-head .r a:focus, body.map .intro .intro-head .r a:hover,
-                body.map .intro .intro-head .r a:focus, body.story .intro .intro-head .r a:hover,
-                body.story .intro .intro-head .r a:focus {
-                  -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-                  -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-                  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
+        body.profile .intro .intro-head .fa, body.map .intro .intro-head .fa,
+        body.story .intro .intro-head .fa {
+          padding: 1px 6px;
+          font-size: 11px;
+          color: #fff;
+          display: inline-block; }
+          body.profile .intro .intro-head .r, body.map .intro .intro-head .r,
+          body.story .intro .intro-head .r {
+            min-width: 25%;
+            max-width: 25%;
+            width: 25%; }
+            body.profile .intro .intro-head .r a, body.map .intro .intro-head .r a,
+            body.story .intro .intro-head .r a {
+              font-family: "Palanquin", sans-serif;
+              font-weight: 400;
+              font-size: 10px;
+              letter-spacing: 0.05em;
+              line-height: 1;
+              text-transform: uppercase;
+              -moz-transition: all 0.35s;
+              -o-transition: all 0.35s;
+              -webkit-transition: all 0.35s;
+              transition: all 0.35s; }
+              body.profile .intro .intro-head .r a:hover,
+              body.profile .intro .intro-head .r a:focus, body.map .intro .intro-head .r a:hover,
+              body.map .intro .intro-head .r a:focus, body.story .intro .intro-head .r a:hover,
+              body.story .intro .intro-head .r a:focus {
+                -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+                -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+                text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); }
       body.profile .intro .intro-head .image-author,
       body.map .intro .intro-head .image-author,
       body.story .intro .intro-head .image-author {
@@ -5829,6 +5794,7 @@
         body.profile .intro .intro-head .r, body.story .intro .intro-head .r {
           min-width: 100%;
           max-width: 100%;
+          width: 100%;
           padding: 20px 0 0;
           -webkit-align-items: flex-start;
           align-items: flex-start;
@@ -5842,20 +5808,6 @@
         body.profile .intro .intro-head .breadcrumb,
         body.story .intro .intro-head .photo-cred,
         body.story .intro .intro-head .breadcrumb {
-          -webkit-justify-content: center;
-          -moz-justify-content: center;
-          justify-content: center;
-          -ms-flex-pack: center;
-          flex-pack: center;
-          display: -webkit-box;
-          display: -moz-box;
-          display: -ms-flexbox;
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex-direction: row;
-          -moz-flex-direction: row;
-          -ms-flex-direction: row;
-          flex-direction: row;
           margin-left: -5px;   }
           body.profile .intro .intro-head .photo-cred,
           body.story .intro .intro-head .photo-cred {

@@ -1161,19 +1161,22 @@ body.profile, body.map, body.story {
       img {
         width: 18px;
         height: 18px;
-        padding: 1px 7px 1px 3px;
+        padding: 1px 3px;
         @include box(content-box);
       }
 
       .crumb-trail {
-        position: relative;
         display: inline-block;
         line-height: 0.5;
         top: 3px;
         margin-bottom: 3px;
+        min-width: 80%;
+        max-width: 80%;
+        width: 80%;
       }
 
       a {
+        @include wordwrap();
         display: inline;
         padding: 2px 0;
         margin-top: -4px;
@@ -1228,7 +1231,7 @@ body.profile, body.map, body.story {
         overflow: visible;
         .image-author {
           line-height: 1;
-          max-width: 90%;
+          max-width: 80%;
         }
       }
 
@@ -1238,10 +1241,10 @@ body.profile, body.map, body.story {
         line-height: 0.5;
       }
 
-      .breadcrumb, .data-source-crumb {
-        @include flex();
-        @include align-items(flex-start);
-      }
+      // .breadcrumb, .data-source-crumb {
+      //   @include flex();
+      //   @include align-items(flex-start);
+      // }
 
       .fa {
         padding: 1px 6px;
@@ -1253,10 +1256,7 @@ body.profile, body.map, body.story {
       .r {
         min-width: 25%;
         max-width: 25%;
-        @include flex();
-        @include flex-direction(column);
-        @include justify(center);
-        @include align-items(flex-start);
+        width: 25%;
 
         a {
           font-family: $palanquin;
