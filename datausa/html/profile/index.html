@@ -183,7 +183,7 @@
 </div>
 
 <div id="nav-bar-scroll">
-  <div id="stats-bar">
+  <!-- <div id="stats-bar">
     <div id="title-stats">
       {% for stat in profile.splash.stats %}
       <div class="title-stat">
@@ -192,7 +192,7 @@
       </div>
       {% endfor %}
     </div>
-  </div>
+  </div> -->
 
   <div id="profile-nav">
     <ul class="pri-menu">
@@ -321,7 +321,7 @@
   var splashHeight = d3.select("#splash").node().offsetHeight,
       boundHeight = d3.select(".bound").node().offsetHeight
       titleNavHeight = d3.select("#title-bar").node().offsetHeight,
-      statNavHeight = d3.select("#stats-bar").node().offsetHeight,
+      statNavHeight = d3.select("#stats-bar").size() ? d3.select("#stats-bar").node().offsetHeight : 0,
       profNavHeight = d3.select("#profile-nav").node().offsetHeight,
       attr_type = "{{ profile.attr_type }}";
 

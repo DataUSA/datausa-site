@@ -3462,7 +3462,7 @@
       content: "";
       position: absolute;
       visibility: hidden;
-      top: -118px; }
+      top: -95px; }
   body.profile .topic .data-btn, body.map .topic .data-btn,
   body.story .topic .data-btn {
     top: 5px; }
@@ -4298,11 +4298,11 @@
         top: 0; }
   body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
     position: absolute;
-    height: 23px;
+    height: 0px;
     width: 100%;
     right: 0;
     left: 0;
-    top: -23px;
+    top: 0px;
     margin-right: auto;
     margin-left: auto;
     overflow: hidden;
@@ -4420,7 +4420,7 @@
           text-decoration: none; }
   body.profile #nav-bar-scroll, body.map #nav-bar-scroll, body.story #nav-bar-scroll {
     position: fixed;
-    height: 68px;
+    height: 45px;
     width: 100%;
     right: 0;
     left: 0;
@@ -4437,7 +4437,7 @@
       body.profile #nav-bar-scroll.stat-hidden #stats-bar,
       body.map #nav-bar-scroll.stat-hidden #stats-bar,
       body.story #nav-bar-scroll.stat-hidden #stats-bar {
-        top: -23px; }
+        top: 0px; }
         body.profile #nav-bar-scroll.stat-hidden #profile-nav.visible,
         body.map #nav-bar-scroll.stat-hidden #profile-nav.visible,
         body.story #nav-bar-scroll.stat-hidden #profile-nav.visible {
@@ -4456,7 +4456,7 @@
     transition: top 0.5s; }
     body.profile #profile-nav.visible, body.map #profile-nav.visible,
     body.story #profile-nav.visible {
-      top: 23px; }
+      top: 0px; }
       body.profile #profile-nav #back-to-top, body.map #profile-nav #back-to-top,
       body.story #profile-nav #back-to-top {
         position: absolute;
@@ -5081,7 +5081,7 @@
             content: "";
             position: absolute;
             visibility: hidden;
-            top: -118px; }
+            top: -95px; }
     body.profile .profile-section .topic, body.map .profile-section .topic,
     body.story .profile-section .topic {
       -webkit-box-sizing: border-box;
