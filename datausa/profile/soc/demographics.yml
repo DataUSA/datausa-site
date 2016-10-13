@@ -20,7 +20,7 @@ topics:
           show: "race"
           soc: "<<id>>"
           soc_level: "<<sumlevel>>"
-          share: "num_ppl"
+          share: "num_ppl.soc"
         - required: "num_ppl,num_ppl_moe"
           show: "race"
           geo: "01000US"

@@ -16,7 +16,7 @@ topics:
         - required: "avg_wage,avg_wage_moe,avg_wage_rank"
           show: "soc"
           sumlevel: "<<sumlevel>>"
-          avg_wage_rank: "<<ranks col=avg_wage_rank|limit=5>>"
+          soc: "<<ranks col=avg_wage_rank|limit=5|key=id>>"
           order: "avg_wage"
           sort: "desc"
           soc_level: "<<sumlevel>>"
