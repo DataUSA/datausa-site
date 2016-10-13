@@ -262,9 +262,12 @@
 
                     d3.select(clone).selectAll(".stat").each(function(d, i) {
                       var div = d3.select(this), stat = topic.stat[i];
-                      div.select(".stat-text").html(title.size() ? stat.title : topic_name);
-                      div.select(".stat-value").html(stat.value);
-                      div.select(".stat-subtitle").html(stat.subtitle);
+                      if (stat) {
+                        div.select(".stat-text").html(title.size() ? stat.title : topic_name);
+                        div.select(".stat-value").html(stat.value);
+                        div.select(".stat-subtitle").html(stat.subtitle);
+                      }
+                      else div.remove();
                     });
 
                     d3.select(clone).selectAll("p").html(function(d, i) {
