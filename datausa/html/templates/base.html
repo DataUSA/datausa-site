@@ -276,7 +276,7 @@
 
                       if (show && ["naics", "soc"].indexOf(type) >= 0) {
                         var level = new RegExp("[&|?]" + type + "_level=([%a-zA-Z0-9]*)").exec(d.url);
-                        if (level) d.url = d.url.replace(level[0], level[0] + "%2C" + attr.level);
+                        if (level) d.url = d.url.replace(level[0], level[0] + "%2C" + data.attr.level);
                       }
 
                     }
