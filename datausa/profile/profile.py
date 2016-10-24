@@ -588,27 +588,28 @@ class Profile(BaseObject):
             app.logger.info("STAT ERROR: {}".format(url))
             return ""
 
-        if rank <= (ranks/2 + 1):
-            return ",".join([str(r) for r in range(1, ranks + 1)])
-
         del params[attr_type]
         params["limit"] = 1
         params["order"] = col
         params["sort"] = "desc"
 
-        query = RequestEncodingMixin._encode_params(params)
-        url = "{}/api?{}".format(API, query)
-
-        try:
-            max_rank = int(datafold(requests.get(url).json())[0][col])
-        except ValueError:
-            app.logger.info("STAT ERROR: {}".format(url))
-            return ""
-
-        if rank > (max_rank - ranks/2 - 1):
-            results = range(max_rank - ranks + 1, max_rank + 1)
+        if rank <= (ranks/2 + 1):
+            results = range(1, ranks + 1)
         else:
-            results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
+
+            query = RequestEncodingMixin._encode_params(params)
+            url = "{}/api?{}".format(API, query)
+
+            try:
+                max_rank = int(datafold(requests.get(url).json())[0][col])
+            except ValueError:
+                app.logger.info("STAT ERROR: {}".format(url))
+                return ""
+
+            if rank > (max_rank - ranks/2 - 1):
+                results = range(max_rank - ranks + 1, max_rank + 1)
+            else:
+                results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
 
         if kwargs.get("key", False) == "id":
             del params["limit"]
