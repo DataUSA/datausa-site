@@ -112,7 +112,6 @@
   sort: desc
   rows: True
   limit: 2
-  year: latest
   namespace: growth
 
 - required: ["soc"]

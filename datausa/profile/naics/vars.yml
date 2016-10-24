@@ -93,7 +93,6 @@
 
 - required: ["emp_carc_2014_2024", "output_carc_2014_2024", "naics"]
   show: naics
-  year: latest
   namespace: growth
 
 - required: ["soc", "num_ppl"]
