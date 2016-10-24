@@ -334,12 +334,22 @@
                       return topic.description[i];
                     });
 
+                    d3.select(clone).select("[id^=d3plus_drop_topic-select-]").remove();
+                    d3.select(clone).select("select").remove();
                     if (topic.select) {
-                      d3.select(clone).select("[id^=d3plus_drop_topic-select-]").remove();
-                      d3.select(clone).select("select")
+                      var first = d3.select(clone).select("aside").select("*").node();
+                      var select = document.createElement("select");
+                      d3.select(clone).select("aside").node().insertBefore(select, first);
+                      var select = d3.select(clone).select("select")
                         .attr("data-default", topic.select.default)
-                        .attr("id", "topic-select-" + (builds.length + (topic.miniviz ? 1 : 0)))
-                        .node().value = topic.select.default;
+                        .attr("data-method", topic.select.method)
+                        .attr("data-param", topic.select.param)
+                        .attr("id", "topic-select-" + (builds.length + (topic.miniviz ? 1 : 0)));
+                      var options = select.selectAll("option").data(topic.select.data);
+                      options.enter().append("option")
+                        .attr("value", function(d) { return d.id; })
+                        .property("selected", function(d) { return d.id === topic.select.default; })
+                        .html(function(d) { return d.name; })
                     }
 
                     this.parentNode.insertBefore(clone, this.nextSibling);
