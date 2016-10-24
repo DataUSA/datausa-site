@@ -324,8 +324,15 @@
                       var div = d3.select(this), stat = topic.stat[i];
                       if (stat) {
                         div.select(".stat-text").html(title.size() ? stat.title : topic_name);
-                        div.select(".stat-value").html(stat.value);
                         div.select(".stat-subtitle").html(stat.subtitle);
+                        if (stat.subvalues) {
+                          div.selectAll(".stat-value").each(function(d, i) {
+                            d3.select(this).html("<span class='stat-text'>" + (i + 1) + ".</span> " + (i ? stat.subvalues[i - 1] : stat.value))
+                          });
+                        }
+                        else {
+                          div.select(".stat-value").html(stat.value);
+                        }
                       }
                       else div.remove();
                     });
