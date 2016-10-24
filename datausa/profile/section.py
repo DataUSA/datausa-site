@@ -118,7 +118,7 @@ class Section(BaseObject):
     def tooltipify(txt):
 
         def replaceText(t, k, gt):
-            tooltip = u"<a href='{}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</a>"
+            tooltip = u"<a href='{0}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{1}' data-default='{2}'>{2}</a>"
             return t.replace(k, tooltip.format(gt["link"], gt["def"], k))
 
         for gk, gt in GLOSSARY.items():

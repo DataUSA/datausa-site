@@ -3429,7 +3429,11 @@
               padding: 6px 5px;
               border: 1px solid #BDBDBD;
               color: #949494;
-              text-align: center; }
+              text-align: center;
+              max-height: 35px;
+              max-width: 90px;
+              min-width: 90px;
+              width: 90px; }
               body.profile .data-btn span, body.map .data-btn span, body.story .data-btn span {
                 color: #949494;
                 font-family: "Palanquin", sans-serif;
@@ -3449,6 +3453,21 @@
                   body.story .data-btn:hover span {
                     color: #4E4E4E !important; }
   body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    flex-pack: justify;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 30px;
     font-weight: 400;
@@ -3463,6 +3482,8 @@
       position: absolute;
       visibility: hidden;
       top: -95px; }
+      body.profile .topic h2 a, body.map .topic h2 a, body.story .topic h2 a {
+        margin-right: 10px; }
   body.profile .topic .data-btn, body.map .topic .data-btn,
   body.story .topic .data-btn {
     top: 5px; }

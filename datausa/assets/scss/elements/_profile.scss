@@ -207,6 +207,10 @@ body.profile, body.map, body.story {
     border: 1px solid #BDBDBD;
     color: #949494;
     text-align: center;
+    max-height: 35px;
+    max-width: 90px;
+    min-width: 90px;
+    width: 90px;
 
     span {
       color: #949494;
@@ -232,6 +236,8 @@ body.profile, body.map, body.story {
 
   .topic {
     h2 {
+      @include flex();
+      @include justify(space-between);
       font-family: $pathway;
       font-size: 30px;
       font-weight: 400;
@@ -246,6 +252,10 @@ body.profile, body.map, body.story {
         position: absolute;
         visibility: hidden;
         top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      }
+
+      a {
+        margin-right: 10px;
       }
 
     }

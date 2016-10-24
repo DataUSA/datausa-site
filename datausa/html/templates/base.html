@@ -107,6 +107,46 @@
           elem.classed("open", !open).text(text);
         });
 
+        d3.selectAll("[data-tooltip]")
+          .on(d3plus.client.pointer.over,function(){
+
+            var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
+
+            d3plus.tooltip.remove(tt_id);
+
+            var size = this.getBoundingClientRect();
+
+            var offset = d3.select(this).attr("data-tooltip-offset");
+            if (offset) {
+              offset = parseFloat(offset);
+            }
+            else {
+              offset = 15;
+            }
+
+            var arrow = true;
+            if(d3.select(this).attr("data-tooltip-arrow")){
+              arrow = d3.select(this).attr("data-tooltip-arrow") === "true";
+            }
+
+            d3plus.tooltip.create({
+              "x": size.left+size.width/2 + d3plus.client.scroll.x(),
+              "y": size.top+size.height/2 + d3plus.client.scroll.y(),
+              "offset": size.height/2 + offset,
+              "arrow": arrow,
+              // "title": "Title",
+              "description": d3.select(this).attr("data-tooltip"),
+              "width": "auto",
+              "id": tt_id,
+              "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
+              "max_width": 300
+            })
+
+          })
+          .on(d3plus.client.pointer.out,function(){
+            d3plus.tooltip.remove(d3.select(this).attr("data-tooltip-id") || "data-tooltip");
+          });
+
       }
 
       function addComparison(attr, back) {
@@ -143,6 +183,10 @@
               .style("background-image", "url('/profile/" + type + "/" + attr.id + "/img')");
             this.parentNode.insertBefore(clone, this.nextSibling);
           }
+        });
+
+        d3.selectAll(".topic-title, .term").html(function() {
+          return d3.select(this).attr("data-default");
         });
 
         function update_builds(data) {
@@ -245,6 +289,9 @@
               return obj;
             }, {});
 
+            var base_name = d3.select(".splash-titles").select("span").html(),
+                joiner = type === "geo" ? " in " : " for ";
+
             d3.selectAll("section").each(function(){
 
               var anchor = this.className.split(" ")[0];
@@ -302,6 +349,10 @@
                       }
                     }
 
+                    // d3.select(this).select(".topic-title").html(function() {
+                    //   return d3.select(this).html() + joiner + base_name " and " + topic_name;
+                    // });
+
                   }
                   else {
 
@@ -310,12 +361,12 @@
                     d3.select(clone).classed("compare-add", true);
                     if (d3.select(this).selectAll(".viz.main").size() === 1 && !build.config.height) d3.select(this).selectAll(".viz.main").classed("compare-tall", true);
 
-                    var title = d3.select(clone).select("h2");
-                    title.html(function() {
-                      var html = d3.select(this).html().match(/<\s*(\w+\b)(?:(?!<\s*\/\s*\1\b)[\s\S])*<\s*\/\s*\1\s*>|\S+/g);
-                      html[0] = "Compared to " + topic_name;
-                      html = html.filter(function(h) { return h.indexOf('class="term"') < 0; });
-                      return html.join(" ");
+                    d3.select(this).select("h2").select(".topic-title, .term").html(function() {
+                      return d3.select(this).html() + joiner + base_name;
+                    });
+
+                    d3.select(clone).select("h2").select(".topic-title, .term").html(function() {
+                      return d3.select(this).html() + joiner + topic_name;
                     });
 
                     d3.select(clone).selectAll(".sub-title").html(topic.subtitle);
@@ -513,46 +564,6 @@
         }
       }
       if (document.onscroll && !compare) document.onscroll();
-
-      d3.selectAll("[data-tooltip]")
-        .on(d3plus.client.pointer.over,function(){
-
-          var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
-
-          d3plus.tooltip.remove(tt_id);
-
-          var size = this.getBoundingClientRect();
-
-          var offset = d3.select(this).attr("data-tooltip-offset");
-          if (offset) {
-            offset = parseFloat(offset);
-          }
-          else {
-            offset = 15;
-          }
-
-          var arrow = true;
-          if(d3.select(this).attr("data-tooltip-arrow")){
-            arrow = d3.select(this).attr("data-tooltip-arrow") === "true";
-          }
-
-          d3plus.tooltip.create({
-            "x": size.left+size.width/2 + d3plus.client.scroll.x(),
-            "y": size.top+size.height/2 + d3plus.client.scroll.y(),
-            "offset": size.height/2 + offset,
-            "arrow": arrow,
-            // "title": "Title",
-            "description": d3.select(this).attr("data-tooltip"),
-            "width": "auto",
-            "id": tt_id,
-            "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
-            "max_width": 300
-          })
-
-        })
-        .on(d3plus.client.pointer.out,function(){
-          d3plus.tooltip.remove(d3.select(this).attr("data-tooltip-id") || "data-tooltip");
-        });
 
     </script>
 

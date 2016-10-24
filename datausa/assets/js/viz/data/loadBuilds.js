@@ -22,7 +22,7 @@ viz.prepBuild = function(build, i) {
     var locale = d3plus.viz().format(Object).locale.value.visualization,
         type = locale[build.config.type] || d3plus.string.title(type);
     build.title = "Data USA - " + type + " of " + build.title;
-    if (build.profile && location.href.indexOf("/story/") < 0) {
+    if (build.profile && location.href.indexOf("/story/") < 0 && !build.compare) {
       var joiner = build.profile_type === "geo" ? " in " : " for ";
       if (build.profile.id === "01000US") joiner = " in the ";
       build.title += joiner + d3plus.string.title(build.profile.name);

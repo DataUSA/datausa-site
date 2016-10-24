@@ -8,7 +8,7 @@
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}" data-slug="{{ topic.slug }}">
   {% if topic.title %}
-  <h2 class="embed-title"><a href="#{{ topic.slug }}" name="{{ topic.slug }}">{{ topic.title|safe }}</a>{% if topic.viz and (g.page_class != 'story') %} <a href="#" title="Share" class="share-embed btn pri-btn data-btn" data-target-id="share" data-embed="{{ profile.url(full=False, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Options</span></a>{% endif %}</h2>
+  <h2 class="embed-title">{% if "data-tooltip" in topic.title %}{{ topic.title|safe }}{% else %}<a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">{{ topic.title|safe }}</a>{% endif %}{% if topic.viz and (g.page_class != 'story') %} <a href="#" title="Share" class="share-embed btn pri-btn data-btn" data-target-id="share" data-embed="{{ profile.url(full=False, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Options</span></a>{% endif %}</h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
   <div class="sub sub-title">{{ topic.subtitle|safe }}</div>
