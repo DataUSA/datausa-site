@@ -299,15 +299,32 @@ search.btnSmall = function(d) {
 
   var sub = text.selectAll(".subtitle").data([0]);
   sub.enter().append("p").attr("class", "subtitle")
-  sub.text(sumlevels_cy_id[d.kind][d.sumlevel]
+  sub.text(d.id === "01000US" ? "Nation"
+    : sumlevels_cy_id[d.kind][d.sumlevel]
     ? sumlevels_cy_id[d.kind][d.sumlevel].name
     : "");
 
+  var vars = search.vars[d.kind];
+
   var section = text.selectAll(".section").data(search.click ? [] : [0]);
   section.enter().append("p").attr("class", "section");
-  section.text(search.vars[d.kind]
-    ? "Jump to " + search.vars[d.kind].name
-    : "");
+  section.text(vars ? "Jump to " + vars.name : "");
+
+  var stats = text.selectAll(".search-stats").data(vars ? [0] : []);
+  stats.enter().append("div").attr("class", "search-stats");
+  var stat = stats.selectAll(".search-stat")
+    .data(vars ? vars.related_vars : []);
+  var statEnter = stat.enter().append("div").attr("class", "search-stat");
+  statEnter.append("div").attr("class", "stat-title");
+  statEnter.append("div").attr("class", "stat-value");
+  stat.select(".stat-title").text(function(s) {
+    return dictionary[s] || s;
+  });
+
+  stat.select(".stat-value")
+    .html(function(s) {
+      return vars.loaded ? "###" : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
+    });
 
 }
 
