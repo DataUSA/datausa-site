@@ -5969,13 +5969,6 @@ search.reload = function() {
 
     // console.log(data, url, raw);
 
-    search.vars = {};
-    (raw.related_vars || []).forEach(function(v) {
-      v.related_attrs.forEach(function(a) {
-        if (!search.vars[a]) search.vars[a] = v;
-      });
-    });
-
     this.zip = raw.zip_search;
 
     d3.select(".search-suggestions").style("display", "inline-block").text('');
@@ -6016,6 +6009,32 @@ search.reload = function() {
       }
       data = data.slice(0, this.max);
     }
+
+
+    search.vars = {};
+    (raw.related_vars || []).forEach(function(v) {
+      v.related_attrs.forEach(function(a) {
+        if (!search.vars[a]) {
+          search.vars[a] = v;
+          var results = data.filter(function(d) { return d.kind === a; });
+          var ids = results.map(function(d) { return d.id; });
+          load(api + "/api/?sumlevel=all&show=" + a + "&" + a + "=" + ids.join(",") + "&required=" + v.related_vars.join(","), function(var_data, var_url, var_raw) {
+            if (var_raw.subs && var_raw.subs[a]) {
+              var sub_ids = var_raw.subs[a].split(",");
+            }
+            else var sub_ids = false;
+            if (var_data instanceof Array) {
+              v.loaded = var_data.reduce(function(obj, vd) {
+                obj[sub_ids ? ids[sub_ids.indexOf(vd[a])] : vd[a]] = vd;
+                return obj;
+              }, {});
+            }
+            else v.loaded = {error: true};
+            search.render();
+          });
+        }
+      });
+    });
 
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
@@ -6149,8 +6168,9 @@ search.btnSmall = function(d) {
   section.enter().append("p").attr("class", "section");
   section.text(vars ? "Jump to " + vars.name : "");
 
-  var stats = text.selectAll(".search-stats").data(vars ? [0] : []);
+  var stats = text.selectAll(".search-stats").data(vars && (!vars.loaded || (vars.loaded[d.id])) ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
+  stats.exit().remove();
   var stat = stats.selectAll(".search-stat")
     .data(vars ? vars.related_vars : []);
   var statEnter = stat.enter().append("div").attr("class", "search-stat");
@@ -6162,7 +6182,10 @@ search.btnSmall = function(d) {
 
   stat.select(".stat-value")
     .html(function(s) {
-      return vars.loaded ? "###" : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
+      return vars && vars.loaded
+           ? vars.loaded.error ? "N/A" : vars.loaded[d.id]
+           ? viz.format.number(vars.loaded[d.id][s], {key: s}) : "N/A"
+           : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
     });
 
 }
