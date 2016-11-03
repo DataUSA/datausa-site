@@ -21,14 +21,14 @@
   }
 
   .search-item {
-    // display: block;
     @include flex();
+    @include flex-direction(row);
+    @include align-items(flex-start);
     @include justify(flex-start);
     @include box();
     padding: 5px 8px;
 
     img {
-      @include align-self(flex-start);
       width: 26px;
       padding-right: 10px;
       margin-top: 0;
@@ -36,8 +36,7 @@
     }
 
     .search-item-t {
-      display: inline-block;
-      width: 85%;
+      @include flex-size(1);
       line-height: 1.5;
     }
 
@@ -50,7 +49,7 @@
       font-style: normal;
       letter-spacing: 0;
       line-height: 1.2;
-      display: inline-block;
+      display: block;
       a {
         border-bottom: 1px solid transparent;
         color: white;
@@ -72,10 +71,41 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
 
-      &.subtitle {
+      &.subtitle, &.section {
+        display: inline-block;
         margin-top: 5px;
       }
+
+      &.section {
+        float: right;
+      }
+
     }
+
+    &.geo {
+      .section {
+        color: $geo-bg-color;
+      }
+    }
+
+    &.cip {
+      .section {
+        color: $cip-bg-color;
+      }
+    }
+
+    &.soc {
+      .section {
+        color: $soc-bg-color;
+      }
+    }
+
+    &.naics {
+      .section {
+        color: $naics-bg-color;
+      }
+    }
+
   }
 }
 

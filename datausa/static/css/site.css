@@ -1628,6 +1628,14 @@
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -ms-flex-align: start;
+    flex-align: start;
     -webkit-justify-content: flex-start;
     -moz-justify-content: flex-start;
     justify-content: flex-start;
@@ -1642,17 +1650,16 @@
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
       .search-results .search-item img {
-        -webkit-align-self: flex-start;
-        align-self: flex-start;
-        -ms-flex-item-align: start;
-        flex-item-align: start;
         width: 26px;
         padding-right: 10px;
         margin-top: 0;
         margin-left: -2px; }
         .search-results .search-item .search-item-t {
-          display: inline-block;
-          width: 85%;
+          -webkit-box-flex: 1;
+          -moz-box-flex: 1;
+          -webkit-flex: 1;
+          -ms-flex: 1;
+          flex: 1;
           line-height: 1.5; }
           .search-results .search-item h2 {
             font-family: "Palanquin", sans-serif;
@@ -1663,7 +1670,7 @@
             font-style: normal;
             letter-spacing: 0;
             line-height: 1.2;
-            display: inline-block; }
+            display: block; }
             .search-results .search-item h2 a {
               border-bottom: 1px solid transparent;
               color: white;
@@ -1683,8 +1690,19 @@
       color: #727682;
       letter-spacing: 0.06em;
       text-transform: uppercase; }
-      .search-results .search-item p.subtitle {
+      .search-results .search-item p.subtitle, .search-results .search-item p.section {
+        display: inline-block;
         margin-top: 5px; }
+        .search-results .search-item p.section {
+          float: right; }
+    .search-results .search-item.geo .section {
+      color: #879bf5; }
+    .search-results .search-item.cip .section {
+      color: #ef7760; }
+    .search-results .search-item.soc .section {
+      color: #5cb3aa; }
+    .search-results .search-item.naics .section {
+      color: #e2cfe6; }
 
   body.home .search-results .search-item h2,
   body.search .search-results .search-item h2 {
@@ -2615,7 +2633,7 @@
       position: relative;
       max-width: 650px;
       width: 100%;
-      z-index: 1; }
+      z-index: 10; }
       body.home .search-home-container:before, body.home .search-home-container:after {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -2647,7 +2665,6 @@
               body.home #search-home.open .search-body {
                 height: 0 !important; }
       body.home #search-home .search-item {
-        display: block;
         padding: 7px 6px; }
         body.home #search-home .no-search-results {
           background-color: #F6F6F6;

@@ -5966,8 +5966,17 @@ search.reload = function() {
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
   var query_is_stem = this.stem_only ? "&is_stem=2" : "";
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+query_is_stem+query_sumlevel, function(data, url, raw) {
-    // console.log(data, url, raw)
-    // console.log(url)
+
+    // console.log(data, url, raw);
+
+    search.vars = {};
+    (raw.related_vars || []).forEach(function(v) {
+      console.log(v);
+      v.related_attrs.forEach(function(a) {
+        if (!search.vars[a]) search.vars[a] = v;
+      });
+    });
+    console.log(search.vars);
 
     this.zip = raw.zip_search;
 
@@ -6014,17 +6023,13 @@ search.reload = function() {
       .selectAll(".search-item")
       .data(this.filter(data), function(d){ return d.id; });
 
-    var tag = this.advanced ? "div" : "a";
-    items.enter().append(tag).attr("class", function(d) {
-      return "search-item " + d.kind;
-    });
+    items.enter().append(this.advanced ? "div" : "a")
+      .attr("class", function(d) {
+        return "search-item " + d.kind;
+      });
 
-    if(items.empty()){
-      d3.selectAll(".no-search-results").style("display", "block")
-    }
-    else {
-      d3.selectAll(".no-search-results").style("display", "none")
-    }
+    d3.selectAll(".no-search-results")
+      .style("display", items.empty() ? "block" : "none");
 
     // click first item
     // items.selectAll("a.expand").on("click", search.open_details);
@@ -6036,16 +6041,21 @@ search.reload = function() {
     //   this.clear_details();
     // }
 
-    var format = this.advanced ? this.btnExplore : this.btnProfile;
-    items.each(format);
-
     items.exit().remove();
+
+    search.render();
 
   }.bind(this));
 
 }
 
-search.btnExplore = function(d) {
+search.render = function() {
+  this.container.select(".search-results").selectAll(".search-item")
+    .each(this.advanced ? this.btnLarge : this.btnSmall);
+}
+
+search.btnLarge = function(d) {
+
   var search_item = d3.select(this);
   var thumb = search_item.append("span").attr("class", 'thumb');
   var info = search_item.append("div").attr("class", 'info');
@@ -6100,24 +6110,46 @@ search.btnExplore = function(d) {
     .on("click", search.open_details);
 }
 
-search.btnProfile = function(d) {
-  var search_item = d3.select(this).attr("href", function(d){
-    return search.click ? "#" : "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
-  });
+search.btnSmall = function(d) {
+
+  var search_item = d3.select(this)
+    .attr("href", search.click ? "#"
+      : "/profile/" + d.kind + "/" + prettyUrl(d) + "/"
+      + (search.vars[d.kind]
+          ? "#" + search.vars[d.kind].section
+          : ""));
+
   if (search.click) {
     d3.select(this).on("click", function(d) {
       d3.event.preventDefault();
-      search.click(d)
+      search.click(d);
     })
   }
-  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
-  var search_item_text = search_item.append("div").attr("class", "search-item-t")
-  search_item_text.append("h2").text(d.display);
-  search_item_text.append("p").attr("class", "subtitle").text(function(d){
-    if(sumlevels_cy_id[d.kind][d.sumlevel]){
-      return sumlevels_cy_id[d.kind][d.sumlevel].name;
-    }
-  });
+
+  var icon = search_item.selectAll("img").data([0]);
+  icon.enter().append("img");
+  icon.attr("src", "/static/img/icons/" + d.kind + "_c.svg");
+
+
+  var text = search_item.selectAll(".search-item-t").data([0]);
+  text.enter().append("div").attr("class", "search-item-t");
+
+  var title = text.selectAll("h2").data([0]);
+  title.enter().append("h2")
+  title.text(d.display);
+
+  var sub = text.selectAll(".subtitle").data([0]);
+  sub.enter().append("p").attr("class", "subtitle")
+  sub.text(sumlevels_cy_id[d.kind][d.sumlevel]
+    ? sumlevels_cy_id[d.kind][d.sumlevel].name
+    : "");
+
+  var section = text.selectAll(".section").data(search.click ? [] : [0]);
+  section.enter().append("p").attr("class", "section");
+  section.text(search.vars[d.kind]
+    ? "Jump to " + search.vars[d.kind].name
+    : "");
+
 }
 
 search.filter = function(data) {
