@@ -183,7 +183,16 @@ search.reload = function() {
           search.vars[a] = v;
           var results = data.filter(function(d) { return d.kind === a; });
           var ids = results.map(function(d) { return d.id; });
-          load(api + "/api/?sumlevel=all&show=" + a + "&" + a + "=" + ids.join(",") + "&required=" + v.related_vars.join(","), function(var_data, var_url, var_raw) {
+          var extra_url = api + "/api/?show=" + a + "&" + a + "=" + ids.join(",") + "&required=" + v.related_vars.join(",");
+          if (v.params) {
+            for (var p in v.params) {
+              extra_url += "&" + p + "=" + v.params[p];
+            }
+          }
+          if (extra_url.indexOf("sumlevel") < 0) {
+            extra_url += "&sumlevel=all";
+          }
+          load(extra_url, function(var_data, var_url, var_raw) {
             // if (var_raw.subs && var_raw.subs[a]) {
             //   var sub_ids = var_raw.subs[a].split(",");
             // }
