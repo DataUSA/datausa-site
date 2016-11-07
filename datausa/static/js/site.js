@@ -6075,35 +6075,46 @@ search.render = function() {
 search.btnLarge = function(d) {
 
   var search_item = d3.select(this);
-  var thumb = search_item.append("span").attr("class", 'thumb');
-  var info = search_item.append("div").attr("class", 'info');
-  var profile = search_item.append("div").attr("class", 'profile');
-  var xtra = search_item.append("div").attr("class", 'xtra');
 
-  // set thumbnail
-  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_c.svg")
+  var thumb = search_item.selectAll(".thumb").data([0]);
+  thumb.enter()
+    .append("span").attr("class", "thumb")
+    .append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg");
 
-  // set info
-  var title = info.append("h2")
-                .append("a")
-                .text(d.display)
-                .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/");
+  var info = search_item.selectAll(".info").data([0]);
+  var infoEnter = info.enter().append("div").attr("class", "info");
+  var title = infoEnter.append("h2")
+    .append("a")
+    .text(d.display)
+    .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/");
   // title.append("i").attr("class", "fa fa-angle-down")
   // title.append("i").attr("class", "fa fa-angle-up")
-  if(sumlevels_cy_id[d.kind][d.sumlevel]){
-    var subtitle = info.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
-    if(d.is_stem > 0){
-      subtitle.append("span").attr("class", "stem").text("STEM");
-    }
+
+  var profile = search_item.selectAll(".profile").data([0]);
+  profile.enter().append("div").attr("class", "profile")
+    .append("a").attr("href", "#")
+    .html("Details")
+    .on("click", search.open_details);
+
+  var xtra = search_item.selectAll(".xtra").data([0]);
+  xtra = xtra.enter().append("div").attr("class", "xtra");
+
+  if (d.id === "01000US") {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle").text("Nation");
   }
-  if(search.zip){
-    info.append("span")
+  if (sumlevels_cy_id[d.kind][d.sumlevel]) {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+    if (d.is_stem > 0) subtitle.append("span").attr("class", "stem").text("STEM");
+  }
+
+  if (search.zip) {
+    infoEnter.append("span")
       .attr("class", "zip")
       .text("Based on zip code: " + d.zipcode.slice(7))
   }
   // xtra info
-  // var xtra = info.append("div").attr("class", "xtra")
-  if(search.anchors[d.kind].sections){
+  // var xtra = infoEnter.append("div").attr("class", "xtra")
+  if (search.anchors[d.kind].sections) {
     var ul = xtra.append("ul")
     search.anchors[d.kind].sections.forEach(function(anchor){
       var li = ul.append("li");
@@ -6119,13 +6130,34 @@ search.btnLarge = function(d) {
         .on("click", function(){ d3.event.stopPropagation(); })
     })
   }
-  xtra.append("p").attr("class", "parents")
+  // xtra.append("p").attr("class", "parents")
 
-  // set profile link
-  profile.append("a")
-    .attr("href", "#")
-    .html("Details")
-    .on("click", search.open_details);
+  var vars = search.vars[d.kind];
+
+  var section = info.selectAll(".section").data(search.click ? [] : [0]);
+  section.enter().append("p").attr("class", "section");
+  section.text(vars ? "Jump to " + vars.name : "");
+
+  var stats = info.selectAll(".search-stats").data(vars && (!vars.loaded || (vars.loaded[d.id])) ? [0] : []);
+  stats.enter().append("div").attr("class", "search-stats");
+  stats.exit().remove();
+  var stat = stats.selectAll(".search-stat")
+    .data(vars ? vars.related_vars : []);
+  var statEnter = stat.enter().append("div").attr("class", "search-stat");
+  statEnter.append("div").attr("class", "stat-title");
+  statEnter.append("div").attr("class", "stat-value");
+  stat.select(".stat-title").text(function(s) {
+    return dictionary[s] || s;
+  });
+
+  stat.select(".stat-value")
+    .html(function(s) {
+      return vars && vars.loaded
+           ? vars.loaded.error ? "N/A" : vars.loaded[d.id]
+           ? viz.format.number(vars.loaded[d.id][s], {key: s}) : "N/A"
+           : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
+    });
+
 }
 
 search.btnSmall = function(d) {

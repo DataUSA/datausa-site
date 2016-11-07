@@ -27,6 +27,7 @@
     @include justify(flex-start);
     @include box();
     padding: 5px 8px;
+    position: relative;
 
     img {
       width: 26px;
@@ -589,7 +590,7 @@ body.search {
         @include flex-direction(row);
         @include flex-wrap();
         @include align-items(flex-start);
-        padding: 13px 20px 13px 0;
+        padding: 13px 20px 26px 0;
         margin: 0;
 
         &.active {
@@ -618,7 +619,7 @@ body.search {
         .xtra {
           display: none;
           width: 100%;
-          padding: 0 100px 0 40px;
+          padding: 0 0 0 40px;
         }
 
         .info {
@@ -635,7 +636,7 @@ body.search {
           }
 
           p {
-            display: block;
+            // display: block;
             color: $black5;
           }
 
@@ -660,6 +661,18 @@ body.search {
           .fa-angle-down {
             display: none;
           }
+
+          .search-stats {
+            .search-stat {
+              .stat-title {
+                color: white;
+              }
+              .stat-value {
+                color: $black5;
+              }
+            }
+          }
+
         }
 
         &.open {
@@ -688,9 +701,8 @@ body.search {
         }
 
         .profile {
-          @include flex-size(0 0 85px);
-          padding: 0 5px 30px 0px;
-          text-align: right;
+          position: absolute;
+          right: 35px;
 
           a {
             font-family: $palanquin;
@@ -824,8 +836,10 @@ body.search {
           }
 
           img {
-            width: 25px;
             height: 25px;
+            margin: 0;
+            padding: 0;
+            width: 25px;
           }
         }
       }
