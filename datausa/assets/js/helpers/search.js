@@ -180,13 +180,14 @@ search.reload = function() {
           var results = data.filter(function(d) { return d.kind === a; });
           var ids = results.map(function(d) { return d.id; });
           load(api + "/api/?sumlevel=all&show=" + a + "&" + a + "=" + ids.join(",") + "&required=" + v.related_vars.join(","), function(var_data, var_url, var_raw) {
-            if (var_raw.subs && var_raw.subs[a]) {
-              var sub_ids = var_raw.subs[a].split(",");
-            }
-            else var sub_ids = false;
+            // if (var_raw.subs && var_raw.subs[a]) {
+            //   var sub_ids = var_raw.subs[a].split(",");
+            // }
+            // else var sub_ids = false;
             if (var_data instanceof Array) {
               v.loaded = var_data.reduce(function(obj, vd) {
-                obj[sub_ids ? ids[sub_ids.indexOf(vd[a])] : vd[a]] = vd;
+                // obj[sub_ids ? ids[sub_ids.indexOf(vd[a])] : vd[a]] = vd;
+                obj[vd[a]] = vd;
                 return obj;
               }, {});
             }
