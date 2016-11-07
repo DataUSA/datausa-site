@@ -65,12 +65,16 @@ body.about {
     &.anchor {
       position: relative;
 
-      &::before {
-        content: "";
-        position: absolute;
-        visibility: hidden;
-        top: -$nav-height;
-      }
+
+      margin-top: -$nav-height;
+      padding-top: $nav-height;
+
+      // &::before {
+      //   content: "";
+      //   position: absolute;
+      //   visibility: hidden;
+      //   top: -$nav-height;
+      // }
     }
 
     &[href="#top"] {
@@ -83,12 +87,14 @@ body.about {
     }
 
     &[name="top"] {
-      &::before {
-        content: "";
-        position: relative;
-        visibility: hidden;
-        top: -$nav-height - $prof-nav-height;
-      }
+      margin-top: -$nav-height - $prof-nav-height;
+      padding-top: $nav-height + $prof-nav-height;
+      // &::before {
+      //   content: "";
+      //   position: relative;
+      //   visibility: hidden;
+      //   top: -$nav-height - $prof-nav-height;
+      // }
     }
   }
 
@@ -573,13 +579,15 @@ body.about {
 
         a {
           position: relative;
+          margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+          padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
 
-          &:before {
-            content: "";
-            position: absolute;
-            visibility: hidden;
-            top: -$nav-height - 20px;
-          }
+          // &:before {
+          //   content: "";
+          //   position: absolute;
+          //   visibility: hidden;
+          //   top: -$nav-height - 20px;
+          // }
 
         }
 
