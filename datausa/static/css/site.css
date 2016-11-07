@@ -2458,36 +2458,21 @@
             #search-simple-nav .search-results .search-item img,
             #search-compare-modal .search-results .search-item img {
               margin-left: 0; }
-              #search-simple-nav .search-results .search-item .search-item-t,
-              #search-compare-modal .search-results .search-item .search-item-t {
-                -webkit-justify-content: center;
-                -moz-justify-content: center;
-                justify-content: center;
-                -ms-flex-pack: center;
-                flex-pack: center;
-                display: -webkit-box;
-                display: -moz-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-flex-direction: column;
-                -moz-flex-direction: column;
-                -ms-flex-direction: column;
-                flex-direction: column; }
+              #search-simple-nav .search-results .search-item h2,
+              #search-simple-nav .search-results .search-item .subtitle,
+              #search-compare-modal .search-results .search-item h2,
+              #search-compare-modal .search-results .search-item .subtitle {
+                line-height: 1.15; }
                 #search-simple-nav .search-results .search-item h2,
-                #search-simple-nav .search-results .search-item .subtitle,
-                #search-compare-modal .search-results .search-item h2,
-                #search-compare-modal .search-results .search-item .subtitle {
-                  line-height: 1.15; }
-                  #search-simple-nav .search-results .search-item h2,
-                  #search-compare-modal .search-results .search-item h2 {
-                    color: #fff; }
-                    #search-simple-nav .search-results .search-item .subtitle,
-                    #search-compare-modal .search-results .search-item .subtitle {
-                      color: #B8C0D4;
-                      margin-top: 3px;
-                      font-size: 11px;
-                      font-weight: 400px; }
+                #search-compare-modal .search-results .search-item h2 {
+                  color: #fff;
+                  display: block; }
+                  #search-simple-nav .search-results .search-item .subtitle,
+                  #search-compare-modal .search-results .search-item .subtitle {
+                    color: #B8C0D4;
+                    margin-top: 3px;
+                    font-size: 11px;
+                    font-weight: 400px; }
       #search-simple-nav .no-search-results, #search-compare-modal .no-search-results {
         color: #fff; }
         #search-simple-nav .results-title h3, #search-compare-modal .results-title h3 {

@@ -158,6 +158,7 @@
 	search.container = d3.select("#search-" + search_input.attr("data-search"));
 	if(current_search_term.length){
 	  results_div.classed("open", true);
+    search.data = true;
 	  search.reload();
 
 	  search_input.node().focus();

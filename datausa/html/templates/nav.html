@@ -186,6 +186,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
 
   // open search box if not home page
   if(!d3.select("body").classed("home")){
+    search.data = false;
     d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
 
     // close search body if search box is closed
@@ -193,6 +194,9 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
       d3.select(".search-body").classed("open", false);
     }
 
+  }
+  else {
+    search.data = true;
   }
 
   // focus input

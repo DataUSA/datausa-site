@@ -5255,11 +5255,13 @@ window.onload = function() {
           var search_input = d3.select("#home-search-input");
           search_input.node().focus();
           search.container = d3.select("#search-" + search_input.attr("data-search"));
+          search.data = true;
           search.reload();
         }
         else {
           d3.select(".search-box").classed("open", true);
           var search_input = d3.select("#nav-search-input");
+          search.data = false;
           search_input.node().focus();
         //   d3.select("#search-simple-nav").classed("open", true);
         //   search_input.node().focus();
@@ -5916,6 +5918,7 @@ var search = {
     "naics": null,
     "geo": null
   },
+  "data": true,
   "depth": null,
   "max": 10,
   "nesting": {
@@ -6014,7 +6017,10 @@ search.reload = function() {
     search.vars = {};
     (raw.related_vars || []).forEach(function(v) {
       v.related_attrs.forEach(function(a) {
-        if (!search.vars[a]) {
+        if (search.data === false && !search.vars[a]) {
+          search.vars[a] = v;
+        }
+        else if (!search.vars[a]) {
           search.vars[a] = v;
           var results = data.filter(function(d) { return d.kind === a; });
           var ids = results.map(function(d) { return d.id; });
@@ -6201,7 +6207,7 @@ search.btnSmall = function(d) {
   section.enter().append("p").attr("class", "section");
   section.text(vars ? "Jump to " + vars.name : "");
 
-  var stats = text.selectAll(".search-stats").data(vars && (!vars.loaded || (vars.loaded[d.id])) ? [0] : []);
+  var stats = text.selectAll(".search-stats").data(search.data && vars && (!vars.loaded || (vars.loaded[d.id])) ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
   stats.exit().remove();
   var stat = stats.selectAll(".search-stat")

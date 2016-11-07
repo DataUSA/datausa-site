@@ -954,10 +954,10 @@ body.search {
         margin-left: 0;
       }
 
-      .search-item-t {
-        @include flex();
-        @include flex-direction(column);
-      }
+      // .search-item-t {
+      //   @include flex();
+      //   @include flex-direction(column);
+      // }
 
       h2, .subtitle {
         line-height: 1.15;
@@ -965,6 +965,7 @@ body.search {
 
       h2 {
         color: #fff;
+        display: block;
       }
 
       .subtitle {
