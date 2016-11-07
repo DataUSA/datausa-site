@@ -311,8 +311,8 @@ search.btnLarge = function(d) {
   var statEnter = stat.enter().append("div").attr("class", "search-stat");
   statEnter.append("div").attr("class", "stat-title");
   statEnter.append("div").attr("class", "stat-value");
-  stat.select(".stat-title").text(function(s) {
-    return dictionary[s] || s;
+  stat.select(".stat-title").text(function(s, i) {
+    return vars.description && vars.description[i] ? vars.description[i] : dictionary[s] || s;
   });
 
   stat.select(".stat-value")
@@ -374,8 +374,8 @@ search.btnSmall = function(d) {
   var statEnter = stat.enter().append("div").attr("class", "search-stat");
   statEnter.append("div").attr("class", "stat-title");
   statEnter.append("div").attr("class", "stat-value");
-  stat.select(".stat-title").text(function(s) {
-    return dictionary[s] || s;
+  stat.select(".stat-title").text(function(s, i) {
+    return vars.description && vars.description[i] ? vars.description[i] : dictionary[s] || s;
   });
 
   stat.select(".stat-value")
