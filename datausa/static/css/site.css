@@ -3515,7 +3515,8 @@
     font-style: normal;
     letter-spacing: 0;
     position: relative; }
-    body.profile .topic h2 a, body.map .topic h2 a, body.story .topic h2 a {
+    body.profile .topic h2 a.topic-title, body.map .topic h2 a.topic-title,
+    body.story .topic h2 a.topic-title {
       margin-top: -95px;
       padding-top: 95px; }
       body.profile .topic h2 a, body.map .topic h2 a, body.story .topic h2 a {
@@ -4573,7 +4574,8 @@
     body.story .intro a, body.story .intro p {
       color: #fff;
       position: relative; }
-      body.profile .intro h2 a, body.map .intro h2 a, body.story .intro h2 a {
+      body.profile .intro h2 a.topic-title, body.map .intro h2 a.topic-title,
+      body.story .intro h2 a.topic-title {
         margin-top: -95px;
         padding-top: 95px; }
         body.profile .intro .breadcrumb img, body.profile .intro .data-source-crumb img,

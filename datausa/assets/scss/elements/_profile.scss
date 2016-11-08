@@ -247,7 +247,7 @@ body.profile, body.map, body.story {
       letter-spacing: 0;
       position: relative;
 
-      a {
+      a.topic-title {
         margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
         padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
@@ -1149,7 +1149,7 @@ body.profile, body.map, body.story {
       position: relative;
     }
 
-    h2 a {
+    h2 a.topic-title {
       margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
       padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
     }
