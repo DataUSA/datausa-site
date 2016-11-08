@@ -6014,14 +6014,12 @@ search.reload = function() {
     }
 
 
-    search.vars = {};
-    (raw.related_vars || []).forEach(function(v) {
-      v.related_attrs.forEach(function(a) {
-        if (search.data === false && !search.vars[a]) {
-          search.vars[a] = v;
-        }
-        else if (!search.vars[a]) {
-          search.vars[a] = v;
+    search.vars = raw.related_vars || [];
+    if (search.data) {
+
+      search.vars.forEach(function(v) {
+        v.related_attrs.forEach(function(a) {
+
           var results = data.filter(function(d) { return d.kind === a; });
           var ids = results.map(function(d) { return d.id; });
           var extra_url = api + "/api/?show=" + a + "&" + a + "=" + ids.join(",") + "&required=" + v.related_vars.join(",");
@@ -6048,9 +6046,11 @@ search.reload = function() {
             else v.loaded = {error: true};
             search.render();
           });
-        }
+
+        });
       });
-    });
+
+    }
 
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
@@ -6147,29 +6147,47 @@ search.btnLarge = function(d) {
   }
   // xtra.append("p").attr("class", "parents")
 
-  var vars = search.vars[d.kind];
+  var sections = search.vars.filter(function(v) {
+    return v.related_attrs.indexOf(d.kind) >= 0;
+  });
+
+  var vars = search.data ? sections.reduce(function(arr, v) {
+    v.related_vars.forEach(function(k, i) {
+      if (!v.loaded || (v.loaded && v.loaded[d.id])) {
+        arr.push({
+          description: v.description[i],
+          data: v.loaded ? v.loaded[d.id] : false,
+          key: k
+        });
+      }
+    });
+    return arr;
+  }, []) : [];
 
   var section = info.selectAll(".section").data(search.click ? [] : [0]);
   section.enter().append("p").attr("class", "section");
-  section.text(vars ? "Jump to " + vars.name : "");
+  section.exit().remove();
+  section.text(sections.length ? "Jump to " + sections[0].description[0] : "");
 
-  var stats = info.selectAll(".search-stats").data(vars && (!vars.loaded || (vars.loaded[d.id])) ? [0] : []);
+  var stats = info.selectAll(".search-stats").data(vars.length ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
   stats.exit().remove();
-  var stat = stats.selectAll(".search-stat")
-    .data(vars ? vars.related_vars : []);
+
+  var stat = stats.selectAll(".search-stat").data(vars, function(v) {
+    return v.key;
+  });
+  stat.exit().remove();
   var statEnter = stat.enter().append("div").attr("class", "search-stat");
   statEnter.append("div").attr("class", "stat-title");
   statEnter.append("div").attr("class", "stat-value");
   stat.select(".stat-title").text(function(s, i) {
-    return vars.description && vars.description[i] ? vars.description[i] : dictionary[s] || s;
+    return s.description || dictionary[s.key] || s.key;
   });
 
   stat.select(".stat-value")
     .html(function(s) {
-      return vars && vars.loaded
-           ? vars.loaded.error ? "N/A" : vars.loaded[d.id]
-           ? viz.format.number(vars.loaded[d.id][s], {key: s}) : "N/A"
+      return s.data
+           ? viz.format.number(s.data[s.key], {key: s.key})
            : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
     });
 
@@ -6210,29 +6228,47 @@ search.btnSmall = function(d) {
     ? sumlevels_cy_id[d.kind][d.sumlevel].name
     : "");
 
-  var vars = search.vars[d.kind];
+  var sections = search.vars.filter(function(v) {
+    return v.related_attrs.indexOf(d.kind) >= 0;
+  });
 
-  var section = text.selectAll(".section").data(search.click ? [] : [0]);
+  var vars = search.data ? sections.reduce(function(arr, v) {
+    v.related_vars.forEach(function(k, i) {
+      if (!v.loaded || (v.loaded && v.loaded[d.id])) {
+        arr.push({
+          description: v.description[i],
+          data: v.loaded ? v.loaded[d.id] : false,
+          key: k
+        });
+      }
+    });
+    return arr;
+  }, []) : [];
+
+  var section = text.selectAll(".section").data(search.click || !search.data ? [] : [0]);
   section.enter().append("p").attr("class", "section");
-  section.text(vars ? "Jump to " + vars.name : "");
+  section.exit().remove();
+  section.text(sections.length ? "Jump to " + sections[0].description[0] : "");
 
-  var stats = text.selectAll(".search-stats").data(search.data && vars && (!vars.loaded || (vars.loaded[d.id])) ? [0] : []);
+  var stats = text.selectAll(".search-stats").data(vars.length ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
   stats.exit().remove();
-  var stat = stats.selectAll(".search-stat")
-    .data(vars ? vars.related_vars : []);
+
+  var stat = stats.selectAll(".search-stat").data(vars, function(v) {
+    return v.key;
+  });
+  stat.exit().remove();
   var statEnter = stat.enter().append("div").attr("class", "search-stat");
   statEnter.append("div").attr("class", "stat-title");
   statEnter.append("div").attr("class", "stat-value");
   stat.select(".stat-title").text(function(s, i) {
-    return vars.description && vars.description[i] ? vars.description[i] : dictionary[s] || s;
+    return s.description || dictionary[s.key] || s.key;
   });
 
   stat.select(".stat-value")
     .html(function(s) {
-      return vars && vars.loaded
-           ? vars.loaded.error ? "N/A" : vars.loaded[d.id]
-           ? viz.format.number(vars.loaded[d.id][s], {key: s}) : "N/A"
+      return s.data
+           ? viz.format.number(s.data[s.key], {key: s.key})
            : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
     });
 
