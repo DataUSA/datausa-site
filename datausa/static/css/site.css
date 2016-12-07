@@ -3260,6 +3260,10 @@
       body.home #feed .feed-box.featured .feed-box-type {
         top: 7px;
         left: 10px;   }
+    body.home #search-home {
+      margin: 0;   }
+      body.home .results-show-all {
+        margin: 0 1px 0 0;   }
 }
 
   body.profile {
