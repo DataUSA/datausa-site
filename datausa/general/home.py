@@ -9,14 +9,13 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/story/10-13-2016_america-beautiful/",
-        "featured": True
-    },
-    {
         "link": "/profile/geo/washington-dc/#global_diversity",
         "title": "Global Diversity in Washington, DC",
         "section": "demographics",
         "viz": "geo_map"
+    },
+    {
+        "link": "/story/10-13-2016_america-beautiful/"
     },
     {
         "link": "/profile/geo/west-virginia/#income_ethnicity",
@@ -25,8 +24,7 @@ HOMEFEED = [
         "viz": "bar_double"
     },
     {
-        "link": "/story/08-11-2016_rust-belt/",
-        "featured": True
+        "link": "/story/08-11-2016_rust-belt/"
     },
     {   "link": "/story/06-16-2016_millennials/"},
     {
@@ -90,6 +88,5 @@ HOMEFEED = [
         "title": "Highest Earning Jobs in the Real Estate Industry",
         "section": "workforce",
         "viz": "bar_triptych"
-    },
-    {   "link": "/story/04-04-2016_dangerous-running-mates/"},
+    }
 ]

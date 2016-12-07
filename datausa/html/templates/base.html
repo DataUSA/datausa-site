@@ -312,7 +312,11 @@
 
                   var build = builds.filter(function(b) { return b.slug === slug; });
                   build = build.length ? build[build.length - 1] : false;
-                  if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id) {
+
+                  if (build && build.data && topic.viz && build.data[0].url === topic.viz[0].data[0].url) {
+                    // do nothing!
+                  }
+                  else if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id) {
 
                     build.compare = attr ? attr.id : false;
 
@@ -526,6 +530,7 @@
         search.max = 20;
         search.term = search_input.property("value");
         search.filterID = location.pathname.split("/")[3];
+        search.data = false;
         search.reload();
 
       });

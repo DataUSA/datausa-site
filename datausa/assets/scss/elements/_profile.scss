@@ -247,12 +247,17 @@ body.profile, body.map, body.story {
       letter-spacing: 0;
       position: relative;
 
-      a:before {
-        content: "";
-        position: absolute;
-        visibility: hidden;
-        top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      a.topic-title {
+        margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+        padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
+
+      // a:before {
+      //   content: "";
+      //   position: absolute;
+      //   visibility: hidden;
+      //   top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      // }
 
       a {
         margin-right: 10px;
@@ -1144,12 +1149,17 @@ body.profile, body.map, body.story {
       position: relative;
     }
 
-    h2 a:before {
-      content: "";
-      position: absolute;
-      top: -$nav-height - $prof-nav-height - 10;
-      visibility: hidden;
+    h2 a.topic-title {
+      margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
     }
+
+    // h2 a:before {
+    //   content: "";
+    //   position: absolute;
+    //   top: -$nav-height - $prof-nav-height - 10;
+    //   visibility: hidden;
+    // }
 
     .breadcrumb, .data-source-crumb {
       img {
@@ -1480,13 +1490,18 @@ body.profile, body.map, body.story {
       margin: 0 auto 15px;
       color: #333;
 
-      // This is the invisible element to fix the anchor tags!
-      a::before {
-        content: "";
-        position: absolute;
-        visibility: hidden;
-        top: -$nav-height - $prof-nav-height;
+      a {
+        margin-top: -$nav-height - $prof-nav-height;
+        padding-top: $nav-height + $prof-nav-height;
       }
+
+      // This is the invisible element to fix the anchor tags!
+      // a::before {
+      //   content: "";
+      //   position: absolute;
+      //   visibility: hidden;
+      //   top: -$nav-height - $prof-nav-height;
+      // }
     }
 
     p {
@@ -1563,12 +1578,17 @@ body.profile, body.map, body.story {
       padding: 5px 24px 30px;
       min-width: 100%;
 
-      a:before {
-        content: "";
-        position: absolute;
-        visibility: hidden;
-        top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      a {
+        margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+        padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
+
+      // a:before {
+      //   content: "";
+      //   position: absolute;
+      //   visibility: hidden;
+      //   top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+      // }
 
     }
 

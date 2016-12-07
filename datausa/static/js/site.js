@@ -5255,11 +5255,13 @@ window.onload = function() {
           var search_input = d3.select("#home-search-input");
           search_input.node().focus();
           search.container = d3.select("#search-" + search_input.attr("data-search"));
+          search.data = true;
           search.reload();
         }
         else {
           d3.select(".search-box").classed("open", true);
           var search_input = d3.select("#nav-search-input");
+          search.data = false;
           search_input.node().focus();
         //   d3.select("#search-simple-nav").classed("open", true);
         //   search_input.node().focus();
@@ -5916,6 +5918,7 @@ var search = {
     "naics": null,
     "geo": null
   },
+  "data": true,
   "depth": null,
   "max": 10,
   "nesting": {
@@ -5966,8 +5969,8 @@ search.reload = function() {
   var query_sumlevel = !this.term && this.depth ? "&sumlevel="+this.depth : "";
   var query_is_stem = this.stem_only ? "&is_stem=2" : "";
   load(api + "/attrs/search?limit=100&q="+this.term+"&kind="+this.type+query_is_stem+query_sumlevel, function(data, url, raw) {
-    // console.log(data, url, raw)
-    // console.log(url)
+
+    // console.log(data, url, raw);
 
     this.zip = raw.zip_search;
 
@@ -6010,21 +6013,56 @@ search.reload = function() {
       data = data.slice(0, this.max);
     }
 
+
+    search.vars = raw.related_vars || [];
+    if (search.data) {
+
+      search.vars.forEach(function(v) {
+        v.related_attrs.forEach(function(a) {
+
+          var results = data.filter(function(d) { return d.kind === a; });
+          var ids = results.map(function(d) { return d.id; });
+          var extra_url = api + "/api/?show=" + a + "&" + a + "=" + ids.join(",") + "&required=" + v.related_vars.join(",");
+          if (v.params) {
+            for (var p in v.params) {
+              extra_url += "&" + p + "=" + v.params[p];
+            }
+          }
+          if (extra_url.indexOf("sumlevel") < 0) {
+            extra_url += "&sumlevel=all";
+          }
+          load(extra_url, function(var_data, var_url, var_raw) {
+            // if (var_raw.subs && var_raw.subs[a]) {
+            //   var sub_ids = var_raw.subs[a].split(",");
+            // }
+            // else var sub_ids = false;
+            if (var_data instanceof Array) {
+              v.loaded = var_data.reduce(function(obj, vd) {
+                // obj[sub_ids ? ids[sub_ids.indexOf(vd[a])] : vd[a]] = vd;
+                obj[vd[a]] = vd;
+                return obj;
+              }, {});
+            }
+            else v.loaded = {error: true};
+            search.render();
+          });
+
+        });
+      });
+
+    }
+
     var items = this.container.select(".search-results").html("")
       .selectAll(".search-item")
       .data(this.filter(data), function(d){ return d.id; });
 
-    var tag = this.advanced ? "div" : "a";
-    items.enter().append(tag).attr("class", function(d) {
-      return "search-item " + d.kind;
-    });
+    items.enter().append(this.advanced ? "div" : "a")
+      .attr("class", function(d) {
+        return "search-item " + d.kind;
+      });
 
-    if(items.empty()){
-      d3.selectAll(".no-search-results").style("display", "block")
-    }
-    else {
-      d3.selectAll(".no-search-results").style("display", "none")
-    }
+    d3.selectAll(".no-search-results")
+      .style("display", items.empty() ? "block" : "none");
 
     // click first item
     // items.selectAll("a.expand").on("click", search.open_details);
@@ -6036,46 +6074,62 @@ search.reload = function() {
     //   this.clear_details();
     // }
 
-    var format = this.advanced ? this.btnExplore : this.btnProfile;
-    items.each(format);
-
     items.exit().remove();
+
+    search.render();
 
   }.bind(this));
 
 }
 
-search.btnExplore = function(d) {
+search.render = function() {
+  this.container.select(".search-results").selectAll(".search-item")
+    .each(this.advanced ? this.btnLarge : this.btnSmall);
+}
+
+search.btnLarge = function(d) {
+
   var search_item = d3.select(this);
-  var thumb = search_item.append("span").attr("class", 'thumb');
-  var info = search_item.append("div").attr("class", 'info');
-  var profile = search_item.append("div").attr("class", 'profile');
-  var xtra = search_item.append("div").attr("class", 'xtra');
 
-  // set thumbnail
-  thumb.append("img").attr("src", "/static/img/icons/"+d.kind+"_c.svg")
+  var thumb = search_item.selectAll(".thumb").data([0]);
+  thumb.enter()
+    .append("span").attr("class", "thumb")
+    .append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg");
 
-  // set info
-  var title = info.append("h2")
-                .append("a")
-                .text(d.display)
-                .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/");
+  var info = search_item.selectAll(".info").data([0]);
+  var infoEnter = info.enter().append("div").attr("class", "info");
+  var title = infoEnter.append("h2")
+    .append("a")
+    .text(d.display)
+    .attr("href", "/profile/" + d.kind + "/" + prettyUrl(d) + "/");
   // title.append("i").attr("class", "fa fa-angle-down")
   // title.append("i").attr("class", "fa fa-angle-up")
-  if(sumlevels_cy_id[d.kind][d.sumlevel]){
-    var subtitle = info.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
-    if(d.is_stem > 0){
-      subtitle.append("span").attr("class", "stem").text("STEM");
-    }
+
+  var profile = search_item.selectAll(".profile").data([0]);
+  profile.enter().append("div").attr("class", "profile")
+    .append("a").attr("href", "#")
+    .html("Details")
+    .on("click", search.open_details);
+
+  var xtra = search_item.selectAll(".xtra").data([0]);
+  xtra = xtra.enter().append("div").attr("class", "xtra");
+
+  if (d.id === "01000US") {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle").text("Nation");
   }
-  if(search.zip){
-    info.append("span")
+  if (sumlevels_cy_id[d.kind][d.sumlevel]) {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+    if (d.is_stem > 0) subtitle.append("span").attr("class", "stem").text("STEM");
+  }
+
+  if (search.zip) {
+    infoEnter.append("span")
       .attr("class", "zip")
       .text("Based on zip code: " + d.zipcode.slice(7))
   }
   // xtra info
-  // var xtra = info.append("div").attr("class", "xtra")
-  if(search.anchors[d.kind].sections){
+  // var xtra = infoEnter.append("div").attr("class", "xtra")
+  if (search.anchors[d.kind].sections) {
     var ul = xtra.append("ul")
     search.anchors[d.kind].sections.forEach(function(anchor){
       var li = ul.append("li");
@@ -6091,33 +6145,139 @@ search.btnExplore = function(d) {
         .on("click", function(){ d3.event.stopPropagation(); })
     })
   }
-  xtra.append("p").attr("class", "parents")
+  // xtra.append("p").attr("class", "parents")
 
-  // set profile link
-  profile.append("a")
-    .attr("href", "#")
-    .html("Details")
-    .on("click", search.open_details);
+  var sections = search.vars.filter(function(v) {
+    return v.related_attrs.indexOf(d.kind) >= 0;
+  });
+
+  var vars = search.data ? sections.reduce(function(arr, v) {
+    v.related_vars.forEach(function(k, i) {
+      if (!v.loaded || (v.loaded && v.loaded[d.id])) {
+        arr.push({
+          description: v.description[i],
+          data: v.loaded ? v.loaded[d.id] : false,
+          key: k
+        });
+      }
+    });
+    return arr;
+  }, []) : [];
+
+  var section = info.selectAll(".section").data(search.click ? [] : [0]);
+  section.enter().append("p").attr("class", "section").append("a");
+  section.exit().remove();
+  section.select("a")
+    .attr("href", search.click ? "#"
+      : "/profile/" + d.kind + "/" + prettyUrl(d) + "/"
+      + (sections.length
+          ? "#" + sections[0].section
+          : ""))
+    .text(sections.length ? "Jump to " + sections[0].section_title : "");
+
+  var stats = info.selectAll(".search-stats").data(vars.length ? [0] : []);
+  stats.enter().append("div").attr("class", "search-stats");
+  stats.exit().remove();
+
+  var stat = stats.selectAll(".search-stat").data(vars, function(v) {
+    return v.key;
+  });
+  stat.exit().remove();
+  var statEnter = stat.enter().append("div").attr("class", "search-stat");
+  statEnter.append("div").attr("class", "stat-title");
+  statEnter.append("div").attr("class", "stat-value");
+  stat.select(".stat-title").text(function(s, i) {
+    return s.description || dictionary[s.key] || s.key;
+  });
+
+  stat.select(".stat-value")
+    .html(function(s) {
+      return s.data
+           ? viz.format.number(s.data[s.key], {key: s.key})
+           : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
+    });
+
 }
 
-search.btnProfile = function(d) {
-  var search_item = d3.select(this).attr("href", function(d){
-    return search.click ? "#" : "/profile/" + d.kind + "/" + prettyUrl(d) + "/";
+search.btnSmall = function(d) {
+
+  var sections = search.vars.filter(function(v) {
+    return v.related_attrs.indexOf(d.kind) >= 0;
   });
+
+  var search_item = d3.select(this)
+    .attr("href", search.click ? "#"
+      : "/profile/" + d.kind + "/" + prettyUrl(d) + "/"
+      + (sections.length
+          ? "#" + sections[0].section
+          : ""));
+
   if (search.click) {
     d3.select(this).on("click", function(d) {
       d3.event.preventDefault();
-      search.click(d)
+      search.click(d);
     })
   }
-  search_item.append("img").attr("src", "/static/img/icons/" + d.kind + "_c.svg")
-  var search_item_text = search_item.append("div").attr("class", "search-item-t")
-  search_item_text.append("h2").text(d.display);
-  search_item_text.append("p").attr("class", "subtitle").text(function(d){
-    if(sumlevels_cy_id[d.kind][d.sumlevel]){
-      return sumlevels_cy_id[d.kind][d.sumlevel].name;
-    }
+
+  var icon = search_item.selectAll("img").data([0]);
+  icon.enter().append("img");
+  icon.attr("src", "/static/img/icons/" + d.kind + "_c.svg");
+
+
+  var text = search_item.selectAll(".search-item-t").data([0]);
+  text.enter().append("div").attr("class", "search-item-t");
+
+  var title = text.selectAll("h2").data([0]);
+  title.enter().append("h2")
+  title.text(d.display);
+
+  var sub = text.selectAll(".subtitle").data([0]);
+  sub.enter().append("p").attr("class", "subtitle")
+  sub.text(d.id === "01000US" ? "Nation"
+    : sumlevels_cy_id[d.kind][d.sumlevel]
+    ? sumlevels_cy_id[d.kind][d.sumlevel].name
+    : "");
+
+  var vars = search.data ? sections.reduce(function(arr, v) {
+    v.related_vars.forEach(function(k, i) {
+      if (!v.loaded || (v.loaded && v.loaded[d.id])) {
+        arr.push({
+          description: v.description[i],
+          data: v.loaded ? v.loaded[d.id] : false,
+          key: k
+        });
+      }
+    });
+    return arr;
+  }, []) : [];
+
+  var section = text.selectAll(".section").data(search.click || !search.data ? [] : [0]);
+  section.enter().append("p").attr("class", "section");
+  section.exit().remove();
+  section.text(sections.length ? "Jump to " + sections[0].section_title : "");
+
+  var stats = text.selectAll(".search-stats").data(vars.length ? [0] : []);
+  stats.enter().append("div").attr("class", "search-stats");
+  stats.exit().remove();
+
+  var stat = stats.selectAll(".search-stat").data(vars, function(v) {
+    return v.key;
   });
+  stat.exit().remove();
+  var statEnter = stat.enter().append("div").attr("class", "search-stat");
+  statEnter.append("div").attr("class", "stat-title");
+  statEnter.append("div").attr("class", "stat-value");
+  stat.select(".stat-title").text(function(s, i) {
+    return s.description || dictionary[s.key] || s.key;
+  });
+
+  stat.select(".stat-value")
+    .html(function(s) {
+      return s.data
+           ? viz.format.number(s.data[s.key], {key: s.key})
+           : "<i class='fa fa-spinner fa-spin fa-lg'></i>";
+    });
+
 }
 
 search.filter = function(data) {
@@ -6157,7 +6317,7 @@ search.open_details = function(d){
 
   // set parents
   var p_container = search_item.select(".xtra .parents");
-  if(!p_container.text()){
+  if( p_container.size() && !p_container.text()) {
     var parents_api_url = api + "/attrs/"+d.kind+"/"+d.id+"/parents"
     load(parents_api_url, function(parents) {
       parents.forEach(function(p){

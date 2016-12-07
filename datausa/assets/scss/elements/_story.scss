@@ -332,18 +332,20 @@ body.story {
 
         a {
           @include wordwrap();
+          margin-top: -$nav-height - 10;
+          padding-top: $nav-height + 10;
         }
 
         a:hover {
           text-decoration: underline;
         }
 
-        a:before {
-          content: "";
-          position: absolute;
-          visibility: hidden;
-          top: -$nav-height - 10;
-        }
+        // a:before {
+        //   content: "";
+        //   position: absolute;
+        //   visibility: hidden;
+        //   top: -$nav-height - 10;
+        // }
       }
     }
 
