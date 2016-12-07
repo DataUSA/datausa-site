@@ -2207,19 +2207,22 @@
                   border-bottom: 0; }
                 body.search .search-results-container .search-results .search-item .info p {
                   color: #979AA2; }
-                  body.search .search-results-container .search-results .search-item .info .stem {
-                    border: solid 1px #979AA2;
-                    border-radius: 4px;
-                    margin: 0 0 0 5px;
-                    padding: 0 4px; }
-                    body.search .search-results-container .search-results .search-item .info h2 {
-                      max-width: 90%; }
-                      body.search .search-results-container .search-results .search-item .info h2 .expand {
-                        position: relative;
-                        top: 1px;
-                        margin-left: 5px;
-                        font-size: 19px;
-                        color: #989898; }
+                  body.search .search-results-container .search-results .search-item .info p a {
+                    color: #979AA2;
+                    margin-right: 18px; }
+                body.search .search-results-container .search-results .search-item .info .stem {
+                  border: solid 1px #979AA2;
+                  border-radius: 4px;
+                  margin: 0 0 0 5px;
+                  padding: 0 4px; }
+                  body.search .search-results-container .search-results .search-item .info h2 {
+                    max-width: 90%; }
+                    body.search .search-results-container .search-results .search-item .info h2 .expand {
+                      position: relative;
+                      top: 1px;
+                      margin-left: 5px;
+                      font-size: 19px;
+                      color: #989898; }
                 body.search .search-results-container .search-results .search-item .info .fa-angle-down {
                   display: none; }
                   body.search .search-results-container .search-results .search-item .info .search-stats .search-stat .stat-title {

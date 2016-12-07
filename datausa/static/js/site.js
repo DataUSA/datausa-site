@@ -6165,9 +6165,15 @@ search.btnLarge = function(d) {
   }, []) : [];
 
   var section = info.selectAll(".section").data(search.click ? [] : [0]);
-  section.enter().append("p").attr("class", "section");
+  section.enter().append("p").attr("class", "section").append("a");
   section.exit().remove();
-  section.text(sections.length ? "Jump to " + sections[0].description[0] : "");
+  section.select("a")
+    .attr("href", search.click ? "#"
+      : "/profile/" + d.kind + "/" + prettyUrl(d) + "/"
+      + (sections.length
+          ? "#" + sections[0].section
+          : ""))
+    .text(sections.length ? "Jump to " + sections[0].name : "");
 
   var stats = info.selectAll(".search-stats").data(vars.length ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
@@ -6195,11 +6201,15 @@ search.btnLarge = function(d) {
 
 search.btnSmall = function(d) {
 
+  var sections = search.vars.filter(function(v) {
+    return v.related_attrs.indexOf(d.kind) >= 0;
+  });
+
   var search_item = d3.select(this)
     .attr("href", search.click ? "#"
       : "/profile/" + d.kind + "/" + prettyUrl(d) + "/"
-      + (search.vars[d.kind]
-          ? "#" + search.vars[d.kind].section
+      + (sections.length
+          ? "#" + sections[0].section
           : ""));
 
   if (search.click) {
@@ -6228,10 +6238,6 @@ search.btnSmall = function(d) {
     ? sumlevels_cy_id[d.kind][d.sumlevel].name
     : "");
 
-  var sections = search.vars.filter(function(v) {
-    return v.related_attrs.indexOf(d.kind) >= 0;
-  });
-
   var vars = search.data ? sections.reduce(function(arr, v) {
     v.related_vars.forEach(function(k, i) {
       if (!v.loaded || (v.loaded && v.loaded[d.id])) {
@@ -6248,7 +6254,7 @@ search.btnSmall = function(d) {
   var section = text.selectAll(".section").data(search.click || !search.data ? [] : [0]);
   section.enter().append("p").attr("class", "section");
   section.exit().remove();
-  section.text(sections.length ? "Jump to " + sections[0].description[0] : "");
+  section.text(sections.length ? "Jump to " + sections[0].name : "");
 
   var stats = text.selectAll(".search-stats").data(vars.length ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
@@ -6311,7 +6317,7 @@ search.open_details = function(d){
 
   // set parents
   var p_container = search_item.select(".xtra .parents");
-  if(!p_container.text()){
+  if( p_container.size() && !p_container.text()) {
     var parents_api_url = api + "/attrs/"+d.kind+"/"+d.id+"/parents"
     load(parents_api_url, function(parents) {
       parents.forEach(function(p){
