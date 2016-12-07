@@ -332,7 +332,7 @@ search.btnLarge = function(d) {
       + (sections.length
           ? "#" + sections[0].section
           : ""))
-    .text(sections.length ? "Jump to " + sections[0].name : "");
+    .text(sections.length ? "Jump to " + sections[0].section_title : "");
 
   var stats = info.selectAll(".search-stats").data(vars.length ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
@@ -413,7 +413,7 @@ search.btnSmall = function(d) {
   var section = text.selectAll(".section").data(search.click || !search.data ? [] : [0]);
   section.enter().append("p").attr("class", "section");
   section.exit().remove();
-  section.text(sections.length ? "Jump to " + sections[0].name : "");
+  section.text(sections.length ? "Jump to " + sections[0].section_title : "");
 
   var stats = text.selectAll(".search-stats").data(vars.length ? [0] : []);
   stats.enter().append("div").attr("class", "search-stats");
