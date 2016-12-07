@@ -638,6 +638,10 @@ body.search {
           p {
             // display: block;
             color: $black5;
+            a {
+              color: $black5;
+              margin-right: 18px;
+            }
           }
 
           .stem {
