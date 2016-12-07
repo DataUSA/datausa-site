@@ -86,24 +86,24 @@
     .search-stats {
       @include flex();
       @include flex-direction(row);
-      margin: 5px 0 10px;
+      margin: 0;
 
       .search-stat {
         @include flex-size(1);
-        text-align: center;
+        text-align: left;
+        opacity: 0.4;
 
         .stat-title {
           font-family: $palanquin;
           font-weight: 700;
           font-size: 12px;
           color: $black;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
+          letter-spacing: 0.02em;
         }
 
         .stat-value {
           font-family: $lato;
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 400;
 
           .fa {

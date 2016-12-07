@@ -1711,24 +1711,24 @@
       -moz-flex-direction: row;
       -ms-flex-direction: row;
       flex-direction: row;
-      margin: 5px 0 10px; }
+      margin: 0; }
       .search-results .search-item .search-stats .search-stat {
         -webkit-box-flex: 1;
         -moz-box-flex: 1;
         -webkit-flex: 1;
         -ms-flex: 1;
         flex: 1;
-        text-align: center; }
+        text-align: left;
+        opacity: 0.4; }
         .search-results .search-item .search-stats .search-stat .stat-title {
           font-family: "Palanquin", sans-serif;
           font-weight: 700;
           font-size: 12px;
           color: #1B191D;
-          letter-spacing: 0.06em;
-          text-transform: uppercase; }
+          letter-spacing: 0.02em; }
           .search-results .search-item .search-stats .search-stat .stat-value {
             font-family: "Lato", sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 400; }
             .search-results .search-item .search-stats .search-stat .stat-value .fa {
               opacity: 0.25; }
