@@ -29,10 +29,10 @@ SUMLEVELS = {
         },
         "160": {
             "sumlevel": "place",
-            "label": "census designated place",
+            "label": "census place",
             "shortlabel": "place",
             "children": "140",
-            "desc": "Census designated places (CDPs) are Incorporated cities, towns, and villages. Click for more info.",
+            "desc": "The United States Census Bureau defines a place as a concentration of population which has a name, is locally recognized, and is not part of any other place. Click for more info.",
             "link": "/about/glossary/#place",
         },
         "860": {
