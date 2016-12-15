@@ -8515,6 +8515,35 @@ viz.prepBuild = function(build, i) {
       build)
     });
 
+  d3.select(build.container.node().parentNode.parentNode).select("a.add-to-cart")
+    .on("click", function(){
+      d3.event.preventDefault();
+      var index = cart.builds.indexOf(build.slug);
+      var remove = index >= 0;
+      d3.select(this).classed("active", !remove);
+
+      if (remove) {
+
+        cart.builds.splice(index, 1);
+        cart.datasets.splice(d3.sum(cart.datasets.map(function(d, i) {
+          return d.slug === build.slug ? i : 0;
+        })), 1);
+
+      }
+      else {
+
+        cart.builds.push(build.slug);
+        cart.datasets.push({
+          data: build.data.data,
+          slug: build.slug,
+          title: build.title.split(" of ")[1]
+        });
+
+      }
+      localforage.setItem("cart", cart);
+
+    });
+
 };
 
 viz.resizeBuild = function(b) {

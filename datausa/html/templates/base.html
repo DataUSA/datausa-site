@@ -57,6 +57,26 @@
         if (key in dictionary) affixes[dictionary[key]] = affixes[key];
       }
 
+      var cart;
+      localforage.getItem("cart", function(error, cartCache) {
+
+        if (cartCache === null) {
+          cartCache = {
+            builds: [],
+            datasets: []
+          };
+          localforage.setItem("cart", cartCache);
+        }
+
+        cart = cartCache;
+
+        console.log(cart.builds);
+        d3.selectAll(".add-to-cart").each(function() {
+          d3.select(this).classed("active", cart.builds.indexOf(d3.select(this).attr("data-slug")) >= 0);
+        });
+
+      });
+
     </script>
 
     {% block head %}

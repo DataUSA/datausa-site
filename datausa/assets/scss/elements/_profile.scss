@@ -234,10 +234,52 @@ body.profile, body.map, body.story {
     }
   }
 
+  .viz-btn {
+
+    color: #949494;
+    font-family: $palanquin;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+
+    &:hover {
+      color: $red-w;
+    }
+
+    &.add-to-cart {
+
+      &::before {
+        background-image: url("/static/img/viz-btn/add-to-cart.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        content: "";
+        display: inline-block;
+        height: 20px;
+        margin-bottom: 4px;
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 20px;
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz-btn/add-to-cart-red.svg");
+      }
+
+      &::after {
+        content: "Add to Cart";
+      }
+      &.active::after {
+        content: "Remove";
+      }
+
+    }
+
+  }
+
   .topic {
     h2 {
       @include flex();
       @include justify(space-between);
+      @include align-items(center);
       font-family: $pathway;
       font-size: 30px;
       font-weight: 400;
@@ -248,6 +290,7 @@ body.profile, body.map, body.story {
       position: relative;
 
       a.topic-title {
+        @include flex-size(1);
         margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
         padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }

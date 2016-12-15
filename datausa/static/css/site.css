@@ -3501,6 +3501,37 @@
                   body.profile .data-btn:hover span, body.map .data-btn:hover span,
                   body.story .data-btn:hover span {
                     color: #4E4E4E !important; }
+  body.profile .viz-btn, body.map .viz-btn, body.story .viz-btn {
+    color: #949494;
+    font-family: "Palanquin", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px; }
+    body.profile .viz-btn:hover, body.map .viz-btn:hover, body.story .viz-btn:hover {
+      color: #ef6145; }
+      body.profile .viz-btn.add-to-cart::before, body.map .viz-btn.add-to-cart::before,
+      body.story .viz-btn.add-to-cart::before {
+        background-image: url("/static/img/viz-btn/add-to-cart.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        content: "";
+        display: inline-block;
+        height: 20px;
+        margin-bottom: 4px;
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 20px; }
+        body.profile .viz-btn.add-to-cart:hover::before,
+        body.map .viz-btn.add-to-cart:hover::before,
+        body.story .viz-btn.add-to-cart:hover::before {
+          background-image: url("/static/img/viz-btn/add-to-cart-red.svg"); }
+          body.profile .viz-btn.add-to-cart::after, body.map .viz-btn.add-to-cart::after,
+          body.story .viz-btn.add-to-cart::after {
+            content: "Add to Cart"; }
+            body.profile .viz-btn.add-to-cart.active::after,
+            body.map .viz-btn.add-to-cart.active::after,
+            body.story .viz-btn.add-to-cart.active::after {
+              content: "Remove"; }
   body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -3517,6 +3548,10 @@
     justify-content: space-between;
     -ms-flex-pack: justify;
     flex-pack: justify;
+    -webkit-align-items: center;
+    align-items: center;
+    -ms-flex-align: center;
+    flex-align: center;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 30px;
     font-weight: 400;
@@ -3527,6 +3562,11 @@
     position: relative; }
     body.profile .topic h2 a.topic-title, body.map .topic h2 a.topic-title,
     body.story .topic h2 a.topic-title {
+      -webkit-box-flex: 1;
+      -moz-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
       margin-top: -95px;
       padding-top: 95px; }
       body.profile .topic h2 a, body.map .topic h2 a, body.story .topic h2 a {
