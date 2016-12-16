@@ -32,6 +32,33 @@
 {% block js %}
 <script>
 
+  var sticky = [
+    "year", "geo",
+    "naics", "acs_ind", "bls_naics", "iocode",
+    "soc", "acs_occ", "bls_soc",
+    "cip", "degree", "university", "sector", "pums_degree",
+    "sex", "race", "acs_race", "pums_race", "language", "birthplace",
+    "skill", "wage_bin", "conflict"
+  ];
+
+  var grid = {
+    columnDefs: [],
+    enableSorting: true,
+    rowData: [],
+    rowHeight: 30,
+    suppressCellSelection: true
+  };
+  new agGrid.Grid(d3.select("#cart-table").node(), grid);
+
+  function cellRenderer(params) {
+    var key = params.column.colId, v = params.value;
+
+    if (v === void 0 || v === null) return "";
+    else if (v.constructor === Number) return viz.format.number(v, {"key": key});
+    else return viz.format.text(v, {"key": key});
+
+  }
+
   function updateDisplay() {
 
     d3.select("#datasets .headers .name span").html(cart.datasets.length);
@@ -59,6 +86,48 @@
     });
 
     datasets.exit().remove();
+
+    var data = d3.merge(cart.datasets.map(function(d) { return d.data; }));
+
+    var keys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); })));
+    keys = keys
+      .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
+      .sort(function(a, b) {
+        var aI = sticky.indexOf(a), bI = sticky.indexOf(b);
+        return (aI >= 0 ? aI : keys.indexOf(a) + sticky.length) - (bI >= 0 ? bI : keys.indexOf(b) + sticky.length);
+      });
+
+    var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
+
+    var groupedData = d3.nest()
+      .key(function(d) {
+        return availableStickies.map(function(key) { return d[key] || "undefined"; }).join("-");
+      })
+      .entries(data)
+      .map(function(n) {
+        var obj = {};
+        n.values.forEach(function(d) {
+          obj = d3plus.object.merge(obj, d);
+        });
+        return obj;
+      });
+
+    console.log(keys);
+    console.log(groupedData);
+
+    var columns = keys.map(function(key) {
+      return {
+        cellRenderer: cellRenderer,
+        field: key,
+        headerName: dictionary[key] || d3plus.string.title(key),
+        pinned: sticky.indexOf(key) >= 0 ? "left" : false
+      };
+    });
+    console.log(grid);
+    grid.api.setRowData(groupedData)
+    grid.api.setColumnDefs(columns)
+    grid.api.sizeColumnsToFit();
+    // grid.api.refreshView();
 
   }
 

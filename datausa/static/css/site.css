@@ -7789,37 +7789,57 @@
                 opacity: 1; }
 
   #cart-table {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #141b2e;
+    font-family: "Palanquin", sans-serif;
     height: 100vh;
     left: 0;
-    padding-left: 260px;
+    padding-left: 272px;
     padding-top: 100px;
     position: absolute;
     top: 0;
     width: 100vw;
     z-index: 1; }
+    #cart-table:before, #cart-table:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box; }
+      #cart-table .ag-header-cell {
+        padding: 3px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 11px;
+        text-align: left; }
+        #cart-table .ag-cell {
+          font-size: 12px;
+          font-weight: 300;
+          padding: 3px; }
 
-    #cart-loading {
-      height: 100vh;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100vw;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 3; }
-      #cart-loading.hidden {
-        display: none; }
-        #cart-loading #cart-loading-text {
-          left: 0;
-          position: absolute;
-          top: 50%;
-          width: 100%;
-          color: white;
-          font-family: "Lato", sans-serif;
-          font-size: 20px;
-          font-weight: 400;
-          text-align: center; }
-          #cart-loading #cart-loading-text i {
-            margin: 3px 10px; }
+  #cart-loading {
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3; }
+    #cart-loading.hidden {
+      display: none; }
+      #cart-loading #cart-loading-text {
+        left: 0;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        color: white;
+        font-family: "Lato", sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center; }
+        #cart-loading #cart-loading-text i {
+          margin: 3px 10px; }
 
   @media print {
     #menu-btn, nav, #nav-bar-scroll, #section-sidenav, .share-section, .profile-end,

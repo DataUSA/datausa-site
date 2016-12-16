@@ -101,14 +101,39 @@ $cart-sidebar: 260px;
 }
 
 #cart-table {
+  @include box();
+  color: $black2;
+  font-family: $palanquin;
   height: 100vh;
   left: 0;
-  padding-left: $cart-sidebar;
+  padding-left: $cart-sidebar + 12;
   padding-top: $title-height + $cart-header;
   position: absolute;
   top: 0;
   width: 100vw;
   z-index: 1;
+
+  .ag-header-cell {
+    padding: 3px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 11px;
+    text-align: left;
+  }
+
+  .ag-cell {
+    font-size: 12px;
+    font-weight: 300;
+    padding: 3px;
+  }
+
+  // .ag-row {
+  //   &:hover {
+  //     background-color: $d-profile-bg;
+  //   }
+  // }
+
 }
 
 #cart-loading {
