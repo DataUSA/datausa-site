@@ -53,7 +53,7 @@ js = Bundle(
 assets.register("js", js)
 
 # Load and register the modules for each different section of the site
-for view in ["general", "map", "profile", "search", "story", "visualize"]:
+for view in ["cart", "general", "map", "profile", "search", "story", "visualize"]:
     mod = __import__("datausa.{}.views".format(view), fromlist=["mod"])
     mod = getattr(mod, "mod")
     app.register_blueprint(mod)

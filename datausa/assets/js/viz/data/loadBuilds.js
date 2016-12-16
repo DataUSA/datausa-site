@@ -12,7 +12,8 @@ viz.prepBuild = function(build, i) {
 
   var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
   if (title.size()) {
-    build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
+    if (title.select(".topic-title").size()) build.title = title.select(".topic-title").text();
+    else build.title = title.select(".term").text();
     if (["top", "bottom"].indexOf(build.config.color) >= 0) {
       var cat = dictionary[build.attrs[0].type];
       if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
@@ -157,8 +158,9 @@ viz.prepBuild = function(build, i) {
       else {
 
         cart.builds.push(build.slug);
+
         cart.datasets.push({
-          data: build.data.data,
+          data: d3.merge(build.data.map(function(d) { return d.data; })),
           slug: build.slug,
           title: build.title.split(" of ")[1]
         });

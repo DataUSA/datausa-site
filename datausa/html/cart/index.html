@@ -1,0 +1,70 @@
+{% extends "templates/nav.html" %}
+
+{% block subtitle %}
+<div id="title-bar">
+  <span><a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a> Cart</span>
+</div>
+{% endblock %}
+
+{% block body %}
+<div id="cart-header">
+  Buttons!
+</div>
+<div id="cart-table"></div>
+<div id="cart-panel">
+  <div id="datasets" class="group hidden">
+    <div class="title">Data Cart</div>
+    <div class="headers">
+      <div class="name"><span></span> Datasets</div>
+      <div class="remove">Remove</div>
+    </div>
+    <div class="body">
+
+    </div>
+  </div>
+</div>
+<div id="cart-loading">
+  <div id="cart-loading-text"><i class="fa fa-spinner fa-spin"></i>Please Wait</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+  function updateDisplay() {
+
+    var datasets = d3.select("#datasets")
+      .classed("hidden", !cart.datasets.length)
+      .select(".body").selectAll(".dataset")
+      .data(cart.datasets);
+
+    var enter = datasets.enter().append("div")
+      .attr("class", "dataset");
+
+    enter.append("div").attr("class", "name");
+    enter.append("div").attr("class", "remove");
+
+    datasets.select(".name").html(function(d) { return d.title; });
+    datasets.select(".remove").on("click", function(d, i) {
+
+      var index = d.slug ? cart.builds.indexOf(d.slug) : -1;
+      if (index >= 0) cart.builds.splice(index, 1);
+      cart.datasets.splice(i, 1);
+      localforage.setItem("cart", cart);
+      updateDisplay();
+
+    });
+
+    datasets.exit().remove();
+
+  }
+
+  function populatePage() {
+    console.log(cart);
+    updateDisplay();
+    d3.select("#cart-loading").classed("hidden", true);
+  }
+
+</script>
+{% endblock %}

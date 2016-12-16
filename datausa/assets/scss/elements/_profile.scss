@@ -237,10 +237,11 @@ body.profile, body.map, body.story {
   .viz-btn {
 
     color: #949494;
+    float: right;
     font-family: $palanquin;
     font-size: 12px;
     font-weight: bold;
-    margin-top: 4px;
+    margin-top: 10px;
 
     &:hover {
       color: $red-w;
@@ -277,9 +278,6 @@ body.profile, body.map, body.story {
 
   .topic {
     h2 {
-      @include flex();
-      @include justify(space-between);
-      @include align-items(center);
       font-family: $pathway;
       font-size: 30px;
       font-weight: 400;
@@ -289,8 +287,7 @@ body.profile, body.map, body.story {
       letter-spacing: 0;
       position: relative;
 
-      a.topic-title {
-        @include flex-size(1);
+      a.topic-title, a.term {
         margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
         padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
@@ -1192,7 +1189,7 @@ body.profile, body.map, body.story {
       position: relative;
     }
 
-    h2 a.topic-title {
+    h2 a.topic-title, h2 a.term {
       margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
       padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
     }

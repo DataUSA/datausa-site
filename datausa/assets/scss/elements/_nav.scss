@@ -26,7 +26,7 @@ body {
     }
   }
 
-  &.about, &.story, &.map, &.search {
+  &.about, &.story, &.map, &.cart, &.search {
     nav {
       position: fixed;
       top: 0;
@@ -39,7 +39,7 @@ body {
     }
   }
 
-  &.about, &.story, &.map {
+  &.about, &.story, &.map, &.cart {
 
     #home-btn {
       display: none;
