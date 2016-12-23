@@ -124,19 +124,19 @@ viz.prepBuild = function(build, i) {
 
   }
 
-  d3.select(build.container.node().parentNode.parentNode).select("a.share-embed")
+  d3.select(build.container.node().parentNode.parentNode).selectAll("a.popover-btn")
     .on("click", function(){
       d3.event.preventDefault();
       dusa_popover.open([
-        {"title":"Share"},
-        {"title":"Embed"},
-        {"title":"Download"},
-        {"title":"Data"},
-        {"title":"API"}
+        {"id": "view-table", "title":"View Data"},
+        {"id": "save-image", "title":"Save Image"},
+        {"id": "share", "title":"Share / Embed"},
+        // {"id": "", "title":"Embed"},
+        // {"id": "", "title":"API"}
       ],
-      d3.select(this).attr("data-target-id"),
-      d3.select(this).attr("data-url"),
-      d3.select(this).attr("data-embed"),
+      d3.select(this).attr("data-ga"),
+      d3.select(this.parentNode.parentNode).attr("data-url"),
+      d3.select(this.parentNode.parentNode).attr("data-embed"),
       build)
     });
 

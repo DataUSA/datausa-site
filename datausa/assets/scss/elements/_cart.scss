@@ -77,7 +77,7 @@ $cart-sidebar: 260px;
 
         .remove {
           @include transition(opacity 0.1s);
-          background-image: url("/static/img/viz-btn/remove.svg");
+          background-image: url("/static/img/viz/remove.svg");
           background-position: center;
           background-repeat: no-repeat;
           display: inline-block;

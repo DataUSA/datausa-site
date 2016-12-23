@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="16px" viewBox="0 0 13 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>share</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.6">
+        <g id="viz-options" transform="translate(-200.000000, -4.000000)" stroke="#F06F50">
+            <g id="Group-3" transform="translate(3.000000, 0.000000)">
+                <g id="share" transform="translate(198.000000, 0.000000)">
+                    <g transform="translate(0.000000, 5.000000)">
+                        <path d="M8,6.5 L4,3" id="Line" stroke-linecap="round" stroke-linejoin="round" transform="translate(6.000000, 4.750000) scale(1, -1) translate(-6.000000, -4.750000) "></path>
+                        <path d="M6.5,9.5 L3.5,11.25" id="Line" stroke-linecap="round" stroke-linejoin="round" transform="translate(5.000000, 10.500000) scale(1, -1) translate(-5.000000, -10.500000) "></path>
+                        <circle id="Oval" cx="2" cy="8" r="2"></circle>
+                        <circle id="Oval" cx="9.5" cy="1.5" r="1.5"></circle>
+                        <circle id="Oval" cx="8.14999998" cy="12.15" r="1.64999998"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

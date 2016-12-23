@@ -247,22 +247,70 @@ body.profile, body.map, body.story {
       color: $red-w;
     }
 
+    &::before {
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: inline-block;
+      height: 20px;
+      margin-bottom: 4px;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 20px;
+    }
+
+    &.view-table {
+
+      &::before {
+        background-image: url("/static/img/viz/view-table.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/view-table-red.svg");
+      }
+
+      &::after {
+        content: "View Data";
+      }
+
+    }
+
+    &.save-image {
+
+      &::before {
+        background-image: url("/static/img/viz/save-image.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/save-image-red.svg");
+      }
+
+      &::after {
+        content: "Save Image";
+      }
+
+    }
+
+    &.share {
+
+      &::before {
+        background-image: url("/static/img/viz/share.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/share-red.svg");
+      }
+
+      &::after {
+        content: "Share/Embed";
+      }
+
+    }
+
     &.add-to-cart {
 
       &::before {
-        background-image: url("/static/img/viz-btn/add-to-cart.svg");
-        background-position: center;
-        background-repeat: no-repeat;
-        content: "";
-        display: inline-block;
-        height: 20px;
-        margin-bottom: 4px;
-        margin-right: 5px;
-        vertical-align: middle;
-        width: 20px;
+        background-image: url("/static/img/viz/add-to-cart.svg");
       }
       &:hover::before {
-        background-image: url("/static/img/viz-btn/add-to-cart-red.svg");
+        background-image: url("/static/img/viz/add-to-cart-red.svg");
       }
 
       &::after {
@@ -300,7 +348,7 @@ body.profile, body.map, body.story {
       // }
 
       a {
-        margin-right: 10px;
+        margin-right: 15px;
       }
 
     }
