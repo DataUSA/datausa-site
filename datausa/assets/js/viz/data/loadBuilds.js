@@ -14,6 +14,7 @@ viz.prepBuild = function(build, i) {
   if (title.size()) {
     if (title.select(".topic-title").size()) build.title = title.select(".topic-title").text();
     else build.title = title.select(".term").text();
+    build.title_short = build.title;
     if (["top", "bottom"].indexOf(build.config.color) >= 0) {
       var cat = dictionary[build.attrs[0].type];
       if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
@@ -140,6 +141,25 @@ viz.prepBuild = function(build, i) {
       build)
     });
 
+  function serialize(obj) {
+    var str = [];
+    for(var p in obj)
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    return str.join("&");
+  }
+
+  var sumlevels = {
+    "010": "nation",
+    "040": "state",
+    "050": "county",
+    "310": "msa",
+    "160": "place",
+    "860": "zip",
+    "140": "tract"
+  };
+
   d3.select(build.container.node().parentNode.parentNode).select("a.add-to-cart")
     .on("click", function(){
       d3.event.preventDefault();
@@ -157,15 +177,31 @@ viz.prepBuild = function(build, i) {
       }
       else {
 
+        var data = [], title = build.title_short;
+        build.data.forEach(function(d) {
+          var params = d3plus.object.merge({}, d.params);
+          delete params.limit;
+          if (params.show in params) {
+            delete params[params.show];
+            if (params.sumlevel === "all") {
+              var sumlevel = sumlevels[build.profile.sumlevel];
+              params.sumlevel = sumlevel;
+              title += " by " + (dictionary[sumlevel] || d3plus.string.title(sumlevel));
+            }
+          }
+          data.push(api + "/api/?" + serialize(params));
+        });
+
         cart.builds.push(build.slug);
 
         cart.datasets.push({
-          data: d3.merge(build.data.map(function(d) { return d.data; })),
+          data: data,
           slug: build.slug,
-          title: build.title.split(" of ")[1]
+          title: title
         });
 
       }
+
       localforage.setItem("cart", cart);
 
     });

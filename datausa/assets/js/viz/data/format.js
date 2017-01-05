@@ -58,7 +58,7 @@ viz.format = {
   "text": function(text, params, build) {
 
     if (text.indexOf("_moe") > 0) {
-      return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
+      return params && params.cart ? "this" : "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
     else if (text.indexOf("_rank") > 0) {
       return "Rank";
