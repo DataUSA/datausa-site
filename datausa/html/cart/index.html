@@ -56,7 +56,7 @@
     var key = params.column.colId, v = params.value;
 
     if (v === void 0 || v === null) return "";
-    else if (v.constructor === Number) return viz.format.number(v, {"key": key});
+    else if (v.constructor === Number) return viz.format.number(v, {"cart": true, "key": key});
     else return viz.format.text(v, {"key": key});
 
   }
@@ -142,7 +142,7 @@
         .sort(function(a, b) {
           var aI = sticky.indexOf(a), bI = sticky.indexOf(b);
           var aB = bubbles.indexOf(a), bB = bubbles.indexOf(b);
-          return (aI >= 0 ? aI : aB >= 0 ? aB : keys.indexOf(a) + sticky.length) 
+          return (aI >= 0 ? aI : aB >= 0 ? aB : keys.indexOf(a) + sticky.length)
                - (bI >= 0 ? bI : bB >= 0 ? bB : keys.indexOf(b) + sticky.length);
         });
 
