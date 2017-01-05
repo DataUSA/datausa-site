@@ -542,7 +542,7 @@ class Profile(BaseObject):
         elif diff or kwargs.get("ratio", False):
             return num_format(abs(val))
         else:
-            return "{}%".format(num_format(val * 100))
+            return "<span class='cart-percentage' data-num='{}' data-den='{}'>{}%</span>".format(r["num_key"], r["den_key"], num_format(val * 100))
 
     def plural(self, **kwargs):
         text = kwargs.pop("text")
