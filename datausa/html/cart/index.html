@@ -142,7 +142,7 @@
         return {
           cellRenderer: cellRenderer,
           field: key,
-          headerName: dictionary[key] || d3plus.string.title(key),
+          headerName: viz.format.text(key, {params: key, cart: true}),
           pinned: sticky.indexOf(key) >= 0 ? "left" : false
         };
       });
