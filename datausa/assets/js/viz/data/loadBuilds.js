@@ -177,7 +177,22 @@ viz.prepBuild = function(build, i) {
       }
       else {
 
-        var data = [], title = build.title_short;
+        var calcs = [], data = [], title = build.title_short;
+
+        d3.select(build.container.node().parentNode.parentNode)
+          .selectAll(".cart-percentage").each(function() {
+            var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
+            calcs.push({
+              key: num + "_pct_calc",
+              func: "pct",
+              num: num,
+              den: den
+            });
+          });
+
+        var calcKeys = calcs.map(function(d) { return d.key; });
+        calcs = calcs.filter(function(d, i) { return i === calcKeys.indexOf(d.key); });
+
         build.data.forEach(function(d) {
           var params = d3plus.object.merge({}, d.params);
           delete params.limit;
@@ -195,6 +210,7 @@ viz.prepBuild = function(build, i) {
         cart.builds.push(build.slug);
 
         cart.datasets.push({
+          calcs: calcs,
           data: data,
           slug: build.slug,
           title: title

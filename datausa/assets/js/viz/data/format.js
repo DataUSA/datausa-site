@@ -57,6 +57,8 @@ viz.format = {
   },
   "text": function(text, params, build) {
 
+    if (params === void 0) params = {};
+
     if (text.indexOf("_moe") > 0) {
       if (params && params.cart) {
         return viz.format.text(text.split("_moe")[0]) + " Margin of Error";
@@ -65,6 +67,9 @@ viz.format = {
     }
     else if (text.indexOf("_rank") > 0) {
       return "Rank";
+    }
+    else if (text.indexOf("_pct_calc") > 0) {
+      return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
     }
 
     if (text.indexOf("y2_") === 0) {

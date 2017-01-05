@@ -41,6 +41,8 @@
     "skill", "wage_bin", "conflict"
   ];
 
+  var bubbles = [];
+
   var grid = {
     columnDefs: [],
     enableSorting: true,
@@ -61,13 +63,35 @@
 
   function loadDatasets(datasets, callback) {
 
-    var urls = d3.merge(datasets.map(function(d) { return d.data; }));
+    var calcs = d3.merge(datasets.map(function(d) { return d.data.map(function() { return d.calcs; }); })),
+        urls = d3.merge(datasets.map(function(d) { return d.data; })),
+        urlList = urls.slice();
+
     console.log("URLs to load:", urls);
+
+    if (!urls.length) callback([]);
 
     var retData = [];
     function loadSingle() {
       var url = urls.shift();
       load(url, function(data) {
+        var c = calcs[urlList.indexOf(url)];
+        if (c) {
+          c.forEach(function(calc) {
+            var func;
+            if (calc.func === "pct") {
+              func = function(d) {
+                return d[calc.num] !== void 0 && d[calc.num] !== null && d[calc.den] ? d[calc.num] / d[calc.den] : null;
+              }
+            }
+            if (func) {
+              data.forEach(function(d) {
+                d[calc.key] = func(d);
+              });
+              bubbles.push(calc.key);
+            }
+          });
+        }
         retData = retData.concat(data);
         if (urls.length) loadSingle();
         else callback(retData);
@@ -117,7 +141,9 @@
         .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
         .sort(function(a, b) {
           var aI = sticky.indexOf(a), bI = sticky.indexOf(b);
-          return (aI >= 0 ? aI : keys.indexOf(a) + sticky.length) - (bI >= 0 ? bI : keys.indexOf(b) + sticky.length);
+          var aB = bubbles.indexOf(a), bB = bubbles.indexOf(b);
+          return (aI >= 0 ? aI : aB >= 0 ? aB : keys.indexOf(a) + sticky.length) 
+               - (bI >= 0 ? bI : bB >= 0 ? bB : keys.indexOf(b) + sticky.length);
         });
 
       var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
@@ -149,7 +175,8 @@
       console.log(grid);
       grid.api.setRowData(groupedData)
       grid.api.setColumnDefs(columns)
-      grid.api.sizeColumnsToFit();
+      grid.columnApi.autoSizeColumns(keys);
+      // grid.api.sizeColumnsToFit();
       // grid.api.refreshView();
 
       d3.select("#cart-loading").classed("hidden", true);
