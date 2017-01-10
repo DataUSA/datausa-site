@@ -59,9 +59,15 @@ viz.format = {
 
     if (params === void 0) params = {};
 
+    console.log(text, params);
+
+    var yearMatch = text.match(/_(\d{4})$/g);
+    if (yearMatch) {
+      return viz.format.text(text.substring(0, text.length - 5), params, build) + " (" + yearMatch[0].slice(1, 5) + ")"
+    }
     if (text.indexOf("_moe") > 0) {
       if (params && params.cart) {
-        return viz.format.text(text.split("_moe")[0]) + " Margin of Error";
+        return viz.format.text(text.split("_moe")[0], params, build) + " Margin of Error";
       }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }

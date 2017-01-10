@@ -33,7 +33,8 @@
 <script>
 
   var sticky = [
-    "year", "geo",
+    // "year",
+    "geo",
     "naics", "acs_ind", "bls_naics", "iocode",
     "soc", "acs_occ", "bls_soc",
     "cip", "degree", "university", "sector", "pums_degree",
@@ -45,7 +46,9 @@
 
   var grid = {
     columnDefs: [],
+    colWidth: 150,
     enableSorting: true,
+    headerHeight: 80,
     rowData: [],
     rowHeight: 30,
     suppressCellSelection: true
@@ -73,9 +76,13 @@
 
     var retData = [];
     function loadSingle() {
+
       var url = urls.shift();
+
       load(url, function(data) {
+
         var c = calcs[urlList.indexOf(url)];
+
         if (c) {
           c.forEach(function(calc) {
             var func;
@@ -92,10 +99,26 @@
             }
           });
         }
+
+        data.forEach(function(d) {
+          if (d.year) {
+            for (var key in d) {
+              if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) {
+                d[key + "_" + d.year] = d[key];
+                delete d[key];
+              }
+            }
+            delete d.year;
+          }
+        });
+
         retData = retData.concat(data);
+
         if (urls.length) loadSingle();
         else callback(retData);
+
       });
+
     }
 
     loadSingle();
@@ -136,14 +159,20 @@
 
       console.log(data);
 
-      var keys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); })));
-      keys = keys
-        .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
+      var rawKeys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); }))).sort(function(a, b) {
+        return a.localeCompare(b);
+      });
+
+      var keys = rawKeys.slice()
+        // .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
         .sort(function(a, b) {
           var aI = sticky.indexOf(a), bI = sticky.indexOf(b);
-          var aB = bubbles.indexOf(a), bB = bubbles.indexOf(b);
-          return (aI >= 0 ? aI : aB >= 0 ? aB : keys.indexOf(a) + sticky.length)
-               - (bI >= 0 ? bI : bB >= 0 ? bB : keys.indexOf(b) + sticky.length);
+          var aY = a.match(/\d{4}$/g), bY = b.match(/\d{4}$/g);
+          var aB = bubbles.indexOf(aY ? a.substring(0, a.length - 5) : a),
+              bB = bubbles.indexOf(bY ? b.substring(0, b.length - 5) : b);
+          if (aB === bB && aY && bY) return aY[0] - bY[0];
+          return (aI >= 0 ? aI : aB >= 0 ? aB : rawKeys.indexOf(a) + sticky.length + bubbles.length)
+               - (bI >= 0 ? bI : bB >= 0 ? bB : rawKeys.indexOf(b) + sticky.length + bubbles.length);
         });
 
       var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
@@ -172,12 +201,10 @@
           pinned: sticky.indexOf(key) >= 0 ? "left" : false
         };
       });
-      console.log(grid);
-      grid.api.setRowData(groupedData)
-      grid.api.setColumnDefs(columns)
-      grid.columnApi.autoSizeColumns(keys);
-      // grid.api.sizeColumnsToFit();
-      // grid.api.refreshView();
+      // console.log(grid);
+      grid.api.setRowData(groupedData);
+      grid.api.setColumnDefs(columns);
+      // grid.columnApi.autoSizeColumns(keys);
 
       d3.select("#cart-loading").classed("hidden", true);
 
