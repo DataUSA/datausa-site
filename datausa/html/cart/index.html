@@ -56,7 +56,7 @@
     "soc", "acs_occ", "bls_soc",
     "cip", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
-    "skill", "wage_bin", "conflict",
+    "skill", "wage_bin", "conflict"
   ];
 
   var sticky = [];
@@ -95,10 +95,17 @@
         urls = d3.merge(datasets.map(function(d) { return d.data; }))
 
     urls.forEach(function(url) {
-      var show = new RegExp("&show=([a-z,]*)").exec(url.replace(/%2C/g, ","));
+      var show = new RegExp("&show=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
       show[1].split(",").forEach(function(attr) {
         var u = "https://api.datausa.io/attrs/" + attr + "/";
         if (urls.indexOf(u) < 0) urls.push(u);
+      });
+      var required = new RegExp("&required=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
+      required[1].split(",").forEach(function(attr) {
+        if (attr_list.indexOf(attr) >= 0) {
+          var u = "https://api.datausa.io/attrs/" + attr + "/";
+          if (urls.indexOf(u) < 0) urls.push(u);
+        }
       });
     });
 
@@ -209,9 +216,15 @@
         attr_list.forEach(function(attr) {
           if (attr in d) {
             d[attr + "_id"] = d[attr];
-            d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
-            if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
-              d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
+            if (attr === "geo" && d[attr].slice(0, 3) === "140") {
+              d.geo_name = viz.format.text(d[attr], {key: "geo"})
+              d.geo_sumlevel = "tract";
+            }
+            else {
+              d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
+              if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
+                d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
+              }
             }
             delete d[attr];
           }
