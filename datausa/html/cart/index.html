@@ -84,7 +84,6 @@
 
     urls.forEach(function(url) {
       var show = new RegExp("&show=([a-z,]*)").exec(url.replace(/%2C/g, ","));
-      console.log(show);
       show[1].split(",").forEach(function(attr) {
         var u = "https://api.datausa.io/attrs/" + attr + "/";
         if (urls.indexOf(u) < 0) urls.push(u);
