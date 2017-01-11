@@ -83,7 +83,8 @@
         urlList = urls.slice();
 
     urls.forEach(function(url) {
-      var show = new RegExp("&show=([a-z,]*)").exec(url);
+      var show = new RegExp("&show=([a-z,]*)").exec(url.replace(/%2C/g, ","));
+      console.log(show);
       show[1].split(",").forEach(function(attr) {
         var u = "https://api.datausa.io/attrs/" + attr + "/";
         if (urls.indexOf(u) < 0) urls.push(u);
@@ -192,7 +193,7 @@
           if (attr in d) {
             d[attr + "_id"] = d[attr];
             d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
-            d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel;
+            d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
             delete d[attr];
           }
         });

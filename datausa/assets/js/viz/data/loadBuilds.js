@@ -150,7 +150,7 @@ viz.prepBuild = function(build, i) {
     return str.join("&");
   }
 
-  var sumlevels = {
+  var sumlevelMap = {
     "010": "nation",
     "040": "state",
     "050": "county",
@@ -196,14 +196,41 @@ viz.prepBuild = function(build, i) {
         build.data.forEach(function(d) {
           var params = d3plus.object.merge({}, d.params);
           delete params.limit;
-          if (params.show in params) {
-            delete params[params.show];
-            if (params.sumlevel === "all") {
-              var sumlevel = sumlevels[build.profile.sumlevel];
-              params.sumlevel = sumlevel;
-              title += " by " + (dictionary[sumlevel] || d3plus.string.title(sumlevel));
-            }
+          var shows = params.show.split(",");
+          var sumlevels = params.sumlevel.split(",");
+          var prof_attr = build.profile.image_path.split("/")[0];
+
+          var prof_sumlevel = build.profile.sumlevel;
+          if (prof_attr in d.subs && prof_attr === "geo") {
+            prof_sumlevel = d.subs[prof_attr].slice(0, 3);
           }
+          prof_sumlevel = sumlevelMap[prof_sumlevel] || prof_sumlevel;
+
+          shows.forEach(function(show, i) {
+
+            if (show in params) {
+              delete params[show];
+              if (show === prof_attr && sumlevels[i] === "all") {
+                sumlevels[i] = prof_sumlevel;
+                title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+              }
+            }
+
+          });
+
+          if (prof_attr in params) {
+            sumlevels.unshift(prof_sumlevel);
+            shows.unshift(prof_attr);
+            delete params[prof_attr];
+            title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+          }
+
+          params.show = shows.join(",");
+          params.sumlevel = sumlevels.join(",");
+
+          if ("year" in params) params.year = "all";
+
+          // console.log(title, params, api + "/api/?" + serialize(params));
           data.push(api + "/api/?" + serialize(params));
         });
 
