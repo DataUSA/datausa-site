@@ -123,7 +123,7 @@ DICTIONARY = {
 
     "gini": "GINI",
 
-    "geo": "Location Name",
+    "geo": "Location",
     "cip": "College Degree",
     "naics": "Industry",
     "soc": "Occupation",

@@ -7856,7 +7856,7 @@
         text-transform: uppercase;
         font-size: 11px;
         text-align: left; }
-        #cart-table .ag-header-cell .ngHeaderText {
+        #cart-table .ag-header-cell .ag-header-cell-text {
           overflow-wrap: break-word;
           text-overflow: clip;
           white-space: normal; }

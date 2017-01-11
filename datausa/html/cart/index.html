@@ -32,12 +32,24 @@
 {% block js %}
 <script>
 
+  var sumlevels = {
+    "010": "nation",
+    "040": "state",
+    "050": "county",
+    "310": "msa",
+    "160": "place",
+    "860": "zip",
+    "140": "tract"
+  };
+
+  var attrs = {};
+
   var sticky = [
     // "year",
-    "geo",
-    "naics", "acs_ind", "bls_naics", "iocode",
-    "soc", "acs_occ", "bls_soc",
-    "cip", "degree", "university", "sector", "pums_degree",
+    "geo", "geo_id", "geo_name",
+    "naics", "naics_id", "naics_name", "acs_ind", "bls_naics", "iocode",
+    "soc", "soc_id", "soc_name", "acs_occ", "bls_soc",
+    "cip", "cip_id", "cip_name", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
     "skill", "wage_bin", "conflict"
   ];
@@ -48,7 +60,7 @@
     columnDefs: [],
     colWidth: 150,
     enableSorting: true,
-    headerHeight: 80,
+    headerHeight: 65,
     rowData: [],
     rowHeight: 30,
     suppressCellSelection: true
@@ -70,6 +82,14 @@
         urls = d3.merge(datasets.map(function(d) { return d.data; })),
         urlList = urls.slice();
 
+    urls.forEach(function(url) {
+      var show = new RegExp("&show=([a-z,]*)").exec(url);
+      show[1].split(",").forEach(function(attr) {
+        var u = "https://api.datausa.io/attrs/" + attr + "/";
+        if (urls.indexOf(u) < 0) urls.push(u);
+      });
+    });
+
     console.log("URLs to load:", urls);
 
     if (!urls.length) callback([]);
@@ -81,38 +101,48 @@
 
       load(url, function(data) {
 
-        var c = calcs[urlList.indexOf(url)];
+        if (url.indexOf("/attrs/") >= 0) {
+          attrs[url.split("/")[4]] = data.reduce(function(obj, d) {
+            obj[d.id] = d;
+            return obj;
+          }, {});
+        }
+        else {
 
-        if (c) {
-          c.forEach(function(calc) {
-            var func;
-            if (calc.func === "pct") {
-              func = function(d) {
-                return d[calc.num] !== void 0 && d[calc.num] !== null && d[calc.den] ? d[calc.num] / d[calc.den] : null;
+          var c = calcs[urlList.indexOf(url)];
+
+          if (c) {
+            c.forEach(function(calc) {
+              var func;
+              if (calc.func === "pct") {
+                func = function(d) {
+                  return d[calc.num] !== void 0 && d[calc.num] !== null && d[calc.den] ? d[calc.num] / d[calc.den] : null;
+                }
               }
-            }
-            if (func) {
-              data.forEach(function(d) {
-                d[calc.key] = func(d);
-              });
-              bubbles.push(calc.key);
+              if (func) {
+                data.forEach(function(d) {
+                  d[calc.key] = func(d);
+                });
+                bubbles.push(calc.key);
+              }
+            });
+          }
+
+          data.forEach(function(d) {
+            if (d.year) {
+              for (var key in d) {
+                if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) {
+                  d[key + "_" + d.year] = d[key];
+                  delete d[key];
+                }
+              }
+              delete d.year;
             }
           });
+
+          retData = retData.concat(data);
+
         }
-
-        data.forEach(function(d) {
-          if (d.year) {
-            for (var key in d) {
-              if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) {
-                d[key + "_" + d.year] = d[key];
-                delete d[key];
-              }
-            }
-            delete d.year;
-          }
-        });
-
-        retData = retData.concat(data);
 
         if (urls.length) loadSingle();
         else callback(retData);
@@ -157,7 +187,15 @@
 
     loadDatasets(cart.datasets, function(data) {
 
-      console.log(data);
+      data.forEach(function(d) {
+        ["geo", "naics", "soc", "cip"].forEach(function(attr) {
+          if (attr in d) {
+            d[attr + "_id"] = d[attr];
+            d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
+            delete d[attr];
+          }
+        });
+      });
 
       var rawKeys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); }))).sort(function(a, b) {
         return a.localeCompare(b);

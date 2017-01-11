@@ -59,7 +59,12 @@ viz.format = {
 
     if (params === void 0) params = {};
 
-    console.log(text, params);
+    if (params.cart && text.match(/_id$/g)) {
+      return viz.format.text(text.substring(0, text.length - 3), params, build) + " ID"
+    }
+    if (params.cart && text.match(/_name$/g)) {
+      return viz.format.text(text.substring(0, text.length - 5), params, build) + " Name"
+    }
 
     var yearMatch = text.match(/_(\d{4})$/g);
     if (yearMatch) {
