@@ -44,15 +44,23 @@
 
   var attrs = {};
 
-  var sticky = [
+  var attr_list = [
     // "year",
-    "geo", "geo_id", "geo_name", "geo_sumlevel",
-    "naics", "naics_id", "naics_name", "naics_sumlevel", "acs_ind", "bls_naics", "iocode",
-    "soc", "soc_id", "soc_name", "soc_sumlevel", "acs_occ", "bls_soc",
-    "cip", "cip_id", "cip_name", "cip_sumlevel", "degree", "university", "sector", "pums_degree",
+    "geo",
+    "naics", "acs_ind", "bls_naics", "iocode",
+    "soc", "acs_occ", "bls_soc",
+    "cip", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
     "skill", "wage_bin", "conflict",
   ];
+
+  var sticky = [];
+  attr_list.forEach(function(attr) {
+    sticky.push(attr);
+    sticky.push(attr + "_id");
+    sticky.push(attr + "_name");
+    sticky.push(attr + "_sumlevel");
+  });
 
   var bubbles = [];
 
@@ -187,31 +195,43 @@
 
     loadDatasets(cart.datasets, function(data) {
 
+      console.log("populating names");
+
       data.forEach(function(d) {
-        ["geo", "naics", "soc", "cip"].forEach(function(attr) {
+        attr_list.forEach(function(attr) {
           if (attr in d) {
             d[attr + "_id"] = d[attr];
             d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
-            d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
+            if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
+              d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
+            }
             delete d[attr];
           }
         });
       });
 
+      console.log("fetching headers");
+
       var rawKeys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); }))).sort(function(a, b) {
         return a.localeCompare(b);
       });
 
+      console.log("sorting");
+
       var keys = rawKeys.slice()
         // .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
         .sort(function(a, b) {
+
           var aI = sticky.indexOf(a), bI = sticky.indexOf(b);
           var aY = a.match(/\d{4}$/g), bY = b.match(/\d{4}$/g);
           var aB = bubbles.indexOf(aY ? a.substring(0, a.length - 5) : a),
               bB = bubbles.indexOf(bY ? b.substring(0, b.length - 5) : b);
+
           if (aB === bB && aY && bY) return aY[0] - bY[0];
-          return (aI >= 0 ? aI : aB >= 0 ? aB + sticky.length : rawKeys.indexOf(a) + sticky.length + bubbles.length)
-               - (bI >= 0 ? bI : bB >= 0 ? bB + sticky.length : rawKeys.indexOf(b) + sticky.length + bubbles.length);
+
+          return (aI >= 0 ? aI : aB >= 0 ? aB + 3 + sticky.length : rawKeys.indexOf(a) + sticky.length + bubbles.length)
+               - (bI >= 0 ? bI : bB >= 0 ? bB + 3 + sticky.length : rawKeys.indexOf(b) + sticky.length + bubbles.length);
+
         });
 
       var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
