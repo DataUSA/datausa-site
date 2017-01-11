@@ -9186,6 +9186,8 @@ viz.prepBuild = function(build, i) {
           delete params.limit;
           var shows = params.show.split(",");
           var sumlevels = params.sumlevel.split(",");
+          var wheres = params.where ? params.where.split(",") : [];
+          delete params.where;
           var prof_attr = build.profile.image_path.split("/")[0];
 
           var prof_sumlevel = build.profile.sumlevel;
@@ -9213,8 +9215,13 @@ viz.prepBuild = function(build, i) {
             title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
           }
 
+          wheres = wheres.filter(function(where) {
+            return shows.indexOf(where.split(":")[0]) < 0;
+          });
+
           params.show = shows.join(",");
           params.sumlevel = sumlevels.join(",");
+          if (wheres.length) params.where = wheres.join(",");
 
           if ("year" in params) params.year = "all";
 
