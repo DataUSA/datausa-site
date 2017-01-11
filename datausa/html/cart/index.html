@@ -46,12 +46,12 @@
 
   var sticky = [
     // "year",
-    "geo", "geo_id", "geo_name",
-    "naics", "naics_id", "naics_name", "acs_ind", "bls_naics", "iocode",
-    "soc", "soc_id", "soc_name", "acs_occ", "bls_soc",
-    "cip", "cip_id", "cip_name", "degree", "university", "sector", "pums_degree",
+    "geo", "geo_id", "geo_name", "geo_sumlevel",
+    "naics", "naics_id", "naics_name", "naics_sumlevel", "acs_ind", "bls_naics", "iocode",
+    "soc", "soc_id", "soc_name", "soc_sumlevel", "acs_occ", "bls_soc",
+    "cip", "cip_id", "cip_name", "cip_sumlevel", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
-    "skill", "wage_bin", "conflict"
+    "skill", "wage_bin", "conflict",
   ];
 
   var bubbles = [];
@@ -192,6 +192,7 @@
           if (attr in d) {
             d[attr + "_id"] = d[attr];
             d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
+            d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel;
             delete d[attr];
           }
         });
@@ -209,8 +210,8 @@
           var aB = bubbles.indexOf(aY ? a.substring(0, a.length - 5) : a),
               bB = bubbles.indexOf(bY ? b.substring(0, b.length - 5) : b);
           if (aB === bB && aY && bY) return aY[0] - bY[0];
-          return (aI >= 0 ? aI : aB >= 0 ? aB : rawKeys.indexOf(a) + sticky.length + bubbles.length)
-               - (bI >= 0 ? bI : bB >= 0 ? bB : rawKeys.indexOf(b) + sticky.length + bubbles.length);
+          return (aI >= 0 ? aI : aB >= 0 ? aB + sticky.length : rawKeys.indexOf(a) + sticky.length + bubbles.length)
+               - (bI >= 0 ? bI : bB >= 0 ? bB + sticky.length : rawKeys.indexOf(b) + sticky.length + bubbles.length);
         });
 
       var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
@@ -236,7 +237,8 @@
           cellRenderer: cellRenderer,
           field: key,
           headerName: viz.format.text(key, {params: key, cart: true}),
-          pinned: sticky.indexOf(key) >= 0 ? "left" : false
+          pinned: false
+          // pinned: sticky.indexOf(key) >= 0 ? "left" : false
         };
       });
       // console.log(grid);
