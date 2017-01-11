@@ -24,13 +24,18 @@
   </div>
 </div>
 <div id="cart-loading">
-  <div id="cart-loading-text"><i class="fa fa-spinner fa-spin"></i>Please Wait</div>
+  <div id="cart-loading-text">
+    <i class="fa fa-spinner fa-spin"></i>Please Wait
+    <div id="cart-loading-status">Loading Data</div>
+  </div>
 </div>
 
 {% endblock %}
 
 {% block js %}
 <script>
+
+  var loadStatus = d3.select("#cart-loading-status");
 
   var sumlevels = {
     "010": "nation",
@@ -87,8 +92,7 @@
   function loadDatasets(datasets, callback) {
 
     var calcs = d3.merge(datasets.map(function(d) { return d.data.map(function() { return d.calcs; }); })),
-        urls = d3.merge(datasets.map(function(d) { return d.data; })),
-        urlList = urls.slice();
+        urls = d3.merge(datasets.map(function(d) { return d.data; }))
 
     urls.forEach(function(url) {
       var show = new RegExp("&show=([a-z,]*)").exec(url.replace(/%2C/g, ","));
@@ -98,7 +102,7 @@
       });
     });
 
-    console.log("URLs to load:", urls);
+    var urlList = urls.slice();
 
     if (!urls.length) callback([]);
 
@@ -106,6 +110,7 @@
     function loadSingle() {
 
       var url = urls.shift();
+      loadStatus.html("API Call " + (urlList.length - urls.length) + " of " + urlList.length);
 
       load(url, function(data) {
 
@@ -152,6 +157,8 @@
 
         }
 
+        loadStatus.html("API Call 0 of " + urlList.length);
+
         if (urls.length) loadSingle();
         else callback(retData);
 
@@ -165,6 +172,7 @@
 
   function updateDisplay() {
 
+    loadStatus.html("Loading Cart");
     d3.select("#cart-loading").classed("hidden", false);
 
     d3.select("#datasets .headers .name span").html(cart.datasets.length);
@@ -195,7 +203,7 @@
 
     loadDatasets(cart.datasets, function(data) {
 
-      console.log("populating names");
+      loadStatus.html("Fetching Attribute Names");
 
       data.forEach(function(d) {
         attr_list.forEach(function(attr) {
@@ -210,13 +218,13 @@
         });
       });
 
-      console.log("fetching headers");
+      loadStatus.html("Constructing Headers");
 
       var rawKeys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); }))).sort(function(a, b) {
         return a.localeCompare(b);
       });
 
-      console.log("sorting");
+      loadStatus.html("Sorting Columns");
 
       var keys = rawKeys.slice()
         // .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
@@ -236,6 +244,8 @@
 
       var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
 
+      loadStatus.html("Joining Data");
+
       var groupedData = d3.nest()
         .key(function(d) {
           return availableStickies.map(function(key) { return d[key] || "undefined"; }).join("-");
@@ -251,6 +261,8 @@
 
       console.log(keys);
       console.log(groupedData);
+
+      loadStatus.html("Generating Table");
 
       var columns = keys.map(function(key) {
         return {

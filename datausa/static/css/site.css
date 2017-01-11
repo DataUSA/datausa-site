@@ -7887,6 +7887,8 @@
         text-align: center; }
         #cart-loading #cart-loading-text i {
           margin: 3px 10px; }
+          #cart-loading #cart-loading-text #cart-loading-status {
+            font-size: 14px; }
 
   @media print {
     #menu-btn, nav, #nav-bar-scroll, #section-sidenav, .share-section, .profile-end,
