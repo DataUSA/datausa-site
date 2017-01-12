@@ -92,7 +92,7 @@
   function loadDatasets(datasets, callback) {
 
     var calcs = d3.merge(datasets.map(function(d) { return d.data.map(function() { return d.calcs; }); })),
-        urls = d3.merge(datasets.map(function(d) { return d.data; }))
+        urls = d3.merge(datasets.map(function(d) { return d.data; }));
 
     urls.forEach(function(url) {
       var show = new RegExp("&show=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
@@ -101,12 +101,14 @@
         if (urls.indexOf(u) < 0) urls.push(u);
       });
       var required = new RegExp("&required=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
-      required[1].split(",").forEach(function(attr) {
-        if (attr_list.indexOf(attr) >= 0) {
-          var u = "https://api.datausa.io/attrs/" + attr + "/";
-          if (urls.indexOf(u) < 0) urls.push(u);
-        }
-      });
+      if (required) {
+        required[1].split(",").forEach(function(attr) {
+          if (attr_list.indexOf(attr) >= 0) {
+            var u = "https://api.datausa.io/attrs/" + attr + "/";
+            if (urls.indexOf(u) < 0) urls.push(u);
+          }
+        });
+      }
     });
 
     var urlList = urls.slice();
