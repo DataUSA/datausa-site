@@ -3517,70 +3517,100 @@
                   body.profile .data-btn:hover span, body.map .data-btn:hover span,
                   body.story .data-btn:hover span {
                     color: #4E4E4E !important; }
-  body.profile .viz-btn, body.map .viz-btn, body.story .viz-btn {
-    color: #949494;
-    float: right;
-    font-family: "Palanquin", sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 10px; }
-    body.profile .viz-btn:hover, body.map .viz-btn:hover, body.story .viz-btn:hover {
-      color: #ef6145; }
-      body.profile .viz-btn::before, body.map .viz-btn::before,
-      body.story .viz-btn::before {
-        background-position: center;
-        background-repeat: no-repeat;
-        content: "";
-        display: inline-block;
-        height: 20px;
-        margin-bottom: 4px;
-        margin-right: 5px;
-        vertical-align: middle;
-        width: 20px; }
-        body.profile .viz-btn.view-table::before, body.map .viz-btn.view-table::before,
-        body.story .viz-btn.view-table::before {
-          background-image: url("/static/img/viz/view-table.svg"); }
-          body.profile .viz-btn.view-table:hover::before,
-          body.map .viz-btn.view-table:hover::before,
-          body.story .viz-btn.view-table:hover::before {
-            background-image: url("/static/img/viz/view-table-red.svg"); }
-            body.profile .viz-btn.view-table::after, body.map .viz-btn.view-table::after,
-            body.story .viz-btn.view-table::after {
-              content: "View Data"; }
-    body.profile .viz-btn.save-image::before, body.map .viz-btn.save-image::before,
-    body.story .viz-btn.save-image::before {
-      background-image: url("/static/img/viz/save-image.svg"); }
-      body.profile .viz-btn.save-image:hover::before,
-      body.map .viz-btn.save-image:hover::before,
-      body.story .viz-btn.save-image:hover::before {
-        background-image: url("/static/img/viz/save-image-red.svg"); }
-        body.profile .viz-btn.save-image::after, body.map .viz-btn.save-image::after,
-        body.story .viz-btn.save-image::after {
-          content: "Save Image"; }
-    body.profile .viz-btn.share::before, body.map .viz-btn.share::before,
-    body.story .viz-btn.share::before {
-      background-image: url("/static/img/viz/share.svg"); }
-      body.profile .viz-btn.share:hover::before, body.map .viz-btn.share:hover::before,
-      body.story .viz-btn.share:hover::before {
-        background-image: url("/static/img/viz/share-red.svg"); }
-        body.profile .viz-btn.share::after, body.map .viz-btn.share::after,
-        body.story .viz-btn.share::after {
-          content: "Share/Embed"; }
-    body.profile .viz-btn.add-to-cart::before, body.map .viz-btn.add-to-cart::before,
-    body.story .viz-btn.add-to-cart::before {
-      background-image: url("/static/img/viz/add-to-cart.svg"); }
-      body.profile .viz-btn.add-to-cart:hover::before,
-      body.map .viz-btn.add-to-cart:hover::before,
-      body.story .viz-btn.add-to-cart:hover::before {
-        background-image: url("/static/img/viz/add-to-cart-red.svg"); }
-        body.profile .viz-btn.add-to-cart::after, body.map .viz-btn.add-to-cart::after,
-        body.story .viz-btn.add-to-cart::after {
-          content: "Add to Cart"; }
-          body.profile .viz-btn.add-to-cart.active::after,
-          body.map .viz-btn.add-to-cart.active::after,
-          body.story .viz-btn.add-to-cart.active::after {
-            content: "Remove"; }
+  body.profile .viz-btns, body.map .viz-btns, body.story .viz-btns {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    text-align: right; }
+    body.profile .viz-btn, body.map .viz-btn, body.story .viz-btn {
+      color: #949494;
+      display: inline-block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 5px; }
+      body.profile .viz-btn:hover, body.map .viz-btn:hover, body.story .viz-btn:hover {
+        color: #ef6145; }
+        body.profile .viz-btn::before, body.map .viz-btn::before,
+        body.story .viz-btn::before {
+          background-position: center;
+          background-repeat: no-repeat;
+          content: "";
+          display: inline-block;
+          height: 20px;
+          margin-bottom: 4px;
+          margin-right: 5px;
+          vertical-align: middle;
+          width: 20px; }
+          body.profile .viz-btn.view-table::before, body.map .viz-btn.view-table::before,
+          body.story .viz-btn.view-table::before {
+            background-image: url("/static/img/viz/view-table.svg"); }
+            body.profile .viz-btn.view-table:hover::before,
+            body.map .viz-btn.view-table:hover::before,
+            body.story .viz-btn.view-table:hover::before {
+              background-image: url("/static/img/viz/view-table-red.svg"); }
+              body.profile .viz-btn.view-table::after, body.map .viz-btn.view-table::after,
+              body.story .viz-btn.view-table::after {
+                content: "View Data"; }
+      body.profile .viz-btn.save-image::before, body.map .viz-btn.save-image::before,
+      body.story .viz-btn.save-image::before {
+        background-image: url("/static/img/viz/save-image.svg"); }
+        body.profile .viz-btn.save-image:hover::before,
+        body.map .viz-btn.save-image:hover::before,
+        body.story .viz-btn.save-image:hover::before {
+          background-image: url("/static/img/viz/save-image-red.svg"); }
+          body.profile .viz-btn.save-image::after, body.map .viz-btn.save-image::after,
+          body.story .viz-btn.save-image::after {
+            content: "Save Image"; }
+      body.profile .viz-btn.share::before, body.map .viz-btn.share::before,
+      body.story .viz-btn.share::before {
+        background-image: url("/static/img/viz/share.svg"); }
+        body.profile .viz-btn.share:hover::before, body.map .viz-btn.share:hover::before,
+        body.story .viz-btn.share:hover::before {
+          background-image: url("/static/img/viz/share-red.svg"); }
+          body.profile .viz-btn.share::after, body.map .viz-btn.share::after,
+          body.story .viz-btn.share::after {
+            content: "Share/Embed"; }
+      @media only screen and (max-width : 768px) {
+        body.profile .viz-btn.view-table, body.profile .viz-btn.save-image,
+        body.map .viz-btn.view-table, body.map .viz-btn.save-image,
+        body.story .viz-btn.view-table, body.story .viz-btn.save-image {
+          display: none;   }
+          body.profile .viz-btn.share::after, body.map .viz-btn.share::after,
+          body.story .viz-btn.share::after {
+            content: "Options";   }
+}
+      body.profile .viz-btn.add-to-cart::before, body.map .viz-btn.add-to-cart::before,
+      body.story .viz-btn.add-to-cart::before {
+        background-image: url("/static/img/viz/add-to-cart.svg"); }
+        body.profile .viz-btn.add-to-cart:hover::before,
+        body.map .viz-btn.add-to-cart:hover::before,
+        body.story .viz-btn.add-to-cart:hover::before {
+          background-image: url("/static/img/viz/add-to-cart-red.svg"); }
+          body.profile .viz-btn.add-to-cart::after, body.map .viz-btn.add-to-cart::after,
+          body.story .viz-btn.add-to-cart::after {
+            content: "Add to Cart"; }
+            body.profile .viz-btn.add-to-cart.active::after,
+            body.map .viz-btn.add-to-cart.active::after,
+            body.story .viz-btn.add-to-cart.active::after {
+              content: "Remove"; }
   body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    flex-pack: center;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -ms-flex-align: start;
+    flex-align: start;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 30px;
     font-weight: 400;
@@ -3600,10 +3630,25 @@
   body.story .topic .data-btn {
     top: 5px; }
     body.profile .topic.flex h2, body.map .topic.flex h2, body.story .topic.flex h2 {
+      display: block;
       font-size: 24px; }
-      body.profile .topic.flex .data-btn, body.map .topic.flex .data-btn,
-      body.story .topic.flex .data-btn {
-        top: -4px; }
+      body.profile .topic.flex h2 .viz-btns, body.map .topic.flex h2 .viz-btns,
+      body.story .topic.flex h2 .viz-btns {
+        text-align: left; }
+        body.profile .topic.flex h2 .viz-btns .viz-btn.view-table,
+        body.profile .topic.flex h2 .viz-btns .viz-btn.save-image,
+        body.map .topic.flex h2 .viz-btns .viz-btn.view-table,
+        body.map .topic.flex h2 .viz-btns .viz-btn.save-image,
+        body.story .topic.flex h2 .viz-btns .viz-btn.view-table,
+        body.story .topic.flex h2 .viz-btns .viz-btn.save-image {
+          display: none; }
+          body.profile .topic.flex h2 .viz-btns .viz-btn.share::after,
+          body.map .topic.flex h2 .viz-btns .viz-btn.share::after,
+          body.story .topic.flex h2 .viz-btns .viz-btn.share::after {
+            content: "Options"; }
+    body.profile .topic.flex .data-btn, body.map .topic.flex .data-btn,
+    body.story .topic.flex .data-btn {
+      top: -4px; }
   body.profile .topic .sub, body.map .topic .sub, body.story .topic .sub {
     font-family: "Palanquin", sans-serif;
     font-size: 13px;

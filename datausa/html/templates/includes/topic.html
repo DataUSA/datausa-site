@@ -8,7 +8,23 @@
 {% if topic.items()|length > 1 or "category" not in topic %}
 <article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}" data-slug="{{ topic.slug }}" data-embed="{{ profile.url(full=False, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}">
   {% if topic.title %}
-  <h2 class="embed-title">{% if "data-tooltip" in topic.title %}{{ topic.title|safe }}{% else %}<a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">{{ topic.title|safe }}</a>{% endif %}{% if topic.viz and (g.page_class != 'story') %} <a href="#" class="viz-btn add-to-cart" title="Cart" data-slug={{ topic.slug }} data-ga="add-to-cart" data-ga-cat="viz-button" data-ga-label="Add to Cart"></a> <a href="#" class="viz-btn popover-btn share" title="Share/Embed" data-ga="share" data-ga-cat="viz-button" data-ga-label="Share/Embed"></a> <a href="#" class="viz-btn popover-btn save-image" title="Save Image" data-ga="save-image" data-ga-cat="viz-button" data-ga-label="Save Image"></a> <a href="#" class="viz-btn popover-btn view-table" title="View Data" data-ga="view-table" data-ga-cat="viz-button" data-ga-label="View Data"></a>{% endif %}</h2>
+  <h2 class="embed-title">
+    {% if "data-tooltip" in topic.title %}
+      {{ topic.title|safe }}
+    {% else %}
+      <a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">
+        {{ topic.title|safe }}
+      </a>
+    {% endif %}
+    {% if topic.viz and (g.page_class != 'story') %}
+    <div class="viz-btns">
+      <a href="#" class="viz-btn popover-btn view-table" title="View Data" data-ga="view-table" data-ga-cat="viz-button" data-ga-label="View Data"></a>
+      <a href="#" class="viz-btn popover-btn save-image" title="Save Image" data-ga="save-image" data-ga-cat="viz-button" data-ga-label="Save Image"></a>
+      <a href="#" class="viz-btn popover-btn share" title="Share/Embed" data-ga="share" data-ga-cat="viz-button" data-ga-label="Share/Embed"></a>
+      <a href="#" class="viz-btn add-to-cart" title="Cart" data-slug={{ topic.slug }} data-ga="add-to-cart" data-ga-cat="viz-button" data-ga-label="Add to Cart"></a>
+    </div>
+    {% endif %}
+  </h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
   <div class="sub sub-title">{{ topic.subtitle|safe }}</div>

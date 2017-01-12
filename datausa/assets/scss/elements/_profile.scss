@@ -234,14 +234,19 @@ body.profile, body.map, body.story {
     }
   }
 
+  .viz-btns {
+    @include flex-size(1);
+    text-align: right;
+  }
+
   .viz-btn {
 
     color: #949494;
-    float: right;
+    display: inline-block;
     font-family: $palanquin;
     font-size: 12px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 5px;
 
     &:hover {
       color: $red-w;
@@ -304,6 +309,18 @@ body.profile, body.map, body.story {
 
     }
 
+    @media only screen and (max-width : 768px) {
+
+      &.view-table, &.save-image {
+        display: none;
+      }
+
+      &.share::after {
+        content: "Options";
+      }
+
+    }
+
     &.add-to-cart {
 
       &::before {
@@ -326,6 +343,8 @@ body.profile, body.map, body.story {
 
   .topic {
     h2 {
+      @include flex();
+      @include align-items(flex-start);
       font-family: $pathway;
       font-size: 30px;
       font-weight: 400;
@@ -359,7 +378,24 @@ body.profile, body.map, body.story {
 
     &.flex {
       h2 {
+        display: block;
         font-size: 24px;
+
+        .viz-btns {
+          text-align: left;
+
+          .viz-btn {
+            &.view-table, &.save-image {
+              display: none;
+            }
+
+            &.share::after {
+              content: "Options";
+            }
+          }
+
+        }
+
       }
 
       .data-btn {
