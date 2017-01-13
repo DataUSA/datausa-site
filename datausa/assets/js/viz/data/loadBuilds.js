@@ -252,6 +252,10 @@ viz.prepBuild = function(build, i) {
 
       }
 
+      d3.select("#cart-btn a")
+        .html(cart.datasets.length || "")
+        .classed("active", cart.datasets.length);
+
       localforage.setItem("cart", cart);
 
     });

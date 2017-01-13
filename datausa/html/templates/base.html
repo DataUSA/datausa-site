@@ -79,6 +79,10 @@
 
         }
 
+        d3.select("#cart-btn a")
+          .html(cart.datasets.length || "")
+          .classed("active", cart.datasets.length);
+
       });
 
     </script>
