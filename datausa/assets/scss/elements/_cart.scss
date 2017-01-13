@@ -9,9 +9,31 @@ $cart-header: 60px;
 $cart-sidebar: 260px;
 
 #cart-header {
-  height: 100vh;
+  left: 0;
+  padding-top: 50px;
+  position: absolute;
   text-align: right;
+  top: 0;
   width: 100%;
+
+  .cart-btn {
+    border: 1px solid #f06145;
+    color: #f06145;
+    display: inline-block;
+    font-family: $palanquin;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.55px;
+    margin-right: 10px;
+    padding: 5px 10px 6px;
+
+    &:hover {
+      background-color: #f06145;
+      color: white;
+      cursor: pointer;
+    }
+  }
+
 }
 
 #cart-panel {
@@ -108,7 +130,6 @@ $cart-sidebar: 260px;
   left: 0;
   padding-left: $cart-sidebar + 12;
   padding-top: $title-height + $cart-header;
-  position: absolute;
   top: 0;
   width: 100vw;
   z-index: 1;

@@ -8,7 +8,9 @@
 
 {% block body %}
 <div id="cart-header">
-  Buttons!
+  <div id="cart-csv" class="cart-btn">
+    Download as CSV
+  </div>
 </div>
 <div id="cart-table"></div>
 <div id="cart-panel">
@@ -36,6 +38,8 @@
 <script>
 
   var loadStatus = d3.select("#cart-loading-status");
+
+  var columns = [], groupedData = [];
 
   var sumlevels = {
     "010": "nation",
@@ -261,7 +265,7 @@
 
       loadStatus.html("Joining Data");
 
-      var groupedData = d3.nest()
+      groupedData = d3.nest()
         .key(function(d) {
           return availableStickies.map(function(key) { return d[key] || "undefined"; }).join("-");
         })
@@ -279,7 +283,7 @@
 
       loadStatus.html("Generating Table");
 
-      var columns = keys.map(function(key) {
+      columns = keys.map(function(key) {
         return {
           cellRenderer: cellRenderer,
           field: key,
@@ -303,6 +307,27 @@
     console.log(cart);
     updateDisplay();
   }
+
+  d3.select("#cart-csv").on("click", function() {
+
+    var title = "Data USA Cart",
+        zip = new JSZip();
+
+    var keys = columns.map(function(c) { return c.field; });
+
+    var csv = keys.join(",");
+    groupedData.forEach(function(d, i) {
+      csv += "\n" + keys.map(function(key) {
+        return d[key] === void 0 ? ""
+             : typeof d[key] === "number" ? d[key]
+             : "\"" + d[key] + "\"";
+      });
+    });
+
+    zip.file(title + ".csv", csv);
+    saveAs(zip.generate({type: "blob"}), title + ".zip");
+
+  });
 
 </script>
 {% endblock %}
