@@ -226,7 +226,7 @@
               d.geo_name = viz.format.text(d[attr], {key: "geo"})
               d.geo_sumlevel = "tract";
             }
-            else {
+            else if (attrs[attr][d[attr]]) {
               d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
               if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
                 d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
