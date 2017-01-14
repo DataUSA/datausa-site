@@ -9188,7 +9188,7 @@ viz.prepBuild = function(build, i) {
           var sumlevels = params.sumlevel.split(",");
           var wheres = params.where ? params.where.split(",") : [];
           delete params.where;
-          var prof_attr = build.profile.image_path.split("/")[0];
+          var prof_attr = location.pathname.split("/")[2];
 
           var prof_sumlevel = build.profile.sumlevel;
           if (prof_attr in d.subs && prof_attr === "geo") {
