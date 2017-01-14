@@ -203,7 +203,7 @@ viz.prepBuild = function(build, i) {
           var prof_attr = location.pathname.split("/")[2];
 
           var prof_sumlevel = build.profile.sumlevel;
-          if (prof_attr in d.subs && prof_attr === "geo") {
+          if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
             prof_sumlevel = d.subs[prof_attr].slice(0, 3);
           }
           prof_sumlevel = sumlevelMap[prof_sumlevel] || prof_sumlevel;
