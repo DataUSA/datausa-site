@@ -3,3 +3,4 @@
 cache_data/
 shapefiles/
 datausa/static/.webassets-cache/
+.env
