@@ -1,7 +1,7 @@
 {% for topic in section.topics %}
 {% if topic.category %}
 {% set category_slug = topic.category|safe|lower|replace(" ", "_") %}
-<h1 class="category"><a href="#{{ category_slug }}" name="{{ category_slug }}">{{ topic.category|safe }}</a></h1>
+<h1 class="category"><a href="#category_{{ category_slug }}" name="category_{{ category_slug }}">{{ topic.category|safe }}</a></h1>
 {% endif %}
 {% set aside = topic.stat or topic.description %}
 {% set content = aside or topic.viz or topic.miniviz or topic.source %}
