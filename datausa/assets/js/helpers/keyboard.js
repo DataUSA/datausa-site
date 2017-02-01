@@ -183,7 +183,7 @@ window.onload = function() {
 
     if (send) {
 
-      console.log("GA, action: ", action, "category: ", category, "label: ", label)
+      // console.log("GA, action: ", action, "category: ", category, "label: ", label)
 
       ga('send', {
         hitType: 'event',

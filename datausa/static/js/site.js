@@ -303,6 +303,665 @@
 
 }( typeof window !== 'undefined' ? window : this ));
 
+/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+var saveAs=saveAs||function(view){"use strict";if(typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var doc=view.document,get_URL=function(){return view.URL||view.webkitURL||view},save_link=doc.createElementNS("http://www.w3.org/1999/xhtml","a"),can_use_save_link="download"in save_link,click=function(node){var event=new MouseEvent("click");node.dispatchEvent(event)},is_safari=/Version\/[\d\.]+.*Safari/.test(navigator.userAgent),webkit_req_fs=view.webkitRequestFileSystem,req_fs=view.requestFileSystem||webkit_req_fs||view.mozRequestFileSystem,throw_outside=function(ex){(view.setImmediate||view.setTimeout)(function(){throw ex},0)},force_saveable_type="application/octet-stream",fs_min_size=0,arbitrary_revoke_timeout=500,revoke=function(file){var revoker=function(){if(typeof file==="string"){get_URL().revokeObjectURL(file)}else{file.remove()}};if(view.chrome){revoker()}else{setTimeout(revoker,arbitrary_revoke_timeout)}},dispatch=function(filesaver,event_types,event){event_types=[].concat(event_types);var i=event_types.length;while(i--){var listener=filesaver["on"+event_types[i]];if(typeof listener==="function"){try{listener.call(filesaver,event||filesaver)}catch(ex){throw_outside(ex)}}}},auto_bom=function(blob){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)){return new Blob(["\ufeff",blob],{type:blob.type})}return blob},FileSaver=function(blob,name,no_auto_bom){if(!no_auto_bom){blob=auto_bom(blob)}var filesaver=this,type=blob.type,blob_changed=false,object_url,target_view,dispatch_all=function(){dispatch(filesaver,"writestart progress write writeend".split(" "))},fs_error=function(){if(target_view&&is_safari&&typeof FileReader!=="undefined"){var reader=new FileReader;reader.onloadend=function(){var base64Data=reader.result;target_view.location.href="data:attachment/file"+base64Data.slice(base64Data.search(/[,;]/));filesaver.readyState=filesaver.DONE;dispatch_all()};reader.readAsDataURL(blob);filesaver.readyState=filesaver.INIT;return}if(blob_changed||!object_url){object_url=get_URL().createObjectURL(blob)}if(target_view){target_view.location.href=object_url}else{var new_tab=view.open(object_url,"_blank");if(new_tab==undefined&&is_safari){view.location.href=object_url}}filesaver.readyState=filesaver.DONE;dispatch_all();revoke(object_url)},abortable=function(func){return function(){if(filesaver.readyState!==filesaver.DONE){return func.apply(this,arguments)}}},create_if_not_found={create:true,exclusive:false},slice;filesaver.readyState=filesaver.INIT;if(!name){name="download"}if(can_use_save_link){object_url=get_URL().createObjectURL(blob);setTimeout(function(){save_link.href=object_url;save_link.download=name;click(save_link);dispatch_all();revoke(object_url);filesaver.readyState=filesaver.DONE});return}if(view.chrome&&type&&type!==force_saveable_type){slice=blob.slice||blob.webkitSlice;blob=slice.call(blob,0,blob.size,force_saveable_type);blob_changed=true}if(webkit_req_fs&&name!=="download"){name+=".download"}if(type===force_saveable_type||webkit_req_fs){target_view=view}if(!req_fs){fs_error();return}fs_min_size+=blob.size;req_fs(view.TEMPORARY,fs_min_size,abortable(function(fs){fs.root.getDirectory("saved",create_if_not_found,abortable(function(dir){var save=function(){dir.getFile(name,create_if_not_found,abortable(function(file){file.createWriter(abortable(function(writer){writer.onwriteend=function(event){target_view.location.href=file.toURL();filesaver.readyState=filesaver.DONE;dispatch(filesaver,"writeend",event);revoke(file)};writer.onerror=function(){var error=writer.error;if(error.code!==error.ABORT_ERR){fs_error()}};"writestart progress write abort".split(" ").forEach(function(event){writer["on"+event]=filesaver["on"+event]});writer.write(blob);filesaver.abort=function(){writer.abort();filesaver.readyState=filesaver.DONE};filesaver.readyState=filesaver.WRITING}),fs_error)}),fs_error)};dir.getFile(name,{create:false},abortable(function(file){file.remove();save()}),abortable(function(ex){if(ex.code===ex.NOT_FOUND_ERR){save()}else{fs_error()}}))}),fs_error)}),fs_error)},FS_proto=FileSaver.prototype,saveAs=function(blob,name,no_auto_bom){return new FileSaver(blob,name,no_auto_bom)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(blob,name,no_auto_bom){if(!no_auto_bom){blob=auto_bom(blob)}return navigator.msSaveOrOpenBlob(blob,name||"download")}}FS_proto.abort=function(){var filesaver=this;filesaver.readyState=filesaver.DONE;dispatch(filesaver,"abort")};FS_proto.readyState=FS_proto.INIT=0;FS_proto.WRITING=1;FS_proto.DONE=2;FS_proto.error=FS_proto.onwritestart=FS_proto.onprogress=FS_proto.onwrite=FS_proto.onabort=FS_proto.onerror=FS_proto.onwriteend=null;return saveAs}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if(typeof define!=="undefined"&&define!==null&&define.amd!=null){define([],function(){return saveAs})}
+
+/*
+
+StackBlur - a fast almost Gaussian Blur For Canvas
+
+Version: 	0.5
+Author:		Mario Klingemann
+Contact: 	mario@quasimondo.com
+Website:	http://www.quasimondo.com/StackBlurForCanvas
+Twitter:	@quasimondo
+
+In case you find this class useful - especially in commercial projects -
+I am not totally unhappy for a small donation to my PayPal account
+mario@quasimondo.de
+
+Or support me on flattr:
+https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
+
+Copyright (c) 2010 Mario Klingemann
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+(function ( global ) {
+
+	var mul_table = [
+			512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
+			454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,
+			482,454,428,405,383,364,345,328,312,298,284,271,259,496,475,456,
+			437,420,404,388,374,360,347,335,323,312,302,292,282,273,265,512,
+			497,482,468,454,441,428,417,405,394,383,373,364,354,345,337,328,
+			320,312,305,298,291,284,278,271,265,259,507,496,485,475,465,456,
+			446,437,428,420,412,404,396,388,381,374,367,360,354,347,341,335,
+			329,323,318,312,307,302,297,292,287,282,278,273,269,265,261,512,
+			505,497,489,482,475,468,461,454,447,441,435,428,422,417,411,405,
+			399,394,389,383,378,373,368,364,359,354,350,345,341,337,332,328,
+			324,320,316,312,309,305,301,298,294,291,287,284,281,278,274,271,
+			268,265,262,259,257,507,501,496,491,485,480,475,470,465,460,456,
+			451,446,442,437,433,428,424,420,416,412,408,404,400,396,392,388,
+			385,381,377,374,370,367,363,360,357,354,350,347,344,341,338,335,
+			332,329,326,323,320,318,315,312,310,307,304,302,299,297,294,292,
+			289,287,285,282,280,278,275,273,271,269,267,265,263,261,259];
+
+
+	var shg_table = [
+			 9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17,
+			17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19,
+			19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20,
+			20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21,
+			21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+			21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22,
+			22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
+			22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
+			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+			23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24 ];
+
+	function premultiplyAlpha(imageData)
+	{
+		var pixels = imageData.data;
+		var size = imageData.width * imageData.height * 4;
+
+		for (var i=0; i<size; i+=4)
+		{
+			var a = pixels[i+3] / 255;
+			pixels[i  ] *= a;
+			pixels[i+1] *= a;
+			pixels[i+2] *= a;
+		}
+	}
+
+	function unpremultiplyAlpha(imageData)
+	{
+		var pixels = imageData.data;
+		var size = imageData.width * imageData.height * 4;
+
+		for (var i=0; i<size; i+=4)
+		{
+			var a = pixels[i+3];
+			if (a != 0)
+			{
+				a = 255 / a;
+				pixels[i  ] *= a;
+				pixels[i+1] *= a;
+				pixels[i+2] *= a;
+			}
+		}
+	}
+
+	function stackBlurImage( imageID, canvasID, radius, blurAlphaChannel )
+	{
+
+		var img = document.getElementById( imageID );
+		var w = img.naturalWidth;
+		var h = img.naturalHeight;
+
+		var canvas = document.getElementById( canvasID );
+
+		canvas.style.width  = w + "px";
+		canvas.style.height = h + "px";
+		canvas.width = w;
+		canvas.height = h;
+
+		var context = canvas.getContext("2d");
+		context.clearRect( 0, 0, w, h );
+		context.drawImage( img, 0, 0 );
+
+		if ( isNaN(radius) || radius < 1 ) return;
+
+		if ( blurAlphaChannel )
+			stackBlurCanvasRGBA( canvasID, 0, 0, w, h, radius );
+		else
+			stackBlurCanvasRGB( canvasID, 0, 0, w, h, radius );
+	}
+
+
+	function stackBlurCanvasRGBA( id, top_x, top_y, width, height, radius )
+	{
+		if ( isNaN(radius) || radius < 1 ) return;
+		radius |= 0;
+
+		var canvas  = document.getElementById( id );
+		var context = canvas.getContext("2d");
+		var imageData;
+
+		try {
+		  try {
+			imageData = context.getImageData( top_x, top_y, width, height );
+		  } catch(e) {
+
+			// NOTE: this part is supposedly only needed if you want to work with local files
+			// so it might be okay to remove the whole try/catch block and just use
+			// imageData = context.getImageData( top_x, top_y, width, height );
+			try {
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+				imageData = context.getImageData( top_x, top_y, width, height );
+			} catch(e) {
+				alert("Cannot access local image");
+				throw new Error("unable to access local image data: " + e);
+				return;
+			}
+		  }
+		} catch(e) {
+		  alert("Cannot access image");
+		  throw new Error("unable to access image data: " + e);
+		}
+
+		premultiplyAlpha(imageData);
+
+		var pixels = imageData.data;
+
+		var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum,
+		r_out_sum, g_out_sum, b_out_sum, a_out_sum,
+		r_in_sum, g_in_sum, b_in_sum, a_in_sum,
+		pr, pg, pb, pa, rbs;
+
+		var div = radius + radius + 1;
+		var w4 = width << 2;
+		var widthMinus1  = width - 1;
+		var heightMinus1 = height - 1;
+		var radiusPlus1  = radius + 1;
+		var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
+
+		var stackStart = new BlurStack();
+		var stack = stackStart;
+		for ( i = 1; i < div; i++ )
+		{
+			stack = stack.next = new BlurStack();
+			if ( i == radiusPlus1 ) var stackEnd = stack;
+		}
+		stack.next = stackStart;
+		var stackIn = null;
+		var stackOut = null;
+
+		yw = yi = 0;
+
+		var mul_sum = mul_table[radius];
+		var shg_sum = shg_table[radius];
+
+		for ( y = 0; y < height; y++ )
+		{
+			r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
+
+			r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
+			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
+			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
+			a_out_sum = radiusPlus1 * ( pa = pixels[yi+3] );
+
+			r_sum += sumFactor * pr;
+			g_sum += sumFactor * pg;
+			b_sum += sumFactor * pb;
+			a_sum += sumFactor * pa;
+
+			stack = stackStart;
+
+			for( i = 0; i < radiusPlus1; i++ )
+			{
+				stack.r = pr;
+				stack.g = pg;
+				stack.b = pb;
+				stack.a = pa;
+				stack = stack.next;
+			}
+
+			for( i = 1; i < radiusPlus1; i++ )
+			{
+				p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
+				r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
+				g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
+				b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
+				a_sum += ( stack.a = ( pa = pixels[p+3])) * rbs;
+
+				r_in_sum += pr;
+				g_in_sum += pg;
+				b_in_sum += pb;
+				a_in_sum += pa;
+
+				stack = stack.next;
+			}
+
+			stackIn = stackStart;
+			stackOut = stackEnd;
+			for ( x = 0; x < width; x++ )
+			{
+				pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
+				pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
+				pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
+				pixels[yi+3] = (a_sum * mul_sum) >> shg_sum;
+
+				r_sum -= r_out_sum;
+				g_sum -= g_out_sum;
+				b_sum -= b_out_sum;
+				a_sum -= a_out_sum;
+
+				r_out_sum -= stackIn.r;
+				g_out_sum -= stackIn.g;
+				b_out_sum -= stackIn.b;
+				a_out_sum -= stackIn.a;
+
+				p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
+
+				r_in_sum += ( stackIn.r = pixels[p]);
+				g_in_sum += ( stackIn.g = pixels[p+1]);
+				b_in_sum += ( stackIn.b = pixels[p+2]);
+				a_in_sum += ( stackIn.a = pixels[p+3]);
+
+				r_sum += r_in_sum;
+				g_sum += g_in_sum;
+				b_sum += b_in_sum;
+				a_sum += a_in_sum;
+
+				stackIn = stackIn.next;
+
+				r_out_sum += ( pr = stackOut.r );
+				g_out_sum += ( pg = stackOut.g );
+				b_out_sum += ( pb = stackOut.b );
+				a_out_sum += ( pa = stackOut.a );
+
+				r_in_sum -= pr;
+				g_in_sum -= pg;
+				b_in_sum -= pb;
+				a_in_sum -= pa;
+
+				stackOut = stackOut.next;
+
+				yi += 4;
+			}
+			yw += width;
+		}
+
+
+		for ( x = 0; x < width; x++ )
+		{
+			g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
+
+			yi = x << 2;
+			r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
+			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
+			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
+			a_out_sum = radiusPlus1 * ( pa = pixels[yi+3]);
+
+			r_sum += sumFactor * pr;
+			g_sum += sumFactor * pg;
+			b_sum += sumFactor * pb;
+			a_sum += sumFactor * pa;
+
+			stack = stackStart;
+
+			for( i = 0; i < radiusPlus1; i++ )
+			{
+				stack.r = pr;
+				stack.g = pg;
+				stack.b = pb;
+				stack.a = pa;
+				stack = stack.next;
+			}
+
+			yp = width;
+
+			for( i = 1; i <= radius; i++ )
+			{
+				yi = ( yp + x ) << 2;
+
+				r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
+				g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
+				b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
+				a_sum += ( stack.a = ( pa = pixels[yi+3])) * rbs;
+
+				r_in_sum += pr;
+				g_in_sum += pg;
+				b_in_sum += pb;
+				a_in_sum += pa;
+
+				stack = stack.next;
+
+				if( i < heightMinus1 )
+				{
+					yp += width;
+				}
+			}
+
+			yi = x;
+			stackIn = stackStart;
+			stackOut = stackEnd;
+			for ( y = 0; y < height; y++ )
+			{
+				p = yi << 2;
+				pixels[p]   = (r_sum * mul_sum) >> shg_sum;
+				pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
+				pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
+				pixels[p+3] = (a_sum * mul_sum) >> shg_sum;
+
+				r_sum -= r_out_sum;
+				g_sum -= g_out_sum;
+				b_sum -= b_out_sum;
+				a_sum -= a_out_sum;
+
+				r_out_sum -= stackIn.r;
+				g_out_sum -= stackIn.g;
+				b_out_sum -= stackIn.b;
+				a_out_sum -= stackIn.a;
+
+				p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
+
+				r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
+				g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
+				b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
+				a_sum += ( a_in_sum += ( stackIn.a = pixels[p+3]));
+
+				stackIn = stackIn.next;
+
+				r_out_sum += ( pr = stackOut.r );
+				g_out_sum += ( pg = stackOut.g );
+				b_out_sum += ( pb = stackOut.b );
+				a_out_sum += ( pa = stackOut.a );
+
+				r_in_sum -= pr;
+				g_in_sum -= pg;
+				b_in_sum -= pb;
+				a_in_sum -= pa;
+
+				stackOut = stackOut.next;
+
+				yi += width;
+			}
+		}
+
+		unpremultiplyAlpha(imageData);
+
+		context.putImageData( imageData, top_x, top_y );
+	}
+
+
+	function stackBlurCanvasRGB( id, top_x, top_y, width, height, radius )
+	{
+		if ( isNaN(radius) || radius < 1 ) return;
+		radius |= 0;
+
+		var canvas  = document.getElementById( id );
+		var context = canvas.getContext("2d");
+		var imageData;
+
+		try {
+		  try {
+			imageData = context.getImageData( top_x, top_y, width, height );
+		  } catch(e) {
+
+			// NOTE: this part is supposedly only needed if you want to work with local files
+			// so it might be okay to remove the whole try/catch block and just use
+			// imageData = context.getImageData( top_x, top_y, width, height );
+			try {
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
+				imageData = context.getImageData( top_x, top_y, width, height );
+			} catch(e) {
+				alert("Cannot access local image");
+				throw new Error("unable to access local image data: " + e);
+				return;
+			}
+		  }
+		} catch(e) {
+		  alert("Cannot access image");
+		  throw new Error("unable to access image data: " + e);
+		}
+
+		var pixels = imageData.data;
+
+		var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum,
+		r_out_sum, g_out_sum, b_out_sum,
+		r_in_sum, g_in_sum, b_in_sum,
+		pr, pg, pb, rbs;
+
+		var div = radius + radius + 1;
+		var w4 = width << 2;
+		var widthMinus1  = width - 1;
+		var heightMinus1 = height - 1;
+		var radiusPlus1  = radius + 1;
+		var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
+
+		var stackStart = new BlurStack();
+		var stack = stackStart;
+		for ( i = 1; i < div; i++ )
+		{
+			stack = stack.next = new BlurStack();
+			if ( i == radiusPlus1 ) var stackEnd = stack;
+		}
+		stack.next = stackStart;
+		var stackIn = null;
+		var stackOut = null;
+
+		yw = yi = 0;
+
+		var mul_sum = mul_table[radius];
+		var shg_sum = shg_table[radius];
+
+		for ( y = 0; y < height; y++ )
+		{
+			r_in_sum = g_in_sum = b_in_sum = r_sum = g_sum = b_sum = 0;
+
+			r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
+			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
+			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
+
+			r_sum += sumFactor * pr;
+			g_sum += sumFactor * pg;
+			b_sum += sumFactor * pb;
+
+			stack = stackStart;
+
+			for( i = 0; i < radiusPlus1; i++ )
+			{
+				stack.r = pr;
+				stack.g = pg;
+				stack.b = pb;
+				stack = stack.next;
+			}
+
+			for( i = 1; i < radiusPlus1; i++ )
+			{
+				p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
+				r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
+				g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
+				b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
+
+				r_in_sum += pr;
+				g_in_sum += pg;
+				b_in_sum += pb;
+
+				stack = stack.next;
+			}
+
+
+			stackIn = stackStart;
+			stackOut = stackEnd;
+			for ( x = 0; x < width; x++ )
+			{
+				pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
+				pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
+				pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
+
+				r_sum -= r_out_sum;
+				g_sum -= g_out_sum;
+				b_sum -= b_out_sum;
+
+				r_out_sum -= stackIn.r;
+				g_out_sum -= stackIn.g;
+				b_out_sum -= stackIn.b;
+
+				p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
+
+				r_in_sum += ( stackIn.r = pixels[p]);
+				g_in_sum += ( stackIn.g = pixels[p+1]);
+				b_in_sum += ( stackIn.b = pixels[p+2]);
+
+				r_sum += r_in_sum;
+				g_sum += g_in_sum;
+				b_sum += b_in_sum;
+
+				stackIn = stackIn.next;
+
+				r_out_sum += ( pr = stackOut.r );
+				g_out_sum += ( pg = stackOut.g );
+				b_out_sum += ( pb = stackOut.b );
+
+				r_in_sum -= pr;
+				g_in_sum -= pg;
+				b_in_sum -= pb;
+
+				stackOut = stackOut.next;
+
+				yi += 4;
+			}
+			yw += width;
+		}
+
+
+		for ( x = 0; x < width; x++ )
+		{
+			g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;
+
+			yi = x << 2;
+			r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
+			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
+			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
+
+			r_sum += sumFactor * pr;
+			g_sum += sumFactor * pg;
+			b_sum += sumFactor * pb;
+
+			stack = stackStart;
+
+			for( i = 0; i < radiusPlus1; i++ )
+			{
+				stack.r = pr;
+				stack.g = pg;
+				stack.b = pb;
+				stack = stack.next;
+			}
+
+			yp = width;
+
+			for( i = 1; i <= radius; i++ )
+			{
+				yi = ( yp + x ) << 2;
+
+				r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
+				g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
+				b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
+
+				r_in_sum += pr;
+				g_in_sum += pg;
+				b_in_sum += pb;
+
+				stack = stack.next;
+
+				if( i < heightMinus1 )
+				{
+					yp += width;
+				}
+			}
+
+			yi = x;
+			stackIn = stackStart;
+			stackOut = stackEnd;
+			for ( y = 0; y < height; y++ )
+			{
+				p = yi << 2;
+				pixels[p]   = (r_sum * mul_sum) >> shg_sum;
+				pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
+				pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
+
+				r_sum -= r_out_sum;
+				g_sum -= g_out_sum;
+				b_sum -= b_out_sum;
+
+				r_out_sum -= stackIn.r;
+				g_out_sum -= stackIn.g;
+				b_out_sum -= stackIn.b;
+
+				p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
+
+				r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
+				g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
+				b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
+
+				stackIn = stackIn.next;
+
+				r_out_sum += ( pr = stackOut.r );
+				g_out_sum += ( pg = stackOut.g );
+				b_out_sum += ( pb = stackOut.b );
+
+				r_in_sum -= pr;
+				g_in_sum -= pg;
+				b_in_sum -= pb;
+
+				stackOut = stackOut.next;
+
+				yi += width;
+			}
+		}
+
+		context.putImageData( imageData, top_x, top_y );
+
+	}
+
+	function BlurStack()
+	{
+		this.r = 0;
+		this.g = 0;
+		this.b = 0;
+		this.a = 0;
+		this.next = null;
+	}
+
+	var stackBlur = {
+		image: stackBlurImage,
+		canvasRGBA: stackBlurCanvasRGBA,
+		canvasRGB: stackBlurCanvasRGB
+	};
+
+	// export as AMD...
+	if ( typeof define !== 'undefined' && define.amd ) {
+	    define( function () { return stackBlur; });
+	}
+
+	// ...or as browserify
+	else if ( typeof module !== 'undefined' && module.exports ) {
+	    module.exports = stackBlur;
+	}
+
+	global.stackBlur = stackBlur;
+
+}( typeof window !== 'undefined' ? window : this ));
+
 /* canvas-toBlob.js
  * A canvas.toBlob() implementation.
  * 2013-12-27
@@ -3514,9 +4173,6 @@ if (HTMLCanvasElement && !canvas_proto.toBlob) {
 
 }));
 
-/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
-var saveAs=saveAs||function(view){"use strict";if(typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var doc=view.document,get_URL=function(){return view.URL||view.webkitURL||view},save_link=doc.createElementNS("http://www.w3.org/1999/xhtml","a"),can_use_save_link="download"in save_link,click=function(node){var event=new MouseEvent("click");node.dispatchEvent(event)},is_safari=/Version\/[\d\.]+.*Safari/.test(navigator.userAgent),webkit_req_fs=view.webkitRequestFileSystem,req_fs=view.requestFileSystem||webkit_req_fs||view.mozRequestFileSystem,throw_outside=function(ex){(view.setImmediate||view.setTimeout)(function(){throw ex},0)},force_saveable_type="application/octet-stream",fs_min_size=0,arbitrary_revoke_timeout=500,revoke=function(file){var revoker=function(){if(typeof file==="string"){get_URL().revokeObjectURL(file)}else{file.remove()}};if(view.chrome){revoker()}else{setTimeout(revoker,arbitrary_revoke_timeout)}},dispatch=function(filesaver,event_types,event){event_types=[].concat(event_types);var i=event_types.length;while(i--){var listener=filesaver["on"+event_types[i]];if(typeof listener==="function"){try{listener.call(filesaver,event||filesaver)}catch(ex){throw_outside(ex)}}}},auto_bom=function(blob){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)){return new Blob(["\ufeff",blob],{type:blob.type})}return blob},FileSaver=function(blob,name,no_auto_bom){if(!no_auto_bom){blob=auto_bom(blob)}var filesaver=this,type=blob.type,blob_changed=false,object_url,target_view,dispatch_all=function(){dispatch(filesaver,"writestart progress write writeend".split(" "))},fs_error=function(){if(target_view&&is_safari&&typeof FileReader!=="undefined"){var reader=new FileReader;reader.onloadend=function(){var base64Data=reader.result;target_view.location.href="data:attachment/file"+base64Data.slice(base64Data.search(/[,;]/));filesaver.readyState=filesaver.DONE;dispatch_all()};reader.readAsDataURL(blob);filesaver.readyState=filesaver.INIT;return}if(blob_changed||!object_url){object_url=get_URL().createObjectURL(blob)}if(target_view){target_view.location.href=object_url}else{var new_tab=view.open(object_url,"_blank");if(new_tab==undefined&&is_safari){view.location.href=object_url}}filesaver.readyState=filesaver.DONE;dispatch_all();revoke(object_url)},abortable=function(func){return function(){if(filesaver.readyState!==filesaver.DONE){return func.apply(this,arguments)}}},create_if_not_found={create:true,exclusive:false},slice;filesaver.readyState=filesaver.INIT;if(!name){name="download"}if(can_use_save_link){object_url=get_URL().createObjectURL(blob);setTimeout(function(){save_link.href=object_url;save_link.download=name;click(save_link);dispatch_all();revoke(object_url);filesaver.readyState=filesaver.DONE});return}if(view.chrome&&type&&type!==force_saveable_type){slice=blob.slice||blob.webkitSlice;blob=slice.call(blob,0,blob.size,force_saveable_type);blob_changed=true}if(webkit_req_fs&&name!=="download"){name+=".download"}if(type===force_saveable_type||webkit_req_fs){target_view=view}if(!req_fs){fs_error();return}fs_min_size+=blob.size;req_fs(view.TEMPORARY,fs_min_size,abortable(function(fs){fs.root.getDirectory("saved",create_if_not_found,abortable(function(dir){var save=function(){dir.getFile(name,create_if_not_found,abortable(function(file){file.createWriter(abortable(function(writer){writer.onwriteend=function(event){target_view.location.href=file.toURL();filesaver.readyState=filesaver.DONE;dispatch(filesaver,"writeend",event);revoke(file)};writer.onerror=function(){var error=writer.error;if(error.code!==error.ABORT_ERR){fs_error()}};"writestart progress write abort".split(" ").forEach(function(event){writer["on"+event]=filesaver["on"+event]});writer.write(blob);filesaver.abort=function(){writer.abort();filesaver.readyState=filesaver.DONE};filesaver.readyState=filesaver.WRITING}),fs_error)}),fs_error)};dir.getFile(name,{create:false},abortable(function(file){file.remove();save()}),abortable(function(ex){if(ex.code===ex.NOT_FOUND_ERR){save()}else{fs_error()}}))}),fs_error)}),fs_error)},FS_proto=FileSaver.prototype,saveAs=function(blob,name,no_auto_bom){return new FileSaver(blob,name,no_auto_bom)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(blob,name,no_auto_bom){if(!no_auto_bom){blob=auto_bom(blob)}return navigator.msSaveOrOpenBlob(blob,name||"download")}}FS_proto.abort=function(){var filesaver=this;filesaver.readyState=filesaver.DONE;dispatch(filesaver,"abort")};FS_proto.readyState=FS_proto.INIT=0;FS_proto.WRITING=1;FS_proto.DONE=2;FS_proto.error=FS_proto.onwritestart=FS_proto.onprogress=FS_proto.onwrite=FS_proto.onabort=FS_proto.onerror=FS_proto.onwriteend=null;return saveAs}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if(typeof define!=="undefined"&&define!==null&&define.amd!=null){define([],function(){return saveAs})}
-
 /**  
  * jsPDF - PDF Document creation from JavaScript
  * Version 1.1.239-git Built on 2015-08-26T20:20
@@ -3830,662 +4486,6 @@ var LZString=function(){function o(o,r){if(!t[o]){t[o]={};for(var n=0;n<o.length
 
 !function(t){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var n;n="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,n.ss=t()}}(function(){return function t(n,r,e){function i(u,s){if(!r[u]){if(!n[u]){var a="function"==typeof require&&require;if(!s&&a)return a(u,!0);if(o)return o(u,!0);var f=new Error("Cannot find module '"+u+"'");throw f.code="MODULE_NOT_FOUND",f}var l=r[u]={exports:{}};n[u][0].call(l.exports,function(t){var r=n[u][1][t];return i(r?r:t)},l,l.exports,t,n,r,e)}return r[u].exports}for(var o="function"==typeof require&&require,u=0;u<e.length;u++)i(e[u]);return i}({1:[function(t,n,r){"use strict";var e=n.exports={};e.linearRegression=t(17),e.linearRegressionLine=t(18),e.standardDeviation=t(43),e.rSquared=t(32),e.mode=t(25),e.min=t(23),e.max=t(20),e.sum=t(45),e.quantile=t(30),e.quantileSorted=t(31),e.iqr=e.interquartileRange=t(15),e.medianAbsoluteDeviation=e.mad=t(19),e.chunk=t(7),e.shuffle=t(40),e.shuffleInPlace=t(41),e.sample=t(34),e.ckmeans=t(8),e.sortedUniqueCount=t(42),e.sumNthPowerDeviations=t(46),e.sampleCovariance=t(36),e.sampleCorrelation=t(35),e.sampleVariance=t(39),e.sampleStandardDeviation=t(38),e.sampleSkewness=t(37),e.geometricMean=t(13),e.harmonicMean=t(14),e.mean=e.average=t(21),e.median=t(22),e.rootMeanSquare=e.rms=t(33),e.variance=t(49),e.tTest=t(47),e.tTestTwoSample=t(48),e.bayesian=t(2),e.perceptron=t(27),e.epsilon=t(10),e.factorial=t(12),e.bernoulliDistribution=t(3),e.binomialDistribution=t(4),e.poissonDistribution=t(28),e.chiSquaredGoodnessOfFit=t(6),e.zScore=t(50),e.cumulativeStdNormalProbability=t(9),e.standardNormalTable=t(44),e.errorFunction=e.erf=t(11),e.inverseErrorFunction=t(16),e.probit=t(29),e.mixin=t(24)},{10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,2:2,20:20,21:21,22:22,23:23,24:24,25:25,27:27,28:28,29:29,3:3,30:30,31:31,32:32,33:33,34:34,35:35,36:36,37:37,38:38,39:39,4:4,40:40,41:41,42:42,43:43,44:44,45:45,46:46,47:47,48:48,49:49,50:50,6:6,7:7,8:8,9:9}],2:[function(t,n,r){"use strict";function e(){this.totalCount=0,this.data={}}e.prototype.train=function(t,n){this.data[n]||(this.data[n]={});for(var r in t){var e=t[r];void 0===this.data[n][r]&&(this.data[n][r]={}),void 0===this.data[n][r][e]&&(this.data[n][r][e]=0),this.data[n][r][t[r]]++}this.totalCount++},e.prototype.score=function(t){var n,r={};for(var e in t){var i=t[e];for(n in this.data)void 0===r[n]&&(r[n]={}),this.data[n][e]?r[n][e+"_"+i]=(this.data[n][e][i]||0)/this.totalCount:r[n][e+"_"+i]=0}var o={};for(n in r)for(var u in r[n])void 0===o[n]&&(o[n]=0),o[n]+=r[n][u];return o},n.exports=e},{}],3:[function(t,n,r){"use strict";function e(t){return 0>t||t>1?null:i(1,t)}var i=t(4);n.exports=e},{4:4}],4:[function(t,n,r){"use strict";function e(t,n){if(0>n||n>1||0>=t||t%1!==0)return null;var r=0,e=0,u={};do u[r]=o(t)/(o(r)*o(t-r))*(Math.pow(n,r)*Math.pow(1-n,t-r)),e+=u[r],r++;while(1-i>e);return u}var i=t(10),o=t(12);n.exports=e},{10:10,12:12}],5:[function(t,n,r){"use strict";var e={1:{.995:0,.99:0,.975:0,.95:0,.9:.02,.5:.45,.1:2.71,.05:3.84,.025:5.02,.01:6.63,.005:7.88},2:{.995:.01,.99:.02,.975:.05,.95:.1,.9:.21,.5:1.39,.1:4.61,.05:5.99,.025:7.38,.01:9.21,.005:10.6},3:{.995:.07,.99:.11,.975:.22,.95:.35,.9:.58,.5:2.37,.1:6.25,.05:7.81,.025:9.35,.01:11.34,.005:12.84},4:{.995:.21,.99:.3,.975:.48,.95:.71,.9:1.06,.5:3.36,.1:7.78,.05:9.49,.025:11.14,.01:13.28,.005:14.86},5:{.995:.41,.99:.55,.975:.83,.95:1.15,.9:1.61,.5:4.35,.1:9.24,.05:11.07,.025:12.83,.01:15.09,.005:16.75},6:{.995:.68,.99:.87,.975:1.24,.95:1.64,.9:2.2,.5:5.35,.1:10.65,.05:12.59,.025:14.45,.01:16.81,.005:18.55},7:{.995:.99,.99:1.25,.975:1.69,.95:2.17,.9:2.83,.5:6.35,.1:12.02,.05:14.07,.025:16.01,.01:18.48,.005:20.28},8:{.995:1.34,.99:1.65,.975:2.18,.95:2.73,.9:3.49,.5:7.34,.1:13.36,.05:15.51,.025:17.53,.01:20.09,.005:21.96},9:{.995:1.73,.99:2.09,.975:2.7,.95:3.33,.9:4.17,.5:8.34,.1:14.68,.05:16.92,.025:19.02,.01:21.67,.005:23.59},10:{.995:2.16,.99:2.56,.975:3.25,.95:3.94,.9:4.87,.5:9.34,.1:15.99,.05:18.31,.025:20.48,.01:23.21,.005:25.19},11:{.995:2.6,.99:3.05,.975:3.82,.95:4.57,.9:5.58,.5:10.34,.1:17.28,.05:19.68,.025:21.92,.01:24.72,.005:26.76},12:{.995:3.07,.99:3.57,.975:4.4,.95:5.23,.9:6.3,.5:11.34,.1:18.55,.05:21.03,.025:23.34,.01:26.22,.005:28.3},13:{.995:3.57,.99:4.11,.975:5.01,.95:5.89,.9:7.04,.5:12.34,.1:19.81,.05:22.36,.025:24.74,.01:27.69,.005:29.82},14:{.995:4.07,.99:4.66,.975:5.63,.95:6.57,.9:7.79,.5:13.34,.1:21.06,.05:23.68,.025:26.12,.01:29.14,.005:31.32},15:{.995:4.6,.99:5.23,.975:6.27,.95:7.26,.9:8.55,.5:14.34,.1:22.31,.05:25,.025:27.49,.01:30.58,.005:32.8},16:{.995:5.14,.99:5.81,.975:6.91,.95:7.96,.9:9.31,.5:15.34,.1:23.54,.05:26.3,.025:28.85,.01:32,.005:34.27},17:{.995:5.7,.99:6.41,.975:7.56,.95:8.67,.9:10.09,.5:16.34,.1:24.77,.05:27.59,.025:30.19,.01:33.41,.005:35.72},18:{.995:6.26,.99:7.01,.975:8.23,.95:9.39,.9:10.87,.5:17.34,.1:25.99,.05:28.87,.025:31.53,.01:34.81,.005:37.16},19:{.995:6.84,.99:7.63,.975:8.91,.95:10.12,.9:11.65,.5:18.34,.1:27.2,.05:30.14,.025:32.85,.01:36.19,.005:38.58},20:{.995:7.43,.99:8.26,.975:9.59,.95:10.85,.9:12.44,.5:19.34,.1:28.41,.05:31.41,.025:34.17,.01:37.57,.005:40},21:{.995:8.03,.99:8.9,.975:10.28,.95:11.59,.9:13.24,.5:20.34,.1:29.62,.05:32.67,.025:35.48,.01:38.93,.005:41.4},22:{.995:8.64,.99:9.54,.975:10.98,.95:12.34,.9:14.04,.5:21.34,.1:30.81,.05:33.92,.025:36.78,.01:40.29,.005:42.8},23:{.995:9.26,.99:10.2,.975:11.69,.95:13.09,.9:14.85,.5:22.34,.1:32.01,.05:35.17,.025:38.08,.01:41.64,.005:44.18},24:{.995:9.89,.99:10.86,.975:12.4,.95:13.85,.9:15.66,.5:23.34,.1:33.2,.05:36.42,.025:39.36,.01:42.98,.005:45.56},25:{.995:10.52,.99:11.52,.975:13.12,.95:14.61,.9:16.47,.5:24.34,.1:34.28,.05:37.65,.025:40.65,.01:44.31,.005:46.93},26:{.995:11.16,.99:12.2,.975:13.84,.95:15.38,.9:17.29,.5:25.34,.1:35.56,.05:38.89,.025:41.92,.01:45.64,.005:48.29},27:{.995:11.81,.99:12.88,.975:14.57,.95:16.15,.9:18.11,.5:26.34,.1:36.74,.05:40.11,.025:43.19,.01:46.96,.005:49.65},28:{.995:12.46,.99:13.57,.975:15.31,.95:16.93,.9:18.94,.5:27.34,.1:37.92,.05:41.34,.025:44.46,.01:48.28,.005:50.99},29:{.995:13.12,.99:14.26,.975:16.05,.95:17.71,.9:19.77,.5:28.34,.1:39.09,.05:42.56,.025:45.72,.01:49.59,.005:52.34},30:{.995:13.79,.99:14.95,.975:16.79,.95:18.49,.9:20.6,.5:29.34,.1:40.26,.05:43.77,.025:46.98,.01:50.89,.005:53.67},40:{.995:20.71,.99:22.16,.975:24.43,.95:26.51,.9:29.05,.5:39.34,.1:51.81,.05:55.76,.025:59.34,.01:63.69,.005:66.77},50:{.995:27.99,.99:29.71,.975:32.36,.95:34.76,.9:37.69,.5:49.33,.1:63.17,.05:67.5,.025:71.42,.01:76.15,.005:79.49},60:{.995:35.53,.99:37.48,.975:40.48,.95:43.19,.9:46.46,.5:59.33,.1:74.4,.05:79.08,.025:83.3,.01:88.38,.005:91.95},70:{.995:43.28,.99:45.44,.975:48.76,.95:51.74,.9:55.33,.5:69.33,.1:85.53,.05:90.53,.025:95.02,.01:100.42,.005:104.22},80:{.995:51.17,.99:53.54,.975:57.15,.95:60.39,.9:64.28,.5:79.33,.1:96.58,.05:101.88,.025:106.63,.01:112.33,.005:116.32},90:{.995:59.2,.99:61.75,.975:65.65,.95:69.13,.9:73.29,.5:89.33,.1:107.57,.05:113.14,.025:118.14,.01:124.12,.005:128.3},100:{.995:67.33,.99:70.06,.975:74.22,.95:77.93,.9:82.36,.5:99.33,.1:118.5,.05:124.34,.025:129.56,.01:135.81,.005:140.17}};n.exports=e},{}],6:[function(t,n,r){"use strict";function e(t,n,r){for(var e,u,s=i(t),a=0,f=1,l=n(s),c=[],h=[],p=0;p<t.length;p++)void 0===c[t[p]]&&(c[t[p]]=0),c[t[p]]++;for(p=0;p<c.length;p++)void 0===c[p]&&(c[p]=0);for(u in l)u in c&&(h[u]=l[u]*t.length);for(u=h.length-1;u>=0;u--)h[u]<3&&(h[u-1]+=h[u],h.pop(),c[u-1]+=c[u],c.pop());for(u=0;u<c.length;u++)a+=Math.pow(c[u]-h[u],2)/h[u];return e=c.length-f-1,o[e][r]<a}var i=t(21),o=t(5);n.exports=e},{21:21,5:5}],7:[function(t,n,r){"use strict";function e(t,n){var r=[];if(0>=n)return null;for(var e=0;e<t.length;e+=n)r.push(t.slice(e,e+n));return r}n.exports=e},{}],8:[function(t,n,r){"use strict";function e(t,n){for(var r=[],e=0;t>e;e++){for(var i=[],o=0;n>o;o++)i.push(0);r.push(i)}return r}function i(t,n){if(n>t.length)throw new Error("Cannot generate more classes than there are data values");var r=u(t),i=o(r);if(1===i)return[r];for(var s=e(n,r.length),a=e(n,r.length),f=0;n>f;f++)for(var l=r[0],c=Math.max(f,1);c<r.length;c++)if(0===f){var h=Math.pow(r[c]-l,2);s[f][c]=s[f][c-1]+c/(c+1)*h;var p=c*l+r[c];l=p/(c+1)}else for(var v=0,g=0,d=c;d>=f;d--)v+=(c-d)/(c-d+1)*Math.pow(r[d]-g,2),g=(r[d]+(c-d)*g)/(c-d+1),d===c?(s[f][c]=v,a[f][c]=d,d>0&&(s[f][c]+=s[f-1][d-1])):0===d?v<=s[f][c]&&(s[f][c]=v,a[f][c]=d):v+s[f-1][d-1]<s[f][c]&&(s[f][c]=v+s[f-1][d-1],a[f][c]=d);var x=[],M=a[0].length-1;for(f=a.length-1;f>=0;f--){var w=a[f][M];x[f]=r.slice(w,M+1),f>0&&(M=w-1)}return x}var o=t(42),u=t(26);n.exports=i},{26:26,42:42}],9:[function(t,n,r){"use strict";function e(t){var n=Math.abs(t),r=Math.min(Math.round(100*n),i.length-1);return t>=0?i[r]:+(1-i[r]).toFixed(4)}var i=t(44);n.exports=e},{44:44}],10:[function(t,n,r){"use strict";var e=1e-4;n.exports=e},{}],11:[function(t,n,r){"use strict";function e(t){var n=1/(1+.5*Math.abs(t)),r=n*Math.exp(-Math.pow(t,2)-1.26551223+1.00002368*n+.37409196*Math.pow(n,2)+.09678418*Math.pow(n,3)-.18628806*Math.pow(n,4)+.27886807*Math.pow(n,5)-1.13520398*Math.pow(n,6)+1.48851587*Math.pow(n,7)-.82215223*Math.pow(n,8)+.17087277*Math.pow(n,9));return t>=0?1-r:r-1}n.exports=e},{}],12:[function(t,n,r){"use strict";function e(t){if(0>t)return null;for(var n=1,r=2;t>=r;r++)n*=r;return n}n.exports=e},{}],13:[function(t,n,r){"use strict";function e(t){if(0===t.length)return null;for(var n=1,r=0;r<t.length;r++){if(t[r]<=0)return null;n*=t[r]}return Math.pow(n,1/t.length)}n.exports=e},{}],14:[function(t,n,r){"use strict";function e(t){if(0===t.length)return null;for(var n=0,r=0;r<t.length;r++){if(t[r]<=0)return null;n+=1/t[r]}return t.length/n}n.exports=e},{}],15:[function(t,n,r){"use strict";function e(t){return 0===t.length?null:i(t,.75)-i(t,.25)}var i=t(30);n.exports=e},{30:30}],16:[function(t,n,r){"use strict";function e(t){var n=8*(Math.PI-3)/(3*Math.PI*(4-Math.PI)),r=Math.sqrt(Math.sqrt(Math.pow(2/(Math.PI*n)+Math.log(1-t*t)/2,2)-Math.log(1-t*t)/n)-(2/(Math.PI*n)+Math.log(1-t*t)/2));return t>=0?r:-r}n.exports=e},{}],17:[function(t,n,r){"use strict";function e(t){var n,r,e=t.length;if(1===e)n=0,r=t[0][1];else{for(var i,o,u,s=0,a=0,f=0,l=0,c=0;e>c;c++)i=t[c],o=i[0],u=i[1],s+=o,a+=u,f+=o*o,l+=o*u;n=(e*l-s*a)/(e*f-s*s),r=a/e-n*s/e}return{m:n,b:r}}n.exports=e},{}],18:[function(t,n,r){"use strict";function e(t){return function(n){return t.b+t.m*n}}n.exports=e},{}],19:[function(t,n,r){"use strict";function e(t){if(!t||0===t.length)return null;for(var n=i(t),r=[],e=0;e<t.length;e++)r.push(Math.abs(t[e]-n));return i(r)}var i=t(22);n.exports=e},{22:22}],20:[function(t,n,r){"use strict";function e(t){for(var n,r=0;r<t.length;r++)(t[r]>n||void 0===n)&&(n=t[r]);return n}n.exports=e},{}],21:[function(t,n,r){"use strict";function e(t){return 0===t.length?null:i(t)/t.length}var i=t(45);n.exports=e},{45:45}],22:[function(t,n,r){"use strict";function e(t){if(0===t.length)return null;var n=i(t);if(n.length%2===1)return n[(n.length-1)/2];var r=n[n.length/2-1],e=n[n.length/2];return(r+e)/2}var i=t(26);n.exports=e},{26:26}],23:[function(t,n,r){"use strict";function e(t){for(var n,r=0;r<t.length;r++)(t[r]<n||void 0===n)&&(n=t[r]);return n}n.exports=e},{}],24:[function(t,n,r){"use strict";function e(t,n){function r(n){return function(){var r=Array.prototype.slice.apply(arguments);return r.unshift(this),t[n].apply(t,r)}}var e=!(!Object.defineProperty||!Object.defineProperties);if(!e)throw new Error("without defineProperty, simple-statistics cannot be mixed in");var i,o=["median","standardDeviation","sum","sampleSkewness","mean","min","max","quantile","geometricMean","harmonicMean","root_mean_square"];i=n?n.slice():Array.prototype;for(var u=0;u<o.length;u++)Object.defineProperty(i,o[u],{value:r(o[u]),configurable:!0,enumerable:!1,writable:!0});return i}n.exports=e},{}],25:[function(t,n,r){"use strict";function e(t){if(0===t.length)return null;if(1===t.length)return t[0];for(var n,r=i(t),e=r[0],o=0,u=1,s=1;s<r.length+1;s++)r[s]!==e?(u>o&&(o=u,n=e),u=1,e=r[s]):u++;return n}var i=t(26);n.exports=e},{26:26}],26:[function(t,n,r){"use strict";function e(t){return t.slice().sort(function(t,n){return t-n})}n.exports=e},{}],27:[function(t,n,r){"use strict";function e(){this.weights=[],this.bias=0}e.prototype.predict=function(t){if(t.length!==this.weights.length)return null;for(var n=0,r=0;r<this.weights.length;r++)n+=this.weights[r]*t[r];return n+=this.bias,n>0?1:0},e.prototype.train=function(t,n){if(0!==n&&1!==n)return null;t.length!==this.weights.length&&(this.weights=t,this.bias=1);var r=this.predict(t);if(r!==n){for(var e=n-r,i=0;i<this.weights.length;i++)this.weights[i]+=e*t[i];this.bias+=e}return this},n.exports=e},{}],28:[function(t,n,r){"use strict";function e(t){if(0>=t)return null;var n=0,r=0,e={};do e[n]=Math.pow(Math.E,-t)*Math.pow(t,n)/o(n),r+=e[n],n++;while(1-i>r);return e}var i=t(10),o=t(12);n.exports=e},{10:10,12:12}],29:[function(t,n,r){"use strict";function e(t){return 0===t?t=i:t>=1&&(t=1-i),Math.sqrt(2)*o(2*t-1)}var i=t(10),o=t(16);n.exports=e},{10:10,16:16}],30:[function(t,n,r){"use strict";function e(t,n){if(0===t.length)return null;var r=o(t);if(n.length){for(var e=[],u=0;u<n.length;u++)e[u]=i(r,n[u]);return e}return i(r,n)}var i=t(31),o=t(26);n.exports=e},{26:26,31:31}],31:[function(t,n,r){"use strict";function e(t,n){var r=t.length*n;return 0>n||n>1?null:1===n?t[t.length-1]:0===n?t[0]:r%1!==0?t[Math.ceil(r)-1]:t.length%2===0?(t[r-1]+t[r])/2:t[r]}n.exports=e},{}],32:[function(t,n,r){"use strict";function e(t,n){if(t.length<2)return 1;for(var r,e=0,i=0;i<t.length;i++)e+=t[i][1];r=e/t.length;for(var o=0,u=0;u<t.length;u++)o+=Math.pow(r-t[u][1],2);for(var s=0,a=0;a<t.length;a++)s+=Math.pow(t[a][1]-n(t[a][0]),2);return 1-s/o}n.exports=e},{}],33:[function(t,n,r){"use strict";function e(t){if(0===t.length)return null;for(var n=0,r=0;r<t.length;r++)n+=Math.pow(t[r],2);return Math.sqrt(n/t.length)}n.exports=e},{}],34:[function(t,n,r){"use strict";function e(t,n,r){var e=i(t,r);return e.slice(0,n)}var i=t(40);n.exports=e},{40:40}],35:[function(t,n,r){"use strict";function e(t,n){var r=i(t,n),e=o(t),u=o(n);return null===r||null===e||null===u?null:r/e/u}var i=t(36),o=t(38);n.exports=e},{36:36,38:38}],36:[function(t,n,r){"use strict";function e(t,n){if(t.length<=1||t.length!==n.length)return null;for(var r=i(t),e=i(n),o=0,u=0;u<t.length;u++)o+=(t[u]-r)*(n[u]-e);var s=t.length-1;return o/s}var i=t(21);n.exports=e},{21:21}],37:[function(t,n,r){"use strict";function e(t){if(t.length<3)return null;var n=t.length,r=Math.pow(o(t),3),e=i(t,3);return n*e/((n-1)*(n-2)*r)}var i=t(46),o=t(38);n.exports=e},{38:38,46:46}],38:[function(t,n,r){"use strict";function e(t){return t.length<=1?null:Math.sqrt(i(t))}var i=t(39);n.exports=e},{39:39}],39:[function(t,n,r){"use strict";function e(t){if(t.length<=1)return null;var n=i(t,2),r=t.length-1;return n/r}var i=t(46);n.exports=e},{46:46}],40:[function(t,n,r){"use strict";function e(t,n){return t=t.slice(),i(t.slice(),n)}var i=t(41);n.exports=e},{41:41}],41:[function(t,n,r){"use strict";function e(t,n){n=n||Math.random;for(var r,e,i=t.length;i>0;)e=Math.floor(n()*i--),r=t[i],t[i]=t[e],t[e]=r;return t}n.exports=e},{}],42:[function(t,n,r){"use strict";function e(t){for(var n,r=0,e=0;e<t.length;e++)(0===e||t[e]!==n)&&(n=t[e],r++);return r}n.exports=e},{}],43:[function(t,n,r){"use strict";function e(t){return 0===t.length?null:Math.sqrt(i(t))}var i=t(49);n.exports=e},{49:49}],44:[function(t,n,r){"use strict";function e(t){for(var n=t,r=t,e=1;15>e;e++)r*=t*t/(2*e+1),n+=r;return Math.round(1e4*(.5+n/i*Math.exp(-t*t/2)))/1e4}for(var i=Math.sqrt(2*Math.PI),o=[],u=0;3.09>=u;u+=.01)o.push(e(u));n.exports=o},{}],45:[function(t,n,r){"use strict";function e(t){for(var n=0,r=0;r<t.length;r++)n+=t[r];return n}n.exports=e},{}],46:[function(t,n,r){"use strict";function e(t,n){for(var r=i(t),e=0,o=0;o<t.length;o++)e+=Math.pow(t[o]-r,n);return e}var i=t(21);n.exports=e},{21:21}],47:[function(t,n,r){"use strict";function e(t,n){var r=o(t),e=i(t),u=Math.sqrt(t.length);return(r-n)/(e/u)}var i=t(43),o=t(21);n.exports=e},{21:21,43:43}],48:[function(t,n,r){"use strict";function e(t,n,r){var e=t.length,u=n.length;if(!e||!u)return null;r||(r=0);var s=i(t),a=i(n),f=((e-1)*o(t)+(u-1)*o(n))/(e+u-2);return(s-a-r)/Math.sqrt(f*(1/e+1/u))}var i=t(21),o=t(39);n.exports=e},{21:21,39:39}],49:[function(t,n,r){"use strict";function e(t){return 0===t.length?null:i(t,2)/t.length}var i=t(46);n.exports=e},{46:46}],50:[function(t,n,r){"use strict";function e(t,n,r){return(t-n)/r}n.exports=e},{}]},{},[1])(1)});
 //# sourceMappingURL=dist/simple_statistics.min.js.map
-
-/*
-
-StackBlur - a fast almost Gaussian Blur For Canvas
-
-Version: 	0.5
-Author:		Mario Klingemann
-Contact: 	mario@quasimondo.com
-Website:	http://www.quasimondo.com/StackBlurForCanvas
-Twitter:	@quasimondo
-
-In case you find this class useful - especially in commercial projects -
-I am not totally unhappy for a small donation to my PayPal account
-mario@quasimondo.de
-
-Or support me on flattr:
-https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
-
-Copyright (c) 2010 Mario Klingemann
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-(function ( global ) {
-
-	var mul_table = [
-			512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
-			454,405,364,328,298,271,496,456,420,388,360,335,312,292,273,512,
-			482,454,428,405,383,364,345,328,312,298,284,271,259,496,475,456,
-			437,420,404,388,374,360,347,335,323,312,302,292,282,273,265,512,
-			497,482,468,454,441,428,417,405,394,383,373,364,354,345,337,328,
-			320,312,305,298,291,284,278,271,265,259,507,496,485,475,465,456,
-			446,437,428,420,412,404,396,388,381,374,367,360,354,347,341,335,
-			329,323,318,312,307,302,297,292,287,282,278,273,269,265,261,512,
-			505,497,489,482,475,468,461,454,447,441,435,428,422,417,411,405,
-			399,394,389,383,378,373,368,364,359,354,350,345,341,337,332,328,
-			324,320,316,312,309,305,301,298,294,291,287,284,281,278,274,271,
-			268,265,262,259,257,507,501,496,491,485,480,475,470,465,460,456,
-			451,446,442,437,433,428,424,420,416,412,408,404,400,396,392,388,
-			385,381,377,374,370,367,363,360,357,354,350,347,344,341,338,335,
-			332,329,326,323,320,318,315,312,310,307,304,302,299,297,294,292,
-			289,287,285,282,280,278,275,273,271,269,267,265,263,261,259];
-
-
-	var shg_table = [
-			 9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17,
-			17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19,
-			19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20,
-			20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21,
-			21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
-			21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22,
-			22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
-			22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23,
-			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-			23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
-			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24 ];
-
-	function premultiplyAlpha(imageData)
-	{
-		var pixels = imageData.data;
-		var size = imageData.width * imageData.height * 4;
-
-		for (var i=0; i<size; i+=4)
-		{
-			var a = pixels[i+3] / 255;
-			pixels[i  ] *= a;
-			pixels[i+1] *= a;
-			pixels[i+2] *= a;
-		}
-	}
-
-	function unpremultiplyAlpha(imageData)
-	{
-		var pixels = imageData.data;
-		var size = imageData.width * imageData.height * 4;
-
-		for (var i=0; i<size; i+=4)
-		{
-			var a = pixels[i+3];
-			if (a != 0)
-			{
-				a = 255 / a;
-				pixels[i  ] *= a;
-				pixels[i+1] *= a;
-				pixels[i+2] *= a;
-			}
-		}
-	}
-
-	function stackBlurImage( imageID, canvasID, radius, blurAlphaChannel )
-	{
-
-		var img = document.getElementById( imageID );
-		var w = img.naturalWidth;
-		var h = img.naturalHeight;
-
-		var canvas = document.getElementById( canvasID );
-
-		canvas.style.width  = w + "px";
-		canvas.style.height = h + "px";
-		canvas.width = w;
-		canvas.height = h;
-
-		var context = canvas.getContext("2d");
-		context.clearRect( 0, 0, w, h );
-		context.drawImage( img, 0, 0 );
-
-		if ( isNaN(radius) || radius < 1 ) return;
-
-		if ( blurAlphaChannel )
-			stackBlurCanvasRGBA( canvasID, 0, 0, w, h, radius );
-		else
-			stackBlurCanvasRGB( canvasID, 0, 0, w, h, radius );
-	}
-
-
-	function stackBlurCanvasRGBA( id, top_x, top_y, width, height, radius )
-	{
-		if ( isNaN(radius) || radius < 1 ) return;
-		radius |= 0;
-
-		var canvas  = document.getElementById( id );
-		var context = canvas.getContext("2d");
-		var imageData;
-
-		try {
-		  try {
-			imageData = context.getImageData( top_x, top_y, width, height );
-		  } catch(e) {
-
-			// NOTE: this part is supposedly only needed if you want to work with local files
-			// so it might be okay to remove the whole try/catch block and just use
-			// imageData = context.getImageData( top_x, top_y, width, height );
-			try {
-				netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-				imageData = context.getImageData( top_x, top_y, width, height );
-			} catch(e) {
-				alert("Cannot access local image");
-				throw new Error("unable to access local image data: " + e);
-				return;
-			}
-		  }
-		} catch(e) {
-		  alert("Cannot access image");
-		  throw new Error("unable to access image data: " + e);
-		}
-
-		premultiplyAlpha(imageData);
-
-		var pixels = imageData.data;
-
-		var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum,
-		r_out_sum, g_out_sum, b_out_sum, a_out_sum,
-		r_in_sum, g_in_sum, b_in_sum, a_in_sum,
-		pr, pg, pb, pa, rbs;
-
-		var div = radius + radius + 1;
-		var w4 = width << 2;
-		var widthMinus1  = width - 1;
-		var heightMinus1 = height - 1;
-		var radiusPlus1  = radius + 1;
-		var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
-
-		var stackStart = new BlurStack();
-		var stack = stackStart;
-		for ( i = 1; i < div; i++ )
-		{
-			stack = stack.next = new BlurStack();
-			if ( i == radiusPlus1 ) var stackEnd = stack;
-		}
-		stack.next = stackStart;
-		var stackIn = null;
-		var stackOut = null;
-
-		yw = yi = 0;
-
-		var mul_sum = mul_table[radius];
-		var shg_sum = shg_table[radius];
-
-		for ( y = 0; y < height; y++ )
-		{
-			r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
-
-			r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
-			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
-			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
-			a_out_sum = radiusPlus1 * ( pa = pixels[yi+3] );
-
-			r_sum += sumFactor * pr;
-			g_sum += sumFactor * pg;
-			b_sum += sumFactor * pb;
-			a_sum += sumFactor * pa;
-
-			stack = stackStart;
-
-			for( i = 0; i < radiusPlus1; i++ )
-			{
-				stack.r = pr;
-				stack.g = pg;
-				stack.b = pb;
-				stack.a = pa;
-				stack = stack.next;
-			}
-
-			for( i = 1; i < radiusPlus1; i++ )
-			{
-				p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
-				r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
-				g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
-				b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
-				a_sum += ( stack.a = ( pa = pixels[p+3])) * rbs;
-
-				r_in_sum += pr;
-				g_in_sum += pg;
-				b_in_sum += pb;
-				a_in_sum += pa;
-
-				stack = stack.next;
-			}
-
-			stackIn = stackStart;
-			stackOut = stackEnd;
-			for ( x = 0; x < width; x++ )
-			{
-				pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
-				pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
-				pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
-				pixels[yi+3] = (a_sum * mul_sum) >> shg_sum;
-
-				r_sum -= r_out_sum;
-				g_sum -= g_out_sum;
-				b_sum -= b_out_sum;
-				a_sum -= a_out_sum;
-
-				r_out_sum -= stackIn.r;
-				g_out_sum -= stackIn.g;
-				b_out_sum -= stackIn.b;
-				a_out_sum -= stackIn.a;
-
-				p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
-
-				r_in_sum += ( stackIn.r = pixels[p]);
-				g_in_sum += ( stackIn.g = pixels[p+1]);
-				b_in_sum += ( stackIn.b = pixels[p+2]);
-				a_in_sum += ( stackIn.a = pixels[p+3]);
-
-				r_sum += r_in_sum;
-				g_sum += g_in_sum;
-				b_sum += b_in_sum;
-				a_sum += a_in_sum;
-
-				stackIn = stackIn.next;
-
-				r_out_sum += ( pr = stackOut.r );
-				g_out_sum += ( pg = stackOut.g );
-				b_out_sum += ( pb = stackOut.b );
-				a_out_sum += ( pa = stackOut.a );
-
-				r_in_sum -= pr;
-				g_in_sum -= pg;
-				b_in_sum -= pb;
-				a_in_sum -= pa;
-
-				stackOut = stackOut.next;
-
-				yi += 4;
-			}
-			yw += width;
-		}
-
-
-		for ( x = 0; x < width; x++ )
-		{
-			g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
-
-			yi = x << 2;
-			r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
-			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
-			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
-			a_out_sum = radiusPlus1 * ( pa = pixels[yi+3]);
-
-			r_sum += sumFactor * pr;
-			g_sum += sumFactor * pg;
-			b_sum += sumFactor * pb;
-			a_sum += sumFactor * pa;
-
-			stack = stackStart;
-
-			for( i = 0; i < radiusPlus1; i++ )
-			{
-				stack.r = pr;
-				stack.g = pg;
-				stack.b = pb;
-				stack.a = pa;
-				stack = stack.next;
-			}
-
-			yp = width;
-
-			for( i = 1; i <= radius; i++ )
-			{
-				yi = ( yp + x ) << 2;
-
-				r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
-				g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
-				b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
-				a_sum += ( stack.a = ( pa = pixels[yi+3])) * rbs;
-
-				r_in_sum += pr;
-				g_in_sum += pg;
-				b_in_sum += pb;
-				a_in_sum += pa;
-
-				stack = stack.next;
-
-				if( i < heightMinus1 )
-				{
-					yp += width;
-				}
-			}
-
-			yi = x;
-			stackIn = stackStart;
-			stackOut = stackEnd;
-			for ( y = 0; y < height; y++ )
-			{
-				p = yi << 2;
-				pixels[p]   = (r_sum * mul_sum) >> shg_sum;
-				pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
-				pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
-				pixels[p+3] = (a_sum * mul_sum) >> shg_sum;
-
-				r_sum -= r_out_sum;
-				g_sum -= g_out_sum;
-				b_sum -= b_out_sum;
-				a_sum -= a_out_sum;
-
-				r_out_sum -= stackIn.r;
-				g_out_sum -= stackIn.g;
-				b_out_sum -= stackIn.b;
-				a_out_sum -= stackIn.a;
-
-				p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
-
-				r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
-				g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
-				b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
-				a_sum += ( a_in_sum += ( stackIn.a = pixels[p+3]));
-
-				stackIn = stackIn.next;
-
-				r_out_sum += ( pr = stackOut.r );
-				g_out_sum += ( pg = stackOut.g );
-				b_out_sum += ( pb = stackOut.b );
-				a_out_sum += ( pa = stackOut.a );
-
-				r_in_sum -= pr;
-				g_in_sum -= pg;
-				b_in_sum -= pb;
-				a_in_sum -= pa;
-
-				stackOut = stackOut.next;
-
-				yi += width;
-			}
-		}
-
-		unpremultiplyAlpha(imageData);
-
-		context.putImageData( imageData, top_x, top_y );
-	}
-
-
-	function stackBlurCanvasRGB( id, top_x, top_y, width, height, radius )
-	{
-		if ( isNaN(radius) || radius < 1 ) return;
-		radius |= 0;
-
-		var canvas  = document.getElementById( id );
-		var context = canvas.getContext("2d");
-		var imageData;
-
-		try {
-		  try {
-			imageData = context.getImageData( top_x, top_y, width, height );
-		  } catch(e) {
-
-			// NOTE: this part is supposedly only needed if you want to work with local files
-			// so it might be okay to remove the whole try/catch block and just use
-			// imageData = context.getImageData( top_x, top_y, width, height );
-			try {
-				netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-				imageData = context.getImageData( top_x, top_y, width, height );
-			} catch(e) {
-				alert("Cannot access local image");
-				throw new Error("unable to access local image data: " + e);
-				return;
-			}
-		  }
-		} catch(e) {
-		  alert("Cannot access image");
-		  throw new Error("unable to access image data: " + e);
-		}
-
-		var pixels = imageData.data;
-
-		var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum,
-		r_out_sum, g_out_sum, b_out_sum,
-		r_in_sum, g_in_sum, b_in_sum,
-		pr, pg, pb, rbs;
-
-		var div = radius + radius + 1;
-		var w4 = width << 2;
-		var widthMinus1  = width - 1;
-		var heightMinus1 = height - 1;
-		var radiusPlus1  = radius + 1;
-		var sumFactor = radiusPlus1 * ( radiusPlus1 + 1 ) / 2;
-
-		var stackStart = new BlurStack();
-		var stack = stackStart;
-		for ( i = 1; i < div; i++ )
-		{
-			stack = stack.next = new BlurStack();
-			if ( i == radiusPlus1 ) var stackEnd = stack;
-		}
-		stack.next = stackStart;
-		var stackIn = null;
-		var stackOut = null;
-
-		yw = yi = 0;
-
-		var mul_sum = mul_table[radius];
-		var shg_sum = shg_table[radius];
-
-		for ( y = 0; y < height; y++ )
-		{
-			r_in_sum = g_in_sum = b_in_sum = r_sum = g_sum = b_sum = 0;
-
-			r_out_sum = radiusPlus1 * ( pr = pixels[yi] );
-			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1] );
-			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2] );
-
-			r_sum += sumFactor * pr;
-			g_sum += sumFactor * pg;
-			b_sum += sumFactor * pb;
-
-			stack = stackStart;
-
-			for( i = 0; i < radiusPlus1; i++ )
-			{
-				stack.r = pr;
-				stack.g = pg;
-				stack.b = pb;
-				stack = stack.next;
-			}
-
-			for( i = 1; i < radiusPlus1; i++ )
-			{
-				p = yi + (( widthMinus1 < i ? widthMinus1 : i ) << 2 );
-				r_sum += ( stack.r = ( pr = pixels[p])) * ( rbs = radiusPlus1 - i );
-				g_sum += ( stack.g = ( pg = pixels[p+1])) * rbs;
-				b_sum += ( stack.b = ( pb = pixels[p+2])) * rbs;
-
-				r_in_sum += pr;
-				g_in_sum += pg;
-				b_in_sum += pb;
-
-				stack = stack.next;
-			}
-
-
-			stackIn = stackStart;
-			stackOut = stackEnd;
-			for ( x = 0; x < width; x++ )
-			{
-				pixels[yi]   = (r_sum * mul_sum) >> shg_sum;
-				pixels[yi+1] = (g_sum * mul_sum) >> shg_sum;
-				pixels[yi+2] = (b_sum * mul_sum) >> shg_sum;
-
-				r_sum -= r_out_sum;
-				g_sum -= g_out_sum;
-				b_sum -= b_out_sum;
-
-				r_out_sum -= stackIn.r;
-				g_out_sum -= stackIn.g;
-				b_out_sum -= stackIn.b;
-
-				p =  ( yw + ( ( p = x + radius + 1 ) < widthMinus1 ? p : widthMinus1 ) ) << 2;
-
-				r_in_sum += ( stackIn.r = pixels[p]);
-				g_in_sum += ( stackIn.g = pixels[p+1]);
-				b_in_sum += ( stackIn.b = pixels[p+2]);
-
-				r_sum += r_in_sum;
-				g_sum += g_in_sum;
-				b_sum += b_in_sum;
-
-				stackIn = stackIn.next;
-
-				r_out_sum += ( pr = stackOut.r );
-				g_out_sum += ( pg = stackOut.g );
-				b_out_sum += ( pb = stackOut.b );
-
-				r_in_sum -= pr;
-				g_in_sum -= pg;
-				b_in_sum -= pb;
-
-				stackOut = stackOut.next;
-
-				yi += 4;
-			}
-			yw += width;
-		}
-
-
-		for ( x = 0; x < width; x++ )
-		{
-			g_in_sum = b_in_sum = r_in_sum = g_sum = b_sum = r_sum = 0;
-
-			yi = x << 2;
-			r_out_sum = radiusPlus1 * ( pr = pixels[yi]);
-			g_out_sum = radiusPlus1 * ( pg = pixels[yi+1]);
-			b_out_sum = radiusPlus1 * ( pb = pixels[yi+2]);
-
-			r_sum += sumFactor * pr;
-			g_sum += sumFactor * pg;
-			b_sum += sumFactor * pb;
-
-			stack = stackStart;
-
-			for( i = 0; i < radiusPlus1; i++ )
-			{
-				stack.r = pr;
-				stack.g = pg;
-				stack.b = pb;
-				stack = stack.next;
-			}
-
-			yp = width;
-
-			for( i = 1; i <= radius; i++ )
-			{
-				yi = ( yp + x ) << 2;
-
-				r_sum += ( stack.r = ( pr = pixels[yi])) * ( rbs = radiusPlus1 - i );
-				g_sum += ( stack.g = ( pg = pixels[yi+1])) * rbs;
-				b_sum += ( stack.b = ( pb = pixels[yi+2])) * rbs;
-
-				r_in_sum += pr;
-				g_in_sum += pg;
-				b_in_sum += pb;
-
-				stack = stack.next;
-
-				if( i < heightMinus1 )
-				{
-					yp += width;
-				}
-			}
-
-			yi = x;
-			stackIn = stackStart;
-			stackOut = stackEnd;
-			for ( y = 0; y < height; y++ )
-			{
-				p = yi << 2;
-				pixels[p]   = (r_sum * mul_sum) >> shg_sum;
-				pixels[p+1] = (g_sum * mul_sum) >> shg_sum;
-				pixels[p+2] = (b_sum * mul_sum) >> shg_sum;
-
-				r_sum -= r_out_sum;
-				g_sum -= g_out_sum;
-				b_sum -= b_out_sum;
-
-				r_out_sum -= stackIn.r;
-				g_out_sum -= stackIn.g;
-				b_out_sum -= stackIn.b;
-
-				p = ( x + (( ( p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1 ) * width )) << 2;
-
-				r_sum += ( r_in_sum += ( stackIn.r = pixels[p]));
-				g_sum += ( g_in_sum += ( stackIn.g = pixels[p+1]));
-				b_sum += ( b_in_sum += ( stackIn.b = pixels[p+2]));
-
-				stackIn = stackIn.next;
-
-				r_out_sum += ( pr = stackOut.r );
-				g_out_sum += ( pg = stackOut.g );
-				b_out_sum += ( pb = stackOut.b );
-
-				r_in_sum -= pr;
-				g_in_sum -= pg;
-				b_in_sum -= pb;
-
-				stackOut = stackOut.next;
-
-				yi += width;
-			}
-		}
-
-		context.putImageData( imageData, top_x, top_y );
-
-	}
-
-	function BlurStack()
-	{
-		this.r = 0;
-		this.g = 0;
-		this.b = 0;
-		this.a = 0;
-		this.next = null;
-	}
-
-	var stackBlur = {
-		image: stackBlurImage,
-		canvasRGBA: stackBlurCanvasRGBA,
-		canvasRGB: stackBlurCanvasRGB
-	};
-
-	// export as AMD...
-	if ( typeof define !== 'undefined' && define.amd ) {
-	    define( function () { return stackBlur; });
-	}
-
-	// ...or as browserify
-	else if ( typeof module !== 'undefined' && module.exports ) {
-	    module.exports = stackBlur;
-	}
-
-	global.stackBlur = stackBlur;
-
-}( typeof window !== 'undefined' ? window : this ));
 
 /* Only edit javascript files in the assets/js directory */
 
@@ -5426,7 +5426,7 @@ window.onload = function() {
 
     if (send) {
 
-      console.log("GA, action: ", action, "category: ", category, "label: ", label)
+      // console.log("GA, action: ", action, "category: ", category, "label: ", label)
 
       ga('send', {
         hitType: 'event',
