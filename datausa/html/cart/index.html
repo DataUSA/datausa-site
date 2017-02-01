@@ -243,6 +243,8 @@
         return a.localeCompare(b);
       });
 
+      console.log(rawKeys);
+
       loadStatus.html("Sorting Columns");
 
       var keys = rawKeys.slice()
@@ -254,7 +256,7 @@
           var aB = bubbles.indexOf(aY ? a.substring(0, a.length - 5) : a),
               bB = bubbles.indexOf(bY ? b.substring(0, b.length - 5) : b);
 
-          if (aB === bB && aY && bY) return aY[0] - bY[0];
+          if (aB > -1 && aB === bB && aY && bY) return aY[0] - bY[0];
 
           return (aI >= 0 ? aI : aB >= 0 ? aB + 3 + sticky.length : rawKeys.indexOf(a) + sticky.length + bubbles.length)
                - (bI >= 0 ? bI : bB >= 0 ? bB + 3 + sticky.length : rawKeys.indexOf(b) + sticky.length + bubbles.length);
