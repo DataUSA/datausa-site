@@ -272,13 +272,13 @@
           return availableStickies.map(function(key) { return d[key] || "undefined"; }).join("-");
         })
         .entries(data)
-        .map(function(n) {
-          var obj = {};
-          n.values.forEach(function(d) {
-            obj = d3plus.object.merge(obj, d);
-          });
-          return obj;
-        });
+        .reduce(function(arr, n) {
+          arr.push(n.values.reduce(function(obj, d) {
+            for (var key in d) obj[key] = d[key];
+            return obj;
+          }, {}));
+          return arr;
+        }, []);
 
       console.log(keys);
       console.log(groupedData);
