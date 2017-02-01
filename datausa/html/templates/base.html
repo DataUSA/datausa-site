@@ -536,6 +536,7 @@
       });
 
       if (compare) addComparison(compare);
+      else profileEvents();
       viz.loadBuilds(builds);
 
       if (resizeFunctions.length || resizeInstantFunctions.length) {
