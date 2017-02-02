@@ -76,10 +76,14 @@
   var grid = {
     columnDefs: [],
     colWidth: 150,
-    enableSorting: true,
+    // enableSorting: true,
     headerHeight: 65,
+    maxPagesInCache: 10,
+    paginationInitialRowCount: 1,
+    paginationPageSize: 100,
     rowData: [],
     rowHeight: 30,
+    rowModelType: "virtual",
     suppressCellSelection: true
   };
   new agGrid.Grid(d3.select("#cart-table").node(), grid);
@@ -119,13 +123,13 @@
 
     if (!urls.length) callback([]);
 
-    var retData = [];
+    var retData = [], retHeaders = [];
     function loadSingle() {
 
       var url = urls.shift();
       loadStatus.html("API Call " + (urlList.length - urls.length) + " of " + urlList.length);
 
-      load(url, function(data) {
+      load(url, function(data, u, ret) {
 
         if (url.indexOf("/attrs/") >= 0) {
           attrs[url.split("/")[4]] = data.reduce(function(obj, d) {
@@ -138,7 +142,8 @@
           var c = calcs[urlList.indexOf(url)];
 
           if (c) {
-            c.forEach(function(calc) {
+            for (var ci = 0; ci < c.length; ci++) {
+              var calc = c[ci];
               var func;
               if (calc.func === "pct") {
                 func = function(d) {
@@ -146,34 +151,32 @@
                 }
               }
               if (func) {
-                data.forEach(function(d) {
-                  d[calc.key] = func(d);
-                });
+                for (var i = 0; i < data.length; i++) {
+                  data[i][calc.key] = func(data[i]);
+                }
                 bubbles.push(calc.key);
               }
-            });
+            }
           }
 
-          data.forEach(function(d) {
-            if (d.year) {
-              for (var key in d) {
-                if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) {
-                  d[key + "_" + d.year] = d[key];
-                  delete d[key];
-                }
-              }
-              delete d.year;
-            }
-          });
+          var headers = ret.headers;
+          if (ret.headers.indexOf("year") >= 0) {
+            headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
+              return ret.headers.map(function(h){
+                return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
+              });
+            }));
+          }
 
           retData = retData.concat(data);
+          retHeaders = retHeaders.concat(headers);
 
         }
 
         loadStatus.html("API Call 0 of " + urlList.length);
 
         if (urls.length) loadSingle();
-        else callback(retData);
+        else callback(retData, d3plus.util.uniques(retHeaders));
 
       });
 
@@ -214,34 +217,27 @@
 
     datasets.exit().remove();
 
-    loadDatasets(cart.datasets, function(data) {
+    loadDatasets(cart.datasets, function(data, headers) {
 
-      loadStatus.html("Fetching Attribute Names");
-
-      data.forEach(function(d) {
-        attr_list.forEach(function(attr) {
-          if (attr in d) {
-            d[attr + "_id"] = d[attr];
-            if (attr === "geo" && d[attr].slice(0, 3) === "140") {
-              d.geo_name = viz.format.text(d[attr], {key: "geo"})
-              d.geo_sumlevel = "tract";
-            }
-            else if (attrs[attr][d[attr]]) {
-              d[attr + "_name"] = attrs[attr][d[attr]].display_name || attrs[attr][d[attr]].name;
-              if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
-                d[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][d[attr]].sumlevel] : attrs[attr][d[attr]].sumlevel || attrs[attr][d[attr]].level;
-              }
-            }
-            delete d[attr];
-          }
-        });
-      });
+      console.log("loaded", data.length);
 
       loadStatus.html("Constructing Headers");
 
-      var rawKeys = d3plus.util.uniques(d3.merge(data.map(function(d) { return d3.keys(d); }))).sort(function(a, b) {
-        return a.localeCompare(b);
-      });
+      var rawKeys = headers.sort(function(a, b) {
+          return a.localeCompare(b);
+        });
+
+      var availableStickies = rawKeys.filter(function(key) { return sticky.indexOf(key) >= 0; });
+
+      for (var a = 0; a < attr_list.length; a++) {
+        var attr = attr_list[a];
+        if (rawKeys.includes(attr)) {
+          rawKeys.push(attr + "_id");
+          rawKeys.push(attr + "_name");
+          if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
+        }
+      }
+      rawKeys = rawKeys.filter(k => !attr_list.includes(k) && k !== "year");
 
       console.log(rawKeys);
 
@@ -263,25 +259,15 @@
 
         });
 
-      var availableStickies = keys.filter(function(key) { return sticky.indexOf(key) >= 0; });
-
       loadStatus.html("Joining Data");
 
       groupedData = d3.nest()
         .key(function(d) {
           return availableStickies.map(function(key) { return d[key] || "undefined"; }).join("-");
         })
-        .entries(data)
-        .reduce(function(arr, n) {
-          arr.push(n.values.reduce(function(obj, d) {
-            for (var key in d) obj[key] = d[key];
-            return obj;
-          }, {}));
-          return arr;
-        }, []);
+        .entries(data);
 
-      console.log(keys);
-      console.log(groupedData);
+      console.log(groupedData.length);
 
       loadStatus.html("Generating Table");
 
@@ -294,8 +280,57 @@
           // pinned: sticky.indexOf(key) >= 0 ? "left" : false
         };
       });
-      // console.log(grid);
-      grid.api.setRowData(groupedData);
+
+      grid.api.setDatasource({
+        rowCount: groupedData.length,
+        getRows: function(params) {
+          // loadStatus.html("Rendering Additional Rows");
+          // d3.select("#cart-loading").classed("hidden", false);
+          var rowData = groupedData.slice(params.startRow, params.endRow);
+          for (var z = 0; z < rowData.length; z++) {
+            var d = rowData[z];
+            var obj = {};
+
+            for (var i = 0; i < d.values.length; i++) {
+              var dat = d.values[i];
+
+
+              if (dat.year) {
+                for (var key in dat) {
+                  if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
+                  else if (key !== "year") obj[key] = dat[key];
+                }
+              }
+              else {
+                for (var key in dat) obj[key] = dat[key];
+              }
+
+            }
+
+            for (var a = 0; a < attr_list.length; a++) {
+              var attr = attr_list[a];
+              if (attr in obj) {
+                obj[attr + "_id"] = obj[attr];
+                if (attr === "geo" && obj[attr].slice(0, 3) === "140") {
+                  obj.geo_name = viz.format.text(obj[attr], {key: "geo"})
+                  obj.geo_sumlevel = "tract";
+                }
+                else if (attrs[attr][obj[attr]]) {
+                  obj[attr + "_name"] = attrs[attr][obj[attr]].display_name || attrs[attr][obj[attr]].name;
+                  if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
+                    obj[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][obj[attr]].sumlevel] : attrs[attr][obj[attr]].sumlevel || attrs[attr][obj[attr]].level;
+                  }
+                }
+              }
+            }
+
+            rowData[z] = obj;
+          }
+          // console.log(params.startRow, params.endRow);
+          // d3.select("#cart-loading").classed("hidden", true);
+          params.successCallback(rowData);
+        }
+      })
       grid.api.setColumnDefs(columns);
       // grid.columnApi.autoSizeColumns(keys);
 
@@ -318,13 +353,14 @@
     var keys = columns.map(function(c) { return c.field; });
 
     var csv = keys.join(",");
-    groupedData.forEach(function(d, i) {
+    for (var i = 0; i < groupedData.length; i++) {
+      var d = groupedData[i];
       csv += "\n" + keys.map(function(key) {
         return d[key] === void 0 ? ""
              : typeof d[key] === "number" ? d[key]
              : "\"" + d[key] + "\"";
       });
-    });
+    }
 
     zip.file(title + ".csv", csv);
     saveAs(zip.generate({type: "blob"}), title + ".zip");
