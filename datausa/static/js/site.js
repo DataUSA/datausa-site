@@ -8808,6 +8808,7 @@ viz.format = {
     if (yearMatch) {
       return viz.format.text(text.substring(0, text.length - 5), params, build) + " (" + yearMatch[0].slice(1, 5) + ")"
     }
+
     if (text.indexOf("_moe") > 0) {
       if (params && params.cart) {
         return viz.format.text(text.split("_moe")[0], params, build) + " Margin of Error";
@@ -8819,6 +8820,11 @@ viz.format = {
     }
     else if (text.indexOf("_pct_calc") > 0) {
       return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
+    }
+
+    if (text.indexOf("_") >= 0 && text.split("_")[0] in colmap) {
+      var t = text.split("_");
+      return viz.format.text(t[0]) + ": " + viz.format.text(t.slice(1, t.length).join("-"), {key: "bucket"});
     }
 
     if (text.indexOf("y2_") === 0) {

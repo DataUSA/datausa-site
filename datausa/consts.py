@@ -566,6 +566,20 @@ COLMAP = {
         "home": "Work at Home",
         "motorcycle": "Motorcycle",
         "taxi": "Taxi"
+    },
+    "travel": {
+        "less5": "&lt; 5",
+        "5to9": "5-9",
+        "10to14": "10-14",
+        "15to19": "15-19",
+        "20to24": "20-24",
+        "25to29": "25-29",
+        "30to34": "30-34",
+        "35to39": "35-39",
+        "40to44": "40-44",
+        "45to59": "45-59",
+        "60to89": "60-89",
+        "90over": "90+"
     }
 }
 COLMAP["acs_race"] = COLMAP["race"]
