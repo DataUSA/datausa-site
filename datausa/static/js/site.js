@@ -8811,7 +8811,7 @@ viz.format = {
 
     if (text.indexOf("_moe") > 0) {
       if (params && params.cart) {
-        return viz.format.text(text.split("_moe")[0], params, build) + " Margin of Error";
+        return viz.format.text(text.split("_moe")[0], params, build) + " MoE";
       }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
@@ -8824,7 +8824,7 @@ viz.format = {
 
     if (text.indexOf("_") >= 0 && text.split("_")[0] in colmap) {
       var t = text.split("_");
-      return viz.format.text(t[0]) + ": " + viz.format.text(t.slice(1, t.length).join("-"), {key: "bucket"});
+      return viz.format.text(t[0]) + ": " + colmap[t[0]][t.slice(1, t.length).join("-")];
     }
 
     if (text.indexOf("y2_") === 0) {
