@@ -121,7 +121,7 @@
 
     var urlList = urls.slice();
 
-    if (!urls.length) callback([]);
+    if (!urls.length) callback([], []);
 
     var retData = [], retHeaders = [];
     function loadSingle() {
@@ -220,6 +220,7 @@
     loadDatasets(cart.datasets, function(data, headers) {
 
       console.log("loaded", data.length);
+      console.log(data, headers);
 
       loadStatus.html("Constructing Headers");
 
