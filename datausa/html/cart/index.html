@@ -220,7 +220,6 @@
     loadDatasets(cart.datasets, function(data, headers) {
 
       console.log("loaded", data.length);
-      console.log(data, headers);
 
       loadStatus.html("Constructing Headers");
 
@@ -329,7 +328,7 @@
           }
           // console.log(params.startRow, params.endRow);
           // d3.select("#cart-loading").classed("hidden", true);
-          params.successCallback(rowData);
+          params.successCallback(rowData, groupedData.length <= params.endRow ? groupedData.length : -1);
         }
       })
       grid.api.setColumnDefs(columns);
@@ -348,23 +347,81 @@
 
   d3.select("#cart-csv").on("click", function() {
 
-    var title = "Data USA Cart",
-        zip = new JSZip();
+    loadStatus.html("Building CSV");
+    d3.select("#cart-loading").classed("hidden", false);
 
-    var keys = columns.map(function(c) { return c.field; });
+    setTimeout(function() {
 
-    var csv = keys.join(",");
-    for (var i = 0; i < groupedData.length; i++) {
-      var d = groupedData[i];
-      csv += "\n" + keys.map(function(key) {
-        return d[key] === void 0 ? ""
-             : typeof d[key] === "number" ? d[key]
-             : "\"" + d[key] + "\"";
-      });
-    }
+      var title = "Data USA Cart",
+          zip = new JSZip();
 
-    zip.file(title + ".csv", csv);
-    saveAs(zip.generate({type: "blob"}), title + ".zip");
+      var keys = columns.map(function(c) { return c.field; });
+
+      var csv = keys.join(",");
+      for (var i = 0; i < groupedData.length; i++) {
+        var data = groupedData[i];
+
+        csv += "\n" + keys.map(function(key) {
+
+          var d = [], yearMatch = key.match(/_(\d{4})$/g);
+
+          if (attr_list.indexOf(key.split("_")[0]) >= 0) {
+
+            var attr = key.split("_")[0];
+            var id = data.values[0][attr];
+
+            if (key === attr + "_id") return id;
+            else if (key === attr + "_name") {
+
+              if (attr === "geo" && id.slice(0, 3) === "140") {
+                d = viz.format.text(id, {key: "geo"});
+              }
+              else if (attrs[attr][id]) {
+                d = attrs[attr][id].display_name || attrs[attr][id].name;
+              }
+
+            }
+            else if (key === attr + "_sumlevel") {
+
+              if (attr === "geo" && id.slice(0, 3) === "140") {
+                d = "tract";
+              }
+              else if (attrs[attr][id]) {
+                if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
+                  d = attr === "geo" ? sumlevels[attrs[attr][id].sumlevel] : attrs[attr][id].sumlevel || attrs[attr][id].level;
+                }
+              }
+
+            }
+
+          }
+          else if (yearMatch) {
+            var year = parseFloat(yearMatch[0].slice(1, 5));
+            key = key.split("_");
+            key.pop();
+            key = key.join("_");
+            d = data.values.filter(function(v) {
+              return v.year === year && v[key] !== void 0;
+            });
+          }
+          else {
+            d = data.values.filter(function(v) {
+              return v[key] !== void 0;
+            });
+          }
+
+          var val = d instanceof Array ? d.length ? d[0][key] : "" : d;
+          return typeof val === "number" ? val
+               : val ? "\"" + val + "\"" : "";
+
+        });
+      }
+
+      zip.file(title + ".csv", csv);
+      saveAs(zip.generate({type: "blob"}), title + ".zip");
+      d3.select("#cart-loading").classed("hidden", true);
+
+    }, 100);
 
   });
 
