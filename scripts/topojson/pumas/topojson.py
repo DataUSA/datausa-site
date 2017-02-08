@@ -1,39 +1,22 @@
-import json, os, subprocess, sys
+import os, re, sys
 
 def topojson():
 
     directory = "/".join(sys.argv[0].split("/")[:-1])
     shape_dir = os.path.join(directory, "shapefiles")
-    cmd = "topojson -s 10e-9 -o {}/pumas.json --id-property GEOID10 -- ".format(directory)
 
-    for folder in os.walk(shape_dir):
-        base_dir = folder[0]
-        if base_dir != shape_dir:
-            filename = base_dir.split("/")[-1]
-            state = filename.split("_")[2]
-            cmd += "{}={}/{}.shp ".format(state, base_dir, filename)
+    pumas = []
+    for filename in [f for f in os.listdir(shape_dir) if re.match(r'.+\.shp$', f)]:
+        # if "2015_25" in filename or "2015_36" in filename:
+        pumas.append("shp2json -n {}/{} | ndjson-map 'd.id = \\\"79500US\\\" + d.properties.GEOID10, delete d.properties, d'".format(shape_dir, filename))
 
-    print cmd
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.wait()
+    cmd = "geo2topo -n pumas=<({}) | topoquantize 1e7 | toposimplify -p 0.0005 -f > {}".format("; ".join(pumas), os.path.join(directory, "pumas.json"))
 
-    with open(os.path.join(directory, "pumas.json"), "r+") as data_file:
-        data = json.load(data_file)
-        geoms = []
-        for key, value in data["objects"].iteritems():
-            for g in value["geometries"]:
-                g["id"] = "79500US{}".format(g["id"])
-            geoms += value["geometries"]
+    # print cmd
 
-        data["objects"] = {
-            "pumas": {
-                "bbox": [],
-                "geometries": geoms,
-                "type": "GeometryCollection"
-            }
-        }
-        data_file.seek(0)
-        json.dump(data, data_file)
+    os.system("""echo "{}" | pbcopy""".format(cmd))
+
+    print "Command copied to clipboard, please press CMD+V to run."
 
 if __name__ == '__main__':
     topojson()

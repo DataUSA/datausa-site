@@ -5445,9 +5445,9 @@ var load = function(url, callback) {
 
   localforage.getItem("cache_version", function(error, c){
 
-    if (c !== cache_version) {
+    if (parseInt(c) !== parseInt(cache_version) + 1) {
       localforage.clear();
-      localforage.setItem("cache_version", cache_version, loadUrl);
+      localforage.setItem("cache_version", parseInt(cache_version) + 1, loadUrl);
     }
     else {
       loadUrl();
