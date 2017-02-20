@@ -1774,6 +1774,21 @@ body.profile, body.map, body.story {
 
       }
 
+      &.flex-short {
+        .full-width {
+          @include flex-size(1 1 300px);
+
+          .viz {
+            @include flex-size(1 1 250px);
+            margin-left: 0;
+            height: 250px;
+            max-height: 250px;
+            min-height: 250px;
+          }
+
+        }
+      }
+
     }
 
   }
