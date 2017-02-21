@@ -141,31 +141,33 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             var pos = this_tab.node().offsetLeft;
             var w = this_tab.node().offsetWidth;
             var panelWidth = parseFloat(d3.select(".panel").style("width"), 10);
+
             d3.select(".panels")
               .classed("noslide", this === window)
-              .style("transform", "translateX("+(i*panelWidth)*-1+"px)")
+              .style("transform", "translateX("+(i*panelWidth)*-1+"px)");
+
             d3.select("span.highlight")
               .classed("noslide", this === window)
               .style("width", w+"px")
-              .style("left", pos+"px")
-            if(target_id === "data"){
+              .style("left", pos+"px");
+
+            if(target_id === "view-table"){
               var window_h = getElDimensions()[1];
-              var el_h = getElDimensions(d3.select("div.panel#data").node())[1];
-              var new_h = Math.round(Math.max(250, (Math.min(window_h, el_h) * 0.8)));
-              d3.selectAll(".panel").style("height", new_h+"px")
+              var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
+              var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+              d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
             }
             else {
-              d3.selectAll(".panel").style("height", 250+"px")
+              d3.selectAll(".panel").style("height", 250+"px");
             }
-          })
+
+          });
 
       if(p.id == active_panel_id){
         active_panel = panel_link;
       }
     })
-    nav
-      .append("span")
-        .attr("class", "highlight")
+    nav.append("span").attr("class", "highlight");
 
     var panel_divs = body
       .append("div")
@@ -427,6 +429,13 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                   cols.exit().remove();
                 });
                 rows.exit().remove();
+
+                if (active_panel.node().id === "view-table") {
+                  var window_h = getElDimensions()[1];
+                  var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
+                  var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+                  d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
+                }
 
               }
             })
