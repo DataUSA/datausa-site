@@ -2,6 +2,7 @@ viz.format = {
   "number": function(number, params) {
 
     var prefix = "";
+    if (!params) params = {};
 
     if (params.key) {
 
@@ -56,6 +57,8 @@ viz.format = {
 
   },
   "text": function(text, params, build) {
+
+    if (!params) params = {};
 
     if (text.indexOf("_moe") > 0) {
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";

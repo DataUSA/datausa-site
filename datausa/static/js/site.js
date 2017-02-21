@@ -8144,6 +8144,7 @@ viz.format = {
   "number": function(number, params) {
 
     var prefix = "";
+    if (!params) params = {};
 
     if (params.key) {
 
@@ -8198,6 +8199,8 @@ viz.format = {
 
   },
   "text": function(text, params, build) {
+
+    if (!params) params = {};
 
     if (text.indexOf("_moe") > 0) {
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
@@ -8412,6 +8415,7 @@ viz.prepBuild = function(build, i) {
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
+    var tooltipDefault = build.config.tooltip.value.slice();
     d3plus.form()
       .search(false)
       .ui({
@@ -8419,6 +8423,8 @@ viz.prepBuild = function(build, i) {
       })
       .ui(vizStyles.ui)
       .focus({"callback": function(id, form){
+
+        if (!tooltipDefault.length) build.config.tooltip.value = [id, id + "_moe"];
 
         var param = this.getAttribute("data-param"),
             method = this.getAttribute("data-method"),
@@ -8480,13 +8486,15 @@ viz.prepBuild = function(build, i) {
            });
 
           if (param.length) {
-           build.data.forEach(function(b){
-             b.url = b.url.replace(param + "=" + prev, param + "=" + id);
-           });
-           viz.loadData(build, "redraw");
+            build.data.forEach(function(b){
+              b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+            });
+            viz.loadData(build, "redraw");
           }
           else if (method.length) {
-           build.viz[method](id).draw();
+            build.viz[method](id)
+              .tooltip(!tooltipDefault.length ? [id, id + "_moe"] : tooltipDefault)
+              .draw();
           }
 
         }
