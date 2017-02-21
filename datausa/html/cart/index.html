@@ -7,14 +7,9 @@
 {% endblock %}
 
 {% block body %}
-<div id="cart-header">
-  <div id="cart-csv" class="cart-btn">
-    Download Full Table as CSV File
-  </div>
-</div>
 <div id="cart-table"></div>
 <div id="cart-panel">
-  <div id="datasets" class="group hidden">
+  <div id="datasets" class="group">
     <div class="title">Data Cart</div>
     <div class="headers">
       <div class="name"><span></span> Datasets</div>
@@ -23,9 +18,18 @@
     <div class="body">
 
     </div>
+    <div id="cart-csv" class="cart-btn">
+      Download Full Table as CSV File
+    </div>
   </div>
 </div>
-<div id="cart-loading">
+<div id="cart-description">
+  <div id="cart-description-text">
+    <img src="/static/img/viz/add-to-cart-red.svg" width="16px" height="21px" />Data Cart
+    <div id="cart-description-status">As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to this page for future analysis. Up to 5 datasets can be added to the cart, and their columns and rows will be intelligently merged together for bulk download.</div>
+  </div>
+</div>
+<div id="cart-loading" class="hidden">
   <div id="cart-loading-text">
     <i class="fa fa-spinner fa-spin"></i>Please Wait
     <div id="cart-loading-status">Loading Data</div>
@@ -188,13 +192,18 @@
 
   function updateDisplay() {
 
+    d3.select("#cart-panel").style("display", cart.datasets.length ? "block" : "none");
+    d3.select("#cart-table").style("opacity", cart.datasets.length ? "1" : "0");
+
     loadStatus.html("Loading Cart");
-    d3.select("#cart-loading").classed("hidden", false);
+    d3.select("#cart-loading").classed("hidden", !cart.datasets.length);
+    d3.select("#cart-description").classed("hidden", cart.datasets.length);
+
+    if (!cart.datasets.length) return;
 
     d3.select("#datasets .headers .name span").html(cart.datasets.length);
 
     var datasets = d3.select("#datasets")
-      .classed("hidden", !cart.datasets.length)
       .select(".body").selectAll(".dataset")
       .data(cart.datasets);
 
