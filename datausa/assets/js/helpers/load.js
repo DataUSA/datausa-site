@@ -2,9 +2,9 @@ var load = function(url, callback) {
 
   localforage.getItem("cache_version", function(error, c){
 
-    if (parseInt(c) !== parseInt(cache_version) + 1) {
+    if (c !== cache_version) {
       localforage.clear();
-      localforage.setItem("cache_version", parseInt(cache_version) + 1, loadUrl);
+      localforage.setItem("cache_version", cache_version, loadUrl);
     }
     else {
       loadUrl();
