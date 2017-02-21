@@ -136,8 +136,8 @@ viz.prepBuild = function(build, i) {
         // {"id": "", "title":"API"}
       ],
       d3.select(this).attr("data-ga"),
-      d3.select(this.parentNode.parentNode).attr("data-url"),
-      d3.select(this.parentNode.parentNode).attr("data-embed"),
+      d3.select(this.parentNode.parentNode.parentNode).attr("data-url"),
+      d3.select(this.parentNode.parentNode.parentNode).attr("data-embed"),
       build)
     });
 
