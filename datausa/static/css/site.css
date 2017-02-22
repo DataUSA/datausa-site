@@ -862,6 +862,105 @@
         #cart-btn a.active {
           background-image: url("/static/img/cart-red.svg"); }
 
+  #d3plus_tooltip_id_cart-tooltip {
+    margin-left: -12px;
+    margin-top: -24px;
+    padding-top: 24px; }
+    #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_arrow {
+      -webkit-transform: translate(12px, 24px) rotate(45deg) !important;
+      -ms-transform: translate(12px, 24px) rotate(45deg) !important;
+      transform: translate(12px, 24px) rotate(45deg) !important; }
+      #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_container {
+        padding: 12px !important; }
+        #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_title {
+          color: #141b2e !important;
+          font-family: "Palanquin", sans-serif;
+          font-size: 13px !important;
+          font-weight: bold;
+          letter-spacing: 0.6px;
+          padding: 0 !important;
+          text-transform: uppercase; }
+          #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .headers {
+            color: #949494;
+            font-family: "Palanquin", sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            margin-bottom: 7px;
+            margin-top: 5px; }
+            #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .headers .name {
+              display: inline-block; }
+              #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .headers .remove {
+                float: right;
+                font-weight: 600; }
+          #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .body {
+            color: #949494;
+            font-family: "Palanquin", sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 15px; }
+            #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .body .dataset .name {
+              display: inline-block;
+              margin-bottom: 10px;
+              max-width: 85%; }
+              #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .body .dataset .remove {
+                -moz-transition: opacity 0.1s;
+                -o-transition: opacity 0.1s;
+                -webkit-transition: opacity 0.1s;
+                transition: opacity 0.1s;
+                background-image: url("/static/img/viz/remove.svg");
+                background-position: center;
+                background-repeat: no-repeat;
+                display: inline-block;
+                float: right;
+                height: 12px;
+                margin-top: 4px;
+                opacity: 0.75;
+                width: 12px; }
+                #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_data_container .body .dataset .remove:hover {
+                  cursor: pointer;
+                  opacity: 1; }
+    #d3plus_tooltip_id_cart-tooltip .buttons {
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      flex-pack: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      margin-top: 12px;
+      width: 100%; }
+      #d3plus_tooltip_id_cart-tooltip .buttons .cart-btn {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        border: 1px solid #f06145;
+        color: #f06145;
+        font-family: "Palanquin", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.55px;
+        padding: 5px 10px 6px;
+        text-align: center; }
+        #d3plus_tooltip_id_cart-tooltip .buttons .cart-btn:before,
+        #d3plus_tooltip_id_cart-tooltip .buttons .cart-btn:after {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box; }
+          #d3plus_tooltip_id_cart-tooltip .buttons .cart-btn:first-child {
+            margin-right: 12px; }
+            #d3plus_tooltip_id_cart-tooltip .buttons .cart-btn:hover {
+              background-color: #f06145;
+              color: white;
+              cursor: pointer; }
+
   #search-btn {
     position: absolute;
     right: 0;

@@ -441,6 +441,120 @@ body {
 
 }
 
+#d3plus_tooltip_id_cart-tooltip {
+  margin-left: -12px;
+  margin-top: -24px;
+  padding-top: 24px;
+
+  .d3plus_tooltip_arrow {
+    @include transform(translate(12px, 24px)rotate(45deg) !important);
+  }
+
+  .d3plus_tooltip_container {
+    padding: 12px !important;
+  }
+
+  .d3plus_tooltip_title {
+    color: $black2 !important;
+    font-family: $palanquin;
+    font-size: 13px !important;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    padding: 0 !important;
+    text-transform: uppercase;
+  }
+
+  .d3plus_tooltip_data_container {
+
+    .headers {
+      color: #949494;
+      font-family: $palanquin;
+      font-size: 11px;
+      font-weight: 400;
+      margin-bottom: 7px;
+      margin-top: 5px;
+
+      .name {
+        display: inline-block;
+      }
+
+      .remove {
+        float: right;
+        font-weight: 600;
+      }
+    }
+
+    .body {
+      color: #949494;
+      font-family: $palanquin;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 15px;
+
+      .dataset {
+
+        .name {
+          display: inline-block;
+          margin-bottom: 10px;
+          max-width: 85%;
+        }
+
+        .remove {
+          @include transition(opacity 0.1s);
+          background-image: url("/static/img/viz/remove.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          display: inline-block;
+          float: right;
+          height: 12px;
+          margin-top: 4px;
+          opacity: 0.75;
+          width: 12px;
+
+          &:hover {
+            cursor: pointer;
+            opacity: 1;
+          }
+
+        }
+
+      }
+    }
+
+  }
+
+  .buttons {
+    @include flex();
+    margin-top: 12px;
+    width: 100%;
+
+    .cart-btn {
+      @include box();
+      @include flex-size(1);
+      border: 1px solid #f06145;
+      color: #f06145;
+      font-family: $palanquin;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.55px;
+      padding: 5px 10px 6px;
+      text-align: center;
+
+      &:first-child {
+        margin-right: 12px;
+      }
+
+      &:hover {
+        background-color: #f06145;
+        color: white;
+        cursor: pointer;
+      }
+    }
+
+  }
+
+}
+
 
 #search-btn {
   position: absolute;

@@ -546,9 +546,91 @@
       else profileEvents();
       viz.loadBuilds(builds);
 
-      d3.selectAll(".cart-clear").on("click", function() {
-        localforage.setItem("cart", null, updateCart);
-      });
+      function updateCartTooltip(){
+
+        localforage.getItem("cart", function(error, cart) {
+
+          var offset = -5,
+              size = d3.select("#cart-btn").node().getBoundingClientRect(),
+              text = "",
+              tooltipID = "cart-tooltip";
+          d3plus.tooltip.remove(tooltipID);
+
+          if (cart.datasets.length) {
+
+            text += "<div class='headers'>";
+            text += "<div class='name'>" + cart.datasets.length + " Datasets</div>";
+            text += "<div class='remove'>Remove</div>";
+            text += "</div>";
+
+
+            text += "<div class='body'>";
+            for (var i = 0; i < cart.datasets.length; i++) {
+              var dataset = cart.datasets[i];
+              text += "<div class='dataset'>";
+              text += "<div class='name'>" + dataset.title + "</div>";
+              text += "<div class='remove' data-index='" + i + "'></div>";
+              text += "</div>";
+            }
+            text += "</div>";
+
+            text += "<div class='buttons'>";
+            text += "<a class='cart-btn' href='/cart'>View Data</a>";
+            text += "<div class='cart-btn cart-clear'>Clear Cart</div>";
+            text += "</div>";
+
+          }
+          else {
+            text += "<div class='body'>";
+            text += "As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to the unified data cart for future analysis. Up to 5 datasets can be added, and their columns and rows will be intelligently merged together for bulk download.";
+            text += "</div>";
+          }
+
+          d3plus.tooltip.create({
+            "x": size.left+size.width/2 + d3plus.client.scroll.x(),
+            "y": size.top+size.height/2 + d3plus.client.scroll.y(),
+            "offset": size.height/2 + offset,
+            "arrow": true,
+            "title": "Data Cart",
+            "html": text,
+            "width": "auto",
+            "mouseevents": d3.select("#cart-btn").node(),
+            "id": tooltipID,
+            "align": "bottom center",
+            "width": 250
+          });
+
+          d3.select("#d3plus_tooltip_id_cart-tooltip").selectAll(".remove")
+            .on("click", function() {
+              var i = parseFloat(d3.select(this).attr("data-index"));
+              var dataset = cart.datasets[i];
+
+              var index = dataset.slug ? cart.builds.indexOf(dataset.slug) : -1;
+              if (index >= 0) cart.builds.splice(index, 1);
+              cart.datasets.splice(i, 1);
+              localforage.setItem("cart", cart, function() {
+                updateCartTooltip();
+                updateCart();
+              });
+            });
+
+          d3.select("#d3plus_tooltip_id_cart-tooltip").select(".cart-clear")
+            .on("click", function() {
+              localforage.setItem("cart", null, function() {
+                updateCartTooltip();
+                updateCart();
+              });
+            });
+
+        });
+
+      }
+
+      d3.select("#cart-btn")
+        .on(d3plus.client.pointer.over, updateCartTooltip)
+        .on(d3plus.client.pointer.out,function(){
+          d3plus.tooltip.remove("cart-tooltip");
+        });
 
       function updateCart() {
 

@@ -353,6 +353,11 @@
     updateDisplay(cartCache);
   }
 
+  d3.select("#cart-panel").select(".cart-clear")
+    .on("click", function() {
+      localforage.setItem("cart", null, updateCart);
+    });
+
   d3.select("#cart-csv").on("click", function() {
 
     loadStatus.html("Building CSV");
