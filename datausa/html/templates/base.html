@@ -546,6 +546,10 @@
       else profileEvents();
       viz.loadBuilds(builds);
 
+      d3.selectAll(".cart-clear").on("click", function() {
+        localforage.setItem("cart", null, updateCart);
+      });
+
       function updateCart() {
 
         localforage.getItem("cart", function(error, cartCache) {

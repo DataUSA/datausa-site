@@ -91,6 +91,7 @@ $cart-sidebar: 260px;
     }
 
     .cart-btn {
+      @include box();
       border: 1px solid #f06145;
       color: #f06145;
       display: inline-block;
@@ -100,6 +101,8 @@ $cart-sidebar: 260px;
       letter-spacing: 0.55px;
       margin: 10px;
       padding: 5px 10px 6px;
+      text-align: center;
+      width: 210px;
 
       &:hover {
         background-color: #f06145;
