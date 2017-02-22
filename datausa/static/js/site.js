@@ -9170,6 +9170,8 @@ viz.prepBuild = function(build, i) {
     .on("click", function(){
       d3.event.preventDefault();
 
+      if (d3.select(this).classed("disabled")) return;
+
       localforage.getItem("cart", function(error, cart) {
 
         var index = cart.builds.indexOf(build.slug);

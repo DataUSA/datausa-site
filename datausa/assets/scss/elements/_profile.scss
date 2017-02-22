@@ -322,6 +322,7 @@ body.profile, body.map, body.story {
     }
 
     &.add-to-cart {
+      @include transition(opacity 0.1s);
 
       &::before {
         background-image: url("/static/img/viz/add-to-cart.svg");
@@ -335,6 +336,10 @@ body.profile, body.map, body.story {
       }
       &.active::after {
         content: "Remove";
+      }
+
+      &.disabled {
+        opacity: 0.5;
       }
 
     }

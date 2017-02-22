@@ -3612,20 +3612,29 @@
           body.story .viz-btn.share::after {
             content: "Options";   }
 }
-      body.profile .viz-btn.add-to-cart::before, body.map .viz-btn.add-to-cart::before,
-      body.story .viz-btn.add-to-cart::before {
-        background-image: url("/static/img/viz/add-to-cart.svg"); }
-        body.profile .viz-btn.add-to-cart:hover::before,
-        body.map .viz-btn.add-to-cart:hover::before,
-        body.story .viz-btn.add-to-cart:hover::before {
-          background-image: url("/static/img/viz/add-to-cart-red.svg"); }
-          body.profile .viz-btn.add-to-cart::after, body.map .viz-btn.add-to-cart::after,
-          body.story .viz-btn.add-to-cart::after {
-            content: "Add to Cart"; }
-            body.profile .viz-btn.add-to-cart.active::after,
-            body.map .viz-btn.add-to-cart.active::after,
-            body.story .viz-btn.add-to-cart.active::after {
-              content: "Remove"; }
+      body.profile .viz-btn.add-to-cart, body.map .viz-btn.add-to-cart,
+      body.story .viz-btn.add-to-cart {
+        -moz-transition: opacity 0.1s;
+        -o-transition: opacity 0.1s;
+        -webkit-transition: opacity 0.1s;
+        transition: opacity 0.1s; }
+        body.profile .viz-btn.add-to-cart::before, body.map .viz-btn.add-to-cart::before,
+        body.story .viz-btn.add-to-cart::before {
+          background-image: url("/static/img/viz/add-to-cart.svg"); }
+          body.profile .viz-btn.add-to-cart:hover::before,
+          body.map .viz-btn.add-to-cart:hover::before,
+          body.story .viz-btn.add-to-cart:hover::before {
+            background-image: url("/static/img/viz/add-to-cart-red.svg"); }
+            body.profile .viz-btn.add-to-cart::after, body.map .viz-btn.add-to-cart::after,
+            body.story .viz-btn.add-to-cart::after {
+              content: "Add to Cart"; }
+              body.profile .viz-btn.add-to-cart.active::after,
+              body.map .viz-btn.add-to-cart.active::after,
+              body.story .viz-btn.add-to-cart.active::after {
+                content: "Remove"; }
+                body.profile .viz-btn.add-to-cart.disabled, body.map .viz-btn.add-to-cart.disabled,
+                body.story .viz-btn.add-to-cart.disabled {
+                  opacity: 0.5; }
   body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
     -webkit-justify-content: center;
     -moz-justify-content: center;

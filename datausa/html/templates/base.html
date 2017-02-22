@@ -38,7 +38,8 @@
 
     <script>
 
-      var compare = {{ g.compare|tojson }},
+      var cartLimit = {{ g.cart_limit|safe }},
+          compare = {{ g.compare|tojson }},
           resizeFunctions = [],
           resizeInstantFunctions = [],
           scrollFunctions = [],
@@ -111,6 +112,11 @@
         d3.selectAll("[data-tooltip]")
           .on(d3plus.client.pointer.over,function(){
 
+            var text = d3.select(this).attr("data-tooltip");
+
+            if (text === "cartLimit" && !d3.select(this).classed("disabled")) return;
+            if (text === "cartLimit") text = "Cart limit of " + cartLimit + " has been reached. Please visit the cart page to download the current cart and/or remove data.";
+
             var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
 
             d3plus.tooltip.remove(tt_id);
@@ -136,12 +142,12 @@
               "offset": size.height/2 + offset,
               "arrow": arrow,
               // "title": "Title",
-              "description": d3.select(this).attr("data-tooltip"),
+              "description": text,
               "width": "auto",
               "id": tt_id,
               "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
               "max_width": 300
-            })
+            });
 
           })
           .on(d3plus.client.pointer.out,function(){
@@ -560,7 +566,9 @@
           else {
 
             d3.selectAll(".add-to-cart").each(function() {
-              d3.select(this).classed("active", cartCache.builds.indexOf(d3.select(this).attr("data-slug")) >= 0);
+              d3.select(this)
+                .classed("active", cartCache.builds.indexOf(d3.select(this).attr("data-slug")) >= 0)
+                .classed("disabled", cartCache.builds.indexOf(d3.select(this).attr("data-slug")) < 0 && cartCache.builds.length >= cartLimit);
             });
 
           }
