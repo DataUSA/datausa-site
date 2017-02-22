@@ -190,7 +190,7 @@
 
   }
 
-  function updateDisplay() {
+  function updateDisplay(cart) {
 
     d3.select("#cart-panel").style("display", cart.datasets.length ? "block" : "none");
     d3.select("#cart-table").style("opacity", cart.datasets.length ? "1" : "0");
@@ -219,8 +219,7 @@
       var index = d.slug ? cart.builds.indexOf(d.slug) : -1;
       if (index >= 0) cart.builds.splice(index, 1);
       cart.datasets.splice(i, 1);
-      localforage.setItem("cart", cart);
-      updateDisplay();
+      localforage.setItem("cart", cart, updateCart);
 
     });
 
@@ -349,9 +348,9 @@
 
   }
 
-  function populatePage() {
-    console.log(cart);
-    updateDisplay();
+  function populatePage(cartCache) {
+    console.log(cartCache);
+    updateDisplay(cartCache);
   }
 
   d3.select("#cart-csv").on("click", function() {

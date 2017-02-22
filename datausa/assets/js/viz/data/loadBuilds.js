@@ -163,100 +163,100 @@ viz.prepBuild = function(build, i) {
   d3.select(build.container.node().parentNode.parentNode).select("a.add-to-cart")
     .on("click", function(){
       d3.event.preventDefault();
-      var index = cart.builds.indexOf(build.slug);
-      var remove = index >= 0;
-      d3.select(this).classed("active", !remove);
 
-      if (remove) {
+      localforage.getItem("cart", function(error, cart) {
 
-        cart.builds.splice(index, 1);
-        cart.datasets.splice(d3.sum(cart.datasets.map(function(d, i) {
-          return d.slug === build.slug ? i : 0;
-        })), 1);
+        var index = cart.builds.indexOf(build.slug);
+        var remove = index >= 0;
 
-      }
-      else {
+        if (remove) {
 
-        var calcs = [], data = [], title = build.title_short;
+          cart.builds.splice(index, 1);
+          cart.datasets.splice(d3.sum(cart.datasets.map(function(d, i) {
+            return d.slug === build.slug ? i : 0;
+          })), 1);
 
-        d3.select(build.container.node().parentNode.parentNode)
-          .selectAll(".cart-percentage").each(function() {
-            var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
-            calcs.push({
-              key: num + "_pct_calc",
-              func: "pct",
-              num: num,
-              den: den
+        }
+        else {
+
+          var calcs = [], data = [], title = build.title_short;
+
+          d3.select(build.container.node().parentNode.parentNode)
+            .selectAll(".cart-percentage").each(function() {
+              var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
+              calcs.push({
+                key: num + "_pct_calc",
+                func: "pct",
+                num: num,
+                den: den
+              });
             });
-          });
 
-        var calcKeys = calcs.map(function(d) { return d.key; });
-        calcs = calcs.filter(function(d, i) { return i === calcKeys.indexOf(d.key); });
+          var calcKeys = calcs.map(function(d) { return d.key; });
+          calcs = calcs.filter(function(d, i) { return i === calcKeys.indexOf(d.key); });
 
-        build.data.forEach(function(d) {
-          var params = d3plus.object.merge({}, d.params);
-          delete params.limit;
-          var shows = params.show.split(",");
-          var sumlevels = params.sumlevel.split(",");
-          var wheres = params.where ? params.where.split(",") : [];
-          delete params.where;
-          var prof_attr = location.pathname.split("/")[2];
+          build.data.forEach(function(d) {
+            var params = d3plus.object.merge({}, d.params);
+            delete params.limit;
+            var shows = params.show.split(",");
+            var sumlevels = params.sumlevel.split(",");
+            var wheres = params.where ? params.where.split(",") : [];
+            delete params.where;
+            var prof_attr = location.pathname.split("/")[2];
 
-          var prof_sumlevel = build.profile.sumlevel;
-          if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
-            prof_sumlevel = d.subs[prof_attr].slice(0, 3);
-          }
-          prof_sumlevel = sumlevelMap[prof_sumlevel] || prof_sumlevel;
+            var prof_sumlevel = build.profile.sumlevel;
+            if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
+              prof_sumlevel = d.subs[prof_attr].slice(0, 3);
+            }
+            prof_sumlevel = sumlevelMap[prof_sumlevel] || prof_sumlevel;
 
-          shows.forEach(function(show, i) {
+            shows.forEach(function(show, i) {
 
-            if (show in params) {
-              delete params[show];
-              if (show === prof_attr && sumlevels[i] === "all") {
-                sumlevels[i] = prof_sumlevel;
-                title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+              if (show in params) {
+                delete params[show];
+                if (show === prof_attr && sumlevels[i] === "all") {
+                  sumlevels[i] = prof_sumlevel;
+                  title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+                }
               }
+
+            });
+
+            if (prof_attr in params) {
+              sumlevels.unshift(prof_sumlevel);
+              shows.unshift(prof_attr);
+              delete params[prof_attr];
+              title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
             }
 
+            wheres = wheres.filter(function(where) {
+              return shows.indexOf(where.split(":")[0]) < 0;
+            });
+
+            params.show = shows.join(",");
+            params.sumlevel = sumlevels.join(",");
+            if (wheres.length) params.where = wheres.join(",");
+
+            if ("year" in params) params.year = "all";
+
+            // console.log(title, params, api + "/api/?" + serialize(params));
+            data.push(api + "/api/?" + serialize(params));
           });
 
-          if (prof_attr in params) {
-            sumlevels.unshift(prof_sumlevel);
-            shows.unshift(prof_attr);
-            delete params[prof_attr];
-            title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
-          }
+          cart.builds.push(build.slug);
 
-          wheres = wheres.filter(function(where) {
-            return shows.indexOf(where.split(":")[0]) < 0;
+          cart.datasets.push({
+            calcs: calcs,
+            data: data,
+            slug: build.slug,
+            title: title
           });
 
-          params.show = shows.join(",");
-          params.sumlevel = sumlevels.join(",");
-          if (wheres.length) params.where = wheres.join(",");
+        }
 
-          if ("year" in params) params.year = "all";
+        localforage.setItem("cart", cart, updateCart);
 
-          // console.log(title, params, api + "/api/?" + serialize(params));
-          data.push(api + "/api/?" + serialize(params));
-        });
-
-        cart.builds.push(build.slug);
-
-        cart.datasets.push({
-          calcs: calcs,
-          data: data,
-          slug: build.slug,
-          title: title
-        });
-
-      }
-
-      d3.select("#cart-btn a")
-        .html(cart.datasets.length || "")
-        .classed("active", cart.datasets.length);
-
-      localforage.setItem("cart", cart);
+      });
 
     });
 

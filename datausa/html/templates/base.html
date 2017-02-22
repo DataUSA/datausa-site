@@ -58,34 +58,6 @@
         if (key in dictionary) affixes[dictionary[key]] = affixes[key];
       }
 
-      var cart;
-      localforage.getItem("cart", function(error, cartCache) {
-
-        if (cartCache === null) {
-          cartCache = {
-            builds: [],
-            datasets: []
-          };
-          localforage.setItem("cart", cartCache);
-        }
-
-        cart = cartCache;
-
-        if (d3.select("body").classed("cart")) populatePage();
-        else {
-
-          d3.selectAll(".add-to-cart").each(function() {
-            d3.select(this).classed("active", cart.builds.indexOf(d3.select(this).attr("data-slug")) >= 0);
-          });
-
-        }
-
-        d3.select("#cart-btn a")
-          .html(cart.datasets.length || "")
-          .classed("active", cart.datasets.length);
-
-      });
-
     </script>
 
     {% block head %}
@@ -567,6 +539,36 @@
       if (compare) addComparison(compare);
       else profileEvents();
       viz.loadBuilds(builds);
+
+      function updateCart() {
+
+        localforage.getItem("cart", function(error, cartCache) {
+
+          if (cartCache === null) {
+            cartCache = {
+              builds: [],
+              datasets: []
+            };
+            localforage.setItem("cart", cartCache);
+          }
+
+          d3.select("#cart-btn a")
+            .html(cartCache.datasets.length || "")
+            .classed("active", cartCache.datasets.length);
+
+          if (d3.select("body").classed("cart")) populatePage(cartCache);
+          else {
+
+            d3.selectAll(".add-to-cart").each(function() {
+              d3.select(this).classed("active", cartCache.builds.indexOf(d3.select(this).attr("data-slug")) >= 0);
+            });
+
+          }
+
+        });
+
+      }
+      updateCart();
 
       if (resizeFunctions.length || resizeInstantFunctions.length) {
 
