@@ -6043,10 +6043,14 @@ window.onload = function() {
 var load = function(url, callback) {
 
   localforage.getItem("cache_version", function(error, c){
-
     if (c !== cache_version) {
-      localforage.clear();
-      localforage.setItem("cache_version", cache_version, loadUrl);
+      localforage.getItem("cart", function(error, cart) {
+        localforage.clear(function() {
+          localforage.setItem("cart", cart, function() {
+            localforage.setItem("cache_version", cache_version, loadUrl);
+          });
+        });
+      });
     }
     else {
       loadUrl();
