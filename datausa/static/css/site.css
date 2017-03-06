@@ -8094,7 +8094,7 @@
     top: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 3; }
+    z-index: 2; }
     #cart-loading.hidden, #cart-description.hidden {
       display: none; }
       #cart-loading #cart-loading-text, #cart-loading #cart-description-text,
