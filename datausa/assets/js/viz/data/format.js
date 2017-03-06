@@ -33,7 +33,7 @@ viz.format = {
       if (proportions.indexOf(key) >= 0) number = number * 100;
 
       if ((params.output !== "x" || number < 1000) && number < 999999.99 && number >= 0.1) {
-        var prec = ["gini"].indexOf(key) >= 0 ? "3" : key.indexOf("_rca") > 0 || key in affixes ? "2" : "1";
+        var prec = params.cart || ["gini"].indexOf(key) >= 0 ? "3" : key.indexOf("_rca") > 0 || key in affixes ? "2" : "1";
         number = d3.format(",." + prec + "f")(number);
         number = prec === "3" ? number.replace(".000", "") : prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
       }
@@ -58,13 +58,39 @@ viz.format = {
   },
   "text": function(text, params, build) {
 
-    if (!params) params = {};
+    if (params === void 0) params = {};
+
+    if (params.cart && text.match(/_id$/g)) {
+      return viz.format.text(text.substring(0, text.length - 3), params, build) + " ID"
+    }
+    if (params.cart && text.match(/_name$/g)) {
+      return viz.format.text(text.substring(0, text.length - 5), params, build) + " Name"
+    }
+    if (params.cart && text.match(/_sumlevel$/g)) {
+      return viz.format.text(text.substring(0, text.length - 9), params, build) + " Summation Level"
+    }
+
+    var yearMatch = text.match(/_(\d{4})$/g);
+    if (yearMatch) {
+      return viz.format.text(text.substring(0, text.length - 5), params, build) + " (" + yearMatch[0].slice(1, 5) + ")"
+    }
 
     if (text.indexOf("_moe") > 0) {
+      if (params && params.cart) {
+        return viz.format.text(text.split("_moe")[0], params, build) + " MoE";
+      }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
     else if (text.indexOf("_rank") > 0) {
       return "Rank";
+    }
+    else if (text.indexOf("_pct_calc") > 0) {
+      return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
+    }
+
+    if (text.indexOf("_") >= 0 && text.split("_")[0] in colmap) {
+      var t = text.split("_");
+      return viz.format.text(t[0]) + ": " + colmap[t[0]][t.slice(1, t.length).join("-")];
     }
 
     if (text.indexOf("y2_") === 0) {

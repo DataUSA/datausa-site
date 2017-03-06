@@ -12,7 +12,9 @@ viz.prepBuild = function(build, i) {
 
   var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
   if (title.size()) {
-    build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
+    if (title.select(".topic-title").size()) build.title = title.select(".topic-title").text();
+    else build.title = title.select(".term").text();
+    build.title_short = build.title;
     if (["top", "bottom"].indexOf(build.config.color) >= 0) {
       var cat = dictionary[build.attrs[0].type];
       if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
@@ -128,20 +130,141 @@ viz.prepBuild = function(build, i) {
 
   }
 
-  d3.select(build.container.node().parentNode.parentNode).select("a.share-embed")
+  d3.select(build.container.node().parentNode.parentNode).selectAll("a.popover-btn")
     .on("click", function(){
       d3.event.preventDefault();
       dusa_popover.open([
-        {"title":"Share"},
-        {"title":"Embed"},
-        {"title":"Download"},
-        {"title":"Data"},
-        {"title":"API"}
+        {"id": "view-table", "title":"View Data"},
+        {"id": "save-image", "title":"Save Image"},
+        {"id": "share", "title":"Share / Embed"},
+        // {"id": "", "title":"Embed"},
+        // {"id": "", "title":"API"}
       ],
-      d3.select(this).attr("data-target-id"),
-      d3.select(this).attr("data-url"),
-      d3.select(this).attr("data-embed"),
+      d3.select(this).attr("data-ga"),
+      d3.select(this.parentNode.parentNode.parentNode).attr("data-url"),
+      d3.select(this.parentNode.parentNode.parentNode).attr("data-embed"),
       build)
+    });
+
+  function serialize(obj) {
+    var str = [];
+    for(var p in obj)
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    return str.join("&");
+  }
+
+  var sumlevelMap = {
+    "010": "nation",
+    "040": "state",
+    "050": "county",
+    "310": "msa",
+    "160": "place",
+    "860": "zip",
+    "140": "tract"
+  };
+
+  d3.select(build.container.node().parentNode.parentNode).select("a.add-to-cart")
+    .on("click", function(){
+      d3.event.preventDefault();
+
+      if (d3.select(this).classed("disabled")) return;
+
+      localforage.getItem("cart", function(error, cart) {
+
+        var index = cart.builds.indexOf(build.slug);
+        var remove = index >= 0;
+
+        if (remove) {
+
+          cart.builds.splice(index, 1);
+          cart.datasets.splice(d3.sum(cart.datasets.map(function(d, i) {
+            return d.slug === build.slug ? i : 0;
+          })), 1);
+
+        }
+        else {
+
+          var calcs = [], data = [], title = build.title_short;
+
+          d3.select(build.container.node().parentNode.parentNode)
+            .selectAll(".cart-percentage").each(function() {
+              var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
+              calcs.push({
+                key: num + "_pct_calc",
+                func: "pct",
+                num: num,
+                den: den
+              });
+            });
+
+          var calcKeys = calcs.map(function(d) { return d.key; });
+          calcs = calcs.filter(function(d, i) { return i === calcKeys.indexOf(d.key); });
+
+          build.data.forEach(function(d) {
+            var params = d3plus.object.merge({}, d.params);
+            delete params.limit;
+            var shows = params.show.split(",");
+            var sumlevels = params.sumlevel.split(",");
+            var wheres = params.where ? params.where.split(",") : [];
+            delete params.where;
+            var prof_attr = location.pathname.split("/")[2];
+
+            var prof_sumlevel = build.profile.sumlevel;
+            if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
+              prof_sumlevel = d.subs[prof_attr].slice(0, 3);
+            }
+            prof_sumlevel = sumlevelMap[prof_sumlevel] || prof_sumlevel;
+
+            shows.forEach(function(show, i) {
+
+              if (show in params) {
+                delete params[show];
+                if (show === prof_attr && sumlevels[i] === "all") {
+                  sumlevels[i] = prof_sumlevel;
+                  title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+                }
+              }
+
+            });
+
+            if (prof_attr in params) {
+              sumlevels.unshift(prof_sumlevel);
+              shows.unshift(prof_attr);
+              delete params[prof_attr];
+              title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+            }
+
+            wheres = wheres.filter(function(where) {
+              return shows.indexOf(where.split(":")[0]) < 0;
+            });
+
+            params.show = shows.join(",");
+            params.sumlevel = sumlevels.join(",");
+            if (wheres.length) params.where = wheres.join(",");
+
+            if ("year" in params) params.year = "all";
+
+            // console.log(title, params, api + "/api/?" + serialize(params));
+            data.push(api + "/api/?" + serialize(params));
+          });
+
+          cart.builds.push(build.slug);
+
+          cart.datasets.push({
+            calcs: calcs,
+            data: data,
+            slug: build.slug,
+            title: title
+          });
+
+        }
+
+        localforage.setItem("cart", cart, updateCart);
+
+      });
+
     });
 
 };

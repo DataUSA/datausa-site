@@ -123,7 +123,7 @@ DICTIONARY = {
 
     "gini": "GINI",
 
-    "geo": "Location Name",
+    "geo": "Location",
     "cip": "College Degree",
     "naics": "Industry",
     "soc": "Occupation",
@@ -336,10 +336,14 @@ DICTIONARY = {
     "white": "White",
 
     "property_tax": "Property Taxes",
+    "propertytax": "Property Taxes",
     "property_val": "Property Value",
+    "propertyval": "Property Value",
     "race": "Race or Ethnicity",
     "sex": "Gender",
     "state_tuition": "In State Tuition",
+
+    "total_owner_occupied_housing_units": "Total Households",
 
     "transport": "Method of Travel",
     "transport_drove": "Drove Alone",
@@ -575,10 +579,26 @@ COLMAP = {
         "home": "Work at Home",
         "motorcycle": "Motorcycle",
         "taxi": "Taxi"
+    },
+    "travel": {
+        "less5": "&lt; 5 minutes",
+        "5to9": "5-9 minutes",
+        "10to14": "10-14 minutes",
+        "15to19": "15-19 minutes",
+        "20to24": "20-24 minutes",
+        "25to29": "25-29 minutes",
+        "30to34": "30-34 minutes",
+        "35to39": "35-39 minutes",
+        "40to44": "40-44 minutes",
+        "45to59": "45-59 minutes",
+        "60to89": "60-89 minutes",
+        "90over": "90+ minutes"
     }
 }
 COLMAP["acs_race"] = COLMAP["race"]
 COLMAP["pums_race"] = COLMAP["race"]
+COLMAP["propertyval"] = COLMAP["propertyvalBucket"]
+COLMAP["propertytax"] = COLMAP["propertytaxBucket"]
 
 GLOSSARY = {
     "Most Specialized": {

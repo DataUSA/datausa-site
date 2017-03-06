@@ -210,7 +210,8 @@ viz.loadData = function(build, next) {
 
         d.data = viz.formatData(data, d, build);
         d.source = return_data.source;
-        build.sources.push(return_data.source)
+        build.sources.push(return_data.source);
+        d.subs = return_data.subs || {};
         dataArray = dataArray.concat(d.data);
         loaded++;
         if (loaded === build.data.length) {

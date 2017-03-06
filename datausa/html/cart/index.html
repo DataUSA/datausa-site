@@ -1,0 +1,442 @@
+{% extends "templates/nav.html" %}
+
+{% block subtitle %}
+<div id="title-bar">
+  <span><a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a> Cart</span>
+</div>
+{% endblock %}
+
+{% block body %}
+<div id="cart-table"></div>
+<div id="cart-panel">
+  <div id="datasets" class="group">
+    <div class="title">Data Cart</div>
+    <div class="headers">
+      <div class="name"><span></span> Datasets</div>
+      <div class="remove">Remove</div>
+    </div>
+    <div class="body">
+
+    </div>
+    <div id="cart-csv" class="cart-btn">Download Full Table as CSV File</div>
+    <div class="cart-clear cart-btn">Remove All Items from Cart</div>
+  </div>
+</div>
+<div id="cart-description">
+  <div id="cart-description-text">
+    <img src="/static/img/viz/add-to-cart-red.svg" width="16px" height="21px" />Data Cart
+    <div id="cart-description-status">As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to this page for future analysis. Up to 5 datasets can be added to the cart, and their columns and rows will be intelligently merged together for bulk download.</div>
+  </div>
+</div>
+<div id="cart-loading" class="hidden">
+  <div id="cart-loading-text">
+    <i class="fa fa-spinner fa-spin"></i>Please Wait
+    <div id="cart-loading-status">Loading Data</div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+  var loadStatus = d3.select("#cart-loading-status");
+
+  var columns = [], groupedData = [];
+
+  var sumlevels = {
+    "010": "nation",
+    "040": "state",
+    "050": "county",
+    "310": "msa",
+    "160": "place",
+    "860": "zip",
+    "140": "tract"
+  };
+
+  var attrs = {};
+
+  var attr_list = [
+    // "year",
+    "geo",
+    "naics", "acs_ind", "bls_naics", "iocode",
+    "soc", "acs_occ", "bls_soc",
+    "cip", "degree", "university", "sector", "pums_degree",
+    "sex", "race", "acs_race", "pums_race", "language", "birthplace",
+    "skill", "wage_bin", "conflict"
+  ];
+
+  var sticky = [];
+  attr_list.forEach(function(attr) {
+    sticky.push(attr);
+    sticky.push(attr + "_id");
+    sticky.push(attr + "_name");
+    sticky.push(attr + "_sumlevel");
+  });
+
+  var bubbles = [];
+
+  var grid = {
+    columnDefs: [],
+    colWidth: 150,
+    // enableSorting: true,
+    headerHeight: 65,
+    maxPagesInCache: 10,
+    paginationInitialRowCount: 1,
+    paginationPageSize: 100,
+    rowData: [],
+    rowHeight: 30,
+    rowModelType: "virtual",
+    suppressCellSelection: true
+  };
+  new agGrid.Grid(d3.select("#cart-table").node(), grid);
+
+  function cellRenderer(params) {
+    var key = params.column.colId, v = params.value;
+
+    if (v === void 0 || v === null) return "";
+    else if (v.constructor === Number) return viz.format.number(v, {"cart": true, "key": key});
+    else return viz.format.text(v, {"key": key});
+
+  }
+
+  function loadDatasets(datasets, callback) {
+
+    var calcs = d3.merge(datasets.map(function(d) { return d.data.map(function() { return d.calcs; }); })),
+        urls = d3.merge(datasets.map(function(d) { return d.data; }));
+
+    urls.forEach(function(url) {
+      var show = new RegExp("&show=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
+      show[1].split(",").forEach(function(attr) {
+        var u = "https://api.datausa.io/attrs/" + attr + "/";
+        if (urls.indexOf(u) < 0) urls.push(u);
+      });
+      var required = new RegExp("&required=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
+      if (required) {
+        required[1].split(",").forEach(function(attr) {
+          if (attr_list.indexOf(attr) >= 0) {
+            var u = "https://api.datausa.io/attrs/" + attr + "/";
+            if (urls.indexOf(u) < 0) urls.push(u);
+          }
+        });
+      }
+    });
+
+    if (!urls.length) callback([], []);
+
+    urls = d3plus.util.uniques(urls);
+    var urlList = urls.slice();
+
+    var retData = [], retHeaders = [];
+    function loadSingle() {
+
+      var url = urls.shift();
+      loadStatus.html("API Call " + (urlList.length - urls.length) + " of " + urlList.length);
+
+      load(url, function(data, u, ret) {
+
+        if (url.indexOf("/attrs/") >= 0) {
+          attrs[url.split("/")[4]] = data.reduce(function(obj, d) {
+            obj[d.id] = d;
+            return obj;
+          }, {});
+        }
+        else {
+
+          var c = calcs[urlList.indexOf(url)];
+
+          if (c) {
+            for (var ci = 0; ci < c.length; ci++) {
+              var calc = c[ci];
+              var func;
+              if (calc.func === "pct") {
+                func = function(d) {
+                  return d[calc.num] !== void 0 && d[calc.num] !== null && d[calc.den] ? d[calc.num] / d[calc.den] : null;
+                }
+              }
+              if (func) {
+                for (var i = 0; i < data.length; i++) {
+                  data[i][calc.key] = func(data[i]);
+                }
+                bubbles.push(calc.key);
+              }
+            }
+          }
+
+          var headers = ret.headers;
+          if (ret.headers.indexOf("year") >= 0) {
+            headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
+              return ret.headers.map(function(h){
+                return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
+              });
+            }));
+          }
+
+          retData = retData.concat(data);
+          retHeaders = retHeaders.concat(headers);
+
+        }
+
+        loadStatus.html("API Call 0 of " + urlList.length);
+
+        if (urls.length) loadSingle();
+        else callback(retData, d3plus.util.uniques(retHeaders));
+
+      });
+
+    }
+
+    loadSingle();
+
+  }
+
+  function updateDisplay(cart) {
+
+    d3.select("#cart-panel").style("display", cart.datasets.length ? "block" : "none");
+    d3.select("#cart-table").style("opacity", cart.datasets.length ? "1" : "0");
+
+    loadStatus.html("Loading Cart");
+    d3.select("#cart-loading").classed("hidden", !cart.datasets.length);
+    d3.select("#cart-description").classed("hidden", cart.datasets.length);
+
+    if (!cart.datasets.length) return;
+
+    d3.select("#datasets .headers .name span").html(cart.datasets.length);
+
+    var datasets = d3.select("#datasets")
+      .select(".body").selectAll(".dataset")
+      .data(cart.datasets);
+
+    var enter = datasets.enter().append("div")
+      .attr("class", "dataset");
+
+    enter.append("div").attr("class", "name");
+    enter.append("div").attr("class", "remove");
+
+    datasets.select(".name").html(function(d) { return d.title; });
+    datasets.select(".remove").on("click", function(d, i) {
+
+      var index = d.slug ? cart.builds.indexOf(d.slug) : -1;
+      if (index >= 0) cart.builds.splice(index, 1);
+      cart.datasets.splice(i, 1);
+      localforage.setItem("cart", cart, updateCart);
+
+    });
+
+    datasets.exit().remove();
+
+    loadDatasets(cart.datasets, function(data, headers) {
+
+      console.log("loaded", data.length);
+
+      loadStatus.html("Constructing Headers");
+
+      var rawKeys = headers.sort(function(a, b) {
+          return a.localeCompare(b);
+        });
+
+      var availableStickies = rawKeys.filter(function(key) { return sticky.indexOf(key) >= 0; });
+
+      for (var a = 0; a < attr_list.length; a++) {
+        var attr = attr_list[a];
+        if (rawKeys.includes(attr)) {
+          rawKeys.push(attr + "_id");
+          rawKeys.push(attr + "_name");
+          if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
+        }
+      }
+      rawKeys = rawKeys.filter(k => !attr_list.includes(k) && k !== "year");
+
+      console.log(rawKeys);
+
+      loadStatus.html("Sorting Columns");
+
+      var keys = rawKeys.slice()
+        // .filter(function(key) { return key.match(/.*_[0-9]+$/g) === null; })
+        .sort(function(a, b) {
+
+          var aI = sticky.indexOf(a), bI = sticky.indexOf(b);
+          var aY = a.match(/\d{4}$/g), bY = b.match(/\d{4}$/g);
+          var aB = bubbles.indexOf(aY ? a.substring(0, a.length - 5) : a),
+              bB = bubbles.indexOf(bY ? b.substring(0, b.length - 5) : b);
+
+          if (aB > -1 && aB === bB && aY && bY) return aY[0] - bY[0];
+
+          return (aI >= 0 ? aI : aB >= 0 ? aB + 3 + sticky.length : rawKeys.indexOf(a) + sticky.length + bubbles.length)
+               - (bI >= 0 ? bI : bB >= 0 ? bB + 3 + sticky.length : rawKeys.indexOf(b) + sticky.length + bubbles.length);
+
+        });
+
+      loadStatus.html("Joining Data");
+
+      groupedData = d3.nest()
+        .key(function(d) {
+          return availableStickies.map(function(key) { return d[key] || "undefined"; }).join("-");
+        })
+        .entries(data);
+
+      console.log(groupedData.length);
+
+      loadStatus.html("Generating Table");
+
+      columns = keys.map(function(key) {
+        return {
+          cellRenderer: cellRenderer,
+          field: key,
+          headerName: viz.format.text(key, {params: key, cart: true}),
+          pinned: false
+          // pinned: sticky.indexOf(key) >= 0 ? "left" : false
+        };
+      });
+
+      grid.api.setDatasource({
+        rowCount: groupedData.length,
+        getRows: function(params) {
+          // loadStatus.html("Rendering Additional Rows");
+          // d3.select("#cart-loading").classed("hidden", false);
+          var rowData = groupedData.slice(params.startRow, params.endRow);
+          for (var z = 0; z < rowData.length; z++) {
+            var d = rowData[z];
+            var obj = {};
+
+            for (var i = 0; i < d.values.length; i++) {
+              var dat = d.values[i];
+
+
+              if (dat.year) {
+                for (var key in dat) {
+                  if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
+                  else if (key !== "year") obj[key] = dat[key];
+                }
+              }
+              else {
+                for (var key in dat) obj[key] = dat[key];
+              }
+
+            }
+
+            for (var a = 0; a < attr_list.length; a++) {
+              var attr = attr_list[a];
+              if (attr in obj) {
+                obj[attr + "_id"] = obj[attr];
+                if (attr === "geo" && obj[attr].slice(0, 3) === "140") {
+                  obj.geo_name = viz.format.text(obj[attr], {key: "geo"})
+                  obj.geo_sumlevel = "tract";
+                }
+                else if (attrs[attr][obj[attr]]) {
+                  obj[attr + "_name"] = attrs[attr][obj[attr]].display_name || attrs[attr][obj[attr]].name;
+                  if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
+                    obj[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][obj[attr]].sumlevel] : attrs[attr][obj[attr]].sumlevel || attrs[attr][obj[attr]].level;
+                  }
+                }
+              }
+            }
+
+            rowData[z] = obj;
+          }
+          // console.log(params.startRow, params.endRow);
+          // d3.select("#cart-loading").classed("hidden", true);
+          params.successCallback(rowData, groupedData.length <= params.endRow ? groupedData.length : -1);
+        }
+      })
+      grid.api.setColumnDefs(columns);
+      // grid.columnApi.autoSizeColumns(keys);
+
+      d3.select("#cart-loading").classed("hidden", true);
+
+    });
+
+  }
+
+  function populatePage(cartCache) {
+    console.log(cartCache);
+    updateDisplay(cartCache);
+  }
+
+  d3.select("#cart-panel").select(".cart-clear")
+    .on("click", function() {
+      localforage.setItem("cart", null, updateCart);
+    });
+
+  d3.select("#cart-csv").on("click", function() {
+
+    loadStatus.html("Building CSV");
+    d3.select("#cart-loading").classed("hidden", false);
+
+    setTimeout(function() {
+
+      var title = "Data USA Cart",
+          zip = new JSZip();
+
+      var keys = columns.map(function(c) { return c.field; });
+
+      var csv = keys.join(",");
+      for (var i = 0; i < groupedData.length; i++) {
+        var data = groupedData[i];
+
+        csv += "\n" + keys.map(function(key) {
+
+          var d = [], yearMatch = key.match(/_(\d{4})$/g);
+
+          if (attr_list.indexOf(key.split("_")[0]) >= 0) {
+
+            var attr = key.split("_")[0];
+            var id = data.values[0][attr];
+
+            if (key === attr + "_id") return id;
+            else if (key === attr + "_name") {
+
+              if (attr === "geo" && id.slice(0, 3) === "140") {
+                d = viz.format.text(id, {key: "geo"});
+              }
+              else if (attrs[attr][id]) {
+                d = attrs[attr][id].display_name || attrs[attr][id].name;
+              }
+
+            }
+            else if (key === attr + "_sumlevel") {
+
+              if (attr === "geo" && id.slice(0, 3) === "140") {
+                d = "tract";
+              }
+              else if (attrs[attr][id]) {
+                if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
+                  d = attr === "geo" ? sumlevels[attrs[attr][id].sumlevel] : attrs[attr][id].sumlevel || attrs[attr][id].level;
+                }
+              }
+
+            }
+
+          }
+          else if (yearMatch) {
+            var year = parseFloat(yearMatch[0].slice(1, 5));
+            key = key.split("_");
+            key.pop();
+            key = key.join("_");
+            d = data.values.filter(function(v) {
+              return v.year === year && v[key] !== void 0;
+            });
+          }
+          else {
+            d = data.values.filter(function(v) {
+              return v[key] !== void 0;
+            });
+          }
+
+          var val = d instanceof Array ? d.length ? d[0][key] : "" : d;
+          return typeof val === "number" ? val
+               : val ? "\"" + val + "\"" : "";
+
+        });
+      }
+
+      zip.file(title + ".csv", csv);
+      saveAs(zip.generate({type: "blob"}), title + ".zip");
+      d3.select("#cart-loading").classed("hidden", true);
+
+    }, 100);
+
+  });
+
+</script>
+{% endblock %}

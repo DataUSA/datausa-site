@@ -3,7 +3,7 @@ dusa_popover = function() {
 }
 
 dusa_popover.close = function() {
-  d3.selectAll(".close-btn .b").classed("close", !d3.selectAll(".close-btn .b").classed("close"));
+  // d3.selectAll(".close-btn .b").classed("close", !d3.selectAll(".close-btn .b").classed("close"));
   d3.selectAll(".overlay").remove();
   var body = d3.select("body");
   body.on("keyup.popover", null);
@@ -84,16 +84,16 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
   modal.append("div")
     .attr("class", "close-btn")
-    .html('<div class="in"><div class="bd"><div class="b-1 b close"><span></span></div><div class="b-2 b close"><span></span></div><div class="b-3 b close"><span></span></div></div></div>')
+    // .html('<div class="in"><div class="bd"><div class="b-1 b close"><span></span></div><div class="b-2 b close"><span></span></div><div class="b-3 b close"><span></span></div></div></div>')
     .on("click", dusa_popover.close)
 
-  var header = modal
-    .append("div")
-      .attr("class", "header")
-
-  header
-    .append("h2")
-      .text("Options")
+  // var header = modal
+  //   .append("div")
+  //     .attr("class", "header")
+  //
+  // header
+  //   .append("h2")
+  //     .text("Options")
 
   var body = modal
     .append("div")
@@ -125,45 +125,49 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       var panel_link = nav
         .append("span")
           .attr("class", "change_share")
-          .attr("id", p.title.toLowerCase())
-          .attr("data-target-id", p.title.toLowerCase())
+          .attr("id", p.id)
+          .attr("data-ga", p.id)
           .text(p.title)
           .on("click", function(){
             var src = d3.event ? (d3.event.srcElement || d3.event.target) : (ev.srcElement || ev.target);
             if(src === window){
-              var target_id = active_panel.attr("data-target-id");
+              var target_id = active_panel.attr("data-ga");
             }
             else {
-              var target_id = d3.select(src).attr("data-target-id");
-              if (!target_id || typeof(target_id) != "string") target_id = d3.select(src.parentNode).attr("data-target-id");
+              var target_id = d3.select(src).attr("data-ga");
+              if (!target_id || typeof(target_id) !== "string") target_id = d3.select(src.parentNode).attr("data-ga");
             }
             var this_tab = d3.select(".change_share#"+target_id)
             var pos = this_tab.node().offsetLeft;
             var w = this_tab.node().offsetWidth;
+            var panelWidth = parseFloat(d3.select(".panel").style("width"), 10);
+
             d3.select(".panels")
               .classed("noslide", this === window)
-              .style("transform", "translateX("+(i*80)*-1+"vw)")
+              .style("transform", "translateX("+(i*panelWidth)*-1+"px)");
+
             d3.select("span.highlight")
               .classed("noslide", this === window)
               .style("width", w+"px")
-              .style("left", pos+"px")
-            if(target_id === "data"){
+              .style("left", pos+"px");
+
+            if(target_id === "view-table"){
               var window_h = getElDimensions()[1];
-              var el_h = getElDimensions(d3.select("div.panel#data").node())[1];
-              var new_h = Math.round(Math.max(250, (Math.min(window_h, el_h) * 0.8)));
-              d3.selectAll(".panel").style("height", new_h+"px")
+              var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
+              var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+              d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
             }
             else {
-              d3.selectAll(".panel").style("height", 250+"px")
+              d3.selectAll(".panel").style("height", 250+"px");
             }
-          })
-      if(p.title.toLowerCase() == active_panel_id){
+
+          });
+
+      if(p.id == active_panel_id){
         active_panel = panel_link;
       }
     })
-    nav
-      .append("span")
-        .attr("class", "highlight")
+    nav.append("span").attr("class", "highlight");
 
     var panel_divs = body
       .append("div")
@@ -174,9 +178,10 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
       var panel = panel_divs
         .append("div")
           .attr("class", "panel")
-          .attr("id", p.title.toLowerCase())
+          .attr("id", p.id)
 
-      if(p.title.toLowerCase() == "share"){
+      if(p.id == "share"){
+
         var social = panel.append("div")
           .attr("class", "social")
 
@@ -190,45 +195,45 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           .attr("target", "_blank")
           .attr("class", "fa fa-twitter")
 
-        panel.append("input")
+        social.append("input")
           .attr("type", "text")
           .attr("readonly", true)
           .attr("class", "share-link")
           .property("value", embed_url)
           .on("click", function(){ this.select(); })
-      }
-      else if(p.title.toLowerCase() == "embed"){
+
         var embed_options = panel.append("div")
           .attr("class", "embed_options")
 
         var demo = embed_options.append("div")
           .attr("class", "demo")
           .append("img")
-            .attr("src", "/static/img/profiles/embed_viz.svg")
+            .attr("src", "/static/img/viz/mini-viz.png");
 
         var options = embed_options.append("div")
           .attr("class", "options")
 
         var option = options.append("div").attr("class", "option")
         option.append("p").text("Copy and paste the following code to place an interactive version of this visualization on your website.");
-        option.append("input")
+        var optionRow = option.append("div").attr("class", "option-row");
+        optionRow.append("input")
           .attr("type", "checkbox")
           .on("change", function(){
             var demo_img = d3.select(".demo img");
             var embed_link_input = d3.select(".embed-link");
             var old_embed_link = embed_link_input.property("value")
             if(this.checked){
-              demo_img.attr("src", "/static/img/profiles/embed.svg")
+              demo_img.attr("src", "/static/img/viz/mini-viz-text.png")
               embed_link_input.property("value", old_embed_link.replace("?viz=True", "?"))
             }
             else {
-              demo_img.attr("src", "/static/img/profiles/embed_viz.svg")
+              demo_img.attr("src", "/static/img/viz/mini-viz.png")
               embed_link_input.property("value", old_embed_link.replace("?", "?viz=True"))
             }
           })
-        option.append("label").text("Include paragraph and stats")
+        optionRow.append("label").text("Include paragraph and stats")
 
-        var sizes = options.append("select")
+        var sizes = optionRow.append("select")
         sizes.append("option").attr("value", "720|480").text("Small 720 x 480")
         sizes.append("option").attr("value", "1440|1080").text("Large 1440 x 1080")
         sizes.append("option").attr("value", "").text("Fullscreen")
@@ -243,17 +248,18 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             cur_val = cur_val.replace(/height="([px0-9%]+)"/, 'height="'+h+'"')
             return cur_val;
           })
-        })
-
+        });
 
         panel.append("input")
           .attr("type", "text")
           .attr("readonly", true)
           .attr("class", "embed-link")
           .property("value", '<iframe width="720px" height="480px" src="https://embed.datausa.io'+getLinkPath(url)+'?viz=True" frameborder="0" ></iframe>')
-          .on("click", function(){ this.select(); })
+          .on("click", function(){ this.select(); });
+
       }
-      else if(p.title.toLowerCase() == "download"){
+      else if(p.id == "save-image"){
+
         var social = panel.append("div")
           .attr("class", "filetypes")
 
@@ -268,6 +274,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         }
 
         var file_svg = social.append("div")
+          .attr("class", "filetype")
           .on("click", function(){
             save(container, {"mode": "svg", "name":build.title})
           })
@@ -277,6 +284,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           .text("SVG")
 
         var file_pdf = social.append("div")
+          .attr("class", "filetype")
           .on("click", function(){
             save(container, {"mode": "pdf", "name":build.title})
           })
@@ -286,17 +294,23 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           .text("PDF")
 
         var file_img = social.append("div")
+          .attr("class", "filetype")
           .on("click", function(){
             save(container, {"mode": "png", "name":build.title})
           })
         file_img.append("i")
           .attr("class", "fa fa-file-image-o")
         file_img.append("span")
-          .text("Image")
+          .text("Image");
+      }
+      else if(p.id == "view-table"){
 
-        var file_csv = social.append("div")
+        var downloadRow = panel.append("div")
+          .attr("class", "download-row")
+
+        var file_csv = downloadRow.append("div")
+          .attr("class", "filetype")
           .on("click", function(){
-            // save(container, {"mode": "png", "name":build.title})
 
             d3.event.preventDefault();
             var urls = unfilteredData.reduce(function(arr, dataobj){ return arr.concat(dataobj.url) }, []),
@@ -328,11 +342,22 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         file_csv.append("i")
           .attr("class", "fa fa-file-text-o")
         file_csv.append("span")
-          .text("CSV")
-      }
-      else if(p.title.toLowerCase() == "data"){
+          .text("Download as CSV");
+
+
+        var api_panel = downloadRow.append("div")
+          .attr("class", "api");
+
+        unfilteredData.forEach(function(d, i){
+          api_panel.append("input")
+            .attr("type", "text")
+            .attr("readonly", true)
+            .property("value", "https://api.datausa.io" + getLinkPath(d.url))
+            .on("click", function(){ this.select(); })
+        })
+
         var data_panel = panel.append("div")
-          .attr("class", "data")
+          .attr("class", "view-table");
 
         if (unfilteredData.length) {
           var loaded = 0, dataArray = [], headers = [], tblData = [];
@@ -352,7 +377,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             }
           }
 
-          var tbl = data_panel.html("<table><thead><tr></tr></thead><tbody></tbody></table>").select("table")
+          var tbl = data_panel.html("<table><thead><tr></tr></thead><tbody></tbody></table>").select("table");
 
           for (var i = 0; i < unfilteredData.length; i++) {
             var dataURL = unfilteredData[i].url.replace(/\?limit=[0-9]+&/gi, "?").replace(/&limit=[0-9]+/gi, "")
@@ -405,33 +430,20 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                 });
                 rows.exit().remove();
 
+                if (active_panel.node().id === "view-table") {
+                  var window_h = getElDimensions()[1];
+                  var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
+                  var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+                  d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
+                }
+
               }
             })
           }
         }
 
       }
-      else if(p.title.toLowerCase() == "api"){
-        var api_panel = panel.append("div")
-          .attr("class", "api");
 
-        unfilteredData.forEach(function(d, i){
-          api_panel.append("h3")
-            .text(function(){
-              if(unfilteredData.length === 1){
-                return "API URL"
-              }
-              return "API URL #"+(i+1);
-            })
-
-          api_panel.append("input")
-            .attr("type", "text")
-            .attr("readonly", true)
-            .property("value", "https://api.datausa.io" + getLinkPath(d.url))
-            .on("click", function(){ this.select(); })
-        })
-
-      }
     })
 
     if(active_panel){
