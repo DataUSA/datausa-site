@@ -171,6 +171,28 @@ viz.mapDraw = function(vars) {
 
       var color_range = vizStyles.color.heatmap;
 
+      for (var attr in attrStyles) {
+        var match = false;
+        for (var key in attrStyles[attr]) {
+          var re = new RegExp("_" + key + "$", "g");
+          if (vars.color.value.match(re)) {
+            match = attrStyles[attr][key].color;
+            break;
+          }
+        }
+        if (match) {
+          color_range = [
+            d3plus.color.lighter(match, 0.9),
+            d3plus.color.lighter(match, 0.75),
+            d3plus.color.lighter(match, 0.5),
+            d3plus.color.lighter(match, 0.25),
+            match,
+            d3.rgb(match).darker(0.5)
+          ];
+          break;
+        }
+      }
+
       var jenksData = vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; }).sort();
@@ -204,12 +226,13 @@ viz.mapDraw = function(vars) {
       return obj;
     }, {});
 
-    if (colorScale && colorScale.domain) {
+    var scale = svg.selectAll("g.scale").data(colorScale && colorScale.domain ? [0] : []);
+    scale.exit().transition().duration(600).attr("opacity", 0).remove();
+    scale.enter().append("g")
+      .attr("class", "scale")
+      .attr("opacity", 0);
 
-      var scale = svg.selectAll("g.scale").data([0]);
-      scale.enter().append("g")
-        .attr("class", "scale")
-        .attr("opacity", 0);
+    if (colorScale && colorScale.domain) {
 
       var values = colorScale.domain(),
           colors = color_range;

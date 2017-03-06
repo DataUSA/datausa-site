@@ -106,6 +106,10 @@ var attrStyles = {
         "color": "#c19a1f",
         "icon": "person_profile.png"
     },
+    "native": {
+        "color": "#c19a1f",
+        "icon": "person_profile.png"
+    },
     "4": {
         "color": "#f33535",
         "icon": "person_profile.png"
@@ -114,7 +118,7 @@ var attrStyles = {
         "color": "#82a8e7",
         "icon": "person_profile.png"
     },
-    "native": {
+    "whitenonhispanic": {
         "color": "#82a8e7",
         "icon": "person_profile.png"
     },
@@ -156,6 +160,10 @@ var attrStyles = {
     },
     "2ormore": {
         "color": "#336a81",
+        "icon": "person_profile.png"
+    },
+    "11": {
+        "color": "#49418e",
         "icon": "person_profile.png"
     },
     "hispanic": {

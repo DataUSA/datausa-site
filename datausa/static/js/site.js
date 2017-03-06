@@ -7087,6 +7087,10 @@ var attrStyles = {
         "color": "#c19a1f",
         "icon": "person_profile.png"
     },
+    "native": {
+        "color": "#c19a1f",
+        "icon": "person_profile.png"
+    },
     "4": {
         "color": "#f33535",
         "icon": "person_profile.png"
@@ -7095,7 +7099,7 @@ var attrStyles = {
         "color": "#82a8e7",
         "icon": "person_profile.png"
     },
-    "native": {
+    "whitenonhispanic": {
         "color": "#82a8e7",
         "icon": "person_profile.png"
     },
@@ -7137,6 +7141,10 @@ var attrStyles = {
     },
     "2ormore": {
         "color": "#336a81",
+        "icon": "person_profile.png"
+    },
+    "11": {
+        "color": "#49418e",
         "icon": "person_profile.png"
     },
     "hispanic": {
@@ -8750,6 +8758,7 @@ viz.format = {
   "number": function(number, params) {
 
     var prefix = "";
+    if (!params) params = {};
 
     if (params.key) {
 
@@ -9048,6 +9057,7 @@ viz.prepBuild = function(build, i) {
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
+    var tooltipDefault = build.config.tooltip.value.slice();
     d3plus.form()
       .search(false)
       .ui({
@@ -9055,6 +9065,8 @@ viz.prepBuild = function(build, i) {
       })
       .ui(vizStyles.ui)
       .focus({"callback": function(id, form){
+
+        if (!tooltipDefault.length) build.config.tooltip.value = [id, id + "_moe"];
 
         var param = this.getAttribute("data-param"),
             method = this.getAttribute("data-method"),
@@ -9116,13 +9128,15 @@ viz.prepBuild = function(build, i) {
            });
 
           if (param.length) {
-           build.data.forEach(function(b){
-             b.url = b.url.replace(param + "=" + prev, param + "=" + id);
-           });
-           viz.loadData(build, "redraw");
+            build.data.forEach(function(b){
+              b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+            });
+            viz.loadData(build, "redraw");
           }
           else if (method.length) {
-           build.viz[method](id).draw();
+            build.viz[method](id)
+              .tooltip(!tooltipDefault.length ? [id, id + "_moe"] : tooltipDefault)
+              .draw();
           }
 
         }
@@ -9948,6 +9962,28 @@ viz.mapDraw = function(vars) {
 
       var color_range = vizStyles.color.heatmap;
 
+      for (var attr in attrStyles) {
+        var match = false;
+        for (var key in attrStyles[attr]) {
+          var re = new RegExp("_" + key + "$", "g");
+          if (vars.color.value.match(re)) {
+            match = attrStyles[attr][key].color;
+            break;
+          }
+        }
+        if (match) {
+          color_range = [
+            d3plus.color.lighter(match, 0.9),
+            d3plus.color.lighter(match, 0.75),
+            d3plus.color.lighter(match, 0.5),
+            d3plus.color.lighter(match, 0.25),
+            match,
+            d3.rgb(match).darker(0.5)
+          ];
+          break;
+        }
+      }
+
       var jenksData = vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; }).sort();
@@ -9981,12 +10017,13 @@ viz.mapDraw = function(vars) {
       return obj;
     }, {});
 
-    if (colorScale && colorScale.domain) {
+    var scale = svg.selectAll("g.scale").data(colorScale && colorScale.domain ? [0] : []);
+    scale.exit().transition().duration(600).attr("opacity", 0).remove();
+    scale.enter().append("g")
+      .attr("class", "scale")
+      .attr("opacity", 0);
 
-      var scale = svg.selectAll("g.scale").data([0]);
-      scale.enter().append("g")
-        .attr("class", "scale")
-        .attr("opacity", 0);
+    if (colorScale && colorScale.domain) {
 
       var values = colorScale.domain(),
           colors = color_range;
