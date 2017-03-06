@@ -162,9 +162,9 @@ DICTIONARY = {
     "grads_hawaiian_men": "Hawaiian Men",
     "grads_hawaiian_women": "Hawaiian Women",
     "grads_men": "Men",
-    "grads_multi": "Multi",
-    "grads_multi_men": "Multi Men",
-    "grads_multi_women": "Multi Women",
+    "grads_multi": "Multiracial",
+    "grads_multi_men": "Multiracial Men",
+    "grads_multi_women": "Multiracial Women",
     "grads_native": "Native",
     "grads_native_men": "Native Men",
     "grads_native_women": "Native Women",
@@ -189,9 +189,9 @@ DICTIONARY = {
     "hawaiian": "Hawaiian",
     "hawaiian_men": "Hawaiian Men",
     "hawaiian_women": "Hawaiian Women",
-    "multi": "Multi",
-    "multi_men": "Multi Men",
-    "multi_women": "Multi Women",
+    "multi": "Multiracial",
+    "multi_men": "Multiracial Men",
+    "multi_women": "Multiracial Women",
     "native": "Native",
     "native_men": "Native Men",
     "native_women": "Native Women",
@@ -211,7 +211,7 @@ DICTIONARY = {
     "income_hispanic": "Yearly Income (Hispanic)",
     "income_native": "Yearly Income (Native)",
     "income_hawaiian": "Yearly Income (Hawaiian)",
-    "income_2ormore": "Yearly Income (Multi)",
+    "income_2ormore": "Yearly Income (Multiracial)",
     "income_whitenonhispanic": "Yearly Income (White Non-Hispanic)",
     "income_other": "Yearly Income (Other)",
     "mean_commute_minutes": "Average Travel Time",
@@ -371,7 +371,34 @@ DICTIONARY = {
     "value_millions": "Value",
     "vehicles": "Vehicles",
     "wage_bin": "Wage Bin",
-    "women": "Women"
+    "women": "Women",
+
+    "total_medicare_enrollees": "Medicare Enrollees",
+    "total_reimbursements_b": "Medicare Reimbursements",
+    "hospital_reimbursements_b": "Hospital Reimbursements",
+    "physician_reimbursements_b": "Physician Reimbursements",
+    "outpatient_reimbursements_b": "Outpatient Reimbursements",
+    "home_health_reimbursements_b": "Home Health Reimbursements",
+    "hospice_reimbursements_b": "Hospice Reimbursements",
+    "medical_equip_reimbursements_b": "Medical Equipment Reimbursements",
+
+    "medicare_beneficiaries_total": "Medicare Beneficiaries",
+
+    "patients_in_cohort": "Total Patients in Cohort",
+    "patients_readmitted_within_30_days_of_discharge": "Readmittance within 30 Days",
+    "patients_seeing_a_primary_care_physician_within_14_days": "PCP Visits within 14 Days",
+    "patients_having_an_ambulatory_visit_within_14_days": "Ambulatory Visits within 14 Days",
+    "patients_having_an_emergency_room_visit_within_30_days": "ER Visits within 30 Days",
+
+    "eye_exam": "Eye Exams",
+    "hemoglobin": "Hemoglobin Tests",
+    "lipid_test": "Lipid Tests",
+    "mammogram_tests": "Mammograms",
+
+    "leg_amputations_per_1000_enrollees_total": "Total Leg Amputations",
+    "leg_amputations_per_1000_enrollees_white": "White Leg Amputations",
+    "leg_amputations_per_1000_enrollees_black": "Black Leg Amputations"
+
 }
 
 AFFIXES = {
@@ -390,6 +417,13 @@ AFFIXES = {
     "property_tax": ["$", ""],
     "property_val": ["$", ""],
     "health_care_costs": ["$", ""],
+    "total_reimbursements_b": ["$", ""],
+    "hospital_reimbursements_b": ["$", ""],
+    "physician_reimbursements_b": ["$", ""],
+    "outpatient_reimbursements_b": ["$", ""],
+    "home_health_reimbursements_b": ["$", ""],
+    "hospice_reimbursements_b": ["$", ""],
+    "medical_equip_reimbursements_b": ["$", ""],
     "value_millions": ["$", ""]
 }
 
@@ -440,7 +474,10 @@ PERCENTAGES = [
 PER1000 = [
     "infant_mortality",
     "teen_births",
-    "preventable_hospital_stays"
+    "preventable_hospital_stays",
+    "leg_amputations_per_1000_enrollees_total",
+    "leg_amputations_per_1000_enrollees_white",
+    "leg_amputations_per_1000_enrollees_black"
 ]
 
 PER10000 = [
