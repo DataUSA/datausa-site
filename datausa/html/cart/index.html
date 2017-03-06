@@ -57,21 +57,23 @@
   var attrs = {};
 
   var attr_list = [
-    // "year",
     "geo",
     "naics", "acs_ind", "bls_naics", "iocode",
     "soc", "acs_occ", "bls_soc",
     "cip", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
-    "skill", "wage_bin", "conflict"
+    "skill", "wage_bin", "conflict",
+    "year"
   ];
 
   var sticky = [];
   attr_list.forEach(function(attr) {
     sticky.push(attr);
-    sticky.push(attr + "_id");
-    sticky.push(attr + "_name");
-    sticky.push(attr + "_sumlevel");
+    if (attr !== "year") {
+      sticky.push(attr + "_id");
+      sticky.push(attr + "_name");
+      sticky.push(attr + "_sumlevel");
+    }
   });
 
   var bubbles = [];
@@ -164,13 +166,13 @@
           }
 
           var headers = ret.headers;
-          if (ret.headers.indexOf("year") >= 0) {
-            headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
-              return ret.headers.map(function(h){
-                return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
-              });
-            }));
-          }
+          // if (ret.headers.indexOf("year") >= 0) {
+          //   headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
+          //     return ret.headers.map(function(h){
+          //       return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
+          //     });
+          //   }));
+          // }
 
           retData = retData.concat(data);
           retHeaders = retHeaders.concat(headers);
@@ -239,13 +241,13 @@
 
       for (var a = 0; a < attr_list.length; a++) {
         var attr = attr_list[a];
-        if (rawKeys.includes(attr)) {
+        if (attr !== "year" && rawKeys.includes(attr)) {
           rawKeys.push(attr + "_id");
           rawKeys.push(attr + "_name");
           if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
         }
       }
-      rawKeys = rawKeys.filter(function(k) { return !attr_list.includes(k) && k !== "year"; });
+      rawKeys = rawKeys.filter(function(k) { return k === "year" || !attr_list.includes(k); });
 
       console.log(rawKeys);
 
@@ -303,21 +305,21 @@
               var dat = d.values[i];
 
 
-              if (dat.year) {
-                for (var key in dat) {
-                  if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
-                  else if (key !== "year") obj[key] = dat[key];
-                }
-              }
-              else {
-                for (var key in dat) obj[key] = dat[key];
-              }
+              // if (dat.year) {
+              //   for (var key in dat) {
+              //     if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
+              //     else if (key !== "year") obj[key] = dat[key];
+              //   }
+              // }
+              // else {
+              for (var key in dat) obj[key] = dat[key];
+              // }
 
             }
 
             for (var a = 0; a < attr_list.length; a++) {
               var attr = attr_list[a];
-              if (attr in obj) {
+              if (attr !== "year" && attr in obj) {
                 obj[attr + "_id"] = obj[attr];
                 if (attr === "geo" && obj[attr].slice(0, 3) === "140") {
                   obj.geo_name = viz.format.text(obj[attr], {key: "geo"})
