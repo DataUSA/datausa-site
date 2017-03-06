@@ -109,6 +109,8 @@
     var calcs = d3.merge(datasets.map(function(d) { return d.data.map(function() { return d.calcs; }); })),
         urls = d3.merge(datasets.map(function(d) { return d.data; }));
 
+    var totalCalls = urls.length;
+
     urls.forEach(function(url) {
       var show = new RegExp("&show=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
       show[1].split(",").forEach(function(attr) {
@@ -135,7 +137,9 @@
     function loadSingle() {
 
       var url = urls.shift();
-      loadStatus.html("API Call " + (urlList.length - urls.length) + " of " + urlList.length);
+      var i = urlList.indexOf(url) + 1;
+      if (i <= totalCalls) loadStatus.html("API Call " + i + " of " + totalCalls);
+      else loadStatus.html("Fetching Attribute Names");
 
       load(url, function(data, u, ret) {
 
@@ -181,7 +185,7 @@
 
         }
 
-        loadStatus.html("API Call 0 of " + urlList.length);
+        loadStatus.html("API Call 0 of " + totalCalls);
 
         if (urls.length) loadSingle();
         else callback(retData, d3plus.util.uniques(retHeaders));
