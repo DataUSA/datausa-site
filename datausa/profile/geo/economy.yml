@@ -138,6 +138,7 @@ topics:
       y: "share"
   - title: "Income by Location"
     sumlevel: "!puma"
+    subtitle: "Use the dropdown to select a specific Race or Ethnicity."
     slug: "income_geo"
     select:
       method: "color"
