@@ -350,6 +350,7 @@ body.profile, body.map, body.story {
     h2 {
       @include flex();
       @include align-items(flex-start);
+      @include justify(flex-start);
       font-family: $pathway;
       font-size: 30px;
       font-weight: 400;

@@ -3749,6 +3749,11 @@
     align-items: flex-start;
     -ms-flex-align: start;
     flex-align: start;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    justify-content: flex-start;
+    -ms-flex-pack: start;
+    flex-pack: start;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 30px;
     font-weight: 400;
