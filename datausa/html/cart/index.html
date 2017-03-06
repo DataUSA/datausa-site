@@ -245,7 +245,7 @@
           if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
         }
       }
-      rawKeys = rawKeys.filter(k => !attr_list.includes(k) && k !== "year");
+      rawKeys = rawKeys.filter(function(k) { return !attr_list.includes(k) && k !== "year"; });
 
       console.log(rawKeys);
 
