@@ -247,13 +247,13 @@
 
       for (var a = 0; a < attr_list.length; a++) {
         var attr = attr_list[a];
-        if (attr !== "year" && rawKeys.includes(attr)) {
+        if (attr !== "year" && rawKeys.indexOf(attr) >= 0) {
           rawKeys.push(attr + "_id");
           rawKeys.push(attr + "_name");
           if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
         }
       }
-      rawKeys = rawKeys.filter(function(k) { return k === "year" || !attr_list.includes(k); });
+      rawKeys = rawKeys.filter(function(k) { return k === "year" || attr_list.indexOf(k) < 0; });
 
       console.log(rawKeys);
 
