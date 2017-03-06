@@ -2,6 +2,7 @@ viz.format = {
   "number": function(number, params) {
 
     var prefix = "";
+    if (!params) params = {};
 
     if (params.key) {
 

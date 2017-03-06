@@ -5686,6 +5686,26 @@
         body.story .profile-section .topic .content .viz.mini {
           margin-left: 0;
           min-height: 200px; }
+      body.profile .profile-section .topic.flex-short .full-width,
+      body.map .profile-section .topic.flex-short .full-width,
+      body.story .profile-section .topic.flex-short .full-width {
+        -webkit-box-flex: 1 1 300px;
+        -moz-box-flex: 1 1 300px;
+        -webkit-flex: 1 1 300px;
+        -ms-flex: 1 1 300px;
+        flex: 1 1 300px; }
+        body.profile .profile-section .topic.flex-short .full-width .viz,
+        body.map .profile-section .topic.flex-short .full-width .viz,
+        body.story .profile-section .topic.flex-short .full-width .viz {
+          -webkit-box-flex: 1 1 250px;
+          -moz-box-flex: 1 1 250px;
+          -webkit-flex: 1 1 250px;
+          -ms-flex: 1 1 250px;
+          flex: 1 1 250px;
+          margin-left: 0;
+          height: 250px;
+          max-height: 250px;
+          min-height: 250px; }
   body.profile #show-bg, body.map #show-bg, body.story #show-bg {
     position: absolute;
     top: 40px;
@@ -6880,7 +6900,7 @@
       position: relative;
       margin: 0 auto 25px;
       max-width: 700px; }
-      body.story .back-btn span {
+      body.story .back-btn i, body.story .back-btn span {
         vertical-align: baseline; }
     body.story #all-stories {
       -webkit-justify-content: center;

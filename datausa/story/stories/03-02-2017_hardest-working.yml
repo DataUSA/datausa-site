@@ -1,0 +1,157 @@
+title: "The hardest-working people in America"
+background_image: "/static/img/splash/soc/472031.jpg"
+authors:
+  - name: "Zayd Derweesh"
+    img: "/static/img/story/authors/derweesh.jpg"
+    about:
+      - "Zayd Derweesh is a Senior Consultant in the Federal Advisory Analytics practice. He specializes in macroeconomic modeling and forecasting. Prior to his current role, he spent time in the financial services, oil and gas, and international development sectors both in US and the MENA region. He has a Masters in Economics and Global Development from Boston University."
+
+topics:
+  - title: Average hours worked by Public Use Micro Area
+    viz:
+      attrs: "geo"
+      color: "avg_hrs"
+      coords: "pumas"
+      data:
+        - required: "avg_hrs,avg_hrs_moe"
+          show: "geo"
+          sumlevel: "puma"
+          year: "2014"
+      id: "geo"
+      type: "geo_map"
+    description:
+      - "Many believe Americans have a deserved reputation for being among the hardest-working and most productive people on the planet. But where in the United States do people work the longest hours? High-energy New Yorkers would love to claim that title as their own, but residents of other large urban areas, such as Washington, D.C., may disagree. And in fact, D.C. denizens do work the longest hours when aggregated to the state level. But this high-level view obscures some interesting insights—for instance, none of the Public Use Micro Areas (PUMAs) that comprise the nation’s capital make the top ten individually. In fact, the top three places nationally may surprise you. The three PUMAs reporting the longest weekly hours are:"
+      - "<ol>
+          <li><a href='/profile/geo/79500US2901400/'>Pulaski, Camden, Miller, and Morgan counties, Missouri</a>: 48.7 hours</li>
+          <li><a href='/profile/geo/79500US3603810/'>Battery Park City, Greenwich Village, and SoHo, New York City</a>: 48.1 hours</li>
+          <li><a href='/profile/geo/79500US0200400/'>Subsistence Alaska</a>: 47.4 hours</li></ol>"
+  - description:
+      - "This is an eclectic mix of the fabled American heartland,<<foot note=1>> the majestic and partially uncharted extreme Northwest, and the electric Northeast. Each of these places is radically different from the others in its history, industry, and character. Many likely would have expected the upscale Manhattan neighborhoods to appear on this list, considering New Yorkers’ reputation for being awake (and at work) at all hours. But the cluster of Missouri counties won’t immediately spring to most minds when this question is asked—save possibly for those who live there. However, the data tells us that their inclusion is entirely on merit. Finally, there’s Subsistence Alaska, which conjures up images of grand vistas and survivalist serenity. This collection of rural Alaskan boroughs has an above-average concentration of native hunting and fishing—as well as resource extraction—and features a lifestyle fundamentally different to almost anywhere in the United States."
+      - "Let’s take a closer look at the types of people we might find in each of these places. On the surface, the three geographies could not be more different, but if we dig a little deeper, we may find some similarities."
+  - title: "Median Household Income"
+    description: "A good place to start is with median household income, and as we’ll see, longer hours do not necessarily mean higher wages. The New York neighborhoods lead the way with $118,108, more than double the $53,482 US average. Subsistence Alaska, at $56,736, is more or less in line with the national average. The Missourian suburbs come a distant third, with a median household income of $42,812. This seems to make sense: Wages appear to align much more closely to cost of living rather than hours worked, and, as anyone who has visited can attest, Manhattan is quite expensive."
+    viz:
+      attrs: "geo"
+      data:
+        - geo: "01000US,79500US0200400,79500US3603810,79500US2901400"
+          required: "income,income_moe"
+          show: "geo"
+          year: "2014"
+      id: "geo"
+      highlight: "01000US"
+      labels: YES
+      order:
+        sort: "asc"
+        value: "income"
+      type: "bar"
+      x: "income"
+      y:
+        scale: "discrete"
+        value: "geo"
+  - description:
+      - "The mix of industries and occupations varies hugely between locations as well. In the New York PUMA, the most common occupation is Executive, and the most common industries are Professional and Scientific and Tech Services, as well as Finance & Insurance. These are industries in which having some level of higher education is usually a prerequisite; and the more you have, the more you’re likely to earn. In the Missourian counties, on the other hand, we find that Administrative Supervisor is the most common occupation, and the most common industries are Retail Trade and Healthcare. Administrative Supervisors are most common in Subsistence Alaska as well, in the Public Admin and Healthcare and Social Assistance categories, which tend to be less specialized."
+      - "More revealing, perhaps, is the relative specialization of each location. Compared to the Missouri counties, both the New York neighborhoods and Subsistence Alaska are home to some deeply specialized professionals—ones that tend to be polar opposites in their nature as well."
+  - class: "flex flex-short"
+    title: "Specialization in Battery Park City, Greenwich Village, and SoHo, New York City"
+    viz:
+      - attrs: "acs_ind"
+        color: "top"
+        data:
+          - geo: "79500US3603810"
+            limit: "5"
+            order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_ind"
+            sumlevel: "puma,1"
+            year: "2014"
+        height: 250
+        id: "acs_ind"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          scale: "discrete"
+          value: "acs_ind"
+  - class: "flex flex-short"
+    title: "Specialization in Subsistence Alaska"
+    viz:
+      - attrs: "acs_ind"
+        color: "top"
+        data:
+          - geo: "79500US0200400"
+            limit: "5"
+            order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_ind"
+            sumlevel: "puma,1"
+            year: "2014"
+        height: 250
+        id: "acs_ind"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          scale: "discrete"
+          value: "acs_ind"
+  - class: "flex flex-short"
+    title: "Specialization in the Missouri counties"
+    viz:
+      - attrs: "acs_ind"
+        color: "top"
+        data:
+          - geo: "79500US2901400"
+            limit: "5"
+            order: "num_emp_rca"
+            required: "num_emp,num_emp_moe,num_emp_rca"
+            sort: "desc"
+            show: "geo,acs_ind"
+            sumlevel: "puma,1"
+            year: "2014"
+        height: 250
+        id: "acs_ind"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_emp_rca"
+        type: "bar"
+        x: "num_emp_rca"
+        y:
+          scale: "discrete"
+          value: "acs_ind"
+  - description:
+      - "Not that specialization necessarily leads to higher salaries, of course. Some professions—physicians, lawyers, and IT scientists—do well across all three geographies."
+      - "This difference in incomes is reflected in the vast differences in property values we see across the three locations. The median property value we see in Pulaski, Camden, Miller, and Morgan counties is $136,600, significantly lower than the US average of $175,700. Subsistence Alaska is almost exactly the same as the average, at $177,500. In the Manhattan neighborhoods, by contrast, median property values are well above $1 million—literally off the scale."
+    title: "Property values in Battery Park, Greenwich Village, and SoHo versus the US average (in gray)"
+    viz:
+      attrs: "geo"
+      data:
+        show: "geo"
+        geo: "01000US,79500US3603810"
+        force: "acs.yg_property_value"
+        share: "num_households.geo"
+        split:
+          id: "bucket"
+          regex: "^propertyval_([a-zA-Z0-9]*)$"
+          value: "num_households"
+      highlight: "79500US3603810"
+      id: "geo"
+      order: "bucket"
+      type: "bar"
+      x:
+        label: "property_val"
+        value: "bucket"
+      y: "share"
+  - description:
+      - "But enough about wealth—let’s talk about demographics. All three locations have a median age below the US average of 37.7. The oldest of the three is the Missouri counties at 37.2, followed by the Manhattan neighborhoods of 34.5, and finally Subsistence Alaska at 32.3. When it comes to ethnicity, the Missourian counties have the highest share of white workers, at 86 percent. The Manhattan neighborhoods, on the other hand, are 72.3 percent, with a significant Asian population (15 percent). Subsistence Alaska is 51 percent native, with only 30.4 percent of the population being white—a significant but notable minority."
+      - "From the cradle of urban bohemia that is Greenwich Village to the austere spartanism of Subsistence Alaska, with a detour through the nation’s heartland, we find American workers doing what they do best. The three communities differ widely in just above every key category—income, occupation, industry, and ethnicity. But what they share is a common commitment to hard work, which translates into the country’s longest weekly hours on the job."
+
+footnotes:
+  - "According to the US Census Bureau, the country’s mean center of population falls in Wright County, Missouri, just two counties south of the PUMA comprises Pulaski, Camden, Miller, and Morgan counties. So the term <i>heartland</i> is very much deserved."

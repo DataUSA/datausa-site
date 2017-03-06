@@ -9,6 +9,10 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
+        "link": "/story/03-02-2017_hardest-working/",
+        "featured": True
+    },
+    {
         "link": "/profile/geo/washington-dc/#global_diversity",
         "title": "Global Diversity in Washington, DC",
         "section": "demographics",

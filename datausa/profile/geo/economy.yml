@@ -139,6 +139,20 @@ topics:
   - title: "Income by Location"
     sumlevel: "!puma"
     slug: "income_geo"
+    select:
+      method: "color"
+      default: "income"
+      data:
+        - "income"
+        - "income_white"
+        - "income_black"
+        - "income_asian"
+        - "income_hispanic"
+        - "income_native"
+        - "income_hawaiian"
+        - "income_2ormore"
+        - "income_whitenonhispanic"
+        - "income_other"
     stat:
       - title: "<<level child=True|plural=True>> with the highest median income"
         value: "<<top child=True|order=income>>"
@@ -154,7 +168,7 @@ topics:
         value: "<<sumlevel plural=True|child=True>>"
       color: "income"
       data:
-        - required: "income,income_moe"
+        - force: "acs.yg_income"
           show: "geo"
           sumlevel: "<<sumlevel child=True>>"
           where: "geo:<<children prefix=True>>"
