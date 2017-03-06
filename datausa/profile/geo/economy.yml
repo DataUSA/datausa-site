@@ -138,7 +138,7 @@ topics:
       y: "share"
   - title: "Income by Location"
     sumlevel: "!puma"
-    subtitle: "Use the dropdown to select a specific Race or Ethnicity."
+    subtitle: "Use the dropdown to filter by race/ethnicity."
     slug: "income_geo"
     select:
       method: "color"
@@ -155,13 +155,13 @@ topics:
         - "income_whitenonhispanic"
         - "income_other"
     stat:
-      - title: "<<level child=True|plural=True>> with the highest median income"
+      - title: "<<level child=True|plural=True>> with the highest <span class='select-text'>Yearly Income</span>"
         value: "<<top child=True|order=income>>"
         sumlevel: "!county,!place"
         subvalues:
           - "<<top child=True|order=income|rank=2>>"
           - "<<top child=True|order=income|rank=3>>"
-    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by the median income for that <<level child=True>>."
+    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by Median <span class='select-text'>Yearly Income</span> for that <<level child=True>>."
     viz:
       attrs: "geo"
       coords:
