@@ -11,6 +11,29 @@ var attrStyles = {
     }
 },
 
+  "cohort": {
+    "AMI": {
+        "color": "#f33535",
+        "icon": "thing_medic.png"
+    },
+    "CHF": {
+        "color": "#ff8166",
+        "icon": "thing_medic.png"
+    },
+    "medical": {
+        "color": "#82a8e7",
+        "icon": "thing_medic.png"
+    },
+    "pneumonia": {
+        "color": "#ffb563",
+        "icon": "thing_medic.png"
+    },
+    "surgical": {
+        "color": "#72f5c4",
+        "icon": "thing_medic.png"
+    }
+},
+
   "sex": {
     "1": {
         "color": "#1A3E61",
