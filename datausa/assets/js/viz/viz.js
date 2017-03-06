@@ -134,6 +134,7 @@ viz.finish = function(build) {
       method: function(d, viz) {
         viz.time({solo: [d]}).draw();
       },
+      type: "toggle",
       // label: "Year",
       value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
     });
