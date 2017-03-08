@@ -377,7 +377,7 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths"
+        required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths,adult_smoking,excessive_drinking,alcoholimpaired_driving_deaths"
       height: 400
       id: "geo"
       type: "geo_map"
