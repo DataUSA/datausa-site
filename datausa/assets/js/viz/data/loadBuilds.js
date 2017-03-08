@@ -80,6 +80,7 @@ viz.prepBuild = function(build, i) {
                else {
                  url = url.replace("order=" + prev, "order=" + id);
                  url = url.replace("required=" + prev, "required=" + id);
+                 url = url.replace("col=" + prev, "col=" + id);
                }
                d3.select(this).attr("data-url", url);
 
