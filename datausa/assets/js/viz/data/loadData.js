@@ -26,6 +26,16 @@ viz.formatData = function(data, d, build) {
   //
   // }
 
+  if (d.join) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in data[i]) {
+        var key = k.split(".").pop();
+        if (key !== "year") data[i][key] = data[i][k];
+        delete data[i][k];
+      }
+    }
+  }
+
   if (d.static) {
     for (var i = 0; i < data.length; i++) {
       for (var k in d.static) {

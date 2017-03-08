@@ -41,6 +41,7 @@ class Viz(object):
 
             # create a new dict containing the 'split' and 'static' params
             data_obj = {
+                "join": d.pop("join", None),
                 "map": d.pop("map", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None),
@@ -52,7 +53,8 @@ class Viz(object):
 
             # create the data URL
             p = RequestEncodingMixin._encode_params(d)
-            data_obj["url"] = "{}/api/?{}".format(API, p)
+            join = "join/" if data_obj["join"] else ""
+            data_obj["url"] = "{}/api/{}?{}".format(API, join, p)
 
             # store the params in the return dict
             data_obj["params"] = d
