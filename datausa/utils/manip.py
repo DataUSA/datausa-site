@@ -93,13 +93,17 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     if col in COLMAP or "-" in col:
         vals = datapivot(r, col.split("-"), sort="desc")
 
-        vals = [v for v in vals[rank - 1:limit]]
-
-        if moe:
-            top = [v["moe"] for v in vals]
+        if len(vals) == 0:
+            vals = [v[col] for v in r]
+            vals = [COLMAP[col]["_".join(v.split("_")[1:])] for v in vals[rank - 1:limit]]
+            top = vals
         else:
-            top = [v["name"] for v in vals]
-            vals = [v["value"] for v in vals]
+            vals = [v for v in vals[rank - 1:limit]]
+            if moe:
+                top = [v["moe"] for v in vals]
+            else:
+                top = [v["name"] for v in vals]
+                vals = [v["value"] for v in vals]
 
     else:
         if rank > 1:
