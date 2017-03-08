@@ -167,7 +167,7 @@
           {% if topic.category %}
           {% if categories.update({"count": categories.count + 1}) %}{% endif %}
           {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
-          <li><a class="pri-link" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc {{ section.anchor }} topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
+          <li><a class="pri-link" href="#category_{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc {{ section.anchor }} topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
           {% endif %}
         {% endfor %}
         {% if categories.count == 0 %}
