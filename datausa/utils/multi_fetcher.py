@@ -31,7 +31,6 @@ def render_col(my_data, headers, col, url=False, dataset=False):
 
     if attr_type not in attr_cache:
         if isinstance(value, basestring):
-            raise Exception(col)
             if col in COLMAP:
                 return_value = COLMAP[col]["_".join(value.split("_")[1:])]
             else:
