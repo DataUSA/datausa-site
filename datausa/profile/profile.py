@@ -126,7 +126,7 @@ class Profile(BaseObject):
                     attr_id = self.parents()[1]["id"]
                     prefix = "040"
 
-                acceptedPrefixes = ["010", "040", "795"]
+                acceptedPrefixes = ["010", "040", "050"]
 
                 if prefix in acceptedPrefixes:
                     return attr_id
@@ -245,13 +245,14 @@ class Profile(BaseObject):
 
                 if not_equals:
                     second = second[1:]
+                second = second.split(",")
 
                 if text == "True":
                     text = True
                 elif text == "False":
                     text = False
 
-                if (not_equals and first == second) or (not not_equals and first != second):
+                if (not_equals and first in second) or (not not_equals and first not in second):
                     if isinstance(text, bool):
                         if text:
                             text = False
@@ -699,7 +700,7 @@ class Profile(BaseObject):
 
         if key == "name":
             if substitution:
-                return u"Based on data from {}".format(substitution[key])
+                return u"Based on data from {}.".format(substitution[key])
             else:
                 return ""
         else:
@@ -874,5 +875,6 @@ class Profile(BaseObject):
         my_topics = [t for t in section_dict['topics'] if 'slug' in t and t['slug'] in topics]
         raw_topics = json.dumps(my_topics)
         keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
+        filters = re.findall(r"\"filter\": \"([a-z_]+)\"", raw_topics)
         percents = re.findall(r"var:([^,]+)", raw_topics)
-        return list(set(keys + percents))
+        return list(set(keys + filters + percents))
