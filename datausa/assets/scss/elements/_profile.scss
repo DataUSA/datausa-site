@@ -105,11 +105,11 @@ body.profile, body.map, body.story {
   }
 
   &.geo {
-    .economy, .education, .health  {
+    .economy, .housing, .demographics  {
       background-color: $d-profile-bg;
     }
 
-    .demographics, .housing  {
+    .health, .education  {
       background-color: $l-profile-bg;
     }
   }

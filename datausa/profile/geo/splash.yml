@@ -29,7 +29,7 @@ stats:
     value: "<<var namespace=splash|key=age|row=0>>"
 sections:
   - economy
+  - health
   - demographics
   - education
   - housing
-  - health
