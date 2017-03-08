@@ -8402,12 +8402,13 @@ viz.defaults = function(build) {
         else if (a.bucket.indexOf("under") >= 0 || a.bucket.indexOf("less") >= 0) {
           return 0;
         }
-        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0) {
-          return 100000;
+        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0 || a.bucket.indexOf("plus") >= 0) {
+          return 100000000;
         }
         else {
           var b = a.bucket;
-          if (b.indexOf("_") > 0) b = b.split("_")[1];
+          if (b.indexOf("_") > 0) b = b.split("_").slice(1).join("_");
+          b = b.split("to")[0];
           return parseFloat(b, 10);
         }
       }
@@ -8946,10 +8947,13 @@ viz.format = {
         else if (text.indexOf("less") === 0) {
           return "< " + a[0] + text.slice(4) + a[1];
         }
+        else if (text.indexOf("under_") === 0) {
+          return "< " + a[0] + text.slice(6) + a[1];
+        }
         else if (text.indexOf("under") === 0) {
           return "< " + a[0] + text.slice(5) + a[1];
         }
-        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0) {
+        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0 || text.indexOf("plus") > 0) {
           return a[0] + text.slice(0, text.length - 4) + a[1] + " +";
         }
         else if (text.toLowerCase() === "none") {
@@ -9123,6 +9127,7 @@ viz.prepBuild = function(build, i) {
                else {
                  url = url.replace("order=" + prev, "order=" + id);
                  url = url.replace("required=" + prev, "required=" + id);
+                 url = url.replace("col=" + prev, "col=" + id);
                }
                d3.select(this).attr("data-url", url);
 
@@ -9464,6 +9469,16 @@ viz.formatData = function(data, d, build) {
   //   }
   //
   // }
+
+  if (d.join) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in data[i]) {
+        var key = k.split(".").pop();
+        if (key !== "year") data[i][key] = data[i][k];
+        delete data[i][k];
+      }
+    }
+  }
 
   if (d.static) {
     for (var i = 0; i < data.length; i++) {

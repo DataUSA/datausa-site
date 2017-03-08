@@ -3527,13 +3527,13 @@
       body.story .stat-value a:hover {
         color: #999;
         border-color: #999; }
-  body.profile.geo .economy, body.profile.geo .education, body.profile.geo .health,
-  body.map.geo .economy, body.map.geo .education, body.map.geo .health,
-  body.story.geo .economy, body.story.geo .education, body.story.geo .health {
+  body.profile.geo .economy, body.profile.geo .housing,
+  body.profile.geo .demographics, body.map.geo .economy, body.map.geo .housing,
+  body.map.geo .demographics, body.story.geo .economy, body.story.geo .housing,
+  body.story.geo .demographics {
     background-color: #E9E9E9; }
-    body.profile.geo .demographics, body.profile.geo .housing,
-    body.map.geo .demographics, body.map.geo .housing, body.story.geo .demographics,
-    body.story.geo .housing {
+    body.profile.geo .health, body.profile.geo .education, body.map.geo .health,
+    body.map.geo .education, body.story.geo .health, body.story.geo .education {
       background-color: #F6F6F6; }
   body.profile.cip .institutions, body.profile.cip .employment,
   body.map.cip .institutions, body.map.cip .employment, body.story.cip .institutions,
