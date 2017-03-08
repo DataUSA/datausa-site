@@ -309,15 +309,42 @@
   year: latest
   namespace: "grads_total"
 
-- required: ["geo", "health_care_costs"]
-  order: health_care_costs
+- required: ["geo", "total_medicare_enrollees", "total_reimbursements_b", "hospital_reimbursements_b", "physician_reimbursements_b", "outpatient_reimbursements_b", "home_health_reimbursements_b", "hospice_reimbursements_b", "medical_equip_reimbursements_b"]
+  order: total_medicare_enrollees
   show: geo
   dataset: chr
   rows: True
   limit: 3
   year: latest
   children: True
-  namespace: health_care_costs
+  namespace: medicare
+
+- required: ["year", "geo", "total_medicare_enrollees"]
+  order: year
+  sort: desc
+  show: geo
+  year: all
+  rows: True
+  limit: 2
+  namespace: medicare_time
+
+- required: ["geo", "cohort", "patients_in_cohort"]
+  order: patients_in_cohort
+  show: cohort
+  rows: True
+  limit: 3
+  year: latest
+  namespace: cohort
+
+- required: ["geo", "year", "number_of_females_enrolled_67_69_total", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "patients_females_67_69_having_mammogram_total"]
+  show: geo
+  year: latest
+  namespace: womens_health
+
+- required: ["geo", "year", "diabetic_medicare_enrollees_65_75_total", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_total", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_total", "patients_diabetic_medicare_enrollees_65_75_lipid_test_total"]
+  show: geo
+  year: latest
+  namespace: diabetic_care
 
 - required: ["geo", "adult_obesity"]
   order: adult_obesity
@@ -369,6 +396,16 @@
   children: True
   namespace: sti
 
+- required: ["geo", "leg_amputations_per_1000_enrollees_total"]
+  order: leg_amputations_per_1000_enrollees_total
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: leg_amputations
+
 - required: ["geo", "homicide_rate"]
   order: homicide_rate
   show: geo
@@ -378,3 +415,42 @@
   year: latest
   children: True
   namespace: homicide_rate
+
+- required: ["insurance", "hc_pop"]
+  order: hc_pop
+  sort: desc
+  rows: True
+  limit: 22
+  year: latest
+  insurance: "has_direct_insurance,has_employer_insurance,has_insurance,has_medicaid,has_medicare,has_private_insurance,has_public_insurance,has_tricare,has_va_healthcare,no_insurance"
+  show: geo
+  namespace: insurance_types
+
+- required: ["age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  namespace: age_buckets
+
+- required: ["sex", "age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  sex: "1"
+  namespace: age_buckets_male
+
+- required: ["sex", "age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  sex: "2"
+  namespace: age_buckets_female
