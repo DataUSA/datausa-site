@@ -397,7 +397,10 @@ DICTIONARY = {
 
     "leg_amputations_per_1000_enrollees_total": "Total Leg Amputations",
     "leg_amputations_per_1000_enrollees_white": "White Leg Amputations",
-    "leg_amputations_per_1000_enrollees_black": "Black Leg Amputations"
+    "leg_amputations_per_1000_enrollees_black": "Black Leg Amputations",
+
+    "hc_pop": "Population",
+    "hc_pop_rca": "Population (RCA)"
 
 }
 
@@ -524,6 +527,17 @@ COLMAP = {
         "2ormore": "9",
         "unknown": "8",
         "other": "8"
+    },
+    "age_bucket": {
+        "under_6": "&lt; 6",
+        "6to17": "6-17",
+        "18to24": "18-24",
+        "25to34": "25-34",
+        "35to44": "35-44",
+        "45to54": "45-54",
+        "55to64": "55-64",
+        "65to74": "65-74",
+        "75plus": "75+"
     },
     "ageBucket": {
         "under5": "&lt; 5",
