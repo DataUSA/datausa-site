@@ -16,12 +16,13 @@ viz.defaults = function(build) {
         else if (a.bucket.indexOf("under") >= 0 || a.bucket.indexOf("less") >= 0) {
           return 0;
         }
-        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0) {
-          return 100000;
+        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0 || a.bucket.indexOf("plus") >= 0) {
+          return 100000000;
         }
         else {
           var b = a.bucket;
-          if (b.indexOf("_") > 0) b = b.split("_")[1];
+          if (b.indexOf("_") > 0) b = b.split("_").slice(1).join("_");
+          b = b.split("to")[0];
           return parseFloat(b, 10);
         }
       }

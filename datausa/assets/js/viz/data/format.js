@@ -166,10 +166,13 @@ viz.format = {
         else if (text.indexOf("less") === 0) {
           return "< " + a[0] + text.slice(4) + a[1];
         }
+        else if (text.indexOf("under_") === 0) {
+          return "< " + a[0] + text.slice(6) + a[1];
+        }
         else if (text.indexOf("under") === 0) {
           return "< " + a[0] + text.slice(5) + a[1];
         }
-        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0) {
+        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0 || text.indexOf("plus") > 0) {
           return a[0] + text.slice(0, text.length - 4) + a[1] + " +";
         }
         else if (text.toLowerCase() === "none") {
