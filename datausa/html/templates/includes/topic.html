@@ -47,8 +47,9 @@
       <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
         {% for stat in topic.stat %}
           <div class="stat">
-            <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-value">{% if stat.subvalues %}<span class="stat-text">1.</span> {% endif %}{{ stat.value|safe }}</div>
+            {% if stat.subvalues %}<div class="stat-text">{{ stat.title|safe }}</div>{% endif %}
+            <div class="stat-value{% if stat.subvalues %} stat-small{% endif %}">{% if stat.subvalues %}<span class="stat-text">1.</span> {% endif %}{{ stat.value|safe }}</div>
+            {% if not stat.subvalues %}<div class="stat-text">{{ stat.title|safe }}</div>{% endif %}
             {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
             {% if stat.subvalues %}
             {% for s in stat.subvalues %}

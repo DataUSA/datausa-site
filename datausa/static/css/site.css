@@ -3840,16 +3840,14 @@
   body.map .stat-rank, body.story .stat-text, body.story .stat-rank {
     font-family: "Palanquin", sans-serif; }
     body.profile .stat-text, body.map .stat-text, body.story .stat-text {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 0;
       text-transform: uppercase;
       line-height: 1.5;
-      margin-bottom: 10px;
       vertical-align: baseline; }
       body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
-        margin-left: 2px;
-        margin-top: 7px; }
+        font-size: 12px; }
         body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
         body.story .stat-subtitle .plus-minus {
           color: #ef6145; }
@@ -3861,14 +3859,14 @@
       letter-spacing: 0; }
       body.profile .stat-value, body.map .stat-value, body.story .stat-value {
         font-family: "Lato", sans-serif;
-        font-size: 22px;
+        font-size: 38px;
         font-weight: 300;
         margin-bottom: 8px; }
         body.profile .stat-value.stat-small, body.map .stat-value.stat-small,
         body.story .stat-value.stat-small {
-          font-size: 14px;
-          font-weight: 400;
-          margin-top: 2px; }
+          font-size: 22px;
+          font-weight: 300;
+          margin: 8px 0 0; }
           body.profile .stat-value .stat-span, body.profile .stat-value .stat-text,
           body.profile .stat-value a, body.map .stat-value .stat-span,
           body.map .stat-value .stat-text, body.map .stat-value a,
@@ -6419,6 +6417,7 @@
                 margin-bottom: 0;   }
                 body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value,
                 body.story .profile-section .topic .content aside .topic-stats .stat .stat-value {
+                  font-size: 32px;
                   margin-bottom: 0;   }
                   body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.stat-small,
                   body.story .profile-section .topic .content aside .topic-stats .stat .stat-value.stat-small {

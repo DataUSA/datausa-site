@@ -465,18 +465,16 @@ body.profile, body.map, body.story {
   }
 
   .stat-text {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0;
     text-transform: uppercase;
     line-height: 1.5;
-    margin-bottom: 10px;
     vertical-align: baseline;
   }
 
   .stat-subtitle {
-    margin-left: 2px;
-    margin-top: 7px;
+    font-size: 12px;
 
     .plus-minus {
       color: $red-w;
@@ -495,14 +493,14 @@ body.profile, body.map, body.story {
 
   .stat-value {
     font-family: $lato;
-    font-size: 22px;
+    font-size: 38px;
     font-weight: 300;
     margin-bottom: 8px;
 
     &.stat-small {
-      font-size: 14px;
-      font-weight: 400;
-      margin-top: 2px;
+      font-size: 22px;
+      font-weight: 300;
+      margin: 8px 0 0;
     }
 
     .stat-span, .stat-text, a {
