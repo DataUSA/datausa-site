@@ -309,18 +309,6 @@ body.profile, body.map, body.story {
 
     }
 
-    @media only screen and (max-width : 768px) {
-
-      &.view-table, &.save-image {
-        display: none;
-      }
-
-      &.share::after {
-        content: "Options";
-      }
-
-    }
-
     &.add-to-cart {
       @include transition(opacity 0.1s);
 
@@ -340,6 +328,20 @@ body.profile, body.map, body.story {
 
       &.disabled {
         opacity: 0.5;
+      }
+
+    }
+
+    @media only screen and (max-width : 768px) {
+      display: block;
+
+      &.view-table, &.save-image {
+        display: none;
+      }
+
+      &.share::after,
+      &.add-to-cart::after {
+        content: none;
       }
 
     }

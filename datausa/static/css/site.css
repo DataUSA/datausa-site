@@ -3702,15 +3702,6 @@
           body.profile .viz-btn.share::after, body.map .viz-btn.share::after,
           body.story .viz-btn.share::after {
             content: "Share/Embed"; }
-      @media only screen and (max-width : 768px) {
-        body.profile .viz-btn.view-table, body.profile .viz-btn.save-image,
-        body.map .viz-btn.view-table, body.map .viz-btn.save-image,
-        body.story .viz-btn.view-table, body.story .viz-btn.save-image {
-          display: none;   }
-          body.profile .viz-btn.share::after, body.map .viz-btn.share::after,
-          body.story .viz-btn.share::after {
-            content: "Options";   }
-}
       body.profile .viz-btn.add-to-cart, body.map .viz-btn.add-to-cart,
       body.story .viz-btn.add-to-cart {
         -moz-transition: opacity 0.1s;
@@ -3734,6 +3725,18 @@
                 body.profile .viz-btn.add-to-cart.disabled, body.map .viz-btn.add-to-cart.disabled,
                 body.story .viz-btn.add-to-cart.disabled {
                   opacity: 0.5; }
+      @media only screen and (max-width : 768px) {
+        body.profile .viz-btn, body.map .viz-btn, body.story .viz-btn {
+          display: block;   }
+          body.profile .viz-btn.view-table, body.profile .viz-btn.save-image,
+          body.map .viz-btn.view-table, body.map .viz-btn.save-image,
+          body.story .viz-btn.view-table, body.story .viz-btn.save-image {
+            display: none;   }
+            body.profile .viz-btn.share::after, body.profile .viz-btn.add-to-cart::after,
+            body.map .viz-btn.share::after, body.map .viz-btn.add-to-cart::after,
+            body.story .viz-btn.share::after, body.story .viz-btn.add-to-cart::after {
+              content: none;   }
+}
   body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
     -webkit-justify-content: center;
     -moz-justify-content: center;
@@ -6390,42 +6393,38 @@
               body.profile .profile-section .topic .content aside .sub,
               body.story .profile-section .topic .content aside .sub {
                 margin-bottom: 5px;   }
-                body.profile .profile-section .topic .content aside > .topic-stats:first-child .stat:only-child,
-                body.story .profile-section .topic .content aside > .topic-stats:first-child .stat:only-child {
-                  margin-right: 100px;
-                  margin-top: -35px;   }
-            body.profile .profile-section .topic .content aside .topic-stats .stat,
-            body.story .profile-section .topic .content aside .topic-stats .stat {
-              -webkit-justify-content: center;
-              -moz-justify-content: center;
-              justify-content: center;
-              -ms-flex-pack: center;
-              flex-pack: center;
-              display: -webkit-box;
-              display: -moz-box;
-              display: -ms-flexbox;
-              display: -webkit-flex;
-              display: flex;
-              -webkit-flex-direction: column;
-              -moz-flex-direction: column;
-              -ms-flex-direction: column;
-              flex-direction: column;
-              margin: 5px 3px;
-              text-align: left;   }
-              body.profile .profile-section .topic .content aside .topic-stats .stat .stat-text,
-              body.story .profile-section .topic .content aside .topic-stats .stat .stat-text {
-                margin-bottom: 0;   }
-                body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value,
-                body.story .profile-section .topic .content aside .topic-stats .stat .stat-value {
-                  font-size: 32px;
-                  margin-bottom: 0;   }
-                  body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.stat-small,
-                  body.story .profile-section .topic .content aside .topic-stats .stat .stat-value.stat-small {
-                    font-size: 16px;
-                    margin-top: 5px;   }
-              body.profile .profile-section .topic .content aside .topic-stats .stat .stat-subtitle,
-              body.story .profile-section .topic .content aside .topic-stats .stat .stat-subtitle {
-                margin-top: 0;   }
+                body.profile .profile-section .topic .content aside .topic-stats .stat,
+                body.story .profile-section .topic .content aside .topic-stats .stat {
+                  -webkit-justify-content: center;
+                  -moz-justify-content: center;
+                  justify-content: center;
+                  -ms-flex-pack: center;
+                  flex-pack: center;
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -ms-flexbox;
+                  display: -webkit-flex;
+                  display: flex;
+                  -webkit-flex-direction: column;
+                  -moz-flex-direction: column;
+                  -ms-flex-direction: column;
+                  flex-direction: column;
+                  margin: 5px 3px;
+                  text-align: left;   }
+                  body.profile .profile-section .topic .content aside .topic-stats .stat .stat-text,
+                  body.story .profile-section .topic .content aside .topic-stats .stat .stat-text {
+                    margin-bottom: 0;   }
+                    body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value,
+                    body.story .profile-section .topic .content aside .topic-stats .stat .stat-value {
+                      font-size: 32px;
+                      margin-bottom: 0;   }
+                      body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.stat-small,
+                      body.story .profile-section .topic .content aside .topic-stats .stat .stat-value.stat-small {
+                        font-size: 16px;
+                        margin-top: 5px;   }
+                  body.profile .profile-section .topic .content aside .topic-stats .stat .stat-subtitle,
+                  body.story .profile-section .topic .content aside .topic-stats .stat .stat-subtitle {
+                    margin-top: 0;   }
           body.profile .profile-section .topic .content .viz,
           body.story .profile-section .topic .content .viz {
             margin-top: 10px;
