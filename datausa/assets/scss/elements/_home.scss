@@ -68,6 +68,33 @@ body.home {
     }
   }
 
+  #video {
+    position: absolute;
+    width: 100%;
+    z-index: -11;
+
+    .overlay {
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      z-index: 2;
+      @include gradient(top, (
+        0%: rgba(20, 27, 46, 0.4),
+        25%: rgba(20, 27, 46, 0.4),
+        55%: rgba(20, 27, 46, 0.6),
+        100%: $black2
+      ));
+    }
+
+    video {
+      width: 100%;
+
+      &::-webkit-media-controls {
+        display: none !important;
+      }
+    }
+  }
+
   .home-logo {
     width: 90%;
     text-align: center;

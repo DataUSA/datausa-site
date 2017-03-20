@@ -13,7 +13,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 37
+    g.cache_version = 38
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
     g.colmap = json.dumps(COLMAP)
@@ -29,6 +29,7 @@ def before_request():
 @mod.route("/")
 def home():
     g.page_type = "home"
+    g.video = request.args.get("video", False)
 
     feed = [copy.copy(f) for f in HOMEFEED]
     for box in feed:
