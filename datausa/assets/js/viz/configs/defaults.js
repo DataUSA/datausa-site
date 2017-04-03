@@ -40,9 +40,12 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
-      if (label in dictionary) label = dictionary[label];
-      build.config[axis].label = label;
+      if (["year", "bucket", "test"].indexOf(key) >= 0) build.config[axis].label = false;
+      else {
+        label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
+        if (label in dictionary) label = dictionary[label];
+        build.config[axis].label = label;
+      }
     }
 
     if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value && build.config[axis].ticks.value.constructor === String) {
