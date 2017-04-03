@@ -140,7 +140,7 @@ topics:
         - "home_health_reimbursements_b"
         - "hospice_reimbursements_b"
         - "medical_equip_reimbursements_b"
-    description: "<<var namespace=medicare_time|key=geo|row=0>> had <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> <span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> <span class='select-text'>Medicare Enrollees</span> in <<var namespace=medicare_time|key=year|row=1>>"
+    description: "<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>."
     viz:
       attrs: "geo"
       data:

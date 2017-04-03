@@ -101,7 +101,9 @@ def statView():
     required = args.get("required").split(",")
     if order and order not in required:
         required.append(order)
-        args["required"] = ",".join(required)
+    if col and col not in required:
+        required.append(col)
+    args["required"] = ",".join(required)
 
     return jsonify(stat(args, col=col, dataset=dataset, moe=moe, truncate=truncate))
 
