@@ -1,5 +1,5 @@
 title: "Demographics"
-description: "The American Community Survey collects information on the demographics and origins of the residents in <<name>>."
+description: "The demographics and origins of <<name>> residents collected from the American Community Survey."
 
 topics:
   - category: "Age"
