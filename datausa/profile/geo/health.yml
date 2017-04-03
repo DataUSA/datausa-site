@@ -94,7 +94,7 @@ topics:
     slug: "medicare_geo"
     select:
       method: "color"
-      default: "total_medicare_enrollees"
+      default: "total_reimbursements_b"
       data:
         - "total_medicare_enrollees"
         - "total_reimbursements_b"
@@ -104,7 +104,7 @@ topics:
         - "home_health_reimbursements_b"
         - "hospice_reimbursements_b"
         - "medical_equip_reimbursements_b"
-    description: "<<var namespace=medicare|key=geo|row=0>> has the largest number of <span class='select-text'>Medicare Enrollees</span> at <<var namespace=medicare|key=total_medicare_enrollees|row=0>>, compared to <<var namespace=medicare|key=geo|row=1>> with <<var namespace=medicare|key=total_medicare_enrollees|row=1>> and <<var namespace=medicare|key=geo|row=2>> with <<var namespace=medicare|key=total_medicare_enrollees|row=2>>."
+    description: "<<var namespace=medicare|key=geo|row=0>> has the largest number of <span class='select-text'>Medicare Enrollees</span> at <<var namespace=medicare|key=total_reimbursements_b|row=0>>, compared to <<var namespace=medicare|key=geo|row=1>> with <<var namespace=medicare|key=total_reimbursements_b|row=1>> and <<var namespace=medicare|key=geo|row=2>> with <<var namespace=medicare|key=total_reimbursements_b|row=2>>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> with the most <span class='select-text'>Medicare Enrollees</span>"
         value: "<<var namespace=medicare|key=geo|row=0>>"
@@ -113,7 +113,7 @@ topics:
           - "<<var namespace=medicare|key=geo|row=2>>"
     viz:
       attrs: "geo"
-      color: "total_medicare_enrollees"
+      color: "total_reimbursements_b"
       coords:
           solo: "<<children dataset=chr>>"
           value: "<<sumlevel child=True|dataset=chr|plural=True>>"
@@ -126,11 +126,11 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Medicare over Time"
-    subtitle: "<<sub show=geo|col=total_medicare_enrollees>>"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_time"
     select:
       method: "y"
-      default: "total_medicare_enrollees"
+      default: "total_reimbursements_b"
       data:
         - "total_medicare_enrollees"
         - "total_reimbursements_b"
@@ -140,7 +140,7 @@ topics:
         - "home_health_reimbursements_b"
         - "hospice_reimbursements_b"
         - "medical_equip_reimbursements_b"
-    description: "<<var namespace=medicare_time|key=geo|row=0>> had <<var namespace=medicare_time|key=total_medicare_enrollees|row=0>> <span class='select-text'>Medicare Enrollees</span> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_medicare_enrollees|row=1>> <span class='select-text'>Medicare Enrollees</span> in <<var namespace=medicare_time|key=year|row=1>>"
+    description: "<<var namespace=medicare_time|key=geo|row=0>> had <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> <span class='select-text'>Medicare Enrollees</span> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> <span class='select-text'>Medicare Enrollees</span> in <<var namespace=medicare_time|key=year|row=1>>"
     viz:
       attrs: "geo"
       data:
@@ -151,7 +151,7 @@ topics:
       id: "geo"
       type: "line"
       x: "year"
-      y: "total_medicare_enrollees"
+      y: "total_reimbursements_b"
   - category: "Conditions"
     title: "Patient Cohorts"
     subtitle: "<<sub show=geo|col=patients_in_cohort>>"

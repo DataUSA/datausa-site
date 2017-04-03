@@ -310,7 +310,7 @@
   namespace: "grads_total"
 
 - required: ["geo", "total_medicare_enrollees", "total_reimbursements_b", "hospital_reimbursements_b", "physician_reimbursements_b", "outpatient_reimbursements_b", "home_health_reimbursements_b", "hospice_reimbursements_b", "medical_equip_reimbursements_b"]
-  order: total_medicare_enrollees
+  order: total_reimbursements_b
   show: geo
   dataset: chr
   rows: True
@@ -319,7 +319,7 @@
   children: True
   namespace: medicare
 
-- required: ["year", "geo", "total_medicare_enrollees"]
+- required: ["year", "geo", "total_reimbursements_b"]
   order: year
   sort: desc
   show: geo
