@@ -35,7 +35,7 @@ topics:
         persist:
           position: True
         value: "bucket"
-      y: "people"
+      y: "share"
   - category: "Heritage"
     title: "Global Diversity"
     slug: "global_diversity"
@@ -115,7 +115,7 @@ topics:
       x:
         scale: "discrete"
         value: "race"
-      y: "people"
+      y: "share"
   - title: "Languages"
     slug: "languages"
     description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are speakers of a non-English language.{{<<sumlevel>>:!nation|| That is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>.}}"
@@ -138,14 +138,15 @@ topics:
         - geo: "<<id>>"
           where: "language:~^002,num_speakers:!0"
           required: "num_speakers,num_speakers_moe"
+          share: num_speakers
           show: "geo"
       id: "language"
       order: "num_speakers"
       type: "bar"
       x:
-        scale: "discrete"
-        value: "language"
-      y: "num_speakers"
+        scale: discrete
+        value: language
+      y: share
   - category: "Military"
     title: "Veterans"
     slug: "veterans"

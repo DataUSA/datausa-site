@@ -51,6 +51,7 @@ topics:
         insurance: has_insurance
         required: "hc_pop,hc_pop_moe,hc_pop_rca"
         show: age_bucket
+        share: hc_pop
         map:
           bucket: age_bucket
       height: 400
@@ -58,7 +59,7 @@ topics:
       order: bucket
       type: bar
       x: bucket
-      y: hc_pop
+      y: share
   - title: "Insurance Coverage by Age and Gender"
     slug: "insurance_coverage_gender"
     stat:
@@ -79,6 +80,7 @@ topics:
         insurance: has_insurance
         required: "sex,hc_pop,hc_pop_moe,hc_pop_rca"
         show: age_bucket
+        share: hc_pop
         map:
           bucket: age_bucket
       height: 400
@@ -86,7 +88,7 @@ topics:
       order: bucket
       type: bar
       x: bucket
-      y: hc_pop
+      y: share
   - title: "Medicare by Location"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_geo"

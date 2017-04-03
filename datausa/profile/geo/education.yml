@@ -129,6 +129,7 @@ topics:
         show: "geo"
         geo: "<<id dataset=ipeds>>"
         required: "grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native"
+        share: grads_total
         split:
           id: "race"
           regex: "^grads_([a-z]*)$"
@@ -138,7 +139,7 @@ topics:
         sort: "asc"
         value: "grads_total"
       type: "bar"
-      x: "grads_total"
+      x: share
       y:
         scale: "discrete"
         value: "race"

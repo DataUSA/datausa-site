@@ -205,7 +205,7 @@ topics:
         persist:
           position: True
         value: "bucket"
-      y: "people"
+      y: "share"
   - title: "Poverty by Race & Ethnicity"
     slug: "poverty_ethnicity"
     stat:
@@ -228,7 +228,7 @@ topics:
       order: "people"
       type: "bar"
       x: "race"
-      y: "people"
+      y: "share"
   - category: "Occupations"
     sumlevel: "!nation,!state"
     title: "Most Common"
