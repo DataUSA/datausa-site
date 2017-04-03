@@ -104,7 +104,7 @@ topics:
         - "home_health_reimbursements_b"
         - "hospice_reimbursements_b"
         - "medical_equip_reimbursements_b"
-    description: "<<var namespace=medicare|key=geo|row=0>> has the largest number of <span class='select-text'>Medicare Reimbursements per Enrollee</span> at <<var namespace=medicare|key=total_reimbursements_b|row=0>>, compared to <<var namespace=medicare|key=geo|row=1>> with <<var namespace=medicare|key=total_reimbursements_b|row=1>> and <<var namespace=medicare|key=geo|row=2>> with <<var namespace=medicare|key=total_reimbursements_b|row=2>>."
+    description: "<<var namespace=medicare|key=geo|row=0>> has the largest amount of <span class='select-text'>Medicare Reimbursements per Enrollee</span> at <<var namespace=medicare|key=total_reimbursements_b|row=0>>, compared to <<var namespace=medicare|key=geo|row=1>> with <<var namespace=medicare|key=total_reimbursements_b|row=1>> and <<var namespace=medicare|key=geo|row=2>> with <<var namespace=medicare|key=total_reimbursements_b|row=2>>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> with the most <span class='select-text'>Medicare Enrollees</span>"
         value: "<<var namespace=medicare|key=geo|row=0>>"
