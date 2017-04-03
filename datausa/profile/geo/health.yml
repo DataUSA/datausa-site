@@ -233,31 +233,6 @@ topics:
       type: bar
       x: test
       y: patients
-  - subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
-    title: "Leg Amputations"
-    slug: "leg_amputations"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Total Leg Amputations</span> per 1,000 people."
-    stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
-        value: "<<var namespace=leg_amputations|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=leg_amputations|key=geo|row=1>>"
-          - "<<var namespace=leg_amputations|key=geo|row=2>>"
-    viz:
-      attrs: "geo"
-      color: "leg_amputations_per_1000_enrollees_total"
-      coords:
-          solo: "<<children dataset=chr>>"
-          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
-      data:
-        show: "geo"
-        sumlevel: <<sumlevel child=True|dataset=chr>>
-        where: "geo:<<children prefix=True|dataset=chr>>"
-        required: leg_amputations_per_1000_enrollees_total,leg_amputations_per_1000_enrollees_white,leg_amputations_per_1000_enrollees_black
-        show: geo
-      height: 400
-      id: "geo"
-      type: "geo_map"
   - title: "Diabetes and Leg Amputations"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "diabetes_amputations"
