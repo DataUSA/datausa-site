@@ -374,13 +374,13 @@ DICTIONARY = {
     "women": "Women",
 
     "total_medicare_enrollees": "Medicare Enrollees",
-    "total_reimbursements_b": "Medicare Reimbursements",
-    "hospital_reimbursements_b": "Hospital Reimbursements",
-    "physician_reimbursements_b": "Physician Reimbursements",
-    "outpatient_reimbursements_b": "Outpatient Reimbursements",
-    "home_health_reimbursements_b": "Home Health Reimbursements",
-    "hospice_reimbursements_b": "Hospice Reimbursements",
-    "medical_equip_reimbursements_b": "Medical Equipment Reimbursements",
+    "total_reimbursements_b": "Medicare Reimbursements per Enrollee",
+    "hospital_reimbursements_b": "Hospital Reimbursements per Enrollee",
+    "physician_reimbursements_b": "Physician Reimbursements per Enrollee",
+    "outpatient_reimbursements_b": "Outpatient Reimbursements per Enrollee",
+    "home_health_reimbursements_b": "Home Health Reimbursements per Enrollee",
+    "hospice_reimbursements_b": "Hospice Reimbursements per Enrollee",
+    "medical_equip_reimbursements_b": "Medical Equipment Reimbursements per Enrollee",
 
     "medicare_beneficiaries_total": "Medicare Beneficiaries",
 
