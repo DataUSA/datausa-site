@@ -334,6 +334,7 @@
   rows: True
   limit: 3
   year: latest
+  cohort: "pneumonia,AMI,CHF"
   namespace: cohort
 
 - required: ["geo", "year", "number_of_females_enrolled_67_69_total", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "patients_females_67_69_having_mammogram_total"]

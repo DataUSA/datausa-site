@@ -176,11 +176,15 @@ topics:
       data:
         geo: "<<id>>"
         force: dartmouth.ygc_post_discharge
+        cohort: "pneumonia,AMI,CHF"
         show: cohort
       height: 400
       id: cohort
       type: bar
-      x: year
+      x:
+        persist:
+          position: True
+        value: year
       y: patients_in_cohort
   - title: "Women's Health"
     subtitle: "Female medicare enrollees between the ages of 67 and 69. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
