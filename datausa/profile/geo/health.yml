@@ -35,31 +35,6 @@ topics:
     stat:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
-  - title: "Insurance Coverage by Age"
-    slug: "insurance_coverage"
-    stat:
-      - title: "Most Common Age Range"
-        value: "<<var namespace=age_buckets|key=age_bucket>>"
-    select:
-      data: insurance
-      default: has_insurance
-      filter: insurance_types
-    description: "The most common age group that has <span class='select-text'>Healthcare Coverage</span> is <<var namespace=age_buckets|key=age_bucket>>."
-    viz:
-      data:
-        geo: "<<id>>"
-        insurance: has_insurance
-        required: "hc_pop,hc_pop_moe,hc_pop_rca"
-        show: age_bucket
-        share: hc_pop
-        map:
-          bucket: age_bucket
-      height: 400
-      id: bucket
-      order: bucket
-      type: bar
-      x: bucket
-      y: share
   - title: "Insurance Coverage by Age and Gender"
     slug: "insurance_coverage_gender"
     stat:
@@ -71,7 +46,7 @@ topics:
       data: insurance
       default: has_insurance
       filter: insurance_types
-    description: "The most common groups that have <span class='select-text'>Healthcare Coverage</span> are <<var namespace=age_buckets_male|key=age_bucket>> for men and <<var namespace=age_buckets_female|key=age_bucket>> for female."
+    description: "<<name dataset=chr>> residents <<var namespace=age_buckets|key=age_bucket>> years of age are the largest age group with <span class='select-text'>Healthcare Coverage</span>. The most common groups for men and women are <<var namespace=age_buckets_male|key=age_bucket>> and <<var namespace=age_buckets_female|key=age_bucket>> respectively."
     viz:
       attrs: sex
       color: sex
@@ -88,7 +63,9 @@ topics:
       order: bucket
       type: bar
       x: bucket
-      y: share
+      y:
+        stacked: True
+        value: share
   - title: "Medicare by Location"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_geo"
