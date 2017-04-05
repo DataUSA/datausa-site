@@ -10,7 +10,7 @@ def map():
 
     mapdata = {
 
-        "economy": [
+        "wages": [
             "pums.avg_wage,avg_wage_moe",
             "pums.avg_wage_ft,avg_wage_ft_moe",
             "pums.avg_wage_pt,avg_wage_pt_moe",
@@ -32,8 +32,65 @@ def map():
             "chr.children_in_poverty"
         ],
 
-        "health": [
+        "insurance": [
+            "chr.uninsured",
+            "chr.uninsured_adults",
+            "chr.uninsured_children",
+            "chr.could_not_see_doctor_due_to_cost",
+
             "chr.health_care_costs",
+            "chr.total_medicare_enrollees",
+            "chr.total_reimbursements_b",
+            "chr.hospital_reimbursements_b",
+            "chr.physician_reimbursements_b",
+            "chr.outpatient_reimbursements_b",
+            "chr.home_health_reimbursements_b",
+            "chr.hospice_reimbursements_b",
+            "chr.medical_equip_reimbursements_b",
+            "chr.medicare_beneficiaries_total",
+            "chr.medicare_beneficiaries_black",
+            "chr.medicare_beneficiaries_white",
+
+            "chr.diabetic_medicare_enrollees_65_75_total",
+            "chr.diabetic_medicare_enrollees_65_75_black",
+            "chr.diabetic_medicare_enrollees_65_75_white",
+            "chr.number_of_females_enrolled_67_69_total",
+            "chr.number_of_females_enrolled_67_69_black",
+            "chr.number_of_females_enrolled_67_69_white",
+            "chr.beneficiaries_part_a_eligible_total",
+            "chr.beneficiaries_part_a_eligible_black",
+            "chr.beneficiaries_part_a_eligible_white"
+        ],
+
+        "care": [
+            "chr.preventable_hospital_stays",
+            "chr.diabetic_screening",
+            "chr.mammography_screening",
+
+            "chr.patients_with_one_ambulatory_visit_to_pc_total",
+            "chr.patients_with_one_ambulatory_visit_to_pc_black",
+            "chr.patients_with_one_ambulatory_visit_to_pc_white",
+            "chr.patients_females_67_69_having_mammogram_total",
+            "chr.patients_females_67_69_having_mammogram_black",
+            "chr.patients_females_67_69_having_mammogram_white",
+            "chr.patients_diabetic_medicare_enrollees_65_75_hemoglobin_total",
+            "chr.patients_diabetic_medicare_enrollees_65_75_hemoglobin_black",
+            "chr.patients_diabetic_medicare_enrollees_65_75_hemoglobin_white",
+            "chr.patients_diabetic_medicare_enrollees_65_75_eye_exam_total",
+            "chr.patients_diabetic_medicare_enrollees_65_75_eye_exam_black",
+            "chr.patients_diabetic_medicare_enrollees_65_75_eye_exam_white",
+            "chr.patients_diabetic_medicare_enrollees_65_75_lipid_test_total",
+            "chr.patients_diabetic_medicare_enrollees_65_75_lipid_test_total",
+            "chr.patients_diabetic_medicare_enrollees_65_75_lipid_test_total",
+            "chr.leg_amputations_per_1000_enrollees_total",
+            "chr.leg_amputations_per_1000_enrollees_black",
+            "chr.leg_amputations_per_1000_enrollees_white",
+            "chr.discharges_for_ambulatory_conditions_per_1000_total",
+            "chr.discharges_for_ambulatory_conditions_per_1000_black",
+            "chr.discharges_for_ambulatory_conditions_per_1000_white"
+        ],
+
+        "risks": [
             "chr.adult_obesity",
             "chr.diabetes",
             "chr.sexually_transmitted_infections",
@@ -54,10 +111,6 @@ def map():
             "chr.physical_inactivity",
             "chr.access_to_exercise_opportunities",
             "chr.teen_births",
-            "chr.uninsured",
-            "chr.preventable_hospital_stays",
-            "chr.diabetic_screening",
-            "chr.mammography_screening",
             "chr.social_associations",
             "chr.injury_deaths",
             "chr.polution_ppm",
@@ -68,9 +121,6 @@ def map():
             "chr.food_insecurity",
             "chr.limited_access_to_healthy_foods",
             "chr.drug_poisoning_deaths",
-            "chr.uninsured_adults",
-            "chr.uninsured_children",
-            "chr.could_not_see_doctor_due_to_cost",
             "chr.children_eligible_for_free_lunch"
         ],
 
@@ -112,7 +162,7 @@ def map():
     defaultKey = request.args.get("key", "age,age_moe,age_rank")
     defaultLevel = request.args.get("level", "county")
 
-    sections = ["economy", "health", "demographics", "education", "housing"]
+    sections = ["wages", "insurance", "care", "risks", "demographics", "education", "housing"]
     sumlevels = ["state", "county", "msa", "puma"]
     keys = []
     for section in mapdata:
