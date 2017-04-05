@@ -426,7 +426,7 @@ DICTIONARY = {
     "discharges_for_ambulatory_conditions_per_1000_black": "Ambulatory Discharges (Black)",
     "discharges_for_ambulatory_conditions_per_1000_white": "Ambulatory Discharges (White)",
 
-    "patients_in_cohort": "Total Patients in Cohort",
+    "patients_in_cohort": "Total Patients",
     "patients_readmitted_within_30_days_of_discharge": "Readmittance within 30 Days",
     "patients_seeing_a_primary_care_physician_within_14_days": "PCP Visits within 14 Days",
     "patients_having_an_ambulatory_visit_within_14_days": "Ambulatory Visits within 14 Days",

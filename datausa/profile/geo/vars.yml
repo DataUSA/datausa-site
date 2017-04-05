@@ -328,7 +328,7 @@
   limit: 2
   namespace: medicare_time
 
-- required: ["geo", "cohort", "patients_in_cohort"]
+- required: ["geo", "cohort", "patients_in_cohort", "year"]
   order: patients_in_cohort
   show: cohort
   rows: True

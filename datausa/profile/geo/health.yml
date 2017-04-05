@@ -129,10 +129,10 @@ topics:
       type: "line"
       x: "year"
       y: "total_reimbursements_b"
-  - category: "Conditions"
-    title: "Patient Cohorts"
+  - category: "Hospital Care"
+    title: "Common Conditions"
     subtitle: "<<sub show=geo|col=patients_in_cohort>>"
-    slug: "cohorts"
+    slug: "conditions"
     select:
       method: y
       default: "patients_in_cohort"
@@ -142,9 +142,9 @@ topics:
         - "patients_seeing_a_primary_care_physician_within_14_days"
         - "patients_having_an_ambulatory_visit_within_14_days"
         - "patients_having_an_emergency_room_visit_within_30_days"
-    description: "The most common cohort in <<name dataset=chr>> by <span class='select-text'>Total Patients in Cohort</span> is <<var namespace=cohort|key=cohort|row=0>> with <<var namespace=cohort|key=patients_in_cohort|row=0>> patients."
+    description: "When looking at <span class='select-text'>Total Patients</span> in <<name dataset=chr>>, <<var namespace=cohort|key=patients_in_cohort|row=0>> people were treated for <<var namespace=cohort|key=cohort|row=0>> in <<var namespace=cohort|key=year|row=0>>, followed by <<var namespace=cohort|key=patients_in_cohort|row=1>> for <<var namespace=cohort|key=cohort|row=1>> and <<var namespace=cohort|key=patients_in_cohort|row=2>> for <<var namespace=cohort|key=cohort|row=2>>."
     stat:
-      - title: "Largest Cohorts"
+      - title: "Most Common Conditions"
         value: "<<var namespace=cohort|key=cohort|row=0>>"
         subvalues:
           - "<<var namespace=cohort|key=cohort|row=1>>"
