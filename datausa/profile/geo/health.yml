@@ -102,7 +102,7 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Medicare over Time"
+  - title: "Medicare Over Time"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_time"
     select:
