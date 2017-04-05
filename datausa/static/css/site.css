@@ -3855,7 +3855,9 @@
       -moz-transition: all 0.15s;
       -o-transition: all 0.15s;
       -webkit-transition: all 0.15s;
-      transition: all 0.15s; }
+      transition: all 0.15s;
+      position: relative;
+      z-index: 1; }
       body.profile .topic .sub-source a:hover, body.map .topic .sub-source a:hover,
       body.story .topic .sub-source a:hover {
         border-color: #888; }
