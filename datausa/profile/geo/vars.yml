@@ -347,16 +347,6 @@
   year: latest
   namespace: diabetic_care
 
-- required: ["geo", "adult_obesity"]
-  order: adult_obesity
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: obesity
-
 - required: ["geo", "diabetes"]
   order: diabetes
   show: geo
@@ -366,46 +356,6 @@
   year: latest
   children: True
   namespace: diabetes
-
-- required: ["geo", "adult_smoking"]
-  order: adult_smoking
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: smoking
-
-- required: ["geo", "hiv_prevalence_rate"]
-  order: hiv_prevalence_rate
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: hiv
-
-- required: ["geo", "sexually_transmitted_infections"]
-  order: sexually_transmitted_infections
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: sti
-
-- required: ["geo", "leg_amputations_per_1000_enrollees_total"]
-  order: leg_amputations_per_1000_enrollees_total
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: leg_amputations
 
 - required: ["geo", "homicide_rate"]
   order: homicide_rate

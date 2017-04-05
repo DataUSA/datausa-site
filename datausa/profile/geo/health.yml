@@ -216,96 +216,40 @@ topics:
       type: bar
       x: test
       y: patients
-  - title: "Diabetes and Leg Amputations"
+  - category: "Health Risks"
+    title: "Conditions and Diseases"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
-    slug: "diabetes_amputations"
-    description: "Here we can compare the percentage of adults aged 20 and above with diagnosed diabetes with the prevalence rate for leg amputations per 1,000 people for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>> sized by the estimated population."
-    stat_stack: YES
-    stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by diabetes prevalence"
-        value: "<<var namespace=diabetes|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=diabetes|key=geo|row=1>>"
-          - "<<var namespace=diabetes|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True>> by amputation prevalence"
-        value: "<<var namespace=leg_amputations|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=leg_amputations|key=geo|row=1>>"
-          - "<<var namespace=leg_amputations|key=geo|row=2>>"
-    viz:
-      attrs: "geo"
+    slug: "crime"
+    select:
+      method: "color"
       data:
-        join: True
-        show: "geo"
-        sumlevel: <<sumlevel child=True|dataset=chr>>
-        where: "population_estimate.geo:<<children prefix=True|dataset=chr>>"
-        year: latest
-        required: "diabetes,leg_amputations_per_1000_enrollees_total,population_estimate"
-      highlight: "<<id dataset=chr>>"
-      id: "geo"
-      size: "population_estimate"
-      type: "scatter"
-      x: "diabetes"
-      y: "leg_amputations_per_1000_enrollees_total"
-  - title: "Obesity and Diabetes"
-    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
-    slug: "obesity_diabetes"
-    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>> sized by the estimated population."
-    stat_stack: YES
+        - "hiv_prevalence_rate"
+        - "sexually_transmitted_infections"
+        - "adult_obesity"
+        - "diabetes"
+      default: "diabetes"
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by <span class='select-text'>Diabetes Prevalence</span>."
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by obesity prevalence"
-        value: "<<var namespace=obesity|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=obesity|key=geo|row=1>>"
-          - "<<var namespace=obesity|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by diabetes prevalence"
+      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=diabetes|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=diabetes|key=geo|row=1>>"
           - "<<var namespace=diabetes|key=geo|row=2>>"
     viz:
       attrs: "geo"
+      color: "diabetes"
+      coords:
+          solo: "<<children dataset=chr>>"
+          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
       data:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "diabetes,adult_obesity,population_estimate"
-      highlight: "<<id dataset=chr>>"
+        required: "diabetes,adult_obesity,sexually_transmitted_infections,hiv_prevalence_rate"
+      height: 400
       id: "geo"
-      size: "population_estimate"
-      type: "scatter"
-      x: "diabetes"
-      y: "adult_obesity"
-  - title: "Sexually Transmitted Diseases"
-    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
-    slug: "stds"
-    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, sized by the estimated population."
-    stat_stack: YES
-    stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by HIV prevalence"
-        value: "<<var namespace=hiv|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=hiv|key=geo|row=1>>"
-          - "<<var namespace=hiv|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by chlamydia prevalence"
-        value: "<<var namespace=sti|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=sti|key=geo|row=1>>"
-          - "<<var namespace=sti|key=geo|row=2>>"
-    viz:
-      attrs: "geo"
-      data:
-        show: "geo"
-        sumlevel: <<sumlevel child=True|dataset=chr>>
-        where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate"
-      highlight: "<<id dataset=chr>>"
-      id: "geo"
-      size: "population_estimate"
-      type: "scatter"
-      x: "sexually_transmitted_infections"
-      y: "hiv_prevalence_rate"
-  - category: "Safety and Addictions"
+      type: "geo_map"
+  - title: "Safety & Addictions"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "crime"
     select:
