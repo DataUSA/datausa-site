@@ -10381,8 +10381,9 @@ viz.mapDraw = function(vars) {
 
       if (big) {
         if (fullscreen) {
-          var x = 0, y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
-              mh = window.innerHeight - y - 15;
+          var x = 0,
+              y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
+              mh = window.innerHeight - y - 15 - d3.select("#map-subs").node().offsetHeight;
           if (d3plus.client.ie) mh -= 35;
         }
         else {
@@ -10475,7 +10476,7 @@ viz.mapDraw = function(vars) {
         "max_width": vizStyles.tooltip.small,
         "mouseevents": big ? true : false,
         "offset": big ? 0 : 3,
-        "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
+        "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-tooltip") : d3.select("body"),
         "title": d.id ? vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}) : undefined,
         "width": vizStyles.tooltip.small,
         "x": x,

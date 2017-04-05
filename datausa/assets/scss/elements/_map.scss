@@ -15,11 +15,13 @@ body.map {
 
   #d3plus_tooltip_id_geo_map_sidebar {
     @include shadow(none !important);
+    position: static !important;
     z-index: 2 !important;
 
     .d3plus_tooltip_container {
   		background-color: transparent !important;
     }
+
   }
 
 }
@@ -50,6 +52,11 @@ $map-sidebar: 250px;
       margin: 0 6px !important;
     }
 
+  }
+
+  #map-tooltip {
+    overflow-y: scroll;
+    position: relative;
   }
 
   .sub-source {

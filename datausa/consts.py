@@ -113,6 +113,12 @@ TEXTCOMPARATORS = {
 
 DICTIONARY = {
 
+    "economy": "Economy",
+    "health": "Health & Safety",
+    "demographics": "Demographics",
+    "education": "Education",
+    "housing": "Housing & Living",
+
     "acs": "American Community Survey",
     "chr": "County Health Records",
     "ipeds": "IPEDS",

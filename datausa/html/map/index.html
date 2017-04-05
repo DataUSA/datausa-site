@@ -12,11 +12,11 @@
 <h2 class="embed-title hidden">Map Title</h2>
 <div id="map-controls">
   <div id="map-filters">
-    <!-- <select id="map-datasets">
+    <select id="map-datasets">
       {% for db in datasets %}
       <option value="{{ db }}"{% if db == defaultDataset %} selected{% endif %}>{{ db|format }}</option>
       {% endfor %}
-    </select> -->
+    </select>
     <select id="map-keys">
       {% for key in keys %}
       <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
@@ -27,6 +27,9 @@
       <option value="{{ level }}"{% if level == defaultLevel %} selected{% endif %}>{{ level|format }}</option>
       {% endfor %}
     </select>
+  </div>
+  <div id="map-tooltip"></div>
+  <div id="map-subs">
     <sub class="sub-source">Dataset: <span class="source"></span></sub>
     <sub class="sub-source">Source: <span class="org"></span></sub>
   </div>
@@ -50,8 +53,11 @@
     "font": vizStyles.ui_map.font,
     "format": {
       "text": function(d) {
-        return d;
+        return d === "search" ? "Search" : d;
       }
+    },
+    "height": {
+      "max": 300
     },
     "ui": {
       "display": "block",
@@ -86,8 +92,10 @@
     .search(true)
     .type("drop")
     .focus("{{ defaultKey }}", function(d, viz){
-      var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
-      if (mapdata[d].indexOf(levels.focus()) < 0) {
+      var newLevelData = levelData.filter(function(dd) { return mapdata[dataset][d].indexOf(dd.value) >= 0; });
+      if (mapdata[dataset][d].indexOf(levels.focus()) < 0) {
+      // var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
+      // if (mapdata[d].indexOf(levels.focus()) < 0) {
         levels.focus(newLevelData[newLevelData.length - 1].value);
       }
       levels.data(newLevelData).draw();
@@ -103,24 +111,24 @@
 
   var keyData = keys.data();
 
-  // var datasets = d3plus.form()
-  //   .data("#map-datasets")
-  //   .type("drop")
-  //   .focus(dataset, function(d, viz){
-  //     dataset = d;
-  //     var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
-  //     if (!mapdata[d][keys.focus()]) {
-  //       keys.focus(d3.keys(mapdata[d])[0]);
-  //     }
-  //     keys.data(newKeyData).draw();
-  //     if (!viz.draw(Object).first) {
-  //       makeURL();
-  //     }
-  //   })
-  //   .id("value")
-  //   .config(formConfig)
-  //   .ui(vizStyles.ui_map)
-  //   .draw();
+  var datasets = d3plus.form()
+    .data("#map-datasets")
+    .type("drop")
+    .focus(dataset, function(d, viz){
+      dataset = d;
+      var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
+      if (!mapdata[d][keys.focus()]) {
+        keys.focus(d3.keys(mapdata[d])[0]);
+      }
+      keys.data(newKeyData).draw();
+      if (!viz.draw(Object).first) {
+        makeURL();
+      }
+    })
+    .id("value")
+    .config(formConfig)
+    .ui(vizStyles.ui_map)
+    .draw();
 
   var sidebarWidth = 250;
 
