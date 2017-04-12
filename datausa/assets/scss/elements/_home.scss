@@ -2,23 +2,23 @@ body.home {
   position: relative;
   background-color: $black2;
 
-  #menu-btn {
-    display: none;
-  }
-
-  #menu {
-    background-color: transparent;
-    bottom: auto !important;
-    height: auto !important;
-    left: 0 !important;
-    position: absolute;
-    @include transition(left 0.7s ease);
-
-    // .logo {
-    //   display: block;
-    // }
-
-  }
+  // #menu-btn {
+  //   display: none;
+  // }
+  //
+  // #menu {
+  //   background-color: transparent;
+  //   bottom: auto !important;
+  //   height: auto !important;
+  //   left: 0 !important;
+  //   position: absolute;
+  //   @include transition(left 0.7s ease);
+  //
+  //   // .logo {
+  //   //   display: block;
+  //   // }
+  //
+  // }
 
   .menu-content > ul > li > a > h2 {
     padding: 0 !important;
@@ -143,7 +143,7 @@ body.home {
   .search-home-container {
     @include box();
     height: 45px;
-    margin: 0 auto 20vh;
+    margin: 0 auto;
     // overflow: hidden;
     padding: 0 25px;
     position: relative;
@@ -345,6 +345,83 @@ body.home {
       &:active {
         background-color: $red-w-d;
       }
+    }
+
+  }
+
+  .home-tiles {
+    @include box();
+    @include flex();
+    padding: 50px;
+    width: 100%;
+
+    .tile {
+      @include box();
+      background-color: $black2;
+      border: 1px solid $white;
+      color: white;
+      display: inline-block;
+      margin: 10px;
+      padding: 5px 15px 15px;
+      width: 350px;
+
+      &.map {
+        background-image: url("/static/img/viz_type/geo_map.svg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+      }
+
+
+      .icon {
+        display: inline-block;
+        height: 20px;
+        margin-right: 6px;
+        margin-top: 9px;
+        position: relative;
+        text-align: center;
+        vertical-align: top;
+        width: 25px;
+        img {
+          height: 100%;
+        }
+      }
+
+      .desc {
+        font-size: 15px;
+        line-height: 22px;
+        margin: 10px 0;
+
+        .link {
+          @include transition(border-color 0.1s);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+          color: white;
+
+          &:hover {
+            border-color: white;
+          }
+
+        }
+
+      }
+
+      .list-link {
+        @include transition(border-color 0.1s);
+        border-bottom: 1px solid transparent;
+        color: white;
+        margin: 0 0 0 12px;
+
+        &:hover {
+          border-color: white;
+        }
+
+        img {
+          margin: 6px 8px 6px 0;
+          width: 20px;
+        }
+
+      }
+
     }
 
   }

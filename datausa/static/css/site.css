@@ -2714,56 +2714,44 @@
   body.home {
     position: relative;
     background-color: #141b2e; }
-    body.home #menu-btn {
-      display: none; }
-      body.home #menu {
-        background-color: transparent;
-        bottom: auto !important;
-        height: auto !important;
-        left: 0 !important;
-        position: absolute;
-        -moz-transition: left 0.7s ease;
-        -o-transition: left 0.7s ease;
-        -webkit-transition: left 0.7s ease;
-        transition: left 0.7s ease; }
-        body.home .menu-content > ul > li > a > h2 {
-          padding: 0 !important; }
-          body.home .close-btn {
-            display: none; }
-            body.home #top-nav {
-              position: fixed; }
-              body.home a {
-                font-family: "Palanquin", sans-serif;
-                font-weight: 400; }
-                body.home .bg {
-                  position: absolute;
-                  top: 0;
-                  width: 100%;
-                  height: 100vh;
-                  background-image: url('/static/img/home/bg/7alt.jpg');
-                  background-repeat: no-repeat;
-                  background-position: 50% 0%;
-                  background-size: cover;
-                  overflow: hidden;
-                  z-index: -11; }
-                  body.home .bg::after {
-                    bottom: 0;
-                    content: "";
-                    position: absolute;
-                    height: 100vh;
-                    width: 100%;
-                    left: 0;
-                    z-index: -1;
-                    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0, 0, 0, 0.15)), to(#141b2e));
-                    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0,
-                                        0.15) 25%,rgba(20, 27, 46, 0.5) 55%,#141b2e 100%);
-                    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0.15) 25%,rgba(20,
-                                        27, 46, 0.5) 55%,#141b2e 100%);
-                    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0.15) 25%,rgba(20,
-                                        27, 46, 0.5) 55%,#141b2e 100%);
-                    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0.15) 25%,rgba(20,
-                                        27, 46, 0.5) 55%,#141b2e 100%);
-                    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='rgba(0, 0, 0, 0.15)', EndColorStr='#141b2e')"; }
+    body.home .menu-content > ul > li > a > h2 {
+      padding: 0 !important; }
+      body.home .close-btn {
+        display: none; }
+        body.home #top-nav {
+          position: fixed; }
+          body.home a {
+            font-family: "Palanquin", sans-serif;
+            font-weight: 400; }
+            body.home .bg {
+              position: absolute;
+              top: 0;
+              width: 100%;
+              height: 100vh;
+              background-image: url('/static/img/home/bg/7alt.jpg');
+              background-repeat: no-repeat;
+              background-position: 50% 0%;
+              background-size: cover;
+              overflow: hidden;
+              z-index: -11; }
+              body.home .bg::after {
+                bottom: 0;
+                content: "";
+                position: absolute;
+                height: 100vh;
+                width: 100%;
+                left: 0;
+                z-index: -1;
+                background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0, 0, 0, 0.15)), to(#141b2e));
+                background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0,
+                                0.15) 25%,rgba(20, 27, 46, 0.5) 55%,#141b2e 100%);
+                background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0.15) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0.15) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.15) 0%,rgba(0, 0, 0, 0.15) 25%,rgba(20,
+                                27, 46, 0.5) 55%,#141b2e 100%);
+                -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='rgba(0, 0, 0, 0.15)', EndColorStr='#141b2e')"; }
     body.home #video {
       position: absolute;
       width: 100%;
@@ -2824,7 +2812,7 @@
       -moz-box-sizing: border-box;
       box-sizing: border-box;
       height: 45px;
-      margin: 0 auto 20vh;
+      margin: 0 auto;
       padding: 0 25px;
       position: relative;
       max-width: 650px;
@@ -3036,6 +3024,83 @@
             background-color: #F3837B; }
             body.home .search-input-btn #search-switch.adv:active {
               background-color: #CC4535; }
+    body.home .home-tiles {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-justify-content: center;
+      -moz-justify-content: center;
+      justify-content: center;
+      -ms-flex-pack: center;
+      flex-pack: center;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      padding: 50px;
+      width: 100%; }
+      body.home .home-tiles:before, body.home .home-tiles:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box; }
+        body.home .home-tiles .tile {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          background-color: #141b2e;
+          border: 1px solid #D7E8EF;
+          color: white;
+          display: inline-block;
+          margin: 10px;
+          padding: 5px 15px 15px;
+          width: 350px; }
+          body.home .home-tiles .tile:before, body.home .home-tiles .tile:after {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box; }
+            body.home .home-tiles .tile.map {
+              background-image: url("/static/img/viz_type/geo_map.svg");
+              background-position: center center;
+              background-repeat: no-repeat;
+              background-size: 100%; }
+              body.home .home-tiles .tile .icon {
+                display: inline-block;
+                height: 20px;
+                margin-right: 6px;
+                margin-top: 9px;
+                position: relative;
+                text-align: center;
+                vertical-align: top;
+                width: 25px; }
+                body.home .home-tiles .tile .icon img {
+                  height: 100%; }
+          body.home .home-tiles .tile .desc {
+            font-size: 15px;
+            line-height: 22px;
+            margin: 10px 0; }
+            body.home .home-tiles .tile .desc .link {
+              -moz-transition: border-color 0.1s;
+              -o-transition: border-color 0.1s;
+              -webkit-transition: border-color 0.1s;
+              transition: border-color 0.1s;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+              color: white; }
+              body.home .home-tiles .tile .desc .link:hover {
+                border-color: white; }
+          body.home .home-tiles .tile .list-link {
+            -moz-transition: border-color 0.1s;
+            -o-transition: border-color 0.1s;
+            -webkit-transition: border-color 0.1s;
+            transition: border-color 0.1s;
+            border-bottom: 1px solid transparent;
+            color: white;
+            margin: 0 0 0 12px; }
+            body.home .home-tiles .tile .list-link:hover {
+              border-color: white; }
+              body.home .home-tiles .tile .list-link img {
+                margin: 6px 8px 6px 0;
+                width: 20px; }
     body.home .home-collab {
       text-align: center;
       width: 100%;
