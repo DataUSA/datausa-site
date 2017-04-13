@@ -186,7 +186,7 @@ body {
           color: white;
           @include transition(color 0.1s);
           &:hover {
-            color: $red-w;
+            color: $black-link-hover;
           }
         }
       }
@@ -195,7 +195,7 @@ body {
 
     a:hover {
       h2 {
-        color: $red-w;
+        color: $black-link-hover;
       }
     }
   }
