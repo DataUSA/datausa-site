@@ -2817,7 +2817,7 @@
       position: relative;
       max-width: 650px;
       width: 100%;
-      z-index: 10; }
+      z-index: 5; }
       body.home .search-home-container:before, body.home .search-home-container:after {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
