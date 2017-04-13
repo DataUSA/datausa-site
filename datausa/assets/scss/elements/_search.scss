@@ -374,7 +374,7 @@ body.search {
         opacity: 1;
         font-family: $palanquin;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 14px;
         letter-spacing: 0.05em;
         text-transform: uppercase;
         color: $black5;
@@ -517,19 +517,18 @@ body.search {
             }
 
             &.stem_only {
-              border-top: dashed 1px $black5;
-              margin-top: 10px;
-              padding-top: 5px;
-
               a {
                 color: $cip-bg-color !important;
+                @include flex();
+                @include justify(space-between);
+                @include align-items();
 
-                span.check {
-                  background-image: url('/static/img/search/checkbox-sprite.png');
-                  width: 20px;
-                  height: 20px;
-                  background-position: center top;
-                  background-repeat: no-repeat;
+                .check {
+                  width: 14px;
+                  height: 14px;
+                  border: 1px solid $cip-bg-color;
+                  box-sizing: border-box;
+                  cursor: pointer;
                 }
 
                 input {
@@ -543,8 +542,10 @@ body.search {
                 }
 
                 &.active {
-                  span.check {
-                    background-position: center -30px;
+                  font-weight: 600;
+
+                  .check {
+                    background-color: $cip-bg-color;
                   }
                 }
 
