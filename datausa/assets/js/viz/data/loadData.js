@@ -199,7 +199,7 @@ viz.formatData = function(data, d, build) {
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
-  build.viz.error("Loading Data").draw();
+  if (build.viz.data().length === 0) build.viz.error("Loading Data").draw();
 
   build.sources = [];
 

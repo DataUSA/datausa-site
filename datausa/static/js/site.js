@@ -9163,6 +9163,11 @@ viz.prepBuild = function(build, i) {
             build.data.forEach(function(b){
               b.url = b.url.replace(param + "=" + prev, param + "=" + id);
             });
+            if (method.length) {
+              if (build.config[method].value) build.config[method].value = id;
+              else build.config[method] = id;
+              build.viz[method](id)
+            }
             viz.loadData(build, "redraw");
           }
           else if (method.length) {
@@ -9646,7 +9651,7 @@ viz.formatData = function(data, d, build) {
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
-  build.viz.error("Loading Data").draw();
+  if (build.viz.data().length === 0) build.viz.error("Loading Data").draw();
 
   build.sources = [];
 

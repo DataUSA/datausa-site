@@ -337,15 +337,46 @@
   cohort: "pneumonia,AMI,CHF"
   namespace: cohort
 
+- required: ["geo", "cohort", "patients_in_cohort", "year"]
+  order: patients_in_cohort
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  cohort: CHF
+  geo: null
+  namespace: cohort_state
+
 - required: ["geo", "year", "number_of_females_enrolled_67_69_total", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "patients_females_67_69_having_mammogram_total"]
   show: geo
   year: latest
   namespace: womens_health
 
+- required: ["geo", "number_of_females_enrolled_67_69_total", "year"]
+  order: number_of_females_enrolled_67_69_total
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  geo: null
+  namespace: women_state
+
 - required: ["geo", "year", "diabetic_medicare_enrollees_65_75_total", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_total", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_total", "patients_diabetic_medicare_enrollees_65_75_lipid_test_total"]
   show: geo
   year: latest
   namespace: diabetic_care
+
+- required: ["geo", "diabetic_medicare_enrollees_65_75_total", "year"]
+  order: diabetic_medicare_enrollees_65_75_total
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  geo: null
+  namespace: diabetes_state
 
 - required: ["geo", "diabetes"]
   order: diabetes

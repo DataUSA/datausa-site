@@ -113,6 +113,11 @@ viz.prepBuild = function(build, i) {
             build.data.forEach(function(b){
               b.url = b.url.replace(param + "=" + prev, param + "=" + id);
             });
+            if (method.length) {
+              if (build.config[method].value) build.config[method].value = id;
+              else build.config[method] = id;
+              build.viz[method](id)
+            }
             viz.loadData(build, "redraw");
           }
           else if (method.length) {

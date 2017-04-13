@@ -117,11 +117,11 @@ topics:
         - "home_health_reimbursements_b"
         - "hospice_reimbursements_b"
         - "medical_equip_reimbursements_b"
-    description: "<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>."
+    description: "{{<<sumlevel>>:!nation||<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>.}}{{<<sumlevel>>:nation||Here are the <span class='select-text'>Medicare Reimbursements per Enrollee</span> for the top and bottom 2 states by total number of medicare enrollees.}}"
     viz:
       attrs: "geo"
       data:
-        geo: "<<id>>"
+        geo: "{{<<sumlevel>>:!nation||<<id>>}}{{<<sumlevel>>:nation||<<parents id_only=True|col=total_medicare_enrollees>>}}"
         force: dartmouth.yg_reimbursements
         show: "geo"
       height: 400
@@ -131,6 +131,7 @@ topics:
       y: "total_reimbursements_b"
   - category: "Hospital Care"
     title: "Common Conditions"
+    sumlevel: "!nation"
     subtitle: "<<sub show=geo|col=patients_in_cohort>>"
     slug: "conditions"
     select:
@@ -165,7 +166,34 @@ topics:
           position: True
         value: year
       y: patients_in_cohort
+  - category: "Hospital Care"
+    title: "Common Conditions"
+    sumlevel: "nation"
+    slug: "conditions"
+    select:
+      method: color
+      default: "CHF"
+      data: "cohort"
+    description: "When looking at patients across the entire United States, <<var namespace=cohort_state|key=patients_in_cohort|row=0>> people were treated for <<var namespace=cohort_state|key=cohort|row=0>> in <<var namespace=cohort_state|key=geo|row=0>>, followed by <<var namespace=cohort_state|key=patients_in_cohort|row=1>> in <<var namespace=cohort_state|key=geo|row=1>> and <<var namespace=cohort_state|key=patients_in_cohort|row=2>> in <<var namespace=cohort_state|key=geo|row=2>>."
+    stat:
+      - title: "Most Prevalent States"
+        value: "<<var namespace=cohort_state|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=cohort_state|key=geo|row=1>>"
+          - "<<var namespace=cohort_state|key=geo|row=2>>"
+    viz:
+      attrs: geo
+      color: patients_in_cohort
+      coords: "states"
+      data:
+        sumlevel: state
+        required: patients_in_cohort
+        cohort: "CHF"
+        show: geo
+      id: geo
+      type: geo_map
   - title: "Women's Health"
+    sumlevel: "!nation"
     subtitle: "Female medicare enrollees between the ages of 67 and 69. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
     slug: "womens_health"
     stat:
@@ -189,7 +217,35 @@ topics:
       type: line
       x: year
       y: mammogram_tests
+  - title: "Women's Health"
+    sumlevel: "nation"
+    slug: "womens_health"
+    select:
+      method: color
+      default: "number_of_females_enrolled_67_69_total"
+      data:
+        - number_of_females_enrolled_67_69_total
+        - patients_females_67_69_having_mammogram_white
+        - patients_females_67_69_having_mammogram_black
+    description: "When looking at patients across the entire United States, there are <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=0>> <span class='select-text'>Female Medicare Enrolles 65-75 Years Old</span> in <<var namespace=women_state|key=geo|row=0>>, followed by <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=1>> in <<var namespace=women_state|key=geo|row=1>> and <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=2>> in <<var namespace=women_state|key=geo|row=2>>."
+    stat:
+      - title: "Most Prevalent States"
+        value: "<<var namespace=women_state|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=women_state|key=geo|row=1>>"
+          - "<<var namespace=women_state|key=geo|row=2>>"
+    viz:
+      attrs: geo
+      color: number_of_females_enrolled_67_69_total
+      coords: "states"
+      data:
+        sumlevel: state
+        required: number_of_females_enrolled_67_69_total,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
+        show: geo
+      id: geo
+      type: geo_map
   - title: "Diabetic Care"
+    sumlevel: "!nation"
     subtitle: "Medicare enrollees between the ages of 65 and 75 that have had treatment related to their diabetes. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
     slug: "diabetic_care"
     stat:
