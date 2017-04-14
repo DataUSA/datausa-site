@@ -83,26 +83,24 @@ viz.formatData = function(data, d, build) {
         var dd = d3plus.util.copy(dat);
         var key = keys[ii];
 
+        if (d.split.map) {
+          for (var sk in d.split.map) {
+            var mapex = d.split.map[sk].exec(key);
+            if (mapex) dd[sk] = mapex[1];
+          }
+        }
+
         dd[d.split.id] = regex[0].exec(key)[1];
         for (var v = 0; v < values.length; v++) {
           for (var k in dd) {
             var match = regex[v].exec(k);
-            if (match && match[1] === dd.race) {
+            if (match && match[1] === dd[d.split.id]) {
               dd[values[v]] = dat[match[0]];
               delete dd[match[0]];
               if (match[0] + "_moe" in dat) {
                 dd[values[v] + "_moe"] = dat[match[0] + "_moe"];
                 delete dd[match[0] + "_moe"];
               }
-            }
-          }
-        }
-
-        if (d.split.map) {
-          for (var sk in d.split.map) {
-            var mapex = d.split.map[sk].exec(key);
-            if (mapex) {
-              dd[sk] = mapex[1];
             }
           }
         }
