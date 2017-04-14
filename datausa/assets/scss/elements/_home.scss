@@ -349,79 +349,174 @@ body.home {
 
   }
 
-  .home-tiles {
+  .home-links {
     @include box();
     @include flex();
-    padding: 50px;
+    @include flex-direction(column);
     width: 100%;
+    margin-top: 40px;
+    margin-bottom: 30px;
 
     .tile {
       @include box();
-      background-color: $black2;
-      border: 1px solid $white;
-      color: white;
+      background-color: rgba(20, 27, 46, 0.35);
+      color: $white-l;
       display: inline-block;
-      margin: 10px;
+      margin: 10px auto 0;
       padding: 5px 15px 15px;
-      width: 350px;
 
-      &.map {
-        background-image: url("/static/img/viz_type/geo_map.svg");
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 100%;
+      & + .tile {
+        @media (min-width : 481px) {
+          margin-top: 20px;
+        }
+
+        @media (max-width : 480px) {
+          margin-top: 0;
+        }
       }
 
+      @media (min-width : 715px) {
+        width: 600px;
+      }
 
-      .icon {
-        display: inline-block;
-        height: 20px;
-        margin-right: 6px;
-        margin-top: 9px;
-        position: relative;
+      @media (max-width : 714px) {
+        width: calc(100% - 50px);
+      }
+
+      h3 {
+        color: $black-link;
         text-align: center;
-        vertical-align: top;
-        width: 25px;
-        img {
-          height: 100%;
-        }
+        letter-spacing: 0.03em;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 8px 0 10px;
       }
+    }
 
-      .desc {
-        font-size: 15px;
-        line-height: 22px;
-        margin: 10px 0;
+    .desc {
+      font-size: 15px;
+      line-height: 22px;
+      margin: 10px 0;
 
-        .link {
-          @include transition(border-color 0.1s);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-          color: white;
-
-          &:hover {
-            border-color: white;
-          }
-
-        }
-
-      }
-
-      .list-link {
+      .link {
         @include transition(border-color 0.1s);
-        border-bottom: 1px solid transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
         color: white;
-        margin: 0 0 0 12px;
 
         &:hover {
           border-color: white;
         }
+      }
+    }
 
-        img {
-          margin: 6px 8px 6px 0;
-          width: 20px;
+    .directory-links {
+      width: 100%;
+      @include flex();
+
+      @media (min-width: 651px) {
+        @include flex-direction(row);
+        @include justify(space-between);
+
+        & > * {
+          flex: 1;
         }
 
+        .directory-link + .directory-link {
+          margin-left: 30px;
+        }
       }
 
+      @media (max-width : 650px) {
+        @include flex-direction(column);
+        @include justify();
+      }
+
+      & > * {
+        @include flex();
+
+        @media (min-width : 481px) {
+          @include flex-direction(row);
+          @include justify(space-around);
+        }
+
+        @media (max-width : 480px) {
+          @include flex-direction(column);
+        }
+      }
+
+      li {
+        text-align: center;
+        padding: 4px 0;
+
+        @media (min-width: 481px) and (max-width : 650px) {
+          flex: 1;
+        }
+
+        @media (max-width: 480px) {
+          & + li {
+            margin-top: 3px;
+          }
+        }
+      }
+    }
+
+    .directory-link {
+      color: $black-link;
+      @include transition(font-weight 0.1s);
+      margin: 0 0 0 12px;
+      font-size: 19px;
+      font-weight: 400;
+
+      &.geo {color: $geo-bg-color}
+      &.naics {color: $naics-bg-color}
+      &.soc {color: $soc-bg-color}
+      &.cip {color: $cip-bg-color}
+
+      &:hover {
+        font-weight: 600;
+      }
+
+      img {
+        margin: 8px 4px 6px 0;
+        width: 20px;
+      }
+    }
+
+    .map-links {
+      width: 100%;
+      text-align: center;
+
+      @media (min-width : 481px) {
+        @include flex();
+        @include flex-wrap();
+      }
+
+      li {
+        line-height: 1.7;
+        padding: 4px 0;
+        margin: 0 1px;
+        min-width: 110px;
+        @include flex-size(1);
+
+        @media (max-width : 480px) {
+          & + li {
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+
+    .map-link { 
+      color: $black-link;
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 400;
+      @include transition(color 0.1s);
+      white-space: nowrap;
+
+      &:hover {
+        color: white;
+      }
     }
 
   }

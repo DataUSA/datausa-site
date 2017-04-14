@@ -48,31 +48,34 @@
   </section>
 </section>
 
-<section class="home-tiles">
+<section class="home-links">
 
   <div class="tile">
-    <h2><div class="icon">
-      <img src="/static/img/icons/about.svg" />
-    </div>Visualize the Datasets</h2>
-    <p class="desc">
-      Statistics and visualizations organized by:
-      <ul>
-        <li><a class="list-link" href="/search/?kind=geo"><img src="/static/img/icons/geo.svg" />States and Cities</a></li>
-        <li><a class="list-link" href="/search/?kind=naics"><img src="/static/img/icons/naics.svg" />Industries</a></li>
-        <li><a class="list-link" href="/search/?kind=soc"><img src="/static/img/icons/soc.svg" />Occupations</a></li>
-        <li><a class="list-link" href="/search/?kind=cip"><img src="/static/img/icons/cip.svg" />College Majors</a></li>
-      </ul>
-    </p>
+    <h3>Browse Public Data on any:</h3>
+    <ul class="directory-links">
+      <div>
+        <li><a class="directory-link geo" href="/search/?kind=geo"><img src="/static/img/icons/geo_c.svg" />State or City</a></li>
+        <li><a class="directory-link naics" href="/search/?kind=naics"><img src="/static/img/icons/naics_c.svg" />Industry</a></li>
+      </div>
+      <div>
+        <li><a class="directory-link soc" href="/search/?kind=soc"><img src="/static/img/icons/soc_c.svg" />Occupation</a></li>
+        <li><a class="directory-link cip" href="/search/?kind=cip"><img src="/static/img/icons/cip_c.svg" />College Major</a></li>
+      </div>
+    </ul>
   </div>
   <div class="tile map">
-    <h2><div class="icon">
-      <img src="/static/img/icons/demographics.svg" />
-    </div>Maps</h2>
-    <p class="desc">
-      Pick a variable, see it mapped across the entire US at the State, County, MSA, or PUMA level.
-      <br /><br />
-      For example, ever wonder <a class="link" href="/map/?level=state&amp;key=medicare_beneficiaries_total">which states have the most medicare beneficiaries</a>?
-    </p>
+    <a href="/map"><h3>Map over 100 Topics, such as:</h3></a>
+    <ul class="map-links">
+      <li><a class="map-link" href="/map/?level=state&amp;key=medicare_beneficiaries_total">Medicare</a></li>
+      <li><a class="map-link" href="/map/?level=puma&key=income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe">Poverty</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=unemployment">Unemployment</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=polution_ppm">Pollution</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=children_eligible_for_free_lunch">School Lunch</a></li>
+      <li><a class="map-link" href="/map/?level=state&key=income_inequality">Income Inequality</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=homicide_rate">Homicide</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=population_living_in_a_rural_area">Rural Areas</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=social_associations">Social Groups</a></li>
+    </ul>
   </div>
 
 </section>
