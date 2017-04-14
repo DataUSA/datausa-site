@@ -420,15 +420,16 @@ body {
 
   a {
     background-image: url("/static/img/cart.svg");
-    background-position: center;
+    background-position: right center;
     background-repeat: no-repeat;
     color: white;
     display: block;
     font-family: $palanquin;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 800;
     height: 21px;
     line-height: 22px;
+    padding-right: 15px;
     text-align: center;
     width: 23px;
 
