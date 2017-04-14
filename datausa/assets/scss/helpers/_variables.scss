@@ -2,8 +2,8 @@
 $title-height: 40px;
 $prof-nav-height: 45px;
 $nav-height: 40px;
-// $stats-bar-height: 23px;
-$stats-bar-height: 0px;
+$stats-bar-height: 23px;
+// $stats-bar-height: 0px;
 $about-nav-height: 30px;
 $footer-height: 70px;
 $nav-width: 300px;
@@ -96,7 +96,8 @@ $home-red: #dc5137;
 $light-home-red: #fdc8b8;
 
 $splash-gradient: (
-  0%: rgba(0,0,0,0),
+  0%: rgba(20, 27, 46, 0.4),
+  10%: rgba(20, 27, 46, 0),
   40%: rgba(20, 27, 46, 0.5),
   100%: $black2
 );

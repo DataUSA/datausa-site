@@ -1623,8 +1623,8 @@ body.profile, body.map, body.story {
       color: #333;
 
       a {
-        margin-top: -$nav-height - $prof-nav-height;
-        padding-top: $nav-height + $prof-nav-height;
+        margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+        padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
 
       // This is the invisible element to fix the anchor tags!
