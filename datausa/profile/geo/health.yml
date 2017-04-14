@@ -194,29 +194,36 @@ topics:
       type: geo_map
   - title: "Women's Health"
     sumlevel: "!nation"
-    subtitle: "Female medicare enrollees between the ages of 67 and 69. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
     slug: "womens_health"
     stat:
-      - title: "Black Enrollees"
+      - title: "Black Women Enrolled in Medicare Age 67-69"
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_black>>
-      - title: "White Enrollees"
+      - title: "White Women Enrolled in Medicare Age 67-69"
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
-    description: "In <<var namespace=womens_health|key=year>>, out of all of the women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms."
+    description: "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of white and black women who had mammograms over the past few years."
     viz:
       color: race
       data:
         geo: "<<id>>"
-        force: dartmouth.yg_prim_care_access
+        required: number_of_females_enrolled_67_69_white,number_of_females_enrolled_67_69_black,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
         show: geo
         split:
           id: "race"
-          regex: "^patients_females_67_69_having_mammogram_([white|black]*)$"
-          value: "mammogram_tests"
+          regex:
+            - "^patients_females_67_69_having_mammogram_([white|black]*)$"
+            - "^number_of_females_enrolled_67_69_([white|black]*)$"
+          value:
+            - "mammogram_tests"
+            - "patients"
+        divide:
+          num: "mammogram_tests"
+          den: "patients"
+          value: "share"
       height: 400
       id: race
       type: line
       x: year
-      y: mammogram_tests
+      y: share
   - title: "Women's Health"
     sumlevel: "nation"
     slug: "womens_health"
