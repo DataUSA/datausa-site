@@ -42,6 +42,7 @@ class Viz(object):
             # create a new dict containing the 'split' and 'static' params
             data_obj = {
                 "join": d.pop("join", None),
+                "divide": d.pop("divide", None),
                 "map": d.pop("map", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None),

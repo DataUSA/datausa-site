@@ -9514,10 +9514,13 @@ viz.formatData = function(data, d, build) {
 
   if (d.split) {
 
+    var regex = d.split.regex instanceof Array ? d.split.regex : [d.split.regex];
+    regex = regex.map(function(r) { return new RegExp(r); });
+    var values = d.split.value instanceof Array ? d.split.value : [d.split.value];
+
     var split_data = [],
-        regex = new RegExp(d.split.regex),
         keys = d3.keys(data[0]).filter(function(k){
-          return regex.exec(k);
+          return regex[0].exec(k);
         });
 
     if (d.split.map) {
@@ -9530,29 +9533,42 @@ viz.formatData = function(data, d, build) {
       var dat = data[i];
       for (var ii = 0; ii < keys.length; ii++) {
         var dd = d3plus.util.copy(dat);
-        dd[d.split.id] = regex.exec(keys[ii])[1];
-        dd[d.split.value] = dat[keys[ii]];
+        var key = keys[ii];
 
-        if (keys[ii] + "_moe" in dat) {
-          dd[d.split.value + "_moe"] = dat[keys[ii] + "_moe"];
+        dd[d.split.id] = regex[0].exec(key)[1];
+        for (var v = 0; v < values.length; v++) {
+          for (var k in dd) {
+            var match = regex[v].exec(k);
+            if (match && match[1] === dd.race) {
+              dd[values[v]] = dat[match[0]];
+              delete dd[match[0]];
+              if (match[0] + "_moe" in dat) {
+                dd[values[v] + "_moe"] = dat[match[0] + "_moe"];
+                delete dd[match[0] + "_moe"];
+              }
+            }
+          }
         }
 
         if (d.split.map) {
           for (var sk in d.split.map) {
-            var mapex = d.split.map[sk].exec(keys[ii]);
+            var mapex = d.split.map[sk].exec(key);
             if (mapex) {
               dd[sk] = mapex[1];
             }
           }
         }
-        for (var iii = 0; iii < keys.length; iii++) {
-          delete dd[keys[iii]];
-          delete dd[keys[iii] + "_moe"];
-        }
+
         split_data.push(dd);
       }
     }
     data = split_data;
+  }
+
+  if (d.divide) {
+    for (var i = 0; i < data.length; i++) {
+      data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den] * 100;
+    }
   }
 
   if (d.share) {
