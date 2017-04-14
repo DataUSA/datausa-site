@@ -337,61 +337,71 @@ body.about {
 
     &.datasets {
       li {
-        a {
-          &.acs {
-            background-image: url('/static/img/about/ACS.png');
-          }
-          &.acspums {
-            background-image: url('/static/img/about/ACS_PUMS.png');
-          }
-          &.bea {
-            background-image: url('/static/img/about/BEA.png');
-          }
-          &.bls {
-            background-image: url('/static/img/about/BLS.png');
-          }
-          &.chr {
-            background-image: url('/static/img/about/CHR.png');
-          }
-          &.ipeds {
-            background-image: url('/static/img/about/IPEDS.png');
-          }
-          &.onet {
-            background-image: url('/static/img/about/ONet.png');
-          }
+        &.acs {
+          background-image: url('/static/img/about/ACS.png');
+        }
+        &.acspums {
+          background-image: url('/static/img/about/ACS_PUMS.png');
+        }
+        &.bea {
+          background-image: url('/static/img/about/BEA.png');
+        }
+        &.bls {
+          background-image: url('/static/img/about/BLS.png');
+        }
+        &.chr {
+          background-image: url('/static/img/about/CHR.png');
+        }
+        &.ipeds {
+          background-image: url('/static/img/about/IPEDS.png');
+        }
+        &.onet {
+          background-image: url('/static/img/about/ONet.png');
         }
       }
     }
 
     li {
       @include flex-size(1);
-      text-align: center;
+      @include flex();
+      @include align-items(center);
+      background-color: $black35;
+      background-size: cover;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
       font-family: $palanquin;
       font-weight: 400;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: 0.03em;
+      min-height: 60px;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
 
       &.active {
-        a {
+        background-color: $red-w;
+        &:before {
           background-color: $red-w;
+          bottom: 0;
+          content: "";
+          display: block;
+          opacity: 0.75;
+          position: absolute;
+          top: 0;
+          width: 100%;
+          z-index: 0;
         }
       }
 
       a {
-        display: block;
-        background-color: $black35;
-        background-size: cover;
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
+        @include box();
         color: #ffffff;
         display: block;
         width: 100%;
-        height: 60px;
-        padding: 13px 0;
-        @include box();
         font-size: 16px;
         line-height: 1;
         font-weight: 600;
+        z-index: 1;
 
         i {
           display: block;
@@ -408,6 +418,7 @@ body.about {
 
   .dataset-list {
     @include flex-size(3);
+    margin-top: 50px;
 
     .dataset-tab {
       display: none;
