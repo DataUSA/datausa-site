@@ -114,8 +114,14 @@
 
             var text = d3.select(this).attr("data-tooltip");
 
-            if (text === "cartLimit" && !d3.select(this).classed("disabled")) return;
-            if (text === "cartLimit") text = "Cart limit of " + cartLimit + " has been reached. Please visit the cart page to download the current cart and/or remove data.";
+            var max_width = 300;
+
+            if (text === "cartLimit") {
+              max_width = 250;
+              if (d3.select(this).classed("active")) text = "Remove this dataset from the cart.";
+              else if (!d3.select(this).classed("disabled")) text = "Add the underlying data to the cart, and merge with any existing cart data.";
+              else text = "Cart limit of " + cartLimit + " has been reached. Please visit the cart page to download the current cart and/or remove data.";
+            }
 
             var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
 
@@ -141,12 +147,11 @@
               "y": size.top+size.height/2 + d3plus.client.scroll.y(),
               "offset": size.height/2 + offset,
               "arrow": arrow,
-              // "title": "Title",
               "description": text,
               "width": "auto",
               "id": tt_id,
               "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
-              "max_width": 300
+              "max_width": max_width
             });
 
           })
