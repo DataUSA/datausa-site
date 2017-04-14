@@ -406,7 +406,7 @@ body {
 
 #cart-btn {
   @include transition(opacity 1s);
-  margin: 9px 10px 15px 15px;
+  margin: 7px 10px 15px 15px;
   opacity: 0.9;
   position: absolute;
   right: 35px;
@@ -430,7 +430,7 @@ body {
     height: 21px;
     line-height: 22px;
     text-align: center;
-    width: 16px;
+    width: 23px;
 
 
     &.active {
