@@ -386,11 +386,9 @@ body.profile, body.map, body.story {
 
     &.flex {
       h2 {
-        display: block;
         font-size: 24px;
 
         .viz-btns {
-          text-align: left;
 
           .viz-btn {
             &.view-table, &.save-image {
