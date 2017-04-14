@@ -462,7 +462,7 @@ body.home {
 
     .directory-link {
       color: $black-link;
-      @include transition(font-weight 0.1s);
+      @include transition(color 0.1s);
       margin: 0 0 0 12px;
       font-size: 19px;
       font-weight: 400;
@@ -473,7 +473,7 @@ body.home {
       &.cip {color: $cip-bg-color}
 
       &:hover {
-        font-weight: 600;
+        color: #fff;
       }
 
       img {
@@ -506,7 +506,7 @@ body.home {
       }
     }
 
-    .map-link { 
+    .map-link {
       color: $black-link;
       font-size: 17px;
       line-height: 1;
