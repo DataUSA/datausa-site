@@ -2741,7 +2741,7 @@
         display: none; }
         body.home #top-nav {
           position: fixed;
-          z-index: 20; }
+          z-index: 1; }
           body.home a {
             font-family: "Palanquin", sans-serif;
             font-weight: 400; }
