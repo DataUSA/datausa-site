@@ -8817,7 +8817,7 @@ viz.format = {
       if (proportions.indexOf(key) >= 0) number = number * 100;
 
       if ((params.output !== "x" || number < 1000) && number < 999999.99 && number >= 0.1) {
-        var prec = params.cart || ["gini"].indexOf(key) >= 0 ? "3" : key.indexOf("_rca") > 0 || key in affixes ? "2" : "1";
+        var prec = ["gini"].indexOf(key) >= 0 ? "3" : key.indexOf("_rca") > 0 || key in affixes ? "2" : "1";
         number = d3.format(",." + prec + "f")(number);
         number = prec === "3" ? number.replace(".000", "") : prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
       }
@@ -9218,7 +9218,8 @@ viz.prepBuild = function(build, i) {
     "310": "msa",
     "160": "place",
     "860": "zip",
-    "140": "tract"
+    "140": "tract",
+    "795": "puma"
   };
 
   d3.select(build.container.node().parentNode.parentNode).select("a.add-to-cart")
@@ -9242,7 +9243,7 @@ viz.prepBuild = function(build, i) {
         }
         else {
 
-          var calcs = [], data = [], title = build.title_short;
+          var calcs = [], data = [], title = build.title_short.trim();
 
           d3.select(build.container.node().parentNode.parentNode)
             .selectAll(".cart-percentage").each(function() {
@@ -9281,6 +9282,12 @@ viz.prepBuild = function(build, i) {
                   sumlevels[i] = prof_sumlevel;
                   title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
                 }
+                else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
+                  sumlevels.shift(sumlevels[i]);
+                  shows.shift(show);
+                  var forText = new RegExp("( for [A-z ]*) by|( for [A-z ]*)$").exec(title);
+                  if (forText) title = title.replace(forText[0], "");
+                }
               }
 
             });
@@ -9289,7 +9296,8 @@ viz.prepBuild = function(build, i) {
               sumlevels.unshift(prof_sumlevel);
               shows.unshift(prof_attr);
               delete params[prof_attr];
-              title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+              var suffix = " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+              if (title.indexOf(suffix) < 0) title += suffix;
             }
 
             wheres = wheres.filter(function(where) {
@@ -9304,7 +9312,15 @@ viz.prepBuild = function(build, i) {
 
             // console.log(title, params, api + "/api/?" + serialize(params));
             data.push(api + "/api/?" + serialize(params));
+            console.log(params);
+
           });
+
+          data = d3plus.util.uniques(data);
+
+          console.log(build.slug);
+          console.log(title);
+          console.log(data);
 
           cart.builds.push(build.slug);
 
