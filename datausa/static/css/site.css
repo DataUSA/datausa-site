@@ -4038,10 +4038,13 @@
       font-size: 24px; }
       body.profile .topic.flex h2 .viz-btns .viz-btn.view-table,
       body.profile .topic.flex h2 .viz-btns .viz-btn.save-image,
+      body.profile .topic.flex h2 .viz-btns .viz-btn.add-to-cart,
       body.map .topic.flex h2 .viz-btns .viz-btn.view-table,
       body.map .topic.flex h2 .viz-btns .viz-btn.save-image,
+      body.map .topic.flex h2 .viz-btns .viz-btn.add-to-cart,
       body.story .topic.flex h2 .viz-btns .viz-btn.view-table,
-      body.story .topic.flex h2 .viz-btns .viz-btn.save-image {
+      body.story .topic.flex h2 .viz-btns .viz-btn.save-image,
+      body.story .topic.flex h2 .viz-btns .viz-btn.add-to-cart {
         display: none; }
         body.profile .topic.flex h2 .viz-btns .viz-btn.share::after,
         body.map .topic.flex h2 .viz-btns .viz-btn.share::after,
