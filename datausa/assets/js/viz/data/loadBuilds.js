@@ -257,6 +257,15 @@ viz.prepBuild = function(build, i) {
               title = title.replace("Distribution", "GINI");
             }
 
+            if (requireds.indexOf("num_ppl") >= 0 && requireds.indexOf("avg_wage") < 0) {
+              requireds.push("avg_wage");
+              requireds.push("avg_wage_moe");
+            }
+            else if (requireds.indexOf("avg_wage") >= 0 && requireds.indexOf("num_ppl") < 0) {
+              requireds.push("num_ppl");
+              requireds.push("num_ppl_moe");
+            }
+
             wheres = wheres.filter(function(where) {
               return shows.indexOf(where.split(":")[0]) < 0;
             });
