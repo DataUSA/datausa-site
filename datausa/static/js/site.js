@@ -9264,6 +9264,7 @@ viz.prepBuild = function(build, i) {
             delete params.limit;
             var shows = params.show.split(",");
             var sumlevels = params.sumlevel.split(",");
+            var requireds = params.required.split(",");
             var wheres = params.where ? params.where.split(",") : [];
             delete params.where;
             var prof_attr = location.pathname.split("/")[2];
@@ -9283,8 +9284,8 @@ viz.prepBuild = function(build, i) {
                   title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
                 }
                 else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
-                  sumlevels.shift(sumlevels[i]);
-                  shows.shift(show);
+                  sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
+                  shows.splice(shows.indexOf(show), 1);
                   var forText = new RegExp("( for [A-z ]*) by|( for [A-z ]*)$").exec(title);
                   if (forText) title = title.replace(forText[0], "");
                 }
@@ -9300,12 +9301,19 @@ viz.prepBuild = function(build, i) {
               if (title.indexOf(suffix) < 0) title += suffix;
             }
 
+            if (requireds.indexOf("wage_bin") >= 0) {
+              requireds.splice(requireds.indexOf("wage_bin"), 1);
+              requireds.push("gini");
+              title = title.replace("Distribution", "GINI");
+            }
+
             wheres = wheres.filter(function(where) {
               return shows.indexOf(where.split(":")[0]) < 0;
             });
 
             params.show = shows.join(",");
             params.sumlevel = sumlevels.join(",");
+            params.required = requireds.join(",");
             if (wheres.length) params.where = wheres.join(",");
 
             if ("year" in params) params.year = "all";
