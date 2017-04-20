@@ -168,7 +168,7 @@ topics:
         value: "<<sumlevel plural=True|child=True>>"
       color: "income"
       data:
-        - force: "acs.yg_income"
+        - required: income,income_white,income_black,income_asian,income_hispanic,income_native,income_hawaiian,income_2ormore,income_whitenonhispanic,income_other
           show: "geo"
           sumlevel: "<<sumlevel child=True>>"
           where: "geo:<<children prefix=True>>"
