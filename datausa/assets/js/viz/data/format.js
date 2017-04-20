@@ -46,7 +46,7 @@ viz.format = {
         number = a[0] + number + a[1];
       }
 
-      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+      if (key.indexOf("_pct_calc") > 0 || proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
         number = number + "%";
       }
       return prefix + number;

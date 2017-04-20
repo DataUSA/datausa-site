@@ -152,6 +152,7 @@
         }
         else {
 
+          var headers = ret.headers;
           var c = calcs[urlList.indexOf(url)];
 
           if (c) {
@@ -168,11 +169,10 @@
                   data[i][calc.key] = func(data[i]);
                 }
                 bubbles.push(calc.key);
+                headers.push(calc.key);
               }
             }
           }
-
-          var headers = ret.headers;
           // if (ret.headers.indexOf("year") >= 0) {
           //   headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
           //     return ret.headers.map(function(h){
