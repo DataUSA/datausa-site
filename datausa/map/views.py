@@ -38,7 +38,6 @@ def map():
             "chr.uninsured_children",
             "chr.could_not_see_doctor_due_to_cost",
 
-            "chr.health_care_costs",
             "chr.total_medicare_enrollees",
             "chr.total_reimbursements_b",
             "chr.hospital_reimbursements_b",
