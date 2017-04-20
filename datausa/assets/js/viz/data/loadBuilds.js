@@ -227,18 +227,18 @@ viz.prepBuild = function(build, i) {
 
             shows.forEach(function(show, i) {
 
-              if (show in params) {
-                delete params[show];
-                if (show === prof_attr && sumlevels[i] === "all") {
-                  sumlevels[i] = prof_sumlevel;
-                  title += " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
-                }
-                else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
-                  sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
-                  shows.splice(shows.indexOf(show), 1);
-                  var forText = new RegExp("( for [A-z ]*) by|( for [A-z ]*)$").exec(title);
-                  if (forText) title = title.replace(forText[0], "");
-                }
+              if (show in params) delete params[show];
+
+              if (show === prof_attr) {
+                if (sumlevels[i] === "all") sumlevels[i] = prof_sumlevel;
+                if (title.indexOf(" by " + dictionary[show]) > 0) title = title.replace(" by " + dictionary[show], "");
+                title += " by " + (dictionary[sumlevels[i]] || d3plus.string.title(sumlevels[i]));
+              }
+              else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
+                sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
+                shows.splice(shows.indexOf(show), 1);
+                var forText = new RegExp("( for [A-z ]*) by|( for [A-z ]*)$").exec(title);
+                if (forText) title = title.replace(forText[0], "");
               }
 
             });
@@ -285,7 +285,6 @@ viz.prepBuild = function(build, i) {
 
           data = d3plus.util.uniques(data);
 
-          console.log(build.slug);
           console.log(title);
           console.log(data);
 
