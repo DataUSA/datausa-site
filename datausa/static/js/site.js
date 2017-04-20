@@ -9264,7 +9264,7 @@ viz.prepBuild = function(build, i) {
             delete params.limit;
             var shows = params.show.split(",");
             var sumlevels = params.sumlevel.split(",");
-            var requireds = params.required.split(",");
+            var requireds = params.required ? params.required.split(",") : [];
             var wheres = params.where ? params.where.split(",") : [];
             delete params.where;
             var prof_attr = location.pathname.split("/")[2];
