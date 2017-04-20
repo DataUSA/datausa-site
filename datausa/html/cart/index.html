@@ -53,29 +53,29 @@
     "310": "msa",
     "160": "place",
     "860": "zip",
-    "140": "tract"
+    "140": "tract",
+    "795": "puma"
   };
 
   var attrs = {};
 
   var attr_list = [
-    "geo",
+    "year", "geo",
     "naics", "acs_ind", "bls_naics", "iocode",
     "soc", "acs_occ", "bls_soc",
     "cip", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
     "skill", "wage_bin", "conflict",
-    "cohort", "insurance",
-    "year"
+    "cohort", "insurance"
   ];
 
   var sticky = [];
   attr_list.forEach(function(attr) {
     sticky.push(attr);
     if (attr !== "year") {
-      sticky.push(attr + "_id");
       sticky.push(attr + "_name");
       sticky.push(attr + "_sumlevel");
+      sticky.push(attr + "_id");
     }
   });
 
@@ -288,12 +288,20 @@
 
       loadStatus.html("Generating Table");
 
+      var colWidths = {
+        gender_id: 100,
+        gender_name: 100,
+        geo_name: 200,
+        year: 60
+      };
+
       columns = keys.map(function(key) {
         return {
           cellRenderer: cellRenderer,
           field: key,
           headerName: viz.format.text(key, {params: key, cart: true}),
-          pinned: false
+          pinned: false,
+          width: colWidths[key] || 150
           // pinned: sticky.indexOf(key) >= 0 ? "left" : false
         };
       });
