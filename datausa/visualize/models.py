@@ -13,7 +13,7 @@ class Viz(object):
 
     """
 
-    def __init__(self, params, highlight=False, profile=False, select=False, slug=False):
+    def __init__(self, params, highlight=False, profile=False, select=False, slug=False, topic=False):
         """Initializes a new Viz class.
 
         Args:
@@ -99,10 +99,16 @@ class Viz(object):
         # set default text to "name"
         self.config["text"] = params["text"] if "text" in params else "name"
 
+        if topic and "cart" in topic:
+            self.cart = topic["cart"]
+        else:
+            self.cart = False
+
     def serialize(self):
         """dict: JSON dump of Viz attrs, config, and data """
         return json.dumps({
             "attrs": self.attrs,
+            "cart": self.cart,
             "config": self.config,
             "data": self.data,
             "highlight": self.highlight,

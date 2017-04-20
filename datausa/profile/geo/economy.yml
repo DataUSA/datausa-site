@@ -177,6 +177,12 @@ topics:
       type: "geo_map"
   - title: "Poverty by Age and Gender"
     slug: poverty_age_gender
+    cart:
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: poverty_female,poverty_male,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe
+      title: "Poverty by Gender"
     stat:
       - title: "Largest demographic living in poverty"
         value: "<<var namespace=sex_age|key=name|row=0>>"

@@ -330,6 +330,8 @@ DICTIONARY = {
 
     "income_below_poverty": "Population in Poverty",
     "pop_poverty_status": "Overall Population",
+    "poverty_male": "Male Population in Poverty",
+    "poverty_female": "Female Population in Poverty",
     "poverty_2ormore": "2+",
     "poverty_asian": "Asian",
     "poverty_black": "Black",

@@ -193,7 +193,7 @@ viz.prepBuild = function(build, i) {
         }
         else {
 
-          var calcs = [], data = [], title = build.title_short.trim();
+          var calcs = [], data = [], title = build.cart && build.cart.title ? build.cart.title : build.title_short.trim();
 
           d3.select(build.container.node().parentNode.parentNode)
             .selectAll(".cart-percentage").each(function() {
@@ -209,7 +209,10 @@ viz.prepBuild = function(build, i) {
           var calcKeys = calcs.map(function(d) { return d.key; });
           calcs = calcs.filter(function(d, i) { return i === calcKeys.indexOf(d.key); });
 
-          build.data.forEach(function(d) {
+          var joiner = " by ";
+
+          function parseData(d) {
+            if (title.indexOf(" by ") > 0) joiner = " and ";
             var params = d3plus.object.merge({}, d.params);
             delete params.limit;
             var shows = params.show.split(",");
@@ -231,8 +234,8 @@ viz.prepBuild = function(build, i) {
 
               if (show === prof_attr) {
                 if (sumlevels[i] === "all") sumlevels[i] = prof_sumlevel;
-                if (title.indexOf(" by " + dictionary[show]) > 0) title = title.replace(" by " + dictionary[show], "");
-                title += " by " + (dictionary[sumlevels[i]] || d3plus.string.title(sumlevels[i]));
+                if (title.indexOf(joiner + dictionary[show]) > 0) title = title.replace(joiner + dictionary[show], "");
+                title += joiner + (dictionary[sumlevels[i]] || d3plus.string.title(sumlevels[i]));
               }
               else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
                 sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
@@ -247,7 +250,7 @@ viz.prepBuild = function(build, i) {
               sumlevels.unshift(prof_sumlevel);
               shows.unshift(prof_attr);
               delete params[prof_attr];
-              var suffix = " by " + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+              var suffix = joiner + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
               if (title.indexOf(suffix) < 0) title += suffix;
             }
 
@@ -281,7 +284,10 @@ viz.prepBuild = function(build, i) {
             data.push(api + "/api/?" + serialize(params));
             console.log(params);
 
-          });
+          }
+
+          if (build.cart) parseData(build.cart);
+          else build.data.forEach(parseData);
 
           data = d3plus.util.uniques(data);
 
