@@ -252,6 +252,11 @@ topics:
       id: geo
       type: geo_map
   - title: "Diabetic Care"
+    cart:
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: diabetic_medicare_enrollees_65_75_total,diabetic_medicare_enrollees_65_75_black,diabetic_medicare_enrollees_65_75_white,patients_diabetic_medicare_enrollees_65_75_eye_exam_total,patients_diabetic_medicare_enrollees_65_75_eye_exam_white,patients_diabetic_medicare_enrollees_65_75_eye_exam_black,patients_diabetic_medicare_enrollees_65_75_hemoglobin_total,patients_diabetic_medicare_enrollees_65_75_hemoglobin_white,patients_diabetic_medicare_enrollees_65_75_hemoglobin_black,patients_diabetic_medicare_enrollees_65_75_lipid_test_total,patients_diabetic_medicare_enrollees_65_75_lipid_test_white,patients_diabetic_medicare_enrollees_65_75_lipid_test_black
     sumlevel: "!nation"
     subtitle: "Medicare enrollees between the ages of 65 and 75 that have had treatment related to their diabetes. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
     slug: "diabetic_care"
