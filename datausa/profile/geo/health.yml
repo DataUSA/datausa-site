@@ -36,6 +36,12 @@ topics:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
   - title: "Insurance Coverage by Age and Gender"
+    cart:
+      title: "Insurance Coverage by Gender"
+      params:
+        sumlevel: <<sumlevel>>
+        show: geo
+        required: sex,hc_pop,hc_pop_moe,hc_pop_rca
     slug: "insurance_coverage_gender"
     stat:
       - title: "Male Majority"
