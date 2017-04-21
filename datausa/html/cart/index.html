@@ -118,13 +118,13 @@
 
       var show = new RegExp("&show=([a-z,_]*)").exec(u);
       show[1].split(",").forEach(function(attr) {
-        if (attr_list.indexOf(attr) >= 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
+        if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
       });
 
       var required = new RegExp("&required=([a-z,_]*)").exec(u);
       if (required) {
         required[1].split(",").forEach(function(attr) {
-          if (attr_list.indexOf(attr) >= 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
+          if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
         });
       }
 
@@ -132,14 +132,14 @@
       if (where) {
         where[1].split(",").forEach(function(attr) {
           attr = attr.split(":")[0];
-          if (attr_list.indexOf(attr) >= 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
+          if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
         });
       }
 
       for (var i = 0; i < attr_list.length; i++) {
         var attr = attr_list[i];
-        if (attr !== "year" && u.indexOf(attr + "=") > 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
-        if (["conflict"].indexOf(attr) >= 0 && u.indexOf(attr) > 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
+        if (attr !== "year" && u.indexOf(attr + "=") > 0) urls.push(api + "/attrs/" + attr + "/");
+        if (["conflict"].indexOf(attr) >= 0 && u.indexOf(attr) > 0) urls.push(api + "/attrs/" + attr + "/");
       }
 
 
