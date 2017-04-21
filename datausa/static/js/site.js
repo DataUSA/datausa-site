@@ -9287,6 +9287,8 @@ viz.prepBuild = function(build, i) {
             var wheres = params.where ? params.where.split(",") : [];
             delete params.where;
 
+            if (params.geo === "01000US" && build.profile.id !== "01000US") return;
+
             var prof_sumlevel = build.profile.sumlevel || build.profile.level;
             if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
               prof_sumlevel = d.subs[prof_attr].slice(0, 3);
