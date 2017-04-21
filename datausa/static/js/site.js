@@ -9280,6 +9280,8 @@ viz.prepBuild = function(build, i) {
             var params = d3plus.object.merge({}, d.params);
             delete params.limit;
             delete params.exclude;
+            delete params.sort;
+            delete params.order;
             var shows = params.show.split(",");
             var sumlevels = params.sumlevel.split(",");
             var requireds = params.required ? params.required.split(",") : [];
@@ -9298,9 +9300,10 @@ viz.prepBuild = function(build, i) {
             shows.forEach(function(show, i) {
 
               delete params[show];
+              if (prof_attr !== "geo") sumlevels[i] = "all";
 
               if (show === prof_attr) {
-                if (sumlevels[i] === "all") sumlevels[i] = prof_sumlevel;
+                if (prof_attr === "geo" && sumlevels[i] === "all") sumlevels[i] = prof_sumlevel;
                 if (title.indexOf(joiner + dictionary[show]) > 0) title = title.replace(joiner + dictionary[show], "");
                 var suffix = prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr];
                 if (title.indexOf(suffix) < 0) title += joiner + suffix;
@@ -9371,7 +9374,7 @@ viz.prepBuild = function(build, i) {
             params.required = d3plus.util.uniques(requireds).join(",");
             if (wheres.length) params.where = wheres.join(",");
 
-            if ("year" in params) params.year = "all";
+            params.year = "all";
 
             data.push(api + "/api/?" + serialize(params));
             console.log(params);
