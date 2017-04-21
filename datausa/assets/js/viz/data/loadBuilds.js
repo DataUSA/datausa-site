@@ -193,7 +193,13 @@ viz.prepBuild = function(build, i) {
         }
         else {
 
-          var calcs = [], data = [], title = build.cart && build.cart.title ? build.cart.title : build.title_short.trim();
+          var calcs = [],
+              data = [],
+              prof_attr = location.pathname.split("/")[2],
+              title = build.cart && build.cart.title ? build.cart.title : build.title_short.trim();
+
+          title = title.replace(" Over Time", "");
+          if (prof_attr === "geo") title = title.replace(" by Location", "");
 
           d3.select(build.container.node().parentNode.parentNode)
             .selectAll(".cart-percentage").each(function() {
@@ -221,7 +227,6 @@ viz.prepBuild = function(build, i) {
             var requireds = params.required ? params.required.split(",") : [];
             var wheres = params.where ? params.where.split(",") : [];
             delete params.where;
-            var prof_attr = location.pathname.split("/")[2];
 
             var prof_sumlevel = build.profile.sumlevel;
             if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
