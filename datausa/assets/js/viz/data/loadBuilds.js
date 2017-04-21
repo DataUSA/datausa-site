@@ -269,6 +269,11 @@ viz.prepBuild = function(build, i) {
               requireds.push("num_ppl_moe");
             }
 
+            if (select.size()) {
+              var param = select.attr("data-param");
+              delete params[param];
+            }
+
             wheres = wheres.filter(function(where) {
               return shows.indexOf(where.split(":")[0]) < 0;
             });
@@ -280,7 +285,6 @@ viz.prepBuild = function(build, i) {
 
             if ("year" in params) params.year = "all";
 
-            // console.log(title, params, api + "/api/?" + serialize(params));
             data.push(api + "/api/?" + serialize(params));
             console.log(params);
 

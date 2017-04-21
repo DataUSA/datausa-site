@@ -113,30 +113,35 @@
     var totalCalls = urls.length;
 
     urls.forEach(function(url) {
-      var show = new RegExp("&show=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
+
+      var u = url.replace(/%2C/g, ",").replace(/%3A/g, ":").replace(/%5E/g, "^");
+
+      var show = new RegExp("&show=([a-z,_]*)").exec(u);
       show[1].split(",").forEach(function(attr) {
-        var u = "https://api.datausa.io/attrs/" + attr + "/";
-        if (urls.indexOf(u) < 0) urls.push(u);
+        if (attr_list.indexOf(attr) >= 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
       });
-      var required = new RegExp("&required=([a-z,_]*)").exec(url.replace(/%2C/g, ","));
+
+      var required = new RegExp("&required=([a-z,_]*)").exec(u);
       if (required) {
         required[1].split(",").forEach(function(attr) {
-          if (attr_list.indexOf(attr) >= 0) {
-            var u = "https://api.datausa.io/attrs/" + attr + "/";
-            if (urls.indexOf(u) < 0) urls.push(u);
-          }
+          if (attr_list.indexOf(attr) >= 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
         });
       }
-      var where = new RegExp("&where=([a-z,_:^~0-9!]*)").exec(url.replace(/%2C/g, ",").replace(/%3A/g, ":").replace(/%5E/g, "^"));
+
+      var where = new RegExp("&where=([a-z,_:^~0-9!]*)").exec(u);
       if (where) {
         where[1].split(",").forEach(function(attr) {
           attr = attr.split(":")[0];
-          if (attr_list.indexOf(attr) >= 0) {
-            var u = "https://api.datausa.io/attrs/" + attr + "/";
-            if (urls.indexOf(u) < 0) urls.push(u);
-          }
+          if (attr_list.indexOf(attr) >= 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
         });
       }
+
+      for (var i = 0; i < attr_list.length; i++) {
+        var attr = attr_list[i];
+        if (attr !== "year" && u.indexOf(attr + "=") > 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
+      }
+
+
     });
 
     if (!urls.length) callback([], []);
@@ -302,6 +307,7 @@
         gender_id: 100,
         gender_name: 100,
         geo_name: 200,
+        university_name: 250,
         year: 60
       };
 
