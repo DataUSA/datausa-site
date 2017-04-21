@@ -276,14 +276,15 @@ viz.prepBuild = function(build, i) {
             }
 
             if (params.force) {
-              var stats = d3.select(build.container.node().parentNode.parentNode).selectAll(".stat .stat-span");
+              var stats = d3.select(build.container.node().parentNode.parentNode).selectAll(".stat-span");
               if (stats.size()) {
                 stats.each(function() {
                   var u = d3.select(this).attr("data-url");
                   if (u) {
                     u = u.replace(/%2C/g, ",").replace(/%3A/g, ":").replace(/%5E/g, "^");
-                    var req = new RegExp("col=([A-z0-9_,]*)").exec(u);
-                    if (req) {
+                    var req = new RegExp("required=([A-z0-9_,]*)").exec(u);
+                    var ids = new RegExp(prof_attr + "=([A-z0-9_,]*)").exec(u);
+                    if (req && (!ids || ids[1].split(",").length === 1)) {
                       requireds = requireds.concat(req[1].split(","));
                       delete params.force;
                     }
