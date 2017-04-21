@@ -247,7 +247,8 @@ viz.prepBuild = function(build, i) {
               if (show === prof_attr) {
                 if (sumlevels[i] === "all") sumlevels[i] = prof_sumlevel;
                 if (title.indexOf(joiner + dictionary[show]) > 0) title = title.replace(joiner + dictionary[show], "");
-                title += joiner + (prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr]);
+                var suffix = prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr];
+                if (title.indexOf(suffix) < 0) title += joiner + suffix;
               }
               else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
                 sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
@@ -264,8 +265,8 @@ viz.prepBuild = function(build, i) {
               sumlevels.unshift(prof_attr === "geo" ? prof_sumlevel : "all");
               shows.unshift(prof_attr);
               delete params[prof_attr];
-              var suffix = joiner + (prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr]);
-              if (title.indexOf(suffix) < 0) title += suffix;
+              var suffix = prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr];
+              if (title.indexOf(suffix) < 0) title += joiner + suffix;
             }
 
             if (requireds.indexOf("wage_bin") >= 0) {
