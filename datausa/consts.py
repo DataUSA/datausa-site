@@ -142,6 +142,11 @@ DICTIONARY = {
     "acs_ind": "ACS Industry",
     "acs_occ": "ACS Occupation",
 
+    "nativity_us": "Native Born",
+    "nativity_foreign": "Foreign Born",
+    "us": "Native Born",
+    "foreign": "Foreign Born",
+
     "age": "Median Age",
     "avg_wage": "Average Salary",
     "avg_wage_ft": "Average Full-Time Salary",
@@ -152,13 +157,7 @@ DICTIONARY = {
     "avg_hrs": "Average Work Hours",
     "avg_hrs_ft": "Average Full-Time Work Hours",
     "avg_hrs_pt": "Average Part-Time Work Hours",
-    "wwii": "WWII",
-    "korea": "Korea",
-    "vietnam": "Vietnam",
-    "gulf90s": "Gulf (1990s)",
-    "gulf01": "Gulf (2001-)",
     "district_tuition": "District Tuition",
-    "foreign": "Foreign Born",
     "emp_thousands": "Total Employees",
 
     "grads_asian": "Asian",
@@ -380,7 +379,6 @@ DICTIONARY = {
     "taxi": "Taxi",
 
     "travel": "Travel Time",
-    "us": "Born (Native)",
     "us_citizens": "Citizenship",
     "value_millions": "Value",
     "vehicles": "Vehicles",
@@ -446,6 +444,11 @@ DICTIONARY = {
     "hc_pop": "Population",
     "hc_pop_rca": "Population (RCA)",
 
+    "wwii": "WWII",
+    "korea": "Korea",
+    "vietnam": "Vietnam",
+    "gulf90s": "Gulf (1990s)",
+    "gulf01": "Gulf (2001-)",
     "conflict_wwii": "WWII",
     "conflict_korea": "Korea",
     "conflict_vietnam": "Vietnam",
