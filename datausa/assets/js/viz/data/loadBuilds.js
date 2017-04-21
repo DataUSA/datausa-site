@@ -199,6 +199,7 @@ viz.prepBuild = function(build, i) {
               title = build.cart && build.cart.title ? build.cart.title : build.title_short.trim();
 
           title = title.replace(" Over Time", "");
+          title = title.replace(" by Share", "");
           if (prof_attr === "geo") title = title.replace(" by Location", "");
 
           if (!build.cart) {
@@ -230,7 +231,7 @@ viz.prepBuild = function(build, i) {
             var wheres = params.where ? params.where.split(",") : [];
             delete params.where;
 
-            var prof_sumlevel = build.profile.sumlevel;
+            var prof_sumlevel = build.profile.sumlevel || build.profile.level;
             if (d.subs && prof_attr in d.subs && prof_attr === "geo") {
               prof_sumlevel = d.subs[prof_attr].slice(0, 3);
             }
@@ -254,11 +255,13 @@ viz.prepBuild = function(build, i) {
 
             });
 
+            delete params[prof_attr + "_level"];
+
             if (prof_attr in params) {
-              sumlevels.unshift(prof_sumlevel);
+              sumlevels.unshift(prof_attr === "geo" ? prof_sumlevel : "all");
               shows.unshift(prof_attr);
               delete params[prof_attr];
-              var suffix = joiner + (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel));
+              var suffix = joiner + (prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr]);
               if (title.indexOf(suffix) < 0) title += suffix;
             }
 
