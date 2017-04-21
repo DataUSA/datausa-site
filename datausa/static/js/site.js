@@ -9256,16 +9256,18 @@ viz.prepBuild = function(build, i) {
           title = title.replace(" Over Time", "");
           if (prof_attr === "geo") title = title.replace(" by Location", "");
 
-          d3.select(build.container.node().parentNode.parentNode)
-            .selectAll(".cart-percentage").each(function() {
-              var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
-              calcs.push({
-                key: num + "_pct_calc",
-                func: "pct",
-                num: num,
-                den: den
+          if (!build.cart) {
+            d3.select(build.container.node().parentNode.parentNode)
+              .selectAll(".cart-percentage").each(function() {
+                var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
+                calcs.push({
+                  key: num + "_pct_calc",
+                  func: "pct",
+                  num: num,
+                  den: den
+                });
               });
-            });
+          }
 
           var calcKeys = calcs.map(function(d) { return d.key; });
           calcs = calcs.filter(function(d, i) { return i === calcKeys.indexOf(d.key); });
@@ -9369,7 +9371,7 @@ viz.prepBuild = function(build, i) {
 
           }
 
-          if (build.cart) parseData(build.cart);
+          if (build.cart && build.cart.params) parseData(build.cart);
           else build.data.forEach(parseData);
 
           data = d3plus.util.uniques(data);
