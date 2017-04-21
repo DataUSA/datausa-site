@@ -444,7 +444,14 @@ DICTIONARY = {
     "leg_amputations_per_1000_enrollees_black": "Leg Amputations (Black)",
 
     "hc_pop": "Population",
-    "hc_pop_rca": "Population (RCA)"
+    "hc_pop_rca": "Population (RCA)",
+
+    "conflict_wwii": "WWII",
+    "conflict_korea": "Korea",
+    "conflict_vietnam": "Vietnam",
+    "conflict_gulf90s": "Gulf (1990s)",
+    "conflict_gulf01": "Gulf (2001-)",
+    "conflict_total": "Total Veterans"
 
 }
 

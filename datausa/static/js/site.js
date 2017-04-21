@@ -8872,10 +8872,20 @@ viz.format = {
       return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
     }
 
+    if (dictionary[text]) {
+      if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
+      if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
+      if (per100000.indexOf(text) >= 0) return dictionary[text] + " per 100,000 People";
+      return dictionary[text];
+    }
+
     if (text.indexOf("_") >= 0 && text.split("_")[0] in colmap) {
       var t = text.split("_");
       var id = colmap[t[0]][t.slice(1, t.length).join("-")];
-      if (params && params.attrs && params.attrs[t[0]]) return params.attrs[t[0]][id].name;
+      if (params && params.attrs && params.attrs[t[0]]) {
+        var attr = params.attrs[t[0]][id];
+        return attr ? attr.display_name || attr.name || attr.id : viz.format.text(text.replace(/_/g, " "));
+      }
       return viz.format.text(t[0]) + ": " + id;
     }
 
@@ -8892,13 +8902,6 @@ viz.format = {
           text = build.config[axis].label;
         }
       });
-    }
-
-    if (dictionary[text]) {
-      if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
-      if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
-      if (per100000.indexOf(text) >= 0) return dictionary[text] + " per 100,000 People";
-      return dictionary[text];
     }
 
     // All caps text
@@ -9267,6 +9270,7 @@ viz.prepBuild = function(build, i) {
             if (title.indexOf(" by ") > 0) joiner = " and ";
             var params = d3plus.object.merge({}, d.params);
             delete params.limit;
+            delete params.exclude;
             var shows = params.show.split(",");
             var sumlevels = params.sumlevel.split(",");
             var requireds = params.required ? params.required.split(",") : [];
