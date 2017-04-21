@@ -9283,6 +9283,7 @@ viz.prepBuild = function(build, i) {
             var shows = params.show.split(",");
             var sumlevels = params.sumlevel.split(",");
             var requireds = params.required ? params.required.split(",") : [];
+            requireds = requireds.filter(function(r) { return !r.match(/_rank$/g) });
             var wheres = params.where ? params.where.split(",") : [];
             delete params.where;
 
@@ -9294,12 +9295,12 @@ viz.prepBuild = function(build, i) {
 
             shows.forEach(function(show, i) {
 
-              if (show in params) delete params[show];
+              delete params[show];
 
               if (show === prof_attr) {
                 if (sumlevels[i] === "all") sumlevels[i] = prof_sumlevel;
                 if (title.indexOf(joiner + dictionary[show]) > 0) title = title.replace(joiner + dictionary[show], "");
-                title += joiner + (dictionary[sumlevels[i]] || d3plus.string.title(sumlevels[i]));
+                title += joiner + (prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr]);
               }
               else if (build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
                 sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
