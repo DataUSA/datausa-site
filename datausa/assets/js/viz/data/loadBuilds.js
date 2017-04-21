@@ -275,13 +275,30 @@ viz.prepBuild = function(build, i) {
               delete params[param];
             }
 
+            if (params.force) {
+              var stats = d3.select(build.container.node().parentNode.parentNode).selectAll(".stat .stat-span");
+              if (stats.size()) {
+                stats.each(function() {
+                  var u = d3.select(this).attr("data-url");
+                  if (u) {
+                    u = u.replace(/%2C/g, ",").replace(/%3A/g, ":").replace(/%5E/g, "^");
+                    var req = new RegExp("col=([A-z0-9_,]*)").exec(u);
+                    if (req) {
+                      requireds = requireds.concat(req[1].split(","));
+                      delete params.force;
+                    }
+                  }
+                });
+              }
+            }
+
             wheres = wheres.filter(function(where) {
               return shows.indexOf(where.split(":")[0]) < 0;
             });
 
             params.show = shows.join(",");
             params.sumlevel = sumlevels.join(",");
-            params.required = requireds.join(",");
+            params.required = d3plus.util.uniques(requireds).join(",");
             if (wheres.length) params.where = wheres.join(",");
 
             if ("year" in params) params.year = "all";
