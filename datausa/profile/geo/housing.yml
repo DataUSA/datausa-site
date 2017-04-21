@@ -3,6 +3,11 @@ description: "Information pertaining to households and the people that reside in
 
 topics:
   - category: "Income"
+    cart:
+      params:
+        sumlevel: <<sumlevel>>
+        show: geo
+        required: income,income_moe
     title: "Household Income"
     subtitle: "Please note that the buckets used in this visualization were not evenly distributed by ACS when publishing the data."
     slug: "household_income"
@@ -117,6 +122,12 @@ topics:
         value: "bucket"
       y: "share"
   - title: "Rent vs Own"
+    cart:
+      title: "Homeowners"
+      params:
+        show: "geo"
+        sumlevel: <<sumlevel>>
+        required: owner_occupied_housing_units
     slug: "rent_own"
     description: "<<var namespace=splash|key=owner_occupied_housing_units|row=0>> of the housing units in <<name>> are occupied by their owner.{{<<sumlevel>>:!nation|| This is <<percent num=var:splash,owner_occupied_housing_units,0|den=var:splash,owner_occupied_housing_units,1|text=highlow>> the national average of <<var namespace=splash|key=owner_occupied_housing_units|row=1>>.}}{{<<sumlevel>>:nation|| This chart shows homeowner percentage of the nation in comparison with the top 2 and bottom 2 states.}}"
     viz:
@@ -139,6 +150,12 @@ topics:
   - category: "Transportation"
     title: "Car Ownership"
     slug: "num_vehicles"
+    cart:
+      title: "Car Ownership"
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: vehicles_none,vehicles_1,vehicles_2,vehicles_3,vehicles_4,vehicles_5over,vehicles_none_moe,vehicles_1_moe,vehicles_2_moe,vehicles_3_moe,vehicles_4_moe,vehicles_5over_moe
     description: "The largest share of households in <<name>> have <<var namespace=vehicles|key=name|row=0>> <<plural text=car|namespace=vehicles|key=name|row=0>>, followed by <<var namespace=vehicles|key=name|row=1>> <<plural text=car|namespace=vehicles|key=name|row=1>>."
     viz:
       attrs: "geo"
@@ -161,6 +178,12 @@ topics:
       y: "share"
   - title: "Commute Time"
     slug: "commute_time"
+    cart:
+      title: "Commute Time"
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: mean_commute_minutes
     stat:
       - title: "Average Travel Time"
         value: "<<var namespace=commute|key=mean_commute_minutes|row=0>> minutes"
@@ -202,6 +225,12 @@ topics:
       y: "share"
   - title: "Commuter Transportation"
     slug: "mode_transport"
+    cart:
+      title: "Commuter Transportation"
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: transport_drove,transport_carpooled,transport_publictrans,transport_bicycle,transport_walked,transport_other,transport_home,transport_motorcycle,transport_taxi,transport_drove_moe,transport_carpooled_moe,transport_publictrans_moe,transport_bicycle_moe,transport_walked_moe,transport_other_moe,transport_home_moe,transport_motorcycle_moe,transport_taxi_moe,workers,workers_moe
     stat:
       - title: "Most common method of travel"
         value: "<<var namespace=transport|row=0|key=name>> (<<percent num=var:transport,value,0|den=var:transport_workers,workers>>)"
