@@ -61,7 +61,7 @@
 
   var attr_list = [
     "year", "geo",
-    "naics", "acs_ind", "bls_naics", "iocode",
+    "naics", "acs_ind", "bls_naics", "iocode", "industry_iocode", "commodity_iocode",
     "soc", "acs_occ", "bls_soc",
     "cip", "degree", "university", "sector", "pums_degree",
     "sex", "race", "acs_race", "pums_race", "language", "birthplace",
@@ -118,12 +118,14 @@
 
       var show = new RegExp("&show=([a-z,_]*)").exec(u);
       show[1].split(",").forEach(function(attr) {
+        if (attr.indexOf("_iocode") > 0) attr = "iocode";
         if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
       });
 
       var required = new RegExp("&required=([a-z,_]*)").exec(u);
       if (required) {
         required[1].split(",").forEach(function(attr) {
+          if (attr.indexOf("_iocode") > 0) attr = "iocode";
           if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
         });
       }
@@ -132,14 +134,16 @@
       if (where) {
         where[1].split(",").forEach(function(attr) {
           attr = attr.split(":")[0];
+          if (attr.indexOf("_iocode") > 0) attr = "iocode";
           if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
         });
       }
 
       for (var i = 0; i < attr_list.length; i++) {
         var attr = attr_list[i];
+        if (attr.indexOf("_iocode") > 0) attr = "iocode";
         if (attr !== "year" && u.indexOf(attr + "=") > 0) urls.push(api + "/attrs/" + attr + "/");
-        if (["conflict"].indexOf(attr) >= 0 && u.indexOf(attr) > 0) urls.push(api + "/attrs/" + attr + "/");
+        else if (["conflict"].indexOf(attr) >= 0 && u.indexOf(attr) > 0) urls.push(api + "/attrs/" + attr + "/");
       }
 
 
@@ -351,16 +355,17 @@
 
             for (var a = 0; a < attr_list.length; a++) {
               var attr = attr_list[a];
+              var refAttr = attr.indexOf("_iocode") > 0 ? "iocode" : attr;
               if (attr !== "year" && attr in obj) {
                 obj[attr + "_id"] = obj[attr];
                 if (attr === "geo" && obj[attr].slice(0, 3) === "140") {
                   obj.geo_name = viz.format.text(obj[attr], {key: "geo"})
                   obj.geo_sumlevel = "tract";
                 }
-                else if (attrs[attr] && attrs[attr][obj[attr]]) {
-                  obj[attr + "_name"] = attrs[attr][obj[attr]].display_name || attrs[attr][obj[attr]].name;
+                else if (attrs[refAttr] && attrs[refAttr][obj[attr]]) {
+                  obj[attr + "_name"] = attrs[refAttr][obj[attr]].display_name || attrs[refAttr][obj[attr]].name;
                   if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) {
-                    obj[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[attr][obj[attr]].sumlevel] : attrs[attr][obj[attr]].sumlevel || attrs[attr][obj[attr]].level;
+                    obj[attr + "_sumlevel"] = attr === "geo" ? sumlevels[attrs[refAttr][obj[attr]].sumlevel] : attrs[refAttr][obj[attr]].sumlevel || attrs[refAttr][obj[attr]].level;
                   }
                 }
               }

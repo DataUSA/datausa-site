@@ -141,6 +141,8 @@ DICTIONARY = {
     "soc": "Occupation",
     "acs_ind": "ACS Industry",
     "acs_occ": "ACS Occupation",
+    "commodity_iocode": "Commodity",
+    "industry_iocode": "Industry",
 
     "nativity_us": "Native Born",
     "nativity_foreign": "Foreign Born",
