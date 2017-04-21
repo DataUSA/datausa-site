@@ -215,6 +215,7 @@ viz.prepBuild = function(build, i) {
             if (title.indexOf(" by ") > 0) joiner = " and ";
             var params = d3plus.object.merge({}, d.params);
             delete params.limit;
+            delete params.exclude;
             var shows = params.show.split(",");
             var sumlevels = params.sumlevel.split(",");
             var requireds = params.required ? params.required.split(",") : [];
