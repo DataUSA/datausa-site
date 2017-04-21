@@ -8874,7 +8874,9 @@ viz.format = {
 
     if (text.indexOf("_") >= 0 && text.split("_")[0] in colmap) {
       var t = text.split("_");
-      return viz.format.text(t[0]) + ": " + colmap[t[0]][t.slice(1, t.length).join("-")];
+      var id = colmap[t[0]][t.slice(1, t.length).join("-")];
+      if (params && params.attrs && params.attrs[t[0]]) return params.attrs[t[0]][id].name;
+      return viz.format.text(t[0]) + ": " + id;
     }
 
     if (text.indexOf("y2_") === 0) {

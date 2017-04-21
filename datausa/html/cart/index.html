@@ -100,8 +100,8 @@
     var key = params.column.colId, v = params.value;
 
     if (v === void 0 || v === null) return "";
-    else if (v.constructor === Number) return viz.format.number(v, {"cart": true, "key": key});
-    else return viz.format.text(v, {"key": key});
+    else if (v.constructor === Number) return viz.format.number(v, {cart: true, key: key, attrs: attrs});
+    else return viz.format.text(v, {cart: true, key: key, attrs: attrs});
 
   }
 
@@ -139,6 +139,7 @@
       for (var i = 0; i < attr_list.length; i++) {
         var attr = attr_list[i];
         if (attr !== "year" && u.indexOf(attr + "=") > 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
+        if (["conflict"].indexOf(attr) >= 0 && u.indexOf(attr) > 0) urls.push("https://api.datausa.io/attrs/" + attr + "/");
       }
 
 
@@ -315,7 +316,7 @@
         return {
           cellRenderer: cellRenderer,
           field: key,
-          headerName: viz.format.text(key, {params: key, cart: true}),
+          headerName: viz.format.text(key, {attrs: attrs, cart: true}),
           pinned: false,
           width: colWidths[key] || 150
           // pinned: sticky.indexOf(key) >= 0 ? "left" : false
