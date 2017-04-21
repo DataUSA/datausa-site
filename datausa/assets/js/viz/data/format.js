@@ -200,7 +200,7 @@ viz.format = {
         return d3plus.string.title(attrs[text].name, params);
       }
 
-      if (attr_ids.indexOf(params.key) >= 0) return text.toUpperCase();
+      if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
 
     }
 
