@@ -116,13 +116,13 @@
 
       var u = url.replace(/%2C/g, ",").replace(/%3A/g, ":").replace(/%5E/g, "^");
 
-      var show = new RegExp("&show=([a-z,_]*)").exec(u);
+      var show = new RegExp("[&|?]{1}show=([a-z,_]*)").exec(u);
       show[1].split(",").forEach(function(attr) {
         if (attr.indexOf("_iocode") > 0) attr = "iocode";
         if (attr !== "year" && attr_list.indexOf(attr) >= 0) urls.push(api + "/attrs/" + attr + "/");
       });
 
-      var required = new RegExp("&required=([a-z,_]*)").exec(u);
+      var required = new RegExp("[&|?]{1}required=([a-z,_]*)").exec(u);
       if (required) {
         required[1].split(",").forEach(function(attr) {
           if (attr.indexOf("_iocode") > 0) attr = "iocode";
@@ -130,7 +130,7 @@
         });
       }
 
-      var where = new RegExp("&where=([a-z,_:^~0-9!]*)").exec(u);
+      var where = new RegExp("[&|?]{1}where=([a-z,_:^~0-9!]*)").exec(u);
       if (where) {
         where[1].split(",").forEach(function(attr) {
           attr = attr.split(":")[0];
