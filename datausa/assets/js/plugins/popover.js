@@ -320,7 +320,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             function loadCSV() {
               var u = urls.pop(), r = limit_regex.exec(u);
               if (r) u = u.replace(r[0], "");
-              u = u.replace("/api/", "/api/csv/");
+              u = u.replace("/api", "/api/csv");
               JSZipUtils.getBinaryContent(u, function(e, d){
                 var csv_title = build.title;
                 if (unfilteredData.length > 1) {
