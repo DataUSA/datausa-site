@@ -17,6 +17,7 @@
        </div>
      </div>
    </div>
+   <span class="label">Menu</span>
 </div>
 
 <nav>
@@ -159,6 +160,7 @@
 
 d3.select("#menu-btn").on(d3plus.client.pointer.click, function(){
   d3.event.preventDefault();
+  d3.selectAll("#menu-btn .label").classed("close", !d3.selectAll("#menu-btn .b").classed("close"));
   d3.selectAll("#menu-btn .b").classed("close", !d3.selectAll("#menu-btn .b").classed("close"));
 
   d3.select("#menu").classed("open", !d3.select("#menu").classed("open"));

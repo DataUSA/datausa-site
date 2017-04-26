@@ -286,13 +286,29 @@ body {
 }
 
 #menu-btn {
+
+  .label {
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 38px;
+    opacity: 1;
+    text-transform: uppercase;
+    @include transition(opacity 0.1s);
+
+    &.close {
+      opacity: 0;
+    }
+
+  }
+
   z-index: 20;
   position: fixed;
   display: block;
   cursor: pointer;
   overflow: hidden;
   height: 40px;
-  width: 40px;
+  width: 80px;
   top: 0;
   left: 0;
   margin: 0;
@@ -303,9 +319,10 @@ body {
   }
 
   .in {
+    display: inline-block;
     position: relative;
     height: 40px;
-    width: 40px;
+    width: 34px;
    }
 
   .bd {

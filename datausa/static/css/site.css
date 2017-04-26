@@ -731,17 +731,31 @@
         cursor: pointer;
         overflow: hidden;
         height: 40px;
-        width: 40px;
+        width: 80px;
         top: 0;
         left: 0;
         margin: 0; }
+        #menu-btn .label {
+          color: white;
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 38px;
+          opacity: 1;
+          text-transform: uppercase;
+          -moz-transition: opacity 0.1s;
+          -o-transition: opacity 0.1s;
+          -webkit-transition: opacity 0.1s;
+          transition: opacity 0.1s; }
+          #menu-btn .label.close {
+            opacity: 0; }
         #menu-btn:hover {
           opacity: 1;
           cursor: pointer; }
           #menu-btn .in {
+            display: inline-block;
             position: relative;
             height: 40px;
-            width: 40px; }
+            width: 34px; }
             #menu-btn .bd {
               padding: 13px;
               width: 15px; }
