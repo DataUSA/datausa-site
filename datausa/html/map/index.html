@@ -36,7 +36,7 @@
 </div>
 <div id="map-fullscreen"></div>
 <div id="map-sharing">
-  <a href="#" class="btn pri-btn" data-target-id="share"><span>Options</span></a>
+  <a href="#" class="btn pri-btn" data-ga="share" data-ga-cat="viz-button" data-ga-label="Map Options"><span>Options</span></a>
 </div>
 <div id="map-loading">
   <div id="map-loading-text"><i class="fa fa-spinner fa-spin"></i>Please Wait</div>
@@ -214,12 +214,11 @@
   d3.select("#map-sharing").selectAll("a").on("click.share", function(){
     d3.event.preventDefault();
     dusa_popover.open([
-      {"title":"Share"},
-      {"title":"Download"},
-      {"title":"Data"},
-      {"title":"API"}
+      {"id": "view-table", "title":"View Data"},
+      {"id": "save-image", "title":"Save Image"},
+      {"id": "share", "title":"Share / Embed"}
     ],
-    d3.select(this).attr("data-target-id"),
+    d3.select(this).attr("data-ga"),
     location.href,
     urlPath,
     {
