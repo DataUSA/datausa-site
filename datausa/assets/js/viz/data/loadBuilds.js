@@ -57,8 +57,10 @@ viz.prepBuild = function(build, i) {
 
           d3.select(this).attr("data-default", id);
 
+          var text = dictionary[id] ? viz.format.text(id) : d3.select(this).select("option[value='"+ id +"']").text();
+
           d3.select(this.parentNode).selectAll(".select-text")
-           .html(d3.select(this).select("option[value='"+ id +"']").text());
+           .html(text);
 
           d3.select(this.parentNode).selectAll("span[data-url]")
            .each(function(){
