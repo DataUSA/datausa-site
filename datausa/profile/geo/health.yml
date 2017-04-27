@@ -198,7 +198,7 @@ topics:
         show: geo
       id: geo
       type: geo_map
-  - title: "Racial Disparities in Access to Women's Preventive Care"
+  - title: "Access to Preventative Women’s Health Services"
     sumlevel: "!nation"
     slug: "womens_health"
     stat:
