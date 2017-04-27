@@ -294,7 +294,7 @@ topics:
   - category: "Health Risks"
     title: "Conditions and Diseases"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
-    slug: "crime"
+    slug: "conditions_diseases"
     select:
       method: "color"
       data:
@@ -324,7 +324,7 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Safety & Addictions"
+  - title: "Safety & Risky Behaviors"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "crime"
     select:
@@ -337,7 +337,7 @@ topics:
         - "alcoholimpaired_driving_deaths"
         - "motor_vehicle_crash_deaths"
       default: "homicide_rate"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths</span> per 100,000 people."
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths per 100,000 people</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=homicide_rate|key=geo|row=0>>"
