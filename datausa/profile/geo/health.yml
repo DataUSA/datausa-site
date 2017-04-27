@@ -149,7 +149,7 @@ topics:
         - "patients_seeing_a_primary_care_physician_within_14_days"
         - "patients_having_an_ambulatory_visit_within_14_days"
         - "patients_having_an_emergency_room_visit_within_30_days"
-    description: "When looking at <span class='select-text'>Total Patients</span> in <<name dataset=chr>>, <<var namespace=cohort|key=patients_in_cohort|row=0>> people were treated for <<var namespace=cohort|key=cohort|row=0>> in <<var namespace=cohort|key=year|row=0>>, followed by <<var namespace=cohort|key=patients_in_cohort|row=1>> for <<var namespace=cohort|key=cohort|row=1>> and <<var namespace=cohort|key=patients_in_cohort|row=2>> for <<var namespace=cohort|key=cohort|row=2>>."
+    description: "When looking at <span class='select-text'>Total Patients</span> in <<name dataset=chr>> , <<var namespace=cohort|key=patients_in_cohort|row=0>> medicare enrollees were treated for <<var namespace=cohort|key=cohort|row=0>> in <<var namespace=cohort|key=year|row=0>>, followed by <<var namespace=cohort|key=patients_in_cohort|row=1>> for <<var namespace=cohort|key=cohort|row=1>> and <<var namespace=cohort|key=patients_in_cohort|row=2>> for <<var namespace=cohort|key=cohort|row=2>>."
     stat:
       - title: "Most Common Conditions"
         value: "<<var namespace=cohort|key=cohort|row=0>>"
@@ -206,7 +206,7 @@ topics:
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_black>>
       - title: "White Women Enrolled in Medicare Age 67-69"
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
-    description: "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of white and black women who had mammograms over the past few years."
+    description: "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of white and black medicare enrollees who had mammograms over the past few years."
     viz:
       color: race
       data:
@@ -227,6 +227,8 @@ topics:
           value: "share"
       height: 400
       id: race
+      legend:
+        data: false
       type: line
       x: year
       y: share
