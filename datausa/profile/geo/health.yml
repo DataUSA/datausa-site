@@ -271,7 +271,7 @@ topics:
         value: <<var namespace=diabetic_care|key=diabetic_medicare_enrollees_65_75_black>>
       - title: "White Enrollees"
         value: <<var namespace=diabetic_care|key=diabetic_medicare_enrollees_65_75_white>>
-    description: "In <<var namespace=diabetic_care|key=year>>, out of all of the residents of <<var namespace=diabetic_care|key=geo>> between the ages of 65 and 75 that had treatment related to their diabetes, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_eye_exam_total>> eye exams, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_hemoglobin_total>> hemoglobin tests, and <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_lipid_test_total>> lipid tests were performed."
+    description: "In <<var namespace=diabetic_care|key=year>>, out of all of the medicare enrollees in <<var namespace=diabetic_care|key=geo>> between the ages of 65 and 75 that had treatment related to their diabetes, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_eye_exam_total>> eye exams, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_hemoglobin_total>> hemoglobin tests, and <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_lipid_test_total>> lipid tests were performed. Here is a breakdown of each test by race as a percentage of enrollees with diabetes."
     viz:
       color: race
       data:
@@ -288,6 +288,8 @@ topics:
           value: "patients"
       height: 400
       id: race
+      legend:
+        data: false
       type: bar
       x: test
       y: share
