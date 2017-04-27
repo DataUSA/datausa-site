@@ -257,7 +257,7 @@ topics:
         show: geo
       id: geo
       type: geo_map
-  - title: "Diabetic Care"
+  - title: "Access to Diabetes Care"
     cart:
       params:
         show: geo
@@ -278,6 +278,7 @@ topics:
         geo: "<<id>>"
         force: dartmouth.yg_prim_care_access
         show: geo
+        share: "patients.race"
         split:
           id: "test_race"
           regex: "^patients_diabetic_medicare_enrollees_65_75_([a-z_]*_[white|black]*)$"
@@ -289,7 +290,7 @@ topics:
       id: race
       type: bar
       x: test
-      y: patients
+      y: share
   - category: "Health Risks"
     title: "Conditions and Diseases"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
