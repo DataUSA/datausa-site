@@ -1,5 +1,14 @@
 body.home {
 
+  @media only screen and (max-width: 1000px) {
+
+    .home-left, .home-right {
+      display: block;
+      width: 100%;
+    }
+
+  }
+
   @media only screen and (max-width: 900px) {
 
     #menu {

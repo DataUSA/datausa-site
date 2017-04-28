@@ -3681,6 +3681,11 @@
             text-align: center;
             width: auto; }
 
+  @media only screen and (max-width: 1000px) {
+    body.home .home-left, body.home .home-right {
+      display: block;
+      width: 100%;   }
+}
   @media only screen and (max-width: 900px) {
     body.home #menu {
       position: fixed;
