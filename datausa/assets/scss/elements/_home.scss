@@ -627,7 +627,6 @@ body.home {
     @include flex();
     @include flex-wrap();
     margin: 70px auto;
-    max-width: 1200px;
     position: relative;
     z-index: 0;
 
