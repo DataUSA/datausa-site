@@ -125,7 +125,7 @@ def home():
         for d in data:
             attr_id = d[show]
             attr = fetch(attr_id, show)
-            slug = attr["url_name"] if "url_name" in attr else attr_id
+            slug = attr["url_name"] if attr["url_name"] else attr_id
             d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
             d["type"] = show
             d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
