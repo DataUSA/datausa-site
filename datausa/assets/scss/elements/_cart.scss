@@ -6,21 +6,21 @@ body.cart {
 
 body.home {
   #cart-btn {
-    z-index: 20;
-    position: fixed;
-    display: block;
-    cursor: pointer;
-    overflow: hidden;
-    height: 20px;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 13px 19px 13px 13px;
+    // z-index: 20;
+    // position: fixed;
+    // display: block;
+    // cursor: pointer;
+    // overflow: hidden;
+    // height: 20px;
+    // top: 0;
+    right: 5px;
+    // margin: 0;
+    // padding: 13px 19px 13px 13px;
   }
 
-  #d3plus_tooltip_id_cart-tooltip {
-    box-shadow: none !important;
-  }
+  // #d3plus_tooltip_id_cart-tooltip {
+  //   box-shadow: none !important;
+  // }
 }
 
 body.search {

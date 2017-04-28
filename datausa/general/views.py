@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import copy, json
+import copy, json, re, requests
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
 from datausa.consts import AFFIXES, COLMAP, DICTIONARY, PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
-from datausa.utils.data import attr_cache, fetch, profile_cache, story_cache
+from datausa.utils.data import attr_cache, datafold, fetch, profile_cache, story_cache
+from datausa.utils.format import num_format
 from pagination import Pagination
 
 from .home import HOMEFEED, TYPEMAP
@@ -13,7 +14,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 40
+    g.cache_version = 41
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
     g.colmap = json.dumps(COLMAP)
@@ -78,7 +79,69 @@ def home():
             }
             box["viz"] = "geo_map"
 
-    return render_template("general/home.html", feed=feed)
+    carousels = [
+        {
+            "title": "Youngest Counties in America",
+            "url": "/api/?sumlevel=county&required=age&show=geo&year=latest&order=age&sort=asc"
+        },
+        {
+            "title": "Most Popular College Majors",
+            "url": "/api/?sumlevel=6&required=grads_total&show=cip&year=latest&order=grads_total&sort=desc"
+        },
+        {
+            "title": "Highest Paying Industries",
+            "url": "/api/?sumlevel=2&required=avg_wage&show=naics&year=latest&order=avg_wage&sort=desc&num_records:>4"
+        },
+        {
+            "title": "Occupations with the Highest Part-time Salary",
+            "url": "/api/?sumlevel=3&required=avg_wage_pt&show=soc&year=latest&order=avg_wage_pt&sort=desc&num_records:>4"
+        }
+    ]
+    carouselMax = 20
+
+    sumlevelMap = {
+        "nation": "010",
+        "state": "040",
+        "county": "050",
+        "msa": "310",
+        "place": "160",
+        "zip": "860",
+        "tract": "140",
+        "puma": "795"
+    };
+
+    for carousel in carousels:
+
+        url = "{}{}&limit={}".format(API, carousel["url"], carouselMax)
+        r = requests.get(url).json()
+
+        show = re.findall(r"show=([a-z_0-9]+)", url)[0]
+        order = re.findall(r"order=([a-z_0-9]+)", url)[0]
+        sumlevel = re.findall(r"sumlevel=([a-z_0-9]+)", url)[0]
+        if show == "geo":
+            sumlevel = sumlevelMap[sumlevel]
+        data = datafold(r)
+
+        for d in data:
+            attr_id = d[show]
+            attr = fetch(attr_id, show)
+            slug = attr["url_name"] if "url_name" in attr else attr_id
+            d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
+            d["type"] = show
+            d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
+            d["link"] = "/profile/{}/{}".format(show, slug)
+            d["image"] = "/search/{}/{}/img".format(show, attr_id)
+            d["type"] = {
+                "icon": "/static/img/icons/{}.svg".format(show),
+                "title": SUMLEVELS[show][sumlevel]["label"],
+                "type": TYPEMAP[show],
+                "depth": "{}".format(sumlevel).replace("_", " ")
+            }
+
+        carousel["data"] = data
+        carousel["source"] = r["source"]
+
+    return render_template("general/home_v3.html", feed=feed, carousels=carousels)
 
 @mod.route("/about/")
 def about():

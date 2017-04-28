@@ -109,10 +109,11 @@ $search-gradient: (
   100%: $black2
 );
 
-$feed-box-label-gradient: (
-  0%: rgba(0,0,0,0),
-  31%: rgba(20, 27, 46, 0.1),
-  100%: rgba(20, 27, 46, 0.2)
+$feed-box-gradient: (
+  0%: rgba(20, 27, 46, 0.6),
+  10%: rgba(20, 27, 46, 0.3),
+  40%: rgba(20, 27, 46, 0.3),
+  100%: rgba(20, 27, 46, 0.6)
 );
 
 $ft-feed-box-gradient: (

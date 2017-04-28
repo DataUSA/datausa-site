@@ -1,0 +1,280 @@
+{% extends "templates/nav.html" %}
+
+{% block subtitle %}
+<div id="title-bar">
+  <span>
+    <a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a>
+  </span>
+</div>
+{% endblock %}
+
+{% block body %}
+
+{% if g.video %}
+<div id="video">
+  <!-- Video Partial -->
+  <video preload="auto" autoplay loop muted>
+  	<source src="/static/video/{{ g.video }}.mp4" type="video/mp4; codecs=avc1.42E01E,mp4a.vi40.2">
+  	<source src="/static/video/{{ g.video }}.mp4" type="video/webm; codecs=vp8,vorbis">
+  	<source src="/static/video/{{ g.video }}.ogv" type="video/ogg">
+  </video>
+  <![if !IE]>
+  <!-- <video id="video" class="ta-video video" preload="auto" autoplay muted>
+      <source src="/static/video/{{ g.video }}.mp4" type="video/mp4; codecs=avc1.42E01E,mp4a.40.2">
+  </video> -->
+  <![endif]>
+  <div class="overlay"></div>
+
+</div>
+{% else %}
+<div class="bg"></div>
+{% endif %}
+
+<div class="home-left">
+
+  <section class="home-desc new">
+    <img class="logo" src="/static/img/home/logo.png" alt="Data USA" />
+  	<h2 class="first-line">The most comprehensive</h2>
+  	<h2 class="second-line">visualization of U.S. public data</h2>
+  </section>
+  <section class="search-home-container new">
+  	<div class="search-input-btn">
+  		<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" />
+  		<select id="search-type">
+  			<option value="all">All</option>
+  			<option value="geo">Locations</option>
+  			<option value="naics">Industries</option>
+  			<option value="soc">Occupations</option>
+  			<option value="cip">Education</option>
+  		</select>
+  		<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Search</a>
+  	</div>
+  	<div id="search-home" class="search-body">
+      <div class="no-search-results">No results found</div>
+  		<div class="search-results"></div>
+  	</div>
+    <section class="results-show-all">
+      <a href="/search/" class="pri-link">Show all results <span class="more"></span></a>
+    </section>
+  </section>
+
+</div>
+<div class="home-right home-links">
+
+  <div class="tile">
+    <h3>Browse Public Data on any:</h3>
+    <ul class="directory-links">
+      <li><a class="directory-link geo" href="/search/?kind=geo"><img src="/static/img/icons/geo_c.svg" />State or City</a></li>
+      <li><a class="directory-link naics" href="/search/?kind=naics"><img src="/static/img/icons/naics_c.svg" />Industry</a></li>
+      <li><a class="directory-link soc" href="/search/?kind=soc"><img src="/static/img/icons/soc_c.svg" />Occupation</a></li>
+      <li><a class="directory-link cip" href="/search/?kind=cip"><img src="/static/img/icons/cip_c.svg" />College Major</a></li>
+    </ul>
+  </div>
+  <div class="tile map">
+    <a href="/map"><h3>Map over 100 Topics, including:</h3></a>
+    <ul class="map-links">
+      <li><a class="map-link" href="/map/?level=state&amp;key=medicare_beneficiaries_total">Medicare</a></li>
+      <li><a class="map-link" href="/map/?level=puma&key=income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe">Poverty</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=unemployment">Unemployment</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=polution_ppm">Pollution</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=children_eligible_for_free_lunch">School Lunch</a></li>
+      <li><a class="map-link" href="/map/?level=state&key=income_inequality">Income Inequality</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=homicide_rate">Homicide</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=population_living_in_a_rural_area">Rural Areas</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=social_associations">Social Groups</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="home-collab">
+	<span class="collab-text">Created in Collaboration</span>
+	<a target="_blank" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/static/img/footer/deloitte.png" /></a>
+	<a target="_blank" href="http://macro.media.mit.edu/"><img id="macro" src="/static/img/footer/mit.png" /></a>
+	<a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
+</div>
+
+{% for carousel in carousels %}
+  <h3 class="carousel-title">{{ carousel.title }}</h3>
+  {% if carousel.source %}
+  <sub class="carousel-sub">Data Source: <a href="{{ carousel.source.link }}" target="_blank">{{ carousel.source.org }}</a></sub>
+  {% endif %}
+  <div id="feed" class="carousel">
+  {% for box in carousel.data %}
+  	<a href="{{ box.link }}" class="feed-box {{ box.type.title|lower }} {{ box.type.type|lower }}{% if box.featured %} featured{% endif %}">
+  		{% if box.image %}
+  		<div class="feed-box-image-holder">
+  			<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
+  		</div>
+  		{% endif %}
+  		{% if box.viz %}
+  		<div class="feed-box-viz {{ box.viz }}" style="background-image:url('/static/img/viz_type/{{ box.viz }}.svg');"></div>
+  		{% endif %}
+  		<div class="feed-box-label">
+  			<div class="feed-box-type">
+  				<img src="{{ box.type.icon }}" />
+  				<span class="feed-box-header">{{ box.type.title }}</span>
+  			</div>
+  		</div>
+  		<div class="feed-box-title">{{ box.title }}</div>
+  		{% if box.subtitle %}
+  		<div class="feed-box-header feed-box-subtitle">{{ box.subtitle }}</div>
+  		{% endif %}
+  		<div class="feed-box-header feed-box-link">
+        {% if "story" in box.url %}
+        Read More
+        {% else %}
+        Learn More
+        {% endif %}
+      </div>
+  		{% if box.featured and box.type.title != "Profile" %}
+  		<div class="feed-box-tag">Featured</div>
+  		{% endif %}
+  	</a>
+  {% endfor %}
+  </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+	var firstForm = true;
+	var searchForm = d3plus.form()
+		.data("#search-type")
+		.font("Palanquin")
+		.focus("all", function(f){
+			if (firstForm) {
+				firstForm = false;
+			}
+			else {
+			  window.clearTimeout(tout);
+				search.type = f === "all" ? "" : f;
+				// search.reload();
+		    search_input.node().focus();
+			}
+		})
+		.ui({
+			"margin": 0
+		})
+		.draw();
+
+	// var h = window.innerHeight,
+	//     w = window.innerWidth;
+
+	// var paralax_ids = ["logo-shadow", "logo", "desc-shadow", "desc", "fg"];
+
+	// var paralax_data = paralax_ids.map(function(d){
+	//   var elem = d3.select("#" + d),
+	//       mod = ((parseFloat(elem.style("width"), 10) - w)/w) * 100;
+	//   return {
+	//     "elem": elem,
+	//     "mod": mod,
+	//     "x": d3.scale.linear().domain([0, w]).range([0, -mod]),
+	//     "y": d3.scale.linear().domain([0, h]).range([0, -mod])
+	//   }
+	// })
+
+	// d3.select("body").on(d3plus.client.pointer.move, function(){
+	//   var mouse = d3.mouse(this);
+	//   paralax_data.forEach(function(d){
+	//     d.elem.style("left", d.x(mouse[0]) + "%").style("top", d.y(mouse[1]) + "%");
+	//   });
+	// });
+
+	// var bg_imgs = [1, 6];
+	// var bg_img = "" + (Math.floor(Math.random() * bg_imgs[1]) + 1);
+	// d3.select(".bg").style("background-image", "url('/static/img/home/bg/" + bg_img + ".jpg')");
+	var bg_img = "1";
+	localforage.setItem("homepage_image", bg_img);
+
+	var homeInput = d3.select("#home-search-input");
+	d3.select("#search-switch.adv").on("click", function(){
+		d3.event.preventDefault();
+		window.location = "/search/?q=" + homeInput.node().value + "&kind=" + search.type;
+	});
+
+	d3.select("#home-search-input").on("input", function() {
+	  window.clearTimeout(tout);
+	  var inputText = document.getElementById("home-search-input").value;
+	  d3.select(".search-input-text").text(inputText);
+	});
+
+	d3.select("#home-search-input").on("keyup.clear_demo", function() {
+	  window.clearTimeout(tout);
+		d3.event.preventDefault();
+	});
+
+	var search_input = d3.select("#home-search-input");
+	var current_search_term = search_input.property("value");
+	var results_div_id = search_input.attr("data-results");
+	var results_div = d3.select("#"+results_div_id);
+	search.term = current_search_term;
+	search.container = d3.select("#search-" + search_input.attr("data-search"));
+	if(current_search_term.length){
+	  results_div.classed("open", true);
+    search.data = true;
+	  search.reload();
+
+	  search_input.node().focus();
+	}
+
+	var demo_input = document.getElementById('home-search-input');
+
+	var letter_index = 0;
+	var tout = 0;
+	var sterms = ["San Diego", "Hospitals", "cars in Los Angeles", "Engineers", "poverty in Cambridge", "02139", "Graphic Design", "Central City"]
+	var sterm_index = 0;
+	var type_this = sterms[sterm_index];
+	var ready = true;
+
+	window.next_letter = function() {
+	  var interval = 100;
+	  if (letter_index <= type_this.length) {
+	    search_input.property("value", type_this.substr(0, letter_index++));
+	    if(letter_index > type_this.length){
+	      interval = interval * 30;
+	      // search_input.on("click")();
+	    }
+	  }
+	  else {
+	    letter_index = 0;
+	    d3.select(document).on("click")();
+	    // search_input.node().focus();
+	    sterm_index = (sterm_index+1)%sterms.length;
+	    type_this = sterms[sterm_index];
+	  }
+	  tout = setTimeout("next_letter()", interval);
+	}
+
+	search_input.on("click.clear", function(){
+	  this.select();
+	  window.clearTimeout(tout);
+	})
+
+	next_letter();
+
+  var titleNavHeight = d3.select("#title-bar").node().offsetHeight;
+
+  function navScroll(){
+
+    var splashHeight = window.innerHeight * 0.75;
+
+    var y = d3plus.client.scroll.y(),
+        colorTitleNav = y > titleNavHeight,
+        showTitleNav = y > splashHeight/2.75;
+
+    d3.select("#top-nav").classed("filled", colorTitleNav);
+    d3.select("nav").classed("filled", colorTitleNav);
+    d3.select("#title-bar").classed("visible", showTitleNav);
+
+  }
+
+  navScroll();
+  scrollFunctions.push(navScroll);
+
+</script>
+
+{% endblock %}

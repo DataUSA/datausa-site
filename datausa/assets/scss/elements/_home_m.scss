@@ -28,8 +28,20 @@ body.home {
     }
 
     .home-desc {
+
+      &.new {
+        text-align: center;
+      }
+
+      .logo {
+        margin: 0 auto 25px;
+        width: 80%;
+      }
+
       h2 {
         font-size: 18px !important;
+        margin: 0 auto;
+        width: 90%;
 
         &.second-line {
           font-size: 21px !important;
@@ -43,6 +55,7 @@ body.home {
     }
 
     .home-collab {
+      margin: 100px 0 50px;
 
       img {
         height: 17px;

@@ -2,7 +2,25 @@
 
 {% block body %}
 
+{% if g.video %}
+<div id="video">
+  <!-- Video Partial -->
+  <video preload="auto" autoplay loop muted>
+  	<source src="/static/video/{{ g.video }}.mp4" type="video/mp4; codecs=avc1.42E01E,mp4a.vi40.2">
+  	<source src="/static/video/{{ g.video }}.mp4" type="video/webm; codecs=vp8,vorbis">
+  	<source src="/static/video/{{ g.video }}.ogv" type="video/ogg">
+  </video>
+  <![if !IE]>
+  <!-- <video id="video" class="ta-video video" preload="auto" autoplay muted>
+      <source src="/static/video/{{ g.video }}.mp4" type="video/mp4; codecs=avc1.42E01E,mp4a.40.2">
+  </video> -->
+  <![endif]>
+  <div class="overlay"></div>
+
+</div>
+{% else %}
 <div class="bg"></div>
+{% endif %}
 
 <section class="home-desc">
   <img class="logo" src="/static/img/home/logo.png" alt="Data USA" />
@@ -28,6 +46,38 @@
   <section class="results-show-all">
     <a href="/search/" class="pri-link">Show all results <span class="more"></span></a>
   </section>
+</section>
+
+<section class="home-links">
+
+  <div class="tile">
+    <h3>Browse Public Data on any:</h3>
+    <ul class="directory-links">
+      <div>
+        <li><a class="directory-link geo" href="/search/?kind=geo"><img src="/static/img/icons/geo_c.svg" />State or City</a></li>
+        <li><a class="directory-link naics" href="/search/?kind=naics"><img src="/static/img/icons/naics_c.svg" />Industry</a></li>
+      </div>
+      <div>
+        <li><a class="directory-link soc" href="/search/?kind=soc"><img src="/static/img/icons/soc_c.svg" />Occupation</a></li>
+        <li><a class="directory-link cip" href="/search/?kind=cip"><img src="/static/img/icons/cip_c.svg" />College Major</a></li>
+      </div>
+    </ul>
+  </div>
+  <div class="tile map">
+    <a href="/map"><h3>Map over 100 Topics, including:</h3></a>
+    <ul class="map-links">
+      <li><a class="map-link" href="/map/?level=state&amp;key=medicare_beneficiaries_total">Medicare</a></li>
+      <li><a class="map-link" href="/map/?level=puma&key=income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe">Poverty</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=unemployment">Unemployment</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=polution_ppm">Pollution</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=children_eligible_for_free_lunch">School Lunch</a></li>
+      <li><a class="map-link" href="/map/?level=state&key=income_inequality">Income Inequality</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=homicide_rate">Homicide</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=population_living_in_a_rural_area">Rural Areas</a></li>
+      <li><a class="map-link" href="/map/?level=county&key=social_associations">Social Groups</a></li>
+    </ul>
+  </div>
+
 </section>
 
 <div class="home-collab">
