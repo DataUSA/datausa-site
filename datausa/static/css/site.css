@@ -3239,9 +3239,9 @@
         flex-pack: distribute;
         width: 100%; }
         body.home .home-links .directory-links li {
-          text-align: left;
           min-width: 45%;
           padding: 4px 0;
+          text-align: center;
           width: 45%; }
       body.home .home-links .directory-link {
         color: #B8C0D4;
