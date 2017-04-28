@@ -472,7 +472,16 @@ body.home {
         letter-spacing: 0.03em;
         font-size: 16px;
         font-weight: 600;
+        line-height: 22px;
+        margin: 0 auto;
+        max-width: 490px;
         padding: 8px 0 10px;
+        a {
+          color: white;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
     }
 
