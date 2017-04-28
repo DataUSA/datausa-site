@@ -4,6 +4,7 @@ from flask import Blueprint, g, render_template, request, url_for, redirect, abo
 from config import API
 from datausa import app
 from datausa.consts import AFFIXES, COLMAP, DICTIONARY, PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
+from datausa.story.models import StoryPreview
 from datausa.utils.data import attr_cache, datafold, fetch, profile_cache, story_cache
 from datausa.utils.format import num_format
 from pagination import Pagination
@@ -127,7 +128,6 @@ def home():
             attr = fetch(attr_id, show)
             slug = attr["url_name"] if attr["url_name"] else attr_id
             d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
-            d["type"] = show
             d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
             d["link"] = "/profile/{}/{}".format(show, slug)
             d["image"] = "/search/{}/{}/img".format(show, attr_id)
@@ -140,6 +140,26 @@ def home():
 
         carousel["data"] = data
         carousel["source"] = r["source"]
+
+    stories = StoryPreview.generate_list()[0]
+    for i, story in enumerate(stories):
+        stories[i] = {
+            # "featured": i == 0,
+            "link": "/story/{}".format(story.story_id),
+            "image": story.background_image,
+            "title": story.title,
+            "subtitle": "By {}".format(story.authors[0]["name"]),
+            "type": {
+                "icon": "/static/img/icons/about.svg",
+                "title": TYPEMAP["story"],
+                "type": "story"
+            }
+        }
+
+    carousels.insert(0, {
+        "title": "Latest Stories",
+        "data": stories
+    })
 
     return render_template("general/home_v3.html", feed=feed, carousels=carousels)
 
