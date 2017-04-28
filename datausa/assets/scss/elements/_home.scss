@@ -449,7 +449,12 @@ body.home {
       display: inline-block;
       margin: 10px 0;
       padding: 5px 15px 15px;
-        width: 100%;
+      width: 100%;
+
+      &.map {
+        @include background-stretch();
+        background-image: url("/static/img/viz_type/geo_map.svg");
+      }
 
       & + .tile {
         @media (min-width : 481px) {

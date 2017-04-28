@@ -3171,13 +3171,21 @@
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box; }
-            @media (min-width : 481px) {
-              body.home .home-links .tile + .tile {
-                margin-top: 20px;   }
-}
-              @media (max-width : 480px) {
+            body.home .home-links .tile.map {
+              background-position: center center;
+              background-repeat: no-repeat;
+              -webkit-background-size: cover;
+              -moz-background-size: cover;
+              -o-background-size: cover;
+              background-size: cover;
+              background-image: url("/static/img/viz_type/geo_map.svg"); }
+              @media (min-width : 481px) {
                 body.home .home-links .tile + .tile {
-                  margin-top: 0;   }
+                  margin-top: 20px;   }
+}
+                @media (max-width : 480px) {
+                  body.home .home-links .tile + .tile {
+                    margin-top: 0;   }
 }
           body.home .home-links .tile h3 {
             color: #B8C0D4;
