@@ -331,6 +331,7 @@ DICTIONARY = {
 
     "income_below_poverty": "Population in Poverty",
     "pop_poverty_status": "Overall Population",
+    "income_below_poverty:pop_poverty_status": "Poverty Rate",
     "poverty_male": "Male Population in Poverty",
     "poverty_female": "Female Population in Poverty",
     "poverty_2ormore": "2+",
@@ -520,7 +521,8 @@ PROPORTIONS = [
     "population_living_in_a_rural_area",
     "poor_or_fair_health",
     "low_birthweight",
-    "could_not_see_doctor_due_to_cost"
+    "could_not_see_doctor_due_to_cost",
+    "income_below_poverty:pop_poverty_status"
 ]
 
 PERCENTAGES = [

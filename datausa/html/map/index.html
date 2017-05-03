@@ -153,7 +153,9 @@
       if (d.value === "county") b = true;
       return b;
     }, false);
-    var url = "/api?show=geo&year=all&sumlevel=" + level + "&required=" + key + "&sort=desc&order=" + key.split(",")[0];
+    var requires = key.replace(/:/g, ",");
+    var variables = key.split(",");
+    var url = "/api?show=geo&year=all&sumlevel=" + level + "&required=" + requires + "&sort=desc&order=" + requires.split(",")[0];
     var topo = level === "county" ? "counties" : level + "s";
 
     if (history.pushState) {
@@ -161,9 +163,9 @@
       window.history.pushState({"path": urlPath}, '', urlPath);
     }
 
-    map.color(key.split(",")[0])
+    map.color(variables[0])
       .coords({"key": topo})
-      .tooltip(key.split(","));
+      .tooltip(variables);
 
     buildTitle = viz.format.text(map.color(), {}) + " by " + viz.format.text(level, {});
     d3.select(".embed-title").html(buildTitle);
@@ -172,6 +174,21 @@
 
     load("/static/topojson/" + topo + ".json", function(coords){
       load(data_url, function(data, x, json){
+
+        if (key.indexOf(":")) {
+          variables.forEach(function(k) {
+            if (k.indexOf(":") > 0) {
+              for (var i = 0; i < data.length; i++) {
+                var nums = k.split(":");
+                data[i][k] = data[i][nums[0]] / data[i][nums[1]];
+                if (!i) console.log(data[i]);
+              }
+            }
+          });
+          if (variables[0].indexOf(":") > 0) {
+            data = data.sort(function(a, b) { return b[variables[0]] - a[variables[0]]; })
+          }
+        }
 
         var source = json.source.dataset;
         if (json.source.link) {
@@ -185,7 +202,7 @@
         var tooltip_url = false;
         if (county && (level == "state" || level == "msa")) {
           tooltip_url = api + url.replace("sumlevel=" + level, "sumlevel=county");
-          tooltip_url += "&sort=desc&order=" + key.split(",")[0];
+          tooltip_url += "&sort=desc&order=" + requires.split(",")[0];
         }
         else {
           map.highlight(false);

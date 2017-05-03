@@ -28,7 +28,7 @@ def map():
             "acs.unemployment",
             "acs.median_household_income",
             "acs.income,income_moe,income_rank",
-            "acs.income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
+            "acs.income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
             "chr.children_in_poverty"
         ],
 
