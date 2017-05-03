@@ -59,16 +59,16 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     else:
         r = datafold(r)
 
-    if dataset == "stat":
-        if isinstance(r[0][col], list):
-            r = [{params["show"]:x} for x in r[0][col]]
-            col = "name"
-
     if len(r) == 0:
         return {
             "url": stat_url,
             "value": "N/A"
         }
+
+    if dataset == "stat":
+        if isinstance(r[0][col], list):
+            r = [{params["show"]:x} for x in r[0][col]]
+            col = "name"
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
