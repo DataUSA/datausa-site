@@ -126,9 +126,9 @@ def map():
         "demographics": [
             "acs.pop,pop_moe,pop_rank",
             "acs.age,age_moe,age_rank",
-            "acs.population_that_is_not_proficient_in_english",
             "acs.non_eng_speakers_pct",
             "acs.us_citizens",
+            "chr.population_that_is_not_proficient_in_english",
             "chr.population_living_in_a_rural_area"
         ],
 
