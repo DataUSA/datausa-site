@@ -50,7 +50,11 @@ viz.map = function() {
     var time = vars.time.years && vars.time.years.length > 1;
 
     var toggle = vars.container.value.selectAll(".year-toggle").data([null]);
-    toggle.enter().append("div").attr("class", "year-toggle");
+    toggle.enter().append("div")
+        .attr("class", "year-toggle")
+      .append("span")
+        .attr("class", "legend-label");
+    toggle.select(".legend-label").text(vars.color.value ? vars.format.text(vars.color.value) : "");
     toggle.transition().duration(600).style("opacity", time ? 1 : 0);
 
     if (time) {

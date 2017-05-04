@@ -170,17 +170,31 @@ $map-sidebar: 250px;
   shape-rendering: crispEdges;
 }
 
+.legend-label {
+  color: #949494;
+  display: inline-block;
+  font-family: $palanquin;
+  font-size: 13px;
+  font-weight: bold;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+
 .year-toggle {
-  bottom: 5px;
+  bottom: 15px;
   display: block;
   left: 0;
   position: absolute;
   text-align: center;
   width: 100%;
 
-  .d3plus_toggle {
-    background-color: rgba(255, 255, 255, 0.5) !important;
+  #d3plus_toggle_default2 {
+    border: 1px solid rgb(204, 204, 204);
+    height: 26px;
   }
+  // .d3plus_toggle {
+  //   background-color: rgba(255, 255, 255, 0.5) !important;
+  // }
 }
 
 .map-controls {

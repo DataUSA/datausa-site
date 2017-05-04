@@ -13,7 +13,7 @@ viz.mapDraw = function(vars) {
       polyZoom = 20000,
       scaleAlign = "middle",
       scaleHeight = 10,
-      scalePadding = 5,
+      scalePadding = 10,
       strokeOpacity = 0.35,
       timing = 600,
       zoomFactor = 2;
@@ -170,6 +170,36 @@ viz.mapDraw = function(vars) {
     if (data_range.length > 1) {
 
       var color_range = vizStyles.color.heatmap;
+      if (!(color_range instanceof Array)) color_range = makeColorArray(color_range);
+
+      function lighter(color, number) {
+        var c = d3plus.color.lighter(color, number);
+        c = d3.hsl(c);
+        c.s += 0.3 * number;
+        if (c.s > 1) c.s = 1;
+        return c.toString();
+      }
+
+      function darker(color, number) {
+        var c = d3.rgb(color).darker(number).hsl();
+        c.s += 0.5 * number;
+        if (c.s > 1) c.s = 1;
+        return c.toString();
+      }
+
+      function makeColorArray(color) {
+        return [
+          lighter(color, 0.9),
+          lighter(color, 0.75),
+          lighter(color, 0.6),
+          lighter(color, 0.45),
+          lighter(color, 0.30),
+          lighter(color, 0.15),
+          color,
+          darker(color, 2),
+          // d3.rgb(color).darker(0.75).toString()
+        ];
+      }
 
       for (var attr in attrStyles) {
         var match = false;
@@ -181,21 +211,14 @@ viz.mapDraw = function(vars) {
           }
         }
         if (match) {
-          color_range = [
-            d3plus.color.lighter(match, 0.9),
-            d3plus.color.lighter(match, 0.75),
-            d3plus.color.lighter(match, 0.5),
-            d3plus.color.lighter(match, 0.25),
-            match,
-            d3.rgb(match).darker(0.5)
-          ];
+          color_range = makeColorArray(match);
           break;
         }
       }
 
       var jenksData = vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
-        .map(function(d) { return d[vars.color.value]; }).sort();
+        .map(function(d) { return d[vars.color.value]; });
 
       if (jenksData.length < color_range.length) {
         var step = (jenksData.length - 1) / (color_range.length - 1);
@@ -228,7 +251,7 @@ viz.mapDraw = function(vars) {
 
     var scale = svg.selectAll("g.scale").data(colorScale && colorScale.domain ? [0] : []);
     scale.exit().transition().duration(600).attr("opacity", 0).remove();
-    scale.enter().append("g")
+    var scaleEnter = scale.enter().append("g")
       .attr("class", "scale")
       .attr("opacity", 0);
 
@@ -237,7 +260,8 @@ viz.mapDraw = function(vars) {
       var values = colorScale.domain(),
           colors = color_range;
 
-      var key_width = d3.min([width * 0.9, 600]);
+      var keyPadding = 10;
+      var key_width = d3.min([width - keyPadding * 4, 800]);
 
       var xScale = d3.scale.linear()
         .domain(d3.extent(values))
@@ -246,6 +270,17 @@ viz.mapDraw = function(vars) {
       var smallLast = xScale(values[values.length - 1]) - xScale(values[values.length - 2]) < 2;
 
       var key_offset = width / 2 - key_width / 2;
+
+      var background = scale.selectAll("rect.d3plus_legend_background")
+        .data([0]);
+      var backgroundEnter = background.enter().append("rect")
+        .attr("class", "d3plus_legend_background")
+        .attr("fill", "white")
+        .attr("fill-opacity", 0.75)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 1)
+        .attr("x", key_offset - keyPadding * 2)
+        .attr("y", -keyPadding);
 
       var heatmap = scale.selectAll("rect.d3plus_legend_break")
         .data(colors);
@@ -256,7 +291,7 @@ viz.mapDraw = function(vars) {
           .attr("fill", String)
           .attr("stroke", scaleText.fill)
           .attr("stroke-width", 1)
-          .attr("y", scalePadding);
+          .attr("y", 0);
       }
 
       heatmap.enter().append("rect")
@@ -281,7 +316,7 @@ viz.mapDraw = function(vars) {
       var textHeight = scaleText["font-size"];
 
       function textY(d, i) {
-        return textHeight + scalePadding * 1.5 + scaleHeight + (i % 2 ? textHeight : 0);
+        return textHeight + scalePadding * 0.5 + scaleHeight + (i % 2 ? textHeight : 0);
       }
 
       text.enter().append("text")
@@ -299,7 +334,7 @@ viz.mapDraw = function(vars) {
         .order()
         .attr(scaleText)
         .text(function(d){
-          return vars.format.number(d, {"key": vars.color.value, "vars": vars});
+          return vars.format.number(d, {"key": vars.color.value, "vars": vars, output: "x"});
         })
         .attr("y", textY)
         .transition().duration(timing)
@@ -318,7 +353,7 @@ viz.mapDraw = function(vars) {
         t
           .attr("y1", scalePadding)
           .attr("y2", function(d, i){
-            return scalePadding * 2 + scaleHeight + (i % 2 ? textHeight : 0);
+            return scalePadding * 0.75 + scaleHeight + (i % 2 ? textHeight : 0);
           })
           .attr("stroke", scaleText.fill)
           .attr("stroke-width", 1)
@@ -351,36 +386,30 @@ viz.mapDraw = function(vars) {
         .attr("opacity", 0)
         .remove();
 
-      var label = scale.selectAll("text.scale_label").data([0]);
-      label.enter().append("text").attr("class", "scale_label")
-
-      label
-        .attr("text-anchor", scaleAlign)
-        .attr("x",function(d){
-          if (scaleAlign === "middle") {
-            return Math.floor(width/2);
-          }
-          else if (scaleAlign === "end") {
-            return width;
-          }
-          else {
-            return 0;
-          }
-        })
-        .attr("y", -scalePadding)
-        .text(vars.format.text(vars.color.value))
-        .attr(scaleText);
-
       var key_box = scale.node().getBBox(),
-          key_height = key_box.height + key_box.y;
+          key_height = key_box.height;
 
+      var yearHeight = d3.select(".year-toggle");
+      if (yearHeight.size()) yearHeight = parseFloat(yearHeight.style("height")) + 5;
+      else yearHeight = 0;
       // key_height += attribution.node().offsetHeight;
       key_height += scalePadding;
 
-      if (vars.time.years.length > 1) key_height += vars.container.value.select(".year-toggle").node().offsetHeight;
+      if (backgroundEnter.size()) key_height += yearHeight + scalePadding * 2;
 
-      scale.attr("transform" , "translate(0, " + (height - key_height) + ")")
-        .transition().duration(timing).attr("opacity", 1);
+      console.log(backgroundEnter.size(), height, key_box, yearHeight, keyPadding, key_height);
+      backgroundEnter
+        .attr("width", key_width + keyPadding * 4)
+        .attr("height", key_height - keyPadding)
+
+      background.transition().duration(timing)
+        .attr("width", key_width + keyPadding * 4)
+
+      scaleEnter
+        .attr("transform" , "translate(0, " + (height - key_height + keyPadding) + ")");
+      scale.transition().duration(timing)
+        .attr("transform" , "translate(0, " + (height - key_height + keyPadding) + ")")
+        .attr("opacity", 1);
 
       key_height += scalePadding;
 

@@ -95,7 +95,8 @@ var vizStyles = {
     // "heatmap": ['#CEF0DE','#41b6c4','#2c7fb8','#253494'],
     // "heatmap": ['#f0f9e8','#CEF0DE','#7bccc4','#43a2ca','#0868ac'],
     // "heatmap": ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#3182bd','#08519c'],
-    "heatmap": ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#3182bd','#004994'],
+    // "heatmap": ['#eff3ff','#c6dbef','#9ecae1','#6baed6','#3182bd','#004994'],
+    "heatmap": "#3182bd",
     "primary": "#aaa"
   },
   "edges": {

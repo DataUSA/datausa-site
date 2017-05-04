@@ -7001,15 +7001,25 @@
     fill-opacity: 0.125;
     shape-rendering: crispEdges; }
 
-    .year-toggle {
-      bottom: 5px;
-      display: block;
-      left: 0;
-      position: absolute;
-      text-align: center;
-      width: 100%; }
-      .year-toggle .d3plus_toggle {
-        background-color: rgba(255, 255, 255, 0.5) !important; }
+    .legend-label {
+      color: #949494;
+      display: inline-block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      margin-right: 10px;
+      margin-top: 2px; }
+
+      .year-toggle {
+        bottom: 15px;
+        display: block;
+        left: 0;
+        position: absolute;
+        text-align: center;
+        width: 100%; }
+        .year-toggle #d3plus_toggle_default2 {
+          border: 1px solid #ccc;
+          height: 26px; }
 
   .map-controls {
     left: 5px;
