@@ -10199,7 +10199,7 @@ viz.mapDraw = function(vars) {
           colors = color_range;
 
       var keyPadding = 10;
-      var key_width = d3.min([width - keyPadding * 4, 800]);
+      var key_width = d3.min([width - keyPadding * 6, 800]);
 
       var xScale = d3.scale.linear()
         .domain(d3.extent(values))
@@ -10335,7 +10335,6 @@ viz.mapDraw = function(vars) {
 
       if (backgroundEnter.size()) key_height += yearHeight + scalePadding * 2;
 
-      console.log(backgroundEnter.size(), height, key_box, yearHeight, keyPadding, key_height);
       backgroundEnter
         .attr("width", key_width + keyPadding * 4)
         .attr("height", key_height - keyPadding)
