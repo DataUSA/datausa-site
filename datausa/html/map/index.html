@@ -159,7 +159,12 @@
     var topo = level === "county" ? "counties" : level + "s";
 
     if (history.pushState) {
-      urlPath = "/map/?level=" + level + "&key=" + key;
+      var params = window.location.search;
+      if (params.length) params = params.split("&");
+      else params = ["", ""];
+      params[0] = "?level=" + level;
+      params[1] = "key=" + key;
+      urlPath = "/map/" + params.join("&");
       window.history.pushState({"path": urlPath}, '', urlPath);
     }
 

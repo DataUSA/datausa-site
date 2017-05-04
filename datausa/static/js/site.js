@@ -10398,12 +10398,21 @@ viz.mapDraw = function(vars) {
       if (!(projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length)) {
         zs = (s/Math.PI/2) * polyZoom;
       }
+      zs = zs * 2 * Math.PI;
+
+      var ds = zs, dt = t;
+      var params = window.location.search;
+      if (params.indexOf("translate") > 0) {
+        dt = /translate=([0-9-.,]+)/g.exec(params)[1].split(",").map(Number);
+        ds = parseFloat(/scale=([0-9-.]+)/g.exec(params)[1]);
+      }
 
       vars.zoom.behavior = d3.behavior.zoom()
-        .scale(zs * 2 * Math.PI)
+        .scale(ds)
         .scaleExtent([1 << 9, 1 << 25])
-        .translate(t)
-        .on("zoom", zoomed);
+        .translate(dt)
+        .on("zoom", zoomed)
+        .on("zoomend", zoomEnd);
 
       // With the center computed, now adjust the projection such that
       // it uses the zoom behavior’s translate and scale.
@@ -10445,6 +10454,7 @@ viz.mapDraw = function(vars) {
 
         zoom.scale(target_scale).translate([x, y]);
         zoomed(timing);
+        setTimeout(zoomEnd, timing);
       }
 
       controls_enter.append("div").attr("class", "zoom-in").on(d3plus.client.pointer.click, function(){
@@ -10603,6 +10613,7 @@ viz.mapDraw = function(vars) {
           elem.selectAll(".list-name").on(d3plus.client.pointer.click, function(){
             vars.zoom.reset = true;
             vars.self.highlight(this.id.slice(2)).draw();
+            zoomEnd();
           });
         } : false,
         "max_height": mh,
@@ -10795,6 +10806,7 @@ viz.mapDraw = function(vars) {
       }
       zoom.scale(ns * 2 * Math.PI).translate(t);
       zoomed(timing);
+      setTimeout(zoomEnd, timing);
     }
 
   }
@@ -10814,6 +10826,23 @@ viz.mapDraw = function(vars) {
 
     zoom.scale(ns * 2 * Math.PI).translate(nt);
     zoomed(timing);
+    setTimeout(zoomEnd, timing);
+
+  }
+
+  function zoomEnd() {
+
+    if (fullscreen && history.pushState) {
+
+      var trans = zoom.translate(),
+          s = zoom.scale();
+
+      var params = window.location.search;
+      if (params.indexOf("translate") > 0) params = params.split("&translate")[0];
+      var urlPath = "/map/" + params + "&translate=" + trans.join(",") + "&scale=" + s;
+      window.history.pushState({"path": urlPath}, '', urlPath);
+
+    }
 
   }
 
@@ -10826,6 +10855,7 @@ viz.mapDraw = function(vars) {
 
     var trans = zoom.translate(),
         s = zoom.scale();
+
     var pz = s / polyZoom;
 
     if (pz < minZoom) {
