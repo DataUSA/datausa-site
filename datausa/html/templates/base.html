@@ -198,7 +198,12 @@
         });
 
         d3.selectAll(".topic-title, .term").html(function() {
-          return d3.select(this).attr("data-default");
+          var value = d3.select(this).attr("data-default");
+          if (!value) {
+            value = d3.select(this).text();
+            d3.select(this).attr("data-default", value);
+          }
+          return value;
         });
 
         function update_builds(data) {
