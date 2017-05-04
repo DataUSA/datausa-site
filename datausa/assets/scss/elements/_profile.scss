@@ -1706,7 +1706,7 @@ body.profile, body.map, body.story {
     .category {
       @include box();
       @include flex-size(1 1 100%);
-      padding: 5px 24px 30px;
+      padding: 25px 24px 30px;
       min-width: 100%;
 
       a {
