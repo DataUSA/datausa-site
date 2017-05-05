@@ -10761,6 +10761,7 @@ viz.mapDraw = function(vars) {
     else if (vars.zoom.reset) {
       zoomLogic(vars.highlight.path);
     }
+    else if (fullscreen) createTooltip({}, true);
 
   }
 
