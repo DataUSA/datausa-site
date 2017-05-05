@@ -10199,7 +10199,7 @@ viz.mapDraw = function(vars) {
           colors = color_range;
 
       var keyPadding = 10;
-      var key_width = d3.min([width - keyPadding * 6, 800]);
+      var key_width = d3.min([width - keyPadding * 8, 800]);
 
       var xScale = d3.scale.linear()
         .domain(d3.extent(values))
@@ -10217,7 +10217,7 @@ viz.mapDraw = function(vars) {
         .attr("fill-opacity", 0.75)
         .attr("stroke", "#999")
         .attr("stroke-width", 1)
-        .attr("x", key_offset - keyPadding * 2)
+        .attr("x", key_offset - keyPadding * 3)
         .attr("y", -keyPadding);
 
       var heatmap = scale.selectAll("rect.d3plus_legend_break")
@@ -10336,11 +10336,11 @@ viz.mapDraw = function(vars) {
       if (backgroundEnter.size()) key_height += yearHeight + scalePadding * 2;
 
       backgroundEnter
-        .attr("width", key_width + keyPadding * 4)
+        .attr("width", key_width + keyPadding * 6)
         .attr("height", key_height - keyPadding)
 
       background.transition().duration(timing)
-        .attr("width", key_width + keyPadding * 4)
+        .attr("width", key_width + keyPadding * 6)
 
       scaleEnter
         .attr("transform" , "translate(0, " + (height - key_height + keyPadding) + ")");
