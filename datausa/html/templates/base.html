@@ -655,6 +655,20 @@
             localforage.setItem("cart", cartCache);
           }
 
+          if (parent !== window && cartCache.datasets.length) {
+
+          }
+
+          try {
+            var doc = parent.document;
+            if (doc && doc !== document && cartCache.datasets.length && d3.select(doc.body).classed("cart")) {
+              parent.location.reload();
+            }
+          }
+          catch(e) {
+            // not accessible
+          }
+
           d3.select("#cart-btn a")
             .html(cartCache.datasets.length || "")
             .classed("active", cartCache.datasets.length);

@@ -10,7 +10,7 @@
 
 {% block body %}
 <div id="cart-table"></div>
-<div id="cart-panel">
+<div id="cart-panel" class="hidden">
   <div id="datasets" class="group">
     <div class="title">Data Cart</div>
     <div class="headers">
@@ -24,13 +24,18 @@
     <div class="cart-clear cart-btn">Remove All Items from Cart</div>
   </div>
 </div>
-<div id="cart-description">
+<div id="cart-description" class="hidden">
   <div id="cart-description-text">
     <img src="/static/img/viz/add-to-cart-red.svg" width="16px" height="21px" />Data Cart
-    <div id="cart-description-status">As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to this page for future analysis. Up to 5 datasets can be added to the cart, and their columns and rows will be intelligently merged together for bulk download.</div>
+    <div id="cart-description-status">
+      <p>As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to this page for future analysis.</p>
+      <p>Up to 5 datasets can be added to the cart, and their columns and rows will be intelligently merged together for bulk download.</p>
+      <p>Try adding the dataset from the visualization below by clicking the "Add to Cart" button on the top-right.</p>
+    </div>
+    <iframe data-src="/profile/geo/cambridge-ma/economy/income/"></iframe>
   </div>
 </div>
-<div id="cart-loading" class="hidden">
+<div id="cart-loading">
   <div id="cart-loading-text">
     <i class="fa fa-spinner fa-spin"></i>Please Wait
     <div id="cart-loading-status">Loading Data</div>
@@ -221,12 +226,16 @@
 
   function updateDisplay(cart) {
 
-    d3.select("#cart-panel").style("display", cart.datasets.length ? "block" : "none");
+    d3.select("#cart-panel").classed("hidden", !cart.datasets.length);
     d3.select("#cart-table").style("opacity", cart.datasets.length ? "1" : "0");
 
     loadStatus.html("Loading Cart");
     d3.select("#cart-loading").classed("hidden", !cart.datasets.length);
     d3.select("#cart-description").classed("hidden", cart.datasets.length);
+    if (!cart.datasets.length) {
+      var iframe = d3.select("#cart-description").select("iframe");
+      iframe.attr("src", iframe.attr("data-src"));
+    }
 
     if (!cart.datasets.length) return;
 

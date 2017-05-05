@@ -8374,6 +8374,7 @@
 
   #cart-panel {
     border-right: 1px solid #BDBDBD;
+    display: block;
     height: 100vh;
     left: 0;
     margin-top: 40px;
@@ -8381,17 +8382,19 @@
     top: 0;
     width: 260px;
     z-index: 1; }
-    #cart-panel .group {
-      margin-left: 12px;
-      margin-top: 12px;
-      width: 230px; }
-      #cart-panel .group .title {
-        color: #141b2e;
-        font-family: "Palanquin", sans-serif;
-        font-size: 13px;
-        font-weight: bold;
-        letter-spacing: 0.6px;
-        text-transform: uppercase; }
+    #cart-panel.hidden {
+      display: none; }
+      #cart-panel .group {
+        margin-left: 12px;
+        margin-top: 12px;
+        width: 230px; }
+        #cart-panel .group .title {
+          color: #141b2e;
+          font-family: "Palanquin", sans-serif;
+          font-size: 13px;
+          font-weight: bold;
+          letter-spacing: 0.6px;
+          text-transform: uppercase; }
     #cart-panel #datasets .headers {
       color: #949494;
       font-family: "Palanquin", sans-serif;
@@ -8503,13 +8506,11 @@
     z-index: 2; }
     #cart-loading.hidden, #cart-description.hidden {
       display: none; }
-      #cart-loading #cart-loading-text, #cart-loading #cart-description-text,
-      #cart-description #cart-loading-text, #cart-description #cart-description-text {
+      #cart-loading #cart-loading-text, #cart-description #cart-loading-text {
         left: 50%;
         display: block;
         position: absolute;
         top: 50%;
-        width: 100%;
         color: white;
         font-family: "Lato", sans-serif;
         font-size: 20px;
@@ -8517,27 +8518,46 @@
         margin-left: -200px;
         text-align: center;
         width: 400px; }
-        #cart-loading #cart-loading-text i, #cart-loading #cart-description-text i,
-        #cart-description #cart-loading-text i, #cart-description #cart-description-text i {
+        #cart-loading #cart-loading-text i, #cart-description #cart-loading-text i {
           margin: 3px 10px; }
           #cart-loading #cart-loading-text #cart-loading-status,
-          #cart-loading #cart-loading-text #cart-description-status,
-          #cart-loading #cart-description-text #cart-loading-status,
-          #cart-loading #cart-description-text #cart-description-status,
-          #cart-description #cart-loading-text #cart-loading-status,
-          #cart-description #cart-loading-text #cart-description-status,
-          #cart-description #cart-description-text #cart-loading-status,
-          #cart-description #cart-description-text #cart-description-status {
+          #cart-description #cart-loading-text #cart-loading-status {
             font-size: 14px;
-            line-height: 18px; }
+            line-height: 18px;
+            width: 410px; }
     #cart-loading #cart-description-text, #cart-description #cart-description-text {
-      top: 45%; }
+      color: white;
+      display: block;
+      font-family: "Lato", sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      left: 0;
+      text-align: center;
+      position: absolute;
+      top: 90px;
+      width: 100%; }
       #cart-loading #cart-description-text img,
       #cart-description #cart-description-text img {
-        margin: 2px 10px 0; }
+        margin: 2px 10px 0 0; }
         #cart-loading #cart-description-text #cart-description-status,
         #cart-description #cart-description-text #cart-description-status {
           margin-top: 10px; }
+          #cart-loading #cart-description-text #cart-description-status p,
+          #cart-description #cart-description-text #cart-description-status p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            margin: 0 auto 10px;
+            opacity: 1;
+            text-align: left;
+            width: 410px; }
+      #cart-loading #cart-description-text iframe,
+      #cart-description #cart-description-text iframe {
+        background-color: white;
+        border: 1px solid #bbb;
+        height: 400px;
+        margin-top: 50px;
+        width: 80%; }
 
   @media print {
     #menu-btn, nav, #nav-bar-scroll, #section-sidenav, .share-section, .profile-end,
