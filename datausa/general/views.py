@@ -15,7 +15,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 42
+    g.cache_version = 43
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
     g.colmap = json.dumps(COLMAP)
