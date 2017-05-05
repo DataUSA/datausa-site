@@ -36,7 +36,10 @@
 </div>
 <div id="map-fullscreen"></div>
 <div id="map-sharing">
-  <a href="#" class="btn pri-btn" data-ga="share" data-ga-cat="viz-button" data-ga-label="Map Options"><span>Options</span></a>
+  <a href="#" class="viz-btn popover-btn view-table" title="View Data" data-ga="view-table" data-ga-cat="viz-button" data-ga-label="View Data"></a>
+  <a href="#" class="viz-btn popover-btn save-image" title="Save Image" data-ga="save-image" data-ga-cat="viz-button" data-ga-label="Save Image"></a>
+  <a href="#" class="viz-btn popover-btn share" title="Share/Embed" data-ga="share" data-ga-cat="viz-button" data-ga-label="Share/Embed"></a>
+  <a href="#" class="viz-btn add-to-cart" title="Cart" data-tooltip="cartLimit" data-tooltip-offset="0" data-tooltip-anchor="bottom center" data-ga="add-to-cart" data-ga-cat="viz-button" data-ga-label="Add to Cart"></a>
 </div>
 <div id="map-loading">
   <div id="map-loading-text"><i class="fa fa-spinner fa-spin"></i>Please Wait</div>
@@ -201,6 +204,8 @@
 
         d3.select(".source").html(source);
         d3.select(".org").html(json.source.org);
+        d3.select(".add-to-cart").attr("data-slug", "map_" + map.color() + "_ " + level);
+        updateCart();
 
         d3.select("#map-loading").classed("hidden", true);
         var tooltip_url = false;
@@ -232,7 +237,7 @@
       .draw();
   });
 
-  d3.select("#map-sharing").selectAll("a").on("click.share", function(){
+  d3.selectAll("a.popover-btn").on("click.share", function(){
     d3.event.preventDefault();
     dusa_popover.open([
       {"id": "view-table", "title":"View Data"},
@@ -249,6 +254,47 @@
       "viz": map
     })
   });
+
+  d3.select("a.add-to-cart").on("click", function(){
+
+      d3.event.preventDefault();
+      if (d3.select(this).classed("disabled")) return;
+
+      var calcs = [],
+          key = keys.focus(),
+          level = levels.focus();
+
+      key.split(",").forEach(function(k) {
+        if (k.indexOf(":") > 0) {
+          var nums = k.split(":");
+          calcs.push({
+            key: k,
+            func: "pct",
+            num: nums[0],
+            den: nums[1]
+          });
+        }
+      });
+
+      var requires = key.replace(/:/g, ",");
+
+      viz.addToCart({
+        cart: {
+          params: {
+            order: requires.split(",")[0],
+            required: requires,
+            show: "geo",
+            sort: "desc",
+            sumlevel: level,
+            year: "all"
+          },
+          title: buildTitle
+        },
+        calcs: calcs,
+        slug: d3.select(this).attr("data-slug")
+      });
+
+    });
 
 </script>
 {% endblock %}

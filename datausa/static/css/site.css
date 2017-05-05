@@ -6952,6 +6952,7 @@
     background-color: rgba(255, 255, 255, 0.75);
     border: 1px solid #999;
     right: 10px;
+    padding: 0 8px 2px 5px;
     position: fixed;
     top: 50px;
     z-index: 2; }
