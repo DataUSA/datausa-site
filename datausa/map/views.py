@@ -176,6 +176,7 @@ def map():
             mapdata[section] = keyDepths
     keys = sorted(keys, key=lambda x: DICTIONARY[x.split(",")[0]])
     defaultKey = defaultKey.split(",")[0]
+    title = "{} by {}".format(DICTIONARY[defaultKey.split(":")[0]], DICTIONARY[defaultLevel])
 
-    return render_template("map/index.html", mapdata=mapdata, datasets=sections, keys=keys, sumlevels=sumlevels,
+    return render_template("map/index.html", title=title, mapdata=mapdata, datasets=sections, keys=keys, sumlevels=sumlevels,
                                              defaultKey=defaultKey, defaultLevel=defaultLevel, defaultDataset=defaultSection)

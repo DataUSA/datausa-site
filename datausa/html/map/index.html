@@ -1,6 +1,6 @@
 {% extends "templates/nav.html" %}
 
-{% block title %} Maps{% endblock %}
+{% block title %} {{ title }}{% endblock %}
 
 {% block subtitle %}
 <div id="title-bar">
@@ -205,6 +205,7 @@
         d3.select(".source").html(source);
         d3.select(".org").html(json.source.org);
         d3.select(".add-to-cart").attr("data-slug", "map_" + map.color() + "_ " + level);
+        document.title = "Data USA | " + buildTitle;
         updateCart();
 
         d3.select("#map-loading").classed("hidden", true);

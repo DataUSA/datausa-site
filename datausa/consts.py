@@ -132,6 +132,8 @@ DICTIONARY = {
 
     "msa": "MSA",
     "puma": "PUMA",
+    "state": "State",
+    "county": "County",
 
     "gini": "GINI",
 
