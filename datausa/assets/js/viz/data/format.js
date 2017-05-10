@@ -58,6 +58,8 @@ viz.format = {
   },
   "text": function(text, params, build) {
 
+    if (!text || text.constructor !== String) return "";
+
     if (params === void 0) params = {};
 
     if (params.cart && text.match(/_id$/g)) {
@@ -70,7 +72,7 @@ viz.format = {
       return viz.format.text(text.substring(0, text.length - 9), params, build) + " Summation Level"
     }
 
-    var yearMatch = text ? text.match(/_(\d{4})$/g) : false;
+    var yearMatch = text.match(/_(\d{4})$/g);
     if (yearMatch) {
       return viz.format.text(text.substring(0, text.length - 5), params, build) + " (" + yearMatch[0].slice(1, 5) + ")"
     }
