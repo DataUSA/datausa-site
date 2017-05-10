@@ -9049,7 +9049,7 @@ viz.format = {
       return viz.format.text(text.substring(0, text.length - 9), params, build) + " Summation Level"
     }
 
-    var yearMatch = text.match(/_(\d{4})$/g);
+    var yearMatch = text ? text.match(/_(\d{4})$/g) : false;
     if (yearMatch) {
       return viz.format.text(text.substring(0, text.length - 5), params, build) + " (" + yearMatch[0].slice(1, 5) + ")"
     }
