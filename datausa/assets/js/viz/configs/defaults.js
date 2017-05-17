@@ -59,9 +59,9 @@ viz.defaults = function(build) {
         labelFont = d3plus.util.copy(chartStyles.labels[style][key]);
 
     if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
-      if (build.config.y2.value === "01000US" || build.config.y2.label === "National Average" || build.config.y2.label === "USA") {
-        if (axis === "y") labelFont.color = build.colors.pri;
-        else if (axis === "y2") labelFont.color = build.colors.sec;
+      if (build.config.y2.value === "01000US" || (build.config.y2.label && build.config.y2.label.indexOf("National") >= 0 || build.config.y2.label.indexOf("USA") >= 0)) {
+        if (axis === "y") labelFont.color = d3plus.color.legible(build.colors.pri);
+        else if (axis === "y2") labelFont.color = d3plus.color.legible(build.colors.sec);
       }
       else if (build.config.color in attrStyles) {
         var colors = attrStyles[build.config.color];

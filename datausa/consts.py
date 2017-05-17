@@ -484,6 +484,7 @@ AFFIXES = {
     "median_property_value": ["$", ""],
     "median_household_income": ["$", ""],
     "output": ["$", ""],
+    "y2_output": ["$", ""],
     "polution_ppm": ["", u"\u00B5g/m\u00B3"],
     "property_tax": ["$", ""],
     "property_val": ["$", ""],
@@ -733,14 +734,14 @@ COLMAP["propertyval"] = COLMAP["propertyvalBucket"]
 COLMAP["propertytax"] = COLMAP["propertytaxBucket"]
 
 GLOSSARY = {
-    "Most Specialized": {
+    "RCA": {
         "def": "The RCA calculation compares the share in a given constraint versus the national share. Click for more info.",
         "link": "/about/glossary/#rca",
-        "alts": ["relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
+        "alts": ["Most Specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
     },
-    "Wage GINI": {
+    "GINI": {
         "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality. Click for more info.",
         "link": "/about/glossary/#gini",
-        "alts": ["wage GINI"]
+        "alts": ["Wage GINI", "wage GINI"]
     }
 }

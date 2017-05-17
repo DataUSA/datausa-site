@@ -6995,11 +6995,11 @@ var attrStyles = {
   "cohort": {
     "AMI": {
         "color": "#f33535",
-        "icon": "thing_medic.png"
+        "icon": "thing_heart.png"
     },
     "CHF": {
         "color": "#ff8166",
-        "icon": "thing_medic.png"
+        "icon": "thing_heart_attack.png"
     },
     "medical": {
         "color": "#82a8e7",
@@ -7007,7 +7007,7 @@ var attrStyles = {
     },
     "pneumonia": {
         "color": "#ffb563",
-        "icon": "thing_medic.png"
+        "icon": "thing_lungs.png"
     },
     "surgical": {
         "color": "#72f5c4",
@@ -8446,9 +8446,9 @@ viz.defaults = function(build) {
         labelFont = d3plus.util.copy(chartStyles.labels[style][key]);
 
     if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
-      if (build.config.y2.value === "01000US" || build.config.y2.label === "National Average" || build.config.y2.label === "USA") {
-        if (axis === "y") labelFont.color = build.colors.pri;
-        else if (axis === "y2") labelFont.color = build.colors.sec;
+      if (build.config.y2.value === "01000US" || (build.config.y2.label && build.config.y2.label.indexOf("National") >= 0 || build.config.y2.label.indexOf("USA") >= 0)) {
+        if (axis === "y") labelFont.color = d3plus.color.legible(build.colors.pri);
+        else if (axis === "y2") labelFont.color = d3plus.color.legible(build.colors.sec);
       }
       else if (build.config.color in attrStyles) {
         var colors = attrStyles[build.config.color];
@@ -8988,6 +8988,8 @@ viz.format = {
       var key = params.key + "";
       delete params.key;
 
+      if (key.indexOf("y2_") === 0) key = key.slice(3);
+
       if (key === "year") return number;
 
       if (key.indexOf("_moe") > 0) {
@@ -9038,6 +9040,8 @@ viz.format = {
   "text": function(text, params, build) {
 
     if (!text || text.constructor !== String) return "";
+
+    if (text.indexOf("y2_") === 0) text = text.slice(3);
 
     if (params === void 0) params = {};
 

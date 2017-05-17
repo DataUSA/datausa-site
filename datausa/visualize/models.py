@@ -130,13 +130,14 @@ class Viz(object):
             ids = [ids]
 
         # check each data call for 'required' and 'order'
+        forbidden = ["emp_2004_thousands", "emp_2014_thousands", "emp_2024_thousands", "output_2004", "output_2014", "output_2024"]
         for d in self.data:
             p = d["params"]
             for k in ["required", "order"]:
                 if k in p:
                     val = p[k].split(",")
                     for v in val:
-                        if v != "" and v not in tooltip and v not in ids:
+                        if v != "" and v not in tooltip and v not in forbidden and v not in ids:
                             tooltip.append(v)
                             moe = "{}_moe".format(v)
                             if moe not in tooltip:
@@ -165,7 +166,7 @@ class Viz(object):
                 if not isinstance(val, (str, int, float)):
                     val = val.get("value", False)
 
-                if val and val not in tooltip and val not in ids:
+                if val and val not in tooltip and val not in forbidden and val not in ids:
                     tooltip.append(val)
                     if k == axis:
                         tooltip.append("{}2_{}".format(axis, val))

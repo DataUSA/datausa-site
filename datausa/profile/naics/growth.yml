@@ -10,7 +10,7 @@ topics:
         value: "<<var namespace=growth|key=emp_carc_2014_2024>>"
       - title: "National Average"
         value: "<<top col=emp_carc_2014_2024|year=none|naics=000000>>"
-    description: "This line chart shows the projected growth in the number of jobs for the <<name>> <<level>>, {{<<id>>:!<<var namespace=growth|key=naics|format=raw>>||based on it's parent classification of <<var namespace=growth|key=naics>>, }}which is <<percent num=emp_carc_2014_2024|den=emp_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2014_2024|year=none|naics=000000>>."
+    description: "This line chart shows the projected 10-year growth in the number of jobs for the <<name>> <<level>>, {{<<id>>:!<<var namespace=growth|key=naics|format=raw>>||based on it's parent classification of <<var namespace=growth|key=naics>>, }}which is <<percent num=emp_carc_2014_2024|den=emp_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=emp_carc_2014_2024|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
@@ -39,10 +39,10 @@ topics:
             position: "2014"
         value: "year"
       y:
-        label: "Industry"
+        label: "Employees"
         value: "emp_thousands"
       y2:
-        label: "National Average"
+        label: "National Workforce"
         value: "y2_emp_thousands"
   - title: "Output Growth"
     slug: "output_growth"
@@ -52,7 +52,7 @@ topics:
         value: "<<var namespace=growth|key=output_carc_2014_2024>>"
       - title: "National Average"
         value: "<<top col=output_carc_2014_2024|year=none|naics=000000>>"
-    description: "This line chart shows the projected growth in output of the <<name>> <<level>>, {{<<id>>:!<<var namespace=growth|key=naics|format=raw>>||based on it's parent classification of <<var namespace=growth|key=naics>>, }}which is <<percent num=output_carc_2014_2024|den=output_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2014_2024|year=none|naics=000000>>."
+    description: "This line chart shows the projected 10-year growth in output of the <<name>> <<level>>, {{<<id>>:!<<var namespace=growth|key=naics|format=raw>>||based on it's parent classification of <<var namespace=growth|key=naics>>, }}which is <<percent num=output_carc_2014_2024|den=output_carc_2014_2024|den_id=000000|year=none|text=highlow>> the national average of <<top col=output_carc_2014_2024|year=none|naics=000000>>."
     viz:
       attrs: "bls_naics"
       data:
@@ -81,14 +81,14 @@ topics:
             position: "2014"
         value: "year"
       y:
-        label: "Industry"
+        label: "Labor Productivity"
         value: "output"
       y2:
         label: "National Average"
         value: "y2_output"
   - title: "Top Changing Occupations"
     slug: "changing_occs"
-    description: "Filtered by the occupations employed in the <<name>> <<level>>, here are the 5 occupations with the largest estimated change in employment across all industries."
+    description: "Filtered by the occupations employed in the <<name>> <<level>>, here are the 5 occupations with the largest estimated 10-year change in employment across all industries."
     viz:
       attrs: "bls_soc"
       data:

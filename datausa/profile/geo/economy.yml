@@ -89,7 +89,7 @@ topics:
     subtitle: "{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| The closest comparable wage GINI for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
     slug: "income_distro"
     description:
-      - "<<var namespace=wagegap|key=geo>> has a wage GINI of <<var namespace=wagegap|key=gini>>.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
+      - "The salary inequality in <<var namespace=wagegap|key=geo>> is <<var namespace=wagegap|key=gini>>, based on the GINI calculation of the wage distribution.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
     stat:
       - title: "Wage GINI"
         value: "<<var namespace=wagegap|key=gini>>"
@@ -187,7 +187,9 @@ topics:
       - title: "Largest demographic living in poverty"
         value: "<<var namespace=sex_age|key=name|row=0>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|key=moe|row=0>>"
-    description: "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population for whom poverty status is determined in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line.{{<<sumlevel>>:!nation|| This is <<percent num=income_below_poverty,pop_poverty_status|den=income_below_poverty,pop_poverty_status|den_id=01000US|text=highlow>> the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>.}}"
+    description:
+      - "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line{{<<sumlevel>>:!nation||, which is <<percent num=income_below_poverty,pop_poverty_status|den=income_below_poverty,pop_poverty_status|den_id=01000US|text=highlow>> the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>.}}{{<<sumlevel>>:nation||.}}"
+      - "The Census Bureau uses a set of <a href='https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-thresholds.html' target='_blank'>money income thresholds</a> that vary by family size and composition to determine who is in poverty. If a family's total income is less than the family's threshold, then that family and every individual in it is considered in poverty."
     viz:
       color: "sex"
       data:

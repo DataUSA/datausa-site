@@ -14,11 +14,11 @@ var attrStyles = {
   "cohort": {
     "AMI": {
         "color": "#f33535",
-        "icon": "thing_medic.png"
+        "icon": "thing_heart.png"
     },
     "CHF": {
         "color": "#ff8166",
-        "icon": "thing_medic.png"
+        "icon": "thing_heart_attack.png"
     },
     "medical": {
         "color": "#82a8e7",
@@ -26,7 +26,7 @@ var attrStyles = {
     },
     "pneumonia": {
         "color": "#ffb563",
-        "icon": "thing_medic.png"
+        "icon": "thing_lungs.png"
     },
     "surgical": {
         "color": "#72f5c4",

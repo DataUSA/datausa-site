@@ -398,6 +398,16 @@
   children: True
   namespace: homicide_rate
 
+- required: ["geo", "adult_smoking"]
+  order: adult_smoking
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: adult_smoking
+
 - required: ["insurance", "hc_pop"]
   order: hc_pop
   sort: desc

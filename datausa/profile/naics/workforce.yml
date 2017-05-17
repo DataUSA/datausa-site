@@ -3,7 +3,28 @@ description: "Here we present a snapshot of jobs, wages, and opportunities in th
 
 topics:
   - category: "Occupations"
-    title: "Most Common"
+    slug: "tmap_top_occs"
+    title: "Occupations by Share"
+    viz:
+      attrs: "soc"
+      color: "soc"
+      data:
+        - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
+          required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+          show: "soc"
+          sumlevel: "3"
+          where: "num_ppl:!0"
+      depth: 4
+      height: 500
+      id:
+        - "great_grandparent"
+        - "grandparent"
+        - "parent"
+        - "soc"
+      size: "num_ppl"
+      type: "tree_map"
+  - title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
     description: "The most common occupations in the <<name>> <<level>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>."
@@ -240,27 +261,6 @@ topics:
           label: "Lowest"
           scale: "discrete"
           value: "soc"
-  - slug: "tmap_top_occs"
-    title: "Occupations by Share"
-    viz:
-      attrs: "soc"
-      color: "soc"
-      data:
-        - naics: "<<id>>"
-          naics_level: "<<sumlevel>>"
-          required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
-          show: "soc"
-          sumlevel: "3"
-          where: "num_ppl:!0"
-      depth: 4
-      height: 500
-      id:
-        - "great_grandparent"
-        - "grandparent"
-        - "parent"
-        - "soc"
-      size: "num_ppl"
-      type: "tree_map"
   - category: "Wages"
     title: "Average Salary"
     slug: "wages"
@@ -407,14 +407,14 @@ topics:
         scale: "discrete"
         value: "wage_bin"
       y: "share"
-  - title: "Locations with RCA"
+  - title: "Spatial Concentration"
     slug: "wage_geo_rca"
     category: "Opportunities"
     description:
       - "This map shows the PUMAs in the United States that have revealed comparative advantage in the <<name>> <<level>>."
       - "These are locations that employ more people in the <<name>> <<level>> than expected given the size of their overall labor pool and the size of <<name>> <<level>> as a whole for the nation."
     stat:
-      - title: "Public Use Microdata Areas with Revealed Comparative Advantage"
+      - title: "Public Use Microdata Areas with RCA"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_rca|key=geo|row=1>>"

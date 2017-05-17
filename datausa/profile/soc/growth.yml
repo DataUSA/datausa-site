@@ -10,7 +10,7 @@ topics:
         value: "<<var namespace=growth|key=pct_change|row=0>>"
       - title: "National Average"
         value: "<<var namespace=growth|key=pct_change|row=1>>"
-    description: "This line chart shows the projected employment until 2022, which is growing <<percent num=var:growth,pct_change,0|den=var:growth,pct_change,1|text=fastslow>> the national average of <<var namespace=growth|key=pct_change|row=1>>."
+    description: "This line chart shows the 10-year projected employment growth for 2024, which is predicted to grow <<percent num=var:growth,pct_change,0|den=var:growth,pct_change,1|text=fastslow>> the national average of <<var namespace=growth|key=pct_change|row=1>>."
     viz:
       attrs: "bls_soc"
       data:

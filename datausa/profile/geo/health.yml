@@ -72,7 +72,7 @@ topics:
       y:
         stacked: True
         value: share
-  - title: "Medicare by Location"
+  - title: "Medicare Enrollment and Reimbursements by Location"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_geo"
     select:
@@ -108,7 +108,7 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Medicare Over Time"
+  - title: "Trends in Medicare Enrollment and Reimbursements"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_time"
     select:
@@ -123,11 +123,14 @@ topics:
         - "home_health_reimbursements_b"
         - "hospice_reimbursements_b"
         - "medical_equip_reimbursements_b"
+    stat:
+      - title: "<span class='select-text'>Medicare Reimbursements per Enrollee</span>"
+        value: "<<var namespace=medicare_time|key=total_reimbursements_b|row=0>>"
     description: "{{<<sumlevel>>:!nation||<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>.}}{{<<sumlevel>>:nation||Here are the <span class='select-text'>Medicare Reimbursements per Enrollee</span> for the top and bottom 2 states by total number of medicare enrollees.}}"
     viz:
       attrs: "geo"
       data:
-        geo: "{{<<sumlevel>>:!nation||<<id>>}}{{<<sumlevel>>:nation||<<parents id_only=True|col=total_medicare_enrollees>>}}"
+        geo: "{{<<sumlevel>>:!nation||01000US,<<id>>}}{{<<sumlevel>>:nation||<<parents id_only=True|col=total_medicare_enrollees>>}}"
         force: dartmouth.yg_reimbursements
         show: "geo"
       height: 400
@@ -136,7 +139,7 @@ topics:
       x: "year"
       y: "total_reimbursements_b"
   - category: "Hospital Care"
-    title: "Common Conditions"
+    title: "Heart Disease and Pneumonia"
     sumlevel: "!nation"
     subtitle: "<<sub show=geo|col=patients_in_cohort>>"
     slug: "conditions"
@@ -198,72 +201,7 @@ topics:
         show: geo
       id: geo
       type: geo_map
-  - title: "Access to Preventative Women’s Health Services"
-    sumlevel: "!nation"
-    slug: "womens_health"
-    stat:
-      - title: "Black Women Enrolled in Medicare Age 67-69"
-        value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_black>>
-      - title: "White Women Enrolled in Medicare Age 67-69"
-        value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
-    description:
-      - "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of white and black medicare enrollees who had mammograms over the past few years."
-      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
-    viz:
-      color: race
-      data:
-        geo: "<<id>>"
-        required: number_of_females_enrolled_67_69_white,number_of_females_enrolled_67_69_black,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
-        show: geo
-        split:
-          id: "race"
-          regex:
-            - "^patients_females_67_69_having_mammogram_([white|black]*)$"
-            - "^number_of_females_enrolled_67_69_([white|black]*)$"
-          value:
-            - "mammogram_tests"
-            - "patients"
-        divide:
-          num: "mammogram_tests"
-          den: "patients"
-          value: "share"
-      height: 400
-      id: race
-      legend:
-        data: false
-      type: line
-      x: year
-      y: share
-  - title: "Women's Health"
-    sumlevel: "nation"
-    slug: "womens_health"
-    select:
-      method: color
-      default: "number_of_females_enrolled_67_69_total"
-      data:
-        - number_of_females_enrolled_67_69_total
-        - patients_females_67_69_having_mammogram_white
-        - patients_females_67_69_having_mammogram_black
-    description:
-      - "When looking at patients across the entire United States, there are <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=0>> <span class='select-text'>Female Medicare Enrolles 65-75 Years Old</span> in <<var namespace=women_state|key=geo|row=0>>, followed by <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=1>> in <<var namespace=women_state|key=geo|row=1>> and <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=2>> in <<var namespace=women_state|key=geo|row=2>>."
-      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
-    stat:
-      - title: "Most Prevalent States"
-        value: "<<var namespace=women_state|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=women_state|key=geo|row=1>>"
-          - "<<var namespace=women_state|key=geo|row=2>>"
-    viz:
-      attrs: geo
-      color: number_of_females_enrolled_67_69_total
-      coords: "states"
-      data:
-        sumlevel: state
-        required: number_of_females_enrolled_67_69_total,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
-        show: geo
-      id: geo
-      type: geo_map
-  - title: "Access to Diabetes Care"
+  - title: "Diabetes Care"
     cart:
       params:
         show: geo
@@ -301,6 +239,71 @@ topics:
       type: bar
       x: test
       y: share
+  - title: "Preventative Women’s Health Services"
+    sumlevel: "!nation"
+    slug: "womens_health"
+    stat:
+      - title: "Black Women Enrolled in Medicare Age 67-69"
+        value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_black>>
+      - title: "White Women Enrolled in Medicare Age 67-69"
+        value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
+    description:
+      - "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of white and black medicare enrollees who had mammograms over the past few years."
+      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
+    viz:
+      color: race
+      data:
+        geo: "<<id>>"
+        required: number_of_females_enrolled_67_69_white,number_of_females_enrolled_67_69_black,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
+        show: geo
+        split:
+          id: "race"
+          regex:
+            - "^patients_females_67_69_having_mammogram_([white|black]*)$"
+            - "^number_of_females_enrolled_67_69_([white|black]*)$"
+          value:
+            - "mammogram_tests"
+            - "patients"
+        divide:
+          num: "mammogram_tests"
+          den: "patients"
+          value: "share"
+      height: 400
+      id: race
+      legend:
+        data: false
+      type: line
+      x: year
+      y: share
+  - title: "Preventative Women’s Health Services"
+    sumlevel: "nation"
+    slug: "womens_health"
+    select:
+      method: color
+      default: "number_of_females_enrolled_67_69_total"
+      data:
+        - number_of_females_enrolled_67_69_total
+        - patients_females_67_69_having_mammogram_white
+        - patients_females_67_69_having_mammogram_black
+    description:
+      - "When looking at patients across the entire United States, there are <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=0>> <span class='select-text'>Female Medicare Enrolles 65-75 Years Old</span> in <<var namespace=women_state|key=geo|row=0>>, followed by <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=1>> in <<var namespace=women_state|key=geo|row=1>> and <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=2>> in <<var namespace=women_state|key=geo|row=2>>."
+      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
+    stat:
+      - title: "Most Prevalent States"
+        value: "<<var namespace=women_state|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=women_state|key=geo|row=1>>"
+          - "<<var namespace=women_state|key=geo|row=2>>"
+    viz:
+      attrs: geo
+      color: number_of_females_enrolled_67_69_total
+      coords: "states"
+      data:
+        sumlevel: state
+        required: number_of_females_enrolled_67_69_total,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
+        show: geo
+      id: geo
+      type: geo_map
   - category: "Health Risks"
     title: "Conditions and Diseases"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
@@ -334,7 +337,39 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Safety & Risky Behaviors"
+  - title: "Risky Behaviors"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
+    slug: "risky"
+    select:
+      method: "color"
+      data:
+        - "adult_smoking"
+        - "excessive_drinking"
+        - "alcoholimpaired_driving_deaths"
+        - "motor_vehicle_crash_deaths"
+      default: "adult_smoking"
+    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Adult Smoking Prevalence</span>."
+    stat:
+      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
+        value: "<<var namespace=adult_smoking|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=adult_smoking|key=geo|row=1>>"
+          - "<<var namespace=adult_smoking|key=geo|row=2>>"
+    viz:
+      attrs: "geo"
+      color: "adult_smoking"
+      coords:
+          solo: "<<children dataset=chr>>"
+          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
+      data:
+        show: "geo"
+        sumlevel: <<sumlevel child=True|dataset=chr>>
+        where: "geo:<<children prefix=True|dataset=chr>>"
+        required: "motor_vehicle_crash_deaths,adult_smoking,excessive_drinking,alcoholimpaired_driving_deaths"
+      height: 400
+      id: "geo"
+      type: "geo_map"
+  - title: "Homicide & Crime"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "crime"
     select:
@@ -342,10 +377,6 @@ topics:
       data:
         - "homicide_rate"
         - "violent_crime"
-        - "adult_smoking"
-        - "excessive_drinking"
-        - "alcoholimpaired_driving_deaths"
-        - "motor_vehicle_crash_deaths"
       default: "homicide_rate"
     description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths per 100,000 people</span>."
     stat:
@@ -364,7 +395,7 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths,adult_smoking,excessive_drinking,alcoholimpaired_driving_deaths"
+        required: "homicide_rate,violent_crime"
       height: 400
       id: "geo"
       type: "geo_map"

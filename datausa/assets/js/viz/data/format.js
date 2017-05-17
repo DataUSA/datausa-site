@@ -9,6 +9,8 @@ viz.format = {
       var key = params.key + "";
       delete params.key;
 
+      if (key.indexOf("y2_") === 0) key = key.slice(3);
+
       if (key === "year") return number;
 
       if (key.indexOf("_moe") > 0) {
@@ -59,6 +61,8 @@ viz.format = {
   "text": function(text, params, build) {
 
     if (!text || text.constructor !== String) return "";
+
+    if (text.indexOf("y2_") === 0) text = text.slice(3);
 
     if (params === void 0) params = {};
 

@@ -90,6 +90,30 @@ topics:
         where: "num_records:>4"
       id: "geo"
       type: "geo_map"
+  - title: "Spatial Concentration"
+    slug: "locations"
+    stat:
+      - title: "Regions with a relatively high concentration of <<name>>"
+        value: "<<var namespace=puma_rca|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=puma_rca|key=geo|row=1>>"
+          - "<<var namespace=puma_rca|key=geo|row=2>>"
+    description: "This map shows the areas in the United States where there are a relatively high population of <<name>>."
+    viz:
+      attrs: "geo"
+      color: "num_ppl_rca"
+      coords: "pumas"
+      data:
+        - soc: "<<id>>"
+          order: "num_ppl_rca"
+          show: "geo"
+          required: "num_ppl_rca,num_ppl,num_ppl_moe"
+          sumlevel: "puma"
+          soc_level: "<<sumlevel>>"
+          where: "num_records:>4"
+      id: "geo"
+      height: 500
+      type: "geo_map"
   - category: "Industries"
     class: "flex"
     title: "Most Common"
@@ -266,27 +290,3 @@ topics:
         - "naics"
       size: "num_ppl"
       type: "tree_map"
-  - title: "Locations"
-    slug: "locations"
-    stat:
-      - title: "Regions with a relatively high concentration of <<name>>"
-        value: "<<var namespace=puma_rca|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=puma_rca|key=geo|row=1>>"
-          - "<<var namespace=puma_rca|key=geo|row=2>>"
-    description: "This map shows the areas in the United States where there are a relatively high population of <<name>>."
-    viz:
-      attrs: "geo"
-      color: "num_ppl_rca"
-      coords: "pumas"
-      data:
-        - soc: "<<id>>"
-          order: "num_ppl_rca"
-          show: "geo"
-          required: "num_ppl_rca,num_ppl,num_ppl_moe"
-          sumlevel: "puma"
-          soc_level: "<<sumlevel>>"
-          where: "num_records:>4"
-      id: "geo"
-      height: 500
-      type: "geo_map"

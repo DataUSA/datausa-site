@@ -40,7 +40,6 @@ topics:
     title: "Global Diversity"
     slug: "global_diversity"
     subtitle: "<<sub dataset=pums>>"
-    stat_stack: YES
     stat:
       - title: "Most common country of origin is"
         value: "<<var namespace=heritage_total|key=birthplace|row=0>>"
@@ -119,7 +118,6 @@ topics:
   - title: "Languages"
     slug: "languages"
     description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are speakers of a non-English language.{{<<sumlevel>>:!nation|| That is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>.}}"
-    stat_stack: YES
     stat:
       - title: "The most common non-English language is"
         value: "<<var namespace=speakers_total|key=language|row=0>>"
