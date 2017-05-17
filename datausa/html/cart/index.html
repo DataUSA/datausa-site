@@ -435,7 +435,7 @@
             var attr = key.split("_")[0];
             var id = data.values[0][attr];
 
-            if (key === attr + "_id") return id;
+            if (key === "year" || key === attr + "_id") return id;
             else if (key === attr + "_name") {
 
               if (attr === "geo" && id.slice(0, 3) === "140") {
