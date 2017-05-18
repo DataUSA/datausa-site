@@ -106,6 +106,7 @@ TEXTCOMPARATORS = {
     "age": ("older than", "younger than", "approximately the same age as"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
+    "growth": ("growing", "shrinking", "staying approximately the same"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same")
@@ -279,7 +280,7 @@ DICTIONARY = {
     "child_mortality": "Child Mortality",
     "food_insecurity": "Food Insecurity",
     "limited_access_to_healthy_foods": "Limited Access to Healthy Foods",
-    "drug_poisoning_deaths": "Drug Overdose Deaths",
+    "drug_overdose_deaths": "Drug Overdose Deaths",
     "uninsured_adults": "Uninsured Adults",
     "uninsured_children": "Uninsured Children",
     "could_not_see_doctor_due_to_cost": "Could Not See Doctor Due to Cost",
@@ -534,7 +535,8 @@ PROPORTIONS = [
     "poor_or_fair_health",
     "low_birthweight",
     "could_not_see_doctor_due_to_cost",
-    "income_below_poverty:pop_poverty_status"
+    "income_below_poverty:pop_poverty_status",
+    "growth"
 ]
 
 PERCENTAGES = [
@@ -569,7 +571,7 @@ PER100000 = [
     "premature_death",
     "premature_ageadjusted_mortality",
     "child_mortality",
-    "drug_poisoning_deaths",
+    "drug_overdose_deaths",
     "injury_deaths"
 ]
 
