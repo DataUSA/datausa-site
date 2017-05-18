@@ -923,6 +923,7 @@ topics:
           value: "naics"
   - class: "flex"
     sumlevel: "!nation,!state"
+    subtitle: "Please note that the ACS 3-year estimates have been discontinued."
     title: "Highest Paying"
     slug: "top_ind_med_earnings"
     description: "The highest paying industries in <<name>>, by median earnings, are <<top show=geo,acs_ind|sumlevel=sumlevel,1|order=med_earnings|sort=desc|limit=3>>."
@@ -946,6 +947,7 @@ topics:
         order:
           sort: "asc"
           value: "med_earnings"
+        timeline: YES
         type: "bar"
         x: "med_earnings"
         y:
@@ -968,6 +970,7 @@ topics:
         order:
           sort: "asc"
           value: "med_earnings"
+        timeline: YES
         type: "bar"
         x: "med_earnings"
         y:
@@ -992,6 +995,7 @@ topics:
         order:
           sort: "asc"
           value: "med_earnings"
+        timeline: YES
         type: "bar"
         x: "med_earnings"
         y:
