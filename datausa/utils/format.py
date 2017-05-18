@@ -56,7 +56,9 @@ def num_format(number, key=None, labels=True, condense=True, suffix=True):
 
     # Moves the decimal point and rounds the new number to specific decimals.
     n = n/10**(3*m)
-    if key and key == "gini":
+    if key and key == "year":
+        n = int(n)
+    elif key and key == "gini":
         n = round(n, 3)
     elif key and "rca" in key:
         n = round(n, 2)

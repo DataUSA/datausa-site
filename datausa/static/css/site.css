@@ -6035,11 +6035,15 @@
           body.map .profile-section .topic .content .viz.geo_map,
           body.story .profile-section .topic .content .viz.geo_map {
             min-height: 500px; }
-            body.profile .profile-section .topic .content .viz .d3plus #XXUSA,
-            body.map .profile-section .topic .content .viz .d3plus #XXUSA,
-            body.story .profile-section .topic .content .viz .d3plus #XXUSA {
-              fill: #bbb !important;
-              stroke: #aaa !important; }
+            body.profile .profile-section .topic .content .viz.tree_map,
+            body.map .profile-section .topic .content .viz.tree_map,
+            body.story .profile-section .topic .content .viz.tree_map {
+              min-height: 500px; }
+              body.profile .profile-section .topic .content .viz .d3plus #XXUSA,
+              body.map .profile-section .topic .content .viz .d3plus #XXUSA,
+              body.story .profile-section .topic .content .viz .d3plus #XXUSA {
+                fill: #bbb !important;
+                stroke: #aaa !important; }
         body.profile .profile-section .topic .content .viz.mini,
         body.map .profile-section .topic .content .viz.mini,
         body.story .profile-section .topic .content .viz.mini {

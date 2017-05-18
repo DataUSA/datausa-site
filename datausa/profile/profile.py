@@ -81,6 +81,32 @@ class Profile(BaseObject):
                 new_list_of_dict.append(d)
         return new_list_of_dict
 
+    def growth(self, **kwargs):
+        key = kwargs.get("key")
+        kwargs["format"] = "raw"
+
+        if "_moe" in key:
+            kwargs["row"] = "0"
+            dx2 = self.var(**kwargs)
+            kwargs["row"] = "1"
+            dx1 = self.var(**kwargs)
+            kwargs["key"] = key[:-4]
+            kwargs["row"] = "0"
+            x2 = self.var(**kwargs)
+            kwargs["row"] = "1"
+            x1 = float(self.var(**kwargs))
+            f1 = (math.pow(-x2 / math.pow(x1, 2), 2) * math.pow(dx1, 2))
+            f2 = (math.pow(1 / x1, 2) * math.pow(dx2, 2))
+            value = math.sqrt(f1 + f2)
+        else:
+            kwargs["row"] = "0"
+            x2 = self.var(**kwargs)
+            kwargs["row"] = "1"
+            x1 = float(self.var(**kwargs))
+            value = (x2 - x1) / x1
+
+        return num_format(value, "growth")
+
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
 
@@ -854,6 +880,7 @@ class Profile(BaseObject):
         row = kwargs.get("row", False)
 
         var_map = self.variables
+
         if var_map:
             if namespace in var_map and var_map[namespace] and formatting == "length":
                 return len(var_map[namespace])
