@@ -459,13 +459,15 @@ body {
 
 }
 
+$cart-offset: 6px;
+
 #d3plus_tooltip_id_cart-tooltip {
   margin-left: -12px;
-  margin-top: -24px;
-  padding-top: 24px;
+  margin-top: -$cart-offset;
+  padding-top: $cart-offset;
 
   .d3plus_tooltip_arrow {
-    @include transform(translate(12px, 24px)rotate(45deg) !important);
+    @include transform(translate($cart-offset/2, $cart-offset)rotate(45deg) !important);
   }
 
   .d3plus_tooltip_container {

@@ -881,12 +881,12 @@
 
   #d3plus_tooltip_id_cart-tooltip {
     margin-left: -12px;
-    margin-top: -24px;
-    padding-top: 24px; }
+    margin-top: -6px;
+    padding-top: 6px; }
     #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_arrow {
-      -webkit-transform: translate(12px, 24px) rotate(45deg) !important;
-      -ms-transform: translate(12px, 24px) rotate(45deg) !important;
-      transform: translate(12px, 24px) rotate(45deg) !important; }
+      -webkit-transform: translate(3px, 6px) rotate(45deg) !important;
+      -ms-transform: translate(3px, 6px) rotate(45deg) !important;
+      transform: translate(3px, 6px) rotate(45deg) !important; }
       #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_container {
         padding: 12px !important; }
         #d3plus_tooltip_id_cart-tooltip .d3plus_tooltip_title {
