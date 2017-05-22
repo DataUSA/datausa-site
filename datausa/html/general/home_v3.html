@@ -30,23 +30,14 @@
 <div class="bg"></div>
 {% endif %}
 
-<div class="home-left">
+<div class="home-full">
 
   <section class="home-desc new">
-    <img class="logo" src="/static/img/home/logo.png" alt="Data USA" />
-  	<h2 class="first-line">The most comprehensive</h2>
-  	<h2 class="second-line">visualization of U.S. public data</h2>
+    <img class="logo" src="/static/img/home/logo-shadow.png" alt="Data USA" />
   </section>
   <section class="search-home-container new">
   	<div class="search-input-btn">
   		<input type="text" data-results="search-home" data-search="home" id="home-search-input" class="search-input" />
-  		<select id="search-type">
-  			<option value="all">All</option>
-  			<option value="geo">Locations</option>
-  			<option value="naics">Industries</option>
-  			<option value="soc">Occupations</option>
-  			<option value="cip">Education</option>
-  		</select>
   		<a href="/search/" id="search-switch" class="adv" onclick="advSearch.toggle();">Search</a>
   	</div>
   	<div id="search-home" class="search-body">
@@ -57,33 +48,9 @@
       <a href="/search/" class="pri-link">Show all results <span class="more"></span></a>
     </section>
   </section>
-
-</div>
-<div class="home-right home-links">
-
-  <div class="tile">
-    <h3>Browse public data by the following slices and share, embed, download, or use the <a href="/cart">data cart</a> to combine multiple datasets:</h3>
-    <ul class="directory-links">
-      <li><a class="directory-link geo" href="/search/?kind=geo"><img src="/static/img/icons/geo_c.svg" />State or City</a></li>
-      <li><a class="directory-link naics" href="/search/?kind=naics"><img src="/static/img/icons/naics_c.svg" />Industry</a></li>
-      <li><a class="directory-link soc" href="/search/?kind=soc"><img src="/static/img/icons/soc_c.svg" />Occupation</a></li>
-      <li><a class="directory-link cip" href="/search/?kind=cip"><img src="/static/img/icons/cip_c.svg" />College Major</a></li>
-    </ul>
-  </div>
-  <div class="tile map">
-    <a href="/map"><h3>Map over 100 Topics, including:</h3></a>
-    <ul class="map-links">
-      <li><a class="map-link" href="/map/?level=state&amp;key=medicare_beneficiaries_total">Medicare</a></li>
-      <li><a class="map-link" href="/map/?level=puma&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe">Poverty</a></li>
-      <li><a class="map-link" href="/map/?level=county&key=unemployment">Unemployment</a></li>
-      <li><a class="map-link" href="/map/?level=county&key=polution_ppm">Pollution</a></li>
-      <li><a class="map-link" href="/map/?level=county&key=children_eligible_for_free_lunch">School Lunch</a></li>
-      <li><a class="map-link" href="/map/?level=state&key=income_inequality">Income Inequality</a></li>
-      <li><a class="map-link" href="/map/?level=county&key=homicide_rate">Homicide</a></li>
-      <li><a class="map-link" href="/map/?level=county&key=population_living_in_a_rural_area">Rural Areas</a></li>
-      <li><a class="map-link" href="/map/?level=county&key=social_associations">Social Groups</a></li>
-    </ul>
-  </div>
+  <section class="home-desc new">
+  	<h2 class="second-line">The best way to search, map,<br />merge, &amp; explore U.S. data.</h2>
+  </section>
 
 </div>
 
@@ -94,12 +61,10 @@
 	<a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/footer/datawheel.png" /></a>
 </div>
 
+<div class="feed-flex">
 {% for carousel in carousels %}
-  <h3 class="carousel-title">{{ carousel.title }}</h3>
-  {% if carousel.source %}
-  <sub class="carousel-sub">Data Source: <a href="{{ carousel.source.link }}" target="_blank">{{ carousel.source.org }}</a></sub>
-  {% endif %}
   <div id="feed" class="carousel">
+    <h3 class="carousel-title">{{ carousel.title }}</h3>
   {% for box in carousel.data %}
   	<a href="{{ box.link }}" class="feed-box {{ box.type.title|lower }} {{ box.type.type|lower }}{% if box.featured %} featured{% endif %}">
   		{% if box.image %}
@@ -110,30 +75,23 @@
   		{% if box.viz %}
   		<div class="feed-box-viz {{ box.viz }}" style="background-image:url('/static/img/viz_type/{{ box.viz }}.svg');"></div>
   		{% endif %}
-  		<div class="feed-box-label">
-  			<div class="feed-box-type">
-  				<img src="{{ box.type.icon }}" />
-  				<span class="feed-box-header">{{ box.type.title }}</span>
-  			</div>
-  		</div>
   		<div class="feed-box-title">{{ box.title }}</div>
   		{% if box.subtitle %}
   		<div class="feed-box-header feed-box-subtitle">{{ box.subtitle }}</div>
   		{% endif %}
-  		<div class="feed-box-header feed-box-link">
-        {% if "story" in box.url %}
-        Read More
-        {% else %}
-        Learn More
-        {% endif %}
-      </div>
   		{% if box.featured and box.type.title != "Profile" %}
   		<div class="feed-box-tag">Featured</div>
   		{% endif %}
   	</a>
   {% endfor %}
+  {% if carousel.footer %}
+  <div class="carousel-footer">
+    <a href="{{ carousel.footer.link }}">{{ carousel.footer.text }}</a>
+  </div>
+  {% endif %}
   </div>
 {% endfor %}
+</div>
 
 {% endblock %}
 

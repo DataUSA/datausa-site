@@ -33,6 +33,7 @@ body.home {
     @include transition(background-color 0.75s);
     position: fixed;
     width: 100%;
+    z-index: 6;
 
     &.filled {
       background-color: $black2;
@@ -49,7 +50,7 @@ body.home {
     overflow: hidden;
     position: fixed;
     top: 0;
-    z-index: 3;
+    z-index: 6;
 
     & > span {
       @include box();
@@ -167,7 +168,14 @@ body.home {
 
   .home-left {
     display: inline-block;
+    padding: 120px 0;
     width: 50%;
+  }
+
+  .home-full {
+    display: block;
+    padding: 100px 0;
+    width: 100%;
   }
 
   .home-logo {
@@ -182,13 +190,13 @@ body.home {
     padding: 120px 0 40px;
 
     &.new {
-      text-align: left;
+      padding: 50px 0 25px;
     }
 
     .logo {
       @include box();
       margin: 0 50px 25px;
-      max-width: 400px;
+      max-width: 350px;
     }
 
     h2 {
@@ -206,10 +214,11 @@ body.home {
       }
 
       &.second-line {
-        font-size: 28px;
+        font-size: 26px;
         font-weight: 600;
         letter-spacing: 0;
-        @include text-shadow(0 0 10px rgba(0,0,0,0.3));
+        line-height: 31px;
+        @include text-shadow(0 0 12px rgba(0,0,0,0.8));
       }
 
     }
@@ -231,8 +240,6 @@ body.home {
     z-index: 5;
 
     &.new {
-      margin: 0;
-      max-width: none;
       padding: 0 50px;
     }
 
@@ -337,7 +344,7 @@ body.home {
       @include box();
       height: 45px;
       width: 100%;
-      padding: 2px 20px 5px 40px;
+      padding: 2px 20px 5px 45px;
       border-radius: 0;
       font-family: $palanquin;
       font-size: 19px;
@@ -438,9 +445,13 @@ body.home {
   .home-links {
     @include box();
     display: inline-block;
-    padding: 100px 50px;
+    padding: 135px 50px 125px 5px;
     text-align: right;
     width: 49%;
+
+    img {
+      width: 100%;
+    }
 
     .tile {
       @include box();
@@ -602,25 +613,10 @@ body.home {
     }
   }
 
-  .carousel-title {
-    color: white;
-    margin: 0 50px;
-  }
-
-  .carousel-sub {
-    color: rgba(255, 255, 255, 0.75);
-    display: block;
-    margin: -8px 50px 0;
-    a {
-      color: white;
-      opacity: 0.75;
-      text-decoration: underline;
-      @include transition(color 0.1s, opacity 0.1s);
-      &:hover {
-        color: $red-w-l;
-        opacity: 1;
-      }
-    }
+  .feed-flex {
+    @include flex();
+    @include flex-wrap();
+    padding: 0 25px;
   }
 
   #feed {
@@ -657,7 +653,7 @@ body.home {
         .feed-box-image {
           @include background-stretch();
           height: 300px;
-          opacity: 0.7;
+          opacity: 0.5;
           // @include filter(blur(0px));
           // @include transform(scale(1));
           @include transition(all 0.7s);
@@ -750,6 +746,7 @@ body.home {
       }
 
       .feed-box-author, .feed-box-subtitle {
+        text-align: center;
         z-index: 1;
       }
 
@@ -783,12 +780,12 @@ body.home {
         font-family: $pathway;
         line-height: 1.3;
         font-weight: 400;
-        font-size: 24px;
+        font-size: 20px;
         letter-spacing: 0.05em;
         line-height: 1;
         max-width: 80%;
         text-transform: uppercase;
-        margin: 0 15px 5px;
+        margin: 0 5px 5px;
         text-align: center;
         z-index: 1;
       }
@@ -960,16 +957,55 @@ body.home {
     }
 
     &.carousel {
-      @include justify(flex-start);
-      @include flex-wrap(nowrap);
-      margin: 10px 25px 25px;
+      @include flex-size(1);
+      display: inline-block;
+      margin: 10px 15px 25px;
+      min-width: 200px;
       overflow-x: scroll;
 
+      .carousel-title {
+        color: white;
+        margin: 0;
+      }
+
+      .carousel-sub {
+        color: rgba(255, 255, 255, 0.75);
+        display: block;
+        height: 25px;
+        margin: -8px 0 0;
+        a {
+          color: white;
+          opacity: 0.75;
+          text-decoration: underline;
+          @include transition(color 0.1s, opacity 0.1s);
+          &:hover {
+            color: $red-w-l;
+            opacity: 1;
+          }
+        }
+      }
+
+      .carousel-footer {
+        text-align: center;
+        width: 100%;
+
+        a {
+          border-bottom: 1px solid transparent;
+          color: white !important;
+          display: inline-block;
+          margin: 0 auto;
+
+          &:hover {
+            border-bottom: 1px solid white;
+          }
+        }
+      }
+
       .feed-box {
-        height: 200px;
-        margin: 15px;
-        min-width: 250px;
-        width: 250px;
+        height: 180px;
+        margin: 15px 0;
+        min-width: auto;
+        width: auto;
         .feed-box-type {
           left: auto;
           text-align: center;

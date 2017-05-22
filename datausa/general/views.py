@@ -82,23 +82,23 @@ def home():
 
     carousels = [
         {
-            "title": "Youngest Counties in America",
-            "url": "/api/?sumlevel=county&required=age&show=geo&year=latest&order=age&sort=asc"
+            "title": "Cities & Places",
+            "url": "/api/?sumlevel=place&required=pop&show=geo&year=latest&order=pop&sort=desc"
         },
         {
-            "title": "Most Popular College Majors",
+            "title": "College Majors",
             "url": "/api/?sumlevel=6&required=grads_total&show=cip&year=latest&order=grads_total&sort=desc"
         },
         {
-            "title": "Highest Paying Industries",
-            "url": "/api/?sumlevel=2&required=avg_wage&show=naics&year=latest&order=avg_wage&sort=desc&num_records:>4"
+            "title": "Industries",
+            "url": "/api/?sumlevel=2&required=num_ppl&show=naics&year=latest&order=num_ppl&sort=desc&num_records:>4"
         },
         {
-            "title": "Occupations with the Highest Part-time Salary",
-            "url": "/api/?sumlevel=3&required=avg_wage_pt&show=soc&year=latest&order=avg_wage_pt&sort=desc&num_records:>4"
+            "title": "Occupations",
+            "url": "/api/?sumlevel=3&required=num_ppl&show=soc&year=latest&order=num_ppl&sort=desc&num_records:>4"
         }
     ]
-    carouselMax = 20
+    carouselMax = 5
 
     sumlevelMap = {
         "nation": "010",
@@ -110,6 +110,13 @@ def home():
         "tract": "140",
         "puma": "795"
     };
+
+    footMap = {
+        "geo": "36,190",
+        "naics": "301",
+        "soc": "525",
+        "cip": "2,319"
+    }
 
     for carousel in carousels:
 
@@ -128,7 +135,7 @@ def home():
             attr = fetch(attr_id, show)
             slug = attr["url_name"] if attr["url_name"] else attr_id
             d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
-            d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
+            # d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
             d["link"] = "/profile/{}/{}".format(show, slug)
             d["image"] = "/search/{}/{}/img".format(show, attr_id)
             d["type"] = {
@@ -140,6 +147,10 @@ def home():
 
         carousel["data"] = data
         carousel["source"] = r["source"]
+        carousel["footer"] = {
+            "link": "/search/?kind={}".format(show),
+            "text": "{} more".format(footMap[show])
+        }
 
     stories = StoryPreview.generate_list()[0]
     for i, story in enumerate(stories):
@@ -158,8 +169,40 @@ def home():
 
     carousels.insert(0, {
         "title": "Latest Stories",
-        "data": stories
+        "data": stories[:carouselMax],
+        "footer": {
+            "link": "/story/",
+            "text": "{} more".format(len(stories) - carouselMax)
+        }
     })
+
+    # topVisited = ["geo/new-york-ny", "cip/110701", "geo/united-states", "soc/291060", "naics/722Z"]
+    # for i, page in enumerate(topVisited):
+    #     show, slug = page.split("/")
+    #     attr = fetch(slug, show)
+    #     attr_id = attr["id"]
+    #     sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
+    #     topVisited[i] = {
+    #         "image": "/search/{}/{}/img".format(show, attr_id),
+    #         "link": "/profile/{}".format(page),
+    #         "title": attr["display_name"] if "display_name" in attr else attr["name"],
+    #         "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
+    #         "type": {
+    #             "icon": "/static/img/icons/{}.svg".format(show),
+    #             "title": SUMLEVELS[show][str(sumlevel)]["label"],
+    #             "type": TYPEMAP[show],
+    #             "depth": "{}".format(sumlevel).replace("_", " ")
+    #         }
+    #     }
+    #
+    # carousels.append({
+    #     "title": "Most Visited Profiles",
+    #     "data": topVisited,
+    #     "footer": {
+    #         "link": "/search/",
+    #         "text": "39,335 more"
+    #     }
+    # })
 
     return render_template("general/home_v3.html", feed=feed, carousels=carousels)
 

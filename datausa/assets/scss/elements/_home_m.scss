@@ -2,9 +2,13 @@ body.home {
 
   @media only screen and (max-width: 1000px) {
 
-    .home-left, .home-right {
+    .home-left {
       display: block;
       width: 100%;
+    }
+
+    .home-right {
+      display: none;
     }
 
   }
