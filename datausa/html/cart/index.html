@@ -13,6 +13,7 @@
 <div id="cart-panel" class="hidden">
   <div id="datasets" class="group">
     <div class="title">Data Cart</div>
+    <div class="toggle" id="year-pivot">Pivot Years</div>
     <div class="headers">
       <div class="name"><span></span> Datasets</div>
       <div class="remove">Remove</div>
@@ -46,6 +47,8 @@
 
 {% block js %}
 <script>
+
+  var yearPivot = false;
 
   var loadStatus = d3.select("#cart-loading-status");
 
@@ -198,13 +201,13 @@
               }
             }
           }
-          // if (ret.headers.indexOf("year") >= 0) {
-          //   headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
-          //     return ret.headers.map(function(h){
-          //       return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
-          //     });
-          //   }));
-          // }
+          if (yearPivot && ret.headers.indexOf("year") >= 0) {
+            headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
+              return ret.headers.map(function(h){
+                return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
+              });
+            }));
+          }
 
           retData = retData.concat(data);
           retHeaders = retHeaders.concat(headers);
@@ -236,6 +239,15 @@
       var iframe = d3.select("#cart-description").select("iframe");
       iframe.attr("src", iframe.attr("data-src"));
     }
+
+    yearPivot = cart.pivotYear === undefined ? yearPivot : cart.pivotYear;
+    d3.select("#year-pivot").classed("active", yearPivot);
+    d3.select("#year-pivot").on("click", function() {
+      cart.pivotYear = !d3.select(this).classed("active");
+      d3.select(this).classed("active", cart.pivotYear);
+      localforage.setItem("cart", cart, updateCart);
+      updateCart();
+    });
 
     if (!cart.datasets.length) return;
 
@@ -273,7 +285,7 @@
           return a.localeCompare(b);
         });
 
-      var availableStickies = rawKeys.filter(function(key) { return sticky.indexOf(key) >= 0; });
+      var availableStickies = rawKeys.filter(function(key) { return sticky.indexOf(key) >= 0 && (!yearPivot || key !== "year"); });
 
       for (var a = 0; a < attr_list.length; a++) {
         var attr = attr_list[a];
@@ -283,7 +295,8 @@
           if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
         }
       }
-      rawKeys = rawKeys.filter(function(k) { return k === "year" || attr_list.indexOf(k) < 0; });
+      rawKeys = rawKeys.filter(function(k) { return attr_list.indexOf(k) < 0; });
+      if (!yearPivot) rawKeys.push("year");
 
       console.log(rawKeys);
 
@@ -354,15 +367,15 @@
               var dat = d.values[i];
 
 
-              // if (dat.year) {
-              //   for (var key in dat) {
-              //     if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
-              //     else if (key !== "year") obj[key] = dat[key];
-              //   }
-              // }
-              // else {
-              for (var key in dat) obj[key] = dat[key];
-              // }
+              if (yearPivot && dat.year) {
+                for (var key in dat) {
+                  if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
+                  else if (key !== "year") obj[key] = dat[key];
+                }
+              }
+              else {
+                for (var key in dat) obj[key] = dat[key];
+              }
 
             }
 

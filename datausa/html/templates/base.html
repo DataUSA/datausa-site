@@ -650,7 +650,8 @@
           if (cartCache === null) {
             cartCache = {
               builds: [],
-              datasets: []
+              datasets: [],
+              pivotYear: false
             };
             localforage.setItem("cart", cartCache);
           }

@@ -8430,6 +8430,7 @@
       #cart-panel .group {
         margin-left: 12px;
         margin-top: 12px;
+        position: relative;
         width: 230px; }
         #cart-panel .group .title {
           color: #141b2e;
@@ -8438,6 +8439,10 @@
           font-weight: bold;
           letter-spacing: 0.6px;
           text-transform: uppercase; }
+          #cart-panel .group #year-pivot {
+            position: absolute;
+            right: 0;
+            top: 0; }
     #cart-panel #datasets .headers {
       color: #949494;
       font-family: "Palanquin", sans-serif;
@@ -8477,6 +8482,30 @@
           #cart-panel #datasets .body .dataset .remove:hover {
             cursor: pointer;
             opacity: 1; }
+    #cart-panel #datasets .toggle {
+      color: #f06145;
+      cursor: pointer;
+      display: block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.55px; }
+      #cart-panel #datasets .toggle:after {
+        background-color: transparent;
+        border: 1px solid #f06145;
+        content: "";
+        display: inline-block;
+        margin: 0 0 -2px 5px;
+        height: 10px;
+        width: 10px;
+        -moz-transition: background-color 0.1s;
+        -o-transition: background-color 0.1s;
+        -webkit-transition: background-color 0.1s;
+        transition: background-color 0.1s; }
+        #cart-panel #datasets .toggle:hover:after {
+          background-color: rgba(240, 97, 69, 0.25); }
+      #cart-panel #datasets .toggle.active:after {
+        background-color: #f06145; }
     #cart-panel #datasets .cart-btn {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;

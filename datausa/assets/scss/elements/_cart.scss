@@ -49,6 +49,7 @@ $cart-sidebar: 260px;
   .group {
     margin-left: 12px;
     margin-top: 12px;
+    position: relative;
     width: 230px;
 
     .title {
@@ -58,6 +59,12 @@ $cart-sidebar: 260px;
       font-weight: bold;
       letter-spacing: 0.6px;
       text-transform: uppercase;
+    }
+
+    #year-pivot {
+      position: absolute;
+      right: 0;
+      top: 0;
     }
 
   }
@@ -117,6 +124,40 @@ $cart-sidebar: 260px;
         }
 
       }
+    }
+
+    .toggle {
+      color: #f06145;
+      cursor: pointer;
+      display: block;
+      font-family: $palanquin;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.55px;
+
+      &:after {
+        background-color: transparent;
+        border: 1px solid #f06145;
+        content: "";
+        display: inline-block;
+        margin: 0 0 -2px 5px;
+        height: 10px;
+        width: 10px;
+        @include transition(background-color 0.1s);
+      }
+
+      &:hover {
+
+        &:after {
+          background-color: rgba(240, 97, 69, 0.25);
+        }
+
+      }
+
+      &.active:after {
+        background-color: #f06145;
+      }
+
     }
 
     .cart-btn {

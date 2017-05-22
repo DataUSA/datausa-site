@@ -8988,6 +8988,9 @@ viz.format = {
       var key = params.key + "";
       delete params.key;
 
+      var yearMatch = key.match(/_(\d{4})$/g);
+      if (yearMatch) key = key.substring(0, key.length - 5);
+
       if (key.indexOf("y2_") === 0) key = key.slice(3);
 
       if (key === "year") return number;
