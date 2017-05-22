@@ -2,6 +2,7 @@ body.home {
   position: relative;
   background-color: $black2;
 
+
   // #menu-btn {
   //   display: none;
   // }
@@ -19,6 +20,7 @@ body.home {
   //   // }
   //
   // }
+
 
   .menu-content > ul > li > a > h2 {
     padding: 0 !important;
@@ -50,7 +52,7 @@ body.home {
     overflow: hidden;
     position: fixed;
     top: 0;
-    z-index: 6;
+    z-index: 4;
 
     & > span {
       @include box();

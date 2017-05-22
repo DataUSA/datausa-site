@@ -2780,7 +2780,7 @@
       overflow: hidden;
       position: fixed;
       top: 0;
-      z-index: 6; }
+      z-index: 4; }
       body.home #title-bar > span {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
