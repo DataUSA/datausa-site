@@ -70,11 +70,11 @@ SUMLEVELS = {
     },
     "soc": {
         "0": {
-            "label": "Major Group",
+            "label": "Major Occupation Group",
             "shortlabel": "major_group"
         },
         "1": {
-            "label": "Minor Group",
+            "label": "Minor Occupation Group",
             "shortlabel": "minor_group"
         },
         "2": {
@@ -88,15 +88,15 @@ SUMLEVELS = {
     },
     "naics": {
         "0": {
-            "label": "Sector",
+            "label": "Industry Sector",
             "shortlabel": "sector"
         },
         "1": {
-            "label": "Sub Sector",
+            "label": "Industry Sub-Sector",
             "shortlabel": "sub_sector"
         },
         "2": {
-            "label": "Group",
+            "label": "Industry Group",
             "shortlabel": "group"
         }
     }
