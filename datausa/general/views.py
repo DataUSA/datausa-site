@@ -8,6 +8,7 @@ from datausa.story.models import StoryPreview
 from datausa.utils.data import attr_cache, datafold, fetch, profile_cache, story_cache
 from datausa.utils.format import num_format
 from pagination import Pagination
+from datausa.map.views import mapdata
 
 from .home import HOMEFEED, TYPEMAP
 
@@ -15,7 +16,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 46
+    g.cache_version = 47
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
     g.colmap = json.dumps(COLMAP)
@@ -89,14 +90,14 @@ def home():
             "title": "College Majors",
             "url": "/api/?sumlevel=6&required=grads_total&show=cip&year=latest&order=grads_total&sort=desc"
         },
-        {
-            "title": "Industries",
-            "url": "/api/?sumlevel=2&required=num_ppl&show=naics&year=latest&order=num_ppl&sort=desc&num_records:>4"
-        },
-        {
-            "title": "Occupations",
-            "url": "/api/?sumlevel=3&required=num_ppl&show=soc&year=latest&order=num_ppl&sort=desc&num_records:>4"
-        }
+        # {
+        #     "title": "Industries",
+        #     "url": "/api/?sumlevel=2&required=num_ppl&show=naics&year=latest&order=num_ppl&sort=desc&num_records:>4"
+        # },
+        # {
+        #     "title": "Occupations",
+        #     "url": "/api/?sumlevel=3&required=num_ppl&show=soc&year=latest&order=num_ppl&sort=desc&num_records:>4"
+        # }
     ]
     carouselMax = 5
 
@@ -136,6 +137,7 @@ def home():
             slug = attr["url_name"] if attr["url_name"] else attr_id
             d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
             # d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
+            d["subtitle"] = SUMLEVELS[show][sumlevel]["label"]
             d["link"] = "/profile/{}/{}".format(show, slug)
             d["image"] = "/search/{}/{}/img".format(show, attr_id)
             d["type"] = {
@@ -145,6 +147,7 @@ def home():
                 "depth": "{}".format(sumlevel).replace("_", " ")
             }
 
+        carousel["icon"] = "/static/img/icons/{}.svg".format(show)
         carousel["data"] = data
         carousel["source"] = r["source"]
         carousel["footer"] = {
@@ -152,27 +155,71 @@ def home():
             "text": "{} more".format(footMap[show])
         }
 
-    stories = StoryPreview.generate_list()[0]
-    for i, story in enumerate(stories):
-        stories[i] = {
-            # "featured": i == 0,
-            "link": "/story/{}".format(story.story_id),
-            "image": story.background_image,
-            "title": story.title,
-            "subtitle": "By {}".format(story.authors[0]["name"]),
+
+
+    naics_soc = ["naics/722Z", "soc/412031", "naics/23", "naics/622", "soc/252020"]
+    for i, page in enumerate(naics_soc):
+        show, slug = page.split("/")
+        attr = fetch(slug, show)
+        attr_id = attr["id"]
+        sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
+        naics_soc[i] = {
+            "image": "/search/{}/{}/img".format(show, attr_id),
+            "link": "/profile/{}".format(page),
+            "title": attr["display_name"] if "display_name" in attr else attr["name"],
+            "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
             "type": {
-                "icon": "/static/img/icons/about.svg",
-                "title": TYPEMAP["story"],
-                "type": "story"
+                "icon": "/static/img/icons/{}.svg".format(show),
+                "title": SUMLEVELS[show][str(sumlevel)]["label"],
+                "type": TYPEMAP[show],
+                "depth": "{}".format(sumlevel).replace("_", " ")
             }
         }
 
-    carousels.insert(0, {
-        "title": "Latest Stories",
-        "data": stories[:carouselMax],
+    carousels.insert(1, {
+        "title": "Industries & Jobs",
+        "icon": "/static/img/icons/naics.svg",
+        "data": naics_soc,
         "footer": {
-            "link": "/story/",
-            "text": "{} more".format(len(stories) - carouselMax)
+            "link": "/search/",
+            "text": "{} more".format((int(footMap["naics"]) + int(footMap["soc"])) - carouselMax)
+        }
+    })
+
+    maps = [
+        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
+        "/map/?level=state&key=high_school_graduation",
+        "/map/?level=county&key=uninsured_children",
+        "/map/?level=county&key=children_in_singleparent_households",
+        "/map/?level=state&key=violent_crime"
+    ]
+    for i, link in enumerate(maps):
+        level = re.findall(r"level=([^&,]+)", link)[0]
+        key = re.findall(r"key=([^&,]+)", link)[0]
+        sumlevel = SUMLEVELS["geo"][sumlevelMap[level]]["label"]
+        maps[i] = {
+            # "featured": i == 0,
+            "link": link,
+            "image": "/static/img/home/maps/{}.png".format(key.split(":")[0]),
+            "title": "{} by {}".format(DICTIONARY[key], sumlevel),
+            "type": {
+                "icon": "/static/img/icons/map.svg",
+                "title": sumlevel,
+                "type": "map"
+            }
+        }
+
+    mapTotal = 0
+    for section in mapdata:
+        mapTotal = mapTotal + len(mapdata[section])
+
+    carousels.append({
+        "title": "Maps",
+        "icon": "/static/img/icons/demographics.svg",
+        "data": maps,
+        "footer": {
+            "link": "/map",
+            "text": "{} more".format(mapTotal - carouselMax)
         }
     })
 
@@ -203,6 +250,31 @@ def home():
     #         "text": "39,335 more"
     #     }
     # })
+
+    stories = StoryPreview.generate_list()[0]
+    for i, story in enumerate(stories):
+        stories[i] = {
+            # "featured": i == 0,
+            "link": "/story/{}".format(story.story_id),
+            "image": story.background_image,
+            "title": story.title,
+            "subtitle": "By {}".format(story.authors[0]["name"]),
+            "type": {
+                "icon": "/static/img/icons/about.svg",
+                "title": TYPEMAP["story"],
+                "type": "story"
+            }
+        }
+
+    carousels.append({
+        "title": "Latest Stories",
+        "icon": "/static/img/icons/about.svg",
+        "data": stories[:carouselMax],
+        "footer": {
+            "link": "/story/",
+            "text": "{} more".format(len(stories) - carouselMax)
+        }
+    })
 
     return render_template("general/home_v3.html", feed=feed, carousels=carousels)
 

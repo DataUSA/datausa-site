@@ -34,6 +34,7 @@
 
   <section class="home-desc new">
     <img class="logo" src="/static/img/home/logo-shadow.png" alt="Data USA" />
+  	<h2 class="tagline">The best way to <a href="/search">search</a>, <a href="/map">map</a>,<br /><a href="/cart">merge</a>, and <a href="/profile/geo/united-states">explore</a> U.S. data</h2>
   </section>
   <section class="search-home-container new">
   	<div class="search-input-btn">
@@ -48,9 +49,6 @@
       <a href="/search/" class="pri-link">Show all results <span class="more"></span></a>
     </section>
   </section>
-  <section class="home-desc new">
-  	<h2 class="second-line">The best way to search, map,<br />merge, &amp; explore U.S. data.</h2>
-  </section>
 
 </div>
 
@@ -64,7 +62,12 @@
 <div class="feed-flex">
 {% for carousel in carousels %}
   <div id="feed" class="carousel">
-    <h3 class="carousel-title">{{ carousel.title }}</h3>
+    <h3 class="carousel-title">
+  		{% if carousel.icon %}
+  		<img class="icon" src="{{ carousel.icon }}" />
+  		{% endif %}
+      {{ carousel.title }}
+    </h3>
   {% for box in carousel.data %}
   	<a href="{{ box.link }}" class="feed-box {{ box.type.title|lower }} {{ box.type.type|lower }}{% if box.featured %} featured{% endif %}">
   		{% if box.image %}

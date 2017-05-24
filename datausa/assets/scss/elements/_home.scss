@@ -178,14 +178,14 @@ body.home {
 
   .home-full {
     display: block;
-    padding: 100px 0;
+    padding: 50px 0;
     width: 100%;
   }
 
   .home-logo {
     width: 90%;
     text-align: center;
-    margin: 16vh auto 5vh;
+    margin: 0 auto;
   }
 
   .home-desc {
@@ -194,13 +194,13 @@ body.home {
     padding: 120px 0 40px;
 
     &.new {
-      padding: 50px 0 25px;
+      padding: 25px 0 25px;
     }
 
     .logo {
       @include box();
-      margin: 0 50px 25px;
-      max-width: 350px;
+      margin: 0 50px;
+      max-width: 400px;
     }
 
     h2 {
@@ -223,6 +223,26 @@ body.home {
         letter-spacing: 0;
         line-height: 31px;
         @include text-shadow(0 0 12px rgba(0,0,0,0.8));
+      }
+
+      &.tagline {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 31px;
+        @include text-shadow(0 0 12px rgba(0,0,0,0.8));
+
+        a {
+          color: white;
+          font-weight: 800;
+          text-decoration: underline;
+
+          &:hover {
+            // border-bottom: 2px solid white;
+          }
+
+        }
+
       }
 
     }
@@ -605,6 +625,7 @@ body.home {
       font-size: 11px;
       letter-spacing: 0.05em;
       text-transform: uppercase;
+      @include text-shadow(0 0 6px rgba(0,0,0,0.8));
     }
 
     img {
@@ -970,6 +991,11 @@ body.home {
       .carousel-title {
         color: white;
         margin: 0;
+        .icon {
+          margin-bottom: 3px;
+          width: 20px;
+          vertical-align: middle;
+        }
       }
 
       .carousel-sub {
@@ -1014,6 +1040,9 @@ body.home {
           left: auto;
           text-align: center;
           width: auto;
+        }
+        .feed-box-image {
+          height: 200px;
         }
       }
     }

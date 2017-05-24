@@ -2882,24 +2882,24 @@
       width: 50%; }
       body.home .home-full {
         display: block;
-        padding: 100px 0;
+        padding: 50px 0;
         width: 100%; }
         body.home .home-logo {
           width: 90%;
           text-align: center;
-          margin: 16vh auto 5vh; }
+          margin: 0 auto; }
           body.home .home-desc {
             color: white;
             text-align: center;
             padding: 120px 0 40px; }
             body.home .home-desc.new {
-              padding: 50px 0 25px; }
+              padding: 25px 0 25px; }
               body.home .home-desc .logo {
                 -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
                 box-sizing: border-box;
-                margin: 0 50px 25px;
-                max-width: 350px; }
+                margin: 0 50px;
+                max-width: 400px; }
                 body.home .home-desc .logo:before, body.home .home-desc .logo:after {
                   -webkit-box-sizing: border-box;
                   -moz-box-sizing: border-box;
@@ -2931,6 +2931,18 @@
                     -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
                     -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
                     text-shadow: 0 0 12px rgba(0, 0, 0, 0.8); }
+                    body.home .home-desc h2.tagline {
+                      font-size: 26px;
+                      font-weight: 600;
+                      letter-spacing: 0;
+                      line-height: 31px;
+                      -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+                      -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+                      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8); }
+                      body.home .home-desc h2.tagline a {
+                        color: white;
+                        font-weight: 800;
+                        text-decoration: underline; }
     body.home .search-home-container {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -3328,7 +3340,10 @@
         font-family: "Palanquin", sans-serif;
         font-size: 11px;
         letter-spacing: 0.05em;
-        text-transform: uppercase; }
+        text-transform: uppercase;
+        -webkit-text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+        -moz-text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+        text-shadow: 0 0 6px rgba(0, 0, 0, 0.8); }
         body.home .home-collab img {
           height: 25px;
           margin: 15px 20px; }
@@ -3677,22 +3692,26 @@
           body.home #feed.carousel .carousel-title {
             color: white;
             margin: 0; }
-            body.home #feed.carousel .carousel-sub {
-              color: rgba(255, 255, 255, 0.75);
-              display: block;
-              height: 25px;
-              margin: -8px 0 0; }
-              body.home #feed.carousel .carousel-sub a {
-                color: white;
-                opacity: 0.75;
-                text-decoration: underline;
-                -moz-transition: color 0.1s, opacity 0.1s;
-                -o-transition: color 0.1s, opacity 0.1s;
-                -webkit-transition: color 0.1s, opacity 0.1s;
-                transition: color 0.1s, opacity 0.1s; }
-                body.home #feed.carousel .carousel-sub a:hover {
-                  color: #F3837B;
-                  opacity: 1; }
+            body.home #feed.carousel .carousel-title .icon {
+              margin-bottom: 3px;
+              width: 20px;
+              vertical-align: middle; }
+          body.home #feed.carousel .carousel-sub {
+            color: rgba(255, 255, 255, 0.75);
+            display: block;
+            height: 25px;
+            margin: -8px 0 0; }
+            body.home #feed.carousel .carousel-sub a {
+              color: white;
+              opacity: 0.75;
+              text-decoration: underline;
+              -moz-transition: color 0.1s, opacity 0.1s;
+              -o-transition: color 0.1s, opacity 0.1s;
+              -webkit-transition: color 0.1s, opacity 0.1s;
+              transition: color 0.1s, opacity 0.1s; }
+              body.home #feed.carousel .carousel-sub a:hover {
+                color: #F3837B;
+                opacity: 1; }
           body.home #feed.carousel .carousel-footer {
             text-align: center;
             width: 100%; }
@@ -3712,6 +3731,8 @@
               left: auto;
               text-align: center;
               width: auto; }
+              body.home #feed.carousel .feed-box .feed-box-image {
+                height: 200px; }
 
   @media only screen and (max-width: 1000px) {
     body.home .home-left {
