@@ -163,6 +163,7 @@ def map():
     sections = ["wages", "insurance", "care", "risks", "demographics", "education", "housing"]
     sumlevels = ["state", "county", "msa", "puma"]
     keys = []
+    formattedData = {}
     for section in mapdata:
         if section in sections:
             keyDepths = {}
@@ -172,10 +173,10 @@ def map():
                 if key == defaultKey:
                     defaultSection = section
                 keyDepths[key] = datalevels[dataset]
-            mapdata[section] = keyDepths
+            formattedData[section] = keyDepths
     keys = sorted(keys, key=lambda x: DICTIONARY[x.split(",")[0]])
     defaultKey = defaultKey.split(",")[0]
     title = "{} by {}".format(DICTIONARY[defaultKey.split(":")[0]], DICTIONARY[defaultLevel])
 
-    return render_template("map/index.html", title=title, mapdata=mapdata, datasets=sections, keys=keys, sumlevels=sumlevels,
+    return render_template("map/index.html", title=title, mapdata=formattedData, datasets=sections, keys=keys, sumlevels=sumlevels,
                                              defaultKey=defaultKey, defaultLevel=defaultLevel, defaultDataset=defaultSection)
