@@ -10152,18 +10152,66 @@ viz.mapDraw = function(vars) {
         ];
       }
 
-      for (var attr in attrStyles) {
-        var match = false;
-        for (var key in attrStyles[attr]) {
-          var re = new RegExp("_" + key + "$", "g");
-          if (vars.color.value.match(re)) {
-            match = attrStyles[attr][key].color;
+      var badIndicators = [
+        "income_below_poverty:pop_poverty_status",
+        "unemployment",
+        "children_in_poverty",
+
+        "uninsured",
+        "uninsured_adults",
+        "uninsured_children",
+        "could_not_see_doctor_due_to_cost",
+
+        "adult_obesity",
+        "diabetes",
+        "sexually_transmitted_infections",
+        "hiv_prevalence_rate",
+        "alcoholimpaired_driving_deaths",
+        "excessive_drinking",
+        "adult_smoking",
+        "homicide_rate",
+        "violent_crime",
+        "motor_vehicle_crash_deaths",
+
+        "premature_death",
+        "poor_or_fair_health",
+        "poor_physical_health_days",
+        "poor_mental_health_days",
+        "low_birthweight",
+        "food_environment_index",
+        "physical_inactivity",
+        "access_to_exercise_opportunities",
+        "teen_births",
+        "social_associations",
+        "injury_deaths",
+        "polution_ppm",
+        "drinking_water_violations",
+        "premature_ageadjusted_mortality",
+        "infant_mortality",
+        "child_mortality",
+        "food_insecurity",
+        "limited_access_to_healthy_foods",
+        "drug_overdose_deaths",
+        "children_eligible_for_free_lunch",
+
+        "severe_housing_problems"
+      ];
+
+      if (badIndicators.indexOf(vars.color.value) >= 0) color_range = makeColorArray("#CA3434");
+      else {
+        for (var attr in attrStyles) {
+          var match = false;
+          for (var key in attrStyles[attr]) {
+            var re = new RegExp("_" + key + "$", "g");
+            if (vars.color.value.match(re)) {
+              match = attrStyles[attr][key].color;
+              break;
+            }
+          }
+          if (match) {
+            color_range = makeColorArray(match);
             break;
           }
-        }
-        if (match) {
-          color_range = makeColorArray(match);
-          break;
         }
       }
 
