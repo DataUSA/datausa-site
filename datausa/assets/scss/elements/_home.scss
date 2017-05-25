@@ -112,16 +112,18 @@ body.home {
 
   /* background styles */
 
-  $image-height: 1000px;
+  // $image-height: 1000px;
+  $image-height: 700px;
 
   .bg {
     position: absolute;
     top: 0;
     width: 100%;
     height: $image-height;
-    background-image: url('/static/img/home/bg/7alt.jpg');
+    // background-image: url('/static/img/home/bg/yosemite.jpg');
+    background-image: url('/static/img/home/bg/utah.jpg');
     background-repeat: no-repeat;
-    background-position:  50% 0%;
+    background-position: 50% 50%;
     background-size: cover;
     overflow: hidden;
     z-index: -11;
@@ -135,9 +137,9 @@ body.home {
       left: 0;
       z-index: -1;
       @include gradient(top, (
-        0%: rgba(0,0,0,0.15),
-        25%: rgba(0,0,0,0.15),
-        55%: rgba(20, 27, 46, 0.5),
+        0%: rgba(0, 0, 0, 0.1),
+        5%: rgba(0, 0, 0, 0),
+        45%: rgba(0, 0, 0, 0),
         100%: $black2
       ));
     }
@@ -383,7 +385,7 @@ body.home {
       background-position: 10px 10px;
       background-size: 25px 25px;
       color: $home-blue;
-      @include placeholder {color: $home-blue; opacity: 0.8;}
+      @include placeholder {color: $home-blue; opacity: 0.3;}
 
       &:focus {
         outline: 0;
@@ -990,9 +992,12 @@ body.home {
 
       .carousel-title {
         color: white;
+        font-size: 22px;
+        font-weight: 600;
         margin: 0;
         .icon {
           margin-bottom: 3px;
+          margin-right: 2px;
           width: 20px;
           vertical-align: middle;
         }
