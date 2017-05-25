@@ -5459,6 +5459,9 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
           for (var i = 0; i < unfilteredData.length; i++) {
             var dataURL = unfilteredData[i].url.replace(/\?limit=[0-9]+&/gi, "?").replace(/&limit=[0-9]+/gi, "")
+            var show = dataURL.match(/show=([a-z,]+)/);
+            if (show) show = show[1].split(",");
+            else show = [];
             load(dataURL, function(data, url, return_data){
               headers = headers.concat(return_data.headers);
               dataArray = dataArray.concat(data);
@@ -5473,7 +5476,26 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                   })
                   tblData.push(newArr);
                 })
-                // console.log(headers, tblData);
+
+                var yearIndex = headers.indexOf("year");
+                show = show
+                  .filter(function(s) { return headers.indexOf(s) >= 0; })
+                  .map(function(s) { return headers.indexOf(s); });
+                if (yearIndex >= 0) {
+                  tblData.sort(function(a, b) {
+                    var yearDiff = b[yearIndex] - a[yearIndex];
+                    if (yearDiff) return yearDiff;
+                    var diff = 0;
+                    for (var i = 0; i < show.length; i++) {
+                      var s = show[i];
+                      var aV = a[s], bV = b[s];
+                      if (!aV || !bV) continue;
+                      diff = typeof aV === "number" ? aV - bV : aV.localeCompare(bV);
+                      if (diff) break;
+                    }
+                    return diff;
+                  });
+                }
 
                 /*
                  *  Table Headers
