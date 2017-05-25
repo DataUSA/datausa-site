@@ -41,6 +41,13 @@ $map-sidebar: 250px;
   width: $map-sidebar + 1;
   visibility: hidden;
 
+  .d3plus_title {
+    display: block !important;
+    margin-bottom: -5px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+
   #d3plus_drop_map-keys {
     margin: 1px 5px 5px !important;
   }

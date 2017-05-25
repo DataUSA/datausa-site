@@ -12,11 +12,13 @@
 <h2 class="embed-title hidden">Map Title</h2>
 <div id="map-controls">
   <div id="map-filters">
+    <div class="d3plus_title">Topics</div>
     <select id="map-datasets">
       {% for db in datasets %}
       <option value="{{ db }}"{% if db == defaultDataset %} selected{% endif %}>{{ db|format }}</option>
       {% endfor %}
     </select>
+    <div id="indicator-title" class="d3plus_title">Indicators</div>
     <select id="map-keys">
       {% for key in keys %}
       <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
@@ -71,6 +73,9 @@
 
   var mapdata = JSON.parse("{{ mapdata|safe }}".replace(/'/g, '"'));
 
+  var indicatorTitle = d3.select("#indicator-title");
+  indicatorTitle.html(dataset.replace(/s+$/, "") + " Indicators")
+
   var levels = d3plus.form()
     .data("#map-sumlevels")
     .search(false)
@@ -120,6 +125,7 @@
     .focus(dataset, function(d, viz){
       dataset = d;
       var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
+      indicatorTitle.html(d.replace(/s+$/, "") + " Indicators")
       if (!mapdata[d][keys.focus()]) {
         keys.focus(d3.keys(mapdata[d])[0]);
       }

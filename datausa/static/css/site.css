@@ -6970,12 +6970,17 @@
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
-      #map-controls #d3plus_drop_map-keys {
-        margin: 1px 5px 5px !important; }
-        #map-controls #d3plus_toggle_map-sumlevels {
-          text-align: center; }
-          #map-controls #d3plus_toggle_map-sumlevels .d3plus_toggle .d3plus_node {
-            margin: 0 6px !important; }
+      #map-controls .d3plus_title {
+        display: block !important;
+        margin-bottom: -5px;
+        margin-left: 5px;
+        margin-top: 5px; }
+        #map-controls #d3plus_drop_map-keys {
+          margin: 1px 5px 5px !important; }
+          #map-controls #d3plus_toggle_map-sumlevels {
+            text-align: center; }
+            #map-controls #d3plus_toggle_map-sumlevels .d3plus_toggle .d3plus_node {
+              margin: 0 6px !important; }
     #map-controls #map-tooltip {
       overflow-y: scroll;
       position: relative; }
