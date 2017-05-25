@@ -68,15 +68,16 @@ window.onload = function() {
 
     var q = this.value.toLowerCase();
 
-    if(this.id == "nav-search-input"){
-      if(q === "") {
-        // d3.select("#search-simple-nav").style("display", "none")
-        d3.select("#search-simple-nav").classed("open", false)
+    var results = this.id === "home-search-input" ? "search-home"
+                : this.id === "nav-search-input" ? "search-simple-nav" : false;
+
+    if (results) {
+      if (q === "") {
+        d3.select("#" + results).classed("open", false)
         return;
       }
       else {
-        // d3.select("#search-simple-nav").style("display", "block")
-        d3.select("#search-simple-nav").classed("open", true)
+        d3.select("#" + results).classed("open", true)
       }
     }
 

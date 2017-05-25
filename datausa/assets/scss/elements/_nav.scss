@@ -581,13 +581,19 @@ $cart-offset: 6px;
   right: 0;
   top: 0;
   padding: 9px 10px 15px 15px;
-  opacity: 0.9;
-  @include transition(opacity 1s);
   z-index: 5;
 
+  .search-i {
+    opacity: 0.9;
+  }
+
   &:hover {
-    opacity: 1;
     cursor: pointer;
+
+    .search-i {
+      opacity: 1;
+    }
+
   }
 
   @media only screen and (min-width : 481px) {
@@ -647,7 +653,7 @@ $cart-offset: 6px;
       border: 0;
       padding: 3px 10px 2px 31px;
       outline: 0;
-      opacity: 0.5;
+      opacity: 1;
       background-color: $black3;
       font-family: $palanquin;
       font-size: 13px;

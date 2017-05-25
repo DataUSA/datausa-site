@@ -184,9 +184,11 @@ d3.select("#menu-btn").on(d3plus.client.pointer.click, function(){
 });
 
 d3.selectAll("#search-btn, #home-search-input").on("click", function(){
-  if(d3.event){
+
+  if (d3.event) {
     d3.event.stopPropagation();
   }
+
   d3.select("#search-compare-modal").classed("open", false);
   var _this = this === window ? d3.select("#home-search-input").node() : this;
   var is_home = this.id === "home-search-input";
@@ -196,6 +198,7 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
 
   // open search box if not home page
   if(!d3.select("body").classed("home")){
+
     search.data = false;
     d3.select(".search-box").classed("open", !d3.select(".search-box").classed("open"));
 
@@ -218,11 +221,11 @@ d3.selectAll("#search-btn, #home-search-input").on("click", function(){
   search.click = false;
   search.filterID = false;
   search.type = "";
-  search.max = 10;
-  if(search_input.property("value") !== "" || is_home){
+  search.max = 20;
+  if(search_input.property("value") !== ""){
     search.container = d3.select("#search-" + search_input.attr("data-search"));
     search.term = search_input.property("value");
-    search.reload();
+    if (!is_home) search.reload();
   }
   else {
     results_div.classed("open", false);

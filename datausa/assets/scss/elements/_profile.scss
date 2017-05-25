@@ -50,7 +50,7 @@ body.profile {
 
   nav {
     #top-nav #search-btn #nav-search-input {
-      background-color: rgba(67,73,88,0.25);
+      background-color: rgb(67, 73, 88);
       border: 2px solid #fff;
       @include box();
       @include placeholder {color: #fff; font-weight: 700;}

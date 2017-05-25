@@ -79,7 +79,7 @@ var search = {
   },
   "data": true,
   "depth": null,
-  "max": 10,
+  "max": 20,
   "nesting": {
     "cip": [0, 1, 2],
     "naics": [0, 1, 2],
@@ -113,7 +113,7 @@ search.reload = function() {
                   }, "?")
 
   // set URL query parameter to search query
-  if(this.advanced){
+  if (this.advanced) {
     window.history.replaceState({}, "", "/search/"+q_params);
   }
   else {
@@ -133,7 +133,7 @@ search.reload = function() {
 
     this.zip = raw.zip_search;
 
-    d3.select(".search-suggestions").style("display", "inline-block").text('');
+    d3.select(".search-suggestions").style("display", "inline-block").text("");
 
     if(this.advanced){
       this.max = null;
@@ -470,9 +470,9 @@ search.open_details = function(d){
 
   // toggle xtra div
   var search_item = d3.select(this.parentNode.parentNode);
-  var current_state = search_item.classed("open")
-  d3.selectAll(".search-item").classed("open", false)
-  search_item.classed("open", !current_state)
+  var current_state = search_item.classed("open");
+  d3.selectAll(".search-item").classed("open", false);
+  search_item.classed("open", !current_state);
 
   // set parents
   var p_container = search_item.select(".xtra .parents");

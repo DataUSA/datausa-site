@@ -5910,15 +5910,16 @@ window.onload = function() {
 
     var q = this.value.toLowerCase();
 
-    if(this.id == "nav-search-input"){
-      if(q === "") {
-        // d3.select("#search-simple-nav").style("display", "none")
-        d3.select("#search-simple-nav").classed("open", false)
+    var results = this.id === "home-search-input" ? "search-home"
+                : this.id === "nav-search-input" ? "search-simple-nav" : false;
+
+    if (results) {
+      if (q === "") {
+        d3.select("#" + results).classed("open", false)
         return;
       }
       else {
-        // d3.select("#search-simple-nav").style("display", "block")
-        d3.select("#search-simple-nav").classed("open", true)
+        d3.select("#" + results).classed("open", true)
       }
     }
 
@@ -6526,7 +6527,7 @@ var search = {
   },
   "data": true,
   "depth": null,
-  "max": 10,
+  "max": 20,
   "nesting": {
     "cip": [0, 1, 2],
     "naics": [0, 1, 2],
@@ -6560,7 +6561,7 @@ search.reload = function() {
                   }, "?")
 
   // set URL query parameter to search query
-  if(this.advanced){
+  if (this.advanced) {
     window.history.replaceState({}, "", "/search/"+q_params);
   }
   else {
@@ -6580,7 +6581,7 @@ search.reload = function() {
 
     this.zip = raw.zip_search;
 
-    d3.select(".search-suggestions").style("display", "inline-block").text('');
+    d3.select(".search-suggestions").style("display", "inline-block").text("");
 
     if(this.advanced){
       this.max = null;
@@ -6917,9 +6918,9 @@ search.open_details = function(d){
 
   // toggle xtra div
   var search_item = d3.select(this.parentNode.parentNode);
-  var current_state = search_item.classed("open")
-  d3.selectAll(".search-item").classed("open", false)
-  search_item.classed("open", !current_state)
+  var current_state = search_item.classed("open");
+  d3.selectAll(".search-item").classed("open", false);
+  search_item.classed("open", !current_state);
 
   // set parents
   var p_container = search_item.select(".xtra .parents");
