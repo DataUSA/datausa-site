@@ -260,7 +260,7 @@ DICTIONARY = {
     "food_environment_index": "Food Environment Index",
     "physical_inactivity": "Physical Inactivity",
     "access_to_exercise_opportunities": "Access to Exercise Opportunities",
-    "teen_births": "Teen Births",
+    "teen_births": "Teen Births (Age 15-19)",
     "uninsured": "Uninsured",
     "preventable_hospital_stays": "Preventable Hospital Stays",
     "diabetic_screening": "Diabetic Monitoring",
