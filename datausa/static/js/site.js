@@ -5448,10 +5448,10 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
               return "N/A";
             }
             else if (v.constructor === Number) {
-              return numFormat(v, {"key": key});
+              return numFormat(v, {"key": key}, build);
             }
             else {
-              return textFormat(v, {"key": key});
+              return textFormat(v, {"key": key}, build);
             }
           }
 
