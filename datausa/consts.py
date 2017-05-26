@@ -275,7 +275,7 @@ DICTIONARY = {
     "drinking_water_violations": "Drinking Water Violations",
     "severe_housing_problems": "Severe Housing Problems",
     "population_living_in_a_rural_area": "Rural Population",
-    "premature_ageadjusted_mortality": "Years of Potential Life Lost (Age-Adjusted)",
+    "premature_ageadjusted_mortality": "Premature Age-Adjusted Mortality",
     "infant_mortality": "Infant Mortality",
     "child_mortality": "Child Mortality",
     "food_insecurity": "Food Insecurity",
