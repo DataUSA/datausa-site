@@ -2915,16 +2915,28 @@
                 box-sizing: border-box; }
                 body.home .home-desc h2.tagline {
                   font-size: 26px;
-                  font-weight: 600;
+                  font-weight: 800;
                   letter-spacing: 0;
                   line-height: 31px;
+                  margin: 10px auto 0;
                   -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
                   -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
                   text-shadow: 0 0 12px rgba(0, 0, 0, 0.8); }
                   body.home .home-desc h2.tagline a {
+                    border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+                    -webkit-box-shadow: 0 4px 6px -6px #222;
+                    -moz-box-shadow: 0 4px 6px -6px #222;
+                    box-shadow: 0 4px 6px -6px #222;
                     color: white;
+                    display: inline-block;
                     font-weight: 800;
-                    text-decoration: underline; }
+                    margin: 0 2px;
+                    -moz-transition: border-color 0.2s;
+                    -o-transition: border-color 0.2s;
+                    -webkit-transition: border-color 0.2s;
+                    transition: border-color 0.2s; }
+                    body.home .home-desc h2.tagline a:hover {
+                      border-color: white; }
     body.home .search-home-container {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;

@@ -213,18 +213,23 @@ body.home {
 
       &.tagline {
         font-size: 26px;
-        font-weight: 600;
+        font-weight: 800;
         letter-spacing: 0;
         line-height: 31px;
+        margin: 10px auto 0;
         @include text-shadow(0 0 12px rgba(0, 0, 0, 0.8));
 
         a {
+          border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+          @include shadow(0 4px 6px -6px #222);
           color: white;
+          display: inline-block;
           font-weight: 800;
-          text-decoration: underline;
+          margin: 0 2px;
+          @include transition(border-color 0.2s);
 
           &:hover {
-            // border-bottom: 2px solid white;
+            border-color: white;
           }
 
         }
