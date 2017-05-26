@@ -3192,7 +3192,7 @@
         -moz-text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
         text-shadow: 0 0 6px rgba(0, 0, 0, 0.8); }
         body.home .home-collab img {
-          height: 54px;
+          height: 64px;
           margin: 0; }
           body.home .home-collab img:hover {
             cursor: pointer; }
@@ -3272,7 +3272,7 @@
               background-size: cover;
               bottom: 0;
               height: 150px;
-              left: 0;
+              left: -1%;
               opacity: 0.5;
               position: absolute;
               -moz-transition: all 0.7s;
@@ -3280,7 +3280,7 @@
               -webkit-transition: all 0.7s;
               transition: all 0.7s;
               top: 0;
-              width: 100%; }
+              width: 102%; }
               body.home #feed .feed-box .feed-box-contents .feed-box-title {
                 font-family: "Pathway Gothic One", sans-serif;
                 font-weight: 400;
@@ -3310,19 +3310,19 @@
                   text-transform: uppercase; }
           body.home #feed .feed-box .feed-box-tag {
             background-color: #ef6145;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 12px;
+            font-weight: 800;
+            left: 0px;
             letter-spacing: 1px;
-            line-height: 19px;
-            padding: 5px 35px;
+            opacity: 0.75;
+            padding: 0px 10px 2px;
             position: absolute;
-            right: -10px;
             text-transform: uppercase;
-            top: 20px;
-            -moz-transition: all 0.25s;
-            -o-transition: all 0.25s;
-            -webkit-transition: all 0.25s;
-            transition: all 0.25s; }
+            -moz-transition: opacity 0.7s;
+            -o-transition: opacity 0.7s;
+            -webkit-transition: opacity 0.7s;
+            transition: opacity 0.7s;
+            top: 5px; }
             body.home #feed .feed-box:hover, body.home #feed .feed-box:focus,
             body.home #feed .feed-box:active {
               border: 1px solid #D7E8EF;
@@ -3339,6 +3339,10 @@
                   -webkit-transform: scale(0.9);
                   -ms-transform: scale(0.9);
                   transform: scale(0.9); }
+              body.home #feed .feed-box:hover .feed-box-tag,
+              body.home #feed .feed-box:focus .feed-box-tag,
+              body.home #feed .feed-box:active .feed-box-tag {
+                opacity: 1; }
         body.home #feed.carousel {
           -webkit-box-flex: 1;
           -moz-box-flex: 1;

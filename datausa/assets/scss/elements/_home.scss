@@ -534,12 +534,12 @@ body.home {
           @include background-stretch();
           bottom: 0;
           height: 150px;
-          left: 0;
+          left: -1%;
           opacity: 0.5;
           position: absolute;
           @include transition(all 0.7s);
           top: 0;
-          width: 100%;
+          width: 102%;
         }
 
         .feed-box-title {
@@ -573,16 +573,16 @@ body.home {
 
       .feed-box-tag {
         background-color: $red-w;
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 12px;
+        font-weight: 800;
+        left: 0px;
         letter-spacing: 1px;
-        line-height: 19px;
-        padding: 5px 35px;
+        opacity: 0.75;
+        padding: 0px 10px 2px;
         position: absolute;
-        right: -10px;
         text-transform: uppercase;
-        top: 20px;
-        @include transition(all 0.25s);
+        @include transition(opacity 0.7s);
+        top: 5px;
       }
 
       &:hover, &:focus, &:active {
@@ -595,6 +595,10 @@ body.home {
           .feed-box-image {
             @include transform(scale(0.9));
           }
+        }
+
+        .feed-box-tag {
+          opacity: 1;
         }
 
       }

@@ -187,21 +187,25 @@ def home():
     })
 
     maps = [
+        "/map/?level=county&key=total_reimbursements_b",
         "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
         "/map/?level=state&key=high_school_graduation",
-        "/map/?level=county&key=uninsured_children",
         "/map/?level=county&key=children_in_singleparent_households",
         "/map/?level=state&key=violent_crime"
     ]
+    new = ["total_reimbursements_b"]
+    titles = {
+        "total_reimbursements_b": "Medicare Reimbursements"
+    }
     for i, link in enumerate(maps):
         level = re.findall(r"level=([^&,]+)", link)[0]
         key = re.findall(r"key=([^&,]+)", link)[0]
         sumlevel = SUMLEVELS["geo"][sumlevelMap[level]]["label"]
         maps[i] = {
-            # "featured": i == 0,
+            "new": True if key.split(":")[0] in new else False,
             "link": link,
             "image": "/static/img/home/maps/{}.png".format(key.split(":")[0]),
-            "title": "{} by {}".format(DICTIONARY[key], sumlevel),
+            "title": "{} by {}".format(titles[key] if key in titles else DICTIONARY[key], sumlevel),
             "type": {
                 "icon": "/static/img/icons/map.svg",
                 "title": sumlevel,
@@ -213,7 +217,7 @@ def home():
     for section in mapdata:
         mapTotal = mapTotal + len(mapdata[section])
 
-    carousels.append({
+    carousels.insert(0, {
         "title": "Maps",
         "icon": "/static/img/icons/demographics.svg",
         "data": maps,
