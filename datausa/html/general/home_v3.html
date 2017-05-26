@@ -69,21 +69,18 @@
       {{ carousel.title }}
     </h3>
   {% for box in carousel.data %}
-  	<a href="{{ box.link }}" class="feed-box {{ box.type.title|lower }} {{ box.type.type|lower }}{% if box.featured %} featured{% endif %}">
-  		{% if box.image %}
-  		<div class="feed-box-image-holder">
+  	<a href="{{ box.link }}" class="feed-box">
+      <div class="feed-box-contents">
+        {% if box.image %}
   			<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
-  		</div>
-  		{% endif %}
-  		{% if box.viz %}
-  		<div class="feed-box-viz {{ box.viz }}" style="background-image:url('/static/img/viz_type/{{ box.viz }}.svg');"></div>
-  		{% endif %}
-  		<div class="feed-box-title">{{ box.title }}</div>
-  		{% if box.subtitle %}
-  		<div class="feed-box-header feed-box-subtitle">{{ box.subtitle }}</div>
-  		{% endif %}
-  		{% if box.featured and box.type.title != "Profile" %}
-  		<div class="feed-box-tag">Featured</div>
+    		{% endif %}
+    		<div class="feed-box-title">{{ box.title }}</div>
+    		{% if box.subtitle %}
+    		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
+    		{% endif %}
+      </div>
+  		{% if box.new %}
+  		<div class="feed-box-tag">New</div>
   		{% endif %}
   	</a>
   {% endfor %}
