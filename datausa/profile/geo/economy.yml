@@ -244,6 +244,14 @@ topics:
     sumlevel: "!nation,!state"
     title: "Occupations by Share"
     subtitle: "For anonymity, the ACS 1-year estimate groups occupations by course parent groupings."
+    description: "Employment in <<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
+    stat:
+      - title: "<<var namespace=num_emp|key=year|row=0>> value"
+        value: "<<var namespace=num_emp|key=num_emp|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=num_emp|key=num_emp_moe|row=0>>"
+      - title: "1 year Growth"
+        value: "<<growth namespace=num_emp|key=num_emp>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=num_emp|key=num_emp_moe>>"
     viz:
       attrs: "acs_occ"
       color: "acs_occ_2"
@@ -681,6 +689,14 @@ topics:
     sumlevel: "!nation,!state"
     title: "Industries by Share"
     subtitle: "For anonymity, the ACS 1-year estimate groups industries by course parent groupings."
+    description: "Employment in <<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
+    stat:
+      - title: "<<var namespace=num_emp|key=year|row=0>> value"
+        value: "<<var namespace=num_emp|key=num_emp|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=num_emp|key=num_emp_moe|row=0>>"
+      - title: "1 year Growth"
+        value: "<<growth namespace=num_emp|key=num_emp>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=num_emp|key=num_emp_moe>>"
     viz:
       attrs: "acs_ind"
       color: "acs_ind_2"

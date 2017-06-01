@@ -26,6 +26,15 @@
   rows: True
   limit: 2
 
+- required: ["year", "num_emp", "num_emp_moe"]
+  namespace: num_emp
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
 - required: ["year", "num_ppl", "num_ppl_moe"]
   namespace: num_ppl
   show: geo
