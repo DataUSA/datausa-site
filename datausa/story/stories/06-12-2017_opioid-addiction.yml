@@ -1,0 +1,44 @@
+title: "How far does damage from opioid addiction extend?"
+background_image: "/static/img/splash/cip/26.jpg"
+authors:
+  - name: "Weston Coward"
+    title: "Business Analyst, Deloitte"
+    img: "/static/img/story/authors/coward.png"
+    about:
+      - "Weston is a Business Analyst in Deloitte Consulting’s Federal practice, where he supports strategic communications and business readiness efforts across a variety of agencies.  Weston grew up on his family farm in Henderson, KY.  There, he developed a love for solving problems (albeit of a different kind), the outdoors, and the community around him."
+
+topics:
+  - description:
+      - "J.D. Vance’s 2016 memoir Hillbilly Elegy describes life in rural America. Key to the author’s story is his mother’s addiction to painkillers throughout the 1990s, an addiction that contributed to Vance’s sporadic removal from her home and moving in with his grandmother and biological father."
+      - "Kentucky’s Breathitt County, where the author spent many childhood summers, rests at the epicenter of the nation’s ongoing opioid addiction crisis, as shown by DataUSA’s map of drug overdose deaths:"
+  - viz:
+      attrs: "geo"
+      color: "drug_overdose_deaths"
+      coords: "counties"
+      data:
+        - required: "drug_overdose_deaths"
+          show: "geo"
+          sumlevel: "county"
+      id: "geo"
+      type: "geo_map"
+  - description:
+      - "Darker shades of red represent higher rates of overdose deaths. There is a large, dark cluster of counties located in central and eastern Kentucky, and Breathitt County falls on the left edge of that cluster. Although Breathitt County’s rate of overdose deaths has fallen to 34.6 per 100,000 (a number higher than the majority of the nation) its surrounding counties still lag far behind.  Nine of the top 10 counties for drug overdose deaths are located nearby in Kentucky and West Virginia—the heart of Appalachia.<<foot note=1>>"
+      - "As rhetoric during the recent presidential campaign highlighted, opioid overdoses have become a national epidemic. Overall, drug overdoses killed 52,000 Americans in 2015, one death every 10 minutes,<<foot note=2>> more than HIV/AIDS at its 1995 peak.<<foot note=3>> Opioids were involved in 33,091 of those 2015 deaths, a rate that has quadrupled since 1999.<<foot note=4>>"
+      - "The human cost of the opioid epidemic extends far beyond the addicts themselves, to seriously damaging family structures.<<foot note=5>> Research shows that more than half of all child abuse and neglect cases involve drug addiction,<<foot note=6>> with a number of states reporting spikes in demand for child welfare due to drug addiction. Indiana saw a 71 percent increase in removals to foster care between 2013 and 2015 due to drug use, according to the state’s Department of Child Services.<<foot note=7>> In Georgia, substance abuse is involved in 40 percent of removals of children from their parental home, according to the Pew Charitable Trust.<<foot note=8>>"
+      - "That impact becomes clear when looking at one particular measure: foster care. While rates of children in foster care have been declining over the past decade,<<foot note=9>> several Appalachian states buck that trend. Kentucky’s foster care population is nearly at 2006 levels, and West Virginia has actually seen a marked increase, as figure 2 indicates."
+      - "<img src='/static/img/story/images/foster.png' />"
+      - "<sub class='sub-source'>Source: Deloitte analysis of data from the HHS Administration for Children and Families AFCARS system.</sub>"
+      - "In comparison, other states’ foster care populations—such as those in Tennessee, California, Massachusetts, New York, and Florida—all substantially declined over the same period."
+      - "Fighting the crisis demands a multifaceted effort, though there may be potential promise in the communitywide \"ecosystem\" approach, aiming to build resilience against prescription drug abuse.<<foot note=10>> If ecosystem approaches take root in places such as Breathitt County, perhaps opioid abuse will afflict fewer families."
+
+footnotes:
+  - "Data USA’s map compiles data from the University of Wisconsin’s County Health Rankings."
+  - "Economist, \"America’s opioid epidemic is worsening,\" March 6, 2017, <a target='_blank' href='www.economist.com/blogs/graphicdetail/2017/03/daily-chart-3'>www.economist.com/blogs/graphicdetail/2017/03/daily-chart-3</a>."
+  - "German Lopez, \"I used to support legalizing all drugs. Then the opioid epidemic happened,\" Vox, April 20, 2017, <a target='_blank' href='www.vox.com/policy-and-politics/2017/4/20/15328384/opioid-epidemic-drug-legalization'>www.vox.com/policy-and-politics/2017/4/20/15328384/opioid-epidemic-drug-legalization</a>."
+  - "Centers for Disease Control and Prevention, \"Drug overdose death data,\" <a target='_blank' href='www.cdc.gov/drugoverdose/data/statedeaths.html'>www.cdc.gov/drugoverdose/data/statedeaths.html</a>, accessed May 4, 2017. "
+  - "Natasha Slesnick, Xin Feng, Brittany Brakenhoff, and Gregory S. Brigham, \"Parenting under the influence: The effects of opioids, alcohol, and cocaine on mother-child interaction,\" Addictive Behaviors, February 15, 2014."
+  - "Nancy K. Young, Sharon M. Boles, and Cathleen Otero, \"Parental substance use disorders and child maltreatment: Overlaps, gaps, and maltreatment,\" Child Maltreatment 12(2), 2007, pp. 137–49, <a target='_blank' href='www.cffutures.org/files/publications/Young%202007%20full%20text_0.pdf'>www.cffutures.org/files/publications/Young%202007%20full%20text_0.pdf</a>."
+  - "Cited by the Partnership for Drug-Free Kids, <a target='_blank' href='http://drugfree.org/learn/drug-and-alcohol-news/opioid-abuse-leading-children-sent-foster-care/'>http://drugfree.org/learn/drug-and-alcohol-news/opioid-abuse-leading-children-sent-foster-care/</a>, accessed 1 May 2017."
+  - "Theresa Wiltz, \"Drug addiction epidemic creates crisis in foster care,\" October 7, 2016, <a target='_blank' href='www.pewtrusts.org/en/research-and-analysis/blogs/stateline/2016/10/07/drug-addiction-epidemic-creates-crisis-in-foster-care'>www.pewtrusts.org/en/research-and-analysis/blogs/stateline/2016/10/07/drug-addiction-epidemic-creates-crisis-in-foster-care</a>."
+  - "US Department of Health and Human Services, Children’s Bureau, \"Trends in foster care and adoption,\" June 30, 2016, <a target='_blank' href='www.acf.hhs.gov/cb/resource/trends-in-foster-care-and-adoption-fy15'>www.acf.hhs.gov/cb/resource/trends-in-foster-care-and-adoption-fy15</a>."
+  - "For examples of success stories of fighting opioids through creating ecosystems, see Kevin Bingham, Terri Cooper, and Lindsay Musser Hough, Fighting the opioid crisis: An ecosystem approach to a wicked problem, Deloitte University Press, August 15, 2016, <a target='_blank' href='https://dupress.deloitte.com/dup-us-en/industry/public-sector/fighting-opioid-crisis-heroin-abuse-ecosystem-approach.html'>https://dupress.deloitte.com/dup-us-en/industry/public-sector/fighting-opioid-crisis-heroin-abuse-ecosystem-approach.html</a>."

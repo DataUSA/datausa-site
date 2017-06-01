@@ -6804,6 +6804,23 @@
           display: block;
           margin: 10px auto;
           max-width: 100%; }
+          body.story p img.small-chart {
+            display: inline-block;
+            max-width: 45%;
+            padding: 0 10px; }
+    body.story table {
+      border-collapse: collapse; }
+      body.story table th {
+        font-size: 12px;
+        text-transform: uppercase;
+        vertical-align: bottom; }
+        body.story table td {
+          border: 1px solid #999;
+          font-size: 14px;
+          line-height: 18px; }
+          body.story table th, body.story table td {
+            padding: 4px 10px;
+            max-width: 33%; }
     body.story .pri-link {
       font-family: "Palanquin", sans-serif;
       font-weight: 700;
@@ -7108,16 +7125,17 @@
           body.story .article-footnotes ol li {
             padding: 5px 0;
             position: relative; }
-            body.story .article-footnotes ol li a {
-              overflow-wrap: break-word;
-              word-wrap: break-word;
-              -ms-word-break: break-all;
-              word-break: break-word;
-              white-space: initial !important;
+            body.story .article-footnotes ol li a.footnote {
               margin-top: -50px;
               padding-top: 50px; }
-              body.story .article-footnotes ol li a:hover {
-                text-decoration: underline; }
+              body.story .article-footnotes ol li a {
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                -ms-word-break: break-all;
+                word-break: break-word;
+                white-space: initial !important; }
+                body.story .article-footnotes ol li a:hover {
+                  text-decoration: underline; }
     body.story .article-more-options {
       background-color: #F6F6F6;
       padding: 50px 0; }

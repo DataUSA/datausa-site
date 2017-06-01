@@ -19,6 +19,35 @@ body.story {
       display: block;
       margin: 10px auto;
       max-width: 100%;
+
+      &.small-chart {
+        display: inline-block;
+        max-width: 45%;
+        padding: 0 10px;
+      }
+
+    }
+
+  }
+
+  table {
+    border-collapse: collapse;
+
+    th {
+      font-size: 12px;
+      text-transform: uppercase;
+      vertical-align: bottom;
+    }
+
+    td {
+      border: 1px solid #999;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    th, td {
+      padding: 4px 10px;
+      max-width: 33%;
     }
   }
 
@@ -330,10 +359,13 @@ body.story {
         padding: 5px 0;
         position: relative;
 
-        a {
-          @include wordwrap();
+        a.footnote {
           margin-top: -$nav-height - 10;
           padding-top: $nav-height + 10;
+        }
+
+        a {
+          @include wordwrap();
         }
 
         a:hover {

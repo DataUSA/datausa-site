@@ -56,7 +56,7 @@
 <div class="article-footnotes">
   <ol>
     {% for note in story.footnotes %}
-    <li><a name="footnote{{ loop.index }}"></a>{{ note|safe }}</li>
+    <li><a class="footnote" name="footnote{{ loop.index }}"></a>{{ note|safe }}</li>
     {% endfor %}
   </ol>
 </div>

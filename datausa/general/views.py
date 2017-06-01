@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import copy, json, re, requests
+import copy, datetime, json, re, requests
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
@@ -33,53 +33,6 @@ def before_request():
 def home():
     g.page_type = "home"
     g.video = request.args.get("video", False)
-
-    feed = [copy.copy(f) for f in HOMEFEED]
-    for box in feed:
-        if "featured" not in box:
-            box["featured"] = False
-        if "/profile/" in box["link"]:
-            attr_type = box["link"].split("/")[2]
-            attr_id = box["link"].split("/")[3]
-            attr = fetch(attr_id, attr_type)
-            box["subtitle"] = attr["display_name"] if "display_name" in attr else attr["name"]
-            section = [s for s in profile_cache[attr_type]["sections"] if s["anchor"] == box["section"]][0]
-            box["section"] = {
-                "title": section["title"],
-                "icon": "/static/img/icons/{}.svg".format(box["section"])
-            }
-            sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
-            if attr_type == "cip":
-                sumlevel = (sumlevel + 1) * 2
-            sumlevel = str(sumlevel)
-            sumlevel = SUMLEVELS[attr_type][sumlevel]
-            sumlevel = sumlevel["shortlabel"] if "shortlabel" in sumlevel else sumlevel["label"]
-            box["type"] = {
-                "icon": "/static/img/icons/{}.svg".format(attr_type),
-                "title": "Profile",
-                "type": TYPEMAP[attr_type],
-                "depth": sumlevel.replace("_"," ")
-            }
-            img_type = "profile" if box["featured"] else "search"
-            box["image"] = "/{}/{}/{}/img".format(img_type, attr_type, attr_id)
-        elif "/story/" in box["link"]:
-            box["type"] = {
-                "icon": "/static/img/icons/about.svg",
-                "title": TYPEMAP["story"],
-                "type": "story"
-            }
-            story = [s for s in story_cache if s["story_id"] == box["link"].split("/")[2]][0]
-            box["image"] = story["background_image"]
-            box["title"] = story["title"]
-            box["subtitle"] = story["description"]
-            box["author"] = "By {}".format(story["authors"][0]["name"])
-        elif "/map/" in box["link"]:
-            box["type"] = {
-                "icon": "/static/img/icons/demographics.svg",
-                "title": TYPEMAP["map"],
-                "type": "map"
-            }
-            box["viz"] = "geo_map"
 
     carousels = [
         {
@@ -256,9 +209,11 @@ def home():
     # })
 
     stories = StoryPreview.generate_list()[0]
+    now = datetime.datetime.now()
     for i, story in enumerate(stories):
+        delta = now - story._date_obj
         stories[i] = {
-            # "featured": i == 0,
+            "new": int(delta.days) < 30,
             "link": "/story/{}".format(story.story_id),
             "image": story.background_image,
             "title": story.title,
@@ -280,7 +235,7 @@ def home():
         }
     })
 
-    return render_template("general/home_v3.html", feed=feed, carousels=carousels)
+    return render_template("general/home_v3.html", carousels=carousels)
 
 @mod.route("/about/")
 def about():

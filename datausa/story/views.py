@@ -9,7 +9,7 @@ mod = Blueprint("story", __name__, url_prefix="/story")
 @mod.route("/")
 def index():
     g.page_type = "story"
-    to_feature = ["03-02-2017_hardest-working"]
+    to_feature = ["06-12-2017_medicare-physicians"]
     stories, featured_stories = StoryPreview.generate_list(to_feature=to_feature)
     return render_template("story/index.html", stories=stories, featured_stories=featured_stories)
 
