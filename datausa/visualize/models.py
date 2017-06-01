@@ -121,6 +121,9 @@ class Viz(object):
     def tooltip(self):
         """List[str]: A list of important data keys to be displayed in tooltips """
 
+        if self.config["tooltip"] and self.config["tooltip"]["value"]:
+            return self.config["tooltip"]["value"]
+
         tooltip = []
         if self.config["type"] == "radar":
             return tooltip

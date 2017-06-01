@@ -113,6 +113,10 @@ var attrStyles = {
         "color": "#ff8166",
         "icon": "person_profile.png"
     },
+    "non-black": {
+        "color": "#ff8166",
+        "icon": "person_profile.png"
+    },
     "white": {
         "color": "#ff8166",
         "icon": "person_profile.png"

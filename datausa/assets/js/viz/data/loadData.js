@@ -36,14 +36,6 @@ viz.formatData = function(data, d, build) {
     }
   }
 
-  if (d.static) {
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.static) {
-        data[i][k] = d.static[k];
-      }
-    }
-  }
-
   if (d.map) {
     if ("delete" in d.map) {
       var deleteMap = d.map.delete;
@@ -56,6 +48,14 @@ viz.formatData = function(data, d, build) {
       for (var k in d.map) {
         data[i][k] = data[i][d.map[k]];
         if (deleteMap) delete data[i][d.map[k]];
+      }
+    }
+  }
+
+  if (d.static) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.static) {
+        data[i][k] = d.static[k];
       }
     }
   }
@@ -147,6 +147,12 @@ viz.formatData = function(data, d, build) {
       for (var i = 0; i < data.length; i++) {
         data[i].share = data[i][share]/shareData[data[i].year] * 100;
       }
+    }
+  }
+
+  if (data.length && data[0].patients && data[0].race) {
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].race === "white") data[i].race = "non-black";
     }
   }
 

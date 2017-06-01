@@ -6007,7 +6007,8 @@
     letter-spacing: 0.03em !important;
     font-size: 13px !important; }
     .d3plus_node .d3plus_button_label {
-      padding: 3px 10px 5px !important; }
+      line-height: 17px;
+      padding: 6px 10px 9px !important; }
 
   .d3plus_toggle {
     margin: 0 !important; }
