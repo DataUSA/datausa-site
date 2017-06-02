@@ -32,7 +32,6 @@ def before_request():
 @mod.route("/")
 def home():
     g.page_type = "home"
-    g.video = request.args.get("video", False)
 
     carousels = [
         {
@@ -237,7 +236,7 @@ def home():
         }
     })
 
-    return render_template("general/home_v3.html", carousels=carousels)
+    return render_template("general/home.html", carousels=carousels)
 
 @mod.route("/about/")
 def about():
