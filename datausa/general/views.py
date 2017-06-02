@@ -29,93 +29,70 @@ def before_request():
     g.api = API
     g.compare = False
 
-@mod.route("/")
-def home():
-    g.page_type = "home"
+TILEMAX = 5
 
-    carousels = [
-        {
-            "title": "Cities & Places",
-            "url": "/api/?sumlevel=place&required=pop&show=geo&year=latest&order=pop&sort=desc"
-        },
-        {
-            "title": "College Majors",
-            "url": "/api/?sumlevel=6&required=grads_total&show=cip&year=latest&order=grads_total&sort=desc"
-        },
-        # {
-        #     "title": "Industries",
-        #     "url": "/api/?sumlevel=2&required=num_ppl&show=naics&year=latest&order=num_ppl&sort=desc&num_records:>4"
-        # },
-        # {
-        #     "title": "Occupations",
-        #     "url": "/api/?sumlevel=3&required=num_ppl&show=soc&year=latest&order=num_ppl&sort=desc&num_records:>4"
-        # }
-    ]
-    carouselMax = 5
+sumlevelMap = {
+    "nation": "010",
+    "state": "040",
+    "county": "050",
+    "msa": "310",
+    "place": "160",
+    "zip": "860",
+    "tract": "140",
+    "puma": "795"
+};
 
-    sumlevelMap = {
-        "nation": "010",
-        "state": "040",
-        "county": "050",
-        "msa": "310",
-        "place": "160",
-        "zip": "860",
-        "tract": "140",
-        "puma": "795"
-    };
+footMap = {
+    "geo": 36190,
+    "naics": 301,
+    "soc": 525,
+    "cip": 2319
+}
 
-    footMap = {
-        "geo": "36,190",
-        "naics": "301",
-        "soc": "525",
-        "cip": "2,319"
-    }
+def tileAPI(column):
+    url = "{}{}&limit={}".format(API, column["url"], TILEMAX)
+    r = requests.get(url).json()
 
-    for carousel in carousels:
+    show = re.findall(r"show=([a-z_0-9]+)", url)[0]
+    order = re.findall(r"order=([a-z_0-9]+)", url)[0]
+    sumlevel = re.findall(r"sumlevel=([a-z_0-9]+)", url)[0]
+    if show == "geo":
+        sumlevel = sumlevelMap[sumlevel]
+    data = datafold(r)
 
-        url = "{}{}&limit={}".format(API, carousel["url"], carouselMax)
-        r = requests.get(url).json()
-
-        show = re.findall(r"show=([a-z_0-9]+)", url)[0]
-        order = re.findall(r"order=([a-z_0-9]+)", url)[0]
-        sumlevel = re.findall(r"sumlevel=([a-z_0-9]+)", url)[0]
-        if show == "geo":
-            sumlevel = sumlevelMap[sumlevel]
-        data = datafold(r)
-
-        for d in data:
-            attr_id = d[show]
-            attr = fetch(attr_id, show)
-            slug = attr["url_name"] if attr["url_name"] else attr_id
-            d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
-            # d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
-            d["subtitle"] = SUMLEVELS[show][sumlevel]["label"]
-            d["link"] = "/profile/{}/{}".format(show, slug)
-            d["image"] = "/search/{}/{}/img".format(show, attr_id)
-            d["type"] = {
-                "icon": "/static/img/icons/{}.svg".format(show),
-                "title": SUMLEVELS[show][sumlevel]["label"],
-                "type": TYPEMAP[show],
-                "depth": "{}".format(sumlevel).replace("_", " ")
-            }
-
-        carousel["icon"] = "/static/img/icons/{}.svg".format(show)
-        carousel["data"] = data
-        carousel["source"] = r["source"]
-        carousel["footer"] = {
-            "link": "/search/?kind={}".format(show),
-            "text": "{} more".format(footMap[show])
+    for d in data:
+        attr_id = d[show]
+        attr = fetch(attr_id, show)
+        slug = attr["url_name"] if attr["url_name"] else attr_id
+        d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
+        # d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
+        d["subtitle"] = SUMLEVELS[show][sumlevel]["label"]
+        d["link"] = "/profile/{}/{}".format(show, slug)
+        d["image"] = "/search/{}/{}/img".format(show, attr_id)
+        d["type"] = {
+            "icon": "/static/img/icons/{}.svg".format(show),
+            "title": SUMLEVELS[show][sumlevel]["label"],
+            "type": TYPEMAP[show],
+            "depth": "{}".format(sumlevel).replace("_", " ")
         }
 
+    column["icon"] = "/static/img/icons/{}.svg".format(show)
+    column["data"] = data
+    column["source"] = r["source"]
+    if show in footMap:
+        column["footer"] = {
+            "link": "/search/?kind={}".format(show),
+            "text": "{} more".format(num_format(footMap[show]))
+        }
+    return column
 
-
-    naics_soc = ["naics/722Z", "soc/412031", "naics/23", "naics/622", "soc/252020"]
-    for i, page in enumerate(naics_soc):
+def tileProfiles(profiles):
+    for i, page in enumerate(profiles):
         show, slug = page.split("/")
         attr = fetch(slug, show)
         attr_id = attr["id"]
         sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
-        naics_soc[i] = {
+        profiles[i] = {
             "image": "/search/{}/{}/img".format(show, attr_id),
             "link": "/profile/{}".format(page),
             "title": attr["display_name"] if "display_name" in attr else attr["name"],
@@ -127,28 +104,14 @@ def home():
                 "depth": "{}".format(sumlevel).replace("_", " ")
             }
         }
+    return profiles
 
-    carousels.insert(1, {
-        "title": "Industries & Jobs",
-        "icon": "/static/img/icons/naics.svg",
-        "data": naics_soc,
-        "footer": {
-            "link": "/search/",
-            "text": "{} more".format((int(footMap["naics"]) + int(footMap["soc"])) - carouselMax)
-        }
-    })
-
-    maps = [
-        "/map/?level=county&key=total_reimbursements_b",
-        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
-        "/map/?level=state&key=high_school_graduation",
-        "/map/?level=county&key=children_in_singleparent_households",
-        "/map/?level=state&key=violent_crime"
-    ]
+def tileMaps(maps):
     new = ["total_reimbursements_b"]
     titles = {
         "total_reimbursements_b": "Medicare Reimbursements"
     }
+
     for i, link in enumerate(maps):
         level = re.findall(r"level=([^&,]+)", link)[0]
         key = re.findall(r"key=([^&,]+)", link)[0]
@@ -164,52 +127,95 @@ def home():
                 "type": "map"
             }
         }
+    return maps
+
+@mod.route("/")
+def home():
+    g.page_type = "home"
+
+    carousels = []
+
+    maps = [
+        "/map/?level=county&key=total_reimbursements_b",
+        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
+        "/map/?level=state&key=high_school_graduation",
+        "/map/?level=county&key=children_in_singleparent_households",
+        "/map/?level=state&key=violent_crime"
+    ]
 
     mapTotal = 0
     for section in mapdata:
         mapTotal = mapTotal + len(mapdata[section])
 
-    carousels.insert(0, {
+    carousels.append({
         "title": "Maps",
         "icon": "/static/img/icons/demographics.svg",
-        "data": maps,
+        "data": tileMaps(maps),
         "footer": {
             "link": "/map",
-            "text": "{} more".format(mapTotal - carouselMax)
+            "text": "{} more".format(mapTotal - TILEMAX)
         }
     })
 
-    # topVisited = ["geo/new-york-ny", "cip/110701", "geo/united-states", "soc/291060", "naics/722Z"]
-    # for i, page in enumerate(topVisited):
-    #     show, slug = page.split("/")
-    #     attr = fetch(slug, show)
-    #     attr_id = attr["id"]
-    #     sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
-    #     topVisited[i] = {
-    #         "image": "/search/{}/{}/img".format(show, attr_id),
-    #         "link": "/profile/{}".format(page),
-    #         "title": attr["display_name"] if "display_name" in attr else attr["name"],
-    #         "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
-    #         "type": {
-    #             "icon": "/static/img/icons/{}.svg".format(show),
-    #             "title": SUMLEVELS[show][str(sumlevel)]["label"],
-    #             "type": TYPEMAP[show],
-    #             "depth": "{}".format(sumlevel).replace("_", " ")
-    #         }
-    #     }
-    #
-    # carousels.append({
-    #     "title": "Most Visited Profiles",
-    #     "data": topVisited,
-    #     "footer": {
-    #         "link": "/search/",
-    #         "text": "39,335 more"
-    #     }
-    # })
+    carousels.append({
+        "title": "Cities & Places",
+        "icon": "/static/img/icons/geo.svg",
+        "data": tileProfiles(["geo/new-york-ny", "geo/los-angeles-county-ca", "geo/florida", "geo/suffolk-county-ma", "geo/illinois"]),
+        "footer": {
+            "link": "/search/?kind=geo",
+            "text": "{} more".format(num_format(footMap["geo"] - TILEMAX))
+        }
+    })
+
+    # Dave, remember to add slug to builds in JS!!!
+    cartDatasets = [
+        {
+            "url": "{}/api/?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_patients_diabetic_medicare_enrollees_65_75_lipid_test_total_ county",
+            "image": "/static/img/splash/naics/5417.jpg",
+            "title": "Diabetic Lipid Tests by County",
+            "new": 1
+        },
+        {
+            "url": "{}/api/?required=adult_smoking&show=geo&sumlevel=state&year=all".format(API),
+            "slug": "map_adult_smoking_ state",
+            "image": "/static/img/splash/naics/3122.jpg",
+            "title": "Adult Smoking by State"
+        },
+        {
+            "url": "{}/api/?required=leg_amputations_per_1000_enrollees_total&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_leg_amputations_per_1000_enrollees_total_ county",
+            "image": "/static/img/splash/naics/62.jpg",
+            "title": "Leg Amputations by County",
+            "new": 1
+        },
+        {
+            "url": "{}/api/?required=pop%2Cpop_moe&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_pop_ county",
+            "image": "/static/img/splash/cip/45.jpg",
+            "title": "Population by County"
+        },
+        {
+            "url": "{}/api/?required=median_property_value%2Cmedian_property_value_moe&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_median_property_value_ county",
+            "image": "/static/img/splash/geo/05000US25019.jpg",
+            "title": "Median Property Value by County"
+        }
+    ]
+
+    carousels.append({
+        "title": "Download",
+        "icon": "/static/img/cart-big.png",
+        "data": cartDatasets,
+        "footer": {
+            "link": "/cart",
+            "text": "View Cart"
+        }
+    })
 
     stories = StoryPreview.generate_list()[0]
     story_order = ["opioid-addiction", "poverty-health", "worker-evolution", "medicare-physicians", "hardest-working"]
-    stories.sort(key=lambda story: story_order.index(story.story_id.split("_")[1]) if story.story_id.split("_")[1] in story_order else carouselMax)
+    stories.sort(key=lambda story: story_order.index(story.story_id.split("_")[1]) if story.story_id.split("_")[1] in story_order else TILEMAX)
     now = datetime.datetime.now()
     for i, story in enumerate(stories):
         delta = now - story._date_obj
@@ -229,10 +235,40 @@ def home():
     carousels.append({
         "title": "Latest Stories",
         "icon": "/static/img/icons/about.svg",
-        "data": stories[:carouselMax],
+        "data": stories[:TILEMAX],
         "footer": {
             "link": "/story/",
-            "text": "{} more".format(len(stories) - carouselMax)
+            "text": "{} more".format(len(stories) - TILEMAX)
+        }
+    })
+
+    carousels.append({
+        "title": "Jobs",
+        "icon": "/static/img/icons/soc.svg",
+        "data": tileProfiles(["soc/252020", "soc/412031", "soc/193011", "soc/291020", "soc/274021"]),
+        "footer": {
+            "link": "/search/?kind=soc",
+            "text": "{} more".format(num_format(footMap["soc"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "title": "Industries",
+        "icon": "/static/img/icons/naics.svg",
+        "data": tileProfiles(["naics/622", "naics/23", "naics/31-33", "naics/722Z", "naics/44-45"]),
+        "footer": {
+            "link": "/search/?kind=naics",
+            "text": "{} more".format(num_format(footMap["naics"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "title": "Higher Education",
+        "icon": "/static/img/icons/cip.svg",
+        "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
+        "footer": {
+            "link": "/search/?kind=cip",
+            "text": "{} more".format(num_format(footMap["cip"] - TILEMAX))
         }
     })
 

@@ -42,6 +42,7 @@
 	<a target="_blank" href="http://www.datawheel.us/"><img id="datawheel" src="/static/img/home/logos/datawheel.png" /></a>
 </div>
 
+<script>var cartBoxes = [];</script>
 <div class="feed-flex">
 {% for carousel in carousels %}
   <div id="feed" class="carousel">
@@ -54,7 +55,13 @@
       {% if carousel.footer %}</a>{% endif %}
     </h3>
   {% for box in carousel.data %}
-  	<a href="{{ box.link }}" class="feed-box">
+
+    {% if box.link %}
+    <a href="{{ box.link }}" class="feed-box">
+    {% else %}
+    <div class="feed-box cart" data-index="{{ loop.index0 }}">
+    <script>cartBoxes.push({{ box|safe }})</script>
+    {% endif %}
       <div class="feed-box-contents">
         {% if box.image %}
   			<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
@@ -67,7 +74,7 @@
   		{% if box.new %}
   		<div class="feed-box-tag">New</div>
   		{% endif %}
-  	</a>
+  	{% if box.link %}</a>{% else %}</div>{% endif %}
   {% endfor %}
   {% if carousel.footer %}
   <div class="carousel-footer">
@@ -112,6 +119,33 @@
 
   navScroll();
   scrollFunctions.push(navScroll);
+
+  d3.selectAll(".feed-box.cart").on("click", function() {
+    var i = parseFloat(d3.select(this).attr("data-index"));
+    var d = cartBoxes[i];
+
+    localforage.getItem("cart", function(error, cart) {
+      var exists = cart.builds.indexOf(d.slug) >= 0;
+      if (exists) {
+        window.location = "/cart";
+      }
+      else {
+
+        cart.builds.push(d.slug);
+
+        cart.datasets.push({
+          data: [d.url],
+          slug: d.slug,
+          title: d.title
+        });
+
+        localforage.setItem("cart", cart, function() {
+          window.location = "/cart";
+        });
+
+      }
+    });
+  });
 
 </script>
 
