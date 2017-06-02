@@ -620,6 +620,10 @@ body.home {
         text-align: center;
         @include text-shadow(0 0 12px rgba(0, 0, 0, 0.8));
 
+        a {
+          color: white;
+        }
+
         .icon {
           margin-bottom: 3px;
           margin-left: -5px;

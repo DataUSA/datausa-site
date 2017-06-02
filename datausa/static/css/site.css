@@ -3362,12 +3362,14 @@
             -webkit-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
             -moz-text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
             text-shadow: 0 0 12px rgba(0, 0, 0, 0.8); }
-            body.home #feed.carousel .carousel-title .icon {
-              margin-bottom: 3px;
-              margin-left: -5px;
-              margin-right: 2px;
-              width: 30px;
-              vertical-align: middle; }
+            body.home #feed.carousel .carousel-title a {
+              color: white; }
+              body.home #feed.carousel .carousel-title .icon {
+                margin-bottom: 3px;
+                margin-left: -5px;
+                margin-right: 2px;
+                width: 30px;
+                vertical-align: middle; }
           body.home #feed.carousel .carousel-sub {
             color: rgba(255, 255, 255, 0.75);
             display: block;

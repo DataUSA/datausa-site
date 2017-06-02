@@ -46,10 +46,12 @@
 {% for carousel in carousels %}
   <div id="feed" class="carousel">
     <h3 class="carousel-title">
+      {% if carousel.footer %}<a href="{{ carousel.footer.link }}">{% endif %}
   		{% if carousel.icon %}
   		<img class="icon" src="{{ carousel.icon }}" />
   		{% endif %}
       {{ carousel.title }}
+      {% if carousel.footer %}</a>{% endif %}
     </h3>
   {% for box in carousel.data %}
   	<a href="{{ box.link }}" class="feed-box">
