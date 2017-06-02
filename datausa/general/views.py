@@ -209,6 +209,8 @@ def home():
     # })
 
     stories = StoryPreview.generate_list()[0]
+    story_order = ["opioid-addiction", "poverty-health", "worker-evolution", "medicare-physicians", "hardest-working"]
+    stories.sort(key=lambda story: story_order.index(story.story_id.split("_")[1]) if story.story_id.split("_")[1] in story_order else carouselMax)
     now = datetime.datetime.now()
     for i, story in enumerate(stories):
         delta = now - story._date_obj
