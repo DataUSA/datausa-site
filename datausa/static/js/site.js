@@ -9691,7 +9691,8 @@ viz.formatData = function(data, d, build) {
 
   if (d.divide) {
     for (var i = 0; i < data.length; i++) {
-      data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den] * 100;
+      data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den];
+      if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
     }
   }
 

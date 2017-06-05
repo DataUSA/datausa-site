@@ -52,6 +52,13 @@ topics:
             den: "pop_poverty_status"
             value: "income_below_poverty:pop_poverty_status"
       id: "geo"
+      tooltip:
+        value:
+          - "income_below_poverty:pop_poverty_status"
+          - "income_below_poverty"
+          - "income_below_poverty_moe"
+          - "pop_poverty_status"
+          - "pop_poverty_status_moe"
       type: "geo_map"
   - description:
       - "Of course, poverty is a broad socioeconomic factor that’s at the root of many others associated with poor health. Cost can pose a barrier to factors that allow people to live a healthy lifestyle such as accessing health care<<foot note=4>> and healthy food.<<foot note=5>> Moreover, people with low socioeconomic status are more likely to live in areas with higher concentrations of air pollution.<<foot note=6>> In other words, poverty can cause cumulative disadvantages that can negatively impact health."
