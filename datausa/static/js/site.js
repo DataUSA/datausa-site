@@ -9212,7 +9212,7 @@ viz.format = {
 
       var attrs = build && build.viz ? build.viz.attrs() : false;
       if (attrs && text in attrs) {
-        return d3plus.string.title(attrs[text].name, params);
+        return attrs[text].display_name ? attrs[text].display_name : d3plus.string.title(attrs[text].name, params);
       }
 
       if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
