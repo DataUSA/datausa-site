@@ -3914,10 +3914,12 @@
       line-height: 1.5;
       vertical-align: baseline; }
       body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
-        font-size: 12px; }
+        font-size: 12px;
+        font-weight: 400; }
         body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
         body.story .stat-subtitle .plus-minus {
-          color: #ef6145; }
+          color: #ef6145;
+          vertical-align: baseline; }
   body.profile .stat-group, body.map .stat-group, body.story .stat-group {
     text-align: center; }
     body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {
@@ -5713,6 +5715,9 @@
               align-items: flex-end;
               -ms-flex-align: end;
               flex-align: end;
+              -webkit-flex-wrap: wrap;
+              -ms-flex-wrap: wrap;
+              flex-wrap: wrap;
               color: #333; }
               body.profile .profile-section .topic .content aside .topic-stats.stacked,
               body.map .profile-section .topic .content aside .topic-stats.stacked,
@@ -5733,7 +5738,8 @@
                   -webkit-flex: 1 1 auto;
                   -ms-flex: 1 1 auto;
                   flex: 1 1 auto;
-                  margin: 10px 15px 10px 0; }
+                  margin: 10px 15px 10px 0;
+                  min-width: 40%; }
                   body.profile .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
                   body.map .profile-section .topic .content aside .topic-stats .stat .stat-value.loading,
                   body.story .profile-section .topic .content aside .topic-stats .stat .stat-value.loading {
@@ -6742,8 +6748,7 @@
       font-size: 13px;
       font-weight: bold;
       line-height: 19px;
-      margin-right: 10px;
-      margin-top: 2px; }
+      margin-right: 10px; }
 
       .year-toggle {
         bottom: 15px;

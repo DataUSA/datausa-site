@@ -478,9 +478,11 @@ body.profile, body.map, body.story {
 
   .stat-subtitle {
     font-size: 12px;
+    font-weight: 400;
 
     .plus-minus {
       color: $red-w;
+      vertical-align: baseline;
     }
   }
 
@@ -1857,6 +1859,7 @@ body.profile, body.map, body.story {
           .topic-stats {
             @include flex();
             @include align-items(flex-end);
+            @include flex-wrap();
             color: #333;
 
             &.stacked {
@@ -1867,6 +1870,7 @@ body.profile, body.map, body.story {
             .stat {
               @include flex-size(1 1 auto);
               margin: 10px 15px 10px 0;
+              min-width: 40%;
 
               .stat-value {
                 &.loading {
