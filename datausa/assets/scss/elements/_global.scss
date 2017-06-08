@@ -174,10 +174,13 @@ body.frozen {
 	@include flex();
 	@include flex-direction(row);
 	@include justify(space-between);
+	margin: 0 auto;
+	max-width: 900px;
 
 	&.compare-flex {
 		@include flex-direction(column-reverse);
 		display: inline-block;
+		max-width: auto;
 		width: 50%;
 	}
 

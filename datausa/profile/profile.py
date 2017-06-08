@@ -95,16 +95,21 @@ class Profile(BaseObject):
             kwargs["row"] = "0"
             x2 = self.var(**kwargs)
             kwargs["row"] = "1"
-            x1 = float(self.var(**kwargs))
-            f1 = (math.pow(-x2 / math.pow(x1, 2), 2) * math.pow(dx1, 2))
+            x1 = self.var(**kwargs)
+            if x1 == "N/A" or x2 == "N/A":
+                return "N/A"
+            f1 = (math.pow(-x2 / math.pow(float(x1), 2), 2) * math.pow(dx1, 2))
             f2 = (math.pow(1 / x1, 2) * math.pow(dx2, 2))
             value = math.sqrt(f1 + f2)
         else:
             kwargs["row"] = "0"
             x2 = self.var(**kwargs)
             kwargs["row"] = "1"
-            x1 = float(self.var(**kwargs))
-            value = (x2 - x1) / x1
+            x1 = self.var(**kwargs)
+            if x1 == "N/A" or x2 == "N/A":
+                return "N/A"
+            else:
+                value = (float(x2) - x1) / x1
 
         if fmt == "text":
             return "{} {}".format(num_format(value, "growth"), "increase" if value >= 0 else "decrease")

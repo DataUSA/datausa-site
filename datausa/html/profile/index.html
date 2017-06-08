@@ -104,8 +104,20 @@
 
     <div class="intro-head">
       <h2 class="section-title"><a href="#intro" name="intro">About</a></h2>
+    </div>
 
-      <div class="r">
+    <div class="col">
+      <div class="intro-txt">
+        {% for desc in profile.splash.description %}
+        <p class="desc has-p-link">{{ desc|safe }}</p>
+        {% endfor %}
+        {% if image.meta %}
+        <p class="desc image-meta">About the photo: <i>{{ image.meta }}</i></p>
+        {% endif %}
+      </div>
+
+      {% if profile.splash.viz %}
+      <div class="intro-viz">
         <div class="photo-cred">
           <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
           <div class="image-author"><a href="{{ image.link }}" target="_blank">Photo by {{ image.author }}</a></div>
@@ -130,21 +142,6 @@
           </div>
         </div>
         {% endif %}
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="intro-txt">
-        {% for desc in profile.splash.description %}
-        <p class="desc has-p-link">{{ desc|safe }}</p>
-        {% endfor %}
-        {% if image.meta %}
-        <p class="desc image-meta">About the photo: <i>{{ image.meta }}</i></p>
-        {% endif %}
-      </div>
-
-      {% if profile.splash.viz %}
-      <div class="intro-viz">
         <div class="viz thumbprint">
           <div class="d3plus"></div>
         </div>
@@ -277,18 +274,18 @@
 
 <script>
 
-  var fontRange = [50, 65];
-  if (window.innerWidth <= 480) {
-    fontRange = [25, 45];
-  }
-
-  var fontScale = d3.scale.linear()
-    .domain([60, 20])
-    .range(fontRange)
-    .clamp(true);
-
-  var title = d3.select(".splash-titles h1");
-  title.style("font-size", fontScale(title.text().length) + "px");
+  // var fontRange = [50, 65];
+  // if (window.innerWidth <= 480) {
+  //   fontRange = [25, 45];
+  // }
+  //
+  // var fontScale = d3.scale.linear()
+  //   .domain([60, 20])
+  //   .range(fontRange)
+  //   .clamp(true);
+  //
+  // var title = d3.select(".splash-titles h1");
+  // title.style("font-size", fontScale(title.text().length) + "px");
 
   // if (!d3plus.client.touch) {
   //   var scrollTimeout = setTimeout(function(){

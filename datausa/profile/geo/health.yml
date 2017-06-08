@@ -241,11 +241,12 @@ topics:
       y: share
   - title: "Preventative Women’s Health Services"
     sumlevel: "!nation"
+    subtitle: "Female medicare enrollees between the ages of 67 and 69. <<sub show=geo|col=number_of_females_enrolled_67_69_total>>"
     slug: "womens_health"
     stat:
-      - title: "Black Women Enrolled in Medicare Age 67-69"
+      - title: "Black Women"
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_black>>
-      - title: "Non-Black Women Enrolled in Medicare Age 67-69"
+      - title: "Non-Black Women"
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
     description:
       - "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of black and non-black medicare enrollees who had mammograms over the past few years."

@@ -623,7 +623,7 @@ body.profile, body.map, body.story {
       }
 
       .f {
-        @include flex-size(1.5);
+        @include flex-size(1);
       }
 
       .splash-titles {
@@ -646,11 +646,12 @@ body.profile, body.map, body.story {
           @include flex-direction(row);
           @include align-items(center);
           font-family: $pathway;
+          font-size: 60px;
           font-weight: 400;
           letter-spacing: 0.03em;
           text-transform: uppercase;
           width: 100%;
-          @include text-shadow(0px 0px 15px rgba(20, 27, 46, 0.6));
+          @include text-shadow(0 0 12px rgba(0, 0, 0, 0.8));
 
           .compare-flex {
             width: 40%;
@@ -699,34 +700,41 @@ body.profile, body.map, body.story {
       #splash-stats {
         @include flex-size(2);
         width: 100%;
-        max-width: 900px;
+        margin-bottom: 25px;
+        max-width: 700px;
         @include box();
         @include flex();
+        @include flex-wrap();
         @include align-items(flex-start);
         @include justify(space-between);
-        @include text-shadow(0px 0px 5px rgba(20, 27, 46, 0.6));
+        @include text-shadow(0 0 12px rgba(0, 0, 0, 0.8));
 
         &.compare-flex {
           max-width: 100%;
         }
 
         .stat {
-          @include flex();
-          @include flex-size(1);
-          @include flex-direction(column);
-          @include justify(flex-start);
           @include align-items(center);
-          padding: 0 15px;
+          @include flex();
+          @include flex-direction(column);
+          @include flex-size(1);
+          @include justify(flex-start);
+          max-width: 30%;
+          min-width: 30%;
+          padding: 0;
+          width: 30%;
 
           @media all and (max-width: 950px){
             @include justify(flex-start);
           }
 
           .stat-text {
-            font-size: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0;
             text-align: center;
             color: #fff;
-            line-height: 1.15;
+            line-height: 1.5;
             margin-bottom: 0;
 
             a {
@@ -751,8 +759,9 @@ body.profile, body.map, body.story {
           }
 
           .stat-value {
-            margin: 6px 0 7px;
-            font-size: 37px;
+            margin: 0;
+            font-size: 38px;
+            font-weight: 300;
             color: #fff;
             opacity: 0.9;
           }
@@ -1380,74 +1389,16 @@ body.profile, body.map, body.story {
     }
 
     .intro-head {
-      @include flex();
-      @include justify(flex-end);
-      @include align-items(flex-start);
-      padding: 30px 0;
+      margin: 0 auto;
+      max-width: 900px;
+      padding: 15px 0;
 
       .section-title {
-        width: 75%;
+        width: 100%;
 
         &.compare-flex {
           width: 50%;
         }
-      }
-
-      .photo-cred, .breadcrumb, .data-source-crumb {
-        margin: 0;
-      }
-
-      .photo-cred {
-        min-height: 18px;
-        overflow: visible;
-        .image-author {
-          line-height: 1;
-          max-width: 80%;
-        }
-      }
-
-      .data-source-crumb {
-        position: relative;
-        display: inline-block;
-        line-height: 0.5;
-      }
-
-      // .breadcrumb, .data-source-crumb {
-      //   @include flex();
-      //   @include align-items(flex-start);
-      // }
-
-      .fa {
-        padding: 1px 6px;
-        font-size: 11px;
-        color: #fff;
-        display: inline-block;
-      }
-
-      .r {
-        min-width: 25%;
-        max-width: 25%;
-        width: 25%;
-
-        a {
-          font-family: $palanquin;
-          font-weight: 400;
-          font-size: 10px;
-          letter-spacing: 0.05em;
-          line-height: 1;
-          text-transform: uppercase;
-          // @include wordwrap();
-          // @include hyphens;
-          @include transition(all 0.35s);
-
-          &:hover, &:focus {
-            @include text-shadow(0 0 1px rgba(255,255,255,0.8));
-          }
-        }
-      }
-
-      .image-author {
-        display: inline-block;
       }
     }
 
@@ -1456,10 +1407,11 @@ body.profile, body.map, body.story {
       padding-right: 20px;
 
       .desc {
-        font-size: 14px;
+        font-size: 17px;
+        font-weight: 300;
         line-height: 1.7;
         padding: 15px 0;
-        color: $gray-map;
+        color: white;
 
         a {
           color: $light-home-blue;
@@ -1483,13 +1435,14 @@ body.profile, body.map, body.story {
               line-height: 24px;
               border-bottom: none;
               margin-left: 3px;
+              vertical-align: baseline;
 
               &:hover {
                 opacity: 1;
                 @include text-shadow(0 0 1px rgba(255,255,255,0.8));
 
                 &::after {
-                  background: $max-color url("/static/img/splash/max.svg") no-repeat 50%;
+                  background: $red-w url("/static/img/splash/max.svg") no-repeat 50%;
                   background-size: 80%;
                 }
               }
@@ -1504,7 +1457,7 @@ body.profile, body.map, body.story {
                 margin: 0 5px -4px;
                 border-radius: 50%;
                 @include box();
-                border: 1px solid $max-color;
+                border: 1px solid $red-w;
                 @include transition(all 0.35s);
               }
 
@@ -1512,13 +1465,12 @@ body.profile, body.map, body.story {
 
                 &:hover {
                   &::after {
-                    background: $min-color url("/static/img/splash/min.svg") no-repeat 50%;
+                    background: $red-w url("/static/img/splash/min.svg") no-repeat 50%;
                     background-size: 80%;
                   }
                 }
 
                 &::after {
-                  border: 1px solid $min-color;
                   background: transparent url("/static/img/splash/min.svg") no-repeat 50%;
                   background-size: 80%;
                 }
@@ -1541,24 +1493,81 @@ body.profile, body.map, body.story {
         margin: 25px 0 -5px;
       }
 
+      .image-meta {
+        font-size: 14px;
+      }
+
     }
 
     .intro-viz {
       @include flex-size(1);
-      height: 200px;
       margin: 20px 0;
-      text-align: center;
+      text-align: left;
 
-      .d3plus_coordinates.outline {
-        fill: transparent !important;
-        pointer-events: none !important;
+      .photo-cred, .breadcrumb, .data-source-crumb {
+        margin: 0;
+
+        a {
+          font-family: $palanquin;
+          font-weight: 400;
+          font-size: 10px;
+          letter-spacing: 0.05em;
+          line-height: 1;
+          text-transform: uppercase;
+          // @include wordwrap();
+          // @include hyphens;
+          @include transition(all 0.35s);
+
+          &:hover, &:focus {
+            @include text-shadow(0 0 1px rgba(255,255,255,0.8));
+          }
+        }
       }
 
-      .d3plus_coordinates.highlight {
-        stroke: white !important;
-        stroke-opacity: 1 !important;
-        fill: white !important;
-        fill-opacity: 1 !important;
+      .photo-cred {
+        min-height: 18px;
+        overflow: visible;
+        .image-author {
+          display: inline-block;
+          line-height: 1;
+          max-width: 80%;
+        }
+      }
+
+      .data-source-crumb {
+        position: relative;
+        display: inline-block;
+        line-height: 0.5;
+      }
+
+      .fa {
+        padding: 1px 6px;
+        font-size: 11px;
+        color: #fff;
+        display: inline-block;
+      }
+
+      .viz {
+        height: 200px;
+
+        .d3plus_coordinates.outline {
+          fill: transparent !important;
+          pointer-events: none !important;
+        }
+
+        .d3plus_coordinates.default {
+          stroke: white !important;
+          stroke-opacity: 1 !important;
+          fill: white !important;
+          fill-opacity: 0.5 !important;
+        }
+
+        .d3plus_coordinates.highlight {
+          stroke: white !important;
+          stroke-opacity: 1 !important;
+          fill: $red-w !important;
+          fill-opacity: 1 !important;
+        }
       }
     }
 

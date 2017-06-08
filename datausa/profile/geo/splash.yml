@@ -1,12 +1,24 @@
 title: "<<name>>"
 group: "<<level>>"
-description: >
-  {{<<sumlevel>>:nation||The population of The United States is <<var namespace=splash|key=pop|row=0>>. The top 3 largest states by population are <<top prefix=040|child=True|order=pop|limit=3>>. The smallest states by population are <<top child=True|order=pop|limit=3|sort=asc>>. The 3 largest counties in the US by population are <<top prefix=050|child=True|order=pop|limit=3>>. The 3 largest Census places in the US by population are <<top prefix=160|child=True|order=pop|limit=3>>.}}
-  {{<<sumlevel>>:state||<<name>> is the <<var namespace=splash|key=pop_rank|row=0>> largest <<level>> in the nation with a combined population of <<var namespace=splash|key=pop|row=0>>. The largest counties by population are <<top col=top_counties|sumlevel=state|year=none|dataset=stat>>. The largest places in <<name>> by population are <<top col=top_places|sumlevel=state|year=none|dataset=stat>>.}}
-  {{<<sumlevel>>:msa||The <<name>> is the <<var namespace=splash|key=pop_rank|row=0>> largest in the nation with a combined population of <<var namespace=splash|key=pop|row=0>>. The largest counties by population are <<top col=top_counties|sumlevel=msa|year=none|dataset=stat>>. The largest places in <<name>> by population are <<top col=top_places|sumlevel=msa|year=none|dataset=stat>>.}}
-  {{<<sumlevel>>:county||<<name>> is the <<top col=county_state_rank|sumlevel=county|year=none|dataset=stat>> largest county in <<parents prefix=040>> by population and contains <<top col=places_in_county|sumlevel=county|year=none|dataset=stat>> Census places. The largest places in <<name>> by population are <<top col=top_places|sumlevel=county|year=none|dataset=stat>>. <<name>> borders <<top col=county_neighbors|sumlevel=county|year=none|dataset=stat|truncate=5>>}}
-  {{<<sumlevel>>:puma||<<name>> is the <<top col=puma_state_rank|sumlevel=puma|year=none|dataset=stat>> largest Public Use Micro Area by population in <<parents prefix=040>> out of the other <<top col=pumas_in_state|sumlevel=puma|year=none|dataset=stat>> PUMAs in the state. <<name>> borders the neighboring areas of <<top col=puma_neighbors|sumlevel=puma|year=none|dataset=stat|truncate=5>>}}
-  {{<<sumlevel>>:place||<<name long=true>> is a <<level uppercase=true>> in <<top col=parent_counties|sumlevel=place|year=none|dataset=stat>>. <<name long=true>> borders the neighboring places of <<top col=places_neighbors|sumlevel=place|year=none|dataset=stat|truncate=5>>}}
+description:
+  - >
+    {{<<sumlevel>>:nation||In <<var namespace=splash|key=year|row=0>>, there were <<var namespace=splash|key=pop|row=0>> people living in the United States, and the median age of the entire population was <<var namespace=splash|key=age|row=0>>.}}
+    {{<<sumlevel>>:state||<<name>> is the <<var namespace=splash|key=pop_rank|row=0>> largest <<level>> in the nation with a combined population of <<var namespace=splash|key=pop|row=0>> and a median age of <<var namespace=splash|key=age|row=0>> as of <<var namespace=splash|key=year|row=0>>.}}
+    {{<<sumlevel>>:msa||<<name>> is the <<var namespace=splash|key=pop_rank|row=0>> largest <<level>> in the nation with a combined population of <<var namespace=splash|key=pop|row=0>> people and a median age of <<var namespace=splash|key=age|row=0>>.}}
+    {{<<sumlevel>>:county||<<name>> is the <<top col=county_state_rank|sumlevel=county|year=none|dataset=stat>> largest county in <<parents prefix=040>> by population and contains <<top col=places_in_county|sumlevel=county|year=none|dataset=stat>> Census places. The largest places in <<name>> by population are <<top col=top_places|sumlevel=county|year=none|dataset=stat>>.}}
+    {{<<sumlevel>>:puma||<<name>> had <<var namespace=splash|key=pop|row=0>> residents in <<var namespace=splash|key=year|row=0>>, making it the <<top col=puma_state_rank|sumlevel=puma|year=none|dataset=stat>> largest <<level>> by population in <<parents prefix=040>> out of the other <<top col=pumas_in_state|sumlevel=puma|year=none|dataset=stat>> PUMAs in the state.}}
+    {{<<sumlevel>>:place||<<name>> is a <<level>> located in <<top col=parent_counties|sumlevel=place|year=none|dataset=stat>> with a population of <<var namespace=splash|key=pop|row=0>> and a median age of <<var namespace=splash|key=age|row=0>>.}}
+  - >
+    The median household income in {{<<sumlevel>>:nation||the }}<<name>> was <<var namespace=income|key=income|row=0>> in <<var namespace=income|key=year|row=0>>, which represents a <<growth namespace=income|key=income>> growth from the previous year. Additionally, there were {{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=num_ppl|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=num_emp|row=0>>}} residents in <<name>> with jobs in {{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=year|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=year|row=0>>}}, which is a {{<<sumlevel>>:nation,state||<<growth namespace=num_ppl|key=num_ppl>>}}{{<<sumlevel>>:!nation,state||<<growth namespace=num_emp|key=num_emp>>}} growth from the previous year.
+  - >
+    {{<<sumlevel>>:nation||The top 3 largest states by population are <<top prefix=040|child=True|order=pop|limit=3>>, and the smallest 3 are <<top child=True|order=pop|limit=3|sort=asc>>. The 3 largest counties in the US by population are <<top prefix=050|child=True|order=pop|limit=3>>, while the 3 largest census places are <<top prefix=160|child=True|order=pop|limit=3>>.}}
+    {{<<sumlevel>>:state||The largest counties by population in <<name>> are <<top col=top_counties|sumlevel=state|year=none|dataset=stat>>.}}
+    {{<<sumlevel>>:state||The largest places in <<name>> by population are <<top col=top_places|sumlevel=state|year=none|dataset=stat>>.}}
+    {{<<sumlevel>>:msa||The largest counties by population are <<top col=top_counties|sumlevel=msa|year=none|dataset=stat>>.}}
+    {{<<sumlevel>>:msa||The largest places in <<name>> by population are <<top col=top_places|sumlevel=msa|year=none|dataset=stat>>.}}
+    {{<<sumlevel>>:county||<<name>> borders <<top col=county_neighbors|sumlevel=county|year=none|dataset=stat|truncate=5>>.}}
+    {{<<sumlevel>>:puma||<<name>> borders the neighboring areas of <<top col=puma_neighbors|sumlevel=puma|year=none|dataset=stat|truncate=5>>.}}
+    {{<<sumlevel>>:place||<<name long=true>> borders the neighboring places of <<top col=places_neighbors|sumlevel=place|year=none|dataset=stat|truncate=5>>.}}
 viz:
   attrs: "geo"
   coords:
@@ -24,9 +36,15 @@ stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop|row=0>>"
   - title: "Median Household Income"
-    value: "<<var namespace=splash|key=income|row=0>>"
+    value: "<<var namespace=income|key=income|row=0>>"
+  - title: "Number of Employees"
+    value: "{{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=num_ppl|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=num_emp|row=0>>}}"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age|row=0>>"
+  - title: "Income Growth"
+    value: "<<growth namespace=income|key=income>>"
+  - title: "Employee Growth"
+    value: "{{<<sumlevel>>:nation,state||<<growth namespace=num_ppl|key=num_ppl>>}}{{<<sumlevel>>:!nation,state||<<growth namespace=num_emp|key=num_emp>>}}"
 sections:
   - economy
   - health

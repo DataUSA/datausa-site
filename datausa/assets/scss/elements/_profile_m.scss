@@ -168,6 +168,7 @@ body.profile, body.story {
 
           h1 {
             display: block;
+            font-size: 40px;
 
 
             .compare-flex {
@@ -186,19 +187,15 @@ body.profile, body.story {
 
         #splash-stats {
           @include align-items(flex-end);
-          @include flex-wrap();
 
           .stat {
             @include box();
-            max-width: 30%;
-            min-width: 30%;
-            width: 30%;
 
             .stat-text {
               font-size: 10px;
             }
             .stat-value {
-              font-size: 20px;
+              font-size: 24px;
               opacity: 1;
             }
             .stat-rank {
