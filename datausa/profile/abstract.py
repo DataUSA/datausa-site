@@ -17,10 +17,15 @@ class BaseObject(object):
                 return level in levels
         elif "allowed" in obj:
             first, second = obj["allowed"].split(":")
-            if second.startswith("!"):
-                second = second[1:]
-                return first != second
-            else:
-                return first == second
+            if first == "<<id>>":
+                first = self.attr["id"]
+            levels = [t for t in second.split(",")]
+
+            for l in levels:
+                if l.startswith("!"):
+                    if l[1:] == first:
+                        return False
+                elif l != first:
+                    return False
 
         return True
