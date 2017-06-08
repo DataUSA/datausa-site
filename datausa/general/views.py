@@ -245,7 +245,7 @@ def home():
     carousels.append({
         "title": "Jobs",
         "icon": "/static/img/icons/soc.svg",
-        "data": tileProfiles(["soc/252020", "soc/412031", "soc/193011", "soc/291020", "soc/274021"]),
+        "data": tileProfiles(["soc/252020", "soc/151131", "soc/1110XX", "soc/412031", "soc/291141"]),
         "footer": {
             "link": "/search/?kind=soc",
             "text": "{} more".format(num_format(footMap["soc"] - TILEMAX))
