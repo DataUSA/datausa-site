@@ -83,6 +83,7 @@ class Profile(BaseObject):
 
     def growth(self, **kwargs):
         key = kwargs.get("key")
+        fmt = kwargs.get("format", "pretty")
         kwargs["format"] = "raw"
 
         if "_moe" in key:
@@ -105,7 +106,12 @@ class Profile(BaseObject):
             x1 = float(self.var(**kwargs))
             value = (x2 - x1) / x1
 
-        return num_format(value, "growth")
+        if fmt == "text":
+            return "{} {}".format(num_format(value, "growth"), "increase" if value >= 0 else "decrease")
+        elif fmt == "pretty":
+            return num_format(value, "growth")
+        else:
+            return value
 
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
@@ -497,6 +503,13 @@ class Profile(BaseObject):
                 r["{}_key".format(t)] = col
                 r[t] = self.var(namespace=ns, key=col, row=row, format="raw")
 
+            elif "growth:" in key:
+
+                keys = key.split(":")[1].split(",")
+                ns, col = keys
+                r["{}_key".format(t)] = "growth"
+                r[t] = self.growth(namespace=ns, key=col, format="raw")
+
             elif "," in key:
 
                 num, den = key.split(",")
@@ -540,7 +553,10 @@ class Profile(BaseObject):
         if r["num"] == 0 or r["den"] == 0:
             val = 0
         elif diff:
-            val = r["num"] - r["den"]
+            if text == "fastslow" and r["num"] < 0 and r["den"] < 0:
+                val = abs(r["num"] - r["den"])
+            else:
+                val = r["num"] - r["den"]
         else:
             val = float(r["num"])/float(r["den"])
 
@@ -552,6 +568,7 @@ class Profile(BaseObject):
 
         if text and text in TEXTCOMPARATORS:
             text = TEXTCOMPARATORS[text]
+
             if diff:
                 if val > 0:
                     return text[0]
@@ -726,7 +743,7 @@ class Profile(BaseObject):
 
         if key == "name":
             if substitution:
-                return u"Based on data from {}.".format(substitution[key])
+                return u"Based on data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
                 return ""
         else:

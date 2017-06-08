@@ -476,9 +476,19 @@ body.profile, body.map, body.story {
     vertical-align: baseline;
   }
 
+  .stat-number, .stat-right {
+    display: inline-block;
+  }
+
+  .stat-right {
+    max-width: 95%;
+  }
+
   .stat-subtitle {
+    display: block;
     font-size: 12px;
     font-weight: 400;
+    vertical-align: baseline;
 
     .plus-minus {
       color: $red-w;

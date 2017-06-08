@@ -2,7 +2,7 @@ title: "Education"
 description: "Higher education data, based on degrees granted by the institutions located in <<name>>."
 
 topics:
-  - title: "Majors"
+  - title: "Concentrations"
     slug: "majors"
     subtitle: "<<sub dataset=ipeds>>"
     select:
@@ -11,18 +11,21 @@ topics:
       default: "{{<<var namespace=top_degree|row=0|key=degree|format=raw>>:N/A||5}}{{<<var namespace=top_degree|row=0|key=degree|format=raw>>:!N/A||<<var namespace=top_degree|row=0|key=degree|format=raw>>}}"
     stat_stack: YES
     stat:
-      - title: "Most common major is"
-        value: "<<var namespace=grads_total|key=cip|row=0>>"
+      - title: "Most common"
+        value: "<<var namespace=grads_total|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=grads_total|key=grads_total|row=0>> graduates</span>"
         subvalues:
-          - "<<var namespace=grads_total|key=cip|row=1>>"
-          - "<<var namespace=grads_total|key=cip|row=2>>"
-      - title: "High Relative Number of People major in"
+          - "<<var namespace=grads_total|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=grads_total|key=grads_total|row=1>> graduates</span>"
+          - "<<var namespace=grads_total|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=grads_total|key=grads_total|row=2>> graduates</span>"
+      - title: "relatively high"
         sumlevel: "!nation"
-        value: "<<var namespace=grads_total_rca|key=cip|row=0>>"
+        value: "<<var namespace=grads_total_rca|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=grads_total_rca|key=grads_total|row=0>> graduates</span>"
         subvalues:
-          - "<<var namespace=grads_total_rca|key=cip|row=1>>"
-          - "<<var namespace=grads_total_rca|key=cip|row=2>>"
-    description: "This tree map shows the composition of the student population in <<name dataset=ipeds>> by major."
+          - "<<var namespace=grads_total_rca|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=grads_total_rca|key=grads_total|row=1>> graduates</span>"
+          - "<<var namespace=grads_total_rca|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=grads_total_rca|key=grads_total|row=2>> graduates</span>"
+    description:
+      - "In <<var namespace=grads_total|key=year|row=0>>, the most common concentation for <span class='select-text'><<var namespace=top_degree|row=0|key=degree>></span> recipients in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>> was <<var namespace=grads_total|key=cip|row=0>> with <<var namespace=grads_total|key=grads_total|row=0>> graduates."
+      - "{{<<sumlevel>>:!nation||When compared to other <<level dataset=ipeds|plural=True>>, <<name dataset=ipeds>> has a relatively high number of students obtaining a <span class='select-text'><<var namespace=top_degree|row=0|key=degree>></span> in <<var namespace=grads_total_rca|key=cip|row=0>>. In <<var namespace=grads_total_rca|key=year|row=0>>, there were <<var namespace=grads_total_rca|key=grads_total|row=0>> graduates, which is approximately <<var namespace=grads_total_rca|key=grads_total_rca|row=0>> times more than would be expected.}}"
+      - "The following visualization shows the composition of students graduating from schools in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>> by the concentration of their <span class='select-text'><<var namespace=top_degree|row=0|key=degree>></span>."
     viz:
       attrs: "cip"
       color: "cip_2"
@@ -44,11 +47,20 @@ topics:
     slug: "universities"
     subtitle: "<<sub dataset=ipeds>>"
     stat:
+      - title: "Largest Universities by Graduates"
+        value: "<<var namespace=universities|key=university|row=0>> <span class='stat-subtitle'><<var namespace=universities|key=grads_total|row=0>> graduates</span>"
+        subvalues:
+          - "<<var namespace=universities|key=university|row=1>> <span class='stat-subtitle'><<var namespace=universities|key=grads_total|row=1>> graduates</span>"
+          - "<<var namespace=universities|key=university|row=2>> <span class='stat-subtitle'><<var namespace=universities|key=grads_total|row=2>> graduates</span>"
       - title: "Median In-State Public"
+        allowed: "<<var namespace=tuition|key=state_tuition|row=0>>:!N/A"
         value: "<<var namespace=tuition|key=state_tuition|row=0>>"
       - title: "Median Out of State Private"
+        allowed: "<<var namespace=tuition|key=oos_tuition|row=1>>:!N/A"
         value: "<<var namespace=tuition|key=oos_tuition|row=1>>"
-    description: "The largest share of students with degrees awarded in <<name dataset=ipeds>> are enrolled at <<var namespace=sectors|key=sector>> institutions."
+    description:
+      - "In <<var namespace=universities|key=year|row=0>>, the institution with the largest number of graduating students in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>> was <<var namespace=universities|key=university|row=0>> with <<var namespace=universities|key=grads_total|row=0>> graduates."
+      - "Most students in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>> are graduating from <<var namespace=sectors|key=sector>> institutions. Here is the breakdown of tuitition costs by sector for both in-state and out-of-state tuition:"
     miniviz:
       attrs: "sector"
       color: "sector"
@@ -83,7 +95,7 @@ topics:
         geo: "<<id dataset=ipeds>>"
         required: "grads_total"
         where: "grads_total:!0"
-      depth: 1
+      depth: "{{<<var namespace=universities|format=length>>:50||0}}{{<<var namespace=universities|format=length>>:!50||1}}"
       id:
         - "sector"
         - "university"
@@ -92,7 +104,14 @@ topics:
   - title: "Student Gender for Common Institutions"
     slug: "edu_gender"
     subtitle: "<<sub dataset=ipeds>>"
-    description: "Here we see the top 5 institutions in <<name dataset=ipeds>>, by degrees awarded, broken out by gender."
+    description:
+      - "In <<var namespace=grads_gender|key=year>>, <<var namespace=grads_gender|key=grads_men>> men graduated from institutions in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>>, which is <<percent num=var:grads_gender,grads_men|den=var:grads_gender,grads_women|ratio=True>> times <<percent num=var:grads_gender,grads_men|den=var:grads_gender,grads_women|text=moreless>> than the <<var namespace=grads_gender|key=grads_women>> female graduates."
+      - "This chart looks at the gender disparity between the top 5 institutions in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>> by degress awarded."
+    stat:
+      - title: "Male Graduates"
+        value: "<<var namespace=grads_gender|key=grads_men>>"
+      - title: "Female Graduates"
+        value: "<<var namespace=grads_gender|key=grads_women>>"
     viz:
       attrs: "university"
       color: "sex"
@@ -116,13 +135,14 @@ topics:
   - title: "Student Race & Ethnicity"
     slug: "edu_ethnicity"
     subtitle: "<<sub dataset=ipeds>>"
+    description:
+      - "In <<var namespace=edu_race|key=year|row=0>> the majority of students graduating from institutions in {{<<sumlevel>>:nation||the }}<<name dataset=ipeds>> were <<var namespace=edu_race|key=name|row=0>> with <<var namespace=edu_race|key=value|row=0>> graduates. There were <<percent num=var:edu_race,value,0|den=var:edu_race,value,1|ratio=True>> times more <<var namespace=edu_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=edu_race|key=name|row=1>>, with <<var namespace=edu_race|key=value|row=1>> graduates."
     stat:
       - title: "Most common student race or ethnicity"
-        value: "<<var namespace=edu_race|key=name|row=0>>"
+        value: "<<var namespace=edu_race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=edu_race|key=value|row=0>></span>"
         subvalues:
-          - "<<var namespace=edu_race|key=name|row=1>>"
-          - "<<var namespace=edu_race|key=name|row=2>>"
-    description: "The most common race or ethnicity of students with degrees awarded in <<name dataset=ipeds>> is <<var namespace=edu_race|key=name|row=0>>, followed by <<var namespace=edu_race|key=name|row=1>>."
+          - "<<var namespace=edu_race|key=name|row=1>> <span class='stat-subtitle'><<var namespace=edu_race|key=value|row=1>></span>"
+          - "<<var namespace=edu_race|key=name|row=2>> <span class='stat-subtitle'><<var namespace=edu_race|key=value|row=2>></span>"
     viz:
       color: "race"
       data:

@@ -48,12 +48,12 @@
         {% for stat in topic.stat %}
           <div class="stat">
             {% if stat.subvalues %}<div class="stat-text">{{ stat.title|safe }}</div>{% endif %}
-            <div class="stat-value{% if stat.subvalues %} stat-small{% endif %}">{% if stat.subvalues %}<span class="stat-text">1.</span> {% endif %}{{ stat.value|safe }}</div>
+            <div class="stat-value{% if stat.subvalues %} stat-small{% endif %}">{% if stat.subvalues %}<span class="stat-text stat-number">1.</span> {% endif %}<span class="stat-right">{{ stat.value|safe }}</span></div>
             {% if not stat.subvalues %}<div class="stat-text">{{ stat.title|safe }}</div>{% endif %}
             {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
             {% if stat.subvalues %}
             {% for s in stat.subvalues %}
-            <div class="stat-value stat-small"><span class="stat-text">{{ loop.index + 1 }}.</span> {{ s|safe }}</div>
+            <div class="stat-value stat-small"><span class="stat-text stat-number">{{ loop.index + 1 }}.</span> <span class="stat-right">{{ s|safe }}</span></div>
             {% endfor %}
             {% endif %}
           </div>

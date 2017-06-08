@@ -104,9 +104,11 @@ SUMLEVELS = {
 
 TEXTCOMPARATORS = {
     "age": ("older than", "younger than", "approximately the same age as"),
+    "age2": ("getting older", "getting younger", "staying the same age"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
-    "growth": ("growing", "shrinking", "staying approximately the same"),
+    "growth": ("growing", "declining", "staying approximately the same as"),
+    "grew": ("grew to", "declined to", "stayed at"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same")

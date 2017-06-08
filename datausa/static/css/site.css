@@ -3913,13 +3913,20 @@
       text-transform: uppercase;
       line-height: 1.5;
       vertical-align: baseline; }
-      body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
-        font-size: 12px;
-        font-weight: 400; }
-        body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
-        body.story .stat-subtitle .plus-minus {
-          color: #ef6145;
-          vertical-align: baseline; }
+      body.profile .stat-number, body.profile .stat-right, body.map .stat-number,
+      body.map .stat-right, body.story .stat-number, body.story .stat-right {
+        display: inline-block; }
+        body.profile .stat-right, body.map .stat-right, body.story .stat-right {
+          max-width: 95%; }
+          body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            vertical-align: baseline; }
+            body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
+            body.story .stat-subtitle .plus-minus {
+              color: #ef6145;
+              vertical-align: baseline; }
   body.profile .stat-group, body.map .stat-group, body.story .stat-group {
     text-align: center; }
     body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {

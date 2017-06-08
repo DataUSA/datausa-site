@@ -5,13 +5,14 @@ topics:
   - category: "Wages"
     title: "Median Household Income"
     slug: "income"
-    description: "Households in <<name>> have a median income of <<var namespace=income|key=income|row=0>>.{{<<sumlevel>>:!nation|| This chart shows the median household income of <<name>> compared to [[<<sumlevel>>:!state||its parent locations]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation|| This chart shows the median household income of US citizens compared to the top 2 and bottom 2 states.}}"
+    description: "Households in {{<<sumlevel>>:nation||the }}<<name>> have a median income of <<var namespace=income|key=income|row=0>>. {{<<sumlevel>>:nation,state||This is in comparison to a median income of <<var namespace=income|key=income|row=1>> in <<var namespace=income|key=year|row=1>>, which represents a <<growth namespace=income|key=income>> annual growth. }}{{<<sumlevel>>:!nation|| The chart shows the median household income in <<name>> compared to [[<<sumlevel>>:!state||its parent locations]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation|| The chart shows the median household income of US citizens compared to the highest and lowest two states.}}"
     stat:
       - title: "<<var namespace=income|key=year|row=0>> value"
         value: "<<var namespace=income|key=income|row=0>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=income|key=income_moe|row=0>>"
       - title: "1 year Growth"
         value: "<<growth namespace=income|key=income>>"
+        sumlevel: "nation,state"
         subtitle: "<span class='plus-minus'>±</span> <<growth namespace=income|key=income_moe>>"
     viz:
       attrs: "geo"
@@ -32,14 +33,16 @@ topics:
   - title: "Wage by Gender for Common Jobs"
     subtitle: "<<sub dataset=pums>>"
     slug: "income_gender"
-    description: "<<var namespace=gender|key=sex|row=0>> full-time employees in <<name dataset=pums>> make <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|ratio=True>> times <<percent num=var:gender,avg_wage_ft,0|den=var:gender,avg_wage_ft,1|text=moreless>> <<var namespace=gender|key=sex|row=1>> full-time employees. This chart shows the wage disparity between the 5 most common occupations."
+    description:
+      - "In <<var namespace=wage_male|key=year|row=0>>, male full-time employees in {{<<sumlevel>>:nation||the }}<<name dataset=pums>> had an average salary of <<var namespace=wage_male|key=avg_wage_ft|row=0>>, which is <<percent num=var:wage_male,avg_wage_ft,0|den=var:wage_female,avg_wage_ft,0|ratio=True>> times <<percent num=var:wage_male,avg_wage_ft,0|den=var:wage_female,avg_wage_ft,1|text=moreless>> their female counterparts at <<var namespace=wage_female|key=avg_wage_ft|row=0>>."
+      - "This chart looks at the wage disparity between the 5 most common occupations in {{<<sumlevel>>:nation||the }}<<name dataset=pums>> by number of full-time employees."
     stat:
       - title: "Average Male Salary"
-        value: "<<var namespace=gender|key=avg_wage_ft|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=0>>"
+        value: "<<var namespace=wage_male|key=avg_wage_ft|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=wage_male|key=avg_wage_ft_moe|row=0>>"
       - title: "Average Female Salary"
-        value: "<<var namespace=gender|key=avg_wage_ft|row=1>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_ft_moe|row=1>>"
+        value: "<<var namespace=wage_female|key=avg_wage_ft|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=wage_female|key=avg_wage_ft_moe|row=0>>"
     viz:
       attrs:
         - "sex"
@@ -60,14 +63,17 @@ topics:
         value: "soc"
       y: "avg_wage_ft"
   - title: "Wage by Race & Ethnicity for Common Jobs"
-    subtitle: "<<sub show=race|col=avg_wage>>"
+    subtitle: "<<sub dataset=pums>>"
     slug: "income_ethnicity"
-    description: "<<var namespace=race|key=race|row=0>> citizens earn, on average, <<percent num=var:race,avg_wage,0|den=var:race,avg_wage,1|ratio=True>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations."
-    stat_stack: YES
+    description:
+      - "In <<var namespace=race|key=year|row=0>> the highest paid race/ethnicity of workers in {{<<sumlevel>>:nation||the }}<<name dataset=pums>> were <<var namespace=race|key=race|row=0>> with an average salary of <<var namespace=race|key=avg_wage|row=0>>. They got paid <<percent num=var:race,avg_wage,0|den=var:race,avg_wage,1|ratio=True>> times more than the next closest race/ethnicity group, <<var namespace=race|key=race|row=1>>, with an average salary of <<var namespace=race|key=avg_wage|row=1>>."
+      - "This chart shows the wage disparity between the 5 most common occupations in {{<<sumlevel>>:nation||the }}<<name dataset=pums>>."
     stat:
-      - title: "Race or Ethnicity with Highest Average Salary"
-        value: "<<var namespace=race|key=race|row=0>>"
-        subtitle: "<<var namespace=race|key=avg_wage|row=0>> <span class='plus-minus'>±</span> <<var namespace=race|key=avg_wage_moe|row=0>>"
+      - title: "Highest Average Salaries by Race & Ethnicity"
+        value: "<<var namespace=race|key=race|row=0>> <span class='stat-subtitle'><<var namespace=race|key=avg_wage|row=0>>  <span class='plus-minus'>±</span> <<var namespace=race|key=avg_wage_moe|row=0>></span>"
+        subvalues:
+          - "<<var namespace=race|key=race|row=1>> <span class='stat-subtitle'><<var namespace=race|key=avg_wage|row=1>>  <span class='plus-minus'>±</span> <<var namespace=race|key=avg_wage_moe|row=1>></span>"
+          - "<<var namespace=race|key=race|row=2>> <span class='stat-subtitle'><<var namespace=race|key=avg_wage|row=2>>  <span class='plus-minus'>±</span> <<var namespace=race|key=avg_wage_moe|row=2>></span>"
     viz:
       attrs:
         - "race"
@@ -89,33 +95,17 @@ topics:
         value: "soc"
       y: "avg_wage"
   - title: "Wage Distribution"
-    subtitle: "{{<<var namespace=wagegap|key=geo|format=raw>>:!<<id>>|| The closest comparable wage GINI for <<name>> is from <<var namespace=wagegap|key=geo>>.}}"
+    subtitle: "{{<<var namespace=wagegap|key=geo|format=raw|row=0>>:!<<id>>|| The closest comparable wage GINI for <<name>> is from <<var namespace=wagegap|key=geo|row=0>>.}}"
     slug: "income_distro"
     description:
-      - "The salary inequality in <<var namespace=wagegap|key=geo>> is <<var namespace=wagegap|key=gini>>, based on the GINI calculation of the wage distribution.{{<<sumlevel>>:!nation|| That is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<var namespace=wagegap|key=geo>> when comparing to the national average.}}"
+      - "The salary inequality in <<var namespace=wagegap|key=year|row=0>> for {{<<sumlevel>>:nation||the }}<<var namespace=wagegap|key=geo|row=0>> was <<var namespace=wagegap|key=gini|row=0>>, based on the GINI calculation of the wage distribution. It has seen a <<growth namespace=wagegap|key=gini|format=text>> since the previous year of <<var namespace=wagegap|key=year|row=1>>, showing that wages are beginning to be distributed <<percent den=var:wagegap,gini,0|num=var:wagegap,gini,1|text=moreless2>> evenly over time."
+      - "{{<<sumlevel>>:!nation|| The <<var namespace=wagegap|key=year|row=0>> GINI for <<var namespace=wagegap|key=geo|row=0>> is <<percent num=var:wagegap,gini,0|den=var:wagegap_us,gini,0|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini|row=0>>. In other words, wages are distributed <<percent den=var:wagegap,gini,0|num=var:wagegap_us,gini,0|text=moreless2>> evenly in <<var namespace=wagegap|key=geo|row=0>> when comparing to the national average.}}"
+      - "The following chart shows the number of workers across a series of wage buckets{{<<sumlevel>>:!nation|| compared to the national average}}."
     stat:
-      - title: "Wage GINI"
-        value: "<<var namespace=wagegap|key=gini>>"
-    # viz:
-    #   attrs: "geo"
-    #   data:
-    #     - geo: "<<id>>,01000US"
-    #       force: "acs.yg_income_distribution"
-    #       show: "geo"
-    #       share: "people.geo"
-    #       split:
-    #         id: "bucket"
-    #         regex: "^income_([a-zA-Z0-9]*)$"
-    #         value: "people"
-    #   id: "geo"
-    #   order: "bucket"
-    #   type: "bar"
-    #   x:
-    #     label: "income"
-    #     persist:
-    #       position: "{{<<sumlevel>>:!nation||True}}"
-    #     value: "bucket"
-    #   y: "share"
+      - title: "<<var namespace=wagegap|key=year|row=0>> Wage GINI"
+        value: "<<var namespace=wagegap|key=gini|row=0>>"
+      - title: "<<var namespace=wagegap|key=year|row=1>> Wage GINI"
+        value: "<<var namespace=wagegap|key=gini|row=1>>"
     viz:
       attrs:
         - "geo"
@@ -125,7 +115,7 @@ topics:
           required: "num_ppl,num_ppl_moe,wage_bin"
           show: "geo"
           share: "num_ppl.geo"
-      highlight: "<<var namespace=wagegap|key=geo|format=raw>>"
+      highlight: "<<var namespace=wagegap|key=geo|format=raw|row=0>>"
       id: "geo"
       order:
         sort: "asc"
@@ -159,11 +149,12 @@ topics:
     stat:
       - title: "<<level child=True|plural=True>> with the highest <span class='select-text'>Median Household Income</span>"
         value: "<<top child=True|order=income>>"
-        sumlevel: "!county,!place"
         subvalues:
           - "<<top child=True|order=income|rank=2>>"
           - "<<top child=True|order=income|rank=3>>"
-    description: "Here we can see the <<level plural=True|child=True>> in <<name>> colored by Median <span class='select-text'>Median Household Income</span> for that <<level child=True>>."
+    description:
+      - "In <<top child=True|order=income|col=year>>, the <<level child=True>> with the highest <span class='select-text'>Median Household Income</span> in {{<<sumlevel>>:nation||the }}<<name>> was <<top child=True|order=income>> with a value of <<top child=True|order=income|col=income>>, followed by <<top child=True|order=income|rank=2>> and <<top child=True|order=income|rank=3>>."
+      - "The following map shows all of the <<level plural=True|child=True>> in {{<<sumlevel>>:nation||the }}<<name>> colored by their <span class='select-text'>Median Household Income</span>."
     viz:
       attrs: "geo"
       coords:
@@ -191,7 +182,7 @@ topics:
         value: "<<var namespace=sex_age|key=name|row=0>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|key=moe|row=0>>"
     description:
-      - "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line{{<<sumlevel>>:!nation||, which is <<percent num=income_below_poverty,pop_poverty_status|den=income_below_poverty,pop_poverty_status|den_id=01000US|text=highlow>> the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>.}}{{<<sumlevel>>:nation||.}}"
+      - "<<percent num=income_below_poverty|den=pop_poverty_status>> of the population in <<name>> (<<top col=pop_poverty_status>> people) live below the poverty line{{<<sumlevel>>:!nation||, which is <<percent num=income_below_poverty,pop_poverty_status|den=income_below_poverty,pop_poverty_status|den_id=01000US|text=highlow>> the national average of <<percent attr_id=01000US|num=income_below_poverty|den=pop_poverty_status>>.}}{{<<sumlevel>>:nation||.}} The largest group living in porverty is <<var namespace=sex_age|key=name|row=0>>, followed by <<var namespace=sex_age|key=name|row=1>> and then <<var namespace=sex_age|key=name|row=2>>."
       - "The Census Bureau uses a set of <a href='https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-thresholds.html' target='_blank'>money income thresholds</a> that vary by family size and composition to determine who is in poverty. If a family's total income is less than the family's threshold, then that family and every individual in it is considered in poverty."
     viz:
       color: "sex"
@@ -220,9 +211,13 @@ topics:
     slug: "poverty_ethnicity"
     stat:
       - title: "Largest race or ethnicity living in poverty"
-        value: "<<var namespace=poverty_race|key=name|row=0>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=poverty_race|key=moe|row=0>>"
-    description: "The most common race or ethnicity living below the poverty line in <<name>> is <<var namespace=poverty_race|key=name|row=0>>, followed by <<var namespace=poverty_race|key=name|row=1>> and <<var namespace=poverty_race|key=name|row=2>>."
+        value: "<<var namespace=poverty_race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=poverty_race|key=value|row=0>> <span class='plus-minus'>±</span> <<var namespace=poverty_race|key=moe|row=0>></span>"
+        subvalues:
+          - "<<var namespace=poverty_race|key=name|row=1>> <span class='stat-subtitle'><<var namespace=poverty_race|key=value|row=1>> <span class='plus-minus'>±</span> <<var namespace=poverty_race|key=moe|row=1>></span>"
+          - "<<var namespace=poverty_race|key=name|row=2>> <span class='stat-subtitle'><<var namespace=poverty_race|key=value|row=2>> <span class='plus-minus'>±</span> <<var namespace=poverty_race|key=moe|row=2>></span>"
+    description:
+      - "The most common race or ethnicity living below the poverty line in {{<<sumlevel>>:nation||the }}<<name>> is <<var namespace=poverty_race|key=name|row=0>>, followed by <<var namespace=poverty_race|key=name|row=1>> and <<var namespace=poverty_race|key=name|row=2>>."
+      - "The Census Bureau uses a set of <a href='https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-poverty-thresholds.html' target='_blank'>money income thresholds</a> that vary by family size and composition to determine who is in poverty. If a family's total income is less than the family's threshold, then that family and every individual in it is considered in poverty."
     viz:
       color: "race"
       data:
@@ -244,7 +239,9 @@ topics:
     sumlevel: "!nation,!state"
     title: "Occupations by Share"
     subtitle: "For anonymity, the ACS 1-year estimate groups occupations by course parent groupings."
-    description: "Employment in <<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
+    description:
+      - "Employment in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
+      - "The most common job groups, by number of people living in <<name>>, are <<var namespace=common_soc_emp|row=0|key=acs_occ>>, <<var namespace=common_soc_emp|row=1|key=acs_occ>>, and <<var namespace=common_soc_emp|row=2|key=acs_occ>>. The following chart shows the share breakdown of the primary jobs held by residents of {{<<sumlevel>>:nation||the }}<<name>>."
     stat:
       - title: "<<var namespace=num_emp|key=year|row=0>> value"
         value: "<<var namespace=num_emp|key=num_emp|row=0>>"
@@ -275,7 +272,9 @@ topics:
     slug: "tmap_occ_num_emp"
     sumlevel: "nation,state"
     title: "Occupations by Share"
-    description: "Employment in <<name>> has been <<percent num=var:num_ppl,num_ppl,0|den=var:num_ppl,num_ppl,1|text=growth>> at a rate of <<growth namespace=num_ppl|key=num_ppl>>, from <<var namespace=num_ppl|key=num_ppl|row=1>> employees in <<var namespace=num_ppl|key=year|row=1>> to <<var namespace=num_ppl|key=num_ppl|row=0>> employees in <<var namespace=num_ppl|key=year|row=0>>."
+    description:
+      - "Employment in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:num_ppl,num_ppl,0|den=var:num_ppl,num_ppl,1|text=growth>> at a rate of <<growth namespace=num_ppl|key=num_ppl>>, from <<var namespace=num_ppl|key=num_ppl|row=1>> employees in <<var namespace=num_ppl|key=year|row=1>> to <<var namespace=num_ppl|key=num_ppl|row=0>> employees in <<var namespace=num_ppl|key=year|row=0>>."
+      - "The most common job groups, by number of people living in {{<<sumlevel>>:nation||the }}<<name>>, are <<var namespace=common_soc_ppl|row=0|key=soc>>, <<var namespace=common_soc_ppl|row=1|key=soc>>, and <<var namespace=common_soc_ppl|row=2|key=soc>>. The following chart shows the share breakdown of the primary jobs held by residents of {{<<sumlevel>>:nation||the }}<<name>>."
     stat:
       - title: "<<var namespace=num_ppl|key=year|row=0>> value"
         value: "<<var namespace=num_ppl|key=num_ppl|row=0>>"
@@ -305,7 +304,7 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common jobs in <<name>> by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
+    description: "The most common jobs held by residents of <<name>>, by number of employees, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp|sort=desc|limit=3>>."
     viz:
       - allowed: "<<var namespace=top10_occ_num_emp|format=length>>:!11"
         attrs: "acs_occ"
@@ -381,7 +380,7 @@ topics:
     title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common jobs in <<name>> by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common jobs held by residents of {{<<sumlevel>>:nation||the }}<<name>>, by number of employees, are <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - attrs: "soc"
         color: "top"
@@ -432,7 +431,7 @@ topics:
     sumlevel: "!nation,!state"
     title: "Most Specialized"
     slug: "top_occ_rca"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of residents working in <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=num_emp_rca|sort=desc|limit=3>>."
     viz:
       - allowed: "<<var namespace=top10_occ_num_emp_rca|format=length>>:!11"
         attrs: "acs_occ"
@@ -508,7 +507,7 @@ topics:
     sumlevel: "state"
     title: "Most Specialized"
     slug: "top_occ_rca"
-    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
+    description: "Compared to other <<level plural=True>>, <<name>> has an unusually high number of residents working in <<top show=geo,soc|sumlevel=sumlevel,3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         color: "top"
@@ -560,7 +559,7 @@ topics:
     title: "Highest Paid"
     sumlevel: "!nation,!state"
     slug: "top_occ_med_earnings"
-    description: "The highest paid jobs in <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
+    description: "The highest paid jobs held by residents of <<name>>, by median earnings, are <<top show=geo,acs_occ|sumlevel=sumlevel,4|order=med_earnings|sort=desc|limit=3>>."
     viz:
       - allowed: "<<var namespace=top10_occ_med_earnings|format=length>>:!11"
         attrs: "acs_occ"
@@ -636,7 +635,7 @@ topics:
     title: "Highest Paid"
     sumlevel: "nation,state"
     slug: "top_occ_med_earnings"
-    description: "The highest paid jobs in <<name>>, by average salary, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paid jobs held by residents of {{<<sumlevel>>:nation||the }}<<name>>, by average salary, are <<top show=geo,soc|sumlevel=sumlevel,3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - attrs: "soc"
         color: "top"
@@ -689,7 +688,9 @@ topics:
     sumlevel: "!nation,!state"
     title: "Industries by Share"
     subtitle: "For anonymity, the ACS 1-year estimate groups industries by course parent groupings."
-    description: "Employment in <<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
+    description:
+      - "Employment in <<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
+      - "The most common sectors, by number of people living in <<name>>, are <<var namespace=common_naics_emp|row=0|key=acs_ind>>, <<var namespace=common_naics_emp|row=1|key=acs_ind>>, and <<var namespace=common_naics_emp|row=2|key=acs_ind>>. The following chart shows the share breakdown of the primary industries for residents of <<name>>."
     stat:
       - title: "<<var namespace=num_emp|key=year|row=0>> value"
         value: "<<var namespace=num_emp|key=num_emp|row=0>>"
@@ -717,7 +718,9 @@ topics:
     slug: "tmap_ind_num_emp"
     sumlevel: "nation,state"
     title: "Industries by Share"
-    description: "Employment in <<name>> has been <<percent num=var:num_ppl,num_ppl,0|den=var:num_ppl,num_ppl,1|text=growth>> at a rate of <<growth namespace=num_ppl|key=num_ppl>>, from <<var namespace=num_ppl|key=num_ppl|row=1>> employees in <<var namespace=num_ppl|key=year|row=1>> to <<var namespace=num_ppl|key=num_ppl|row=0>> employees in <<var namespace=num_ppl|key=year|row=0>>."
+    description:
+      - "Employment in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:num_ppl,num_ppl,0|den=var:num_ppl,num_ppl,1|text=growth>> at a rate of <<growth namespace=num_ppl|key=num_ppl>>, from <<var namespace=num_ppl|key=num_ppl|row=1>> employees in <<var namespace=num_ppl|key=year|row=1>> to <<var namespace=num_ppl|key=num_ppl|row=0>> employees in <<var namespace=num_ppl|key=year|row=0>>."
+      - "The most common sectors, by number of people living in {{<<sumlevel>>:nation||the }}<<name>>, are <<var namespace=common_naics_ppl|row=0|key=naics>>, <<var namespace=common_naics_ppl|row=1|key=naics>>, and <<var namespace=common_naics_ppl|row=2|key=naics>>. The following chart shows the share breakdown of the primary industries for residents of {{<<sumlevel>>:nation||the }}<<name>>."
     stat:
       - title: "<<var namespace=num_ppl|key=year|row=0>> value"
         value: "<<var namespace=num_ppl|key=num_ppl|row=0>>"

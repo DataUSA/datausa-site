@@ -12,7 +12,7 @@ topics:
       - title: "Median Foreign Age"
         value: "<<var namespace=nativity|key=nativity_foreign>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=nativity|key=nativity_foreign_moe>>"
-    description: "The median age of people in <<name>> is <<var namespace=splash|key=age|row=0>>, and native-born citizens are generally <<percent num=var:nativity,nativity_us|den=var:nativity,nativity_foreign|text=age>> foreign-born citizens."
+    description: "The median age of people in {{<<sumlevel>>:nation||the }}<<name>> in <<var namespace=age|key=year|row=0>> was <<var namespace=age|key=age|row=0>>, and native-born citizens (<<var namespace=nativity|key=nativity_us>>) are generally <<percent num=var:nativity,nativity_us|den=var:nativity,nativity_foreign|text=age>> foreign-born citizens (<<var namespace=nativity|key=nativity_foreign>>). Compared to <<var namespace=age|key=year|row=1>>, where the average age was <<var namespace=age|key=age|row=1>>, the residents of {{<<sumlevel>>:nation||the }}<<name>> are <<percent num=var:age,age,0|den=var:age,age,1|text=age2>>."
     viz:
       color: "nationality"
       data:
@@ -39,20 +39,23 @@ topics:
   - category: "Heritage"
     title: "Global Diversity"
     slug: "global_diversity"
+    allowed: "<<id>>:!04000US72"
     subtitle: "<<sub dataset=pums>>"
     stat:
-      - title: "Most common country of origin is"
+      - title: "Most common origin"
         value: "<<var namespace=heritage_total|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=heritage_total|key=birthplace|row=1>>"
           - "<<var namespace=heritage_total|key=birthplace|row=2>>"
-      - title: "High Relative Number of People born in"
+      - title: "relatively high origin"
         sumlevel: "!nation"
         value: "<<var namespace=heritage_rca|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=heritage_rca|key=birthplace|row=1>>"
           - "<<var namespace=heritage_rca|key=birthplace|row=2>>"
-    description: "<<name dataset=pums>> has a relatively high number of people that were born in <<var namespace=heritage_rca|key=birthplace|row=0>>."
+    description:
+      - "The most common birthplace for the residents of {{<<sumlevel>>:nation||the }}<<name dataset=pums>> in <<var namespace=heritage_total|key=year|row=0>> was <<var namespace=heritage_total|key=birthplace|row=0>> with <<var namespace=heritage_total|key=num_over5|row=0>> immigrants, followed by <<var namespace=heritage_total|key=birthplace|row=1>> with <<var namespace=heritage_total|key=num_over5|row=1>> and <<var namespace=heritage_total|key=birthplace|row=2>> with <<var namespace=heritage_total|key=num_over5|row=2>>."
+      - "{{<<sumlevel>>:!nation||When compared to other <<level dataset=pums|plural=True>>, <<name dataset=pums>> has a relatively high number of residents that were born in <<var namespace=heritage_rca|key=birthplace|row=0>>. In <<var namespace=heritage_rca|key=year|row=0>>, there were <<var namespace=heritage_rca|key=num_over5|row=0>> people from <<var namespace=heritage_rca|key=birthplace|row=0>>, approximately <<var namespace=heritage_rca|key=num_over5_rca|row=0>> times more than would be expected, living in <<name dataset=pums>>.}}"
     viz:
       attrs: "birthplace"
       coords: "birthplace"
@@ -68,10 +71,14 @@ topics:
       type: "geo_map"
   - title: "Citizenship"
     slug: "citizenship"
-    description: "{{<<sumlevel>>:!nation|| <<var namespace=splash|key=us_citizens|row=0>> of the population of <<name>> are US citizens. This is <<percent num=var:splash,us_citizens,0|den=var:splash,us_citizens,1|text=highlow>> the national average of <<var namespace=splash|key=us_citizens|row=1>>.}}{{<<sumlevel>>:nation|| <<var namespace=splash|key=us_citizens|row=0>> of the United States population are citizens. Here is that number, compared to the 2 highest and the 2 lowest states.}}"
+    description:
+      - "As of <<var namespace=citizenship|key=year|row=0>>, {{<<sumlevel>>:!nation|| <<var namespace=citizenship|key=us_citizens|row=0>> of the residents in <<name>> were US citizens, which is <<percent num=var:citizenship,us_citizens,0|den=var:splash,us_citizens,1|text=highlow>> the national average of <<var namespace=splash|key=us_citizens|row=1>>.}}{{<<sumlevel>>:nation|| <<var namespace=splash|key=us_citizens|row=0>> of the United States population are citizens.}} Compared to the previous year, where the percentage was <<var namespace=citizenship|key=us_citizens|row=1>>, citizenship in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:citizenship,us_citizens,0|den=var:citizenship,us_citizens,1|text=growth>>."
+      - "{{<<sumlevel>>:!nation|| The following chart shows citizenship compared to the geographies that <<name>> is a part of.}}{{<<sumlevel>>:nation|| The following bar chart compares overall citizenship with the two states with the highest and lowest values.}}"
     stat:
-      - title: "Percent with citizenship"
-        value: "<<var namespace=splash|key=us_citizens|row=0>>"
+      - title: "<<var namespace=citizenship|key=year|row=0>> citizenship"
+        value: "<<var namespace=citizenship|key=us_citizens|row=0>>"
+      - title: "<<var namespace=citizenship|key=year|row=1>> citizenship"
+        value: "<<var namespace=citizenship|key=us_citizens|row=1>>"
     viz:
       attrs: "geo"
       data:
@@ -90,13 +97,15 @@ topics:
         value: "geo"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
-    description: "The largest share of citizens in <<name>> are <<var namespace=acs_race|key=name|row=0>>, with <<var namespace=acs_race|key=name|row=1>> being the second most common."
+    description:
+      - "In <<var namespace=acs_race|key=year|row=0>>, there were <<percent num=var:acs_race,value,0|den=var:acs_race,value,1|ratio=True>> time more <<var namespace=acs_race|key=name|row=0>> residents (<<var namespace=acs_race|key=value|row=0>> people) in {{<<sumlevel>>:nation||the }}<<name>> than any other race or ethnicity. This is followed by <<var namespace=acs_race|key=name|row=1>> with <<var namespace=acs_race|key=value|row=1>> and <<var namespace=acs_race|key=name|row=2>> with <<var namespace=acs_race|key=value|row=2>>."
+      - "The following bar chart shows the <<var namespace=acs_race|format=length>> races and ethnicities represented in {{<<sumlevel>>:nation||the }}<<name>> as a share of the total population."
     stat:
-      - title: "Most common race or ethnicity in <<name>> is"
-        value: "<<var namespace=acs_race|key=name|row=0>>"
+      - title: "Most common"
+        value: "<<var namespace=acs_race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=acs_race|key=value|row=0>> <span class='plus-minus'>±</span> <<var namespace=acs_race|key=moe|row=0>></span>"
         subvalues:
-          - "<<var namespace=acs_race|key=name|row=1>>"
-          - "<<var namespace=acs_race|key=name|row=2>>"
+          - "<<var namespace=acs_race|key=name|row=1>> <span class='stat-subtitle'><<var namespace=acs_race|key=value|row=1>> <span class='plus-minus'>±</span> <<var namespace=acs_race|key=moe|row=1>></span>"
+          - "<<var namespace=acs_race|key=name|row=2>> <span class='stat-subtitle'><<var namespace=acs_race|key=value|row=2>> <span class='plus-minus'>±</span> <<var namespace=acs_race|key=moe|row=2>></span>"
     viz:
       color: "race"
       data:
@@ -115,16 +124,18 @@ topics:
         scale: "discrete"
         value: "race"
       y: "share"
-  - title: "Languages"
+  - title: "Non-English Speakers"
     slug: "languages"
-    description: "The most common language spoken in <<name>>, other than English is <<var namespace=speakers_total|key=language|row=0>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are speakers of a non-English language.{{<<sumlevel>>:!nation|| That is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>.}}"
+    description:
+      - "<<var namespace=splash|key=non_eng_speakers_pct|row=0>> of <<name>> citizens are speakers of a non-English language{{<<sumlevel>>:!nation||, which is <<percent num=var:splash,non_eng_speakers_pct,0|den=var:splash,non_eng_speakers_pct,1|text=highlow>> the national average of <<var namespace=splash|key=non_eng_speakers_pct|row=1>>}}. The most common language spoken in {{<<sumlevel>>:nation||the }}<<name>> in <<var namespace=speakers_total|key=year|row=0>>, other than English, was <<var namespace=speakers_total|key=language|row=0>> with <<percent num=var:speakers_total,num_speakers,0|den=var:splash,pop,0>> of the overall population being native speakers. This was followed by <<var namespace=speakers_total|key=language|row=1>> with <<percent num=var:speakers_total,num_speakers,1|den=var:splash,pop,0>> and <<var namespace=speakers_total|key=language|row=2>> with <<percent num=var:speakers_total,num_speakers,2|den=var:splash,pop,0>>."
+      - "{{<<sumlevel>>:!nation||When compared to other <<level plural=True>>, <<name>> has a relatively high number of residents that are native <<var namespace=speakers_rca|key=language|row=0>> speakers. In <<var namespace=speakers_rca|key=year|row=0>>, there were <<var namespace=speakers_rca|key=num_speakers|row=0>> native speakers, approximately <<var namespace=speakers_rca|key=num_speakers_rca|row=0>> times more than would be expected, living in <<name>>.}}"
     stat:
-      - title: "The most common non-English language is"
+      - title: "most common languages"
         value: "<<var namespace=speakers_total|key=language|row=0>>"
         subvalues:
           - "<<var namespace=speakers_total|key=language|row=1>>"
           - "<<var namespace=speakers_total|key=language|row=2>>"
-      - title: "<<name>> has a relatively high number of speakers of"
+      - title: "relatively high languages"
         sumlevel: "!nation"
         value: "<<var namespace=speakers_rca|key=language|row=0>>"
         subvalues:
@@ -148,14 +159,13 @@ topics:
   - category: "Military"
     title: "Veterans"
     slug: "veterans"
-    description: "<<name>> has a large population of citizens who served in <<var namespace=conflict|key=name|row=0>>, <<percent num=var:conflict,value,0|den=var:conflict,value,1|ratio=True>> times greater than any other conflict."
-    stat_stack: YES
+    description: "{{<<sumlevel>>:nation||The }}<<name>> has a large population of citizens who served in <<var namespace=conflict|key=name|row=0>>, <<percent num=var:conflict,value,0|den=var:conflict,value,1|ratio=True>> times greater than any other conflict."
     stat:
       - title: "Most Common Service Period"
-        value: "<<var namespace=conflict|key=name|row=0>>"
+        value: "<<var namespace=conflict|key=name|row=0>> <span class='stat-subtitle'><<var namespace=conflict|key=value|row=0>> <span class='plus-minus'>±</span> <<var namespace=conflict|key=moe|row=0>></span>"
         subvalues:
-          - "<<var namespace=conflict|key=name|row=1>>"
-          - "<<var namespace=conflict|key=name|row=2>>"
+          - "<<var namespace=conflict|key=name|row=1>> <span class='stat-subtitle'><<var namespace=conflict|key=value|row=1>> <span class='plus-minus'>±</span> <<var namespace=conflict|key=moe|row=1>></span>"
+          - "<<var namespace=conflict|key=name|row=2>> <span class='stat-subtitle'><<var namespace=conflict|key=value|row=2>> <span class='plus-minus'>±</span> <<var namespace=conflict|key=moe|row=2>></span>"
     viz:
       attrs:
         - "conflict"
