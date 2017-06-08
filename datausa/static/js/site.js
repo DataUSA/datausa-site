@@ -8208,7 +8208,7 @@ var viz = function(build) {
     build.viz.class(function(d, viz){
       var attr = d[viz.id.value] + "";
       return build.highlight === "01000US" || attr === build.highlight ? "highlight" :
-             build.highlight.length > attr.length ? "outline" : "";
+             build.highlight.length > attr.length ? "outline" : "default";
     });
 
   }
