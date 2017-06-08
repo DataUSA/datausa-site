@@ -167,7 +167,26 @@ def home():
         }
     })
 
-    # Dave, remember to add slug to builds in JS!!!
+    carousels.append({
+        "title": "Industries",
+        "icon": "/static/img/icons/naics.svg",
+        "data": tileProfiles(["naics/622", "naics/23", "naics/31-33", "naics/722Z", "naics/44-45"]),
+        "footer": {
+            "link": "/search/?kind=naics",
+            "text": "{} more".format(num_format(footMap["naics"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "title": "Jobs",
+        "icon": "/static/img/icons/soc.svg",
+        "data": tileProfiles(["soc/252020", "soc/151131", "soc/1110XX", "soc/412031", "soc/291141"]),
+        "footer": {
+            "link": "/search/?kind=soc",
+            "text": "{} more".format(num_format(footMap["soc"] - TILEMAX))
+        }
+    })
+
     cartDatasets = [
         {
             "url": "{}/api/?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all".format(API),
@@ -213,6 +232,16 @@ def home():
         }
     })
 
+    carousels.append({
+        "title": "Higher Education",
+        "icon": "/static/img/icons/cip.svg",
+        "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
+        "footer": {
+            "link": "/search/?kind=cip",
+            "text": "{} more".format(num_format(footMap["cip"] - TILEMAX))
+        }
+    })
+
     stories = StoryPreview.generate_list()[0]
     story_order = ["opioid-addiction", "poverty-health", "worker-evolution", "medicare-physicians", "hardest-working"]
     stories.sort(key=lambda story: story_order.index(story.story_id.split("_")[1]) if story.story_id.split("_")[1] in story_order else TILEMAX)
@@ -239,36 +268,6 @@ def home():
         "footer": {
             "link": "/story/",
             "text": "{} more".format(len(stories) - TILEMAX)
-        }
-    })
-
-    carousels.append({
-        "title": "Jobs",
-        "icon": "/static/img/icons/soc.svg",
-        "data": tileProfiles(["soc/252020", "soc/151131", "soc/1110XX", "soc/412031", "soc/291141"]),
-        "footer": {
-            "link": "/search/?kind=soc",
-            "text": "{} more".format(num_format(footMap["soc"] - TILEMAX))
-        }
-    })
-
-    carousels.append({
-        "title": "Industries",
-        "icon": "/static/img/icons/naics.svg",
-        "data": tileProfiles(["naics/622", "naics/23", "naics/31-33", "naics/722Z", "naics/44-45"]),
-        "footer": {
-            "link": "/search/?kind=naics",
-            "text": "{} more".format(num_format(footMap["naics"] - TILEMAX))
-        }
-    })
-
-    carousels.append({
-        "title": "Higher Education",
-        "icon": "/static/img/icons/cip.svg",
-        "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
-        "footer": {
-            "link": "/search/?kind=cip",
-            "text": "{} more".format(num_format(footMap["cip"] - TILEMAX))
         }
     })
 
