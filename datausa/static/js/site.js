@@ -8454,7 +8454,10 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      if (["year", "bucket", "test"].indexOf(key) >= 0) build.config[axis].label = false;
+      if (["year", "bucket", "test"].indexOf(key) >= 0) {
+        build.config[axis].previousLabel = build.config[axis].label;
+        build.config[axis].label = false;
+      }
       else {
         label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
         if (label in dictionary) label = dictionary[label];
@@ -9159,11 +9162,9 @@ viz.format = {
 
         if (build && key === false) {
           ["x", "y", "x2", "y2"].forEach(function(axis){
-            if (d3plus.object.validate(build.config[axis]) &&
-                build.config[axis].value === "bucket" &&
-                build.config[axis].label &&
-                build.config[axis].label !== true) {
-              key = build.config[axis].label;
+            if (d3plus.object.validate(build.config[axis]) && build.config[axis].value === "bucket") {
+              var label = build.config[axis].label || build.config[axis].previousLabel;
+              if (label && label !== true) key = label;
             }
           });
         }

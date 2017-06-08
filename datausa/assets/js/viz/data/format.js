@@ -153,11 +153,9 @@ viz.format = {
 
         if (build && key === false) {
           ["x", "y", "x2", "y2"].forEach(function(axis){
-            if (d3plus.object.validate(build.config[axis]) &&
-                build.config[axis].value === "bucket" &&
-                build.config[axis].label &&
-                build.config[axis].label !== true) {
-              key = build.config[axis].label;
+            if (d3plus.object.validate(build.config[axis]) && build.config[axis].value === "bucket") {
+              var label = build.config[axis].label || build.config[axis].previousLabel;
+              if (label && label !== true) key = label;
             }
           });
         }

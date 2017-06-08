@@ -40,7 +40,10 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      if (["year", "bucket", "test"].indexOf(key) >= 0) build.config[axis].label = false;
+      if (["year", "bucket", "test"].indexOf(key) >= 0) {
+        build.config[axis].previousLabel = build.config[axis].label;
+        build.config[axis].label = false;
+      }
       else {
         label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
         if (label in dictionary) label = dictionary[label];
