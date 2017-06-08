@@ -22,6 +22,10 @@ def datapivot(data, keys, sort="desc", column_id="id", column_value="value", col
             break
 
     pivoted = [{column_id: dropfirst(k), column_value: v, column_name: pivotname(dropfirst(k), keys)} for k, v in data.iteritems() if dropfirst(k) in columns]
+    if "year" in data:
+        for row in pivoted:
+            row["year"] = data["year"]
+
     if moe and "{}_{}_moe".format(moe, pivoted[0][column_id]) in data.keys():
         for row in pivoted:
             row["moe"] = data["{}_{}_moe".format(moe, row[column_id])]
