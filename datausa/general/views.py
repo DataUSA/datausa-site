@@ -168,6 +168,7 @@ def home():
     })
 
     carousels.append({
+        "rank": 2,
         "title": "Industries",
         "icon": "/static/img/icons/naics.svg",
         "data": tileProfiles(["naics/622", "naics/23", "naics/31-33", "naics/722Z", "naics/44-45"]),
@@ -178,12 +179,24 @@ def home():
     })
 
     carousels.append({
+        "rank": 5,
         "title": "Jobs",
         "icon": "/static/img/icons/soc.svg",
         "data": tileProfiles(["soc/252020", "soc/151131", "soc/1110XX", "soc/412031", "soc/291141"]),
         "footer": {
             "link": "/search/?kind=soc",
             "text": "{} more".format(num_format(footMap["soc"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "rank": 1,
+        "title": "Higher Education",
+        "icon": "/static/img/icons/cip.svg",
+        "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
+        "footer": {
+            "link": "/search/?kind=cip",
+            "text": "{} more".format(num_format(footMap["cip"] - TILEMAX))
         }
     })
 
@@ -223,22 +236,13 @@ def home():
     ]
 
     carousels.append({
+        "rank": 3,
         "title": "Download",
         "icon": "/static/img/cart-big.png",
         "data": cartDatasets,
         "footer": {
             "link": "/cart",
             "text": "View Cart"
-        }
-    })
-
-    carousels.append({
-        "title": "Higher Education",
-        "icon": "/static/img/icons/cip.svg",
-        "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
-        "footer": {
-            "link": "/search/?kind=cip",
-            "text": "{} more".format(num_format(footMap["cip"] - TILEMAX))
         }
     })
 
@@ -262,6 +266,7 @@ def home():
         }
 
     carousels.append({
+        "rank": 4,
         "title": "Latest Stories",
         "icon": "/static/img/icons/about.svg",
         "data": stories[:TILEMAX],

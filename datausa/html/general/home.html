@@ -45,7 +45,7 @@
 <script>var cartBoxes = [];</script>
 <div class="feed-flex">
 {% for carousel in carousels %}
-  <div id="feed" class="carousel">
+  <div id="feed" class="carousel rank-{% if carousel.rank %}{{ carousel.rank }}{% else %}0{% endif %}">
     <h3 class="carousel-title">
       {% if carousel.footer %}<a href="{{ carousel.footer.link }}">{% endif %}
   		{% if carousel.icon %}

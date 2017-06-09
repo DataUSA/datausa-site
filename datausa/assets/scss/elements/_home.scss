@@ -496,8 +496,12 @@ body.home {
 
   .feed-flex {
     @include flex();
-    @include flex-wrap();
     padding: 0 25px;
+
+    @media only screen and (max-width: 800px) {
+      @include flex-direction(column);
+    }
+    
   }
 
   #feed {
@@ -609,8 +613,26 @@ body.home {
       @include flex-size(1);
       display: inline-block;
       margin: 10px 15px 25px;
-      min-width: 225px;
-      overflow-x: scroll;
+
+      @media only screen and (max-width: 1800px) {
+        &.rank-1 { display: none; }
+      }
+
+      @media only screen and (max-width: 1600px) {
+        &.rank-2 { display: none; }
+      }
+
+      @media only screen and (max-width: 1400px) {
+        &.rank-3 { display: none; }
+      }
+
+      @media only screen and (max-width: 1200px) {
+        &.rank-4 { display: none; }
+      }
+
+      @media only screen and (max-width: 1000px) {
+        &.rank-5 { display: none; }
+      }
 
       .carousel-title {
         color: white;
