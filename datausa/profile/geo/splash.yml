@@ -35,16 +35,19 @@ viz:
 stats:
   - title: "Population"
     value: "<<var namespace=splash|key=pop|row=0>>"
-  - title: "Median Household Income"
-    value: "<<var namespace=income|key=income|row=0>>"
-  - title: "Number of Employees"
-    value: "{{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=num_ppl|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=num_emp|row=0>>}}"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age|row=0>>"
-  - title: "Income Growth"
-    value: "<<growth namespace=income|key=income>>"
-  - title: "Employee Growth"
-    value: "{{<<sumlevel>>:nation,state||<<growth namespace=num_ppl|key=num_ppl>>}}{{<<sumlevel>>:!nation,state||<<growth namespace=num_emp|key=num_emp>>}}"
+  - title: "Poverty Rate"
+    value: "<<percent num=income_below_poverty|den=pop_poverty_status>>"
+  - title: "Median Household Income"
+    value: "<<var namespace=income|key=income|row=0>>"
+    rank: "<<growth namespace=income|key=income>> Growth"
+  - title: "Number of Employees"
+    value: "{{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=num_ppl|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=num_emp|row=0>>}}"
+    rank: "{{<<sumlevel>>:nation,state||<<growth namespace=num_ppl|key=num_ppl>>}}{{<<sumlevel>>:!nation,state||<<growth namespace=num_emp|key=num_emp>>}} Growth"
+  - title: "Median Property Value"
+    value: "<<var namespace=acsgeo|key=median_property_value|row=0>>"
+    rank: "<<growth namespace=acsgeo|key=median_property_value>> Growth"
 sections:
   - economy
   - health
