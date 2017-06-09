@@ -44,6 +44,16 @@
   soc_level: "<<sumlevel>>"
   namespace: puma_ppl
 
+- required: ["sex", "avg_wage"]
+  sex: "1,2"
+  order: sex
+  rows: True
+  limit: 2
+  sort: asc
+  year: latest
+  soc_level: "<<sumlevel>>"
+  namespace: sex_wage
+
 - required: ["sex", "avg_age", "avg_age_moe"]
   sex: "1,2"
   order: sex

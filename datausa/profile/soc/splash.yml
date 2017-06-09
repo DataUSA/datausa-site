@@ -5,14 +5,18 @@ description: >
   {{<<sumlevel>>:!0|| <<name>> are part of the <<parents limit=1>> category along with <<siblings>>.}}
   The top 3 locations that employ the most <<name>> are <<var namespace=puma_ppl|key=geo|row=0>>, <<var namespace=puma_ppl|key=geo|row=1>> and <<var namespace=puma_ppl|key=geo|row=2>>. The top 3 locations with a relatively high concentration of <<name>> are <<var namespace=puma_rca|key=geo|row=0>>, <<var namespace=puma_rca|key=geo|row=1>> and <<var namespace=puma_rca|key=geo|row=2>>.
 stats:
-  - title: "Total Employees"
+  - title: "Total Workforce"
     value: "<<var namespace=data|key=num_ppl>>"
-    rank: "<<var namespace=data|key=num_ppl_rank>> of <<rank_max>> <<level plural=True>>"
-  - title: "Average Wage"
-    value: "<<var namespace=data|key=avg_wage>>"
-    rank: "<<var namespace=data|key=avg_wage_rank>> of <<rank_max>> <<level plural=True>>"
   - title: "Average Age"
     value: "<<var namespace=data|key=avg_age>>"
+  - title: "Estimated Job Growth"
+    value: "<<var namespace=growth|key=pct_change|row=0>>"
+  - title: "Average Salary"
+    value: "<<var namespace=data|key=avg_wage>>"
+  - title: "Average Male Salary"
+    value: "<<var namespace=sex_wage|key=avg_wage|row=0>>"
+  - title: "Average Female Salary"
+    value: "<<var namespace=sex_wage|key=avg_wage|row=1>>"
 sections:
   - employment
   - demographics

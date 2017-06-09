@@ -116,7 +116,6 @@
         {% endif %}
       </div>
 
-      {% if profile.splash.viz %}
       <div class="intro-viz">
         <div class="photo-cred">
           <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
@@ -142,12 +141,13 @@
           </div>
         </div>
         {% endif %}
+        {% if profile.splash.viz %}
         <div class="viz thumbprint">
           <div class="d3plus"></div>
         </div>
         <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
 
     <div id="profile-toc">
