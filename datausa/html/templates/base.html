@@ -229,32 +229,50 @@
 
           if (data) {
 
-            d3.selectAll("#splash-stats .stat").each(function(d, i) {
+            var stats = d3.select("#stat-container").classed("compare-flex", true).node();
+            var clone = stats.cloneNode(true);
+            d3.select(clone).classed("compare-add", true)
+              .selectAll(".stat").each(function(d, i) {
+                var stat = data.splash.stats[i];
+                d3.select(this).select(".stat-text").html(stat.title);
+                d3.select(this).select(".stat-value").html(stat.value);
+                d3.select(this).select(".stat-rank").html(stat.rank || "");
+              });
+            stats.parentNode.appendChild(clone);
+
+            d3.select(".intro .col").each(function() {
+
               d3.select(this).classed("compare-flex", true);
               var clone = this.cloneNode(true);
               d3.select(clone).classed("compare-add", true);
-              var stat = data.splash.stats[i];
-              d3.select(clone).select(".stat-text").html(window.innerWidth <= 480 ? "vs." : stat.title);
-              d3.select(clone).select(".stat-value").html(stat.value);
-              d3.select(clone).select(".stat-rank").html(stat.rank || "");
-              this.parentNode.appendChild(clone);
-            });
+              d3.select(clone).selectAll(".intro-txt p").each(function(d, i) {
+                d3.select(this).html(data.splash.description[i]);
+              });
 
-            var meta = d3.select(".intro .r").classed("compare-flex", true);
-            if (meta.size()) {
-              meta = meta.node();
-              var metaClone = meta.cloneNode(true);
-              d3.select(metaClone).classed("compare-add", true);
-              var photo = d3.select(metaClone).select(".photo-cred");
+              var imageMeta = d3.select(clone).select(".intro-txt .image-meta");
+              if (data.image.meta) {
+                if (!imageMeta.size()) {
+                  imageMeta = d3.select(clone).select(".intro-txt").append("p")
+                    .attr("class", "desc image-meta")
+                    .html("About the photo: <i></i>");
+                }
+                imageMeta.select("i").html(data.image.meta);
+              }
+              else imageMeta.remove();
+
+              var photo = d3.select(clone).select(".photo-cred");
               photo.select("a").attr("href", data.image.link);
               photo.select(".image-author a")
                 .attr("href", data.image.link)
                 .html("Photo by " + data.image.author);
+
               if (attr.id !== "01000US") {
-                var breadcrumb = d3.select(metaClone).select(".breadcrumb");
+                var breadcrumb = d3.select(clone).select(".breadcrumb");
                 if (!breadcrumb.size()) {
-                  breadcrumb = d3.select(metaClone).append("div")
-                    .attr("class", "breadcrumb");
+                  b = document.createElement("div");
+                  b.classList.add("breadcrumb");
+                  photo.node().parentNode.insertBefore(b, photo.node().nextSibling),
+                  breadcrumb = d3.select(clone).select(".breadcrumb");
                   breadcrumb.append("img")
                     .attr("src", "/static/img/splash/go-to-link.svg")
                     .attr("alt", "Go to another profile.")
@@ -262,33 +280,16 @@
                 }
                 breadcrumb.selectAll(".crumb-trail a").remove();
                 data.parents.forEach(function(d) {
-                  d3.select(metaClone).select(".crumb-trail").append("a")
+                  d3.select(clone).select(".crumb-trail").append("a")
                     .attr("href", "/profile/" + type + "/" + d.url_name + "/")
                     .html(d.name);
                 });
               }
               else {
-                d3.select(metaClone).select(".breadcrumb").remove();
+                d3.select(clone).select(".breadcrumb").remove();
               }
-              d3.select(metaClone).select(".data-source-crumb").remove();
-              meta.parentNode.insertBefore(metaClone, meta.nextSibling);
-            }
+              d3.select(clone).select(".data-source-crumb").remove();
 
-            d3.select(".intro .col").each(function() {
-              d3.select(this).classed("compare-flex", true);
-              var clone = this.cloneNode(true);
-              d3.select(clone).classed("compare-add", true);
-              d3.select(clone).select(".intro-txt p").html(data.splash.description[0]);
-              var meta = d3.select(clone).select(".intro-txt .image-meta");
-              if (data.image.meta) {
-                if (!meta.size()) {
-                  meta = d3.select(clone).select(".intro-txt").append("p")
-                    .attr("class", "desc image-meta")
-                    .html("About the photo: <i></i>");
-                }
-                meta.select("i").html(data.image.meta);
-              }
-              else meta.remove();
               this.parentNode.insertBefore(clone, this.nextSibling);
               if (data.splash.viz) {
                 data.splash.viz.container = d3.select(clone).select(".viz");
@@ -395,7 +396,7 @@
                     d3.select(clone).selectAll(".stat").each(function(d, i) {
                       var div = d3.select(this), stat = topic.stat[i];
                       if (stat) {
-                        div.select(".stat-text").html(title.size() ? stat.title : topic_name);
+                        div.select(".stat-text").html(title && title.size() ? stat.title : topic_name);
                         div.select(".stat-subtitle").html(stat.subtitle);
                         if (stat.subvalues) {
                           div.selectAll(".stat-value").each(function(d, i) {

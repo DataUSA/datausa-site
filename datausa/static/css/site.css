@@ -4219,9 +4219,6 @@
                             text-transform: uppercase; }
           body.profile #splash .content #splash-stats,
           body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
-            width: 100%;
-            margin-bottom: 25px;
-            max-width: 700px;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box;
@@ -4235,18 +4232,9 @@
             display: -ms-flexbox;
             display: -webkit-flex;
             display: flex;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            -webkit-align-items: flex-start;
-            align-items: flex-start;
-            -ms-flex-align: start;
-            flex-align: start;
-            -webkit-justify-content: space-between;
-            -moz-justify-content: space-between;
-            justify-content: space-between;
-            -ms-flex-pack: justify;
-            flex-pack: justify;
+            width: 100%;
+            margin-bottom: 25px;
+            max-width: 700px;
             -webkit-text-shadow: 0 2px 12px black;
             -moz-text-shadow: 0 2px 12px black;
             text-shadow: 0 2px 12px black; }
@@ -4263,13 +4251,12 @@
               body.map #splash .content #splash-stats.compare-flex,
               body.story #splash .content #splash-stats.compare-flex {
                 max-width: 100%; }
-                body.profile #splash .content #splash-stats .stat,
-                body.map #splash .content #splash-stats .stat,
-                body.story #splash .content #splash-stats .stat {
-                  -webkit-align-items: center;
-                  align-items: center;
-                  -ms-flex-align: center;
-                  flex-align: center;
+                body.profile #splash .content #splash-stats #stat-container,
+                body.map #splash .content #splash-stats #stat-container,
+                body.story #splash .content #splash-stats #stat-container {
+                  -webkit-box-sizing: border-box;
+                  -moz-box-sizing: border-box;
+                  box-sizing: border-box;
                   -webkit-justify-content: center;
                   -moz-justify-content: center;
                   justify-content: center;
@@ -4280,73 +4267,116 @@
                   display: -ms-flexbox;
                   display: -webkit-flex;
                   display: flex;
-                  -webkit-flex-direction: column;
-                  -moz-flex-direction: column;
-                  -ms-flex-direction: column;
-                  flex-direction: column;
                   -webkit-box-flex: 1;
                   -moz-box-flex: 1;
                   -webkit-flex: 1;
                   -ms-flex: 1;
                   flex: 1;
+                  -webkit-flex-wrap: wrap;
+                  -ms-flex-wrap: wrap;
+                  flex-wrap: wrap;
+                  -webkit-align-items: flex-start;
+                  align-items: flex-start;
+                  -ms-flex-align: start;
+                  flex-align: start;
+                  -webkit-justify-content: space-between;
+                  -moz-justify-content: space-between;
+                  justify-content: space-between;
+                  -ms-flex-pack: justify;
+                  flex-pack: justify; }
+                  body.profile #splash .content #splash-stats #stat-container:before,
+                  body.profile #splash .content #splash-stats #stat-container:after,
+                  body.map #splash .content #splash-stats #stat-container:before,
+                  body.map #splash .content #splash-stats #stat-container:after,
+                  body.story #splash .content #splash-stats #stat-container:before,
+                  body.story #splash .content #splash-stats #stat-container:after {
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box; }
+            body.profile #splash .content #splash-stats .stat,
+            body.map #splash .content #splash-stats .stat,
+            body.story #splash .content #splash-stats .stat {
+              -webkit-align-items: center;
+              align-items: center;
+              -ms-flex-align: center;
+              flex-align: center;
+              -webkit-justify-content: center;
+              -moz-justify-content: center;
+              justify-content: center;
+              -ms-flex-pack: center;
+              flex-pack: center;
+              display: -webkit-box;
+              display: -moz-box;
+              display: -ms-flexbox;
+              display: -webkit-flex;
+              display: flex;
+              -webkit-flex-direction: column;
+              -moz-flex-direction: column;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              -webkit-box-flex: 1;
+              -moz-box-flex: 1;
+              -webkit-flex: 1;
+              -ms-flex: 1;
+              flex: 1;
+              -webkit-justify-content: flex-start;
+              -moz-justify-content: flex-start;
+              justify-content: flex-start;
+              -ms-flex-pack: start;
+              flex-pack: start;
+              max-width: 30%;
+              min-width: 30%;
+              padding: 0 0 25px;
+              width: 30%; }
+              @media all and (max-width: 950px) {
+                body.profile #splash .content #splash-stats .stat,
+                body.map #splash .content #splash-stats .stat,
+                body.story #splash .content #splash-stats .stat {
                   -webkit-justify-content: flex-start;
                   -moz-justify-content: flex-start;
                   justify-content: flex-start;
                   -ms-flex-pack: start;
-                  flex-pack: start;
-                  max-width: 30%;
-                  min-width: 30%;
-                  padding: 0 0 25px;
-                  width: 30%; }
-                  @media all and (max-width: 950px) {
-                    body.profile #splash .content #splash-stats .stat,
-                    body.map #splash .content #splash-stats .stat,
-                    body.story #splash .content #splash-stats .stat {
-                      -webkit-justify-content: flex-start;
-                      -moz-justify-content: flex-start;
-                      justify-content: flex-start;
-                      -ms-flex-pack: start;
-                      flex-pack: start;   }
+                  flex-pack: start;   }
 }
-                    body.profile #splash .content #splash-stats .stat .stat-text,
-                    body.profile #splash .content #splash-stats .stat .stat-rank,
-                    body.map #splash .content #splash-stats .stat .stat-text,
-                    body.map #splash .content #splash-stats .stat .stat-rank,
-                    body.story #splash .content #splash-stats .stat .stat-text,
-                    body.story #splash .content #splash-stats .stat .stat-rank {
-                      font-size: 12px;
-                      font-weight: 600;
-                      letter-spacing: 0;
-                      text-align: center;
-                      color: #fff;
-                      line-height: 1.5;
-                      margin-bottom: 0; }
-                      body.profile #splash .content #splash-stats .stat .stat-text a,
-                      body.profile #splash .content #splash-stats .stat .stat-rank a,
-                      body.map #splash .content #splash-stats .stat .stat-text a,
-                      body.map #splash .content #splash-stats .stat .stat-rank a,
-                      body.story #splash .content #splash-stats .stat .stat-text a,
-                      body.story #splash .content #splash-stats .stat .stat-rank a {
-                        color: #fff;
-                        border-bottom: 1px solid rgba(255, 255, 255, 0.85);
-                        text-decoration: none; }
-                        body.profile #splash .content #splash-stats .stat .stat-text a:hover,
-                        body.profile #splash .content #splash-stats .stat .stat-rank a:hover,
-                        body.map #splash .content #splash-stats .stat .stat-text a:hover,
-                        body.map #splash .content #splash-stats .stat .stat-rank a:hover,
-                        body.story #splash .content #splash-stats .stat .stat-text a:hover,
-                        body.story #splash .content #splash-stats .stat .stat-rank a:hover {
-                          border-bottom: 0;
-                          color: #fff;
-                          text-decoration: none; }
-                  body.profile #splash .content #splash-stats .stat .stat-value,
-                  body.map #splash .content #splash-stats .stat .stat-value,
-                  body.story #splash .content #splash-stats .stat .stat-value {
-                    margin: 0;
-                    font-size: 38px;
-                    font-weight: 300;
+                body.profile #splash .content #splash-stats .stat .stat-text,
+                body.profile #splash .content #splash-stats .stat .stat-rank,
+                body.map #splash .content #splash-stats .stat .stat-text,
+                body.map #splash .content #splash-stats .stat .stat-rank,
+                body.story #splash .content #splash-stats .stat .stat-text,
+                body.story #splash .content #splash-stats .stat .stat-rank {
+                  font-size: 12px;
+                  font-weight: 600;
+                  letter-spacing: 0;
+                  text-align: center;
+                  color: #fff;
+                  line-height: 1.5;
+                  margin-bottom: 0; }
+                  body.profile #splash .content #splash-stats .stat .stat-text a,
+                  body.profile #splash .content #splash-stats .stat .stat-rank a,
+                  body.map #splash .content #splash-stats .stat .stat-text a,
+                  body.map #splash .content #splash-stats .stat .stat-rank a,
+                  body.story #splash .content #splash-stats .stat .stat-text a,
+                  body.story #splash .content #splash-stats .stat .stat-rank a {
                     color: #fff;
-                    opacity: 0.9; }
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+                    text-decoration: none; }
+                    body.profile #splash .content #splash-stats .stat .stat-text a:hover,
+                    body.profile #splash .content #splash-stats .stat .stat-rank a:hover,
+                    body.map #splash .content #splash-stats .stat .stat-text a:hover,
+                    body.map #splash .content #splash-stats .stat .stat-rank a:hover,
+                    body.story #splash .content #splash-stats .stat .stat-text a:hover,
+                    body.story #splash .content #splash-stats .stat .stat-rank a:hover {
+                      border-bottom: 0;
+                      color: #fff;
+                      text-decoration: none; }
+              body.profile #splash .content #splash-stats .stat .stat-value,
+              body.map #splash .content #splash-stats .stat .stat-value,
+              body.story #splash .content #splash-stats .stat .stat-value {
+                margin: 0;
+                font-size: 38px;
+                font-weight: 300;
+                color: #fff;
+                opacity: 0.9; }
           body.profile #splash .content h1, body.map #splash .content h1,
           body.story #splash .content h1 {
             line-height: 1;

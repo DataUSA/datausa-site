@@ -696,19 +696,26 @@ body.profile, body.map, body.story {
       }
 
       #splash-stats {
+        @include box();
+        @include flex();
         width: 100%;
         margin-bottom: 25px;
         max-width: 700px;
-        @include box();
-        @include flex();
-        @include flex-wrap();
-        @include align-items(flex-start);
-        @include justify(space-between);
         @include text-shadow(0 2px 12px black);
 
         &.compare-flex {
           max-width: 100%;
         }
+
+        #stat-container {
+          @include box();
+          @include flex();
+          @include flex-size(1);
+          @include flex-wrap();
+          @include align-items(flex-start);
+          @include justify(space-between);
+        }
+        
 
         .stat {
           @include align-items(center);

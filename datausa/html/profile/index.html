@@ -58,15 +58,17 @@
       </div>
 
       <div id="splash-stats">
-        {% for stat in profile.splash.stats %}
-        <div class="stat">
-          <div class="stat-text">{{ stat.title|safe }}</div>
-          <div class="stat-group">
-            <div class="stat-value">{{ stat.value|safe }}</div>
-            <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
+        <div id="stat-container">
+          {% for stat in profile.splash.stats %}
+          <div class="stat">
+            <div class="stat-text">{{ stat.title|safe }}</div>
+            <div class="stat-group">
+              <div class="stat-value">{{ stat.value|safe }}</div>
+              <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
 
       <div class="splash-icon-nav">
@@ -284,7 +286,7 @@
   //   .range(fontRange)
   //   .clamp(true);
   //
-  // var title = d3.select(".splash-titles h1");
+  var title = d3.select(".splash-titles h1");
   // title.style("font-size", fontScale(title.text().length) + "px");
 
   // if (!d3plus.client.touch) {

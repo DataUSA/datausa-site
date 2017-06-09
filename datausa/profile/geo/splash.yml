@@ -49,8 +49,8 @@ stats:
     value: "<<var namespace=acsgeo|key=median_property_value|row=0>>"
     rank: "<<growth namespace=acsgeo|key=median_property_value>> Growth"
 sections:
-  - economy
-  - health
+  # - economy
+  # - health
   - demographics
-  - education
-  - housing
+  # - education
+  # - housing
