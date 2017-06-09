@@ -3819,8 +3819,8 @@
     body.profile .topic h2 a.topic-title, body.profile .topic h2 a.term,
     body.map .topic h2 a.topic-title, body.map .topic h2 a.term,
     body.story .topic h2 a.topic-title, body.story .topic h2 a.term {
-      margin-top: -118px;
-      padding-top: 118px; }
+      margin-top: -95px;
+      padding-top: 95px; }
       body.profile .topic h2 a, body.map .topic h2 a, body.story .topic h2 a {
         margin-right: 15px; }
   body.profile .topic .data-btn, body.map .topic .data-btn,
@@ -3908,28 +3908,27 @@
       vertical-align: baseline; }
   body.profile .stat-text, body.profile .stat-rank, body.map .stat-text,
   body.map .stat-rank, body.story .stat-text, body.story .stat-rank {
-    font-family: "Palanquin", sans-serif; }
-    body.profile .stat-text, body.map .stat-text, body.story .stat-text {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0;
-      text-transform: uppercase;
-      line-height: 1.5;
-      vertical-align: baseline; }
-      body.profile .stat-number, body.profile .stat-right, body.map .stat-number,
-      body.map .stat-right, body.story .stat-number, body.story .stat-right {
-        display: inline-block; }
-        body.profile .stat-right, body.map .stat-right, body.story .stat-right {
-          max-width: 95%; }
-          body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
-            display: block;
-            font-size: 12px;
-            font-weight: 400;
+    font-family: "Palanquin", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    line-height: 1.5;
+    vertical-align: baseline; }
+    body.profile .stat-number, body.profile .stat-right, body.map .stat-number,
+    body.map .stat-right, body.story .stat-number, body.story .stat-right {
+      display: inline-block; }
+      body.profile .stat-right, body.map .stat-right, body.story .stat-right {
+        max-width: 95%; }
+        body.profile .stat-subtitle, body.map .stat-subtitle, body.story .stat-subtitle {
+          display: block;
+          font-size: 12px;
+          font-weight: 400;
+          vertical-align: baseline; }
+          body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
+          body.story .stat-subtitle .plus-minus {
+            color: #ef6145;
             vertical-align: baseline; }
-            body.profile .stat-subtitle .plus-minus, body.map .stat-subtitle .plus-minus,
-            body.story .stat-subtitle .plus-minus {
-              color: #ef6145;
-              vertical-align: baseline; }
   body.profile .stat-group, body.map .stat-group, body.story .stat-group {
     text-align: center; }
     body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {
@@ -4151,9 +4150,9 @@
                         letter-spacing: 0.03em;
                         text-transform: uppercase;
                         width: 100%;
-                        -webkit-text-shadow: 0 0 12px black;
-                        -moz-text-shadow: 0 0 12px black;
-                        text-shadow: 0 0 12px black; }
+                        -webkit-text-shadow: 0 2px 12px black;
+                        -moz-text-shadow: 0 2px 12px black;
+                        text-shadow: 0 2px 12px black; }
                         body.profile #splash .content .splash-titles h1 .compare-flex,
                         body.map #splash .content .splash-titles h1 .compare-flex,
                         body.story #splash .content .splash-titles h1 .compare-flex {
@@ -4192,9 +4191,9 @@
                             font-size: 14px;
                             font-weight: 600;
                             letter-spacing: 0.1em;
-                            -webkit-text-shadow: 0 0 12px black;
-                            -moz-text-shadow: 0 0 12px black;
-                            text-shadow: 0 0 12px black;
+                            -webkit-text-shadow: 0 2px 12px black;
+                            -moz-text-shadow: 0 2px 12px black;
+                            text-shadow: 0 2px 12px black;
                             text-transform: uppercase; }
           body.profile #splash .content #splash-stats,
           body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
@@ -4226,9 +4225,9 @@
             justify-content: space-between;
             -ms-flex-pack: justify;
             flex-pack: justify;
-            -webkit-text-shadow: 0 0 12px black;
-            -moz-text-shadow: 0 0 12px black;
-            text-shadow: 0 0 12px black; }
+            -webkit-text-shadow: 0 2px 12px black;
+            -moz-text-shadow: 0 2px 12px black;
+            text-shadow: 0 2px 12px black; }
             body.profile #splash .content #splash-stats:before,
             body.profile #splash .content #splash-stats:after,
             body.map #splash .content #splash-stats:before,
@@ -4288,8 +4287,11 @@
                       flex-pack: start;   }
 }
                     body.profile #splash .content #splash-stats .stat .stat-text,
+                    body.profile #splash .content #splash-stats .stat .stat-rank,
                     body.map #splash .content #splash-stats .stat .stat-text,
-                    body.story #splash .content #splash-stats .stat .stat-text {
+                    body.map #splash .content #splash-stats .stat .stat-rank,
+                    body.story #splash .content #splash-stats .stat .stat-text,
+                    body.story #splash .content #splash-stats .stat .stat-rank {
                       font-size: 12px;
                       font-weight: 600;
                       letter-spacing: 0;
@@ -4298,37 +4300,31 @@
                       line-height: 1.5;
                       margin-bottom: 0; }
                       body.profile #splash .content #splash-stats .stat .stat-text a,
+                      body.profile #splash .content #splash-stats .stat .stat-rank a,
                       body.map #splash .content #splash-stats .stat .stat-text a,
-                      body.story #splash .content #splash-stats .stat .stat-text a {
+                      body.map #splash .content #splash-stats .stat .stat-rank a,
+                      body.story #splash .content #splash-stats .stat .stat-text a,
+                      body.story #splash .content #splash-stats .stat .stat-rank a {
                         color: #fff;
                         border-bottom: 1px solid rgba(255, 255, 255, 0.85);
                         text-decoration: none; }
                         body.profile #splash .content #splash-stats .stat .stat-text a:hover,
+                        body.profile #splash .content #splash-stats .stat .stat-rank a:hover,
                         body.map #splash .content #splash-stats .stat .stat-text a:hover,
-                        body.story #splash .content #splash-stats .stat .stat-text a:hover {
+                        body.map #splash .content #splash-stats .stat .stat-rank a:hover,
+                        body.story #splash .content #splash-stats .stat .stat-text a:hover,
+                        body.story #splash .content #splash-stats .stat .stat-rank a:hover {
                           border-bottom: 0;
                           color: #fff;
                           text-decoration: none; }
-                  body.profile #splash .content #splash-stats .stat .stat-rank,
-                  body.map #splash .content #splash-stats .stat .stat-rank,
-                  body.story #splash .content #splash-stats .stat .stat-rank {
-                    font-size: 12px;
-                    color: rgba(255, 255, 255, 0.75);
-                    line-height: 1.35;
-                    text-transform: uppercase;
-                    overflow-wrap: break-word;
-                    word-wrap: break-word;
-                    -ms-word-break: break-all;
-                    word-break: break-word;
-                    white-space: initial !important; }
-                    body.profile #splash .content #splash-stats .stat .stat-value,
-                    body.map #splash .content #splash-stats .stat .stat-value,
-                    body.story #splash .content #splash-stats .stat .stat-value {
-                      margin: 0;
-                      font-size: 38px;
-                      font-weight: 300;
-                      color: #fff;
-                      opacity: 0.9; }
+                  body.profile #splash .content #splash-stats .stat .stat-value,
+                  body.map #splash .content #splash-stats .stat .stat-value,
+                  body.story #splash .content #splash-stats .stat .stat-value {
+                    margin: 0;
+                    font-size: 38px;
+                    font-weight: 300;
+                    color: #fff;
+                    opacity: 0.9; }
           body.profile #splash .content h1, body.map #splash .content h1,
           body.story #splash .content h1 {
             line-height: 1;
@@ -4709,11 +4705,11 @@
         top: 0; }
   body.profile #stats-bar, body.map #stats-bar, body.story #stats-bar {
     position: absolute;
-    height: 23px;
+    height: 0px;
     width: 100%;
     right: 0;
     left: 0;
-    top: -23px;
+    top: 0px;
     margin-right: auto;
     margin-left: auto;
     overflow: hidden;
@@ -4831,7 +4827,7 @@
           text-decoration: none; }
   body.profile #nav-bar-scroll, body.map #nav-bar-scroll, body.story #nav-bar-scroll {
     position: fixed;
-    height: 68px;
+    height: 45px;
     width: 100%;
     right: 0;
     left: 0;
@@ -4848,7 +4844,7 @@
       body.profile #nav-bar-scroll.stat-hidden #stats-bar,
       body.map #nav-bar-scroll.stat-hidden #stats-bar,
       body.story #nav-bar-scroll.stat-hidden #stats-bar {
-        top: -23px; }
+        top: 0px; }
         body.profile #nav-bar-scroll.stat-hidden #profile-nav.visible,
         body.map #nav-bar-scroll.stat-hidden #profile-nav.visible,
         body.story #nav-bar-scroll.stat-hidden #profile-nav.visible {
@@ -4867,7 +4863,7 @@
     transition: top 0.5s; }
     body.profile #profile-nav.visible, body.map #profile-nav.visible,
     body.story #profile-nav.visible {
-      top: 23px; }
+      top: 0px; }
       body.profile #profile-nav #back-to-top, body.map #profile-nav #back-to-top,
       body.story #profile-nav #back-to-top {
         position: absolute;
@@ -4930,8 +4926,8 @@
       body.profile .intro h2 a.topic-title, body.profile .intro h2 a.term,
       body.map .intro h2 a.topic-title, body.map .intro h2 a.term,
       body.story .intro h2 a.topic-title, body.story .intro h2 a.term {
-        margin-top: -118px;
-        padding-top: 118px; }
+        margin-top: -95px;
+        padding-top: 95px; }
         body.profile .intro .breadcrumb img, body.profile .intro .data-source-crumb img,
         body.map .intro .breadcrumb img, body.map .intro .data-source-crumb img,
         body.story .intro .breadcrumb img, body.story .intro .data-source-crumb img {
@@ -5326,8 +5322,8 @@
       color: #333; }
       body.profile .prof-body .section-title a, body.map .prof-body .section-title a,
       body.story .prof-body .section-title a {
-        margin-top: -118px;
-        padding-top: 118px; }
+        margin-top: -95px;
+        padding-top: 95px; }
     body.profile .prof-body p, body.map .prof-body p, body.story .prof-body p {
       font-size: 16px; }
   body.profile #section-sidenav, body.map #section-sidenav,
@@ -5476,8 +5472,8 @@
           box-sizing: border-box; }
           body.profile .profile-section .category a, body.map .profile-section .category a,
           body.story .profile-section .category a {
-            margin-top: -118px;
-            padding-top: 118px; }
+            margin-top: -95px;
+            padding-top: 95px; }
     body.profile .profile-section .topic, body.map .profile-section .topic,
     body.story .profile-section .topic {
       -webkit-box-sizing: border-box;
@@ -7896,8 +7892,8 @@
           margin: 20px 0 10px; }
           body.about section > ul ol a {
             position: relative;
-            margin-top: -118px;
-            padding-top: 118px; }
+            margin-top: -95px;
+            padding-top: 95px; }
     body.about .team-list {
       padding: 0 0 50px; }
       body.about .team-list .logo {

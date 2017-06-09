@@ -465,9 +465,6 @@ body.profile, body.map, body.story {
 
   .stat-text, .stat-rank {
     font-family: $palanquin;
-  }
-
-  .stat-text {
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0;
@@ -651,7 +648,7 @@ body.profile, body.map, body.story {
           letter-spacing: 0.03em;
           text-transform: uppercase;
           width: 100%;
-          @include text-shadow(0 0 12px rgba(0, 0, 0, 1));
+          @include text-shadow(0 2px 12px black);
 
           .compare-flex {
             width: 40%;
@@ -690,7 +687,7 @@ body.profile, body.map, body.story {
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.1em;
-            @include text-shadow(0 0 12px rgba(0, 0, 0, 1));
+            @include text-shadow(0 2px 12px black);
             text-transform: uppercase;
           }
 
@@ -707,7 +704,7 @@ body.profile, body.map, body.story {
         @include flex-wrap();
         @include align-items(flex-start);
         @include justify(space-between);
-        @include text-shadow(0 0 12px rgba(0, 0, 0, 1));
+        @include text-shadow(0 2px 12px black);
 
         &.compare-flex {
           max-width: 100%;
@@ -728,7 +725,7 @@ body.profile, body.map, body.story {
             @include justify(flex-start);
           }
 
-          .stat-text {
+          .stat-text, .stat-rank {
             font-size: 12px;
             font-weight: 600;
             letter-spacing: 0;
@@ -748,14 +745,6 @@ body.profile, body.map, body.story {
                 text-decoration: none;
               }
             }
-          }
-
-          .stat-rank {
-            font-size: 12px;
-            color: rgba(255,255,255,0.75);
-            line-height: 1.35;
-            text-transform: uppercase;
-            @include wordwrap();
           }
 
           .stat-value {
