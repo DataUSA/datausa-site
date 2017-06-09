@@ -651,7 +651,7 @@ body.profile, body.map, body.story {
           letter-spacing: 0.03em;
           text-transform: uppercase;
           width: 100%;
-          @include text-shadow(0 0 12px rgba(0, 0, 0, 0.8));
+          @include text-shadow(0 0 12px rgba(0, 0, 0, 1));
 
           .compare-flex {
             width: 40%;
@@ -690,6 +690,7 @@ body.profile, body.map, body.story {
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.1em;
+            @include text-shadow(0 0 12px rgba(0, 0, 0, 1));
             text-transform: uppercase;
           }
 
@@ -698,7 +699,6 @@ body.profile, body.map, body.story {
       }
 
       #splash-stats {
-        @include flex-size(2);
         width: 100%;
         margin-bottom: 25px;
         max-width: 700px;
@@ -707,7 +707,7 @@ body.profile, body.map, body.story {
         @include flex-wrap();
         @include align-items(flex-start);
         @include justify(space-between);
-        @include text-shadow(0 0 12px rgba(0, 0, 0, 0.8));
+        @include text-shadow(0 0 12px rgba(0, 0, 0, 1));
 
         &.compare-flex {
           max-width: 100%;
@@ -721,7 +721,7 @@ body.profile, body.map, body.story {
           @include justify(flex-start);
           max-width: 30%;
           min-width: 30%;
-          padding: 0;
+          padding: 0 0 25px;
           width: 30%;
 
           @media all and (max-width: 950px){
