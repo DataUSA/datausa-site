@@ -496,12 +496,12 @@ body.home {
 
   .feed-flex {
     @include flex();
-    padding: 0 25px;
+    padding: 0 15px;
 
-    @media only screen and (max-width: 800px) {
+    @media only screen and (max-width: 700px) {
       @include flex-direction(column);
     }
-    
+
   }
 
   #feed {
@@ -614,24 +614,29 @@ body.home {
       display: inline-block;
       margin: 10px 15px 25px;
 
-      @media only screen and (max-width: 1800px) {
-        &.rank-1 { display: none; }
+      @media only screen and (max-width: 1700px) {
+        &.rank-cip { display: none; }
       }
 
-      @media only screen and (max-width: 1600px) {
-        &.rank-2 { display: none; }
+      @media only screen and (max-width: 1500px) {
+        &.rank-naics { display: none; }
       }
 
-      @media only screen and (max-width: 1400px) {
-        &.rank-3 { display: none; }
+      @media only screen and (max-width: 1300px) {
+        &.rank-cart { display: none; }
       }
 
-      @media only screen and (max-width: 1200px) {
-        &.rank-4 { display: none; }
+      @media only screen and (max-width: 1100px) {
+        &.rank-story { display: none; }
       }
 
-      @media only screen and (max-width: 1000px) {
-        &.rank-5 { display: none; }
+      @media only screen and (max-width: 900px) {
+        &.rank-soc { display: none; }
+      }
+
+      @media only screen and (max-width: 700px) {
+        &.rank-story { display: inline-block; }
+        &.rank-soc { display: inline-block; }
       }
 
       .carousel-title {

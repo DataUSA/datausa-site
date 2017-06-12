@@ -96,7 +96,7 @@ def tileProfiles(profiles):
             "image": "/search/{}/{}/img".format(show, attr_id),
             "link": "/profile/{}".format(page),
             "title": attr["display_name"] if "display_name" in attr else attr["name"],
-            "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
+            # "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
             "type": {
                 "icon": "/static/img/icons/{}.svg".format(show),
                 "title": SUMLEVELS[show][str(sumlevel)]["label"],
@@ -168,7 +168,7 @@ def home():
     })
 
     carousels.append({
-        "rank": 2,
+        "rank": "naics",
         "title": "Industries",
         "icon": "/static/img/icons/naics.svg",
         "data": tileProfiles(["naics/622", "naics/23", "naics/31-33", "naics/722Z", "naics/44-45"]),
@@ -179,7 +179,7 @@ def home():
     })
 
     carousels.append({
-        "rank": 5,
+        "rank": "soc",
         "title": "Jobs",
         "icon": "/static/img/icons/soc.svg",
         "data": tileProfiles(["soc/252020", "soc/151131", "soc/1110XX", "soc/412031", "soc/291141"]),
@@ -190,7 +190,7 @@ def home():
     })
 
     carousels.append({
-        "rank": 1,
+        "rank": "cip",
         "title": "Higher Education",
         "icon": "/static/img/icons/cip.svg",
         "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
@@ -236,7 +236,7 @@ def home():
     ]
 
     carousels.append({
-        "rank": 3,
+        "rank": "cart",
         "title": "Download",
         "icon": "/static/img/cart-big.png",
         "data": cartDatasets,
@@ -266,7 +266,7 @@ def home():
         }
 
     carousels.append({
-        "rank": 4,
+        "rank": "story",
         "title": "Latest Stories",
         "icon": "/static/img/icons/about.svg",
         "data": stories[:TILEMAX],

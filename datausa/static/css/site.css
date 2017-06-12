@@ -3210,8 +3210,8 @@
       display: -ms-flexbox;
       display: -webkit-flex;
       display: flex;
-      padding: 0 25px; }
-      @media only screen and (max-width: 800px) {
+      padding: 0 15px; }
+      @media only screen and (max-width: 700px) {
         body.home .feed-flex {
           -webkit-flex-direction: column;
           -moz-flex-direction: column;
@@ -3358,25 +3358,31 @@
         flex: 1;
         display: inline-block;
         margin: 10px 15px 25px; }
-        @media only screen and (max-width: 1800px) {
-          body.home #feed.carousel.rank-1 {
+        @media only screen and (max-width: 1700px) {
+          body.home #feed.carousel.rank-cip {
             display: none;   }
 }
-        @media only screen and (max-width: 1600px) {
-          body.home #feed.carousel.rank-2 {
+        @media only screen and (max-width: 1500px) {
+          body.home #feed.carousel.rank-naics {
             display: none;   }
 }
-        @media only screen and (max-width: 1400px) {
-          body.home #feed.carousel.rank-3 {
+        @media only screen and (max-width: 1300px) {
+          body.home #feed.carousel.rank-cart {
             display: none;   }
 }
-        @media only screen and (max-width: 1200px) {
-          body.home #feed.carousel.rank-4 {
+        @media only screen and (max-width: 1100px) {
+          body.home #feed.carousel.rank-story {
             display: none;   }
 }
-        @media only screen and (max-width: 1000px) {
-          body.home #feed.carousel.rank-5 {
+        @media only screen and (max-width: 900px) {
+          body.home #feed.carousel.rank-soc {
             display: none;   }
+}
+        @media only screen and (max-width: 700px) {
+          body.home #feed.carousel.rank-story {
+            display: inline-block;   }
+            body.home #feed.carousel.rank-soc {
+              display: inline-block;   }
 }
         body.home #feed.carousel .carousel-title {
           color: white;
