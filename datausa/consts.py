@@ -446,7 +446,7 @@ DICTIONARY = {
     "mammogram_tests": "Mammograms",
 
     "leg_amputations_per_1000_enrollees_total": "Leg Amputations",
-    "leg_amputations_per_1000_enrollees_white": "Leg Amputations (Non-Blaack)",
+    "leg_amputations_per_1000_enrollees_white": "Leg Amputations (Non-Black)",
     "leg_amputations_per_1000_enrollees_black": "Leg Amputations (Black)",
 
     "hc_pop": "Population",
