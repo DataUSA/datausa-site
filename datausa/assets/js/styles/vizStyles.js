@@ -125,7 +125,7 @@ var vizStyles = {
   },
   "lines": {
     "interpolation": "monotone",
-    "stroke-width": 2
+    "stroke-width": 3
   },
   "messages": {
     "font": {
