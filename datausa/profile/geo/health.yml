@@ -109,7 +109,6 @@ topics:
       id: "geo"
       type: "geo_map"
   - title: "Trends in Medicare Enrollment and Reimbursements"
-    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "medicare_time"
     select:
       method: "y"
@@ -126,7 +125,9 @@ topics:
     stat:
       - title: "<span class='select-text'>Medicare Reimbursements per Enrollee</span>"
         value: "<<var namespace=medicare_time|key=total_reimbursements_b|row=0>>"
-    description: "{{<<sumlevel>>:!nation||<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>.}}{{<<sumlevel>>:nation||Here are the <span class='select-text'>Medicare Reimbursements per Enrollee</span> for the top and bottom 2 states by total number of medicare enrollees.}}"
+    description:
+      - "{{<<sumlevel>>:!nation||<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>. This represents a <<growth namespace=medicare_time|key=total_reimbursements_b>> growth over the past year.}}"
+      - "Medicare is a federal program which provides health benefits to older Americans. Amounts of money required for reimbursements to Medicare enrollees change over time. The following chart shows how per-enrollee amounts have changed {{<<sumlevel>>:!nation||in <<name>> as compared to the national trend.}}{{<<sumlevel>>:nation||for the top and bottom 2 states.}}"
     viz:
       attrs: "geo"
       data:
