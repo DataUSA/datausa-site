@@ -139,7 +139,7 @@ topics:
       type: "line"
       x: "year"
       y: "total_reimbursements_b"
-  - category: "Hospital Care"
+  - category: "Hospital Care for Medicare Patients"
     title: "Heart Disease and Pneumonia"
     sumlevel: "!nation"
     subtitle: "<<sub show=geo|col=patients_in_cohort>>"
@@ -176,7 +176,7 @@ topics:
           position: True
         value: year
       y: patients_in_cohort
-  - category: "Hospital Care"
+  - category: "Hospital Care for Medicare Patients"
     title: "Common Conditions"
     sumlevel: "nation"
     slug: "conditions"
