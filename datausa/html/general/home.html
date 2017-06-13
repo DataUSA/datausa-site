@@ -43,47 +43,10 @@
 </div>
 
 <script>var cartBoxes = [];</script>
-<div class="feed-flex">
-{% for carousel in carousels %}
-  <div id="feed" class="carousel rank-{% if carousel.rank %}{{ carousel.rank }}{% else %}0{% endif %}">
-    <h3 class="carousel-title">
-      {% if carousel.footer %}<a href="{{ carousel.footer.link }}">{% endif %}
-  		{% if carousel.icon %}
-  		<img class="icon" src="{{ carousel.icon }}" />
-  		{% endif %}
-      {{ carousel.title }}
-      {% if carousel.footer %}</a>{% endif %}
-    </h3>
-  {% for box in carousel.data %}
-
-    {% if box.link %}
-    <a href="{{ box.link }}" class="feed-box">
-    {% else %}
-    <div class="feed-box cart" data-index="{{ loop.index0 }}">
-    <script>cartBoxes.push({{ box|safe }})</script>
-    {% endif %}
-      <div class="feed-box-contents">
-        {% if box.image %}
-  			<div class="feed-box-image" style="background-image:url('{{ box.image }}');"></div>
-    		{% endif %}
-    		<div class="feed-box-title">{{ box.title }}</div>
-    		{% if box.subtitle %}
-    		<div class="feed-box-subtitle">{{ box.subtitle }}</div>
-    		{% endif %}
-      </div>
-  		{% if box.new %}
-  		<div class="feed-box-tag">New</div>
-  		{% endif %}
-  	{% if box.link %}</a>{% else %}</div>{% endif %}
-  {% endfor %}
-  {% if carousel.footer %}
-  <div class="carousel-footer">
-    <a href="{{ carousel.footer.link }}">{{ carousel.footer.text }}</a>
-  </div>
-  {% endif %}
-  </div>
-{% endfor %}
-</div>
+{% set secondary = false %}
+{% include "templates/includes/carousel.html" %}
+{% set secondary = true %}
+{% include "templates/includes/carousel.html" %}
 
 {% endblock %}
 
