@@ -8142,7 +8142,7 @@ var vizStyles = {
     }
   },
   "lines": {
-    "interpolation": "monotone",
+    "interpolation": "linear",
     "stroke-width": 3
   },
   "messages": {
