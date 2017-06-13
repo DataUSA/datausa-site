@@ -3180,7 +3180,7 @@
       align-items: center;
       -ms-flex-align: center;
       flex-align: center;
-      margin: 25px 0 75px;
+      margin: 10px 0 75px;
       text-align: center;
       width: 100%;
       z-index: 1; }
@@ -3195,7 +3195,7 @@
         -moz-text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
         text-shadow: 0 0 6px rgba(0, 0, 0, 0.8); }
         body.home .home-collab img {
-          height: 64px;
+          height: 90px;
           margin: 0; }
           body.home .home-collab img:hover {
             cursor: pointer; }
@@ -3457,18 +3457,14 @@
           margin: 0 auto 25px;
           width: 80%;   }
           body.home .home-desc h2 {
-            font-size: 18px !important;
-            margin: 0 auto;
+            font-size: 21px !important;
             width: 90%;   }
-            body.home .home-desc h2.second-line {
-              font-size: 21px !important;   }
     body.home #d3plus_drop_search-type {
       display: none !important;   }
       body.home .home-collab {
-        margin: 100px 0 50px;   }
+        margin: 0 0 50px;   }
         body.home .home-collab img {
-          height: 17px;
-          margin: 15px 10px;   }
+          height: 75px;   }
     body.home #feed .feed-box.featured .feed-box-title {
       font-size: 32px;   }
 }

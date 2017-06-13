@@ -469,7 +469,7 @@ body.home {
   .home-collab {
     @include flex();
     @include align-items(center);
-    margin: 25px 0 75px;
+    margin: 10px 0 75px;
     text-align: center;
     width: 100%;
     z-index: 1;
@@ -485,7 +485,7 @@ body.home {
     }
 
     img {
-      height: 64px;
+      height: 90px;
       margin: 0;
 
       &:hover {

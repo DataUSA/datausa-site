@@ -52,13 +52,8 @@ body.home {
       }
 
       h2 {
-        font-size: 18px !important;
-        margin: 0 auto;
+        font-size: 21px !important;
         width: 90%;
-
-        &.second-line {
-          font-size: 21px !important;
-        }
 
       }
     }
@@ -68,11 +63,10 @@ body.home {
     }
 
     .home-collab {
-      margin: 100px 0 50px;
+      margin: 0 0 50px;
 
       img {
-        height: 17px;
-        margin: 15px 10px;
+        height: 75px;
       }
     }
 
