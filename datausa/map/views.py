@@ -28,7 +28,6 @@ mapdata = {
         "chr.uninsured",
         "chr.uninsured_adults",
         "chr.uninsured_children",
-        "chr.could_not_see_doctor_due_to_cost",
 
         "chr.total_medicare_enrollees",
         "chr.total_reimbursements_b",
