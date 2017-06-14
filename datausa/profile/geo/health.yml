@@ -323,7 +323,9 @@ topics:
         - "adult_obesity"
         - "diabetes"
       default: "diabetes"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by <span class='select-text'>Diabetes Prevalence</span>."
+    description:
+      - "According to the <<var namespace=diabetes|key=year|row=0>> County Health Rankings, <<var namespace=diabetes|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Diabetes Prevalence</span> at <<var namespace=diabetes_top|key=diabetes|row=0>>. This represents a <<growth namespace=diabetes_top|key=diabetes>> growth from the previous year, which had a value of <<var namespace=diabetes_top|key=diabetes|row=1>>."
+      - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Diabetes Prevalence</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=diabetes|key=geo|row=0>>"
@@ -344,7 +346,7 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Risky Behaviors"
+  - title: "Risky/Harmful Behaviors"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "risky"
     select:
@@ -355,7 +357,9 @@ topics:
         - "alcoholimpaired_driving_deaths"
         - "motor_vehicle_crash_deaths"
       default: "adult_smoking"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Adult Smoking Prevalence</span>."
+    description:
+      - "According to the <<var namespace=adult_smoking|key=year|row=0>> County Health Rankings, <<var namespace=adult_smoking|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Adult Smoking Prevalence</span> at <<var namespace=adult_smoking_top|key=adult_smoking|row=0>>. This represents a <<growth namespace=adult_smoking_top|key=adult_smoking>> growth from the previous year, which had a value of <<var namespace=adult_smoking_top|key=adult_smoking|row=1>>."
+      - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Adult Smoking Prevalence</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=adult_smoking|key=geo|row=0>>"
@@ -385,7 +389,9 @@ topics:
         - "homicide_rate"
         - "violent_crime"
       default: "homicide_rate"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths per 100,000 people</span>."
+    description:
+      - "According to the <<var namespace=homicide_rate|key=year|row=0>> County Health Rankings, <<var namespace=homicide_rate|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Homicide Deaths per 100,000 People</span> at <<var namespace=homicide_rate_top|key=homicide_rate|row=0>>. This represents a <<growth namespace=homicide_rate_top|key=homicide_rate>> growth from the previous year, which had a value of <<var namespace=homicide_rate_top|key=homicide_rate|row=1>>."
+      - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Homicide Deaths per 100,000 People</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=homicide_rate|key=geo|row=0>>"

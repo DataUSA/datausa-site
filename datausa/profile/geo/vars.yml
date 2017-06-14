@@ -513,6 +513,16 @@
   namespace: diabetes_state
 
 - required: ["geo", "diabetes"]
+  order: year
+  sort: desc
+  show: geo
+  geo: "<<top show=geo|child=True|order=diabetes|sort=desc|col=id|dataset=chr>>"
+  rows: True
+  limit: 2
+  year: all
+  namespace: diabetes_top
+
+- required: ["year", "geo", "diabetes"]
   order: diabetes
   show: geo
   dataset: chr
@@ -523,6 +533,16 @@
   namespace: diabetes
 
 - required: ["geo", "homicide_rate"]
+  order: year
+  sort: desc
+  show: geo
+  geo: "<<top show=geo|child=True|order=homicide_rate|sort=desc|col=id|dataset=chr>>"
+  rows: True
+  limit: 2
+  year: all
+  namespace: homicide_rate_top
+
+- required: ["year", "geo", "homicide_rate"]
   order: homicide_rate
   show: geo
   dataset: chr
@@ -533,6 +553,16 @@
   namespace: homicide_rate
 
 - required: ["geo", "adult_smoking"]
+  order: year
+  sort: desc
+  show: geo
+  geo: "<<top show=geo|child=True|order=adult_smoking|sort=desc|col=id|dataset=chr>>"
+  rows: True
+  limit: 2
+  year: all
+  namespace: adult_smoking_top
+
+- required: ["year", "geo", "adult_smoking"]
   order: adult_smoking
   show: geo
   dataset: chr
