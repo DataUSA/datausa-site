@@ -96,7 +96,7 @@ class Profile(BaseObject):
             x2 = self.var(**kwargs)
             kwargs["row"] = "1"
             x1 = self.var(**kwargs)
-            if x1 == "N/A" or x2 == "N/A":
+            if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
                 return "N/A"
             f1 = (math.pow(-x2 / math.pow(float(x1), 2), 2) * math.pow(dx1, 2))
             f2 = (math.pow(1 / x1, 2) * math.pow(dx2, 2))
@@ -106,7 +106,7 @@ class Profile(BaseObject):
             x2 = self.var(**kwargs)
             kwargs["row"] = "1"
             x1 = self.var(**kwargs)
-            if x1 == "N/A" or x2 == "N/A":
+            if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
                 return "N/A"
             else:
                 value = (float(x2) - x1) / x1
