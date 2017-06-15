@@ -498,7 +498,7 @@ body.home {
     @include flex();
     padding: 0 15px;
 
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 1200px) {
       @include flex-wrap(wrap);
     }
 
@@ -612,34 +612,28 @@ body.home {
     &.carousel {
       @include flex-size(1);
       margin: 10px 15px 25px;
-      min-width: 250px;
+      min-width: 225px;
 
       &.primary { display: inline-block; }
       &.secondary { display: none; }
 
 
-      @media only screen and (max-width: 1700px) {
+      @media only screen and (max-width: 1800px) {
         &.rank-cip.primary { display: none; }
         &.rank-cip.secondary { display: inline-block; }
       }
 
-      @media only screen and (max-width: 1500px) {
+      @media only screen and (max-width: 1600px) {
         &.rank-naics.primary { display: none; }
         &.rank-naics.secondary { display: inline-block; }
       }
 
-      @media only screen and (max-width: 1300px) {
+      @media only screen and (max-width: 1400px) {
         &.rank-cart.primary { display: none; }
         &.rank-cart.secondary { display: inline-block; }
       }
 
-      @media only screen and (max-width: 1100px) {
-        &.rank-story.primary { display: none; }
-        &.rank-story.secondary { display: inline-block; }
-        &.rank-cip.secondary { display: none; }
-      }
-
-      @media only screen and (max-width: 900px) {
+      @media only screen and (max-width: 1200px) {
         &.secondary { display: none !important; }
         &.primary { display: inline-block !important; }
       }
