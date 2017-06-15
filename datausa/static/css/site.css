@@ -7558,17 +7558,19 @@
       letter-spacing: 0.03em; }
       body.about ol li {
         line-height: 1.3; }
-        body.about ol li img {
-          margin: 0 auto;
-          display: block;
-          max-width: 90%;
-          -webkit-box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box; }
-          body.about ol li img:before, body.about ol li img:after {
+        body.about ol li:last-child {
+          margin-bottom: 100px; }
+          body.about ol li img {
+            margin: 0 auto;
+            display: block;
+            max-width: 90%;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
             box-sizing: border-box; }
+            body.about ol li img:before, body.about ol li img:after {
+              -webkit-box-sizing: border-box;
+              -moz-box-sizing: border-box;
+              box-sizing: border-box; }
     body.about .bulleted-list {
       margin-left: 30px;
       list-style-type: upper-roman;
@@ -7940,23 +7942,20 @@
               cursor: default; }
       body.about section p {
         margin: 0 0 20px; }
-        body.about section p:last-child {
-          margin-bottom: 0; }
-      body.about section > ul h1 {
-        text-align: left;
-        font-size: 42px;
-        margin: 20px 0; }
-        body.about section > ul h1 a {
-          color: #141b2e;
-          cursor: default; }
-      body.about section > ul ol {
-        list-style: none; }
-        body.about section > ul ol h2 {
-          margin: 20px 0 10px; }
-          body.about section > ul ol a {
-            position: relative;
-            margin-top: -95px;
-            padding-top: 95px; }
+        body.about section > ul h1 {
+          text-align: left;
+          font-size: 42px;
+          margin: 20px 0; }
+          body.about section > ul h1 a {
+            color: #141b2e;
+            cursor: default; }
+        body.about section > ul ol {
+          list-style: none; }
+          body.about section > ul ol h2 {
+            margin: 20px 0 10px; }
+            body.about section > ul ol h2 a {
+              margin-top: -50px;
+              padding-top: 50px; }
     body.about .team-list {
       padding: 0 0 50px; }
       body.about .team-list .logo {

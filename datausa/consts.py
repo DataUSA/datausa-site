@@ -747,5 +747,10 @@ GLOSSARY = {
         "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality. Click for more info.",
         "link": "/about/glossary/#gini",
         "alts": ["Wage GINI", "wage GINI"]
+    },
+    "non-black": {
+        "def": "Data from the Dartmouth Atlas reports only two racial categories: blacks and nonblacks. Click for more info.",
+        "link": "/about/glossary/#dartmouth",
+        "alts": ["Non-black", "Non-Black"]
     }
 }

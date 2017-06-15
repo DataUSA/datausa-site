@@ -209,7 +209,7 @@ topics:
         sumlevel: <<sumlevel>>
         required: diabetic_medicare_enrollees_65_75_total,diabetic_medicare_enrollees_65_75_black,diabetic_medicare_enrollees_65_75_white,patients_diabetic_medicare_enrollees_65_75_eye_exam_total,patients_diabetic_medicare_enrollees_65_75_eye_exam_white,patients_diabetic_medicare_enrollees_65_75_eye_exam_black,patients_diabetic_medicare_enrollees_65_75_hemoglobin_total,patients_diabetic_medicare_enrollees_65_75_hemoglobin_white,patients_diabetic_medicare_enrollees_65_75_hemoglobin_black,patients_diabetic_medicare_enrollees_65_75_lipid_test_total,patients_diabetic_medicare_enrollees_65_75_lipid_test_white,patients_diabetic_medicare_enrollees_65_75_lipid_test_black
     sumlevel: "!nation"
-    subtitle: "Medicare enrollees between the ages of 65 and 75 that have had treatment related to their diabetes. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
+    subtitle: "Medicare enrollees between the ages of 65 and 75 that have had treatment related to their diabetes using racial categories from the Dartmouth Atlas. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
     slug: "diabetic_care"
     stat:
       - title: "Black Enrollees"
@@ -242,7 +242,7 @@ topics:
       y: share
   - title: "Preventative Women’s Health Services"
     sumlevel: "!nation"
-    subtitle: "Female medicare enrollees between the ages of 67 and 69. <<sub show=geo|col=number_of_females_enrolled_67_69_total>>"
+    subtitle: "Female medicare enrollees between the ages of 67 and 69 using racial categories from the Dartmouth Atlas. <<sub show=geo|col=number_of_females_enrolled_67_69_total>>"
     slug: "womens_health"
     stat:
       - title: "Black Women"

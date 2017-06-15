@@ -748,7 +748,7 @@ class Profile(BaseObject):
 
         if key == "name":
             if substitution:
-                return u"Based on data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
+                return u"Showing data for {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
                 return ""
         else:
