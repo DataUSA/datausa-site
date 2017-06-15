@@ -9,14 +9,14 @@ SUMLEVELS = {
             "sumlevel": "state",
             "label": "state",
             "children": "050",
-            "desc": "Includes all 50 US states as well as Washington D.C. and Puerto Rico. Click for more info.",
+            "desc": "Includes all 50 US states as well as Washington D.C. and Puerto Rico.",
             "link": "/about/glossary/#state",
         },
         "050": {
             "sumlevel": "county",
             "label": "county",
             "children": "140",
-            "desc": "Most or all county subdivisions are legal entities, known to the Census Bureau as minor civil divisions. Click for more info.",
+            "desc": "Most or all county subdivisions are legal entities, known to the Census Bureau as minor civil divisions.",
             "link": "/about/glossary/#county",
         },
         "310": {
@@ -24,7 +24,7 @@ SUMLEVELS = {
             "label": "metropolitan statistical area",
             "shortlabel": "metro area",
             "children": "050",
-            "desc": "A Metropolitan Statistical Area (MSA) is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties. Click for more info.",
+            "desc": "A Metropolitan Statistical Area (MSA) is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties.",
             "link": "/about/glossary/#msa",
         },
         "160": {
@@ -32,7 +32,7 @@ SUMLEVELS = {
             "label": "census place",
             "shortlabel": "place",
             "children": "140",
-            "desc": "The United States Census Bureau defines a place as a concentration of population which has a name, is locally recognized, and is not part of any other place. Click for more info.",
+            "desc": "The United States Census Bureau defines a place as a concentration of population which has a name, is locally recognized, and is not part of any other place.",
             "link": "/about/glossary/#place",
         },
         "860": {
@@ -43,14 +43,14 @@ SUMLEVELS = {
             "sumlevel": "puma",
             "label": "public use microdata area",
             "shortlabel": "PUMA",
-            "desc": "A Public Use Microdata Area (PUMAs), are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information. Click for more info.",
+            "desc": "A Public Use Microdata Area (PUMAs), are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information.",
             "link": "/about/glossary/#puma",
         },
         "140": {
             "sumlevel": "tract",
             "label": "census tract",
             "shortlabel": "tract",
-            "desc": "Census tracts are small, relatively permanent statistical subdivisions of a county or equivalent entity that are updated by local participants prior to each decennial census. Click for more info.",
+            "desc": "Census tracts are small, relatively permanent statistical subdivisions of a county or equivalent entity that are updated by local participants prior to each decennial census.",
             "link": "/about/glossary/#tract"
         }
     },
@@ -433,6 +433,9 @@ DICTIONARY = {
     "discharges_for_ambulatory_conditions_per_1000_total": "Ambulatory Discharges",
     "discharges_for_ambulatory_conditions_per_1000_black": "Ambulatory Discharges (Black)",
     "discharges_for_ambulatory_conditions_per_1000_white": "Ambulatory Discharges (Non-Black)",
+    "leg_amputations_per_1000_enrollees_total": "Leg Amputations",
+    "leg_amputations_per_1000_enrollees_white": "Leg Amputations (Non-Black)",
+    "leg_amputations_per_1000_enrollees_black": "Leg Amputations (Black)",
 
     "patients_in_cohort": "Total Patients",
     "patients_readmitted_within_30_days_of_discharge": "Readmittance within 30 Days",
@@ -444,10 +447,6 @@ DICTIONARY = {
     "hemoglobin": "Hemoglobin Tests",
     "lipid_test": "Lipid Tests",
     "mammogram_tests": "Mammograms",
-
-    "leg_amputations_per_1000_enrollees_total": "Leg Amputations",
-    "leg_amputations_per_1000_enrollees_white": "Leg Amputations (Non-Black)",
-    "leg_amputations_per_1000_enrollees_black": "Leg Amputations (Black)",
 
     "hc_pop": "Population",
     "hc_pop_rca": "Population (RCA)",
@@ -739,18 +738,18 @@ COLMAP["propertytax"] = COLMAP["propertytaxBucket"]
 
 GLOSSARY = {
     "RCA": {
-        "def": "The RCA calculation compares the share in a given constraint versus the national share. Click for more info.",
+        "def": "The RCA calculation compares the share in a given constraint versus the national share.",
         "link": "/about/glossary/#rca",
         "alts": ["Most Specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
     },
     "GINI": {
-        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality. Click for more info.",
+        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
         "link": "/about/glossary/#gini",
         "alts": ["Wage GINI", "wage GINI"]
     },
     "non-black": {
-        "def": "Data from the Dartmouth Atlas reports only two racial categories: blacks and nonblacks. Click for more info.",
+        "def": "Data from the Dartmouth Atlas reports only two racial categories: black and non-black.",
         "link": "/about/glossary/#dartmouth",
-        "alts": ["Non-black", "Non-Black"]
+        "alts": ["Non-black", "Non-Black", "medicare_beneficiaries_white", "medicare_beneficiaries_black", "patients_with_one_ambulatory_visit_to_pc_black", "patients_with_one_ambulatory_visit_to_pc_white", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_black", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_black", "patients_diabetic_medicare_enrollees_65_75_eye_exam_white", "patients_diabetic_medicare_enrollees_65_75_lipid_test_black", "patients_diabetic_medicare_enrollees_65_75_lipid_test_white", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "beneficiaries_part_a_eligible_black", "beneficiaries_part_a_eligible_white", "discharges_for_ambulatory_conditions_per_1000_black", "discharges_for_ambulatory_conditions_per_1000_white", "leg_amputations_per_1000_enrollees_white", "leg_amputations_per_1000_enrollees_black"]
     }
 }

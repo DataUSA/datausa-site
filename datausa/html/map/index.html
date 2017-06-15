@@ -30,6 +30,7 @@
       {% endfor %}
     </select>
   </div>
+  <div id="map-description"></div>
   <div id="map-tooltip"></div>
   <div id="map-subs">
     <sub class="sub-source">Dataset: <span class="source"></span></sub>
@@ -202,6 +203,22 @@
             data = data.sort(function(a, b) { return b[variables[0]] - a[variables[0]]; })
           }
         }
+
+        var def = false;
+        var g = glossary[key];
+        if (!g) {
+          for (var term in glossary) {
+            if (glossary[term]["alts"] && glossary[term]["alts"].indexOf(key) >= 0) {
+              g = glossary[term];
+              break;
+            }
+          }
+        }
+        if (g) {
+          def = g["def"];
+          if (g["link"]) def += " " + "<a href='" + g["link"] + "'>Click for more info.</a>";
+        }
+        d3.select("#map-description").classed("hidden", !def).html(def || "");
 
         var source = json.source.dataset;
         if (json.source.link) {

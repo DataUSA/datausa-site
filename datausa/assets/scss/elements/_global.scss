@@ -110,6 +110,11 @@ body.frozen {
 			line-height: 16px;
 			margin-bottom: 20px;
 			width: 100%;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
 			td {
 				padding: 2px 5px;
 			}

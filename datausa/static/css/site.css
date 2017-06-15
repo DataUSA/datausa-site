@@ -186,14 +186,16 @@
         line-height: 16px;
         margin-bottom: 20px;
         width: 100%; }
-        #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table td {
-          padding: 2px 5px; }
-          #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-rank {
-            text-align: right;
-            width: 15px; }
-            #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-name:hover {
-              cursor: pointer;
-              text-decoration: underline; }
+        #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table:last-child {
+          margin-bottom: 0; }
+          #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table td {
+            padding: 2px 5px; }
+            #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-rank {
+              text-align: right;
+              width: 15px; }
+              #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-name:hover {
+                cursor: pointer;
+                text-decoration: underline; }
         #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container table .list-value {
           font-weight: 500;
           text-align: right; }
@@ -6700,7 +6702,15 @@
         position: static !important;
         z-index: 2 !important; }
         body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
           background-color: transparent !important; }
+          body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container:before,
+          body.map #d3plus_tooltip_id_geo_map_sidebar .d3plus_tooltip_container:after {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box; }
 
   #map-controls {
     -webkit-box-sizing: border-box;
@@ -6730,9 +6740,19 @@
         #map-controls #d3plus_drop_map-keys {
           margin: 1px 5px 5px !important; }
           #map-controls #d3plus_toggle_map-sumlevels {
+            margin: 15px 0 -5px !important;
             text-align: center; }
             #map-controls #d3plus_toggle_map-sumlevels .d3plus_toggle .d3plus_node {
               margin: 0 6px !important; }
+    #map-controls #map-description {
+      color: #666;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 16px;
+      padding: 10px; }
+      #map-controls #map-description.hidden {
+        display: none; }
     #map-controls #map-tooltip {
       overflow-y: scroll;
       position: relative; }

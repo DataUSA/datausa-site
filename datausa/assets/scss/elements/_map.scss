@@ -19,6 +19,7 @@ body.map {
     z-index: 2 !important;
 
     .d3plus_tooltip_container {
+      @include box();
   		background-color: transparent !important;
     }
 
@@ -53,12 +54,25 @@ $map-sidebar: 250px;
   }
 
   #d3plus_toggle_map-sumlevels {
+    margin: 15px 0 -5px !important; 
     text-align: center;
 
     .d3plus_toggle .d3plus_node {
       margin: 0 6px !important;
     }
 
+  }
+
+  #map-description {
+    color: #666;
+    font-family: $palanquin;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 10px;
+    &.hidden {
+      display: none;
+    }
   }
 
   #map-tooltip {
