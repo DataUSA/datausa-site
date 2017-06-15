@@ -65,6 +65,11 @@
     "795": "puma"
   };
 
+  var geoPrefixes = {};
+  for (var num in sumlevels) {
+    geoPrefixes[sumlevels[num]] = num;
+  }
+
   var attrs = {};
 
   var attr_list = [
@@ -160,15 +165,67 @@
     if (!urls.length) callback([], []);
 
     urls = d3plus.util.uniques(urls);
+    var metaUrls = urls.slice();
     var urlList = urls.slice();
 
-    var retData = [], retHeaders = [];
-    function loadSingle() {
+    var retData = [], retHeaders = [], availGeos = [], reqGeos = [];
+
+    function checkMeta() {
+
+      var url = metaUrls.shift();
+      var i = urlList.indexOf(url);
+      url = url + "&limit=1";
+      var show = new RegExp("[&|?]{1}show=([a-z,_]*)").exec(url);
+      if (show) show = show[1].split(",");
+
+      if (url.indexOf("/attrs/") >= 0 || (show && show.indexOf("geo") < 0)) {
+        if (metaUrls.length) checkMeta();
+        else {
+          reqGeos = d3plus.util.uniques(reqGeos);
+          loadFullData();
+        }
+      }
+      else {
+
+        var sumlevel = new RegExp("[&|?]{1}sumlevel=([a-z,_]*)").exec(url);
+        if (sumlevel) sumlevel = sumlevel[1].split(",");
+        show.forEach(function(s, index) {
+          if (s === "geo") reqGeos.push(sumlevel[index]);
+        });
+
+        load(url, function(data, u, ret) {
+
+          availGeos[i] = ret.source.supported_levels.geo.filter(function(g) { return ["all", "tract"].indexOf(g) < 0 });
+
+          if (metaUrls.length) checkMeta();
+          else {
+            reqGeos = d3plus.util.uniques(reqGeos);
+            loadFullData();
+          }
+
+        });
+
+      }
+
+    }
+
+    function loadFullData() {
 
       var url = urls.shift();
       var i = urlList.indexOf(url) + 1;
       if (i <= totalCalls) loadStatus.html("API Call " + i + " of " + totalCalls);
       else loadStatus.html("Fetching Attribute Names");
+      if (availGeos[i - 1]) {
+        var hiddenGeos = availGeos[i - 1].filter(function(g) { return reqGeos.indexOf(g) < 0; });
+        var show = new RegExp("[&|?]{1}show=([a-z,_]*)").exec(url)[1].split(",");
+        var sumlevel = new RegExp("[&|?]{1}sumlevel=([a-z,_]*)").exec(url)[1].split(",");
+        newSum = sumlevel.slice();
+        newSum[show.indexOf("geo")] = "all";
+        url = url.replace("sumlevel=" + sumlevel.join(","), "sumlevel=" + newSum.join(","));
+        if (hiddenGeos.length) {
+          url += "&where=" + hiddenGeos.map(function(g) { return "geo:~^" + geoPrefixes[g] }).join(",");
+        }
+      }
 
       load(url, function(data, u, ret) {
 
@@ -216,14 +273,15 @@
 
         loadStatus.html("API Call 0 of " + totalCalls);
 
-        if (urls.length) loadSingle();
+        if (urls.length) loadFullData();
         else callback(retData, d3plus.util.uniques(retHeaders));
 
       });
 
     }
 
-    loadSingle();
+    loadStatus.html("Detecting Geographic Levels");
+    checkMeta();
 
   }
 
