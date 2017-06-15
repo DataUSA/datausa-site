@@ -498,8 +498,8 @@ body.home {
     @include flex();
     padding: 0 15px;
 
-    @media only screen and (max-width: 700px) {
-      @include flex-direction(column);
+    @media only screen and (max-width: 900px) {
+      @include flex-wrap(wrap);
     }
 
   }
@@ -612,6 +612,7 @@ body.home {
     &.carousel {
       @include flex-size(1);
       margin: 10px 15px 25px;
+      min-width: 250px;
 
       &.primary { display: inline-block; }
       &.secondary { display: none; }
@@ -639,14 +640,6 @@ body.home {
       }
 
       @media only screen and (max-width: 900px) {
-        &.rank-soc.primary { display: none; }
-        &.rank-naics.secondary { display: none; }
-        &.rank-cart.secondary { display: none; }
-        &.rank-soc.secondary { display: inline-block; }
-        &.rank-story.secondary { display: inline-block; }
-      }
-
-      @media only screen and (max-width: 700px) {
         &.secondary { display: none !important; }
         &.primary { display: inline-block !important; }
       }
