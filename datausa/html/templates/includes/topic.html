@@ -64,6 +64,7 @@
       {% for desc in topic.description %}
       <p>{{ desc|safe }}</p>
       {% endfor %}
+      <p class="definition"></p>
       {% endif %}
       {% if topic.miniviz %}
       <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}>

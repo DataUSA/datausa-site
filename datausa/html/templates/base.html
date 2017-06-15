@@ -138,6 +138,13 @@
               offset = 15;
             }
 
+            var align = d3.select(this).attr("data-tooltip-anchor") || "top center";
+
+            if (align.split(" ")[0] === "top" || align.split(" ")[0] === "bottom") {
+              var margin = parseFloat(d3.select(this).style("margin-" + align.split(" ")[0]));
+              offset += margin;
+            }
+
             var arrow = true;
             if(d3.select(this).attr("data-tooltip-arrow")){
               arrow = d3.select(this).attr("data-tooltip-arrow") === "true";
@@ -151,7 +158,7 @@
               "description": text,
               "width": "auto",
               "id": tt_id,
-              "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
+              "align": align,
               "max_width": max_width
             });
 

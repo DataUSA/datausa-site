@@ -36,6 +36,7 @@ topics:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
   - title: "Insurance Coverage by Age and Gender"
+    subtitle: "<<sub show=geo|col=hc_pop>>"
     cart:
       title: "Insurance Coverage by Gender"
       params:
@@ -125,6 +126,7 @@ topics:
     stat:
       - title: "<span class='select-text'>Medicare Reimbursements per Enrollee</span>"
         value: "<<var namespace=medicare_time|key=total_reimbursements_b|row=0>>"
+    subtitle: "<<sub show=geo|col=total_reimbursements_b>>"
     description:
       - "{{<<sumlevel>>:!nation||<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>. This represents a <<growth namespace=medicare_time|key=total_reimbursements_b>> growth over the past year.}}"
       - "Medicare is a federal program which provides health benefits to older Americans. Amounts of money required for reimbursements to Medicare enrollees change over time. The following chart shows how per-enrollee amounts have changed {{<<sumlevel>>:!nation||in <<name>> as compared to the national trend.}}{{<<sumlevel>>:nation||for the top and bottom 2 states.}}"
@@ -135,6 +137,7 @@ topics:
         force: dartmouth.yg_reimbursements
         show: "geo"
       height: 400
+      highlight: <<var namespace=medicare_time|key=geo|row=0|format=raw>>
       id: "geo"
       type: "line"
       x: "year"
@@ -218,7 +221,6 @@ topics:
         value: <<var namespace=diabetic_care|key=diabetic_medicare_enrollees_65_75_white>>
     description:
       - "In <<var namespace=diabetic_care|key=year>>, out of all of the medicare enrollees in <<var namespace=diabetic_care|key=geo>> between the ages of 65 and 75 that had treatment related to their diabetes, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_eye_exam_total>> eye exams, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_hemoglobin_total>> hemoglobin tests, and <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_lipid_test_total>> lipid tests were performed. Here is a breakdown of each test by race as a percentage of enrollees with diabetes."
-      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
     viz:
       color: race
       data:
@@ -251,7 +253,6 @@ topics:
         value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
     description:
       - "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of black and non-black medicare enrollees who had mammograms over the past few years."
-      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
     viz:
       color: race
       data:
@@ -294,7 +295,6 @@ topics:
         - patients_females_67_69_having_mammogram_black
     description:
       - "When looking at patients across the entire United States, there are <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=0>> <span class='select-text'>Female Medicare Enrolles 65-75 Years Old</span> in <<var namespace=women_state|key=geo|row=0>>, followed by <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=1>> in <<var namespace=women_state|key=geo|row=1>> and <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=2>> in <<var namespace=women_state|key=geo|row=2>>."
-      - "Data for other races and ethnicities has not been made available by the Dartmouth Atlas."
     stat:
       - title: "Most Prevalent States"
         value: "<<var namespace=women_state|key=geo|row=0>>"

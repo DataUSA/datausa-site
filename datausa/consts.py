@@ -241,7 +241,7 @@ DICTIONARY = {
     "violent_crime": "Violent Crimes",
     "adult_obesity": "Obesity Prevalence",
     "adult_smoking": "Adult Smoking Prevalence",
-    "alcoholimpaired_driving_deaths": "Percentage of Driving Deaths Involving Alcohol",
+    "alcoholimpaired_driving_deaths": "Driving Deaths Involving Alcohol",
     "diabetes": "Diabetes Prevalence",
     "health_care_costs": "Reimbursements per Medicare Enrollee",
     "hiv_prevalence_rate": "HIV Diagnoses",
@@ -751,5 +751,164 @@ GLOSSARY = {
         "def": "Data from the Dartmouth Atlas reports only two racial categories: black and non-black.",
         "link": "/about/glossary/#dartmouth",
         "alts": ["Non-black", "Non-Black", "medicare_beneficiaries_white", "medicare_beneficiaries_black", "patients_with_one_ambulatory_visit_to_pc_black", "patients_with_one_ambulatory_visit_to_pc_white", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_black", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_black", "patients_diabetic_medicare_enrollees_65_75_eye_exam_white", "patients_diabetic_medicare_enrollees_65_75_lipid_test_black", "patients_diabetic_medicare_enrollees_65_75_lipid_test_white", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "beneficiaries_part_a_eligible_black", "beneficiaries_part_a_eligible_white", "discharges_for_ambulatory_conditions_per_1000_black", "discharges_for_ambulatory_conditions_per_1000_white", "leg_amputations_per_1000_enrollees_white", "leg_amputations_per_1000_enrollees_black"]
+    },
+    "mental_health_providers": {
+        "def": "The ratio of the population to the total number of mental health providers including psychiatrists, psychologists, licensed clinical social workers, counselors, marriage and family therapists and advanced practice nurses specializing in mental health care."
+    },
+    "other_primary_care_providers": {
+        "def": "The ratio of the population to the total number of other primary care provders, which include nurse practitioners, physician assistants, and clinical nurse specialists."
+    },
+    "adult_smoking": {
+        "def": "The percentage of adults that reported currently smoking."
+    },
+    "adult_obesity": {
+        "def": "The percentage of adults that report a BMI greater than or equal to 30."
+    },
+    "excessive_drinking": {
+        "def": "The percentage of adults that report excessive drinking."
+    },
+    "motor_vehicle_crash_deaths": {
+        "def": "The amount of motor vehicle crash deaths per 100,000 population."
+    },
+    "homicide_rate": {
+        "def": "The number or deaths due to homicide per 100,000 population."
+    },
+    "sexually_transmitted_infections": {
+        "def": "Mumber of newly diagnosed chlamydia cases per 100,000 population."
+    },
+    "health_care_costs": {
+        "def": "The amount of price-adjusted Medicare reimbursements per enrollee."
+    },
+    "diabetes": {
+        "def": "The percentage of adults aged 20 and above with diagnosed diabetes."
+    },
+    "hiv_prevalence_rate": {
+        "def": "The number of persons living with a diagnosis of human immunodeficiency virus (HIV) infection per 100,000 population."
+    },
+    "violent_crime": {
+        "def": "The number of reported violent crime offenses per 100,000 population."
+    },
+    "alcoholimpaired_driving_deaths": {
+        "def": "The percentage of driving deaths with alcohol involvement."
+    },
+    "premature_death": {
+        "def": "Every death occurring before the age of 75. It is presented as a rate per 100,000 population and is age-adjusted to the 2000 US population."
+    },
+    "poor_or_fair_health": {
+        "def": "The percentage of adults reporting fair or poor health (age-adjusted)."
+    },
+    "poor_physical_health_days": {
+        "def": "Average number of physically unhealthy days reported in the past 30 days (age-adjusted)."
+    },
+    "poor_mental_health_days": {
+        "def": "Average number of mentally unhealthy days reported in the past 30 days (age-adjusted)."
+    },
+    "low_birthweight": {
+        "def": "The percentage of live births with a birthweight less than 2500 grams."
+    },
+    "food_environment_index": {
+        "def": "An index which factors in both income and physical proximity to healthy foods."
+    },
+    "physical_inactivity": {
+        "def": "The percentage of adults aged 20 and over reporting no leisure-time physical activity."
+    },
+    "access_to_exercise_opportunities": {
+        "def": "The percentage of individuals who live reasonably close to a location for physical activity."
+    },
+    "teen_births": {
+        "def": "The number of births per 1,000 female population, ages 15-19."
+    },
+    "uninsured": {
+        "def": "The percentage of the population under age 65 that has no health insurance coverage."
+    },
+    "preventable_hospital_stays": {
+        "def": "The hospital discharge rate for ambulatory care-sensitive conditions per 1,000 fee-for-service Medicare enrollees."
+    },
+    "diabetic_screening": {
+        "def": "The percentage of diabetic fee-for-service Medicare patients ages 65-75 whose blood sugar control was monitored in the past year using a test of their glycated hemoglobin (HbA1c) levels."
+    },
+    "mammography_screening": {
+        "def": "The percentage of female fee-for-service Medicare enrollees age 67-69 that had at least one mammogram over a two-year period."
+    },
+    "high_school_graduation": {
+        "def": "The percentage of the ninth-grade cohort in public schools that graduates from high school in four years."
+    },
+    "some_college": {
+        "def": "The percentage of the population ages 25-44 with some post-secondary education, such as enrollment in vocational/technical schools, junior colleges, or four-year colleges, including individuals who pursued education following high school but did not receive a degree."
+    },
+    "children_in_poverty": {
+        "def": "The percentage of children under age 18 living in poverty."
+    },
+    "children_in_singleparent_households": {
+        "def": "The percentage of children in family households that live in a household headed by a single parent (male or female head of household with no spouse present)."
+    },
+    "social_associations": {
+        "def": "The number of social associations per 10,000 population, including membership organizations such as civic organizations, bowling centers, golf clubs, fitness centers, sports organizations, religious organizations, political organizations, labor organizations, business organizations, and professional organizations."
+    },
+    "injury_deaths": {
+        "def": "The number of deaths due to injury per 100,000 population."
+    },
+    "polution_ppm": {
+        "def": "The average daily density of fine particulate matter in micrograms per cubic meter (PM2.5)."
+    },
+    "drinking_water_violations": {
+        "def": "The percentage of population being served by community water systems with health-based drinking water violations."
+    },
+    "severe_housing_problems": {
+        "def": "The percentage of households with at least 1 or more of the following housing problems: housing unit lacks complete kitchen facilities, housing unit lacks complete plumbing facilities, household is severely overcrowded, and/or household is severely cost burdened."
+    },
+    "population_living_in_a_rural_area": {
+        "def": "The percentage of population living in a rural area."
+    },
+    "premature_ageadjusted_mortality": {
+        "def": "The number of deaths among residents under the age of 75 per 100,000 population."
+    },
+    "infant_mortality": {
+        "def": "The number of deaths among children less than one year of age per 1,000 live births."
+    },
+    "child_mortality": {
+        "def": "The number of deaths among children under age 18 per 100,000 population."
+    },
+    "food_insecurity": {
+        "def": "The percentage of the population who did not have access to a reliable source of food during the past year."
+    },
+    "limited_access_to_healthy_foods": {
+        "def": "The percentage of the population who are low income and do not live close to a grocery store."
+    },
+    "drug_poisoning_deaths": {
+        "def": "The number of deaths due to drug poisoning per 100,000 population."
+    },
+    "uninsured_adults": {
+        "def": "The percentage of the population ages 18 to 65 that has no health insurance coverage."
+    },
+    "uninsured_children": {
+        "def": "The percentage of children under age 19 without health insurance."
+    },
+    "could_not_see_doctor_due_to_cost": {
+        "def": "The percentage of adults who could not see a doctor in the past 12 months because of cost."
+    },
+    "children_eligible_for_free_lunch": {
+        "def": "The percentage of children enrolled in public schools eligible for free lunch."
+    },
+    "unemployment": {
+        "def": "The percentage of the civilian labor force, age 16 and older, that is unemployed but seeking work."
+    },
+    "income_inequality": {
+        "def": "The ratio of household income at the 80th percentile to that at the 20th percentile."
+    },
+    "driving_along_to_work": {
+        "def": "The percentage of the workforce that usually drives alone to work."
+    },
+    "long_commute__driving_alone": {
+        "def": "The percentage of commuters, among those who commute to work by car, truck, or van alone, who drive longer than 30 minutes to work each day."
+    },
+    "population_that_is_not_proficient_in_english": {
+        "def": "The percentage of population that is not proficient in English."
     }
 }
+
+for term in GLOSSARY:
+    if term in DICTIONARY:
+        if "alt" not in GLOSSARY[term]:
+            GLOSSARY[term]["alt"] = []
+        GLOSSARY[term]["alt"].append(DICTIONARY[term])

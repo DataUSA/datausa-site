@@ -118,8 +118,15 @@ class Section(BaseObject):
     def tooltipify(txt):
 
         def replaceText(t, k, gt):
-            tooltip = u"<a href='{0}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{1} Click for more info.' data-default='{2}'>{2}</a>"
-            return t.replace(k, tooltip.format(gt["link"], gt["def"], k))
+            if k not in t:
+                return t
+            elif "link" in gt:
+                tooltip = u"<a href='{0}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{1} Click for more info.' data-default='{2}'>{2}</a>\\1"
+                res = re.sub(re.escape(k) + r"((?!\<|\=|\&|\?|\&|\,|\+|\%).{1}|$)", tooltip.format(gt["link"], gt["def"], k), t)
+            else:
+                tooltip = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{0}' data-default='{1}'>{1}</span>"
+                res = re.sub(re.escape(k) + r"((?!\<|\=|\&|\?|\&|\,|\+|\%).{1}|$)", tooltip.format(gt["def"], k), t)
+            return res if res else t
 
         for gk, gt in GLOSSARY.items():
             txt = replaceText(txt, gk, gt)

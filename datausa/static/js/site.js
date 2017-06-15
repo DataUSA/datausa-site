@@ -9340,6 +9340,17 @@ viz.prepBuild = function(build, i) {
             method = this.getAttribute("data-method"),
             prev = this.getAttribute("data-default");
 
+        var definition = d3.select(this.parentNode).select("p.definition");
+        if (definition.size()) {
+          var def = false;
+          var g = glossary[id];
+          if (g) {
+            def = dictionary[id] + " is defined as " + g["def"].slice(0, 1).toLowerCase() + g["def"].slice(1);
+            if (g["link"]) def += " " + "<a href='" + g["link"] + "'>Click for more info.</a>";
+          }
+          definition.html(def || "");
+        }
+
         if (id !== prev) {
 
           d3.select(this).attr("data-default", id);

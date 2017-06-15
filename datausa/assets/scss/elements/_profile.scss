@@ -435,6 +435,9 @@ body.profile, body.map, body.story {
       color: $red-w;
       a {
         color: $red-w;
+        &:hover {
+          border-bottom: 1px solid $red-w;
+        }
       }
     }
 
@@ -715,7 +718,7 @@ body.profile, body.map, body.story {
           @include align-items(flex-start);
           @include justify(space-between);
         }
-        
+
 
         .stat {
           @include align-items(center);
@@ -1109,7 +1112,7 @@ body.profile, body.map, body.story {
     margin-right: auto;
     margin-left: auto;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     background-color: $black2;
     color: $black5;
     @include transition(top 0.5s, box-shadow 0.5s);
@@ -1198,7 +1201,7 @@ body.profile, body.map, body.story {
     left: 0;
     top: $nav-height;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     @include transition(height 0.45s);
 
     &.stat-hidden {
@@ -1905,6 +1908,7 @@ body.profile, body.map, body.story {
           min-height: 400px;
           overflow: hidden;
           position: relative;
+          z-index: 2;
 
           &.geo_map {
             min-height: 500px;

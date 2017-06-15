@@ -3917,6 +3917,9 @@
     body.profile .topic .sub-title a, body.map .topic .sub-title a,
     body.story .topic .sub-title a {
       color: #ef6145; }
+      body.profile .topic .sub-title a:hover, body.map .topic .sub-title a:hover,
+      body.story .topic .sub-title a:hover {
+        border-bottom: 1px solid #ef6145; }
   body.profile .topic .sub-source, body.map .topic .sub-source,
   body.story .topic .sub-source {
     display: block;
@@ -4778,7 +4781,7 @@
     margin-right: auto;
     margin-left: auto;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     background-color: #141b2e;
     color: #979AA2;
     -moz-transition: top 0.5s, box-shadow 0.5s;
@@ -4898,7 +4901,7 @@
     left: 0;
     top: 40px;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     -moz-transition: height 0.45s;
     -o-transition: height 0.45s;
     -webkit-transition: height 0.45s;
@@ -5842,7 +5845,8 @@
           margin-left: 50px;
           min-height: 400px;
           overflow: hidden;
-          position: relative; }
+          position: relative;
+          z-index: 2; }
           body.profile .profile-section .topic .content .viz.geo_map,
           body.map .profile-section .topic .content .viz.geo_map,
           body.story .profile-section .topic .content .viz.geo_map {
