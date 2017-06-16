@@ -88,6 +88,41 @@ body.profile, body.story {
 
     }
 
+    #splash-stats.compare-flex {
+
+      #stat-container {
+        @include flex-direction(column !important);
+      }
+
+      .stat {
+        @include flex-direction(row !important);
+        max-width: 100% !important;
+        padding-bottom: 10px !important;
+        width: 100% !important;
+
+        .stat-text {
+          font-size: 10px !important;
+          padding: 0 5px;
+          text-align: right !important;
+          width: 50% !important;
+        }
+        .stat-group {
+          text-align: left !important;
+          padding: 0 5px;
+          width: 50% !important;
+        }
+        .stat-value {
+          font-size: 24px !important;
+        }
+        .stat-rank {
+          display: none !important;
+        }
+
+      }
+
+
+    }
+
     .profile-section {
       @include flex-direction(column);
     }
@@ -190,16 +225,18 @@ body.profile, body.story {
         }
 
         #splash-stats {
-          @include align-items(flex-end);
+          margin: 20px 0 0;
 
           .stat {
             @include box();
 
             .stat-text {
               font-size: 10px;
+              font-weight: 400;
+              line-height: 12px;
             }
             .stat-value {
-              font-size: 24px;
+              font-size: 18px !important;
               opacity: 1;
             }
             .stat-rank {

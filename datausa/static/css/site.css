@@ -3804,16 +3804,14 @@
                 body.story .viz-btn.add-to-cart.disabled {
                   opacity: 0.5; }
       @media only screen and (max-width : 768px) {
-        body.profile .viz-btn, body.map .viz-btn, body.story .viz-btn {
-          display: block;   }
-          body.profile .viz-btn.view-table, body.profile .viz-btn.save-image,
-          body.map .viz-btn.view-table, body.map .viz-btn.save-image,
-          body.story .viz-btn.view-table, body.story .viz-btn.save-image {
-            display: none;   }
-            body.profile .viz-btn.share::after, body.profile .viz-btn.add-to-cart::after,
-            body.map .viz-btn.share::after, body.map .viz-btn.add-to-cart::after,
-            body.story .viz-btn.share::after, body.story .viz-btn.add-to-cart::after {
-              content: none;   }
+        body.profile .viz-btn.view-table, body.profile .viz-btn.save-image,
+        body.map .viz-btn.view-table, body.map .viz-btn.save-image,
+        body.story .viz-btn.view-table, body.story .viz-btn.save-image {
+          display: none;   }
+          body.profile .viz-btn.share::after, body.profile .viz-btn.add-to-cart::after,
+          body.map .viz-btn.share::after, body.map .viz-btn.add-to-cart::after,
+          body.story .viz-btn.share::after, body.story .viz-btn.add-to-cart::after {
+            content: none;   }
 }
   body.profile .topic h2, body.map .topic h2, body.story .topic h2 {
     -webkit-justify-content: center;
@@ -6356,6 +6354,38 @@
           font-size: 16px !important;   }
           body.profile .intro #profile-toc ul, body.story .intro #profile-toc ul {
             padding-left: 10px !important;   }
+    body.profile #splash-stats.compare-flex #stat-container,
+    body.story #splash-stats.compare-flex #stat-container {
+      -webkit-flex-direction: column !important;
+      -moz-flex-direction: column !important;
+      -ms-flex-direction: column !important;
+      flex-direction: column !important;   }
+      body.profile #splash-stats.compare-flex .stat,
+      body.story #splash-stats.compare-flex .stat {
+        -webkit-flex-direction: row !important;
+        -moz-flex-direction: row !important;
+        -ms-flex-direction: row !important;
+        flex-direction: row !important;
+        max-width: 100% !important;
+        padding-bottom: 10px !important;
+        width: 100% !important;   }
+        body.profile #splash-stats.compare-flex .stat .stat-text,
+        body.story #splash-stats.compare-flex .stat .stat-text {
+          font-size: 10px !important;
+          padding: 0 5px;
+          text-align: right !important;
+          width: 50% !important;   }
+          body.profile #splash-stats.compare-flex .stat .stat-group,
+          body.story #splash-stats.compare-flex .stat .stat-group {
+            text-align: left !important;
+            padding: 0 5px;
+            width: 50% !important;   }
+            body.profile #splash-stats.compare-flex .stat .stat-value,
+            body.story #splash-stats.compare-flex .stat .stat-value {
+              font-size: 24px !important;   }
+              body.profile #splash-stats.compare-flex .stat .stat-rank,
+              body.story #splash-stats.compare-flex .stat .stat-rank {
+                display: none !important;   }
     body.profile .profile-section, body.story .profile-section {
       -webkit-flex-direction: column;
       -moz-flex-direction: column;
@@ -6416,10 +6446,7 @@
                 margin: 0 7px;   }
           body.profile #splash .content #splash-stats,
           body.story #splash .content #splash-stats {
-            -webkit-align-items: flex-end;
-            align-items: flex-end;
-            -ms-flex-align: end;
-            flex-align: end;   }
+            margin: 20px 0 0;   }
             body.profile #splash .content #splash-stats .stat,
             body.story #splash .content #splash-stats .stat {
               -webkit-box-sizing: border-box;
@@ -6434,10 +6461,12 @@
                 box-sizing: border-box;   }
                 body.profile #splash .content #splash-stats .stat .stat-text,
                 body.story #splash .content #splash-stats .stat .stat-text {
-                  font-size: 10px;   }
+                  font-size: 10px;
+                  font-weight: 400;
+                  line-height: 12px;   }
                   body.profile #splash .content #splash-stats .stat .stat-value,
                   body.story #splash .content #splash-stats .stat .stat-value {
-                    font-size: 24px;
+                    font-size: 18px !important;
                     opacity: 1;   }
                     body.profile #splash .content #splash-stats .stat .stat-rank,
                     body.story #splash .content #splash-stats .stat .stat-rank {
