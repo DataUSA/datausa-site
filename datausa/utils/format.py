@@ -66,8 +66,6 @@ def num_format(number, key=None, labels=True, condense=True, suffix=True):
         n = int(n)
     elif n > 9:
         n = round(n, 1)
-    elif n > 1:
-        n = round(n, 1)
     else:
         n = round(n, 2)
 
