@@ -20,6 +20,10 @@ topics:
           show: "geo"
           sumlevel: "county"
       id: "geo"
+      scale: 16520.846620993045
+      translate:
+        - 331.37803817775205
+        - 2120.08393509102
       type: "geo_map"
   - description:
       - "Darker shades of red represent higher rates of overdose deaths. There is a large, dark cluster of counties located in central and eastern Kentucky, and Breathitt County falls on the left edge of that cluster. Although Breathitt County’s rate of overdose deaths has fallen to 34.6 per 100,000 (a number higher than the majority of the nation) its surrounding counties still lag far behind.  Nine of the top 10 counties for drug overdose deaths are located nearby in Kentucky and West Virginia—the heart of Appalachia.<<foot note=1>>"
