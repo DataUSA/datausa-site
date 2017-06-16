@@ -133,7 +133,7 @@ mapdata = {
     ],
 
     "housing": [
-        "acs.driving_alone_to_work",
+        "chr.driving_alone_to_work",
         "acs.long_commute__driving_alone",
         "acs.median_property_value,median_property_value_moe",
         "acs.owner_occupied_housing_units",
