@@ -9322,6 +9322,11 @@ viz.prepBuild = function(build, i) {
     build.title = "data";
   }
 
+  var logo = d3.select(build.container.node().parentNode).select(".datausa-link");
+  if (logo.size() && window.parent.location.host === window.location.host) {
+    logo.remove();
+  }
+
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
