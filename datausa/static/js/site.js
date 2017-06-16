@@ -8958,7 +8958,7 @@ viz.addToCart = function(build, select) {
                 u = u.replace(/%2C/g, ",").replace(/%3A/g, ":").replace(/%5E/g, "^");
                 var req = new RegExp("required=([A-z0-9_,]*)").exec(u);
                 var ids = new RegExp(prof_attr + "=([A-z0-9_,]*)").exec(u);
-                if (req && (!ids || ids[1].split(",").length === 1)) {
+                if (req && req[1].length && (!ids || ids[1].split(",").length === 1)) {
                   requireds = requireds.concat(req[1].split(","));
                   delete params.force;
                 }
