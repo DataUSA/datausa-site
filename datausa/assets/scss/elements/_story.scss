@@ -1,5 +1,5 @@
 body.story {
-  background-color: $d-profile-bg;
+  background-color: $l-profile-bg;
 
   h1 {
     font-family: $pathway;
@@ -66,16 +66,15 @@ body.story {
   header {
     @include flex();
     @include flex-direction(column);
-    width: 100vw;
-    height: 100vh;
-    // top: $nav-height;
+    width: 100%;
+    height: 60vh;
     padding: 0;
     background-color: $l-profile-bg;
 
     @include justify(flex-end);
 
     &#featured-story {
-      max-height: 800px;
+      max-height: 60vh;
     }
   }
 
@@ -86,26 +85,7 @@ body.story {
     @include transition(all 0.5s);
     top: 0;
     position: absolute;
-    height: 100vh;
-  }
-
-  #feature-image {
-    max-height: 800px;
-
-    &::after {
-      @include gradient(top, (
-        0%: rgba(233,233,233,0),
-        50%: rgba(233,233,233,0),
-        75%: rgba(233,233,233,0.3),
-        83%: rgba(233,233,233,0.5),
-        100%: $d-profile-bg
-      ));
-      content: '';
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
+    height: 60vh;
   }
 
   #feature-text, #article-text {
@@ -126,7 +106,7 @@ body.story {
     background-color: $l-profile-bg;
     z-index: 1;
     // @include flex-direction(row);
-    margin: 20px 0 0 auto;
+    margin: 20px auto 50px;
     width: 88%;
     padding: 40px 12% 40px 0;
     border-width: 1px 0 0 1px;
@@ -151,13 +131,14 @@ body.story {
       border-width: 0px 0px 1px 1px;
       padding: 5px 10px 5px;
       display: inline-block;
+      text-align: left;
+      width: 68px;
     }
   }
 
   .post-titles {
-    // @include flex-size(4);
+    @include flex-size(4);
     margin: 0 auto;
-    max-width: 700px;
     // @include flex();
     // @include flex-direction(column);
     // @include justify(flex-start);
@@ -256,10 +237,9 @@ body.story {
     @include justify(center);
     @include box();
     @include flex-direction(row);
-    margin: 0 0 0 auto;
+    margin: 0 auto;
     width: 88%;
     padding: 40px 12% 0 0;
-    background-color: $l-profile-bg;
 
     #stories-container {
       @include flex-size(4);
@@ -294,6 +274,9 @@ body.story {
   /* story article styles */
 
   #article {
+    overflow: hidden;
+    position: relative;
+
     h1 {
       color: $black3;
       font-family: $pathway;

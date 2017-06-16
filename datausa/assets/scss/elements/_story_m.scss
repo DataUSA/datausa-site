@@ -1,20 +1,5 @@
 body.story {
 
-  /* Large Devices, Wide Screens */
-  @media only screen and (max-width : 1200px) {
-
-  }
-
-  /* Medium Devices, Desktops */
-  @media only screen and (max-width : 992px) {
-
-  }
-
-  /* Small Devices, Tablets */
-  @media only screen and (max-width : 768px) {
-
-  }
-
   /* Extra Small Devices, Phones */
   @media only screen and (max-width : 480px) {
 
@@ -26,6 +11,7 @@ body.story {
       @include box();
       height: 80vh;
       padding: 13px;
+      max-height: none !important;
       top: 0;
 
       & > a {
@@ -60,15 +46,6 @@ body.story {
     #feature-image {
       position: relative;
       top: $nav-height;
-
-      &::after {
-        @include gradient(top, (
-          0%: rgba(20,27,46,0.5),
-          21%: rgba(20,27,46,0.25),
-          60%: rgba(20,27,46,0),
-          100%: rgba(20,27,46,0)
-        ));
-      }
     }
 
     #article-image::after {
@@ -106,6 +83,10 @@ body.story {
           color: $black2;
           font-weight: 400;
         }
+      }
+
+      .post-titles h1 a {
+        font-size: 28px;
       }
 
     }

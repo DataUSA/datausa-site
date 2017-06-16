@@ -87,6 +87,11 @@ body.profile, body.story {
 
 
     }
+
+    .profile-section {
+      @include flex-direction(column);
+    }
+
   }
 
   /* Extra Small Devices, Phones */
@@ -140,7 +145,6 @@ body.profile, body.story {
       width: 100%;
 
       #splash-image {
-        // background-attachment: scroll;
 
         &::after {
           @include gradient(top, (
@@ -226,10 +230,6 @@ body.profile, body.story {
             }
             span {
               display: none;
-              // margin-top: 3px;
-              // font-size: 8px;
-              // line-height: 1.3;
-              // @include wordwrap();
             }
           }
         }
@@ -315,13 +315,6 @@ body.profile, body.story {
               margin-bottom: 5px;
             }
 
-            // & > .topic-stats:first-child {
-            //   .stat:only-child {
-            //     margin-right: 100px;
-            //     margin-top: -35px;
-            //   }
-            // }
-
             .topic-stats {
               .stat {
                 @include flex();
@@ -383,8 +376,4 @@ body.profile, body.story {
 
   }
 
-  /* Custom, iPhone Retina */
-  @media only screen and (max-width : 320px) {
-
-  }
 }
