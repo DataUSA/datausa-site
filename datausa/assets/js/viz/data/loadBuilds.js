@@ -43,7 +43,6 @@ viz.prepBuild = function(build, i) {
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
-    var tooltipDefault = build.config.tooltip.value.slice();
     d3plus.form()
       .search(false)
       .ui({
@@ -52,11 +51,17 @@ viz.prepBuild = function(build, i) {
       .ui(vizStyles.ui)
       .focus({"callback": function(id, form){
 
-        if (!tooltipDefault.length) build.config.tooltip.value = [id, id + "_moe"];
-
         var param = this.getAttribute("data-param"),
             method = this.getAttribute("data-method"),
             prev = this.getAttribute("data-default");
+
+        var tooltipValues = build.config.tooltip.value
+          .filter(function(t) { return t !== "year" && t.indexOf(prev) < 0; });
+        if (!tooltipValues.length) {
+          build.config.tooltip.value = ["year", id, id + "_moe"];
+          if (id in collectionyears) build.config.tooltip.value.push(id + "_collection");
+        }
+        if (build.viz) build.viz.tooltip(build.config.tooltip.value);
 
         var definition = d3.select(this.parentNode).select("p.definition");
         if (definition.size()) {
@@ -139,9 +144,7 @@ viz.prepBuild = function(build, i) {
             viz.loadData(build, "redraw");
           }
           else if (method.length) {
-            build.viz[method](id)
-              .tooltip(!tooltipDefault.length ? [id, id + "_moe"] : tooltipDefault)
-              .draw();
+            build.viz[method](id).draw();
           }
 
         }

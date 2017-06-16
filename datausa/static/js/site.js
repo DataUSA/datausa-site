@@ -8059,7 +8059,7 @@ var vizStyles = {
       "size": 18,
       "weight": 300
     },
-    "small": 250
+    "small": 300
   },
 
   "ui": {
@@ -9099,6 +9099,12 @@ viz.format = {
       }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
+    if (text.indexOf("_collection") > 0) {
+      if (params && params.cart) {
+        return viz.format.text(text.split("_moe")[0], params, build) + " Collection Year";
+      }
+      return "&nbsp;&nbsp;&nbsp;&nbsp;Collection Year";
+    }
     else if (text.indexOf("_rank") > 0) {
       return "Rank";
     }
@@ -9330,7 +9336,6 @@ viz.prepBuild = function(build, i) {
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
-    var tooltipDefault = build.config.tooltip.value.slice();
     d3plus.form()
       .search(false)
       .ui({
@@ -9339,11 +9344,17 @@ viz.prepBuild = function(build, i) {
       .ui(vizStyles.ui)
       .focus({"callback": function(id, form){
 
-        if (!tooltipDefault.length) build.config.tooltip.value = [id, id + "_moe"];
-
         var param = this.getAttribute("data-param"),
             method = this.getAttribute("data-method"),
             prev = this.getAttribute("data-default");
+
+        var tooltipValues = build.config.tooltip.value
+          .filter(function(t) { return t !== "year" && t.indexOf(prev) < 0; });
+        if (!tooltipValues.length) {
+          build.config.tooltip.value = ["year", id, id + "_moe"];
+          if (id in collectionyears) build.config.tooltip.value.push(id + "_collection");
+        }
+        if (build.viz) build.viz.tooltip(build.config.tooltip.value);
 
         var definition = d3.select(this.parentNode).select("p.definition");
         if (definition.size()) {
@@ -9426,9 +9437,7 @@ viz.prepBuild = function(build, i) {
             viz.loadData(build, "redraw");
           }
           else if (method.length) {
-            build.viz[method](id)
-              .tooltip(!tooltipDefault.length ? [id, id + "_moe"] : tooltipDefault)
-              .draw();
+            build.viz[method](id).draw();
           }
 
         }
@@ -9752,6 +9761,17 @@ viz.formatData = function(data, d, build) {
     }
   }
 
+  if (d.source && d.source.table.indexOf("chr") === 0) {
+    for (var i = 0; i < data.length; i++) {
+      var datum = data[i];
+      for (var k in datum) {
+        if (k in collectionyears && datum.year in collectionyears[k]) {
+          datum[k + "_collection"] = collectionyears[k][datum.year];
+        }
+      }
+    }
+  }
+
   for (var i = 0; i < build.attrs.length; i++) {
     var type = build.attrs[i].type,
         nesting = attrNesting[type],
@@ -9834,10 +9854,10 @@ viz.loadData = function(build, next) {
 
         var d = build.data.filter(function(d){ return d.url === url; })[0];
 
-        d.data = viz.formatData(data, d, build);
         d.source = return_data.source;
-        build.sources.push(return_data.source);
         d.subs = return_data.subs || {};
+        d.data = viz.formatData(data, d, build);
+        build.sources.push(return_data.source);
         dataArray = dataArray.concat(d.data);
         loaded++;
         if (loaded === build.data.length) {

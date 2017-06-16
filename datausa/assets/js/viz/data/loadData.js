@@ -157,6 +157,17 @@ viz.formatData = function(data, d, build) {
     }
   }
 
+  if (d.source && d.source.table.indexOf("chr") === 0) {
+    for (var i = 0; i < data.length; i++) {
+      var datum = data[i];
+      for (var k in datum) {
+        if (k in collectionyears && datum.year in collectionyears[k]) {
+          datum[k + "_collection"] = collectionyears[k][datum.year];
+        }
+      }
+    }
+  }
+
   for (var i = 0; i < build.attrs.length; i++) {
     var type = build.attrs[i].type,
         nesting = attrNesting[type],
@@ -239,10 +250,10 @@ viz.loadData = function(build, next) {
 
         var d = build.data.filter(function(d){ return d.url === url; })[0];
 
-        d.data = viz.formatData(data, d, build);
         d.source = return_data.source;
-        build.sources.push(return_data.source);
         d.subs = return_data.subs || {};
+        d.data = viz.formatData(data, d, build);
+        build.sources.push(return_data.source);
         dataArray = dataArray.concat(d.data);
         loaded++;
         if (loaded === build.data.length) {

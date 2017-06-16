@@ -178,9 +178,14 @@
       window.history.pushState({"path": urlPath}, '', urlPath);
     }
 
+    var tooltipValues = [];
+    variables.forEach(function(v) {
+      tooltipValues = tooltipValues.concat([v, v + "_collection"]);
+    });
+
     map.color(variables[0])
       .coords({"key": topo})
-      .tooltip(variables);
+      .tooltip(tooltipValues);
 
     buildTitle = viz.format.text(map.color(), {}) + " by " + viz.format.text(level, {});
     d3.select(".embed-title").html(buildTitle);
@@ -196,6 +201,12 @@
               for (var i = 0; i < data.length; i++) {
                 var nums = k.split(":");
                 data[i][k] = data[i][nums[0]] / data[i][nums[1]];
+              }
+            }
+            if (k in collectionyears) {
+              for (var i = 0; i < data.length; i++) {
+                var datum = data[i];
+                if (datum.year in collectionyears[k]) datum[k + "_collection"] = collectionyears[k][datum.year];
               }
             }
           });

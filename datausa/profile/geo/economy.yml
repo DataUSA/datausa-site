@@ -135,6 +135,7 @@ topics:
     select:
       method: "color"
       default: "income"
+      param: required
       data:
         - "income"
         - "income_white"
@@ -162,7 +163,7 @@ topics:
         value: "<<sumlevel plural=True|child=True>>"
       color: "income"
       data:
-        - required: income,income_white,income_black,income_asian,income_hispanic,income_native,income_hawaiian,income_2ormore,income_whitenonhispanic,income_other
+        - required: income
           show: "geo"
           sumlevel: "<<sumlevel child=True>>"
           where: "geo:<<children prefix=True>>"

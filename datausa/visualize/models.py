@@ -1,6 +1,7 @@
 import copy, json, requests
 from requests.models import RequestEncodingMixin
 from config import API
+from datausa.consts import COLLECTIONYEARS
 from datausa.utils.format import param_format
 from datausa.utils.data import year_cache
 
@@ -92,6 +93,14 @@ class Viz(object):
         # set the tooltip config using the function
         self.config["tooltip"] = params.pop("tooltip", {})
         self.config["tooltip"]["value"] = self.tooltip()
+        tooltipValues = [];
+        if "year" not in tooltipValues:
+            tooltipValues.append("year")
+        for value in self.config["tooltip"]["value"]:
+            tooltipValues.append(value)
+            if value in COLLECTIONYEARS:
+                tooltipValues.append("{}_collection".format(value))
+        self.config["tooltip"]["value"] = tooltipValues
 
         # set default depth to zero
         self.config["depth"] = int(params["depth"]) if "depth" in params else 0

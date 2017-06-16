@@ -41,7 +41,7 @@ var vizStyles = {
       "size": 18,
       "weight": 300
     },
-    "small": 250
+    "small": 300
   },
 
   "ui": {

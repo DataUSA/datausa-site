@@ -90,6 +90,12 @@ viz.format = {
       }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
+    if (text.indexOf("_collection") > 0) {
+      if (params && params.cart) {
+        return viz.format.text(text.split("_moe")[0], params, build) + " Collection Year";
+      }
+      return "&nbsp;&nbsp;&nbsp;&nbsp;Collection Year";
+    }
     else if (text.indexOf("_rank") > 0) {
       return "Rank";
     }

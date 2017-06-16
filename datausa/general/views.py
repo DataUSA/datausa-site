@@ -3,7 +3,7 @@ import copy, datetime, json, re, requests
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
-from datausa.consts import AFFIXES, COLMAP, DICTIONARY, GLOSSARY,  PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
+from datausa.consts import AFFIXES, COLLECTIONYEARS, COLMAP, DICTIONARY, GLOSSARY,  PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
 from datausa.story.models import StoryPreview
 from datausa.utils.data import attr_cache, datafold, fetch, profile_cache, story_cache
 from datausa.utils.format import num_format
@@ -19,6 +19,7 @@ def before_request():
     g.cache_version = 52
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
+    g.collectionyears = json.dumps(COLLECTIONYEARS)
     g.colmap = json.dumps(COLMAP)
     g.dictionary = json.dumps(DICTIONARY)
     g.glossary = json.dumps(GLOSSARY)

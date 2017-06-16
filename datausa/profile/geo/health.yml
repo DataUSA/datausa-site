@@ -79,6 +79,7 @@ topics:
     select:
       method: "color"
       default: "total_reimbursements_b"
+      param: required
       data:
         - "total_medicare_enrollees"
         - "total_reimbursements_b"
@@ -102,7 +103,7 @@ topics:
           solo: "<<children dataset=chr>>"
           value: "<<sumlevel child=True|dataset=chr|plural=True>>"
       data:
-        force: dartmouth.yg_reimbursements
+        required: total_reimbursements_b
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
@@ -114,6 +115,7 @@ topics:
     select:
       method: "y"
       default: "total_reimbursements_b"
+      param: required
       data:
         - "total_medicare_enrollees"
         - "total_reimbursements_b"
@@ -134,7 +136,7 @@ topics:
       attrs: "geo"
       data:
         geo: "{{<<sumlevel>>:!nation||01000US,<<id>>}}{{<<sumlevel>>:nation||<<parents id_only=True|col=total_medicare_enrollees>>}}"
-        force: dartmouth.yg_reimbursements
+        required: total_reimbursements_b
         show: "geo"
       height: 400
       highlight: <<var namespace=medicare_time|key=geo|row=0|format=raw>>
@@ -150,6 +152,7 @@ topics:
     select:
       method: y
       default: "patients_in_cohort"
+      param: required
       data:
         - "patients_in_cohort"
         - "patients_readmitted_within_30_days_of_discharge"
@@ -168,7 +171,7 @@ topics:
       color: cohort
       data:
         geo: "<<id>>"
-        force: dartmouth.ygc_post_discharge
+        required: patients_in_cohort
         cohort: "pneumonia,AMI,CHF"
         show: cohort
       height: 400
@@ -289,6 +292,7 @@ topics:
     select:
       method: color
       default: "number_of_females_enrolled_67_69_total"
+      param: required
       data:
         - number_of_females_enrolled_67_69_total
         - patients_females_67_69_having_mammogram_white
@@ -307,7 +311,7 @@ topics:
       coords: "states"
       data:
         sumlevel: state
-        required: number_of_females_enrolled_67_69_total,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
+        required: number_of_females_enrolled_67_69_total
         show: geo
       id: geo
       type: geo_map
@@ -322,7 +326,8 @@ topics:
         - "sexually_transmitted_infections"
         - "adult_obesity"
         - "diabetes"
-      default: "diabetes"
+      default: diabetes
+      param: required
     description:
       - "According to the <<var namespace=diabetes|key=year|row=0>> County Health Rankings, <<var namespace=diabetes|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Diabetes Prevalence</span> at <<var namespace=diabetes_top|key=diabetes|row=0>>. This represents a <<growth namespace=diabetes_top|key=diabetes>> growth from the previous year, which had a value of <<var namespace=diabetes_top|key=diabetes|row=1>>."
       - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Diabetes Prevalence</span>."
@@ -342,7 +347,7 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "diabetes,adult_obesity,sexually_transmitted_infections,hiv_prevalence_rate"
+        required: diabetes
       height: 400
       id: "geo"
       type: "geo_map"
@@ -351,6 +356,7 @@ topics:
     slug: "risky"
     select:
       method: "color"
+      param: required
       data:
         - "adult_smoking"
         - "excessive_drinking"
@@ -376,7 +382,7 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "motor_vehicle_crash_deaths,adult_smoking,excessive_drinking,alcoholimpaired_driving_deaths"
+        required: adult_smoking
       height: 400
       id: "geo"
       type: "geo_map"
@@ -385,6 +391,7 @@ topics:
     slug: "crime"
     select:
       method: "color"
+      param: required
       data:
         - "homicide_rate"
         - "violent_crime"
@@ -408,7 +415,7 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "homicide_rate,violent_crime"
+        required: homicide_rate
       height: 400
       id: "geo"
       type: "geo_map"
