@@ -237,7 +237,7 @@ topics:
   - category: "Occupations"
     slug: "tmap_occ_num_emp"
     sumlevel: "!nation,!state"
-    title: "Occupations by Share"
+    title: "Employment by Occupations"
     subtitle: "For anonymity, the ACS 1-year estimate groups occupations by course parent groupings."
     description:
       - "Employment in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
@@ -271,7 +271,7 @@ topics:
   - category: "Occupations"
     slug: "tmap_occ_num_emp"
     sumlevel: "nation,state"
-    title: "Occupations by Share"
+    title: "Employment by Occupations"
     description:
       - "Employment in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:num_ppl,num_ppl,0|den=var:num_ppl,num_ppl,1|text=growth>> at a rate of <<growth namespace=num_ppl|key=num_ppl>>, from <<var namespace=num_ppl|key=num_ppl|row=1>> employees in <<var namespace=num_ppl|key=year|row=1>> to <<var namespace=num_ppl|key=num_ppl|row=0>> employees in <<var namespace=num_ppl|key=year|row=0>>."
       - "The most common job groups, by number of people living in {{<<sumlevel>>:nation||the }}<<name>>, are <<var namespace=common_soc_ppl|row=0|key=soc>>, <<var namespace=common_soc_ppl|row=1|key=soc>>, and <<var namespace=common_soc_ppl|row=2|key=soc>>. The following chart shows the share breakdown of the primary jobs held by residents of {{<<sumlevel>>:nation||the }}<<name>>."
@@ -686,7 +686,7 @@ topics:
   - category: "Industries"
     slug: "tmap_ind_num_emp"
     sumlevel: "!nation,!state"
-    title: "Industries by Share"
+    title: "Employment by Industries"
     subtitle: "For anonymity, the ACS 1-year estimate groups industries by course parent groupings."
     description:
       - "Employment in <<name>> has been <<percent num=var:num_emp,num_emp,0|den=var:num_emp,num_emp,1|text=growth>> at a rate of <<growth namespace=num_emp|key=num_emp>>, from <<var namespace=num_emp|key=num_emp|row=1>> employees in <<var namespace=num_emp|key=year|row=1>> to <<var namespace=num_emp|key=num_emp|row=0>> employees in <<var namespace=num_emp|key=year|row=0>>."
@@ -717,7 +717,7 @@ topics:
   - category: "Industries"
     slug: "tmap_ind_num_emp"
     sumlevel: "nation,state"
-    title: "Industries by Share"
+    title: "Employment by Industries"
     description:
       - "Employment in {{<<sumlevel>>:nation||the }}<<name>> has been <<percent num=var:num_ppl,num_ppl,0|den=var:num_ppl,num_ppl,1|text=growth>> at a rate of <<growth namespace=num_ppl|key=num_ppl>>, from <<var namespace=num_ppl|key=num_ppl|row=1>> employees in <<var namespace=num_ppl|key=year|row=1>> to <<var namespace=num_ppl|key=num_ppl|row=0>> employees in <<var namespace=num_ppl|key=year|row=0>>."
       - "The most common sectors, by number of people living in {{<<sumlevel>>:nation||the }}<<name>>, are <<var namespace=common_naics_ppl|row=0|key=naics>>, <<var namespace=common_naics_ppl|row=1|key=naics>>, and <<var namespace=common_naics_ppl|row=2|key=naics>>. The following chart shows the share breakdown of the primary industries for residents of {{<<sumlevel>>:nation||the }}<<name>>."
