@@ -8863,12 +8863,14 @@ viz.addToCart = function(build, select) {
         d3.select(build.container.node().parentNode.parentNode)
           .selectAll(".cart-percentage").each(function() {
             var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
-            calcs.push({
-              key: num + "_pct_calc",
-              func: "pct",
-              num: num,
-              den: den
-            });
+            if (num !== "value") {
+              calcs.push({
+                key: num + "_pct_calc",
+                func: "pct",
+                num: num,
+                den: den
+              });
+            }
           });
       }
 
