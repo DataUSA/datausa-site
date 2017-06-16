@@ -213,9 +213,11 @@
 
       var url = urls.shift();
       var i = urlList.indexOf(url) + 1;
-      if (i <= totalCalls) loadStatus.html("API Call " + i + " of " + totalCalls);
+      var cross = reqGeos.length > 1 && availGeos[i - 1];
+      var text = cross ? "Cross-Joining Geography" : "API Call";
+      if (i <= totalCalls) loadStatus.html(text + " (" + i + "/" + totalCalls + ")");
       else loadStatus.html("Fetching Attribute Names");
-      if (availGeos[i - 1]) {
+      if (cross) {
         var hiddenGeos = availGeos[i - 1].filter(function(g) { return reqGeos.indexOf(g) < 0; });
         var show = new RegExp("[&|?]{1}show=([a-z,_]*)").exec(url)[1].split(",");
         var sumlevel = new RegExp("[&|?]{1}sumlevel=([a-z,_]*)").exec(url)[1].split(",");
@@ -271,7 +273,7 @@
 
         }
 
-        loadStatus.html("API Call 0 of " + totalCalls);
+        loadStatus.html(text + " (0/" + totalCalls + ")");
 
         if (urls.length) loadFullData();
         else callback(retData, d3plus.util.uniques(retHeaders));
