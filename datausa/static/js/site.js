@@ -9366,7 +9366,7 @@ viz.prepBuild = function(build, i) {
              d3.select(this.parentNode).classed("loading", true);
              var url = this.getAttribute("data-url");
 
-             if (param.length && url.indexOf("show=" + param) > 0) {
+             if (param && param.length && url.indexOf("show=" + param) > 0) {
                var attr = form.data().filter(function(d){ return d.value === id; });
                if (attr.length && attr[0].text) {
                  d3.select(this).html(attr[0].text);
@@ -9374,7 +9374,7 @@ viz.prepBuild = function(build, i) {
              }
              else {
 
-               if (param.length) {
+               if (param && param.length) {
                  url = url.replace(param + "=" + prev, param + "=" + id);
                }
                else {
@@ -9409,7 +9409,7 @@ viz.prepBuild = function(build, i) {
 
            });
 
-          if (param.length) {
+          if (param && param.length) {
             build.data.forEach(function(b){
               b.url = b.url.replace(param + "=" + prev, param + "=" + id);
             });
