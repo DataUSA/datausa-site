@@ -510,7 +510,9 @@ viz.mapDraw = function(vars) {
       }
       zs = zs * 2 * Math.PI;
 
-      var ds = zs, dt = t;
+      var ds = vars.scale.value || zs,
+          dt = vars.translate.value || t;
+
       var params = window.location.search;
       if (params.indexOf("translate") > 0) {
         dt = /translate=([0-9-.,]+)/g.exec(params)[1].split(",").map(Number);

@@ -10507,7 +10507,9 @@ viz.mapDraw = function(vars) {
       }
       zs = zs * 2 * Math.PI;
 
-      var ds = zs, dt = t;
+      var ds = vars.scale.value || zs,
+          dt = vars.translate.value || t;
+
       var params = window.location.search;
       if (params.indexOf("translate") > 0) {
         dt = /translate=([0-9-.,]+)/g.exec(params)[1].split(",").map(Number);
@@ -11097,9 +11099,11 @@ viz.map = function() {
     messages: {value: true},
     mouse: {value: true},
     pins: {value: []},
+    scale: false,
     text: {value: "name"},
     tiles: {value: true},
     time: {value: false, solo: false, years: false},
+    translate: false,
     tooltip: {url: false, value: []},
     width: {value: false},
     zoom: {pan: false, scroll: false, set: false, value: true, reset: true}

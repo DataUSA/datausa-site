@@ -31,9 +31,11 @@ viz.map = function() {
     messages: {value: true},
     mouse: {value: true},
     pins: {value: []},
+    scale: false,
     text: {value: "name"},
     tiles: {value: true},
     time: {value: false, solo: false, years: false},
+    translate: false,
     tooltip: {url: false, value: []},
     width: {value: false},
     zoom: {pan: false, scroll: false, set: false, value: true, reset: true}
