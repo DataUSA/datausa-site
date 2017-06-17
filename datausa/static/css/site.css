@@ -8389,6 +8389,8 @@
       font-size: 12px;
       font-weight: 300;
       padding: 3px 12px; }
+      #cart-table .ag-cell .moe {
+        opacity: 0.5; }
 
   #cart-loading, #cart-description {
     height: 100vh;

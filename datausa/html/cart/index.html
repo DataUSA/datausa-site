@@ -112,7 +112,17 @@
     var key = params.column.colId, v = params.value;
 
     if (v === void 0 || v === null) return "";
-    else if (v.constructor === Number) return viz.format.number(v, {cart: true, key: key, attrs: attrs});
+    else if (v.constructor === Number) {
+      var num = viz.format.number(v, {cart: true, key: key, attrs: attrs});
+      var yearMatch = key.match(/_(\d{4})$/g);
+      var moeKey = key + "_moe";
+      if (yearMatch) {
+        var y = key.substring(key.length - 5);
+        moeKey = key.replace(y, "_moe" + y);
+      }
+      if (params.data[moeKey]) num += " <span class='moe'>" + viz.format.number(params.data[moeKey], {cart: true, key: moeKey, attrs: attrs}) + "</span>";
+      return num;
+    }
     else return viz.format.text(v, {cart: true, key: key, attrs: attrs});
 
   }
@@ -401,16 +411,17 @@
         year: 60
       };
 
-      columns = keys.map(function(key) {
-        return {
-          cellRenderer: cellRenderer,
-          field: key,
-          headerName: viz.format.text(key, {attrs: attrs, cart: true}),
-          pinned: false,
-          width: colWidths[key] || 150
-          // pinned: sticky.indexOf(key) >= 0 ? "left" : false
-        };
-      });
+      columns = keys
+        .map(function(key) {
+          return {
+            cellRenderer: cellRenderer,
+            field: key,
+            headerName: viz.format.text(key, {attrs: attrs, cart: true}),
+            pinned: false,
+            width: colWidths[key] || 150
+            // pinned: sticky.indexOf(key) >= 0 ? "left" : false
+          };
+        });
 
       grid.api.setDatasource({
         rowCount: groupedData.length,
@@ -463,7 +474,7 @@
           params.successCallback(rowData, groupedData.length <= params.endRow ? groupedData.length : -1);
         }
       })
-      grid.api.setColumnDefs(columns);
+      grid.api.setColumnDefs(columns.filter(function(c) { return c.field.indexOf("_moe") < 0; }));
       // grid.columnApi.autoSizeColumns(keys);
 
       d3.select("#cart-loading").classed("hidden", true);
