@@ -40,8 +40,8 @@ topics:
     cart:
       title: "Insurance Coverage by Gender"
       params:
-        sumlevel: <<sumlevel>>
-        show: geo
+        sumlevel: <<sumlevel>>,all
+        show: geo,insurance
         required: sex,hc_pop,hc_pop_moe,hc_pop_rca
     slug: "insurance_coverage_gender"
     stat:
