@@ -8391,6 +8391,9 @@
       padding: 3px 12px; }
       #cart-table .ag-cell .moe {
         opacity: 0.5; }
+        #cart-table .ag-cell a:hover {
+          color: #ef6145 !important;
+          text-decoration: underline; }
     #cart-table .ag-row:hover {
       background-color: #E9E9E9; }
 

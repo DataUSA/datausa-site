@@ -123,7 +123,17 @@
       if (params.data[moeKey]) num += " <span class='moe'>" + viz.format.number(params.data[moeKey], {cart: true, key: moeKey, attrs: attrs}) + "</span>";
       return num;
     }
-    else return viz.format.text(v, {cart: true, key: key, attrs: attrs});
+    else {
+      var t = viz.format.text(v, {cart: true, key: key, attrs: attrs});
+      if (key.indexOf("_name") > 0) {
+        var a = key.substring(0, key.length - 5);
+        var id = params.data[a + "_id"];
+        var m = attrs[a] ? attrs[a][id] : false;
+        var slug = m && m.url_name ? m.url_name : id;
+        if (["geo", "cip", "naics", "soc"].indexOf(a) >= 0) return "<a href='/profile/" + a + "/" + slug + "'>" + t + "</a>"
+      }
+      return t;
+    }
 
   }
 

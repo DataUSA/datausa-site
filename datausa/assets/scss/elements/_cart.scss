@@ -226,6 +226,10 @@ $cart-sidebar: 260px;
     .moe {
       opacity: 0.5;
     }
+    a:hover {
+      color: $red-w !important;
+      text-decoration: underline;
+    }
   }
 
   .ag-row {
