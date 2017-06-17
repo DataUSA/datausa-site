@@ -228,11 +228,11 @@ $cart-sidebar: 260px;
     }
   }
 
-  // .ag-row {
-  //   &:hover {
-  //     background-color: $d-profile-bg;
-  //   }
-  // }
+  .ag-row {
+    &:hover {
+      background-color: $d-profile-bg;
+    }
+  }
 
 }
 
