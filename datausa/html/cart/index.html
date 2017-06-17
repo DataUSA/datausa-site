@@ -397,7 +397,7 @@
 
         });
 
-      loadStatus.html("Joining Data");
+      loadStatus.html("Merging Data");
 
       groupedData = d3.nest()
         .key(function(d) {
@@ -405,7 +405,27 @@
         })
         .entries(data);
 
-      console.log(groupedData.length);
+      loadStatus.html("Sorting Data");
+
+      timsort.sort(groupedData, function(a, b) {
+        var aKeys = d3plus.util.uniques(d3.merge(a.values.map(d3.keys)));
+        var bKeys = d3plus.util.uniques(d3.merge(b.values.map(d3.keys)));
+        var aStickies = availableStickies.filter(function(key) { return aKeys.indexOf(key) >= 0; });
+        var bStickies = availableStickies.filter(function(key) { return bKeys.indexOf(key) >= 0; });
+        if (aStickies.length !== bStickies.length) return bStickies.length - aStickies.length;
+        for (var si = 0; si < availableStickies.length; si++) {
+          var s = availableStickies[si];
+          if (aKeys.indexOf(s) < 0) return 1;
+          if (bKeys.indexOf(s) < 0) return -1;
+          var aVal = a.values.map(function(d) { return d[s]; }).filter(function(d) { return d; })[0];
+          var bVal = b.values.map(function(d) { return d[s]; }).filter(function(d) { return d; })[0];
+          var comp = aVal.localeCompare(bVal);
+          if (comp !== 0) return comp;
+        }
+        return 0;
+      });
+
+      console.log("Rows:", groupedData.length);
 
       loadStatus.html("Generating Table");
 
@@ -415,7 +435,10 @@
         gender_id: 100,
         gender_name: 100,
         geo_name: 200,
+        insurance_name: 250,
         naics_name: 200,
+        sex_id: 100,
+        sex_name: 100,
         soc_name: 200,
         university_name: 250,
         year: 60

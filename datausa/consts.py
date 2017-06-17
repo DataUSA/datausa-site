@@ -120,7 +120,7 @@ DICTIONARY = {
     "wages": "Income & Employment",
 
     "health": "Health & Safety",
-    "insurance": "Health Care Costs & Coverage",
+    "coverage": "Health Care Costs & Coverage",
     "care": "Hospital Care",
     "risks": "Health Risks",
 
@@ -393,6 +393,7 @@ DICTIONARY = {
     "wage_bin": "Wage Bin",
     "women": "Women",
 
+    "insurance": "Insurance",
     "total_medicare_enrollees": "Medicare Enrollees",
     "total_reimbursements_b": "Reimbursements per Medicare Enrollee",
     "hospital_reimbursements_b": "Hospital Reimbursements per Medicare Enrollee",

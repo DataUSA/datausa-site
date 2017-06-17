@@ -24,7 +24,7 @@ mapdata = {
         "chr.children_in_poverty"
     ],
 
-    "insurance": [
+    "coverage": [
         "chr.uninsured",
         "chr.uninsured_adults",
         "chr.uninsured_children",
@@ -158,7 +158,7 @@ def map():
     defaultKey = request.args.get("key", "age,age_moe,age_rank")
     defaultLevel = request.args.get("level", "county")
 
-    sections = ["wages", "insurance", "care", "risks", "demographics", "education", "housing"]
+    sections = ["wages", "coverage", "care", "risks", "demographics", "education", "housing"]
     sumlevels = ["state", "county", "msa", "puma"]
     keys = []
     formattedData = {}
