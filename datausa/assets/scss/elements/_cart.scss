@@ -61,12 +61,6 @@ $cart-sidebar: 260px;
       text-transform: uppercase;
     }
 
-    #year-pivot {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-
   }
 
   #datasets {
@@ -135,12 +129,12 @@ $cart-sidebar: 260px;
       font-weight: 600;
       letter-spacing: 0.55px;
 
-      &:after {
+      &:before {
         background-color: transparent;
         border: 1px solid #f06145;
         content: "";
         display: inline-block;
-        margin: 0 0 -2px 5px;
+        margin: 0 5px -2px 5px;
         height: 10px;
         width: 10px;
         @include transition(background-color 0.1s);
@@ -148,15 +142,16 @@ $cart-sidebar: 260px;
 
       &:hover {
 
-        &:after {
+        &:before {
           background-color: rgba(240, 97, 69, 0.25);
         }
 
       }
 
-      &.active:after {
+      &.active:before {
         background-color: #f06145;
       }
+
 
     }
 
@@ -169,7 +164,7 @@ $cart-sidebar: 260px;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.55px;
-      margin: 10px;
+      margin: 10px 0;
       padding: 5px 10px 6px;
       text-align: center;
       width: 210px;
