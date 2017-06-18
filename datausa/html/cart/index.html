@@ -497,7 +497,11 @@
               for (var key in dat) {
                 var k = key;
                 if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) {
-                  if (genderPivot && dat.sex) k += "_sex" + dat.sex;
+                  if (genderPivot && dat.sex) {
+                    if (key.indexOf("_moe") > 0) k = k.slice(0, k.length - 4);
+                    k += "_sex" + dat.sex;
+                    if (key.indexOf("_moe") > 0) k += "_moe";
+                  }
                   if (yearPivot && dat.year) k += "_" + dat.year;
                 }
                 if ((!yearPivot || key !== "year") && (!genderPivot || key !== "sex")) obj[k] = dat[key];
