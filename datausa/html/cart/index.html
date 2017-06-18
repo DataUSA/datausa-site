@@ -571,7 +571,7 @@
 
         csv += "\n" + keys.map(function(key) {
 
-          var d = [], yearMatch = key.match(/_(\d{4})$/g);
+          var d = [];
 
           if (attr_list.indexOf(key.split("_")[0]) >= 0) {
 
@@ -603,18 +603,19 @@
             }
 
           }
-          else if (yearMatch) {
-            var year = parseFloat(yearMatch[0].slice(1, 5));
-            key = key.split("_");
-            key.pop();
-            key = key.join("_");
-            d = data.values.filter(function(v) {
-              return v.year === year && v[key] !== void 0;
-            });
-          }
           else {
+            var yearMatch = key.match(/_(\d{4})$/g), year;
+            if (yearMatch) {
+              year = parseFloat(yearMatch[0].slice(1, 5));
+              key = key.slice(0, key.length - 5);
+            }
+            var sexMatch = key.match(/(_sex[12])/g), sex;
+            if (sexMatch) {
+              sex = sexMatch[0].slice(-1);
+              key = key.replace(sexMatch[0], "");
+            }
             d = data.values.filter(function(v) {
-              return v[key] !== void 0;
+              return (!yearMatch || v.year === year) && (!sexMatch || v.sex === sex) && v[key] !== void 0;
             });
           }
 
