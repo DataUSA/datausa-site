@@ -5,6 +5,12 @@ topics:
   - category: "Age"
     title: "Age by Nativity"
     slug: "age_nativity"
+    cart:
+      title: "Nativity"
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: nativity_us,nativity_us_moe,nativity_foreign,nativity_foreign_moe
     stat:
       - title: "Median Native Age"
         value: "<<var namespace=nativity|key=nativity_us>>"
@@ -41,6 +47,13 @@ topics:
     slug: "global_diversity"
     allowed: "<<id>>:!04000US72"
     subtitle: "<<sub dataset=pums>>"
+    cart:
+      title: "Global Diversity"
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: birthplace,num_over5,num_over5_moe,num_over5_rca
+        where: "birthplace:~^04000US"
     stat:
       - title: "Most common origin"
         value: "<<var namespace=heritage_total|key=birthplace|row=0>>"

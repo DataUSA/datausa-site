@@ -37,6 +37,7 @@ viz.addToCart = function(build, select) {
 
       var calcs = build.calcs || [],
           data = [],
+          globalReqs = [],
           prof_attr = build.profile ? location.pathname.split("/")[2] : "geo",
           title = build.cart && build.cart.title ? build.cart.title : build.title_short.trim();
 
@@ -48,14 +49,12 @@ viz.addToCart = function(build, select) {
         d3.select(build.container.node().parentNode.parentNode)
           .selectAll(".cart-percentage").each(function() {
             var den = this.getAttribute("data-den"), num = this.getAttribute("data-num");
-            if (num !== "value") {
-              calcs.push({
-                key: num + "_pct_calc",
-                func: "pct",
-                num: num,
-                den: den
-              });
-            }
+            calcs.push({
+              key: num + "_pct_calc",
+              func: "pct",
+              num: num,
+              den: den
+            });
           });
       }
 
@@ -160,7 +159,9 @@ viz.addToCart = function(build, select) {
 
         params.show = shows.join(",");
         params.sumlevel = sumlevels.join(",");
-        params.required = d3plus.util.uniques(requireds).join(",");
+        requireds = d3plus.util.uniques(requireds)
+        globalReqs = globalReqs.concat(requireds);
+        params.required = requireds.join(",");
         if (wheres.length) params.where = wheres.join(",");
         params.year = "all";
 
@@ -171,6 +172,9 @@ viz.addToCart = function(build, select) {
 
       if (build.cart && build.cart.params) parseData(build.cart);
       else build.data.forEach(parseData);
+
+      globalReqs = d3plus.util.uniques(globalReqs);
+      calcs = calcs.filter(function(calc) { return globalReqs.indexOf(calc.num) >= 0 && globalReqs.indexOf(calc.den) >= 0 });
 
       data = d3plus.util.uniques(data);
 
