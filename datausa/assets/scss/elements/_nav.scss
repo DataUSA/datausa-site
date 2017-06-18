@@ -639,7 +639,7 @@ $cart-offset: 6px;
       }
 
       & ~ .search-i {
-        right: $search-mini-width - 33;
+        right: $search-mini-width - 36;
 
         img {
           @include transform(rotate(90deg));
@@ -651,7 +651,7 @@ $cart-offset: 6px;
       @include box();
       width: 100%;
       border: 0;
-      padding: 3px 10px 2px 31px;
+      padding: 3px 10px 2px 44px;
       outline: 0;
       opacity: 1;
       background-color: $black3;

@@ -1035,7 +1035,7 @@
           #search-btn .search-box.open #nav-search-input:focus {
             opacity: 1;   }
         #search-btn .search-box.open ~ .search-i {
-          right: 217px;   }
+          right: 214px;   }
           #search-btn .search-box.open ~ .search-i img {
             -webkit-transform: rotate(90deg);
             -ms-transform: rotate(90deg);
@@ -1046,7 +1046,7 @@
         box-sizing: border-box;
         width: 100%;
         border: 0;
-        padding: 3px 10px 2px 31px;
+        padding: 3px 10px 2px 44px;
         outline: 0;
         opacity: 1;
         background-color: #434958;
