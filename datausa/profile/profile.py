@@ -89,8 +89,12 @@ class Profile(BaseObject):
         if "_moe" in key:
             kwargs["row"] = "0"
             dx2 = self.var(**kwargs)
+            if not dx2:
+                dx2 = 0
             kwargs["row"] = "1"
             dx1 = self.var(**kwargs)
+            if not dx1:
+                dx1 = 0
             kwargs["key"] = key[:-4]
             kwargs["row"] = "0"
             x2 = self.var(**kwargs)
