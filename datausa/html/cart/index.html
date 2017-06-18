@@ -48,7 +48,8 @@
 {% block js %}
 <script>
 
-  var showMoE = false,
+  var genderPivot = true,
+      showMoE = false,
       yearPivot = true;
 
   var loadStatus = d3.select("#cart-loading-status");
@@ -283,9 +284,16 @@
               }
             }
           }
+          if (genderPivot && ret.headers.indexOf("sex") >= 0) {
+            headers = d3.merge(["sex1", "sex2"].map(function(sex) {
+              return headers.map(function(h){
+                return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + sex : h;
+              });
+            }));
+          }
           if (yearPivot && ret.headers.indexOf("year") >= 0) {
             headers = d3.merge(d3plus.util.uniques(data, "year").map(function(y) {
-              return ret.headers.map(function(h){
+              return headers.map(function(h){
                 return ["year"].indexOf(h) < 0 && sticky.indexOf(h) < 0 ? h + "_" + y : h;
               });
             }));
@@ -370,7 +378,10 @@
           return a.localeCompare(b);
         });
 
-      var availableStickies = rawKeys.filter(function(key) { return sticky.indexOf(key) >= 0 && (!yearPivot || key !== "year"); });
+      var availableStickies = rawKeys
+        .filter(function(key) {
+          return sticky.indexOf(key) >= 0 && (!yearPivot || key !== "year") && (!genderPivot || key.indexOf("sex") !== 0);
+        });
 
       for (var a = 0; a < attr_list.length; a++) {
         var attr = attr_list[a];
@@ -380,7 +391,10 @@
           if (["geo", "naics", "soc", "cip"].indexOf(attr) >= 0) rawKeys.push(attr + "_sumlevel");
         }
       }
-      rawKeys = rawKeys.filter(function(k) { return attr_list.indexOf(k) < 0; });
+      rawKeys = rawKeys
+        .filter(function(key) {
+          return attr_list.indexOf(key) < 0 && (!genderPivot || key.indexOf("sex") !== 0);
+        });
       if (!yearPivot) rawKeys.push("year");
 
       console.log(rawKeys);
@@ -480,15 +494,13 @@
             for (var i = 0; i < d.values.length; i++) {
               var dat = d.values[i];
 
-
-              if (yearPivot && dat.year) {
-                for (var key in dat) {
-                  if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) obj[key + "_" + dat.year] = dat[key];
-                  else if (key !== "year") obj[key] = dat[key];
+              for (var key in dat) {
+                var k = key;
+                if (["year"].indexOf(key) < 0 && sticky.indexOf(key) < 0) {
+                  if (genderPivot && dat.sex) k += "_sex" + dat.sex;
+                  if (yearPivot && dat.year) k += "_" + dat.year;
                 }
-              }
-              else {
-                for (var key in dat) obj[key] = dat[key];
+                if ((!yearPivot || key !== "year") && (!genderPivot || key !== "sex")) obj[k] = dat[key];
               }
 
             }

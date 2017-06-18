@@ -9103,16 +9103,24 @@ viz.format = {
       }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
+
+    if (text.match(/_sex[12]$/g)) {
+      var sex = text.slice(-1) === "1" ? "Male" : "Female";
+      return sex + " " + viz.format.text(text.substring(0, text.length - 5), params, build);
+    }
+
     if (text.indexOf("_collection") > 0) {
       if (params && params.cart) {
         return viz.format.text(text.split("_moe")[0], params, build) + " Collection Year";
       }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Collection Year";
     }
-    else if (text.indexOf("_rank") > 0) {
+
+    if (text.indexOf("_rank") > 0) {
       return "Rank";
     }
-    else if (text.indexOf("_pct_calc") > 0) {
+
+    if (text.indexOf("_pct_calc") > 0) {
       return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
     }
 
