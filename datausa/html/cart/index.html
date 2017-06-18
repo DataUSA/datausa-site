@@ -21,6 +21,7 @@
 
     </div>
     <div class="toggle" id="yearPivot">Pivot Years to Columns</div>
+    <div class="toggle" id="showMoE">Show Margin of Error</div>
     <div id="cart-csv" class="cart-btn">Download Full Table as CSV File</div>
     <div class="cart-clear cart-btn">Remove All Items from Cart</div>
   </div>
@@ -47,7 +48,8 @@
 {% block js %}
 <script>
 
-  var yearPivot = true;
+  var showMoE = false,
+      yearPivot = true;
 
   var loadStatus = d3.select("#cart-loading-status");
 
@@ -114,13 +116,15 @@
     if (v === void 0 || v === null) return "";
     else if (v.constructor === Number) {
       var num = viz.format.number(v, {cart: true, key: key, attrs: attrs});
-      var yearMatch = key.match(/_(\d{4})$/g);
-      var moeKey = key + "_moe";
-      if (yearMatch) {
-        var y = key.substring(key.length - 5);
-        moeKey = key.replace(y, "_moe" + y);
+      if (showMoE) {
+        var yearMatch = key.match(/_(\d{4})$/g);
+        var moeKey = key + "_moe";
+        if (yearMatch) {
+          var y = key.substring(key.length - 5);
+          moeKey = key.replace(y, "_moe" + y);
+        }
+        if (params.data[moeKey]) num += " <span class='moe'>" + viz.format.number(params.data[moeKey], {cart: true, key: moeKey, attrs: attrs}) + "</span>";
       }
-      if (params.data[moeKey]) num += " <span class='moe'>" + viz.format.number(params.data[moeKey], {cart: true, key: moeKey, attrs: attrs}) + "</span>";
       return num;
     }
     else {
@@ -318,10 +322,9 @@
       var iframe = d3.select("#cart-description").select("iframe");
       iframe.attr("src", iframe.attr("data-src"));
     }
-
-    yearPivot = cart.yearPivot === undefined ? yearPivot : cart.yearPivot;
     d3.selectAll(".toggle")
       .classed("active", function() {
+        window[this.id] = cart[this.id] === undefined ? window[this.id] : cart[this.id];
         return window[this.id];
       })
       .on("click", function() {
@@ -381,6 +384,9 @@
       if (!yearPivot) rawKeys.push("year");
 
       console.log(rawKeys);
+
+      var moes = rawKeys.filter(function(k) { return k.indexOf("_moe") > 0; });
+      d3.select("#showMoE").style("display", moes.length ? "block" : "none");
 
       loadStatus.html("Sorting Columns");
 
@@ -458,6 +464,8 @@
             // pinned: sticky.indexOf(key) >= 0 ? "left" : false
           };
         });
+
+      if (!showMoE) columns = columns.filter(function(c) { return c.field.indexOf("_moe") < 0; })
 
       grid.api.setDatasource({
         rowCount: groupedData.length,
