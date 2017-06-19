@@ -8,6 +8,82 @@
   rows: True
   limit: 2
 
+- required: ["year", "income", "income_moe"]
+  namespace: income
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
+- required: ["year", "num_emp", "num_emp_moe"]
+  namespace: num_emp
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
+- required: ["year", "num_emp", "num_emp_moe"]
+  namespace: num_emp
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
+- required: ["year", "acs_occ", "num_emp", "num_emp_moe"]
+  namespace: common_soc_emp
+  show: acs_occ
+  sumlevel: 0
+  year: latest
+  order: num_emp
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "acs_ind", "num_emp", "num_emp_moe"]
+  namespace: common_naics_emp
+  show: acs_ind
+  sumlevel: 0
+  year: latest
+  order: num_emp
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "num_ppl", "num_ppl_moe"]
+  namespace: num_ppl
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
+- required: ["year", "soc", "num_ppl", "num_ppl_moe"]
+  namespace: common_soc_ppl
+  show: soc
+  sumlevel: 0
+  year: latest
+  order: num_ppl
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "naics", "num_ppl", "num_ppl_moe"]
+  namespace: common_naics_ppl
+  show: naics
+  sumlevel: 0
+  year: latest
+  order: num_ppl
+  sort: desc
+  rows: True
+  limit: 3
+
 - required: ["households", "households_moe"]
   show: geo
   sumlevel: all
@@ -18,19 +94,26 @@
   year: latest
   namespace: health
 
-- required: ["sex", "avg_wage", "avg_wage_moe", "avg_wage_ft", "avg_wage_ft_moe"]
-  sex: "1,2"
+- required: ["year", "sex", "avg_wage", "avg_wage_moe", "avg_wage_ft", "avg_wage_ft_moe"]
+  sex: "1"
   limit: 2
-  show: sex
-  sumlevel: all
   rows: True
-  order: sex
-  sort: asc
-  year: latest
-  namespace: gender
+  order: year
+  sort: desc
+  year: all
+  namespace: wage_male
 
-- required: ["race", "avg_wage", "avg_wage_moe"]
+- required: ["year", "sex", "avg_wage", "avg_wage_moe", "avg_wage_ft", "avg_wage_ft_moe"]
+  sex: "2"
   limit: 2
+  rows: True
+  order: year
+  sort: desc
+  year: all
+  namespace: wage_female
+
+- required: ["year", "race", "avg_wage", "avg_wage_moe"]
+  limit: 3
   show: race
   sumlevel: all
   rows: True
@@ -39,17 +122,25 @@
   year: latest
   namespace: race
 
-- required: ["gini", "geo"]
+- required: ["year", "gini", "geo"]
   show: geo
   sumlevel: all
-  year: latest
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
   namespace: wagegap
 
-- required: ["gini"]
+- required: ["year", "gini"]
   show: geo
   geo: 01000US
   sumlevel: all
-  year: latest
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
   namespace: wagegap_us
 
 - force: "acs.yg_poverty"
@@ -58,7 +149,7 @@
   pivot:
     keys: ["sex", "ageBucket"]
     cols: ["name", "moe"]
-    limit: 1
+    limit: 3
   year: latest
   namespace: "sex_age"
 
@@ -67,23 +158,39 @@
   rows: True
   pivot:
     keys: ["race"]
-    cols: ["name", "moe"]
+    cols: ["name", "moe", "value"]
     limit: 3
   year: latest
   namespace: "poverty_race"
+
+- required: ["age", "year"]
+  rows: True
+  year: all
+  limit: 2
+  order: year
+  sort: desc
+  namespace: age
 
 - required: ["nativity_us", "nativity_us_moe", "nativity_foreign", "nativity_foreign_moe"]
   show: geo
   year: latest
   namespace: nativity
 
+- required: ["year", "us_citizens"]
+  year: all
+  order: year
+  sort: desc
+  limit: 2
+  rows: True
+  namespace: citizenship
+
 - force: "acs.yg_race"
   limit: 1
   rows: True
   pivot:
     keys: ["acs_race"]
-    cols: ["name"]
-    limit: 3
+    cols: ["year", "name", "value", "moe"]
+    limit: 10
   year: latest
   namespace: acs_race
 
@@ -92,10 +199,18 @@
   rows: True
   pivot:
     keys: ["conflict"]
-    cols: ["name", "value"]
+    cols: ["year", "name", "value", "moe"]
     limit: 3
   year: latest
   namespace: conflict
+
+- required: ["year", "owner_occupied_housing_units"]
+  year: all
+  order: year
+  sort: desc
+  limit: 2
+  rows: True
+  namespace: homeowners
 
 - required: ["state_tuition", "oos_tuition"]
   show: sector
@@ -108,12 +223,27 @@
   year: latest
   namespace: tuition
 
+- required: ["year", "university", "grads_total"]
+  show: university
+  order: grads_total
+  sort: desc
+  rows: True
+  limit: 50
+  dataset: ipeds
+  year: latest
+  namespace: universities
+
 - required: ["sector", "grads_total"]
   show: sector
   order: grads_total
   dataset: ipeds
   year: latest
   namespace: sectors
+
+- required: ["year", "grads_men", "grads_women"]
+  dataset: ipeds
+  year: latest
+  namespace: grads_gender
 
 - force: "ipeds.grads_yg"
   dataset: ipeds
@@ -122,7 +252,7 @@
   order: grads_total
   pivot:
     keys: ["race"]
-    cols: ["name"]
+    cols: ["year", "name", "value"]
     limit: 3
   year: latest
   namespace: edu_race
@@ -155,7 +285,7 @@
   namespace: travel
   limit: 2
 
-- required: ["birthplace"]
+- required: ["year", "birthplace", "num_over5"]
   limit: 3
   rows: True
   order: "num_over5"
@@ -164,7 +294,7 @@
   namespace: "heritage_total"
   where: "birthplace:~^04000US"
 
-- required: ["birthplace"]
+- required: ["year", "birthplace", "num_over5", "num_over5_rca"]
   limit: 3
   rows: True
   order: "num_over5_rca"
@@ -173,7 +303,7 @@
   namespace: "heritage_rca"
   where: "birthplace:~^04000US"
 
-- required: ["language"]
+- required: ["year", "language", "num_speakers", "num_speakers_rca"]
   limit: 3
   rows: True
   order: "num_speakers_rca"
@@ -182,7 +312,7 @@
   namespace: "speakers_rca"
   where: "language:~^002"
 
-- required: ["language"]
+- required: ["year", "language", "num_speakers"]
   limit: 3
   rows: True
   order: "num_speakers"
@@ -191,8 +321,12 @@
   namespace: "speakers_total"
   where: "language:~^002"
 
-- required: ["median_property_value", "median_property_value_moe"]
-  year: latest
+- required: ["year", "median_property_value", "median_property_value_moe"]
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
   namespace: "acsgeo"
 
 - force: "acs.yg_transport"
@@ -206,7 +340,7 @@
   exclude: "transport_cartruckorvan"
   pivot:
     keys: ["transport"]
-    cols: ["name", "value"]
+    cols: ["year", "name", "value"]
     limit: 3
   year: latest
   namespace: "transport"
@@ -287,7 +421,7 @@
   year: latest
   namespace: top10_med_earnings
 
-- required: ["cip"]
+- required: ["year", "cip", "grads_total", "grads_total_rca"]
   order: grads_total_rca
   sumlevel: "6"
   degree: "<<top show=degree|order=grads_total|sort=desc|col=id|dataset=ipeds>>"
@@ -298,7 +432,7 @@
   year: latest
   namespace: "grads_total_rca"
 
-- required: ["cip"]
+- required: ["year", "cip", "grads_total"]
   order: grads_total
   sumlevel: "6"
   degree: "<<top show=degree|order=grads_total|sort=desc|col=id|dataset=ipeds>>"
@@ -309,27 +443,86 @@
   year: latest
   namespace: "grads_total"
 
-- required: ["geo", "health_care_costs"]
-  order: health_care_costs
+- required: ["geo", "total_medicare_enrollees", "total_reimbursements_b", "hospital_reimbursements_b", "physician_reimbursements_b", "outpatient_reimbursements_b", "home_health_reimbursements_b", "hospice_reimbursements_b", "medical_equip_reimbursements_b"]
+  order: total_reimbursements_b
   show: geo
   dataset: chr
   rows: True
   limit: 3
   year: latest
   children: True
-  namespace: health_care_costs
+  namespace: medicare
 
-- required: ["geo", "adult_obesity"]
-  order: adult_obesity
+- required: ["year", "geo", "total_reimbursements_b"]
+  order: year
+  sort: desc
   show: geo
-  dataset: chr
+  year: all
+  rows: True
+  limit: 2
+  namespace: medicare_time
+
+- required: ["geo", "cohort", "patients_in_cohort", "year"]
+  order: patients_in_cohort
+  show: cohort
   rows: True
   limit: 3
   year: latest
-  children: True
-  namespace: obesity
+  cohort: "pneumonia,AMI,CHF"
+  namespace: cohort
+
+- required: ["geo", "cohort", "patients_in_cohort", "year"]
+  order: patients_in_cohort
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  cohort: CHF
+  geo: null
+  namespace: cohort_state
+
+- required: ["geo", "year", "number_of_females_enrolled_67_69_total", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "patients_females_67_69_having_mammogram_total"]
+  show: geo
+  year: latest
+  namespace: womens_health
+
+- required: ["geo", "number_of_females_enrolled_67_69_total", "year"]
+  order: number_of_females_enrolled_67_69_total
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  geo: null
+  namespace: women_state
+
+- required: ["geo", "year", "diabetic_medicare_enrollees_65_75_total", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_total", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_total", "patients_diabetic_medicare_enrollees_65_75_lipid_test_total"]
+  show: geo
+  year: latest
+  namespace: diabetic_care
+
+- required: ["geo", "diabetic_medicare_enrollees_65_75_total", "year"]
+  order: diabetic_medicare_enrollees_65_75_total
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  geo: null
+  namespace: diabetes_state
 
 - required: ["geo", "diabetes"]
+  order: year
+  sort: desc
+  show: geo
+  geo: "<<top show=geo|child=True|order=diabetes|sort=desc|col=id|dataset=chr>>"
+  rows: True
+  limit: 2
+  year: all
+  namespace: diabetes_top
+
+- required: ["year", "geo", "diabetes"]
   order: diabetes
   show: geo
   dataset: chr
@@ -339,37 +532,17 @@
   children: True
   namespace: diabetes
 
-- required: ["geo", "adult_smoking"]
-  order: adult_smoking
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: smoking
-
-- required: ["geo", "hiv_prevalence_rate"]
-  order: hiv_prevalence_rate
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: hiv
-
-- required: ["geo", "sexually_transmitted_infections"]
-  order: sexually_transmitted_infections
-  show: geo
-  dataset: chr
-  rows: True
-  limit: 3
-  year: latest
-  children: True
-  namespace: sti
-
 - required: ["geo", "homicide_rate"]
+  order: year
+  sort: desc
+  show: geo
+  geo: "<<top show=geo|child=True|order=homicide_rate|sort=desc|col=id|dataset=chr>>"
+  rows: True
+  limit: 2
+  year: all
+  namespace: homicide_rate_top
+
+- required: ["year", "geo", "homicide_rate"]
   order: homicide_rate
   show: geo
   dataset: chr
@@ -378,3 +551,62 @@
   year: latest
   children: True
   namespace: homicide_rate
+
+- required: ["geo", "adult_smoking"]
+  order: year
+  sort: desc
+  show: geo
+  geo: "<<top show=geo|child=True|order=adult_smoking|sort=desc|col=id|dataset=chr>>"
+  rows: True
+  limit: 2
+  year: all
+  namespace: adult_smoking_top
+
+- required: ["year", "geo", "adult_smoking"]
+  order: adult_smoking
+  show: geo
+  dataset: chr
+  rows: True
+  limit: 3
+  year: latest
+  children: True
+  namespace: adult_smoking
+
+- required: ["insurance", "hc_pop"]
+  order: hc_pop
+  sort: desc
+  rows: True
+  limit: 22
+  year: latest
+  insurance: "has_direct_insurance,has_employer_insurance,has_insurance,has_medicaid,has_medicare,has_private_insurance,has_public_insurance,has_tricare,has_va_healthcare,no_insurance"
+  show: geo
+  namespace: insurance_types
+
+- required: ["age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  namespace: age_buckets
+
+- required: ["sex", "age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  sex: "1"
+  namespace: age_buckets_male
+
+- required: ["sex", "age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  sex: "2"
+  namespace: age_buckets_female

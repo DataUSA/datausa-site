@@ -26,7 +26,7 @@ body {
     }
   }
 
-  &.about, &.story, &.map, &.search {
+  &.about, &.story, &.map, &.cart, &.search {
     nav {
       position: fixed;
       top: 0;
@@ -39,7 +39,7 @@ body {
     }
   }
 
-  &.about, &.story, &.map {
+  &.about, &.story, &.map, &.cart {
 
     #home-btn {
       display: none;
@@ -186,7 +186,7 @@ body {
           color: white;
           @include transition(color 0.1s);
           &:hover {
-            color: $red-w;
+            color: $black-link-hover;
           }
         }
       }
@@ -195,7 +195,7 @@ body {
 
     a:hover {
       h2 {
-        color: $red-w;
+        color: $black-link-hover;
       }
     }
   }
@@ -286,13 +286,29 @@ body {
 }
 
 #menu-btn {
+
+  .label {
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 38px;
+    opacity: 1;
+    text-transform: uppercase;
+    @include transition(opacity 0.1s);
+
+    &.close {
+      opacity: 0;
+    }
+
+  }
+
   z-index: 20;
   position: fixed;
   display: block;
   cursor: pointer;
   overflow: hidden;
   height: 40px;
-  width: 40px;
+  width: 80px;
   top: 0;
   left: 0;
   margin: 0;
@@ -303,9 +319,10 @@ body {
   }
 
   .in {
+    display: inline-block;
     position: relative;
     height: 40px;
-    width: 40px;
+    width: 34px;
    }
 
   .bd {
@@ -404,18 +421,179 @@ body {
   }
 }
 
-#search-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 9px 10px 15px 15px;
-  opacity: 0.9;
+#cart-btn {
   @include transition(opacity 1s);
+  margin: 7px 10px 15px 15px;
+  opacity: 0.9;
+  position: absolute;
+  right: 35px;
+  top: 0;
   z-index: 5;
 
   &:hover {
     opacity: 1;
     cursor: pointer;
+  }
+
+  a {
+    background-image: url("/static/img/cart.svg");
+    background-position: right center;
+    background-repeat: no-repeat;
+    color: white;
+    display: block;
+    font-family: $palanquin;
+    font-size: 13px;
+    font-weight: 800;
+    height: 21px;
+    line-height: 22px;
+    padding-right: 15px;
+    text-align: center;
+    width: 23px;
+
+
+    &.active {
+      background-image: url("/static/img/cart-red.svg");
+    }
+
+  }
+
+}
+
+$cart-offset: 6px;
+
+#d3plus_tooltip_id_cart-tooltip {
+  margin-left: -12px;
+  margin-top: -$cart-offset;
+  padding-top: $cart-offset;
+
+  .d3plus_tooltip_arrow {
+    @include transform(translate($cart-offset/2, $cart-offset)rotate(45deg) !important);
+  }
+
+  .d3plus_tooltip_container {
+    padding: 12px !important;
+  }
+
+  .d3plus_tooltip_title {
+    color: $black2 !important;
+    font-family: $palanquin;
+    font-size: 13px !important;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    padding: 0 !important;
+    text-transform: uppercase;
+  }
+
+  .d3plus_tooltip_data_container {
+
+    .headers {
+      color: #949494;
+      font-family: $palanquin;
+      font-size: 11px;
+      font-weight: 400;
+      margin-bottom: 7px;
+      margin-top: 5px;
+
+      .name {
+        display: inline-block;
+      }
+
+      .remove {
+        float: right;
+        font-weight: 600;
+      }
+    }
+
+    .body {
+      color: #949494;
+      font-family: $palanquin;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 15px;
+
+      .dataset {
+
+        .name {
+          display: inline-block;
+          margin-bottom: 10px;
+          max-width: 85%;
+        }
+
+        .remove {
+          @include transition(opacity 0.1s);
+          background-image: url("/static/img/viz/remove.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          display: inline-block;
+          float: right;
+          height: 12px;
+          margin-top: 4px;
+          opacity: 0.75;
+          width: 12px;
+
+          &:hover {
+            cursor: pointer;
+            opacity: 1;
+          }
+
+        }
+
+      }
+    }
+
+  }
+
+  .buttons {
+    @include flex();
+    margin-top: 12px;
+    width: 100%;
+
+    .cart-btn {
+      @include box();
+      @include flex-size(1);
+      border: 1px solid #f06145;
+      color: #f06145;
+      font-family: $palanquin;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.55px;
+      padding: 5px 10px 6px;
+      text-align: center;
+
+      &:first-child {
+        margin-right: 12px;
+      }
+
+      &:hover {
+        background-color: #f06145;
+        color: white;
+        cursor: pointer;
+      }
+    }
+
+  }
+
+}
+
+
+#search-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 9px 10px 15px 15px;
+  z-index: 5;
+
+  .search-i {
+    opacity: 0.9;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .search-i {
+      opacity: 1;
+    }
+
   }
 
   @media only screen and (min-width : 481px) {
@@ -461,7 +639,7 @@ body {
       }
 
       & ~ .search-i {
-        right: $search-mini-width - 33;
+        right: $search-mini-width - 36;
 
         img {
           @include transform(rotate(90deg));
@@ -473,9 +651,9 @@ body {
       @include box();
       width: 100%;
       border: 0;
-      padding: 3px 10px 2px 31px;
+      padding: 3px 10px 2px 44px;
       outline: 0;
-      opacity: 0.5;
+      opacity: 1;
       background-color: $black3;
       font-family: $palanquin;
       font-size: 13px;

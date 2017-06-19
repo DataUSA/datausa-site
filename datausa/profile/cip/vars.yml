@@ -1,4 +1,4 @@
-- required: ["avg_wage", "avg_wage_rank"]
+- required: ["avg_wage", "avg_wage_rank", "num_ppl"]
   year: latest
   namespace: data
 

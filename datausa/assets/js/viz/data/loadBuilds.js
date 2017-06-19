@@ -12,7 +12,9 @@ viz.prepBuild = function(build, i) {
 
   var title = d3.select(build.container.node().parentNode.parentNode).select("h2");
   if (title.size()) {
-    build.title = title.text().replace(" Options", "").replace(/\u00a0/g, "");
+    if (title.select(".topic-title").size()) build.title = title.select(".topic-title").text();
+    else build.title = title.select(".term").text();
+    build.title_short = build.title;
     if (["top", "bottom"].indexOf(build.config.color) >= 0) {
       var cat = dictionary[build.attrs[0].type];
       if (cat.indexOf("y") === cat.length - 1) cat = cat.slice(0, cat.length - 1) + "ies";
@@ -33,6 +35,11 @@ viz.prepBuild = function(build, i) {
     build.title = "data";
   }
 
+  var logo = d3.select(build.container.node().parentNode).select(".datausa-link");
+  if (logo.size() && window.parent.location.host === window.location.host) {
+    logo.remove();
+  }
+
   var select = d3.select(build.container.node().parentNode).select("select");
   if (select.size()) {
 
@@ -48,12 +55,33 @@ viz.prepBuild = function(build, i) {
             method = this.getAttribute("data-method"),
             prev = this.getAttribute("data-default");
 
+        var tooltipValues = build.config.tooltip.value
+          .filter(function(t) { return t !== "year" && t.indexOf(prev) < 0; });
+        if (!tooltipValues.length) {
+          build.config.tooltip.value = ["year", id, id + "_moe"];
+          if (id in collectionyears) build.config.tooltip.value.push(id + "_collection");
+        }
+        if (build.viz) build.viz.tooltip(build.config.tooltip.value);
+
+        var definition = d3.select(this.parentNode).select("p.definition");
+        if (definition.size()) {
+          var def = false;
+          var g = glossary[id];
+          if (g) {
+            def = dictionary[id] + " is defined as " + g["def"].slice(0, 1).toLowerCase() + g["def"].slice(1);
+            if (g["link"]) def += " " + "<a href='" + g["link"] + "'>Click for more info.</a>";
+          }
+          definition.html(def || "");
+        }
+
         if (id !== prev) {
 
           d3.select(this).attr("data-default", id);
 
+          var text = dictionary[id] ? viz.format.text(id) : d3.select(this).select("option[value='"+ id +"']").text();
+
           d3.select(this.parentNode).selectAll(".select-text")
-           .html(d3.select(this).select("option[value='"+ id +"']").text());
+           .html(text);
 
           d3.select(this.parentNode).selectAll("span[data-url]")
            .each(function(){
@@ -61,7 +89,7 @@ viz.prepBuild = function(build, i) {
              d3.select(this.parentNode).classed("loading", true);
              var url = this.getAttribute("data-url");
 
-             if (param.length && url.indexOf("show=" + param) > 0) {
+             if (param && param.length && url.indexOf("show=" + param) > 0) {
                var attr = form.data().filter(function(d){ return d.value === id; });
                if (attr.length && attr[0].text) {
                  d3.select(this).html(attr[0].text);
@@ -69,12 +97,13 @@ viz.prepBuild = function(build, i) {
              }
              else {
 
-               if (param.length) {
+               if (param && param.length) {
                  url = url.replace(param + "=" + prev, param + "=" + id);
                }
                else {
                  url = url.replace("order=" + prev, "order=" + id);
                  url = url.replace("required=" + prev, "required=" + id);
+                 url = url.replace("col=" + prev, "col=" + id);
                }
                d3.select(this).attr("data-url", url);
 
@@ -103,14 +132,19 @@ viz.prepBuild = function(build, i) {
 
            });
 
-          if (param.length) {
-           build.data.forEach(function(b){
-             b.url = b.url.replace(param + "=" + prev, param + "=" + id);
-           });
-           viz.loadData(build, "redraw");
+          if (param && param.length) {
+            build.data.forEach(function(b){
+              b.url = b.url.replace(param + "=" + prev, param + "=" + id);
+            });
+            if (method && method.length) {
+              if (build.config[method].value) build.config[method].value = id;
+              else build.config[method] = id;
+              build.viz[method](id)
+            }
+            viz.loadData(build, "redraw");
           }
           else if (method.length) {
-           build.viz[method](id).draw();
+            build.viz[method](id).draw();
           }
 
         }
@@ -123,20 +157,29 @@ viz.prepBuild = function(build, i) {
 
   }
 
-  d3.select(build.container.node().parentNode.parentNode).select("a.share-embed")
+  d3.select(build.container.node().parentNode.parentNode).selectAll("a.popover-btn")
     .on("click", function(){
       d3.event.preventDefault();
       dusa_popover.open([
-        {"title":"Share"},
-        {"title":"Embed"},
-        {"title":"Download"},
-        {"title":"Data"},
-        {"title":"API"}
+        {"id": "view-table", "title":"View Data"},
+        {"id": "save-image", "title":"Save Image"},
+        {"id": "share", "title":"Share / Embed"},
+        // {"id": "", "title":"Embed"},
+        // {"id": "", "title":"API"}
       ],
-      d3.select(this).attr("data-target-id"),
-      d3.select(this).attr("data-url"),
-      d3.select(this).attr("data-embed"),
+      d3.select(this).attr("data-ga"),
+      d3.select(this.parentNode.parentNode.parentNode).attr("data-url"),
+      d3.select(this.parentNode.parentNode.parentNode).attr("data-embed"),
       build)
+    });
+
+  d3.select(build.container.node().parentNode.parentNode).select("a.add-to-cart")
+    .on("click", function(){
+      d3.event.preventDefault();
+
+      if (d3.select(this).classed("disabled")) return;
+      viz.addToCart(build, select);
+
     });
 
 };

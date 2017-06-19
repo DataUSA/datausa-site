@@ -29,7 +29,7 @@ var viz = function(build) {
     build.viz.class(function(d, viz){
       var attr = d[viz.id.value] + "";
       return build.highlight === "01000US" || attr === build.highlight ? "highlight" :
-             build.highlight.length > attr.length ? "outline" : "";
+             build.highlight.length > attr.length ? "outline" : "default";
     });
 
   }
@@ -125,7 +125,7 @@ viz.finish = function(build) {
   var years = d3plus.util.uniques(build.viz.data(), function(d) { return d.year; }),
       axis = build.config.x ? build.config.x.value : null;
 
-  if (years.length > 1 && axis !== build.viz.time()) {
+  if (years.length > 1 && axis !== build.viz.time() || build.config.timeline) {
     if (!build.config.ui) build.config.ui = [];
     var focus = d3.max(build.viz.data(), function(d) { return d.year; });
     build.viz.time({solo: focus})
@@ -134,6 +134,7 @@ viz.finish = function(build) {
       method: function(d, viz) {
         viz.time({solo: [d]}).draw();
       },
+      type: "toggle",
       // label: "Year",
       value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
     });

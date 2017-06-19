@@ -38,13 +38,17 @@
 
     <script>
 
-      var compare = {{ g.compare|tojson }},
+      var cartLimit = {{ g.cart_limit|safe }},
+          compare = {{ g.compare|tojson }},
           resizeFunctions = [],
           resizeInstantFunctions = [],
           scrollFunctions = [],
           cache_version = "{{ g.cache_version }}",
           api = "{{ g.api }}",
+          colmap = {{ g.colmap|safe }},
+          collectionyears = {{ g.collectionyears|safe }},
           dictionary = {{ g.dictionary|safe }},
+          glossary = {{ g.glossary|safe }},
           percentages = {{ g.percentages|safe }},
           proportions = {{ g.proportions|safe }},
           per1000 = {{ g.per1000|safe }},
@@ -110,6 +114,17 @@
         d3.selectAll("[data-tooltip]")
           .on(d3plus.client.pointer.over,function(){
 
+            var text = d3.select(this).attr("data-tooltip");
+
+            var max_width = 300;
+
+            if (text === "cartLimit") {
+              max_width = 250;
+              if (d3.select(this).classed("active")) text = "Remove this dataset from the cart.";
+              else if (!d3.select(this).classed("disabled")) text = "Add the underlying data to the cart, and merge with any existing cart data.";
+              else text = "Cart limit of " + cartLimit + " has been reached. Please visit the cart page to download the current cart and/or remove data.";
+            }
+
             var tt_id = d3.select(this).attr("data-tooltip-id") || "data-tooltip";
 
             d3plus.tooltip.remove(tt_id);
@@ -124,6 +139,13 @@
               offset = 15;
             }
 
+            var align = d3.select(this).attr("data-tooltip-anchor") || "top center";
+
+            if (align.split(" ")[0] === "top" || align.split(" ")[0] === "bottom") {
+              var margin = parseFloat(d3.select(this).style("margin-" + align.split(" ")[0]));
+              offset += margin;
+            }
+
             var arrow = true;
             if(d3.select(this).attr("data-tooltip-arrow")){
               arrow = d3.select(this).attr("data-tooltip-arrow") === "true";
@@ -134,13 +156,12 @@
               "y": size.top+size.height/2 + d3plus.client.scroll.y(),
               "offset": size.height/2 + offset,
               "arrow": arrow,
-              // "title": "Title",
-              "description": d3.select(this).attr("data-tooltip"),
+              "description": text,
               "width": "auto",
               "id": tt_id,
-              "align": d3.select(this).attr("data-tooltip-anchor") || "top center",
-              "max_width": 300
-            })
+              "align": align,
+              "max_width": max_width
+            });
 
           })
           .on(d3plus.client.pointer.out,function(){
@@ -186,7 +207,12 @@
         });
 
         d3.selectAll(".topic-title, .term").html(function() {
-          return d3.select(this).attr("data-default");
+          var value = d3.select(this).attr("data-default");
+          if (!value) {
+            value = d3.select(this).text();
+            d3.select(this).attr("data-default", value);
+          }
+          return value;
         });
 
         function update_builds(data) {
@@ -212,32 +238,50 @@
 
           if (data) {
 
-            d3.selectAll("#splash-stats .stat").each(function(d, i) {
+            var stats = d3.select("#stat-container").classed("compare-flex", true).node();
+            var clone = stats.cloneNode(true);
+            d3.select(clone).classed("compare-add", true)
+              .selectAll(".stat").each(function(d, i) {
+                var stat = data.splash.stats[i];
+                d3.select(this).select(".stat-text").html(stat.title);
+                d3.select(this).select(".stat-value").html(stat.value);
+                d3.select(this).select(".stat-rank").html(stat.rank || "");
+              });
+            stats.parentNode.appendChild(clone);
+
+            d3.select(".intro .col").each(function() {
+
               d3.select(this).classed("compare-flex", true);
               var clone = this.cloneNode(true);
               d3.select(clone).classed("compare-add", true);
-              var stat = data.splash.stats[i];
-              d3.select(clone).select(".stat-text").html(window.innerWidth <= 480 ? "vs." : stat.title);
-              d3.select(clone).select(".stat-value").html(stat.value);
-              d3.select(clone).select(".stat-rank").html(stat.rank || "");
-              this.parentNode.appendChild(clone);
-            });
+              d3.select(clone).selectAll(".intro-txt p").each(function(d, i) {
+                d3.select(this).html(data.splash.description[i]);
+              });
 
-            var meta = d3.select(".intro .r").classed("compare-flex", true);
-            if (meta.size()) {
-              meta = meta.node();
-              var metaClone = meta.cloneNode(true);
-              d3.select(metaClone).classed("compare-add", true);
-              var photo = d3.select(metaClone).select(".photo-cred");
+              var imageMeta = d3.select(clone).select(".intro-txt .image-meta");
+              if (data.image.meta) {
+                if (!imageMeta.size()) {
+                  imageMeta = d3.select(clone).select(".intro-txt").append("p")
+                    .attr("class", "desc image-meta")
+                    .html("About the photo: <i></i>");
+                }
+                imageMeta.select("i").html(data.image.meta);
+              }
+              else imageMeta.remove();
+
+              var photo = d3.select(clone).select(".photo-cred");
               photo.select("a").attr("href", data.image.link);
               photo.select(".image-author a")
                 .attr("href", data.image.link)
                 .html("Photo by " + data.image.author);
+
               if (attr.id !== "01000US") {
-                var breadcrumb = d3.select(metaClone).select(".breadcrumb");
+                var breadcrumb = d3.select(clone).select(".breadcrumb");
                 if (!breadcrumb.size()) {
-                  breadcrumb = d3.select(metaClone).append("div")
-                    .attr("class", "breadcrumb");
+                  b = document.createElement("div");
+                  b.classList.add("breadcrumb");
+                  photo.node().parentNode.insertBefore(b, photo.node().nextSibling),
+                  breadcrumb = d3.select(clone).select(".breadcrumb");
                   breadcrumb.append("img")
                     .attr("src", "/static/img/splash/go-to-link.svg")
                     .attr("alt", "Go to another profile.")
@@ -245,33 +289,16 @@
                 }
                 breadcrumb.selectAll(".crumb-trail a").remove();
                 data.parents.forEach(function(d) {
-                  d3.select(metaClone).select(".crumb-trail").append("a")
+                  d3.select(clone).select(".crumb-trail").append("a")
                     .attr("href", "/profile/" + type + "/" + d.url_name + "/")
                     .html(d.name);
                 });
               }
               else {
-                d3.select(metaClone).select(".breadcrumb").remove();
+                d3.select(clone).select(".breadcrumb").remove();
               }
-              d3.select(metaClone).select(".data-source-crumb").remove();
-              meta.parentNode.insertBefore(metaClone, meta.nextSibling);
-            }
+              d3.select(clone).select(".data-source-crumb").remove();
 
-            d3.select(".intro .col").each(function() {
-              d3.select(this).classed("compare-flex", true);
-              var clone = this.cloneNode(true);
-              d3.select(clone).classed("compare-add", true);
-              d3.select(clone).select(".intro-txt p").html(data.splash.description[0]);
-              var meta = d3.select(clone).select(".intro-txt .image-meta");
-              if (data.image.meta) {
-                if (!meta.size()) {
-                  meta = d3.select(clone).select(".intro-txt").append("p")
-                    .attr("class", "desc image-meta")
-                    .html("About the photo: <i></i>");
-                }
-                meta.select("i").html(data.image.meta);
-              }
-              else meta.remove();
               this.parentNode.insertBefore(clone, this.nextSibling);
               if (data.splash.viz) {
                 data.splash.viz.container = d3.select(clone).select(".viz");
@@ -378,7 +405,7 @@
                     d3.select(clone).selectAll(".stat").each(function(d, i) {
                       var div = d3.select(this), stat = topic.stat[i];
                       if (stat) {
-                        div.select(".stat-text").html(title.size() ? stat.title : topic_name);
+                        div.select(".stat-text").html(title && title.size() ? stat.title : topic_name);
                         div.select(".stat-subtitle").html(stat.subtitle);
                         if (stat.subvalues) {
                           div.selectAll(".stat-value").each(function(d, i) {
@@ -400,6 +427,7 @@
                     d3.select(clone).select("select").remove();
                     if (topic.select) {
                       var first = d3.select(clone).select("aside").select("*").node();
+                      if (first.className.indexOf("sub-title") >= 0) first = first.nextSibling;
                       var select = document.createElement("select");
                       d3.select(clone).select("aside").node().insertBefore(select, first);
                       var select = d3.select(clone).select("select")
@@ -538,6 +566,138 @@
       if (compare) addComparison(compare);
       else profileEvents();
       viz.loadBuilds(builds);
+
+      function updateCartTooltip(){
+
+        localforage.getItem("cart", function(error, cart) {
+
+          var offset = -5,
+              size = d3.select("#cart-btn").node().getBoundingClientRect(),
+              text = "",
+              tooltipID = "cart-tooltip";
+          d3plus.tooltip.remove(tooltipID);
+
+          if (cart.datasets.length) {
+
+            text += "<div class='headers'>";
+            text += "<div class='name'>" + cart.datasets.length + " Datasets</div>";
+            text += "<div class='remove'>Remove</div>";
+            text += "</div>";
+
+
+            text += "<div class='body'>";
+            for (var i = 0; i < cart.datasets.length; i++) {
+              var dataset = cart.datasets[i];
+              text += "<div class='dataset'>";
+              text += "<div class='name'>" + dataset.title + "</div>";
+              text += "<div class='remove' data-index='" + i + "'></div>";
+              text += "</div>";
+            }
+            text += "</div>";
+
+            text += "<div class='buttons'>";
+            text += "<a class='cart-btn' href='/cart'>View Data</a>";
+            text += "<div class='cart-btn cart-clear'>Clear Cart</div>";
+            text += "</div>";
+
+          }
+          else {
+            text += "<div class='body'>";
+            text += "As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to the unified data cart for future analysis. Up to 5 datasets can be added, and their columns and rows will be intelligently merged together for bulk download.";
+            text += "</div>";
+          }
+
+          d3plus.tooltip.create({
+            "x": size.left+size.width/2 + d3plus.client.scroll.x() + 9,
+            "y": size.top+size.height/2 + d3plus.client.scroll.y(),
+            "offset": size.height/2 + offset,
+            "arrow": true,
+            "title": "Data Cart",
+            "html": text,
+            "width": "auto",
+            "mouseevents": d3.select("#cart-btn").node(),
+            "id": tooltipID,
+            "align": "bottom center",
+            "width": 250
+          });
+
+          d3.select("#d3plus_tooltip_id_cart-tooltip").selectAll(".remove")
+            .on("click", function() {
+              var i = parseFloat(d3.select(this).attr("data-index"));
+              var dataset = cart.datasets[i];
+
+              var index = dataset.slug ? cart.builds.indexOf(dataset.slug) : -1;
+              if (index >= 0) cart.builds.splice(index, 1);
+              cart.datasets.splice(i, 1);
+              localforage.setItem("cart", cart, function() {
+                updateCartTooltip();
+                updateCart();
+              });
+            });
+
+          d3.select("#d3plus_tooltip_id_cart-tooltip").select(".cart-clear")
+            .on("click", function() {
+              localforage.setItem("cart", null, function() {
+                updateCartTooltip();
+                updateCart();
+              });
+            });
+
+        });
+
+      }
+
+      d3.select("#cart-btn")
+        .on(d3plus.client.pointer.over, updateCartTooltip)
+        .on(d3plus.client.pointer.out,function(){
+          d3plus.tooltip.remove("cart-tooltip");
+        });
+
+      function updateCart() {
+
+        localforage.getItem("cart", function(error, cartCache) {
+
+          if (cartCache === null) {
+            cartCache = {
+              builds: [],
+              datasets: []
+            };
+            localforage.setItem("cart", cartCache);
+          }
+
+          if (parent !== window && cartCache.datasets.length) {
+
+          }
+
+          try {
+            var doc = parent.document;
+            if (doc && doc !== document && cartCache.datasets.length && d3.select(doc.body).classed("cart")) {
+              parent.location.reload();
+            }
+          }
+          catch(e) {
+            // not accessible
+          }
+
+          d3.select("#cart-btn a")
+            .html(cartCache.datasets.length || "")
+            .classed("active", cartCache.datasets.length);
+
+          if (d3.select("body").classed("cart")) populatePage(cartCache);
+          else {
+
+            d3.selectAll(".add-to-cart").each(function() {
+              d3.select(this)
+                .classed("active", cartCache.builds.indexOf(d3.select(this).attr("data-slug")) >= 0)
+                .classed("disabled", cartCache.builds.indexOf(d3.select(this).attr("data-slug")) < 0 && cartCache.builds.length >= cartLimit);
+            });
+
+          }
+
+        });
+
+      }
+      updateCart();
 
       if (resizeFunctions.length || resizeInstantFunctions.length) {
 

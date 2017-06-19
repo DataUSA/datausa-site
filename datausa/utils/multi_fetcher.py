@@ -3,6 +3,7 @@ from requests.models import RequestEncodingMixin
 
 from flask import url_for
 from config import API, CROSSWALKS, PROFILES
+from datausa.consts import COLMAP
 from datausa.utils.format import num_format
 from datausa import app
 from datausa.utils.data import attr_cache, datafold, fetch
@@ -30,7 +31,10 @@ def render_col(my_data, headers, col, url=False, dataset=False):
 
     if attr_type not in attr_cache:
         if isinstance(value, basestring):
-            return_value = value
+            if col in COLMAP:
+                return_value = COLMAP[col]["_".join(value.split("_")[1:])]
+            else:
+                return_value = value
         else:
             # do simple number formating
             return_value = num_format(value, col)

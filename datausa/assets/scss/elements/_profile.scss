@@ -50,7 +50,7 @@ body.profile {
 
   nav {
     #top-nav #search-btn #nav-search-input {
-      background-color: rgba(67,73,88,0.25);
+      background-color: rgb(67, 73, 88);
       border: 2px solid #fff;
       @include box();
       @include placeholder {color: #fff; font-weight: 700;}
@@ -105,11 +105,11 @@ body.profile, body.map, body.story {
   }
 
   &.geo {
-    .economy, .education, .health  {
+    .economy, .housing, .demographics  {
       background-color: $d-profile-bg;
     }
 
-    .demographics, .housing  {
+    .health, .education  {
       background-color: $l-profile-bg;
     }
   }
@@ -234,10 +234,125 @@ body.profile, body.map, body.story {
     }
   }
 
+  .viz-btns {
+    @include flex-size(1);
+    min-width: 85px;
+    text-align: right;
+  }
+
+  .viz-btn {
+
+    color: #949494;
+    display: inline-block;
+    font-family: $palanquin;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+
+    &:hover {
+      color: $red-w;
+    }
+
+    &::before {
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: inline-block;
+      height: 20px;
+      margin-bottom: 4px;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 20px;
+    }
+
+    &.view-table {
+
+      &::before {
+        background-image: url("/static/img/viz/view-table.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/view-table-red.svg");
+      }
+
+      &::after {
+        content: "View Data";
+      }
+
+    }
+
+    &.save-image {
+
+      &::before {
+        background-image: url("/static/img/viz/save-image.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/save-image-red.svg");
+      }
+
+      &::after {
+        content: "Save Image";
+      }
+
+    }
+
+    &.share {
+
+      &::before {
+        background-image: url("/static/img/viz/share.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/share-red.svg");
+      }
+
+      &::after {
+        content: "Share/Embed";
+      }
+
+    }
+
+    &.add-to-cart {
+      @include transition(opacity 0.1s);
+
+      &::before {
+        background-image: url("/static/img/viz/add-to-cart.svg");
+      }
+      &:hover::before {
+        background-image: url("/static/img/viz/add-to-cart-red.svg");
+      }
+
+      &::after {
+        content: "Add to Cart";
+      }
+      &.active::after {
+        content: "Remove";
+      }
+
+      &.disabled {
+        opacity: 0.5;
+      }
+
+    }
+
+    @media only screen and (max-width : 768px) {
+
+      &.view-table, &.save-image {
+        display: none;
+      }
+
+      &.share::after,
+      &.add-to-cart::after {
+        content: none;
+      }
+
+    }
+
+  }
+
   .topic {
     h2 {
       @include flex();
-      @include justify(space-between);
+      @include align-items(flex-start);
+      @include justify(flex-start);
       font-family: $pathway;
       font-size: 30px;
       font-weight: 400;
@@ -247,7 +362,7 @@ body.profile, body.map, body.story {
       letter-spacing: 0;
       position: relative;
 
-      a.topic-title {
+      a.topic-title, a.term {
         margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
         padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
@@ -260,7 +375,7 @@ body.profile, body.map, body.story {
       // }
 
       a {
-        margin-right: 10px;
+        margin-right: 15px;
       }
 
     }
@@ -269,9 +384,24 @@ body.profile, body.map, body.story {
       top: 5px;
     }
 
-    &.flex {
+    &.flex, &.compare-flex {
       h2 {
         font-size: 24px;
+
+        .viz-btns {
+
+          .viz-btn {
+            &.view-table, &.save-image, &.add-to-cart {
+              display: none;
+            }
+
+            &.share::after {
+              content: "Options";
+            }
+          }
+
+        }
+
       }
 
       .data-btn {
@@ -304,6 +434,9 @@ body.profile, body.map, body.story {
       color: $red-w;
       a {
         color: $red-w;
+        &:hover {
+          border-bottom: 1px solid $red-w;
+        }
       }
     }
 
@@ -319,6 +452,8 @@ body.profile, body.map, body.story {
         color: #888;
         border-bottom: 1px solid transparent;
         @include transition(all 0.15s);
+        position: relative;
+        z-index: 1;
         &:hover {
           border-color: #888;
         }
@@ -332,24 +467,31 @@ body.profile, body.map, body.story {
 
   .stat-text, .stat-rank {
     font-family: $palanquin;
-  }
-
-  .stat-text {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0;
     text-transform: uppercase;
     line-height: 1.5;
-    margin-bottom: 10px;
     vertical-align: baseline;
   }
 
+  .stat-number, .stat-right {
+    display: inline-block;
+  }
+
+  .stat-right {
+    max-width: 95%;
+  }
+
   .stat-subtitle {
-    margin-left: 2px;
-    margin-top: 7px;
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    vertical-align: baseline;
 
     .plus-minus {
       color: $red-w;
+      vertical-align: baseline;
     }
   }
 
@@ -365,14 +507,14 @@ body.profile, body.map, body.story {
 
   .stat-value {
     font-family: $lato;
-    font-size: 22px;
+    font-size: 38px;
     font-weight: 300;
     margin-bottom: 8px;
 
     &.stat-small {
-      font-size: 14px;
-      font-weight: 400;
-      margin-top: 2px;
+      font-size: 22px;
+      font-weight: 300;
+      margin: 8px 0 0;
     }
 
     .stat-span, .stat-text, a {
@@ -480,7 +622,7 @@ body.profile, body.map, body.story {
       }
 
       .f {
-        @include flex-size(1.5);
+        @include flex-size(1);
       }
 
       .splash-titles {
@@ -503,11 +645,12 @@ body.profile, body.map, body.story {
           @include flex-direction(row);
           @include align-items(center);
           font-family: $pathway;
+          font-size: 60px;
           font-weight: 400;
           letter-spacing: 0.03em;
           text-transform: uppercase;
           width: 100%;
-          @include text-shadow(0px 0px 15px rgba(20, 27, 46, 0.6));
+          @include text-shadow(0 2px 12px black);
 
           .compare-flex {
             width: 40%;
@@ -532,11 +675,12 @@ body.profile, body.map, body.story {
         }
 
         .compare-search {
-          margin-top: 5px;
+          margin-top: 15px;
 
           .compare-img {
             margin-top: 3px;
-            width: 22px;
+            margin-right: 4px;
+            width: 19px;
           }
 
           .compare-text {
@@ -545,7 +689,7 @@ body.profile, body.map, body.story {
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.1em;
-            margin-left: 7px;
+            @include text-shadow(0 2px 12px black);
             text-transform: uppercase;
           }
 
@@ -554,36 +698,49 @@ body.profile, body.map, body.story {
       }
 
       #splash-stats {
-        @include flex-size(2);
-        width: 100%;
-        max-width: 900px;
         @include box();
         @include flex();
-        @include align-items(flex-start);
-        @include justify(space-between);
-        @include text-shadow(0px 0px 5px rgba(20, 27, 46, 0.6));
+        width: 100%;
+        margin-bottom: 25px;
+        max-width: 700px;
+        @include text-shadow(0 2px 12px black);
 
         &.compare-flex {
           max-width: 100%;
         }
 
-        .stat {
+        #stat-container {
+          @include box();
           @include flex();
           @include flex-size(1);
-          @include flex-direction(column);
-          @include justify(flex-start);
+          @include flex-wrap();
+          @include align-items(flex-start);
+          @include justify(space-between);
+        }
+
+
+        .stat {
           @include align-items(center);
-          padding: 0 15px;
+          @include flex();
+          @include flex-direction(column);
+          @include flex-size(1);
+          @include justify(flex-start);
+          max-width: 30%;
+          min-width: 30%;
+          padding: 0 0 25px;
+          width: 30%;
 
           @media all and (max-width: 950px){
             @include justify(flex-start);
           }
 
-          .stat-text {
-            font-size: 16px;
+          .stat-text, .stat-rank {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0;
             text-align: center;
             color: #fff;
-            line-height: 1.15;
+            line-height: 1.5;
             margin-bottom: 0;
 
             a {
@@ -599,17 +756,10 @@ body.profile, body.map, body.story {
             }
           }
 
-          .stat-rank {
-            font-size: 12px;
-            color: rgba(255,255,255,0.75);
-            line-height: 1.35;
-            text-transform: uppercase;
-            @include wordwrap();
-          }
-
           .stat-value {
-            margin: 6px 0 7px;
-            font-size: 37px;
+            margin: 0;
+            font-size: 38px;
+            font-weight: 300;
             color: #fff;
             opacity: 0.9;
           }
@@ -881,8 +1031,8 @@ body.profile, body.map, body.story {
 
     .compare-search {
       .compare-img {
-        margin-left: 10px;
-        width: 22px;
+        margin-left: 3px;
+        width: 19px;
       }
       .compare-text {
         color: white;
@@ -961,7 +1111,7 @@ body.profile, body.map, body.story {
     margin-right: auto;
     margin-left: auto;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     background-color: $black2;
     color: $black5;
     @include transition(top 0.5s, box-shadow 0.5s);
@@ -1050,7 +1200,7 @@ body.profile, body.map, body.story {
     left: 0;
     top: $nav-height;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     @include transition(height 0.45s);
 
     &.stat-hidden {
@@ -1149,7 +1299,7 @@ body.profile, body.map, body.story {
       position: relative;
     }
 
-    h2 a.topic-title {
+    h2 a.topic-title, h2 a.term {
       margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
       padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
     }
@@ -1237,74 +1387,16 @@ body.profile, body.map, body.story {
     }
 
     .intro-head {
-      @include flex();
-      @include justify(flex-end);
-      @include align-items(flex-start);
-      padding: 30px 0;
+      margin: 0 auto;
+      max-width: 900px;
+      padding: 15px 0;
 
       .section-title {
-        width: 75%;
+        width: 100%;
 
         &.compare-flex {
           width: 50%;
         }
-      }
-
-      .photo-cred, .breadcrumb, .data-source-crumb {
-        margin: 0;
-      }
-
-      .photo-cred {
-        min-height: 18px;
-        overflow: visible;
-        .image-author {
-          line-height: 1;
-          max-width: 80%;
-        }
-      }
-
-      .data-source-crumb {
-        position: relative;
-        display: inline-block;
-        line-height: 0.5;
-      }
-
-      // .breadcrumb, .data-source-crumb {
-      //   @include flex();
-      //   @include align-items(flex-start);
-      // }
-
-      .fa {
-        padding: 1px 6px;
-        font-size: 11px;
-        color: #fff;
-        display: inline-block;
-      }
-
-      .r {
-        min-width: 25%;
-        max-width: 25%;
-        width: 25%;
-
-        a {
-          font-family: $palanquin;
-          font-weight: 400;
-          font-size: 10px;
-          letter-spacing: 0.05em;
-          line-height: 1;
-          text-transform: uppercase;
-          // @include wordwrap();
-          // @include hyphens;
-          @include transition(all 0.35s);
-
-          &:hover, &:focus {
-            @include text-shadow(0 0 1px rgba(255,255,255,0.8));
-          }
-        }
-      }
-
-      .image-author {
-        display: inline-block;
       }
     }
 
@@ -1313,10 +1405,11 @@ body.profile, body.map, body.story {
       padding-right: 20px;
 
       .desc {
-        font-size: 14px;
+        font-size: 17px;
+        font-weight: 300;
         line-height: 1.7;
         padding: 15px 0;
-        color: $gray-map;
+        color: white;
 
         a {
           color: $light-home-blue;
@@ -1340,13 +1433,14 @@ body.profile, body.map, body.story {
               line-height: 24px;
               border-bottom: none;
               margin-left: 3px;
+              vertical-align: baseline;
 
               &:hover {
                 opacity: 1;
                 @include text-shadow(0 0 1px rgba(255,255,255,0.8));
 
                 &::after {
-                  background: $max-color url("/static/img/splash/max.svg") no-repeat 50%;
+                  background: $red-w url("/static/img/splash/max.svg") no-repeat 50%;
                   background-size: 80%;
                 }
               }
@@ -1361,7 +1455,7 @@ body.profile, body.map, body.story {
                 margin: 0 5px -4px;
                 border-radius: 50%;
                 @include box();
-                border: 1px solid $max-color;
+                border: 1px solid $red-w;
                 @include transition(all 0.35s);
               }
 
@@ -1369,13 +1463,12 @@ body.profile, body.map, body.story {
 
                 &:hover {
                   &::after {
-                    background: $min-color url("/static/img/splash/min.svg") no-repeat 50%;
+                    background: $red-w url("/static/img/splash/min.svg") no-repeat 50%;
                     background-size: 80%;
                   }
                 }
 
                 &::after {
-                  border: 1px solid $min-color;
                   background: transparent url("/static/img/splash/min.svg") no-repeat 50%;
                   background-size: 80%;
                 }
@@ -1398,24 +1491,81 @@ body.profile, body.map, body.story {
         margin: 25px 0 -5px;
       }
 
+      .image-meta {
+        font-size: 14px;
+      }
+
     }
 
     .intro-viz {
       @include flex-size(1);
-      height: 200px;
       margin: 20px 0;
-      text-align: center;
+      text-align: left;
 
-      .d3plus_coordinates.outline {
-        fill: transparent !important;
-        pointer-events: none !important;
+      .photo-cred, .breadcrumb, .data-source-crumb {
+        margin: 0;
+
+        a {
+          font-family: $palanquin;
+          font-weight: 400;
+          font-size: 10px;
+          letter-spacing: 0.05em;
+          line-height: 1;
+          text-transform: uppercase;
+          // @include wordwrap();
+          // @include hyphens;
+          @include transition(all 0.35s);
+
+          &:hover, &:focus {
+            @include text-shadow(0 0 1px rgba(255,255,255,0.8));
+          }
+        }
       }
 
-      .d3plus_coordinates.highlight {
-        stroke: white !important;
-        stroke-opacity: 1 !important;
-        fill: white !important;
-        fill-opacity: 1 !important;
+      .photo-cred {
+        min-height: 18px;
+        overflow: visible;
+        .image-author {
+          display: inline-block;
+          line-height: 1;
+          max-width: 80%;
+        }
+      }
+
+      .data-source-crumb {
+        position: relative;
+        display: inline-block;
+        line-height: 0.5;
+      }
+
+      .fa {
+        padding: 1px 6px;
+        font-size: 11px;
+        color: #fff;
+        display: inline-block;
+      }
+
+      .viz {
+        height: 200px;
+
+        .d3plus_coordinates.outline {
+          fill: transparent !important;
+          pointer-events: none !important;
+        }
+
+        .d3plus_coordinates.default {
+          stroke: white !important;
+          stroke-opacity: 1 !important;
+          fill: white !important;
+          fill-opacity: 0.5 !important;
+        }
+
+        .d3plus_coordinates.highlight {
+          stroke: white !important;
+          stroke-opacity: 1 !important;
+          fill: $red-w !important;
+          fill-opacity: 1 !important;
+        }
       }
     }
 
@@ -1491,8 +1641,8 @@ body.profile, body.map, body.story {
       color: #333;
 
       a {
-        margin-top: -$nav-height - $prof-nav-height;
-        padding-top: $nav-height + $prof-nav-height;
+        margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
+        padding-top: $nav-height + $prof-nav-height + $stats-bar-height + 10;
       }
 
       // This is the invisible element to fix the anchor tags!
@@ -1575,7 +1725,7 @@ body.profile, body.map, body.story {
     .category {
       @include box();
       @include flex-size(1 1 100%);
-      padding: 5px 24px 30px;
+      padding: 25px 24px 30px;
       min-width: 100%;
 
       a {
@@ -1726,6 +1876,7 @@ body.profile, body.map, body.story {
           .topic-stats {
             @include flex();
             @include align-items(flex-end);
+            @include flex-wrap();
             color: #333;
 
             &.stacked {
@@ -1736,6 +1887,7 @@ body.profile, body.map, body.story {
             .stat {
               @include flex-size(1 1 auto);
               margin: 10px 15px 10px 0;
+              min-width: 40%;
 
               .stat-value {
                 &.loading {
@@ -1752,9 +1904,18 @@ body.profile, body.map, body.story {
         .viz {
           @include flex-size(1 0 auto);
           margin-left: 50px;
-          min-height: 310px;
+          min-height: 400px;
           overflow: hidden;
           position: relative;
+          z-index: 2;
+
+          &.geo_map {
+            min-height: 500px;
+          }
+
+          &.tree_map {
+            min-height: 500px;
+          }
 
           .d3plus {
 
@@ -1772,6 +1933,21 @@ body.profile, body.map, body.story {
           min-height: 200px;
         }
 
+      }
+
+      &.flex-short {
+        .full-width {
+          @include flex-size(1 1 300px);
+
+          .viz {
+            @include flex-size(1 1 250px);
+            margin-left: 0;
+            height: 250px;
+            max-height: 250px;
+            min-height: 250px;
+          }
+
+        }
       }
 
     }
@@ -1990,7 +2166,8 @@ body.profile, body.map, body.story {
   // }
 
   .d3plus_button_label {
-    padding: 3px 10px 5px !important;
+    line-height: 17px;
+    padding: 6px 10px 9px !important;
   }
 }
 

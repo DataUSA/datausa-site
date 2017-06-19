@@ -22,6 +22,10 @@ def datapivot(data, keys, sort="desc", column_id="id", column_value="value", col
             break
 
     pivoted = [{column_id: dropfirst(k), column_value: v, column_name: pivotname(dropfirst(k), keys)} for k, v in data.iteritems() if dropfirst(k) in columns]
+    if "year" in data:
+        for row in pivoted:
+            row["year"] = data["year"]
+
     if moe and "{}_{}_moe".format(moe, pivoted[0][column_id]) in data.keys():
         for row in pivoted:
             row["moe"] = data["{}_{}_moe".format(moe, row[column_id])]
@@ -59,16 +63,16 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     else:
         r = datafold(r)
 
-    if dataset == "stat":
-        if isinstance(r[0][col], list):
-            r = [{params["show"]:x} for x in r[0][col]]
-            col = "name"
-
     if len(r) == 0:
         return {
             "url": stat_url,
             "value": "N/A"
         }
+
+    if dataset == "stat":
+        if isinstance(r[0][col], list):
+            r = [{params["show"]:x} for x in r[0][col]]
+            col = "name"
 
     # if the output key is 'name', fetch attributes for each return and create an array of 'name' values
     # else create an array of the output key for each returned datapoint
@@ -93,13 +97,17 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     if col in COLMAP or "-" in col:
         vals = datapivot(r, col.split("-"), sort="desc")
 
-        vals = [v for v in vals[rank - 1:limit]]
-
-        if moe:
-            top = [v["moe"] for v in vals]
+        if len(vals) == 0:
+            vals = [v[col] for v in r]
+            vals = [COLMAP[col]["_".join(v.split("_")[1:])] for v in vals[rank - 1:limit]]
+            top = vals
         else:
-            top = [v["name"] for v in vals]
-            vals = [v["value"] for v in vals]
+            vals = [v for v in vals[rank - 1:limit]]
+            if moe:
+                top = [v["moe"] for v in vals]
+            else:
+                top = [v["name"] for v in vals]
+                vals = [v["value"] for v in vals]
 
     else:
         if rank > 1:

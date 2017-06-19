@@ -21,14 +21,13 @@
   animation: $animation;
 }
 
-@mixin background-stretch() {
+@mixin background-stretch($size: cover) {
   background-position: center center;
-  // background-attachment: fixed;
   background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  -webkit-background-size: $size;
+  -moz-background-size: $size;
+  -o-background-size: $size;
+  background-size: $size;
 }
 
 @mixin box($style: border-box) {

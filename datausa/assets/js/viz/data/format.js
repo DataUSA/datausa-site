@@ -2,11 +2,17 @@ viz.format = {
   "number": function(number, params) {
 
     var prefix = "";
+    if (!params) params = {};
 
     if (params.key) {
 
       var key = params.key + "";
       delete params.key;
+
+      var yearMatch = key.match(/_(\d{4})$/g);
+      if (yearMatch) key = key.substring(0, key.length - 5);
+
+      if (key.indexOf("y2_") === 0) key = key.slice(3);
 
       if (key === "year") return number;
 
@@ -45,7 +51,7 @@ viz.format = {
         number = a[0] + number + a[1];
       }
 
-      if (proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+      if (key.indexOf("_pct_calc") > 0 || proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
         number = number + "%";
       }
       return prefix + number;
@@ -57,11 +63,69 @@ viz.format = {
   },
   "text": function(text, params, build) {
 
+    if (!text || text.constructor !== String) return "";
+
+    if (text.indexOf("y2_") === 0) text = text.slice(3);
+
+    if (params === void 0) params = {};
+
+    if (params.cart && text.match(/_id$/g)) {
+      return viz.format.text(text.substring(0, text.length - 3), params, build) + " ID"
+    }
+    if (params.cart && text.match(/_name$/g)) {
+      return viz.format.text(text.substring(0, text.length - 5), params, build) + " Name"
+    }
+    if (params.cart && text.match(/_sumlevel$/g)) {
+      return viz.format.text(text.substring(0, text.length - 9), params, build) + " Summation Level"
+    }
+
+    var yearMatch = text.match(/_(\d{4})$/g);
+    if (yearMatch) {
+      return viz.format.text(text.substring(0, text.length - 5), params, build) + " (" + yearMatch[0].slice(1, 5) + ")"
+    }
+
     if (text.indexOf("_moe") > 0) {
+      if (params && params.cart) {
+        return viz.format.text(text.split("_moe")[0], params, build) + " MoE";
+      }
       return "&nbsp;&nbsp;&nbsp;&nbsp;Margin of Error";
     }
-    else if (text.indexOf("_rank") > 0) {
+
+    if (text.match(/_sex[12]$/g)) {
+      var sex = text.slice(-1) === "1" ? "Male" : "Female";
+      return sex + " " + viz.format.text(text.substring(0, text.length - 5), params, build);
+    }
+
+    if (text.indexOf("_collection") > 0) {
+      if (params && params.cart) {
+        return viz.format.text(text.split("_moe")[0], params, build) + " Collection Year";
+      }
+      return "&nbsp;&nbsp;&nbsp;&nbsp;Collection Year";
+    }
+
+    if (text.indexOf("_rank") > 0) {
       return "Rank";
+    }
+
+    if (text.indexOf("_pct_calc") > 0) {
+      return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
+    }
+
+    if (dictionary[text]) {
+      if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
+      if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
+      if (per100000.indexOf(text) >= 0) return dictionary[text] + " per 100,000 People";
+      return dictionary[text];
+    }
+
+    if (text.indexOf("_") >= 0 && text.split("_")[0] in colmap) {
+      var t = text.split("_");
+      var id = colmap[t[0]][t.slice(1, t.length).join("-")];
+      if (params && params.attrs && params.attrs[t[0]]) {
+        var attr = params.attrs[t[0]][id];
+        return attr ? attr.display_name || attr.name || attr.id : viz.format.text(text.replace(/_/g, " "));
+      }
+      return viz.format.text(t[0]) + ": " + id;
     }
 
     if (text.indexOf("y2_") === 0) {
@@ -77,13 +141,6 @@ viz.format = {
           text = build.config[axis].label;
         }
       });
-    }
-
-    if (dictionary[text]) {
-      if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
-      if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
-      if (per100000.indexOf(text) >= 0) return dictionary[text] + " per 100,000 People";
-      return dictionary[text];
     }
 
     // All caps text
@@ -110,11 +167,9 @@ viz.format = {
 
         if (build && key === false) {
           ["x", "y", "x2", "y2"].forEach(function(axis){
-            if (d3plus.object.validate(build.config[axis]) &&
-                build.config[axis].value === "bucket" &&
-                build.config[axis].label &&
-                build.config[axis].label !== true) {
-              key = build.config[axis].label;
+            if (d3plus.object.validate(build.config[axis]) && build.config[axis].value === "bucket") {
+              var label = build.config[axis].label || build.config[axis].previousLabel;
+              if (label && label !== true) key = label;
             }
           });
         }
@@ -137,10 +192,13 @@ viz.format = {
         else if (text.indexOf("less") === 0) {
           return "< " + a[0] + text.slice(4) + a[1];
         }
+        else if (text.indexOf("under_") === 0) {
+          return "< " + a[0] + text.slice(6) + a[1];
+        }
         else if (text.indexOf("under") === 0) {
           return "< " + a[0] + text.slice(5) + a[1];
         }
-        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0) {
+        else if (text.indexOf("over") > 0 || text.indexOf("more") > 0 || text.indexOf("plus") > 0) {
           return a[0] + text.slice(0, text.length - 4) + a[1] + " +";
         }
         else if (text.toLowerCase() === "none") {
@@ -160,10 +218,10 @@ viz.format = {
 
       var attrs = build && build.viz ? build.viz.attrs() : false;
       if (attrs && text in attrs) {
-        return d3plus.string.title(attrs[text].name, params);
+        return attrs[text].display_name ? attrs[text].display_name : d3plus.string.title(attrs[text].name, params);
       }
 
-      if (attr_ids.indexOf(params.key) >= 0) return text.toUpperCase();
+      if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
 
     }
 

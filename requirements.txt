@@ -24,3 +24,6 @@ python-dateutil
 
 # For deploying site
 gunicorn
+
+# Python Linting
+flake8

@@ -4,6 +4,12 @@ description: "The Bureau of Economic Analysis publishes estimates of the sources
 topics:
   - slug: "sankey"
     title: "Industrial Flow"
+    cart:
+      title: "Industrial Flow"
+      params:
+        required: value_millions
+        show: commodity_iocode
+        sumlevel: all
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=naics|industry_level=0>>"
     viz:
       attrs: "iocode"
@@ -39,6 +45,12 @@ topics:
       type: "sankey"
   - title: "Intermediate Inputs"
     slug: "tmap_consumption"
+    cart:
+      title: "Industrial Flow"
+      params:
+        required: value_millions
+        show: commodity_iocode
+        sumlevel: all
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added>>"
     stat:
       - title: "Highest Input Industry"
@@ -65,6 +77,12 @@ topics:
       type: "tree_map"
   - title: "Use of Output by Other Industries"
     slug: "tmap_production"
+    cart:
+      title: "Industrial Flow"
+      params:
+        required: value_millions
+        show: commodity_iocode
+        sumlevel: all
     subtitle: "<<sub attr_type=industry_iocode|show=commodity_iocode|required=value_millions|sumlevel=no_value_added>>"
     stat:
       - title: "Largest Purchasing Industry"

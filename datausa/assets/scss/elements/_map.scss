@@ -15,11 +15,14 @@ body.map {
 
   #d3plus_tooltip_id_geo_map_sidebar {
     @include shadow(none !important);
+    position: static !important;
     z-index: 2 !important;
 
     .d3plus_tooltip_container {
+      @include box();
   		background-color: transparent !important;
     }
+
   }
 
 }
@@ -39,17 +42,42 @@ $map-sidebar: 250px;
   width: $map-sidebar + 1;
   visibility: hidden;
 
+  .d3plus_title {
+    display: block !important;
+    margin-bottom: -5px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+
   #d3plus_drop_map-keys {
     margin: 1px 5px 5px !important;
   }
 
   #d3plus_toggle_map-sumlevels {
+    margin: 15px 0 -5px !important; 
     text-align: center;
 
     .d3plus_toggle .d3plus_node {
       margin: 0 6px !important;
     }
 
+  }
+
+  #map-description {
+    color: #666;
+    font-family: $palanquin;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 10px;
+    &.hidden {
+      display: none;
+    }
+  }
+
+  #map-tooltip {
+    overflow-y: scroll;
+    position: relative;
   }
 
   .sub-source {
@@ -96,6 +124,7 @@ $map-sidebar: 250px;
   background-color: rgba(255, 255, 255, 0.75);
   border: 1px solid $gray-d;
   right: 10px;
+  padding: 0 8px 2px 5px;
   position: fixed;
   top: $title-height + 10;
   z-index: 2;
@@ -163,17 +192,31 @@ $map-sidebar: 250px;
   shape-rendering: crispEdges;
 }
 
+.legend-label {
+  color: #949494;
+  display: inline-block;
+  font-family: $palanquin;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 19px;
+  margin-right: 10px;
+}
+
 .year-toggle {
-  bottom: 5px;
+  bottom: 15px;
   display: block;
   left: 0;
   position: absolute;
   text-align: center;
   width: 100%;
 
-  .d3plus_toggle {
-    background-color: rgba(255, 255, 255, 0.5) !important;
+  #d3plus_toggle_default2 {
+    border: 1px solid rgb(204, 204, 204);
+    height: 26px;
   }
+  // .d3plus_toggle {
+  //   background-color: rgba(255, 255, 255, 0.5) !important;
+  // }
 }
 
 .map-controls {

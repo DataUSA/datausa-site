@@ -19,7 +19,6 @@
     <a href="#">{{ profile.splash.title }}<span class="compare-separator">|</span><span class="compare-title"></span></a>
     <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
       <img class="compare-img" src="/static/img/icons/compare.svg" />
-      <span class="compare-text">Add Comparison</span>
     </a>
   </span>
 </div>
@@ -59,15 +58,17 @@
       </div>
 
       <div id="splash-stats">
-        {% for stat in profile.splash.stats %}
-        <div class="stat">
-          <div class="stat-text">{{ stat.title|safe }}</div>
-          <div class="stat-group">
-            <div class="stat-value">{{ stat.value|safe }}</div>
-            <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
+        <div id="stat-container">
+          {% for stat in profile.splash.stats %}
+          <div class="stat">
+            <div class="stat-text">{{ stat.title|safe }}</div>
+            <div class="stat-group">
+              <div class="stat-value">{{ stat.value|safe }}</div>
+              <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
+            </div>
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
 
       <div class="splash-icon-nav">
@@ -105,8 +106,19 @@
 
     <div class="intro-head">
       <h2 class="section-title"><a href="#intro" name="intro">About</a></h2>
+    </div>
 
-      <div class="r">
+    <div class="col">
+      <div class="intro-txt">
+        {% for desc in profile.splash.description %}
+        <p class="desc has-p-link">{{ desc|safe }}</p>
+        {% endfor %}
+        {% if image.meta %}
+        <p class="desc image-meta">About the photo: <i>{{ image.meta|safe }}</i></p>
+        {% endif %}
+      </div>
+
+      <div class="intro-viz">
         <div class="photo-cred">
           <a href="{{ image.link }}" target="_blank"><i class="fa fa-camera"></i></a>
           <div class="image-author"><a href="{{ image.link }}" target="_blank">Photo by {{ image.author }}</a></div>
@@ -131,27 +143,13 @@
           </div>
         </div>
         {% endif %}
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="intro-txt">
-        {% for desc in profile.splash.description %}
-        <p class="desc has-p-link">{{ desc|safe }}</p>
-        {% endfor %}
-        {% if image.meta %}
-        <p class="desc image-meta">About the photo: <i>{{ image.meta }}</i></p>
-        {% endif %}
-      </div>
-
-      {% if profile.splash.viz %}
-      <div class="intro-viz">
+        {% if profile.splash.viz %}
         <div class="viz thumbprint">
           <div class="d3plus"></div>
         </div>
         <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
+        {% endif %}
       </div>
-      {% endif %}
     </div>
 
     <div id="profile-toc">
@@ -167,7 +165,7 @@
           {% if topic.category %}
           {% if categories.update({"count": categories.count + 1}) %}{% endif %}
           {% set anchor = topic.category|safe|lower|replace(" ", "_") %}
-          <li><a class="pri-link" href="#{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc {{ section.anchor }} topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
+          <li><a class="pri-link" href="#category_{{ anchor }}" data-anchor="{{ anchor }}" data-ga="toc {{ section.anchor }} topic" data-ga-cat="navigation" data-ga-label="User click">{{ topic.category|safe }}</a></li>
           {% endif %}
         {% endfor %}
         {% if categories.count == 0 %}
@@ -278,18 +276,18 @@
 
 <script>
 
-  var fontRange = [50, 65];
-  if (window.innerWidth <= 480) {
-    fontRange = [25, 45];
-  }
-
-  var fontScale = d3.scale.linear()
-    .domain([60, 20])
-    .range(fontRange)
-    .clamp(true);
-
+  // var fontRange = [50, 65];
+  // if (window.innerWidth <= 480) {
+  //   fontRange = [25, 45];
+  // }
+  //
+  // var fontScale = d3.scale.linear()
+  //   .domain([60, 20])
+  //   .range(fontRange)
+  //   .clamp(true);
+  //
   var title = d3.select(".splash-titles h1");
-  title.style("font-size", fontScale(title.text().length) + "px");
+  // title.style("font-size", fontScale(title.text().length) + "px");
 
   // if (!d3plus.client.touch) {
   //   var scrollTimeout = setTimeout(function(){

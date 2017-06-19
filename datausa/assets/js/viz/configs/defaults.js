@@ -16,12 +16,13 @@ viz.defaults = function(build) {
         else if (a.bucket.indexOf("under") >= 0 || a.bucket.indexOf("less") >= 0) {
           return 0;
         }
-        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0) {
-          return 100000;
+        else if (a.bucket.indexOf("more") >= 0 || a.bucket.indexOf("over") >= 0 || a.bucket.indexOf("plus") >= 0) {
+          return 100000000;
         }
         else {
           var b = a.bucket;
-          if (b.indexOf("_") > 0) b = b.split("_")[1];
+          if (b.indexOf("_") > 0) b = b.split("_").slice(1).join("_");
+          b = b.split("to")[0];
           return parseFloat(b, 10);
         }
       }
@@ -39,9 +40,15 @@ viz.defaults = function(build) {
     }
 
     if (key) {
-      label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
-      if (label in dictionary) label = dictionary[label];
-      build.config[axis].label = label;
+      if (["year", "bucket", "test"].indexOf(key) >= 0) {
+        build.config[axis].previousLabel = build.config[axis].label;
+        build.config[axis].label = false;
+      }
+      else {
+        label = build.config[axis].label !== void 0 ? build.config[axis].label : axis.indexOf("y") === 0 && attr_ids.indexOf(key) >= 0 ? false : true;
+        if (label in dictionary) label = dictionary[label];
+        build.config[axis].label = label;
+      }
     }
 
     if (build.config[axis] && build.config[axis].ticks && build.config[axis].ticks.value && build.config[axis].ticks.value.constructor === String) {
@@ -55,9 +62,9 @@ viz.defaults = function(build) {
         labelFont = d3plus.util.copy(chartStyles.labels[style][key]);
 
     if (build.config.y2 && ["y", "y2"].indexOf(axis) >= 0) {
-      if (build.config.y2.value === "01000US" || build.config.y2.label === "National Average" || build.config.y2.label === "USA") {
-        if (axis === "y") labelFont.color = build.colors.pri;
-        else if (axis === "y2") labelFont.color = build.colors.sec;
+      if (build.config.y2.value === "01000US" || (build.config.y2.label && build.config.y2.label.indexOf("National") >= 0 || build.config.y2.label.indexOf("USA") >= 0)) {
+        if (axis === "y") labelFont.color = d3plus.color.legible(build.colors.pri);
+        else if (axis === "y2") labelFont.color = d3plus.color.legible(build.colors.sec);
       }
       else if (build.config.color in attrStyles) {
         var colors = attrStyles[build.config.color];

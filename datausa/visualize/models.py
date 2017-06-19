@@ -1,6 +1,7 @@
 import copy, json, requests
 from requests.models import RequestEncodingMixin
 from config import API
+from datausa.consts import COLLECTIONYEARS
 from datausa.utils.format import param_format
 from datausa.utils.data import year_cache
 
@@ -13,7 +14,7 @@ class Viz(object):
 
     """
 
-    def __init__(self, params, highlight=False, profile=False, select=False, slug=False):
+    def __init__(self, params, highlight=False, profile=False, select=False, slug=False, topic=False):
         """Initializes a new Viz class.
 
         Args:
@@ -41,6 +42,8 @@ class Viz(object):
 
             # create a new dict containing the 'split' and 'static' params
             data_obj = {
+                "join": d.pop("join", None),
+                "divide": d.pop("divide", None),
                 "map": d.pop("map", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None),
@@ -52,7 +55,8 @@ class Viz(object):
 
             # create the data URL
             p = RequestEncodingMixin._encode_params(d)
-            data_obj["url"] = "{}/api/?{}".format(API, p)
+            join = "join/" if data_obj["join"] else ""
+            data_obj["url"] = "{}/api/{}?{}".format(API, join, p)
 
             # store the params in the return dict
             data_obj["params"] = d
@@ -89,6 +93,14 @@ class Viz(object):
         # set the tooltip config using the function
         self.config["tooltip"] = params.pop("tooltip", {})
         self.config["tooltip"]["value"] = self.tooltip()
+        tooltipValues = [];
+        if "year" not in tooltipValues:
+            tooltipValues.append("year")
+        for value in self.config["tooltip"]["value"]:
+            tooltipValues.append(value)
+            if value in COLLECTIONYEARS:
+                tooltipValues.append("{}_collection".format(value))
+        self.config["tooltip"]["value"] = tooltipValues
 
         # set default depth to zero
         self.config["depth"] = int(params["depth"]) if "depth" in params else 0
@@ -96,10 +108,16 @@ class Viz(object):
         # set default text to "name"
         self.config["text"] = params["text"] if "text" in params else "name"
 
+        if topic and "cart" in topic:
+            self.cart = topic["cart"]
+        else:
+            self.cart = False
+
     def serialize(self):
         """dict: JSON dump of Viz attrs, config, and data """
         return json.dumps({
             "attrs": self.attrs,
+            "cart": self.cart,
             "config": self.config,
             "data": self.data,
             "highlight": self.highlight,
@@ -112,6 +130,9 @@ class Viz(object):
     def tooltip(self):
         """List[str]: A list of important data keys to be displayed in tooltips """
 
+        if self.config["tooltip"] and "value" in self.config["tooltip"]:
+            return self.config["tooltip"]["value"]
+
         tooltip = []
         if self.config["type"] == "radar":
             return tooltip
@@ -121,13 +142,14 @@ class Viz(object):
             ids = [ids]
 
         # check each data call for 'required' and 'order'
+        forbidden = ["emp_2004_thousands", "emp_2014_thousands", "emp_2024_thousands", "output_2004", "output_2014", "output_2024"]
         for d in self.data:
             p = d["params"]
             for k in ["required", "order"]:
                 if k in p:
                     val = p[k].split(",")
                     for v in val:
-                        if v != "" and v not in tooltip and v not in ids:
+                        if v != "" and v not in tooltip and v not in forbidden and v not in ids:
                             tooltip.append(v)
                             moe = "{}_moe".format(v)
                             if moe not in tooltip:
@@ -156,7 +178,7 @@ class Viz(object):
                 if not isinstance(val, (str, int, float)):
                     val = val.get("value", False)
 
-                if val and val not in tooltip and val not in ids:
+                if val and val not in tooltip and val not in forbidden and val not in ids:
                     tooltip.append(val)
                     if k == axis:
                         tooltip.append("{}2_{}".format(axis, val))

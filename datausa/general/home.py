@@ -9,10 +9,14 @@ TYPEMAP = {
 
 HOMEFEED = [
     {
-        "link": "/profile/geo/washington-dc/#global_diversity",
-        "title": "Global Diversity in Washington, DC",
-        "section": "demographics",
-        "viz": "geo_map"
+        "link": "/story/03-02-2017_hardest-working/",
+        "featured": True
+    },
+    {
+        "link": "/profile/geo/cambridge-ma/#insurance_coverage",
+        "title": "Insurance Coverage in Cambridge, MA",
+        "section": "health",
+        "viz": "bar_double"
     },
     {
         "link": "/story/10-13-2016_america-beautiful/"

@@ -26,10 +26,12 @@ viz.formatData = function(data, d, build) {
   //
   // }
 
-  if (d.static) {
+  if (d.join) {
     for (var i = 0; i < data.length; i++) {
-      for (var k in d.static) {
-        data[i][k] = d.static[k];
+      for (var k in data[i]) {
+        var key = k.split(".").pop();
+        if (key !== "year") data[i][key] = data[i][k];
+        delete data[i][k];
       }
     }
   }
@@ -50,12 +52,23 @@ viz.formatData = function(data, d, build) {
     }
   }
 
+  if (d.static) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.static) {
+        data[i][k] = d.static[k];
+      }
+    }
+  }
+
   if (d.split) {
 
+    var regex = d.split.regex instanceof Array ? d.split.regex : [d.split.regex];
+    regex = regex.map(function(r) { return new RegExp(r); });
+    var values = d.split.value instanceof Array ? d.split.value : [d.split.value];
+
     var split_data = [],
-        regex = new RegExp(d.split.regex),
         keys = d3.keys(data[0]).filter(function(k){
-          return regex.exec(k);
+          return regex[0].exec(k);
         });
 
     if (d.split.map) {
@@ -68,29 +81,41 @@ viz.formatData = function(data, d, build) {
       var dat = data[i];
       for (var ii = 0; ii < keys.length; ii++) {
         var dd = d3plus.util.copy(dat);
-        dd[d.split.id] = regex.exec(keys[ii])[1];
-        dd[d.split.value] = dat[keys[ii]];
-
-        if (keys[ii] + "_moe" in dat) {
-          dd[d.split.value + "_moe"] = dat[keys[ii] + "_moe"];
-        }
+        var key = keys[ii];
 
         if (d.split.map) {
           for (var sk in d.split.map) {
-            var mapex = d.split.map[sk].exec(keys[ii]);
-            if (mapex) {
-              dd[sk] = mapex[1];
+            var mapex = d.split.map[sk].exec(key);
+            if (mapex) dd[sk] = mapex[1];
+          }
+        }
+
+        dd[d.split.id] = regex[0].exec(key)[1];
+        for (var v = 0; v < values.length; v++) {
+          for (var k in dd) {
+            var match = regex[v].exec(k);
+            if (match && match[1] === dd[d.split.id]) {
+              dd[values[v]] = dat[match[0]];
+              delete dd[match[0]];
+              if (match[0] + "_moe" in dat) {
+                dd[values[v] + "_moe"] = dat[match[0] + "_moe"];
+                delete dd[match[0] + "_moe"];
+              }
             }
           }
         }
-        for (var iii = 0; iii < keys.length; iii++) {
-          delete dd[keys[iii]];
-          delete dd[keys[iii] + "_moe"];
-        }
+
         split_data.push(dd);
       }
     }
     data = split_data;
+  }
+
+  if (d.divide) {
+    for (var i = 0; i < data.length; i++) {
+      data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den];
+      if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
+    }
   }
 
   if (d.share) {
@@ -122,6 +147,23 @@ viz.formatData = function(data, d, build) {
     else {
       for (var i = 0; i < data.length; i++) {
         data[i].share = data[i][share]/shareData[data[i].year] * 100;
+      }
+    }
+  }
+
+  if (data.length && data[0].patients && data[0].race) {
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].race === "white") data[i].race = "non-black";
+    }
+  }
+
+  if (d.source && d.source.table.indexOf("chr") === 0) {
+    for (var i = 0; i < data.length; i++) {
+      var datum = data[i];
+      for (var k in datum) {
+        if (k in collectionyears && datum.year in collectionyears[k]) {
+          datum[k + "_collection"] = collectionyears[k][datum.year];
+        }
       }
     }
   }
@@ -189,7 +231,7 @@ viz.formatData = function(data, d, build) {
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
-  build.viz.error("Loading Data").draw();
+  if (build.viz.data().length === 0) build.viz.error("Loading Data").draw();
 
   build.sources = [];
 
@@ -208,9 +250,10 @@ viz.loadData = function(build, next) {
 
         var d = build.data.filter(function(d){ return d.url === url; })[0];
 
-        d.data = viz.formatData(data, d, build);
         d.source = return_data.source;
-        build.sources.push(return_data.source)
+        d.subs = return_data.subs || {};
+        d.data = viz.formatData(data, d, build);
+        build.sources.push(return_data.source);
         dataArray = dataArray.concat(d.data);
         loaded++;
         if (loaded === build.data.length) {

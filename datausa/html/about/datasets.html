@@ -7,13 +7,14 @@
 <article>
   <section>
     <ul class="dataset-panel datasets">
-      <li class="active"><a href="#" class="acs" data-value="1">ACS</a></li>
-      <li class=""><a href="#" class="acspums" data-value="2">ACS PUMS</a></li>
-      <li class=""><a href="#" class="bea" data-value="3">BEA</a></li>
-      <li class=""><a href="#" class="bls" data-value="4">BLS</a></li>
-      <li class=""><a href="#" class="chr" data-value="5">CHR</a></li>
-      <li class=""><a href="#" class="ipeds" data-value="6">IPEDS</a></li>
-      <li class=""><a href="#" class="onet" data-value="7">O*Net</a></li>
+      <li class="acs active"><a href="#" data-value="1">ACS</a></li>
+      <li class="acspums"><a href="#" data-value="2">ACS PUMS</a></li>
+      <li class="bea"><a href="#" data-value="3">BEA</a></li>
+      <li class="bls"><a href="#" data-value="4">BLS</a></li>
+      <li class="chr"><a href="#" data-value="5">CHR</a></li>
+      <li class="chr"><a href="#" data-value="8">Dartmouth Atlas</a></li>
+      <li class="ipeds"><a href="#" data-value="6">IPEDS</a></li>
+      <li class="onet"><a href="#" data-value="7">O*Net</a></li>
     </ul>
     <div class="dataset-list">
       <div class="dataset-tab active" data-tab="1">
@@ -89,6 +90,14 @@
         <p>The O*Net Skills dataset is used on both the Occupation and Course profile pages giving a detailed breakdown of the skills required for the specified occupation or course.</p>
         <h2>Caveats</h2>
         <p>Some occupations do not have directly corresponding data available in O*Net. For more detailed technical information on how we handle these cases, please visit our <a href="https://github.com/DataUSA/datausa-api/wiki/Data API#onet">O*Net Aggregation Methodology</a> page.</p>
+      </div>
+      <div class="dataset-tab" data-tab="8">
+        <h2>Description</h2>
+        <p>For more than 20 years, the <span class="emphasize">Dartmouth Atlas Project</span> has documented glaring variations in how medical resources are distributed and used in the United States. The project uses Medicare data to provide comprehensive information and analysis about national, regional, and local markets, as well as individual hospitals and their affiliated physicians.</p>
+        <h2>Where is it used?</h2>
+        <p>The Dartmouth data is used on the Geography profiles in the health and safety section.</p>
+        <h2>Caveats</h2>
+        <p>With regard to granularity the Dartmouth dataset only includes State and County level data.</p>
       </div>
     </div>
   </section>

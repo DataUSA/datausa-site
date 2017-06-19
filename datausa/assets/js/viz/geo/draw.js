@@ -1,6 +1,6 @@
 viz.mapDraw = function(vars) {
 
-  var hiddenTopo = ["04000US69", "04000US66", "04000US60", "04000US78", "05000US60050", "05000US60010", "05000US60020", "05000US66010", "05000US69100", "05000US69110", "05000US69120", "05000US69085", "79500US6600100"];
+  var hiddenTopo = ["XXUSA", "04000US69", "04000US66", "04000US60", "04000US78", "05000US60050", "05000US60010", "05000US60020", "05000US66010", "05000US69100", "05000US69110", "05000US69120", "05000US69085", "79500US6600100"];
   var us_bounds = [[-0.6061309513487787,-0.9938707206384574],[0.40254429811306913,-0.44220355964829655]];
 
   var fullscreen = d3.select("#map-filters").size(),
@@ -13,7 +13,7 @@ viz.mapDraw = function(vars) {
       polyZoom = 20000,
       scaleAlign = "middle",
       scaleHeight = 10,
-      scalePadding = 5,
+      scalePadding = 10,
       strokeOpacity = 0.35,
       timing = 600,
       zoomFactor = 2;
@@ -170,10 +170,103 @@ viz.mapDraw = function(vars) {
     if (data_range.length > 1) {
 
       var color_range = vizStyles.color.heatmap;
+      if (!(color_range instanceof Array)) color_range = makeColorArray(color_range);
+
+      function lighter(color, number) {
+        var c = d3plus.color.lighter(color, number);
+        c = d3.hsl(c);
+        c.s += 0.3 * number;
+        if (c.s > 1) c.s = 1;
+        return c.toString();
+      }
+
+      function darker(color, number) {
+        var c = d3.rgb(color).darker(number).hsl();
+        c.s += 0.5 * number;
+        if (c.s > 1) c.s = 1;
+        return c.toString();
+      }
+
+      function makeColorArray(color) {
+        return [
+          lighter(color, 0.9),
+          lighter(color, 0.75),
+          lighter(color, 0.6),
+          lighter(color, 0.45),
+          lighter(color, 0.30),
+          lighter(color, 0.15),
+          color,
+          darker(color, 2),
+          // d3.rgb(color).darker(0.75).toString()
+        ];
+      }
+
+      var badIndicators = [
+        "income_below_poverty:pop_poverty_status",
+        "unemployment",
+        "children_in_poverty",
+
+        "uninsured",
+        "uninsured_adults",
+        "uninsured_children",
+        "could_not_see_doctor_due_to_cost",
+
+        "adult_obesity",
+        "diabetes",
+        "sexually_transmitted_infections",
+        "hiv_prevalence_rate",
+        "alcoholimpaired_driving_deaths",
+        "excessive_drinking",
+        "adult_smoking",
+        "homicide_rate",
+        "violent_crime",
+        "motor_vehicle_crash_deaths",
+
+        "premature_death",
+        "poor_or_fair_health",
+        "poor_physical_health_days",
+        "poor_mental_health_days",
+        "low_birthweight",
+        "food_environment_index",
+        "physical_inactivity",
+        "access_to_exercise_opportunities",
+        "teen_births",
+        "social_associations",
+        "injury_deaths",
+        "polution_ppm",
+        "drinking_water_violations",
+        "premature_ageadjusted_mortality",
+        "infant_mortality",
+        "child_mortality",
+        "food_insecurity",
+        "limited_access_to_healthy_foods",
+        "drug_overdose_deaths",
+        "children_eligible_for_free_lunch",
+
+        "severe_housing_problems"
+      ];
+
+      if (badIndicators.indexOf(vars.color.value) >= 0) color_range = makeColorArray("#CA3434");
+      else {
+        for (var attr in attrStyles) {
+          var match = false;
+          for (var key in attrStyles[attr]) {
+            var re = new RegExp("_" + key + "$", "g");
+            if (vars.color.value.match(re)) {
+              match = attrStyles[attr][key].color;
+              break;
+            }
+          }
+          if (match) {
+            color_range = makeColorArray(match);
+            break;
+          }
+        }
+      }
 
       var jenksData = vars.data.filtered
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
-        .map(function(d) { return d[vars.color.value]; }).sort();
+        .map(function(d) { return d[vars.color.value]; });
 
       if (jenksData.length < color_range.length) {
         var step = (jenksData.length - 1) / (color_range.length - 1);
@@ -204,17 +297,19 @@ viz.mapDraw = function(vars) {
       return obj;
     }, {});
 
-    if (colorScale && colorScale.domain) {
+    var scale = svg.selectAll("g.scale").data(colorScale && colorScale.domain ? [0] : []);
+    scale.exit().transition().duration(600).attr("opacity", 0).remove();
+    var scaleEnter = scale.enter().append("g")
+      .attr("class", "scale")
+      .attr("opacity", 0);
 
-      var scale = svg.selectAll("g.scale").data([0]);
-      scale.enter().append("g")
-        .attr("class", "scale")
-        .attr("opacity", 0);
+    if (colorScale && colorScale.domain) {
 
       var values = colorScale.domain(),
           colors = color_range;
 
-      var key_width = d3.min([width * 0.9, 600]);
+      var keyPadding = 10;
+      var key_width = d3.min([width - keyPadding * 8, 800]);
 
       var xScale = d3.scale.linear()
         .domain(d3.extent(values))
@@ -223,6 +318,17 @@ viz.mapDraw = function(vars) {
       var smallLast = xScale(values[values.length - 1]) - xScale(values[values.length - 2]) < 2;
 
       var key_offset = width / 2 - key_width / 2;
+
+      var background = scale.selectAll("rect.d3plus_legend_background")
+        .data([0]);
+      var backgroundEnter = background.enter().append("rect")
+        .attr("class", "d3plus_legend_background")
+        .attr("fill", "white")
+        .attr("fill-opacity", 0.75)
+        .attr("stroke", "#999")
+        .attr("stroke-width", 1)
+        .attr("x", key_offset - keyPadding * 3)
+        .attr("y", -keyPadding);
 
       var heatmap = scale.selectAll("rect.d3plus_legend_break")
         .data(colors);
@@ -233,7 +339,7 @@ viz.mapDraw = function(vars) {
           .attr("fill", String)
           .attr("stroke", scaleText.fill)
           .attr("stroke-width", 1)
-          .attr("y", scalePadding);
+          .attr("y", 0);
       }
 
       heatmap.enter().append("rect")
@@ -258,7 +364,7 @@ viz.mapDraw = function(vars) {
       var textHeight = scaleText["font-size"];
 
       function textY(d, i) {
-        return textHeight + scalePadding * 1.5 + scaleHeight + (i % 2 ? textHeight : 0);
+        return textHeight + scalePadding * 0.5 + scaleHeight + (i % 2 ? textHeight : 0);
       }
 
       text.enter().append("text")
@@ -276,7 +382,7 @@ viz.mapDraw = function(vars) {
         .order()
         .attr(scaleText)
         .text(function(d){
-          return vars.format.number(d, {"key": vars.color.value, "vars": vars});
+          return vars.format.number(d, {"key": vars.color.value, "vars": vars, output: "x"});
         })
         .attr("y", textY)
         .transition().duration(timing)
@@ -295,7 +401,7 @@ viz.mapDraw = function(vars) {
         t
           .attr("y1", scalePadding)
           .attr("y2", function(d, i){
-            return scalePadding * 2 + scaleHeight + (i % 2 ? textHeight : 0);
+            return scalePadding * 0.75 + scaleHeight + (i % 2 ? textHeight : 0);
           })
           .attr("stroke", scaleText.fill)
           .attr("stroke-width", 1)
@@ -328,36 +434,29 @@ viz.mapDraw = function(vars) {
         .attr("opacity", 0)
         .remove();
 
-      var label = scale.selectAll("text.scale_label").data([0]);
-      label.enter().append("text").attr("class", "scale_label")
-
-      label
-        .attr("text-anchor", scaleAlign)
-        .attr("x",function(d){
-          if (scaleAlign === "middle") {
-            return Math.floor(width/2);
-          }
-          else if (scaleAlign === "end") {
-            return width;
-          }
-          else {
-            return 0;
-          }
-        })
-        .attr("y", -scalePadding)
-        .text(vars.format.text(vars.color.value))
-        .attr(scaleText);
-
       var key_box = scale.node().getBBox(),
-          key_height = key_box.height + key_box.y;
+          key_height = key_box.height;
 
+      var yearHeight = d3.select(".year-toggle");
+      if (yearHeight.size()) yearHeight = parseFloat(yearHeight.style("height")) + 5;
+      else yearHeight = 0;
       // key_height += attribution.node().offsetHeight;
       key_height += scalePadding;
 
-      if (vars.time.years.length > 1) key_height += vars.container.value.select(".year-toggle").node().offsetHeight;
+      if (backgroundEnter.size()) key_height += yearHeight + scalePadding * 2;
 
-      scale.attr("transform" , "translate(0, " + (height - key_height) + ")")
-        .transition().duration(timing).attr("opacity", 1);
+      backgroundEnter
+        .attr("width", key_width + keyPadding * 6)
+        .attr("height", key_height - keyPadding)
+
+      background.transition().duration(timing)
+        .attr("width", key_width + keyPadding * 6)
+
+      scaleEnter
+        .attr("transform" , "translate(0, " + (height - key_height + keyPadding) + ")");
+      scale.transition().duration(timing)
+        .attr("transform" , "translate(0, " + (height - key_height + keyPadding) + ")")
+        .attr("opacity", 1);
 
       key_height += scalePadding;
 
@@ -409,12 +508,23 @@ viz.mapDraw = function(vars) {
       if (!(projectionType === "mercator" && vars.id.value === "geo" && !vars.coords.solo.length)) {
         zs = (s/Math.PI/2) * polyZoom;
       }
+      zs = zs * 2 * Math.PI;
+
+      var ds = vars.scale.value || zs,
+          dt = vars.translate.value || t;
+
+      var params = window.location.search;
+      if (params.indexOf("translate") > 0) {
+        dt = /translate=([0-9-.,]+)/g.exec(params)[1].split(",").map(Number);
+        ds = parseFloat(/scale=([0-9-.]+)/g.exec(params)[1]);
+      }
 
       vars.zoom.behavior = d3.behavior.zoom()
-        .scale(zs * 2 * Math.PI)
+        .scale(ds)
         .scaleExtent([1 << 9, 1 << 25])
-        .translate(t)
-        .on("zoom", zoomed);
+        .translate(dt)
+        .on("zoom", zoomed)
+        .on("zoomend", zoomEnd);
 
       // With the center computed, now adjust the projection such that
       // it uses the zoom behavior’s translate and scale.
@@ -456,6 +566,7 @@ viz.mapDraw = function(vars) {
 
         zoom.scale(target_scale).translate([x, y]);
         zoomed(timing);
+        setTimeout(zoomEnd, timing);
       }
 
       controls_enter.append("div").attr("class", "zoom-in").on(d3plus.client.pointer.click, function(){
@@ -525,8 +636,9 @@ viz.mapDraw = function(vars) {
 
       if (big) {
         if (fullscreen) {
-          var x = 0, y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
-              mh = window.innerHeight - y - 15;
+          var x = 0,
+              y = d3.select("#map-filters").node().offsetHeight + d3.select("#top-nav").node().offsetHeight + 15,
+              mh = window.innerHeight - y - 15 - d3.select("#map-subs").node().offsetHeight;
           if (d3plus.client.ie) mh -= 35;
         }
         else {
@@ -573,18 +685,18 @@ viz.mapDraw = function(vars) {
             });
         if (tdata.length > 20) {
           var top = tdata.slice(0, 10).map(function(c, i){
-            var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+            var n = vars.attrs.value[c.geo] ? vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name : c.geo;
             return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           var bottom = tdata.slice().reverse().slice(0, 10).reverse().map(function(c, i){
-            var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+            var n = vars.attrs.value[c.geo] ? vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name : c.geo;
             return "<tr><td class='list-rank'>" + ((length - 9) + i) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           var html = "<div class='list-title'>Top 10 Locations</div><table>" + top + "</table><div class='list-title'>Bottom 10 Locations</div><table>" + bottom + "</table>";
         }
         else {
           var html = tdata.map(function(c, i){
-            var n = vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name;
+            var n = vars.attrs.value[c.geo] ? vars.attrs.value[c.geo].display_name || vars.attrs.value[c.geo].name : c.geo;
             return "<tr><td class='list-rank'>" + (i + 1) + ".</td><td class='list-name' id='id" + c.geo + "'>" + n + "</td><td class='list-value'>" + vars.format.number(c[vars.color.value], {"key": vars.color.value, "vars": vars}) + "</td></tr>";
           }).join("");
           html = "<div class='list-title'>Location Ranking</div><table>" + html + "</table>";
@@ -613,13 +725,14 @@ viz.mapDraw = function(vars) {
           elem.selectAll(".list-name").on(d3plus.client.pointer.click, function(){
             vars.zoom.reset = true;
             vars.self.highlight(this.id.slice(2)).draw();
+            zoomEnd();
           });
         } : false,
         "max_height": mh,
         "max_width": vizStyles.tooltip.small,
         "mouseevents": big ? true : false,
         "offset": big ? 0 : 3,
-        "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-controls") : d3.select("body"),
+        "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-tooltip") : d3.select("body"),
         "title": d.id ? vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}) : undefined,
         "width": vizStyles.tooltip.small,
         "x": x,
@@ -760,6 +873,7 @@ viz.mapDraw = function(vars) {
     else if (vars.zoom.reset) {
       zoomLogic(vars.highlight.path);
     }
+    else if (fullscreen) createTooltip({}, true);
 
   }
 
@@ -805,6 +919,7 @@ viz.mapDraw = function(vars) {
       }
       zoom.scale(ns * 2 * Math.PI).translate(t);
       zoomed(timing);
+      setTimeout(zoomEnd, timing);
     }
 
   }
@@ -824,6 +939,23 @@ viz.mapDraw = function(vars) {
 
     zoom.scale(ns * 2 * Math.PI).translate(nt);
     zoomed(timing);
+    setTimeout(zoomEnd, timing);
+
+  }
+
+  function zoomEnd() {
+
+    if (fullscreen && history.pushState) {
+
+      var trans = zoom.translate(),
+          s = zoom.scale();
+
+      var params = window.location.search;
+      if (params.indexOf("translate") > 0) params = params.split("&translate")[0];
+      var urlPath = "/map/" + params + "&translate=" + trans.join(",") + "&scale=" + s;
+      window.history.pushState({"path": urlPath}, '', urlPath);
+
+    }
 
   }
 
@@ -836,6 +968,7 @@ viz.mapDraw = function(vars) {
 
     var trans = zoom.translate(),
         s = zoom.scale();
+
     var pz = s / polyZoom;
 
     if (pz < minZoom) {

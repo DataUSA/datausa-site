@@ -6,9 +6,25 @@
 {% set aside = topic.stat or topic.description %}
 {% set content = aside or topic.viz or topic.miniviz or topic.source %}
 {% if topic.items()|length > 1 or "category" not in topic %}
-<article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}" data-slug="{{ topic.slug }}">
+<article class="topic{% if topic.class %} {{ topic.class }}{% endif %}{% if not content %} short{% endif %}" data-slug="{{ topic.slug }}" data-embed="{{ profile.url(full=False, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}">
   {% if topic.title %}
-  <h2 class="embed-title">{% if "data-tooltip" in topic.title %}{{ topic.title|safe }}{% else %}<a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">{{ topic.title|safe }}</a>{% endif %}{% if topic.viz and (g.page_class != 'story') %} <a href="#" title="Share" class="share-embed btn pri-btn data-btn" data-target-id="share" data-embed="{{ profile.url(full=False, topic=topic.slug, as_hash=True) }}" data-url="{{ profile.url(full=True, section=section.anchor, topic=topic.slug) }}"><span>Options</span></a>{% endif %}</h2>
+  <h2 class="embed-title">
+    {% if "data-tooltip" in topic.title %}
+      {{ topic.title|safe }}
+    {% else %}
+      <a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">
+        {{ topic.title|safe }}
+      </a>
+    {% endif %}
+    {% if topic.viz and (g.page_class != 'story') %}
+    <div class="viz-btns">
+      <a href="#" class="viz-btn popover-btn view-table" title="View Data" data-ga="view-table" data-ga-cat="viz-button" data-ga-label="View Data"></a>
+      <a href="#" class="viz-btn popover-btn save-image" title="Save Image" data-ga="save-image" data-ga-cat="viz-button" data-ga-label="Save Image"></a>
+      <a href="#" class="viz-btn popover-btn share" title="Share/Embed" data-ga="share" data-ga-cat="viz-button" data-ga-label="Share/Embed"></a>
+      <a href="#" class="viz-btn add-to-cart" title="Cart" data-tooltip="cartLimit" data-slug={{ topic.slug }} data-ga="add-to-cart" data-ga-cat="viz-button" data-ga-label="Add to Cart"></a>
+    </div>
+    {% endif %}
+  </h2>
   {% endif %}
   {% if not aside and topic.subtitle %}
   <div class="sub sub-title">{{ topic.subtitle|safe }}</div>
@@ -31,12 +47,13 @@
       <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
         {% for stat in topic.stat %}
           <div class="stat">
-            <div class="stat-text">{{ stat.title|safe }}</div>
-            <div class="stat-value">{% if stat.subvalues %}<span class="stat-text">1.</span> {% endif %}{{ stat.value|safe }}</div>
+            {% if stat.subvalues %}<div class="stat-text">{{ stat.title|safe }}</div>{% endif %}
+            <div class="stat-value{% if stat.subvalues %} stat-small{% endif %}">{% if stat.subvalues %}<span class="stat-text stat-number">1.</span> {% endif %}<span class="stat-right">{{ stat.value|safe }}</span></div>
+            {% if not stat.subvalues %}<div class="stat-text">{{ stat.title|safe }}</div>{% endif %}
             {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
             {% if stat.subvalues %}
             {% for s in stat.subvalues %}
-            <div class="stat-value stat-small"><span class="stat-text">{{ loop.index + 1 }}.</span> {{ s|safe }}</div>
+            <div class="stat-value stat-small"><span class="stat-text stat-number">{{ loop.index + 1 }}.</span> <span class="stat-right">{{ s|safe }}</span></div>
             {% endfor %}
             {% endif %}
           </div>
@@ -47,6 +64,7 @@
       {% for desc in topic.description %}
       <p>{{ desc|safe }}</p>
       {% endfor %}
+      <p class="definition"></p>
       {% endif %}
       {% if topic.miniviz %}
       <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}>
@@ -61,7 +79,7 @@
     </aside>
     {% endif %}
     {% for viz in topic.viz %}
-    <div class="viz main{% if viz.className %} {{ viz.className }}{% endif %}"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
+    <div class="viz main {{ viz.config.type }}{% if viz.className %} {{ viz.className }}{% endif %}"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
       <div class="d3plus"></div>
     </div>
     <script>builds.push({{ viz.serialize()|safe }});</script>

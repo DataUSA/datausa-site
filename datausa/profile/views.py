@@ -96,6 +96,15 @@ def statView():
     dataset = args.pop("dataset", False)
     if dataset == "False":
         dataset = False
+
+    order = args.get("order", False)
+    required = args.get("required").split(",")
+    if order and order not in required:
+        required.append(order)
+    if col != "name" and col not in required:
+        required.append(col)
+    args["required"] = ",".join(required)
+
     return jsonify(stat(args, col=col, dataset=dataset, moe=moe, truncate=truncate))
 
 @mod.route("/<attr_kind>/<attr_id>/img/")

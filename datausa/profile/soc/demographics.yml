@@ -37,6 +37,12 @@ topics:
       y: "share"
   - title: "Age by Gender"
     slug: "age_gender"
+    cart:
+      params:
+        show: soc,sex
+        sumlevel: all,all
+        required: avg_age,avg_age_moe
+      title: "Age by Gender"
     stat:
       - title: "Average Male Age"
         value: "<<var namespace=sex_age|row=0|key=avg_age>>"

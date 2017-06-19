@@ -22,6 +22,7 @@ $black35: #4d5775;
 $black4: #727682;
 $black5: #979AA2;
 $black-link: #B8C0D4;
+$black-link-hover: #b29dc7;
 
 $white-l: #f2f9fc;
 $white: #D7E8EF;
@@ -95,8 +96,9 @@ $home-red: #dc5137;
 $light-home-red: #fdc8b8;
 
 $splash-gradient: (
-  0%: rgba(0,0,0,0),
-  40%: rgba(20, 27, 46, 0.5),
+  0%: rgba(20, 27, 46, 0.5),
+  10%: rgba(20, 27, 46, 0.3),
+  50%: rgba(20, 27, 46, 0.5),
   100%: $black2
 );
 
@@ -107,10 +109,11 @@ $search-gradient: (
   100%: $black2
 );
 
-$feed-box-label-gradient: (
-  0%: rgba(0,0,0,0),
-  31%: rgba(20, 27, 46, 0.1),
-  100%: rgba(20, 27, 46, 0.2)
+$feed-box-gradient: (
+  0%: rgba(20, 27, 46, 0.6),
+  10%: rgba(20, 27, 46, 0.3),
+  40%: rgba(20, 27, 46, 0.3),
+  100%: rgba(20, 27, 46, 0.6)
 );
 
 $ft-feed-box-gradient: (
@@ -128,4 +131,4 @@ $pathway: "Pathway Gothic One", sans-serif;
 $source: "Source Sans Pro", sans-serif;
 
 /* download Google Fonts */
-@import url(https://fonts.googleapis.com/css?family=Palanquin:300,400,600,700|Lato:300,400|Pathway+Gothic+One|Source+Sans+Pro:300,400);
+@import url(https://fonts.googleapis.com/css?family=Palanquin:300,400,600,700,800|Lato:300,400|Pathway+Gothic+One|Source+Sans+Pro:300,400);

@@ -1,5 +1,7 @@
 {% extends "templates/nav.html" %}
 
+{% block title %} {{ title }}{% endblock %}
+
 {% block subtitle %}
 <div id="title-bar">
   <span><a href="/"><img src="/static/img/logo_sm.png" alt="Data USA" /></a> Map</span>
@@ -10,11 +12,13 @@
 <h2 class="embed-title hidden">Map Title</h2>
 <div id="map-controls">
   <div id="map-filters">
-    <!-- <select id="map-datasets">
+    <div class="d3plus_title">Topics</div>
+    <select id="map-datasets">
       {% for db in datasets %}
       <option value="{{ db }}"{% if db == defaultDataset %} selected{% endif %}>{{ db|format }}</option>
       {% endfor %}
-    </select> -->
+    </select>
+    <div id="indicator-title" class="d3plus_title">Indicators</div>
     <select id="map-keys">
       {% for key in keys %}
       <option value="{{ key }}"{% if key.split(",")[0] == defaultKey %} selected{% endif %}>{{ key.split(",")[0]|format }}</option>
@@ -25,13 +29,20 @@
       <option value="{{ level }}"{% if level == defaultLevel %} selected{% endif %}>{{ level|format }}</option>
       {% endfor %}
     </select>
+  </div>
+  <div id="map-description"></div>
+  <div id="map-tooltip"></div>
+  <div id="map-subs">
     <sub class="sub-source">Dataset: <span class="source"></span></sub>
     <sub class="sub-source">Source: <span class="org"></span></sub>
   </div>
 </div>
 <div id="map-fullscreen"></div>
 <div id="map-sharing">
-  <a href="#" class="btn pri-btn" data-target-id="share"><span>Options</span></a>
+  <a href="#" class="viz-btn popover-btn view-table" title="View Data" data-ga="view-table" data-ga-cat="viz-button" data-ga-label="View Data"></a>
+  <a href="#" class="viz-btn popover-btn save-image" title="Save Image" data-ga="save-image" data-ga-cat="viz-button" data-ga-label="Save Image"></a>
+  <a href="#" class="viz-btn popover-btn share" title="Share/Embed" data-ga="share" data-ga-cat="viz-button" data-ga-label="Share/Embed"></a>
+  <a href="#" class="viz-btn add-to-cart" title="Cart" data-tooltip="cartLimit" data-tooltip-offset="0" data-tooltip-anchor="bottom center" data-ga="add-to-cart" data-ga-cat="viz-button" data-ga-label="Add to Cart"></a>
 </div>
 <div id="map-loading">
   <div id="map-loading-text"><i class="fa fa-spinner fa-spin"></i>Please Wait</div>
@@ -48,8 +59,11 @@
     "font": vizStyles.ui_map.font,
     "format": {
       "text": function(d) {
-        return d;
+        return d === "search" ? "Search" : d;
       }
+    },
+    "height": {
+      "max": 300
     },
     "ui": {
       "display": "block",
@@ -59,6 +73,9 @@
   };
 
   var mapdata = JSON.parse("{{ mapdata|safe }}".replace(/'/g, '"'));
+
+  var indicatorTitle = d3.select("#indicator-title");
+  indicatorTitle.html(dataset.replace(/s+$/, "") + " Indicators")
 
   var levels = d3plus.form()
     .data("#map-sumlevels")
@@ -84,8 +101,10 @@
     .search(true)
     .type("drop")
     .focus("{{ defaultKey }}", function(d, viz){
-      var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
-      if (mapdata[d].indexOf(levels.focus()) < 0) {
+      var newLevelData = levelData.filter(function(dd) { return mapdata[dataset][d].indexOf(dd.value) >= 0; });
+      if (mapdata[dataset][d].indexOf(levels.focus()) < 0) {
+      // var newLevelData = levelData.filter(function(dd) { return mapdata[d].indexOf(dd.value) >= 0; });
+      // if (mapdata[d].indexOf(levels.focus()) < 0) {
         levels.focus(newLevelData[newLevelData.length - 1].value);
       }
       levels.data(newLevelData).draw();
@@ -101,24 +120,25 @@
 
   var keyData = keys.data();
 
-  // var datasets = d3plus.form()
-  //   .data("#map-datasets")
-  //   .type("drop")
-  //   .focus(dataset, function(d, viz){
-  //     dataset = d;
-  //     var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
-  //     if (!mapdata[d][keys.focus()]) {
-  //       keys.focus(d3.keys(mapdata[d])[0]);
-  //     }
-  //     keys.data(newKeyData).draw();
-  //     if (!viz.draw(Object).first) {
-  //       makeURL();
-  //     }
-  //   })
-  //   .id("value")
-  //   .config(formConfig)
-  //   .ui(vizStyles.ui_map)
-  //   .draw();
+  var datasets = d3plus.form()
+    .data("#map-datasets")
+    .type("drop")
+    .focus(dataset, function(d, viz){
+      dataset = d;
+      var newKeyData = keyData.filter(function(dd) { return mapdata[d][dd.value]; });
+      indicatorTitle.html(d.replace(/s+$/, "") + " Indicators")
+      if (!mapdata[d][keys.focus()]) {
+        keys.focus(d3.keys(mapdata[d])[0]);
+      }
+      keys.data(newKeyData).draw();
+      if (!viz.draw(Object).first) {
+        makeURL();
+      }
+    })
+    .id("value")
+    .config(formConfig)
+    .ui(vizStyles.ui_map)
+    .draw();
 
   var sidebarWidth = 250;
 
@@ -143,17 +163,29 @@
       if (d.value === "county") b = true;
       return b;
     }, false);
-    var url = "/api?show=geo&year=all&sumlevel=" + level + "&required=" + key + "&sort=desc&order=" + key.split(",")[0];
+    var requires = key.replace(/:/g, ",");
+    var variables = key.split(",");
+    var url = "/api?show=geo&year=all&sumlevel=" + level + "&required=" + requires + "&sort=desc&order=" + requires.split(",")[0];
     var topo = level === "county" ? "counties" : level + "s";
 
     if (history.pushState) {
-      urlPath = "/map/?level=" + level + "&key=" + key;
+      var params = window.location.search;
+      if (params.length) params = params.split("&");
+      else params = ["", ""];
+      params[0] = "?level=" + level;
+      params[1] = "key=" + key;
+      urlPath = "/map/" + params.join("&");
       window.history.pushState({"path": urlPath}, '', urlPath);
     }
 
-    map.color(key.split(",")[0])
+    var tooltipValues = [];
+    variables.forEach(function(v) {
+      tooltipValues = tooltipValues.concat([v, v + "_collection"]);
+    });
+
+    map.color(variables[0])
       .coords({"key": topo})
-      .tooltip(key.split(","));
+      .tooltip(tooltipValues);
 
     buildTitle = viz.format.text(map.color(), {}) + " by " + viz.format.text(level, {});
     d3.select(".embed-title").html(buildTitle);
@@ -163,6 +195,42 @@
     load("/static/topojson/" + topo + ".json", function(coords){
       load(data_url, function(data, x, json){
 
+        if (key.indexOf(":")) {
+          variables.forEach(function(k) {
+            if (k.indexOf(":") > 0) {
+              for (var i = 0; i < data.length; i++) {
+                var nums = k.split(":");
+                data[i][k] = data[i][nums[0]] / data[i][nums[1]];
+              }
+            }
+            if (k in collectionyears) {
+              for (var i = 0; i < data.length; i++) {
+                var datum = data[i];
+                if (datum.year in collectionyears[k]) datum[k + "_collection"] = collectionyears[k][datum.year];
+              }
+            }
+          });
+          if (variables[0].indexOf(":") > 0) {
+            data = data.sort(function(a, b) { return b[variables[0]] - a[variables[0]]; })
+          }
+        }
+
+        var def = false;
+        var g = glossary[key];
+        if (!g) {
+          for (var term in glossary) {
+            if (glossary[term]["alts"] && glossary[term]["alts"].indexOf(key) >= 0) {
+              g = glossary[term];
+              break;
+            }
+          }
+        }
+        if (g) {
+          def = g["def"];
+          if (g["link"]) def += " " + "<a href='" + g["link"] + "'>Click for more info.</a>";
+        }
+        d3.select("#map-description").classed("hidden", !def).html(def || "");
+
         var source = json.source.dataset;
         if (json.source.link) {
           source = "<a class='source-link' href='" + json.source.link + "' target='_blank'>" + source + "</a>";
@@ -170,12 +238,15 @@
 
         d3.select(".source").html(source);
         d3.select(".org").html(json.source.org);
+        d3.select(".add-to-cart").attr("data-slug", "map_" + map.color() + "_ " + level);
+        document.title = "Data USA | " + buildTitle;
+        updateCart();
 
         d3.select("#map-loading").classed("hidden", true);
         var tooltip_url = false;
         if (county && (level == "state" || level == "msa")) {
           tooltip_url = api + url.replace("sumlevel=" + level, "sumlevel=county");
-          tooltip_url += "&sort=desc&order=" + key.split(",")[0];
+          tooltip_url += "&sort=desc&order=" + requires.split(",")[0];
         }
         else {
           map.highlight(false);
@@ -201,15 +272,14 @@
       .draw();
   });
 
-  d3.select("#map-sharing").selectAll("a").on("click.share", function(){
+  d3.selectAll("a.popover-btn").on("click.share", function(){
     d3.event.preventDefault();
     dusa_popover.open([
-      {"title":"Share"},
-      {"title":"Download"},
-      {"title":"Data"},
-      {"title":"API"}
+      {"id": "view-table", "title":"View Data"},
+      {"id": "save-image", "title":"Save Image"},
+      {"id": "share", "title":"Share / Embed"}
     ],
-    d3.select(this).attr("data-target-id"),
+    d3.select(this).attr("data-ga"),
     location.href,
     urlPath,
     {
@@ -219,6 +289,47 @@
       "viz": map
     })
   });
+
+  d3.select("a.add-to-cart").on("click", function(){
+
+      d3.event.preventDefault();
+      if (d3.select(this).classed("disabled")) return;
+
+      var calcs = [],
+          key = keys.focus(),
+          level = levels.focus();
+
+      key.split(",").forEach(function(k) {
+        if (k.indexOf(":") > 0) {
+          var nums = k.split(":");
+          calcs.push({
+            key: k,
+            func: "pct",
+            num: nums[0],
+            den: nums[1]
+          });
+        }
+      });
+
+      var requires = key.replace(/:/g, ",");
+
+      viz.addToCart({
+        cart: {
+          params: {
+            order: requires.split(",")[0],
+            required: requires,
+            show: "geo",
+            sort: "desc",
+            sumlevel: level,
+            year: "all"
+          },
+          title: buildTitle
+        },
+        calcs: calcs,
+        slug: d3.select(this).attr("data-slug")
+      });
+
+    });
 
 </script>
 {% endblock %}

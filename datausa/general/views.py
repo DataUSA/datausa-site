@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-import copy, json
+import copy, datetime, json, re, requests
 from flask import Blueprint, g, render_template, request, url_for, redirect, abort
 from config import API
 from datausa import app
-from datausa.consts import AFFIXES, DICTIONARY, PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
-from datausa.utils.data import attr_cache, fetch, profile_cache, story_cache
+from datausa.consts import AFFIXES, COLLECTIONYEARS, COLMAP, DICTIONARY, GLOSSARY,  PERCENTAGES, PROPORTIONS, PER1000, PER10000, PER100000, SUMLEVELS
+from datausa.story.models import StoryPreview
+from datausa.utils.data import attr_cache, datafold, fetch, profile_cache, story_cache
+from datausa.utils.format import num_format
 from pagination import Pagination
+from datausa.map.views import mapdata
 
 from .home import HOMEFEED, TYPEMAP
 
@@ -13,9 +16,13 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 34
+    g.cache_version = 55
+    g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
+    g.collectionyears = json.dumps(COLLECTIONYEARS)
+    g.colmap = json.dumps(COLMAP)
     g.dictionary = json.dumps(DICTIONARY)
+    g.glossary = json.dumps(GLOSSARY)
     g.percentages = json.dumps(PERCENTAGES)
     g.proportions = json.dumps(PROPORTIONS)
     g.per1000 = json.dumps(PER1000)
@@ -24,58 +31,254 @@ def before_request():
     g.api = API
     g.compare = False
 
+TILEMAX = 5
+
+sumlevelMap = {
+    "nation": "010",
+    "state": "040",
+    "county": "050",
+    "msa": "310",
+    "place": "160",
+    "zip": "860",
+    "tract": "140",
+    "puma": "795"
+};
+
+footMap = {
+    "geo": 36190,
+    "naics": 301,
+    "soc": 525,
+    "cip": 2319
+}
+
+def tileAPI(column):
+    url = "{}{}&limit={}".format(API, column["url"], TILEMAX)
+    r = requests.get(url).json()
+
+    show = re.findall(r"show=([a-z_0-9]+)", url)[0]
+    order = re.findall(r"order=([a-z_0-9]+)", url)[0]
+    sumlevel = re.findall(r"sumlevel=([a-z_0-9]+)", url)[0]
+    if show == "geo":
+        sumlevel = sumlevelMap[sumlevel]
+    data = datafold(r)
+
+    for d in data:
+        attr_id = d[show]
+        attr = fetch(attr_id, show)
+        slug = attr["url_name"] if attr["url_name"] else attr_id
+        d["title"] = attr["display_name"] if "display_name" in attr else attr["name"]
+        # d["subtitle"] = "{}: {}".format(DICTIONARY[order], num_format(d[order], order))
+        d["subtitle"] = SUMLEVELS[show][sumlevel]["label"]
+        d["link"] = "/profile/{}/{}".format(show, slug)
+        d["image"] = "/search/{}/{}/img".format(show, attr_id)
+        d["type"] = {
+            "icon": "/static/img/icons/{}.svg".format(show),
+            "title": SUMLEVELS[show][sumlevel]["label"],
+            "type": TYPEMAP[show],
+            "depth": "{}".format(sumlevel).replace("_", " ")
+        }
+
+    column["icon"] = "/static/img/icons/{}.svg".format(show)
+    column["data"] = data
+    column["source"] = r["source"]
+    if show in footMap:
+        column["footer"] = {
+            "link": "/search/?kind={}".format(show),
+            "text": "{} more".format(num_format(footMap[show]))
+        }
+    return column
+
+def tileProfiles(profiles):
+    for i, page in enumerate(profiles):
+        show, slug = page.split("/")
+        attr = fetch(slug, show)
+        attr_id = attr["id"]
+        sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
+        profiles[i] = {
+            "image": "/search/{}/{}/img".format(show, attr_id),
+            "link": "/profile/{}".format(page),
+            "title": attr["display_name"] if "display_name" in attr else attr["name"],
+            # "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
+            "type": {
+                "icon": "/static/img/icons/{}.svg".format(show),
+                "title": SUMLEVELS[show][str(sumlevel)]["label"],
+                "type": TYPEMAP[show],
+                "depth": "{}".format(sumlevel).replace("_", " ")
+            }
+        }
+    return profiles
+
+def tileMaps(maps):
+    new = ["total_reimbursements_b"]
+    titles = {
+        "total_reimbursements_b": "Medicare Reimbursements"
+    }
+
+    for i, link in enumerate(maps):
+        level = re.findall(r"level=([^&,]+)", link)[0]
+        key = re.findall(r"key=([^&,]+)", link)[0]
+        sumlevel = SUMLEVELS["geo"][sumlevelMap[level]]["label"]
+        maps[i] = {
+            "new": True if key.split(":")[0] in new else False,
+            "link": link,
+            "image": "/static/img/home/maps/{}.png".format(key.split(":")[0]),
+            "title": "{} by {}".format(titles[key] if key in titles else DICTIONARY[key], sumlevel),
+            "type": {
+                "icon": "/static/img/icons/map.svg",
+                "title": sumlevel,
+                "type": "map"
+            }
+        }
+    return maps
+
 @mod.route("/")
 def home():
     g.page_type = "home"
 
-    feed = [copy.copy(f) for f in HOMEFEED]
-    for box in feed:
-        if "featured" not in box:
-            box["featured"] = False
-        if "/profile/" in box["link"]:
-            attr_type = box["link"].split("/")[2]
-            attr_id = box["link"].split("/")[3]
-            attr = fetch(attr_id, attr_type)
-            box["subtitle"] = attr["display_name"] if "display_name" in attr else attr["name"]
-            section = [s for s in profile_cache[attr_type]["sections"] if s["anchor"] == box["section"]][0]
-            box["section"] = {
-                "title": section["title"],
-                "icon": "/static/img/icons/{}.svg".format(box["section"])
-            }
-            sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
-            if attr_type == "cip":
-                sumlevel = (sumlevel + 1) * 2
-            sumlevel = str(sumlevel)
-            sumlevel = SUMLEVELS[attr_type][sumlevel]
-            sumlevel = sumlevel["shortlabel"] if "shortlabel" in sumlevel else sumlevel["label"]
-            box["type"] = {
-                "icon": "/static/img/icons/{}.svg".format(attr_type),
-                "title": "Profile",
-                "type": TYPEMAP[attr_type],
-                "depth": sumlevel.replace("_"," ")
-            }
-            img_type = "profile" if box["featured"] else "search"
-            box["image"] = "/{}/{}/{}/img".format(img_type, attr_type, attr_id)
-        elif "/story/" in box["link"]:
-            box["type"] = {
+    carousels = []
+
+    maps = [
+        "/map/?level=county&key=total_reimbursements_b",
+        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
+        "/map/?level=state&key=high_school_graduation",
+        "/map/?level=county&key=children_in_singleparent_households",
+        "/map/?level=state&key=violent_crime"
+    ]
+
+    mapTotal = 0
+    for section in mapdata:
+        mapTotal = mapTotal + len(mapdata[section])
+
+    carousels.append({
+        "title": "Maps",
+        "icon": "/static/img/icons/demographics.svg",
+        "data": tileMaps(maps),
+        "footer": {
+            "link": "/map",
+            "text": "{} more".format(mapTotal - TILEMAX)
+        }
+    })
+
+    carousels.append({
+        "title": "Cities & Places",
+        "icon": "/static/img/icons/geo.svg",
+        "data": tileProfiles(["geo/new-york-ny", "geo/los-angeles-county-ca", "geo/florida", "geo/suffolk-county-ma", "geo/illinois"]),
+        "footer": {
+            "link": "/search/?kind=geo",
+            "text": "{} more".format(num_format(footMap["geo"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "rank": "naics",
+        "title": "Industries",
+        "icon": "/static/img/icons/naics.svg",
+        "data": tileProfiles(["naics/622", "naics/23", "naics/31-33", "naics/722Z", "naics/44-45"]),
+        "footer": {
+            "link": "/search/?kind=naics",
+            "text": "{} more".format(num_format(footMap["naics"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "rank": "soc",
+        "title": "Jobs",
+        "icon": "/static/img/icons/soc.svg",
+        "data": tileProfiles(["soc/252020", "soc/151131", "soc/1110XX", "soc/412031", "soc/291141"]),
+        "footer": {
+            "link": "/search/?kind=soc",
+            "text": "{} more".format(num_format(footMap["soc"] - TILEMAX))
+        }
+    })
+
+    carousels.append({
+        "rank": "cip",
+        "title": "Higher Education",
+        "icon": "/static/img/icons/cip.svg",
+        "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
+        "footer": {
+            "link": "/search/?kind=cip",
+            "text": "{} more".format(num_format(footMap["cip"] - TILEMAX))
+        }
+    })
+
+    cartDatasets = [
+        {
+            "url": "{}/api/?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_patients_diabetic_medicare_enrollees_65_75_lipid_test_total_ county",
+            "image": "/static/img/splash/naics/5417.jpg",
+            "title": "Diabetic Lipid Tests by County",
+            "new": 1
+        },
+        {
+            "url": "{}/api/?required=adult_smoking&show=geo&sumlevel=state&year=all".format(API),
+            "slug": "map_adult_smoking_ state",
+            "image": "/static/img/splash/naics/3122.jpg",
+            "title": "Adult Smoking by State"
+        },
+        {
+            "url": "{}/api/?required=leg_amputations_per_1000_enrollees_total&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_leg_amputations_per_1000_enrollees_total_ county",
+            "image": "/static/img/splash/naics/62.jpg",
+            "title": "Leg Amputations by County",
+            "new": 1
+        },
+        {
+            "url": "{}/api/?required=pop%2Cpop_moe&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_pop_ county",
+            "image": "/static/img/splash/cip/45.jpg",
+            "title": "Population by County"
+        },
+        {
+            "url": "{}/api/?required=median_property_value%2Cmedian_property_value_moe&show=geo&sumlevel=county&year=all".format(API),
+            "slug": "map_median_property_value_ county",
+            "image": "/static/img/splash/geo/05000US25019.jpg",
+            "title": "Median Property Value by County"
+        }
+    ]
+
+    carousels.append({
+        "rank": "cart",
+        "title": "Download",
+        "icon": "/static/img/cart-big.png",
+        "data": cartDatasets,
+        "footer": {
+            "link": "/cart",
+            "text": "View Cart"
+        }
+    })
+
+    stories = StoryPreview.generate_list()[0]
+    story_order = ["opioid-addiction", "poverty-health", "worker-evolution", "medicare-physicians", "hardest-working"]
+    stories.sort(key=lambda story: story_order.index(story.story_id.split("_")[1]) if story.story_id.split("_")[1] in story_order else TILEMAX)
+    now = datetime.datetime.now()
+    for i, story in enumerate(stories):
+        delta = now - story._date_obj
+        stories[i] = {
+            "new": int(delta.days) < 30,
+            "link": "/story/{}".format(story.story_id),
+            "image": story.background_image,
+            "title": story.title,
+            "subtitle": "By {}".format(story.authors[0]["name"]),
+            "type": {
                 "icon": "/static/img/icons/about.svg",
                 "title": TYPEMAP["story"],
                 "type": "story"
             }
-            story = [s for s in story_cache if s["story_id"] == box["link"].split("/")[2]][0]
-            box["image"] = story["background_image"]
-            box["title"] = story["title"]
-            box["subtitle"] = story["description"]
-            box["author"] = "By {}".format(story["authors"][0]["name"])
-        elif "/map/" in box["link"]:
-            box["type"] = {
-                "icon": "/static/img/icons/demographics.svg",
-                "title": TYPEMAP["map"],
-                "type": "map"
-            }
-            box["viz"] = "geo_map"
+        }
 
-    return render_template("general/home.html", feed=feed)
+    carousels.append({
+        "rank": "story",
+        "title": "Latest Stories",
+        "icon": "/static/img/icons/about.svg",
+        "data": stories[:TILEMAX],
+        "footer": {
+            "link": "/story/",
+            "text": "{} more".format(len(stories) - TILEMAX)
+        }
+    })
+
+    return render_template("general/home.html", carousels=carousels)
 
 @mod.route("/about/")
 def about():

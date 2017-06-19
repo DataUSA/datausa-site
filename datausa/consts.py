@@ -9,14 +9,14 @@ SUMLEVELS = {
             "sumlevel": "state",
             "label": "state",
             "children": "050",
-            "desc": "Includes all 50 US states as well as Washington D.C. and Puerto Rico. Click for more info.",
+            "desc": "Includes all 50 US states as well as Washington D.C. and Puerto Rico.",
             "link": "/about/glossary/#state",
         },
         "050": {
             "sumlevel": "county",
             "label": "county",
             "children": "140",
-            "desc": "Most or all county subdivisions are legal entities, known to the Census Bureau as minor civil divisions. Click for more info.",
+            "desc": "Most or all county subdivisions are legal entities, known to the Census Bureau as minor civil divisions.",
             "link": "/about/glossary/#county",
         },
         "310": {
@@ -24,7 +24,7 @@ SUMLEVELS = {
             "label": "metropolitan statistical area",
             "shortlabel": "metro area",
             "children": "050",
-            "desc": "A Metropolitan Statistical Area (MSA) is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties. Click for more info.",
+            "desc": "A Metropolitan Statistical Area (MSA) is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties.",
             "link": "/about/glossary/#msa",
         },
         "160": {
@@ -32,7 +32,7 @@ SUMLEVELS = {
             "label": "census place",
             "shortlabel": "place",
             "children": "140",
-            "desc": "The United States Census Bureau defines a place as a concentration of population which has a name, is locally recognized, and is not part of any other place. Click for more info.",
+            "desc": "The United States Census Bureau defines a place as a concentration of population which has a name, is locally recognized, and is not part of any other place.",
             "link": "/about/glossary/#place",
         },
         "860": {
@@ -43,14 +43,14 @@ SUMLEVELS = {
             "sumlevel": "puma",
             "label": "public use microdata area",
             "shortlabel": "PUMA",
-            "desc": "A Public Use Microdata Area (PUMAs), are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information. Click for more info.",
+            "desc": "A Public Use Microdata Area (PUMAs), are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information.",
             "link": "/about/glossary/#puma",
         },
         "140": {
             "sumlevel": "tract",
             "label": "census tract",
             "shortlabel": "tract",
-            "desc": "Census tracts are small, relatively permanent statistical subdivisions of a county or equivalent entity that are updated by local participants prior to each decennial census. Click for more info.",
+            "desc": "Census tracts are small, relatively permanent statistical subdivisions of a county or equivalent entity that are updated by local participants prior to each decennial census.",
             "link": "/about/glossary/#tract"
         }
     },
@@ -70,11 +70,11 @@ SUMLEVELS = {
     },
     "soc": {
         "0": {
-            "label": "Major Group",
+            "label": "Major Occupation Group",
             "shortlabel": "major_group"
         },
         "1": {
-            "label": "Minor Group",
+            "label": "Minor Occupation Group",
             "shortlabel": "minor_group"
         },
         "2": {
@@ -88,15 +88,15 @@ SUMLEVELS = {
     },
     "naics": {
         "0": {
-            "label": "Sector",
+            "label": "Industry Sector",
             "shortlabel": "sector"
         },
         "1": {
-            "label": "Sub Sector",
+            "label": "Industry Sub-Sector",
             "shortlabel": "sub_sector"
         },
         "2": {
-            "label": "Group",
+            "label": "Industry Group",
             "shortlabel": "group"
         }
     }
@@ -104,14 +104,29 @@ SUMLEVELS = {
 
 TEXTCOMPARATORS = {
     "age": ("older than", "younger than", "approximately the same age as"),
+    "age2": ("getting older", "getting younger", "staying the same age"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
+    "growth": ("growing", "declining", "staying approximately the same as"),
+    "grew": ("grew to", "declined to", "stayed at"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same")
 }
 
 DICTIONARY = {
+
+    "economy": "Economy",
+    "wages": "Income & Employment",
+
+    "health": "Health & Safety",
+    "coverage": "Health Care Costs & Coverage",
+    "care": "Hospital Care",
+    "risks": "Health Risks",
+
+    "demographics": "Demographics",
+    "education": "Education",
+    "housing": "Housing & Living",
 
     "acs": "American Community Survey",
     "chr": "County Health Records",
@@ -120,91 +135,103 @@ DICTIONARY = {
 
     "msa": "MSA",
     "puma": "PUMA",
+    "state": "State",
+    "county": "County",
 
     "gini": "GINI",
 
-    "geo": "Location Name",
+    "geo": "Location",
     "cip": "College Degree",
     "naics": "Industry",
     "soc": "Occupation",
     "acs_ind": "ACS Industry",
     "acs_occ": "ACS Occupation",
+    "commodity_iocode": "Commodity",
+    "industry_iocode": "Industry",
+
+    "nativity_us": "Native Born",
+    "nativity_foreign": "Foreign Born",
+    "us": "Native Born",
+    "foreign": "Foreign Born",
 
     "age": "Median Age",
     "avg_wage": "Average Salary",
-    "avg_wage_ft": "Average Full-Time Salary",
-    "avg_wage_pt": "Average Part-Time Salary",
+    "avg_wage_ft": "Average Salary (Full-Time Employees)",
+    "avg_wage_pt": "Average Salary (Part-Time Employees)",
     "avg_age": "Average Age",
-    "avg_age_ft": "Average Full-Time Age",
-    "avg_age_pt": "Average Part-Time Age",
+    "avg_age_ft": "Average Age (Full-Time Employees)",
+    "avg_age_pt": "Average Age (Part-Time Employees)",
     "avg_hrs": "Average Work Hours",
-    "avg_hrs_ft": "Average Full-Time Work Hours",
-    "avg_hrs_pt": "Average Part-Time Work Hours",
-    "wwii": "WWII",
-    "korea": "Korea",
-    "vietnam": "Vietnam",
-    "gulf90s": "Gulf (1990s)",
-    "gulf01": "Gulf (2001-)",
+    "avg_hrs_ft": "Average Work Hours (Full-Time Employees)",
+    "avg_hrs_pt": "Average Work Hours (Part-Time Employees)",
     "district_tuition": "District Tuition",
-    "foreign": "Foreign Born",
     "emp_thousands": "Total Employees",
 
     "grads_asian": "Asian",
-    "grads_asian_men": "Asian Men",
-    "grads_asian_women": "Asian Women",
+    "grads_asian_men": "Men (Asian)",
+    "grads_asian_women": "Women (Asian)",
     "grads_black": "Black",
-    "grads_black_men": "Black Men",
-    "grads_black_women": "Black Women",
+    "grads_black_men": "Men (Black)",
+    "grads_black_women": "Women (Black)",
     "grads_hispanic": "Hispanic",
-    "grads_hispanic_men": "Hispanic Men",
-    "grads_hispanic_women": "Hispanic Women",
+    "grads_hispanic_men": "Men (Hispanic)",
+    "grads_hispanic_women": "Women (Hispanic)",
     "grads_hawaiian": "Hawaiian",
-    "grads_hawaiian_men": "Hawaiian Men",
-    "grads_hawaiian_women": "Hawaiian Women",
+    "grads_hawaiian_men": "Men (Hawaiian)",
+    "grads_hawaiian_women": "Women (Hawaiian)",
     "grads_men": "Men",
-    "grads_multi": "Multi",
-    "grads_multi_men": "Multi Men",
-    "grads_multi_women": "Multi Women",
+    "grads_multi": "Multiracial",
+    "grads_multi_men": "Men (Multiracial)",
+    "grads_multi_women": "Women (Multiracial)",
     "grads_native": "Native",
-    "grads_native_men": "Native Men",
-    "grads_native_women": "Native Women",
+    "grads_native_men": "Men (Native)",
+    "grads_native_women": "Women (Native)",
     "grads_total": "Degrees Awarded",
     "grads_total_growth": "Graduate Growth",
     "grads_white": "White",
-    "grads_white_men": "White Men",
-    "grads_white_women": "White Women",
+    "grads_white_men": "Men (White)",
+    "grads_white_women": "Women (White)",
     "grads_women": "Women",
     "grads_unknown": "Unknown",
-    "grads_unknown_men": "Unknown Men",
-    "grads_unknown_women": "Unknown Women",
+    "grads_unknown_men": "Men (Unknown)",
+    "grads_unknown_women": "Women (Unknown)",
     "asian": "Asian",
-    "asian_men": "Asian Men",
-    "asian_women": "Asian Women",
+    "asian_men": "Men (Asian)",
+    "asian_women": "Women (Asian)",
     "black": "Black",
-    "black_men": "Black Men",
-    "black_women": "Black Women",
+    "black_men": "Men (Black)",
+    "black_women": "Women (Black)",
     "hispanic": "Hispanic",
-    "hispanic_men": "Hispanic Men",
-    "hispanic_women": "Hispanic Women",
+    "hispanic_men": "Men (Hispanic)",
+    "hispanic_women": "Women (Hispanic)",
     "hawaiian": "Hawaiian",
-    "hawaiian_men": "Hawaiian Men",
-    "hawaiian_women": "Hawaiian Women",
-    "multi": "Multi",
-    "multi_men": "Multi Men",
-    "multi_women": "Multi Women",
+    "hawaiian_men": "Men (Hawaiian)",
+    "hawaiian_women": "Women (Hawaiian)",
+    "multi": "Multiracial",
+    "multi_men": "Men (Multiracial)",
+    "multi_women": "Women (Multiracial)",
     "native": "Native",
-    "native_men": "Native Men",
-    "native_women": "Native Women",
+    "native_men": "Men (Native)",
+    "native_women": "Women (Native)",
     "total": "Degrees Awarded",
     "total_growth": "Graduate Growth",
     "white": "White",
-    "white_men": "White Men",
-    "white_women": "White Women",
+    "white_men": "Men (White)",
+    "white_women": "Women (White)",
     "unknown": "Unknown",
-    "unknown_men": "Unknown Men",
-    "unknown_women": "Unknown Women",
+    "unknown_men": "Men (Unknown)",
+    "unknown_women": "Women (Unknown)",
 
-    "income": "Yearly Income",
+    "income": "Median Household Income",
+    "income_white": "Median Household Income (White)",
+    "income_black": "Median Household Income (Black)",
+    "income_asian": "Median Household Income (Asian)",
+    "income_hispanic": "Median Household Income (Hispanic)",
+    "income_native": "Median Household Income (Native)",
+    "income_hawaiian": "Median Household Income (Hawaiian)",
+    "income_2ormore": "Median Household Income (Multiracial)",
+    "income_whitenonhispanic": "Median Household Income (White Non-Hispanic)",
+    "income_other": "Median Household Income (Other)",
     "mean_commute_minutes": "Average Travel Time",
     "median_property_value": "Median Property Value",
     "med_earnings": "Median Yearly Earnings",
@@ -214,9 +241,9 @@ DICTIONARY = {
     "violent_crime": "Violent Crimes",
     "adult_obesity": "Obesity Prevalence",
     "adult_smoking": "Adult Smoking Prevalence",
-    "alcoholimpaired_driving_deaths": "Percentage of Driving Deaths Involving Alcohol",
+    "alcoholimpaired_driving_deaths": "Driving Deaths Involving Alcohol",
     "diabetes": "Diabetes Prevalence",
-    "health_care_costs": "Medicare Reimbursements per Enrollee",
+    "health_care_costs": "Reimbursements per Medicare Enrollee",
     "hiv_prevalence_rate": "HIV Diagnoses",
     "homicide_rate": "Homicide Deaths",
     "motor_vehicle_crash_deaths": "Motor Vehicle Crash Deaths",
@@ -235,11 +262,11 @@ DICTIONARY = {
     "food_environment_index": "Food Environment Index",
     "physical_inactivity": "Physical Inactivity",
     "access_to_exercise_opportunities": "Access to Exercise Opportunities",
-    "teen_births": "Teen Births",
-    "uninsured": "Uninsured",
+    "teen_births": "Teen Births (Age 15-19)",
+    "uninsured": "Percent Uninsured",
     "preventable_hospital_stays": "Preventable Hospital Stays",
-    "diabetic_screening": "Diabetic Monitoring",
-    "mammography_screening": "Mammography Screening",
+    "diabetic_screening": "Diabetic Screening Rate",
+    "mammography_screening": "Mammography Screening Rate",
     "high_school_graduation": "High School Graduation",
     "some_college": "Some College",
     "children_in_poverty": "Children in Poverty",
@@ -250,14 +277,14 @@ DICTIONARY = {
     "drinking_water_violations": "Drinking Water Violations",
     "severe_housing_problems": "Severe Housing Problems",
     "population_living_in_a_rural_area": "Rural Population",
-    "premature_ageadjusted_mortality": "Years of Potential Life Lost (Age-Adjusted)",
-    "infant_mortality": "Infant Mortality",
+    "premature_ageadjusted_mortality": "Premature Age-Adjusted Mortality",
+    "infant_mortality": "Infant Mortality Rate",
     "child_mortality": "Child Mortality",
     "food_insecurity": "Food Insecurity",
     "limited_access_to_healthy_foods": "Limited Access to Healthy Foods",
-    "drug_poisoning_deaths": "Drug Overdose Deaths",
-    "uninsured_adults": "Uninsured Adults",
-    "uninsured_children": "Uninsured Children",
+    "drug_overdose_deaths": "Drug Overdose Deaths",
+    "uninsured_adults": "Percent Uninsured (Adults)",
+    "uninsured_children": "Percent Uninsured (Children)",
     "could_not_see_doctor_due_to_cost": "Could Not See Doctor Due to Cost",
     "children_eligible_for_free_lunch": "Children Eligible for Free Lunch",
 
@@ -288,7 +315,7 @@ DICTIONARY = {
     "people": "People",
 
     "pop": "Population",
-    "pop_2ormore": "2+",
+    "pop_2ormore": "Multiracial",
     "pop_asian": "Asian",
     "pop_black": "Black",
     "pop_hawaiian": "Hawaiian",
@@ -296,7 +323,7 @@ DICTIONARY = {
     "pop_native": "Native",
     "pop_other": "Other",
     "pop_white": "White",
-    "2ormore": "2+",
+    "2ormore": "Multiracial",
     "asian": "Asian",
     "black": "Black",
     "hawaiian": "Hawaiian",
@@ -309,7 +336,10 @@ DICTIONARY = {
 
     "income_below_poverty": "Population in Poverty",
     "pop_poverty_status": "Overall Population",
-    "poverty_2ormore": "2+",
+    "income_below_poverty:pop_poverty_status": "Poverty Rate",
+    "poverty_male": "Male Population in Poverty",
+    "poverty_female": "Female Population in Poverty",
+    "poverty_2ormore": "Multiracial",
     "poverty_asian": "Asian",
     "poverty_black": "Black",
     "poverty_hawaiian": "Hawaiian",
@@ -317,7 +347,7 @@ DICTIONARY = {
     "poverty_native": "Native",
     "poverty_other": "Other",
     "poverty_white": "White",
-    "2ormore": "2+",
+    "2ormore": "Multiracial",
     "asian": "Asian",
     "black": "Black",
     "hawaiian": "Hawaiian",
@@ -327,10 +357,14 @@ DICTIONARY = {
     "white": "White",
 
     "property_tax": "Property Taxes",
+    "propertytax": "Property Taxes",
     "property_val": "Property Value",
+    "propertyval": "Property Value",
     "race": "Race or Ethnicity",
     "sex": "Gender",
     "state_tuition": "In State Tuition",
+
+    "total_owner_occupied_housing_units": "Total Households",
 
     "transport": "Method of Travel",
     "transport_drove": "Drove Alone",
@@ -353,12 +387,83 @@ DICTIONARY = {
     "taxi": "Taxi",
 
     "travel": "Travel Time",
-    "us": "Native Born",
     "us_citizens": "Citizenship",
     "value_millions": "Value",
     "vehicles": "Vehicles",
     "wage_bin": "Wage Bin",
-    "women": "Women"
+    "women": "Women",
+
+    "insurance": "Insurance",
+    "total_medicare_enrollees": "Medicare Enrollees",
+    "total_reimbursements_b": "Reimbursements per Medicare Enrollee",
+    "hospital_reimbursements_b": "Hospital Reimbursements per Medicare Enrollee",
+    "physician_reimbursements_b": "Physician Reimbursements per Medicare Enrollee",
+    "outpatient_reimbursements_b": "Outpatient Reimbursements per Medicare Enrollee",
+    "home_health_reimbursements_b": "Home Health Reimbursements per Medicare Enrollee",
+    "hospice_reimbursements_b": "Hospice Reimbursements per Medicare Enrollee",
+    "medical_equip_reimbursements_b": "Medical Equipment Reimbursements per Medicare Enrollee",
+    "average_annual_contact_days": "Average Annual Contact Days",
+
+    "medicare_beneficiaries_total": "Medicare Beneficiaries",
+    "medicare_beneficiaries_white": "Medicare Beneficiaries (Non-Black)",
+    "medicare_beneficiaries_black": "Medicare Beneficiaries (Black)",
+    "patients_with_one_ambulatory_visit_to_pc_total": "Patients w/ Ambulatory Visits",
+    "patients_with_one_ambulatory_visit_to_pc_black": "Patients w/ Ambulatory Visits (Black)",
+    "patients_with_one_ambulatory_visit_to_pc_white": "Patients w/ Ambulatory Visits (Non-Black)",
+    "diabetic_medicare_enrollees_65_75_total": "Diabetic Medicare Enrollees Age 65-75",
+    "diabetic_medicare_enrollees_65_75_black": "Diabetic Medicare Enrollees Age 65-75 (Black)",
+    "diabetic_medicare_enrollees_65_75_white": "Diabetic Medicare Enrollees Age 65-75 (Non-Black)",
+    "patients_diabetic_medicare_enrollees_65_75_hemoglobin_total": "Diabetic Hemoglobin Tests Age 65-75",
+    "patients_diabetic_medicare_enrollees_65_75_hemoglobin_black": "Diabetic Hemoglobin Tests Age 65-75 (Black)",
+    "patients_diabetic_medicare_enrollees_65_75_hemoglobin_white": "Diabetic Hemoglobin Tests Age 65-75 (Non-Black)",
+    "patients_diabetic_medicare_enrollees_65_75_eye_exam_total": "Diabetic Eye Tests Age 65-75",
+    "patients_diabetic_medicare_enrollees_65_75_eye_exam_black": "Diabetic Eye Tests Age 65-75 (Black)",
+    "patients_diabetic_medicare_enrollees_65_75_eye_exam_white": "Diabetic Eye Tests Age 65-75 (Non-Black)",
+    "patients_diabetic_medicare_enrollees_65_75_lipid_test_total": "Diabetic Lipid Tests Age 65-75",
+    "patients_diabetic_medicare_enrollees_65_75_lipid_test_black": "Diabetic Lipid Tests Age 65-75 (Black)",
+    "patients_diabetic_medicare_enrollees_65_75_lipid_test_white": "Diabetic Lipid Tests Age 65-75 (Non-Black)",
+    "number_of_females_enrolled_67_69_total": "Female Medicare Enrolles Age 65-75",
+    "number_of_females_enrolled_67_69_black": "Female Medicare Enrolles Age 65-75 (Black)",
+    "number_of_females_enrolled_67_69_white": "Female Medicare Enrolles Age 65-75 (Non-Black)",
+    "patients_females_67_69_having_mammogram_total": "Mammograms Age 65-75",
+    "patients_females_67_69_having_mammogram_black": "Mammograms Age 65-75 (Black)",
+    "patients_females_67_69_having_mammogram_white": "Mammograms Age 65-75 (Non-Black)",
+    "beneficiaries_part_a_eligible_total": "Medicare Part A Elibigle Beneficiaries",
+    "beneficiaries_part_a_eligible_black": "Medicare Part A Elibigle Beneficiaries (Black)",
+    "beneficiaries_part_a_eligible_white": "Medicare Part A Elibigle Beneficiaries (Non-Black)",
+    "discharges_for_ambulatory_conditions_per_1000_total": "Ambulatory Discharges",
+    "discharges_for_ambulatory_conditions_per_1000_black": "Ambulatory Discharges (Black)",
+    "discharges_for_ambulatory_conditions_per_1000_white": "Ambulatory Discharges (Non-Black)",
+    "leg_amputations_per_1000_enrollees_total": "Leg Amputations",
+    "leg_amputations_per_1000_enrollees_white": "Leg Amputations (Non-Black)",
+    "leg_amputations_per_1000_enrollees_black": "Leg Amputations (Black)",
+
+    "patients_in_cohort": "Total Patients",
+    "patients_readmitted_within_30_days_of_discharge": "Readmittance within 30 Days",
+    "patients_seeing_a_primary_care_physician_within_14_days": "PCP Visits within 14 Days",
+    "patients_having_an_ambulatory_visit_within_14_days": "Ambulatory Visits within 14 Days",
+    "patients_having_an_emergency_room_visit_within_30_days": "ER Visits within 30 Days",
+
+    "eye_exam": "Eye Exams",
+    "hemoglobin": "Hemoglobin Tests",
+    "lipid_test": "Lipid Tests",
+    "mammogram_tests": "Mammograms",
+
+    "hc_pop": "Population",
+    "hc_pop_rca": "Population (RCA)",
+
+    "wwii": "WWII",
+    "korea": "Korea",
+    "vietnam": "Vietnam",
+    "gulf90s": "Gulf (1990s)",
+    "gulf01": "Gulf (2001-)",
+    "conflict_wwii": "WWII",
+    "conflict_korea": "Korea",
+    "conflict_vietnam": "Vietnam",
+    "conflict_gulf90s": "Gulf (1990s)",
+    "conflict_gulf01": "Gulf (2001-)",
+    "conflict_total": "Total Veterans"
+
 }
 
 AFFIXES = {
@@ -369,14 +474,31 @@ AFFIXES = {
     "avg_wage_ft": ["$", ""],
     "avg_wage_pt": ["$", ""],
     "income": ["$", ""],
+    "income_white": ["$", ""],
+    "income_black": ["$", ""],
+    "income_asian": ["$", ""],
+    "income_hispanic": ["$", ""],
+    "income_native": ["$", ""],
+    "income_hawaiian": ["$", ""],
+    "income_2ormore": ["$", ""],
+    "income_whitenonhispanic": ["$", ""],
+    "income_other": ["$", ""],
     "med_earnings": ["$", ""],
     "median_property_value": ["$", ""],
     "median_household_income": ["$", ""],
     "output": ["$", ""],
+    "y2_output": ["$", ""],
     "polution_ppm": ["", u"\u00B5g/m\u00B3"],
     "property_tax": ["$", ""],
     "property_val": ["$", ""],
     "health_care_costs": ["$", ""],
+    "total_reimbursements_b": ["$", ""],
+    "hospital_reimbursements_b": ["$", ""],
+    "physician_reimbursements_b": ["$", ""],
+    "outpatient_reimbursements_b": ["$", ""],
+    "home_health_reimbursements_b": ["$", ""],
+    "hospice_reimbursements_b": ["$", ""],
+    "medical_equip_reimbursements_b": ["$", ""],
     "value_millions": ["$", ""]
 }
 
@@ -414,7 +536,9 @@ PROPORTIONS = [
     "population_living_in_a_rural_area",
     "poor_or_fair_health",
     "low_birthweight",
-    "could_not_see_doctor_due_to_cost"
+    "could_not_see_doctor_due_to_cost",
+    "income_below_poverty:pop_poverty_status",
+    "growth"
 ]
 
 PERCENTAGES = [
@@ -427,7 +551,13 @@ PERCENTAGES = [
 PER1000 = [
     "infant_mortality",
     "teen_births",
-    "preventable_hospital_stays"
+    "preventable_hospital_stays",
+    "leg_amputations_per_1000_enrollees_total",
+    "leg_amputations_per_1000_enrollees_white",
+    "leg_amputations_per_1000_enrollees_black",
+    "discharges_for_ambulatory_conditions_per_1000_total",
+    "discharges_for_ambulatory_conditions_per_1000_white",
+    "discharges_for_ambulatory_conditions_per_1000_black"
 ]
 
 PER10000 = [
@@ -443,7 +573,7 @@ PER100000 = [
     "premature_death",
     "premature_ageadjusted_mortality",
     "child_mortality",
-    "drug_poisoning_deaths",
+    "drug_overdose_deaths",
     "injury_deaths"
 ]
 
@@ -452,6 +582,15 @@ NEVERCONDENSE = [
     "avg_wage_ft",
     "avg_wage_pt",
     "income",
+    "income_white",
+    "income_black",
+    "income_asian",
+    "income_hispanic",
+    "income_native",
+    "income_hawaiian",
+    "income_2ormore",
+    "income_whitenonhispanic",
+    "income_other",
     "med_earnings"
 ]
 
@@ -474,6 +613,17 @@ COLMAP = {
         "2ormore": "9",
         "unknown": "8",
         "other": "8"
+    },
+    "age_bucket": {
+        "under_6": "&lt; 6",
+        "6to17": "6-17",
+        "18to24": "18-24",
+        "25to34": "25-34",
+        "35to44": "35-44",
+        "45to54": "45-54",
+        "55to64": "55-64",
+        "65to74": "65-74",
+        "75plus": "75+"
     },
     "ageBucket": {
         "under5": "&lt; 5",
@@ -566,20 +716,415 @@ COLMAP = {
         "home": "Work at Home",
         "motorcycle": "Motorcycle",
         "taxi": "Taxi"
+    },
+    "travel": {
+        "less5": "&lt; 5 minutes",
+        "5to9": "5-9 minutes",
+        "10to14": "10-14 minutes",
+        "15to19": "15-19 minutes",
+        "20to24": "20-24 minutes",
+        "25to29": "25-29 minutes",
+        "30to34": "30-34 minutes",
+        "35to39": "35-39 minutes",
+        "40to44": "40-44 minutes",
+        "45to59": "45-59 minutes",
+        "60to89": "60-89 minutes",
+        "90over": "90+ minutes"
     }
 }
 COLMAP["acs_race"] = COLMAP["race"]
 COLMAP["pums_race"] = COLMAP["race"]
+COLMAP["propertyval"] = COLMAP["propertyvalBucket"]
+COLMAP["propertytax"] = COLMAP["propertytaxBucket"]
 
 GLOSSARY = {
-    "Most Specialized": {
-        "def": "The RCA calculation compares the share in a given constraint versus the national share. Click for more info.",
+    "RCA": {
+        "def": "The RCA calculation compares the share in a given constraint versus the national share.",
         "link": "/about/glossary/#rca",
-        "alts": ["relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
+        "alts": ["Most Specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
     },
-    "Wage GINI": {
-        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality. Click for more info.",
+    "GINI": {
+        "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
         "link": "/about/glossary/#gini",
-        "alts": ["wage GINI"]
+        "alts": ["Wage GINI", "wage GINI"]
+    },
+    "non-black": {
+        "def": "Data from the Dartmouth Atlas reports only two racial categories: black and non-black.",
+        "link": "/about/glossary/#dartmouth",
+        "alts": ["Non-black", "Non-Black", "medicare_beneficiaries_white", "medicare_beneficiaries_black", "patients_with_one_ambulatory_visit_to_pc_black", "patients_with_one_ambulatory_visit_to_pc_white", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_black", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_black", "patients_diabetic_medicare_enrollees_65_75_eye_exam_white", "patients_diabetic_medicare_enrollees_65_75_lipid_test_black", "patients_diabetic_medicare_enrollees_65_75_lipid_test_white", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "beneficiaries_part_a_eligible_black", "beneficiaries_part_a_eligible_white", "discharges_for_ambulatory_conditions_per_1000_black", "discharges_for_ambulatory_conditions_per_1000_white", "leg_amputations_per_1000_enrollees_white", "leg_amputations_per_1000_enrollees_black"]
+    },
+    "mental_health_providers": {
+        "def": "The ratio of the population to the total number of mental health providers including psychiatrists, psychologists, licensed clinical social workers, counselors, marriage and family therapists and advanced practice nurses specializing in mental health care."
+    },
+    "other_primary_care_providers": {
+        "def": "The ratio of the population to the total number of other primary care provders, which include nurse practitioners, physician assistants, and clinical nurse specialists."
+    },
+    "adult_smoking": {
+        "def": "The percentage of adults that reported currently smoking."
+    },
+    "adult_obesity": {
+        "def": "The percentage of adults that report a BMI greater than or equal to 30."
+    },
+    "excessive_drinking": {
+        "def": "The percentage of adults that report excessive drinking."
+    },
+    "motor_vehicle_crash_deaths": {
+        "def": "The amount of motor vehicle crash deaths per 100,000 population."
+    },
+    "homicide_rate": {
+        "def": "The number or deaths due to homicide per 100,000 population."
+    },
+    "sexually_transmitted_infections": {
+        "def": "Mumber of newly diagnosed chlamydia cases per 100,000 population."
+    },
+    "health_care_costs": {
+        "def": "The amount of price-adjusted Medicare reimbursements per enrollee."
+    },
+    "diabetes": {
+        "def": "The percentage of adults aged 20 and above with diagnosed diabetes."
+    },
+    "hiv_prevalence_rate": {
+        "def": "The number of persons living with a diagnosis of human immunodeficiency virus (HIV) infection per 100,000 population."
+    },
+    "violent_crime": {
+        "def": "The number of reported violent crime offenses per 100,000 population."
+    },
+    "alcoholimpaired_driving_deaths": {
+        "def": "The percentage of driving deaths with alcohol involvement."
+    },
+    "premature_death": {
+        "def": "Every death occurring before the age of 75. It is presented as a rate per 100,000 population and is age-adjusted to the 2000 US population."
+    },
+    "poor_or_fair_health": {
+        "def": "The percentage of adults reporting fair or poor health (age-adjusted)."
+    },
+    "poor_physical_health_days": {
+        "def": "Average number of physically unhealthy days reported in the past 30 days (age-adjusted)."
+    },
+    "poor_mental_health_days": {
+        "def": "Average number of mentally unhealthy days reported in the past 30 days (age-adjusted)."
+    },
+    "low_birthweight": {
+        "def": "The percentage of live births with a birthweight less than 2500 grams."
+    },
+    "food_environment_index": {
+        "def": "An index which factors in both income and physical proximity to healthy foods."
+    },
+    "physical_inactivity": {
+        "def": "The percentage of adults aged 20 and over reporting no leisure-time physical activity."
+    },
+    "access_to_exercise_opportunities": {
+        "def": "The percentage of individuals who live reasonably close to a location for physical activity."
+    },
+    "teen_births": {
+        "def": "The number of births per 1,000 female population, ages 15-19."
+    },
+    "uninsured": {
+        "def": "The percentage of the population under age 65 that has no health insurance coverage."
+    },
+    "preventable_hospital_stays": {
+        "def": "The hospital discharge rate for ambulatory care-sensitive conditions per 1,000 fee-for-service Medicare enrollees."
+    },
+    "diabetic_screening": {
+        "def": "The percentage of diabetic fee-for-service Medicare patients ages 65-75 whose blood sugar control was monitored in the past year using a test of their glycated hemoglobin (HbA1c) levels."
+    },
+    "mammography_screening": {
+        "def": "The percentage of female fee-for-service Medicare enrollees age 67-69 that had at least one mammogram over a two-year period."
+    },
+    "high_school_graduation": {
+        "def": "The percentage of the ninth-grade cohort in public schools that graduates from high school in four years."
+    },
+    "some_college": {
+        "def": "The percentage of the population ages 25-44 with some post-secondary education, such as enrollment in vocational/technical schools, junior colleges, or four-year colleges, including individuals who pursued education following high school but did not receive a degree."
+    },
+    "children_in_poverty": {
+        "def": "The percentage of children under age 18 living in poverty."
+    },
+    "children_in_singleparent_households": {
+        "def": "The percentage of children in family households that live in a household headed by a single parent (male or female head of household with no spouse present)."
+    },
+    "social_associations": {
+        "def": "The number of social associations per 10,000 population, including membership organizations such as civic organizations, bowling centers, golf clubs, fitness centers, sports organizations, religious organizations, political organizations, labor organizations, business organizations, and professional organizations."
+    },
+    "injury_deaths": {
+        "def": "The number of deaths due to injury per 100,000 population."
+    },
+    "polution_ppm": {
+        "def": "The average daily density of fine particulate matter in micrograms per cubic meter (PM2.5)."
+    },
+    "drinking_water_violations": {
+        "def": "The percentage of population being served by community water systems with health-based drinking water violations."
+    },
+    "severe_housing_problems": {
+        "def": "The percentage of households with at least 1 or more of the following housing problems: housing unit lacks complete kitchen facilities, housing unit lacks complete plumbing facilities, household is severely overcrowded, and/or household is severely cost burdened."
+    },
+    "population_living_in_a_rural_area": {
+        "def": "The percentage of population living in a rural area."
+    },
+    "premature_ageadjusted_mortality": {
+        "def": "The number of deaths among residents under the age of 75 per 100,000 population."
+    },
+    "infant_mortality": {
+        "def": "The number of deaths among children less than one year of age per 1,000 live births."
+    },
+    "child_mortality": {
+        "def": "The number of deaths among children under age 18 per 100,000 population."
+    },
+    "food_insecurity": {
+        "def": "The percentage of the population who did not have access to a reliable source of food during the past year."
+    },
+    "limited_access_to_healthy_foods": {
+        "def": "The percentage of the population who are low income and do not live close to a grocery store."
+    },
+    "drug_poisoning_deaths": {
+        "def": "The number of deaths due to drug poisoning per 100,000 population."
+    },
+    "uninsured_adults": {
+        "def": "The percentage of the population ages 18 to 65 that has no health insurance coverage."
+    },
+    "uninsured_children": {
+        "def": "The percentage of children under age 19 without health insurance."
+    },
+    "could_not_see_doctor_due_to_cost": {
+        "def": "The percentage of adults who could not see a doctor in the past 12 months because of cost."
+    },
+    "children_eligible_for_free_lunch": {
+        "def": "The percentage of children enrolled in public schools eligible for free lunch."
+    },
+    "unemployment": {
+        "def": "The percentage of the civilian labor force, age 16 and older, that is unemployed but seeking work."
+    },
+    "income_inequality": {
+        "def": "The ratio of household income at the 80th percentile to that at the 20th percentile."
+    },
+    "driving_along_to_work": {
+        "def": "The percentage of the workforce that usually drives alone to work."
+    },
+    "long_commute__driving_alone": {
+        "def": "The percentage of commuters, among those who commute to work by car, truck, or van alone, who drive longer than 30 minutes to work each day."
+    },
+    "population_that_is_not_proficient_in_english": {
+        "def": "The percentage of population that is not proficient in English."
+    }
+}
+
+for term in GLOSSARY:
+    if term in DICTIONARY:
+        if "alt" not in GLOSSARY[term]:
+            GLOSSARY[term]["alt"] = []
+        GLOSSARY[term]["alt"].append(DICTIONARY[term])
+
+COLLECTIONYEARS = {
+    "children_in_poverty": {
+        "2015": "2013",
+        "2016": "2014",
+        "2017": "2015"
+    },
+    "uninsured": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "uninsured_adults": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "uninsured_children": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "preventable_hospital_stays": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "diabetic_screening": {
+        "2015": "2012",
+        "2016": "2013"
+    },
+    "mammography_screening": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "adult_obesity": {
+        "2015": "2011",
+        "2016": "2012",
+        "2017": "2013"
+    },
+    "diabetes": {
+        "2015": "2011",
+        "2016": "2012",
+        "2017": "2013"
+    },
+    "sexually_transmitted_infections": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "hiv_prevalence_rate": {
+        "2015": "2010",
+        "2016": "2012",
+        "2017": "2013"
+    },
+    "alcoholimpaired_driving_deaths": {
+        "2015": "2009-2013",
+        "2016": "2010-2014",
+        "2017": "2011-2015"
+    },
+    "excessive_drinking": {
+        "2015": "2006-2012",
+        "2016": "2014",
+        "2017": "2015"
+    },
+    "adult_smoking": {
+        "2015": "2006-2012",
+        "2016": "2014",
+        "2017": "2015"
+    },
+    "homicide_rate": {
+        "2015": "2006-2012",
+        "2016": "2007-2013",
+        "2017": "2009-2015"
+    },
+    "violent_crime": {
+        "2015": "2010-2012",
+        "2016": "2010-2012",
+        "2017": "2012-2014"
+    },
+    "motor_vehicle_crash_deaths": {
+        "2015": "2006-2012",
+        "2016": "2007-2013",
+        "2017": "2009-2015"
+    },
+    "premature_death": {
+        "2015": "2010-2012",
+        "2016": "2011-2013",
+        "2017": "2012-2014"
+    },
+    "poor_or_fair_health": {
+        "2015": "2006-2012",
+        "2016": "2014",
+        "2017": "2015"
+    },
+    "poor_physical_health_days": {
+        "2015": "2006-2012",
+        "2016": "2014",
+        "2017": "2015"
+    },
+    "poor_mental_health_days": {
+        "2015": "2006-2012",
+        "2016": "2014",
+        "2017": "2015"
+    },
+    "low_birthweight": {
+        "2015": "2006-2012",
+        "2016": "2007-2013",
+        "2017": "2008-2014"
+    },
+    "food_environment_index": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "physical_inactivity": {
+        "2015": "2011",
+        "2016": "2012",
+        "2017": "2013"
+    },
+    "access_to_exercise_opportunities": {
+        "2015": "2010 & 2013",
+        "2016": "2010 & 2014",
+        "2017": "2010 & 2014"
+    },
+    "teen_births": {
+        "2015": "2006-2012",
+        "2016": "2007-2013",
+        "2017": "2008-2014"
+    },
+    "social_associations": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "injury_deaths": {
+        "2015": "2008-2012",
+        "2016": "2009-2013",
+        "2017": "2011-2015"
+    },
+    "polution_ppm": {
+        "2015": "2011",
+        "2016": "2011",
+        "2017": "2012"
+    },
+    "premature_ageadjusted_mortality": {
+        "2015": "2010-2012",
+        "2016": "2011-2013",
+        "2017": "2013-2015"
+    },
+    "infant_mortality": {
+        "2015": "2004-2010",
+        "2016": "2006-2012",
+        "2017": "2007-2013"
+    },
+    "child_mortality": {
+        "2015": "2009-2012",
+        "2016": "2010-2013",
+        "2017": "2012-2015"
+    },
+    "food_insecurity": {
+        "2015": "2012",
+        "2016": "2013",
+        "2017": "2014"
+    },
+    "limited_access_to_healthy_foods": {
+        "2015": "2010",
+        "2016": "2010",
+        "2017": "2010"
+    },
+    "drug_overdose_deaths": {
+        "2015": "2006-2012",
+        "2016": "2012-2014",
+        "2017": "2013-2015"
+    },
+    "children_eligible_for_free_lunch": {
+        "2015": "2012",
+        "2016": "2012-2013",
+        "2017": "2014-2015"
+    },
+    "population_that_is_not_proficient_in_english": {
+        "2015": "2009-2013",
+        "2017": "2011-2015"
+    },
+    "population_living_in_a_rural_area": {
+        "2015": "2010",
+        "2017": "2010"
+    },
+    "high_school_graduation": {
+        "2015": "2011-2012",
+        "2016": "2012-2013",
+        "2017": "2014-2015"
+    },
+    "some_college": {
+        "2015": "2009-2013",
+        "2016": "2010-2014",
+        "2017": "2011-2015"
+    },
+    "driving_alone_to_work": {
+        "2015": "2009-2013",
+        "2016": "2010-2014",
+        "2017": "2011-2015"
+    },
+    "children_in_singleparent_households": {
+        "2015": "2009-2013",
+        "2016": "2010-2014",
+        "2017": "2011-2015"
+    },
+    "severe_housing_problems": {
+        "2015": "2007-2011",
+        "2016": "2008-2012",
+        "2017": "2009-2013"
     }
 }

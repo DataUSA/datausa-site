@@ -1,5 +1,18 @@
 body.home {
 
+  @media only screen and (max-width: 1000px) {
+
+    .home-left {
+      display: block;
+      width: 100%;
+    }
+
+    .home-right {
+      display: none;
+    }
+
+  }
+
   @media only screen and (max-width: 900px) {
 
     #menu {
@@ -22,18 +35,25 @@ body.home {
   }
 
 
-  @media only screen and (max-width : 480px) {
+  @media only screen and (max-width : 700px) {
     #feed .feed-box .feed-box-link {
       display: none;
     }
 
     .home-desc {
-      h2 {
-        font-size: 18px !important;
 
-        &.second-line {
-          font-size: 21px !important;
-        }
+      &.new {
+        text-align: center;
+      }
+
+      .logo {
+        margin: 0 auto 25px;
+        width: 80%;
+      }
+
+      h2 {
+        font-size: 21px !important;
+        width: 90%;
 
       }
     }
@@ -43,10 +63,10 @@ body.home {
     }
 
     .home-collab {
+      margin: 0 0 50px;
 
       img {
-        height: 17px;
-        margin: 15px 10px;
+        height: 55px;
       }
     }
 

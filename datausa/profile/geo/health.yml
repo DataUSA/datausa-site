@@ -1,11 +1,11 @@
 title: "Health & Safety"
-description: "The University of Wisconsin has collected data on various health and safety factors, and created a ranking for each."
+description: "Insurance and medicare coverage combined with state and county level health and safety statistics."
 
 topics:
-  - category: "Healthcare"
+  - category: "Coverage"
   - title: "Clinician to Patient Ratios"
     slug: "clinician_patient_ratio"
-    subtitle: "<<sub dataset=chr>>"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     sumlevel: "!nation"
   - class: "flex stat-flex"
     sumlevel: "!nation"
@@ -35,19 +35,311 @@ topics:
     stat:
       - title: "Other"
         value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
-  - title: "Healthcare Costs"
-    subtitle: "<<sub dataset=chr>>"
-    slug: "healthcare_cost"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the amount of price-adjusted Medicare reimbursements per enrollee."
+  - title: "Insurance Coverage by Age and Gender"
+    subtitle: "<<sub show=geo|col=hc_pop>>"
+    cart:
+      title: "Insurance Coverage by Gender"
+      params:
+        sumlevel: <<sumlevel>>,all
+        show: geo,insurance
+        required: sex,hc_pop,hc_pop_moe,hc_pop_rca
+    slug: "insurance_coverage_gender"
     stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> with the highest Medicare reimbursement"
-        value: "<<var namespace=health_care_costs|key=geo|row=0>>"
+      - title: "Male Majority"
+        value: "<<var namespace=age_buckets_male|key=age_bucket>>"
+      - title: "Female Majority"
+        value: "<<var namespace=age_buckets_female|key=age_bucket>>"
+    select:
+      data: insurance
+      default: has_insurance
+      filter: insurance_types
+    description: "<<name dataset=chr>> residents <<var namespace=age_buckets|key=age_bucket>> years of age are the largest age group with <span class='select-text'>Healthcare Coverage</span>. The most common groups for men and women are <<var namespace=age_buckets_male|key=age_bucket>> and <<var namespace=age_buckets_female|key=age_bucket>> respectively."
+    viz:
+      attrs: sex
+      color: sex
+      data:
+        geo: "<<id>>"
+        insurance: has_insurance
+        required: "sex,hc_pop,hc_pop_moe,hc_pop_rca"
+        show: age_bucket
+        share: hc_pop
+        map:
+          bucket: age_bucket
+      height: 400
+      id: sex
+      order: bucket
+      type: bar
+      x: bucket
+      y:
+        stacked: True
+        value: share
+  - title: "Medicare Enrollment and Reimbursements by Location"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
+    slug: "medicare_geo"
+    select:
+      method: "color"
+      default: "total_reimbursements_b"
+      param: required
+      data:
+        - "total_medicare_enrollees"
+        - "total_reimbursements_b"
+        - "hospital_reimbursements_b"
+        - "physician_reimbursements_b"
+        - "outpatient_reimbursements_b"
+        - "home_health_reimbursements_b"
+        - "hospice_reimbursements_b"
+        - "medical_equip_reimbursements_b"
+    description: "<<var namespace=medicare|key=geo|row=0>> has the largest amount of <span class='select-text'>Medicare Reimbursements per Enrollee</span> at <<var namespace=medicare|key=total_reimbursements_b|row=0>>, compared to <<var namespace=medicare|key=geo|row=1>> with <<var namespace=medicare|key=total_reimbursements_b|row=1>> and <<var namespace=medicare|key=geo|row=2>> with <<var namespace=medicare|key=total_reimbursements_b|row=2>>."
+    stat:
+      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> with the most <span class='select-text'>Medicare Enrollees</span>"
+        value: "<<var namespace=medicare|key=geo|row=0>>"
         subvalues:
-          - "<<var namespace=health_care_costs|key=geo|row=1>>"
-          - "<<var namespace=health_care_costs|key=geo|row=2>>"
+          - "<<var namespace=medicare|key=geo|row=1>>"
+          - "<<var namespace=medicare|key=geo|row=2>>"
     viz:
       attrs: "geo"
-      color: "health_care_costs"
+      color: "total_reimbursements_b"
+      coords:
+          solo: "<<children dataset=chr>>"
+          value: "<<sumlevel child=True|dataset=chr|plural=True>>"
+      data:
+        required: total_reimbursements_b
+        show: "geo"
+        sumlevel: <<sumlevel child=True|dataset=chr>>
+        where: "geo:<<children prefix=True|dataset=chr>>"
+      height: 400
+      id: "geo"
+      type: "geo_map"
+  - title: "Trends in Medicare Enrollment and Reimbursements"
+    slug: "medicare_time"
+    select:
+      method: "y"
+      default: "total_reimbursements_b"
+      param: required
+      data:
+        - "total_medicare_enrollees"
+        - "total_reimbursements_b"
+        - "hospital_reimbursements_b"
+        - "physician_reimbursements_b"
+        - "outpatient_reimbursements_b"
+        - "home_health_reimbursements_b"
+        - "hospice_reimbursements_b"
+        - "medical_equip_reimbursements_b"
+    stat:
+      - title: "<span class='select-text'>Medicare Reimbursements per Enrollee</span>"
+        value: "<<var namespace=medicare_time|key=total_reimbursements_b|row=0>>"
+    subtitle: "<<sub show=geo|col=total_reimbursements_b>>"
+    description:
+      - "{{<<sumlevel>>:!nation||<span class='select-text'>Medicare Reimbursements per Enrollee</span> in <<var namespace=medicare_time|key=geo|row=0>> were <<var namespace=medicare_time|key=total_reimbursements_b|row=0>> in <<var namespace=medicare_time|key=year|row=0>>, compared to <<var namespace=medicare_time|key=total_reimbursements_b|row=1>> in <<var namespace=medicare_time|key=year|row=1>>. This represents a <<growth namespace=medicare_time|key=total_reimbursements_b>> growth over the past year.}}"
+      - "Medicare is a federal program which provides health benefits to older Americans. Amounts of money required for reimbursements to Medicare enrollees change over time. The following chart shows how per-enrollee amounts have changed {{<<sumlevel>>:!nation||in <<name>> as compared to the national trend.}}{{<<sumlevel>>:nation||for the top and bottom 2 states.}}"
+    viz:
+      attrs: "geo"
+      data:
+        geo: "{{<<sumlevel>>:!nation||01000US,<<id>>}}{{<<sumlevel>>:nation||<<parents id_only=True|col=total_medicare_enrollees>>}}"
+        required: total_reimbursements_b
+        show: "geo"
+      height: 400
+      highlight: <<var namespace=medicare_time|key=geo|row=0|format=raw>>
+      id: "geo"
+      type: "line"
+      x: "year"
+      y: "total_reimbursements_b"
+  - category: "Hospital Care for Medicare Patients"
+    title: "Heart Disease and Pneumonia"
+    sumlevel: "!nation"
+    subtitle: "<<sub show=geo|col=patients_in_cohort>>"
+    slug: "conditions"
+    select:
+      method: y
+      default: "patients_in_cohort"
+      param: required
+      data:
+        - "patients_in_cohort"
+        - "patients_readmitted_within_30_days_of_discharge"
+        - "patients_seeing_a_primary_care_physician_within_14_days"
+        - "patients_having_an_ambulatory_visit_within_14_days"
+        - "patients_having_an_emergency_room_visit_within_30_days"
+    description: "When looking at <span class='select-text'>Total Patients</span> in <<name dataset=chr>> , <<var namespace=cohort|key=patients_in_cohort|row=0>> medicare enrollees were treated for <<var namespace=cohort|key=cohort|row=0>> in <<var namespace=cohort|key=year|row=0>>, followed by <<var namespace=cohort|key=patients_in_cohort|row=1>> for <<var namespace=cohort|key=cohort|row=1>> and <<var namespace=cohort|key=patients_in_cohort|row=2>> for <<var namespace=cohort|key=cohort|row=2>>."
+    stat:
+      - title: "Most Common Conditions"
+        value: "<<var namespace=cohort|key=cohort|row=0>>"
+        subvalues:
+          - "<<var namespace=cohort|key=cohort|row=1>>"
+          - "<<var namespace=cohort|key=cohort|row=2>>"
+    viz:
+      attrs: cohort
+      color: cohort
+      data:
+        geo: "<<id>>"
+        required: patients_in_cohort
+        cohort: "pneumonia,AMI,CHF"
+        show: cohort
+      height: 400
+      id: cohort
+      type: bar
+      x:
+        persist:
+          position: True
+        value: year
+      y: patients_in_cohort
+  - category: "Hospital Care for Medicare Patients"
+    title: "Common Conditions"
+    sumlevel: "nation"
+    slug: "conditions"
+    select:
+      method: color
+      default: "CHF"
+      data: "cohort"
+    description: "When looking at patients across the entire United States, <<var namespace=cohort_state|key=patients_in_cohort|row=0>> people were treated for <<var namespace=cohort_state|key=cohort|row=0>> in <<var namespace=cohort_state|key=geo|row=0>>, followed by <<var namespace=cohort_state|key=patients_in_cohort|row=1>> in <<var namespace=cohort_state|key=geo|row=1>> and <<var namespace=cohort_state|key=patients_in_cohort|row=2>> in <<var namespace=cohort_state|key=geo|row=2>>."
+    stat:
+      - title: "Most Prevalent States"
+        value: "<<var namespace=cohort_state|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=cohort_state|key=geo|row=1>>"
+          - "<<var namespace=cohort_state|key=geo|row=2>>"
+    viz:
+      attrs: geo
+      color: patients_in_cohort
+      coords: "states"
+      data:
+        sumlevel: state
+        required: patients_in_cohort
+        cohort: "CHF"
+        show: geo
+      id: geo
+      type: geo_map
+  - title: "Diabetes Care"
+    cart:
+      params:
+        show: geo
+        sumlevel: <<sumlevel>>
+        required: diabetic_medicare_enrollees_65_75_total,diabetic_medicare_enrollees_65_75_black,diabetic_medicare_enrollees_65_75_white,patients_diabetic_medicare_enrollees_65_75_eye_exam_total,patients_diabetic_medicare_enrollees_65_75_eye_exam_white,patients_diabetic_medicare_enrollees_65_75_eye_exam_black,patients_diabetic_medicare_enrollees_65_75_hemoglobin_total,patients_diabetic_medicare_enrollees_65_75_hemoglobin_white,patients_diabetic_medicare_enrollees_65_75_hemoglobin_black,patients_diabetic_medicare_enrollees_65_75_lipid_test_total,patients_diabetic_medicare_enrollees_65_75_lipid_test_white,patients_diabetic_medicare_enrollees_65_75_lipid_test_black
+    sumlevel: "!nation"
+    subtitle: "Medicare enrollees between the ages of 65 and 75 that have had treatment related to their diabetes using racial categories from the Dartmouth Atlas. <<sub show=geo|col=diabetic_medicare_enrollees_65_75_total>>"
+    slug: "diabetic_care"
+    stat:
+      - title: "Black Enrollees"
+        value: <<var namespace=diabetic_care|key=diabetic_medicare_enrollees_65_75_black>>
+      - title: "Non-Black Enrollees"
+        value: <<var namespace=diabetic_care|key=diabetic_medicare_enrollees_65_75_white>>
+    description:
+      - "In <<var namespace=diabetic_care|key=year>>, out of all of the medicare enrollees in <<var namespace=diabetic_care|key=geo>> between the ages of 65 and 75 that had treatment related to their diabetes, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_eye_exam_total>> eye exams, <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_hemoglobin_total>> hemoglobin tests, and <<var namespace=diabetic_care|key=patients_diabetic_medicare_enrollees_65_75_lipid_test_total>> lipid tests were performed. Here is a breakdown of each test by race as a percentage of enrollees with diabetes."
+    viz:
+      color: race
+      data:
+        geo: "<<id>>"
+        force: dartmouth.yg_prim_care_access
+        show: geo
+        share: "patients.race"
+        split:
+          id: "test_race"
+          regex: "^patients_diabetic_medicare_enrollees_65_75_([a-z_]*_[white|black]*)$"
+          map:
+            test: "^patients_diabetic_medicare_enrollees_65_75_([a-z_]*)_[white|black]*$"
+            race: "^patients_diabetic_medicare_enrollees_65_75_[a-z_]*_([white|black]*)$"
+          value: "patients"
+      height: 400
+      id: race
+      legend:
+        data: false
+      type: bar
+      x: test
+      y: share
+  - title: "Preventative Women’s Health Services"
+    sumlevel: "!nation"
+    subtitle: "Female medicare enrollees between the ages of 67 and 69 using racial categories from the Dartmouth Atlas. <<sub show=geo|col=number_of_females_enrolled_67_69_total>>"
+    slug: "womens_health"
+    stat:
+      - title: "Black Women"
+        value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_black>>
+      - title: "Non-Black Women"
+        value: <<var namespace=womens_health|key=number_of_females_enrolled_67_69_white>>
+    description:
+      - "In <<var namespace=womens_health|key=year>>, out of the <<var namespace=womens_health|key=number_of_females_enrolled_67_69_total>> women in <<var namespace=womens_health|key=geo>> between the ages of 67 and 69 enrolled in medicare, <<var namespace=womens_health|key=patients_females_67_69_having_mammogram_total>> had mammograms. This chart looks at the change in percentage of black and non-black medicare enrollees who had mammograms over the past few years."
+    viz:
+      color: race
+      data:
+        geo: "<<id>>"
+        required: number_of_females_enrolled_67_69_white,number_of_females_enrolled_67_69_black,patients_females_67_69_having_mammogram_white,patients_females_67_69_having_mammogram_black
+        show: geo
+        split:
+          id: "race"
+          regex:
+            - "^patients_females_67_69_having_mammogram_([white|black]*)$"
+            - "^number_of_females_enrolled_67_69_([white|black]*)$"
+          value:
+            - "mammogram_tests"
+            - "patients"
+        divide:
+          num: "mammogram_tests"
+          den: "patients"
+          value: "share"
+      height: 400
+      id: race
+      legend:
+        data: false
+      tooltip:
+        value:
+          - "year"
+          - "patients"
+          - "share"
+      type: line
+      x: year
+      y: share
+  - title: "Preventative Women’s Health Services"
+    sumlevel: "nation"
+    slug: "womens_health"
+    select:
+      method: color
+      default: "number_of_females_enrolled_67_69_total"
+      param: required
+      data:
+        - number_of_females_enrolled_67_69_total
+        - patients_females_67_69_having_mammogram_white
+        - patients_females_67_69_having_mammogram_black
+    description:
+      - "When looking at patients across the entire United States, there are <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=0>> <span class='select-text'>Female Medicare Enrolles 65-75 Years Old</span> in <<var namespace=women_state|key=geo|row=0>>, followed by <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=1>> in <<var namespace=women_state|key=geo|row=1>> and <<var namespace=women_state|key=number_of_females_enrolled_67_69_total|row=2>> in <<var namespace=women_state|key=geo|row=2>>."
+    stat:
+      - title: "Most Prevalent States"
+        value: "<<var namespace=women_state|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=women_state|key=geo|row=1>>"
+          - "<<var namespace=women_state|key=geo|row=2>>"
+    viz:
+      attrs: geo
+      color: number_of_females_enrolled_67_69_total
+      coords: "states"
+      data:
+        sumlevel: state
+        required: number_of_females_enrolled_67_69_total
+        show: geo
+      id: geo
+      type: geo_map
+  - category: "Health Risks"
+    title: "Conditions and Diseases"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
+    slug: "conditions_diseases"
+    select:
+      method: "color"
+      data:
+        - "hiv_prevalence_rate"
+        - "sexually_transmitted_infections"
+        - "adult_obesity"
+        - "diabetes"
+      default: diabetes
+      param: required
+    description:
+      - "According to the <<var namespace=diabetes|key=year|row=0>> County Health Rankings, <<var namespace=diabetes|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Diabetes Prevalence</span> at <<var namespace=diabetes_top|key=diabetes|row=0>>. This represents a <<growth namespace=diabetes_top|key=diabetes>> growth from the previous year, which had a value of <<var namespace=diabetes_top|key=diabetes|row=1>>."
+      - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Diabetes Prevalence</span>."
+    stat:
+      - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
+        value: "<<var namespace=diabetes|key=geo|row=0>>"
+        subvalues:
+          - "<<var namespace=diabetes|key=geo|row=1>>"
+          - "<<var namespace=diabetes|key=geo|row=2>>"
+    viz:
+      attrs: "geo"
+      color: "diabetes"
       coords:
           solo: "<<children dataset=chr>>"
           value: "<<sumlevel child=True|dataset=chr|plural=True>>"
@@ -55,56 +347,31 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "health_care_costs"
+        required: diabetes
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Obesity and Diabetes"
-    subtitle: "<<sub dataset=chr>>"
-    slug: "obesity_diabetes"
-    description: "Here we can compare the percentage of adults that report a BMI greater than or equal to 30 with the percentage of adults aged 20 and above with diagnosed diabetes for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>> sized by the estimated population."
-    stat_stack: YES
-    stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by obesity prevalence"
-        value: "<<var namespace=obesity|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=obesity|key=geo|row=1>>"
-          - "<<var namespace=obesity|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by diabetes prevalence"
-        value: "<<var namespace=diabetes|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=diabetes|key=geo|row=1>>"
-          - "<<var namespace=diabetes|key=geo|row=2>>"
-    viz:
-      attrs: "geo"
-      data:
-        show: "geo"
-        sumlevel: <<sumlevel child=True|dataset=chr>>
-        where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "diabetes,adult_obesity,population_estimate"
-      highlight: "<<id dataset=chr>>"
-      id: "geo"
-      size: "population_estimate"
-      type: "scatter"
-      x: "diabetes"
-      y: "adult_obesity"
-  - title: "Substance Abuse"
-    subtitle: "<<sub dataset=chr>>"
-    slug: "substance_abuse"
+  - title: "Risky/Harmful Behaviors"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
+    slug: "risky"
     select:
       method: "color"
+      param: required
       data:
         - "adult_smoking"
         - "excessive_drinking"
         - "alcoholimpaired_driving_deaths"
+        - "motor_vehicle_crash_deaths"
       default: "adult_smoking"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by <span class='select-text'>Adult Smoking Prevalence</span>."
+    description:
+      - "According to the <<var namespace=adult_smoking|key=year|row=0>> County Health Rankings, <<var namespace=adult_smoking|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Adult Smoking Prevalence</span> at <<var namespace=adult_smoking_top|key=adult_smoking|row=0>>. This represents a <<growth namespace=adult_smoking_top|key=adult_smoking>> growth from the previous year, which had a value of <<var namespace=adult_smoking_top|key=adult_smoking|row=1>>."
+      - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Adult Smoking Prevalence</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
-        value: "<<var namespace=smoking|key=geo|row=0>>"
+        value: "<<var namespace=adult_smoking|key=geo|row=0>>"
         subvalues:
-          - "<<var namespace=smoking|key=geo|row=1>>"
-          - "<<var namespace=smoking|key=geo|row=2>>"
+          - "<<var namespace=adult_smoking|key=geo|row=1>>"
+          - "<<var namespace=adult_smoking|key=geo|row=2>>"
     viz:
       attrs: "geo"
       color: "adult_smoking"
@@ -115,51 +382,23 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "adult_smoking,excessive_drinking,alcoholimpaired_driving_deaths"
+        required: adult_smoking
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Sexually Transmitted Diseases"
-    subtitle: "<<sub dataset=chr>>"
-    slug: "stds"
-    description: "Here we can compare number of people living with a diagnosis of HIV per 100,000 and the number of newly diagnosed chlamydia cases per 100,000 for all of the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, sized by the estimated population."
-    stat_stack: YES
-    stat:
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by HIV prevalence"
-        value: "<<var namespace=hiv|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=hiv|key=geo|row=1>>"
-          - "<<var namespace=hiv|key=geo|row=2>>"
-      - title: "<<level child=True|dataset=chr|uppercase=True|plural=True>> by chlamydia prevalence"
-        value: "<<var namespace=sti|key=geo|row=0>>"
-        subvalues:
-          - "<<var namespace=sti|key=geo|row=1>>"
-          - "<<var namespace=sti|key=geo|row=2>>"
-    viz:
-      attrs: "geo"
-      data:
-        show: "geo"
-        sumlevel: <<sumlevel child=True|dataset=chr>>
-        where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "sexually_transmitted_infections,hiv_prevalence_rate,population_estimate"
-      highlight: "<<id dataset=chr>>"
-      id: "geo"
-      size: "population_estimate"
-      type: "scatter"
-      x: "sexually_transmitted_infections"
-      y: "hiv_prevalence_rate"
-  - category: "Crime"
-    subtitle: "<<sub dataset=chr>>"
-    title: "Crime and Safety"
+  - title: "Homicide & Crime"
+    subtitle: "{{<<sumlevel>>:!nation,state||Showing data for the counties in <<name parent=true|dataset=chr>>.}}"
     slug: "crime"
     select:
       method: "color"
+      param: required
       data:
         - "homicide_rate"
         - "violent_crime"
-        - "motor_vehicle_crash_deaths"
       default: "homicide_rate"
-    description: "Here are the <<level child=True|dataset=chr|plural=True>> in <<name dataset=chr>>, colored by the number of <span class='select-text'>Homicide Deaths</span> per 100,000 people."
+    description:
+      - "According to the <<var namespace=homicide_rate|key=year|row=0>> County Health Rankings, <<var namespace=homicide_rate|key=geo|row=0>> is the <<level child=True|dataset=chr>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} with the highest <span class='select-text'>Homicide Deaths per 100,000 People</span> at <<var namespace=homicide_rate_top|key=homicide_rate|row=0>>. This represents a <<growth namespace=homicide_rate_top|key=homicide_rate>> growth from the previous year, which had a value of <<var namespace=homicide_rate_top|key=homicide_rate|row=1>>."
+      - "The following map shows all of the <<level child=True|dataset=chr|plural=True>> in {{<<sumlevel>>:nation||the }}{{<<sumlevel>>:!nation,state||<<name parent=true|dataset=chr>>}}{{<<sumlevel>>:nation,state||<<name dataset=chr>>}} colored by their respective <span class='select-text'>Homicide Deaths per 100,000 People</span>."
     stat:
       - title: "<<level child=True|dataset=chr|uppercase=True>> with the highest prevalence"
         value: "<<var namespace=homicide_rate|key=geo|row=0>>"
@@ -176,7 +415,7 @@ topics:
         show: "geo"
         sumlevel: <<sumlevel child=True|dataset=chr>>
         where: "geo:<<children prefix=True|dataset=chr>>"
-        required: "homicide_rate,violent_crime,motor_vehicle_crash_deaths"
+        required: homicide_rate
       height: 400
       id: "geo"
       type: "geo_map"

@@ -30,6 +30,12 @@ topics:
       size: "grads_total"
   - title: "Tuition Costs for Common Institutions"
     slug: "tuition_costs"
+    cart:
+      params:
+        required: "oos_tuition,state_tuition"
+        sumlevel: all
+        show: "cip"
+      title: "Tuition Costs by College Degree"
     stat:
       - title: "Median In-State Public"
         value: "<<var namespace=tuition|key=state_tuition|row=0>>"

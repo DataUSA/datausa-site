@@ -115,6 +115,7 @@ topics:
         - cip: "<<id>>"
           required: "grads_asian,grads_black,grads_hawaiian,grads_hispanic,grads_multi,grads_native,grads_unknown,grads_white"
           show: "cip"
+          share: grads_total
           split:
             id: "race"
             regex: "grads_([0-9a-z]*)$"
@@ -127,7 +128,7 @@ topics:
       y:
         scale: "discrete"
         value: "race"
-      x: "grads_total"
+      x: share
   - title: "Race & Ethnicity by Gender"
     slug: "grads_ethnicity_gender"
     select:
@@ -149,6 +150,7 @@ topics:
         degree: "<<var namespace=top_degree|row=0|key=degree|format=raw>>"
         exclude: "grads_native_men,grads_native_women,grads_nonresident_men,grads_nonresident_women"
         force: "ipeds.grads_ycd"
+        share: grads_total
         split:
           id: "race_sex"
           regex: "^grads_([a-z]*_[a-z]*)$"
@@ -160,7 +162,7 @@ topics:
       order: "grads_total"
       type: "bar"
       x: "race"
-      y: "grads_total"
+      y: share
   - title: "Global Diversity"
     slug: "global_diversity"
     subtitle: "<<sub dataset=pums>>"

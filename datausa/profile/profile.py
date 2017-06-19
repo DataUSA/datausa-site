@@ -81,6 +81,47 @@ class Profile(BaseObject):
                 new_list_of_dict.append(d)
         return new_list_of_dict
 
+    def growth(self, **kwargs):
+        key = kwargs.get("key")
+        fmt = kwargs.get("format", "pretty")
+        kwargs["format"] = "raw"
+
+        if "_moe" in key:
+            kwargs["row"] = "0"
+            dx2 = self.var(**kwargs)
+            if not dx2:
+                dx2 = 0
+            kwargs["row"] = "1"
+            dx1 = self.var(**kwargs)
+            if not dx1:
+                dx1 = 0
+            kwargs["key"] = key[:-4]
+            kwargs["row"] = "0"
+            x2 = self.var(**kwargs)
+            kwargs["row"] = "1"
+            x1 = self.var(**kwargs)
+            if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
+                return "N/A"
+            f1 = (math.pow(-x2 / math.pow(float(x1), 2), 2) * math.pow(dx1, 2))
+            f2 = (math.pow(1 / x1, 2) * math.pow(dx2, 2))
+            value = math.sqrt(f1 + f2)
+        else:
+            kwargs["row"] = "0"
+            x2 = self.var(**kwargs)
+            kwargs["row"] = "1"
+            x1 = self.var(**kwargs)
+            if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
+                return "N/A"
+            else:
+                value = (float(x2) - x1) / x1
+
+        if fmt == "text":
+            return "{} {}".format(num_format(value, "growth"), "increase" if value >= 0 else "decrease")
+        elif fmt == "pretty":
+            return num_format(value, "growth")
+        else:
+            return value
+
     def id(self, **kwargs):
         """str: The id of attribute taking into account the dataset and grainularity of the Section """
 
@@ -126,7 +167,7 @@ class Profile(BaseObject):
                     attr_id = self.parents()[1]["id"]
                     prefix = "040"
 
-                acceptedPrefixes = ["010", "040", "795"]
+                acceptedPrefixes = ["010", "040", "050"]
 
                 if prefix in acceptedPrefixes:
                     return attr_id
@@ -245,13 +286,14 @@ class Profile(BaseObject):
 
                 if not_equals:
                     second = second[1:]
+                second = second.split(",")
 
                 if text == "True":
                     text = True
                 elif text == "False":
                     text = False
 
-                if (not_equals and first == second) or (not not_equals and first != second):
+                if (not_equals and first in second) or (not not_equals and first not in second):
                     if isinstance(text, bool):
                         if text:
                             text = False
@@ -470,6 +512,13 @@ class Profile(BaseObject):
                 r["{}_key".format(t)] = col
                 r[t] = self.var(namespace=ns, key=col, row=row, format="raw")
 
+            elif "growth:" in key:
+
+                keys = key.split(":")[1].split(",")
+                ns, col = keys
+                r["{}_key".format(t)] = "growth"
+                r[t] = self.growth(namespace=ns, key=col, format="raw")
+
             elif "," in key:
 
                 num, den = key.split(",")
@@ -513,7 +562,10 @@ class Profile(BaseObject):
         if r["num"] == 0 or r["den"] == 0:
             val = 0
         elif diff:
-            val = r["num"] - r["den"]
+            if text == "fastslow" and r["num"] < 0 and r["den"] < 0:
+                val = abs(r["num"] - r["den"])
+            else:
+                val = r["num"] - r["den"]
         else:
             val = float(r["num"])/float(r["den"])
 
@@ -525,6 +577,7 @@ class Profile(BaseObject):
 
         if text and text in TEXTCOMPARATORS:
             text = TEXTCOMPARATORS[text]
+
             if diff:
                 if val > 0:
                     return text[0]
@@ -542,7 +595,7 @@ class Profile(BaseObject):
         elif diff or kwargs.get("ratio", False):
             return num_format(abs(val))
         else:
-            return "{}%".format(num_format(val * 100))
+            return "<span class='cart-percentage' data-num='{}' data-den='{}'>{}%</span>".format(r["num_key"], r["den_key"], num_format(val * 100))
 
     def plural(self, **kwargs):
         text = kwargs.pop("text")
@@ -699,7 +752,7 @@ class Profile(BaseObject):
 
         if key == "name":
             if substitution:
-                return u"Based on data from {}".format(substitution[key])
+                return u"Showing data for {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
                 return ""
         else:
@@ -853,6 +906,7 @@ class Profile(BaseObject):
         row = kwargs.get("row", False)
 
         var_map = self.variables
+
         if var_map:
             if namespace in var_map and var_map[namespace] and formatting == "length":
                 return len(var_map[namespace])
@@ -874,5 +928,6 @@ class Profile(BaseObject):
         my_topics = [t for t in section_dict['topics'] if 'slug' in t and t['slug'] in topics]
         raw_topics = json.dumps(my_topics)
         keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
+        filters = re.findall(r"\"filter\": \"([a-z_]+)\"", raw_topics)
         percents = re.findall(r"var:([^,]+)", raw_topics)
-        return list(set(keys + percents))
+        return list(set(keys + filters + percents))

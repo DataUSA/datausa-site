@@ -11,11 +11,12 @@ body.frozen {
 }
 
 .d3plus_tooltip {
+	font-family: $palanquin !important;
 
   .d3plus_tooltip_description {
     line-height: 1.35;
-    font-weight: 300;
-		padding: 0 6px 6px !important;
+    font-weight: 400;
+		padding: 0 6px 3px !important;
   }
 
 	.d3plus_tooltip_data_block {
@@ -109,6 +110,11 @@ body.frozen {
 			line-height: 16px;
 			margin-bottom: 20px;
 			width: 100%;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
 			td {
 				padding: 2px 5px;
 			}
@@ -173,10 +179,13 @@ body.frozen {
 	@include flex();
 	@include flex-direction(row);
 	@include justify(space-between);
+	margin: 0 auto;
+	max-width: 900px;
 
 	&.compare-flex {
 		@include flex-direction(column-reverse);
 		display: inline-block;
+		max-width: auto;
 		width: 50%;
 	}
 

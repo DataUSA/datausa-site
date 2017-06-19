@@ -62,6 +62,7 @@ footer {
       .footer-mailer {
         font-size: 14px;
         font-weight: 800;
+        letter-spacing: 0.01em;
 
         .input-container {
           @include flex();

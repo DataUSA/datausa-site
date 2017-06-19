@@ -1,10 +1,14 @@
 var load = function(url, callback) {
 
   localforage.getItem("cache_version", function(error, c){
-
-    if (parseInt(c) !== parseInt(cache_version) + 1) {
-      localforage.clear();
-      localforage.setItem("cache_version", parseInt(cache_version) + 1, loadUrl);
+    if (c !== cache_version) {
+      localforage.getItem("cart", function(error, cart) {
+        localforage.clear(function() {
+          localforage.setItem("cart", cart, function() {
+            localforage.setItem("cache_version", cache_version, loadUrl);
+          });
+        });
+      });
     }
     else {
       loadUrl();
@@ -43,6 +47,7 @@ var load = function(url, callback) {
           }
           else {
             d3.json(url, function(error, data){
+              if (error) console.log(error);
               load.rawData(error, data, url);
             });
           }
@@ -94,8 +99,10 @@ load.rawData = function(error, data, url) {
     console.log(url);
     data = {"headers": [], "data": []};
   }
-  var zip = LZString.compressToUTF16(JSON.stringify(data));
-  if (load.storeLocal(url)) localforage.setItem(url, zip);
-  load.cache[url] = data;
+  if (load.storeLocal(url)) {
+    var zip = LZString.compressToUTF16(JSON.stringify(data));
+    localforage.setItem(url, zip);
+  }
+  // load.cache[url] = data;
   load.callbacks(url, data);
 }
