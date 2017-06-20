@@ -124,7 +124,7 @@ class Section(BaseObject):
                 tooltip = u"<a href='{0}' class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{1} Click for more info.' data-default='{2}'>{2}</a>\\1"
                 res = re.sub(re.escape(k) + r"((?!\<|\=|\&|\?|\&|\,|\+|\%).{1}|$)", tooltip.format(gt["link"], gt["def"], k), t)
             else:
-                tooltip = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{0}' data-default='{1}'>{1}</span>"
+                tooltip = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{0}' data-default='{1}'>{1}</span>\\1"
                 res = re.sub(re.escape(k) + r"((?!\<|\=|\&|\?|\&|\,|\+|\%).{1}|$)", tooltip.format(gt["def"], k), t)
             return res if res else t
 
