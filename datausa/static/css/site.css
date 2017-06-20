@@ -5879,7 +5879,7 @@
     position: absolute;
     top: 40px;
     right: 0;
-    z-index: 3; }
+    z-index: 4; }
     body.profile #show-bg div, body.map #show-bg div, body.story #show-bg div {
       opacity: 0;
       -moz-transition: opacity 0.35s;
@@ -5891,7 +5891,7 @@
         cursor: pointer;
         opacity: 1; }
     body.profile #show-bg i, body.map #show-bg i, body.story #show-bg i {
-      padding: 13px 15px;
+      padding: 12px;
       font-size: 16px;
       color: #fff; }
   body.profile .profile-end, body.map .profile-end, body.story .profile-end {

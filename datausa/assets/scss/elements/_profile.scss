@@ -1958,7 +1958,7 @@ body.profile, body.map, body.story {
     position: absolute;
     top: $nav-height;
     right: 0;
-    z-index: 3;
+    z-index: 4;
 
     div {
       opacity: 0;
@@ -1971,7 +1971,7 @@ body.profile, body.map, body.story {
     }
 
     i {
-      padding: 13px 15px;
+      padding: 12px;
       font-size: 16px;
       color: #fff;
     }
