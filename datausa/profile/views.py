@@ -101,7 +101,7 @@ def statView():
     required = args.get("required").split(",")
     if order and order not in required:
         required.append(order)
-    if col != "name" and col not in required:
+    if col != "name" and col != "id" and col not in required:
         required.append(col)
     args["required"] = ",".join(required)
 
