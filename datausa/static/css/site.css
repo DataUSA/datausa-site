@@ -6887,9 +6887,10 @@
         position: absolute;
         text-align: center;
         width: 100%; }
-        .year-toggle #d3plus_toggle_default2 {
+        .year-toggle #d3plus_toggle_default, .year-toggle #d3plus_toggle_default2,
+        .year-toggle #d3plus_toggle_default3, .year-toggle #d3plus_toggle_default4 {
           border: 1px solid #ccc;
-          height: 26px; }
+          height: 21px; }
 
   .map-controls {
     left: 5px;

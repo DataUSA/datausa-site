@@ -54,7 +54,7 @@ $map-sidebar: 250px;
   }
 
   #d3plus_toggle_map-sumlevels {
-    margin: 15px 0 -5px !important; 
+    margin: 15px 0 -5px !important;
     text-align: center;
 
     .d3plus_toggle .d3plus_node {
@@ -210,13 +210,10 @@ $map-sidebar: 250px;
   text-align: center;
   width: 100%;
 
-  #d3plus_toggle_default2 {
+  #d3plus_toggle_default, #d3plus_toggle_default2, #d3plus_toggle_default3, #d3plus_toggle_default4 {
     border: 1px solid rgb(204, 204, 204);
-    height: 26px;
+    height: 21px;
   }
-  // .d3plus_toggle {
-  //   background-color: rgba(255, 255, 255, 0.5) !important;
-  // }
 }
 
 .map-controls {
