@@ -71,19 +71,19 @@ topics:
   - title: "Wage by Location"
     slug: "wage_locations"
     stat:
-      - title: "The states where <<name>> are paid the highest are"
-        value: "<<var namespace=state_wage|key=geo|row=0>>"
+      - title: "Highest Paying PUMA"
+        value: "<<var namespace=location_wage|key=geo|row=0>>"
         subvalues:
-          - "<<var namespace=state_wage|key=geo|row=1>>"
-          - "<<var namespace=state_wage|key=geo|row=2>>"
-    description: "This map shows the states in the United States shaded by wage for <<name>>."
+          - "<<var namespace=location_wage|key=geo|row=1>>"
+          - "<<var namespace=location_wage|key=geo|row=2>>"
+    description: "This map shows the public use microdata areas in the United States shaded by average salary for <<name>>."
     viz:
       attrs: "geo"
-      coords: "states"
+      coords: "pumas"
       color: "avg_wage"
       data:
         soc: "<<id>>"
-        sumlevel: "state"
+        sumlevel: "puma"
         show: "geo"
         required: "avg_wage,avg_wage_moe"
         soc_level: "<<sumlevel>>"

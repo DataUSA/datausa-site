@@ -24,7 +24,7 @@ SUMLEVELS = {
             "label": "metropolitan statistical area",
             "shortlabel": "metro area",
             "children": "050",
-            "desc": "A Metropolitan Statistical Area (MSA) is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties.",
+            "desc": "A Metropolitan Statistical Area is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties.",
             "link": "/about/glossary/#msa",
         },
         "160": {
@@ -43,7 +43,7 @@ SUMLEVELS = {
             "sumlevel": "puma",
             "label": "public use microdata area",
             "shortlabel": "PUMA",
-            "desc": "A Public Use Microdata Area (PUMAs), are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information.",
+            "desc": "Public Use Microdata Areas are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information.",
             "link": "/about/glossary/#puma",
         },
         "140": {
@@ -913,6 +913,22 @@ for term in GLOSSARY:
         if "alt" not in GLOSSARY[term]:
             GLOSSARY[term]["alt"] = []
         GLOSSARY[term]["alt"].append(DICTIONARY[term])
+
+for prefix in SUMLEVELS["geo"]:
+    sumlevel = SUMLEVELS["geo"][prefix]
+    if "desc" in sumlevel:
+        label = sumlevel["label"]
+        obj = {
+            "def": sumlevel["desc"],
+            "alts": ["{}ies".format(label[:-1]) if label.endswith("y") else "{}s".format(label)]
+        }
+        if "link" in sumlevel:
+            obj["link"] = sumlevel["link"]
+        if "shortlabel" in sumlevel:
+            short = sumlevel["shortlabel"]
+            obj["alts"].append(short)
+            obj["alts"].append("{}ies".format(short[:-1]) if short.endswith("y") else "{}s".format(short))
+        GLOSSARY[sumlevel["label"]] = obj
 
 COLLECTIONYEARS = {
     "children_in_poverty": {
