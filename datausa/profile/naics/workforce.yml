@@ -290,9 +290,9 @@ topics:
         value: "naics"
   - title: "Wage by Location"
     slug: "wage_geo"
-    description: "This map shows the counties that pay the highest average salary to employees in the <<name>> <<level>>."
+    description: "This map shows the public use microdata areas that pay the highest average salary to employees in the <<name>> <<level>>."
     stat:
-      - title: Highest Paying Public Use Microdata Area
+      - title: Highest Paying PUMA
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_wage|key=geo|row=1>>"
