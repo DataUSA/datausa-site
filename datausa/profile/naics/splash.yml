@@ -13,6 +13,7 @@ stats:
     value: "<<var namespace=data|key=avg_age>>"
   - title: "Estimated Job Growth"
     value: "<<var namespace=growth|key=emp_carc_2014_2024>>"
+    rank: "10-Year Projection"
   - title: "Average Salary"
     value: "<<var namespace=data|key=avg_wage>>"
   - title: "Average Male Salary"
