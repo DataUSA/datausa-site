@@ -914,21 +914,21 @@ for term in GLOSSARY:
             GLOSSARY[term]["alt"] = []
         GLOSSARY[term]["alt"].append(DICTIONARY[term])
 
-for prefix in SUMLEVELS["geo"]:
-    sumlevel = SUMLEVELS["geo"][prefix]
-    if "desc" in sumlevel:
-        label = sumlevel["label"]
-        obj = {
-            "def": sumlevel["desc"],
-            "alts": ["{}ies".format(label[:-1]) if label.endswith("y") else "{}s".format(label)]
-        }
-        if "link" in sumlevel:
-            obj["link"] = sumlevel["link"]
-        if "shortlabel" in sumlevel:
-            short = sumlevel["shortlabel"]
-            obj["alts"].append(short)
-            obj["alts"].append("{}ies".format(short[:-1]) if short.endswith("y") else "{}s".format(short))
-        GLOSSARY[sumlevel["label"]] = obj
+# for prefix in SUMLEVELS["geo"]:
+#     sumlevel = SUMLEVELS["geo"][prefix]
+#     if "desc" in sumlevel:
+#         label = sumlevel["label"]
+#         obj = {
+#             "def": sumlevel["desc"],
+#             "alts": ["{}ies".format(label[:-1]) if label.endswith("y") else "{}s".format(label)]
+#         }
+#         if "link" in sumlevel:
+#             obj["link"] = sumlevel["link"]
+#         if "shortlabel" in sumlevel:
+#             short = sumlevel["shortlabel"]
+#             obj["alts"].append(short)
+#             obj["alts"].append("{}ies".format(short[:-1]) if short.endswith("y") else "{}s".format(short))
+#         GLOSSARY[sumlevel["label"]] = obj
 
 COLLECTIONYEARS = {
     "children_in_poverty": {
