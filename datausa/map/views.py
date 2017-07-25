@@ -18,7 +18,7 @@ mapdata = {
         "pums.avg_hrs_pt,avg_hrs_pt_moe",
         "pums.gini",
         "acs.income_inequality",
-        "acs.unemployment",
+        "chr.unemployment",
         "acs.income,income_moe,income_rank",
         "acs.income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
         "chr.children_in_poverty"
