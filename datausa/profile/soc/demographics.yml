@@ -4,6 +4,12 @@ description: "Demographic information on <<name>> in the US. The average age of 
 topics:
   - title: "Race & Ethnicity"
     slug: "ethnicity"
+    cart:
+      params:
+        show: soc,race
+        sumlevel: all,all
+        required: num_ppl,num_ppl_moe
+      title: "Race & Ethnicity"
     stat:
       - title: "Most common race or ethnicity of <<name>>"
         value: "<<var namespace=race|key=race|row=0>>"
