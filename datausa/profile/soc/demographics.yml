@@ -1,4 +1,4 @@
-title: "Demographics"
+title: "Diversity"
 description: "Demographic information on <<name>> in the US. The average age of male <<name>> in the workforce is <<var namespace=sex_age|row=0|key=avg_age>> and of female <<name>> is <<var namespace=sex_age|row=1|key=avg_age>>, and the most common race/ethnicity for <<name>> is <<var namespace=race|key=race|row=0>>. "
 
 topics:
