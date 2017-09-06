@@ -630,6 +630,7 @@ class Profile(BaseObject):
         params[attr_type] = self.attr["id"]
         params["required"] = col
         params["show"] = kwargs.get("show", self.attr_type)
+        params["year"] = kwargs.get("year", "latest")
         params["sumlevel"] = kwargs.get("sumlevel", self.sumlevel(**kwargs))
 
         query = RequestEncodingMixin._encode_params(params)
@@ -664,16 +665,36 @@ class Profile(BaseObject):
             else:
                 results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
 
-        if kwargs.get("key", False) == "id":
+        prev = kwargs.get("prev", False)
+        next = kwargs.get("next", False)
+        if prev:
+            if rank == results[0]:
+                return "N/A"
+            else:
+                results = [results[results.index(rank) - 1]]
+        if next:
+            if rank == results[-1]:
+                return "N/A"
+            else:
+                results = [results[results.index(rank) + 1]]
+
+        key = kwargs.get("key", False)
+
+        if key == "id" or key == "name":
             del params["limit"]
             params[col] = ",".join([str(r) for r in results])
             query = RequestEncodingMixin._encode_params(params)
             url = "{}/api?{}".format(API, query)
             try:
-                results = [d[params["show"]] for d in datafold(requests.get(url).json())]
+                results = datafold(requests.get(url).json())
             except ValueError:
                 app.logger.info("STAT ERROR: {}".format(url))
                 return ""
+
+            if key == "id":
+                results = [d[params["show"]] for d in results]
+            elif key == "name":
+                return self.make_links([fetch(d[params["show"]], params["show"]) for d in results], params["show"])
 
         return ",".join([str(r) for r in results])
 
