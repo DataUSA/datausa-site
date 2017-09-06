@@ -157,7 +157,7 @@
       <div class="profile-toc-section">
         <h2><a href="#{{ section.anchor }}" data-ga="toc {{ section.anchor }}" data-ga-cat="navigation" data-ga-label="User click"><img src="/static/img/icons/{{ section.anchor }}.svg" /> {{ section.title|safe }}</a></h2>
         {% for desc in section.description %}
-        <p>{{ desc|safe }}</p>
+        <p>{{ desc.split(".")[0]|safe }}.</p>
         {% endfor %}
         {% set categories = {"count": 0} %}
         <ul>
