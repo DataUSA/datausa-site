@@ -22,5 +22,6 @@ stats:
     value: "<<var namespace=gender|key=avg_wage|row=1>>"
 sections:
   - workforce
+  - demographics
   - io
   - growth
