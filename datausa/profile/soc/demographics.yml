@@ -21,14 +21,18 @@ topics:
           soc: "<<id>>"
           soc_level: "<<sumlevel>>"
           share: "num_ppl.soc"
+          map:
+            delete: False
+            shareSort: "num_ppl"
         - required: "num_ppl,num_ppl_moe"
           show: "race"
           geo: "01000US"
           share: "num_ppl"
           static:
             soc: "USA"
+            shareSort: 0
       id: "soc"
-      order: "share"
+      order: "shareSort"
       type: "bar"
       x:
         persist:
