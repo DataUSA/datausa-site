@@ -5109,19 +5109,16 @@
         body.profile .intro .intro-txt .desc a, body.map .intro .intro-txt .desc a,
         body.story .intro .intro-txt .desc a {
           color: #cfedff;
-          -moz-transition: all 0.35s;
-          -o-transition: all 0.35s;
-          -webkit-transition: all 0.35s;
-          transition: all 0.35s;
+          -moz-transition: border-bottom 0.35s;
+          -o-transition: border-bottom 0.35s;
+          -webkit-transition: border-bottom 0.35s;
+          transition: border-bottom 0.35s;
           border-bottom: 1px solid #434958; }
           body.profile .intro .intro-txt .desc a:hover,
           body.profile .intro .intro-txt .desc a:focus,
           body.map .intro .intro-txt .desc a:hover, body.map .intro .intro-txt .desc a:focus,
           body.story .intro .intro-txt .desc a:hover,
           body.story .intro .intro-txt .desc a:focus {
-            -webkit-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-            -moz-text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
-            text-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
             border-bottom: 1px solid #cfedff; }
         body.profile .intro .intro-txt .desc .stat-span a,
         body.map .intro .intro-txt .desc .stat-span a,
@@ -5352,25 +5349,41 @@
         body.map .intro #profile-toc .profile-toc-section p,
         body.story .intro #profile-toc .profile-toc-section p {
           font-size: 14px; }
-          body.profile .intro #profile-toc .profile-toc-section ul,
-          body.map .intro #profile-toc .profile-toc-section ul,
-          body.story .intro #profile-toc .profile-toc-section ul {
-            padding: 10px 0 0; }
-            body.profile .intro #profile-toc .profile-toc-section ul li a,
-            body.map .intro #profile-toc .profile-toc-section ul li a,
-            body.story .intro #profile-toc .profile-toc-section ul li a {
-              font-size: 13px;
-              position: relative; }
-              body.profile .intro #profile-toc .profile-toc-section ul li a::after,
-              body.map .intro #profile-toc .profile-toc-section ul li a::after,
-              body.story .intro #profile-toc .profile-toc-section ul li a::after {
-                content: "\203A";
-                font-size: 27px;
-                font-weight: 400;
-                line-height: 5px;
-                margin-left: 4px;
-                position: absolute;
-                text-decoration: none; }
+          body.profile .intro #profile-toc .profile-toc-section p a,
+          body.map .intro #profile-toc .profile-toc-section p a,
+          body.story .intro #profile-toc .profile-toc-section p a {
+            -moz-transition: border-bottom 0.35s;
+            -o-transition: border-bottom 0.35s;
+            -webkit-transition: border-bottom 0.35s;
+            transition: border-bottom 0.35s;
+            color: #cfedff;
+            border-bottom: 1px solid #434958; }
+            body.profile .intro #profile-toc .profile-toc-section p a:hover,
+            body.profile .intro #profile-toc .profile-toc-section p a:focus,
+            body.map .intro #profile-toc .profile-toc-section p a:hover,
+            body.map .intro #profile-toc .profile-toc-section p a:focus,
+            body.story .intro #profile-toc .profile-toc-section p a:hover,
+            body.story .intro #profile-toc .profile-toc-section p a:focus {
+              border-bottom: 1px solid #cfedff; }
+        body.profile .intro #profile-toc .profile-toc-section ul,
+        body.map .intro #profile-toc .profile-toc-section ul,
+        body.story .intro #profile-toc .profile-toc-section ul {
+          padding: 10px 0 0; }
+          body.profile .intro #profile-toc .profile-toc-section ul li a,
+          body.map .intro #profile-toc .profile-toc-section ul li a,
+          body.story .intro #profile-toc .profile-toc-section ul li a {
+            font-size: 13px;
+            position: relative; }
+            body.profile .intro #profile-toc .profile-toc-section ul li a::after,
+            body.map .intro #profile-toc .profile-toc-section ul li a::after,
+            body.story .intro #profile-toc .profile-toc-section ul li a::after {
+              content: "\203A";
+              font-size: 27px;
+              font-weight: 400;
+              line-height: 5px;
+              margin-left: 4px;
+              position: absolute;
+              text-decoration: none; }
   body.profile .prof-body, body.map .prof-body, body.story .prof-body {
     padding: 60px 50px 25px;
     position: relative; }
@@ -5384,6 +5397,17 @@
         padding-top: 95px; }
     body.profile .prof-body p, body.map .prof-body p, body.story .prof-body p {
       font-size: 16px; }
+      body.profile .prof-body p a, body.map .prof-body p a, body.story .prof-body p a {
+        -moz-transition: border-bottom 0.35s;
+        -o-transition: border-bottom 0.35s;
+        -webkit-transition: border-bottom 0.35s;
+        transition: border-bottom 0.35s;
+        color: #32415A;
+        border-bottom: 1px solid #B8C0D4; }
+        body.profile .prof-body p a:hover, body.profile .prof-body p a:focus,
+        body.map .prof-body p a:hover, body.map .prof-body p a:focus,
+        body.story .prof-body p a:hover, body.story .prof-body p a:focus {
+          border-bottom: 1px solid #32415A; }
   body.profile #section-sidenav, body.map #section-sidenav,
   body.story #section-sidenav {
     -webkit-justify-content: center;

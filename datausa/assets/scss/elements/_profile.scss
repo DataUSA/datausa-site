@@ -1413,11 +1413,10 @@ body.profile, body.map, body.story {
 
         a {
           color: $light-home-blue;
-          @include transition(all 0.35s);
+          @include transition(border-bottom 0.35s);
           border-bottom: 1px solid $black3;
 
           &:hover, &:focus {
-            @include text-shadow(0 0 1px rgba(255,255,255,0.6));
             border-bottom: 1px solid $light-home-blue;
           }
         }
@@ -1600,6 +1599,16 @@ body.profile, body.map, body.story {
 
         p {
           font-size: 14px;
+
+          a {
+            @include transition(border-bottom 0.35s);
+            color: $light-home-blue;
+            border-bottom: 1px solid $black3;
+
+            &:hover, &:focus {
+              border-bottom: 1px solid $light-home-blue;
+            }
+          }
         }
 
         ul {
@@ -1656,6 +1665,16 @@ body.profile, body.map, body.story {
 
     p {
       font-size: 16px;
+
+      a {
+        @include transition(border-bottom 0.35s);
+        color: $blue;
+        border-bottom: 1px solid $black-link;
+
+        &:hover, &:focus {
+          border-bottom: 1px solid $blue;
+        }
+      }
     }
   }
 
