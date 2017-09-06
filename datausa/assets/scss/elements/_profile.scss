@@ -2172,18 +2172,6 @@ body.profile, body.map, body.story {
   letter-spacing: 0.03em !important;
   font-size: 13px !important;
 
-  // &:hover {
-  //   background-color: rgba(0, 0, 0, 0) !important;
-  //   border: 1px solid #6E6E6E !important;
-  //   color: #4E4E4E !important;
-  // }
-  //
-  // &.d3plus_button_active {
-  //   background-color: rgba(0, 0, 0, 0) !important;
-  //   border: 1px solid #6E6E6E !important;
-  //   color: $red-w !important;
-  // }
-
   .d3plus_button_label {
     line-height: 17px;
     padding: 6px 10px 9px !important;
@@ -2215,8 +2203,7 @@ body.profile, body.map, body.story {
 
     &.d3plus_button_active {
       background-color: rgba(0, 0, 0, 0) !important;
-      // border: 1px solid #6E6E6E !important;
-      color: $red-w !important;
+      color: $black !important;
     }
 
     &.d3plus_button_active {
