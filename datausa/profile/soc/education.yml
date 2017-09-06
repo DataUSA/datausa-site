@@ -1,5 +1,5 @@
 title: "Education"
-description: "The Department of Education and Census Bureau provide data on higher educational choices for <<name>>. Explore degrees and majors for <<name>> in the sections below."
+description: "Data on higher education choices for <<name>> from The Department of Education and Census Bureau. The most common major for <<name>> is <<var namespace=cip|key=cip|row=0>> but a relatively high number of <<name>> hold a major in <<var namespace=cip_rca|key=cip|row=0>>."
 
 topics:
   - title: "Majors"
@@ -12,17 +12,17 @@ topics:
       default: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
     stat_stack: YES
     stat:
-      - title: "Most common major is"
+      - title: "Most common majors"
         value: "<<var namespace=cip|key=cip|row=0>>"
         subvalues:
           - "<<var namespace=cip|key=cip|row=1>>"
           - "<<var namespace=cip|key=cip|row=2>>"
-      - title: "High Relative Number of People major in"
+      - title: "most specialized majors"
         value: "<<var namespace=cip_rca|key=cip|row=0>>"
         subvalues:
           - "<<var namespace=cip_rca|key=cip|row=1>>"
           - "<<var namespace=cip_rca|key=cip|row=2>>"
-    description: "Here we see the share of bachelor's degrees held by <<name>> whose highest degree obtained is a <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span>."
+    description: "This graphic shows the share of Bachelor's Degree concentrations held by <<name>> whose highest degree obtained (which may be in another concentration) is a <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span>."
     viz:
       attrs: "cip"
       color: "cip_2"

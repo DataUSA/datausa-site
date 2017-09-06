@@ -1,16 +1,16 @@
 title: "Demographics"
-description: "The Census Bureau's American Census Survey provides data on <<name>> and allows us to show what kinds of people have chosen this occupation."
+description: "Demographic information on <<name>> in the US. The average age of male <<name>> in the workforce is <<var namespace=sex_age|row=0|key=avg_age>> and of female <<name>> is <<var namespace=sex_age|row=1|key=avg_age>>, and the most common race/ethnicity for <<name>> is <<var namespace=race|key=race|row=0>>. "
 
 topics:
   - title: "Race & Ethnicity"
     slug: "ethnicity"
     stat:
-      - title: "Most common race or ethnicity"
+      - title: "Most common race or ethnicity of <<name>>"
         value: "<<var namespace=race|key=race|row=0>>"
         subvalues:
           - "<<var namespace=race|key=race|row=1>>"
           - "<<var namespace=race|key=race|row=2>>"
-    description: "The most common race or ethnicity of <<name>> is <<var namespace=race|key=race|row=0>>, followed by <<var namespace=race|key=race|row=1>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
+    description: "<<percent num=var:race,num_ppl,0|den=var:data,num_ppl,0>> of <<name>> are <<var namespace=race|key=race|row=0>>, making that the most common race or ethnicity in the occupation. Representing <<percent num=var:race,num_ppl,1|den=var:data,num_ppl,0>> of <<name>>, <<var namespace=race|key=race|row=1>> is the second most common race or ethnicity in this occupation. This chart shows the racial and ethnic breakdown of <<name>>."
     viz:
       attrs:
         - "soc"
@@ -50,7 +50,7 @@ topics:
       - title: "Average Female Age"
         value: "<<var namespace=sex_age|row=1|key=avg_age>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=1|key=avg_age_moe>>"
-    description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and <<var namespace=sex_age|row=0|key=sex>> employees are generally <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True>> years <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True|text=age>> than their <<var namespace=sex_age|row=1|key=sex>> counterparts."
+    description: "The median age of <<name>> is <<var namespace=data|row=0|key=avg_age>>, and <<var namespace=sex_age|row=0|key=sex>> employees are generally <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True>> years <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True|text=age>> than their <<var namespace=sex_age|row=1|key=sex>> counterparts."
     viz:
       attrs: "sex"
       color: "sex"

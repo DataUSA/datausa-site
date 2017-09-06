@@ -1,6 +1,10 @@
-- required: ["year", "avg_age", "avg_age_moe", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank", "gini"]
-  year: latest
+- required: ["year", "avg_age", "avg_age_moe", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_moe", "num_ppl_rank", "gini"]
+  rows: True
+  sort: desc
+  order: year
   soc_level: "<<sumlevel>>"
+  year: all
+  limit: 2
   namespace: data
 
 - required: ["avg_wage", "gini"]
@@ -64,7 +68,7 @@
   soc_level: "<<sumlevel>>"
   namespace: sex_age
 
-- required: ["race"]
+- required: ["num_ppl", "race"]
   order: num_ppl
   rows: True
   limit: 3
@@ -158,3 +162,21 @@
   rows: True
   year: latest
   namespace: top10_naics_avg_wage
+
+- required: ["skill", "value"]
+  limit: 3
+  rows: True
+  order: "value"
+  sort: "desc"
+  show: "skill"
+  year: ""
+  namespace: skill_value
+
+- required: ["skill", "value_rca"]
+  limit: 3
+  rows: True
+  order: "value_rca"
+  sort: "desc"
+  show: "skill"
+  year: ""
+  namespace: skill_rca

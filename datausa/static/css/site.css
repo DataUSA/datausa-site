@@ -5325,7 +5325,7 @@
         -webkit-flex: 1;
         -ms-flex: 1;
         flex: 1;
-        margin: 10px; }
+        margin: 10px 25px; }
         body.profile .intro #profile-toc .profile-toc-section h2,
         body.map .intro #profile-toc .profile-toc-section h2,
         body.story .intro #profile-toc .profile-toc-section h2 {
@@ -5343,7 +5343,8 @@
             body.story .intro #profile-toc .profile-toc-section h2 a img {
               display: inline-block;
               height: 20px;
-              margin-top: 1px;
+              margin-right: 5px;
+              margin-top: -1px;
               width: 20px; }
         body.profile .intro #profile-toc .profile-toc-section p,
         body.map .intro #profile-toc .profile-toc-section p,
@@ -5368,7 +5369,7 @@
         body.profile .intro #profile-toc .profile-toc-section ul,
         body.map .intro #profile-toc .profile-toc-section ul,
         body.story .intro #profile-toc .profile-toc-section ul {
-          padding: 10px 0 0; }
+          padding: 10px 0 0 10px; }
           body.profile .intro #profile-toc .profile-toc-section ul li a,
           body.map .intro #profile-toc .profile-toc-section ul li a,
           body.story .intro #profile-toc .profile-toc-section ul li a {
@@ -6313,17 +6314,6 @@
               margin: 0 0 5px 0;
               text-transform: uppercase; }
 
-  @media only screen and (max-width : 992px) {
-    body.profile .intro #profile-toc h2, body.story .intro #profile-toc h2 {
-      font-size: 12px !important;   }
-      body.profile .intro #profile-toc p, body.story .intro #profile-toc p {
-        display: none;   }
-        body.profile .intro #profile-toc ul, body.story .intro #profile-toc ul {
-          padding-top: 0 !important;   }
-          body.profile .intro #profile-toc ul li a, body.story .intro #profile-toc ul li a {
-            font-size: 12px;
-            letter-spacing: 0;   }
-}
   @media only screen and (max-width : 768px) {
     body.profile .intro .intro-txt, body.story .intro .intro-txt {
       -webkit-box-flex: 2;
@@ -6374,10 +6364,9 @@
         -webkit-flex: 1 0 auto;
         -ms-flex: 1 0 auto;
         flex: 1 0 auto;   }
-        body.profile .intro #profile-toc h2, body.story .intro #profile-toc h2 {
-          font-size: 16px !important;   }
-          body.profile .intro #profile-toc ul, body.story .intro #profile-toc ul {
-            padding-left: 10px !important;   }
+        body.profile .intro #profile-toc .profile-toc-section p,
+        body.story .intro #profile-toc .profile-toc-section p {
+          display: none;   }
     body.profile #splash-stats.compare-flex #stat-container,
     body.story #splash-stats.compare-flex #stat-container {
       -webkit-flex-direction: column !important;

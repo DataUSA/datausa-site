@@ -1,5 +1,5 @@
 title: "Employment"
-description: "The Census Bureau provides detailed information on the businesses that hire <<name>>."
+description: "Information on the businesses and industries that employ <<name>> and on wages and locations for those in the field. <<var namespace=top10_naics_num_ppl|key=naics|row=0>> is the industry that employs the most <<name>>, both by share and by number, though the highest paid industry for <<name>>, by average wage, is <<var namespace=top10_naics_avg_wage|key=naics|row=0>>. <<name>> are paid most in <<var namespace=location_wage|key=geo|row=0>> but are relatively concentrated in <<var namespace=puma_rca|key=geo|row=0>>."
 
 topics:
   - category: "Wages"
@@ -7,9 +7,11 @@ topics:
     slug: "wage_by_industry"
     stat:
       - title: "Average Salary"
-        value: "<<var namespace=data|key=avg_wage>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|key=avg_wage_moe>>"
-    description: "In <<var namespace=data|key=year>>, average <<name>> earned <<var namespace=data|key=avg_wage>>, compared to the national average of <<var namespace=nation|key=avg_wage>>. Here are the 4 occupations closest to <<name>> by average wage."
+        value: "<<var namespace=data|row=0|key=avg_wage>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=avg_wage_moe>>"
+    description:
+      - "In <<var namespace=data|row=0|key=year>>, <<name>> earned an average of <<var namespace=data|row=0|key=avg_wage>>, <<percent den=var:data,avg_wage,0|num=var:nation,avg_wage|diff=True>> <<percent den=var:data,avg_wage,0|num=var:nation,avg_wage|text=moreless>> the average national salary of <<var namespace=nation|key=avg_wage>>."
+      - "{{<<ranks col=avg_wage_rank|limit=5|key=name|prev=True>>:N/A||<<name>> are the highest paid occupation in the US followed by <<ranks col=avg_wage_rank|limit=5|key=name|next=True>>.}}{{<<ranks col=avg_wage_rank|limit=5|key=name|next=True>>:N/A||<<name>> are the lowest paid occupation in the US followed by <<ranks col=avg_wage_rank|limit=5|key=name|prev=True>>.}}{{<<ranks col=avg_wage_rank|limit=5|key=name|prev=True>>:!N/A||[[<<ranks col=avg_wage_rank|limit=5|key=name|next=True>>:!N/A||<<ranks col=avg_wage_rank|limit=5|key=name|prev=True>> make somewhat more than <<name>> while <<ranks col=avg_wage_rank|limit=5|key=name|next=True>> make somewhat less.]]}} This chart shows the various occupations closest to <<name>> as measured by average annual salary in the US."
     viz:
       attrs: "soc"
       data:
@@ -33,10 +35,10 @@ topics:
         value: "soc"
   - title: "Wage Distribution"
     slug: "wage_distribution"
-    description: "<<name>> had a wage GINI coefficient of <<var namespace=data|key=gini>> in <<var namespace=data|key=year>>, which is <<percent num=var:data,gini|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are <<percent den=var:data,gini|num=var:nation,gini|text=moreless2>> evenly distributed for <<name>> than the overall labor force."
+    description: "In <<var namespace=data|row=0|key=year>>, <<name>> had a wage GINI coefficient of <<var namespace=data|row=0|key=gini>>, which is <<percent num=var:data,gini,0|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are distributed <<percent den=var:data,gini,0|num=var:nation,gini|text=moreless2>> evenly for <<name>> than for the overall labor force."
     stat:
       - title: "Wage GINI"
-        value: "<<var namespace=data|key=gini>>"
+        value: "<<var namespace=data|row=0|key=gini>>"
     viz:
       attrs:
         - "soc"
@@ -71,12 +73,12 @@ topics:
   - title: "Wage by Location"
     slug: "wage_locations"
     stat:
-      - title: "Highest Paying PUMA"
+      - title: "Highest Paying PUMAs"
         value: "<<var namespace=location_wage|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=location_wage|key=geo|row=1>>"
           - "<<var namespace=location_wage|key=geo|row=2>>"
-    description: "This map shows the public use microdata areas in the United States shaded by average salary for <<name>>."
+    description: "This map shows the Public Use Microdata Areas (PUMAs) in the United States shaded by average annual wage for <<name>>."
     viz:
       attrs: "geo"
       coords: "pumas"
@@ -93,12 +95,12 @@ topics:
   - title: "Spatial Concentration"
     slug: "locations"
     stat:
-      - title: "Regions with a relatively high concentration of <<name>>"
+      - title: "PUMAs with a relatively high concentration of <<name>>"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_rca|key=geo|row=1>>"
           - "<<var namespace=puma_rca|key=geo|row=2>>"
-    description: "This map shows the areas in the United States where there are a relatively high population of <<name>>."
+    description: "This map displays which Public Use Microdata Areas (PUMAs) in the United States have a relatively high population of <<name>>."
     viz:
       attrs: "geo"
       color: "num_ppl_rca"
@@ -118,7 +120,7 @@ topics:
     class: "flex"
     title: "Most Common"
     slug: "top_ind_num_emp"
-    description: "The most common industries that employ <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
+    description: "The most common industries employing <<name>>, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
     viz:
       - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:!11"
         attrs: "naics"
@@ -195,9 +197,9 @@ topics:
           scale: "discrete"
           value: "naics"
   - class: "flex"
-    title: "Highest Paid"
+    title: "Highest Paying"
     slug: "top_ind_wage"
-    description: "The highest paid industries for <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
+    description: "The highest paying industries for <<name>>, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4|soc_level=sumlevel>>."
     viz:
       - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:!11"
         attrs: "naics"
@@ -272,6 +274,16 @@ topics:
           value: "naics"
   - slug: "tmap_ind"
     title: "Industries by Share"
+    stat:
+      - title: "<<var namespace=data|row=0|key=year>> workforce"
+        value: "<<var namespace=data|row=0|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=num_ppl_moe>>"
+      - title: "1 year Growth"
+        value: "<<growth namespace=data|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=data|key=num_ppl_moe>>"
+    description:
+      - "The number of people employed as <<name>> has been <<percent num=var:data,num_ppl,0|den=var:data,num_ppl,1|text=growth>> at a rate of <<growth namespace=data|key=num_ppl>>, from <<var namespace=data|key=num_ppl|row=1>> people in <<var namespace=data|key=year|row=1>> to <<var namespace=data|key=num_ppl|row=0>> people in <<var namespace=data|key=year|row=0>>."
+      - "This graphic shows the share of <<name>> employed by various industries. <<var namespace=top10_naics_num_ppl|key=naics|row=0>> employs the largest share of <<name>> at <<percent num=var:top10_naics_num_ppl,num_ppl,0|den=var:data,num_ppl,0>>, followed by <<var namespace=top10_naics_num_ppl|key=naics|row=1>> with <<percent num=var:top10_naics_num_ppl,num_ppl,1|den=var:data,num_ppl,0>> and <<var namespace=top10_naics_num_ppl|key=naics|row=2>> with <<percent num=var:top10_naics_num_ppl,num_ppl,2|den=var:data,num_ppl,0>>."
     viz:
       attrs: "naics"
       color: "naics"
@@ -281,7 +293,7 @@ topics:
           show: "naics"
           sumlevel: "2"
           soc_level: "<<sumlevel>>"
-          where: "num_records:>4,num_ppl:!0"
+          where: "num_ppl:!0"
       depth: 2
       height: 500
       id:
