@@ -154,7 +154,7 @@ DICTIONARY = {
     "us": "Native Born",
     "foreign": "Foreign Born",
 
-    "age": "Median Age",
+    "age": "Age",
     "avg_wage": "Average Salary",
     "avg_wage_ft": "Average Salary (Full-Time Employees)",
     "avg_wage_pt": "Average Salary (Part-Time Employees)",
