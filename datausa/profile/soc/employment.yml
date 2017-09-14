@@ -35,7 +35,7 @@ topics:
         value: "soc"
   - title: "Wage Distribution"
     slug: "wage_distribution"
-    description: "In <<var namespace=data|row=0|key=year>>, <<name>> had a wage GINI coefficient of <<var namespace=data|row=0|key=gini>>, which is <<percent num=var:data,gini,0|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are distributed <<percent den=var:data,gini,0|num=var:nation,gini|text=moreless2>> evenly for <<name>> than for the overall labor force."
+    description: "In <<var namespace=data|row=0|key=year>>, <<name>> had a wage GINI coefficient of <<var namespace=data|row=0|key=gini>>, which is <<percent num=var:data,gini,0|den=var:nation,gini|text=highlow>> the national average of <<var namespace=nation|key=gini>>. In other words, wages are distributed <<percent den=var:data,gini,0|num=var:nation,gini|text=moreless2>> evenly for <<name>> (shown in red) than for the overall labor force (shown in gray)."
     stat:
       - title: "Wage GINI"
         value: "<<var namespace=data|row=0|key=gini>>"

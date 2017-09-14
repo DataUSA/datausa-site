@@ -1,5 +1,7 @@
 title: "Input/Output"
-description: "The Bureau of Economic Analysis publishes estimates of the sources of costs and the purchasers of products for individual industries. Inputs (left hand side) include products of other industries, value added (including the value of labor, capital, and certain taxes), and imports. Uses (right hand side) include sales to other industries and sales for final consumption (including personal consumption, private investment, government consumption and investment, and exports)."
+description:
+  - "Estimates of the sources of the costs and the purchasers of the products in the <<name>> <<level>>. Based on estimates from the Bureau of Economic Analysis, this section indicates the amount of money spent by a specific industry in other industries. <<var namespace=io_commodity|key=commodity_iocode|row=0>> has the highest single input, by dollars, to the <<name>> <<level>>, and the largest industry purchasing services from the <<name>> <<level>> is <<var namespace=io_industry|key=industry_iocode|row=0>>."
+  - "In this visualization, click on a category to expand or collapse it. All of the industries listed to the left are those places from which the highlighted industry has made purchases. They are the intermediate inputs to the highlighted industry. All those industries listed on the right side are those industries that have made purchases from the highlighted industry. They are the use of outputs of the highlighted industry. The visualizations below offer alternative ways to see and understand this data."
 
 topics:
   - slug: "sankey"
@@ -58,7 +60,7 @@ topics:
         subvalues:
           - "<<var namespace=io_commodity|key=commodity_iocode|row=1>>"
           - "<<var namespace=io_commodity|key=commodity_iocode|row=2>>"
-    description: "This shows the sources of inputs from all industries used by <<name>> (but not labor and capital costs) by their share of the cost of all intermediate input. <<var namespace=io_commodity|key=commodity_iocode|row=0>> provides the largest share of intermediate products to the <<name>> <<level>>."
+    description: "The <<name>> <<level>> gets the most input, by its share of the cost of all intermediate inputs, from the <<var namespace=io_commodity|key=commodity_iocode|row=0>> Industry. This visualization does not include labor and capital costs."
     viz:
       attrs: "iocode"
       color: "iocode"
@@ -90,7 +92,7 @@ topics:
         subvalues:
           - "<<var namespace=io_industry|key=industry_iocode|row=1>>"
           - "<<var namespace=io_industry|key=industry_iocode|row=2>>"
-    description: "This shows industries that purchase products of <<name>> in order to produce other goods and services. It does not include purchases of <<name>> for final consumption by consumers, businesses, and government."
+    description: "The <<var namespace=io_industry|key=industry_iocode|row=0>> Industry purchases the greatest share of products and services from the <<name>> <<level>> in order to produce other goods and services. Purchases of the <<name>> <<level>> for final consumption by consumers, businesses, or government are not included here."
     viz:
       attrs: "iocode"
       color: "iocode"

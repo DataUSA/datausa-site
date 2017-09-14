@@ -1,5 +1,9 @@
-- required: ["avg_age", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_rank", "avg_wage_ft", "avg_wage_pt", "avg_hrs_ft", "avg_hrs_pt"]
-  year: latest
+- required: ["year", "avg_age", "avg_wage", "avg_wage_rank", "avg_wage_moe", "num_ppl", "num_ppl_moe", "num_ppl_rank", "avg_wage_ft", "avg_wage_pt", "avg_hrs_ft", "avg_hrs_pt"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
   naics_level: <<sumlevel>>
   namespace: data
 
@@ -8,7 +12,7 @@
   dataset: bls
   namespace: ces
 
-- required: ["avg_wage", "avg_wage_moe"]
+- required: ["sex", "avg_wage", "avg_wage_moe"]
   sex: "1,2"
   limit: 2
   show: sex
@@ -130,3 +134,14 @@
   rows: True
   year: latest
   namespace: top10_soc_avg_wage
+
+- required: ["soc", "emp_2014_thousands", "emp_2024_thousands"]
+  limit: 5
+  order: "abs(pct_change)"
+  sort: "desc"
+  show: "soc"
+  rows: True
+  year: ""
+  naics: ""
+  soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=100|col=id>>"
+  namespace: top_soc_growth

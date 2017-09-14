@@ -1,10 +1,20 @@
 title: "Workforce"
-description: "Here we present a snapshot of jobs, wages, and opportunities in the <<name>> <<level>>."
+description: "A snapshot of jobs, wages, and opportunities in the <<name>> <<level>>. <<var namespace=top10_soc_num_ppl|key=soc|row=0>> are the most common position, but the <<name>> <<level>> employs a relatively high number of <<var namespace=top10_soc_num_ppl_rca|key=soc|row=0>>, compared to other industries. The highest average salary in <<name>> goes to <<var namespace=top10_soc_avg_wage|key=soc|row=0>>."
 
 topics:
   - category: "Occupations"
     slug: "tmap_top_occs"
     title: "Occupations by Share"
+    stat:
+      - title: "<<var namespace=data|row=0|key=year>> workforce"
+        value: "<<var namespace=data|row=0|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=num_ppl_moe>>"
+      - title: "1 year Growth"
+        value: "<<growth namespace=data|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=data|key=num_ppl_moe>>"
+    description:
+      - "The number of people employed in the <<name>> <<level>> has been <<percent num=var:data,num_ppl,0|den=var:data,num_ppl,1|text=growth>> at a rate of <<growth namespace=data|key=num_ppl>>, from <<var namespace=data|row=0|key=num_ppl|row=1>> people in <<var namespace=data|row=0|key=year|row=1>> to <<var namespace=data|row=0|key=num_ppl|row=0>> people in <<var namespace=data|row=0|key=year|row=0>>."
+      - "This graphic shows the share of <<name>> employment by various occupations. <<var namespace=top10_soc_num_ppl|key=soc|row=0>> represent the largest share of positions held in <<name>> at <<percent num=var:top10_soc_num_ppl,num_ppl,0|den=var:data,num_ppl,0>>, followed by <<var namespace=top10_soc_num_ppl|key=soc|row=1>> with <<percent num=var:top10_soc_num_ppl,num_ppl,1|den=var:data,num_ppl,0>> and <<var namespace=top10_soc_num_ppl|key=soc|row=2>> with <<percent num=var:top10_soc_num_ppl,num_ppl,2|den=var:data,num_ppl,0>>."
     viz:
       attrs: "soc"
       color: "soc"
@@ -27,7 +37,7 @@ topics:
   - title: "Most Common"
     slug: "top_occ_num_emp"
     class: "flex"
-    description: "The most common occupations in the <<name>> <<level>> by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>."
+    description: "The most common occupations in the <<name>> <<level>>, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3|naics_level=sumlevel>>."
     viz:
       - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:!11"
         attrs: "soc"
@@ -264,11 +274,11 @@ topics:
   - category: "Wages"
     title: "Average Salary"
     slug: "wages"
-    description: "On average, employees in the <<name>> <<level>> have a salary of <<var namespace=data|key=avg_wage>>. This makes <<name>> the <<var namespace=data|key=avg_wage_rank>> highest paying <<level>> in the United States out of <<rank_max>> <<level plural=True>>."
+    description: "On average, employees in the <<name>> <<level>> make <<var namespace=data|row=0|key=avg_wage>> per year. This number makes <<name>> the <<var namespace=data|row=0|key=avg_wage_rank>> highest paying <<level>> in the United States out of a total of <<rank_max>> <<level plural=True>>."
     stat:
       - title: "Average Wage"
-        value: "<<var namespace=data|key=avg_wage>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|key=avg_wage_moe>>"
+        value: "<<var namespace=data|row=0|key=avg_wage>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=avg_wage_moe>>"
     viz:
       attrs: "naics"
       data:
@@ -290,9 +300,9 @@ topics:
         value: "naics"
   - title: "Wage by Location"
     slug: "wage_geo"
-    description: "This map shows the public use microdata areas that pay the highest average salary to employees in the <<name>> <<level>>."
+    description: "This map shows which public use microdata areas (PUMAs) pay the highest average salary to employees in the <<name>> <<level>>."
     stat:
-      - title: Highest Paying PUMA
+      - title: Highest Paying Public Use Microdata Area
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_wage|key=geo|row=1>>"
@@ -313,7 +323,7 @@ topics:
       type: "geo_map"
   - title: "Wage Distribution"
     slug: "wage_distro"
-    description: "<<var namespace=wagegap|key=naics>> has a wage GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> when comparing to the national average."
+    description: "<<var namespace=wagegap|key=naics>> has a wage GINI of <<var namespace=wagegap|key=gini>>, which is <<percent num=var:wagegap,gini|den=var:wagegap_us,gini|text=highlow>> the national average of <<var namespace=wagegap_us|key=gini>>. In other words, wages are distributed <<percent den=var:wagegap,gini|num=var:wagegap_us,gini|text=moreless2>> evenly in <<name>> (shown in red) in comparison to the national average for those wage buckets (shown in gray)."
     stat:
       - title: "Wage GINI"
         value: "<<var namespace=wagegap|key=gini>>"
@@ -350,7 +360,7 @@ topics:
     category: "Opportunities"
     description:
       - "This map shows the PUMAs in the United States that have revealed comparative advantage in the <<name>> <<level>>."
-      - "These are locations that employ more people in the <<name>> <<level>> than expected given the size of their overall labor pool and the size of <<name>> <<level>> as a whole for the nation."
+      - "These are locations that employ more people in the <<name>> <<level>> than expected given both the size of that location's overall labor pool and the national size of the <<name>> <<level>>."
     stat:
       - title: "Public Use Microdata Areas with RCA"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"

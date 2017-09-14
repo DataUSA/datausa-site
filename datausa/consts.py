@@ -107,6 +107,7 @@ TEXTCOMPARATORS = {
     "age2": ("getting older", "getting younger", "staying the same age"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
+    "highlowsame": ("a higher", "a lower", "the same"),
     "growth": ("growing", "declining", "staying approximately the same as"),
     "grew": ("grew to", "declined to", "stayed at"),
     "longshort": ("longer", "shorter", "approximately equal"),

@@ -1,10 +1,10 @@
 title: "Diversity"
-description: "Demographic information on the <<name>> <<level>> in the US."
+description: "Demographic information on the <<name>> <<level>> in the US. <<var namespace=gender|key=sex|row=0>> employees tend to earn more than <<var namespace=gender|key=sex|row=1>> employees, with average respective salaries of <<var namespace=gender|key=avg_wage|row=0>> and <<var namespace=gender|key=avg_wage|row=1>>. So too <Asians> tend to earn more than other races and ethnicities in this industry."
 
 topics:
-  - title: "Wage by Gender for Common Jobs"
+  - title: "Wage by Gender in Common Jobs"
     slug: "wage_gender"
-    description: "<<top show=sex|order=avg_wage|sort=desc|naics_level=sumlevel>> workers in the <<name>> <<level>>, on average, make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<top show=sex|order=avg_wage|sort=asc|naics_level=sumlevel>> counterparts. This chart shows the wage disparity between the 5 most common occupations."
+    description: "On average, <<var namespace=gender|key=sex|row=0>> workers in the <<name>> <<level>> make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<var namespace=gender|key=sex|row=1>> counterparts. This chart shows the gender-based wage disparity in the 5 most common occupations in the <<name>> <<level>>."
     stat:
       - title: "Average Male Salary"
         value: "<<var namespace=gender|key=avg_wage|row=0>>"
@@ -34,9 +34,9 @@ topics:
           position: True
         value: "soc"
       y: "avg_wage"
-  - title: "Wage by Race & Ethnicity for Common Jobs"
+  - title: "Wage by Race & Ethnicity in Common Jobs"
     slug: "wage_ethnicity"
-    description: "<<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level>> earn, on average, <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than any other race or ethnicity. This chart shows the wage disparity between the 5 most common occupations in the <<name>> <<level>>."
+    description: "On average, <<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level>> earn <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than other races and ethnicities. This chart shows the race and ethnicity-based wage disparities in the 5 most common occupations in the <<name>> <<level>>."
     stat:
       - title: "Race or Ethnicity with the Highest Average Salary"
         value: "<<var namespace=race_wage|key=race|row=0>>"

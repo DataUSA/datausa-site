@@ -1665,6 +1665,7 @@ body.profile, body.map, body.story {
 
     p {
       font-size: 16px;
+      margin: 3px 0 12px;
 
       a {
         @include transition(border-bottom 0.35s);
