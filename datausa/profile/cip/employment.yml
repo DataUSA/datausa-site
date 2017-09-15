@@ -1,5 +1,5 @@
 title: "Employment"
-description: "The next set of visualizations allows you to explore which businesses hire employees from <<name>> and what occupations they practice."
+description: "Information on the businesses and industries that employ <<name dataset=pums>> graduates and on wages and locations for those in the field. <<var namespace=top10_naics_num_ppl|key=naics|row=0>> is the industry that employs the most <<name dataset=pums>> majors both by share and by number, though the highest paying industry for <<name dataset=pums>> majors, by average wage, is <<var namespace=top10_naics_avg_wage|key=naics|row=0>>."
 
 topics:
   - category: "Wages"
@@ -7,12 +7,15 @@ topics:
     title: "Yearly Income for Common Jobs"
     subtitle: "<<sub dataset=pums>>"
     stat:
-      - title: "Most Common Occupations"
-        value: "<<var namespace=occ_wage|key=soc|row=0>>"
-        subvalues:
-          - "<<var namespace=occ_wage|key=soc|row=1>>"
-          - "<<var namespace=occ_wage|key=soc|row=2>>"
-    description: "Here are the average salaries of the top 5 most common occupations for <<name>> majors."
+      - title: "Average Wage in Workforce"
+        value: "<<var namespace=data|row=0|key=avg_wage>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|key=avg_wage_moe|row=0>>"
+      - title: "1 year growth"
+        value: "<<growth namespace=data|key=avg_wage>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=data|key=avg_wage_moe>>"
+    description:
+      - "The average salary for those who major in <<name dataset=pums>> is <<var namespace=data|row=0|key=avg_wage>> and the most common occupations are <<var namespace=occ_wage|key=soc|row=0>>; <<var namespace=occ_wage|key=soc|row=1>>; and <<var namespace=occ_wage|key=soc|row=2>>. The occupation that pays the highest of the 5 common jobs filled by <<name dataset=pums>> majors is <<var namespace=top10_soc_avg_wage|key=soc|row=0>> at <<var namespace=top10_soc_avg_wage|key=avg_wage|row=0>> per year."
+      - "This chart shows the average annual salaries of the most common occupations for <<name dataset=pums>> majors."
     viz:
       attrs: "soc"
       data:
@@ -37,12 +40,12 @@ topics:
     slug: "locations"
     subtitle: "<<sub dataset=pums>>"
     stat:
-      - title: "<<name>> majors are paid the highest in"
+      - title: "highest paying PUMAs"
         value: "<<var namespace=puma_wage|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_wage|key=geo|row=1>>"
           - "<<var namespace=puma_wage|key=geo|row=2>>"
-    description: "This map shows the public-use micro areas in the United States colored by the average salary of <<name>> majors."
+    description: "This map shows the public use micro areas (PUMAs) in the United States colored by the average salary of <<name dataset=pums>> majors."
     viz:
       attrs: "geo"
       color: "avg_wage"
@@ -62,7 +65,7 @@ topics:
     title: "Most Common"
     subtitle: "<<sub dataset=pums>>"
     slug: "top_occ_num_emp"
-    description: "The most common occupations for <<name>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common occupations for <<name dataset=pums>> majors, by number of employees, are <<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - allowed: "<<var namespace=top10_soc_num_ppl|format=length>>:!11"
         attrs: "soc"
@@ -134,7 +137,7 @@ topics:
     title: "Most Specialized"
     subtitle: "<<sub dataset=pums>>"
     slug: "top_occ_rca"
-    description: "Compared to other majors, there are an unusually high number of <<name>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
+    description: "Compared to other majors, there are an unusually high number of <<name dataset=pums>> majors working as <<top show=soc|sumlevel=3|order=num_ppl_rca|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - allowed: "<<var namespace=top10_soc_num_ppl_rca|format=length>>:!11"
         attrs: "soc"
@@ -208,7 +211,7 @@ topics:
     title: "Highest Paid"
     subtitle: "<<sub dataset=pums>>"
     slug: "top_occ_wage"
-    description: "The highest paid occupations for <<name>> majors, by median income, are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paid occupations by median income for <<name dataset=pums>> majors are <<top show=soc|sumlevel=3|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - allowed: "<<var namespace=top10_soc_avg_wage|format=length>>:!11"
         attrs: "soc"
@@ -281,6 +284,16 @@ topics:
   - slug: "tmap_occ_num_emp_degree"
     title: "Occupations by Share"
     subtitle: "<<sub dataset=pums>>"
+    stat:
+      - title: "<<var namespace=data|row=0|key=year>> workforce"
+        value: "<<var namespace=data|row=0|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=num_ppl_moe>>"
+      - title: "1 year Growth"
+        value: "<<growth namespace=data|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=data|key=num_ppl_moe>>"
+    description:
+      - "The number of <<name dataset=pums>> graduates in the workforce has been <<percent num=var:data,num_ppl,0|den=var:data,num_ppl,1|text=growth>> at a rate of <<growth namespace=data|key=num_ppl>>, from <<var namespace=data|key=num_ppl|row=1>> in <<var namespace=data|key=year|row=1>> to <<var namespace=data|key=num_ppl|row=0>> in <<var namespace=data|key=year|row=0>>."
+      - "The largest single share of <<name dataset=pums>> graduates go on to work as <<var namespace=top10_soc_num_ppl|key=soc|row=0>> (<<percent num=var:top10_soc_num_ppl,num_ppl,0|den=var:data,num_ppl,0>>). This chart shows the various jobs filled by those with a major in <<name dataset=pums>> by share of the total number of graduates."
     viz:
       attrs: "soc"
       color: "soc"
@@ -304,7 +317,7 @@ topics:
     class: "flex"
     title: "Most Common"
     subtitle: "<<sub dataset=pums>>"
-    description: "The most common industries that employ <<name>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
+    description: "The most common industries that employ <<name dataset=pums>> majors, by number of employees, are <<top show=naics|sumlevel=2|order=num_ppl|sort=desc|limit=3>>."
     viz:
       - allowed: "<<var namespace=top10_naics_num_ppl|format=length>>:!11"
         attrs: "naics"
@@ -377,7 +390,7 @@ topics:
     title: "Highest Paid"
     subtitle: "<<sub dataset=pums>>"
     slug: "top_ind_wage"
-    description: "The highest paid industries of <<name>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
+    description: "The highest paying industries of <<name dataset=pums>> majors, by average wage, are <<top show=naics|sumlevel=2|order=avg_wage|sort=desc|limit=3|where=num_records:>4>>."
     viz:
       - allowed: "<<var namespace=top10_naics_avg_wage|format=length>>:!11"
         attrs: "naics"
@@ -450,6 +463,16 @@ topics:
   - slug: "tmap_ind_num_emp"
     title: "Industries by Share"
     subtitle: "<<sub dataset=pums>>"
+    stat:
+      - title: "<<var namespace=data|row=0|key=year>> workforce"
+        value: "<<var namespace=data|row=0|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=num_ppl_moe>>"
+      - title: "1 year Growth"
+        value: "<<growth namespace=data|key=num_ppl>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=data|key=num_ppl_moe>>"
+    description:
+      - "The number of <<name dataset=pums>> graduates in the workforce has been <<percent num=var:data,num_ppl,0|den=var:data,num_ppl,1|text=growth>> at a rate of <<growth namespace=data|key=num_ppl>>, from <<var namespace=data|key=num_ppl|row=1>> in <<var namespace=data|key=year|row=1>> to <<var namespace=data|key=num_ppl|row=0>> in <<var namespace=data|key=year|row=0>>."
+      - "The industry which employs the most <<name dataset=pums>> graduates by share is <<var namespace=top10_naics_num_ppl|key=naics|row=0>>, followed by <<var namespace=top10_naics_num_ppl|key=naics|row=1>>. This visualization shows the industries that hire those who major in <<name dataset=pums>>."
     viz:
       attrs: "naics"
       color: "naics"
@@ -471,12 +494,12 @@ topics:
     subtitle: "<<sub dataset=pums>>"
     slug: "ind_geo_map"
     stat:
-      - title: "PUMA with a relatively high number of <<name>> majors"
+      - title: "PUMAs with a relatively high number of <<name dataset=pums>> majors"
         value: "<<var namespace=puma_rca|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=puma_rca|key=geo|row=1>>"
           - "<<var namespace=puma_rca|key=geo|row=2>>"
-    description: "This map shows the public-use micro areas in the United States where there are a relatively high population of industries that employ <<name>> majors."
+    description: "This map shows the public use micro areas (PUMAs) in the United States where there are a relatively high population of <<name dataset=pums>> majors living. Note that the census collects information tied to where people live, not where they work. It is possible that <<name dataset=pums>> majors live and work in the same place, but it is also possible that they live and work in two different places."
     viz:
       attrs: "geo"
       color: "num_ppl_rca"

@@ -1,5 +1,5 @@
 title: "Institutions"
-description: "Explore the visualizations in this section to find information about what types of institutions of higher education grant degrees in this field of study, and what the characteristics of the students in this field are."
+description: "Information about the types of higher education institutions that grant degrees in <<name>> and the types of students that study this field. <<var namespace=universities|key=university|row=0>> awards the most degrees in graphic design in the US, but <<var namespace=universities_pct|key=university|row=0>> and <<var namespace=universities_pct|key=university|row=1>> have the highest percentage of degrees awarded in <<name>>. Tuition costs for <<name>> majors are, on average, <<var namespace=tuition_public|key=state_tuition|row=0>> for in-state public colleges, and <<var namespace=tuition_private|key=oos_tuition|row=0>> for out of state private colleges. The largest share of institutions with <<name>> programs are <<var namespace=sectors|key=sector>> institutions."
 
 topics:
   - title: "Institutions"
@@ -10,7 +10,7 @@ topics:
         subvalues:
           - "<<var namespace=universities|key=university|row=1>>"
           - "<<var namespace=universities|key=university|row=2>>"
-    description: "The largest share of institutions that offer <<name>> are <<var namespace=sectors|key=sector>> institutions."
+    description: "The largest share of institutions that offer <<name>> degrees are <<var namespace=sectors|key=sector>> institutions."
     viz:
       attrs:
         - "sector"
@@ -38,10 +38,10 @@ topics:
       title: "Tuition Costs by College Degree"
     stat:
       - title: "Median In-State Public"
-        value: "<<var namespace=tuition|key=state_tuition|row=0>>"
+        value: "<<var namespace=tuition_public|key=state_tuition|row=0>>"
       - title: "Median Out of State Private"
-        value: "<<var namespace=tuition|key=oos_tuition|row=1>>"
-    description: "Here are the tuition costs of the top 5 institutions that have the most students graduating with <<name>> degrees."
+        value: "<<var namespace=tuition_private|key=oos_tuition|row=0>>"
+    description: "This visualization shows the tuition costs of the 5 institutions with the most <<name>> graduates by number."
     viz:
       attrs: "university"
       data:
@@ -73,11 +73,11 @@ topics:
     slug: "institutions_most_degrees"
     stat:
       - title: "Highest Concentration Institution"
-        value: "<<var namespace=universities_pct|key=university|row=0>>"
+        value: "<<var namespace=universities_pct|key=university|row=0>> <span class='stat-subtitle'><<var namespace=universities_pct|key=pct_total|row=0>></span>"
         subvalues:
-          - "<<var namespace=universities_pct|key=university|row=1>>"
-          - "<<var namespace=universities_pct|key=university|row=2>>"
-    description: "Here are the institutions that have the highest percentage of degrees awarded in <<name>>."
+          - "<<var namespace=universities_pct|key=university|row=1>> <span class='stat-subtitle'><<var namespace=universities_pct|key=pct_total|row=1>></span>"
+          - "<<var namespace=universities_pct|key=university|row=2>> <span class='stat-subtitle'><<var namespace=universities_pct|key=pct_total|row=2>></span>"
+    description: "<<var namespace=universities_pct|key=university|row=0>> and <<var namespace=universities_pct|key=university|row=1>> have the highest percentage of degrees awarded in <<name>>, with <<var namespace=universities_pct|key=pct_total|row=0>> and <<var namespace=universities_pct|key=pct_total|row=1>>, respectively."
     viz:
       attrs: "university"
       data:
@@ -94,12 +94,12 @@ topics:
   - title: "Degrees Awarded by County"
     slug: "counties_most_degrees"
     stat:
-      - title: "County with the Most Degrees Awarded for <<name>>"
+      - title: "Counties with the Most Degrees Awarded in <<name>>"
         value: "<<var namespace=county_grads|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=county_grads|key=geo|row=1>>"
           - "<<var namespace=county_grads|key=geo|row=2>>"
-    description: "This map shows the counties in the United States colored by the highest graduation of <<name>> majors."
+    description: "This map shows the counties in the United States colored by the highest number of <<name>> graduates by year."
     viz:
       attrs: "geo"
       color: "grads_total"
@@ -112,10 +112,10 @@ topics:
       height: 400
       id: "geo"
       type: "geo_map"
-  - title: "Growth in Degrees Awarded"
+  - title: "Growth in Awarded Degrees"
     slug: "counties_growth_degrees"
     stat:
-      - title: "County with the Fastest Growing Number of Degrees Awarded"
+      - title: "Counties with the Fastest Growing Number of Degrees Awarded"
         value: "<<var namespace=county_growth|key=geo|row=0>>"
         subvalues:
           - "<<var namespace=county_growth|key=geo|row=1>>"

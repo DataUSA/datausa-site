@@ -1,5 +1,7 @@
 title: "Skills"
-description: "The visualizations in this section allow you to explore what skills are critical for succeeding in jobs that employ people from <<name>> and which skills are most distinctive."
+description:
+  - "Data on the critical and distinctive skills necessary for those working in the <<name>> field from the Bureau of Labor Statistics. <<name>> majors need many skills, but most especially <<var namespace=skill_value|key=skill|row=0>>. The revealed comparative advantage (RCA) shows that <<name>> majors need more than the average amount of <<var namespace=skill_rca|key=skill|row=0>>, <<var namespace=skill_rca|key=skill|row=1>>, and <<var namespace=skill_rca|key=skill|row=2>>."
+  - "These two visualizations, one a radial chart and one a bar chart, show the same information, a rating of how necessary the following skills are for <<name>> majors. Toggle between \"value\" and \"RCA\" to see the absolute rating of that skill (value) and the revealed comparative advantage (RCA), or how much greater or lesser that skill's rating is than the average. The longer the bar or the closer the line comes to the circumference of the circle, the more important that skill is. The importance of <<var namespace=skill_rca|key=skill|row=0>> is very distinctive for <graphic design> majors, but the <<var namespace=skill_value|key=skill|row=0>>, <<var namespace=skill_value|key=skill|row=1>>, and <<var namespace=skill_value|key=skill|row=2>> are the three most important skills for people in the field."
 
 topics:
   - title: "Radar Distribution"
