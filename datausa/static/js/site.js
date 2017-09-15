@@ -5234,11 +5234,11 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             if(target_id === "view-table"){
               var window_h = getElDimensions()[1];
               var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
-              var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+              var new_h = Math.max(s, Math.min(window_h * 0.8, el_h));
               d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
             }
             else {
-              d3.selectAll(".panel").style("height", 250+"px");
+              d3.selectAll(".panel").style("height", s+"px");
             }
 
           });
@@ -5348,7 +5348,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           container = d3.select(build.container.node().parentNode).selectAll("svg");
         }
         else {
-          container = build.container.selectAll(".d3plus");
+          container = build.container;
           if (container.size()) container = container.selectAll("svg");
           else container = build.container.selectAll("svg");
         }
@@ -5535,7 +5535,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                 if (active_panel.node().id === "view-table") {
                   var window_h = getElDimensions()[1];
                   var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
-                  var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+                  var new_h = Math.max(s, Math.min(window_h * 0.8, el_h));
                   d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
                 }
 
@@ -8201,7 +8201,7 @@ var viz = function(build) {
       "children": build.config.tooltip.value.length < 3
     })
     .background("transparent")
-    .container(build.container.select(".d3plus"))
+    .container(build.container)
     .error("Please Wait")
     .draw();
 
@@ -8556,6 +8556,7 @@ viz.defaults = function(build) {
       style: "large",
       value: "Drawing Visualization"
     },
+    resize: true,
     time: {
       fixed: false,
       value: "year"
@@ -9507,13 +9508,13 @@ viz.resizeBuild = function(b) {
     b.height = b.container.node().parentNode.offsetHeight;
   }
   if (b.loaded) {
-    b.container.select(".d3plus")
+    b.container.select("div")
       .style("height", "auto")
       .style("width", "auto");
-    b.viz
-      .height(false)
-      .width(false)
-      .draw();
+    b.container.selectAll("svg#d3plus")
+      .attr("height", "auto")
+      .attr("width", "auto");
+    b.viz.width(false).height(false).draw();
   }
 }
 
@@ -10508,7 +10509,7 @@ viz.mapDraw = function(vars) {
     else {
       key_height = 0;
     }
-    var thumb = d3.select(vars.container.value.node().parentNode).classed("thumbprint");
+    var thumb = d3.select(vars.container.value.node()).classed("thumbprint");
     var pinData = [];
     var coordTopo = d3plus.util.copy(coords.objects[vars.coords.key]);
     coordTopo.geometries = coordTopo.geometries.filter(function(c){

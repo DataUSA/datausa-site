@@ -198,13 +198,13 @@ viz.resizeBuild = function(b) {
     b.height = b.container.node().parentNode.offsetHeight;
   }
   if (b.loaded) {
-    b.container.select(".d3plus")
+    b.container.select("div")
       .style("height", "auto")
       .style("width", "auto");
-    b.viz
-      .height(false)
-      .width(false)
-      .draw();
+    b.container.selectAll("svg#d3plus")
+      .attr("height", "auto")
+      .attr("width", "auto");
+    b.viz.width(false).height(false).draw();
   }
 }
 

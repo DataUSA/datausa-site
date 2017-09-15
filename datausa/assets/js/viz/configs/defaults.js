@@ -140,6 +140,7 @@ viz.defaults = function(build) {
       style: "large",
       value: "Drawing Visualization"
     },
+    resize: true,
     time: {
       fixed: false,
       value: "year"

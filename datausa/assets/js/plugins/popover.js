@@ -154,11 +154,11 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             if(target_id === "view-table"){
               var window_h = getElDimensions()[1];
               var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
-              var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+              var new_h = Math.max(s, Math.min(window_h * 0.8, el_h));
               d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
             }
             else {
-              d3.selectAll(".panel").style("height", 250+"px");
+              d3.selectAll(".panel").style("height", s+"px");
             }
 
           });
@@ -268,7 +268,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
           container = d3.select(build.container.node().parentNode).selectAll("svg");
         }
         else {
-          container = build.container.selectAll(".d3plus");
+          container = build.container;
           if (container.size()) container = container.selectAll("svg");
           else container = build.container.selectAll("svg");
         }
@@ -455,7 +455,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                 if (active_panel.node().id === "view-table") {
                   var window_h = getElDimensions()[1];
                   var el_h = getElDimensions(d3.select("div.panel#view-table").node())[1];
-                  var new_h = Math.max(250, Math.min(window_h * 0.8, el_h));
+                  var new_h = Math.max(s, Math.min(window_h * 0.8, el_h));
                   d3.selectAll(".panel").style("height", Math.round(new_h)+"px");
                 }
 

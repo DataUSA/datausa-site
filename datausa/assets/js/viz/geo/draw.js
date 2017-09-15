@@ -464,7 +464,7 @@ viz.mapDraw = function(vars) {
     else {
       key_height = 0;
     }
-    var thumb = d3.select(vars.container.value.node().parentNode).classed("thumbprint");
+    var thumb = d3.select(vars.container.value.node()).classed("thumbprint");
     var pinData = [];
     var coordTopo = d3plus.util.copy(coords.objects[vars.coords.key]);
     coordTopo.geometries = coordTopo.geometries.filter(function(c){

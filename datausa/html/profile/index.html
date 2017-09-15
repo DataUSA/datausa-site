@@ -144,9 +144,7 @@
         </div>
         {% endif %}
         {% if profile.splash.viz %}
-        <div class="viz thumbprint">
-          <div class="d3plus"></div>
-        </div>
+        <div class="viz thumbprint"></div>
         <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
         {% endif %}
       </div>

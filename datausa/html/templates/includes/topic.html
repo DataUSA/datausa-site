@@ -67,9 +67,7 @@
       <p class="definition"></p>
       {% endif %}
       {% if topic.miniviz %}
-      <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}>
-        <div class="d3plus"></div>
-      </div>
+      <div class="viz mini"{% if topic.miniviz.config.height %} style="max-height:{{ topic.miniviz.config.height }}px; height:{{ topic.miniviz.config.height }}px;"{% endif %}></div>
       <script>builds.push({{ topic.miniviz.serialize()|safe }});</script>
       {% endif %}
       {% if topic.source != False and topic.class != "flex" %}
@@ -79,9 +77,7 @@
     </aside>
     {% endif %}
     {% for viz in topic.viz %}
-    <div class="viz main {{ viz.config.type }}{% if viz.className %} {{ viz.className }}{% endif %}"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}>
-      <div class="d3plus"></div>
-    </div>
+    <div class="viz main {{ viz.config.type }}{% if viz.className %} {{ viz.className }}{% endif %}"{% if splash and viz.config.height %} style="height:{{ viz.config.height }}px;"{% endif %}></div>
     <script>builds.push({{ viz.serialize()|safe }});</script>
     {% endfor %}
     {% if topic.source != False and ((not aside and topic.viz) or topic.class == "flex") %}

@@ -1763,6 +1763,20 @@
                                 padding: 3px; }
                                 .overlay#view .modal .body .panels .panel .view-table tbody tr:hover {
                                   background-color: #E9E9E9; }
+            @media only screen and (max-width : 584px) {
+              .overlay#view .modal {
+                width: 100%;   }
+                .overlay#view .modal .body .nav .change_share {
+                  font-size: 12px;
+                  margin: 8px 10px 0;   }
+                .overlay#view .modal .body .panels .panel {
+                  padding: 0 20px;
+                  width: 100vw;   }
+                  .overlay#view .modal .body .panels .panel .filetypes .filetype {
+                    padding: 0;   }
+                  .overlay#view .modal .body .panels .panel .embed_options .options {
+                    margin: 0 0 20px;   }
+}
 
   .search-results #search-loading {
     -webkit-box-sizing: border-box;
@@ -5870,9 +5884,9 @@
             body.map .profile-section .topic .content .viz.tree_map,
             body.story .profile-section .topic .content .viz.tree_map {
               min-height: 500px; }
-              body.profile .profile-section .topic .content .viz .d3plus #XXUSA,
-              body.map .profile-section .topic .content .viz .d3plus #XXUSA,
-              body.story .profile-section .topic .content .viz .d3plus #XXUSA {
+              body.profile .profile-section .topic .content .viz .viz #XXUSA,
+              body.map .profile-section .topic .content .viz .viz #XXUSA,
+              body.story .profile-section .topic .content .viz .viz #XXUSA {
                 fill: #bbb !important;
                 stroke: #aaa !important; }
         body.profile .profile-section .topic .content .viz.mini,
@@ -6722,7 +6736,8 @@
             -moz-box-flex: 0 0 auto !important;
             -webkit-flex: 0 0 auto !important;
             -ms-flex: 0 0 auto !important;
-            flex: 0 0 auto !important; }
+            flex: 0 0 auto !important;
+            overflow: scroll; }
             body.embed .profile-section .topic .content .sub-source {
               position: relative;
               width: 100%; }
@@ -6732,9 +6747,9 @@
                 right: 0; }
           body.embed .profile-section .topic .content .viz:not(.mini),
           body.embed .profile-section .topic .content .viz.full-width {
-            height: 100% !important;
-            max-height: 100% !important;
-            min-height: 100% !important; }
+            height: auto !important;
+            max-height: none !important;
+            min-height: 0 !important; }
 
   body.map {
     background-color: #cdd1d3;
