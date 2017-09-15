@@ -115,7 +115,17 @@ body.profile, body.map, body.story {
   }
 
   &.cip {
-    .institutions, .employment {
+    .institutions, .demographics {
+      background-color: $d-profile-bg;
+    }
+
+    .employment, .skills  {
+      background-color: $l-profile-bg;
+    }
+  }
+
+  &.soc {
+    .employment, .education, .growth {
       background-color: $d-profile-bg;
     }
 
@@ -124,22 +134,12 @@ body.profile, body.map, body.story {
     }
   }
 
-  &.soc {
-    .employment, .education, .skills {
+  &.naics {
+    .workforce, .io  {
       background-color: $d-profile-bg;
     }
 
     .demographics, .growth  {
-      background-color: $l-profile-bg;
-    }
-  }
-
-  &.naics {
-    .workforce, .growth  {
-      background-color: $d-profile-bg;
-    }
-
-    .io  {
       background-color: $l-profile-bg;
     }
   }

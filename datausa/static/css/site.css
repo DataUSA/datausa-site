@@ -3612,28 +3612,28 @@
     body.profile.geo .health, body.profile.geo .education, body.map.geo .health,
     body.map.geo .education, body.story.geo .health, body.story.geo .education {
       background-color: #F6F6F6; }
-  body.profile.cip .institutions, body.profile.cip .employment,
-  body.map.cip .institutions, body.map.cip .employment, body.story.cip .institutions,
-  body.story.cip .employment {
+  body.profile.cip .institutions, body.profile.cip .demographics,
+  body.map.cip .institutions, body.map.cip .demographics,
+  body.story.cip .institutions, body.story.cip .demographics {
     background-color: #E9E9E9; }
-    body.profile.cip .demographics, body.profile.cip .skills,
-    body.map.cip .demographics, body.map.cip .skills, body.story.cip .demographics,
-    body.story.cip .skills {
+    body.profile.cip .employment, body.profile.cip .skills, body.map.cip .employment,
+    body.map.cip .skills, body.story.cip .employment, body.story.cip .skills {
       background-color: #F6F6F6; }
   body.profile.soc .employment, body.profile.soc .education,
-  body.profile.soc .skills, body.map.soc .employment, body.map.soc .education,
-  body.map.soc .skills, body.story.soc .employment, body.story.soc .education,
-  body.story.soc .skills {
+  body.profile.soc .growth, body.map.soc .employment, body.map.soc .education,
+  body.map.soc .growth, body.story.soc .employment, body.story.soc .education,
+  body.story.soc .growth {
     background-color: #E9E9E9; }
-    body.profile.soc .demographics, body.profile.soc .growth,
-    body.map.soc .demographics, body.map.soc .growth, body.story.soc .demographics,
-    body.story.soc .growth {
+    body.profile.soc .demographics, body.profile.soc .skills,
+    body.map.soc .demographics, body.map.soc .skills, body.story.soc .demographics,
+    body.story.soc .skills {
       background-color: #F6F6F6; }
-  body.profile.naics .workforce, body.profile.naics .growth,
-  body.map.naics .workforce, body.map.naics .growth, body.story.naics .workforce,
-  body.story.naics .growth {
+  body.profile.naics .workforce, body.profile.naics .io, body.map.naics .workforce,
+  body.map.naics .io, body.story.naics .workforce, body.story.naics .io {
     background-color: #E9E9E9; }
-    body.profile.naics .io, body.map.naics .io, body.story.naics .io {
+    body.profile.naics .demographics, body.profile.naics .growth,
+    body.map.naics .demographics, body.map.naics .growth,
+    body.story.naics .demographics, body.story.naics .growth {
       background-color: #F6F6F6; }
   body.profile.embed section, body.map.embed section, body.story.embed section {
     background-color: transparent !important; }
