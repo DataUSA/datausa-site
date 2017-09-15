@@ -758,6 +758,8 @@ class Profile(BaseObject):
         key = kwargs.pop("key", "name")
         attr_id = self.id(**kwargs)
         attr_type = kwargs.get("attr_type", self.attr_type)
+        if attr_type == self.attr_type:
+            original = fetch(self.attr["id"], attr_type)
 
         if kwargs.get("dataset", False):
             if self.attr["id"] != attr_id:
@@ -773,7 +775,11 @@ class Profile(BaseObject):
 
         if key == "name":
             if substitution:
-                return u"Showing data for {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
+                if original:
+                    return u"Data for {} is not available, using data from {} as the closest approximation.".format(original["display_name"] if "display_name" in original else original[key], substitution["display_name"] if "display_name" in substitution else substitution[key])
+                else:
+
+                    return u"Using data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
                 return ""
         else:
