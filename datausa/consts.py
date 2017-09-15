@@ -108,7 +108,7 @@ TEXTCOMPARATORS = {
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
     "highlowsame": ("a higher", "a lower", "the same"),
-    "growth": ("growing", "declining", "staying approximately the same as"),
+    "growth": ("growing", "declining", "maintaining"),
     "grew": ("grew to", "declined to", "stayed at"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
