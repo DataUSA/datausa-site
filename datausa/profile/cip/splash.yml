@@ -1,20 +1,26 @@
 title: "<<name>>"
 group: "<<level>>"
-description: >
-  The locations with the highest concentration of <<name>> graduates are <<var namespace=grads_total_places|key=geo|row=0>>, <<var namespace=grads_total_places|key=geo|row=1>> and <<var namespace=grads_total_places|key=geo|row=2>>. The locations with a relatively high number of <<name>> graduates are <<var namespace=grads_rca_places|key=geo|row=0>>, <<var namespace=grads_rca_places|key=geo|row=1>> and <<var namespace=grads_rca_places|key=geo|row=2>>. The top degree awarded to students studying <<name>> is <<var namespace=degree_student|key=degree|row=0>>.
+description:
+  - "The locations with the highest concentration of <<name>> graduates are <<var namespace=grads_total_places|key=geo|row=0>>, <<var namespace=grads_total_places|key=geo|row=1>> and <<var namespace=grads_total_places|key=geo|row=2>>. The locations with a relatively high number of <<name>> graduates are <<var namespace=grads_rca_places|key=geo|row=0>>, <<var namespace=grads_rca_places|key=geo|row=1>> and <<var namespace=grads_rca_places|key=geo|row=2>>. The most common degree awarded to students studying <<name>> is a <<var namespace=degree_student|key=degree|row=0>>."
 stats:
+  - title: "Total Degrees<br />Awarded in <<var namespace=gdata|row=0|key=year>>"
+    value: "<<var namespace=gdata|row=0|key=grads_total>>"
+    rank: "<<percent num=var:gdata,grads_total,0|den=var:gdata,grads_total,1|text=growth>> <<growth namespace=gdata|key=grads_total>>"
   - title: "Median In-State<br />Public Tuition"
-    value: "<<top show=sector|sector=1|col=state_tuition>>"
+    value: "<<var namespace=tuition_public|key=state_tuition|row=0>>"
+    rank: "<<percent num=var:tuition_public,state_tuition,0|den=var:tuition_public,state_tuition,1|text=growth>> <<growth namespace=tuition_public|key=state_tuition>>"
   - title: "Median Out-of-State<br />Private Tuition"
-    value: "<<top show=sector|sector=1|col=oos_tuition>>"
-  - title: "Degrees Awarded<br />in <<var namespace=gdata|key=year>>"
-    value: "<<var namespace=gdata|key=grads_total>>"
-  - title: "Average Employee Age"
-    value: "<<var namespace=age|key=avg_age>>"
+    value: "<<var namespace=tuition_private|key=oos_tuition|row=0>>"
+    rank: "<<percent num=var:tuition_private,oos_tuition,0|den=var:tuition_private,oos_tuition,1|text=growth>> <<growth namespace=tuition_private|key=oos_tuition>>"
   - title: "{{<<name>>:<<name dataset=pums>>||Average Wage}}{{<<name>>:!<<name dataset=pums>>||<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='Using data from the \"<<name dataset=pums|text_only=True>>\" parent course.'>Average Wage</span>}}"
-    value: "<<var namespace=data|key=avg_wage>>"
+    value: "<<var namespace=data|row=0|key=avg_wage>>"
+    rank: "<<percent num=var:data,avg_wage,0|den=var:data,avg_wage,1|text=growth>> <<growth namespace=data|key=avg_wage>>"
   - title: "{{<<name>>:<<name dataset=pums>>||People in Workforce}}{{<<name>>:!<<name dataset=pums>>||<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='Using data from the \"<<name dataset=pums|text_only=True>>\" parent course.'>People in Workforce</span>}}"
-    value: "<<var namespace=data|key=num_ppl>>"
+    value: "<<var namespace=data|row=0|key=num_ppl>>"
+    rank: "<<percent num=var:data,num_ppl,0|den=var:data,num_ppl,1|text=growth>> <<growth namespace=data|key=num_ppl>>"
+  - title: "Average Employee Age"
+    value: "<<var namespace=age|key=avg_age|row=0>>"
+    rank: "<<percent num=var:age,avg_age,0|den=var:age,avg_age,1|text=growth>> <<growth namespace=age|key=avg_age>>"
 
 sections:
   - institutions
