@@ -1,5 +1,5 @@
 title: "Housing & Living"
-description: "Information pertaining to households and the people that reside in <<name>>."
+description: "Information about property value, property taxes, property ownership, and household income in {{<<sumlevel>>:nation||the }}<<name>>. The median value of a property in {{<<sumlevel>>:nation||the }}<<name>> was <<var namespace=acsgeo|key=median_property_value|row=0>> in <<var namespace=acsgeo|key=year|row=0>>, and the average property tax was <<top col=propertytaxBucket|force=acs.yg_property_tax>>. In {{<<sumlevel>>:nation||the }}<<name>>, <<var namespace=homeowners|key=owner_occupied_housing_units|row=0>> of housing units are owner-occupied, <<percent num=var:homeowners,owner_occupied_housing_units,0|den=var:splash,owner_occupied_housing_units,1|text=highlow>> the national average of <<var namespace=splash|key=owner_occupied_housing_units|row=1>>. The most common method of travel in {{<<sumlevel>>:nation||the }}<<name>> is <<var namespace=transport|row=0|key=name>>, with an average commute time of <<var namespace=commute|key=mean_commute_minutes|row=0>> minutes."
 
 topics:
   - category: "Income"
@@ -19,7 +19,7 @@ topics:
         value: "<<var namespace=tenure|key=households>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=tenure|key=households_moe>>"
     description:
-      - "In <<var namespace=income|key=year|row=0>>, the median household income in {{<<sumlevel>>:nation||the }}<<name>> <<percent num=var:income,income,0|den=var:income,income,1|text=grew>> <<var namespace=income|key=income|row=0>> from the previous year's value of <<var namespace=income|key=income|row=1>>. This number is based on the <<var namespace=tenure|key=households>> households located in {{<<sumlevel>>:nation||the }}<<name>>."
+      - "In <<var namespace=income|key=year|row=0>>, the median household income of the <<var namespace=tenure|key=households>> households in {{<<sumlevel>>:nation||the }}<<name>> <<percent num=var:income,income,0|den=var:income,income,1|text=grew>> <<var namespace=income|key=income|row=0>> from the previous year's value of <<var namespace=income|key=income|row=1>>."
       - "The following chart displays the households in {{<<sumlevel>>:nation||the }}<<name>> distributed between a series of income buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. The largest share of households have an income in the <<top col=incomeBucket|force=acs.yg_income_distribution>> range."
     viz:
       attrs: "geo"
@@ -49,7 +49,7 @@ topics:
         value: "<<var namespace=acsgeo|key=median_property_value|row=1>> <span class='stat-subtitle'><span class='plus-minus'>±</span> <<var namespace=acsgeo|key=median_property_value_moe|row=1>></span>"
     description:
       - "In <<var namespace=acsgeo|key=year|row=0>>, the median property value in {{<<sumlevel>>:nation||the }}<<name>> <<percent num=var:acsgeo,median_property_value,0|den=var:acsgeo,median_property_value,1|text=grew>> <<var namespace=acsgeo|key=median_property_value|row=0>> from the previous year's value of <<var namespace=acsgeo|key=median_property_value|row=1>>."
-      - "The following charts display the property value in {{<<sumlevel>>:nation||the }}<<name>> compared to other geographies, as well as the owner-occupied housing units distributed between a series of property value buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. The largest share of households have a property value in the <<top col=propertyvalBucket|force=acs.yg_property_value>> range."
+      - "The following charts display, first, the property values in {{<<sumlevel>>:nation||the }}<<name>> compared to other geographies and, second, owner-occupied housing units distributed between a series of property value buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. In {{<<sumlevel>>:nation||the }}<<name>> the largest share of households have a property value in the <<top col=propertyvalBucket|force=acs.yg_property_value>> range."
     miniviz:
       attrs: "geo"
       data:
@@ -91,7 +91,7 @@ topics:
       - title: "Average Range"
         value: "<<top col=propertytaxBucket|force=acs.yg_property_tax>>"
     description:
-      - "The following charts display the households in {{<<sumlevel>>:nation||the }}<<name>> distributed between a series of property tax buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. The largest share of households pay taxes in the <<top col=propertytaxBucket|force=acs.yg_property_tax>> range."
+      - "This chart shows the households in {{<<sumlevel>>:nation||the }}<<name>> distributed between a series of property tax buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. In {{<<sumlevel>>:nation||the }}<<name>> the largest share of households pay taxes in the <<top col=propertytaxBucket|force=acs.yg_property_tax>> range."
     viz:
       attrs: "geo"
       data:
@@ -119,8 +119,8 @@ topics:
         required: owner_occupied_housing_units
     slug: "rent_own"
     description:
-      - "In <<var namespace=homeowners|key=year|row=0>>, <<var namespace=homeowners|key=owner_occupied_housing_units|row=0>> of the housing units in {{<<sumlevel>>:nation||the }}<<name>> were occupied by their owner. This percentage has been <<percent num=var:homeowners,owner_occupied_housing_units,0|den=var:homeowners,owner_occupied_housing_units,1|text=growth>> compared to the previous year's <<var namespace=homeowners|key=owner_occupied_housing_units|row=1>>."
-      - "{{<<sumlevel>>:!nation|| This is <<percent num=var:homeowners,owner_occupied_housing_units,0|den=var:splash,owner_occupied_housing_units,1|text=highlow>> the national average of <<var namespace=splash|key=owner_occupied_housing_units|row=1>>. The chart shows the ownership percentage in <<name>> compared to [[<<sumlevel>>:!state||its parent locations]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation||The chart shows the ownership percentage of US citizens compared to the highest and lowest two states.}}"
+      - "In <<var namespace=homeowners|key=year|row=0>>, <<var namespace=homeowners|key=owner_occupied_housing_units|row=0>> of the housing units in {{<<sumlevel>>:nation||the }}<<name>> were occupied by their owner. This percentage <<percent num=var:homeowners,owner_occupied_housing_units,0|den=var:homeowners,owner_occupied_housing_units,1|text=grew2>> from the previous year's rate of <<var namespace=homeowners|key=owner_occupied_housing_units|row=1>>."
+      - "{{<<sumlevel>>:!nation|| This percentage of owner-occupation is <<percent num=var:homeowners,owner_occupied_housing_units,0|den=var:splash,owner_occupied_housing_units,1|text=highlow>> the national average of <<var namespace=splash|key=owner_occupied_housing_units|row=1>>. This chart shows the ownership percentage in <<name>> compared to [[<<sumlevel>>:!state||its parent geographies]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation||This chart shows the ownership percentage in the United States compared to the two highest and lowest states.}}"
     stat:
       - title: "<<var namespace=homeowners|key=year|row=0>> Homeownership"
         value: "<<var namespace=homeowners|key=owner_occupied_housing_units|row=0>>"
@@ -156,7 +156,7 @@ topics:
         sumlevel: <<sumlevel>>
         required: vehicles_none,vehicles_1,vehicles_2,vehicles_3,vehicles_4,vehicles_5over,vehicles_none_moe,vehicles_1_moe,vehicles_2_moe,vehicles_3_moe,vehicles_4_moe,vehicles_5over_moe
     description:
-      - "The following charts display the households in {{<<sumlevel>>:nation||the }}<<name>> distributed between a series of car ownership buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. The largest share of households in <<name>> have <<var namespace=vehicles|key=name|row=0>> <<plural text=car|namespace=vehicles|key=name|row=0>>, followed by <<var namespace=vehicles|key=name|row=1>> <<plural text=car|namespace=vehicles|key=name|row=1>>."
+      - "The following chart displays the households in {{<<sumlevel>>:nation||the }}<<name>> distributed between a series of car ownership buckets{{<<sumlevel>>:!nation|| compared to the national averages for each bucket}}. The largest share of households in {{<<sumlevel>>:nation||the }}<<name>> have <<var namespace=vehicles|key=name|row=0>> <<plural text=car|namespace=vehicles|key=name|row=0>>, followed by <<var namespace=vehicles|key=name|row=1>> <<plural text=car|namespace=vehicles|key=name|row=1>>."
     viz:
       attrs: "geo"
       data:
@@ -188,8 +188,8 @@ topics:
       - title: "Average Travel Time"
         value: "<<var namespace=commute|key=mean_commute_minutes|row=0>> minutes"
     description:
-      - "{{<<sumlevel>>:!nation||Employees in <<name>> have a <<percent num=var:commute,mean_commute_minutes,0|den=var:commute,mean_commute_minutes,1|text=longshort>> average commute time than the national average of <<var namespace=commute|key=mean_commute_minutes|row=1>> minutes.}}{{<<sumlevel>>:nation||Employees in the United States have an average commute time of <<var namespace=commute|key=mean_commute_minutes|row=0>> minutes.}} Additionally, <<percent num=var:travel,travel_90over,0|den=var:travel,workers,0>> of the workforce in <<name>> have \"super commutes\" in excess of 90 minutes{{<<sumlevel>>:!nation||, which is <<percent num=travel_90over,workers|den=travel_90over,workers|den_id=01000US|text=highlow>> the national average of <<percent num=var:travel,travel_90over,1|den=var:travel,workers,1>>}}."
-      - "{{<<sumlevel>>:!nation||The chart below shows the average travel time in <<name>> compared to [[<<sumlevel>>:!state||its parent locations]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation||The chart below shows the average travel time for US citizens compared to the highest and lowest two states.}}"
+      - "{{<<sumlevel>>:!nation||Using averages, employees in <<name>> have a <<percent num=var:commute,mean_commute_minutes,0|den=var:commute,mean_commute_minutes,1|text=longshort>> commute time (<<var namespace=commute|key=mean_commute_minutes|row=0>> minutes) than the normal US worker (<<var namespace=commute|key=mean_commute_minutes|row=1>> minutes).}}{{<<sumlevel>>:nation||Using averages, employees in the United States have a commute time of <<var namespace=commute|key=mean_commute_minutes|row=0>> minutes.}} Additionally, <<percent num=var:travel,travel_90over,0|den=var:travel,workers,0>> of the workforce in {{<<sumlevel>>:nation||the }}<<name>> have \"super commutes\" in excess of 90 minutes."
+      - "{{<<sumlevel>>:!nation||The chart below shows the average travel time in <<name>> compared to [[<<sumlevel>>:!state||its parent geographies]][[<<sumlevel>>:state||the United States]].}}{{<<sumlevel>>:nation||The chart below shows the average travel time for US citizens compared to the two highest and lowest states.}}"
     miniviz:
       attrs: "geo"
       data:
@@ -240,7 +240,7 @@ topics:
           - "<<var namespace=transport|row=1|key=name>> <span class='stat-subtitle'><<percent num=var:transport,value,1|den=var:transport_workers,workers>></span>"
           - "<<var namespace=transport|row=2|key=name>> <span class='stat-subtitle'><<percent num=var:transport,value,2|den=var:transport_workers,workers>></span>"
     description:
-      - "The largest share of workers in <<name>> <<var namespace=transport|row=0|key=name>> to work in <<var namespace=transport|row=0|key=year>>, followed by those who <<var namespace=transport|row=1|key=name>> and <<var namespace=transport|row=2|key=name>>."
+      - "In <<var namespace=transport|row=0|key=year>>, the most common method of travel for workers in {{<<sumlevel>>:nation||the }}<<name>> was <<var namespace=transport|row=0|key=name>>, followed by those who <<var namespace=transport|row=1|key=name>> and those who <<var namespace=transport|row=2|key=name>>."
     viz:
       attrs: "geo"
       data:

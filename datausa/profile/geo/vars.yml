@@ -17,6 +17,17 @@
   rows: True
   limit: 2
 
+- required: ["year", "geo", "income", "income_moe"]
+  namespace: income_child
+  show: geo
+  sumlevel: <<level child=True|short=True|raw=True>>
+  year: latest
+  order: income
+  where: geo:<<id>>
+  sort: desc
+  rows: True
+  limit: 3
+
 - required: ["year", "num_emp", "num_emp_moe"]
   namespace: num_emp
   show: geo
@@ -48,7 +59,7 @@
 - required: ["year", "acs_ind", "num_emp", "num_emp_moe"]
   namespace: common_naics_emp
   show: acs_ind
-  sumlevel: 0
+  sumlevel: 1
   year: latest
   order: num_emp
   sort: desc
@@ -77,7 +88,7 @@
 - required: ["year", "naics", "num_ppl", "num_ppl_moe"]
   namespace: common_naics_ppl
   show: naics
-  sumlevel: 0
+  sumlevel: 2
   year: latest
   order: num_ppl
   sort: desc
@@ -462,6 +473,13 @@
   limit: 2
   namespace: medicare_time
 
+- required: ["year", "geo", "total_reimbursements_b"]
+  show: geo
+  year: latest
+  geo: 01000US
+  limit: 1
+  namespace: medicare_time_us
+
 - required: ["geo", "cohort", "patients_in_cohort", "year"]
   order: patients_in_cohort
   show: cohort
@@ -486,6 +504,14 @@
   show: geo
   year: latest
   namespace: womens_health
+
+- required: ["geo", "year", "number_of_females_enrolled_67_69_total", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "patients_females_67_69_having_mammogram_total"]
+  show: geo
+  year: all
+  limit: 1
+  sort: asc
+  order: year
+  namespace: womens_health_oldest
 
 - required: ["geo", "number_of_females_enrolled_67_69_total", "year"]
   order: number_of_females_enrolled_67_69_total
@@ -610,3 +636,25 @@
   limit: 1
   sex: "2"
   namespace: age_buckets_female
+
+- required: ["sex", "age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  sex: 1
+  geo: 01000US
+  namespace: age_buckets_male_us
+
+- required: ["sex", "age_bucket", "hc_pop", "hc_pop_moe", "insurance"]
+  order: hc_pop
+  sort: desc
+  insurance: has_insurance
+  show: geo
+  year: latest
+  limit: 1
+  sex: 2
+  geo: 01000US
+  namespace: age_buckets_female_us

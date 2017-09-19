@@ -116,7 +116,7 @@ class Profile(BaseObject):
                 value = (float(x2) - x1) / x1
 
         if fmt == "text":
-            return "{} {}".format(num_format(value, "growth"), "increase" if value >= 0 else "decrease")
+            return "{} {}".format(num_format(value, "growth"), "growth" if value >= 0 else "decline")
         elif fmt == "pretty":
             return num_format(value, "growth")
         else:
@@ -217,7 +217,9 @@ class Profile(BaseObject):
             labels = SUMLEVELS["geo"][prefix]
 
         else:
-            labels = SUMLEVELS[attr_type][self.sumlevel(**kwargs)]
+            prefix = self.sumlevel(**kwargs)
+
+        labels = SUMLEVELS["geo"][prefix]
 
         if kwargs.get("short", False) and "shortlabel" in labels:
             name = labels["shortlabel"]
@@ -232,6 +234,9 @@ class Profile(BaseObject):
 
         if "titlecase" in kwargs:
             name = name.title()
+
+        if kwargs.get("raw", False):
+            return name
 
         if "desc" in labels:
             name = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</span>".format(labels['desc'], name)
@@ -327,7 +332,8 @@ class Profile(BaseObject):
 
     def make_links(self, list_of_profiles, attr_type=None):
         attr_type = attr_type or self.attr_type
-        top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles]
+        raise Exception(list_of_profiles)
+        top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles if p["sumlevel"] != "140"]
         if len(top) > 1:
             top[-1] = u"and {}".format(top[-1])
         if len(top) == 2:
@@ -776,9 +782,8 @@ class Profile(BaseObject):
         if key == "name":
             if substitution:
                 if original:
-                    return u"Data for {} is not available, using data from {} as the closest approximation.".format(original["display_name"] if "display_name" in original else original[key], substitution["display_name"] if "display_name" in substitution else substitution[key])
+                    return u"The closest comparable data for the {} of {} is from the {} of {}.".format(SUMLEVELS[attr_type][original["sumlevel"]]["label"], original["display_name"] if "display_name" in original else original[key], SUMLEVELS[attr_type][substitution["sumlevel"]]["label"], substitution["display_name"] if "display_name" in substitution else substitution[key])
                 else:
-
                     return u"Using data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
                 return ""

@@ -110,6 +110,7 @@ TEXTCOMPARATORS = {
     "highlowsame": ("a higher", "a lower", "the same"),
     "growth": ("growing", "declining", "maintaining"),
     "grew": ("grew to", "declined to", "stayed at"),
+    "grew2": ("grew", "declined", "stayed"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same")
