@@ -103,7 +103,7 @@ viz.prepBuild = function(build, i) {
              }
              else {
 
-               if (param && param.length) {
+               if (param && param.length && param !== "required") {
                  url = url.replace(param + "=" + prev, param + "=" + id);
                }
                else {
