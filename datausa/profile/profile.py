@@ -785,7 +785,7 @@ class Profile(BaseObject):
                     elif isinstance(original["level"], basestring):
                         origLevel = "{} {} Group".format(original["level"].title(), DICTIONARY[attr_type])
                     else:
-                        level = str((original["level"] + 1) * 2) if attr_type == "cip" else str(substitution["level"])
+                        level = str((original["level"] + 1) * 2) if attr_type == "cip" else str(original["level"])
                         origLevel = SUMLEVELS[attr_type][level]["label"]
                     if "sumlevel" in substitution:
                         subLevel = SUMLEVELS[attr_type][substitution["sumlevel"]]["label"]
