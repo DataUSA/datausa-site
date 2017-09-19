@@ -214,12 +214,10 @@ class Profile(BaseObject):
             if kwargs.get("child", False) and "children" in labels:
                 prefix = labels["children"]
 
-            labels = SUMLEVELS["geo"][prefix]
-
         else:
             prefix = self.sumlevel(**kwargs)
 
-        labels = SUMLEVELS["geo"][prefix]
+        labels = SUMLEVELS[attr_type][prefix]
 
         if kwargs.get("short", False) and "shortlabel" in labels:
             name = labels["shortlabel"]
@@ -333,7 +331,7 @@ class Profile(BaseObject):
     def make_links(self, list_of_profiles, attr_type=None):
         attr_type = attr_type or self.attr_type
 
-        top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles if p["sumlevel"] != "140"]
+        top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles if "sumlevel" not in p or p["sumlevel"] != "140"]
         if len(top) > 1:
             top[-1] = u"and {}".format(top[-1])
         if len(top) == 2:
