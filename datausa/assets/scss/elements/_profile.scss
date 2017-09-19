@@ -1615,15 +1615,19 @@ body.profile, body.map, body.story {
           padding: 10px 0 0;
 
           li {
+            margin-bottom: 10px;
             a {
+              display: block;
               font-size: 13px;
+              line-height: 1.6;
               position: relative;
+              white-space: normal;
 
               &::after {
                 content: unicode('203A');
+                bottom: -7px;
                 font-size: 27px;
                 font-weight: 400;
-                line-height: 5px;
                 margin-left: 4px;
                 position: absolute;
                 text-decoration: none;
@@ -1849,7 +1853,6 @@ body.profile, body.map, body.story {
 
       .content {
         @include flex();
-        margin-top: 10px;
 
         &.full-width {
           @include flex-direction(column);

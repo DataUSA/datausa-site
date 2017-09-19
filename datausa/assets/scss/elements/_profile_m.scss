@@ -31,6 +31,12 @@ body.profile, body.story {
   @media only screen and (max-width : 768px) {
 
     .intro {
+      .col {
+        @include flex-direction(column-reverse);
+        &.compare-flex {
+          width: 100%;
+        }
+      }
 
       .intro-txt {
         @include flex-size(2);
@@ -123,11 +129,6 @@ body.profile, body.story {
     .profile-section {
       @include flex-direction(column);
     }
-
-  }
-
-  /* Extra Small Devices, Phones */
-  @media only screen and (max-width : 480px) {
 
     #stats-bar {
       height: 0 !important;
@@ -223,6 +224,7 @@ body.profile, body.story {
 
         #splash-stats {
           margin: 20px 0 0;
+          max-width: 400px;
 
           .stat {
             @include box();
@@ -266,15 +268,6 @@ body.profile, body.story {
               display: none;
             }
           }
-        }
-      }
-    }
-
-    .intro {
-      .col {
-        @include flex-direction(column-reverse);
-        &.compare-flex {
-          width: 100%;
         }
       }
     }
@@ -405,6 +398,7 @@ body.profile, body.story {
 
       & > div {
         @include flex-size(1 1 auto);
+        max-width: none;
       }
     }
 

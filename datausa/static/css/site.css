@@ -5383,21 +5383,28 @@
         body.map .intro #profile-toc .profile-toc-section ul,
         body.story .intro #profile-toc .profile-toc-section ul {
           padding: 10px 0 0; }
-          body.profile .intro #profile-toc .profile-toc-section ul li a,
-          body.map .intro #profile-toc .profile-toc-section ul li a,
-          body.story .intro #profile-toc .profile-toc-section ul li a {
-            font-size: 13px;
-            position: relative; }
-            body.profile .intro #profile-toc .profile-toc-section ul li a::after,
-            body.map .intro #profile-toc .profile-toc-section ul li a::after,
-            body.story .intro #profile-toc .profile-toc-section ul li a::after {
-              content: "\203A";
-              font-size: 27px;
-              font-weight: 400;
-              line-height: 5px;
-              margin-left: 4px;
-              position: absolute;
-              text-decoration: none; }
+          body.profile .intro #profile-toc .profile-toc-section ul li,
+          body.map .intro #profile-toc .profile-toc-section ul li,
+          body.story .intro #profile-toc .profile-toc-section ul li {
+            margin-bottom: 10px; }
+            body.profile .intro #profile-toc .profile-toc-section ul li a,
+            body.map .intro #profile-toc .profile-toc-section ul li a,
+            body.story .intro #profile-toc .profile-toc-section ul li a {
+              display: block;
+              font-size: 13px;
+              line-height: 1.6;
+              position: relative;
+              white-space: normal; }
+              body.profile .intro #profile-toc .profile-toc-section ul li a::after,
+              body.map .intro #profile-toc .profile-toc-section ul li a::after,
+              body.story .intro #profile-toc .profile-toc-section ul li a::after {
+                content: "\203A";
+                bottom: -7px;
+                font-size: 27px;
+                font-weight: 400;
+                margin-left: 4px;
+                position: absolute;
+                text-decoration: none; }
   body.profile .prof-body, body.map .prof-body, body.story .prof-body {
     padding: 60px 50px 25px;
     position: relative; }
@@ -5743,8 +5750,7 @@
         display: -moz-box;
         display: -ms-flexbox;
         display: -webkit-flex;
-        display: flex;
-        margin-top: 10px; }
+        display: flex; }
         body.profile .profile-section .topic .content.full-width,
         body.map .profile-section .topic .content.full-width,
         body.story .profile-section .topic .content.full-width {
@@ -6338,6 +6344,13 @@
           letter-spacing: 0;   }
 }
   @media only screen and (max-width : 768px) {
+    body.profile .intro .col, body.story .intro .col {
+      -webkit-flex-direction: column-reverse;
+      -moz-flex-direction: column-reverse;
+      -ms-flex-direction: column-reverse;
+      flex-direction: column-reverse;   }
+      body.profile .intro .col.compare-flex, body.story .intro .col.compare-flex {
+        width: 100%;   }
     body.profile .intro .intro-txt, body.story .intro .intro-txt {
       -webkit-box-flex: 2;
       -moz-box-flex: 2;
@@ -6428,26 +6441,24 @@
       -moz-flex-direction: column;
       -ms-flex-direction: column;
       flex-direction: column;   }
-}
-  @media only screen and (max-width : 480px) {
-    body.profile #stats-bar, body.story #stats-bar {
-      height: 0 !important;   }
-      body.profile .expand-stats-btn, body.profile #back-to-top,
-      body.story .expand-stats-btn, body.story #back-to-top {
-        display: none !important;   }
-        body.profile #nav-bar-scroll, body.story #nav-bar-scroll {
-          height: 43px;   }
-          body.profile #profile-nav, body.story #profile-nav {
+      body.profile #stats-bar, body.story #stats-bar {
+        height: 0 !important;   }
+        body.profile .expand-stats-btn, body.profile #back-to-top,
+        body.story .expand-stats-btn, body.story #back-to-top {
+          display: none !important;   }
+          body.profile #nav-bar-scroll, body.story #nav-bar-scroll {
             height: 43px;   }
-            body.profile #profile-nav.visible, body.story #profile-nav.visible {
-              top: 0 !important;   }
-              body.profile #profile-nav a, body.story #profile-nav a {
-                min-width: 60px;   }
-                body.profile #profile-nav a li img, body.story #profile-nav a li img {
-                  padding: 8px 15px 0;   }
-                  body.profile #profile-nav a li .profile-nav-text,
-                  body.story #profile-nav a li .profile-nav-text {
-                    display: none;   }
+            body.profile #profile-nav, body.story #profile-nav {
+              height: 43px;   }
+              body.profile #profile-nav.visible, body.story #profile-nav.visible {
+                top: 0 !important;   }
+                body.profile #profile-nav a, body.story #profile-nav a {
+                  min-width: 60px;   }
+                  body.profile #profile-nav a li img, body.story #profile-nav a li img {
+                    padding: 8px 15px 0;   }
+                    body.profile #profile-nav a li .profile-nav-text,
+                    body.story #profile-nav a li .profile-nav-text {
+                      display: none;   }
     body.profile #show-bg i, body.story #show-bg i {
       padding: 15px 10px;   }
       body.profile #splash, body.story #splash {
@@ -6483,7 +6494,8 @@
                 margin: 0 7px;   }
           body.profile #splash .content #splash-stats,
           body.story #splash .content #splash-stats {
-            margin: 20px 0 0;   }
+            margin: 20px 0 0;
+            max-width: 400px;   }
             body.profile #splash .content #splash-stats .stat,
             body.story #splash .content #splash-stats .stat {
               -webkit-box-sizing: border-box;
@@ -6538,13 +6550,6 @@
                     body.profile #splash .content .splash-icon-nav a span,
                     body.story #splash .content .splash-icon-nav a span {
                       display: none;   }
-    body.profile .intro .col, body.story .intro .col {
-      -webkit-flex-direction: column-reverse;
-      -moz-flex-direction: column-reverse;
-      -ms-flex-direction: column-reverse;
-      flex-direction: column-reverse;   }
-      body.profile .intro .col.compare-flex, body.story .intro .col.compare-flex {
-        width: 100%;   }
     body.profile .profile-section, body.story .profile-section {
       -webkit-flex-direction: column;
       -moz-flex-direction: column;
@@ -6685,7 +6690,8 @@
               -moz-box-flex: 1 1 auto;
               -webkit-flex: 1 1 auto;
               -ms-flex: 1 1 auto;
-              flex: 1 1 auto;   }
+              flex: 1 1 auto;
+              max-width: none;   }
 }
 
   .datausa-link img {
