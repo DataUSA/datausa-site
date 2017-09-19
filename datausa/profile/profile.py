@@ -762,8 +762,7 @@ class Profile(BaseObject):
         key = kwargs.pop("key", "name")
         attr_id = self.id(**kwargs)
         attr_type = kwargs.get("attr_type", self.attr_type)
-        if attr_type == self.attr_type:
-            original = fetch(self.attr["id"], attr_type)
+        original = fetch(self.attr["id"], self.attr_type)
 
         if kwargs.get("dataset", False):
             if self.attr["id"] != attr_id:
@@ -780,21 +779,24 @@ class Profile(BaseObject):
         if key == "name":
             if substitution:
                 if original:
-                    if "sumlevel" in original:
-                        origLevel = SUMLEVELS[attr_type][original["sumlevel"]]["label"]
-                    elif isinstance(original["level"], basestring):
-                        origLevel = "{} {} Group".format(original["level"].title(), DICTIONARY[attr_type])
+                    if self.attr_type in SUMLEVELS and attr_type in SUMLEVELS:
+                        if "sumlevel" in original:
+                            origLevel = SUMLEVELS[self.attr_type][original["sumlevel"]]["label"]
+                        elif isinstance(original["level"], basestring):
+                            origLevel = "{} {} Group".format(original["level"].title(), DICTIONARY[self.attr_type])
+                        else:
+                            level = str((original["level"] + 1) * 2) if self.attr_type == "cip" else str(original["level"])
+                            origLevel = SUMLEVELS[self.attr_type][level]["label"]
+                        if "sumlevel" in substitution:
+                            subLevel = SUMLEVELS[attr_type][substitution["sumlevel"]]["label"]
+                        elif isinstance(substitution["level"], basestring):
+                            subLevel = "{} {} Group".format(substitution["level"].title(), DICTIONARY[attr_type])
+                        else:
+                            level = str((substitution["level"] + 1) * 2) if attr_type == "cip" else str(substitution["level"])
+                            subLevel = SUMLEVELS[attr_type][level]["label"]
+                        return u"The closest comparable data for the {0}{4}{1} is from the {2}{4}{3}.".format(origLevel, original["display_name"] if "display_name" in original else original[key], subLevel, substitution["display_name"] if "display_name" in substitution else substitution[key], " of " if attr_type == "geo" else " ")
                     else:
-                        level = str((original["level"] + 1) * 2) if attr_type == "cip" else str(original["level"])
-                        origLevel = SUMLEVELS[attr_type][level]["label"]
-                    if "sumlevel" in substitution:
-                        subLevel = SUMLEVELS[attr_type][substitution["sumlevel"]]["label"]
-                    elif isinstance(substitution["level"], basestring):
-                        subLevel = "{} {} Group".format(substitution["level"].title(), DICTIONARY[attr_type])
-                    else:
-                        level = str((substitution["level"] + 1) * 2) if attr_type == "cip" else str(substitution["level"])
-                        subLevel = SUMLEVELS[attr_type][level]["label"]
-                    return u"The closest comparable data for the {0}{4}{1} is from the {2}{4}{3}.".format(origLevel, original["display_name"] if "display_name" in original else original[key], subLevel, substitution["display_name"] if "display_name" in substitution else substitution[key], " of " if attr_type == "geo" else " ")
+                        return u"The closest comparable data for {} is from {}.".format(original["display_name"] if "display_name" in original else original[key], substitution["display_name"] if "display_name" in substitution else substitution[key])
                 else:
                     return u"Using data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
