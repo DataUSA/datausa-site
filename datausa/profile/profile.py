@@ -785,14 +785,16 @@ class Profile(BaseObject):
                     elif isinstance(original["level"], basestring):
                         origLevel = "{} {} Group".format(original["level"].title(), DICTIONARY[attr_type])
                     else:
-                        origLevel = SUMLEVELS[attr_type][str(original["level"])]["label"]
+                        level = str((original["level"] + 1) * 2) if attr_type == "cip" else str(substitution["level"])
+                        origLevel = SUMLEVELS[attr_type][level]["label"]
                     if "sumlevel" in substitution:
                         subLevel = SUMLEVELS[attr_type][substitution["sumlevel"]]["label"]
                     elif isinstance(substitution["level"], basestring):
                         subLevel = "{} {} Group".format(substitution["level"].title(), DICTIONARY[attr_type])
                     else:
-                        subLevel = SUMLEVELS[attr_type][str(substitution["level"])]["label"]
-                    return u"The closest comparable data for the {} of {} is from the {} of {}.".format(origLevel, original["display_name"] if "display_name" in original else original[key], subLevel, substitution["display_name"] if "display_name" in substitution else substitution[key])
+                        level = str((substitution["level"] + 1) * 2) if attr_type == "cip" else str(substitution["level"])
+                        subLevel = SUMLEVELS[attr_type][level]["label"]
+                    return u"The closest comparable data for the {0}{4}{1} is from the {2}{4}{3}.".format(origLevel, original["display_name"] if "display_name" in original else original[key], subLevel, substitution["display_name"] if "display_name" in substitution else substitution[key], " of " if attr_type == "geo" else " ")
                 else:
                     return u"Using data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
