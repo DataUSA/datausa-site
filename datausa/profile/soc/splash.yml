@@ -14,9 +14,9 @@ stats:
   - title: "Average Salary"
     value: "<<var namespace=data|row=0|key=avg_wage>>"
   - title: "Average Male Salary"
-    value: "<<var namespace=sex_wage|key=avg_wage|row=0>>"
+    value: "<<var namespace=sexes|key=avg_wage|row=0>>"
   - title: "Average Female Salary"
-    value: "<<var namespace=sex_wage|key=avg_wage|row=1>>"
+    value: "<<var namespace=sexes|key=avg_wage|row=1>>"
 sections:
   - employment
   - demographics

@@ -7,7 +7,7 @@ from section import Section
 from config import API
 
 from datausa import app
-from datausa.consts import COLMAP, SUMLEVELS, TEXTCOMPARATORS
+from datausa.consts import COLMAP, DICTIONARY, SUMLEVELS, TEXTCOMPARATORS
 from datausa.utils.data import fetch, get_parents, profile_cache, get_children
 from datausa.utils.format import num_format, param_format
 from datausa.utils.manip import datafold, stat
@@ -780,7 +780,19 @@ class Profile(BaseObject):
         if key == "name":
             if substitution:
                 if original:
-                    return u"The closest comparable data for the {} of {} is from the {} of {}.".format(SUMLEVELS[attr_type][original["sumlevel"]]["label"], original["display_name"] if "display_name" in original else original[key], SUMLEVELS[attr_type][substitution["sumlevel"]]["label"], substitution["display_name"] if "display_name" in substitution else substitution[key])
+                    if "sumlevel" in original:
+                        origLevel = SUMLEVELS[attr_type][original["sumlevel"]]["label"]
+                    elif isinstance(original["level"], basestring):
+                        origLevel = "{} {} Group".format(original["level"].title(), DICTIONARY[attr_type])
+                    else:
+                        origLevel = SUMLEVELS[attr_type][str(original["level"])]["label"]
+                    if "sumlevel" in substitution:
+                        subLevel = SUMLEVELS[attr_type][substitution["sumlevel"]]["label"]
+                    elif isinstance(substitution["level"], basestring):
+                        subLevel = "{} {} Group".format(substitution["level"].title(), DICTIONARY[attr_type])
+                    else:
+                        subLevel = SUMLEVELS[attr_type][str(substitution["level"])]["label"]
+                    return u"The closest comparable data for the {} of {} is from the {} of {}.".format(origLevel, original["display_name"] if "display_name" in original else original[key], subLevel, substitution["display_name"] if "display_name" in substitution else substitution[key])
                 else:
                     return u"Using data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:

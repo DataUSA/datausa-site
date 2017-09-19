@@ -24,6 +24,17 @@
   naics_level: <<sumlevel>>
   namespace: gender
 
+- required: ["sex", "num_ppl", "num_ppl_moe"]
+  limit: 2
+  show: sex
+  sumlevel: all
+  rows: True
+  order: num_ppl
+  sort: desc
+  year: latest
+  naics_level: <<sumlevel>>
+  namespace: sexes_num_ppl
+
 - required: ["gini", "naics"]
   naics_level: <<sumlevel>>
   year: latest

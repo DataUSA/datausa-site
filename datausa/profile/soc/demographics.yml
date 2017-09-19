@@ -1,7 +1,31 @@
 title: "Diversity"
-description: "Demographic information on <<name>> in the US. The average age of male <<name>> in the workforce is <<var namespace=sex_age|row=0|key=avg_age>> and of female <<name>> is <<var namespace=sex_age|row=1|key=avg_age>>, and the most common race/ethnicity for <<name>> is <<var namespace=race|key=race|row=0>>. "
+description: "Demographic information on <<name>> in the US. The average age of male <<name>> in the workforce is <<var namespace=sexes|row=0|key=avg_age>> and of female <<name>> is <<var namespace=sexes|row=1|key=avg_age>>, and the most common race/ethnicity for <<name>> is <<var namespace=race|key=race|row=0>>. "
 
 topics:
+  - title: "Gender Composition"
+    slug: gender
+    stat:
+      - title: "<<var namespace=sexes_num_ppl|key=sex|row=0>> Workforce"
+        value: "<<var namespace=sexes_num_ppl|key=num_ppl|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes_num_ppl|row=0|key=num_ppl_moe>>"
+      - title: "<<var namespace=sexes_num_ppl|key=sex|row=1>> Workforce"
+        value: "<<var namespace=sexes_num_ppl|key=num_ppl|row=1>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes_num_ppl|row=1|key=num_ppl_moe>>"
+    description: "<<percent num=var:sexes_num_ppl,num_ppl,0|den=var:data,num_ppl,0>> of <<name>> are <<var namespace=sexes_num_ppl|key=sex|row=0>>, making them the more common gender in the occupation. This chart shows the gender breakdown of <<name>>."
+    viz:
+      attrs: "sex"
+      color: sex
+      data:
+        - required: "sex,num_ppl,num_ppl_moe"
+          show: "sex"
+          soc: "<<id>>"
+          soc_level: "<<sumlevel>>"
+          share: "num_ppl"
+      id: "sex"
+      order: "num_ppl"
+      type: "bar"
+      x: "sex"
+      y: "share"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
     cart:
@@ -55,12 +79,12 @@ topics:
       title: "Age by Gender"
     stat:
       - title: "Average Male Age"
-        value: "<<var namespace=sex_age|row=0|key=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=0|key=avg_age_moe>>"
+        value: "<<var namespace=sexes|row=0|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes|row=0|key=avg_age_moe>>"
       - title: "Average Female Age"
-        value: "<<var namespace=sex_age|row=1|key=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=1|key=avg_age_moe>>"
-    description: "The median age of <<name>> is <<var namespace=data|row=0|key=avg_age>>, and <<var namespace=sex_age|row=0|key=sex>> employees are generally <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True>> years <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True|text=age>> than their <<var namespace=sex_age|row=1|key=sex>> counterparts."
+        value: "<<var namespace=sexes|row=1|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes|row=1|key=avg_age_moe>>"
+    description: "The median age of <<name>> is <<var namespace=data|row=0|key=avg_age>>, and <<var namespace=sexes|row=0|key=sex>> employees are generally <<percent num=var:sexes,avg_age,0|den=var:sexes,avg_age,1|diff=True>> years <<percent num=var:sexes,avg_age,0|den=var:sexes,avg_age,1|diff=True|text=age>> than their <<var namespace=sexes|row=1|key=sex>> counterparts."
     viz:
       attrs: "sex"
       color: "sex"

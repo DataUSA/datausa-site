@@ -48,7 +48,7 @@
   soc_level: "<<sumlevel>>"
   namespace: puma_ppl
 
-- required: ["sex", "avg_wage"]
+- required: ["year", "sex", "avg_wage", "avg_wage_moe", "avg_age", "avg_age_moe", "num_ppl", "num_ppl_moe"]
   sex: "1,2"
   order: sex
   rows: True
@@ -56,17 +56,17 @@
   sort: asc
   year: latest
   soc_level: "<<sumlevel>>"
-  namespace: sex_wage
+  namespace: sexes
 
-- required: ["sex", "avg_age", "avg_age_moe"]
-  sex: "1,2"
-  order: sex
+- required: ["year", "sex", "num_ppl", "num_ppl_moe"]
+  order: num_ppl
+  show: sex
   rows: True
   limit: 2
-  sort: asc
+  sort: desc
   year: latest
   soc_level: "<<sumlevel>>"
-  namespace: sex_age
+  namespace: sexes_num_ppl
 
 - required: ["num_ppl", "race"]
   order: num_ppl

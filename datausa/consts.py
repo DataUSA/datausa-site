@@ -113,7 +113,8 @@ TEXTCOMPARATORS = {
     "grew2": ("grew", "declined", "stayed"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
-    "moreless2": ("more", "less", "approximately the same")
+    "moreless2": ("more", "less", "approximately the same"),
+    "mostleast": ("most", "least", "same")
 }
 
 DICTIONARY = {
