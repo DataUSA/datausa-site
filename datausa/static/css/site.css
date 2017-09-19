@@ -5663,11 +5663,11 @@
         body.map .profile-section .topic.compare-flex .content,
         body.story .profile-section .topic.flex .content,
         body.story .profile-section .topic.compare-flex .content {
-          -webkit-box-flex: 1 0 auto;
-          -moz-box-flex: 1 0 auto;
-          -webkit-flex: 1 0 auto;
-          -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
+          -webkit-box-flex: 1 1 auto;
+          -moz-box-flex: 1 1 auto;
+          -webkit-flex: 1 1 auto;
+          -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
           -webkit-flex-direction: column;
           -moz-flex-direction: column;
           -ms-flex-direction: column;
@@ -5678,11 +5678,11 @@
           body.map .profile-section .topic.compare-flex .content aside,
           body.story .profile-section .topic.flex .content aside,
           body.story .profile-section .topic.compare-flex .content aside {
-            -webkit-box-flex: 1 0 auto;
-            -moz-box-flex: 1 0 auto;
-            -webkit-flex: 1 0 auto;
-            -ms-flex: 1 0 auto;
-            flex: 1 0 auto;
+            -webkit-box-flex: 1 1 auto;
+            -moz-box-flex: 1 1 auto;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
             max-width: 100%;
             min-width: 100%; }
             body.profile .profile-section .topic.flex .content .viz,
@@ -5872,11 +5872,11 @@
         body.profile .profile-section .topic .content .viz,
         body.map .profile-section .topic .content .viz,
         body.story .profile-section .topic .content .viz {
-          -webkit-box-flex: 1 0 auto;
-          -moz-box-flex: 1 0 auto;
-          -webkit-flex: 1 0 auto;
-          -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
+          -webkit-box-flex: 1 1 auto;
+          -moz-box-flex: 1 1 auto;
+          -webkit-flex: 1 1 auto;
+          -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
           margin-left: 50px;
           min-height: 400px;
           overflow: hidden;
@@ -6121,7 +6121,7 @@
 }
 
   .d3plus_drawer_ui {
-    padding: 5px 10px 10px 20px !important; }
+    padding: 5px 20px 10px !important; }
 
     .d3plus_title {
       color: #4E4E4E !important;

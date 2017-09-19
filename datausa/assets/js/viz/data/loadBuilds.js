@@ -197,13 +197,10 @@ viz.resizeBuild = function(b) {
     b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
     b.height = b.container.node().parentNode.offsetHeight;
   }
-  if (b.loaded) {
+  if (b.loaded && (b.config.type === "geo_map" || !d3.select("body").classed("embed"))) {
     b.container.select("div")
       .style("height", "auto")
       .style("width", "auto");
-    b.container.selectAll("svg#d3plus")
-      .attr("height", "auto")
-      .attr("width", "auto");
     b.viz.width(false).height(false).draw();
   }
 }

@@ -9507,13 +9507,10 @@ viz.resizeBuild = function(b) {
     b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
     b.height = b.container.node().parentNode.offsetHeight;
   }
-  if (b.loaded) {
+  if (b.loaded && (b.config.type === "geo_map" || !d3.select("body").classed("embed"))) {
     b.container.select("div")
       .style("height", "auto")
       .style("width", "auto");
-    b.container.selectAll("svg#d3plus")
-      .attr("height", "auto")
-      .attr("width", "auto");
     b.viz.width(false).height(false).draw();
   }
 }
@@ -10371,9 +10368,7 @@ viz.mapDraw = function(vars) {
         .attr("fill", "white")
         .attr("fill-opacity", 0.75)
         .attr("stroke", "#999")
-        .attr("stroke-width", 1)
-        .attr("x", key_offset - keyPadding * 3)
-        .attr("y", -keyPadding);
+        .attr("stroke-width", 1);
 
       var heatmap = scale.selectAll("rect.d3plus_legend_break")
         .data(colors);
@@ -10493,9 +10488,14 @@ viz.mapDraw = function(vars) {
       backgroundEnter
         .attr("width", key_width + keyPadding * 6)
         .attr("height", key_height - keyPadding)
+        .attr("x", key_offset - keyPadding * 3)
+        .attr("y", -keyPadding);
 
       background.transition().duration(timing)
         .attr("width", key_width + keyPadding * 6)
+        .attr("height", key_height - keyPadding)
+        .attr("x", key_offset - keyPadding * 3)
+        .attr("y", -keyPadding)
 
       scaleEnter
         .attr("transform" , "translate(0, " + (height - key_height + keyPadding) + ")");
