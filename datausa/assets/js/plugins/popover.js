@@ -303,14 +303,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
         file_img.append("span")
           .text("Image");
       }
-      else if(p.id == "view-table"){
+      else if (p.id === "view-table"){
 
         var downloadRow = panel.append("div")
           .attr("class", "download-row")
 
         var file_csv = downloadRow.append("div")
           .attr("class", "filetype")
-          .on("click", function(){
+          .on("click", function() {
 
             d3.event.preventDefault();
             var urls = unfilteredData.reduce(function(arr, dataobj){ return arr.concat(dataobj.url) }, []),
@@ -338,7 +338,8 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
             loadCSV();
 
-          })
+          });
+
         file_csv.append("i")
           .attr("class", "fa fa-file-text-o")
         file_csv.append("span")
