@@ -3809,11 +3809,11 @@
             background-image: url("/static/img/viz/add-to-cart-red.svg"); }
             body.profile .viz-btn.add-to-cart::after, body.map .viz-btn.add-to-cart::after,
             body.story .viz-btn.add-to-cart::after {
-              content: "Add to Cart"; }
+              content: "Add Data to Cart"; }
               body.profile .viz-btn.add-to-cart.active::after,
               body.map .viz-btn.add-to-cart.active::after,
               body.story .viz-btn.add-to-cart.active::after {
-                content: "Remove"; }
+                content: "Remove from Cart"; }
                 body.profile .viz-btn.add-to-cart.disabled, body.map .viz-btn.add-to-cart.disabled,
                 body.story .viz-btn.add-to-cart.disabled {
                   opacity: 0.5; }

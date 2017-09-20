@@ -321,10 +321,10 @@ body.profile, body.map, body.story {
       }
 
       &::after {
-        content: "Add to Cart";
+        content: "Add Data to Cart";
       }
       &.active::after {
-        content: "Remove";
+        content: "Remove from Cart";
       }
 
       &.disabled {
