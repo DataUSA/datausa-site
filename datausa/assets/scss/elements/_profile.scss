@@ -1388,7 +1388,7 @@ body.profile, body.map, body.story {
 
     .intro-head {
       margin: 0 auto;
-      max-width: 900px;
+      max-width: 1200px;
       padding: 15px 0;
 
       .section-title {
@@ -1402,13 +1402,15 @@ body.profile, body.map, body.story {
 
     .intro-txt {
       @include flex-size(2);
+      columns: 320px auto;
+      column-gap: 20px;
       padding-right: 20px;
 
       .desc {
         font-size: 17px;
         font-weight: 300;
         line-height: 1.7;
-        padding: 15px 0;
+        padding: 0 0 30px;
         color: white;
 
         a {
@@ -1650,8 +1652,9 @@ body.profile, body.map, body.story {
     position: relative;
 
     .section-title {
-      margin: 0 auto 15px;
       color: #333;
+      margin: 0 auto 15px;
+      max-width: 1200px;
 
       a {
         margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
@@ -1668,8 +1671,12 @@ body.profile, body.map, body.story {
     }
 
     p {
-      font-size: 16px;
-      margin: 3px 0 12px;
+      columns: 320px auto;
+      column-gap: 20px;
+      font-size: 17px;
+      line-height: 1.7;
+      margin: 3px auto 12px;
+      max-width: 1200px;
 
       a {
         @include transition(border-bottom 0.35s);
@@ -2028,6 +2035,7 @@ body.profile, body.map, body.story {
       @include flex-wrap();
       @include flex-direction(row);
       max-width: 100%;
+      padding: 0 10px;
 
       & > div {
         @include flex-size(1 0 300px);
@@ -2036,7 +2044,6 @@ body.profile, body.map, body.story {
         height: 200px;
         margin: 0 10px 20px;
         min-width: 300px;
-        max-width: 400px;
         position: relative;
         background: #1d1d1d;
         background-size: cover !important;
@@ -2064,7 +2071,7 @@ body.profile, body.map, body.story {
         .explore-title {
           position: relative;
           width: 100%;
-          padding: 20% 20px;
+          padding: 20px;
           @include box();
           margin: auto;
 
