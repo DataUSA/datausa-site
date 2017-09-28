@@ -104,7 +104,7 @@ viz.defaults = function(build) {
 
   return {
     axes: {
-      background: chartStyles.background,
+      background: d3plus.object.merge(chartStyles.background, {color: chartStyles.background.color === "transparent" ? messageBg : chartStyles.background.color}),
       ticks: false
     },
     background: vizStyles.background,
@@ -140,6 +140,7 @@ viz.defaults = function(build) {
       style: "large",
       value: "Drawing Visualization"
     },
+    resize: true,
     time: {
       fixed: false,
       value: "year"

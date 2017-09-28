@@ -107,11 +107,14 @@ TEXTCOMPARATORS = {
     "age2": ("getting older", "getting younger", "staying the same age"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
-    "growth": ("growing", "declining", "staying approximately the same as"),
+    "highlowsame": ("a higher", "a lower", "the same"),
+    "growth": ("growing", "declining", "maintaining"),
     "grew": ("grew to", "declined to", "stayed at"),
+    "grew2": ("grew", "declined", "stayed"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
-    "moreless2": ("more", "less", "approximately the same")
+    "moreless2": ("more", "less", "approximately the same"),
+    "mostleast": ("most", "least", "same")
 }
 
 DICTIONARY = {
@@ -154,7 +157,7 @@ DICTIONARY = {
     "us": "Native Born",
     "foreign": "Foreign Born",
 
-    "age": "Median Age",
+    "age": "Age",
     "avg_wage": "Average Salary",
     "avg_wage_ft": "Average Salary (Full-Time Employees)",
     "avg_wage_pt": "Average Salary (Part-Time Employees)",

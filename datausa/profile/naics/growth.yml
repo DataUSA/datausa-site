@@ -1,5 +1,5 @@
 title: "Projections"
-description: "The Bureau of Labor and Statistics projects the growth of the <<name>> <<level>>, both by number of employees and output. The growth rates presented below represent compound annual rates of change."
+description: "Growth projections of the <<name>> <<level>>, both by number of employees and output, from the Bureau of Labor and Statistics. The national workforce is projected to grow <<top col=emp_carc_2014_2024|year=none|naics=000000>> in the next ten years. The <<name>> <<level>> has <<percent num=emp_carc_2014_2024|den=emp_carc_2014_2024|den_id=000000|year=none|text=highlowsame>> projected workforce growth at <<var namespace=growth|key=emp_carc_2014_2024>>. Its projected 10-year growth in output (<<var namespace=growth|key=output_carc_2014_2024>>) is <<percent num=output_carc_2014_2024|den=output_carc_2014_2024|den_id=000000|year=none|text=highlow>>  the projected national growth in output (<<top col=output_carc_2014_2024|year=none|naics=000000>>). <<var namespace=top_soc_growth|row=0|key=soc>> is the occupation within <<name>> expected to see the most growth in the next ten years."
 
 topics:
   - title: "Job Growth"
@@ -88,6 +88,12 @@ topics:
         value: "y2_output"
   - title: "Top Changing Occupations"
     slug: "changing_occs"
+    subtitle: "<<sub col=emp_2014_thousands|year=none>>"
+    stat:
+      - value: "<<var namespace=top_soc_growth|row=0|key=soc>>"
+        subvalues:
+          - "<<var namespace=top_soc_growth|row=1|key=soc>>"
+          - "<<var namespace=top_soc_growth|row=2|key=soc>>"
     description: "Filtered by the occupations employed in the <<name>> <<level>>, here are the 5 occupations with the largest estimated 10-year change in employment across all industries."
     viz:
       attrs: "bls_soc"

@@ -96,7 +96,7 @@ viz.addToCart = function(build, select) {
             var suffix = prof_attr === "geo" ? (dictionary[prof_sumlevel] || d3plus.string.title(prof_sumlevel)) : dictionary[prof_attr];
             if (title.indexOf(suffix) < 0) title += joiner + suffix;
           }
-          else if (build.config && build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
+          else if (!build.cart && build.config && build.config.type === "bar" && [build.config.x.value, build.config.y.value].indexOf(show) >= 0) {
             sumlevels.splice(sumlevels.indexOf(sumlevels[i]), 1);
             shows.splice(shows.indexOf(show), 1);
             var forText = new RegExp("( for [A-z ]*) by|( for [A-z ]*)$").exec(title);

@@ -180,7 +180,7 @@ body.frozen {
 	@include flex-direction(row);
 	@include justify(space-between);
 	margin: 0 auto;
-	max-width: 900px;
+	max-width: 1200px;
 
 	&.compare-flex {
 		@include flex-direction(column-reverse);

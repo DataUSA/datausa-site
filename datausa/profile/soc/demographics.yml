@@ -1,16 +1,46 @@
-title: "Demographics"
-description: "The Census Bureau's American Census Survey provides data on <<name>> and allows us to show what kinds of people have chosen this occupation."
+title: "Diversity"
+description: "Demographic information on <<name>> in the US. The average age of male <<name>> in the workforce is <<var namespace=sexes|row=0|key=avg_age>> and of female <<name>> is <<var namespace=sexes|row=1|key=avg_age>>, and the most common race/ethnicity for <<name>> is <<var namespace=race|key=race|row=0>>. "
 
 topics:
+  - title: "Gender Composition"
+    slug: gender
+    stat:
+      - title: "<<var namespace=sexes_num_ppl|key=sex|row=0>> Workforce"
+        value: "<<var namespace=sexes_num_ppl|key=num_ppl|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes_num_ppl|row=0|key=num_ppl_moe>>"
+      - title: "<<var namespace=sexes_num_ppl|key=sex|row=1>> Workforce"
+        value: "<<var namespace=sexes_num_ppl|key=num_ppl|row=1>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes_num_ppl|row=1|key=num_ppl_moe>>"
+    description: "<<percent num=var:sexes_num_ppl,num_ppl,0|den=var:data,num_ppl,0>> of <<name>> are <<var namespace=sexes_num_ppl|key=sex|row=0>>, making them the more common gender in the occupation. This chart shows the gender breakdown of <<name>>."
+    viz:
+      attrs: "sex"
+      color: sex
+      data:
+        - required: "sex,num_ppl,num_ppl_moe"
+          show: "sex"
+          soc: "<<id>>"
+          soc_level: "<<sumlevel>>"
+          share: "num_ppl"
+      id: "sex"
+      order: "num_ppl"
+      type: "bar"
+      x: "sex"
+      y: "share"
   - title: "Race & Ethnicity"
     slug: "ethnicity"
+    cart:
+      params:
+        show: soc,race
+        sumlevel: all,all
+        required: num_ppl,num_ppl_moe
+      title: "Race & Ethnicity"
     stat:
-      - title: "Most common race or ethnicity"
+      - title: "Most common race or ethnicity of <<name>>"
         value: "<<var namespace=race|key=race|row=0>>"
         subvalues:
           - "<<var namespace=race|key=race|row=1>>"
           - "<<var namespace=race|key=race|row=2>>"
-    description: "The most common race or ethnicity of <<name>> is <<var namespace=race|key=race|row=0>>, followed by <<var namespace=race|key=race|row=1>>. Here is the distribution of race and ethnicity for <<name>> compared to the national average."
+    description: "<<percent num=var:race,num_ppl,0|den=var:data,num_ppl,0>> of <<name>> are <<var namespace=race|key=race|row=0>>, making that the most common race or ethnicity in the occupation. Representing <<percent num=var:race,num_ppl,1|den=var:data,num_ppl,0>> of <<name>>, <<var namespace=race|key=race|row=1>> is the second most common race or ethnicity in this occupation. This chart shows the racial and ethnic breakdown of <<name>>."
     viz:
       attrs:
         - "soc"
@@ -21,14 +51,18 @@ topics:
           soc: "<<id>>"
           soc_level: "<<sumlevel>>"
           share: "num_ppl.soc"
+          map:
+            delete: False
+            shareSort: "num_ppl"
         - required: "num_ppl,num_ppl_moe"
           show: "race"
           geo: "01000US"
           share: "num_ppl"
           static:
             soc: "USA"
+            shareSort: 0
       id: "soc"
-      order: "share"
+      order: "shareSort"
       type: "bar"
       x:
         persist:
@@ -39,18 +73,18 @@ topics:
     slug: "age_gender"
     cart:
       params:
-        show: soc,sex
-        sumlevel: all,all
-        required: avg_age,avg_age_moe
+        show: soc,age,sex
+        sumlevel: all,all,all
+        required: age,num_ppl,num_ppl_moe
       title: "Age by Gender"
     stat:
       - title: "Average Male Age"
-        value: "<<var namespace=sex_age|row=0|key=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=0|key=avg_age_moe>>"
+        value: "<<var namespace=sexes|row=0|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes|row=0|key=avg_age_moe>>"
       - title: "Average Female Age"
-        value: "<<var namespace=sex_age|row=1|key=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sex_age|row=1|key=avg_age_moe>>"
-    description: "The median age of <<name>> is <<var namespace=data|key=avg_age>>, and <<var namespace=sex_age|row=0|key=sex>> employees are generally <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True>> years <<percent num=var:sex_age,avg_age,0|den=var:sex_age,avg_age,1|diff=True|text=age>> than their <<var namespace=sex_age|row=1|key=sex>> counterparts."
+        value: "<<var namespace=sexes|row=1|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes|row=1|key=avg_age_moe>>"
+    description: "The median age of <<name>> is <<var namespace=data|row=0|key=avg_age>>, and <<var namespace=sexes|row=0|key=sex>> employees are generally <<percent num=var:sexes,avg_age,0|den=var:sexes,avg_age,1|diff=True>> years <<percent num=var:sexes,avg_age,0|den=var:sexes,avg_age,1|diff=True|text=age>> than their <<var namespace=sexes|row=1|key=sex>> counterparts."
     viz:
       attrs: "sex"
       color: "sex"

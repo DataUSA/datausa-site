@@ -1,0 +1,90 @@
+title: "Diversity"
+description: "Demographic information on the <<name>> <<level>> in the US. <<var namespace=gender|key=sex|row=0>> employees tend to earn more than <<var namespace=gender|key=sex|row=1>> employees, with average respective salaries of <<var namespace=gender|key=avg_wage|row=0>> and <<var namespace=gender|key=avg_wage|row=1>>. So too <Asians> tend to earn more than other races and ethnicities in this industry."
+
+topics:
+  - title: "Gender Composition"
+    slug: gender
+    stat:
+      - title: "<<var namespace=sexes_num_ppl|key=sex|row=0>> Workforce"
+        value: "<<var namespace=sexes_num_ppl|key=num_ppl|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes_num_ppl|row=0|key=num_ppl_moe>>"
+      - title: "<<var namespace=sexes_num_ppl|key=sex|row=1>> Workforce"
+        value: "<<var namespace=sexes_num_ppl|key=num_ppl|row=1>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=sexes_num_ppl|row=1|key=num_ppl_moe>>"
+    description: "<<percent num=var:sexes_num_ppl,num_ppl,0|den=var:data,num_ppl,0>> of workers in the <<name>> <<level>> are <<var namespace=sexes_num_ppl|key=sex|row=0>>, making them the more common gender in the workforce. This chart shows the gender breakdown of the <<name>> <<level>>."
+    viz:
+      attrs: "sex"
+      color: sex
+      data:
+        - required: "sex,num_ppl,num_ppl_moe"
+          show: "sex"
+          naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
+          share: "num_ppl"
+      id: "sex"
+      order: "num_ppl"
+      type: "bar"
+      x: "sex"
+      y: "share"
+  - title: "Wage by Gender in Common Jobs"
+    slug: "wage_gender"
+    description: "On average, <<var namespace=gender|key=sex|row=0>> workers in the <<name>> <<level>> make <<top show=sex|order=avg_wage|sort=desc|col=ratio|limit=2|where=num_records:>4|naics_level=sumlevel>> times more than their <<var namespace=gender|key=sex|row=1>> counterparts. This chart shows the gender-based wage disparity in the 5 most common occupations in the <<name>> <<level>>."
+    stat:
+      - title: "Average Male Salary"
+        value: "<<var namespace=gender|key=avg_wage|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_moe|row=0>>"
+      - title: "Average Female Salary"
+        value: "<<var namespace=gender|key=avg_wage|row=1>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=gender|key=avg_wage_moe|row=1>>"
+    viz:
+      attrs:
+        - "sex"
+        - "soc"
+      color: "sex"
+      data:
+        - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
+          limit: "10"
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
+          show: "soc,sex"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id|naics_level=sumlevel>>"
+          sumlevel: "3,all"
+          where: "num_records:>4"
+      id: "sex"
+      order: "avg_wage"
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: "soc"
+      y: "avg_wage"
+  - title: "Wage by Race & Ethnicity in Common Jobs"
+    slug: "wage_ethnicity"
+    description: "On average, <<var namespace=race_wage|key=race|row=0>> employees in the <<name>> <<level>> earn <<top show=race|order=avg_wage|sort=desc|col=ratio|limit=18|where=num_records:>4|naics_level=sumlevel>> times more than other races and ethnicities. This chart shows the race and ethnicity-based wage disparities in the 5 most common occupations in the <<name>> <<level>>."
+    stat:
+      - title: "Race or Ethnicity with the Highest Average Salary"
+        value: "<<var namespace=race_wage|key=race|row=0>>"
+        subvalues:
+          - "<<var namespace=race_wage|key=race|row=1>>"
+          - "<<var namespace=race_wage|key=race|row=2>>"
+    viz:
+      attrs:
+        - "race"
+        - "soc"
+      color: "race"
+      data:
+        - naics: "<<id>>"
+          naics_level: "<<sumlevel>>"
+          limit: "45"
+          required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+          show: "soc,race"
+          soc: "<<top show=soc|sumlevel=3|order=num_ppl|sort=desc|limit=5|col=id|naics_level=sumlevel>>"
+          sumlevel: "3,all"
+      id: "race"
+      order: "avg_wage"
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: "soc"
+      y: "avg_wage"

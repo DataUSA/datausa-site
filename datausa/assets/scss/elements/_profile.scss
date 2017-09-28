@@ -115,7 +115,17 @@ body.profile, body.map, body.story {
   }
 
   &.cip {
-    .institutions, .employment {
+    .institutions, .demographics {
+      background-color: $d-profile-bg;
+    }
+
+    .employment, .skills  {
+      background-color: $l-profile-bg;
+    }
+  }
+
+  &.soc {
+    .employment, .education, .growth {
       background-color: $d-profile-bg;
     }
 
@@ -124,22 +134,12 @@ body.profile, body.map, body.story {
     }
   }
 
-  &.soc {
-    .employment, .education, .skills {
+  &.naics {
+    .workforce, .io  {
       background-color: $d-profile-bg;
     }
 
     .demographics, .growth  {
-      background-color: $l-profile-bg;
-    }
-  }
-
-  &.naics {
-    .workforce, .growth  {
-      background-color: $d-profile-bg;
-    }
-
-    .io  {
       background-color: $l-profile-bg;
     }
   }
@@ -321,10 +321,10 @@ body.profile, body.map, body.story {
       }
 
       &::after {
-        content: "Add to Cart";
+        content: "Add Data to Cart";
       }
       &.active::after {
-        content: "Remove";
+        content: "Remove from Cart";
       }
 
       &.disabled {
@@ -1388,7 +1388,7 @@ body.profile, body.map, body.story {
 
     .intro-head {
       margin: 0 auto;
-      max-width: 900px;
+      max-width: 1200px;
       padding: 15px 0;
 
       .section-title {
@@ -1402,22 +1402,23 @@ body.profile, body.map, body.story {
 
     .intro-txt {
       @include flex-size(2);
+      columns: 320px auto;
+      column-gap: 20px;
       padding-right: 20px;
 
       .desc {
         font-size: 17px;
         font-weight: 300;
         line-height: 1.7;
-        padding: 15px 0;
+        padding: 0 0 30px;
         color: white;
 
         a {
           color: $light-home-blue;
-          @include transition(all 0.35s);
+          @include transition(border-bottom 0.35s);
           border-bottom: 1px solid $black3;
 
           &:hover, &:focus {
-            @include text-shadow(0 0 1px rgba(255,255,255,0.6));
             border-bottom: 1px solid $light-home-blue;
           }
         }
@@ -1591,7 +1592,7 @@ body.profile, body.map, body.story {
             img {
               display: inline-block;
               height: 20px;
-              margin-top: 1px;
+              margin-top: -1px;
               width: 20px;
             }
 
@@ -1600,21 +1601,35 @@ body.profile, body.map, body.story {
 
         p {
           font-size: 14px;
+
+          a {
+            @include transition(border-bottom 0.35s);
+            color: $light-home-blue;
+            border-bottom: 1px solid $black3;
+
+            &:hover, &:focus {
+              border-bottom: 1px solid $light-home-blue;
+            }
+          }
         }
 
         ul {
           padding: 10px 0 0;
 
           li {
+            margin-bottom: 10px;
             a {
+              display: block;
               font-size: 13px;
+              line-height: 1.6;
               position: relative;
+              white-space: normal;
 
               &::after {
                 content: unicode('203A');
+                bottom: -7px;
                 font-size: 27px;
                 font-weight: 400;
-                line-height: 5px;
                 margin-left: 4px;
                 position: absolute;
                 text-decoration: none;
@@ -1637,8 +1652,9 @@ body.profile, body.map, body.story {
     position: relative;
 
     .section-title {
-      margin: 0 auto 15px;
       color: #333;
+      margin: 0 auto 15px;
+      max-width: 1200px;
 
       a {
         margin-top: -$nav-height - $prof-nav-height - $stats-bar-height - 10;
@@ -1655,7 +1671,22 @@ body.profile, body.map, body.story {
     }
 
     p {
-      font-size: 16px;
+      columns: 320px auto;
+      column-gap: 20px;
+      font-size: 17px;
+      line-height: 1.7;
+      margin: 3px auto 12px;
+      max-width: 1200px;
+
+      a {
+        @include transition(border-bottom 0.35s);
+        color: $blue;
+        border-bottom: 1px solid $black-link;
+
+        &:hover, &:focus {
+          border-bottom: 1px solid $blue;
+        }
+      }
     }
   }
 
@@ -1786,11 +1817,11 @@ body.profile, body.map, body.story {
         padding: 0;
 
         .content {
-          @include flex-size(1 0 auto);
+          @include flex-size(1 1 auto);
           @include flex-direction(column);
 
           aside {
-            @include flex-size(1 0 auto);
+            @include flex-size(1 1 auto);
             max-width: 100%;
             min-width: 100%; // added for compare-flex
           }
@@ -1829,7 +1860,6 @@ body.profile, body.map, body.story {
 
       .content {
         @include flex();
-        margin-top: 10px;
 
         &.full-width {
           @include flex-direction(column);
@@ -1902,7 +1932,7 @@ body.profile, body.map, body.story {
         }
 
         .viz {
-          @include flex-size(1 0 auto);
+          @include flex-size(1 1 auto);
           margin-left: 50px;
           min-height: 400px;
           overflow: hidden;
@@ -1917,7 +1947,7 @@ body.profile, body.map, body.story {
             min-height: 500px;
           }
 
-          .d3plus {
+          .viz {
 
             #XXUSA {
               fill: #bbb !important;
@@ -2005,6 +2035,7 @@ body.profile, body.map, body.story {
       @include flex-wrap();
       @include flex-direction(row);
       max-width: 100%;
+      padding: 0 10px;
 
       & > div {
         @include flex-size(1 0 300px);
@@ -2013,7 +2044,6 @@ body.profile, body.map, body.story {
         height: 200px;
         margin: 0 10px 20px;
         min-width: 300px;
-        max-width: 400px;
         position: relative;
         background: #1d1d1d;
         background-size: cover !important;
@@ -2041,7 +2071,7 @@ body.profile, body.map, body.story {
         .explore-title {
           position: relative;
           width: 100%;
-          padding: 20% 20px;
+          padding: 20px;
           @include box();
           margin: auto;
 
@@ -2128,7 +2158,7 @@ body.profile, body.map, body.story {
 }
 
 .d3plus_drawer_ui {
-  padding: 5px 10px 10px 20px !important;
+  padding: 5px 20px 10px !important;
 }
 
 .d3plus_title {
@@ -2152,18 +2182,6 @@ body.profile, body.map, body.story {
   font-family: $palanquin !important;
   letter-spacing: 0.03em !important;
   font-size: 13px !important;
-
-  // &:hover {
-  //   background-color: rgba(0, 0, 0, 0) !important;
-  //   border: 1px solid #6E6E6E !important;
-  //   color: #4E4E4E !important;
-  // }
-  //
-  // &.d3plus_button_active {
-  //   background-color: rgba(0, 0, 0, 0) !important;
-  //   border: 1px solid #6E6E6E !important;
-  //   color: $red-w !important;
-  // }
 
   .d3plus_button_label {
     line-height: 17px;
@@ -2196,8 +2214,7 @@ body.profile, body.map, body.story {
 
     &.d3plus_button_active {
       background-color: rgba(0, 0, 0, 0) !important;
-      // border: 1px solid #6E6E6E !important;
-      color: $red-w !important;
+      color: $black !important;
     }
 
     &.d3plus_button_active {

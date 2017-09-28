@@ -1,5 +1,5 @@
 title: "Skills"
-description: "What skills are generally required for the occupation of <<name>>?  Explore using data provided by the Bureau of Labor Statistics."
+description: "Data on the critical and distinctive skills necessary for <<name>> from the Bureau of Labor Statistics. <<name>> need many skills, but most especially <<var namespace=skill_value|key=skill|row=0>>, <<var namespace=skill_value|key=skill|row=1>>, and <<var namespace=skill_value|key=skill|row=2>>. The revealed comparative advantage (RCA) shows that <<name>> need more than the average amount of <<var namespace=skill_rca|key=skill|row=0>>, <<var namespace=skill_rca|key=skill|row=1>>, and <<var namespace=skill_rca|key=skill|row=2>>."
 
 topics:
   - title: "Radar Distribution"

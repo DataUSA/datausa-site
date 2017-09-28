@@ -36,6 +36,7 @@ body.embed {
 
         aside {
           @include flex-size(0 0 auto !important);
+          overflow: scroll;
         }
 
         .sub-source {
@@ -51,9 +52,9 @@ body.embed {
         }
 
         .viz:not(.mini), .viz.full-width {
-          height: 100% !important;
-          max-height: 100% !important;
-          min-height: 100% !important;
+          height: auto !important;
+          max-height: none !important;
+          min-height: 0 !important;
         }
 
       }

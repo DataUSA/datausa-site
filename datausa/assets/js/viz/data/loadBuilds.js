@@ -103,7 +103,7 @@ viz.prepBuild = function(build, i) {
              }
              else {
 
-               if (param && param.length) {
+               if (param && param.length && param !== "required") {
                  url = url.replace(param + "=" + prev, param + "=" + id);
                }
                else {
@@ -197,14 +197,11 @@ viz.resizeBuild = function(b) {
     b.top = b.container.node().parentNode.parentNode.parentNode.offsetTop;
     b.height = b.container.node().parentNode.offsetHeight;
   }
-  if (b.loaded) {
-    b.container.select(".d3plus")
+  if (b.loaded && (b.config.type === "geo_map" || !d3.select("body").classed("embed"))) {
+    b.container.select("div")
       .style("height", "auto")
       .style("width", "auto");
-    b.viz
-      .height(false)
-      .width(false)
-      .draw();
+    b.viz.width(false).height(false).draw();
   }
 }
 

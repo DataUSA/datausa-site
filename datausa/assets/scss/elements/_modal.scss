@@ -417,6 +417,35 @@
 
       }
 
+      @media only screen and (max-width : $modal-width) {
+        width: 100%;
+
+        .body {
+          .nav {
+            .change_share {
+              font-size: 12px;
+              margin: 8px 10px 0;
+            }
+          }
+          .panels {
+            .panel {
+              padding: 0 20px;
+              width: 100vw;
+              .filetypes {
+                .filetype {
+                  padding: 0;
+                }
+              }
+              .embed_options {
+                .options {
+                  margin: 0 0 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+
     } // end .modal
   } // end #view
 } // end .overlay

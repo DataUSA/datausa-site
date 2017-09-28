@@ -1,5 +1,5 @@
 title: "Growth Projections"
-description: "The Bureau of Labor Statistics provides detailed projections of expected numbers of jobs for <<name>> for the next ten years, and what wages they are likely to receive. Explore those projections below."
+description: "Projections on wages and job growth for <<name>> from the Bureau of Labor Statistics. The ten-year national workforce is projected to grow <<var namespace=growth|key=pct_change|row=1>>, but <<name>> are expected to see a growth of <<var namespace=growth|key=pct_change|row=0>> over the same period. This occupation is expected to grow <<percent num=var:growth,pct_change,0|den=var:growth,pct_change,1|text=fastslow>> the national average."
 
 topics:
   - title: "Job Growth"
@@ -10,7 +10,7 @@ topics:
         value: "<<var namespace=growth|key=pct_change|row=0>>"
       - title: "National Average"
         value: "<<var namespace=growth|key=pct_change|row=1>>"
-    description: "This line chart shows the 10-year projected employment growth for 2024, which is predicted to grow <<percent num=var:growth,pct_change,0|den=var:growth,pct_change,1|text=fastslow>> the national average of <<var namespace=growth|key=pct_change|row=1>>."
+    description: "This line chart shows the 10-year projected employment growth (from 2014 to 2024) for <<name>>. This profession is expected to grow <<percent num=var:growth,pct_change,0|den=var:growth,pct_change,1|text=fastslow>> <<var namespace=growth|key=pct_change|row=1>>, the average rate of national job growth."
     viz:
       attrs: "bls_soc"
       data:

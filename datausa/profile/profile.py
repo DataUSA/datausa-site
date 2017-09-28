@@ -7,7 +7,7 @@ from section import Section
 from config import API
 
 from datausa import app
-from datausa.consts import COLMAP, SUMLEVELS, TEXTCOMPARATORS
+from datausa.consts import COLMAP, DICTIONARY, SUMLEVELS, TEXTCOMPARATORS
 from datausa.utils.data import fetch, get_parents, profile_cache, get_children
 from datausa.utils.format import num_format, param_format
 from datausa.utils.manip import datafold, stat
@@ -116,7 +116,7 @@ class Profile(BaseObject):
                 value = (float(x2) - x1) / x1
 
         if fmt == "text":
-            return "{} {}".format(num_format(value, "growth"), "increase" if value >= 0 else "decrease")
+            return "{} {}".format(num_format(value, "growth"), "growth" if value >= 0 else "decline")
         elif fmt == "pretty":
             return num_format(value, "growth")
         else:
@@ -214,10 +214,10 @@ class Profile(BaseObject):
             if kwargs.get("child", False) and "children" in labels:
                 prefix = labels["children"]
 
-            labels = SUMLEVELS["geo"][prefix]
-
         else:
-            labels = SUMLEVELS[attr_type][self.sumlevel(**kwargs)]
+            prefix = self.sumlevel(**kwargs)
+
+        labels = SUMLEVELS[attr_type][prefix]
 
         if kwargs.get("short", False) and "shortlabel" in labels:
             name = labels["shortlabel"]
@@ -232,6 +232,9 @@ class Profile(BaseObject):
 
         if "titlecase" in kwargs:
             name = name.title()
+
+        if kwargs.get("raw", False):
+            return name
 
         if "desc" in labels:
             name = u"<span class='term' data-tooltip-offset='0' data-tooltip-id='data-tooltip-term' data-tooltip='{}'>{}</span>".format(labels['desc'], name)
@@ -327,7 +330,8 @@ class Profile(BaseObject):
 
     def make_links(self, list_of_profiles, attr_type=None):
         attr_type = attr_type or self.attr_type
-        top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles]
+
+        top = [u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=attr_type, attr_id=p["url_name"] if "url_name" in p and p["url_name"] else p["id"] ), p["name"]) for p in list_of_profiles if "sumlevel" not in p or p["sumlevel"] != "140"]
         if len(top) > 1:
             top[-1] = u"and {}".format(top[-1])
         if len(top) == 2:
@@ -630,6 +634,7 @@ class Profile(BaseObject):
         params[attr_type] = self.attr["id"]
         params["required"] = col
         params["show"] = kwargs.get("show", self.attr_type)
+        params["year"] = kwargs.get("year", "latest")
         params["sumlevel"] = kwargs.get("sumlevel", self.sumlevel(**kwargs))
 
         query = RequestEncodingMixin._encode_params(params)
@@ -664,16 +669,36 @@ class Profile(BaseObject):
             else:
                 results = range(int(math.ceil(rank - ranks/2)), int(math.ceil(rank + ranks/2) + 1))
 
-        if kwargs.get("key", False) == "id":
+        prev = kwargs.get("prev", False)
+        next = kwargs.get("next", False)
+        if prev:
+            if rank == results[0]:
+                return "N/A"
+            else:
+                results = [results[results.index(rank) - 1]]
+        if next:
+            if rank == results[-1]:
+                return "N/A"
+            else:
+                results = [results[results.index(rank) + 1]]
+
+        key = kwargs.get("key", False)
+
+        if key == "id" or key == "name":
             del params["limit"]
             params[col] = ",".join([str(r) for r in results])
             query = RequestEncodingMixin._encode_params(params)
             url = "{}/api?{}".format(API, query)
             try:
-                results = [d[params["show"]] for d in datafold(requests.get(url).json())]
+                results = datafold(requests.get(url).json())
             except ValueError:
                 app.logger.info("STAT ERROR: {}".format(url))
                 return ""
+
+            if key == "id":
+                results = [d[params["show"]] for d in results]
+            elif key == "name":
+                return self.make_links([fetch(d[params["show"]], params["show"]) for d in results], params["show"])
 
         return ",".join([str(r) for r in results])
 
@@ -737,6 +762,7 @@ class Profile(BaseObject):
         key = kwargs.pop("key", "name")
         attr_id = self.id(**kwargs)
         attr_type = kwargs.get("attr_type", self.attr_type)
+        original = fetch(self.attr["id"], self.attr_type)
 
         if kwargs.get("dataset", False):
             if self.attr["id"] != attr_id:
@@ -752,7 +778,27 @@ class Profile(BaseObject):
 
         if key == "name":
             if substitution:
-                return u"Showing data for {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
+                if original:
+                    if self.attr_type in SUMLEVELS and attr_type in SUMLEVELS:
+                        if "sumlevel" in original:
+                            origLevel = SUMLEVELS[self.attr_type][original["sumlevel"]]["label"]
+                        elif isinstance(original["level"], basestring):
+                            origLevel = "{} {} Group".format(original["level"].title(), DICTIONARY[self.attr_type])
+                        else:
+                            level = str((original["level"] + 1) * 2) if self.attr_type == "cip" else str(original["level"])
+                            origLevel = SUMLEVELS[self.attr_type][level]["label"]
+                        if "sumlevel" in substitution:
+                            subLevel = SUMLEVELS[attr_type][substitution["sumlevel"]]["label"]
+                        elif isinstance(substitution["level"], basestring):
+                            subLevel = "{} {} Group".format(substitution["level"].title(), DICTIONARY[attr_type])
+                        else:
+                            level = str((substitution["level"] + 1) * 2) if attr_type == "cip" else str(substitution["level"])
+                            subLevel = SUMLEVELS[attr_type][level]["label"]
+                        return u"The closest comparable data for the {0}{4}{1} is from the {2}{4}{3}.".format(origLevel, original["display_name"] if "display_name" in original else original[key], subLevel, substitution["display_name"] if "display_name" in substitution else substitution[key], " of " if attr_type == "geo" else " ")
+                    else:
+                        return u"The closest comparable data for {} is from {}.".format(original["display_name"] if "display_name" in original else original[key], substitution["display_name"] if "display_name" in substitution else substitution[key])
+                else:
+                    return u"Using data from {}.".format(substitution["display_name"] if "display_name" in substitution else substitution[key])
             else:
                 return ""
         else:

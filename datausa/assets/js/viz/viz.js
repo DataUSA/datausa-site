@@ -20,7 +20,7 @@ var viz = function(build) {
       "children": build.config.tooltip.value.length < 3
     })
     .background("transparent")
-    .container(build.container.select(".d3plus"))
+    .container(build.container)
     .error("Please Wait")
     .draw();
 

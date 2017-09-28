@@ -1,15 +1,18 @@
-title: "Demographics"
-description: "The next section will allow you to explore demographic profiles of Americans who obtained a degree in <<name>>, to paint a rich picture of the kind of people who have chosen this as their field of study."
+title: "Diversity"
+description: "Demographic information on those who earn a degree in <<name dataset=pums>> in the US. The average age of a person in the workforce with a degree in <<name dataset=pums>> is <<var namespace=age|key=avg_age|row=0>>, and the most common degree type these workers hold is a <<var namespace=degree_workforce|key=degree|row=0>>. <<var namespace=grads_sex|key=name>> employees are more likey to hold <<name dataset=pums>> degrees, and <<var namespace=race|key=name|row=0>> students earn the majority (<<var namespace=race|key=value|row=0>>) of the degrees."
 
 topics:
   - title: "Workforce Age"
     slug: "workforce_age"
     subtitle: "<<sub dataset=pums>>"
     stat:
-      - title: "Average Age"
-        value: "<<var namespace=age|key=avg_age>>"
-        subtitle: "<span class='plus-minus'>±</span> <<var namespace=age|key=avg_age_moe>> years"
-    description: "The PUMS dataset allows us to look at the distribution of ages for the employed population that have obtained a degree in <<name dataset=pums>>."
+      - title: "Average Age in <<var namespace=age|key=year|row=0>>"
+        value: "<<var namespace=age|key=avg_age|row=0>>"
+        subtitle: "<span class='plus-minus'>±</span> <<var namespace=age|key=avg_age_moe|row=0>> years"
+      - title: "1 year change"
+        value: "<<growth namespace=age|key=avg_age>>"
+        subtitle: "<span class='plus-minus'>±</span> <<growth namespace=age|key=avg_age_moe>>"
+    description: "This chart shows distribution of ages for employees with a degree in <<name dataset=pums>>. The most common ages of employees with this major are <<var namespace=age_max|key=age|row=0>> and <<var namespace=age_max|key=age|row=1>> years old, which represent <<percent num=var:age_max,num_ppl,0|den=var:data,num_ppl,0>> and <<percent num=var:age_max,num_ppl,1|den=var:data,num_ppl,0>> of the population, respectively."
     viz:
       attrs: "cip"
       data:
@@ -35,7 +38,7 @@ topics:
   - title: "Degrees Awarded"
     class: "flex"
     slug: "degree_obtainment"
-    description: "The most common degree types awarded to current students graduating in <<name>> are <<top show=degree|order=grads_total|limit=3>>."
+    description: "The most common degree types awarded to students graduating in <<name>> are <<top show=degree|order=grads_total|limit=3>>."
     viz:
       attrs: "degree"
       data:
@@ -79,9 +82,9 @@ topics:
   - title: "Gender Imbalance for Common Institutions"
     slug: "enrolled_gender"
     stat:
-      - title: "Most Common Gender"
-        value: "<<var namespace=grads_sex|key=name>> (<<percent num=var:grads_sex,value|den=var:gdata,grads_total>>)"
-    description: "Here we see the 5 most common institutions that offer <<name>> broken down by degrees awarded for each gender."
+      - title: "Most Common Gender with degree in this field"
+        value: "<<var namespace=grads_sex|key=name>> <span class='stat-subtitle'><<percent num=var:grads_sex,value|den=var:gdata,grads_total,0>></span>"
+    description: "This chart shows the granted degrees by gender at the 5 institutions that graduate the most students in <<name>>."
     viz:
       attrs: "university"
       color: "sex"
@@ -104,11 +107,11 @@ topics:
     slug: "ethnicity_degrees"
     stat:
       - title: "Most Common Race or Ethnicity"
-        value: "<<var namespace=race|key=name|row=0>>"
+        value: "<<var namespace=race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=race|key=value|row=0>></span>"
         subvalues:
-          - "<<var namespace=race|key=name|row=1>>"
-          - "<<var namespace=race|key=name|row=2>>"
-    description: "Here we see the number of degrees awarded in <<name>> for each race & ethnicity."
+          - "<<var namespace=race|key=name|row=1>> <span class='stat-subtitle'><<var namespace=race|key=value|row=1>></span>"
+          - "<<var namespace=race|key=name|row=2>> <span class='stat-subtitle'><<var namespace=race|key=value|row=2>></span>"
+    description: "This chart shows the number of degrees awarded in <<name>> for each race & ethnicity. <<var namespace=race|key=name|row=0>> students earned the largest share of the degrees with this major."
     viz:
       color: "race"
       data:
@@ -137,11 +140,11 @@ topics:
       default: "<<var namespace=top_degree|row=0|key=degree|format=raw>>"
     stat:
       - title: "Most Common Race/Ethnicity and Gender Combination"
-        value: "<<var namespace=race_sex|key=name|row=0>>"
+        value: "<<var namespace=race_sex|key=name|row=0>> <span class='stat-subtitle'><<var namespace=race_sex|key=value|row=0>></span>"
         subvalues:
-          - "<<var namespace=race_sex|key=name|row=1>>"
-          - "<<var namespace=race_sex|key=name|row=2>>"
-    description: "Here we see the difference in gender for each race & ethnicity of students graduating with a <<var namespace=top_degree|row=0|key=degree>> in <<name>>."
+          - "<<var namespace=race_sex|key=name|row=1>> <span class='stat-subtitle'><<var namespace=race_sex|key=value|row=1>></span>"
+          - "<<var namespace=race_sex|key=name|row=2>> <span class='stat-subtitle'><<var namespace=race_sex|key=value|row=2>></span>"
+    description: "This chart illustrates the differences by gender for each race & ethnicity of students graduating with a <<var namespace=top_degree|row=0|key=degree>> in <<name>>. <<var namespace=race_sex|key=name|row=0>> graduates, who earn most of the degrees in this field, are the most common combination of race/ethnicity and gender."
     viz:
       color: "sex"
       data:
@@ -168,17 +171,17 @@ topics:
     subtitle: "<<sub dataset=pums>>"
     stat_stack: true
     stat:
-      - title: "Most Common Country of Origin is"
+      - title: "Most Common Countries of Origin"
         value: "<<var namespace=birthplace|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=birthplace|key=birthplace|row=1>>"
           - "<<var namespace=birthplace|key=birthplace|row=2>>"
-      - title: "High Relative Number of People born in"
+      - title: "High Relative Number of Students"
         value: "<<var namespace=birthplace_rca|key=birthplace|row=0>>"
         subvalues:
           - "<<var namespace=birthplace_rca|key=birthplace|row=1>>"
           - "<<var namespace=birthplace_rca|key=birthplace|row=2>>"
-    description: "There are a relatively high number of people that were born in <<var namespace=birthplace_rca|key=birthplace|row=0>> that hold <<name dataset=pums>> degrees."
+    description: "There are a relatively high number of people that were born in <<var namespace=birthplace_rca|key=birthplace|row=0>> that hold <<name dataset=pums>> degrees, but the most common country of origin for non-US students earning a degree in this field is <<var namespace=birthplace|key=birthplace|row=0>>."
     viz:
       attrs: "birthplace"
       coords: "birthplace"
