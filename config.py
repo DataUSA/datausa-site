@@ -6,7 +6,7 @@ DEBUG = not os.environ.get("DATAUSA_PRODUCTION", False)
 
 ''' Base URL used for API calls '''
 API = os.environ.get("DATAUSA_API", "https://api.datausa.io")
-PROFILES = ["cip", "soc", "naics", "geo"]
+PROFILES = ["cip", "soc", "naics", "geo", "university"]
 CROSSWALKS = ["acs_ind", "acs_occ", "commodity_iocode", "industry_iocode", "iocode"]
 
 ''' Use a filesystem cache '''

@@ -1,0 +1,7 @@
+- required: ["year", "grads_total"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: data

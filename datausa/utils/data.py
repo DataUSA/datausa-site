@@ -65,7 +65,10 @@ def get_parents(attr_id, attr_type):
     """get parents from API"""
     url = "{}/attrs/{}/{}/parents".format(API, attr_type, attr_id)
     try:
-        return datafold(requests.get(url).json())
+        data = requests.get(url).json()
+        if "error" in data:
+            return []
+        return datafold(data)
     except ValueError:
         return []
 
@@ -76,7 +79,10 @@ def get_children(attr_id, attr_type, sumlevel=None):
     if sumlevel:
         url = "{}?sumlevel={}".format(url, sumlevel)
     try:
-        return datafold(requests.get(url).json())
+        data = requests.get(url).json()
+        if "error" in data:
+            return []
+        return datafold(data)
     except ValueError:
         return ""
 
@@ -157,7 +163,7 @@ def build_profile_cache():
     ranks = requests.get("{}/attrs/ranks/".format(API)).json()["data"]
 
     for p in PROFILES:
-        profiles[p] = {"sections": [], "ranks": ranks[p]}
+        profiles[p] = {"sections": [], "ranks": ranks[p] if p in ranks else []}
         splash_path = os.path.join(profile_path, p, "splash.yml")
         splash = yaml.load("".join(open(splash_path).readlines()))
         sections = splash["sections"]
