@@ -50,6 +50,11 @@
           {% if profile.attr.is_stem == 1 %}STEM Major{% else %}Contains STEM Majors{% endif %}
         </sub>
         {% endif %}
+        {% if profile.attr_type == "university" and profile.attr.is_stem %}
+        <sub class="stem-label">
+          STEM Institution
+        </sub>
+        {% endif %}
         <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
           <img class="compare-img" src="/static/img/icons/compare.svg" />
           <span class="compare-text">Add Comparison</span>
