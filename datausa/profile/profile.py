@@ -179,13 +179,14 @@ class Profile(BaseObject):
         return self.attr["id"]
 
     def image(self):
-        if "image_link" in self.attr:
-            url = "/static/img/splash/{}/".format(self.attr_type)
+
+        def formatImage(attr, attr_type):
+            url = "/static/img/splash/{}/".format(attr_type)
             image_attr = False
-            if self.attr["image_link"]:
-                image_attr = self.attr
+            if attr["image_link"]:
+                image_attr = attr
             else:
-                parents = [fetch(p["id"], self.attr_type) for p in get_parents(self.attr["id"], self.attr_type)]
+                parents = [fetch(p["id"], attr_type) for p in get_parents(attr["id"], attr_type)]
                 for p in reversed(parents):
                     if p["image_link"]:
                         image_attr = p
@@ -197,6 +198,13 @@ class Profile(BaseObject):
                     "author": image_attr["image_author"],
                     "meta": image_attr.get("image_meta", False)
                     }
+
+        if "image_link" in self.attr:
+            if self.attr_type == "university" and self.attr["image_link"] == None:
+                return formatImage(fetch(self.attr["msa"], "geo"), "geo")
+            return formatImage(self.attr, self.attr_type)
+        elif "msa" in self.attr:
+            return formatImage(fetch(self.attr["msa"], "geo"), "geo")
         return None
 
     def level(self, **kwargs):
