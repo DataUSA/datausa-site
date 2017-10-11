@@ -1,0 +1,168 @@
+title: "Tuition & Fees"
+description: "Information about the student costs at <<name>>. Tuition costs at this university are, on average, <<var namespace=tuition|key=state_tuition|row=0>>. The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}. The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the median in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
+
+topics:
+  - title: "Tuition Costs"
+    slug: "tuition"
+    stat:
+      - title: "Median Out-of-State"
+        value: "<<var namespace=tuition|key=oos_tuition|row=0>>"
+        allowed: "<<sector>>:public"
+      - title: "Median {{<<sector>>:public||In-State}}{{<<sector>>:private||Tuition}}"
+        value: "<<var namespace=tuition|key=state_tuition|row=0>>"
+    description:
+      - "In <<var namespace=tuition|key=year|row=0>>, the median cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> was <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}."
+      - "The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the median in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
+    viz:
+      - allowed: "<<sector>>:private"
+        attrs: "university"
+        data:
+          - required: "state_tuition"
+            show: university
+            university: <<id>>
+            split:
+              id: "location"
+              regex: "^([a-z_tuit]*)ion"
+              value: "tuition_cost"
+          - required: "state_tuition"
+            show: geo
+            geo: 01000US
+            sector: <<attribute key=sector>>
+            static:
+              university: "nation"
+            split:
+              id: "location"
+              regex: "^([a-z_tuit]*)ion"
+              value: "tuition_cost"
+        depth: 1
+        id:
+          - "university"
+          - "location"
+        order:
+          sort: "desc"
+          value: "location"
+        tooltip:
+          value:
+            - "tuition_cost"
+        type: "bar"
+        x:
+          label: False
+          value: "university"
+        y: "tuition_cost"
+      - allowed: "<<sector>>:public"
+        attrs: "university"
+        data:
+          - required: "oos_tuition,state_tuition"
+            show: university
+            university: <<id>>
+            split:
+              id: "location"
+              regex: "^([a-z_tuit]*)ion"
+              value: "tuition_cost"
+          - required: "oos_tuition,state_tuition"
+            show: geo
+            geo: 01000US
+            sector: <<attribute key=sector>>
+            static:
+              university: "nation"
+            split:
+              id: "location"
+              regex: "^([a-z_tuit]*)ion"
+              value: "tuition_cost"
+        depth: 1
+        id:
+          - "university"
+          - "location"
+        order:
+          sort: "desc"
+          value: "location"
+        tooltip:
+          value:
+            - "tuition_cost"
+        type: "bar"
+        x:
+          label: False
+          value: "university"
+        y: "tuition_cost"
+  - title: "Student Fees"
+    slug: "fees"
+    stat:
+      - title: "Median Out-of-State"
+        value: "<<var namespace=tuition|key=oos_fee|row=0>>"
+        allowed: "<<sector>>:public"
+      - title: "Median {{<<sector>>:public||In-State}}{{<<sector>>:private||Fee}}"
+        value: "<<var namespace=tuition|key=state_fee|row=0>>"
+    description:
+      - "In <<var namespace=tuition|key=year|row=0>>, the median for {{<<sector>>:public||out-of-state }}student fees at <<name>> was <<var namespace=tuition|key=oos_fee|row=0>> per year{{<<sector>>:public||, which was <<percent num=var:tuition,oos_fee,0|den=var:tuition,state_fee,0|text=highlow>> the fee for in-state students, <<var namespace=tuition|key=state_fee|row=0>>}}."
+      - "The {{<<sector>>:public||out-of-state }}student fees at <<name>> are <<percent num=var:tuition,oos_fee,0|den=var:tuition_us,oos_fee,0|diff=true>> <<percent num=var:tuition,oos_fee,0|den=var:tuition_us,oos_fee,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_fee|row=0>> for <<sector text=true>> universities{{<<sector>>:public||, and the in-state fees are <<percent num=var:tuition,state_fee,0|den=var:tuition_us,state_fee,0|diff=true>> <<percent num=var:tuition,state_fee,0|den=var:tuition_us,state_fee,0|diff=true|text=moreless2>> than the national median of <<var namespace=tuition_us|key=state_fee|row=0>>}}."
+    viz:
+      - allowed: "<<sector>>:private"
+        attrs: "university"
+        data:
+          - required: "state_fee"
+            show: university
+            university: <<id>>
+            split:
+              id: "location"
+              regex: "^([a-z_f]*)ee"
+              value: "fee_cost"
+          - required: "state_fee"
+            show: geo
+            geo: 01000US
+            sector: <<attribute key=sector>>
+            static:
+              university: "nation"
+            split:
+              id: "location"
+              regex: "^([a-z_f]*)ee"
+              value: "fee_cost"
+        depth: 1
+        id:
+          - "university"
+          - "location"
+        order:
+          sort: "desc"
+          value: "location"
+        tooltip:
+          value:
+            - "fee_cost"
+        type: "bar"
+        x:
+          label: False
+          value: "university"
+        y: "fee_cost"
+      - allowed: "<<sector>>:public"
+        attrs: "university"
+        data:
+          - required: "oos_fee,state_fee"
+            show: university
+            university: <<id>>
+            split:
+              id: "location"
+              regex: "^([a-z_f]*)ee"
+              value: "fee_cost"
+          - required: "oos_fee,state_fee"
+            show: geo
+            geo: 01000US
+            sector: <<attribute key=sector>>
+            static:
+              university: "nation"
+            split:
+              id: "location"
+              regex: "^([a-z_f]*)ee"
+              value: "fee_cost"
+        depth: 1
+        id:
+          - "university"
+          - "location"
+        order:
+          sort: "desc"
+          value: "location"
+        tooltip:
+          value:
+            - "fee_cost"
+        type: "bar"
+        x:
+          label: False
+          value: "university"
+        y: "fee_cost"

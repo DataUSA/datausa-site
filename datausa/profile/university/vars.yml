@@ -6,10 +6,23 @@
   limit: 2
   namespace: grads
 
-- required: ["year", "state_tuition", "oos_tuition"]
+- required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
   rows: True
   sort: desc
   order: year
   year: all
   limit: 2
   namespace: tuition
+
+- required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  sector: "<<attribute key=sector>>"
+  geo: 01000US
+  show: geo
+  sumlevel: nation
+  university: ""
+  namespace: tuition_us
