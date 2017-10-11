@@ -111,7 +111,7 @@ class Section(BaseObject):
             self.sections = config["sections"]
 
         if "stats" in config:
-            self.stats = config["stats"]
+            self.stats = [s for s in config["stats"] if self.allowed_levels(s)]
 
 
     @staticmethod
