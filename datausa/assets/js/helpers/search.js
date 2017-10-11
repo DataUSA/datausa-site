@@ -267,7 +267,7 @@ search.btnLarge = function(d) {
   var profile = search_item.selectAll(".profile").data([0]);
   profile.enter().append("div").attr("class", "profile")
     .append("a").attr("href", "#")
-    .html("Details")
+    .html("Sections")
     .on("click", search.open_details);
 
   var xtra = search_item.selectAll(".xtra").data([0]);
@@ -276,9 +276,15 @@ search.btnLarge = function(d) {
   if (d.id === "01000US") {
     var subtitle = infoEnter.append("p").attr("class", "subtitle").text("Nation");
   }
-  if (sumlevels_cy_id[d.kind][d.sumlevel]) {
-    var subtitle = infoEnter.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+  else if (sumlevels_cy_id[d.kind] && sumlevels_cy_id[d.kind][d.sumlevel]) {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle");
     if (d.is_stem > 0) subtitle.append("span").attr("class", "stem").text("STEM");
+    subtitle.append("span").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+  }
+  else {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle");
+    if (d.is_stem > 0) subtitle.append("span").attr("class", "stem").text("STEM");
+    subtitle.append("span").text(d.kind);
   }
 
   if (search.zip) {
@@ -393,9 +399,9 @@ search.btnSmall = function(d) {
   var sub = text.selectAll(".subtitle").data([0]);
   sub.enter().append("p").attr("class", "subtitle")
   sub.text(d.id === "01000US" ? "Nation"
-    : sumlevels_cy_id[d.kind][d.sumlevel]
+    : sumlevels_cy_id[d.kind] ? sumlevels_cy_id[d.kind][d.sumlevel]
     ? sumlevels_cy_id[d.kind][d.sumlevel].name
-    : "");
+    : d.kind : d.kind);
 
   var vars = search.data ? sections.reduce(function(arr, v) {
     v.related_vars.forEach(function(k, i) {

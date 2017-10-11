@@ -322,6 +322,9 @@ body.home {
       padding-right: 1px;
 
       .search-item {
+        .subtitle {
+          margin-top: 5px;
+        }
         &:active, &:focus, &:hover {
           background-color: $d-profile-bg;
         }

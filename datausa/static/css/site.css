@@ -1873,7 +1873,7 @@
       text-transform: uppercase; }
       .search-results .search-item p.subtitle, .search-results .search-item p.section {
         display: inline-block;
-        margin-top: 5px; }
+        margin-top: 10px; }
         .search-results .search-item p.section {
           float: right; }
     .search-results .search-item .search-stats {
@@ -1916,6 +1916,8 @@
       color: #879bf5; }
     .search-results .search-item.cip .section {
       color: #ef7760; }
+    .search-results .search-item.university .section {
+      color: #e2db93; }
     .search-results .search-item.soc .section {
       color: #5cb3aa; }
     .search-results .search-item.naics .section {
@@ -2217,6 +2219,9 @@
             body.search .search-results-container .search-refine div.cip h2 a,
             body.search .search-results-container .search-refine div.cip h2 a span {
               color: #ef7760; }
+            body.search .search-results-container .search-refine div.university h2 a,
+            body.search .search-results-container .search-refine div.university h2 a span {
+              color: #e2db93; }
             body.search .search-results-container .search-refine div.soc h2 a,
             body.search .search-results-container .search-refine div.soc h2 a span {
               color: #5cb3aa; }
@@ -2388,8 +2393,9 @@
                 box-sizing: border-box; }
             body.search .search-results-container .search-results .search-item .xtra {
               display: none;
-              width: 100%;
-              padding: 0 0 0 40px; }
+              margin-top: 10px;
+              padding: 0 0 0 40px;
+              width: 100%; }
               body.search .search-results-container .search-results .search-item .info {
                 -webkit-box-flex: 1;
                 -moz-box-flex: 1;
@@ -2410,8 +2416,8 @@
                 body.search .search-results-container .search-results .search-item .info .stem {
                   border: solid 1px #979AA2;
                   border-radius: 4px;
-                  margin: 0 0 0 5px;
-                  padding: 0 4px; }
+                  margin: 0 5px 0 0;
+                  padding: 0 5px; }
                   body.search .search-results-container .search-results .search-item .info h2 {
                     max-width: 90%; }
                     body.search .search-results-container .search-results .search-item .info h2 .expand {
@@ -2461,6 +2467,10 @@
             body.search .search-results-container .search-results .search-item.cip .parents a,
             body.search .search-results-container .search-results .search-item.cip .parents {
               color: #ef7760; }
+            body.search .search-results-container .search-results .search-item.university .profile a,
+            body.search .search-results-container .search-results .search-item.university .parents a,
+            body.search .search-results-container .search-results .search-item.university .parents {
+              color: #e2db93; }
             body.search .search-results-container .search-results .search-item.soc .profile a,
             body.search .search-results-container .search-results .search-item.soc .parents a,
             body.search .search-results-container .search-results .search-item.soc .parents {
@@ -3024,10 +3034,12 @@
               -webkit-box-sizing: border-box;
               -moz-box-sizing: border-box;
               box-sizing: border-box; }
-              body.home #search-home .search-results .search-item:active,
-              body.home #search-home .search-results .search-item:focus,
-              body.home #search-home .search-results .search-item:hover {
-                background-color: #E9E9E9; }
+              body.home #search-home .search-results .search-item .subtitle {
+                margin-top: 5px; }
+                body.home #search-home .search-results .search-item:active,
+                body.home #search-home .search-results .search-item:focus,
+                body.home #search-home .search-results .search-item:hover {
+                  background-color: #E9E9E9; }
     body.home .open + .results-show-all {
       display: block; }
       body.home .results-show-all {

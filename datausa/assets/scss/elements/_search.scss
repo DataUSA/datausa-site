@@ -74,7 +74,7 @@
 
       &.subtitle, &.section {
         display: inline-block;
-        margin-top: 5px;
+        margin-top: 10px;
       }
 
       &.section {
@@ -125,6 +125,12 @@
     &.cip {
       .section {
         color: $cip-bg-color;
+      }
+    }
+
+    &.university {
+      .section {
+        color: $university-bg-color;
       }
     }
 
@@ -419,6 +425,12 @@ body.search {
           }
         }
 
+        &.university {
+          h2 a, h2 a span {
+            color: $university-bg-color;
+          }
+        }
+
         &.soc {
           h2 a, h2 a span {
             color: $soc-bg-color;
@@ -619,8 +631,9 @@ body.search {
 
         .xtra {
           display: none;
-          width: 100%;
+          margin-top: 10px;
           padding: 0 0 0 40px;
+          width: 100%;
         }
 
         .info {
@@ -648,8 +661,8 @@ body.search {
           .stem {
             border: solid 1px $black5;
             border-radius: 4px;
-            margin: 0 0 0 5px;
-            padding: 0 4px;
+            margin: 0 5px 0 0;
+            padding: 0 5px;
           }
 
           h2 {
@@ -744,6 +757,14 @@ body.search {
           .parents a,
           .parents {
             color: $cip-bg-color;
+          }
+        }
+
+        &.university {
+          .profile a,
+          .parents a,
+          .parents {
+            color: $university-bg-color;
           }
         }
 
