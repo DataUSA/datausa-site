@@ -1,0 +1,64 @@
+title: "Demographics"
+description: "Data regarding graduating student demographics at <<name>>. In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=moreless2>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+
+topics:
+  - title: "Gender for Common Majors"
+    slug: "gender"
+    description:
+      - "In <<var namespace=grads|row=0|key=year>>, <<var namespace=grads|row=0|key=grads_men>> men graduated from <<name>>, which is <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|ratio=True>> times <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|text=moreless>> than the <<var namespace=grads|row=0|key=grads_women>> female graduates."
+      - "This chart displays the gender disparity between the top 5 majors at <<name>> by degrees awarded."
+    stat:
+      - title: "Male Graduates"
+        value: "<<var namespace=grads|row=0|key=grads_men>>"
+      - title: "Female Graduates"
+        value: "<<var namespace=grads|row=0|key=grads_women>>"
+    viz:
+      attrs: "cip"
+      color: "sex"
+      data:
+        show: "cip"
+        university: "<<id>>"
+        required: "grads_men,grads_women"
+        split:
+          id: "sex"
+          regex: "grads_([a-z]*)$"
+          value: "grads_total"
+        cip: "<<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5>>"
+      id: "sex"
+      order: "grads_total"
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: "cip"
+      y: "grads_total"
+  - title: "Race & Ethnicity"
+    slug: "ethnicity"
+    description:
+      - "In <<var namespace=grads_race|key=year|row=0>> the majority of students graduating from <<name>> were <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+    stat:
+      - title: "Most common student race or ethnicity"
+        value: "<<var namespace=grads_race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=0>></span>"
+        subvalues:
+          - "<<var namespace=grads_race|key=name|row=1>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=1>></span>"
+          - "<<var namespace=grads_race|key=name|row=2>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=2>></span>"
+    viz:
+      color: "race"
+      data:
+        show: "university"
+        university: "<<id>>"
+        required: "grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native"
+        share: grads_total
+        split:
+          id: "race"
+          regex: "^grads_([a-z]*)$"
+          value: "grads_total"
+      id: "race"
+      order:
+        sort: "asc"
+        value: "grads_total"
+      type: "bar"
+      x: share
+      y:
+        scale: "discrete"
+        value: "race"

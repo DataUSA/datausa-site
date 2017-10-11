@@ -1,4 +1,4 @@
-- required: ["year", "grads_total"]
+- required: ["year", "grads_total", "grads_men", "grads_women"]
   rows: True
   sort: desc
   order: year
@@ -35,4 +35,16 @@
   limit: 3
   sumlevel: "6"
   show: cip
-  namespace: "cip_grads"
+  namespace: cip_grads
+
+- force: "ipeds.grads_yu"
+  dataset: ipeds
+  limit: 1
+  rows: True
+  order: grads_total
+  pivot:
+    keys: ["race"]
+    cols: ["year", "name", "value"]
+    limit: 3
+  year: latest
+  namespace: grads_race
