@@ -16,7 +16,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 57
+    g.cache_version = 58
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
     g.collectionyears = json.dumps(COLLECTIONYEARS)
@@ -48,7 +48,8 @@ footMap = {
     "geo": 36190,
     "naics": 301,
     "soc": 525,
-    "cip": 2319
+    "cip": 2319,
+    "university": 9300
 }
 
 def tileAPI(column):
@@ -92,24 +93,18 @@ def tileProfiles(profiles):
     for i, page in enumerate(profiles):
         show, slug = page.split("/")
         attr = fetch(slug, show)
-        attr_id = attr["id"]
-        sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
+        attr_id = attr["msa"] if show == "university" else attr["id"]
+        attr_type = "geo" if show == "university" else show
         profiles[i] = {
-            "image": "/search/{}/{}/img".format(show, attr_id),
+            "image": "/search/{}/{}/img".format(attr_type, attr_id),
             "link": "/profile/{}".format(page),
             "title": attr["display_name"] if "display_name" in attr else attr["name"],
-            # "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
-            "type": {
-                "icon": "/static/img/icons/{}.svg".format(show),
-                "title": SUMLEVELS[show][str(sumlevel)]["label"],
-                "type": TYPEMAP[show],
-                "depth": "{}".format(sumlevel).replace("_", " ")
-            }
+            "new": 1 if show == "university" else 0
         }
     return profiles
 
 def tileMaps(maps):
-    new = ["total_reimbursements_b"]
+    new = []
     titles = {
         "total_reimbursements_b": "Medicare Reimbursements"
     }
@@ -156,6 +151,17 @@ def home():
         "footer": {
             "link": "/map",
             "text": "{} more".format(mapTotal - TILEMAX)
+        }
+    })
+
+    carousels.append({
+        "rank": "university",
+        "title": "Universities",
+        "icon": "/static/img/icons/university.svg",
+        "data": tileProfiles(["university/massachusetts-institute-of-technology", "university/university-of-maryland-college-park", "university/university-of-notre-dame", "university/university-of-chicago", "university/northeastern-university"]),
+        "footer": {
+            "link": "/search/?kind=university",
+            "text": "{} more".format(num_format(footMap["university"] - TILEMAX))
         }
     })
 
@@ -207,8 +213,7 @@ def home():
             "url": "{}/api/?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all".format(API),
             "slug": "map_patients_diabetic_medicare_enrollees_65_75_lipid_test_total_ county",
             "image": "/static/img/splash/naics/5417.jpg",
-            "title": "Diabetic Lipid Tests by County",
-            "new": 1
+            "title": "Diabetic Lipid Tests by County"
         },
         {
             "url": "{}/api/?required=adult_smoking&show=geo&sumlevel=state&year=all".format(API),
@@ -220,8 +225,7 @@ def home():
             "url": "{}/api/?required=leg_amputations_per_1000_enrollees_total&show=geo&sumlevel=county&year=all".format(API),
             "slug": "map_leg_amputations_per_1000_enrollees_total_ county",
             "image": "/static/img/splash/naics/62.jpg",
-            "title": "Leg Amputations by County",
-            "new": 1
+            "title": "Leg Amputations by County"
         },
         {
             "url": "{}/api/?required=pop%2Cpop_moe&show=geo&sumlevel=county&year=all".format(API),

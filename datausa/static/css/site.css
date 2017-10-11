@@ -3389,22 +3389,28 @@
           display: inline-block; }
           body.home #feed.carousel.secondary {
             display: none; }
-            @media only screen and (max-width: 1800px) {
+            @media only screen and (max-width: 2100px) {
               body.home #feed.carousel.rank-cip.primary {
                 display: none;   }
                 body.home #feed.carousel.rank-cip.secondary {
                   display: inline-block;   }
 }
-        @media only screen and (max-width: 1600px) {
+        @media only screen and (max-width: 1850px) {
           body.home #feed.carousel.rank-naics.primary {
             display: none;   }
             body.home #feed.carousel.rank-naics.secondary {
               display: inline-block;   }
 }
-        @media only screen and (max-width: 1400px) {
+        @media only screen and (max-width: 1600px) {
           body.home #feed.carousel.rank-cart.primary {
             display: none;   }
             body.home #feed.carousel.rank-cart.secondary {
+              display: inline-block;   }
+}
+        @media only screen and (max-width: 1400px) {
+          body.home #feed.carousel.rank-soc.primary {
+            display: none;   }
+            body.home #feed.carousel.rank-soc.secondary {
               display: inline-block;   }
 }
         @media only screen and (max-width: 1200px) {
