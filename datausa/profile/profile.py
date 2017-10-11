@@ -608,7 +608,7 @@ class Profile(BaseObject):
                 else:
                     return text[2]
         elif diff or kwargs.get("ratio", False):
-            return num_format(abs(val))
+            return num_format(abs(val), r["num_key"] if r["num_key"] == r["den_key"] else False)
         else:
             return "<span class='cart-percentage' data-num='{}' data-den='{}'>{}%</span>".format(r["num_key"], r["den_key"], num_format(val * 100))
 
@@ -739,7 +739,9 @@ class Profile(BaseObject):
             return Section(self.load_yaml(json.dumps(desired_config)), self, section_name)
         return None
 
-    def sector(self):
+    def sector(self, **kwargs):
+        if kwargs.get("text", False):
+            return fetch(self.attr["sector"], "sector")["name"]
         return "private" if str(self.attr["sector"]) in ["2", "3", "5", "6", "8", "9"] else "public"
 
     def siblings(self, **kwargs):
