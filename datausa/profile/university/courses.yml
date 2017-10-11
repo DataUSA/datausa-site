@@ -1,5 +1,5 @@
 title: "Courses"
-description: "Data about the majors offered at <<name>>. In <<var namespace=cip_grads|key=year|row=0>>, The most common major at <<name>> was <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
+description: "Data about the majors offered at <<name>>. In <<var namespace=cip_grads|key=year|row=0>>, the most common major at <<name>> was <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
   - title: "Courses Offered"

@@ -381,7 +381,14 @@ class Profile(BaseObject):
     def parents(self, **kwargs):
         id_only = kwargs.get("id_only", False)
         limit = kwargs.pop("limit", None)
-        attr_id = self.id(**kwargs)
+        if self.attr_type == "university":
+            attr_id = kwargs.get("attr_id", self.attr["msa"])
+        else:
+            attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        if self.attr_type == "university":
+            attr_type = kwargs.get("attr_type", "geo")
+        else:
+            attr_type = kwargs.get("attr_type", self.attr_type)
         prefix = kwargs.get("prefix", None)
 
         if (prefix or limit) and id_only == False:
@@ -438,16 +445,16 @@ class Profile(BaseObject):
                 else:
                     return results
 
-        results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
+        results = [p for p in get_parents(attr_id, attr_type) if p["id"] != attr_id]
         results = self.get_uniques(results)
         for p in results:
-            if self.attr_type == "geo":
+            if attr_type == "geo":
                 level = p["id"][:3]
-            elif self.attr_type == "cip":
+            elif attr_type == "cip":
                 level = str(len(p["id"]))
             else:
-                level = str(fetch(p["id"], self.attr_type)["level"])
-            p["sumlevel"] = SUMLEVELS[self.attr_type][level]["label"]
+                level = str(fetch(p["id"], attr_type)["level"])
+            p["sumlevel"] = SUMLEVELS[attr_type][level]["label"]
 
         if prefix:
             results = [r for r in results if r["id"].startswith(prefix)]
@@ -758,7 +765,7 @@ class Profile(BaseObject):
 
 
     def solo(self):
-        attr_id = self.attr["id"]
+        attr_id = self.attr["msa"] if "msa" in self.attr else self.attr["id"]
         if attr_id[:3] in ["010", "040"]:
             return ""
         else:
