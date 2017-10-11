@@ -8395,7 +8395,7 @@ var vizStyles = {
 
 var viz = function(build) {
 
-  if (!build.colors) build.colors = vizStyles.defaults;
+  if (!build.colors) build.colors = vizStyles.default;
 
   delete build.config.height;
 
@@ -8464,8 +8464,9 @@ viz.finish = function(build) {
   if (!build.config.color) {
     if (build.viz.attrs()[build.highlight]) {
       build.config.color = function(d, viz) {
-        return d[viz.id.value] === build.compare ? build.colors.compare
-             : d[viz.id.value] === build.highlight ? build.colors.pri
+        var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
+        return ids.indexOf(build.compare) >= 0 ? build.colors.compare
+             : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
              : build.colors.sec;
       };
     }
@@ -10058,7 +10059,7 @@ viz.formatData = function(data, d, build) {
   if (data.length && "university" in data[0]) {
     var attrs = build.viz.attrs();
     for (var i = 0; i < data.length; i++) {
-      data[i].sector = attrs[data[i].university].sector;
+      if (data[i].university && attrs[data[i].university]) data[i].sector = attrs[data[i].university].sector;
     }
   }
 
