@@ -239,7 +239,7 @@
 {% endfor %}
 
 
-{% if parents|length %}
+{% if parents|length and profile.attr_type != "university" %}
 <div class="profile-end">
 
   <h2>Keep Exploring</h2>
