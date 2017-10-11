@@ -26,3 +26,13 @@
   sumlevel: nation
   university: ""
   namespace: tuition_us
+
+- required: ["year", "cip", "grads_total"]
+  rows: True
+  sort: desc
+  order: grads_total
+  year: latest
+  limit: 3
+  sumlevel: "6"
+  show: cip
+  namespace: "cip_grads"
