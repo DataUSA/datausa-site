@@ -119,6 +119,14 @@ TEXTCOMPARATORS = {
 
 DICTIONARY = {
 
+    "oos_tuit": "Out-of-State Tuition",
+    "state_tuit": "In-State Tuition",
+    "tuition_cost": "Tuition Cost",
+
+    "oos_f": "Out-of-State Fees",
+    "state_f": "In-State Fees",
+    "fee_cost": "Student Fees",
+
     "economy": "Economy",
     "wages": "Income & Employment",
 
@@ -473,6 +481,11 @@ AFFIXES = {
     "state_tuition": ["$", ""],
     "oos_tuition": ["$", ""],
     "district_tuition": ["$", ""],
+    "tuition_cost": ["$", ""],
+    "state_fee": ["$", ""],
+    "oos_fee": ["$", ""],
+    "district_fee": ["$", ""],
+    "fee_cost": ["$", ""],
     "avg_wage": ["$", ""],
     "avg_wage_ft": ["$", ""],
     "avg_wage_pt": ["$", ""],
