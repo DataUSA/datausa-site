@@ -4,4 +4,12 @@
   order: year
   year: all
   limit: 2
-  namespace: data
+  namespace: grads
+
+- required: ["year", "state_tuition", "oos_tuition"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: tuition
