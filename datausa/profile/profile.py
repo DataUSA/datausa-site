@@ -43,6 +43,9 @@ class Profile(BaseObject):
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
         self.section_cache = False
 
+    def attribute(self, **kwargs):
+        return self.attr[kwargs.get("key")]
+
     def children(self, **kwargs):
 
         attr_id = kwargs.get("attr_id", self.id(**kwargs))
@@ -735,6 +738,9 @@ class Profile(BaseObject):
                 desired_config['description'] = section_dict['description']
             return Section(self.load_yaml(json.dumps(desired_config)), self, section_name)
         return None
+
+    def sector(self):
+        return "private" if str(self.attr["sector"]) in ["2", "3", "5", "6", "8", "9"] else "public"
 
     def siblings(self, **kwargs):
         limit = kwargs.pop("limit", 5)
