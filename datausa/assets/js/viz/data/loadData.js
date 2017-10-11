@@ -220,7 +220,7 @@ viz.formatData = function(data, d, build) {
   if (data.length && "university" in data[0]) {
     var attrs = build.viz.attrs();
     for (var i = 0; i < data.length; i++) {
-      data[i].sector = attrs[data[i].university].sector;
+      if (data[i].university && attrs[data[i].university]) data[i].sector = attrs[data[i].university].sector;
     }
   }
 
