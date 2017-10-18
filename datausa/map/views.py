@@ -155,7 +155,7 @@ def map():
         "pums": ["state", "puma"]
     }
 
-    defaultKey = request.args.get("key", "age,age_moe,age_rank")
+    defaultKey = request.args.get("key", "uninsured")
     defaultLevel = request.args.get("level", "county")
 
     sections = ["wages", "coverage", "care", "risks", "demographics", "education", "housing"]
