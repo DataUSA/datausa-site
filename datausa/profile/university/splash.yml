@@ -7,9 +7,9 @@ viz:
   attrs: "geo"
   coords:
     solo: "<<solo>>,<<parents id_only=true|prefix=040>>"
-    value: "msas"
+    value: "counties"
   data: []
-  highlight: "<<attribute key=msa>>"
+  highlight: "<<attribute key=county>>"
   id: "geo"
   tiles: NO
   type: "geo_map"

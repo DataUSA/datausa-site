@@ -382,7 +382,7 @@ class Profile(BaseObject):
         id_only = kwargs.get("id_only", False)
         limit = kwargs.pop("limit", None)
         if self.attr_type == "university":
-            attr_id = kwargs.get("attr_id", self.attr["msa"])
+            attr_id = kwargs.get("attr_id", self.attr["county"])
         else:
             attr_id = kwargs.get("attr_id", self.id(**kwargs))
         if self.attr_type == "university":
@@ -765,7 +765,7 @@ class Profile(BaseObject):
 
 
     def solo(self):
-        attr_id = self.attr["msa"] if "msa" in self.attr else self.attr["id"]
+        attr_id = self.attr["county"] if "county" in self.attr else self.attr["id"]
         if attr_id[:3] in ["010", "040"]:
             return ""
         else:
