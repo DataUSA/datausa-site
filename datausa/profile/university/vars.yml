@@ -37,6 +37,26 @@
   show: cip
   namespace: cip_grads
 
+- required: ["year", "cip", "grads_total", "grads_men", "grads_women"]
+  rows: True
+  sort: desc
+  order: grads_men
+  year: latest
+  limit: 5
+  sumlevel: "6"
+  show: cip
+  namespace: cip_men
+
+- required: ["year", "cip", "grads_total", "grads_men", "grads_women"]
+  rows: True
+  sort: desc
+  order: grads_women
+  year: latest
+  limit: 5
+  sumlevel: "6"
+  show: cip
+  namespace: cip_women
+
 - force: "ipeds.grads_yu"
   dataset: ipeds
   limit: 1
