@@ -1,4 +1,4 @@
-title: "Demographics"
+title: "Diversity"
 description: "Data regarding graduating student demographics at <<name>>. In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=moreless2>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
 
 topics:
@@ -62,3 +62,37 @@ topics:
       y:
         scale: "discrete"
         value: "race"
+  - title: "Race & Ethnicity by Gender"
+    slug: "ethnicity_gender"
+    description:
+      - "In <<var namespace=grads_race_sex|key=year|row=0>> the majority of students graduating from <<name>> were <<var namespace=grads_race_sex|key=name|row=0>>. These <<var namespace=grads_race_sex|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race_sex,value,0|den=var:grads_race_sex,value,1|ratio=True>> times more <<var namespace=grads_race_sex|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race_sex|key=name|row=1>>, with <<var namespace=grads_race_sex|key=value|row=1>> graduates."
+    stat:
+      - title: "Most common student race or ethnicity"
+        value: "<<var namespace=grads_race_sex|key=name|row=0>> <span class='stat-subtitle'><<var namespace=grads_race_sex|key=value|row=0>></span>"
+        subvalues:
+          - "<<var namespace=grads_race_sex|key=name|row=1>> <span class='stat-subtitle'><<var namespace=grads_race_sex|key=value|row=1>></span>"
+          - "<<var namespace=grads_race_sex|key=name|row=2>> <span class='stat-subtitle'><<var namespace=grads_race_sex|key=value|row=2>></span>"
+    viz:
+      color: sex
+      data:
+        show: "university"
+        university: "<<id>>"
+        required: "grads_total,grads_asian_men,grads_black_men,grads_white_men,grads_hispanic_men,grads_hawaiian_men,grads_multi_men,grads_unknown_men,grads_native_men,grads_asian_women,grads_black_women,grads_white_women,grads_hispanic_women,grads_hawaiian_women,grads_multi_women,grads_unknown_women,grads_native_women"
+        share: grads_total
+        split:
+          id: "race_sex"
+          regex: "^grads_([a-z]*_[a-z]*)$"
+          map:
+            race: "^grads_([a-z]*)_[a-z]*$"
+            sex: "^grads_[a-z]*_([a-z]*)$"
+          value: "grads_total"
+      id: sex
+      order:
+        sort: "desc"
+        value: "grads_total"
+      tooltip:
+        value:
+          - grads_total
+      type: "bar"
+      x: race
+      y: grads_total

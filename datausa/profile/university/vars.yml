@@ -41,10 +41,20 @@
   dataset: ipeds
   limit: 1
   rows: True
-  order: grads_total
   pivot:
     keys: ["race"]
     cols: ["year", "name", "value"]
     limit: 3
   year: latest
   namespace: grads_race
+
+- force: "ipeds.grads_yu"
+  dataset: ipeds
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["race", "sex"]
+    cols: ["year", "name", "value"]
+    limit: 3
+  year: "latest"
+  namespace: grads_race_sex
