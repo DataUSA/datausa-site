@@ -93,8 +93,12 @@ def tileProfiles(profiles):
     for i, page in enumerate(profiles):
         show, slug = page.split("/")
         attr = fetch(slug, show)
-        attr_id = attr["msa"] if show == "university" else attr["id"]
-        attr_type = "geo" if show == "university" else show
+        if show == "university":
+            attr_id = attr["id"] if attr["image_link"] else attr["msa"]
+            attr_type = "university" if attr["image_link"] else "geo"
+        else:
+            attr_id = attr["id"]
+            attr_type = show
         profiles[i] = {
             "image": "/search/{}/{}/img".format(attr_type, attr_id),
             "link": "/profile/{}".format(page),
