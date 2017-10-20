@@ -1,4 +1,4 @@
-import json, math, os, re, requests, string, yaml
+import copy, json, math, os, re, requests, string, yaml
 from flask import url_for, request
 from itertools import combinations
 from requests.models import RequestEncodingMixin
@@ -762,10 +762,10 @@ class Profile(BaseObject):
         key = kwargs.pop("key", "name")
         attr_id = self.id(**kwargs)
         attr_type = kwargs.get("attr_type", self.attr_type)
-        original = fetch(self.attr["id"], self.attr_type)
+        original = self.attr
 
         if kwargs.get("dataset", False):
-            if self.attr["id"] != attr_id:
+            if original["id"] != attr_id:
                 substitution = fetch(attr_id, self.attr_type)
         else:
             kwargs["data_only"] = True
@@ -774,7 +774,15 @@ class Profile(BaseObject):
             if "subs" in subs:
                 subs = subs["subs"]
                 if attr_type in subs and subs[attr_type] != attr_id:
-                    substitution = fetch(subs[attr_type], attrs)
+                    if "," in subs[attr_type]:
+                        subs = [fetch(i, attrs) for i in subs[attr_type].split(",")]
+                        substitution = copy.copy(subs[0])
+                        if "name" in substitution:
+                            substitution["name"] = " and ".join([s["name"] for s in subs])
+                        if "display_name" in substitution:
+                            substitution["display_name"] = " and ".join([s["display_name"] for s in subs])
+                    else:
+                        substitution = fetch(subs[attr_type], attrs)
 
         if key == "name":
             if substitution:
