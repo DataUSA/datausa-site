@@ -150,7 +150,7 @@
   limit: 5
   order: "abs(pct_change)"
   sort: "desc"
-  show: "soc"
+  show: "bls_soc"
   rows: True
   year: ""
   naics: ""

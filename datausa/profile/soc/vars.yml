@@ -120,7 +120,7 @@
   soc_level: "<<sumlevel>>"
   namespace: cip
 
-- required: ["pct_change"]
+- required: ["soc", "pct_change"]
   soc: "<<id>>,000000"
   order: soc
   sort: desc

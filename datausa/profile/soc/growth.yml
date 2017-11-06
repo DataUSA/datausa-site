@@ -15,8 +15,8 @@ topics:
       attrs: "bls_soc"
       data:
         soc: "<<id>>"
-        show: "soc"
-        required: "emp_2014_thousands,emp_2024_thousands"
+        show: "bls_soc"
+        required: "soc,emp_2014_thousands,emp_2024_thousands"
         year: "none"
         split:
           id: "year"
