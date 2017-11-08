@@ -53,7 +53,7 @@
 {% block js %}
 <script>
 
-  var dataset = "{{ defaultDataset }}", data_url, buildTitle, urlPath;
+  var dataset = "{{ defaultDataset }}", data_url, buildTitle, source, urlPath;
 
   var formConfig = {
     "font": vizStyles.ui_map.font,
@@ -231,13 +231,14 @@
         }
         d3.select("#map-description").classed("hidden", !def).html(def || "");
 
-        var source = json.source.dataset;
-        if (json.source.link) {
-          source = "<a class='source-link' href='" + json.source.link + "' target='_blank'>" + source + "</a>";
+        source = json.source;
+        var sourceText = source.dataset;
+        if (source.link) {
+          sourceText = "<a class='source-link' href='" + source.link + "' target='_blank'>" + sourceText + "</a>";
         }
 
-        d3.select(".source").html(source);
-        d3.select(".org").html(json.source.org);
+        d3.select(".source").html(sourceText);
+        d3.select(".org").html(source.org);
         d3.select(".add-to-cart").attr("data-slug", "map_" + map.color() + "_ " + level);
         document.title = "Data USA | " + buildTitle;
         updateCart();
