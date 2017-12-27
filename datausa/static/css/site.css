@@ -4410,11 +4410,31 @@
               body.profile #splash .content #splash-stats .stat .stat-value,
               body.map #splash .content #splash-stats .stat .stat-value,
               body.story #splash .content #splash-stats .stat .stat-value {
+                -webkit-justify-content: center;
+                -moz-justify-content: center;
+                justify-content: center;
+                -ms-flex-pack: center;
+                flex-pack: center;
+                display: -webkit-box;
+                display: -moz-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
                 margin: 0;
                 font-size: 38px;
                 font-weight: 300;
                 color: #fff;
+                height: 46px;
                 opacity: 0.9; }
+                body.profile #splash .content #splash-stats .stat .stat-value a,
+                body.map #splash .content #splash-stats .stat .stat-value a,
+                body.story #splash .content #splash-stats .stat .stat-value a {
+                  color: #fff; }
+                  body.profile #splash .content #splash-stats .stat .stat-value.small,
+                  body.map #splash .content #splash-stats .stat .stat-value.small,
+                  body.story #splash .content #splash-stats .stat .stat-value.small {
+                    font-size: 19px;
+                    font-weight: 400; }
           body.profile #splash .content h1, body.map #splash .content h1,
           body.story #splash .content h1 {
             line-height: 1;

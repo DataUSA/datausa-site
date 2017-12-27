@@ -68,7 +68,7 @@
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-group">
-              <div class="stat-value">{{ stat.value|safe }}</div>
+              <div class="stat-value{% if stat.small %} small{% endif %}">{{ stat.value|safe }}</div>
               <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
             </div>
           </div>

@@ -497,6 +497,7 @@ body.profile, body.map, body.story {
 
   .stat-group {
     text-align: center;
+    width: 100%;
   }
 
   .stat-rank {
@@ -757,11 +758,24 @@ body.profile, body.map, body.story {
           }
 
           .stat-value {
+            @include flex();
+            @include align-items(center);
             margin: 0;
             font-size: 38px;
             font-weight: 300;
             color: #fff;
+            height: 46px;
             opacity: 0.9;
+            a {
+              color: #fff;
+            }
+            &.small {
+              font-size: 18px;
+              font-weight: 400;
+            }
+            .stat-span {
+              max-height: 46px;
+            }
           }
 
         }
