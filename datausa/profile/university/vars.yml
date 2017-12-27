@@ -6,6 +6,14 @@
   limit: 2
   namespace: grads
 
+- required: ["year", "avg_netprice_gos_aid", "num_fed_loans", "pct_fed_loans", "pct_with_aid", "total_fed_loans"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: price
+
 - required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
   rows: True
   sort: desc

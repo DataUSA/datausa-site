@@ -109,6 +109,7 @@ TEXTCOMPARATORS = {
     "highlow": ("higher than", "lower than", "approximately the same as"),
     "highlowsame": ("a higher", "a lower", "the same"),
     "growth": ("growing", "declining", "maintaining"),
+    "growth2": ("growth", "decline", "change"),
     "grew": ("grew to", "declined to", "stayed at"),
     "grew2": ("grew", "declined", "stayed"),
     "longshort": ("longer", "shorter", "approximately equal"),
@@ -118,6 +119,14 @@ TEXTCOMPARATORS = {
 }
 
 DICTIONARY = {
+
+    "income_range": "Income Range",
+    "income_range_name": "Income Range",
+    "pct_with_aid": "Percent of Undergraduate Financial Aid",
+    "pct_fed_loads": "Percent of Undergraduate Federal Loans",
+    "avg_gos_award": "Average Financial Aid",
+    "avg_netprice_fedaid": "Average Net Price",
+    "avg_netprice_gos_aid": "Sticker Price",
 
     "oos_tuit": "Out-of-State Tuition",
     "state_tuit": "In-State Tuition",
@@ -515,7 +524,10 @@ AFFIXES = {
     "home_health_reimbursements_b": ["$", ""],
     "hospice_reimbursements_b": ["$", ""],
     "medical_equip_reimbursements_b": ["$", ""],
-    "value_millions": ["$", ""]
+    "value_millions": ["$", ""],
+    "avg_netprice_gos_aid": ["$", ""],
+    "avg_gos_award": ["$", ""],
+    "avg_netprice_fedaid": ["$", ""]
 }
 
 PROPORTIONS = [
@@ -561,7 +573,9 @@ PERCENTAGES = [
     "emp_carc_2014_2024",
     "output_carc_2014_2024",
     "pct_change",
-    "share"
+    "share",
+    "pct_fed_loans",
+    "pct_with_aid"
 ]
 
 PER1000 = [
@@ -673,6 +687,13 @@ COLMAP = {
         "125to150": "$125-$150k",
         "150to200": "$150-$200k",
         "200over": "$200k+"
+    },
+    "income_range": {
+        "1": "$0 - $30,000",
+        "2": "$30,001 - $48,000",
+        "3": "$48,001 - $75,000",
+        "4": "$75,001 - $110,000",
+        "5": "$110,000+"
     },
     "propertyvalBucket": {
         "less10k": "&lt; $10k",
