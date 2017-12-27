@@ -55,8 +55,12 @@ def pivotname(id_string, keys):
 
 @cache.memoize()
 def build_year_cache():
+    data = requests.get("{}/api/years/".format(API)).json()["data"]
+    for i, table in enumerate(data):
+        if isinstance(data[table], list):
+            data[table] = [year for year in data[table] if year]
     app.logger.info("Cached year list for datasets.")
-    return requests.get("{}/api/years/".format(API)).json()["data"]
+    return data
 
 year_cache = build_year_cache()
 
