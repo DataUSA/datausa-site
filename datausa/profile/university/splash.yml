@@ -27,6 +27,6 @@ stats:
     allowed: "<<sector>>:public"
 
 sections:
+  - costs
   - courses
   - demographics
-  - tuition
