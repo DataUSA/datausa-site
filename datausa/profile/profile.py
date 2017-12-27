@@ -381,15 +381,20 @@ class Profile(BaseObject):
             return []
 
         attr_id = self.id(**kwargs)
+        ids_only = kwargs.get("ids", False)
         url = "{}/attrs/nearby/university/{}".format(API, attr_id)
 
         try:
             results = [r for r in datafold(requests.get(url).json()) if r["id"] != attr_id]
+            if ids_only:
+                return ",".join([r["id"] for r in results])
             for result in results:
                 result["image_link"] = self.image(attr_id = result["id"])["url"]
             return results
         except ValueError:
             app.logger.info("STAT ERROR: {}".format(url))
+            if ids_only:
+                return ""
             return []
 
     def open_file(self, f):
