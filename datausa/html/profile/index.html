@@ -238,8 +238,11 @@
 
 {% endfor %}
 
+{% if profile.attr_type == "university" %}
+  {% set parents = profile.nearby() %}
+{% endif %}
 
-{% if parents|length and profile.attr_type != "university" %}
+{% if parents|length %}
 <div class="profile-end">
 
   <h2>Keep Exploring</h2>
@@ -248,7 +251,7 @@
   <div class="follow-up">
 
     {% for p in parents %}
-    <div style="background: url('/profile/{{ profile.attr_type }}/{{ p.id }}/img/');">
+    <div style="background: url('{% if p['image_link'] %}{{ p['image_link'] }}{% else %}/profile/{{ profile.attr_type }}/{{ p.id }}/img/{% endif %}');">
       <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}" class="explore-title">
         {{ p["name"] }}
         <br />

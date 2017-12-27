@@ -181,7 +181,9 @@ class Profile(BaseObject):
 
         return self.attr["id"]
 
-    def image(self):
+    def image(self, **kwargs):
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        attr = fetch(attr_id, self.attr_type)
 
         def formatImage(attr, attr_type):
             url = "/static/img/splash/{}/".format(attr_type)
@@ -202,12 +204,12 @@ class Profile(BaseObject):
                     "meta": image_attr.get("image_meta", False)
                     }
 
-        if "image_link" in self.attr:
-            if self.attr_type == "university" and self.attr["image_link"] == None:
-                return formatImage(fetch(self.attr["msa"], "geo"), "geo")
-            return formatImage(self.attr, self.attr_type)
-        elif "msa" in self.attr:
-            return formatImage(fetch(self.attr["msa"], "geo"), "geo")
+        if "image_link" in attr:
+            if self.attr_type == "university" and attr["image_link"] == None:
+                return formatImage(fetch(attr["msa"], "geo"), "geo")
+            return formatImage(attr, self.attr_type)
+        elif "msa" in attr:
+            return formatImage(fetch(attr["msa"], "geo"), "geo")
         return None
 
     def level(self, **kwargs):
@@ -372,6 +374,23 @@ class Profile(BaseObject):
             url_name = attr["url_name"] if "url_name" in attr and attr["url_name"] else attr["id"]
             name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.attr_type, attr_id=url_name), name)
         return name
+
+    def nearby(self, **kwargs):
+
+        if self.attr_type != "university":
+            return []
+
+        attr_id = self.id(**kwargs)
+        url = "{}/attrs/nearby/university/{}".format(API, attr_id)
+
+        try:
+            results = [r for r in datafold(requests.get(url).json()) if r["id"] != attr_id]
+            for result in results:
+                result["image_link"] = self.image(attr_id = result["id"])["url"]
+            return results
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            return []
 
     def open_file(self, f):
         profile_path = os.path.dirname(os.path.realpath(__file__))
