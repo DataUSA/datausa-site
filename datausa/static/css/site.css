@@ -2737,7 +2737,7 @@
               #search-compare-modal .search-input:-ms-input-placeholder {
                 font-size: 13px;
                 color: #727682; }
-                ; #search-compare-modal .search-input:focus {
+                #search-compare-modal .search-input:focus {
                   border-color: #fff;
                   outline: 0; }
     #search-compare-modal .search-results {
@@ -4317,11 +4317,11 @@
                   align-items: flex-start;
                   -ms-flex-align: start;
                   flex-align: start;
-                  -webkit-justify-content: space-between;
-                  -moz-justify-content: space-between;
-                  justify-content: space-between;
-                  -ms-flex-pack: justify;
-                  flex-pack: justify; }
+                  -webkit-justify-content: center;
+                  -moz-justify-content: center;
+                  justify-content: center;
+                  -ms-flex-pack: center;
+                  flex-pack: center; }
                   body.profile #splash .content #splash-stats #stat-container:before,
                   body.profile #splash .content #splash-stats #stat-container:after,
                   body.map #splash .content #splash-stats #stat-container:before,
