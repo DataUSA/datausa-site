@@ -758,8 +758,6 @@ body.profile, body.map, body.story {
           }
 
           .stat-value {
-            @include flex();
-            @include align-items(center);
             margin: 0;
             font-size: 38px;
             font-weight: 300;
@@ -770,6 +768,8 @@ body.profile, body.map, body.story {
               color: #fff;
             }
             &.small {
+              @include flex();
+              @include align-items(center);
               font-size: 18px;
               font-weight: 400;
             }

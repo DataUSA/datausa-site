@@ -3990,7 +3990,8 @@
             color: #ef6145;
             vertical-align: baseline; }
   body.profile .stat-group, body.map .stat-group, body.story .stat-group {
-    text-align: center; }
+    text-align: center;
+    width: 100%; }
     body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {
       font-size: 14px;
       font-weight: 600;
@@ -4410,16 +4411,6 @@
               body.profile #splash .content #splash-stats .stat .stat-value,
               body.map #splash .content #splash-stats .stat .stat-value,
               body.story #splash .content #splash-stats .stat .stat-value {
-                -webkit-justify-content: center;
-                -moz-justify-content: center;
-                justify-content: center;
-                -ms-flex-pack: center;
-                flex-pack: center;
-                display: -webkit-box;
-                display: -moz-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
                 margin: 0;
                 font-size: 38px;
                 font-weight: 300;
@@ -4433,8 +4424,26 @@
                   body.profile #splash .content #splash-stats .stat .stat-value.small,
                   body.map #splash .content #splash-stats .stat .stat-value.small,
                   body.story #splash .content #splash-stats .stat .stat-value.small {
-                    font-size: 19px;
+                    -webkit-justify-content: center;
+                    -moz-justify-content: center;
+                    justify-content: center;
+                    -ms-flex-pack: center;
+                    flex-pack: center;
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: -webkit-flex;
+                    display: flex;
+                    -webkit-align-items: center;
+                    align-items: center;
+                    -ms-flex-align: center;
+                    flex-align: center;
+                    font-size: 18px;
                     font-weight: 400; }
+                    body.profile #splash .content #splash-stats .stat .stat-value .stat-span,
+                    body.map #splash .content #splash-stats .stat .stat-value .stat-span,
+                    body.story #splash .content #splash-stats .stat .stat-value .stat-span {
+                      max-height: 46px; }
           body.profile #splash .content h1, body.map #splash .content h1,
           body.story #splash .content h1 {
             line-height: 1;
