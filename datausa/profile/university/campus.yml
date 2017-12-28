@@ -4,8 +4,36 @@ description:
   - "In <<var namespace=cip_grads|key=year|row=0>>, the most common major at <<name>> was <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
-  - title: "Gender for Common Majors"
-    category: "Gender"
+  - title: "Majors Offered"
+    category: "Courses"
+    slug: "majors"
+    stat_stack: YES
+    stat:
+    - title: "Most common"
+      value: "<<var namespace=cip_grads|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=0>> graduates</span>"
+      subvalues:
+        - "<<var namespace=cip_grads|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=1>> graduates</span>"
+        - "<<var namespace=cip_grads|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=2>> graduates</span>"
+    description:
+      - "In <<var namespace=cip_grads|key=year|row=0>>, the most common concentation for graduates at <<name>> was <<var namespace=cip_grads|key=cip|row=0>> with <<var namespace=cip_grads|key=grads_total|row=0>> graduates."
+      - "This visualization illustrates the percentage of students graduating from <<name>> according to their major."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        university: "<<id>>"
+        required: "grads_total"
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - "cip_2"
+        - "cip_4"
+        - "cip_6"
+      size: "grads_total"
+      type: "tree_map"
+  - title: "Gender Breakdown for Common Majors"
     slug: "gender"
     description:
       - "In <<var namespace=grads|row=0|key=year>>, <<var namespace=grads|row=0|key=grads_men>> men graduated from <<name>>, which is <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|ratio=True>> times <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|text=moreless>> than the <<var namespace=grads|row=0|key=grads_women>> female graduates."
@@ -37,66 +65,72 @@ topics:
       y: "grads_total"
   - title: "Most Common Male Majors"
     slug: "gender_men"
+    class: flex
     description:
       - "In <<var namespace=cip_men|row=0|key=year>>, <<var namespace=cip_men|row=0|key=grads_men>> men graduated from <<name>> in <<var namespace=cip_men|row=0|key=cip>>, which is <<percent num=var:cip_men,grads_men,0|den=var:cip_men,grads_women,0|ratio=True>> times <<percent num=var:cip_men,grads_men,0|den=var:cip_men,grads_women,0|text=moreless>> than the <<var namespace=cip_men|row=0|key=grads_women>> female graduates with that same degree."
-      - "This chart displays the gender disparity between the 5 most common majors obtained by male students at <<name>> by degrees awarded."
-    stat:
-      - title: "Most common"
-        value: "<<var namespace=cip_men|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_men|key=grads_men|row=0>> graduates</span>"
-        subvalues:
-          - "<<var namespace=cip_men|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_men|key=grads_men|row=1>> graduates</span>"
-          - "<<var namespace=cip_men|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_men|key=grads_men|row=2>> graduates</span>"
     viz:
       attrs: "cip"
-      color: "sex"
+      color: "cip_2"
       data:
         show: "cip"
         university: "<<id>>"
         required: "grads_men,grads_women"
-        split:
-          id: "sex"
-          regex: "grads_([a-z]*)$"
-          value: "grads_total"
-        cip: "<<top dataset=ipeds|col=id|order=grads_men|show=cip|limit=5|sumlevel=6>>"
-      id: "sex"
-      order: "grads_total"
+        order: grads_men
+        sort: desc
+        limit: 5
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - cip_2
+        - cip_4
+        - cip_6
+      labels: YES
+      legend: NO
+      order:
+        sort: asc
+        value: grads_men
       type: "bar"
+      y:
+        scale: discrete
+        value: cip
       x:
-        persist:
-          position: True
-        value: "cip"
-      y: "grads_total"
+        label: NO
+        value: grads_men
   - title: "Most Common Female Majors"
     slug: "gender_women"
+    class: flex
     description:
       - "In <<var namespace=cip_women|row=0|key=year>>, <<var namespace=cip_women|row=0|key=grads_women>> women graduated from <<name>> in <<var namespace=cip_women|row=0|key=cip>>, which is <<percent num=var:cip_women,grads_women,0|den=var:cip_women,grads_men,0|ratio=True>> times <<percent num=var:cip_women,grads_women,0|den=var:cip_women,grads_men,0|text=moreless>> than the <<var namespace=cip_women|row=0|key=grads_men>> male graduates with that same degree."
-      - "This chart displays the gender disparity between the 5 most common majors obtained by female students at <<name>> by degrees awarded."
-    stat:
-      - title: "Most common"
-        value: "<<var namespace=cip_women|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_women|key=grads_women|row=0>> graduates</span>"
-        subvalues:
-          - "<<var namespace=cip_women|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_women|key=grads_women|row=1>> graduates</span>"
-          - "<<var namespace=cip_women|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_women|key=grads_women|row=2>> graduates</span>"
     viz:
       attrs: "cip"
-      color: "sex"
+      color: "cip_2"
       data:
         show: "cip"
         university: "<<id>>"
         required: "grads_men,grads_women"
-        split:
-          id: "sex"
-          regex: "grads_([a-z]*)$"
-          value: "grads_total"
-        cip: "<<top dataset=ipeds|col=id|order=grads_women|show=cip|limit=5|sumlevel=6>>"
-      id: "sex"
-      order: "grads_total"
+        order: grads_women
+        sort: desc
+        limit: 5
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - cip_2
+        - cip_4
+        - cip_6
+      labels: YES
+      legend: NO
+      order:
+        sort: asc
+        value: grads_women
       type: "bar"
+      y:
+        scale: discrete
+        value: cip
       x:
-        persist:
-          position: True
-        value: "cip"
-      y: "grads_total"
+        label: NO
+        value: grads_women
   - title: "Race & Ethnicity by Share"
     category: "Race & Ethnicity"
     slug: "ethnicity"
@@ -162,31 +196,3 @@ topics:
       type: "bar"
       x: race
       y: grads_total
-  - title: "Courses Offered"
-    slug: "majors"
-    stat_stack: YES
-    stat:
-      - title: "Most common"
-        value: "<<var namespace=cip_grads|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=0>> graduates</span>"
-        subvalues:
-          - "<<var namespace=cip_grads|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=1>> graduates</span>"
-          - "<<var namespace=cip_grads|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=2>> graduates</span>"
-    description:
-      - "In <<var namespace=cip_grads|key=year|row=0>>, the most common concentation for graduates at <<name>> was <<var namespace=cip_grads|key=cip|row=0>> with <<var namespace=cip_grads|key=grads_total|row=0>> graduates."
-      - "This visualization illustrates the percentage of students graduating from <<name>> according to their major."
-    viz:
-      attrs: "cip"
-      color: "cip_2"
-      data:
-        show: "cip"
-        university: "<<id>>"
-        required: "grads_total"
-        sumlevel: "6"
-        where: "grads_total:!0"
-      depth: 2
-      id:
-        - "cip_2"
-        - "cip_4"
-        - "cip_6"
-      size: "grads_total"
-      type: "tree_map"
