@@ -3,7 +3,7 @@ description: "Information about the student costs at <<name>>. Tuition costs at 
 
 topics:
   - title: "Average Net Price"
-    subtitle: "Average Net Price does not include data on students who attend public institutions and pay out of state rates."
+    subtitle: "The average net price is calculated from full-time beginning undergraduate students who were awarded grant or scholarship aid from federal, state or local governments, or the institution."
     slug: "netprice"
     stat:
       - title: "<<var namespace=price|key=year|row=0>> value"
