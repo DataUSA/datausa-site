@@ -144,6 +144,16 @@ body.profile, body.map, body.story {
     }
   }
 
+  &.university {
+    .costs, .campus, .outcomes  {
+      background-color: $d-profile-bg;
+    }
+
+    .admissions, .graduation  {
+      background-color: $l-profile-bg;
+    }
+  }
+
   &.embed {
     section {
       background-color: transparent !important;

@@ -3667,6 +3667,16 @@
     body.map.naics .demographics, body.map.naics .growth,
     body.story.naics .demographics, body.story.naics .growth {
       background-color: #F6F6F6; }
+  body.profile.university .costs, body.profile.university .campus,
+  body.profile.university .outcomes, body.map.university .costs,
+  body.map.university .campus, body.map.university .outcomes,
+  body.story.university .costs, body.story.university .campus,
+  body.story.university .outcomes {
+    background-color: #E9E9E9; }
+    body.profile.university .admissions, body.profile.university .graduation,
+    body.map.university .admissions, body.map.university .graduation,
+    body.story.university .admissions, body.story.university .graduation {
+      background-color: #F6F6F6; }
   body.profile.embed section, body.map.embed section, body.story.embed section {
     background-color: transparent !important; }
   body.profile.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats,
