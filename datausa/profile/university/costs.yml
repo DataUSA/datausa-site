@@ -68,23 +68,13 @@ topics:
       - allowed: "<<sector>>:private"
         attrs: "university"
         data:
-          - required: "state_tuition"
-            show: university
-            university: <<id>>
-            split:
-              id: "location"
-              regex: "^([a-z_tuit]*)ion"
-              value: "tuition_cost"
-          - required: "state_tuition"
-            show: geo
-            geo: 01000US
-            sector: <<attribute key=sector>>
-            static:
-              university: "nation"
-            split:
-              id: "location"
-              regex: "^([a-z_tuit]*)ion"
-              value: "tuition_cost"
+          required: "state_tuition"
+          show: university
+          university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+          split:
+            id: "location"
+            regex: "^([a-z_tuit]*)ion"
+            value: "tuition_cost"
         depth: 1
         id:
           - location
@@ -93,35 +83,25 @@ topics:
           value:
             - tuition_cost
         type: bar
-        x: location
+        x: university
         y: tuition_cost
       - allowed: "<<sector>>:public"
         attrs: "university"
         data:
-          - required: "oos_tuition,state_tuition"
-            show: university
-            university: <<id>>
-            split:
-              id: "location"
-              regex: "^([a-z_tuit]*)ion"
-              value: "tuition_cost"
-          - required: "oos_tuition,state_tuition"
-            show: geo
-            geo: 01000US
-            sector: <<attribute key=sector>>
-            static:
-              university: "nation"
-            split:
-              id: "location"
-              regex: "^([a-z_tuit]*)ion"
-              value: "tuition_cost"
+          required: "oos_tuition,state_tuition"
+          show: university
+          university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+          split:
+            id: "location"
+            regex: "^([a-z_tuit]*)ion"
+            value: "tuition_cost"
         depth: 1
         id:
-          - location
           - university
+          - location
         tooltip:
           value:
             - tuition_cost
         type: bar
-        x: location
+        x: university
         y: tuition_cost
