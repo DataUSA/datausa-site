@@ -128,6 +128,23 @@ DICTIONARY = {
     "avg_netprice_fedaid": "Average Net Price",
     "avg_netprice_gos_aid": "Average Net Price",
 
+    "yield_total": "Enrollment Yield",
+    "yield_men": "Male Enrollment Yield",
+    "yield_women": "Female Enrollment Yield",
+
+    "applicants_total": "Applicants",
+    "applicants_men": "Male Applicants",
+    "applicants_women": "Female Applicants",
+
+    "admissions_total": "Admissions",
+    "admissions_men": "Male Admissions",
+    "admissions_women": "Female Admissions",
+
+    "sat_score": "Average Score",
+    "cr": "Critical Reading",
+    "25": "25th Percentile",
+    "75": "75th Percentile",
+
     "oos_tuit": "Out-of-State Tuition",
     "state_tuit": "In-State Tuition",
     "tuition_cost": "Tuition Cost",
@@ -566,7 +583,10 @@ PROPORTIONS = [
     "low_birthweight",
     "could_not_see_doctor_due_to_cost",
     "income_below_poverty:pop_poverty_status",
-    "growth"
+    "growth",
+    "yield_total",
+    "yield_men",
+    "yield_women"
 ]
 
 PERCENTAGES = [
@@ -575,7 +595,8 @@ PERCENTAGES = [
     "pct_change",
     "share",
     "pct_fed_loans",
-    "pct_with_aid"
+    "pct_with_aid",
+    "sub_sat_scores_pct"
 ]
 
 PER1000 = [

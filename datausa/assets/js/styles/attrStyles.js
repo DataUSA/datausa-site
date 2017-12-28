@@ -34,6 +34,21 @@ var attrStyles = {
     }
 },
 
+  "section": {
+    "math": {
+        "color": "#f33535",
+        "icon": "thing_pi.png"
+    },
+    "cr": {
+        "color": "#82a8e7",
+        "icon": "thing_book.png"
+    },
+    "writing": {
+        "color": "#72f5c4",
+        "icon": "thing_pencil.png"
+    }
+},
+
   "sex": {
     "1": {
         "color": "#1A3E61",

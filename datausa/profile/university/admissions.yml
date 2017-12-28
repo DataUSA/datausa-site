@@ -1,0 +1,199 @@
+title: "Admissions"
+description: "Information about the admissions at <<name>>."
+
+topics:
+  - title: "Applying Students"
+    slug: "applicants"
+    stat:
+      - title: "<<var namespace=admissions|key=year|row=0>> value"
+        value: "<<var namespace=admissions|key=applicants_total|row=0>>"
+      - title: "1 year <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>"
+        value: "<<growth namespace=admissions|key=applicants_total>>"
+    description:
+      - "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> applications in <<var namespace=admissions|key=year|row=0>>, compared to <<var namespace=admissions|key=applicants_total|row=1>> in <<var namespace=admissions|key=year|row=1>>. This represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>."
+      - "This chart shows how the number of applications received by <<name>> (highlighted in red) compares to that of it's parent grouping and nearby universities."
+    viz:
+      - attrs: university
+        data:
+          - required: "applicants_total"
+            show: university
+            university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: applicants_total
+        type: bar
+        x:
+          label: "Overall Applicants"
+          value: applicants_total
+        y:
+          scale: discrete
+          value: university
+    miniviz:
+      attrs: university
+      color: sex
+      data:
+        - required: "applicants_men,applicants_women"
+          show: university
+          university: "<<id>>"
+          split:
+            id: "sex"
+            regex: "applicants_([a-z]*)$"
+            value: "applicants_total"
+      id: sex
+      labels: YES
+      tooltip:
+        value:
+          - applicants_total
+      type: bar
+      x:
+        label: "Applicants by Gender"
+        value: applicants_total
+      y:
+        label: NO
+        scale: discrete
+        value: university
+  - title: "Accepted Students"
+    slug: "accepted"
+    stat:
+      - title: "<<var namespace=admissions|key=year|row=0>> value"
+        value: "<<var namespace=admissions|key=admissions_total|row=0>>"
+      - title: "1 year <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>>"
+        value: "<<growth namespace=admissions|key=admissions_total>>"
+    description:
+      - "In <<var namespace=admissions|key=year|row=0>>, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment at <<name>>, compared to <<var namespace=admissions|key=admissions_total|row=1>> in <<var namespace=admissions|key=year|row=1>>. This shows a <<growth namespace=admissions|key=admissions_total>> annual <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>>."
+      - "This chart shows how the number of accepted students by <<name>> (highlighted in red) compares to that of it's parent grouping and nearby universities."
+    viz:
+      - attrs: university
+        data:
+          - required: "admissions_total"
+            show: university
+            university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: admissions_total
+        type: bar
+        x:
+          label: "Overall Admissions"
+          value: admissions_total
+        y:
+          scale: discrete
+          value: university
+    miniviz:
+      attrs: university
+      color: sex
+      data:
+        - required: "admissions_men,admissions_women"
+          show: university
+          university: "<<id>>"
+          split:
+            id: "sex"
+            regex: "admissions_([a-z]*)$"
+            value: "admissions_total"
+      id: sex
+      labels: YES
+      tooltip:
+        value:
+          - admissions_total
+      type: bar
+      x:
+        label: "Admissions by Gender"
+        value: admissions_total
+      y:
+        label: NO
+        scale: discrete
+        value: university
+  - title: "SAT Scores"
+    slug: "sat"
+    stat:
+      - title: "Scores Submitted"
+        value: "<<var namespace=admissions|key=sub_sat_scores_num|row=0>>"
+      - title: "Submission Percentage"
+        value: "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>>"
+    description:
+      - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of students applying to <<name>> (<<var namespace=admissions|key=sub_sat_scores_num|row=0>>) submit SAT scores with their application."
+      - "This chart shows the SAT scores for the 25th and 75th percentile of applicants broken out into each section of the test that their are evaluated on."
+    viz:
+      - color: section
+        data:
+          - required: "sat_math_25,sat_math_75,sat_writing_25,sat_writing_75,sat_cr_25,sat_cr_75"
+            show: university
+            university: "<<id>>"
+            split:
+              id: "section_percentile"
+              regex: "^sat_([a-z]*_[0-9]*)$"
+              map:
+                section: "^sat_([a-z]*)_[0-9]*$"
+                percentile: "^sat_[a-z]*_([0-9]*)$"
+              value: "sat_score"
+        depth: 1
+        id:
+          - section
+          - percentile
+        label: percentile
+        legend: NO
+        tooltip:
+          value:
+            - sat_score
+        type: bar
+        x:
+          label: NO
+          value: section
+        y:
+          range: [0, 800]
+          value: sat_score
+  - title: "Enrollment Yield"
+    slug: "yield"
+    stat:
+      - title: "<<var namespace=admissions|key=year|row=0>> value"
+        value: "<<var namespace=admissions|key=yield_total|row=0>>"
+      - title: "1 year <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=growth2>>"
+        value: "<<growth namespace=admissions|key=yield_total>>"
+    description:
+      - "<<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling. This is in comparison to an enrollment yield of <<var namespace=admissions|key=yield_total|row=1>> in <<var namespace=admissions|key=year|row=1>>, which represents a <<growth namespace=admissions|key=yield_total>> annual <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=growth2>>."
+      - "This chart shows how the enrollment yield at <<name>> (highlighted in red) compares to that of it's parent grouping and nearby universities."
+    viz:
+      - attrs: university
+        data:
+          - required: "yield_total"
+            show: university
+            university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: yield_total
+        type: bar
+        x:
+          label: "Overall Enrollment Yield"
+          value: yield_total
+        y:
+          scale: discrete
+          value: university
+    miniviz:
+      attrs: university
+      color: sex
+      data:
+        - required: "yield_men,yield_women"
+          show: university
+          university: "<<id>>"
+          split:
+            id: "sex"
+            regex: "yield_([a-z]*)$"
+            value: "yield_total"
+      id: sex
+      labels: YES
+      tooltip:
+        value:
+          - yield_total
+      type: bar
+      x:
+        label: "Yield by Gender"
+        value: yield_total
+      y:
+        label: NO
+        scale: discrete
+        value: university

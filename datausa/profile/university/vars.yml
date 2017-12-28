@@ -14,6 +14,14 @@
   limit: 2
   namespace: price
 
+- required: ["year", "applicants_total", "applicants_men", "applicants_women", "admissions_total", "admissions_men", "admissions_women", "admissions_enrolled_total", "admissions_enrolled_men", "admissions_enrolled_women", "admissions_enrolled_ft_total", "admissions_enrolled_ft_men", "admissions_enrolled_ft_women", "admissions_enrolled_pt_total", "admissions_enrolled_pt_men", "admissions_enrolled_pt_women", "sub_sat_scores_num", "sub_act_scores_num", "sub_sat_scores_pct", "sub_act_scores_pct", "sat_cr_25", "sat_cr_75", "sat_math_25", "sat_math_75", "sat_writing_25", "sat_writing_75", "act_composite_25", "act_composite_75", "act_english_25", "act_english_75", "act_math_25", "act_math_75", "act_writing_25", "act_writing_75", "yield_total", "yield_men", "yield_women"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: admissions
+
 - required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
   rows: True
   sort: desc
