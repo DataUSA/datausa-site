@@ -2,8 +2,8 @@ title: "Costs"
 description: "Information about the student costs at <<name>>. Tuition costs at this university are, on average, <<var namespace=tuition|key=state_tuition|row=0>>. The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}. The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the median in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
 
 topics:
-  - title: "Sticker Price"
-    subtitle: "Sticker Price does not include data on students who attend public institutions and pay out of state rates."
+  - title: "Average Net Price"
+    subtitle: "Average Net Price does not include data on students who attend public institutions and pay out of state rates."
     slug: "netprice"
     stat:
       - title: "<<var namespace=price|key=year|row=0>> value"
@@ -11,8 +11,8 @@ topics:
       - title: "1 year <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>"
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
-      - "<<name>> has a sticker price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grand or scholarship aid. This is in comparison to a sticker price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
-      - "This chart shows how the sticker price at <<name>> (highlighted in red) compares to that of nearby universities."
+      - "<<name>> has an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grand or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
+      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of nearby universities."
     viz:
       - attrs: university
         data:

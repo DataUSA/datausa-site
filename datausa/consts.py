@@ -126,7 +126,7 @@ DICTIONARY = {
     "pct_fed_loads": "Percent of Undergraduate Federal Loans",
     "avg_gos_award": "Average Financial Aid",
     "avg_netprice_fedaid": "Average Net Price",
-    "avg_netprice_gos_aid": "Sticker Price",
+    "avg_netprice_gos_aid": "Average Net Price",
 
     "oos_tuit": "Out-of-State Tuition",
     "state_tuit": "In-State Tuition",

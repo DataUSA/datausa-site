@@ -18,7 +18,7 @@ stats:
   - title: "Total Degrees<br />Awarded in <<var namespace=grads|row=0|key=year>>"
     value: "<<var namespace=grads|row=0|key=grads_total>>"
     rank: "<<percent num=var:grads,grads_total,0|den=var:grads,grads_total,1|text=growth>> <<growth namespace=grads|key=grads_total>>"
-  - title: "Sticker Price<br />in <<var namespace=price|row=0|key=year>>"
+  - title: "Net Price<br />in <<var namespace=price|row=0|key=year>>"
     value: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>"
     rank: "<<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth>> <<growth namespace=price|key=avg_netprice_gos_aid>>"
   - title: "Most Common<br />Major in <<var namespace=cip_grads|key=year|row=0>>"
