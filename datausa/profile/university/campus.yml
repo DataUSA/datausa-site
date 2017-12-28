@@ -1,5 +1,7 @@
-title: "Diversity"
-description: "Data regarding graduating student demographics at <<name>>. In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=moreless2>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+title: "Campus"
+description:
+  - "Data regarding campus life at <<name>>. In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=moreless2>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+  - "In <<var namespace=cip_grads|key=year|row=0>>, the most common major at <<name>> was <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
   - title: "Gender for Common Majors"
@@ -160,3 +162,31 @@ topics:
       type: "bar"
       x: race
       y: grads_total
+  - title: "Courses Offered"
+    slug: "majors"
+    stat_stack: YES
+    stat:
+      - title: "Most common"
+        value: "<<var namespace=cip_grads|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=0>> graduates</span>"
+        subvalues:
+          - "<<var namespace=cip_grads|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=1>> graduates</span>"
+          - "<<var namespace=cip_grads|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=2>> graduates</span>"
+    description:
+      - "In <<var namespace=cip_grads|key=year|row=0>>, the most common concentation for graduates at <<name>> was <<var namespace=cip_grads|key=cip|row=0>> with <<var namespace=cip_grads|key=grads_total|row=0>> graduates."
+      - "This visualization illustrates the percentage of students graduating from <<name>> according to their major."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        university: "<<id>>"
+        required: "grads_total"
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - "cip_2"
+        - "cip_4"
+        - "cip_6"
+      size: "grads_total"
+      type: "tree_map"
