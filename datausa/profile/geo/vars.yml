@@ -255,6 +255,13 @@
   year: latest
   namespace: tuition
 
+- required: ["year", "grads_total"]
+  show: geo
+  limit: 1
+  dataset: ipeds
+  year: latest
+  namespace: grads
+
 - required: ["year", "university", "grads_total"]
   show: university
   order: grads_total
@@ -285,7 +292,7 @@
   pivot:
     keys: ["race"]
     cols: ["year", "name", "value"]
-    limit: 3
+    limit: 5
   year: latest
   namespace: edu_race
 
