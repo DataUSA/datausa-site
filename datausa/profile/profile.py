@@ -597,7 +597,11 @@ class Profile(BaseObject):
                 else:
                     return text[2]
         elif diff or kwargs.get("ratio", False):
-            return num_format(abs(val))
+            if r["num_key"] == r["den_key"]:
+                formatKey = r["num_key"]
+            if r["num_key"] == "yield_men" and r["den_key"] == "yield_women":
+                formatKey = "yield_total"
+            return num_format(abs(val), formatKey)
         else:
             return "<span class='cart-percentage' data-num='{}' data-den='{}'>{}%</span>".format(r["num_key"], r["den_key"], num_format(val * 100))
 
