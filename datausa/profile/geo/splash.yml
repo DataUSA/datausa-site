@@ -42,9 +42,9 @@ stats:
   - title: "Median Property Value"
     value: "<<var namespace=acsgeo|key=median_property_value|row=0>>"
     rank: "<<growth namespace=acsgeo|key=median_property_value|format=text>>"
-sections: []
-  # - economy
-  # - health
-  # - demographics
-  # - education
-  # - housing
+sections:
+  - economy
+  - health
+  - demographics
+  - education
+  - housing
