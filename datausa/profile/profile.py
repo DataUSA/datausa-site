@@ -579,6 +579,8 @@ class Profile(BaseObject):
         if kwargs.get("data_only", False):
             return val
 
+        ratio = kwargs.get("ratio", False)
+
         if text and text in TEXTCOMPARATORS:
             text = TEXTCOMPARATORS[text]
 
@@ -596,11 +598,13 @@ class Profile(BaseObject):
                     return text[1]
                 else:
                     return text[2]
-        elif diff or kwargs.get("ratio", False):
-            if r["num_key"] == r["den_key"]:
-                formatKey = r["num_key"]
-            if r["num_key"] == "yield_men" and r["den_key"] == "yield_women":
-                formatKey = "yield_total"
+        elif diff or ratio:
+            formatKey = False
+            if not ratio:
+                if r["num_key"] == r["den_key"]:
+                    formatKey = r["num_key"]
+                if r["num_key"] == "yield_men" and r["den_key"] == "yield_women":
+                    formatKey = "yield_total"
             return num_format(abs(val), formatKey)
         else:
             return "<span class='cart-percentage' data-num='{}' data-den='{}'>{}%</span>".format(r["num_key"], r["den_key"], num_format(val * 100))
