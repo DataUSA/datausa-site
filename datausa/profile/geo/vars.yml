@@ -47,15 +47,6 @@
   rows: True
   limit: 2
 
-- required: ["year", "num_emp", "num_emp_moe"]
-  namespace: num_emp
-  show: geo
-  year: all
-  order: year
-  sort: desc
-  rows: True
-  limit: 2
-
 - required: ["year", "acs_occ", "num_emp", "num_emp_moe"]
   namespace: common_soc_emp
   show: acs_occ
@@ -72,6 +63,16 @@
   sumlevel: 1
   year: latest
   order: num_emp
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "acs_ind", "med_earnings"]
+  namespace: common_naics_earnings
+  show: acs_ind
+  sumlevel: 1
+  year: latest
+  order: med_earnings
   sort: desc
   rows: True
   limit: 3
@@ -101,6 +102,16 @@
   sumlevel: 2
   year: latest
   order: num_ppl
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "naics", "avg_wage"]
+  namespace: common_naics_wage
+  show: naics
+  sumlevel: 2
+  year: latest
+  order: avg_wage
   sort: desc
   rows: True
   limit: 3
