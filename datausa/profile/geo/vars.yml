@@ -8,6 +8,15 @@
   rows: True
   limit: 2
 
+- required: ["year", "pop", "pop_moe"]
+  namespace: pop
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
 - required: ["year", "income", "income_moe"]
   namespace: income
   show: geo

@@ -1,24 +1,17 @@
 title: "<<name>>"
 group: "<<level>>"
 description:
+  - "{{<<sumlevel>>:nation||The }}<<name>> has a population of <<var namespace=pop|key=pop|row=0>> people with a median age of <<var namespace=splash|key=age|row=0>> and a median household income of <<var namespace=income|key=income|row=0>>. Between <<var namespace=pop|key=year|row=1>> and <<var namespace=pop|key=year|row=0>> the population of {{<<sumlevel>>:nation||the }}<<name>> <<percent num=var:pop,pop,0|den=var:pop,pop,1|text=grew2>> from <<var namespace=pop|key=pop|row=1>> to <<var namespace=pop|key=pop|row=0>>, a <<growth namespace=pop|key=pop>> <<percent num=var:pop,pop,0|den=var:pop,pop,1|text=increase>> and its median household income <<percent num=var:income,income,0|den=var:income,income,1|text=grew2>> from <<var namespace=income|key=income|row=1>> to <<var namespace=income|key=income|row=0>>, a <<growth namespace=income|key=income>> <<percent num=var:income,income,0|den=var:income,income,1|text=increase>>."
+  - "The population of {{<<sumlevel>>:nation||the }}<<name>> is <<percent num=var:acs_race,value,0|den=var:pop,pop,0>> <<var namespace=acs_race|key=name|row=0>>, <<percent num=var:acs_race,value,1|den=var:pop,pop,0>> <<var namespace=acs_race|key=name|row=1>>, and <<percent num=var:acs_race,value,2|den=var:pop,pop,0>> <<var namespace=acs_race|key=name|row=2>>. <<var namespace=splash|key=non_eng_speakers_pct|row=0>> of the people in {{<<sumlevel>>:nation||the }}<<name>> speak a non-English language, and <<var namespace=citizenship|key=us_citizens|row=0>> are U.S. citizens."
+  - "The largest universities in {{<<sumlevel>>:nation||the }}<<name>> are <<var namespace=universities|key=university|row=0>>, with <<var namespace=universities|key=grads_total|row=0>> graduates, <<var namespace=universities|key=university|row=1>>, with <<var namespace=universities|key=grads_total|row=1>> graduates, and <<var namespace=universities|key=university|row=2>>, with <<var namespace=universities|key=grads_total|row=2>> graduates."
+  - "The median property value in {{<<sumlevel>>:nation||the }}<<name>> is <<var namespace=acsgeo|key=median_property_value|row=0>>, and the homeownership rate is <<var namespace=homeowners|key=owner_occupied_housing_units|row=0>>. Most people in {{<<sumlevel>>:nation||the }}<<name>> commute by <<var namespace=transport|row=0|key=name>>, and the average commute time is <<var namespace=commute|key=mean_commute_minutes|row=0>> minutes. The average car ownership in {{<<sumlevel>>:nation||the }}<<name>> is <<var namespace=vehicles|key=name|row=0>> <<plural text=car|namespace=vehicles|key=name|row=0>> per household."
   - >
-    {{<<sumlevel>>:nation||In <<var namespace=splash|key=year|row=0>>, there were <<var namespace=splash|key=pop|row=0>> people living in the United States, and the median age of the entire population was <<var namespace=splash|key=age|row=0>>.}}
-    {{<<sumlevel>>:state||<<name>> is the <<var namespace=splash|key=pop_rank|row=0>> largest <<level>> in the nation with a combined population of <<var namespace=splash|key=pop|row=0>> and a median age of <<var namespace=splash|key=age|row=0>> as of <<var namespace=splash|key=year|row=0>>.}}
-    {{<<sumlevel>>:msa||<<name>> is the <<var namespace=splash|key=pop_rank|row=0>> largest <<level>> in the nation with a combined population of <<var namespace=splash|key=pop|row=0>> people and a median age of <<var namespace=splash|key=age|row=0>>.}}
-    {{<<sumlevel>>:county||<<name>> is the <<top col=county_state_rank|sumlevel=county|year=none|dataset=stat>> largest county in <<parents prefix=040>> by population and contains <<top col=places_in_county|sumlevel=county|year=none|dataset=stat>> census places. The largest places in <<name>> by population are <<top col=top_places|sumlevel=county|year=none|dataset=stat>>.}}
-    {{<<sumlevel>>:puma||<<name>> had <<var namespace=splash|key=pop|row=0>> residents in <<var namespace=splash|key=year|row=0>>, making it the <<top col=puma_state_rank|sumlevel=puma|year=none|dataset=stat>> largest <<level>> by population in <<parents prefix=040>> out of the other <<top col=pumas_in_state|sumlevel=puma|year=none|dataset=stat>> PUMAs in the state.}}
-    {{<<sumlevel>>:place||<<name>> is a <<level>> located in <<top col=parent_counties|sumlevel=place|year=none|dataset=stat>> with a population of <<var namespace=splash|key=pop|row=0>> and a median age of <<var namespace=splash|key=age|row=0>>.}}
-  - >
-    In <<var namespace=income|key=year|row=0>>, the median household income in {{<<sumlevel>>:nation||the }}<<name>> was <<var namespace=income|key=income|row=0>>, a <<growth namespace=income|key=income|format=text>> from the previous year. Also in {{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=year|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=year|row=0>>}} there were {{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=num_ppl|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=num_emp|row=0>>}} residents in <<name>> with jobs, a {{<<sumlevel>>:nation,state||<<growth namespace=num_ppl|key=num_ppl|format=text>>}}{{<<sumlevel>>:!nation,state||<<growth namespace=num_emp|key=num_emp|format=text>>}} over {{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=year|row=1>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=year|row=1>>}}.
-  - >
-    {{<<sumlevel>>:nation||The top 3 largest states by population are <<top prefix=040|child=True|order=pop|limit=3>>, and the smallest 3 are <<top child=True|order=pop|limit=3|sort=asc>>. The 3 largest counties in the US by population are <<top prefix=050|child=True|order=pop|limit=3>>, while the 3 largest census places are <<top prefix=160|child=True|order=pop|limit=3>>.}}
-    {{<<sumlevel>>:state||The largest counties by population in <<name>> are <<top col=top_counties|sumlevel=state|year=none|dataset=stat>>.}}
-    {{<<sumlevel>>:state||The largest places in <<name>> by population are <<top col=top_places|sumlevel=state|year=none|dataset=stat>>.}}
-    {{<<sumlevel>>:msa||The largest counties by population are <<top col=top_counties|sumlevel=msa|year=none|dataset=stat>>.}}
-    {{<<sumlevel>>:msa||The largest places in <<name>> by population are <<top col=top_places|sumlevel=msa|year=none|dataset=stat>>.}}
-    {{<<sumlevel>>:county||<<name>> borders <<top col=county_neighbors|sumlevel=county|year=none|dataset=stat|truncate=5>>.}}
-    {{<<sumlevel>>:puma||<<name>> borders the neighboring areas of <<top col=puma_neighbors|sumlevel=puma|year=none|dataset=stat|truncate=5>>.}}
-    {{<<sumlevel>>:place||<<name long=true>> borders the neighboring places of <<top col=places_neighbors|sumlevel=place|year=none|dataset=stat|truncate=5>>.}}
+    {{<<sumlevel>>:nation||The most populated states in the United States are <<top prefix=040|child=True|order=pop|limit=3>>, and the least populated are <<top child=True|order=pop|limit=3|sort=asc>>. The most populated counties are <<top prefix=050|child=True|order=pop|limit=3>>, while the most populated census designated places are <<top prefix=160|child=True|order=pop|limit=3>>.}}
+    {{<<sumlevel>>:state||<<name>> is the <<top col=state_rank|sumlevel=state|year=none|dataset=stat>> most populated <<level>> in the United States[[<<id>>:!04000US02,04000US15,04000US72|| and borders <<top col=state_neighbors|sumlevel=state|year=none|dataset=stat|truncate=20>>]].}}
+    {{<<sumlevel>>:msa||<<name>> is a <<level>> countaining <<top col=top_counties|sumlevel=msa|year=none|dataset=stat|truncate=20>> and the census places  <<top col=top_places|sumlevel=msa|year=none|dataset=stat|truncate=5>>.}}
+    {{<<sumlevel>>:county||<<name>> is the <<top col=county_state_rank|sumlevel=county|year=none|dataset=stat>> most populated <<level>> in <<parents prefix=040>> and borders <<top col=county_neighbors|sumlevel=county|year=none|dataset=stat|truncate=5>>.}}
+    {{<<sumlevel>>:puma||<<name>> is the <<top col=puma_state_rank|sumlevel=puma|year=none|dataset=stat>> most populated <<level>> in <<parents prefix=040>> and borders <<top col=puma_neighbors|sumlevel=puma|year=none|dataset=stat|truncate=5>>.}}
+    {{<<sumlevel>>:place||<<name>> is a <<level>> located in <<top col=parent_counties|sumlevel=place|year=none|dataset=stat>>. It borders <<top col=places_neighbors|sumlevel=place|year=none|dataset=stat|truncate=5>>.}}
 viz:
   attrs: "geo"
   coords:
@@ -34,23 +27,24 @@ viz:
   zoom: NO
 stats:
   - title: "Population"
-    value: "<<var namespace=splash|key=pop|row=0>>"
+    value: "<<var namespace=pop|key=pop|row=0>>"
+    rank: "<<growth namespace=pop|key=pop|format=text>>"
   - title: "Median Age"
     value: "<<var namespace=splash|key=age|row=0>>"
-  - title: "Poverty Rate"
-    value: "<<percent num=income_below_poverty|den=pop_poverty_status>>"
   - title: "Median Household Income"
     value: "<<var namespace=income|key=income|row=0>>"
-    rank: "{{<<sumlevel>>:nation,state||<<growth namespace=income|key=income|format=text>>}}"
+    rank: "<<growth namespace=income|key=income|format=text>>"
+  - title: "Poverty Rate"
+    value: "<<percent num=income_below_poverty|den=pop_poverty_status>>"
   - title: "Number of Employees"
     value: "{{<<sumlevel>>:nation,state||<<var namespace=num_ppl|key=num_ppl|row=0>>}}{{<<sumlevel>>:!nation,state||<<var namespace=num_emp|key=num_emp|row=0>>}}"
     rank: "{{<<sumlevel>>:nation,state||<<growth namespace=num_ppl|key=num_ppl|format=text>>}}{{<<sumlevel>>:!nation,state||<<growth namespace=num_emp|key=num_emp|format=text>>}}"
   - title: "Median Property Value"
     value: "<<var namespace=acsgeo|key=median_property_value|row=0>>"
     rank: "<<growth namespace=acsgeo|key=median_property_value|format=text>>"
-sections:
-  - economy
-  - health
-  - demographics
-  - education
-  - housing
+sections: []
+  # - economy
+  # - health
+  # - demographics
+  # - education
+  # - housing
