@@ -112,6 +112,8 @@ TEXTCOMPARATORS = {
     "highlow": ("higher than", "lower than", "approximately the same as"),
     "highlowsame": ("a higher", "a lower", "the same"),
     "increase": ("increase", "decrease", "change"),
+    "increased": ("increased", "decreased", "changed"),
+    "larger": ("larger", "smaller", "larger"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same"),

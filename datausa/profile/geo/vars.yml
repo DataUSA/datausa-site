@@ -306,6 +306,17 @@
   year: latest
   namespace: vehicles
 
+- force: "acs.yg_vehicles"
+  limit: 1
+  rows: True
+  geo: 01000US
+  pivot:
+    keys: ["vehicles"]
+    cols: ["name", "value"]
+    limit: 3
+  year: latest
+  namespace: vehicles_us
+
 - required: ["mean_commute_minutes"]
   geo: "<<id>>,01000US"
   year: latest
@@ -367,6 +378,12 @@
   rows: True
   limit: 2
   namespace: "acsgeo"
+
+- required: ["median_property_value"]
+  year: latest
+  geo: 01000US
+  show: geo
+  namespace: "acsgeo_us"
 
 - force: "acs.yg_transport"
   required: ["workers"]
