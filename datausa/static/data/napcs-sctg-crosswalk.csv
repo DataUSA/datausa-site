@@ -1,0 +1,44 @@
+Commodity,Context,NAPCS code,NAPCS title
+1,Live animals/fish,671010113,"Other live animals, except household pets"
+2,Cereal grains,671010101,Cereals
+3,Other ag prods.,1110112,Fresh vegetables
+4,Animal feed,671190101,Livestock feed products
+5,Meat/seafood,1110101,Meat products
+6,Milled grain prods.,111010901,"Flour and other milled grain and oilseed products, except oils and products for animal feed"
+7,Other foodstuffs,11101,Food and beverages purchased for future consumption 
+8,Alcoholic beverages,11101260107,"Alcoholic beverages, except beer"
+9,Tobacco prods.,113010101,Tobacco products and smoking accessories
+10,Building stone,67120010101,"Structural metal, brick, block, and dimension stone, and structural wood used for construction"
+11,Natural sands,671120101,"Sand, clay, and glass products"
+12,Gravel,67120010202,"Construction sand and gravel (run of pit or bank, washed, screened, or otherwise treated)"
+13,Nonmetallic minerals,671120102,All other nonmetallic minerals 
+14,Metallic ores,671130101,Metal ores
+15,Coal,61101010102,Coal products
+16,Crude petroleum,67109010101,"Crude oil, including lease condensate"
+17,Gasoline,61101010103,"Refined petroleum fuels, except biofuels"
+18,Fuel oils,611010101,"Fuels for heat, power, and transportation"
+19,Coal-n.e.c.,61101010101,Natural gas and residue gas
+20,Basic chemicals,671100101,Materials and supplies for chemical manufacturing
+21,Pharmaceuticals,342010101,"Pharmaceutical preparations, including prescribed and nonprescribed drugs and medicines"
+22,Fertilizers,671190103,"Fertilizer, soil improvement, and pesticide products"
+23,Chemical prods.,67110010106,"Gum and wood chemicals, cyclic intermediates, and all other basic organic chemicals"
+24,Plastics/rubber,671110101,Materials and supplies for plastics and rubber products manufacturing
+25,Logs,671050101,Softwood and hardwood logs
+26,Wood prods.,671060101,"Lumber and wood, except for construction"
+27,Newsprint/paper,67108010101,Newsprint
+28,Paper articles,67107010102,Paperboard products 
+29,Printed prods.,2410401,"Newspapers, periodicals, books, other publications, and pre-recorded media"
+30,Textiles/leather,671040101,"Materials and supplies for clothing, leather, footwear, and other textiles manufacturing"
+31,Nonmetal min. prods.,6711201,"Materials and supplies for clay, glass, cement, and other nonmetallic minerals products manufacturing"
+32,Base metals,671130103,Ferroalloys and miscellaneous materials and supplies for primary metals manufacturing 
+33,Articles-base metal,671140101,Materials and supplies for fabricated metal manufacturing
+34,Machinery,5150101,Industrial machinery and equipment
+35,Electronics,67116010105,"Ignition, electrical, and electronic products"
+36,Motorized vehicles,27101,"Automobiles, light-duty trucks, and related products "
+37,Transport equip.,516010101,Transportation equipment
+38,Precision instruments,67121010301,"Precision measuring tools (inspection, quality control, tool room, and machinists'), comparators, limit gauges, adjustable size, laser, pneumatic, electronic, and all other precision tools and parts."
+39,Furniture,21101,"Home furniture, furnishings, and accessories"
+40,Misc. mfg. prods.,6712101,"Miscellaneous materials and supplies, nec."
+41,Waste/scrap,672010111,"Wholesaling services for metals and ores, including scrap metal"
+43,Mixed freight,671210103,Other miscellaneous materials and supplies
+99,Unknown,99,Unknown

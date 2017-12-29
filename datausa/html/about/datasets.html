@@ -8,13 +8,15 @@
   <section>
     <ul class="dataset-panel datasets">
       <li class="acs active"><a href="#" data-value="1">ACS</a></li>
-      <li class="acspums"><a href="#" data-value="2">ACS PUMS</a></li>
+      <li class="acspums"><a href="#" data-value="2">PUMS</a></li>
       <li class="bea"><a href="#" data-value="3">BEA</a></li>
       <li class="bls"><a href="#" data-value="4">BLS</a></li>
+      <li class="bea"><a href="#" data-value="9">CBP</a></li>
       <li class="chr"><a href="#" data-value="5">CHR</a></li>
       <li class="chr"><a href="#" data-value="8">Dartmouth Atlas</a></li>
       <li class="ipeds"><a href="#" data-value="6">IPEDS</a></li>
       <li class="onet"><a href="#" data-value="7">O*Net</a></li>
+      <li class="bls"><a href="#" data-value="10">FAF</a></li>
     </ul>
     <div class="dataset-list">
       <div class="dataset-tab active" data-tab="1">
@@ -98,6 +100,23 @@
         <p>The Dartmouth data is used on the Geography profiles in the health and safety section.</p>
         <h2>Caveats</h2>
         <p>With regard to granularity the Dartmouth dataset only includes State and County level data.</p>
+      </div>
+      <div class="dataset-tab" data-tab="9">
+        <h2>Description</h2>
+        <p><span class="emphasize">County Business Patterns (CBP)</span> is an annual series that provides subnational economic data by industry. This series includes the number of establishments, employment during the week of March 12, first quarter payroll, and annual payroll. This data is useful for studying the economic activity of small areas; analyzing economic changes over time; and as a benchmark for other statistical series, surveys, and databases between economic censuses. Businesses use the data for analyzing market potential, measuring the effectiveness of sales and advertising programs, setting sales quotas, and developing budgets. Government agencies use the data for administration and planning.</p>
+        <h2>Where is it used?</h2>
+        <p>DataUSA provides access to the CBP data through our <a href="https://github.com/DataUSA/datausa-api/wiki/Data-API#cbp" target="_blank">API</a>.</p>
+      </div>
+      <div class="dataset-tab" data-tab="10">
+        <h2>Description</h2>
+        <p>The <span class="emphasize">Freight Analysis Framework (FAF)</span>, produced through a partnership between Bureau of Transportation Statistics (BTS) and Federal Highway Administration (FHWA), integrates data from a variety of sources to create a comprehensive picture of freight movement among states and major metropolitan areas by all modes of transportation. Starting with data from the 2012 Commodity Flow Survey (CFS) and international trade data from the Census Bureau, FAF incorporates data from agriculture, extraction, utility, construction, service, and other sectors. The FAF data give a picture of which goods are shipped from one region of the US to another region, according to type of commodity, mode of shipment, value, and weight.</p>
+        <h2>Where is it used?</h2>
+        <p>DataUSA provides access to the FAF data for 2012-2015 through our <a href="https://github.com/DataUSA/datausa-api/wiki/Data-API" target="_blank">API</a>.</p>
+        <h2>Caveats</h2>
+        <p>Shipment origin and destination are aggregated at the state level, and for certain Metropolitan Statistical Areas.</p>
+        <p>
+          DataUSA only provides information from the subset of FAF data where both the origin and destination of the shipment are in the United States. Original product codes (using the SCTG standard) are provided, as well as code equivalents from the NAPCS product code standard. The crosswalk used to apply the NAPCS codes is available <a href="/static/data/napcs-sctg-crosswalk.csv">here</a>.
+        </p>
       </div>
     </div>
   </section>
