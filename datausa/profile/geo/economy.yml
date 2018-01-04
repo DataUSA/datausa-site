@@ -231,7 +231,9 @@ topics:
           regex: "^poverty_([a-z]*)$"
           value: "people"
       id: "race"
-      order: "people"
+      order:
+        sort: desc
+        value: "share"
       type: "bar"
       x: "race"
       y: "share"
