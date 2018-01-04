@@ -825,6 +825,24 @@ class Profile(BaseObject):
                     return fetch(attr_id, attr_type)[key]
                 return self.attr[key]
 
+    def sum(self, **kwargs):
+        namespace = kwargs.get("namespace")
+        key = kwargs.get("key")
+        formatting = kwargs.get("format", "pretty")
+
+        var_map = self.variables
+
+        if var_map:
+            if namespace in var_map:
+                total = sum([r[key]["raw"] for r in var_map[namespace] if r[key]["raw"]])
+                if formatting == "pretty":
+                    return num_format(total, key)
+                else:
+                    return total
+            return "N/A"
+        else:
+            raise Exception("vars.yaml file has no variables")
+
     def sumlevel(self, **kwargs):
         """str: A string representation of the depth type. """
         attr_type = kwargs.get("attr_type", self.attr_type)

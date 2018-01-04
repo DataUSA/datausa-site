@@ -363,7 +363,7 @@
   where: "language:~^002"
 
 - required: ["year", "language", "num_speakers"]
-  limit: 3
+  limit: 1000
   rows: True
   order: "num_speakers"
   sort: "desc"
