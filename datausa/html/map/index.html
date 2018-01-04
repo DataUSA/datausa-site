@@ -240,7 +240,7 @@
         d3.select(".source").html(sourceText);
         d3.select(".org").html(source.org);
         d3.select(".add-to-cart").attr("data-slug", "map_" + map.color() + "_ " + level);
-        document.title = "Data USA | " + buildTitle;
+        document.title = buildTitle + " | Data USA";
         updateCart();
 
         d3.select("#map-loading").classed("hidden", true);
