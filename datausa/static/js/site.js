@@ -9863,14 +9863,32 @@ viz.formatData = function(data, d, build) {
   //
   // }
 
-  if (d.join) {
-    for (var i = 0; i < data.length; i++) {
-      for (var k in data[i]) {
-        var key = k.split(".").pop();
-        if (key !== "year") data[i][key] = data[i][k];
-        delete data[i][k];
+  // if (d.join) {
+  //   for (var i = 0; i < data.length; i++) {
+  //     for (var k in data[i]) {
+  //       var key = k.split(".").pop();
+  //       if (key !== "year") data[i][key] = data[i][k];
+  //       delete data[i][k];
+  //     }
+  //   }
+  // }
+
+  if (d.merge) {
+    var mergeKeys = d.merge.split(".");
+    for (var i = 0; i < build.data[0].data.length; i++) {
+      var datum = build.data[0].data[i];
+      var matched = data.filter(function(obj) {
+        return mergeKeys.map(function(k) {
+          return obj[k] === datum[k];
+        }).indexOf(false) < 0;
+      });
+      if (matched.length) {
+        for (var k in matched[0]) {
+          datum[k] = matched[0][k];
+        }
       }
     }
+    data = build.data[0].data;
   }
 
   if (d.map) {
@@ -10090,8 +10108,13 @@ viz.loadData = function(build, next) {
         d.source = return_data.source;
         d.subs = return_data.subs || {};
         d.data = viz.formatData(data, d, build);
+
+        if (!d.merge) {
+          dataArray = dataArray.concat(d.data);
+        }
+
         build.sources.push(return_data.source);
-        dataArray = dataArray.concat(d.data);
+
         loaded++;
         if (loaded === build.data.length) {
           build.viz.data(dataArray);

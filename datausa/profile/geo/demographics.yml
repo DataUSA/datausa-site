@@ -160,8 +160,15 @@ topics:
         - geo: "<<id>>"
           where: "language:~^002,num_speakers:!0"
           required: "num_speakers,num_speakers_moe"
-          share: num_speakers
           show: "geo"
+        - geo: "<<id>>"
+          merge: "year.geo"
+          required: "pop"
+          show: "geo"
+          divide:
+            num: "num_speakers"
+            den: "pop"
+            value: "share"
       id: "language"
       order: "num_speakers"
       type: "bar"
