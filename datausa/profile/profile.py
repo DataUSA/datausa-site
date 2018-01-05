@@ -46,6 +46,18 @@ class Profile(BaseObject):
     def attribute(self, **kwargs):
         return self.attr[kwargs.get("key")]
 
+    def carnegie(self, **kwargs):
+        carnegie_id = self.attr["carnegie"]
+        key = kwargs.get("key", "id")
+        if key == "id":
+            return carnegie_id
+        else:
+            carnegie_attr = fetch(carnegie_id, "university")
+            if key == "name":
+                return self.make_links([carnegie_attr])
+            else:
+                return carnegie_attr[key]
+
     def children(self, **kwargs):
 
         attr_id = kwargs.get("attr_id", self.id(**kwargs))
