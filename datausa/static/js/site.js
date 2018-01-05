@@ -9893,14 +9893,32 @@ viz.formatData = function(data, d, build) {
   //
   // }
 
-  if (d.join) {
-    for (var i = 0; i < data.length; i++) {
-      for (var k in data[i]) {
-        var key = k.split(".").pop();
-        if (key !== "year") data[i][key] = data[i][k];
-        delete data[i][k];
+  // if (d.join) {
+  //   for (var i = 0; i < data.length; i++) {
+  //     for (var k in data[i]) {
+  //       var key = k.split(".").pop();
+  //       if (key !== "year") data[i][key] = data[i][k];
+  //       delete data[i][k];
+  //     }
+  //   }
+  // }
+
+  if (d.merge) {
+    var mergeKeys = d.merge.split(".");
+    for (var i = 0; i < build.data[0].data.length; i++) {
+      var datum = build.data[0].data[i];
+      var matched = data.filter(function(obj) {
+        return mergeKeys.map(function(k) {
+          return obj[k] === datum[k];
+        }).indexOf(false) < 0;
+      });
+      if (matched.length) {
+        for (var k in matched[0]) {
+          datum[k] = matched[0][k];
+        }
       }
     }
+    data = build.data[0].data;
   }
 
   if (d.map) {
@@ -10104,8 +10122,46 @@ viz.loadData = function(build, next) {
 
   if (build.data.length) {
     var loaded = 0, dataArray = [];
-    for (var i = 0; i < build.data.length; i++) {
-      load(build.data[i].url, function(data, url, return_data){
+    function finishData() {
+      var mergeData = build.data.filter(function(d) { return d.merge });
+      if (!mergeData.length) {
+        build.viz.data(dataArray);
+        viz[next](build);
+      }
+      for (var i = 0; i < mergeData.length; i++) {
+        load(mergeData[i].url, function(data, url, return_data) {
+
+          if (build.compare && return_data.subs) {
+            for (var type in return_data.subs) {
+              var show = new RegExp("&" + type + "=([%a-zA-Z0-9]*)").exec(url);
+              var subIndex = show[1].split("%2C").indexOf(build.compare);
+              if (subIndex >= 0) build.compare = return_data.subs[type].split(",")[subIndex];
+            }
+          }
+
+          var d = mergeData.filter(function(d){ return d.url === url; })[0];
+
+          d.source = return_data.source;
+          d.subs = return_data.subs || {};
+          d.data = viz.formatData(data, d, build);
+
+          if (!d.merge) {
+            dataArray = dataArray.concat(d.data);
+          }
+
+          build.sources.push(return_data.source);
+
+          loaded++;
+          if (loaded === build.data.length) {
+            build.viz.data(dataArray);
+            viz[next](build);
+          }
+        })
+      }
+    }
+    var soloData = build.data.filter(function(d) { return !d.merge });
+    for (var i = 0; i < soloData.length; i++) {
+      load(soloData[i].url, function(data, url, return_data) {
 
         if (build.compare && return_data.subs) {
           for (var type in return_data.subs) {
@@ -10115,17 +10171,21 @@ viz.loadData = function(build, next) {
           }
         }
 
-        var d = build.data.filter(function(d){ return d.url === url; })[0];
+        var d = soloData.filter(function(d){ return d.url === url; })[0];
 
         d.source = return_data.source;
         d.subs = return_data.subs || {};
         d.data = viz.formatData(data, d, build);
+
+        if (!d.merge) {
+          dataArray = dataArray.concat(d.data);
+        }
+
         build.sources.push(return_data.source);
-        dataArray = dataArray.concat(d.data);
+
         loaded++;
-        if (loaded === build.data.length) {
-          build.viz.data(dataArray);
-          viz[next](build);
+        if (loaded === soloData.length) {
+          finishData();
         }
       })
     }

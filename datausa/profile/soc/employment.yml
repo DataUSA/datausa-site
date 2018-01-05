@@ -10,7 +10,7 @@ topics:
         value: "<<var namespace=data|row=0|key=avg_wage>>"
         subtitle: "<span class='plus-minus'>±</span> <<var namespace=data|row=0|key=avg_wage_moe>>"
     description:
-      - "In <<var namespace=data|row=0|key=year>>, <<name>> earned an average of <<var namespace=data|row=0|key=avg_wage>>, <<percent den=var:data,avg_wage,0|num=var:nation,avg_wage|diff=True>> <<percent den=var:data,avg_wage,0|num=var:nation,avg_wage|text=moreless>> the average national salary of <<var namespace=nation|key=avg_wage>>."
+      - "In <<var namespace=data|row=0|key=year>>, <<name>> earned an average of <<var namespace=data|row=0|key=avg_wage>>, <<percent num=var:data,avg_wage,0|den=var:nation,avg_wage|diff=True>> <<percent num=var:data,avg_wage,0|den=var:nation,avg_wage|text=moreless>> the average national salary of <<var namespace=nation|key=avg_wage>>."
       - "{{<<ranks col=avg_wage_rank|limit=5|key=name|prev=True>>:N/A||<<name>> are the highest paid occupation in the US followed by <<ranks col=avg_wage_rank|limit=5|key=name|next=True>>.}}{{<<ranks col=avg_wage_rank|limit=5|key=name|next=True>>:N/A||<<name>> are the lowest paid occupation in the US followed by <<ranks col=avg_wage_rank|limit=5|key=name|prev=True>>.}}{{<<ranks col=avg_wage_rank|limit=5|key=name|prev=True>>:!N/A||[[<<ranks col=avg_wage_rank|limit=5|key=name|next=True>>:!N/A||<<ranks col=avg_wage_rank|limit=5|key=name|prev=True>> make somewhat more than <<name>> while <<ranks col=avg_wage_rank|limit=5|key=name|next=True>> make somewhat less.]]}} This chart shows the various occupations closest to <<name>> as measured by average annual salary in the US."
     viz:
       attrs: "soc"

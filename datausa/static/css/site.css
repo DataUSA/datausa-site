@@ -5489,11 +5489,12 @@
         -webkit-transition: border-bottom 0.35s;
         transition: border-bottom 0.35s;
         color: #32415A;
-        border-bottom: 1px solid #B8C0D4; }
+        border-bottom: none;
+        text-decoration: underline; }
         body.profile .prof-body p a:hover, body.profile .prof-body p a:focus,
         body.map .prof-body p a:hover, body.map .prof-body p a:focus,
         body.story .prof-body p a:hover, body.story .prof-body p a:focus {
-          border-bottom: 1px solid #32415A; }
+          border-bottom: none; }
   body.profile #section-sidenav, body.map #section-sidenav,
   body.story #section-sidenav {
     -webkit-justify-content: center;

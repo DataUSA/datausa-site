@@ -106,16 +106,20 @@ TEXTCOMPARATORS = {
     "age": ("older than", "younger than", "approximately the same age as"),
     "age2": ("getting older", "getting younger", "staying the same age"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
-    "highlow": ("higher than", "lower than", "approximately the same as"),
-    "highlowsame": ("a higher", "a lower", "the same"),
     "growth": ("growing", "declining", "maintaining"),
     "growth2": ("growth", "decline", "change"),
     "grew": ("grew to", "declined to", "stayed at"),
     "grew2": ("grew", "declined", "stayed"),
+    "highlow": ("higher than", "lower than", "approximately the same as"),
+    "highlowsame": ("a higher", "a lower", "the same"),
+    "increase": ("increase", "decrease", "change"),
+    "increased": ("increased", "decreased", "changed"),
+    "larger": ("larger", "smaller", "larger"),
     "longshort": ("longer", "shorter", "approximately equal"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same"),
-    "mostleast": ("most", "least", "same")
+    "mostleast": ("most", "least", "same"),
+    "towards": ("towards", "away from", "equally towards")
 }
 
 DICTIONARY = {

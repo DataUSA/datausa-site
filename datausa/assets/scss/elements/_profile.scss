@@ -1705,10 +1705,11 @@ body.profile, body.map, body.story {
       a {
         @include transition(border-bottom 0.35s);
         color: $blue;
-        border-bottom: 1px solid $black-link;
+        border-bottom: none;
+        text-decoration: underline;
 
         &:hover, &:focus {
-          border-bottom: 1px solid $blue;
+          border-bottom: none;
         }
       }
     }

@@ -8,6 +8,15 @@
   rows: True
   limit: 2
 
+- required: ["year", "pop", "pop_moe"]
+  namespace: pop
+  show: geo
+  year: all
+  order: year
+  sort: desc
+  rows: True
+  limit: 2
+
 - required: ["year", "income", "income_moe"]
   namespace: income
   show: geo
@@ -38,15 +47,6 @@
   rows: True
   limit: 2
 
-- required: ["year", "num_emp", "num_emp_moe"]
-  namespace: num_emp
-  show: geo
-  year: all
-  order: year
-  sort: desc
-  rows: True
-  limit: 2
-
 - required: ["year", "acs_occ", "num_emp", "num_emp_moe"]
   namespace: common_soc_emp
   show: acs_occ
@@ -63,6 +63,16 @@
   sumlevel: 1
   year: latest
   order: num_emp
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "acs_ind", "med_earnings"]
+  namespace: common_naics_earnings
+  show: acs_ind
+  sumlevel: 1
+  year: latest
+  order: med_earnings
   sort: desc
   rows: True
   limit: 3
@@ -92,6 +102,16 @@
   sumlevel: 2
   year: latest
   order: num_ppl
+  sort: desc
+  rows: True
+  limit: 3
+
+- required: ["year", "naics", "avg_wage"]
+  namespace: common_naics_wage
+  show: naics
+  sumlevel: 2
+  year: latest
+  order: avg_wage
   sort: desc
   rows: True
   limit: 3
@@ -235,6 +255,13 @@
   year: latest
   namespace: tuition
 
+- required: ["year", "grads_total"]
+  show: geo
+  limit: 1
+  dataset: ipeds
+  year: latest
+  namespace: grads
+
 - required: ["year", "university", "grads_total"]
   show: university
   order: grads_total
@@ -265,7 +292,7 @@
   pivot:
     keys: ["race"]
     cols: ["year", "name", "value"]
-    limit: 3
+    limit: 5
   year: latest
   namespace: edu_race
 
@@ -278,6 +305,17 @@
     limit: 3
   year: latest
   namespace: vehicles
+
+- force: "acs.yg_vehicles"
+  limit: 1
+  rows: True
+  geo: 01000US
+  pivot:
+    keys: ["vehicles"]
+    cols: ["name", "value"]
+    limit: 3
+  year: latest
+  namespace: vehicles_us
 
 - required: ["mean_commute_minutes"]
   geo: "<<id>>,01000US"
@@ -325,7 +363,7 @@
   where: "language:~^002"
 
 - required: ["year", "language", "num_speakers"]
-  limit: 3
+  limit: 1000
   rows: True
   order: "num_speakers"
   sort: "desc"
@@ -340,6 +378,12 @@
   rows: True
   limit: 2
   namespace: "acsgeo"
+
+- required: ["median_property_value"]
+  year: latest
+  geo: 01000US
+  show: geo
+  namespace: "acsgeo_us"
 
 - force: "acs.yg_transport"
   required: ["workers"]

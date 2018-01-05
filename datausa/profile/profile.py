@@ -633,6 +633,8 @@ class Profile(BaseObject):
         if kwargs.get("data_only", False):
             return val
 
+        ratio = kwargs.get("ratio", False)
+
         if text and text in TEXTCOMPARATORS:
             text = TEXTCOMPARATORS[text]
 
@@ -650,12 +652,13 @@ class Profile(BaseObject):
                     return text[1]
                 else:
                     return text[2]
-        elif diff or kwargs.get("ratio", False):
+        elif diff or ratio:
             formatKey = False
-            if r["num_key"] == r["den_key"]:
-                formatKey = r["num_key"]
-            if r["num_key"] == "yield_men" and r["den_key"] == "yield_women":
-                formatKey = "yield_total"
+            if not ratio:
+                if r["num_key"] == r["den_key"]:
+                    formatKey = r["num_key"]
+                if r["num_key"] == "yield_men" and r["den_key"] == "yield_women":
+                    formatKey = "yield_total"
             return num_format(abs(val), formatKey)
         else:
             return "<span class='cart-percentage' data-num='{}' data-den='{}'>{}%</span>".format(r["num_key"], r["den_key"], num_format(val * 100))
@@ -880,6 +883,24 @@ class Profile(BaseObject):
                 if "_iocode" in attr_type:
                     return fetch(attr_id, attr_type)[key]
                 return self.attr[key]
+
+    def sum(self, **kwargs):
+        namespace = kwargs.get("namespace")
+        key = kwargs.get("key")
+        formatting = kwargs.get("format", "pretty")
+
+        var_map = self.variables
+
+        if var_map:
+            if namespace in var_map:
+                total = sum([r[key]["raw"] for r in var_map[namespace] if r[key]["raw"]])
+                if formatting == "pretty":
+                    return num_format(total, key)
+                else:
+                    return total
+            return "N/A"
+        else:
+            raise Exception("vars.yaml file has no variables")
 
     def sumlevel(self, **kwargs):
         """str: A string representation of the depth type. """

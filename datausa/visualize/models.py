@@ -45,6 +45,7 @@ class Viz(object):
                 "join": d.pop("join", None),
                 "divide": d.pop("divide", None),
                 "map": d.pop("map", None),
+                "merge": d.pop("merge", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None),
                 "share": d.pop("share", None)
