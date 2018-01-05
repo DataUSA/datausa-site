@@ -157,6 +157,10 @@ topics:
       order:
         sort: "asc"
         value: "grads_total"
+      tooltip:
+        value:
+          - grads_total
+          - share
       type: "bar"
       x: share
       y:
