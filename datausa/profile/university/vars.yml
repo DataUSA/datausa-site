@@ -120,7 +120,7 @@
   limit: 1
   sumlevel: "all,all"
   show: "ipeds_race,sex"
-  university: "<<carnegie>>"
+  university: <<carnegie>>
   namespace: grad_rate_top_carnegie
 
 - required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
@@ -130,5 +130,74 @@
   limit: 1
   sumlevel: "all,all"
   show: "ipeds_race,sex"
-  university: "<<carnegie>>"
+  university: <<carnegie>>
   namespace: grad_rate_bottom_carnegie
+
+- required: ["num_enrolled"]
+  rows: True
+  sort: asc
+  order: enrollment_status
+  year: latest
+  limit: 2
+  namespace: enrollment_status
+
+- required: ["num_enrolled"]
+  rows: True
+  sort: asc
+  order: enrollment_status
+  year: latest
+  limit: 2
+  university: <<carnegie>>
+  namespace: enrollment_status_carnegie
+
+- required: ["ipeds_race", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race"
+  namespace: enrollment_race
+
+- required: ["ipeds_race", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race"
+  university: <<carnegie>>
+  namespace: enrollment_race_carnegie
+
+- required: ["ipeds_race", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race"
+  university: <<attribute key=carnegie_parent>>
+  namespace: enrollment_race_parent
+
+- required: ["ipeds_race", "sex", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race,sex"
+  sumlevel: "all,all"
+  lstudy: "1"
+  enrollment_status: "1"
+  namespace: enrollment_lstudy
+
+- required: ["retention_rate_ft", "year"]
+  year: latest
+  limit: 1
+  namespace: retention
+
+- required: ["retention_rate_ft", "year"]
+  year: latest
+  limit: 1
+  university: <<attribute key=carnegie_parent>>
+  namespace: retention_parent

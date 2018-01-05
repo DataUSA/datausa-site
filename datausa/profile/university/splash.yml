@@ -36,4 +36,5 @@ stats:
 sections:
   - costs
   - admissions
+  - enrollment
   - graduation

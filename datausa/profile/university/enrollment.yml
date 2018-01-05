@@ -1,0 +1,137 @@
+title: "Enrollment"
+description:
+  - "Data pertaining to the enrolled population at <<name>>."
+
+topics:
+  - title: "Enrollment Status"
+    slug: enrollment_status
+    description:
+      - "The total enrollment at <<name>> is <<sum namespace=enrollment_status|key=num_enrolled>>. The full-time enrollment at <<name>> is <<var namespace=enrollment_status|row=0|key=num_enrolled>> and the part-time enrollment is <<var namespace=enrollment_status|row=1|key=num_enrolled>>. This means that <<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> of students enrolled at <<name>> are enrolled full-time compared with <<percent num=var:enrollment_status_carnegie,num_enrolled,0|den=sum:enrollment_status_carnegie,num_enrolled>> at similar <<carnegie key=name>> institutions."
+    stat:
+      - title: "Full-time Students"
+        value: "<<var namespace=enrollment_status|row=0|key=num_enrolled>>"
+      - title: "Part-time Students"
+        value: "<<var namespace=enrollment_status|row=1|key=num_enrolled>>"
+    viz:
+      attrs:
+        - university
+        - enrollment_status
+      data:
+        show: enrollment_status
+        university: "<<id>>,<<carnegie>>,<<attribute key=carnegie_parent>>"
+        required: "enrollment_status,num_enrolled"
+      depth: 1
+      highlight: <<id>>
+      id:
+        - university
+        - enrollment_status
+      tooltip:
+        value:
+          - university
+          - num_enrolled
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: university
+      y: num_enrolled
+  - title: "Enrollment by Race & Ethnicity"
+    slug: enrollment_race
+    description:
+      - "The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>. This includes both full-time and part-time students as well as graduate and undergraduates. By comparison, enrollment at <<carnegie key=name>> instituions is <<percent num=var:enrollment_race_carnegie,num_enrolled,0|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_carnegie,num_enrolled,1|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_carnegie,num_enrolled,2|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=2>> and enrollment at <<carnegie key=name|parent=True>> instituions is <<percent num=var:enrollment_race_parent,num_enrolled,0|den=sum:enrollment_race_parent,num_enrolled>> <<var namespace=enrollment_race_parent|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_parent,num_enrolled,1|den=sum:enrollment_race_parent,num_enrolled>> <<var namespace=enrollment_race_parent|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_parent,num_enrolled,2|den=sum:enrollment_race_parent,num_enrolled>> <<var namespace=enrollment_race_parent|key=ipeds_race|row=2>>."
+    stat:
+      - title: "Most common race or ethnicity"
+        value: "<<var namespace=enrollment_race|key=ipeds_race|row=0>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=0>></span>"
+        subvalues:
+          - "<<var namespace=enrollment_race|key=ipeds_race|row=1>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=1>></span>"
+          - "<<var namespace=enrollment_race|key=ipeds_race|row=2>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=2>></span>"
+    viz:
+      attrs:
+        - ipeds_race
+        - university
+      data:
+        show: ipeds_race
+        university: "<<id>>,<<carnegie>>,<<attribute key=carnegie_parent>>"
+        required: "num_enrolled"
+      depth: 1
+      highlight: <<id>>
+      id:
+        - ipeds_race
+        - university
+      order:
+        value: num_enrolled
+      tooltip:
+        value:
+          - university
+          - num_enrolled
+      type: "bar"
+      x:
+        persist:
+          position: True
+        label: False
+        value: ipeds_race
+      y: num_enrolled
+  - title: "Full-time Enrollment by Degree Level"
+    slug: enrollment_level
+    select:
+      data: lstudy
+      default: "1"
+      param: lstudy
+    description:
+      - "Students enrolled at <<name>> in <span class='select-text'>Undergraduate</span> programs are majority <<var namespace=enrollment_lstudy|key=ipeds_race|row=0>> <<var namespace=enrollment_lstudy|key=sex|row=0>>, followed by <<var namespace=enrollment_lstudy|key=ipeds_race|row=1>> <<var namespace=enrollment_lstudy|key=sex|row=1>> and <<var namespace=enrollment_lstudy|key=ipeds_race|row=2>> <<var namespace=enrollment_lstudy|key=sex|row=2>>."
+    stat:
+      - title: "Most common demographic"
+        value: "<<var namespace=enrollment_lstudy|key=ipeds_race|row=0>> <<var namespace=enrollment_lstudy|key=sex|row=0>>"
+        subvalues:
+          - "<<var namespace=enrollment_lstudy|key=ipeds_race|row=1>> <<var namespace=enrollment_lstudy|key=sex|row=1>>"
+          - "<<var namespace=enrollment_lstudy|key=ipeds_race|row=2>> <<var namespace=enrollment_lstudy|key=sex|row=2>>"
+    viz:
+      attrs:
+        - ipeds_race
+        - sex
+      color: sex
+      data:
+        show: "ipeds_race,sex"
+        sumlevel: "all,all"
+        university: "<<id>>"
+        required: "num_enrolled"
+        lstudy: "1"
+        enrollment_status: "1"
+      depth: 1
+      highlight: <<id>>
+      id:
+        - ipeds_race
+        - sex
+      legend: False
+      order:
+        value: num_enrolled
+      tooltip:
+        value:
+          - university
+          - num_enrolled
+      type: "bar"
+      x:
+        persist:
+          position: True
+        label: False
+        value: ipeds_race
+      y: num_enrolled
+  - title: "Retention Rate over Time"
+    slug: "retention"
+    stat:
+      - title: "<<var namespace=retention|key=year>> Retention Rate"
+        value: "<<var namespace=retention|key=retention_rate_ft>>"
+    description:
+      - "Retention rate is a measure of the number of students who began their studies the previous fall and returned to school the following fall. The retention rate for full-time undergraduates at <<name>> was <<var namespace=retention|key=retention_rate_ft>>. Compared with the full-time retention rate at similar <<carnegie key=name|parent=True>> institutions (<<var namespace=retention_parent|key=retention_rate_ft>>), <<name>> had a retention rate <<percent num=var:retention,retention_rate_ft|den=var:retention_parent,retention_rate_ft|text=highlow>> its peers."
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: university
+        university: "<<id>>,<<carnegie>>,<<carnegie parent=True>>"
+        required: "retention_rate_ft,retention_rate_pt"
+      depth: 1
+      id: university
+      type: "line"
+      x: year
+      y: retention_rate_ft

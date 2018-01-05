@@ -159,6 +159,12 @@ DICTIONARY = {
 
     "grad_rate": "Graduation Rate",
     "num_finishers": "Number of Students",
+    "num_enrolled": "Enrolled Students",
+    "enrollment_status": "Enrollment Status",
+    "ipeds_race": "Race",
+
+    "retention_rate_ft": "Full-Time Retention Rate",
+    "retention_rate_pt": "Part-Time Retention Rate",
 
     "economy": "Economy",
     "wages": "Income & Employment",
@@ -604,7 +610,9 @@ PERCENTAGES = [
     "share",
     "pct_fed_loans",
     "pct_with_aid",
-    "sub_sat_scores_pct"
+    "sub_sat_scores_pct",
+    "retention_rate_ft",
+    "retention_rate_pt"
 ]
 
 PER1000 = [
