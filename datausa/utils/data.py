@@ -69,10 +69,10 @@ def get_parents(attr_id, attr_type):
     """get parents from API"""
     url = "{}/attrs/{}/{}/parents".format(API, attr_type, attr_id)
     try:
-        data = requests.get(url).json()
-        if "error" in data:
+        ret = requests.get(url).json()
+        if "error" in ret:
             return []
-        return datafold(data)
+        return datafold(ret)
     except ValueError:
         return []
 
@@ -83,10 +83,10 @@ def get_children(attr_id, attr_type, sumlevel=None):
     if sumlevel:
         url = "{}?sumlevel={}".format(url, sumlevel)
     try:
-        data = requests.get(url).json()
-        if "error" in data:
-            return []
-        return datafold(data)
+        ret = requests.get(url).json()
+        if "error" in ret:
+            return ""
+        return datafold(ret)
     except ValueError:
         return ""
 
