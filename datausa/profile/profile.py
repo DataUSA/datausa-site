@@ -47,7 +47,11 @@ class Profile(BaseObject):
         return self.attr[kwargs.get("key")]
 
     def carnegie(self, **kwargs):
-        carnegie_id = self.attr["carnegie"]
+        parent = kwargs.get("parent", False)
+        if parent:
+            carnegie_id = self.attr["carnegie_parent"]
+        else:
+            carnegie_id = self.attr["carnegie"]
         key = kwargs.get("key", "id")
         if key == "id":
             return carnegie_id
@@ -560,6 +564,13 @@ class Profile(BaseObject):
                 params["col"], params["force"] = key.split(":")[1].split(",")
                 r["{}_key".format(t)] = params["col"]
                 r[t] = self.top(**params)["data"][0]
+
+            elif "sum:" in key:
+
+                keys = key.split(":")[1].split(",")
+                ns, col = keys
+                r["{}_key".format(t)] = col
+                r[t] = self.sum(namespace=ns, key=col, format="raw")
 
             elif "var:" in key:
 
