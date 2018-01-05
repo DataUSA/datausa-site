@@ -133,7 +133,7 @@
   university: <<carnegie>>
   namespace: grad_rate_bottom_carnegie
 
-- required: ["num_enrolled"]
+- required: ["year", "num_enrolled"]
   rows: True
   sort: asc
   order: enrollment_status
