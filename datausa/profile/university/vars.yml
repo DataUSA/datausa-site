@@ -94,3 +94,41 @@
     limit: 3
   year: "latest"
   namespace: grads_race_sex
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  sort: desc
+  order: grad_rate
+  year: latest
+  limit: 1
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  namespace: grad_rate_top
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  sort: asc
+  order: grad_rate
+  year: latest
+  limit: 1
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  namespace: grad_rate_bottom
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  sort: desc
+  order: grad_rate
+  year: latest
+  limit: 1
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  university: "<<carnegie>>"
+  namespace: grad_rate_top_carnegie
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  sort: asc
+  order: grad_rate
+  year: latest
+  limit: 1
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  university: "<<carnegie>>"
+  namespace: grad_rate_bottom_carnegie

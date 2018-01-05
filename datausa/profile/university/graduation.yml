@@ -4,7 +4,7 @@ description:
   - "In <<var namespace=cip_grads|key=year|row=0>>, the most common major at <<name>> was <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
-  - title: "Majors Offered"
+  - title: "Majors Awarded"
     category: "Courses"
     slug: "majors"
     stat_stack: YES
@@ -140,8 +140,51 @@ topics:
       x:
         label: NO
         value: grads_women
+  - title: "Graduation Rate by Gender and Race"
+    category: "Diversity"
+    slug: "rate"
+    stat_stack: YES
+    stat:
+      - title: "Highest Graduation Rate (<<var namespace=grad_rate_top|key=grad_rate>>)"
+        value: "<<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>>"
+      - title: "Lowest Graduation Rate (<<var namespace=grad_rate_bottom|key=grad_rate>>)"
+        value: "<<var namespace=grad_rate_bottom|key=ipeds_race>> <<var namespace=grad_rate_bottom|key=sex>>"
+    description:
+      - "At <<name>> <<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top|key=grad_rate>>, while <<var namespace=grad_rate_bottom|key=ipeds_race>> <<var namespace=grad_rate_bottom|key=sex>> students had the lowest graduation rates with <<var namespace=grad_rate_bottom|key=grad_rate>>. At similar <<carnegie key=name>> institutions, <<var namespace=grad_rate_top_carnegie|key=ipeds_race>> <<var namespace=grad_rate_top_carnegie|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top_carnegie|key=grad_rate>>, while <<var namespace=grad_rate_bottom_carnegie|key=ipeds_race>> <<var namespace=grad_rate_bottom_carnegie|key=sex>> students had the lowest graduation rates with <<var namespace=grad_rate_bottom_carnegie|key=grad_rate>>."
+      - "These numbers reflect the percentage of full-time, first-time students who received their degree within 150% of the typical completion time for their program."
+    viz:
+      attrs:
+        - "ipeds_race"
+        - "sex"
+      color: "race"
+      data:
+        show: "ipeds_race,sex"
+        university: "<<id>>"
+        required: "grad_rate,num_finishers"
+        sumlevel: "all,all"
+        map:
+          delete: False
+          race: ipeds_race
+      depth: 1
+      id:
+        - "sex"
+        - "ipeds_race"
+      legend:
+        data: false
+      tooltip:
+        value:
+          - sex
+          - grad_rate
+          - num_finishers
+      type: "line"
+      ui:
+        - method: y
+          value:
+            - grad_rate
+            - num_finishers
+      x: year
+      y: grad_rate
   - title: "Race & Ethnicity by Share"
-    category: "Race & Ethnicity"
     slug: "ethnicity"
     description:
       - "In <<var namespace=grads_race|key=year|row=0>> the majority of students graduating from <<name>> were <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."

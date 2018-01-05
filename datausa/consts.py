@@ -153,6 +153,9 @@ DICTIONARY = {
     "state_f": "In-State Fees",
     "fee_cost": "Student Fees",
 
+    "grad_rate": "Graduation Rate",
+    "num_finishers": "Number of Students",
+
     "economy": "Economy",
     "wages": "Income & Employment",
 
@@ -586,7 +589,8 @@ PROPORTIONS = [
     "growth",
     "yield_total",
     "yield_men",
-    "yield_women"
+    "yield_women",
+    "grad_rate"
 ]
 
 PERCENTAGES = [
