@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="884px" height="823.458px" viewBox="0 0 884 823.458" enable-background="new 0 0 884 823.458" xml:space="preserve">
-<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-	89.147,267.901 811.611,267.901 859.399,328.809 49.404,328.809 "/>
-<polyline fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-	118.417,264.901 454.041,73.513 790.385,264.901 "/>
-<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-	49.626,749.077 49.626,685.018 859.176,685.018 859.176,749.946 "/>
-<g>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1271.5px" height="1084.5px" viewBox="0 0 1271.5 1084.5" enable-background="new 0 0 1271.5 1084.5" xml:space="preserve">
+<g id="Layer_2">
+	
+		<polyline fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
+		1175.363,536.608 1175.363,1003.25 112.677,1003.25 112.677,536.608 	"/>
+	<path fill="none" stroke="#FFFFFF" stroke-width="37" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M644.02,130.967c-221.268,0-209.2,102.217-280.974,115.6c-31.115,5.802-126.604,0.4-126.604,0.4V186.25
+		c0,0,70.489-10.599,101.604-16.401C409.816,156.466,422.351,54.25,644.02,54.25c214.811,0,239.204,102.216,310.979,115.599
+		c31.115,5.802,96.604,16.401,96.604,16.401v60.717c0,0-95.485,5.402-126.604-0.4C853.224,233.184,863.247,130.967,644.02,130.967z"
+		/>
 	
 		<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		90.634,329.809 90.634,384.084 118.096,384.084 118.096,627.95 90.634,627.95 90.634,685.018 203.05,685.018 203.05,630.2 
-		176.496,630.2 176.496,384.084 203.05,384.084 203.05,329.809 	"/>
-	
-		<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		244.414,329.809 244.414,384.084 271.876,384.084 271.876,627.95 244.414,627.95 244.414,685.018 356.83,685.018 356.83,630.2 
-		330.275,630.2 330.275,384.084 356.83,384.084 356.83,329.809 	"/>
-	
-		<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		398.193,329.809 398.193,384.084 425.655,384.084 425.655,627.95 398.193,627.95 398.193,685.018 510.609,685.018 510.609,630.2 
-		484.056,630.2 484.056,384.084 510.609,384.084 510.609,329.809 	"/>
-	
-		<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		551.974,329.809 551.974,384.084 579.435,384.084 579.435,627.95 551.974,627.95 551.974,685.018 664.39,685.018 664.39,630.2 
-		637.835,630.2 637.835,384.084 664.39,384.084 664.39,329.809 	"/>
-	
-		<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-		705.753,329.809 705.753,384.084 733.214,384.084 733.214,627.95 705.753,627.95 705.753,685.018 818.169,685.018 818.169,630.2 
-		791.614,630.2 791.614,384.084 818.169,384.084 818.169,329.809 	"/>
+		1196.83,249.967 91.21,249.967 91.21,531.608 484.004,592.131 484.004,517.518 794.036,517.518 794.036,593.672 1196.83,531.608 	
+		"/>
+	<path fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
+		M484.004,592.131v15.967l50.085,11c7.343,43.085,51.521,76.208,104.931,76.208c53.411,0,97.591-33.123,104.934-76.208l50.085-11
+		v-14.426"/>
 </g>
 </svg>

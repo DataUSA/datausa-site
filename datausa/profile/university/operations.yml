@@ -1,0 +1,246 @@
+title: "Operations"
+description:
+  - "Data pertaining to the operating costs at <<name>>."
+
+topics:
+  - title: "Endowment"
+    slug: "endowment"
+    stat:
+      - title: "<<var namespace=endowment|key=year|row=0>> Endowment"
+        value: "<<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>"
+      - title: "1-year <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=growth2>>"
+        value: "<<growth namespace=endowment|key=endowment_value_fiscal_year_end>>"
+    description:
+      - "<<name>>’s endowment value at the close of the fiscal year in <<var namespace=endowment|key=year|row=0>> was <<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>, which represents a <<growth namespace=endowment|key=endowment_value_fiscal_year_end>> <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=increase>>. This value was <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment_parent,endowment_value_fiscal_year_end|text=highlow>> <<name>>’s peers that are <<carnegie parent=True|key=name>> instituions."
+    miniviz:
+      data:
+        show: endowment_quintile
+        university: <<id>>
+        required: "endowment_quintile,endowment_quintile_value"
+      id: endowment_quintile
+      type: "bar"
+      x: endowment_quintile
+      y: endowment_quintile_value
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: university
+        university: "<<id>>,<<carnegie parent=True>>"
+        required: "endowment_value_fiscal_year_end"
+      id: university
+      type: "line"
+      x: year
+      y: endowment_value_fiscal_year_end
+  - title: "Investment Income over Time"
+    slug: "investment"
+    stat:
+      - title: "<<var namespace=investment|key=year|row=0>> Investment Income"
+        value: "<<var namespace=investment|key=investment_income|row=0>>"
+      - title: "1-year <<percent num=var:investment,investment_income,0|den=var:investment,investment_income,1|text=growth2>>"
+        value: "<<growth namespace=investment|key=investment_income>>"
+    description:
+      - "As of <<var namespace=investment|key=year|row=0>>, <<name>> earned <<var namespace=investment|key=investment_income|row=0>> in returns on its investments compared to a median of <<var namespace=investment_parent|key=investment_income>> for similar <<carnegie parent=True|key=name>> institutions."
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: university
+        university: "<<id>>,<<carnegie parent=True>>"
+        required: "investment_income"
+      id: university
+      type: "line"
+      x: year
+      y: investment_income
+  - title: "Government Grants and Contracts"
+    slug: "grants_contracts"
+    stat:
+      - title: "Grants & Contracts"
+        value: "<<var namespace=grants|key=federal_grants_and_contracts>> - Federal"
+        subvalues:
+          - "<<var namespace=grants|key=state_grants_and_contracts>> - State"
+          - "<<var namespace=grants|key=local_grants_and_contracts>> - Local"
+    description:
+      - "As of <<var namespace=grants|key=year>>, <<name>> received <<var namespace=grants|key=federal_grants_and_contracts>> in grants and contracts from the federal government, <<var namespace=grants|key=state_grants_and_contracts>> from state grants and contracts, and <<var namespace=grants|key=local_grants_and_contracts>> from local grants and contracts."
+    viz:
+      data:
+        show: university
+        university: "<<id>>"
+        required: "federal_grants_and_contracts,state_grants_and_contracts,local_grants_and_contracts"
+        split:
+          id: "sector"
+          regex: "^([a-z]*)_grants_and_contracts$"
+          value: "grants_and_contracts"
+      id: sector
+      tooltip:
+        value:
+          - grants_and_contracts
+      type: "line"
+      x: year
+      y: grants_and_contracts
+  - title: "Primary Expenses"
+    slug: "expenses"
+    stat:
+      - title: "Salary Expenditure"
+        value: <<var namespace=expenses|key=salaries_expense>>
+      - title: "Benefits Expenditure"
+        value: <<var namespace=expenses|key=benefits_expense>>
+    description:
+      - "In <<var namespace=expenses|key=year>>, <<name>> spend <<var namespace=expenses|key=salaries_expense>> on salaries and <<var namespace=expenses|key=benefits_expense>> on benefits. This line chart shows all of the primary expenses of <<name>> over time."
+    viz:
+      data:
+        show: university
+        university: "<<id>>"
+        required: "benefits_expense,dep_expense,interest_expense,ops_expense,other_expense,salaries_expense"
+        split:
+          id: "expense"
+          regex: "^([a-z]*)_expense$"
+          value: "expense_value"
+      id: expense
+      tooltip:
+        value:
+          - expense_value
+      type: "line"
+      x: year
+      y: expense_value
+  - title: "Expenditure by Department"
+    slug: "expenses_tmap"
+    select:
+      data: ipeds_expense
+      filter: top_expense
+      default: "<<var namespace=top_expense|row=0|key=ipeds_expense|format=raw>>"
+    description:
+      - "This tree map shows all of the primary expenses of <<var namespace=top_expense|row=0|key=ipeds_expense>> at <<name>> as a share of total expenditure."
+    viz:
+      data:
+        show: ipeds_expense
+        university: "<<id>>"
+        required: "benefits_expense,dep_expense,interest_expense,ops_expense,other_expense,salaries_expense"
+        ipeds_expense: "<<var namespace=top_expense|row=0|key=ipeds_expense|format=raw>>"
+        split:
+          id: "expense"
+          regex: "^([a-z]*)_expense$"
+          value: "expense_value"
+      id: expense
+      size: expense_value
+      tooltip:
+        value:
+          - expense_value
+      type: tree_map
+  - title: "Salaries Over Time"
+    slug: "salaries"
+    stat:
+      - title: "<<var namespace=salaries|key=year|row=0>> Salaries"
+        value: "<<var namespace=salaries|key=total_salaries|row=0>>"
+      - title: "1-year <<percent num=var:salaries,total_salaries,0|den=var:salaries,total_salaries,1|text=growth2>>"
+        value: "<<growth namespace=salaries|key=total_salaries>>"
+    description:
+      - "As of <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries compared to a median of <<var namespace=salaries_parent|key=total_salaries>> for similar <<carnegie parent=True|key=name>> institutions."
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: university
+        university: "<<id>>,<<carnegie parent=True>>"
+        required: "total_salaries"
+      id: university
+      type: "line"
+      x: year
+      y: total_salaries
+  - title: "Instructional Salaries over Time"
+    slug: "instructional_salaries"
+    stat:
+      - title: "Instructional Salaries"
+        value: "<<var namespace=inst_salaries|key=outlays_instructional_staff>>"
+      - title: "Number of Employees"
+        value: "<<var namespace=inst_salaries|key=num_instructional_staff>>"
+    description:
+      - "As of <<var namespace=inst_salaries|key=year>>, <<name>> paid a total of <<var namespace=inst_salaries|key=outlays_instructional_staff>> to <<var namespace=inst_salaries|key=num_instructional_staff>> staff working an instuctors, compared to a median of <<var namespace=inst_salaries_parent|key=outlays_instructional_staff>> for similar <<carnegie parent=True|key=name>> institutions."
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: university
+        university: "<<id>>,<<carnegie parent=True>>"
+        required: "outlays_instructional_staff,num_instructional_staff"
+      id: university
+      type: "line"
+      x: year
+      y: outlays_instructional_staff
+  - title: "Instructors by Academic Rank"
+    slug: "instructors_tmap"
+    stat_stack: YES
+    stat:
+    - title: "Most common Instructor Rank"
+      value: "<<var namespace=instructors|key=academic_rank|row=0>> <span class='stat-subtitle'><<var namespace=instructors|key=num_instructional_staff|row=0>> employees</span>"
+      subvalues:
+        - "<<var namespace=instructors|key=academic_rank|row=1>> <span class='stat-subtitle'><<var namespace=instructors|key=num_instructional_staff|row=1>> employees</span>"
+        - "<<var namespace=instructors|key=academic_rank|row=2>> <span class='stat-subtitle'><<var namespace=instructors|key=num_instructional_staff|row=2>> employees</span>"
+    description:
+      - "In <<var namespace=instructors|key=year|row=0>>, the most common positions for instructional staff by academic rank at <<name>> were <<var namespace=instructors|key=academic_rank|row=0>> with <<var namespace=instructors|key=num_instructional_staff|row=0>> employees, <<var namespace=instructors|key=academic_rank|row=1>> with <<var namespace=instructors|key=num_instructional_staff|row=1>> employees, and <<var namespace=instructors|key=academic_rank|row=2>> with <<var namespace=instructors|key=num_instructional_staff|row=2>> employees."
+    viz:
+      attrs: academic_rank
+      data:
+        show: academic_rank
+        university: "<<id>>"
+        required: "num_instructional_staff"
+        where: "num_instructional_staff:!0"
+      id: academic_rank
+      size: num_instructional_staff
+      type: tree_map
+  - title: "Instructors by Academic Rank and Gender"
+    slug: "instructors_sex"
+    stat:
+    - title: "Most common demographic"
+      value: "<<var namespace=instructors_sex|key=sex|row=0>> <<var namespace=instructors_sex|key=academic_rank|row=0>>"
+      subvalues:
+        - "<<var namespace=instructors_sex|key=sex|row=1>> <<var namespace=instructors_sex|key=academic_rank|row=1>>"
+        - "<<var namespace=instructors_sex|key=sex|row=2>> <<var namespace=instructors_sex|key=academic_rank|row=2>>"
+    description:
+      - "In <<var namespace=instructors_sex|key=year|row=0>>, the most common demographic for instructional staff at <<name>> was <<var namespace=instructors_sex|key=sex|row=0>> <<var namespace=instructors_sex|key=academic_rank|row=0>> with <<var namespace=instructors_sex|key=num_instructional_staff|row=0>> employees, <<var namespace=instructors_sex|key=sex|row=1>> <<var namespace=instructors_sex|key=academic_rank|row=1>> with <<var namespace=instructors_sex|key=num_instructional_staff|row=1>> employees, and <<var namespace=instructors_sex|key=sex|row=2>> <<var namespace=instructors_sex|key=academic_rank|row=2>> with <<var namespace=instructors_sex|key=num_instructional_staff|row=2>> employees."
+    viz:
+      attrs: sex
+      color: sex
+      data:
+        show: "academic_rank,sex"
+        sumlevel: "all,all"
+        university: "<<id>>"
+        required: "num_instructional_staff"
+        display_names: 1
+      id: sex
+      order:
+        value: num_instructional_staff
+      tooltip:
+        value:
+          - academic_rank_name
+          - num_instructional_staff
+      type: bar
+      x:
+        label: False
+        value: academic_rank_name
+      y: num_instructional_staff
+  - title: "Non-Instructional Staff by Occupation"
+    slug: "occ_tmap"
+    stat_stack: YES
+    stat:
+    - title: "Most common occupation"
+      value: "<<var namespace=occupations|key=ipeds_occ|row=0>> <span class='stat-subtitle'><<var namespace=occupations|key=num_noninstructional_staff|row=0>> employees</span>"
+      subvalues:
+        - "<<var namespace=occupations|key=ipeds_occ|row=1>> <span class='stat-subtitle'><<var namespace=occupations|key=num_noninstructional_staff|row=1>> employees</span>"
+        - "<<var namespace=occupations|key=ipeds_occ|row=2>> <span class='stat-subtitle'><<var namespace=occupations|key=num_noninstructional_staff|row=2>> employees</span>"
+    description:
+      - "In <<var namespace=occupations|key=year|row=0>>, the most common positions for non-instructional staff at <<name>> were <<var namespace=occupations|key=ipeds_occ|row=0>> with <<var namespace=occupations|key=num_noninstructional_staff|row=0>> employees, <<var namespace=occupations|key=ipeds_occ|row=1>> with <<var namespace=occupations|key=num_noninstructional_staff|row=1>> employees, and <<var namespace=occupations|key=ipeds_occ|row=2>> with <<var namespace=occupations|key=num_noninstructional_staff|row=2>> employees."
+    viz:
+      attrs: ipeds_occ
+      color: ipeds_occ_group
+      data:
+        show: ipeds_occ
+        university: "<<id>>"
+        required: "num_noninstructional_staff"
+        where: "num_noninstructional_staff:!0"
+      depth: 1
+      id:
+        - ipeds_occ_group
+        - ipeds_occ
+      size: num_noninstructional_staff
+      type: tree_map

@@ -7519,6 +7519,29 @@ var attrStyles = {
     }
 },
 
+  "ipeds_occ_group": {
+    "Adminstrative": {
+        "color": "#1a9b9a",
+        "icon": "thing_box.png"
+    },
+    "Technical": {
+        "color": "#ff8166",
+        "icon": "thing_computer.png"
+    },
+    "Services": {
+        "color": "#ffb563",
+        "icon": "thing_utensils.png"
+    },
+    "Operations": {
+        "color": "#336a81",
+        "icon": "thing_wrench.png"
+    },
+    "Healthcare": {
+        "color": "#f33535",
+        "icon": "thing_medic.png"
+    },
+},
+
   "acs_occ_2": {
     "00": {
         "color": "#ff8166",
@@ -9483,6 +9506,15 @@ viz.format = {
       }
 
       if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
+      if (proportions.indexOf(params.key) >= 0) {
+        text *= 100;
+        if (text.indexOf("%") < 0) text += "%";
+        return text;
+      }
+      if (percentages.indexOf(params.key) >= 0) {
+        if (text.indexOf("%") < 0) text += "%";
+        return text;
+      }
 
     }
 

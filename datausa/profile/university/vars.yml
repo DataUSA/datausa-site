@@ -176,7 +176,7 @@
   limit: 50
   rows: True
   show: "ipeds_race"
-  university: <<attribute key=carnegie_parent>>
+  university: <<carnegie parent=True>>
   namespace: enrollment_race_parent
 
 - required: ["ipeds_race", "sex", "num_enrolled"]
@@ -199,5 +199,103 @@
 - required: ["retention_rate_ft", "year"]
   year: latest
   limit: 1
-  university: <<attribute key=carnegie_parent>>
+  university: <<carnegie parent=True>>
   namespace: retention_parent
+
+- required: ["endowment_value_fiscal_year_end", "year"]
+  rows: True
+  order: year
+  sort: desc
+  limit: 2
+  namespace: endowment
+
+- required: ["endowment_value_fiscal_year_end", "year"]
+  year: latest
+  limit: 1
+  university: <<carnegie parent=True>>
+  namespace: endowment_parent
+
+- required: ["investment_income", "year"]
+  rows: True
+  order: year
+  sort: desc
+  limit: 2
+  namespace: investment
+
+- required: ["investment_income", "year"]
+  year: latest
+  limit: 1
+  university: <<carnegie parent=True>>
+  namespace: investment_parent
+
+- required: ["federal_grants_and_contracts", "state_grants_and_contracts", "local_grants_and_contracts", "year"]
+  year: latest
+  limit: 1
+  namespace: grants
+
+- required: ["benefits_expense", "salaries_expense", "year"]
+  year: latest
+  limit: 1
+  namespace: expenses
+
+- required: ["ipeds_expense", "salaries_expense", "benefits_expense"]
+  order: salaries_expense
+  sort: desc
+  show: ipeds_expense
+  year: latest
+  rows: True
+  limit: 11
+  where: "salaries_expense:!0"
+  namespace: top_expense
+
+- required: ["total_salaries", "year"]
+  rows: True
+  order: year
+  sort: desc
+  limit: 2
+  namespace: salaries
+
+- required: ["total_salaries", "year"]
+  year: latest
+  limit: 1
+  university: <<carnegie parent=True>>
+  namespace: salaries_parent
+
+- required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
+  year: latest
+  limit: 1
+  namespace: inst_salaries
+
+- required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
+  year: latest
+  limit: 1
+  university: <<carnegie parent=True>>
+  namespace: inst_salaries_parent
+
+- required: ["year", "academic_rank", "num_instructional_staff"]
+  rows: True
+  sort: desc
+  order: num_instructional_staff
+  year: latest
+  limit: 3
+  show: academic_rank
+  namespace: instructors
+
+- required: ["year", "sex", "academic_rank", "num_instructional_staff"]
+  rows: True
+  sort: desc
+  order: num_instructional_staff
+  year: latest
+  limit: 3
+  sumlevel: "all,all"
+  show: "academic_rank,sex"
+  namespace: instructors_sex
+
+- required: ["year", "ipeds_occ", "num_noninstructional_staff"]
+  rows: True
+  sort: desc
+  order: num_noninstructional_staff
+  year: latest
+  limit: 3
+  show: ipeds_occ
+  namespace: occupations

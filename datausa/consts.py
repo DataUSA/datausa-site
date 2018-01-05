@@ -166,6 +166,39 @@ DICTIONARY = {
     "retention_rate_ft": "Full-Time Retention Rate",
     "retention_rate_pt": "Part-Time Retention Rate",
 
+    "endowment_value_fiscal_year_end": "Endowment",
+    "endowment_quintile": "Quintile",
+    "endowment_quintile_value": "Endowment",
+
+    "investment_income": "Investment Income",
+
+    "federal_grants_and_contracts": "Federal Grants & Contracts",
+    "state_grants_and_contracts": "State Grants & Contracts",
+    "local_grants_and_contracts": "Local Grants & Contracts",
+    "grants_and_contracts": "Grants & Contracts",
+
+    "benefits_expense": "Benefits Expenditure",
+    "dep_expense": "Departmental Expenditure",
+    "interest_expense": "Interest Expenditure",
+    "ops_expense": "Operations Expenditure",
+    "other_expense": "Other Expenditure",
+    "salaries_expense": "Salary Expenditure",
+    "benefits": "Benefits Expenditure",
+    "dep": "Departmental Expenditure",
+    "interest": "Interest Expenditure",
+    "ops": "Operations Expenditure",
+    "other": "Other Expenditure",
+    "salaries": "Salary Expenditure",
+    "expense_value": "Expenditure",
+
+    "outlays_instructional_staff": "Staff Salaries",
+    "num_instructional_staff": "Number of Employees",
+    "total_salaries": "Total Salaries",
+
+    "num_instructional_staff": "Number of Employees",
+    "num_noninstructional_staff": "Number of Employees",
+    "academic_rank_name": "Academic Rank",
+
     "economy": "Economy",
     "wages": "Income & Employment",
 
@@ -557,7 +590,23 @@ AFFIXES = {
     "value_millions": ["$", ""],
     "avg_netprice_gos_aid": ["$", ""],
     "avg_gos_award": ["$", ""],
-    "avg_netprice_fedaid": ["$", ""]
+    "avg_netprice_fedaid": ["$", ""],
+    "endowment_value_fiscal_year_end": ["$", ""],
+    "endowment_quintile_value": ["$", ""],
+    "investment_income": ["$", ""],
+    "federal_grants_and_contracts": ["$", ""],
+    "state_grants_and_contracts": ["$", ""],
+    "local_grants_and_contracts": ["$", ""],
+    "grants_and_contracts": ["$", ""],
+    "benefits_expense": ["$", ""],
+    "dep_expense": ["$", ""],
+    "interest_expense": ["$", ""],
+    "ops_expense": ["$", ""],
+    "other_expense": ["$", ""],
+    "salaries_expense": ["$", ""],
+    "expense_value": ["$", ""],
+    "outlays_instructional_staff": ["$", ""],
+    "total_salaries": ["$", ""]
 }
 
 PROPORTIONS = [
@@ -600,7 +649,8 @@ PROPORTIONS = [
     "yield_total",
     "yield_men",
     "yield_women",
-    "grad_rate"
+    "grad_rate",
+    "endowment_quintile"
 ]
 
 PERCENTAGES = [

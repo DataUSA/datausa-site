@@ -222,6 +222,15 @@ viz.format = {
       }
 
       if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
+      if (proportions.indexOf(params.key) >= 0) {
+        text *= 100;
+        if (text.indexOf("%") < 0) text += "%";
+        return text;
+      }
+      if (percentages.indexOf(params.key) >= 0) {
+        if (text.indexOf("%") < 0) text += "%";
+        return text;
+      }
 
     }
 
