@@ -94,9 +94,8 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
     if col == "diff":
         return num_format(r[0][params["order"]] - r[1][params["order"]], key=col)
 
-    if col in COLMAP or "-" in col:
+    if (col in COLMAP and r[0][col] in COLMAP[col]) or "-" in col:
         vals = datapivot(r, col.split("-"), sort="desc")
-
         if len(vals) == 0:
             vals = [v[col] for v in r]
             vals = [COLMAP[col]["_".join(v.split("_")[1:])] for v in vals[rank - 1:limit]]
@@ -115,6 +114,8 @@ def stat(params, col="name", dataset=False, data_only=False, moe=False, truncate
 
         if moe:
             top = [d[moe] for d in r]
+        elif col in ["ipeds_race", "sex"]:
+            top = [fetch(d[col], col)["name"] for d in r]
         elif col == "name":
             if dataset in ["acs", "pums"]:
                 attr = "{}_{}".format(dataset, show)
