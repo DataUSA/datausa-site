@@ -200,6 +200,10 @@ var attrStyles = {
         "color": "#336a81",
         "icon": "person_profile.png"
     },
+    "multiracial": {
+        "color": "#336a81",
+        "icon": "person_profile.png"
+    },
     "2ormore": {
         "color": "#336a81",
         "icon": "person_profile.png"
@@ -214,6 +218,10 @@ var attrStyles = {
     },
     "latino": {
         "color": "#49418e",
+        "icon": "person_profile.png"
+    },
+    "nonresident": {
+        "color": "#ccc",
         "icon": "person_profile.png"
     }
 },
