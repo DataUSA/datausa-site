@@ -37,7 +37,7 @@ topics:
       - title: "of Undergraduates<br />Receive Federal Loans"
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
-      - "<<var namespace=price|key=pct_with_aid|row=0>> of students at <<name>> received financial aid in some form. This is in comparison to <<var namespace=price|key=pct_with_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_aid>> annual <<percent num=var:price,pct_with_aid,0|den=var:price,pct_with_aid,1|text=growth2>>."
+      - "<<var namespace=price|key=pct_with_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_aid>> annual <<percent num=var:price,pct_with_aid,0|den=var:price,pct_with_aid,1|text=growth2>>."
       - "This chart shows how the average amount of grant and scholarship aid awarded at <<name>> (highlighted in red) compares to that of nearby universities."
     viz:
       - attrs: university
