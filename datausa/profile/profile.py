@@ -48,6 +48,8 @@ class Profile(BaseObject):
 
     def carnegie(self, **kwargs):
         carnegie_id = self.attr["carnegie_parent"]
+        if not carnegie_id:
+            carnegie_id = self.id(**kwargs)
         key = kwargs.get("key", "id")
         if key == "id":
             return carnegie_id
@@ -218,10 +220,15 @@ class Profile(BaseObject):
 
         if "image_link" in attr:
             if self.attr_type == "university" and attr["image_link"] == None:
-                return formatImage(fetch(attr["msa"], "geo"), "geo")
+                if "msa" in attr and attr["msa"] != None:
+                    return formatImage(fetch(attr["msa"], "geo"), "geo")
+                elif "county" in attr and attr["county"] != None:
+                    return formatImage(fetch(attr["county"], "geo"), "geo")
+                elif "state" in attr and attr["state"] != None:
+                    return formatImage(fetch(attr["state"], "geo"), "geo")
+                else:
+                    return formatImage(fetch("01000US", "geo"), "geo")
             return formatImage(attr, self.attr_type)
-        elif "msa" in attr:
-            return formatImage(fetch(attr["msa"], "geo"), "geo")
         return None
 
     def level(self, **kwargs):
