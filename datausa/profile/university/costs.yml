@@ -12,9 +12,26 @@ topics:
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
       - "<<name>> has an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
-      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of nearby universities."
+      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
-      - attrs: university
+      - sumlevel: "0"
+        attrs: university
+        data:
+          - required: "avg_netprice_gos_aid"
+            show: university
+            sumlevel: 0
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: avg_netprice_gos_aid
+        type: bar
+        x: avg_netprice_gos_aid
+        y:
+          scale: discrete
+          value: university
+      - sumlevel: "!0"
+        attrs: university
         data:
           - required: "avg_netprice_gos_aid"
             show: university
@@ -38,9 +55,24 @@ topics:
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
       - "<<var namespace=price|key=pct_with_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_aid>> annual <<percent num=var:price,pct_with_aid,0|den=var:price,pct_with_aid,1|text=growth2>>."
-      - "This chart shows how the average amount of grant and scholarship aid awarded at <<name>> (highlighted in red) compares to that of nearby universities."
+      - "This chart shows how the average amount of grant and scholarship aid awarded at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
-      - attrs: university
+      - sumlevel: "0"
+        attrs: university
+        data:
+          - required: "avg_gos_award,avg_netprice_fedaid"
+            show: "university,income_range"
+            sumlevel: "0,all"
+            display_names: 1
+        id: university
+        order:
+          sort: asc
+          value: income_range
+        type: bar
+        x: income_range_name
+        y: avg_gos_award
+      - sumlevel: "!0"
+        attrs: university
         data:
           - required: "avg_gos_award,avg_netprice_fedaid"
             show: income_range
@@ -65,12 +97,12 @@ topics:
       - "In <<var namespace=tuition|key=year|row=0>>, the cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> was <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}."
       - "The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
     viz:
-      - allowed: "<<sector>>:private"
+      - allowed: "<<sumlevel>>:0"
         attrs: "university"
         data:
-          required: "state_tuition"
+          required: "oos_tuition,state_tuition"
           show: university
-          university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
+          sumlevel: 0
           split:
             id: "location"
             regex: "^([a-z_tuit]*)ion"
@@ -81,11 +113,12 @@ topics:
           - university
         tooltip:
           value:
+            - location
             - tuition_cost
         type: bar
         x: university
         y: tuition_cost
-      - allowed: "<<sector>>:public"
+      - allowed: "<<sumlevel>>:!0"
         attrs: "university"
         data:
           required: "oos_tuition,state_tuition"
@@ -101,6 +134,7 @@ topics:
           - location
         tooltip:
           value:
+            - location
             - tuition_cost
         type: bar
         x: university

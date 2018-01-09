@@ -11,13 +11,32 @@ topics:
         value: "<<growth namespace=admissions|key=applicants_total>>"
     description:
       - "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> applications in <<var namespace=admissions|key=year|row=0>>, compared to <<var namespace=admissions|key=applicants_total|row=1>> in <<var namespace=admissions|key=year|row=1>>. This represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>."
-      - "This chart shows how the number of applications received by <<name>> (highlighted in red) compares to that of its parent grouping and nearby universities."
+      - "This chart shows how the number of applications received by <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
-      - attrs: university
+      - sumlevel: "0"
+        attrs: university
         data:
           - required: "applicants_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
+            sumlevel: 0
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: applicants_total
+        type: bar
+        x:
+          label: "Overall Applicants"
+          value: applicants_total
+        y:
+          scale: discrete
+          value: university
+      - sumlevel: "!0"
+        attrs: university
+        data:
+          - required: "applicants_total"
+            show: university
+            university: "<<id>>,<<nearby ids=True>>"
         id: university
         labels: YES
         order:
@@ -63,13 +82,32 @@ topics:
         value: "<<growth namespace=admissions|key=admissions_total>>"
     description:
       - "In <<var namespace=admissions|key=year|row=0>>, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment at <<name>>, compared to <<var namespace=admissions|key=admissions_total|row=1>> in <<var namespace=admissions|key=year|row=1>>. This shows a <<growth namespace=admissions|key=admissions_total>> annual <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>>."
-      - "This chart shows how the number of accepted students by <<name>> (highlighted in red) compares to that of its parent grouping and nearby universities."
+      - "This chart shows how the number of accepted students by <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
-      - attrs: university
+      - sumlevel: "0"
+        attrs: university
         data:
           - required: "admissions_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
+            sumlevel: 0
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: admissions_total
+        type: bar
+        x:
+          label: "Overall Admissions"
+          value: admissions_total
+        y:
+          scale: discrete
+          value: university
+      - sumlevel: "!0"
+        attrs: university
+        data:
+          - required: "admissions_total"
+            show: university
+            university: "<<id>>,<<nearby ids=True>>"
         id: university
         labels: YES
         order:
@@ -157,13 +195,32 @@ topics:
         value: "<<growth namespace=admissions|key=yield_total>>"
     description:
       - "<<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling. This is in comparison to an enrollment yield of <<var namespace=admissions|key=yield_total|row=1>> in <<var namespace=admissions|key=year|row=1>>, which represents a <<growth namespace=admissions|key=yield_total>> annual <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=growth2>>."
-      - "This chart shows how the enrollment yield at <<name>> (highlighted in red) compares to that of its parent grouping and nearby universities."
+      - "This chart shows how the enrollment yield at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
-      - attrs: university
+      - sumlevel: "0"
+        attrs: university
         data:
           - required: "yield_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
+            sumlevel: 0
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: yield_total
+        type: bar
+        x:
+          label: "Overall Enrollment Yield"
+          value: yield_total
+        y:
+          scale: discrete
+          value: university
+      - sumlevel: "!0"
+        attrs: university
+        data:
+          - required: "yield_total"
+            show: university
+            university: "<<id>>,<<nearby ids=True>>"
         id: university
         labels: YES
         order:

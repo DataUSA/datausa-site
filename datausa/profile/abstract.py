@@ -1,5 +1,5 @@
 from datausa.consts import SUMLEVELS
-
+from datausa.utils.data import fetch
 
 class BaseObject(object):
     def allowed_levels(self, obj):
@@ -8,6 +8,13 @@ class BaseObject(object):
             levels = [t for t in obj["sumlevel"].split(",")]
             if self.attr_type == "geo":
                 level = SUMLEVELS["geo"][self.attr["id"][:3]]["sumlevel"]
+            elif self.attr_type == "university":
+                if self.attr["carnegie"] != None:
+                    level = "2"
+                elif self.attr["carnegie_parent"] != None:
+                    level = "1"
+                else:
+                    level = "0"
             else:
                 level = len(self.attr["id"])
 

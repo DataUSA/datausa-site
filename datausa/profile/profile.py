@@ -941,6 +941,15 @@ class Profile(BaseObject):
         elif attr_type == "cip":
             return str(len(attr_id))
 
+        elif attr_type == "university":
+            attr = fetch(attr_id, attr_type)
+            if attr["carnegie"] != None:
+                return "2"
+            elif attr["carnegie_parent"] != None:
+                return "1"
+            else:
+                return "0"
+
         else:
             return str(fetch(attr_id, attr_type)["level"])
 

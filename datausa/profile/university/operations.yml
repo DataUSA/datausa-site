@@ -11,7 +11,7 @@ topics:
       - title: "1-year <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=growth2>>"
         value: "<<growth namespace=endowment|key=endowment_value_fiscal_year_end>>"
     description:
-      - "<<name>>’s endowment value at the close of the fiscal year in <<var namespace=endowment|key=year|row=0>> was <<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>, which represents a <<growth namespace=endowment|key=endowment_value_fiscal_year_end>> <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=increase>>. This value was <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment_carnegie,endowment_value_fiscal_year_end|text=highlow>> <<name>>’s peers that are <<carnegie key=name>> instituions."
+      - "<<name>>’s endowment value at the close of the fiscal year in <<var namespace=endowment|key=year|row=0>> was <<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>, which represents a <<growth namespace=endowment|key=endowment_value_fiscal_year_end>> <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=increase>>.{{<<sumlevel>>:!0|| This value was <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment_carnegie,endowment_value_fiscal_year_end|text=highlow>> <<name>>’s peers that are <<carnegie key=name>> instituions.}}"
     miniviz:
       data:
         show: endowment_quintile
@@ -22,16 +22,28 @@ topics:
       x: endowment_quintile
       y: endowment_quintile_value
     viz:
-      attrs:
-        - "university"
-      data:
-        show: university
-        university: "<<id>>,<<carnegie>>"
-        required: "endowment_value_fiscal_year_end"
-      id: university
-      type: "line"
-      x: year
-      y: endowment_value_fiscal_year_end
+      - sumlevel: "0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          sumlevel: 0
+          required: "endowment_value_fiscal_year_end"
+        id: university
+        type: "line"
+        x: year
+        y: endowment_value_fiscal_year_end
+      - sumlevel: "!0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          university: "<<id>>,<<carnegie>>"
+          required: "endowment_value_fiscal_year_end"
+        id: university
+        type: "line"
+        x: year
+        y: endowment_value_fiscal_year_end
   - title: "Investment Income over Time"
     slug: "investment"
     stat:
@@ -40,18 +52,30 @@ topics:
       - title: "1-year <<percent num=var:investment,investment_income,0|den=var:investment,investment_income,1|text=growth2>>"
         value: "<<growth namespace=investment|key=investment_income>>"
     description:
-      - "As of <<var namespace=investment|key=year|row=0>>, <<name>> earned <<var namespace=investment|key=investment_income|row=0>> in returns on its investments compared to a median of <<var namespace=investment_carnegie|key=investment_income>> for similar <<carnegie key=name>>."
+      - "As of <<var namespace=investment|key=year|row=0>>, <<name>> earned <<var namespace=investment|key=investment_income|row=0>> in returns on its investments{{<<sumlevel>>:!0|| compared to a median of <<var namespace=investment_carnegie|key=investment_income>> for similar <<carnegie key=name>>}}."
     viz:
-      attrs:
-        - "university"
-      data:
-        show: university
-        university: "<<id>>,<<carnegie>>"
-        required: "investment_income"
-      id: university
-      type: "line"
-      x: year
-      y: investment_income
+      - sumlevel: "0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          sumlevel: 0
+          required: "investment_income"
+        id: university
+        type: "line"
+        x: year
+        y: investment_income
+      - sumlevel: "!0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          university: "<<id>>,<<carnegie>>"
+          required: "investment_income"
+        id: university
+        type: "line"
+        x: year
+        y: investment_income
   - title: "Government Grants and Contracts"
     slug: "grants_contracts"
     stat:
@@ -135,18 +159,30 @@ topics:
       - title: "1-year <<percent num=var:salaries,total_salaries,0|den=var:salaries,total_salaries,1|text=growth2>>"
         value: "<<growth namespace=salaries|key=total_salaries>>"
     description:
-      - "As of <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries compared to a median of <<var namespace=salaries_carnegie|key=total_salaries>> for similar <<carnegie key=name>>."
+      - "As of <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries{{<<sumlevel>>:!0|| compared to a median of <<var namespace=salaries_carnegie|key=total_salaries>> for similar <<carnegie key=name>>.}}"
     viz:
-      attrs:
-        - "university"
-      data:
-        show: university
-        university: "<<id>>,<<carnegie>>"
-        required: "total_salaries"
-      id: university
-      type: "line"
-      x: year
-      y: total_salaries
+      - sumlevel: "0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          sumlevel: 0
+          required: "total_salaries"
+        id: university
+        type: "line"
+        x: year
+        y: total_salaries
+      - sumlevel: "!0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          university: "<<id>>,<<carnegie>>"
+          required: "total_salaries"
+        id: university
+        type: "line"
+        x: year
+        y: total_salaries
   - title: "Instructional Salaries over Time"
     slug: "instructional_salaries"
     stat:
@@ -155,18 +191,30 @@ topics:
       - title: "Number of Employees"
         value: "<<var namespace=inst_salaries|key=num_instructional_staff>>"
     description:
-      - "As of <<var namespace=inst_salaries|key=year>>, <<name>> paid a total of <<var namespace=inst_salaries|key=outlays_instructional_staff>> to <<var namespace=inst_salaries|key=num_instructional_staff>> staff working an instuctors, compared to a median of <<var namespace=inst_salaries_carnegie|key=outlays_instructional_staff>> for similar <<carnegie key=name>>."
+      - "As of <<var namespace=inst_salaries|key=year>>, <<name>> paid a total of <<var namespace=inst_salaries|key=outlays_instructional_staff>> to <<var namespace=inst_salaries|key=num_instructional_staff>> staff working an instuctors{{<<sumlevel>>:!0||, compared to a median of <<var namespace=inst_salaries_carnegie|key=outlays_instructional_staff>> for similar <<carnegie key=name>>}}."
     viz:
-      attrs:
-        - "university"
-      data:
-        show: university
-        university: "<<id>>,<<carnegie>>"
-        required: "outlays_instructional_staff,num_instructional_staff"
-      id: university
-      type: "line"
-      x: year
-      y: outlays_instructional_staff
+      - sumlevel: "0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          sumlevel: 0
+          required: "outlays_instructional_staff,num_instructional_staff"
+        id: university
+        type: "line"
+        x: year
+        y: outlays_instructional_staff
+      - sumlevel: "!0"
+        attrs:
+          - "university"
+        data:
+          show: university
+          university: "<<id>>,<<carnegie>>"
+          required: "outlays_instructional_staff,num_instructional_staff"
+        id: university
+        type: "line"
+        x: year
+        y: outlays_instructional_staff
   - title: "Instructors by Academic Rank"
     slug: "instructors_tmap"
     stat_stack: YES

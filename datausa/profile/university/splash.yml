@@ -18,7 +18,7 @@ stats:
   - title: "Net Price"
     value: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>"
     rank: "<<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth>> <<growth namespace=price|key=avg_netprice_gos_aid>>"
-  - title: "{{<<sector>>:public||In-State Tuition>}}{{<<sector>>:private||Tuition}}"
+  - title: "{{<<sector>>:public||In-State Tuition}}{{<<sector>>:private||Tuition}}"
     value: "<<var namespace=tuition|key=state_tuition|row=0>>"
     rank: "<<percent num=var:tuition,state_tuition,0|den=var:tuition,state_tuition,1|text=growth>> <<growth namespace=tuition|key=state_tuition>>"
   - title: "Most Common Major"
