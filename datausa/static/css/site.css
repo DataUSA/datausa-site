@@ -4088,7 +4088,7 @@
           height: 100%;
           opacity: 1;
           margin: 0;
-          padding: 7% 0;
+          padding: 50px 0;
           -webkit-box-sizing: border-box;
           -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -4253,7 +4253,6 @@
             display: -webkit-flex;
             display: flex;
             width: 100%;
-            margin-bottom: 25px;
             max-width: 700px;
             -webkit-text-shadow: 0 2px 12px black;
             -moz-text-shadow: 0 2px 12px black;
@@ -4577,38 +4576,43 @@
           position: absolute;
           text-align: center;
           width: 300px; }
-          body.profile #splash #scroll-btn .mouse, body.map #splash #scroll-btn .mouse,
-          body.story #splash #scroll-btn .mouse {
-            -moz-transition: opacity 1s;
-            -o-transition: opacity 1s;
-            -webkit-transition: opacity 1s;
-            transition: opacity 1s;
-            width: 14px;
-            height: 22px;
-            position: relative;
-            margin: 0 auto 5px;
-            border: 1px solid #fff;
-            box-sizing: border-box;
-            border-radius: 10px;
-            opacity: 0;
-            -webkit-box-shadow: 0 0 5px #141b2e;
-            -moz-box-shadow: 0 0 5px #141b2e;
-            box-shadow: 0 0 5px #141b2e; }
-            body.profile #splash #scroll-btn .mouse .ball,
-            body.map #splash #scroll-btn .mouse .ball,
-            body.story #splash #scroll-btn .mouse .ball {
-              height: 4px;
-              width: 2px;
-              left: 50%;
-              top: 4px;
-              position: absolute;
-              display: block;
-              margin: 0 0 0 -1px;
-              background: #fff;
-              -webkit-animation: mouse-scroll 1.5s infinite;
-              -moz-animation: mouse-scroll 1.5s infinite;
-              -o-animation: mouse-scroll 1.5s infinite;
-              animation: mouse-scroll 1.5s infinite; }
+          @media only screen and (max-height : 500px) {
+            body.profile #splash #scroll-btn, body.map #splash #scroll-btn,
+            body.story #splash #scroll-btn {
+              display: none;   }
+}
+            body.profile #splash #scroll-btn .mouse, body.map #splash #scroll-btn .mouse,
+            body.story #splash #scroll-btn .mouse {
+              -moz-transition: opacity 1s;
+              -o-transition: opacity 1s;
+              -webkit-transition: opacity 1s;
+              transition: opacity 1s;
+              width: 14px;
+              height: 22px;
+              position: relative;
+              margin: 0 auto 5px;
+              border: 1px solid #fff;
+              box-sizing: border-box;
+              border-radius: 10px;
+              opacity: 0;
+              -webkit-box-shadow: 0 0 5px #141b2e;
+              -moz-box-shadow: 0 0 5px #141b2e;
+              box-shadow: 0 0 5px #141b2e; }
+              body.profile #splash #scroll-btn .mouse .ball,
+              body.map #splash #scroll-btn .mouse .ball,
+              body.story #splash #scroll-btn .mouse .ball {
+                height: 4px;
+                width: 2px;
+                left: 50%;
+                top: 4px;
+                position: absolute;
+                display: block;
+                margin: 0 0 0 -1px;
+                background: #fff;
+                -webkit-animation: mouse-scroll 1.5s infinite;
+                -moz-animation: mouse-scroll 1.5s infinite;
+                -o-animation: mouse-scroll 1.5s infinite;
+                animation: mouse-scroll 1.5s infinite; }
           body.profile #splash #scroll-btn .mouse-text,
           body.map #splash #scroll-btn .mouse-text,
           body.story #splash #scroll-btn .mouse-text {
