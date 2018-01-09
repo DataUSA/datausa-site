@@ -11,7 +11,7 @@ topics:
       - title: "1 year <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>"
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
-      - "<<name>> has an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grand or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
+      - "<<name>> has an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
       - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of nearby universities."
     viz:
       - attrs: university
@@ -38,7 +38,7 @@ topics:
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
       - "<<var namespace=price|key=pct_with_aid|row=0>> of students at <<name>> received financial aid in some form. This is in comparison to <<var namespace=price|key=pct_with_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_aid>> annual <<percent num=var:price,pct_with_aid,0|den=var:price,pct_with_aid,1|text=growth2>>."
-      - "This chart shows how the average amount of grand and scholarship aid awarded at <<name>> (highlighted in red) compares to that of nearby universities."
+      - "This chart shows how the average amount of grant and scholarship aid awarded at <<name>> (highlighted in red) compares to that of nearby universities."
     viz:
       - attrs: university
         data:
