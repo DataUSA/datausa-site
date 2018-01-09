@@ -70,7 +70,7 @@ topics:
         data:
           required: "state_tuition"
           show: university
-          university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+          university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
           split:
             id: "location"
             regex: "^([a-z_tuit]*)ion"
@@ -90,7 +90,7 @@ topics:
         data:
           required: "oos_tuition,state_tuition"
           show: university
-          university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+          university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
           split:
             id: "location"
             regex: "^([a-z_tuit]*)ion"

@@ -169,16 +169,6 @@
   university: <<carnegie>>
   namespace: enrollment_race_carnegie
 
-- required: ["ipeds_race", "num_enrolled"]
-  sort: desc
-  order: num_enrolled
-  year: latest
-  limit: 50
-  rows: True
-  show: "ipeds_race"
-  university: <<carnegie parent=True>>
-  namespace: enrollment_race_parent
-
 - required: ["ipeds_race", "sex", "num_enrolled"]
   sort: desc
   order: num_enrolled
@@ -199,8 +189,8 @@
 - required: ["retention_rate_ft", "year"]
   year: latest
   limit: 1
-  university: <<carnegie parent=True>>
-  namespace: retention_parent
+  university: <<carnegie>>
+  namespace: retention_carnegie
 
 - required: ["endowment_value_fiscal_year_end", "year"]
   rows: True
@@ -212,8 +202,8 @@
 - required: ["endowment_value_fiscal_year_end", "year"]
   year: latest
   limit: 1
-  university: <<carnegie parent=True>>
-  namespace: endowment_parent
+  university: <<carnegie>>
+  namespace: endowment_carnegie
 
 - required: ["investment_income", "year"]
   rows: True
@@ -225,8 +215,8 @@
 - required: ["investment_income", "year"]
   year: latest
   limit: 1
-  university: <<carnegie parent=True>>
-  namespace: investment_parent
+  university: <<carnegie>>
+  namespace: investment_carnegie
 
 - required: ["federal_grants_and_contracts", "state_grants_and_contracts", "local_grants_and_contracts", "year"]
   year: latest
@@ -258,8 +248,8 @@
 - required: ["total_salaries", "year"]
   year: latest
   limit: 1
-  university: <<carnegie parent=True>>
-  namespace: salaries_parent
+  university: <<carnegie>>
+  namespace: salaries_carnegie
 
 - required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
   year: latest
@@ -269,8 +259,8 @@
 - required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
   year: latest
   limit: 1
-  university: <<carnegie parent=True>>
-  namespace: inst_salaries_parent
+  university: <<carnegie>>
+  namespace: inst_salaries_carnegie
 
 - required: ["year", "academic_rank", "num_instructional_staff"]
   rows: True

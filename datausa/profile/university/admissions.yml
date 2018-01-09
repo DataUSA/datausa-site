@@ -17,7 +17,7 @@ topics:
         data:
           - required: "applicants_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+            university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
         id: university
         labels: YES
         order:
@@ -69,7 +69,7 @@ topics:
         data:
           - required: "admissions_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+            university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
         id: university
         labels: YES
         order:
@@ -114,7 +114,7 @@ topics:
       - title: "Scores Submitted"
         value: "<<var namespace=admissions|key=sub_sat_scores_num|row=0>>"
     description:
-      - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of students admitted to <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their application."
+      - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of enrolled first-time students at <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their applications."
       - "This chart shows the SAT scores for the 25th and 75th percentile of applicants broken out into each section of the test that their are evaluated on."
     viz:
       - color: section
@@ -163,7 +163,7 @@ topics:
         data:
           - required: "yield_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>,<<attribute key=carnegie>>"
+            university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
         id: university
         labels: YES
         order:

@@ -47,11 +47,7 @@ class Profile(BaseObject):
         return self.attr[kwargs.get("key")]
 
     def carnegie(self, **kwargs):
-        parent = kwargs.get("parent", False)
-        if parent:
-            carnegie_id = self.attr["carnegie_parent"]
-        else:
-            carnegie_id = self.attr["carnegie"]
+        carnegie_id = self.attr["carnegie_parent"]
         key = kwargs.get("key", "id")
         if key == "id":
             return carnegie_id
