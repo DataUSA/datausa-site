@@ -574,9 +574,12 @@
 
           var d = [];
 
-          if (attr_list.indexOf(key.split("_")[0]) >= 0) {
+          var attr = key.split("_");
+          attr.pop();
+          attr = attr.join("_");
 
-            var attr = key.split("_")[0];
+          if (attr_list.indexOf(attr) >= 0) {
+
             var id = data.values[0][attr];
 
             if (key === "year" || key === attr + "_id") return id;
