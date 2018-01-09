@@ -40,8 +40,6 @@
 
     <div class="content">
 
-      <div class="f"></div>
-
       <div class="splash-titles">
 
         <h1><span>{{ profile.splash.title }}</span><span class="compare-separator">&amp;</span><span class="compare-title"></span></h1>
@@ -279,18 +277,18 @@
 
 <script>
 
-  // var fontRange = [50, 65];
-  // if (window.innerWidth <= 480) {
-  //   fontRange = [25, 45];
-  // }
-  //
-  // var fontScale = d3.scale.linear()
-  //   .domain([60, 20])
-  //   .range(fontRange)
-  //   .clamp(true);
-  //
+  var fontRange = [50, 65];
+  if (window.innerWidth <= 480) {
+    fontRange = [25, 45];
+  }
+
+  var fontScale = d3.scale.linear()
+    .domain([60, 20])
+    .range(fontRange)
+    .clamp(true);
+
   var title = d3.select(".splash-titles h1");
-  // title.style("font-size", fontScale(title.text().length) + "px");
+  title.style("font-size", fontScale(title.text().length) + "px");
 
   // if (!d3plus.client.touch) {
   //   var scrollTimeout = setTimeout(function(){

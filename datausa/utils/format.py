@@ -35,6 +35,8 @@ def num_format(number, key=None, labels=True, condense=True, suffix=True):
             return u"{}{}".format("{:,}".format(n), ordinals[n % 10])
 
     # Converts the number to a float.
+    if isinstance(number, str):
+        number = number.replace(",", "").replace("+", "")
     n = float(number)
 
     if key and ("emp_thousands" in key or "employees_thousands" in key):

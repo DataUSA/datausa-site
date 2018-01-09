@@ -160,6 +160,9 @@ topics:
       order:
         sort: "asc"
         value: "grads_total"
+      tooltip:
+        value:
+          - grads_total
       type: "bar"
       x: share
       y:

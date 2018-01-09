@@ -611,7 +611,7 @@ body.profile, body.map, body.story {
       height: 100%;
       opacity: 1;
       margin: 0;
-      padding: 7% 0;
+      padding: 50px 0;
       @include box();
       z-index: 1;
       position: relative;
@@ -630,10 +630,6 @@ body.profile, body.map, body.story {
       &.hide {
         opacity: 0;
         pointer-events: none;
-      }
-
-      .f {
-        @include flex-size(1);
       }
 
       .splash-titles {
@@ -950,6 +946,10 @@ body.profile, body.map, body.story {
       position: absolute;
       text-align: center;
       width: 300px;
+
+      @media only screen and (max-height : 500px) {
+        display: none;
+      }
 
       .mouse {
         @include transition(opacity 1s);
