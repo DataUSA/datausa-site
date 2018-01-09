@@ -109,12 +109,12 @@ topics:
   - title: "SAT Scores"
     slug: "sat"
     stat:
-      - title: "Scores Submitted"
-        value: "<<var namespace=admissions|key=sub_sat_scores_num|row=0>>"
       - title: "Submission Percentage"
         value: "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>>"
+      - title: "Scores Submitted"
+        value: "<<var namespace=admissions|key=sub_sat_scores_num|row=0>>"
     description:
-      - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of students applying to <<name>> (<<var namespace=admissions|key=sub_sat_scores_num|row=0>>) submit SAT scores with their application."
+      - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of students admitted to <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their application."
       - "This chart shows the SAT scores for the 25th and 75th percentile of applicants broken out into each section of the test that their are evaluated on."
     viz:
       - color: section
@@ -133,14 +133,17 @@ topics:
         id:
           - section
           - percentile
-        label: percentile
         legend: NO
+        size: 6
+        text: percentile
         tooltip:
           value:
+            - section
             - sat_score
-        type: bar
+        type: scatter
         x:
           label: NO
+          scale: discrete
           value: section
         y:
           range: [0, 800]
