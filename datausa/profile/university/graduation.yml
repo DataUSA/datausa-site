@@ -167,22 +167,19 @@ topics:
           race: ipeds_race
       depth: 1
       id:
-        - "sex"
         - "ipeds_race"
+        - "sex"
       legend:
         data: false
+      order:
+        value: grad_rate
       tooltip:
         value:
           - sex
           - grad_rate
           - num_finishers
-      type: "line"
-      ui:
-        - method: y
-          value:
-            - grad_rate
-            - num_finishers
-      x: year
+      type: "bar"
+      x: ipeds_race
       y: grad_rate
   - title: "Race & Ethnicity by Share"
     slug: "ethnicity"
