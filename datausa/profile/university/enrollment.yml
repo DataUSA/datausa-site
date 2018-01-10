@@ -1,6 +1,5 @@
 title: "Enrollment"
-description:
-  - "Data pertaining to the enrolled population at <<name>>."
+description: "The total enrollment at <<name>> is <<sum namespace=enrollment_status|key=num_enrolled>> students. The full-time enrollment at <<name>> is <<var namespace=enrollment_status|row=0|key=num_enrolled>> and the part-time enrollment is <<var namespace=enrollment_status|row=1|key=num_enrolled>>. This means that <<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> of students enrolled at <<name>> are enrolled full-time.<br /><br />The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>.<br /><br />Students enrolled at <<name>> in <span class='select-text'>Undergraduate</span> programs are majority <<var namespace=enrollment_lstudy|key=ipeds_race|row=0>> <<var namespace=enrollment_lstudy|key=sex|row=0>>, followed by <<var namespace=enrollment_lstudy|key=ipeds_race|row=1>> <<var namespace=enrollment_lstudy|key=sex|row=1>> and <<var namespace=enrollment_lstudy|key=ipeds_race|row=2>> <<var namespace=enrollment_lstudy|key=sex|row=2>>.<br /><br />"
 
 topics:
   - title: "Enrollment Status"

@@ -1,5 +1,5 @@
 title: "Admissions"
-description: "Information about the admissions at <<name>>."
+description: "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> applications in <<var namespace=admissions|key=year|row=0>>, which represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>. Out of those <<var namespace=admissions|key=applicants_total|row=0>> applicants, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment at <<name>>.<br /><br /><<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of enrolled first-time students at <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their applications. <<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling."
 
 topics:
   - title: "Applying Students"
