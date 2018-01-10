@@ -1,7 +1,7 @@
 {% extends "templates/base.html" %}
 
 {% set image = profile.image() %}
-{% set meta_desc = section.topics[0].description[0]|striptags %}
+{% set meta_desc = section.meta|striptags %}
 {% block social_meta %}
     <meta name="description" content="{{ meta_desc }}">
     <meta property="og:site_name" content="Data USA" />
