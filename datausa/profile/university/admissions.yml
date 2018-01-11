@@ -184,7 +184,7 @@ topics:
           scale: discrete
           value: section
         y:
-          range: [0, 800]
+          range: [200, 800]
           value: sat_score
   - title: "Enrollment Yield"
     slug: "yield"
