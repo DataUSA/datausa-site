@@ -1,5 +1,5 @@
 title: "Costs"
-description: "The median {{<<sector>>:public||in-state }}tuition at <<name>> is <<var namespace=tuition|key=state_tuition|row=0>>, which is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=state_tuition|row=0>>.{{<<sector>>:public|| The cost of out-of-state tuition at <<name>> is <<var namespace=tuition|key=oos_tuition|row=0>>, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0|diff=true|text=highlow>> the cost for in-state students and is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=oos_tuition|row=0>>.}}<br /><br />After taking financial aid into account, the average net price for students at <<name>> is <<var namespace=price|key=avg_netprice_gos_aid|row=0>>. <<var namespace=price|key=pct_with_aid|row=0>> of undergraduate students at <<name>> received financial aid grants."
+description: "The median {{<<sector>>:public||in-state }}tuition at <<name>> is <<var namespace=tuition|key=state_tuition|row=0>>, which is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=state_tuition|row=0>>.{{<<sector>>:public|| The cost of out-of-state tuition at <<name>> is <<var namespace=tuition|key=oos_tuition|row=0>>, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0|diff=true|text=highlow>> the cost for in-state students and is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=oos_tuition|row=0>>.}}<br /><br />After taking financial aid into account, the average net price for students at <<name>> is <<var namespace=price|key=avg_netprice_gos_aid|row=0>>. <<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants."
 
 topics:
   - title: "Average Net Price"
@@ -50,11 +50,11 @@ topics:
     slug: "incomeawards"
     stat:
       - title: "of Undergraduates<br />Receive Financial Aid"
-        value: "<<var namespace=price|key=pct_with_aid|row=0>>"
+        value: "<<var namespace=price|key=pct_with_grant_aid|row=0>>"
       - title: "of Undergraduates<br />Receive Federal Loans"
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
-      - "<<var namespace=price|key=pct_with_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_aid>> annual <<percent num=var:price,pct_with_aid,0|den=var:price,pct_with_aid,1|text=growth2>>."
+      - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_grant_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_grant_aid>> annual <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>>."
       - "This chart shows how the average amount of grant and scholarship aid awarded at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
       - sumlevel: "0"

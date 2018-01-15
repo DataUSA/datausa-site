@@ -126,7 +126,7 @@ DICTIONARY = {
 
     "income_range": "Income Range",
     "income_range_name": "Income Range",
-    "pct_with_aid": "Percent of Undergraduate Financial Aid",
+    "pct_with_grant_aid": "Percent of Undergraduates Receiving Grant Aid",
     "pct_fed_loads": "Percent of Undergraduate Federal Loans",
     "avg_gos_award": "Average Financial Aid",
     "avg_netprice_fedaid": "Average Net Price",
@@ -659,7 +659,7 @@ PERCENTAGES = [
     "pct_change",
     "share",
     "pct_fed_loans",
-    "pct_with_aid",
+    "pct_with_grant_aid",
     "sub_sat_scores_pct",
     "retention_rate_ft",
     "retention_rate_pt"

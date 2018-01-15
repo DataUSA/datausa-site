@@ -6,7 +6,7 @@
   limit: 2
   namespace: grads
 
-- required: ["year", "avg_netprice_gos_aid", "num_fed_loans", "pct_fed_loans", "pct_with_aid", "total_fed_loans"]
+- required: ["year", "avg_netprice_gos_aid", "num_fed_loans", "pct_fed_loans", "pct_with_grant_aid", "total_fed_loans"]
   rows: True
   sort: desc
   order: year
