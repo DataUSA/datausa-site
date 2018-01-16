@@ -53,6 +53,7 @@ topics:
         value: "<<growth namespace=investment|key=investment_income>>"
     description:
       - "As of <<var namespace=investment|key=year|row=0>>, <<name>> earned <<var namespace=investment|key=investment_income|row=0>> in returns on its investments{{<<sumlevel>>:!0|| compared to a median of <<var namespace=investment_carnegie|key=investment_income>> for similar <<carnegie key=name>>}}."
+      - "Investment income is defined as revenues derived from the institution's investments, including investments of endowment funds. Such income may take the form of interest income, dividend income, rental income or royalty income and includes both realized and unrealized gains and losses."
     viz:
       - sumlevel: "0"
         attrs:
@@ -110,7 +111,8 @@ topics:
       - title: "Benefits Expenditure"
         value: <<var namespace=expenses|key=benefits_expense>>
     description:
-      - "In <<var namespace=expenses|key=year>>, <<name>> spent <<var namespace=expenses|key=salaries_expense>> on salaries and <<var namespace=expenses|key=benefits_expense>> on benefits. This line chart shows all of the primary expenses of <<name>> over time."
+      - "In <<var namespace=expenses|key=year>>, <<name>> spent <<var namespace=expenses|key=salaries_expense>> on salaries and <<var namespace=expenses|key=benefits_expense>> on benefits."
+      - "These values can vary in reporting depending on whether the institution is public or private, and are not available for private-for-profit schools. This line chart shows all of the primary expenses of <<name>> over time."
     viz:
       data:
         show: university
