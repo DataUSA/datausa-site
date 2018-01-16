@@ -10510,7 +10510,6 @@ viz.mapDraw = function(vars) {
       }
     }
     if (projectionType !== "mercator") vars.tiles.value = false;
-    else vars.tiles.value = true;
 
     if (vars.tiles.value) {
 

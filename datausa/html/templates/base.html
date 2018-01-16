@@ -302,6 +302,7 @@
               this.parentNode.insertBefore(clone, this.nextSibling);
               if (data.splash.viz) {
                 data.splash.viz.container = d3.select(clone).select(".viz");
+                data.splash.viz.container.selectAll("*").remove();
                 viz.prepBuild(data.splash.viz);
                 builds = builds.concat(data.splash.viz);
               }
