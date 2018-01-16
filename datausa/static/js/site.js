@@ -10411,11 +10411,17 @@ viz.mapDraw = function(vars) {
   var coords = vars.coords.value;
   if (coords && vars.coords.key) {
 
-    var projectionType = "mercator";
-    if (vars.coords.key === "states" && location.href.indexOf("/map/") < 0) {
-      projectionType = "albersUsaPr";
-      vars.tiles.value = false;
+    var projectionType = vars.projection.value;
+    if (!projectionType) {
+      if (vars.coords.key === "states" && location.href.indexOf("/map/") < 0) {
+        projectionType = "albersUsaPr";
+      }
+      else {
+        projectionType = "mercator";
+      }
     }
+    if (projectionType !== "mercator") vars.tiles.value = false;
+    else vars.tiles.value = true;
 
     if (vars.tiles.value) {
 
@@ -11420,6 +11426,7 @@ viz.map = function() {
     messages: {value: true},
     mouse: {value: true},
     pins: {value: []},
+    projection: {value: false},
     scale: false,
     text: {value: "name"},
     tiles: {value: true},

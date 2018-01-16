@@ -31,6 +31,7 @@ viz.map = function() {
     messages: {value: true},
     mouse: {value: true},
     pins: {value: []},
+    projection: {value: false},
     scale: false,
     text: {value: "name"},
     tiles: {value: true},
