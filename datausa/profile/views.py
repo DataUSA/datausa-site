@@ -127,6 +127,11 @@ def embed_view(attr_type, attr_id, section, topic):
     if not section or not section.topics:
         abort(404)
 
+    if "description" in section.topics[0]:
+        section.meta = section.topics[0]["description"][0]
+    else:
+        section.meta = ""
+
     for t in section.topics:
         if viz_only:
             if "description" in t:
