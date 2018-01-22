@@ -1,0 +1,28 @@
+{
+  "name": "datausa-site",
+  "version": "3.0.0-alpha",
+  "description": "The most comprehensive visualization of U.S. public data",
+  "main": "index.js",
+  "scripts": {
+    "build": "canon-build",
+    "dev": "canon-dev",
+    "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
+    "start": "canon-start",
+    "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datausa/datausa-site.git"
+  },
+  "author": "Datawheel",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/datausa/datausa-site/issues"
+  },
+  "homepage": "https://github.com/datausa/datausa-site#readme",
+  "dependencies": {
+    "datawheel-canon": "^0.12.5",
+    "eslint": "^4.16.0",
+    "jsdoc-to-markdown": "^4.0.1"
+  }
+}
