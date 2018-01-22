@@ -1,2 +1,8 @@
-*.pyc
+npm-debug.log*
+node_modules
+static/assets
+static/reports
+/index.js
+.env
+.envrc
 .DS_Store

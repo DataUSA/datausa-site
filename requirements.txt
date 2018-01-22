@@ -1,7 +1,0 @@
-# Flask framework
-
-# Helper lib for running scripts locally without server
-
-# YAML load/compiler
-
-# URL library for handling external resources
