@@ -46,6 +46,24 @@ Promise.all([...generator promises])
 ```json
 {
   "title": "New York, NY",
+  "description": "Census Designated Place",
+  "introduction": "Welcome to the profile page for New York, NY.",
+  "stats": [
+    {
+      "title": "Population",
+      "value": "8.5M",
+      "subtitle": "2.4% Growth"
+    }
+  ],
+  "visualizations": [
+    {
+      "data": "https://my-long-data-url-that-I-will-provide-as-a-content-creator",
+      "groupBy": "geo",
+      "type": "BarChart",
+      "x": "year",
+      "y": "pop"
+    }
+  ],
   "variables": {
     "name": "New York, NY",
     "pop_2015": 2523647,
@@ -54,10 +72,20 @@ Promise.all([...generator promises])
   "sections": [
     {
       "title": "Economy",
+      "slug": "economy",
       "description": "Yo, this be about money.",
+      "stats": [
+        {
+          "title": "Population",
+          "value": "8.5M",
+          "subtitle": "2.4% Growth"
+        }
+      ],
       "topics": [
         {
           "title": "Population Over Time",
+          "slug": "pop_time",
+          "subtitle": "Warning! This data is not granular!",
           "description": "<p>The population in New York, NY as of 2015 was 2.5M.",
           "type": "TextViz",
           "visualizations": [
