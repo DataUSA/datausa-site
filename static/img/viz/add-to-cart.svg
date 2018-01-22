@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="19px" height="19px" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41 (35326) - http://www.bohemiancoding.com/sketch -->
+    <title>add-to-cart</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.599999964">
+        <g id="add-to-cart" stroke="#949494">
+            <g id="Group" transform="translate(9.047619, 0.000000)">
+                <path d="M2.32653061,6.13541667 L2.48809524,0.452013511" id="Line" transform="translate(2.407313, 3.293715) scale(1, -1) translate(-2.407313, -3.293715) "></path>
+                <polyline id="Line-Copy" points="0.061224491 3.61197917 2.44897959 6.13541667 4.8367347 3.61197917"></polyline>
+            </g>
+            <g id="Group-2" transform="translate(0.000000, 2.500000)">
+                <polyline id="Path-2" stroke-linejoin="round" points="5.27161642 6.00330578 17.850356 6 16.4699325 11.1020459 6.17881955 11.1097381"></polyline>
+                <polyline id="Path" stroke-linejoin="round" points="0.640901713 0.174218638 4.49725217 0.174218638 6.72926306 13.5610518 16.1665549 13.5610518"></polyline>
+                <circle id="Oval" cx="7.01190476" cy="15.1547619" r="0.678571429"></circle>
+                <circle id="Oval-Copy" cx="15.1547619" cy="15.1547619" r="0.678571429"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
