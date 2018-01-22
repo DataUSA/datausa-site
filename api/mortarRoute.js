@@ -57,6 +57,13 @@ module.exports = function(app) {
           }
         }
         returnObject = Object.assign({}, returnObject, profile);
+        return Promise.all([returnObject, formatters, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
+      })
+      .then(resp => {
+        let returnObject = resp[0];
+        const formatters = resp[1];
+        const visualizations = resp[2];
+        returnObject.visualizations = visualizations;
         res.json(returnObject).end();
       })
       .catch(err => {
