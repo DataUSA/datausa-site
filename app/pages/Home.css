@@ -1,0 +1,70 @@
+#Home {
+  text-align: center;
+  & .bg {
+    background-image: url("/img/home/bg/utah.jpg");
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid white;
+    height: 623px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -11;
+    &::after {
+      background-image: linear-gradient(rgba(20, 27, 46, 0), rgba(20, 27, 46, 0), rgba(20, 27, 46, 0.75));
+      content: "";
+      height: 623px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+    }
+    & .line {
+      background-color: white;
+      content: "";
+      height: 1px;
+      opacity: 0.5;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 623px;
+      z-index: 1;
+    }
+  }
+  & .logo {
+    margin: 75px 50px 0;
+    max-width: 400px;
+  }
+  & .tagline {
+    color: white;
+    font-family: "Palanquin";
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31px;
+    margin: 10px 50px 0;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+    text-transform: uppercase;
+    & a {
+      border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 6px -6px #222;
+      color: white;
+      display: inline-block;
+      margin: 0 2px;
+      transition: border-color 0.2s;
+      &:hover {
+        border-color: white;
+        text-decoration: none;
+      }
+    }
+  }
+  & .sponsors {
+    margin: 10px 0 75px;
+    width: 100%;
+    & img {
+      height: 90px;
+    }
+  }
+}
