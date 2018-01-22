@@ -6,10 +6,17 @@ module.exports = function(app) {
 
   app.get("/api/profile/:slug/:id", (req, res) => {
     const {id} = req.params;
+
     let returnVariables = {};
-    db.generators.findAll().then(generators => {
-      const requests = Array.from(new Set(generators.map(g => g.api)));
-      Promise.all(requests.map(r => axios.get(r.replace(/\<id\>/g, id)))).then(results => {
+
+    db.generators.findAll()
+      .then(generators => {
+        const requests = Array.from(new Set(generators.map(g => g.api)));
+        const fetches = requests.map(r => axios.get(r.replace(/\<id\>/g, id)));
+        return Promise.all([generators, requests, Promise.all(fetches)]);
+      })
+      .then(d => {
+        const [generators, requests, results] = d;
         results.forEach((r, i) => {
           const requiredGenerators = generators.filter(g => g.api === requests[i]);
           requiredGenerators.forEach(g => {
@@ -18,17 +25,21 @@ module.exports = function(app) {
             returnVariables = Object.assign({}, returnVariables, vars);
           });
         });
-        db.materializers.findAll().then(materializers => {
-          materializers.sort((a, b) => a.ordering - b.ordering);
-          materializers.forEach(m => {
-            const logicFunc = Function("variables", m.logic);
-            const vars = logicFunc(returnVariables);
-            returnVariables = Object.assign({}, returnVariables, vars);
-          });
-          res.json(returnVariables).end();
+        return db.materializers.findAll();
+      })
+      .then(materializers => {
+        materializers.sort((a, b) => a.ordering - b.ordering);
+        materializers.forEach(m => {
+          const logicFunc = Function("variables", m.logic);
+          const vars = logicFunc(returnVariables);
+          returnVariables = Object.assign({}, returnVariables, vars);
         });
+        res.json(returnVariables).end();
+      })
+      .catch(err => {
+        console.error(err);
       });
-    });
+
   });
 
 };
