@@ -58,7 +58,42 @@ module.exports = function(app) {
         const [variables, formatters] = resp;
         const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", f.logic), acc), {});
         const returnObject = {variables};
-        return Promise.all([returnObject, formatterFunctions, db.profiles.findOne({where: {slug}, include: [{association: "visualizations", attributes: ["logic"], where: {owner_type: "profile"}}, {association: "sections", include: [{association: "topics", include: [{association: "visualizations", attributes: ["logic"], where: {owner_type: "topic"}}]}]}]})]);
+        const request = db.profiles.findOne({ 
+          where: {slug}, 
+          include: [
+            {
+              association: "visualizations",
+              where: {owner_type: "profile"},
+              attributes: ["logic"]
+            }, 
+            {
+              association: "stats",
+              where: {owner_type: "profile"},
+              attributes: ["title", "subtitle", "value"]
+            },
+            { 
+              association: "sections", 
+              include: [
+                {
+                  association: "topics", 
+                  include: [
+                    {
+                      association: "visualizations", 
+                      where: {owner_type: "topic"},
+                      attributes: ["logic"]
+                    },
+                    {
+                      association: "stats",
+                      where: {owner_type: "topic"},
+                      attributes: ["title", "subtitle", "value"]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        });
+        return Promise.all([returnObject, formatterFunctions, request]);
       })
       .then(resp => {
         let returnObject = resp[0];
@@ -71,6 +106,9 @@ module.exports = function(app) {
                 if (t.visualizations) {
                   t.visualizations = t.visualizations.map(v => Function("variables", v.logic.replace(/\<id\>/g, id))(returnObject.variables));
                 }
+                if (t.stats) {
+                  t.stats = t.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
+                }
                 return varSwap(t, formatterFunctions, returnObject.variables);
               });
             }
@@ -79,6 +117,9 @@ module.exports = function(app) {
         }
         if (profile.visualizations) {
           profile.visualizations = profile.visualizations.map(v => Function("variables", v.logic.replace(/\<id\>/g, id))(returnObject.variables));
+        }
+        if (profile.stats) {
+          profile.stats = profile.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
         }
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
