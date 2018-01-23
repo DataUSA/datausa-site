@@ -148,14 +148,11 @@
         }
       }
       & .section-visualization {
-        background: repeating-linear-gradient(45deg, #ccc, #ccc 10px, #fafafa 10px, #fafafa 20px);
         flex: 1;
         height: 200px;
         margin-left: 50px;
-        opacity: 0.5;
         overflow: hidden;
         position: relative;
-        z-index: 2;
       }
     }
     &.about {
@@ -208,14 +205,11 @@
         }
       }
       & .topic-visualization {
-        background: repeating-linear-gradient(45deg, #ccc, #ccc 10px, #fafafa 10px, #fafafa 20px);
         flex: 1;
         margin-left: 50px;
         min-height: 400px;
-        opacity: 0.5;
         overflow: hidden;
         position: relative;
-        z-index: 2;
       }
     }
   }

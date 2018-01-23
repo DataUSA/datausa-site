@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Viz from "components/Viz";
 
 export default class Section extends Component {
 
@@ -12,7 +13,7 @@ export default class Section extends Component {
       </h2>
       <div className="section-row">
         { description ? <div className="section-description" dangerouslySetInnerHTML={{__html: description}}></div> : null }
-        { visualizations.map((visualization, i) => <div key={i} className="section-visualization"></div>) }
+        { visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="section-visualization" />) }
       </div>
       { children }
     </div>;

@@ -11,6 +11,14 @@ export default class Profile extends Component {
 
   render() {
 
+    const testViz = {
+      data: "https://api.datausa.io/api/?geo=05000US36081&show=geo&year=all&required=pop",
+      groupBy: "geo",
+      type: "BarChart",
+      x: "year",
+      y: "pop"
+    };
+
     const profile = {
       title: "Massachusetts",
       subtitle: "State",
@@ -23,13 +31,7 @@ export default class Profile extends Component {
         }
       ],
       visualizations: [
-        {
-          data: "https://my-long-data-url-that-I-will-provide-as-a-content-creator",
-          groupBy: "geo",
-          type: "BarChart",
-          x: "year",
-          y: "pop"
-        }
+        {...testViz}
       ],
       variables: {
         name: "Massachusetts",
@@ -56,13 +58,7 @@ export default class Profile extends Component {
               description: "<p>Morbi fermentum accumsan est, fermentum rutrum nisi fringilla ac. Proin pharetra sagittis arcu in egestas. Vivamus a vehicula turpis. In hac habitasse platea dictumst. Fusce vel ornare est, non feugiat velit. Nulla volutpat bibendum urna, in egestas magna pharetra non. Sed non tellus sed est eleifend consectetur pretium ut odio.</p><p>Morbi gravida libero a iaculis tincidunt. Cras luctus urna in est placerat, in sodales eros dignissim. Maecenas sit amet urna ac risus ultrices interdum id in metus. Suspendisse ut elit est. Praesent volutpat nisl efficitur porta auctor. Quisque tincidunt lacus eget dolor lobortis volutpat sed eu dui.</p>",
               type: "TextViz",
               visualizations: [
-                {
-                  data: "https://my-long-data-url-that-I-will-provide-as-a-content-creator",
-                  groupBy: "geo",
-                  type: "BarChart",
-                  x: "year",
-                  y: "pop"
-                }
+                {...testViz}
               ]
             }
           ]
@@ -86,13 +82,7 @@ export default class Profile extends Component {
               description: "<p>The population in Massachusetts as of 2015 was 2.5M.",
               type: "TextViz",
               visualizations: [
-                {
-                  data: "https://my-long-data-url-that-I-will-provide-as-a-content-creator",
-                  groupBy: "geo",
-                  type: "BarChart",
-                  x: "year",
-                  y: "pop"
-                }
+                {...testViz}
               ]
             }
           ]
@@ -101,8 +91,6 @@ export default class Profile extends Component {
     };
 
     const {pid, pslug} = this.props.params;
-
-    console.log(profile);
 
     return (
       <div id="Profile">
