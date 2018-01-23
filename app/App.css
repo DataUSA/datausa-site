@@ -1,1 +1,20 @@
-@import url("https://fonts.googleapis.com/css?family=Palanquin:600");
+@import url("https://fonts.googleapis.com/css?family=Lato:300|Palanquin:600,700|Pathway+Gothic+One:400");
+html {
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+}
+
+body {
+  font-family: "Palanquin", sans-serif;
+  /* Adjust font size */
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  /* Font varient */
+  font-variant-ligatures: none;
+  /* Smoothing */
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+}

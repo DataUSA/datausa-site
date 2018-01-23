@@ -12,7 +12,7 @@
     top: 0;
     width: 100%;
     z-index: -11;
-    &::after {
+    &:after {
       background-image: linear-gradient(rgba(20, 27, 46, 0), rgba(20, 27, 46, 0), rgba(20, 27, 46, 0.75));
       content: "";
       height: 623px;
@@ -22,17 +22,6 @@
       width: 100%;
       z-index: -1;
     }
-    & .line {
-      background-color: white;
-      content: "";
-      height: 1px;
-      opacity: 0.5;
-      position: absolute;
-      width: 100%;
-      left: 0;
-      top: 623px;
-      z-index: 1;
-    }
   }
   & .logo {
     margin: 75px 50px 0;
@@ -40,9 +29,9 @@
   }
   & .tagline {
     color: white;
-    font-family: "Palanquin";
+    font-family: "Palanquin", sans-serif;
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 31px;
     margin: 10px 50px 0;
     text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);

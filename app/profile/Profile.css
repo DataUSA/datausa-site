@@ -1,0 +1,105 @@
+#Profile {
+  & .splash {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    & .profile-image {
+      background-position: 50% 50%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      height: 100vh;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+      &:after {
+        content: "";
+        background-image: linear-gradient(rgba(20, 27, 46, 0.5), rgba(20, 27, 46, 0.3) 10%, rgba(20, 27, 46, 0.5) 50%, #141b2e 100%);
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+      }
+    }
+    & .profile-title, & .profile-description {
+      color: white;
+      font-family: "Pathway Gothic One", sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      text-align: center;
+      text-shadow: 0 2px 6px black;
+      text-transform: uppercase;
+      width: 100%;
+    }
+    & .profile-title {
+      font-size: 60px;
+    }
+    & .profile-description {
+      font-size: 18px;
+    }
+    & .profile-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 25px;
+      max-width: 700px;
+      width: 100%;
+      & .Stat {
+        color: white;
+        flex: 1;
+        font-family: "Palanquin", sans-serif;
+        margin-bottom: 25px;
+        max-width: 30%;
+        min-width: 30%;
+        text-align: center;
+        width: 30%;
+        & .stat-title, & .stat-subtitle {
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 1.5;
+          text-shadow: 0 2px 6px black;
+          text-transform: uppercase;
+        }
+        & .stat-value {
+          font-family: "Lato", sans-serif;
+          font-size: 38px;
+          font-weight: 300;
+          text-shadow: 0 2px 12px black;
+        }
+      }
+    }
+    & .profile-sections {
+      display: flex;
+      text-align: center;
+      & .SectionIcon {
+        color: white;
+        display: inline-block;
+        font-family: "Palanquin", sans-serif;
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        margin: 0 10px;
+        text-transform: uppercase;
+        transition: text-shadow 0.35s;
+        width: 100px;
+        & img {
+          display: block;
+          height: 30px;
+          margin: 0 auto 5px;
+          width: 30px;
+        }
+        &:hover {
+          text-decoration: none;
+          text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+        }
+      }
+    }
+  }
+}
