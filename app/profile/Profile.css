@@ -28,7 +28,7 @@
         z-index: -1;
       }
     }
-    & .profile-title, & .profile-description {
+    & .profile-title, & .profile-subtitle {
       color: white;
       font-family: "Pathway Gothic One", sans-serif;
       font-weight: 400;
@@ -41,7 +41,7 @@
     & .profile-title {
       font-size: 60px;
     }
-    & .profile-description {
+    & .profile-subtitle {
       font-size: 18px;
     }
     & .profile-stats {
@@ -99,6 +99,123 @@
           text-decoration: none;
           text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
         }
+      }
+    }
+  }
+  & .section {
+    background-color: #E9E9E9;
+    padding: 60px 50px 25px;
+    width: 100%;
+    &:nth-child(even) {
+      background-color: #F6F6F6;
+    }
+    & .section-title {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 47px;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      margin: 0 auto 15px;
+      text-transform: uppercase;
+      z-index: 2;
+      & a {
+        color: #333;
+        margin-top: calc(var(--nav-height) * -1);
+        outline: 0;
+        padding-top: var(--nav-height);
+        position: relative;
+      }
+    }
+    & .section-row {
+      display: flex;
+      & .section-description {
+        color: rgba(51, 51, 51, 0.93);
+        columns: 320px auto;
+        column-gap: 20px;
+        flex: 2;
+        font-family: "Palanquin", sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.7;
+        margin: 3px auto 12px;
+        max-width: 1200px;
+        opacity: 0.9;
+        & a {
+          color: #32415A;
+          text-decoration: underline;
+        }
+        & p {
+          padding-bottom: 30px;
+        }
+      }
+      & .section-visualization {
+        background: repeating-linear-gradient(45deg, #ccc, #ccc 10px, #fafafa 10px, #fafafa 20px);
+        flex: 1;
+        height: 200px;
+        margin-left: 50px;
+        opacity: 0.5;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+      }
+    }
+    &.about {
+      background-color: #141b2e;
+      & .section-title a {
+        color: white;
+      }
+      & .section-description {
+        color: white;
+      }
+    }
+  }
+  & .topic {
+    color: white;
+    padding: 25px 0;
+    width: 100%;
+    & .topic-title {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      margin: 0 auto 15px;
+      z-index: 2;
+      & a {
+        color: #333;
+        margin-top: calc(var(--nav-height) * -1);
+        outline: 0;
+        padding-top: var(--nav-height);
+        position: relative;
+      }
+    }
+    & .topic-row {
+      display: flex;
+      & .topic-description {
+        color: rgba(51, 51, 51, 0.93);
+        flex: none;
+        font-family: "Palanquin", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.5;
+        margin: 3px auto 12px;
+        max-width: 415px;
+        opacity: 0.9;
+        width: 50%;
+        & a {
+          color: #32415A;
+          text-decoration: underline;
+        }
+        & p {
+          padding-bottom: 30px;
+        }
+      }
+      & .topic-visualization {
+        background: repeating-linear-gradient(45deg, #ccc, #ccc 10px, #fafafa 10px, #fafafa 20px);
+        flex: 1;
+        margin-left: 50px;
+        min-height: 400px;
+        opacity: 0.5;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
       }
     }
   }
