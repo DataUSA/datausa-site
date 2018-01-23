@@ -1,0 +1,83 @@
+.Options {
+  display: flex;
+  justify-content: flex-end;
+  & .option {
+    color: #949494;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Palanquin", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 5px 15px 0 0;
+    &:before {
+      background-position: center;
+      background-repeat: no-repeat;
+      content: "";
+      display: inline-block;
+      height: 20px;
+      margin-bottom: 4px;
+      margin-right: 5px;
+      vertical-align: middle;
+      width: 20px;
+    }
+    &:hover {
+      color: var(--red);
+    }
+    &.view-table {
+      &:before {
+        background-image: url("/img/viz/view-table.svg");
+      }
+      &:hover:before {
+        background-image: url("/img/viz/view-table-red.svg");
+      }
+    }
+    &.add-to-cart {
+      &:before {
+        background-image: url("/img/viz/add-to-cart.svg");
+      }
+      &:hover:before {
+        background-image: url("/img/viz/add-to-cart-red.svg");
+      }
+    }
+    &.save-image {
+      &:before {
+        background-image: url("/img/viz/save-image.svg");
+      }
+      &:hover:before {
+        background-image: url("/img/viz/save-image-red.svg");
+      }
+    }
+    &.share {
+      &:before {
+        background-image: url("/img/viz/share.svg");
+      }
+      &:hover:before {
+        background-image: url("/img/viz/share-red.svg");
+      }
+    }
+  }
+}
+
+.options-dialog {
+  & .pt-dialog-body {
+    & .save-image-btn {
+      color: black;
+      cursor: pointer;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      margin: 90px 20px;
+      opacity: 0.3;
+      text-align: center;
+      transition: opacity 0.1s;
+      width: 80px;
+      & .pt-icon-standard {
+        display: block;
+        font-size: 28px;
+        margin-bottom: 7px;
+      }
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}

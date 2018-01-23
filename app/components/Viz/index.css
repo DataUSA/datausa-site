@@ -1,0 +1,7 @@
+.visualization {
+  display: flex;
+  flex-direction: column;
+  & .d3plus {
+    flex: 1;
+  }
+}

@@ -18,3 +18,38 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
 }
+
+.pt-dialog {
+  background-color: #F6F6F6;
+  border-radius: 0;
+  max-width: 584px;
+  min-height: 100px;
+  width: 100%;
+  & .pt-dialog-header {
+    background: none;
+    box-shadow: none;
+    & img {
+      margin-right: 5px;
+    }
+    & h5 {
+      color: #434958;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0.4;
+      text-transform: uppercase;
+    }
+    & .pt-dialog-close-button {
+      outline: 0;
+    }
+  }
+  & .pt-dialog-body {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.pt-overlay-backdrop {
+  background-color: rgba(233, 233, 233, 0.4);
+}
