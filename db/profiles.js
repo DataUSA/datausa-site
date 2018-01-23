@@ -9,7 +9,7 @@ module.exports = function(sequelize, db) {
       },
       title: db.STRING,
       description: db.TEXT,
-      introduction: db.TEXT,
+      subtitle: db.TEXT,
       slug: db.STRING
     }, 
     {
@@ -17,6 +17,12 @@ module.exports = function(sequelize, db) {
       timestamps: false
     }
   );
+
+  p.associate = models => {
+    p.hasMany(models.sections, {foreignKey: "profile_id", sourceKey: "id", as: "sections"});
+    p.hasMany(models.visualizations, {foreignKey: "owner_id", sourceKey: "id", as: "visualizations"});
+    p.hasMany(models.stats, {foreignKey: "owner_id", sourceKey: "id", as: "stats"});
+  };
 
   return p;
 

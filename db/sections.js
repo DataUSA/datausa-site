@@ -9,13 +9,18 @@ module.exports = function(sequelize, db) {
       },
       title: db.STRING,
       slug: db.STRING,
-      description: db.TEXT
+      description: db.TEXT,
+      profile_id: db.INTEGER
     }, 
     {
       freezeTableName: true,
       timestamps: false
     }
   );
+
+  s.associate = models => {
+    s.hasMany(models.topics, {foreignKey: "section_id", sourceKey: "id", as: "topics"});
+  };
 
   return s;
 

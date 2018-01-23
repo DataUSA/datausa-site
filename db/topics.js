@@ -10,13 +10,20 @@ module.exports = function(sequelize, db) {
       title: db.STRING,
       subtitle: db.STRING,
       slug: db.STRING,
-      description: db.TEXT
+      description: db.TEXT,
+      section_id: db.INTEGER, 
+      type: db.STRING
     }, 
     {
       freezeTableName: true,
       timestamps: false
     }
   );
+
+  t.associate = models => {
+    t.hasMany(models.visualizations, {foreignKey: "owner_id", sourceKey: "id", as: "visualizations"});
+    t.hasMany(models.stats, {foreignKey: "owner_id", sourceKey: "id", as: "stats"});
+  };
 
   return t;
 
