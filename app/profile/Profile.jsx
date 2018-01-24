@@ -14,7 +14,6 @@ class Profile extends Component {
   render() {
 
     const {profile} = this.props;
-    console.log(profile);
 
     const {pid, pslug} = this.props.params;
 

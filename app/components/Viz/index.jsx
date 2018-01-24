@@ -7,7 +7,7 @@ import propify from "helpers/d3plusPropify";
 export default class Viz extends Component {
 
   render() {
-    const {config, className, options, title} = this.props;
+    const {config, className, options, slug, title} = this.props;
 
     // clone config object to allow manipulation
     const vizProps = propify(config);
@@ -21,6 +21,8 @@ export default class Viz extends Component {
     return <div className={ `visualization ${className}` }>
       { options ? <Options
         component={ this }
+        data={ vizProps.config.data }
+        slug={ slug }
         title={ title } /> : null }
       <Visualization
         ref={ comp => this.viz = comp }
