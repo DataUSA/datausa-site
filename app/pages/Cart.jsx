@@ -2,6 +2,7 @@ import React, {Component} from "react";
 
 import axios from "axios";
 import {merge} from "d3-array";
+import {nest} from "d3-collection";
 import localforage from "localforage";
 
 import cubeFold from "helpers/cubeFold";
@@ -14,6 +15,7 @@ export default class Cart extends Component {
       cart: false,
       columns: {},
       results: false,
+      stickies: [],
       values: {}
     };
   }
@@ -40,8 +42,11 @@ export default class Cart extends Component {
             }
           }
         });
-        const results = merge(foldedData.map(d => d.data));
-        this.setState({columns, results, values});
+        const stickies = Array.from(new Set(merge(foldedData.map(d => Object.keys(d.dimensions)))));
+        const results = nest()
+          .key(d => stickies.map(key => d[key] || "undefined").join("-"))
+          .entries(merge(foldedData.map(d => d.data)));
+        this.setState({columns, results, stickies, values});
       })
       .catch(err => console.error(err));
   }
