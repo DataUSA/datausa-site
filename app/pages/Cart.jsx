@@ -1,6 +1,10 @@
 import React, {Component} from "react";
-import localforage from "localforage";
+
 import axios from "axios";
+import {merge} from "d3-array";
+import localforage from "localforage";
+
+import cubeFold from "helpers/cubeFold";
 
 export default class Cart extends Component {
 
@@ -8,7 +12,9 @@ export default class Cart extends Component {
     super(props);
     this.state = {
       cart: false,
-      results: false
+      columns: {},
+      results: false,
+      values: {}
     };
   }
 
@@ -19,18 +25,33 @@ export default class Cart extends Component {
         this.setState({cart});
         return Promise.all(cart.map(c => axios.get(c.data).then(resp => resp.data)));
       })
-      .then(results => {
-        console.log(results);
+      .then(responses => {
+        const foldedData = responses.map(cubeFold);
+        let columns = {};
+        const values = {};
+        foldedData.forEach(data => {
+          columns = {...columns, ...data.dimensions, ...data.measures};
+          for (const key in data.values) {
+            if ({}.hasOwnProperty.call(data.values, key)) {
+              if (key in values) {
+                values[key] = {...values[key], ...data.values[key]};
+              }
+              else values[key] = {...data.values[key]};
+            }
+          }
+        });
+        const results = merge(foldedData.map(d => d.data));
+        this.setState({columns, results, values});
       })
       .catch(err => console.error(err));
   }
 
   render() {
-    const {cart} = this.state;
-    console.log(cart);
+    const {results} = this.state;
+    console.log(results);
     return (
       <div id="Cart">
-        { !cart ? "Loading" : <div>
+        { !results ? "Loading" : <div>
           Data!
         </div> }
       </div>

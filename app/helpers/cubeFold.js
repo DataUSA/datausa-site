@@ -37,6 +37,22 @@ function flattenDrilldowns(levels, values) {
 }
 
 export default response => {
+
   const data = flattenDrilldowns(response.axes, response.values);
-  return {data};
+
+  const measures = response.axes[0].members
+    .reduce((obj, member) => (obj[member.name] = member, obj), {});
+
+  const dimensions = response.axis_dimensions.slice(1)
+    .reduce((obj, dimension) => (obj[dimension.level] = dimension, obj), {});
+
+  const values = response.axes.map(d => d.members)
+    .reduce((obj, members) => {
+      obj[members[0].level_name] = members
+        .reduce((obj2, member) => (obj2[member.name] = member, obj2), {});
+      return obj;
+    }, {});
+
+  return {data, dimensions, measures, values};
+
 };
