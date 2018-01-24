@@ -1,0 +1,6 @@
+.d3plus-Axis-title {
+  & text {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+}
