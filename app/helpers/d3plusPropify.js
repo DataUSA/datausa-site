@@ -1,11 +1,13 @@
 import {assign} from "d3plus-common";
+import cubeFold from "./cubeFold";
 
 export default config => {
 
   const configClone = {...config};
 
   // strip out the "dataFormat" from config
-  const {dataFormat} = configClone;
+  let {dataFormat} = configClone;
+  if (!dataFormat) dataFormat = data => cubeFold(data).data;
   delete configClone.dataFormat;
 
   // hides the non-discrete axis, if necessary
