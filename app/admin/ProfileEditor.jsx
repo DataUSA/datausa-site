@@ -54,23 +54,22 @@ class ProfileEditor extends Component {
   }
   */
 
-  openGeneratorEditor(g) {
-    this.setState({currentGenerator: g, isGeneratorEditorOpen: true});
+  openGeneratorEditor(g, type) {
+    this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
   }
 
   openTextEditor(t) {
     this.setState({currentText: t, isTextEditorOpen: true});
   }
-  
 
   render() {
 
-    const {data, builders, currentGenerator, currentText} = this.state;
+    const {data, builders, currentGenerator, currentGeneratorType, currentText} = this.state;
 
     if (!data || !builders) return null;
 
     const generators = builders.generators.map(g =>
-      <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g)} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{g.name}</h5>
         <ul>
           <li>exported</li>
@@ -82,7 +81,7 @@ class ProfileEditor extends Component {
     );
 
     const materializedGenerators = builders.materializers.map(m => 
-      <Card key={m.id} onClick={this.openGeneratorEditor.bind(this, m)} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={m.id} onClick={this.openGeneratorEditor.bind(this, m, "materializer")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{m.name}</h5>
         <ul>
           <li>exported</li>
@@ -94,7 +93,7 @@ class ProfileEditor extends Component {
     );
 
     const stats = data.stats.map(s => 
-      <Card key={s.id} onClick={this.openTextEditor.bind(this, s)} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={s.id} onClick={this.openTextEditor.bind(this)} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h3>{s.title}</h3>
         <p>{s.subtitle}</p>
         <p>{s.value}</p>
@@ -115,9 +114,10 @@ class ProfileEditor extends Component {
           isOpen={this.state.isGeneratorEditorOpen}
           onClose={() => this.setState({isGeneratorEditorOpen: false})}
           title="Variable Editor"
+          style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
-            <GeneratorEditor data={currentGenerator} />
+            <GeneratorEditor data={currentGenerator} type={currentGeneratorType} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">

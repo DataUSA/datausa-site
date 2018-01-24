@@ -41,7 +41,7 @@ class ProfileBuilder extends Component {
           data: s,
           childNodes: s.topics.map(t => ({
             id: `topic${t.id}`,
-            hasCaret:false,
+            hasCaret: false,
             label: t.title,
             itemType: "topic",
             data: t

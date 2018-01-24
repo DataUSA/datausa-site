@@ -5,7 +5,7 @@ import "./QuillWrapper.css";
 class QuillWrapper extends Component {
 
   render() {
-    if (typeof window !== "undefined" && this.state.words) {
+    if (typeof window !== "undefined") {
       const Quill = require("react-quill");
       require("react-quill/dist/quill.snow.css");
       const modules = {

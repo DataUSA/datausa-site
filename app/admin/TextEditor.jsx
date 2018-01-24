@@ -56,8 +56,7 @@ class TextEditor extends Component {
 
     return (
       <div id="text-editor">
-        textttt
-
+        <QuillWrapper value={data} onChange={data => this.setState({data})} />
       </div>
     );
   }
