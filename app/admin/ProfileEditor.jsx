@@ -2,6 +2,7 @@ import axios from "axios";
 import React, {Component} from "react";
 import QuillWrapper from "./QuillWrapper";
 import AceWrapper from "./AceWrapper";
+/*import {Alert, Intent, Position, Toaster, Popover, Button, PopoverInteractionKind} from "@blueprintjs/core";*/
 
 import "./ProfileEditor.css";
 
@@ -10,16 +11,13 @@ class ProfileEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      themes: null
+      data: null
     };
   }
 
-  /*
   componentDidMount() {
     const {data} = this.props;
-    const themes = styleyml.islands;
-    this.setState({data, themes});   
+    this.setState({data});   
   }
 
   componentDidUpdate() {
@@ -40,6 +38,7 @@ class ProfileEditor extends Component {
     this.setState({data});    
   }
 
+  /*
   saveContent() {
     const {data} = this.state;
     if (this.props.reportSave) this.props.reportSave(data);
@@ -54,15 +53,18 @@ class ProfileEditor extends Component {
     });
   }
   */
+  
 
   render() {
 
-    const {data, themes} = this.state;
+    const {data} = this.state;
+
+    if (!data) return null;
 
     return (
       <div id="profile-editor">
-        I'm a profile editor<br/>
-        { JSON.stringify(this.props.data) }
+        <div id="preview-as">[Coming Soon: Preview As]</div>
+        { JSON.stringify(data) }
       </div>
     );
   }
