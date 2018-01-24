@@ -1,5 +1,40 @@
 const axios = require("axios");
 
+const profileReq = {   
+  include: [
+    {
+      association: "visualizations",
+      where: {owner_type: "profile"},
+      attributes: ["logic"]
+    }, 
+    {
+      association: "stats",
+      where: {owner_type: "profile"},
+      attributes: ["title", "subtitle", "value"]
+    },
+    { 
+      association: "sections", 
+      include: [
+        {
+          association: "topics", 
+          include: [
+            {
+              association: "visualizations", 
+              where: {owner_type: "topic"},
+              attributes: ["logic"]
+            },
+            {
+              association: "stats",
+              where: {owner_type: "topic"},
+              attributes: ["title", "subtitle", "value"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
 const varSwap = (sourceObj, formatterFunctions, variables) => {
   for (const skey in sourceObj) {
     if (sourceObj.hasOwnProperty(skey) && typeof sourceObj[skey] === "string") {
@@ -21,8 +56,19 @@ module.exports = function(app) {
 
   const {db} = app.settings;
 
+  app.get("/api/internalprofile/all", (req, res) => {
+    db.profiles.findAll(profileReq).then(u => res.json(u).end());
+  });
+
+  app.get("/api/internalprofile/:slug", (req, res) => {
+    const {slug} = req.params;
+    const reqObj = Object.assign({}, profileReq, {where: {slug}});
+    db.profiles.findOne(reqObj).then(u => res.json(u).end());
+  });
+
   app.get("/api/profile/:slug/:id", (req, res) => {
     const {slug, id} = req.params;
+    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
     db.generators.findAll()
       .then(generators => {
@@ -58,47 +104,13 @@ module.exports = function(app) {
         const [variables, formatters] = resp;
         const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", f.logic), acc), {});
         const returnObject = {variables};
-        const request = db.profiles.findOne({ 
-          where: {slug}, 
-          include: [
-            {
-              association: "visualizations",
-              where: {owner_type: "profile"},
-              attributes: ["logic"]
-            }, 
-            {
-              association: "stats",
-              where: {owner_type: "profile"},
-              attributes: ["title", "subtitle", "value"]
-            },
-            { 
-              association: "sections", 
-              include: [
-                {
-                  association: "topics", 
-                  include: [
-                    {
-                      association: "visualizations", 
-                      where: {owner_type: "topic"},
-                      attributes: ["logic"]
-                    },
-                    {
-                      association: "stats",
-                      where: {owner_type: "topic"},
-                      attributes: ["title", "subtitle", "value"]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        });
+        const request = axios.get(`${origin}/api/internalprofile/${slug}`);
         return Promise.all([returnObject, formatterFunctions, request]);
       })
       .then(resp => {
         let returnObject = resp[0];
         const formatterFunctions = resp[1];
-        const profile = varSwap(resp[2].toJSON(), formatterFunctions, returnObject.variables);
+        const profile = varSwap(resp[2].data, formatterFunctions, returnObject.variables);
         if (profile.sections) {
           profile.sections = profile.sections.map(s => {
             if (s.topics) {

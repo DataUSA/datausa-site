@@ -16,6 +16,8 @@ import Cart from "./pages/Cart";
 
 import About from "./pages/About";
 
+import ProfileBuilder from "./admin/ProfileBuilder";
+
 export default function RouteCreate() {
 
   return (
@@ -34,6 +36,8 @@ export default function RouteCreate() {
       <Route path="/cart" component={Cart} />
 
       <Route path="/about(/:content)(/:show)(/:sumlevel)(/:page)" component={About} />
+
+      <Route path="/admin/profilebuilder" component={ProfileBuilder} />
 
     </Route>
   );
