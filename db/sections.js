@@ -10,7 +10,8 @@ module.exports = function(sequelize, db) {
       title: db.STRING,
       slug: db.STRING,
       description: db.TEXT,
-      profile_id: db.INTEGER
+      profile_id: db.INTEGER,
+      ordering: db.INTEGER
     }, 
     {
       freezeTableName: true,

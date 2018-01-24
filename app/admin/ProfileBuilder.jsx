@@ -30,6 +30,7 @@ class ProfileBuilder extends Component {
         hasCaret: true,
         label: p.slug,
         itemType: "profile",
+        parent: {childNodes: []},
         data: p,
         childNodes: p.sections.map(s => ({
           id: `section${s.id}`,
@@ -45,9 +46,10 @@ class ProfileBuilder extends Component {
             data: t
           }))
         }))
-      }))
-      .map(p => ({...p, 
-        parent: {childNodes: []},
+      }));
+      const parent = {childNodes: nodes};
+      nodes = nodes.map(p => ({...p, 
+        parent,
         childNodes: p.childNodes.map(s => ({...s, 
           parent: p,
           childNodes: s.childNodes.map(t => ({...t, 
@@ -79,15 +81,6 @@ class ProfileBuilder extends Component {
       this.setState({nodes: this.state.nodes});
       this.handleNodeClick(nodeFromProps);
     }
-  }
-
-  fixNulls(obj) {
-    for (const k in obj) {
-      if (obj.hasOwnProperty(k) && (obj[k] === undefined || obj[k] === null)) {
-        obj[k] = "";
-      }
-    }
-    return obj;
   }
 
   saveNode(node) {
@@ -167,10 +160,6 @@ class ProfileBuilder extends Component {
     }
     arr.sort((a, b) => a.data.ordering - b.data.ordering);
     this.setState({nodes});
-  }
-
-  getUUID() {
-    return crypto.randomBytes(2).toString("hex");
   }
 
   addItem(n, dir) {
@@ -343,7 +332,6 @@ class ProfileBuilder extends Component {
       node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
       currentNode.secondaryLabel = null;
     }
-    node.isExpanded = !node.isExpanded;
     if (this.props.setPath) this.props.setPath(node);
     this.setState({currentNode: node});
   }

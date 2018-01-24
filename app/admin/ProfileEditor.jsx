@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {connect} from "react-redux";
+import QuillWrapper from "./QuillWrapper";
+import AceWrapper from "./AceWrapper";
+
+import "./ProfileEditor.css";
 
 class ProfileEditor extends Component {
 

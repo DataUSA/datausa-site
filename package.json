@@ -23,6 +23,8 @@
   "dependencies": {
     "datawheel-canon": "^0.12.5",
     "eslint": "^4.16.0",
-    "jsdoc-to-markdown": "^4.0.1"
+    "jsdoc-to-markdown": "^4.0.1",
+    "react-ace": "^5.9.0",
+    "react-quill": "^1.2.3"
   }
 }
