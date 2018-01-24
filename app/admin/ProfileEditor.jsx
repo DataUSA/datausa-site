@@ -64,7 +64,7 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {data, builders, currentGenerator, currentGeneratorType, currentText} = this.state;
+    const {data, builders, currentGenerator, currentGeneratorType, currentField} = this.state;
 
     if (!data || !builders) return null;
 
@@ -144,7 +144,7 @@ class ProfileEditor extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={currentText} />
+            <TextEditor data={data} field={currentField} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
@@ -209,15 +209,15 @@ class ProfileEditor extends Component {
             SPLASH
           </div>
           <div className="splash-cards">
-            <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true, currentText: data.title})} interactive={true} elevation={Card.ELEVATION_ONE}>
+            <Card className="splash-card" onClick={this.openTextEditor.bind(this, "title")} interactive={true} elevation={Card.ELEVATION_ONE}>
               <h6>title</h6>
               <h2>{data.title}</h2>
             </Card>
-            <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true, currentText: data.subtitle})} interactive={true} elevation={Card.ELEVATION_ONE}>
+            <Card className="splash-card" onClick={this.openTextEditor.bind(this, "subtitle")} interactive={true} elevation={Card.ELEVATION_ONE}>
               <h6>subtitle</h6>
               <h2>{data.subtitle}</h2>
             </Card>
-            <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true, currentText: data.description})} interactive={true} elevation={Card.ELEVATION_ONE}>
+            <Card className="splash-card" onClick={this.openTextEditor.bind(this, "description")} interactive={true} elevation={Card.ELEVATION_ONE}>
               <h6>description</h6>
               <h2>{data.description}</h2>
             </Card>
