@@ -6,7 +6,7 @@ export default class TextViz extends Component {
 
   render() {
 
-    const {description, slug, title, visualizations} = this.props;
+    const {description, slug, subtitle, title, visualizations} = this.props;
 
     return <div className={ `topic ${slug} TextViz` }>
       <div className="topic-text">
@@ -15,6 +15,7 @@ export default class TextViz extends Component {
             { title }
           </a>
         </h3>
+        { subtitle ? <div className="topic-subtitle" dangerouslySetInnerHTML={{__html: subtitle}}></div> : null }
         { description ? <div className="topic-description" dangerouslySetInnerHTML={{__html: description}}></div> : null }
       </div>
       { visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="topic-visualization" title={ title } slug={ `${slug}_${i}` } />) }
