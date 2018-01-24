@@ -1,13 +1,10 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {NonIdealState, Tree} from "@blueprintjs/core";
-/*import ProfileEditor from "./ProfileEditor";
+import ProfileEditor from "./ProfileEditor";
 import SectionEditor from "./SectionEditor";
-import TopicEditor from "./TopicEditor";*/
-/*import IslandEditor from "pages/admin/lessonbuilder/IslandEditor";
-import LevelEditor from "pages/admin/lessonbuilder/LevelEditor";
-import SlideEditor from "pages/admin/lessonbuilder/SlideEditor";
-import CtxMenu from "pages/admin/lessonbuilder/CtxMenu";*/
+import TopicEditor from "./TopicEditor";
+import CtxMenu from "./CtxMenu";
 
 import "./ProfileBuilder.css";
 
@@ -29,19 +26,19 @@ class ProfileBuilder extends Component {
       const profiles = resp.data;
       
       let nodes = profiles.map(p => ({
-        id: p.id,
+        id: `profile${p.id}`,
         hasCaret: true,
         label: p.slug,
         itemType: "profile",
         data: p,
         childNodes: p.sections.map(s => ({
-          id: s.id,
+          id: `section${s.id}`,
           hasCaret: true,
           label: s.title,
           itemType: "section",
           data: s,
           childNodes: s.topics.map(t => ({
-            id: t.id,
+            id: `topic${t.id}`,
             hasCaret:false,
             label: t.title,
             itemType: "topic",
@@ -320,6 +317,19 @@ class ProfileBuilder extends Component {
     this.setState({nodes});
     if (n.parent.childNodes[0]) this.handleNodeClick(n.parent.childNodes[0]);
   }
+  */
+
+  moveItem(n, dir) {
+    console.log("move", n, dir);
+  }
+
+  addItem(n, dir) {
+    console.log("add", n, dir); 
+  }
+
+  deleteItem(n) {
+    console.log("delete", n);
+  }
 
   handleNodeClick(node) {
     const {currentNode} = this.state;
@@ -337,7 +347,7 @@ class ProfileBuilder extends Component {
     if (this.props.setPath) this.props.setPath(node);
     this.setState({currentNode: node});
   }
-  */
+  
   handleNodeCollapse(node) {
     node.isExpanded = false;
     this.setState({nodes: this.state.nodes});
@@ -347,16 +357,13 @@ class ProfileBuilder extends Component {
     node.isExpanded = true;
     this.setState({nodes: this.state.nodes});
   }
-  /*
 
   reportSave(newData) {
-    const {currentNode} = this.state;
+    /*const {currentNode} = this.state;
     if (currentNode.itemType === "island" || currentNode.itemType === "level") currentNode.label = newData.name;
     if (currentNode.itemType === "slide") currentNode.label = newData.title;
-    this.setState({currentNode});
+    this.setState({currentNode});*/
   }
-
-  */
 
   render() {
 
@@ -368,7 +375,7 @@ class ProfileBuilder extends Component {
       <div id="profile-builder">
         <div id="tree">
           <Tree
-            /*onNodeClick={this.handleNodeClick.bind(this)}*/
+            onNodeClick={this.handleNodeClick.bind(this)}
             onNodeCollapse={this.handleNodeCollapse.bind(this)}
             onNodeExpand={this.handleNodeExpand.bind(this)}
             contents={nodes}
@@ -376,24 +383,18 @@ class ProfileBuilder extends Component {
           />
         </div>
         <div id="item-editor">
-        </div>
-
-        {/*
-
-        <div id="item-editor">
           { currentNode
-            ? currentNode.itemType === "island"
-              ? <IslandEditor data={currentNode.data} reportSave={this.reportSave.bind(this)} />
-              : currentNode.itemType === "level"
-                ? <LevelEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
-                : currentNode.itemType === "slide"
-                  ? <SlideEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
+            ? currentNode.itemType === "profile"
+              ? <ProfileEditor data={currentNode.data} reportSave={this.reportSave.bind(this)} />
+              : currentNode.itemType === "section"
+                ? <SectionEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
+                : currentNode.itemType === "topic"
+                  ? <TopicEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                   : null
-            : <NonIdealState title="No Island Selected" description="Please select an island from the menu on the left." visual="path-search" />
+            : <NonIdealState title="No Profile Selected" description="Please select a Profile from the menu on the left." visual="path-search" />
           }
         </div>
 
-        */}
       </div>
     );
   }
