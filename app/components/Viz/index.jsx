@@ -2,31 +2,32 @@ import React, {Component} from "react";
 import * as d3plus from "d3plus-react";
 import "./index.css";
 import Options from "./Options";
+import propify from "helpers/d3plusPropify";
 
 export default class Viz extends Component {
 
   render() {
-    const {config, className, options, title} = this.props;
+    const {config, className, options, slug, title} = this.props;
 
     // clone config object to allow manipulation
-    const configClone = {...config};
+    const vizProps = propify(config);
 
-    // strip out the "dataFormat" and "type" and use it to lookup the correct component
-    const {dataFormat, type} = configClone;
-    delete config.dataFormat;
-    delete config.type;
+    // strip out the "type" from config
+    const {type} = vizProps.config;
+    delete vizProps.config.type;
     if (!type) return null;
     const Visualization = d3plus[type];
 
     return <div className={ `visualization ${className}` }>
       { options ? <Options
         component={ this }
+        data={ vizProps.config.data }
+        slug={ slug }
         title={ title } /> : null }
       <Visualization
         ref={ comp => this.viz = comp }
-        config={configClone}
         className="d3plus"
-        dataFormat={dataFormat} />
+        {...vizProps} />
     </div>;
   }
 

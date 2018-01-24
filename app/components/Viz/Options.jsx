@@ -5,23 +5,58 @@ import {select} from "d3-selection";
 import {saveAs} from "file-saver";
 import {text} from "d3-request";
 import {saveElement} from "d3plus-export";
+import localforage from "localforage";
 
-import {Dialog, Icon} from "@blueprintjs/core";
+import {Dialog, Icon, Position, Tooltip} from "@blueprintjs/core";
 
 class Options extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      dialog: false
+      cartSize: 0,
+      inCart: false,
+      openDialog: false
     };
   }
 
-  onSave(type) {
-    const {component, title} = this.props;
-    if (component.viz) {
-      const elem = component.viz.container || component.viz._reactInternalInstance._renderedComponent._hostNode;
-      saveElement(select(elem).select("svg").node(), {filename: title, type});
+  componentDidMount() {
+
+    const {slug} = this.props;
+    if (!slug) return;
+
+    localforage.getItem("datausa-cart")
+      .then(cart => {
+        const inCart = cart && cart.find(c => c.slug === slug);
+        this.setState({cartSize: cart ? cart.length : 0, inCart});
+      })
+      .catch(err => console.error(err));
+  }
+
+  onCart() {
+
+    const {data, slug, title} = this.props;
+
+    const {inCart} = this.state;
+    if (!inCart) {
+      localforage.getItem("datausa-cart")
+        .then(cart => {
+          if (!cart) cart = [];
+          cart.push({data, slug, title});
+          return localforage.setItem("datausa-cart", cart);
+        })
+        .then(() => this.setState({cartSize: this.state.cartSize + 1, inCart: true}))
+        .catch(err => console.error(err));
+    }
+    else {
+      localforage.getItem("datausa-cart")
+        .then(cart => {
+          const build = cart.find(c => c.slug === slug);
+          cart.splice(cart.indexOf(build), 1);
+          return localforage.setItem("datausa-cart", cart);
+        })
+        .then(() => this.setState({cartSize: this.state.cartSize - 1, inCart: false}))
+        .catch(err => console.error(err));
     }
   }
 
@@ -32,6 +67,14 @@ class Options extends Component {
     });
   }
 
+  onSave(type) {
+    const {component, title} = this.props;
+    if (component.viz) {
+      const elem = component.viz.container || component.viz._reactInternalInstance._renderedComponent._hostNode;
+      saveElement(select(elem).select("svg").node(), {filename: title, type});
+    }
+  }
+
   onBlur() {
     this.input.blur();
   }
@@ -40,13 +83,15 @@ class Options extends Component {
     this.input.select();
   }
 
-  toggleDialog(dialog) {
-    this.setState({dialog});
+  toggleDialog(slug) {
+    this.setState({openDialog: slug});
   }
 
   render() {
-    // const {slug} = this.props;
-    const {dialog} = this.state;
+    const {data, slug, title} = this.props;
+    const {cartSize, inCart, openDialog} = this.state;
+
+    const cartEnabled = data && slug && title;
 
     // const profile = "test";
     // const url = `https://dataafrica.io/profile/${profile}/${slug}`;
@@ -73,7 +118,7 @@ class Options extends Component {
       <div className="option save-image" onClick={this.toggleDialog.bind(this, "save-image")}>
         <span className="option-label">Save Image</span>
       </div>
-      <Dialog className="options-dialog" isOpen={dialog === "save-image"} onClose={this.toggleDialog.bind(this, false)}>
+      <Dialog className="options-dialog" isOpen={openDialog === "save-image"} onClose={this.toggleDialog.bind(this, false)}>
         <DialogHeader slug="save-image" title="Save Image" />
         <div className="pt-dialog-body">
           <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
@@ -84,6 +129,17 @@ class Options extends Component {
           </div>
         </div>
       </Dialog>
+
+      { cartEnabled ? <Tooltip position={Position.TOP_RIGHT}>
+        <div className={ `option add-to-cart ${ cartSize >= 5 ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
+          <span className="option-label">{ cartSize === 0 ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
+        </div>
+        <span>
+          { inCart ? "Remove this dataset from the cart."
+            : cartSize >= 5 ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+              : "Add the underlying data to the cart, and merge with any existing cart data." }
+        </span>
+      </Tooltip> : null }
 
     </div>;
 

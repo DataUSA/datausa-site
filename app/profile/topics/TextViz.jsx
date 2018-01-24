@@ -17,7 +17,7 @@ export default class TextViz extends Component {
         </h3>
         { description ? <div className="topic-description" dangerouslySetInnerHTML={{__html: description}}></div> : null }
       </div>
-      { visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="topic-visualization" title={ title } />) }
+      { visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="topic-visualization" title={ title } slug={ `${slug}_${i}` } />) }
     </div>;
   }
 

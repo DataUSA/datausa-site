@@ -9,6 +9,10 @@
     font-size: 12px;
     font-weight: 700;
     margin: 5px 15px 0 0;
+    outline: 0;
+    &.disabled {
+      opacity: 0.5;
+    }
     &:before {
       background-position: center;
       background-repeat: no-repeat;
