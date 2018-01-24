@@ -1,10 +1,7 @@
-import axios from "axios";
 import React, {Component} from "react";
-import QuillWrapper from "./QuillWrapper";
-import AceWrapper from "./AceWrapper";
-/*import {Alert, Intent, Position, Toaster, Popover, Button, PopoverInteractionKind} from "@blueprintjs/core";*/
-import {Card} from "@blueprintjs/core";
-
+import {Card, Dialog} from "@blueprintjs/core";
+import GeneratorEditor from "./GeneratorEditor";
+import TextEditor from "./TextEditor";
 
 import "./ProfileEditor.css";
 
@@ -56,16 +53,24 @@ class ProfileEditor extends Component {
     });
   }
   */
+
+  openGeneratorEditor(g) {
+    this.setState({currentGenerator: g, isGeneratorEditorOpen: true});
+  }
+
+  openTextEditor(t) {
+    this.setState({currentText: t, isTextEditorOpen: true});
+  }
   
 
   render() {
 
-    const {data, builders} = this.state;
+    const {data, builders, currentGenerator, currentText} = this.state;
 
     if (!data || !builders) return null;
 
     const generators = builders.generators.map(g =>
-      <Card key={g.id} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g)} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{g.name}</h5>
         <ul>
           <li>exported</li>
@@ -77,7 +82,7 @@ class ProfileEditor extends Component {
     );
 
     const materializedGenerators = builders.materializers.map(m => 
-      <Card key={m.id} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={m.id} onClick={this.openGeneratorEditor.bind(this, m)} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{m.name}</h5>
         <ul>
           <li>exported</li>
@@ -89,7 +94,7 @@ class ProfileEditor extends Component {
     );
 
     const stats = data.stats.map(s => 
-      <Card key={s.id} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={s.id} onClick={this.openTextEditor.bind(this, s)} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h3>{s.title}</h3>
         <p>{s.subtitle}</p>
         <p>{s.value}</p>
@@ -97,16 +102,74 @@ class ProfileEditor extends Component {
     );
 
     const visualizations = data.visualizations.map(v =>
-      <Card key={v.id} className="visualization-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v)} className="visualization-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <p>{v.logic}</p>
       </Card>
     );
 
     return (
       <div id="profile-editor">
+        
+        <Dialog
+          iconName="code"
+          isOpen={this.state.isGeneratorEditorOpen}
+          onClose={() => this.setState({isGeneratorEditorOpen: false})}
+          title="Variable Editor"
+        >
+          <div className="pt-dialog-body">
+            <GeneratorEditor data={currentGenerator} />
+          </div>
+          <div className="pt-dialog-footer">
+            <div className="pt-dialog-footer-actions">
+              <button 
+                className="pt-button pt-intent-danger"
+                onClick={() => this.setState({isGeneratorEditorOpen: false})}
+              >
+                Cancel
+              </button>
+              <button
+                className="pt-button pt-intent-success"
+                onClick={() => this.setState({isGeneratorEditorOpen: false})}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </Dialog>
+
+        <Dialog
+          iconName="document"
+          isOpen={this.state.isTextEditorOpen}
+          onClose={() => this.setState({isTextEditorOpen: false})}
+          title="Text Editor"
+        >
+          <div className="pt-dialog-body">
+            <TextEditor data={currentText} />
+          </div>
+          <div className="pt-dialog-footer">
+            <div className="pt-dialog-footer-actions">
+              <button 
+                className="pt-button pt-intent-danger"
+                onClick={() => this.setState({isTextEditorOpen: false})}
+              >
+                Cancel
+              </button>
+              <button
+                className="pt-button pt-intent-success"
+                onClick={() => this.setState({isTextEditorOpen: false})}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </Dialog>
+
+
         <div id="preview-as">
-          [Coming Soon: Preview As]
+          Hard Code Previewing as <strong>04000US25</strong>
         </div>
+
+
         
         <div id="slug">
           <label className="pt-label">
@@ -146,15 +209,15 @@ class ProfileEditor extends Component {
             SPLASH
           </div>
           <div className="splash-cards">
-            <Card className="splash-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+            <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true, currentText: data.title})} interactive={true} elevation={Card.ELEVATION_ONE}>
               <h6>title</h6>
               <h2>{data.title}</h2>
             </Card>
-            <Card className="splash-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+            <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true, currentText: data.subtitle})} interactive={true} elevation={Card.ELEVATION_ONE}>
               <h6>subtitle</h6>
               <h2>{data.subtitle}</h2>
             </Card>
-            <Card className="splash-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+            <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true, currentText: data.description})} interactive={true} elevation={Card.ELEVATION_ONE}>
               <h6>description</h6>
               <h2>{data.description}</h2>
             </Card>
