@@ -2,6 +2,8 @@ import axios from "axios";
 import React, {Component} from "react";
 import {connect} from "react-redux";
 
+import "./SectionEditor.css";
+
 class SectionEditor extends Component {
 
   constructor(props) {

@@ -4,7 +4,7 @@ import {NonIdealState, Tree} from "@blueprintjs/core";
 import ProfileEditor from "./ProfileEditor";
 import SectionEditor from "./SectionEditor";
 import TopicEditor from "./TopicEditor";
-/*import CtxMenu from "pages/admin/lessonbuilder/CtxMenu";*/
+import CtxMenu from "./CtxMenu";
 
 import "./ProfileBuilder.css";
 
@@ -319,17 +319,29 @@ class ProfileBuilder extends Component {
   }
   */
 
+  moveItem(n, dir) {
+    console.log("move", n, dir);
+  }
+
+  addItem(n, dir) {
+    console.log("add", n, dir); 
+  }
+
+  deleteItem(n) {
+    console.log("delete", n);
+  }
+
   handleNodeClick(node) {
     const {currentNode} = this.state;
     if (!currentNode) {
       node.isSelected = true;
-      //node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
+      node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
     }
     else if (node.id !== currentNode.id) {
       node.isSelected = true;
       currentNode.isSelected = false;
-      //node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
-      //currentNode.secondaryLabel = null;
+      node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
+      currentNode.secondaryLabel = null;
     }
     node.isExpanded = !node.isExpanded;
     if (this.props.setPath) this.props.setPath(node);
@@ -371,9 +383,6 @@ class ProfileBuilder extends Component {
           />
         </div>
         <div id="item-editor">
-        </div>
-
-        <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
               ? <ProfileEditor data={currentNode.data} reportSave={this.reportSave.bind(this)} />
@@ -382,7 +391,7 @@ class ProfileBuilder extends Component {
                 : currentNode.itemType === "topic"
                   ? <TopicEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                   : null
-            : <NonIdealState title="No Island Selected" description="Please select an island from the menu on the left." visual="path-search" />
+            : <NonIdealState title="No Profile Selected" description="Please select a Profile from the menu on the left." visual="path-search" />
           }
         </div>
 
