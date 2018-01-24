@@ -30,13 +30,13 @@ class CtxMenu extends Component {
         iconName="arrow-up"
         onClick={this.props.moveItem.bind(this, node, "up")}
         text={`Move ${node.itemType} Up`}
-        //disabled={node.parent.childNodes[0] === node}
+        disabled={node.data.ordering === 0}
       />
       <MenuItem
         iconName="arrow-down"
         onClick={this.props.moveItem.bind(this, node, "down")}
         text={`Move ${node.itemType} Down`}
-        //disabled={node.parent && node.parent.childNodes[node.parent.childNodes.length - 1].data.id === node.data.id}
+        disabled={node.parent && node.parent.childNodes[node.parent.childNodes.length - 1].data.id === node.data.id}
       />
       <MenuDivider />
       <MenuItem
