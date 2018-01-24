@@ -14,7 +14,7 @@ class Options extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cartSize: 0,
+      cartSize: undefined,
       inCart: false,
       openDialog: false
     };
@@ -132,11 +132,11 @@ class Options extends Component {
 
       { cartEnabled ? <Tooltip position={Position.TOP_RIGHT}>
         <div className={ `option add-to-cart ${ cartSize >= 5 ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
-          <span className="option-label">{ cartSize === 0 ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
+          <span className="option-label">{ cartSize === undefined ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
         </div>
         <span>
           { inCart ? "Remove this dataset from the cart."
-            : cartSize >= 5 ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+            : cartSize !== undefined && cartSize >= 5 ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
               : "Add the underlying data to the cart, and merge with any existing cart data." }
         </span>
       </Tooltip> : null }
