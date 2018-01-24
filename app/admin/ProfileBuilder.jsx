@@ -15,6 +15,7 @@ class ProfileBuilder extends Component {
     this.state = {
       mounted: false,
       nodes: null,
+      builders: null,
       currentNode: null
     };
   }
@@ -23,7 +24,7 @@ class ProfileBuilder extends Component {
     /*const {pathObj} = this.props;
     let nodeFromProps;*/
     axios.get("/api/internalprofile/all").then(resp => {
-      const profiles = resp.data;
+      const {builders, profiles} = resp.data;
       
       let nodes = profiles.map(p => ({
         id: `profile${p.id}`,
@@ -57,7 +58,7 @@ class ProfileBuilder extends Component {
           }))
         })
       )}));
-      this.setState({mounted: true, nodes});
+      this.setState({mounted: true, nodes, builders});
     });
 
   //this.setState({mounted: true, nodes}, this.initFromProps.bind(this, nodeFromProps));   
@@ -355,9 +356,9 @@ class ProfileBuilder extends Component {
 
   render() {
 
-    const {nodes, currentNode} = this.state;
+    const {nodes, currentNode, builders} = this.state;
 
-    //if (!nodes) return <Loading />;
+    if (!nodes || !builders) return <div>Loading</div>;
 
     return (
       <div id="profile-builder">
@@ -373,7 +374,7 @@ class ProfileBuilder extends Component {
         <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor data={currentNode.data} reportSave={this.reportSave.bind(this)} />
+              ? <ProfileEditor data={currentNode.data} builders={builders} reportSave={this.reportSave.bind(this)} />
               : currentNode.itemType === "section"
                 ? <SectionEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                 : currentNode.itemType === "topic"

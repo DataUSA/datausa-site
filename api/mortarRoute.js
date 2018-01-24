@@ -57,7 +57,22 @@ module.exports = function(app) {
   const {db} = app.settings;
 
   app.get("/api/internalprofile/all", (req, res) => {
-    db.profiles.findAll(profileReq).then(u => res.json(u).end());
+    Promise.all([
+      db.generators.findAll(),
+      db.materializers.findAll(),
+      db.formatters.findAll(),
+      db.profiles.findAll(profileReq)
+    ]).then(resp => {
+      res.json({
+        builders: {
+          generators: resp[0],
+          materializers: resp[1],
+          formatters: resp[2]
+        },
+        profiles: resp[3]
+      });
+    });
+    
   });
 
   app.get("/api/internalprofile/:slug", (req, res) => {
