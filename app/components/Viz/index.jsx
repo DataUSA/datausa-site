@@ -13,8 +13,8 @@ export default class Viz extends Component {
 
     // strip out the "dataFormat" and "type" and use it to lookup the correct component
     const {dataFormat, type} = configClone;
-    delete config.dataFormat;
-    delete config.type;
+    delete configClone.dataFormat;
+    delete configClone.type;
     if (!type) return null;
     const Visualization = d3plus[type];
 
