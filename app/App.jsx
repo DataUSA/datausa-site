@@ -11,9 +11,11 @@ export default class App extends Component {
 
   render() {
 
+    const {location} = this.props;
+
     return (
       <CanonComponent d3plus={d3plus}>
-        <Nav />
+        <Nav location={location} />
         { this.props.children }
       </CanonComponent>
     );

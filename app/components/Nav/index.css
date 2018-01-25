@@ -11,10 +11,99 @@
   &.background {
     background-color: var(--dark);
   }
+  & .menu-btn {
+    cursor: pointer;
+    left: 0;
+    padding: 10px 13px;
+    position: absolute;
+    top: 0;
+    & .label {
+      color: white;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 1;
+      text-transform: uppercase;
+      transition: opacity 0.25s ease-in-out;
+      vertical-align: top;
+      &.open {
+        opacity: 0;
+      }
+    }
+  }
   & .home-btn {
     margin: 0 auto;
     & img {
       width: 78px;
     }
+  }
+}
+
+.pt-dialog.nav-menu {
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-space-between;
+  left: 0;
+  margin: 0;
+  padding: 10px 13px;
+  position: fixed !important;
+  /* necessary for overriding blueprint */
+  transition: left 0.25s;
+  width: 300px;
+  & .menu-content {
+    margin: 15px 37px 50px 37px;
+    & ul {
+      margin: 0;
+      padding: 0;
+      & li {
+        font-family: "Palanquin", sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        padding: 5px 0;
+        text-transform: uppercase;
+        vertical-align: middle;
+        & a {
+          color: white;
+          &:hover {
+            color: var(--purple);
+            text-decoration: none;
+          }
+        }
+        & ul {
+          margin-left: 13px;
+          margin-top: 5px;
+          & li {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.pt-dialog-container {
+  &.slide-enter, &.slide-leave.slide-leave-active {
+    left: -300px;
+    outline: 0;
+    transition: left 0.25s ease-in-out;
+  }
+  &.slide-enter.slide-enter-active, &.slide-leave {
+    left: 0;
+    outline: 0;
+    transition: left 0.25s ease-in-out;
+  }
+}
+
+.pt-overlay-backdrop {
+  &.slide-enter, &.slide-leave.slide-leave-active {
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+  }
+  &.slide-enter.slide-enter-active, &.slide-leave {
+    opacity: 1;
+    transition: opacity 0.25s ease-in-out;
   }
 }
