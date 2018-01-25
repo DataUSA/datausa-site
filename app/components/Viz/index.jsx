@@ -4,7 +4,7 @@ import "./index.css";
 import Options from "./Options";
 import propify from "helpers/d3plusPropify";
 
-export default class Viz extends Component {
+class Viz extends Component {
 
   render() {
     const {config, className, options, slug, title} = this.props;
@@ -38,3 +38,5 @@ Viz.defaultProps = {
   config: {},
   options: true
 };
+
+export default Viz;

@@ -19,7 +19,7 @@
       z-index: -1;
       &:after {
         content: "";
-        background-image: linear-gradient(rgba(20, 27, 46, 0.5), rgba(20, 27, 46, 0.3) 10%, rgba(20, 27, 46, 0.5) 50%, #141b2e 100%);
+        background-image: linear-gradient(rgba(20, 27, 46, 0.5), rgba(20, 27, 46, 0.3) 10%, rgba(20, 27, 46, 0.5) 50%, var(--dark) 100%);
         height: 100%;
         left: 0;
         position: absolute;
@@ -119,9 +119,9 @@
       z-index: 2;
       & a {
         color: #333;
-        margin-top: calc(var(--nav-height) * -1);
+        margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
         outline: 0;
-        padding-top: var(--nav-height);
+        padding-top: calc(var(--subnav-size) + 10px);
         position: relative;
       }
     }
@@ -156,12 +156,58 @@
       }
     }
     &.about {
-      background-color: #141b2e;
+      background-color: var(--dark);
       & .section-title a {
         color: white;
       }
       & .section-description {
         color: white;
+      }
+    }
+  }
+  & .subnav {
+    display: flex;
+    justify-content: space-around;
+    padding-top: var(--nav-height);
+    & .SectionIcon {
+      color: white;
+      flex: 1;
+      font-family: "Palanquin", sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin: 0 10px;
+      position: relative;
+      text-align: center;
+      text-transform: uppercase;
+      transition: text-shadow 0.35s;
+      width: 100px;
+      & img {
+        display: block;
+        height: 23px;
+        margin: -3px auto 2px;
+        width: 23px;
+      }
+      &:hover {
+        text-decoration: none;
+        text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+      }
+      &:before {
+        background: transparent;
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 2px;
+        position: absolute;
+        left: 10%;
+        transition: background 0.25s;
+        width: 80%;
+      }
+      &.active {
+        font-weight: 700;
+        &:before {
+          background: var(--red);
+        }
       }
     }
   }
