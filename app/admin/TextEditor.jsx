@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, {Component} from "react";
 import QuillWrapper from "./QuillWrapper";
-import AceWrapper from "./AceWrapper";
 
 import "./TextEditor.css";
 
@@ -10,13 +8,14 @@ class TextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null, 
+      field: null
     };
   }
 
   componentDidMount() {
-    const {data} = this.props;
-    this.setState({data});   
+    const {data, field} = this.props;
+    this.setState({data, field});   
   }
 
   changeField(field, e) {
@@ -50,13 +49,30 @@ class TextEditor extends Component {
 
   render() {
 
-    const {data} = this.state;
+    const {data, field} = this.state;
 
     if (!data) return null;
 
     return (
       <div id="text-editor">
-        <QuillWrapper value={data} onChange={data => this.setState({data})} />
+        <div className="pt-select">
+          <select style={{margin: "5px"}}>
+            <option selected>Choose a variable...</option>
+            <option value="1">variables</option>
+            <option value="2">go</option>
+            <option value="3">here</option>
+          </select>
+        </div>
+        <div className="pt-select">
+          <select style={{margin: "5px"}}>
+            <option selected>Choose a formatter...</option>
+            <option value="1">formatters</option>
+            <option value="2">go</option>
+            <option value="3">here</option>
+          </select>
+        </div>
+        <button className="pt-button pt-intent-success">Insert</button>
+        <QuillWrapper value={data[field]} onChange={this.handleEditor.bind(this, field)} />
       </div>
     );
   }
