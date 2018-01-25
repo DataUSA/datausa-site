@@ -1,3 +1,5 @@
-nav-height: 85px
+nav-height: 45px
+subnav-size: 85px
 
 red: "#ef6145"
+dark: "#141b2e"

@@ -1,0 +1,20 @@
+#Nav {
+  height: 40px;
+  left: 0;
+  padding: 10px 15px;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  transition: background-color 0.75s;
+  width: 100%;
+  z-index: 11;
+  &.background {
+    background-color: var(--dark);
+  }
+  & .home-btn {
+    margin: 0 auto;
+    & img {
+      width: 78px;
+    }
+  }
+}
