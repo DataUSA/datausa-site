@@ -73,14 +73,17 @@ class Profile extends Component {
 
     return (
       <div id="Profile">
-        <Splash profile={profile} comparisons={comparisons} params={params} />
-        <Section title="About" description={ profile.description } visualizations={ profile.visualizations } slug="about" />
-        { profile.sections.map((s, i) => <Section key={i} {...s}>
-          { s.topics.map((t, ii) => <TextViz key={ii} {...t} />) }
-        </Section>) }
+        <Splash data={profile} comparisons={comparisons} params={params} />
+        <Section data={{...profile, title: "About", slug: "about"} } comparisons={comparisons} />
+        { profile.sections.map((s, i) => {
+          const compares = comparisons.map(c => c.sections[i]);
+          return <Section key={i} data={s} comparisons={compares}>
+            { s.topics.map((t, ii) => <TextViz data={t} key={ii} comparisons={compares.map(c => c.topics[ii])} />) }
+          </Section>;
+        }) }
         <SubNav type="scroll" anchor="top" visible={() => {
           if (!window) return false;
-          const elem = select(".section.about").node();
+          const elem = select(".Section.about").node();
           return elem.getBoundingClientRect().top <= 45;
         }}>
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />

@@ -36,6 +36,7 @@
   & .content-container {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
     width: 100%;
   }
   & .profile-title, & .profile-subtitle {
@@ -69,6 +70,7 @@
       margin-bottom: 25px;
       max-width: 30%;
       min-width: 30%;
+      position: relative;
       text-align: center;
       width: 30%;
       & .stat-title, & .stat-subtitle {

@@ -1,56 +1,89 @@
 .topic {
   color: white;
-  display: flex;
-  padding: 25px 0;
+  padding: 50px 0;
   width: 100%;
-  & .topic-text {
-    flex: none;
-    margin: 3px auto 12px;
-    max-width: 415px;
-    width: 50%;
-    & .topic-title {
-      font-family: "Pathway Gothic One", sans-serif;
-      font-size: 30px;
-      font-weight: 400;
-      margin: 0 auto 15px;
-      z-index: 2;
-      & a {
-        color: #333;
-        margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
-        outline: 0;
-        padding-top: calc(var(--subnav-size) + 10px);
+  & .topic-title {
+    font-family: "Pathway Gothic One", sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    margin: 0 auto 15px;
+    z-index: 2;
+    & a {
+      color: #333;
+      margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
+      outline: 0;
+      padding-top: calc(var(--subnav-size) + 10px);
+      position: relative;
+    }
+  }
+  & .topic-body {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 25px 0;
+    & .topic-content {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      &:first-child {
+        flex: none;
+        margin: 3px 0 12px;
+        max-width: 415px;
+        width: 50%;
+      }
+      & .topic-text {
+        flex: 1;
+        & .topic-subtitle {
+          color: var(--red);
+          font-family: "Palanquin", sans-serif;
+          font-size: 13px;
+          font-weight: 400;
+          letter-spacing: 0.05em;
+          margin: -10px auto 10px;
+          width: 100%;
+        }
+        & .topic-description {
+          color: rgba(51, 51, 51, 0.93);
+          font-family: "Palanquin", sans-serif;
+          font-size: 15px;
+          font-weight: 400;
+          line-height: 1.5;
+          opacity: 0.9;
+          & a {
+            color: #32415A;
+            text-decoration: underline;
+          }
+          & p {
+            padding-bottom: 30px;
+          }
+        }
+      }
+      & .topic-visualization {
+        flex: 1;
+        margin-left: 50px;
+        min-height: 400px;
+        overflow: hidden;
         position: relative;
       }
     }
-    & .topic-subtitle {
-      color: var(--red);
-      font-family: "Palanquin", sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-      margin: -10px auto 10px;
-    }
-    & .topic-description {
-      color: rgba(51, 51, 51, 0.93);
-      font-family: "Palanquin", sans-serif;
-      font-size: 15px;
-      font-weight: 400;
-      line-height: 1.5;
-      opacity: 0.9;
-      & a {
-        color: #32415A;
-        text-decoration: underline;
-      }
-      & p {
-        padding-bottom: 30px;
-      }
-    }
   }
-  & .topic-visualization {
-    flex: 1;
-    margin-left: 50px;
-    min-height: 400px;
-    overflow: hidden;
-    position: relative;
+  &.compare {
+    & .topic-body {
+      flex-wrap: wrap;
+      & .topic-content {
+        max-width: none !important;
+        width: 100%;
+        & .topic-text {
+          &:not(:first-child) {
+            margin-left: 50px;
+          }
+        }
+        & .topic-visualization {
+          margin-left: 0;
+          &:not(:first-child) {
+            margin-left: 50px;
+          }
+        }
+      }
+    }
   }
 }

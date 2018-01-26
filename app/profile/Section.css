@@ -1,0 +1,85 @@
+.Section {
+  background-color: #E9E9E9;
+  padding: 60px 50px 25px;
+  width: 100%;
+  &:nth-child(even) {
+    background-color: #F6F6F6;
+  }
+  & .section-title {
+    font-family: "Pathway Gothic One", sans-serif;
+    font-size: 47px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin: 0 auto 15px;
+    text-transform: uppercase;
+    z-index: 2;
+    & a {
+      color: #333;
+      margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
+      outline: 0;
+      padding-top: calc(var(--subnav-size) + 10px);
+      position: relative;
+    }
+  }
+  & .section-body {
+    display: flex;
+    flex-wrap: nowrap;
+    & .section-content {
+      display: flex;
+      flex-direction: row;
+      & .section-description {
+        color: rgba(51, 51, 51, 0.93);
+        columns: 320px auto;
+        column-gap: 20px;
+        flex: 2;
+        font-family: "Palanquin", sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.7;
+        margin: 3px auto 12px;
+        max-width: 1200px;
+        opacity: 0.9;
+        & a {
+          color: #32415A;
+          text-decoration: underline;
+        }
+      }
+      & .section-visualization {
+        flex: 1;
+        height: 200px;
+        margin-left: 50px;
+        min-width: 300px;
+        overflow: hidden;
+        position: relative;
+      }
+    }
+  }
+  &.compare {
+    & .section-body {
+      flex-wrap: wrap;
+      & .section-content {
+        width: 100%;
+        & .section-description {
+          &:not(:first-child) {
+            margin-left: 50px;
+          }
+        }
+        & .section-visualization {
+          margin-left: 0;
+          &:not(:first-child) {
+            margin-left: 50px;
+          }
+        }
+      }
+    }
+  }
+  &.about {
+    background-color: var(--dark);
+    & .section-title a {
+      color: white !important;
+    }
+    & .section-description {
+      color: white !important;
+    }
+  }
+}
