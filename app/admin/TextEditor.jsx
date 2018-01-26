@@ -9,13 +9,13 @@ class TextEditor extends Component {
     super(props);
     this.state = {
       data: null, 
-      field: null
+      fields: null
     };
   }
 
   componentDidMount() {
-    const {data, field} = this.props;
-    this.setState({data, field});   
+    const {data, fields} = this.props;
+    this.setState({data, fields});   
   }
 
   changeField(field, e) {
@@ -49,9 +49,16 @@ class TextEditor extends Component {
 
   render() {
 
-    const {data, field} = this.state;
+    const {data, fields} = this.state;
 
-    if (!data) return null;
+    if (!data || !fields) return null;
+
+    const quills = fields.map(f => 
+      <div key={f} style={{margin: "10px"}}>
+        <span style={{fontWeight: "bold"}}>{f}</span>
+        <QuillWrapper value={this.state.data[f]} onChange={this.handleEditor.bind(this, f)} />
+      </div>
+    );
 
     return (
       <div id="text-editor">
@@ -72,7 +79,8 @@ class TextEditor extends Component {
           </select>
         </div>
         <button className="pt-button pt-intent-success">Insert</button>
-        <QuillWrapper value={data[field]} onChange={this.handleEditor.bind(this, field)} />
+        {quills}
+        
       </div>
     );
   }

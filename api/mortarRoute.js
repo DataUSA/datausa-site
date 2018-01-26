@@ -66,7 +66,7 @@ module.exports = function(app) {
       res.json({
         builders: {
           generators: resp[0],
-          materializers: resp[1],
+          materializers: resp[1].sort((a, b) => a.ordering - b.ordering),
           formatters: resp[2]
         },
         profiles: resp[3]
@@ -85,14 +85,18 @@ module.exports = function(app) {
     const {slug, id} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
-    db.generators.findAll()
-      .then(generators => {
+    db.profiles.findOne({where: {slug}, raw: true})
+      .then(profile => 
+        Promise.all([profile.id, db.generators.findAll({where: {profile_id: profile.id}})])
+      )
+      .then(resp => {
+        const [pid, generators] = resp;
         const requests = Array.from(new Set(generators.map(g => g.api)));
         const fetches = requests.map(r => axios.get(r.replace(/\<id\>/g, id)));
-        return Promise.all([generators, requests, Promise.all(fetches)]);
+        return Promise.all([pid, generators, requests, Promise.all(fetches)]);
       })
       .then(resp => {
-        const [generators, requests, results] = resp;
+        const [pid, generators, requests, results] = resp;
         let returnVariables = {};
         results.forEach((r, i) => {
           const requiredGenerators = generators.filter(g => g.api === requests[i]);
@@ -102,13 +106,16 @@ module.exports = function(app) {
             return {...returnVariables, ...vars};
           }, returnVariables);
         });
-        return Promise.all([returnVariables, db.materializers.findAll({raw: true})]);
+        return Promise.all([returnVariables, db.materializers.findAll({where: {profile_id: pid}, raw: true})]);
       })
       .then(resp => {
         let returnVariables = resp[0];
         const materializers = resp[1];
         materializers.sort((a, b) => a.ordering - b.ordering);
         returnVariables = materializers.reduce((acc, m) => {
+          /*const pre = "try {";
+          const post = "} catch (e) { console.log(e) }";
+          const logicFunc = Function("variables", `${pre}${m.logic}${post}`);*/
           const logicFunc = Function("variables", m.logic);
           const vars = logicFunc(acc);
           return {...acc, ...vars};
