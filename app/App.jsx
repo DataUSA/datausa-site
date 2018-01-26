@@ -6,6 +6,7 @@ import "./helpers/d3plus.css";
 import d3plus from "./helpers/d3plus";
 
 import Nav from "components/Nav/index";
+import Footer from "components/Footer/index";
 
 export default class App extends Component {
 
@@ -13,10 +14,13 @@ export default class App extends Component {
 
     const {location} = this.props;
 
+    const fullscreen = ["/cart/"].includes(location.pathname);
+
     return (
       <CanonComponent d3plus={d3plus}>
-        <Nav location={location} />
+        <Nav dark={fullscreen} location={location} />
         { this.props.children }
+        <Footer location={location} />
       </CanonComponent>
     );
 

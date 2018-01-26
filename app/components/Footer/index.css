@@ -1,0 +1,117 @@
+#Footer {
+  background-color: var(--dark);
+  padding: 50px;
+  text-align: center;
+  width: 100%;
+  & .footer-content {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;
+    text-align: left;
+    & .footer-links {
+      display: flex;
+      flex-direction: row;
+      max-width: 500px;
+      width: 100%;
+      & ul {
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        & h4 {
+          color: white;
+          font-size: 14px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
+        & li {
+          list-style: none;
+          & a {
+            color: white;
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            margin: 0 0 5px;
+            text-transform: uppercase;
+            transition: color 0.1s;
+            &:hover {
+              color: var(--red);
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+    & .footer-contact {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 400px;
+      width: 100%;
+      & .footer-mailer {
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        & .input-container {
+          border-bottom: 1px solid white;
+          display: flex;
+          padding: 5px 0 10px;
+          & .pt-icon-standard {
+            font-size: 16px;
+            margin-top: 8px;
+            width: 35px;
+          }
+          & .email {
+            background-color: transparent;
+            border: 0;
+            box-sizing: border-box;
+            color: white;
+            font-family: "Palanquin", sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            width: 100%;
+            &:focus {
+              border: 0;
+              outline: 0;
+            }
+          }
+          & .email-btn {
+            background-position: 95% center;
+            background-color: transparent;
+            background-image: url("/img/home/arrow.svg");
+            background-repeat: no-repeat;
+            border: 0;
+            box-sizing: border-box;
+            color: white;
+            font-family: "Palanquin", sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            min-width: 90px;
+            padding-right: 25px;
+            text-transform: uppercase;
+            transition: background-position 0.1s;
+            width: 90px;
+            &:hover {
+              background-position: 100% center;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      & .footer-logos {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 25px;
+        & a {
+          display: inline-block;
+          & img {
+            height: 20px;
+          }
+        }
+      }
+    }
+  }
+}
