@@ -16,10 +16,10 @@ export default class Splash extends Component {
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/img/splash/${pslug}/${pid}.jpg")`}}></div>) }
       </div>
       <div className="content-container">
-        { data.map((d, i) => <h1 key={i} className="profile-title">{ d.title }</h1>) }
+        { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }
       </div>
       <div className="content-container">
-        { data.map((d, i) => <div key={i} className="profile-subtitle">{ profile.subtitle }</div>) }
+        { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: d.subtitle}} />) }
       </div>
       <div className="profile-stats">
         { profile.stats.map((s, i) => <Stat key={i} data={s} />) }
