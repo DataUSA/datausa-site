@@ -44,7 +44,8 @@ const varSwap = (sourceObj, formatterFunctions, variables) => {
         m = re.exec(sourceObj[skey]);
         if (m) {
           const formatter = m[1] ? formatterFunctions[m[1]] : d => d;
-          sourceObj[skey] = sourceObj[skey].replace(m[0], formatter(variables[m[2]]));
+          const reswap = new RegExp(`${m[0]}`, "g");
+          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[m[2]]));
         }
       } while (m);
     }
@@ -102,7 +103,6 @@ module.exports = function(app) {
         results.forEach((r, i) => {
           const requiredGenerators = generators.filter(g => g.api === requests[i]);
           returnVariables = requiredGenerators.reduce((acc, g) => {
-            //const logicFunc = Function("resp", g.logic);
             let vars = {};
             try {
               const resp = r.data;

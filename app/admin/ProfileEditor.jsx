@@ -78,8 +78,10 @@ class ProfileEditor extends Component {
           if (m) {
             // const formatter = m[1] ? formatterFunctions[m[1]] : d => d;
             const formatter = d => d;
-            sourceObj[`display_${skey}`] = sourceObj[`display_${skey}`].replace(m[0], formatter(variables[m[2]]));
-            //sourceObj[skey] = sourceObj[skey].replace(m[0], formatter(variables[m[2]]));
+            const reswap = new RegExp(`${m[0]}`, "g");
+            sourceObj[`display_${skey}`] = sourceObj[`display_${skey}`].replace(reswap, formatter(variables[m[2]]));
+            // sourceObj[skey] = sourceObj[skey].replace(m[0], formatter(variables[m[2]]));
+            //console.log("after", sourceObj[`display_${skey}`]);
           }
         } while (m);
       }
