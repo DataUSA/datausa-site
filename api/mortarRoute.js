@@ -4,13 +4,17 @@ const profileReq = {
   include: [
     {
       association: "visualizations",
-      /*where: {owner_type: "profile"},*/
+      /*where: {owner_type: "profile"},
       attributes: ["owner_type", "logic"]
+      */
     }, 
     {
-      association: "stats",
-      /*where: {owner_type: "profile"},*/
+      association: "stats"
+      
+      /*
+      where: {owner_type: "profile"}
       attributes: ["owner_type", "title", "subtitle", "value"]
+      */
     },
     { 
       association: "sections", 
@@ -19,14 +23,16 @@ const profileReq = {
           association: "topics", 
           include: [
             {
-              association: "visualizations", 
-              /*where: {owner_type: "topic"},*/
+              association: "visualizations"
+              /*where: {owner_type: "topic"},
               attributes: ["owner_type", "logic"]
+              */
             },
             {
-              association: "stats",
-              /*where: {owner_type: "topic"},*/
+              association: "stats"
+              /*where: {owner_type: "topic"},
               attributes: ["owner_type", "title", "subtitle", "value"]
+              */
             }
           ]
         }

@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {Card, Dialog} from "@blueprintjs/core";
 import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
+import Loading from "../components/Loading";
 
 import "./ProfileEditor.css";
 
@@ -14,18 +15,19 @@ class ProfileEditor extends Component {
       data: null,
       builders: null,
       variables: null,
+      recompiling: false,
       preview: "04000US25"
     };
   }
 
   componentDidMount() {
     const {data, builders} = this.props;
-    this.setState({data, builders}, this.compileVariables.bind(this));   
+    this.setState({data, builders, recompiling: true}, this.compileVariables.bind(this));   
   }
 
   componentDidUpdate() {
     if (this.props.data.id !== this.state.data.id) {
-      this.setState({data: this.props.data});
+      this.setState({data: this.props.data}, this.compileVariables.bind(this));
     }
   }
 
@@ -63,7 +65,7 @@ class ProfileEditor extends Component {
       }
     }
 
-    this.setState({data, builders});
+    this.setState({data, builders, recompiling: false});
   }
 
   displayify(sourceObj) {
@@ -102,10 +104,10 @@ class ProfileEditor extends Component {
   }
 
   saveItem(item, type) {
-    if (type === "generator" || type === "materializer" || type === "profiles") {
-      axios.post(`/api/${type}/update`, item).then(resp => {
+    if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
+      axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
+          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
         } 
       });
     }
@@ -113,9 +115,19 @@ class ProfileEditor extends Component {
 
   deleteItem(item, type) {
     const {data, builders} = this.state;
-    if (type === "generator") {
-      builders.generators = builders.generators.filter(g => g.id !== item.id);
-      this.setState({builders}, this.closeWindow("isGeneratorEditorOpen"));
+    if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
+      console.log("deleting", item, type);
+      axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
+        if (resp.status === 200) {
+          if (type === "generator") builders.generators = builders.generators.filter(g => g.id !== item.id);
+          if (type === "materializer") builders.materializers = builders.materializers.filter(m => m.id !== item.id);
+          if (type === "stat") data.stats = data.stats.filter(s => s.id !== item.id);
+          console.log(data.visualizations);
+          if (type === "visualization") data.visualizations = data.visualizations.filter(v => v.id !== item.id);
+          console.log(data.visualizations);
+          this.setState({data, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
+        } 
+      });
     }
   }
 
@@ -130,12 +142,62 @@ class ProfileEditor extends Component {
         logic: "return {}",
         profile_id: data.id
       };
-      axios.post("/api/generator/new", payload).then(resp => {
+      axios.post("/api/cms/generator/new", payload).then(resp => {
         if (resp.status === 200) {
-          console.log(builders.generators);
           builders.generators.push(resp.data);
-          console.log(builders.generators);
-          this.setState({builders}, this.compileVariables.bind(this));
+          this.setState({builders, recompiling: true}, this.compileVariables.bind(this));
+        } 
+        else {
+          console.log("db error");
+        }
+      });
+    }
+    else if (type === "materializer") {
+      payload = {
+        name: "New Materializer",
+        description: "New Description",
+        logic: "return {}",
+        ordering: builders.materializers.length,
+        profile_id: data.id
+      };
+      axios.post("/api/cms/materializer/new", payload).then(resp => {
+        if (resp.status === 200) {
+          builders.materializers.push(resp.data);
+          this.setState({builders, recompiling: true}, this.compileVariables.bind(this));
+        } 
+        else {
+          console.log("db error");
+        }
+      });
+    }
+    else if (type === "stat") {
+      payload = {
+        title: "New Stat",
+        subtitle: "New Subtitle",
+        value: "New Value",
+        owner_type: "profile",
+        owner_id: data.id
+      };
+      axios.post("/api/cms/stat/new", payload).then(resp => {
+        if (resp.status === 200) {
+          data.stats.push(resp.data);
+          this.setState({data, recompiling: true}, this.compileVariables.bind(this));
+        } 
+        else {
+          console.log("db error");
+        }
+      });
+    }
+    else if (type === "visualization") {
+      payload = {
+        logic: "return {}",
+        owner_type: "profile",
+        owner_id: data.id
+      };
+      axios.post("/api/cms/visualization/new", payload).then(resp => {
+        if (resp.status === 200) {
+          data.visualizations.push(resp.data);
+          this.setState({data, recompiling: true}, this.compileVariables.bind(this));
         } 
         else {
           console.log("db error");
@@ -196,8 +258,8 @@ class ProfileEditor extends Component {
     this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
   }
 
-  openTextEditor(t, fields) {
-    this.setState({currentText: t, currentFields: fields, isTextEditorOpen: true});
+  openTextEditor(t, type, fields) {
+    this.setState({currentText: t, currentFields: fields, currentTextType: type, isTextEditorOpen: true});
   }
 
   closeWindow(key) {
@@ -206,9 +268,9 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {data, builders, currentGenerator, currentGeneratorType, currentText, currentFields} = this.state;
+    const {data, builders, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
-    if (!data || !builders) return null;
+    if (!data || !builders) return <Loading />;
 
     const generators = builders.generators.map(g =>
       <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
@@ -229,7 +291,7 @@ class ProfileEditor extends Component {
     );
 
     const stats = data.stats.map(s => 
-      <Card key={s.id} onClick={this.openTextEditor.bind(this, s, ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={s.id} onClick={this.openTextEditor.bind(this, s, "stat", ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h6>title</h6>
         <div dangerouslySetInnerHTML={{__html: s.display_title}} />
         <h6>subtitle</h6>
@@ -247,6 +309,8 @@ class ProfileEditor extends Component {
 
     return (
       <div id="profile-editor">
+
+        {recompiling ? <Loading /> : null}
         
         <Dialog
           iconName="code"
@@ -301,7 +365,7 @@ class ProfileEditor extends Component {
               </button>
               <button
                 className="pt-button pt-intent-success"
-                onClick={this.saveItem.bind(this, currentText, "profiles")}
+                onClick={this.saveItem.bind(this, currentText, currentTextType)}
               >
                 Save
               </button>
@@ -350,7 +414,7 @@ class ProfileEditor extends Component {
           <div className="cms-header">
             SPLASH
           </div>
-          <Card className="splash-card" onClick={this.openTextEditor.bind(this, data, ["title", "subtitle", "description"])} interactive={true} elevation={Card.ELEVATION_ONE}>
+          <Card className="splash-card" onClick={this.openTextEditor.bind(this, data, "profile", ["title", "subtitle", "description"])} interactive={true} elevation={Card.ELEVATION_ONE}>
             <h6>title</h6>
             <div dangerouslySetInnerHTML={{__html: data.display_title}} /><br/>
             <h6>subtitle</h6>
