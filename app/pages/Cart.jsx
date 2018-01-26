@@ -6,6 +6,7 @@ import axios from "axios";
 import {merge} from "d3-array";
 import {nest} from "d3-collection";
 import localforage from "localforage";
+import "./Cart.css";
 
 import cubeFold from "helpers/cubeFold";
 

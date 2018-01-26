@@ -1,5 +1,5 @@
 #Nav {
-  height: 40px;
+  height: var(--nav-height);
   left: 0;
   padding: 10px 15px;
   position: fixed;

@@ -5,7 +5,7 @@ import "./index.css";
 
 import Hamburger from "./Hamburger";
 
-export default class Nav extends Component {
+class Nav extends Component {
 
   constructor(props) {
     super(props);
@@ -35,11 +35,12 @@ export default class Nav extends Component {
 
   render() {
     const {background, menu} = this.state;
+    const {dark} = this.props;
     const {pathname} = this.props.location;
     const logo = !["/"].includes(pathname);
     const toggleMenu = () => this.setState({menu: !this.state.menu});
 
-    return <nav id="Nav" className={ background ? "background" : "" }>
+    return <nav id="Nav" className={ background || dark ? "background" : "" }>
       <div className="menu-btn" onClick={ toggleMenu }>
         <Hamburger isOpen={ menu } />
         <span className={ menu ? "label open" : "label" }>Menu</span>
@@ -83,3 +84,9 @@ export default class Nav extends Component {
   }
 
 }
+
+Nav.defaultProps = {
+  dark: false
+};
+
+export default Nav;
