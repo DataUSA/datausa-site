@@ -1,7 +1,6 @@
 const axios = require("axios");
 
 const profileReq = {   
-  logging: console.log, 
   include: [
     {
       association: "visualizations"
@@ -153,7 +152,15 @@ module.exports = function(app) {
             if (s.topics) {
               s.topics = s.topics.map(t => {
                 if (t.visualizations) {
-                  t.visualizations = t.visualizations.map(v => Function("variables", v.logic.replace(/\<id\>/g, id))(returnObject.variables));
+                  t.visualizations = t.visualizations.map(v => {
+                    // TODO: wrap in try
+                    let vars = {};
+                    eval(`
+                      let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
+                      vars = f(returnObject.variables);
+                    `);
+                    return vars;
+                  });
                 }
                 if (t.stats) {
                   t.stats = t.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
@@ -165,7 +172,15 @@ module.exports = function(app) {
           });
         }
         if (profile.visualizations) {
-          profile.visualizations = profile.visualizations.map(v => Function("variables", v.logic.replace(/\<id\>/g, id))(returnObject.variables));
+          profile.visualizations = profile.visualizations.map(v => {
+            let vars = {};
+            // TODO: wrap in try
+            eval(`
+              let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
+              vars = f(returnObject.variables);
+            `);
+            return vars;
+          });
         }
         if (profile.stats) {
           profile.stats = profile.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
