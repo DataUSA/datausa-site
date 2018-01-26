@@ -19,6 +19,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.pt-spinner {
+  & .pt-spinner-head {
+    stroke: var(--red);
+  }
+}
+
 .pt-dialog {
   background-color: #F6F6F6;
   border-radius: 0;
