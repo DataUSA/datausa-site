@@ -8,6 +8,7 @@ import {nest} from "d3-collection";
 import localforage from "localforage";
 import "./Cart.css";
 
+import Loading from "components/Loading/index";
 import cubeFold from "helpers/cubeFold";
 
 export default class Cart extends Component {
@@ -74,11 +75,12 @@ export default class Cart extends Component {
 
     return (
       <div id="Cart">
-        { !results ? "Loading" : <div>
+        { !results ? null : <div>
           <Table numRows={ results.length }>
             { headers.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
           </Table>
         </div> }
+        { !results ? <Loading /> : null }
       </div>
     );
 
