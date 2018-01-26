@@ -86,7 +86,7 @@ class GeneratorEditor extends Component {
         { type === "generator" || type === "materializer"
           ? <div className="generator-input">
             Description<br/>
-            <input className="pt-input" style={{width: "600px"}} type="text" dir="auto" value={data.description} onChange={this.changeField.bind(this, "api")}/>
+            <input className="pt-input" style={{width: "600px"}} type="text" dir="auto" value={data.description} onChange={this.changeField.bind(this, "description")}/>
           </div>
           : null
         }
