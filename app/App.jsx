@@ -14,11 +14,15 @@ export default class App extends Component {
 
     const {location} = this.props;
 
-    const fullscreen = ["/cart/", "/map/"].includes(location.pathname);
+    const fullscreen = location.pathname.includes("/cart") ||
+                       location.pathname.includes("/map");
+
+    const splash = location.pathname === "/" ||
+                   location.pathname.includes("/profile");
 
     return (
       <CanonComponent d3plus={d3plus}>
-        <Nav dark={fullscreen} location={location} />
+        <Nav dark={!splash} location={location} />
         { this.props.children }
         { fullscreen ? null : <Footer location={location} /> }
       </CanonComponent>
