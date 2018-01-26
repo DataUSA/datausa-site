@@ -1,13 +1,14 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {fetchData, SubNav} from "datawheel-canon";
+import axios from "axios";
 import {select} from "d3-selection";
-import "./Profile.css";
+import "./index.css";
 
-import Stat from "./Stat";
-import SectionIcon from "./SectionIcon";
-
+import Loading from "components/Loading/index";
+import Splash from "./Splash";
 import Section from "./Section";
+import SectionIcon from "./SectionIcon";
 import TextViz from "./topics/TextViz";
 
 class Profile extends Component {
@@ -15,7 +16,9 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSection: false
+      activeSection: false,
+      comparisons: [],
+      loading: false
     };
     this.scrollBind = this.handleScroll.bind(this);
   }
@@ -23,6 +26,16 @@ class Profile extends Component {
   componentDidMount() {
     window.addEventListener("scroll", this.scrollBind);
     this.scrollBind();
+    const {query} = this.props.location;
+    if (query.compare) {
+      const {pslug} = this.props.params;
+      this.setState({loading: true});
+      axios.get(`/api/profile/${pslug}/${query.compare}`)
+        .then(resp => {
+          const {comparisons} = this.state;
+          this.setState({comparisons: comparisons.concat([resp.data]), loading: false});
+        });
+    }
   }
 
   componentWillUnmount() {
@@ -52,25 +65,15 @@ class Profile extends Component {
 
   render() {
 
-    const {profile} = this.props;
-    const {activeSection} = this.state;
+    const {params, profile} = this.props;
+    const {activeSection, comparisons, loading} = this.state;
 
-    const {pid, pslug} = this.props.params;
+    const profiles = [profile].concat(comparisons);
+    console.log(profiles);
 
     return (
       <div id="Profile">
-        <div className="splash">
-          <div className="profile-image" style={{backgroundImage: `url("/img/splash/${pslug}/${pid}.jpg")`}}></div>
-          <h1 className="profile-title">{ profile.title }</h1>
-          { profile.subtitle ? <div className="profile-subtitle">{ profile.subtitle }</div> : null }
-          <div className="profile-stats">
-            { profile.stats.map((s, i) => <Stat key={i} data={s} />) }
-          </div>
-          <div className="profile-sections">
-            <SectionIcon slug="about" title="About" />
-            { profile.sections.map((s, i) => <SectionIcon key={i} {...s} />) }
-          </div>
-        </div>
+        <Splash profile={profile} comparisons={comparisons} params={params} />
         <Section title="About" description={ profile.description } visualizations={ profile.visualizations } slug="about" />
         { profile.sections.map((s, i) => <Section key={i} {...s}>
           { s.topics.map((t, ii) => <TextViz key={ii} {...t} />) }
@@ -83,6 +86,7 @@ class Profile extends Component {
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
         </SubNav>
+        { loading ? <Loading /> : null }
       </div>
     );
 
@@ -91,9 +95,10 @@ class Profile extends Component {
 }
 
 Profile.need = [
-  fetchData("profile", "http://localhost:3300/api/profile/<pslug>/<pid>", d => d)
+  fetchData("profile", "/api/profile/<pslug>/<pid>", d => d)
 ];
 
 export default connect(state => ({
+  env: state.env,
   profile: state.data.profile
 }))(Profile);

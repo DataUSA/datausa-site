@@ -1,11 +1,11 @@
 import React from "react";
-import {Route, Redirect, IndexRoute, browserHistory} from "react-router";
+import {Route, IndexRoute, browserHistory} from "react-router";
 
 import App from "./App";
 import Home from "./pages/Home";
 
 import Search from "./pages/Search";
-import Profile from "./profile/Profile";
+import Profile from "./profile/index";
 
 import Stories from "./pages/Stories";
 import Story from "./pages/Story";

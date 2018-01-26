@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Viz from "components/Viz/index";
 
-export default class Section extends Component {
+class Section extends Component {
 
   render() {
     const {children, description, slug, title, visualizations} = this.props;
@@ -26,3 +26,5 @@ Section.defaultProps = {
   slug: "",
   visualizations: []
 };
+
+export default Section;
