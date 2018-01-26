@@ -22,8 +22,8 @@ module.exports = function(sequelize, db) {
 
   p.associate = models => {
     p.hasMany(models.sections, {foreignKey: "profile_id", sourceKey: "id", as: "sections"});
-    p.hasMany(models.visualizations, {foreignKey: "owner_id", sourceKey: "id", as: "visualizations"});
-    p.hasMany(models.stats, {foreignKey: "owner_id", sourceKey: "id", as: "stats"});
+    p.hasMany(models.visualizations_profiles, {foreignKey: "profile_id", sourceKey: "id", as: "visualizations"});
+    p.hasMany(models.stats_profiles, {foreignKey: "profile_id", sourceKey: "id", as: "stats"});
   };
 
   return p;
