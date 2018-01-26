@@ -43,16 +43,26 @@ class ProfileEditor extends Component {
     const data = this.displayify(this.state.data);
     if (data.stats) data.stats = data.stats.map(s => this.displayify(s));
     // TODO, get Dave's help on this
-    for (const b of [builders.generators, builders.materializers]) {
-      for (const g of b) {
-        g.display_vars = [];
-        for (const key in variables) {
-          if (g.logic.includes(`${key}:`)) {
-            g.display_vars.push(`${key}: ${variables[key]}`);
-          }
+    for (const g of builders.generators) {
+      g.display_vars = [];
+      const genStatus = variables._genStatus[g.id];
+      for (const key in genStatus) {
+        if (genStatus.hasOwnProperty(key)) {
+          g.display_vars.push(`${key}: ${variables[key]}`);  
         }
       }
     }
+
+    for (const m of builders.materializers) {
+      m.display_vars = [];
+      const matStatus = variables._matStatus[m.id];
+      for (const key in matStatus) {
+        if (matStatus.hasOwnProperty(key)) {
+          m.display_vars.push(`${key}: ${variables[key]}`);  
+        }
+      }
+    }
+
     this.setState({data, builders});
   }
 
@@ -90,10 +100,10 @@ class ProfileEditor extends Component {
   }
 
   saveItem(item, type) {
-    if (type === "generator" || type === "materializer") {
+    if (type === "generator" || type === "materializer" || type === "profiles") {
       axios.post(`/api/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({isGeneratorEditorOpen: false}, this.compileVariables());
+          this.setState({isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
         } 
       });
     }
@@ -109,18 +119,30 @@ class ProfileEditor extends Component {
 
   addItem(type) {
     const {data, builders} = this.state;
+    let payload;
     if (type === "generator") {
-      builders.generators.push({
-        id: new Date().getTime(),
+      payload = {
         name: "New Generator",
-        api: "/api/route/",
+        api: "http://api-goes-here",
         description: "New Description",
         logic: "return {}",
-        profile_id: this.state.data.id
+        profile_id: data.id
+      };
+      axios.post("/api/generator/new", payload).then(resp => {
+        if (resp.status === 200) {
+          console.log(builders.generators);
+          builders.generators.push(resp.data);
+          console.log(builders.generators);
+          this.setState({builders}, this.compileVariables.bind(this));
+        } 
+        else {
+          console.log("db error");
+        }
       });
-      this.setState({builders});
     }
-    else if (type === "materializer") {
+
+      
+    /*else if (type === "materializer") {
       builders.materializers.push({
         id: new Date().getTime(),
         name: "New Materializer",
@@ -149,7 +171,7 @@ class ProfileEditor extends Component {
         profile_id: this.state.data.id
       });
       this.setState({data});
-    }
+    }*/
   }
 
   /*
@@ -185,8 +207,6 @@ class ProfileEditor extends Component {
     const {data, builders, currentGenerator, currentGeneratorType, currentText, currentFields} = this.state;
 
     if (!data || !builders) return null;
-
-
 
     const generators = builders.generators.map(g =>
       <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
@@ -279,7 +299,7 @@ class ProfileEditor extends Component {
               </button>
               <button
                 className="pt-button pt-intent-success"
-                onClick={() => this.setState({isTextEditorOpen: false})}
+                onClick={this.saveItem.bind(this, currentText, "profiles")}
               >
                 Save
               </button>

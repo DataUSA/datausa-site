@@ -98,28 +98,49 @@ module.exports = function(app) {
       .then(resp => {
         const [pid, generators, requests, results] = resp;
         let returnVariables = {};
+        const genStatus = {};
         results.forEach((r, i) => {
           const requiredGenerators = generators.filter(g => g.api === requests[i]);
           returnVariables = requiredGenerators.reduce((acc, g) => {
-            const logicFunc = Function("resp", g.logic);
-            const vars = logicFunc(r.data);
+            //const logicFunc = Function("resp", g.logic);
+            let vars = {};
+            try {
+              const resp = r.data;
+              eval(`
+                let f = resp => {${g.logic}};
+                vars = f(resp);
+              `);
+              genStatus[g.id] = vars;
+            }
+            catch (e) {
+              genStatus[g.id] = {error: e};
+            }
             return {...returnVariables, ...vars};
           }, returnVariables);
         });
+        returnVariables._genStatus = genStatus;
         return Promise.all([returnVariables, db.materializers.findAll({where: {profile_id: pid}, raw: true})]);
       })
       .then(resp => {
         let returnVariables = resp[0];
         const materializers = resp[1];
         materializers.sort((a, b) => a.ordering - b.ordering);
+        let matStatus = {};
         returnVariables = materializers.reduce((acc, m) => {
-          /*const pre = "try {";
-          const post = "} catch (e) { console.log(e) }";
-          const logicFunc = Function("variables", `${pre}${m.logic}${post}`);*/
-          const logicFunc = Function("variables", m.logic);
-          const vars = logicFunc(acc);
+          let vars = {};
+          try {
+            eval(`
+              let f = variables => {${m.logic}};
+              vars = f(acc);
+            `);
+            matStatus[m.id] = vars;
+          }
+          catch (e) {
+            matStatus[m.id] = {error: e};
+          }
           return {...acc, ...vars};
         }, returnVariables);
+        returnVariables._matStatus = matStatus;
         return Promise.all([returnVariables, db.formatters.findAll()]);
       })
       .then(resp => {
@@ -133,6 +154,7 @@ module.exports = function(app) {
         let returnObject = resp[0];
         const formatterFunctions = resp[1];
         const profile = varSwap(resp[2].data, formatterFunctions, returnObject.variables);
+        returnObject.pid = id;
         if (profile.sections) {
           profile.sections = profile.sections.map(s => {
             if (s.topics) {
@@ -163,7 +185,7 @@ module.exports = function(app) {
         res.json(resp[0]).end();
       })
       .catch(err => {
-        console.error(err);
+        console.error("Error!", err);
       });
 
   });
