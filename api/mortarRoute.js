@@ -153,12 +153,16 @@ module.exports = function(app) {
               s.topics = s.topics.map(t => {
                 if (t.visualizations) {
                   t.visualizations = t.visualizations.map(v => {
-                    // TODO: wrap in try
                     let vars = {};
-                    eval(`
-                      let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
-                      vars = f(returnObject.variables);
-                    `);
+                    try {
+                      eval(`
+                        let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
+                        vars = f(returnObject.variables);
+                      `);
+                    }
+                    catch (e) {
+                      console.log("visualization error", e);
+                    }
                     return vars;
                   });
                 }
@@ -174,11 +178,15 @@ module.exports = function(app) {
         if (profile.visualizations) {
           profile.visualizations = profile.visualizations.map(v => {
             let vars = {};
-            // TODO: wrap in try
-            eval(`
-              let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
-              vars = f(returnObject.variables);
-            `);
+            try {
+              eval(`
+                let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
+                vars = f(returnObject.variables);
+              `);
+            }
+            catch (e) {
+              console.log("visualization error", e);
+            }
             return vars;
           });
         }

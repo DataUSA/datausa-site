@@ -329,7 +329,15 @@ class ProfileEditor extends Component {
         </Dialog>
 
         <div id="preview-as">
-          Hard Code Previewing as <strong>{this.state.preview}</strong>
+          <div className="pt-select">
+            <select value={this.state.preview} onChange={e => this.setState({preview: e.target.value}, this.compileVariables.bind(this))}>
+              {
+                ["04000US25", "04000US32", "04000US34"].map(s => 
+                  <option value={s} key={s}>{s}</option>
+                )
+              }
+            </select>
+          </div>
         </div>
 
         <div id="slug">
