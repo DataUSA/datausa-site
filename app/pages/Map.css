@@ -1,0 +1,15 @@
+#Map {
+  display: flex;
+  height: 100vh;
+  padding-top: var(--nav-height);
+  width: 100%;
+  & .sidebar {
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.2);
+    flex: none;
+    width: 250px;
+    z-index: 2;
+  }
+  & .visualization {
+    flex: 1;
+  }
+}
