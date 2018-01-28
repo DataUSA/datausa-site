@@ -7,7 +7,7 @@ export default class Splash extends Component {
 
   render() {
     const {data: profile, comparisons} = this.props;
-    const {pid, pslug} = this.props.params;
+    const {pslug} = this.props.params;
 
     const data = [profile].concat(comparisons);
 
