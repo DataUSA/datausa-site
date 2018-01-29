@@ -3,18 +3,10 @@ const axios = require("axios");
 const profileReq = {   
   include: [
     {
-      association: "visualizations",
-      /*where: {owner_type: "profile"},
-      attributes: ["owner_type", "logic"]
-      */
+      association: "visualizations"
     }, 
     {
       association: "stats"
-      
-      /*
-      where: {owner_type: "profile"}
-      attributes: ["owner_type", "title", "subtitle", "value"]
-      */
     },
     { 
       association: "sections", 
@@ -24,15 +16,9 @@ const profileReq = {
           include: [
             {
               association: "visualizations"
-              /*where: {owner_type: "topic"},
-              attributes: ["owner_type", "logic"]
-              */
             },
             {
               association: "stats"
-              /*where: {owner_type: "topic"},
-              attributes: ["owner_type", "title", "subtitle", "value"]
-              */
             }
           ]
         }
@@ -166,11 +152,22 @@ module.exports = function(app) {
             if (s.topics) {
               s.topics = s.topics.map(t => {
                 if (t.visualizations) {
-                  console.log(t.visualizations);
-                  t.visualizations = t.visualizations.filter(v => v.owner_type === "topic").map(v => Function("variables", v.logic.replace(/\<id\>/g, id))(returnObject.variables));
+                  t.visualizations = t.visualizations.map(v => {
+                    let vars = {};
+                    try {
+                      eval(`
+                        let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
+                        vars = f(returnObject.variables);
+                      `);
+                    }
+                    catch (e) {
+                      console.log("visualization error", e);
+                    }
+                    return vars;
+                  });
                 }
                 if (t.stats) {
-                  t.stats = t.stats.filter(s => s.owner_type === "topic").map(s => varSwap(s, formatterFunctions, returnObject.variables));
+                  t.stats = t.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
                 }
                 return varSwap(t, formatterFunctions, returnObject.variables);
               });
@@ -179,10 +176,22 @@ module.exports = function(app) {
           });
         }
         if (profile.visualizations) {
-          profile.visualizations = profile.visualizations.filter(v => v.owner_type === "profile").map(v => Function("variables", v.logic.replace(/\<id\>/g, id))(returnObject.variables));
+          profile.visualizations = profile.visualizations.map(v => {
+            let vars = {};
+            try {
+              eval(`
+                let f = variables => {${v.logic.replace(/\<id\>/g, id)}};
+                vars = f(returnObject.variables);
+              `);
+            }
+            catch (e) {
+              console.log("visualization error", e);
+            }
+            return vars;
+          });
         }
         if (profile.stats) {
-          profile.stats = profile.stats.filter(s => s.owner_type === "profile").map(s => varSwap(s, formatterFunctions, returnObject.variables));
+          profile.stats = profile.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
         }
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);

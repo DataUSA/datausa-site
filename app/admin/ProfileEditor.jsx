@@ -105,6 +105,7 @@ class ProfileEditor extends Component {
 
   saveItem(item, type) {
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
+      if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
@@ -116,15 +117,13 @@ class ProfileEditor extends Component {
   deleteItem(item, type) {
     const {data, builders} = this.state;
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
-      console.log("deleting", item, type);
+      if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
           if (type === "generator") builders.generators = builders.generators.filter(g => g.id !== item.id);
           if (type === "materializer") builders.materializers = builders.materializers.filter(m => m.id !== item.id);
-          if (type === "stat") data.stats = data.stats.filter(s => s.id !== item.id);
-          console.log(data.visualizations);
-          if (type === "visualization") data.visualizations = data.visualizations.filter(v => v.id !== item.id);
-          console.log(data.visualizations);
+          if (type === "stat_profile") data.stats = data.stats.filter(s => s.id !== item.id);
+          if (type === "visualization_profile") data.visualizations = data.visualizations.filter(v => v.id !== item.id);
           this.setState({data, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
         } 
       });
@@ -175,10 +174,9 @@ class ProfileEditor extends Component {
         title: "New Stat",
         subtitle: "New Subtitle",
         value: "New Value",
-        owner_type: "profile",
-        owner_id: data.id
+        profile_id: data.id
       };
-      axios.post("/api/cms/stat/new", payload).then(resp => {
+      axios.post("/api/cms/stat_profile/new", payload).then(resp => {
         if (resp.status === 200) {
           data.stats.push(resp.data);
           this.setState({data, recompiling: true}, this.compileVariables.bind(this));
@@ -191,10 +189,9 @@ class ProfileEditor extends Component {
     else if (type === "visualization") {
       payload = {
         logic: "return {}",
-        owner_type: "profile",
-        owner_id: data.id
+        profile_id: data.id
       };
-      axios.post("/api/cms/visualization/new", payload).then(resp => {
+      axios.post("/api/cms/visualization_profile/new", payload).then(resp => {
         if (resp.status === 200) {
           data.visualizations.push(resp.data);
           this.setState({data, recompiling: true}, this.compileVariables.bind(this));
@@ -204,55 +201,7 @@ class ProfileEditor extends Component {
         }
       });
     }
-
-      
-    /*else if (type === "materializer") {
-      builders.materializers.push({
-        id: new Date().getTime(),
-        name: "New Materializer",
-        description: "New Description",
-        logic: "return {}",
-        profile_id: this.state.data.id
-      });
-      this.setState({builders});
-    }
-    else if (type === "stat") {
-      data.stats.push({
-        id: new Date().getTime(),
-        title: "New Title",
-        subtitle: "New Subtitle",
-        value: "New Value",
-        owner_type: "profile",
-        profile_id: this.state.data.id
-      });
-      this.setState({data});
-    }
-    else if (type === "visualization") {
-      data.visualizations.push({
-        id: new Date().getTime(),
-        logic: "return {}",
-        owner_type: "profile",
-        profile_id: this.state.data.id
-      });
-      this.setState({data});
-    }*/
   }
-
-  /*
-  saveContent() {
-    const {data} = this.state;
-    if (this.props.reportSave) this.props.reportSave(data);
-    const toast = Toaster.create({className: "saveToast", position: Position.TOP_CENTER});
-    axios.post("/api/builder/islands/save", data).then(resp => {
-      if (resp.status === 200) {
-        toast.show({message: "Saved!", intent: Intent.SUCCESS});
-      } 
-      else {
-        toast.show({message: "Error!", intent: Intent.DANGER});
-      }
-    });
-  }
-  */
 
   openGeneratorEditor(g, type) {
     this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
@@ -359,6 +308,12 @@ class ProfileEditor extends Component {
             <div className="pt-dialog-footer-actions">
               <button 
                 className="pt-button pt-intent-danger"
+                onClick={this.deleteItem.bind(this, currentText, currentTextType)}
+              >
+                Delete
+              </button>
+              <button 
+                className="pt-button"
                 onClick={() => this.setState({isTextEditorOpen: false})}
               >
                 Cancel
@@ -374,7 +329,15 @@ class ProfileEditor extends Component {
         </Dialog>
 
         <div id="preview-as">
-          Hard Code Previewing as <strong>{this.state.preview}</strong>
+          <div className="pt-select">
+            <select value={this.state.preview} onChange={e => this.setState({preview: e.target.value}, this.compileVariables.bind(this))}>
+              {
+                ["04000US25", "04000US32", "04000US34"].map(s => 
+                  <option value={s} key={s}>{s}</option>
+                )
+              }
+            </select>
+          </div>
         </div>
 
         <div id="slug">
