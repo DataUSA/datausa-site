@@ -5,6 +5,7 @@ description:
 topics:
   - title: "Endowment"
     slug: "endowment"
+    category: "Finances"
     stat:
       - title: "<<var namespace=endowment|key=year|row=0>> Endowment"
         value: "<<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>"
@@ -105,6 +106,7 @@ topics:
       y: grants_and_contracts
   - title: "Primary Expenses"
     slug: "expenses"
+    category: "Expenses"
     stat:
       - title: "Salary Expenditure"
         value: <<var namespace=expenses|key=salaries_expense>>
@@ -219,6 +221,7 @@ topics:
         y: outlays_instructional_staff
   - title: "Instructors by Academic Rank"
     slug: "instructors_tmap"
+    category: "Staff"
     stat_stack: YES
     stat:
     - title: "Most common Instructor Rank"
