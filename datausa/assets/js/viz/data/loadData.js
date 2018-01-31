@@ -36,48 +36,6 @@ viz.formatData = function(data, d, build) {
   //   }
   // }
 
-  if (d.merge) {
-    var mergeKeys = d.merge.split(".");
-    for (var i = 0; i < build.data[0].data.length; i++) {
-      var datum = build.data[0].data[i];
-      var matched = data.filter(function(obj) {
-        return mergeKeys.map(function(k) {
-          return obj[k] === datum[k];
-        }).indexOf(false) < 0;
-      });
-      if (matched.length) {
-        for (var k in matched[0]) {
-          datum[k] = matched[0][k];
-        }
-      }
-    }
-    data = build.data[0].data;
-  }
-
-  if (d.map) {
-    if ("delete" in d.map) {
-      var deleteMap = d.map.delete;
-      delete d.map.delete;
-    }
-    else {
-      var deleteMap = true;
-    }
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.map) {
-        data[i][k] = data[i][d.map[k]];
-        if (deleteMap) delete data[i][d.map[k]];
-      }
-    }
-  }
-
-  if (d.static) {
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.static) {
-        data[i][k] = d.static[k];
-      }
-    }
-  }
-
   if (d.split) {
 
     var regex = d.split.regex instanceof Array ? d.split.regex : [d.split.regex];
@@ -127,6 +85,48 @@ viz.formatData = function(data, d, build) {
       }
     }
     data = split_data;
+  }
+
+  if (d.merge) {
+    var mergeKeys = d.merge.split(".");
+    for (var i = 0; i < build.data[0].data.length; i++) {
+      var datum = build.data[0].data[i];
+      var matched = data.filter(function(obj) {
+        return mergeKeys.map(function(k) {
+          return obj[k] === datum[k];
+        }).indexOf(false) < 0;
+      });
+      if (matched.length) {
+        for (var k in matched[0]) {
+          datum[k] = matched[0][k];
+        }
+      }
+    }
+    data = build.data[0].data;
+  }
+
+  if (d.map) {
+    if ("delete" in d.map) {
+      var deleteMap = d.map.delete;
+      delete d.map.delete;
+    }
+    else {
+      var deleteMap = true;
+    }
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.map) {
+        data[i][k] = data[i][d.map[k]];
+        if (deleteMap) delete data[i][d.map[k]];
+      }
+    }
+  }
+
+  if (d.static) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.static) {
+        data[i][k] = d.static[k];
+      }
+    }
   }
 
   if (d.divide) {
