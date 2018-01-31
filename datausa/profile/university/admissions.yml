@@ -2,50 +2,54 @@ title: "Admissions"
 description: "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> applications in <<var namespace=admissions|key=year|row=0>>, which represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>. Out of those <<var namespace=admissions|key=applicants_total|row=0>> applicants, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment at <<name>>.<br /><br /><<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of enrolled first-time students at <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their applications. <<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling."
 
 topics:
-  - title: "Applying Students"
-    slug: "applicants"
+  - title: "Acceptance Rate"
+    slug: "acceptance"
     stat:
-      - title: "<<var namespace=admissions|key=year|row=0>> value"
-        value: "<<var namespace=admissions|key=applicants_total|row=0>>"
-      - title: "1 year <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>"
-        value: "<<growth namespace=admissions|key=applicants_total>>"
+      - title: "Acceptance Rate in <<var namespace=admissions|key=year|row=0>>"
+        value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
+      - title: "Accepted out of <<var namespace=admissions|key=applicants_total|row=0>>"
+        value: "<<var namespace=admissions|key=admissions_total|row=0>>"
     description:
-      - "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> applications in <<var namespace=admissions|key=year|row=0>>, compared to <<var namespace=admissions|key=applicants_total|row=1>> in <<var namespace=admissions|key=year|row=1>>. This represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>."
-      - "This chart shows how the number of applications received by <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "<<name>> had an acceptance rate of <<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>> in <<var namespace=admissions|key=year|row=0>>, admitting <<var namespace=admissions|key=admissions_total|row=0>> students out of <<var namespace=admissions|key=applicants_total|row=0>> applications. Compared to an acceptance rate of <<percent num=var:admissions,admissions_total,1|den=var:admissions,applicants_total,1>> the previous year, there was a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>> in applicants and a <<growth namespace=admissions|key=admissions_total>> annual <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>> in admissions."
+      - "This chart shows how the acceptance rate at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
       - sumlevel: "0"
         attrs: university
         data:
-          - required: "applicants_total"
+          - required: "applicants_total,admissions_total"
             show: university
             sumlevel: 0
+            divide:
+              num: admissions_total
+              den: applicants_total
+              value: acceptance_rate
         id: university
         labels: YES
         order:
           sort: asc
-          value: applicants_total
+          value: acceptance_rate
         type: bar
-        x:
-          label: "Overall Applicants"
-          value: applicants_total
+        x: acceptance_rate
         y:
           scale: discrete
           value: university
       - sumlevel: "!0"
         attrs: university
         data:
-          - required: "applicants_total"
+          - required: "applicants_total,admissions_total"
             show: university
             university: "<<id>>,<<nearby ids=True>>"
+            divide:
+              num: admissions_total
+              den: applicants_total
+              value: acceptance_rate
         id: university
         labels: YES
         order:
           sort: asc
-          value: applicants_total
+          value: acceptance_rate
         type: bar
-        x:
-          label: "Overall Applicants"
-          value: applicants_total
+        x: acceptance_rate
         y:
           scale: discrete
           value: university
@@ -60,86 +64,29 @@ topics:
             id: "sex"
             regex: "applicants_([a-z]*)$"
             value: "applicants_total"
+        - required: "admissions_men,admissions_women"
+          show: university
+          university: "<<id>>"
+          merge: "year.sex"
+          split:
+            id: "sex"
+            regex: "admissions_([a-z]*)$"
+            value: "admissions_total"
+          divide:
+            num: admissions_total
+            den: applicants_total
+            value: acceptance_rate
       id: sex
       labels: YES
       tooltip:
         value:
           - applicants_total
-      type: bar
-      x:
-        label: "Applicants by Gender"
-        value: applicants_total
-      y:
-        label: NO
-        scale: discrete
-        value: university
-  - title: "Accepted Students"
-    slug: "accepted"
-    stat:
-      - title: "<<var namespace=admissions|key=year|row=0>> value"
-        value: "<<var namespace=admissions|key=admissions_total|row=0>>"
-      - title: "1 year <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>>"
-        value: "<<growth namespace=admissions|key=admissions_total>>"
-    description:
-      - "In <<var namespace=admissions|key=year|row=0>>, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment at <<name>>, compared to <<var namespace=admissions|key=admissions_total|row=1>> in <<var namespace=admissions|key=year|row=1>>. This shows a <<growth namespace=admissions|key=admissions_total>> annual <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>>."
-      - "This chart shows how the number of accepted students by <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
-    viz:
-      - sumlevel: "0"
-        attrs: university
-        data:
-          - required: "admissions_total"
-            show: university
-            sumlevel: 0
-        id: university
-        labels: YES
-        order:
-          sort: asc
-          value: admissions_total
-        type: bar
-        x:
-          label: "Overall Admissions"
-          value: admissions_total
-        y:
-          scale: discrete
-          value: university
-      - sumlevel: "!0"
-        attrs: university
-        data:
-          - required: "admissions_total"
-            show: university
-            university: "<<id>>,<<nearby ids=True>>"
-        id: university
-        labels: YES
-        order:
-          sort: asc
-          value: admissions_total
-        type: bar
-        x:
-          label: "Overall Admissions"
-          value: admissions_total
-        y:
-          scale: discrete
-          value: university
-    miniviz:
-      attrs: university
-      color: sex
-      data:
-        - required: "admissions_men,admissions_women"
-          show: university
-          university: "<<id>>"
-          split:
-            id: "sex"
-            regex: "admissions_([a-z]*)$"
-            value: "admissions_total"
-      id: sex
-      labels: YES
-      tooltip:
-        value:
           - admissions_total
+          - acceptance_rate
       type: bar
       x:
-        label: "Admissions by Gender"
-        value: admissions_total
+        label: "Acceptance by Gender"
+        value: acceptance_rate
       y:
         label: NO
         scale: discrete

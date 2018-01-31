@@ -131,6 +131,7 @@ DICTIONARY = {
     "avg_gos_award": "Average Financial Aid",
     "avg_netprice_fedaid": "Average Net Price",
     "avg_netprice_gos_aid": "Average Net Price",
+    "num_income": "Number of Students",
 
     "yield_total": "Enrollment Yield",
     "yield_men": "Male Enrollment Yield",
@@ -139,6 +140,7 @@ DICTIONARY = {
     "applicants_total": "Applicants",
     "applicants_men": "Male Applicants",
     "applicants_women": "Female Applicants",
+    "acceptance_rate": "Acceptance Rate",
 
     "admissions_total": "Admissions",
     "admissions_men": "Male Admissions",
@@ -650,7 +652,8 @@ PROPORTIONS = [
     "yield_men",
     "yield_women",
     "grad_rate",
-    "endowment_quintile"
+    "endowment_quintile",
+    "acceptance_rate"
 ]
 
 PERCENTAGES = [
