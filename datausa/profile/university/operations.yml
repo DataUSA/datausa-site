@@ -232,13 +232,22 @@ topics:
       - "In <<var namespace=instructors|key=year|row=0>>, the most common positions for instructional staff by academic rank at <<name>> were <<var namespace=instructors|key=academic_rank|row=0>> with <<var namespace=instructors|key=num_instructional_staff|row=0>> employees, <<var namespace=instructors|key=academic_rank|row=1>> with <<var namespace=instructors|key=num_instructional_staff|row=1>> employees, and <<var namespace=instructors|key=academic_rank|row=2>> with <<var namespace=instructors|key=num_instructional_staff|row=2>> employees."
     viz:
       attrs: academic_rank
+      color: academic_group
       data:
         show: academic_rank
         university: "<<id>>"
         required: "num_instructional_staff"
         where: "num_instructional_staff:!0"
-      id: academic_rank
+      depth: 1
+      id:
+        - academic_group
+        - academic_rank
+      legend: NO
       size: num_instructional_staff
+      tooltip:
+        value:
+          - academic_group
+          - num_instructional_staff
       type: tree_map
   - title: "Instructors by Academic Rank and Gender"
     slug: "instructors_sex"

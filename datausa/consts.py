@@ -201,6 +201,7 @@ DICTIONARY = {
     "num_instructional_staff": "Number of Employees",
     "num_noninstructional_staff": "Number of Employees",
     "academic_rank_name": "Academic Rank",
+    "academic_group": "Academic Group",
 
     "economy": "Economy",
     "wages": "Income & Employment",

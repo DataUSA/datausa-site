@@ -11,6 +11,21 @@ var attrStyles = {
     }
 },
 
+  "academic_group": {
+    "Instructors & Lecturers": {
+        "color": "#1f304c",
+        "icon": "thing_book.png"
+    },
+    "Professors": {
+        "color": "#4b9dcd",
+        "icon": "thing_gradcap.png"
+    },
+    "Other": {
+        "color": "#003651",
+        "icon": "thing_question.png"
+    }
+},
+
   "cohort": {
     "AMI": {
         "color": "#f33535",
