@@ -1,4 +1,4 @@
-title: "Graduation"
+title: "Outcomes"
 description: "In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=moreless2>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates.<br /><br />The most common major at <<name>> is <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
