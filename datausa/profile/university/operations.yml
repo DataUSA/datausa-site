@@ -45,39 +45,6 @@ topics:
         type: "line"
         x: year
         y: endowment_value_fiscal_year_end
-  - title: "Investment Income over Time"
-    slug: "investment"
-    stat:
-      - title: "<<var namespace=investment|key=year|row=0>> Investment Income"
-        value: "<<var namespace=investment|key=investment_income|row=0>>"
-      - title: "<<percent num=var:investment,investment_income,0|den=var:investment,investment_income,1|text=growth2>> from <<var namespace=investment|key=year|row=1>>"
-        value: "<<growth namespace=investment|key=investment_income>>"
-    description:
-      - "As of <<var namespace=investment|key=year|row=0>>, <<name>> earned <<var namespace=investment|key=investment_income|row=0>> in returns on its investments{{<<sumlevel>>:!0|| compared to a median of <<var namespace=investment_carnegie|key=investment_income>> for similar <<carnegie key=name>>}}."
-      - "Investment income is defined as revenues derived from the institution's investments, including investments of endowment funds. Such income may take the form of interest income, dividend income, rental income or royalty income and includes both realized and unrealized gains and losses."
-    viz:
-      - sumlevel: "0"
-        attrs:
-          - "university"
-        data:
-          show: university
-          sumlevel: 0
-          required: "investment_income"
-        id: university
-        type: "line"
-        x: year
-        y: investment_income
-      - sumlevel: "!0"
-        attrs:
-          - "university"
-        data:
-          show: university
-          university: "<<id>>,<<carnegie>>"
-          required: "investment_income"
-        id: university
-        type: "line"
-        x: year
-        y: investment_income
   - title: "Government Grants and Contracts"
     slug: "grants_contracts"
     stat:
