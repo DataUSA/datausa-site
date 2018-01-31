@@ -3667,15 +3667,15 @@
     body.map.naics .demographics, body.map.naics .growth,
     body.story.naics .demographics, body.story.naics .growth {
       background-color: #F6F6F6; }
-  body.profile.university .costs, body.profile.university .campus,
+  body.profile.university .costs, body.profile.university .enrollment,
   body.profile.university .outcomes, body.map.university .costs,
-  body.map.university .campus, body.map.university .outcomes,
-  body.story.university .costs, body.story.university .campus,
+  body.map.university .enrollment, body.map.university .outcomes,
+  body.story.university .costs, body.story.university .enrollment,
   body.story.university .outcomes {
     background-color: #E9E9E9; }
-    body.profile.university .admissions, body.profile.university .graduation,
-    body.map.university .admissions, body.map.university .graduation,
-    body.story.university .admissions, body.story.university .graduation {
+    body.profile.university .admissions, body.profile.university .operations,
+    body.map.university .admissions, body.map.university .operations,
+    body.story.university .admissions, body.story.university .operations {
       background-color: #F6F6F6; }
   body.profile.embed section, body.map.embed section, body.story.embed section {
     background-color: transparent !important; }
@@ -4152,120 +4152,113 @@
               body.story #splash .content.hide {
                 opacity: 0;
                 pointer-events: none; }
-                body.profile #splash .content .f, body.map #splash .content .f,
-                body.story #splash .content .f {
-                  -webkit-box-flex: 1;
-                  -moz-box-flex: 1;
-                  -webkit-flex: 1;
-                  -ms-flex: 1;
-                  flex: 1; }
-                  body.profile #splash .content .splash-titles,
-                  body.map #splash .content .splash-titles,
-                  body.story #splash .content .splash-titles {
-                    -webkit-justify-content: center;
-                    -moz-justify-content: center;
-                    justify-content: center;
-                    -ms-flex-pack: center;
-                    flex-pack: center;
-                    display: -webkit-box;
-                    display: -moz-box;
-                    display: -ms-flexbox;
-                    display: -webkit-flex;
-                    display: flex;
-                    -webkit-flex-direction: column;
-                    -moz-flex-direction: column;
-                    -ms-flex-direction: column;
-                    flex-direction: column;
-                    -webkit-box-flex: 2.5;
-                    -moz-box-flex: 2.5;
-                    -webkit-flex: 2.5;
-                    -ms-flex: 2.5;
-                    flex: 2.5;
-                    -webkit-align-items: center;
-                    align-items: center;
-                    -ms-flex-align: center;
-                    flex-align: center;
-                    color: #efefef;
-                    max-width: 750px;
-                    position: relative;
-                    text-align: center;
-                    width: 100%; }
-                    body.profile #splash .content .splash-titles.compare-flex,
-                    body.map #splash .content .splash-titles.compare-flex,
-                    body.story #splash .content .splash-titles.compare-flex {
-                      max-width: 100%; }
-                      body.profile #splash .content .splash-titles h1,
-                      body.map #splash .content .splash-titles h1,
-                      body.story #splash .content .splash-titles h1 {
-                        -webkit-justify-content: center;
-                        -moz-justify-content: center;
-                        justify-content: center;
-                        -ms-flex-pack: center;
-                        flex-pack: center;
-                        display: -webkit-box;
-                        display: -moz-box;
-                        display: -ms-flexbox;
-                        display: -webkit-flex;
-                        display: flex;
-                        -webkit-flex-direction: row;
-                        -moz-flex-direction: row;
-                        -ms-flex-direction: row;
-                        flex-direction: row;
-                        -webkit-align-items: center;
-                        align-items: center;
-                        -ms-flex-align: center;
-                        flex-align: center;
-                        font-family: "Pathway Gothic One", sans-serif;
-                        font-size: 60px;
-                        font-weight: 400;
-                        letter-spacing: 0.03em;
-                        text-transform: uppercase;
-                        width: 100%;
-                        -webkit-text-shadow: 0 2px 12px black;
-                        -moz-text-shadow: 0 2px 12px black;
-                        text-shadow: 0 2px 12px black; }
-                        body.profile #splash .content .splash-titles h1 .compare-flex,
-                        body.map #splash .content .splash-titles h1 .compare-flex,
-                        body.story #splash .content .splash-titles h1 .compare-flex {
-                          width: 40%; }
-                          body.profile #splash .content .splash-titles h1 .compare-separator,
-                          body.map #splash .content .splash-titles h1 .compare-separator,
-                          body.story #splash .content .splash-titles h1 .compare-separator {
-                            display: none;
-                            font-family: "Palanquin", sans-serif;
-                            font-size: 45px;
-                            width: 10%; }
-                    body.profile #splash .content .splash-titles sub,
-                    body.map #splash .content .splash-titles sub,
-                    body.story #splash .content .splash-titles sub {
-                      text-transform: none;
+                body.profile #splash .content .splash-titles,
+                body.map #splash .content .splash-titles,
+                body.story #splash .content .splash-titles {
+                  -webkit-justify-content: center;
+                  -moz-justify-content: center;
+                  justify-content: center;
+                  -ms-flex-pack: center;
+                  flex-pack: center;
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -ms-flexbox;
+                  display: -webkit-flex;
+                  display: flex;
+                  -webkit-flex-direction: column;
+                  -moz-flex-direction: column;
+                  -ms-flex-direction: column;
+                  flex-direction: column;
+                  -webkit-box-flex: 2.5;
+                  -moz-box-flex: 2.5;
+                  -webkit-flex: 2.5;
+                  -ms-flex: 2.5;
+                  flex: 2.5;
+                  -webkit-align-items: center;
+                  align-items: center;
+                  -ms-flex-align: center;
+                  flex-align: center;
+                  color: #efefef;
+                  max-width: 750px;
+                  position: relative;
+                  text-align: center;
+                  width: 100%; }
+                  body.profile #splash .content .splash-titles.compare-flex,
+                  body.map #splash .content .splash-titles.compare-flex,
+                  body.story #splash .content .splash-titles.compare-flex {
+                    max-width: 100%; }
+                    body.profile #splash .content .splash-titles h1,
+                    body.map #splash .content .splash-titles h1,
+                    body.story #splash .content .splash-titles h1 {
+                      -webkit-justify-content: center;
+                      -moz-justify-content: center;
+                      justify-content: center;
+                      -ms-flex-pack: center;
+                      flex-pack: center;
+                      display: -webkit-box;
+                      display: -moz-box;
+                      display: -ms-flexbox;
+                      display: -webkit-flex;
+                      display: flex;
+                      -webkit-flex-direction: row;
+                      -moz-flex-direction: row;
+                      -ms-flex-direction: row;
+                      flex-direction: row;
+                      -webkit-align-items: center;
+                      align-items: center;
+                      -ms-flex-align: center;
+                      flex-align: center;
                       font-family: "Pathway Gothic One", sans-serif;
-                      font-size: 18px;
+                      font-size: 60px;
                       font-weight: 400;
+                      letter-spacing: 0.03em;
                       text-transform: uppercase;
-                      letter-spacing: 0.03em; }
-                      body.profile #splash .content .splash-titles .compare-search,
-                      body.map #splash .content .splash-titles .compare-search,
-                      body.story #splash .content .splash-titles .compare-search {
-                        margin-top: 15px; }
-                        body.profile #splash .content .splash-titles .compare-search .compare-img,
-                        body.map #splash .content .splash-titles .compare-search .compare-img,
-                        body.story #splash .content .splash-titles .compare-search .compare-img {
-                          margin-top: 3px;
-                          margin-right: 4px;
-                          width: 19px; }
-                          body.profile #splash .content .splash-titles .compare-search .compare-text,
-                          body.map #splash .content .splash-titles .compare-search .compare-text,
-                          body.story #splash .content .splash-titles .compare-search .compare-text {
-                            color: white;
-                            font-family: "Palanquin", sans-serif;
-                            font-size: 14px;
-                            font-weight: 600;
-                            letter-spacing: 0.1em;
-                            -webkit-text-shadow: 0 2px 12px black;
-                            -moz-text-shadow: 0 2px 12px black;
-                            text-shadow: 0 2px 12px black;
-                            text-transform: uppercase; }
+                      width: 100%;
+                      -webkit-text-shadow: 0 2px 12px black;
+                      -moz-text-shadow: 0 2px 12px black;
+                      text-shadow: 0 2px 12px black; }
+                      body.profile #splash .content .splash-titles h1 .compare-flex,
+                      body.map #splash .content .splash-titles h1 .compare-flex,
+                      body.story #splash .content .splash-titles h1 .compare-flex {
+                        width: 40%; }
+                        body.profile #splash .content .splash-titles h1 .compare-separator,
+                        body.map #splash .content .splash-titles h1 .compare-separator,
+                        body.story #splash .content .splash-titles h1 .compare-separator {
+                          display: none;
+                          font-family: "Palanquin", sans-serif;
+                          font-size: 45px;
+                          width: 10%; }
+                  body.profile #splash .content .splash-titles sub,
+                  body.map #splash .content .splash-titles sub,
+                  body.story #splash .content .splash-titles sub {
+                    text-transform: none;
+                    font-family: "Pathway Gothic One", sans-serif;
+                    font-size: 18px;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    letter-spacing: 0.03em; }
+                    body.profile #splash .content .splash-titles .compare-search,
+                    body.map #splash .content .splash-titles .compare-search,
+                    body.story #splash .content .splash-titles .compare-search {
+                      margin-top: 15px; }
+                      body.profile #splash .content .splash-titles .compare-search .compare-img,
+                      body.map #splash .content .splash-titles .compare-search .compare-img,
+                      body.story #splash .content .splash-titles .compare-search .compare-img {
+                        margin-top: 3px;
+                        margin-right: 4px;
+                        width: 19px; }
+                        body.profile #splash .content .splash-titles .compare-search .compare-text,
+                        body.map #splash .content .splash-titles .compare-search .compare-text,
+                        body.story #splash .content .splash-titles .compare-search .compare-text {
+                          color: white;
+                          font-family: "Palanquin", sans-serif;
+                          font-size: 14px;
+                          font-weight: 600;
+                          letter-spacing: 0.1em;
+                          -webkit-text-shadow: 0 2px 12px black;
+                          -moz-text-shadow: 0 2px 12px black;
+                          text-shadow: 0 2px 12px black;
+                          text-transform: uppercase; }
           body.profile #splash .content #splash-stats,
           body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
             -webkit-box-sizing: border-box;
@@ -4282,6 +4275,7 @@
             display: -webkit-flex;
             display: flex;
             width: 100%;
+            margin-bottom: 25px;
             max-width: 700px;
             -webkit-text-shadow: 0 2px 12px black;
             -moz-text-shadow: 0 2px 12px black;

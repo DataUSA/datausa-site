@@ -145,11 +145,11 @@ body.profile, body.map, body.story {
   }
 
   &.university {
-    .costs, .campus, .outcomes  {
+    .costs, .enrollment, .outcomes  {
       background-color: $d-profile-bg;
     }
 
-    .admissions, .graduation  {
+    .admissions, .operations  {
       background-color: $l-profile-bg;
     }
   }
