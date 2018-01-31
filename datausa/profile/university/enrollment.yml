@@ -58,8 +58,28 @@ topics:
             position: True
           value: university
         y: num_enrolled
+  - title: "Retention Rate over Time"
+    slug: "retention"
+    stat:
+      - title: "<<var namespace=retention|key=year>> Retention Rate"
+        value: "<<var namespace=retention|key=retention_rate_ft>>"
+    description:
+      - "Retention rate is a measure of the number of students who began their studies the previous fall and returned to school the following fall. The retention rate for full-time undergraduates at <<name>> was <<var namespace=retention|key=retention_rate_ft>>.{{<<sumlevel>>:!0|| Compared with the full-time retention rate at similar <<carnegie key=name>> (<<var namespace=retention_carnegie|key=retention_rate_ft>>), <<name>> had a retention rate <<percent num=var:retention,retention_rate_ft|den=var:retention_carnegie,retention_rate_ft|text=highlow>> its peers.}}"
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: university
+        university: "<<id>>,<<carnegie>>"
+        required: "retention_rate_ft,retention_rate_pt"
+      depth: 1
+      id: university
+      type: "line"
+      x: year
+      y: retention_rate_ft
   - title: "Enrollment by Race & Ethnicity"
     slug: enrollment_race
+    category: "Diversity"
     description:
       - "The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>. This includes both full-time and part-time students as well as graduate and undergraduates.{{<<sumlevel>>:!0|| By comparison, enrollment at <<carnegie key=name>> is <<percent num=var:enrollment_race_carnegie,num_enrolled,0|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_carnegie,num_enrolled,1|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_carnegie,num_enrolled,2|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=2>>.}}"
     stat:
@@ -139,22 +159,3 @@ topics:
         label: False
         value: ipeds_race
       y: num_enrolled
-  - title: "Retention Rate over Time"
-    slug: "retention"
-    stat:
-      - title: "<<var namespace=retention|key=year>> Retention Rate"
-        value: "<<var namespace=retention|key=retention_rate_ft>>"
-    description:
-      - "Retention rate is a measure of the number of students who began their studies the previous fall and returned to school the following fall. The retention rate for full-time undergraduates at <<name>> was <<var namespace=retention|key=retention_rate_ft>>.{{<<sumlevel>>:!0|| Compared with the full-time retention rate at similar <<carnegie key=name>> (<<var namespace=retention_carnegie|key=retention_rate_ft>>), <<name>> had a retention rate <<percent num=var:retention,retention_rate_ft|den=var:retention_carnegie,retention_rate_ft|text=highlow>> its peers.}}"
-    viz:
-      attrs:
-        - "university"
-      data:
-        show: university
-        university: "<<id>>,<<carnegie>>"
-        required: "retention_rate_ft,retention_rate_pt"
-      depth: 1
-      id: university
-      type: "line"
-      x: year
-      y: retention_rate_ft
