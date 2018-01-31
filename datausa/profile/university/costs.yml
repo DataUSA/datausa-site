@@ -2,6 +2,60 @@ title: "Costs"
 description: "The median {{<<sector>>:public||in-state }}tuition at <<name>> is <<var namespace=tuition|key=state_tuition|row=0>>, which is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=state_tuition|row=0>>.{{<<sector>>:public|| The cost of out-of-state tuition at <<name>> is <<var namespace=tuition|key=oos_tuition|row=0>>, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0|diff=true|text=highlow>> the cost for in-state students and is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=oos_tuition|row=0>>.}}<br /><br />After taking financial aid into account, the average net price for students at <<name>> is <<var namespace=price|key=avg_netprice_gos_aid|row=0>>. <<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants."
 
 topics:
+  - title: "Tuition Costs"
+    slug: "tuition"
+    stat:
+    - title: "Out-of-State Tuition"
+      value: "<<var namespace=tuition|key=oos_tuition|row=0>>"
+      allowed: "<<sector>>:public"
+    - title: "{{<<sector>>:public||In-State}}{{<<sector>>:private||Tuition}} Tuition"
+      value: "<<var namespace=tuition|key=state_tuition|row=0>>"
+    description:
+      - "In <<var namespace=tuition|key=year|row=0>>, the cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> was <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}."
+      - "The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
+    viz:
+      - allowed: "<<sumlevel>>:0"
+        attrs: "university"
+        data:
+          required: "oos_tuition,state_tuition"
+          show: university
+          sumlevel: 0
+          split:
+            id: "location"
+            regex: "^([a-z_tuit]*)ion"
+            value: "tuition_cost"
+        depth: 1
+        id:
+          - location
+          - university
+        tooltip:
+          value:
+            - location
+            - tuition_cost
+        type: bar
+        x: university
+        y: tuition_cost
+      - allowed: "<<sumlevel>>:!0"
+        attrs: "university"
+        data:
+          required: "oos_tuition,state_tuition"
+          show: university
+          university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
+          split:
+            id: "location"
+            regex: "^([a-z_tuit]*)ion"
+            value: "tuition_cost"
+        depth: 1
+        id:
+          - university
+          - location
+        tooltip:
+          value:
+            - location
+            - tuition_cost
+        type: bar
+        x: university
+        y: tuition_cost
   - title: "Average Net Price"
     subtitle: "The average net price is calculated from full-time beginning undergraduate students who were awarded grant or scholarship aid from federal, state or local governments, or the institution."
     slug: "netprice"
@@ -85,57 +139,3 @@ topics:
         type: bar
         x: income_range_name
         y: avg_gos_award
-  - title: "Tuition Costs"
-    slug: "tuition"
-    stat:
-      - title: "Out-of-State Tuition"
-        value: "<<var namespace=tuition|key=oos_tuition|row=0>>"
-        allowed: "<<sector>>:public"
-      - title: "{{<<sector>>:public||In-State}}{{<<sector>>:private||Tuition}} Tuition"
-        value: "<<var namespace=tuition|key=state_tuition|row=0>>"
-    description:
-      - "In <<var namespace=tuition|key=year|row=0>>, the cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> was <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}."
-      - "The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
-    viz:
-      - allowed: "<<sumlevel>>:0"
-        attrs: "university"
-        data:
-          required: "oos_tuition,state_tuition"
-          show: university
-          sumlevel: 0
-          split:
-            id: "location"
-            regex: "^([a-z_tuit]*)ion"
-            value: "tuition_cost"
-        depth: 1
-        id:
-          - location
-          - university
-        tooltip:
-          value:
-            - location
-            - tuition_cost
-        type: bar
-        x: university
-        y: tuition_cost
-      - allowed: "<<sumlevel>>:!0"
-        attrs: "university"
-        data:
-          required: "oos_tuition,state_tuition"
-          show: university
-          university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
-          split:
-            id: "location"
-            regex: "^([a-z_tuit]*)ion"
-            value: "tuition_cost"
-        depth: 1
-        id:
-          - university
-          - location
-        tooltip:
-          value:
-            - location
-            - tuition_cost
-        type: bar
-        x: university
-        y: tuition_cost
