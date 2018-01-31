@@ -140,10 +140,10 @@ topics:
     stat:
       - title: "<<var namespace=admissions|key=year|row=0>> value"
         value: "<<var namespace=admissions|key=yield_total|row=0>>"
-      - title: "1 year <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=growth2>>"
-        value: "<<growth namespace=admissions|key=yield_total>>"
+      - title: "1 year <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=increase>>"
+        value: "<<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|diff=true>>"
     description:
-      - "<<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling. This is in comparison to an enrollment yield of <<var namespace=admissions|key=yield_total|row=1>> in <<var namespace=admissions|key=year|row=1>>, which represents a <<growth namespace=admissions|key=yield_total>> annual <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=growth2>>."
+      - "<<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling. This is in comparison to an enrollment yield of <<var namespace=admissions|key=yield_total|row=1>> in <<var namespace=admissions|key=year|row=1>>, which represents a <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|diff=true>> annual <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=increase>>."
       - "This chart shows how the enrollment yield at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
     viz:
       - sumlevel: "0"
