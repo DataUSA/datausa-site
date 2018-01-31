@@ -242,14 +242,14 @@
   where: "salaries_expense:!0"
   namespace: top_expense
 
-- required: ["total_salaries", "year"]
+- required: ["total_salaries", "total_expenses", "year"]
   rows: True
   order: year
   sort: desc
   limit: 2
   namespace: salaries
 
-- required: ["total_salaries", "year"]
+- required: ["total_salaries", "total_expenses", "year"]
   year: latest
   limit: 1
   university: <<carnegie>>

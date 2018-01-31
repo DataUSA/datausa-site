@@ -122,7 +122,7 @@ topics:
         value:
           - expense_value
       type: tree_map
-  - title: "Salaries Over Time"
+  - title: "Salary Expenditure"
     slug: "salaries"
     stat:
       - title: "<<var namespace=salaries|key=year|row=0>> Salaries"
@@ -130,7 +130,7 @@ topics:
       - title: "<<percent num=var:salaries,total_salaries,0|den=var:salaries,total_salaries,1|text=growth2>> from <<var namespace=salaries|key=year|row=1>>"
         value: "<<growth namespace=salaries|key=total_salaries>>"
     description:
-      - "As of <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries{{<<sumlevel>>:!0|| compared to a median of <<var namespace=salaries_carnegie|key=total_salaries>> for similar <<carnegie key=name>>.}}"
+      - "In <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries, which represents <<percent num=var:salaries,total_salaries,0|den=var:salaries,total_expenses,0>> of their overall expenditure (<<var namespace=salaries|key=total_expenses|row=0>>).{{<<sumlevel>>:!0|| This is compared to a median of <<var namespace=salaries_carnegie|key=total_salaries>> (<<percent num=var:salaries_carnegie,total_salaries|den=var:salaries_carnegie,total_expenses>>) for similar <<carnegie key=name>>.}}"
     viz:
       - sumlevel: "0"
         attrs:
@@ -138,23 +138,35 @@ topics:
         data:
           show: university
           sumlevel: 0
-          required: "total_salaries"
+          required: "total_salaries,total_expenses"
+          divide:
+            num: total_salaries
+            den: total_expenses
+            value: share
         id: university
         type: "line"
         x: year
-        y: total_salaries
+        y:
+          range: [0, 100]
+          value: share
       - sumlevel: "!0"
         attrs:
           - "university"
         data:
           show: university
           university: "<<id>>,<<carnegie>>"
-          required: "total_salaries"
+          required: "total_salaries,total_expenses"
+          divide:
+            num: total_salaries
+            den: total_expenses
+            value: share
         id: university
         type: "line"
         x: year
-        y: total_salaries
-  - title: "Instructional Salaries over Time"
+        y:
+          range: [0, 100]
+          value: share
+  - title: "Instructional Salaries"
     slug: "instructional_salaries"
     stat:
       - title: "Instructional Salaries"
@@ -162,30 +174,50 @@ topics:
       - title: "Number of Employees"
         value: "<<var namespace=inst_salaries|key=num_instructional_staff>>"
     description:
-      - "As of <<var namespace=inst_salaries|key=year>>, <<name>> paid a total of <<var namespace=inst_salaries|key=outlays_instructional_staff>> to <<var namespace=inst_salaries|key=num_instructional_staff>> staff working an instuctors{{<<sumlevel>>:!0||, compared to a median of <<var namespace=inst_salaries_carnegie|key=outlays_instructional_staff>> for similar <<carnegie key=name>>}}."
+      - "In <<var namespace=inst_salaries|key=year>>, <<name>> paid a total of <<var namespace=inst_salaries|key=outlays_instructional_staff>> to <<var namespace=inst_salaries|key=num_instructional_staff>> employees working as instuctors, which represents <<percent num=var:inst_salaries,outlays_instructional_staff|den=var:salaries,total_salaries,0>> of all salaries paid.{{<<sumlevel>>:!0|| This is compared to a median of <<var namespace=inst_salaries_carnegie|key=outlays_instructional_staff>> (<<percent num=var:inst_salaries_carnegie,outlays_instructional_staff|den=var:salaries_carnegie,total_salaries>>) for similar <<carnegie key=name>>}}."
     viz:
       - sumlevel: "0"
         attrs:
           - "university"
         data:
-          show: university
-          sumlevel: 0
-          required: "outlays_instructional_staff,num_instructional_staff"
+          - show: university
+            sumlevel: 0
+            required: "outlays_instructional_staff,num_instructional_staff"
+          - show: university
+            sumlevel: 0
+            merge: "year.university"
+            required: "total_salaries"
+            divide:
+              num: outlays_instructional_staff
+              den: total_salaries
+              value: share
         id: university
         type: "line"
         x: year
-        y: outlays_instructional_staff
+        y:
+          range: [0, 100]
+          value: share
       - sumlevel: "!0"
         attrs:
           - "university"
         data:
-          show: university
-          university: "<<id>>,<<carnegie>>"
-          required: "outlays_instructional_staff,num_instructional_staff"
+          - show: university
+            university: "<<id>>,<<carnegie>>"
+            required: "outlays_instructional_staff,num_instructional_staff"
+          - show: university
+            merge: "year.university"
+            university: "<<id>>,<<carnegie>>"
+            required: "total_salaries"
+            divide:
+              num: outlays_instructional_staff
+              den: total_salaries
+              value: share
         id: university
         type: "line"
         x: year
-        y: outlays_instructional_staff
+        y:
+          range: [0, 100]
+          value: share
   - title: "Instructors by Academic Rank"
     slug: "instructors_tmap"
     category: "Staff"

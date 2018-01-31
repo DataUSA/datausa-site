@@ -196,6 +196,7 @@ DICTIONARY = {
     "outlays_instructional_staff": "Staff Salaries",
     "num_instructional_staff": "Number of Employees",
     "total_salaries": "Total Salaries",
+    "total_expenses": "Total Expenses",
 
     "num_instructional_staff": "Number of Employees",
     "num_noninstructional_staff": "Number of Employees",
@@ -608,7 +609,8 @@ AFFIXES = {
     "salaries_expense": ["$", ""],
     "expense_value": ["$", ""],
     "outlays_instructional_staff": ["$", ""],
-    "total_salaries": ["$", ""]
+    "total_salaries": ["$", ""],
+    "total_expenses": ["$", ""]
 }
 
 PROPORTIONS = [
