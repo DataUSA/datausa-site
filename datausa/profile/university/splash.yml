@@ -15,9 +15,9 @@ viz:
   type: "geo_map"
   zoom: NO
 stats:
-  - title: "{{<<sector>>:public||In-State Tuition}}{{<<sector>>:private||Tuition}}"
+  - title: "<<var namespace=tuition|key=year|row=0>> {{<<sector>>:public||In-State Tuition}}{{<<sector>>:private||Tuition}}"
     value: "<<var namespace=tuition|key=state_tuition|row=0>>"
-    rank: "<<growth namespace=tuition|key=state_tuition>> 1-year <<percent num=var:tuition,state_tuition,0|den=var:tuition,state_tuition,1|text=growth2>>"
+    rank: "<<growth namespace=tuition|key=state_tuition>> <<percent num=var:tuition,state_tuition,0|den=var:tuition,state_tuition,1|text=growth2>> from <<var namespace=tuition|key=year|row=1>>"
   - title: "Average Net Price"
     value: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>"
     rank: "After Financial Aid"
