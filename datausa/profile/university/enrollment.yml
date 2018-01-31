@@ -79,7 +79,6 @@ topics:
       y: retention_rate_ft
   - title: "Enrollment by Race & Ethnicity"
     slug: enrollment_race
-    category: "Diversity"
     description:
       - "The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>. This includes both full-time and part-time students as well as graduate and undergraduates.{{<<sumlevel>>:!0|| By comparison, enrollment at <<carnegie key=name>> is <<percent num=var:enrollment_race_carnegie,num_enrolled,0|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_carnegie,num_enrolled,1|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_carnegie,num_enrolled,2|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=2>>.}}"
     stat:
@@ -107,51 +106,6 @@ topics:
       tooltip:
         value:
           - university
-          - num_enrolled
-      type: "bar"
-      x:
-        persist:
-          position: True
-        label: False
-        value: ipeds_race
-      y: share
-  - title: "Full-time Enrollment by Degree Level"
-    slug: enrollment_level
-    select:
-      data: lstudy
-      default: "1"
-      param: lstudy
-    description:
-      - "Students enrolled at <<name>> in <span class='select-text'>Undergraduate</span> programs are majority <<var namespace=enrollment_lstudy|key=ipeds_race|row=0>> <<var namespace=enrollment_lstudy|key=sex|row=0>>, followed by <<var namespace=enrollment_lstudy|key=ipeds_race|row=1>> <<var namespace=enrollment_lstudy|key=sex|row=1>> and <<var namespace=enrollment_lstudy|key=ipeds_race|row=2>> <<var namespace=enrollment_lstudy|key=sex|row=2>>."
-    stat:
-      - title: "Most common demographic"
-        value: "<<var namespace=enrollment_lstudy|key=ipeds_race|row=0>> <<var namespace=enrollment_lstudy|key=sex|row=0>>"
-        subvalues:
-          - "<<var namespace=enrollment_lstudy|key=ipeds_race|row=1>> <<var namespace=enrollment_lstudy|key=sex|row=1>>"
-          - "<<var namespace=enrollment_lstudy|key=ipeds_race|row=2>> <<var namespace=enrollment_lstudy|key=sex|row=2>>"
-    viz:
-      attrs:
-        - ipeds_race
-        - sex
-      color: sex
-      data:
-        show: "ipeds_race,sex"
-        sumlevel: "all,all"
-        university: "<<id>>"
-        required: "num_enrolled"
-        lstudy: "1"
-        enrollment_status: "1"
-        share: "num_enrolled.sex"
-      depth: 1
-      highlight: <<id>>
-      id:
-        - ipeds_race
-        - sex
-      legend: False
-      order:
-        value: num_enrolled
-      tooltip:
-        value:
           - num_enrolled
       type: "bar"
       x:
