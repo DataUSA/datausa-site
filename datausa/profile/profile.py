@@ -44,7 +44,11 @@ class Profile(BaseObject):
         self.section_cache = False
 
     def attribute(self, **kwargs):
-        return self.attr[kwargs.get("key")]
+        key = kwargs.get("key")
+        val = self.attr[key]
+        if key == "opeid8":
+            val = val[:-2]
+        return val
 
     def carnegie(self, **kwargs):
         carnegie_id = self.attr["carnegie_parent"]
