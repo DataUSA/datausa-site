@@ -10070,10 +10070,19 @@ viz.formatData = function(data, d, build) {
     }
   }
 
+  if (d.sum) {
+    console.log(d.sum);
+    console.log(data);
+    for (var i = 0; i < data.length; i++) {
+      data[i][d.sum.value] = d3.sum(d.sum.keys.map(function(dd) { return data[i][dd] || 0; }));
+    }
+  }
+
   if (d.divide) {
     for (var i = 0; i < data.length; i++) {
       data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den];
-      if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
+      if (data[i][d.divide.value] === Infinity) data[i][d.divide.value] = undefined;
+      else if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
     }
   }
 

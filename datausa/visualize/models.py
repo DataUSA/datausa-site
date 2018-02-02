@@ -48,7 +48,8 @@ class Viz(object):
                 "merge": d.pop("merge", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None),
-                "share": d.pop("share", None)
+                "share": d.pop("share", None),
+                "sum": d.pop("sum", None),
             }
 
             # Set fallback API params
