@@ -25,14 +25,14 @@ stats:
     value: "<<var namespace=cip_grads|key=cip|row=0>>"
     rank: "<<var namespace=cip_grads|key=grads_total|row=0>> graduates"
     small: YES
+  - title: "Acceptance Rate"
+    value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
   - title: "Enrolled Students"
     value: "<<sum namespace=enrollment_status|key=num_enrolled>>"
     rank: "<<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> full-time"
   - title: "Graduation Rate"
     value: "<<var namespace=grad_rate|key=grad_rate>>"
     rank: "<<var namespace=grad_rate|key=num_finishers>> Graduates"
-  - title: "Acceptance Rate"
-    value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
 
 sections:
   - costs
