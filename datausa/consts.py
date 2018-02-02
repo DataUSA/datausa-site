@@ -611,7 +611,8 @@ AFFIXES = {
     "expense_value": ["$", ""],
     "outlays_instructional_staff": ["$", ""],
     "total_salaries": ["$", ""],
-    "total_expenses": ["$", ""]
+    "total_expenses": ["$", ""],
+    "cost": ["$", ""]
 }
 
 PROPORTIONS = [
@@ -656,7 +657,8 @@ PROPORTIONS = [
     "yield_women",
     "grad_rate",
     "endowment_quintile",
-    "acceptance_rate"
+    "acceptance_rate",
+    "discount"
 ]
 
 PERCENTAGES = [

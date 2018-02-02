@@ -109,33 +109,85 @@ topics:
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
       - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_grant_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_grant_aid>> annual <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>>."
-      - "This chart shows how the average amount of grant and scholarship aid awarded at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}. The average award discount is calculated by dividing the average grant/scholarship award value by the cost, which is calculated by adding the out-of-state tuition cost with room, board, and other expenses."
     viz:
       - sumlevel: "0"
         attrs: university
         data:
-          - required: "avg_gos_award,avg_netprice_fedaid"
+          - required: "avg_gos_award,num_income,avg_netprice_fedaid"
             show: "university,income_range"
             sumlevel: "0,all"
             display_names: 1
+          - sumlevel: "0"
+            merge: "year.university"
+            required: "room_and_board,other_expenses"
+            living_arrangement: "1"
+            show: "university"
+          - sumlevel: "0"
+            merge: "year.university"
+            required: "oos_tuition"
+            show: "university"
+            sum:
+              keys:
+                - oos_tuition
+                - room_and_board
+                - other_expenses
+              value: cost
+            divide:
+              num: avg_gos_award
+              den: cost
+              value: discount
         id: university
         order:
           sort: asc
           value: income_range
+        tooltip:
+          value:
+            - avg_gos_award
+            - cost
+            - discount
         type: bar
         x: income_range_name
-        y: avg_gos_award
+        y:
+          range: [0, 1]
+          value: discount
       - sumlevel: "!0"
         attrs: university
         data:
-          - required: "avg_gos_award,avg_netprice_fedaid"
+          - required: "avg_gos_award,num_income,avg_netprice_fedaid"
             show: income_range
             university: "<<id>>,<<nearby ids=True>>"
             display_names: 1
+          - university: "<<id>>,<<nearby ids=True>>"
+            merge: "year.university"
+            required: "room_and_board,other_expenses"
+            living_arrangement: "1"
+            show: "university"
+          - university: "<<id>>,<<nearby ids=True>>"
+            merge: "year.university"
+            required: "oos_tuition"
+            show: "university"
+            sum:
+              keys:
+                - oos_tuition
+                - room_and_board
+                - other_expenses
+              value: cost
+            divide:
+              num: avg_gos_award
+              den: cost
+              value: discount
         id: university
         order:
           sort: asc
           value: income_range
+        tooltip:
+          value:
+            - avg_gos_award
+            - cost
+            - discount
         type: bar
         x: income_range_name
-        y: avg_gos_award
+        y:
+          range: [0, 1]
+          value: discount
