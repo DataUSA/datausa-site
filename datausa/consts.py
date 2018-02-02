@@ -133,9 +133,17 @@ DICTIONARY = {
     "avg_netprice_gos_aid": "Average Net Price",
     "num_income": "Number of Students",
 
+    "books_and_supplies": "Books & Supplies",
+    "room_and_board": "Room & Board",
+    "other_expenses": "Other Expenses",
+
     "yield_total": "Enrollment Yield",
     "yield_men": "Male Enrollment Yield",
     "yield_women": "Female Enrollment Yield",
+    "default_rate": "Default Rate",
+    "num_defaults": "Number of Defaults",
+    "num_borrowers": "Number of Borrowers",
+    "rate_type_name": "Rate Type",
 
     "applicants_total": "Applicants",
     "applicants_men": "Male Applicants",
@@ -612,7 +620,10 @@ AFFIXES = {
     "outlays_instructional_staff": ["$", ""],
     "total_salaries": ["$", ""],
     "total_expenses": ["$", ""],
-    "cost": ["$", ""]
+    "cost": ["$", ""],
+    "books_and_supplies": ["$", ""],
+    "room_and_board": ["$", ""],
+    "other_expenses": ["$", ""]
 }
 
 PROPORTIONS = [
@@ -670,7 +681,8 @@ PERCENTAGES = [
     "pct_with_grant_aid",
     "sub_sat_scores_pct",
     "retention_rate_ft",
-    "retention_rate_pt"
+    "retention_rate_pt",
+    "default_rate"
 ]
 
 PER1000 = [

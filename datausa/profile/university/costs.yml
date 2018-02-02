@@ -100,6 +100,40 @@ topics:
         y:
           scale: discrete
           value: university
+  - title: "Other Student Expenses"
+    slug: "other_expenses"
+    stat:
+      - title: "Room & Board"
+        value: "<<var namespace=roomboard|key=room_and_board|row=0>>"
+      - title: "Books & Supplies"
+        value: "<<var namespace=tuition|key=books_and_supplies|row=0>>"
+    description:
+      - "Students at <<name>> spend, on average per year, <<var namespace=roomboard|key=room_and_board|row=0>> on room & board when living on campus and <<var namespace=tuition|key=books_and_supplies|row=0>> on books and supplies. This is in comparison to costs of <<var namespace=roomboard|key=room_and_board|row=1>> and <<var namespace=tuition|key=books_and_supplies|row=1>> in the previous year, which represent a <<growth namespace=roomboard|key=room_and_board>> 1-year <<percent num=var:roomboard,room_and_board,0|den=var:roomboard,room_and_board,1|text=growth2>> and a <<growth namespace=tuition|key=books_and_supplies>> 1-year <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=growth2>> respectively."
+      - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+    viz:
+      - attrs: university
+        data:
+          - university: "<<id>>,<<nearby ids=True>>"
+            show: university
+            required: "room_and_board,other_expenses"
+            living_arrangement: "1"
+            split:
+              id: "type"
+              regex: "^(room_and_board|other_expenses)$"
+              value: "cost"
+          - university: "<<id>>,<<nearby ids=True>>"
+            required: "books_and_supplies"
+            show: "university"
+            split:
+              id: "type"
+              regex: "^(books_and_supplies)$"
+              value: "cost"
+        id: university
+        type: bar
+        x:
+          label: NO
+          value: type
+        y: cost
   - title: "Financial Aid by Income Level"
     slug: "incomeawards"
     stat:
@@ -109,7 +143,8 @@ topics:
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
       - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_grant_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_grant_aid>> annual <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>>."
-      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}. The average award discount is calculated by dividing the average grant/scholarship award value by the cost, which is calculated by adding the out-of-state tuition cost with room, board, and other expenses."
+      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "The average award discount is calculated by dividing the average grant/scholarship award value by the cost, which is calculated by adding the out-of-state tuition cost with room, board, book, supplies, and other expenses."
     viz:
       - sumlevel: "0"
         attrs: university
@@ -125,11 +160,12 @@ topics:
             show: "university"
           - sumlevel: "0"
             merge: "year.university"
-            required: "oos_tuition"
+            required: "oos_tuition,books_and_supplies"
             show: "university"
             sum:
               keys:
                 - oos_tuition
+                - books_and_supplies
                 - room_and_board
                 - other_expenses
               value: cost
@@ -165,11 +201,12 @@ topics:
             show: "university"
           - university: "<<id>>,<<nearby ids=True>>"
             merge: "year.university"
-            required: "oos_tuition"
+            required: "oos_tuition,books_and_supplies"
             show: "university"
             sum:
               keys:
                 - oos_tuition
+                - books_and_supplies
                 - room_and_board
                 - other_expenses
               value: cost

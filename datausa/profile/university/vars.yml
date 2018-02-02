@@ -26,13 +26,22 @@
   limit: 2
   namespace: admissions
 
-- required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
+- required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee", "books_and_supplies"]
   rows: True
   sort: desc
   order: year
   year: all
   limit: 2
   namespace: tuition
+
+- required: ["year", "room_and_board", "other_expenses"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  living_arrangement: 1
+  namespace: roomboard
 
 - required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
   rows: True
@@ -293,3 +302,8 @@
   limit: 3
   show: ipeds_occ
   namespace: occupations
+
+- required: ["year", "default_rate", "num_borrowers", "num_defaults"]
+  year: latest
+  limit: 1
+  namespace: defaults
