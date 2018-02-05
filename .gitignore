@@ -6,3 +6,6 @@ static/reports
 .env
 .envrc
 .DS_Store
+cache_data
+datausa
+*.pyc
