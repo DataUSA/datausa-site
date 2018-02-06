@@ -61,7 +61,7 @@
   sort: desc
   order: grads_total
   year: latest
-  limit: 3
+  limit: 10
   sumlevel: "6"
   show: cip
   namespace: cip_grads
@@ -118,15 +118,6 @@
   namespace: grad_rate_top
 
 - required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
-  sort: asc
-  order: grad_rate
-  year: latest
-  limit: 1
-  sumlevel: "all,all"
-  show: "ipeds_race,sex"
-  namespace: grad_rate_bottom
-
-- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
   sort: desc
   order: grad_rate
   year: latest
@@ -135,16 +126,6 @@
   show: "ipeds_race,sex"
   university: <<carnegie>>
   namespace: grad_rate_top_carnegie
-
-- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
-  sort: asc
-  order: grad_rate
-  year: latest
-  limit: 1
-  sumlevel: "all,all"
-  show: "ipeds_race,sex"
-  university: <<carnegie>>
-  namespace: grad_rate_bottom_carnegie
 
 - required: ["year", "num_enrolled"]
   rows: True
