@@ -1070,12 +1070,19 @@ class Profile(BaseObject):
         key = kwargs.get("key", "")
         formatting = kwargs.get("format", "pretty")
         row = kwargs.get("row", False)
+        csl = kwargs.get("csl", False)
+        limit = kwargs.get("limit", False)
 
         var_map = self.variables
 
         if var_map:
             if namespace in var_map and var_map[namespace] and formatting == "length":
                 return len(var_map[namespace])
+            if csl and namespace in var_map and var_map[namespace]:
+                vals = [v[key]["raw"] for v in var_map[namespace]]
+                if limit:
+                    del vals[int(limit):]
+                return ",".join(vals)
             if row and namespace in var_map and var_map[namespace]:
                 row = int(row)
                 if row < len(var_map[namespace]):
