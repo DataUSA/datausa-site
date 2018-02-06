@@ -248,6 +248,7 @@ topics:
       x: race
       y: grads_total
   - title: "Default Rate"
+    subtitle: "Some schools have a small number of borrowers entering repayment, while at other schools only a small portion of the student body takes out student loans. In such cases, the cohort default rate should be interpreted with caution as these rates may not be reflective of the entire school population."
     slug: "default_rate"
     sumlevel: "2"
     category: "Debt"
