@@ -79,6 +79,7 @@ topics:
       y: retention_rate_ft
   - title: "Enrollment by Race & Ethnicity"
     slug: enrollment_race
+    subtitle: "IPEDS categorizes any student who is studying in the United States on a temporary basis as a \"Non-Resident Alien\"."
     description:
       - "The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>. This includes both full-time and part-time students as well as graduate and undergraduates.{{<<sumlevel>>:!0|| By comparison, enrollment at <<carnegie key=name>> is <<percent num=var:enrollment_race_carnegie,num_enrolled,0|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_carnegie,num_enrolled,1|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_carnegie,num_enrolled,2|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=2>>.}}"
     stat:
