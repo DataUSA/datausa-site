@@ -7535,6 +7535,10 @@ var attrStyles = {
 },
 
   "ipeds_occ_group": {
+    "Instructional": {
+        "color": "#1f304c",
+        "icon": "thing_book.png"
+    },
     "Adminstrative": {
         "color": "#1a9b9a",
         "icon": "thing_box.png"

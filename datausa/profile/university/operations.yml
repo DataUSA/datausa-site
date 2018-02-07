@@ -219,36 +219,50 @@ topics:
         y:
           range: [0, 100]
           value: share
-  - title: "Instructors by Academic Rank"
-    slug: "instructors_tmap"
+  - title: "Staff by Occupation"
+    slug: staff_tmap
     category: "Staff"
     stat_stack: YES
     stat:
-    - title: "Most common Instructor Rank"
-      value: "<<var namespace=instructors|key=academic_rank|row=0>> <span class='stat-subtitle'><<var namespace=instructors|key=num_instructional_staff|row=0>> employees</span>"
-      subvalues:
-        - "<<var namespace=instructors|key=academic_rank|row=1>> <span class='stat-subtitle'><<var namespace=instructors|key=num_instructional_staff|row=1>> employees</span>"
-        - "<<var namespace=instructors|key=academic_rank|row=2>> <span class='stat-subtitle'><<var namespace=instructors|key=num_instructional_staff|row=2>> employees</span>"
+    - title: "Most Common Instructor"
+      value: "<<var namespace=instructors|key=academic_rank|row=0>>"
+      subtitle: "<<var namespace=instructors|key=num_instructional_staff|row=0>> employees"
+    - title: "Most Common Non-Instructional Employee"
+      value: "<<var namespace=occupations|key=ipeds_occ|row=0>>"
+      subtitle: "<<var namespace=occupations|key=num_noninstructional_staff|row=0>> employees"
     description:
-      - "In <<var namespace=instructors|key=year|row=0>>, the most common positions for instructional staff by academic rank at <<name>> were <<var namespace=instructors|key=academic_rank|row=0>> with <<var namespace=instructors|key=num_instructional_staff|row=0>> employees, <<var namespace=instructors|key=academic_rank|row=1>> with <<var namespace=instructors|key=num_instructional_staff|row=1>> employees, and <<var namespace=instructors|key=academic_rank|row=2>> with <<var namespace=instructors|key=num_instructional_staff|row=2>> employees."
+      - "In <<var namespace=instructors|key=year|row=0>>, the most common positions for instructional staff at <<name>> were <<var namespace=instructors|key=academic_rank|row=0>> with <<var namespace=instructors|key=num_instructional_staff|row=0>> employees, <<var namespace=instructors|key=academic_rank|row=1>> with <<var namespace=instructors|key=num_instructional_staff|row=1>> employees, and <<var namespace=instructors|key=academic_rank|row=2>> with <<var namespace=instructors|key=num_instructional_staff|row=2>> employees."
+      - "In <<var namespace=occupations|key=year|row=0>>, the most common positions for non-instructional staff at <<name>> were <<var namespace=occupations|key=ipeds_occ|row=0>> with <<var namespace=occupations|key=num_noninstructional_staff|row=0>> employees, <<var namespace=occupations|key=ipeds_occ|row=1>> with <<var namespace=occupations|key=num_noninstructional_staff|row=1>> employees, and <<var namespace=occupations|key=ipeds_occ|row=2>> with <<var namespace=occupations|key=num_noninstructional_staff|row=2>> employees."
     viz:
-      attrs: academic_rank
-      color: academic_group
+      attrs:
+        - ipeds_occ
+        - academic_rank
+      color: ipeds_occ_group
       data:
-        show: academic_rank
-        university: "<<id>>"
-        required: "num_instructional_staff"
-        where: "num_instructional_staff:!0"
+        - show: academic_rank
+          university: "<<id>>"
+          required: "num_instructional_staff,academic_rank"
+          where: "num_instructional_staff:!0"
+          map:
+            num_staff: num_instructional_staff
+            ipeds_occ: academic_rank
+          static:
+            ipeds_occ_group: "Instructional"
+        - show: ipeds_occ
+          university: "<<id>>"
+          required: "num_noninstructional_staff"
+          where: "num_noninstructional_staff:!0"
+          map:
+            num_staff: num_noninstructional_staff
       depth: 1
       id:
-        - academic_group
-        - academic_rank
-      legend: NO
-      size: num_instructional_staff
+        - ipeds_occ_group
+        - ipeds_occ
+      size: num_staff
       tooltip:
         value:
-          - academic_group
-          - num_instructional_staff
+          - ipeds_occ_group
+          - num_staff
       type: tree_map
   - title: "Instructors by Academic Rank and Gender"
     slug: "instructors_sex"
@@ -281,28 +295,3 @@ topics:
         label: False
         value: academic_rank_name
       y: num_instructional_staff
-  - title: "Non-Instructional Staff by Occupation"
-    slug: "occ_tmap"
-    stat_stack: YES
-    stat:
-    - title: "Most common occupation"
-      value: "<<var namespace=occupations|key=ipeds_occ|row=0>> <span class='stat-subtitle'><<var namespace=occupations|key=num_noninstructional_staff|row=0>> employees</span>"
-      subvalues:
-        - "<<var namespace=occupations|key=ipeds_occ|row=1>> <span class='stat-subtitle'><<var namespace=occupations|key=num_noninstructional_staff|row=1>> employees</span>"
-        - "<<var namespace=occupations|key=ipeds_occ|row=2>> <span class='stat-subtitle'><<var namespace=occupations|key=num_noninstructional_staff|row=2>> employees</span>"
-    description:
-      - "In <<var namespace=occupations|key=year|row=0>>, the most common positions for non-instructional staff at <<name>> were <<var namespace=occupations|key=ipeds_occ|row=0>> with <<var namespace=occupations|key=num_noninstructional_staff|row=0>> employees, <<var namespace=occupations|key=ipeds_occ|row=1>> with <<var namespace=occupations|key=num_noninstructional_staff|row=1>> employees, and <<var namespace=occupations|key=ipeds_occ|row=2>> with <<var namespace=occupations|key=num_noninstructional_staff|row=2>> employees."
-    viz:
-      attrs: ipeds_occ
-      color: ipeds_occ_group
-      data:
-        show: ipeds_occ
-        university: "<<id>>"
-        required: "num_noninstructional_staff"
-        where: "num_noninstructional_staff:!0"
-      depth: 1
-      id:
-        - ipeds_occ_group
-        - ipeds_occ
-      size: num_noninstructional_staff
-      type: tree_map

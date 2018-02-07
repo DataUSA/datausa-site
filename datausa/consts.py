@@ -203,6 +203,8 @@ DICTIONARY = {
 
     "outlays_instructional_staff": "Staff Salaries",
     "num_instructional_staff": "Number of Employees",
+    "num_staff": "Number of Employees",
+    "ipeds_occ_group": "Occupation Group",
     "total_salaries": "Total Salaries",
     "total_expenses": "Total Expenses",
 
