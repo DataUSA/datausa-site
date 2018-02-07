@@ -369,7 +369,7 @@ topics:
       - attrs: opeid
         data:
           - required: "default_rate,num_borrowers,num_defaults"
-            university: "<<id>>,<<nearby ids=True>>"
+            university: "<<id>>,<<similar ids=True>>"
             show: university
             display_names: 1
         highlight: "<<attribute key=opeid8>>"

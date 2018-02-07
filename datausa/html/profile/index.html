@@ -236,7 +236,7 @@
 {% endfor %}
 
 {% if profile.attr_type == "university" %}
-  {% set parents = profile.nearby() %}
+  {% set parents = profile.similar() %}
 {% endif %}
 
 {% if parents|length %}

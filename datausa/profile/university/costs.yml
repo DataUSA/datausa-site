@@ -40,7 +40,7 @@ topics:
         data:
           required: "oos_tuition,state_tuition"
           show: university
-          university: "<<id>>,<<nearby ids=True>>,<<carnegie>>"
+          university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
           split:
             id: "location"
             regex: "^([a-z_tuit]*)ion"
@@ -66,7 +66,7 @@ topics:
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
       - "<<name>> has an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
-      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     viz:
       - sumlevel: "0"
         attrs: university
@@ -89,7 +89,7 @@ topics:
         data:
           - required: "avg_netprice_gos_aid"
             show: university
-            university: "<<id>>,<<nearby ids=True>>"
+            university: "<<id>>,<<similar ids=True>>"
         id: university
         labels: YES
         order:
@@ -109,11 +109,11 @@ topics:
         value: "<<var namespace=tuition|key=books_and_supplies|row=0>>"
     description:
       - "Students at <<name>> spend, on average per year, <<var namespace=roomboard|key=room_and_board|row=0>> on room & board when living on campus and <<var namespace=tuition|key=books_and_supplies|row=0>> on books and supplies. This is in comparison to costs of <<var namespace=roomboard|key=room_and_board|row=1>> and <<var namespace=tuition|key=books_and_supplies|row=1>> in the previous year, which represent a <<growth namespace=roomboard|key=room_and_board>> 1-year <<percent num=var:roomboard,room_and_board,0|den=var:roomboard,room_and_board,1|text=growth2>> and a <<growth namespace=tuition|key=books_and_supplies>> 1-year <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=growth2>> respectively."
-      - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     viz:
       - attrs: university
         data:
-          - university: "<<id>>,<<nearby ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>"
             show: university
             required: "room_and_board,other_expenses"
             living_arrangement: "1"
@@ -121,7 +121,7 @@ topics:
               id: "type"
               regex: "^(room_and_board|other_expenses)$"
               value: "cost"
-          - university: "<<id>>,<<nearby ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>"
             required: "books_and_supplies"
             show: "university"
             split:
@@ -143,7 +143,7 @@ topics:
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
       - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_grant_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_grant_aid>> annual <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>>."
-      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
       - "The average award discount is calculated by dividing the average grant/scholarship award value by the cost, which is calculated by adding the out-of-state tuition cost with room, board, book, supplies, and other expenses."
     viz:
       - sumlevel: "0"
@@ -192,14 +192,14 @@ topics:
         data:
           - required: "avg_gos_award,num_income,avg_netprice_fedaid"
             show: income_range
-            university: "<<id>>,<<nearby ids=True>>"
+            university: "<<id>>,<<similar ids=True>>"
             display_names: 1
-          - university: "<<id>>,<<nearby ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>"
             merge: "year.university"
             required: "room_and_board,other_expenses"
             living_arrangement: "1"
             show: "university"
-          - university: "<<id>>,<<nearby ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>"
             merge: "year.university"
             required: "oos_tuition,books_and_supplies"
             show: "university"

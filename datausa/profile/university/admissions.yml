@@ -11,7 +11,7 @@ topics:
         value: "<<var namespace=admissions|key=admissions_total|row=0>>"
     description:
       - "<<name>> had an acceptance rate of <<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>> in <<var namespace=admissions|key=year|row=0>>, admitting <<var namespace=admissions|key=admissions_total|row=0>> students out of <<var namespace=admissions|key=applicants_total|row=0>> applications. Compared to an acceptance rate of <<percent num=var:admissions,admissions_total,1|den=var:admissions,applicants_total,1>> the previous year, there was a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>> in applicants and a <<growth namespace=admissions|key=admissions_total>> annual <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=growth2>> in admissions."
-      - "This chart shows how the acceptance rate at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "This chart shows how the acceptance rate at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     viz:
       - sumlevel: "0"
         attrs: university
@@ -38,7 +38,7 @@ topics:
         data:
           - required: "applicants_total,admissions_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>"
+            university: "<<id>>,<<similar ids=True>>"
             divide:
               num: admissions_total
               den: applicants_total
@@ -144,7 +144,7 @@ topics:
         value: "<<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|diff=true>>"
     description:
       - "<<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling. This is in comparison to an enrollment yield of <<var namespace=admissions|key=yield_total|row=1>> in <<var namespace=admissions|key=year|row=1>>, which represents a <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|diff=true>> annual <<percent num=var:admissions,yield_total,0|den=var:admissions,yield_total,1|text=increase>>."
-      - "This chart shows how the enrollment yield at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||nearby universities}}."
+      - "This chart shows how the enrollment yield at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     viz:
       - sumlevel: "0"
         attrs: university
@@ -169,7 +169,7 @@ topics:
         data:
           - required: "yield_total"
             show: university
-            university: "<<id>>,<<nearby ids=True>>"
+            university: "<<id>>,<<similar ids=True>>"
         id: university
         labels: YES
         order:
