@@ -123,14 +123,15 @@ topics:
           - expense_value
       type: tree_map
   - title: "Salary Expenditure"
-    slug: "salaries"
+    slug: salaries
     stat:
       - title: "<<var namespace=salaries|key=year|row=0>> Salaries"
         value: "<<var namespace=salaries|key=total_salaries|row=0>>"
       - title: "<<percent num=var:salaries,total_salaries,0|den=var:salaries,total_salaries,1|text=growth2>> from <<var namespace=salaries|key=year|row=1>>"
         value: "<<growth namespace=salaries|key=total_salaries>>"
     description:
-      - "In <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries, which represents <<percent num=var:salaries,total_salaries,0|den=var:salaries,total_expenses,0>> of their overall expenditure (<<var namespace=salaries|key=total_expenses|row=0>>).{{<<sumlevel>>:!0|| This is compared to a median of <<var namespace=salaries_carnegie|key=total_salaries>> (<<percent num=var:salaries_carnegie,total_salaries|den=var:salaries_carnegie,total_expenses>>) for similar <<carnegie key=name>>.}}"
+      - "In <<var namespace=salaries|key=year|row=0>>, <<name>> paid a total of <<var namespace=salaries|key=total_salaries|row=0>> in salaries, which represents <<percent num=var:salaries,total_salaries,0|den=var:salaries,total_expenses,0>> of their overall expenditure (<<var namespace=salaries|key=total_expenses|row=0>>) and a <<growth namespace=salaries|key=total_salaries>> <<percent num=var:salaries,total_salaries,0|den=var:salaries,total_salaries,1|text=growth2>> from the previous year. This is compared to a <<growth namespace=salaries|key=total_salaries|offset=1>> <<percent num=var:salaries,total_salaries,1|den=var:salaries,total_salaries,2|text=growth2>> from <<var namespace=salaries|key=year|row=2>> and a <<growth namespace=salaries|key=total_salaries|offset=2>> <<percent num=var:salaries,total_salaries,2|den=var:salaries,total_salaries,3|text=growth2>> from <<var namespace=salaries|key=year|row=3>>"
+      - "{{<<sumlevel>>:!0|| The median for similar <<carnegie key=name>> is <<var namespace=salaries_carnegie|key=total_salaries>> (<<percent num=var:salaries_carnegie,total_salaries|den=var:salaries_carnegie,total_expenses>> of overall expenditures).}}"
     viz:
       - sumlevel: "0"
         attrs:

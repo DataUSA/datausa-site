@@ -236,7 +236,7 @@
   rows: True
   order: year
   sort: desc
-  limit: 2
+  limit: 4
   namespace: salaries
 
 - required: ["total_salaries", "total_expenses", "year"]
