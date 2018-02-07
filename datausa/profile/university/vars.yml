@@ -284,7 +284,20 @@
   show: ipeds_occ
   namespace: occupations
 
-- required: ["year", "avg_wage", "soc"]
+- required: ["year", "num_ppl", "soc", "cip"]
+  rows: True
+  sort: desc
+  order: num_ppl
+  year: latest
+  limit: 5
+  show: soc
+  university: ""
+  soc_level: 3
+  where: "num_records:>4"
+  cip: <<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5|sumlevel=6>>
+  namespace: soc_ppl
+
+- required: ["year", "avg_wage", "soc", "cip"]
   rows: True
   sort: desc
   order: avg_wage

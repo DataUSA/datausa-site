@@ -247,15 +247,50 @@ topics:
       type: "bar"
       x: race
       y: grads_total
-  - title: "Wages for Common Jobs"
-    slug: wages
+  - title: "Common Jobs"
+    slug: jobs
     category: "Financial"
     description:
-      - "The highest paying job for people in the workforce with one of the 5 most common degrees awarded by <<name>> is <<var namespace=soc|key=soc|row=1>> with an average salary of <<var namespace=soc|key=avg_wage|row=1>>. This is followed by <<var namespace=soc|key=soc|row=2>> with <<var namespace=soc|key=avg_wage|row=2>> and <<var namespace=soc|key=soc|row=3>> with <<var namespace=soc|key=avg_wage|row=3>>"
-      - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, <<var namespace=cip_grads|key=cip|row=4>>, and <<var namespace=cip_grads|key=cip|row=5>>."
+      - "The most common job for people in the workforce with one of the 5 most common degrees awarded by <<name>> are <<var namespace=soc_ppl|key=soc|row=0>> with <<var namespace=soc_ppl|key=cip|row=0>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=0>>). This is followed by <<var namespace=soc_ppl|key=soc|row=1>> with <<var namespace=soc_ppl|key=cip|row=1>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=1>>) and <<var namespace=soc_ppl|key=soc|row=2>> with <<var namespace=soc_ppl|key=cip|row=2>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=2>>)."
+      - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=0>>, <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, and <<var namespace=cip_grads|key=cip|row=4>>."
+    stat:
+      - title: "Most Common Job"
+        value: "<<var namespace=soc_ppl|key=soc|row=0>>"
+    viz:
+      - attrs:
+          - soc
+          - cip
+        color: cip_2
+        data:
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
+          show: "soc,cip"
+          sumlevel: "all,all"
+          soc: "<<var namespace=soc_ppl|key=soc|csl=True>>"
+          cip: "<<var namespace=cip_grads|key=cip|csl=True|limit=5>>"
+          soc_level: 3
+          where: "num_records:>4"
+          display_names: 1
+        depth: 3
+        id: cip_2
+        order:
+          value: num_ppl
+        tooltip:
+          value:
+            - avg_wage
+            - avg_wage_moe
+            - num_ppl
+            - num_ppl_moe
+        type: bar
+        x: soc
+        y: num_ppl
+  - title: "Highest Paying Jobs"
+    slug: wages
+    description:
+      - "The highest paying job for people in the workforce with one of the 5 most common degrees awarded by <<name>> are <<var namespace=soc|key=soc|row=0>> with <<var namespace=soc|key=cip|row=0>> degrees with an average salary of <<var namespace=soc|key=avg_wage|row=0>>. This is followed by <<var namespace=soc|key=soc|row=1>> with <<var namespace=soc|key=cip|row=1>> degrees (<<var namespace=soc|key=avg_wage|row=1>>) and <<var namespace=soc|key=soc|row=2>> with <<var namespace=soc|key=cip|row=2>> degrees (<<var namespace=soc|key=avg_wage|row=2>>)."
+      - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=0>>, <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, and <<var namespace=cip_grads|key=cip|row=4>>."
     stat:
       - title: "Highest Paying Job"
-        value: "<<var namespace=soc|key=soc|row=1>>"
+        value: "<<var namespace=soc|key=soc|row=0>>"
     viz:
       - attrs:
           - soc
