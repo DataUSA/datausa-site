@@ -406,7 +406,8 @@ class Profile(BaseObject):
 
         attr_id = self.id(**kwargs)
         ids_only = kwargs.get("ids", False)
-        url = "{}/attrs/nearby/university/{}".format(API, attr_id)
+        endpoint = kwargs.get("endpoint", "nearby")
+        url = "{}/attrs/{}/university/{}".format(API, endpoint, attr_id)
 
         try:
             results = [r for r in datafold(requests.get(url).json()) if r["id"] != attr_id]
@@ -825,6 +826,11 @@ class Profile(BaseObject):
         siblings = siblings[:limit+1]
 
         return self.make_links(siblings)
+
+    def similar(self, **kwargs):
+
+        kwargs["endpoint"] = "similar"
+        return self.nearby(**kwargs)
 
 
     def solo(self):
