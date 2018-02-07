@@ -310,6 +310,19 @@
   cip: <<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5|sumlevel=6>>
   namespace: soc
 
+- required: ["year", "num_ppl", "naics", "cip"]
+  rows: True
+  sort: desc
+  order: num_ppl
+  year: latest
+  limit: 5
+  show: naics
+  university: ""
+  where: "num_ppl:!0"
+  sumlevel: 2
+  cip: <<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5|sumlevel=6>>
+  namespace: naics
+
 - required: ["year", "default_rate", "num_borrowers", "num_defaults"]
   year: latest
   limit: 1
