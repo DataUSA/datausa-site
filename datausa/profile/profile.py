@@ -410,7 +410,10 @@ class Profile(BaseObject):
         url = "{}/attrs/{}/university/{}".format(API, endpoint, attr_id)
 
         try:
-            results = [r for r in datafold(requests.get(url).json()) if r["id"] != attr_id]
+            results = requests.get(url).json()
+            if results["error"]:
+                results = requests.get(url.replace(endpoint, "nearby")).json()
+            results = [r for r in datafold(results) if r["id"] != attr_id]
             if ids_only:
                 return ",".join([r["id"] for r in results])
             for result in results:
