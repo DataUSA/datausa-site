@@ -10075,8 +10075,6 @@ viz.formatData = function(data, d, build) {
   }
 
   if (d.sum) {
-    console.log(d.sum);
-    console.log(data);
     for (var i = 0; i < data.length; i++) {
       data[i][d.sum.value] = d3.sum(d.sum.keys.map(function(dd) { return data[i][dd] || 0; }));
     }
