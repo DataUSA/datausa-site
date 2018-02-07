@@ -411,7 +411,7 @@ class Profile(BaseObject):
 
         try:
             results = requests.get(url).json()
-            if results["error"]:
+            if "error" in results:
                 results = requests.get(url.replace(endpoint, "nearby")).json()
             results = [r for r in datafold(results) if r["id"] != attr_id]
             if ids_only:
