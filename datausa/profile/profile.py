@@ -105,21 +105,22 @@ class Profile(BaseObject):
     def growth(self, **kwargs):
         key = kwargs.get("key")
         fmt = kwargs.get("format", "pretty")
+        offset = int(kwargs.get("offset", "0"))
         kwargs["format"] = "raw"
 
         if "_moe" in key:
-            kwargs["row"] = "0"
+            kwargs["row"] = str(0 + offset)
             dx2 = self.var(**kwargs)
             if not dx2:
                 dx2 = 0
-            kwargs["row"] = "1"
+            kwargs["row"] = str(1 + offset)
             dx1 = self.var(**kwargs)
             if not dx1:
                 dx1 = 0
             kwargs["key"] = key[:-4]
-            kwargs["row"] = "0"
+            kwargs["row"] = str(0 + offset)
             x2 = self.var(**kwargs)
-            kwargs["row"] = "1"
+            kwargs["row"] = str(1 + offset)
             x1 = self.var(**kwargs)
             if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
                 return "N/A"
@@ -127,9 +128,9 @@ class Profile(BaseObject):
             f2 = (math.pow(1 / x1, 2) * math.pow(dx2, 2))
             value = math.sqrt(f1 + f2)
         else:
-            kwargs["row"] = "0"
+            kwargs["row"] = str(0 + offset)
             x2 = self.var(**kwargs)
-            kwargs["row"] = "1"
+            kwargs["row"] = str(1 + offset)
             x1 = self.var(**kwargs)
             if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
                 return "N/A"
