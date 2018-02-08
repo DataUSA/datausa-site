@@ -21,6 +21,9 @@ stats:
   - title: "Average Net Price"
     value: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>"
     rank: "After Financial Aid"
+  - title: "<<var namespace=defaults|key=year>> Student Loan"
+    value: "<<var namespace=defaults|key=default_rate>>"
+    rank: "Default Rate"
   - title: "Acceptance Rate"
     value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
   - title: "Enrolled Students"
@@ -29,8 +32,6 @@ stats:
   - title: "Graduation Rate"
     value: "<<var namespace=grad_rate|key=grad_rate>>"
     rank: "<<var namespace=grad_rate|key=num_finishers>> Graduates"
-  - title: "<<var namespace=defaults|key=year>> Default Rate"
-    value: "<<var namespace=defaults|key=default_rate>>"
 
 sections:
   - costs
