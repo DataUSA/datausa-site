@@ -4,6 +4,7 @@ from datausa.utils.data import fetch
 class BaseObject(object):
     def allowed_levels(self, obj):
         """bool: Returns whether or not a topic/viz is allowed for a specific profile """
+        retBool = True
         if "sumlevel" in obj:
             levels = [t for t in obj["sumlevel"].split(",")]
             if self.attr_type == "geo":
@@ -19,10 +20,11 @@ class BaseObject(object):
                 level = len(self.attr["id"])
 
             if "!" in obj["sumlevel"]:
-                return not "!{}".format(level) in levels
+                retBool = not "!{}".format(level) in levels
             else:
-                return level in levels
-        elif "allowed" in obj:
+                retBool = level in levels
+
+        if retBool and "allowed" in obj:
             first, second = obj["allowed"].split(":")
             if first == "<<id>>":
                 first = self.attr["id"]
@@ -31,8 +33,8 @@ class BaseObject(object):
             for l in levels:
                 if l.startswith("!"):
                     if l[1:] == first:
-                        return False
+                        retBool = False
                 elif l != first:
-                    return False
+                    retBool = False
 
-        return True
+        return retBool
