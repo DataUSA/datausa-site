@@ -5474,25 +5474,32 @@
       body.story .prof-body .section-title a {
         margin-top: -95px;
         padding-top: 95px; }
-    body.profile .prof-body p, body.map .prof-body p, body.story .prof-body p {
+    body.profile .prof-body .section-ps, body.map .prof-body .section-ps,
+    body.story .prof-body .section-ps {
       columns: 320px auto;
       column-gap: 20px;
-      font-size: 17px;
-      line-height: 1.7;
-      margin: 3px auto 12px;
       max-width: 1200px; }
-      body.profile .prof-body p a, body.map .prof-body p a, body.story .prof-body p a {
-        -moz-transition: border-bottom 0.35s;
-        -o-transition: border-bottom 0.35s;
-        -webkit-transition: border-bottom 0.35s;
-        transition: border-bottom 0.35s;
-        color: #32415A;
-        border-bottom: none;
-        text-decoration: underline; }
-        body.profile .prof-body p a:hover, body.profile .prof-body p a:focus,
-        body.map .prof-body p a:hover, body.map .prof-body p a:focus,
-        body.story .prof-body p a:hover, body.story .prof-body p a:focus {
-          border-bottom: none; }
+      body.profile .prof-body .section-ps p, body.map .prof-body .section-ps p,
+      body.story .prof-body .section-ps p {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0 auto 15px; }
+        body.profile .prof-body .section-ps p a, body.map .prof-body .section-ps p a,
+        body.story .prof-body .section-ps p a {
+          -moz-transition: border-bottom 0.35s;
+          -o-transition: border-bottom 0.35s;
+          -webkit-transition: border-bottom 0.35s;
+          transition: border-bottom 0.35s;
+          color: #32415A;
+          border-bottom: none;
+          text-decoration: underline; }
+          body.profile .prof-body .section-ps p a:hover,
+          body.profile .prof-body .section-ps p a:focus,
+          body.map .prof-body .section-ps p a:hover,
+          body.map .prof-body .section-ps p a:focus,
+          body.story .prof-body .section-ps p a:hover,
+          body.story .prof-body .section-ps p a:focus {
+            border-bottom: none; }
   body.profile #section-sidenav, body.map #section-sidenav,
   body.story #section-sidenav {
     -webkit-justify-content: center;

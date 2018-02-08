@@ -1,5 +1,6 @@
 title: "Education"
-description: "Data on higher education choices for <<name>> from The Department of Education and Census Bureau. The most common major for <<name>> is <<var namespace=cip|key=cip|row=0>> but a relatively high number of <<name>> hold a major in <<var namespace=cip_rca|key=cip|row=0>>."
+description:
+  - "Data on higher education choices for <<name>> from The Department of Education and Census Bureau. The most common major for <<name>> is <<var namespace=cip|key=cip|row=0>> but a relatively high number of <<name>> hold a major in <<var namespace=cip_rca|key=cip|row=0>>."
 
 topics:
   - title: "Majors"

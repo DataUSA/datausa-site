@@ -1694,22 +1694,25 @@ body.profile, body.map, body.story {
       // }
     }
 
-    p {
+    .section-ps {
       columns: 320px auto;
       column-gap: 20px;
-      font-size: 17px;
-      line-height: 1.7;
-      margin: 3px auto 12px;
       max-width: 1200px;
 
-      a {
-        @include transition(border-bottom 0.35s);
-        color: $blue;
-        border-bottom: none;
-        text-decoration: underline;
+      p {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0 auto 15px;
 
-        &:hover, &:focus {
+        a {
+          @include transition(border-bottom 0.35s);
+          color: $blue;
           border-bottom: none;
+          text-decoration: underline;
+
+          &:hover, &:focus {
+            border-bottom: none;
+          }
         }
       }
     }

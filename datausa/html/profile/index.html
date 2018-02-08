@@ -224,9 +224,11 @@
 {% for section in sections %}
 <header class="{{ section.anchor }} prof-body">
   <h2 class="section-title"><a href="#{{ section.anchor }}" name="{{ section.anchor }}">{{ section.title|safe }}</a></h2>
-  {% for desc in section.description %}
-  <p>{{ desc|safe }}</p>
-  {% endfor %}
+  <div class="section-ps">
+    {% for desc in section.description %}
+    <p>{{ desc|safe }}</p>
+    {% endfor %}
+  </div>
 </header>
 
 <section class="{{ section.anchor }} profile-section">
