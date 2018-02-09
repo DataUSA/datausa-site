@@ -34,13 +34,12 @@
   limit: 2
   namespace: tuition
 
-- required: ["year", "room_and_board", "other_expenses"]
+- required: ["year", "max_room_and_board", "max_other_expenses"]
   rows: True
   sort: desc
   order: year
   year: all
   limit: 2
-  living_arrangement: 1
   namespace: roomboard
 
 - required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]

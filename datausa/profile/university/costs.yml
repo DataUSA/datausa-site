@@ -125,22 +125,21 @@ topics:
     slug: "other_expenses"
     stat:
       - title: "Room & Board"
-        value: "<<var namespace=roomboard|key=room_and_board|row=0>>"
+        value: "<<var namespace=roomboard|key=max_room_and_board|row=0>>"
       - title: "Books & Supplies"
         value: "<<var namespace=tuition|key=books_and_supplies|row=0>>"
     description:
-      - "Students at <<name>> spend, on average per year, <<var namespace=roomboard|key=room_and_board|row=0>> on room & board when living on campus and <<var namespace=tuition|key=books_and_supplies|row=0>> on books and supplies. This is in comparison to costs of <<var namespace=roomboard|key=room_and_board|row=1>> and <<var namespace=tuition|key=books_and_supplies|row=1>> in the previous year, which represent a <<growth namespace=roomboard|key=room_and_board>> 1-year <<percent num=var:roomboard,room_and_board,0|den=var:roomboard,room_and_board,1|text=growth2>> and a <<growth namespace=tuition|key=books_and_supplies>> 1-year <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=growth2>> respectively."
+      - "Students at <<name>> spend, on average per year, <<var namespace=roomboard|key=max_room_and_board|row=0>> on room & board when living on campus and <<var namespace=tuition|key=books_and_supplies|row=0>> on books and supplies. This is in comparison to costs of <<var namespace=roomboard|key=max_room_and_board|row=1>> and <<var namespace=tuition|key=books_and_supplies|row=1>> in the previous year, which represent a <<growth namespace=roomboard|key=max_room_and_board>> 1-year <<percent num=var:roomboard,max_room_and_board,0|den=var:roomboard,max_room_and_board,1|text=growth2>> and a <<growth namespace=tuition|key=books_and_supplies>> 1-year <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=growth2>> respectively."
       - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     viz:
       - attrs: university
         data:
           - university: "<<id>>,<<similar ids=True>>"
             show: university
-            required: "room_and_board,other_expenses"
-            living_arrangement: "1"
+            required: "max_room_and_board,max_other_expenses"
             split:
               id: "type"
-              regex: "^(room_and_board|other_expenses)$"
+              regex: "^(max_room_and_board|max_other_expenses)$"
               value: "cost"
           - university: "<<id>>,<<similar ids=True>>"
             required: "books_and_supplies"
@@ -176,8 +175,7 @@ topics:
             display_names: 1
           - sumlevel: "0"
             merge: "year.university"
-            required: "room_and_board,other_expenses"
-            living_arrangement: "1"
+            required: "max_room_and_board,max_other_expenses"
             show: "university"
           - sumlevel: "0"
             merge: "year.university"
@@ -187,8 +185,8 @@ topics:
               keys:
                 - oos_tuition
                 - books_and_supplies
-                - room_and_board
-                - other_expenses
+                - max_room_and_board
+                - max_other_expenses
               value: cost
             divide:
               num: avg_gos_award
@@ -217,8 +215,7 @@ topics:
             display_names: 1
           - university: "<<id>>,<<similar ids=True>>"
             merge: "year.university"
-            required: "room_and_board,other_expenses"
-            living_arrangement: "1"
+            required: "max_room_and_board,max_other_expenses"
             show: "university"
           - university: "<<id>>,<<similar ids=True>>"
             merge: "year.university"
@@ -228,8 +225,8 @@ topics:
               keys:
                 - oos_tuition
                 - books_and_supplies
-                - room_and_board
-                - other_expenses
+                - max_room_and_board
+                - max_other_expenses
               value: cost
             divide:
               num: avg_gos_award

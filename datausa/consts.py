@@ -136,6 +136,8 @@ DICTIONARY = {
     "books_and_supplies": "Books & Supplies",
     "room_and_board": "Room & Board",
     "other_expenses": "Other Expenses",
+    "max_room_and_board": "Room & Board",
+    "max_other_expenses": "Other Expenses",
 
     "yield_total": "Enrollment Yield",
     "yield_men": "Male Enrollment Yield",
@@ -625,7 +627,9 @@ AFFIXES = {
     "cost": ["$", ""],
     "books_and_supplies": ["$", ""],
     "room_and_board": ["$", ""],
-    "other_expenses": ["$", ""]
+    "other_expenses": ["$", ""],
+    "max_room_and_board": ["$", ""],
+    "max_other_expenses": ["$", ""]
 }
 
 PROPORTIONS = [
