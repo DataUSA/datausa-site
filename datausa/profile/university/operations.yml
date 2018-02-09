@@ -60,6 +60,7 @@ topics:
     description:
       - "As of <<var namespace=grants|key=year>>, <<name>> received <<var namespace=grants|key=federal_grants_and_contracts>> in grants and contracts from the federal government, <<var namespace=grants|key=state_grants_and_contracts>> from state grants and contracts, and <<var namespace=grants|key=local_grants_and_contracts>> from local grants and contracts."
     viz:
+      color: sector
       data:
         show: university
         university: "<<id>>"
@@ -72,9 +73,11 @@ topics:
       tooltip:
         value:
           - grants_and_contracts
-      type: "line"
+      type: "bar"
       x: year
-      y: grants_and_contracts
+      y:
+        stacked: YES
+        value: grants_and_contracts
   - title: "Primary Expenses"
     slug: "expenses"
     category: "Expenses"
@@ -223,9 +226,9 @@ topics:
         y:
           range: [0, 100]
           value: share
-  - title: "Staff by Occupation"
+  - title: "Occupations by Share"
     slug: staff_tmap
-    category: "Staff"
+    category: "Faculty and Staff"
     stat_stack: YES
     stat:
     - title: "Most Common Instructor"

@@ -5,7 +5,7 @@ description:
   - "Students enrolled at <<name>> in <span class='select-text'>Undergraduate</span> programs are majority <<var namespace=enrollment_lstudy|key=ipeds_race|row=0>> <<var namespace=enrollment_lstudy|key=sex|row=0>>, followed by <<var namespace=enrollment_lstudy|key=ipeds_race|row=1>> <<var namespace=enrollment_lstudy|key=sex|row=1>> and <<var namespace=enrollment_lstudy|key=ipeds_race|row=2>> <<var namespace=enrollment_lstudy|key=sex|row=2>>."
 
 topics:
-  - title: "Enrollment Status"
+  - title: "Full-Time vs Part-Time Enrollment"
     slug: enrollment_status
     description:
       - "The total enrollment at <<name>> is <<sum namespace=enrollment_status|key=num_enrolled>>. The full-time enrollment at <<name>> is <<var namespace=enrollment_status|row=0|key=num_enrolled>> and the part-time enrollment is <<var namespace=enrollment_status|row=1|key=num_enrolled>>. This means that <<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> of students enrolled at <<name>> are enrolled full-time{{<<id>>:!<<carnegie>>|| compared with <<percent num=var:enrollment_status_carnegie,num_enrolled,0|den=sum:enrollment_status_carnegie,num_enrolled>> at similar <<carnegie key=name>>}}."
@@ -37,7 +37,9 @@ topics:
           persist:
             position: True
           value: university
-        y: share
+        y:
+          range: [0, 100]
+          value: share
       - sumlevel: "!0"
         attrs:
           - university
@@ -61,14 +63,16 @@ topics:
           persist:
             position: True
           value: university
-        y: share
+        y:
+          range: [0, 100]
+          value: share
   - title: "Retention Rate over Time"
     slug: "retention"
     stat:
       - title: "<<var namespace=retention|key=year>> Retention Rate"
         value: "<<var namespace=retention|key=retention_rate_ft>>"
     description:
-      - "Retention rate is a measure of the number of students who began their studies the previous fall and returned to school the following fall. The retention rate for full-time undergraduates at <<name>> was <<var namespace=retention|key=retention_rate_ft>>.{{<<sumlevel>>:!0|| Compared with the full-time retention rate at similar <<carnegie key=name>> (<<var namespace=retention_carnegie|key=retention_rate_ft>>), <<name>> had a retention rate <<percent num=var:retention,retention_rate_ft|den=var:retention_carnegie,retention_rate_ft|text=highlow>> its peers.}}"
+      - "Retention rate is a measure of the number of first-time students who began their studies the previous fall and returned to school the following fall. The retention rate for full-time undergraduates at <<name>> was <<var namespace=retention|key=retention_rate_ft>>.{{<<sumlevel>>:!0|| Compared with the full-time retention rate at similar <<carnegie key=name>> (<<var namespace=retention_carnegie|key=retention_rate_ft>>), <<name>> had a retention rate <<percent num=var:retention,retention_rate_ft|den=var:retention_carnegie,retention_rate_ft|text=highlow>> its peers.}}"
       - "This chart shows the retention rate over time at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     viz:
       attrs:

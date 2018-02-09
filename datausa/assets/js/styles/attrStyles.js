@@ -136,6 +136,18 @@ var attrStyles = {
         "color": "#ccc",
         "icon": "thing_question.png"
     },
+    "federal": {
+        "color": "#2b5652",
+        "icon": "place_bank.png"
+    },
+    "state": {
+        "color": "#17c0c0",
+        "icon": "place_government.png"
+    },
+    "local": {
+        "color": "#ffd3a6",
+        "icon": "person_admin.png"
+    },
 },
 
   "race": {
