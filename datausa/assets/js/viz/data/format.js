@@ -1,3 +1,11 @@
+var quintileMap = {
+  "5": "5th",
+  "4": "4th",
+  "3": "3rd",
+  "2": "2nd",
+  "1": "1st"
+}
+
 viz.format = {
   "number": function(number, params) {
 
@@ -51,7 +59,11 @@ viz.format = {
         number = a[0] + number + a[1];
       }
 
-      if (key.indexOf("_pct_calc") > 0 || proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+      var quintile = ["endowment_quintile"].indexOf(key) >= 0;
+      if (quintile) {
+        number = quintileMap[parseFloat(number) / 20] + " Quintile";
+      }
+      else if (key.indexOf("_pct_calc") > 0 || proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
         number = number + "%";
       }
       return prefix + number;
@@ -223,8 +235,12 @@ viz.format = {
 
       if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
       if (proportions.indexOf(params.key) >= 0) {
-        text *= 100;
-        if (text.indexOf("%") < 0) text += "%";
+        text = text * 100 + "";
+        var quintile = ["endowment_quintile"].indexOf(params.key) >= 0;
+        if (quintile) {
+          text = quintileMap[parseFloat(text) / 20] + " Quintile";
+        }
+        else if (text.indexOf("%") < 0) text += "%";
         return text;
       }
       if (percentages.indexOf(params.key) >= 0) {

@@ -23,9 +23,16 @@ topics:
         university: <<id>>
         required: "endowment_quintile,endowment_quintile_value"
       id: endowment_quintile
+      tooltip:
+        value:
+          - endowment_quintile_value
       type: "bar"
-      x: endowment_quintile
-      y: endowment_quintile_value
+      x:
+        label: NO
+        value: endowment_quintile
+      y:
+        label: NO
+        value: endowment_quintile_value
     viz:
       - sumlevel: "0"
         attrs:
