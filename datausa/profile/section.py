@@ -42,7 +42,7 @@ class Section(BaseObject):
             if not isinstance(self.description, list):
                 self.description = [self.description]
 
-        if "viz" in config:
+        if "viz" in config and self.allowed_levels(config["viz"]):
             self.viz = Viz(config["viz"], profile = profile)
 
 
