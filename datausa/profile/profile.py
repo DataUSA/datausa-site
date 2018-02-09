@@ -227,12 +227,8 @@ class Profile(BaseObject):
             if self.attr_type == "university" and attr["image_link"] == None:
                 if "msa" in attr and attr["msa"] != None:
                     return formatImage(fetch(attr["msa"], "geo"), "geo")
-                elif "county" in attr and attr["county"] != None:
-                    return formatImage(fetch(attr["county"], "geo"), "geo")
-                elif "state" in attr and attr["state"] != None:
-                    return formatImage(fetch(attr["state"], "geo"), "geo")
                 else:
-                    return formatImage(fetch("01000US", "geo"), "geo")
+                    return formatImage(fetch("250000", "soc"), "soc")
             return formatImage(attr, self.attr_type)
         return None
 

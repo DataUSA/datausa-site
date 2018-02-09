@@ -6730,7 +6730,7 @@ var attrs_meta = {
     ]
   },
   "cip": {
-    "name": "Education",
+    "name": "Degrees",
     "sumlevels": [
       {"name":"2 digit Course", "id":0, "children":[1, 2]},
       {"name":"4 digit Course", "id":1, "children":[2]},

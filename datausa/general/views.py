@@ -203,7 +203,7 @@ def home():
 
     carousels.append({
         "rank": "cip",
-        "title": "Higher Education",
+        "title": "Degrees",
         "icon": "/static/img/icons/cip.svg",
         "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
         "footer": {
