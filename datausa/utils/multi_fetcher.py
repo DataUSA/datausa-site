@@ -17,7 +17,7 @@ from datausa.utils.manip import datapivot
 
 def render_col(my_data, headers, col, url=False, dataset=False):
     value = my_data[headers.index(col)]
-    if not value:
+    if not value and value != 0:
         return {"raw": None, "pretty": "N/A", "name": "N/A"}
 
     attr_type = col
