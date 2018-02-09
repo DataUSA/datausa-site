@@ -16,6 +16,7 @@ topics:
         value: "<<growth namespace=endowment|key=endowment_value_fiscal_year_end>>"
     description:
       - "<<name>>’s endowment value at the close of the <<var namespace=endowment|key=year|row=0>> fiscal year was <<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>, which represents a <<growth namespace=endowment|key=endowment_value_fiscal_year_end>> <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=increase>>.{{<<sumlevel>>:!0|| This value was <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment_carnegie,endowment_value_fiscal_year_end|text=highlow>> <<name>>’s peers that are <<carnegie key=name>> instituions.}}"
+      - "This chart shows how the endowment at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
     miniviz:
       data:
         show: endowment_quintile
@@ -42,7 +43,7 @@ topics:
           - "university"
         data:
           show: university
-          university: "<<id>>,<<carnegie>>"
+          university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
           required: "endowment_value_fiscal_year_end"
         id: university
         type: "line"
@@ -84,7 +85,7 @@ topics:
         value: <<var namespace=expenses|key=benefits_expense>>
     description:
       - "In <<var namespace=expenses|key=year>>, <<name>> spent <<var namespace=expenses|key=salaries_expense>> on salaries and <<var namespace=expenses|key=benefits_expense>> on benefits."
-      - "These values can vary in reporting depending on whether the institution is public or private, and are not available for private-for-profit schools. This line chart shows all of the primary expenses of <<name>> over time."
+      - "These values can vary in reporting depending on whether the institution is public or private. These values are not available for private-for-profit schools. This line chart shows all of the primary expenses of <<name>> over time."
     viz:
       data:
         show: university
