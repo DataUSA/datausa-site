@@ -677,6 +677,7 @@ body.profile, body.map, body.story {
           font-family: $pathway;
           font-size: 18px;
           font-weight: 400;
+          @include text-shadow(0 2px 12px black);
           text-transform: uppercase;
           letter-spacing: 0.03em;
         }

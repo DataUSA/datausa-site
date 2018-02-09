@@ -4235,6 +4235,9 @@
                     font-family: "Pathway Gothic One", sans-serif;
                     font-size: 18px;
                     font-weight: 400;
+                    -webkit-text-shadow: 0 2px 12px black;
+                    -moz-text-shadow: 0 2px 12px black;
+                    text-shadow: 0 2px 12px black;
                     text-transform: uppercase;
                     letter-spacing: 0.03em; }
                     body.profile #splash .content .splash-titles .compare-search,
