@@ -94,6 +94,7 @@ topics:
         limit: 5
         order: "grads_total"
         show: "university"
+        sumlevel: 2
         split:
           id: "sex"
           regex: "grads_([a-z]*)$"

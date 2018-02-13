@@ -94,6 +94,7 @@ topics:
         geo: "<<id dataset=ipeds>>"
         required: "grads_total"
         where: "grads_total:!0"
+        sumlevel: 2
       depth: "{{<<var namespace=universities|format=length>>:50||0}}{{<<var namespace=universities|format=length>>:!50||1}}"
       id:
         - "sector"
@@ -118,11 +119,12 @@ topics:
         show: "university"
         geo: "<<id dataset=ipeds>>"
         required: "grads_men,grads_women"
+        sumlevel: 2
         split:
           id: "sex"
           regex: "grads_([a-z]*)$"
           value: "grads_total"
-        university: "<<top dataset=ipeds|col=id|order=grads_total|show=university|limit=5>>"
+        university: "<<var namespace=universities|key=university|csl=True|limit=5>>"
       id: "sex"
       order: "grads_total"
       tooltip:
