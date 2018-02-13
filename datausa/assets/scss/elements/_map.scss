@@ -210,6 +210,11 @@ $map-sidebar: 250px;
   text-align: center;
   width: 100%;
 
+  .inner-container {
+    margin: 0 auto;
+    max-width: 800px;
+  }
+
   #d3plus_toggle_default, #d3plus_toggle_default2, #d3plus_toggle_default3, #d3plus_toggle_default4 {
     border: 1px solid rgb(204, 204, 204);
     height: 21px;

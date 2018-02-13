@@ -387,6 +387,10 @@ DICTIONARY = {
     "could_not_see_doctor_due_to_cost": "Could Not See Doctor Due to Cost",
     "children_eligible_for_free_lunch": "Children Eligible for Free Lunch",
 
+    "opioid_overdose_deathrate_ageadjusted": "Opioid Deaths (Age-Adjusted)",
+    "drug_overdose_ageadjusted": "Drug Overdoses (Age-Adjusted)",
+    "non_medical_use_of_pain_relievers": "Nonmedical Pain Reliever Usage",
+
     "unemployment": "Unemployment",
     "income_inequality": "Income Inequality",
     "driving_alone_to_work": "Commuting Alone",
@@ -688,7 +692,8 @@ PERCENTAGES = [
     "sub_sat_scores_pct",
     "retention_rate_ft",
     "retention_rate_pt",
-    "default_rate"
+    "default_rate",
+    "non_medical_use_of_pain_relievers"
 ]
 
 PER1000 = [
@@ -717,7 +722,9 @@ PER100000 = [
     "premature_ageadjusted_mortality",
     "child_mortality",
     "drug_overdose_deaths",
-    "injury_deaths"
+    "injury_deaths",
+    "drug_overdose_ageadjusted",
+    "opioid_overdose_deathrate_ageadjusted"
 ]
 
 NEVERCONDENSE = [
@@ -1055,6 +1062,15 @@ GLOSSARY = {
     },
     "population_that_is_not_proficient_in_english": {
         "def": "The percentage of population that is not proficient in English."
+    },
+    "opioid_overdose_deathrate_ageadjusted": {
+        "def": "Opioid overdose death rate per 100,000 population (age-adjusted)."
+    },
+    "drug_overdose_ageadjusted": {
+        "def": "All drugs overdose death rate per 100,000 population (age-adjusted)."
+    },
+    "non_medical_use_of_pain_relievers": {
+        "def": " Nonmedical use of prescription pain relievers in the past year among people aged 12 or older, by region and state: percentages, annual averages based on combined 2012 to 2014 NSDUHs."
     }
 }
 

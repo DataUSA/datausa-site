@@ -6225,9 +6225,10 @@
         background-color: transparent !important;
         border: 0 !important;
         display: block !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
-        letter-spacing: 1px !important;
-        margin: 0 10px !important;
+        letter-spacing: 0 !important;
+        margin: 0 5px !important;
         text-transform: uppercase !important; }
         .d3plus_toggle .d3plus_node:hover {
           background-color: transparent !important;
@@ -6999,10 +7000,13 @@
         position: absolute;
         text-align: center;
         width: 100%; }
-        .year-toggle #d3plus_toggle_default, .year-toggle #d3plus_toggle_default2,
-        .year-toggle #d3plus_toggle_default3, .year-toggle #d3plus_toggle_default4 {
-          border: 1px solid #ccc;
-          height: 21px; }
+        .year-toggle .inner-container {
+          margin: 0 auto;
+          max-width: 800px; }
+          .year-toggle #d3plus_toggle_default, .year-toggle #d3plus_toggle_default2,
+          .year-toggle #d3plus_toggle_default3, .year-toggle #d3plus_toggle_default4 {
+            border: 1px solid #ccc;
+            height: 21px; }
 
   .map-controls {
     left: 5px;
