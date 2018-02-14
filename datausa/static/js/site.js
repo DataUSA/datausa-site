@@ -9766,7 +9766,6 @@ viz.prepBuild = function(build, i) {
                  url = url.replace(param + "=" + prev, param + "=" + id);
                }
                else {
-                 console.log(prev, id);
                  url = url.replace("order=" + prev, "order=" + id);
                  url = url.replace("required=" + prev, "required=" + id);
                  url = url.replace("col=" + prev, "col=" + id);
@@ -10732,7 +10731,7 @@ viz.mapDraw = function(vars) {
         }
       }
 
-      var jenksData = vars.data.filtered
+      var jenksData = vars.data.value
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; });
 
