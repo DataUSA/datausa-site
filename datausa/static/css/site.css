@@ -4240,28 +4240,36 @@
                     text-shadow: 0 2px 12px black;
                     text-transform: uppercase;
                     letter-spacing: 0.03em; }
-                    body.profile #splash .content .splash-titles .compare-search,
-                    body.map #splash .content .splash-titles .compare-search,
-                    body.story #splash .content .splash-titles .compare-search {
-                      margin-top: 15px; }
-                      body.profile #splash .content .splash-titles .compare-search .compare-img,
-                      body.map #splash .content .splash-titles .compare-search .compare-img,
-                      body.story #splash .content .splash-titles .compare-search .compare-img {
-                        margin-top: 3px;
-                        margin-right: 4px;
-                        width: 19px; }
-                        body.profile #splash .content .splash-titles .compare-search .compare-text,
-                        body.map #splash .content .splash-titles .compare-search .compare-text,
-                        body.story #splash .content .splash-titles .compare-search .compare-text {
-                          color: white;
-                          font-family: "Palanquin", sans-serif;
-                          font-size: 14px;
-                          font-weight: 600;
-                          letter-spacing: 0.1em;
-                          -webkit-text-shadow: 0 2px 12px black;
-                          -moz-text-shadow: 0 2px 12px black;
-                          text-shadow: 0 2px 12px black;
-                          text-transform: uppercase; }
+                    body.profile #splash .content .splash-titles sub a,
+                    body.map #splash .content .splash-titles sub a,
+                    body.story #splash .content .splash-titles sub a {
+                      color: white; }
+                      body.profile #splash .content .splash-titles sub a:hover,
+                      body.map #splash .content .splash-titles sub a:hover,
+                      body.story #splash .content .splash-titles sub a:hover {
+                        text-decoration: underline; }
+                  body.profile #splash .content .splash-titles .compare-search,
+                  body.map #splash .content .splash-titles .compare-search,
+                  body.story #splash .content .splash-titles .compare-search {
+                    margin-top: 15px; }
+                    body.profile #splash .content .splash-titles .compare-search .compare-img,
+                    body.map #splash .content .splash-titles .compare-search .compare-img,
+                    body.story #splash .content .splash-titles .compare-search .compare-img {
+                      margin-top: 3px;
+                      margin-right: 4px;
+                      width: 19px; }
+                      body.profile #splash .content .splash-titles .compare-search .compare-text,
+                      body.map #splash .content .splash-titles .compare-search .compare-text,
+                      body.story #splash .content .splash-titles .compare-search .compare-text {
+                        color: white;
+                        font-family: "Palanquin", sans-serif;
+                        font-size: 14px;
+                        font-weight: 600;
+                        letter-spacing: 0.1em;
+                        -webkit-text-shadow: 0 2px 12px black;
+                        -moz-text-shadow: 0 2px 12px black;
+                        text-shadow: 0 2px 12px black;
+                        text-transform: uppercase; }
           body.profile #splash .content #splash-stats,
           body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
             -webkit-box-sizing: border-box;

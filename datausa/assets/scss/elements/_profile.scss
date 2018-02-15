@@ -680,6 +680,12 @@ body.profile, body.map, body.story {
           @include text-shadow(0 2px 12px black);
           text-transform: uppercase;
           letter-spacing: 0.03em;
+          a {
+            color: white;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
         }
 
         .compare-search {
