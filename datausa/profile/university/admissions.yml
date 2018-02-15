@@ -107,7 +107,7 @@ topics:
     viz:
       - attrs: university
         data:
-          - required: "sat_math_25,sat_math_75,sat_writing_25,sat_writing_75,sat_cr_25,sat_cr_75"
+          - required: "sat_math_25,sat_math_75,sat_cr_25,sat_cr_75"
             show: university
             university: "<<id>>,<<carnegie>>"
             split:
