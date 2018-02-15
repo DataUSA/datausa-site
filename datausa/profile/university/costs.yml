@@ -15,7 +15,7 @@ topics:
       value: "<<var namespace=tuition|key=state_tuition|row=0>>"
     description:
       - "In <<var namespace=tuition|key=year|row=0>>, the cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> was <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}. The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
-      - "This chart shows how tuition costs at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
+      - "This chart shows how tuition costs at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
     viz:
       - sumlevel: "0"
         attrs: "university"
@@ -86,7 +86,7 @@ topics:
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
       - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
-      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
+      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
       - "Average net price is calculated from full-time beginning undergraduate students who were awarded grant or scholarship aid from federal, state or local governments, or the institution."
     viz:
       - sumlevel: "0"
@@ -130,7 +130,7 @@ topics:
         value: "<<var namespace=tuition|key=books_and_supplies|row=0>>"
     description:
       - "Students at <<name>> spend, on average per year, <<var namespace=roomboard|key=max_room_and_board|row=0>> on room & board and <<var namespace=tuition|key=books_and_supplies|row=0>> on books and supplies. This is in comparison to costs of <<var namespace=roomboard|key=max_room_and_board|row=1>> and <<var namespace=tuition|key=books_and_supplies|row=1>> in the previous year, which represent a <<growth namespace=roomboard|key=max_room_and_board>> 1-year <<percent num=var:roomboard,max_room_and_board,0|den=var:roomboard,max_room_and_board,1|text=growth2>> and a <<growth namespace=tuition|key=books_and_supplies>> 1-year <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=growth2>> respectively."
-      - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
+      - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
     viz:
       - attrs: university
         data:
@@ -163,7 +163,7 @@ topics:
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
       - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_grant_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_grant_aid>> annual <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>>."
-      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to that of {{<<sumlevel>>:0||other university types}}{{<<sumlevel>>:!0||universities with a similar composition of graduates by major}}."
+      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
       - "The average award discount is calculated by dividing the average grant/scholarship award value by the cost, which is calculated by adding the out-of-state tuition cost with room, board, book, supplies, and other expenses."
     viz:
       - sumlevel: "0"
