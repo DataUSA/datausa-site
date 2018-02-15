@@ -6,6 +6,7 @@ description:
 
 topics:
   - title: "Tuition Costs"
+    category: "Student Expenses"
     slug: "tuition"
     stat:
     - title: "Out-of-State Tuition"
@@ -156,6 +157,7 @@ topics:
         y: cost
   - title: "Financial Aid by Income Level"
     slug: "incomeawards"
+    category: "Financial Aid"
     stat:
       - title: "of Undergraduates<br />Receive Financial Aid"
         value: "<<var namespace=price|key=pct_with_grant_aid|row=0>>"
@@ -246,3 +248,39 @@ topics:
         y:
           range: [0, 1]
           value: discount
+  - title: "Sudent Loan Default Rate"
+    subtitle: "Some schools have a small number of borrowers entering repayment, while at other schools only a small portion of the student body takes out student loans. In such cases, the cohort default rate should be interpreted with caution as these rates may not be reflective of the entire school population."
+    slug: "default_rate"
+    sumlevel: "2"
+    description:
+      - "In <<var namespace=defaults|key=year>> the default rate for borrower's at <<name>> was <<var namespace=defaults|key=default_rate>>, which represents <<var namespace=defaults|key=num_defaults>> out of the <<var namespace=defaults|key=num_borrowers>> total borrowers."
+      - "A cohort default rate is the percentage of a school's borrowers who enter repayment on certain Federal Family Education Loan (FFEL) Program or William D. Ford Federal Direct Loan (Direct Loan) Program loans during a particular federal fiscal year (FY), October 1 to September 30, and default or meet other specified conditions prior to the end of the second following fiscal year."
+    stat:
+      - title: "<<var namespace=defaults|key=year>> Default Rate"
+        value: "<<var namespace=defaults|key=default_rate>>"
+      - title: "Number of Defaults"
+        value: "<<var namespace=defaults|key=num_defaults>>"
+    viz:
+      - attrs: opeid
+        data:
+          - required: "default_rate,num_borrowers,num_defaults"
+            university: "<<id>>,<<similar ids=True>>"
+            show: university
+            display_names: 1
+        highlight: "<<attribute key=opeid8>>"
+        id: opeid
+        labels: YES
+        tooltip:
+          value:
+            - default_rate
+            - num_borrowers
+            - num_defaults
+            - rate_type_name
+        type: bar
+        x:
+          label: NO
+          value: default_rate
+        y:
+          label: NO
+          scale: discrete
+          value: opeid

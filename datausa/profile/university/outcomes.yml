@@ -4,46 +4,9 @@ description:
   - "The most common major at <<name>> is <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
-  - title: "Sudent Loan Default Rate"
-    category: "Financial"
-    subtitle: "Some schools have a small number of borrowers entering repayment, while at other schools only a small portion of the student body takes out student loans. In such cases, the cohort default rate should be interpreted with caution as these rates may not be reflective of the entire school population."
-    slug: "default_rate"
-    sumlevel: "2"
-    category: "Financial"
-    description:
-      - "In <<var namespace=defaults|key=year>> the default rate for borrower's at <<name>> was <<var namespace=defaults|key=default_rate>>, which represents <<var namespace=defaults|key=num_defaults>> out of the <<var namespace=defaults|key=num_borrowers>> total borrowers."
-      - "A cohort default rate is the percentage of a school's borrowers who enter repayment on certain Federal Family Education Loan (FFEL) Program or William D. Ford Federal Direct Loan (Direct Loan) Program loans during a particular federal fiscal year (FY), October 1 to September 30, and default or meet other specified conditions prior to the end of the second following fiscal year."
-    stat:
-      - title: "<<var namespace=defaults|key=year>> Default Rate"
-        value: "<<var namespace=defaults|key=default_rate>>"
-      - title: "Number of Defaults"
-        value: "<<var namespace=defaults|key=num_defaults>>"
-    viz:
-      - attrs: opeid
-        data:
-          - required: "default_rate,num_borrowers,num_defaults"
-            university: "<<id>>,<<similar ids=True>>"
-            show: university
-            display_names: 1
-        highlight: "<<attribute key=opeid8>>"
-        id: opeid
-        labels: YES
-        tooltip:
-          value:
-            - default_rate
-            - num_borrowers
-            - num_defaults
-            - rate_type_name
-        type: bar
-        x:
-          label: NO
-          value: default_rate
-        y:
-          label: NO
-          scale: discrete
-          value: opeid
   - title: "Common Jobs"
     slug: jobs
+    category: "Workforce"
     description:
       - "The most common job for people in the workforce with one of the 5 most common degrees awarded by <<name>> are <<var namespace=soc_ppl|key=soc|row=0>> with <<var namespace=soc_ppl|key=cip|row=0>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=0>>). This is followed by <<var namespace=soc_ppl|key=soc|row=1>> with <<var namespace=soc_ppl|key=cip|row=1>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=1>>) and <<var namespace=soc_ppl|key=soc|row=2>> with <<var namespace=soc_ppl|key=cip|row=2>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=2>>)."
       - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=0>>, <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, and <<var namespace=cip_grads|key=cip|row=4>>."
