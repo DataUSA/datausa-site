@@ -3668,14 +3668,14 @@
     body.story.naics .demographics, body.story.naics .growth {
       background-color: #F6F6F6; }
   body.profile.university .costs, body.profile.university .enrollment,
-  body.profile.university .outcomes, body.map.university .costs,
-  body.map.university .enrollment, body.map.university .outcomes,
+  body.profile.university .operations, body.map.university .costs,
+  body.map.university .enrollment, body.map.university .operations,
   body.story.university .costs, body.story.university .enrollment,
-  body.story.university .outcomes {
+  body.story.university .operations {
     background-color: #E9E9E9; }
-    body.profile.university .admissions, body.profile.university .operations,
-    body.map.university .admissions, body.map.university .operations,
-    body.story.university .admissions, body.story.university .operations {
+    body.profile.university .admissions, body.profile.university .outcomes,
+    body.map.university .admissions, body.map.university .outcomes,
+    body.story.university .admissions, body.story.university .outcomes {
       background-color: #F6F6F6; }
   body.profile.embed section, body.map.embed section, body.story.embed section {
     background-color: transparent !important; }
