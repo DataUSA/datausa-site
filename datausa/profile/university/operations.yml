@@ -95,26 +95,26 @@ topics:
         value: <<var namespace=expenses|key=benefits_expense>>
     description:
       - "In <<var namespace=expenses|key=year>>, <<name>> spent <<var namespace=expenses|key=salaries_expense>> on salaries and <<var namespace=expenses|key=benefits_expense>> on benefits."
-      - "These values can vary in reporting depending on whether the institution is public or private. These values are not available for private-for-profit schools. This line chart shows all of the primary expenses of <<name>> over time."
+      - "These values can vary in reporting depending on whether the institution is public or private. These values are not available for private-for-profit schools. This bar chart shows the share of the primary expenses of <<name>> over time."
+      - "The line chart below shows the expenditure for salaries and benefits over time."
     miniviz:
-      color: expense
+      attrs: university
       data:
         show: university
         university: "<<id>>"
-        required: "benefits_expense,dep_expense,interest_expense,ops_expense,other_expense,salaries_expense"
-        share: expense_value
+        required: "benefits_expense,salaries_expense"
         split:
           id: "expense"
           regex: "^([a-z]*)_expense$"
           value: "expense_value"
-      id: expense
+      id: university
       legend: NO
       tooltip:
         value:
           - expense_value
       type: "line"
       x: year
-      y: share
+      y: expense_value
     viz:
       color: expense
       data:
