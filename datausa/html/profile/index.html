@@ -128,7 +128,7 @@
         </div>
 
         {% set parents = profile.parents() %}
-        {% if parents|length and profile.attr.id != "01000US" %}
+        {% if parents|length and profile.attr.id != "01000US" and profile.attr_type != "university" %}
         <div class="breadcrumb">
           <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
           <div class="crumb-trail">
