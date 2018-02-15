@@ -1,5 +1,32 @@
 var attrStyles = {
 
+  "expense": {
+    "benefits": {
+      "color": "#f33535",
+      "icon": "thing_heart.png"
+    },
+    "dep": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "interest": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "ops": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "other": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "salaries": {
+        "color": "#2b5652",
+        "icon": "place_bank.png"
+    }
+  },
+
   "nationality": {
     "us": {
         "color": "#41a392",

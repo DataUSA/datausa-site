@@ -7225,6 +7225,33 @@ search.update_refine = function(data){
 
 var attrStyles = {
 
+  "expense": {
+    "benefits": {
+      "color": "#f33535",
+      "icon": "thing_heart.png"
+    },
+    "dep": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "interest": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "ops": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "other": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "salaries": {
+        "color": "#2b5652",
+        "icon": "place_bank.png"
+    }
+  },
+
   "nationality": {
     "us": {
         "color": "#41a392",
@@ -8672,7 +8699,17 @@ viz.bar = function(build) {
     var toggle = build.select || build.config.ui && build.config.ui.filter(function(u) { return u.method === axis; }).length;
 
     if (!toggle && build.config[axis] && axis !== discrete) {
-      range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
+      if (build.config[axis].stacked) {
+        var other = axis.indexOf("x") === 0 ? axis.replace("x", "y") : axis.replace("y", "x");
+        var nest = d3.nest()
+          .key(function(d) { return d[build.config[other].value]; })
+          .entries(build.viz.data())
+          .map(function(d) { return d.values; })
+          .map(function(d) { return d.map(function(d) { return d[build.config[axis].value]; }); })
+          .map(function(d) { return d3.sum(d); });
+        range = [0, d3.max(nest)];
+      }
+      else range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
     }
 
     return {
