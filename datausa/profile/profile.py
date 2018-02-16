@@ -51,7 +51,8 @@ class Profile(BaseObject):
         return val
 
     def carnegie(self, **kwargs):
-        carnegie_id = self.attr["carnegie_parent"]
+        parent = kwargs.get("parent", "carnegie_parent")
+        carnegie_id = self.attr[parent]
         if not carnegie_id:
             carnegie_id = self.id(**kwargs)
         key = kwargs.get("key", "id")

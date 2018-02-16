@@ -16,7 +16,8 @@ topics:
         value: "<<growth namespace=endowment|key=endowment_value_fiscal_year_end>>"
     description:
       - "<<name>>’s endowment value at the close of the <<var namespace=endowment|key=year|row=0>> fiscal year was <<var namespace=endowment|key=endowment_value_fiscal_year_end|row=0>>, which represents a <<growth namespace=endowment|key=endowment_value_fiscal_year_end>> <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment,endowment_value_fiscal_year_end,1|text=increase>>.{{<<sumlevel>>:!0|| This value was <<percent num=var:endowment,endowment_value_fiscal_year_end,0|den=var:endowment_carnegie,endowment_value_fiscal_year_end|text=highlow>> <<name>>’s peers that are <<carnegie key=name>> instituions.}}"
-      - "This chart shows how the endowment at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+      - "This line chart shows how the endowment at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+      - "The small bar chart below shows the endowment quintiles for all universities in the <<carnegie parent=carnegie|key=name>> carnegie grouping."
     miniviz:
       data:
         show: endowment_quintile
