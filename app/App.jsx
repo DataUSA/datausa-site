@@ -14,11 +14,11 @@ export default class App extends Component {
 
     const {location} = this.props;
 
-    const fullscreen = location.pathname.includes("/cart") ||
-                       location.pathname.includes("/map");
+    const fullscreen = location.pathname.indexOf("/cart") === 0 ||
+                       location.pathname.indexOf("/map") === 0;
 
     const splash = location.pathname === "/" ||
-                   location.pathname.includes("/profile");
+                   location.pathname.indexOf("/profile") === 0;
 
     return (
       <CanonComponent d3plus={d3plus}>
