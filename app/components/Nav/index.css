@@ -7,9 +7,12 @@
   top: 0;
   transition: background-color 0.75s;
   width: 100%;
-  z-index: 11;
+  z-index: 21;
   &.background {
     background-color: var(--dark);
+    &.menu {
+      background-color: var(--black);
+    }
   }
   & .menu-btn {
     cursor: pointer;
@@ -53,7 +56,7 @@
   transition: left 0.25s;
   width: 300px;
   & .menu-content {
-    margin: 15px 37px 50px 37px;
+    margin: 30px 37px 50px 37px;
     & ul {
       margin: 0;
       padding: 0;
@@ -85,25 +88,24 @@
 }
 
 .pt-dialog-container {
+  left: 0;
+  outline: 0;
+  transition: left 0.25s ease-in-out;
   &.slide-enter, &.slide-leave.slide-leave-active {
     left: -300px;
-    outline: 0;
-    transition: left 0.25s ease-in-out;
   }
   &.slide-enter.slide-enter-active, &.slide-leave {
     left: 0;
-    outline: 0;
-    transition: left 0.25s ease-in-out;
   }
 }
 
 .pt-overlay-backdrop {
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out;
   &.slide-enter, &.slide-leave.slide-leave-active {
     opacity: 0;
-    transition: opacity 0.25s ease-in-out;
   }
   &.slide-enter.slide-enter-active, &.slide-leave {
     opacity: 1;
-    transition: opacity 0.25s ease-in-out;
   }
 }

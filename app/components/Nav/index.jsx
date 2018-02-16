@@ -40,7 +40,7 @@ class Nav extends Component {
     const logo = !["/"].includes(pathname);
     const toggleMenu = () => this.setState({menu: !this.state.menu});
 
-    return <nav id="Nav" className={ background || dark ? "background" : "" }>
+    return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
       <div className="menu-btn" onClick={ toggleMenu }>
         <Hamburger isOpen={ menu } />
         <span className={ menu ? "label open" : "label" }>Menu</span>
@@ -48,8 +48,7 @@ class Nav extends Component {
       { logo ? <Link to="/" className="home-btn">
         <img src="/img/logo_sm.png" alt="Data USA" />
       </Link> : null }
-      <Dialog className="nav-menu" isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
-        <Hamburger isOpen={ true } onClick={ toggleMenu } />
+      <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
         <div className="menu-content">
           <ul>
             <li>
