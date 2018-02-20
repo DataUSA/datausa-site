@@ -114,6 +114,7 @@
   limit: 1
   sumlevel: "all,all"
   show: "ipeds_race,sex"
+  where: "num_finishers:>4"
   after:
     order: grad_rate
     sort: desc
@@ -128,6 +129,7 @@
   sumlevel: "all,all"
   show: "ipeds_race,sex"
   university: <<carnegie>>
+  where: "num_finishers:>4"
   after:
     order: grad_rate
     sort: desc

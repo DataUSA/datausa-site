@@ -245,14 +245,14 @@ topics:
       x:
         label: NO
         value: grads_women
-  - title: "Graduation Rate by Gender and Race"
+  - title: "Graduation Rate by Race and Gender"
     category: "Diversity"
-    subtitle: "IPEDS categorizes any student who is studying in the United States on a temporary basis as a \"Non-Resident Alien\"."
+    subtitle: "Filtered by student demographics with greater than or equal to 5 graduating students in a given year."
     slug: "rate"
     stat:
       - title: "Overall Graduation Rate"
         value: "<<var namespace=grad_rate|key=grad_rate>>"
-      - title: "Highest Graduation Rate (<<var namespace=grad_rate_top|key=grad_rate>>)"
+      - title: "Highest Race/Gender Combination (<<var namespace=grad_rate_top|key=grad_rate>>)"
         value: "<<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>>"
     description:
       - "At <<name>> <<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top|key=grad_rate>>.{{<<sumlevel>>:!0|| At similar <<carnegie key=name>>, <<var namespace=grad_rate_top_carnegie|key=ipeds_race>> <<var namespace=grad_rate_top_carnegie|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top_carnegie|key=grad_rate>>.}}"
@@ -268,6 +268,7 @@ topics:
         university: "<<id>>"
         required: "grad_rate,num_finishers"
         sumlevel: "all,all"
+        where: "num_finishers:>4"
         map:
           delete: False
           race: ipeds_race
@@ -306,6 +307,7 @@ topics:
         university: "<<id>>"
         required: "grad_rate,num_finishers"
         sumlevel: "all,all"
+        where: "num_finishers:>4"
         map:
           delete: False
           race: ipeds_race
