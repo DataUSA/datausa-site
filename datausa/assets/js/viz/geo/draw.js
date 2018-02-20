@@ -749,7 +749,7 @@ viz.mapDraw = function(vars) {
         "offset": big ? 0 : 3,
         "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-tooltip") : d3.select("body"),
         "title": d.id ? vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}) : undefined,
-        "width": vizStyles.tooltip.small,
+        "width": big ? 250 : vizStyles.tooltip.small,
         "x": x,
         "y": y
       };
