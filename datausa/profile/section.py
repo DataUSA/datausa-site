@@ -41,6 +41,7 @@ class Section(BaseObject):
             self.description = config["description"]
             if not isinstance(self.description, list):
                 self.description = [self.description]
+            self.description = [self.tooltipify(desc) for desc in self.description]
 
         if "viz" in config and self.allowed_levels(config["viz"]):
             self.viz = Viz(config["viz"], profile = profile)
@@ -112,6 +113,11 @@ class Section(BaseObject):
 
         if "stats" in config:
             self.stats = [s for s in config["stats"] if self.allowed_levels(s)]
+            for s in self.stats:
+                if "title" in s:
+                    s["title"] = self.tooltipify(s["title"])
+                if "rank" in s:
+                    s["rank"] = self.tooltipify(s["rank"])
 
 
     @staticmethod

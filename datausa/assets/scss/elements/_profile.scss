@@ -1718,6 +1718,10 @@ body.profile, body.map, body.story {
           border-bottom: none;
           text-decoration: underline;
 
+          &.term {
+            border-bottom: none !important;
+          }
+
           &:hover, &:focus {
             border-bottom: none;
           }
