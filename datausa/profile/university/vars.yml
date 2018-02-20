@@ -65,6 +65,16 @@
   show: cip
   namespace: cip_grads
 
+- required: ["year", "cip", "grads_total", "grads_total_rca"]
+  rows: True
+  sort: desc
+  order: grads_total_rca
+  year: latest
+  limit: 10
+  sumlevel: "2"
+  show: cip
+  namespace: cip_grads_rca
+
 - required: ["year", "cip", "grads_total", "grads_men", "grads_women"]
   rows: True
   sort: desc
@@ -311,7 +321,7 @@
   university: ""
   soc_level: 3
   where: "num_records:>4"
-  cip: <<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5|sumlevel=6>>
+  cip: <<top dataset=ipeds|col=id|order=grads_total_rca|show=cip|limit=5|sumlevel=2>>
   namespace: soc_ppl
 
 - required: ["year", "avg_wage", "soc", "cip"]
@@ -324,7 +334,7 @@
   university: ""
   soc_level: 3
   where: "num_records:>4"
-  cip: <<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5|sumlevel=6>>
+  cip: <<top dataset=ipeds|col=id|order=grads_total_rca|show=cip|limit=5|sumlevel=2>>
   namespace: soc
 
 - required: ["year", "num_ppl", "naics", "cip"]
@@ -337,7 +347,7 @@
   university: ""
   where: "num_ppl:!0"
   sumlevel: 2
-  cip: <<top dataset=ipeds|col=id|order=grads_total|show=cip|limit=5|sumlevel=6>>
+  cip: <<top dataset=ipeds|col=id|order=grads_total_rca|show=cip|limit=5|sumlevel=2>>
   namespace: naics
 
 - required: ["year", "default_rate", "num_borrowers", "num_defaults"]

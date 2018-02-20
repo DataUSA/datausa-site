@@ -2,14 +2,15 @@ title: "Outcomes"
 description:
   - "In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=moreless2>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
   - "The most common major at <<name>> is <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
+  - "The most specialized major at <<name>>, meaning they produce significantly more than the expected number of graduates, is <<var namespace=cip_grads_rca|key=cip|row=0>>, with <<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads_rca|key=cip|row=1>> with <<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates and <<var namespace=cip_grads_rca|key=cip|row=2>> with <<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates."
 
 topics:
   - title: "Common Jobs by Major"
     slug: jobs
     category: "Workforce"
     description:
-      - "The most common job for people in the workforce with one of the 5 most common degrees awarded by <<name>> are <<var namespace=soc_ppl|key=soc|row=0>> with <<var namespace=soc_ppl|key=cip|row=0>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=0>>). This is followed by <<var namespace=soc_ppl|key=soc|row=1>> with <<var namespace=soc_ppl|key=cip|row=1>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=1>>) and <<var namespace=soc_ppl|key=soc|row=2>> with <<var namespace=soc_ppl|key=cip|row=2>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=2>>)."
-      - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=0>>, <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, and <<var namespace=cip_grads|key=cip|row=4>>."
+      - "The most common job for people in the workforce who hold a degree in one of the 5 most specialized fields at <<name>> are <<var namespace=soc_ppl|key=soc|row=0>> with <<var namespace=soc_ppl|key=cip|row=0>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=0>>). This is followed by <<var namespace=soc_ppl|key=soc|row=1>> with <<var namespace=soc_ppl|key=cip|row=1>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=1>>) and <<var namespace=soc_ppl|key=soc|row=2>> with <<var namespace=soc_ppl|key=cip|row=2>> degrees (<<var namespace=soc_ppl|key=num_ppl|row=2>>)."
+      - "The specialized majors used for this mapping are the ones in which <<name>> produces significantly more than the national average: <<var namespace=cip_grads_rca|key=cip|row=0>> (<<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates), <<var namespace=cip_grads_rca|key=cip|row=1>> (<<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates), <<var namespace=cip_grads_rca|key=cip|row=2>> (<<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates), <<var namespace=cip_grads_rca|key=cip|row=3>> (<<var namespace=cip_grads_rca|key=grads_total|row=3>> graduates), and <<var namespace=cip_grads_rca|key=cip|row=4>> (<<var namespace=cip_grads_rca|key=grads_total|row=4>> graduates)."
     stat:
       - title: "Most Common Job"
         value: "<<var namespace=soc_ppl|key=soc|row=0>>"
@@ -23,7 +24,7 @@ topics:
           show: "soc,cip"
           sumlevel: "all,all"
           soc: "<<var namespace=soc_ppl|key=soc|csl=True>>"
-          cip: "<<var namespace=cip_grads|key=cip|csl=True|limit=5>>"
+          cip: "<<var namespace=cip_grads_rca|key=cip|csl=True|limit=5>>"
           soc_level: 3
           where: "num_records:>4"
           display_names: 1
@@ -33,18 +34,22 @@ topics:
           value: num_ppl
         tooltip:
           value:
+            - soc
             - avg_wage
             - avg_wage_moe
             - num_ppl
             - num_ppl_moe
         type: bar
-        x: soc
+        x:
+          persist:
+            position: True
+          value: soc
         y: num_ppl
   - title: "Highest Paying Jobs by Major"
     slug: wages
     description:
-      - "The highest paying job/degree combination for people in the workforce with one of the 5 most common degrees awarded by <<name>> are <<var namespace=soc|key=soc|row=0>> with a <<var namespace=soc|key=cip|row=0>> degree (<<var namespace=soc|key=avg_wage|row=0>>). This is followed by <<var namespace=soc|key=soc|row=1>> with a <<var namespace=soc|key=cip|row=1>> degree (<<var namespace=soc|key=avg_wage|row=1>>) and <<var namespace=soc|key=soc|row=2>> with a <<var namespace=soc|key=cip|row=2>> degree (<<var namespace=soc|key=avg_wage|row=2>>)."
-      - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=0>>, <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, and <<var namespace=cip_grads|key=cip|row=4>>."
+      - "The highest paying job/degree combination for people in the workforce who hold a degree in one of the 5 most specialized fields at <<name>> are <<var namespace=soc|key=soc|row=0>> with a <<var namespace=soc|key=cip|row=0>> degree (<<var namespace=soc|key=avg_wage|row=0>>). This is followed by <<var namespace=soc|key=soc|row=1>> with a <<var namespace=soc|key=cip|row=1>> degree (<<var namespace=soc|key=avg_wage|row=1>>) and <<var namespace=soc|key=soc|row=2>> with a <<var namespace=soc|key=cip|row=2>> degree (<<var namespace=soc|key=avg_wage|row=2>>)."
+      - "The specialized majors used for this mapping are the ones in which <<name>> produces significantly more than the national average: <<var namespace=cip_grads_rca|key=cip|row=0>> (<<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates), <<var namespace=cip_grads_rca|key=cip|row=1>> (<<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates), <<var namespace=cip_grads_rca|key=cip|row=2>> (<<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates), <<var namespace=cip_grads_rca|key=cip|row=3>> (<<var namespace=cip_grads_rca|key=grads_total|row=3>> graduates), and <<var namespace=cip_grads_rca|key=cip|row=4>> (<<var namespace=cip_grads_rca|key=grads_total|row=4>> graduates)."
     stat:
       - title: "Highest Paying Job"
         value: "<<var namespace=soc|key=soc|row=0>>"
@@ -58,7 +63,7 @@ topics:
           show: "soc,cip"
           sumlevel: "all,all"
           soc: "<<var namespace=soc|key=soc|csl=True>>"
-          cip: "<<var namespace=cip_grads|key=cip|csl=True|limit=5>>"
+          cip: "<<var namespace=cip_grads_rca|key=cip|csl=True|limit=5>>"
           soc_level: 3
           where: "num_records:>4"
           display_names: 1
@@ -73,13 +78,16 @@ topics:
             - num_ppl
             - num_ppl_moe
         type: bar
-        x: soc
+        x:
+          persist:
+            position: True
+          value: soc
         y: avg_wage
   - title: "Common Industries by Major"
     slug: industries
     description:
       - "The most common industry/degree combination for people in the workforce with one of the 5 most common degrees awarded by <<name>> is the <<var namespace=naics|key=naics|row=0>> industry with a <<var namespace=naics|key=cip|row=0>> degree (<<var namespace=naics|key=num_ppl|row=0>> people). This is followed by the <<var namespace=naics|key=naics|row=1>> industry with a <<var namespace=naics|key=cip|row=1>> degree (<<var namespace=naics|key=num_ppl|row=1>> people) and the <<var namespace=naics|key=naics|row=2>> industry with a <<var namespace=naics|key=cip|row=2>> degree (<<var namespace=naics|key=num_ppl|row=2>> people)."
-      - "The degrees used for this mapping are <<var namespace=cip_grads|key=cip|row=0>>, <<var namespace=cip_grads|key=cip|row=1>>, <<var namespace=cip_grads|key=cip|row=2>>, <<var namespace=cip_grads|key=cip|row=3>>, and <<var namespace=cip_grads|key=cip|row=4>>."
+      - "The specialized majors used for this mapping are the ones in which <<name>> produces significantly more than the national average: <<var namespace=cip_grads_rca|key=cip|row=0>> (<<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates), <<var namespace=cip_grads_rca|key=cip|row=1>> (<<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates), <<var namespace=cip_grads_rca|key=cip|row=2>> (<<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates), <<var namespace=cip_grads_rca|key=cip|row=3>> (<<var namespace=cip_grads_rca|key=grads_total|row=3>> graduates), and <<var namespace=cip_grads_rca|key=cip|row=4>> (<<var namespace=cip_grads_rca|key=grads_total|row=4>> graduates)."
     stat:
       - title: "Most Common Industry"
         value: "<<var namespace=naics|key=naics|row=0>>"
@@ -93,7 +101,7 @@ topics:
           show: "naics,cip"
           sumlevel: "all,all"
           naics: "<<var namespace=naics|key=naics|csl=True>>"
-          cip: "<<var namespace=cip_grads|key=cip|csl=True|limit=5>>"
+          cip: "<<var namespace=cip_grads_rca|key=cip|csl=True|limit=5>>"
           where: "num_ppl:!0"
           display_names: 1
         depth: 3
@@ -107,7 +115,10 @@ topics:
             - num_ppl
             - num_ppl_moe
         type: bar
-        x: naics
+        x:
+          persist:
+            position: True
+          value: naics
         y: num_ppl
   - title: "Majors Awarded"
     category: "Degrees"
