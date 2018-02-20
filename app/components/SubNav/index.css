@@ -1,0 +1,32 @@
+#SubNav {
+  background-color: var(--dark);
+  height: var(--nav-height);
+  left: 0;
+  position: fixed;
+  text-align: center;
+  top: var(--nav-height);
+  width: 100%;
+  & .container {
+    align-items: center;
+    display: flex;
+    margin: 0 auto;
+    max-width: 850px;
+    width: 100%;
+    & a {
+      color: var(--gray);
+      flex: 1;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-transform: uppercase;
+      &.active {
+        color: var(--red);
+      }
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
