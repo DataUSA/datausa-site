@@ -9502,6 +9502,11 @@ viz.format = {
       return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
     }
 
+    var attrs = build && build.viz ? build.viz.attrs() : false;
+    if (attrs && text in attrs) {
+      return attrs[text].display_name ? attrs[text].display_name : d3plus.string.title(attrs[text].name, params);
+    }
+
     if (dictionary[text]) {
       if (per1000.indexOf(text) >= 0) return dictionary[text] + " per 1,000 People";
       if (per10000.indexOf(text) >= 0) return dictionary[text] + " per 10,000 People";
@@ -9605,11 +9610,6 @@ viz.format = {
         var num = text.slice(0, 4), suffix = text.slice(4);
         suffix = suffix === "00" ? "" : "." + suffix;
         return "Census Tract " + num + suffix;
-      }
-
-      var attrs = build && build.viz ? build.viz.attrs() : false;
-      if (attrs && text in attrs) {
-        return attrs[text].display_name ? attrs[text].display_name : d3plus.string.title(attrs[text].name, params);
       }
 
       if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
