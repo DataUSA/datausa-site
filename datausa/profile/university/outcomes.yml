@@ -4,7 +4,7 @@ description:
   - "The most common major at <<name>> is <<var namespace=cip_grads|key=cip|row=0>>, with <<var namespace=cip_grads|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads|key=cip|row=1>> with <<var namespace=cip_grads|key=grads_total|row=1>> graduates and <<var namespace=cip_grads|key=cip|row=2>> with <<var namespace=cip_grads|key=grads_total|row=2>> graduates."
 
 topics:
-  - title: "Common Jobs"
+  - title: "Common Jobs by Major"
     slug: jobs
     category: "Workforce"
     description:
@@ -40,7 +40,7 @@ topics:
         type: bar
         x: soc
         y: num_ppl
-  - title: "Highest Paying Jobs"
+  - title: "Highest Paying Jobs by Major"
     slug: wages
     description:
       - "The highest paying job/degree combination for people in the workforce with one of the 5 most common degrees awarded by <<name>> are <<var namespace=soc|key=soc|row=0>> with a <<var namespace=soc|key=cip|row=0>> degree (<<var namespace=soc|key=avg_wage|row=0>>). This is followed by <<var namespace=soc|key=soc|row=1>> with a <<var namespace=soc|key=cip|row=1>> degree (<<var namespace=soc|key=avg_wage|row=1>>) and <<var namespace=soc|key=soc|row=2>> with a <<var namespace=soc|key=cip|row=2>> degree (<<var namespace=soc|key=avg_wage|row=2>>)."
@@ -75,7 +75,7 @@ topics:
         type: bar
         x: soc
         y: avg_wage
-  - title: "Common Industries"
+  - title: "Common Industries by Major"
     slug: industries
     description:
       - "The most common industry/degree combination for people in the workforce with one of the 5 most common degrees awarded by <<name>> is the <<var namespace=naics|key=naics|row=0>> industry with a <<var namespace=naics|key=cip|row=0>> degree (<<var namespace=naics|key=num_ppl|row=0>> people). This is followed by the <<var namespace=naics|key=naics|row=1>> industry with a <<var namespace=naics|key=cip|row=1>> degree (<<var namespace=naics|key=num_ppl|row=1>> people) and the <<var namespace=naics|key=naics|row=2>> industry with a <<var namespace=naics|key=cip|row=2>> degree (<<var namespace=naics|key=num_ppl|row=2>> people)."
