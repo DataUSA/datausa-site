@@ -40,6 +40,18 @@
       width: 76px;
     }
   }
+  & .nav-subtitle {
+    color: var(--red);
+    font-family: "Pathway Gothic One", sans-serif;
+    font-size: 24px;
+    line-height: 0;
+    max-width: 75%;
+    overflow: hidden;
+    padding: 0 7px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
 }
 
 .pt-dialog.nav-menu {

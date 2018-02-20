@@ -1,6 +1,8 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {Link} from "react-router";
 import {Dialog} from "@blueprintjs/core";
+import {titleCase} from "d3plus-text";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
@@ -35,19 +37,31 @@ class Nav extends Component {
 
   render() {
     const {background, menu} = this.state;
-    const {dark} = this.props;
-    const {pathname} = this.props.location;
-    const logo = !["/"].includes(pathname);
+    const {location, profile} = this.props;
+
+    const logo = !["/"].includes(location.pathname);
     const toggleMenu = () => this.setState({menu: !this.state.menu});
+
+    const splash = location.pathname === "/" ||
+                   location.pathname.indexOf("/profile") === 0;
+
+    const dark = !splash;
+
+    console.log(location.pathname.split("/"));
+    const subtitle = location.pathname.indexOf("/profile") === 0
+      ? profile ? profile.title.replace("<p>", "").replace("</p>", "") : ""
+      : location.pathname === "/" ? false
+        : titleCase(location.pathname.split("/")[1]);
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
       <div className="menu-btn" onClick={ toggleMenu }>
         <Hamburger isOpen={ menu } />
         <span className={ menu ? "label open" : "label" }>Menu</span>
       </div>
-      { logo ? <Link to="/" className="home-btn">
+      { logo || (dark || background) ? <Link to="/" className="home-btn">
         <img src="/img/logo_sm.png" alt="Data USA" />
       </Link> : null }
+      { subtitle && (dark || background) ? <span className="nav-subtitle">{ subtitle }</span> : null }
       <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
         <div className="menu-content">
           <ul>
@@ -84,8 +98,6 @@ class Nav extends Component {
 
 }
 
-Nav.defaultProps = {
-  dark: false
-};
-
-export default Nav;
+export default connect(state => ({
+  profile: state.data.profile
+}))(Nav);

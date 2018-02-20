@@ -17,12 +17,9 @@ export default class App extends Component {
     const fullscreen = location.pathname.indexOf("/cart") === 0 ||
                        location.pathname.indexOf("/map") === 0;
 
-    const splash = location.pathname === "/" ||
-                   location.pathname.indexOf("/profile") === 0;
-
     return (
       <CanonComponent d3plus={d3plus}>
-        <Nav dark={!splash} location={location} />
+        <Nav location={location} />
         { this.props.children }
         { fullscreen ? null : <Footer location={location} /> }
       </CanonComponent>

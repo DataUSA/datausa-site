@@ -6,6 +6,7 @@ html {
 }
 
 body {
+  background-color: var(--dark);
   font-family: "Palanquin", sans-serif;
   /* Adjust font size */
   font-size: 100%;
