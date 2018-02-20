@@ -135,6 +135,10 @@ DICTIONARY = {
     "avg_netprice_gos_aid": "Average Net Price",
     "num_income": "Number of Students",
 
+
+    "pct_completed_ba": "Percent Completed",
+    "num_completed_ba": "Students Completed",
+
     "books_and_supplies": "Books & Supplies",
     "room_and_board": "Room & Board",
     "other_expenses": "Other Expenses",
@@ -695,7 +699,8 @@ PERCENTAGES = [
     "retention_rate_ft",
     "retention_rate_pt",
     "default_rate",
-    "non_medical_use_of_pain_relievers"
+    "non_medical_use_of_pain_relievers",
+    "pct_completed_ba"
 ]
 
 PER1000 = [

@@ -256,13 +256,45 @@ topics:
       x:
         label: NO
         value: grads_women
+  - title: "Time to Complete"
+    slug: "timeframe"
+    stat:
+      - title: "100% Completion Time"
+        value: "<<var namespace=timeframe|key=pct_completed_ba|row=0>>"
+      - title: "150% Completion Time"
+        value: "<<var namespace=timeframe|key=pct_completed_ba|row=1>>"
+    description:
+      - "In <<var namespace=timeframe|key=year|row=0>>, <<var namespace=timeframe|key=pct_completed_ba|row=0>> of students graduating from <<name>> completed their program within 100% \"normal time\" (ie. 4 years for a 4-year degree). Comparatively, <<var namespace=timeframe|key=pct_completed_ba|row=1>> completed their degrees within 150% of the normal time, and <<var namespace=timeframe|key=pct_completed_ba|row=2>> within 200%."
+      - "The following chart shows these completion rates over time{{<<sumlevel>>:!0|| compared to the average for the <<carnegie key=name>> carnegie group}}."
+      - "Graduation rate is defined as the percentage of full-time, first-time students who received a degree or award within a specific percentage of \"normal time\" to completion for their program."
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: "timeframe"
+        university: "<<id>>,<<carnegie>>"
+        required: "num_completed_ba,pct_completed_ba"
+        sumlevel: "all"
+      depth: 1
+      id:
+        - "university"
+        - "timeframe"
+      tooltip:
+        value:
+          - timeframe
+          - university
+          - pct_completed_ba
+          - num_completed_ba
+      type: "line"
+      x:
+        label: NO
+        value: year
+      y: pct_completed_ba
   - title: "Graduation Rate by Race and Gender"
     category: "Diversity"
     subtitle: "Filtered by student demographics with greater than or equal to 5 graduating students in a given year."
     slug: "rate"
     stat:
-      - title: "Overall Graduation Rate"
-        value: "<<var namespace=grad_rate|key=grad_rate>>"
       - title: "Highest Race/Gender Combination (<<var namespace=grad_rate_top|key=grad_rate>>)"
         value: "<<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>>"
     description:
