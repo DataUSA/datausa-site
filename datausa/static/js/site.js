@@ -10747,7 +10747,8 @@ viz.mapDraw = function(vars) {
 
         "opioid_overdose_deathrate_ageadjusted",
         "drug_overdose_ageadjusted",
-        "non_medical_use_of_pain_relievers"
+        "non_medical_use_of_pain_relievers",
+        "default_rate"
       ];
 
       if (badIndicators.indexOf(vars.color.value) >= 0) color_range = makeColorArray("#CA3434");

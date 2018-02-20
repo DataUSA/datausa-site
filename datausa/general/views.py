@@ -108,7 +108,7 @@ def tileProfiles(profiles):
     return profiles
 
 def tileMaps(maps):
-    new = ["opioid_overdose_deathrate_ageadjusted", "non_medical_use_of_pain_relievers"]
+    new = ["opioid_overdose_deathrate_ageadjusted", "default_rate", "non_medical_use_of_pain_relievers"]
     titles = {
         "total_reimbursements_b": "Medicare Reimbursements"
     }
@@ -138,10 +138,10 @@ def home():
 
     maps = [
         "/map/?level=state&key=opioid_overdose_deathrate_ageadjusted",
+        "/map/?level=county&key=default_rate,num_borrowers,num_defaults",
         "/map/?level=state&key=non_medical_use_of_pain_relievers",
         "/map/?level=county&key=total_reimbursements_b",
-        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
-        "/map/?level=state&key=high_school_graduation"
+        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe"
     ]
 
     mapTotal = 0
