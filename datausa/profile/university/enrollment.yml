@@ -88,15 +88,48 @@ topics:
       y: retention_rate_ft
   - title: "Enrollment by Race & Ethnicity"
     slug: enrollment_race
-    subtitle: "IPEDS categorizes any student who is studying in the United States on a temporary basis as a \"Non-Resident Alien\"."
     description:
       - "The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>. This includes both full-time and part-time students as well as graduate and undergraduates.{{<<sumlevel>>:!0|| By comparison, enrollment at <<carnegie key=name>> is <<percent num=var:enrollment_race_carnegie,num_enrolled,0|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_carnegie,num_enrolled,1|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_carnegie,num_enrolled,2|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=2>>.}}"
+      - "Any student who is studying in the United States on a temporary basis is categorized as a \"Non-Resident Alien\", and the share of those students are shown in the chart below."
     stat:
       - title: "Most common race or ethnicity"
         value: "<<var namespace=enrollment_race|key=ipeds_race|row=0>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=0>></span>"
         subvalues:
           - "<<var namespace=enrollment_race|key=ipeds_race|row=1>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=1>></span>"
           - "<<var namespace=enrollment_race|key=ipeds_race|row=2>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=2>></span>"
+    miniviz:
+      attrs:
+        - ipeds_race
+        - university
+      data:
+        show: ipeds_race
+        university: "<<id>>,<<carnegie>>"
+        required: "num_enrolled"
+        share: "num_enrolled.university"
+      depth: 1
+      highlight: <<id>>
+      id:
+        solo: nonresident
+        value:
+          - ipeds_race
+          - university
+      order:
+        value: num_enrolled
+      tooltip:
+        value:
+          - ipeds_race
+          - university
+          - num_enrolled
+      type: "bar"
+      x:
+        label: "Non-Resident Aliens"
+        value: share
+      y:
+        label: False
+        scale: discrete
+        ticks:
+          labels: NO
+        value: ipeds_race
     viz:
       attrs:
         - ipeds_race
@@ -109,12 +142,15 @@ topics:
       depth: 1
       highlight: <<id>>
       id:
-        - ipeds_race
-        - university
+        mute: nonresident
+        value:
+          - ipeds_race
+          - university
       order:
         value: num_enrolled
       tooltip:
         value:
+          - ipeds_race
           - university
           - num_enrolled
       type: "bar"

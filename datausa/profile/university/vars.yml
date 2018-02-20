@@ -114,6 +114,10 @@
   limit: 1
   sumlevel: "all,all"
   show: "ipeds_race,sex"
+  after:
+    order: grad_rate
+    sort: desc
+    mute: ["nonresident"]
   namespace: grad_rate_top
 
 - required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
@@ -124,6 +128,10 @@
   sumlevel: "all,all"
   show: "ipeds_race,sex"
   university: <<carnegie>>
+  after:
+    order: grad_rate
+    sort: desc
+    mute: ["nonresident"]
   namespace: grad_rate_top_carnegie
 
 - required: ["year", "num_enrolled"]
@@ -150,6 +158,10 @@
   limit: 50
   rows: True
   show: "ipeds_race"
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident"]
   namespace: enrollment_race
 
 - required: ["ipeds_race", "num_enrolled"]
@@ -160,6 +172,10 @@
   rows: True
   show: "ipeds_race"
   university: <<carnegie>>
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident"]
   namespace: enrollment_race_carnegie
 
 - required: ["ipeds_race", "sex", "num_enrolled"]

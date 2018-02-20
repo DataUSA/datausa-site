@@ -257,6 +257,45 @@ topics:
     description:
       - "At <<name>> <<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top|key=grad_rate>>.{{<<sumlevel>>:!0|| At similar <<carnegie key=name>>, <<var namespace=grad_rate_top_carnegie|key=ipeds_race>> <<var namespace=grad_rate_top_carnegie|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top_carnegie|key=grad_rate>>.}}"
       - "Graduation rate is defined as the percentage of full-time, first-time students who received a degree or award within 150% of \"normal time\" to completion for their program."
+      - "Any student who is studying in the United States on a temporary basis is categorized as a \"Non-Resident Alien\", and the graduation rate of those students is shown in the chart below."
+    miniviz:
+      attrs:
+        - "ipeds_race"
+        - "sex"
+      color: "race"
+      data:
+        show: "ipeds_race,sex"
+        university: "<<id>>"
+        required: "grad_rate,num_finishers"
+        sumlevel: "all,all"
+        map:
+          delete: False
+          race: ipeds_race
+      depth: 1
+      id:
+        solo: nonresident
+        value:
+          - "ipeds_race"
+          - "sex"
+      legend:
+        data: false
+      order:
+        value: grad_rate
+      tooltip:
+        value:
+          - sex
+          - grad_rate
+          - num_finishers
+      type: "bar"
+      x:
+        label: "Non-Resident Aliens"
+        value: grad_rate
+      y:
+        label: NO
+        scale: discrete
+        ticks:
+          labels: NO
+        value: ipeds_race
     viz:
       attrs:
         - "ipeds_race"
@@ -272,8 +311,10 @@ topics:
           race: ipeds_race
       depth: 1
       id:
-        - "ipeds_race"
-        - "sex"
+        mute: nonresident
+        value:
+          - "ipeds_race"
+          - "sex"
       legend:
         data: false
       order:
@@ -284,7 +325,9 @@ topics:
           - grad_rate
           - num_finishers
       type: "bar"
-      x: ipeds_race
+      x:
+        label: NO
+        value: ipeds_race
       y: grad_rate
   - title: "Race & Ethnicity by Share"
     slug: "ethnicity"
