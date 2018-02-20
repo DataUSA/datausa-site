@@ -124,6 +124,8 @@ TEXTCOMPARATORS = {
 
 DICTIONARY = {
 
+    "university_name": "University",
+
     "income_range": "Income Range",
     "income_range_name": "Income Range",
     "pct_with_grant_aid": "Percent of Undergraduates Receiving Grant Aid",

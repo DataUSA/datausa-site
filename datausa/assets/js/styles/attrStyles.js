@@ -164,7 +164,7 @@ var attrStyles = {
         "icon": "thing_question.png"
     },
     "federal": {
-        "color": "#2b5652",
+        "color": "#49418e",
         "icon": "place_bank.png"
     },
     "state": {
