@@ -5489,6 +5489,7 @@
     body.story .prof-body .section-ps {
       columns: 320px auto;
       column-gap: 20px;
+      margin: 0 auto;
       max-width: 1200px; }
       body.profile .prof-body .section-ps p, body.map .prof-body .section-ps p,
       body.story .prof-body .section-ps p {
