@@ -87,7 +87,7 @@ topics:
       - title: "1 year <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>"
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
-      - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents the average net price a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
+      - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents what a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
       - "This chart shows how the average net price at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
       - "Average net price is calculated from full-time beginning undergraduate students who were awarded grant or scholarship aid from federal, state or local governments, or the institution."
     viz:

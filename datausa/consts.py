@@ -917,6 +917,19 @@ GLOSSARY = {
         "link": "/about/glossary/#dartmouth",
         "alts": ["Non-black", "Non-Black", "medicare_beneficiaries_white", "medicare_beneficiaries_black", "patients_with_one_ambulatory_visit_to_pc_black", "patients_with_one_ambulatory_visit_to_pc_white", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_black", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_black", "patients_diabetic_medicare_enrollees_65_75_eye_exam_white", "patients_diabetic_medicare_enrollees_65_75_lipid_test_black", "patients_diabetic_medicare_enrollees_65_75_lipid_test_white", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "beneficiaries_part_a_eligible_black", "beneficiaries_part_a_eligible_white", "discharges_for_ambulatory_conditions_per_1000_black", "discharges_for_ambulatory_conditions_per_1000_white", "leg_amputations_per_1000_enrollees_white", "leg_amputations_per_1000_enrollees_black"]
     },
+    "yield_total": {
+        "def": "Percentage of admitted students who enrolled.",
+        "alts": ["Enrollment Yield", "enrollment yield"]
+    },
+    "nonresident": {
+        "def": "A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely.",
+        "alts": ["non-resident alien", "Non-Resident Alien", "Nonresident Alien", "nonresident alien"]
+    },
+    "avg_netprice_fedaid": {
+        "def": "Average net price for full-time, first-time degree/certificate-seeking undergraduates who were awarded Title IV federal student aid.",
+        "link": "/about/glossary/#netprice",
+        "alts": ["average net price", "Average Net Price"]
+    },
     "mental_health_providers": {
         "def": "The ratio of the population to the total number of mental health providers including psychiatrists, psychologists, licensed clinical social workers, counselors, marriage and family therapists and advanced practice nurses specializing in mental health care."
     },
