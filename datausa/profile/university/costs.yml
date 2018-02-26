@@ -112,7 +112,7 @@ topics:
         data:
           - required: "avg_netprice_gos_aid"
             show: university
-            university: "<<id>>,<<similar ids=True>>"
+            university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
         id: university
         labels: YES
         order:
@@ -143,7 +143,7 @@ topics:
               id: "type"
               regex: "^(max_room_and_board|max_other_expenses)$"
               value: "cost"
-          - university: "<<id>>,<<similar ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
             required: "books_and_supplies"
             show: "university"
             split:
@@ -214,13 +214,13 @@ topics:
         data:
           - required: "avg_gos_award,num_income,avg_netprice_fedaid"
             show: income_range
-            university: "<<id>>,<<similar ids=True>>"
+            university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
             display_names: 1
-          - university: "<<id>>,<<similar ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
             merge: "year.university"
             required: "max_room_and_board,max_other_expenses"
             show: "university"
-          - university: "<<id>>,<<similar ids=True>>"
+          - university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
             merge: "year.university"
             required: "oos_tuition,books_and_supplies"
             show: "university"

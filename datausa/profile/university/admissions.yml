@@ -41,7 +41,7 @@ topics:
         data:
           - required: "applicants_total,admissions_total"
             show: university
-            university: "<<id>>,<<similar ids=True>>"
+            university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
             divide:
               num: admissions_total
               den: applicants_total
