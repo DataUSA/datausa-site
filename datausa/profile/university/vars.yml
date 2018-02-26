@@ -74,6 +74,17 @@
   show: cip
   namespace: cip_grads
 
+- required: ["year", "cip", "grads_total"]
+  rows: True
+  sort: desc
+  order: grads_total
+  year: latest
+  limit: 10
+  sumlevel: "6"
+  show: cip
+  degree: "<<top show=degree|required=grads_total,cip|order=grads_total|col=id>>"
+  namespace: cip_grads_degree
+
 - required: ["year", "cip", "grads_total", "grads_total_rca"]
   rows: True
   sort: desc
@@ -319,6 +330,15 @@
   limit: 3
   show: ipeds_occ
   namespace: occupations
+
+- required: ["year", "degree", "grads_total"]
+  rows: True
+  sort: desc
+  order: grads_total
+  year: latest
+  show: degree
+  limit: 11
+  namespace: degrees
 
 - required: ["year", "num_ppl", "soc", "cip"]
   rows: True

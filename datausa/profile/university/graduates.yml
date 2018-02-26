@@ -123,21 +123,27 @@ topics:
   - title: "Majors Awarded"
     category: "Degrees"
     slug: "majors"
+    select:
+      data: "degree"
+      filter: degrees
+      param: "degree"
+      default: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
     stat_stack: YES
     stat:
     - title: "Most common"
-      value: "<<var namespace=cip_grads|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=0>> graduates</span>"
+      value: "<<var namespace=cip_grads_degree|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates</span>"
       subvalues:
-        - "<<var namespace=cip_grads|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=1>> graduates</span>"
-        - "<<var namespace=cip_grads|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads|key=grads_total|row=2>> graduates</span>"
+        - "<<var namespace=cip_grads_degree|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates</span>"
+        - "<<var namespace=cip_grads_degree|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates</span>"
     description:
-      - "In <<var namespace=cip_grads|key=year|row=0>>, the most common concentation for graduates at <<name>> was <<var namespace=cip_grads|key=cip|row=0>> with <<var namespace=cip_grads|key=grads_total|row=0>> graduates."
-      - "This visualization illustrates the percentage of students graduating from <<name>> according to their major."
+      - "In <<var namespace=cip_grads_degree|key=year|row=0>>, the most common concentation for <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span> graduates at <<name>> was <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates."
+      - "This visualization illustrates the percentage of students graduating from <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span> programs at <<name>> according to their major."
     viz:
       attrs: "cip"
       color: "cip_2"
       data:
         show: "cip"
+        degree: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
         university: "<<id>>"
         required: "grads_total"
         sumlevel: "6"
