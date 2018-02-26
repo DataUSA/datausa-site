@@ -1110,4 +1110,5 @@ class Profile(BaseObject):
         keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
         filters = re.findall(r"\"filter\": \"([a-z_]+)\"", raw_topics)
         percents = re.findall(r"var:([^,]+)", raw_topics)
-        return list(set(keys + filters + percents))
+        sums = re.findall(r"sum:([^,]+)", raw_topics)
+        return list(set(keys + filters + percents + sums))
