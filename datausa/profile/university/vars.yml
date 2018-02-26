@@ -124,7 +124,16 @@
     cols: ["year", "name", "value"]
     limit: 3
   year: latest
+  after:
+    order: value
+    sort: desc
+    mute: ["unknown"]
   namespace: grads_race
+
+- required: ["year", "grads_unknown"]
+  limit: 1
+  year: latest
+  namespace: grads_race_unknown
 
 - force: "ipeds.grads_yu"
   dataset: ipeds
@@ -135,35 +144,50 @@
     cols: ["year", "name", "value"]
     limit: 3
   year: "latest"
+  after:
+    order: value
+    sort: desc
+    mute: ["unknown"]
   namespace: grads_race_sex
 
 - required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
   sort: desc
   order: grad_rate
   year: latest
-  limit: 1
+  limit: 20
   sumlevel: "all,all"
   show: "ipeds_race,sex"
   where: "num_finishers:>4"
+  rows: true
   after:
     order: grad_rate
     sort: desc
-    mute: ["nonresident"]
+    mute: ["nonresident", "unknown"]
   namespace: grad_rate_top
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  year: latest
+  limit: 2
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  rows: true
+  ipeds_race: unknown
+  namespace: grad_rate_top_unknown
 
 - required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
   sort: desc
   order: grad_rate
   year: latest
-  limit: 1
+  limit: 20
   sumlevel: "all,all"
   show: "ipeds_race,sex"
   university: <<carnegie>>
   where: "num_finishers:>4"
+  rows: true
   after:
     order: grad_rate
     sort: desc
-    mute: ["nonresident"]
+    mute: ["nonresident", "unknown"]
   namespace: grad_rate_top_carnegie
 
 - required: ["year", "num_enrolled"]
@@ -193,8 +217,14 @@
   after:
     order: num_enrolled
     sort: desc
-    mute: ["nonresident"]
+    mute: ["nonresident", "unknown"]
   namespace: enrollment_race
+
+- required: ["ipeds_race", "num_enrolled"]
+  year: latest
+  show: ipeds_race
+  ipeds_race: unknown
+  namespace: enrollment_race_unknown
 
 - required: ["ipeds_race", "num_enrolled"]
   sort: desc
@@ -207,7 +237,7 @@
   after:
     order: num_enrolled
     sort: desc
-    mute: ["nonresident"]
+    mute: ["nonresident", "unknown"]
   namespace: enrollment_race_carnegie
 
 - required: ["ipeds_race", "sex", "num_enrolled"]

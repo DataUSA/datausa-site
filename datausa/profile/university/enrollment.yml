@@ -90,7 +90,7 @@ topics:
     slug: enrollment_race
     description:
       - "The enrolled student population at <<name>> is <<percent num=var:enrollment_race,num_enrolled,0|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race,num_enrolled,1|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race,num_enrolled,2|den=sum:enrollment_race,num_enrolled>> <<var namespace=enrollment_race|key=ipeds_race|row=2>>. This includes both full-time and part-time students as well as graduate and undergraduates.{{<<sumlevel>>:!0|| By comparison, enrollment at <<carnegie key=name>> is <<percent num=var:enrollment_race_carnegie,num_enrolled,0|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=0>>, <<percent num=var:enrollment_race_carnegie,num_enrolled,1|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=1>> and <<percent num=var:enrollment_race_carnegie,num_enrolled,2|den=sum:enrollment_race_carnegie,num_enrolled>> <<var namespace=enrollment_race_carnegie|key=ipeds_race|row=2>>.}}"
-      - "Any student who is studying in the United States on a temporary basis is categorized as a \"Non-Resident Alien\", and the share of those students are shown in the chart below."
+      - "Any student who is studying in the United States on a temporary basis is categorized as a \"Non-Resident Alien\", and the share of those students are shown in the chart below. Additionally, <<var namespace=enrollment_race_unknown|key=num_enrolled>> students (<<percent num=var:enrollment_race_unknown,num_enrolled|den=sum:enrollment_race,num_enrolled>>) did not report their race."
     stat:
       - title: "Most common race or ethnicity"
         value: "<<var namespace=enrollment_race|key=ipeds_race|row=0>> <span class='stat-subtitle'><<var namespace=enrollment_race|key=num_enrolled|row=0>></span>"
@@ -142,7 +142,9 @@ topics:
       depth: 1
       highlight: <<id>>
       id:
-        mute: nonresident
+        mute:
+          - nonresident
+          - unknown
         value:
           - ipeds_race
           - university

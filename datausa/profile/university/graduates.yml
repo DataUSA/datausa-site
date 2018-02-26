@@ -301,12 +301,12 @@ topics:
     subtitle: "Filtered by student demographics with greater than or equal to 5 graduating students in a given year."
     slug: "rate"
     stat:
-      - title: "Highest Race/Gender Combination (<<var namespace=grad_rate_top|key=grad_rate>>)"
-        value: "<<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>>"
+      - title: "Highest Race/Gender Combination (<<var namespace=grad_rate_top|row=0|key=grad_rate>>)"
+        value: "<<var namespace=grad_rate_top|row=0|key=ipeds_race>> <<var namespace=grad_rate_top|row=0|key=sex>>"
     description:
-      - "At <<name>> <<var namespace=grad_rate_top|key=ipeds_race>> <<var namespace=grad_rate_top|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top|key=grad_rate>>.{{<<sumlevel>>:!0|| At similar <<carnegie key=name>>, <<var namespace=grad_rate_top_carnegie|key=ipeds_race>> <<var namespace=grad_rate_top_carnegie|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top_carnegie|key=grad_rate>>.}}"
+      - "At <<name>> <<var namespace=grad_rate_top|row=0|key=ipeds_race>> <<var namespace=grad_rate_top|row=0|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top|row=0|key=grad_rate>>.{{<<sumlevel>>:!0|| At similar <<carnegie key=name>>, <<var namespace=grad_rate_top_carnegie|row=0|key=ipeds_race>> <<var namespace=grad_rate_top_carnegie|row=0|key=sex>> students had the highest graduation rates, with a graduation rate of <<var namespace=grad_rate_top_carnegie|row=0|key=grad_rate>>.}}"
       - "Graduation rate is defined as the percentage of full-time, first-time students who received a degree or award within 150% of \"normal time\" to completion for their program."
-      - "Any student who is studying in the United States on a temporary basis is categorized as a \"Non-Resident Alien\", and the graduation rate of those students is shown in the chart below."
+      - "Any student who is studying in the United States on a temporary basis is categorized as a \"Non-Resident Alien\", and the graduation rate of those students is shown in the chart below. Additionally, <<percent num=sum:grad_rate_top_unknown,num_finishers|den=var:grad_rate,num_finishers>> of finishers (<<sum namespace=grad_rate_top_unknown|key=num_finishers>> students) did not report their race."
     miniviz:
       attrs:
         - "ipeds_race"
@@ -362,7 +362,9 @@ topics:
           race: ipeds_race
       depth: 1
       id:
-        mute: nonresident
+        mute:
+          - nonresident
+          - unknown
         value:
           - "ipeds_race"
           - "sex"
@@ -384,6 +386,7 @@ topics:
     slug: "ethnicity"
     description:
       - "In <<var namespace=grads_race|key=year|row=0>> the majority of students graduating from <<name>> were <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+      - "<<percent num=var:grads_race_unknown,grads_unknown|den=sum:grads_race,value>> of graduates (<<var namespace=grads_race_unknown|key=grads_unknown>> students) did not report their race."
     stat:
       - title: "Most common student race or ethnicity"
         value: "<<var namespace=grads_race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=0>></span>"
@@ -401,7 +404,9 @@ topics:
           id: "race"
           regex: "^grads_([a-z]*)$"
           value: "grads_total"
-      id: "race"
+      id:
+        mute: unknown
+        value: "race"
       order:
         sort: "asc"
         value: "grads_total"
