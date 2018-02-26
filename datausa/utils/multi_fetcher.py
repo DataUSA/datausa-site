@@ -147,7 +147,8 @@ def multi_col_top(profile, params):
                 new_sort = after.get("sort", "desc")
                 mute = after.get("mute", [])
                 reverse = True if new_sort == "desc" else False
-                r["data"] = sorted(r["data"], key=lambda k: 0 if k[headers.index(params["show"])] in mute else k[headers.index(new_order)], reverse=reverse)
+                show = params["show"].split(",")[0]
+                r["data"] = sorted(r["data"], key=lambda k: 0 if k[headers.index(show)] in mute else k[headers.index(new_order)], reverse=reverse)
         for index, data_row in enumerate(r["data"]):
             myobject = {}
             for col in cols:
