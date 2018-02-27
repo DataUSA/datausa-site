@@ -109,7 +109,7 @@ def tileProfiles(profiles):
     return profiles
 
 def tileMaps(maps):
-    new = ["total_reimbursements_b"]
+    new = ["opioid_overdose_deathrate_ageadjusted", "non_medical_use_of_pain_relievers"]
     titles = {
         "total_reimbursements_b": "Medicare Reimbursements"
     }
@@ -138,11 +138,11 @@ def home():
     carousels = []
 
     maps = [
+        "/map/?level=state&key=opioid_overdose_deathrate_ageadjusted",
+        "/map/?level=state&key=non_medical_use_of_pain_relievers",
         "/map/?level=county&key=total_reimbursements_b",
         "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
-        "/map/?level=state&key=high_school_graduation",
-        "/map/?level=county&key=children_in_singleparent_households",
-        "/map/?level=state&key=violent_crime"
+        "/map/?level=state&key=high_school_graduation"
     ]
 
     mapTotal = 0

@@ -107,6 +107,7 @@ TEXTCOMPARATORS = {
     "age2": ("getting older", "getting younger", "staying the same age"),
     "fastslow": ("faster than", "slower than", "approximately the same as"),
     "growth": ("growing", "declining", "maintaining"),
+    "growth2": ("growth", "decline", "change"),
     "grew": ("grew to", "declined to", "stayed at"),
     "grew2": ("grew", "declined", "stayed"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
@@ -122,6 +123,97 @@ TEXTCOMPARATORS = {
 }
 
 DICTIONARY = {
+
+    "income_range": "Income Range",
+    "income_range_name": "Income Range",
+    "pct_with_grant_aid": "Percent of Undergraduates Receiving Grant Aid",
+    "pct_fed_loads": "Percent of Undergraduate Federal Loans",
+    "avg_gos_award": "Average Financial Aid",
+    "avg_netprice_fedaid": "Average Net Price",
+    "avg_netprice_gos_aid": "Average Net Price",
+    "num_income": "Number of Students",
+
+    "books_and_supplies": "Books & Supplies",
+    "room_and_board": "Room & Board",
+    "other_expenses": "Other Expenses",
+    "max_room_and_board": "Room & Board",
+    "max_other_expenses": "Other Expenses",
+
+    "yield_total": "Enrollment Yield",
+    "yield_men": "Male Enrollment Yield",
+    "yield_women": "Female Enrollment Yield",
+    "default_rate": "Default Rate",
+    "num_defaults": "Number of Defaults",
+    "num_borrowers": "Number of Borrowers",
+    "rate_type_name": "Rate Type",
+
+    "applicants_total": "Applicants",
+    "applicants_men": "Male Applicants",
+    "applicants_women": "Female Applicants",
+    "acceptance_rate": "Acceptance Rate",
+
+    "admissions_total": "Admissions",
+    "admissions_men": "Male Admissions",
+    "admissions_women": "Female Admissions",
+
+    "sat_score": "Average Score",
+    "cr": "Critical Reading",
+    "25": "25th Percentile",
+    "75": "75th Percentile",
+
+    "oos_tuit": "Out-of-State Tuition",
+    "state_tuit": "In-State Tuition",
+    "tuition_cost": "Tuition Cost",
+
+    "oos_f": "Out-of-State Fees",
+    "state_f": "In-State Fees",
+    "fee_cost": "Student Fees",
+
+    "grad_rate": "Graduation Rate",
+    "num_finishers": "Number of Students",
+    "num_enrolled": "Enrolled Students",
+    "enrollment_status": "Enrollment Status",
+    "ipeds_race": "Race",
+
+    "retention_rate_ft": "Full-Time Retention Rate",
+    "retention_rate_pt": "Part-Time Retention Rate",
+
+    "endowment_value_fiscal_year_end": "Endowment",
+    "endowment_quintile": "Quintile",
+    "endowment_quintile_value": "Endowment",
+
+    "investment_income": "Investment Income",
+
+    "federal_grants_and_contracts": "Federal Grants & Contracts",
+    "state_grants_and_contracts": "State Grants & Contracts",
+    "local_grants_and_contracts": "Local Grants & Contracts",
+    "grants_and_contracts": "Grants & Contracts",
+
+    "benefits_expense": "Benefits Expenditure",
+    "dep_expense": "Departmental Expenditure",
+    "interest_expense": "Interest Expenditure",
+    "ops_expense": "Operations Expenditure",
+    "other_expense": "Other Expenditure",
+    "salaries_expense": "Salary Expenditure",
+    "benefits": "Benefits Expenditure",
+    "dep": "Departmental Expenditure",
+    "interest": "Interest Expenditure",
+    "ops": "Operations Expenditure",
+    "other": "Other Expenditure",
+    "salaries": "Salary Expenditure",
+    "expense_value": "Expenditure",
+
+    "outlays_instructional_staff": "Staff Salaries",
+    "num_instructional_staff": "Number of Employees",
+    "num_staff": "Number of Employees",
+    "ipeds_occ_group": "Occupation Group",
+    "total_salaries": "Total Salaries",
+    "total_expenses": "Total Expenses",
+
+    "num_instructional_staff": "Number of Employees",
+    "num_noninstructional_staff": "Number of Employees",
+    "academic_rank_name": "Academic Rank",
+    "academic_group": "Academic Group",
 
     "economy": "Economy",
     "wages": "Income & Employment",
@@ -294,6 +386,10 @@ DICTIONARY = {
     "uninsured_children": "Percent Uninsured (Children)",
     "could_not_see_doctor_due_to_cost": "Could Not See Doctor Due to Cost",
     "children_eligible_for_free_lunch": "Children Eligible for Free Lunch",
+
+    "opioid_overdose_deathrate_ageadjusted": "Opioid Deaths (Age-Adjusted)",
+    "drug_overdose_ageadjusted": "Drug Overdoses (Age-Adjusted)",
+    "non_medical_use_of_pain_relievers": "Nonmedical Pain Reliever Usage",
 
     "unemployment": "Unemployment",
     "income_inequality": "Income Inequality",
@@ -477,6 +573,11 @@ AFFIXES = {
     "state_tuition": ["$", ""],
     "oos_tuition": ["$", ""],
     "district_tuition": ["$", ""],
+    "tuition_cost": ["$", ""],
+    "state_fee": ["$", ""],
+    "oos_fee": ["$", ""],
+    "district_fee": ["$", ""],
+    "fee_cost": ["$", ""],
     "avg_wage": ["$", ""],
     "avg_wage_ft": ["$", ""],
     "avg_wage_pt": ["$", ""],
@@ -506,7 +607,33 @@ AFFIXES = {
     "home_health_reimbursements_b": ["$", ""],
     "hospice_reimbursements_b": ["$", ""],
     "medical_equip_reimbursements_b": ["$", ""],
-    "value_millions": ["$", ""]
+    "value_millions": ["$", ""],
+    "avg_netprice_gos_aid": ["$", ""],
+    "avg_gos_award": ["$", ""],
+    "avg_netprice_fedaid": ["$", ""],
+    "endowment_value_fiscal_year_end": ["$", ""],
+    "endowment_quintile_value": ["$", ""],
+    "investment_income": ["$", ""],
+    "federal_grants_and_contracts": ["$", ""],
+    "state_grants_and_contracts": ["$", ""],
+    "local_grants_and_contracts": ["$", ""],
+    "grants_and_contracts": ["$", ""],
+    "benefits_expense": ["$", ""],
+    "dep_expense": ["$", ""],
+    "interest_expense": ["$", ""],
+    "ops_expense": ["$", ""],
+    "other_expense": ["$", ""],
+    "salaries_expense": ["$", ""],
+    "expense_value": ["$", ""],
+    "outlays_instructional_staff": ["$", ""],
+    "total_salaries": ["$", ""],
+    "total_expenses": ["$", ""],
+    "cost": ["$", ""],
+    "books_and_supplies": ["$", ""],
+    "room_and_board": ["$", ""],
+    "other_expenses": ["$", ""],
+    "max_room_and_board": ["$", ""],
+    "max_other_expenses": ["$", ""]
 }
 
 PROPORTIONS = [
@@ -545,14 +672,28 @@ PROPORTIONS = [
     "low_birthweight",
     "could_not_see_doctor_due_to_cost",
     "income_below_poverty:pop_poverty_status",
-    "growth"
+    "growth",
+    "yield_total",
+    "yield_men",
+    "yield_women",
+    "grad_rate",
+    "endowment_quintile",
+    "acceptance_rate",
+    "discount"
 ]
 
 PERCENTAGES = [
     "emp_carc_2014_2024",
     "output_carc_2014_2024",
     "pct_change",
-    "share"
+    "share",
+    "pct_fed_loans",
+    "pct_with_grant_aid",
+    "sub_sat_scores_pct",
+    "retention_rate_ft",
+    "retention_rate_pt",
+    "default_rate",
+    "non_medical_use_of_pain_relievers"
 ]
 
 PER1000 = [
@@ -581,7 +722,9 @@ PER100000 = [
     "premature_ageadjusted_mortality",
     "child_mortality",
     "drug_overdose_deaths",
-    "injury_deaths"
+    "injury_deaths",
+    "drug_overdose_ageadjusted",
+    "opioid_overdose_deathrate_ageadjusted"
 ]
 
 NEVERCONDENSE = [
@@ -664,6 +807,13 @@ COLMAP = {
         "125to150": "$125-$150k",
         "150to200": "$150-$200k",
         "200over": "$200k+"
+    },
+    "income_range": {
+        "1": "$0 - $30,000",
+        "2": "$30,001 - $48,000",
+        "3": "$48,001 - $75,000",
+        "4": "$75,001 - $110,000",
+        "5": "$110,000+"
     },
     "propertyvalBucket": {
         "less10k": "&lt; $10k",
@@ -912,6 +1062,15 @@ GLOSSARY = {
     },
     "population_that_is_not_proficient_in_english": {
         "def": "The percentage of population that is not proficient in English."
+    },
+    "opioid_overdose_deathrate_ageadjusted": {
+        "def": "Opioid overdose death rate per 100,000 population (age-adjusted)."
+    },
+    "drug_overdose_ageadjusted": {
+        "def": "All drugs overdose death rate per 100,000 population (age-adjusted)."
+    },
+    "non_medical_use_of_pain_relievers": {
+        "def": " Nonmedical use of prescription pain relievers in the past year among people aged 12 or older, by region and state: percentages, annual averages based on combined 2012 to 2014 NSDUHs."
     }
 }
 
