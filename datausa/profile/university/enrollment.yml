@@ -79,10 +79,11 @@ topics:
         - "university"
       data:
         show: university
-        university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
+        university: "<<carnegie>>,<<similar ids=True>>,<<id>>"
         required: "retention_rate_ft,retention_rate_pt"
       depth: 1
       id: university
+      time: year
       type: "line"
       x: year
       y: retention_rate_ft
