@@ -8701,8 +8701,9 @@ viz.bar = function(build) {
     if (!toggle && build.config[axis] && axis !== discrete) {
       if (build.config[axis].stacked) {
         var other = axis.indexOf("x") === 0 ? axis.replace("x", "y") : axis.replace("y", "x");
+        var otherKey = build.config[other].value;
         var nest = d3.nest()
-          .key(function(d) { return d[build.config[other].value]; })
+          .key(function(d) { return otherKey === "year" ? d.year : d.year + "-" + d[otherKey]; })
           .entries(build.viz.data())
           .map(function(d) { return d.values; })
           .map(function(d) { return d.map(function(d) { return d[build.config[axis].value]; }); })
