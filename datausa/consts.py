@@ -116,6 +116,7 @@ TEXTCOMPARATORS = {
     "increased": ("increased", "decreased", "changed"),
     "larger": ("larger", "smaller", "larger"),
     "longshort": ("longer", "shorter", "approximately equal"),
+    "morefewer": ("more", "fewer", "approximately the same"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same"),
     "mostleast": ("most", "least", "same"),
