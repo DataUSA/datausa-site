@@ -28,6 +28,7 @@ stats:
   - title: "<<var namespace=admissions|key=year|row=0>> Acceptance Rate"
     value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
     rank: "<<var namespace=admissions|key=applicants_total|row=0>> Applicants"
+    allowed: "<<var namespace=admissions|key=applicants_total|row=0>>:!N/A"
   - title: "<<var namespace=enrollment_status|key=year|row=0>> Enrolled Students"
     value: "<<sum namespace=enrollment_status|key=num_enrolled>>"
     rank: "<<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> full-time"
