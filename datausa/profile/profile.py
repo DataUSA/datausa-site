@@ -791,7 +791,8 @@ class Profile(BaseObject):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
         if not self.section_cache:
             # pass each file to the Section class and return the final array
-            self.section_cache = [Section(self.load_yaml(self.open_file(f)), self, f) for f in self.splash.sections]
+            sections = [[self.load_yaml(self.open_file(f)), f] for f in self.splash.sections]
+            self.section_cache = [Section(s[0], self, s[1]) for s in sections if self.allowed_levels(s[0])]
 
         return self.section_cache
 
