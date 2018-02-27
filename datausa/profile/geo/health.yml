@@ -317,7 +317,37 @@ topics:
       id: geo
       type: geo_map
   - category: "Health Risks"
-    title: "Conditions and Diseases"
+    title: "Opioid Use"
+    subtitle: "Data only available at the state level."
+    slug: "opioids"
+    select:
+      method: "color"
+      data:
+        - "opioid_overdose_deathrate_ageadjusted"
+        - "drug_overdose_ageadjusted"
+      default: opioid_overdose_deathrate_ageadjusted
+      param: required
+    description:
+      - "<<var namespace=opioids|key=geo|row=0>> has a <span class='select-text'>Opioid Deaths (Age-Adjusted)</span> value of <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=0>>, followed by <<var namespace=opioids|key=geo|row=1>> with <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=1>> and <<var namespace=opioids|key=geo|row=2>> with <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=2>>. The following map shows all of the states colored according to their <span class='select-text'>Opioid Deaths (Age-Adjusted)</span>."
+    stat:
+      - title: "State with the highest prevalence"
+        value: "<<var namespace=opioids|key=geo|row=0>> <span class='stat-subtitle'><<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=0>></span>"
+        subvalues:
+          - "<<var namespace=opioids|key=geo|row=1>> <span class='stat-subtitle'><<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=1>></span>"
+          - "<<var namespace=opioids|key=geo|row=2>> <span class='stat-subtitle'><<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=2>></span>"
+    viz:
+      attrs: geo
+      color: opioid_overdose_deathrate_ageadjusted
+      coords:
+          value: states
+      data:
+        show: geo
+        sumlevel: state
+        required: opioid_overdose_deathrate_ageadjusted
+      height: 400
+      id: geo
+      type: geo_map
+  - title: "Conditions and Diseases"
     subtitle: "{{<<sumlevel>>:!nation,state||Showing data across all counties in <<name parent=true|dataset=chr>>.}}"
     slug: "conditions_diseases"
     select:

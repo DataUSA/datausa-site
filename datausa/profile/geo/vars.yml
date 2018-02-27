@@ -568,6 +568,16 @@
   geo: null
   namespace: women_state
 
+- required: ["opioid_overdose_deathrate_ageadjusted", "geo", "year"]
+  order: opioid_overdose_deathrate_ageadjusted
+  show: geo
+  sumlevel: state
+  rows: True
+  limit: 3
+  year: latest
+  geo: null
+  namespace: opioids
+
 - required: ["geo", "year", "diabetic_medicare_enrollees_65_75_total", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_total", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_total", "patients_diabetic_medicare_enrollees_65_75_lipid_test_total"]
   show: geo
   year: latest
