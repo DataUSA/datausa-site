@@ -17,17 +17,18 @@ topics:
       - sumlevel: "0"
         attrs:
           - university
-          - enrollment_status
         data:
           show: "university,enrollment_status"
           sumlevel: "0,all"
           required: "enrollment_status,num_enrolled"
           share: "num_enrolled.university"
+          display_names: 1
         depth: 1
         highlight: <<id>>
         id:
           - university
-          - enrollment_status
+          - enrollment_status_name
+        text: enrollment_status_name
         tooltip:
           value:
             - university
@@ -43,17 +44,18 @@ topics:
       - sumlevel: "!0"
         attrs:
           - university
-          - enrollment_status
         data:
           show: enrollment_status
           university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
           required: "enrollment_status,num_enrolled"
           share: "num_enrolled.university"
+          display_names: 1
         depth: 1
         highlight: <<id>>
         id:
           - university
-          - enrollment_status
+          - enrollment_status_name
+        text: enrollment_status_name
         tooltip:
           value:
             - university
