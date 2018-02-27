@@ -72,8 +72,9 @@ topics:
       color: sector
       data:
         show: university
-        university: "<<id>>"
+        university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
         required: "federal_grants_and_contracts,state_grants_and_contracts,local_grants_and_contracts"
+        display_names: 1
         split:
           id: "sector"
           regex: "^([a-z]*)_grants_and_contracts$"
@@ -83,7 +84,7 @@ topics:
         value:
           - grants_and_contracts
       type: "bar"
-      x: year
+      x: university_name
       y:
         stacked: YES
         value: grants_and_contracts
