@@ -269,7 +269,7 @@ viz.mapDraw = function(vars) {
         }
       }
 
-      var jenksData = vars.data.filtered
+      var jenksData = vars.data.value
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; });
 
