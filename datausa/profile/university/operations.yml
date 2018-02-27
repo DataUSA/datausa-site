@@ -316,34 +316,7 @@ topics:
         - "<<var namespace=instructors_sex|key=sex|row=2>> <<var namespace=instructors_sex|key=academic_rank|row=2>>"
     description:
       - "In <<var namespace=instructors_sex|key=year|row=0>>, the most common demographic for instructional staff at <<name>> was <<var namespace=instructors_sex|key=sex|row=0>> <<var namespace=instructors_sex|key=academic_rank|row=0>> with <<var namespace=instructors_sex|key=num_instructional_staff|row=0>> employees, <<var namespace=instructors_sex|key=sex|row=1>> <<var namespace=instructors_sex|key=academic_rank|row=1>> with <<var namespace=instructors_sex|key=num_instructional_staff|row=1>> employees, and <<var namespace=instructors_sex|key=sex|row=2>> <<var namespace=instructors_sex|key=academic_rank|row=2>> with <<var namespace=instructors_sex|key=num_instructional_staff|row=2>> employees."
-      - "This chart shows the gender split between each academic rank present at <<name>> compared to the average of it's parent category, <<carnegie key=name>>, shown in the smaller bar chart."
-    miniviz:
-      attrs: sex
-      color: sex
-      data:
-        show: "academic_rank,sex"
-        sumlevel: "all,all"
-        university: "<<carnegie>>"
-        required: "num_instructional_staff"
-        display_names: 1
-        share: num_instructional_staff
-      height: 250
-      id: sex
-      legend: NO
-      order:
-        value: num_instructional_staff
-      tooltip:
-        value:
-          - university_name
-          - academic_rank_name
-          - num_instructional_staff
-      type: bar
-      x:
-        label: False
-        value: academic_rank_name
-      y:
-        label: False
-        value: share
+      - "This chart shows the gender split between each academic rank present at <<name>>."
     viz:
       attrs: sex
       color: sex
