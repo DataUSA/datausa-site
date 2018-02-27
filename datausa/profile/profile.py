@@ -411,6 +411,15 @@ class Profile(BaseObject):
             if "error" in results:
                 results = requests.get(url.replace(endpoint, "nearby")).json()
             results = [r for r in datafold(results) if r["id"] != attr_id]
+
+            sector = kwargs.get("sector", False)
+            if sector:
+                results = [fetch(r["id"], "university") for r in results]
+                if sector == "private":
+                    results = [r for r in results if str(r["sector"]) in ["2", "3", "5", "6", "8", "9"]]
+                else:
+                    results = [r for r in results if str(r["sector"]) not in ["2", "3", "5", "6", "8", "9"]]
+
             if ids_only:
                 return ",".join([r["id"] for r in results])
             for result in results:
