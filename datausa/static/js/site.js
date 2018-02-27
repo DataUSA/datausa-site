@@ -10563,7 +10563,11 @@ viz.mapDraw = function(vars) {
         "drug_overdose_deaths",
         "children_eligible_for_free_lunch",
 
-        "severe_housing_problems"
+        "severe_housing_problems",
+
+        "opioid_overdose_deathrate_ageadjusted",
+        "drug_overdose_ageadjusted",
+        "non_medical_use_of_pain_relievers"
       ];
 
       if (badIndicators.indexOf(vars.color.value) >= 0) color_range = makeColorArray("#CA3434");
@@ -10584,7 +10588,7 @@ viz.mapDraw = function(vars) {
         }
       }
 
-      var jenksData = vars.data.filtered
+      var jenksData = vars.data.value
         .filter(function(d){ return d[vars.color.value] !== null && typeof d[vars.color.value] === "number"; })
         .map(function(d) { return d[vars.color.value]; });
 
@@ -10752,16 +10756,18 @@ viz.mapDraw = function(vars) {
         .attr("opacity", 0)
         .remove();
 
+      if (background.size()) background.attr("display", "none");
+
       var key_box = scale.node().getBBox(),
           key_height = key_box.height;
 
-      var yearHeight = d3.select(".year-toggle");
+      var yearHeight = vars.container.value.select(".year-toggle");
       if (yearHeight.size()) yearHeight = parseFloat(yearHeight.style("height")) + 5;
       else yearHeight = 0;
       // key_height += attribution.node().offsetHeight;
       key_height += scalePadding;
 
-      if (backgroundEnter.size()) key_height += yearHeight + scalePadding * 2;
+      key_height += yearHeight + scalePadding * 2;
 
       backgroundEnter
         .attr("width", key_width + keyPadding * 6)
@@ -10769,7 +10775,8 @@ viz.mapDraw = function(vars) {
         .attr("x", key_offset - keyPadding * 3)
         .attr("y", -keyPadding);
 
-      background.transition().duration(timing)
+      background.attr("display", "block")
+        .transition().duration(timing)
         .attr("width", key_width + keyPadding * 6)
         .attr("height", key_height - keyPadding)
         .attr("x", key_offset - keyPadding * 3)
@@ -11032,7 +11039,7 @@ viz.mapDraw = function(vars) {
         "background": vizStyles.tooltip.background,
         "color": big ? false : d.color,
         "data": tooltip_data,
-        "description": big && d.id ? "Last selected geography" : tooltip_data.length || d.id === void 0 ? false : vars.tooltip.value.length ? "No Data Available" : false,
+        "description": big && d.id ? "Last selected geography" : tooltip_data.length || d.id === void 0 ? false : vars.tooltip.value.length && !thumb ? "No Data Available" : false,
         "fontcolor": vizStyles.tooltip.font.color,
         "fontfamily": vizStyles.tooltip.font.family,
         "fontsize": vizStyles.tooltip.font.size,
@@ -11449,8 +11456,11 @@ viz.map = function() {
     var toggle = vars.container.value.selectAll(".year-toggle").data([null]);
     toggle.enter().append("div")
         .attr("class", "year-toggle")
+      .append("div")
+        .attr("class", "inner-container")
       .append("span")
         .attr("class", "legend-label");
+    toggle = toggle.select(".inner-container");
     toggle.select(".legend-label").text(vars.color.value ? vars.format.text(vars.color.value) : "");
     toggle.transition().duration(600).style("opacity", time ? 1 : 0);
 

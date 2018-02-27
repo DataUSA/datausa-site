@@ -144,6 +144,16 @@ body.profile, body.map, body.story {
     }
   }
 
+  &.university {
+    .costs, .enrollment, .outcomes  {
+      background-color: $d-profile-bg;
+    }
+
+    .admissions, .operations  {
+      background-color: $l-profile-bg;
+    }
+  }
+
   &.embed {
     section {
       background-color: transparent !important;
@@ -497,6 +507,7 @@ body.profile, body.map, body.story {
 
   .stat-group {
     text-align: center;
+    width: 100%;
   }
 
   .stat-rank {
@@ -666,6 +677,7 @@ body.profile, body.map, body.story {
           font-family: $pathway;
           font-size: 18px;
           font-weight: 400;
+          @include text-shadow(0 2px 12px black);
           text-transform: uppercase;
           letter-spacing: 0.03em;
         }
@@ -711,7 +723,7 @@ body.profile, body.map, body.story {
           @include flex-size(1);
           @include flex-wrap();
           @include align-items(flex-start);
-          @include justify(space-between);
+          @include justify(center);
         }
 
 
@@ -757,7 +769,20 @@ body.profile, body.map, body.story {
             font-size: 38px;
             font-weight: 300;
             color: #fff;
+            height: 46px;
             opacity: 0.9;
+            a {
+              color: #fff;
+            }
+            &.small {
+              @include flex();
+              @include align-items(center);
+              font-size: 18px;
+              font-weight: 400;
+            }
+            .stat-span {
+              max-height: 46px;
+            }
           }
 
         }
@@ -1670,22 +1695,25 @@ body.profile, body.map, body.story {
       // }
     }
 
-    p {
+    .section-ps {
       columns: 320px auto;
       column-gap: 20px;
-      font-size: 17px;
-      line-height: 1.7;
-      margin: 3px auto 12px;
       max-width: 1200px;
 
-      a {
-        @include transition(border-bottom 0.35s);
-        color: $blue;
-        border-bottom: none;
-        text-decoration: underline;
+      p {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0 auto 15px;
 
-        &:hover, &:focus {
+        a {
+          @include transition(border-bottom 0.35s);
+          color: $blue;
           border-bottom: none;
+          text-decoration: underline;
+
+          &:hover, &:focus {
+            border-bottom: none;
+          }
         }
       }
     }
@@ -2201,10 +2229,10 @@ body.profile, body.map, body.story {
     // border: 0 solid #BDBDBD !important;
     // border-bottom: 1px solid #BDBDBD !important;
     display: block !important;
-    // font-size: 14px !important;
+    font-size: 12px !important;
     font-weight: 700 !important;
-    letter-spacing: 1px !important;
-    margin: 0 10px !important;
+    letter-spacing: 0 !important;
+    margin: 0 5px !important;
     text-transform: uppercase !important;
 
     &:hover {
