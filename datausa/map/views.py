@@ -110,7 +110,11 @@ mapdata = {
         "chr.food_insecurity",
         "chr.limited_access_to_healthy_foods",
         "chr.drug_overdose_deaths",
-        "chr.children_eligible_for_free_lunch"
+        "chr.children_eligible_for_free_lunch",
+
+        "opioids.opioid_overdose_deathrate_ageadjusted",
+        "opioids.drug_overdose_ageadjusted",
+        "opioids.non_medical_use_of_pain_relievers"
     ],
 
     "demographics": [
@@ -152,7 +156,8 @@ def map():
         "acs": ["state", "county", "msa", "puma"],
         "chr": ["state", "county"],
         "ipeds": ["state", "county", "msa", "puma"],
-        "pums": ["state", "puma"]
+        "pums": ["state", "puma"],
+        "opioids": ["state"]
     }
 
     defaultKey = request.args.get("key", "uninsured")
