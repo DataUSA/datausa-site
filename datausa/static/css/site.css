@@ -3649,6 +3649,16 @@
     body.map.naics .demographics, body.map.naics .growth,
     body.story.naics .demographics, body.story.naics .growth {
       background-color: #F6F6F6; }
+  body.profile.university .costs, body.profile.university .enrollment,
+  body.profile.university .outcomes, body.map.university .costs,
+  body.map.university .enrollment, body.map.university .outcomes,
+  body.story.university .costs, body.story.university .enrollment,
+  body.story.university .outcomes {
+    background-color: #E9E9E9; }
+    body.profile.university .admissions, body.profile.university .operations,
+    body.map.university .admissions, body.map.university .operations,
+    body.story.university .admissions, body.story.university .operations {
+      background-color: #F6F6F6; }
   body.profile.embed section, body.map.embed section, body.story.embed section {
     background-color: transparent !important; }
   body.profile.cip #stats-bar #title-stats, body.map.cip #stats-bar #title-stats,
@@ -3972,7 +3982,8 @@
             color: #ef6145;
             vertical-align: baseline; }
   body.profile .stat-group, body.map .stat-group, body.story .stat-group {
-    text-align: center; }
+    text-align: center;
+    width: 100%; }
     body.profile .stat-rank, body.map .stat-rank, body.story .stat-rank {
       font-size: 14px;
       font-weight: 600;
@@ -4123,120 +4134,116 @@
               body.story #splash .content.hide {
                 opacity: 0;
                 pointer-events: none; }
-                body.profile #splash .content .f, body.map #splash .content .f,
-                body.story #splash .content .f {
-                  -webkit-box-flex: 1;
-                  -moz-box-flex: 1;
-                  -webkit-flex: 1;
-                  -ms-flex: 1;
-                  flex: 1; }
-                  body.profile #splash .content .splash-titles,
-                  body.map #splash .content .splash-titles,
-                  body.story #splash .content .splash-titles {
-                    -webkit-justify-content: center;
-                    -moz-justify-content: center;
-                    justify-content: center;
-                    -ms-flex-pack: center;
-                    flex-pack: center;
-                    display: -webkit-box;
-                    display: -moz-box;
-                    display: -ms-flexbox;
-                    display: -webkit-flex;
-                    display: flex;
-                    -webkit-flex-direction: column;
-                    -moz-flex-direction: column;
-                    -ms-flex-direction: column;
-                    flex-direction: column;
-                    -webkit-box-flex: 2.5;
-                    -moz-box-flex: 2.5;
-                    -webkit-flex: 2.5;
-                    -ms-flex: 2.5;
-                    flex: 2.5;
-                    -webkit-align-items: center;
-                    align-items: center;
-                    -ms-flex-align: center;
-                    flex-align: center;
-                    color: #efefef;
-                    max-width: 750px;
-                    position: relative;
-                    text-align: center;
-                    width: 100%; }
-                    body.profile #splash .content .splash-titles.compare-flex,
-                    body.map #splash .content .splash-titles.compare-flex,
-                    body.story #splash .content .splash-titles.compare-flex {
-                      max-width: 100%; }
-                      body.profile #splash .content .splash-titles h1,
-                      body.map #splash .content .splash-titles h1,
-                      body.story #splash .content .splash-titles h1 {
-                        -webkit-justify-content: center;
-                        -moz-justify-content: center;
-                        justify-content: center;
-                        -ms-flex-pack: center;
-                        flex-pack: center;
-                        display: -webkit-box;
-                        display: -moz-box;
-                        display: -ms-flexbox;
-                        display: -webkit-flex;
-                        display: flex;
-                        -webkit-flex-direction: row;
-                        -moz-flex-direction: row;
-                        -ms-flex-direction: row;
-                        flex-direction: row;
-                        -webkit-align-items: center;
-                        align-items: center;
-                        -ms-flex-align: center;
-                        flex-align: center;
-                        font-family: "Pathway Gothic One", sans-serif;
-                        font-size: 60px;
-                        font-weight: 400;
-                        letter-spacing: 0.03em;
-                        text-transform: uppercase;
-                        width: 100%;
-                        -webkit-text-shadow: 0 2px 12px black;
-                        -moz-text-shadow: 0 2px 12px black;
-                        text-shadow: 0 2px 12px black; }
-                        body.profile #splash .content .splash-titles h1 .compare-flex,
-                        body.map #splash .content .splash-titles h1 .compare-flex,
-                        body.story #splash .content .splash-titles h1 .compare-flex {
-                          width: 40%; }
-                          body.profile #splash .content .splash-titles h1 .compare-separator,
-                          body.map #splash .content .splash-titles h1 .compare-separator,
-                          body.story #splash .content .splash-titles h1 .compare-separator {
-                            display: none;
-                            font-family: "Palanquin", sans-serif;
-                            font-size: 45px;
-                            width: 10%; }
-                    body.profile #splash .content .splash-titles sub,
-                    body.map #splash .content .splash-titles sub,
-                    body.story #splash .content .splash-titles sub {
-                      text-transform: none;
+                body.profile #splash .content .splash-titles,
+                body.map #splash .content .splash-titles,
+                body.story #splash .content .splash-titles {
+                  -webkit-justify-content: center;
+                  -moz-justify-content: center;
+                  justify-content: center;
+                  -ms-flex-pack: center;
+                  flex-pack: center;
+                  display: -webkit-box;
+                  display: -moz-box;
+                  display: -ms-flexbox;
+                  display: -webkit-flex;
+                  display: flex;
+                  -webkit-flex-direction: column;
+                  -moz-flex-direction: column;
+                  -ms-flex-direction: column;
+                  flex-direction: column;
+                  -webkit-box-flex: 2.5;
+                  -moz-box-flex: 2.5;
+                  -webkit-flex: 2.5;
+                  -ms-flex: 2.5;
+                  flex: 2.5;
+                  -webkit-align-items: center;
+                  align-items: center;
+                  -ms-flex-align: center;
+                  flex-align: center;
+                  color: #efefef;
+                  max-width: 750px;
+                  position: relative;
+                  text-align: center;
+                  width: 100%; }
+                  body.profile #splash .content .splash-titles.compare-flex,
+                  body.map #splash .content .splash-titles.compare-flex,
+                  body.story #splash .content .splash-titles.compare-flex {
+                    max-width: 100%; }
+                    body.profile #splash .content .splash-titles h1,
+                    body.map #splash .content .splash-titles h1,
+                    body.story #splash .content .splash-titles h1 {
+                      -webkit-justify-content: center;
+                      -moz-justify-content: center;
+                      justify-content: center;
+                      -ms-flex-pack: center;
+                      flex-pack: center;
+                      display: -webkit-box;
+                      display: -moz-box;
+                      display: -ms-flexbox;
+                      display: -webkit-flex;
+                      display: flex;
+                      -webkit-flex-direction: row;
+                      -moz-flex-direction: row;
+                      -ms-flex-direction: row;
+                      flex-direction: row;
+                      -webkit-align-items: center;
+                      align-items: center;
+                      -ms-flex-align: center;
+                      flex-align: center;
                       font-family: "Pathway Gothic One", sans-serif;
-                      font-size: 18px;
+                      font-size: 60px;
                       font-weight: 400;
+                      letter-spacing: 0.03em;
                       text-transform: uppercase;
-                      letter-spacing: 0.03em; }
-                      body.profile #splash .content .splash-titles .compare-search,
-                      body.map #splash .content .splash-titles .compare-search,
-                      body.story #splash .content .splash-titles .compare-search {
-                        margin-top: 15px; }
-                        body.profile #splash .content .splash-titles .compare-search .compare-img,
-                        body.map #splash .content .splash-titles .compare-search .compare-img,
-                        body.story #splash .content .splash-titles .compare-search .compare-img {
-                          margin-top: 3px;
-                          margin-right: 4px;
-                          width: 19px; }
-                          body.profile #splash .content .splash-titles .compare-search .compare-text,
-                          body.map #splash .content .splash-titles .compare-search .compare-text,
-                          body.story #splash .content .splash-titles .compare-search .compare-text {
-                            color: white;
-                            font-family: "Palanquin", sans-serif;
-                            font-size: 14px;
-                            font-weight: 600;
-                            letter-spacing: 0.1em;
-                            -webkit-text-shadow: 0 2px 12px black;
-                            -moz-text-shadow: 0 2px 12px black;
-                            text-shadow: 0 2px 12px black;
-                            text-transform: uppercase; }
+                      width: 100%;
+                      -webkit-text-shadow: 0 2px 12px black;
+                      -moz-text-shadow: 0 2px 12px black;
+                      text-shadow: 0 2px 12px black; }
+                      body.profile #splash .content .splash-titles h1 .compare-flex,
+                      body.map #splash .content .splash-titles h1 .compare-flex,
+                      body.story #splash .content .splash-titles h1 .compare-flex {
+                        width: 40%; }
+                        body.profile #splash .content .splash-titles h1 .compare-separator,
+                        body.map #splash .content .splash-titles h1 .compare-separator,
+                        body.story #splash .content .splash-titles h1 .compare-separator {
+                          display: none;
+                          font-family: "Palanquin", sans-serif;
+                          font-size: 45px;
+                          width: 10%; }
+                  body.profile #splash .content .splash-titles sub,
+                  body.map #splash .content .splash-titles sub,
+                  body.story #splash .content .splash-titles sub {
+                    text-transform: none;
+                    font-family: "Pathway Gothic One", sans-serif;
+                    font-size: 18px;
+                    font-weight: 400;
+                    -webkit-text-shadow: 0 2px 12px black;
+                    -moz-text-shadow: 0 2px 12px black;
+                    text-shadow: 0 2px 12px black;
+                    text-transform: uppercase;
+                    letter-spacing: 0.03em; }
+                    body.profile #splash .content .splash-titles .compare-search,
+                    body.map #splash .content .splash-titles .compare-search,
+                    body.story #splash .content .splash-titles .compare-search {
+                      margin-top: 15px; }
+                      body.profile #splash .content .splash-titles .compare-search .compare-img,
+                      body.map #splash .content .splash-titles .compare-search .compare-img,
+                      body.story #splash .content .splash-titles .compare-search .compare-img {
+                        margin-top: 3px;
+                        margin-right: 4px;
+                        width: 19px; }
+                        body.profile #splash .content .splash-titles .compare-search .compare-text,
+                        body.map #splash .content .splash-titles .compare-search .compare-text,
+                        body.story #splash .content .splash-titles .compare-search .compare-text {
+                          color: white;
+                          font-family: "Palanquin", sans-serif;
+                          font-size: 14px;
+                          font-weight: 600;
+                          letter-spacing: 0.1em;
+                          -webkit-text-shadow: 0 2px 12px black;
+                          -moz-text-shadow: 0 2px 12px black;
+                          text-shadow: 0 2px 12px black;
+                          text-transform: uppercase; }
           body.profile #splash .content #splash-stats,
           body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
             -webkit-box-sizing: border-box;
@@ -4253,6 +4260,7 @@
             display: -webkit-flex;
             display: flex;
             width: 100%;
+            margin-bottom: 25px;
             max-width: 700px;
             -webkit-text-shadow: 0 2px 12px black;
             -moz-text-shadow: 0 2px 12px black;
@@ -4298,11 +4306,11 @@
                   align-items: flex-start;
                   -ms-flex-align: start;
                   flex-align: start;
-                  -webkit-justify-content: space-between;
-                  -moz-justify-content: space-between;
-                  justify-content: space-between;
-                  -ms-flex-pack: justify;
-                  flex-pack: justify; }
+                  -webkit-justify-content: center;
+                  -moz-justify-content: center;
+                  justify-content: center;
+                  -ms-flex-pack: center;
+                  flex-pack: center; }
                   body.profile #splash .content #splash-stats #stat-container:before,
                   body.profile #splash .content #splash-stats #stat-container:after,
                   body.map #splash .content #splash-stats #stat-container:before,
@@ -4395,7 +4403,35 @@
                 font-size: 38px;
                 font-weight: 300;
                 color: #fff;
+                height: 46px;
                 opacity: 0.9; }
+                body.profile #splash .content #splash-stats .stat .stat-value a,
+                body.map #splash .content #splash-stats .stat .stat-value a,
+                body.story #splash .content #splash-stats .stat .stat-value a {
+                  color: #fff; }
+                  body.profile #splash .content #splash-stats .stat .stat-value.small,
+                  body.map #splash .content #splash-stats .stat .stat-value.small,
+                  body.story #splash .content #splash-stats .stat .stat-value.small {
+                    -webkit-justify-content: center;
+                    -moz-justify-content: center;
+                    justify-content: center;
+                    -ms-flex-pack: center;
+                    flex-pack: center;
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: -webkit-flex;
+                    display: flex;
+                    -webkit-align-items: center;
+                    align-items: center;
+                    -ms-flex-align: center;
+                    flex-align: center;
+                    font-size: 18px;
+                    font-weight: 400; }
+                    body.profile #splash .content #splash-stats .stat .stat-value .stat-span,
+                    body.map #splash .content #splash-stats .stat .stat-value .stat-span,
+                    body.story #splash .content #splash-stats .stat .stat-value .stat-span {
+                      max-height: 46px; }
           body.profile #splash .content h1, body.map #splash .content h1,
           body.story #splash .content h1 {
             line-height: 1;
@@ -5423,25 +5459,32 @@
       body.story .prof-body .section-title a {
         margin-top: -95px;
         padding-top: 95px; }
-    body.profile .prof-body p, body.map .prof-body p, body.story .prof-body p {
+    body.profile .prof-body .section-ps, body.map .prof-body .section-ps,
+    body.story .prof-body .section-ps {
       columns: 320px auto;
       column-gap: 20px;
-      font-size: 17px;
-      line-height: 1.7;
-      margin: 3px auto 12px;
       max-width: 1200px; }
-      body.profile .prof-body p a, body.map .prof-body p a, body.story .prof-body p a {
-        -moz-transition: border-bottom 0.35s;
-        -o-transition: border-bottom 0.35s;
-        -webkit-transition: border-bottom 0.35s;
-        transition: border-bottom 0.35s;
-        color: #32415A;
-        border-bottom: none;
-        text-decoration: underline; }
-        body.profile .prof-body p a:hover, body.profile .prof-body p a:focus,
-        body.map .prof-body p a:hover, body.map .prof-body p a:focus,
-        body.story .prof-body p a:hover, body.story .prof-body p a:focus {
-          border-bottom: none; }
+      body.profile .prof-body .section-ps p, body.map .prof-body .section-ps p,
+      body.story .prof-body .section-ps p {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0 auto 15px; }
+        body.profile .prof-body .section-ps p a, body.map .prof-body .section-ps p a,
+        body.story .prof-body .section-ps p a {
+          -moz-transition: border-bottom 0.35s;
+          -o-transition: border-bottom 0.35s;
+          -webkit-transition: border-bottom 0.35s;
+          transition: border-bottom 0.35s;
+          color: #32415A;
+          border-bottom: none;
+          text-decoration: underline; }
+          body.profile .prof-body .section-ps p a:hover,
+          body.profile .prof-body .section-ps p a:focus,
+          body.map .prof-body .section-ps p a:hover,
+          body.map .prof-body .section-ps p a:focus,
+          body.story .prof-body .section-ps p a:hover,
+          body.story .prof-body .section-ps p a:focus {
+            border-bottom: none; }
   body.profile #section-sidenav, body.map #section-sidenav,
   body.story #section-sidenav {
     -webkit-justify-content: center;
@@ -6164,9 +6207,10 @@
         background-color: transparent !important;
         border: 0 !important;
         display: block !important;
+        font-size: 12px !important;
         font-weight: 700 !important;
-        letter-spacing: 1px !important;
-        margin: 0 10px !important;
+        letter-spacing: 0 !important;
+        margin: 0 5px !important;
         text-transform: uppercase !important; }
         .d3plus_toggle .d3plus_node:hover {
           background-color: transparent !important;
@@ -6938,10 +6982,13 @@
         position: absolute;
         text-align: center;
         width: 100%; }
-        .year-toggle #d3plus_toggle_default, .year-toggle #d3plus_toggle_default2,
-        .year-toggle #d3plus_toggle_default3, .year-toggle #d3plus_toggle_default4 {
-          border: 1px solid #ccc;
-          height: 21px; }
+        .year-toggle .inner-container {
+          margin: 0 auto;
+          max-width: 800px; }
+          .year-toggle #d3plus_toggle_default, .year-toggle #d3plus_toggle_default2,
+          .year-toggle #d3plus_toggle_default3, .year-toggle #d3plus_toggle_default4 {
+            border: 1px solid #ccc;
+            height: 21px; }
 
   .map-controls {
     left: 5px;
