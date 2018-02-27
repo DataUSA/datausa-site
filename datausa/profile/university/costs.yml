@@ -32,6 +32,7 @@ topics:
         id:
           - location
           - university
+        text: location
         tooltip:
           value:
             - location
@@ -43,13 +44,20 @@ topics:
         allowed: "<<sector>>:public"
         attrs: "university"
         data:
-          required: "oos_tuition,state_tuition"
-          show: university
-          university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
-          split:
-            id: "location"
-            regex: "^([a-z_tuit]*)ion"
-            value: "tuition_cost"
+          - required: "oos_tuition,state_tuition"
+            show: university
+            university: "<<id>>,<<similar ids=True|sector=public>>,<<carnegie>>"
+            split:
+              id: "location"
+              regex: "^([a-z_tuit]*)ion"
+              value: "tuition_cost"
+          - required: "state_tuition"
+            show: university
+            university: "<<similar ids=True|sector=private>>"
+            static:
+              location: tuition
+            map:
+              tuition_cost: state_tuition
         depth: 1
         id:
           - university
@@ -66,12 +74,25 @@ topics:
         allowed: "<<sector>>:private"
         attrs: "university"
         data:
-          required: "state_tuition"
-          show: university
-          university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
-          map:
-            tuition_cost: state_tuition
-        id: university
+          - required: "oos_tuition,state_tuition"
+            show: university
+            university: "<<similar ids=True|sector=public>>,<<carnegie>>"
+            split:
+              id: "location"
+              regex: "^([a-z_tuit]*)ion"
+              value: "tuition_cost"
+          - required: "state_tuition"
+            show: university
+            university: "<<id>>,<<similar ids=True|sector=private>>"
+            static:
+              location: tuition
+            map:
+              tuition_cost: state_tuition
+        depth: 1
+        id:
+          - university
+          - location
+        text: location
         tooltip:
           value:
             - university
