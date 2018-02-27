@@ -1,7 +1,9 @@
 *.pyc
 .DS_Store
+node_modules/
 cache_data/
 shapefiles/
+static/assets/
 datausa/static/.webassets-cache/
 .env
 .envrc
