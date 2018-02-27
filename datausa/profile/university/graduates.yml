@@ -264,6 +264,7 @@ topics:
         value: grads_women
   - title: "Time to Complete"
     slug: "timeframe"
+    allowed: "<<var namespace=timeframe|key=pct_completed_ba|row=0>>:!N/A"
     stat:
       - title: "100% Completion Time"
         value: "<<var namespace=timeframe|key=pct_completed_ba|row=0>>"
@@ -298,6 +299,7 @@ topics:
       y: pct_completed_ba
   - title: "Graduation Rate by Race and Gender"
     category: "Diversity"
+    allowed: "<<var namespace=grad_rate_top|row=0|key=ipeds_race>>:!N/A"
     subtitle: "Filtered by student demographics with greater than or equal to 5 graduating students in a given year."
     slug: "rate"
     stat:

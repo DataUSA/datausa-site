@@ -8,6 +8,7 @@ topics:
   - title: "Tuition Costs"
     category: "Student Expenses"
     slug: "tuition"
+    allowed: "<<var namespace=tuition|key=state_tuition|row=0>>:!N/A"
     stat:
     - title: "Out-of-State Tuition"
       value: "<<var namespace=tuition|key=oos_tuition|row=0>>"
@@ -102,6 +103,7 @@ topics:
         y: tuition_cost
   - title: "Average Net Price"
     slug: "netprice"
+    allowed: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>:!N/A"
     stat:
       - title: "<<var namespace=price|key=year|row=0>> value"
         value: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>"
@@ -146,6 +148,7 @@ topics:
           value: university
   - title: "Other Student Expenses"
     slug: "other_expenses"
+    allowed: "<<var namespace=roomboard|key=max_room_and_board|row=0>>:!N/A"
     stat:
       - title: "Room & Board"
         value: "<<var namespace=roomboard|key=max_room_and_board|row=0>>"
@@ -180,6 +183,7 @@ topics:
   - title: "Financial Aid by Income Level"
     slug: "incomeawards"
     category: "Financial Aid"
+    allowed: "<<var namespace=roomboard|key=max_room_and_board|row=0>>:!N/A"
     stat:
       - title: "of Undergraduates<br />Receive Grants"
         value: "<<var namespace=price|key=pct_with_grant_aid|row=0>>"

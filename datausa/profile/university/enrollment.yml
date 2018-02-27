@@ -70,6 +70,7 @@ topics:
           value: share
   - title: "Retention Rate over Time"
     slug: "retention"
+    allowed: "<<var namespace=retention|key=retention_rate_ft>>:!N/A"
     stat:
       - title: "<<var namespace=retention|key=year>> Retention Rate"
         value: "<<var namespace=retention|key=retention_rate_ft>>"
