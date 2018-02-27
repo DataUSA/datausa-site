@@ -311,7 +311,7 @@ topics:
       attrs:
         - "ipeds_race"
         - "sex"
-      color: "race"
+      color: "sex"
       data:
         show: "ipeds_race,sex"
         university: "<<id>>"
