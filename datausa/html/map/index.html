@@ -211,6 +211,12 @@
                 if (datum.year in collectionyears[k]) datum[k + "_collection"] = collectionyears[k][datum.year];
               }
             }
+            if (k === "non_medical_use_of_pain_relievers") {
+              for (var i = 0; i < data.length; i++) {
+                var datum = data[i];
+                datum[k + "_collection"] = datum.start_year + "-" + datum.year;
+              }
+            }
           });
           if (variables[0].indexOf(":") > 0) {
             data = data.sort(function(a, b) { return b[variables[0]] - a[variables[0]]; })
