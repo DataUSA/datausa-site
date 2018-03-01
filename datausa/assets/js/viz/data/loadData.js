@@ -186,6 +186,14 @@ viz.formatData = function(data, d, build) {
     }
   }
 
+  var k = "non_medical_use_of_pain_relievers";
+  if (data.length && data[0][k] && data[0].start_year) {
+    for (var i = 0; i < data.length; i++) {
+      var datum = data[i];
+      datum[k + "_collection"] = datum.start_year + "-" + datum.year;
+    }
+  }
+
   for (var i = 0; i < build.attrs.length; i++) {
     var type = build.attrs[i].type,
         nesting = attrNesting[type],
