@@ -276,7 +276,7 @@ topics:
           range: [0, 1]
           value: discount
   - title: "Sudent Loan Default Rate"
-    subtitle: "Some schools have a small number of borrowers entering repayment, while at other schools only a small portion of the student body takes out student loans. In such cases, the cohort default rate should be interpreted with caution as these rates may not be reflective of the entire school population."
+    subtitle: "Cohort default rates only account for borrowers who default in the first three years, and some schools only have a small proportion of borrowers entering repayment. These rates should be interpreted with caution, as they may not be reflective of the entire school population."
     slug: "default_rate"
     sumlevel: "2"
     description:
