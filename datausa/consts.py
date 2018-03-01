@@ -387,8 +387,8 @@ DICTIONARY = {
     "could_not_see_doctor_due_to_cost": "Could Not See Doctor Due to Cost",
     "children_eligible_for_free_lunch": "Children Eligible for Free Lunch",
 
-    "opioid_overdose_deathrate_ageadjusted": "Opioid Deaths (Age-Adjusted)",
-    "drug_overdose_ageadjusted": "Drug Overdoses (Age-Adjusted)",
+    "opioid_overdose_deathrate_ageadjusted": "Opioid Overdose Death Rate (Age-Adjusted)",
+    "drug_overdose_ageadjusted": "Drug Overdose Death Rate (Age-Adjusted)",
     "non_medical_use_of_pain_relievers": "Nonmedical Pain Reliever Usage",
 
     "unemployment": "Unemployment",
