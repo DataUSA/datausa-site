@@ -54,6 +54,7 @@ topics:
               value: "tuition_cost"
           - required: "state_tuition"
             show: university
+            allowed: "<<similar ids=True|sector=private>>:!"
             university: "<<similar ids=True|sector=private>>"
             static:
               location: tuition
