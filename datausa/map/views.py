@@ -109,7 +109,6 @@ mapdata = {
         "chr.child_mortality",
         "chr.food_insecurity",
         "chr.limited_access_to_healthy_foods",
-        "chr.drug_overdose_deaths",
         "chr.children_eligible_for_free_lunch",
 
         "opioids.opioid_overdose_deathrate_ageadjusted",
