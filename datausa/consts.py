@@ -1070,7 +1070,7 @@ GLOSSARY = {
         "def": "All drugs overdose death rate per 100,000 population (age-adjusted)."
     },
     "non_medical_use_of_pain_relievers": {
-        "def": " Nonmedical use of prescription pain relievers in the past year among people aged 12 or older, by region and state: percentages, annual averages based on combined 2012 to 2014 NSDUHs."
+        "def": "Nonmedical use of prescription pain relievers in the past year among people aged 12 or older, by region and state: percentages, annual averages based on NSDUHs combined from multiple collection years (viewable in tooltips)."
     }
 }
 
