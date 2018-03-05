@@ -1,7 +1,7 @@
 title: "Graduates"
 description:
   - "In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=morefewer>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
-  - "The most common concentation for <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span> graduates at <<name>> is <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads_degree|key=cip|row=1>> with <<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates and <<var namespace=cip_grads_degree|key=cip|row=2>> with <<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates."
+  - "The most common concentation for Bachelor's Degree graduates at <<name>> is <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads_degree|key=cip|row=1>> with <<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates and <<var namespace=cip_grads_degree|key=cip|row=2>> with <<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates."
   - "The most specialized major across all degree types at <<name>>, meaning they produce significantly more than the expected number of graduates, is <<var namespace=cip_grads_rca|key=cip|row=0>>, with <<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads_rca|key=cip|row=1>> with <<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates and <<var namespace=cip_grads_rca|key=cip|row=2>> with <<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates."
 
 topics:
@@ -127,7 +127,7 @@ topics:
       data: "degree"
       filter: degrees
       param: "degree"
-      default: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
+      default: "5"
     stat_stack: YES
     stat:
     - title: "Most common"
@@ -136,14 +136,14 @@ topics:
         - "<<var namespace=cip_grads_degree|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates</span>"
         - "<<var namespace=cip_grads_degree|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates</span>"
     description:
-      - "In <<var namespace=cip_grads_degree|key=year|row=0>>, the most common concentation for <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span> graduates at <<name>> was <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates."
-      - "This visualization illustrates the percentage of students graduating from <span class='select-text'><<var namespace=degrees|key=degree|row=0>></span> programs at <<name>> according to their major."
+      - "In <<var namespace=cip_grads_degree|key=year|row=0>>, the most common concentation for <span class='select-text'>Bachelor's Degree</span> graduates at <<name>> was <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates."
+      - "This visualization illustrates the percentage of students graduating from <span class='select-text'>Bachelor's Degree</span> programs at <<name>> according to their major."
     viz:
       attrs: "cip"
       color: "cip_2"
       data:
         show: "cip"
-        degree: "<<var namespace=degrees|key=degree|row=0|format=raw>>"
+        degree: "5"
         university: "<<id>>"
         required: "grads_total"
         sumlevel: "6"

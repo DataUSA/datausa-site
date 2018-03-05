@@ -82,7 +82,7 @@
   limit: 10
   sumlevel: "6"
   show: cip
-  degree: "<<top show=degree|required=grads_total,cip|order=grads_total|col=id>>"
+  degree: "5"
   namespace: cip_grads_degree
 
 - required: ["year", "cip", "grads_total", "grads_total_rca"]
