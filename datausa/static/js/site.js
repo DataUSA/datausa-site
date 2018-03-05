@@ -9269,7 +9269,7 @@ viz.format = {
       if (proportions.indexOf(key) >= 0) number = number * 100;
 
       if ((params.output !== "x" || number < 1000) && number < 999999.99 && number >= 0.1) {
-        var prec = ["gini"].indexOf(key) >= 0 ? "3" : key.indexOf("_rca") > 0 || key in affixes ? "2" : "1";
+        var prec = ["gini"].indexOf(key) >= 0 ? "3" : key.indexOf("_rca") > 0 || key === "default_rate" || key in affixes ? "2" : "1";
         number = d3.format(",." + prec + "f")(number);
         number = prec === "3" ? number.replace(".000", "") : prec === "2" ? number.replace(".00", "") : number.replace(".0", "");
       }
@@ -11072,7 +11072,7 @@ viz.mapDraw = function(vars) {
         "offset": big ? 0 : 3,
         "parent": big && !fullscreen ? vars.container.value : big ? d3.select("#map-tooltip") : d3.select("body"),
         "title": d.id ? vars.format.text(d.id, {"key": vars.id.value, "vars": vars}, {"viz": vars.self}) : undefined,
-        "width": vizStyles.tooltip.small,
+        "width": big ? 250 : vizStyles.tooltip.small,
         "x": x,
         "y": y
       };
