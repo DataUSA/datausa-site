@@ -48,7 +48,7 @@
           {% if profile.attr.is_stem == 1 %}STEM Major{% else %}Contains STEM Majors{% endif %}
         </sub>
         {% endif %}
-        {% if profile.attr_type == "university" and profile.attr.carnegie_parent %}
+        {% if profile.attr_type == "university" and profile.attr.carnegie_parent and profile.attr.carnegie_parent != "NAD" %}
         <sub class="stem-label">
           {{ profile.carnegie(key="name")|safe }}
         </sub>
