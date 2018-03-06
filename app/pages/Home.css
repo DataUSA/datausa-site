@@ -1,3 +1,8 @@
+:root {
+  --home-search-height: 45px;
+  --home-search-width: 650px;
+}
+
 #Home {
   text-align: center;
   & .bg {
@@ -49,8 +54,112 @@
       }
     }
   }
+  & .home-search {
+    box-sizing: border-box;
+    height: var(--home-search-height);
+    margin: 35px auto;
+    max-width: var(--home-search-width);
+    padding: 0 50px;
+    position: relative;
+    width: 100%;
+    & .pt-input-group {
+      border-radius: 0;
+      & .pt-icon {
+        color: var(--red);
+        font-size: 21px;
+        line-height: 40px;
+        padding: 3px 2px;
+      }
+      & input {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 0;
+        box-shadow: none;
+        font-family: "Palanquin", sans-serif;
+        font-size: 19px;
+        font-weight: 400;
+        height: var(--home-search-height);
+        line-height: 40px;
+        padding-left: 37px;
+      }
+      & .pt-button {
+        background: var(--red);
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        color: white;
+        font-family: "Palanquin", sans-serif;
+        font-size: 19px;
+        font-weight: 600;
+        height: var(--home-search-height);
+        line-height: 40px;
+        margin: 0;
+        width: 100px;
+      }
+    }
+    & .results {
+      background-color: #f6f6f6;
+      border-radius: 0;
+      box-shadow: 0 1px 1px inset #ccc;
+      display: none;
+      left: 50px;
+      list-style: none;
+      margin: 0;
+      max-height: 30vh;
+      overflow-y: scroll;
+      padding: 0;
+      position: absolute;
+      top: var(--home-search-height);
+      width: calc(100% - 199px);
+      &.active {
+        display: block;
+      }
+      & .result {
+        padding: 7px 6px;
+        text-align: left;
+        &:hover {
+          background-color: #E9E9E9;
+          cursor: pointer;
+        }
+        & img {
+          display: inline-block;
+          margin-right: 6px;
+          vertical-align: top;
+          width: 26px;
+        }
+        & .result-text {
+          display: inline-block;
+          & .title {
+            color: var(--black);
+            font-size: 16px;
+            line-height: 20px;
+            margin-bottom: 2px;
+          }
+          & .sumlevel {
+            color: #727682;
+            font-size: 12px;
+            letter-spacing: 1px;
+            line-height: 1;
+            font-weight: 700;
+            margin-top: 5px;
+            text-transform: uppercase;
+          }
+        }
+      }
+      & .all-results, & .no-results {
+        background: #e9e9e9;
+        border: 0;
+        box-shadow: none;
+        color: var(--black);
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        padding: 5px 0;
+        text-transform: uppercase;
+      }
+    }
+  }
   & .sponsors {
-    margin: 10px 0 75px;
+    margin: 75px 0 75px;
     width: 100%;
     & img {
       height: 90px;
