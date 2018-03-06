@@ -1,7 +1,11 @@
 import React, {Component} from "react";
-import "./Home.css";
+import "./index.css";
 
 import Search from "toCanon/Search";
+
+import tiles from "toCMS/home";
+
+import Column from "./Column";
 
 export default class Home extends Component {
 
@@ -39,6 +43,12 @@ export default class Home extends Component {
           <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/">
             <img id="datawheel" src="/images/home/logos/datawheel.png" />
           </a>
+        </div>
+        <div className="columns">
+          { tiles.map((column, i) => <Column key={i} className="primary" data={column} />)}
+        </div>
+        <div className="columns">
+          { tiles.map((column, i) => <Column key={i} className="secondary" data={column} />)}
         </div>
       </div>
     );

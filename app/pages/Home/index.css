@@ -10,7 +10,7 @@
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #979AA2;
     height: 623px;
     overflow: hidden;
     position: absolute;
@@ -159,10 +159,15 @@
     }
   }
   & .sponsors {
-    margin: 75px 0 75px;
+    margin: 75px 0 50px;
     width: 100%;
     & img {
       height: 90px;
     }
+  }
+  & .columns {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 15px;
   }
 }

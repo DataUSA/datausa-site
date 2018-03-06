@@ -2,7 +2,7 @@ import React from "react";
 import {Route, IndexRoute, browserHistory} from "react-router";
 
 import App from "./App";
-import Home from "./pages/Home";
+import Home from "./pages/Home/index";
 
 import Search from "./pages/Search";
 import Profile from "./profile/index";
