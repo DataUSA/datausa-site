@@ -28,7 +28,7 @@ module.exports = function(app) {
 
   app.post("/api/cms/profile/update", (req, res) => {
     db.profiles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
-  })
+  });
 
   app.post("/api/cms/profile/new", (req, res) => {
     db.profiles.create(req.body).then(u => res.json(u));
