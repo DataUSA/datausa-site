@@ -2,13 +2,15 @@
   "name": "datausa-site",
   "version": "3.0.0-alpha",
   "description": "The most comprehensive visualization of U.S. public data",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "canon-build",
     "dev": "canon-dev",
     "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
+    "setup": "canon-setup",
     "start": "canon-start",
-    "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js"
+    "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
+    "locales": "canon-locales"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,7 @@
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
     "@blueprintjs/table": "^1.31.0",
-    "datawheel-canon": "^0.12.5",
+    "datawheel-canon": "^0.14.6",
     "eslint": "^4.16.0",
     "jsdoc-to-markdown": "^4.0.1",
     "localforage": "^1.5.6",

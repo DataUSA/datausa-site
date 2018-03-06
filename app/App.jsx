@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import "./App.css";
 
-import {CanonComponent} from "datawheel-canon";
-import "./helpers/d3plus.css";
-import d3plus from "./helpers/d3plus";
+import {Canon} from "datawheel-canon";
+import "./d3plus.css";
 
 import Nav from "components/Nav/index";
 import Footer from "components/Footer/index";
@@ -18,11 +17,11 @@ export default class App extends Component {
                        location.pathname.indexOf("/map") === 0;
 
     return (
-      <CanonComponent d3plus={d3plus}>
+      <Canon>
         <Nav location={location} />
         { this.props.children }
         { fullscreen ? null : <Footer location={location} /> }
-      </CanonComponent>
+      </Canon>
     );
 
   }
