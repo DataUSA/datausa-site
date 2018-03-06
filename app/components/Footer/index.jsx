@@ -48,13 +48,13 @@ export default class Footer extends Component {
           </div>
           <div className="footer-logos">
           	<a target="_blank" href="http://www2.deloitte.com/us/en.html">
-              <img id="deloitte" src="/img/footer/deloitte.png" />
+              <img id="deloitte" src="/images/footer/deloitte.png" />
             </a>
           	<a target="_blank" href="http://macro.media.mit.edu/">
-              <img id="macro" src="/img/footer/mit.png" />
+              <img id="macro" src="/images/footer/mit.png" />
             </a>
           	<a target="_blank" href="http://www.datawheel.us/">
-              <img id="datawheel" src="/img/footer/datawheel.png" />
+              <img id="datawheel" src="/images/footer/datawheel.png" />
             </a>
           </div>
         </div>

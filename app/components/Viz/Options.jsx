@@ -96,7 +96,7 @@ class Options extends Component {
     // const profile = "test";
     // const url = `https://dataafrica.io/profile/${profile}/${slug}`;
     // <div className="option" onClick={this.onFocus.bind(this)} onMouseLeave={this.onBlur.bind(this)}>
-    //   <img src="/img/viz/share.svg" />
+    //   <img src="/images/viz/share.svg" />
     //   <input type="text" value={url} ref={input => this.input = input} readOnly="readonly" />
     // </div>
 
@@ -108,7 +108,7 @@ class Options extends Component {
     // </div>
 
     const DialogHeader = props => <div className="pt-dialog-header">
-      <img src={ `/img/viz/${ props.slug }.svg` } />
+      <img src={ `/images/viz/${ props.slug }.svg` } />
       <h5>{ props.title }</h5>
       <button aria-label="Close" className="pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
     </div>;

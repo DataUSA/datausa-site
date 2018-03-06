@@ -29,34 +29,34 @@
     }
     &.view-table {
       &:before {
-        background-image: url("/img/viz/view-table.svg");
+        background-image: url("/images/viz/view-table.svg");
       }
       &:hover:before {
-        background-image: url("/img/viz/view-table-red.svg");
+        background-image: url("/images/viz/view-table-red.svg");
       }
     }
     &.add-to-cart {
       &:before {
-        background-image: url("/img/viz/add-to-cart.svg");
+        background-image: url("/images/viz/add-to-cart.svg");
       }
       &:hover:before {
-        background-image: url("/img/viz/add-to-cart-red.svg");
+        background-image: url("/images/viz/add-to-cart-red.svg");
       }
     }
     &.save-image {
       &:before {
-        background-image: url("/img/viz/save-image.svg");
+        background-image: url("/images/viz/save-image.svg");
       }
       &:hover:before {
-        background-image: url("/img/viz/save-image-red.svg");
+        background-image: url("/images/viz/save-image-red.svg");
       }
     }
     &.share {
       &:before {
-        background-image: url("/img/viz/share.svg");
+        background-image: url("/images/viz/share.svg");
       }
       &:hover:before {
-        background-image: url("/img/viz/share-red.svg");
+        background-image: url("/images/viz/share-red.svg");
       }
     }
   }

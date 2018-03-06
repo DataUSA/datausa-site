@@ -13,7 +13,7 @@ export default class Splash extends Component {
 
     return <div id="Splash">
       <div className="image-container">
-        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/img/splash/${pslug}/${d.pid}.jpg")`}}></div>) }
+        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/images/splash/${pslug}/${d.pid}.jpg")`}}></div>) }
       </div>
       <div className="content-container">
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }

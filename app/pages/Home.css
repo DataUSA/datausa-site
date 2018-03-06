@@ -1,7 +1,7 @@
 #Home {
   text-align: center;
   & .bg {
-    background-image: url("/img/home/bg/utah.jpg");
+    background-image: url("/images/home/bg/utah.jpg");
     background-position: 50% 50%;
     background-size: cover;
     background-repeat: no-repeat;

@@ -58,7 +58,7 @@ class Nav extends Component {
         <span className={ menu ? "label open" : "label" }>Menu</span>
       </div>
       { logo || (dark || background) ? <Link to="/" className="home-btn">
-        <img src="/img/logo_sm.png" alt="Data USA" />
+        <img src="/images/logo_sm.png" alt="Data USA" />
       </Link> : null }
       { subtitle && (dark || background) ? <span className="nav-subtitle">{ subtitle }</span> : null }
       <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
