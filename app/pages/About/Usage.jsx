@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import Anchor from "./components/Anchor";
-import SideNav from "./components/SideNav";
+import Anchor from "components/Anchor";
+import SideNav from "components/SideNav";
 
 export default class Usage extends Component {
 

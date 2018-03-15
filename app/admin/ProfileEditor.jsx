@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {Card, Dialog} from "@blueprintjs/core";
 import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
-import Loading from "../components/Loading";
+import Loading from "components/Loading";
 
 import "./ProfileEditor.css";
 
@@ -22,7 +22,7 @@ class ProfileEditor extends Component {
 
   componentDidMount() {
     const {data, builders} = this.props;
-    this.setState({data, builders, recompiling: true}, this.compileVariables.bind(this));   
+    this.setState({data, builders, recompiling: true}, this.compileVariables.bind(this));
   }
 
   componentDidUpdate() {
@@ -50,7 +50,7 @@ class ProfileEditor extends Component {
       const genStatus = variables._genStatus[g.id];
       for (const key in genStatus) {
         if (genStatus.hasOwnProperty(key)) {
-          g.display_vars.push(`${key}: ${variables[key]}`);  
+          g.display_vars.push(`${key}: ${variables[key]}`);
         }
       }
     }
@@ -60,7 +60,7 @@ class ProfileEditor extends Component {
       const matStatus = variables._matStatus[m.id];
       for (const key in matStatus) {
         if (matStatus.hasOwnProperty(key)) {
-          m.display_vars.push(`${key}: ${variables[key]}`);  
+          m.display_vars.push(`${key}: ${variables[key]}`);
         }
       }
     }
@@ -100,7 +100,7 @@ class ProfileEditor extends Component {
   handleEditor(field, t) {
     const {data} = this.state;
     data[field] = t;
-    this.setState({data});    
+    this.setState({data});
   }
 
   saveItem(item, type) {
@@ -109,7 +109,7 @@ class ProfileEditor extends Component {
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
-        } 
+        }
       });
     }
   }
@@ -125,7 +125,7 @@ class ProfileEditor extends Component {
           if (type === "stat_profile") data.stats = data.stats.filter(s => s.id !== item.id);
           if (type === "visualization_profile") data.visualizations = data.visualizations.filter(v => v.id !== item.id);
           this.setState({data, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
-        } 
+        }
       });
     }
   }
@@ -145,7 +145,7 @@ class ProfileEditor extends Component {
         if (resp.status === 200) {
           builders.generators.push(resp.data);
           this.setState({builders, recompiling: true}, this.compileVariables.bind(this));
-        } 
+        }
         else {
           console.log("db error");
         }
@@ -163,7 +163,7 @@ class ProfileEditor extends Component {
         if (resp.status === 200) {
           builders.materializers.push(resp.data);
           this.setState({builders, recompiling: true}, this.compileVariables.bind(this));
-        } 
+        }
         else {
           console.log("db error");
         }
@@ -180,7 +180,7 @@ class ProfileEditor extends Component {
         if (resp.status === 200) {
           data.stats.push(resp.data);
           this.setState({data, recompiling: true}, this.compileVariables.bind(this));
-        } 
+        }
         else {
           console.log("db error");
         }
@@ -195,7 +195,7 @@ class ProfileEditor extends Component {
         if (resp.status === 200) {
           data.visualizations.push(resp.data);
           this.setState({data, recompiling: true}, this.compileVariables.bind(this));
-        } 
+        }
         else {
           console.log("db error");
         }
@@ -225,21 +225,21 @@ class ProfileEditor extends Component {
       <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{g.name}</h5>
         <ul>
-          {g.display_vars ? g.display_vars.map(v => <li key={`g${v}`}>{v}</li>) : null} 
+          {g.display_vars ? g.display_vars.map(v => <li key={`g${v}`}>{v}</li>) : null}
         </ul>
       </Card>
     );
 
-    const materializedGenerators = builders.materializers.map(m => 
+    const materializedGenerators = builders.materializers.map(m =>
       <Card key={m.id} onClick={this.openGeneratorEditor.bind(this, m, "materializer")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{m.name}</h5>
         <ul>
-          {m.display_vars ? m.display_vars.map(v => <li key={`m${v}`}>{v}</li>) : null} 
+          {m.display_vars ? m.display_vars.map(v => <li key={`m${v}`}>{v}</li>) : null}
         </ul>
       </Card>
     );
 
-    const stats = data.stats.map(s => 
+    const stats = data.stats.map(s =>
       <Card key={s.id} onClick={this.openTextEditor.bind(this, s, "stat", ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h6>title</h6>
         <div dangerouslySetInnerHTML={{__html: s.display_title}} />
@@ -260,7 +260,7 @@ class ProfileEditor extends Component {
       <div id="profile-editor">
 
         {recompiling ? <Loading /> : null}
-        
+
         <Dialog
           iconName="code"
           isOpen={this.state.isGeneratorEditorOpen}
@@ -273,13 +273,13 @@ class ProfileEditor extends Component {
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
-              <button 
+              <button
                 className="pt-button pt-intent-danger"
                 onClick={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
               >
                 Delete
               </button>
-              <button 
+              <button
                 className="pt-button"
                 onClick={() => this.setState({isGeneratorEditorOpen: false})}
               >
@@ -306,13 +306,13 @@ class ProfileEditor extends Component {
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
-              <button 
+              <button
                 className="pt-button pt-intent-danger"
                 onClick={this.deleteItem.bind(this, currentText, currentTextType)}
               >
                 Delete
               </button>
-              <button 
+              <button
                 className="pt-button"
                 onClick={() => this.setState({isTextEditorOpen: false})}
               >
@@ -332,7 +332,7 @@ class ProfileEditor extends Component {
           <div className="pt-select">
             <select value={this.state.preview} onChange={e => this.setState({preview: e.target.value}, this.compileVariables.bind(this))}>
               {
-                ["04000US25", "04000US32", "04000US34"].map(s => 
+                ["04000US25", "04000US32", "04000US34"].map(s =>
                   <option value={s} key={s}>{s}</option>
                 )
               }
@@ -346,7 +346,7 @@ class ProfileEditor extends Component {
             <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={data.slug} onChange={this.changeField.bind(this, "slug")}/>
           </label>
         </div>
-        
+
         <div className="generators">
           <div className="cms-header">
             DATABASE VARIABLE GENERATORS

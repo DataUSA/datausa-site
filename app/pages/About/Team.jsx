@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {AnchorLink, fetchData} from "datawheel-canon";
 import slugify from "toCanon/slugify";
 
-import Anchor from "./components/Anchor";
-import SideNav from "./components/SideNav";
+import Anchor from "components/Anchor";
+import SideNav from "components/SideNav";
 
 import "./Team.css";
 

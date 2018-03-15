@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {AnchorLink} from "datawheel-canon";
 import "./Background.css";
 
-import Anchor from "./components/Anchor";
+import Anchor from "components/Anchor";
 
 const videos = [
   "https://www.youtube.com/embed/VJ29nJl-xWw",

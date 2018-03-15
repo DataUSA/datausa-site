@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {InlineMath, BlockMath} from "react-katex";
 import "katex/dist/katex.min.css";
 
-import Anchor from "./components/Anchor";
-import SideNav from "./components/SideNav";
+import Anchor from "components/Anchor";
+import SideNav from "components/SideNav";
 
 export default class Glossary extends Component {
 
