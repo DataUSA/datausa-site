@@ -1,15 +1,17 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
+import {fetchData} from "datawheel-canon";
 import "./index.css";
 
 import Search from "toCanon/Search";
 
-import tiles from "toCMS/home";
-
 import Column from "./Column";
 
-export default class Home extends Component {
+class Home extends Component {
 
   render() {
+
+    const {tiles} = this.props;
 
     return (
       <div id="Home">
@@ -18,6 +20,7 @@ export default class Home extends Component {
         <h2 className="tagline">
           <a href="/search">Search</a>, <a href="/map">map</a>, <a href="/profile/geo/chicago-il/?compare=seattle-wa">compare</a>, and <a href="/cart">download</a> U.S. data
         </h2>
+
         <Search
           buttonLink="/search"
           className="home-search"
@@ -33,6 +36,7 @@ export default class Home extends Component {
           </div>}
           url="/api/search/"
         />
+
         <div className="sponsors">
           <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html">
             <img id="deloitte" src="/images/home/logos/deloitte.png" />
@@ -56,3 +60,9 @@ export default class Home extends Component {
   }
 
 }
+
+Home.need = [
+  fetchData("home", "/api/home")
+];
+
+export default connect(state => ({tiles: state.data.home}))(Home);
