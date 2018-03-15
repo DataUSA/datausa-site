@@ -14,7 +14,12 @@ import Map from "./pages/Map";
 
 import Cart from "./pages/Cart";
 
-import About from "./pages/About";
+import About from "./pages/About/index";
+import Background from "./pages/About/Background";
+import Press from "./pages/About/Press";
+import Team from "./pages/About/Team";
+import Glossary from "./pages/About/Glossary";
+import Usage from "./pages/About/Usage";
 
 import ProfileBuilder from "./admin/ProfileBuilder";
 
@@ -34,6 +39,14 @@ export default function RouteCreate() {
       <Route path="/map" component={Map} />
 
       <Route path="/cart" component={Cart} />
+
+      <Route path="/about" component={About}>
+        <IndexRoute component={Background} />
+        <Route path="/about/press" component={Press} />
+        <Route path="/about/team" component={Team} />
+        <Route path="/about/glossary" component={Glossary} />
+        <Route path="/about/usage" component={Usage} />
+      </Route>
 
       <Route path="/about(/:content)(/:show)(/:sumlevel)(/:page)" component={About} />
 
