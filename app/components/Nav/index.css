@@ -62,16 +62,22 @@
   justify-content: space-space-between;
   left: 0;
   margin: 0;
-  padding: 10px 13px;
+  padding: 0;
   position: fixed !important;
   /* necessary for overriding blueprint */
   transition: left 0.25s;
   width: 300px;
   & .menu-content {
-    margin: 30px 37px 50px 37px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    margin: 0;
     & ul {
+      list-style: none;
       margin: 0;
-      padding: 0;
+      padding: 40px 50px;
       & li {
         font-family: "Palanquin", sans-serif;
         font-size: 18px;
@@ -88,11 +94,23 @@
           }
         }
         & ul {
-          margin-left: 13px;
-          margin-top: 5px;
+          padding: 5px 13px 10px;
           & li {
             font-size: 16px;
           }
+        }
+      }
+    }
+    & .menu-collab {
+      padding-bottom: 25px;
+      text-align: center;
+      & img {
+        height: 15px;
+        margin: 10px;
+        opacity: 0.75;
+        transition: opacity 0.1s;
+        &:hover {
+          opacity: 1;
         }
       }
     }
