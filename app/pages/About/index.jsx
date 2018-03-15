@@ -1,10 +1,17 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import SubNav from "components/SubNav/index";
 import NavLink from "components/NavLink";
 
-import "./About.css";
+import "./index.css";
 
-export default class About extends Component {
+class About extends Component {
+
+  getChildContext() {
+    return {
+      location: this.props.location
+    };
+  }
 
   render() {
 
@@ -12,15 +19,21 @@ export default class About extends Component {
       <div id="About">
         <SubNav>
           <NavLink to="/about/">Background</NavLink>
+          <NavLink to="/about/press/">In the Press</NavLink>
+          <NavLink to="/about/team/">Team</NavLink>
           <NavLink to="/about/glossary/">Glossary</NavLink>
           <NavLink to="/about/usage/">Terms of Use</NavLink>
         </SubNav>
-        <p>
-          About Text
-        </p>
+        { this.props.children }
       </div>
     );
 
   }
 
 }
+
+About.childContextTypes = {
+  location: PropTypes.object
+};
+
+export default About;
