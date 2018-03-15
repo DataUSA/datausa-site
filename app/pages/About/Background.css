@@ -1,0 +1,58 @@
+#Background {
+  padding-top: var(--nav-height);
+  & .video-container {
+    height: 315px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    & .video {
+      box-sizing: border-box;
+      display: block;
+      height: 315px;
+      left: 0;
+      padding: 0 50px;
+      position: absolute;
+      top: 0;
+      transition: left 0.5s;
+      width: 100%;
+      &.active {
+        left: 0;
+      }
+      &.next {
+        left: 100%;
+      }
+      &.prev {
+        left: -100%;
+      }
+    }
+    & .video-prev, & .video-next {
+      color: $white-l;
+      font-size: 20px;
+      height: 100%;
+      margin-top: -10px;
+      opacity: 0.5;
+      position: absolute;
+      text-align: center;
+      top: 50%;
+      width: 20px;
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+    & .video-prev {
+      left: 0;
+    }
+    & .video-next {
+      right: 0;
+    }
+  }
+  & .logos {
+    margin-bottom: 20px;
+    text-align: center;
+    & img {
+      height: 25px;
+      margin: 30px 25px 10px;
+    }
+  }
+}
