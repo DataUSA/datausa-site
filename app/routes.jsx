@@ -21,6 +21,11 @@ import Team from "./pages/About/Team";
 import Glossary from "./pages/About/Glossary";
 import Usage from "./pages/About/Usage";
 
+import Data from "./pages/Data/index";
+import DataSources from "./pages/Data/DataSources";
+import API from "./pages/Data/API";
+import Classifications from "./pages/Data/Classifications";
+
 import ProfileBuilder from "./admin/ProfileBuilder";
 
 export default function RouteCreate() {
@@ -48,7 +53,11 @@ export default function RouteCreate() {
         <Route path="/about/usage" component={Usage} />
       </Route>
 
-      <Route path="/about(/:content)(/:show)(/:sumlevel)(/:page)" component={About} />
+      <Route path="/about(/datasets|api|attributes)" component={Data}>
+        <Route path="/about/datasets" component={DataSources} />
+        <Route path="/about/api" component={API} />
+        <Route path="/about/attributes" component={Classifications} />
+      </Route>
 
       <Route path="/admin/profilebuilder" component={ProfileBuilder} />
 
