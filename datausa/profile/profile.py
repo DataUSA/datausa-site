@@ -164,9 +164,9 @@ class Profile(BaseObject):
                 value = (float(x2) - x1) / x1
 
         if fmt == "text":
-            return "{} {}".format(num_format(value, "growth"), "growth" if value >= 0 else "decline")
+            return "{} {}".format(num_format(abs(value), "growth"), "growth" if value >= 0 else "decline")
         elif fmt == "pretty":
-            return num_format(value, "growth")
+            return num_format(abs(value), "growth")
         else:
             return value
 
