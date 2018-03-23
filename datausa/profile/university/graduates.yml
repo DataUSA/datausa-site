@@ -123,6 +123,7 @@ topics:
   - title: "Majors Awarded"
     category: "Degrees"
     slug: "majors"
+    subtitle: "IPEDS uses the Classification of Instructional Programs (CIP) standard, so the categories may not match the exact concentrations offered by <<name>>."
     select:
       data: "degree"
       filter: degrees
