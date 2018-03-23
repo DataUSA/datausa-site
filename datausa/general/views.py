@@ -49,7 +49,7 @@ footMap = {
     "naics": 301,
     "soc": 525,
     "cip": 2319,
-    "university": 9300
+    "university": 7363
 }
 
 def tileAPI(column):
