@@ -35,7 +35,7 @@
   limit: 2
   namespace: admissions
 
-- required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee", "books_and_supplies"]
+- required: ["year", "state_tuition", "state_tuition_grads", "oos_tuition", "oos_tuition_grads", "state_fee", "state_fee_grads", "oos_fee", "oos_fee_grads", "books_and_supplies"]
   rows: True
   sort: desc
   order: year
@@ -51,7 +51,7 @@
   limit: 2
   namespace: roomboard
 
-- required: ["year", "state_tuition", "oos_tuition", "state_fee", "oos_fee"]
+- required: ["year", "state_tuition", "state_tuition_grads", "oos_tuition", "oos_tuition_grads", "state_fee", "state_fee_grads", "oos_fee", "oos_fee_grads"]
   rows: True
   sort: desc
   order: year
@@ -82,7 +82,7 @@
   limit: 10
   sumlevel: "6"
   show: cip
-  degree: "5"
+  degree: <<default_degree>>
   namespace: cip_grads_degree
 
 - required: ["year", "cip", "grads_total", "grads_total_rca"]

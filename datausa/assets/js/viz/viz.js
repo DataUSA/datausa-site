@@ -153,7 +153,6 @@ viz.finish = function(build) {
     .data({large: large})
 
   if (build.config.id.constructor === String) build.viz.text(build.config.id);
-
   build.viz.error(false).draw();
 
 };
