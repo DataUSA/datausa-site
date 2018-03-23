@@ -2,7 +2,7 @@ title: "Costs"
 description:
   - "The median {{<<sector>>:public||in-state }}tuition at <<name>> is <<var namespace=tuition|key=state_tuition|row=0>>, which is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless>> the national median {{<<sector>>:public||in-state }}tuition of <<var namespace=tuition_us|key=state_tuition|row=0>>.{{<<sector>>:public|| The cost of out-of-state tuition is <<var namespace=tuition|key=oos_tuition|row=0>>, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, and is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless2>> than the national median out-of-state tuition of <<var namespace=tuition_us|key=oos_tuition|row=0>>.}}"
   - "After taking financial aid into account, the average net price for students is <<var namespace=price|key=avg_netprice_gos_aid|row=0>>."
-  - "In <<var namespace=price|key=year|row=0>>, <<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students received financial aid grants, while <<var namespace=price|key=pct_fed_loans|row=0>> of undergraduate students receved federal loans."
+  - "In <<var namespace=price|key=year|row=0>>, <<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students received financial aid grants, while <<var namespace=price|key=pct_fed_loans|row=0>> of undergraduate students received federal loans."
 
 topics:
   - title: "Tuition Costs"
@@ -17,7 +17,7 @@ topics:
       value: "<<var namespace=tuition|key=state_tuition|row=0>>"
     description:
       - "In <<var namespace=tuition|key=year|row=0>>, the cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> was <<var namespace=tuition|key=oos_tuition|row=0>>{{<<sector>>:public||, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, which was <<var namespace=tuition|key=state_tuition|row=0>>}}. The cost of {{<<sector>>:public||out-of-state }}tuition at <<name>> is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless>> the overall (public and private) national median of <<var namespace=tuition_us|key=oos_tuition|row=0>>{{<<sector>>:public||, and the in-state tuition is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the overall (public and private) national median <<var namespace=tuition_us|key=state_tuition|row=0>>}}."
-      - "This chart shows how tuition costs at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+      - "This chart compares the tuition costs of <<name>> (in red) with those of other {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
     viz:
       - sumlevel: "0"
         attrs: "university"
@@ -111,9 +111,9 @@ topics:
       - title: "1 year <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>"
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
-      - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>, which represents what a student pays after receiving grant or scholarship aid. This is in comparison to an average net price of <<var namespace=price|key=avg_netprice_gos_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=avg_netprice_gos_aid>> annual <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>."
-      - "This chart shows how the average net price at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
-      - "Average net price is calculated from full-time beginning undergraduate students who were awarded grant or scholarship aid from federal, state or local governments, or the institution."
+      - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price &mdash; the price paid after factoring in financial aid &mdash; of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>. Between <<var namespace=price|key=year|row=1>> and <<var namespace=price|key=year|row=0>>, the average net price of <<name>> <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=grew3>> <<growth namespace=price|key=avg_netprice_gos_aid>>."
+      - "This chart compares the average net price of <<name>> (in red) with that of other {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+      - "Average net price is calculated from full-time beginning undergraduate students who were awarded a grant or scholarship from federal, state or local governments, or the institution."
     viz:
       - sumlevel: "0"
         attrs: university
@@ -156,8 +156,8 @@ topics:
       - title: "Books & Supplies"
         value: "<<var namespace=tuition|key=books_and_supplies|row=0>>"
     description:
-      - "Students at <<name>> spend, on average per year, <<var namespace=roomboard|key=max_room_and_board|row=0>> on room & board and <<var namespace=tuition|key=books_and_supplies|row=0>> on books and supplies. This is in comparison to costs of <<var namespace=roomboard|key=max_room_and_board|row=1>> and <<var namespace=tuition|key=books_and_supplies|row=1>> in the previous year, which represent a <<growth namespace=roomboard|key=max_room_and_board>> 1-year <<percent num=var:roomboard,max_room_and_board,0|den=var:roomboard,max_room_and_board,1|text=growth2>> and a <<growth namespace=tuition|key=books_and_supplies>> 1-year <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=growth2>> respectively."
-      - "This chart shows how the average student costs at <<name>> (highlighted in red) compare to that of {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+      - "The average yearly cost of room and board at <<name>> was of <<var namespace=roomboard|key=max_room_and_board|row=0>> in <<var namespace=roomboard|key=year|row=0>>. During the same period, the average yearly cost of books and supplies was <<var namespace=tuition|key=books_and_supplies|row=0>>. The cost of room and board <<percent num=var:roomboard,max_room_and_board,0|den=var:roomboard,max_room_and_board,1|text=increased2>>{{<<growth namespace=roomboard|key=max_room_and_board>>:!0%|| <<growth namespace=roomboard|key=max_room_and_board>>}} between <<var namespace=roomboard|key=year|row=1>> and <<var namespace=roomboard|key=year|row=0>>. The cost of books and supplies <<percent num=var:tuition,books_and_supplies,0|den=var:tuition,books_and_supplies,1|text=increased2>>{{<<growth namespace=tuition|key=books_and_supplies>>:!0%|| <<growth namespace=tuition|key=books_and_supplies>>}} during the same period."
+      - "This chart compares the average student costs at <<name>> (in red) with that of {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
     viz:
       - attrs: university
         data:
@@ -191,9 +191,9 @@ topics:
       - title: "of Undergraduates<br />Receive Federal Loans"
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
-      - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid grants. This is in comparison to <<var namespace=price|key=pct_with_grant_aid|row=1>> in <<var namespace=price|key=year|row=1>>, which represents a <<growth namespace=price|key=pct_with_grant_aid>> annual <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>>."
-      - "This chart shows how the average award discount at <<name>> (highlighted in red) compares to {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
-      - "The average award discount is calculated by dividing the average grant/scholarship award value by the cost, which is calculated by adding the out-of-state tuition cost with room, board, book, supplies, and other expenses."
+      - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid in <<var namespace=price|key=year|row=0>>. This represents a <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>> of <<growth namespace=price|key=pct_with_grant_aid>> with respect to <<var namespace=price|key=year|row=1>>, when <<var namespace=price|key=pct_with_grant_aid|row=1>> of undergraduate students received financial aid."
+      - "This chart compares the average award discount at <<name>> (in red) with that of other {{<<sumlevel>>:0||Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+      - "The average award discount is the ratio between the average grant or scholarship value, and the cost, which is the sum of out-of-state tuition, room, board, book, supplies, and other expenses."
     viz:
       - sumlevel: "0"
         attrs: university
@@ -275,7 +275,7 @@ topics:
         y:
           range: [0, 1]
           value: discount
-  - title: "Sudent Loan Default Rate"
+  - title: "Student Loan Default Rate"
     subtitle: "Cohort default rates only account for borrowers who default in the first three years, and some schools only have a small proportion of borrowers entering repayment. These rates should be interpreted with caution, as they may not be reflective of the entire school population."
     slug: "default_rate"
     sumlevel: "2"
