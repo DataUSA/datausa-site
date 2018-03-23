@@ -93,23 +93,25 @@ class Profile(BaseObject):
 
         return u",".join([c["id"] for c in children])
 
-    def default_degree(self):
-        if self.common_degree:
-            return self.common_degree
-        url = "{}/api?university={}&show=degree&required=grads_total&order=grads_total&sort=desc&year=latest".format(API, self.attr["id"])
-        try:
-            results = requests.get(url).json()
-            if "error" in results:
-                self.common_degree = "5"
-            else:
-                results = [r for r in datafold(results)]
-                bachelor = [r for r in results if r["degree"] == "5"]
-                if len(bachelor) > 0:
+    def default_degree(self, **kwargs):
+        if not self.common_degree:
+            url = "{}/api?university={}&show=degree&required=grads_total&order=grads_total&sort=desc&year=latest".format(API, self.attr["id"])
+            try:
+                results = requests.get(url).json()
+                if "error" in results:
                     self.common_degree = "5"
                 else:
-                    self.common_degree = results[0]["degree"]
-        except ValueError:
-            self.common_degree = "5"
+                    results = [r for r in datafold(results)]
+                    bachelor = [r for r in results if r["degree"] == "5"]
+                    if len(bachelor) > 0:
+                        self.common_degree = "5"
+                    else:
+                        self.common_degree = results[0]["degree"]
+            except ValueError:
+                self.common_degree = "5"
+        key = kwargs.get("key", False)
+        if key:
+            return fetch(self.common_degree, "degree")[key]
         return self.common_degree
 
     def foot(self, **kwargs):
