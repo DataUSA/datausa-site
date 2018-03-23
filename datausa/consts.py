@@ -419,7 +419,8 @@ DICTIONARY = {
     "num_ppl_rca": "People in Workforce (RCA)",
     "num_speakers": "Speakers",
     "num_speakers_rca": "Speakers (RCA)",
-    "oos_tuition": "Out of State Tuition",
+    "oos_tuition": "Out of State Undergraduate Tuition",
+    "oos_tuition_grads": "Out of State Graduate Tuition",
     "owner_occupied_housing_units": "Homeowners",
     "pct_total": "Percentage of Degrees Awarded",
     "people": "People",
@@ -472,7 +473,8 @@ DICTIONARY = {
     "propertyval": "Property Value",
     "race": "Race or Ethnicity",
     "sex": "Gender",
-    "state_tuition": "In State Tuition",
+    "state_tuition": "In State Undergraduate Tuition",
+    "state_tuition_grads": "In State Graduate Tuition",
 
     "total_owner_occupied_housing_units": "Total Households",
 
@@ -578,12 +580,18 @@ DICTIONARY = {
 
 AFFIXES = {
     "state_tuition": ["$", ""],
+    "state_tuition_grads": ["$", ""],
     "oos_tuition": ["$", ""],
+    "oos_tuition_grads": ["$", ""],
     "district_tuition": ["$", ""],
+    "district_tuition_grads": ["$", ""],
     "tuition_cost": ["$", ""],
     "state_fee": ["$", ""],
+    "state_fee_grads": ["$", ""],
     "oos_fee": ["$", ""],
+    "oos_fee_grads": ["$", ""],
     "district_fee": ["$", ""],
+    "district_fee_grads": ["$", ""],
     "fee_cost": ["$", ""],
     "avg_wage": ["$", ""],
     "avg_wage_ft": ["$", ""],
