@@ -39,6 +39,7 @@ class Profile(BaseObject):
         # set attr (using the fetch function) and attr_type
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
+        self.common_degree = False
         self.variables = self.load_vars(required_namespaces)
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
         self.section_cache = False
@@ -48,6 +49,9 @@ class Profile(BaseObject):
         val = self.attr[key]
         if key == "opeid8":
             val = val[:-2]
+        attr = kwargs.get("attr", False)
+        if attr:
+            val = self.make_links([fetch(val, attr)], attr)
         return val
 
     def carnegie(self, **kwargs):
@@ -88,6 +92,25 @@ class Profile(BaseObject):
         children = get_children(attr_id, self.attr_type, sumlevel)
 
         return u",".join([c["id"] for c in children])
+
+    def default_degree(self):
+        if self.common_degree:
+            return self.common_degree
+        url = "{}/api?university={}&show=degree&required=grads_total&order=grads_total&sort=desc&year=latest".format(API, self.attr["id"])
+        try:
+            results = requests.get(url).json()
+            if "error" in results:
+                self.common_degree = "5"
+            else:
+                results = [r for r in datafold(results)]
+                bachelor = [r for r in results if r["degree"] == "5"]
+                if len(bachelor) > 0:
+                    self.common_degree = "5"
+                else:
+                    self.common_degree = results[0]["degree"]
+        except ValueError:
+            self.common_degree = "5"
+        return self.common_degree
 
     def foot(self, **kwargs):
         return "<sup><a href='#footnote{0}'>{0}</a></sup>".format(kwargs.get("note"))
