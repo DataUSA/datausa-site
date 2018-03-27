@@ -615,6 +615,15 @@ class Profile(BaseObject):
                 r["{}_key".format(t)] = col
                 r[t] = self.sum(namespace=ns, key=col, format="raw")
 
+            elif "divide:" in key:
+
+                keys = key.split(":")[1].split(",")
+                ns, col1, col2, row = keys
+                r["{}_key".format(t)] = col1
+                val1 = self.var(namespace=ns, key=col1, row=row, format="raw")
+                val2 = self.var(namespace=ns, key=col2, row=row, format="raw")
+                r[t] = val1 / val2 * 100
+
             elif "var:" in key:
 
                 keys = key.split(":")[1].split(",")
