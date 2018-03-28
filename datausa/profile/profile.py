@@ -1123,10 +1123,12 @@ class Profile(BaseObject):
         row = kwargs.get("row", False)
         csl = kwargs.get("csl", False)
         limit = kwargs.get("limit", False)
+        plural = kwargs.get("plural", False)
 
         var_map = self.variables
 
         if var_map:
+            val = False
             if namespace in var_map and var_map[namespace] and formatting == "length":
                 return len(var_map[namespace])
             if csl and namespace in var_map and var_map[namespace]:
@@ -1137,9 +1139,13 @@ class Profile(BaseObject):
             if row and namespace in var_map and var_map[namespace]:
                 row = int(row)
                 if row < len(var_map[namespace]):
-                    return var_map[namespace][row][key][formatting]
+                    val = var_map[namespace][row][key][formatting]
             if namespace in var_map and key in var_map[namespace]:
-                return var_map[namespace][key][formatting]
+                val = var_map[namespace][key][formatting]
+            if val:
+                if plural:
+                    val = "{}ies".format(val[:-1]) if val[-1] == "y" else "{}s".format(val)
+                return val
             return "N/A"
         else:
             raise Exception("vars.yaml file has no variables")
