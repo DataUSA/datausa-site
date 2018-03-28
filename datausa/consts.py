@@ -916,7 +916,7 @@ GLOSSARY = {
     "RCA": {
         "def": "The RCA calculation compares the share in a given constraint versus the national share.",
         "link": "/about/glossary/#rca",
-        "alts": ["Most Specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
+        "alts": ["Most Specialized", "most specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
     },
     "GINI": {
         "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
