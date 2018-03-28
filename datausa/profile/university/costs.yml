@@ -1,8 +1,8 @@
 title: "Costs"
 description:
   - "The median {{<<sector>>:public||in-state }}tuition at <<name>> is <<var namespace=tuition|key=state_tuition|row=0>>, which is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless>> the national median {{<<sector>>:public||in-state }}tuition of <<var namespace=tuition_us|key=state_tuition|row=0>>.{{<<sector>>:public|| The cost of out-of-state tuition is <<var namespace=tuition|key=oos_tuition|row=0>>, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, and is <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true>> <<percent num=var:tuition,oos_tuition,0|den=var:tuition_us,oos_tuition,0|diff=true|text=moreless2>> than the national median out-of-state tuition of <<var namespace=tuition_us|key=oos_tuition|row=0>>.}}"
-  - "After taking financial aid into account, the average net price for students is <<var namespace=price|key=avg_netprice_gos_aid|row=0>>."
-  - "In <<var namespace=price|key=year|row=0>>, <<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students received financial aid grants, while <<var namespace=price|key=pct_fed_loans|row=0>> of undergraduate students received federal loans."
+  - "After taking grants and loans into account, the average net price for students is <<var namespace=price|key=avg_netprice_gos_aid|row=0>>."
+  - "In <<var namespace=price|key=year|row=0>>, <<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students received federal grants, while <<var namespace=price|key=pct_fed_loans|row=0>> of undergraduate students received federal loans."
 
 topics:
   - title: "Tuition Costs"
@@ -111,7 +111,7 @@ topics:
       - title: "1 year <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=growth2>>"
         value: "<<growth namespace=price|key=avg_netprice_gos_aid>>"
     description:
-      - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price &mdash; the price paid after factoring in financial aid &mdash; of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>. Between <<var namespace=price|key=year|row=1>> and <<var namespace=price|key=year|row=0>>, the average net price of <<name>> <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=grew3>> <<growth namespace=price|key=avg_netprice_gos_aid>>."
+      - "In <<var namespace=price|key=year|row=0>> <<name>> had an average net price &mdash; the price paid after factoring in grants and loans &mdash; of <<var namespace=price|key=avg_netprice_gos_aid|row=0>>. Between <<var namespace=price|key=year|row=1>> and <<var namespace=price|key=year|row=0>>, the average net price of <<name>> <<percent num=var:price,avg_netprice_gos_aid,0|den=var:price,avg_netprice_gos_aid,1|text=grew3>> <<growth namespace=price|key=avg_netprice_gos_aid>>."
       - "This chart compares the average net price of <<name>> (in red) with that of other {{<<sumlevel>>:0||other Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
       - "Average net price is calculated from full-time beginning undergraduate students who were awarded a grant or scholarship from federal, state or local governments, or the institution."
     viz:
@@ -191,7 +191,7 @@ topics:
       - title: "of Undergraduates<br />Receive Federal Loans"
         value: "<<var namespace=price|key=pct_fed_loans|row=0>>"
     description:
-      - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received financial aid in <<var namespace=price|key=year|row=0>>. This represents a <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>> of <<growth namespace=price|key=pct_with_grant_aid>> with respect to <<var namespace=price|key=year|row=1>>, when <<var namespace=price|key=pct_with_grant_aid|row=1>> of undergraduate students received financial aid."
+      - "<<var namespace=price|key=pct_with_grant_aid|row=0>> of undergraduate students at <<name>> received grants or loans in <<var namespace=price|key=year|row=0>>. This represents a <<percent num=var:price,pct_with_grant_aid,0|den=var:price,pct_with_grant_aid,1|text=growth2>> of <<growth namespace=price|key=pct_with_grant_aid>> with respect to <<var namespace=price|key=year|row=1>>, when <<var namespace=price|key=pct_with_grant_aid|row=1>> of undergraduate students received financial aid."
       - "This chart compares the average award discount at <<name>> (in red) with that of other {{<<sumlevel>>:0||Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
       - "The average award discount is the ratio between the average grant or scholarship value, and the cost, which is the sum of out-of-state tuition, room, board, book, supplies, and other expenses."
     viz:
