@@ -250,7 +250,27 @@
   sumlevel: "all,all"
   lstudy: "1"
   enrollment_status: "1"
-  namespace: enrollment_lstudy
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: enrollment_undergrad
+
+- required: ["ipeds_race", "sex", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race,sex"
+  sumlevel: "all,all"
+  lstudy: "3"
+  enrollment_status: "1"
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: enrollment_grad
 
 - required: ["retention_rate_ft", "year"]
   year: latest
