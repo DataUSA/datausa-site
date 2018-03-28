@@ -149,6 +149,28 @@ def multi_col_top(profile, params):
                 reverse = True if new_sort == "desc" else False
                 show = params["show"].split(",")[0]
                 r["data"] = sorted(r["data"], key=lambda k: 0 if k[headers.index(show)] in mute else k[headers.index(new_order)], reverse=reverse)
+            aggregate = after.get("aggregate", None)
+            if aggregate:
+                method = after.get("method", "sum")
+                myobject = {}
+                for row in r["data"]:
+                    aggid = row[headers.index(aggregate)]
+                    if aggid in myobject:
+                        prev = myobject[aggid]
+                    else:
+                        prev = [None] * len(headers)
+                    for col in headers:
+                        i = headers.index(col)
+                        if prev[i] == None or isinstance(row[i], basestring) or col == aggregate or col == "year":
+                            prev[i] = row[i]
+                        elif col == aggregate or col:
+                            if method == "max":
+                                prev[i] = max([prev[i], row[i]])
+                            else:
+                                prev[i] = prev[i] + row[i]
+                    myobject[aggid] = prev
+                reverse = False if params["sort"] == "asc" else True
+                r["data"] = sorted([myobject[k] for k in myobject], key=lambda k: k[headers.index(params["order"])], reverse=reverse)
         for index, data_row in enumerate(r["data"]):
             myobject = {}
             for col in cols:
