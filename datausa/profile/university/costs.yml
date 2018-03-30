@@ -280,7 +280,7 @@ topics:
     slug: "default_rate"
     sumlevel: "2"
     description:
-      - "In <<var namespace=defaults|key=year>> the default rate for borrower's at <<name>> was <<var namespace=defaults|key=default_rate>>, which represents <<var namespace=defaults|key=num_defaults>> out of the <<var namespace=defaults|key=num_borrowers>> total borrowers."
+      - "In <<var namespace=defaults|key=year>> the default rate for borrower's at <<name>> was <<var namespace=defaults|key=default_rate>>, which represents <<var namespace=defaults|key=num_defaults>> out of the <<var namespace=defaults|key=num_borrowers>> {{<<sumlevel>>:2||total}}{{<<sumlevel>>:!2||median}} borrowers."
       - "A cohort default rate is the percentage of a school's borrowers who enter repayment on certain Federal Family Education Loan (FFEL) Program or William D. Ford Federal Direct Loan (Direct Loan) Program loans during a particular federal fiscal year (FY), October 1 to September 30, and default or meet other specified conditions prior to the end of the second following fiscal year."
     stat:
       - title: "<<var namespace=defaults|key=year>> Default Rate"

@@ -2,7 +2,7 @@ title: "Admissions"
 description:
   - "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> undergraduate applications in <<var namespace=admissions|key=year|row=0>>, which represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>. Out of those <<var namespace=admissions|key=applicants_total|row=0>> applicants, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment, representing a <<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>> acceptance rate."
   - "There were <<sum namespace=enrollment_status|key=num_enrolled>> students enrolled at <<name>> in <<var namespace=enrollment_status|key=year|row=0>>, and <<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of first-time enrollees submitted SAT scores with their applications."
-  - "<<name>> has an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling."
+  - "<<name>> {{<<sumlevel>>:2||has}}{{<<sumlevel>>:!2||have}} an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling."
 allowed: "<<var namespace=admissions|key=applicants_total|row=0>>:!N/A"
 
 topics:
