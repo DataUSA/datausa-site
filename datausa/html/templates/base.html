@@ -228,9 +228,7 @@
 
             if (build.loaded) {
               build.loaded = false;
-              build.container.select(".d3plus")
-                .style("width", "0px").style("height", "0px")
-                .selectAll("*").remove();
+              build.container.selectAll("*").remove();
               build.viz.height(false).width(false);
             }
 
