@@ -146,6 +146,14 @@
           </div>
         </div>
         {% endif %}
+        {% if profile.attr_type == "university" and not profile.attr.carnegie %}
+        <div class="data-source-crumb">
+          <img src="/static/img/splash/database.svg" alt="Statistics Source."/>
+          <div class="crumb-trail">
+            <a>All statistics are calculated as medians of the underlying university values.</a>
+          </div>
+        </div>
+        {% endif %}
         {% if profile.splash.viz %}
         <div class="viz thumbprint"></div>
         <script>builds.push({{ profile.splash.viz.serialize()|safe }});</script>
