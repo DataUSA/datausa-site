@@ -233,12 +233,12 @@ class Profile(BaseObject):
         def formatImage(attr, attr_type):
             url = "/static/img/splash/{}/".format(attr_type)
             image_attr = False
-            if attr["image_link"]:
+            if "image_link" in attr and attr["image_link"]:
                 image_attr = attr
             else:
                 parents = [fetch(p["id"], attr_type) for p in get_parents(attr["id"], attr_type)]
                 for p in reversed(parents):
-                    if p["image_link"]:
+                    if "image_link" in p and p["image_link"]:
                         image_attr = p
                         break
             if image_attr:
