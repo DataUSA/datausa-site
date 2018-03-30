@@ -8570,20 +8570,13 @@ viz.finish = function(build) {
   d3.select(build.container.node().parentNode).select(".org")
     .html(org_text);
 
-  if (!build.config.color) {
-    if (build.viz.attrs()[build.highlight]) {
-      build.config.color = function(d, viz) {
-        var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
-        return ids.indexOf(build.compare) >= 0 ? build.colors.compare
-             : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
-             : build.colors.sec;
-      };
-    }
-    else {
-      build.config.color = function(d, viz) {
-        return d[viz.id.value] === build.compare ? build.colors.compare : build.colors.pri;
-      };
-    }
+  if (!build.config.color || typeof build.config.color === "function" || build.config.color === "compare") {
+    build.config.color = function(d, viz) {
+      var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
+      return ids.indexOf(build.compare) >= 0 ? build.colors.compare
+           : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
+           : build.colors.sec;
+    };
     build.config.legend = false;
   }
   else if (build.config.color in attrStyles) {
