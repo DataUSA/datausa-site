@@ -622,6 +622,8 @@ class Profile(BaseObject):
                 r["{}_key".format(t)] = col1
                 val1 = self.var(namespace=ns, key=col1, row=row, format="raw")
                 val2 = self.var(namespace=ns, key=col2, row=row, format="raw")
+                if val1 == "N/A" or val2 == "N/A":
+                    return val1
                 r[t] = val1 / val2 * 100
 
             elif "var:" in key:
