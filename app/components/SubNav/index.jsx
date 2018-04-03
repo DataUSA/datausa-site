@@ -17,8 +17,4 @@ class SubNav extends Component {
 
 }
 
-SubNav.defaultProps = {
-  className: ""
-};
-
 export default SubNav;
