@@ -95,7 +95,7 @@ class Profile(BaseObject):
 
     def default_degree(self, **kwargs):
         if not self.common_degree:
-            url = "{}/api?university={}&show=degree&required=grads_total&order=grads_total&sort=desc&year=latest".format(API, self.attr["id"])
+            url = "{}/api?university={}&show=degree&required=grads_total&order=grads_total&sort=desc".format(API, self.attr["id"])
             try:
                 results = requests.get(url).json()
                 if "error" in results:
@@ -103,7 +103,7 @@ class Profile(BaseObject):
                 else:
                     results = [r for r in datafold(results)]
                     bachelor = [r for r in results if r["degree"] == "5"]
-                    if len(bachelor) > 0:
+                    if len(results) == 0 or len(bachelor) > 0:
                         self.common_degree = "5"
                     else:
                         self.common_degree = results[0]["degree"]
