@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchData, SubNav} from "datawheel-canon";
+import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
 import axios from "axios";
 import {select} from "d3-selection";
 import "./index.css";
@@ -72,7 +72,7 @@ class Profile extends Component {
     console.log(profiles);
 
     return (
-      <div id="Profile">
+      <CanonProfile>
         <Splash data={profile} comparisons={comparisons} params={params} />
         <Section data={{...profile, title: "About", slug: "about"} } comparisons={comparisons} />
         { profile.sections.map((s, i) => {
@@ -82,7 +82,7 @@ class Profile extends Component {
           </Section>;
         }) }
         <SubNav type="scroll" anchor="top" visible={() => {
-          if (!window) return false;
+          if (typeof window === undefined) return false;
           const elem = select(".Section.about").node();
           return elem.getBoundingClientRect().top <= 45;
         }}>
@@ -90,7 +90,7 @@ class Profile extends Component {
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
         </SubNav>
         { loading ? <Loading /> : null }
-      </div>
+      </CanonProfile>
     );
 
   }
