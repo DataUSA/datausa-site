@@ -7,7 +7,10 @@
   namespace: grads
 
 - required: ["year", "grad_rate", "num_finishers"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
+  limit: 1
   namespace: grad_rate
 
 - namespace: timeframe
@@ -131,8 +134,10 @@
   namespace: grads_race
 
 - required: ["year", "grads_unknown"]
+  year: all
+  order: year
+  sort: desc
   limit: 1
-  year: latest
   namespace: grads_race_unknown
 
 - force: "ipeds.grads_yu"
@@ -221,7 +226,10 @@
   namespace: enrollment_race
 
 - required: ["ipeds_race", "num_enrolled"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
+  limit: 1
   show: ipeds_race
   ipeds_race: unknown
   namespace: enrollment_race_unknown
@@ -273,12 +281,16 @@
   namespace: enrollment_grad
 
 - required: ["retention_rate_ft", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   namespace: retention
 
 - required: ["retention_rate_ft", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   university: <<carnegie>>
   namespace: retention_carnegie
@@ -291,7 +303,9 @@
   namespace: endowment
 
 - required: ["endowment_value_fiscal_year_end", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   university: <<carnegie>>
   namespace: endowment_carnegie
@@ -304,18 +318,24 @@
   namespace: investment
 
 - required: ["investment_income", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   university: <<carnegie>>
   namespace: investment_carnegie
 
 - required: ["federal_grants_and_contracts", "state_grants_and_contracts", "local_grants_and_contracts", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   namespace: grants
 
 - required: ["benefits_expense", "salaries_expense", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   namespace: expenses
 
@@ -337,18 +357,24 @@
   namespace: salaries
 
 - required: ["total_salaries", "total_expenses", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   university: <<carnegie>>
   namespace: salaries_carnegie
 
 - required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   namespace: inst_salaries
 
 - required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   university: <<carnegie>>
   namespace: inst_salaries_carnegie
@@ -437,6 +463,8 @@
   namespace: naics
 
 - required: ["year", "default_rate", "num_borrowers", "num_defaults"]
-  year: latest
+  year: all
+  order: year
+  sort: desc
   limit: 1
   namespace: defaults
