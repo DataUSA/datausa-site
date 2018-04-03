@@ -5,6 +5,7 @@
   position: fixed;
   text-align: center;
   top: 0;
+  transform: translateX(0);
   transition: background-color 0.75s;
   width: 100%;
   z-index: 21;
@@ -22,15 +23,20 @@
     top: 0;
     & .label {
       color: white;
+      display: inline-block;
       font-family: "Palanquin", sans-serif;
       font-size: 12px;
       font-weight: 600;
       opacity: 1;
+      padding-left: 10px;
       text-transform: uppercase;
       transition: opacity 0.25s ease-in-out;
       vertical-align: top;
       &.open {
         opacity: 0;
+        overflow: hidden;
+        padding-left: 0;
+        width: 0;
       }
     }
   }
@@ -65,8 +71,10 @@
   padding: 0;
   position: fixed !important;
   /* necessary for overriding blueprint */
-  transition: left 0.25s;
+  transform: translateX(0);
+  transition: transform 0.25s;
   width: 300px;
+  will-change: transform;
   & .menu-content {
     box-sizing: border-box;
     display: flex;
@@ -118,14 +126,15 @@
 }
 
 .pt-dialog-container {
-  left: 0;
   outline: 0;
-  transition: left 0.25s ease-in-out;
+  transform: translateX(0);
+  transition: transform 0.25s ease-in-out;
+  will-change: transform;
   &.slide-enter, &.slide-leave.slide-leave-active {
-    left: -300px;
+    transform: translateX(-300px);
   }
   &.slide-enter.slide-enter-active, &.slide-leave {
-    left: 0;
+    transform: translateX(0);
   }
 }
 
