@@ -17,7 +17,15 @@ def index():
 def get_img(attr_kind, attr_id, mode="thumb"):
     gobj = fetch(attr_id, attr_kind)
     my_id = gobj['id']
-    if 'image_link' not in gobj or not gobj['image_link']:
+    if attr_kind == "university" and gobj["image_link"] == None:
+        if "msa" in gobj and gobj["msa"] != None:
+            gobj = fetch(gobj["msa"], "geo")
+            attr_kind = "geo"
+        else:
+            gobj = fetch("250000", "soc")
+            attr_kind = "soc"
+        my_id = gobj['id']
+    elif 'image_link' not in gobj or not gobj['image_link']:
         parents = get_parents(attr_id, attr_kind)
         for p in reversed(parents):
             p = fetch(p["id"], attr_kind)
