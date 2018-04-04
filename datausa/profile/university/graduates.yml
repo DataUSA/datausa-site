@@ -293,6 +293,7 @@ topics:
           - university
           - pct_completed_ba
           - num_completed_ba
+      time: year
       type: "line"
       x:
         label: NO

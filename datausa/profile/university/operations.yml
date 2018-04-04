@@ -43,6 +43,7 @@ topics:
           sumlevel: 0
           required: "endowment_value_fiscal_year_end"
         id: university
+        time: year
         type: "line"
         x: year
         y: endowment_value_fiscal_year_end
@@ -54,6 +55,7 @@ topics:
           university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
           required: "endowment_value_fiscal_year_end"
         id: university
+        time: year
         type: "line"
         x: year
         y: endowment_value_fiscal_year_end
@@ -111,6 +113,7 @@ topics:
           value: "expense_value"
       id: university
       legend: NO
+      time: year
       tooltip:
         value:
           - expense_value
@@ -130,6 +133,7 @@ topics:
           value: "expense_value"
       id: expense
       legend: NO
+      time: year
       tooltip:
         value:
           - expense_value
@@ -188,6 +192,7 @@ topics:
             den: total_expenses
             value: share
         id: university
+        time: year
         type: "line"
         x: year
         y:
@@ -205,6 +210,7 @@ topics:
             den: total_expenses
             value: share
         id: university
+        time: year
         type: "line"
         x: year
         y:
@@ -236,6 +242,7 @@ topics:
               den: total_salaries
               value: share
         id: university
+        time: year
         type: "line"
         x: year
         y:
@@ -257,6 +264,7 @@ topics:
               den: total_salaries
               value: share
         id: university
+        time: year
         type: "line"
         x: year
         y:
