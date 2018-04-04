@@ -67,12 +67,23 @@ viz.finish = function(build) {
     .html(org_text);
 
   if (!build.config.color || typeof build.config.color === "function" || build.config.color === "compare") {
-    build.config.color = function(d, viz) {
-      var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
-      return ids.indexOf(build.compare) >= 0 ? build.colors.compare
-           : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
-           : build.colors.sec;
-    };
+    var ids = build.config.id;
+    if (typeof ids === "object" && !(ids instanceof Array)) ids = ids.value;
+    if (!(ids instanceof Array)) ids = [ids];
+    var attr_type = build.profile_type;
+    if (ids.indexOf(attr_type) >= 0 || (ids.indexOf("opeid") >= 0 && attr_type === "university")) {
+      build.config.color = function(d, viz) {
+        var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
+        return ids.indexOf(build.compare) >= 0 ? build.colors.compare
+             : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
+             : build.colors.sec;
+      };
+    }
+    else {
+      build.config.color = function(d, viz) {
+        return d[viz.id.value] === build.compare ? build.colors.compare : build.colors.pri;
+      };
+    }
     build.config.legend = false;
   }
   else if (build.config.color in attrStyles) {
