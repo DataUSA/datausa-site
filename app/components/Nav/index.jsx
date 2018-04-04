@@ -7,7 +7,7 @@ import "./index.css";
 
 import Hamburger from "./Hamburger";
 
-import Search from "toCanon/Search";
+import SearchButton from "./SearchButton";
 
 class Nav extends Component {
 
@@ -44,6 +44,9 @@ class Nav extends Component {
     const logo = !["/"].includes(location.pathname);
     const toggleMenu = () => this.setState({menu: !this.state.menu});
 
+    const search = !(location.pathname === "/" ||
+                   location.pathname.indexOf("/search") === 0);
+
     const splash = location.pathname === "/" ||
                    location.pathname.indexOf("/profile") === 0;
 
@@ -71,8 +74,8 @@ class Nav extends Component {
         ? <span className="nav-subtitle">{ subtitle }</span>
         : null }
 
-      { logo
-        ? <Search />
+      { search
+        ? <SearchButton />
         : null }
 
       <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>

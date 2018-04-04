@@ -130,6 +130,7 @@ class Search extends Component {
       buttonLink,
       buttonText,
       className,
+      icon,
       inactiveComponent: InactiveComponent,
       placeholder,
       resultRender
@@ -138,21 +139,23 @@ class Search extends Component {
 
     return (
       <div className={ `pt-control-group ${className} ${ active ? "active" : "" }` }  onBlur={ this.onBlur.bind(this) }>
-        { InactiveComponent ? <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> : null }
+        { InactiveComponent && <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> }
         <div className={ `pt-input-group pt-fill ${ active ? "active" : "" }` }>
-          <span className="pt-icon pt-icon-search"></span>
+          { icon && <span className="pt-icon pt-icon-search"></span> }
           <input type="text" className="pt-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} />
-          { buttonLink ? <a href={ `${buttonLink}?q=${userQuery}` } className="pt-button">{ buttonText }</a> : null }
+          { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="pt-button">{ buttonText }</a> }
         </div>
-        <ul className={ active ? "results active" : "results" }>
-          { results.map(result =>
-            <li key={ result.id } className="result" onClick={this.onClick.bind(this, result)}>
-              { resultRender(result, this.props) }
-            </li>
-          )}
-          { active && !results.length ? <li className="no-results">No Results Found</li> : null }
-          { results.length && buttonLink ? <a className="all-results pt-button pt-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
-        </ul>
+        { active && userQuery.length
+          ? <ul className={ active ? "results active" : "results" }>
+            { results.map(result =>
+              <li key={ result.id } className="result" onClick={this.onClick.bind(this, result)}>
+                { resultRender(result, this.props) }
+              </li>
+            )}
+            { !results.length && <li className="no-results">No Results Found</li> }
+            { results.length && buttonLink && <a className="all-results pt-button pt-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> }
+          </ul>
+          : null }
       </div>
     );
 
@@ -163,8 +166,9 @@ Search.defaultProps = {
   buttonLink: false,
   buttonText: "Search",
   className: "search",
+  icon: "search",
   inactiveComponent: false,
-  placeholder: "Enter a location",
+  placeholder: "Search",
   primary: false,
   resultLink: d => d.url,
   resultName: d => d.name,

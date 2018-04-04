@@ -1,0 +1,53 @@
+.SearchButton {
+  margin: 5px 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: width 0.25s ease-in-out;
+  width: 35px;
+  &.active {
+    background-color: var(--darkgray);
+    width: 250px;
+  }
+  & .ClosedButton {
+    cursor: pointer;
+    width: 35px;
+    & .pt-icon-standard {
+      color: white;
+      margin: 7px;
+      transition: transform 0.25s ease-in-out;
+      will-change: transform;
+    }
+    &.active {
+      & .pt-icon-standard {
+        transform: rotate(90deg);
+      }
+    }
+  }
+  & .pt-input-group {
+    flex: 1;
+    & input {
+      background-color: transparent;
+      border: 0;
+      box-shadow: none;
+      box-sizing: border-box;
+      color: white;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      opacity: 0;
+      outline: 0;
+      margin: 0;
+      padding: 0;
+      transition: opacity 0.25s ease-in-out;
+    }
+    &::placeholder {
+      color: var(--gray);
+    }
+    &.active {
+      & input {
+        opacity: 1;
+      }
+    }
+  }
+}
