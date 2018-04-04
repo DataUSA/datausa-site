@@ -7,6 +7,8 @@ import "./index.css";
 
 import Hamburger from "./Hamburger";
 
+import Search from "toCanon/Search";
+
 class Nav extends Component {
 
   constructor(props) {
@@ -53,14 +55,26 @@ class Nav extends Component {
         : titleCase(location.pathname.split("/")[1]);
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
+
       <div className="menu-btn" onClick={ toggleMenu }>
         <Hamburger isOpen={ menu } />
         <span className={ menu ? "label open" : "label" }>Menu</span>
       </div>
-      { logo || (dark || background) ? <Link to="/" className="home-btn">
-        <img src="/images/logo_sm.png" alt="Data USA" />
-      </Link> : null }
-      { subtitle && (dark || background) ? <span className="nav-subtitle">{ subtitle }</span> : null }
+
+      { logo || (dark || background)
+        ? <Link to="/" className="home-btn">
+          <img src="/images/logo_sm.png" alt="Data USA" />
+        </Link>
+        : null }
+
+      { subtitle && (dark || background)
+        ? <span className="nav-subtitle">{ subtitle }</span>
+        : null }
+
+      { logo
+        ? <Search />
+        : null }
+
       <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
         <div className="menu-content">
           <ul>
