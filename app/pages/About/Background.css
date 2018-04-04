@@ -13,16 +13,17 @@
       padding: 0 50px;
       position: absolute;
       top: 0;
-      transition: left 0.5s;
+      transition: transform 0.5s;
       width: 100%;
+      will-change: transform;
       &.active {
-        left: 0;
+        transform: translateX(0%);
       }
       &.next {
-        left: 100%;
+        transform: translateX(100%);
       }
       &.prev {
-        left: -100%;
+        transform: translateX(-100%);
       }
     }
     & .video-prev, & .video-next {
