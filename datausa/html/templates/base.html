@@ -241,9 +241,14 @@
             d3.select(clone).classed("compare-add", true)
               .selectAll(".stat").each(function(d, i) {
                 var stat = data.splash.stats[i];
-                d3.select(this).select(".stat-text").html(stat.title);
-                d3.select(this).select(".stat-value").html(stat.value);
-                d3.select(this).select(".stat-rank").html(stat.rank || "");
+                if (stat) {
+                  d3.select(this).select(".stat-text").html(stat.title);
+                  d3.select(this).select(".stat-value").html(stat.value);
+                  d3.select(this).select(".stat-rank").html(stat.rank || "");
+                }
+                else {
+                  d3.select(this).remove();
+                }
               });
             stats.parentNode.appendChild(clone);
 
@@ -325,7 +330,7 @@
               d3.select(this).selectAll("article").each(function() {
 
                 var slug = d3.select(this).attr("data-slug");
-                var topic = sections[anchor].topics[slug];
+                var topic = sections[anchor] ? sections[anchor].topics[slug] : false;
                 if (topic && (topic.viz || topic.stat)) {
 
                   // console.log(topic);
