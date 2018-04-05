@@ -1463,7 +1463,7 @@
                         color: #141B2E;
                         display: inline-block;
                         text-align: center;
-                        margin: 8px 50px 0 15px;
+                        margin: 8px 15px 0 15px;
                         padding: 0 0 15px 1px;
                         cursor: pointer;
                         font-family: "Palanquin", sans-serif;
@@ -1743,18 +1743,29 @@
                           .overlay#view .modal .body .panels .panel .filetypes {
                             margin: 90px 0;
                             text-align: center; }
-                            .overlay#view .modal .body .panels .panel .view-table table {
-                              width: 100%; }
-                              .overlay#view .modal .body .panels .panel .view-table thead,
-                              .overlay#view .modal .body .panels .panel .view-table tbody {
-                                font-family: "Palanquin", sans-serif; }
-                                .overlay#view .modal .body .panels .panel .view-table thead th {
-                                  padding: 3px;
-                                  font-weight: 800;
-                                  letter-spacing: 0.1em;
-                                  text-transform: uppercase;
-                                  font-size: 11px;
-                                  text-align: left; }
+                            .overlay#view .modal .body .panels .panel .view-table .data-loading {
+                              margin: 50px auto;
+                              text-align: center; }
+                              .overlay#view .modal .body .panels .panel .view-table .data-loading .fa {
+                                margin-top: 4px; }
+                            .overlay#view .modal .body .panels .panel .view-table .caveat {
+                              color: #949494;
+                              font-size: 12px;
+                              line-height: 1.3;
+                              margin-bottom: 5px;
+                              text-align: center; }
+                              .overlay#view .modal .body .panels .panel .view-table table {
+                                width: 100%; }
+                                .overlay#view .modal .body .panels .panel .view-table thead,
+                                .overlay#view .modal .body .panels .panel .view-table tbody {
+                                  font-family: "Palanquin", sans-serif; }
+                                  .overlay#view .modal .body .panels .panel .view-table thead th {
+                                    padding: 3px;
+                                    font-weight: 800;
+                                    letter-spacing: 0.1em;
+                                    text-transform: uppercase;
+                                    font-size: 11px;
+                                    text-align: left; }
                             .overlay#view .modal .body .panels .panel .view-table tbody {
                               color: #141b2e; }
                               .overlay#view .modal .body .panels .panel .view-table tbody td {
