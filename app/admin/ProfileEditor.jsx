@@ -12,39 +12,56 @@ class ProfileEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      rawData: null,
+      postData: null,
       builders: null,
-      variables: null,
       recompiling: false,
       preview: "04000US25"
     };
   }
 
   componentDidMount() {
-    const {data, builders} = this.props;
-    this.setState({data, builders, recompiling: true}, this.compileVariables.bind(this));
+    const {rawData, builders} = this.props;
+    this.setState({rawData, builders, recompiling: true}, this.compileVariables.bind(this));
   }
 
   componentDidUpdate() {
-    if (this.props.data.id !== this.state.data.id) {
-      this.setState({data: this.props.data}, this.compileVariables.bind(this));
+    if (this.props.rawData.id !== this.state.rawData.id) {
+      this.setState({rawData: this.props.rawData}, this.compileVariables.bind(this));
     }
   }
 
   compileVariables() {
-    const {slug} = this.state.data;
+    const {slug} = this.state.rawData;
     const id = this.state.preview;
     axios.get(`/api/profile/${slug}/${id}`).then(resp => {
-      const {variables} = resp.data;
-      this.setState({variables}, this.formatDisplays.bind(this));
+      const postData = resp.data;
+      this.setState({postData}, this.formatDisplays.bind(this));
     });
   }
 
   formatDisplays() {
-    const {builders, variables} = this.state;
-    const data = this.displayify(this.state.data);
-    if (data.stats) data.stats = data.stats.map(s => this.displayify(s));
-    // TODO, get Dave's help on this
+    const {builders, postData, rawData} = this.state;
+    const {variables} = postData;
+
+    for (const rkey in rawData) {
+      if (rawData.hasOwnProperty(rkey) && typeof rawData[rkey] === "string") {
+        rawData[`display_${rkey}`] = postData[rkey];
+      }
+    }
+
+    if (rawData.stats) {
+      rawData.stats = rawData.stats.map(stat => {
+        for (const skey in stat) {
+          if (stat.hasOwnProperty(skey) && typeof stat[skey] === "string") {
+            const postStat = postData.stats.find(s => s.id === stat.id);
+            if (postStat) stat[`display_${skey}`] = postStat[skey];
+          }
+        }
+        return stat;
+      });
+    }
+
     for (const g of builders.generators) {
       g.display_vars = [];
       const genStatus = variables._genStatus[g.id];
@@ -65,36 +82,13 @@ class ProfileEditor extends Component {
       }
     }
 
-    this.setState({data, builders, recompiling: false});
-  }
-
-  displayify(sourceObj) {
-    const {variables} = this.state;
-    for (const skey in sourceObj) {
-      if (sourceObj.hasOwnProperty(skey) && typeof sourceObj[skey] === "string") {
-        sourceObj[`display_${skey}`] = sourceObj[skey];
-        const re = new RegExp(/([A-z0-9]*)\{\{([A-z0-9]+)\}\}/g);
-        let m;
-        do {
-          m = re.exec(sourceObj[`display_${skey}`]);
-          if (m) {
-            // const formatter = m[1] ? formatterFunctions[m[1]] : d => d;
-            const formatter = d => d;
-            const reswap = new RegExp(`${m[0]}`, "g");
-            sourceObj[`display_${skey}`] = sourceObj[`display_${skey}`].replace(reswap, formatter(variables[m[2]]));
-            // sourceObj[skey] = sourceObj[skey].replace(m[0], formatter(variables[m[2]]));
-            //console.log("after", sourceObj[`display_${skey}`]);
-          }
-        } while (m);
-      }
-    }
-    return sourceObj;
+    this.setState({postData, builders, recompiling: false});
   }
 
   changeField(field, e) {
-    const {data} = this.state;
-    data[field] = e.target.value;
-    this.setState({data});
+    const {rawData} = this.state;
+    rawData[field] = e.target.value;
+    this.setState({rawData});
   }
 
   handleEditor(field, t) {
@@ -115,23 +109,23 @@ class ProfileEditor extends Component {
   }
 
   deleteItem(item, type) {
-    const {data, builders} = this.state;
+    const {rawData, builders} = this.state;
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
           if (type === "generator") builders.generators = builders.generators.filter(g => g.id !== item.id);
           if (type === "materializer") builders.materializers = builders.materializers.filter(m => m.id !== item.id);
-          if (type === "stat_profile") data.stats = data.stats.filter(s => s.id !== item.id);
-          if (type === "visualization_profile") data.visualizations = data.visualizations.filter(v => v.id !== item.id);
-          this.setState({data, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
+          if (type === "stat_profile") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
+          if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
+          this.setState({rawData, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
         }
       });
     }
   }
 
   addItem(type) {
-    const {data, builders} = this.state;
+    const {rawData, builders} = this.state;
     let payload;
     if (type === "generator") {
       payload = {
@@ -139,7 +133,7 @@ class ProfileEditor extends Component {
         api: "http://api-goes-here",
         description: "New Description",
         logic: "return {}",
-        profile_id: data.id
+        profile_id: rawData.id
       };
       axios.post("/api/cms/generator/new", payload).then(resp => {
         if (resp.status === 200) {
@@ -157,7 +151,7 @@ class ProfileEditor extends Component {
         description: "New Description",
         logic: "return {}",
         ordering: builders.materializers.length,
-        profile_id: data.id
+        profile_id: rawData.id
       };
       axios.post("/api/cms/materializer/new", payload).then(resp => {
         if (resp.status === 200) {
@@ -174,12 +168,12 @@ class ProfileEditor extends Component {
         title: "New Stat",
         subtitle: "New Subtitle",
         value: "New Value",
-        profile_id: data.id
+        profile_id: rawData.id
       };
       axios.post("/api/cms/stat_profile/new", payload).then(resp => {
         if (resp.status === 200) {
-          data.stats.push(resp.data);
-          this.setState({data, recompiling: true}, this.compileVariables.bind(this));
+          rawData.stats.push(resp.data);
+          this.setState({rawData, recompiling: true}, this.compileVariables.bind(this));
         }
         else {
           console.log("db error");
@@ -189,12 +183,12 @@ class ProfileEditor extends Component {
     else if (type === "visualization") {
       payload = {
         logic: "return {}",
-        profile_id: data.id
+        profile_id: rawData.id
       };
       axios.post("/api/cms/visualization_profile/new", payload).then(resp => {
         if (resp.status === 200) {
-          data.visualizations.push(resp.data);
-          this.setState({data, recompiling: true}, this.compileVariables.bind(this));
+          rawData.visualizations.push(resp.data);
+          this.setState({rawData, recompiling: true}, this.compileVariables.bind(this));
         }
         else {
           console.log("db error");
@@ -217,9 +211,9 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {data, builders, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {rawData, builders, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
-    if (!data || !builders) return <Loading />;
+    if (!rawData || !builders) return <Loading />;
 
     const generators = builders.generators.map(g =>
       <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
@@ -239,7 +233,7 @@ class ProfileEditor extends Component {
       </Card>
     );
 
-    const stats = data.stats.map(s =>
+    const stats = rawData.stats.map(s =>
       <Card key={s.id} onClick={this.openTextEditor.bind(this, s, "stat", ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h6>title</h6>
         <div dangerouslySetInnerHTML={{__html: s.display_title}} />
@@ -250,7 +244,7 @@ class ProfileEditor extends Component {
       </Card>
     );
 
-    const visualizations = data.visualizations.map(v =>
+    const visualizations = rawData.visualizations.map(v =>
       <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <p>{v.logic}</p>
       </Card>
@@ -343,7 +337,7 @@ class ProfileEditor extends Component {
         <div id="slug">
           <label className="pt-label">
             slug
-            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={data.slug} onChange={this.changeField.bind(this, "slug")}/>
+            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
           </label>
         </div>
 
@@ -377,13 +371,13 @@ class ProfileEditor extends Component {
           <div className="cms-header">
             SPLASH
           </div>
-          <Card className="splash-card" onClick={this.openTextEditor.bind(this, data, "profile", ["title", "subtitle", "description"])} interactive={true} elevation={Card.ELEVATION_ONE}>
+          <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle", "description"])} interactive={true} elevation={Card.ELEVATION_ONE}>
             <h6>title</h6>
-            <div dangerouslySetInnerHTML={{__html: data.display_title}} /><br/>
+            <div dangerouslySetInnerHTML={{__html: rawData.display_title}} /><br/>
             <h6>subtitle</h6>
-            <div dangerouslySetInnerHTML={{__html: data.display_subtitle}} /><br/>
+            <div dangerouslySetInnerHTML={{__html: rawData.display_subtitle}} /><br/>
             <h6>description</h6>
-            <div dangerouslySetInnerHTML={{__html: data.display_description}} /><br/>
+            <div dangerouslySetInnerHTML={{__html: rawData.display_description}} /><br/>
           </Card>
         </div>
 
