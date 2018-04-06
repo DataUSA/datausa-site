@@ -1,6 +1,10 @@
+:root {
+  --nav-search-width: 250px;
+}
+
 .SearchButton {
-  margin: 5px 0;
-  overflow: hidden;
+  margin: 5px;
+  overflow: visible;
   position: absolute;
   right: 0;
   top: 0;
@@ -8,7 +12,7 @@
   width: 35px;
   &.active {
     background-color: var(--darkgray);
-    width: 250px;
+    width: var(--nav-search-width);
   }
   & .ClosedButton {
     cursor: pointer;
@@ -42,12 +46,74 @@
       transition: opacity 0.25s ease-in-out;
     }
     &::placeholder {
-      color: var(--gray);
+      color: var(--lightgray);
     }
     &.active {
       & input {
         opacity: 1;
       }
+    }
+  }
+  & .results {
+    background-color: var(--darkgray);
+    border-radius: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    display: none;
+    left: 0;
+    list-style: none;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: scroll;
+    padding: 0;
+    position: absolute;
+    top: 40px;
+    width: var(--nav-search-width);
+    &.active {
+      display: block;
+    }
+    & .result {
+      padding: 7px 6px;
+      text-align: left;
+      transition: background-color 0.25s;
+      &:hover {
+        background-color: var(--gray);
+        cursor: pointer;
+      }
+      & img {
+        display: inline-block;
+        margin-right: 6px;
+        vertical-align: top;
+        width: 26px;
+      }
+      & .result-text {
+        display: inline-block;
+        & .title {
+          color: white;
+          font-size: 14px;
+          line-height: 1.25;
+          margin-bottom: 2px;
+        }
+        & .sumlevel {
+          color: var(--lightgray);
+          font-size: 11px;
+          letter-spacing: 1px;
+          line-height: 1.15;
+          font-weight: 700;
+          margin-top: 3px;
+          text-transform: uppercase;
+        }
+      }
+    }
+    & .all-results, & .no-results {
+      background-color: var(--darkgray);
+      border: 0;
+      box-shadow: none;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      text-transform: uppercase;
     }
   }
 }

@@ -153,7 +153,7 @@ class Search extends Component {
               </li>
             )}
             { !results.length && <li className="no-results">No Results Found</li> }
-            { results.length && buttonLink && <a className="all-results pt-button pt-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> }
+            { results.length && buttonLink ? <a className="all-results pt-button pt-fill" href={ `${buttonLink}?q=${userQuery}` }>Show All Results</a> : null }
           </ul>
           : null }
       </div>
