@@ -15,6 +15,7 @@ class ProfileBuilder extends Component {
     this.state = {
       mounted: false,
       nodes: null,
+      profiles: null,
       builders: null,
       currentNode: null
     };
@@ -23,42 +24,45 @@ class ProfileBuilder extends Component {
   componentDidMount() {
     axios.get("/api/internalprofile/all").then(resp => {
       const {builders, profiles} = resp.data;
-      
-      let nodes = profiles.map(p => ({
-        id: `profile${p.id}`,
-        hasCaret: true,
-        label: p.slug,
-        itemType: "profile",
-        parent: {childNodes: []},
-        data: p,
-        childNodes: p.sections.map(s => ({
-          id: `section${s.id}`,
-          hasCaret: true,
-          label: s.title,
-          itemType: "section",
-          data: s,
-          childNodes: s.topics.map(t => ({
-            id: `topic${t.id}`,
-            hasCaret: false,
-            label: t.title,
-            itemType: "topic",
-            data: t
-          }))
-        }))
-      }));
-      const parent = {childNodes: nodes};
-      nodes = nodes.map(p => ({...p, 
-        parent,
-        childNodes: p.childNodes.map(s => ({...s, 
-          parent: p,
-          childNodes: s.childNodes.map(t => ({...t, 
-            parent: s
-          }))
-        })
-        )}));
-
-      this.setState({mounted: true, nodes, builders});
+      this.setState({mounted: true, profiles, builders}, this.buildNodes.bind(this));
     });
+  }
+
+  buildNodes() {
+    const {profiles} = this.state;
+    let nodes = profiles.map(p => ({
+      id: `profile${p.id}`,
+      hasCaret: true,
+      label: p.slug,
+      itemType: "profile",
+      parent: {childNodes: []},
+      data: p,
+      childNodes: p.sections.map(s => ({
+        id: `section${s.id}`,
+        hasCaret: true,
+        label: s.title,
+        itemType: "section",
+        data: s,
+        childNodes: s.topics.map(t => ({
+          id: `topic${t.id}`,
+          hasCaret: false,
+          label: t.title,
+          itemType: "topic",
+          data: t
+        }))
+      }))
+    }));
+    const parent = {childNodes: nodes};
+    nodes = nodes.map(p => ({...p, 
+      parent,
+      childNodes: p.childNodes.map(s => ({...s, 
+        parent: p,
+        childNodes: s.childNodes.map(t => ({...t, 
+          parent: s
+        }))
+      })
+      )}));
+    this.setState({nodes});
   }
 
   moveItem(n, dir) {
@@ -99,11 +103,31 @@ class ProfileBuilder extends Component {
     this.setState({nodes: this.state.nodes});
   }
 
-  reportSave(newData) {
-    /*const {currentNode} = this.state;
-    if (currentNode.itemType === "island" || currentNode.itemType === "level") currentNode.label = newData.name;
-    if (currentNode.itemType === "slide") currentNode.label = newData.title;
-    this.setState({currentNode});*/
+  // If a save occurs in any of the editors, the user may have changed a slug. Though this changes the underlying data,
+  // it does not change the blueprint Tree Object's label.  This hard-coded nested map refreshes all the labels based on the data.
+  updateLabels() {
+    const {nodes} = this.state;
+    nodes.map(p => {
+      p.label = p.data.slug;
+      if (p.childNodes) {
+        p.childNodes.map(s => {
+          s.label = s.data.title;
+          if (s.childNodes) {
+            s.childNodes.map(t => {
+              t.label = t.data.title;
+              return t;
+            });
+          }
+          return s;
+        });
+      }
+      return p;
+    });
+    this.setState({nodes});
+  }
+
+  reportSave() {
+    this.updateLabels();
   }
 
   render() {

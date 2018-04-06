@@ -22,16 +22,16 @@ class ProfileEditor extends Component {
 
   componentDidMount() {
     const {rawData, builders} = this.props;
-    this.setState({rawData, builders, recompiling: true}, this.compileVariables.bind(this));
+    this.setState({rawData, builders, recompiling: true}, this.fetchPostData.bind(this));
   }
 
   componentDidUpdate() {
     if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData}, this.compileVariables.bind(this));
+      this.setState({rawData: this.props.rawData}, this.fetchPostData.bind(this));
     }
   }
 
-  compileVariables() {
+  fetchPostData() {
     const {slug} = this.state.rawData;
     const id = this.state.preview;
     axios.get(`/api/profile/${slug}/${id}`).then(resp => {
@@ -82,7 +82,7 @@ class ProfileEditor extends Component {
       }
     }
 
-    this.setState({postData, builders, recompiling: false});
+    this.setState({rawData, builders, recompiling: false});
   }
 
   changeField(field, e) {
@@ -91,18 +91,13 @@ class ProfileEditor extends Component {
     this.setState({rawData});
   }
 
-  handleEditor(field, t) {
-    const {data} = this.state;
-    data[field] = t;
-    this.setState({data});
-  }
-
   saveItem(item, type) {
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
+          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData());
+          if (this.props.reportSave) this.props.reportSave();
         }
       });
     }
@@ -118,7 +113,7 @@ class ProfileEditor extends Component {
           if (type === "materializer") builders.materializers = builders.materializers.filter(m => m.id !== item.id);
           if (type === "stat_profile") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
           if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
-          this.setState({rawData, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.compileVariables());
+          this.setState({rawData, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData());
         }
       });
     }
@@ -138,7 +133,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/generator/new", payload).then(resp => {
         if (resp.status === 200) {
           builders.generators.push(resp.data);
-          this.setState({builders, recompiling: true}, this.compileVariables.bind(this));
+          this.setState({builders, recompiling: true}, this.fetchPostData.bind(this));
         }
         else {
           console.log("db error");
@@ -156,7 +151,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/materializer/new", payload).then(resp => {
         if (resp.status === 200) {
           builders.materializers.push(resp.data);
-          this.setState({builders, recompiling: true}, this.compileVariables.bind(this));
+          this.setState({builders, recompiling: true}, this.fetchPostData.bind(this));
         }
         else {
           console.log("db error");
@@ -173,7 +168,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/stat_profile/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.stats.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.compileVariables.bind(this));
+          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
         }
         else {
           console.log("db error");
@@ -188,7 +183,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/visualization_profile/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.visualizations.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.compileVariables.bind(this));
+          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
         }
         else {
           console.log("db error");
@@ -196,6 +191,11 @@ class ProfileEditor extends Component {
       });
     }
   }
+
+  /*renameSlug() {
+    axios.post(`/api/cms/profile/update`, this.state.rawData).then(resp => {
+      console.log
+  }*/
 
   openGeneratorEditor(g, type) {
     this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
@@ -206,7 +206,7 @@ class ProfileEditor extends Component {
   }
 
   closeWindow(key) {
-    this.setState({[key]: false}, this.compileVariables.bind(this));
+    this.setState({[key]: false}, this.fetchPostData.bind(this));
   }
 
   render() {
@@ -324,7 +324,7 @@ class ProfileEditor extends Component {
 
         <div id="preview-as">
           <div className="pt-select">
-            <select value={this.state.preview} onChange={e => this.setState({preview: e.target.value}, this.compileVariables.bind(this))}>
+            <select value={this.state.preview} onChange={e => this.setState({preview: e.target.value}, this.fetchPostData.bind(this))}>
               {
                 ["04000US25", "04000US32", "04000US34"].map(s =>
                   <option value={s} key={s}>{s}</option>
@@ -337,8 +337,10 @@ class ProfileEditor extends Component {
         <div id="slug">
           <label className="pt-label">
             slug
-            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
+            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>  
           </label>
+          <button onClick={this.saveItem.bind(this, rawData, "profile")}>rename</button>
+          
         </div>
 
         <div className="generators">
