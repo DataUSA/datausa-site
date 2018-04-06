@@ -1,5 +1,38 @@
 const axios = require("axios");
 
+const profileReqWithGens = {   
+  include: [
+    {
+      association: "generators"
+    }, 
+    {
+      association: "materializers"
+    }, 
+    {
+      association: "visualizations"
+    }, 
+    {
+      association: "stats"
+    },
+    { 
+      association: "sections", 
+      include: [
+        {
+          association: "topics", 
+          include: [
+            {
+              association: "visualizations"
+            },
+            {
+              association: "stats"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
 const profileReq = {   
   include: [
     {
@@ -66,7 +99,7 @@ module.exports = function(app) {
       db.generators.findAll(),
       db.materializers.findAll(),
       db.formatters.findAll(),
-      db.profiles.findAll(profileReq)
+      db.profiles.findAll(profileReqWithGens)
     ]).then(resp => {
       res.json({
         builders: {
