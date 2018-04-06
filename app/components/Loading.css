@@ -1,6 +1,6 @@
 .Loading {
   background-color: var(--dark);
-  color: var(--gray);
+  color: var(--lightgray);
   height: 100vh;
   left: 0;
   max-width: none;
@@ -16,6 +16,6 @@
     }
   }
   & .pt-non-ideal-state-title {
-    color: var(--gray);
+    color: var(--lightgray);
   }
 }

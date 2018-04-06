@@ -5,5 +5,7 @@ red: "#ef6145"
 dark: "#141b2e"
 black: "#1B191D"
 purple: "#b29dc7"
+
 darkgray: "#434958"
-gray: "#b8c0d4"
+gray: "#727682"
+lightgray: "#b8c0d4"
