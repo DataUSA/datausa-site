@@ -32,10 +32,12 @@ class Search extends Component {
 
   onChange(e) {
 
-    const userQuery = e.target.value;
-    const {limit, url}  = this.props;
+    const userQuery = e ? e.target.value : "";
+    const {limit, searchEmpty, url}  = this.props;
 
-    if (userQuery.length === 0) this.setState({active: true, results: [], userQuery});
+    if (!searchEmpty && userQuery.length === 0) {
+      this.setState({active: true, results: [], userQuery});
+    }
     else if (url) {
       axios.get(`${url}?q=${strip(userQuery)}`)
         .then(res => res.data)
@@ -67,7 +69,7 @@ class Search extends Component {
 
   componentDidMount() {
 
-    const {primary} = this.props;
+    const {primary, searchEmpty} = this.props;
     const {id} = this.state;
 
     select(document).on(`keydown.${ id }`, () => {
@@ -122,6 +124,8 @@ class Search extends Component {
 
     }, false);
 
+    if (searchEmpty) this.onChange.bind(this)();
+
   }
 
   render() {
@@ -133,7 +137,8 @@ class Search extends Component {
       icon,
       inactiveComponent: InactiveComponent,
       placeholder,
-      resultRender
+      resultRender,
+      searchEmpty
     } = this.props;
     const {active, results, userQuery} = this.state;
 
@@ -145,7 +150,7 @@ class Search extends Component {
           <input type="text" className="pt-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} />
           { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="pt-button">{ buttonText }</a> }
         </div>
-        { active && userQuery.length
+        { searchEmpty || active && userQuery.length
           ? <ul className={ active ? "results active" : "results" }>
             { results.map(result =>
               <li key={ result.id } className="result" onClick={this.onClick.bind(this, result)}>
@@ -173,6 +178,7 @@ Search.defaultProps = {
   resultLink: d => d.url,
   resultName: d => d.name,
   resultRender: (d, props) => <span>{ props.resultName(d) }</span>,
+  searchEmpty: false,
   url: false
 };
 

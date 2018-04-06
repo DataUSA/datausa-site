@@ -1,0 +1,31 @@
+import React, {Component} from "react";
+
+import Search from "toCanon/Search";
+
+import "./SearchPage.css";
+
+export default class SearchPage extends Component {
+
+  render() {
+
+    return (
+      <div id="SearchPage">
+        <Search
+          placeholder={ "Find a profile..." }
+          primary={ true }
+          resultLink={ d => `/profile/${d.type}/${d.id}` }
+          resultRender={d => <div>
+            <img src={ `/images/icons/${d.type}_c.svg` } />
+            <div className="result-text">
+              <div className="title">{ d.name }</div>
+              <div className="sumlevel">{ d.sumlevel }</div>
+            </div>
+          </div>}
+          searchEmpty={ true }
+          url={ "/api/search/" } />
+      </div>
+    );
+
+  }
+
+}

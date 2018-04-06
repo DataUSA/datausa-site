@@ -4,7 +4,7 @@ import {Route, IndexRoute, browserHistory} from "react-router";
 import App from "./App";
 import Home from "./pages/Home/index";
 
-import Search from "./pages/Search";
+import SearchPage from "./pages/SearchPage";
 import Profile from "./profile/index";
 
 import Stories from "./pages/Stories";
@@ -35,7 +35,7 @@ export default function RouteCreate() {
 
       <IndexRoute component={Home} />
 
-      <Route path="/search" component={Search} />
+      <Route path="/search" component={SearchPage} />
       <Route path="/profile/:pslug/:pid" component={Profile} />
 
       <Route path="/story" component={Stories} />
