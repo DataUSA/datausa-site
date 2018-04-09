@@ -1,0 +1,59 @@
+title: "Keeping America on its feet"
+background_image: "/static/img/splash/soc/291081.jpg"
+authors:
+  - name: Amrita Datar
+    title: Public Sector Research, Deloitte Services India Ltd.
+    img: "/static/img/story/authors/datar.png"
+    about:
+      - "Amrita is a Senior Research Analyst in Deloitte’s Public Sector Research group. Her research and writing focuses on emerging trends at the intersection of technology, business, and society and how they could influence the public sector. Amrita holds Bachelor’s and Master’s degrees in Economics from the University of Mumbai."
+  - name: Pulkit Kapoor
+    title: Public Sector Research, Deloitte Services India Ltd.
+    img: "/static/img/story/authors/kapoor.png"
+    about:
+      - "Pulkit is a Senior Research Analyst in the Public Sector Research group. He is primarily responsible for analyzing data to generate insights and perspectives, storyboarding and framework formulation. Pulkit holds a BA (Hons.) in Economics from University of Delhi and a Master’s in Economics from Jawaharlal Nehru University, Delhi."
+
+topics:
+  - description:
+      - "Consider this: the average person will walk over 115,000 miles in their lifetime. And with every mile, their feet—each made up of 26 bones, 33 joints, 107 ligaments, and over 20 muscles<<foot note=1>>—will hit the ground 1,800 times. It’s not surprising that three out of four Americans will experience foot problems in their lifetime.<<foot note=2>>"
+      - "And yet, in a population of 300 million, there are only 7,025 podiatrists, making it the least common occupation in the United States. In a list of 478 detailed occupations on DataUSA, a podiatrist is at the very bottom, outnumbered even by motion-picture projectionists."
+  - title: Most Common Jobs in the United States
+    class: constrained
+    viz:
+      - attrs: "soc"
+        color: "bottom"
+        data:
+          - geo: "01000US"
+            limit: "5"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "asc"
+            show: "geo,soc"
+            sumlevel: "nation,3"
+            where: "num_ppl:!0"
+        height: 250
+        id: "soc"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Bottom 5 Least Common"
+          scale: "discrete"
+          value: "soc"
+  - description: "But what podiatrists may lack in numbers, they make up for in earnings. Given their short supply and high level of specialization, the average podiatrist makes three times as much as the average American ($156,073 vs $47,390). Over a quarter earn upwards of $200,000 annually, placing them behind only two other work groups—physicians/surgeons and dentists."
+  - title: Wage Distribution for Podiatrists
+    class: constrained
+    viz_url: "/profile/soc/291081/employment/wage_distribution"
+  - description:
+      - "With one podiatrist for every 45,000 Americans, they’re likely to find demand anywhere in the country. Still, podiatrists in Iowa are paid significantly more than in other states, with the average podiatrist earning up to $270,000 annually in the state."
+      - "So what does the future hold for the occupation? The median age of podiatrists in the US is about 47 years—a whole 10 years more than the median age of the American population. This means that about half of current podiatrists will retire over the next 18 years (assuming retirement at the age of 65. The profession, however, is expected to grow rapidly in the years to come. Projections suggest that the number of podiatrists will reach 11,000 by the year 2024<<foot note=3>>. But will that be enough to keep America on its feet?"
+  - title: Wage by Location for Podiatrists
+    class: constrained
+    viz_url: "/profile/soc/291081/employment/wage_locations"
+
+footnotes:
+  - "Illinois Podiatric Medical Association, \"Resources for Patients: Podiatry Facts & Statistics,\" Accessed March 20, 2016<br><a href='http://www.ipma.net/?page=15' target='_blank'>http://www.ipma.net/?page=15</a>"
+  - College Foundation of North Carolina, "Podiatrists See a Great Future in Feet," Accessed March 20, 2016<br><a href='https://www1.cfnc.org/Plan/For_A_Career/Career_Cluster_Profile/Cluster_Article.aspx?articleId=2O30Aq2oXM4oH1uSaLzHuAXAP3DPAXXAP3DPAX&cId=BufXemcmHBSoBjt9hbo0XAP2BPAXwXAP3DPAXXAP3DPAX&sectionId=3' target='_blank'>https://www1.cfnc.org/Plan/For_A_Career/Career_Cluster_Profile/Cluster_Article.aspx?articleId=2O30Aq2oXM4oH1uSaLzHuAXAP3DPAXXAP3DPAX&cId=BufXemcmHBSoBjt9hbo0XAP2BPAXwXAP3DPAXXAP3DPAX&sectionId=3</a>
+  - "Bureau of Labor Statistics, \"Occupational Outlook Handbook: Employment projections program,\" Accessed March 23, 2016<br><a href='http://www.bls.gov/ooh/healthcare/podiatrists.htm#tab-6' target='_blank'>http://www.bls.gov/ooh/healthcare/podiatrists.htm#tab-6</a>"

@@ -1,0 +1,78 @@
+title: "Characteristics of Powerful Occupations"
+background_image: "/static/img/story/rushmore.jpg"
+authors:
+  - name: "Danny Bachman, Ph.D."
+    img: "/static/img/story/authors/bachman.png"
+    twitter: https://twitter.com/bachman_d
+    about:
+      - "Danny Bachman is in charge of U.S. economic forecasting for Deloitte’s Eminence and Strategy functions. He is an experienced U.S. and international macroeconomic forecaster and modeler. Dr. Bachman came to Deloitte from IHS economics, where he was in charge of IHS’s Center for Forecasting and Modeling. Prior to that, he worked as a forecaster and economic analyst at the US Commerce Department, was responsible for U.S. economic forecasting and modeling at WEFA (previously Wharton Econometric Forecasting Associates) and taught international economics at Temple University. His first professional job was at Israel’s Ministry of Finance."
+      - "Dr. Bachman is a native of Philadelphia. He has a B.A. from Johns Hopkins and Ph.D. from Brown University. Dr. Bachman lives in Rockville, Maryland with his wife, but without his two millennial children, who—evidently defying the odds—have not returned home after college. Yet."
+topics:
+  - description:
+      - "US government statisticians have identified 478 detailed occupational categories. All play a role in the economy. Each occupation adds value through a unique set of skills and provides people employed in that occupation with income and the satisfaction of knowing they contribute to the entire country’s well-being. But, let’s face it, some occupations are more equal than others. Some people do, indeed, wield more power—power to make decisions that profoundly affect their fellow citizens. Through the lens of Data USA, we can learn something about those people."
+      - "The Census Bureau identifies these occupations as “Chief Executives and Legislators,” and counts some 1.1 million people in this category (out of about 145 million people working in the U.S. economy). Not surprisingly, the occupation is well paid—the fourth highest paid occupation in the database.<<foot note=1>>"
+      - "Chief executives are spread widely among industries, since just about any company needs somebody in charge. Industries which most commonly employ chief executives are those that are relatively fragmented, with many competing companies. As the figure shows, there are more chief executives in construction—a very fragmented and competitive industry—than in any other industry."
+  - title: Most Common Industries that Employ Chief Executives & Legislators
+    class: constrained
+    viz:
+      - attrs: "naics"
+        color: "top"
+        data:
+          - soc: "1110XX"
+            limit: "5"
+            order: "num_ppl"
+            required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+            where: "num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "num_ppl"
+        type: "bar"
+        x: "num_ppl"
+        y:
+          label: "Most Common Industries"
+          scale: "discrete"
+          value: "naics"
+
+  - description:
+      - "When it comes to pay, chief executives earn the most in computer equipment manufacturing, pharmaceutical and medicine manufacturing, paint, coating and adhesive manufacturing, and petroleum-related industries. Chief executives in public administration and legislators are among the lowest paid of all people with this occupation."
+  - title: Highest Paid Industries that Employ Chief Executives & Legislators
+    class: constrained
+    viz:
+      - attrs: "naics"
+        color: "top"
+        data:
+          - soc: "1110XX"
+            limit: "5"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "naics"
+            sumlevel: "2"
+            where: "num_records:>4"
+        height: 200
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Highest Paying Industries"
+          scale: "discrete"
+          value: "naics"
+
+
+  - description:
+      - "And to become a chief executive? About 42% of chief executive studied business in college. That doesn’t mean business is the best route to being in charge. Only 2.8% of business majors are chief executives, so the probability of turning that business major into the corner office is smaller than you might think. And plenty of chief executives studied other subjects, from the technical (10% are engineers) to the supposedly non-marketable (2.5% were English majors). It’s not surprising that business draws on a wide variety of skills and knowledge bases, and it’s a tribute to US companies that they can find the value of people with such varied backgrounds."
+  - title: Most Common Majors for Chief Executives & Legislators
+    viz_url: "/profile/soc/1110XX/education/majors"
+
+footnotes:
+  - "Who earns more? Physicians and surgeons, dentists, and podiatrists, that’s who. These health care professionals spend much more time being educated than other professionals—and these figures include chief executives of smaller organizations that may not be so well paid."

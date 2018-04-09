@@ -1,0 +1,48 @@
+title: "Physicians earn top Medicare payments caring for Sunshine State seniors"
+background_image: "/static/img/splash/geo/31000US33100.jpg"
+authors:
+  - name: "Steve Davis"
+    img: "/static/img/story/authors/davis.jpg"
+    about:
+      - "Steve Davis is a health research and policy writer in Deloitte’s Center for Health Solutions. He joined the Center in March 2017 after more than two decades working as a health care journalist in Washington, DC. Most recently, he was the managing editor of Health Plan Week, where he covered health insurance and health policy. Steve also has reported on hospital facilities, infection control and security issues."
+
+topics:
+  - description:
+      - "Florida is home to the nation’s second-largest population of Medicare beneficiaries, behind California, which is understandable: What better way to spend your retirement years than enjoying sun and balmy ocean breezes?"
+  - viz:
+      attrs: "geo"
+      color: "physician_reimbursements_b"
+      coords: "counties"
+      data:
+        - required: "physician_reimbursements_b"
+          show: "geo"
+          sumlevel: "county"
+      id: "geo"
+      type: "geo_map"
+  - description:
+      - "The physicians who care for Florida seniors appear to be doing pretty well, too — and not only because there are so many seniors there. Independent doctors in the Sunshine State bring in more money per Medicare enrollee—$3,699 annually—than physicians in any other state. Indeed, of the five US counties with the highest per-enrollee spending from Medicare, all but one is in Florida. Among more than 3,100 counties nationally, Medicare physician payments are highest in Palm Beach County, with an average of $4,622 per member, according to Data USA (based on information from Dartmouth Atlas of Health, which adjusts for race, age, sex, and regional price differences).<<foot note=1>> In 2015, the county was home to 153,766 Medicare enrollees, and not far behind is Sumter County, where residents’ median age is 65.3, making Sumter the nation’s oldest county."
+      - "<b>Highest average Medicare physician reimbursement (per enrollee) by county</b>"
+      - "<table><tbody><tr><td>1. Palm Beach County, FL</td><td>$4,622</td></tr><tr><td>2. Sumter County, FL</td><td>$4,227</td></tr><tr><td>3. Kings County, NY</td><td>$4,171</td></tr><tr><td>4. Hernando County, FL</td><td>$4,102</td></tr><tr><td>5. Charlotte County, FL</td><td>$4,050</td></tr><tr><td>6. Okeechobee County, FL</td><td>$4,031</td></tr><tr><td>7. Jim Hogg County, TX</td><td>$4,022</td></tr><tr><td>8. Collier County, FL</td><td>$3,977</td></tr><tr><td>9. Marion County,FL</td><td>$3,961</td></tr><tr><td>10. Lee County, FL</td><td>$3,956</td></tr></tbody></table>"
+      - "Physicians’ landlocked counterparts in Vermont, Montana, and South Dakota, by contrast, receive among the nation’s lowest Medicare per-patient payments. Those in Essex County, Vermont, take in an average of only $893 per Medicare patient—about one-fifth of the payments of some of their Gator Country colleagues."
+  - viz:
+      attrs: "geo"
+      color: "hospital_reimbursements_b"
+      coords: "counties"
+      data:
+        - required: "hospital_reimbursements_b"
+          show: "geo"
+          sumlevel: "county"
+      id: "geo"
+      type: "geo_map"
+  - description:
+      - "When it comes to total Medicare reimbursements, things aren’t so sunny: In terms of per-enrollee spending, Florida doesn’t even crack the top 10 among states. Hospitals in two rural Kansas counties receive the nation’s largest per-enrollee Medicare payments in the nation, based on 2014 data from Data USA. In Trego County, the average per-enrollee payment is $11,738, and Lincoln County is about $2,000 behind, with an average of $9,644;<<foot note=2>> each county has only one hospital."
+      - "<b>Highest average Medicare hospital reimbursement (per enrollee) by county:</b>"
+      - "<table><tbody><tr><td>1. Trego County, KS</td><td>$11,738</td></tr><tr><td>2. Lincoln County, KS</td><td>$9,644</td></tr><tr><td>3. Red River Parish, LA</td><td>$8,678</td></tr><tr><td>4. Scotland County, MO</td><td>$8,098</td></tr><tr><td>5. St. Bernard Parish, LA</td><td>$7,861</td></tr><tr><td>6. Cumberland County, KY</td><td>$7,833</td></tr><tr><td>7. Petroleum County, MT</td><td>$7,829</td></tr><tr><td>8. Simpson County, KY</td><td>$7,758</td></tr><tr><td>9. Franklin County, KY</td><td>$7,714</td></tr><tr><td>10. Crane County, TX</td><td>$7,670</td></tr></tbody></table>"
+      - "Trying to understand exactly why the discrepancies are so striking is a challenge, particularly since Medicare payment rates for hospitals and medical services have historically varied widely by state and by county. One county might have an unusual number of seniors enrolled in lower-paying Medicare Advantage plans; a neighboring county’s hospital might be a state-of-the-art facility that aims to attract high-cost patients from other parts of the state."
+      - "The health of a county’s population could also be a factor. Higher spending on physician services might also have an impact on Medicare spending for hospitals: Medicare payments for outpatient hospital visits in Florida are among the nation’s lowest, averaging $1,291 per enrollee; by contrast, North Dakota has the nation’s highest Medicare outpatient payment rates at $2,434 but some of the lowest rates for physician payments. As Dartmouth notes: \"While price differences explain some of the regional variation in Medicare spending, our studies suggest that utilization—the volume of services delivered—is a far more important driver of Medicare regional payment variation than price differences.\"<<foot note=3>> In other words, while the weather—whether Florida sun or Vermont snow—might play a minor role, those looking at how to reduce medical costs should take a closer look at hospitals’ style of treatment, along with their \"supply of resources such as hospital beds and specialist physicians.\"<<foot note=4>>"
+
+footnotes:
+  - "Data USA, \"Physician reimbursements per Medicare enrollee,\" <a target='_blank' href='http://sunbird.datausa.io/map/?level=county&key=physician_reimbursements_b'>http://sunbird.datausa.io/map/?level=county&key=physician_reimbursements_b</a>"
+  - "Data USA, \"Hospital reimbursements per Medicare enrollee,\" <a target='_blank' href='http://sunbird.datausa.io/map/?level=county&key=hospital_reimbursements_b'>http://sunbird.datausa.io/map/?level=county&key=hospital_reimbursements_b</a>"
+  - "Dartmouth Atlas of Health Care, \"Medicare reimbursements\" <a target='_blank' href='www.dartmouthatlas.org/data/topic/topic.aspx?cat=21'>www.dartmouthatlas.org/data/topic/topic.aspx?cat=21</a>"
+  - "Dartmouth Atlas of Health Care, \"FAQ,\" <a target='_blank' href='www.dartmouthatlas.org/tools/faq/'>www.dartmouthatlas.org/tools/faq/</a>'"

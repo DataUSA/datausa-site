@@ -1,0 +1,30 @@
+title: "Dangerous Running Mates"
+description: "Obesity and diabetes rates move together and vary almost twofold across states."
+background_image: "/static/img/story/pizza.jpg"
+authors:
+  - name: Sarah Thomas
+    title: Research Director of Deloitte Center for Health Solutions
+    img: "/static/img/story/authors/thomas.png"
+    about:
+      - "Sarah Thomas is a director with Deloitte Services LP and the director of research for Deloitte’s Center for Health Solutions (the “Center”). As director of research, Sarah oversees the development and execution of the Center’s strategic research agenda, which aims to help industry stakeholders — including health care organizations and governments — cope with the market forces and policy directives affecting health care as it shifts from a volume-based system to a value-based system more focused on cost and quality outcomes. As the health care system moves toward new models and relationships based on the need for greater quality, efficiency, and transparency, Sarah aims for the Center to be a source of clarity for consumers, businesses, governments, and other stakeholders during this transformation. Sarah has deep experience in public policy, ranging from reimbursement to quality issues in Medicare, Medicaid, and the private health insurance market, including health insurance exchanges and marketplaces."
+      - "Sarah was previously Vice President for Public Policy and Communications at the National Committee for Quality Assurance (NCQA), where she was responsible for the development of NCQA’s public policy strategy, its work with the Federal government and the States, as well as its media and communications operations. She also  was the Director of the Public Policy Institute (PPI) Health Team at AARP. She oversaw AARP’s advocacy in areas of cost, access, and quality relating to health care reform, Medicare, Medicaid, prescription drugs, private insurance and public health."
+      - "Sarah has 13 years of experience in the federal government. She was deputy director at the Medicare Payment Advisory Commission (MedPAC) and served at the Congressional Budget Office and the Centers for Medicare and Medicaid Services. She has worked for national associations, in state government and for the Advisory Board Company. Thomas holds a M.S. in Health Policy and Management from the Harvard School of Public Health."
+topics:
+  - description:
+      - "From Philly cheese steaks to Chicago deep-dish pizza to Mississippi mud pie, political candidates traveling from state to state encounter many unhealthy (albeit delicious) diet detours along the campaign trail. US culinary indulgences vary by state and region, as do obesity and diabetes rates. Former Presidential candidate and Arkansas governor Mike Huckabee is all too familiar with these dangerous running mates. The once overweight Huckabee was diagnosed with diabetes in 2003. By spring of 2004, he had lost more than 100 pounds to help combat the disease’s symptoms."
+  - description:
+      - "Data USA provides a clear illustration of the relationship between obesity and diabetes. As the chart below shows, when looking across the 50 states, it is evident that higher rates of adult obesity (the percentage of adults in the state who are obese) tie to higher rates of diabetes."
+      - "Diabetes is costly for the US health care system and the individuals who suffer from the chronic condition. The American Diabetes Association reported that in 2012 the disease’s total estimated cost was $245 billion – $176 billion in direct medical costs and the remainder in reduced productivity. The human cost also is significant – people with diabetes can lose their vision, limbs, sense of touch and – as diabetes progresses – it can turn into end-stage renal disease (ESRD), an even costlier and more challenging condition."
+      - "Mississippi leads the nation in measures of both obesity and diabetes. Obesity is measured as a body mass index (BMI) above 30 – the ratio of someone’s weight and height (BMI=kg/m squared). About 35 percent of the state’s adult population is obese and 13 percent of Mississippians have diabetes."
+      - "Colorado is at the other end of the spectrum – 20 percent of that state’s population is obese and 6.8 percent has diabetes."
+    viz:
+      attrs: "geo"
+      data:
+        show: geo
+        sumlevel: state
+        required: "diabetes,adult_obesity,population_estimate"
+      id: "geo"
+      size: "population_estimate"
+      type: "scatter"
+      x: "diabetes"
+      y: "adult_obesity"

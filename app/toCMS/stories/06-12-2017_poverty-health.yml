@@ -1,0 +1,74 @@
+title: "Poverty is bad for your health"
+background_image: "/static/img/splash/cip/19.jpg"
+authors:
+  - name: "Melissa Majerol"
+    title: "Health Care Research Manager, Deloitte Center for Government Insights"
+    img: "/static/img/story/authors/majerol.jpg"
+    about:
+      - "Melissa Majerol is the Health Care Research Manager at the Deloitte Center for Government Insights, where she manages a portfolio of projects that impact state and federal health agencies. Prior to this role, Melissa worked as a health policy analyst at a nationally recognized health policy research institute, where she focused on Medicaid, Health Reform, and Low-Income Populations. Melissa holds a Master of Science in Health Policy from Harvard University."
+
+topics:
+  - description:
+      - "Why are some people healthier than others? Is it simply a product of genetics, lifestyle choices, and access to modern medicine? It turns out it’s a lot more complicated than that."
+      - "A growing body of research has shown that socioeconomic factors, often referred to as the social determinants of health — including poverty, education, and neighborhood factors — can have a major impact on health outcomes.<<foot note=1>> But how tightly does any single health determinant track with poor health? DataUSA allows us to compare various socioeconomic and environmental factors to answer that question."
+  - description:
+      - "<b>Relationship between Socioeconomic Factors and Fair or Poor Health, by County, 2015<<foot note=2>></b>"
+      - "<img class='small-chart' src='/static/img/story/images/poverty-figure1.png' /><img class='small-chart' src='/static/img/story/images/poverty-figure2.png' />"
+      - "<img class='small-chart' src='/static/img/story/images/poverty-figure3.png' />"
+      - "These summary statistics on poverty, air pollution, and access to exercise opportunities reinforce the associations already established in the literature. But the trend lines also show that of these three factors, poverty is the strongest indicator. In fact, poverty is positively associated with a range of health measures, including physical health, mental health, diabetes prevalence, and low birth weight."
+  - description:
+      - "<b>Relationship between Poverty and Health Outcomes, by County, 2015<<foot note=3>></b>"
+      - "<img class='small-chart' src='/static/img/story/images/poverty-figure4.png' /><img class='small-chart' src='/static/img/story/images/poverty-figure5.png' />"
+      - "<img class='small-chart' src='/static/img/story/images/poverty-figure6.png' /><img class='small-chart' src='/static/img/story/images/poverty-figure7.png' />"
+      - "DataUSA also allows us to see which states and counties fare best and worst on these health outcomes. In 2015, for three out of four of these metrics, a county in the southern United States led the nation with the poorest health outcome:"
+  - description:
+      - "<b>Counties with Poorest Health Outcomes for Poor Mental Health, Poor Physical Health, Low Birth Weight, and Diabetes Prevalence in 2015</b>"
+      - "<table><thead><tr><th>Health Outcome</th><th>County with Poorest Outcome</th><th>Metric</th></tr></thead><tbody><tr><td>Greatest number of mentally unhealthy days</td><td>Nevada County, Arkansas</td><td>10 mentally unhealthy days per month</td></tr><tr><td>Greatest number of physically unhealthy days</td><td>Warren County, Georgia</td><td>10 physically unhealthy days per month</td></tr><tr><td>Greatest diabetes prevalence</td><td>Lowndes County, Alabama</td><td>22% of the population has diabetes</td></tr><tr><td>Greatest percent of low birthweight per livebirths</td><td>Jackson County, Colorado</td><td>23% of livebirths have low birthweight</td></tr></tbody></table>"
+      - "Indeed, most of the country’s least healthy and poorest states are in the South:"
+  - class: flex
+    title: "Poor Health by State"
+    viz:
+      attrs: "geo"
+      color: "poor_or_fair_health"
+      coords: "states"
+      data:
+        - required: "poor_or_fair_health"
+          show: "geo"
+          sumlevel: "state"
+      id: "geo"
+      type: "geo_map"
+  - class: flex
+    title: "Poverty Rate by State"
+    viz:
+      attrs: "geo"
+      color: "income_below_poverty:pop_poverty_status"
+      coords: "states"
+      data:
+        - required: "income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe"
+          show: "geo"
+          sumlevel: "state"
+          divide:
+            num: "income_below_poverty"
+            den: "pop_poverty_status"
+            value: "income_below_poverty:pop_poverty_status"
+      id: "geo"
+      tooltip:
+        value:
+          - "income_below_poverty:pop_poverty_status"
+          - "income_below_poverty"
+          - "income_below_poverty_moe"
+          - "pop_poverty_status"
+          - "pop_poverty_status_moe"
+      type: "geo_map"
+  - description:
+      - "Of course, poverty is a broad socioeconomic factor that’s at the root of many others associated with poor health. Cost can pose a barrier to factors that allow people to live a healthy lifestyle such as accessing health care<<foot note=4>> and healthy food.<<foot note=5>> Moreover, people with low socioeconomic status are more likely to live in areas with higher concentrations of air pollution.<<foot note=6>> In other words, poverty can cause cumulative disadvantages that can negatively impact health."
+      - "Genetics, lifestyle choices, and access to modern medicine all play obvious roles in determining our overall health. The cumulative disadvantage of poverty may not come to mind as readily, but its role in health outcomes is no less critical."
+
+footnotes:
+  - "Laura McGovern, George Miller, Paul Hughes-Cromwick, \"The Relative Contribution of Multiple Determinants to Health Outcomes,\" Health Affairs and Robert Wood Johnson Foundation, August 2014.  Schroeder, SA. (2007).
+<a target='_blank' href='http://healthaffairs.org/healthpolicybriefs/brief_pdfs/healthpolicybrief_123.pdf'>http://healthaffairs.org/healthpolicybriefs/brief_pdfs/healthpolicybrief_123.pdf</a>"
+  - "Not all counties have data available for 2015."
+  - "Not all counties have data available for 2015."
+  - "Melissa Majerol, Vann Newkirk, and Rachel Garfield. \"The Uninsured: A Primer\" Kaiser Family Foundation, November 2015, <a target='_blank' href='http://files.kff.org/attachment/primer-the-uninsured-a-primer-key-facts-about-health-insurance-and-the-uninsured-in-the-era-of-health-reform'>http://files.kff.org/attachment/primer-the-uninsured-a-primer-key-facts-about-health-insurance-and-the-uninsured-in-the-era-of-health-reform</a>."
+  - "Adam Drewnowski, \"Can all Americans Afford a Healthy Fiet?\", CPHN issues brief, January 27, 2016, <a target='_blank' href='https://depts.washington.edu/uwcphn/documents/White_House_issues_brief_ADrewnowski_2016.pdf'>https://depts.washington.edu/uwcphn/documents/White_House_issues_brief_ADrewnowski_2016.pdf</a>."
+  - "Michelle L. Bell and Keita Ebisu, \"Environmental inequality in Exposures to Airborne Particulate Matter Components in the United States,\" Environmental Health Perspectives 120(12), December 2012, <a target='_blank' href='https://ehp.niehs.nih.gov/wp-content/uploads/120/12/ehp.1205201.pdf'>https://ehp.niehs.nih.gov/wp-content/uploads/120/12/ehp.1205201.pdf</a>."

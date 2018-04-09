@@ -1,0 +1,48 @@
+title: "Men still dominate in the highest-paying industries, in numbers and in paychecks"
+background_image: "/static/img/splash/naics/52M2.jpg"
+authors:
+  - name: Dr. Patricia Buckley
+    title: Deloitte US Economist
+    img: "/static/img/story/authors/buckley.png"
+    about:
+      - "Patricia Buckley started at Deloitte in September 2012 as the Director for Economic Policy and Analysis with responsibility for contributing to Deloitte’s Eminence Practice with a focus on economic policy."
+      - "She regularly briefs members of Deloitte’s executive leadership team on changes to the US economic outlook and is responsible for the US chapter of Deloitte’s quarterly Global Economic Outlook and produces “Issues by the Numbers,” a data-driven examination of important economic policy issues. Additionally, she partners with various practice areas to produce topical eminence and is a frequent speaker at Deloitte events discussing current economic policy and trends."
+      - "Previously, Patricia served as the Senior Economic Policy Advisor to four Secretaries of Commerce where she provided regular briefings to the Secretary in preparation for Cabinet meetings, press interviews, and discussions with business and foreign leaders.  While at Commerce, she served as policy point person for several key strategic initiatives related to maintaining U.S. competitiveness, revitalizing the manufacturing sector, and reforming the country’s immigration system.  She also served as executive director to the Secretary’s Advisory Committee on “Measuring Innovation in the 21st Century.” Earlier in her career, Patricia was an economist at the Manufacturers Alliance, a policy research organization, and the Joint Economic Committee of Congress."
+      - "Patricia has a Ph.D. in Economics from Georgetown University and a B.S. degree in Economics from Clemson University."
+topics:
+  - description:
+      - "Women holding at least a bachelor’s degree now outnumber men, but when we look at the highest-paying industries, women are very much underrepresented. Not only are their employment levels low relative to their male counterparts, but women who work in those industries also earn much less than men even when accounting for occupation."
+      - "According to data from the US Census Bureau’s American Community Survey, people working in the securities industry have the highest average earnings, followed by workers in software publishing, other information services, computer manufacturing, and oil and gas extraction—all industries where the majority of employees are men. Of these high-paying industries, only in the securities industry are more than a third (36.5%) of the employees female.<<foot note=1>>"
+  - title: Highest Paid Jobs in the United States
+    class: constrained
+    viz:
+      - attrs: "naics"
+        color: "top"
+        data:
+          - geo: "01000US"
+            limit: "5"
+            order: "avg_wage"
+            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
+            sort: "desc"
+            show: "geo,naics"
+            sumlevel: "nation,2"
+            where: "num_records:>4"
+        height: 250
+        id: "naics"
+        labels: YES
+        order:
+          sort: "asc"
+          value: "avg_wage"
+        type: "bar"
+        x: "avg_wage"
+        y:
+          label: "Highest"
+          scale: "discrete"
+          value: "naics"
+  - description: "In the securities industries grouping, women make only about half of what men earn: $80,554 as compared to $156,841. Now some of this difference is accounted for by occupation, but certainly not all. Of the five largest occupational categories within the securities industry, women only hold the majority of positions among secretaries and administrative assistants, where they dominate, holding 97% of those jobs. But those 1,675 male administrative assistants earn an average of $67,552 as compared to the average of $46,558 earned by more than 51,000 female administrative assistants—a pattern repeated in the other top occupational categories in this industry."
+  - title: Wage by Gender for Securities Industries Group
+    class: constrained
+    viz_url: "/profile/naics/52M2/workforce/wage_gender/"
+
+footnotes:
+  - "Bureau of Labor Statistics, Current Population Survey, Household Data, Annual Averages, Table 18.<br><a href='http://www.bls.gov/cps/cpsaat18.pdf' target='_blank'>http://www.bls.gov/cps/cpsaat18.pdf</a>"
