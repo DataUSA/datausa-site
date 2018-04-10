@@ -6101,7 +6101,6 @@ window.onload = function() {
           d3.select("#search-home").classed("open", true);
           var search_input = d3.select("#home-search-input");
           search_input.node().focus();
-          search.container = d3.select("#search-" + search_input.attr("data-search"));
           search.data = true;
           search.reload();
         }
@@ -6110,13 +6109,14 @@ window.onload = function() {
           var search_input = d3.select("#nav-search-input");
           search.data = false;
           search_input.node().focus();
-        //   d3.select("#search-simple-nav").classed("open", true);
-        //   search_input.node().focus();
-        //   if(search_input.property("value") !== ""){
-        //     // d3.select(".search-box").classed("open", true);
-        //   }
-        //   d3.select(".search-box").classed("open", true);
         }
+        var searchType = search_input.attr("data-search");
+        search.container = d3.select("#search-" + searchType);
+        search.term = search_input.property("value");
+        search.click = false;
+        search.filterID = false;
+        search.type = "";
+        search.max = 20;
       }
 
     }
