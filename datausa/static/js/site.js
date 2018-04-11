@@ -9373,7 +9373,6 @@ viz.addToCart = function(build, select) {
         params.year = "all";
 
         data.push(api + "/api/?" + serialize(params));
-        console.log(params);
 
       }
 
@@ -9384,9 +9383,6 @@ viz.addToCart = function(build, select) {
       calcs = calcs.filter(function(calc) { return globalReqs.indexOf(calc.num) >= 0 && globalReqs.indexOf(calc.den) >= 0 });
 
       data = d3plus.util.uniques(data);
-
-      console.log(title);
-      console.log(data);
 
       cart.builds.push(build.slug);
 
