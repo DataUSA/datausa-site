@@ -32,7 +32,7 @@ module.exports = function(app) {
       res.json(contents).end();
     }
     else {
-      res.send(404);
+      res.sendStatus(404);
     }
 
   });
