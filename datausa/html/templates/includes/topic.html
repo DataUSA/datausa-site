@@ -12,9 +12,7 @@
     {% if "data-tooltip" in topic.title %}
       {{ topic.title|safe }}
     {% else %}
-      <a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">
-        {{ topic.title|safe }}
-      </a>
+      <a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">{{ topic.title|safe }}</a>
     {% endif %}
     {% if topic.viz and (g.page_class != 'story') %}
     <div class="viz-btns">
