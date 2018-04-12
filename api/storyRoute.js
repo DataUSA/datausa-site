@@ -2,6 +2,7 @@ const shell = require("shelljs"),
       yaml = require("node-yaml");
 
 const storyDir = "app/toCMS/stories/";
+const featured = ["06-12-2017_medicare-physicians"];
 
 module.exports = function(app) {
 
@@ -15,11 +16,14 @@ module.exports = function(app) {
       delete contents.footnotes;
       contents.authors = contents.authors.map(a => (delete a.about, a));
       contents.id = file.replace(storyDir, "").replace(".yml", "");
+      contents.date = new Date(contents.id.substr(0, 10));
+      if (featured.includes(contents.id)) contents.featured = 1;
+      else contents.featured = 0;
       stories.push(contents);
 
     });
 
-    res.json(stories).end();
+    res.json(stories.sort((a, b) => b.date - a.date || b.featured - a.featured)).end();
 
   });
 
@@ -29,6 +33,7 @@ module.exports = function(app) {
     if (shell.test("-f", `${storyDir}${id}.yml`)) {
       const contents = yaml.readSync(`../${storyDir}${id}.yml`);
       contents.id = id;
+      contents.date = new Date(contents.id.substr(0, 10));
       res.json(contents).end();
     }
     else {
