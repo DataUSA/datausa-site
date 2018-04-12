@@ -1,0 +1,7 @@
+#Stories {
+  background-color: var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: calc(var(--nav-height) + 25px) 0 25px;
+}

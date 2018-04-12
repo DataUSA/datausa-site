@@ -98,7 +98,7 @@ class Profile extends Component {
 }
 
 Profile.need = [
-  fetchData("profile", "/api/profile/<pslug>/<pid>", d => d)
+  fetchData("profile", "/api/profile/<pslug>/<pid>")
 ];
 
 export default connect(state => ({

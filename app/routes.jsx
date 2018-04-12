@@ -7,8 +7,8 @@ import Home from "./pages/Home/index";
 import SearchPage from "./pages/SearchPage";
 import Profile from "./profile/index";
 
-import Stories from "./pages/Stories";
-import Story from "./pages/Story";
+import Stories from "./pages/Story/Stories";
+import Story from "./pages/Story/Story";
 
 import Map from "./pages/Map";
 
