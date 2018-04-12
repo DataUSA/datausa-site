@@ -1,10 +1,10 @@
 title: "Math degree equals teacher—where math majors work"
 description: "A look at the occupations with the largest number of math majors."
-background_image: "/static/img/splash/cip/2701.jpg"
+image: "/images/splash/cip/2701.jpg"
 authors:
   - name: Daniel Byler
     title: Data Scientist, Deloitte Services LP
-    img: "/static/img/story/authors/byler.png"
+    img: "/images/story/authors/byler.png"
     about:
       - "Daniel Byler is a data scientist with Deloitte Services LP where he manages a portfolio of quantitative projects across Deloitte’s research agenda. Prior to his current role, he supported clients in large federal agencies on data-focused projects."
 

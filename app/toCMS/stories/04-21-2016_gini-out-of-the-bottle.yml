@@ -1,9 +1,9 @@
 title: "Letting the GINI out of the bottle: Income inequality in America"
-background_image: "/static/img/splash/soc/110000-130000.jpg"
+image: "/images/splash/soc/110000-130000.jpg"
 authors:
   - name: Daniel Armstrong
     title: Deloitte Consulting LLP, Analytics and Information Management
-    img: "/static/img/story/authors/armstrong.jpg"
+    img: "/images/story/authors/armstrong.jpg"
     about:
       - "Dan Armstrong is a Senior Specialist at Deloitte focusing on analytics and data visualization. He previously worked for The Economist, Forbes and The Globecon Group, a boutique training firm that educates bankers in capital markets and derivatives."
       - "He has a BA in anthropology and an MBA in finance and research methods. As recounted in Dreams of My Father, Dan was Barack Obama’s editor in the president’s first job out of college."
@@ -100,7 +100,7 @@ topics:
         <li>poor and unequal (below-average income and above-average Gini)</li>
         </ul>"
       - "The colors show the percentage of state residents who live in cities, from 39% in Maine and Vermont to 100% (in Washington DC).<<foot note=4>>"
-      - "<img src='/static/img/story/images/gini-chart.png' />"
+      - "<img src='/images/story/images/gini-chart.png' />"
       - "The scatter plot shows several facts:"
       - "<ul>
           <li>Almost all of the wealthy and unequal states are highly urbanized. Cities and their suburbs – like New York, San Francisco, Los Angeles, and large swathes of New Jersey and Connecticut – tend to have large populations of high-income professionals and executives.</li>

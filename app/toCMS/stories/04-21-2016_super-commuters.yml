@@ -1,10 +1,10 @@
 title: "Are super commuters America's super heroes?"
 description: A look at commute times around the country and the various factors impacting the length of time it takes to get to work.
-background_image: "/static/img/splash/soc/474051.jpg"
+image: "/images/splash/soc/474051.jpg"
 authors:
   - name: Brenna Sniderman
     title: Senior Manager, Deloitte Center for Integrated Research
-    img: "/static/img/story/authors/sniderman.jpg"
+    img: "/images/story/authors/sniderman.jpg"
     twitter: https://twitter.com/BrennaSniderman
     about:
       - "Brenna Sniderman is a senior manager and subject matter specialist at Deloitte’s Center for Integrated Research. She focuses on cross-industry themes and trends, specifically as they relate to additive and advanced manufacturing, Industry 4.0, the Internet of Things and advanced technologies, and works with other thought leaders to deliver valuable insights into the strategic implications of these technologies."

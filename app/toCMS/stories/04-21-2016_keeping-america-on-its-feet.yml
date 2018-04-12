@@ -1,14 +1,14 @@
 title: "Keeping America on its feet"
-background_image: "/static/img/splash/soc/291081.jpg"
+image: "/images/splash/soc/291081.jpg"
 authors:
   - name: Amrita Datar
     title: Public Sector Research, Deloitte Services India Ltd.
-    img: "/static/img/story/authors/datar.png"
+    img: "/images/story/authors/datar.png"
     about:
       - "Amrita is a Senior Research Analyst in Deloitte’s Public Sector Research group. Her research and writing focuses on emerging trends at the intersection of technology, business, and society and how they could influence the public sector. Amrita holds Bachelor’s and Master’s degrees in Economics from the University of Mumbai."
   - name: Pulkit Kapoor
     title: Public Sector Research, Deloitte Services India Ltd.
-    img: "/static/img/story/authors/kapoor.png"
+    img: "/images/story/authors/kapoor.png"
     about:
       - "Pulkit is a Senior Research Analyst in the Public Sector Research group. He is primarily responsible for analyzing data to generate insights and perspectives, storyboarding and framework formulation. Pulkit holds a BA (Hons.) in Economics from University of Delhi and a Master’s in Economics from Jawaharlal Nehru University, Delhi."
 
