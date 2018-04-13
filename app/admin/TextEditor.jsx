@@ -10,8 +10,8 @@ class TextEditor extends Component {
     this.state = {
       data: null, 
       fields: null,
-      currentVariable: null,
-      currentFormatter: null
+      currentVariable: "choose-a-variable",
+      currentFormatter: "choose-a-formatter"
     };
   }
 
@@ -32,22 +32,18 @@ class TextEditor extends Component {
     this.setState({data});    
   }
 
-  /*
-  saveContent() {
-    const {data} = this.state;
-    if (this.props.reportSave) this.props.reportSave(data);
-    const toast = Toaster.create({className: "saveToast", position: Position.TOP_CENTER});
-    axios.post("/api/builder/islands/save", data).then(resp => {
-      if (resp.status === 200) {
-        toast.show({message: "Saved!", intent: Intent.SUCCESS});
-      } 
-      else {
-        toast.show({message: "Error!", intent: Intent.DANGER});
-      }
-    });
+  chooseVariable(e) {
+    this.setState({currentVariable: e.target.value});
   }
-  */
-  
+
+  chooseFormatter(e) {
+    this.setState({currentFormatter: e.target.value});
+  }
+
+  insertVariable() {
+    const {currentVariable, currentFormatter} = this.state;
+    console.log("would insert", currentVariable, currentFormatter);
+  }
 
   render() {
 
@@ -63,7 +59,7 @@ class TextEditor extends Component {
       </div>
     );
 
-    const varOptions = [];
+    const varOptions = [<option key="choose-a-variable" value="choose-a-variable">Choose a Variable</option>];
 
     for (const key in variables) {
       if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
@@ -74,23 +70,24 @@ class TextEditor extends Component {
       }
     }
 
-    const formatterOptions = formatters.map(f => 
-      <option key={f.name} value={f.name}>{f.name}</option>
-    );
+    const formatterDefault = [<option key="choose-a-formatter" value="choose-a-formatter">Choose a Formatter</option>];
+    const reducer = (acc, f) => acc.concat(<option key={f.name} value={f.name}>{f.name}</option>);
+
+    const formatterOptions = formatters.reduce(reducer, formatterDefault);
 
     return (
       <div id="text-editor">
         <div className="pt-select">
-          <select style={{margin: "5px"}}>
+          <select onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
             {varOptions}
           </select>
         </div>
         <div className="pt-select">
-          <select style={{margin: "5px"}}>
+          <select onChange={this.chooseFormatter.bind(this)} style={{margin: "5px"}}>
             {formatterOptions}
           </select>
         </div>
-        <button className="pt-button pt-intent-success">Insert</button>
+        <button className="pt-button pt-intent-success" onClick={this.insertVariable.bind(this)}>Insert</button>
         {quills}
         
       </div>
