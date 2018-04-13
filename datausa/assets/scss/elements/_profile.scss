@@ -1974,6 +1974,7 @@ body.profile, body.map, body.story {
         .viz {
           @include flex-size(1 1 auto);
           margin-left: 50px;
+          max-height: 75vh;
           min-height: 400px;
           overflow: hidden;
           position: relative;
