@@ -9,7 +9,9 @@ class TextEditor extends Component {
     super(props);
     this.state = {
       data: null, 
-      fields: null
+      fields: null,
+      currentVariable: null,
+      currentFormatter: null
     };
   }
 
@@ -50,8 +52,9 @@ class TextEditor extends Component {
   render() {
 
     const {data, fields} = this.state;
+    const {variables, formatters} = this.props;
 
-    if (!data || !fields) return null;
+    if (!data || !fields || !variables || !formatters) return null;
 
     const quills = fields.map(f => 
       <div key={f} style={{margin: "10px"}}>
@@ -60,22 +63,31 @@ class TextEditor extends Component {
       </div>
     );
 
+    const varOptions = [];
+
+    for (const key in variables) {
+      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
+        const value = variables[key];
+        varOptions.push(
+          <option key={key} value={key}>{`${key}: ${value}`}</option>
+        );
+      }
+    }
+
+    const formatterOptions = formatters.map(f => 
+      <option key={f.name} value={f.name}>{f.name}</option>
+    );
+
     return (
       <div id="text-editor">
         <div className="pt-select">
           <select style={{margin: "5px"}}>
-            <option selected>Choose a variable...</option>
-            <option value="1">variables</option>
-            <option value="2">go</option>
-            <option value="3">here</option>
+            {varOptions}
           </select>
         </div>
         <div className="pt-select">
           <select style={{margin: "5px"}}>
-            <option selected>Choose a formatter...</option>
-            <option value="1">formatters</option>
-            <option value="2">go</option>
-            <option value="3">here</option>
+            {formatterOptions}
           </select>
         </div>
         <button className="pt-button pt-intent-success">Insert</button>

@@ -206,9 +206,9 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {rawData, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {rawData, postData, formatters, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
-    if (!rawData) return <Loading />;
+    if (!rawData || !postData) return <Loading />;
 
     const generators = rawData.generators.map(g =>
       <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
@@ -291,7 +291,7 @@ class ProfileEditor extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={currentText} fields={currentFields} />
+            <TextEditor data={currentText} formatters={formatters} variables={postData.variables} fields={currentFields} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
@@ -319,7 +319,7 @@ class ProfileEditor extends Component {
 
         <div id="preview-as">
           <div className="pt-select">
-            <select value={this.state.preview} onChange={e => this.setState({preview: e.target.value}, this.fetchPostData.bind(this))}>
+            <select value={this.state.preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchPostData.bind(this))}>
               {
                 ["04000US25", "04000US32", "04000US34"].map(s =>
                   <option value={s} key={s}>{s}</option>
