@@ -14,15 +14,15 @@ class ProfileEditor extends Component {
     this.state = {
       rawData: null,
       postData: null,
-      builders: null,
+      formatters: null,
       recompiling: false,
       preview: "04000US25"
     };
   }
 
   componentDidMount() {
-    const {rawData, builders} = this.props;
-    this.setState({rawData, builders, recompiling: true}, this.fetchPostData.bind(this));
+    const {rawData, formatters} = this.props;
+    this.setState({rawData, formatters, recompiling: true}, this.fetchPostData.bind(this));
   }
 
   componentDidUpdate() {
@@ -41,7 +41,7 @@ class ProfileEditor extends Component {
   }
 
   formatDisplays() {
-    const {builders, postData, rawData} = this.state;
+    const {postData, rawData} = this.state;
     const {variables} = postData;
 
     for (const rkey in rawData) {
@@ -62,17 +62,17 @@ class ProfileEditor extends Component {
       });
     }
 
-    for (const g of builders.generators) {
+    for (const g of rawData.generators) {
       g.display_vars = [];
       const genStatus = variables._genStatus[g.id];
       for (const key in genStatus) {
         if (genStatus.hasOwnProperty(key)) {
-          g.display_vars.push(`${key}: ${variables[key]}`);
+          g.display_vars.push(`${key}: ${genStatus[key]}`);
         }
       }
     }
 
-    for (const m of builders.materializers) {
+    for (const m of rawData.materializers) {
       m.display_vars = [];
       const matStatus = variables._matStatus[m.id];
       for (const key in matStatus) {
@@ -82,7 +82,7 @@ class ProfileEditor extends Component {
       }
     }
 
-    this.setState({rawData, builders, recompiling: false});
+    this.setState({rawData, recompiling: false});
   }
 
   changeField(field, e) {
@@ -104,23 +104,23 @@ class ProfileEditor extends Component {
   }
 
   deleteItem(item, type) {
-    const {rawData, builders} = this.state;
+    const {rawData} = this.state;
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
-          if (type === "generator") builders.generators = builders.generators.filter(g => g.id !== item.id);
-          if (type === "materializer") builders.materializers = builders.materializers.filter(m => m.id !== item.id);
+          if (type === "generator") rawData.generators = rawData.generators.filter(g => g.id !== item.id);
+          if (type === "materializer") rawData.materializers = rawData.materializers.filter(m => m.id !== item.id);
           if (type === "stat_profile") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
           if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
-          this.setState({rawData, builders, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData());
+          this.setState({rawData, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData());
         }
       });
     }
   }
 
   addItem(type) {
-    const {rawData, builders} = this.state;
+    const {rawData} = this.state;
     let payload;
     if (type === "generator") {
       payload = {
@@ -132,8 +132,8 @@ class ProfileEditor extends Component {
       };
       axios.post("/api/cms/generator/new", payload).then(resp => {
         if (resp.status === 200) {
-          builders.generators.push(resp.data);
-          this.setState({builders, recompiling: true}, this.fetchPostData.bind(this));
+          rawData.generators.push(resp.data);
+          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
         }
         else {
           console.log("db error");
@@ -145,13 +145,13 @@ class ProfileEditor extends Component {
         name: "New Materializer",
         description: "New Description",
         logic: "return {}",
-        ordering: builders.materializers.length,
+        ordering: rawData.materializers.length,
         profile_id: rawData.id
       };
       axios.post("/api/cms/materializer/new", payload).then(resp => {
         if (resp.status === 200) {
-          builders.materializers.push(resp.data);
-          this.setState({builders, recompiling: true}, this.fetchPostData.bind(this));
+          rawData.materializers.push(resp.data);
+          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
         }
         else {
           console.log("db error");
@@ -192,11 +192,6 @@ class ProfileEditor extends Component {
     }
   }
 
-  /*renameSlug() {
-    axios.post(`/api/cms/profile/update`, this.state.rawData).then(resp => {
-      console.log
-  }*/
-
   openGeneratorEditor(g, type) {
     this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
   }
@@ -211,11 +206,11 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {rawData, builders, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {rawData, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
-    if (!rawData || !builders) return <Loading />;
+    if (!rawData) return <Loading />;
 
-    const generators = builders.generators.map(g =>
+    const generators = rawData.generators.map(g =>
       <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{g.name}</h5>
         <ul>
@@ -224,7 +219,7 @@ class ProfileEditor extends Component {
       </Card>
     );
 
-    const materializedGenerators = builders.materializers.map(m =>
+    const materializedGenerators = rawData.materializers.map(m =>
       <Card key={m.id} onClick={this.openGeneratorEditor.bind(this, m, "materializer")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
         <h5>{m.name}</h5>
         <ul>

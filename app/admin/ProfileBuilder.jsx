@@ -16,15 +16,14 @@ class ProfileBuilder extends Component {
       mounted: false,
       nodes: null,
       profiles: null,
-      builders: null,
       currentNode: null
     };
   }
 
   componentDidMount() {
     axios.get("/api/internalprofile/all").then(resp => {
-      const {builders, profiles} = resp.data;
-      this.setState({mounted: true, profiles, builders}, this.buildNodes.bind(this));
+      const {formatters, profiles} = resp.data;
+      this.setState({mounted: true, profiles, formatters}, this.buildNodes.bind(this));
     });
   }
 
@@ -132,9 +131,9 @@ class ProfileBuilder extends Component {
 
   render() {
 
-    const {nodes, currentNode, builders} = this.state;
+    const {nodes, currentNode, formatters} = this.state;
 
-    if (!nodes || !builders) return <div>Loading</div>;
+    if (!nodes || !formatters) return <div>Loading</div>;
 
     return (
       <div id="profile-builder">
@@ -150,7 +149,7 @@ class ProfileBuilder extends Component {
         <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor rawData={currentNode.data} builders={builders} reportSave={this.reportSave.bind(this)} />
+              ? <ProfileEditor rawData={currentNode.data} formatters={formatters} reportSave={this.reportSave.bind(this)} />
               : currentNode.itemType === "section"
                 ? <SectionEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                 : currentNode.itemType === "topic"

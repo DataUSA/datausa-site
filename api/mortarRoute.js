@@ -96,18 +96,12 @@ module.exports = function(app) {
 
   app.get("/api/internalprofile/all", (req, res) => {
     Promise.all([
-      db.generators.findAll(),
-      db.materializers.findAll(),
       db.formatters.findAll(),
       db.profiles.findAll(profileReqWithGens)
     ]).then(resp => {
       res.json({
-        builders: {
-          generators: resp[0],
-          materializers: resp[1].sort((a, b) => a.ordering - b.ordering),
-          formatters: resp[2]
-        },
-        profiles: resp[3]
+        formatters: resp[0],
+        profiles: resp[1]
       });
     });
     
@@ -145,7 +139,8 @@ module.exports = function(app) {
         // Deduplicate generators that share an API endpoint
         const requests = Array.from(new Set(generators.map(g => g.api)));
         // Generators use <id> as a placeholder. Replace instances of <id> with the provided id from the URL
-        const fetches = requests.map(r => axios.get(r.replace(/\<id\>/g, id)));
+        // The .catch here is to handle malformed API urls, returning an empty object
+        const fetches = requests.map(r => axios.get(r.replace(/\<id\>/g, id)).catch(() => ({})));
         return Promise.all([pid, generators, requests, Promise.all(fetches)]);
       })
       // Given a profile id, its generators, their API endpoints, and the responses of those endpoints,
@@ -164,12 +159,18 @@ module.exports = function(app) {
             // entire execution in a try/catch. genStatus is used to track the status of each individual generator
             try {
               const resp = r.data;
-              eval(`
-                let f = resp => {${g.logic}};
-                vars = f(resp);
-              `);
-              // A successfully run genStatus will contain the variables generated.
-              genStatus[g.id] = vars;
+              if (resp) {
+                eval(`
+                  let f = resp => {${g.logic}};
+                  vars = f(resp);
+                `);
+                // A successfully run genStatus will contain the variables generated.
+                genStatus[g.id] = vars;
+              }
+              else {
+                // If resp was null/empty, the API link didn't resolve
+                genStatus[g.id] = {error: "Invalid API Link"};
+              }
             }
             catch (e) {
               // An unsuccessfully run genStatus will contain the error
