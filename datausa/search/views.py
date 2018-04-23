@@ -15,23 +15,35 @@ def index():
 
 @mod.route("/<attr_kind>/<attr_id>/img/")
 def get_img(attr_kind, attr_id, mode="thumb"):
-    gobj = fetch(attr_id, attr_kind)
-    my_id = gobj['id']
-    if attr_kind == "university" and gobj["image_link"] == None:
-        if "msa" in gobj and gobj["msa"] != None:
-            gobj = fetch(gobj["msa"], "geo")
+
+    attr = fetch(attr_id, attr_kind)
+
+    def formatImage(attr, attr_type):
+        url = "/static/img/splash/{}/".format(attr_type)
+        image_attr = False
+        if "image_link" in attr and attr["image_link"]:
+            image_attr = attr
+        else:
+            parents = [fetch(p["id"], attr_type) for p in get_parents(attr["id"], attr_type)]
+            for p in reversed(parents):
+                if "image_link" in p and p["image_link"]:
+                    image_attr = p
+                    break
+        if image_attr:
+            return image_attr["id"]
+
+    if attr_kind == "university" and attr["image_link"] == None:
+        if "msa" in attr and attr["msa"] != None:
+            my_id = formatImage(fetch(attr["msa"], "geo"), "geo")
             attr_kind = "geo"
         else:
-            gobj = fetch("250000", "soc")
+            my_id = formatImage(fetch("250000", "soc"), "soc")
             attr_kind = "soc"
-        my_id = gobj['id']
-    elif 'image_link' not in gobj or not gobj['image_link']:
-        parents = get_parents(attr_id, attr_kind)
-        for p in reversed(parents):
-            p = fetch(p["id"], attr_kind)
-            if "image_link" in p and p['image_link']:
-                my_id = p['id']
-                break
+    else:
+        my_id = formatImage(attr, attr_kind)
+
+
     static_root_url = SPLASH_IMG_DIR.format(mode, attr_kind)
     img_url = static_root_url.format(mode, attr_kind) + "{}.jpg".format(my_id)
+
     return redirect(img_url)
