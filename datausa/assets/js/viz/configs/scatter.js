@@ -20,8 +20,8 @@ viz.scatter = function(build) {
     return false;
   }
 
-  return {
-    x: {range: getRange("x")},
-    y: {range: getRange("y")}
-  };
+  var retObj = {};
+  if (build.config.x.scale !== "discrete") retObj.x = {range: getRange("x")};
+  if (build.config.y.scale !== "discrete") retObj.y = {range: getRange("y")};
+  return retObj;
 }

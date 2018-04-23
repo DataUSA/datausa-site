@@ -1,0 +1,459 @@
+title: "Graduates"
+description:
+  - "In <<var namespace=grads|row=0|key=year>>, <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|diff=True>> <<percent num=var:grads,grads_women,0|den=var:grads,grads_men,0|diff=True|text=morefewer>> women than men graduated from <<name>>. The majority of students graduating from <<name>> are <<var namespace=grads_race|key=name|row=0>>. These <<var namespace=grads_race|key=value|row=0>> graduates mean that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+  - "The most common Bachelor's Degree awarded at <<name>> is <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads_degree|key=cip|row=1>> with <<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates and <<var namespace=cip_grads_degree|key=cip|row=2>> with <<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates."
+  - "The most specialized major across all degree types at <<name>>, meaning they have significantly more graduates than the national average across all institutions, is <<var namespace=cip_grads_rca|key=cip|row=0>>, with <<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates, followed by <<var namespace=cip_grads_rca|key=cip|row=1>> with <<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates and <<var namespace=cip_grads_rca|key=cip|row=2>> with <<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates."
+
+topics:
+  - title: "Common Jobs by Major"
+    slug: jobs
+    category: "Workforce"
+    description:
+      - "The most common jobs for people who hold a degree in one of the 5 most specialized majors at <<name>> are <<var namespace=soc_ppl|key=soc|row=0>> (<<var namespace=soc_ppl|key=num_ppl|row=0>> people), <<var namespace=soc_ppl|key=soc|row=1>> (<<var namespace=soc_ppl|key=num_ppl|row=1>> people), <<var namespace=soc_ppl|key=soc|row=2>> (<<var namespace=soc_ppl|key=num_ppl|row=2>> people), <<var namespace=soc_ppl|key=soc|row=3>> (<<var namespace=soc_ppl|key=num_ppl|row=3>> people), and <<var namespace=soc_ppl|key=soc|row=4>> (<<var namespace=soc_ppl|key=num_ppl|row=4>> people)."
+      - "The most specialized majors at <<name>> are <<var namespace=cip_grads_rca|key=cip|row=0>> (<<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates), <<var namespace=cip_grads_rca|key=cip|row=1>> (<<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates), <<var namespace=cip_grads_rca|key=cip|row=2>> (<<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates), <<var namespace=cip_grads_rca|key=cip|row=3>> (<<var namespace=cip_grads_rca|key=grads_total|row=3>> graduates), and <<var namespace=cip_grads_rca|key=cip|row=4>> (<<var namespace=cip_grads_rca|key=grads_total|row=4>> graduates)."
+    stat:
+      - title: "Most Common Job"
+        value: "<<var namespace=soc_ppl|key=soc|row=0>>"
+    viz:
+      - attrs:
+          - cip
+        color: cip_2
+        data:
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
+          show: "soc,cip"
+          sumlevel: "all,all"
+          soc: "<<var namespace=soc_ppl|key=soc|csl=True|limit=5>>"
+          cip: "<<var namespace=cip_grads_rca|key=cip|csl=True|limit=5>>"
+          soc_level: 3
+          where: "num_records:>4"
+          display_names: 1
+        depth: 3
+        id: cip_2
+        order:
+          value: num_ppl
+        tooltip:
+          value:
+            - soc
+            - avg_wage
+            - avg_wage_moe
+            - num_ppl
+            - num_ppl_moe
+        type: bar
+        x:
+          label: False
+          persist:
+            position: True
+          value: soc_name
+        y: num_ppl
+  - title: "Highest Paying Jobs by Major"
+    slug: wages
+    description:
+      - "The highest paying jobs for people who hold a degree in one of the 5 most specialized majors at <<name>> are <<var namespace=soc|key=soc|row=0>>, <<var namespace=soc|key=soc|row=1>>, <<var namespace=soc|key=soc|row=2>>, <<var namespace=soc|key=soc|row=3>>, and <<var namespace=soc|key=soc|row=4>>."
+      - "The most specialized majors at <<name>> are <<var namespace=cip_grads_rca|key=cip|row=0>> (<<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates), <<var namespace=cip_grads_rca|key=cip|row=1>> (<<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates), <<var namespace=cip_grads_rca|key=cip|row=2>> (<<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates), <<var namespace=cip_grads_rca|key=cip|row=3>> (<<var namespace=cip_grads_rca|key=grads_total|row=3>> graduates), and <<var namespace=cip_grads_rca|key=cip|row=4>> (<<var namespace=cip_grads_rca|key=grads_total|row=4>> graduates)."
+    stat:
+      - title: "Highest Paying Job"
+        value: "<<var namespace=soc|key=soc|row=0>>"
+    viz:
+      - attrs:
+          - cip
+        color: cip_2
+        data:
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
+          show: "soc,cip"
+          sumlevel: "all,all"
+          soc: "<<var namespace=soc|key=soc|csl=True|limit=5>>"
+          cip: "<<var namespace=cip_grads_rca|key=cip|csl=True|limit=5>>"
+          soc_level: 3
+          where: "num_records:>4"
+          display_names: 1
+        depth: 3
+        id: cip_2
+        order:
+          value: avg_wage
+        tooltip:
+          value:
+            - avg_wage
+            - avg_wage_moe
+            - num_ppl
+            - num_ppl_moe
+        type: bar
+        x:
+          label: False
+          persist:
+            position: True
+          value: soc_name
+        y: avg_wage
+  - title: "Common Industries by Major"
+    slug: industries
+    description:
+      - "The most common industries for people who hold a degree in one of the 5 most specialized majors at <<name>> are <<var namespace=naics|key=naics|row=0>> (<<var namespace=naics|key=num_ppl|row=0>> people), <<var namespace=naics|key=naics|row=1>> (<<var namespace=naics|key=num_ppl|row=1>> people), <<var namespace=naics|key=naics|row=2>> (<<var namespace=naics|key=num_ppl|row=2>> people), <<var namespace=naics|key=naics|row=3>> (<<var namespace=naics|key=num_ppl|row=3>> people), and <<var namespace=naics|key=naics|row=4>> (<<var namespace=naics|key=num_ppl|row=4>> people)."
+      - "The most specialized majors at <<name>> are <<var namespace=cip_grads_rca|key=cip|row=0>> (<<var namespace=cip_grads_rca|key=grads_total|row=0>> graduates), <<var namespace=cip_grads_rca|key=cip|row=1>> (<<var namespace=cip_grads_rca|key=grads_total|row=1>> graduates), <<var namespace=cip_grads_rca|key=cip|row=2>> (<<var namespace=cip_grads_rca|key=grads_total|row=2>> graduates), <<var namespace=cip_grads_rca|key=cip|row=3>> (<<var namespace=cip_grads_rca|key=grads_total|row=3>> graduates), and <<var namespace=cip_grads_rca|key=cip|row=4>> (<<var namespace=cip_grads_rca|key=grads_total|row=4>> graduates)."
+    stat:
+      - title: "Most Common Industry"
+        value: "<<var namespace=naics|key=naics|row=0>>"
+    viz:
+      - attrs:
+          - cip
+        color: cip_2
+        data:
+          required: "avg_wage,avg_wage_moe,num_ppl,num_ppl_moe"
+          show: "naics,cip"
+          sumlevel: "all,all"
+          naics: "<<var namespace=naics|key=naics|csl=True|limit=5>>"
+          cip: "<<var namespace=cip_grads_rca|key=cip|csl=True|limit=5>>"
+          where: "num_ppl:!0"
+          display_names: 1
+        depth: 3
+        id: cip_2
+        order:
+          value: num_ppl
+        tooltip:
+          value:
+            - avg_wage
+            - avg_wage_moe
+            - num_ppl
+            - num_ppl_moe
+        type: bar
+        x:
+          label: False
+          persist:
+            position: True
+          value: naics_name
+        y: num_ppl
+  - title: "Majors Awarded"
+    category: "Degrees"
+    slug: "majors"
+    subtitle: "IPEDS uses the Classification of Instructional Programs (CIP) standard, so the categories may not match the exact concentrations offered by <<name>>."
+    select:
+      data: "degree"
+      filter: degrees
+      param: "degree"
+      default: <<default_degree>>
+    stat_stack: YES
+    stat:
+    - title: "Most common"
+      value: "<<var namespace=cip_grads_degree|key=cip|row=0>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates</span>"
+      subvalues:
+        - "<<var namespace=cip_grads_degree|key=cip|row=1>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates</span>"
+        - "<<var namespace=cip_grads_degree|key=cip|row=2>> <span class='stat-subtitle'><<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates</span>"
+    description:
+      - "In <<var namespace=cip_grads_degree|key=year|row=0>>, the most common <span class='select-text'>Bachelor's Degree</span> for graduates at <<name>> was <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates."
+      - "This visualization illustrates the percentage of students graduating from <span class='select-text'>Bachelor's Degree</span> programs at <<name>> according to their major."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        degree: <<default_degree>>
+        university: "<<id>>"
+        required: "grads_total"
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - "cip_2"
+        - "cip_4"
+        - "cip_6"
+      size: "grads_total"
+      type: "tree_map"
+  - title: "Gender Breakdown for Common Majors"
+    slug: "gender"
+    description:
+      - "In <<var namespace=grads|row=0|key=year>>, <<var namespace=grads|row=0|key=grads_men>> men graduated from <<name>>, which is <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|ratio=True>> times <<percent num=var:grads,grads_men,0|den=var:grads,grads_women,0|text=moreless>> the number of female graduates (<<var namespace=grads|row=0|key=grads_women>>)."
+      - "This chart displays the gender disparity between the top 5 majors at <<name>> by degrees awarded."
+    stat:
+      - title: "Male Graduates"
+        value: "<<var namespace=grads|row=0|key=grads_men>>"
+      - title: "Female Graduates"
+        value: "<<var namespace=grads|row=0|key=grads_women>>"
+    viz:
+      attrs: "cip"
+      color: "sex"
+      data:
+        show: "cip"
+        university: "<<id>>"
+        required: "grads_men,grads_women"
+        split:
+          id: "sex"
+          regex: "grads_([a-z]*)$"
+          value: "grads_total"
+        cip: "<<var namespace=cip_grads|key=cip|csl=True|limit=5>>"
+      id: "sex"
+      order: "grads_total"
+      tooltip:
+        value:
+          - grads_total
+      type: "bar"
+      x:
+        persist:
+          position: True
+        value: "cip"
+      y: "grads_total"
+  - title: "Most Common Male Majors"
+    slug: "gender_men"
+    class: flex
+    description:
+      - "In <<var namespace=cip_men|row=0|key=year>>, <<var namespace=cip_men|row=0|key=grads_men>> men graduated from <<name>> in <<var namespace=cip_men|row=0|key=cip>>, which is <<percent num=var:cip_men,grads_men,0|den=var:cip_men,grads_women,0|ratio=True>> times <<percent num=var:cip_men,grads_men,0|den=var:cip_men,grads_women,0|text=moreless>> the <<var namespace=cip_men|row=0|key=grads_women>> female graduates with that same degree."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        university: "<<id>>"
+        required: "grads_men,grads_women"
+        order: grads_men
+        sort: desc
+        limit: 5
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - cip_2
+        - cip_4
+        - cip_6
+      labels: YES
+      legend: NO
+      order:
+        sort: asc
+        value: grads_men
+      tooltip:
+        value:
+          - grads_men
+      type: "bar"
+      y:
+        scale: discrete
+        value: cip
+      x:
+        label: NO
+        value: grads_men
+  - title: "Most Common Female Majors"
+    slug: "gender_women"
+    class: flex
+    description:
+      - "In <<var namespace=cip_women|row=0|key=year>>, <<var namespace=cip_women|row=0|key=grads_women>> women graduated from <<name>> in <<var namespace=cip_women|row=0|key=cip>>, which is <<percent num=var:cip_women,grads_women,0|den=var:cip_women,grads_men,0|ratio=True>> times <<percent num=var:cip_women,grads_women,0|den=var:cip_women,grads_men,0|text=moreless>> the <<var namespace=cip_women|row=0|key=grads_men>> male graduates with that same degree."
+    viz:
+      attrs: "cip"
+      color: "cip_2"
+      data:
+        show: "cip"
+        university: "<<id>>"
+        required: "grads_men,grads_women"
+        order: grads_women
+        sort: desc
+        limit: 5
+        sumlevel: "6"
+        where: "grads_total:!0"
+      depth: 2
+      id:
+        - cip_2
+        - cip_4
+        - cip_6
+      labels: YES
+      legend: NO
+      order:
+        sort: asc
+        value: grads_women
+      tooltip:
+        value:
+          - grads_women
+      type: "bar"
+      y:
+        scale: discrete
+        value: cip
+      x:
+        label: NO
+        value: grads_women
+  - title: "Time to Complete"
+    slug: "timeframe"
+    allowed: "<<var namespace=timeframe|key=pct_completed_ba|row=0>>:!N/A"
+    stat:
+      - title: "100% Completion Time"
+        value: "<<var namespace=timeframe|key=pct_completed_ba|row=0>>"
+      - title: "150% Completion Time"
+        value: "<<var namespace=timeframe|key=pct_completed_ba|row=1>>"
+    description:
+      - "In <<var namespace=timeframe|key=year|row=0>>, <<var namespace=timeframe|key=pct_completed_ba|row=0>> of students graduating from <<name>> completed their program within 100% \"normal time\" (ie. 4 years for a 4-year degree). Comparatively, <<var namespace=timeframe|key=pct_completed_ba|row=1>> completed their degrees within 150% of the normal time, and <<var namespace=timeframe|key=pct_completed_ba|row=2>> within 200%."
+      - "The following chart shows these completion rates over time{{<<sumlevel>>:!0|| compared to the average for the <<carnegie key=name>> Carnegie Classification group}}."
+      - "Graduation rate is defined as the percentage of full-time, first-time students who received a degree or award within a specific percentage of \"normal time\" to completion for their program."
+    viz:
+      attrs:
+        - "university"
+      data:
+        show: "timeframe"
+        university: "<<id>>,<<carnegie>>"
+        required: "num_completed_ba,pct_completed_ba"
+        sumlevel: "all"
+      depth: 1
+      id:
+        - "university"
+        - "timeframe"
+      tooltip:
+        value:
+          - timeframe
+          - university
+          - pct_completed_ba
+          - num_completed_ba
+      time: year
+      type: "line"
+      x:
+        label: NO
+        value: year
+      y: pct_completed_ba
+  - title: "Graduation Rate by Race and Gender"
+    category: "Diversity"
+    allowed: "<<var namespace=grad_rate_top|row=0|key=ipeds_race>>:!N/A"
+    subtitle: "Showing demographic groups with ≥ 5 graduating students."
+    slug: "rate"
+    stat:
+      - title: "Highest Graduation Rate (<<var namespace=grad_rate_top|row=0|key=grad_rate>>)"
+        value: "<<var namespace=grad_rate_top|row=0|key=ipeds_race>> <<var namespace=grad_rate_top|row=0|key=sex>>"
+    description:
+      - "The student demographic with the highest graduation rate at <<name>> is <<var namespace=grad_rate_top|row=0|key=sex>> and <<var namespace=grad_rate_top|row=0|key=ipeds_race>> (<<var namespace=grad_rate_top|row=0|key=grad_rate>> graduation rate).{{<<sumlevel>>:!0|| Across all <<carnegie key=name>>, <<var namespace=grad_rate_top_carnegie|row=0|key=ipeds_race>> <<var namespace=grad_rate_top_carnegie|row=0|key=sex>> students have the highest graduation rate (<<var namespace=grad_rate_top_carnegie|row=0|key=grad_rate>>).}}"
+      - "The department of education defines graduation rate as the percentage of full-time, first-time students who received a degree or award within 150% of \"normal time\" to completion."
+      - "The National Center for Education Statistics (NCES) categorizes any student who is studying in the United States on a temporary basis as a \"Non-Resident Alien\", and the graduation rate of those students is shown in the chart below. Additionally, <<percent num=sum:grad_rate_top_unknown,num_finishers|den=var:grad_rate,num_finishers>> of graduates (<<sum namespace=grad_rate_top_unknown|key=num_finishers>> students) did not report their race."
+    miniviz:
+      attrs:
+        - "ipeds_race"
+        - "sex"
+      color: "sex"
+      data:
+        show: "ipeds_race,sex"
+        university: "<<id>>"
+        required: "grad_rate,num_finishers"
+        sumlevel: "all,all"
+        where: "num_finishers:>4"
+        map:
+          delete: False
+          race: ipeds_race
+      depth: 1
+      id:
+        solo: nonresident
+        value:
+          - "ipeds_race"
+          - "sex"
+      legend:
+        data: false
+      order:
+        value: grad_rate
+      tooltip:
+        value:
+          - sex
+          - grad_rate
+          - num_finishers
+      type: "bar"
+      x:
+        label: "Non-Resident Aliens"
+        value: grad_rate
+      y:
+        label: NO
+        scale: discrete
+        ticks:
+          labels: NO
+        value: ipeds_race
+    viz:
+      attrs:
+        - "ipeds_race"
+        - "sex"
+      color: "race"
+      data:
+        show: "ipeds_race,sex"
+        university: "<<id>>"
+        required: "grad_rate,num_finishers"
+        sumlevel: "all,all"
+        where: "num_finishers:>4"
+        map:
+          delete: False
+          race: ipeds_race
+      depth: 1
+      id:
+        mute:
+          - nonresident
+          - unknown
+        value:
+          - "ipeds_race"
+          - "sex"
+      legend:
+        data: false
+      order:
+        value: grad_rate
+      tooltip:
+        value:
+          - sex
+          - grad_rate
+          - num_finishers
+      type: "bar"
+      x:
+        label: NO
+        value: ipeds_race
+      y: grad_rate
+  - title: "Race & Ethnicity by Share"
+    slug: "ethnicity"
+    description:
+      - "The most common race/ethnicity of graduating students at <<name>> is <<var namespace=grads_race|key=name|row=0>> (<<var namespace=grads_race|key=value|row=0>> students). There were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>> (<<var namespace=grads_race|key=value|row=1>> graduates)."
+      - "<<percent num=var:grads_race_unknown,grads_unknown|den=sum:grads_race,value>> of graduates (<<var namespace=grads_race_unknown|key=grads_unknown>> students) did not report their race."
+    stat:
+      - title: "Most common student race or ethnicity"
+        value: "<<var namespace=grads_race|key=name|row=0>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=0>></span>"
+        subvalues:
+          - "<<var namespace=grads_race|key=name|row=1>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=1>></span>"
+          - "<<var namespace=grads_race|key=name|row=2>> <span class='stat-subtitle'><<var namespace=grads_race|key=value|row=2>></span>"
+    viz:
+      color: "race"
+      data:
+        show: "university"
+        university: "<<id>>"
+        required: "grads_asian,grads_black,grads_white,grads_hispanic,grads_hawaiian,grads_multi,grads_unknown,grads_native"
+        share: grads_total
+        split:
+          id: "race"
+          regex: "^grads_([a-z]*)$"
+          value: "grads_total"
+      id:
+        mute: unknown
+        value: "race"
+      order:
+        sort: "asc"
+        value: "grads_total"
+      tooltip:
+        value:
+          - grads_total
+          - share
+      type: "bar"
+      x: share
+      y:
+        scale: "discrete"
+        value: "race"
+  - title: "Race & Ethnicity by Gender"
+    slug: "ethnicity_gender"
+    description:
+      - "The most common race/ethnicity and gender grouping at <<name>> is <<var namespace=grads_race_sex|key=name|row=0>> (<<var namespace=grads_race_sex|key=value|row=0>> graduates). There were <<percent num=var:grads_race_sex,value,0|den=var:grads_race_sex,value,1|ratio=True>> times more <<var namespace=grads_race_sex|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race_sex|key=name|row=1>> (<<var namespace=grads_race_sex|key=value|row=1>> graduates)."
+    stat:
+      - title: "Most common gender demographic"
+        value: "<<var namespace=grads_race_sex|key=name|row=0>> <span class='stat-subtitle'><<var namespace=grads_race_sex|key=value|row=0>></span>"
+        subvalues:
+          - "<<var namespace=grads_race_sex|key=name|row=1>> <span class='stat-subtitle'><<var namespace=grads_race_sex|key=value|row=1>></span>"
+          - "<<var namespace=grads_race_sex|key=name|row=2>> <span class='stat-subtitle'><<var namespace=grads_race_sex|key=value|row=2>></span>"
+    viz:
+      color: sex
+      data:
+        show: "university"
+        university: "<<id>>"
+        required: "grads_total,grads_asian_men,grads_black_men,grads_white_men,grads_hispanic_men,grads_hawaiian_men,grads_multi_men,grads_unknown_men,grads_native_men,grads_asian_women,grads_black_women,grads_white_women,grads_hispanic_women,grads_hawaiian_women,grads_multi_women,grads_unknown_women,grads_native_women"
+        share: grads_total
+        split:
+          id: "race_sex"
+          regex: "^grads_([a-z]*_[a-z]*)$"
+          map:
+            race: "^grads_([a-z]*)_[a-z]*$"
+            sex: "^grads_[a-z]*_([a-z]*)$"
+          value: "grads_total"
+      id: sex
+      order:
+        sort: "desc"
+        value: "grads_total"
+      tooltip:
+        value:
+          - grads_total
+      type: "bar"
+      x: race
+      y: grads_total

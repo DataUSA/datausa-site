@@ -11,7 +11,7 @@
     <meta property="og:description" content="{{ meta_desc }}"/>
 {% endblock %}
 
-{% block title %}{{ section.topics[0].title }}{% if profile.attr_type == "geo" %} in {% else %} for {% endif %}{{ profile.splash.title }}{% endblock %}
+{% block title %}{{ section.topics[0].title|striptags }}{% if profile.attr_type == "geo" %} in {% else %} for {% endif %}{{ profile.splash.title }}{% endblock %}
 
 {% block content %}
 <section class="{{ section.anchor }} profile-section">

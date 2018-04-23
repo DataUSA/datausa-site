@@ -101,7 +101,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
   var loader = body.append("div")
     .attr("class", "loader")
-    .html("<i class='fa fa-spinner fa-spin'></i>Loading Data");
+    .html("<p><i class='fa fa-spinner fa-spin'></i>Loading Data</p>");
 
   var nav = body
     .append("div")
@@ -378,10 +378,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             }
           }
 
-          var tbl = data_panel.html("<table><thead><tr></tr></thead><tbody></tbody></table>").select("table");
+          data_panel.html("<div class='data-loading'><p><i class='fa fa-spinner fa-spin'></i> Loading Preview...</p></div>");
 
+          var queryLimit = 50;
+          var tableLimit = queryLimit * unfilteredData.length;
           for (var i = 0; i < unfilteredData.length; i++) {
-            var dataURL = unfilteredData[i].url.replace(/\?limit=[0-9]+&/gi, "?").replace(/&limit=[0-9]+/gi, "")
+            var dataURL = unfilteredData[i].url
+              .replace(/\?limit=[0-9]+&/gi, "?")
+              .replace(/&limit=[0-9]+/gi, "") + "&limit=" + queryLimit;
             var show = dataURL.match(/show=([a-z,]+)/);
             if (show) show = show[1].split(",");
             else show = [];
@@ -389,7 +393,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
               headers = headers.concat(return_data.headers);
               dataArray = dataArray.concat(data);
               loaded++;
-              if(loaded === unfilteredData.length){
+              if (loaded === unfilteredData.length) {
                 headers = d3plus.util.uniques(headers);
                 dataArray.forEach(function(dArr){
                   var newArr = [];
@@ -419,6 +423,13 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                     return diff;
                   });
                 }
+
+                var tblHTML = "";
+                if (tblData.length === tableLimit) tblHTML += "<div class='caveat'>Only displaying the first " + tableLimit + " results. To view the full dataset please add it to the cart.<br />The cart is a free tool that enables cross-dataset merging.</div>"
+                tblHTML += "<table><thead><tr></tr></thead><tbody></tbody></table>";
+
+                var tbl = data_panel
+                  .html(tblHTML).select("table");
 
                 /*
                  *  Table Headers

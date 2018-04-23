@@ -270,6 +270,7 @@
   limit: 50
   dataset: ipeds
   year: latest
+  sumlevel: 2
   namespace: universities
 
 - required: ["sector", "grads_total"]

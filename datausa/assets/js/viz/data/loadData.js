@@ -36,48 +36,6 @@ viz.formatData = function(data, d, build) {
   //   }
   // }
 
-  if (d.merge) {
-    var mergeKeys = d.merge.split(".");
-    for (var i = 0; i < build.data[0].data.length; i++) {
-      var datum = build.data[0].data[i];
-      var matched = data.filter(function(obj) {
-        return mergeKeys.map(function(k) {
-          return obj[k] === datum[k];
-        }).indexOf(false) < 0;
-      });
-      if (matched.length) {
-        for (var k in matched[0]) {
-          datum[k] = matched[0][k];
-        }
-      }
-    }
-    data = build.data[0].data;
-  }
-
-  if (d.map) {
-    if ("delete" in d.map) {
-      var deleteMap = d.map.delete;
-      delete d.map.delete;
-    }
-    else {
-      var deleteMap = true;
-    }
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.map) {
-        data[i][k] = data[i][d.map[k]];
-        if (deleteMap) delete data[i][d.map[k]];
-      }
-    }
-  }
-
-  if (d.static) {
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.static) {
-        data[i][k] = d.static[k];
-      }
-    }
-  }
-
   if (d.split) {
 
     var regex = d.split.regex instanceof Array ? d.split.regex : [d.split.regex];
@@ -129,10 +87,59 @@ viz.formatData = function(data, d, build) {
     data = split_data;
   }
 
+  if (d.merge) {
+    var mergeKeys = d.merge.split(".");
+    for (var i = 0; i < build.data[0].data.length; i++) {
+      var datum = build.data[0].data[i];
+      var matched = data.filter(function(obj) {
+        return mergeKeys.map(function(k) {
+          return obj[k] === datum[k];
+        }).indexOf(false) < 0;
+      });
+      if (matched.length) {
+        for (var k in matched[0]) {
+          datum[k] = matched[0][k];
+        }
+      }
+    }
+    data = build.data[0].data;
+  }
+
+  if (d.map) {
+    if ("delete" in d.map) {
+      var deleteMap = d.map.delete;
+      delete d.map.delete;
+    }
+    else {
+      var deleteMap = true;
+    }
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.map) {
+        data[i][k] = data[i][d.map[k]];
+        if (deleteMap) delete data[i][d.map[k]];
+      }
+    }
+  }
+
+  if (d.static) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.static) {
+        data[i][k] = d.static[k];
+      }
+    }
+  }
+
+  if (d.sum) {
+    for (var i = 0; i < data.length; i++) {
+      data[i][d.sum.value] = d3.sum(d.sum.keys.map(function(dd) { return data[i][dd] || 0; }));
+    }
+  }
+
   if (d.divide) {
     for (var i = 0; i < data.length; i++) {
       data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den];
-      if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
+      if (data[i][d.divide.value] === Infinity) data[i][d.divide.value] = undefined;
+      else if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
     }
   }
 
@@ -246,7 +253,7 @@ viz.formatData = function(data, d, build) {
   if (data.length && "university" in data[0]) {
     var attrs = build.viz.attrs();
     for (var i = 0; i < data.length; i++) {
-      data[i].sector = attrs[data[i].university].sector;
+      if (data[i].university && attrs[data[i].university]) data[i].sector = attrs[data[i].university].sector;
     }
   }
 
@@ -257,7 +264,7 @@ viz.formatData = function(data, d, build) {
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
-  if (build.viz.data().length === 0) build.viz.error("Loading Data").draw();
+  if (build.viz && build.viz.data().length === 0) build.viz.error("Loading Data").draw();
 
   build.sources = [];
 

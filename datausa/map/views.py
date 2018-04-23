@@ -109,6 +109,7 @@ mapdata = {
         "chr.child_mortality",
         "chr.food_insecurity",
         "chr.limited_access_to_healthy_foods",
+        "chr.drug_overdose_deaths",
         "chr.children_eligible_for_free_lunch",
 
         "opioids.opioid_overdose_deathrate_ageadjusted",
@@ -132,7 +133,8 @@ mapdata = {
         "ipeds.grads_total",
         "ipeds.grads_total_growth",
         "chr.high_school_graduation",
-        "chr.some_college"
+        "chr.some_college",
+        "defaults.default_rate,num_borrowers,num_defaults"
     ],
 
     "housing": [
@@ -156,7 +158,8 @@ def map():
         "chr": ["state", "county"],
         "ipeds": ["state", "county", "msa", "puma"],
         "pums": ["state", "puma"],
-        "opioids": ["state"]
+        "opioids": ["state"],
+        "defaults": ["state", "county", "msa"],
     }
 
     defaultKey = request.args.get("key", "uninsured")

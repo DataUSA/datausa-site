@@ -110,12 +110,15 @@ TEXTCOMPARATORS = {
     "growth2": ("growth", "decline", "change"),
     "grew": ("grew to", "declined to", "stayed at"),
     "grew2": ("grew", "declined", "stayed"),
+    "grew3": ("grew by", "declined by", "stayed at"),
     "highlow": ("higher than", "lower than", "approximately the same as"),
     "highlowsame": ("a higher", "a lower", "the same"),
     "increase": ("increase", "decrease", "change"),
     "increased": ("increased", "decreased", "changed"),
+    "increased2": ("increased by", "decreased by", "did not change"),
     "larger": ("larger", "smaller", "larger"),
     "longshort": ("longer", "shorter", "approximately equal"),
+    "morefewer": ("more", "fewer", "approximately the same"),
     "moreless": ("more than", "less than", "approximately the same as"),
     "moreless2": ("more", "less", "approximately the same"),
     "mostleast": ("most", "least", "same"),
@@ -123,6 +126,8 @@ TEXTCOMPARATORS = {
 }
 
 DICTIONARY = {
+
+    "university_name": "University",
 
     "income_range": "Income Range",
     "income_range_name": "Income Range",
@@ -132,6 +137,10 @@ DICTIONARY = {
     "avg_netprice_fedaid": "Average Net Price",
     "avg_netprice_gos_aid": "Average Net Price",
     "num_income": "Number of Students",
+
+
+    "pct_completed_ba": "Percent Completed",
+    "num_completed_ba": "Students Completed",
 
     "books_and_supplies": "Books & Supplies",
     "room_and_board": "Room & Board",
@@ -412,7 +421,8 @@ DICTIONARY = {
     "num_ppl_rca": "People in Workforce (RCA)",
     "num_speakers": "Speakers",
     "num_speakers_rca": "Speakers (RCA)",
-    "oos_tuition": "Out of State Tuition",
+    "oos_tuition": "Out of State Undergraduate Tuition",
+    "oos_tuition_grads": "Out of State Graduate Tuition",
     "owner_occupied_housing_units": "Homeowners",
     "pct_total": "Percentage of Degrees Awarded",
     "people": "People",
@@ -465,7 +475,8 @@ DICTIONARY = {
     "propertyval": "Property Value",
     "race": "Race or Ethnicity",
     "sex": "Gender",
-    "state_tuition": "In State Tuition",
+    "state_tuition": "In State Undergraduate Tuition",
+    "state_tuition_grads": "In State Graduate Tuition",
 
     "total_owner_occupied_housing_units": "Total Households",
 
@@ -571,12 +582,18 @@ DICTIONARY = {
 
 AFFIXES = {
     "state_tuition": ["$", ""],
+    "state_tuition_grads": ["$", ""],
     "oos_tuition": ["$", ""],
+    "oos_tuition_grads": ["$", ""],
     "district_tuition": ["$", ""],
+    "district_tuition_grads": ["$", ""],
     "tuition_cost": ["$", ""],
     "state_fee": ["$", ""],
+    "state_fee_grads": ["$", ""],
     "oos_fee": ["$", ""],
+    "oos_fee_grads": ["$", ""],
     "district_fee": ["$", ""],
+    "district_fee_grads": ["$", ""],
     "fee_cost": ["$", ""],
     "avg_wage": ["$", ""],
     "avg_wage_ft": ["$", ""],
@@ -693,7 +710,8 @@ PERCENTAGES = [
     "retention_rate_ft",
     "retention_rate_pt",
     "default_rate",
-    "non_medical_use_of_pain_relievers"
+    "non_medical_use_of_pain_relievers",
+    "pct_completed_ba"
 ]
 
 PER1000 = [
@@ -898,7 +916,7 @@ GLOSSARY = {
     "RCA": {
         "def": "The RCA calculation compares the share in a given constraint versus the national share.",
         "link": "/about/glossary/#rca",
-        "alts": ["Most Specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
+        "alts": ["Most Specialized", "most specialized", "relatively high", "High Relative", "Revealed Comparative Advantage", "revealed comparative advantage"]
     },
     "GINI": {
         "def": "The GINI coefficient is a measure of statistical dispersion intended to represent the equality of a distribution, and is the most commonly used measure of inequality. Values range from 0 to 1, with 0 being perfect equality.",
@@ -909,6 +927,19 @@ GLOSSARY = {
         "def": "Data from the Dartmouth Atlas reports only two racial categories: black and non-black.",
         "link": "/about/glossary/#dartmouth",
         "alts": ["Non-black", "Non-Black", "medicare_beneficiaries_white", "medicare_beneficiaries_black", "patients_with_one_ambulatory_visit_to_pc_black", "patients_with_one_ambulatory_visit_to_pc_white", "diabetic_medicare_enrollees_65_75_black", "diabetic_medicare_enrollees_65_75_white", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_black", "patients_diabetic_medicare_enrollees_65_75_hemoglobin_white", "patients_diabetic_medicare_enrollees_65_75_eye_exam_black", "patients_diabetic_medicare_enrollees_65_75_eye_exam_white", "patients_diabetic_medicare_enrollees_65_75_lipid_test_black", "patients_diabetic_medicare_enrollees_65_75_lipid_test_white", "number_of_females_enrolled_67_69_black", "number_of_females_enrolled_67_69_white", "patients_females_67_69_having_mammogram_black", "patients_females_67_69_having_mammogram_white", "beneficiaries_part_a_eligible_black", "beneficiaries_part_a_eligible_white", "discharges_for_ambulatory_conditions_per_1000_black", "discharges_for_ambulatory_conditions_per_1000_white", "leg_amputations_per_1000_enrollees_white", "leg_amputations_per_1000_enrollees_black"]
+    },
+    "yield_total": {
+        "def": "Percentage of admitted students who enrolled.",
+        "alts": ["Enrollment Yield", "enrollment yield"]
+    },
+    "nonresident": {
+        "def": "A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely.",
+        "alts": ["non-resident alien", "Non-Resident Alien", "Nonresident Alien", "nonresident alien"]
+    },
+    "avg_netprice_fedaid": {
+        "def": "Average net price for full-time, first-time degree/certificate-seeking undergraduates who were awarded Title IV federal student aid.",
+        "link": "/about/glossary/#netprice",
+        "alts": ["average net price", "Average Net Price"]
     },
     "mental_health_providers": {
         "def": "The ratio of the population to the total number of mental health providers including psychiatrists, psychologists, licensed clinical social workers, counselors, marriage and family therapists and advanced practice nurses specializing in mental health care."

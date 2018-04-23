@@ -102,7 +102,7 @@ topics:
           show: "soc"
           limit: 5
           order: "abs(pct_change)"
-          required: "emp_2014_thousands,emp_2024_thousands"
+          required: "soc,emp_2014_thousands,emp_2024_thousands"
           year: "none"
           split:
             id: "year"

@@ -39,9 +39,35 @@ class Profile(BaseObject):
         # set attr (using the fetch function) and attr_type
         self.attr = fetch(attr_id, attr_type)
         self.attr_type = attr_type
+        self.common_degree = False
         self.variables = self.load_vars(required_namespaces)
         self.splash = Section(self.load_yaml(self.open_file("splash")), self)
         self.section_cache = False
+
+    def attribute(self, **kwargs):
+        key = kwargs.get("key")
+        val = self.attr[key]
+        if key == "opeid8":
+            val = val[:-2]
+        attr = kwargs.get("attr", False)
+        if attr:
+            val = self.make_links([fetch(val, attr)], attr)
+        return val
+
+    def carnegie(self, **kwargs):
+        parent = kwargs.get("parent", "carnegie_parent")
+        carnegie_id = self.attr[parent]
+        if not carnegie_id:
+            carnegie_id = self.id(**kwargs)
+        key = kwargs.get("key", "id")
+        if key == "id":
+            return carnegie_id
+        else:
+            carnegie_attr = fetch(carnegie_id, "university")
+            if key == "name":
+                return self.make_links([carnegie_attr])
+            else:
+                return carnegie_attr[key]
 
     def children(self, **kwargs):
 
@@ -67,6 +93,27 @@ class Profile(BaseObject):
 
         return u",".join([c["id"] for c in children])
 
+    def default_degree(self, **kwargs):
+        if not self.common_degree:
+            url = "{}/api?university={}&show=degree&required=grads_total&order=grads_total&sort=desc".format(API, self.attr["id"])
+            try:
+                results = requests.get(url).json()
+                if "error" in results:
+                    self.common_degree = "5"
+                else:
+                    results = [r for r in datafold(results)]
+                    bachelor = [r for r in results if r["degree"] == "5"]
+                    if len(results) == 0 or len(bachelor) > 0:
+                        self.common_degree = "5"
+                    else:
+                        self.common_degree = results[0]["degree"]
+            except ValueError:
+                self.common_degree = "5"
+        key = kwargs.get("key", False)
+        if key:
+            return fetch(self.common_degree, "degree")[key]
+        return self.common_degree
+
     def foot(self, **kwargs):
         return "<sup><a href='#footnote{0}'>{0}</a></sup>".format(kwargs.get("note"))
 
@@ -84,21 +131,22 @@ class Profile(BaseObject):
     def growth(self, **kwargs):
         key = kwargs.get("key")
         fmt = kwargs.get("format", "pretty")
+        offset = int(kwargs.get("offset", "0"))
         kwargs["format"] = "raw"
 
         if "_moe" in key:
-            kwargs["row"] = "0"
+            kwargs["row"] = str(0 + offset)
             dx2 = self.var(**kwargs)
-            if not dx2:
+            if not dx2 or dx2 == "N/A":
                 dx2 = 0
-            kwargs["row"] = "1"
+            kwargs["row"] = str(1 + offset)
             dx1 = self.var(**kwargs)
-            if not dx1:
+            if not dx1 or dx1 == "N/A":
                 dx1 = 0
             kwargs["key"] = key[:-4]
-            kwargs["row"] = "0"
+            kwargs["row"] = str(0 + offset)
             x2 = self.var(**kwargs)
-            kwargs["row"] = "1"
+            kwargs["row"] = str(1 + offset)
             x1 = self.var(**kwargs)
             if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
                 return "N/A"
@@ -106,9 +154,9 @@ class Profile(BaseObject):
             f2 = (math.pow(1 / x1, 2) * math.pow(dx2, 2))
             value = math.sqrt(f1 + f2)
         else:
-            kwargs["row"] = "0"
+            kwargs["row"] = str(0 + offset)
             x2 = self.var(**kwargs)
-            kwargs["row"] = "1"
+            kwargs["row"] = str(1 + offset)
             x1 = self.var(**kwargs)
             if not x1 or x1 == "N/A" or not x2 or x2 == "N/A":
                 return "N/A"
@@ -116,9 +164,9 @@ class Profile(BaseObject):
                 value = (float(x2) - x1) / x1
 
         if fmt == "text":
-            return "{} {}".format(num_format(value, "growth"), "growth" if value >= 0 else "decline")
+            return "{} {}".format(num_format(abs(value), "growth"), "growth" if value >= 0 else "decline")
         elif fmt == "pretty":
-            return num_format(value, "growth")
+            return num_format(abs(value), "growth")
         else:
             return value
 
@@ -178,16 +226,19 @@ class Profile(BaseObject):
 
         return self.attr["id"]
 
-    def image(self):
-        if "image_link" in self.attr:
-            url = "/static/img/splash/{}/".format(self.attr_type)
+    def image(self, **kwargs):
+        attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        attr = fetch(attr_id, self.attr_type)
+
+        def formatImage(attr, attr_type):
+            url = "/static/img/splash/{}/".format(attr_type)
             image_attr = False
-            if self.attr["image_link"]:
-                image_attr = self.attr
+            if "image_link" in attr and attr["image_link"]:
+                image_attr = attr
             else:
-                parents = [fetch(p["id"], self.attr_type) for p in get_parents(self.attr["id"], self.attr_type)]
+                parents = [fetch(p["id"], attr_type) for p in get_parents(attr["id"], attr_type)]
                 for p in reversed(parents):
-                    if p["image_link"]:
+                    if "image_link" in p and p["image_link"]:
                         image_attr = p
                         break
             if image_attr:
@@ -197,6 +248,14 @@ class Profile(BaseObject):
                     "author": image_attr["image_author"],
                     "meta": image_attr.get("image_meta", False)
                     }
+
+        if "image_link" in attr:
+            if self.attr_type == "university" and attr["image_link"] == None:
+                if "msa" in attr and attr["msa"] != None:
+                    return formatImage(fetch(attr["msa"], "geo"), "geo")
+                else:
+                    return formatImage(fetch("250000", "soc"), "soc")
+            return formatImage(attr, self.attr_type)
         return None
 
     def level(self, **kwargs):
@@ -362,6 +421,41 @@ class Profile(BaseObject):
             name = u"<a href='{}'>{}</a>".format(url_for("profile.profile", attr_type=self.attr_type, attr_id=url_name), name)
         return name
 
+    def nearby(self, **kwargs):
+
+        if self.attr_type != "university":
+            return []
+
+        attr_id = self.id(**kwargs)
+        ids_only = kwargs.get("ids", False)
+        endpoint = kwargs.get("endpoint", "nearby")
+        url = "{}/attrs/{}/university/{}".format(API, endpoint, attr_id)
+
+        try:
+            results = requests.get(url).json()
+            if "error" in results:
+                results = requests.get(url.replace(endpoint, "nearby")).json()
+            results = [r for r in datafold(results) if r["id"] != attr_id]
+
+            sector = kwargs.get("sector", False)
+            if sector:
+                results = [fetch(r["id"], "university") for r in results]
+                if sector == "private":
+                    results = [r for r in results if str(r["sector"]) in ["2", "3", "5", "6", "8", "9"]]
+                else:
+                    results = [r for r in results if str(r["sector"]) not in ["2", "3", "5", "6", "8", "9"]]
+
+            if ids_only:
+                return ",".join([r["id"] for r in results])
+            for result in results:
+                result["image_link"] = self.image(attr_id = result["id"])["url"]
+            return results
+        except ValueError:
+            app.logger.info("STAT ERROR: {}".format(url))
+            if ids_only:
+                return ""
+            return []
+
     def open_file(self, f):
         profile_path = os.path.dirname(os.path.realpath(__file__))
         file_path = os.path.join(profile_path, self.attr_type, "{}.yml".format(f))
@@ -370,7 +464,14 @@ class Profile(BaseObject):
     def parents(self, **kwargs):
         id_only = kwargs.get("id_only", False)
         limit = kwargs.pop("limit", None)
-        attr_id = self.id(**kwargs)
+        if self.attr_type == "university":
+            attr_id = kwargs.get("attr_id", self.attr["county"])
+        else:
+            attr_id = kwargs.get("attr_id", self.id(**kwargs))
+        if self.attr_type == "university":
+            attr_type = kwargs.get("attr_type", "geo")
+        else:
+            attr_type = kwargs.get("attr_type", self.attr_type)
         prefix = kwargs.get("prefix", None)
 
         if (prefix or limit) and id_only == False:
@@ -427,16 +528,16 @@ class Profile(BaseObject):
                 else:
                     return results
 
-        results = [p for p in get_parents(attr_id, self.attr_type) if p["id"] != attr_id]
+        results = [p for p in get_parents(attr_id, attr_type) if p["id"] != attr_id]
         results = self.get_uniques(results)
         for p in results:
-            if self.attr_type == "geo":
+            if attr_type == "geo":
                 level = p["id"][:3]
-            elif self.attr_type == "cip":
+            elif attr_type == "cip":
                 level = str(len(p["id"]))
             else:
-                level = str(fetch(p["id"], self.attr_type)["level"])
-            p["sumlevel"] = SUMLEVELS[self.attr_type][level]["label"]
+                level = str(fetch(p["id"], attr_type)["level"])
+            p["sumlevel"] = SUMLEVELS[attr_type][level]["label"]
 
         if prefix:
             results = [r for r in results if r["id"].startswith(prefix)]
@@ -506,6 +607,24 @@ class Profile(BaseObject):
                 params["col"], params["force"] = key.split(":")[1].split(",")
                 r["{}_key".format(t)] = params["col"]
                 r[t] = self.top(**params)["data"][0]
+
+            elif "sum:" in key:
+
+                keys = key.split(":")[1].split(",")
+                ns, col = keys
+                r["{}_key".format(t)] = col
+                r[t] = self.sum(namespace=ns, key=col, format="raw")
+
+            elif "divide:" in key:
+
+                keys = key.split(":")[1].split(",")
+                ns, col1, col2, row = keys
+                r["{}_key".format(t)] = col1
+                val1 = self.var(namespace=ns, key=col1, row=row, format="raw")
+                val2 = self.var(namespace=ns, key=col2, row=row, format="raw")
+                if val1 == "N/A" or val2 == "N/A":
+                    return val1
+                r[t] = val1 / val2 * 100
 
             elif "var:" in key:
 
@@ -717,7 +836,8 @@ class Profile(BaseObject):
         """list[Section]: Loads YAML configuration files and converts them to Section classes. """
         if not self.section_cache:
             # pass each file to the Section class and return the final array
-            self.section_cache = [Section(self.load_yaml(self.open_file(f)), self, f) for f in self.splash.sections]
+            sections = [[self.load_yaml(self.open_file(f)), f] for f in self.splash.sections]
+            self.section_cache = [Section(s[0], self, s[1]) for s in sections if self.allowed_levels(s[0])]
 
         return self.section_cache
 
@@ -736,6 +856,11 @@ class Profile(BaseObject):
             return Section(self.load_yaml(json.dumps(desired_config)), self, section_name)
         return None
 
+    def sector(self, **kwargs):
+        if kwargs.get("text", False):
+            return fetch(self.attr["sector"], "sector")["name"]
+        return "private" if str(self.attr["sector"]) in ["2", "3", "5", "6", "8", "9"] else "public"
+
     def siblings(self, **kwargs):
         limit = kwargs.pop("limit", 5)
         # get immediate parents
@@ -748,9 +873,14 @@ class Profile(BaseObject):
 
         return self.make_links(siblings)
 
+    def similar(self, **kwargs):
+
+        kwargs["endpoint"] = "similar"
+        return self.nearby(**kwargs)
+
 
     def solo(self):
-        attr_id = self.attr["id"]
+        attr_id = self.attr["county"] if "county" in self.attr else self.attr["id"]
         if attr_id[:3] in ["010", "040"]:
             return ""
         else:
@@ -868,6 +998,15 @@ class Profile(BaseObject):
         elif attr_type == "cip":
             return str(len(attr_id))
 
+        elif attr_type == "university":
+            attr = fetch(attr_id, attr_type)
+            if attr["carnegie"] != None:
+                return "2"
+            elif attr["carnegie_parent"] != None:
+                return "1"
+            else:
+                return "0"
+
         else:
             return str(fetch(attr_id, attr_type)["level"])
 
@@ -984,18 +1123,31 @@ class Profile(BaseObject):
         key = kwargs.get("key", "")
         formatting = kwargs.get("format", "pretty")
         row = kwargs.get("row", False)
+        csl = kwargs.get("csl", False)
+        limit = kwargs.get("limit", False)
+        plural = kwargs.get("plural", False)
 
         var_map = self.variables
 
         if var_map:
+            val = False
             if namespace in var_map and var_map[namespace] and formatting == "length":
                 return len(var_map[namespace])
+            if csl and namespace in var_map and var_map[namespace]:
+                vals = [v[key]["raw"] for v in var_map[namespace]]
+                if limit:
+                    del vals[int(limit):]
+                return ",".join(vals)
             if row and namespace in var_map and var_map[namespace]:
                 row = int(row)
                 if row < len(var_map[namespace]):
-                    return var_map[namespace][row][key][formatting]
+                    val = var_map[namespace][row][key][formatting]
             if namespace in var_map and key in var_map[namespace]:
-                return var_map[namespace][key][formatting]
+                val = var_map[namespace][key][formatting]
+            if val:
+                if plural:
+                    val = "{}ies".format(val[:-1]) if val[-1] == "y" else "{}s".format(val)
+                return val
             return "N/A"
         else:
             raise Exception("vars.yaml file has no variables")
@@ -1010,4 +1162,5 @@ class Profile(BaseObject):
         keys = re.findall(r"namespace=([^\|>]+)", raw_topics)
         filters = re.findall(r"\"filter\": \"([a-z_]+)\"", raw_topics)
         percents = re.findall(r"var:([^,]+)", raw_topics)
-        return list(set(keys + filters + percents))
+        sums = re.findall(r"sum:([^,]+)", raw_topics)
+        return list(set(keys + filters + percents + sums))

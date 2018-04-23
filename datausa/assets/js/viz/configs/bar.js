@@ -31,7 +31,18 @@ viz.bar = function(build) {
     var toggle = build.select || build.config.ui && build.config.ui.filter(function(u) { return u.method === axis; }).length;
 
     if (!toggle && build.config[axis] && axis !== discrete) {
-      range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
+      if (build.config[axis].stacked) {
+        var other = axis.indexOf("x") === 0 ? axis.replace("x", "y") : axis.replace("y", "x");
+        var otherKey = build.config[other].value;
+        var nest = d3.nest()
+          .key(function(d) { return otherKey === "year" ? d.year : d.year + "-" + d[otherKey]; })
+          .entries(build.viz.data())
+          .map(function(d) { return d.values; })
+          .map(function(d) { return d.map(function(d) { return d[build.config[axis].value]; }); })
+          .map(function(d) { return d3.sum(d); });
+        range = [0, d3.max(nest)];
+      }
+      else range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
     }
 
     return {

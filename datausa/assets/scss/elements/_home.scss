@@ -322,6 +322,9 @@ body.home {
       padding-right: 1px;
 
       .search-item {
+        .subtitle {
+          margin-top: 5px;
+        }
         &:active, &:focus, &:hover {
           background-color: $d-profile-bg;
         }
@@ -618,19 +621,24 @@ body.home {
       &.secondary { display: none; }
 
 
-      @media only screen and (max-width: 1800px) {
+      @media only screen and (max-width: 2100px) {
         &.rank-cip.primary { display: none; }
         &.rank-cip.secondary { display: inline-block; }
       }
 
-      @media only screen and (max-width: 1600px) {
+      @media only screen and (max-width: 1850px) {
         &.rank-naics.primary { display: none; }
         &.rank-naics.secondary { display: inline-block; }
       }
 
-      @media only screen and (max-width: 1400px) {
+      @media only screen and (max-width: 1600px) {
         &.rank-cart.primary { display: none; }
         &.rank-cart.secondary { display: inline-block; }
+      }
+
+      @media only screen and (max-width: 1400px) {
+        &.rank-soc.primary { display: none; }
+        &.rank-soc.secondary { display: inline-block; }
       }
 
       @media only screen and (max-width: 1200px) {

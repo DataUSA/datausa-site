@@ -4,8 +4,9 @@ from config import API
 from datausa.consts import COLLECTIONYEARS
 from datausa.utils.format import param_format
 from datausa.utils.data import year_cache
+from datausa.visualize.abstract import BaseObject
 
-class Viz(object):
+class Viz(BaseObject):
     """A visualization object to be built using D3plus.
 
     Attributes:
@@ -32,6 +33,7 @@ class Viz(object):
 
         # force the data of params into a list
         data = params.pop("data") if isinstance(params["data"], list) else [params.pop("data")]
+        data = [d for d in data if self.allowed_levels(d)]
 
         # remove sumlevel if it exists
         sumlevel = params.pop("sumlevel", None)
@@ -48,7 +50,8 @@ class Viz(object):
                 "merge": d.pop("merge", None),
                 "split": d.pop("split", None),
                 "static": d.pop("static", None),
-                "share": d.pop("share", None)
+                "share": d.pop("share", None),
+                "sum": d.pop("sum", None),
             }
 
             # Set fallback API params

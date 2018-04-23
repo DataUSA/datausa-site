@@ -228,9 +228,7 @@
 
             if (build.loaded) {
               build.loaded = false;
-              build.container.select(".d3plus")
-                .style("width", "0px").style("height", "0px")
-                .selectAll("*").remove();
+              build.container.selectAll("*").remove();
               build.viz.height(false).width(false);
             }
 
@@ -243,9 +241,14 @@
             d3.select(clone).classed("compare-add", true)
               .selectAll(".stat").each(function(d, i) {
                 var stat = data.splash.stats[i];
-                d3.select(this).select(".stat-text").html(stat.title);
-                d3.select(this).select(".stat-value").html(stat.value);
-                d3.select(this).select(".stat-rank").html(stat.rank || "");
+                if (stat) {
+                  d3.select(this).select(".stat-text").html(stat.title);
+                  d3.select(this).select(".stat-value").html(stat.value);
+                  d3.select(this).select(".stat-rank").html(stat.rank || "");
+                }
+                else {
+                  d3.select(this).remove();
+                }
               });
             stats.parentNode.appendChild(clone);
 
@@ -327,7 +330,7 @@
               d3.select(this).selectAll("article").each(function() {
 
                 var slug = d3.select(this).attr("data-slug");
-                var topic = sections[anchor].topics[slug];
+                var topic = sections[anchor] ? sections[anchor].topics[slug] : false;
                 if (topic && (topic.viz || topic.stat)) {
 
                   // console.log(topic);
@@ -341,10 +344,10 @@
                   var build = builds.filter(function(b) { return b.slug === slug; });
                   build = build.length ? build[build.length - 1] : false;
 
-                  if (build && build.data && topic.viz && build.data[0].url === topic.viz[0].data[0].url) {
+                  if (build && build.data && topic.viz && build.data.map(function(d) { return d.url; }).join("--") === topic.viz[0].data.map(function(d) { return d.url; }).join("--")) {
                     // do nothing!
                   }
-                  else if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id) {
+                  else if (build && ["bar", "line"].indexOf(build.config.type) >= 0 && topic.viz.length === 1 && type === build.config.id && (attr_type !== "university" || build.data.length === 1)) {
 
                     build.compare = attr ? attr.id : false;
 
@@ -604,7 +607,7 @@
           }
           else {
             text += "<div class='body'>";
-            text += "As you explore the profiles and visualizations of Data USA, you can add any of the underlying data to the unified data cart for future analysis. Up to 5 datasets can be added, and their columns and rows will be intelligently merged together for bulk download.";
+            text += "Put data into your cart as you browse to merge data from multiple sources.";
             text += "</div>";
           }
 

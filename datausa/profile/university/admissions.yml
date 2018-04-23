@@ -1,0 +1,141 @@
+title: "Admissions"
+description:
+  - "<<name>> received <<var namespace=admissions|key=applicants_total|row=0>> undergraduate applications in <<var namespace=admissions|key=year|row=0>>, which represents a <<growth namespace=admissions|key=applicants_total>> annual <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=growth2>>. Out of those <<var namespace=admissions|key=applicants_total|row=0>> applicants, <<var namespace=admissions|key=admissions_total|row=0>> students were accepted for enrollment, representing a <<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>> acceptance rate."
+  - "There were <<sum namespace=enrollment_status|key=num_enrolled>> students enrolled at <<name>> in <<var namespace=enrollment_status|key=year|row=0>>, and <<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of first-time enrollees submitted SAT scores with their applications."
+  - "<<name>> {{<<sumlevel>>:2||has}}{{<<sumlevel>>:!2||have}} an overall enrollment yield of <<var namespace=admissions|key=yield_total|row=0>>, which represents the number of admitted students who ended up enrolling."
+allowed: "<<var namespace=admissions|key=applicants_total|row=0>>:!N/A"
+
+topics:
+  - title: "Acceptance Rate"
+    slug: "acceptance"
+    stat:
+      - title: "Acceptance Rate in <<var namespace=admissions|key=year|row=0>>"
+        value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
+      - title: "Accepted out of <<var namespace=admissions|key=applicants_total|row=0>>"
+        value: "<<var namespace=admissions|key=admissions_total|row=0>>"
+    description:
+      - "In <<var namespace=admissions|key=year|row=0>>, the undergraduate acceptance rate of <<name>> was <<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>> (<<var namespace=admissions|key=admissions_total|row=0>> admissions from <<var namespace=admissions|key=applicants_total|row=0>> applications). This is <<percent num=divide:admissions,admissions_total,applicants_total,0|den=divide:admissions,admissions_total,applicants_total,1|text=highlow>> than the acceptance rate of <<var namespace=admissions|key=year|row=1>>, which was <<percent num=var:admissions,admissions_total,1|den=var:admissions,applicants_total,1>>. Between <<var namespace=admissions|key=year|row=1>> and <<var namespace=admissions|key=year|row=0>>, the number of applicants <<percent num=var:admissions,applicants_total,0|den=var:admissions,applicants_total,1|text=grew3>> <<growth namespace=admissions|key=applicants_total>>, while admissions <<percent num=var:admissions,admissions_total,0|den=var:admissions,admissions_total,1|text=grew3>> <<growth namespace=admissions|key=admissions_total>>."
+      - "This chart compares the acceptance rate of <<name>> (in red) with that of other {{<<sumlevel>>:0||Carnegie groups}}{{<<sumlevel>>:!0||<<carnegie key=name>> with a similar composition of graduates by major}}."
+    viz:
+      - sumlevel: "0"
+        attrs: university
+        data:
+          - required: "applicants_total,admissions_total"
+            show: university
+            sumlevel: 0
+            divide:
+              num: admissions_total
+              den: applicants_total
+              value: acceptance_rate
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: acceptance_rate
+        type: bar
+        x: acceptance_rate
+        y:
+          scale: discrete
+          value: university
+      - sumlevel: "!0"
+        attrs: university
+        data:
+          - required: "applicants_total,admissions_total"
+            show: university
+            university: "<<id>>,<<similar ids=True>>,<<carnegie>>"
+            divide:
+              num: admissions_total
+              den: applicants_total
+              value: acceptance_rate
+        id: university
+        labels: YES
+        order:
+          sort: asc
+          value: acceptance_rate
+        type: bar
+        x: acceptance_rate
+        y:
+          scale: discrete
+          value: university
+    miniviz:
+      attrs: university
+      color: sex
+      data:
+        - required: "applicants_men,applicants_women"
+          show: university
+          university: "<<id>>"
+          split:
+            id: "sex"
+            regex: "applicants_([a-z]*)$"
+            value: "applicants_total"
+        - required: "admissions_men,admissions_women"
+          show: university
+          university: "<<id>>"
+          merge: "year.sex"
+          split:
+            id: "sex"
+            regex: "admissions_([a-z]*)$"
+            value: "admissions_total"
+          divide:
+            num: admissions_total
+            den: applicants_total
+            value: acceptance_rate
+      id: sex
+      labels: YES
+      tooltip:
+        value:
+          - applicants_total
+          - admissions_total
+          - acceptance_rate
+      type: bar
+      x:
+        label: "Acceptance Rate by Gender"
+        value: acceptance_rate
+      y:
+        label: NO
+        scale: discrete
+        value: university
+  - title: "SAT Scores"
+    slug: "sat"
+    stat:
+      - title: "Submission Percentage"
+        value: "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>>"
+      - title: "Scores Submitted"
+        value: "<<var namespace=admissions|key=sub_sat_scores_num|row=0>>"
+    description:
+      - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of enrolled first-time students at <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their applications."
+      - "This chart shows the SAT scores for the 25th and 75th percentile of applicants broken out into each section of the test that their are evaluated on."
+    viz:
+      - attrs: university
+        data:
+          - required: "sat_math_25,sat_math_75,sat_cr_25,sat_cr_75"
+            show: university
+            university: "<<id>>,<<carnegie>>"
+            split:
+              id: "section_percentile"
+              regex: "^sat_([a-z]*_[0-9]*)$"
+              map:
+                section: "^sat_([a-z]*)_[0-9]*$"
+                percentile: "^sat_[a-z]*_([0-9]*)$"
+              value: "sat_score"
+        depth: 2
+        id:
+          - section
+          - university
+          - percentile
+        legend: NO
+        size: 6
+        text: percentile
+        tooltip:
+          value:
+            - university
+            - section
+            - sat_score
+        type: scatter
+        x:
+          label: NO
+          scale: discrete
+          value: section
+        y:
+          range: [200, 800]
+          value: sat_score

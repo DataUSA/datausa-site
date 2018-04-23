@@ -142,6 +142,7 @@ topics:
       height: 400
       highlight: <<var namespace=medicare_time|key=geo|row=0|format=raw>>
       id: "geo"
+      time: "year"
       type: "line"
       x: "year"
       y: "total_reimbursements_b"
@@ -177,6 +178,7 @@ topics:
         show: cohort
       height: 400
       id: cohort
+      time: year
       type: bar
       x:
         persist:
@@ -284,6 +286,7 @@ topics:
           - "mammogram_tests"
           - "patients"
           - "share"
+      time: year
       type: line
       x: year
       y: share

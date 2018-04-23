@@ -5393,7 +5393,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
 
   var loader = body.append("div")
     .attr("class", "loader")
-    .html("<i class='fa fa-spinner fa-spin'></i>Loading Data");
+    .html("<p><i class='fa fa-spinner fa-spin'></i>Loading Data</p>");
 
   var nav = body
     .append("div")
@@ -5670,10 +5670,14 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
             }
           }
 
-          var tbl = data_panel.html("<table><thead><tr></tr></thead><tbody></tbody></table>").select("table");
+          data_panel.html("<div class='data-loading'><p><i class='fa fa-spinner fa-spin'></i> Loading Preview...</p></div>");
 
+          var queryLimit = 50;
+          var tableLimit = queryLimit * unfilteredData.length;
           for (var i = 0; i < unfilteredData.length; i++) {
-            var dataURL = unfilteredData[i].url.replace(/\?limit=[0-9]+&/gi, "?").replace(/&limit=[0-9]+/gi, "")
+            var dataURL = unfilteredData[i].url
+              .replace(/\?limit=[0-9]+&/gi, "?")
+              .replace(/&limit=[0-9]+/gi, "") + "&limit=" + queryLimit;
             var show = dataURL.match(/show=([a-z,]+)/);
             if (show) show = show[1].split(",");
             else show = [];
@@ -5681,7 +5685,7 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
               headers = headers.concat(return_data.headers);
               dataArray = dataArray.concat(data);
               loaded++;
-              if(loaded === unfilteredData.length){
+              if (loaded === unfilteredData.length) {
                 headers = d3plus.util.uniques(headers);
                 dataArray.forEach(function(dArr){
                   var newArr = [];
@@ -5711,6 +5715,13 @@ dusa_popover.open = function(panels, active_panel_id, url, embed_url, build) {
                     return diff;
                   });
                 }
+
+                var tblHTML = "";
+                if (tblData.length === tableLimit) tblHTML += "<div class='caveat'>Only displaying the first " + tableLimit + " results. To view the full dataset please add it to the cart.<br />The cart is a free tool that enables cross-dataset merging.</div>"
+                tblHTML += "<table><thead><tr></tr></thead><tbody></tbody></table>";
+
+                var tbl = data_panel
+                  .html(tblHTML).select("table");
 
                 /*
                  *  Table Headers
@@ -6090,7 +6101,6 @@ window.onload = function() {
           d3.select("#search-home").classed("open", true);
           var search_input = d3.select("#home-search-input");
           search_input.node().focus();
-          search.container = d3.select("#search-" + search_input.attr("data-search"));
           search.data = true;
           search.reload();
         }
@@ -6099,13 +6109,14 @@ window.onload = function() {
           var search_input = d3.select("#nav-search-input");
           search.data = false;
           search_input.node().focus();
-        //   d3.select("#search-simple-nav").classed("open", true);
-        //   search_input.node().focus();
-        //   if(search_input.property("value") !== ""){
-        //     // d3.select(".search-box").classed("open", true);
-        //   }
-        //   d3.select(".search-box").classed("open", true);
         }
+        var searchType = search_input.attr("data-search");
+        search.container = d3.select("#search-" + searchType);
+        search.term = search_input.property("value");
+        search.click = false;
+        search.filterID = false;
+        search.type = "";
+        search.max = 20;
       }
 
     }
@@ -6730,7 +6741,7 @@ var attrs_meta = {
     ]
   },
   "cip": {
-    "name": "Education",
+    "name": "Degrees",
     "sumlevels": [
       {"name":"2 digit Course", "id":0, "children":[1, 2]},
       {"name":"4 digit Course", "id":1, "children":[2]},
@@ -6952,7 +6963,7 @@ search.btnLarge = function(d) {
   var profile = search_item.selectAll(".profile").data([0]);
   profile.enter().append("div").attr("class", "profile")
     .append("a").attr("href", "#")
-    .html("Details")
+    .html("Sections")
     .on("click", search.open_details);
 
   var xtra = search_item.selectAll(".xtra").data([0]);
@@ -6961,9 +6972,15 @@ search.btnLarge = function(d) {
   if (d.id === "01000US") {
     var subtitle = infoEnter.append("p").attr("class", "subtitle").text("Nation");
   }
-  if (sumlevels_cy_id[d.kind][d.sumlevel]) {
-    var subtitle = infoEnter.append("p").attr("class", "subtitle").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+  else if (sumlevels_cy_id[d.kind] && sumlevels_cy_id[d.kind][d.sumlevel]) {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle");
     if (d.is_stem > 0) subtitle.append("span").attr("class", "stem").text("STEM");
+    subtitle.append("span").text(sumlevels_cy_id[d.kind][d.sumlevel].name);
+  }
+  else {
+    var subtitle = infoEnter.append("p").attr("class", "subtitle");
+    if (d.is_stem > 0) subtitle.append("span").attr("class", "stem").text("STEM");
+    subtitle.append("span").text(d.kind);
   }
 
   if (search.zip) {
@@ -7078,9 +7095,9 @@ search.btnSmall = function(d) {
   var sub = text.selectAll(".subtitle").data([0]);
   sub.enter().append("p").attr("class", "subtitle")
   sub.text(d.id === "01000US" ? "Nation"
-    : sumlevels_cy_id[d.kind][d.sumlevel]
+    : sumlevels_cy_id[d.kind] ? sumlevels_cy_id[d.kind][d.sumlevel]
     ? sumlevels_cy_id[d.kind][d.sumlevel].name
-    : "");
+    : d.kind : d.kind);
 
   var vars = search.data ? sections.reduce(function(arr, v) {
     v.related_vars.forEach(function(k, i) {
@@ -7219,6 +7236,33 @@ search.update_refine = function(data){
 
 var attrStyles = {
 
+  "expense": {
+    "benefits": {
+      "color": "#f33535",
+      "icon": "thing_heart.png"
+    },
+    "dep": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "interest": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "ops": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "other": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "salaries": {
+        "color": "#2b5652",
+        "icon": "place_bank.png"
+    }
+  },
+
   "nationality": {
     "us": {
         "color": "#41a392",
@@ -7227,6 +7271,21 @@ var attrStyles = {
     "foreign": {
         "color": "#455a7d",
         "icon": "thing_passportwld.png"
+    }
+},
+
+  "academic_group": {
+    "Instructors & Lecturers": {
+        "color": "#1f304c",
+        "icon": "thing_book.png"
+    },
+    "Professors": {
+        "color": "#4b9dcd",
+        "icon": "thing_gradcap.png"
+    },
+    "Other": {
+        "color": "#003651",
+        "icon": "thing_question.png"
     }
 },
 
@@ -7250,6 +7309,21 @@ var attrStyles = {
     "surgical": {
         "color": "#72f5c4",
         "icon": "thing_medic.png"
+    }
+},
+
+  "section": {
+    "math": {
+        "color": "#f33535",
+        "icon": "thing_pi.png"
+    },
+    "cr": {
+        "color": "#82a8e7",
+        "icon": "thing_book.png"
+    },
+    "writing": {
+        "color": "#72f5c4",
+        "icon": "thing_pencil.png"
     }
 },
 
@@ -7324,6 +7398,18 @@ var attrStyles = {
     "99": {
         "color": "#ccc",
         "icon": "thing_question.png"
+    },
+    "federal": {
+        "color": "#49418e",
+        "icon": "place_bank.png"
+    },
+    "state": {
+        "color": "#17c0c0",
+        "icon": "place_government.png"
+    },
+    "local": {
+        "color": "#ffd3a6",
+        "icon": "person_admin.png"
     },
 },
 
@@ -7404,6 +7490,10 @@ var attrStyles = {
         "color": "#336a81",
         "icon": "person_profile.png"
     },
+    "multiracial": {
+        "color": "#336a81",
+        "icon": "person_profile.png"
+    },
     "2ormore": {
         "color": "#336a81",
         "icon": "person_profile.png"
@@ -7418,6 +7508,10 @@ var attrStyles = {
     },
     "latino": {
         "color": "#49418e",
+        "icon": "person_profile.png"
+    },
+    "nonresident": {
+        "color": "#ccc",
         "icon": "person_profile.png"
     }
 },
@@ -7488,6 +7582,33 @@ var attrStyles = {
         "color": "#2f1fc1",
         "icon": "thing_airplane.png"
     }
+},
+
+  "ipeds_occ_group": {
+    "Instructional": {
+        "color": "#1f304c",
+        "icon": "thing_book.png"
+    },
+    "Adminstrative": {
+        "color": "#1a9b9a",
+        "icon": "thing_box.png"
+    },
+    "Technical": {
+        "color": "#ff8166",
+        "icon": "thing_computer.png"
+    },
+    "Services": {
+        "color": "#ffb563",
+        "icon": "thing_utensils.png"
+    },
+    "Operations": {
+        "color": "#336a81",
+        "icon": "thing_wrench.png"
+    },
+    "Healthcare": {
+        "color": "#f33535",
+        "icon": "thing_medic.png"
+    },
 },
 
   "acs_occ_2": {
@@ -8394,7 +8515,7 @@ var vizStyles = {
 
 var viz = function(build) {
 
-  if (!build.colors) build.colors = vizStyles.defaults;
+  if (!build.colors) build.colors = vizStyles.default;
 
   delete build.config.height;
 
@@ -8460,11 +8581,16 @@ viz.finish = function(build) {
   d3.select(build.container.node().parentNode).select(".org")
     .html(org_text);
 
-  if (!build.config.color) {
-    if (build.viz.attrs()[build.highlight]) {
+  if (!build.config.color || typeof build.config.color === "function" || build.config.color === "compare") {
+    var ids = build.config.id;
+    if (typeof ids === "object" && !(ids instanceof Array)) ids = ids.value;
+    if (!(ids instanceof Array)) ids = [ids];
+    var attr_type = build.profile_type;
+    if (ids.indexOf(attr_type) >= 0 || (ids.indexOf("opeid") >= 0 && attr_type === "university")) {
       build.config.color = function(d, viz) {
-        return d[viz.id.value] === build.compare ? build.colors.compare
-             : d[viz.id.value] === build.highlight ? build.colors.pri
+        var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
+        return ids.indexOf(build.compare) >= 0 ? build.colors.compare
+             : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
              : build.colors.sec;
       };
     }
@@ -8546,7 +8672,6 @@ viz.finish = function(build) {
     .data({large: large})
 
   if (build.config.id.constructor === String) build.viz.text(build.config.id);
-
   build.viz.error(false).draw();
 
 };
@@ -8588,7 +8713,18 @@ viz.bar = function(build) {
     var toggle = build.select || build.config.ui && build.config.ui.filter(function(u) { return u.method === axis; }).length;
 
     if (!toggle && build.config[axis] && axis !== discrete) {
-      range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
+      if (build.config[axis].stacked) {
+        var other = axis.indexOf("x") === 0 ? axis.replace("x", "y") : axis.replace("y", "x");
+        var otherKey = build.config[other].value;
+        var nest = d3.nest()
+          .key(function(d) { return otherKey === "year" ? d.year : d.year + "-" + d[otherKey]; })
+          .entries(build.viz.data())
+          .map(function(d) { return d.values; })
+          .map(function(d) { return d.map(function(d) { return d[build.config[axis].value]; }); })
+          .map(function(d) { return d3.sum(d); });
+        range = [0, d3.max(nest)];
+      }
+      else range = [0, d3.max(build.viz.data(), function(d) { return d[build.config[axis].value]; })];
     }
 
     return {
@@ -8625,6 +8761,33 @@ viz.bar = function(build) {
     "y2": axis_style("y2")
   };
 
+}
+
+viz.box = function(build) {
+
+  function getRange(axis) {
+
+    var h = build.viz.height(),
+        w = build.viz.width();
+
+    var max = Math.floor(d3.max([d3.min([w, h])/15, 6]));
+
+    if (build.config[axis]) {
+      var k = build.config[axis].value;
+      if (k !== build.config.id) {
+        var d = axis.indexOf("x") === 0 ? w : h,
+            range = d3.extent(build.viz.data(), function(d) { return d[k]; });
+        range[0] -= range[0] * (max / d);
+        range[1] += range[1] * (max / d);
+        return range;
+      }
+    }
+    return false;
+  }
+
+  return {
+    y: {range: getRange("y")}
+  };
 }
 
 var all_caps = ["cip", "naics", "rca", "soc", "usa"],
@@ -8810,6 +8973,19 @@ viz.geo_map = function(build) {
 }
 
 viz.line = function(build) {
+
+  var id = current_build.profile ? current_build.profile.id : false;
+  if (!build.config.order && id) {
+    build.viz.data(build.viz.data().map(function(d){
+      d.focus = d[build.config.id] === id ? 1 : 0;
+      return d;
+    }));
+    build.config.order = {
+      sort: "asc",
+      value: "focus"
+    };
+  }
+
   return {
     "shape": {
       "interpolate": vizStyles.lines.interpolation
@@ -8964,10 +9140,10 @@ viz.scatter = function(build) {
     return false;
   }
 
-  return {
-    x: {range: getRange("x")},
-    y: {range: getRange("y")}
-  };
+  var retObj = {};
+  if (build.config.x.scale !== "discrete") retObj.x = {range: getRange("x")};
+  if (build.config.y.scale !== "discrete") retObj.y = {range: getRange("y")};
+  return retObj;
 }
 
 viz.tree_map = function(build) {
@@ -9197,7 +9373,6 @@ viz.addToCart = function(build, select) {
         params.year = "all";
 
         data.push(api + "/api/?" + serialize(params));
-        console.log(params);
 
       }
 
@@ -9208,9 +9383,6 @@ viz.addToCart = function(build, select) {
       calcs = calcs.filter(function(calc) { return globalReqs.indexOf(calc.num) >= 0 && globalReqs.indexOf(calc.den) >= 0 });
 
       data = d3plus.util.uniques(data);
-
-      console.log(title);
-      console.log(data);
 
       cart.builds.push(build.slug);
 
@@ -9227,6 +9399,14 @@ viz.addToCart = function(build, select) {
 
   });
 
+}
+
+var quintileMap = {
+  "5": "5th",
+  "4": "4th",
+  "3": "3rd",
+  "2": "2nd",
+  "1": "1st"
 }
 
 viz.format = {
@@ -9282,7 +9462,11 @@ viz.format = {
         number = a[0] + number + a[1];
       }
 
-      if (key.indexOf("_pct_calc") > 0 || proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
+      var quintile = ["endowment_quintile"].indexOf(key) >= 0;
+      if (quintile) {
+        number = quintileMap[parseFloat(number) / 20] + " Quintile";
+      }
+      else if (key.indexOf("_pct_calc") > 0 || proportions.indexOf(key) >= 0 || percentages.indexOf(key) >= 0) {
         number = number + "%";
       }
       return prefix + number;
@@ -9340,6 +9524,11 @@ viz.format = {
 
     if (text.indexOf("_pct_calc") > 0) {
       return "Percentage of " + viz.format.text(text.split("_pct_calc")[0]);
+    }
+
+    var attrs = build && build.viz ? build.viz.attrs() : false;
+    if (attrs && text in attrs) {
+      return attrs[text].display_name ? attrs[text].display_name : d3plus.string.title(attrs[text].name, params);
     }
 
     if (dictionary[text]) {
@@ -9447,12 +9636,20 @@ viz.format = {
         return "Census Tract " + num + suffix;
       }
 
-      var attrs = build && build.viz ? build.viz.attrs() : false;
-      if (attrs && text in attrs) {
-        return attrs[text].display_name ? attrs[text].display_name : d3plus.string.title(attrs[text].name, params);
-      }
-
       if (attr_ids.indexOf(params.key) >= 0 || params.key.match(/_id$/g)) return text.toUpperCase();
+      if (proportions.indexOf(params.key) >= 0) {
+        text = text * 100 + "";
+        var quintile = ["endowment_quintile"].indexOf(params.key) >= 0;
+        if (quintile) {
+          text = quintileMap[parseFloat(text) / 20] + " Quintile";
+        }
+        else if (text.indexOf("%") < 0) text += "%";
+        return text;
+      }
+      if (percentages.indexOf(params.key) >= 0) {
+        if (text.indexOf("%") < 0) text += "%";
+        return text;
+      }
 
     }
 
@@ -9873,48 +10070,6 @@ viz.formatData = function(data, d, build) {
   //   }
   // }
 
-  if (d.merge) {
-    var mergeKeys = d.merge.split(".");
-    for (var i = 0; i < build.data[0].data.length; i++) {
-      var datum = build.data[0].data[i];
-      var matched = data.filter(function(obj) {
-        return mergeKeys.map(function(k) {
-          return obj[k] === datum[k];
-        }).indexOf(false) < 0;
-      });
-      if (matched.length) {
-        for (var k in matched[0]) {
-          datum[k] = matched[0][k];
-        }
-      }
-    }
-    data = build.data[0].data;
-  }
-
-  if (d.map) {
-    if ("delete" in d.map) {
-      var deleteMap = d.map.delete;
-      delete d.map.delete;
-    }
-    else {
-      var deleteMap = true;
-    }
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.map) {
-        data[i][k] = data[i][d.map[k]];
-        if (deleteMap) delete data[i][d.map[k]];
-      }
-    }
-  }
-
-  if (d.static) {
-    for (var i = 0; i < data.length; i++) {
-      for (var k in d.static) {
-        data[i][k] = d.static[k];
-      }
-    }
-  }
-
   if (d.split) {
 
     var regex = d.split.regex instanceof Array ? d.split.regex : [d.split.regex];
@@ -9966,10 +10121,59 @@ viz.formatData = function(data, d, build) {
     data = split_data;
   }
 
+  if (d.merge) {
+    var mergeKeys = d.merge.split(".");
+    for (var i = 0; i < build.data[0].data.length; i++) {
+      var datum = build.data[0].data[i];
+      var matched = data.filter(function(obj) {
+        return mergeKeys.map(function(k) {
+          return obj[k] === datum[k];
+        }).indexOf(false) < 0;
+      });
+      if (matched.length) {
+        for (var k in matched[0]) {
+          datum[k] = matched[0][k];
+        }
+      }
+    }
+    data = build.data[0].data;
+  }
+
+  if (d.map) {
+    if ("delete" in d.map) {
+      var deleteMap = d.map.delete;
+      delete d.map.delete;
+    }
+    else {
+      var deleteMap = true;
+    }
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.map) {
+        data[i][k] = data[i][d.map[k]];
+        if (deleteMap) delete data[i][d.map[k]];
+      }
+    }
+  }
+
+  if (d.static) {
+    for (var i = 0; i < data.length; i++) {
+      for (var k in d.static) {
+        data[i][k] = d.static[k];
+      }
+    }
+  }
+
+  if (d.sum) {
+    for (var i = 0; i < data.length; i++) {
+      data[i][d.sum.value] = d3.sum(d.sum.keys.map(function(dd) { return data[i][dd] || 0; }));
+    }
+  }
+
   if (d.divide) {
     for (var i = 0; i < data.length; i++) {
       data[i][d.divide.value] = data[i][d.divide.num] / data[i][d.divide.den];
-      if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
+      if (data[i][d.divide.value] === Infinity) data[i][d.divide.value] = undefined;
+      else if (d.divide.value === "share") data[i][d.divide.value] = data[i][d.divide.value] * 100;
     }
   }
 
@@ -10083,7 +10287,7 @@ viz.formatData = function(data, d, build) {
   if (data.length && "university" in data[0]) {
     var attrs = build.viz.attrs();
     for (var i = 0; i < data.length; i++) {
-      data[i].sector = attrs[data[i].university].sector;
+      if (data[i].university && attrs[data[i].university]) data[i].sector = attrs[data[i].university].sector;
     }
   }
 
@@ -10094,7 +10298,7 @@ viz.formatData = function(data, d, build) {
 viz.loadData = function(build, next) {
   if (!next) next = "finish";
 
-  if (build.viz.data().length === 0) build.viz.error("Loading Data").draw();
+  if (build.viz && build.viz.data().length === 0) build.viz.error("Loading Data").draw();
 
   build.sources = [];
 
@@ -10575,7 +10779,12 @@ viz.mapDraw = function(vars) {
 
         "opioid_overdose_deathrate_ageadjusted",
         "drug_overdose_ageadjusted",
+<<<<<<< HEAD
+        "non_medical_use_of_pain_relievers",
+        "default_rate"
+=======
         "non_medical_use_of_pain_relievers"
+>>>>>>> master
       ];
 
       if (badIndicators.indexOf(vars.color.value) >= 0) color_range = makeColorArray("#CA3434");

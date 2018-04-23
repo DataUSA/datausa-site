@@ -1,6 +1,6 @@
 var viz = function(build) {
 
-  if (!build.colors) build.colors = vizStyles.defaults;
+  if (!build.colors) build.colors = vizStyles.default;
 
   delete build.config.height;
 
@@ -66,11 +66,16 @@ viz.finish = function(build) {
   d3.select(build.container.node().parentNode).select(".org")
     .html(org_text);
 
-  if (!build.config.color) {
-    if (build.viz.attrs()[build.highlight]) {
+  if (!build.config.color || typeof build.config.color === "function" || build.config.color === "compare") {
+    var ids = build.config.id;
+    if (typeof ids === "object" && !(ids instanceof Array)) ids = ids.value;
+    if (!(ids instanceof Array)) ids = [ids];
+    var attr_type = build.profile_type;
+    if (ids.indexOf(attr_type) >= 0 || (ids.indexOf("opeid") >= 0 && attr_type === "university")) {
       build.config.color = function(d, viz) {
-        return d[viz.id.value] === build.compare ? build.colors.compare
-             : d[viz.id.value] === build.highlight ? build.colors.pri
+        var ids = viz.id.nesting.map(function(n) { return d[n] + ""; });
+        return ids.indexOf(build.compare) >= 0 ? build.colors.compare
+             : ids.indexOf(build.highlight) >= 0 ? build.colors.pri
              : build.colors.sec;
       };
     }
@@ -152,7 +157,6 @@ viz.finish = function(build) {
     .data({large: large})
 
   if (build.config.id.constructor === String) build.viz.text(build.config.id);
-
   build.viz.error(false).draw();
 
 };

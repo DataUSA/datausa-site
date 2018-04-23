@@ -12,9 +12,7 @@
     {% if "data-tooltip" in topic.title %}
       {{ topic.title|safe }}
     {% else %}
-      <a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">
-        {{ topic.title|safe }}
-      </a>
+      <a href="#{{ topic.slug }}" class="topic-title" name="{{ topic.slug }}" data-default="{{ topic.title|safe }}">{{ topic.title|safe }}</a>
     {% endif %}
     {% if topic.viz and (g.page_class != 'story') %}
     <div class="viz-btns">
@@ -43,7 +41,7 @@
         {% endfor %}
       </select>
       {% endif %}
-      {% if topic.stat %}
+      {% if topic.stat and not topic.stat[0].value.startswith("N/A") %}
       <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
         {% for stat in topic.stat %}
           <div class="stat">
@@ -53,7 +51,9 @@
             {% if stat.subtitle %}<div class="stat-text stat-subtitle">{{ stat.subtitle|safe }}</div>{% endif %}
             {% if stat.subvalues %}
             {% for s in stat.subvalues %}
+            {% if not s.startswith("N/A") %}
             <div class="stat-value stat-small"><span class="stat-text stat-number">{{ loop.index + 1 }}.</span> <span class="stat-right">{{ s|safe }}</span></div>
+            {% endif %}
             {% endfor %}
             {% endif %}
           </div>

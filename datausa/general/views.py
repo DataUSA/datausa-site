@@ -16,7 +16,7 @@ mod = Blueprint("general", __name__)
 
 @app.before_request
 def before_request():
-    g.cache_version = 59
+    g.cache_version = 63
     g.cart_limit = 5
     g.affixes = json.dumps(AFFIXES)
     g.collectionyears = json.dumps(COLLECTIONYEARS)
@@ -48,7 +48,8 @@ footMap = {
     "geo": 36190,
     "naics": 301,
     "soc": 525,
-    "cip": 2319
+    "cip": 2319,
+    "university": 7363
 }
 
 def tileAPI(column):
@@ -92,24 +93,22 @@ def tileProfiles(profiles):
     for i, page in enumerate(profiles):
         show, slug = page.split("/")
         attr = fetch(slug, show)
-        attr_id = attr["id"]
-        sumlevel = attr["sumlevel"] if "sumlevel" in attr else attr["level"]
+        if show == "university":
+            attr_id = attr["id"] if attr["image_link"] else attr["msa"]
+            attr_type = "university" if attr["image_link"] else "geo"
+        else:
+            attr_id = attr["id"]
+            attr_type = show
         profiles[i] = {
-            "image": "/search/{}/{}/img".format(show, attr_id),
+            "image": "/search/{}/{}/img".format(attr_type, attr_id),
             "link": "/profile/{}".format(page),
             "title": attr["display_name"] if "display_name" in attr else attr["name"],
-            # "subtitle": SUMLEVELS[show][str(sumlevel)]["label"],
-            "type": {
-                "icon": "/static/img/icons/{}.svg".format(show),
-                "title": SUMLEVELS[show][str(sumlevel)]["label"],
-                "type": TYPEMAP[show],
-                "depth": "{}".format(sumlevel).replace("_", " ")
-            }
+            "new": 1 if show == "university" else 0
         }
     return profiles
 
 def tileMaps(maps):
-    new = ["opioid_overdose_deathrate_ageadjusted", "non_medical_use_of_pain_relievers"]
+    new = ["opioid_overdose_deathrate_ageadjusted", "default_rate", "non_medical_use_of_pain_relievers"]
     titles = {
         "total_reimbursements_b": "Medicare Reimbursements"
     }
@@ -139,10 +138,10 @@ def home():
 
     maps = [
         "/map/?level=state&key=opioid_overdose_deathrate_ageadjusted",
+        "/map/?level=county&key=default_rate,num_borrowers,num_defaults",
         "/map/?level=state&key=non_medical_use_of_pain_relievers",
         "/map/?level=county&key=total_reimbursements_b",
-        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
-        "/map/?level=state&key=high_school_graduation"
+        "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe"
     ]
 
     mapTotal = 0
@@ -156,6 +155,17 @@ def home():
         "footer": {
             "link": "/map",
             "text": "{} more".format(mapTotal - TILEMAX)
+        }
+    })
+
+    carousels.append({
+        "rank": "university",
+        "title": "Universities",
+        "icon": "/static/img/icons/university.svg",
+        "data": tileProfiles(["university/massachusetts-institute-of-technology", "university/university-of-maryland-college-park", "university/university-of-notre-dame", "university/university-of-chicago", "university/northeastern-university"]),
+        "footer": {
+            "link": "/search/?kind=university",
+            "text": "{} more".format(num_format(footMap["university"] - TILEMAX))
         }
     })
 
@@ -193,7 +203,7 @@ def home():
 
     carousels.append({
         "rank": "cip",
-        "title": "Higher Education",
+        "title": "Degrees",
         "icon": "/static/img/icons/cip.svg",
         "data": tileProfiles(["cip/513801", "cip/110701", "cip/520201", "cip/420101", "cip/240101"]),
         "footer": {
@@ -207,8 +217,7 @@ def home():
             "url": "{}/api/?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all".format(API),
             "slug": "map_patients_diabetic_medicare_enrollees_65_75_lipid_test_total_ county",
             "image": "/static/img/splash/naics/5417.jpg",
-            "title": "Diabetic Lipid Tests by County",
-            "new": 1
+            "title": "Diabetic Lipid Tests by County"
         },
         {
             "url": "{}/api/?required=adult_smoking&show=geo&sumlevel=state&year=all".format(API),
@@ -220,8 +229,7 @@ def home():
             "url": "{}/api/?required=leg_amputations_per_1000_enrollees_total&show=geo&sumlevel=county&year=all".format(API),
             "slug": "map_leg_amputations_per_1000_enrollees_total_ county",
             "image": "/static/img/splash/naics/62.jpg",
-            "title": "Leg Amputations by County",
-            "new": 1
+            "title": "Leg Amputations by County"
         },
         {
             "url": "{}/api/?required=pop%2Cpop_moe&show=geo&sumlevel=county&year=all".format(API),
@@ -430,7 +438,7 @@ def team():
             "title": "Co-founder",
             "twitter": "https://twitter.com/cesifoti",
             "about": [
-                u"César is the ABC Career Development Professor at the MIT Media Lab and director of the Lab's Macro Connections group. He has ten years of experience in metadata analysis and representation and has been involved in over 30 academic publications exploring its possible uses."
+                u"César is the ABC Career Development Professor at the MIT Media Lab and director of the Lab's Collective Learning group. He has ten years of experience in metadata analysis and representation and has been involved in over 30 academic publications exploring its possible uses."
             ]
         },
         {

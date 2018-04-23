@@ -55,8 +55,12 @@ def pivotname(id_string, keys):
 
 @cache.memoize()
 def build_year_cache():
+    data = requests.get("{}/api/years/".format(API)).json()["data"]
+    for i, table in enumerate(data):
+        if isinstance(data[table], list):
+            data[table] = [year for year in data[table] if year]
     app.logger.info("Cached year list for datasets.")
-    return requests.get("{}/api/years/".format(API)).json()["data"]
+    return data
 
 year_cache = build_year_cache()
 
@@ -163,7 +167,7 @@ def build_profile_cache():
     ranks = requests.get("{}/attrs/ranks/".format(API)).json()["data"]
 
     for p in PROFILES:
-        profiles[p] = {"sections": [], "ranks": ranks[p]}
+        profiles[p] = {"sections": [], "ranks": ranks[p] if p in ranks else []}
         splash_path = os.path.join(profile_path, p, "splash.yml")
         splash = yaml.load("".join(open(splash_path).readlines()))
         sections = splash["sections"]

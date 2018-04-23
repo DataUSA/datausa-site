@@ -1,0 +1,46 @@
+title: "<<name>>"
+description:
+  - "{{<<sumlevel>>:2||<<name>> is a higher education institution located in <<attribute key=county|attr=geo>>.}}{{<<sumlevel>>:!2||<<name>> is a Carnegie Classification grouping of higher education institutions.}} In <<var namespace=cip_grads_degree|key=year|row=0>>, the most popular <<default_degree key=name>> majors at <<name>> were <<var namespace=cip_grads_degree|key=cip|row=0>> with <<var namespace=cip_grads_degree|key=grads_total|row=0>> graduates, <<var namespace=cip_grads_degree|key=cip|row=1>> with <<var namespace=cip_grads_degree|key=grads_total|row=1>> graduates, and <<var namespace=cip_grads_degree|key=cip|row=2>> with <<var namespace=cip_grads_degree|key=grads_total|row=2>> graduates."
+  - "In <<var namespace=grads|row=0|key=year>>, <<var namespace=grads|key=grads_total|row=0>> people graduated from undergraduate and graduate programs at <<name>>. <<percent num=var:grads,grads_women,0|den=var:grads,grads_total,0>> of these graduates were women, and <<percent num=var:grads,grads_men,0|den=var:grads,grads_total,0>> were men. The majority of graduating students were <<var namespace=grads_race|key=name|row=0>> (<<var namespace=grads_race|key=value|row=0>> graduates), meaning that there were <<percent num=var:grads_race,value,0|den=var:grads_race,value,1|ratio=True>> times more <<var namespace=grads_race|key=name|row=0>> graduates than the next closest race/ethnicity group, <<var namespace=grads_race|key=name|row=1>>, with <<var namespace=grads_race|key=value|row=1>> graduates."
+  - "The median undergraduate tuition at <<name>> is <<var namespace=tuition|key=state_tuition|row=0>>, which is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless>> the national median of <<var namespace=tuition_us|key=state_tuition|row=0>>.{{<<sector>>:public|| The cost of out-of-state tuition is <<var namespace=tuition|key=oos_tuition|row=0>>, which is <<percent num=var:tuition,oos_tuition,0|den=var:tuition,state_tuition,0>> of the cost for in-state students, and is <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true>> <<percent num=var:tuition,state_tuition,0|den=var:tuition_us,state_tuition,0|diff=true|text=moreless2>> than the national median <<var namespace=tuition_us|key=state_tuition|row=0>>.}}"
+viz:
+  attrs: "geo"
+  sumlevel: "2"
+  coords:
+    solo: "<<solo>>,<<parents id_only=true|prefix=040>>"
+    value: "counties"
+  data: []
+  highlight: "<<attribute key=county>>"
+  id: "geo"
+  tiles: NO
+  type: "geo_map"
+  zoom: NO
+stats:
+  - title: "<<var namespace=tuition|key=year|row=0>> Undergraduate Tuition"
+    value: "<<var namespace=tuition|key=state_tuition|row=0>>"
+    rank: "{{<<sector>>:public||<<var namespace=tuition|key=oos_tuition|row=0>> Out-of-State}}{{<<sector>>:private||<<growth namespace=tuition|key=state_tuition>> <<percent num=var:tuition,state_tuition,0|den=var:tuition,state_tuition,1|text=growth2>> from <<var namespace=tuition|key=year|row=1>>}}"
+    allowed: "<<var namespace=tuition|key=state_tuition|row=0>>:!N/A"
+  - title: "<<var namespace=price|key=year|row=0>> Average Net Price"
+    value: "<<var namespace=price|key=avg_netprice_gos_aid|row=0>>"
+    rank: "After Financial Aid"
+  - title: "<<var namespace=defaults|key=year>> Student Loan"
+    value: "<<var namespace=defaults|key=default_rate>>"
+    rank: "Default Rate"
+  - title: "<<var namespace=admissions|key=year|row=0>> Acceptance Rate"
+    value: "<<percent num=var:admissions,admissions_total,0|den=var:admissions,applicants_total,0>>"
+    rank: "<<var namespace=admissions|key=applicants_total|row=0>> Applicants"
+    allowed: "<<var namespace=admissions|key=applicants_total|row=0>>:!N/A"
+  - title: "<<var namespace=enrollment_status|key=year|row=0>> Enrolled Students"
+    value: "<<sum namespace=enrollment_status|key=num_enrolled>>"
+    rank: "<<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> full-time"
+  - title: "<<var namespace=grad_rate|key=year>> Graduation Rate"
+    value: "<<var namespace=grad_rate|key=grad_rate>>"
+    rank: "<<var namespace=grad_rate|key=num_finishers>> Graduates"
+    allowed: "<<var namespace=grad_rate|key=grad_rate>>:!N/A"
+
+sections:
+  - costs
+  - admissions
+  - enrollment
+  - graduates
+  - operations

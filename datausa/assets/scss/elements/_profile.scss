@@ -145,11 +145,11 @@ body.profile, body.map, body.story {
   }
 
   &.university {
-    .costs, .enrollment, .outcomes  {
+    .costs, .enrollment, .operations  {
       background-color: $d-profile-bg;
     }
 
-    .admissions, .operations  {
+    .admissions, .outcomes  {
       background-color: $l-profile-bg;
     }
   }
@@ -680,6 +680,12 @@ body.profile, body.map, body.story {
           @include text-shadow(0 2px 12px black);
           text-transform: uppercase;
           letter-spacing: 0.03em;
+          a {
+            color: white;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
         }
 
         .compare-search {
@@ -1698,6 +1704,7 @@ body.profile, body.map, body.story {
     .section-ps {
       columns: 320px auto;
       column-gap: 20px;
+      margin: 0 auto;
       max-width: 1200px;
 
       p {
@@ -1710,6 +1717,10 @@ body.profile, body.map, body.story {
           color: $blue;
           border-bottom: none;
           text-decoration: underline;
+
+          &.term {
+            border-bottom: none !important;
+          }
 
           &:hover, &:focus {
             border-bottom: none;
@@ -1963,6 +1974,7 @@ body.profile, body.map, body.story {
         .viz {
           @include flex-size(1 1 auto);
           margin-left: 50px;
+          max-height: 75vh;
           min-height: 400px;
           overflow: hidden;
           position: relative;

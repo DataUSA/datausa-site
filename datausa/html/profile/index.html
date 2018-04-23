@@ -48,6 +48,11 @@
           {% if profile.attr.is_stem == 1 %}STEM Major{% else %}Contains STEM Majors{% endif %}
         </sub>
         {% endif %}
+        {% if profile.attr_type == "university" and profile.attr.carnegie_parent and profile.attr.carnegie_parent != "NAD" %}
+        <sub class="stem-label">
+          {{ profile.carnegie(key="name")|safe }}
+        </sub>
+        {% endif %}
         <a href="#" class="small compare-search" data-ga="splash compare" data-ga-cat="navigation" data-ga-label="User click">
           <img class="compare-img" src="/static/img/icons/compare.svg" />
           <span class="compare-text">Add Comparison</span>
@@ -61,7 +66,7 @@
           <div class="stat">
             <div class="stat-text">{{ stat.title|safe }}</div>
             <div class="stat-group">
-              <div class="stat-value">{{ stat.value|safe }}</div>
+              <div class="stat-value{% if stat.small %} small{% endif %}">{{ stat.value|safe }}</div>
               <div class="stat-rank" data-text="{{ stat.rank|safe }}">{{ stat.rank|safe }}</div>
             </div>
           </div>
@@ -123,7 +128,7 @@
         </div>
 
         {% set parents = profile.parents() %}
-        {% if parents|length and profile.attr.id != "01000US" %}
+        {% if parents|length and profile.attr.id != "01000US" and profile.attr_type != "university" %}
         <div class="breadcrumb">
           <img src="/static/img/splash/go-to-link.svg" alt="Go to another profile." />
           <div class="crumb-trail">
@@ -138,6 +143,14 @@
           <img src="/static/img/splash/database.svg" alt="Statistics Source."/>
           <div class="crumb-trail">
             <a>All statistics above are from ACS (PUMS) unless otherwise noted.</a>
+          </div>
+        </div>
+        {% endif %}
+        {% if profile.attr_type == "university" and not profile.attr.carnegie %}
+        <div class="data-source-crumb">
+          <img src="/static/img/splash/database.svg" alt="Statistics Source."/>
+          <div class="crumb-trail">
+            <a>All statistics are calculated as medians of the underlying university values.</a>
           </div>
         </div>
         {% endif %}
@@ -219,9 +232,11 @@
 {% for section in sections %}
 <header class="{{ section.anchor }} prof-body">
   <h2 class="section-title"><a href="#{{ section.anchor }}" name="{{ section.anchor }}">{{ section.title|safe }}</a></h2>
-  {% for desc in section.description %}
-  <p>{{ desc|safe }}</p>
-  {% endfor %}
+  <div class="section-ps">
+    {% for desc in section.description %}
+    <p>{{ desc|safe }}</p>
+    {% endfor %}
+  </div>
 </header>
 
 <section class="{{ section.anchor }} profile-section">
@@ -230,6 +245,9 @@
 
 {% endfor %}
 
+{% if profile.attr_type == "university" %}
+  {% set parents = profile.similar() %}
+{% endif %}
 
 {% if parents|length %}
 <div class="profile-end">
@@ -240,7 +258,7 @@
   <div class="follow-up">
 
     {% for p in parents %}
-    <div style="background: url('/profile/{{ profile.attr_type }}/{{ p.id }}/img/');">
+    <div style="background: url('{% if p['image_link'] %}{{ p['image_link'] }}{% else %}/profile/{{ profile.attr_type }}/{{ p.id }}/img/{% endif %}');">
       <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}" class="explore-title">
         {{ p["name"] }}
         <br />

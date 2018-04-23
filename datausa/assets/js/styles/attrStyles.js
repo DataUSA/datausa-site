@@ -1,5 +1,32 @@
 var attrStyles = {
 
+  "expense": {
+    "benefits": {
+      "color": "#f33535",
+      "icon": "thing_heart.png"
+    },
+    "dep": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "interest": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "ops": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "other": {
+      "color": "#ccc",
+      "icon": "thing_box.png"
+    },
+    "salaries": {
+        "color": "#2b5652",
+        "icon": "place_bank.png"
+    }
+  },
+
   "nationality": {
     "us": {
         "color": "#41a392",
@@ -8,6 +35,21 @@ var attrStyles = {
     "foreign": {
         "color": "#455a7d",
         "icon": "thing_passportwld.png"
+    }
+},
+
+  "academic_group": {
+    "Instructors & Lecturers": {
+        "color": "#1f304c",
+        "icon": "thing_book.png"
+    },
+    "Professors": {
+        "color": "#4b9dcd",
+        "icon": "thing_gradcap.png"
+    },
+    "Other": {
+        "color": "#003651",
+        "icon": "thing_question.png"
     }
 },
 
@@ -31,6 +73,21 @@ var attrStyles = {
     "surgical": {
         "color": "#72f5c4",
         "icon": "thing_medic.png"
+    }
+},
+
+  "section": {
+    "math": {
+        "color": "#f33535",
+        "icon": "thing_pi.png"
+    },
+    "cr": {
+        "color": "#82a8e7",
+        "icon": "thing_book.png"
+    },
+    "writing": {
+        "color": "#72f5c4",
+        "icon": "thing_pencil.png"
     }
 },
 
@@ -105,6 +162,18 @@ var attrStyles = {
     "99": {
         "color": "#ccc",
         "icon": "thing_question.png"
+    },
+    "federal": {
+        "color": "#49418e",
+        "icon": "place_bank.png"
+    },
+    "state": {
+        "color": "#17c0c0",
+        "icon": "place_government.png"
+    },
+    "local": {
+        "color": "#ffd3a6",
+        "icon": "person_admin.png"
     },
 },
 
@@ -185,6 +254,10 @@ var attrStyles = {
         "color": "#336a81",
         "icon": "person_profile.png"
     },
+    "multiracial": {
+        "color": "#336a81",
+        "icon": "person_profile.png"
+    },
     "2ormore": {
         "color": "#336a81",
         "icon": "person_profile.png"
@@ -199,6 +272,10 @@ var attrStyles = {
     },
     "latino": {
         "color": "#49418e",
+        "icon": "person_profile.png"
+    },
+    "nonresident": {
+        "color": "#ccc",
         "icon": "person_profile.png"
     }
 },
@@ -269,6 +346,33 @@ var attrStyles = {
         "color": "#2f1fc1",
         "icon": "thing_airplane.png"
     }
+},
+
+  "ipeds_occ_group": {
+    "Instructional": {
+        "color": "#1f304c",
+        "icon": "thing_book.png"
+    },
+    "Adminstrative": {
+        "color": "#1a9b9a",
+        "icon": "thing_box.png"
+    },
+    "Technical": {
+        "color": "#ff8166",
+        "icon": "thing_computer.png"
+    },
+    "Services": {
+        "color": "#ffb563",
+        "icon": "thing_utensils.png"
+    },
+    "Operations": {
+        "color": "#336a81",
+        "icon": "thing_wrench.png"
+    },
+    "Healthcare": {
+        "color": "#f33535",
+        "icon": "thing_medic.png"
+    },
 },
 
   "acs_occ_2": {

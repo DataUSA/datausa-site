@@ -1,0 +1,470 @@
+- required: ["year", "grads_total", "grads_men", "grads_women"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: grads
+
+- required: ["year", "grad_rate", "num_finishers"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: grad_rate
+
+- namespace: timeframe
+  show: timeframe
+  year: latest
+  order: timeframe
+  sort: asc
+  rows: True
+  limit: 3
+  required: ["year", "num_completed_ba", "pct_completed_ba"]
+
+- required: ["year", "avg_netprice_gos_aid", "num_fed_loans", "pct_fed_loans", "pct_with_grant_aid", "total_fed_loans"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: price
+
+- required: ["year", "applicants_total", "applicants_men", "applicants_women", "admissions_total", "admissions_men", "admissions_women", "admissions_enrolled_total", "admissions_enrolled_men", "admissions_enrolled_women", "admissions_enrolled_ft_total", "admissions_enrolled_ft_men", "admissions_enrolled_ft_women", "admissions_enrolled_pt_total", "admissions_enrolled_pt_men", "admissions_enrolled_pt_women", "sub_sat_scores_num", "sub_act_scores_num", "sub_sat_scores_pct", "sub_act_scores_pct", "sat_cr_25", "sat_cr_75", "sat_math_25", "sat_math_75", "sat_writing_25", "sat_writing_75", "act_composite_25", "act_composite_75", "act_english_25", "act_english_75", "act_math_25", "act_math_75", "act_writing_25", "act_writing_75", "yield_total", "yield_men", "yield_women"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: admissions
+
+- required: ["year", "state_tuition", "state_tuition_grads", "oos_tuition", "oos_tuition_grads", "state_fee", "state_fee_grads", "oos_fee", "oos_fee_grads", "books_and_supplies"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: tuition
+
+- required: ["year", "max_room_and_board", "max_other_expenses"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  namespace: roomboard
+
+- required: ["year", "state_tuition", "state_tuition_grads", "oos_tuition", "oos_tuition_grads", "state_fee", "state_fee_grads", "oos_fee", "oos_fee_grads"]
+  rows: True
+  sort: desc
+  order: year
+  year: all
+  limit: 2
+  sector: "<<attribute key=sector>>"
+  geo: 01000US
+  show: geo
+  sumlevel: nation
+  university: ""
+  namespace: tuition_us
+
+- required: ["year", "cip", "grads_total"]
+  rows: True
+  sort: desc
+  order: grads_total
+  year: latest
+  limit: 10
+  sumlevel: "6"
+  show: cip
+  namespace: cip_grads
+
+- required: ["year", "cip", "grads_total"]
+  rows: True
+  sort: desc
+  order: grads_total
+  year: latest
+  limit: 10
+  sumlevel: "6"
+  show: cip
+  degree: <<default_degree>>
+  namespace: cip_grads_degree
+
+- required: ["year", "cip", "grads_total", "grads_total_rca"]
+  rows: True
+  sort: desc
+  order: grads_total_rca
+  year: latest
+  limit: 10
+  sumlevel: "2"
+  show: cip
+  namespace: cip_grads_rca
+
+- required: ["year", "cip", "grads_total", "grads_men", "grads_women"]
+  rows: True
+  sort: desc
+  order: grads_men
+  year: latest
+  limit: 5
+  sumlevel: "6"
+  show: cip
+  namespace: cip_men
+
+- required: ["year", "cip", "grads_total", "grads_men", "grads_women"]
+  rows: True
+  sort: desc
+  order: grads_women
+  year: latest
+  limit: 5
+  sumlevel: "6"
+  show: cip
+  namespace: cip_women
+
+- force: "ipeds.grads_yu"
+  dataset: ipeds
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["race"]
+    cols: ["year", "name", "value"]
+    limit: 3
+  year: latest
+  after:
+    order: value
+    sort: desc
+    mute: ["unknown"]
+  namespace: grads_race
+
+- required: ["year", "grads_unknown"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: grads_race_unknown
+
+- force: "ipeds.grads_yu"
+  dataset: ipeds
+  limit: 1
+  rows: True
+  pivot:
+    keys: ["race", "sex"]
+    cols: ["year", "name", "value"]
+    limit: 3
+  year: "latest"
+  after:
+    order: value
+    sort: desc
+    mute: ["unknown"]
+  namespace: grads_race_sex
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  sort: desc
+  order: grad_rate
+  year: latest
+  limit: 20
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  where: "num_finishers:>4"
+  rows: true
+  after:
+    order: grad_rate
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: grad_rate_top
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  year: latest
+  limit: 2
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  rows: true
+  ipeds_race: unknown
+  namespace: grad_rate_top_unknown
+
+- required: ["year", "ipeds_race", "sex", "grad_rate", "num_finishers"]
+  sort: desc
+  order: grad_rate
+  year: latest
+  limit: 20
+  sumlevel: "all,all"
+  show: "ipeds_race,sex"
+  university: <<carnegie>>
+  where: "num_finishers:>4"
+  rows: true
+  after:
+    order: grad_rate
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: grad_rate_top_carnegie
+
+- required: ["year", "num_enrolled"]
+  rows: True
+  sort: asc
+  order: enrollment_status
+  year: latest
+  limit: 2
+  namespace: enrollment_status
+
+- required: ["num_enrolled"]
+  rows: True
+  sort: asc
+  order: enrollment_status
+  year: latest
+  limit: 2
+  university: <<carnegie>>
+  namespace: enrollment_status_carnegie
+
+- required: ["ipeds_race", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race"
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: enrollment_race
+
+- required: ["ipeds_race", "num_enrolled"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  show: ipeds_race
+  ipeds_race: unknown
+  namespace: enrollment_race_unknown
+
+- required: ["ipeds_race", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race"
+  university: <<carnegie>>
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: enrollment_race_carnegie
+
+- required: ["ipeds_race", "sex", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race,sex"
+  sumlevel: "all,all"
+  lstudy: "1"
+  enrollment_status: "1"
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: enrollment_undergrad
+
+- required: ["ipeds_race", "sex", "num_enrolled"]
+  sort: desc
+  order: num_enrolled
+  year: latest
+  limit: 50
+  rows: True
+  show: "ipeds_race,sex"
+  sumlevel: "all,all"
+  lstudy: "3"
+  enrollment_status: "1"
+  after:
+    order: num_enrolled
+    sort: desc
+    mute: ["nonresident", "unknown"]
+  namespace: enrollment_grad
+
+- required: ["retention_rate_ft", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: retention
+
+- required: ["retention_rate_ft", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  university: <<carnegie>>
+  namespace: retention_carnegie
+
+- required: ["endowment_value_fiscal_year_end", "year"]
+  rows: True
+  order: year
+  sort: desc
+  limit: 2
+  namespace: endowment
+
+- required: ["endowment_value_fiscal_year_end", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  university: <<carnegie>>
+  namespace: endowment_carnegie
+
+- required: ["investment_income", "year"]
+  rows: True
+  order: year
+  sort: desc
+  limit: 2
+  namespace: investment
+
+- required: ["investment_income", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  university: <<carnegie>>
+  namespace: investment_carnegie
+
+- required: ["federal_grants_and_contracts", "state_grants_and_contracts", "local_grants_and_contracts", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: grants
+
+- required: ["benefits_expense", "salaries_expense", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: expenses
+
+- required: ["ipeds_expense", "salaries_expense", "benefits_expense"]
+  order: salaries_expense
+  sort: desc
+  show: ipeds_expense
+  year: latest
+  rows: True
+  limit: 11
+  where: "salaries_expense:!0"
+  namespace: top_expense
+
+- required: ["total_salaries", "total_expenses", "year"]
+  rows: True
+  order: year
+  sort: desc
+  limit: 4
+  namespace: salaries
+
+- required: ["total_salaries", "total_expenses", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  university: <<carnegie>>
+  namespace: salaries_carnegie
+
+- required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: inst_salaries
+
+- required: ["outlays_instructional_staff", "num_instructional_staff", "year"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  university: <<carnegie>>
+  namespace: inst_salaries_carnegie
+
+- required: ["year", "academic_rank", "num_instructional_staff"]
+  rows: True
+  sort: desc
+  order: num_instructional_staff
+  year: latest
+  limit: 3
+  show: academic_rank
+  namespace: instructors
+
+- required: ["year", "sex", "academic_rank", "num_instructional_staff"]
+  rows: True
+  sort: desc
+  order: num_instructional_staff
+  year: latest
+  limit: 3
+  sumlevel: "all,all"
+  show: "academic_rank,sex"
+  namespace: instructors_sex
+
+- required: ["year", "ipeds_occ", "num_noninstructional_staff"]
+  rows: True
+  sort: desc
+  order: num_noninstructional_staff
+  year: latest
+  limit: 3
+  show: ipeds_occ
+  namespace: occupations
+
+- required: ["year", "degree", "grads_total"]
+  rows: True
+  sort: desc
+  order: grads_total
+  year: latest
+  show: degree
+  limit: 11
+  namespace: degrees
+
+- required: ["year", "num_ppl", "soc"]
+  rows: True
+  sort: desc
+  order: num_ppl
+  year: latest
+  limit: 1000000
+  show: soc
+  university: ""
+  soc_level: 3
+  where: "num_records:>4"
+  cip: <<top dataset=ipeds|col=id|order=grads_total_rca|show=cip|limit=5|sumlevel=2>>
+  after:
+    aggregate: "soc"
+  namespace: soc_ppl
+
+- required: ["year", "avg_wage", "soc"]
+  rows: True
+  sort: desc
+  order: avg_wage
+  year: latest
+  limit: 1000000
+  show: soc
+  university: ""
+  soc_level: 3
+  where: "num_records:>4"
+  cip: <<top dataset=ipeds|col=id|order=grads_total_rca|show=cip|limit=5|sumlevel=2>>
+  after:
+    aggregate: "soc"
+    method: "max"
+  namespace: soc
+
+- required: ["year", "num_ppl", "naics"]
+  rows: True
+  sort: desc
+  order: num_ppl
+  year: latest
+  limit: 1000000
+  show: naics
+  university: ""
+  where: "num_ppl:!0"
+  sumlevel: 2
+  cip: <<top dataset=ipeds|col=id|order=grads_total_rca|show=cip|limit=5|sumlevel=2>>
+  after:
+    aggregate: "naics"
+  namespace: naics
+
+- required: ["year", "default_rate", "num_borrowers", "num_defaults"]
+  year: all
+  order: year
+  sort: desc
+  limit: 1
+  namespace: defaults
