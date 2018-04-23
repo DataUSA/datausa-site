@@ -331,7 +331,7 @@ topics:
       default: opioid_overdose_deathrate_ageadjusted
       param: required
     description:
-      - "<<var namespace=opioids|key=geo|row=0>> has a <span class='select-text'>Opioid Deaths (Age-Adjusted)</span> value of <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=0>>, followed by <<var namespace=opioids|key=geo|row=1>> with <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=1>> and <<var namespace=opioids|key=geo|row=2>> with <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=2>>. The following map shows all of the states colored according to their <span class='select-text'>Opioid Deaths (Age-Adjusted)</span>."
+      - "<<var namespace=opioids|key=geo|row=0>> has a <span class='select-text'>Opioid Overdose Death Rate (Age-Adjusted)</span> value of <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=0>>, followed by <<var namespace=opioids|key=geo|row=1>> with <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=1>> and <<var namespace=opioids|key=geo|row=2>> with <<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=2>>. The following map shows all of the states colored according to their <span class='select-text'>Opioid Overdose Death Rate (Age-Adjusted)</span>."
     stat:
       - title: "State with the highest prevalence"
         value: "<<var namespace=opioids|key=geo|row=0>> <span class='stat-subtitle'><<var namespace=opioids|key=opioid_overdose_deathrate_ageadjusted|row=0>></span>"

@@ -65,7 +65,7 @@ viz.prepBuild = function(build, i) {
           .filter(function(t) { return t !== "year" && t.indexOf(prev) < 0; });
         if (!tooltipValues.length) {
           build.config.tooltip.value = ["year", id, id + "_moe"];
-          if (id in collectionyears) build.config.tooltip.value.push(id + "_collection");
+          if (id in collectionyears || id === "non_medical_use_of_pain_relievers") build.config.tooltip.value.push(id + "_collection");
         }
         if (build.viz) build.viz.tooltip(build.config.tooltip.value);
 

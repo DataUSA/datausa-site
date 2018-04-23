@@ -9785,7 +9785,7 @@ viz.prepBuild = function(build, i) {
           .filter(function(t) { return t !== "year" && t.indexOf(prev) < 0; });
         if (!tooltipValues.length) {
           build.config.tooltip.value = ["year", id, id + "_moe"];
-          if (id in collectionyears) build.config.tooltip.value.push(id + "_collection");
+          if (id in collectionyears || id === "non_medical_use_of_pain_relievers") build.config.tooltip.value.push(id + "_collection");
         }
         if (build.viz) build.viz.tooltip(build.config.tooltip.value);
 
@@ -10224,6 +10224,14 @@ viz.formatData = function(data, d, build) {
           datum[k + "_collection"] = collectionyears[k][datum.year];
         }
       }
+    }
+  }
+
+  var k = "non_medical_use_of_pain_relievers";
+  if (data.length && data[0][k] && data[0].start_year) {
+    for (var i = 0; i < data.length; i++) {
+      var datum = data[i];
+      datum[k + "_collection"] = datum.start_year + "-" + datum.year;
     }
   }
 
@@ -10771,8 +10779,12 @@ viz.mapDraw = function(vars) {
 
         "opioid_overdose_deathrate_ageadjusted",
         "drug_overdose_ageadjusted",
+<<<<<<< HEAD
         "non_medical_use_of_pain_relievers",
         "default_rate"
+=======
+        "non_medical_use_of_pain_relievers"
+>>>>>>> master
       ];
 
       if (badIndicators.indexOf(vars.color.value) >= 0) color_range = makeColorArray("#CA3434");
