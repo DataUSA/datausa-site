@@ -32,6 +32,9 @@ topics:
             value: "y2_emp_thousands"
       highlight: "<<sub col=emp_carc_2014_2024|year=none|key=id>>"
       id: "naics"
+      order:
+        sort: asc
+        value: year
       type: "line"
       x:
         lines:
@@ -74,6 +77,9 @@ topics:
             value: "y2_output"
       highlight: "<<sub col=output_carc_2014_2024|year=none|key=id>>"
       id: "naics"
+      order:
+        sort: asc
+        value: year
       type: "line"
       x:
         lines:
@@ -109,6 +115,9 @@ topics:
             regex: "^emp_([0-9]*)_thousands$"
             value: "emp_thousands"
       id: "soc"
+      order:
+        sort: asc
+        value: year
       type: "line"
       x: "year"
       y: "emp_thousands"

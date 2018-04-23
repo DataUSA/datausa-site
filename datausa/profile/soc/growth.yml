@@ -23,6 +23,9 @@ topics:
           regex: "^emp_([0-9]*)_thousands$"
           value: "emp_thousands"
       id: "soc"
+      order:
+        sort: asc
+        value: year
       type: "line"
       x: "year"
       y: "emp_thousands"
