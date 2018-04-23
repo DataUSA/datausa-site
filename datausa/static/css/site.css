@@ -3679,7 +3679,6 @@
     body.story.naics .demographics, body.story.naics .growth {
       background-color: #F6F6F6; }
   body.profile.university .costs, body.profile.university .enrollment,
-<<<<<<< HEAD
   body.profile.university .operations, body.map.university .costs,
   body.map.university .enrollment, body.map.university .operations,
   body.story.university .costs, body.story.university .enrollment,
@@ -3688,16 +3687,6 @@
     body.profile.university .admissions, body.profile.university .outcomes,
     body.map.university .admissions, body.map.university .outcomes,
     body.story.university .admissions, body.story.university .outcomes {
-=======
-  body.profile.university .outcomes, body.map.university .costs,
-  body.map.university .enrollment, body.map.university .outcomes,
-  body.story.university .costs, body.story.university .enrollment,
-  body.story.university .outcomes {
-    background-color: #E9E9E9; }
-    body.profile.university .admissions, body.profile.university .operations,
-    body.map.university .admissions, body.map.university .operations,
-    body.story.university .admissions, body.story.university .operations {
->>>>>>> master
       background-color: #F6F6F6; }
   body.profile.embed section, body.map.embed section, body.story.embed section {
     background-color: transparent !important; }
@@ -4262,7 +4251,6 @@
                     text-shadow: 0 2px 12px black;
                     text-transform: uppercase;
                     letter-spacing: 0.03em; }
-<<<<<<< HEAD
                     body.profile #splash .content .splash-titles sub a,
                     body.map #splash .content .splash-titles sub a,
                     body.story #splash .content .splash-titles sub a {
@@ -4293,30 +4281,6 @@
                         -moz-text-shadow: 0 2px 12px black;
                         text-shadow: 0 2px 12px black;
                         text-transform: uppercase; }
-=======
-                    body.profile #splash .content .splash-titles .compare-search,
-                    body.map #splash .content .splash-titles .compare-search,
-                    body.story #splash .content .splash-titles .compare-search {
-                      margin-top: 15px; }
-                      body.profile #splash .content .splash-titles .compare-search .compare-img,
-                      body.map #splash .content .splash-titles .compare-search .compare-img,
-                      body.story #splash .content .splash-titles .compare-search .compare-img {
-                        margin-top: 3px;
-                        margin-right: 4px;
-                        width: 19px; }
-                        body.profile #splash .content .splash-titles .compare-search .compare-text,
-                        body.map #splash .content .splash-titles .compare-search .compare-text,
-                        body.story #splash .content .splash-titles .compare-search .compare-text {
-                          color: white;
-                          font-family: "Palanquin", sans-serif;
-                          font-size: 14px;
-                          font-weight: 600;
-                          letter-spacing: 0.1em;
-                          -webkit-text-shadow: 0 2px 12px black;
-                          -moz-text-shadow: 0 2px 12px black;
-                          text-shadow: 0 2px 12px black;
-                          text-transform: uppercase; }
->>>>>>> master
           body.profile #splash .content #splash-stats,
           body.map #splash .content #splash-stats, body.story #splash .content #splash-stats {
             -webkit-box-sizing: border-box;
@@ -5536,10 +5500,7 @@
     body.story .prof-body .section-ps {
       columns: 320px auto;
       column-gap: 20px;
-<<<<<<< HEAD
       margin: 0 auto;
-=======
->>>>>>> master
       max-width: 1200px; }
       body.profile .prof-body .section-ps p, body.map .prof-body .section-ps p,
       body.story .prof-body .section-ps p {
@@ -5555,7 +5516,6 @@
           color: #32415A;
           border-bottom: none;
           text-decoration: underline; }
-<<<<<<< HEAD
           body.profile .prof-body .section-ps p a.term,
           body.map .prof-body .section-ps p a.term,
           body.story .prof-body .section-ps p a.term {
@@ -5567,15 +5527,6 @@
             body.story .prof-body .section-ps p a:hover,
             body.story .prof-body .section-ps p a:focus {
               border-bottom: none; }
-=======
-          body.profile .prof-body .section-ps p a:hover,
-          body.profile .prof-body .section-ps p a:focus,
-          body.map .prof-body .section-ps p a:hover,
-          body.map .prof-body .section-ps p a:focus,
-          body.story .prof-body .section-ps p a:hover,
-          body.story .prof-body .section-ps p a:focus {
-            border-bottom: none; }
->>>>>>> master
   body.profile #section-sidenav, body.map #section-sidenav,
   body.story #section-sidenav {
     -webkit-justify-content: center;
