@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, IndexRoute, browserHistory} from "react-router";
+import {Route, IndexRoute} from "react-router";
 
 import App from "./App";
 import Home from "./pages/Home/index";
@@ -31,7 +31,7 @@ import ProfileBuilder from "./admin/ProfileBuilder";
 export default function RouteCreate() {
 
   return (
-    <Route path="/" component={App} history={browserHistory}>
+    <Route path="/" component={App}>
 
       <IndexRoute component={Home} />
 

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {browserHistory} from "react-router";
+import PropTypes from "prop-types";
 
 import axios from "axios";
 
@@ -51,8 +51,9 @@ class Search extends Component {
   }
 
   onClick(d) {
+    const {router} = this.context;
     const {resultLink} = this.props;
-    browserHistory.push(resultLink(d));
+    router.push(resultLink(d));
     this.setState({active: false, shouldBlur: false});
   }
 
@@ -74,6 +75,7 @@ class Search extends Component {
 
     select(document).on(`keydown.${ id }`, () => {
 
+      const {router} = this.context;
       const {active} = this.state;
       const key = event.keyCode;
       const DOWN = 40,
@@ -96,7 +98,7 @@ class Search extends Component {
 
         if (key === ENTER && highlighted) {
           this.setState({active: false});
-          browserHistory.push(highlighted.querySelector("a").href);
+          router.push(highlighted.querySelector("a").href);
         }
         else if (key === DOWN || key === UP) {
 
@@ -166,6 +168,10 @@ class Search extends Component {
 
   }
 }
+
+Search.contextTypes = {
+  router: PropTypes.object
+};
 
 Search.defaultProps = {
   buttonLink: false,

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import "./App.css";
 
 import {Canon} from "datawheel-canon";
@@ -7,7 +8,11 @@ import "./d3plus.css";
 import Nav from "components/Nav/index";
 import Footer from "components/Footer/index";
 
-export default class App extends Component {
+class App extends Component {
+
+  getChildContext() {
+    return {router: this.props.router};
+  }
 
   render() {
 
@@ -27,3 +32,9 @@ export default class App extends Component {
   }
 
 }
+
+App.childContextTypes = {
+  router: PropTypes.object
+};
+
+export default App;
