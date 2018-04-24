@@ -179,7 +179,7 @@
         d3.select("#compare-loading").style("display", "block");
 
         if (!back) compares.push(compare);
-        // console.log(attr);
+
         var name = attr ? attr.display || attr.display_name || attr.name : "";
         var type = location.pathname.split("/")[2];
 
@@ -228,7 +228,7 @@
 
             if (build.loaded) {
               build.loaded = false;
-              build.container.selectAll("*").remove();
+              build.container.html("");
               build.viz.height(false).width(false);
             }
 

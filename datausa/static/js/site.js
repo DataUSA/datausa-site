@@ -8648,16 +8648,25 @@ viz.finish = function(build) {
   if (years.length > 1 && axis !== build.viz.time() || build.config.timeline) {
     if (!build.config.ui) build.config.ui = [];
     var focus = d3.max(build.viz.data(), function(d) { return d.year; });
-    build.viz.time({solo: focus})
-    build.config.ui.push({
-      focus: focus,
-      method: function(d, viz) {
-        viz.time({solo: [d]}).draw();
-      },
-      type: "toggle",
-      // label: "Year",
-      value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
-    });
+    build.viz.time({solo: focus});
+    if (!build.config.ui.filter(function(d) { return d.id === "year-toggle"; }).length) {
+      build.config.ui.push({
+        focus: focus,
+        method: function(d, viz) {
+          viz.time({solo: [d]}).draw();
+        },
+        type: "toggle",
+        id: "year-toggle",
+        // label: "Year",
+        value: years.sort().map(function(y) { var obj = {}; obj[y] = y; return obj; })
+      });
+    }
+    else {
+      build.config.ui.forEach(function(ui) {
+        delete ui.form;
+      });
+    }
+    if (build.slug === "tuition") console.log(build.config.ui.length, build.config.ui);
   }
   else {
     build.viz.time(false);
@@ -8669,7 +8678,7 @@ viz.finish = function(build) {
     .config(viz[build.config.type](build))
     .config(build.config)
     .depth(build.config.depth)
-    .data({large: large})
+    .data({large: large});
 
   if (build.config.id.constructor === String) build.viz.text(build.config.id);
   build.viz.error(false).draw();
