@@ -51,7 +51,7 @@ class Nav extends Component {
                    location.pathname.indexOf("/profile") === 0;
 
     const dark = !splash;
-    console.log(location.pathname);
+
     const subtitle = location.pathname.indexOf("/profile") === 0
       ? profile ? profile.title.replace("<p>", "").replace("</p>", "") : ""
       : location.pathname === "/" ? false
