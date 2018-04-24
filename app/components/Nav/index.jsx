@@ -45,17 +45,17 @@ class Nav extends Component {
     const toggleMenu = () => this.setState({menu: !this.state.menu});
 
     const search = !(location.pathname === "/" ||
-                   location.pathname.indexOf("/search") === 0);
+                   location.pathname.indexOf("search") === 0);
 
     const splash = location.pathname === "/" ||
-                   location.pathname.indexOf("/profile") === 0;
+                   location.pathname.indexOf("profile") === 0;
 
     const dark = !splash;
 
-    const subtitle = location.pathname.indexOf("/profile") === 0
+    const subtitle = location.pathname.indexOf("profile") === 0
       ? profile ? profile.title.replace("<p>", "").replace("</p>", "") : ""
-      : location.pathname === "/" ? false
-        : ["/story", "/story/"].includes(location.pathname)
+      : location.pathname === "" ? false
+        : location.pathname.indexOf("story") === 0
           ? "Stories"
           : titleCase(location.pathname.split("/")[1]);
 
