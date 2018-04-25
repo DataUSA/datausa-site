@@ -40,24 +40,26 @@ class Nav extends Component {
   render() {
     const {background, menu} = this.state;
     const {location, profile} = this.props;
+    const {pathname} = location;
 
-    const logo = !["/"].includes(location.pathname);
+    const logo = !["/"].includes(pathname);
     const toggleMenu = () => this.setState({menu: !this.state.menu});
 
-    const search = !(location.pathname === "/" ||
-                   location.pathname.indexOf("search") === 0);
+    const search = !(pathname === "/" ||
+                   pathname.indexOf("search") === 0);
 
-    const splash = location.pathname === "/" ||
-                   location.pathname.indexOf("profile") === 0;
+    const splash = pathname === "/" ||
+                   pathname.indexOf("profile") === 0 ||
+                   pathname.indexOf("story") === 0 && pathname.length > 10;
 
     const dark = !splash;
 
-    const subtitle = location.pathname.indexOf("profile") === 0
+    const subtitle = pathname.indexOf("profile") === 0
       ? profile ? profile.title.replace("<p>", "").replace("</p>", "") : ""
-      : location.pathname === "" ? false
-        : location.pathname.indexOf("story") === 0
+      : pathname === "" ? false
+        : pathname.indexOf("story") === 0
           ? "Stories"
-          : titleCase(location.pathname.split("/")[1]);
+          : titleCase(pathname.split("/")[1]);
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
 
