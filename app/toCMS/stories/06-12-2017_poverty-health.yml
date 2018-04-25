@@ -3,7 +3,7 @@ image: "/images/splash/cip/19.jpg"
 authors:
   - name: "Melissa Majerol"
     title: "Health Care Research Manager, Deloitte Center for Government Insights"
-    img: "/images/story/authors/majerol.jpg"
+    image: "/images/story/authors/majerol.jpg"
     about:
       - "Melissa Majerol is the Health Care Research Manager at the Deloitte Center for Government Insights, where she manages a portfolio of projects that impact state and federal health agencies. Prior to this role, Melissa worked as a health policy analyst at a nationally recognized health policy research institute, where she focused on Medicaid, Health Reform, and Low-Income Populations. Melissa holds a Master of Science in Health Policy from Harvard University."
 

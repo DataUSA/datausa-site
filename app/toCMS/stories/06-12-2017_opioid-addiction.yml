@@ -3,7 +3,7 @@ image: "/images/splash/cip/26.jpg"
 authors:
   - name: "Weston Coward"
     title: "Business Analyst, Deloitte"
-    img: "/images/story/authors/coward.png"
+    image: "/images/story/authors/coward.png"
     about:
       - "Weston is a Business Analyst in Deloitte Consulting’s Federal practice, where he supports strategic communications and business readiness efforts across a variety of agencies.  Weston grew up on his family farm in Henderson, KY.  There, he developed a love for solving problems (albeit of a different kind), the outdoors, and the community around him."
 

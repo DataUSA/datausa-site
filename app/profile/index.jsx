@@ -1,15 +1,17 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+
 import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
+import Splash from "toCanon/Splash";
+import SectionIcon from "toCanon/SectionIcon";
+import TextViz from "toCanon/topics/TextViz";
+
 import axios from "axios";
 import {select} from "d3-selection";
 import "./index.css";
 
 import Loading from "components/Loading/index";
-import Splash from "./Splash";
 import Section from "./Section";
-import SectionIcon from "./SectionIcon";
-import TextViz from "./topics/TextViz";
 
 class Profile extends Component {
 
@@ -66,14 +68,18 @@ class Profile extends Component {
   render() {
 
     const {params, profile} = this.props;
+    const {pslug} = params;
     const {activeSection, comparisons, loading} = this.state;
 
     const profiles = [profile].concat(comparisons);
+    profiles.forEach(d => {
+      d.image = `/images/splash/${pslug}/${d.pid}.jpg`;
+    });
     console.log(profiles);
 
     return (
       <CanonProfile>
-        <Splash data={profile} comparisons={comparisons} params={params} />
+        <Splash data={profile} comparisons={comparisons} />
         <Section data={{...profile, title: "About", slug: "about"} } comparisons={comparisons} />
         { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);

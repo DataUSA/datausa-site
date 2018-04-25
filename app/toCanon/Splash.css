@@ -2,7 +2,6 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   justify-content: center;
   position: relative;
   width: 100%;
@@ -10,7 +9,6 @@
     align-items: stretch;
     display: flex;
     flex-direction: row;
-    height: 100vh;
     left: 0;
     position: absolute;
     top: 0;
@@ -45,16 +43,18 @@
     font-family: "Pathway Gothic One", sans-serif;
     font-weight: 400;
     letter-spacing: 0.03em;
-    padding: 0 25px;
+    padding: 0 50px;
     text-align: center;
     text-shadow: 0 2px 6px black;
     text-transform: uppercase;
   }
   & .profile-title {
     font-size: 60px;
+    line-height: 1.1;
   }
   & .profile-subtitle {
     font-size: 18px;
+    line-height: 1.2;
   }
   & .profile-stats {
     display: flex;

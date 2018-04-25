@@ -30,6 +30,11 @@
         max-width: 415px;
         width: 50%;
       }
+      &:only-child {
+        margin: 3px auto 12px;
+        max-width: 600px;
+        width: 100%;
+      }
       & .topic-text {
         flex: 1;
         & .topic-subtitle {
@@ -55,6 +60,10 @@
           & p {
             padding-bottom: 30px;
           }
+        }
+        & a.footnote {
+          margin-left: 2px;
+          text-decoration: none;
         }
       }
       & .topic-visualization {

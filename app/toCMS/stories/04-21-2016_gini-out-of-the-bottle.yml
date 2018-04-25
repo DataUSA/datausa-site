@@ -3,7 +3,7 @@ image: "/images/splash/soc/110000-130000.jpg"
 authors:
   - name: Daniel Armstrong
     title: Deloitte Consulting LLP, Analytics and Information Management
-    img: "/images/story/authors/armstrong.jpg"
+    image: "/images/story/authors/armstrong.jpg"
     about:
       - "Dan Armstrong is a Senior Specialist at Deloitte focusing on analytics and data visualization. He previously worked for The Economist, Forbes and The Globecon Group, a boutique training firm that educates bankers in capital markets and derivatives."
       - "He has a BA in anthropology and an MBA in finance and research methods. As recounted in Dreams of My Father, Dan was Barack Obama’s editor in the president’s first job out of college."

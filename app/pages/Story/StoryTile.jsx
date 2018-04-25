@@ -2,9 +2,7 @@ import React, {Component} from "react";
 import {Link} from "react-router";
 
 import listify from "toCanon/listify";
-
-import {timeFormat} from "d3-time-format";
-const dateFormat = timeFormat("%B %d, %Y");
+import * as format from "toCanon/formatters/index";
 
 import "./StoryTile.css";
 
@@ -22,7 +20,7 @@ export default class StoryTile extends Component {
         <div className="footer">
           <div className="meta">
             <div className="author">Writted by { listify(authors.map(a => a.name)) }</div>
-            <div className="date">{ dateFormat(new Date(date)) }</div>
+            <div className="date">{ format.date(date) }</div>
           </div>
           <div className="action">Read More</div>
         </div>
