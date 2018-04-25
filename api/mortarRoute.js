@@ -1,24 +1,24 @@
 const axios = require("axios");
 
-const profileReqWithGens = {   
+const profileReqWithGens = {
   include: [
     {
       association: "generators"
-    }, 
+    },
     {
       association: "materializers"
-    }, 
+    },
     {
       association: "visualizations"
-    }, 
+    },
     {
       association: "stats"
     },
-    { 
-      association: "sections", 
+    {
+      association: "sections",
       include: [
         {
-          association: "topics", 
+          association: "topics",
           include: [
             {
               association: "visualizations"
@@ -33,19 +33,19 @@ const profileReqWithGens = {
   ]
 };
 
-const profileReq = {   
+const profileReq = {
   include: [
     {
       association: "visualizations"
-    }, 
+    },
     {
       association: "stats"
     },
-    { 
-      association: "sections", 
+    {
+      association: "sections",
       include: [
         {
-          association: "topics", 
+          association: "topics",
           include: [
             {
               association: "visualizations"
@@ -60,8 +60,14 @@ const profileReq = {
   ]
 };
 
+const d3TimeFormat = require("d3-time-format"),
+      d3plusAxis = require("d3plus-axis");
+
+const d3 = Object.assign({}, d3TimeFormat),
+      d3plus = Object.assign({}, d3plusAxis);
+
 /* Given an object, a hashtable of formatting functions, and a lookup object full of variables
- * Replace every instance of {{var}} with its true value from the lookup object, and 
+ * Replace every instance of {{var}} with its true value from the lookup object, and
  * apply the appropriate formatter
  * TODO: maybe make this recursive in the future, crawling down the object?
 */
@@ -76,13 +82,13 @@ const varSwap = (sourceObj, formatterFunctions, variables) => {
         m = re.exec(sourceObj[skey]);
         if (m) {
           // FormatterName{{VarToReplace}}
-          const fullMatch = m[0];  
+          const fullMatch = m[0];
           // Get the function from the hash table using the lookup key FormatterName (or no-op if not found)
           const formatter = m[1] ? formatterFunctions[m[1]] : d => d;
           // VarToReplace
           const keyMatch = m[2];
           const reswap = new RegExp(fullMatch, "g");
-          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[keyMatch]));
+          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[keyMatch], d3, d3plus));
         }
       } while (m);
     }
@@ -104,7 +110,7 @@ module.exports = function(app) {
         profiles: resp[1]
       });
     });
-    
+
   });
 
   app.get("/api/internalprofile/:slug", (req, res) => {
@@ -130,7 +136,7 @@ module.exports = function(app) {
 
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
     db.profiles.findOne({where: {slug}, raw: true})
-      .then(profile => 
+      .then(profile =>
         Promise.all([profile.id, db.generators.findAll({where: {profile_id: profile.id}})])
       )
       // Given a profile id and its generators, hit all the API endpoints they provide
@@ -155,7 +161,7 @@ module.exports = function(app) {
           // Build the return object using a reducer, one generator at a time
           returnVariables = requiredGenerators.reduce((acc, g) => {
             let vars = {};
-            // Because generators are arbitrary javascript, they may be malformed. We need to wrap the 
+            // Because generators are arbitrary javascript, they may be malformed. We need to wrap the
             // entire execution in a try/catch. genStatus is used to track the status of each individual generator
             try {
               const resp = r.data;
@@ -214,7 +220,7 @@ module.exports = function(app) {
       .then(resp => {
         const [variables, formatters] = resp;
         // Create a hash table so the formatters are directly accessible by name
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", f.logic), acc), {});
+        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", "d3", "d3plus", f.logic), acc), {});
         const returnObject = {variables};
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
         return Promise.all([returnObject, formatterFunctions, request]);
@@ -224,7 +230,7 @@ module.exports = function(app) {
       .then(resp => {
         let returnObject = resp[0];
         const formatterFunctions = resp[1];
-        // Create a "post-processed" profile by swapping every {{var}} with a formatted variable 
+        // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
         const profile = varSwap(resp[2].data, formatterFunctions, returnObject.variables);
         returnObject.pid = id;
         // The varswap function is not recursive. We have to do some work here to crawl down the profile
