@@ -27,8 +27,8 @@ class Home extends Component {
           placeholder="ex. California, Hospitals, Graphic Design"
           primary={true}
           resultLink={ d => `/profile/${d.type}/${d.id}` }
-          resultRender={d => <div>
-            <img src={ `/images/icons/${d.type}_c.svg` } />
+          resultRender={d => <div className="result-container">
+            <img className="result-icon" src={ `/images/icons/${d.type}_c.svg` } />
             <div className="result-text">
               <div className="title">{ d.name }</div>
               <div className="sumlevel">{ d.sumlevel }</div>

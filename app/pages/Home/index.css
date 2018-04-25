@@ -114,34 +114,37 @@
         display: block;
       }
       & .result {
-        padding: 7px 6px;
-        text-align: left;
+        display: block;
         &:hover {
           background-color: #E9E9E9;
           cursor: pointer;
         }
-        & img {
-          display: inline-block;
-          margin-right: 6px;
-          vertical-align: top;
-          width: 26px;
-        }
-        & .result-text {
-          display: inline-block;
-          & .title {
-            color: var(--black);
-            font-size: 16px;
-            line-height: 20px;
-            margin-bottom: 2px;
+        & .result-container {
+          align-items: flex-start;
+          display: flex;
+          padding: 10px 10px 10px 6px;
+          text-align: left;
+          & .result-icon {
+            margin-right: 6px;
+            vertical-align: top;
+            width: 26px;
           }
-          & .sumlevel {
-            color: #727682;
-            font-size: 12px;
-            letter-spacing: 1px;
-            line-height: 1;
-            font-weight: 700;
-            margin-top: 5px;
-            text-transform: uppercase;
+          & .result-text {
+            & .title {
+              color: var(--black);
+              font-size: 16px;
+              line-height: 20px;
+              margin-bottom: 2px;
+            }
+            & .sumlevel {
+              color: #727682;
+              font-size: 12px;
+              letter-spacing: 1px;
+              line-height: 1;
+              font-weight: 700;
+              margin-top: 5px;
+              text-transform: uppercase;
+            }
           }
         }
       }

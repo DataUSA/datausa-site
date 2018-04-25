@@ -72,35 +72,39 @@
       display: block;
     }
     & .result {
-      padding: 7px 6px;
-      text-align: left;
       transition: background-color 0.25s;
       &:hover {
         background-color: var(--gray);
         cursor: pointer;
       }
-      & img {
-        display: inline-block;
-        margin-right: 6px;
-        vertical-align: top;
-        width: 26px;
-      }
-      & .result-text {
-        display: inline-block;
-        & .title {
-          color: white;
-          font-size: 14px;
-          line-height: 1.25;
-          margin-bottom: 2px;
+      & .result-container {
+        align-items: flex-start;
+        display: flex;
+        padding: 10px 10px 10px 6px;
+        text-align: left;
+        & .result-icon {
+          display: inline-block;
+          margin-right: 6px;
+          vertical-align: top;
+          width: 26px;
         }
-        & .sumlevel {
-          color: var(--lightgray);
-          font-size: 11px;
-          letter-spacing: 1px;
-          line-height: 1.15;
-          font-weight: 700;
-          margin-top: 3px;
-          text-transform: uppercase;
+        & .result-text {
+          display: inline-block;
+          & .title {
+            color: white;
+            font-size: 14px;
+            line-height: 1.25;
+            margin-bottom: 2px;
+          }
+          & .sumlevel {
+            color: var(--lightgray);
+            font-size: 11px;
+            letter-spacing: 1px;
+            line-height: 1.15;
+            font-weight: 700;
+            margin-top: 3px;
+            text-transform: uppercase;
+          }
         }
       }
     }

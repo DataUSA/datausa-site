@@ -1,28 +1,46 @@
+const sequelize = require("sequelize"),
+      sumlevels = require("../app/consts/sumlevels.js");
+
 module.exports = function(app) {
 
+  const {db} = app.settings;
+
   app.get("/api/search", (req, res) => {
-    res.json({
-      results: [
-        {
-          id: "04000US25",
-          name: "Massachusetts",
-          sumlevel: "State",
-          type: "geo"
-        },
-        {
-          id: "24",
-          name: "Banking",
-          sumlevel: "Industry Group",
-          type: "naics"
-        },
-        {
-          id: "04000US34",
-          name: "New York, NY",
-          sumlevel: "Place",
-          type: "geo"
-        }
-      ]
-    }).end();
+
+    const where = {};
+
+    let {limit = "10"} = req.query;
+    limit = parseInt(limit, 20);
+
+    const {kind, q} = req.query;
+    if (q) {
+      where[sequelize.Op.or] = [
+        {name: {[sequelize.Op.iLike]: `%${q}%`}},
+        {display: {[sequelize.Op.iLike]: `%${q}%`}},
+        {keywords: {[sequelize.Op.overlap]: [q]}}
+      ];
+    }
+    if (kind) {
+      where.kind = kind;
+    }
+
+    db.search.findAll({
+      limit,
+      order: [["zvalue", "DESC"]],
+      where
+    })
+      .then(results => {
+        results = results.map(d => ({
+          id: d.id,
+          keywords: d.keywords,
+          name: d.display,
+          sumlevel: sumlevels[d.kind][d.sumlevel] ? sumlevels[d.kind][d.sumlevel].label : d.sumlevel,
+          slug: d.url_name,
+          stem: d.is_stem === 1,
+          type: d.kind
+        }));
+        res.json({results, query: {limit, q, kind}}).end();
+      });
   });
 
 };

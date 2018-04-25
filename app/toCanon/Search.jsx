@@ -5,7 +5,6 @@ import axios from "axios";
 
 import {event, select} from "d3-selection";
 import {uuid} from "d3plus-common";
-import {strip} from "d3plus-text";
 
 class Search extends Component {
 
@@ -19,17 +18,6 @@ class Search extends Component {
     };
   }
 
-  onBlur() {
-    const {shouldBlur} = this.state;
-    if (!shouldBlur) {
-      this.setState({shouldBlur: true});
-    }
-    else {
-      this.setState({active: false});
-    }
-  }
-
-
   onChange(e) {
 
     const userQuery = e ? e.target.value : "";
@@ -39,7 +27,7 @@ class Search extends Component {
       this.setState({active: true, results: [], userQuery});
     }
     else if (url) {
-      axios.get(`${url}?q=${strip(userQuery)}`)
+      axios.get(`${url}?q=${userQuery}`)
         .then(res => res.data)
         .then(data => {
           let results = data.results;
@@ -53,8 +41,8 @@ class Search extends Component {
   onClick(d) {
     const {router} = this.context;
     const {resultLink} = this.props;
+    this.setState({active: false});
     router.push(resultLink(d));
-    this.setState({active: false, shouldBlur: false});
   }
 
   onFocus() {
@@ -63,7 +51,10 @@ class Search extends Component {
 
   onToggle() {
 
-    if (this.state.active) this.input.blur();
+    if (this.state.active) {
+      this.input.blur();
+      this.setState({active: false});
+    }
     else this.input.focus();
 
   }
@@ -72,6 +63,12 @@ class Search extends Component {
 
     const {primary, searchEmpty} = this.props;
     const {id} = this.state;
+
+    select(document).on(`mousedown.${ id }`, () => {
+      if (this.state.active && this.container && !this.container.contains(event.target)) {
+        this.setState({active: false});
+      }
+    });
 
     select(document).on(`keydown.${ id }`, () => {
 
@@ -86,11 +83,11 @@ class Search extends Component {
 
       if (primary && !active && key === S && event.target.tagName.toLowerCase() !== "input") {
         event.preventDefault();
-        this.onToggle();
+        this.onToggle.bind(this)();
       }
       else if (active && key === ESC && event.target === this.input) {
         event.preventDefault();
-        this.onToggle();
+        this.onToggle.bind(this)();
       }
       else if (active && event.target === this.input) {
 
@@ -145,7 +142,7 @@ class Search extends Component {
     const {active, results, userQuery} = this.state;
 
     return (
-      <div className={ `pt-control-group ${className} ${ active ? "active" : "" }` }  onBlur={ this.onBlur.bind(this) }>
+      <div ref={comp => this.container = comp} className={ `pt-control-group ${className} ${ active ? "active" : "" }` }>
         { InactiveComponent && <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> }
         <div className={ `pt-input-group pt-fill ${ active ? "active" : "" }` }>
           { icon && <span className="pt-icon pt-icon-search"></span> }
