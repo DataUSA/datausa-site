@@ -52,11 +52,11 @@ class ProfileBuilder extends Component {
       }))
     }));
     const parent = {childNodes: nodes};
-    nodes = nodes.map(p => ({...p, 
+    nodes = nodes.map(p => ({...p,
       parent,
-      childNodes: p.childNodes.map(s => ({...s, 
+      childNodes: p.childNodes.map(s => ({...s,
         parent: p,
-        childNodes: s.childNodes.map(t => ({...t, 
+        childNodes: s.childNodes.map(t => ({...t,
           parent: s
         }))
       })
@@ -69,7 +69,7 @@ class ProfileBuilder extends Component {
   }
 
   addItem(n, dir) {
-    console.log("add", n, dir); 
+    console.log("add", n, dir);
   }
 
   deleteItem(n) {
@@ -91,7 +91,7 @@ class ProfileBuilder extends Component {
     if (this.props.setPath) this.props.setPath(node);
     this.setState({currentNode: node});
   }
-  
+
   handleNodeCollapse(node) {
     node.isExpanded = false;
     this.setState({nodes: this.state.nodes});
@@ -143,7 +143,7 @@ class ProfileBuilder extends Component {
             onNodeCollapse={this.handleNodeCollapse.bind(this)}
             onNodeExpand={this.handleNodeExpand.bind(this)}
             contents={nodes}
-            
+
           />
         </div>
         <div id="item-editor">

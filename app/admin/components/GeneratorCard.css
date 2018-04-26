@@ -1,0 +1,34 @@
+.generator-card {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  padding: 0;
+  width: 250px;
+  & h5 {
+    margin: 7px auto 10px;
+    text-align: center;
+    & .pt-icon-standard {
+      margin-right: 5px;
+      &.generator {
+        color: #fdd78e;
+      }
+      &.materializer {
+        color: #85c283;
+      }
+    }
+  }
+  & .table {
+    flex: 1;
+    & .pt-table {
+      height: 100%;
+      width: 100%;
+      & td:nth-child(2) {
+        word-break: break-word;
+      }
+    }
+  }
+  & .pt-non-ideal-state {
+    background-color: #fafafa;
+    padding: 10px;
+  }
+}

@@ -1,7 +1,7 @@
 #profile-builder {
   display: flex;
   width: 100%;
-  margin-top:100px;
+  margin-top: 100px;
 }
 
 #tree {
@@ -54,9 +54,11 @@
       }
     }
   }
+  & h3 {
+    margin: 20px auto;
+    text-align: center;
+  }
 }
-
-
 
 .cms-header {
   font-size: 30px;
@@ -65,19 +67,7 @@
   margin-bottom: 15px;
 }
 
-.generator-cards {
-  
-}
-
-.splash-cards {
-
-}
-
-.generator-card {
-  width: 200px;
-  margin: 10px;
-  display: inline-block;
-}
+.splash-cards {}
 
 .stat-card {
   width: 200px;

@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Card, Dialog} from "@blueprintjs/core";
+import {Card, Dialog, NonIdealState} from "@blueprintjs/core";
 import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
+
+import GeneratorCard from "./components/GeneratorCard";
 
 import "./ProfileEditor.css";
 
@@ -63,21 +65,21 @@ class ProfileEditor extends Component {
     }
 
     for (const g of rawData.generators) {
-      g.display_vars = [];
+      g.display_vars = {};
       const genStatus = variables._genStatus[g.id];
       for (const key in genStatus) {
         if (genStatus.hasOwnProperty(key)) {
-          g.display_vars.push(`${key}: ${genStatus[key]}`);
+          g.display_vars[key] = genStatus[key];
         }
       }
     }
 
     for (const m of rawData.materializers) {
-      m.display_vars = [];
+      m.display_vars = {};
       const matStatus = variables._matStatus[m.id];
       for (const key in matStatus) {
         if (matStatus.hasOwnProperty(key)) {
-          m.display_vars.push(`${key}: ${variables[key]}`);
+          m.display_vars[key] = variables[key];
         }
       }
     }
@@ -210,26 +212,8 @@ class ProfileEditor extends Component {
 
     if (!rawData || !postData) return <Loading />;
 
-    const generators = rawData.generators.map(g =>
-      <Card key={g.id} onClick={this.openGeneratorEditor.bind(this, g, "generator")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
-        <h5>{g.name}</h5>
-        <ul>
-          {g.display_vars ? g.display_vars.map(v => <li key={`g${v}`}>{v}</li>) : null}
-        </ul>
-      </Card>
-    );
-
-    const materializedGenerators = rawData.materializers.map(m =>
-      <Card key={m.id} onClick={this.openGeneratorEditor.bind(this, m, "materializer")} className="generator-card" interactive={true} elevation={Card.ELEVATION_ONE}>
-        <h5>{m.name}</h5>
-        <ul>
-          {m.display_vars ? m.display_vars.map(v => <li key={`m${v}`}>{v}</li>) : null}
-        </ul>
-      </Card>
-    );
-
     const stats = rawData.stats.map(s =>
-      <Card key={s.id} onClick={this.openTextEditor.bind(this, s, "stat", ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={s.id} onClick={this.openTextEditor.bind(this, s, "stat", ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={0}>
         <h6>title</h6>
         <div dangerouslySetInnerHTML={{__html: s.display_title}} />
         <h6>subtitle</h6>
@@ -240,7 +224,7 @@ class ProfileEditor extends Component {
     );
 
     const visualizations = rawData.visualizations.map(v =>
-      <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={Card.ELEVATION_ONE}>
+      <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
         <p>{v.logic}</p>
       </Card>
     );
@@ -332,43 +316,38 @@ class ProfileEditor extends Component {
         <div id="slug">
           <label className="pt-label">
             slug
-            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>  
+            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
           </label>
           <button onClick={this.saveItem.bind(this, rawData, "profile")}>rename</button>
-          
+
         </div>
 
-        <div className="generators">
-          <div className="cms-header">
-            DATABASE VARIABLE GENERATORS
-          </div>
-          <div className="generator-cards">
-            {generators}
-            <Card className="generator-card" onClick={this.addItem.bind(this, "generator")} interactive={true} elevation={Card.ELEVATION_ONE}>
-              <h5>Add New</h5>
-              <p>+</p>
-            </Card>
-          </div>
+        <h3>Variable Generators</h3>
+
+        <div className="generator-cards">
+          { rawData.generators.map(g =>
+            <GeneratorCard key={g.id} name={g.name} vars={g.display_vars} type="generator"
+              onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
+          ) }
+          <Card className="generator-card" onClick={this.addItem.bind(this, "generator")} interactive={true} elevation={0}>
+            <NonIdealState visual="add" title="Generator" />
+          </Card>
         </div>
 
-        <div className="materialized-generators">
-          <div className="cms-header">
-            MATERIALIZED VARIABLE GENERATORS
-          </div>
-          <div className="generator-cards">
-            {materializedGenerators}
-            <Card className="generator-card" onClick={this.addItem.bind(this, "materializer")} interactive={true} elevation={Card.ELEVATION_ONE}>
-              <h5>Add New</h5>
-              <p>+</p>
-            </Card>
-          </div>
+        <div className="generator-cards">
+          { rawData.materializers.map(m =>
+            <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer"
+              onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
+          ) }
+          <Card className="generator-card" onClick={this.addItem.bind(this, "materializer")} interactive={true} elevation={0}>
+            <NonIdealState visual="add" title="Materialized Generator" />
+          </Card>
         </div>
+
+        <h3>Information</h3>
 
         <div className="splash">
-          <div className="cms-header">
-            SPLASH
-          </div>
-          <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle", "description"])} interactive={true} elevation={Card.ELEVATION_ONE}>
+          <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle", "description"])} interactive={true} elevation={0}>
             <h6>title</h6>
             <div dangerouslySetInnerHTML={{__html: rawData.display_title}} /><br/>
             <h6>subtitle</h6>
@@ -378,28 +357,24 @@ class ProfileEditor extends Component {
           </Card>
         </div>
 
+        <h3>Statistics</h3>
+
         <div className="stats">
-          <div className="cms-header">
-            STATS
-          </div>
           <div>
             {stats}
-            <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={Card.ELEVATION_ONE}>
-              <h5>Add New</h5>
-              <p>+</p>
+            <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>
+              <NonIdealState visual="add" title="Stat" />
             </Card>
           </div>
         </div>
 
+        <h3>Visualizations</h3>
+
         <div className="visualizations">
-          <div className="cms-header">
-            VISUALIZATIONS
-          </div>
           <div>
             {visualizations}
-            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={Card.ELEVATION_ONE}>
-              <h5>Add New</h5>
-              <p>+</p>
+            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={0}>
+              <NonIdealState visual="add" title="Visualization" />
             </Card>
           </div>
         </div>
