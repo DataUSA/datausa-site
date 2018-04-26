@@ -159,7 +159,7 @@ def map():
         "ipeds": ["state", "county", "msa", "puma"],
         "pums": ["state", "puma"],
         "opioids": ["state"],
-        "defaults": ["state", "county", "msa"],
+        "defaults": ["state", "county"],
     }
 
     defaultKey = request.args.get("key", "uninsured")
