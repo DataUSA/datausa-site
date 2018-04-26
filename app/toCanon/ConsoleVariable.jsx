@@ -33,8 +33,9 @@ export default class ConsoleVariable extends Component {
     return <span className={`variable ${t}`} style={{
       color: colorMap[t] || "inherit",
       fontFamily: "'Menlo', monospace",
-      fontSize: "0.75rem",
-      fontStyle: ["object", "array", "function"].includes(t) ? "italic" : "inherit"
+      fontSize: "0.7rem",
+      fontStyle: ["object", "array", "function"].includes(t) ? "italic" : "inherit",
+      fontWeight: "500"
     }}>{v}</span>;
 
   }
