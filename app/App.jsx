@@ -19,7 +19,7 @@ class App extends Component {
     this.state = {
       formatters: (props.formatters || []).reduce((acc, d) => {
         const f = Function("n", "libs", d.logic);
-        acc[d.name] = n => f(n, libs);
+        acc[d.name.toLowerCase()] = n => f(n, libs);
         return acc;
       }, {})
     };

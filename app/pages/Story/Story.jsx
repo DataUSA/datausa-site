@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import {AnchorLink, fetchData} from "datawheel-canon";
-import listify from "toCanon/listify";
 import slugify from "toCanon/slugify";
 import Splash from "toCanon/Splash";
 import TextViz from "toCanon/topics/TextViz";
@@ -44,8 +43,8 @@ class Story extends Component {
         <div className="meta-info dark intro">
           { authors.map((a, i) => <AnchorLink key={i} to={slugify(a.name)}><img className="image" src={a.image} /></AnchorLink>) }
           <div className="text">
-            <p>Written by { listify(authors.map(a => a.name)) }</p>
-            <p>Published on { formatters.Date(date) }</p>
+            <p>Written by { formatters.list(authors.map(a => a.name)) }</p>
+            <p>Published on { formatters.date(date) }</p>
           </div>
         </div>
         { topics.map((t, i) => <TextViz data={t} key={i} />) }
