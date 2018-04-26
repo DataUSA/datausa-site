@@ -52,7 +52,7 @@ export default class Nav extends Component {
 
     const dark = !splash;
 
-    const pageTitle = document.title || "";
+    const pageTitle = typeof window !== "undefined" ? document.title : "";
     const subtitle = pageTitle.includes(" | ") ? pageTitle.split(" | ")[0] : false;
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
