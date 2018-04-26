@@ -79,11 +79,17 @@ const varSwap = (sourceObj, formatterFunctions, variables) => {
           // FormatterName{{VarToReplace}}
           const fullMatch = m[0];
           // Get the function from the hash table using the lookup key FormatterName (or no-op if not found)
-          const formatter = m[1] ? formatterFunctions[m[1]] : d => d;
+          let formatter = d => d;
+          if (m[1]) {
+            const formatTitle = m[1].replace(/^\w/g, chr => chr.toLowerCase());
+            if (formatTitle in formatterFunctions) {
+              formatter = formatterFunctions[formatTitle];
+            }
+          }
           // VarToReplace
           const keyMatch = m[2];
           const reswap = new RegExp(fullMatch, "g");
-          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[keyMatch], libs));
+          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[keyMatch], libs, formatterFunctions));
         }
       } while (m);
     }
@@ -215,7 +221,7 @@ module.exports = function(app) {
       .then(resp => {
         const [variables, formatters] = resp;
         // Create a hash table so the formatters are directly accessible by name
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", "libs", f.logic), acc), {});
+        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
         const returnObject = {variables};
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
         return Promise.all([returnObject, formatterFunctions, request]);
