@@ -81,7 +81,7 @@ class Search extends Component {
             S = 83,
             UP = 38;
 
-      if (primary && !active && key === S && event.target.tagName.toLowerCase() !== "input") {
+      if (primary && !active && key === S && !["input", "textarea"].includes(event.target.tagName.toLowerCase())) {
         event.preventDefault();
         this.onToggle.bind(this)();
       }
