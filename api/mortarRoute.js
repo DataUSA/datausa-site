@@ -1,4 +1,5 @@
-const axios = require("axios");
+const axios = require("axios"),
+      libs = require("../utils/libs");
 
 const profileReqWithGens = {
   include: [
@@ -60,12 +61,6 @@ const profileReq = {
   ]
 };
 
-const d3TimeFormat = require("d3-time-format"),
-      d3plusAxis = require("d3plus-axis");
-
-const d3 = Object.assign({}, d3TimeFormat),
-      d3plus = Object.assign({}, d3plusAxis);
-
 /* Given an object, a hashtable of formatting functions, and a lookup object full of variables
  * Replace every instance of {{var}} with its true value from the lookup object, and
  * apply the appropriate formatter
@@ -88,7 +83,7 @@ const varSwap = (sourceObj, formatterFunctions, variables) => {
           // VarToReplace
           const keyMatch = m[2];
           const reswap = new RegExp(fullMatch, "g");
-          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[keyMatch], d3, d3plus));
+          sourceObj[skey] = sourceObj[skey].replace(reswap, formatter(variables[keyMatch], libs));
         }
       } while (m);
     }
@@ -220,7 +215,7 @@ module.exports = function(app) {
       .then(resp => {
         const [variables, formatters] = resp;
         // Create a hash table so the formatters are directly accessible by name
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", "d3", "d3plus", f.logic), acc), {});
+        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name] = Function("n", "libs", f.logic), acc), {});
         const returnObject = {variables};
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
         return Promise.all([returnObject, formatterFunctions, request]);
