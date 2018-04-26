@@ -1,17 +1,35 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import "./App.css";
 
-import {Canon} from "datawheel-canon";
+import {Canon, fetchData} from "datawheel-canon";
 import "./d3plus.css";
 
+import libs from "../utils/libs";
 import Nav from "components/Nav/index";
 import Footer from "components/Footer/index";
 
 class App extends Component {
 
+  constructor(props) {
+
+    super(props);
+
+    this.state = {
+      formatters: (props.formatters || []).reduce((acc, d) => {
+        const f = Function("n", "libs", d.logic);
+        acc[d.name] = n => f(n, libs);
+        return acc;
+      }, {})
+    };
+
+  }
+
   getChildContext() {
-    return {router: this.props.router};
+    const {formatters} = this.state;
+    const {router} = this.props;
+    return {formatters, router};
   }
 
   render() {
@@ -34,7 +52,12 @@ class App extends Component {
 }
 
 App.childContextTypes = {
+  formatters: PropTypes.object,
   router: PropTypes.object
 };
 
-export default App;
+App.need = [
+  fetchData("formatters", "/api/formatters")
+];
+
+export default connect(state => ({formatters: state.data.formatters}))(App);

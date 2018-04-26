@@ -1,14 +1,15 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Link} from "react-router";
 
 import listify from "toCanon/listify";
-import * as format from "toCanon/formatters/index";
 
 import "./StoryTile.css";
 
-export default class StoryTile extends Component {
+class StoryTile extends Component {
 
   render() {
+    const {formatters} = this.context;
     const {authors, date, featured, id, image, title} = this.props;
 
     return (
@@ -20,7 +21,7 @@ export default class StoryTile extends Component {
         <div className="footer">
           <div className="meta">
             <div className="author">Writted by { listify(authors.map(a => a.name)) }</div>
-            <div className="date">{ format.date(date) }</div>
+            <div className="date">{ formatters.Date(date) }</div>
           </div>
           <div className="action">Read More</div>
         </div>
@@ -30,3 +31,9 @@ export default class StoryTile extends Component {
   }
 
 }
+
+StoryTile.contextTypes = {
+  formatters: PropTypes.object
+};
+
+export default StoryTile;

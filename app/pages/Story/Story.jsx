@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import {AnchorLink, fetchData} from "datawheel-canon";
@@ -6,16 +7,15 @@ import listify from "toCanon/listify";
 import slugify from "toCanon/slugify";
 import Splash from "toCanon/Splash";
 import TextViz from "toCanon/topics/TextViz";
-import * as format from "toCanon/formatters/index";
 
 import "./Story.css";
 
 class Story extends Component {
 
   render() {
+    const {formatters} = this.context;
     const {story} = this.props;
     const {authors, date, footnotes, topics} = story;
-    console.log(story);
 
     topics.forEach(topic => {
       if (topic.description) {
@@ -45,7 +45,7 @@ class Story extends Component {
           { authors.map((a, i) => <AnchorLink key={i} to={slugify(a.name)}><img className="image" src={a.image} /></AnchorLink>) }
           <div className="text">
             <p>Written by { listify(authors.map(a => a.name)) }</p>
-            <p>Published on { format.date(date) }</p>
+            <p>Published on { formatters.Date(date) }</p>
           </div>
         </div>
         { topics.map((t, i) => <TextViz data={t} key={i} />) }
@@ -71,6 +71,10 @@ class Story extends Component {
   }
 
 }
+
+Story.contextTypes = {
+  formatters: PropTypes.object
+};
 
 Story.need = [
   fetchData("story", "/api/story/<sid>")
