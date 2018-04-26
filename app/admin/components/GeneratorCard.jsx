@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Card, Icon} from "@blueprintjs/core";
 import "./GeneratorCard.css";
 
+import ConsoleVariable from "app/toCanon/ConsoleVariable";
+
 export default class GeneratorCard extends Component {
 
   render() {
@@ -15,7 +17,7 @@ export default class GeneratorCard extends Component {
               { Object.keys(vars).map(k =>
                 <tr key={ k }>
                   <td><code>{ k }</code></td>
-                  <td>{ vars[k] }</td>
+                  <td><ConsoleVariable value={ vars[k] } /></td>
                 </tr>
               ) }
             </tbody>
