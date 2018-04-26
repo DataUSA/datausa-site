@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Card, Dialog, NonIdealState} from "@blueprintjs/core";
+import {Callout, Card, Dialog, Icon, NonIdealState} from "@blueprintjs/core";
 import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
@@ -301,17 +301,18 @@ class ProfileEditor extends Component {
           </div>
         </Dialog>
 
-        <div id="preview-as">
+        <Callout id="preview-toggle">
+          <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
             <select value={this.state.preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchPostData.bind(this))}>
               {
-                ["04000US25", "04000US32", "04000US34"].map(s =>
+                ["04000US25", "16000US0644000"].map(s =>
                   <option value={s} key={s}>{s}</option>
                 )
               }
             </select>
           </div>
-        </div>
+        </Callout>
 
         <div id="slug">
           <label className="pt-label">
