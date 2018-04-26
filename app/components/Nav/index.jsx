@@ -1,15 +1,13 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 import {Link} from "react-router";
 import {Dialog} from "@blueprintjs/core";
-import {titleCase} from "d3plus-text";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
 
 import SearchButton from "./SearchButton";
 
-class Nav extends Component {
+export default class Nav extends Component {
 
   constructor(props) {
     super(props);
@@ -39,7 +37,7 @@ class Nav extends Component {
 
   render() {
     const {background, menu} = this.state;
-    const {location, profile} = this.props;
+    const {location} = this.props;
     const {pathname} = location;
 
     const logo = !["/"].includes(pathname);
@@ -54,12 +52,8 @@ class Nav extends Component {
 
     const dark = !splash;
 
-    const subtitle = pathname.indexOf("profile") === 0
-      ? profile ? profile.title.replace("<p>", "").replace("</p>", "") : ""
-      : pathname === "" ? false
-        : pathname.indexOf("story") === 0
-          ? "Stories"
-          : titleCase(pathname.split("/")[1]);
+    const pageTitle = document.title || "";
+    const subtitle = pageTitle.includes(" | ") ? pageTitle.split(" | ")[0] : false;
 
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
 
@@ -122,7 +116,3 @@ class Nav extends Component {
   }
 
 }
-
-export default connect(state => ({
-  profile: state.data.profile
-}))(Nav);
