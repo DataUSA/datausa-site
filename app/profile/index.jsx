@@ -76,7 +76,7 @@ class Profile extends Component {
 
     const profiles = [profile].concat(comparisons);
     profiles.forEach(d => {
-      d.image = `/images/splash/${pslug}/${d.pid}.jpg`;
+      d.image = `/api/profile/${pslug}/${d.pid}/splash`;
     });
     console.log(profiles);
 
