@@ -6,6 +6,7 @@ import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
 
 import GeneratorCard from "./components/GeneratorCard";
+import StatCard from "./components/StatCard";
 
 import "./ProfileEditor.css";
 
@@ -208,20 +209,9 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {rawData, postData, formatters, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {preview, rawData, postData, formatters, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
     if (!rawData || !postData) return <Loading />;
-
-    const stats = rawData.stats.map(s =>
-      <Card key={s.id} onClick={this.openTextEditor.bind(this, s, "stat", ["title", "subtitle", "value"])} className="stat-card" interactive={true} elevation={0}>
-        <h6>title</h6>
-        <div dangerouslySetInnerHTML={{__html: s.display_title}} />
-        <h6>subtitle</h6>
-        <div dangerouslySetInnerHTML={{__html: s.display_subtitle}} />
-        <h6>value</h6>
-        <div dangerouslySetInnerHTML={{__html: s.display_value}} />
-      </Card>
-    );
 
     const visualizations = rawData.visualizations.map(v =>
       <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
@@ -304,12 +294,8 @@ class ProfileEditor extends Component {
         <Callout id="preview-toggle">
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
-            <select value={this.state.preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchPostData.bind(this))}>
-              {
-                ["04000US25", "16000US0644000"].map(s =>
-                  <option value={s} key={s}>{s}</option>
-                )
-              }
+            <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchPostData.bind(this))}>
+              { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
         </Callout>
@@ -331,7 +317,7 @@ class ProfileEditor extends Component {
               onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
           ) }
           <Card className="generator-card" onClick={this.addItem.bind(this, "generator")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="Generator" />
+            <NonIdealState visual="add" title="New Generator" />
           </Card>
         </div>
 
@@ -341,35 +327,32 @@ class ProfileEditor extends Component {
               onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
           ) }
           <Card className="generator-card" onClick={this.addItem.bind(this, "materializer")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="Materialized Generator" />
+            <NonIdealState visual="add" title="New Materialized Generator" />
           </Card>
         </div>
 
-        <h3>Information</h3>
-
-        <div className="splash">
-          <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle", "description"])} interactive={true} elevation={0}>
-            <h6>title</h6>
-            <div dangerouslySetInnerHTML={{__html: rawData.display_title}} /><br/>
-            <h6>subtitle</h6>
-            <div dangerouslySetInnerHTML={{__html: rawData.display_subtitle}} /><br/>
-            <h6>description</h6>
-            <div dangerouslySetInnerHTML={{__html: rawData.display_description}} /><br/>
+        <div className="splash" style={{backgroundImage: `url("/api/profile/${rawData.slug}/${preview}/thumb")`}}>
+          <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle"])} interactive={true} elevation={1}>
+            <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_title}}></h4>
+            <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_subtitle}}></h6>
           </Card>
-        </div>
-
-        <h3>Statistics</h3>
-
-        <div className="stats">
-          <div>
-            {stats}
+          <div className="stats">
+            { rawData.stats.map(s =>
+              <StatCard key={s.id}
+                title={ s.display_title } value={ s.display_value } subtitle={ s.display_subtitle }
+                onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
+            ) }
             <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
             </Card>
           </div>
         </div>
 
-        <h3>Visualizations</h3>
+        <h3>About</h3>
+
+        <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["description"])} interactive={true} elevation={1}>
+          <div className="description" dangerouslySetInnerHTML={{__html: rawData.display_description}} />
+        </Card>
 
         <div className="visualizations">
           <div>

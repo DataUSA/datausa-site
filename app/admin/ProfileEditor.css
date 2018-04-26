@@ -19,3 +19,29 @@
     font-family: monospace;
   }
 }
+
+.splash {
+  align-items: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  justify-content: center;
+  margin: 25px auto;
+  text-align: center;
+  & .stats {
+    display: flex;
+  }
+}
+
+.pt-card .pt-non-ideal-state {
+  & .pt-non-ideal-state-visual {
+    margin-bottom: 5px;
+    & .pt-icon {
+      font-size: 30px;
+    }
+  }
+  & .pt-non-ideal-state-title {
+    margin-bottom: 0;
+  }
+}
