@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 import {AnchorLink, fetchData} from "datawheel-canon";
 import slugify from "toCanon/slugify";
@@ -14,7 +15,7 @@ class Story extends Component {
   render() {
     const {formatters} = this.context;
     const {story} = this.props;
-    const {authors, date, footnotes, topics} = story;
+    const {authors, date, footnotes, title, topics} = story;
 
     topics.forEach(topic => {
       if (topic.description) {
@@ -39,6 +40,7 @@ class Story extends Component {
 
     return (
       <div id="Story">
+        <Helmet title={ formatters.stripHTML(title) } />
         <Splash data={story} height="80vh" />
         <div className="meta-info dark intro">
           { authors.map((a, i) => <AnchorLink key={i} to={slugify(a.name)}><img className="image" src={a.image} /></AnchorLink>) }

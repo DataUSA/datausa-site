@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 import {fetchData} from "datawheel-canon";
 
@@ -14,6 +15,7 @@ class Stories extends Component {
 
     return (
       <div id="Stories">
+        <Helmet title="Stories" />
         { stories.map(story => <StoryTile key={story.id} {...story} />)}
       </div>
     );
