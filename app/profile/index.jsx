@@ -1,5 +1,7 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 
 import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
 import Splash from "toCanon/Splash";
@@ -67,6 +69,7 @@ class Profile extends Component {
 
   render() {
 
+    const {formatters} = this.context;
     const {params, profile} = this.props;
     const {pslug} = params;
     const {activeSection, comparisons, loading} = this.state;
@@ -79,6 +82,7 @@ class Profile extends Component {
 
     return (
       <CanonProfile>
+        <Helmet title={ formatters.stripHTML(profiles.map(d => d.title).join(" & ")) } />
         <Splash data={profile} comparisons={comparisons} />
         <Section data={{...profile, title: "About", slug: "about"} } comparisons={comparisons} />
         { profile.sections.map((s, i) => {
@@ -102,6 +106,10 @@ class Profile extends Component {
   }
 
 }
+
+Profile.contextTypes = {
+  formatters: PropTypes.object
+};
 
 Profile.need = [
   fetchData("profile", "/api/profile/<pslug>/<pid>")
