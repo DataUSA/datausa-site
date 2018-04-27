@@ -38,6 +38,18 @@ module.exports = function(app) {
     db.profiles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
   });
 
+  app.post("/api/cms/section/update", (req, res) => {
+    db.sections.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/section/new", (req, res) => {
+    db.sections.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/section/delete", (req, res) => {
+    db.sections.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
   app.post("/api/cms/stat_profile/update", (req, res) => {
     db.stats_profiles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });

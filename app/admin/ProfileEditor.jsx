@@ -17,15 +17,14 @@ class ProfileEditor extends Component {
     this.state = {
       rawData: null,
       postData: null,
-      formatters: null,
       recompiling: false,
       preview: "04000US25"
     };
   }
 
   componentDidMount() {
-    const {rawData, formatters} = this.props;
-    this.setState({rawData, formatters, recompiling: true}, this.fetchPostData.bind(this));
+    const {rawData} = this.props;
+    this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
   }
 
   componentDidUpdate() {
@@ -209,7 +208,7 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {preview, rawData, postData, formatters, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {preview, rawData, postData, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
     if (!rawData || !postData) return <Loading />;
 
@@ -265,7 +264,7 @@ class ProfileEditor extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={currentText} formatters={formatters} variables={postData.variables} fields={currentFields} />
+            <TextEditor data={currentText} variables={postData.variables} fields={currentFields} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">

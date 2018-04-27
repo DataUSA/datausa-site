@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import QuillWrapper from "./QuillWrapper";
+import PropTypes from "prop-types";
 
 import "./TextEditor.css";
 
@@ -48,7 +49,8 @@ class TextEditor extends Component {
   render() {
 
     const {data, fields} = this.state;
-    const {variables, formatters} = this.props;
+    const {variables} = this.props;
+    const {formatters} = this.context;
 
     if (!data || !fields || !variables || !formatters) return null;
 
@@ -70,11 +72,6 @@ class TextEditor extends Component {
       }
     }
 
-    const formatterDefault = [<option key="choose-a-formatter" value="choose-a-formatter">Choose a Formatter</option>];
-    const reducer = (acc, f) => acc.concat(<option key={f.name} value={f.name}>{f.name}</option>);
-
-    const formatterOptions = formatters.reduce(reducer, formatterDefault);
-
     return (
       <div id="text-editor">
         <div className="pt-select">
@@ -84,7 +81,8 @@ class TextEditor extends Component {
         </div>
         <div className="pt-select">
           <select onChange={this.chooseFormatter.bind(this)} style={{margin: "5px"}}>
-            {formatterOptions}
+            <option key="choose-a-formatter" value="choose-a-formatter">Choose a Formatter</option>
+            {Object.keys(formatters).map(f => <option key={f} value={f}>{f}</option>)}
           </select>
         </div>
         <button className="pt-button pt-intent-success" onClick={this.insertVariable.bind(this)}>Insert</button>
@@ -94,5 +92,9 @@ class TextEditor extends Component {
     );
   }
 }
+
+TextEditor.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default TextEditor;

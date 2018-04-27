@@ -1,6 +1,13 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Callout, Dialog, Card, NonIdealState} from "@blueprintjs/core";
+import GeneratorEditor from "./GeneratorEditor";
+import TextEditor from "./TextEditor";
+import Loading from "components/Loading";
+
+import GeneratorCard from "./components/GeneratorCard";
+import StatCard from "./components/StatCard";
 
 import "./SectionEditor.css";
 
@@ -9,59 +16,91 @@ class SectionEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      themes: null
+      rawData: null,
+      recompiling: false
     };
   }
 
-  /*
   componentDidMount() {
-    const {data} = this.props;
-    const themes = styleyml.islands;
-    this.setState({data, themes});   
+    const {rawData} = this.props;
+    this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
   }
 
   componentDidUpdate() {
-    if (this.props.data.id !== this.state.data.id) {
-      this.setState({data: this.props.data});
+    if (this.props.rawData.id !== this.state.rawData.id) {
+      this.setState({rawData: this.props.rawData}, this.fetchPostData.bind(this));
     }
   }
 
   changeField(field, e) {
-    const {data} = this.state;
-    data[field] = e.target.value;
-    this.setState({data});
+    const {rawData} = this.state;
+    rawData[field] = e.target.value;
+    this.setState({rawData});
   }
 
-  handleEditor(field, t) {
-    const {data} = this.state;
-    data[field] = t;
-    this.setState({data});    
+  fetchPostData() {
+    this.setState({recompiling: false});
   }
 
   saveContent() {
-    const {data} = this.state;
-    if (this.props.reportSave) this.props.reportSave(data);
-    const toast = Toaster.create({className: "saveToast", position: Position.TOP_CENTER});
-    axios.post("/api/builder/islands/save", data).then(resp => {
+    const {rawData} = this.state;
+    axios.post("/api/cms/section/update", rawData).then(resp => {
       if (resp.status === 200) {
-        toast.show({message: "Saved!", intent: Intent.SUCCESS});
-      } 
+        console.log("success");
+        this.setState({isTextEditorOpen: false});
+        if (this.props.reportSave) this.props.reportSave();
+      }
       else {
-        toast.show({message: "Error!", intent: Intent.DANGER});
+        console.log("error");
       }
     });
   }
-  */
 
   render() {
 
-    const {data, themes} = this.state;
+    const {recompiling, rawData} = this.state;
+
+    if (recompiling || !rawData) return <Loading />;
 
     return (
       <div id="section-editor">
-        I'm a section editor<br/>
-        { JSON.stringify(this.props.data) }
+        <div id="slug">
+          <label className="pt-label">
+            slug
+            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
+          </label>
+          <button onClick={this.saveContent.bind(this)}>rename</button>
+        </div>
+        <Dialog
+          iconName="document"
+          isOpen={this.state.isTextEditorOpen}
+          onClose={() => this.setState({isTextEditorOpen: false})}
+          title="Text Editor"
+        >
+          <div className="pt-dialog-body">
+            <TextEditor data={rawData} variables={[]} fields={["title", "description"]} />
+          </div>
+          <div className="pt-dialog-footer">
+            <div className="pt-dialog-footer-actions">
+              <button
+                className="pt-button"
+                onClick={() => this.setState({isTextEditorOpen: false})}
+              >
+                Cancel
+              </button>
+              <button
+                className="pt-button pt-intent-success"
+                onClick={this.saveContent.bind(this)}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </Dialog>
+        <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true})} interactive={true} elevation={1}>
+          <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.title}}></h4>
+          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.description}}></h6>
+        </Card>
       </div>
     );
   }

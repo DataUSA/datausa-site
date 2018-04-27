@@ -4,6 +4,7 @@ import {NonIdealState, Tree} from "@blueprintjs/core";
 import ProfileEditor from "./ProfileEditor";
 import SectionEditor from "./SectionEditor";
 import TopicEditor from "./TopicEditor";
+import PropTypes from "prop-types";
 import CtxMenu from "./CtxMenu";
 
 import "./ProfileBuilder.css";
@@ -13,22 +14,27 @@ class ProfileBuilder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mounted: false,
       nodes: null,
       profiles: null,
       currentNode: null
     };
   }
 
+  /*getChildContext() {
+    const {variables} = this.statecurr;
+    return {variables};
+  }*/
+
   componentDidMount() {
     axios.get("/api/internalprofile/all").then(resp => {
-      const {formatters, profiles} = resp.data;
-      this.setState({mounted: true, profiles, formatters}, this.buildNodes.bind(this));
+      const profiles = resp.data;
+      this.setState({profiles}, this.buildNodes.bind(this));
     });
   }
 
   buildNodes() {
     const {profiles} = this.state;
+    const {stripHTML} = this.context.formatters;
     let nodes = profiles.map(p => ({
       id: `profile${p.id}`,
       hasCaret: true,
@@ -39,13 +45,13 @@ class ProfileBuilder extends Component {
       childNodes: p.sections.map(s => ({
         id: `section${s.id}`,
         hasCaret: true,
-        label: s.title,
+        label: stripHTML(s.title),
         itemType: "section",
         data: s,
         childNodes: s.topics.map(t => ({
           id: `topic${t.id}`,
           hasCaret: false,
-          label: t.title,
+          label: stripHTML(t.title),
           itemType: "topic",
           data: t
         }))
@@ -106,14 +112,15 @@ class ProfileBuilder extends Component {
   // it does not change the blueprint Tree Object's label.  This hard-coded nested map refreshes all the labels based on the data.
   updateLabels() {
     const {nodes} = this.state;
+    const {stripHTML} = this.context.formatters;
     nodes.map(p => {
       p.label = p.data.slug;
       if (p.childNodes) {
         p.childNodes.map(s => {
-          s.label = s.data.title;
+          s.label = stripHTML(s.data.title);
           if (s.childNodes) {
             s.childNodes.map(t => {
-              t.label = t.data.title;
+              t.label = stripHTML(t.data.title);
               return t;
             });
           }
@@ -131,9 +138,9 @@ class ProfileBuilder extends Component {
 
   render() {
 
-    const {nodes, currentNode, formatters} = this.state;
+    const {nodes, currentNode} = this.state;
 
-    if (!nodes || !formatters) return <div>Loading</div>;
+    if (!nodes) return <div>Loading</div>;
 
     return (
       <div id="profile-builder">
@@ -149,9 +156,9 @@ class ProfileBuilder extends Component {
         <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor rawData={currentNode.data} formatters={formatters} reportSave={this.reportSave.bind(this)} />
+              ? <ProfileEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)} />
               : currentNode.itemType === "section"
-                ? <SectionEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
+                ? <SectionEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                 : currentNode.itemType === "topic"
                   ? <TopicEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                   : null
@@ -163,5 +170,9 @@ class ProfileBuilder extends Component {
     );
   }
 }
+
+ProfileBuilder.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default ProfileBuilder;

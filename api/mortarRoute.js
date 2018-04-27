@@ -95,16 +95,7 @@ module.exports = function(app) {
   const {db} = app.settings;
 
   app.get("/api/internalprofile/all", (req, res) => {
-    Promise.all([
-      db.formatters.findAll(),
-      db.profiles.findAll(profileReqWithGens)
-    ]).then(resp => {
-      res.json({
-        formatters: resp[0],
-        profiles: resp[1]
-      });
-    });
-
+    db.profiles.findAll(profileReqWithGens).then(u => res.json(u).end());
   });
 
   app.get("/api/internalprofile/:slug", (req, res) => {
