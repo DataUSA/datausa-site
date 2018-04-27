@@ -50,6 +50,18 @@ module.exports = function(app) {
     db.sections.destroy({where: {id: req.query.id}}).then(u => res.json(u));
   });
 
+  app.post("/api/cms/topic/update", (req, res) => {
+    db.topics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/topic/new", (req, res) => {
+    db.topics.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/topic/delete", (req, res) => {
+    db.topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
   app.post("/api/cms/stat_profile/update", (req, res) => {
     db.stats_profiles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
@@ -87,15 +99,15 @@ module.exports = function(app) {
   });
 
   app.post("/api/cms/visualization_topic/update", (req, res) => {
-    db.visualization_topics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    db.visualizations_topics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
   app.post("/api/cms/visualization_topic/new", (req, res) => {
-    db.visualization_topics.create(req.body).then(u => res.json(u));
+    db.visualizations_topics.create(req.body).then(u => res.json(u));
   });
 
   app.delete("/api/cms/visualization_topic/delete", (req, res) => {
-    db.visualization_topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.visualizations_topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
   });
 
 };

@@ -160,7 +160,7 @@ class ProfileBuilder extends Component {
               : currentNode.itemType === "section"
                 ? <SectionEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                 : currentNode.itemType === "topic"
-                  ? <TopicEditor data={currentNode.data} reportSave={this.reportSave.bind(this)}/>
+                  ? <TopicEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)}/>
                   : null
             : <NonIdealState title="No Profile Selected" description="Please select a Profile from the menu on the left." visual="path-search" />
           }

@@ -1,13 +1,8 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Callout, Dialog, Card, NonIdealState} from "@blueprintjs/core";
-import GeneratorEditor from "./GeneratorEditor";
+import {Dialog, Card} from "@blueprintjs/core";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
-
-import GeneratorCard from "./components/GeneratorCard";
-import StatCard from "./components/StatCard";
 
 import "./SectionEditor.css";
 

@@ -98,7 +98,7 @@ class ProfileEditor extends Component {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData());
+          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData.bind(this));
           if (this.props.reportSave) this.props.reportSave();
         }
       });
