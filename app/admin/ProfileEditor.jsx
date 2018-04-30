@@ -19,35 +19,34 @@ class ProfileEditor extends Component {
     super(props);
     this.state = {
       rawData: null,
-      postData: null,
-      recompiling: false,
+      variables: null,
+      recompiling: true,
       preview: "04000US25"
     };
   }
 
   componentDidMount() {
     const {rawData} = this.props;
-    this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+    this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
   }
 
   componentDidUpdate() {
     if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData}, this.fetchPostData.bind(this));
+      this.setState({rawData: this.props.rawData}, this.fetchVariables.bind(this));
     }
   }
 
-  fetchPostData() {
+  fetchVariables() {
     const {slug} = this.state.rawData;
     const id = this.state.preview;
-    axios.get(`/api/profile/${slug}/${id}`).then(resp => {
-      const postData = resp.data;
-      this.setState({postData}, this.formatDisplays.bind(this));
+    axios.get(`/api/variables/${slug}/${id}`).then(resp => {
+      const variables = resp.data;
+      this.setState({variables}, this.formatDisplays.bind(this));
     });
   }
 
   formatDisplays() {
-    const {postData, rawData} = this.state;
-    const {variables} = postData;
+    const {rawData, variables} = this.state;
     const {formatters} = this.context;
     
     rawData.display_vars = varSwap(rawData, formatters, variables);
@@ -78,7 +77,7 @@ class ProfileEditor extends Component {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData.bind(this));
+          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
           if (this.props.reportSave) this.props.reportSave();
         }
       });
@@ -95,7 +94,7 @@ class ProfileEditor extends Component {
           if (type === "materializer") rawData.materializers = rawData.materializers.filter(m => m.id !== item.id);
           if (type === "stat_profile") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
           if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
-          this.setState({rawData, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData());
+          this.setState({rawData, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
         }
       });
     }
@@ -115,7 +114,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/generator/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.generators.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
         }
         else {
           console.log("db error");
@@ -133,7 +132,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/materializer/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.materializers.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
         }
         else {
           console.log("db error");
@@ -150,7 +149,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/stat_profile/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.stats.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
         }
         else {
           console.log("db error");
@@ -165,7 +164,7 @@ class ProfileEditor extends Component {
       axios.post("/api/cms/visualization_profile/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.visualizations.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
         }
         else {
           console.log("db error");
@@ -183,14 +182,14 @@ class ProfileEditor extends Component {
   }
 
   closeWindow(key) {
-    this.setState({[key]: false}, this.fetchPostData.bind(this));
+    this.setState({[key]: false}, this.fetchVariables.bind(this));
   }
 
   render() {
 
-    const {preview, rawData, postData, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {preview, rawData, variables, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
-    if (!rawData || !postData) return <Loading />;
+    if (recompiling || !rawData || !variables) return <Loading />;
 
     const visualizations = rawData.visualizations.map(v =>
       <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
@@ -244,7 +243,7 @@ class ProfileEditor extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={currentText} variables={postData.variables} fields={currentFields} />
+            <TextEditor data={currentText} variables={variables} fields={currentFields} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
@@ -273,7 +272,7 @@ class ProfileEditor extends Component {
         <Callout id="preview-toggle">
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
-            <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchPostData.bind(this))}>
+            <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this))}>
               { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
