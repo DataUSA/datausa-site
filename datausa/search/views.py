@@ -32,7 +32,7 @@ def get_img(attr_kind, attr_id, mode="thumb"):
         if image_attr:
             return image_attr["id"]
 
-    if attr_kind == "university" and attr["image_link"] == None:
+    if attr_kind == "university" and not attr["image_link"]:
         if "msa" in attr and attr["msa"] != None:
             my_id = formatImage(fetch(attr["msa"], "geo"), "geo")
             attr_kind = "geo"
