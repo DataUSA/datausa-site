@@ -106,11 +106,11 @@ topics:
       - "<<var namespace=admissions|key=sub_sat_scores_pct|row=0>> of enrolled first-time students at <<name>> in <<var namespace=admissions|key=year|row=0>> submitted SAT scores with their applications."
       - "This chart shows the SAT scores for the 25th and 75th percentile of applicants broken out into each section of the test that their are evaluated on."
     viz:
-      - attrs: university
-        data:
+      - data:
           - required: "sat_math_25,sat_math_75,sat_cr_25,sat_cr_75"
             show: university
             university: "<<id>>,<<carnegie>>"
+            display_names: 1
             split:
               id: "section_percentile"
               regex: "^sat_([a-z]*_[0-9]*)$"
@@ -128,7 +128,7 @@ topics:
         text: percentile
         tooltip:
           value:
-            - university
+            - university_name
             - section
             - sat_score
         type: scatter
