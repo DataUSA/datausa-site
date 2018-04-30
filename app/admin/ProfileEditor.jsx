@@ -3,10 +3,13 @@ import React, {Component} from "react";
 import {Callout, Card, Dialog, Icon, NonIdealState} from "@blueprintjs/core";
 import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
+import PropTypes from "prop-types";
 import Loading from "components/Loading";
 
 import GeneratorCard from "./components/GeneratorCard";
 import StatCard from "./components/StatCard";
+
+import varSwap from "../../utils/varSwap";
 
 import "./ProfileEditor.css";
 
@@ -45,44 +48,21 @@ class ProfileEditor extends Component {
   formatDisplays() {
     const {postData, rawData} = this.state;
     const {variables} = postData;
-
-    for (const rkey in rawData) {
-      if (rawData.hasOwnProperty(rkey) && typeof rawData[rkey] === "string") {
-        rawData[`display_${rkey}`] = postData[rkey];
-      }
-    }
+    const {formatters} = this.context;
+    
+    rawData.display_vars = varSwap(rawData, formatters, variables);
 
     if (rawData.stats) {
-      rawData.stats = rawData.stats.map(stat => {
-        for (const skey in stat) {
-          if (stat.hasOwnProperty(skey) && typeof stat[skey] === "string") {
-            const postStat = postData.stats.find(s => s.id === stat.id);
-            if (postStat) stat[`display_${skey}`] = postStat[skey];
-          }
-        }
-        return stat;
-      });
+      rawData.stats.forEach(stat => {
+        stat.display_vars = varSwap(stat, formatters, variables);
+      })
     }
 
-    for (const g of rawData.generators) {
-      g.display_vars = {};
-      const genStatus = variables._genStatus[g.id];
-      for (const key in genStatus) {
-        if (genStatus.hasOwnProperty(key)) {
-          g.display_vars[key] = genStatus[key];
-        }
-      }
-    }
+    //rawData.generators.forEach(g => g.display_vars = varSwap(variables._genStatus[g.id], formatters, variables._genStatus[g.id]));
+    rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
 
-    for (const m of rawData.materializers) {
-      m.display_vars = {};
-      const matStatus = variables._matStatus[m.id];
-      for (const key in matStatus) {
-        if (matStatus.hasOwnProperty(key)) {
-          m.display_vars[key] = variables[key];
-        }
-      }
-    }
+    //rawData.materializers.forEach(m => m.display_vars = varSwap(variables._matStatus[m.id], formatters, variables._matStatus[g.id]));
+    rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
 
     this.setState({rawData, recompiling: false});
   }
@@ -332,13 +312,13 @@ class ProfileEditor extends Component {
 
         <div className="splash" style={{backgroundImage: `url("/api/profile/${rawData.slug}/${preview}/thumb")`}}>
           <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle"])} interactive={true} elevation={1}>
-            <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_title}}></h4>
-            <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_subtitle}}></h6>
+            <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars["title"]}}></h4>
+            <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars["subtitle"]}}></h6>
           </Card>
           <div className="stats">
             { rawData.stats.map(s =>
               <StatCard key={s.id}
-                title={ s.display_title } value={ s.display_value } subtitle={ s.display_subtitle }
+                vars={s.display_vars}
                 onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
             ) }
             <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>
@@ -350,7 +330,7 @@ class ProfileEditor extends Component {
         <h3>About</h3>
 
         <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["description"])} interactive={true} elevation={1}>
-          <div className="description" dangerouslySetInnerHTML={{__html: rawData.display_description}} />
+          <div className="description" dangerouslySetInnerHTML={{__html: rawData.display_vars["description"]}} />
         </Card>
 
         <div className="visualizations">
@@ -366,5 +346,9 @@ class ProfileEditor extends Component {
     );
   }
 }
+
+ProfileEditor.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default ProfileEditor;

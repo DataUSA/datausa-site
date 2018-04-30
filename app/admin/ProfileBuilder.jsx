@@ -20,11 +20,6 @@ class ProfileBuilder extends Component {
     };
   }
 
-  /*getChildContext() {
-    const {variables} = this.statecurr;
-    return {variables};
-  }*/
-
   componentDidMount() {
     axios.get("/api/internalprofile/all").then(resp => {
       const profiles = resp.data;

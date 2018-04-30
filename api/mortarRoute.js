@@ -1,5 +1,5 @@
 const axios = require("axios"),
-      libs = require("../utils/libs");
+      varSwap = require("../utils/varSwap");
 
 const profileReqWithGens = {
   include: [
@@ -59,35 +59,6 @@ const profileReq = {
       ]
     }
   ]
-};
-
-/* Given an object, a hashtable of formatting functions, and a lookup object full of variables
- * Replace every instance of {{var}} with its true value from the lookup object, and
- * apply the appropriate formatter
- * TODO: maybe make this recursive in the future, crawling down the object?
-*/
-
-const varSwap = (sourceObj, formatterFunctions, variables) => {
-  for (const skey in sourceObj) {
-    if (sourceObj.hasOwnProperty(skey) && typeof sourceObj[skey] === "string") {
-      // Find all instances of the following type:  FormatterName{{VarToReplace}}
-      sourceObj[skey] = sourceObj[skey].replace(/([A-z0-9]*)\{\{([A-z0-9]+)\}\}/g, (match, g1, keyMatch) => {
-
-        // Get the function from the hash table using the lookup key FormatterName (or no-op if not found)
-        let formatter = d => d;
-        if (g1) {
-          const formatTitle = g1.replace(/^\w/g, chr => chr.toLowerCase());
-          if (formatTitle in formatterFunctions) formatter = formatterFunctions[formatTitle];
-        }
-
-        const value = variables[keyMatch];
-        if (value === undefined) return "N/A";
-        else return formatter(value, libs, formatterFunctions);
-
-      });
-    }
-  }
-  return sourceObj;
 };
 
 module.exports = function(app) {
