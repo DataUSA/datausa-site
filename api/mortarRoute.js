@@ -75,20 +75,9 @@ module.exports = function(app) {
     db.profiles.findOne(reqObj).then(u => res.json(u).end());
   });
 
-  /* Main API Route to fetch a profile, given a slug and an id
-   * slugs represent the type of page (geo, naics, soc, cip, university)
-   * ids represent actual entities / locations (nyc, bu)
-  */
-
-  app.get("/api/profile/:slug/:id", (req, res) => {
+  app.get("/api/variables/:slug/:id", (req, res) => {
     const {slug, id} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
-
-    /* The following Promises, as opposed to being nested, are run sequentially.
-     * Each one returns a new promise, whose response is then handled in the following block
-     * Note that this means if any info from a given block is required in any later block,
-     * We must pass that info as one of the arguments of the returned Promise.
-    */
 
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
     db.profiles.findOne({where: {slug}, raw: true})
@@ -171,25 +160,45 @@ module.exports = function(app) {
           return {...acc, ...vars};
         }, returnVariables);
         returnVariables._matStatus = matStatus;
-        return Promise.all([returnVariables, formatterFunctions]);
+        return res.json(returnVariables).end();
       })
-      // Given the partially built returnVariables and all the formatters (formatters are global)
+  });
+
+  /* Main API Route to fetch a profile, given a slug and an id
+   * slugs represent the type of page (geo, naics, soc, cip, university)
+   * ids represent actual entities / locations (nyc, bu)
+  */
+
+  app.get("/api/profile/:slug/:id", (req, res) => {
+    const {slug, id} = req.params;
+    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+
+      /* The following Promises, as opposed to being nested, are run sequentially.
+       * Each one returns a new promise, whose response is then handled in the following block
+       * Note that this means if any info from a given block is required in any later block,
+       * We must pass that info as one of the arguments of the returned Promise.
+      */
+
+    Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll()])
+
+      // Given the completely built returnVariables and all the formatters (formatters are global)
       // Get the ACTUAL profile itself and all its dependencies and prepare it to be formatted and regex replaced
       // See profileReq above to see the sequelize formatting for fetching the entire profile
       .then(resp => {
-        const [variables, formatterFunctions] = resp;
-
-        const returnObject = {variables};
+        const variables = resp[0].data;
+        const formatters = resp[1];
+        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
-        return Promise.all([returnObject, formatterFunctions, request]);
+        return Promise.all([variables, formatterFunctions, request]);
       })
-      // Given the partially built returnVariables, a hash array of formatter functions, and the profile itself
+      // Given a returnObject with completely built returnVariables, a hash array of formatter functions, and the profile itself
       // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
       .then(resp => {
-        let returnObject = resp[0];
+        let returnObject = {};
+        const variables = resp[0];
         const formatterFunctions = resp[1];
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
-        const profile = varSwap(resp[2].data, formatterFunctions, returnObject.variables);
+        const profile = varSwap(resp[2].data, formatterFunctions, variables);
         returnObject.pid = id;
         // The varswap function is not recursive. We have to do some work here to crawl down the profile
         // and run the varswap at each level.
@@ -203,7 +212,7 @@ module.exports = function(app) {
                     try {
                       eval(`
                         let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
-                        vars = f(returnObject.variables, formatterFunctions);
+                        vars = f(variables, formatterFunctions);
                       `);
                     }
                     catch (e) {
@@ -213,12 +222,12 @@ module.exports = function(app) {
                   });
                 }
                 if (t.stats) {
-                  t.stats = t.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
+                  t.stats = t.stats.map(s => varSwap(s, formatterFunctions, variables));
                 }
-                return varSwap(t, formatterFunctions, returnObject.variables);
+                return varSwap(t, formatterFunctions, variables);
               });
             }
-            return varSwap(s, formatterFunctions, returnObject.variables);
+            return varSwap(s, formatterFunctions, variables);
           });
         }
         if (profile.visualizations) {
@@ -227,7 +236,7 @@ module.exports = function(app) {
             try {
               eval(`
                 let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
-                vars = f(returnObject.variables, formatterFunctions);
+                vars = f(variables, formatterFunctions);
               `);
             }
             catch (e) {
@@ -237,7 +246,7 @@ module.exports = function(app) {
           });
         }
         if (profile.stats) {
-          profile.stats = profile.stats.map(s => varSwap(s, formatterFunctions, returnObject.variables));
+          profile.stats = profile.stats.map(s => varSwap(s, formatterFunctions, variables));
         }
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
