@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
+from datausa import app
 from flask import Blueprint, g, render_template, request, redirect
-from datausa.utils.data import profile_cache
-from datausa.utils.data import fetch, get_parents
+from datausa.utils.data import fetch, get_parents, profile_cache
 from config import SPLASH_IMG_DIR
-
 
 mod = Blueprint("search", __name__, url_prefix="/search")
 
@@ -19,7 +18,6 @@ def get_img(attr_kind, attr_id, mode="thumb"):
     attr = fetch(attr_id, attr_kind)
 
     def formatImage(attr, attr_type):
-        url = "/static/img/splash/{}/".format(attr_type)
         image_attr = False
         if "image_link" in attr and attr["image_link"]:
             image_attr = attr
@@ -32,8 +30,10 @@ def get_img(attr_kind, attr_id, mode="thumb"):
         if image_attr:
             return image_attr["id"]
 
+    app.logger.info("get_img: {} {}".format(attr_kind, attr_id))
+    app.logger.info("university fallback: {} {}".format(attr_kind == "university", not attr["image_link"]))
     if attr_kind == "university" and not attr["image_link"]:
-        if "msa" in attr and attr["msa"] != None:
+        if "msa" in attr and attr["msa"]:
             my_id = formatImage(fetch(attr["msa"], "geo"), "geo")
             attr_kind = "geo"
         else:
@@ -42,8 +42,6 @@ def get_img(attr_kind, attr_id, mode="thumb"):
     else:
         my_id = formatImage(attr, attr_kind)
 
-
-    static_root_url = SPLASH_IMG_DIR.format(mode, attr_kind)
-    img_url = static_root_url.format(mode, attr_kind) + "{}.jpg".format(my_id)
+    img_url = SPLASH_IMG_DIR.format(mode, attr_kind) + "{}.jpg".format(my_id)
 
     return redirect(img_url)
