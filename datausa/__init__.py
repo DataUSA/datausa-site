@@ -7,6 +7,7 @@ from flask import Flask
 from config import DEBUG
 from datausa.utils.format import jinja_formatter, url_for_other_page
 from flask.ext.cache import Cache
+import logging
 
 # Base directory of where the site is held
 base_dir = os.path.abspath(os.path.dirname(__file__))
