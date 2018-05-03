@@ -13,7 +13,7 @@ module.exports = function() {
         .map(cube => axios
           .get(`${CUBE_URL}cubes/${cube.name}/aggregate.jsonrecords?drilldown[]=[Year].[Year]`)
           .then(resp => {
-            const years = resp.data.map(d => d["ID Year"]).sort();
+            const years = resp.data.data.map(d => d["ID Year"]).sort();
             return {
               cube: cube.name,
               latest: years[years.length - 1],
@@ -21,7 +21,11 @@ module.exports = function() {
               years
             };
           })
-          .catch(() => console.log("Error: ", cube.name)));
+          .catch(() => {
+            // console.log("Year Cache Error: ", cube.name);
+            // console.error(err);
+            // console.log("\n");
+          }));
 
       return Promise.all(cubeQueries)
         .then(arr => arr.filter(d => d)

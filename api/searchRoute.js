@@ -3,12 +3,7 @@ const sequelize = require("sequelize"),
 
 module.exports = function(app) {
 
-  const {cache, db} = app.settings;
-
-  app.get("/api/cache", (req, res) => {
-    const ret = cache.year;
-    res.json({result: ret}).end();
-  });
+  const {db} = app.settings;
 
   app.get("/api/search", (req, res) => {
 
