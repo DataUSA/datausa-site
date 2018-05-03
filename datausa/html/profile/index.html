@@ -258,7 +258,7 @@
   <div class="follow-up">
 
     {% for p in parents %}
-    <div style="background: url('{% if p['image_link'] %}{{ p['image_link'] }}{% else %}/profile/{{ profile.attr_type }}/{{ p.id }}/img/{% endif %}');">
+    <div style="background: url('/search/{{ profile.attr_type }}/{{ p.id }}/img/');">
       <a href="{{ url_for('profile.profile', attr_type=profile.attr_type, attr_id=p['url_name'] if 'url_name' in p and p['url_name'] else p['id']) }}" class="explore-title">
         {{ p["name"] }}
         <br />
