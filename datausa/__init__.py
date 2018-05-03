@@ -14,6 +14,11 @@ base_dir = os.path.abspath(os.path.dirname(__file__))
 # Initialize app
 app = Flask(__name__, template_folder=os.path.join(base_dir, "html"))
 
+if not DEBUG:
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(logging.DEBUG)
+
 # Set Jinja2 Config
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
