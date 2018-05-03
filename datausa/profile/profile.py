@@ -447,10 +447,7 @@ class Profile(BaseObject):
 
             if ids_only:
                 return ",".join([r["id"] for r in results])
-            results = [fetch(r["id"], "university") for r in results]
-            for result in results:
-                result["image_link"] = self.image(attr_id = result["id"])["url"]
-            return results
+            return [fetch(r["id"], "university") for r in results]
         except ValueError:
             app.logger.info("STAT ERROR: {}".format(url))
             if ids_only:
