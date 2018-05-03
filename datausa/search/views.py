@@ -30,8 +30,6 @@ def get_img(attr_kind, attr_id, mode="thumb"):
         if image_attr:
             return image_attr["id"]
 
-    app.logger.info("get_img: {} {}".format(attr_kind, attr_id))
-    app.logger.info("university fallback: {} {}".format(attr_kind == "university", not attr["image_link"]))
     if attr_kind == "university" and not attr["image_link"]:
         if "msa" in attr and attr["msa"]:
             my_id = formatImage(fetch(attr["msa"], "geo"), "geo")
