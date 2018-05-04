@@ -127,6 +127,7 @@ TEXTCOMPARATORS = {
 
 DICTIONARY = {
 
+    "university": "University",
     "university_name": "University",
 
     "income_range": "Income Range",
