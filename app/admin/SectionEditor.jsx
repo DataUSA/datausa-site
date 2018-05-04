@@ -3,6 +3,8 @@ import React, {Component} from "react";
 import {Dialog, Card} from "@blueprintjs/core";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
+import varSwap from "../../utils/varSwap";
+import PropTypes from "prop-types";
 
 import "./SectionEditor.css";
 
@@ -54,8 +56,12 @@ class SectionEditor extends Component {
   render() {
 
     const {recompiling, rawData} = this.state;
+    const {formatters} = this.context;
+    const {variables} = this.props;
 
     if (recompiling || !rawData) return <Loading />;
+
+    rawData.display_vars = varSwap(rawData, formatters, variables);
 
     return (
       <div id="section-editor">
@@ -93,12 +99,16 @@ class SectionEditor extends Component {
           </div>
         </Dialog>
         <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true})} interactive={true} elevation={1}>
-          <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.title}}></h4>
-          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.description}}></h6>
+          <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
+          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}}></h6>
         </Card>
       </div>
     );
   }
 }
+
+SectionEditor.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default SectionEditor;

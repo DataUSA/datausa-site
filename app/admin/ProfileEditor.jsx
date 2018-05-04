@@ -42,6 +42,7 @@ class ProfileEditor extends Component {
     axios.get(`/api/variables/${slug}/${id}`).then(resp => {
       const variables = resp.data;
       this.setState({variables}, this.formatDisplays.bind(this));
+      if (this.props.refreshVariables) this.props.refreshVariables(variables);
     });
   }
 
@@ -311,8 +312,8 @@ class ProfileEditor extends Component {
 
         <div className="splash" style={{backgroundImage: `url("/api/profile/${rawData.slug}/${preview}/thumb")`}}>
           <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle"])} interactive={true} elevation={1}>
-            <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars["title"]}}></h4>
-            <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars["subtitle"]}}></h6>
+            <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
+            <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars.subtitle}}></h6>
           </Card>
           <div className="stats">
             { rawData.stats.map(s =>

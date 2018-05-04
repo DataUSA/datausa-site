@@ -5,6 +5,8 @@ import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
 import StatCard from "./components/StatCard";
 import GeneratorEditor from "./GeneratorEditor";
+import varSwap from "../../utils/varSwap";
+import PropTypes from "prop-types";
 
 import "./TopicEditor.css";
 
@@ -113,8 +115,13 @@ class TopicEditor extends Component {
   render() {
 
     const {recompiling, rawData, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType} = this.state;
+    const {formatters} = this.context;
+    const {variables} = this.props;
     
     if (recompiling || !rawData) return <Loading />;
+
+    rawData.display_vars = varSwap(rawData, formatters, variables);
+    rawData.stats.forEach(s => s.display_vars = varSwap(s, formatters, variables));
 
     return (
       <div id="section-editor">
@@ -191,15 +198,16 @@ class TopicEditor extends Component {
           </div>
         </Dialog>
         <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "topic", ["title", "subtitle", "description"])} interactive={true} elevation={1}>
-          <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.title}}></h4>
-          <h4 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.subtitle}}></h4>
-          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.description}}></h6>
+          <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
+          <h4 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars.subtitle}}></h4>
+          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}}></h6>
         </Card>
         <div className="stats">
           { rawData.stats.map(s =>
             <StatCard key={s.id}
               /*title={ s.display_title } value={ s.display_value } subtitle={ s.display_subtitle }*/
-              title={ s.title } value={ s.value } subtitle={ s.subtitle }
+              vars={s.display_vars}
+              /*title={ s.title } value={ s.value } subtitle={ s.subtitle }*/
               onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
           ) }
           <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>
@@ -223,6 +231,10 @@ class TopicEditor extends Component {
     );
   }
 }
+
+TopicEditor.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default TopicEditor;
 

@@ -16,7 +16,8 @@ class ProfileBuilder extends Component {
     this.state = {
       nodes: null,
       profiles: null,
-      currentNode: null
+      currentNode: null,
+      variables: []
     };
   }
 
@@ -131,9 +132,14 @@ class ProfileBuilder extends Component {
     this.updateLabels();
   }
 
+  refreshVariables(variables) {
+    console.log("refreshing with ", variables);
+    this.setState({variables});
+  }
+
   render() {
 
-    const {nodes, currentNode} = this.state;
+    const {nodes, currentNode, variables} = this.state;
 
     if (!nodes) return <div>Loading</div>;
 
@@ -151,11 +157,11 @@ class ProfileBuilder extends Component {
         <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)} />
+              ? <ProfileEditor rawData={currentNode.data} refreshVariables={this.refreshVariables.bind(this)} reportSave={this.reportSave.bind(this)} />
               : currentNode.itemType === "section"
-                ? <SectionEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)}/>
+                ? <SectionEditor rawData={currentNode.data} variables={variables} reportSave={this.reportSave.bind(this)}/>
                 : currentNode.itemType === "topic"
-                  ? <TopicEditor rawData={currentNode.data} reportSave={this.reportSave.bind(this)}/>
+                  ? <TopicEditor rawData={currentNode.data} variables={variables}  reportSave={this.reportSave.bind(this)}/>
                   : null
             : <NonIdealState title="No Profile Selected" description="Please select a Profile from the menu on the left." visual="path-search" />
           }
