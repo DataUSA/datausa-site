@@ -37,6 +37,12 @@ class TopicEditor extends Component {
     this.setState({rawData});
   }
 
+  chooseVariable(e) {
+    const {rawData} = this.state;
+    rawData.allowed = e.target.value;
+    this.setState({rawData}, this.saveItem.bind(this, rawData, "topic"));
+  }
+
   fetchPostData() {
     this.setState({recompiling: false});
   }
@@ -123,14 +129,29 @@ class TopicEditor extends Component {
     rawData.display_vars = varSwap(rawData, formatters, variables);
     if (rawData.stats) rawData.stats.forEach(s => s.display_vars = varSwap(s, formatters, variables));
 
+    const varOptions = [<option key="always" value="always">Always</option>];
+    
+    for (const key in variables) {
+      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
+        const value = variables[key];
+        varOptions.push(
+          <option key={key} value={key}>{`${key}: ${value}`}</option>
+        );
+      }
+    }
+
     return (
       <div id="section-editor">
         <div id="slug">
-          <label className="pt-label">
-            slug
-            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
-          </label>
+          slug
+          <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
           <button onClick={this.saveItem.bind(this, rawData, "topic")}>rename</button>
+        </div>
+        <div className="pt-select">
+          Allowed?
+          <select value={rawData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+            {varOptions}
+          </select>
         </div>
         <Dialog
           iconName="code"
@@ -140,7 +161,7 @@ class TopicEditor extends Component {
           style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
-            <GeneratorEditor data={currentGenerator} type={currentGeneratorType} />
+            <GeneratorEditor variables={variables} data={currentGenerator} type={currentGeneratorType} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
@@ -205,9 +226,7 @@ class TopicEditor extends Component {
         <div className="stats">
           { rawData.stats && rawData.stats.map(s =>
             <StatCard key={s.id}
-              /*title={ s.display_title } value={ s.display_value } subtitle={ s.display_subtitle }*/
               vars={s.display_vars}
-              /*title={ s.title } value={ s.value } subtitle={ s.subtitle }*/
               onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
           ) }
           <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>

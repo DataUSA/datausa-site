@@ -72,6 +72,7 @@ class ProfileEditor extends Component {
   saveItem(item, type) {
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
+      console.log("trying to write", item);
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
@@ -201,7 +202,7 @@ class ProfileEditor extends Component {
           style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
-            <GeneratorEditor data={currentGenerator} type={currentGeneratorType} />
+            <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">

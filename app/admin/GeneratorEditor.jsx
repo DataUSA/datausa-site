@@ -10,13 +10,14 @@ class GeneratorEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      variables: []
     };
   }
 
   componentDidMount() {
-    const {data} = this.props;
-    this.setState({data});   
+    const {data, variables} = this.props;
+    this.setState({data, variables});   
   }
 
   changeField(field, e) {
@@ -31,26 +32,15 @@ class GeneratorEditor extends Component {
     this.setState({data});    
   }
 
-  /*
-  saveContent() {
+  chooseVariable(e) {
     const {data} = this.state;
-    if (this.props.reportSave) this.props.reportSave(data);
-    const toast = Toaster.create({className: "saveToast", position: Position.TOP_CENTER});
-    axios.post("/api/builder/islands/save", data).then(resp => {
-      if (resp.status === 200) {
-        toast.show({message: "Saved!", intent: Intent.SUCCESS});
-      } 
-      else {
-        toast.show({message: "Error!", intent: Intent.DANGER});
-      }
-    });
+    data.allowed = e.target.value;
+    this.setState({data});
   }
-  */
   
-
   render() {
 
-    const {data} = this.state;
+    const {data, variables} = this.state;
     const {type} = this.props;
 
     const preMessage = {
@@ -64,6 +54,17 @@ class GeneratorEditor extends Component {
       materalizer: <span>Be sure to return an <strong>object</strong> with the variables you want stored as keys.</span>,
       visualization: <span>Be sure to return a valid config object for a visualization</span>
     };
+
+    const varOptions = [<option key="always" value="always">Always</option>];
+    
+    for (const key in variables) {
+      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
+        const value = variables[key];
+        varOptions.push(
+          <option key={key} value={key}>{`${key}: ${value}`}</option>
+        );
+      }
+    }
 
     if (!data) return null;
 
@@ -91,6 +92,15 @@ class GeneratorEditor extends Component {
           : null
         }
         <div id="generator-ace">
+          {type === "visualization" && 
+            <div className="pt-select">
+              Allowed?
+              <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+                {varOptions}
+              </select>
+            </div>
+          }
+          <br/>
           <strong>Callback</strong><br/>
           {preMessage[type]}
           <AceWrapper
