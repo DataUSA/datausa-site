@@ -70,6 +70,7 @@ viz.addToCart = function(build, select) {
         delete params.exclude;
         delete params.sort;
         delete params.order;
+        delete params.display_names;
         var shows = params.show.split(",");
         var sumlevels = params.sumlevel.split(",");
         var requireds = params.required ? params.required.split(",") : [];
