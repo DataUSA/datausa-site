@@ -121,7 +121,7 @@ class TopicEditor extends Component {
     if (recompiling || !rawData) return <Loading />;
 
     rawData.display_vars = varSwap(rawData, formatters, variables);
-    rawData.stats.forEach(s => s.display_vars = varSwap(s, formatters, variables));
+    if (rawData.stats) rawData.stats.forEach(s => s.display_vars = varSwap(s, formatters, variables));
 
     return (
       <div id="section-editor">
@@ -203,7 +203,7 @@ class TopicEditor extends Component {
           <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}}></h6>
         </Card>
         <div className="stats">
-          { rawData.stats.map(s =>
+          { rawData.stats && rawData.stats.map(s =>
             <StatCard key={s.id}
               /*title={ s.display_title } value={ s.display_value } subtitle={ s.display_subtitle }*/
               vars={s.display_vars}
@@ -216,7 +216,7 @@ class TopicEditor extends Component {
         </div>
         <div className="visualizations">
           <div>
-            { rawData.visualizations.map(v =>
+            { rawData.visualizations && rawData.visualizations.map(v =>
               <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
                 <p>{v.logic}</p>
               </Card>
