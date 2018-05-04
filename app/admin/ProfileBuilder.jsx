@@ -161,8 +161,6 @@ class ProfileBuilder extends Component {
       obj.childNodes = [objSection];
     }
     if (obj) {
-      arr.push(obj);
-      arr.sort((a, b) => a.data.ordering - b.data.ordering);
       
       const profilePath = "/api/cms/profile/new";
       const sectionPath = "/api/cms/section/new";
@@ -173,6 +171,8 @@ class ProfileBuilder extends Component {
           if (profile.status === 200) {
             obj.id = `topic${profile.data.id}`;
             console.log("saved topic");
+            arr.push(obj);
+            arr.sort((a, b) => a.data.ordering - b.data.ordering);
             this.setState({nodes}, this.handleNodeClick.bind(this, obj));
             
           }
@@ -189,6 +189,8 @@ class ProfileBuilder extends Component {
             if (topic.status === 200) {
               objTopic.id = `topic${topic.data.id}`;
               console.log("saved section");
+              arr.push(obj);
+              arr.sort((a, b) => a.data.ordering - b.data.ordering);
               this.setState({nodes}, this.handleNodeClick.bind(this, obj));
             }
             else {
@@ -207,7 +209,9 @@ class ProfileBuilder extends Component {
             axios.post(topicPath, objTopic.data).then(topic => {
               if (topic.status === 200) {
                 objTopic.id = `topic${topic.data.id}`;
-                console.log("saved profile");
+                // WHY DOESNT THIS WORK DAVE
+                arr.push(obj);
+                arr.sort((a, b) => a.data.ordering - b.data.ordering);
                 this.setState({nodes}, this.handleNodeClick.bind(this, obj));
               }
               else {
@@ -288,7 +292,7 @@ class ProfileBuilder extends Component {
 
     if (!nodes) return <div>Loading</div>;
 
-    
+    console.log("updated nodes to", nodes[0].childNodes);
 
     return (
       <div id="profile-builder">
