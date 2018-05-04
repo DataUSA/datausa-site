@@ -6,6 +6,11 @@ description:
 
 topics:
   - title: "Tuition Costs"
+    cart:
+      params:
+        required: "oos_tuition,state_tuition"
+        show: university
+        sumlevel: all
     category: "Student Expenses"
     slug: "tuition"
     allowed: "<<var namespace=tuition|key=state_tuition|row=0>>:!N/A"
@@ -276,6 +281,12 @@ topics:
           range: [0, 1]
           value: discount
   - title: "Student Loan Default Rate"
+    cart:
+      params:
+        required: "default_rate,num_borrowers,num_defaults"
+        show: opeid
+        sumlevel: all
+      title: "Student Loan Default Rate by University"
     subtitle: "Cohort default rates only account for borrowers who default in the first three years, and some schools only have a small proportion of borrowers entering repayment. These rates should be interpreted with caution, as they may not be reflective of the entire school population."
     slug: "default_rate"
     sumlevel: "2"
