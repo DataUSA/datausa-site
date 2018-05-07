@@ -25,6 +25,7 @@ module.exports = function(app) {
     }
 
     db.search.findAll({
+      include: [{model: db.images}],
       limit,
       order: [["zvalue", "DESC"]],
       where
@@ -32,12 +33,13 @@ module.exports = function(app) {
       .then(results => {
         results = results.map(d => ({
           id: d.id,
+          image: d.image,
           keywords: d.keywords,
           name: d.display,
-          sumlevel: sumlevels[d.kind][d.sumlevel] ? sumlevels[d.kind][d.sumlevel].label : d.sumlevel,
-          slug: d.url_name,
-          stem: d.is_stem === 1,
-          type: d.kind
+          sumlevel: sumlevels[d.type][d.sumlevel] ? sumlevels[d.type][d.sumlevel].label : d.sumlevel,
+          slug: d.slug,
+          stem: d.stem === 1,
+          type: d.type
         }));
         res.json({results, query: {limit, q, kind}}).end();
       });

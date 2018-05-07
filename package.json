@@ -7,6 +7,7 @@
     "build": "canon-build",
     "dev": "canon-dev",
     "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
+    "flickr": "node scripts/flickr-scrape.js",
     "setup": "canon-setup",
     "start": "canon-start",
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
@@ -24,14 +25,17 @@
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
     "@blueprintjs/table": "^1.31.0",
-    "datawheel-canon": "^0.15.10",
+    "datawheel-canon": "^0.15.11",
     "eslint": "^4.16.0",
+    "flickr-sdk": "^3.7.0",
     "jsdoc-to-markdown": "^4.0.1",
     "katex": "^0.9.0",
     "localforage": "^1.5.6",
     "node-yaml": "^3.1.1",
+    "promise-throttle": "^1.0.0",
     "react-ace": "^5.9.0",
     "react-katex": "^1.2.0",
-    "react-quill": "^1.2.3"
+    "react-quill": "^1.2.3",
+    "sharp": "^0.20.2"
   }
 }

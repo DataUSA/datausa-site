@@ -7,13 +7,14 @@ module.exports = function(sequelize, db) {
         type: db.TEXT
       },
       zvalue: db.DOUBLE,
-      kind: db.TEXT,
+      type: db.TEXT,
       name: db.TEXT,
       display: db.TEXT,
       sumlevel: db.TEXT,
-      is_stem: db.INTEGER,
-      url_name: db.TEXT,
-      keywords: db.ARRAY(db.TEXT)
+      stem: db.INTEGER,
+      slug: db.TEXT,
+      keywords: db.ARRAY(db.TEXT),
+      imageId: db.INTEGER
     },
     {
       freezeTableName: true,
@@ -31,6 +32,10 @@ module.exports = function(sequelize, db) {
   // CREATE INDEX search_on_name_idx ON search USING GIN(name gin_trgm_ops);
   // CREATE INDEX search_on_display_idx ON search USING GIN(display gin_trgm_ops);
   // CREATE INDEX search_on_keywords_idx ON search USING GIN(keywords);
+
+  search.associate = models => {
+    search.belongsTo(models.images);
+  };
 
   return search;
 
