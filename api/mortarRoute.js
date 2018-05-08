@@ -1,4 +1,5 @@
 const axios = require("axios"),
+      urlSwap = require("../utils/urlSwap"),
       varSwap = require("../utils/varSwap");
 
 const profileReqWithGens = {
@@ -63,7 +64,7 @@ const profileReq = {
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {cache, db} = app.settings;
 
   app.get("/api/internalprofile/all", (req, res) => {
     db.profiles.findAll(profileReqWithGens).then(u => res.json(u).end());
@@ -81,18 +82,18 @@ module.exports = function(app) {
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
     db.profiles.findOne({where: {slug}, raw: true})
       .then(profile =>
-        Promise.all([profile.id, db.formatters.findAll(), db.generators.findAll({where: {profile_id: profile.id}})])
+        Promise.all([profile.id, db.search.findOne({where: {id, type: slug}}), db.formatters.findAll(), db.generators.findAll({where: {profile_id: profile.id}})])
       )
       // Given a profile id and its generators, hit all the API endpoints they provide
       .then(resp => {
-        const [pid, formatters, generators] = resp;
+        const [pid, attr, formatters, generators] = resp;
         // Create a hash table so the formatters are directly accessible by name
         const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
         // Deduplicate generators that share an API endpoint
         const requests = Array.from(new Set(generators.map(g => g.api)));
         // Generators use <id> as a placeholder. Replace instances of <id> with the provided id from the URL
         // The .catch here is to handle malformed API urls, returning an empty object
-        const fetches = requests.map(r => axios.get(r.replace(/\<id\>/g, id)).catch(() => ({})));
+        const fetches = requests.map(r => axios.get(urlSwap(r, {...req.params, ...cache, ...attr})).catch(() => ({})));
         return Promise.all([pid, generators, requests, formatterFunctions, Promise.all(fetches)]);
       })
       // Given a profile id, its generators, their API endpoints, and the responses of those endpoints,
@@ -216,7 +217,7 @@ module.exports = function(app) {
                           let vars = {};
                           try {
                             eval(`
-                              let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
+                              let f = (variables, formatters) => {${v.logic}};
                               vars = f(variables, formatterFunctions);
                             `);
                           }
@@ -244,7 +245,7 @@ module.exports = function(app) {
               let vars = {};
               try {
                 eval(`
-                  let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
+                  let f = (variables, formatters) => {${v.logic}};
                   vars = f(variables, formatterFunctions);
                 `);
               }
