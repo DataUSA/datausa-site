@@ -7,12 +7,12 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      name: db.STRING,
+      name: db.TEXT,
       description: db.TEXT,
       logic: db.TEXT,
       ordering: db.INTEGER,
       profile_id: db.INTEGER
-    }, 
+    },
     {
       freezeTableName: true,
       timestamps: false
