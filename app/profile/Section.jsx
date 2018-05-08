@@ -11,9 +11,7 @@ class Section extends Component {
 
     return <div className={ `Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
       <h2 className="section-title">
-        <a href={ `#${ slug }`} id={ slug } className="anchor">
-          { title }
-        </a>
+        <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
       </h2>
       <div className="section-body">
         <div className="section-content">

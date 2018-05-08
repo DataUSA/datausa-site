@@ -15,9 +15,7 @@ export default class TextViz extends Component {
     return <div className={ `topic ${slug} ${ comparisons.length ? "compare" : "" } TextViz` }>
       { title &&
         <h3 className="topic-title">
-          <a href={ `#${ slug }`} id={ slug } className="anchor">
-            { title }
-          </a>
+          <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
         </h3>
       }
       <div className="topic-body">
