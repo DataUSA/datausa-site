@@ -1,8 +1,65 @@
 module.exports = function(app) {
 
-  app.get("/api/profile/:pslug/:pid/:image", (req, res) => {
-    const {image, pid, pslug} = req.params;
-    res.sendFile(`${process.cwd()}/static/images/${image}/${pslug}/${pid}.jpg`);
+  const typeMap = {
+    geo: "Geography",
+    naics: "Industry",
+    soc: "Occupation",
+    cip: "Major",
+    university: "University"
+  };
+
+  const {db} = app.settings;
+  const {mondrian} = app.settings.cache;
+
+  app.get("/api/profile/:pslug/:pid/:size", (req, res) => {
+    const {size, pid, pslug} = req.params;
+
+    function sendImage(image) {
+      res.sendFile(`${process.cwd()}/static/images/profile/${size}/${image}.jpg`);
+    }
+
+    db.search.findOne({where: {id: pid, type: pslug}})
+      .then(attr => {
+        const {imageId, sumlevel} = attr;
+
+        if (!imageId) {
+
+          const type = typeMap[pslug];
+
+          mondrian.cube("acs_yg_household_income_5")
+            .then(cube => {
+
+              const query = cube.query
+                .drilldown(type, sumlevel, sumlevel)
+                .cut(`[${type}].[${sumlevel}].[${sumlevel}].&[${pid}]`)
+                .option("parents", true);
+
+              return mondrian.query(query);
+
+            })
+            .then(d => d.data)
+            .then(data => {
+
+              const hierarchy = data.axes
+                .find(d => d.name === type);
+
+              const ancestors = hierarchy.members[0].ancestors
+                .filter(d => d.level_name !== "(All)");
+
+              const parentIds = ancestors.map(d => d.key).reverse();
+              console.log(parentIds, pslug);
+              return db.search.findAll({where: {id: parentIds, type: pslug}, raw: true});
+
+            })
+            .then(parents => {
+              console.log(parents);
+              const firstImage = parents.find(d => d.imageId);
+              if (firstImage.imageId) sendImage(firstImage.imageId);
+              else sendImage(imageId);
+            });
+        }
+        else sendImage(imageId);
+      });
   });
 
 };

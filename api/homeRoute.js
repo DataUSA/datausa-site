@@ -159,7 +159,7 @@ module.exports = function(app) {
           {
             title: "How to Convert a Site to Canon",
             url: "/map/?level=state&key=opioid_overdose_deathrate_ageadjusted",
-            image: "/images/splash/soc/151131.jpg",
+            image: "/images/home/maps/total_reimbursements_b.png",
             subtitle: "By Dave Landry",
             new: true
           },
