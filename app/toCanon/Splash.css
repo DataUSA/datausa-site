@@ -86,6 +86,9 @@
         font-weight: 300;
         text-shadow: 0 2px 12px black;
       }
+      & p {
+        margin: 0;
+      }
     }
   }
   & .profile-sections {
@@ -107,6 +110,9 @@
         height: 30px;
         margin: 0 auto 5px;
         width: 30px;
+      }
+      & p {
+        margin: 0;
       }
       &:hover {
         text-decoration: none;
