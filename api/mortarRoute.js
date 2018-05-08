@@ -77,7 +77,6 @@ module.exports = function(app) {
 
   app.get("/api/variables/:slug/:id", (req, res) => {
     const {slug, id} = req.params;
-    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
     db.profiles.findOne({where: {slug}, raw: true})
@@ -161,7 +160,7 @@ module.exports = function(app) {
         }, returnVariables);
         returnVariables._matStatus = matStatus;
         return res.json(returnVariables).end();
-      })
+      });
   });
 
   /* Main API Route to fetch a profile, given a slug and an id
@@ -173,11 +172,11 @@ module.exports = function(app) {
     const {slug, id} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
-      /* The following Promises, as opposed to being nested, are run sequentially.
-       * Each one returns a new promise, whose response is then handled in the following block
-       * Note that this means if any info from a given block is required in any later block,
-       * We must pass that info as one of the arguments of the returned Promise.
-      */
+    /* The following Promises, as opposed to being nested, are run sequentially.
+     * Each one returns a new promise, whose response is then handled in the following block
+     * Note that this means if any info from a given block is required in any later block,
+     * We must pass that info as one of the arguments of the returned Promise.
+    */
 
     Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll()])
 
@@ -203,50 +202,62 @@ module.exports = function(app) {
         // The varswap function is not recursive. We have to do some work here to crawl down the profile
         // and run the varswap at each level.
         if (profile.sections) {
-          profile.sections = profile.sections.map(s => {
-            if (s.topics) {
-              s.topics = s.topics.map(t => {
-                if (t.visualizations) {
-                  t.visualizations = t.visualizations.map(v => {
-                    let vars = {};
-                    try {
-                      eval(`
-                        let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
-                        vars = f(variables, formatterFunctions);
-                      `);
+          profile.sections = profile.sections
+            .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
+            .map(s => {
+              if (s.topics) {
+                s.topics = s.topics
+                  .filter(t => variables[t.allowed] || t.allowed === null || t.allowed === "always")
+                  .map(t => {
+                    if (t.visualizations) {
+                      t.visualizations = t.visualizations
+                        .filter(v => variables[v.allowed] || v.allowed === null || v.allowed === "always")
+                        .map(v => {
+                          let vars = {};
+                          try {
+                            eval(`
+                              let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
+                              vars = f(variables, formatterFunctions);
+                            `);
+                          }
+                          catch (e) {
+                            console.log("visualization error", e);
+                          }
+                          return vars;
+                        });
                     }
-                    catch (e) {
-                      console.log("visualization error", e);
+                    if (t.stats) {
+                      t.stats = t.stats
+                        .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
+                        .map(s => varSwap(s, formatterFunctions, variables));
                     }
-                    return vars;
+                    return varSwap(t, formatterFunctions, variables);
                   });
-                }
-                if (t.stats) {
-                  t.stats = t.stats.map(s => varSwap(s, formatterFunctions, variables));
-                }
-                return varSwap(t, formatterFunctions, variables);
-              });
-            }
-            return varSwap(s, formatterFunctions, variables);
-          });
+              }
+              return varSwap(s, formatterFunctions, variables);
+            });
         }
         if (profile.visualizations) {
-          profile.visualizations = profile.visualizations.map(v => {
-            let vars = {};
-            try {
-              eval(`
-                let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
-                vars = f(variables, formatterFunctions);
-              `);
-            }
-            catch (e) {
-              console.log("visualization error", e);
-            }
-            return vars;
-          });
+          profile.visualizations = profile.visualizations
+            .filter(v => variables[v.allowed] || v.allowed === null || v.allowed === "always")
+            .map(v => {
+              let vars = {};
+              try {
+                eval(`
+                  let f = (variables, formatters) => {${v.logic.replace(/\<id\>/g, id)}};
+                  vars = f(variables, formatterFunctions);
+                `);
+              }
+              catch (e) {
+                console.log("visualization error", e);
+              }
+              return vars;
+            });
         }
         if (profile.stats) {
-          profile.stats = profile.stats.map(s => varSwap(s, formatterFunctions, variables));
+          profile.stats = profile.stats
+            .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
+            .map(s => varSwap(s, formatterFunctions, variables));
         }
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);

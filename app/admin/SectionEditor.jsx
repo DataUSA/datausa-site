@@ -39,6 +39,12 @@ class SectionEditor extends Component {
     this.setState({recompiling: false});
   }
 
+  chooseVariable(e) {
+    const {rawData} = this.state;
+    rawData.allowed = e.target.value;
+    this.setState({rawData}, this.saveContent.bind(this));
+  }
+
   saveContent() {
     const {rawData} = this.state;
     axios.post("/api/cms/section/update", rawData).then(resp => {
@@ -63,14 +69,29 @@ class SectionEditor extends Component {
 
     rawData.display_vars = varSwap(rawData, formatters, variables);
 
+    const varOptions = [<option key="always" value="always">Always</option>];
+    
+    for (const key in variables) {
+      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
+        const value = variables[key];
+        varOptions.push(
+          <option key={key} value={key}>{`${key}: ${value}`}</option>
+        );
+      }
+    }
+
     return (
       <div id="section-editor">
         <div id="slug">
-          <label className="pt-label">
-            slug
-            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
-          </label>
+          slug
+          <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
           <button onClick={this.saveContent.bind(this)}>rename</button>
+        </div>
+        <div className="pt-select">
+          Allowed?
+          <select value={rawData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+            {varOptions}
+          </select>
         </div>
         <Dialog
           iconName="document"

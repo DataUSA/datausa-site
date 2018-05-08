@@ -66,12 +66,162 @@ class ProfileBuilder extends Component {
     this.setState({nodes});
   }
 
+  saveNode(node) {
+    axios.post(`/api/cms/${node.itemType}/update`, node.data).then(resp => {
+      resp.status === 200 ? console.log("saved") : console.log("error");
+    });
+  }
+
   moveItem(n, dir) {
     console.log("move", n, dir);
   }
 
   addItem(n, dir) {
-    console.log("add", n, dir);
+    const {nodes} = this.state;
+    const arr = n.parent.childNodes;
+    let loc = n.data.ordering;
+    if (dir === "above") {
+      for (const node of arr) {
+        if (node.data.ordering >= n.data.ordering) {
+          node.data.ordering++;
+          this.saveNode(node);
+        }
+      }
+    }
+    if (dir === "below") {
+      loc++;
+      for (const node of arr) {
+        if (node.data.ordering >= n.data.ordering + 1) {
+          node.data.ordering++;
+          this.saveNode(node);
+        }
+      }
+    }
+    const objTopic = {
+      hasCaret: false,
+      label: "new-topic-slug",
+      itemType: "topic",
+      parent: n.parent,
+      data: {
+        title: "New Topic Title",
+        subtitle: "New Topic Subtitle",
+        slug: "new-topic-slug",
+        description: "New Topic Description",
+        section_id: n.data.section_id,
+        type: "TextViz",
+        ordering: loc
+      }
+    };
+    const objSection = {
+      hasCaret: true,
+      label: "new-section-slug",
+      itemType: "section",
+      parent: n.parent,
+      data: {
+        title: "New Section Title",
+        slug: "new-section-slug",
+        description: "New Section Description",
+        profile_id: n.data.profile_id,
+        ordering: loc
+      }
+    };
+    const objProfile = {
+      hasCaret: true,
+      label: "new-profile-slug",
+      itemType: "profile",
+      parent: n.parent,
+      data: {
+        title: "New Profile Title",
+        subtitle: "New Profile Subtitle",
+        slug: "new-profile-slug",
+        description: "New Profile Description",
+        label: "New Profile Label",
+        ordering: loc
+      }
+    };
+
+    let obj = null;
+
+    if (n.itemType === "topic") {
+      obj = objTopic;
+    }
+    if (n.itemType === "section") {
+      obj = objSection;
+      objTopic.data.ordering = 0;
+      objTopic.parent = obj;
+      obj.childNodes = [objTopic];
+    }
+    if (n.itemType === "profile") {
+      obj = objProfile;
+      objSection.data.ordering = 0;
+      objSection.parent = obj;
+      objTopic.data.ordering = 0;
+      objTopic.parent = objSection;
+      objSection.childNodes = [objTopic];
+      obj.childNodes = [objSection];
+    }
+    if (obj) {
+      
+      const profilePath = "/api/cms/profile/new";
+      const sectionPath = "/api/cms/section/new";
+      const topicPath = "/api/cms/topic/new";
+
+      if (n.itemType === "topic") {
+        axios.post(topicPath, obj.data).then(profile => {
+          if (profile.status === 200) {
+            obj.id = `topic${profile.data.id}`;
+            console.log("saved topic");
+            arr.push(obj);
+            arr.sort((a, b) => a.data.ordering - b.data.ordering);
+            this.setState({nodes}, this.handleNodeClick.bind(this, obj));
+            
+          }
+          else {
+            console.log("topic error");
+          }
+        });
+      } 
+      else if (n.itemType === "section") {
+        axios.post(sectionPath, obj.data).then(section => {
+          obj.id = `section${section.data.id}`;
+          objTopic.data.section_id = section.data.id;
+          axios.post(topicPath, objTopic.data).then(topic => {
+            if (topic.status === 200) {
+              objTopic.id = `topic${topic.data.id}`;
+              console.log("saved section");
+              arr.push(obj);
+              arr.sort((a, b) => a.data.ordering - b.data.ordering);
+              this.setState({nodes}, this.handleNodeClick.bind(this, obj));
+            }
+            else {
+              console.log("section error");
+            }
+          });
+        });
+      }
+      else if (n.itemType === "profile") {
+        axios.post(profilePath, obj.data).then(profile => {
+          obj.id = `profile${profile.data.id}`;
+          objSection.data.profile_id = profile.data.id;
+          axios.post(sectionPath, objSection.data).then(section => {
+            objSection.id = section.data.id;
+            objTopic.data.section_id = section.data.id;
+            axios.post(topicPath, objTopic.data).then(topic => {
+              if (topic.status === 200) {
+                objTopic.id = `topic${topic.data.id}`;
+                // WHY DOESNT THIS WORK DAVE
+                arr.push(obj);
+                arr.sort((a, b) => a.data.ordering - b.data.ordering);
+                this.setState({nodes}, this.handleNodeClick.bind(this, obj));
+              }
+              else {
+                console.log("profile error");
+              }              
+            });
+          });
+        });
+      }
+    }
   }
 
   deleteItem(n) {
@@ -133,7 +283,6 @@ class ProfileBuilder extends Component {
   }
 
   refreshVariables(variables) {
-    console.log("refreshing with ", variables);
     this.setState({variables});
   }
 
@@ -142,6 +291,8 @@ class ProfileBuilder extends Component {
     const {nodes, currentNode, variables} = this.state;
 
     if (!nodes) return <div>Loading</div>;
+
+    console.log("updated nodes to", nodes[0].childNodes);
 
     return (
       <div id="profile-builder">

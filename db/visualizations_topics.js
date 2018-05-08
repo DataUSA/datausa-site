@@ -8,7 +8,8 @@ module.exports = function(sequelize, db) {
         autoIncrement: true
       },
       logic: db.TEXT,
-      topic_id: db.INTEGER
+      topic_id: db.INTEGER,
+      allowed: db.STRING
     }, 
     {
       freezeTableName: true,

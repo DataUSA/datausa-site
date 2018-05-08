@@ -13,7 +13,8 @@ module.exports = function(sequelize, db) {
       description: db.TEXT,
       section_id: db.INTEGER, 
       type: db.STRING,
-      ordering: db.INTEGER
+      ordering: db.INTEGER,
+      allowed: db.STRING
     }, 
     {
       freezeTableName: true,

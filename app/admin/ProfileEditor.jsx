@@ -32,7 +32,7 @@ class ProfileEditor extends Component {
 
   componentDidUpdate() {
     if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData}, this.fetchVariables.bind(this));
+      this.setState({rawData: this.props.rawData, recompiling: true}, this.fetchVariables.bind(this));
     }
   }
 
@@ -52,17 +52,13 @@ class ProfileEditor extends Component {
     
     rawData.display_vars = varSwap(rawData, formatters, variables);
 
-    if (rawData.stats) {
-      rawData.stats.forEach(stat => {
-        stat.display_vars = varSwap(stat, formatters, variables);
-      })
-    }
+    if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwap(stat, formatters, variables));
 
     //rawData.generators.forEach(g => g.display_vars = varSwap(variables._genStatus[g.id], formatters, variables._genStatus[g.id]));
-    rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
+    if (rawData.generators) rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
 
     //rawData.materializers.forEach(m => m.display_vars = varSwap(variables._matStatus[m.id], formatters, variables._matStatus[g.id]));
-    rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
+    if (rawData.materializers) rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
 
     this.setState({rawData, recompiling: false});
   }
@@ -76,6 +72,7 @@ class ProfileEditor extends Component {
   saveItem(item, type) {
     if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
+      console.log("trying to write", item);
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
@@ -192,12 +189,6 @@ class ProfileEditor extends Component {
 
     if (recompiling || !rawData || !variables) return <Loading />;
 
-    const visualizations = rawData.visualizations.map(v =>
-      <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
-        <p>{v.logic}</p>
-      </Card>
-    );
-
     return (
       <div id="profile-editor">
 
@@ -211,7 +202,7 @@ class ProfileEditor extends Component {
           style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
-            <GeneratorEditor data={currentGenerator} type={currentGeneratorType} />
+            <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
@@ -291,7 +282,7 @@ class ProfileEditor extends Component {
         <h3>Variable Generators</h3>
 
         <div className="generator-cards">
-          { rawData.generators.map(g =>
+          { rawData.generators && rawData.generators.map(g =>
             <GeneratorCard key={g.id} name={g.name} vars={g.display_vars} type="generator"
               onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
           ) }
@@ -301,7 +292,7 @@ class ProfileEditor extends Component {
         </div>
 
         <div className="generator-cards">
-          { rawData.materializers.map(m =>
+          { rawData.materializers && rawData.materializers.map(m =>
             <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer"
               onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
           ) }
@@ -316,7 +307,7 @@ class ProfileEditor extends Component {
             <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars.subtitle}}></h6>
           </Card>
           <div className="stats">
-            { rawData.stats.map(s =>
+            { rawData.stats && rawData.stats.map(s =>
               <StatCard key={s.id}
                 vars={s.display_vars}
                 onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
@@ -330,12 +321,16 @@ class ProfileEditor extends Component {
         <h3>About</h3>
 
         <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["description"])} interactive={true} elevation={1}>
-          <div className="description" dangerouslySetInnerHTML={{__html: rawData.display_vars["description"]}} />
+          <div className="description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}} />
         </Card>
 
         <div className="visualizations">
           <div>
-            {visualizations}
+            { rawData.visualizations && rawData.visualizations.map(v =>
+              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
+                <p>{v.logic}</p>
+              </Card>
+            )}
             <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Visualization" />
             </Card>

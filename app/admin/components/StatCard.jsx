@@ -9,7 +9,7 @@ export default class StatCard extends Component {
     return (
       <Card onClick={onClick} className="stat-card" interactive={true} elevation={1}>
         { Object.keys(vars).map(k => 
-          !["id", "profile_id", "topic_id"].includes(k) && 
+          !["id", "profile_id", "topic_id", "allowed"].includes(k) && 
           typeof vars[k] === "string" && 
           <h4 dangerouslySetInnerHTML={{__html: vars[k]}}></h4>) 
         }

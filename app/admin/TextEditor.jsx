@@ -10,9 +10,12 @@ class TextEditor extends Component {
     super(props);
     this.state = {
       data: null, 
-      fields: null,
+      fields: null
+      
+      /*
       currentVariable: "choose-a-variable",
       currentFormatter: "choose-a-formatter"
+      */
     };
   }
 
@@ -34,6 +37,13 @@ class TextEditor extends Component {
   }
 
   chooseVariable(e) {
+    const {data} = this.state;
+    data.allowed = e.target.value;
+    this.setState({data});
+  }
+
+  /*
+  chooseVariable(e) {
     this.setState({currentVariable: e.target.value});
   }
 
@@ -44,7 +54,7 @@ class TextEditor extends Component {
   insertVariable() {
     const {currentVariable, currentFormatter} = this.state;
     console.log("would insert", currentVariable, currentFormatter);
-  }
+  }*/
 
   render() {
 
@@ -61,7 +71,7 @@ class TextEditor extends Component {
       </div>
     );
 
-    const varOptions = [<option key="choose-a-variable" value="choose-a-variable">Choose a Variable</option>];
+    const varOptions = [<option key="always" value="always">Always</option>];
 
     for (const key in variables) {
       if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
@@ -75,10 +85,12 @@ class TextEditor extends Component {
     return (
       <div id="text-editor">
         <div className="pt-select">
-          <select onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+          Allowed?
+          <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
             {varOptions}
           </select>
         </div>
+        {/*
         <div className="pt-select">
           <select onChange={this.chooseFormatter.bind(this)} style={{margin: "5px"}}>
             <option key="choose-a-formatter" value="choose-a-formatter">Choose a Formatter</option>
@@ -86,6 +98,8 @@ class TextEditor extends Component {
           </select>
         </div>
         <button className="pt-button pt-intent-success" onClick={this.insertVariable.bind(this)}>Insert</button>
+        */}
+
         {quills}
         
       </div>
