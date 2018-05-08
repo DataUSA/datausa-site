@@ -6,13 +6,12 @@ export default class StatCard extends Component {
 
   render() {
     const {onClick, vars} = this.props;
+    const {title, subtitle, value} = vars;
     return (
       <Card onClick={onClick} className="stat-card" interactive={true} elevation={1}>
-        { Object.keys(vars).map(k => 
-          !["id", "profile_id", "topic_id", "allowed"].includes(k) && 
-          typeof vars[k] === "string" && 
-          <h4 dangerouslySetInnerHTML={{__html: vars[k]}}></h4>) 
-        }
+        <h6 dangerouslySetInnerHTML={{__html: title}}></h6>
+        <h4 dangerouslySetInnerHTML={{__html: value}}></h4>
+        <h6 dangerouslySetInnerHTML={{__html: subtitle}}></h6>
       </Card>
     );
   }
