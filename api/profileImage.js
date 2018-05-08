@@ -52,9 +52,8 @@ module.exports = function(app) {
 
             })
             .then(parents => {
-              console.log(parents);
               const firstImage = parents.find(d => d.imageId);
-              if (firstImage.imageId) sendImage(firstImage.imageId);
+              if (firstImage && firstImage.imageId) sendImage(firstImage.imageId);
               else sendImage(imageId);
             });
         }
