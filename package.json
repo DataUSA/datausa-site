@@ -11,7 +11,8 @@
     "setup": "canon-setup",
     "start": "canon-start",
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
-    "locales": "canon-locales"
+    "locales": "canon-locales",
+    "tunnel": "ssh -L 5432:localhost:5432 deploy@canon.datausa.io -i ~/.ssh/id_rsa_dw_deploy -N"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "jsdoc-to-markdown": "^4.0.1",
     "katex": "^0.9.0",
     "localforage": "^1.5.6",
+    "mondrian-rest-client": "^1.0.1",
     "node-yaml": "^3.1.1",
     "promise-throttle": "^1.0.0",
     "react-ace": "^5.9.0",
