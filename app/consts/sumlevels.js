@@ -1,25 +1,25 @@
 module.exports = {
   geo: {
-    "010": {
+    Nation: {
       sumlevel: "nation",
       label: "nation",
       children: "040"
     },
-    "040": {
+    State: {
       sumlevel: "state",
       label: "state",
       children: "050",
       desc: "Includes all 50 US states as well as Washington D.C. and Puerto Rico.",
       link: "/about/glossary/#state"
     },
-    "050": {
+    County: {
       sumlevel: "county",
       label: "county",
       children: "140",
       desc: "Most or all county subdivisions are legal entities, known to the Census Bureau as minor civil divisions.",
       link: "/about/glossary/#county"
     },
-    "310": {
+    Msa: {
       sumlevel: "msa",
       label: "metropolitan statistical area",
       shortlabel: "metro area",
@@ -27,7 +27,7 @@ module.exports = {
       desc: "A Metropolitan Statistical Area is an official designation of one or more counties around a core urban area which is the primary focus of economic activity for those counties.",
       link: "/about/glossary/#msa"
     },
-    "160": {
+    Place: {
       sumlevel: "place",
       label: "census place",
       shortlabel: "place",
@@ -35,18 +35,18 @@ module.exports = {
       desc: "The United States Census Bureau defines a place as a concentration of population which has a name, is locally recognized, and is not part of any other place.",
       link: "/about/glossary/#place"
     },
-    "860": {
+    Zip: {
       sumlevel: "zip",
       label: "zip code"
     },
-    "795": {
+    Puma: {
       sumlevel: "puma",
       label: "public use microdata area",
       shortlabel: "PUMA",
       desc: "Public Use Microdata Areas are geographic units containing at least 100,000 people used by the US Census for providing statistical and demographic information.",
       link: "/about/glossary/#puma"
     },
-    "140": {
+    Tract: {
       sumlevel: "tract",
       label: "census tract",
       shortlabel: "tract",
