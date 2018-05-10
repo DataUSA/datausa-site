@@ -1,15 +1,9 @@
+const slugMap = require("../utils/slugMap");
+
 module.exports = function(app) {
 
-  const typeMap = {
-    geo: "Geography",
-    naics: "Industry",
-    soc: "Occupation",
-    cip: "Major",
-    university: "University"
-  };
-
   const {db} = app.settings;
-  const {mondrian} = app.settings.cache;
+  const {client} = app.settings.cache.cube;
 
   app.get("/api/profile/:pslug/:pid/:size", (req, res) => {
     const {size, pid, pslug} = req.params;
@@ -24,9 +18,9 @@ module.exports = function(app) {
 
         if (!imageId) {
 
-          const type = typeMap[pslug];
+          const type = slugMap[pslug];
 
-          mondrian.cube("acs_yg_household_income_5")
+          client.cube("acs_yg_total_population_5")
             .then(cube => {
 
               const query = cube.query
@@ -34,7 +28,7 @@ module.exports = function(app) {
                 .cut(`[${type}].[${sumlevel}].[${sumlevel}].&[${pid}]`)
                 .option("parents", true);
 
-              return mondrian.query(query);
+              return client.query(query);
 
             })
             .then(d => d.data)
