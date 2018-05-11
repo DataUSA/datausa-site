@@ -4,30 +4,22 @@ const axios = require("axios"),
 
 const profileReqWithGens = {
   include: [
-    {
-      association: "generators"
-    },
-    {
-      association: "materializers"
-    },
-    {
-      association: "visualizations"
-    },
-    {
-      association: "stats"
-    },
+    {association: "generators"},
+    {association: "materializers"},
+    {association: "visualizations"},
+    {association: "stats"},
     {
       association: "sections",
       include: [
+        {association: "subtitles"},
+        {association: "descriptions"},
         {
           association: "topics",
           include: [
-            {
-              association: "visualizations"
-            },
-            {
-              association: "stats"
-            }
+            {association: "subtitles"},
+            {association: "descriptions"},
+            {association: "visualizations"},
+            {association: "stats"}
           ]
         }
       ]
@@ -37,24 +29,20 @@ const profileReqWithGens = {
 
 const profileReq = {
   include: [
-    {
-      association: "visualizations"
-    },
-    {
-      association: "stats"
-    },
+    {association: "visualizations"},
+    {association: "stats"},
     {
       association: "sections",
       include: [
-        {
+        {association: "subtitles"},
+        {association: "descriptions"},
+        { 
           association: "topics",
           include: [
-            {
-              association: "visualizations"
-            },
-            {
-              association: "stats"
-            }
+            {association: "subtitles"},
+            {association: "descriptions"},
+            {association: "visualizations"},
+            {association: "stats"}
           ]
         }
       ]
