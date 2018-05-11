@@ -55,59 +55,59 @@ module.exports = {
     }
   },
   cip: {
-    1: {
+    CIP2: {
       label: "2 Digit Course",
       shortlabel: "2_digit_course"
     },
-    2: {
+    CIP4: {
       label: "4 Digit Course",
       shortlabel: "4_digit_course"
     },
-    3: {
+    CIP6: {
       label: "6 Digit Course",
       shortlabel: "6_digit_course"
     }
   },
   soc: {
-    0: {
+    L0: {
       label: "Major Occupation Group",
       shortlabel: "major_group"
     },
-    1: {
+    L1: {
       label: "Minor Occupation Group",
       shortlabel: "minor_group"
     },
-    2: {
+    L2: {
       label: "Broad Occupation",
       shortlabel: "broad_occupation"
     },
-    3: {
+    L3: {
       label: "Detailed Occupation",
       shortlabel: "detailed_occupation"
     }
   },
   naics: {
-    0: {
+    L0: {
       label: "Industry Sector",
       shortlabel: "sector"
     },
-    1: {
+    L1: {
       label: "Industry Sub-Sector",
       shortlabel: "sub_sector"
     },
-    2: {
+    L2: {
       label: "Industry Group",
       shortlabel: "group"
     }
   },
   university: {
-    0: {
+    "Carnegie Parent": {
       label: "Carnegie Group"
     },
-    1: {
+    "Carnegie": {
       label: "Carnegie Sub-Group"
     },
-    2: {
+    "University": {
       label: "University"
     }
   }
