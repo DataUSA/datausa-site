@@ -1,7 +1,7 @@
 module.exports = {
   geo: "Geography",
-  naics: "Industry",
-  soc: "Occupation",
-  cip: "Major",
+  naics: "PUMS Industry",
+  soc: "PUMS Occupation",
+  cip: "CIP",
   university: "University"
 };
