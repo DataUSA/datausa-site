@@ -23,6 +23,7 @@ module.exports = function() {
               return acc;
             }, {});
           measures[name].push({
+            annotations: cube.annotations,
             dimensions,
             name: cube.name
           });
