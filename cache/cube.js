@@ -62,6 +62,7 @@ module.exports = function() {
               cube: cube.name,
               latest: years[years.length - 1],
               oldest: years[0],
+              previous: years.length > 1 ? years[years.length - 2] : years[years.length - 1],
               years
             };
           })
