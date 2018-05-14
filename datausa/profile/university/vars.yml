@@ -203,6 +203,16 @@
   limit: 2
   namespace: enrollment_status
 
+- required: ["year", "num_enrolled"]
+  year: latest
+  enrollment_status: 1
+  namespace: enrollment_status_ft
+
+- required: ["year", "num_enrolled"]
+  year: latest
+  enrollment_status: 2
+  namespace: enrollment_status_pt
+
 - required: ["num_enrolled"]
   rows: True
   sort: asc

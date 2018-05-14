@@ -32,7 +32,7 @@ stats:
     allowed: "<<var namespace=admissions|key=applicants_total|row=0>>:!N/A"
   - title: "<<var namespace=enrollment_status|key=year|row=0>> Enrolled Students"
     value: "<<sum namespace=enrollment_status|key=num_enrolled>>"
-    rank: "<<percent num=var:enrollment_status,num_enrolled,0|den=sum:enrollment_status,num_enrolled>> full-time"
+    rank: "<<percent num=var:enrollment_status_ft,num_enrolled|den=sum:enrollment_status,num_enrolled>> full-time"
   - title: "<<var namespace=grad_rate|key=year>> Graduation Rate"
     value: "<<var namespace=grad_rate|key=grad_rate>>"
     rank: "<<var namespace=grad_rate|key=num_finishers>> Graduates"
