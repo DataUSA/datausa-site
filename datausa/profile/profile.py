@@ -677,8 +677,8 @@ class Profile(BaseObject):
         diff = kwargs.get("diff", False)
         text = kwargs.get("text", False)
         if text and text in TEXTCOMPARATORS:
-            r["num"] = float(num_format(r["num"], r["num_key"], False, suffix=False).replace(",", ""))
-            r["den"] = float(num_format(r["den"], r["den_key"], False, suffix=False).replace(",", ""))
+            r["num"] = float(num_format(r["num"], r["num_key"], False, False, False).replace(",", ""))
+            r["den"] = float(num_format(r["den"], r["den_key"], False, False, False).replace(",", ""))
 
         if r["num"] == 0 or r["den"] == 0:
             val = 0
