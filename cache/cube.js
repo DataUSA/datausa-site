@@ -43,10 +43,8 @@ module.exports = function() {
             acc[d[`ID ${level}`]] = d["Total Population Sum"];
             return acc;
           }, {}))
-          .catch(() => {
-            // console.log("Pop Cache Error: ", level);
-            // console.error(err);
-            // console.log("\n");
+          .catch(err => {
+            console.error(` 🌎  Pop Cache Error: ${level} (${err.status} - ${err.message})`);
           }));
 
       const cubeQueries = cubes
@@ -66,10 +64,8 @@ module.exports = function() {
               years
             };
           })
-          .catch(() => {
-            // console.log("Year Cache Error: ", cube.name);
-            // console.error(err);
-            // console.log("\n");
+          .catch(err => {
+            console.log(` 🗓️  Year Cache Error: ${cube.name} (${err.status} - ${err.message})`);
           }));
 
       return Promise.all([Promise.all(popQueries), Promise.all(cubeQueries)])
