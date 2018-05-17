@@ -12,7 +12,8 @@ module.exports = function(app) {
     let {limit = "10"} = req.query;
     limit = parseInt(limit, 20);
 
-    const {kind, q} = req.query;
+    const {id, q, type} = req.query;
+
     if (q) {
       where[sequelize.Op.or] = [
         {name: {[sequelize.Op.iLike]: `%${q}%`}},
@@ -20,9 +21,9 @@ module.exports = function(app) {
         {keywords: {[sequelize.Op.overlap]: [q]}}
       ];
     }
-    if (kind) {
-      where.kind = kind;
-    }
+
+    if (type) where.type = type;
+    if (id) where.id = id.includes(",") ? id.split(",") : id;
 
     db.search.findAll({
       include: [{model: db.images}],
@@ -41,7 +42,7 @@ module.exports = function(app) {
           stem: d.stem === 1,
           type: d.type
         }));
-        res.json({results, query: {limit, q, kind}}).end();
+        res.json({results, query: {id, limit, q, type}}).end();
       });
   });
 
