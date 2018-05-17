@@ -41,7 +41,7 @@
         {% endfor %}
       </select>
       {% endif %}
-      {% if topic.stat and not topic.stat[0].value.startswith("N/A") %}
+      {% if topic.stat and (not topic.stat[0].value.startswith("N/A") or topic.force) %}
       <div class="topic-stats{% if topic.stat_stack %} stacked{% endif %}">
         {% for stat in topic.stat %}
           <div class="stat">
