@@ -17,6 +17,13 @@ module.exports = function(app) {
 
   app.get("/api/data/", (req, res) => {
 
+    let {
+      drilldowns
+    } = req.query;
+
+    if (drilldowns) drilldowns = drilldowns.split(",");
+    else drilldowns = [];
+
     const {
       measure,
       order = "Year",
@@ -104,6 +111,10 @@ module.exports = function(app) {
                   }
                 }
 
+                drilldowns.forEach(drill => {
+                  query.drilldown(drill, drill, drill);
+                });
+
                 dimSet.forEach(dim => {
                   const type = Object.keys(dim)[0];
                   const level = dim[type];
@@ -151,8 +162,11 @@ module.exports = function(app) {
 
         }, []);
 
-        const keys = crosses[0].map(d => Object.keys(d)[0]);
-        keys.push("Year");
+        const keys = d3Array.merge([
+          crosses[0].map(d => Object.keys(d)[0]),
+          drilldowns,
+          ["Year"]
+        ]);
 
         const mergedData = d3Collection.nest()
           .key(d => keys.map(key => d[key]).join("_"))
