@@ -1,7 +1,8 @@
 .generator-cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 #preview-toggle {
@@ -31,6 +32,8 @@
   text-align: center;
   & .stats {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 

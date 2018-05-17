@@ -1,7 +1,7 @@
 #profile-builder {
   display: flex;
+  margin-top: var(--nav-height);
   width: 100%;
-  margin-top: 100px;
 }
 
 #tree {
@@ -24,6 +24,7 @@
   box-sizing: border-box;
   flex: 1;
   padding: 25px;
+  width: 100%;
   & .input-block, & .area-block {
     width: 100%;
     display: flex;
