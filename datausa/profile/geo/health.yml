@@ -15,7 +15,7 @@ topics:
     stat:
       - title: "Primary Care Physicians"
         value: "<<var namespace=health|key=primary_care_physicians>>"
-        subtitle: "for every 100,000 patients"
+        subtitle: "for every 100,000 people"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
@@ -24,7 +24,7 @@ topics:
     stat:
       - title: "Dentists"
         value: "<<var namespace=health|key=dentists>>"
-        subtitle: "for every 100,000 patients"
+        subtitle: "for every 100,000 people"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
@@ -33,7 +33,7 @@ topics:
     stat:
       - title: "Mental Health Professionals"
         value: "<<var namespace=health|key=mental_health_providers>>"
-        subtitle: "for every 100,000 patients"
+        subtitle: "for every 100,000 people"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
@@ -42,7 +42,7 @@ topics:
     stat:
       - title: "Other Providers"
         value: "<<var namespace=health|key=other_primary_care_providers>>"
-        subtitle: "for every 100,000 patients"
+        subtitle: "for every 100,000 people"
   - title: "Insurance Coverage by Age and Gender"
     subtitle: "<<sub show=geo|col=hc_pop>>"
     cart:
