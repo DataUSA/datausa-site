@@ -3,38 +3,46 @@ description: "Insurance and Medicare coverage combined with state and county lev
 
 topics:
   - category: "Coverage"
-  - title: "Clinician to Patient Ratios"
+  - title: "Clinician to Patient Rates"
     slug: "clinician_patient_ratio"
-    subtitle: "{{<<sumlevel>>:!nation,state||Showing data across all counties in <<name parent=true|dataset=chr>>.}}"
+    subtitle: "<<sub show=geo|col=primary_care_physicians>>"
     sumlevel: "!nation"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     slug: "primary_care_physicians"
+    force: YES
     stat:
-      - title: "Primary Care"
-        value: "1 to <<var namespace=health|key=primary_care_physicians>>"
+      - title: "Primary Care Physicians"
+        value: "<<var namespace=health|key=primary_care_physicians>>"
+        subtitle: "for every 100,000 patients"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     slug: "dentists"
+    force: YES
     stat:
       - title: "Dentists"
-        value: "1 to <<var namespace=health|key=dentists>>"
+        value: "<<var namespace=health|key=dentists>>"
+        subtitle: "for every 100,000 patients"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     slug: "mental_health_providers"
+    force: YES
     stat:
-      - title: "Mental Health"
-        value: "1 to <<var namespace=health|key=mental_health_providers>>"
+      - title: "Mental Health Professionals"
+        value: "<<var namespace=health|key=mental_health_providers>>"
+        subtitle: "for every 100,000 patients"
   - class: "flex stat-flex"
     sumlevel: "!nation"
     source: NO
     slug: "other_primary_care_providers"
+    force: YES
     stat:
-      - title: "Other"
-        value: "1 to <<var namespace=health|key=other_primary_care_providers>>"
+      - title: "Other Providers"
+        value: "<<var namespace=health|key=other_primary_care_providers>>"
+        subtitle: "for every 100,000 patients"
   - title: "Insurance Coverage by Age and Gender"
     subtitle: "<<sub show=geo|col=hc_pop>>"
     cart:
