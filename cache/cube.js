@@ -1,4 +1,5 @@
 const {Client} = require("mondrian-rest-client"),
+      d3Array = require("d3-array"),
       sumlevels = require("../app/consts/sumlevels");
 
 const {CUBE_URL} = process.env;
@@ -17,9 +18,24 @@ module.exports = function() {
           if (!measures[name]) measures[name] = [];
           const dimensions = cube.dimensions
             .reduce((acc, d) => {
-              acc[d.name] = d.hierarchies
-                .filter(h => h.name !== "(All)")
-                .map(h => h.name);
+              let hierarchies = d.hierarchies
+                .map(h => {
+                  const levels = h.levels.map(l => {
+                    const parts = l.fullName
+                      .split(".")
+                      .map(p => p.replace(/^\[|\]$/g, ""));
+                    if (parts.length === 2) parts.unshift(parts[0]);
+                    return {
+                      dimension: parts[0],
+                      hierarchy: parts[1],
+                      level: parts[2]
+                    };
+                  });
+                  levels.shift();
+                  return levels;
+                });
+              hierarchies = Array.from(new Set(d3Array.merge(hierarchies)));
+              acc[d.name] = hierarchies;
               return acc;
             }, {});
           measures[name].push({
