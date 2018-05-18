@@ -33,6 +33,7 @@ module.exports = function(app) {
     })
       .then(results => {
         results = results.map(d => ({
+          dimension: d.sumlevel,
           id: d.id,
           image: d.image,
           keywords: d.keywords,
