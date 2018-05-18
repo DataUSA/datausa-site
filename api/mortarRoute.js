@@ -1,4 +1,5 @@
 const axios = require("axios"),
+      libs = require("../utils/libs"), // leave this! needed for the variable functions
       urlSwap = require("../utils/urlSwap"),
       varSwap = require("../utils/varSwap");
 
@@ -36,7 +37,7 @@ const profileReq = {
       include: [
         {association: "subtitles"},
         {association: "descriptions"},
-        { 
+        {
           association: "topics",
           include: [
             {association: "subtitles"},
@@ -102,8 +103,8 @@ module.exports = function(app) {
               const resp = r.data;
               if (resp) {
                 eval(`
-                  let f = (resp, formatters) => {${g.logic}};
-                  vars = f(resp, formatterFunctions);
+                  let f = (resp, libs, formatters) => {${g.logic}};
+                  vars = f(resp, libs, formatterFunctions);
                 `);
                 // A successfully run genStatus will contain the variables generated.
                 genStatus[g.id] = vars;
