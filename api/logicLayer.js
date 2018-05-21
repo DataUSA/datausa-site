@@ -44,6 +44,7 @@ module.exports = function(app) {
     else drilldowns = [];
 
     const {
+      limit,
       measure,
       order = "Year",
       sort = "desc",
@@ -288,7 +289,9 @@ module.exports = function(app) {
           .entries(flatArray)
           .map(d => Object.assign(...d.values));
 
-        const sortedData = multiSort(mergedData, order.split(","), sort);
+        let sortedData = multiSort(mergedData, order.split(","), sort);
+
+        if (limit) sortedData = sortedData.slice(0, parseInt(limit, 10));
 
         return sortedData;
 
