@@ -26,7 +26,7 @@
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
     "@blueprintjs/table": "^1.31.0",
-    "datawheel-canon": "^0.15.11",
+    "datawheel-canon": "^0.15.17",
     "eslint": "^4.16.0",
     "flickr-sdk": "^3.7.0",
     "jsdoc-to-markdown": "^4.0.1",
