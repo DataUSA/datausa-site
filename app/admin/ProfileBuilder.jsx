@@ -292,7 +292,7 @@ class ProfileBuilder extends Component {
 
     if (!nodes) return <div>Loading</div>;
 
-    console.log("updated nodes to", nodes[0].childNodes);
+    // console.log("updated nodes to", nodes[0].childNodes);
 
     return (
       <div id="profile-builder">

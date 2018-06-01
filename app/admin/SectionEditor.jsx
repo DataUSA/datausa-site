@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Dialog, Card} from "@blueprintjs/core";
+import {Dialog, Card, NonIdealState} from "@blueprintjs/core";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
 import varSwap from "../../utils/varSwap";
@@ -20,12 +20,12 @@ class SectionEditor extends Component {
 
   componentDidMount() {
     const {rawData} = this.props;
-    this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+    this.setState({rawData});
   }
 
   componentDidUpdate() {
     if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData}, this.fetchPostData.bind(this));
+      this.setState({rawData: this.props.rawData});
     }
   }
 
@@ -35,39 +35,86 @@ class SectionEditor extends Component {
     this.setState({rawData});
   }
 
-  fetchPostData() {
-    this.setState({recompiling: false});
-  }
-
   chooseVariable(e) {
     const {rawData} = this.state;
     rawData.allowed = e.target.value;
-    this.setState({rawData}, this.saveContent.bind(this));
+    this.setState({rawData}, this.saveItem.bind(this, rawData, "section"));
   }
 
-  saveContent() {
+  openTextEditor(t, type, fields) {
+    this.setState({currentText: t, currentFields: fields, currentTextType: type, isTextEditorOpen: true});
+  }
+
+  addItem(type) {
     const {rawData} = this.state;
-    axios.post("/api/cms/section/update", rawData).then(resp => {
-      if (resp.status === 200) {
-        console.log("success");
-        this.setState({isTextEditorOpen: false});
-        if (this.props.reportSave) this.props.reportSave();
-      }
-      else {
-        console.log("error");
-      }
-    });
+    let payload;
+    if (type === "subtitle") {
+      payload = {
+        subtitle: "New Subtitle",
+        section_id: rawData.id
+      };
+      axios.post("/api/cms/section_subtitle/new", payload).then(resp => {
+        if (resp.status === 200) {
+          rawData.subtitles.push(resp.data);
+          this.setState({rawData});
+        }
+        else {
+          console.log("db error");
+        }
+      });
+    }
+    else if (type === "description") {
+      payload = {
+        description: "New Description",
+        section_id: rawData.id
+      };
+      axios.post("/api/cms/section_description/new", payload).then(resp => {
+        if (resp.status === 200) {
+          rawData.descriptions.push(resp.data);
+          this.setState({rawData});
+        }
+        else {
+          console.log("db error");
+        }
+      });
+    }
+  }
+
+  saveItem(item, type) {
+    if (["section", "section_subtitle", "section_description"].includes(type)) {
+      axios.post(`/api/cms/${type}/update`, item).then(resp => {
+        if (resp.status === 200) {
+          this.setState({isTextEditorOpen: false});
+          if (this.props.reportSave) this.props.reportSave();
+        }
+      });
+    }
+  }
+
+  deleteItem(item, type) {
+    const {rawData} = this.state;
+    if (["section_subtitle", "section_description"].includes(type)) {
+      axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
+        if (resp.status === 200) {
+          if (type === "section_subtitle") rawData.subtitles = rawData.subtitles.filter(s => s.id !== item.id);
+          if (type === "section_description") rawData.descriptions = rawData.descriptions.filter(d => d.id !== item.id);
+          this.setState({rawData, isTextEditorOpen: false});
+        }
+      });
+    }
   }
 
   render() {
 
-    const {recompiling, rawData} = this.state;
+    const {rawData, currentText, currentFields, currentTextType} = this.state;
     const {formatters} = this.context;
     const {variables} = this.props;
 
-    if (recompiling || !rawData) return <Loading />;
+    if (!rawData) return <Loading />;
 
     rawData.display_vars = varSwap(rawData, formatters, variables);
+    if (rawData.subtitles) rawData.subtitles.forEach(s => s.display_vars = varSwap(s, formatters, variables));
+    if (rawData.descriptions) rawData.descriptions.forEach(d => d.display_vars = varSwap(d, formatters, variables));
 
     const varOptions = [<option key="always" value="always">Always</option>];
     
@@ -85,7 +132,7 @@ class SectionEditor extends Component {
         <div id="slug">
           slug
           <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
-          <button onClick={this.saveContent.bind(this)}>rename</button>
+          <button onClick={this.saveItem.bind(this, rawData, "section")}>rename</button>
         </div>
         <div className="pt-select">
           Allowed?
@@ -100,10 +147,16 @@ class SectionEditor extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={rawData} variables={[]} fields={["title", "description"]} />
+            <TextEditor data={currentText} variables={variables} fields={currentFields} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
+              <button
+                className="pt-button pt-intent-danger"
+                onClick={this.deleteItem.bind(this, currentText, currentTextType)}
+              >
+                Delete
+              </button>
               <button
                 className="pt-button"
                 onClick={() => this.setState({isTextEditorOpen: false})}
@@ -112,16 +165,34 @@ class SectionEditor extends Component {
               </button>
               <button
                 className="pt-button pt-intent-success"
-                onClick={this.saveContent.bind(this)}
+                onClick={this.saveItem.bind(this, currentText, currentTextType)}
               >
                 Save
               </button>
             </div>
           </div>
         </Dialog>
-        <Card className="splash-card" onClick={() => this.setState({isTextEditorOpen: true})} interactive={true} elevation={1}>
+        <h4>Title</h4>
+        <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "section", ["title"])} interactive={true} elevation={1}>
           <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
-          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}}></h6>
+        </Card>
+        <h4>Subtitles</h4>
+        { rawData.subtitles && rawData.subtitles.map(s => 
+          <Card key={s.id} className="splash-card" onClick={this.openTextEditor.bind(this, s, "section_subtitle", ["subtitle"])} interactive={true} elevation={1}>
+            <h6 className="splash-title" dangerouslySetInnerHTML={{__html: s.display_vars.subtitle}}></h6>
+          </Card>) 
+        }
+        <Card className="generator-card" onClick={this.addItem.bind(this, "subtitle")} interactive={true} elevation={0}>
+          <NonIdealState visual="add" title="New Subtitle" />
+        </Card>
+        <h4>Descriptions</h4>
+        { rawData.descriptions && rawData.descriptions.map(d => 
+          <Card key={d.id} className="splash-card" onClick={this.openTextEditor.bind(this, d, "section_description", ["description"])} interactive={true} elevation={1}>
+            <h6 className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></h6>
+          </Card>) 
+        }
+        <Card className="generator-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
+          <NonIdealState visual="add" title="New Description" />
         </Card>
       </div>
     );

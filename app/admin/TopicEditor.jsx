@@ -223,29 +223,6 @@ class TopicEditor extends Component {
           <h4 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars.subtitle}}></h4>
           <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}}></h6>
         </Card>
-        <div className="stats">
-          { rawData.stats && rawData.stats.map(s =>
-            <StatCard key={s.id}
-              vars={s.display_vars}
-              onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
-          ) }
-          <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="Stat" />
-          </Card>
-        </div>
-        <div className="visualizations">
-          <div>
-            { rawData.visualizations && rawData.visualizations.map(v =>
-              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
-                <p>{v.logic}</p>
-              </Card>
-            ) }
-            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={0}>
-              <NonIdealState visual="add" title="Visualization" />
-            </Card>
-          </div>
-        </div>
-
       </div>
     );
   }

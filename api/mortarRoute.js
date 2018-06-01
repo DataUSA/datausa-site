@@ -195,6 +195,8 @@ module.exports = function(app) {
           profile.sections = profile.sections
             .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
             .map(s => {
+              if (s.subtitles) s.subtitles = s.subtitles.filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always");
+              if (s.descriptions) s.descriptions = s.descriptions.filter(d => variables[d.allowed] || s.allowed === null || s.allowed === "always");
               if (s.topics) {
                 s.topics = s.topics
                   .filter(t => variables[t.allowed] || t.allowed === null || t.allowed === "always")
