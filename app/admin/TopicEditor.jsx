@@ -15,19 +15,18 @@ class TopicEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rawData: null,
-      recompiling: false
+      rawData: null
     };
   }
 
   componentDidMount() {
     const {rawData} = this.props;
-    this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+    this.setState({rawData});
   }
 
   componentDidUpdate() {
     if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData}, this.fetchPostData.bind(this));
+      this.setState({rawData: this.props.rawData});
     }
   }
 
@@ -41,10 +40,6 @@ class TopicEditor extends Component {
     const {rawData} = this.state;
     rawData.allowed = e.target.value;
     this.setState({rawData}, this.saveItem.bind(this, rawData, "topic"));
-  }
-
-  fetchPostData() {
-    this.setState({recompiling: false});
   }
 
   openGeneratorEditor(g, type) {
@@ -68,7 +63,7 @@ class TopicEditor extends Component {
       axios.post("/api/cms/stat_topic/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.stats.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+          this.setState({rawData});
         }
         else {
           console.log("db error");
@@ -83,7 +78,37 @@ class TopicEditor extends Component {
       axios.post("/api/cms/visualization_topic/new", payload).then(resp => {
         if (resp.status === 200) {
           rawData.visualizations.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchPostData.bind(this));
+          this.setState({rawData});
+        }
+        else {
+          console.log("db error");
+        }
+      });
+    }
+    else if (type === "subtitle") {
+      payload = {
+        subtitle: "New Subtitle",
+        topic_id: rawData.id
+      };
+      axios.post("/api/cms/topic_subtitle/new", payload).then(resp => {
+        if (resp.status === 200) {
+          rawData.subtitles.push(resp.data);
+          this.setState({rawData});
+        }
+        else {
+          console.log("db error");
+        }
+      });
+    }
+    else if (type === "description") {
+      payload = {
+        description: "New Description",
+        topic_id: rawData.id
+      };
+      axios.post("/api/cms/topic_description/new", payload).then(resp => {
+        if (resp.status === 200) {
+          rawData.descriptions.push(resp.data);
+          this.setState({rawData});
         }
         else {
           console.log("db error");
@@ -94,24 +119,26 @@ class TopicEditor extends Component {
 
   deleteItem(item, type) {
     const {rawData} = this.state;
-    if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
+    if (["stat", "visualization", "topic_subtitle", "topic_description"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_topic");
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
           if (type === "stat_topic") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
           if (type === "visualization_topic") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
-          this.setState({rawData, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchPostData.bind(this));
+          if (type === "topic_subtitle") rawData.subtitles = rawData.subtitles.filter(s => s.id !== item.id);
+          if (type === "topic_description") rawData.descriptions = rawData.descriptions.filter(d => d.id !== item.id);
+          this.setState({rawData, isGeneratorEditorOpen: false, isTextEditorOpen: false});
         }
       });
     }
   }
 
   saveItem(item, type) {
-    if (["topic", "stat", "visualization"].includes(type)) {
+    if (["topic", "stat", "visualization", "topic_subtitle", "topic_description"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_topic");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({recompiling: true, isTextEditorOpen: false, isGeneratorEditorOpen: false}, this.fetchPostData.bind(this));
+          this.setState({isTextEditorOpen: false, isGeneratorEditorOpen: false});
           if (this.props.reportSave) this.props.reportSave();
         }
       });
@@ -120,14 +147,16 @@ class TopicEditor extends Component {
 
   render() {
 
-    const {recompiling, rawData, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType} = this.state;
+    const {rawData, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType} = this.state;
     const {formatters} = this.context;
     const {variables} = this.props;
     
-    if (recompiling || !rawData) return <Loading />;
+    if (!rawData) return <Loading />;
 
     rawData.display_vars = varSwap(rawData, formatters, variables);
     if (rawData.stats) rawData.stats.forEach(s => s.display_vars = varSwap(s, formatters, variables));
+    if (rawData.subtitles) rawData.subtitles.forEach(s => s.display_vars = varSwap(s, formatters, variables));
+    if (rawData.descriptions) rawData.descriptions.forEach(d => d.display_vars = varSwap(d, formatters, variables));
 
     const varOptions = [<option key="always" value="always">Always</option>];
     
@@ -193,7 +222,7 @@ class TopicEditor extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={currentText} variables={[]} fields={currentFields} />
+            <TextEditor data={currentText} variables={variables} fields={currentFields} />
           </div>
           <div className="pt-dialog-footer">
             <div className="pt-dialog-footer-actions">
@@ -218,10 +247,27 @@ class TopicEditor extends Component {
             </div>
           </div>
         </Dialog>
-        <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "topic", ["title", "subtitle", "description"])} interactive={true} elevation={1}>
+        <h4>Title</h4>
+        <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "topic", ["title"])} interactive={true} elevation={1}>
           <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
-          <h4 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars.subtitle}}></h4>
-          <h6 className="splash-description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}}></h6>
+        </Card>
+        <h4>Subtitles</h4>
+        { rawData.subtitles && rawData.subtitles.map(s => 
+          <Card key={s.id} className="splash-card" onClick={this.openTextEditor.bind(this, s, "topic_subtitle", ["subtitle"])} interactive={true} elevation={1}>
+            <h6 className="splash-title" dangerouslySetInnerHTML={{__html: s.display_vars.subtitle}}></h6>
+          </Card>) 
+        }
+        <Card className="generator-card" onClick={this.addItem.bind(this, "subtitle")} interactive={true} elevation={0}>
+          <NonIdealState visual="add" title="New Subtitle" />
+        </Card>
+        <h4>Descriptions</h4>
+        { rawData.descriptions && rawData.descriptions.map(d => 
+          <Card key={d.id} className="splash-card" onClick={this.openTextEditor.bind(this, d, "topic_description", ["description"])} interactive={true} elevation={1}>
+            <h6 className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></h6>
+          </Card>) 
+        }
+        <Card className="generator-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
+          <NonIdealState visual="add" title="New Description" />
         </Card>
       </div>
     );

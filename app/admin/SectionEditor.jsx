@@ -13,8 +13,7 @@ class SectionEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rawData: null,
-      recompiling: false
+      rawData: null
     };
   }
 
@@ -81,7 +80,7 @@ class SectionEditor extends Component {
   }
 
   saveItem(item, type) {
-    if (["section", "section_subtitle", "section_description"].includes(type)) {
+    if (["section_subtitle", "section_description"].includes(type)) {
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({isTextEditorOpen: false});

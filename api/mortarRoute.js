@@ -189,21 +189,26 @@ module.exports = function(app) {
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
         const profile = varSwap(resp[2].data, formatterFunctions, variables);
         returnObject.pid = id;
+        // Helper functions for filtering and variable swapping
+        const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
+        const swapper = obj => varSwap(obj, formatterFunctions, variables);
         // The varswap function is not recursive. We have to do some work here to crawl down the profile
         // and run the varswap at each level.
         if (profile.sections) {
           profile.sections = profile.sections
-            .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
+            .filter(allowed)
             .map(s => {
-              if (s.subtitles) s.subtitles = s.subtitles.filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always");
-              if (s.descriptions) s.descriptions = s.descriptions.filter(d => variables[d.allowed] || s.allowed === null || s.allowed === "always");
+              if (s.subtitles) s.subtitles = s.subtitles.filter(allowed).map(swapper);
+              if (s.descriptions) s.descriptions = s.descriptions.filter(allowed).map(swapper);
               if (s.topics) {
                 s.topics = s.topics
-                  .filter(t => variables[t.allowed] || t.allowed === null || t.allowed === "always")
+                  .filter(allowed)
                   .map(t => {
+                    if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(swapper);
+                    if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(swapper);
                     if (t.visualizations) {
                       t.visualizations = t.visualizations
-                        .filter(v => variables[v.allowed] || v.allowed === null || v.allowed === "always")
+                        .filter(allowed)
                         .map(v => {
                           let vars = {};
                           try {
@@ -218,11 +223,7 @@ module.exports = function(app) {
                           return vars;
                         });
                     }
-                    if (t.stats) {
-                      t.stats = t.stats
-                        .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
-                        .map(s => varSwap(s, formatterFunctions, variables));
-                    }
+                    if (t.stats) t.stats = t.stats.filter(allowed).map(swapper);
                     return varSwap(t, formatterFunctions, variables);
                   });
               }
@@ -231,7 +232,7 @@ module.exports = function(app) {
         }
         if (profile.visualizations) {
           profile.visualizations = profile.visualizations
-            .filter(v => variables[v.allowed] || v.allowed === null || v.allowed === "always")
+            .filter(allowed)
             .map(v => {
               let vars = {};
               try {
@@ -246,11 +247,7 @@ module.exports = function(app) {
               return vars;
             });
         }
-        if (profile.stats) {
-          profile.stats = profile.stats
-            .filter(s => variables[s.allowed] || s.allowed === null || s.allowed === "always")
-            .map(s => varSwap(s, formatterFunctions, variables));
-        }
+        if (profile.stats) profile.stats = profile.stats.filter(allowed).map(swapper);
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
       })
