@@ -50,6 +50,30 @@ module.exports = function(app) {
     db.sections.destroy({where: {id: req.query.id}}).then(u => res.json(u));
   });
 
+  app.post("/api/cms/section_subtitle/update", (req, res) => {
+    db.sections_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/section_subtitle/new", (req, res) => {
+    db.sections_subtitles.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/section_subtitle/delete", (req, res) => {
+    db.sections_subtitles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/section_description/update", (req, res) => {
+    db.sections_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/section_description/new", (req, res) => {
+    db.sections_descriptions.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/section_description/delete", (req, res) => {
+    db.sections_descriptions.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
   app.post("/api/cms/topic/update", (req, res) => {
     db.topics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
@@ -60,6 +84,30 @@ module.exports = function(app) {
 
   app.delete("/api/cms/topic/delete", (req, res) => {
     db.topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/topic_subtitle/update", (req, res) => {
+    db.topics_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/topic_subtitle/new", (req, res) => {
+    db.topics_subtitles.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/topic_subtitle/delete", (req, res) => {
+    db.topics_subtitles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/topic_description/update", (req, res) => {
+    db.topics_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/topic_description/new", (req, res) => {
+    db.topics_descriptions.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/topic_description/delete", (req, res) => {
+    db.topics_descriptions.destroy({where: {id: req.query.id}}).then(u => res.json(u));
   });
 
   app.post("/api/cms/stat_profile/update", (req, res) => {
