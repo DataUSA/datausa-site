@@ -12,6 +12,8 @@ import Story from "./pages/Story/Story";
 
 import Map from "./pages/Map";
 
+import Visualize from "./pages/Visualize";
+
 import Cart from "./pages/Cart";
 
 import About from "./pages/About/index";
@@ -42,6 +44,8 @@ export default function RouteCreate() {
       <Route path="/story/:sid" component={Story} />
 
       <Route path="/map" component={Map} />
+
+      <Route path="/visualize" component={Visualize} />
 
       <Route path="/cart" component={Cart} />
 

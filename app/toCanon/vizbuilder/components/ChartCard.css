@@ -1,0 +1,85 @@
+.chart-card {
+  min-width: 300px;
+
+  & > .wrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 10px;
+    padding: 15px 25px;
+
+    font-size: 1rem;
+    line-height: 1.4rem;
+
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.2s linear;
+
+    &:hover {
+      box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  & header {
+    flex: 0 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
+
+  & .viz {
+    flex: 1 0;
+
+    & > svg {
+      display: block;
+      max-width: 100%;
+    }
+  }
+
+  & footer {
+    flex: 1 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    margin-top: 1rem;
+
+    & .source-note {
+      flex: 1 0;
+    }
+  }
+}
+
+.tooltip-item {
+  font-size: 14px;
+  padding: 5px 10px;
+
+  & .title {
+    font-weight: bold;
+    font-style: italic;
+  }
+
+  & .content {
+    color: #727272;
+    max-width: 150px;
+    max-height: 200px;
+    overflow: hidden;
+
+    & .increase {
+      color: #4caf50;
+    }
+
+    & .decrease {
+      color: #c62828;
+    }
+  }
+}
+
+.customtooltip .pt-popover-content {
+  width: 220px;
+  padding: 10px;
+  & .pt-button-group {
+    width: 100%;
+    justify-content: center;
+  }
+}

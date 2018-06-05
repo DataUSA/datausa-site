@@ -1,0 +1,6 @@
+.vizbuilder {
+  background-color: var(--white);
+  & .area-chart {
+    overflow-y: scroll;
+  }
+}

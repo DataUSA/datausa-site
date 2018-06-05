@@ -1,0 +1,17 @@
+.area-loading {
+  color: var(--white);
+  background-color: rgba(0,0,0,0.75);
+
+  & .pt-non-ideal-state-visual {
+    width: 100%;
+    max-width: 200px;
+
+    & .pt-progress-meter {
+      background-color: var(--light);
+    }
+  }
+
+  & .pt-non-ideal-state-title {
+    color: var(--white);
+  }
+}

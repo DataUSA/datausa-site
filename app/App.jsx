@@ -36,15 +36,19 @@ class App extends Component {
   render() {
 
     const {location} = this.props;
+    const {pathname} = location;
 
-    const fullscreen = location.pathname.indexOf("/cart") === 0 ||
-                       location.pathname.indexOf("/map") === 0;
+    const fullscreen = pathname.indexOf("cart") === 0 ||
+                       pathname.indexOf("map") === 0 ||
+                       pathname.indexOf("visualize") === 0;
+
+    const bare = pathname.indexOf("visualize") === 0;
 
     return (
       <Canon>
-        <Nav location={location} />
+        { bare ? null : <Nav location={location} /> }
         { this.props.children }
-        { fullscreen ? null : <Footer location={location} /> }
+        { fullscreen || bare ? null : <Footer location={location} /> }
       </Canon>
     );
 

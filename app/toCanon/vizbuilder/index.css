@@ -1,0 +1,39 @@
+.vizbuilder {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+  & > .area-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &.loading > .area-loading {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & > .area-sidebar {
+    flex: 0 0 300px;
+  }
+
+  & > .area-chart {
+    flex: 1 0;
+  }
+}
+
+.area-sidebar,
+.area-chart {
+  height: 100vh;
+
+  & > .wrapper {
+    margin: 15px;
+  }
+}

@@ -1,0 +1,102 @@
+.area-sidebar {
+  & .group {
+    margin-bottom: 1em;
+  }
+
+  & h3 {
+    font-size: 1rem;
+  }
+
+  & div.pt-input.pt-tag-input.pt-multi-select.input-area {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  & .select-box {
+    box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),
+      inset 0 0 0 1px rgba(16, 22, 26, 0.15),
+      inset 0 1px 1px rgba(16, 22, 26, 0.2);
+    border-radius: 3px;
+    border: 0 none;
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+}
+
+.condition-item {
+  padding: 0.3rem 0.3rem 0.1rem;
+  margin: 0 0 0.4rem;
+  border: 1px solid;
+
+  & > .group {
+    margin: 0 0 0.2rem;
+  }
+
+  & .label {
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &.closed {
+    display: flex;
+    flex-direction: row;
+
+    & .condition-content {
+      flex: 1 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      & li {
+        margin-bottom: 0.2rem;
+      }
+    }
+
+    & .condition-oper {
+      text-transform: uppercase;
+      font-size: 0.8em;
+    }
+
+    & .condition-value span {
+      display: inline-block;
+      margin-right: 3px;
+      padding: 0 2px;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    & .condition-action {
+      flex: 0 0;
+      align-self: flex-start;
+    }
+  }
+}
+
+.condition-actions {
+  text-align: right;
+
+  & .pt-button {
+    margin-left: 0.2rem;
+  }
+}
+
+.select-measure,
+.select-level {
+  & .select-option-label {
+    display: block;
+  }
+
+  & .lead {
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+.select-box.select-member {
+  & .select-option {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
