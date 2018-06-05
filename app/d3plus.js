@@ -39,11 +39,13 @@ export default {
     "font-size": "16px",
     "font-weight": "300"
   },
+  padPixel: 1,
   shapeConfig: {
     fill: "#ef6145",
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
-      fontSize: () => 13
+      fontSize: () => 13,
+      padding: 5
     }
   },
   tooltipConfig: {
