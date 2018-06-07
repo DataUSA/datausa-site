@@ -1,9 +1,10 @@
 import React from "react";
 import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
-
 import {Icon} from "@blueprintjs/core";
+
 import BaseSelect from "./BaseSelect";
+import {composePropertyName} from "../helpers/sorting";
 
 function ConditionPropertySelect(props) {
   let item;
@@ -17,16 +18,18 @@ function ConditionPropertySelect(props) {
       props.defaultOption;
   }
 
-  const txt =
-    "hierarchy" in item
-      ? `${item.hierarchy.dimension.name} › ${item.name}`
-      : item.name;
+  props = {
+    ...props,
+    value: item
+  };
+
+  const name = composePropertyName(item);
 
   return React.createElement(
     BaseSelect,
     props,
-    <div className="select-option current" title={props.value.name}>
-      <span className="value">{txt}</span>
+    <div className="select-option current" title={name}>
+      <span className="value">{name}</span>
       <Icon iconName={props.caret} />
     </div>
   );
@@ -39,19 +42,10 @@ ConditionPropertySelect.defaultProps = {
     query = escapeRegExp(query);
     query = query.replace(/\s+/g, ".+");
     const tester = RegExp(query || ".", "i");
-    return items.filter(item =>
-      tester.test(
-        "hierarchy" in item
-          ? `${item.hierarchy.dimension.name} ${item.name}`
-          : item.name
-      )
-    );
+    return items.filter(item => tester.test(composePropertyName(item)));
   },
   itemRenderer({handleClick, item, isActive}) {
-    const txt =
-      "hierarchy" in item
-        ? `${item.hierarchy.dimension.name} › ${item.name}`
-        : item.name;
+    const name = composePropertyName(item);
     return (
       <li
         className={classnames("select-option", "select-property", {
@@ -59,9 +53,9 @@ ConditionPropertySelect.defaultProps = {
           disabled: item.disabled
         })}
         onClick={handleClick}
-        title={item.name}
+        title={name}
       >
-        <span className="select-option-label">{txt}</span>
+        <span className="select-option-label">{name}</span>
       </li>
     );
   }

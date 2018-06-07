@@ -4,7 +4,7 @@
   flex-direction: row;
 
   & > .area-loading {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
@@ -36,4 +36,8 @@
   & > .wrapper {
     margin: 15px;
   }
+}
+
+.area-chart {
+  overflow: auto;
 }

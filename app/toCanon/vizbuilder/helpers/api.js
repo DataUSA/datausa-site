@@ -22,14 +22,12 @@ export function query(params) {
     throw new Error("Invalid query: No 'cube' property defined.");
   }
 
-  return client.cube(params.cube.name).then(cube => {
-    const query = queryBuilder(cube.query, queryConverter(params));
+  const query = queryBuilder(params.cube.query, queryConverter(params));
 
-    if (query.path() !== lastPath) {
-      lastPath = query.path();
-      lastQuery = client.query(query, params.format || "jsonrecords");
-    }
+  if (query.path() !== lastPath) {
+    lastPath = query.path();
+    lastQuery = client.query(query, params.format || "jsonrecords");
+  }
 
-    return Promise.resolve(lastQuery);
-  });
+  return Promise.resolve(lastQuery);
 }

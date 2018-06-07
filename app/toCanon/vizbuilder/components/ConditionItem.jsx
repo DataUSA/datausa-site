@@ -7,6 +7,7 @@ import ConditionItemClosed from "./ConditionItemClosed";
 import ConditionItemCut from "./ConditionItemCut";
 import ConditionItemFilter from "./ConditionItemFilter";
 import ConditionPropertySelect from "./ConditionPropertySelect";
+import {isValidCut, isValidFilter} from "../helpers/validation";
 
 class ConditionItem extends React.PureComponent {
   constructor(props) {
@@ -14,7 +15,7 @@ class ConditionItem extends React.PureComponent {
 
     this.state = {
       isOpen: true,
-      previous: props
+      diff: {}
     };
 
     this.addCutValue = this.addCutValue.bind(this);
@@ -26,17 +27,20 @@ class ConditionItem extends React.PureComponent {
     this.saveChanges = this.saveChanges.bind(this);
     this.setFilterOperator = this.setFilterOperator.bind(this);
     this.setFilterValue = this.setFilterValue.bind(this);
+    this.setInitialProperty = this.setInitialProperty.bind(this);
     this.setProperty = this.setProperty.bind(this);
   }
 
   render() {
-    const {type, property, operator, values} = this.props;
+    const isValidCondition =
+      isValidCut(this.props) || isValidFilter(this.props);
+    const props = this.getConditionObject();
 
-    if (!property) {
+    if (!props.property) {
       return this.renderConditionItemNoProperty.call(this);
     }
 
-    const props = {operator, property, values};
+    props.disabled = !Array.isArray(props.values) || props.values.length === 0;
 
     if (!this.state.isOpen) {
       props.onUpdate = this.editMode;
@@ -48,16 +52,16 @@ class ConditionItem extends React.PureComponent {
     props.properties = this.props.properties;
     props.onSetProperty = this.setProperty;
     props.onSave = this.saveChanges;
-    props.onReset = this.resetChanges;
+    props.onReset = isValidCondition ? this.resetChanges : this.removeCondition;
 
-    if (type === "filter") {
+    if (props.type === "filter") {
       props.onSetOperator = this.setFilterOperator;
       props.onSetValue = this.setFilterValue;
 
       return React.createElement(ConditionItemFilter, props);
     }
 
-    if (type === "cut") {
+    if (props.type === "cut") {
       props.onAddValue = this.addCutValue;
       props.onRemoveValue = this.removeCutValue;
 
@@ -73,9 +77,9 @@ class ConditionItem extends React.PureComponent {
         <div className="group">
           <span className="label">Select a Property</span>
           <ConditionPropertySelect
-            value={this.props.property}
             items={this.props.properties}
-            onItemSelect={this.setProperty}
+            value={this.props.property}
+            onItemSelect={this.setInitialProperty}
           />
         </div>
         <div className="group filter-actions">
@@ -95,36 +99,28 @@ class ConditionItem extends React.PureComponent {
   }
 
   getConditionObject() {
+    const diff = this.state.diff;
     return {
       hash: this.props.hash,
-      type: this.props.type,
-      operator: this.props.operator,
-      property: this.props.property,
-      values: this.props.values
+      type: diff.type || this.props.type,
+      operator: diff.operator || this.props.operator,
+      property: diff.property || this.props.property,
+      values: diff.values || this.props.values
     };
   }
 
   editMode() {
-    this.setState({
-      isOpen: true,
-      previous: this.getConditionObject()
-    });
+    this.setState({isOpen: true, diff: {}});
   }
 
   resetChanges() {
-    const previous = this.state.previous;
-
-    if (previous) {
-      this.props.onUpdate(previous);
-      this.setState({isOpen: false, previous: null});
-    }
-    // else {
-    //   this.props.onRemove(this.props.filter);
-    // }
+    this.setState({isOpen: false, diff: {}});
   }
 
   saveChanges() {
-    this.setState({isOpen: false, previous: null});
+    const condition = this.getConditionObject();
+    this.props.onUpdate(condition);
+    this.setState({isOpen: false, diff: {}});
   }
 
   removeCondition() {
@@ -132,36 +128,44 @@ class ConditionItem extends React.PureComponent {
     this.props.onRemove(condition);
   }
 
+  setInitialProperty(property) {
+    const condition = this.getConditionObject();
+    condition.property = property;
+    condition.type = "hierarchy" in property ? "cut" : "filter";
+    condition.values = [];
+    this.props.onUpdate(condition);
+  }
+
   setProperty(property) {
     const condition = this.getConditionObject();
     condition.property = property;
     condition.type = "hierarchy" in property ? "cut" : "filter";
-    condition.values = condition.type === "cut" ? [] : 0;
-    this.props.onUpdate(condition);
+    condition.values = [];
+    this.setState({diff: condition});
   }
 
   setFilterOperator(evt) {
     const condition = this.getConditionObject();
     condition.operator = evt.target.value * 1 || 1;
-    this.props.onUpdate(condition);
+    this.setState({diff: condition});
   }
 
   setFilterValue(value) {
     const condition = this.getConditionObject();
     condition.values = [value];
-    this.props.onUpdate(condition);
+    this.setState({diff: condition});
   }
 
   addCutValue(value) {
     const condition = this.getConditionObject();
     condition.values = unionBy(condition.values, [value], member => member.key);
-    this.props.onUpdate(condition);
+    this.setState({diff: condition});
   }
 
   removeCutValue(value) {
     const condition = this.getConditionObject();
     condition.values = condition.values.filter(item => item.caption !== value);
-    this.props.onUpdate(condition);
+    this.setState({diff: condition});
   }
 }
 

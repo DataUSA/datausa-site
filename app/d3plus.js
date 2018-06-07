@@ -24,6 +24,10 @@ const axisStyles = {
 };
 
 export default {
+  colorScaleConfig: {
+    color: "#004374",
+    scale: "jenks"
+  },
   legendConfig: {
     shapeConfig: {
       labelConfig: {

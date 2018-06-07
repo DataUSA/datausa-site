@@ -11,6 +11,7 @@ export default function initialStateFactory() {
     query: {
       cube: null,
       measure: null,
+      moe: null,
       drilldowns: [],
       conditions: [],
       options: {

@@ -1,9 +1,17 @@
-import {Treemap, Donut, BarChart, StackedArea} from "d3plus-react";
+import {
+  Treemap,
+  BarChart,
+  StackedArea,
+  Geomap,
+  LinePlot
+} from "d3plus-react";
 import {uuid} from "d3plus-common";
+import {formatAbbreviate} from "d3plus-format";
 
 export const charts = {
   Treemap,
-  Donut,
+  Geomap,
+  LinePlot,
   BarChart,
   StackedArea
 };
@@ -23,40 +31,25 @@ export const timelineConfig = {
 export const colorScaleConfig = {
   colorScale: false,
   colorScaleConfig: {
+    color: "#0D47A1",
     scale: "jenks"
   }
 };
-
-import {format as d3Format} from "d3-format";
-
-function abbreviate(n) {
-  if (typeof n !== "number") return "N/A";
-  const length = n.toString().split(".")[0].length;
-  let val;
-  if (n === 0) val = "0";
-  else if (length >= 3) {
-    const f = d3Format(".3s")(n).replace("G", "B");
-    const num = f.slice(0, -1);
-    const char = f.slice(f.length - 1);
-    val = `${parseFloat(num)}${char}`;
-  }
-  else if (length === 3) val = d3Format(",f")(n);
-  else if (n < 1 && n > -1) val = d3Format(".2g")(n);
-  else val = d3Format(".3g")(n);
-
-  return val
-    .replace(/(\.[1-9]*)[0]*$/g, "$1") // removes any trailing zeros
-    .replace(/[.]$/g, ""); // removes any trailing decimal point
-}
 
 export default function createConfig(chartConfig) {
   const x = chartConfig.groupBy;
   const measure = chartConfig.measure;
   const dimension = chartConfig.dimension;
+  const moe = chartConfig.moe || null;
 
   // Confs of Viz
   const vizConfig = {
     groupBy: chartConfig.dimension,
+    loadingMessage: "Loading",
+    total: d => d[measure.name],
+    totalConfig: {
+      fontSize: 14
+    },
     sum: d => d[measure.name],
     value: d => d[measure.name]
   };
@@ -66,9 +59,10 @@ export default function createConfig(chartConfig) {
     legend: false,
     uuid: uuid(),
     tooltipConfig: {
-      width: 90,
+      width: 60,
       title: d => `<h5 class="title xs-small">${d[dimension]}</h5>`,
-      body: d => `<div>${measure.name}: ${abbreviate(d[measure.name])}</div>`
+      body: d =>
+        `<div>${measure.name}: ${formatAbbreviate(d[measure.name])}</div>`
     }
   };
 
@@ -83,12 +77,11 @@ export default function createConfig(chartConfig) {
       discrete: "x",
       y: measure.name,
       yConfig: {
-        tickFormat: d => abbreviate(d),
         title: measure.name
       }
     };
   }
-  else if (/StackedArea/.test(chartConfig.type)) {
+  else if (/StackedArea|LinePlot/.test(chartConfig.type)) {
     config = {
       ...config,
       ...vizConfig,
@@ -99,16 +92,33 @@ export default function createConfig(chartConfig) {
       discrete: "x",
       y: measure.name,
       yConfig: {
-        tickFormat: d => abbreviate(d),
         title: measure.name
       }
     };
   }
-  else if (/Pie/.test(chartConfig.type) || /Donut/.test(chartConfig.type)) {
+  else if (/Geomap/.test(chartConfig.type)) {
     config = {
       ...config,
-      ...vizConfig,
-      sort: (a, b) => b[measure.name] - a[measure.name]
+      tiles: false,
+      id: "ID State",
+      topojsonId: "id",
+      topojsonKey: "states",
+      groupBy: "ID State",
+      topojson: "/topojson/states.json",
+      ocean: "transparent",
+      projection: "geoAlbersUsa",
+      colorScale: measure.name,
+      colorScalePosition: "bottom",
+      legend: false,
+      colorScaleConfig: {
+        scale: "jenks",
+        height: 500,
+        width: 900
+      },
+      duration: 0,
+      zoom: true,
+      zoomFactor: 2,
+      zoomScroll: false
     };
   }
   else {
@@ -118,15 +128,35 @@ export default function createConfig(chartConfig) {
     };
   }
 
-  // groupBy: "ID Year",
-
-  if (chartConfig.type === "Geomap") config.colorScale = measure.name;
   if (chartConfig.type === "BarChart") {
-    // config.time = "ID Year";
+    config.tooltipConfig = {
+      width: 60,
+      title: d => `<h5 class="title xs-small">${d["ID Year"]}</h5>`,
+      body: d =>
+        `<div>${measure.name}: ${formatAbbreviate(d[measure.name])}</div>`
+    };
+  }
+
+  if (chartConfig.type === "LinePlot" && moe) {
+    config.confidence = [
+      d => d[measure.name] - d[moe.name],
+      d => d[measure.name] + d[moe.name]
+    ];
+    config.confidenceConfig = {
+      fillOpacity: 0.15
+    };
+    config.tooltipConfig = {
+      width: 60,
+      title: d => `<h5 class="title xs-small">${d[dimension]}</h5>`,
+      body: d =>
+        "<div>" +
+        `<div>${measure.name}: ${formatAbbreviate(d[measure.name])}</div>` +
+        `<div>MOE: ±${formatAbbreviate(d[moe.name])}</div>` +
+        "</div>"
+    };
   }
 
   if (chartConfig.type === "StackedArea") {
-    // config.groupBy = false;
     config.groupBy = chartConfig.dimension;
     config.x = "ID Year";
   }

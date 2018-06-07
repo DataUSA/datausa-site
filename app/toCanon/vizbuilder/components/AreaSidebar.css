@@ -3,6 +3,16 @@
     margin-bottom: 1em;
   }
 
+  & .details {
+    margin: 0.5rem 0;
+    font-size: 0.75rem;
+    color: #666;
+
+    &:empty {
+      display: none;
+    }
+  }
+
   & h3 {
     font-size: 1rem;
   }
@@ -20,12 +30,25 @@
     border: 0 none;
     background-color: rgba(255, 255, 255, 0.75);
   }
+
+  & .wrapper.sources p {
+    margin: 0.5rem 0;
+    font-size: 0.75rem;
+  }
+
+  & .source-link {
+    font-weight: bold;
+  }
 }
 
 .condition-item {
   padding: 0.3rem 0.3rem 0.1rem;
   margin: 0 0 0.4rem;
   border: 1px solid;
+
+  &.disabled {
+    opacity: 0.7;
+  }
 
   & > .group {
     margin: 0 0 0.2rem;

@@ -28,6 +28,7 @@
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
     "classnames": "^2.2.5",
+    "d3plus-format": "^0.1.1",
     "datawheel-canon": "^0.15.17",
     "eslint": "^4.16.0",
     "flickr-sdk": "^3.7.0",

@@ -1,7 +1,72 @@
 import union from "lodash/union";
+import {isTimeDimension} from "./validation";
 
-function isTimeDimension(dimension) {
-  return dimension.dimensionType === 1 || dimension.name === "Date";
+export function injectCubeInfoOnMeasure(cubes) {
+  cubes = [].concat(cubes);
+
+  let nCbs = cubes.length;
+  while (nCbs--) {
+    const cube = cubes[nCbs];
+
+    const cubeName = cube.name;
+    const sourceName = cube.annotations.source_name || cube.caption || cubeName;
+    // const sourceDesc = cube.annotations.source_description;
+    // const sourceLink = cube.annotations.source_link;
+    // const datasetName = cube.annotations.dataset_name;
+    // const datasetLink = cube.annotations.dataset_link;
+
+    let nMsr = cube.measures.length;
+    while (nMsr--) {
+      const annotations = cube.measures[nMsr].annotations;
+      annotations._cube_name = cubeName;
+      annotations._source_name = sourceName;
+      // annotations._source_desc = sourceDesc;
+      // annotations._source_link = sourceLink;
+      // annotations._dataset_name = datasetName;
+      // annotations._dataset_link = datasetLink;
+    }
+  }
+}
+
+export function getValidMeasures(cubes) {
+  cubes = [].concat(cubes);
+  const measures = [];
+
+  let nCbs = cubes.length;
+  while (nCbs--) {
+    const cube = cubes[nCbs];
+    let nMsr = cube.measures.length;
+    while (nMsr--) {
+      const measure = cube.measures[nMsr];
+      const key = measure.annotations.error_for_measure;
+      if (key === undefined) {
+        measures.push(measure);
+      }
+    }
+  }
+
+  return measures.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function getMeasureMOE(cube, measure) {
+  const measureName = measure.name.toLowerCase();
+
+  if (cube.measures.indexOf(measure) > -1) {
+    let nMsr = cube.measures.length;
+    while (nMsr--) {
+      const currentMeasure = cube.measures[nMsr];
+
+      const name = currentMeasure.name.toLowerCase();
+      if (
+        currentMeasure.annotations.error_for_measure &&
+        name.indexOf(measureName) === 0
+      ) {
+        return currentMeasure;
+      }
+    }
+  }
+
+  return undefined;
 }
 
 export function getValidDrilldowns(cube) {
@@ -37,4 +102,18 @@ export function addTimeDrilldown(array, cube) {
     }
   }
   return array;
+}
+
+export function composePropertyName(item) {
+  let txt = item.name;
+  if ("hierarchy" in item) {
+    const hname = item.hierarchy.name;
+    if (hname !== item.name && hname !== item.hierarchy.dimension.name) {
+      txt = `${item.hierarchy.name} › ${txt}`;
+    }
+    if (item.name !== item.hierarchy.dimension.name) {
+      txt = `${item.hierarchy.dimension.name} › ${txt}`;
+    }
+  }
+  return txt;
 }

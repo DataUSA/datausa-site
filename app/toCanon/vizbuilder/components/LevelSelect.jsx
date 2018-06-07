@@ -3,7 +3,7 @@ import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
 import {Icon} from "@blueprintjs/core";
 
-// import "./LevelSelect.css";
+import {composePropertyName} from "../helpers/sorting";
 import BaseSelect from "./BaseSelect";
 
 function LevelSelect(props) {
@@ -11,13 +11,16 @@ function LevelSelect(props) {
 }
 
 LevelSelect.defaultProps = {
+  ...BaseSelect.defaultProps,
   itemListPredicate(query, items) {
     query = query.trim();
     query = escapeRegExp(query);
     query = query.replace(/\s+/g, ".+");
     const tester = RegExp(query || ".", "i");
     return items.filter(item =>
-      tester.test(`${item.caption || item.name} ${item.hierarchy.dimension.name}`)
+      tester.test(
+        `${item.caption || item.name} ${item.hierarchy.dimension.name}`
+      )
     );
   },
   itemRenderer({handleClick, item, isActive}) {
@@ -39,7 +42,7 @@ LevelSelect.defaultProps = {
     );
   },
   multiple: true,
-  tagRenderer: item => `${item.hierarchy.dimension.name} › ${item.name}`
+  tagRenderer: composePropertyName
 };
 
 export default LevelSelect;

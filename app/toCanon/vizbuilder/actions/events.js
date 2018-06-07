@@ -3,7 +3,8 @@ import {makeRandomId} from "../helpers/random";
 import {
   addTimeDrilldown,
   getValidDrilldowns,
-  joinDrilldownList
+  joinDrilldownList,
+  getMeasureMOE
 } from "../helpers/sorting";
 
 /*
@@ -20,13 +21,14 @@ export function setMeasure(measure) {
     const cube = options.cubes.find(
       cube => cube.measures.indexOf(measure) > -1
     );
+    const moe = getMeasureMOE(cube, measure);
     const levels = getValidDrilldowns(cube);
     const drilldowns = addTimeDrilldown(levels.slice(0, 1), cube);
     const conditions = query.cube === cube ? query.conditions : [];
 
     return stateUpdate({
       options: {levels},
-      query: {cube, measure, drilldowns, conditions}
+      query: {cube, measure, moe, drilldowns, conditions}
     });
   }, this.fetchQuery);
 }
