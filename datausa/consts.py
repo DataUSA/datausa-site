@@ -924,6 +924,10 @@ GLOSSARY = {
         "link": "/about/glossary/#gini",
         "alts": ["Wage GINI", "wage GINI"]
     },
+    "similar universities": {
+        "def": "Data USA measures similarity between universities by analyzing relationships in admissions criteria (rates and SAT scores) alongside patterns in the relative concentration of graduates in particular areas of study.",
+        "link": "/about/glossary/#similar-universities"
+    },
     "non-black": {
         "def": "Data from the Dartmouth Atlas reports only two racial categories: black and non-black.",
         "link": "/about/glossary/#dartmouth",

@@ -55,7 +55,6 @@
             <img src="/static/img/about/standard_error.gif" alt="standard error formula"/>
             <p class="calc" data-calc="MarginOfError(X) = Z * StandardError(X)" data-calc-block="true"></p>
             <p>Where, Xr is a replicate estimate, X is the full PUMS weighted estimate, and Z=1.645 for the 90% confidence interval</p>
-
           </li>
           <li>
             <h2><i class="fa fa-link"></i><a href="#num_records" name="num_records">Number of Records</a></h2>
@@ -69,6 +68,15 @@
             <p class="calc" data-calc="X = number Of Employees"></p>
             <br />
             <p class="calc" data-calc="RCA_{go} = \frac{X_{go}}{\sum _{g} X_{go}} / \frac{\sum _{o} X_{go}}{\sum _{g,o} X_{go}}" data-calc-block="true"></p>
+          </li>
+          <li>
+            <h2><i class="fa fa-link"></i><a href="#similar-universities" name="similar-universities">Similar Universities</a></h2>
+            <p>
+              Data USA implements a “similarity” measure to suggest potentially relevant universities for comparison purposes. When users view a particular university profile, data for “similar” universities are automatically shown to provide additional context for the data and visualizations that users see.  We measure similarity between universities is by analyzing relationships in admissions criteria (admission rates and SAT scores) alongside patterns in the relative concentration of graduates in particular areas of study.
+            </p>
+            <p>
+              To calculate the similarity metric, we segment universities into groups based on their parent <a href="http://carnegieclassifications.iu.edu/classification_descriptions/basic.php" target="_blank">Carnegie classification</a> group. For every university in the same Carnegie group, we calculate the number of degree completions across the 2-digit <a href="https://nces.ed.gov/ipeds/cipcode/browse.aspx?y=55" target="_blank">Classification of Instructional Program</a> (CIP) Codes. We then compute the logarithm of the <a href="https://en.wikipedia.org/wiki/Revealed_comparative_advantage" target="_blank">revealed comparative advantage</a> (RCA) for the course competitions for each school. Next, we join in data on admission rates and total SAT scores for the school’s 75th percentile. Then, we take the log RCAs values alongside the admissions and test data and feed it through a dimensionality reduction process known as <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding" target="_blank">t-distributed stochastic neighbor embedding</a>. The metric for the t-SNE process is defined as the squared weighted euclidean distance between two university vectors. The weights are assigned as follows: Each of the 38 CIP codes have a combined overall weight of approximately 45%, while the admission rate and SAT scores comprise the remaining 55%. The result of the t-SNE process is a projection from the 40-dimensional vector to a two-dimensional vector where the most similar universities are those with the shortest distance.
+            </p>
           </li>
         </ol>
       </li>
