@@ -1,14 +1,14 @@
 module.exports = function(sequelize, db) {
 
-  const t = sequelize.define("topics_subtitles",
+  const p = sequelize.define("profiles_descriptions",
     {
       id: {
         type: db.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      subtitle: db.TEXT,
-      topic_id: db.INTEGER,
+      description: db.TEXT,
+      profile_id: db.INTEGER,
       allowed: db.STRING,
       ordering: db.INTEGER
     }, 
@@ -18,6 +18,6 @@ module.exports = function(sequelize, db) {
     }
   );
 
-  return t;
+  return p;
 
 };
