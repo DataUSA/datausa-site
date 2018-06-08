@@ -68,11 +68,16 @@ class ProfileEditor extends Component {
   }
 
   saveItem(item, type) {
+    const {rawData} = this.state;
     if (["generator", "materializer", "profile", "stat", "visualization", "profile_description"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
+          if (type === "profile_description") {
+            rawData.descriptions.sort((a, b) => a.ordering - b.ordering);
+            this.setState({rawData});
+          }
           if (this.props.reportSave) this.props.reportSave();
         }
       });
@@ -171,7 +176,8 @@ class ProfileEditor extends Component {
     else if (type === "description") {
       payload = {
         description: "New Description",
-        profile_id: rawData.id
+        profile_id: rawData.id,
+        ordering: rawData.descriptions ? rawData.descriptions.length : 0
       };
       axios.post("/api/cms/profile_description/new", payload).then(resp => {
         if (resp.status === 200) {
@@ -191,6 +197,35 @@ class ProfileEditor extends Component {
 
   openTextEditor(t, type, fields) {
     this.setState({currentText: t, currentFields: fields, currentTextType: type, isTextEditorOpen: true});
+  }
+
+  move(dir, item, array, db) {
+    const item1 = item;
+    if (dir === "left") {
+      if (item1.ordering === 0) {
+        return;
+      }
+      else {
+        const item2 = array.find(i => i.ordering === item1.ordering - 1);
+        item2.ordering = item1.ordering;
+        item1.ordering--;
+        this.saveItem(item1, db);
+        this.saveItem(item2, db);
+      }
+    }
+    else if (dir === "right") {
+      if (item1.ordering === array.length - 1) {
+        return;
+      }
+      else {
+        const item2 = array.find(i => i.ordering === item1.ordering + 1);
+        item2.ordering = item1.ordering;
+        item1.ordering++;
+        this.saveItem(item1, db);
+        this.saveItem(item2, db);
+      }
+    }
+
   }
 
   closeWindow(key) {
@@ -336,9 +371,15 @@ class ProfileEditor extends Component {
 
         <div className="descriptions">
           { rawData.descriptions && rawData.descriptions.map(d => 
-            <Card key={d.id} className="splash-card" onClick={this.openTextEditor.bind(this, d, "profile_description", ["description"])} interactive={true} elevation={1}>
-              <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
-            </Card>) 
+            <div key={d.id}>
+              <Card className="splash-card" onClick={this.openTextEditor.bind(this, d, "profile_description", ["description"])} interactive={true} elevation={1}>
+                <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
+              </Card>
+              {rawData.descriptions.length > 1 && <div>
+                {d.ordering > 0 && <button onClick={() => this.move("left", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
+                {d.ordering < rawData.descriptions.length - 1 && <button onClick={() => this.move("right", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
+              </div>}
+            </div>)
           }
           <Card className="stat-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
             <NonIdealState visual="add" title="Description" />
