@@ -8,8 +8,10 @@ export function injectCubeInfoOnMeasure(cubes) {
   while (nCbs--) {
     const cube = cubes[nCbs];
 
-    const cubeName = cube.name;
-    const sourceName = cube.annotations.source_name || cube.caption || cubeName;
+    const cbName = cube.caption || cube.name;
+    const cbTopic = cube.annotations.topic;
+    const cbSubtopic = cube.annotations.subtopic;
+    const sourceName = cube.annotations.source_name;
     // const sourceDesc = cube.annotations.source_description;
     // const sourceLink = cube.annotations.source_link;
     // const datasetName = cube.annotations.dataset_name;
@@ -18,8 +20,10 @@ export function injectCubeInfoOnMeasure(cubes) {
     let nMsr = cube.measures.length;
     while (nMsr--) {
       const annotations = cube.measures[nMsr].annotations;
-      annotations._cube_name = cubeName;
-      annotations._source_name = sourceName;
+      annotations._cb_name = cbName;
+      annotations._cb_topic = cbTopic;
+      annotations._cb_subtopic = cbSubtopic;
+      annotations._cb_sourcename = sourceName;
       // annotations._source_desc = sourceDesc;
       // annotations._source_link = sourceLink;
       // annotations._dataset_name = datasetName;

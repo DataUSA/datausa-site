@@ -19,8 +19,9 @@ export function fetchCubes() {
       injectCubeInfoOnMeasure(cubes);
 
       const measures = getValidMeasures(cubes);
-      const firstMeasure = measures[0];
-      const firstCubeName = firstMeasure.annotations._cube_name;
+      // const firstMeasure = measures[0];
+      const firstMeasure = measures.find(d => d.name === "Millions Of Dollars");
+      const firstCubeName = firstMeasure.annotations._cb_name;
       const firstCube = cubes.find(cube => cube.name === firstCubeName);
       const levels = getValidDrilldowns(firstCube);
       const drilldowns = addTimeDrilldown(levels.slice(0, 1), firstCube);

@@ -1,7 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
-import {Icon} from "@blueprintjs/core";
 
 import BaseSelect from "./BaseSelect";
 
@@ -18,7 +17,14 @@ MeasureSelect.defaultProps = {
     query = query.replace(/\s+/g, ".+");
     const tester = RegExp(query || ".", "i");
     return items.filter(item =>
-      tester.test(`${item.caption || item.name} ${item.annotations._cube}`)
+      tester.test(
+        [
+          item.caption || item.name,
+          item.annotations._cb_name,
+          item.annotations._cb_topic,
+          item.annotations._cb_subtopic
+        ].toString()
+      )
     );
   },
   itemRenderer({handleClick, item, isActive}) {
@@ -31,7 +37,6 @@ MeasureSelect.defaultProps = {
         onClick={item.disabled || handleClick}
         title={item.name}
       >
-        {item.icon && <Icon iconName={item.icon} />}
         <span className="select-option-label">{item.name}</span>
         <span className="select-option-label lead">
           {item.annotations._source_name}
