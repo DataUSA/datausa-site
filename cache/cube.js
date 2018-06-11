@@ -1,6 +1,12 @@
 const {Client} = require("mondrian-rest-client"),
+      PromiseThrottle = require("promise-throttle"),
       d3Array = require("d3-array"),
       sumlevels = require("../app/consts/sumlevels");
+
+const throttle = new PromiseThrottle({
+  requestsPerSecond: 50,
+  promiseImplementation: Promise
+});
 
 const {CUBE_URL} = process.env;
 
@@ -65,7 +71,7 @@ module.exports = function() {
 
       const cubeQueries = cubes
         .filter(cube => cube.dimensions.find(d => d.name === "Year"))
-        .map(cube => client.cube(cube.name)
+        .map(cube => throttle.add(() => client.cube(cube.name)
           .then(c => {
             const query = c.query.drilldown("Year", "Year");
             return client.query(query, "jsonrecords");
@@ -82,7 +88,7 @@ module.exports = function() {
           })
           .catch(err => {
             console.log(` 🗓️  Year Cache Error: ${cube.name} (${err.status} - ${err.message})`);
-          }));
+          })));
 
       return Promise.all([Promise.all(popQueries), Promise.all(cubeQueries)])
         .then(([rawPops, rawYears]) => {
