@@ -301,13 +301,23 @@ module.exports = function(app) {
 
   });
 
-  app.get("/api/topic/:id/:select", (req, res) => {
-    const {id, select} = req.params;
-    db.topics.findOne({where: {id}, include: topicReq}).then(topic => {
-      topic = topic.toJSON();
-      if (topic.subtitles) topic.subtitles.sort(sorter);
-      if (topic.descriptions) topic.descriptions.sort(sorter);
-      res.json(topic).end();
+  app.get("/api/topic/:slug/:id/:topic_id", (req, res) => {
+    const {slug, id, topic_id} = req.params;
+    const {selector} = req.query;
+    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+    const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
+    const getFormatters = db.formatters.findAll();
+    const getTopic = db.topics.findOne({where: {id: topic_id}, include: topicReq});
+
+    Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
+      const variables = resp[0].data;
+      const formatters = resp[1];
+      const topic = resp[2];
+      const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
+      const processedTopic = varSwap(topic.toJSON(), formatterFunctions, variables);
+      if (processedTopic.subtitles) processedTopic.subtitles.sort(sorter);
+      if (processedTopic.descriptions) processedTopic.descriptions.sort(sorter);
+      res.json(processedTopic).end();
     });
   });
 
