@@ -51,12 +51,10 @@ class ProfileEditor extends Component {
     const {formatters} = this.context;
     
     rawData.display_vars = varSwap(rawData, formatters, variables);
-
     if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwap(stat, formatters, variables));
-
+    if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwap(desc, formatters, variables));
     // rawData.generators.forEach(g => g.display_vars = varSwap(variables._genStatus[g.id], formatters, variables._genStatus[g.id]));
     if (rawData.generators) rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
-
     // rawData.materializers.forEach(m => m.display_vars = varSwap(variables._matStatus[m.id], formatters, variables._matStatus[g.id]));
     if (rawData.materializers) rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
 
@@ -70,12 +68,16 @@ class ProfileEditor extends Component {
   }
 
   saveItem(item, type) {
-    if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
+    const {rawData} = this.state;
+    if (["generator", "materializer", "profile", "stat", "visualization", "profile_description"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
-      console.log("trying to write", item);
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
+          if (type === "profile_description") {
+            rawData.descriptions.sort((a, b) => a.ordering - b.ordering);
+            this.setState({rawData});
+          }
           if (this.props.reportSave) this.props.reportSave();
         }
       });
@@ -84,14 +86,16 @@ class ProfileEditor extends Component {
 
   deleteItem(item, type) {
     const {rawData} = this.state;
-    if (["generator", "materializer", "profile", "stat", "visualization"].includes(type)) {
+    if (["generator", "materializer", "profile", "stat", "visualization", "profile_description"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_profile");
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
-          if (type === "generator") rawData.generators = rawData.generators.filter(g => g.id !== item.id);
-          if (type === "materializer") rawData.materializers = rawData.materializers.filter(m => m.id !== item.id);
-          if (type === "stat_profile") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
-          if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
+          const f = obj => obj.id !== item.id;
+          if (type === "generator") rawData.generators = rawData.generators.filter(f);
+          if (type === "materializer") rawData.materializers = rawData.materializers.filter(f);
+          if (type === "stat_profile") rawData.stats = rawData.stats.filter(f);
+          if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(f);
+          if (type === "profile_description") rawData.descriptions = rawData.descriptions.filter(f);
           this.setState({rawData, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
         }
       });
@@ -169,6 +173,22 @@ class ProfileEditor extends Component {
         }
       });
     }
+    else if (type === "description") {
+      payload = {
+        description: "New Description",
+        profile_id: rawData.id,
+        ordering: rawData.descriptions ? rawData.descriptions.length : 0
+      };
+      axios.post("/api/cms/profile_description/new", payload).then(resp => {
+        if (resp.status === 200) {
+          rawData.descriptions.push(resp.data);
+          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
+        }
+        else {
+          console.log("db error");
+        }
+      });
+    }
   }
 
   openGeneratorEditor(g, type) {
@@ -177,6 +197,35 @@ class ProfileEditor extends Component {
 
   openTextEditor(t, type, fields) {
     this.setState({currentText: t, currentFields: fields, currentTextType: type, isTextEditorOpen: true});
+  }
+
+  move(dir, item, array, db) {
+    const item1 = item;
+    if (dir === "left") {
+      if (item1.ordering === 0) {
+        return;
+      }
+      else {
+        const item2 = array.find(i => i.ordering === item1.ordering - 1);
+        item2.ordering = item1.ordering;
+        item1.ordering--;
+        this.saveItem(item1, db);
+        this.saveItem(item2, db);
+      }
+    }
+    else if (dir === "right") {
+      if (item1.ordering === array.length - 1) {
+        return;
+      }
+      else {
+        const item2 = array.find(i => i.ordering === item1.ordering + 1);
+        item2.ordering = item1.ordering;
+        item1.ordering++;
+        this.saveItem(item1, db);
+        this.saveItem(item2, db);
+      }
+    }
+
   }
 
   closeWindow(key) {
@@ -320,9 +369,22 @@ class ProfileEditor extends Component {
 
         <h3>About</h3>
 
-        <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["description"])} interactive={true} elevation={1}>
-          <div className="description" dangerouslySetInnerHTML={{__html: rawData.display_vars.description}} />
-        </Card>
+        <div className="descriptions">
+          { rawData.descriptions && rawData.descriptions.map(d => 
+            <div key={d.id}>
+              <Card className="splash-card" onClick={this.openTextEditor.bind(this, d, "profile_description", ["description"])} interactive={true} elevation={1}>
+                <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
+              </Card>
+              {rawData.descriptions.length > 1 && <div>
+                {d.ordering > 0 && <button onClick={() => this.move("left", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
+                {d.ordering < rawData.descriptions.length - 1 && <button onClick={() => this.move("right", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
+              </div>}
+            </div>)
+          }
+          <Card className="stat-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
+            <NonIdealState visual="add" title="Description" />
+          </Card>
+        </div>
 
         <div className="visualizations">
           <div>

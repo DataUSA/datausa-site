@@ -4,11 +4,13 @@ const axios = require("axios"),
       varSwap = require("../utils/varSwap");
 
 const profileReqWithGens = {
+  // logging: console.log,
   include: [
     {association: "generators"},
     {association: "materializers"},
     {association: "visualizations"},
     {association: "stats"},
+    {association: "descriptions"},
     {
       association: "sections",
       include: [
@@ -32,6 +34,7 @@ const profileReq = {
   include: [
     {association: "visualizations"},
     {association: "stats"},
+    {association: "descriptions"},
     {
       association: "sections",
       include: [
@@ -51,18 +54,43 @@ const profileReq = {
   ]
 };
 
+// Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
+const sortProfile = profile => {
+  const sorter = (a, b) => a.ordering - b.ordering;
+  profile = profile.toJSON();
+  if (profile.descriptions) profile.descriptions.sort(sorter);
+  if (profile.sections) {
+    profile.sections.sort(sorter);
+    profile.sections.map(section => {
+      if (section.subtitles) section.subtitles.sort(sorter);
+      if (section.descriptions) section.descriptions.sort(sorter);
+      if (section.topics) {
+        section.topics.sort(sorter);
+        section.topics.map(topic => {
+          if (topic.subtitles) topic.subtitles.sort(sorter);
+          if (topic.descriptions) topic.descriptions.sort(sorter);
+        });
+      }
+    });
+  }
+  return profile;
+};
+
 module.exports = function(app) {
 
   const {cache, db} = app.settings;
 
   app.get("/api/internalprofile/all", (req, res) => {
-    db.profiles.findAll(profileReqWithGens).then(u => res.json(u).end());
+    db.profiles.findAll(profileReqWithGens).then(profiles => {
+      profiles = profiles.map(profile => sortProfile(profile));
+      res.json(profiles).end();
+    });
   });
 
   app.get("/api/internalprofile/:slug", (req, res) => {
     const {slug} = req.params;
     const reqObj = Object.assign({}, profileReq, {where: {slug}});
-    db.profiles.findOne(reqObj).then(u => res.json(u).end());
+    db.profiles.findOne(reqObj).then(profile => res.json(sortProfile(profile)).end());
   });
 
   app.get("/api/variables/:slug/:id", (req, res) => {
@@ -248,6 +276,7 @@ module.exports = function(app) {
             });
         }
         if (profile.stats) profile.stats = profile.stats.filter(allowed).map(swapper);
+        if (profile.descriptions) profile.descriptions = profile.descriptions.filter(allowed).map(swapper);
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
       })
