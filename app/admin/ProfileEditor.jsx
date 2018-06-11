@@ -236,6 +236,8 @@ class ProfileEditor extends Component {
 
     const {preview, rawData, variables, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
 
+    const showExperimentalButtons = false;
+
     if (recompiling || !rawData || !variables) return <Loading />;
 
     return (
@@ -375,7 +377,7 @@ class ProfileEditor extends Component {
               <Card className="splash-card" onClick={this.openTextEditor.bind(this, d, "profile_description", ["description"])} interactive={true} elevation={1}>
                 <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
               </Card>
-              {rawData.descriptions.length > 1 && <div>
+              {showExperimentalButtons && rawData.descriptions.length > 1 && <div>
                 {d.ordering > 0 && <button onClick={() => this.move("left", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
                 {d.ordering < rawData.descriptions.length - 1 && <button onClick={() => this.move("right", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
               </div>}

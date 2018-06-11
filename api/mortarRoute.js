@@ -54,9 +54,18 @@ const profileReq = {
   ]
 };
 
+const topicReq = [
+  {association: "subtitles"},
+  {association: "descriptions"},
+  {association: "visualizations"},
+  {association: "stats"}
+];
+
+
+const sorter = (a, b) => a.ordering - b.ordering;
+
 // Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
 const sortProfile = profile => {
-  const sorter = (a, b) => a.ordering - b.ordering;
   profile = profile.toJSON();
   if (profile.descriptions) profile.descriptions.sort(sorter);
   if (profile.sections) {
@@ -287,6 +296,16 @@ module.exports = function(app) {
         console.error("Error!", err);
       });
 
+  });
+
+  app.get("/api/topic/:id/:select", (req, res) => {
+    const {id, select} = req.params;
+    db.topics.findOne({where: {id}, include: topicReq}).then(topic => {
+      topic = topic.toJSON();
+      if (topic.subtitles) topic.subtitles.sort(sorter);
+      if (topic.descriptions) topic.descriptions.sort(sorter);
+      res.json(topic).end();
+    });
   });
 
 };
