@@ -22,7 +22,8 @@ const profileReqWithGens = {
             {association: "subtitles"},
             {association: "descriptions"},
             {association: "visualizations"},
-            {association: "stats"}
+            {association: "stats"},
+            {association: "selectors"}
           ]
         }
       ]
@@ -46,7 +47,8 @@ const profileReq = {
             {association: "subtitles"},
             {association: "descriptions"},
             {association: "visualizations"},
-            {association: "stats"}
+            {association: "stats"},
+            {association: "selectors"}
           ]
         }
       ]
@@ -58,7 +60,8 @@ const topicReq = [
   {association: "subtitles"},
   {association: "descriptions"},
   {association: "visualizations"},
-  {association: "stats"}
+  {association: "stats"},
+  {association: "selectors"}
 ];
 
 

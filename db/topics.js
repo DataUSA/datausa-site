@@ -27,6 +27,7 @@ module.exports = function(sequelize, db) {
     t.hasMany(models.stats_topics, {foreignKey: "topic_id", sourceKey: "id", as: "stats"});
     t.hasMany(models.topics_subtitles, {foreignKey: "topic_id", sourceKey: "id", as: "subtitles"});
     t.hasMany(models.topics_descriptions, {foreignKey: "topic_id", sourceKey: "id", as: "descriptions"});
+    t.hasMany(models.selectors, {foreignKey: "topic_id", sourceKey: "id", as: "selectors"});
   };
 
   return t;
