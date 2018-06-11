@@ -3,7 +3,8 @@ const d3Array = require("d3-array"),
       multiSort = require("../utils/multiSort"),
       slugMap = require("../utils/slugMap");
 
-const debug = process.env.NODE_ENV === "development";
+// const debug = process.env.NODE_ENV === "development";
+const debug = false;
 
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
 const cartesian = (a, b, ...c) => b ? cartesian(f(a, b), ...c) : a.map(x => [x]);
