@@ -315,8 +315,11 @@ module.exports = function(app) {
       const topic = resp[2];
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
       const processedTopic = varSwap(topic.toJSON(), formatterFunctions, variables);
-      if (processedTopic.subtitles) processedTopic.subtitles.sort(sorter);
-      if (processedTopic.descriptions) processedTopic.descriptions.sort(sorter);
+      const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
+      const swapper = obj => varSwap(obj, formatterFunctions, variables);
+      ["subtitles", "descriptions", "stats", "visualizations"].forEach(key => {
+        if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(swapper).sort(sorter);
+      });
       res.json(processedTopic).end();
     });
   });
