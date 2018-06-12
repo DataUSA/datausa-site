@@ -1,8 +1,9 @@
 const axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
+      selSwap = require("../utils/selSwap"),
       urlSwap = require("../utils/urlSwap"),
       varSwap = require("../utils/varSwap");
-
+      
 const profileReqWithGens = {
   // logging: console.log,
   include: [
@@ -244,11 +245,15 @@ module.exports = function(app) {
                 s.topics = s.topics
                   .filter(allowed)
                   .map(t => {
-                    if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(swapper);
-                    if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(swapper);
+                    const selectors = t.selectors ? t.selectors.map(s => s.default) : [];
+                    const select = obj => selSwap(obj, selectors);
+                    t = selSwap(t, selectors);
+                    if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(select).map(swapper);
+                    if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(select).map(swapper);
                     if (t.visualizations) {
                       t.visualizations = t.visualizations
                         .filter(allowed)
+                        .map(select)
                         .map(v => {
                           let vars = {};
                           try {
@@ -263,7 +268,7 @@ module.exports = function(app) {
                           return vars;
                         });
                     }
-                    if (t.stats) t.stats = t.stats.filter(allowed).map(swapper);
+                    if (t.stats) t.stats = t.stats.filter(allowed).map(select).map(swapper);
                     return varSwap(t, formatterFunctions, variables);
                   });
               }
@@ -303,7 +308,7 @@ module.exports = function(app) {
 
   app.get("/api/topic/:slug/:id/:topic_id", (req, res) => {
     const {slug, id, topic_id} = req.params;
-    const {selector} = req.query;
+    //const {selector} = req.query;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
     const getFormatters = db.formatters.findAll();
@@ -312,13 +317,23 @@ module.exports = function(app) {
     Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
       const variables = resp[0].data;
       const formatters = resp[1];
-      const topic = resp[2];
+      const topic = resp[2].toJSON();
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
-      const processedTopic = varSwap(topic.toJSON(), formatterFunctions, variables);
+      const selectors = topic.selectors ? topic.selectors.map((s, i) => {
+        if (req.query.select) req.query.select1 = req.query.select;
+        if (s.options.includes(req.query[`select${i + 1}`])) {
+          return req.query[`select${i + 1}`];
+        }
+        else {
+          return s.default;
+        }
+      }) : [];
+      const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);
       const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
       const swapper = obj => varSwap(obj, formatterFunctions, variables);
+      const select = obj => selSwap(obj, selectors);
       ["subtitles", "descriptions", "stats", "visualizations"].forEach(key => {
-        if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(swapper).sort(sorter);
+        if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(select).map(swapper).sort(sorter);
       });
       res.json(processedTopic).end();
     });

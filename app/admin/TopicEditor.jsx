@@ -3,7 +3,6 @@ import React, {Component} from "react";
 import {Dialog, Card, NonIdealState} from "@blueprintjs/core";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
-import StatCard from "./components/StatCard";
 import GeneratorEditor from "./GeneratorEditor";
 import varSwap from "../../utils/varSwap";
 import PropTypes from "prop-types";
@@ -254,7 +253,7 @@ class TopicEditor extends Component {
         <h4>Subtitles</h4>
         { rawData.subtitles && rawData.subtitles.map(s => 
           <Card key={s.id} className="splash-card" onClick={this.openTextEditor.bind(this, s, "topic_subtitle", ["subtitle"])} interactive={true} elevation={1}>
-            <h6 className="splash-title" dangerouslySetInnerHTML={{__html: s.display_vars.subtitle}}></h6>
+            <p className="splash-title" dangerouslySetInnerHTML={{__html: s.display_vars.subtitle}}></p>
           </Card>) 
         }
         <Card className="generator-card" onClick={this.addItem.bind(this, "subtitle")} interactive={true} elevation={0}>
@@ -263,12 +262,20 @@ class TopicEditor extends Component {
         <h4>Descriptions</h4>
         { rawData.descriptions && rawData.descriptions.map(d => 
           <Card key={d.id} className="splash-card" onClick={this.openTextEditor.bind(this, d, "topic_description", ["description"])} interactive={true} elevation={1}>
-            <h6 className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></h6>
+            <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
           </Card>) 
         }
         <Card className="generator-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
           <NonIdealState visual="add" title="New Description" />
         </Card>
+        <h4>Selectors</h4>
+        { rawData.selectors && rawData.selectors.map(s => 
+          <ul key={s.id} style={{border: "1px solid black"}}>
+            {s.options.map(o => 
+              <li key={o}>{o}</li>
+            )}
+          </ul>
+        )}
       </div>
     );
   }
