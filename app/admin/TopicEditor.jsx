@@ -114,6 +114,23 @@ class TopicEditor extends Component {
         }
       });
     }
+    else if (type === "selector") {
+      payload = {
+        options: ["options", "go", "here"],
+        default: "options",
+        topic_id: rawData.id,
+        name: "new-selector"
+      };
+      axios.post("/api/cms/selector/new", payload).then(resp => {
+        if (resp.status === 200) {
+          rawData.selectors.push(resp.data);
+          this.setState({rawData});
+        }
+        else {
+          console.log("db error");
+        }
+      });
+    }
   }
 
   deleteItem(item, type) {
@@ -279,6 +296,9 @@ class TopicEditor extends Component {
             </ul>
           </div>
         )}
+        <Card className="generator-card" onClick={this.addItem.bind(this, "selector")} interactive={true} elevation={0}>
+          <NonIdealState visual="add" title="New Selector" />
+        </Card>
       </div>
     );
   }

@@ -22,9 +22,7 @@ class ProfileBuilder extends Component {
   }
 
   componentDidMount() {
-    console.log("starting get");
     axios.get("/api/internalprofile/all").then(resp => {
-      console.log("finished get");
       const profiles = resp.data;
       this.setState({profiles}, this.buildNodes.bind(this));
     });

@@ -110,6 +110,9 @@ module.exports = function(app) {
     const {slug, id} = req.params;
 
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
+    /* Potential TODO here: Later in this function we manually get generators and materializers.
+     * Maybe refactor this to get them immediately in the profile get using include.
+     */
     db.profiles.findOne({where: {slug}, raw: true})
       .then(profile =>
         Promise.all([profile.id, db.search.findOne({where: {id, type: slug}}), db.formatters.findAll(), db.generators.findAll({where: {profile_id: profile.id}})])
@@ -245,6 +248,8 @@ module.exports = function(app) {
                 s.topics = s.topics
                   .filter(allowed)
                   .map(t => {
+                    // If this topic has selectors (a drop-down menu), then the topic's content will contain
+                    // elements like [[selectorName]]. Use selSwap to replace these with the default BEFORE varSwap
                     const selectors = t.selectors ? t.selectors.map(s => ({name: s.name, option: s.default})) : [];
                     const select = obj => selSwap(obj, selectors);
                     t = selSwap(t, selectors);
@@ -306,9 +311,12 @@ module.exports = function(app) {
 
   });
 
+  // Endpoint for when a user selects a new dropdown for a topic, requiring new variables
   app.get("/api/topic/:slug/:id/:topic_id", (req, res) => {
     const {slug, id, topic_id} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+    // As with profiles above, we need formatters, variables, and the topic itself in order to
+    // create a "postProcessed" topic that can be returned to the requester.
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
     const getFormatters = db.formatters.findAll();
     const getTopic = db.topics.findOne({where: {id: topic_id}, include: topicReq});
@@ -318,6 +326,9 @@ module.exports = function(app) {
       const formatters = resp[1];
       const topic = resp[2].toJSON();
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
+      // From the available dropdowns for this topic, create an array of the following format:
+      // {name: ThingToReplace, option: ThingToReplaceItWith}
+      // If the ?name=option in the query params was correct, use it, otherwise use the default.
       const selectors = topic.selectors ? topic.selectors.map(s => {
         if (s.options.includes(req.query[s.name])) {
           return {name: s.name, option: req.query[s.name]};
@@ -326,6 +337,8 @@ module.exports = function(app) {
           return {name: s.name, option: s.default};
         }
       }) : [];
+      // Remember: execute selSwap BEFORE varSwap. This ensures that instances of {{[[selector]]}}
+      // in the CMS can properly be selSwap'd to {{option}}, then THAT can be run through varSwap.
       const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);
       const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
       const swapper = obj => varSwap(obj, formatterFunctions, variables);
