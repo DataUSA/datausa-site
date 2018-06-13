@@ -156,26 +156,28 @@ class TopicEditor extends Component {
 
   deleteItem(item, type) {
     const {rawData} = this.state;
-    if (["stat", "visualization", "topic_subtitle", "topic_description"].includes(type)) {
+    if (["stat", "visualization", "topic_subtitle", "topic_description", "selector"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_topic");
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
-          if (type === "stat_topic") rawData.stats = rawData.stats.filter(s => s.id !== item.id);
-          if (type === "visualization_topic") rawData.visualizations = rawData.visualizations.filter(v => v.id !== item.id);
-          if (type === "topic_subtitle") rawData.subtitles = rawData.subtitles.filter(s => s.id !== item.id);
-          if (type === "topic_description") rawData.descriptions = rawData.descriptions.filter(d => d.id !== item.id);
-          this.setState({rawData, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.formatDisplays.bind(this));
+          const f = obj => obj.id !== item.id;
+          if (type === "stat_topic") rawData.stats = rawData.stats.filter(f);
+          if (type === "visualization_topic") rawData.visualizations = rawData.visualizations.filter(f);
+          if (type === "topic_subtitle") rawData.subtitles = rawData.subtitles.filter(f);
+          if (type === "topic_description") rawData.descriptions = rawData.descriptions.filter(f);
+          if (type === "selector") rawData.selectors = rawData.selectors.filter(f);
+          this.setState({rawData, isSelectorEditorOpen: false, isTextEditorOpen: false}, this.formatDisplays.bind(this));
         }
       });
     }
   }
 
   saveItem(item, type) {
-    if (["topic", "stat", "visualization", "topic_subtitle", "topic_description"].includes(type)) {
+    if (["topic", "stat", "visualization", "topic_subtitle", "topic_description", "selector"].includes(type)) {
       if (type === "stat" || type === "visualization") type = type.concat("_topic");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({isTextEditorOpen: false, isGeneratorEditorOpen: false}, this.formatDisplays.bind(this));
+          this.setState({isTextEditorOpen: false, isSelectorEditorOpen: false}, this.formatDisplays.bind(this));
           if (this.props.reportSave) this.props.reportSave();
         }
       });
