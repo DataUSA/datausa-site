@@ -7,24 +7,24 @@ const axios = require("axios"),
 const profileReqWithGens = {
   // logging: console.log,
   include: [
-    {association: "generators"},
-    {association: "materializers"},
-    {association: "visualizations"},
-    {association: "stats"},
-    {association: "descriptions"},
+    {association: "generators", separate: true},
+    {association: "materializers", separate: true},
+    {association: "visualizations", separate: true},
+    {association: "stats", separate: true},
+    {association: "descriptions", separate: true},
     {
-      association: "sections",
+      association: "sections", separate: true,
       include: [
-        {association: "subtitles"},
-        {association: "descriptions"},
+        {association: "subtitles", separate: true},
+        {association: "descriptions", separate: true},
         {
-          association: "topics",
+          association: "topics", separate: true, 
           include: [
-            {association: "subtitles"},
-            {association: "descriptions"},
-            {association: "visualizations"},
-            {association: "stats"},
-            {association: "selectors"}
+            {association: "subtitles", separate: true},
+            {association: "descriptions", separate: true},
+            {association: "visualizations", separate: true},
+            {association: "stats", separate: true},
+            {association: "selectors", separate: true}
           ]
         }
       ]
@@ -34,22 +34,22 @@ const profileReqWithGens = {
 
 const profileReq = {
   include: [
-    {association: "visualizations"},
-    {association: "stats"},
-    {association: "descriptions"},
+    {association: "visualizations", separate: true},
+    {association: "stats", separate: true},
+    {association: "descriptions", separate: true},
     {
-      association: "sections",
+      association: "sections", separate: true,
       include: [
-        {association: "subtitles"},
-        {association: "descriptions"},
+        {association: "subtitles", separate: true},
+        {association: "descriptions", separate: true},
         {
-          association: "topics",
+          association: "topics", separate: true,
           include: [
-            {association: "subtitles"},
-            {association: "descriptions"},
-            {association: "visualizations"},
-            {association: "stats"},
-            {association: "selectors"}
+            {association: "subtitles", separate: true},
+            {association: "descriptions", separate: true},
+            {association: "visualizations", separate: true},
+            {association: "stats", separate: true},
+            {association: "selectors", separate: true}
           ]
         }
       ]
@@ -58,11 +58,11 @@ const profileReq = {
 };
 
 const topicReq = [
-  {association: "subtitles"},
-  {association: "descriptions"},
-  {association: "visualizations"},
-  {association: "stats"},
-  {association: "selectors"}
+  {association: "subtitles", separate: true},
+  {association: "descriptions", separate: true},
+  {association: "visualizations", separate: true},
+  {association: "stats", separate: true},
+  {association: "selectors", separate: true}
 ];
 
 
@@ -245,7 +245,7 @@ module.exports = function(app) {
                 s.topics = s.topics
                   .filter(allowed)
                   .map(t => {
-                    const selectors = t.selectors ? t.selectors.map(s => s.default) : [];
+                    const selectors = t.selectors ? t.selectors.map(s => ({name: s.name, option: s.default})) : [];
                     const select = obj => selSwap(obj, selectors);
                     t = selSwap(t, selectors);
                     if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(select).map(swapper);
@@ -308,7 +308,6 @@ module.exports = function(app) {
 
   app.get("/api/topic/:slug/:id/:topic_id", (req, res) => {
     const {slug, id, topic_id} = req.params;
-    //const {selector} = req.query;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
     const getFormatters = db.formatters.findAll();
@@ -319,13 +318,12 @@ module.exports = function(app) {
       const formatters = resp[1];
       const topic = resp[2].toJSON();
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
-      const selectors = topic.selectors ? topic.selectors.map((s, i) => {
-        if (req.query.select) req.query.select1 = req.query.select;
-        if (s.options.includes(req.query[`select${i + 1}`])) {
-          return req.query[`select${i + 1}`];
+      const selectors = topic.selectors ? topic.selectors.map(s => {
+        if (s.options.includes(req.query[s.name])) {
+          return {name: s.name, option: req.query[s.name]};
         }
         else {
-          return s.default;
+          return {name: s.name, option: s.default};
         }
       }) : [];
       const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);

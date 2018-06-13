@@ -270,11 +270,14 @@ class TopicEditor extends Component {
         </Card>
         <h4>Selectors</h4>
         { rawData.selectors && rawData.selectors.map(s => 
-          <ul key={s.id} style={{border: "1px solid black"}}>
-            {s.options.map(o => 
-              <li key={o}>{o}</li>
-            )}
-          </ul>
+          <div key={s.id}>
+            <h4>{s.name}</h4>
+            <ul style={{border: "1px solid black"}}>
+              {s.options.map(o => 
+                <li key={o}>{o}</li>
+              )}
+            </ul>
+          </div>
         )}
       </div>
     );
