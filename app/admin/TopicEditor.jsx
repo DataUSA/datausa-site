@@ -275,8 +275,8 @@ class TopicEditor extends Component {
           <Card className="splash-card" key={s.id} onClick={this.openSelectorEditor.bind(this, s, "selector")} interactive={true} elevation={1}>
             <h4>{s.name}</h4>
             <ul>
-              {s.options.map(o => 
-                <li key={o}>{o}</li>
+              {s.options && s.options.map(o => 
+                <li key={o.option}>{o.option}</li>
               )}
             </ul>
           </Card>

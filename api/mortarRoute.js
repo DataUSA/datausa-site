@@ -250,7 +250,10 @@ module.exports = function(app) {
                   .map(t => {
                     // If this topic has selectors (a drop-down menu), then the topic's content will contain
                     // elements like [[selectorName]]. Use selSwap to replace these with the default BEFORE varSwap
-                    const selectors = t.selectors ? t.selectors.map(s => ({name: s.name, option: s.default})) : [];
+                    // First, filter each selector's option list to include only allowed options.
+                    t.selectors ? t.selectors.forEach(s => s.options = s.options.filter(allowed)) : t.selectors = [];
+                    // Next, make an array of "swap" tuples to be passed to selSwap
+                    const selectors = t.selectors.map(s => ({name: s.name, option: s.default}));
                     const select = obj => selSwap(obj, selectors);
                     t = selSwap(t, selectors);
                     if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(select).map(swapper);
@@ -326,21 +329,23 @@ module.exports = function(app) {
       const formatters = resp[1];
       const topic = resp[2].toJSON();
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
+      const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
+      // First, filter the dropdown array to only include allowed options
+      topic.selectors ? topic.selectors.forEach(s => s.options = s.options.filter(allowed)) : topic.selectors = [];
       // From the available dropdowns for this topic, create an array of the following format:
       // {name: ThingToReplace, option: ThingToReplaceItWith}
       // If the ?name=option in the query params was correct, use it, otherwise use the default.
-      const selectors = topic.selectors ? topic.selectors.map(s => {
-        if (s.options.includes(req.query[s.name])) {
+      const selectors = topic.selectors.map(s => {
+        if (s.options.map(s => s.option).includes(req.query[s.name])) {
           return {name: s.name, option: req.query[s.name]};
         }
         else {
           return {name: s.name, option: s.default};
         }
-      }) : [];
+      });
       // Remember: execute selSwap BEFORE varSwap. This ensures that instances of {{[[selector]]}}
       // in the CMS can properly be selSwap'd to {{option}}, then THAT can be run through varSwap.
       const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);
-      const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
       const swapper = obj => varSwap(obj, formatterFunctions, variables);
       const select = obj => selSwap(obj, selectors);
       ["subtitles", "descriptions", "stats", "visualizations"].forEach(key => {

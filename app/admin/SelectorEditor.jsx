@@ -18,14 +18,21 @@ class SelectorEditor extends Component {
 
   addOption() {
     const {data} = this.state;
+    if (!data.options) data.options = [];
     // TODO: make this smarter with a default variable (how to do this, when they are keys not ints?)
-    data.options.push("");
+    data.options.push({option: "", allowed: "always"});
     this.setState({data});
   }
 
-  chooseVariable(index, e) {
+  chooseOption(index, e) {
     const {data} = this.state;
-    data.options[index] = e.target.value;
+    data.options[index].option = e.target.value;
+    this.setState({data});
+  }
+
+  chooseAllowed(index, e) {
+    const {data} = this.state;
+    data.options[index].allowed = e.target.value;
     this.setState({data});
   }
 
@@ -80,6 +87,7 @@ class SelectorEditor extends Component {
 
     if (!data || !variables) return null;
     
+    const always = [<option key="always" value="always">Always</option>];
     const varOptions = [];
     for (const key in variables) {
       if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
@@ -98,15 +106,18 @@ class SelectorEditor extends Component {
         </label>
         <ul>
           {
-            data.options.map((option, i) => 
+            data.options && data.options.map((option, i) => 
               <li key={i}>
-                <select value={option} onChange={this.chooseVariable.bind(this, i)} style={{margin: "5px"}}>
+                <select value={option.option} onChange={this.chooseOption.bind(this, i)} style={{margin: "5px"}}>
                   {varOptions}
+                </select>
+                <select value={option.allowed} onChange={this.chooseAllowed.bind(this, i)} style={{margin: "5px"}}>
+                  {always.concat(varOptions)}
                 </select>
                 <button className="pt-button" onClick={this.moveUp.bind(this, i)}><span className="pt-icon pt-icon-arrow-up" /></button>
                 <button className="pt-button" onClick={this.moveDown.bind(this, i)}><span className="pt-icon pt-icon-arrow-down" /></button>
                 <button className="pt-button" onClick={this.deleteOption.bind(this, i)}><span className="pt-icon pt-icon-delete" /></button>
-                <input type="checkbox" className="pt-input" checked={option === data.default} style={{margin: "5px"}} onChange={this.setDefault.bind(this, option)}/>
+                <input type="checkbox" checked={option.option === data.default} style={{margin: "5px"}} onChange={this.setDefault.bind(this, option.option)}/>
               </li>
             )
           }
