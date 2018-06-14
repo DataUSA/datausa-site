@@ -29,11 +29,16 @@ class SelectorEditor extends Component {
     this.setState({data});
   }
 
-  setDefault(option, e) {
+  setDefault(option) {
     const {data} = this.state;
     data.default = option;
     this.setState({data}); 
-    // console.log(option, e.target.checked);
+  }
+
+  deleteOption(i) {
+    const {data} = this.state;
+    data.options.splice(i, 1);
+    this.setState({data});  
   }
 
   moveUp(i) {
@@ -62,6 +67,12 @@ class SelectorEditor extends Component {
     this.setState({data});
   }
 
+  editName(e) {
+    const {data} = this.state;
+    data.name = e.target.value;
+    this.setState({data});
+  }
+
   render() {
 
     const {data} = this.state;
@@ -81,6 +92,10 @@ class SelectorEditor extends Component {
 
     return (
       <div id="selector-editor">
+        <label>
+          Name:&nbsp;&nbsp;
+          <input type="text" value={data.name} onChange={this.editName.bind(this)} />
+        </label>
         <ul>
           {
             data.options.map((option, i) => 
@@ -90,7 +105,8 @@ class SelectorEditor extends Component {
                 </select>
                 <button className="pt-button" onClick={this.moveUp.bind(this, i)}><span className="pt-icon pt-icon-arrow-up" /></button>
                 <button className="pt-button" onClick={this.moveDown.bind(this, i)}><span className="pt-icon pt-icon-arrow-down" /></button>
-                <input type="checkbox" checked={option === data.default} style={{margin: "5px"}} onChange={this.setDefault.bind(this, option)}/>
+                <button className="pt-button" onClick={this.deleteOption.bind(this, i)}><span className="pt-icon pt-icon-delete" /></button>
+                <input type="checkbox" className="pt-input" checked={option === data.default} style={{margin: "5px"}} onChange={this.setDefault.bind(this, option)}/>
               </li>
             )
           }
