@@ -11,7 +11,7 @@ module.exports = (sourceObj, formatterFunctions, variables) => {
   for (const skey in obj) {
     if (obj.hasOwnProperty(skey) && typeof obj[skey] === "string") {
       // Find all instances of the following type:  FormatterName{{VarToReplace}}
-      obj[skey] = obj[skey].replace(/([A-z0-9]*)\{\{([A-z0-9]+)\}\}/g, (match, g1, keyMatch) => {
+      obj[skey] = obj[skey].replace(/([A-z0-9]*)\{\{([A-z0-9\s\-\_]+)\}\}/g, (match, g1, keyMatch) => {
 
         // Get the function from the hash table using the lookup key FormatterName (or no-op if not found)
         let formatter = d => d;
