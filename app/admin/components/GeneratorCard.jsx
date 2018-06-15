@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Card, Icon} from "@blueprintjs/core";
 import "./GeneratorCard.css";
 
-import ConsoleVariable from "app/toCanon/ConsoleVariable";
+import ConsoleVariable from "./ConsoleVariable";
 
 export default class GeneratorCard extends Component {
 

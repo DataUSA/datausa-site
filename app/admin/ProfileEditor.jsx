@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Callout, Card, Dialog, Icon, NonIdealState} from "@blueprintjs/core";
+import {Button, Callout, Card, Dialog, Icon, NonIdealState} from "@blueprintjs/core";
 import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
 import PropTypes from "prop-types";
@@ -50,7 +50,7 @@ class ProfileEditor extends Component {
   formatDisplays() {
     const {rawData, variables} = this.state;
     const {formatters} = this.context;
-    
+
     rawData.display_vars = varSwap(rawData, formatters, variables);
     if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwap(stat, formatters, variables));
     if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwap(desc, formatters, variables));
@@ -256,7 +256,7 @@ class ProfileEditor extends Component {
           <div className="pt-dialog-body">
             <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
           </div>
-          <FooterButtons 
+          <FooterButtons
             onDelete={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
             onCancel={() => this.setState({isGeneratorEditorOpen: false})}
             onSave={this.saveItem.bind(this, currentGenerator, currentGeneratorType)}
@@ -272,7 +272,7 @@ class ProfileEditor extends Component {
           <div className="pt-dialog-body">
             <TextEditor data={currentText} variables={variables} fields={currentFields} />
           </div>
-          <FooterButtons 
+          <FooterButtons
             onDelete={this.deleteItem.bind(this, currentText, currentTextType)}
             onCancel={() => this.setState({isTextEditorOpen: false})}
             onSave={this.saveItem.bind(this, currentText, currentTextType)}
@@ -289,34 +289,44 @@ class ProfileEditor extends Component {
         </Callout>
 
         <div id="slug">
-          <label className="pt-label">
-            slug
-            <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
+          <label className="pt-label pt-inline">
+            Profile Slug
+            <div className="pt-input-group">
+              <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
+              <button className="pt-button" onClick={this.saveItem.bind(this, rawData, "profile")}>Rename</button>
+            </div>
           </label>
-          <button onClick={this.saveItem.bind(this, rawData, "profile")}>rename</button>
+
 
         </div>
 
-        <h3>Variable Generators</h3>
+        <h3>
+          Generators
+          <Button onClick={this.addItem.bind(this, "generator")} iconName="add" />
+        </h3>
+        <p className="pt-text-muted">Variables constructed from JSON data calls.</p>
 
         <div className="generator-cards">
-          { rawData.generators && rawData.generators.map(g =>
-            <GeneratorCard key={g.id} name={g.name} vars={g.display_vars} type="generator"
-              onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
-          ) }
-          <Card className="generator-card" onClick={this.addItem.bind(this, "generator")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="New Generator" />
-          </Card>
+          { rawData.generators && rawData.generators
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(g =>
+              <GeneratorCard key={g.id} name={g.name} vars={g.display_vars} type="generator"
+                onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
+            ) }
         </div>
 
-        <div className="generator-cards">
-          { rawData.materializers && rawData.materializers.map(m =>
-            <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer"
-              onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
-          ) }
-          <Card className="generator-card" onClick={this.addItem.bind(this, "materializer")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="New Materialized Generator" />
-          </Card>
+        <h3>
+          Materializers
+          <Button onClick={this.addItem.bind(this, "materializer")} iconName="add" />
+        </h3>
+        <p className="pt-text-muted">Variables constructed from other variables. No API calls needed.</p>
+
+        <div className="generator-cards materializers">
+          { rawData.materializers && rawData.materializers
+            .map(m =>
+              <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer"
+                onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
+            ) }
         </div>
 
         <div className="splash" style={{backgroundImage: `url("/api/profile/${rawData.slug}/${preview}/thumb")`}}>
@@ -339,7 +349,7 @@ class ProfileEditor extends Component {
         <h3>About</h3>
 
         <div className="descriptions">
-          { rawData.descriptions && rawData.descriptions.map(d => 
+          { rawData.descriptions && rawData.descriptions.map(d =>
             <div key={d.id}>
               <Card className="splash-card" onClick={this.openTextEditor.bind(this, d, "profile_description", ["description"])} interactive={true} elevation={1}>
                 <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>

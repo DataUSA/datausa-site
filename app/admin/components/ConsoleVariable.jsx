@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import "./ConsoleVariable.css";
 
 function evalType(value) {
   let t = typeof value;
@@ -9,13 +10,6 @@ function evalType(value) {
   }
   return t;
 }
-
-const colorMap = {
-  number: "#2500CA",
-  string: "#C40000",
-  undefined: "#888888",
-  error: "#ff0000"
-};
 
 export default class ConsoleVariable extends Component {
 
@@ -30,13 +24,7 @@ export default class ConsoleVariable extends Component {
     else if (t === "undefined") v = t;
     else if (v.toString) v = v.toString();
 
-    return <span className={`variable ${t}`} style={{
-      color: colorMap[t] || "inherit",
-      fontFamily: "'Menlo', monospace",
-      fontSize: "0.7rem",
-      fontStyle: ["object", "array", "function"].includes(t) ? "italic" : "inherit",
-      fontWeight: "500"
-    }}>{v}</span>;
+    return <span className={`variable ${t}`}>{v}</span>;
 
   }
 

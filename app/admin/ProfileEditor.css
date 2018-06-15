@@ -1,7 +1,10 @@
 .generator-cards {
+  align-items: flex-start;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
+  position: relative;
   width: 100%;
 }
 

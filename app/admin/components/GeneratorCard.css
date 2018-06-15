@@ -1,7 +1,7 @@
 .generator-card {
   display: flex;
   flex-direction: column;
-  margin: 20px;
+  margin: 10px 20px 10px 0;
   padding: 0;
   width: 250px;
   & h5 {
@@ -22,13 +22,12 @@
     & .pt-table {
       height: 100%;
       width: 100%;
-      & td:nth-child(2) {
-        word-break: break-word;
+      & td {
+        max-width: 0;
+        overflow-x: scroll;
+        padding: 4px;
+        width: 50%;
       }
     }
-  }
-  & .pt-non-ideal-state {
-    background-color: #fafafa;
-    padding: 10px;
   }
 }
