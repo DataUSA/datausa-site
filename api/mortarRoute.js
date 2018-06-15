@@ -1,9 +1,10 @@
-const axios = require("axios"),
+const FUNC = require("../utils/FUNC"),
+      axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
       selSwap = require("../utils/selSwap"),
       urlSwap = require("../utils/urlSwap"),
       varSwap = require("../utils/varSwap");
-      
+
 const profileReqWithGens = {
   // logging: console.log,
   include: [
@@ -18,7 +19,7 @@ const profileReqWithGens = {
         {association: "subtitles", separate: true},
         {association: "descriptions", separate: true},
         {
-          association: "topics", separate: true, 
+          association: "topics", separate: true,
           include: [
             {association: "subtitles", separate: true},
             {association: "descriptions", separate: true},
@@ -182,8 +183,8 @@ module.exports = function(app) {
           let vars = {};
           try {
             eval(`
-              let f = (variables, formatters) => {${m.logic}};
-              vars = f(acc, formatterFunctions);
+              let f = (variables, libs, formatters) => {${m.logic}};
+              vars = f(acc, libs, formatterFunctions);
             `);
             matStatus[m.id] = vars;
           }
@@ -266,14 +267,14 @@ module.exports = function(app) {
                           let vars = {};
                           try {
                             eval(`
-                              let f = (variables, formatters) => {${v.logic}};
-                              vars = f(variables, formatterFunctions);
+                              let f = (variables, libs, formatters) => {${v.logic}};
+                              vars = f(variables, libs, formatterFunctions);
                             `);
                           }
                           catch (e) {
                             console.log("visualization error", e);
                           }
-                          return vars;
+                          return FUNC.objectify(vars);
                         });
                     }
                     if (t.stats) t.stats = t.stats.filter(allowed).map(select).map(swapper);
@@ -290,14 +291,14 @@ module.exports = function(app) {
               let vars = {};
               try {
                 eval(`
-                  let f = (variables, formatters) => {${v.logic}};
-                  vars = f(variables, formatterFunctions);
+                  let f = (variables, libs, formatters) => {${v.logic}};
+                  vars = f(variables, libs, formatterFunctions);
                 `);
               }
               catch (e) {
                 console.log("visualization error", e);
               }
-              return vars;
+              return FUNC.objectify(vars);
             });
         }
         if (profile.stats) profile.stats = profile.stats.filter(allowed).map(swapper);
