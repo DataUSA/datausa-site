@@ -7,8 +7,7 @@ import Loading from "components/Loading";
 import SelectorEditor from "./SelectorEditor";
 import FooterButtons from "./components/FooterButtons";
 import StatCard from "./components/StatCard";
-import varSwap from "../../utils/varSwap";
-import selSwap from "../../utils/selSwap";
+import varSwapRecursive from "../../utils/varSwapRecursive";
 
 import PropTypes from "prop-types";
 
@@ -63,10 +62,8 @@ class TopicEditor extends Component {
     const {rawData} = this.state;
     const {formatters} = this.context;
     const {variables} = this.props;
-
-    const selectors = rawData.selectors ? rawData.selectors.map(s => ({name: s.name, option: s.default})) : [];
     
-    const displayify = obj => obj.display_vars = varSwap(selSwap(obj, selectors), formatters, variables);
+    const displayify = obj => obj.display_vars = varSwapRecursive(obj, formatters, variables);
     
     displayify(rawData);
     if (rawData.stats) rawData.stats.forEach(displayify);

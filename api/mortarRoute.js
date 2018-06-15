@@ -4,7 +4,8 @@ const FUNC = require("../utils/FUNC"),
       mortarEval = require("../utils/mortarEval"),
       selSwap = require("../utils/selSwap"),
       urlSwap = require("../utils/urlSwap"),
-      varSwap = require("../utils/varSwap");
+      varSwap = require("../utils/varSwap"),
+      varSwapRecursive = require("../utils/varSwapRecursive");
 
 const profileReqWithGens = {
   // logging: console.log,
@@ -205,61 +206,8 @@ module.exports = function(app) {
         const variables = resp[0];
         const formatterFunctions = resp[1];
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
-        const profile = varSwap(resp[2].data, formatterFunctions, variables);
+        const profile = varSwapRecursive(resp[2].data, formatterFunctions, variables, req.query);
         returnObject.pid = id;
-        // Helper functions for filtering and variable swapping
-        const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
-        const swapper = obj => varSwap(obj, formatterFunctions, variables);
-        // The varswap function is not recursive. We have to do some work here to crawl down the profile
-        // and run the varswap at each level.
-        if (profile.sections) {
-          profile.sections = profile.sections
-            .filter(allowed)
-            .map(s => {
-              if (s.subtitles) s.subtitles = s.subtitles.filter(allowed).map(swapper);
-              if (s.descriptions) s.descriptions = s.descriptions.filter(allowed).map(swapper);
-              if (s.topics) {
-                s.topics = s.topics
-                  .filter(allowed)
-                  .map(t => {
-                    // If this topic has selectors (a drop-down menu), then the topic's content will contain
-                    // elements like [[selectorName]]. Use selSwap to replace these with the default BEFORE varSwap
-                    // First, filter each selector's option list to include only allowed options.
-                    t.selectors ? t.selectors.forEach(s => s.options = s.options.filter(allowed)) : t.selectors = [];
-                    // Next, make an array of "swap" tuples to be passed to selSwap
-                    const selectors = t.selectors.map(s => ({name: s.name, option: s.default}));
-                    const select = obj => selSwap(obj, selectors);
-                    t = selSwap(t, selectors);
-                    if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(select).map(swapper);
-                    if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(select).map(swapper);
-                    if (t.stats) t.stats = t.stats.filter(allowed).map(select).map(swapper);
-                    if (t.visualizations) {
-                      t.visualizations = t.visualizations
-                        .filter(allowed)
-                        .map(select)
-                        .map(v => {
-                          const evalResults = mortarEval("variables", variables, v.logic, formatterFunctions);
-                          const {vars} = evalResults;
-                          return FUNC.objectify(vars);
-                        });
-                    }
-                    return varSwap(t, formatterFunctions, variables);
-                  });
-              }
-              return varSwap(s, formatterFunctions, variables);
-            });
-        }
-        if (profile.visualizations) {
-          profile.visualizations = profile.visualizations
-            .filter(allowed)
-            .map(v => {
-              const evalResults = mortarEval("variables", variables, v.logic, formatterFunctions);
-              const {vars} = evalResults;
-              return FUNC.objectify(vars);
-            });
-        }
-        if (profile.stats) profile.stats = profile.stats.filter(allowed).map(swapper);
-        if (profile.descriptions) profile.descriptions = profile.descriptions.filter(allowed).map(swapper);
         returnObject = Object.assign({}, returnObject, profile);
         return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
       })
@@ -285,42 +233,9 @@ module.exports = function(app) {
     Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
       const variables = resp[0].data;
       const formatters = resp[1];
-      const topic = resp[2].toJSON();
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
-      const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
-      // First, filter the dropdown array to only include allowed options
-      topic.selectors ? topic.selectors.forEach(s => s.options = s.options.filter(allowed)) : topic.selectors = [];
-      // From the available dropdowns for this topic, create an array of the following format:
-      // {name: ThingToReplace, option: ThingToReplaceItWith}
-      // If the ?name=option in the query params was correct, use it, otherwise use the default.
-      const selectors = topic.selectors.map(s => {
-        if (s.options.map(s => s.option).includes(req.query[s.name])) {
-          return {name: s.name, option: req.query[s.name]};
-        }
-        else {
-          return {name: s.name, option: s.default};
-        }
-      });
-      // Remember: execute selSwap BEFORE varSwap. This ensures that instances of {{[[selector]]}}
-      // in the CMS can properly be selSwap'd to {{option}}, then THAT can be run through varSwap.
-      const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);
-      const swapper = obj => varSwap(obj, formatterFunctions, variables);
-      const select = obj => selSwap(obj, selectors);
-      const sorter = (a, b) => a.ordering - b.ordering;
-      ["subtitles", "descriptions", "stats"].forEach(key => {
-        if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(select).map(swapper).sort(sorter);
-      });
-      if (processedTopic.visualizations) {
-        processedTopic.visualizations = processedTopic.visualizations
-          .filter(allowed)
-          .map(select)
-          .map(v => {
-            const evalResults = mortarEval("variables", variables, v.logic, formatterFunctions);
-            const {vars} = evalResults;
-            return FUNC.objectify(vars);
-          });
-      }
-      res.json(processedTopic).end();
+      const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
+      res.json(topic).end();
     });
   });
 

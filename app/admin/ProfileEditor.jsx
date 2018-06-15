@@ -10,7 +10,7 @@ import FooterButtons from "./components/FooterButtons";
 import GeneratorCard from "./components/GeneratorCard";
 import StatCard from "./components/StatCard";
 
-import varSwap from "../../utils/varSwap";
+import varSwapRecursive from "../../utils/varSwapRecursive";
 
 import "./ProfileEditor.css";
 
@@ -51,9 +51,9 @@ class ProfileEditor extends Component {
     const {rawData, variables} = this.state;
     const {formatters} = this.context;
 
-    rawData.display_vars = varSwap(rawData, formatters, variables);
-    if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwap(stat, formatters, variables));
-    if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwap(desc, formatters, variables));
+    rawData.display_vars = varSwapRecursive(rawData, formatters, variables);
+    if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwapRecursive(stat, formatters, variables));
+    if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwapRecursive(desc, formatters, variables));
     if (rawData.generators) rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
     if (rawData.materializers) rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
 

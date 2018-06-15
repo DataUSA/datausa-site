@@ -3,7 +3,7 @@ import React, {Component} from "react";
 import {Dialog, Card, NonIdealState} from "@blueprintjs/core";
 import TextEditor from "./TextEditor";
 import Loading from "components/Loading";
-import varSwap from "../../utils/varSwap";
+import varSwapRecursive from "../../utils/varSwapRecursive";
 import FooterButtons from "./components/FooterButtons";
 import PropTypes from "prop-types";
 
@@ -112,9 +112,9 @@ class SectionEditor extends Component {
 
     if (!rawData) return <Loading />;
 
-    rawData.display_vars = varSwap(rawData, formatters, variables);
-    if (rawData.subtitles) rawData.subtitles.forEach(s => s.display_vars = varSwap(s, formatters, variables));
-    if (rawData.descriptions) rawData.descriptions.forEach(d => d.display_vars = varSwap(d, formatters, variables));
+    rawData.display_vars = varSwapRecursive(rawData, formatters, variables);
+    if (rawData.subtitles) rawData.subtitles.forEach(s => s.display_vars = varSwapRecursive(s, formatters, variables));
+    if (rawData.descriptions) rawData.descriptions.forEach(d => d.display_vars = varSwapRecursive(d, formatters, variables));
 
     const varOptions = [<option key="always" value="always">Always</option>];
     
