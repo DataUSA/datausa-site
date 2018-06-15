@@ -232,6 +232,7 @@ module.exports = function(app) {
                     t = selSwap(t, selectors);
                     if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(select).map(swapper);
                     if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(select).map(swapper);
+                    if (t.stats) t.stats = t.stats.filter(allowed).map(select).map(swapper);
                     if (t.visualizations) {
                       t.visualizations = t.visualizations
                         .filter(allowed)
@@ -242,7 +243,6 @@ module.exports = function(app) {
                           return FUNC.objectify(vars);
                         });
                     }
-                    if (t.stats) t.stats = t.stats.filter(allowed).map(select).map(swapper);
                     return varSwap(t, formatterFunctions, variables);
                   });
               }
@@ -307,9 +307,19 @@ module.exports = function(app) {
       const swapper = obj => varSwap(obj, formatterFunctions, variables);
       const select = obj => selSwap(obj, selectors);
       const sorter = (a, b) => a.ordering - b.ordering;
-      ["subtitles", "descriptions", "stats", "visualizations"].forEach(key => {
+      ["subtitles", "descriptions", "stats"].forEach(key => {
         if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(select).map(swapper).sort(sorter);
       });
+      if (processedTopic.visualizations) {
+        processedTopic.visualizations = processedTopic.visualizations
+          .filter(allowed)
+          .map(select)
+          .map(v => {
+            const evalResults = mortarEval("variables", variables, v.logic, formatterFunctions);
+            const {vars} = evalResults;
+            return FUNC.objectify(vars);
+          });
+      }
       res.json(processedTopic).end();
     });
   });
