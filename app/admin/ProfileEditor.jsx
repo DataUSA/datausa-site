@@ -5,6 +5,7 @@ import GeneratorEditor from "./GeneratorEditor";
 import TextEditor from "./TextEditor";
 import PropTypes from "prop-types";
 import Loading from "components/Loading";
+import FooterButtons from "./components/FooterButtons";
 
 import GeneratorCard from "./components/GeneratorCard";
 import StatCard from "./components/StatCard";
@@ -255,28 +256,11 @@ class ProfileEditor extends Component {
           <div className="pt-dialog-body">
             <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
           </div>
-          <div className="pt-dialog-footer">
-            <div className="pt-dialog-footer-actions">
-              <button
-                className="pt-button pt-intent-danger"
-                onClick={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
-              >
-                Delete
-              </button>
-              <button
-                className="pt-button"
-                onClick={() => this.setState({isGeneratorEditorOpen: false})}
-              >
-                Cancel
-              </button>
-              <button
-                className="pt-button pt-intent-success"
-                onClick={this.saveItem.bind(this, currentGenerator, currentGeneratorType)}
-              >
-                Save
-              </button>
-            </div>
-          </div>
+          <FooterButtons 
+            onDelete={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
+            onCancel={() => this.setState({isGeneratorEditorOpen: false})}
+            onSave={this.saveItem.bind(this, currentGenerator, currentGeneratorType)}
+          />
         </Dialog>
 
         <Dialog
@@ -288,28 +272,11 @@ class ProfileEditor extends Component {
           <div className="pt-dialog-body">
             <TextEditor data={currentText} variables={variables} fields={currentFields} />
           </div>
-          <div className="pt-dialog-footer">
-            <div className="pt-dialog-footer-actions">
-              <button
-                className="pt-button pt-intent-danger"
-                onClick={this.deleteItem.bind(this, currentText, currentTextType)}
-              >
-                Delete
-              </button>
-              <button
-                className="pt-button"
-                onClick={() => this.setState({isTextEditorOpen: false})}
-              >
-                Cancel
-              </button>
-              <button
-                className="pt-button pt-intent-success"
-                onClick={this.saveItem.bind(this, currentText, currentTextType)}
-              >
-                Save
-              </button>
-            </div>
-          </div>
+          <FooterButtons 
+            onDelete={this.deleteItem.bind(this, currentText, currentTextType)}
+            onCancel={() => this.setState({isTextEditorOpen: false})}
+            onSave={this.saveItem.bind(this, currentText, currentTextType)}
+          />
         </Dialog>
 
         <Callout id="preview-toggle">

@@ -122,6 +122,18 @@ module.exports = function(app) {
     db.topics_descriptions.destroy({where: {id: req.query.id}}).then(u => res.json(u));
   });
 
+  app.post("/api/cms/selector/update", (req, res) => {
+    db.selectors.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/selector/new", (req, res) => {
+    db.selectors.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/selector/delete", (req, res) => {
+    db.selectors.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+  });
+
   app.post("/api/cms/stat_profile/update", (req, res) => {
     db.stats_profiles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });

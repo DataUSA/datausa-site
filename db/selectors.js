@@ -7,9 +7,10 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      options: db.ARRAY(db.TEXT),
+      options: db.ARRAY(db.JSON),
       default: db.TEXT,
-      topic_id: db.INTEGER
+      topic_id: db.INTEGER,
+      name: db.STRING
     }, 
     {
       freezeTableName: true,

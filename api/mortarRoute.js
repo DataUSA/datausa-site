@@ -1,29 +1,30 @@
 const axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
+      selSwap = require("../utils/selSwap"),
       urlSwap = require("../utils/urlSwap"),
       varSwap = require("../utils/varSwap");
-
+      
 const profileReqWithGens = {
   // logging: console.log,
   include: [
-    {association: "generators"},
-    {association: "materializers"},
-    {association: "visualizations"},
-    {association: "stats"},
-    {association: "descriptions"},
+    {association: "generators", separate: true},
+    {association: "materializers", separate: true},
+    {association: "visualizations", separate: true},
+    {association: "stats", separate: true},
+    {association: "descriptions", separate: true},
     {
-      association: "sections",
+      association: "sections", separate: true,
       include: [
-        {association: "subtitles"},
-        {association: "descriptions"},
+        {association: "subtitles", separate: true},
+        {association: "descriptions", separate: true},
         {
-          association: "topics",
+          association: "topics", separate: true, 
           include: [
-            {association: "subtitles"},
-            {association: "descriptions"},
-            {association: "visualizations"},
-            {association: "stats"},
-            {association: "selectors"}
+            {association: "subtitles", separate: true},
+            {association: "descriptions", separate: true},
+            {association: "visualizations", separate: true},
+            {association: "stats", separate: true},
+            {association: "selectors", separate: true}
           ]
         }
       ]
@@ -33,22 +34,22 @@ const profileReqWithGens = {
 
 const profileReq = {
   include: [
-    {association: "visualizations"},
-    {association: "stats"},
-    {association: "descriptions"},
+    {association: "visualizations", separate: true},
+    {association: "stats", separate: true},
+    {association: "descriptions", separate: true},
     {
-      association: "sections",
+      association: "sections", separate: true,
       include: [
-        {association: "subtitles"},
-        {association: "descriptions"},
+        {association: "subtitles", separate: true},
+        {association: "descriptions", separate: true},
         {
-          association: "topics",
+          association: "topics", separate: true,
           include: [
-            {association: "subtitles"},
-            {association: "descriptions"},
-            {association: "visualizations"},
-            {association: "stats"},
-            {association: "selectors"}
+            {association: "subtitles", separate: true},
+            {association: "descriptions", separate: true},
+            {association: "visualizations", separate: true},
+            {association: "stats", separate: true},
+            {association: "selectors", separate: true}
           ]
         }
       ]
@@ -57,11 +58,11 @@ const profileReq = {
 };
 
 const topicReq = [
-  {association: "subtitles"},
-  {association: "descriptions"},
-  {association: "visualizations"},
-  {association: "stats"},
-  {association: "selectors"}
+  {association: "subtitles", separate: true},
+  {association: "descriptions", separate: true},
+  {association: "visualizations", separate: true},
+  {association: "stats", separate: true},
+  {association: "selectors", separate: true}
 ];
 
 
@@ -109,6 +110,9 @@ module.exports = function(app) {
     const {slug, id} = req.params;
 
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
+    /* Potential TODO here: Later in this function we manually get generators and materializers.
+     * Maybe refactor this to get them immediately in the profile get using include.
+     */
     db.profiles.findOne({where: {slug}, raw: true})
       .then(profile =>
         Promise.all([profile.id, db.search.findOne({where: {id, type: slug}}), db.formatters.findAll(), db.generators.findAll({where: {profile_id: profile.id}})])
@@ -244,11 +248,20 @@ module.exports = function(app) {
                 s.topics = s.topics
                   .filter(allowed)
                   .map(t => {
-                    if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(swapper);
-                    if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(swapper);
+                    // If this topic has selectors (a drop-down menu), then the topic's content will contain
+                    // elements like [[selectorName]]. Use selSwap to replace these with the default BEFORE varSwap
+                    // First, filter each selector's option list to include only allowed options.
+                    t.selectors ? t.selectors.forEach(s => s.options = s.options.filter(allowed)) : t.selectors = [];
+                    // Next, make an array of "swap" tuples to be passed to selSwap
+                    const selectors = t.selectors.map(s => ({name: s.name, option: s.default}));
+                    const select = obj => selSwap(obj, selectors);
+                    t = selSwap(t, selectors);
+                    if (t.subtitles) t.subtitles = t.subtitles.filter(allowed).map(select).map(swapper);
+                    if (t.descriptions) t.descriptions = t.descriptions.filter(allowed).map(select).map(swapper);
                     if (t.visualizations) {
                       t.visualizations = t.visualizations
                         .filter(allowed)
+                        .map(select)
                         .map(v => {
                           let vars = {};
                           try {
@@ -263,7 +276,7 @@ module.exports = function(app) {
                           return vars;
                         });
                     }
-                    if (t.stats) t.stats = t.stats.filter(allowed).map(swapper);
+                    if (t.stats) t.stats = t.stats.filter(allowed).map(select).map(swapper);
                     return varSwap(t, formatterFunctions, variables);
                   });
               }
@@ -301,10 +314,12 @@ module.exports = function(app) {
 
   });
 
+  // Endpoint for when a user selects a new dropdown for a topic, requiring new variables
   app.get("/api/topic/:slug/:id/:topic_id", (req, res) => {
     const {slug, id, topic_id} = req.params;
-    const {selector} = req.query;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+    // As with profiles above, we need formatters, variables, and the topic itself in order to
+    // create a "postProcessed" topic that can be returned to the requester.
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
     const getFormatters = db.formatters.findAll();
     const getTopic = db.topics.findOne({where: {id: topic_id}, include: topicReq});
@@ -312,11 +327,30 @@ module.exports = function(app) {
     Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
       const variables = resp[0].data;
       const formatters = resp[1];
-      const topic = resp[2];
+      const topic = resp[2].toJSON();
       const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
-      const processedTopic = varSwap(topic.toJSON(), formatterFunctions, variables);
-      if (processedTopic.subtitles) processedTopic.subtitles.sort(sorter);
-      if (processedTopic.descriptions) processedTopic.descriptions.sort(sorter);
+      const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === "always";
+      // First, filter the dropdown array to only include allowed options
+      topic.selectors ? topic.selectors.forEach(s => s.options = s.options.filter(allowed)) : topic.selectors = [];
+      // From the available dropdowns for this topic, create an array of the following format:
+      // {name: ThingToReplace, option: ThingToReplaceItWith}
+      // If the ?name=option in the query params was correct, use it, otherwise use the default.
+      const selectors = topic.selectors.map(s => {
+        if (s.options.map(s => s.option).includes(req.query[s.name])) {
+          return {name: s.name, option: req.query[s.name]};
+        }
+        else {
+          return {name: s.name, option: s.default};
+        }
+      });
+      // Remember: execute selSwap BEFORE varSwap. This ensures that instances of {{[[selector]]}}
+      // in the CMS can properly be selSwap'd to {{option}}, then THAT can be run through varSwap.
+      const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);
+      const swapper = obj => varSwap(obj, formatterFunctions, variables);
+      const select = obj => selSwap(obj, selectors);
+      ["subtitles", "descriptions", "stats", "visualizations"].forEach(key => {
+        if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(select).map(swapper).sort(sorter);
+      });
       res.json(processedTopic).end();
     });
   });
