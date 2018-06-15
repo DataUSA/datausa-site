@@ -2,6 +2,7 @@ import axios from "axios";
 import React, {Component} from "react";
 import {Dialog, Card, NonIdealState} from "@blueprintjs/core";
 import TextEditor from "./TextEditor";
+import GeneratorEditor from "./GeneratorEditor";
 import Loading from "components/Loading";
 import SelectorEditor from "./SelectorEditor";
 import FooterButtons from "./components/FooterButtons";
@@ -50,6 +51,10 @@ class TopicEditor extends Component {
 
   openSelectorEditor(s, type) {
     this.setState({currentSelector: s, currentSelectorType: type, isSelectorEditorOpen: true}); 
+  }
+
+  openGeneratorEditor(g, type) {
+    this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
   }
 
   formatDisplays() {
@@ -166,7 +171,7 @@ class TopicEditor extends Component {
           if (type === "topic_subtitle") rawData.subtitles = rawData.subtitles.filter(f);
           if (type === "topic_description") rawData.descriptions = rawData.descriptions.filter(f);
           if (type === "selector") rawData.selectors = rawData.selectors.filter(f);
-          this.setState({rawData, isSelectorEditorOpen: false, isTextEditorOpen: false}, this.formatDisplays.bind(this));
+          this.setState({rawData, isSelectorEditorOpen: false, isTextEditorOpen: false, isGeneratorEditorOpen: false}, this.formatDisplays.bind(this));
         }
       });
     }
@@ -177,7 +182,7 @@ class TopicEditor extends Component {
       if (type === "stat" || type === "visualization") type = type.concat("_topic");
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
-          this.setState({isTextEditorOpen: false, isSelectorEditorOpen: false}, this.formatDisplays.bind(this));
+          this.setState({isTextEditorOpen: false, isSelectorEditorOpen: false, isGeneratorEditorOpen: false}, this.formatDisplays.bind(this));
           if (this.props.reportSave) this.props.reportSave();
         }
       });
@@ -186,7 +191,7 @@ class TopicEditor extends Component {
 
   render() {
 
-    const {rawData, currentText, currentFields, currentTextType, currentSelector, currentSelectorType} = this.state;
+    const {rawData, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType, currentSelector, currentSelectorType} = this.state;
     const {variables} = this.props;
     
     // The display_vars test here is because we don't format displays until after the first render (see mount). 
@@ -217,6 +222,22 @@ class TopicEditor extends Component {
             {varOptions}
           </select>
         </div>
+        <Dialog
+          iconName="code"
+          isOpen={this.state.isGeneratorEditorOpen}
+          onClose={() => this.setState({isGeneratorEditorOpen: false})}
+          title="Variable Editor"
+          style={{minWidth: "800px"}}
+        >
+          <div className="pt-dialog-body">
+            <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
+          </div>
+          <FooterButtons
+            onDelete={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
+            onCancel={() => this.setState({isGeneratorEditorOpen: false})}
+            onSave={this.saveItem.bind(this, currentGenerator, currentGeneratorType)}
+          />
+        </Dialog>
         <Dialog
           iconName="code"
           isOpen={this.state.isSelectorEditorOpen}
@@ -270,6 +291,19 @@ class TopicEditor extends Component {
         <Card className="generator-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
           <NonIdealState visual="add" title="New Description" />
         </Card>
+        <h4>Visualizations</h4>
+        <div className="visualizations">
+          <div>
+            { rawData.visualizations && rawData.visualizations.map(v =>
+              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
+                <p>{v.logic}</p>
+              </Card>
+            )}
+            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={0}>
+              <NonIdealState visual="add" title="Visualization" />
+            </Card>
+          </div>
+        </div>
         <h4>Selectors</h4>
         { rawData.selectors && rawData.selectors.map(s => 
           <Card className="splash-card" key={s.id} onClick={this.openSelectorEditor.bind(this, s, "selector")} interactive={true} elevation={1}>
