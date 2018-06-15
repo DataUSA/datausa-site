@@ -7,6 +7,7 @@ export default class StatCard extends Component {
   render() {
     const {onClick, vars} = this.props;
     const {title, subtitle, value} = vars;
+
     return (
       <Card onClick={onClick} className="stat-card" interactive={true} elevation={1}>
         <h6 dangerouslySetInnerHTML={{__html: title}}></h6>

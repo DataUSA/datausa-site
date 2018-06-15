@@ -6,6 +6,7 @@ import GeneratorEditor from "./GeneratorEditor";
 import Loading from "components/Loading";
 import SelectorEditor from "./SelectorEditor";
 import FooterButtons from "./components/FooterButtons";
+import StatCard from "./components/StatCard";
 import varSwap from "../../utils/varSwap";
 import selSwap from "../../utils/selSwap";
 
@@ -18,7 +19,8 @@ class TopicEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rawData: null
+      rawData: null,
+      recompiling: true
     };
   }
 
@@ -29,7 +31,7 @@ class TopicEditor extends Component {
 
   componentDidUpdate() {
     if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData}, this.formatDisplays.bind(this));
+      this.setState({rawData: this.props.rawData, recompiling: true}, this.formatDisplays.bind(this));
     }
   }
 
@@ -42,7 +44,7 @@ class TopicEditor extends Component {
   chooseVariable(e) {
     const {rawData} = this.state;
     rawData.allowed = e.target.value;
-    this.setState({rawData}, this.saveItem.bind(this, rawData, "topic"));
+    this.setState({rawData, recompiling: true}, this.saveItem.bind(this, rawData, "topic"));
   }
 
   openTextEditor(t, type, fields) {
@@ -72,11 +74,12 @@ class TopicEditor extends Component {
     if (rawData.descriptions) rawData.descriptions.forEach(displayify);
     // Do we need a visualization one? Check with dave
 
-    this.setState({rawData});
+    this.setState({rawData, recompiling: false});
   }
 
   addItem(type) {
     const {rawData} = this.state;
+    this.setState({recompiling: true});
     let payload;
     if (type === "stat_topic") {
       payload = {
@@ -161,6 +164,7 @@ class TopicEditor extends Component {
 
   deleteItem(item, type) {
     const {rawData} = this.state;
+    this.setState({recompiling: true});
     if (["stat_topic", "visualization_topic", "topic_subtitle", "topic_description", "selector"].includes(type)) {
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
@@ -177,6 +181,7 @@ class TopicEditor extends Component {
   }
 
   saveItem(item, type) {
+    this.setState({recompiling: true});
     if (["topic", "stat_topic", "visualization_topic", "topic_subtitle", "topic_description", "selector"].includes(type)) {
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
@@ -189,12 +194,10 @@ class TopicEditor extends Component {
 
   render() {
 
-    const {rawData, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType, currentSelector, currentSelectorType} = this.state;
+    const {rawData, recompiling, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType, currentSelector, currentSelectorType} = this.state;
     const {variables} = this.props;
     
-    // The display_vars test here is because we don't format displays until after the first render (see mount). 
-    // Maybe find a more reliable way to do this 
-    if (!rawData || !rawData.display_vars) return <Loading />;
+    if (!rawData || recompiling) return <Loading />;
 
     const varOptions = [<option key="always" value="always">Always</option>];
     
@@ -289,6 +292,17 @@ class TopicEditor extends Component {
         <Card className="generator-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
           <NonIdealState visual="add" title="New Description" />
         </Card>
+        <h4>Stats</h4>
+        <div className="stats">
+          { rawData.stats && rawData.stats.map(s =>
+            <StatCard key={s.id}
+              vars={s.display_vars}
+              onClick={this.openTextEditor.bind(this, s, "stat_topic", ["title", "value", "subtitle"])} />
+          ) }
+          <Card className="stat-card" onClick={this.addItem.bind(this, "stat_topic")} interactive={true} elevation={0}>
+            <NonIdealState visual="add" title="Stat" />
+          </Card>
+        </div>
         <h4>Visualizations</h4>
         <div className="visualizations">
           <div>
