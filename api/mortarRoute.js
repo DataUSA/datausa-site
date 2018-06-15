@@ -1,6 +1,7 @@
 const FUNC = require("../utils/FUNC"),
       axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
+      mortarEval = require("../utils/mortarEval"),
       selSwap = require("../utils/selSwap"),
       urlSwap = require("../utils/urlSwap"),
       varSwap = require("../utils/varSwap");
@@ -66,11 +67,9 @@ const topicReq = [
   {association: "selectors", separate: true}
 ];
 
-
-const sorter = (a, b) => a.ordering - b.ordering;
-
 // Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
 const sortProfile = profile => {
+  const sorter = (a, b) => a.ordering - b.ordering;
   profile = profile.toJSON();
   if (profile.descriptions) profile.descriptions.sort(sorter);
   if (profile.sections) {
@@ -88,30 +87,6 @@ const sortProfile = profile => {
     });
   }
   return profile;
-};
-
-const mortarEval = (varInnerName, varOuterValue, logic, formatterFunctions) => {
-  let vars = {};
-  // Because logic is arbitrary javascript, it may be malformed. We need to wrap the
-  // entire execution in a try/catch.
-  try {
-    if (varOuterValue) {
-      eval(`
-        let f = (${varInnerName}, libs, formatters) => {${logic}};
-        vars = f(varOuterValue, libs, formatterFunctions);
-      `);
-      // A successfully run eval will return the vars generated
-      return {vars, error: null};
-    }
-    else {
-      // If varOuterValue was null, then the API that gave it to us was incorrect
-      return {vars, error: "Invalid API Link"};
-    }
-  }
-  catch (e) {
-    // An unsuccessfully run eval returns the error
-    return {vars, error: e};
-  }
 };
 
 module.exports = function(app) {
@@ -331,6 +306,7 @@ module.exports = function(app) {
       const processedTopic = varSwap(selSwap(topic, selectors), formatterFunctions, variables);
       const swapper = obj => varSwap(obj, formatterFunctions, variables);
       const select = obj => selSwap(obj, selectors);
+      const sorter = (a, b) => a.ordering - b.ordering;
       ["subtitles", "descriptions", "stats", "visualizations"].forEach(key => {
         if (processedTopic[key]) processedTopic[key] = processedTopic[key].filter(allowed).map(select).map(swapper).sort(sorter);
       });
