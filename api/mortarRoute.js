@@ -90,6 +90,30 @@ const sortProfile = profile => {
   return profile;
 };
 
+const mortarEval = (varInnerName, varOuterValue, logic, formatterFunctions) => {
+  let vars = {};
+  // Because logic is arbitrary javascript, it may be malformed. We need to wrap the
+  // entire execution in a try/catch.
+  try {
+    if (varOuterValue) {
+      eval(`
+        let f = (${varInnerName}, libs, formatters) => {${logic}};
+        vars = f(varOuterValue, libs, formatterFunctions);
+      `);
+      // A successfully run eval will return the vars generated
+      return {vars, error: null};
+    }
+    else {
+      // If varOuterValue was null, then the API that gave it to us was incorrect
+      return {vars, error: "Invalid API Link"};
+    }
+  }
+  catch (e) {
+    // An unsuccessfully run eval returns the error
+    return {vars, error: e};
+  }
+};
+
 module.exports = function(app) {
 
   const {cache, db} = app.settings;
@@ -141,28 +165,10 @@ module.exports = function(app) {
           const requiredGenerators = generators.filter(g => g.api === requests[i]);
           // Build the return object using a reducer, one generator at a time
           returnVariables = requiredGenerators.reduce((acc, g) => {
-            let vars = {};
-            // Because generators are arbitrary javascript, they may be malformed. We need to wrap the
-            // entire execution in a try/catch. genStatus is used to track the status of each individual generator
-            try {
-              const resp = r.data;
-              if (resp) {
-                eval(`
-                  let f = (resp, libs, formatters) => {${g.logic}};
-                  vars = f(resp, libs, formatterFunctions);
-                `);
-                // A successfully run genStatus will contain the variables generated.
-                genStatus[g.id] = vars;
-              }
-              else {
-                // If resp was null/empty, the API link didn't resolve
-                genStatus[g.id] = {error: "Invalid API Link"};
-              }
-            }
-            catch (e) {
-              // An unsuccessfully run genStatus will contain the error
-              genStatus[g.id] = {error: e};
-            }
+            const evalResults = mortarEval("resp", r.data, g.logic, formatterFunctions);
+            const {vars} = evalResults;
+            // genStatus is used to track the status of each individual generator
+            genStatus[g.id] = evalResults.error ? {error: evalResults.error} : evalResults.vars;
             // Fold the generated variables into the accumulating returnVariables
             return {...returnVariables, ...vars};
           }, returnVariables);
@@ -180,17 +186,9 @@ module.exports = function(app) {
         materializers.sort((a, b) => a.ordering - b.ordering);
         let matStatus = {};
         returnVariables = materializers.reduce((acc, m) => {
-          let vars = {};
-          try {
-            eval(`
-              let f = (variables, libs, formatters) => {${m.logic}};
-              vars = f(acc, libs, formatterFunctions);
-            `);
-            matStatus[m.id] = vars;
-          }
-          catch (e) {
-            matStatus[m.id] = {error: e};
-          }
+          const evalResults = mortarEval("variables", acc, m.logic, formatterFunctions);
+          const {vars} = evalResults;
+          matStatus[m.id] = evalResults.error ? {error: evalResults.error} : evalResults.vars;
           return {...acc, ...vars};
         }, returnVariables);
         returnVariables._matStatus = matStatus;
@@ -264,16 +262,8 @@ module.exports = function(app) {
                         .filter(allowed)
                         .map(select)
                         .map(v => {
-                          let vars = {};
-                          try {
-                            eval(`
-                              let f = (variables, libs, formatters) => {${v.logic}};
-                              vars = f(variables, libs, formatterFunctions);
-                            `);
-                          }
-                          catch (e) {
-                            console.log("visualization error", e);
-                          }
+                          const evalResults = mortarEval("variables", variables, v.logic, formatterFunctions);
+                          const {vars} = evalResults;
                           return FUNC.objectify(vars);
                         });
                     }
@@ -288,16 +278,8 @@ module.exports = function(app) {
           profile.visualizations = profile.visualizations
             .filter(allowed)
             .map(v => {
-              let vars = {};
-              try {
-                eval(`
-                  let f = (variables, libs, formatters) => {${v.logic}};
-                  vars = f(variables, libs, formatterFunctions);
-                `);
-              }
-              catch (e) {
-                console.log("visualization error", e);
-              }
+              const evalResults = mortarEval("variables", variables, v.logic, formatterFunctions);
+              const {vars} = evalResults;
               return FUNC.objectify(vars);
             });
         }
