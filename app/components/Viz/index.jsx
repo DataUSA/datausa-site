@@ -7,7 +7,7 @@ import propify from "helpers/d3plusPropify";
 class Viz extends Component {
 
   render() {
-    const {config, className, options, slug, title} = this.props;
+    const {config, className, options, slug} = this.props;
 
     // clone config object to allow manipulation
     const vizProps = propify(config);
@@ -17,6 +17,8 @@ class Viz extends Component {
     delete vizProps.config.type;
     if (!type) return null;
     const Visualization = d3plus[type];
+
+    const title = this.props.title || config.title;
 
     return <div className={ `visualization ${className}` }>
       { options ? <Options
@@ -36,7 +38,8 @@ class Viz extends Component {
 Viz.defaultProps = {
   className: "",
   config: {},
-  options: true
+  options: true,
+  title: undefined
 };
 
 export default Viz;
