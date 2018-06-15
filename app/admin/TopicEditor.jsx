@@ -78,7 +78,7 @@ class TopicEditor extends Component {
   addItem(type) {
     const {rawData} = this.state;
     let payload;
-    if (type === "stat") {
+    if (type === "stat_topic") {
       payload = {
         title: "New Stat",
         subtitle: "New Subtitle",
@@ -95,7 +95,7 @@ class TopicEditor extends Component {
         }
       });
     }
-    else if (type === "visualization") {
+    else if (type === "visualization_topic") {
       payload = {
         logic: "return {}",
         topic_id: rawData.id
@@ -161,8 +161,7 @@ class TopicEditor extends Component {
 
   deleteItem(item, type) {
     const {rawData} = this.state;
-    if (["stat", "visualization", "topic_subtitle", "topic_description", "selector"].includes(type)) {
-      if (type === "stat" || type === "visualization") type = type.concat("_topic");
+    if (["stat_topic", "visualization_topic", "topic_subtitle", "topic_description", "selector"].includes(type)) {
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
           const f = obj => obj.id !== item.id;
@@ -178,8 +177,7 @@ class TopicEditor extends Component {
   }
 
   saveItem(item, type) {
-    if (["topic", "stat", "visualization", "topic_subtitle", "topic_description", "selector"].includes(type)) {
-      if (type === "stat" || type === "visualization") type = type.concat("_topic");
+    if (["topic", "stat_topic", "visualization_topic", "topic_subtitle", "topic_description", "selector"].includes(type)) {
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({isTextEditorOpen: false, isSelectorEditorOpen: false, isGeneratorEditorOpen: false}, this.formatDisplays.bind(this));
@@ -295,11 +293,11 @@ class TopicEditor extends Component {
         <div className="visualizations">
           <div>
             { rawData.visualizations && rawData.visualizations.map(v =>
-              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
+              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization_topic")} className="visualization-card" interactive={true} elevation={0}>
                 <p>{v.logic}</p>
               </Card>
             )}
-            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={0}>
+            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization_topic")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Visualization" />
             </Card>
           </div>

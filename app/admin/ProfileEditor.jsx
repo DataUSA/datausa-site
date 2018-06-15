@@ -54,9 +54,7 @@ class ProfileEditor extends Component {
     rawData.display_vars = varSwap(rawData, formatters, variables);
     if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwap(stat, formatters, variables));
     if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwap(desc, formatters, variables));
-    // rawData.generators.forEach(g => g.display_vars = varSwap(variables._genStatus[g.id], formatters, variables._genStatus[g.id]));
     if (rawData.generators) rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
-    // rawData.materializers.forEach(m => m.display_vars = varSwap(variables._matStatus[m.id], formatters, variables._matStatus[g.id]));
     if (rawData.materializers) rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
 
     this.setState({rawData, recompiling: false});
@@ -70,8 +68,7 @@ class ProfileEditor extends Component {
 
   saveItem(item, type) {
     const {rawData} = this.state;
-    if (["generator", "materializer", "profile", "stat", "visualization", "profile_description"].includes(type)) {
-      if (type === "stat" || type === "visualization") type = type.concat("_profile");
+    if (["generator", "materializer", "profile", "stat_profile", "visualization_profile", "profile_description"].includes(type)) {
       axios.post(`/api/cms/${type}/update`, item).then(resp => {
         if (resp.status === 200) {
           this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
@@ -87,8 +84,7 @@ class ProfileEditor extends Component {
 
   deleteItem(item, type) {
     const {rawData} = this.state;
-    if (["generator", "materializer", "profile", "stat", "visualization", "profile_description"].includes(type)) {
-      if (type === "stat" || type === "visualization") type = type.concat("_profile");
+    if (["generator", "materializer", "profile", "stat_profile", "visualization_profile", "profile_description"].includes(type)) {
       axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
         if (resp.status === 200) {
           const f = obj => obj.id !== item.id;
@@ -142,7 +138,7 @@ class ProfileEditor extends Component {
         }
       });
     }
-    else if (type === "stat") {
+    else if (type === "stat_profile") {
       payload = {
         title: "New Stat",
         subtitle: "New Subtitle",
@@ -159,7 +155,7 @@ class ProfileEditor extends Component {
         }
       });
     }
-    else if (type === "visualization") {
+    else if (type === "visualization_profile") {
       payload = {
         logic: "return {}",
         profile_id: rawData.id
@@ -338,9 +334,9 @@ class ProfileEditor extends Component {
             { rawData.stats && rawData.stats.map(s =>
               <StatCard key={s.id}
                 vars={s.display_vars}
-                onClick={this.openTextEditor.bind(this, s, "stat", ["title", "value", "subtitle"])} />
+                onClick={this.openTextEditor.bind(this, s, "stat_profile", ["title", "value", "subtitle"])} />
             ) }
-            <Card className="stat-card" onClick={this.addItem.bind(this, "stat")} interactive={true} elevation={0}>
+            <Card className="stat-card" onClick={this.addItem.bind(this, "stat_profile")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
             </Card>
           </div>
@@ -368,11 +364,11 @@ class ProfileEditor extends Component {
         <div className="visualizations">
           <div>
             { rawData.visualizations && rawData.visualizations.map(v =>
-              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization")} className="visualization-card" interactive={true} elevation={0}>
+              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization_profile")} className="visualization-card" interactive={true} elevation={0}>
                 <p>{v.logic}</p>
               </Card>
             )}
-            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization")} interactive={true} elevation={0}>
+            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization_profile")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Visualization" />
             </Card>
           </div>
