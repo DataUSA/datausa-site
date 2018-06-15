@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "canon-build",
+    "cube2csv": "node scripts/cube2csv.js",
     "dev": "canon-dev",
     "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
     "flickr": "node scripts/flickr-scrape.js",
