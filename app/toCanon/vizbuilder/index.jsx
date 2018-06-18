@@ -11,7 +11,6 @@ import {ErrorToaster} from "./components/ErrorToaster";
 import {initClient} from "./helpers/api";
 import initialState, {loadTypes, optionsTypes, queryTypes} from "./state";
 
-import "@blueprintjs/core/dist/blueprint.css";
 import "@blueprintjs/labs/dist/blueprint-labs.css";
 import "./index.css";
 
