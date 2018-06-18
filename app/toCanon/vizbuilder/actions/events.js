@@ -1,10 +1,10 @@
 import OPERATORS from "../helpers/operators";
 import {makeRandomId} from "../helpers/random";
 import {
-  addTimeDrilldown,
-  getValidDrilldowns,
-  joinDrilldownList,
-  getMeasureMOE
+  getMeasureMOE,
+  getTimeDrilldown,
+  getValidDimensions,
+  reduceLevelsFromDimension
 } from "../helpers/sorting";
 
 /*
@@ -18,48 +18,80 @@ export function setMeasure(measure) {
   const {loadWrapper, stateUpdate} = this.context;
 
   return loadWrapper(() => {
-    const cube = options.cubes.find(
-      cube => cube.measures.indexOf(measure) > -1
-    );
+    const cubeName = measure.annotations._cb_name;
+    const cube = options.cubes.find(cube => cube.name === cubeName);
     const moe = getMeasureMOE(cube, measure);
-    const levels = getValidDrilldowns(cube);
-    const drilldowns = addTimeDrilldown(levels.slice(0, 1), cube);
+    const timeDrilldown = getTimeDrilldown(cube);
+
+    const dimensions = getValidDimensions(cube);
+    const dimension = dimensions[0];
+
+    const levels = reduceLevelsFromDimension([], dimension);
+    const drilldown = levels[0];
+
     const conditions = query.cube === cube ? query.conditions : [];
 
     return stateUpdate({
-      options: {levels},
-      query: {cube, measure, moe, drilldowns, conditions}
+      options: {dimensions, levels},
+      query: {cube, measure, moe, dimension, drilldown, timeDrilldown, conditions}
     });
   }, this.fetchQuery);
 }
 
-export function addDrilldown(level) {
-  const {options, query} = this.props;
+export function setDimension(dimension) {
+  const {loadWrapper, stateUpdate} = this.context;
+
+  return loadWrapper(() => {
+    const levels = reduceLevelsFromDimension([], dimension);
+    const drilldown = levels[0];
+
+    return stateUpdate({
+      options: {levels},
+      query: {dimension, drilldown}
+    });
+  }, this.fetchQuery);
+}
+
+// export function addDrilldown(level) {
+//   const {options, query} = this.props;
+//   const {loadWrapper, stateUpdate} = this.context;
+
+//   if (options.levels.indexOf(level) > -1) {
+//     return loadWrapper(() => {
+//       const drilldowns = joinDrilldownList(query.drilldowns, level);
+//       return stateUpdate({query: {drilldowns}});
+//     }, this.fetchQuery);
+//   }
+
+//   return undefined;
+// }
+
+export function setDrilldown(level) {
+  const {options} = this.props;
   const {loadWrapper, stateUpdate} = this.context;
 
   if (options.levels.indexOf(level) > -1) {
     return loadWrapper(() => {
-      let drilldowns = joinDrilldownList(query.drilldowns, level);
-      drilldowns = addTimeDrilldown(drilldowns, query.cube);
-      return stateUpdate({query: {drilldowns}});
+      const drilldown = level;
+      return stateUpdate({query: {drilldown}});
     }, this.fetchQuery);
   }
 
   return undefined;
 }
 
-export function removeDrilldown(levelName) {
-  const {options, query} = this.props;
-  const {stateUpdate} = this.context;
+// export function removeDrilldown(levelName) {
+//   const {options, query} = this.props;
+//   const {stateUpdate} = this.context;
 
-  levelName = levelName.split(" › ").pop();
-  const level = options.levels.find(lvl => lvl.name === levelName);
+//   levelName = levelName.split(" › ").pop();
+//   const level = options.levels.find(lvl => lvl.name === levelName);
 
-  if (level && !(/\[date\]/i).test(level.fullName)) {
-    const drilldowns = query.drilldowns.filter(lvl => lvl !== level);
-    stateUpdate({query: {drilldowns}}).then(this.fetchQuery);
-  }
-}
+//   if (level && !(/\[date\]/i).test(level.fullName)) {
+//     const drilldowns = query.drilldowns.filter(lvl => lvl !== level);
+//     stateUpdate({query: {drilldowns}}).then(this.fetchQuery);
+//   }
+// }
 
 export function addCondition() {
   const {conditions} = this.props.query;

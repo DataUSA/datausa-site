@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import {addDrilldown, removeDrilldown, setMeasure} from "../actions/events";
+import {setDimension, setDrilldown, setMeasure} from "../actions/events";
 import {fetchCubes, fetchQuery} from "../actions/fetch";
 
 import ConditionManager from "./ConditionManager";
@@ -10,14 +10,15 @@ import LevelSelect from "./LevelSelect";
 import MeasureSelect from "./MeasureSelect";
 
 import "./AreaSidebar.css";
+import BaseSelect from "./BaseSelect";
 
 class AreaSidebar extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.addDrilldown = addDrilldown.bind(this);
     this.fetchQuery = fetchQuery.bind(this);
-    this.removeDrilldown = removeDrilldown.bind(this);
+    this.setDimension = setDimension.bind(this);
+    this.setDrilldown = setDrilldown.bind(this);
     this.setMeasure = setMeasure.bind(this);
   }
 
@@ -46,12 +47,22 @@ class AreaSidebar extends React.PureComponent {
           </div>
 
           <div className="group">
-            <span className="label">Level</span>
+            <span className="label">Grouped by</span>
+            <BaseSelect
+              filterable={false}
+              items={options.dimensions}
+              value={query.dimension}
+              onItemSelect={this.setDimension}
+            />
+          </div>
+
+          <div className="group">
+            <span className="label">At depth level</span>
             <LevelSelect
+              filterable={false}
               items={options.levels}
-              value={query.drilldowns}
-              onItemSelect={this.addDrilldown}
-              onItemRemove={this.removeDrilldown}
+              value={query.drilldown}
+              onItemSelect={this.setDrilldown}
             />
           </div>
 
@@ -73,9 +84,7 @@ class AreaSidebar extends React.PureComponent {
             {ann.source_name}
           </ConditionalAnchor>
         </p>
-        <p hidden={!ann.source_description}>
-          {ann.source_description}
-        </p>
+        <p hidden={!ann.source_description}>{ann.source_description}</p>
         <p hidden={!ann.dataset_name}>
           <span>Dataset: </span>
           <ConditionalAnchor className="source-link" href={ann.dataset_link}>

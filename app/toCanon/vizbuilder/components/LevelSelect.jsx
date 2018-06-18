@@ -1,7 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
-import {Icon} from "@blueprintjs/core";
 
 import {composePropertyName} from "../helpers/sorting";
 import BaseSelect from "./BaseSelect";
@@ -33,7 +32,6 @@ LevelSelect.defaultProps = {
         onClick={item.disabled || handleClick}
         title={item.name}
       >
-        {item.icon && <Icon iconName={item.icon} />}
         <span className="select-option-label">{item.name}</span>
         <span className="select-option-label lead">
           {item.hierarchy.dimension.name}
@@ -41,7 +39,6 @@ LevelSelect.defaultProps = {
       </li>
     );
   },
-  multiple: true,
   tagRenderer: composePropertyName
 };
 

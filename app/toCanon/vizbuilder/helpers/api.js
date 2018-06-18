@@ -24,8 +24,9 @@ export function query(params) {
 
   const query = queryBuilder(params.cube.query, queryConverter(params));
 
-  if (query.path() !== lastPath) {
-    lastPath = query.path();
+  const newPath = query.path();
+  if (newPath !== lastPath) {
+    lastPath = newPath;
     lastQuery = client.query(query, params.format || "jsonrecords");
   }
 

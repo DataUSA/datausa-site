@@ -109,11 +109,31 @@
 .select-level {
   & .select-option-label {
     display: block;
+    line-height: 18px;
+
+    &.lead {
+      font-size: 0.75em;
+      line-height: 14px;
+      color: #666;
+      text-transform: uppercase;
+    }
   }
 
-  & .lead {
-    font-size: 0.8em;
-    color: #666;
+  & .item-level.level-1 {
+    padding-top: 4px;
+    line-height: 22px;
+    font-weight: 800;
+  }
+
+  & .item-level.level-2 {
+    padding-top: 10px;
+    padding-left: 15px;
+    line-height: 20px;
+    font-style: italic;
+  }
+
+  & .item-level.select-option {
+    padding-left: 26px;
   }
 }
 

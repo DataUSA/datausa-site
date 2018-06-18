@@ -82,7 +82,7 @@ class ConditionItem extends React.PureComponent {
             onItemSelect={this.setInitialProperty}
           />
         </div>
-        <div className="group filter-actions">
+        <div className="group condition-actions">
           <Button
             text="Cancel"
             className="pt-small"

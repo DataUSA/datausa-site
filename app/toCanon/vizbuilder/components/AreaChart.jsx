@@ -107,6 +107,14 @@ class AreaChart extends React.Component {
     const {dataset, query} = this.props;
     const {type} = this.state;
 
+    if (!dataset.length) {
+      return (
+        <div className="area-chart empty">
+          <NonIdealState visual="square" title="Empty dataset" />
+        </div>
+      );
+    }
+
     const aggregatorType = query.measure
       ? query.measure.annotations &&
         query.measure.annotations.aggregation_method
@@ -123,28 +131,34 @@ class AreaChart extends React.Component {
         name,
         aggregatorType
       },
-      dimension: query.drilldowns[0] ? query.drilldowns[0].name : "",
+      dimension: query.drilldown ? query.drilldown.name : "",
       groupBy: "",
       moe: query.moe || null
     };
 
-    if (!dataset.length) {
-      return (
-        <div className="area-chart empty">
-          <NonIdealState visual="square" title="Empty dataset" />
-        </div>
-      );
-    }
-
     const timeDim = "Year" in dataset[0];
     const geoDim = ("ID State" || "ID County") in dataset[0] ? true : false;
 
-    const findAllYears = timeDim
-      ? [...new Set(dataset.map(item => item["ID Year"]))].sort((a, b) => b - a)
-      : "";
-    findAllYears.unshift("All years");
-
-    chartConfig.type = "Treemap";
+    let yearSelector = null;
+    if (timeDim) {
+      const yearMap = dataset.reduce((all, item) => {
+        all[item.Year] = true;
+        return all;
+      }, {});
+      const yearOptions = Object.keys(yearMap)
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+        .map(item =>
+          <option key={item} value={item}>
+            {item}
+          </option>
+        );
+      yearSelector =
+        <select onChange={this.selectYear} value={this.state.year}>
+          <option value="All years">All years</option>
+          {yearOptions}
+        </select>
+      ;
+    }
 
     return (
       <div className="area-chart" onScroll={this.scrollEnsure}>
@@ -156,7 +170,7 @@ class AreaChart extends React.Component {
               if (/StackedArea|BarChart/.test(itype) && !timeDim) return null;
               if (/Geomap/.test(itype) && !geoDim) return null;
               if (
-                /Treemap|StackedArea/.test(itype) &&
+                /Pie|Donut|Treemap|StackedArea/.test(itype) &&
                 chartConfig.measure.aggregatorType === "AVERAGE"
               ) {
                 return null;
@@ -181,6 +195,10 @@ class AreaChart extends React.Component {
                 };
               }
 
+              const cardTitle = `${itype} of ${chartConfig.measure.name} by ${
+                chartConfig.dimension
+              }`;
+
               return (
                 <ChartCard
                   key={itype}
@@ -188,19 +206,9 @@ class AreaChart extends React.Component {
                   config={config}
                   header={
                     <header>
-                      {`${itype} of ${chartConfig.measure.name} by ${
-                        chartConfig.dimension
-                      }`}
+                      {cardTitle}
                       {!(/StackedArea|BarChart|LinePlot/).test(itype) &&
-                        <select
-                          onChange={this.selectYear}
-                          value={this.state.year}
-                        >
-                          {findAllYears.map(item =>
-                            <option value={item}>{item}</option>
-                          )}
-                        </select>
-                      }
+                        yearSelector}
                     </header>
                   }
                   footer={this.renderFooter.call(this, itype)}

@@ -52,9 +52,10 @@ export function queryBuilder(query, params) {
 export function queryConverter(params) {
   const query = {
     measures: [params.measure.name],
-    drilldowns: params.drilldowns.map(lvl =>
-      lvl.fullName.slice(1, -1).split("].[")
-    ),
+    drilldowns: []
+      .concat(params.drilldown, params.timeDrilldown)
+      .filter(Boolean)
+      .map(lvl => lvl.fullName.slice(1, -1).split("].[")),
     cuts: [],
     filters: [],
     limit: undefined,

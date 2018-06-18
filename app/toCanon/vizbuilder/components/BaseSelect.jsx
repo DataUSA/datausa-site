@@ -7,22 +7,6 @@ import {Select, MultiSelect} from "@blueprintjs/labs";
 
 import "./BaseSelect.css";
 
-/**
- * @template T
- * @typedef IProps
- * @prop {IconName} caret
- * @prop {T} defaultOption
- * @prop {Array} items
- * @prop {boolean} multiple
- * @prop {T} value
- */
-
-/**
- * @class BaseSelect
- * @template T
- * @param {ISelectProps & IProps | IMultiSelectProps & IProps} props
- * @prop {ISelectProps & IProps | IMultiSelectProps & IProps} defaultProps
- */
 function BaseSelect(props) {
   props = {
     ...props,
@@ -40,19 +24,25 @@ function BaseSelect(props) {
     return React.createElement(MultiSelect, props, props.children);
   }
   else {
-    if (!props.value || typeof props.value !== "object") {
-      props.value = props.defaultOption;
-    }
-    else {
-      props.value =
-        props.items.find(item => item.name === props.value.name) ||
-        props.defaultOption;
+    let item = props.value;
+
+    if (props.items.indexOf(item) === -1) {
+      console.log("nope", item);
+      if (!item || typeof item !== "object") {
+        item = props.defaultOption;
+      }
+      else {
+        item =
+          props.items.find(i => i.name === item.name) || props.defaultOption;
+      }
+
+      props.value = item;
     }
 
     props.children = props.children ||
-      <div className="select-option current" title={props.value.name}>
-        {props.value.icon && <Icon iconName={props.value.icon} />}
-        <span className="value">{props.value.name}</span>
+      <div className="select-option current" title={item.name}>
+        {item.icon && <Icon iconName={item.icon} />}
+        <span className="value">{item.name}</span>
         <Icon iconName={props.caret} />
       </div>
     ;
@@ -61,7 +51,6 @@ function BaseSelect(props) {
   }
 }
 
-/** @type {ISelectProps & IProps | IMultiSelectProps & IProps} */
 BaseSelect.defaultProps = {
   caret: "double-caret-vertical",
   defaultOption: {value: null, name: "Select...", disabled: true},
@@ -89,6 +78,11 @@ BaseSelect.defaultProps = {
   multiple: false,
   noResults: <span className="select-noresults">No results</span>,
   popoverProps: {
+    modifiers: {
+      preventOverflow: {
+        boundariesElement: "viewport"
+      }
+    },
     popoverClassName: "select-box select-box-popover pt-minimal"
   },
   resetOnSelect: true,

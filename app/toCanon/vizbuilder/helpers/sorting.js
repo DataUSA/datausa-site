@@ -11,6 +11,7 @@ export function injectCubeInfoOnMeasure(cubes) {
     const cbName = cube.caption || cube.name;
     const cbTopic = cube.annotations.topic;
     const cbSubtopic = cube.annotations.subtopic;
+    const selectorKey = `${cbTopic}-${cbSubtopic}-`;
     const sourceName = cube.annotations.source_name;
     // const sourceDesc = cube.annotations.source_description;
     // const sourceLink = cube.annotations.source_link;
@@ -19,11 +20,14 @@ export function injectCubeInfoOnMeasure(cubes) {
 
     let nMsr = cube.measures.length;
     while (nMsr--) {
-      const annotations = cube.measures[nMsr].annotations;
+      const measure = cube.measures[nMsr];
+      const annotations = measure.annotations;
       annotations._cb_name = cbName;
       annotations._cb_topic = cbTopic;
       annotations._cb_subtopic = cbSubtopic;
-      annotations._cb_sourcename = sourceName;
+      annotations._cb_sourceName = sourceName;
+      annotations._selectorKey =
+        selectorKey + (measure.caption || measure.name);
       // annotations._source_desc = sourceDesc;
       // annotations._source_link = sourceLink;
       // annotations._dataset_name = datasetName;
@@ -49,7 +53,9 @@ export function getValidMeasures(cubes) {
     }
   }
 
-  return measures.sort((a, b) => a.name.localeCompare(b.name));
+  return measures.sort((a, b) =>
+    a.annotations._selectorKey.localeCompare(b.annotations._selectorKey)
+  );
 }
 
 export function getMeasureMOE(cube, measure) {
@@ -61,6 +67,7 @@ export function getMeasureMOE(cube, measure) {
       const currentMeasure = cube.measures[nMsr];
 
       const name = currentMeasure.name.toLowerCase();
+      // TODO: update this condition when `error_for_measure` gets implemented
       if (
         currentMeasure.annotations.error_for_measure &&
         name.indexOf(measureName) === 0
@@ -73,17 +80,21 @@ export function getMeasureMOE(cube, measure) {
   return undefined;
 }
 
-export function getValidDrilldowns(cube) {
-  return cube.dimensions.reduce(flattenDimensions, []);
+export function getValidDimensions(cube) {
+  return cube.dimensions.filter(dim => !isTimeDimension(dim));
 }
 
-export function flattenDimensions(container, dimension) {
+export function getValidDrilldowns(cube) {
+  return getValidDimensions(cube).reduce(reduceLevelsFromDimension, []);
+}
+
+export function reduceLevelsFromDimension(container, dimension) {
   return isTimeDimension(dimension)
     ? container
-    : dimension.hierarchies.reduce(flattenHierarchies, container);
+    : dimension.hierarchies.reduce(reduceLevelsFromHierarchy, container);
 }
 
-export function flattenHierarchies(container, hierarchy) {
+export function reduceLevelsFromHierarchy(container, hierarchy) {
   return container.concat(hierarchy.levels.slice(1));
 }
 
@@ -96,16 +107,15 @@ export function joinDrilldownList(array, drilldown) {
   );
 }
 
-export function addTimeDrilldown(array, cube) {
+export function getTimeDrilldown(cube) {
   const timeDim = cube.timeDimension || cube.dimensionsByName.Date;
   if (timeDim) {
     const timeHie = timeDim.hierarchies.slice(-1).pop();
     if (timeHie) {
-      const timeDrilldown = timeHie.levels.slice(1, 2);
-      array = joinDrilldownList(array, timeDrilldown);
+      return timeHie.levels.slice(1, 2).pop();
     }
   }
-  return array;
+  return undefined;
 }
 
 export function composePropertyName(item) {

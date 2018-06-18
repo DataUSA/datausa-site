@@ -9,11 +9,17 @@ export default function initialStateFactory() {
       error: undefined
     },
     query: {
+      conditions: [],
       cube: null,
+      dimension: null,
+      drilldown: null,
       measure: null,
       moe: null,
-      drilldowns: [],
-      conditions: [],
+      limit: undefined,
+      locale: "en",
+      offset: undefined,
+      order: undefined,
+      orderDesc: undefined,
       options: {
         nonempty: true,
         distinct: false,
@@ -21,14 +27,11 @@ export default function initialStateFactory() {
         debug: false,
         sparse: true
       },
-      locale: "en",
-      limit: undefined,
-      offset: undefined,
-      order: undefined,
-      orderDesc: undefined
+      timeDrilldown: null
     },
     options: {
       cubes: [],
+      dimensions: [],
       levels: [],
       measures: []
     },
@@ -44,21 +47,24 @@ export const loadTypes = PropTypes.shape({
 });
 
 export const queryTypes = PropTypes.shape({
+  conditions: PropTypes.array,
   cube: PropTypes.any,
+  dimension: PropTypes.any,
+  drilldown: PropTypes.any,
   measure: PropTypes.any,
-  drilldowns: PropTypes.any,
-  filters: PropTypes.any,
-  cuts: PropTypes.any,
-  options: PropTypes.any,
-  locale: PropTypes.string,
+  moe: PropTypes.any,
   limit: PropTypes.number,
+  locale: PropTypes.string,
   offset: PropTypes.number,
+  options: PropTypes.any,
   order: PropTypes.any,
-  orderDesc: PropTypes.bool
+  orderDesc: PropTypes.bool,
+  timeDrilldown: PropTypes.any
 });
 
 export const optionsTypes = PropTypes.shape({
   cubes: PropTypes.array,
+  dimensions: PropTypes.array,
   levels: PropTypes.array,
   measures: PropTypes.array
 });

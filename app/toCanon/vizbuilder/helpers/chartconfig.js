@@ -1,5 +1,7 @@
 import {
   Treemap,
+  Donut,
+  Pie,
   BarChart,
   StackedArea,
   Geomap,
@@ -12,6 +14,8 @@ export const charts = {
   Treemap,
   Geomap,
   LinePlot,
+  Donut,
+  Pie,
   BarChart,
   StackedArea
 };

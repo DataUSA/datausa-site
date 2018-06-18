@@ -98,33 +98,6 @@ export function stateUpdate(newState) {
   });
 }
 
-export function loadUpdate(newLoad) {
-  return setStatePromise.call(this, state => ({
-    load: {
-      ...state.load,
-      ...newLoad
-    }
-  }));
-}
-
-export function queryUpdate(newQuery) {
-  return setStatePromise.call(this, state => ({
-    query: {
-      ...state.query,
-      ...newQuery
-    }
-  }));
-}
-
-export function optionsUpdate(newOptions) {
-  return setStatePromise.call(this, state => ({
-    options: {
-      ...state.options,
-      ...newOptions
-    }
-  }));
-}
-
 export function datasetUpdate(newDataset) {
   return setStatePromise.call(this, {dataset: [].concat(newDataset || [])});
 }

@@ -1,10 +1,11 @@
 import * as api from "../helpers/api";
 import {
-  addTimeDrilldown,
+  reduceLevelsFromDimension,
   getMeasureMOE,
-  getValidDrilldowns,
+  getTimeDrilldown,
   getValidMeasures,
-  injectCubeInfoOnMeasure
+  injectCubeInfoOnMeasure,
+  getValidDimensions
 } from "../helpers/sorting";
 
 /**
@@ -19,21 +20,28 @@ export function fetchCubes() {
       injectCubeInfoOnMeasure(cubes);
 
       const measures = getValidMeasures(cubes);
-      // const firstMeasure = measures[0];
       const firstMeasure = measures.find(d => d.name === "Millions Of Dollars");
       const firstCubeName = firstMeasure.annotations._cb_name;
       const firstCube = cubes.find(cube => cube.name === firstCubeName);
-      const levels = getValidDrilldowns(firstCube);
-      const drilldowns = addTimeDrilldown(levels.slice(0, 1), firstCube);
       const firstMoe = getMeasureMOE(firstCube, firstMeasure);
+      const timeDrilldown = getTimeDrilldown(firstCube);
+
+      const dimensions = getValidDimensions(firstCube);
+      const firstDimension = dimensions[0];
+
+      const levels = reduceLevelsFromDimension([], firstDimension);
+      const drilldown = levels[0];
 
       return {
-        options: {cubes, measures, levels},
+        options: {cubes, measures, dimensions, levels},
         query: {
           cube: firstCube,
           measure: firstMeasure,
           moe: firstMoe,
-          drilldowns
+          dimension: firstDimension,
+          drilldown,
+          timeDrilldown,
+          conditions: []
         }
       };
     })
