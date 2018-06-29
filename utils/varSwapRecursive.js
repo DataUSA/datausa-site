@@ -20,7 +20,7 @@ const varSwapRecursive = (sourceObj, formatterFunctions, variables, query = {}, 
         return selector;
       }
       else {
-        selector[s.name] = s.default;
+        selector[s.name] = varSwap(s.default, formatterFunctions, variables);
         return selector;
       }
     });

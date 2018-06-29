@@ -13,7 +13,8 @@ class SelectorEditor extends Component {
 
   componentDidMount() {
     const {data} = this.props;
-    this.setState({data});   
+    const showCustom = data.default.includes("{{");
+    this.setState({data, showCustom});   
   }
 
   addOption() {
@@ -36,10 +37,16 @@ class SelectorEditor extends Component {
     this.setState({data});
   }
 
+  chooseCustom(e) {
+    const {data} = this.state;
+    data.default = e.target.value;
+    this.setState({data});
+  }
+
   setDefault(option) {
     const {data} = this.state;
     data.default = option;
-    this.setState({data}); 
+    this.setState({data, showCustom: false}); 
   }
 
   deleteOption(i) {
@@ -80,6 +87,10 @@ class SelectorEditor extends Component {
     this.setState({data});
   }
 
+  toggleCustom() {
+    this.setState({showCustom: !this.state.showCustom});
+  }
+
   render() {
 
     const {data} = this.state;
@@ -94,6 +105,16 @@ class SelectorEditor extends Component {
         const value = variables[key];
         varOptions.push(
           <option key={key} value={key}>{`${key}: ${value}`}</option>
+        );
+      }
+    }
+
+    const customOptions = [];
+    for (const key in variables) {
+      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
+        const value = variables[key];
+        customOptions.push(
+          <option key={`{{${key}}}`} value={`{{${key}}}`}>{`${key}: ${value}`}</option>
         );
       }
     }
@@ -122,7 +143,15 @@ class SelectorEditor extends Component {
             )
           }
         </ul>
-        <button className="pt-button" onClick={this.addOption.bind(this)}>Add Option <span className="pt-icon pt-icon-plus"/></button>
+        <button className="pt-button" onClick={this.addOption.bind(this)}>Add Option <span className="pt-icon pt-icon-plus"/></button><br/>
+        <button className="pt-button" onClick={this.toggleCustom.bind(this)}>Custom Default <span className="pt-icon pt-icon-cog"/></button> 
+        {
+          this.state.showCustom && <div>
+            <select value={data.default} onChange={this.chooseCustom.bind(this)} style={{margin: "5px"}}>
+              {customOptions}
+            </select>
+          </div>
+        }
       </div>
     );
   }
