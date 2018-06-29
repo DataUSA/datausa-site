@@ -66,7 +66,6 @@ class TopicEditor extends Component {
     const displayify = obj => obj.display_vars = varSwapRecursive(obj, formatters, variables);
     
     displayify(rawData);
-    if (rawData.stats) rawData.stats.forEach(displayify);
     if (rawData.subtitles) rawData.subtitles.forEach(displayify);
     if (rawData.descriptions) rawData.descriptions.forEach(displayify);
     // Do we need a visualization one? Check with dave
@@ -293,7 +292,8 @@ class TopicEditor extends Component {
         <div className="stats">
           { rawData.stats && rawData.stats.map(s =>
             <StatCard key={s.id}
-              vars={s.display_vars}
+              variables={variables}
+              rawData={s}
               onClick={this.openTextEditor.bind(this, s, "stat_topic", ["title", "value", "subtitle"])} />
           ) }
           <Card className="stat-card" onClick={this.addItem.bind(this, "stat_topic")} interactive={true} elevation={0}>

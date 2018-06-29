@@ -129,10 +129,10 @@ class SelectorEditor extends Component {
           {
             data.options && data.options.map((option, i) => 
               <li key={i}>
-                <select value={option.option} onChange={this.chooseOption.bind(this, i)} style={{margin: "5px"}}>
+                <select value={option.option} onChange={this.chooseOption.bind(this, i)} style={{margin: "5px", width: "300px"}}>
                   {varOptions}
                 </select>
-                <select value={option.allowed} onChange={this.chooseAllowed.bind(this, i)} style={{margin: "5px"}}>
+                <select value={option.allowed} onChange={this.chooseAllowed.bind(this, i)} style={{margin: "5px", width: "300px"}}>
                   {always.concat(varOptions)}
                 </select>
                 <button className="pt-button" onClick={this.moveUp.bind(this, i)}><span className="pt-icon pt-icon-arrow-up" /></button>
@@ -147,7 +147,7 @@ class SelectorEditor extends Component {
         <button className="pt-button" onClick={this.toggleCustom.bind(this)}>Custom Default <span className="pt-icon pt-icon-cog"/></button> 
         {
           this.state.showCustom && <div>
-            <select value={data.default} onChange={this.chooseCustom.bind(this)} style={{margin: "5px"}}>
+            <select value={data.default} onChange={this.chooseCustom.bind(this)} style={{margin: "5px", width: "300px"}}>
               {customOptions}
             </select>
           </div>

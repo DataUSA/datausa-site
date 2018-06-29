@@ -86,7 +86,7 @@ class TextEditor extends Component {
       <div id="text-editor">
         <div className="pt-select">
           Allowed?
-          <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+          <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px", width: "300px"}}>
             {varOptions}
           </select>
         </div>

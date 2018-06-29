@@ -52,10 +52,7 @@ class ProfileEditor extends Component {
     const {formatters} = this.context;
 
     rawData.display_vars = varSwapRecursive(rawData, formatters, variables);
-    if (rawData.stats) rawData.stats.forEach(stat => stat.display_vars = varSwapRecursive(stat, formatters, variables));
     if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwapRecursive(desc, formatters, variables));
-    if (rawData.generators) rawData.generators.forEach(g => g.display_vars = variables._genStatus[g.id]);
-    if (rawData.materializers) rawData.materializers.forEach(m => m.display_vars = variables._matStatus[m.id]);
 
     this.setState({rawData, recompiling: false});
   }
@@ -306,7 +303,7 @@ class ProfileEditor extends Component {
           { rawData.generators && rawData.generators
             .sort((a, b) => a.name.localeCompare(b.name))
             .map(g =>
-              <GeneratorCard key={g.id} name={g.name} vars={g.display_vars} type="generator"
+              <GeneratorCard key={g.id} name={g.name} type="generator" rawData={g} variables={variables}
                 onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
             ) }
         </div>
@@ -320,7 +317,7 @@ class ProfileEditor extends Component {
         <div className="generator-cards materializers">
           { rawData.materializers && rawData.materializers
             .map(m =>
-              <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer"
+              <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer" rawData={m} variables={variables}
                 onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
             ) }
         </div>
@@ -333,7 +330,8 @@ class ProfileEditor extends Component {
           <div className="stats">
             { rawData.stats && rawData.stats.map(s =>
               <StatCard key={s.id}
-                vars={s.display_vars}
+                rawData={s}
+                variables={variables}
                 onClick={this.openTextEditor.bind(this, s, "stat_profile", ["title", "value", "subtitle"])} />
             ) }
             <Card className="stat-card" onClick={this.addItem.bind(this, "stat_profile")} interactive={true} elevation={0}>
