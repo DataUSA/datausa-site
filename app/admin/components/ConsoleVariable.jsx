@@ -22,6 +22,9 @@ export default class ConsoleVariable extends Component {
     else if (t === "object") v = JSON.stringify(v);
     else if (t === "error") v = `Error: ${v.message}`;
     else if (t === "undefined") v = t;
+    else if (t === "array") {
+      v = <span>[{v.map((l, i) => <span key={i}><ConsoleVariable value={l} />, </span>)}]</span>;
+    }
     else if (v.toString) v = v.toString();
 
     return <span className={`variable ${t}`}>{v}</span>;
