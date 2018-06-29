@@ -20,6 +20,6 @@ module.exports = (varInnerName, varOuterValue, logic, formatterFunctions) => {
   }
   catch (e) {
     // An unsuccessfully run eval returns the error
-    return {vars, error: e};
+    return {vars, error: e.message};
   }
 };
