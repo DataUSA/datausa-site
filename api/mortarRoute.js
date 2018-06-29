@@ -122,7 +122,7 @@ module.exports = function(app) {
       .then(resp => {
         const [pid, attr, formatters, generators] = resp;
         // Create a hash table so the formatters are directly accessible by name
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
+        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}), acc), {});
         // Deduplicate generators that share an API endpoint
         const requests = Array.from(new Set(generators.map(g => g.api)));
         // Generators use <id> as a placeholder. Replace instances of <id> with the provided id from the URL
@@ -195,7 +195,7 @@ module.exports = function(app) {
       .then(resp => {
         const variables = resp[0].data;
         const formatters = resp[1];
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
+        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}), acc), {});
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
         return Promise.all([variables, formatterFunctions, request]);
       })
@@ -233,7 +233,7 @@ module.exports = function(app) {
     Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
       const variables = resp[0].data;
       const formatters = resp[1];
-      const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = Function("n", "libs", "formatters", f.logic), acc), {});
+      const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}), acc), {});
       const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
       res.json(topic).end();
     });
