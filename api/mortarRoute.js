@@ -127,7 +127,14 @@ module.exports = function(app) {
         const requests = Array.from(new Set(generators.map(g => g.api)));
         // Generators use <id> as a placeholder. Replace instances of <id> with the provided id from the URL
         // The .catch here is to handle malformed API urls, returning an empty object
-        const fetches = requests.map(r => axios.get(urlSwap(r, {...req.params, ...cache, ...attr})).catch(() => ({})));
+        const fetches = requests.map(r => {
+          let url = urlSwap(r, {...req.params, ...cache, ...attr});
+          if (url.indexOf("http") !== 0) {
+            const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+            url = `${origin}${url.indexOf("/") === 0 ? "" : "/"}${url}`;
+          }
+          return axios.get(url).catch(() => ({}));
+        });
         return Promise.all([pid, generators, requests, formatterFunctions, Promise.all(fetches)]);
       })
       // Given a profile id, its generators, their API endpoints, and the responses of those endpoints,
