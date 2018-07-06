@@ -1,3 +1,6 @@
-.generator-input {
-  margin: 10px;
+#generator-editor {
+  width: 100%;
+  .generator-input {
+    margin: 10px;
+  }
 }
