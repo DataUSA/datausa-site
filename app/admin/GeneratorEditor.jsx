@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, {Component} from "react";
-import QuillWrapper from "./QuillWrapper";
 import AceWrapper from "./AceWrapper";
 
 import "./GeneratorEditor.css";
@@ -46,13 +44,15 @@ class GeneratorEditor extends Component {
     const preMessage = {
       generator: <span>You have access to the variable <strong>resp</strong>, which represents the response to the above API call.</span>,
       materializer: <span>You have access to all variables previously created by generators</span>,
-      visualization: <span>You have access to all variables previously created by generators and materializers. <br/><strong>&lt;id&gt;</strong> will be replaced by the current profile&#39;s id.</span>
+      visualization_profile: <span>You have access to all variables previously created by generators and materializers. <br/><strong>&lt;id&gt;</strong> will be replaced by the current profile&#39;s id.</span>,
+      visualization_topic: <span>You have access to all variables previously created by generators and materializers. <br/><strong>&lt;id&gt;</strong> will be replaced by the current topic&#39;s id.</span>
     };
 
     const postMessage = {
       generator: <span>Be sure to return an <strong>object</strong> with the variables you want stored as keys.</span>,
       materalizer: <span>Be sure to return an <strong>object</strong> with the variables you want stored as keys.</span>,
-      visualization: <span>Be sure to return a valid config object for a visualization</span>
+      visualization_profile: <span>Be sure to return a valid config object for a visualization</span>,
+      visualization_topic: <span>Be sure to return a valid config object for a visualization</span>
     };
 
     const varOptions = [<option key="always" value="always">Always</option>];
@@ -92,13 +92,13 @@ class GeneratorEditor extends Component {
           : null
         }
         <div id="generator-ace">
-          {type === "visualization" && 
-            <div className="pt-select">
+          { type === "visualization_profile" || type === "visualization_topic" 
+            ? <div className="pt-select">
               Allowed?
-              <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+              <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px", width: "200px"}}>
                 {varOptions}
               </select>
-            </div>
+            </div> : null
           }
           <br/>
           <strong>Callback</strong><br/>

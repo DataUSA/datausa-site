@@ -1,15 +1,13 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Dialog, Card, NonIdealState} from "@blueprintjs/core";
-import TextEditor from "./TextEditor";
-import GeneratorEditor from "./GeneratorEditor";
+import {Button} from "@blueprintjs/core";
 import Loading from "components/Loading";
-import SelectorEditor from "./SelectorEditor";
-import FooterButtons from "./components/FooterButtons";
-import StatCard from "./components/StatCard";
-import varSwapRecursive from "../../utils/varSwapRecursive";
-
 import PropTypes from "prop-types";
+import TextCard from "./components/TextCard";
+import SelectorCard from "./components/SelectorCard";
+import VisualizationCard from "./components/VisualizationCard";
+
+import stubs from "../../utils/stubs.js";
 
 import "./TopicEditor.css";
 
@@ -18,182 +16,87 @@ class TopicEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rawData: null,
-      recompiling: true
+      minData: null
     };
   }
 
   componentDidMount() {
-    const {rawData} = this.props;
-    this.setState({rawData}, this.formatDisplays.bind(this));
+    this.hitDB.bind(this)();
   }
 
-  componentDidUpdate() {
-    if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData, recompiling: true}, this.formatDisplays.bind(this));
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.hitDB.bind(this)();
     }
+  }
+
+  hitDB() {
+    axios.get(`/api/cms/topic/get/${this.props.id}`).then(resp => {
+      this.setState({minData: resp.data});
+    });
   }
 
   changeField(field, e) {
-    const {rawData} = this.state;
-    rawData[field] = e.target.value;
-    this.setState({rawData});
+    const {minData} = this.state;
+    minData[field] = e.target.value;
+    this.setState({minData});
   }
 
   chooseVariable(e) {
-    const {rawData} = this.state;
-    rawData.allowed = e.target.value;
-    this.setState({rawData, recompiling: true}, this.saveItem.bind(this, rawData, "topic"));
-  }
-
-  openTextEditor(t, type, fields) {
-    this.setState({currentText: t, currentFields: fields, currentTextType: type, isTextEditorOpen: true});
-  }
-
-  openSelectorEditor(s, type) {
-    this.setState({currentSelector: s, currentSelectorType: type, isSelectorEditorOpen: true}); 
-  }
-
-  openGeneratorEditor(g, type) {
-    this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
-  }
-
-  formatDisplays() {
-    const {rawData} = this.state;
-    const {formatters} = this.context;
-    const {variables} = this.props;
-    
-    const displayify = obj => obj.display_vars = varSwapRecursive(obj, formatters, variables);
-    
-    displayify(rawData);
-    if (rawData.subtitles) rawData.subtitles.forEach(displayify);
-    if (rawData.descriptions) rawData.descriptions.forEach(displayify);
-    // Do we need a visualization one? Check with dave
-
-    this.setState({rawData, recompiling: false});
+    const {minData} = this.state;
+    minData.allowed = e.target.value;
+    this.setState({minData}, this.save.bind(this));
   }
 
   addItem(type) {
-    const {rawData} = this.state;
-    this.setState({recompiling: true});
-    let payload;
-    if (type === "stat_topic") {
-      payload = {
-        title: "New Stat",
-        subtitle: "New Subtitle",
-        value: "New Value",
-        topic_id: rawData.id
-      };
-      axios.post("/api/cms/stat_topic/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.stats.push(resp.data);
-          this.setState({rawData}, this.formatDisplays.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "visualization_topic") {
-      payload = {
-        logic: "return {}",
-        topic_id: rawData.id
-      };
-      axios.post("/api/cms/visualization_topic/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.visualizations.push(resp.data);
-          this.setState({rawData}, this.formatDisplays.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "subtitle") {
-      payload = {
-        subtitle: "New Subtitle",
-        topic_id: rawData.id
-      };
-      axios.post("/api/cms/topic_subtitle/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.subtitles.push(resp.data);
-          this.setState({rawData}, this.formatDisplays.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "description") {
-      payload = {
-        description: "New Description",
-        topic_id: rawData.id
-      };
-      axios.post("/api/cms/topic_description/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.descriptions.push(resp.data);
-          this.setState({rawData}, this.formatDisplays.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "selector") {
-      payload = {
-        options: ["options", "go", "here"],
-        default: "options",
-        topic_id: rawData.id,
-        name: "new-selector"
-      };
-      axios.post("/api/cms/selector/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.selectors.push(resp.data);
-          this.setState({rawData}, this.formatDisplays.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
+    const {minData} = this.state;
+    const payload = Object.assign({}, stubs[type]);
+    payload.topic_id = minData.id; 
+    // something about ordering will have to go here
+    axios.post(`/api/cms/${type}/new`, payload).then(resp => {
+      if (resp.status === 200) {
+        if (type === "topic_subtitle") minData.subtitles.push({id: resp.data.id});
+        if (type === "topic_description") minData.descriptions.push({id: resp.data.id});
+        if (type === "stat_topic") minData.stats.push({id: resp.data.id});
+        if (type === "visualization_topic") minData.visualizations.push({id: resp.data.id});
+        if (type === "selector") minData.selectors.push(resp.data);
+        this.setState({minData});
+      }
+    });
   }
 
-  deleteItem(item, type) {
-    const {rawData} = this.state;
-    this.setState({recompiling: true});
-    if (["stat_topic", "visualization_topic", "topic_subtitle", "topic_description", "selector"].includes(type)) {
-      axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
-        if (resp.status === 200) {
-          const f = obj => obj.id !== item.id;
-          if (type === "stat_topic") rawData.stats = rawData.stats.filter(f);
-          if (type === "visualization_topic") rawData.visualizations = rawData.visualizations.filter(f);
-          if (type === "topic_subtitle") rawData.subtitles = rawData.subtitles.filter(f);
-          if (type === "topic_description") rawData.descriptions = rawData.descriptions.filter(f);
-          if (type === "selector") rawData.selectors = rawData.selectors.filter(f);
-          this.setState({rawData, isSelectorEditorOpen: false, isTextEditorOpen: false, isGeneratorEditorOpen: false}, this.formatDisplays.bind(this));
-        }
-      });
-    }
+  save() {
+    axios.post("/api/cms/topic/update", this.state.minData).then(resp => {
+      if (resp.status === 200) {
+        this.setState({isOpen: false});
+        if (this.props.reportSave) this.props.reportSave();
+      }
+    });
   }
 
-  saveItem(item, type) {
-    this.setState({recompiling: true});
-    if (["topic", "stat_topic", "visualization_topic", "topic_subtitle", "topic_description", "selector"].includes(type)) {
-      axios.post(`/api/cms/${type}/update`, item).then(resp => {
-        if (resp.status === 200) {
-          this.setState({isTextEditorOpen: false, isSelectorEditorOpen: false, isGeneratorEditorOpen: false}, this.formatDisplays.bind(this));
-          if (this.props.reportSave) this.props.reportSave();
-        }
-      });
-    }
+  onSave() {
+    this.forceUpdate();
+  }
+
+  onDelete(id, type) {
+    const {minData} = this.state;
+    const f = obj => obj.id !== id;
+    if (type === "topic_subtitle") minData.subtitles = minData.subtitles.filter(f);
+    if (type === "topic_description") minData.descriptions = minData.descriptions.filter(f);
+    if (type === "stat_topic") minData.stats = minData.stats.filter(f);
+    if (type === "visualization_topic") minData.visualizations = minData.visualizations.filter(f);
+    if (type === "selector") minData.selectors = minData.selectors.filter(f);
+    this.setState({minData});
   }
 
   render() {
 
-    const {rawData, recompiling, currentText, currentFields, currentTextType, currentGenerator, currentGeneratorType, currentSelector, currentSelectorType} = this.state;
+    const {minData} = this.state;
     const {variables} = this.props;
     
-    if (!rawData || recompiling) return <Loading />;
+    if (!minData) return <Loading />;
+
+    // console.log(minData.selectors[1].default);
 
     const varOptions = [<option key="always" value="always">Always</option>];
     
@@ -210,123 +113,92 @@ class TopicEditor extends Component {
       <div id="section-editor">
         <div id="slug">
           slug
-          <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
-          <button onClick={this.saveItem.bind(this, rawData, "topic")}>rename</button>
+          <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug")}/>
+          <button onClick={this.save.bind(this)}>rename</button>
         </div>
         <div className="pt-select">
           Allowed?
-          <select value={rawData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+          <select value={minData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
             {varOptions}
           </select>
         </div>
-        <Dialog
-          iconName="code"
-          isOpen={this.state.isGeneratorEditorOpen}
-          onClose={() => this.setState({isGeneratorEditorOpen: false})}
-          title="Variable Editor"
-          style={{minWidth: "800px"}}
-        >
-          <div className="pt-dialog-body">
-            <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
-          </div>
-          <FooterButtons
-            onDelete={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
-            onCancel={() => this.setState({isGeneratorEditorOpen: false})}
-            onSave={this.saveItem.bind(this, currentGenerator, currentGeneratorType)}
-          />
-        </Dialog>
-        <Dialog
-          iconName="code"
-          isOpen={this.state.isSelectorEditorOpen}
-          onClose={() => this.setState({isSelectorEditorOpen: false})}
-          title="Selector Editor"
-          style={{minWidth: "800px"}}
-        >
-          <div className="pt-dialog-body">
-            <SelectorEditor variables={variables} data={currentSelector} type={currentSelectorType} />
-          </div>
-          <FooterButtons 
-            onDelete={this.deleteItem.bind(this, currentSelector, currentSelectorType)}
-            onCancel={() => this.setState({isSelectorEditorOpen: false})}
-            onSave={this.saveItem.bind(this, currentSelector, currentSelectorType)}
-          />
-        </Dialog>
-        <Dialog
-          iconName="document"
-          isOpen={this.state.isTextEditorOpen}
-          onClose={() => this.setState({isTextEditorOpen: false})}
-          title="Text Editor"
-        >
-          <div className="pt-dialog-body">
-            <TextEditor data={currentText} variables={variables} fields={currentFields} />
-          </div>
-          <FooterButtons 
-            onDelete={this.deleteItem.bind(this, currentText, currentTextType)}
-            onCancel={() => this.setState({isTextEditorOpen: false})}
-            onSave={this.saveItem.bind(this, currentText, currentTextType)}
-          />
-        </Dialog>
         <h4>Title</h4>
-        <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "topic", ["title"])} interactive={true} elevation={1}>
-          <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
-        </Card>
+        <TextCard 
+          id={minData.id}
+          fields={["title"]}
+          type="topic"
+          variables={variables}
+        />
         <h4>Subtitles</h4>
-        { rawData.subtitles && rawData.subtitles.map(s => 
-          <Card key={s.id} className="splash-card" onClick={this.openTextEditor.bind(this, s, "topic_subtitle", ["subtitle"])} interactive={true} elevation={1}>
-            <p className="splash-title" dangerouslySetInnerHTML={{__html: s.display_vars.subtitle}}></p>
-          </Card>) 
+        <Button onClick={this.addItem.bind(this, "topic_subtitle")} iconName="add" />
+        { minData.subtitles && minData.subtitles.map(s => 
+          <TextCard 
+            key={s.id}
+            id={s.id}
+            fields={["subtitle"]}
+            type="topic_subtitle"
+            onDelete={this.onDelete.bind(this)}
+            variables={variables}
+            selectors={minData.selectors.map(s => Object.assign({}, s))}
+          />) 
         }
-        <Card className="generator-card" onClick={this.addItem.bind(this, "subtitle")} interactive={true} elevation={0}>
-          <NonIdealState visual="add" title="New Subtitle" />
-        </Card>
         <h4>Descriptions</h4>
-        { rawData.descriptions && rawData.descriptions.map(d => 
-          <Card key={d.id} className="splash-card" onClick={this.openTextEditor.bind(this, d, "topic_description", ["description"])} interactive={true} elevation={1}>
-            <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
-          </Card>) 
+        <Button onClick={this.addItem.bind(this, "topic_description")} iconName="add" />
+        { minData.descriptions && minData.descriptions.map(d => 
+          <TextCard 
+            key={d.id}
+            id={d.id}
+            fields={["description"]}
+            type="topic_description"
+            onDelete={this.onDelete.bind(this)}
+            variables={variables}
+            selectors={minData.selectors.map(s => Object.assign({}, s))}
+          />) 
         }
-        <Card className="generator-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
-          <NonIdealState visual="add" title="New Description" />
-        </Card>
         <h4>Stats</h4>
+        <Button onClick={this.addItem.bind(this, "stat_topic")} iconName="add" />
         <div className="stats">
-          { rawData.stats && rawData.stats.map(s =>
-            <StatCard key={s.id}
+          { minData.stats && minData.stats.map(s =>
+            <TextCard 
+              key={s.id}
+              id={s.id}
+              fields={["title", "subtitle", "value"]}
+              type="stat_topic"
+              onDelete={this.onDelete.bind(this)}
               variables={variables}
-              rawData={s}
-              onClick={this.openTextEditor.bind(this, s, "stat_topic", ["title", "value", "subtitle"])} />
-          ) }
-          <Card className="stat-card" onClick={this.addItem.bind(this, "stat_topic")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="Stat" />
-          </Card>
+              selectors={minData.selectors.map(s => Object.assign({}, s))}
+            />)
+          }
         </div>
         <h4>Visualizations</h4>
+        <Button onClick={this.addItem.bind(this, "visualization_topic")} iconName="add" />
         <div className="visualizations">
           <div>
-            { rawData.visualizations && rawData.visualizations.map(v =>
-              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization_topic")} className="visualization-card" interactive={true} elevation={0}>
-                <p>{v.logic}</p>
-              </Card>
+            { minData.visualizations && minData.visualizations.map(v =>
+              <VisualizationCard 
+                key={v.id} 
+                id={v.id} 
+                onDelete={this.onDelete.bind(this)}
+                type="visualization_topic" 
+                variables={variables} 
+              />
             )}
-            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization_topic")} interactive={true} elevation={0}>
-              <NonIdealState visual="add" title="Visualization" />
-            </Card>
           </div>
         </div>
         <h4>Selectors</h4>
-        { rawData.selectors && rawData.selectors.map(s => 
-          <Card className="splash-card" key={s.id} onClick={this.openSelectorEditor.bind(this, s, "selector")} interactive={true} elevation={1}>
-            <h4>{s.name}</h4>
-            <ul>
-              {s.options && s.options.map(o => 
-                <li key={o.option}>{o.option}</li>
-              )}
-            </ul>
-          </Card>
-        )}
-        <Card className="generator-card" onClick={this.addItem.bind(this, "selector")} interactive={true} elevation={0}>
-          <NonIdealState visual="add" title="New Selector" />
-        </Card>
+        <Button onClick={this.addItem.bind(this, "selector")} iconName="add" />
+        { minData.selectors && minData.selectors.map(s => 
+          <SelectorCard 
+            key={s.id}
+            // id={s.id}
+            minData={s}
+            type="selector"
+            onSave={this.onSave.bind(this)}
+            onDelete={this.onDelete.bind(this)}
+            variables={variables}
+          />)
+        }
+
       </div>
     );
   }

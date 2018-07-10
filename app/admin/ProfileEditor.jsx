@@ -1,16 +1,14 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Button, Callout, Card, Dialog, Icon, NonIdealState} from "@blueprintjs/core";
-import GeneratorEditor from "./GeneratorEditor";
-import TextEditor from "./TextEditor";
+import {Button, Callout, Card, Icon, NonIdealState} from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import Loading from "components/Loading";
-import FooterButtons from "./components/FooterButtons";
 
 import GeneratorCard from "./components/GeneratorCard";
-import StatCard from "./components/StatCard";
+import TextCard from "./components/TextCard";
+import VisualizationCard from "./components/VisualizationCard";
 
-import varSwapRecursive from "../../utils/varSwapRecursive";
+import stubs from "../../utils/stubs.js";
 
 import "./ProfileEditor.css";
 
@@ -19,7 +17,7 @@ class ProfileEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rawData: null,
+      minData: null,
       variables: null,
       recompiling: true,
       preview: "04000US25"
@@ -27,170 +25,85 @@ class ProfileEditor extends Component {
   }
 
   componentDidMount() {
-    const {rawData} = this.props;
-    this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
+    this.hitDB.bind(this)();
   }
 
-  componentDidUpdate() {
-    if (this.props.rawData.id !== this.state.rawData.id) {
-      this.setState({rawData: this.props.rawData, recompiling: true}, this.fetchVariables.bind(this));
+  componentDidUpdate(prevProps) {
+    if (prevProps.id !== this.props.id) {
+      this.hitDB.bind(this)();
     }
   }
 
+  hitDB() {
+    axios.get(`/api/cms/profile/get/${this.props.id}`).then(resp => {
+      this.setState({minData: resp.data}, this.fetchVariables.bind(this));
+    });
+  }
+
   fetchVariables() {
-    const {slug} = this.state.rawData;
+    const {slug} = this.state.minData;
     const id = this.state.preview;
     axios.get(`/api/variables/${slug}/${id}`).then(resp => {
       const variables = resp.data;
-      this.setState({variables}, this.formatDisplays.bind(this));
+      this.setState({variables, recompiling: false});
       if (this.props.refreshVariables) this.props.refreshVariables(variables);
     });
   }
 
-  formatDisplays() {
-    const {rawData, variables} = this.state;
-    const {formatters} = this.context;
-
-    rawData.display_vars = varSwapRecursive(rawData, formatters, variables);
-    if (rawData.descriptions) rawData.descriptions.forEach(desc => desc.display_vars = varSwapRecursive(desc, formatters, variables));
-
-    this.setState({rawData, recompiling: false});
-  }
-
   changeField(field, e) {
-    const {rawData} = this.state;
-    rawData[field] = e.target.value;
-    this.setState({rawData});
+    const {minData} = this.state;
+    minData[field] = e.target.value;
+    this.setState({minData});
   }
 
-  saveItem(item, type) {
-    const {rawData} = this.state;
-    if (["generator", "materializer", "profile", "stat_profile", "visualization_profile", "profile_description"].includes(type)) {
-      axios.post(`/api/cms/${type}/update`, item).then(resp => {
-        if (resp.status === 200) {
-          this.setState({recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
-          if (type === "profile_description") {
-            rawData.descriptions.sort((a, b) => a.ordering - b.ordering);
-            this.setState({rawData});
-          }
-          if (this.props.reportSave) this.props.reportSave();
-        }
-      });
+  onSave() {
+    this.setState({recompiling: true}, this.fetchVariables.bind(this));
+  }
+
+  onDelete(id, type) {
+    const {minData} = this.state;
+    const f = obj => obj.id !== id;
+    if (type === "generator") minData.generators = minData.generators.filter(f);
+    if (type === "materializer") minData.materializers = minData.materializers.filter(f);
+    if (type === "stat_profile") minData.stats = minData.stats.filter(f);
+    if (type === "profile_description") minData.descriptions = minData.descriptions.filter(f);
+    if (type === "generator" || type === "materializer") {
+      this.setState({minData, recompiling: true}, this.fetchVariables.bind(this));  
+    }
+    else {
+      this.setState({minData});
     }
   }
 
-  deleteItem(item, type) {
-    const {rawData} = this.state;
-    if (["generator", "materializer", "profile", "stat_profile", "visualization_profile", "profile_description"].includes(type)) {
-      axios.delete(`/api/cms/${type}/delete`, {params: {id: item.id}}).then(resp => {
-        if (resp.status === 200) {
-          const f = obj => obj.id !== item.id;
-          if (type === "generator") rawData.generators = rawData.generators.filter(f);
-          if (type === "materializer") rawData.materializers = rawData.materializers.filter(f);
-          if (type === "stat_profile") rawData.stats = rawData.stats.filter(f);
-          if (type === "visualization_profile") rawData.visualizations = rawData.visualizations.filter(f);
-          if (type === "profile_description") rawData.descriptions = rawData.descriptions.filter(f);
-          this.setState({rawData, recompiling: true, isGeneratorEditorOpen: false, isTextEditorOpen: false}, this.fetchVariables.bind(this));
-        }
-      });
-    }
+  save() {
+    axios.post("/api/cms/profile/update", this.state.minData).then(resp => {
+      if (resp.status === 200) {
+        this.setState({isOpen: false});
+        if (this.props.reportSave) this.props.reportSave();  
+      }
+    });
   }
 
   addItem(type) {
-    const {rawData} = this.state;
-    let payload;
-    if (type === "generator") {
-      payload = {
-        name: "New Generator",
-        api: "http://api-goes-here",
-        description: "New Description",
-        logic: "return {}",
-        profile_id: rawData.id
-      };
-      axios.post("/api/cms/generator/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.generators.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
+    const {minData} = this.state;
+    const payload = Object.assign({}, stubs[type]);
+    payload.profile_id = minData.id; 
+    // something about ordering will have to go here
+    axios.post(`/api/cms/${type}/new`, payload).then(resp => {
+      if (resp.status === 200) {
+        if (type === "generator") minData.generators.push({id: resp.data.id, name: resp.data.name});
+        if (type === "materializer") minData.materializers.push({id: resp.data.id, name: resp.data.name});
+        if (type === "stat_profile") minData.stats.push({id: resp.data.id});
+        if (type === "visualization_profile") minData.visualizations.push({id: resp.data.id});
+        if (type === "profile_description") minData.descriptions.push({id: resp.data.id});
+        if (type === "generator" || type === "materializer") {
+          this.setState({minData}, this.fetchVariables.bind(this));
         }
         else {
-          console.log("db error");
+          this.setState({minData});
         }
-      });
-    }
-    else if (type === "materializer") {
-      payload = {
-        name: "New Materializer",
-        description: "New Description",
-        logic: "return {}",
-        ordering: rawData.materializers.length,
-        profile_id: rawData.id
-      };
-      axios.post("/api/cms/materializer/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.materializers.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "stat_profile") {
-      payload = {
-        title: "New Stat",
-        subtitle: "New Subtitle",
-        value: "New Value",
-        profile_id: rawData.id
-      };
-      axios.post("/api/cms/stat_profile/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.stats.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "visualization_profile") {
-      payload = {
-        logic: "return {}",
-        profile_id: rawData.id
-      };
-      axios.post("/api/cms/visualization_profile/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.visualizations.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-    else if (type === "description") {
-      payload = {
-        description: "New Description",
-        profile_id: rawData.id,
-        ordering: rawData.descriptions ? rawData.descriptions.length : 0
-      };
-      axios.post("/api/cms/profile_description/new", payload).then(resp => {
-        if (resp.status === 200) {
-          rawData.descriptions.push(resp.data);
-          this.setState({rawData, recompiling: true}, this.fetchVariables.bind(this));
-        }
-        else {
-          console.log("db error");
-        }
-      });
-    }
-  }
-
-  openGeneratorEditor(g, type) {
-    this.setState({currentGenerator: g, currentGeneratorType: type, isGeneratorEditorOpen: true});
-  }
-
-  openTextEditor(t, type, fields) {
-    this.setState({currentText: t, currentFields: fields, currentTextType: type, isTextEditorOpen: true});
+      }
+    });
   }
 
   move(dir, item, array, db) {
@@ -222,56 +135,20 @@ class ProfileEditor extends Component {
 
   }
 
-  closeWindow(key) {
-    this.setState({[key]: false}, this.fetchVariables.bind(this));
-  }
-
   render() {
 
-    const {preview, rawData, variables, recompiling, currentGenerator, currentGeneratorType, currentText, currentFields, currentTextType} = this.state;
+    const {preview, minData, variables, recompiling} = this.state;
 
     const showExperimentalButtons = false;
 
-    if (recompiling || !rawData || !variables) return <Loading />;
+    if (!minData || !variables) return <Loading />;
 
     return (
       <div id="profile-editor">
-
-        {recompiling ? <Loading /> : null}
-
-        <Dialog
-          iconName="code"
-          isOpen={this.state.isGeneratorEditorOpen}
-          onClose={this.closeWindow.bind(this, "isGeneratorEditorOpen")}
-          title="Variable Editor"
-          style={{minWidth: "800px"}}
-        >
-          <div className="pt-dialog-body">
-            <GeneratorEditor data={currentGenerator} variables={variables} type={currentGeneratorType} />
-          </div>
-          <FooterButtons
-            onDelete={this.deleteItem.bind(this, currentGenerator, currentGeneratorType)}
-            onCancel={() => this.setState({isGeneratorEditorOpen: false})}
-            onSave={this.saveItem.bind(this, currentGenerator, currentGeneratorType)}
-          />
-        </Dialog>
-
-        <Dialog
-          iconName="document"
-          isOpen={this.state.isTextEditorOpen}
-          onClose={this.closeWindow.bind(this, "isTextEditorOpen")}
-          title="Text Editor"
-        >
-          <div className="pt-dialog-body">
-            <TextEditor data={currentText} variables={variables} fields={currentFields} />
-          </div>
-          <FooterButtons
-            onDelete={this.deleteItem.bind(this, currentText, currentTextType)}
-            onCancel={() => this.setState({isTextEditorOpen: false})}
-            onSave={this.saveItem.bind(this, currentText, currentTextType)}
-          />
-        </Dialog>
-
+        <div id="status">
+          {recompiling ? "Refreshing Variables 🔄" : "Variables Loaded ✅"}
+        </div>
+  
         <Callout id="preview-toggle">
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
@@ -285,27 +162,29 @@ class ProfileEditor extends Component {
           <label className="pt-label pt-inline">
             Profile Slug
             <div className="pt-input-group">
-              <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={rawData.slug} onChange={this.changeField.bind(this, "slug")}/>
-              <button className="pt-button" onClick={this.saveItem.bind(this, rawData, "profile")}>Rename</button>
+              <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug")}/>
+              <button className="pt-button" onClick={this.save.bind(this)}>Rename</button>
             </div>
           </label>
-
-
         </div>
-
+        
         <h3>
           Generators
           <Button onClick={this.addItem.bind(this, "generator")} iconName="add" />
         </h3>
         <p className="pt-text-muted">Variables constructed from JSON data calls.</p>
-
         <div className="generator-cards">
-          { rawData.generators && rawData.generators
+          { minData.generators && minData.generators
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map(g =>
-              <GeneratorCard key={g.id} name={g.name} type="generator" rawData={g} variables={variables}
-                onClick={this.openGeneratorEditor.bind(this, g, "generator")} />
-            ) }
+            .map(g => <GeneratorCard 
+              key={g.id} 
+              id={g.id} 
+              onSave={this.onSave.bind(this)}
+              onDelete={this.onDelete.bind(this)}
+              type="generator" 
+              variables={variables} 
+            />) 
+          }
         </div>
 
         <h3>
@@ -313,65 +192,83 @@ class ProfileEditor extends Component {
           <Button onClick={this.addItem.bind(this, "materializer")} iconName="add" />
         </h3>
         <p className="pt-text-muted">Variables constructed from other variables. No API calls needed.</p>
-
         <div className="generator-cards materializers">
-          { rawData.materializers && rawData.materializers
-            .map(m =>
-              <GeneratorCard key={m.id} name={m.name} vars={m.display_vars} type="materializer" rawData={m} variables={variables}
-                onClick={this.openGeneratorEditor.bind(this, m, "materializer")} />
-            ) }
+          { minData.materializers && minData.materializers
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(m => <GeneratorCard 
+              key={m.id} 
+              id={m.id} 
+              onSave={this.onSave.bind(this)}
+              onDelete={this.onDelete.bind(this)}
+              type="materializer" 
+              variables={variables} 
+            />)
+          }
         </div>
 
-        <div className="splash" style={{backgroundImage: `url("/api/profile/${rawData.slug}/${preview}/thumb")`}}>
-          <Card className="splash-card" onClick={this.openTextEditor.bind(this, rawData, "profile", ["title", "subtitle"])} interactive={true} elevation={1}>
-            <h4 className="splash-title" dangerouslySetInnerHTML={{__html: rawData.display_vars.title}}></h4>
-            <h6 className="splash-subtitle" dangerouslySetInnerHTML={{__html: rawData.display_vars.subtitle}}></h6>
-          </Card>
+        <div className="splash" style={{backgroundImage: `url("/api/profile/${minData.slug}/${preview}/thumb")`}}>
+          <TextCard 
+            id={minData.id}
+            fields={["title", "subtitle"]}
+            type="profile"
+            variables={variables}
+          />
           <div className="stats">
-            { rawData.stats && rawData.stats.map(s =>
-              <StatCard key={s.id}
-                rawData={s}
+            { minData.stats && minData.stats.map(s =>
+              <TextCard key={s.id}
+                id={s.id}
+                onDelete={this.onDelete.bind(this)}
+                type="stat_profile"
+                fields={["title", "subtitle", "value"]}
                 variables={variables}
-                onClick={this.openTextEditor.bind(this, s, "stat_profile", ["title", "value", "subtitle"])} />
-            ) }
+              />) 
+            }
             <Card className="stat-card" onClick={this.addItem.bind(this, "stat_profile")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
             </Card>
           </div>
         </div>
 
-        <h3>About</h3>
-
+        <h3>
+          About
+          <Button onClick={this.addItem.bind(this, "profile_description")} iconName="add" />
+        </h3>
+        
         <div className="descriptions">
-          { rawData.descriptions && rawData.descriptions.map(d =>
+          { minData.descriptions && minData.descriptions.map(d =>
             <div key={d.id}>
-              <Card className="splash-card" onClick={this.openTextEditor.bind(this, d, "profile_description", ["description"])} interactive={true} elevation={1}>
-                <p className="splash-title" dangerouslySetInnerHTML={{__html: d.display_vars.description}}></p>
-              </Card>
-              {showExperimentalButtons && rawData.descriptions.length > 1 && <div>
-                {d.ordering > 0 && <button onClick={() => this.move("left", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
-                {d.ordering < rawData.descriptions.length - 1 && <button onClick={() => this.move("right", d, rawData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
+              <TextCard key={d.id}
+                id={d.id}
+                onDelete={this.onDelete.bind(this)}
+                fields={["description"]}
+                type="profile_description"
+                variables={variables}
+              />
+              {showExperimentalButtons && minData.descriptions.length > 1 && <div>
+                {d.ordering > 0 && <button onClick={() => this.move("left", d, minData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
+                {d.ordering < minData.descriptions.length - 1 && <button onClick={() => this.move("right", d, minData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
               </div>}
             </div>)
           }
-          <Card className="stat-card" onClick={this.addItem.bind(this, "description")} interactive={true} elevation={0}>
-            <NonIdealState visual="add" title="Description" />
-          </Card>
         </div>
 
+        <h3>
+          Visualizations
+          <Button onClick={this.addItem.bind(this, "visualization_profile")} iconName="add" />
+        </h3>
         <div className="visualizations">
           <div>
-            { rawData.visualizations && rawData.visualizations.map(v =>
-              <Card key={v.id} onClick={this.openGeneratorEditor.bind(this, v, "visualization_profile")} className="visualization-card" interactive={true} elevation={0}>
-                <p>{v.logic}</p>
-              </Card>
-            )}
-            <Card className="visualization-card" onClick={this.addItem.bind(this, "visualization_profile")} interactive={true} elevation={0}>
-              <NonIdealState visual="add" title="Visualization" />
-            </Card>
+            { minData.visualizations && minData.visualizations.map(v =>
+              <VisualizationCard 
+                key={v.id} 
+                id={v.id} 
+                onDelete={this.onDelete.bind(this)}
+                type="visualization_profile" 
+                variables={variables} 
+              />)
+            }
           </div>
         </div>
-
       </div>
     );
   }

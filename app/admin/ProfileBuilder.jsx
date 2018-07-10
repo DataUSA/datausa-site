@@ -22,7 +22,7 @@ class ProfileBuilder extends Component {
   }
 
   componentDidMount() {
-    axios.get("/api/internalprofile/all").then(resp => {
+    axios.get("/api/cms/tree").then(resp => {
       const profiles = resp.data;
       this.setState({profiles}, this.buildNodes.bind(this));
     });
@@ -308,11 +308,11 @@ class ProfileBuilder extends Component {
         <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor rawData={currentNode.data} refreshVariables={this.refreshVariables.bind(this)} reportSave={this.reportSave.bind(this)} />
+              ? <ProfileEditor id={currentNode.data.id} refreshVariables={this.refreshVariables.bind(this)} reportSave={this.reportSave.bind(this)} />
               : currentNode.itemType === "section"
-                ? <SectionEditor rawData={currentNode.data} variables={variables} reportSave={this.reportSave.bind(this)}/>
+                ? <SectionEditor id={currentNode.data.id} variables={variables} reportSave={this.reportSave.bind(this)}/>
                 : currentNode.itemType === "topic"
-                  ? <TopicEditor rawData={currentNode.data} variables={variables}  reportSave={this.reportSave.bind(this)}/>
+                  ? <TopicEditor id={currentNode.data.id} variables={variables} reportSave={this.reportSave.bind(this)}/>
                   : null
             : <NonIdealState title="No Profile Selected" description="Please select a Profile from the menu on the left." visual="path-search" />
           }

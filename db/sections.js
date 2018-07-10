@@ -9,7 +9,6 @@ module.exports = function(sequelize, db) {
       },
       title: db.STRING,
       slug: db.STRING,
-      description: db.TEXT,
       profile_id: db.INTEGER,
       ordering: db.INTEGER,
       allowed: db.STRING

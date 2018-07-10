@@ -2,9 +2,7 @@ const FUNC = require("../utils/FUNC"),
       axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
       mortarEval = require("../utils/mortarEval"),
-      selSwap = require("../utils/selSwap"),
       urlSwap = require("../utils/urlSwap"),
-      varSwap = require("../utils/varSwap"),
       varSwapRecursive = require("../utils/varSwapRecursive");
 
 const profileReqWithGens = {

@@ -40,6 +40,15 @@
   }
 }
 
+#status {
+  width: 160px;
+  position: fixed;
+  bottom: 20px;
+  left: 45px; 
+  background-color:white;
+  padding: 5px;
+}
+
 .pt-card .pt-non-ideal-state {
   & .pt-non-ideal-state-visual {
     margin-bottom: 5px;

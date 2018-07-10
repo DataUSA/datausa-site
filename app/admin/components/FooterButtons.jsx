@@ -12,12 +12,13 @@ class FooterButtons extends Component {
       <div id="buttons">
         <div className="pt-dialog-footer">
           <div className="pt-dialog-footer-actions">
-            <button
+            {this.props.onDelete && <button
               className="pt-button pt-intent-danger"
               onClick={onDelete}
             >
               Delete
             </button>
+            }
             <button
               className="pt-button"
               onClick={onCancel}

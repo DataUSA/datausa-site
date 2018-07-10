@@ -8,7 +8,6 @@ module.exports = function(sequelize, db) {
         autoIncrement: true
       },
       title: db.STRING,
-      description: db.TEXT,
       subtitle: db.TEXT,
       slug: db.STRING,
       ordering: db.INTEGER,

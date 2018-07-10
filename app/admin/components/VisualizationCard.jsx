@@ -4,17 +4,14 @@ import {Card, Icon, Dialog} from "@blueprintjs/core";
 import GeneratorEditor from "../GeneratorEditor";
 import Loading from "components/Loading";
 import FooterButtons from "../components/FooterButtons";
-import "./GeneratorCard.css";
+import "./VisualizationCard.css";
 
-import ConsoleVariable from "./ConsoleVariable";
-
-class GeneratorCard extends Component {
+class VisualizationCard extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      minData: null,
-      displayData: null
+      minData: null
     };
   }
 
@@ -22,24 +19,11 @@ class GeneratorCard extends Component {
     this.hitDB.bind(this)();
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.variables !== this.props.variables) {
-      this.formatDisplay.bind(this)();
-    }
-  }
-
   hitDB() {
     const {id, type} = this.props;
     axios.get(`/api/cms/${type}/get/${id}`).then(resp => {
-      this.setState({minData: resp.data}, this.formatDisplay.bind(this));
+      this.setState({minData: resp.data});
     });
-  }
-
-  formatDisplay() {
-    const {variables, type} = this.props;
-    const {id} = this.state.minData;
-    const displayData = type === "generator" ? variables._genStatus[id] : variables._matStatus[id];
-    this.setState({displayData});
   }
 
   delete() {
@@ -66,12 +50,12 @@ class GeneratorCard extends Component {
 
   render() {
     const {type, variables} = this.props;
-    const {displayData, minData, isOpen} = this.state;
+    const {minData, isOpen} = this.state;
 
     if (!minData) return <Loading />;
 
     return (
-      <Card onClick={() => this.setState({isOpen: true})} className="generator-card" interactive={true} elevation={1}>
+      <Card onClick={() => this.setState({isOpen: true})} className="visualization-card" interactive={true} elevation={1}>
         <Dialog
           iconName="code"
           isOpen={isOpen}
@@ -88,23 +72,11 @@ class GeneratorCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        <h5><Icon className={type} iconName="th" />{minData.name}</h5>
-        <div className="table">
-          <table className="pt-table pt-condensed pt-bordered">
-            <tbody>
-              { displayData && Object.keys(displayData).map(k =>
-                <tr key={ k }>
-                  <td><code>{ k }</code></td>
-                  <td><ConsoleVariable value={ displayData[k] } /></td>
-                </tr>
-              ) }
-            </tbody>
-          </table>
-        </div>
+        <p>{minData.logic}</p>
       </Card>
     );
   }
 
 }
 
-export default GeneratorCard;
+export default VisualizationCard;

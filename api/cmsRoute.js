@@ -1,6 +1,150 @@
+const profileReqTreeOnly = {
+  attributes: ["id", "title", "slug", "ordering"],
+  include: [
+    { 
+      association: "sections", attributes: ["id", "title", "slug", "ordering"],
+      include: [
+        {association: "topics", attributes: ["id", "title", "slug", "ordering"]}
+      ]
+    }
+  ]
+};
+
+const profileReqProfileOnly = {
+  include: [
+    {association: "generators", attributes: ["id", "name"]},
+    {association: "materializers", attributes: ["id", "name"]},
+    {association: "visualizations", attributes: ["id"]},
+    {association: "stats", attributes: ["id"]},
+    {association: "descriptions", attributes: ["id"]}
+  ]
+};
+
+const sectionReqSectionOnly = {
+  include: [
+    {association: "subtitles", attributes: ["id"]},
+    {association: "descriptions", attributes: ["id"]}
+  ]
+};
+
+const topicReqTopicOnly = {
+  include: [
+    {association: "subtitles", attributes: ["id"]},
+    {association: "descriptions", attributes: ["id"]},
+    {association: "visualizations", attributes: ["id"]},
+    {association: "stats", attributes: ["id"]},
+    {association: "selectors"}
+  ]
+};
+
+// Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
+const sortProfile = profile => {
+  const sorter = (a, b) => a.ordering - b.ordering;
+  profile = profile.toJSON();
+  if (profile.descriptions) profile.descriptions.sort(sorter);
+  if (profile.sections) {
+    profile.sections.sort(sorter);
+    profile.sections.map(section => {
+      if (section.subtitles) section.subtitles.sort(sorter);
+      if (section.descriptions) section.descriptions.sort(sorter);
+      if (section.topics) {
+        section.topics.sort(sorter);
+        section.topics.map(topic => {
+          if (topic.subtitles) topic.subtitles.sort(sorter);
+          if (topic.descriptions) topic.descriptions.sort(sorter);
+        });
+      }
+    });
+  }
+  return profile;
+};
+
 module.exports = function(app) {
 
   const {db} = app.settings;
+
+  /* BEGIN PIECEMEAL CMS API GETS */
+
+  app.get("/api/cms/tree", (req, res) => {
+    db.profiles.findAll(profileReqTreeOnly).then(profiles => {
+      profiles = profiles.map(profile => sortProfile(profile));
+      res.json(profiles).end();
+    });
+  });
+
+  app.get("/api/cms/profile/get/:id", (req, res) => {
+    const {id} = req.params;
+    const reqObj = Object.assign({}, profileReqProfileOnly, {where: {id}});
+    db.profiles.findOne(reqObj).then(profile => {
+      res.json(profile).end();
+    });
+  });
+
+  app.get("/api/cms/section/get/:id", (req, res) => {
+    const {id} = req.params;
+    const reqObj = Object.assign({}, sectionReqSectionOnly, {where: {id}});
+    db.sections.findOne(reqObj).then(section => {
+      res.json(section).end();
+    });
+  });  
+
+  app.get("/api/cms/topic/get/:id", (req, res) => {
+    const {id} = req.params;
+    const reqObj = Object.assign({}, topicReqTopicOnly, {where: {id}});
+    db.topics.findOne(reqObj).then(section => {
+      res.json(section).end();
+    });
+  }); 
+
+  app.get("/api/cms/generator/get/:id", (req, res) => {
+    db.generators.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/materializer/get/:id", (req, res) => {
+    db.materializers.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/stat_profile/get/:id", (req, res) => {
+    db.stats_profiles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/visualization_profile/get/:id", (req, res) => {
+    db.visualizations_profiles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/profile_description/get/:id", (req, res) => {
+    db.profiles_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/section_subtitle/get/:id", (req, res) => {
+    db.sections_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/section_description/get/:id", (req, res) => {
+    db.sections_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/topic_subtitle/get/:id", (req, res) => {
+    db.topics_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/topic_description/get/:id", (req, res) => {
+    db.topics_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/stat_topic/get/:id", (req, res) => {
+    db.stats_topics.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/visualization_topic/get/:id", (req, res) => {
+    db.visualizations_topics.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  app.get("/api/cms/selector/get/:id", (req, res) => {
+    db.selectors.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
+
+  /* END PIECEMEAL CMS API GETS */
 
   app.post("/api/cms/generator/new", (req, res) => {
     db.generators.create(req.body).then(u => res.json(u));

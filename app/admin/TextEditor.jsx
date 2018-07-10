@@ -67,7 +67,7 @@ class TextEditor extends Component {
     const quills = fields.map(f => 
       <div key={f} style={{margin: "10px"}}>
         <span style={{fontWeight: "bold"}}>{f}</span>
-        <QuillWrapper value={this.state.data[f]} onChange={this.handleEditor.bind(this, f)} />
+        <QuillWrapper value={this.state.data[f] || ""} onChange={this.handleEditor.bind(this, f)} />
       </div>
     );
 
