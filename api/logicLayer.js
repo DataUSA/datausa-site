@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize"),
+      axios = require("axios"),
       canonConfig = require("../canon.js"),
       d3Array = require("d3-array"),
       d3Collection = require("d3-collection"),
@@ -19,6 +20,10 @@ const aliases = canonConfig["canon-logic"]
 const cubeFilters = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].cubeFilters || []
   : [];
+
+const relations = canonConfig["canon-logic"]
+  ? canonConfig["canon-logic"].relations || {}
+  : {};
 
 // const debug = process.env.NODE_ENV === "development";
 const debug = false;
@@ -103,12 +108,40 @@ module.exports = function(app) {
     const dimensions = [];
     for (let key in req.query) {
       if (!reserved.includes(key)) {
-        const ids = req.query[key].split(",");
+
+        let ids = req.query[key];
 
         for (const alias in aliases) {
           const list = aliases[alias] instanceof Array ? aliases[alias] : [aliases[alias]];
           if (list.includes(key)) key = alias;
         }
+
+        ids = await Promise.all(d3Array.merge(ids
+          .split(",")
+          .map(id => {
+            if (id.includes(" ") && key in relations) {
+              const rels = Object.keys(relations[key]);
+              id = id.split(" ");
+              return id
+                .map(v => {
+                  if (rels.includes(v)) {
+                    return axios.get(relations[key][v].url(id[0]))
+                      .then(resp => resp.data)
+                      .then(relations[key][v].callback)
+                      .catch(() => null);
+                  }
+                  else {
+                    return [v];
+                  }
+                })
+                .filter(v => v);
+            }
+            else {
+              return [[id]];
+            }
+          })));
+
+        ids = d3Array.merge(ids);
 
         if (searchDims.includes(key)) {
           dimensions.push({
@@ -351,6 +384,7 @@ module.exports = function(app) {
 
         const source = Object.values(queries).map(d => {
           delete d.flatDims;
+          delete d.dimensions;
           return d;
         });
 
