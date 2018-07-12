@@ -5,6 +5,14 @@ const FUNC = require("../utils/FUNC"),
       urlSwap = require("../utils/urlSwap"),
       varSwapRecursive = require("../utils/varSwapRecursive");
 
+const searchMap = {
+  cip: "CIP",
+  geo: "Geography",
+  naics: "PUMS Industry",
+  soc: "PUMS Occupation",
+  university: "University"
+};
+
 const profileReqWithGens = {
   // logging: console.log,
   include: [
@@ -114,7 +122,7 @@ module.exports = function(app) {
      */
     db.profiles.findOne({where: {slug}, raw: true})
       .then(profile =>
-        Promise.all([profile.id, db.search.findOne({where: {id, type: slug}}), db.formatters.findAll(), db.generators.findAll({where: {profile_id: profile.id}})])
+        Promise.all([profile.id, db.search.findOne({where: {id, dimension: searchMap[slug]}}), db.formatters.findAll(), db.generators.findAll({where: {profile_id: profile.id}})])
       )
       // Given a profile id and its generators, hit all the API endpoints they provide
       .then(resp => {
