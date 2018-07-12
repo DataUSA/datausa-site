@@ -1,7 +1,14 @@
-const axios = require("axios"),
-      slugMap = require("../utils/slugMap");
+const axios = require("axios");
 
 const {CUBE_URL} = process.env;
+
+const slugMap = {
+  geo: "Geography",
+  naics: "PUMS Industry",
+  soc: "PUMS Occupation",
+  cip: "CIP",
+  university: "University"
+};
 
 module.exports = function(app) {
 
@@ -15,9 +22,9 @@ module.exports = function(app) {
       res.sendFile(`${process.cwd()}/static/images/profile/${size}/${image}.jpg`);
     }
 
-    db.search.findOne({where: {id: pid, type: pslug}})
+    db.search.findOne({where: {id: pid, dimension: slugMap[pslug]}})
       .then(attr => {
-        const {imageId, sumlevel} = attr;
+        const {dimension, imageId, hierarchy} = attr;
 
         if (!imageId) {
 
@@ -37,14 +44,12 @@ module.exports = function(app) {
           }
           else {
 
-            const type = slugMap[pslug];
-
             client.cube("acs_yg_total_population_5")
               .then(cube => {
 
                 const query = cube.query
-                  .drilldown(type, sumlevel, sumlevel)
-                  .cut(`[${type}].[${sumlevel}].[${sumlevel}].&[${attr.id}]`)
+                  .drilldown(dimension, hierarchy, hierarchy)
+                  .cut(`[${dimension}].[${hierarchy}].[${hierarchy}].&[${attr.id}]`)
                   .option("parents", true);
 
                 return client.query(query);
@@ -54,14 +59,14 @@ module.exports = function(app) {
               .then(data => {
 
                 const hierarchy = data.axes
-                  .find(d => d.name === type);
+                  .find(d => d.name === dimension);
 
                 const ancestors = hierarchy.members[0].ancestors
                   .filter(d => d.level_name !== "(All)");
 
                 const parentIds = ancestors.map(d => d.key).reverse();
                 console.log(parentIds, pslug);
-                return db.search.findAll({where: {id: parentIds, type: pslug}, raw: true});
+                return db.search.findAll({where: {id: parentIds, dimension: pslug}, raw: true});
 
               })
               .then(parents => {

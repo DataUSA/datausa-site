@@ -1,5 +1,12 @@
-const sequelize = require("sequelize"),
-      sumlevels = require("../app/consts/sumlevels.js");
+const sequelize = require("sequelize");
+
+const slugMap = {
+  geo: "Geography",
+  naics: "PUMS Industry",
+  soc: "PUMS Occupation",
+  cip: "CIP",
+  university: "University"
+};
 
 module.exports = function(app) {
 
@@ -22,7 +29,7 @@ module.exports = function(app) {
       ];
     }
 
-    if (type) where.type = type;
+    if (type) where.dimension = slugMap[type] || type;
     if (id) where.id = id.includes(",") ? id.split(",") : id;
 
     db.search.findAll({
@@ -33,15 +40,15 @@ module.exports = function(app) {
     })
       .then(results => {
         results = results.map(d => ({
-          dimension: d.sumlevel,
+          dimension: d.hierarchy,
           id: d.id,
           image: d.image,
           keywords: d.keywords,
           name: d.display,
-          sumlevel: sumlevels[d.type][d.sumlevel] ? sumlevels[d.type][d.sumlevel].label : d.sumlevel,
+          sumlevel: d.hierarchy,
           slug: d.slug,
           stem: d.stem === 1,
-          type: d.type
+          type: d.dimension
         }));
         res.json({results, query: {id, limit, q, type}}).end();
       });

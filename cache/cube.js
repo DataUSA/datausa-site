@@ -1,7 +1,6 @@
 const {Client} = require("mondrian-rest-client"),
       PromiseThrottle = require("promise-throttle"),
-      d3Array = require("d3-array"),
-      sumlevels = require("../app/consts/sumlevels");
+      d3Array = require("d3-array");
 
 const throttle = new PromiseThrottle({
   requestsPerSecond: 50,
@@ -52,7 +51,8 @@ module.exports = function() {
         });
       });
 
-      const popQueries = Object.keys(sumlevels.geo).filter(d => !["Zip"].includes(d))
+      const geos = ["Nation", "State", "County", "Msa", "Place", "Puma", "Tract"];
+      const popQueries = geos
         .map(level => client.cube("acs_yg_total_population_1")
           .then(c => {
             const query = c.query
