@@ -8,6 +8,14 @@ const slugMap = {
   university: "University"
 };
 
+const dimMap = {
+  "Geography": "geo",
+  "PUMS Industry": "naics",
+  "PUMS Occupation": "soc",
+  "CIP": "cip",
+  "University": "university"
+};
+
 module.exports = function(app) {
 
   const {db} = app.settings;
@@ -40,15 +48,15 @@ module.exports = function(app) {
     })
       .then(results => {
         results = results.map(d => ({
-          dimension: d.hierarchy,
+          dimension: d.dimension,
+          hierarchy: d.hierarchy,
           id: d.id,
           image: d.image,
           keywords: d.keywords,
           name: d.display,
-          sumlevel: d.hierarchy,
           slug: d.slug,
           stem: d.stem === 1,
-          type: d.dimension
+          type: dimMap[d.dimension]
         }));
         res.json({results, query: {id, limit, q, type}}).end();
       });

@@ -34,10 +34,10 @@ export default class SearchButton extends Component {
         primary={true}
         resultLink={ d => `/profile/${d.type}/${d.id}` }
         resultRender={d => <div className="result-container">
-          <img className="result-icon" src={ `/images/icons/${d.type}_c.svg` } />
+          <img className="result-icon" src={ `/images/search/${d.dimension}.svg` } />
           <div className="result-text">
             <div className="title">{ d.name }</div>
-            <div className="sumlevel">{ d.sumlevel }</div>
+            <div className="sumlevel">{ d.hierarchy }</div>
           </div>
         </div>}
         url={ "/api/search/" } />
