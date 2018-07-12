@@ -21,8 +21,8 @@ export default class TextViz extends Component {
       <div className="topic-body">
         <div className="topic-content">
           { data.map((d, i) => <div key={i} className="topic-text">
-            { d.subtitle ? <div className="topic-subtitle" dangerouslySetInnerHTML={{__html: d.subtitle}} /> : null }
-            { d.description ? <div className="topic-description" dangerouslySetInnerHTML={{__html: d.description}} /> : null }
+            { d.subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
+            { d.descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
           </div>) }
         </div>
         { visualizations

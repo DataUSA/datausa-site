@@ -15,10 +15,12 @@ class Section extends Component {
       </h2>
       <div className="section-body">
         <div className="section-content">
-          { data.map((d, i) => d.description ? <div key={i} className="section-description" dangerouslySetInnerHTML={{__html: d.description}} /> : null) }
+          <div className="section-description">
+            { data.map(d => d.descriptions.map((content, i) => <div key={i} dangerouslySetInnerHTML={{__html: content.description}} />)) }
+          </div>
         </div>
         <div className="section-content">
-          { data.map(d => d.visualizations ? d.visualizations.map((visualization, ii) => <Viz config={visualization} key={ii} className="section-visualization" options={ false } />) : null) }
+          { data.map(d => d.visualizations ? d.visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="section-visualization" options={ false } />) : null) }
         </div>
       </div>
       { children }
