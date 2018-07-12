@@ -228,19 +228,16 @@ module.exports = function(app) {
             cubes = cubes.filter(c => Object.keys(c.dimensions).length === minDims);
           }
 
-          if (cubes.length === 1) {
+
+          if (cubes.length === 0) {
+            console.log("\nNo cubes matched.");
+          }
+          else {
             const cube = cubes[0];
             if (!queries[cube.name]) {
               queries[cube.name] = {measures: [], ...cube};
             }
             queries[cube.name].measures.push(measure);
-          }
-          else if (cubes.length === 0) {
-            console.log("\nNo cubes matched.");
-          }
-          else {
-            console.log(`\nUnable to determine cube for ${measure}:`);
-            console.log(cubes);
           }
 
         });
@@ -281,7 +278,7 @@ module.exports = function(app) {
                       if (y === "oldest") return years[name].oldest;
                       return y;
                     });
-                    const yearCut = `{${queryYears.map(y => `[Year].[Year].[Year].&[${y}]`).join(", ")}}`;
+                    const yearCut = `{${queryYears.map(y => `[Year].[Year].[Year].&[${y}]`).join(",")}}`;
                     if (debug) console.log(`Cut: ${yearCut}`);
                     query.cut(yearCut);
                   }
@@ -308,7 +305,7 @@ module.exports = function(app) {
                   const dimension = Object.keys(dim)[0];
                   const level = dim[dimension];
                   const {hierarchy} = findDimension(flatDims, level);
-                  const dimCut = `{${dimCuts[dimension][level].map(g => `[${dimension}].[${hierarchy}].[${level}].&[${g.id}]`).join(", ")}}`;
+                  const dimCut = `{${dimCuts[dimension][level].map(g => `[${dimension}].[${hierarchy}].[${level}].&[${g.id}]`).join(",")}}`;
                   if (debug) {
                     console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
                     console.log(`Cut: ${dimCut}`);
@@ -347,7 +344,7 @@ module.exports = function(app) {
               if (level in row) {
                 row[type] = row[level];
                 row[`${type} ID`] = row[`ID ${level}`];
-                delete row[level];
+                if (type !== level) delete row[level];
                 delete row[`ID ${level}`];
               }
               delete row["ID Year"];
