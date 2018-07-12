@@ -36,12 +36,32 @@ module.exports = {
           url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}`,
           callback: arr => arr.map(d => d.geoid)
         },
+        counties: {
+          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=county`,
+          callback: arr => arr.map(d => d.geoid)
+        },
         neighbors: {
           url: id => `${CUBE_URL}/geoservice-api/neighbors/${id}`,
           callback: arr => arr.map(d => d.geoid)
         },
         parents: {
           url: id => `${CUBE_URL}/geoservice-api/relations/parents/${id}`,
+          callback: arr => arr.map(d => d.geoid)
+        },
+        places: {
+          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=place`,
+          callback: arr => arr.map(d => d.geoid)
+        },
+        pumas: {
+          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=puma`,
+          callback: arr => arr.map(d => d.geoid)
+        },
+        states: {
+          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=state`,
+          callback: arr => arr.map(d => d.geoid)
+        },
+        tracts: {
+          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=tract`,
           callback: arr => arr.map(d => d.geoid)
         }
       }
