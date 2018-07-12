@@ -1,13 +1,30 @@
-const d3Array = require("d3-array"),
+const Sequelize = require("sequelize"),
+      canonConfig = require("../canon.js"),
+      d3Array = require("d3-array"),
       d3Collection = require("d3-collection"),
-      multiSort = require("../utils/multiSort"),
-      slugMap = require("../utils/slugMap");
+      multiSort = require("../utils/multiSort");
+
+// replace this in canon with "express-async-await" package
+// https://odino.org/async-slash-await-in-expressjs/
+const asyncMiddleware = fn =>
+  (req, res, next) => {
+    Promise.resolve(fn(req, res, next))
+      .catch(next);
+  };
+
+const aliases = canonConfig["canon-logic"]
+  ? canonConfig["canon-logic"].aliases || {}
+  : {};
+
+const cubeFilters = canonConfig["canon-logic"]
+  ? canonConfig["canon-logic"].cubeFilters || []
+  : [];
 
 // const debug = process.env.NODE_ENV === "development";
 const debug = false;
 
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
-const cartesian = (a, b, ...c) => b ? cartesian(f(a, b), ...c) : a.map(x => [x]);
+const cartesian = (a = [], b, ...c) => b ? cartesian(f(a, b), ...c) : a.map(x => [x]);
 
 function intersect(a, b) {
   return [...new Set(a)].filter(x => new Set(b).has(x));
@@ -22,70 +39,107 @@ function findDimension(flatDims, level) {
   return dims[0];
 }
 
+function findKey(query, key, fallback) {
+  let value = fallback;
+  if (query[key]) value = query[key];
+  else if (aliases[key]) {
+    const alts = typeof aliases[key] === "string" ? [aliases[key]] : aliases[key];
+    for (let i = 0; i < alts.length; i++) {
+      if (query[alts[i]]) {
+        value = query[alts[i]];
+        break;
+      }
+    }
+  }
+  return value;
+}
+
 module.exports = function(app) {
 
   const {cache, db} = app.settings;
-  const {client, measures, pops, years} = cache.cube;
+  const {client, measures: cubeMeasures, years} = cache.cube;
+  const caches = cache.cube;
 
   app.get("/api/cubes", (req, res) => {
-    res.json({measures, pops, years}).end();
+    res.json(caches).end();
   });
 
-  app.get("/api/data/", (req, res) => {
+  app.get("/api/data/", asyncMiddleware(async (req, res) => {
 
-    let {
-      cuts,
-      drilldowns
-    } = req.query;
+    let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "sort", "Year"];
+    reserved = reserved.concat(d3Array.merge(reserved.map(r => {
+      let alts = aliases[r] || [];
+      if (typeof alts === "string") alts = [alts];
+      return alts;
+    })));
 
-    if (cuts) cuts = cuts.split(",").map(cut => cut.split(":"));
-    else cuts = [];
+    let measures = findKey(req.query, "measures");
+    if (measures) measures = measures.split(",");
+    else res.json({error: "Query must contain at least one measure."});
 
-    if (drilldowns) drilldowns = drilldowns.split(",");
-    else drilldowns = [];
+    const cuts = findKey(req.query, "cuts", "")
+      .split(",")
+      .filter(d => d !== "")
+      .map(cut => cut.split(":"))
+      .map(arr => [arr[0], [arr[1]]]);
+
+    const drilldowns = findKey(req.query, "drilldowns", "")
+      .split(",")
+      .filter(d => d !== "");
+
+    const year = findKey(req.query, "Year", "all");
 
     const {
       limit,
-      measure,
       order = "Year",
-      sort = "desc",
-      year = "all"
+      sort = "desc"
     } = req.query;
 
-    if (!measure) res.json({error: "Query must contain at least one measure."});
-    const required = measure.split(",");
+    const searchDims = await db.search.findAll({
+      attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("dimension")), "dimension"]],
+      where: {}
+    }).map(d => d.dimension);
 
-    let bigGeos = true;
     const dimensions = [];
-    ["geo", "naics", "soc", "university", "cip"].forEach(t => {
-      if (req.query[t]) {
-        const ids = req.query[t].split(",");
-        dimensions.push({
-          type: t,
-          id: ids
-        });
-        if (t === "geo") bigGeos = ids.every(g => pops[g] && pops[g] >= 250000);
+    for (let key in req.query) {
+      if (!reserved.includes(key)) {
+        const ids = req.query[key].split(",");
+
+        for (const alias in aliases) {
+          const list = aliases[alias] instanceof Array ? aliases[alias] : [aliases[alias]];
+          if (list.includes(key)) key = alias;
+        }
+
+        if (searchDims.includes(key)) {
+          dimensions.push({
+            dimension: key,
+            id: ids
+          });
+        }
+        else {
+          cuts.push([key, ids]);
+        }
       }
-    });
+    }
 
     const queries = {};
     Promise.all(dimensions.map(d => db.search.findAll({where: d})))
       .then(attributes => {
 
         const dimCuts = d3Array.merge(attributes).reduce((obj, d) => {
-          const dim = slugMap[d.type];
+          const dim = d.dimension;
           if (!obj[dim]) obj[dim] = {};
-          if (!obj[dim][d.sumlevel]) obj[dim][d.sumlevel] = [];
-          obj[dim][d.sumlevel].push(d);
+          if (!obj[dim][d.hierarchy]) obj[dim][d.hierarchy] = [];
+          obj[dim][d.hierarchy].push(d);
           return obj;
         }, {});
 
         const dimDrills = d3Array.merge(Object.values(dimCuts).map(d => Object.keys(d)));
 
-        required.forEach(measure => {
+        measures.forEach(measure => {
 
           // filter out cubes that don't match cuts and dimensions
-          let cubes = measures[measure]
+          let cubes = cubeMeasures[measure]
             .filter(cube => {
               const flatDims = cube.flatDims = d3Array.merge(Object.values(cube.dimensions));
               let allowed = true;
@@ -121,23 +175,19 @@ module.exports = function(app) {
               return allowed;
             });
 
-          // 5-year vs 1-year logic
-          cubes = cubes = d3Collection.nest()
-            .key(d => d.name.replace(/_[0-9]$/g, ""))
-            .entries(cubes)
-            .map(d => {
-              if (d.values.length > 1) d.values = d.values.filter(cube => !cube.name.match(/_[0-9]$/g) || cube.name.match(bigGeos ? /_1$/g : /_5$/g));
-              return d.values[0];
-            });
-
-          // remove B tables in favor of C tables
-          cubes = d3Collection.nest()
-            .key(d => d.name.replace("_c_", "_"))
-            .entries(cubes)
-            .map(d => {
-              if (d.values.length > 1) d.values = d.values.filter(c => c.name.includes("_c_"));
-              return d.values[0];
-            });
+          // runs user-defined cube filters from canon.js
+          cubeFilters.forEach(filter => {
+            cubes = d3Collection.nest()
+              .key(filter.key)
+              .entries(cubes)
+              .map(d => {
+                if (d.values.length > 1) {
+                  const matching = d.values.filter(cube => cube.name.match(filter.regex));
+                  d.values = filter.filter(matching, {dimensions, measures}, caches);
+                }
+                return d.values[0];
+              });
+          });
 
           // filter out cubes with additional unused dimensions
           if (cubes.length > 1) {
@@ -216,9 +266,9 @@ module.exports = function(app) {
                     if (debug) console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
                     query.drilldown(dimension, hierarchy, level);
                   }
-                  const cut = `[${dimension}].[${hierarchy}].[${level}].&[${value}]`;
+                  const cut = value.map(v => `[${dimension}].[${hierarchy}].[${level}].&[${v}]`).join(",");
                   if (debug) console.log(`Cut: ${cut}`);
-                  query.cut(cut);
+                  query.cut(`{${cut}}`);
                 });
 
                 dimSet.forEach(dim => {
@@ -307,8 +357,6 @@ module.exports = function(app) {
         res.json({data, source}).end();
       });
 
-
-
-  });
+  }));
 
 };
