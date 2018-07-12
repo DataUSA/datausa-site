@@ -7,10 +7,10 @@ module.exports = function(sequelize, db) {
         type: db.TEXT
       },
       zvalue: db.DOUBLE,
-      type: db.TEXT,
+      dimension: db.TEXT,
       name: db.TEXT,
       display: db.TEXT,
-      sumlevel: db.TEXT,
+      hierarchy: db.TEXT,
       stem: db.INTEGER,
       slug: db.TEXT,
       keywords: db.ARRAY(db.TEXT),
@@ -21,7 +21,7 @@ module.exports = function(sequelize, db) {
       indexes: [
         {
           unique: true,
-          fields: ["name", "id", "kind", "sumlevel"]
+          fields: ["name", "id", "dimension", "hierarchy"]
         }
       ],
       timestamps: false
