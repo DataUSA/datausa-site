@@ -1,3 +1,4 @@
+const d3Array = require("d3-array");
 const {CANON_API, CUBE_URL} = process.env;
 
 module.exports = {
@@ -15,7 +16,9 @@ module.exports = {
       {
         filter: (cubes, query, caches) => {
           const {pops} = caches;
-          const ids = query.dimensions.map(d => d.id);
+          const ids = d3Array.merge(query.dimensions
+            .filter(d => d.dimension === "Geography")
+            .map(d => d.id));
           const bigGeos = ids.every(g => pops[g] && pops[g] >= 250000);
           return cubes.filter(cube => cube.name.match(bigGeos ? /_1$/g : /_5$/g));
         },
@@ -63,6 +66,12 @@ module.exports = {
         tracts: {
           url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=tract`,
           callback: arr => arr.map(d => d.geoid)
+        }
+      },
+      University: {
+        similar: {
+          url: id => `${CANON_API}/api/university/similar/${id}`,
+          callback: arr => arr.map(d => d.id)
         }
       }
     }
