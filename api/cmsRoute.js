@@ -7,6 +7,9 @@ const profileReqTreeOnly = {
         {association: "topics", attributes: ["id", "title", "slug", "ordering"]}
       ]
     }
+  ],
+  order: [
+
   ]
 };
 
@@ -41,18 +44,11 @@ const topicReqTopicOnly = {
 const sortProfile = profile => {
   const sorter = (a, b) => a.ordering - b.ordering;
   profile = profile.toJSON();
-  if (profile.descriptions) profile.descriptions.sort(sorter);
   if (profile.sections) {
     profile.sections.sort(sorter);
     profile.sections.map(section => {
-      if (section.subtitles) section.subtitles.sort(sorter);
-      if (section.descriptions) section.descriptions.sort(sorter);
       if (section.topics) {
         section.topics.sort(sorter);
-        section.topics.map(topic => {
-          if (topic.subtitles) topic.subtitles.sort(sorter);
-          if (topic.descriptions) topic.descriptions.sort(sorter);
-        });
       }
     });
   }
