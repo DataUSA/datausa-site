@@ -23,7 +23,7 @@ class TextCard extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.variables !== this.props.variables || this.props.selectors !== prevProps.selectors) {
+    if (this.state.minData && (prevProps.variables !== this.props.variables || this.props.selectors !== prevProps.selectors)) {
       this.formatDisplay.bind(this)();
     }
   }

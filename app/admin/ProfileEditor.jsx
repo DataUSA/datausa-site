@@ -36,18 +36,16 @@ class ProfileEditor extends Component {
 
   hitDB() {
     axios.get(`/api/cms/profile/get/${this.props.id}`).then(resp => {
-      this.setState({minData: resp.data}, this.fetchVariables.bind(this));
+      this.setState({minData: resp.data, recompiling: true}, this.fetchVariables.bind(this, false));
     });
   }
 
-  fetchVariables() {
-    const {slug} = this.state.minData;
+  fetchVariables(force) {
+    const slug = this.props.masterSlug;
     const id = this.state.preview;
-    axios.get(`/api/variables/${slug}/${id}`).then(resp => {
-      const variables = resp.data;
-      this.setState({variables, recompiling: false});
-      if (this.props.refreshVariables) this.props.refreshVariables(variables);
-    });
+    if (this.props.fetchVariables) {
+      this.props.fetchVariables(slug, id, force, () => this.setState({recompiling: false}));
+    }
   }
 
   changeField(field, e) {
@@ -57,7 +55,7 @@ class ProfileEditor extends Component {
   }
 
   onSave() {
-    this.setState({recompiling: true}, this.fetchVariables.bind(this));
+    this.setState({recompiling: true}, this.fetchVariables.bind(this, true));
   }
 
   onDelete(id, type) {
@@ -68,7 +66,7 @@ class ProfileEditor extends Component {
     if (type === "stat_profile") minData.stats = minData.stats.filter(f);
     if (type === "profile_description") minData.descriptions = minData.descriptions.filter(f);
     if (type === "generator" || type === "materializer") {
-      this.setState({minData, recompiling: true}, this.fetchVariables.bind(this));  
+      this.setState({minData, recompiling: true}, this.fetchVariables.bind(this, true));  
     }
     else {
       this.setState({minData});
@@ -97,7 +95,7 @@ class ProfileEditor extends Component {
         if (type === "visualization_profile") minData.visualizations.push({id: resp.data.id});
         if (type === "profile_description") minData.descriptions.push({id: resp.data.id});
         if (type === "generator" || type === "materializer") {
-          this.setState({minData}, this.fetchVariables.bind(this));
+          this.setState({minData}, this.fetchVariables.bind(this, true));
         }
         else {
           this.setState({minData});
@@ -137,7 +135,8 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {preview, minData, variables, recompiling} = this.state;
+    const {preview, minData, recompiling} = this.state;
+    const {variables} = this.props;
 
     const showExperimentalButtons = false;
 
@@ -152,7 +151,7 @@ class ProfileEditor extends Component {
         <Callout id="preview-toggle">
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
-            <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this))}>
+            <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this, true))}>
               { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>

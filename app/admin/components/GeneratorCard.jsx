@@ -23,7 +23,7 @@ class GeneratorCard extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.variables !== this.props.variables) {
+    if (this.state.minData && prevProps.variables !== this.props.variables) {
       this.formatDisplay.bind(this)();
     }
   }
@@ -68,7 +68,7 @@ class GeneratorCard extends Component {
     const {type, variables} = this.props;
     const {displayData, minData, isOpen} = this.state;
 
-    if (!minData) return <Loading />;
+    if (!minData || !variables) return <Loading />;
 
     return (
       <Card onClick={() => this.setState({isOpen: true})} className="generator-card" interactive={true} elevation={1}>

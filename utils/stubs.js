@@ -45,5 +45,39 @@ module.exports = {
     options: [],
     default: "",
     name: "new-selector"
+  },
+  objTopic: {
+    hasCaret: false,
+    label: "new-topic-slug",
+    itemType: "topic",
+    data: {
+      title: "New Topic Title",
+      subtitle: "New Topic Subtitle",
+      slug: "new-topic-slug",
+      description: "New Topic Description",
+      type: "TextViz"
+    }
+  },
+  objSection: {
+    hasCaret: true,
+    label: "new-section-slug",
+    itemType: "section",
+    data: {
+      title: "New Section Title",
+      slug: "new-section-slug",
+      description: "New Section Description"
+    }
+  },
+  objProfile: {
+    hasCaret: true,
+    label: "new-profile-slug",
+    itemType: "profile",
+    data: {
+      title: "New Profile Title",
+      subtitle: "New Profile Subtitle",
+      slug: "new-profile-slug",
+      description: "New Profile Description",
+      label: "New Profile Label"
+    }
   }
 };

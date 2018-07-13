@@ -7,6 +7,9 @@ import TopicEditor from "./TopicEditor";
 import PropTypes from "prop-types";
 import CtxMenu from "./CtxMenu";
 
+import stubs from "../../utils/stubs.js";
+import deepClone from "../../utils/deepClone.js";
+
 import "./ProfileBuilder.css";
 
 class ProfileBuilder extends Component {
@@ -17,7 +20,9 @@ class ProfileBuilder extends Component {
       nodes: null,
       profiles: null,
       currentNode: null,
-      variables: []
+      currentSlug: null,
+      currentID: null,
+      variablesHash: {}
     };
   }
 
@@ -36,6 +41,7 @@ class ProfileBuilder extends Component {
       hasCaret: true,
       label: p.slug,
       itemType: "profile",
+      masterSlug: p.slug,
       parent: {childNodes: []},
       data: p,
       childNodes: p.sections.map(s => ({
@@ -43,12 +49,14 @@ class ProfileBuilder extends Component {
         hasCaret: true,
         label: stripHTML(s.title),
         itemType: "section",
+        masterSlug: p.slug,
         data: s,
         childNodes: s.topics.map(t => ({
           id: `topic${t.id}`,
           hasCaret: false,
           label: stripHTML(t.title),
           itemType: "topic",
+          masterSlug: p.slug,
           data: t
         }))
       }))
@@ -97,48 +105,20 @@ class ProfileBuilder extends Component {
         }
       }
     }
-    const objTopic = {
-      hasCaret: false,
-      label: "new-topic-slug",
-      itemType: "topic",
-      parent: n.parent,
-      data: {
-        title: "New Topic Title",
-        subtitle: "New Topic Subtitle",
-        slug: "new-topic-slug",
-        description: "New Topic Description",
-        section_id: n.data.section_id,
-        type: "TextViz",
-        ordering: loc
-      }
-    };
-    const objSection = {
-      hasCaret: true,
-      label: "new-section-slug",
-      itemType: "section",
-      parent: n.parent,
-      data: {
-        title: "New Section Title",
-        slug: "new-section-slug",
-        description: "New Section Description",
-        profile_id: n.data.profile_id,
-        ordering: loc
-      }
-    };
-    const objProfile = {
-      hasCaret: true,
-      label: "new-profile-slug",
-      itemType: "profile",
-      parent: n.parent,
-      data: {
-        title: "New Profile Title",
-        subtitle: "New Profile Subtitle",
-        slug: "new-profile-slug",
-        description: "New Profile Description",
-        label: "New Profile Label",
-        ordering: loc
-      }
-    };
+    
+    const objTopic = deepClone(stubs.objTopic);
+    objTopic.parent = n.parent;
+    objTopic.data.section_id = n.data.section_id;
+    objTopic.data.ordering = loc;
+
+    const objSection = deepClone(stubs.objSection);
+    objSection.parent = n.parent;
+    objSection.data.profile_id = n.data.profile_id;
+    objSection.data.ordering = loc;
+
+    const objProfile = deepClone(stubs.objProfile);
+    objProfile.parent = n.parent;
+    objProfile.data.ordering = loc;
 
     let obj = null;
 
@@ -279,20 +259,30 @@ class ProfileBuilder extends Component {
   }
 
   reportSave() {
-    this.updateLabels();
+    this.updateLabels.bind(this)();
   }
 
-  refreshVariables(variables) {
-    this.setState({variables});
+  fetchVariables(slug, id, force, callback) {
+    const {variablesHash} = this.state;
+    const maybeCallback = callback ? () => callback() : () => {};
+    if (force || !variablesHash[slug]) {
+      axios.get(`/api/variables/${slug}/${id}`).then(resp => {
+        variablesHash[slug] = resp.data;
+        this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback());
+      });  
+    }
+    else {
+      this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback());
+    }  
   }
 
   render() {
 
-    const {nodes, currentNode, variables} = this.state;
+    const {nodes, currentNode, variablesHash, currentSlug, currentID} = this.state;
 
     if (!nodes) return <div>Loading</div>;
 
-    // console.log("updated nodes to", nodes[0].childNodes);
+    const variables = variablesHash[currentSlug] ? deepClone(variablesHash[currentSlug]) : null;
 
     return (
       <div id="profile-builder">
@@ -308,11 +298,32 @@ class ProfileBuilder extends Component {
         <div id="item-editor">
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor id={currentNode.data.id} refreshVariables={this.refreshVariables.bind(this)} reportSave={this.reportSave.bind(this)} />
+              ? <ProfileEditor 
+                id={currentNode.data.id} 
+                masterSlug={currentNode.masterSlug} 
+                currentID={currentID} 
+                fetchVariables={this.fetchVariables.bind(this)} 
+                variables={variables} 
+                reportSave={this.reportSave.bind(this)} 
+              />
               : currentNode.itemType === "section"
-                ? <SectionEditor id={currentNode.data.id} variables={variables} reportSave={this.reportSave.bind(this)}/>
+                ? <SectionEditor 
+                  id={currentNode.data.id} 
+                  masterSlug={currentNode.masterSlug} 
+                  currentID={currentID} 
+                  fetchVariables={this.fetchVariables.bind(this)} 
+                  variables={variables} 
+                  reportSave={this.reportSave.bind(this)}
+                />
                 : currentNode.itemType === "topic"
-                  ? <TopicEditor id={currentNode.data.id} variables={variables} reportSave={this.reportSave.bind(this)}/>
+                  ? <TopicEditor 
+                    id={currentNode.data.id} 
+                    masterSlug={currentNode.masterSlug} 
+                    currentID={currentID} 
+                    fetchVariables={this.fetchVariables.bind(this)} 
+                    variables={variables} 
+                    reportSave={this.reportSave.bind(this)}
+                  />
                   : null
             : <NonIdealState title="No Profile Selected" description="Please select a Profile from the menu on the left." visual="path-search" />
           }

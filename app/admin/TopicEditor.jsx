@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Button} from "@blueprintjs/core";
+import {Button, Callout, Icon} from "@blueprintjs/core";
 import Loading from "components/Loading";
 import PropTypes from "prop-types";
 import TextCard from "./components/TextCard";
@@ -16,11 +16,13 @@ class TopicEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      minData: null
+      minData: null,
+      preview: "04000US25"
     };
   }
 
   componentDidMount() {
+    if (this.props.currentID) this.setState({preview: this.props.currentID});
     this.hitDB.bind(this)();
   }
 
@@ -32,7 +34,7 @@ class TopicEditor extends Component {
 
   hitDB() {
     axios.get(`/api/cms/topic/get/${this.props.id}`).then(resp => {
-      this.setState({minData: resp.data});
+      this.setState({minData: resp.data}, this.fetchVariables.bind(this, false));
     });
   }
 
@@ -89,14 +91,20 @@ class TopicEditor extends Component {
     this.setState({minData});
   }
 
+  fetchVariables(force) {
+    const slug = this.props.masterSlug;
+    const id = this.state.preview;
+    if (this.props.fetchVariables) {
+      this.props.fetchVariables(slug, id, force, () => this.setState({recompiling: false}));
+    }
+  }
+
   render() {
 
-    const {minData} = this.state;
+    const {minData, preview} = this.state;
     const {variables} = this.props;
     
-    if (!minData) return <Loading />;
-
-    // console.log(minData.selectors[1].default);
+    if (!minData || !variables) return <Loading />;
 
     const varOptions = [<option key="always" value="always">Always</option>];
     
@@ -111,6 +119,14 @@ class TopicEditor extends Component {
 
     return (
       <div id="section-editor">
+        <Callout id="preview-toggle">
+          <span className="pt-label"><Icon iconName="media" />Preview ID</span>
+          <div className="pt-select">
+            <select value={preview} onChange={e => this.setState({preview: e.target.value}, this.fetchVariables.bind(this, true))}>
+              { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
+            </select>
+          </div>
+        </Callout>
         <div id="slug">
           slug
           <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug")}/>
@@ -118,7 +134,7 @@ class TopicEditor extends Component {
         </div>
         <div className="pt-select">
           Allowed?
-          <select value={minData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px"}}>
+          <select value={minData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px", width: "200px"}}>
             {varOptions}
           </select>
         </div>
