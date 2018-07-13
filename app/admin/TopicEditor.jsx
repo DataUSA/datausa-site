@@ -68,16 +68,16 @@ class TopicEditor extends Component {
   }
 
   save() {
-    axios.post("/api/cms/topic/update", this.state.minData).then(resp => {
+    const {minData} = this.state;
+    axios.post("/api/cms/topic/update", minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.reportSave) this.props.reportSave();
       }
     });
   }
 
-  onSave() {
-    this.forceUpdate();
+  onSave(minData) {
+    if (this.props.reportSave) this.props.reportSave("topic", minData.id, minData.title);
   }
 
   onDelete(id, type) {
@@ -142,6 +142,7 @@ class TopicEditor extends Component {
         <TextCard 
           id={minData.id}
           fields={["title"]}
+          onSave={this.onSave.bind(this)}
           type="topic"
           variables={variables}
         />
@@ -209,7 +210,7 @@ class TopicEditor extends Component {
             // id={s.id}
             minData={s}
             type="selector"
-            onSave={this.onSave.bind(this)}
+            onSave={() => this.forceUpdate()}
             onDelete={this.onDelete.bind(this)}
             variables={variables}
           />)

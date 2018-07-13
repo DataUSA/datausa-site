@@ -53,7 +53,7 @@ class TextCard extends Component {
     axios.post(`/api/cms/${type}/update`, minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false}, this.formatDisplay.bind(this));
-        if (this.props.onSave) this.props.onSave();  
+        if (this.props.onSave) this.props.onSave(minData);  
       }
     });
   }

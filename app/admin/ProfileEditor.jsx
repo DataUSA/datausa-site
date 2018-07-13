@@ -74,10 +74,11 @@ class ProfileEditor extends Component {
   }
 
   save() {
-    axios.post("/api/cms/profile/update", this.state.minData).then(resp => {
+    const {minData} = this.state;
+    axios.post("/api/cms/profile/update", minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.reportSave) this.props.reportSave();  
+        if (this.props.reportSave) this.props.reportSave("profile", minData.id, minData.slug);  
       }
     });
   }

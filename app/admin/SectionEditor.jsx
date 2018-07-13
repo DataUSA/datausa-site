@@ -70,11 +70,15 @@ class SectionEditor extends Component {
     this.setState({minData});
   }
 
+  onSave(minData) {
+    if (this.props.reportSave) this.props.reportSave("section", minData.id, minData.title);  
+  }
+
   save() {
-    axios.post("/api/cms/section/update", this.state.minData).then(resp => {
+    const {minData} = this.state;
+    axios.post("/api/cms/section/update", minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.reportSave) this.props.reportSave();  
       }
     });
   }
@@ -131,6 +135,7 @@ class SectionEditor extends Component {
           id={minData.id}
           fields={["title"]}
           type="section"
+          onSave={this.onSave.bind(this)}
           variables={variables}
         />
         <h4>Subtitles</h4>

@@ -234,32 +234,61 @@ class ProfileBuilder extends Component {
     this.setState({nodes: this.state.nodes});
   }
 
-  // If a save occurs in any of the editors, the user may have changed a slug. Though this changes the underlying data,
-  // it does not change the blueprint Tree Object's label.  This hard-coded nested map refreshes all the labels based on the data.
-  updateLabels() {
+  /**
+   * Given a node type (profile, section, topic) and an id, crawl down the tree and fetch a reference to the Tree node with that id
+   */
+  locateNode(type, id) {
     const {nodes} = this.state;
-    const {stripHTML} = this.context.formatters;
-    nodes.map(p => {
-      p.label = p.data.slug;
-      if (p.childNodes) {
-        p.childNodes.map(s => {
-          s.label = stripHTML(s.data.title);
-          if (s.childNodes) {
-            s.childNodes.map(t => {
-              t.label = stripHTML(t.data.title);
-              return t;
-            });
-          }
-          return s;
+    let node = null;
+    if (type === "profile") {
+      node = nodes.find(p => p.data.id === id);
+    }
+    else if (type === "section") {
+      nodes.forEach(p => {
+        const attempt = p.childNodes.find(s => s.data.id === id);
+        if (attempt) node = attempt;
+      });
+    }
+    else if (type === "topic") {
+      nodes.forEach(p => {
+        p.childNodes.forEach(s => {
+          const attempt = s.childNodes.find(t => t.data.id === id);
+          if (attempt) node = attempt;
         });
-      }
-      return p;
-    });
-    this.setState({nodes});
+      });
+    }
+    return node;
   }
 
-  reportSave() {
-    this.updateLabels.bind(this)();
+  /**
+   * If a save occurred in one of the editors, the user may have changed the slug/title. This callback is responsible for 
+   * updating the tree labels accordingly. If the user has changed a slug, the "masterSlug" reference that ALL children
+   * of a profile use must be recursively updated as well.
+   */
+  reportSave(type, id, newValue) {
+    let {nodes} = this.state;
+    const node = this.locateNode.bind(this)(type, id);
+    const {stripHTML} = this.context.formatters;
+    // Update the label based on the new value. If this is a section or a topic, this is the only thing needed
+    if (node) {
+      node.label = stripHTML(newValue);
+    }
+    // However, if this is a profile changing its slug, then all children must be informed so their masterSlug is up to date.
+    if (type === "profile") {
+      nodes = nodes.map(p => {
+        p.masterSlug = newValue;
+        p.childNodes = p.childNodes.map(s => {
+          s.masterSlug = newValue;
+          s.childNodes = s.childNodes.map(t => {
+            t.masterSlug = newValue;
+            return t;
+          });
+          return s;
+        });
+        return p;
+      });
+    }
+    this.setState({nodes});
   }
 
   fetchVariables(slug, id, force, callback) {
@@ -268,11 +297,11 @@ class ProfileBuilder extends Component {
     if (force || !variablesHash[slug]) {
       axios.get(`/api/variables/${slug}/${id}`).then(resp => {
         variablesHash[slug] = resp.data;
-        this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback());
+        this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback);
       });  
     }
     else {
-      this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback());
+      this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback);
     }  
   }
 
@@ -308,7 +337,7 @@ class ProfileBuilder extends Component {
               />
               : currentNode.itemType === "section"
                 ? <SectionEditor 
-                  id={currentNode.data.id} 
+                  id={currentNode.data.id}
                   masterSlug={currentNode.masterSlug} 
                   currentID={currentID} 
                   fetchVariables={this.fetchVariables.bind(this)} 
@@ -317,7 +346,7 @@ class ProfileBuilder extends Component {
                 />
                 : currentNode.itemType === "topic"
                   ? <TopicEditor 
-                    id={currentNode.data.id} 
+                    id={currentNode.data.id}
                     masterSlug={currentNode.masterSlug} 
                     currentID={currentID} 
                     fetchVariables={this.fetchVariables.bind(this)} 
