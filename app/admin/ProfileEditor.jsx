@@ -152,7 +152,7 @@ class ProfileEditor extends Component {
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
             <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
+              { ["04000US25", "04000US36"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
         </Callout>
