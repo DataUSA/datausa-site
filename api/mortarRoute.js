@@ -13,34 +13,6 @@ const searchMap = {
   university: "University"
 };
 
-const profileReqWithGens = {
-  // logging: console.log,
-  include: [
-    {association: "generators", separate: true},
-    {association: "materializers", separate: true},
-    {association: "visualizations", separate: true},
-    {association: "stats", separate: true},
-    {association: "descriptions", separate: true},
-    {
-      association: "sections", separate: true,
-      include: [
-        {association: "subtitles", separate: true},
-        {association: "descriptions", separate: true},
-        {
-          association: "topics", separate: true,
-          include: [
-            {association: "subtitles", separate: true},
-            {association: "descriptions", separate: true},
-            {association: "visualizations", separate: true},
-            {association: "stats", separate: true},
-            {association: "selectors", separate: true}
-          ]
-        }
-      ]
-    }
-  ]
-};
-
 const profileReq = {
   include: [
     {association: "visualizations", separate: true},
@@ -99,13 +71,6 @@ const sortProfile = profile => {
 module.exports = function(app) {
 
   const {cache, db} = app.settings;
-
-  app.get("/api/internalprofile/all", (req, res) => {
-    db.profiles.findAll(profileReqWithGens).then(profiles => {
-      profiles = profiles.map(profile => sortProfile(profile));
-      res.json(profiles).end();
-    });
-  });
 
   app.get("/api/internalprofile/:slug", (req, res) => {
     const {slug} = req.params;

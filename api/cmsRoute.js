@@ -44,14 +44,10 @@ const topicReqTopicOnly = {
 const sortProfile = profile => {
   const sorter = (a, b) => a.ordering - b.ordering;
   profile = profile.toJSON();
-  if (profile.sections) {
-    profile.sections.sort(sorter);
-    profile.sections.map(section => {
-      if (section.topics) {
-        section.topics.sort(sorter);
-      }
-    });
-  }
+  profile.sections.sort(sorter);
+  profile.sections.map(section => {
+    section.topics.sort(sorter);
+  });
   return profile;
 };
 
