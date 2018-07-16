@@ -7,10 +7,18 @@ import Loading from "components/Loading";
 import GeneratorCard from "./components/GeneratorCard";
 import TextCard from "./components/TextCard";
 import VisualizationCard from "./components/VisualizationCard";
+import MoveButtons from "./components/MoveButtons";
 
 import stubs from "../../utils/stubs.js";
 
 import "./ProfileEditor.css";
+
+const propMap = {
+  generator: "generators",
+  materializer: "materializers",
+  stat_profile: "stats",
+  profile_description: "descriptions"
+};
 
 class ProfileEditor extends Component {
 
@@ -61,10 +69,7 @@ class ProfileEditor extends Component {
   onDelete(id, type) {
     const {minData} = this.state;
     const f = obj => obj.id !== id;
-    if (type === "generator") minData.generators = minData.generators.filter(f);
-    if (type === "materializer") minData.materializers = minData.materializers.filter(f);
-    if (type === "stat_profile") minData.stats = minData.stats.filter(f);
-    if (type === "profile_description") minData.descriptions = minData.descriptions.filter(f);
+    minData[propMap[type]] = minData[propMap[type]].filter(f);
     if (type === "generator" || type === "materializer") {
       this.setState({minData, recompiling: true}, this.fetchVariables.bind(this, true));  
     }
@@ -87,59 +92,29 @@ class ProfileEditor extends Component {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
     payload.profile_id = minData.id; 
-    // something about ordering will have to go here
+    payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
       if (resp.status === 200) {
-        if (type === "generator") minData.generators.push({id: resp.data.id, name: resp.data.name});
-        if (type === "materializer") minData.materializers.push({id: resp.data.id, name: resp.data.name});
-        if (type === "stat_profile") minData.stats.push({id: resp.data.id});
-        if (type === "visualization_profile") minData.visualizations.push({id: resp.data.id});
-        if (type === "profile_description") minData.descriptions.push({id: resp.data.id});
         if (type === "generator" || type === "materializer") {
+          minData[propMap[type]].push({id: resp.data.id, name: resp.data.name, ordering: resp.data.ordering || null});
           this.setState({minData}, this.fetchVariables.bind(this, true));
         }
         else {
+          minData[propMap[type]].push({id: resp.data.id, ordering: resp.data.ordering});
           this.setState({minData});
         }
       }
     });
   }
 
-  move(dir, item, array, db) {
-    const item1 = item;
-    if (dir === "left") {
-      if (item1.ordering === 0) {
-        return;
-      }
-      else {
-        const item2 = array.find(i => i.ordering === item1.ordering - 1);
-        item2.ordering = item1.ordering;
-        item1.ordering--;
-        this.saveItem(item1, db);
-        this.saveItem(item2, db);
-      }
-    }
-    else if (dir === "right") {
-      if (item1.ordering === array.length - 1) {
-        return;
-      }
-      else {
-        const item2 = array.find(i => i.ordering === item1.ordering + 1);
-        item2.ordering = item1.ordering;
-        item1.ordering++;
-        this.saveItem(item1, db);
-        this.saveItem(item2, db);
-      }
-    }
-
+  onMove() {
+    this.forceUpdate();
   }
 
   render() {
 
     const {preview, minData, recompiling} = this.state;
     const {variables} = this.props;
-
-    const showExperimentalButtons = false;
 
     if (!minData || !variables) return <Loading />;
 
@@ -244,10 +219,12 @@ class ProfileEditor extends Component {
                 type="profile_description"
                 variables={variables}
               />
-              {showExperimentalButtons && minData.descriptions.length > 1 && <div>
-                {d.ordering > 0 && <button onClick={() => this.move("left", d, minData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
-                {d.ordering < minData.descriptions.length - 1 && <button onClick={() => this.move("right", d, minData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
-              </div>}
+              <MoveButtons 
+                item={d}
+                array={minData.descriptions}
+                type="profile_description"
+                onMove={this.onMove.bind(this)}
+              />
             </div>)
           }
         </div>

@@ -16,39 +16,58 @@ const profileReqTreeOnly = {
 const profileReqProfileOnly = {
   include: [
     {association: "generators", attributes: ["id", "name"]},
-    {association: "materializers", attributes: ["id", "name"]},
-    {association: "visualizations", attributes: ["id"]},
-    {association: "stats", attributes: ["id"]},
-    {association: "descriptions", attributes: ["id"]}
+    {association: "materializers", attributes: ["id", "name", "ordering"]},
+    {association: "visualizations", attributes: ["id", "ordering"]},
+    {association: "stats", attributes: ["id", "ordering"]},
+    {association: "descriptions", attributes: ["id", "ordering"]}
   ]
 };
 
 const sectionReqSectionOnly = {
   include: [
-    {association: "subtitles", attributes: ["id"]},
-    {association: "descriptions", attributes: ["id"]}
+    {association: "subtitles", attributes: ["id", "ordering"]},
+    {association: "descriptions", attributes: ["id", "ordering"]}
   ]
 };
 
 const topicReqTopicOnly = {
   include: [
-    {association: "subtitles", attributes: ["id"]},
-    {association: "descriptions", attributes: ["id"]},
-    {association: "visualizations", attributes: ["id"]},
-    {association: "stats", attributes: ["id"]},
+    {association: "subtitles", attributes: ["id", "ordering"]},
+    {association: "descriptions", attributes: ["id", "ordering"]},
+    {association: "visualizations", attributes: ["id", "ordering"]},
+    {association: "stats", attributes: ["id", "ordering"]},
     {association: "selectors"}
   ]
 };
 
+const sorter = (a, b) => a.ordering - b.ordering;
+
 // Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
-const sortProfile = profile => {
-  const sorter = (a, b) => a.ordering - b.ordering;
+const sortProfileTree = profile => {
   profile = profile.toJSON();
   profile.sections.sort(sorter);
   profile.sections.map(section => {
     section.topics.sort(sorter);
   });
   return profile;
+};
+
+const sortProfile = profile => {
+  profile = profile.toJSON();
+  ["materializers", "visualizations", "stats", "descriptions"].forEach(type => profile[type].sort(sorter));
+  return profile;
+};
+
+const sortSection = section => {
+  section = section.toJSON();
+  ["subtitles", "descriptions"].forEach(type => section[type].sort(sorter));
+  return section;
+};
+
+const sortTopic = topic => {
+  topic = topic.toJSON();
+  ["subtitles", "visualizations", "stats", "descriptions", "selectors"].forEach(type => topic[type].sort(sorter));
+  return topic;
 };
 
 module.exports = function(app) {
@@ -59,7 +78,7 @@ module.exports = function(app) {
 
   app.get("/api/cms/tree", (req, res) => {
     db.profiles.findAll(profileReqTreeOnly).then(profiles => {
-      profiles = profiles.map(profile => sortProfile(profile));
+      profiles = profiles.map(profile => sortProfileTree(profile));
       res.json(profiles).end();
     });
   });
@@ -68,7 +87,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, profileReqProfileOnly, {where: {id}});
     db.profiles.findOne(reqObj).then(profile => {
-      res.json(profile).end();
+      res.json(sortProfile(profile)).end();
     });
   });
 
@@ -76,15 +95,15 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, sectionReqSectionOnly, {where: {id}});
     db.sections.findOne(reqObj).then(section => {
-      res.json(section).end();
+      res.json(sortSection(section)).end();
     });
   });  
 
   app.get("/api/cms/topic/get/:id", (req, res) => {
     const {id} = req.params;
     const reqObj = Object.assign({}, topicReqTopicOnly, {where: {id}});
-    db.topics.findOne(reqObj).then(section => {
-      res.json(section).end();
+    db.topics.findOne(reqObj).then(topic => {
+      res.json(sortTopic(topic)).end();
     });
   }); 
 
