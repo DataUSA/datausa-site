@@ -10,7 +10,8 @@ module.exports = function(sequelize, db) {
       options: db.ARRAY(db.JSON),
       default: db.TEXT,
       topic_id: db.INTEGER,
-      name: db.STRING
+      name: db.STRING,
+      ordering: db.INTEGER
     }, 
     {
       freezeTableName: true,

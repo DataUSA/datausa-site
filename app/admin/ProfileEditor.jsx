@@ -7,10 +7,19 @@ import Loading from "components/Loading";
 import GeneratorCard from "./components/GeneratorCard";
 import TextCard from "./components/TextCard";
 import VisualizationCard from "./components/VisualizationCard";
+import MoveButtons from "./components/MoveButtons";
 
 import stubs from "../../utils/stubs.js";
 
 import "./ProfileEditor.css";
+
+const propMap = {
+  generator: "generators",
+  materializer: "materializers",
+  stat_profile: "stats",
+  profile_description: "descriptions",
+  visualization_profile: "visualizations"
+};
 
 class ProfileEditor extends Component {
 
@@ -58,13 +67,9 @@ class ProfileEditor extends Component {
     this.setState({recompiling: true}, this.fetchVariables.bind(this, true));
   }
 
-  onDelete(id, type) {
+  onDelete(type, newArray) {
     const {minData} = this.state;
-    const f = obj => obj.id !== id;
-    if (type === "generator") minData.generators = minData.generators.filter(f);
-    if (type === "materializer") minData.materializers = minData.materializers.filter(f);
-    if (type === "stat_profile") minData.stats = minData.stats.filter(f);
-    if (type === "profile_description") minData.descriptions = minData.descriptions.filter(f);
+    minData[propMap[type]] = newArray;
     if (type === "generator" || type === "materializer") {
       this.setState({minData, recompiling: true}, this.fetchVariables.bind(this, true));  
     }
@@ -74,10 +79,11 @@ class ProfileEditor extends Component {
   }
 
   save() {
-    axios.post("/api/cms/profile/update", this.state.minData).then(resp => {
+    const {minData} = this.state;
+    axios.post("/api/cms/profile/update", minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.reportSave) this.props.reportSave();  
+        if (this.props.reportSave) this.props.reportSave("profile", minData.id, minData.slug);  
       }
     });
   }
@@ -86,59 +92,30 @@ class ProfileEditor extends Component {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
     payload.profile_id = minData.id; 
-    // something about ordering will have to go here
+    // todo: move this ordering out to axios (let the server concat it to the end)
+    payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
       if (resp.status === 200) {
-        if (type === "generator") minData.generators.push({id: resp.data.id, name: resp.data.name});
-        if (type === "materializer") minData.materializers.push({id: resp.data.id, name: resp.data.name});
-        if (type === "stat_profile") minData.stats.push({id: resp.data.id});
-        if (type === "visualization_profile") minData.visualizations.push({id: resp.data.id});
-        if (type === "profile_description") minData.descriptions.push({id: resp.data.id});
         if (type === "generator" || type === "materializer") {
+          minData[propMap[type]].push({id: resp.data.id, name: resp.data.name, ordering: resp.data.ordering || null});
           this.setState({minData}, this.fetchVariables.bind(this, true));
         }
         else {
+          minData[propMap[type]].push({id: resp.data.id, ordering: resp.data.ordering});
           this.setState({minData});
         }
       }
     });
   }
 
-  move(dir, item, array, db) {
-    const item1 = item;
-    if (dir === "left") {
-      if (item1.ordering === 0) {
-        return;
-      }
-      else {
-        const item2 = array.find(i => i.ordering === item1.ordering - 1);
-        item2.ordering = item1.ordering;
-        item1.ordering--;
-        this.saveItem(item1, db);
-        this.saveItem(item2, db);
-      }
-    }
-    else if (dir === "right") {
-      if (item1.ordering === array.length - 1) {
-        return;
-      }
-      else {
-        const item2 = array.find(i => i.ordering === item1.ordering + 1);
-        item2.ordering = item1.ordering;
-        item1.ordering++;
-        this.saveItem(item1, db);
-        this.saveItem(item2, db);
-      }
-    }
-
+  onMove() {
+    this.forceUpdate();
   }
 
   render() {
 
     const {preview, minData, recompiling} = this.state;
     const {variables} = this.props;
-
-    const showExperimentalButtons = false;
 
     if (!minData || !variables) return <Loading />;
 
@@ -152,7 +129,7 @@ class ProfileEditor extends Component {
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
             <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
+              { ["04000US25", "04000US36"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
         </Callout>
@@ -193,15 +170,22 @@ class ProfileEditor extends Component {
         <p className="pt-text-muted">Variables constructed from other variables. No API calls needed.</p>
         <div className="generator-cards materializers">
           { minData.materializers && minData.materializers
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map(m => <GeneratorCard 
-              key={m.id} 
-              id={m.id} 
-              onSave={this.onSave.bind(this)}
-              onDelete={this.onDelete.bind(this)}
-              type="materializer" 
-              variables={variables} 
-            />)
+            .map(m => <div key={m.id}>
+              <GeneratorCard 
+                key={m.id} 
+                id={m.id} 
+                onSave={this.onSave.bind(this)}
+                onDelete={this.onDelete.bind(this)}
+                type="materializer" 
+                variables={variables} 
+              />
+              <MoveButtons 
+                item={m}
+                array={minData.materializers}
+                type="materializer"
+                onMove={this.onMove.bind(this)}
+              />
+            </div>)
           }
         </div>
 
@@ -214,13 +198,21 @@ class ProfileEditor extends Component {
           />
           <div className="stats">
             { minData.stats && minData.stats.map(s =>
-              <TextCard key={s.id}
-                id={s.id}
-                onDelete={this.onDelete.bind(this)}
-                type="stat_profile"
-                fields={["title", "subtitle", "value"]}
-                variables={variables}
-              />) 
+              <div key={s.id}>
+                <TextCard key={s.id}
+                  id={s.id}
+                  onDelete={this.onDelete.bind(this)}
+                  type="stat_profile"
+                  fields={["title", "subtitle", "value"]}
+                  variables={variables}
+                />
+                <MoveButtons 
+                  item={s}
+                  array={minData.stats}
+                  type="stat_profile"
+                  onMove={this.onMove.bind(this)}
+                />
+              </div>) 
             }
             <Card className="stat-card" onClick={this.addItem.bind(this, "stat_profile")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
@@ -243,10 +235,12 @@ class ProfileEditor extends Component {
                 type="profile_description"
                 variables={variables}
               />
-              {showExperimentalButtons && minData.descriptions.length > 1 && <div>
-                {d.ordering > 0 && <button onClick={() => this.move("left", d, minData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-left" /></button> }
-                {d.ordering < minData.descriptions.length - 1 && <button onClick={() => this.move("right", d, minData.descriptions, "profile_description")}><span className="pt-icon pt-icon-arrow-right" /></button> }
-              </div>}
+              <MoveButtons 
+                item={d}
+                array={minData.descriptions}
+                type="profile_description"
+                onMove={this.onMove.bind(this)}
+              />
             </div>)
           }
         </div>
@@ -258,13 +252,21 @@ class ProfileEditor extends Component {
         <div className="visualizations">
           <div>
             { minData.visualizations && minData.visualizations.map(v =>
-              <VisualizationCard 
-                key={v.id} 
-                id={v.id} 
-                onDelete={this.onDelete.bind(this)}
-                type="visualization_profile" 
-                variables={variables} 
-              />)
+              <div key={v.id}>
+                <VisualizationCard 
+                  key={v.id} 
+                  id={v.id} 
+                  onDelete={this.onDelete.bind(this)}
+                  type="visualization_profile" 
+                  variables={variables} 
+                />
+                <MoveButtons 
+                  item={v}
+                  array={minData.visualizations}
+                  type="visualization_profile"
+                  onMove={this.onMove.bind(this)}
+                />
+              </div>)
             }
           </div>
         </div>

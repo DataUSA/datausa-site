@@ -9,7 +9,8 @@ module.exports = function(sequelize, db) {
       },
       logic: db.TEXT,
       topic_id: db.INTEGER,
-      allowed: db.STRING
+      allowed: db.STRING,
+      ordering: db.INTEGER
     }, 
     {
       freezeTableName: true,

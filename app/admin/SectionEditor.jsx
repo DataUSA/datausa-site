@@ -4,10 +4,16 @@ import {Button, Callout, Icon} from "@blueprintjs/core";
 import Loading from "components/Loading";
 import TextCard from "./components/TextCard";
 import PropTypes from "prop-types";
+import MoveButtons from "./components/MoveButtons";
 
 import stubs from "../../utils/stubs.js";
 
 import "./SectionEditor.css";
+
+const propMap = {
+  section_subtitle: "subtitles",
+  section_description: "descriptions"
+};
 
 class SectionEditor extends Component {
 
@@ -52,29 +58,35 @@ class SectionEditor extends Component {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
     payload.section_id = minData.id; 
-    // something about ordering will have to go here
+    // todo: move this ordering out to axios (let the server concat it to the end)
+    payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
       if (resp.status === 200) {
-        if (type === "section_subtitle") minData.subtitles.push({id: resp.data.id});
-        if (type === "section_description") minData.descriptions.push({id: resp.data.id});
+        minData[propMap[type]].push({id: resp.data.id, ordering: resp.data.ordering});
         this.setState({minData});
       }
     });
   }
 
-  onDelete(id, type) {
+  onDelete(type, newArray) {
     const {minData} = this.state;
-    const f = obj => obj.id !== id;
-    if (type === "section_subtitle") minData.subtitles = minData.subtitles.filter(f);
-    if (type === "section_description") minData.descriptions = minData.descriptions.filter(f);
+    minData[propMap[type]] = newArray;
     this.setState({minData});
   }
 
+  onSave(minData) {
+    if (this.props.reportSave) this.props.reportSave("section", minData.id, minData.title);  
+  }
+
+  onMove() {
+    this.forceUpdate();
+  }
+
   save() {
-    axios.post("/api/cms/section/update", this.state.minData).then(resp => {
+    const {minData} = this.state;
+    axios.post("/api/cms/section/update", minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.reportSave) this.props.reportSave();  
       }
     });
   }
@@ -111,7 +123,7 @@ class SectionEditor extends Component {
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
             <select value={preview} onChange={e => this.setState({preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["04000US25", "16000US0644000"].map(s => <option value={s} key={s}>{s}</option>) }
+              { ["04000US25", "04000US36"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
         </Callout>
@@ -131,31 +143,48 @@ class SectionEditor extends Component {
           id={minData.id}
           fields={["title"]}
           type="section"
+          onSave={this.onSave.bind(this)}
           variables={variables}
         />
         <h4>Subtitles</h4>
         <Button onClick={this.addItem.bind(this, "section_subtitle")} iconName="add" />
         { minData.subtitles && minData.subtitles.map(s => 
-          <TextCard 
-            key={s.id}
-            id={s.id}
-            fields={["subtitle"]}
-            type="section_subtitle"
-            onDelete={this.onDelete.bind(this)}
-            variables={variables}
-          />) 
+          <div key={s.id}>
+            <TextCard 
+              key={s.id}
+              id={s.id}
+              fields={["subtitle"]}
+              type="section_subtitle"
+              onDelete={this.onDelete.bind(this)}
+              variables={variables}
+            />
+            <MoveButtons 
+              item={s}
+              array={minData.subtitles}
+              type="section_subtitle"
+              onMove={this.onMove.bind(this)}
+            />
+          </div>) 
         }
         <h4>Descriptions</h4>
         <Button onClick={this.addItem.bind(this, "section_description")} iconName="add" />
         { minData.descriptions && minData.descriptions.map(d => 
-          <TextCard 
-            key={d.id}
-            id={d.id}
-            fields={["description"]}
-            type="section_description"
-            onDelete={this.onDelete.bind(this)}
-            variables={variables}
-          />)  
+          <div key={d.id}>
+            <TextCard 
+              key={d.id}
+              id={d.id}
+              fields={["description"]}
+              type="section_description"
+              onDelete={this.onDelete.bind(this)}
+              variables={variables}
+            />
+            <MoveButtons 
+              item={d}
+              array={minData.descriptions}
+              type="section_description"
+              onMove={this.onMove.bind(this)}
+            />
+          </div>)  
         }
       </div>
     );

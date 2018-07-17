@@ -21,7 +21,7 @@ module.exports = {
   visualization_profile: {
     logic: "return {}"
   },
-  section_desciption: {
+  section_description: {
     description: "New Description"
   },
   section_subtitle: {

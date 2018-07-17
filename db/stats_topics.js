@@ -11,7 +11,8 @@ module.exports = function(sequelize, db) {
       subtitle: db.STRING,
       value: db.STRING,
       topic_id: db.INTEGER,
-      allowed: db.STRING
+      allowed: db.STRING,
+      ordering: db.INTEGER
     }, 
     {
       freezeTableName: true,

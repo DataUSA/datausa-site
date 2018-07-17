@@ -1,3 +1,6 @@
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+
 const profileReqTreeOnly = {
   attributes: ["id", "title", "slug", "ordering"],
   include: [
@@ -7,52 +10,64 @@ const profileReqTreeOnly = {
         {association: "topics", attributes: ["id", "title", "slug", "ordering"]}
       ]
     }
-  ],
-  order: [
-
   ]
 };
 
 const profileReqProfileOnly = {
   include: [
     {association: "generators", attributes: ["id", "name"]},
-    {association: "materializers", attributes: ["id", "name"]},
-    {association: "visualizations", attributes: ["id"]},
-    {association: "stats", attributes: ["id"]},
-    {association: "descriptions", attributes: ["id"]}
+    {association: "materializers", attributes: ["id", "name", "ordering"]},
+    {association: "visualizations", attributes: ["id", "ordering"]},
+    {association: "stats", attributes: ["id", "ordering"]},
+    {association: "descriptions", attributes: ["id", "ordering"]}
   ]
 };
 
 const sectionReqSectionOnly = {
   include: [
-    {association: "subtitles", attributes: ["id"]},
-    {association: "descriptions", attributes: ["id"]}
+    {association: "subtitles", attributes: ["id", "ordering"]},
+    {association: "descriptions", attributes: ["id", "ordering"]}
   ]
 };
 
 const topicReqTopicOnly = {
   include: [
-    {association: "subtitles", attributes: ["id"]},
-    {association: "descriptions", attributes: ["id"]},
-    {association: "visualizations", attributes: ["id"]},
-    {association: "stats", attributes: ["id"]},
+    {association: "subtitles", attributes: ["id", "ordering"]},
+    {association: "descriptions", attributes: ["id", "ordering"]},
+    {association: "visualizations", attributes: ["id", "ordering"]},
+    {association: "stats", attributes: ["id", "ordering"]},
     {association: "selectors"}
   ]
 };
 
-// Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
-const sortProfile = profile => {
-  const sorter = (a, b) => a.ordering - b.ordering;
+const sorter = (a, b) => a.ordering - b.ordering;
+
+// Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. todo: move it up to the query.
+const sortProfileTree = profile => {
   profile = profile.toJSON();
-  if (profile.sections) {
-    profile.sections.sort(sorter);
-    profile.sections.map(section => {
-      if (section.topics) {
-        section.topics.sort(sorter);
-      }
-    });
-  }
+  profile.sections.sort(sorter);
+  profile.sections.map(section => {
+    section.topics.sort(sorter);
+  });
   return profile;
+};
+
+const sortProfile = profile => {
+  profile = profile.toJSON();
+  ["materializers", "visualizations", "stats", "descriptions"].forEach(type => profile[type].sort(sorter));
+  return profile;
+};
+
+const sortSection = section => {
+  section = section.toJSON();
+  ["subtitles", "descriptions"].forEach(type => section[type].sort(sorter));
+  return section;
+};
+
+const sortTopic = topic => {
+  topic = topic.toJSON();
+  ["subtitles", "visualizations", "stats", "descriptions", "selectors"].forEach(type => topic[type].sort(sorter));
+  return topic;
 };
 
 module.exports = function(app) {
@@ -63,7 +78,7 @@ module.exports = function(app) {
 
   app.get("/api/cms/tree", (req, res) => {
     db.profiles.findAll(profileReqTreeOnly).then(profiles => {
-      profiles = profiles.map(profile => sortProfile(profile));
+      profiles = profiles.map(profile => sortProfileTree(profile));
       res.json(profiles).end();
     });
   });
@@ -72,7 +87,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, profileReqProfileOnly, {where: {id}});
     db.profiles.findOne(reqObj).then(profile => {
-      res.json(profile).end();
+      res.json(sortProfile(profile)).end();
     });
   });
 
@@ -80,15 +95,15 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, sectionReqSectionOnly, {where: {id}});
     db.sections.findOne(reqObj).then(section => {
-      res.json(section).end();
+      res.json(sortSection(section)).end();
     });
   });  
 
   app.get("/api/cms/topic/get/:id", (req, res) => {
     const {id} = req.params;
     const reqObj = Object.assign({}, topicReqTopicOnly, {where: {id}});
-    db.topics.findOne(reqObj).then(section => {
-      res.json(section).end();
+    db.topics.findOne(reqObj).then(topic => {
+      res.json(sortTopic(topic)).end();
     });
   }); 
 
@@ -151,7 +166,13 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/generator/delete", (req, res) => {
-    db.generators.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.generators.findOne({where: {id: req.query.id}}).then(row => {
+      db.generators.destroy({where: {id: req.query.id}}).then(() => {
+        db.generators.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "name"]}).then(rows => {
+          res.json(rows).end();
+        });
+      });
+    });
   });
 
   app.post("/api/cms/materializer/new", (req, res) => {
@@ -163,7 +184,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/materializer/delete", (req, res) => {
-    db.materializers.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.materializers.findOne({where: {id: req.query.id}}).then(row => {
+      db.materializers.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.materializers.destroy({where: {id: req.query.id}}).then(() => {
+          db.materializers.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering", "name"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/profile/update", (req, res) => {
@@ -187,7 +216,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/profile_description/delete", (req, res) => {
-    db.profiles_descriptions.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.profiles_descriptions.findOne({where: {id: req.query.id}}).then(row => {
+      db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.profiles_descriptions.destroy({where: {id: req.query.id}}).then(() => {
+          db.profiles_descriptions.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/section/update", (req, res) => {
@@ -211,7 +248,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/section_subtitle/delete", (req, res) => {
-    db.sections_subtitles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.sections_subtitles.findOne({where: {id: req.query.id}}).then(row => {
+      db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.sections_subtitles.destroy({where: {id: req.query.id}}).then(() => {
+          db.sections_subtitles.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/section_description/update", (req, res) => {
@@ -223,7 +268,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/section_description/delete", (req, res) => {
-    db.sections_descriptions.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.sections_descriptions.findOne({where: {id: req.query.id}}).then(row => {
+      db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.sections_descriptions.destroy({where: {id: req.query.id}}).then(() => {
+          db.sections_descriptions.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/topic/update", (req, res) => {
@@ -247,7 +300,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/topic_subtitle/delete", (req, res) => {
-    db.topics_subtitles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.topics_subtitles.findOne({where: {id: req.query.id}}).then(row => {
+      db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.topics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
+          db.topics_subtitles.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/topic_description/update", (req, res) => {
@@ -259,7 +320,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/topic_description/delete", (req, res) => {
-    db.topics_descriptions.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.topics_descriptions.findOne({where: {id: req.query.id}}).then(row => {
+      db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.topics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
+          db.topics_descriptions.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/selector/update", (req, res) => {
@@ -271,7 +340,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/selector/delete", (req, res) => {
-    db.selectors.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.selectors.findOne({where: {id: req.query.id}}).then(row => {
+      db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.selectors.destroy({where: {id: req.query.id}}).then(() => {
+          db.selectors.findAll({where: {topic_id: row.topic_id}, order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/stat_profile/update", (req, res) => {
@@ -283,7 +360,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/stat_profile/delete", (req, res) => {
-    db.stats_profiles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.stats_profiles.findOne({where: {id: req.query.id}}).then(row => {
+      db.stats_profiles.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.stats_profiles.destroy({where: {id: req.query.id}}).then(() => {
+          db.stats_profiles.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/stat_topic/update", (req, res) => {
@@ -295,7 +380,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/stat_topic/delete", (req, res) => {
-    db.stats_topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.stats_topics.findOne({where: {id: req.query.id}}).then(row => {
+      db.stats_topics.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.stats_topics.destroy({where: {id: req.query.id}}).then(() => {
+          db.stats_topics.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/visualization_profile/update", (req, res) => {
@@ -307,7 +400,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/visualization_profile/delete", (req, res) => {
-    db.visualizations_profiles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.visualizations_profiles.findOne({where: {id: req.query.id}}).then(row => {
+      db.visualizations_profiles.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.visualizations_profiles.destroy({where: {id: req.query.id}}).then(() => {
+          db.visualizations_profiles.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/visualization_topic/update", (req, res) => {
@@ -319,7 +420,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/visualization_topic/delete", (req, res) => {
-    db.visualizations_topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.visualizations_topics.findOne({where: {id: req.query.id}}).then(row => {
+      db.visualizations_topics.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.visualizations_topics.destroy({where: {id: req.query.id}}).then(() => {
+          db.visualizations_topics.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
 };
