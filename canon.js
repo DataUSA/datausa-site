@@ -75,14 +75,5 @@ module.exports = {
         }
       }
     }
-  },
-  "canon-search": {
-    aliases: {
-      "CIP": "cip",
-      "Geography": "geo",
-      "PUMS Industry": "naics",
-      "PUMS Occupation": "soc",
-      "University": "university"
-    }
   }
 };

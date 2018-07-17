@@ -1,7 +1,7 @@
 const shell = require("shelljs"),
       yaml = require("node-yaml");
 
-const storyDir = "app/toCMS/stories/";
+const storyDir = "app/stories/";
 const featured = ["06-12-2017_medicare-physicians"];
 
 module.exports = function(app) {
