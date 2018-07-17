@@ -64,7 +64,7 @@ class TextCard extends Component {
     axios.delete(`/api/cms/${type}/delete`, {params: {id: minData.id}}).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.onDelete) this.props.onDelete(minData.id, type);
+        if (this.props.onDelete) this.props.onDelete(type, resp.data);
       }
     });
   }

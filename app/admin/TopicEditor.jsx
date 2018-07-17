@@ -6,10 +6,19 @@ import PropTypes from "prop-types";
 import TextCard from "./components/TextCard";
 import SelectorCard from "./components/SelectorCard";
 import VisualizationCard from "./components/VisualizationCard";
+import MoveButtons from "./components/MoveButtons";
 
 import stubs from "../../utils/stubs.js";
 
 import "./TopicEditor.css";
+
+const propMap = {
+  stat_topic: "stats",
+  topic_description: "descriptions",
+  topic_subtitle: "subtitles",
+  visualization_topic: "visualizations",
+  selector: "selectors"
+};
 
 class TopicEditor extends Component {
 
@@ -54,14 +63,16 @@ class TopicEditor extends Component {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
     payload.topic_id = minData.id; 
-    // something about ordering will have to go here
+    // todo: move this ordering out to axios (let the server concat it to the end)
+    payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
       if (resp.status === 200) {
-        if (type === "topic_subtitle") minData.subtitles.push({id: resp.data.id});
-        if (type === "topic_description") minData.descriptions.push({id: resp.data.id});
-        if (type === "stat_topic") minData.stats.push({id: resp.data.id});
-        if (type === "visualization_topic") minData.visualizations.push({id: resp.data.id});
-        if (type === "selector") minData.selectors.push(resp.data);
+        if (type === "selector") {
+          minData[propMap[type]].push(resp.data);
+        }
+        else {
+          minData[propMap[type]].push({id: resp.data.id, ordering: resp.data.ordering});  
+        }
         this.setState({minData});
       }
     });
@@ -80,14 +91,13 @@ class TopicEditor extends Component {
     if (this.props.reportSave) this.props.reportSave("topic", minData.id, minData.title);
   }
 
-  onDelete(id, type) {
+  onMove() {
+    this.forceUpdate();
+  }
+
+  onDelete(type, newArray) {
     const {minData} = this.state;
-    const f = obj => obj.id !== id;
-    if (type === "topic_subtitle") minData.subtitles = minData.subtitles.filter(f);
-    if (type === "topic_description") minData.descriptions = minData.descriptions.filter(f);
-    if (type === "stat_topic") minData.stats = minData.stats.filter(f);
-    if (type === "visualization_topic") minData.visualizations = minData.visualizations.filter(f);
-    if (type === "selector") minData.selectors = minData.selectors.filter(f);
+    minData[propMap[type]] = newArray;
     this.setState({minData});
   }
 
@@ -149,42 +159,66 @@ class TopicEditor extends Component {
         <h4>Subtitles</h4>
         <Button onClick={this.addItem.bind(this, "topic_subtitle")} iconName="add" />
         { minData.subtitles && minData.subtitles.map(s => 
-          <TextCard 
-            key={s.id}
-            id={s.id}
-            fields={["subtitle"]}
-            type="topic_subtitle"
-            onDelete={this.onDelete.bind(this)}
-            variables={variables}
-            selectors={minData.selectors.map(s => Object.assign({}, s))}
-          />) 
+          <div key={s.id}>
+            <TextCard 
+              key={s.id}
+              id={s.id}
+              fields={["subtitle"]}
+              type="topic_subtitle"
+              onDelete={this.onDelete.bind(this)}
+              variables={variables}
+              selectors={minData.selectors.map(s => Object.assign({}, s))}
+            />
+            <MoveButtons 
+              item={s}
+              array={minData.subtitles}
+              type="topic_subtitle"
+              onMove={this.onMove.bind(this)}
+            />
+          </div>) 
         }
         <h4>Descriptions</h4>
         <Button onClick={this.addItem.bind(this, "topic_description")} iconName="add" />
         { minData.descriptions && minData.descriptions.map(d => 
-          <TextCard 
-            key={d.id}
-            id={d.id}
-            fields={["description"]}
-            type="topic_description"
-            onDelete={this.onDelete.bind(this)}
-            variables={variables}
-            selectors={minData.selectors.map(s => Object.assign({}, s))}
-          />) 
+          <div key={d.id}>
+            <TextCard 
+              key={d.id}
+              id={d.id}
+              fields={["description"]}
+              type="topic_description"
+              onDelete={this.onDelete.bind(this)}
+              variables={variables}
+              selectors={minData.selectors.map(s => Object.assign({}, s))}
+            />
+            <MoveButtons 
+              item={d}
+              array={minData.descriptions}
+              type="topic_description"
+              onMove={this.onMove.bind(this)}
+            />
+          </div>) 
         }
         <h4>Stats</h4>
         <Button onClick={this.addItem.bind(this, "stat_topic")} iconName="add" />
         <div className="stats">
           { minData.stats && minData.stats.map(s =>
-            <TextCard 
-              key={s.id}
-              id={s.id}
-              fields={["title", "subtitle", "value"]}
-              type="stat_topic"
-              onDelete={this.onDelete.bind(this)}
-              variables={variables}
-              selectors={minData.selectors.map(s => Object.assign({}, s))}
-            />)
+            <div key={s.id}>
+              <TextCard 
+                key={s.id}
+                id={s.id}
+                fields={["title", "subtitle", "value"]}
+                type="stat_topic"
+                onDelete={this.onDelete.bind(this)}
+                variables={variables}
+                selectors={minData.selectors.map(s => Object.assign({}, s))}
+              />
+              <MoveButtons 
+                item={s}
+                array={minData.stats}
+                type="stat_topic"
+                onMove={this.onMove.bind(this)}
+              />
+            </div>)
           }
         </div>
         <h4>Visualizations</h4>
@@ -192,28 +226,43 @@ class TopicEditor extends Component {
         <div className="visualizations">
           <div>
             { minData.visualizations && minData.visualizations.map(v =>
-              <VisualizationCard 
-                key={v.id} 
-                id={v.id} 
-                onDelete={this.onDelete.bind(this)}
-                type="visualization_topic" 
-                variables={variables} 
-              />
+              <div key={v.id}>
+                <VisualizationCard 
+                  key={v.id} 
+                  id={v.id} 
+                  onDelete={this.onDelete.bind(this)}
+                  type="visualization_topic" 
+                  variables={variables} 
+                />
+                <MoveButtons 
+                  item={v}
+                  array={minData.visualizations}
+                  type="visualization_topic"
+                  onMove={this.onMove.bind(this)}
+                />
+              </div>
             )}
           </div>
         </div>
         <h4>Selectors</h4>
         <Button onClick={this.addItem.bind(this, "selector")} iconName="add" />
         { minData.selectors && minData.selectors.map(s => 
-          <SelectorCard 
-            key={s.id}
-            // id={s.id}
-            minData={s}
-            type="selector"
-            onSave={() => this.forceUpdate()}
-            onDelete={this.onDelete.bind(this)}
-            variables={variables}
-          />)
+          <div key={s.id}>
+            <SelectorCard 
+              key={s.id}
+              minData={s}
+              type="selector"
+              onSave={() => this.forceUpdate()}
+              onDelete={this.onDelete.bind(this)}
+              variables={variables}
+            />
+            <MoveButtons 
+              item={s}
+              array={minData.selectors}
+              type="selector"
+              onMove={this.onMove.bind(this)}
+            />
+          </div>)
         }
 
       </div>

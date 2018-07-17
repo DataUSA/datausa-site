@@ -21,6 +21,12 @@ class SelectorCard extends Component {
     this.setState({minData: this.props.minData});
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.minData !== this.props.minData) {
+      this.setState({minData: this.props.minData});
+    }
+  }
+
   /*
   hitDB() {
     const {id, type} = this.props;
@@ -47,7 +53,7 @@ class SelectorCard extends Component {
     axios.delete(`/api/cms/${type}/delete`, {params: {id: minData.id}}).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.onDelete) this.props.onDelete(minData.id, type);
+        if (this.props.onDelete) this.props.onDelete(type, resp.data);
       }
     });
   }

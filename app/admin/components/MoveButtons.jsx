@@ -18,10 +18,20 @@ class MoveButtons extends Component {
     this.setState({item, array});
   }
 
-  updateOrdering(item, type) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.item !== this.props.item || prevProps.array !== this.props.array) {
+      this.setState({item: this.props.item, array: this.props.array});
+    }
+  }
+
+  updateOrdering(item1, item2, type) {
     const {array} = this.state;
-    const payload = {id: item.id, ordering: item.ordering};
-    axios.post(`/api/cms/${type}/update`, payload).then(() => {
+    const payload1 = {id: item1.id, ordering: item1.ordering};
+    const payload2 = {id: item2.id, ordering: item2.ordering};
+    Promise.all([
+      axios.post(`/api/cms/${type}/update`, payload1),
+      axios.post(`/api/cms/${type}/update`, payload2)
+    ]).then(() => {
       this.setState({array: array.sort((a, b) => a.ordering - b.ordering)});
       if (this.props.onMove) this.props.onMove();
     });
@@ -39,8 +49,7 @@ class MoveButtons extends Component {
         const item2 = array.find(i => i.ordering === item1.ordering - 1);
         item2.ordering = item1.ordering;
         item1.ordering--;
-        this.updateOrdering(item1, type);
-        this.updateOrdering(item2, type);
+        this.updateOrdering(item1, item2, type);
       }
     }
     else if (dir === "right") {
@@ -51,8 +60,7 @@ class MoveButtons extends Component {
         const item2 = array.find(i => i.ordering === item1.ordering + 1);
         item2.ordering = item1.ordering;
         item1.ordering++;
-        this.updateOrdering(item1, type);
-        this.updateOrdering(item2, type);
+        this.updateOrdering(item1, item2, type);
       }
     }
   }

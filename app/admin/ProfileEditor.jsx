@@ -17,7 +17,8 @@ const propMap = {
   generator: "generators",
   materializer: "materializers",
   stat_profile: "stats",
-  profile_description: "descriptions"
+  profile_description: "descriptions",
+  visualization_profile: "visualizations"
 };
 
 class ProfileEditor extends Component {
@@ -66,10 +67,9 @@ class ProfileEditor extends Component {
     this.setState({recompiling: true}, this.fetchVariables.bind(this, true));
   }
 
-  onDelete(id, type) {
+  onDelete(type, newArray) {
     const {minData} = this.state;
-    const f = obj => obj.id !== id;
-    minData[propMap[type]] = minData[propMap[type]].filter(f);
+    minData[propMap[type]] = newArray;
     if (type === "generator" || type === "materializer") {
       this.setState({minData, recompiling: true}, this.fetchVariables.bind(this, true));  
     }
@@ -92,6 +92,7 @@ class ProfileEditor extends Component {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
     payload.profile_id = minData.id; 
+    // todo: move this ordering out to axios (let the server concat it to the end)
     payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
       if (resp.status === 200) {
@@ -169,15 +170,22 @@ class ProfileEditor extends Component {
         <p className="pt-text-muted">Variables constructed from other variables. No API calls needed.</p>
         <div className="generator-cards materializers">
           { minData.materializers && minData.materializers
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map(m => <GeneratorCard 
-              key={m.id} 
-              id={m.id} 
-              onSave={this.onSave.bind(this)}
-              onDelete={this.onDelete.bind(this)}
-              type="materializer" 
-              variables={variables} 
-            />)
+            .map(m => <div key={m.id}>
+              <GeneratorCard 
+                key={m.id} 
+                id={m.id} 
+                onSave={this.onSave.bind(this)}
+                onDelete={this.onDelete.bind(this)}
+                type="materializer" 
+                variables={variables} 
+              />
+              <MoveButtons 
+                item={m}
+                array={minData.materializers}
+                type="materializer"
+                onMove={this.onMove.bind(this)}
+              />
+            </div>)
           }
         </div>
 
@@ -190,13 +198,21 @@ class ProfileEditor extends Component {
           />
           <div className="stats">
             { minData.stats && minData.stats.map(s =>
-              <TextCard key={s.id}
-                id={s.id}
-                onDelete={this.onDelete.bind(this)}
-                type="stat_profile"
-                fields={["title", "subtitle", "value"]}
-                variables={variables}
-              />) 
+              <div key={s.id}>
+                <TextCard key={s.id}
+                  id={s.id}
+                  onDelete={this.onDelete.bind(this)}
+                  type="stat_profile"
+                  fields={["title", "subtitle", "value"]}
+                  variables={variables}
+                />
+                <MoveButtons 
+                  item={s}
+                  array={minData.stats}
+                  type="stat_profile"
+                  onMove={this.onMove.bind(this)}
+                />
+              </div>) 
             }
             <Card className="stat-card" onClick={this.addItem.bind(this, "stat_profile")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
@@ -236,13 +252,21 @@ class ProfileEditor extends Component {
         <div className="visualizations">
           <div>
             { minData.visualizations && minData.visualizations.map(v =>
-              <VisualizationCard 
-                key={v.id} 
-                id={v.id} 
-                onDelete={this.onDelete.bind(this)}
-                type="visualization_profile" 
-                variables={variables} 
-              />)
+              <div key={v.id}>
+                <VisualizationCard 
+                  key={v.id} 
+                  id={v.id} 
+                  onDelete={this.onDelete.bind(this)}
+                  type="visualization_profile" 
+                  variables={variables} 
+                />
+                <MoveButtons 
+                  item={v}
+                  array={minData.visualizations}
+                  type="visualization_profile"
+                  onMove={this.onMove.bind(this)}
+                />
+              </div>)
             }
           </div>
         </div>
