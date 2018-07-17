@@ -5,9 +5,9 @@ const profileReqTreeOnly = {
   attributes: ["id", "title", "slug", "ordering"],
   include: [
     { 
-      association: "sections", attributes: ["id", "title", "slug", "ordering"],
+      association: "sections", attributes: ["id", "title", "slug", "ordering", "profile_id"],
       include: [
-        {association: "topics", attributes: ["id", "title", "slug", "ordering"]}
+        {association: "topics", attributes: ["id", "title", "slug", "ordering", "section_id"]}
       ]
     }
   ]
