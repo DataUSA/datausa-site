@@ -75,22 +75,48 @@ class ProfileBuilder extends Component {
   }
 
   saveNode(node) {
-    axios.post(`/api/cms/${node.itemType}/update`, node.data).then(resp => {
+    const payload = {id: node.data.id, ordering: node.data.ordering};
+    axios.post(`/api/cms/${node.itemType}/update`, payload).then(resp => {
       resp.status === 200 ? console.log("saved") : console.log("error");
     });
   }
 
   moveItem(n, dir) {
-    console.log("move", n, dir);
+    const {nodes} = this.state;
+    const sorter = (a, b) => a.data.ordering - b.data.ordering;
+    n = this.locateNode(n.itemType, n.data.id);
+    let parentArray;
+    if (n.itemType === "topic") parentArray = this.locateNode("section", n.data.section_id).childNodes;
+    if (n.itemType === "section") parentArray = this.locateNode("profile", n.data.profile_id).childNodes;
+    if (n.itemType === "profile") parentArray = nodes;
+    if (dir === "up") {
+      const old = parentArray.find(node => node.data.ordering === n.data.ordering - 1);
+      old.data.ordering++;
+      n.data.ordering--;
+      this.saveNode(old);
+      this.saveNode(n);
+    }
+    if (dir === "down") {
+      const old = parentArray.find(node => node.data.ordering === n.data.ordering + 1);
+      old.data.ordering--;
+      n.data.ordering++;
+      this.saveNode(old);
+      this.saveNode(n);
+    }
+    parentArray.sort(sorter);
+    this.setState({nodes});
   }
 
   addItem(n, dir) {
     const {nodes} = this.state;
     n = this.locateNode(n.itemType, n.data.id);
-
+    let parentArray;
+    if (n.itemType === "topic") parentArray = this.locateNode("section", n.data.section_id).childNodes;
+    if (n.itemType === "section") parentArray = this.locateNode("profile", n.data.profile_id).childNodes;
+    if (n.itemType === "profile") parentArray = nodes;
     let loc = n.data.ordering;
     if (dir === "above") {
-      for (const node of n.parent.childNodes) {
+      for (const node of parentArray) {
         if (node.data.ordering >= n.data.ordering) {
           node.data.ordering++;
           this.saveNode(node);
@@ -99,7 +125,7 @@ class ProfileBuilder extends Component {
     }
     if (dir === "below") {
       loc++;
-      for (const node of n.parent.childNodes) {
+      for (const node of parentArray) {
         if (node.data.ordering >= n.data.ordering + 1) {
           node.data.ordering++;
           this.saveNode(node);
@@ -217,15 +243,19 @@ class ProfileBuilder extends Component {
   }
 
   handleNodeClick(node) {
-    const {currentNode} = this.state;
+    const {nodes, currentNode} = this.state;
+    let parentLength = 0;
+    if (node.itemType === "topic") parentLength = this.locateNode("section", node.data.section_id).childNodes.length;
+    if (node.itemType === "section") parentLength = this.locateNode("profile", node.data.profile_id).childNodes.length;
+    if (node.itemType === "profile") parentLength = nodes.length;
     if (!currentNode) {
       node.isSelected = true;
-      node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
+      node.secondaryLabel = <CtxMenu node={node} parentLength={parentLength} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
     }
     else if (node.id !== currentNode.id) {
       node.isSelected = true;
       currentNode.isSelected = false;
-      node.secondaryLabel = <CtxMenu node={node} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
+      node.secondaryLabel = <CtxMenu node={node} parentLength={parentLength} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
       currentNode.secondaryLabel = null;
     }
     if (this.props.setPath) this.props.setPath(node);

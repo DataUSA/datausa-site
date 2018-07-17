@@ -36,7 +36,7 @@ class CtxMenu extends Component {
         iconName="arrow-down"
         onClick={this.props.moveItem.bind(this, node, "down")}
         text={`Move ${node.itemType} Down`}
-        disabled={node.parent && node.parent.childNodes[node.parent.childNodes.length - 1].data.id === node.data.id}
+        disabled={node.data.ordering === this.props.parentLength - 1}
       />
       <MenuDivider />
       <MenuItem
@@ -55,11 +55,11 @@ class CtxMenu extends Component {
         onClick={this.props.deleteItem.bind(this, node)}
         text={`Delete ${node.itemType}`}
         iconName="delete"
-        disabled={node.parent && node.parent.childNodes.length === 1} />
+        disabled={this.props.parentLength === 1} />
     </Menu>;
 
     return (
-      <Popover content={menu} position={Position.RIGHT}>
+      <Popover content={menu} position={Position.RIGHT_TOP}>
         <span className="pt-icon-standard pt-icon-cog"></span>
       </Popover>
     );
