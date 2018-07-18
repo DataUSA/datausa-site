@@ -1,27 +1,13 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
-import {translate} from "react-i18next";
 import {Menu, MenuItem, MenuDivider, Popover, Position} from "@blueprintjs/core";
 
 import "./CtxMenu.css";
 
 class CtxMenu extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      node: null
-    };
-  }
-
-  componentDidMount() {
-    const node = this.props.node;
-    this.setState({node});
-  }
-
   render() {
 
-    const {node} = this.state;
+    const {node} = this.props;
 
     if (!node) return null;
 

@@ -228,7 +228,17 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/profile/delete", (req, res) => {
-    db.profiles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    // db.profiles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.profiles.findOne({where: {id: req.query.id}}).then(row => {
+      db.profiles.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.profiles.destroy({where: {id: req.query.id}}).then(() => {
+          db.profiles.findAll(profileReqTreeOnly).then(profiles => {
+            profiles = sortProfileTree(profiles);
+            res.json(profiles).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/profile_description/update", (req, res) => {
@@ -260,7 +270,22 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/section/delete", (req, res) => {
-    db.sections.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.sections.findOne({where: {id: req.query.id}}).then(row => {
+      db.sections.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.sections.destroy({where: {id: req.query.id}}).then(() => {
+          db.sections.findAll({
+            where: {profile_id: row.profile_id}, 
+            attributes: ["id", "title", "slug", "ordering", "profile_id"], 
+            order: [["ordering", "ASC"]],
+            include: [
+              {association: "topics", attributes: ["id", "title", "slug", "ordering", "section_id"]}
+            ]
+          }).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/section_subtitle/update", (req, res) => {
@@ -312,7 +337,15 @@ module.exports = function(app) {
   });
 
   app.delete("/api/cms/topic/delete", (req, res) => {
-    db.topics.destroy({where: {id: req.query.id}}).then(u => res.json(u));
+    db.topics.findOne({where: {id: req.query.id}}).then(row => {
+      db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {  
+        db.topics.destroy({where: {id: req.query.id}}).then(() => {
+          db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
   });
 
   app.post("/api/cms/topic_subtitle/update", (req, res) => {
