@@ -33,16 +33,15 @@ class ProfileBuilder extends Component {
     });
   }
 
-  buildNodes() {
+  buildNodes(openNode) {
     const {profiles} = this.state;
     const {stripHTML} = this.context.formatters;
-    let nodes = profiles.map(p => ({
+    const nodes = profiles.map(p => ({
       id: `profile${p.id}`,
       hasCaret: true,
       label: p.slug,
       itemType: "profile",
       masterSlug: p.slug,
-      parent: {childNodes: []},
       data: p,
       childNodes: p.sections.map(s => ({
         id: `section${s.id}`,
@@ -61,17 +60,12 @@ class ProfileBuilder extends Component {
         }))
       }))
     }));
-    const parent = {childNodes: nodes};
-    nodes = nodes.map(p => ({...p,
-      parent,
-      childNodes: p.childNodes.map(s => ({...s,
-        parent: p,
-        childNodes: s.childNodes.map(t => ({...t,
-          parent: s
-        }))
-      })
-      )}));
-    this.setState({nodes});
+    if (!openNode) {
+      this.setState({nodes});
+    } 
+    else {
+      this.setState({nodes}, this.handleNodeClick.bind(this, nodes[0]));
+    }
   }
 
   saveNode(node) {
@@ -110,10 +104,26 @@ class ProfileBuilder extends Component {
   addItem(n, dir) {
     const {nodes} = this.state;
     n = this.locateNode(n.itemType, n.data.id);
+    let parent;
     let parentArray;
-    if (n.itemType === "topic") parentArray = this.locateNode("section", n.data.section_id).childNodes;
-    if (n.itemType === "section") parentArray = this.locateNode("profile", n.data.profile_id).childNodes;
-    if (n.itemType === "profile") parentArray = nodes;
+    // For topics and sections, it is sufficient to find the Actual Parent - this parent will have 
+    // a masterSlug that the newly added item should share
+    if (n.itemType === "topic") {
+      parent = this.locateNode("section", n.data.section_id);
+      parentArray = parent.childNodes;
+    }
+    else if (n.itemType === "section") {
+      parent = this.locateNode("profile", n.data.profile_id);
+      parentArray = parent.childNodes;
+    }
+    // However, if the user is adding a new profile, there is no top-level profile parent whose slug trickles down,
+    // therefore we must make a small fake object whose only prop is masterSlug. This is used only so that when we 
+    // build the new Profile Tree Object, we can set the masterSlug of all three new elements (profile, section, topic) 
+    // to "parent.masterSlug" and have that correctly reflect the stub object. 
+    else if (n.itemType === "profile") {
+      parent = {masterSlug: stubs.objProfile.data.slug};
+      parentArray = nodes;
+    }
     let loc = n.data.ordering;
     if (dir === "above") {
       for (const node of parentArray) {
@@ -134,21 +144,18 @@ class ProfileBuilder extends Component {
     }
     
     const objTopic = deepClone(stubs.objTopic);
-    objTopic.parent = n.parent;
     objTopic.data.section_id = n.data.section_id;
     objTopic.data.ordering = loc;
-    objTopic.masterSlug = n.parent.masterSlug;
+    objTopic.masterSlug = parent.masterSlug;
 
     const objSection = deepClone(stubs.objSection);
-    objSection.parent = n.parent;
     objSection.data.profile_id = n.data.profile_id;
     objSection.data.ordering = loc;
-    objSection.masterSlug = n.parent.masterSlug;
+    objSection.masterSlug = parent.masterSlug;
 
     const objProfile = deepClone(stubs.objProfile);
-    objProfile.parent = n.parent;
     objProfile.data.ordering = loc;
-    objProfile.masterSlug = objProfile.data.slug;
+    objProfile.masterSlug = parent.masterSlug;
 
     let obj = null;
 
@@ -158,15 +165,12 @@ class ProfileBuilder extends Component {
     if (n.itemType === "section") {
       obj = objSection;
       objTopic.data.ordering = 0;
-      objTopic.parent = obj;
       obj.childNodes = [objTopic];
     }
     if (n.itemType === "profile") {
       obj = objProfile;
       objSection.data.ordering = 0;
-      objSection.parent = obj;
       objTopic.data.ordering = 0;
-      objTopic.parent = objSection;
       objSection.childNodes = [objTopic];
       obj.childNodes = [objSection];
     }
@@ -239,10 +243,58 @@ class ProfileBuilder extends Component {
   }
 
   deleteItem(n) {
-    console.log("delete", n);
+    const {nodes} = this.state;
+    const {stripHTML} = this.context.formatters;
+    n = this.locateNode(n.itemType, n.data.id);
+    // todo: instead of the piecemeal refreshes being done for each of these tiers - is it sufficient to run buildNodes again?
+    if (n.itemType === "topic") {
+      const parent = this.locateNode("section", n.data.section_id);
+      axios.delete("/api/cms/topic/delete", {params: {id: n.data.id}}).then(resp => {
+        const topics = resp.data.map(topicData => ({
+          id: `topic${topicData.id}`,
+          hasCaret: false,
+          label: stripHTML(topicData.title),
+          itemType: "topic",
+          masterSlug: parent.masterSlug,
+          data: topicData
+        }));
+        parent.childNodes = topics;
+        this.setState({nodes}, this.handleNodeClick.bind(this, parent.childNodes[0]));
+      });
+    }
+    else if (n.itemType === "section") {
+      const parent = this.locateNode("profile", n.data.profile_id);
+      axios.delete("/api/cms/section/delete", {params: {id: n.data.id}}).then(resp => {
+        const sections = resp.data.map(sectionData => ({
+          id: `section${sectionData.id}`,
+          hasCaret: true,
+          label: stripHTML(sectionData.title),
+          itemType: "section",
+          masterSlug: parent.masterSlug,
+          data: sectionData,
+          childNodes: sectionData.topics.map(t => ({
+            id: `topic${t.id}`,
+            hasCaret: false,
+            label: stripHTML(t.title),
+            itemType: "topic",
+            masterSlug: parent.masterSlug,
+            data: t
+          }))
+        }));
+        parent.childNodes = sections;
+        this.setState({nodes}, this.handleNodeClick.bind(this, parent.childNodes[0]));
+      });
+    }
+    else if (n.itemType === "profile") {
+      axios.delete("/api/cms/profile/delete", {params: {id: n.data.id}}).then(resp => {
+        const profiles = resp.data;
+        this.setState({profiles}, this.buildNodes.bind(this, true));
+      });
+    }
   }
 
   handleNodeClick(node) {
+    node = this.locateNode(node.itemType, node.data.id);
     const {nodes, currentNode} = this.state;
     let parentLength = 0;
     if (node.itemType === "topic") parentLength = this.locateNode("section", node.data.section_id).childNodes.length;
@@ -257,6 +309,10 @@ class ProfileBuilder extends Component {
       currentNode.isSelected = false;
       node.secondaryLabel = <CtxMenu node={node} parentLength={parentLength} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
       currentNode.secondaryLabel = null;
+    }
+    // This case is needed becuase, even if the same node is reclicked, its CtxMenu MUST update to reflect the new node (it may no longer be in its old location)
+    else if (currentNode && node.id === currentNode.id) {
+      node.secondaryLabel = <CtxMenu node={node} parentLength={parentLength} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;      
     }
     if (this.props.setPath) this.props.setPath(node);
     this.setState({currentNode: node});
