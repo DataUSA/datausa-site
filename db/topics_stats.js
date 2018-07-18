@@ -1,6 +1,6 @@
 module.exports = function(sequelize, db) {
 
-  const s = sequelize.define("stats_profiles",
+  const s = sequelize.define("topics_stats",
     {
       id: {
         type: db.INTEGER,
@@ -10,7 +10,7 @@ module.exports = function(sequelize, db) {
       title: db.STRING,
       subtitle: db.STRING,
       value: db.STRING,
-      profile_id: db.INTEGER,
+      topic_id: db.INTEGER,
       allowed: db.STRING,
       ordering: db.INTEGER
     }, 

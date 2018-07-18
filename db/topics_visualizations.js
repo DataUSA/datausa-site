@@ -1,17 +1,16 @@
 module.exports = function(sequelize, db) {
 
-  const s = sequelize.define("stats",
+  const v = sequelize.define("topics_visualizations",
     {
       id: {
         type: db.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.STRING,
-      subtitle: db.STRING,
-      value: db.STRING,
-      owner_type: db.STRING,
-      owner_id: db.INTEGER
+      logic: db.TEXT,
+      topic_id: db.INTEGER,
+      allowed: db.STRING,
+      ordering: db.INTEGER
     }, 
     {
       freezeTableName: true,
@@ -19,6 +18,6 @@ module.exports = function(sequelize, db) {
     }
   );
 
-  return s;
+  return v;
 
 };

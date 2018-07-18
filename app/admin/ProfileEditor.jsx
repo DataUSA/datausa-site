@@ -16,9 +16,9 @@ import "./ProfileEditor.css";
 const propMap = {
   generator: "generators",
   materializer: "materializers",
-  stat_profile: "stats",
+  profile_stat: "stats",
   profile_description: "descriptions",
-  visualization_profile: "visualizations"
+  profile_visualization: "visualizations"
 };
 
 class ProfileEditor extends Component {
@@ -202,19 +202,19 @@ class ProfileEditor extends Component {
                 <TextCard key={s.id}
                   id={s.id}
                   onDelete={this.onDelete.bind(this)}
-                  type="stat_profile"
+                  type="profile_stat"
                   fields={["title", "subtitle", "value"]}
                   variables={variables}
                 />
                 <MoveButtons 
                   item={s}
                   array={minData.stats}
-                  type="stat_profile"
+                  type="profile_stat"
                   onMove={this.onMove.bind(this)}
                 />
               </div>) 
             }
-            <Card className="stat-card" onClick={this.addItem.bind(this, "stat_profile")} interactive={true} elevation={0}>
+            <Card className="stat-card" onClick={this.addItem.bind(this, "profile_stat")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
             </Card>
           </div>
@@ -247,7 +247,7 @@ class ProfileEditor extends Component {
 
         <h3>
           Visualizations
-          <Button onClick={this.addItem.bind(this, "visualization_profile")} iconName="add" />
+          <Button onClick={this.addItem.bind(this, "profile_visualization")} iconName="add" />
         </h3>
         <div className="visualizations">
           <div>
@@ -257,13 +257,13 @@ class ProfileEditor extends Component {
                   key={v.id} 
                   id={v.id} 
                   onDelete={this.onDelete.bind(this)}
-                  type="visualization_profile" 
+                  type="profile_visualization" 
                   variables={variables} 
                 />
                 <MoveButtons 
                   item={v}
                   array={minData.visualizations}
-                  type="visualization_profile"
+                  type="profile_visualization"
                   onMove={this.onMove.bind(this)}
                 />
               </div>)

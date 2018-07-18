@@ -79,7 +79,7 @@ class TextCard extends Component {
     if (!minData || !displayData) return <Loading />;
 
     let cardClass = "splash-card";
-    if (["stat_profile", "stat_topic"].includes(type)) cardClass = "stat-card";
+    if (["profile_stat", "topic_stat"].includes(type)) cardClass = "stat-card";
     const displaySort = ["title", "value", "subtitle"];
     const displays = Object.keys(displayData)
       .filter(k => typeof displayData[k] === "string" && !["id", "profile_id", "allowed", "ordering", "slug", "label", "type"].includes(k))

@@ -1,16 +1,14 @@
 module.exports = function(sequelize, db) {
 
-  const s = sequelize.define("stats_topics",
+  const v = sequelize.define("profiles_visualizations",
     {
       id: {
         type: db.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.STRING,
-      subtitle: db.STRING,
-      value: db.STRING,
-      topic_id: db.INTEGER,
+      logic: db.TEXT,
+      profile_id: db.INTEGER,
       allowed: db.STRING,
       ordering: db.INTEGER
     }, 
@@ -20,6 +18,6 @@ module.exports = function(sequelize, db) {
     }
   );
 
-  return s;
+  return v;
 
 };

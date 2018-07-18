@@ -13,10 +13,10 @@ import stubs from "../../utils/stubs.js";
 import "./TopicEditor.css";
 
 const propMap = {
-  stat_topic: "stats",
+  topic_stat: "stats",
   topic_description: "descriptions",
   topic_subtitle: "subtitles",
-  visualization_topic: "visualizations",
+  topic_visualization: "visualizations",
   selector: "selectors"
 };
 
@@ -199,7 +199,7 @@ class TopicEditor extends Component {
           </div>) 
         }
         <h4>Stats</h4>
-        <Button onClick={this.addItem.bind(this, "stat_topic")} iconName="add" />
+        <Button onClick={this.addItem.bind(this, "topic_stat")} iconName="add" />
         <div className="stats">
           { minData.stats && minData.stats.map(s =>
             <div key={s.id}>
@@ -207,7 +207,7 @@ class TopicEditor extends Component {
                 key={s.id}
                 id={s.id}
                 fields={["title", "subtitle", "value"]}
-                type="stat_topic"
+                type="topic_stat"
                 onDelete={this.onDelete.bind(this)}
                 variables={variables}
                 selectors={minData.selectors.map(s => Object.assign({}, s))}
@@ -215,14 +215,14 @@ class TopicEditor extends Component {
               <MoveButtons 
                 item={s}
                 array={minData.stats}
-                type="stat_topic"
+                type="topic_stat"
                 onMove={this.onMove.bind(this)}
               />
             </div>)
           }
         </div>
         <h4>Visualizations</h4>
-        <Button onClick={this.addItem.bind(this, "visualization_topic")} iconName="add" />
+        <Button onClick={this.addItem.bind(this, "topic_visualization")} iconName="add" />
         <div className="visualizations">
           <div>
             { minData.visualizations && minData.visualizations.map(v =>
@@ -231,13 +231,13 @@ class TopicEditor extends Component {
                   key={v.id} 
                   id={v.id} 
                   onDelete={this.onDelete.bind(this)}
-                  type="visualization_topic" 
+                  type="topic_visualization" 
                   variables={variables} 
                 />
                 <MoveButtons 
                   item={v}
                   array={minData.visualizations}
-                  type="visualization_topic"
+                  type="topic_visualization"
                   onMove={this.onMove.bind(this)}
                 />
               </div>

@@ -10,7 +10,7 @@ module.exports = {
     description: "New Description",
     logic: "return {}"
   },
-  stat_profile: {
+  profile_stat: {
     title: "New Stat",
     subtitle: "New Subtitle",
     value: "New Value"
@@ -18,7 +18,7 @@ module.exports = {
   profile_description: {
     description: "New Description"
   },  
-  visualization_profile: {
+  profile_visualization: {
     logic: "return {}"
   },
   section_description: {
@@ -27,12 +27,12 @@ module.exports = {
   section_subtitle: {
     subtitle: "New Subtitle"
   },
-  stat_topic: {
+  topic_stat: {
     title: "New Stat",
     subtitle: "New Subtitle",
     value: "New Value"
   },
-  visualization_topic: {
+  topic_visualization: {
     logic: "return {}"
   },
   topic_description: {
