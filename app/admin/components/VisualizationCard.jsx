@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Card, Icon, Dialog} from "@blueprintjs/core";
+import {Card, Dialog} from "@blueprintjs/core";
 import GeneratorEditor from "../GeneratorEditor";
 import Loading from "components/Loading";
+import Viz from "components/Viz";
 import FooterButtons from "../components/FooterButtons";
 import "./VisualizationCard.css";
 
@@ -21,6 +22,7 @@ class VisualizationCard extends Component {
 
   hitDB() {
     const {id, type} = this.props;
+    console.log(`/api/cms/${type}/get/${id}`);
     axios.get(`/api/cms/${type}/get/${id}`).then(resp => {
       this.setState({minData: resp.data});
     });
@@ -43,7 +45,7 @@ class VisualizationCard extends Component {
     axios.post(`/api/cms/${type}/update`, minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.onSave) this.props.onSave();  
+        if (this.props.onSave) this.props.onSave();
       }
     });
   }
@@ -72,7 +74,7 @@ class VisualizationCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        <p>{minData.logic}</p>
+        <Viz config={{height: 400, ...minData.config}} options={false} />
       </Card>
     );
   }
