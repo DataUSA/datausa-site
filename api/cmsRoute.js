@@ -5,9 +5,9 @@ const profileReqTreeOnly = {
   attributes: ["id", "title", "slug", "ordering"],
   include: [
     { 
-      association: "sections", attributes: ["id", "title", "slug", "ordering"],
+      association: "sections", attributes: ["id", "title", "slug", "ordering", "profile_id"],
       include: [
-        {association: "topics", attributes: ["id", "title", "slug", "ordering"]}
+        {association: "topics", attributes: ["id", "title", "slug", "ordering", "section_id"]}
       ]
     }
   ]
@@ -43,13 +43,16 @@ const topicReqTopicOnly = {
 const sorter = (a, b) => a.ordering - b.ordering;
 
 // Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. todo: move it up to the query.
-const sortProfileTree = profile => {
-  profile = profile.toJSON();
-  profile.sections.sort(sorter);
-  profile.sections.map(section => {
-    section.topics.sort(sorter);
+const sortProfileTree = profiles => {
+  profiles = profiles.map(p => p.toJSON());
+  profiles.sort(sorter);
+  profiles.forEach(p => {
+    p.sections.sort(sorter);
+    p.sections.forEach(s => {
+      s.topics.sort(sorter);
+    });
   });
-  return profile;
+  return profiles;
 };
 
 const sortProfile = profile => {
@@ -78,7 +81,7 @@ module.exports = function(app) {
 
   app.get("/api/cms/tree", (req, res) => {
     db.profiles.findAll(profileReqTreeOnly).then(profiles => {
-      profiles = profiles.map(profile => sortProfileTree(profile));
+      profiles = sortProfileTree(profiles);
       res.json(profiles).end();
     });
   });

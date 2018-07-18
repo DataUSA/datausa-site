@@ -26,6 +26,9 @@ class TextCard extends Component {
     if (this.state.minData && (prevProps.variables !== this.props.variables || this.props.selectors !== prevProps.selectors)) {
       this.formatDisplay.bind(this)();
     }
+    if (prevProps.id !== this.props.id) {
+      this.hitDB.bind(this)();
+    }
   }
 
   hitDB() {
