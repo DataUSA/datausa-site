@@ -1,7 +1,4 @@
-const FUNC = require("../utils/FUNC"),
-      mortarEval = require("../utils/mortarEval"),
-      sequelize = require("sequelize");
-
+const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 const profileReqTreeOnly = {
@@ -127,15 +124,8 @@ module.exports = function(app) {
 
   app.get("/api/cms/visualization_profile/get/:id", (req, res) => {
     db.visualizations_profiles
-      .findOne({where: {id: req.params.id}, raw: true})
-      .then(u => {
-        db.formatters.findAll()
-          .then(formatters => {
-            const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc), acc), {});
-            u.config = FUNC.objectify(mortarEval("variables", {}, u.logic, formatterFunctions).vars);
-            res.json(u).end();
-          });
-      });
+      .findOne({where: {id: req.params.id}})
+      .then(u => res.json(u).end());
   });
 
   app.get("/api/cms/profile_description/get/:id", (req, res) => {
@@ -164,15 +154,8 @@ module.exports = function(app) {
 
   app.get("/api/cms/visualization_topic/get/:id", (req, res) => {
     db.visualizations_topics
-      .findOne({where: {id: req.params.id}, raw: true})
-      .then(u => {
-        db.formatters.findAll()
-          .then(formatters => {
-            const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc), acc), {});
-            u.config = FUNC.objectify(mortarEval("variables", {}, u.logic, formatterFunctions).vars);
-            res.json(u).end();
-          });
-      });
+      .findOne({where: {id: req.params.id}})
+      .then(u => res.json(u).end());
   });
 
   app.get("/api/cms/selector/get/:id", (req, res) => {
