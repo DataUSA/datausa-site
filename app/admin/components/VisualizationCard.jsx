@@ -1,10 +1,12 @@
-import axios from "axios";
 import React, {Component} from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
 import {Card, Dialog} from "@blueprintjs/core";
 import GeneratorEditor from "../GeneratorEditor";
 import Loading from "components/Loading";
 import Viz from "components/Viz";
 import FooterButtons from "../components/FooterButtons";
+import FUNC from "utils/FUNC";
 import "./VisualizationCard.css";
 
 class VisualizationCard extends Component {
@@ -22,7 +24,6 @@ class VisualizationCard extends Component {
 
   hitDB() {
     const {id, type} = this.props;
-    console.log(`/api/cms/${type}/get/${id}`);
     axios.get(`/api/cms/${type}/get/${id}`).then(resp => {
       this.setState({minData: resp.data});
     });
@@ -56,6 +57,11 @@ class VisualizationCard extends Component {
 
     if (!minData) return <Loading />;
 
+    const {logic} = minData;
+    const {formatters} = this.context;
+
+    const config = FUNC.parse({vars: ["variables"], logic}, formatters)(variables);
+
     return (
       <Card onClick={() => this.setState({isOpen: true})} className="visualization-card" interactive={true} elevation={1}>
         <Dialog
@@ -74,11 +80,16 @@ class VisualizationCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        <Viz config={{height: 400, ...minData.config}} options={false} />
+        { config ? <Viz config={{height: 400, ...config}} options={false} /> : <p>No configuration defined.</p> }
       </Card>
     );
   }
 
 }
+
+VisualizationCard.contextTypes = {
+  formatters: PropTypes.object,
+  variables: PropTypes.object
+};
 
 export default VisualizationCard;
