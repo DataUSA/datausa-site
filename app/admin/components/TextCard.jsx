@@ -31,7 +31,7 @@ class TextCard extends Component {
   hitDB() {
     const {id, type} = this.props;
     axios.get(`/api/cms/${type}/get/${id}`).then(resp => {
-      this.setState({minData: resp.data}, this.formatDisplay.bind(this)); 
+      this.setState({minData: resp.data}, this.formatDisplay.bind(this));
     });
   }
 
@@ -53,7 +53,7 @@ class TextCard extends Component {
     axios.post(`/api/cms/${type}/update`, minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false}, this.formatDisplay.bind(this));
-        if (this.props.onSave) this.props.onSave(minData);  
+        if (this.props.onSave) this.props.onSave(minData);
       }
     });
   }
@@ -69,11 +69,6 @@ class TextCard extends Component {
     });
   }
 
-  shouldShow(k, v) {
-    return typeof v === "string" &&
-      !["id", "profile_id", "allowed", "ordering", "slug", "label", "type"].includes(k);
-  }
-
   render() {
     const {displayData, minData, isOpen} = this.state;
     const {variables, fields, type} = this.props;
@@ -82,6 +77,10 @@ class TextCard extends Component {
 
     let cardClass = "splash-card";
     if (["stat_profile", "stat_topic"].includes(type)) cardClass = "stat-card";
+    const displaySort = ["title", "value", "subtitle"];
+    const displays = Object.keys(displayData)
+      .filter(k => typeof displayData[k] === "string" && !["id", "profile_id", "allowed", "ordering", "slug", "label", "type"].includes(k))
+      .sort((a, b) => displaySort.indexOf(a) - displaySort.indexOf(b));
 
     return (
       <Card onClick={() => this.setState({isOpen: true})} className={cardClass} interactive={true} elevation={1}>
@@ -100,9 +99,7 @@ class TextCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        { displayData && Object.keys(displayData).map(k =>
-          this.shouldShow(k, displayData[k]) && <p dangerouslySetInnerHTML={{__html: displayData[k]}}></p>
-        ) }
+        { displays.map((k, i) => <p key={i} className={k} dangerouslySetInnerHTML={{__html: displayData[k]}}></p>) }
       </Card>
     );
   }
