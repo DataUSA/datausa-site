@@ -99,8 +99,7 @@ function parse(config, formatters = {}) {
       for (const key in obj) {
         if (Array.isArray(obj[key])) {
           obj[key] = obj[key].map(d => {
-            if (typeof d === "function") return parseFunction(d);
-            else if (isObject(d)) return makeFunctions(d);
+            if (isObject(d)) return makeFunctions(d);
             return d;
           });
         }
