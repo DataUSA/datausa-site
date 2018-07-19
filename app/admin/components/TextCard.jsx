@@ -94,7 +94,7 @@ class TextCard extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
-            <TextEditor data={minData} variables={variables} fields={fields} />
+            <TextEditor data={minData} variables={variables} fields={fields.sort((a, b) => displaySort.indexOf(a) - displaySort.indexOf(b))} />
           </div>
           <FooterButtons
             onDelete={["profile", "section", "topic"].includes(type) ? false : this.delete.bind(this)}
