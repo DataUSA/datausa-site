@@ -105,6 +105,7 @@ class GeneratorEditor extends Component {
           {preMessage[type]}
           <AceWrapper
             className="editor"
+            variables={variables}
             ref={ comp => this.editor = comp }
             onChange={this.handleEditor.bind(this, "logic")}
             value={data.logic}
