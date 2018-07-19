@@ -66,7 +66,9 @@ module.exports = function(app) {
   const caches = cache.cube;
 
   app.get("/api/cubes", (req, res) => {
-    res.json(caches).end();
+    const returnCaches = {...caches};
+    delete returnCaches.client;
+    res.json(returnCaches).end();
   });
 
   app.get("/api/data/", asyncMiddleware(async (req, res) => {
@@ -321,6 +323,10 @@ module.exports = function(app) {
                 });
 
                 return client.query(query, "jsonrecords");
+              })
+              .catch(error => {
+                console.error("\nCube Error", error.config.url);
+                return {error};
               });
 
             queryPromises.push(q);
@@ -337,7 +343,7 @@ module.exports = function(app) {
         const flatArray = data.reduce((arr, d, i) => {
 
           const cross = crosses[i];
-          const newArray = d.data.data.map(row => {
+          const newArray = (d.error ? [] : d.data.data).map(row => {
             cross.forEach(c => {
               const type = Object.keys(c)[0];
               const level = c[type];
