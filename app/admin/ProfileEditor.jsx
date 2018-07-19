@@ -71,7 +71,7 @@ class ProfileEditor extends Component {
     const {minData} = this.state;
     minData[propMap[type]] = newArray;
     if (type === "generator" || type === "materializer") {
-      this.setState({minData, recompiling: true}, this.fetchVariables.bind(this, true));  
+      this.setState({minData, recompiling: true}, this.fetchVariables.bind(this, true));
     }
     else {
       this.setState({minData});
@@ -83,7 +83,7 @@ class ProfileEditor extends Component {
     axios.post("/api/cms/profile/update", minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.reportSave) this.props.reportSave("profile", minData.id, minData.slug);  
+        if (this.props.reportSave) this.props.reportSave("profile", minData.id, minData.slug);
       }
     });
   }
@@ -91,7 +91,7 @@ class ProfileEditor extends Component {
   addItem(type) {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
-    payload.profile_id = minData.id; 
+    payload.profile_id = minData.id;
     // todo: move this ordering out to axios (let the server concat it to the end)
     payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
@@ -124,12 +124,12 @@ class ProfileEditor extends Component {
         <div id="status">
           {recompiling ? "Refreshing Variables 🔄" : "Variables Loaded ✅"}
         </div>
-  
+
         <Callout id="preview-toggle">
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
             <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["04000US25", "04000US36"].map(s => <option value={s} key={s}>{s}</option>) }
+              { ["01000US", "04000US25", "04000US36", "05000US25025", "31000US14460", "16000US0455000"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
         </Callout>
@@ -143,7 +143,7 @@ class ProfileEditor extends Component {
             </div>
           </label>
         </div>
-        
+
         <h3>
           Generators
           <Button onClick={this.addItem.bind(this, "generator")} iconName="add" />
@@ -152,14 +152,14 @@ class ProfileEditor extends Component {
         <div className="generator-cards">
           { minData.generators && minData.generators
             .sort((a, b) => a.name.localeCompare(b.name))
-            .map(g => <GeneratorCard 
-              key={g.id} 
-              id={g.id} 
+            .map(g => <GeneratorCard
+              key={g.id}
+              id={g.id}
               onSave={this.onSave.bind(this)}
               onDelete={this.onDelete.bind(this)}
-              type="generator" 
-              variables={variables} 
-            />) 
+              type="generator"
+              variables={variables}
+            />)
           }
         </div>
 
@@ -171,15 +171,15 @@ class ProfileEditor extends Component {
         <div className="generator-cards materializers">
           { minData.materializers && minData.materializers
             .map(m => <div key={m.id}>
-              <GeneratorCard 
-                key={m.id} 
-                id={m.id} 
+              <GeneratorCard
+                key={m.id}
+                id={m.id}
                 onSave={this.onSave.bind(this)}
                 onDelete={this.onDelete.bind(this)}
-                type="materializer" 
-                variables={variables} 
+                type="materializer"
+                variables={variables}
               />
-              <MoveButtons 
+              <MoveButtons
                 item={m}
                 array={minData.materializers}
                 type="materializer"
@@ -190,7 +190,7 @@ class ProfileEditor extends Component {
         </div>
 
         <div className="splash" style={{backgroundImage: `url("/api/profile/${minData.slug}/${preview}/thumb")`}}>
-          <TextCard 
+          <TextCard
             id={minData.id}
             fields={["title", "subtitle"]}
             type="profile"
@@ -206,13 +206,13 @@ class ProfileEditor extends Component {
                   fields={["title", "subtitle", "value"]}
                   variables={variables}
                 />
-                <MoveButtons 
+                <MoveButtons
                   item={s}
                   array={minData.stats}
                   type="profile_stat"
                   onMove={this.onMove.bind(this)}
                 />
-              </div>) 
+              </div>)
             }
             <Card className="stat-card" onClick={this.addItem.bind(this, "profile_stat")} interactive={true} elevation={0}>
               <NonIdealState visual="add" title="Stat" />
@@ -224,7 +224,7 @@ class ProfileEditor extends Component {
           About
           <Button onClick={this.addItem.bind(this, "profile_description")} iconName="add" />
         </h3>
-        
+
         <div className="descriptions">
           { minData.descriptions && minData.descriptions.map(d =>
             <div key={d.id}>
@@ -235,7 +235,7 @@ class ProfileEditor extends Component {
                 type="profile_description"
                 variables={variables}
               />
-              <MoveButtons 
+              <MoveButtons
                 item={d}
                 array={minData.descriptions}
                 type="profile_description"
@@ -253,14 +253,14 @@ class ProfileEditor extends Component {
           <div>
             { minData.visualizations && minData.visualizations.map(v =>
               <div key={v.id}>
-                <VisualizationCard 
-                  key={v.id} 
-                  id={v.id} 
+                <VisualizationCard
+                  key={v.id}
+                  id={v.id}
                   onDelete={this.onDelete.bind(this)}
-                  type="profile_visualization" 
-                  variables={variables} 
+                  type="profile_visualization"
+                  variables={variables}
                 />
-                <MoveButtons 
+                <MoveButtons
                   item={v}
                   array={minData.visualizations}
                   type="profile_visualization"

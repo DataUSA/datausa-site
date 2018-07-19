@@ -123,7 +123,7 @@ class SectionEditor extends Component {
           <span className="pt-label"><Icon iconName="media" />Preview ID</span>
           <div className="pt-select">
             <select value={preview} onChange={e => this.setState({preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["04000US25", "04000US36"].map(s => <option value={s} key={s}>{s}</option>) }
+              { ["01000US", "04000US25", "04000US36", "05000US25025", "31000US14460", "16000US0455000"].map(s => <option value={s} key={s}>{s}</option>) }
             </select>
           </div>
         </Callout>
