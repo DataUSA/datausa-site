@@ -187,7 +187,7 @@ module.exports = function(app) {
         const profile = varSwapRecursive(resp[2].data, formatterFunctions, variables, req.query);
         returnObject.pid = id;
         returnObject = Object.assign({}, returnObject, profile);
-        return Promise.all([returnObject, formatterFunctions, db.visualizations.findAll({where: {owner_type: "profile", owner_id: profile.id}})]);
+        return Promise.all([returnObject, formatterFunctions, db.profiles_visualizations.findAll({where: {profile_id: profile.id}})]);
       })
       .then(resp => {
         res.json(resp[0]).end();

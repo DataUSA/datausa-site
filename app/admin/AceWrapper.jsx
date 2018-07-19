@@ -1,11 +1,15 @@
 import React, {Component} from "react";
+
+/*
 import ace from "brace";
 import "brace/ext/language_tools";
 
 const langTools = ace.acequire("ace/ext/language_tools");
+*/
 
 export default class AceWrapper extends Component {
 
+  /*
   componentDidMount() {
     this.updateCompleter.bind(this)();
   }
@@ -23,15 +27,19 @@ export default class AceWrapper extends Component {
     };
     langTools.setCompleters([completer]);
   }
+  */
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(/*prevProps*/) {
     if (this.editor) {
       clearTimeout(this.resize);
       this.resize = setTimeout(editor => editor.resize(), 400, this.editor.editor);
     }
+    
+    /*
     if (this.editor && prevProps.variables !== this.props.variables) {
       this.updateCompleter.bind(this)();
     }
+    */
   }
 
   render() {
@@ -48,8 +56,8 @@ export default class AceWrapper extends Component {
         mode="javascript"
         setOptions={{
           fontSize: "14px",
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true
+          /*enableBasicAutocompletion: true,
+          enableLiveAutocompletion: true*/
         }}
         editorProps={{
           $blockScrolling: Infinity
