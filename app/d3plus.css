@@ -4,3 +4,27 @@
     text-transform: uppercase;
   }
 }
+
+.d3plus-tooltip {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px;
+  & .d3plus-tooltip-table {
+    border-collapse: collapse;
+    & .d3plus-tooltip-tbody {
+      & tr {
+        border-bottom: 1px solid #ddd;
+        font-family: "Palanquin", sans-serif;
+        line-height: 14px;
+        &:last-child {
+          border-bottom: none;
+        }
+        & td {
+          padding: 3px;
+          text-align: left;
+          &:last-child {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

@@ -33,7 +33,9 @@ export default {
       labelConfig: {
         fontFamily: () => "Palanquin",
         fontSize: () => 13
-      }
+      },
+      height: () => 25,
+      width: () => 25
     }
   },
   messageMask: false,
@@ -54,10 +56,12 @@ export default {
   },
   tooltipConfig: {
     background: "white",
+    border: "1px solid #888",
+    padding: "10px",
     titleStyle: {
       "color": "#888",
       "font-family": "'Palanquin', sans-serif",
-      "font-size": "18px",
+      "font-size": "16px",
       "font-weight": "300"
     }
   },
