@@ -57,12 +57,12 @@ module.exports = function() {
           .then(c => {
             const query = c.query
               .drilldown("Geography", level, level)
-              .measure("Total Population Sum")
+              .measure("Total Population")
               .cut("[Year].[Year].[Year].&[2016]");
             return client.query(query, "jsonrecords");
           })
           .then(resp => resp.data.data.reduce((acc, d) => {
-            acc[d[`ID ${level}`]] = d["Total Population Sum"];
+            acc[d[`ID ${level}`]] = d["Total Population"];
             return acc;
           }, {}))
           .catch(err => {
