@@ -74,6 +74,8 @@ module.exports = function() {
         .map(cube => throttle.add(() => client.cube(cube.name)
           .then(c => {
             const query = c.query.drilldown("Year", "Year");
+            // TODO: remove this once Walther fixes the datausa-tracker#83
+            query.measure(cube.measures[0].name);
             return client.query(query, "jsonrecords");
           })
           .then(resp => {
