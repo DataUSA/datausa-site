@@ -187,6 +187,7 @@ module.exports = function(app) {
         const profile = varSwapRecursive(resp[2].data, formatterFunctions, variables, req.query);
         returnObject.pid = id;
         returnObject = Object.assign({}, returnObject, profile);
+        returnObject.variables = variables;
         res.json(returnObject).end();
       })
       .catch(err => {
