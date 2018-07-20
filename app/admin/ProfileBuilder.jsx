@@ -427,7 +427,7 @@ class ProfileBuilder extends Component {
           />
         </div>
         <div id="item-editor">
-          { currentNode && <Preview onSelectPreview={this.onSelectPreview.bind(this)}/>}
+          { currentNode && currentSlug && <Preview currentSlug={currentSlug} onSelectPreview={this.onSelectPreview.bind(this)}/>}
           { currentNode
             ? currentNode.itemType === "profile"
               ? <ProfileEditor 

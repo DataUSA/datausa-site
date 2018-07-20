@@ -3,18 +3,37 @@ import {Callout, Icon} from "@blueprintjs/core";
 
 import "./Preview.css";
 
+const previewHash = {
+  geo: ["01000US", "04000US25", "04000US36", "05000US25025", "31000US14460", "16000US0455000"],
+  cip: ["400501"]
+};
+
 class Preview extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      preview: "04000US25",
-      previewArray: ["01000US", "04000US25", "04000US36", "05000US25025", "31000US14460", "16000US0455000"]
+      preview: "",
+      prevewArray: []
     };
   }
 
   componentDidMount() {
-    if (this.props.onSelectPreview) this.props.onSelectPreview(this.state.preview);
+    this.updatePreview.bind(this)();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentSlug !== this.props.currentSlug) {
+      this.updatePreview.bind(this)();
+    }
+  }
+
+  updatePreview() {
+    const {currentSlug} = this.props;
+    const previewArray = previewHash[currentSlug];
+    const preview = previewArray[0];
+    this.setState({preview, previewArray});
+    if (this.props.onSelectPreview) this.props.onSelectPreview(preview);
   }
 
   onSelect(e) {
@@ -25,6 +44,8 @@ class Preview extends Component {
   render() {
 
     const {preview, previewArray} = this.state;
+
+    if (!preview || !previewArray) return null;
 
     return (
       <Callout id="preview-toggle">
