@@ -5,6 +5,7 @@ import ProfileEditor from "./ProfileEditor";
 import SectionEditor from "./SectionEditor";
 import TopicEditor from "./TopicEditor";
 import PropTypes from "prop-types";
+import Preview from "./components/Preview";
 import CtxMenu from "./CtxMenu";
 
 import stubs from "../../utils/stubs.js";
@@ -21,8 +22,8 @@ class ProfileBuilder extends Component {
       profiles: null,
       currentNode: null,
       currentSlug: null,
-      currentID: null,
-      variablesHash: {}
+      variablesHash: {},
+      preview: "04000US25"
     };
   }
 
@@ -385,23 +386,30 @@ class ProfileBuilder extends Component {
     this.setState({nodes});
   }
 
+  /* 
+   * Callback for Preview.jsx, pass down new preview id to all Editors
+   */ 
+  onSelectPreview(preview) {
+    this.setState({preview});
+  }
+
   fetchVariables(slug, id, force, callback) {
     const {variablesHash} = this.state;
     const maybeCallback = callback ? () => callback() : () => {};
     if (force || !variablesHash[slug]) {
       axios.get(`/api/variables/${slug}/${id}`).then(resp => {
         variablesHash[slug] = resp.data;
-        this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback);
+        this.setState({variablesHash, currentSlug: slug}, maybeCallback);
       });  
     }
     else {
-      this.setState({variablesHash, currentSlug: slug, currentID: id}, maybeCallback);
+      this.setState({variablesHash, currentSlug: slug}, maybeCallback);
     }  
   }
 
   render() {
 
-    const {nodes, currentNode, variablesHash, currentSlug, currentID} = this.state;
+    const {nodes, currentNode, variablesHash, currentSlug, preview} = this.state;
 
     if (!nodes) return <div>Loading</div>;
 
@@ -419,12 +427,13 @@ class ProfileBuilder extends Component {
           />
         </div>
         <div id="item-editor">
+          { currentNode && <Preview onSelectPreview={this.onSelectPreview.bind(this)}/>}
           { currentNode
             ? currentNode.itemType === "profile"
               ? <ProfileEditor 
                 id={currentNode.data.id} 
                 masterSlug={currentNode.masterSlug} 
-                currentID={currentID} 
+                preview={preview}
                 fetchVariables={this.fetchVariables.bind(this)} 
                 variables={variables} 
                 reportSave={this.reportSave.bind(this)} 
@@ -433,7 +442,7 @@ class ProfileBuilder extends Component {
                 ? <SectionEditor 
                   id={currentNode.data.id}
                   masterSlug={currentNode.masterSlug} 
-                  currentID={currentID} 
+                  preview={preview}
                   fetchVariables={this.fetchVariables.bind(this)} 
                   variables={variables} 
                   reportSave={this.reportSave.bind(this)}
@@ -442,7 +451,7 @@ class ProfileBuilder extends Component {
                   ? <TopicEditor 
                     id={currentNode.data.id}
                     masterSlug={currentNode.masterSlug} 
-                    currentID={currentID} 
+                    preview={preview}
                     fetchVariables={this.fetchVariables.bind(this)} 
                     variables={variables} 
                     reportSave={this.reportSave.bind(this)}

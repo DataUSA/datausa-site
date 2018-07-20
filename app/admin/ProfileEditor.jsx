@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Button, Callout, Card, Icon, NonIdealState} from "@blueprintjs/core";
+import {Button, Card, NonIdealState} from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import Loading from "components/Loading";
 
@@ -28,8 +28,7 @@ class ProfileEditor extends Component {
     this.state = {
       minData: null,
       variables: null,
-      recompiling: true,
-      preview: "04000US25"
+      recompiling: true
     };
   }
 
@@ -39,19 +38,22 @@ class ProfileEditor extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
-      this.hitDB.bind(this)();
+      this.hitDB.bind(this)(false);
+    }
+    if (prevProps.preview !== this.props.preview) {
+      this.hitDB.bind(this)(true);
     }
   }
 
-  hitDB() {
+  hitDB(force) {
     axios.get(`/api/cms/profile/get/${this.props.id}`).then(resp => {
-      this.setState({minData: resp.data, recompiling: true}, this.fetchVariables.bind(this, false));
+      this.setState({minData: resp.data, recompiling: true}, this.fetchVariables.bind(this, force));
     });
   }
 
   fetchVariables(force) {
     const slug = this.props.masterSlug;
-    const id = this.state.preview;
+    const id = this.props.preview;
     if (this.props.fetchVariables) {
       this.props.fetchVariables(slug, id, force, () => this.setState({recompiling: false}));
     }
@@ -114,8 +116,8 @@ class ProfileEditor extends Component {
 
   render() {
 
-    const {preview, minData, recompiling} = this.state;
-    const {variables} = this.props;
+    const {minData, recompiling} = this.state;
+    const {variables, preview} = this.props;
 
     if (!minData || !variables) return <Loading />;
 
@@ -124,15 +126,6 @@ class ProfileEditor extends Component {
         <div id="status">
           {recompiling ? "Refreshing Variables 🔄" : "Variables Loaded ✅"}
         </div>
-
-        <Callout id="preview-toggle">
-          <span className="pt-label"><Icon iconName="media" />Preview ID</span>
-          <div className="pt-select">
-            <select value={preview} onChange={e => this.setState({recompiling: true, preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["01000US", "04000US25", "04000US36", "05000US25025", "31000US14460", "16000US0455000"].map(s => <option value={s} key={s}>{s}</option>) }
-            </select>
-          </div>
-        </Callout>
 
         <div id="slug">
           <label className="pt-label pt-inline">

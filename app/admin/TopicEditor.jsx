@@ -25,25 +25,26 @@ class TopicEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      minData: null,
-      preview: "04000US25"
+      minData: null
     };
   }
 
   componentDidMount() {
-    if (this.props.currentID) this.setState({preview: this.props.currentID});
-    this.hitDB.bind(this)();
+    this.hitDB.bind(this)(false);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.id !== this.props.id) {
-      this.hitDB.bind(this)();
+      this.hitDB.bind(this)(false);
+    }
+    if (prevProps.preview !== this.props.preview) {
+      this.hitDB.bind(this)(true);
     }
   }
 
-  hitDB() {
+  hitDB(force) {
     axios.get(`/api/cms/topic/get/${this.props.id}`).then(resp => {
-      this.setState({minData: resp.data}, this.fetchVariables.bind(this, false));
+      this.setState({minData: resp.data}, this.fetchVariables.bind(this, force));
     });
   }
 
@@ -103,7 +104,7 @@ class TopicEditor extends Component {
 
   fetchVariables(force) {
     const slug = this.props.masterSlug;
-    const id = this.state.preview;
+    const id = this.props.preview;
     if (this.props.fetchVariables) {
       this.props.fetchVariables(slug, id, force, () => this.setState({recompiling: false}));
     }
@@ -111,7 +112,7 @@ class TopicEditor extends Component {
 
   render() {
 
-    const {minData, preview} = this.state;
+    const {minData} = this.state;
     const {variables} = this.props;
     
     if (!minData || !variables) return <Loading />;
@@ -129,14 +130,6 @@ class TopicEditor extends Component {
 
     return (
       <div id="section-editor">
-        <Callout id="preview-toggle">
-          <span className="pt-label"><Icon iconName="media" />Preview ID</span>
-          <div className="pt-select">
-            <select value={preview} onChange={e => this.setState({preview: e.target.value}, this.fetchVariables.bind(this, true))}>
-              { ["01000US", "04000US25", "04000US36", "05000US25025", "31000US14460", "16000US0455000"].map(s => <option value={s} key={s}>{s}</option>) }
-            </select>
-          </div>
-        </Callout>
         <div id="slug">
           slug
           <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug")}/>
