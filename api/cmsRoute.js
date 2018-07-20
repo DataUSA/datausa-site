@@ -1,5 +1,8 @@
 const sequelize = require("sequelize");
+const shell = require("shelljs");
 const Op = sequelize.Op;
+
+const topicTypeDir = "app/toCanon/topics/";
 
 const profileReqTreeOnly = {
   attributes: ["id", "title", "slug", "ordering"],
@@ -106,7 +109,14 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, topicReqTopicOnly, {where: {id}});
     db.topics.findOne(reqObj).then(topic => {
-      res.json(sortTopic(topic)).end();
+      const topicTypes = [];
+      shell.ls(`${topicTypeDir}*.jsx`).forEach(file => {
+        const compName = file.replace(topicTypeDir, "").replace(".jsx", "");
+        topicTypes.push(compName);
+      });
+      topic = sortTopic(topic);
+      topic.types = topicTypes;
+      res.json(topic).end();
     });
   });
 

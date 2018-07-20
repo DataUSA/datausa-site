@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Button, Callout, Icon} from "@blueprintjs/core";
+import {Button} from "@blueprintjs/core";
 import Loading from "components/Loading";
 import PropTypes from "prop-types";
 import TextCard from "./components/TextCard";
@@ -48,16 +48,11 @@ class TopicEditor extends Component {
     });
   }
 
-  changeField(field, e) {
+  changeField(field, save, e) {
+    console.log(field, save, e);
     const {minData} = this.state;
     minData[field] = e.target.value;
-    this.setState({minData});
-  }
-
-  chooseVariable(e) {
-    const {minData} = this.state;
-    minData.allowed = e.target.value;
-    this.setState({minData}, this.save.bind(this));
+    save ? this.setState({minData}, this.save.bind(this)) : this.setState({minData});
   }
 
   addItem(type) {
@@ -128,17 +123,27 @@ class TopicEditor extends Component {
       }
     }
 
+    const typeOptions = minData.types.map(t => 
+      <option key={t} value={t}>{t}</option>
+    );
+
     return (
       <div id="section-editor">
         <div id="slug">
           slug
-          <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug")}/>
+          <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug", false)}/>
           <button onClick={this.save.bind(this)}>rename</button>
         </div>
         <div className="pt-select">
           Allowed?
-          <select value={minData.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px", width: "200px"}}>
+          <select value={minData.allowed || "always"} onChange={this.changeField.bind(this, "allowed", true)} style={{margin: "5px", width: "200px"}}>
             {varOptions}
+          </select>
+        </div>
+        <div className="pt-select">
+          Topic Type
+          <select value={minData.type} onChange={this.changeField.bind(this, "type", true)} style={{margin: "5px", width: "200px"}}>
+            {typeOptions}
           </select>
         </div>
         <h4>Title</h4>
