@@ -55,7 +55,7 @@ export default class AceWrapper extends Component {
         tabSize = {2}
         mode="javascript"
         setOptions={{
-          fontSize: "14px",
+          fontSize: "14px"
           /*enableBasicAutocompletion: true,
           enableLiveAutocompletion: true*/
         }}
