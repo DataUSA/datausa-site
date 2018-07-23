@@ -9,6 +9,7 @@
 
 const {isObject} = require("d3plus-common"),
       {trim} = require("d3plus-text"),
+      buble = require("buble"),
       libs = require("./libs");
 
 module.exports = {
@@ -35,48 +36,19 @@ function objectify(obj) {
 }
 
 function func2obj(func) {
-  let s = `${func}`;
-  let logic, vars;
 
-  // named function parse
-  if (s.startsWith("function")) {
+  let s = buble.transform(`${func}`).code;
+  if (s.startsWith("!")) s = s.slice(1);
 
-    vars = s
-      .replace(/function[\sA-z]*\(([A-z0-9\s\,]*)\)[\s\S]*/g, "$1")
-      .split(",")
-      .map(trim);
-
-    logic = s
-      .replace(/function[\sA-z]*\([A-z0-9\s\,]*\)[\s]*\{([\s\S]*)\}$/g, "$1");
-
-  }
-  // anonymous function parse
-  else {
-
-    s = s.split(/[\s]*=>[\s]*([\S\s]+)/g);
-    vars = s[0];
-
-    // multi-arg function
-    if (vars.includes("(")) {
-      vars = vars
-        .replace(/\(([A-z0-9\s\,]*)\)/g, "$1")
-        .split(",")
-        .map(trim);
-    }
-    // single-arg function
-    else vars = [vars];
-
-    // bracket-enclosed function
-    if (s[1].match(/^\{/g)) {
-      logic = s[1]
-        .replace(/^\{/g, "")
-        .replace(/\}$/g, "");
-    }
-    // single-line return function
-    else logic = `return ${s[1]};`;
-  }
+  const vars = s
+    .replace(/function[\sA-z]*\(([A-z0-9\s\,]*)\)[\s\S]*/g, "$1")
+    .split(",")
+    .map(trim);
+  const logic = s
+    .replace(/function[\sA-z]*\([A-z0-9\s\,]*\)[\s]*\{([\s\S]*)\}$/g, "$1");
 
   return {vars, logic};
+
 }
 
 function parse(config, formatters = {}) {
