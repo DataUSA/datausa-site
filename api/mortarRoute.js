@@ -46,6 +46,18 @@ const topicReq = [
   {association: "selectors", separate: true}
 ];
 
+const formatters4eval = formatters => formatters.reduce((acc, f) => {
+
+  const name = f.name === f.name.toUpperCase()
+    ? f.name.toLowerCase()
+    : f.name.replace(/^\w/g, chr => chr.toLowerCase());
+
+  acc[name] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc);
+
+  return acc;
+
+}, {});
+
 // Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
 const sortProfile = profile => {
   const sorter = (a, b) => a.ordering - b.ordering;
@@ -93,7 +105,7 @@ module.exports = function(app) {
       .then(resp => {
         const [pid, attr, formatters, generators] = resp;
         // Create a hash table so the formatters are directly accessible by name
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc), acc), {});
+        const formatterFunctions = formatters4eval(formatters);
         // Deduplicate generators that share an API endpoint
         const requests = Array.from(new Set(generators.map(g => g.api)));
         // Generators use <id> as a placeholder. Replace instances of <id> with the provided id from the URL
@@ -138,7 +150,7 @@ module.exports = function(app) {
         const materializers = resp[2];
         // The order of materializers matter because input to later materializers depends on output from earlier materializers
         materializers.sort((a, b) => a.ordering - b.ordering);
-        let matStatus = {};
+        const matStatus = {};
         returnVariables = materializers.reduce((acc, m) => {
           const evalResults = mortarEval("variables", acc, m.logic, formatterFunctions);
           const {vars} = evalResults;
@@ -173,7 +185,7 @@ module.exports = function(app) {
       .then(resp => {
         const variables = resp[0].data;
         const formatters = resp[1];
-        const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc), acc), {});
+        const formatterFunctions = formatters4eval(formatters);
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
         return Promise.all([variables, formatterFunctions, request]);
       })
@@ -209,7 +221,7 @@ module.exports = function(app) {
     Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
       const variables = resp[0].data;
       const formatters = resp[1];
-      const formatterFunctions = formatters.reduce((acc, f) => (acc[f.name.replace(/^\w/g, chr => chr.toLowerCase())] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc), acc), {});
+      const formatterFunctions = formatters4eval(formatters);
       const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
       res.json(topic).end();
     });
