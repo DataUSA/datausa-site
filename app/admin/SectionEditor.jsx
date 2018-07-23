@@ -58,7 +58,7 @@ class SectionEditor extends Component {
   addItem(type) {
     const {minData} = this.state;
     const payload = Object.assign({}, stubs[type]);
-    payload.section_id = minData.id; 
+    payload.section_id = minData.id;
     // todo: move this ordering out to axios (let the server concat it to the end)
     payload.ordering = minData[propMap[type]].length;
     axios.post(`/api/cms/${type}/new`, payload).then(resp => {
@@ -76,7 +76,7 @@ class SectionEditor extends Component {
   }
 
   onSave(minData) {
-    if (this.props.reportSave) this.props.reportSave("section", minData.id, minData.title);  
+    if (this.props.reportSave) this.props.reportSave("section", minData.id, minData.title);
   }
 
   onMove() {
@@ -108,7 +108,7 @@ class SectionEditor extends Component {
     if (!minData || !variables) return <Loading />;
 
     const varOptions = [<option key="always" value="always">Always</option>];
-    
+
     for (const key in variables) {
       if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
         const value = variables[key];
@@ -132,18 +132,20 @@ class SectionEditor extends Component {
           </select>
         </div>
         <h4>Title</h4>
-        <TextCard 
+        <TextCard
           id={minData.id}
           fields={["title"]}
           type="section"
           onSave={this.onSave.bind(this)}
           variables={variables}
         />
-        <h4>Subtitles</h4>
-        <Button onClick={this.addItem.bind(this, "section_subtitle")} iconName="add" />
-        { minData.subtitles && minData.subtitles.map(s => 
+        <h4>
+          Subtitles
+          <Button onClick={this.addItem.bind(this, "section_subtitle")} iconName="add" />
+        </h4>
+        { minData.subtitles && minData.subtitles.map(s =>
           <div key={s.id}>
-            <TextCard 
+            <TextCard
               key={s.id}
               id={s.id}
               fields={["subtitle"]}
@@ -151,19 +153,21 @@ class SectionEditor extends Component {
               onDelete={this.onDelete.bind(this)}
               variables={variables}
             />
-            <MoveButtons 
+            <MoveButtons
               item={s}
               array={minData.subtitles}
               type="section_subtitle"
               onMove={this.onMove.bind(this)}
             />
-          </div>) 
+          </div>)
         }
-        <h4>Descriptions</h4>
-        <Button onClick={this.addItem.bind(this, "section_description")} iconName="add" />
-        { minData.descriptions && minData.descriptions.map(d => 
+        <h4>
+          Descriptions
+          <Button onClick={this.addItem.bind(this, "section_description")} iconName="add" />
+        </h4>
+        { minData.descriptions && minData.descriptions.map(d =>
           <div key={d.id}>
-            <TextCard 
+            <TextCard
               key={d.id}
               id={d.id}
               fields={["description"]}
@@ -171,13 +175,13 @@ class SectionEditor extends Component {
               onDelete={this.onDelete.bind(this)}
               variables={variables}
             />
-            <MoveButtons 
+            <MoveButtons
               item={d}
               array={minData.descriptions}
               type="section_description"
               onMove={this.onMove.bind(this)}
             />
-          </div>)  
+          </div>)
         }
       </div>
     );

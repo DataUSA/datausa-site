@@ -2,6 +2,11 @@
   display: flex;
   margin-top: var(--nav-height);
   width: 100%;
+  & h4 {
+    & button {
+      margin-left: 5px;
+    }
+  }
 }
 
 #tree {

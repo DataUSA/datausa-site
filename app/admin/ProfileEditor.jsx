@@ -137,10 +137,10 @@ class ProfileEditor extends Component {
           </label>
         </div>
 
-        <h3>
+        <h4>
           Generators
           <Button onClick={this.addItem.bind(this, "generator")} iconName="add" />
-        </h3>
+        </h4>
         <p className="pt-text-muted">Variables constructed from JSON data calls.</p>
         <div className="generator-cards">
           { minData.generators && minData.generators
@@ -156,10 +156,10 @@ class ProfileEditor extends Component {
           }
         </div>
 
-        <h3>
+        <h4>
           Materializers
           <Button onClick={this.addItem.bind(this, "materializer")} iconName="add" />
-        </h3>
+        </h4>
         <p className="pt-text-muted">Variables constructed from other variables. No API calls needed.</p>
         <div className="generator-cards materializers">
           { minData.materializers && minData.materializers
@@ -213,10 +213,10 @@ class ProfileEditor extends Component {
           </div>
         </div>
 
-        <h3>
+        <h4>
           About
           <Button onClick={this.addItem.bind(this, "profile_description")} iconName="add" />
-        </h3>
+        </h4>
 
         <div className="descriptions">
           { minData.descriptions && minData.descriptions.map(d =>
@@ -238,10 +238,10 @@ class ProfileEditor extends Component {
           }
         </div>
 
-        <h3>
+        <h4>
           Visualizations
           <Button onClick={this.addItem.bind(this, "profile_visualization")} iconName="add" />
-        </h3>
+        </h4>
         <div className="visualizations">
           <div>
             { minData.visualizations && minData.visualizations.map(v =>
