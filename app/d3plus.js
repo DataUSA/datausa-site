@@ -24,6 +24,7 @@ const axisStyles = {
 };
 
 export default {
+  barPadding: 0,
   colorScaleConfig: {
     color: "#004374",
     scale: "jenks"
