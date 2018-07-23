@@ -55,16 +55,11 @@ class GeneratorEditor extends Component {
       topic_visualization: <span>Be sure to return a valid config object for a visualization</span>
     };
 
-    const varOptions = [<option key="always" value="always">Always</option>];
-
-    for (const key in variables) {
-      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
-        const value = variables[key];
-        varOptions.push(
-          <option key={key} value={key}>{`${key}: ${value}`}</option>
-        );
-      }
-    }
+    const varOptions = [<option key="always" value="always">Always</option>]
+      .concat(Object.keys(variables)
+        .filter(key => !key.startsWith("_"))
+        .sort((a, b) => a.localeCompare(b))
+        .map(key => <option key={key} value={key}>{`${key}: ${variables[key]}`}</option>));
 
     if (!data) return null;
 

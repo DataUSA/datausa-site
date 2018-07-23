@@ -14,7 +14,7 @@ class SelectorEditor extends Component {
   componentDidMount() {
     const {data} = this.props;
     const showCustom = data.default.includes("{{");
-    this.setState({data, showCustom});   
+    this.setState({data, showCustom});
   }
 
   addOption() {
@@ -46,13 +46,13 @@ class SelectorEditor extends Component {
   setDefault(option) {
     const {data} = this.state;
     data.default = option;
-    this.setState({data, showCustom: false}); 
+    this.setState({data, showCustom: false});
   }
 
   deleteOption(i) {
     const {data} = this.state;
     data.options.splice(i, 1);
-    this.setState({data});  
+    this.setState({data});
   }
 
   moveUp(i) {
@@ -97,27 +97,17 @@ class SelectorEditor extends Component {
     const {variables} = this.props;
 
     if (!data || !variables) return null;
-    
-    const always = [<option key="always" value="always">Always</option>];
-    const varOptions = [];
-    for (const key in variables) {
-      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
-        const value = variables[key];
-        varOptions.push(
-          <option key={key} value={key}>{`${key}: ${value}`}</option>
-        );
-      }
-    }
 
-    const customOptions = [];
-    for (const key in variables) {
-      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
-        const value = variables[key];
-        customOptions.push(
-          <option key={`{{${key}}}`} value={`{{${key}}}`}>{`${key}: ${value}`}</option>
-        );
-      }
-    }
+    const varOptions = [<option key="always" value="always">Always</option>]
+      .concat(Object.keys(variables)
+        .filter(key => !key.startsWith("_"))
+        .sort((a, b) => a.localeCompare(b))
+        .map(key => <option key={key} value={key}>{`${key}: ${variables[key]}`}</option>));
+
+    const customOptions = Object.keys(variables)
+      .filter(key => !key.startsWith("_"))
+      .sort((a, b) => a.localeCompare(b))
+      .map(key => <option key={`{{${key}}}`} value={`{{${key}}}`}>{`${key}: ${variables[key]}`}</option>);
 
     return (
       <div id="selector-editor">
@@ -127,13 +117,13 @@ class SelectorEditor extends Component {
         </label>
         <ul>
           {
-            data.options && data.options.map((option, i) => 
+            data.options && data.options.map((option, i) =>
               <li key={i}>
                 <select value={option.option} onChange={this.chooseOption.bind(this, i)} style={{margin: "5px", width: "300px"}}>
                   {varOptions}
                 </select>
                 <select value={option.allowed} onChange={this.chooseAllowed.bind(this, i)} style={{margin: "5px", width: "300px"}}>
-                  {always.concat(varOptions)}
+                  { varOptions }
                 </select>
                 <button className="pt-button" onClick={this.moveUp.bind(this, i)}><span className="pt-icon pt-icon-arrow-up" /></button>
                 <button className="pt-button" onClick={this.moveDown.bind(this, i)}><span className="pt-icon pt-icon-arrow-down" /></button>
@@ -144,7 +134,7 @@ class SelectorEditor extends Component {
           }
         </ul>
         <button className="pt-button" onClick={this.addOption.bind(this)}>Add Option <span className="pt-icon pt-icon-plus"/></button><br/>
-        <button className="pt-button" onClick={this.toggleCustom.bind(this)}>Custom Default <span className="pt-icon pt-icon-cog"/></button> 
+        <button className="pt-button" onClick={this.toggleCustom.bind(this)}>Custom Default <span className="pt-icon pt-icon-cog"/></button>
         {
           this.state.showCustom && <div>
             <select value={data.default} onChange={this.chooseCustom.bind(this)} style={{margin: "5px", width: "300px"}}>

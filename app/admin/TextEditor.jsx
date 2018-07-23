@@ -9,9 +9,9 @@ class TextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null, 
+      data: null,
       fields: null
-      
+
       /*
       currentVariable: "choose-a-variable",
       currentFormatter: "choose-a-formatter"
@@ -21,7 +21,7 @@ class TextEditor extends Component {
 
   componentDidMount() {
     const {data, fields} = this.props;
-    this.setState({data, fields});   
+    this.setState({data, fields});
   }
 
   changeField(field, e) {
@@ -33,7 +33,7 @@ class TextEditor extends Component {
   handleEditor(field, t) {
     const {data} = this.state;
     data[field] = t;
-    this.setState({data});    
+    this.setState({data});
   }
 
   chooseVariable(e) {
@@ -64,23 +64,18 @@ class TextEditor extends Component {
 
     if (!data || !fields || !variables || !formatters) return null;
 
-    const quills = fields.map(f => 
+    const quills = fields.map(f =>
       <div key={f} style={{margin: "10px"}}>
         <span style={{fontWeight: "bold"}}>{f}</span>
         <QuillWrapper value={this.state.data[f] || ""} onChange={this.handleEditor.bind(this, f)} />
       </div>
     );
 
-    const varOptions = [<option key="always" value="always">Always</option>];
-
-    for (const key in variables) {
-      if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
-        const value = variables[key];
-        varOptions.push(
-          <option key={key} value={key}>{`${key}: ${value}`}</option>
-        );
-      }
-    }
+    const varOptions = [<option key="always" value="always">Always</option>]
+      .concat(Object.keys(variables)
+        .filter(key => !key.startsWith("_"))
+        .sort((a, b) => a.localeCompare(b))
+        .map(key => <option key={key} value={key}>{`${key}: ${variables[key]}`}</option>));
 
     return (
       <div id="text-editor">
@@ -101,7 +96,7 @@ class TextEditor extends Component {
         */}
 
         {quills}
-        
+
       </div>
     );
   }
