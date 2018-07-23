@@ -6,7 +6,6 @@ import GeneratorEditor from "../GeneratorEditor";
 import Loading from "components/Loading";
 import Viz from "components/Viz";
 import FooterButtons from "../components/FooterButtons";
-import FUNC from "utils/FUNC";
 import "./VisualizationCard.css";
 
 class VisualizationCard extends Component {
@@ -58,9 +57,6 @@ class VisualizationCard extends Component {
     if (!minData) return <Loading />;
 
     const {logic} = minData;
-    const {formatters} = this.context;
-
-    const config = FUNC.parse({vars: ["variables"], logic}, formatters)(variables);
 
     return (
       <Card onClick={() => this.setState({isOpen: true})} className="visualization-card" interactive={true} elevation={1}>
@@ -80,7 +76,7 @@ class VisualizationCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        { config ? <Viz config={{height: 400, ...config}} options={false} /> : <p>No configuration defined.</p> }
+        { logic ? <Viz config={{logic}} options={false} /> : <p>No configuration defined.</p> }
       </Card>
     );
   }

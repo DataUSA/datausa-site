@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import * as d3plus from "d3plus-react";
 import "./index.css";
 import Options from "./Options";
@@ -7,10 +8,12 @@ import propify from "helpers/d3plusPropify";
 class Viz extends Component {
 
   render() {
+    const {formatters, variables} = this.context;
+
     const {config, className, options, slug} = this.props;
 
     // clone config object to allow manipulation
-    const vizProps = propify(config);
+    const vizProps = propify(config.logic, formatters, variables);
 
     // strip out the "type" from config
     const {type} = vizProps.config;
@@ -34,6 +37,11 @@ class Viz extends Component {
   }
 
 }
+
+Viz.contextTypes = {
+  formatters: PropTypes.object,
+  variables: PropTypes.object
+};
 
 Viz.defaultProps = {
   className: "",

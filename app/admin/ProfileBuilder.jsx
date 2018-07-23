@@ -34,6 +34,12 @@ class ProfileBuilder extends Component {
     });
   }
 
+  getChildContext() {
+    const {formatters} = this.context;
+    const {variablesHash, currentSlug} = this.state;
+    return {formatters, variables: variablesHash[currentSlug]};
+  }
+
   buildNodes(openNode) {
     const {profiles} = this.state;
     const {stripHTML} = this.context.formatters;
@@ -63,7 +69,7 @@ class ProfileBuilder extends Component {
     }));
     if (!openNode) {
       this.setState({nodes});
-    } 
+    }
     else {
       this.setState({nodes}, this.handleNodeClick.bind(this, nodes[0]));
     }
@@ -107,7 +113,7 @@ class ProfileBuilder extends Component {
     n = this.locateNode(n.itemType, n.data.id);
     let parent;
     let parentArray;
-    // For topics and sections, it is sufficient to find the Actual Parent - this parent will have 
+    // For topics and sections, it is sufficient to find the Actual Parent - this parent will have
     // a masterSlug that the newly added item should share
     if (n.itemType === "topic") {
       parent = this.locateNode("section", n.data.section_id);
@@ -118,9 +124,9 @@ class ProfileBuilder extends Component {
       parentArray = parent.childNodes;
     }
     // However, if the user is adding a new profile, there is no top-level profile parent whose slug trickles down,
-    // therefore we must make a small fake object whose only prop is masterSlug. This is used only so that when we 
-    // build the new Profile Tree Object, we can set the masterSlug of all three new elements (profile, section, topic) 
-    // to "parent.masterSlug" and have that correctly reflect the stub object. 
+    // therefore we must make a small fake object whose only prop is masterSlug. This is used only so that when we
+    // build the new Profile Tree Object, we can set the masterSlug of all three new elements (profile, section, topic)
+    // to "parent.masterSlug" and have that correctly reflect the stub object.
     else if (n.itemType === "profile") {
       parent = {masterSlug: stubs.objProfile.data.slug};
       parentArray = nodes;
@@ -143,7 +149,7 @@ class ProfileBuilder extends Component {
         }
       }
     }
-    
+
     const objTopic = deepClone(stubs.objTopic);
     objTopic.data.section_id = n.data.section_id;
     objTopic.data.ordering = loc;
@@ -176,7 +182,7 @@ class ProfileBuilder extends Component {
       obj.childNodes = [objSection];
     }
     if (obj) {
-      
+
       const profilePath = "/api/cms/profile/new";
       const sectionPath = "/api/cms/section/new";
       const topicPath = "/api/cms/topic/new";
@@ -195,7 +201,7 @@ class ProfileBuilder extends Component {
             console.log("topic error");
           }
         });
-      } 
+      }
       else if (n.itemType === "section") {
         axios.post(sectionPath, obj.data).then(section => {
           obj.id = `section${section.data.id}`;
@@ -235,7 +241,7 @@ class ProfileBuilder extends Component {
               }
               else {
                 console.log("profile error");
-              }              
+              }
             });
           });
         });
@@ -313,7 +319,7 @@ class ProfileBuilder extends Component {
     }
     // This case is needed becuase, even if the same node is reclicked, its CtxMenu MUST update to reflect the new node (it may no longer be in its old location)
     else if (currentNode && node.id === currentNode.id) {
-      node.secondaryLabel = <CtxMenu node={node} parentLength={parentLength} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;      
+      node.secondaryLabel = <CtxMenu node={node} parentLength={parentLength} moveItem={this.moveItem.bind(this)} addItem={this.addItem.bind(this)} deleteItem={this.deleteItem.bind(this)} />;
     }
     if (this.props.setPath) this.props.setPath(node);
     this.setState({currentNode: node});
@@ -356,7 +362,7 @@ class ProfileBuilder extends Component {
   }
 
   /**
-   * If a save occurred in one of the editors, the user may have changed the slug/title. This callback is responsible for 
+   * If a save occurred in one of the editors, the user may have changed the slug/title. This callback is responsible for
    * updating the tree labels accordingly. If the user has changed a slug, the "masterSlug" reference that ALL children
    * of a profile use must be recursively updated as well.
    */
@@ -386,9 +392,9 @@ class ProfileBuilder extends Component {
     this.setState({nodes});
   }
 
-  /* 
+  /*
    * Callback for Preview.jsx, pass down new preview id to all Editors
-   */ 
+   */
   onSelectPreview(preview) {
     this.setState({preview});
   }
@@ -400,11 +406,11 @@ class ProfileBuilder extends Component {
       axios.get(`/api/variables/${slug}/${id}`).then(resp => {
         variablesHash[slug] = resp.data;
         this.setState({variablesHash, currentSlug: slug}, maybeCallback);
-      });  
+      });
     }
     else {
       this.setState({variablesHash, currentSlug: slug}, maybeCallback);
-    }  
+    }
   }
 
   render() {
@@ -430,30 +436,30 @@ class ProfileBuilder extends Component {
           { currentNode && currentSlug && <Preview currentSlug={currentSlug} onSelectPreview={this.onSelectPreview.bind(this)}/>}
           { currentNode
             ? currentNode.itemType === "profile"
-              ? <ProfileEditor 
-                id={currentNode.data.id} 
-                masterSlug={currentNode.masterSlug} 
+              ? <ProfileEditor
+                id={currentNode.data.id}
+                masterSlug={currentNode.masterSlug}
                 preview={preview}
-                fetchVariables={this.fetchVariables.bind(this)} 
-                variables={variables} 
-                reportSave={this.reportSave.bind(this)} 
+                fetchVariables={this.fetchVariables.bind(this)}
+                variables={variables}
+                reportSave={this.reportSave.bind(this)}
               />
               : currentNode.itemType === "section"
-                ? <SectionEditor 
+                ? <SectionEditor
                   id={currentNode.data.id}
-                  masterSlug={currentNode.masterSlug} 
+                  masterSlug={currentNode.masterSlug}
                   preview={preview}
-                  fetchVariables={this.fetchVariables.bind(this)} 
-                  variables={variables} 
+                  fetchVariables={this.fetchVariables.bind(this)}
+                  variables={variables}
                   reportSave={this.reportSave.bind(this)}
                 />
                 : currentNode.itemType === "topic"
-                  ? <TopicEditor 
+                  ? <TopicEditor
                     id={currentNode.data.id}
-                    masterSlug={currentNode.masterSlug} 
+                    masterSlug={currentNode.masterSlug}
                     preview={preview}
-                    fetchVariables={this.fetchVariables.bind(this)} 
-                    variables={variables} 
+                    fetchVariables={this.fetchVariables.bind(this)}
+                    variables={variables}
                     reportSave={this.reportSave.bind(this)}
                   />
                   : null
@@ -465,6 +471,11 @@ class ProfileBuilder extends Component {
     );
   }
 }
+
+ProfileBuilder.childContextTypes = {
+  formatters: PropTypes.object,
+  variables: PropTypes.object
+};
 
 ProfileBuilder.contextTypes = {
   formatters: PropTypes.object

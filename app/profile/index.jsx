@@ -27,6 +27,12 @@ class Profile extends Component {
     this.scrollBind = this.handleScroll.bind(this);
   }
 
+  getChildContext() {
+    const {formatters} = this.context;
+    const {variables} = this.props.profile;
+    return {formatters, variables};
+  }
+
   componentDidMount() {
     window.addEventListener("scroll", this.scrollBind);
     this.scrollBind();
@@ -78,7 +84,6 @@ class Profile extends Component {
     profiles.forEach(d => {
       d.image = `/api/profile/${pslug}/${d.pid}/splash`;
     });
-    console.log(profiles);
 
     return (
       <CanonProfile>
@@ -106,6 +111,11 @@ class Profile extends Component {
   }
 
 }
+
+Profile.childContextTypes = {
+  formatters: PropTypes.object,
+  variables: PropTypes.object
+};
 
 Profile.contextTypes = {
   formatters: PropTypes.object

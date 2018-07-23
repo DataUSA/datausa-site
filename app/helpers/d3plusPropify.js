@@ -1,29 +1,29 @@
 import {assign} from "d3plus-common";
-import FUNC from "../../utils/FUNC";
+import {parse} from "utils/FUNC";
 
-export default config => {
+export default (logic, formatters = {}, variables = {}) => {
 
-  const configClone = FUNC.parse({...config});
+  const config = parse({vars: ["variables"], logic}, formatters)(variables);
 
   // strip out the "dataFormat" from config
-  const dataFormat = configClone.dataFormat ? configClone.dataFormat : d => d.data;
-  delete configClone.dataFormat;
+  const dataFormat = config.dataFormat ? config.dataFormat : d => d.data;
+  delete config.dataFormat;
 
   // hides the non-discrete axis, if necessary
-  const discrete = configClone.discrete || "x";
+  const discrete = config.discrete || "x";
   const opposite = discrete === "x" ? "y" : "x";
-  configClone[`${discrete}Config`] = assign({}, configClone[`${discrete}Config`] || {}, {
+  config[`${discrete}Config`] = assign({}, config[`${discrete}Config`] || {}, {
     gridConfig: {
       "stroke-width": 0
     },
     tickSize: 0
   });
-  configClone[`${opposite}Config`] = assign({}, configClone[`${opposite}Config`] || {}, {
+  config[`${opposite}Config`] = assign({}, config[`${opposite}Config`] || {}, {
     barConfig: {
       "stroke-width": 0
     }
   });
 
-  return {config: configClone, dataFormat};
+  return {config, dataFormat};
 
 };

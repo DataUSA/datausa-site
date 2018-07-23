@@ -1,7 +1,5 @@
 const selSwap = require("./selSwap");
 const varSwap = require("./varSwap");
-const mortarEval = require("./mortarEval");
-const FUNC = require("./FUNC");
 
 /* Given an object, a hashtable of formatting functions, and a lookup object full of variables
  * Replace every instance of {{var}} with its true value from the lookup object, and
@@ -10,7 +8,7 @@ const FUNC = require("./FUNC");
 
 const varSwapRecursive = (sourceObj, formatterFunctions, variables, query = {}, selectors = []) => {
   const allowed = obj => variables[obj.allowed] || obj.allowed === null || obj.allowed === undefined || obj.allowed === "always";
-  let obj = Object.assign({}, sourceObj);
+  const obj = Object.assign({}, sourceObj);
   // If I'm a topic and have selectors, extract and prep them for use
   if (obj.selectors) {
     selectors = obj.selectors.map(s => {
@@ -44,8 +42,6 @@ const varSwapRecursive = (sourceObj, formatterFunctions, variables, query = {}, 
       }
     }
   }
-  // If I'm a visualization, execute the logic
-  if (obj.logic) obj = FUNC.objectify(mortarEval("variables", variables, obj.logic, formatterFunctions).vars);
   return obj;
 };
 
