@@ -15,7 +15,7 @@ class GeneratorEditor extends Component {
 
   componentDidMount() {
     const {data, variables} = this.props;
-    this.setState({data, variables});   
+    this.setState({data, variables});
   }
 
   changeField(field, e) {
@@ -27,7 +27,7 @@ class GeneratorEditor extends Component {
   handleEditor(field, t) {
     const {data} = this.state;
     data[field] = t;
-    this.setState({data});    
+    this.setState({data});
   }
 
   chooseVariable(e) {
@@ -35,7 +35,7 @@ class GeneratorEditor extends Component {
     data.allowed = e.target.value;
     this.setState({data});
   }
-  
+
   render() {
 
     const {data, variables} = this.state;
@@ -44,8 +44,8 @@ class GeneratorEditor extends Component {
     const preMessage = {
       generator: <span>You have access to the variable <strong>resp</strong>, which represents the response to the above API call.</span>,
       materializer: <span>You have access to all variables previously created by generators</span>,
-      profile_visualization: <span>You have access to all variables previously created by generators and materializers. <br/><strong>&lt;id&gt;</strong> will be replaced by the current profile&#39;s id.</span>,
-      topic_visualization: <span>You have access to all variables previously created by generators and materializers. <br/><strong>&lt;id&gt;</strong> will be replaced by the current topic&#39;s id.</span>
+      profile_visualization: <span>You have access to all variables previously created by generators and materializers.</span>,
+      topic_visualization: <span>You have access to all variables previously created by generators and materializers.</span>
     };
 
     const postMessage = {
@@ -56,7 +56,7 @@ class GeneratorEditor extends Component {
     };
 
     const varOptions = [<option key="always" value="always">Always</option>];
-    
+
     for (const key in variables) {
       if (variables.hasOwnProperty(key) && !["_genStatus", "_matStatus"].includes(key)) {
         const value = variables[key];
@@ -77,7 +77,7 @@ class GeneratorEditor extends Component {
           </div>
           : null
         }
-        { type === "generator" 
+        { type === "generator"
           ? <div className="generator-input">
             API<br/>
             <input className="pt-input" style={{width: "600px"}} type="text" dir="auto" value={data.api} onChange={this.changeField.bind(this, "api")}/>
@@ -92,7 +92,7 @@ class GeneratorEditor extends Component {
           : null
         }
         <div id="generator-ace">
-          { type === "profile_visualization" || type === "topic_visualization" 
+          { type === "profile_visualization" || type === "topic_visualization"
             ? <div className="pt-select">
               Allowed?
               <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px", width: "200px"}}>
@@ -111,7 +111,7 @@ class GeneratorEditor extends Component {
             value={data.logic}
             style={{marginTop: "10px", minHeight: "300px"}}
             {...this.props}
-          /> 
+          />
           {postMessage[type]}
         </div>
       </div>
