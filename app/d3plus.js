@@ -26,7 +26,7 @@ const axisStyles = {
 export default {
   barPadding: 0,
   colorScaleConfig: {
-    color: "#004374",
+    color: ["#ecf3f7", "#cfdfeb", "#b0cde1", "#90bad8", "#6ea7d2", "#4c96cb", "#3182bd", "#004374"],
     scale: "jenks"
   },
   legendConfig: {
@@ -49,10 +49,14 @@ export default {
   padPixel: 1,
   shapeConfig: {
     fill: "#ef6145",
+    hoverOpacity: 0.5,
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
       padding: 5
+    },
+    Path: {
+      fillOpacity: 0.75
     }
   },
   tooltipConfig: {
