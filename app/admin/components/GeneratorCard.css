@@ -19,6 +19,9 @@
   }
   & .table {
     flex: 1;
+    max-height: 120px;
+    overflow-y: scroll;
+
     & .pt-table {
       height: 100%;
       width: 100%;
