@@ -102,12 +102,22 @@ class SelectorEditor extends Component {
       .concat(Object.keys(variables)
         .filter(key => !key.startsWith("_"))
         .sort((a, b) => a.localeCompare(b))
-        .map(key => <option key={key} value={key}>{`${key}: ${variables[key]}`}</option>));
+        .map(key => {
+          const value = variables[key];
+          const type = typeof value;
+          const label = !["string", "number", "boolean"].includes(type) ? ` <i>(${type})</i>` : `: ${`${value}`.slice(0, 20)}${`${value}`.length > 20 ? "..." : ""}`;
+          return <option key={key} value={key} dangerouslySetInnerHTML={{__html: `${key}${label}`}}></option>;
+        }));
 
     const customOptions = Object.keys(variables)
       .filter(key => !key.startsWith("_"))
       .sort((a, b) => a.localeCompare(b))
-      .map(key => <option key={`{{${key}}}`} value={`{{${key}}}`}>{`${key}: ${variables[key]}`}</option>);
+      .map(key => {
+        const value = variables[key];
+        const type = typeof value;
+        const label = !["string", "number", "boolean"].includes(type) ? ` <i>(${type})</i>` : `: ${`${value}`.slice(0, 20)}${`${value}`.length > 20 ? "..." : ""}`;
+        return <option key={`{{${key}}}`} value={`{{${key}}}`} dangerouslySetInnerHTML={{__html: `${key}${label}`}}></option>;
+      });
 
     return (
       <div id="selector-editor">

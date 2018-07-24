@@ -31,7 +31,7 @@ class SelectorCard extends Component {
   hitDB() {
     const {id, type} = this.props;
     axios.get(`/api/cms/${type}/get/${id}`).then(resp => {
-      this.setState({minData: resp.data}); 
+      this.setState({minData: resp.data});
     });
   }
   */
@@ -42,7 +42,7 @@ class SelectorCard extends Component {
     axios.post(`/api/cms/${type}/update`, minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.onSave) this.props.onSave();  
+        if (this.props.onSave) this.props.onSave();
       }
     });
   }
@@ -67,16 +67,16 @@ class SelectorCard extends Component {
     return (
       <Card className="splash-card" key={minData.id} onClick={() => this.setState({isOpen: true})} interactive={true} elevation={1}>
         <Dialog
+          className="generator-editor-dialog"
           iconName="code"
           isOpen={isOpen}
           onClose={() => this.setState({isOpen: false})}
           title="Selector Editor"
-          style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
             <SelectorEditor variables={variables} data={minData} />
           </div>
-          <FooterButtons 
+          <FooterButtons
             onDelete={this.delete.bind(this)}
             onCancel={() => this.setState({isOpen: false})}
             onSave={this.save.bind(this)}
@@ -84,7 +84,7 @@ class SelectorCard extends Component {
         </Dialog>
         <h4>{minData.name}</h4>
         <ul>
-          {minData.options && minData.options.map(o => 
+          {minData.options && minData.options.map(o =>
             <li key={o.option} className={minData.default === o.option ? "is-default" : ""}>{o.option}</li>
           )}
         </ul>

@@ -59,7 +59,7 @@ class GeneratorCard extends Component {
     axios.post(`/api/cms/${type}/update`, minData).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
-        if (this.props.onSave) this.props.onSave();  
+        if (this.props.onSave) this.props.onSave();
       }
     });
   }
@@ -73,11 +73,11 @@ class GeneratorCard extends Component {
     return (
       <Card onClick={() => this.setState({isOpen: true})} className="generator-card" interactive={true} elevation={1}>
         <Dialog
+          className="generator-editor-dialog"
           iconName="code"
           isOpen={isOpen}
           onClose={() => this.setState({isOpen: false})}
           title="Variable Editor"
-          style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
             <GeneratorEditor data={minData} variables={variables} type={type} />
