@@ -36,7 +36,18 @@ module.exports = {
     relations: {
       Geography: {
         children: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}`,
+          url: id => {
+            const prefix = id.slice(0, 3);
+            const targetLevels = prefix === "010" ? "state"
+              : prefix === "040" ? "county"
+                : prefix === "050" ? "tract"
+                  : prefix === "310" ? "county"
+                    : prefix === "160" ? "tract"
+                      : false;
+            return targetLevels
+              ? `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=${targetLevels}`
+              : `${CUBE_URL}/geoservice-api/relations/children/${id}`;
+          },
           callback: arr => arr.map(d => d.geoid)
         },
         counties: {
