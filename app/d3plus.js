@@ -26,6 +26,10 @@ const axisStyles = {
 export default {
   barPadding: 0,
   colorScaleConfig: {
+    axisConfig: {
+      labelOffset: true,
+      labelRotation: false
+    },
     color: ["#ecf3f7", "#cfdfeb", "#b0cde1", "#90bad8", "#6ea7d2", "#4c96cb", "#3182bd", "#004374"],
     scale: "jenks"
   },
