@@ -351,13 +351,12 @@ module.exports = function(app) {
             cross.forEach(c => {
               const type = Object.keys(c)[0];
               const level = c[type];
-              if (level in row) {
+              if (level in row && type !== level) {
                 row[type] = row[level];
-                row[`${type} ID`] = row[`ID ${level}`];
-                if (type !== level) delete row[level];
+                delete row[level];
+                row[`ID ${type}`] = row[`ID ${level}`];
                 delete row[`ID ${level}`];
               }
-              delete row["ID Year"];
             });
             return row;
           });
