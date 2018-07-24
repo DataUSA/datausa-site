@@ -3,7 +3,8 @@ const Sequelize = require("sequelize"),
       canonConfig = require("../canon.js"),
       d3Array = require("d3-array"),
       d3Collection = require("d3-collection"),
-      multiSort = require("../utils/multiSort");
+      multiSort = require("../utils/multiSort"),
+      yn = require("yn");
 
 // replace this in canon with "express-async-await" package
 // https://odino.org/async-slash-await-in-expressjs/
@@ -73,7 +74,7 @@ module.exports = function(app) {
 
   app.get("/api/data/", asyncMiddleware(async (req, res) => {
 
-    let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "sort", "Year"];
+    let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "sort", "Year"];
     reserved = reserved.concat(d3Array.merge(reserved.map(r => {
       let alts = aliases[r] || [];
       if (typeof alts === "string") alts = [alts];
@@ -99,6 +100,7 @@ module.exports = function(app) {
     const {
       limit,
       order = "Year",
+      parents = "false",
       sort = "desc"
     } = req.query;
 
@@ -322,10 +324,12 @@ module.exports = function(app) {
                   query.measure(measure);
                 });
 
+                query.option("parents", yn(parents));
+
                 return client.query(query, "jsonrecords");
               })
               .catch(error => {
-                console.error("\nCube Error", error.config.url);
+                console.error("\nCube Error", error.config ? error.config.url : error);
                 return {error};
               });
 
