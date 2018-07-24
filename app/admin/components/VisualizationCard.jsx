@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import {Card, Dialog} from "@blueprintjs/core";
+import varSwapRecursive from "utils/varSwapRecursive";
 import GeneratorEditor from "../GeneratorEditor";
 import Loading from "components/Loading";
 import Viz from "components/Viz";
@@ -51,21 +52,25 @@ class VisualizationCard extends Component {
   }
 
   render() {
-    const {type, variables} = this.props;
+
     const {minData, isOpen} = this.state;
 
     if (!minData) return <Loading />;
 
-    const {logic} = minData;
+    const {formatters} = this.context;
+    const {selectors, type, variables} = this.props;
+
+    minData.selectors = selectors;
+    const {logic} = varSwapRecursive(minData, formatters, variables);
 
     return (
       <Card onClick={() => this.setState({isOpen: true})} className="visualization-card" interactive={true} elevation={1}>
         <Dialog
+          className="generator-editor-dialog"
           iconName="code"
           isOpen={isOpen}
           onClose={() => this.setState({isOpen: false})}
           title="Variable Editor"
-          style={{minWidth: "800px"}}
         >
           <div className="pt-dialog-body">
             <GeneratorEditor data={minData} variables={variables} type={type} />
