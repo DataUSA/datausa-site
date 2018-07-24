@@ -121,10 +121,10 @@ module.exports = function(app) {
         ids = await Promise.all(d3Array.merge(ids
           .split(",")
           .map(id => {
-            if (id.includes(" ") && key in relations) {
+            if (id.includes(":") && key in relations) {
               const rels = Object.keys(relations[key]);
-              id = id.split(" ");
-              return id
+              id = id.split(":");
+              return id.slice(1)
                 .map(v => {
                   if (rels.includes(v)) {
                     return axios.get(relations[key][v].url(id[0]))
