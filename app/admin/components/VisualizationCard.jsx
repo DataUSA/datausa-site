@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import {Card, Dialog} from "@blueprintjs/core";
+import {Dialog} from "@blueprintjs/core";
 import varSwapRecursive from "utils/varSwapRecursive";
 import GeneratorEditor from "../GeneratorEditor";
 import Loading from "components/Loading";
@@ -62,9 +62,12 @@ class VisualizationCard extends Component {
 
     minData.selectors = selectors;
     const {logic} = varSwapRecursive(minData, formatters, variables);
+    const re = new RegExp(/height\:[\s]*([0-9]+)/g);
+    let height = re.exec(logic);
+    height = height ? height[1] : "400";
 
     return (
-      <Card onClick={() => this.setState({isOpen: true})} className="visualization-card" interactive={true} elevation={1}>
+      <div onClick={() => this.setState({isOpen: true})} className="pt-card pt-elevation-1 pt-interactive visualization-card" style={{height: `${height}px`}}>
         <Dialog
           className="generator-editor-dialog"
           iconName="code"
@@ -82,7 +85,7 @@ class VisualizationCard extends Component {
           />
         </Dialog>
         { logic ? <Viz config={{logic}} options={false} /> : <p>No configuration defined.</p> }
-      </Card>
+      </div>
     );
   }
 
