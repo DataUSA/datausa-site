@@ -2,6 +2,7 @@
   color: white;
   padding: 50px 0;
   width: 100%;
+
   & .topic-title {
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 30px;
@@ -16,25 +17,30 @@
       position: relative;
     }
   }
+
   & .topic-body {
     display: flex;
     flex-wrap: nowrap;
     padding: 25px 0;
+
     & .topic-content {
       display: flex;
       flex: 1;
       flex-direction: row;
+
       &:first-child {
         flex: none;
         margin: 3px 0 12px;
         max-width: 415px;
         width: 50%;
       }
+
       &:only-child {
         margin: 3px auto 12px;
         max-width: 600px;
         width: 100%;
       }
+
       & .topic-text {
         flex: 1;
         & .topic-subtitle {
@@ -66,6 +72,7 @@
           text-decoration: none;
         }
       }
+
       & .topic-visualization {
         flex: 1;
         margin-left: 50px;
@@ -73,8 +80,11 @@
         overflow: hidden;
         position: relative;
       }
+
     }
+
   }
+
   &.compare {
     & .topic-body {
       flex-wrap: wrap;
@@ -95,4 +105,14 @@
       }
     }
   }
+
+  &.Column {
+    flex: 1;
+    flex-direction: column;
+    &.compare {
+      min-width: 100%;
+      width: 100%;
+    }
+  }
+
 }
