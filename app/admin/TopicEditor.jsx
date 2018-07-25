@@ -49,7 +49,6 @@ class TopicEditor extends Component {
   }
 
   changeField(field, save, e) {
-    console.log(field, save, e);
     const {minData} = this.state;
     minData[field] = e.target.value;
     save ? this.setState({minData}, this.save.bind(this)) : this.setState({minData});
@@ -178,24 +177,23 @@ class TopicEditor extends Component {
           </div>)
         }
         <h4>
-          Descriptions
-          <Button onClick={this.addItem.bind(this, "topic_description")} iconName="add" />
+          Selectors
+          <Button onClick={this.addItem.bind(this, "selector")} iconName="add" />
         </h4>
-        { minData.descriptions && minData.descriptions.map(d =>
-          <div key={d.id}>
-            <TextCard
-              key={d.id}
-              id={d.id}
-              fields={["description"]}
-              type="topic_description"
+        { minData.selectors && minData.selectors.map(s =>
+          <div key={s.id}>
+            <SelectorCard
+              key={s.id}
+              minData={s}
+              type="selector"
+              onSave={() => this.forceUpdate()}
               onDelete={this.onDelete.bind(this)}
               variables={variables}
-              selectors={minData.selectors.map(s => Object.assign({}, s))}
             />
             <MoveButtons
-              item={d}
-              array={minData.descriptions}
-              type="topic_description"
+              item={s}
+              array={minData.selectors}
+              type="selector"
               onMove={this.onMove.bind(this)}
             />
           </div>)
@@ -226,6 +224,29 @@ class TopicEditor extends Component {
           }
         </div>
         <h4>
+          Descriptions
+          <Button onClick={this.addItem.bind(this, "topic_description")} iconName="add" />
+        </h4>
+        { minData.descriptions && minData.descriptions.map(d =>
+          <div key={d.id}>
+            <TextCard
+              key={d.id}
+              id={d.id}
+              fields={["description"]}
+              type="topic_description"
+              onDelete={this.onDelete.bind(this)}
+              variables={variables}
+              selectors={minData.selectors.map(s => Object.assign({}, s))}
+            />
+            <MoveButtons
+              item={d}
+              array={minData.descriptions}
+              type="topic_description"
+              onMove={this.onMove.bind(this)}
+            />
+          </div>)
+        }
+        <h4>
           Visualizations
           <Button onClick={this.addItem.bind(this, "topic_visualization")} iconName="add" />
         </h4>
@@ -251,28 +272,6 @@ class TopicEditor extends Component {
             )}
           </div>
         </div>
-        <h4>
-          Selectors
-          <Button onClick={this.addItem.bind(this, "selector")} iconName="add" />
-        </h4>
-        { minData.selectors && minData.selectors.map(s =>
-          <div key={s.id}>
-            <SelectorCard
-              key={s.id}
-              minData={s}
-              type="selector"
-              onSave={() => this.forceUpdate()}
-              onDelete={this.onDelete.bind(this)}
-              variables={variables}
-            />
-            <MoveButtons
-              item={s}
-              array={minData.selectors}
-              type="selector"
-              onMove={this.onMove.bind(this)}
-            />
-          </div>)
-        }
 
       </div>
     );
