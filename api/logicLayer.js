@@ -98,11 +98,20 @@ module.exports = function(app) {
     const year = findKey(req.query, "Year", "all");
 
     const {
-      limit,
       order = "Year",
       parents = "false",
       sort = "desc"
     } = req.query;
+
+    let {limit} = req.query,
+        perYear = false;
+    if (limit) {
+      if (limit.includes(":Year")) {
+        limit = limit.split(":")[0];
+        perYear = true;
+      }
+      limit = parseInt(limit, 10);
+    }
 
     const searchDims = await db.search.findAll({
       attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("dimension")), "dimension"]],
@@ -261,6 +270,29 @@ module.exports = function(app) {
             ).map(d => ({[dim]: d})));
 
           const crosses = cartesian(...dims);
+
+          const queryYears = Array.from(new Set(d3Array.merge(year
+            .split(",")
+            .map(y => {
+              if (y === "latest") return [years[name].latest];
+              if (y === "previous") return [years[name].previous];
+              if (y === "oldest") return [years[name].oldest];
+              if (y === "all") return years[name].years;
+              return y;
+            })
+          )));
+
+          if (perYear) {
+            crosses.forEach(cross => {
+              const starterCross = cross.slice();
+              queryYears.forEach((y, i) => {
+                const yearObj = {Year: y};
+                if (!i) cross.push(yearObj);
+                else crosses.push([...starterCross, yearObj]);
+              });
+            });
+          }
+
           queryCrosses = queryCrosses.concat(crosses);
 
           crosses.forEach(dimSet => {
@@ -274,14 +306,8 @@ module.exports = function(app) {
 
                 if ("Year" in cube.dimensions) {
                   query.drilldown("Year", "Year", "Year");
-                  if (debug) console.log("Cut: Year - Year - Year");
+                  if (debug) console.log("Drilldown: Year - Year - Year");
                   if (year !== "all") {
-                    const queryYears = year.split(",").map(y => {
-                      if (y === "latest") return years[name].latest;
-                      if (y === "previous") return years[name].previous;
-                      if (y === "oldest") return years[name].oldest;
-                      return y;
-                    });
                     const yearCut = `{${queryYears.map(y => `[Year].[Year].[Year].&[${y}]`).join(",")}}`;
                     if (debug) console.log(`Cut: ${yearCut}`);
                     query.cut(yearCut);
@@ -308,15 +334,22 @@ module.exports = function(app) {
                 dimSet.forEach(dim => {
                   const dimension = Object.keys(dim)[0];
                   const level = dim[dimension];
-                  const {hierarchy} = findDimension(flatDims, level);
-                  const dimCut = `{${dimCuts[dimension][level].map(g => `[${dimension}].[${hierarchy}].[${level}].&[${g.id}]`).join(",")}}`;
-                  if (debug) {
-                    console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
-                    console.log(`Cut: ${dimCut}`);
+                  if (dimension === "Year") {
+                    const yearCut = `{[Year].[Year].[Year].&[${level}]}`;
+                    if (debug) console.log(`Cut: ${yearCut}`);
+                    query.cut(yearCut);
                   }
-                  query
-                    .drilldown(dimension, hierarchy, level)
-                    .cut(dimCut);
+                  else {
+                    const {hierarchy} = findDimension(flatDims, level);
+                    const dimCut = `{${dimCuts[dimension][level].map(g => `[${dimension}].[${hierarchy}].[${level}].&[${g.id}]`).join(",")}}`;
+                    if (debug) {
+                      console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
+                      console.log(`Cut: ${dimCut}`);
+                    }
+                    query
+                      .drilldown(dimension, hierarchy, level)
+                      .cut(dimCut);
+                  }
                 });
 
                 cube.measures.forEach(measure => {
@@ -346,8 +379,14 @@ module.exports = function(app) {
 
         const flatArray = data.reduce((arr, d, i) => {
 
+          let data = d.error ? [] : d.data.data;
+          if (perYear) {
+            data = multiSort(data, order.split(","), sort);
+            data = data.slice(0, limit);
+          }
+
           const cross = crosses[i];
-          const newArray = (d.error ? [] : d.data.data).map(row => {
+          const newArray = data.map(row => {
             cross.forEach(c => {
               const type = Object.keys(c)[0];
               const level = c[type];
@@ -381,7 +420,7 @@ module.exports = function(app) {
 
         let sortedData = multiSort(mergedData, order.split(","), sort);
 
-        if (limit) sortedData = sortedData.slice(0, parseInt(limit, 10));
+        if (limit && !perYear) sortedData = sortedData.slice(0, limit);
 
         return sortedData;
 
