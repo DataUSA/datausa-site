@@ -33,7 +33,6 @@ class TextViz extends Component {
     const {descriptions, selectors, slug, stats, subtitles, title, visualizations} = contents;
 
     const statGroups = nest().key(d => d.title).entries(stats);
-    console.log(statGroups);
 
     return <div className={ `topic ${slug} TextViz ${loading ? "loading" : ""}` }>
       <div className="topic-content">
