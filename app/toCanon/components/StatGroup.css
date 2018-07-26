@@ -1,0 +1,43 @@
+.StatGroup {
+  flex: 1;
+  margin: 10px 0 15px;
+  & p {
+    margin: 0;
+  }
+  & .stat-title {
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    text-transform: uppercase;
+  }
+  & .stat-value {
+    color: var(--black);
+    font-family: "Lato", sans-serif;
+    font-size: 38px;
+    font-weight: 300;
+  }
+  & .stat-subtitle {
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  & ol {
+    color: var(--black);
+    font-size: 12px;
+    margin: 10px 0 0;
+    min-width: 100%;
+    padding-left: 15px;
+    & li {
+      margin-bottom: 8px;
+      padding: 0 5px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      & .stat-value {
+        font-size: 22px;
+      }
+    }
+  }
+}
