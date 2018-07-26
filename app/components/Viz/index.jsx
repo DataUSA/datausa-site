@@ -10,10 +10,11 @@ class Viz extends Component {
   render() {
     const {formatters, variables} = this.context;
 
-    const {config, className, options, slug} = this.props;
+    const {config, configOverride, className, options, slug} = this.props;
 
     // clone config object to allow manipulation
     const vizProps = propify(config.logic, formatters, variables);
+    vizProps.config = Object.assign(vizProps.config, configOverride);
 
     // strip out the "type" from config
     const {type} = vizProps.config;
@@ -46,6 +47,7 @@ Viz.contextTypes = {
 Viz.defaultProps = {
   className: "",
   config: {},
+  configOverride: {},
   options: true,
   title: undefined
 };
