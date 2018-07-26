@@ -1,88 +1,139 @@
 .topic {
   color: white;
-  padding: 50px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  padding: 50px 25px;
   width: 100%;
 
-  & .topic-title {
-    font-family: "Pathway Gothic One", sans-serif;
-    font-size: 30px;
-    font-weight: 400;
-    margin: 0 auto 15px;
-    z-index: 2;
-    & a {
-      color: #333;
-      margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
-      outline: 0;
-      padding-top: calc(var(--subnav-size) + 10px);
+  & .topic-content {
+    align-self: flex-start;
+    flex: 1;
+
+    &:first-child {
+      flex: none;
+      margin: 3px 0 12px;
+      max-width: 415px;
+      width: 50%;
+    }
+
+    &:only-child {
+      margin: 3px auto 12px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    & .topic-title {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      margin: 0 auto 15px;
+      z-index: 2;
+      & a {
+        color: #333;
+        margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
+        outline: 0;
+        padding-top: calc(var(--subnav-size) + 10px);
+        position: relative;
+      }
+    }
+
+    & .topic-subtitle {
+      color: var(--red);
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin: -10px auto 10px;
+      width: 100%;
+    }
+
+    & .pt-select {
       position: relative;
+      margin-bottom: 5px;
+      & select {
+        appearance: none;
+        background: white;
+        border-radius: 0;
+        color: #949494;
+        font-size: 13px;
+        height: 35px;
+        padding: 9px 23px 9px 9px;
+        transition: background 0.2s;
+        &:hover {
+          background: rgb(241, 241, 241);
+        }
+      }
+      &:after {
+        color: #949494;
+        content: "";
+        display: block;
+        font-family: "Icons16", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        font-style: normal;
+        line-height: 1;
+        opacity: 0.5;
+        position: absolute;
+        right: 10px;
+        top: 9px;
+        width: 11px;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+
+    & .topic-stats {
+      display: flex;
+      width: 100%;
+    }
+
+    & .topic-descriptions {
+      position: relative;
+    }
+
+    & .topic-description {
+      color: rgba(51, 51, 51, 0.93);
+      font-family: "Palanquin", sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.5;
+      opacity: 0.9;
+      transition: opacity 0.5s;
+      & a {
+        color: #32415A;
+        text-decoration: underline;
+      }
+      & p {
+        margin-bottom: 10px;
+      }
+    }
+
+    & a.footnote {
+      margin-left: 2px;
+      text-decoration: none;
+    }
+
+  }
+
+  & .topic-visualization {
+    flex: 1;
+    margin-left: 50px;
+    min-height: 400px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &.loading {
+    & .topic-description {
+      opacity: 0.25;
     }
   }
 
-  & .topic-body {
-    display: flex;
-    flex-wrap: nowrap;
-    padding: 25px 0;
-
-    & .topic-content {
-      display: flex;
-      flex: 1;
-      flex-direction: row;
-
-      &:first-child {
-        flex: none;
-        margin: 3px 0 12px;
-        max-width: 415px;
-        width: 50%;
-      }
-
-      &:only-child {
-        margin: 3px auto 12px;
-        max-width: 600px;
-        width: 100%;
-      }
-
-      & .topic-text {
-        flex: 1;
-        & .topic-subtitle {
-          color: var(--red);
-          font-family: "Palanquin", sans-serif;
-          font-size: 13px;
-          font-weight: 400;
-          letter-spacing: 0.05em;
-          margin: -10px auto 10px;
-          width: 100%;
-        }
-        & .topic-description {
-          color: rgba(51, 51, 51, 0.93);
-          font-family: "Palanquin", sans-serif;
-          font-size: 15px;
-          font-weight: 400;
-          line-height: 1.5;
-          opacity: 0.9;
-          & a {
-            color: #32415A;
-            text-decoration: underline;
-          }
-          & p {
-            padding-bottom: 30px;
-          }
-        }
-        & a.footnote {
-          margin-left: 2px;
-          text-decoration: none;
-        }
-      }
-
-      & .topic-visualization {
-        flex: 1;
-        margin-left: 50px;
-        min-height: 400px;
-        overflow: hidden;
-        position: relative;
-      }
-
-    }
-
+  & .pt-non-ideal-state {
+    left: 0;
+    position: absolute;
+    top: 0;
   }
 
   &.compare {
@@ -109,9 +160,14 @@
   &.Column {
     flex: 1;
     flex-direction: column;
-    &.compare {
-      min-width: 100%;
+    width: auto;
+    & .topic-content {
+      max-width: none;
       width: 100%;
+    }
+    & .topic-visualization {
+      margin: 0;
+      min-height: 200px;
     }
   }
 

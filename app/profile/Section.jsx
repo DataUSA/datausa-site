@@ -23,7 +23,9 @@ class Section extends Component {
           { data.map(d => d.visualizations ? d.visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="section-visualization" options={ false } />) : null) }
         </div>
       </div>
-      { children }
+      <div className="section-topics">
+        { children }
+      </div>
     </div>;
   }
 

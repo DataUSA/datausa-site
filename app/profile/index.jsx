@@ -7,6 +7,8 @@ import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
 import TextViz from "toCanon/topics/TextViz";
+import Column from "toCanon/topics/Column";
+const topicTypes = {Column, TextViz};
 
 import axios from "axios";
 import {select} from "d3-selection";
@@ -85,6 +87,21 @@ class Profile extends Component {
       d.image = `/api/profile/${pslug}/${d.pid}/splash`;
     });
 
+    const topics = [];
+    profile.sections.forEach(s => {
+      const arr = [];
+      const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.title === s.title));
+      s.topics.forEach(t => {
+        const Comp = topicTypes[t.type] || TextViz;
+        arr.push(<Comp contents={t} />);
+        sectionCompares.map(ss => ss.topics.find(tt => tt.title === t.title))
+          .forEach(tt => {
+            arr.push(<Comp contents={tt} />);
+          });
+      });
+      topics.push(arr);
+    });
+
     return (
       <CanonProfile>
         <Helmet title={ formatters.stripHTML(profiles.map(d => d.title).join(" & ")) } />
@@ -93,7 +110,7 @@ class Profile extends Component {
         { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);
           return <Section key={i} data={s} comparisons={compares}>
-            { s.topics.map((t, ii) => <TextViz data={t} key={ii} comparisons={compares.map(c => c.topics[ii])} />) }
+            { topics[i] }
           </Section>;
         }) }
         <SubNav type="scroll" anchor="top" visible={() => {

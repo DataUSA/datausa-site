@@ -1,41 +1,70 @@
 import React, {Component} from "react";
-import {sum} from "d3-array";
+import PropTypes from "prop-types";
+import axios from "axios";
+import {nest} from "d3-collection";
+import {NonIdealState, Spinner} from "@blueprintjs/core";
 import Viz from "components/Viz/index";
 import "./topic.css";
+import StatGroup from "../components/StatGroup";
 
-export default class TextViz extends Component {
+class TextViz extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      contents: props.contents,
+      loading: false
+    };
+  }
+
+  onSelector(name, value) {
+    const {pid, pslug} = this.context.router.params;
+    const {id} = this.state.contents;
+    this.setState({loading: true});
+    axios.get(`/api/topic/${pslug}/${pid}/${id}?${name}=${value}`)
+      .then(resp => {
+        this.setState({contents: resp.data, loading: false});
+      });
+  }
 
   render() {
-    const {comparisons, data: primary} = this.props;
-    const {slug, title} = primary;
-    const data = [primary].concat(comparisons);
+    const {variables} = this.context;
+    const {contents, loading} = this.state;
+    const {descriptions, selectors, slug, stats, subtitles, title, visualizations} = contents;
 
-    const visualizations = sum(data.map(d => d.visualizations ? d.visualizations.length : 0));
+    const statGroups = nest().key(d => d.title).entries(stats);
+    console.log(statGroups);
 
-    return <div className={ `topic ${slug} ${ comparisons.length ? "compare" : "" } TextViz` }>
-      { title &&
-        <h3 className="topic-title">
-          <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
-        </h3>
-      }
-      <div className="topic-body">
-        <div className="topic-content">
-          { data.map((d, i) => <div key={i} className="topic-text">
-            { d.subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
-            { d.descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
-          </div>) }
+    return <div className={ `topic ${slug} TextViz ${loading ? "loading" : ""}` }>
+      <div className="topic-content">
+        { title &&
+          <h3 className="topic-title">
+            <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
+          </h3>
+        }
+        { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
+        { selectors.map(selector => <div className="pt-select pt-fill" key={selector.name}>
+          <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
+            { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
+          </select>
+        </div>) }
+        <div className="topic-stats">
+          { statGroups.map(({key, values}) => <StatGroup key={key} title={key} stats={values} />) }
         </div>
-        { visualizations
-          ? <div className="topic-content">
-            { data.map(d => d.visualizations && d.visualizations.map((visualization, ii) => <Viz config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />)) }
-          </div>
-          : null }
+        <div className="topic-descriptions">
+          { descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
+          { loading && <NonIdealState visual={<Spinner />} /> }
+        </div>
       </div>
+      { visualizations.map((visualization, ii) => <Viz config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
     </div>;
   }
 
 }
 
-TextViz.defaultProps = {
-  comparisons: []
+TextViz.contextTypes = {
+  router: PropTypes.object,
+  variables: PropTypes.object
 };
+
+export default TextViz;
