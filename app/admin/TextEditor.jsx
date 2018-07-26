@@ -32,6 +32,7 @@ class TextEditor extends Component {
 
   handleEditor(field, t) {
     const {data} = this.state;
+    if (t === "<p><br></p>") t = "";
     data[field] = t;
     this.setState({data});
   }
