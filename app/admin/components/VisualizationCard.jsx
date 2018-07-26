@@ -84,7 +84,7 @@ class VisualizationCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        { logic ? <Viz config={{logic}} options={false} /> : <p>No configuration defined.</p> }
+        { logic ? <Viz config={{logic}} configOverride={{height, scrollContainer: "#item-editor"}} options={false} /> : <p>No configuration defined.</p> }
       </div>
     );
   }
