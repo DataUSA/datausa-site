@@ -125,7 +125,7 @@
   }
 
   &.loading {
-    & .topic-description {
+    & .topic-description, & .topic-stats {
       opacity: 0.25;
     }
   }
