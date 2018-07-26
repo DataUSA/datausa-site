@@ -13,6 +13,11 @@ import deepClone from "../../utils/deepClone.js";
 
 import "./ProfileBuilder.css";
 
+const topicIcons = {
+  TextViz: "list-detail-view",
+  Column: "list"
+};
+
 class ProfileBuilder extends Component {
 
   constructor(props) {
@@ -60,6 +65,7 @@ class ProfileBuilder extends Component {
         childNodes: s.topics.map(t => ({
           id: `topic${t.id}`,
           hasCaret: false,
+          iconName: topicIcons[t.type] || "help",
           label: stripHTML(t.title),
           itemType: "topic",
           masterSlug: p.slug,
@@ -260,6 +266,7 @@ class ProfileBuilder extends Component {
         const topics = resp.data.map(topicData => ({
           id: `topic${topicData.id}`,
           hasCaret: false,
+          iconName: topicIcons[topicData.type] || "help",
           label: stripHTML(topicData.title),
           itemType: "topic",
           masterSlug: parent.masterSlug,
@@ -282,6 +289,7 @@ class ProfileBuilder extends Component {
           childNodes: sectionData.topics.map(t => ({
             id: `topic${t.id}`,
             hasCaret: false,
+            iconName: topicIcons[t.type] || "help",
             label: stripHTML(t.title),
             itemType: "topic",
             masterSlug: parent.masterSlug,
