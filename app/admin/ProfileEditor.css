@@ -41,12 +41,31 @@
 }
 
 #status {
-  width: 160px;
-  position: fixed;
-  bottom: 20px;
-  left: 45px; 
-  background-color:white;
+  background-color: rgba(255, 255, 255, 0);
+  bottom: 0;
+  color: #888;
+  height: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  left: 0;
+  opacity: 0.5;
   padding: 5px;
+  position: fixed;
+  text-align: center;
+  transition: background-color 0.5s, opacity 0.5s;
+  width: 300px;
+  &.active {
+    background-color: rgba(255, 255, 255, 1);
+    opacity: 1;
+  }
+  & .pt-icon-standard {
+    margin-right: 5px;
+  }
+  & .pt-spinner {
+    margin-right: 5px;
+    vertical-align: bottom;
+    width: 18px;
+  }
 }
 
 .pt-card .pt-non-ideal-state {

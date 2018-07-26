@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
-import {Button, Card, NonIdealState} from "@blueprintjs/core";
+import {Button, Card, Icon, NonIdealState, Spinner} from "@blueprintjs/core";
 import PropTypes from "prop-types";
 import Loading from "components/Loading";
 
@@ -123,8 +123,10 @@ class ProfileEditor extends Component {
 
     return (
       <div id="profile-editor">
-        <div id="status">
-          {recompiling ? "Refreshing Variables 🔄" : "Variables Loaded ✅"}
+
+        <div id="status" className={recompiling ? "active" : ""}>
+          { recompiling ? <Spinner className="pt-small" /> : <Icon iconName="tick" /> }
+          { recompiling ? "Updating Variables" : "Variables Loaded" }
         </div>
 
         <div id="slug">
