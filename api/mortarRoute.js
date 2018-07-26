@@ -58,11 +58,14 @@ const formatters4eval = formatters => formatters.reduce((acc, f) => {
 
 }, {});
 
+const sorter = (a, b) => a.ordering - b.ordering;
+
 // Using nested ORDER BY in the massive includes is incredibly difficult so do it manually here. Eventually move it up to the query.
 const sortProfile = profile => {
-  const sorter = (a, b) => a.ordering - b.ordering;
   profile = profile.toJSON();
+  if (profile.stats) profile.stats.sort(sorter);
   if (profile.descriptions) profile.descriptions.sort(sorter);
+  if (profile.visualizations) profile.visualizations.sort(sorter);
   if (profile.sections) {
     profile.sections.sort(sorter);
     profile.sections.map(section => {
@@ -72,7 +75,10 @@ const sortProfile = profile => {
         section.topics.sort(sorter);
         section.topics.map(topic => {
           if (topic.subtitles) topic.subtitles.sort(sorter);
+          if (topic.selectors) topic.selectors.sort(sorter);
+          if (topic.stats) topic.stats.sort(sorter);
           if (topic.descriptions) topic.descriptions.sort(sorter);
+          if (topic.visualizations) topic.visualizations.sort(sorter);
         });
       }
     });
@@ -209,20 +215,25 @@ module.exports = function(app) {
   });
 
   // Endpoint for when a user selects a new dropdown for a topic, requiring new variables
-  app.get("/api/topic/:slug/:id/:topic_id", (req, res) => {
-    const {slug, id, topic_id} = req.params;
+  app.get("/api/topic/:slug/:id/:topicId", (req, res) => {
+    const {slug, id, topicId} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
     // As with profiles above, we need formatters, variables, and the topic itself in order to
     // create a "postProcessed" topic that can be returned to the requester.
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
     const getFormatters = db.formatters.findAll();
-    const getTopic = db.topics.findOne({where: {id: topic_id}, include: topicReq});
+    const getTopic = db.topics.findOne({where: {id: topicId}, include: topicReq});
 
     Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
       const variables = resp[0].data;
       const formatters = resp[1];
       const formatterFunctions = formatters4eval(formatters);
       const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
+      if (topic.subtitles) topic.subtitles.sort(sorter);
+      if (topic.selectors) topic.selectors.sort(sorter);
+      if (topic.stats) topic.stats.sort(sorter);
+      if (topic.descriptions) topic.descriptions.sort(sorter);
+      if (topic.visualizations) topic.visualizations.sort(sorter);
       res.json(topic).end();
     });
   });
