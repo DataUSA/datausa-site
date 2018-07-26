@@ -270,6 +270,7 @@ module.exports = function(app) {
             ).map(d => ({[dim]: d})));
 
           const crosses = cartesian(...dims);
+          if (!crosses.length) crosses.push([]);
 
           const queryYears = Array.from(new Set(d3Array.merge(year
             .split(",")
