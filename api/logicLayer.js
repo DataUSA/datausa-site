@@ -395,7 +395,10 @@ module.exports = function(app) {
 
     const flatArray = data.reduce((arr, d, i) => {
 
-      let data = d.error ? [] : d.data.data;
+      if (d.error) console.error("\nCube Error", d.error);
+      else if (!d.data.data && d.url) console.error("\nCube Error", d.url);
+
+      let data = d.error || !d.data.data ? [] : d.data.data;
       if (perValue) {
         data = multiSort(data, order.split(","), sort);
         data = data.slice(0, limit);
