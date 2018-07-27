@@ -1,6 +1,12 @@
 .StatGroup {
-  flex: 1;
   margin: 10px 0 15px;
+  &.single {
+    flex: 1;
+  }
+  &.multi {
+    min-width: 100%;
+    width: 100%;
+  }
   & p {
     margin: 0;
   }
@@ -27,7 +33,6 @@
     color: var(--black);
     font-size: 12px;
     margin: 10px 0 0;
-    min-width: 100%;
     padding-left: 15px;
     & li {
       margin-bottom: 8px;

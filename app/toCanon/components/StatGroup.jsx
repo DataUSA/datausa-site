@@ -6,7 +6,7 @@ export default class StatGroup extends Component {
   render() {
     const {stats, title} = this.props;
 
-    return <div className="StatGroup">
+    return <div className={ `StatGroup ${stats.length > 1 ? "multi" : "single"}` }>
       { title && stats.length > 1 && <div className="stat-title" dangerouslySetInnerHTML={{__html: title}}></div> }
       { stats.length > 1 && <ol>
         { stats.map((stat, i) => <li key={i}>
