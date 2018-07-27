@@ -32,7 +32,7 @@ const relations = canonConfig["canon-logic"]
   : {};
 
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
-const cartesian = (a = [], b, ...c) => b ? cartesian(f(a, b), ...c) : a.map(x => [x]);
+const cartesian = (a = [], b, ...c) => b ? cartesian(f(a, b), ...c)[0] : a.map(x => [x]);
 
 function intersect(a, b) {
   return [...new Set(a)].filter(x => new Set(b).has(x));
@@ -267,10 +267,10 @@ module.exports = function(app) {
 
       const dims = Object.keys(cube.dimensions)
         .filter(dim => dim in dimCuts)
-        .map(dim => intersect(
-          cube.dimensions[dim].map(d => d.level),
-          Object.keys(dimCuts[dim])
-        ).map(d => ({[dim]: d})));
+        .map(dim => {
+          const i = intersect(cube.dimensions[dim].map(d => d.level), Object.keys(dimCuts[dim]));
+          return i.map(d => ({[dim]: d}));
+        });
 
       const crosses = cartesian(...dims);
       if (!crosses.length) crosses.push([]);
