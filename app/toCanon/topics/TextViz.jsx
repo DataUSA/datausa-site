@@ -32,6 +32,9 @@ class TextViz extends Component {
     const {contents, loading} = this.state;
     const {descriptions, selectors, slug, stats, subtitles, title, visualizations} = contents;
 
+    const miniviz = visualizations.length > 1 ? visualizations[0] : false;
+    const mainviz = visualizations.length > 1 ? visualizations.slice(1) : visualizations;
+
     const statGroups = nest().key(d => d.title).entries(stats);
 
     return <div className={ `topic ${slug} TextViz ${loading ? "loading" : ""}` }>
@@ -54,8 +57,9 @@ class TextViz extends Component {
           { descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
           { loading && <NonIdealState visual={<Spinner />} /> }
         </div>
+        { miniviz && <Viz config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
       </div>
-      { visualizations.map((visualization, ii) => <Viz config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+      { mainviz.map((visualization, ii) => <Viz config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
     </div>;
   }
 
