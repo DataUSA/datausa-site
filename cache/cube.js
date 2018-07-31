@@ -33,7 +33,8 @@ module.exports = function() {
                     return {
                       dimension: parts[0],
                       hierarchy: parts[1],
-                      level: parts[2]
+                      level: parts[2],
+                      properties: l.properties
                     };
                   });
                   levels.shift();

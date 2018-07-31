@@ -76,7 +76,7 @@ module.exports = function(app) {
 
   app.get("/api/data/", asyncMiddleware(async (req, res) => {
 
-    let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "sort", "Year"];
+    let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "properties", "sort", "Year"];
     reserved = reserved.concat(d3Array.merge(reserved.map(r => {
       let alts = aliases[r] || [];
       if (typeof alts === "string") alts = [alts];
@@ -94,6 +94,10 @@ module.exports = function(app) {
       .map(arr => [arr[0], [arr[1]]]);
 
     const drilldowns = findKey(req.query, "drilldowns", "")
+      .split(",")
+      .filter(d => d !== "");
+
+    const properties = findKey(req.query, "properties", "")
       .split(",")
       .filter(d => d !== "");
 
@@ -186,7 +190,7 @@ module.exports = function(app) {
       const measure = measures[i];
 
       // filter out cubes that don't match cuts and dimensions
-      let cubes = cubeMeasures[measure]
+      let cubes = (cubeMeasures[measure] || [])
         .filter(cube => {
           const flatDims = cube.flatDims = d3Array.merge(Object.values(cube.dimensions));
           let allowed = true;
@@ -245,6 +249,7 @@ module.exports = function(app) {
 
       if (cubes.length === 0) {
         console.log("\nNo cubes matched.");
+        console.log(req.query);
       }
       else {
         const cube = cubes[0];
@@ -316,58 +321,29 @@ module.exports = function(app) {
 
             const query = c.query;
 
+            const queryDrilldowns = drilldowns.map(d => findDimension(flatDims, d));
+            const queryCuts = cuts.map(([level, value]) => [findDimension(flatDims, level), value]);
+
             if (debug) console.log(`\nLogic Layer Query: ${name}`);
             if ("Year" in cube.dimensions) {
-              query.drilldown("Year", "Year", "Year");
-              if (debug) console.log("Drilldown: Year - Year - Year");
-              if (year !== "all") {
-                const yearCut = `{${queryYears.map(y => `[Year].[Year].[Year].&[${y}]`).join(",")}}`;
-                if (debug) console.log(`Cut: ${yearCut}`);
-                query.cut(yearCut);
-              }
+              const drill = {dimension: "Year", hierarchy: "Year", level: "Year"};
+              queryDrilldowns.push(drill);
+              if (year !== "all") queryCuts.push([drill, queryYears]);
             }
-
-            drilldowns.forEach(level => {
-              const {dimension, hierarchy} = findDimension(flatDims, level);
-              if (debug) console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
-              query.drilldown(dimension, hierarchy, level);
-            });
-
-            cuts.forEach(([level, value]) => {
-              const {dimension, hierarchy} = findDimension(flatDims, level);
-              if (!drilldowns.includes(level)) {
-                if (debug) console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
-                query.drilldown(dimension, hierarchy, level);
-              }
-              const cut = value.map(v => `[${dimension}].[${hierarchy}].[${level}].&[${v}]`).join(",");
-              if (debug) console.log(`Cut: ${cut}`);
-              query.cut(`{${cut}}`);
-            });
 
             dimSet.forEach(dim => {
               const dimension = Object.keys(dim)[0];
               const level = dim[dimension];
               if (dimension in dimCuts) {
-                const {hierarchy} = findDimension(flatDims, level);
-                const dimCut = `{${dimCuts[dimension][level].map(g => `[${dimension}].[${hierarchy}].[${level}].&[${g.id}]`).join(",")}}`;
-                if (debug) {
-                  console.log(`Drilldown: ${dimension} - ${hierarchy} - ${level}`);
-                  console.log(`Cut: ${dimCut}`);
-                }
-                query
-                  .drilldown(dimension, hierarchy, level)
-                  .cut(dimCut);
+                const drill = findDimension(flatDims, level);
+                queryCuts.push([drill, dimCuts[dimension][level].map(d => d.id)]);
+                queryDrilldowns.push(drill);
               }
               else if (level.cut) {
                 const {level: l, cut: cutValue} = level;
-                const {hierarchy, level: realLevel} = findDimension(flatDims, l);
-                if (dimension !== "Year" && !drilldowns.includes(realLevel)) {
-                  if (debug) console.log(`Drilldown: ${dimension} - ${hierarchy} - ${realLevel}`);
-                  query.drilldown(dimension, hierarchy, realLevel);
-                }
-                const cut = `{[${dimension}].[${hierarchy}].[${realLevel}].&[${cutValue}]}`;
-                if (debug) console.log(`Cut: ${cut}`);
-                query.cut(cut);
+                const drill = findDimension(flatDims, l);
+                if (dimension !== "Year" && !drilldowns.includes(drill.level)) queryDrilldowns.push(drill);
+                queryCuts.push([drill, cutValue]);
               }
             });
 
@@ -376,13 +352,42 @@ module.exports = function(app) {
               query.measure(measure);
             });
 
+            queryCuts.forEach(arr => {
+              const [drill, value] = arr;
+              const {dimension, hierarchy, level} = drill;
+              if (!drilldowns.includes(level)) queryDrilldowns.push(drill);
+              const cut = (value instanceof Array ? value : [value]).map(v => `[${dimension}].[${hierarchy}].[${level}].&[${v}]`).join(",");
+              if (debug) console.log(`Cut: ${cut}`);
+              query.cut(`{${cut}}`);
+            });
+
+            const completedDrilldowns = [];
+            queryDrilldowns.forEach(d => {
+              const {dimension, hierarchy, level} = d;
+              const dimString = `${dimension}, ${hierarchy}, ${level}`;
+              if (!completedDrilldowns.includes(dimString)) {
+                completedDrilldowns.push(dimString);
+                if (debug) console.log(`Drilldown: ${dimString}`);
+                query.drilldown(dimension, hierarchy, level);
+                (properties.length && d.properties ? d.properties : []).forEach(prop => {
+                  if (properties.includes(prop)) {
+                    const propString = `${dimension}, ${hierarchy}, ${prop}`;
+                    if (debug) console.log(`Property: ${propString}`);
+                    query.property(dimension, hierarchy, prop);
+                  }
+                });
+              }
+            });
+
             query.option("parents", yn(parents));
 
             return client.query(query, "jsonrecords");
           })
-          .catch(error => {
-            console.error("\nCube Error", error.config ? error.config.url : error);
-            return {error};
+          .catch(d => {
+            if (d.error) console.error("\nCube Error", d.error);
+            else if (d.url) console.error("\nCube Error", d.url);
+            else console.error("\nCube Error", d);
+            return {error: d};
           });
 
         queryPromises.push(q);
