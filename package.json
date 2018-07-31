@@ -29,10 +29,11 @@
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
     "buble": "^0.19.3",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "d3plus-format": "^0.1.1",
     "datawheel-canon": "^0.15.17",
     "eslint": "^4.16.0",
+    "fast-sort": "^1.5.3",
     "flickr-sdk": "^3.7.0",
     "jsdoc-to-markdown": "^4.0.1",
     "katex": "^0.9.0",
@@ -41,10 +42,12 @@
     "mondrian-rest-client": "^1.0.1",
     "node-yaml": "^3.1.1",
     "promise-throttle": "^1.0.0",
+    "query-string": "^6.1.0",
     "react-ace": "^5.9.0",
     "react-katex": "^1.2.0",
     "react-quill": "^1.2.3",
-    "react-tiny-virtual-list": "^2.1.4",
-    "sharp": "^0.20.2"
+    "react-tiny-virtual-list": "^2.2.0",
+    "sharp": "^0.20.2",
+    "shorthash": "0.0.2"
   }
 }

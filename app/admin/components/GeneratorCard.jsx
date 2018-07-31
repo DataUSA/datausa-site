@@ -90,7 +90,7 @@ class GeneratorCard extends Component {
         </Dialog>
         <h5><Icon className={type} iconName="th" />{minData.name}</h5>
         <div className="table">
-          { displayData.error
+          { displayData && displayData.error
             ? <Callout intent={Intent.DANGER}>{ displayData.error }</Callout>
             : <table className="pt-table pt-condensed pt-bordered">
               <tbody>
