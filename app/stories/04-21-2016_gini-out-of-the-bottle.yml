@@ -9,7 +9,7 @@ authors:
       - "He has a BA in anthropology and an MBA in finance and research methods. As recounted in Dreams of My Father, Dan was Barack Obama’s editor in the president’s first job out of college."
 
 topics:
-  - description:
+  - descriptions:
       - "Imagine you’re talking to your colleague, who works at the same job at the same company. You both earn the same salary – say, $70,000 per year.  In your group of two, the median income is $70,000. The average is $70,000.  And the Gini coefficient – a measure of income inequality of a group – is zero, which means that you both are equal: You earn exactly the same amount."
       - "Now imagine Carl Icahn walks into the room. According to Business Insider, Carl earned $7.4 billion in 2013.<<foot note=1>> The median income – the middle value of what is now a group of three – is still $70,000. But the average is over $2.4 billion. And the Gini coefficient is very close to one, the highest value possible. A value of one indicates that a single person has all the money and the others have none."
       - "That’s the idea behind the Gini coefficient, devised in 1912 by Italian sociologist Corrado Gini. In theory, it ranges from zero (perfect equality) to one (complete inequality). In the real world, it ranges from around 0.25-30 in the world’s most equal countries (think Scandinavia) to 0.60-65 in the most unequal ones (South Africa, Namibia and several island nations).<<foot note=2>> Among US states, the range is narrower: from 0.42 (the most equal state, Hawaii) to 0.51 (the most unequal one, Connecticut)."
@@ -38,7 +38,7 @@ topics:
         scale: "discrete"
         value: "wage_bin"
       y: "share"
-  - description:
+  - descriptions:
       - "Like South Dakota, every state has a big group of wage-earners on the left, making less than $100,000 a year. What drives the differences are spikes at the rich and poor ends – those making over $200,000 or under $10,000. States where there are large numbers of rich and poor have high Gini coefficients, even if most wage-earners are still in the middle."
       - "For instance, Mississippi (right) has a high Gini coefficient because of large numbers of the very poor, as seen by the high values on the far left of the distribution – over 15% make less than $10,000 per year."
   - class: constrained
@@ -65,7 +65,7 @@ topics:
         scale: "discrete"
         value: "wage_bin"
       y: "share"
-  - description:
+  - descriptions:
       - "Meanwhile, California has a lower percentage of the very poor, but the big difference accounting for the higher Gini is the fact that a significant minority – about one person out of 40, or almost a million people in a state with a population of 39 million – makes more than $200,000 per year."
   - class: constrained
     title: Wage Distribution for California
@@ -91,7 +91,7 @@ topics:
         scale: "discrete"
         value: "wage_bin"
       y: "share"
-  - description:
+  - descriptions:
       - "The scatterplot below, created with figures from the DataUSA site, plots the Gini of states (the horizontal axis) against the median income (the vertical axis). The states fall into four quadrants:"
       - "<ul>
         <li>rich and unequal (above-average income and above-average Gini)</li>

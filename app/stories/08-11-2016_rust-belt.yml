@@ -8,7 +8,7 @@ authors:
       - "Pat is a Business Technology Analyst with Deloitte Consulting's Technology practice, specializing in large-scale custom application implementations for Public Sector clients. He is passionate about his work in the Child Welfare space, where he leads technical teams to assist clients in addressing the needs of their most vulnerable populations. Pat is also passionate about his home of Pittsburgh, PA, where he is personally renovating a century-old family home and actively participating in the city's revitalization."
 
 topics:
-  - description:
+  - descriptions:
       - "There is a new awakening on Warrington Avenue. This South Pittsburgh thoroughfare of the formerly beleaguered neighborhood of Allentown is newly thriving. Storefront shutters lift, restaurant kitchens sizzle, and neighbors bustle by on their way to work and school.<<foot note=1>>"
       - "Alongside these outward aspects of the neighborhood's return to stability, the resurgence of the greater Pittsburgh economy has also brought eager real estate investors. A look at Data USA's statistics on property values shows why."
       - "Home values in Pittsburgh lag national average home values—with a significantly higher relative percentage of homes in the $30,000-$125,000 price range."
@@ -32,7 +32,7 @@ topics:
         label: "property_val"
         value: "bucket"
       y: "share"
-  - description:
+  - descriptions:
       - "In fact, median home values in the Pittsburgh metro area were only $134,700 in 2014, a full $50k less than the national median value."
       - "Allentown's opportunities for Pittsburgh real estate investors are emblematic of the kind of deals available to those wishing to capitalize on the rebirth of America's great Rust Belt cities.<<foot note=2>> While the Rust Belt's economy has rebounded somewhat since the great recession,<<foot note=3>> its real estate values are still remarkably affordable."
       - "Prices in Buffalo, NY are even lower -- well more than half of the city's homes are sold for less than $100,000. Median property values in the Buffalo metro area in 2014 were $123,400, according to the American Community Survey. Investors that are able to take advantage of these low prices are betting that values will eventually rise to match the acceleration of local economies."
@@ -61,7 +61,7 @@ topics:
       y:
         scale: "discrete"
         value: "geo"
-  - description:
+  - descriptions:
       - "When compared to its intra-state neighbor of New York City, the difference is even more dramatic, as Buffalo residents take 50 percent less time to get to work than their Big Apple counterparts. Milwaukee's average commute time is similarly low at only 22.2 minutes."
       - "Many rust belt cities offer more cultural amenities than other cities around the country. Their history of gilded-age philanthropy has often endowed them with museums and art schools which make them cultural nuclei. St. Louis has a concentration of museums, art galleries, and historical sites greater than Santa Fe, New Mexico's – an internationally-known art colony. St. Louis City PUMA's comparative advantage for the 'Museums, art galleries, historical sites, and similar institutions' industry group is 6.18, compared with Santa Fe's 4.71.<<foot note=4>> Both Detroit (#25) and St. Louis (#27) rank in the top 30 of the Pantheon index for cultural production since 1900, topping more well-known cultural hubs such as Milan (#32) and Barcelona (#35).<<foot note=5>>"
       - "By 'buying low' from the Rust-belt's stock of former homes of steel workers and machinists, the next generation of skilled professionals in these cities may take comfort in the soundness of their housing investment. Residents of Allentown and other urban neighborhoods face a unique opportunity to invest in their places of residence with the likelihood of a favorable return.<<foot note=6>>"

@@ -37,7 +37,7 @@ class TextViz extends Component {
 
     const statGroups = nest().key(d => d.title).entries(stats);
 
-    return <div className={ `topic ${slug} TextViz ${loading ? "loading" : ""}` }>
+    return <div className={ `topic ${slug || ""} TextViz ${loading ? "loading" : ""}` }>
       <div className="topic-content">
         { title &&
           <h3 className="topic-title">

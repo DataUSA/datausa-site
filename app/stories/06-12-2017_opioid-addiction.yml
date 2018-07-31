@@ -8,10 +8,10 @@ authors:
       - "Weston is a Business Analyst in Deloitte Consulting’s Federal practice, where he supports strategic communications and business readiness efforts across a variety of agencies.  Weston grew up on his family farm in Henderson, KY.  There, he developed a love for solving problems (albeit of a different kind), the outdoors, and the community around him."
 
 topics:
-  - description:
+  - descriptions:
       - "J.D. Vance’s 2016 memoir Hillbilly Elegy describes life in rural America. Key to the author’s story is his mother’s addiction to painkillers throughout the 1990s, an addiction that contributed to Vance’s sporadic removal from her home and moving in with his grandmother and biological father."
       - "Kentucky’s Breathitt County, where the author spent many childhood summers, rests at the epicenter of the nation’s ongoing opioid addiction crisis, as shown by DataUSA’s map of drug overdose deaths:"
-  - viz:
+  - visualizations:
       attrs: "geo"
       color: "drug_overdose_deaths"
       coords: "counties"
@@ -24,8 +24,8 @@ topics:
       translate:
         - 331.37803817775205
         - 2120.08393509102
-      type: "geo_map"
-  - description:
+      type: "Geomap"
+  - descriptions:
       - "Darker shades of red represent higher rates of overdose deaths. There is a large, dark cluster of counties located in central and eastern Kentucky, and Breathitt County falls on the left edge of that cluster. Although Breathitt County’s rate of overdose deaths has fallen to 34.6 per 100,000 (a number higher than the majority of the nation) its surrounding counties still lag far behind.  Nine of the top 10 counties for drug overdose deaths are located nearby in Kentucky and West Virginia—the heart of Appalachia.<<foot note=1>>"
       - "As rhetoric during the recent presidential campaign highlighted, opioid overdoses have become a national epidemic. Overall, drug overdoses killed 52,000 Americans in 2015, one death every 10 minutes,<<foot note=2>> more than HIV/AIDS at its 1995 peak.<<foot note=3>> Opioids were involved in 33,091 of those 2015 deaths, a rate that has quadrupled since 1999.<<foot note=4>>"
       - "The human cost of the opioid epidemic extends far beyond the addicts themselves, to seriously damaging family structures.<<foot note=5>> Research shows that more than half of all child abuse and neglect cases involve drug addiction,<<foot note=6>> with a number of states reporting spikes in demand for child welfare due to drug addiction. Indiana saw a 71 percent increase in removals to foster care between 2013 and 2015 due to drug use, according to the state’s Department of Child Services.<<foot note=7>> In Georgia, substance abuse is involved in 40 percent of removals of children from their parental home, according to the Pew Charitable Trust.<<foot note=8>>"

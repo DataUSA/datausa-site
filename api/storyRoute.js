@@ -34,6 +34,18 @@ module.exports = function(app) {
       const contents = yaml.readSync(`../${storyDir}${id}.yml`);
       contents.id = id;
       contents.date = new Date(contents.id.substr(0, 10));
+      contents.topics.forEach(topic => {
+        if (!topic.subtitles) topic.subtitles = [];
+        if (!topic.selectors) topic.selectors = [];
+        if (!topic.stats) topic.stats = [];
+        if (!topic.descriptions) topic.descriptions = [];
+        topic.descriptions = topic.descriptions.map(description => ({description}));
+        if (!topic.visualizations) topic.visualizations = [];
+        if (!topic.type) topic.type = "TextViz";
+
+        if (!(topic.visualizations instanceof Array)) topic.visualizations = [topic.visualizations];
+        topic.visualizations = topic.visualizations.map(obj => ({logic: `return ${JSON.stringify(obj)}`}));
+      });
       res.json(contents).end();
     }
     else {

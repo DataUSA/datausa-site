@@ -8,16 +8,16 @@ authors:
       - "Steve Davis is a health research and policy writer in Deloitte’s Center for Health Solutions. He joined the Center in March 2017 after more than two decades working as a health care journalist in Washington, DC. Most recently, he was the managing editor of Health Plan Week, where he covered health insurance and health policy. Steve also has reported on hospital facilities, infection control and security issues."
 
 topics:
-  - description:
+  - descriptions:
       - "Over the past 241 years, the American workforce has undergone a number of epic shifts. We started out generally as a nation of farmers and, as equipment improved and cities grew, many began to leave behind the family farm in favor of better-paying factory jobs. By the early 1900s, 38 percent of American workers toiled on farms while another 31 percent worked in factories, mining, or construction.<<foot note=1>> Advances in technology over the next century commonly meant ever fewer jobs for farmers and factory workers, and by 2000, nearly 80 percent of the American workforce was in the service industry—up from 31 percent in 1900—with only 3 percent working in farming, according to the US Department of Labor."
       - "The workforce might now be in the throes of another major transition. As retail employment appears to soften and cognitive technologies threaten office jobs, opportunities may be expanding in the health care sector, driven by an aging population and increased access to health insurance.<<foot note=2>> Students appear to be aware of the trend: Nursing schools are seeing booming enrollment. In fact, nursing is now the third-most sought-after bachelor’s degree—just slightly behind general business and management—out of 1,416 degrees tracked. By 2024, forecasters expect about 3.2 million registered nurses in the workforce, up 16 percent from 2014. Some specializations within nursing are expected to see even more dramatic growth, according to Data USA."
   - title: "Job Growth for Registered Nurses"
     viz_url: "/profile/soc/291141/growth/job_growth/"
-  - description:
+  - descriptions:
       - "For other industries, the future may not be so bright. Most prominently, automation continues to eliminate manufacturing jobs. In 2014, about 12 million people worked in the manufacturing sector—2 million fewer than a decade earlier—and forecasters expect manufacturers to trim their rolls by another 800,000 by 2024."
   - title: "Job Growth for the Manufacturing Sector"
     viz_url: "/profile/naics/31-33/growth/job_growth/"
-  - description:
+  - descriptions:
       - "With upheavals facing many sectors of the US economy,<<foot note=3>> it’s impossible to accurately predict how the shifts will affect the workforce, how workers and the government might respond, or even how long the health care sector will continue to add jobs. But there’s little question that in the near term, as aging Baby Boomers need more care, we will likely need professionals to help keep people healthy and comfortable."
 
 footnotes:

@@ -49,7 +49,7 @@ class Story extends Component {
             <p>Published on { formatters.date(date) }</p>
           </div>
         </div>
-        { topics.map((t, i) => <TextViz data={t} key={i} />) }
+        { topics.map((t, i) => <TextViz contents={t} key={i} />) }
         <div className="meta-info">
           <ol className="footnotes">
             { footnotes.map((footnote, i) => <li className="footnote" id={`footnote${i}`} key={i} dangerouslySetInnerHTML={{__html: footnote}}></li>) }

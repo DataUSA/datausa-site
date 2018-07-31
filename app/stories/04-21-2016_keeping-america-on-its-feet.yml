@@ -13,7 +13,7 @@ authors:
       - "Pulkit is a Senior Research Analyst in the Public Sector Research group. He is primarily responsible for analyzing data to generate insights and perspectives, storyboarding and framework formulation. Pulkit holds a BA (Hons.) in Economics from University of Delhi and a Master’s in Economics from Jawaharlal Nehru University, Delhi."
 
 topics:
-  - description:
+  - descriptions:
       - "Consider this: the average person will walk over 115,000 miles in their lifetime. And with every mile, their feet—each made up of 26 bones, 33 joints, 107 ligaments, and over 20 muscles<<foot note=1>>—will hit the ground 1,800 times. It’s not surprising that three out of four Americans will experience foot problems in their lifetime.<<foot note=2>>"
       - "And yet, in a population of 300 million, there are only 7,025 podiatrists, making it the least common occupation in the United States. In a list of 478 detailed occupations on DataUSA, a podiatrist is at the very bottom, outnumbered even by motion-picture projectionists."
   - title: Most Common Jobs in the United States
@@ -42,11 +42,11 @@ topics:
           label: "Bottom 5 Least Common"
           scale: "discrete"
           value: "soc"
-  - description: "But what podiatrists may lack in numbers, they make up for in earnings. Given their short supply and high level of specialization, the average podiatrist makes three times as much as the average American ($156,073 vs $47,390). Over a quarter earn upwards of $200,000 annually, placing them behind only two other work groups—physicians/surgeons and dentists."
+  - descriptions: "But what podiatrists may lack in numbers, they make up for in earnings. Given their short supply and high level of specialization, the average podiatrist makes three times as much as the average American ($156,073 vs $47,390). Over a quarter earn upwards of $200,000 annually, placing them behind only two other work groups—physicians/surgeons and dentists."
   - title: Wage Distribution for Podiatrists
     class: constrained
     viz_url: "/profile/soc/291081/employment/wage_distribution"
-  - description:
+  - descriptions:
       - "With one podiatrist for every 45,000 Americans, they’re likely to find demand anywhere in the country. Still, podiatrists in Iowa are paid significantly more than in other states, with the average podiatrist earning up to $270,000 annually in the state."
       - "So what does the future hold for the occupation? The median age of podiatrists in the US is about 47 years—a whole 10 years more than the median age of the American population. This means that about half of current podiatrists will retire over the next 18 years (assuming retirement at the age of 65. The profession, however, is expected to grow rapidly in the years to come. Projections suggest that the number of podiatrists will reach 11,000 by the year 2024<<foot note=3>>. But will that be enough to keep America on its feet?"
   - title: Wage by Location for Podiatrists

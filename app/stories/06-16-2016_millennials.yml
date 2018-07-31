@@ -9,25 +9,25 @@ authors:
       - "Daniel Byler is a data scientist with Deloitte Services LP where he manages a portfolio of quantitative projects across Deloitte’s research agenda. Prior to his current role, he supported clients in large federal agencies on data-focused projects."
 
 topics:
-  - description:
+  - descriptions:
       - "Millennials—defined as <a target='_blank' href='http://dupress.com/articles/understanding-millennials-generational-differences/
     '>people born between 1980 and 1995</a>—are just over a third of the US workforce. Despite this, Millennials manage to be the majority in two occupational categories: Military Occupations and Food Service Workers. Within these two categories, there are substantial differences in how the two genders stack up against each other."
       - "With a median age of 29, military workers represent the youngest broad occupational group. This is most likely because of the military’s <a target='_blank' href='http://www.military.com/military-fitness/marine-corps-fitness-requirements/usmc-physical-fitness-test'>high physical standards</a>, formal standards of <a target='_blank' href='http://www.military.com/join-armed-forces/join-the-military-basic-eligibility.html'>hiring young people</a>, and early retirement (often after just <a target='_blank' href='http://www.militarytimes.com/story/military/benefits/retirement/2015/11/23/reiterment-changes-choices/76049640/'>20 years</a> of service). Unsurprisingly, the military is overwhelmingly made up of men."
   - title: Age by Gender for Military Occupations
     class: constrained
     viz_url: /profile/soc/550000/demographics/age_gender/
-  - description:
+  - descriptions:
       - "Food service workers make up the second youngest occupation. With an average salary of $16,202, these jobs are commonly taken by Millennials as they attempt to enter the economy. There is only a slightly larger percentage of women in this profession, making it a relatively gender neutral occupation category."
   - title: Age by Gender for Food Preparation & Serving Occupations
     class: constrained
     viz_url: /profile/soc/350000/demographics/age_gender/
-  - description:
+  - descriptions:
       - "On the other hand, there are specific occupations where Millennials are much rarer. Management occupations and transportation occupations are the two broad occupational groups with the lowest employment rate by Millennials."
       - "In management, this could be due to millennials lacking the experience required by some employers for these positions. In fact, a 25 year old male is over 60 percent more likely to be in food preparation than in a management occupation. Twenty five year old CEO’s may make headlines but the reality is that twenty five year olds are much more likely to be cooking food than cooking up major business decisions."
   - title: Age by Gender for Management Occupations
     class: constrained
     viz_url: /profile/soc/110000/demographics/age_gender/
-  - description:
+  - descriptions:
       - "Transportation workers are the occupation with the second oldest median age. Transportation workers are also majority male. This may reflect a <a target='_blank' href='http://www.bls.gov/news.release/union2.nr0.htm'>high level of unionization</a> (which would tend to protect older, more traditional workers) in fields such as truck driving and railroads. In the future, it could potentially reflect technology as well. With the <a target='_blank' href='http://www.technobuffalo.com/2016/03/07/driverless-trucks-to-hit-u-k-roads-later-this-year/'>potential spread of driverless trucks</a>, this may be an occupation that few Millennials will take on, even as the existing (older) transportation workers begin to retire."
   - title: Age by Gender for Transportation Occupations
     class: constrained
