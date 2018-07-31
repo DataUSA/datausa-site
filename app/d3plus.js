@@ -50,6 +50,7 @@ export default {
     "font-size": "16px",
     "font-weight": "300"
   },
+  ocean: "#D5DADC",
   padPixel: 1,
   shapeConfig: {
     fill: "#ef6145",
