@@ -11,14 +11,6 @@ const {CUBE_URL} = process.env;
 // const debug = process.env.NODE_ENV === "development";
 const debug = false;
 
-// replace this in canon with "express-async-await" package
-// https://odino.org/async-slash-await-in-expressjs/
-const asyncMiddleware = fn =>
-  (req, res, next) => {
-    Promise.resolve(fn(req, res, next))
-      .catch(next);
-  };
-
 const aliases = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].aliases || {}
   : {};
@@ -75,15 +67,14 @@ module.exports = function(app) {
 
   const {cache, db} = app.settings;
   const {client, measures: cubeMeasures, years} = cache.cube;
-  const caches = cache.cube;
 
   app.get("/api/cubes", (req, res) => {
-    const returnCaches = {...caches};
+    const returnCaches = {...cache.cube};
     delete returnCaches.client;
     res.json(returnCaches).end();
   });
 
-  app.get("/api/data/", asyncMiddleware(async (req, res) => {
+  app.get("/api/data/", async(req, res) => {
 
     let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "properties", "sort", "Year"];
     reserved = reserved.concat(d3Array.merge(reserved.map(r => {
@@ -130,8 +121,10 @@ module.exports = function(app) {
         let ids = req.query[key];
 
         for (const alias in aliases) {
-          const list = aliases[alias] instanceof Array ? aliases[alias] : [aliases[alias]];
-          if (list.includes(key)) key = alias;
+          if (Object.prototype.hasOwnProperty.call(aliases, alias)) {
+            const list = aliases[alias] instanceof Array ? aliases[alias] : [aliases[alias]];
+            if (list.includes(key)) key = alias;
+          }
         }
 
         ids = await Promise.all(d3Array.merge(ids
@@ -234,7 +227,7 @@ module.exports = function(app) {
           .map(d => {
             if (d.values.length > 1) {
               const matching = d.values.filter(cube => cube.name.match(filter.regex));
-              d.values = filter.filter(matching, {dimensions, measures}, caches);
+              d.values = filter.filter(matching, {dimensions, measures}, cache);
             }
             return d.values[0];
           });
@@ -386,6 +379,7 @@ module.exports = function(app) {
           .catch(d => {
             if (d.error) console.error("\nCube Error", d.error);
             else if (d.url) console.error("\nCube Error", d.url);
+            else if (d.config) console.error("\nCube Error", d.config.url);
             else console.error("\nCube Error", d);
             return {error: d};
           });
@@ -454,6 +448,6 @@ module.exports = function(app) {
 
     res.json({data: sortedData, source}).end();
 
-  }));
+  });
 
 };

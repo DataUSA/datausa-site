@@ -2,19 +2,11 @@ const axios = require("axios");
 
 const {CANON_API} = process.env;
 
-// replace this in canon with "express-async-await" package
-// https://odino.org/async-slash-await-in-expressjs/
-const asyncMiddleware = fn =>
-  (req, res, next) => {
-    Promise.resolve(fn(req, res, next))
-      .catch(next);
-  };
-
 module.exports = function(app) {
 
   const {db} = app.settings;
 
-  app.get("/api/home", asyncMiddleware(async (req, res) => {
+  app.get("/api/home", async(req, res) => {
 
     const carousels = [];
 
@@ -239,6 +231,6 @@ module.exports = function(app) {
 
     res.json(carousels).end();
 
-  }));
+  });
 
 };

@@ -52,30 +52,12 @@ module.exports = function() {
         });
       });
 
-      const geos = ["Nation", "State", "County", "Msa", "Place", "Puma", "Tract"];
-      const popQueries = geos
-        .map(level => client.cube("acs_yg_total_population_1")
-          .then(c => {
-            const query = c.query
-              .drilldown("Geography", level, level)
-              .measure("Total Population")
-              .cut("[Year].[Year].[Year].&[2016]");
-            return client.query(query, "jsonrecords");
-          })
-          .then(resp => resp.data.data.reduce((acc, d) => {
-            acc[d[`ID ${level}`]] = d["Total Population"];
-            return acc;
-          }, {}))
-          .catch(err => {
-            console.error(` 🌎  Pop Cache Error: ${level} (${err.status} - ${err.message})`);
-          }));
-
       const cubeQueries = cubes
         .filter(cube => cube.dimensions.find(d => d.name === "Year"))
         .map(cube => throttle.add(() => client.cube(cube.name)
           .then(c => {
             const query = c.query.drilldown("Year", "Year");
-            // TODO: remove this once Walther fixes the datausa-tracker#83
+            // TODO: replace this logic to use the members endpoint
             query.measure(cube.measures[0].name);
             return client.query(query, "jsonrecords");
           })
@@ -93,16 +75,13 @@ module.exports = function() {
             console.log(` 🗓️  Year Cache Error: ${cube.name} (${err.status} - ${err.message})`);
           })));
 
-      return Promise.all([Promise.all(popQueries), Promise.all(cubeQueries)])
-        .then(([rawPops, rawYears]) => {
-
-          const pops = rawPops
-            .reduce((obj, d) => (obj = Object.assign(obj, d), obj), {});
+      return Promise.all(cubeQueries)
+        .then(rawYears => {
 
           const years = rawYears.filter(d => d)
             .reduce((obj, d) => (obj[d.cube] = d, obj), {});
 
-          return {client, measures, pops, years};
+          return {client, measures, years};
 
         });
 
