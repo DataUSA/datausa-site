@@ -31,6 +31,7 @@ export default {
       labelRotation: false
     },
     color: ["#ecf3f7", "#cfdfeb", "#b0cde1", "#90bad8", "#6ea7d2", "#4c96cb", "#3182bd", "#004374"],
+    // color: ["#f8ecec", "#edd1d1", "#e4b4b4", "#dc9595", "#d57676", "#cf5555", "#CA3434", "#7b0000"],
     scale: "jenks"
   },
   legendConfig: {
@@ -59,6 +60,10 @@ export default {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
       padding: 5
+    },
+    Line: {
+      strokeWidth: 3,
+      strokeLinecap: "round"
     },
     Path: {
       fillOpacity: 0.75
