@@ -59,6 +59,15 @@ function findKey(query, key, fallback) {
       }
     }
   }
+  if (fallback instanceof Array && !(value instanceof Array)) {
+    value = value
+      .split(/\,([A-z])/g)
+      .reduce((arr, d) => {
+        if (arr.length && arr[arr.length - 1].length === 1) arr[arr.length - 1] += d;
+        else if (d.length) arr.push(d);
+        return arr;
+      }, []);
+  }
   return value;
 }
 
@@ -83,28 +92,19 @@ module.exports = function(app) {
       return alts;
     })));
 
-    let measures = findKey(req.query, "measures");
-    if (measures) measures = measures.split(",");
-    else res.json({error: "Query must contain at least one measure."});
+    const measures = findKey(req.query, "measures", []);
+    if (!measures.length) res.json({error: "Query must contain at least one measure."});
 
-    const cuts = findKey(req.query, "cuts", "")
-      .split(",")
-      .filter(d => d !== "")
+    const cuts = findKey(req.query, "cuts", [])
       .map(cut => cut.split(":"))
       .map(arr => [arr[0], [arr[1]]]);
 
-    const drilldowns = findKey(req.query, "drilldowns", "")
-      .split(",")
-      .filter(d => d !== "");
-
-    const properties = findKey(req.query, "properties", "")
-      .split(",")
-      .filter(d => d !== "");
-
+    const drilldowns = findKey(req.query, "drilldowns", []);
+    const properties = findKey(req.query, "properties", []);
+    const order = findKey(req.query, "order", ["Year"]);
     const year = findKey(req.query, "Year", "all");
 
     const {
-      order = "Year",
       parents = "false",
       sort = "desc"
     } = req.query;
@@ -405,7 +405,7 @@ module.exports = function(app) {
 
       let data = d.error || !d.data.data ? [] : d.data.data;
       if (perValue) {
-        data = multiSort(data, order.split(","), sort);
+        data = multiSort(data, order, sort);
         data = data.slice(0, limit);
       }
 
@@ -442,7 +442,7 @@ module.exports = function(app) {
       .entries(flatArray)
       .map(d => Object.assign(...d.values));
 
-    let sortedData = multiSort(mergedData, order.split(","), sort);
+    let sortedData = multiSort(mergedData, order, sort);
 
     if (limit && !perValue) sortedData = sortedData.slice(0, limit);
 
