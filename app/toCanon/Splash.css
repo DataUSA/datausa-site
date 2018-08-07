@@ -16,7 +16,7 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: -1;
+    z-index: 0;
     & .image {
       background-position: 50% 50%;
       background-size: cover;
@@ -31,13 +31,14 @@
       position: absolute;
       top: 0;
       width: 100%;
-      z-index: 0;
+      z-index: 1;
     }
   }
   & .content-container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    position: relative;
     width: 100%;
   }
   & .profile-title, & .profile-subtitle {
@@ -93,6 +94,7 @@
   }
   & .profile-sections {
     display: flex;
+    position: relative;
     text-align: center;
     & .SectionIcon {
       color: white;
