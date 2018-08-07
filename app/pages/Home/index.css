@@ -16,7 +16,7 @@
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: -11;
+    z-index: 0;
     &:after {
       background-image: linear-gradient(rgba(20, 27, 46, 0), rgba(20, 27, 46, 0), rgba(20, 27, 46, 0.75));
       content: "";
@@ -31,6 +31,7 @@
   & .logo {
     margin: 75px 50px 0;
     max-width: 400px;
+    position: relative;
   }
   & .tagline {
     color: white;
@@ -39,6 +40,7 @@
     font-weight: 700;
     line-height: 31px;
     margin: 10px 50px 0;
+    position: relative;
     text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
     & a {
@@ -163,6 +165,7 @@
   }
   & .sponsors {
     margin: 75px 0 50px;
+    position: relative;
     width: 100%;
     & img {
       height: 90px;
@@ -172,5 +175,6 @@
     display: flex;
     flex-wrap: wrap;
     padding: 0 15px;
+    position: relative;
   }
 }
