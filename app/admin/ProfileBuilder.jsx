@@ -45,6 +45,12 @@ class ProfileBuilder extends Component {
     return {formatters, variables: variablesHash[currentSlug]};
   }
 
+  decode(str) {
+    const elem = document.createElement("textarea");
+    elem.innerHTML = str;
+    return elem.value;
+  }
+
   buildNodes(openNode) {
     const {profiles} = this.state;
     const {stripHTML} = this.context.formatters;
@@ -58,7 +64,7 @@ class ProfileBuilder extends Component {
       childNodes: p.sections.map(s => ({
         id: `section${s.id}`,
         hasCaret: true,
-        label: stripHTML(s.title),
+        label: this.decode(stripHTML(s.title)),
         itemType: "section",
         masterSlug: p.slug,
         data: s,
@@ -66,7 +72,7 @@ class ProfileBuilder extends Component {
           id: `topic${t.id}`,
           hasCaret: false,
           iconName: topicIcons[t.type] || "help",
-          label: stripHTML(t.title),
+          label: this.decode(stripHTML(t.title)),
           itemType: "topic",
           masterSlug: p.slug,
           data: t
@@ -267,7 +273,7 @@ class ProfileBuilder extends Component {
           id: `topic${topicData.id}`,
           hasCaret: false,
           iconName: topicIcons[topicData.type] || "help",
-          label: stripHTML(topicData.title),
+          label: this.decode(stripHTML(topicData.title)),
           itemType: "topic",
           masterSlug: parent.masterSlug,
           data: topicData
@@ -282,7 +288,7 @@ class ProfileBuilder extends Component {
         const sections = resp.data.map(sectionData => ({
           id: `section${sectionData.id}`,
           hasCaret: true,
-          label: stripHTML(sectionData.title),
+          label: this.decode(stripHTML(sectionData.title)),
           itemType: "section",
           masterSlug: parent.masterSlug,
           data: sectionData,
@@ -290,7 +296,7 @@ class ProfileBuilder extends Component {
             id: `topic${t.id}`,
             hasCaret: false,
             iconName: topicIcons[t.type] || "help",
-            label: stripHTML(t.title),
+            label: this.decode(stripHTML(t.title)),
             itemType: "topic",
             masterSlug: parent.masterSlug,
             data: t
