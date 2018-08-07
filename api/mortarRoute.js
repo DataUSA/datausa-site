@@ -2,6 +2,7 @@ const FUNC = require("../utils/FUNC"),
       axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
       mortarEval = require("../utils/mortarEval"),
+      sequelize = require("sequelize"),
       urlSwap = require("../utils/urlSwap"),
       varSwapRecursive = require("../utils/varSwapRecursive");
 
@@ -222,20 +223,28 @@ module.exports = function(app) {
     // create a "postProcessed" topic that can be returned to the requester.
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
     const getFormatters = db.formatters.findAll();
-    const getTopic = db.topics.findOne({where: {id: topicId}, include: topicReq});
 
-    Promise.all([getVariables, getFormatters, getTopic]).then(resp => {
-      const variables = resp[0].data;
-      const formatters = resp[1];
-      const formatterFunctions = formatters4eval(formatters);
-      const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
-      if (topic.subtitles) topic.subtitles.sort(sorter);
-      if (topic.selectors) topic.selectors.sort(sorter);
-      if (topic.stats) topic.stats.sort(sorter);
-      if (topic.descriptions) topic.descriptions.sort(sorter);
-      if (topic.visualizations) topic.visualizations.sort(sorter);
-      res.json(topic).end();
-    });
+    const where = {};
+    if (isNaN(parseInt(topicId, 10))) where.slug = topicId;
+    else where.id = topicId;
+    const getTopic = db.topics.findOne({where, include: topicReq});
+
+    Promise.all([getVariables, getFormatters, getTopic])
+      .then(resp => {
+        const variables = resp[0].data;
+        const formatters = resp[1];
+        const formatterFunctions = formatters4eval(formatters);
+        const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
+        if (topic.subtitles) topic.subtitles.sort(sorter);
+        if (topic.selectors) topic.selectors.sort(sorter);
+        if (topic.stats) topic.stats.sort(sorter);
+        if (topic.descriptions) topic.descriptions.sort(sorter);
+        if (topic.visualizations) topic.visualizations.sort(sorter);
+        res.json({variables, ...topic}).end();
+      })
+      .catch(() => {
+        res.json({error: "Unable to find topic."}).end();
+      });
   });
 
 };
