@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import Preview from "./components/Preview";
 import CtxMenu from "./CtxMenu";
 
+import varSwap from "../../utils/varSwap";
+
 import stubs from "../../utils/stubs.js";
 import deepClone from "../../utils/deepClone.js";
 
@@ -349,6 +351,10 @@ class ProfileBuilder extends Component {
     this.setState({nodes: this.state.nodes});
   }
 
+  locateProfileNodeBySlug(slug) {
+    return this.state.nodes.find(p => p.data.slug === slug);
+  }
+
   /**
    * Given a node type (profile, section, topic) and an id, crawl down the tree and fetch a reference to the Tree node with that id
    */
@@ -382,16 +388,22 @@ class ProfileBuilder extends Component {
    */
   reportSave(type, id, newValue) {
     let {nodes} = this.state;
-    const node = this.locateNode.bind(this)(type, id);
+    const {variablesHash, currentSlug} = this.state;
     const {stripHTML} = this.context.formatters;
+    const {formatters} = this.context;
+    const variables = variablesHash[currentSlug] ? deepClone(variablesHash[currentSlug]) : null;
+    const node = this.locateNode.bind(this)(type, id);
     // Update the label based on the new value. If this is a section or a topic, this is the only thing needed
     if (node) {
-      node.label = stripHTML(newValue);
+      node.data.title = newValue;
+      // todo: determine if this could be merged with formatTreeVariables
+      node.label = varSwap(this.decode(stripHTML(newValue)), formatters, variables);
     }
     // However, if this is a profile changing its slug, then all children must be informed so their masterSlug is up to date.
     if (type === "profile") {
       nodes = nodes.map(p => {
         p.masterSlug = newValue;
+        p.data.slug = newValue;
         p.childNodes = p.childNodes.map(s => {
           s.masterSlug = newValue;
           s.childNodes = s.childNodes.map(t => {
@@ -413,9 +425,37 @@ class ProfileBuilder extends Component {
     this.setState({preview});
   }
 
+  /*
+   * When the function "fetchVariables" is called (below), it means that something has 
+   * happened in one of the editors that requires re-running the generators and storing
+   * a new set of variables in the hash. When this happens, it is an opportunity to update
+   * all the labels in the tree by varSwapping them, allowing them to appear properly
+   * in the sidebar. 
+   */
+  formatTreeVariables() {
+    const {variablesHash, currentSlug, nodes} = this.state;
+    const {stripHTML} = this.context.formatters;
+    const {formatters} = this.context;
+    const variables = variablesHash[currentSlug] ? deepClone(variablesHash[currentSlug]) : null;
+    const p = this.locateProfileNodeBySlug(currentSlug);
+    p.label = varSwap(p.data.slug, formatters, variables);
+    p.childNodes = p.childNodes.map(s => {
+      s.label = varSwap(this.decode(stripHTML(s.data.title)), formatters, variables);
+      s.childNodes = s.childNodes.map(t => {
+        t.label = varSwap(this.decode(stripHTML(t.data.title)), formatters, variables);
+        return t;
+      });
+      return s;
+    });
+    this.setState({nodes});
+  }
+
   fetchVariables(slug, id, force, callback) {
     const {variablesHash} = this.state;
-    const maybeCallback = callback ? () => callback() : () => {};
+    const maybeCallback = () => {
+      if (callback) callback();
+      this.formatTreeVariables.bind(this)();
+    };
     if (force || !variablesHash[slug]) {
       axios.get(`/api/variables/${slug}/${id}`).then(resp => {
         variablesHash[slug] = resp.data;
