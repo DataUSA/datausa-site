@@ -23,6 +23,10 @@ const relations = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].relations || {}
   : {};
 
+const substitutions = canonConfig["canon-logic"]
+  ? canonConfig["canon-logic"].substitutions || {}
+  : {};
+
 const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
 const cartesian = (a = [], b, ...c) => b ? cartesian(f(a, b), ...c)[0] : a.map(x => [x]);
 
@@ -170,14 +174,12 @@ module.exports = function(app) {
 
     const queries = {};
     const dimCuts = d3Array.merge(attributes).reduce((obj, d) => {
-      const dim = d.dimension;
-      if (!obj[dim]) obj[dim] = {};
-      if (!obj[dim][d.hierarchy]) obj[dim][d.hierarchy] = [];
-      obj[dim][d.hierarchy].push(d);
+      const {dimension, hierarchy} = d;
+      if (!obj[dimension]) obj[dimension] = {};
+      if (!obj[dimension][hierarchy]) obj[dimension][hierarchy] = [];
+      obj[dimension][hierarchy].push(d);
       return obj;
     }, {});
-
-    const dimDrills = d3Array.merge(Object.values(dimCuts).map(d => Object.keys(d)));
 
     for (let i = 0; i < measures.length; i++) {
       const measure = measures[i];
@@ -185,14 +187,45 @@ module.exports = function(app) {
       // filter out cubes that don't match cuts and dimensions
       let cubes = (cubeMeasures[measure] || [])
         .filter(cube => {
+
           const flatDims = cube.flatDims = d3Array.merge(Object.values(cube.dimensions));
+          cube.subs = {};
           let allowed = true;
 
-          for (let i = 0; i < dimDrills.length; i++) {
-            const drilldownDim = flatDims.find(d => d.level === dimDrills[i]);
-            if (!drilldownDim) {
-              allowed = false;
-              break;
+          for (const dim in dimCuts) {
+            if (Object.prototype.hasOwnProperty.call(dimCuts, dim)) {
+              for (const level in dimCuts[dim]) {
+                if (Object.prototype.hasOwnProperty.call(dimCuts[dim], level)) {
+                  const drilldownDim = flatDims.find(d => d.level === level);
+                  if (!drilldownDim) {
+                    if (substitutions[dim] && substitutions[dim].levels[level]) {
+                      const potentialSubs = substitutions[dim].levels[level];
+                      let sub;
+                      for (let i = 0; i < potentialSubs.length; i++) {
+                        const p = potentialSubs[i];
+                        const subDim = flatDims.find(d => d.level === p);
+                        if (subDim) {
+                          sub = p;
+                          break;
+                        }
+                      }
+                      if (sub) {
+                        cube.subs[level] = sub;
+                        break;
+                      }
+                      else {
+                        allowed = false;
+                        break;
+                      }
+                    }
+                    else {
+                      allowed = false;
+                      break;
+                    }
+                  }
+                }
+              }
+              if (!allowed) break;
             }
           }
 
@@ -263,10 +296,42 @@ module.exports = function(app) {
       const cube = queries[name];
       const flatDims = cube.flatDims;
 
+      const cubeDimCuts = {};
+      cube.substitutions = [];
+      for (const dim in dimCuts) {
+        if (Object.prototype.hasOwnProperty.call(dimCuts, dim)) {
+          cubeDimCuts[dim] = {};
+          for (const level in dimCuts[dim]) {
+            if (Object.prototype.hasOwnProperty.call(dimCuts[dim], level)) {
+              const masterDims = dimCuts[dim][level];
+              const subLevel = cube.subs[level];
+              if (subLevel) {
+                cubeDimCuts[dim][subLevel] = [];
+                for (let d = 0; d < masterDims.length; d++) {
+                  const oldId = masterDims[d].id;
+                  const subUrl = substitutions[dim].url(oldId, subLevel);
+                  const subId = await axios.get(subUrl)
+                    .then(resp => resp.data)
+                    .then(substitutions[dim].callback);
+                  const subAttr = await db.search.findOne({where: {id: subId, dimension: dim, hierarchy: subLevel}});
+                  cube.substitutions.push(subAttr);
+                  cubeDimCuts[dim][subLevel].push(subAttr);
+                }
+              }
+              else {
+                cubeDimCuts[dim][level] = masterDims;
+              }
+            }
+          }
+        }
+      }
+
       const dims = Object.keys(cube.dimensions)
-        .filter(dim => dim in dimCuts)
+        .filter(dim => dim in cubeDimCuts)
         .map(dim => {
-          const i = intersect(cube.dimensions[dim].map(d => d.level), Object.keys(dimCuts[dim]));
+          const cubeLevels = cube.dimensions[dim].map(d => d.level);
+          const cutLevels = Object.keys(cubeDimCuts[dim]);
+          const i = intersect(cubeLevels, cutLevels);
           return i.map(d => ({[dim]: d}));
         });
 
@@ -289,10 +354,10 @@ module.exports = function(app) {
           .find(d => d.level === perValue);
 
         // TODO for some reason doing this axios call wipes out cube.dimensions
-        const dims = cube.dimensions;
+        const cubeDims = cube.dimensions;
         const members = await axios.get(`${CUBE_URL}cubes/${name}/dimensions/${dimension}/hierarchies/${hierarchy}/levels/${level}/members`)
           .then(resp => resp.data.members.map(d => d.key));
-        cube.dimensions = dims;
+        cube.dimensions = cubeDims;
 
         crosses.forEach(cross => {
           const starterCross = cross.slice();
@@ -307,7 +372,8 @@ module.exports = function(app) {
 
       queryCrosses = queryCrosses.concat(crosses);
 
-      crosses.forEach(dimSet => {
+      for (let iii = 0; iii < crosses.length; iii++) {
+        const dimSet = crosses[iii];
 
         const q = client.cube(name)
           .then(c => {
@@ -327,9 +393,9 @@ module.exports = function(app) {
             dimSet.forEach(dim => {
               const dimension = Object.keys(dim)[0];
               const level = dim[dimension];
-              if (dimension in dimCuts) {
+              if (dimension in cubeDimCuts) {
                 const drill = findDimension(flatDims, level);
-                queryCuts.push([drill, dimCuts[dimension][level].map(d => d.id)]);
+                queryCuts.push([drill, cubeDimCuts[dimension][level].map(d => d.id)]);
                 queryDrilldowns.push(drill);
               }
               else if (level.cut) {
@@ -386,7 +452,7 @@ module.exports = function(app) {
 
         queryPromises.push(q);
 
-      });
+      }
 
     }
 
@@ -443,6 +509,7 @@ module.exports = function(app) {
     const source = Object.values(queries).map(d => {
       delete d.flatDims;
       delete d.dimensions;
+      delete d.subs;
       return d;
     });
 

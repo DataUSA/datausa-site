@@ -59,8 +59,23 @@ module.exports = {
           callback: arr => arr.map(d => d.geoid)
         },
         parents: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/parents/${id}`,
-          callback: arr => arr.map(d => d.geoid)
+          url: id => {
+            const prefix = id.slice(0, 3);
+            const targetLevels = prefix === "040" ? "nation" /* state */
+              : prefix === "050" ? "nation,state" /* county */
+                : prefix === "310" ? "nation,state" /* msa */
+                  : prefix === "160" ? "nation,state" /* place */
+                    : prefix === "795" ? "nation,state" /* puma */
+                      : false;
+            return targetLevels
+              ? `${CUBE_URL}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
+              : `${CUBE_URL}/geoservice-api/relations/intersects/${id}`;
+          },
+          callback: arr => {
+            const ids = arr.map(d => d.geoid);
+            if (!ids.includes("01000US")) ids.push("01000US");
+            return ids;
+          }
         },
         places: {
           url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=place`,
@@ -84,6 +99,22 @@ module.exports = {
           url: id => `${CANON_API}/api/university/similar/${id}`,
           callback: arr => arr.map(d => d.id)
         }
+      }
+    },
+    substitutions: {
+      Geography: {
+        levels: {
+          State: ["Nation"],
+          County: ["State", "Nation"],
+          Msa: ["State", "Nation"],
+          Place: ["State", "Nation"],
+          Puma: ["State", "Nation"]
+        },
+        url: (id, level) => {
+          const targetLevel = level.replace(/^[A-Z]{1}/g, chr => chr.toLowerCase());
+          return `${CUBE_URL}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
+        },
+        callback: arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid
       }
     }
   }
