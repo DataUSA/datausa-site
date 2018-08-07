@@ -94,12 +94,12 @@
     }
 
     & .topic-description {
-      color: rgba(51, 51, 51, 0.93);
+      color: var(--darkgray);
       font-family: "Palanquin", sans-serif;
       font-size: 15px;
       font-weight: 400;
       line-height: 1.5;
-      opacity: 0.9;
+      opacity: 1;
       transition: opacity 0.5s;
       & a {
         color: #32415A;
