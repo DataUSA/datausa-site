@@ -6,9 +6,7 @@ import {Helmet} from "react-helmet";
 import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
-import TextViz from "toCanon/topics/TextViz";
-import Column from "toCanon/topics/Column";
-const topicTypes = {Column, TextViz};
+import Topic from "./Topic";
 
 import axios from "axios";
 import {select} from "d3-selection";
@@ -92,11 +90,10 @@ class Profile extends Component {
       const arr = [];
       const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.title === s.title));
       s.topics.forEach(t => {
-        const Comp = topicTypes[t.type] || TextViz;
-        arr.push(<Comp contents={t} />);
+        arr.push(<Topic contents={t} />);
         sectionCompares.map(ss => ss.topics.find(tt => tt.title === t.title))
           .forEach(tt => {
-            arr.push(<Comp contents={tt} />);
+            arr.push(<Topic contents={tt} />);
           });
       });
       topics.push(arr);
