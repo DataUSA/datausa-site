@@ -333,7 +333,7 @@ module.exports = function(app) {
     db.topics.findOne({where: {id: req.query.id}}).then(row => {
       db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics.destroy({where: {id: req.query.id}}).then(() => {
-          db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id"], order: [["ordering", "ASC"]]}).then(rows => {
+          db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id", "type"], order: [["ordering", "ASC"]]}).then(rows => {
             res.json(rows).end();
           });
         });
