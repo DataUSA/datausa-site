@@ -17,7 +17,6 @@ class Topic extends Component {
     newSources.forEach(source => {
       if (!sources.find(s => s.name === source.name)) sources.push(source);
     });
-    console.log(sources);
     this.setState({sources});
   }
 

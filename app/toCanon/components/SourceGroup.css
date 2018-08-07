@@ -1,0 +1,12 @@
+.SourceGroup {
+  color: var(--gray);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  & a {
+    color: var(--gray);
+  }
+  & .title {
+    margin-left: 3px;
+  }
+}

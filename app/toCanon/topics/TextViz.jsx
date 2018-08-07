@@ -5,6 +5,7 @@ import {nest} from "d3-collection";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import Viz from "components/Viz/index";
 import "./topic.css";
+import SourceGroup from "../components/SourceGroup";
 import StatGroup from "../components/StatGroup";
 
 class TextViz extends Component {
@@ -29,6 +30,7 @@ class TextViz extends Component {
 
   render() {
     const {variables} = this.context;
+    const {sources} = this.props;
     const {contents, loading} = this.state;
     const {descriptions, selectors, slug, stats, subtitles, title, visualizations} = contents;
 
@@ -58,6 +60,7 @@ class TextViz extends Component {
           { loading && <NonIdealState visual={<Spinner />} /> }
         </div>
         { miniviz && <Viz config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
+        <SourceGroup sources={sources} />
       </div>
       { mainviz.map((visualization, ii) => <Viz config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
     </div>;
