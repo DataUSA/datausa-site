@@ -7,6 +7,11 @@ import propify from "helpers/d3plusPropify";
 
 class Viz extends Component {
 
+  analyzeData(resp) {
+    const {updateSource} = this.context;
+    if (updateSource && resp.source) updateSource(resp.source);
+  }
+
   render() {
     const {formatters, variables} = this.context;
 
@@ -33,7 +38,8 @@ class Viz extends Component {
       <Visualization
         ref={ comp => this.viz = comp }
         className="d3plus"
-        {...vizProps} />
+        dataFormat={resp => (this.analyzeData.bind(this)(resp), vizProps.dataFormat(resp))}
+        config={vizProps.config} />
     </div>;
   }
 
@@ -41,6 +47,7 @@ class Viz extends Component {
 
 Viz.contextTypes = {
   formatters: PropTypes.object,
+  updateSource: PropTypes.func,
   variables: PropTypes.object
 };
 
