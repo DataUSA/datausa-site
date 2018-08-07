@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  background-color: var(--dark);
+  background-color: transparent;
   font-family: "Palanquin", sans-serif;
   /* Adjust font size */
   font-size: 100%;
@@ -18,6 +18,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
+  & #Canon {
+    background-color: var(--dark);
+    &.bare {
+      background-color: transparent;
+    }
+  }
 }
 
 .pt-spinner {

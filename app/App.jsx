@@ -41,12 +41,13 @@ class App extends Component {
     const fullscreen = pathname.indexOf("cart") === 0 ||
                        pathname.indexOf("map") === 0 ||
                        pathname.indexOf("visualize") === 0 ||
-                       pathname.includes("profilebuilder");
+                       pathname.includes("profilebuilder") ||
+                       pathname.indexOf("visualize") === 0;
 
-    const bare = pathname.indexOf("visualize") === 0;
+    const bare = pathname.includes("profile") && pathname.split("/").length === 5;
 
     return (
-      <Canon>
+      <Canon className={bare ? "bare" : ""}>
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
