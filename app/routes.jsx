@@ -6,6 +6,7 @@ import Home from "./pages/Home/index";
 
 import SearchPage from "./pages/SearchPage";
 import Profile from "./profile/index";
+import Embed from "./profile/Embed";
 
 import Stories from "./pages/Story/Stories";
 import Story from "./pages/Story/Story";
@@ -39,6 +40,7 @@ export default function RouteCreate() {
 
       <Route path="/search" component={SearchPage} />
       <Route path="/profile/:pslug/:pid" component={Profile} />
+      <Route path="/profile/:pslug/:pid/:sslug/:tslug" component={Embed} />
 
       <Route path="/story" component={Stories} />
       <Route path="/story/:sid" component={Story} />
