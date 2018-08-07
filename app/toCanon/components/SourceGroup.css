@@ -6,7 +6,4 @@
   & a {
     color: var(--gray);
   }
-  & .title {
-    margin-left: 3px;
-  }
 }

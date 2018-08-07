@@ -19,7 +19,8 @@ class TextViz extends Component {
   }
 
   onSelector(name, value) {
-    const {pid, pslug} = this.context.router.params;
+    const {router} = this.context;
+    const {pid, pslug} = router.params;
     const {id} = this.state.contents;
     this.setState({loading: true});
     axios.get(`/api/topic/${pslug}/${pid}/${id}?${name}=${value}`)

@@ -13,11 +13,16 @@ class Topic extends Component {
   }
 
   updateSource(newSources) {
-    const {sources} = this.state;
-    newSources.forEach(source => {
-      if (!sources.find(s => s.name === source.name)) sources.push(source);
-    });
-    this.setState({sources});
+    if (!newSources) this.setState({sources: []});
+    else {
+      const {sources} = this.state;
+      newSources
+        .map(s => s.annotations)
+        .forEach(source => {
+          if (!sources.find(s => s.source_name === source.source_name)) sources.push(source);
+        });
+      this.setState({sources});
+    }
   }
 
   getChildContext() {

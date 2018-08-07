@@ -27,7 +27,7 @@
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 30px;
       font-weight: 400;
-      margin: 0 auto 15px;
+      margin: 0 auto 10px;
       z-index: 2;
       & a {
         color: #333;
@@ -44,7 +44,7 @@
       font-size: 13px;
       font-weight: 400;
       letter-spacing: 0.05em;
-      margin: -10px auto 10px;
+      margin: 0px auto 10px;
       width: 100%;
     }
 
