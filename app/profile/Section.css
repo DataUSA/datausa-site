@@ -1,6 +1,6 @@
 .Section {
   background-color: #E9E9E9;
-  padding: 60px 50px 25px;
+  padding: 60px 25px 25px;
   width: 100%;
   &:nth-child(even) {
     background-color: #F6F6F6;
@@ -11,6 +11,7 @@
     font-weight: 300;
     letter-spacing: 0.02em;
     margin: 0 auto 15px;
+    padding: 0 25px;
     text-transform: uppercase;
     z-index: 2;
     & a {
@@ -24,6 +25,7 @@
   & .section-body {
     display: flex;
     flex-wrap: nowrap;
+    padding: 0 25px;
     & .section-content {
       display: flex;
       flex-direction: row;
