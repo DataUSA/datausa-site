@@ -79,5 +79,14 @@ module.exports = {
       description: "New Profile Description",
       label: "New Profile Label"
     }
+  },
+  objStory: {
+    hasCaret: true,
+    label: "new-story",
+    itemType: "story",
+    data: {
+      title: "New Story",
+      image: "New Image"
+    }
   }
 };
