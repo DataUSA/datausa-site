@@ -47,6 +47,10 @@ class ProfileBuilder extends Component {
     return {formatters, variables: variablesHash[currentSlug]};
   }
 
+  /**
+   * Decode HTML elements such as &amp;. Taken from:
+   * https://stackoverflow.com/questions/3700326/decode-amp-back-to-in-javascript
+   */
   decode(str) {
     const elem = document.createElement("textarea");
     elem.innerHTML = str;
@@ -351,6 +355,9 @@ class ProfileBuilder extends Component {
     this.setState({nodes: this.state.nodes});
   }
 
+  /**
+   * 
+   */
   locateProfileNodeBySlug(slug) {
     return this.state.nodes.find(p => p.data.slug === slug);
   }
