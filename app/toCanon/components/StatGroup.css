@@ -45,4 +45,8 @@
       }
     }
   }
+  & .plus-minus {
+    color: var(--red);
+    vertical-align: baseline;
+  }
 }
