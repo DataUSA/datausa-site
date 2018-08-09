@@ -6,7 +6,7 @@ export default class SourceGroup extends Component {
 
   render() {
     const {sources} = this.props;
-    if (!sources.length) return null;
+    if (!sources || !sources.length) return null;
 
     return <div className="SourceGroup">
       Data provided by
