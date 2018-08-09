@@ -456,7 +456,7 @@ module.exports = function(app) {
 
     }
 
-    const [crosses, data] = await Promise.all([queryCrosses, Promise.all(queryPromises)]);
+    const data = await Promise.all(queryPromises);
 
     const flatArray = data.reduce((arr, d, i) => {
 
@@ -464,12 +464,13 @@ module.exports = function(app) {
       else if (!d.data.data && d.url) console.error("\nCube Error", d.url);
 
       let data = d.error || !d.data.data ? [] : d.data.data;
+
       if (perValue) {
         data = multiSort(data, order, sort);
         data = data.slice(0, limit);
       }
 
-      const cross = crosses[i];
+      const cross = queryCrosses[i];
       const newArray = data.map(row => {
         cross.forEach(c => {
           const type = Object.keys(c)[0];
@@ -491,7 +492,7 @@ module.exports = function(app) {
     }, []);
 
     const keys = d3Array.merge([
-      crosses.length ? crosses[0].map(d => Object.keys(d)[0]) : [],
+      queryCrosses.length ? queryCrosses[0].map(d => Object.keys(d)[0]) : [],
       drilldowns,
       cuts.map(d => d[0]),
       ["Year"]
