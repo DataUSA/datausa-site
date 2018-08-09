@@ -102,6 +102,7 @@ body {
     color: #949494;
     font-size: 13px;
     height: 35px;
+    line-height: 13px;
     padding: 9px 23px 9px 9px;
     transition: background 0.2s;
     &:hover {
