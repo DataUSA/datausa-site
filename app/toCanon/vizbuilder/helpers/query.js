@@ -1,6 +1,13 @@
 import {SYMBOLS as OPERATOR_SYMBOLS} from "./operators";
 import {isValidCut, isValidFilter} from "./validation";
 
+/**
+ * Converts the params in the current `query` state to a
+ * mondrian-rest-client Query object.
+ * @param {Query} query A new Query object, obtained from the corresponding Cube.
+ * @param {object} params A query params object, ready to be implemented.
+ * @returns {Query}
+ */
 export function queryBuilder(query, params) {
   let i, item;
 
@@ -49,6 +56,12 @@ export function queryBuilder(query, params) {
   return query; // setLangCaptions(query, params.locale);
 }
 
+/**
+ * Creates a query params object, ready to be converted into a
+ * mondrian-rest-client Query object.
+ * @param {object} params The current `query` object from the Vizbuilder state.
+ * @returns {object}
+ */
 export function queryConverter(params) {
   const query = {
     measures: [params.measure.name],
@@ -97,27 +110,3 @@ export function queryConverter(params) {
 
   return query;
 }
-
-// function setCaptionForLevelAndLang(query, level, lang) {
-//   const ann = level.annotations[`${lang}_caption`];
-//   if (ann) {
-//     query.caption(level.hierarchy.dimension.name, level.name, ann);
-//   }
-//   return query;
-// }
-
-// function setLangCaptions(query, lang) {
-//   const drilldowns = query.getDrilldowns() || [];
-//   drilldowns.forEach(level => {
-//     query = setCaptionForLevelAndLang(query, level, lang);
-
-//     // when parents requested, also get their i18n'd captions
-//     if (query.options.parents) {
-//       rangeRight(1, level.depth).forEach(d => {
-//         const ancestor = level.hierarchy.levels.find(l => l.depth === d);
-//         query = setCaptionForLevelAndLang(query, ancestor, lang);
-//       });
-//     }
-//   });
-//   return query;
-// }

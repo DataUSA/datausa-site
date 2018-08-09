@@ -1,8 +1,6 @@
 import React from "react";
 import {NonIdealState, ProgressBar} from "@blueprintjs/core";
 
-import "./AreaLoading.css";
-
 class AreaLoading extends React.PureComponent {
   render() {
     const {done, total} = this.props;

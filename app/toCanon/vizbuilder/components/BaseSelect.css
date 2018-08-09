@@ -8,51 +8,6 @@
     display: block;
   }
 
-  & .select-option,
-  & .select-option > span,
-  & .select-option-label {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  & .select-option {
-    display: block;
-    padding: 4px 0;
-    cursor: pointer;
-
-    &.current {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding-right: 3px;
-
-      & .value {
-        flex: 1 1;
-        width: 0;
-        padding: 0 10px;
-        line-height: 22px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      & .pt-icon-standard {
-        flex: 0 0;
-        min-width: 1em;
-      }
-    }
-
-    & .select-option-label {
-      display: block;
-      padding: 0 5px;
-      line-height: 1.4em;
-    }
-
-    & .icon {
-      display: inline-block;
-      vertical-align: top;
-    }
-  }
-
   &.multi {
     position: relative;
 
@@ -69,28 +24,73 @@
   }
 }
 
-.select-box-popover {
-  & .select-option {
-    padding: 5px 0;
+.select-optgroup,
+.select-option > span,
+.select-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    &:hover {
-      background: #eee;
+.select-option {
+  display: block;
+  padding: 4px 0;
+  cursor: pointer;
+
+  &.current {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 3px;
+
+    & .value {
+      flex: 1 1;
+      width: 0;
+      padding: 0 10px;
+      line-height: 22px;
     }
 
-    &.active {
-      background: #ccc;
-    }
-
-    &.disabled {
-      pointer-events: none;
+    & .pt-icon-standard {
+      flex: 0 0;
+      min-width: 1em;
     }
   }
 
-  & .select-noresults {
+  & .select-label {
     display: block;
-    padding: 0 0.5em;
-    line-height: 2rem;
-    text-align: center;
-    font-style: italic;
+    padding: 0 5px;
+    line-height: 1.4em;
+
+    &.lead {
+      font-size: 0.75em;
+      line-height: 14px;
+      color: #666;
+      text-transform: uppercase;
+    }
   }
+
+  & .icon {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  &:hover {
+    background: #eee;
+  }
+
+  &.active {
+    background: #ccc;
+  }
+
+  &.disabled {
+    pointer-events: none;
+  }
+}
+
+.select-noresults {
+  display: block;
+  padding: 0 0.5em;
+  line-height: 2rem;
+  text-align: center;
+  font-style: italic;
 }

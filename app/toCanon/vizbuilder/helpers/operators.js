@@ -1,3 +1,7 @@
+/**
+ * These enums are to be used as comparison state for the Conditional elements.
+ */
+
 const OPERATORS = {
   UNDEFINED: 0,
   EQUAL: 1,

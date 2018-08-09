@@ -1,63 +1,96 @@
 import * as api from "../helpers/api";
 import {
-  reduceLevelsFromDimension,
   getMeasureMOE,
   getTimeDrilldown,
+  getValidDimensions,
+  getValidDrilldowns,
   getValidMeasures,
   injectCubeInfoOnMeasure,
-  getValidDimensions
+  reduceLevelsFromDimension,
+  preventHierarchyIncompatibility
 } from "../helpers/sorting";
 
 /**
- * These functions should be handled/called with `this`
- * as the component where they are used.
+ * Returns the first element in the `haystack` whose `_key` annotation
+ * matches the `needle` param. If none found, returns the first element
+ * from the `haystack`.
+ * @param {string} needle The key to match
+ * @param {any[]} haystack The array where to search for the object.
  */
-
-export function fetchCubes() {
-  return api
-    .cubes()
-    .then(cubes => {
-      injectCubeInfoOnMeasure(cubes);
-
-      const measures = getValidMeasures(cubes);
-      const firstMeasure = measures.find(d => d.name === "Millions Of Dollars");
-      const firstCubeName = firstMeasure.annotations._cb_name;
-      const firstCube = cubes.find(cube => cube.name === firstCubeName);
-      const firstMoe = getMeasureMOE(firstCube, firstMeasure);
-      const timeDrilldown = getTimeDrilldown(firstCube);
-
-      const dimensions = getValidDimensions(firstCube);
-      const firstDimension = dimensions[0];
-
-      const levels = reduceLevelsFromDimension([], firstDimension);
-      const drilldown = levels[0];
-
-      return {
-        options: {cubes, measures, dimensions, levels},
-        query: {
-          cube: firstCube,
-          measure: firstMeasure,
-          moe: firstMoe,
-          dimension: firstDimension,
-          drilldown,
-          timeDrilldown,
-          conditions: []
-        }
-      };
-    })
-    .then(this.context.stateUpdate);
+export function findByKeyOrFirst(needle, haystack) {
+  return needle
+    ? haystack.find(item => item.annotations._key === needle) || haystack[0]
+    : haystack[0];
 }
 
+/**
+ * Retrieves the cube list and prepares the initial state for the first query
+ * @param {object} locationQuery An object made from key-string pairs, from the parsing of the current Location.search
+ */
+export function fetchCubes(locationQuery) {
+  return api.cubes().then(cubes => {
+    locationQuery = locationQuery || {};
+    injectCubeInfoOnMeasure(cubes);
+
+    const measures = getValidMeasures(cubes);
+    const firstMeasure = findByKeyOrFirst(locationQuery.ms, measures);
+    const firstCubeName = firstMeasure.annotations._cb_name;
+    const firstCube = cubes.find(cube => cube.name === firstCubeName);
+    const firstMoe = getMeasureMOE(firstCube, firstMeasure);
+    const timeDrilldown = getTimeDrilldown(firstCube);
+
+    const dimensions = getValidDimensions(firstCube);
+    const drilldowns = getValidDrilldowns(dimensions);
+
+    let drilldown, firstDimension, levels;
+    if ("dd" in locationQuery) {
+      drilldown = findByKeyOrFirst(locationQuery.dd, drilldowns);
+      firstDimension = drilldown.hierarchy.dimension;
+      levels = reduceLevelsFromDimension([], firstDimension);
+    }
+    else {
+      firstDimension = dimensions[0];
+      levels = reduceLevelsFromDimension([], firstDimension);
+      drilldown = levels[0];
+    }
+
+    preventHierarchyIncompatibility(drilldowns, drilldown);
+
+    return {
+      options: {cubes, measures, dimensions, drilldowns, levels},
+      query: {
+        cube: firstCube,
+        measure: firstMeasure,
+        moe: firstMoe,
+        dimension: firstDimension,
+        drilldown,
+        timeDrilldown,
+        conditions: []
+      },
+      queryOptions: {
+        parents: drilldown.depth > 1
+      }
+    };
+  });
+}
+
+/**
+ * Retrieves all the members for a certain Level.
+ * @param {Level} level A mondrian-rest-client Level object
+ */
 export function fetchMembers(level) {
-  return api.members(level).then(members => this.setState({members}));
+  this.setState({loading: true, members: []}, () =>
+    api.members(level).then(members => this.setState({loading: false, members}))
+  );
 }
 
+/**
+ * Retrieves the dataset for the query in the current Vizbuilder state.
+ */
 export function fetchQuery() {
-  const {query} = this.props;
-  const {datasetUpdate} = this.context;
-
-  return api.query(query).then(result => {
-    const data = result.data || {};
-    return datasetUpdate(data.data);
+  const {query, queryOptions} = this.props;
+  return api.query({
+    ...query,
+    options: queryOptions
   });
 }

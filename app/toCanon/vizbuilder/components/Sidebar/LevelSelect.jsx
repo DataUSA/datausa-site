@@ -2,8 +2,8 @@ import React from "react";
 import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
 
-import {composePropertyName} from "../helpers/sorting";
-import BaseSelect from "./BaseSelect";
+import {composePropertyName} from "../../helpers/sorting";
+import BaseSelect from "../BaseSelect";
 
 function LevelSelect(props) {
   return React.createElement(BaseSelect, props);
@@ -32,8 +32,8 @@ LevelSelect.defaultProps = {
         onClick={item.disabled || handleClick}
         title={item.name}
       >
-        <span className="select-option-label">{item.name}</span>
-        <span className="select-option-label lead">
+        <span className="select-label">{item.name}</span>
+        <span className="select-label lead">
           {item.hierarchy.dimension.name}
         </span>
       </li>

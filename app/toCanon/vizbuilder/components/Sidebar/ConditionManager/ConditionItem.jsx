@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {Button} from "@blueprintjs/core";
-import unionBy from "lodash/unionBy";
 
 import ConditionItemClosed from "./ConditionItemClosed";
 import ConditionItemCut from "./ConditionItemCut";
 import ConditionItemFilter from "./ConditionItemFilter";
 import ConditionPropertySelect from "./ConditionPropertySelect";
-import {isValidCut, isValidFilter} from "../helpers/validation";
+import {isValidCondition} from "../../../helpers/validation";
 
 class ConditionItem extends React.PureComponent {
   constructor(props) {
@@ -27,13 +26,10 @@ class ConditionItem extends React.PureComponent {
     this.saveChanges = this.saveChanges.bind(this);
     this.setFilterOperator = this.setFilterOperator.bind(this);
     this.setFilterValue = this.setFilterValue.bind(this);
-    this.setInitialProperty = this.setInitialProperty.bind(this);
     this.setProperty = this.setProperty.bind(this);
   }
 
   render() {
-    const isValidCondition =
-      isValidCut(this.props) || isValidFilter(this.props);
     const props = this.getConditionObject();
 
     if (!props.property) {
@@ -52,7 +48,9 @@ class ConditionItem extends React.PureComponent {
     props.properties = this.props.properties;
     props.onSetProperty = this.setProperty;
     props.onSave = this.saveChanges;
-    props.onReset = isValidCondition ? this.resetChanges : this.removeCondition;
+    props.onReset = isValidCondition(this.props)
+      ? this.resetChanges
+      : this.removeCondition;
 
     if (props.type === "filter") {
       props.onSetOperator = this.setFilterOperator;
@@ -77,9 +75,10 @@ class ConditionItem extends React.PureComponent {
         <div className="group">
           <span className="label">Select a Property</span>
           <ConditionPropertySelect
+            className="custom-select"
             items={this.props.properties}
             value={this.props.property}
-            onItemSelect={this.setInitialProperty}
+            onItemSelect={this.setProperty}
           />
         </div>
         <div className="group condition-actions">
@@ -128,19 +127,11 @@ class ConditionItem extends React.PureComponent {
     this.props.onRemove(condition);
   }
 
-  setInitialProperty(property) {
-    const condition = this.getConditionObject();
-    condition.property = property;
-    condition.type = "hierarchy" in property ? "cut" : "filter";
-    condition.values = [];
-    this.props.onUpdate(condition);
-  }
-
   setProperty(property) {
     const condition = this.getConditionObject();
     condition.property = property;
     condition.type = "hierarchy" in property ? "cut" : "filter";
-    condition.values = [];
+    condition.values = "hierarchy" in property ? [] : [0];
     this.setState({diff: condition});
   }
 
@@ -158,8 +149,10 @@ class ConditionItem extends React.PureComponent {
 
   addCutValue(value) {
     const condition = this.getConditionObject();
-    condition.values = unionBy(condition.values, [value], member => member.key);
-    this.setState({diff: condition});
+    if (condition.values.every(member => member.key !== value.key)) {
+      condition.values.push(value);
+      this.setState({diff: condition});
+    }
   }
 
   removeCutValue(value) {
@@ -170,8 +163,7 @@ class ConditionItem extends React.PureComponent {
 }
 
 ConditionItem.contextTypes = {
-  loadWrapper: PropTypes.func,
-  stateUpdate: PropTypes.func
+  loadControl: PropTypes.func
 };
 
 export default ConditionItem;

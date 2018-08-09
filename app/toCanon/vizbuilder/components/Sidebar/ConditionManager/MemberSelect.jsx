@@ -2,11 +2,15 @@ import React from "react";
 import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
 
+import {Spinner} from "@blueprintjs/core";
 import {MultiSelect} from "@blueprintjs/labs";
+
+const spinner = <Spinner className="pt-small" />;
 
 function MemberSelect(props) {
   props.className = classnames("select-box select-member", props.className);
   props.tagInputProps.onRemove = props.onItemRemove;
+  props.tagInputProps.rightElement = props.loading ? spinner : null;
   return React.createElement(MultiSelect, props);
 }
 
