@@ -2,7 +2,6 @@ const FUNC = require("../utils/FUNC"),
       axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
       mortarEval = require("../utils/mortarEval"),
-      sequelize = require("sequelize"),
       urlSwap = require("../utils/urlSwap"),
       varSwapRecursive = require("../utils/varSwapRecursive");
 
@@ -98,6 +97,8 @@ module.exports = function(app) {
   });
 
   app.get("/api/variables/:slug/:id", (req, res) => {
+  // app.get("/api/variables/:slug/:id", jsonCache, (req, res) => {
+    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, id} = req.params;
 
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
@@ -175,6 +176,7 @@ module.exports = function(app) {
   */
 
   app.get("/api/profile/:slug/:id", (req, res) => {
+    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, id} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
@@ -217,6 +219,7 @@ module.exports = function(app) {
 
   // Endpoint for when a user selects a new dropdown for a topic, requiring new variables
   app.get("/api/topic/:slug/:id/:topicId", (req, res) => {
+    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, id, topicId} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
     // As with profiles above, we need formatters, variables, and the topic itself in order to
