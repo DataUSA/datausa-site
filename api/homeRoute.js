@@ -11,11 +11,11 @@ module.exports = function(app) {
     const carousels = [];
 
     carousels.push({
-      title: "Maps",
+      title: "Visualize",
       icon: "/images/icons/demographics.svg",
       rank: 1,
-      footer: "110 more",
-      url: "/map",
+      footer: "View Builder",
+      url: "/visualize",
       tiles: [
         {
           title: "Opioid Deaths (Age-Adjusted) by State",
@@ -179,8 +179,8 @@ module.exports = function(app) {
       title: "Download",
       icon: "/images/cart-big.png",
       rank: 6,
-      footer: "110 more",
-      url: "/map",
+      footer: "View Cart",
+      url: "/cart",
       tiles: [
         {
           url: "/api/data?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all",
