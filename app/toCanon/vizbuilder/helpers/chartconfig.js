@@ -52,7 +52,7 @@ const makeConfig = {
 
     const config = {
       ...commonConfig,
-      title: `Barchart of ${measureName} by ${drilldownName}`,
+      title: `${measureName} by ${drilldownName}`,
       discrete: "x",
       x: drilldownName,
       xConfig: {title: drilldownName},
@@ -77,7 +77,7 @@ const makeConfig = {
 
     const config = {
       ...commonConfig,
-      title: `Barchart of ${measureName} by ${drilldownName}`,
+      title: `${measureName} by ${drilldownName}`,
       discrete: "x",
       x: drilldownName,
       xConfig: {title: drilldownName},
@@ -106,7 +106,7 @@ const makeConfig = {
 
     const config = {
       ...commonConfig,
-      title: `Donut chart of ${measureName} by ${drilldownName}`,
+      title: `${measureName} by ${drilldownName}`,
       xConfig: {title: null},
       y: measureName,
       yConfig: {title: measureName},
@@ -123,7 +123,7 @@ const makeConfig = {
 
     const config = {
       ...commonConfig,
-      title: `Geomap of ${measureName} by ${drilldownName}`,
+      title: `${measureName} by ${drilldownName}`,
       colorScale: measureName,
       colorScalePosition: isActive ? "bottom" : false,
       groupBy: `ID ${drilldownName}`,
@@ -145,7 +145,7 @@ const makeConfig = {
 
     return {
       ...config,
-      // title: `Histogram of ${measureName} by ${drilldownName}`,
+      // title: `${measureName} by ${drilldownName}`,
       groupPadding: 0,
       ...flags.chartConfig
     };
@@ -158,7 +158,7 @@ const makeConfig = {
 
     const config = {
       ...commonConfig,
-      title: `Line plot of ${measureName} by ${drilldownName}`,
+      title: `${measureName} by ${drilldownName}`,
       discrete: "x",
       groupBy: drilldown.name,
       x: drilldownName,
@@ -190,7 +190,7 @@ const makeConfig = {
     const drilldownName = query.drilldown.name;
     const measureName = query.measure.name;
 
-    config.title = `Stacked area chart of ${measureName} by ${drilldownName}`;
+    config.title = `${measureName} by ${drilldownName}`;
 
     return config;
   },
@@ -205,7 +205,7 @@ const makeConfig = {
 
     const config = {
       ...commonConfig,
-      title: `Treemap of ${measureName} by ${drilldownName}`,
+      title: `${measureName} by ${drilldownName}`,
       groupBy: levels.slice(1, ddIndex + 1).map(lvl => lvl.name),
       ...flags.chartConfig
     };
