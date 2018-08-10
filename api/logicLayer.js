@@ -9,7 +9,7 @@ const Sequelize = require("sequelize"),
 const {CUBE_URL} = process.env;
 
 // const debug = process.env.NODE_ENV === "development";
-const debug = true;
+const debug = false;
 
 const aliases = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].aliases || {}
@@ -39,14 +39,20 @@ function intersect(a, b) {
 }
 
 function findDimension(flatDims, level, dimension) {
+
   let dims = dimension
     ? flatDims.filter(d => d.level === level && d.dimension === dimension)
     : flatDims.filter(d => d.level === level);
+
+  if (!dims.length) dims = flatDims.filter(d => d.dimension === level);
+
   if (dims.length > 1) {
     const hierarchyMatches = dims.filter(d => d.hierarchy === level);
     if (hierarchyMatches.length) dims = hierarchyMatches;
   }
+
   return dims[0];
+
 }
 
 function findKey(query, key, fallback) {
@@ -207,14 +213,14 @@ module.exports = function(app) {
             if (Object.prototype.hasOwnProperty.call(dimCuts, dim)) {
               for (const level in dimCuts[dim]) {
                 if (Object.prototype.hasOwnProperty.call(dimCuts[dim], level)) {
-                  const drilldownDim = flatDims.find(d => d.level === level && d.dimension === dim);
+                  const drilldownDim = findDimension(flatDims, level, dim);
                   if (!drilldownDim) {
                     if (substitutions[dim] && substitutions[dim].levels[level]) {
                       const potentialSubs = substitutions[dim].levels[level];
                       let sub;
                       for (let i = 0; i < potentialSubs.length; i++) {
                         const p = potentialSubs[i];
-                        const subDim = flatDims.find(d => d.level === p && d.dimension === dim);
+                        const subDim = findDimension(flatDims, p, dim);
                         if (subDim) {
                           sub = p;
                           break;
@@ -242,7 +248,7 @@ module.exports = function(app) {
 
           if (allowed) {
             for (let i = 0; i < drilldowns.length; i++) {
-              const drilldownDim = flatDims.find(d => d.level === drilldowns[i]);
+              const drilldownDim = findDimension(flatDims, drilldowns[i]);
               if (!drilldownDim) {
                 allowed = false;
                 break;
@@ -252,7 +258,7 @@ module.exports = function(app) {
 
           if (allowed) {
             for (let i = 0; i < cuts.length; i++) {
-              const cutDim = flatDims.find(d => d.level === cuts[i][0]);
+              const cutDim = findDimension(flatDims, cuts[i][0]);
               if (!cutDim) {
                 allowed = false;
                 break;
