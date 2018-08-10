@@ -33,6 +33,10 @@ module.exports = {
         key: cube => cube.name.replace("_c_", "_").replace(/_[0-9]$/g, "")
       }
     ],
+    dimensionMap: {
+      Destination: "Geography",
+      Origin: "Geography"
+    },
     relations: {
       Geography: {
         children: {

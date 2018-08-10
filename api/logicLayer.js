@@ -9,10 +9,14 @@ const Sequelize = require("sequelize"),
 const {CUBE_URL} = process.env;
 
 // const debug = process.env.NODE_ENV === "development";
-const debug = false;
+const debug = true;
 
 const aliases = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].aliases || {}
+  : {};
+
+const dimensionMap = canonConfig["canon-logic"]
+  ? canonConfig["canon-logic"].dimensionMap || {}
   : {};
 
 const cubeFilters = canonConfig["canon-logic"]
@@ -34,8 +38,10 @@ function intersect(a, b) {
   return [...new Set(a)].filter(x => new Set(b).has(x));
 }
 
-function findDimension(flatDims, level) {
-  let dims = flatDims.filter(d => d.level === level);
+function findDimension(flatDims, level, dimension) {
+  let dims = dimension
+    ? flatDims.filter(d => d.level === level && d.dimension === dimension)
+    : flatDims.filter(d => d.level === level);
   if (dims.length > 1) {
     const hierarchyMatches = dims.filter(d => d.hierarchy === level);
     if (hierarchyMatches.length) dims = hierarchyMatches;
@@ -158,9 +164,11 @@ module.exports = function(app) {
 
         ids = d3Array.merge(ids);
 
-        if (searchDims.includes(key)) {
+        const searchDim = key in dimensionMap ? dimensionMap[key] : key;
+        if (searchDims.includes(searchDim)) {
           dimensions.push({
-            dimension: key,
+            alternate: key,
+            dimension: searchDim,
             id: ids
           });
         }
@@ -170,11 +178,14 @@ module.exports = function(app) {
       }
     }
 
-    const attributes = await Promise.all(dimensions.map(d => db.search.findAll({where: d})));
+    const searchQueries = dimensions
+      .map(({dimension, id}) => db.search.findAll({where: {dimension, id}}));
+    const attributes = await Promise.all(searchQueries);
 
     const queries = {};
     const dimCuts = d3Array.merge(attributes).reduce((obj, d) => {
-      const {dimension, hierarchy} = d;
+      const {hierarchy} = d;
+      const dimension = dimensions.find(dim => dim.dimension === d.dimension).alternate;
       if (!obj[dimension]) obj[dimension] = {};
       if (!obj[dimension][hierarchy]) obj[dimension][hierarchy] = [];
       obj[dimension][hierarchy].push(d);
@@ -196,14 +207,14 @@ module.exports = function(app) {
             if (Object.prototype.hasOwnProperty.call(dimCuts, dim)) {
               for (const level in dimCuts[dim]) {
                 if (Object.prototype.hasOwnProperty.call(dimCuts[dim], level)) {
-                  const drilldownDim = flatDims.find(d => d.level === level);
+                  const drilldownDim = flatDims.find(d => d.level === level && d.dimension === dim);
                   if (!drilldownDim) {
                     if (substitutions[dim] && substitutions[dim].levels[level]) {
                       const potentialSubs = substitutions[dim].levels[level];
                       let sub;
                       for (let i = 0; i < potentialSubs.length; i++) {
                         const p = potentialSubs[i];
-                        const subDim = flatDims.find(d => d.level === p);
+                        const subDim = flatDims.find(d => d.level === p && d.dimension === dim);
                         if (subDim) {
                           sub = p;
                           break;
@@ -394,7 +405,7 @@ module.exports = function(app) {
               const dimension = Object.keys(dim)[0];
               const level = dim[dimension];
               if (dimension in cubeDimCuts) {
-                const drill = findDimension(flatDims, level);
+                const drill = findDimension(flatDims, level, dimension);
                 queryCuts.push([drill, cubeDimCuts[dimension][level].map(d => d.id)]);
                 queryDrilldowns.push(drill);
               }
