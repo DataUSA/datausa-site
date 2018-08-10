@@ -345,7 +345,7 @@ module.exports = function(app) {
           if (y === "previous") return [years[name].previous];
           if (y === "oldest") return [years[name].oldest];
           if (y === "all") return years[name].years;
-          return y;
+          return [y];
         })
       )));
 
@@ -443,10 +443,8 @@ module.exports = function(app) {
             return client.query(query, "jsonrecords");
           })
           .catch(d => {
-            if (d.error) console.error("\nCube Error", d.error);
-            else if (d.url) console.error("\nCube Error", d.url);
-            else if (d.config) console.error("\nCube Error", d.config.url);
-            else console.error("\nCube Error", d);
+            console.log("\nCube Error", d.response.status, d.response.statusText);
+            console.log(d.response.data);
             return {error: d};
           });
 
@@ -459,9 +457,6 @@ module.exports = function(app) {
     const data = await Promise.all(queryPromises);
 
     const flatArray = data.reduce((arr, d, i) => {
-
-      if (d.error) console.error("\nCube Error", d.error);
-      else if (!d.data.data && d.url) console.error("\nCube Error", d.url);
 
       let data = d.error || !d.data.data ? [] : d.data.data;
 
