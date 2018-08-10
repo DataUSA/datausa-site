@@ -28,11 +28,11 @@ export default class SourceGroup extends Component {
         return <span key={i} className="source">
           { i && i === sources.length - 1 ? <span> and</span> : null }
           { org && <span>&nbsp;</span> }
-          { org && <Tooltip2 content={orgDesc} disabled={!orgDesc}>
+          { org && <Tooltip2 content={orgDesc} className={orgDesc ? "active" : ""} disabled={!orgDesc}>
             { orgLink ? <a href={orgLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: orgName}} /> : <span dangerouslySetInnerHTML={{__html: orgName}} /> }
           </Tooltip2> }
           { dataset && <span>&nbsp;</span> }
-          { dataset && <Tooltip2 content={datasetDesc} disabled={!datasetDesc}>
+          { dataset && <Tooltip2 content={datasetDesc} className={datasetDesc ? "active" : ""} disabled={!datasetDesc}>
             { datasetLink ? <a href={datasetLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
           </Tooltip2> }
           { table && <span> ({table})</span> }
