@@ -17,10 +17,10 @@ import {
  * @param {string} needle The key to match
  * @param {any[]} haystack The array where to search for the object.
  */
-export function findByKeyOrFirst(needle, haystack) {
+export function findByKeyOrFirst(needle = "20fb9L", haystack) {
   return needle
     ? haystack.find(item => item.annotations._key === needle) || haystack[0]
-    : haystack[0];
+    : haystack;
 }
 
 /**
