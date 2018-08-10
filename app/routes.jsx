@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, IndexRoute} from "react-router";
+import {Redirect, Route, IndexRoute} from "react-router";
 
 import App from "./App";
 import Home from "./pages/Home/index";
@@ -10,8 +10,6 @@ import Embed from "./profile/Embed";
 
 import Stories from "./pages/Story/Stories";
 import Story from "./pages/Story/Story";
-
-import Map from "./pages/Map";
 
 import Visualize from "./pages/Visualize";
 
@@ -45,9 +43,8 @@ export default function RouteCreate() {
       <Route path="/story" component={Stories} />
       <Route path="/story/:sid" component={Story} />
 
-      <Route path="/map" component={Map} />
-
       <Route path="/visualize" component={Visualize} />
+      <Redirect from="/map" to="/visualize" />
 
       <Route path="/cart" component={Cart} />
 
