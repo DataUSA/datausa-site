@@ -91,7 +91,7 @@ module.exports = function(app) {
   });
 
   app.get("/api/data/", async(req, res) => {
-
+    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "properties", "sort", "Year"];
     reserved = reserved.concat(d3Array.merge(reserved.map(r => {
       let alts = aliases[r] || [];
@@ -155,7 +155,7 @@ module.exports = function(app) {
                     return axios.get(relations[key][v].url(id[0]))
                       .then(resp => resp.data)
                       .then(relations[key][v].callback)
-                      .catch(() => null);
+                      .catch(() => []);
                   }
                   else {
                     return [v];
