@@ -9,18 +9,18 @@ export default class Visualize extends React.Component {
     return <Vizbuilder src="https://canon-api.datausa.io"
       topojson={{
         County: {
-          topojson: "topojson/County.json"
+          topojson: "/topojson/County.json"
         },
         Msa: {
-          topojson: "topojson/Msa.json"
+          topojson: "/topojson/Msa.json"
         },
         Puma: {
-          topojson: "topojson/Puma.json"
+          topojson: "/topojson/Puma.json"
         },
         State: {
           projection: "geoAlbersUsa",
           ocean: "transparent",
-          topojson: "topojson/State.json"
+          topojson: "/topojson/State.json"
         }
       }} />;
   }
