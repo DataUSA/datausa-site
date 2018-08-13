@@ -19,6 +19,14 @@ module.exports = function(sequelize, db) {
     }
   );
 
+  s.associate = models => {
+    s.hasMany(models.storytopics_descriptions, {foreignKey: "story_id", sourceKey: "id", as: "descriptions"});
+    s.hasMany(models.storytopics_selectors, {foreignKey: "story_id", sourceKey: "id", as: "selectors"});
+    s.hasMany(models.storytopics_stats, {foreignKey: "story_id", sourceKey: "id", as: "stats"});
+    s.hasMany(models.storytopics_subtitles, {foreignKey: "story_id", sourceKey: "id", as: "subtitles"});
+    s.hasMany(models.storytopics_visualizations, {foreignKey: "story_id", sourceKey: "id", as: "visualizations"});
+  };  
+
   return s;
 
 };
