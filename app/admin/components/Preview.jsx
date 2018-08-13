@@ -5,7 +5,10 @@ import "./Preview.css";
 
 const previewHash = {
   geo: ["04000US25", "01000US", "04000US36", "05000US25025", "31000US14460", "16000US0455000"],
-  cip: ["400501"]
+  cip: ["110701"],
+  soc: ["151131"],
+  naics: ["622"],
+  university: ["167358"]
 };
 
 class Preview extends Component {
