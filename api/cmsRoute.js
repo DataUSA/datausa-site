@@ -16,6 +16,15 @@ const profileReqTreeOnly = {
   ]
 };
 
+const storyReqTreeOnly = {
+  attributes: ["id", "title", "ordering"],
+  include: [
+    {
+      association: "storytopics", attributes: ["id", "title", "slug", "ordering", "story_id", "type"]
+    }
+  ]
+};
+
 const profileReqProfileOnly = {
   include: [
     {association: "generators", attributes: ["id", "name"]},
