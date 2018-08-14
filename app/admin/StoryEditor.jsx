@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, {Component} from "react";
+import {Button} from "@blueprintjs/core";
 import TextCard from "./components/TextCard";
+import MoveButtons from "./components/MoveButtons";
 import Loading from "components/Loading";
 
 import stubs from "../../utils/stubs.js";
@@ -106,6 +108,49 @@ class StoryEditor extends Component {
             </div>
           </label>
         </div>
+        <h4>Descriptions</h4>
+        <Button onClick={this.addItem.bind(this, "story_description")} iconName="add" />
+        <div className="descriptions">
+          { minData.descriptions && minData.descriptions.map(d =>
+            <div key={d.id}>
+              <TextCard key={d.id}
+                id={d.id}
+                onDelete={this.onDelete.bind(this)}
+                fields={["description"]}
+                type="story_description"
+                variables={{}}
+              />
+              <MoveButtons
+                item={d}
+                array={minData.descriptions}
+                type="story_description"
+                onMove={this.onMove.bind(this)}
+              />
+            </div>)
+          }
+        </div>
+        <h4>Footnotes</h4>
+        <Button onClick={this.addItem.bind(this, "story_footnote")} iconName="add" />
+        <div className="footnotes">
+          { minData.footnotes && minData.footnotes.map(d =>
+            <div key={d.id}>
+              <TextCard key={d.id}
+                id={d.id}
+                onDelete={this.onDelete.bind(this)}
+                fields={["description"]}
+                type="story_footnote"
+                variables={{}}
+              />
+              <MoveButtons
+                item={d}
+                array={minData.footnotes}
+                type="story_footnote"
+                onMove={this.onMove.bind(this)}
+              />
+            </div>)
+          }
+        </div>
+        <h4>Authors Placeholder (coming soon)</h4>
       </div>
     );
   }
