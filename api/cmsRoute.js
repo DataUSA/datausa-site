@@ -186,7 +186,14 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, storyTopicReqStoryTopicOnly, {where: {id}});
     db.storytopics.findOne(reqObj).then(storytopic => {
-      res.json(sortStoryTopic(storytopic)).end();
+      const topicTypes = [];
+      shell.ls(`${topicTypeDir}*.jsx`).forEach(file => {
+        const compName = file.replace(topicTypeDir, "").replace(".jsx", "");
+        topicTypes.push(compName);
+      });
+      storytopic = sortStoryTopic(storytopic);
+      storytopic.types = topicTypes;
+      res.json(storytopic).end();
     });
   });
 
