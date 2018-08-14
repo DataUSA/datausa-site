@@ -46,6 +46,12 @@ module.exports = {
     default: "",
     name: "new-selector"
   },
+  story_description: {
+    description: "New Description"
+  },  
+  story_footnote: {
+    description: "New Footnote"
+  },  
   objTopic: {
     hasCaret: false,
     label: "new-topic-slug",

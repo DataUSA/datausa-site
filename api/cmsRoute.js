@@ -216,11 +216,10 @@ module.exports = function(app) {
     db.stories_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
   });
 
-  /* not sure if we need this - will footnote editing be a singular list, therefore not requiring piecemeal gets?
+  // not sure if we need this - will footnote editing be a singular list, therefore not requiring piecemeal gets?
   app.get("/api/cms/story_footnote/get/:id", (req, res) => {
-    db.stories_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.stories_footnotes.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
   });
-  */
 
   // Note - add the author get here as well, which requires an association
 
@@ -384,6 +383,26 @@ module.exports = function(app) {
       db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.stories_descriptions.destroy({where: {id: req.query.id}}).then(() => {
           db.stories_descriptions.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
+  });
+
+  app.post("/api/cms/story_footnote/update", (req, res) => {
+    db.stories_footnotes.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/story_footnote/new", (req, res) => {
+    db.stories_footnotes.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/story_footnote/delete", (req, res) => {
+    db.stories_footnotes.findOne({where: {id: req.query.id}}).then(row => {
+      db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
+        db.stories_footnotes.destroy({where: {id: req.query.id}}).then(() => {
+          db.stories_footnotes.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
             res.json(rows).end();
           });
         });
