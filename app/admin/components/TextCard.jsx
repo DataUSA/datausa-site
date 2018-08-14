@@ -82,7 +82,7 @@ class TextCard extends Component {
     if (["profile_stat", "topic_stat"].includes(type)) cardClass = "stat-card";
     const displaySort = ["title", "value", "subtitle"];
     const displays = Object.keys(displayData)
-      .filter(k => typeof displayData[k] === "string" && !["id", "profile_id", "allowed", "ordering", "slug", "label", "type"].includes(k))
+      .filter(k => typeof displayData[k] === "string" && !["id", "image", "profile_id", "allowed", "ordering", "slug", "label", "type"].includes(k))
       .sort((a, b) => displaySort.indexOf(a) - displaySort.indexOf(b));
 
     return (

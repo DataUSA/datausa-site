@@ -83,14 +83,17 @@ class TextEditor extends Component {
           return <option key={key} value={key} dangerouslySetInnerHTML={{__html: `${key}${label}`}}></option>;
         }));
 
+    const showVars = Object.keys(variables).length > 0;
+
     return (
       <div id="text-editor">
-        <div className="pt-select">
+        { showVars && <div className="pt-select">
           Allowed?
           <select value={data.allowed || "always"} onChange={this.chooseVariable.bind(this)} style={{margin: "5px", width: "300px"}}>
             {varOptions}
           </select>
-        </div>
+        </div> 
+        }
         {/*
         <div className="pt-select">
           <select onChange={this.chooseFormatter.bind(this)} style={{margin: "5px"}}>
