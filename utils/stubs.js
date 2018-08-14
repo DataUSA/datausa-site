@@ -52,6 +52,20 @@ module.exports = {
   story_footnote: {
     description: "New Footnote"
   },  
+  storytopic_stat: {
+    title: "New Stat",
+    subtitle: "New Subtitle",
+    value: "New Value"
+  },
+  storytopic_visualization: {
+    logic: "return {}"
+  },
+  storytopic_description: {
+    description: "New Description"
+  },
+  storytopic_subtitle: {
+    subtitle: "New Subtitle"
+  },
   objTopic: {
     hasCaret: false,
     label: "new-topic-slug",
