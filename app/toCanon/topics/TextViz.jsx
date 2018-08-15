@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {AnchorLink} from "datawheel-canon";
 import axios from "axios";
 import {nest} from "d3-collection";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
@@ -44,7 +45,7 @@ class TextViz extends Component {
       <div className="topic-content">
         { title &&
           <h3 className="topic-title">
-            <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
+            <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></AnchorLink>
           </h3>
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
