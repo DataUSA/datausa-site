@@ -51,9 +51,11 @@ class TextCard extends Component {
   }
 
   save() {
-    const {type} = this.props;
+    const {type, fields} = this.props;
     const {minData} = this.state;
-    axios.post(`/api/cms/${type}/update`, minData).then(resp => {
+    const payload = {id: minData.id};
+    fields.forEach(field => payload[field] = minData[field]);
+    axios.post(`/api/cms/${type}/update`, payload).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false}, this.formatDisplay.bind(this));
         if (this.props.onSave) this.props.onSave(minData);
