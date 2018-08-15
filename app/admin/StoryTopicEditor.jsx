@@ -38,7 +38,6 @@ class StoryTopicEditor extends Component {
 
   hitDB() {
     axios.get(`/api/cms/storytopic/get/${this.props.id}`).then(resp => {
-      console.log("oy");
       this.setState({minData: resp.data});
     });
   }
@@ -65,7 +64,8 @@ class StoryTopicEditor extends Component {
 
   save() {
     const {minData} = this.state;
-    axios.post("/api/cms/storytopic/update", minData).then(resp => {
+    const payload = {id: minData.id, slug: minData.slug, type: minData.type};
+    axios.post("/api/cms/storytopic/update", payload).then(() => {
       console.log("saved");
     });
   }

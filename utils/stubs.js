@@ -108,5 +108,17 @@ module.exports = {
       title: "New Story",
       image: "New Image"
     }
+  },
+  objStoryTopic: {
+    hasCaret: false,
+    label: "new-storytopic-slug",
+    itemType: "storytopic",
+    data: {
+      title: "New StoryTopic Title",
+      subtitle: "New StoryTopic Subtitle",
+      slug: "new-storytopic-slug",
+      description: "New StoryTopic Description",
+      type: "TextViz"
+    }
   }
 };

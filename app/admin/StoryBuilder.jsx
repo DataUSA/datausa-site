@@ -130,7 +130,7 @@ class StoryBuilder extends Component {
       }
     }
 
-    const objStoryTopic = deepClone(stubs.objTopic);
+    const objStoryTopic = deepClone(stubs.objStoryTopic);
     objStoryTopic.data.story_id = n.data.story_id;
     objStoryTopic.data.ordering = loc;
 
@@ -173,7 +173,7 @@ class StoryBuilder extends Component {
           obj.id = `story${story.data.id}`;
           obj.data.id = story.data.id;
           objStoryTopic.data.story_id = story.data.id;
-          axios.post(objStoryTopic, objStoryTopic.data).then(storyTopic => {
+          axios.post(storyTopicPath, objStoryTopic.data).then(storyTopic => {
             if (storyTopic.status === 200) {
               objStoryTopic.id = `storytopic${storyTopic.data.id}`;
               objStoryTopic.data.id = storyTopic.data.id;

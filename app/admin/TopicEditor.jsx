@@ -75,7 +75,8 @@ class TopicEditor extends Component {
 
   save() {
     const {minData} = this.state;
-    axios.post("/api/cms/topic/update", minData).then(resp => {
+    const payload = {id: minData.id, slug: minData.slug, type: minData.type};
+    axios.post("/api/cms/topic/update", payload).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false});
       }
