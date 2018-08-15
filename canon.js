@@ -34,29 +34,19 @@ module.exports = {
       }
     ],
     dimensionMap: {
-      Destination: "Geography",
-      Origin: "Geography"
+      "Destination State": "Geography",
+      "Origin State": "Geography"
     },
     relations: {
       Geography: {
-        children: {
-          url: id => {
-            const prefix = id.slice(0, 3);
-            const targetLevels = prefix === "010" ? "state"
-              : prefix === "040" ? "county"
-                : prefix === "050" ? "tract"
-                  : prefix === "310" ? "county"
-                    : prefix === "160" ? "tract"
-                      : false;
-            return targetLevels
-              ? `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=${targetLevels}`
-              : `${CUBE_URL}/geoservice-api/relations/children/${id}`;
-          },
-          callback: arr => arr.map(d => d.geoid)
-        },
-        counties: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=county`,
-          callback: arr => arr.map(d => d.geoid)
+        children: id => {
+          const prefix = id.slice(0, 3);
+          return prefix === "010" ? "State"
+            : prefix === "040" ? "County"
+              : prefix === "050" ? "Tract"
+                : prefix === "310" ? "County"
+                  : prefix === "160" ? "Tract"
+                    : false;
         },
         neighbors: {
           url: id => `${CUBE_URL}/geoservice-api/neighbors/${id}`,
@@ -80,22 +70,6 @@ module.exports = {
             if (!ids.includes("01000US")) ids.push("01000US");
             return ids;
           }
-        },
-        places: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=place`,
-          callback: arr => arr.map(d => d.geoid)
-        },
-        pumas: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=puma`,
-          callback: arr => arr.map(d => d.geoid)
-        },
-        states: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=state`,
-          callback: arr => arr.map(d => d.geoid)
-        },
-        tracts: {
-          url: id => `${CUBE_URL}/geoservice-api/relations/children/${id}?targetLevels=tract`,
-          callback: arr => arr.map(d => d.geoid)
         }
       },
       University: {

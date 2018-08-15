@@ -40,11 +40,14 @@ function intersect(a, b) {
 
 function findDimension(flatDims, level, dimension) {
 
-  let dims = dimension
-    ? flatDims.filter(d => d.level === level && d.dimension === dimension)
-    : flatDims.filter(d => d.level === level);
+  let dims = typeof level === "object"
+    ? flatDims.filter(d => d.level === level.level && d.dimension === level.dimension && d.hierarchy === level.hierarchy)
+    : dimension
+      ? flatDims.filter(d => d.level === level && d.dimension === dimension)
+      : flatDims.filter(d => d.level === level);
 
-  if (!dims.length) dims = flatDims.filter(d => d.dimension === level);
+  if (!dims.length && typeof level === "object") dims = flatDims.filter(d => d.level === level.level && d.dimension === level.dimension);
+  else if (!dims.length) dims = flatDims.filter(d => d.level === dimension);
 
   if (dims.length > 1) {
     const hierarchyMatches = dims.filter(d => d.hierarchy === level);
@@ -92,6 +95,7 @@ module.exports = function(app) {
 
   app.get("/api/data/", async(req, res) => {
     req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
+
     let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "properties", "sort", "Year"];
     reserved = reserved.concat(d3Array.merge(reserved.map(r => {
       let alts = aliases[r] || [];
@@ -130,7 +134,7 @@ module.exports = function(app) {
       where: {}
     }).map(d => d.dimension);
 
-    const dimensions = [];
+    const dimensions = [], renames = [];
     for (let key in req.query) {
       if (!reserved.includes(key)) {
 
@@ -143,6 +147,8 @@ module.exports = function(app) {
           }
         }
 
+        const searchDim = key in dimensionMap ? dimensionMap[key] : key;
+
         ids = await Promise.all(d3Array.merge(ids
           .split(",")
           .map(id => {
@@ -152,10 +158,37 @@ module.exports = function(app) {
               return id.slice(1)
                 .map(v => {
                   if (rels.includes(v)) {
-                    return axios.get(relations[key][v].url(id[0]))
-                      .then(resp => resp.data)
-                      .then(relations[key][v].callback)
-                      .catch(() => []);
+                    const rel = relations[key][v];
+                    if (typeof rel === "function") {
+                      const level = rel(id[0]);
+                      if (level) {
+                        drilldowns.push(rel(id[0]));
+                        if (searchDims.includes(searchDim)) {
+                          dimensions.push({
+                            alternate: key,
+                            dimension: searchDim,
+                            id: id[0],
+                            relation: level
+                          });
+                        }
+                        else {
+                          cuts.push([key, id[0]]);
+                        }
+                        return [];
+                      }
+                      else {
+                        return [id[0]];
+                      }
+                    }
+                    else if (rel.url) {
+                      return axios.get(rel.url(id[0]))
+                        .then(resp => resp.data)
+                        .then(resp => rel.callback ? rel.callback(resp) : resp)
+                        .catch(() => []);
+                    }
+                    else {
+                      return [id[0]];
+                    }
                   }
                   else {
                     return [v];
@@ -169,17 +202,17 @@ module.exports = function(app) {
           })));
 
         ids = d3Array.merge(ids);
-
-        const searchDim = key in dimensionMap ? dimensionMap[key] : key;
-        if (searchDims.includes(searchDim)) {
-          dimensions.push({
-            alternate: key,
-            dimension: searchDim,
-            id: ids
-          });
-        }
-        else {
-          cuts.push([key, ids]);
+        if (ids.length) {
+          if (searchDims.includes(searchDim)) {
+            dimensions.push({
+              alternate: key,
+              dimension: searchDim,
+              id: ids
+            });
+          }
+          else {
+            cuts.push([key, ids]);
+          }
         }
       }
     }
@@ -191,10 +224,17 @@ module.exports = function(app) {
     const queries = {};
     const dimCuts = d3Array.merge(attributes).reduce((obj, d) => {
       const {hierarchy} = d;
-      const dimension = dimensions.find(dim => dim.dimension === d.dimension).alternate;
-      if (!obj[dimension]) obj[dimension] = {};
-      if (!obj[dimension][hierarchy]) obj[dimension][hierarchy] = [];
-      obj[dimension][hierarchy].push(d);
+      const dim = dimensions.find(dim => dim.dimension === d.dimension);
+      const dimension = dim.alternate;
+      if (dim.relation) {
+        cuts.push([{dimension, level: hierarchy, hierarchy: dim.relation}, d.id]);
+        renames.push({[dimension]: dim.relation});
+      }
+      else {
+        if (!obj[dimension]) obj[dimension] = {};
+        if (!obj[dimension][hierarchy]) obj[dimension][hierarchy] = [];
+        obj[dimension][hierarchy].push(d);
+      }
       return obj;
     }, {});
 
@@ -431,7 +471,7 @@ module.exports = function(app) {
             queryCuts.forEach(arr => {
               const [drill, value] = arr;
               const {dimension, hierarchy, level} = drill;
-              if (!drilldowns.includes(level)) queryDrilldowns.push(drill);
+              if (!drilldowns.includes(hierarchy)) queryDrilldowns.push(drill);
               const cut = (value instanceof Array ? value : [value]).map(v => `[${dimension}].[${hierarchy}].[${level}].&[${v}]`).join(",");
               if (debug) console.log(`Cut: ${cut}`);
               query.cut(`{${cut}}`);
@@ -482,7 +522,7 @@ module.exports = function(app) {
         data = data.slice(0, limit);
       }
 
-      const cross = queryCrosses[i];
+      const cross = queryCrosses[i].concat(renames);
       const newArray = data.map(row => {
         cross.forEach(c => {
           const type = Object.keys(c)[0];
@@ -503,8 +543,9 @@ module.exports = function(app) {
 
     }, []);
 
+    const crossKeys = d3Array.merge(queryCrosses).concat(renames).map(d => Object.keys(d)[0]);
     const keys = d3Array.merge([
-      queryCrosses.length ? queryCrosses[0].map(d => Object.keys(d)[0]) : [],
+      crossKeys,
       drilldowns,
       cuts.map(d => d[0]),
       ["Year"]
