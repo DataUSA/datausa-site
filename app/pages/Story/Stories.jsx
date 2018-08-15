@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
-import {fetchData} from "datawheel-canon";
+import {fetchData} from "@datawheel/canon-core";
 
 import "./Stories.css";
 import StoryTile from "./StoryTile";

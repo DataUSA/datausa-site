@@ -1,5 +1,5 @@
 import React from "react";
-import {AnchorLink} from "datawheel-canon";
+import {AnchorLink} from "@datawheel/canon-core";
 
 export default function Anchor({children, slug}) {
   return <span>

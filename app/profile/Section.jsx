@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Viz from "components/Viz/index";
-import {AnchorLink} from "datawheel-canon";
+import {AnchorLink} from "@datawheel/canon-core";
 import "./Section.css";
 
 class Section extends Component {

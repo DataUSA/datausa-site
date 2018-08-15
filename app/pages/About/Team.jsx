@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {AnchorLink, fetchData} from "datawheel-canon";
+import {AnchorLink, fetchData} from "@datawheel/canon-core";
 import slugify from "toCanon/slugify";
 
 import Anchor from "components/Anchor";

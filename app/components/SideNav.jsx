@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {select} from "d3-selection";
-import {AnchorLink} from "datawheel-canon";
+import {AnchorLink} from "@datawheel/canon-core";
 import styles from "style.yml";
 const navHeight = parseInt(styles["nav-height"], 10) * 2;
 

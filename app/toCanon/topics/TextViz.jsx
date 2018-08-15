@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {AnchorLink} from "datawheel-canon";
+import {AnchorLink} from "@datawheel/canon-core";
 import axios from "axios";
 import {nest} from "d3-collection";
 import {NonIdealState, Spinner} from "@blueprintjs/core";

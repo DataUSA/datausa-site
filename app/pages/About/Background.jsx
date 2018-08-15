@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {AnchorLink} from "datawheel-canon";
+import {AnchorLink} from "@datawheel/canon-core";
 import "./Background.css";
 
 import Anchor from "components/Anchor";

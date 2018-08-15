@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
-import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
+import {CanonProfile, fetchData, SubNav} from "@datawheel/canon-core";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
 import Topic from "./Topic";

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchData} from "datawheel-canon";
+import {fetchData} from "@datawheel/canon-core";
 import "./Press.css";
 
 class Press extends Component {

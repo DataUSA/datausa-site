@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
-import {fetchData} from "datawheel-canon";
+import {fetchData} from "@datawheel/canon-core";
 
 import "./Embed.css";
 
