@@ -66,6 +66,15 @@ module.exports = {
   storytopic_subtitle: {
     subtitle: "New Subtitle"
   },
+  author: {
+    name: "Author Name",
+    title: "Author Title",
+    image: "img",
+    twitter: "twitter"
+  },
+  author_description: {
+    description: "New Author Description"
+  },
   objTopic: {
     hasCaret: false,
     label: "new-topic-slug",

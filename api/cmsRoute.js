@@ -37,7 +37,7 @@ const profileReqProfileOnly = {
 
 const storyReqStoryOnly = {
   include: [
-    {association: "authors", attributes: ["id"]},
+    {association: "authors", attributes: ["id", "ordering"]},
     {association: "descriptions", attributes: ["id", "ordering"]},
     {association: "footnotes", attributes: ["id", "ordering"]}
   ]
@@ -228,7 +228,16 @@ module.exports = function(app) {
     db.stories_footnotes.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
   });
 
-  // Note - add the author get here as well, which requires an association
+  app.get("/api/cms/author/get/:id", (req, res) => {
+    db.authors.findOne({where: {id: req.params.id}, include: [{association: "descriptions"}]}).then(author => {
+      author.descriptions.sort(sorter);
+      res.json(author).end();
+    }); 
+  });
+
+  app.get("/api/cms/author_description/get/:id", (req, res) => {
+    db.authors_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+  });
 
   app.get("/api/cms/section_subtitle/get/:id", (req, res) => {
     db.sections_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
@@ -351,6 +360,46 @@ module.exports = function(app) {
           db.stories.findAll(storyReqTreeOnly).then(stories => {
             stories = sortStoryTree(stories);
             res.json(stories).end();
+          });
+        });
+      });
+    });
+  });
+
+  app.post("/api/cms/author/update", (req, res) => {
+    db.authors.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/author/new", (req, res) => {
+    db.authors.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/author/delete", (req, res) => {
+    db.authors.findOne({where: {id: req.query.id}}).then(row => {
+      db.authors.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
+        db.authors.destroy({where: {id: req.query.id}}).then(() => {
+          db.authors.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
+          });
+        });
+      });
+    });
+  });
+
+  app.post("/api/cms/author_description/update", (req, res) => {
+    db.authors_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+  });
+
+  app.post("/api/cms/author_description/new", (req, res) => {
+    db.authors_descriptions.create(req.body).then(u => res.json(u));
+  });
+
+  app.delete("/api/cms/author_description/delete", (req, res) => {
+    db.authors_descriptions.findOne({where: {id: req.query.id}}).then(row => {
+      db.authors_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {author_id: row.author_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
+        db.authors_descriptions.destroy({where: {id: req.query.id}}).then(() => {
+          db.authors_descriptions.findAll({where: {author_id: row.author_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
+            res.json(rows).end();
           });
         });
       });
