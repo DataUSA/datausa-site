@@ -2,6 +2,7 @@ import axios from "axios";
 import React, {Component} from "react";
 import {Button} from "@blueprintjs/core";
 import TextCard from "./components/TextCard";
+import AuthorCard from "./components/AuthorCard";
 import MoveButtons from "./components/MoveButtons";
 import Loading from "components/Loading";
 
@@ -150,7 +151,27 @@ class StoryEditor extends Component {
             </div>)
           }
         </div>
-        <h4>Authors Placeholder (coming soon)</h4>
+        <h4>Authors</h4>
+        <Button onClick={this.addItem.bind(this, "author")} iconName="add" />
+        <div className="authors">
+          { minData.authors && minData.authors.map(d =>
+            <div key={d.id}>
+              <AuthorCard key={d.id}
+                id={d.id}
+                onDelete={this.onDelete.bind(this)}
+                fields={["name", "title", "image", "twitter"]}
+                type="author"
+                variables={{}}
+              />
+              <MoveButtons
+                item={d}
+                array={minData.authors}
+                type="author"
+                onMove={this.onMove.bind(this)}
+              />
+            </div>)
+          }
+        </div>
       </div>
     );
   }
