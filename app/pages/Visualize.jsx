@@ -4,24 +4,28 @@ import Vizbuilder from "../toCanon/vizbuilder/index";
 
 import "./Visualize.css";
 
+const StateTopojson = {
+  projection: "geoAlbersUsa",
+  ocean: "transparent",
+  topojson: "/topojson/State.json"
+};
+
 export default class Visualize extends React.Component {
   render() {
     return <Vizbuilder src="https://canon-api.datausa.io"
       topojson={{
-        County: {
+        "County": {
           topojson: "/topojson/County.json"
         },
-        Msa: {
+        "Msa": {
           topojson: "/topojson/Msa.json"
         },
-        Puma: {
+        "Puma": {
           topojson: "/topojson/Puma.json"
         },
-        State: {
-          projection: "geoAlbersUsa",
-          ocean: "transparent",
-          topojson: "/topojson/State.json"
-        }
+        "State": StateTopojson,
+        "Origin State": StateTopojson,
+        "Destination State": StateTopojson
       }} />;
   }
 }
