@@ -75,7 +75,8 @@ export default {
   titleConfig: {
     fontFamily: "Pathway Gothic One",
     fontSize: 20,
-    fontWeight: 400
+    fontWeight: 400,
+    padding: 0
   },
   tooltipConfig: {
     background: "white",
