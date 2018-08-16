@@ -5,6 +5,7 @@ import varSwapRecursive from "../../../utils/varSwapRecursive";
 import Loading from "components/Loading";
 import FooterButtons from "../components/FooterButtons";
 import TextEditor from "../TextEditor";
+import PlainTextEditor from "../PlainTextEditor";
 import PropTypes from "prop-types";
 import "./TextCard.css";
 
@@ -51,10 +52,11 @@ class TextCard extends Component {
   }
 
   save() {
-    const {type, fields} = this.props;
+    const {type, fields, plainfields} = this.props;
     const {minData} = this.state;
     const payload = {id: minData.id};
     fields.forEach(field => payload[field] = minData[field]);
+    if (plainfields) plainfields.forEach(field => payload[field] = minData[field]);
     axios.post(`/api/cms/${type}/update`, payload).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false}, this.formatDisplay.bind(this));
@@ -76,7 +78,7 @@ class TextCard extends Component {
 
   render() {
     const {displayData, minData, isOpen} = this.state;
-    const {variables, fields, type} = this.props;
+    const {variables, fields, plainfields, type} = this.props;
 
     if (!minData || !displayData) return <Loading />;
 
@@ -96,6 +98,7 @@ class TextCard extends Component {
           title="Text Editor"
         >
           <div className="pt-dialog-body">
+            <PlainTextEditor data={minData} fields={plainfields} />
             <TextEditor data={minData} variables={variables} fields={fields.sort((a, b) => displaySort.indexOf(a) - displaySort.indexOf(b))} />
           </div>
           <FooterButtons
