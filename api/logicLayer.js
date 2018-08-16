@@ -495,13 +495,32 @@ module.exports = function(app) {
               }
             });
 
-            query.option("parents", yn(parents));
+            const p = yn(parents);
+            query.option("parents", p);
+            if (p && debug) console.log("Parents: true");
+
+            // TODO add this once mondrian-rest ordering works
+            // if (limit) {
+            //   query.pagination(limit);
+            //   if (debug) console.log(`Limit: ${limit}`);
+            // }
+            //
+            // if (order.length === 1 && cube.measures.includes(order[0])) {
+            //   query.sorting(order[0], sort === "desc");
+            //   if (debug) console.log(`Order: ${order[0]} (${sort})`);
+            // }
 
             return client.query(query, "jsonrecords");
+
           })
           .catch(d => {
-            console.log("\nCube Error", d.response.status, d.response.statusText);
-            console.log(d.response.data);
+            if (d.response) {
+              console.log("\nCube Error", d.response.status, d.response.statusText);
+              console.log(d.response.data);
+            }
+            else {
+              console.log("\nCube Error", d);
+            }
             return {error: d};
           });
 
@@ -517,6 +536,7 @@ module.exports = function(app) {
 
       let data = d.error || !d.data.data ? [] : d.data.data;
 
+      // TODO remove this once mondrian-rest ordering works
       if (perValue) {
         data = multiSort(data, order, sort);
         data = data.slice(0, limit);
@@ -551,14 +571,21 @@ module.exports = function(app) {
       ["Year"]
     ]);
 
-    const mergedData = d3Collection.nest()
+    let mergedData = d3Collection.nest()
       .key(d => keys.map(key => d[key]).join("_"))
       .entries(flatArray)
       .map(d => Object.assign(...d.values));
 
-    let sortedData = multiSort(mergedData, order, sort);
+    // TODO add this once mondrian-rest ordering works
+    // const sourceMeasures = d3Array.merge(Object.values(queries).map(d => d.measures));
+    // if (order.length > 1 || !sourceMeasures.includes(order[0])) {
+    //   mergedData = multiSort(mergedData, order, sort);
+    //   if (debug) console.log(`Order: ${order.join(", ")} (${sort})`);
+    // }
 
-    if (limit && !perValue) sortedData = sortedData.slice(0, limit);
+    // TODO remove this once mondrian-rest ordering works
+    mergedData = multiSort(mergedData, order, sort);
+    if (limit && !perValue) mergedData = mergedData.slice(0, limit);
 
     const source = Object.values(queries).map(d => {
       delete d.flatDims;
@@ -567,7 +594,7 @@ module.exports = function(app) {
       return d;
     });
 
-    res.json({data: sortedData, source}).end();
+    res.json({data: mergedData, source}).end();
 
   });
 
