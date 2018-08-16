@@ -137,6 +137,7 @@ class StoryEditor extends Component {
             <div key={d.id}>
               <TextCard key={d.id}
                 id={d.id}
+                ordering={d.ordering}
                 onDelete={this.onDelete.bind(this)}
                 fields={["description"]}
                 type="story_footnote"
