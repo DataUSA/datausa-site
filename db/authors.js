@@ -12,17 +12,14 @@ module.exports = function(sequelize, db) {
       image: db.STRING,
       twitter: db.STRING,
       story_id: db.INTEGER,
-      ordering: db.INTEGER
+      ordering: db.INTEGER,
+      bio: db.TEXT
     }, 
     {
       freezeTableName: true,
       timestamps: false
     }
   );
-
-  a.associate = models => {
-    a.hasMany(models.authors_descriptions, {foreignKey: "author_id", sourceKey: "id", as: "descriptions"});
-  };  
 
   return a;
 

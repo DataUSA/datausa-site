@@ -67,13 +67,11 @@ module.exports = {
     subtitle: "New Subtitle"
   },
   author: {
-    name: "Author Name",
-    title: "Author Title",
+    name: "author name",
+    title: "author title",
     image: "img",
-    twitter: "twitter"
-  },
-  author_description: {
-    description: "New Author Description"
+    twitter: "twitter",
+    bio: "Author Bio"
   },
   objTopic: {
     hasCaret: false,
