@@ -57,7 +57,10 @@ const makeConfig = {
       x: drilldownName,
       xConfig: {title: drilldownName},
       y: measureName,
-      yConfig: {title: measureName},
+      yConfig: {
+        tickFormat: formatAbbreviate,
+        title: measureName
+      },
       stacked: drilldown.depth > 1,
       xSort: sortByCustomKey(drilldownName),
       ...flags.chartConfig
@@ -82,7 +85,7 @@ const makeConfig = {
       x: drilldownName,
       xConfig: {title: drilldownName},
       y: measureName,
-      yConfig: {title: measureName},
+      yConfig: {tickFormat: formatAbbreviate, title: measureName},
       stacked: true,
       groupBy: [drilldown.name],
       tooltipConfig: tooltipGenerator(
@@ -109,7 +112,7 @@ const makeConfig = {
       title: `${measureName} by ${drilldownName}`,
       xConfig: {title: null},
       y: measureName,
-      yConfig: {title: measureName},
+      yConfig: {tickFormat: formatAbbreviate, title: measureName},
       groupBy: drilldownName,
       ...flags.chartConfig
     };
@@ -164,7 +167,7 @@ const makeConfig = {
       x: drilldownName,
       xConfig: {title: drilldownName},
       y: measureName,
-      yConfig: {title: measureName},
+      yConfig: {tickFormat: formatAbbreviate, title: measureName},
       ...flags.chartConfig
     };
 
@@ -287,8 +290,11 @@ export default function createChartConfig({
       availableCharts.delete("treemap");
       availableCharts.delete("histogram");
     }
-    if (aggregatorType !== "SUM") {
+    if (aggregatorType !== "SUM" && aggregatorType !== "UNKNOWN") {
+      availableCharts.delete("donut");
+      availableCharts.delete("stacked");
       availableCharts.delete("treemap");
+      availableCharts.delete("histogram");
       availableCharts.delete("barchartyear");
     }
   }
