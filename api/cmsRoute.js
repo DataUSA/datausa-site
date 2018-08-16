@@ -101,7 +101,7 @@ const sortProfile = profile => {
 
 const sortStory = story => {
   story = story.toJSON();
-  ["descriptions"].forEach(type => story[type].sort(sorter));
+  ["descriptions", "footnotes"].forEach(type => story[type].sort(sorter));
   return story;
 };
 
