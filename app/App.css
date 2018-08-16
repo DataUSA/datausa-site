@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:300|Palanquin:300,400,600,700|Pathway+Gothic+One:400");
+@import "fonts.css";
 
 #Beta {
   background-color: var(--red);
@@ -39,7 +39,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
-  & #Canon {
+  & #App {
     background-color: var(--dark);
     &.bare {
       background-color: transparent;

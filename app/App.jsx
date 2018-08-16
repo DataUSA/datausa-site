@@ -47,7 +47,7 @@ class App extends Component {
     const bare = pathname.includes("profile") && pathname.split("/").length === 5;
 
     return (
-      <div className={bare ? "bare" : ""}>
+      <div id="App" className={bare ? "bare" : ""}>
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
