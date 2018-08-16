@@ -46,6 +46,23 @@ const topicReq = [
   {association: "selectors", separate: true}
 ];
 
+const storyReq = {
+  include: [
+    {association: "authors", separate: true},
+    {association: "descriptions", separate: true},
+    {association: "footnotes", separate: true},
+    {
+      association: "storytopics", separate: true,
+      include: [
+        {association: "descriptions", separate: true},
+        {association: "stats", separate: true},
+        {association: "subtitles", separate: true},
+        {association: "visualizations", separate: true}
+      ]
+    }
+  ]
+};
+
 const formatters4eval = formatters => formatters.reduce((acc, f) => {
 
   const name = f.name === f.name.toUpperCase()
@@ -84,6 +101,15 @@ const sortProfile = profile => {
     });
   }
   return profile;
+};
+
+const sortStory = story => {
+  story = story.toJSON();
+  ["descriptions", "footnotes", "authors", "storytopics"].forEach(type => story[type].sort(sorter));
+  story.storytopics.forEach(storytopic => {
+    ["descriptions", "stats", "subtitles", "visualizations"].forEach(type => storytopic[type].sort(sorter));
+  });
+  return story;
 };
 
 module.exports = function(app) {
@@ -248,6 +274,15 @@ module.exports = function(app) {
       .catch(() => {
         res.json({error: "Unable to find topic."}).end();
       });
+  });
+
+  // Endpoint for getting a story
+  app.get("/api/story/:id", (req, res) => {
+    const {id} = req.params;
+    const reqObj = Object.assign({}, storyReq, {where: {id}});
+    db.stories.findOne(reqObj).then(story => {
+      res.json(sortStory(story)).end();
+    });
   });
 
 };
