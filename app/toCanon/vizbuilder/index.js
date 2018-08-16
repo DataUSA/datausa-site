@@ -63,7 +63,7 @@ class Vizbuilder extends React.PureComponent {
   render() {
     const {config, topojson, visualizations} = this.props;
     const {dataset, load, members, options, query, queryOptions} = this.state;
-    console.log(load);
+
     return (
       <div className={classnames("vizbuilder", {loading: load.inProgress})}>
         { load.inProgress && <LoadingScreen {...load} /> }
