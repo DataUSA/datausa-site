@@ -34,7 +34,7 @@ class Preview extends Component {
   updatePreview() {
     const {currentSlug} = this.props;
     const previewArray = previewHash[currentSlug];
-    const preview = previewArray[0];
+    const preview = previewArray ? previewArray[0] : "";
     this.setState({preview, previewArray});
     if (this.props.onSelectPreview) this.props.onSelectPreview(preview);
   }
