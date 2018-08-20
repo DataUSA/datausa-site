@@ -274,11 +274,19 @@ module.exports = function(app) {
   });
 
   // Endpoint for getting a story
-  app.get("/api/story/:id", (req, res) => {
+  app.get("/api/canonstory/:id", (req, res) => {
     const {id} = req.params;
     const reqObj = Object.assign({}, storyReq, {where: {id}});
     db.stories.findOne(reqObj).then(story => {
       res.json(sortStory(story)).end();
+    });
+  });
+
+  // Endpoint for getting all stories
+  app.get("/api/canonstory", (req, res) => {
+    db.stories.findAll({include: [{association: "authors", attributes: ["name", "image"]}]}).then(stories => {
+      stories = stories.map(s => s.toJSON());
+      res.json(stories.sort(sorter)).end();
     });
   });
 
