@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {Card, Dialog} from "@blueprintjs/core";
-import Loading from "components/Loading";
-import FooterButtons from "../components/FooterButtons";
-import SelectorEditor from "../SelectorEditor";
+import Loading from "../../../components/Loading";
+import FooterButtons from "../FooterButtons";
+import SelectorEditor from "../editors/SelectorEditor";
 import PropTypes from "prop-types";
 import "./SelectorCard.css";
 

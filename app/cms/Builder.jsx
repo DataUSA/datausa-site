@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Tab2, Tabs2} from "@blueprintjs/core";
-import ProfileBuilder from "./ProfileBuilder";
-import StoryBuilder from "./StoryBuilder";
+import ProfileBuilder from "./profile/ProfileBuilder";
+import StoryBuilder from "./story/StoryBuilder";
 
 import "./Builder.css";
 

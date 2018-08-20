@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
 
-import "./MoveButtons.css";
-
 class MoveButtons extends Component {
 
   constructor(props) {

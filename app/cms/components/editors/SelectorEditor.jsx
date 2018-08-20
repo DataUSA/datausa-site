@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 
-import "./SelectorEditor.css";
-
 class SelectorEditor extends Component {
 
   constructor(props) {

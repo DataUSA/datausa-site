@@ -1,14 +1,12 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {Button} from "@blueprintjs/core";
-import Loading from "components/Loading";
+import Loading from "../../components/Loading";
 import PropTypes from "prop-types";
-import TextCard from "./components/TextCard";
-import SelectorCard from "./components/SelectorCard";
-import VisualizationCard from "./components/VisualizationCard";
-import MoveButtons from "./components/MoveButtons";
-
-import "./TopicEditor.css";
+import TextCard from "../components/cards/TextCard";
+import SelectorCard from "../components/cards/SelectorCard";
+import VisualizationCard from "../components/cards/VisualizationCard";
+import MoveButtons from "../components/MoveButtons";
 
 const propMap = {
   topic_stat: "stats",

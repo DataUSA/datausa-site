@@ -27,7 +27,7 @@ import DataSources from "./pages/Data/DataSources";
 import API from "./pages/Data/API";
 import Classifications from "./pages/Data/Classifications";
 
-import Builder from "./admin/Builder";
+import Builder from "./cms/Builder";
 
 export default function RouteCreate() {
 
@@ -62,7 +62,7 @@ export default function RouteCreate() {
         <Route path="/about/attributes" component={Classifications} />
       </Route>
 
-      <Route path="/admin/builder" component={Builder} />
+      <Route path="/cms/builder" component={Builder} />
 
     </Route>
   );

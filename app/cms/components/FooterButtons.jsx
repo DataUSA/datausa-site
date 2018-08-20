@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 
-import "./FooterButtons.css";
-
 class FooterButtons extends Component {
 
   render() {
