@@ -8,8 +8,6 @@ import SelectorCard from "./components/SelectorCard";
 import VisualizationCard from "./components/VisualizationCard";
 import MoveButtons from "./components/MoveButtons";
 
-import stubs from "../../utils/stubs.js";
-
 import "./TopicEditor.css";
 
 const propMap = {
@@ -56,7 +54,7 @@ class TopicEditor extends Component {
 
   addItem(type) {
     const {minData} = this.state;
-    const payload = Object.assign({}, stubs[type]);
+    const payload = {};
     payload.topic_id = minData.id;
     // todo: move this ordering out to axios (let the server concat it to the end)
     payload.ordering = minData[propMap[type]].length;
