@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 
-import "./QuillWrapper.css";
-
 class QuillWrapper extends Component {
 
   render() {

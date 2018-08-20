@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {Callout, Card, Icon, Intent, Dialog} from "@blueprintjs/core";
-import GeneratorEditor from "../GeneratorEditor";
-import Loading from "components/Loading";
-import FooterButtons from "../components/FooterButtons";
+import GeneratorEditor from "../editors/GeneratorEditor";
+import Loading from "../../../components/Loading";
+import FooterButtons from "../FooterButtons";
 import "./GeneratorCard.css";
 
-import ConsoleVariable from "./ConsoleVariable";
+import ConsoleVariable from "../ConsoleVariable";
 
 class GeneratorCard extends Component {
 

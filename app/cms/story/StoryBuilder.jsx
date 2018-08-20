@@ -2,11 +2,9 @@ import axios from "axios";
 import React, {Component} from "react";
 import {NonIdealState, Tree} from "@blueprintjs/core";
 import PropTypes from "prop-types";
-import CtxMenu from "./CtxMenu";
+import CtxMenu from "../components/CtxMenu";
 import StoryEditor from "./StoryEditor";
 import StoryTopicEditor from "./StoryTopicEditor";
-
-import "./StoryBuilder.css";
 
 const topicIcons = {
   TextViz: "list-detail-view",

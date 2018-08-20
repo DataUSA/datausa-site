@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-import QuillWrapper from "./QuillWrapper";
 import PropTypes from "prop-types";
-
-import "./PlainTextEditor.css";
 
 class PlainTextEditor extends Component {
 

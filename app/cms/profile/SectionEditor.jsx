@@ -1,12 +1,10 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {Button} from "@blueprintjs/core";
-import Loading from "components/Loading";
-import TextCard from "./components/TextCard";
+import Loading from "../../components/Loading";
+import TextCard from "../components/cards/TextCard";
 import PropTypes from "prop-types";
-import MoveButtons from "./components/MoveButtons";
-
-import "./SectionEditor.css";
+import MoveButtons from "../components/MoveButtons";
 
 const propMap = {
   section_subtitle: "subtitles",

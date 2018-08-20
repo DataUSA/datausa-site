@@ -6,12 +6,12 @@ import ProfileEditor from "./ProfileEditor";
 import SectionEditor from "./SectionEditor";
 import TopicEditor from "./TopicEditor";
 import PropTypes from "prop-types";
-import Preview from "./components/Preview";
-import CtxMenu from "./CtxMenu";
+import Preview from "../components/Preview";
+import CtxMenu from "../components/CtxMenu";
 
-import varSwap from "../../utils/varSwap";
+import varSwap from "../../../utils/varSwap";
 
-import deepClone from "../../utils/deepClone.js";
+import deepClone from "../../../utils/deepClone.js";
 
 import "./ProfileBuilder.css";
 

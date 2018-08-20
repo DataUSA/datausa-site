@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {Card, Dialog} from "@blueprintjs/core";
-import varSwapRecursive from "../../../utils/varSwapRecursive";
-import Loading from "components/Loading";
-import FooterButtons from "../components/FooterButtons";
-import TextEditor from "../TextEditor";
-import PlainTextEditor from "../PlainTextEditor";
+import varSwapRecursive from "utils/varSwapRecursive";
+import Loading from "../../../components/Loading";
+import FooterButtons from "../FooterButtons";
+import TextEditor from "../editors/TextEditor";
+import PlainTextEditor from "../editors/PlainTextEditor";
 import PropTypes from "prop-types";
 import "./TextCard.css";
 

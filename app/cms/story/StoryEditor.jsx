@@ -1,11 +1,9 @@
 import axios from "axios";
 import React, {Component} from "react";
 import {Button} from "@blueprintjs/core";
-import TextCard from "./components/TextCard";
-import MoveButtons from "./components/MoveButtons";
-import Loading from "components/Loading";
-
-import "./StoryEditor.css";
+import TextCard from "../components/cards/TextCard";
+import MoveButtons from "../components/MoveButtons";
+import Loading from "../../components/Loading";
 
 const propMap = {
   author: "authors",

@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import {Dialog} from "@blueprintjs/core";
 import varSwapRecursive from "utils/varSwapRecursive";
-import GeneratorEditor from "../GeneratorEditor";
-import Loading from "components/Loading";
-import Viz from "components/Viz";
-import FooterButtons from "../components/FooterButtons";
+import GeneratorEditor from "../editors/GeneratorEditor";
+import Loading from "../../../components/Loading";
+import Viz from "../../../components/Viz";
+import FooterButtons from "../FooterButtons";
 import "./VisualizationCard.css";
 
 class VisualizationCard extends Component {
