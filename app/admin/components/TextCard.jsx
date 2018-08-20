@@ -78,7 +78,7 @@ class TextCard extends Component {
 
   render() {
     const {displayData, minData, isOpen} = this.state;
-    const {variables, fields, plainfields, type} = this.props;
+    const {variables, fields, plainfields, type, ordering} = this.props;
 
     if (!minData || !displayData) return <Loading />;
 
@@ -107,7 +107,7 @@ class TextCard extends Component {
             onSave={this.save.bind(this)}
           />
         </Dialog>
-        { this.props.type === "story_footnote" && <div>Use Footnote Reference: <strong>{`Foot{{${this.props.ordering + 1}}}`}</strong></div>}
+        { type === "story_footnote" && <div>Use Footnote Reference: <strong>{`Foot{{${ordering + 1}}}`}</strong></div>}
         { displays.map((k, i) => <p key={i} className={k} dangerouslySetInnerHTML={{__html: displayData[k]}}></p>) }
       </Card>
     );
