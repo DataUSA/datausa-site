@@ -15,6 +15,10 @@ const aliases = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].aliases || {}
   : {};
 
+const dimensionMap = canonConfig["canon-logic"]
+  ? canonConfig["canon-logic"].dimensionMap || {}
+  : {};
+
 const cubeFilters = canonConfig["canon-logic"]
   ? canonConfig["canon-logic"].cubeFilters || []
   : [];
@@ -34,13 +38,24 @@ function intersect(a, b) {
   return [...new Set(a)].filter(x => new Set(b).has(x));
 }
 
-function findDimension(flatDims, level) {
-  let dims = flatDims.filter(d => d.level === level);
+function findDimension(flatDims, level, dimension) {
+
+  let dims = typeof level === "object"
+    ? flatDims.filter(d => d.level === level.level && d.dimension === level.dimension && d.hierarchy === level.hierarchy)
+    : dimension
+      ? flatDims.filter(d => d.level === level && d.dimension === dimension)
+      : flatDims.filter(d => d.level === level);
+
+  if (!dims.length && typeof level === "object") dims = flatDims.filter(d => d.level === level.level && d.dimension === level.dimension);
+  else if (!dims.length) dims = flatDims.filter(d => d.level === dimension);
+
   if (dims.length > 1) {
     const hierarchyMatches = dims.filter(d => d.hierarchy === level);
     if (hierarchyMatches.length) dims = hierarchyMatches;
   }
+
   return dims[0];
+
 }
 
 function findKey(query, key, fallback) {
@@ -79,6 +94,7 @@ module.exports = function(app) {
   });
 
   app.get("/api/data/", async(req, res) => {
+    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
 
     let reserved = ["cuts", "drilldowns", "limit", "measures", "order", "parents", "properties", "sort", "Year"];
     reserved = reserved.concat(d3Array.merge(reserved.map(r => {
@@ -118,7 +134,7 @@ module.exports = function(app) {
       where: {}
     }).map(d => d.dimension);
 
-    const dimensions = [];
+    const dimensions = [], renames = [];
     for (let key in req.query) {
       if (!reserved.includes(key)) {
 
@@ -131,6 +147,8 @@ module.exports = function(app) {
           }
         }
 
+        const searchDim = key in dimensionMap ? dimensionMap[key] : key;
+
         ids = await Promise.all(d3Array.merge(ids
           .split(",")
           .map(id => {
@@ -140,10 +158,37 @@ module.exports = function(app) {
               return id.slice(1)
                 .map(v => {
                   if (rels.includes(v)) {
-                    return axios.get(relations[key][v].url(id[0]))
-                      .then(resp => resp.data)
-                      .then(relations[key][v].callback)
-                      .catch(() => null);
+                    const rel = relations[key][v];
+                    if (typeof rel === "function") {
+                      const level = rel(id[0]);
+                      if (level) {
+                        drilldowns.push(rel(id[0]));
+                        if (searchDims.includes(searchDim)) {
+                          dimensions.push({
+                            alternate: key,
+                            dimension: searchDim,
+                            id: id[0],
+                            relation: level
+                          });
+                        }
+                        else {
+                          cuts.push([key, id[0]]);
+                        }
+                        return [];
+                      }
+                      else {
+                        return [id[0]];
+                      }
+                    }
+                    else if (rel.url) {
+                      return axios.get(rel.url(id[0]))
+                        .then(resp => resp.data)
+                        .then(resp => rel.callback ? rel.callback(resp) : resp)
+                        .catch(() => []);
+                    }
+                    else {
+                      return [id[0]];
+                    }
                   }
                   else {
                     return [v];
@@ -157,27 +202,39 @@ module.exports = function(app) {
           })));
 
         ids = d3Array.merge(ids);
-
-        if (searchDims.includes(key)) {
-          dimensions.push({
-            dimension: key,
-            id: ids
-          });
-        }
-        else {
-          cuts.push([key, ids]);
+        if (ids.length) {
+          if (searchDims.includes(searchDim)) {
+            dimensions.push({
+              alternate: key,
+              dimension: searchDim,
+              id: ids
+            });
+          }
+          else {
+            cuts.push([key, ids]);
+          }
         }
       }
     }
 
-    const attributes = await Promise.all(dimensions.map(d => db.search.findAll({where: d})));
+    const searchQueries = dimensions
+      .map(({dimension, id}) => db.search.findAll({where: {dimension, id}}));
+    const attributes = await Promise.all(searchQueries);
 
     const queries = {};
     const dimCuts = d3Array.merge(attributes).reduce((obj, d) => {
-      const {dimension, hierarchy} = d;
-      if (!obj[dimension]) obj[dimension] = {};
-      if (!obj[dimension][hierarchy]) obj[dimension][hierarchy] = [];
-      obj[dimension][hierarchy].push(d);
+      const {hierarchy} = d;
+      const dim = dimensions.find(dim => dim.dimension === d.dimension);
+      const dimension = dim.alternate;
+      if (dim.relation) {
+        cuts.push([{dimension, level: hierarchy, hierarchy: dim.relation}, d.id]);
+        renames.push({[dimension]: dim.relation});
+      }
+      else {
+        if (!obj[dimension]) obj[dimension] = {};
+        if (!obj[dimension][hierarchy]) obj[dimension][hierarchy] = [];
+        obj[dimension][hierarchy].push(d);
+      }
       return obj;
     }, {});
 
@@ -196,14 +253,14 @@ module.exports = function(app) {
             if (Object.prototype.hasOwnProperty.call(dimCuts, dim)) {
               for (const level in dimCuts[dim]) {
                 if (Object.prototype.hasOwnProperty.call(dimCuts[dim], level)) {
-                  const drilldownDim = flatDims.find(d => d.level === level);
+                  const drilldownDim = findDimension(flatDims, level, dim);
                   if (!drilldownDim) {
                     if (substitutions[dim] && substitutions[dim].levels[level]) {
                       const potentialSubs = substitutions[dim].levels[level];
                       let sub;
                       for (let i = 0; i < potentialSubs.length; i++) {
                         const p = potentialSubs[i];
-                        const subDim = flatDims.find(d => d.level === p);
+                        const subDim = findDimension(flatDims, p, dim);
                         if (subDim) {
                           sub = p;
                           break;
@@ -231,7 +288,7 @@ module.exports = function(app) {
 
           if (allowed) {
             for (let i = 0; i < drilldowns.length; i++) {
-              const drilldownDim = flatDims.find(d => d.level === drilldowns[i]);
+              const drilldownDim = findDimension(flatDims, drilldowns[i]);
               if (!drilldownDim) {
                 allowed = false;
                 break;
@@ -241,7 +298,7 @@ module.exports = function(app) {
 
           if (allowed) {
             for (let i = 0; i < cuts.length; i++) {
-              const cutDim = flatDims.find(d => d.level === cuts[i][0]);
+              const cutDim = findDimension(flatDims, cuts[i][0]);
               if (!cutDim) {
                 allowed = false;
                 break;
@@ -345,7 +402,7 @@ module.exports = function(app) {
           if (y === "previous") return [years[name].previous];
           if (y === "oldest") return [years[name].oldest];
           if (y === "all") return years[name].years;
-          return y;
+          return [y];
         })
       )));
 
@@ -394,7 +451,7 @@ module.exports = function(app) {
               const dimension = Object.keys(dim)[0];
               const level = dim[dimension];
               if (dimension in cubeDimCuts) {
-                const drill = findDimension(flatDims, level);
+                const drill = findDimension(flatDims, level, dimension);
                 queryCuts.push([drill, cubeDimCuts[dimension][level].map(d => d.id)]);
                 queryDrilldowns.push(drill);
               }
@@ -414,7 +471,7 @@ module.exports = function(app) {
             queryCuts.forEach(arr => {
               const [drill, value] = arr;
               const {dimension, hierarchy, level} = drill;
-              if (!drilldowns.includes(level)) queryDrilldowns.push(drill);
+              if (!drilldowns.includes(hierarchy)) queryDrilldowns.push(drill);
               const cut = (value instanceof Array ? value : [value]).map(v => `[${dimension}].[${hierarchy}].[${level}].&[${v}]`).join(",");
               if (debug) console.log(`Cut: ${cut}`);
               query.cut(`{${cut}}`);
@@ -438,15 +495,32 @@ module.exports = function(app) {
               }
             });
 
-            query.option("parents", yn(parents));
+            const p = yn(parents);
+            query.option("parents", p);
+            if (p && debug) console.log("Parents: true");
+
+            // TODO add this once mondrian-rest ordering works
+            // if (limit) {
+            //   query.pagination(limit);
+            //   if (debug) console.log(`Limit: ${limit}`);
+            // }
+            //
+            // if (order.length === 1 && cube.measures.includes(order[0])) {
+            //   query.sorting(order[0], sort === "desc");
+            //   if (debug) console.log(`Order: ${order[0]} (${sort})`);
+            // }
 
             return client.query(query, "jsonrecords");
+
           })
           .catch(d => {
-            if (d.error) console.error("\nCube Error", d.error);
-            else if (d.url) console.error("\nCube Error", d.url);
-            else if (d.config) console.error("\nCube Error", d.config.url);
-            else console.error("\nCube Error", d);
+            if (d.response) {
+              console.log("\nCube Error", d.response.status, d.response.statusText);
+              console.log(d.response.data);
+            }
+            else {
+              console.log("\nCube Error", d);
+            }
             return {error: d};
           });
 
@@ -460,17 +534,15 @@ module.exports = function(app) {
 
     const flatArray = data.reduce((arr, d, i) => {
 
-      if (d.error) console.error("\nCube Error", d.error);
-      else if (!d.data.data && d.url) console.error("\nCube Error", d.url);
-
       let data = d.error || !d.data.data ? [] : d.data.data;
 
+      // TODO remove this once mondrian-rest ordering works
       if (perValue) {
         data = multiSort(data, order, sort);
         data = data.slice(0, limit);
       }
 
-      const cross = queryCrosses[i];
+      const cross = queryCrosses[i].concat(renames);
       const newArray = data.map(row => {
         cross.forEach(c => {
           const type = Object.keys(c)[0];
@@ -491,21 +563,29 @@ module.exports = function(app) {
 
     }, []);
 
+    const crossKeys = d3Array.merge(queryCrosses).concat(renames).map(d => Object.keys(d)[0]);
     const keys = d3Array.merge([
-      queryCrosses.length ? queryCrosses[0].map(d => Object.keys(d)[0]) : [],
+      crossKeys,
       drilldowns,
       cuts.map(d => d[0]),
       ["Year"]
     ]);
 
-    const mergedData = d3Collection.nest()
+    let mergedData = d3Collection.nest()
       .key(d => keys.map(key => d[key]).join("_"))
       .entries(flatArray)
       .map(d => Object.assign(...d.values));
 
-    let sortedData = multiSort(mergedData, order, sort);
+    // TODO add this once mondrian-rest ordering works
+    // const sourceMeasures = d3Array.merge(Object.values(queries).map(d => d.measures));
+    // if (order.length > 1 || !sourceMeasures.includes(order[0])) {
+    //   mergedData = multiSort(mergedData, order, sort);
+    //   if (debug) console.log(`Order: ${order.join(", ")} (${sort})`);
+    // }
 
-    if (limit && !perValue) sortedData = sortedData.slice(0, limit);
+    // TODO remove this once mondrian-rest ordering works
+    mergedData = multiSort(mergedData, order, sort);
+    if (limit && !perValue) mergedData = mergedData.slice(0, limit);
 
     const source = Object.values(queries).map(d => {
       delete d.flatDims;
@@ -514,7 +594,7 @@ module.exports = function(app) {
       return d;
     });
 
-    res.json({data: sortedData, source}).end();
+    res.json({data: mergedData, source}).end();
 
   });
 

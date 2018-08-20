@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "@blueprintjs/core";
 
-import {LABELS as OPERATOR_LABELS} from "../helpers/operators";
+import {LABELS as OPERATOR_LABELS} from "../../../helpers/operators";
 
 const renderCutValue = item => <span key={item.name}>{item.name}</span>;
 const renderFilterValue = (item, i) => i === 0 ? item : "";

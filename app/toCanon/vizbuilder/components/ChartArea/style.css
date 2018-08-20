@@ -18,14 +18,35 @@
 
   & .chart-card {
     width: 100%;
+    min-width: 300px;
     transition: all 0.2s ease-in-out;
 
+    & > .wrapper {
+      display: flex;
+      flex-flow: column nowrap;
+      margin: 10px;
+      padding: 15px 25px;
+    }
+
+    & .viz {
+      flex: 1 0;
+      margin: 0 0 1rem;
+
+      & > svg {
+        display: block;
+        max-width: 100%;
+      }
+    }
+
     & footer {
+      flex: 0 0;
       display: flex;
       flex-flow: row nowrap;
       justify-content: flex-end;
+      align-items: center;
     }
   }
+
 }
 
 @media screen and (min-width: 1200px) {

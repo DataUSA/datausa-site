@@ -3,8 +3,8 @@ import classnames from "classnames";
 import escapeRegExp from "lodash/escapeRegExp";
 import {Icon} from "@blueprintjs/core";
 
-import BaseSelect from "./BaseSelect";
-import {composePropertyName} from "../helpers/sorting";
+import BaseSelect from "../../BaseSelect";
+import {composePropertyName} from "../../../helpers/sorting";
 
 function ConditionPropertySelect(props) {
   let item;
@@ -55,7 +55,7 @@ ConditionPropertySelect.defaultProps = {
         onClick={handleClick}
         title={name}
       >
-        <span className="select-option-label">{name}</span>
+        <span className="select-label">{name}</span>
       </li>
     );
   }

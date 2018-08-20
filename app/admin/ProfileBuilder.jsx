@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {NonIdealState, Tree} from "@blueprintjs/core";
 import ProfileEditor from "./ProfileEditor";
 import SectionEditor from "./SectionEditor";
@@ -367,7 +368,7 @@ class ProfileBuilder extends Component {
   }
 
   /**
-   * 
+   *
    */
   locateProfileNodeBySlug(slug) {
     return this.state.nodes.find(p => p.data.slug === slug);
@@ -444,11 +445,11 @@ class ProfileBuilder extends Component {
   }
 
   /*
-   * When the function "fetchVariables" is called (below), it means that something has 
+   * When the function "fetchVariables" is called (below), it means that something has
    * happened in one of the editors that requires re-running the generators and storing
    * a new set of variables in the hash. When this happens, it is an opportunity to update
    * all the labels in the tree by varSwapping them, allowing them to appear properly
-   * in the sidebar. 
+   * in the sidebar.
    */
   formatTreeVariables() {
     const {variablesHash, currentSlug, nodes} = this.state;
@@ -488,6 +489,9 @@ class ProfileBuilder extends Component {
   render() {
 
     const {nodes, currentNode, variablesHash, currentSlug, preview} = this.state;
+
+    const {NODE_ENV} = this.props.env;
+    if (NODE_ENV === "production") return null;
 
     if (!nodes) return <div>Loading</div>;
 
@@ -553,4 +557,4 @@ ProfileBuilder.contextTypes = {
   formatters: PropTypes.object
 };
 
-export default ProfileBuilder;
+export default connect(state => ({env: state.env}))(ProfileBuilder);

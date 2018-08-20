@@ -1,3 +1,5 @@
+import styles from "./style.yml";
+
 const axisStyles = {
   barConfig: {
     stroke: "#ccc"
@@ -54,7 +56,7 @@ export default {
   ocean: "#D5DADC",
   padPixel: 1,
   shapeConfig: {
-    fill: "#ef6145",
+    fill: styles.red,
     hoverOpacity: 0.5,
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
@@ -62,12 +64,19 @@ export default {
       padding: 5
     },
     Line: {
+      stroke: styles.red,
       strokeWidth: 3,
       strokeLinecap: "round"
     },
     Path: {
       fillOpacity: 0.75
     }
+  },
+  titleConfig: {
+    fontFamily: "Pathway Gothic One",
+    fontSize: 20,
+    fontWeight: 400,
+    padding: 0
   },
   tooltipConfig: {
     background: "white",

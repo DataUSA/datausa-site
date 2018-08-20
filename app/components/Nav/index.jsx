@@ -90,10 +90,10 @@ export default class Nav extends Component {
               </ul>
             </li>
             <li>
-              <Link to="/story/">Stories</Link>
+              <Link to="/visualize/">Visualization Builder</Link>
             </li>
             <li>
-              <Link to="/map/">Maps</Link>
+              <Link to="/story/">Stories</Link>
             </li>
             <li>
               <Link to="/cart/">Data Cart</Link>

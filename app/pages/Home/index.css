@@ -64,6 +64,7 @@
     padding: 0 50px;
     position: relative;
     width: 100%;
+    z-index: 1;
     & .pt-input-group {
       border-radius: 0;
       & .pt-icon {

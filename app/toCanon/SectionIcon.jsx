@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {AnchorLink} from "datawheel-canon";
+import {AnchorLink} from "@datawheel/canon-core";
 
 export default class SectionIcon extends Component {
 

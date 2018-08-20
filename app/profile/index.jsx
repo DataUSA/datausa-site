@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
-import {CanonProfile, fetchData, SubNav} from "datawheel-canon";
+import {CanonProfile, fetchData, SubNav} from "@datawheel/canon-core";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
 import Topic from "./Topic";
@@ -12,7 +12,7 @@ import axios from "axios";
 import {select} from "d3-selection";
 import "./index.css";
 
-import Loading from "components/Loading/index";
+import Loading from "components/Loading";
 import Section from "./Section";
 
 class Profile extends Component {

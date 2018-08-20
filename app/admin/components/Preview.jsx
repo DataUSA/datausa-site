@@ -5,7 +5,10 @@ import "./Preview.css";
 
 const previewHash = {
   geo: ["04000US25", "01000US", "04000US36", "05000US25025", "31000US14460", "16000US0455000"],
-  cip: ["400501"]
+  cip: ["110701"],
+  soc: ["151131"],
+  naics: ["622"],
+  university: ["167358"]
 };
 
 class Preview extends Component {
@@ -31,7 +34,7 @@ class Preview extends Component {
   updatePreview() {
     const {currentSlug} = this.props;
     const previewArray = previewHash[currentSlug];
-    const preview = previewArray[0];
+    const preview = previewArray ? previewArray[0] : "";
     this.setState({preview, previewArray});
     if (this.props.onSelectPreview) this.props.onSelectPreview(preview);
   }

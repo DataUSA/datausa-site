@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Viz from "components/Viz/index";
+import {AnchorLink} from "@datawheel/canon-core";
 import "./Section.css";
 
 class Section extends Component {
@@ -11,7 +12,7 @@ class Section extends Component {
 
     return <div className={ `Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
       <h2 className="section-title">
-        <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
+        <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></AnchorLink>
       </h2>
       <div className="section-body">
         <div className="section-content">

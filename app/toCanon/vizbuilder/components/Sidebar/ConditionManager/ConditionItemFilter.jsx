@@ -4,7 +4,7 @@ import {Button, NumericInput} from "@blueprintjs/core";
 import OPERATORS, {
   KIND_NUMBER as NUMBER_OPERATORS,
   LABELS as OPERATOR_LABELS
-} from "../helpers/operators";
+} from "../../../helpers/operators";
 
 import ConditionPropertySelect from "./ConditionPropertySelect";
 
@@ -13,6 +13,7 @@ function FilterItemMeasure(props) {
     <div className="condition-item filter">
       <div className="group condition-property">
         <ConditionPropertySelect
+          className="custom-select"
           value={props.property}
           items={props.properties}
           onItemSelect={props.onSetProperty}
@@ -30,7 +31,7 @@ function FilterItemMeasure(props) {
         </div>
         <NumericInput
           className="pt-fill"
-          value={props.values[0] || 0}
+          value={props.values[0]}
           onValueChange={props.onSetValue}
         />
       </div>

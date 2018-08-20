@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
-import {AnchorLink, fetchData} from "datawheel-canon";
+import {AnchorLink, fetchData} from "@datawheel/canon-core";
 import slugify from "toCanon/slugify";
 import Splash from "toCanon/Splash";
 import TextViz from "toCanon/topics/TextViz";

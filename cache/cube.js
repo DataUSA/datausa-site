@@ -63,6 +63,7 @@ module.exports = function() {
           })
           .then(resp => {
             const years = resp.data.data.map(d => d["ID Year"]).sort();
+            // console.log(` 🗓️  Year Cache Success: ${cube.name}`);
             return {
               cube: cube.name,
               latest: years[years.length - 1],
@@ -72,7 +73,7 @@ module.exports = function() {
             };
           })
           .catch(err => {
-            console.log(` 🗓️  Year Cache Error: ${cube.name} (${err.status} - ${err.message})`);
+            console.error(` 🚫  Year Cache Error: ${cube.name} (${err.status} - ${err.message})`);
           })));
 
       return Promise.all(cubeQueries)

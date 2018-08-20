@@ -8,7 +8,7 @@ import {nest} from "d3-collection";
 import localforage from "localforage";
 import "./Cart.css";
 
-import Loading from "components/Loading/index";
+import Loading from "components/Loading";
 import cubeFold from "helpers/cubeFold";
 
 export default class Cart extends Component {

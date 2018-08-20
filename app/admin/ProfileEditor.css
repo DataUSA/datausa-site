@@ -42,7 +42,7 @@
 
 #status {
   background-color: rgba(255, 255, 255, 0);
-  bottom: 0;
+  bottom: 30px;
   color: #888;
   height: 30px;
   font-size: 14px;

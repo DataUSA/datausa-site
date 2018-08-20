@@ -27,10 +27,12 @@
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 30px;
       font-weight: 400;
-      margin: 0 auto 10px;
+      line-height: 1.1;
+      margin: 0 auto;
       z-index: 2;
       & a {
         color: #333;
+        display: inline-block;
         margin-top: calc(calc(var(--subnav-size) + 10px) * -1);
         outline: 0;
         padding-top: calc(var(--subnav-size) + 10px);
@@ -46,41 +48,6 @@
       letter-spacing: 0.05em;
       margin: 0px auto 10px;
       width: 100%;
-    }
-
-    & .pt-select {
-      position: relative;
-      margin-bottom: 5px;
-      & select {
-        appearance: none;
-        background: white;
-        border-radius: 0;
-        color: #949494;
-        font-size: 13px;
-        height: 35px;
-        padding: 9px 23px 9px 9px;
-        transition: background 0.2s;
-        &:hover {
-          background: rgb(241, 241, 241);
-        }
-      }
-      &:after {
-        color: #949494;
-        content: "";
-        display: block;
-        font-family: "Icons16", sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        font-style: normal;
-        line-height: 1;
-        opacity: 0.5;
-        position: absolute;
-        right: 10px;
-        top: 9px;
-        width: 11px;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-      }
     }
 
     & .topic-stats {

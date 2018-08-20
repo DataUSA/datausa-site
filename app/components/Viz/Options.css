@@ -1,6 +1,7 @@
 .Options {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 5px;
   & .option {
     color: #949494;
     cursor: pointer;

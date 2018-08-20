@@ -1,12 +1,14 @@
-import PropTypes from "prop-types";
-
+/**
+ * Generates a new, empty initial state for the whole Vizbuilder.
+ */
 export default function initialStateFactory() {
   return {
     load: {
       inProgress: false,
       total: 0,
       done: 0,
-      error: undefined
+      error: undefined,
+      severity: -1
     },
     query: {
       conditions: [],
@@ -20,51 +22,32 @@ export default function initialStateFactory() {
       offset: undefined,
       order: undefined,
       orderDesc: undefined,
-      options: {
-        nonempty: true,
-        distinct: false,
-        parents: false,
-        debug: false,
-        sparse: true
-      },
       timeDrilldown: null
     },
-    options: {
-      cubes: [],
-      dimensions: [],
-      levels: [],
-      measures: []
+    // This object is later combined into `query` as part of the query building
+    queryOptions: {
+      nonempty: true,
+      distinct: false,
+      parents: false,
+      debug: false,
+      sparse: true
     },
-    dataset: []
+    options: {
+      // All cubes retrieved initially
+      cubes: [],
+      // All non-time Dimensions for the cube which owns the current measure
+      dimensions: [],
+      // All valid levels from the `dimensions` array
+      levels: [],
+      // All non-time Levels that can be used as Cuts for the current query
+      drilldowns: [],
+      // All valid measures (not MoEs) from all the cubes retrieved
+      measures: [],
+      // ??
+      members: []
+    },
+    dataset: [],
+    members: {},
+    meta: {}
   };
 }
-
-export const loadTypes = PropTypes.shape({
-  inProgress: PropTypes.bool,
-  total: PropTypes.number,
-  done: PropTypes.number,
-  error: PropTypes.instanceOf(Error)
-});
-
-export const queryTypes = PropTypes.shape({
-  conditions: PropTypes.array,
-  cube: PropTypes.any,
-  dimension: PropTypes.any,
-  drilldown: PropTypes.any,
-  measure: PropTypes.any,
-  moe: PropTypes.any,
-  limit: PropTypes.number,
-  locale: PropTypes.string,
-  offset: PropTypes.number,
-  options: PropTypes.any,
-  order: PropTypes.any,
-  orderDesc: PropTypes.bool,
-  timeDrilldown: PropTypes.any
-});
-
-export const optionsTypes = PropTypes.shape({
-  cubes: PropTypes.array,
-  dimensions: PropTypes.array,
-  levels: PropTypes.array,
-  measures: PropTypes.array
-});

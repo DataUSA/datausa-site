@@ -1,6 +1,105 @@
 .vizbuilder {
   background-color: var(--white);
-  & .area-chart {
-    overflow-y: scroll;
+  min-height: calc(100vh - var(--nav-height));
+  padding-top: var(--nav-height);
+  & .area-sidebar, & .area-chart {
+    height: calc(100vh - var(--nav-height));
   }
+  & .area-sidebar {
+    & .label {
+      color: var(--darkgray);
+      font-family: "Palanquin", sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      text-align: left;
+      text-transform: uppercase;
+    }
+    & .condition-items {
+      & .condition-item {
+        background-color: white;
+        border: 1px solid #bbb;
+        color: var(--darkgray);
+        font-family: "Palanquin", sans-serif;
+        font-size: 13px;
+        padding: 10px;
+        & .condition-content {
+          & .condition-prop, & .condition-oper, & .condition-value {
+            display: inline-block;
+            font-size: 13px;
+            text-transform: none;
+            &:not(:first-child) {
+              margin-left: 3px;
+            }
+          }
+          & .condition-oper {
+            text-transform: lowercase;
+          }
+        }
+        & .condition-action {
+          color: var(--red);
+          line-height: 14px;
+          min-height: 16px;
+          min-width: 20px;
+          &:before {
+            font-size: 14px;
+          }
+        }
+        & .pt-numeric-input {
+          & input, & .pt-button-group {
+            border-radius: 0;
+            height: 35px;
+          }
+          & .pt-button-group {
+            height: 35px;
+            & button {
+              border-radius: 0;
+              flex: 1;
+            }
+          }
+        }
+        & .condition-actions {
+          & button {
+            background: none;
+            border: 1px solid var(--red);
+            border-radius: 0;
+            box-shadow: none;
+            color: var(--red);
+            font-size: 13px;
+            font-weight: 600;
+            &.pt-intent-primary {
+              background: var(--red);
+              color: white;
+            }
+          }
+        }
+      }
+    }
+    & .pt-button.pt-icon-insert {
+      background: none;
+      border: 1px solid var(--red);
+      border-radius: 0;
+      box-shadow: none;
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.1s, color 0.1s;
+      &:before {
+        color: var(--red);
+        font-size: 13px;
+        transition: color 0.1s;
+      }
+      &:hover {
+        background: var(--red);
+        color: white;
+        &:before {
+          color: white;
+        }
+      }
+    }
+  }
+  /* & .chart-card {
+    width: 100% !important;
+  } */
 }

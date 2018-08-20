@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "@blueprintjs/core";
 
-import {fetchMembers} from "../actions/fetch";
+import {fetchMembers} from "../../../actions/fetch";
 
 import ConditionPropertySelect from "./ConditionPropertySelect";
 import MemberSelect from "./MemberSelect";
@@ -11,6 +11,7 @@ class FilterItemLevel extends React.PureComponent {
     super(props);
 
     this.state = {
+      loading: false,
       members: []
     };
   }
@@ -28,12 +29,14 @@ class FilterItemLevel extends React.PureComponent {
   }
 
   render() {
+    const {loading, members} = this.state;
     const props = this.props;
 
     return (
       <div className="condition-item cut">
         <div className="group condition-property">
           <ConditionPropertySelect
+            className="custom-select"
             value={props.property}
             items={props.properties}
             onItemSelect={props.onSetProperty}
@@ -41,7 +44,9 @@ class FilterItemLevel extends React.PureComponent {
         </div>
         <div className="group condition-values">
           <MemberSelect
-            items={this.state.members}
+            loading={loading}
+            className="custom-select"
+            items={members}
             selectedItems={props.values}
             onItemSelect={props.onAddValue}
             onItemRemove={props.onRemoveValue}

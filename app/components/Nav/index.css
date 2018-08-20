@@ -88,7 +88,7 @@
       padding: 40px 50px;
       & li {
         font-family: "Palanquin", sans-serif;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.1em;
         padding: 5px 0;
@@ -102,9 +102,9 @@
           }
         }
         & ul {
-          padding: 5px 13px 10px;
+          padding: 5px 15px 5px;
           & li {
-            font-size: 16px;
+            font-size: 14px;
           }
         }
       }

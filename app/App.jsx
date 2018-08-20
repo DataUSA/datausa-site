@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import "./App.css";
 
-import {Canon, fetchData} from "datawheel-canon";
+import {fetchData} from "@datawheel/canon-core";
 import "./d3plus.css";
 
 import libs from "../utils/libs";
@@ -47,11 +47,12 @@ class App extends Component {
     const bare = pathname.includes("profile") && pathname.split("/").length === 5;
 
     return (
-      <Canon className={bare ? "bare" : ""}>
+      <div id="App" className={bare ? "bare" : ""}>
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
-      </Canon>
+        <div id="Beta">This is a prototype for the new Data USA. Please e-mail <a href="mailto:hello@datausa.io?subject=Prototype%20Feedback">hello@datausa.io</a> with any feedback.</div>
+      </div>
     );
 
   }
