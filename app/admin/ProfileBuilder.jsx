@@ -10,7 +10,6 @@ import CtxMenu from "./CtxMenu";
 
 import varSwap from "../../utils/varSwap";
 
-import stubs from "../../utils/stubs.js";
 import deepClone from "../../utils/deepClone.js";
 
 import "./ProfileBuilder.css";
@@ -146,7 +145,7 @@ class ProfileBuilder extends Component {
     // build the new Profile Tree Object, we can set the masterSlug of all three new elements (profile, section, topic)
     // to "parent.masterSlug" and have that correctly reflect the stub object.
     else if (n.itemType === "profile") {
-      parent = {masterSlug: stubs.objProfile.data.slug};
+      parent = {masterSlug: "new-profile-slug"};
       parentArray = nodes;
     }
     let loc = n.data.ordering;
@@ -168,17 +167,29 @@ class ProfileBuilder extends Component {
       }
     }
 
-    const objTopic = deepClone(stubs.objTopic);
+    const objTopic = {
+      hasCaret: false,
+      itemType: "topic",
+      data: {}
+    };
     objTopic.data.section_id = n.data.section_id;
     objTopic.data.ordering = loc;
     objTopic.masterSlug = parent.masterSlug;
 
-    const objSection = deepClone(stubs.objSection);
+    const objSection = {
+      hasCaret: true,
+      itemType: "section",
+      data: {}
+    };
     objSection.data.profile_id = n.data.profile_id;
     objSection.data.ordering = loc;
     objSection.masterSlug = parent.masterSlug;
 
-    const objProfile = deepClone(stubs.objProfile);
+    const objProfile = {
+      hasCaret: true,
+      itemType: "profile",
+      data: {}
+    };
     objProfile.data.ordering = loc;
     objProfile.masterSlug = parent.masterSlug;
 
@@ -209,7 +220,7 @@ class ProfileBuilder extends Component {
         axios.post(topicPath, obj.data).then(topic => {
           if (topic.status === 200) {
             obj.id = `topic${topic.data.id}`;
-            obj.data.id = topic.data.id;
+            obj.data = topic.data;
             const parent = this.locateNode("section", obj.data.section_id);
             parent.childNodes.push(obj);
             parent.childNodes.sort((a, b) => a.data.ordering - b.data.ordering);
@@ -223,12 +234,12 @@ class ProfileBuilder extends Component {
       else if (n.itemType === "section") {
         axios.post(sectionPath, obj.data).then(section => {
           obj.id = `section${section.data.id}`;
-          obj.data.id = section.data.id;
+          obj.data = section.data;
           objTopic.data.section_id = section.data.id;
           axios.post(topicPath, objTopic.data).then(topic => {
             if (topic.status === 200) {
               objTopic.id = `topic${topic.data.id}`;
-              objTopic.data.id = topic.data.id;
+              objTopic.data = topic.data;
               const parent = this.locateNode("profile", obj.data.profile_id);
               parent.childNodes.push(obj);
               parent.childNodes.sort((a, b) => a.data.ordering - b.data.ordering);
@@ -243,16 +254,16 @@ class ProfileBuilder extends Component {
       else if (n.itemType === "profile") {
         axios.post(profilePath, obj.data).then(profile => {
           obj.id = `profile${profile.data.id}`;
-          obj.data.id = profile.data.id;
+          obj.data = profile.data;
           objSection.data.profile_id = profile.data.id;
           axios.post(sectionPath, objSection.data).then(section => {
             objSection.id = `section${section.data.id}`;
-            objSection.data.id = section.data.id;
+            objSection.data = section.data;
             objTopic.data.section_id = section.data.id;
             axios.post(topicPath, objTopic.data).then(topic => {
               if (topic.status === 200) {
                 objTopic.id = `topic${topic.data.id}`;
-                objTopic.data.id = topic.data.id;
+                objTopic.data = topic.data;
                 nodes.push(obj);
                 nodes.sort((a, b) => a.data.ordering - b.data.ordering);
                 this.setState({nodes}, this.handleNodeClick.bind(this, obj));

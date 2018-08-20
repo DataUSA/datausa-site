@@ -6,9 +6,6 @@ import CtxMenu from "./CtxMenu";
 import StoryEditor from "./StoryEditor";
 import StoryTopicEditor from "./StoryTopicEditor";
 
-import stubs from "../../utils/stubs.js";
-import deepClone from "../../utils/deepClone.js";
-
 import "./StoryBuilder.css";
 
 const topicIcons = {
@@ -103,6 +100,7 @@ class StoryBuilder extends Component {
 
   addItem(n, dir) {
     const {nodes} = this.state;
+    const {stripHTML} = this.context.formatters;
     n = this.locateNode(n.itemType, n.data.id);
     let parentArray;
     if (n.itemType === "storytopic") {
@@ -130,11 +128,19 @@ class StoryBuilder extends Component {
       }
     }
 
-    const objStoryTopic = deepClone(stubs.objStoryTopic);
+    const objStoryTopic = {
+      hasCaret: false,
+      itemType: "storytopic",
+      data: {}
+    };
     objStoryTopic.data.story_id = n.data.story_id;
     objStoryTopic.data.ordering = loc;
 
-    const objStory = deepClone(stubs.objStory);
+    const objStory = {
+      hasCaret: true,
+      itemType: "story",
+      data: {}
+    };
     objStory.data.ordering = loc;
 
     let obj = null;
@@ -157,7 +163,8 @@ class StoryBuilder extends Component {
         axios.post(storyTopicPath, obj.data).then(storytopic => {
           if (storytopic.status === 200) {
             obj.id = `storytopic${storytopic.data.id}`;
-            obj.data.id = storytopic.data.id;
+            obj.data = storytopic.data;
+            obj.label = this.decode(stripHTML(storytopic.data.title));
             const parent = this.locateNode("story", obj.data.story_id);
             parent.childNodes.push(obj);
             parent.childNodes.sort((a, b) => a.data.ordering - b.data.ordering);
@@ -171,12 +178,14 @@ class StoryBuilder extends Component {
       else if (n.itemType === "story") {
         axios.post(storyPath, obj.data).then(story => {
           obj.id = `story${story.data.id}`;
-          obj.data.id = story.data.id;
+          obj.data = story.data;
+          obj.label = this.decode(stripHTML(story.data.title));
           objStoryTopic.data.story_id = story.data.id;
           axios.post(storyTopicPath, objStoryTopic.data).then(storyTopic => {
             if (storyTopic.status === 200) {
               objStoryTopic.id = `storytopic${storyTopic.data.id}`;
-              objStoryTopic.data.id = storyTopic.data.id;
+              objStoryTopic.data = storyTopic.data;
+              objStoryTopic.label = this.decode(stripHTML(storyTopic.data.title));
               nodes.push(obj);
               nodes.sort((a, b) => a.data.ordering - b.data.ordering);
               this.setState({nodes}, this.handleNodeClick.bind(this, obj));

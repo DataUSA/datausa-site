@@ -5,8 +5,6 @@ import TextCard from "./components/TextCard";
 import MoveButtons from "./components/MoveButtons";
 import Loading from "components/Loading";
 
-import stubs from "../../utils/stubs.js";
-
 import "./StoryEditor.css";
 
 const propMap = {
@@ -67,7 +65,7 @@ class StoryEditor extends Component {
 
   addItem(type) {
     const {minData} = this.state;
-    const payload = Object.assign({}, stubs[type]);
+    const payload = {};
     payload.story_id = minData.id;
     // todo: move this ordering out to axios (let the server concat it to the end)
     payload.ordering = minData[propMap[type]].length;
