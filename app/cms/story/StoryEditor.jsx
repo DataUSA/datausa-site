@@ -36,12 +36,6 @@ class StoryEditor extends Component {
     });
   }
 
-  changeField(field, e) {
-    const {minData} = this.state;
-    minData[field] = e.target.value;
-    this.setState({minData});
-  }
-
   onSave(minData) {
     if (this.props.reportSave) this.props.reportSave("story", minData.id, minData.title);
   }
@@ -87,23 +81,15 @@ class StoryEditor extends Component {
 
     return (
       <div>
-        <h4>Title</h4>
+        <h4>Story</h4>
         <TextCard
           id={minData.id}
           fields={["title"]}
+          plainfields={["image", "slug"]}
           type="story"
           onSave={this.onSave.bind(this)}
           variables={{}}
         />
-        <div>
-          <label className="pt-label pt-inline">
-            Image
-            <div className="pt-input-group">
-              <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.image} onChange={this.changeField.bind(this, "image")}/>
-              <button className="pt-button" onClick={this.save.bind(this)}>Save</button>
-            </div>
-          </label>
-        </div>
         <h4>Descriptions</h4>
         <Button onClick={this.addItem.bind(this, "story_description")} iconName="add" />
         <div className="descriptions">

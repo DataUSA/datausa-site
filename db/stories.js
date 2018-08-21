@@ -9,7 +9,8 @@ module.exports = function(sequelize, db) {
       },
       title: db.STRING,
       image: db.STRING,
-      ordering: db.INTEGER
+      ordering: db.INTEGER,
+      slug: db.STRING
     }, 
     {
       freezeTableName: true,
