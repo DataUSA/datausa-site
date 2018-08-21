@@ -1,8 +1,8 @@
 const d3Array = require("d3-array");
-const {CANON_API, CUBE_URL} = process.env;
+const {CANON_API, CANON_LOGICLAYER_CUBE} = process.env;
 
 module.exports = {
-  "canon-logic": {
+  logiclayer: {
     aliases: {
       "CIP": "cip",
       "Geography": "geo",
@@ -49,7 +49,7 @@ module.exports = {
                     : false;
         },
         neighbors: {
-          url: id => `${CUBE_URL}/geoservice-api/neighbors/${id}`,
+          url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
           callback: arr => arr.map(d => d.geoid)
         },
         parents: {
@@ -62,8 +62,8 @@ module.exports = {
                     : prefix === "795" ? "nation,state" /* puma */
                       : false;
             return targetLevels
-              ? `${CUBE_URL}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
-              : `${CUBE_URL}/geoservice-api/relations/intersects/${id}`;
+              ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
+              : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
           },
           callback: arr => {
             const ids = arr.map(d => d.geoid);
@@ -90,7 +90,7 @@ module.exports = {
         },
         url: (id, level) => {
           const targetLevel = level.replace(/^[A-Z]{1}/g, chr => chr.toLowerCase());
-          return `${CUBE_URL}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
+          return `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
         },
         callback: arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid
       }

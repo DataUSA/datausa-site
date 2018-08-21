@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const {CUBE_URL} = process.env;
+const {CANON_LOGICLAYER_CUBE} = process.env;
 
 function parseParents(data) {
   const levels = data.hierarchies[0].levels;
@@ -18,10 +18,10 @@ module.exports = function() {
 
   return Promise
     .all([
-      axios.get(`${CUBE_URL}/cubes/pums_5/dimensions/PUMS%20Industry/`).then(resp => resp.data),
-      axios.get(`${CUBE_URL}/cubes/pums_5/dimensions/PUMS%20Occupation/`).then(resp => resp.data),
-      axios.get(`${CUBE_URL}/cubes/ipeds_completions/dimensions/CIP/`).then(resp => resp.data),
-      axios.get(`${CUBE_URL}/cubes/ipeds_completions/dimensions/University/`).then(resp => resp.data)
+      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/pums_5/dimensions/PUMS%20Industry/`).then(resp => resp.data),
+      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/pums_5/dimensions/PUMS%20Occupation/`).then(resp => resp.data),
+      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/ipeds_completions/dimensions/CIP/`).then(resp => resp.data),
+      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/ipeds_completions/dimensions/University/`).then(resp => resp.data)
     ])
     .then(([industries, occupations, courses, universities]) => ({
       naics: parseParents(industries),
