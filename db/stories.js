@@ -7,10 +7,19 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.STRING,
-      image: db.STRING,
+      title: {
+        type: db.STRING,
+        defaultValue: "New Story"
+      },       
+      image: {
+        type: db.STRING,
+        defaultValue: "New Image"
+      }, 
       ordering: db.INTEGER,
-      slug: db.STRING
+      slug: {
+        type: db.STRING,
+        defaultValue: "new-story-slug"
+      }
     }, 
     {
       freezeTableName: true,

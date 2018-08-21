@@ -7,9 +7,18 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.TEXT,
-      subtitle: db.TEXT,
-      value: db.TEXT,
+      title: {
+        type: db.STRING,
+        defaultValue: "New Stat"
+      },
+      subtitle: {
+        type: db.STRING,
+        defaultValue: "New Subtitle"
+      },      
+      value: {
+        type: db.STRING,
+        defaultValue: "New Value"
+      },      
       storytopic_id: db.INTEGER,
       ordering: db.INTEGER
     }, 

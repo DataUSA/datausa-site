@@ -7,9 +7,15 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      logic: db.TEXT,
+      logic: {
+        type: db.TEXT,
+        defaultValue: "return {}"
+      },      
       profile_id: db.INTEGER,
-      allowed: db.STRING,
+      allowed: {
+        type: db.STRING,
+        defaultValue: "always"
+      },
       ordering: db.INTEGER
     }, 
     {

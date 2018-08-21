@@ -7,9 +7,18 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      name: db.TEXT,
-      description: db.TEXT,
-      logic: db.TEXT,
+      name: {
+        type: db.TEXT,
+        defaultValue: "New Materializer"
+      },
+      description: {
+        type: db.TEXT,
+        defaultValue: "New Description"
+      },
+      logic: {
+        type: db.TEXT,
+        defaultValue: "return {}"
+      },
       ordering: db.INTEGER,
       profile_id: db.INTEGER
     },
