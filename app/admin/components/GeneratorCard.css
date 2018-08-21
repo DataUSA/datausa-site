@@ -20,7 +20,7 @@
   & .table {
     flex: 1;
     max-height: 90px;
-    overflow-y: scroll-y;
+    overflow-y: scroll;
 
     & .pt-table {
       height: 100%;
