@@ -19,15 +19,15 @@
   }
   & .table {
     flex: 1;
-    max-height: 120px;
-    overflow-y: scroll;
+    max-height: 90px;
+    overflow-y: scroll-y;
 
     & .pt-table {
       height: 100%;
       width: 100%;
       & td {
         max-width: 0;
-        overflow-x: scroll;
+        overflow-x: hidden;
         padding: 4px;
         width: 50%;
       }
