@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const {CUBE_URL} = process.env;
+const {CANON_LOGICLAYER_CUBE} = process.env;
 
 const slugMap = {
   geo: "Geography",
@@ -46,7 +46,7 @@ module.exports = function(app) {
           }
           else if (pslug === "geo") {
 
-            axios.get(`${CUBE_URL}geoservice-api/relations/parents/${attr.id}`)
+            axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}`)
               .then(d => d.data.reverse())
               .then(d => d.map(p => p.geoid))
               .then(d => {

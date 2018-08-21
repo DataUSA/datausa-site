@@ -1,9 +1,9 @@
 const {Client} = require("mondrian-rest-client");
-const {CUBE_URL} = process.env;
+const {CANON_LOGICLAYER_CUBE} = process.env;
 
 module.exports = async function() {
 
-  const client = new Client(CUBE_URL);
+  const client = new Client(CANON_LOGICLAYER_CUBE);
 
   const levels = ["Nation", "State", "County", "Msa", "Place", "Puma", "Tract"];
   const popQueries = levels

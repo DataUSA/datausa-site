@@ -14,9 +14,9 @@ function parse(str) {
   return str.replace(/\,/g, "\,").replace(/\"/g, "\'");
 }
 
-const {CUBE_URL} = process.env;
+const {CANON_LOGICLAYER_CUBE} = process.env;
 
-const client = new Client(CUBE_URL);
+const client = new Client(CANON_LOGICLAYER_CUBE);
 
 client.cubes()
   .then(cubes => {
