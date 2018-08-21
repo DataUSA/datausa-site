@@ -7,10 +7,19 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      options: db.ARRAY(db.JSON),
-      default: db.TEXT,
+      options: {
+        type: db.ARRAY(db.JSON),
+        defaultValue: []
+      },
+      default: {
+        type: db.TEXT,
+        defaultValue: ""
+      },          
       topic_id: db.INTEGER,
-      name: db.STRING,
+      name: {
+        type: db.STRING,
+        defaultValue: "newselector"
+      },        
       ordering: db.INTEGER
     }, 
     {

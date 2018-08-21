@@ -7,11 +7,23 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.STRING,
-      subtitle: db.TEXT,
-      slug: db.STRING,
+      title: {
+        type: db.STRING,
+        defaultValue: "New Profile"
+      },
+      subtitle: {
+        type: db.TEXT,
+        defaultValue: "New Subtitle"
+      },
+      slug: {
+        type: db.STRING,
+        defaultValue: "new-profile-slug"
+      },
       ordering: db.INTEGER,
-      label: db.STRING
+      label: {
+        type: db.STRING,
+        defaultValue: "New Profile Label"
+      }
     }, 
     {
       freezeTableName: true,

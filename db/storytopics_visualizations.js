@@ -7,7 +7,10 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      logic: db.TEXT,
+      logic: {
+        type: db.TEXT,
+        defaultValue: "return {}"
+      },      
       storytopic_id: db.INTEGER,
       ordering: db.INTEGER
     }, 

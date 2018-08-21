@@ -7,11 +7,20 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.STRING,
-      slug: db.STRING,
+      title: {
+        type: db.STRING,
+        defaultValue: "New Section"
+      },      
+      slug: {
+        type: db.STRING,
+        defaultValue: "new-section-slug"
+      },
       profile_id: db.INTEGER,
       ordering: db.INTEGER,
-      allowed: db.STRING
+      allowed: {
+        type: db.STRING,
+        defaultValue: "always"
+      }
     }, 
     {
       freezeTableName: true,

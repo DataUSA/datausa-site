@@ -7,10 +7,22 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      name: db.TEXT,
-      api: db.TEXT,
-      description: db.TEXT,
-      logic: db.TEXT,
+      name: {
+        type: db.TEXT,
+        defaultValue: "New Generator"
+      },
+      api: {
+        type: db.TEXT,
+        defaultValue: "http://api-goes-here"
+      },
+      description: {
+        type: db.TEXT,
+        defaultValue: "New Description"
+      },
+      logic: {
+        type: db.TEXT,
+        defaultValue: "return {}"
+      },
       profile_id: db.INTEGER
     },
     {

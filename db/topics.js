@@ -7,12 +7,24 @@ module.exports = function(sequelize, db) {
         primaryKey: true,
         autoIncrement: true
       },
-      title: db.STRING,
-      slug: db.STRING,
+      title: {
+        type: db.STRING,
+        defaultValue: "New Topic"
+      },      
+      slug: {
+        type: db.STRING,
+        defaultValue: "new-topic-slug"
+      },
       section_id: db.INTEGER, 
-      type: db.STRING,
+      type: {
+        type: db.STRING,
+        defaultValue: "TextViz"
+      }, 
       ordering: db.INTEGER,
-      allowed: db.STRING
+      allowed: {
+        type: db.STRING,
+        defaultValue: "always"
+      }
     }, 
     {
       freezeTableName: true,
