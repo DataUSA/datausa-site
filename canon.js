@@ -34,6 +34,7 @@ module.exports = {
       }
     ],
     dimensionMap: {
+      "CIP2": "CIP",
       "Destination State": "Geography",
       "Origin State": "Geography"
     },
@@ -93,6 +94,14 @@ module.exports = {
           return `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
         },
         callback: arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid
+      },
+      CIP: {
+        levels: {
+          CIP6: ["CIP4", "CIP2"],
+          CIP4: ["CIP2"]
+        },
+        url: (id, level) => `${CANON_API}/api/cip/parent/${id}/${level}/`,
+        callback: resp => resp.id
       }
     }
   }
