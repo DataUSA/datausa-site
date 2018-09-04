@@ -3,10 +3,11 @@ const axios = require("axios");
 const {CANON_LOGICLAYER_CUBE} = process.env;
 
 const slugMap = {
+  cip: "CIP",
   geo: "Geography",
   naics: "PUMS Industry",
+  napcs: "NAPCS",
   soc: "PUMS Occupation",
-  cip: "CIP",
   university: "University"
 };
 

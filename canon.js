@@ -10,7 +10,8 @@ module.exports = {
       "PUMS Industry": "naics",
       "PUMS Occupation": "soc",
       "University": "university",
-      "Year": "year"
+      "Year": "year",
+      "NAPCS": "napcs"
     },
     cubeFilters: [
       {

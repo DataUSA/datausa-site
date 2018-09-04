@@ -9,6 +9,7 @@ const searchMap = {
   cip: "CIP",
   geo: "Geography",
   naics: "PUMS Industry",
+  napcs: "NAPCS",
   soc: "PUMS Occupation",
   university: "University"
 };

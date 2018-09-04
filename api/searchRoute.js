@@ -1,10 +1,11 @@
 const sequelize = require("sequelize");
 
 const slugMap = {
+  cip: "CIP",
   geo: "Geography",
   naics: "PUMS Industry",
+  napcs: "NAPCS",
   soc: "PUMS Occupation",
-  cip: "CIP",
   university: "University"
 };
 
@@ -13,6 +14,7 @@ const dimMap = {
   "PUMS Industry": "naics",
   "PUMS Occupation": "soc",
   "CIP": "cip",
+  "NAPCS": "napcs",
   "University": "university"
 };
 
