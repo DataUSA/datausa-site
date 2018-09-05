@@ -36,6 +36,9 @@ export default {
     // color: ["#f8ecec", "#edd1d1", "#e4b4b4", "#dc9595", "#d57676", "#cf5555", "#CA3434", "#7b0000"],
     scale: "jenks"
   },
+  confidenceConfig: {
+    fillOpacity: 0.2
+  },
   legendConfig: {
     shapeConfig: {
       labelConfig: {
