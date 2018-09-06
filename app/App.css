@@ -81,6 +81,7 @@ body {
     align-items: center;
     display: flex;
     justify-content: center;
+    overflow: scroll;
   }
 }
 
