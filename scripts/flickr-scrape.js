@@ -37,7 +37,7 @@ fs.readdirSync(dbFolder)
     db[model.name] = model;
   });
 
-const attr = process.argv[2];
+const dimension = process.argv[2];
 const filename = process.argv[3];
 const contents = shell.cat(filename);
 const rows = csvParser(contents);
@@ -71,13 +71,13 @@ function fetchImage(row) {
       if (!created && shell.test("-e", splashPath) && shell.test("-e", thumbPath)) {
         console.log(`Match: ${imageId}`);
         return db.search
-          .update({imageId}, {where: {id: row.id, type: attr}});
+          .update({imageId}, {where: {id: row.id, dimension}});
       }
       else {
         console.log(`New: ${imageId}`);
 
         return db.search
-          .update({imageId}, {where: {id: row.id, type: attr}})
+          .update({imageId}, {where: {id: row.id, dimension}})
           .then(() => flickr.photos.getSizes({photo_id: photoId}))
           .then(res => {
             let image = res.body.sizes.size.find(d => parseInt(d.width, 10) >= 1600);
