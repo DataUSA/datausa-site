@@ -1,12 +1,16 @@
 const fs = require("fs"),
       path = require("path");
 
-const filename = "../static/data/similar_universities.json";
-const similarities = JSON.parse(fs.readFileSync(path.join(__dirname, filename), "utf8"));
+function loadJSON(filename) {
+  return JSON.parse(fs.readFileSync(path.join(__dirname, filename), "utf8"));
+}
+
+const universitySimilar = loadJSON("../static/data/similar_universities.json");
+const napcs2sctg = loadJSON("../static/data/nacps2sctg.json");
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {cache, db} = app.settings;
 
   app.get("/api/cip/parent/:id/:level", (req, res) => {
 
@@ -24,7 +28,7 @@ module.exports = function(app) {
 
   app.get("/api/university/similar/:id", (req, res) => {
 
-    const ids = similarities[req.params.id] || [];
+    const ids = universitySimilar[req.params.id] || [];
 
     db.search
       .findAll({where: {id: ids, dimension: "University"}})
@@ -32,6 +36,13 @@ module.exports = function(app) {
         res.json(universities);
       })
       .catch(err => res.json(err));
+
+  });
+
+  app.get("/api/napcs/:id/sctg", (req, res) => {
+
+    const ids = napcs2sctg[req.params.id] || [];
+    res.json(ids.map(d => cache.sctg[d] || {id: d}));
 
   });
 

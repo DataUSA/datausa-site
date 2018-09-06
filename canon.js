@@ -36,6 +36,7 @@ module.exports = {
     ],
     dimensionMap: {
       "CIP2": "CIP",
+      "SCTG2": "NAPCS",
       "Destination State": "Geography",
       "Origin State": "Geography"
     },
@@ -103,6 +104,15 @@ module.exports = {
         },
         url: (id, level) => `${CANON_API}/api/cip/parent/${id}/${level}/`,
         callback: resp => resp.id
+      },
+      NAPCS: {
+        levels: {
+          "NAPCS Section": ["SCTG2"],
+          "NAPCS Group": ["SCTG2"],
+          "NAPCS Class": ["SCTG2"]
+        },
+        url: id => `${CANON_API}/api/napcs/${id}/sctg/`,
+        callback: resp => resp.map(d => d.id)
       }
     }
   }
