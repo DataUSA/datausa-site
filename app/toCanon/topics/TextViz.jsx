@@ -20,10 +20,11 @@ class TextViz extends Component {
   }
 
   onSelector(name, value) {
-    const {router} = this.context;
+    const {router, updateSource} = this.context;
     const {pid, pslug} = router.params;
     const {id} = this.state.contents;
     this.setState({loading: true});
+    if (updateSource) updateSource(false);
     axios.get(`/api/topic/${pslug}/${pid}/${id}?${name}=${value}`)
       .then(resp => {
         this.setState({contents: resp.data, loading: false});
@@ -72,6 +73,7 @@ class TextViz extends Component {
 
 TextViz.contextTypes = {
   router: PropTypes.object,
+  updateSource: PropTypes.func,
   variables: PropTypes.object
 };
 
