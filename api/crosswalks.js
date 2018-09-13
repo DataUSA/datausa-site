@@ -39,11 +39,18 @@ module.exports = function(app) {
 
   });
 
+  app.get("/api/university/opeid/:id", (req, res) => {
+
+    res.json({opeid: cache.opeid[req.params.id]});
+
+  });
+
   app.get("/api/napcs/:id/sctg", (req, res) => {
 
     const ids = napcs2sctg[req.params.id] || [];
     res.json(ids.map(d => cache.sctg[d] || {id: d}));
 
   });
+
 
 };
