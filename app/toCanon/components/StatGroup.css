@@ -1,7 +1,8 @@
 .StatGroup {
-  margin: 10px 0 15px;
+  margin: 10px 15px 15px 0;
   &.single {
     flex: 1;
+    min-width: 45%;
   }
   &.multi {
     min-width: 100%;
