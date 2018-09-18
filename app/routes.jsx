@@ -29,6 +29,24 @@ import Classifications from "./pages/Data/Classifications";
 
 import Builder from "./cms/Builder";
 
+import napcs2sctg from "../static/data/nacps2sctg.json";
+const sctg2napcs = Object.keys(napcs2sctg)
+  .reduce((obj, napcs) => {
+    napcs2sctg[napcs].forEach(sctg => {
+      obj[sctg] = napcs;
+    });
+    return obj;
+  }, {});
+
+function crosswalk(nextState, replace) {
+  const {pslug, pid} = nextState.params;
+  if (pslug === "sctg") {
+    const id = sctg2napcs[pid];
+    const url = `/profile/napcs/${id}/`;
+    replace(url);
+  }
+}
+
 export default function RouteCreate() {
 
   return (
@@ -37,7 +55,7 @@ export default function RouteCreate() {
       <IndexRoute component={Home} />
 
       <Route path="/search" component={SearchPage} />
-      <Route path="/profile/:pslug/:pid" component={Profile} />
+      <Route path="/profile/:pslug/:pid" onEnter={crosswalk} component={Profile} />
       <Route path="/profile/:pslug/:pid/:sslug/:tslug" component={Embed} />
 
       <Route path="/story" component={Stories} />
