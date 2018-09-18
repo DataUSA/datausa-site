@@ -28,7 +28,7 @@
   "dependencies": {
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
-    "@datawheel/canon-core": "^0.16.6",
+    "@datawheel/canon-core": "^0.16.10",
     "@datawheel/canon-logiclayer": "^0.1.8",
     "buble": "^0.19.3",
     "classnames": "^2.2.6",
