@@ -84,6 +84,13 @@ export default {
   tooltipConfig: {
     background: "white",
     border: "1px solid #888",
+    footerStyle: {
+      "color": "#666",
+      "font-family": "'Palanquin', sans-serif",
+      "font-size": "12px",
+      "font-weight": "300",
+      "padding-top": "5px"
+    },
     padding: "10px",
     titleStyle: {
       "color": "#888",
