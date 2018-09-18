@@ -1,10 +1,10 @@
 #! /usr/bin/env node
 
 const {Client} = require("mondrian-rest-client"),
-      Sequelize = require("sequelize");
+      Sequelize = require("sequelize"),
+      d3Array = require("d3-array"),
+      shell = require("shelljs");
 
-const d3Array = require("d3-array"),
-      fs = require("fs");
 const client = new Client("https://canon-api.datausa.io/");
 
 const dbName = process.env.CANON_DB_NAME;
@@ -24,14 +24,15 @@ const db = new Sequelize(dbName, dbUser, dbPw,
 const model = db.import("../db/search.js");
 db[model.name] = model;
 
-function formatter(data, level) {
-  const newData = data.reduce((arr, d) => {
+function formatter(members, data, dimension, level) {
+
+  const newData = members.reduce((arr, d) => {
     const obj = {};
-    obj.id = `${d[`ID ${level}`]}`;
-    obj.name = d[level];
-    obj.display = d[level];
-    obj.zvalue = d["Obligation Amount"];
-    obj.dimension = "NAPCS";
+    obj.id = `${d.key}`;
+    obj.name = d.name;
+    obj.display = d.caption;
+    obj.zvalue = data[obj.id] || 0;
+    obj.dimension = dimension;
     obj.hierarchy = level;
     obj.stem = -1;
     arr.push(obj);
@@ -45,30 +46,32 @@ function formatter(data, level) {
 
 async function start() {
 
-  const cube = await client.cube("usa_spending");
+  const cubeName = "usa_spending";
+  const measure = "Obligation Amount";
+  const dimension = "NAPCS";
 
-  const level1 = await client.query(cube.query
-    .drilldown("NAPCS", "NAPCS", "NAPCS Section")
-    .cut("[Fiscal Year].[Fiscal Year].[Year].&[2017]")
-    .measure("Obligation Amount"), "jsonrecords")
-    .then(resp => resp.data.data)
-    .then(data => formatter(data, "NAPCS Section"));
+  const cube = await client.cube(cubeName);
 
-  const level2 = await client.query(cube.query
-    .drilldown("NAPCS", "NAPCS", "NAPCS Group")
-    .cut("[Fiscal Year].[Fiscal Year].[Year].&[2017]")
-    .measure("Obligation Amount"), "jsonrecords")
-    .then(resp => resp.data.data)
-    .then(data => formatter(data, "NAPCS Group"));
+  const levels = cube.dimensionsByName[dimension].hierarchies[0].levels.slice(1);
 
-  const level3 = await client.query(cube.query
-    .drilldown("NAPCS", "NAPCS", "NAPCS Class")
-    .cut("[Fiscal Year].[Fiscal Year].[Year].&[2017]")
-    .measure("Obligation Amount"), "jsonrecords")
-    .then(resp => resp.data.data)
-    .then(data => formatter(data, "NAPCS Class"));
+  let fullList = [];
+  for (let i = 0; i < levels.length; i++) {
 
-  const fullList = level1.concat(level2).concat(level3);
+    const level = levels[i];
+    const members = await client.members(level);
+
+    const data = await client.query(cube.query
+      .drilldown(dimension, dimension, level.name)
+      .measure(measure), "jsonrecords")
+      .then(resp => resp.data.data)
+      .then(data => data.reduce((obj, d) => {
+        obj[d[`ID ${level.name}`]] = d[measure];
+        return obj;
+      }, {}));
+
+    fullList = fullList.concat(formatter(members, data, dimension, level.name));
+
+  }
 
   for (let i = 0; i < fullList.length; i++) {
     const obj = fullList[i];
@@ -84,8 +87,7 @@ async function start() {
     }
   }
 
-  // const json = JSON.stringify(fullList);
-  // fs.writeFile("napcs.json", json, "utf8", () => {});
+  shell.exit(0);
 
 }
 
