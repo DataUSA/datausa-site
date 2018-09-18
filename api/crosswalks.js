@@ -1,12 +1,7 @@
-const fs = require("fs"),
-      path = require("path");
+const loadJSON = require("../utils/loadJSON");
 
-function loadJSON(filename) {
-  return JSON.parse(fs.readFileSync(path.join(__dirname, filename), "utf8"));
-}
-
-const universitySimilar = loadJSON("../static/data/similar_universities.json");
-const napcs2sctg = loadJSON("../static/data/nacps2sctg.json");
+const universitySimilar = loadJSON("/static/data/similar_universities.json");
+const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
 
 module.exports = function(app) {
 
