@@ -4,11 +4,19 @@ const Flickr = require("flickr-sdk"),
       PromiseThrottle = require("promise-throttle"),
       Sequelize = require("sequelize"),
       axios = require("axios"),
+      chalk = require("chalk"),
       csvParser = require("d3-dsv").csvParse,
       fs = require("fs"),
       path = require("path"),
       sharp = require("sharp"),
       shell = require("shelljs");
+
+// Query to generate CSV for google sheet
+//
+// select s.id, s.zvalue, s.display as name, i.url as image_link, i.meta as image_meta
+// from search as s left join images as i on s."imageId" = i.id
+// where s.dimension = 'NAPCS'
+// order by s.zvalue desc
 
 const throttle = new PromiseThrottle({
   requestsPerSecond: 0.5,
@@ -43,7 +51,9 @@ const contents = shell.cat(filename);
 const rows = csvParser(contents);
 
 const flickr = new Flickr(process.env.FLICKR_API_KEY);
+const validLicenses = ["4", "5", "7", "8", "9", "10"];
 
+const errors = [];
 const fetches = [];
 
 function fetchImage(row) {
@@ -55,12 +65,21 @@ function fetchImage(row) {
     meta: row.image_meta
   };
 
+  if (errors.includes(tableRow.url)) return true;
+
   return flickr.photos.getInfo({photo_id: photoId})
     .then(res => {
       const photo = res.body.photo;
       tableRow.author = photo.owner.realname || photo.owner.username;
       tableRow.license = parseInt(photo.license, 10);
-      return db.images.findOrCreate({where: tableRow});
+      if (!validLicenses.includes(tableRow.license)) {
+        return db.images.findOrCreate({where: {url: tableRow.url}, defaults: tableRow});
+      }
+      else {
+        errors.push(tableRow.url);
+        const e = `Bad License: ${tableRow.url} (${tableRow.license})`;
+        throw e;
+      }
     })
     .then(([match, created]) => {
 
@@ -69,12 +88,11 @@ function fetchImage(row) {
       const thumbPath = path.join(process.cwd(), `static/images/profile/thumb/${imageId}.jpg`);
 
       if (!created && shell.test("-e", splashPath) && shell.test("-e", thumbPath)) {
-        console.log(`Match: ${imageId}`);
-        return db.search
-          .update({imageId}, {where: {id: row.id, dimension}});
+        return db.search.update({imageId}, {where: {id: row.id, dimension}});
       }
       else {
-        console.log(`New: ${imageId}`);
+
+        console.log(`New Image: ${imageId}`);
 
         return db.search
           .update({imageId}, {where: {id: row.id, dimension}})
@@ -98,7 +116,7 @@ function fetchImage(row) {
         console.log(`${status} - ${row.image_link} - ${JSON.parse(text).message}`);
       }
       else {
-        console.log(row.image_link, err);
+        console.log(chalk.bold.red(err));
       }
     });
 
@@ -106,7 +124,6 @@ function fetchImage(row) {
 
 rows
   .filter(row => row.image_link)
-  // .filter(row => row.image_link === "https://flic.kr/p/cXKvcL")
   .forEach(row => {
     fetches.push(throttle.add(fetchImage.bind(this, row)));
   });
