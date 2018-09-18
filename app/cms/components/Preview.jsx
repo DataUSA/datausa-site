@@ -7,7 +7,7 @@ const previewHash = {
   soc: ["151131"],
   naics: ["622"],
   university: ["167358"],
-  napcs: ["61101", "81103", "37"]
+  napcs: ["61101", "81103", "37", "34201"]
 };
 
 class Preview extends Component {
