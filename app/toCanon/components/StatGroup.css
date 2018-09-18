@@ -11,6 +11,14 @@
   & p {
     margin: 0;
   }
+  & a {
+    color: var(--darkgray);
+    transition: color 0.1s;
+    &:hover {
+      color: var(--black);
+      text-decoration: underline;
+    }
+  }
   & .stat-title {
     color: var(--black);
     font-size: 12px;
