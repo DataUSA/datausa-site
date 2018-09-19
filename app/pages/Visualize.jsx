@@ -1,6 +1,6 @@
 import React from "react";
 
-import Vizbuilder from "../toCanon/vizbuilder/index";
+import Vizbuilder from "@datawheel/canon-vizbuilder";
 
 import "./Visualize.css";
 
@@ -12,7 +12,11 @@ const StateTopojson = {
 
 export default class Visualize extends React.Component {
   render() {
-    return <Vizbuilder src="https://canon-api.datausa.io"
+    return <Vizbuilder
+      src="https://canon-api.datausa.io"
+      defaultDimension={["Geography", "Gender", "Age"]}
+      defaultLevel={["State"]}
+      defaultMeasure="Millions Of Dollars"
       topojson={{
         "County": {
           topojson: "/topojson/County.json"

@@ -9,7 +9,7 @@ import "./Loading.css";
 export default class Loading extends Component {
   render() {
     return <NonIdealState
-      className="Loading"
+      className="loading"
       title="Loading"
       description="Please Wait"
       visual={<Spinner />} />;
