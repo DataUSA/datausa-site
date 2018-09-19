@@ -4,6 +4,7 @@
     "es6": true,
     "node": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -134,7 +135,7 @@
     "quotes": 2,
     "radix": 2,
     "react/prop-types": 0,
-    "require-jsdoc": 0,
+    "require-jsdoc": 2,
     "require-yield": 2,
     "semi": 2,
     "semi-spacing": 2,
@@ -156,5 +157,10 @@
       2,
       "never"
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "15.6.2"
+    }
   }
 }
