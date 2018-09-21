@@ -1,20 +1,12 @@
-const {Client} = require("mondrian-rest-client");
+const axios = require("axios");
 const {CANON_LOGICLAYER_CUBE} = process.env;
 
 module.exports = async function() {
 
-  const client = new Client(CANON_LOGICLAYER_CUBE);
-
-  return client.cube("ipeds_completions")
-    .then(c => {
-      const query = c.query
-        .drilldown("University", "University", "University")
-        .measure("Completions")
-        .property("University", "University", "OPEID6");
-      return client.query(query, "jsonrecords");
-    })
-    .then(resp => resp.data.data.reduce((acc, d) => {
-      acc[d["ID University"]] = d.OPEID6;
+  return axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/ipeds_completions/dimensions/University/hierarchies/University/levels/University/members?member_properties[]=OPEID6`)
+    .then(resp => resp.data)
+    .then(data => data.members.reduce((acc, d) => {
+      acc[d.key] = d.properties.OPEID6;
       return acc;
     }, {}))
     .catch(err => {
