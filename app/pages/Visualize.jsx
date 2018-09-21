@@ -14,9 +14,9 @@ export default class Visualize extends React.Component {
   render() {
     return <Vizbuilder
       src="https://canon-api.datausa.io"
-      defaultDimension={["Geography", "Gender", "Age"]}
-      defaultLevel={["State"]}
-      defaultMeasure="Millions Of Dollars"
+      defaultDimension={["Geography", "Origin State", "Gender", "Age"]}
+      defaultLevel={["State", "Origin State"]}
+      defaultMeasure="Opioid Overdose Death Rate Per 100,000 Age-Adjusted"
       topojson={{
         "County": {
           topojson: "/topojson/County.json"
