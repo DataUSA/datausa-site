@@ -1,5 +1,4 @@
 {
-  "editor.renderWhitespace": "all",
   "editor.tabSize": 2,
   "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
   "eslint.autoFixOnSave": true
