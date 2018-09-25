@@ -92,8 +92,8 @@
     position: relative;
   }
 
-  &.loading {
-    & .topic-description, & .topic-stats {
+  &.topic-loading {
+    & .topic-description, & .topic-stats, & .topic-visualization {
       opacity: 0.25;
     }
   }
