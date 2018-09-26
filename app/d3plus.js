@@ -30,7 +30,21 @@ export default {
   colorScaleConfig: {
     axisConfig: {
       labelOffset: true,
-      labelRotation: false
+      labelRotation: false,
+      shapeConfig: {
+        labelConfig: {
+          fontColor: () => "#211f1a",
+          fontFamily: () => "Source Sans Pro",
+          fontSize: () => 12,
+          fontWeight: () => 400
+        }
+      },
+      titleConfig: {
+        fontColor: () => "#211f1a",
+        fontFamily: () => "Palanquin",
+        fontSize: () => 12,
+        fontWeight: () => 400
+      }
     },
     color: ["#ecf3f7", "#cfdfeb", "#b0cde1", "#90bad8", "#6ea7d2", "#4c96cb", "#3182bd", "#004374"],
     // color: ["#f8ecec", "#edd1d1", "#e4b4b4", "#dc9595", "#d57676", "#cf5555", "#CA3434", "#7b0000"],
