@@ -2,6 +2,7 @@ const FUNC = require("../utils/FUNC"),
       axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
       mortarEval = require("../utils/mortarEval"),
+      sequelize = require("sequelize"),
       urlSwap = require("../utils/urlSwap"),
       varSwapRecursive = require("../utils/varSwapRecursive");
 
@@ -202,10 +203,13 @@ module.exports = function(app) {
    * ids represent actual entities / locations (nyc, bu)
   */
 
-  app.get("/api/profile/:slug/:id", (req, res) => {
+  app.get("/api/profile/:slug/:pid", async(req, res) => {
     req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
-    const {slug, id} = req.params;
+    const {slug, pid} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+
+    const attribute = await db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}}});
+    const {id} = attribute;
 
     /* The following Promises, as opposed to being nested, are run sequentially.
      * Each one returns a new promise, whose response is then handled in the following block
@@ -245,10 +249,14 @@ module.exports = function(app) {
   });
 
   // Endpoint for when a user selects a new dropdown for a topic, requiring new variables
-  app.get("/api/topic/:slug/:id/:topicId", (req, res) => {
+  app.get("/api/topic/:slug/:pid/:topicId", async(req, res) => {
     req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
-    const {slug, id, topicId} = req.params;
+    const {slug, pid, topicId} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+
+    const attribute = await db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}}});
+    const {id} = attribute;
+
     // As with profiles above, we need formatters, variables, and the topic itself in order to
     // create a "postProcessed" topic that can be returned to the requester.
     const getVariables = axios.get(`${origin}/api/variables/${slug}/${id}`);
