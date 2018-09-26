@@ -15,7 +15,7 @@ export default class SearchPage extends Component {
           primary={ true }
           resultLink={ d => `/profile/${d.type}/${d.id}` }
           resultRender={d => <div>
-            <img src={ `/images/search/${d.dimension}.svg` } />
+            <img src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
             <div className="result-text">
               <div className="title">{ d.name }</div>
               <div className="sumlevel">{ d.hierarchy }</div>

@@ -12,7 +12,7 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Visualize",
-      icon: "/images/icons/demographics.svg",
+      icon: "/icons/sections/demographics.svg",
       rank: 1,
       footer: "View Builder",
       url: "/visualize",
@@ -71,7 +71,7 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Universities",
-      icon: "/images/icons/university.svg",
+      icon: "/icons/dimensions/University - White.svg",
       rank: 2,
       footer: "7,358 more",
       url: "/search/?kind=university",
@@ -99,7 +99,7 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Cities & Places",
-      icon: "/images/icons/geo.svg",
+      icon: "/icons/dimensions/Geography - White.svg",
       rank: 3,
       footer: "36,185 more",
       url: "/search/?kind=geo",
@@ -124,7 +124,7 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Industries",
-      icon: "/images/icons/naics.svg",
+      icon: "/icons/dimensions/PUMS Industry - White.svg",
       rank: 7,
       footer: "296 more",
       url: "/search/?kind=naics",
@@ -146,7 +146,7 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Jobs",
-      icon: "/images/icons/soc.svg",
+      icon: "/icons/dimensions/PUMS Occupation - White.svg",
       rank: 5,
       footer: "520 more",
       url: "/search/?kind=soc",
@@ -168,7 +168,7 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Degrees",
-      icon: "/images/icons/cip.svg",
+      icon: "/icons/dimensions/CIP - White.svg",
       rank: 8,
       footer: "2,314 more",
       url: "/search/?kind=cip",
@@ -218,7 +218,7 @@ module.exports = function(app) {
     const stories = await axios.get(`${CANON_API}/api/story`).then(resp => resp.data);
     carousels.push({
       title: "Latest Stories",
-      icon: "/images/icons/about.svg",
+      icon: "/icons/sections/about.svg",
       rank: 4,
       footer: `${stories.length - 5} more`,
       url: "/story",

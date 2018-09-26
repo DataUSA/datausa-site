@@ -28,7 +28,7 @@ class Home extends Component {
           primary={true}
           resultLink={ d => `/profile/${d.type}/${d.id}` }
           resultRender={d => <div className="result-container">
-            <img className="result-icon" src={ `/images/search/${d.dimension}.svg` } />
+            <img className="result-icon" src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
             <div className="result-text">
               <div className="title">{ d.name }</div>
               <div className="sumlevel">{ d.hierarchy }</div>
