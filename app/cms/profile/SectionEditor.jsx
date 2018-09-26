@@ -5,6 +5,7 @@ import Loading from "../../components/Loading";
 import TextCard from "../components/cards/TextCard";
 import PropTypes from "prop-types";
 import MoveButtons from "../components/MoveButtons";
+import "./SectionEditor.css";
 
 const propMap = {
   section_subtitle: "subtitles",

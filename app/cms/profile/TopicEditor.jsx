@@ -7,6 +7,7 @@ import TextCard from "../components/cards/TextCard";
 import SelectorCard from "../components/cards/SelectorCard";
 import VisualizationCard from "../components/cards/VisualizationCard";
 import MoveButtons from "../components/MoveButtons";
+import "./TopicEditor.css";
 
 const propMap = {
   topic_stat: "stats",
@@ -124,7 +125,7 @@ class TopicEditor extends Component {
     );
 
     return (
-      <div id="section-editor">
+      <div id="topic-editor">
         <div id="slug">
           slug
           <input className="pt-input" style={{width: "180px"}} type="text" dir="auto" value={minData.slug} onChange={this.changeField.bind(this, "slug", false)}/>

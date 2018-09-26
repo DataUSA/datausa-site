@@ -1,0 +1,6 @@
+#section-editor {
+  & .stats {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
