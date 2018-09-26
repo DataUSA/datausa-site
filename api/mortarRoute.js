@@ -224,6 +224,8 @@ module.exports = function(app) {
       // See profileReq above to see the sequelize formatting for fetching the entire profile
       .then(resp => {
         const variables = resp[0].data;
+        delete variables._genStatus;
+        delete variables._matStatus;
         const formatters = resp[1];
         const formatterFunctions = formatters4eval(formatters);
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
@@ -233,11 +235,10 @@ module.exports = function(app) {
       // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
       .then(resp => {
         let returnObject = {};
-        const variables = resp[0];
-        const formatterFunctions = resp[1];
+        const [variables, formatterFunctions, request] = resp;
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
-        const profile = varSwapRecursive(resp[2].data, formatterFunctions, variables, req.query);
-        returnObject.pid = id;
+        const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
+        returnObject.id = id;
         returnObject = Object.assign({}, returnObject, profile);
         returnObject.variables = variables;
         res.json(returnObject).end();
@@ -270,6 +271,8 @@ module.exports = function(app) {
     Promise.all([getVariables, getFormatters, getTopic])
       .then(resp => {
         const variables = resp[0].data;
+        delete variables._genStatus;
+        delete variables._matStatus;
         const formatters = resp[1];
         const formatterFunctions = formatters4eval(formatters);
         const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
