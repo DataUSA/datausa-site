@@ -1,7 +1,7 @@
 export default {
   link: [
     {rel: "icon", href: "/images/favicon.ico?v=3"},
-    {rel: "stylesheet", type: "text/css", href: "fonts.css"}
+    {rel: "stylesheet", type: "text/css", href: "/fonts.css"}
   ],
   meta: [
     {charset: "utf-8"},
