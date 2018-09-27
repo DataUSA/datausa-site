@@ -57,6 +57,7 @@ class TextCard extends Component {
     const payload = {id: minData.id};
     fields.forEach(field => payload[field] = minData[field]);
     if (plainfields) plainfields.forEach(field => payload[field] = minData[field]);
+    payload.allowed = minData.allowed;
     axios.post(`/api/cms/${type}/update`, payload).then(resp => {
       if (resp.status === 200) {
         this.setState({isOpen: false}, this.formatDisplay.bind(this));
