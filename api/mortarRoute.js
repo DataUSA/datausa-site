@@ -238,8 +238,8 @@ module.exports = function(app) {
         const [variables, formatterFunctions, request] = resp;
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
         const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
-        returnObject.id = id;
         returnObject = Object.assign({}, returnObject, profile);
+        returnObject.id = id;
         returnObject.variables = variables;
         res.json(returnObject).end();
       })
