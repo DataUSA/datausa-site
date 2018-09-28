@@ -1,5 +1,7 @@
 import styles from "./style.yml";
 
+const currentYear = new Date().getFullYear();
+
 const axisStyles = {
   barConfig: {
     stroke: "#ccc"
@@ -87,6 +89,33 @@ export default {
     },
     Path: {
       fillOpacity: 0.75
+    }
+  },
+  timelineConfig: {
+    buttonBehavior: "buttons",
+    buttonHeight: 20,
+    buttonPadding: 5,
+    labelRotation: false,
+    selectionConfig: {
+      "fill": "#888",
+      "fill-opacity": 0.25,
+      "transform": "translate(0, 2)"
+    },
+    shapeConfig: {
+      fill: "transparent",
+      labelConfig: {
+        fontColor(d) {
+          const n = parseInt(d.text, 10);
+          return isNaN(n) || n <= currentYear ? "#888" : styles.red;
+        },
+        fontFamily: () => "Palanquin",
+        fontSize: () => 12,
+        fontWeight: () => 700,
+        lineHeight: () => 16,
+        padding: 0
+      },
+      stroke: "transparent",
+      strokeWidth: 0
     }
   },
   titleConfig: {
