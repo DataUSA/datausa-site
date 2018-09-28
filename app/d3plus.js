@@ -92,6 +92,7 @@ export default {
     }
   },
   timelineConfig: {
+    brushing: false,
     buttonBehavior: "buttons",
     buttonHeight: 20,
     buttonPadding: 5,
