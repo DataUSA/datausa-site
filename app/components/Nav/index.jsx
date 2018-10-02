@@ -87,11 +87,11 @@ export default class Nav extends Component {
                 <li><Link to="/search/?kind=soc">Occupations</Link></li>
                 <li><Link to="/search/?kind=cip">Majors</Link></li>
                 <li><Link to="/search/?kind=university">Universities</Link></li>
-                <li><Link to="/search/?kind=napcs">Products & Services</Link></li>
+                <li><Link to="/search/?kind=napcs">Products &amp; Services</Link></li>
               </ul>
             </li>
             <li>
-              <Link to="/visualize/">Visualization Builder</Link>
+              <Link to="/visualize/">Maps &amp; Charts</Link>
             </li>
             <li>
               <Link to="/story/">Stories</Link>

@@ -88,9 +88,10 @@
       padding: 40px 50px;
       & li {
         font-family: "Palanquin", sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
         letter-spacing: 0.1em;
+        line-height: 1.5;
         padding: 5px 0;
         text-transform: uppercase;
         vertical-align: middle;
