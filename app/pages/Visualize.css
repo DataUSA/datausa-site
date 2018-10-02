@@ -103,3 +103,33 @@
     width: 100% !important;
   } */
 }
+
+.pt-dialog.visualize-intro {
+  & .pt-dialog-body {
+    display: block;
+    & .icons {
+      display: flex;
+      justify-content: space-around;
+      & .pt-icon-standard {
+        color: var(--red);
+        font-size: 50px;
+        margin-bottom: 15px;
+        opacity: 0.9;
+      }
+    }
+  }
+  & .pt-dialog-footer {
+    & .pt-button {
+      background-color: var(--red);
+      border-radius: 0;
+      box-shadow: none;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background 0.1s;
+      &:hover {
+        background: var(--red);
+      }
+    }
+  }
+}
