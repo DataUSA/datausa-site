@@ -1,4 +1,19 @@
 import styles from "./style.yml";
+import colors from "../static/data/colors.json";
+
+/**
+ * Finds a color if defined in the color lookup.
+ * @param {Object} d
+ */
+function findColor(d) {
+  for (const key in colors) {
+    if (`ID ${key}` in d) {
+      console.log(key);
+      return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+    }
+  }
+  return colors.colorHighlight;
+}
 
 const currentYear = new Date().getFullYear();
 
@@ -48,8 +63,7 @@ export default {
         fontWeight: () => 400
       }
     },
-    color: ["#ecf3f7", "#cfdfeb", "#b0cde1", "#90bad8", "#6ea7d2", "#4c96cb", "#3182bd", "#004374"],
-    // color: ["#f8ecec", "#edd1d1", "#e4b4b4", "#dc9595", "#d57676", "#cf5555", "#CA3434", "#7b0000"],
+    color: colors.colorScaleGood,
     scale: "jenks"
   },
   confidenceConfig: {
@@ -75,7 +89,7 @@ export default {
   ocean: "#D5DADC",
   padPixel: 1,
   shapeConfig: {
-    fill: styles.red,
+    fill: findColor,
     hoverOpacity: 0.5,
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
@@ -83,7 +97,7 @@ export default {
       padding: 5
     },
     Line: {
-      stroke: styles.red,
+      stroke: findColor,
       strokeWidth: 3,
       strokeLinecap: "round"
     },
