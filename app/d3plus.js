@@ -135,7 +135,7 @@ export default {
   },
   titleConfig: {
     fontFamily: "Pathway Gothic One",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 400,
     padding: 0
   },

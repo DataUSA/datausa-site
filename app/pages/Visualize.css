@@ -24,27 +24,47 @@
         font-family: "Palanquin", sans-serif;
         font-size: 13px;
         padding: 10px;
-        & .condition-content {
-          & .condition-prop, & .condition-oper, & .condition-value {
+        & .grouping-name {
+
+        }
+        & .grouping-members {
+          & > span {
+            background-color: #ddd;
+            border-radius: 3px;
             display: inline-block;
-            font-size: 13px;
-            text-transform: none;
-            &:not(:first-child) {
-              margin-left: 3px;
+            font-size: 12px;
+            font-weight: 400;
+            margin: 5px 5px 5px 0;
+            padding: 3px 6px 4px;
+          }
+          & .select-member {
+            background-color: transparent;
+            border-radius: 0;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            & .pt-tag-input {
+              border: 0;
+              border-radius: 0;
+              & .pt-input-ghost {
+                font-size: 13px;
+                margin-bottom: 3px;
+                padding: 0 8px;
+              }
             }
           }
-          & .condition-oper {
-            text-transform: lowercase;
+        }
+        & .filter-name, & .filter-operator, & .filter-value {
+          display: inline-block;
+          font-size: 13px;
+          margin-right: 0;
+          text-transform: none;
+          &:not(:first-child) {
+            margin-left: 3px;
           }
         }
-        & .condition-action {
-          color: var(--red);
-          line-height: 14px;
-          min-height: 16px;
-          min-width: 20px;
-          &:before {
-            font-size: 14px;
-          }
+        & .filter-operator {
+          text-transform: lowercase;
         }
         & .pt-numeric-input {
           & input, & .pt-button-group {
@@ -60,6 +80,7 @@
           }
         }
         & .actions {
+          margin-top: 5px;
           & button {
             background: none;
             border: 1px solid var(--red);
@@ -86,6 +107,9 @@
       font-size: 13px;
       font-weight: 600;
       transition: background 0.1s, color 0.1s;
+      &.pt-disabled {
+        display: none;
+      }
       &:before {
         color: var(--red);
         font-size: 13px;
@@ -99,10 +123,16 @@
         }
       }
     }
+    & .mlsel-select-list {
+      & .level-1 {
+        list-style: none;
+        padding-left: 0;
+        & .select-label {
+          display: inline-block;
+        }
+      }
+    }
   }
-  /* & .chart-card {
-    width: 100% !important;
-  } */
 }
 
 .pt-dialog.visualize-intro {
