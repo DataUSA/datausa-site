@@ -16,8 +16,8 @@
       text-align: left;
       text-transform: uppercase;
     }
-    & .condition-items {
-      & .condition-item {
+    & .grouping-items, & .filter-items {
+      & .grouping-item, & .filter-item {
         background-color: white;
         border: 1px solid #bbb;
         color: var(--darkgray);
@@ -59,7 +59,7 @@
             }
           }
         }
-        & .condition-actions {
+        & .actions {
           & button {
             background: none;
             border: 1px solid var(--red);
@@ -68,6 +68,7 @@
             color: var(--red);
             font-size: 13px;
             font-weight: 600;
+            margin-left: 5px;
             &.pt-intent-primary {
               background: var(--red);
               color: white;

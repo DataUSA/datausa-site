@@ -101,8 +101,7 @@ export default class Visualize extends Component {
     return <div>
       <Vizbuilder
         src="https://canon-api.datausa.io"
-        defaultDimension={["Geography", "Origin State", "Gender", "Age"]}
-        defaultLevel={["State", "Origin State"]}
+        defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
         defaultMeasure="Opioid Overdose Death Rate Per 100,000 Age-Adjusted"
         measureConfig={measureConfig}
         topojson={{
