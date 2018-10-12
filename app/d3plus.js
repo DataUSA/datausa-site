@@ -8,7 +8,6 @@ import colors from "../static/data/colors.json";
 function findColor(d) {
   for (const key in colors) {
     if (`ID ${key}` in d) {
-      console.log(key);
       return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
     }
   }
