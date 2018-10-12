@@ -102,7 +102,7 @@ export default class Visualize extends Component {
       <Vizbuilder
         src="https://canon-api.datausa.io"
         defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
-        defaultMeasure="Opioid Overdose Death Rate Per 100,000 Age-Adjusted"
+        defaultMeasure="Total Population"
         measureConfig={measureConfig}
         topojson={{
           "County": {
