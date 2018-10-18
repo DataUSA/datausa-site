@@ -2,6 +2,7 @@
   "colorBackground": "#141b2e",
   "colorGrey": "#C6C7CA",
   "colorHighlight": "#ef6145",
+  "colorCompare": "#ff976c",
   "colorLeast": "#58879A",
   "colorMost": "#1A3E61",
   "colorScaleGood": [
