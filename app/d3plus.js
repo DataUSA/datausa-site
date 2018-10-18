@@ -125,7 +125,11 @@ export default {
     scale: "jenks"
   },
   confidenceConfig: {
-    fillOpacity: 0.2
+    fillOpacity: 0.2,
+    label: false,
+    Area: {
+      strokeWidth: 0
+    }
   },
   legendConfig: {
     shapeConfig: {
