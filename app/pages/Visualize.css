@@ -1,9 +1,9 @@
 .vizbuilder {
   background-color: var(--white);
-  min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100vh - var(--nav-height) - 30px);
   padding-top: var(--nav-height);
   & .area-sidebar, & .area-chart {
-    height: calc(100vh - var(--nav-height));
+    height: calc(100vh - var(--nav-height) - 30px);
   }
   & .area-sidebar {
     & .label {
