@@ -13,7 +13,6 @@
     "start": "canon-start",
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
     "locales": "canon-locales",
-    "tunnel": "ssh -L 5432:localhost:5432 deploy@canon.datausa.io -i ~/.ssh/id_rsa_dw_deploy -N",
     "release": "canon-release"
   },
   "repository": {
