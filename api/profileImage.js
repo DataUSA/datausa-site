@@ -28,44 +28,50 @@ module.exports = function(app) {
     db.search.findOne({where: {id: pid, dimension: slugMap[pslug]}})
       .then(attr => {
 
-        const {imageId} = attr;
+        if (!attr) sendImage(false);
+        else {
 
-        if (!imageId) {
+          const {imageId} = attr;
 
-          if (parents[pslug]) {
+          if (!imageId) {
 
-            const ids = parents[pslug][pid];
+            if (parents[pslug]) {
 
-            db.search.findAll({where: {id: ids, dimension: slugMap[pslug]}})
-              .then(parentAttrs => {
-                const parentImage = parentAttrs
-                  .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-                  .find(p => p.imageId).imageId;
-                sendImage(parentImage);
-              });
+              const ids = parents[pslug][pid];
+
+              db.search.findAll({where: {id: ids, dimension: slugMap[pslug]}})
+                .then(parentAttrs => {
+                  const parentImage = parentAttrs
+                    .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+                    .find(p => p.imageId).imageId;
+                  sendImage(parentImage);
+                });
+
+            }
+            else if (pslug === "geo") {
+
+              axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}`)
+                .then(d => d.data.reverse())
+                .then(d => d.map(p => p.geoid))
+                .then(d => {
+                  const attrs = db.search.findAll({where: {id: d, dimension: slugMap[pslug]}});
+                  return Promise.all([d, attrs]);
+                })
+                .then(([ids, parentAttrs]) => {
+                  const parentImage = parentAttrs
+                    .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+                    .find(p => p.imageId).imageId;
+                  sendImage(parentImage);
+                });
+
+            }
+            else sendImage();
 
           }
-          else if (pslug === "geo") {
-
-            axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}`)
-              .then(d => d.data.reverse())
-              .then(d => d.map(p => p.geoid))
-              .then(d => {
-                const attrs = db.search.findAll({where: {id: d, dimension: slugMap[pslug]}});
-                return Promise.all([d, attrs]);
-              })
-              .then(([ids, parentAttrs]) => {
-                const parentImage = parentAttrs
-                  .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-                  .find(p => p.imageId).imageId;
-                sendImage(parentImage);
-              });
-
-          }
-          else sendImage();
+          else sendImage(imageId);
 
         }
-        else sendImage(imageId);
+
       });
   });
 
