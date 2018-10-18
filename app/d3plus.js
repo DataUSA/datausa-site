@@ -1,6 +1,65 @@
 import styles from "./style.yml";
 import colors from "../static/data/colors.json";
 
+const bad = "#cf5555";
+const good = "#3182bd";
+
+const badMeasures = [
+  "Population in Poverty by Gender, Age, and Race",
+  "Children In Poverty",
+  "Unemployment",
+  "Children In Poverty",
+
+  "Uninsured",
+  "Uninsured Adults",
+  "Uninsured Children",
+  "Could Not See Doctor Due To Cost",
+
+  "Adult Obesity",
+  "Diabetes",
+  "Sexually Transmitted Infections",
+  "Hiv Prevalence",
+  "Alcohol-Impaired Driving Deaths",
+  "Excessive Drinking",
+  "Adult Smoking",
+  "Homicide Rate",
+  "Violent Crime",
+  "Motor Vehicle Crash Deaths",
+
+  "Premature Death",
+  "Poor Or Fair Health",
+  "Poor Physical Health Days",
+  "Poor Mental Health Days",
+  "Low Birthweight",
+  "Food Environment Index",
+  "Physical Inactivity",
+  "Access To Exercise Opportunities",
+  "Teen Births",
+  "Social Associations",
+  "Injury Deaths",
+  "Air Pollution - Particulate Matter 1",
+  "Drinking Water Violations",
+  "Premature Age-Adjusted Mortality",
+  "Infant Mortality",
+  "Child Mortality",
+  "Food Insecurity",
+  "Limited Access To Healthy Foods",
+  "Children Eligible For Free Or Reduced Price Lunch",
+
+  "Severe Housing Problems",
+
+  "Opioid Overdose Death Rate Per 100,000 Age-Adjusted",
+  "Drug Overdose Death Rate Per 100,000 Age-Adjusted",
+  "Drug Overdose Deaths",
+  "Nonmedical Use of Prescription Pain Relievers Among Individuals Aged 12+",
+
+  "Borrowers In Default",
+  "Borrowers Entered Repayment",
+  "Default Rate"
+];
+
+export {badMeasures};
+
 /**
  * Finds a color if defined in the color lookup.
  * @param {Object} d
@@ -11,7 +70,7 @@ function findColor(d) {
       return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
     }
   }
-  return colors.colorHighlight;
+  return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
 }
 
 const currentYear = new Date().getFullYear();
@@ -88,6 +147,18 @@ export default {
   ocean: "#D5DADC",
   padPixel: 1,
   shapeConfig: {
+    Area: {
+      strokeWidth: d => {
+        const c = findColor(d);
+        return c === good || c === bad ? 1 : 0;
+      }
+    },
+    Bar: {
+      strokeWidth: d => {
+        const c = findColor(d);
+        return c === good || c === bad ? 1 : 0;
+      }
+    },
     fill: findColor,
     hoverOpacity: 0.5,
     labelConfig: {
