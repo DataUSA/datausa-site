@@ -4,7 +4,10 @@ const FUNC = require("../utils/FUNC"),
       mortarEval = require("../utils/mortarEval"),
       sequelize = require("sequelize"),
       urlSwap = require("../utils/urlSwap"),
-      varSwapRecursive = require("../utils/varSwapRecursive");
+      varSwapRecursive = require("../utils/varSwapRecursive"),
+      yn = require("yn");
+
+const verbose = yn(process.env.CANON_CMS_LOGGING);
 
 const searchMap = {
   cip: "CIP",
@@ -129,6 +132,8 @@ module.exports = function(app) {
     req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, id} = req.params;
 
+    if (verbose) console.log("\n\nVariable Endpoint:", `/api/variables/${slug}/${id}`);
+
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
     /* Potential TODO here: Later in this function we manually get generators and materializers.
      * Maybe refactor this to get them immediately in the profile get using include.
@@ -152,7 +157,15 @@ module.exports = function(app) {
             const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
             url = `${origin}${url.indexOf("/") === 0 ? "" : "/"}${url}`;
           }
-          return axios.get(url).catch(() => ({}));
+          return axios.get(url)
+            .then(resp => {
+              if (verbose) console.log("Variable Loaded:", url);
+              return resp;
+            })
+            .catch(() => {
+              if (verbose) console.log("Variable Error:", url);
+              return {};
+            });
         });
         return Promise.all([pid, generators, requests, formatterFunctions, Promise.all(fetches)]);
       })
@@ -237,10 +250,12 @@ module.exports = function(app) {
         let returnObject = {};
         const [variables, formatterFunctions, request] = resp;
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
+        if (verbose) console.log("Variables Loaded, starting varSwap...");
         const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
         returnObject = Object.assign({}, returnObject, profile);
         returnObject.id = id;
         returnObject.variables = variables;
+        if (verbose) console.log("varSwap complete, sending json...");
         res.json(returnObject).end();
       })
       .catch(err => {
