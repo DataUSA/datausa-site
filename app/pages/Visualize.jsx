@@ -47,7 +47,7 @@ export default class Visualize extends Component {
     const {intro} = this.state;
     return <div>
       <Vizbuilder
-        src="https://canon-api.datausa.io"
+        src="https://fossil-lake.datausa.io"
         defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
         defaultMeasure="Total Population"
         measureConfig={measureConfig}
