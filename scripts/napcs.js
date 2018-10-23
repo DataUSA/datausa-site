@@ -5,7 +5,8 @@ const {Client} = require("mondrian-rest-client"),
       d3Array = require("d3-array"),
       shell = require("shelljs");
 
-const client = new Client("https://canon-api.datausa.io/");
+const {CANON_LOGICLAYER_CUBE} = process.env;
+const client = new Client(CANON_LOGICLAYER_CUBE);
 
 const dbName = process.env.CANON_DB_NAME;
 const dbUser = process.env.CANON_DB_USER;
