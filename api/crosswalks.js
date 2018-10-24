@@ -1,7 +1,11 @@
+const axios = require("axios");
+
 const loadJSON = require("../utils/loadJSON");
 
 const universitySimilar = loadJSON("/static/data/similar_universities.json");
 const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
+
+const {CANON_API} = process.env;
 
 module.exports = function(app) {
 
@@ -44,6 +48,37 @@ module.exports = function(app) {
 
     const ids = napcs2sctg[req.params.id] || [];
     res.json(ids.map(d => cache.sctg[d] || {id: d}));
+
+  });
+
+  app.get("/api/neighbors", async(req, res) => {
+
+    const {dimension, id, limit = 5, measure} = req.query;
+
+    const attr = await db.search.findOne({where: {dimension, id}});
+    const {hierarchy} = attr;
+
+    const logicUrl = `${CANON_API}/api/data?measures=${measure}&order=${measure}&sort=desc&drilldowns=${hierarchy}&Year=latest&limit=10000`;
+    const resp = await axios.get(logicUrl)
+      .then(resp => resp.data);
+
+    let list = resp.data;
+
+    const entry = list.find(d => d[`ID ${hierarchy}`] === id);
+    const index = list.indexOf(entry);
+
+    if (index <= limit / 2 + 1) {
+      list = list.slice(0, limit);
+    }
+    else if (index > list.length - limit / 2 - 1) {
+      list = list.slice(-limit);
+    }
+    else {
+      const min = Math.ceil(index - limit / 2);
+      list = list.slice(min, min + limit);
+    }
+
+    res.json({data: list, source: resp.source});
 
   });
 
