@@ -29,7 +29,7 @@ class SectionEditor extends Component {
     if (prevProps.id !== this.props.id) {
       this.hitDB.bind(this)(false);
     }
-    if (prevProps.preview !== this.props.preview) {
+    if (prevProps.preview !== "" && prevProps.preview !== this.props.preview) {
       this.hitDB.bind(this)(true);
     }
   }
