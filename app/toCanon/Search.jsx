@@ -38,13 +38,6 @@ class Search extends Component {
 
   }
 
-  onClick(d) {
-    const {router} = this.context;
-    const {resultLink} = this.props;
-    this.setState({active: false});
-    router.push(resultLink(d));
-  }
-
   onFocus() {
     this.setState({active: true});
   }
@@ -152,7 +145,7 @@ class Search extends Component {
         { searchEmpty || active && userQuery.length
           ? <ul className={ active ? "results active" : "results" }>
             { results.map(result =>
-              <li key={ result.id } className="result" onClick={this.onClick.bind(this, result)}>
+              <li key={ result.id } className="result">
                 { resultRender(result, this.props) }
               </li>
             )}
@@ -178,9 +171,7 @@ Search.defaultProps = {
   inactiveComponent: false,
   placeholder: "Search",
   primary: false,
-  resultLink: d => d.url,
-  resultName: d => d.name,
-  resultRender: (d, props) => <span>{ props.resultName(d) }</span>,
+  resultRender: d => <span>{ d.name }</span>,
   searchEmpty: false,
   url: false
 };

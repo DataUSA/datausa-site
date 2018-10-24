@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from "react-router";
 import {connect} from "react-redux";
 import {fetchData} from "@datawheel/canon-core";
 import "./index.css";
@@ -26,14 +27,13 @@ class Home extends Component {
           className="home-search"
           placeholder="ex. California, Hospitals, Graphic Design"
           primary={true}
-          resultLink={ d => `/profile/${d.type}/${d.id}` }
-          resultRender={d => <div className="result-container">
+          resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`} className="result-container">
             <img className="result-icon" src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
             <div className="result-text">
               <div className="title">{ d.name }</div>
               <div className="sumlevel">{ d.hierarchy }</div>
             </div>
-          </div>}
+          </Link>}
           url="/api/search/"
         />
 

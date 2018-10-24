@@ -127,6 +127,9 @@
           display: flex;
           padding: 10px 10px 10px 6px;
           text-align: left;
+          &:hover {
+            text-decoration: none;
+          }
           & .result-icon {
             margin-right: 6px;
             vertical-align: top;
