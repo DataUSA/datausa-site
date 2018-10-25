@@ -148,16 +148,3 @@ body {
     -webkit-font-smoothing: antialiased;
   }
 }
-
-.custom-select {
-  border: 1px solid #bbb !important;
-  & .select-option {
-    background: white;
-    color: #949494;
-    font-family: "Palanquin", sans-serif;
-    font-size: 13px;
-    &:hover {
-      background: rgb(241, 241, 241);
-    }
-  }
-}

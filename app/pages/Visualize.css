@@ -16,6 +16,24 @@
       text-align: left;
       text-transform: uppercase;
     }
+    & .select-wrapper {
+      border: 1px solid #bbb !important;
+      & .select-option {
+        padding: 4px 9px;
+      }
+    }
+    & .select-option {
+      background: white;
+      color: #949494;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      &:hover {
+        background: rgb(241, 241, 241);
+      }
+      & .select-value {
+        width: auto;
+      }
+    }
     & .grouping-items, & .filter-items {
       & .grouping-item, & .filter-item {
         background-color: white;
