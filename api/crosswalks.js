@@ -53,14 +53,40 @@ module.exports = function(app) {
 
   app.get("/api/neighbors", async(req, res) => {
 
-    const {dimension, id, limit = 5, measure} = req.query;
+    const {dimension, drilldowns, id, limit = 5} = req.query;
 
     const attr = await db.search.findOne({where: {dimension, id}});
     const {hierarchy} = attr;
 
-    const logicUrl = `${CANON_API}/api/data?measures=${measure}&order=${measure}&sort=desc&drilldowns=${hierarchy}&Year=latest&limit=10000`;
+    req.query.limit = 10000;
+    const measure = req.query.measure || req.query.measures;
+    if (req.query.measure) {
+      req.query.measures = req.query.measure;
+      delete req.query.measure;
+    }
+    delete req.query.dimension;
+    delete req.query.id;
+    if (!req.query.order) {
+      req.query.order = measure.split(",")[0];
+      req.query.sort = "desc";
+    }
+
+    if (!req.query.Year && !req.query.year) req.query.Year = "latest";
+
+    if (!drilldowns) {
+      req.query.drilldowns = hierarchy;
+    }
+    else if (!drilldowns.includes(hierarchy)) {
+      req.query.drilldowns += `,${hierarchy}`;
+    }
+
+    const params = Object.entries(req.query).map(([key, val]) => `${key}=${val}`).join("&");
+    const logicUrl = `${CANON_API}/api/data?${params}`;
+
     const resp = await axios.get(logicUrl)
       .then(resp => resp.data);
+
+    if (resp.error) res.json(resp);
 
     let list = resp.data;
 
