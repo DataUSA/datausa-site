@@ -88,23 +88,28 @@ module.exports = function(app) {
 
     if (resp.error) res.json(resp);
 
-    let list = resp.data;
+    const list = resp.data;
 
     const entry = list.find(d => d[`ID ${hierarchy}`] === id);
     const index = list.indexOf(entry);
+    let data;
 
     if (index <= limit / 2 + 1) {
-      list = list.slice(0, limit);
+      data = list.slice(0, limit);
     }
     else if (index > list.length - limit / 2 - 1) {
-      list = list.slice(-limit);
+      data = list.slice(-limit);
     }
     else {
       const min = Math.ceil(index - limit / 2);
-      list = list.slice(min, min + limit);
+      data = list.slice(min, min + limit);
     }
 
-    res.json({data: list, source: resp.source});
+    data.forEach(d => {
+      d.Rank = list.indexOf(d) + 1;
+    });
+
+    res.json({data, source: resp.source});
 
   });
 
