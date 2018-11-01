@@ -51,6 +51,90 @@ module.exports = function(app) {
 
   });
 
+  /**
+   * To handle the sentence: "The most common jobs for people who hold a degree in one of the 
+   * 5 most specialized majors at University," requires that we construct an API request 
+   * WITH THOSE 5 MAJORS in the url. This crosswalk is responsible for constructing that request.
+   */
+  app.get("/api/university/commonJobLookup/:id", (req, res) => {
+    const {id} = req.params;
+    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    axios.get(cipURL).then(resp => {
+      const CIP2 = resp.data.data.slice(0, 5).map(d => d["ID CIP2"]).join();
+      const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Total%20Population&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
+      axios.get(logicUrl).then(resp => {
+        const dedupedJobs = [];
+        const jobList = resp.data.data;
+        // The jobList has duplicates. For example, if a Biology Major becomes a Physician, and a separate
+        // Science major becomes a Physician, these are listed as separate data points. These must be folded
+        // together under one "Physician" to create an accurate picture of "jobs held by graduates with X degrees"
+        jobList.forEach(d => {
+          const thisJob = dedupedJobs.find(j => j["Detailed Occupation"] === d["Detailed Occupation"]);
+          if (thisJob) {
+            thisJob["Total Population"] += d["Total Population"];
+          }
+          else {
+            dedupedJobs.push(d);
+          } 
+        });
+        dedupedJobs.sort((a, b) => b["Total Population"] - a["Total Population"]);
+        res.json({data: dedupedJobs.slice(0, 10)}).end();
+      });
+    });
+  });
+
+  /**
+   * To handle the sentence: "The highest paying jobs for people who hold a degree in one of the 
+   * 5 most specialized majors at University."
+   */
+  app.get("/api/university/highestWageLookup/:id", (req, res) => {
+    const {id} = req.params;
+    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    axios.get(cipURL).then(resp => {
+      const CIP2 = resp.data.data.slice(0, 5).map(d => d["ID CIP2"]).join();
+      const logicUrl = `${CANON_API}/api/data?measures=Average%20Wage,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Average%20Wage&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
+      axios.get(logicUrl).then(resp => {
+        const dedupedWages = [];
+        const wageList = resp.data.data;
+        wageList.forEach(d => {
+          if (dedupedWages.length < 5 && !dedupedWages.find(w => w["Detailed Occupation"] === d["Detailed Occupation"])) dedupedWages.push(d);
+        });
+        res.json({data: dedupedWages.slice(0, 10)}).end();
+      });
+    });
+  });
+
+  /**
+   * To handle the sentence: "The most common industries for people who hold a degree in one 
+   * of the 5 most specialized majors at University."
+   */
+  app.get("/api/university/commonIndustryLookup/:id", (req, res) => {
+    const {id} = req.params;
+    const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
+    axios.get(cipURL).then(resp => {
+      const CIP2 = resp.data.data.slice(0, 5).map(d => d["ID CIP2"]).join();
+      const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Industry%20Group&order=Total%20Population&Workforce%20Status=true&Employment%20Time%20Status=1&sort=desc&Record%20Count>=5&CIP2=${CIP2}`;
+      axios.get(logicUrl).then(resp => {
+        const dedupedIndustries = [];
+        const industryList = resp.data.data;
+        // The industryList has duplicates. For example, if a Biology Major enters Biotech, and a separate
+        // Science major enters Biotech, these are listed as separate data points. These must be folded
+        // together under one "Biotech" to create an accurate picture of "industries entered by graduates with X degrees"
+        industryList.forEach(d => {
+          const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
+          if (thisIndustry) {
+            thisIndustry["Total Population"] += d["Total Population"];
+          }
+          else {
+            dedupedIndustries.push(d);
+          }
+        });
+        dedupedIndustries.sort((a, b) => b["Total Population"] - a["Total Population"]);
+        res.json({data: dedupedIndustries.slice(0, 10)}).end();
+      });
+    });
+  }); 
+
   app.get("/api/neighbors", async(req, res) => {
 
     const {dimension, drilldowns, id, limit = 5} = req.query;
