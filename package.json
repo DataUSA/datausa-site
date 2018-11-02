@@ -35,6 +35,7 @@
     "eslint": "^4.16.0",
     "flickr-sdk": "^3.7.0",
     "jsdoc-to-markdown": "^4.0.1",
+    "jszip": "^3.1.5",
     "katex": "^0.9.0",
     "localforage": "^1.5.6",
     "mondrian-rest-client": "^1.0.4",

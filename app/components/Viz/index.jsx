@@ -32,7 +32,9 @@ class Viz extends Component {
     return <div className={ `visualization ${className}` }>
       { options ? <Options
         component={ this }
-        data={ vizProps.config.data }
+        config={ vizProps.config }
+        data={ vizProps.config.cart || vizProps.config.data }
+        dataFormat={ vizProps.dataFormat }
         slug={ slug }
         title={ title } /> : null }
       <Visualization
