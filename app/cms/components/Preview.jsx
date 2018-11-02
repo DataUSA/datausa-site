@@ -4,7 +4,7 @@ import {Callout, Icon} from "@blueprintjs/core";
 const previewHash = {
   geo: ["04000US25", "01000US", "04000US36", "05000US25025", "31000US14460", "16000US0455000"],
   cip: ["110701"],
-  soc: ["151131"],
+  soc: ["151131", "290000"],
   naics: ["622"],
   university: ["167358"],
   napcs: ["61101", "81103", "37", "34201"]
