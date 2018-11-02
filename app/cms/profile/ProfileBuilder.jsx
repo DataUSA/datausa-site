@@ -497,8 +497,8 @@ class ProfileBuilder extends Component {
 
     const {nodes, currentNode, variablesHash, currentSlug, preview} = this.state;
 
-    const {NODE_ENV} = this.props.env;
-    if (NODE_ENV === "production") return null;
+    // const {NODE_ENV} = this.props.env;
+    // if (NODE_ENV === "production") return null;
 
     if (!nodes) return <div>Loading</div>;
 
