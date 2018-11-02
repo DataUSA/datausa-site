@@ -217,6 +217,7 @@ class Cart extends Component {
         { !results ? null : <div>
           <Table allowMultipleSelection={false}
             columnWidths={columnWidths}
+            fillBodyWithGhostCells={true}
             isColumnResizable={false}
             isRowResizable={false}
             numRows={ results.length }

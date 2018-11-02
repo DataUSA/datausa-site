@@ -1,9 +1,53 @@
+#Visualize {
+  & > span {
+    background-color: var(--white);
+    display: block;
+    height: 30px;
+    margin-top: var(--nav-height);
+    text-align: right;
+    & .option {
+      color: #949494;
+      cursor: pointer;
+      display: inline-block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 5px 15px 0 0;
+      outline: 0;
+      &.disabled {
+        opacity: 0.5;
+      }
+      &:before {
+        background-position: center;
+        background-repeat: no-repeat;
+        content: "";
+        display: inline-block;
+        height: 20px;
+        margin-bottom: 4px;
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 20px;
+      }
+      &:hover {
+        color: var(--red);
+      }
+      &.add-to-cart {
+        &:before {
+          background-image: url("/images/viz/add-to-cart.svg");
+        }
+        &:hover:before {
+          background-image: url("/images/viz/add-to-cart-red.svg");
+        }
+      }
+    }
+  }
+}
+
 .vizbuilder {
   background-color: var(--white);
-  min-height: calc(100vh - var(--nav-height) - 30px);
-  padding-top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height) - 60px);
   & .area-sidebar, & .area-chart {
-    height: calc(100vh - var(--nav-height) - 30px);
+    height: calc(100vh - var(--nav-height) - 60px);
   }
   & .area-sidebar {
     & .label {
@@ -16,7 +60,7 @@
       text-align: left;
       text-transform: uppercase;
     }
-    & .select-wrapper {
+    & .select-target-wrapper {
       border: 1px solid #bbb !important;
       & .select-option {
         padding: 4px 9px;
@@ -53,7 +97,8 @@
             font-size: 12px;
             font-weight: 400;
             margin: 5px 5px 5px 0;
-            padding: 3px 6px 4px;
+            padding: 0;
+            width: 100%;
           }
           & .select-member {
             background-color: transparent;
@@ -149,6 +194,11 @@
           display: inline-block;
         }
       }
+    }
+  }
+  & .area-chart {
+    & .wrapper {
+      padding: 0;
     }
   }
 }
