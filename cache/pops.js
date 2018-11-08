@@ -5,7 +5,7 @@ module.exports = async function() {
 
   const client = new Client(CANON_LOGICLAYER_CUBE);
 
-  const levels = ["Nation", "State", "County", "Msa", "Place", "Puma", "Tract"];
+  const levels = ["Nation", "State", "County", "MSA", "Place", "PUMA", "Tract"];
   const popQueries = levels
     .map(level => client.cube("acs_yg_total_population_1")
       .then(c => {
