@@ -92,6 +92,12 @@ export default class Glossary extends Component {
           <p>
             See pages 4-5 of <a href="http://www.dartmouthatlas.org/downloads/reports/Primary_care_report_090910.pdf" target="_blank" rel="noopener noreferrer">this report</a> for more details.
           </p>
+          <h3 id="alien">
+            <Anchor slug="alien">Non-resident alien</Anchor>
+          </h3>
+          <p>
+            A person who is not a citizen or national of the United States and who is in this country on a visa or temporary basis and does not have the right to remain indefinitely. NOTE - Nonresident aliens are to be reported separately, in the boxes provided, rather than included in any of the seven racial/ethnic categories. Resident aliens and other eligible (for financial aid purposes) non-citizens who are not citizens or nationals of the United States and who have been admitted as legal immigrants for the purpose of obtaining permanent resident alien status (and who hold either an alien registration card (Form I-551 or I-151), a Temporary Resident Card (Form I-688), or an Arrival-Departure Record (Form I-94) with a notation that conveys legal immigrant status such as Section 207 Refugee, Section 208 Asylee, Conditional Entrant Parolee or Cuban-Haitian) are to be reported in the appropriate racial/ethnic categories along with United States citizens.
+          </p>
           <h2 id="geography">
             <Anchor slug="geography">Geography</Anchor>
           </h2>
