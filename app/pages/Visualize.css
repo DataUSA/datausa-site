@@ -60,8 +60,9 @@
       text-align: left;
       text-transform: uppercase;
     }
-    & .select-target-wrapper {
+    & .select-target-wrapper, & .select-wrapper {
       border: 1px solid #bbb !important;
+      width: 100%;
       & .select-option {
         padding: 4px 9px;
       }
