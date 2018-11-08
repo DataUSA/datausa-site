@@ -94,6 +94,7 @@ class Visualize extends Component {
 
   render() {
     const {cart, intro, query} = this.state;
+    const {cube} = this.props;
     const cartSize = cart.length;
     const inCart = cart ? cart.find(c => c.slug === query.slug) : false;
 
@@ -111,7 +112,7 @@ class Visualize extends Component {
       </Tooltip2> : null }
 
       <Vizbuilder
-        src="https://ironwood-api.datausa.io/"
+        src={cube}
         defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
         defaultMeasure="Total Population"
         measureConfig={measureConfig}
@@ -176,4 +177,7 @@ Visualize.contextTypes = {
   formatters: PropTypes.object
 };
 
-export default connect(state => ({cartKey: state.env.CART}))(Visualize);
+export default connect(state => ({
+  cube: state.env.CUBE,
+  cartKey: state.env.CART
+}))(Visualize);
