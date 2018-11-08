@@ -74,9 +74,6 @@
       &:hover {
         background: rgb(241, 241, 241);
       }
-      & .select-value {
-        width: auto;
-      }
     }
     & .grouping-items, & .filter-items {
       & .grouping-item, & .filter-item {
@@ -192,6 +189,26 @@
         padding-left: 0;
         & .select-label {
           display: inline-block;
+        }
+      }
+    }
+    & .ranking {
+      & ol {
+        font-family: "Palanquin", sans-serif;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 16px;
+        margin-bottom: 20px;
+        padding-left: 30px;
+        width: 100%;
+        & .ranking-item {
+          padding: 2px 5px;
+          & .item-label {
+
+          }
+          & .item-value {
+            font-weight: 500;
+          }
         }
       }
     }
