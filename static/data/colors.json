@@ -6,7 +6,6 @@
   "colorLeast": "#58879A",
   "colorMost": "#1A3E61",
   "colorScaleGood": [
-    "#ecf3f7",
     "#cfdfeb",
     "#b0cde1",
     "#90bad8",
@@ -16,7 +15,6 @@
     "#004374"
   ],
   "colorScaleBad": [
-    "#f8ecec",
     "#edd1d1",
     "#e4b4b4",
     "#dc9595",
