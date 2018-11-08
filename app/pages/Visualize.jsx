@@ -127,12 +127,12 @@ class Visualize extends Component {
             ocean: "transparent",
             topojson: "/topojson/County.json"
           },
-          "Msa": {
+          "MSA": {
             projection: "geoAlbersUsa",
             ocean: "transparent",
             topojson: "/topojson/Msa.json"
           },
-          "Puma": {
+          "PUMA": {
             projection: "geoAlbersUsa",
             ocean: "transparent",
             topojson: "/topojson/Puma.json"
