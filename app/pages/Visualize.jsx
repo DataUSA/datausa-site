@@ -123,12 +123,18 @@ class Visualize extends Component {
         }}
         topojson={{
           "County": {
+            projection: "geoAlbersUsa",
+            ocean: "transparent",
             topojson: "/topojson/County.json"
           },
           "Msa": {
+            projection: "geoAlbersUsa",
+            ocean: "transparent",
             topojson: "/topojson/Msa.json"
           },
           "Puma": {
+            projection: "geoAlbersUsa",
+            ocean: "transparent",
             topojson: "/topojson/Puma.json"
           },
           "State": StateTopojson,
