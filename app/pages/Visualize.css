@@ -217,6 +217,9 @@
   & .area-chart {
     & .wrapper {
       padding: 0;
+      & .chart-wrapper {
+        width: 100%;
+      }
     }
   }
 }
