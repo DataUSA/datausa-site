@@ -19,6 +19,12 @@ class Viz extends Component {
 
     // clone config object to allow manipulation
     const vizProps = propify(config.logic, formatters, variables);
+
+    // If the result of propify has an "error" property, then the provided javascript was malformed and propify
+    // caught an error. Instead of attempting to render the viz, simply show the error to the user.
+    if (vizProps.error) {
+      return <div>{`Error: ${vizProps.error}`}</div>;
+    }
     vizProps.config = Object.assign(vizProps.config, configOverride);
 
     // strip out the "type" from config
