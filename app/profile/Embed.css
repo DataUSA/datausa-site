@@ -1,4 +1,5 @@
 #Embed {
+  background: var(--white);
   height: 100vh;
   & .topic {
     height: 100vh;
