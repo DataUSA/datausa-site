@@ -50,7 +50,8 @@ module.exports = {
               : prefix === "050" ? "Tract"
                 : prefix === "310" ? "County"
                   : prefix === "160" ? "Tract"
-                    : false;
+                    : prefix === "795" ? "Tract"
+                      : false;
         },
         childrenCounty: id => {
           const prefix = id.slice(0, 3);
@@ -92,9 +93,9 @@ module.exports = {
         levels: {
           State: ["Nation"],
           County: ["State", "Nation"],
-          Msa: ["State", "Nation"],
+          MSA: ["State", "Nation"],
           Place: ["State", "Nation"],
-          Puma: ["State", "Nation"]
+          PUMA: ["State", "Nation"]
         },
         url: (id, level) => {
           const targetLevel = level.replace(/^[A-Z]{1}/g, chr => chr.toLowerCase());
