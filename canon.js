@@ -52,6 +52,10 @@ module.exports = {
                   : prefix === "160" ? "Tract"
                     : false;
         },
+        childrenCounty: id => {
+          const prefix = id.slice(0, 3);
+          return prefix === "010" ? "State" : [`040${id.slice(3, 9)}`, "County"];
+        },
         neighbors: {
           url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
           callback: arr => arr.map(d => d.geoid)
@@ -104,6 +108,15 @@ module.exports = {
           CIP4: ["CIP2"]
         },
         url: (id, level) => `${CANON_API}/api/cip/parent/${id}/${level}/`,
+        callback: resp => resp.id
+      },
+      NAICS: {
+        levels: {
+          "Industry Group": ["L0", "L1"],
+          "Industry Sub-Sector": ["L0", "L1"],
+          "Industry Sector": ["L0", "L1"]
+        },
+        url: (id, level) => `${CANON_API}/api/naics/${id}/io/${level}`,
         callback: resp => resp.id
       },
       NAPCS: {
