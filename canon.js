@@ -49,8 +49,8 @@ module.exports = {
             : prefix === "040" ? "County"
               : prefix === "050" ? "Tract"
                 : prefix === "310" ? "County"
-                  : prefix === "160" ? "Tract"
-                    : prefix === "795" ? [`040${id.slice(3, 9)}`, "Place"]
+                  : prefix === "160" ? [`040${id.slice(3, 9)}`, "Place"]
+                    : prefix === "795" ? [`040${id.slice(3, 9)}`, "PUMA"]
                       : false;
         },
         childrenCounty: id => {
