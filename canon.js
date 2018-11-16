@@ -43,19 +43,11 @@ module.exports = {
     },
     relations: {
       Geography: {
-        children: id => {
-          const prefix = id.slice(0, 3);
-          return prefix === "010" ? "State"
-            : prefix === "040" ? "County"
-              : prefix === "050" ? "Tract"
-                : prefix === "310" ? "County"
-                  : prefix === "160" ? [`040${id.slice(3, 9)}`, "Place"]
-                    : prefix === "795" ? [`040${id.slice(3, 9)}`, "PUMA"]
-                      : false;
+        children: {
+          url: id => `${CANON_API}/api/geo/children/${id}/`
         },
-        childrenCounty: id => {
-          const prefix = id.slice(0, 3);
-          return prefix === "010" ? "State" : [`040${id.slice(3, 9)}`, "County"];
+        childrenCounty: {
+          url: id => `${CANON_API}/api/geo/childrenCounty/${id}/`
         },
         neighbors: {
           url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
@@ -93,7 +85,7 @@ module.exports = {
         levels: {
           State: ["Nation"],
           County: ["State", "Nation"],
-          MSA: ["State", "Nation"],
+          MSA: ["Nation"],
           Place: ["State", "Nation"],
           PUMA: ["State", "Nation"]
         },
