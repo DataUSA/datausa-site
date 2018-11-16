@@ -145,7 +145,7 @@ class Visualize extends Component {
 
       return <div id="Visualize">
 
-        { query ? <Helmet title={`${query.title} | Visualization Builder`} /> : null }
+        { query ? <Helmet title={`${query.title ? `${query.title} | ` : ""}Visualization Builder`} /> : null }
 
         <div className="help" onClick={this.showIntro.bind(this)}>
           <Icon iconName="help" />
