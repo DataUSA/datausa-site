@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Vizbuilder from "@datawheel/canon-vizbuilder";
 import localforage from "localforage";
-import {Button, Dialog, Icon, Intent} from "@blueprintjs/core";
+import {Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
+import {Helmet} from "react-helmet";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -24,7 +25,24 @@ const StateTopojson = {
   topojson: "/topojson/State.json"
 };
 
-const introKey = "datausa-visualize-intro";
+const examples = [
+  {
+    title: "Universities with endowments greater than $10B",
+    icon: "bank-account",
+    link: "/visualize?filters=0-Z1jivMs-4-10000000000&groups=0-HIqzX&measure=Z1jivMs"
+  },
+  {
+    title: "Opioid overdoses by state over time",
+    icon: "pulse",
+    link: "/visualize?groups=0-Zpn26u&measure=2sUCF4"
+  },
+  {
+    title: "States with the highest number of coal mining workers",
+    icon: "build",
+    link: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo"
+  }
+];
+
 const cartMax = 5;
 
 class Visualize extends Component {
@@ -33,7 +51,7 @@ class Visualize extends Component {
     super(props);
     this.state = {
       cart: false,
-      intro: false,
+      intro: !props.router.location.search.length,
       query: {}
     };
   }
@@ -41,12 +59,6 @@ class Visualize extends Component {
   componentDidMount() {
 
     const {cartKey} = this.props;
-
-    localforage.getItem(introKey)
-      .then(intro => {
-        if (!intro) this.setState({intro: true});
-      })
-      .catch(err => console.error(err));
 
     localforage.getItem(cartKey)
       .then(cart => {
@@ -56,14 +68,22 @@ class Visualize extends Component {
       .catch(err => console.error(err));
   }
 
-  hideInfo() {
+  showIntro() {
+    this.setState({intro: true});
+  }
+
+  closeIntro() {
     this.setState({intro: false});
-    localforage.setItem(introKey, true);
+  }
+
+  gotoExample(url) {
+    this.props.router.push(url);
   }
 
   onChange(query) {
+
     const {list} = this.context.formatters;
-    console.log(query);
+
     const slug = `${query.measure.annotations._key}-${query.groups.map(d => d.level.annotations._key).join("-")}`;
     const params = {
       measures: [query.measure.name],
@@ -72,17 +92,18 @@ class Visualize extends Component {
     if (query.moe) params.measures.push(query.moe.name);
     if (query.lci) params.measures.push(query.lci.name);
     if (query.uci) params.measures.push(query.uci.name);
-    console.log(params);
+
     const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
-    console.log(url);
+
     const title = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
-    console.log(title);
-    console.log(slug);
+
     const format = "function(d) { return d.data; }";
     this.setState({query: {urls: [url], format, slug, title}});
+
   }
 
   onCart() {
+
     const {cart, query} = this.state;
     const {cartKey} = this.props;
     const inCart = cart.find(c => c.slug === query.slug);
@@ -90,6 +111,7 @@ class Visualize extends Component {
     else cart.push(query);
     localforage.setItem(cartKey, cart);
     this.forceUpdate();
+
   }
 
   render() {
@@ -98,77 +120,83 @@ class Visualize extends Component {
     const cartSize = cart.length;
     const inCart = cart ? cart.find(c => c.slug === query.slug) : false;
 
-    return <div id="Visualize">
+    if (intro) {
+      return <div id="Visualize" className="visualize-intro">
+        <Helmet title="Visualization Builder" />
+        <h1>Visualization Builder</h1>
+        <p>
+          Welcome to the Data USA custom visualization builder. This page allows you to select any indicator from the site. You may specify custom groupings and filters, and then view the resulting data as a series of visualizations based on your selection.
+        </p>
+        <p>
+          The following are a few sample queries. Click on one to get started:
+        </p>
+        <div className="examples">
+          { examples.map((d, i) => <div key={i}
+            onClick={this.gotoExample.bind(this, d.link)}
+            className="pt-card pt-interactive">
+            <Icon iconName={d.icon} />
+            { d.title }
+          </div>) }
+        </div>
+        <div className="advanced" onClick={this.closeIntro.bind(this)}>Go directly to interface &raquo;</div>
+      </div>;
+    }
+    else {
 
-      { cart ? <Tooltip2 placement="top-end">
-        <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
-          <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
-        </div>
-        <span>
-          { inCart ? "Remove this dataset from the cart."
-            : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
-              : "Add the underlying data to the cart, and merge with any existing cart data." }
-        </span>
-      </Tooltip2> : null }
+      return <div id="Visualize">
 
-      <Vizbuilder
-        src={cube}
-        defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
-        defaultMeasure="Total Population"
-        measureConfig={measureConfig}
-        onChange={this.onChange.bind(this)}
-        config={{
-          colorScaleConfig: {
-            color: colors.colorScaleGood
-          }
-        }}
-        topojson={{
-          "County": {
-            projection: "geoAlbersUsa",
-            ocean: "transparent",
-            topojson: "/topojson/County.json"
-          },
-          "MSA": {
-            projection: "geoAlbersUsa",
-            ocean: "transparent",
-            topojson: "/topojson/Msa.json"
-          },
-          "PUMA": {
-            projection: "geoAlbersUsa",
-            ocean: "transparent",
-            topojson: "/topojson/Puma.json"
-          },
-          "State": StateTopojson,
-          "Origin State": StateTopojson,
-          "Destination State": StateTopojson
-        }} />
+        { query ? <Helmet title={`${query.title} | Visualization Builder`} /> : null }
 
-      <Dialog isOpen={intro} className="visualize-intro">
-        <div className="pt-dialog-header">
-          <h5>Maps &amp; Charts</h5>
-          <button aria-label="Close" className="pt-dialog-close-button pt-icon-small-cross" onClick={this.hideInfo.bind(this)}></button>
+        <div className="help" onClick={this.showIntro.bind(this)}>
+          <Icon iconName="help" />
+          Help
         </div>
-        <div className="pt-dialog-body">
-          <p className="icons">
-            <Icon iconName="horizontal-bar-chart" />
-            <Icon iconName="globe" />
-            <Icon iconName="timeline-line-chart" />
-            <Icon iconName="grid-view" />
-            <Icon iconName="grouped-bar-chart" />
-            <Icon iconName="timeline-area-chart" />
-          </p>
-          <p>
-            Welcome to the custom visualization builder. This page allows you to view any indicator used throughout the site as a set of custom visualizations.
-          </p>
-          <p>
-            Start by choosing an indicator from the dropdown list, and then add custom groupings and filters to narrow down your exploration.
-          </p>
-        </div>
-        <div className="pt-dialog-footer">
-          <Button className="pt-fill" text="Let's start!" intent={Intent.SUCCESS} onClick={this.hideInfo.bind(this)} />
-        </div>
-      </Dialog>;
-    </div>;
+
+        { cart ? <Tooltip2 placement="top-end">
+          <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
+            <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
+          </div>
+          <span>
+            { inCart ? "Remove this dataset from the cart."
+              : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+                : "Add the underlying data to the cart, and merge with any existing cart data." }
+          </span>
+        </Tooltip2> : null }
+
+        <Vizbuilder
+          src={cube}
+          defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
+          defaultMeasure="Total Population"
+          measureConfig={measureConfig}
+          onChange={this.onChange.bind(this)}
+          config={{
+            colorScaleConfig: {
+              color: colors.colorScaleGood
+            }
+          }}
+          topojson={{
+            "County": {
+              projection: "geoAlbersUsa",
+              ocean: "transparent",
+              topojson: "/topojson/County.json"
+            },
+            "MSA": {
+              projection: "geoAlbersUsa",
+              ocean: "transparent",
+              topojson: "/topojson/Msa.json"
+            },
+            "PUMA": {
+              projection: "geoAlbersUsa",
+              ocean: "transparent",
+              topojson: "/topojson/Puma.json"
+            },
+            "State": StateTopojson,
+            "Origin State": StateTopojson,
+            "Destination State": StateTopojson
+          }} />
+
+      </div>;
+    }
   }
 
 }
