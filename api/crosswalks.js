@@ -209,6 +209,15 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/api/parents/:dimension/:id", async(req, res) => {
+
+    const {dimension, id} = req.params;
+    const parents = cache.parents[dimension] || {};
+
+    res.json(parents[id] || []);
+
+  });
+
   app.get("/api/neighbors", async(req, res) => {
 
     const {dimension, drilldowns, id, limit = 5} = req.query;

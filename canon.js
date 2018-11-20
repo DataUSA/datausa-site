@@ -42,7 +42,7 @@ module.exports = {
       "Origin State": "Geography"
     },
     relations: {
-      Geography: {
+      "Geography": {
         children: {
           url: id => `${CANON_API}/api/geo/children/${id}/`
         },
@@ -73,7 +73,30 @@ module.exports = {
           }
         }
       },
-      University: {
+      "CIP": {
+        parents: {
+          url: id => `${CANON_API}/api/parents/cip/${id}`
+        }
+      },
+      "PUMS Industry": {
+        parents: {
+          url: id => `${CANON_API}/api/parents/naics/${id}`
+        }
+      },
+      "NAPCS": {
+        parents: {
+          url: id => `${CANON_API}/api/parents/napcs/${id}`
+        }
+      },
+      "PUMS Occupation": {
+        parents: {
+          url: id => `${CANON_API}/api/parents/soc/${id}`
+        }
+      },
+      "University": {
+        parents: {
+          url: id => `${CANON_API}/api/parents/university/${id}`
+        },
         similar: {
           url: id => `${CANON_API}/api/university/similar/${id}`,
           callback: arr => arr.map(d => d.id)

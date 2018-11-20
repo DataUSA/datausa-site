@@ -2,16 +2,21 @@ const axios = require("axios");
 
 const {CANON_LOGICLAYER_CUBE} = process.env;
 
+/** Prases the return from the members call into an object lookup. */
 function parseParents(data) {
-  const levels = data.hierarchies[0].levels;
-  return levels[levels.length - 1].members
-    .reduce((obj, d) => {
+  const obj = {};
+  const levels = data.hierarchies[0].levels.filter(level => level.name !== "(All)");
+  for (let i = 0; i < levels.length; i++) {
+    const members = levels[i].members;
+    for (let x = 0; x < members.length; x++) {
+      const d = members[x];
       const list = d.ancestors
-        .filter(a => a.depth)
+        .filter(a => a.level_name !== "(All)")
         .map(a => `${a.key}`);
       obj[d.key] = Array.from(new Set(list));
-      return obj;
-    }, {});
+    }
+  }
+  return obj;
 }
 
 module.exports = function() {
