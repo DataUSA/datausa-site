@@ -10,17 +10,39 @@ import Column from "./Column";
 
 class Home extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {image: "utah"};
+  }
+
+  onImage(e) {
+    this.setState({image: e.target.value});
+  }
+
   render() {
 
     const {tiles} = this.props;
+    const {image} = this.state;
 
     return (
       <div id="Home">
-        <div className="bg"></div>
+        <div className="bg" style={{backgroundImage: `url("/images/home/bg/${image}.jpg")`}}></div>
         <img className="logo" src="/images/home/logo-shadow.png" alt="Data USA" />
         <h2 className="tagline">
           <a href="/search">Search</a>, <a href="/map">map</a>, <a href="/profile/geo/chicago-il/?compare=seattle-wa">compare</a>, and <a href="/cart">download</a> U.S. data
         </h2>
+
+        <select id="bg-select" className="pt-select" onChange={this.onImage.bind(this)} defaultValue={image}>
+          <option value="autumn">autumn</option>
+          <option value="cliff">cliff</option>
+          <option value="cloudy">cloudy</option>
+          <option value="field">field</option>
+          <option value="green">green</option>
+          <option value="mountain">mountain</option>
+          <option value="snow">snow</option>
+          <option value="utah">utah</option>
+          <option value="yellow">yellow</option>
+        </select>
 
         <Search
           buttonLink="/search"
