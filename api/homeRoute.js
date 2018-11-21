@@ -183,34 +183,44 @@ module.exports = function(app) {
       url: "/cart",
       tiles: [
         {
-          url: "/api/data?required=patients_diabetic_medicare_enrollees_65_75_lipid_test_total&show=geo&sumlevel=county&year=all",
-          slug: "map_patients_diabetic_medicare_enrollees_65_75_lipid_test_total_ county",
-          image: "/api/profile/naics/5417/thumb",
-          title: "Diabetic Lipid Tests by County"
+          image: "/api/profile/cip/451099/thumb",
+          title: "Federal Agency Spending by State",
+          cart: {
+            urls: ["/api/data?measures=Obligation%20Amount&drilldowns=Agency,State"],
+            slug: "cart_agency_state"
+          }
         },
         {
-          url: "/api/data?required=adult_smoking&show=geo&sumlevel=state&year=all",
-          slug: "map_adult_smoking_ state",
+          image: "/api/profile/soc/113031/thumb",
+          title: "Average Wage for Jobs",
+          cart: {
+            urls: ["/api/data?measures=Average%20Wage&drilldowns=Detailed%20Occupation"],
+            slug: "cart_wage_soc"
+          }
+        },
+        {
           image: "/api/profile/naics/3122/thumb",
-          title: "Adult Smoking by State"
+          title: "Adult Smoking by State",
+          cart: {
+            urls: ["/api/data?measures=Adult%20Smoking&drilldowns=State"],
+            slug: "cart_adult_smoking_state"
+          }
         },
         {
-          url: "/api/data?required=leg_amputations_per_1000_enrollees_total&show=geo&sumlevel=county&year=all",
-          slug: "map_leg_amputations_per_1000_enrollees_total_ county",
-          image: "/api/profile/naics/62/thumb",
-          title: "Leg Amputations by County"
-        },
-        {
-          url: "/api/data?required=pop%2Cpop_moe&show=geo&sumlevel=county&year=all",
-          slug: "map_pop_ county",
           image: "/api/profile/cip/45/thumb",
-          title: "Population by County"
+          title: "Population by County",
+          cart: {
+            urls: ["/api/data?measures=Population&drilldowns=County"],
+            slug: "cart_population_county"
+          }
         },
         {
-          url: "/api/data?required=median_property_value%2Cmedian_property_value_moe&show=geo&sumlevel=county&year=all",
-          slug: "map_median_property_value_ county",
           image: "/api/profile/geo/05000US25019/thumb",
-          title: "Median Property Value by County"
+          title: "Median Property Value by County",
+          cart: {
+            urls: ["/api/data?measures=Property%20Value,Property%20Value%20Moe&drilldowns=County"],
+            slug: "cart_property_value_county"
+          }
         }
       ]
     });
