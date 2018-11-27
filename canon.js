@@ -46,6 +46,12 @@ module.exports = {
         children: {
           url: id => `${CANON_API}/api/geo/children/${id}/`
         },
+        tracts: {
+          url: id => `${CANON_API}/api/geo/children/${id}/?level=Tract`
+        },
+        places: {
+          url: id => `${CANON_API}/api/geo/children/${id}/&level=Place`
+        },
         childrenCounty: {
           url: id => `${CANON_API}/api/geo/childrenCounty/${id}/`
         },
@@ -108,7 +114,7 @@ module.exports = {
         levels: {
           State: ["Nation"],
           County: ["State", "Nation"],
-          MSA: ["Nation"],
+          MSA: ["State", "Nation"],
           Place: ["State", "Nation"],
           PUMA: ["State", "Nation"]
         },

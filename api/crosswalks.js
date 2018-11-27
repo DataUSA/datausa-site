@@ -15,38 +15,43 @@ module.exports = function(app) {
   app.get("/api/geo/children/:id/", async(req, res) => {
 
     const {id} = req.params;
+    const {level} = req.query;
 
     const prefix = id.slice(0, 3);
-    let level, parent;
+    let cut, drilldown;
 
-    if (prefix === "310") {
-      parent = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
+    if (["Nation", "State"].includes(level)) {
+      cut = "01000US";
+      drilldown = level;
+    }
+    else if (prefix === "040") { // State
+      cut = id;
+      drilldown = level || "County";
+    }
+    else if (prefix === "050") { // County
+      cut = id;
+      drilldown = level || "Tract";
+    }
+    else if (prefix === "310") { // MSA
+      cut = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
         .then(resp => resp.data)
         .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid);
-      level = "County";
+      drilldown = level || "County";
     }
-    else if (prefix === "160") {
-      parent = `040${id.slice(3, 9)}`;
-      level = "Place";
+    else if (prefix === "160") { // Place
+      cut = `040${id.slice(3, 9)}`;
+      drilldown = level || "Place";
     }
-    else if (prefix === "795") {
-      parent = `040${id.slice(3, 9)}`;
-      level = "PUMA";
-    }
-    else if (prefix === "050") {
-      parent = id;
-      level = "Tract";
-    }
-    else if (prefix === "040") {
-      parent = id;
-      level = "County";
+    else if (prefix === "795") { // Puma
+      cut = `040${id.slice(3, 9)}`;
+      drilldown = level || "PUMA";
     }
     else {
-      parent = "01000US";
-      level = "State";
+      cut = "01000US";
+      drilldown = level || "State";
     }
 
-    res.json({cut: parent, drilldown: level});
+    res.json({cut, drilldown});
 
   });
 
@@ -61,7 +66,7 @@ module.exports = function(app) {
       parent = id;
       level = "State";
     }
-    if (prefix === "310") {
+    else if (prefix === "310") {
       parent = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
         .then(resp => resp.data)
         .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid);
