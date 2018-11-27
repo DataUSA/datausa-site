@@ -2,7 +2,7 @@ const axios = require("axios");
 
 const loadJSON = require("../utils/loadJSON");
 
-const universitySimilar = loadJSON("/static/data/similar_universities.json");
+const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
 const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
 const naics2io = loadJSON("/static/data/pums_naics_to_iocode.json");
 
@@ -92,7 +92,10 @@ module.exports = function(app) {
 
   app.get("/api/university/similar/:id", (req, res) => {
 
-    const ids = universitySimilar[req.params.id] || [];
+    const limit = req.query.limit || 5;
+    const ids = (universitySimilar[req.params.id] || [])
+      .slice(0, limit)
+      .map(d => d.university);
 
     db.search
       .findAll({where: {id: ids, dimension: "University"}})
