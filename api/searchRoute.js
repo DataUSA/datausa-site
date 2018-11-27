@@ -1,51 +1,59 @@
-const sequelize = require("sequelize");
+// const sequelize = require("sequelize");
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {index, rows} = app.settings.cache.searchIndex;
 
   app.get("/api/search", async(req, res) => {
-
-    const where = {};
 
     let {limit = "10"} = req.query;
     limit = parseInt(limit, 10);
 
     const {id, q, dimension} = req.query;
 
-    if (q) {
-      where[sequelize.Op.or] = [
-        {name: {[sequelize.Op.iLike]: `%${q}%`}},
-        {display: {[sequelize.Op.iLike]: `%${q}%`}},
-        {keywords: {[sequelize.Op.overlap]: [q]}}
-      ];
+    const query = q.toLowerCase();
+    const searchQuery = q
+      .replace(/([A-z]{6,})/g, txt => `${txt}~${ Math.floor(txt.length / 6) }`)
+      .replace(/([A-z]{2,})/g, txt => `${txt}*`);
+
+    let results = [];
+
+    if (id) {
+      results = id.split(",").map(x => rows.find(row => row.id === x));
     }
+    else if (!q) {
+      let data = rows.sort((a, b) => b.zvalue - a.zvalue);
+      if (dimension) data = data.filter(d => d.dimension === dimension);
+      results = data.slice(0, limit);
+    }
+    else {
 
-    if (dimension) where.dimension = dimension;
-    if (id) where.id = id.includes(",") ? id.split(",") : id;
+      const searchResults = index.search(searchQuery)
+        .map(d => {
 
-    const rows = await db.search.findAll({
-      include: [{model: db.images}],
-      limit,
-      order: [["zvalue", "DESC"]],
-      where
-    });
+          const data = rows.find(row => row.id === d.ref);
+          const name = data.name.toLowerCase();
+          const zvalue = data.zvalue;
+          const zscore = zvalue * 0.15;
 
-    const dimensions = Array.from(new Set(rows.map(d => d.dimension)));
-    const slugs = await db.profiles.findAll({where: {dimension: dimensions}})
-      .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
+          let score = d.score;
+          if (name === query) score = score * 300 + 25 * Math.abs(zscore);
+          else if (name.startsWith(query)) {
+            if (zvalue > 0) score = score * 57.5 + 25 * zscore;
+            else score = score * 57.5 + (1 - Math.abs(zscore) * 25);
+          }
+          else if (query.startsWith(name.slice(0, 10))) score = score * 30 + Math.abs(zscore);
+          else if (query.startsWith(name.slice(0, 5))) score = score * 15 + Math.abs(zscore);
+          else score = score * 7.5 + zscore * 3.1;
+          data.score = score;
+          return data;
 
-    const results = rows.map(d => ({
-      dimension: d.dimension,
-      hierarchy: d.hierarchy,
-      id: d.id,
-      image: d.image,
-      keywords: d.keywords,
-      name: d.display,
-      profile: slugs[d.dimension],
-      slug: d.slug,
-      stem: d.stem === 1
-    }));
+        });
+
+      let data = searchResults.sort((a, b) => b.score - a.score);
+      if (dimension) data = data.filter(d => d.dimension === dimension);
+      results = data.slice(0, limit);
+    }
 
     res.json({
       results,

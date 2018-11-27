@@ -94,6 +94,14 @@
       &:hover {
         background: rgb(241, 241, 241);
       }
+      & .dims {
+        & .pt-tag {
+          font-size: 10px;
+          font-weight: 700;
+          margin: 2px 3px 0 0;
+          padding: 2px 5px 3px;
+        }
+      }
     }
     & .grouping-items, & .filter-items {
       & .grouping-item, & .filter-item {
@@ -113,7 +121,7 @@
             display: inline-block;
             font-size: 12px;
             font-weight: 400;
-            margin: 5px 5px 5px 0;
+            margin: 5px 5px 0 0;
             padding: 2px 5px 3px;
             width: auto;
           }
