@@ -11,11 +11,6 @@ module.exports = function(app) {
 
     const {id, q, dimension} = req.query;
 
-    const query = q.toLowerCase();
-    const searchQuery = q
-      .replace(/([A-z]{6,})/g, txt => `${txt}~${ Math.floor(txt.length / 6) }`)
-      .replace(/([A-z]{2,})/g, txt => `${txt}*`);
-
     let results = [];
 
     if (id) {
@@ -27,6 +22,11 @@ module.exports = function(app) {
       results = data.slice(0, limit);
     }
     else {
+
+      const query = q.toLowerCase();
+      const searchQuery = q
+        .replace(/([A-z]{6,})/g, txt => `${txt}~${ Math.floor(txt.length / 6) }`)
+        .replace(/([A-z]{2,})/g, txt => `${txt}*`);
 
       const searchResults = index.search(searchQuery)
         .map(d => {
