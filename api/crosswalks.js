@@ -134,6 +134,13 @@ module.exports = function(app) {
   });
 
   /**
+   * The following three lookup methods make two queries: one to IPEDS, one to PUMS. The following CIP2 IDs exist
+   * in IPEDS but not in PUMS. This causes cuts to fail and shows incomplete data. When performing any of the following
+   * two-part queries, filter out the "bad" CIP2s from the IPEDS results so that PUMS only gets confirmed good IDs.
+   */
+  const ipedsPumsFilter = d => !["21", "29", "32", "33", "34", "35", "36", "37", "48", "53", "60"].includes(d["ID CIP2"]);
+
+  /**
    * To handle the sentence: "The most common jobs for people who hold a degree in one of the
    * 5 most specialized majors at University," requires that we construct an API request
    * WITH THOSE 5 MAJORS in the url. This crosswalk is responsible for constructing that request.
@@ -142,7 +149,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
     axios.get(cipURL).then(resp => {
-      const CIP2 = resp.data.data.slice(0, 5).map(d => d["ID CIP2"]).join();
+      const CIP2 = resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join();
       const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Total%20Population&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
       axios.get(logicUrl).then(resp => {
         const dedupedJobs = [];
@@ -173,7 +180,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
     axios.get(cipURL).then(resp => {
-      const CIP2 = resp.data.data.slice(0, 5).map(d => d["ID CIP2"]).join();
+      const CIP2 = resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join();
       const logicUrl = `${CANON_API}/api/data?measures=Average%20Wage,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Average%20Wage&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
       axios.get(logicUrl).then(resp => {
         const dedupedWages = [];
@@ -194,7 +201,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
     axios.get(cipURL).then(resp => {
-      const CIP2 = resp.data.data.slice(0, 5).map(d => d["ID CIP2"]).join();
+      const CIP2 = resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join();
       const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Industry%20Group&order=Total%20Population&Workforce%20Status=true&Employment%20Time%20Status=1&sort=desc&Record%20Count>=5&CIP2=${CIP2}`;
       axios.get(logicUrl).then(resp => {
         const dedupedIndustries = [];
