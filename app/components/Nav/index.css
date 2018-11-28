@@ -91,8 +91,8 @@
         font-size: 16px;
         font-weight: 600;
         letter-spacing: 0.1em;
-        line-height: 1.5;
-        padding: 5px 0;
+        line-height: 1.3;
+        padding: 7px 0;
         text-transform: uppercase;
         vertical-align: middle;
         & a {
@@ -100,6 +100,15 @@
           &:hover {
             color: var(--purple);
             text-decoration: none;
+          }
+          &.new:after {
+            color: var(--red);
+            content: "new";
+            font-size: 60%;
+            font-weight: 800;
+            margin-left: 3px;
+            text-transform: uppercase;
+            vertical-align: super;
           }
         }
         & ul {

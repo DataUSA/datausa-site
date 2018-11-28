@@ -81,7 +81,10 @@ export default class Nav extends Component {
         <div className="menu-content">
           <ul>
             <li>
-              <Link to="/search/">Explore</Link>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/search">Explore</Link>
               <ul>
                 <li><Link to="/search/?kind=geo">Locations</Link></li>
                 <li><Link to="/search/?kind=naics">Industries</Link></li>
@@ -92,19 +95,22 @@ export default class Nav extends Component {
               </ul>
             </li>
             <li>
-              <Link to="/visualize/">Maps &amp; Charts</Link>
+              <Link className="new" to="/visualize">Visualization Builder</Link>
             </li>
             <li>
-              <Link to="/story/">Stories</Link>
+              <Link to="/map">Maps</Link>
             </li>
             <li>
-              <Link to="/cart/">Data Cart</Link>
+              <Link to="/story">Stories</Link>
             </li>
             <li>
-              <Link to="/about/">About</Link>
+              <Link to="/cart">Data Cart</Link>
             </li>
             <li>
-              <Link to="/about/datasets/">Data Sources</Link>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/about/datasets">Data Sources</Link>
             </li>
           </ul>
           { logo ? <div className="menu-collab">
