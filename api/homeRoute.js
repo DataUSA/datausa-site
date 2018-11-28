@@ -19,32 +19,32 @@ module.exports = function(app) {
       tiles: [
         {
           title: "Opioid Deaths (Age-Adjusted) by State",
-          url: "/map/?level=state&key=opioid_overdose_deathrate_ageadjusted",
+          url: "/map?groups=0-Zpn26u&measure=2sUCF4",
           image: "/images/home/maps/opioid_overdose_deathrate_ageadjusted.png",
           new: false
         },
         {
           title: "Default Rate by County",
-          url: "/map/?level=county&key=default_rate,num_borrowers,num_defaults",
+          url: "/map?groups=0-Z2nI4Ry&measure=ZdVPNx",
           image: "/images/home/maps/default_rate.png",
           new: false
         },
         {
           title: "Nonmedical Pain Reliever Usage by State",
-          url: "/map/?level=state&key=non_medical_use_of_pain_relievers",
+          url: "/map?groups=0-2vBHXu&measure=Z25c19f",
           image: "/images/home/maps/non_medical_use_of_pain_relievers.png",
           new: false
         },
         {
-          title: "Medicare Reimbursements by County",
-          url: "/map/?level=county&key=total_reimbursements_b",
-          image: "/images/home/maps/total_reimbursements_b.png",
+          title: "Children in Single-Parent Households by County",
+          url: "/map?groups=0-Z1X72Pg&measure=1Vpvwd",
+          image: "/images/home/maps/children_in_singleparent_households.png",
           new: false
         },
         {
-          title: "Poverty Rate by County",
-          url: "/map/?level=county&key=income_below_poverty:pop_poverty_status,income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe",
-          image: "/images/home/maps/income_below_poverty.png",
+          title: "High School Graduation by State",
+          url: "/map?groups=0-z7J78&measure=Z2ny7rj",
+          image: "/images/home/maps/high_school_graduation.png",
           new: false
         }
       ]
