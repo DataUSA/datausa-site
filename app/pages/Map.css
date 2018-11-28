@@ -1,0 +1,23 @@
+#Visualize.Map {
+  & .options {
+    margin-top: 0;
+    position: absolute;
+    right: 0;
+    top: var(--nav-height);
+    z-index: 10;
+  }
+  & .vizbuilder {
+    min-height: calc(100vh - var(--nav-height));
+    padding-top: var(--nav-height);
+    & .area-sidebar, & .area-chart {
+      height: calc(100vh - var(--nav-height));
+    }
+    & .area-chart {
+      & .chart-card {
+        & .wrapper {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect, Route, IndexRoute} from "react-router";
+import {Route, IndexRoute} from "react-router";
 
 import App from "./App";
 import Home from "./pages/Home/index";
@@ -11,6 +11,7 @@ import Embed from "./profile/Embed";
 import Stories from "./pages/Story/Stories";
 import Story from "./pages/Story/Story";
 
+import MapPage from "./pages/Map";
 import Visualize from "./pages/Visualize";
 
 import Cart from "./pages/Cart";
@@ -38,6 +39,7 @@ const sctg2napcs = Object.keys(napcs2sctg)
     return obj;
   }, {});
 
+/** Handles any profile page crosswalk logic. */
 function crosswalk(nextState, replace) {
   const {pslug, pid} = nextState.params;
   if (pslug === "sctg") {
@@ -47,6 +49,7 @@ function crosswalk(nextState, replace) {
   }
 }
 
+/** Hooks up page routes to the react-router instance. */
 export default function RouteCreate() {
 
   return (
@@ -62,7 +65,7 @@ export default function RouteCreate() {
       <Route path="/story/:sid" component={Story} />
 
       <Route path="/visualize" component={Visualize} />
-      <Redirect from="/map" to="/visualize" />
+      <Route path="/map" component={MapPage} />
 
       <Route path="/cart" component={Cart} />
 
