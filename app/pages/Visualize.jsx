@@ -152,16 +152,18 @@ class Visualize extends Component {
           Help
         </div>
 
-        { cart ? <Tooltip2 placement="top-end">
-          <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
-            <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
-          </div>
-          <span>
-            { inCart ? "Remove this dataset from the cart."
-              : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
-                : "Add the underlying data to the cart, and merge with any existing cart data." }
-          </span>
-        </Tooltip2> : null }
+        <div className="options">
+          { cart ? <Tooltip2 placement="top-end">
+            <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
+              <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
+            </div>
+            <span>
+              { inCart ? "Remove this dataset from the cart."
+                : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+                  : "Add the underlying data to the cart, and merge with any existing cart data." }
+            </span>
+          </Tooltip2> : null }
+        </div>
 
         <Vizbuilder
           src={cube}

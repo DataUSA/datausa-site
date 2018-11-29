@@ -100,12 +100,42 @@
         & .pt-tag {
           font-size: 10px;
           font-weight: 700;
-          margin: 2px 3px 0 0;
-          padding: 2px 5px 3px;
+          margin: 1px 2px 0 0;
+          opacity: 0.5;
+          padding: 0px 3px 1px;
+        }
+      }
+    }
+    & .select-measure {
+      & .pt-input-group input {
+        border-radius: 0;
+      }
+      & .pt-popover-content {
+        max-width: 269px;
+        padding: 0;
+        & .select-popover-content {
+          min-width: 269px;
         }
       }
     }
     & .grouping-items, & .filter-items {
+      & .pt-popover-content {
+        max-width: 248px;
+        padding: 0;
+        & .select-popover-content {
+          min-width: 248px;
+        }
+        & input {
+          border-radius: 0;
+        }
+        & .padded {
+          padding-left: 15px;
+        }
+        & .select-label {
+          display: inline-block;
+          padding: 3px 5px;
+        }
+      }
       & .grouping-item, & .filter-item {
         background-color: white;
         border: 1px solid #bbb;
@@ -124,8 +154,8 @@
             font-size: 12px;
             font-weight: 400;
             margin: 5px 5px 0 0;
-            padding: 2px 5px 3px;
-            width: auto;
+            padding: 0;
+            width: 100%;
           }
           & .select-member {
             background-color: transparent;
@@ -210,15 +240,6 @@
         color: white;
         &:before {
           color: white;
-        }
-      }
-    }
-    & .mlsel-select-list {
-      & .level-1 {
-        list-style: none;
-        padding-left: 0;
-        & .select-label {
-          display: inline-block;
         }
       }
     }
