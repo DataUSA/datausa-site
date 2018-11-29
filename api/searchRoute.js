@@ -30,7 +30,7 @@ module.exports = function(app) {
         .replace(/(.)$/g, txt => `${txt}*`);
 
       if (dimension) searchQuery = `+dimension:${dimension} ${searchQuery}`;
-      console.log("searchQuery:", searchQuery);
+
       const searchResults = index.search(searchQuery)
         .map(d => {
 
