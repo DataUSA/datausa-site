@@ -24,3 +24,5 @@ dockerfiles/nginx/conf.d/default.conf
 cache_data
 datausa
 *.pyc
+
+google_auth.json
