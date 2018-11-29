@@ -24,13 +24,13 @@ module.exports = function(app) {
     else {
 
       const query = q.toLowerCase();
-      const searchQuery = q
+      let searchQuery = q
         .replace(/([A-z]{2,})/g, txt => `+${txt}`)
         // .replace(/([A-z]{7,})/g, txt => `${txt}~${ Math.floor((txt.length - 1) / 6) }`)
         .replace(/(.)$/g, txt => `${txt}*`);
 
-      if (dimension) searchQuery += ` +dimension:${dimension}`;
-
+      if (dimension) searchQuery = `+dimension:${dimension} ${searchQuery}`;
+      console.log("searchQuery:", searchQuery);
       const searchResults = index.search(searchQuery)
         .map(d => {
 
