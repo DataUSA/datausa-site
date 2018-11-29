@@ -8,6 +8,7 @@ const Flickr = require("flickr-sdk"),
       chalk = require("chalk"),
       fs = require("fs"),
       path = require("path"),
+      readline = require("readline"),
       sharp = require("sharp"),
       shell = require("shelljs");
 
@@ -59,6 +60,18 @@ const validLicenses = ["4", "5", "7", "8", "9", "10"];
 
 const errors = [];
 const fetches = [];
+let total = 0;
+let checked = 0;
+
+/** */
+function printProgress() {
+  readline.clearLine(process.stdout, 0);
+  readline.cursorTo(process.stdout, 0);
+  checked++;
+  const percentage = checked / total;
+  process.stdout.write(`${(percentage * 100).toFixed(0)}% (${checked} out of ${total})`);
+  return true;
+}
 
 /** */
 function fetchImage(row) {
@@ -97,7 +110,8 @@ function fetchImage(row) {
       const thumbPath = path.join(process.cwd(), `static/images/profile/thumb/${imageId}.jpg`);
 
       if (!created && shell.test("-e", splashPath) && shell.test("-e", thumbPath)) {
-        return db.search.update({imageId}, {where: {id: row.id, dimension}});
+        return db.search.update({imageId}, {where: {id: row.id, dimension}})
+          .then(printProgress);
       }
       else {
 
@@ -119,22 +133,24 @@ function fetchImage(row) {
           .then(res => Promise.all([
             sharp(res).resize(1600).toFile(splashPath),
             sharp(res).resize(425).toFile(thumbPath)
-          ]));
+          ]))
+          .then(printProgress);
 
       }
     })
     .catch(err => {
       if (err.response) {
         const {status, text} = err.response;
-        console.log(`${status} - ${row.imagelink} - ${JSON.parse(text).message}`);
+        console.log(`\n${status} - ${row.imagelink} - ${JSON.parse(text).message}`);
         if ("error" in row) {
           row.error = "removed";
           row.save();
         }
       }
       else {
-        console.log(chalk.bold.red(`${err.fields ? `${err.fields.id} - ` : ""}${err}`));
+        console.log(chalk.bold.red(`\n${err.fields ? `${err.fields.id} - ` : ""}${err}`));
       }
+      printProgress();
     });
 
 }
@@ -171,10 +187,13 @@ doc.useServiceAccountAuth(creds, err => {
                   fetches.push(throttle.add(fetchImage.bind(this, row)));
                 });
 
-              console.log(`Images found: ${fetches.length}`);
+              total = fetches.length;
+
+              console.log(`Images found: ${total}`);
 
               Promise.all(fetches)
                 .then(() => {
+                  console.log("\n");
                   shell.exit(0);
                 });
 
