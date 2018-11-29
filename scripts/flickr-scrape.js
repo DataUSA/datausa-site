@@ -115,7 +115,7 @@ function fetchImage(row) {
       }
       else {
 
-        console.log(`New Image: ${imageId}`);
+        console.log(`\nNew Image: ${imageId}`);
         if (row.error) {
           row.error = "";
           row.save();
