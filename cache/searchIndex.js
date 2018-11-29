@@ -26,12 +26,11 @@ module.exports = async function(app) {
     rows: results,
     index: lunr(function() {
       this.ref("id");
-      // this.field("id");
-      this.field("name", {boost: 3});
-      // this.field("display_name", {boost: 3});
-      this.field("keywords", {boost: 2});
-      // this.field("dimension");
-      // this.field("hierarchy");
+      this.field("display", {boost: 2});
+      this.field("keywords");
+      this.field("dimension");
+      this.pipeline.remove(lunr.stemmer);
+      this.searchPipeline.remove(lunr.stemmer);
       rows.forEach(row => this.add(row, {boost: row.zvalue}));
     })
   };

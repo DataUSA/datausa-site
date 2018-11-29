@@ -25,8 +25,11 @@ module.exports = function(app) {
 
       const query = q.toLowerCase();
       const searchQuery = q
-        .replace(/([A-z]{6,})/g, txt => `${txt}~${ Math.floor(txt.length / 6) }`)
-        .replace(/([A-z]{2,})/g, txt => `${txt}*`);
+        .replace(/([A-z]{2,})/g, txt => `+${txt}`)
+        // .replace(/([A-z]{7,})/g, txt => `${txt}~${ Math.floor((txt.length - 1) / 6) }`)
+        .replace(/(.)$/g, txt => `${txt}*`);
+
+      if (dimension) searchQuery += ` +dimension:${dimension}`;
 
       const searchResults = index.search(searchQuery)
         .map(d => {
@@ -37,22 +40,17 @@ module.exports = function(app) {
           const zscore = zvalue * 0.15;
 
           let score = d.score;
-          if (name === query) score = score * 300 + 25 * Math.abs(zscore);
-          else if (name.startsWith(query)) {
-            if (zvalue > 0) score = score * 57.5 + 25 * zscore;
-            else score = score * 57.5 + (1 - Math.abs(zscore) * 25);
-          }
-          else if (query.startsWith(name.slice(0, 10))) score = score * 30 + Math.abs(zscore);
-          else if (query.startsWith(name.slice(0, 5))) score = score * 15 + Math.abs(zscore);
-          else score = score * 7.5 + zscore * 3.1;
-          data.score = score;
+          const diffMod = query.length / name.length;
+          if (name === query) score = 1000000;
+          else if (name.startsWith(query)) score *= 20 * diffMod;
+          else if (query.startsWith(name.slice(0, 10))) score *= 10 * diffMod;
+          else if (query.startsWith(name.slice(0, 5))) score *= 5 * diffMod;
+          data.score = score * 7.5 + zscore * 3.1;
           return data;
 
         });
 
-      let data = searchResults.sort((a, b) => b.score - a.score);
-      if (dimension) data = data.filter(d => d.dimension === dimension);
-      results = data.slice(0, limit);
+      results = searchResults.sort((a, b) => b.score - a.score).slice(0, limit);
     }
 
     res.json({
