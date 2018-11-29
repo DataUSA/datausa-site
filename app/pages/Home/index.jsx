@@ -12,7 +12,7 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {image: "utah"};
+    this.state = {image: "autumn"};
   }
 
   onImage(e) {
@@ -34,14 +34,10 @@ class Home extends Component {
 
         <select id="bg-select" className="pt-select" onChange={this.onImage.bind(this)} defaultValue={image}>
           <option value="autumn">autumn</option>
-          <option value="cliff">cliff</option>
-          <option value="cloudy">cloudy</option>
-          <option value="field">field</option>
           <option value="green">green</option>
           <option value="mountain">mountain</option>
           <option value="snow">snow</option>
-          <option value="utah">utah</option>
-          <option value="yellow">yellow</option>
+          <option value="current">current</option>
         </select>
 
         <Search
