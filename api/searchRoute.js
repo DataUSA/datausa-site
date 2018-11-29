@@ -14,10 +14,10 @@ module.exports = function(app) {
     let results = [];
 
     if (id) {
-      results = id.split(",").map(x => rows.find(row => row.id === x));
+      results = id.split(",").map(x => rows[x]);
     }
     else if (!q) {
-      let data = rows.sort((a, b) => b.zvalue - a.zvalue);
+      let data = Object.values(rows).sort((a, b) => b.zvalue - a.zvalue);
       if (dimension) data = data.filter(d => d.dimension === dimension);
       results = data.slice(0, limit);
     }
@@ -34,7 +34,7 @@ module.exports = function(app) {
       const searchResults = index.search(searchQuery)
         .map(d => {
 
-          const data = rows.find(row => row.id === d.ref);
+          const data = rows[d.ref];
           const name = data.name.toLowerCase();
           const zvalue = data.zvalue;
           const zscore = zvalue * 0.15;

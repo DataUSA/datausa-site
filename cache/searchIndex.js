@@ -9,18 +9,20 @@ module.exports = async function(app) {
   const slugs = await db.profiles.findAll()
     .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
 
-  const results = rows.map(d => ({
-    dimension: d.dimension,
-    hierarchy: d.hierarchy,
-    id: d.id,
-    image: d.image,
-    keywords: d.keywords,
-    name: d.display,
-    profile: slugs[d.dimension],
-    slug: d.slug,
-    stem: d.stem === 1,
-    zvalue: d.zvalue
-  }));
+  const results = rows
+    .map(d => ({
+      dimension: d.dimension,
+      hierarchy: d.hierarchy,
+      id: d.id,
+      image: d.image,
+      keywords: d.keywords,
+      name: d.display,
+      profile: slugs[d.dimension],
+      slug: d.slug,
+      stem: d.stem === 1,
+      zvalue: d.zvalue
+    }))
+    .reduce((obj, d) => (obj[d.id] = d, obj), {});
 
   return {
     rows: results,
