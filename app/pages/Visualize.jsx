@@ -84,10 +84,11 @@ class Visualize extends Component {
 
     const {list} = this.context.formatters;
 
-    const slug = `${query.measure.annotations._key}-${query.groups.map(d => d.level.annotations._key).join("-")}`;
+    const groups = query.groups.filter(d => d.key);
+    const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
     const params = {
       measures: [query.measure.name],
-      drilldowns: query.groups.map(d => d.level.name)
+      drilldowns: groups.map(d => d.level.name)
     };
     if (query.moe) params.measures.push(query.moe.name);
     if (query.lci) params.measures.push(query.lci.name);
