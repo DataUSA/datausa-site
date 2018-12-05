@@ -106,6 +106,9 @@
             text-transform: uppercase;
           }
         }
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
     & .all-results, & .no-results {
@@ -117,6 +120,7 @@
       font-weight: 600;
       letter-spacing: 1px;
       padding: 10px 0;
+      text-align: center;
       text-transform: uppercase;
     }
   }
