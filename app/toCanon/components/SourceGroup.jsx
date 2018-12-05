@@ -18,8 +18,7 @@ export default class SourceGroup extends Component {
           dataset_name: dataset,
           source_description: orgDesc,
           source_link: orgLink,
-          source_name: org,
-          table_id: table
+          source_name: org
         } = source;
 
         const orgName = org && `the ${org.replace(/^(T|t)he\s/g, "")}`;
@@ -35,7 +34,6 @@ export default class SourceGroup extends Component {
           { dataset && <Tooltip2 content={datasetDesc} className={datasetDesc ? "active" : ""} disabled={!datasetDesc}>
             { datasetLink ? <a href={datasetLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
           </Tooltip2> }
-          { table && <span> ({table})</span> }
           { i < sources.length - 1 && <span>,</span> }
           <span>.</span>
         </span>;
