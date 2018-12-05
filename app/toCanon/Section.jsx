@@ -8,7 +8,7 @@ class Section extends Component {
   render() {
     const {children, data: profile, comparisons} = this.props;
     const {slug, title} = profile;
-    const data = [profile].concat(comparisons);
+    const data = [profile].concat(comparisons).filter(Boolean);
 
     return <div className={ `Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
       <h2 className="section-title">
@@ -16,12 +16,10 @@ class Section extends Component {
       </h2>
       <div className="section-body">
         <div className="section-content">
-          <div className="section-description">
-            { data.map(d => d.descriptions.map((content, i) => <div key={i} dangerouslySetInnerHTML={{__html: content.description}} />)) }
-          </div>
+          { data.map((d, ii) => <div key={ii} className="section-description">{d.descriptions.map((content, i) => <div key={i} dangerouslySetInnerHTML={{__html: content.description}} />)}</div>) }
         </div>
         <div className="section-content">
-          { data.map(d => d.visualizations ? d.visualizations.map((visualization, i) => <Viz config={visualization} key={i} className="section-visualization" options={ false } />) : null) }
+          { data.map((d, ii) => d.visualizations ? d.visualizations.map((visualization, i) => <Viz variables={data[ii].variables} config={visualization} key={i} className="section-visualization" options={ false } />) : null) }
         </div>
       </div>
       <div className="section-topics">

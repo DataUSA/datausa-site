@@ -48,15 +48,17 @@
   }
   & .nav-subtitle {
     color: var(--red);
+    display: inline-block;
     font-family: "Pathway Gothic One", sans-serif;
     font-size: 24px;
-    line-height: 0;
+    height: 30px;
+    line-height: 19px;
     max-width: 75%;
     overflow: hidden;
     padding: 0 7px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 100%;
+    vertical-align: middle;
   }
 }
 

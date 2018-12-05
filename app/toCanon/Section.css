@@ -80,10 +80,25 @@
         }
         & .section-visualization {
           margin-left: 0;
+          text-align: center;
           &:not(:first-child) {
             margin-left: 50px;
           }
         }
+      }
+    }
+    & .topic {
+      flex: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 50%;
+      & .topic-content {
+        max-width: none !important;
+        width: 100%;
+      }
+      & .topic-visualization {
+        margin-left: 0;
+        max-height: 400px;
       }
     }
   }

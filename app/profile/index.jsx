@@ -6,14 +6,14 @@ import {Helmet} from "react-helmet";
 import {CanonProfile, fetchData, SubNav} from "@datawheel/canon-core";
 import Splash from "toCanon/Splash";
 import SectionIcon from "toCanon/SectionIcon";
-import Topic from "./Topic";
+import Topic from "toCanon/Topic";
 
 import axios from "axios";
 import {select} from "d3-selection";
 import "./index.css";
 
 import Loading from "components/Loading";
-import Section from "./Section";
+import Section from "toCanon/Section";
 
 class Profile extends Component {
 
@@ -30,22 +30,39 @@ class Profile extends Component {
   getChildContext() {
     const {formatters} = this.context;
     const {variables} = this.props.profile;
-    return {formatters, variables};
+    return {
+      addComparison: this.addComparison.bind(this),
+      formatters,
+      removeComparison: this.removeComparison.bind(this),
+      variables
+    };
+  }
+
+  addComparison(id) {
+    const {pslug} = this.props.params;
+    const {comparisons} = this.state;
+    this.setState({loading: true});
+    axios.get(`/api/profile/${pslug}/${id}`)
+      .then(resp => {
+        this.setState({comparisons: comparisons.concat([resp.data]), loading: false});
+        const {router} = this.props;
+        const {location} = router;
+        router.push(`${location.basename}${location.pathname}?compare=${id}`);
+      });
+  }
+
+  removeComparison() {
+    this.setState({comparisons: []});
+    const {router} = this.props;
+    const {location} = router;
+    router.push(`${location.basename}${location.pathname}`);
   }
 
   componentDidMount() {
     window.addEventListener("scroll", this.scrollBind);
     this.scrollBind();
     const {query} = this.props.location;
-    if (query.compare) {
-      const {pslug} = this.props.params;
-      this.setState({loading: true});
-      axios.get(`/api/profile/${pslug}/${query.compare}`)
-        .then(resp => {
-          const {comparisons} = this.state;
-          this.setState({comparisons: comparisons.concat([resp.data]), loading: false});
-        });
-    }
+    if (query.compare) this.addComparison.bind(this)(query.compare);
   }
 
   componentWillUnmount() {
@@ -80,24 +97,30 @@ class Profile extends Component {
     const {pslug} = params;
     const {activeSection, comparisons, loading} = this.state;
 
+    const joiner = ["geo"].includes(pslug) ? "in" : "for";
+
     const profiles = [profile].concat(comparisons);
     profiles.forEach(d => {
       d.image = `/api/profile/${pslug}/${d.id}/splash`;
     });
 
     const topics = [];
-    profile.sections.forEach(s => {
-      const arr = [];
-      const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.title === s.title));
-      s.topics.forEach(t => {
-        arr.push(<Topic contents={t} />);
-        sectionCompares.map(ss => ss.topics.find(tt => tt.title === t.title))
-          .forEach(tt => {
-            arr.push(<Topic contents={tt} />);
-          });
+    profile.sections
+      .forEach(s => {
+        const arr = [];
+        const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === s.id)).filter(Boolean);
+        s.topics.forEach(t => {
+          if (comparisons.length) t.titleCompare = t.title.replace("</p>", ` ${joiner} ${formatters.stripHTML(profile.title)}</p>`);
+          arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
+          sectionCompares
+            .map(ss => ss.topics.find(tt => tt.id === t.id))
+            .forEach(tt => {
+              tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${formatters.stripHTML(comparisons[0].title)}</p>`);
+              arr.push(<Topic variables={comparisons[0].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
+            });
+        });
+        topics.push(arr);
       });
-      topics.push(arr);
-    });
 
     return (
       <CanonProfile>
@@ -127,7 +150,9 @@ class Profile extends Component {
 }
 
 Profile.childContextTypes = {
+  addComparison: PropTypes.func,
   formatters: PropTypes.object,
+  removeComparison: PropTypes.func,
   variables: PropTypes.object
 };
 

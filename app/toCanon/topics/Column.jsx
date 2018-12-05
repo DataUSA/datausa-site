@@ -5,13 +5,13 @@ import "./topic.css";
 export default class TextViz extends Component {
 
   render() {
-    const {descriptions, slug, subtitles, title, visualizations} = this.props.contents;
+    const {descriptions, slug, subtitles, title, titleCompare, visualizations} = this.props.contents;
 
     return <div className={ `topic ${slug} Column` }>
       <div className="topic-content">
         { title &&
           <h3 className="topic-title">
-            <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></a>
+            <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></a>
           </h3>
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }

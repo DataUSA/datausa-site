@@ -6,7 +6,7 @@ import {fetchData} from "@datawheel/canon-core";
 
 import "./Embed.css";
 
-import Topic from "./Topic";
+import Topic from "toCanon/Topic";
 
 class Embed extends Component {
 

@@ -104,27 +104,6 @@
     top: 0;
   }
 
-  &.compare {
-    & .topic-body {
-      flex-wrap: wrap;
-      & .topic-content {
-        max-width: none !important;
-        width: 100%;
-        & .topic-text {
-          &:not(:first-child) {
-            margin-left: 50px;
-          }
-        }
-        & .topic-visualization {
-          margin-left: 0;
-          &:not(:first-child) {
-            margin-left: 50px;
-          }
-        }
-      }
-    }
-  }
-
   &.Column {
     flex: 1;
     flex-direction: column;

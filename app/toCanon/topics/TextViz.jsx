@@ -35,7 +35,7 @@ class TextViz extends Component {
     const {variables} = this.context;
     const {sources} = this.props;
     const {contents, loading} = this.state;
-    const {descriptions, selectors, slug, stats, subtitles, title, visualizations} = contents;
+    const {descriptions, selectors, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
 
     const miniviz = visualizations.length > 1 ? visualizations[0] : false;
     const mainviz = visualizations.length > 1 ? visualizations.slice(1) : visualizations;
@@ -46,7 +46,7 @@ class TextViz extends Component {
       <div className="topic-content">
         { title &&
           <h3 className="topic-title">
-            <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></AnchorLink>
+            <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
           </h3>
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }

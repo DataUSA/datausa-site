@@ -27,7 +27,7 @@ class Search extends Component {
       this.setState({active: true, results: [], userQuery});
     }
     else if (url) {
-      axios.get(`${url}?q=${userQuery}`)
+      axios.get(`${url}${ url.includes("?") ? "&" : "?" }q=${userQuery}`)
         .then(res => res.data)
         .then(data => {
           let results = data.results;
@@ -145,7 +145,7 @@ class Search extends Component {
         { searchEmpty || active && userQuery.length
           ? <ul className={ active ? "results active" : "results" }>
             { results.map(result =>
-              <li key={ result.id } className="result">
+              <li key={ result.id } className="result" onClick={this.onToggle.bind(this)}>
                 { resultRender(result, this.props) }
               </li>
             )}

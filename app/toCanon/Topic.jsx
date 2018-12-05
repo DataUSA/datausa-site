@@ -30,7 +30,7 @@ class Topic extends Component {
     return {
       formatters,
       updateSource: this.updateSource.bind(this),
-      variables
+      variables: this.props.variables || variables
     };
   }
 
