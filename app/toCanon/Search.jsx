@@ -6,6 +6,8 @@ import axios from "axios";
 import {event, select} from "d3-selection";
 import {uuid} from "d3plus-common";
 
+let timeout;
+
 class Search extends Component {
 
   constructor(props) {
@@ -21,19 +23,21 @@ class Search extends Component {
   onChange(e) {
 
     const userQuery = e ? e.target.value : "";
-    const {limit, searchEmpty, url}  = this.props;
+    const {onChange, searchEmpty, url}  = this.props;
+    if (onChange) onChange(userQuery);
 
     if (!searchEmpty && userQuery.length === 0) {
       this.setState({active: true, results: [], userQuery});
     }
     else if (url) {
-      axios.get(`${url}${ url.includes("?") ? "&" : "?" }q=${userQuery}`)
-        .then(res => res.data)
-        .then(data => {
-          let results = data.results;
-          if (limit) results = results.slice(0, limit);
-          this.setState({active: true, results, userQuery});
-        });
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        axios.get(`${url}${ url.includes("?") ? "&" : "?" }q=${userQuery}`)
+          .then(res => res.data)
+          .then(data => {
+            this.setState({active: true, results: data.results, userQuery});
+          });
+      }, 250);
     }
 
   }
@@ -120,6 +124,12 @@ class Search extends Component {
 
   }
 
+  componentDidUpdate(prevProps) {
+    const {searchEmpty, url} = this.props;
+    const {userQuery} = this.state;
+    if (searchEmpty && prevProps.url !== url) this.onChange.bind(this)({target: {value: userQuery}});
+  }
+
   render() {
 
     const {
@@ -145,7 +155,7 @@ class Search extends Component {
         { searchEmpty || active && userQuery.length
           ? <ul className={ active ? "results active" : "results" }>
             { results.map(result =>
-              <li key={ result.id } className="result" onClick={this.onToggle.bind(this)}>
+              <li key={ result.key } className="result" onClick={this.onToggle.bind(this)}>
                 { resultRender(result, this.props) }
               </li>
             )}
