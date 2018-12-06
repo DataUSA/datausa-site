@@ -9,7 +9,7 @@ module.exports = function(app) {
     let {limit = "10"} = req.query;
     limit = parseInt(limit, 10);
 
-    const {id, q, dimension} = req.query;
+    const {id, q, dimension, hierarchy} = req.query;
 
     let results = [];
 
@@ -30,6 +30,7 @@ module.exports = function(app) {
         .replace(/(.)$/g, txt => `${txt}*`);
 
       if (dimension) searchQuery = `+dimension:${dimension} ${searchQuery}`;
+      if (hierarchy) searchQuery = `+hierarchy:${hierarchy} ${searchQuery}`;
 
       const searchResults = index.search(searchQuery)
         .map(d => {
