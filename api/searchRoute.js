@@ -2,7 +2,7 @@
 
 module.exports = function(app) {
 
-  const {index, rows} = app.settings.cache.searchIndex;
+  const {index, rows, totals} = app.settings.cache.searchIndex;
 
   app.get("/api/search", async(req, res) => {
 
@@ -55,7 +55,8 @@ module.exports = function(app) {
 
     res.json({
       results,
-      query: {dimension, id, limit, q}
+      query: {dimension, id, limit, q},
+      totals
     });
 
   });

@@ -21,16 +21,24 @@ module.exports = async function(app) {
       slug: d.slug,
       stem: d.stem === 1,
       zvalue: d.zvalue
-    }))
-    .reduce((obj, d) => (obj[d.id] = d, obj), {});
+    }));
+
+  const totals = results.reduce((obj, d) => {
+    if (!obj[d.dimension]) obj[d.dimension] = {};
+    if (!obj[d.dimension][d.hierarchy]) obj[d.dimension][d.hierarchy] = 0;
+    obj[d.dimension][d.hierarchy]++;
+    return obj;
+  }, {});
 
   return {
-    rows: results,
+    rows: results.reduce((obj, d) => (obj[d.id] = d, obj), {}),
+    totals,
     index: lunr(function() {
       this.ref("id");
-      this.field("display", {boost: 2});
-      this.field("keywords");
+      this.field("display", {boost: 3});
+      this.field("keywords", {boost: 2});
       this.field("dimension");
+      this.field("hierarchy");
       this.pipeline.remove(lunr.stemmer);
       this.searchPipeline.remove(lunr.stemmer);
       rows.forEach(row => this.add(row, {boost: row.zvalue}));
