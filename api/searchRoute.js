@@ -1,8 +1,12 @@
-// const sequelize = require("sequelize");
+const d3Array = require("d3-array");
 
 module.exports = function(app) {
 
   const {index, rows, totals} = app.settings.cache.searchIndex;
+
+  app.get("/api/search/totals", async(req, res) => {
+    res.json(totals);
+  });
 
   app.get("/api/search", async(req, res) => {
 
@@ -14,23 +18,27 @@ module.exports = function(app) {
     let results = [];
 
     if (id) {
-      results = id.split(",").map(x => rows[x]);
+      results = d3Array.merge(id.split(",").map(x => Object.values(rows).filter(d => d.id === x)));
     }
     else if (!q) {
-      let data = Object.values(rows).sort((a, b) => b.zvalue - a.zvalue);
+      let data = Object.values(rows);
       if (dimension) data = data.filter(d => d.dimension === dimension);
+      if (hierarchy) data = data.filter(d => d.hierarchy === hierarchy);
+      data = data.sort((a, b) => b.zvalue - a.zvalue);
       results = data.slice(0, limit);
     }
     else {
 
       const query = q.toLowerCase();
       let searchQuery = q
+        .replace(/\,/g, " ")
+        .replace(/\s\s+/g, " ")
         .replace(/([A-z]{2,})/g, txt => `+${txt}`)
         // .replace(/([A-z]{7,})/g, txt => `${txt}~${ Math.floor((txt.length - 1) / 6) }`)
         .replace(/(.)$/g, txt => `${txt}*`);
 
-      if (dimension) searchQuery = `+dimension:${dimension} ${searchQuery}`;
-      if (hierarchy) searchQuery = `+hierarchy:${hierarchy} ${searchQuery}`;
+      if (dimension) searchQuery = `${dimension.split(" ").map(d => `+dimension:${d}`).join(" ")} ${searchQuery}`;
+      if (hierarchy) searchQuery = `${hierarchy.split(" ").map(d => `+hierarchy:${d}`).join(" ")} ${searchQuery}`;
 
       const searchResults = index.search(searchQuery)
         .map(d => {
@@ -56,7 +64,7 @@ module.exports = function(app) {
 
     res.json({
       results,
-      query: {dimension, id, limit, q},
+      query: {dimension, hierarchy, id, limit, q},
       totals
     });
 

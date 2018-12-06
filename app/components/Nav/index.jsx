@@ -86,12 +86,12 @@ export default class Nav extends Component {
             <li>
               <Link to="/search">Explore</Link>
               <ul>
-                <li><Link to="/search/?kind=geo">Locations</Link></li>
-                <li><Link to="/search/?kind=naics">Industries</Link></li>
-                <li><Link to="/search/?kind=soc">Occupations</Link></li>
-                <li><Link to="/search/?kind=cip">Majors</Link></li>
-                <li><Link to="/search/?kind=university">Universities</Link></li>
-                <li><Link to="/search/?kind=napcs">Products &amp; Services</Link></li>
+                <li><Link to="/search/?dimension=Geography">Locations</Link></li>
+                <li><Link to="/search/?dimension=PUMS Industry">Industries</Link></li>
+                <li><Link to="/search/?dimension=PUMS Occupation">Occupations</Link></li>
+                <li><Link to="/search/?dimension=CIP">Degrees</Link></li>
+                <li><Link to="/search/?dimension=Universities">Universities</Link></li>
+                <li><Link to="/search/?dimension=NAPCS">Products &amp; Services</Link></li>
               </ul>
             </li>
             <li>

@@ -41,7 +41,8 @@ class App extends Component {
     const fullscreen = pathname.indexOf("cart") === 0 ||
                        pathname.indexOf("map") === 0 ||
                        pathname.indexOf("cms") === 0 ||
-                       pathname.indexOf("visualize") === 0;
+                       pathname.indexOf("visualize") === 0 ||
+                       pathname.indexOf("search") === 0;
 
     const bare = pathname.includes("profile") && pathname.split("/").length === 5;
     const beta = true;
