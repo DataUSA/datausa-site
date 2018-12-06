@@ -5,9 +5,9 @@ module.exports = async function() {
 
   const client = new Client(CANON_LOGICLAYER_CUBE);
 
-  const levels = ["Nation", "State", "County", "MSA", "Place", "PUMA", "Tract"];
+  const levels = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
   const popQueries = levels
-    .map(level => client.cube("acs_yg_total_population_1")
+    .map(level => client.cube("acs_yg_total_population_5")
       .then(c => {
         const query = c.query
           .drilldown("Geography", level, level)
