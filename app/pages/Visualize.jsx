@@ -196,7 +196,15 @@ class Visualize extends Component {
             "State": StateTopojson,
             "Origin State": StateTopojson,
             "Destination State": StateTopojson
-          }} />
+          }}
+          visualizations={[
+            "geomap",
+            "treemap",
+            "barchart",
+            "lineplot",
+            "histogram",
+            "stacked"
+          ]} />
 
       </div>;
     }
