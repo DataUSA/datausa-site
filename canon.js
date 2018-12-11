@@ -138,12 +138,12 @@ module.exports = {
       },
       "PUMS Industry": {
         levels: {
-          "Industry Group": ["Industry L1", "Commodity L1", "Industry L0", "Commodity L0"],
-          "Industry Sub-Sector": ["Industry L1", "Commodity L1", "Industry L0", "Commodity L0"],
-          "Industry Sector": ["Industry L1", "Commodity L1", "Industry L0", "Commodity L0"]
+          "Industry Group": ["Industry L1", "Commodity L1"],
+          "Industry Sub-Sector": ["Industry L1", "Commodity L1"],
+          "Industry Sector": ["Industry L1", "Commodity L1"]
         },
-        url: (id, level) => `${CANON_API}/api/naics/${id}/io/${level.split(" ")[1]}`,
-        callback: resp => resp.id
+        url: (id, level) => `${CANON_API}/api/naics/${id}/io/${level}`,
+        callback: resp => resp
       },
       "NAPCS": {
         levels: {

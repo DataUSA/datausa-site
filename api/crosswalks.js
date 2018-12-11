@@ -120,9 +120,9 @@ module.exports = function(app) {
   app.get("/api/naics/:id/io/:level", (req, res) => {
 
     const {id, level} = req.params;
-
     const matches = naics2io[id] || {};
-    res.json({id: matches[level]});
+    const available = matches.L1 ? "L1" : "L0";
+    res.json({id: matches[available], level: level.replace(/L[0-9]$/g, available)});
 
   });
 
