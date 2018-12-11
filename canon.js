@@ -19,9 +19,10 @@ module.exports = {
           const {pops} = caches;
           const ids = d3Array.merge(query.dimensions
             .filter(d => d.dimension === "Geography")
-            .map(d => d.id));
+            .map(d => d.id instanceof Array ? d.id : [d.id]));
           const bigGeos = ids.every(g => pops[g] && pops[g] >= 250000);
-          return cubes.filter(cube => cube.name.match(bigGeos ? /_1$/g : /_5$/g));
+          const tracts = query.dimensions.filter(d => d.relation === "Tract").length;
+          return cubes.filter(cube => cube.name.match(bigGeos && !tracts ? /_1$/g : /_5$/g));
         },
         key: cube => cube.name.replace(/_[0-9]$/g, "")
       },
