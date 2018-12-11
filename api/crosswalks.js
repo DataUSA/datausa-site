@@ -21,7 +21,7 @@ module.exports = function(app) {
     let cut, drilldown;
 
     if (["Nation", "State"].includes(level)) {
-      cut = "01000US";
+      cut = false;
       drilldown = level;
     }
     else if (prefix === "040") { // State
@@ -47,7 +47,7 @@ module.exports = function(app) {
       drilldown = level || "PUMA";
     }
     else {
-      cut = "01000US";
+      cut = false;
       drilldown = level || "State";
     }
 
@@ -63,7 +63,7 @@ module.exports = function(app) {
     let level, parent;
 
     if (prefix === "010") {
-      parent = id;
+      parent = false;
       level = "State";
     }
     else if (prefix === "310") {
