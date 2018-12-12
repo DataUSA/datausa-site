@@ -19,6 +19,7 @@ module.exports = function(app) {
   app.get("/api/profile/:pslug/:pid/:size", (req, res) => {
     const {size, pid, pslug} = req.params;
 
+    /** Sends the finally found image, and includes fallbacks */
     function sendImage(image) {
       if (image) res.sendFile(`${process.cwd()}/static/images/profile/${size}/${image}.jpg`);
       else if (pslug === "university") res.sendFile(`${process.cwd()}/static/images/profile/${size}/2032.jpg`);

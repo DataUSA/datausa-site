@@ -1,5 +1,5 @@
 const axios = require("axios");
-
+const sequelize = require("sequelize");
 const loadJSON = require("../utils/loadJSON");
 
 const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.json");
@@ -95,19 +95,100 @@ module.exports = function(app) {
 
   });
 
-  app.get("/api/university/similar/:id", (req, res) => {
+  app.get("/api/:slug/similar/:urlId", async(req, res) => {
 
-    const limit = req.query.limit || 5;
-    const ids = (universitySimilar[req.params.id] || [])
-      .slice(0, limit)
-      .map(d => d.university);
+    const {limit, slug, urlId} = req.params;
 
-    db.search
-      .findAll({where: {id: ids, dimension: "University"}})
-      .then(universities => {
-        res.json(universities);
-      })
+    const profile = await db.profiles.findOne({where: {slug}});
+    const {dimension} = profile;
+
+    const attr = await db.search.findOne({where: {[sequelize.Op.or]: {id: urlId, slug: urlId}, dimension}})
       .catch(err => res.json(err));
+
+    const {hierarchy, id} = attr;
+    let attrs = [];
+
+    if (dimension === "Geography") {
+      if (id === "01000US") {
+        attrs = await axios.get(`${CANON_API}/api/search?dimension=Geography&limit=${(limit || 6) + 1}`)
+          .then(resp => resp.data.results);
+        attrs = attrs.filter(d => d.id !== id);
+      }
+      else {
+        const prefix = id.slice(0, 3);
+        const targetLevels = prefix === "040" ? "msa" /* state */
+          : prefix === "050" ? "state,msa" /* county */
+            : prefix === "310" ? "state" /* msa */
+              : prefix === "160" ? "state,msa,county" /* place */
+                : prefix === "795" ? "state,msa,county" /* puma */
+                  : false;
+        const url = targetLevels
+          ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
+          : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
+
+        const ids = await axios.get(url)
+          .then(resp => resp.data.map(d => d.geoid))
+          .catch(err => res.json(err));
+
+        ids.push("01000US");
+
+        attrs = await db.search
+          .findAll({where: {id: ids, dimension}})
+          .catch(err => res.json(err));
+
+        const neighbors = ["160"].includes(prefix) ? [] : await axios.get(`${CANON_API}/api/neighbors?dimension=Geography&id=${id}`)
+          .then(resp => resp.data.data)
+          .catch(err => res.json(err));
+
+        attrs = attrs.concat(neighbors)
+          .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id)) === i);
+      }
+    }
+    else if (dimension === "University") {
+      if (hierarchy === "University") {
+        const ids = (universitySimilar[id] || [])
+          .slice(0, limit || 5)
+          .map(d => d.university);
+        attrs = await db.search
+          .findAll({where: {id: ids, dimension}})
+          .catch(err => res.json(err));
+      }
+      else {
+        attrs = await db.search
+          .findAll({where: {dimension, hierarchy}})
+          .catch(err => res.json(err));
+      }
+    }
+    else {
+      const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
+        .then(resp => resp.data)
+        .catch(err => res.json(err));
+
+      attrs = parents.length ? await db.search
+        .findAll({where: {id: parents, dimension}})
+        .catch(err => res.json(err)) : [];
+
+      const measures = {
+        "PUMS Occupation": "Average Wage",
+        "PUMS Industry": "Average Wage",
+        "CIP": "Completions",
+        "NAPCS": "Obligation Amount"
+      };
+      const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}`)
+        .then(resp => resp.data.data.map(d => d[`ID ${hierarchy}`]))
+        .catch(err => res.json(err)) : [];
+
+      const neighborAttrs = neighbors.length ? await db.search
+        .findAll({where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy}})
+        .catch(err => res.json(err)) : [];
+
+      attrs = attrs.concat(neighborAttrs)
+        .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id && a.hierarchy === d.hierarchy)) === i);
+    }
+
+    res.json(attrs.sort((a, b) => b.zvalue - a.zvalue));
+
+
 
   });
 
@@ -224,12 +305,40 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/api/parents/:dimension/:id", async(req, res) => {
+  app.get("/api/parents/:slug/:id", async(req, res) => {
 
-    const {dimension, id} = req.params;
-    const parents = cache.parents[dimension] || {};
+    const {slug, id} = req.params;
+    const {dimension} = await db.profiles.findOne({where: {slug}});
+    const attr = await db.search.findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
+      .catch(err => res.json(err));
 
-    res.json(parents[id] || []);
+    if (dimension === "Geography") {
+      if (attr.id === "01000US") res.json([]);
+      const prefix = attr.id.slice(0, 3);
+
+      const targetLevels = prefix === "040" ? "nation" /* state */
+        : prefix === "050" ? "state,msa" /* county */
+          : prefix === "310" ? "state" /* msa */
+            : prefix === "160" ? "state,county,msa" /* place */
+              : prefix === "795" ? "state" /* puma */
+                : false;
+
+      const url = targetLevels
+        ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}`
+        : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}`;
+
+      const parents = await axios.get(url).then(resp => resp.data);
+      const ids = parents.map(d => d.geoid);
+      if (!ids.includes("01000US")) ids.unshift("01000US");
+      const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
+      res.json(attrs);
+    }
+    else {
+      const parents = cache.parents[slug] || {};
+      const ids = parents[attr.id] || [];
+      const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
+      res.json(attrs);
+    }
 
   });
 
@@ -237,61 +346,76 @@ module.exports = function(app) {
 
     const {dimension, drilldowns, id, limit = 5} = req.query;
 
-    const attr = await db.search.findOne({where: {dimension, id}});
-    const {hierarchy} = attr;
+    if (dimension === "Geography") {
 
-    req.query.limit = 10000;
-    const measure = req.query.measure || req.query.measures;
-    if (req.query.measure) {
-      req.query.measures = req.query.measure;
-      delete req.query.measure;
-    }
-    delete req.query.dimension;
-    delete req.query.id;
-    if (!req.query.order) {
-      req.query.order = measure.split(",")[0];
-      req.query.sort = "desc";
-    }
+      const neighbors = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`)
+        .then(resp => resp.data.map(d => d.geoid))
+        .catch(err => res.json(err));
 
-    if (!req.query.Year && !req.query.year) req.query.Year = "latest";
+      const attrs = await db.search
+        .findAll({where: {dimension, id: neighbors}})
+        .catch(err => res.json(err));
 
-    if (!drilldowns) {
-      req.query.drilldowns = hierarchy;
-    }
-    else if (!drilldowns.includes(hierarchy)) {
-      req.query.drilldowns += `,${hierarchy}`;
-    }
+      res.json({data: attrs});
 
-    const params = Object.entries(req.query).map(([key, val]) => `${key}=${val}`).join("&");
-    const logicUrl = `${CANON_API}/api/data?${params}`;
-
-    const resp = await axios.get(logicUrl)
-      .then(resp => resp.data);
-
-    if (resp.error) res.json(resp);
-
-    const list = resp.data;
-
-    const entry = list.find(d => d[`ID ${hierarchy}`] === id);
-    const index = list.indexOf(entry);
-    let data;
-
-    if (index <= limit / 2 + 1) {
-      data = list.slice(0, limit);
-    }
-    else if (index > list.length - limit / 2 - 1) {
-      data = list.slice(-limit);
     }
     else {
-      const min = Math.ceil(index - limit / 2);
-      data = list.slice(min, min + limit);
+      const attr = await db.search.findOne({where: {dimension, id}});
+      const {hierarchy} = attr;
+
+      req.query.limit = 10000;
+      const measure = req.query.measure || req.query.measures;
+      if (req.query.measure) {
+        req.query.measures = req.query.measure;
+        delete req.query.measure;
+      }
+      delete req.query.dimension;
+      delete req.query.id;
+      if (!req.query.order) {
+        req.query.order = measure.split(",")[0];
+        req.query.sort = "desc";
+      }
+
+      if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) req.query.Year = "latest";
+
+      if (!drilldowns) {
+        req.query.drilldowns = hierarchy;
+      }
+      else if (!drilldowns.includes(hierarchy)) {
+        req.query.drilldowns += `,${hierarchy}`;
+      }
+
+      const params = Object.entries(req.query).map(([key, val]) => `${key}=${val}`).join("&");
+      const logicUrl = `${CANON_API}/api/data?${params}`;
+
+      const resp = await axios.get(logicUrl)
+        .then(resp => resp.data);
+
+      if (resp.error) res.json(resp);
+
+      const list = resp.data;
+
+      const entry = list.find(d => d[`ID ${hierarchy}`] === id);
+      const index = list.indexOf(entry);
+      let data;
+
+      if (index <= limit / 2 + 1) {
+        data = list.slice(0, limit);
+      }
+      else if (index > list.length - limit / 2 - 1) {
+        data = list.slice(-limit);
+      }
+      else {
+        const min = Math.ceil(index - limit / 2);
+        data = list.slice(min, min + limit);
+      }
+
+      data.forEach(d => {
+        d.Rank = list.indexOf(d) + 1;
+      });
+
+      res.json({data, source: resp.source});
     }
-
-    data.forEach(d => {
-      d.Rank = list.indexOf(d) + 1;
-    });
-
-    res.json({data, source: resp.source});
 
   });
 

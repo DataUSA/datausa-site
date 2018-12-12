@@ -86,27 +86,32 @@ module.exports = {
       },
       "CIP": {
         parents: {
-          url: id => `${CANON_API}/api/parents/cip/${id}`
+          url: id => `${CANON_API}/api/parents/cip/${id}`,
+          callback: arr => arr.map(d => d.id)
         }
       },
       "PUMS Industry": {
         parents: {
-          url: id => `${CANON_API}/api/parents/naics/${id}`
+          url: id => `${CANON_API}/api/parents/naics/${id}`,
+          callback: arr => arr.map(d => d.id)
         }
       },
       "NAPCS": {
         parents: {
-          url: id => `${CANON_API}/api/parents/napcs/${id}`
+          url: id => `${CANON_API}/api/parents/napcs/${id}`,
+          callback: arr => arr.map(d => d.id)
         }
       },
       "PUMS Occupation": {
         parents: {
-          url: id => `${CANON_API}/api/parents/soc/${id}`
+          url: id => `${CANON_API}/api/parents/soc/${id}`,
+          callback: arr => arr.map(d => d.id)
         }
       },
       "University": {
         parents: {
-          url: id => `${CANON_API}/api/parents/university/${id}`
+          url: id => `${CANON_API}/api/parents/university/${id}`,
+          callback: arr => arr.map(d => d.id)
         },
         similar: {
           url: id => `${CANON_API}/api/university/similar/${id}`,
