@@ -45,4 +45,27 @@
       }
     }
   }
+  & .keep-exploring {
+    & h2 {
+      color: rgba(255, 255, 255, 0.9);
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 38px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin: 30px 0 15px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    & .tiles {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0 35px;
+      width: 100%;
+      & .tile {
+        flex: 1;
+        margin: 15px;
+        min-width: 300px;
+      }
+    }
+  }
 }

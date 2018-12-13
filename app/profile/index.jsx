@@ -13,6 +13,7 @@ import {select} from "d3-selection";
 import "./index.css";
 
 import Loading from "components/Loading";
+import Tile from "components/Tile/Tile";
 import Section from "toCanon/Section";
 
 class Profile extends Component {
@@ -93,7 +94,7 @@ class Profile extends Component {
   render() {
 
     const {formatters} = this.context;
-    const {params, profile} = this.props;
+    const {params, profile, similar} = this.props;
     const {pslug} = params;
     const {activeSection, comparisons, loading} = this.state;
 
@@ -121,7 +122,7 @@ class Profile extends Component {
         });
         topics.push(arr);
       });
-
+    console.log(similar);
     return (
       <CanonProfile>
         <Helmet title={ formatters.stripHTML(profiles.map(d => d.title).join(" & ")) } />
@@ -141,6 +142,12 @@ class Profile extends Component {
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
         </SubNav>
+        { similar.length && <div className="keep-exploring">
+          <h2>Keep Exploring</h2>
+          <div className="tiles">
+            { similar.map(d => <Tile key={d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profile.slug}/${d.id}/thumb`} url={`/profile/${profile.slug}/${d.slug || d.id}`} />) }
+          </div>
+        </div> }
         { loading ? <Loading /> : null }
       </CanonProfile>
     );
@@ -167,7 +174,6 @@ Profile.need = [
 
 export default connect(state => ({
   env: state.env,
-  parents: state.data.parents,
   profile: state.data.profile,
   similar: state.data.similar
 }))(Profile);
