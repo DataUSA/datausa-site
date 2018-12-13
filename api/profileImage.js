@@ -21,9 +21,12 @@ module.exports = function(app) {
 
     /** Sends the finally found image, and includes fallbacks */
     function sendImage(image) {
-      if (image) res.sendFile(`${process.cwd()}/static/images/profile/${size}/${image}.jpg`);
-      else if (pslug === "university") res.sendFile(`${process.cwd()}/static/images/profile/${size}/2032.jpg`);
-      else res.sendFile(`${process.cwd()}/static/images/profile/${size}/1849.jpg`);
+
+      const id = image ? image : pslug === "university" ? "2032" : "1849";
+
+      if (size === "json") db.images.findOne({where: {id}}).then(resp => res.json(resp));
+      else res.sendFile(`${process.cwd()}/static/images/profile/${size}/${id}.jpg`);
+
     }
 
     db.search.findOne({where: {id: pid, dimension: slugMap[pslug]}})
