@@ -117,12 +117,14 @@ module.exports = function(app) {
       }
       else {
         const prefix = id.slice(0, 3);
+
         const targetLevels = prefix === "040" ? "msa" /* state */
           : prefix === "050" ? "state,msa" /* county */
             : prefix === "310" ? "state" /* msa */
-              : prefix === "160" ? "state,msa,county" /* place */
+              : prefix === "160" ? "state,msa,county,puma" /* place */
                 : prefix === "795" ? "state,msa,county" /* puma */
                   : false;
+
         const url = targetLevels
           ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
           : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
@@ -161,12 +163,13 @@ module.exports = function(app) {
       }
     }
     else {
+
       const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
         .then(resp => resp.data)
         .catch(err => res.json(err));
 
       attrs = parents.length ? await db.search
-        .findAll({where: {id: parents, dimension}})
+        .findAll({where: {id: parents.map(d => d.id), dimension}})
         .catch(err => res.json(err)) : [];
 
       const measures = {
