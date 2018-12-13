@@ -1,0 +1,88 @@
+.tile {
+  background-color: var(--dark);
+  border: 1px solid #979AA2;
+  color: white;
+  display: block;
+  height: 150px;
+  margin: 15px 0;
+  overflow: hidden;
+  position: relative;
+  transition: border 0.25s;
+  & .contents {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 150px;
+    transition: transform 0.7s;
+    width: 100%;
+    & .image {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      bottom: 0;
+      height: 150px;
+      left: 0;
+      opacity: 0.5;
+      position: absolute;
+      transition: transform 0.7s;
+      top: 0;
+      width: 102%;
+    }
+    & .title {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-weight: 400;
+      font-size: 20px;
+      letter-spacing: 1px;
+      line-height: 1;
+      margin: 0 5px 5px;
+      max-width: 80%;
+      position: relative;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+      z-index: 1;
+    }
+    & .subtitle {
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 17px;
+      position: relative;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+      text-transform: uppercase;
+    }
+  }
+  &.new:after {
+    background-color: var(--red);
+    color: white;
+    content: "New";
+    font-size: 12px;
+    font-weight: 800;
+    left: 0;
+    letter-spacing: 1px;
+    opacity: 0.75;
+    padding: 0 10px 2px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 5px;
+    transition: opacity 0.7s;
+  }
+  &:hover, &:focus, &:active {
+    border: 1px solid white;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    & .contents {
+      transform: scale(1.15);
+      &. image {
+        transform: scale(0.9);
+      }
+    }
+    &.new:after {
+      opacity: 1;
+    }
+  }
+}

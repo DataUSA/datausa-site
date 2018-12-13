@@ -2,25 +2,10 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
 import localforage from "localforage";
+import Tile from "components/Tile/Tile";
 
 import "./Column.css";
 import {PropTypes} from "prop-types";
-
-class Tile extends Component {
-
-  render() {
-
-    const {image, subtitle, title} = this.props;
-
-    return <div className="contents">
-      <div className="image" style={{backgroundImage: `url(${image})`}}></div>
-      <div className="title">{ title }</div>
-      <div className="subtitle">{ subtitle }</div>
-    </div>;
-
-  }
-
-}
 
 class Column extends Component {
 
@@ -60,18 +45,8 @@ class Column extends Component {
           </Link>
         </h3>
         { data.tiles.map((tile, i) => {
-          const {cart} = tile;
-
-          if (cart) {
-            return <div className={ `tile ${ tile.new ? "new" : "" }` } key={i} onClick={this.onCart.bind(this, tile)}>
-              <Tile {...tile} />
-            </div>;
-          }
-          else {
-            return <Link className={ `tile ${ tile.new ? "new" : "" }` } key={i} to={ tile.url }>
-              <Tile {...tile} />
-            </Link>;
-          }
+          if (tile.cart) return <Tile key={i} {...tile} onClick={this.onCart.bind(this, tile)} />;
+          else return <Tile key={i} {...tile} />;
         })}
         <Link className="column-footer" to={data.url}>{ data.footer }</Link>
       </div>
