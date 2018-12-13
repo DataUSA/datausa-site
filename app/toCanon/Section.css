@@ -185,6 +185,9 @@
     }
     & .section-description {
       color: white !important;
+      & a {
+        color: #cfedff !important;
+      }
     }
   }
 }
