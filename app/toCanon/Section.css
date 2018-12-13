@@ -53,13 +53,89 @@
           text-decoration: underline;
         }
       }
-      & .section-visualization {
+      & .image-meta {
+        color: white;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.7;
+        padding: 0 0 30px;
+        & span {
+          font-style: italic;
+        }
+      }
+      & .section-visualizations {
         flex: 1;
-        height: 200px;
         margin-left: 50px;
         min-width: 300px;
         overflow: hidden;
         position: relative;
+        & .photo-attribution {
+          color: white;
+          font-family: "Palanquin", sans-serif;
+          font-size: 10px;
+          font-weight: 400;
+          letter-spacing: 0.05em;
+          line-height: 1.5;
+          text-transform: uppercase;
+          transition: text-shadow 0.35s;
+          &:hover {
+            text-decoration: none;
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+          }
+          & .pt-icon-standard {
+            display: inline-block;
+            font-size: 13px;
+            margin-right: 5px;
+            text-align: center;
+            vertical-align: bottom;
+            width: 20px;
+          }
+          & p {
+            display: inline-block;
+            margin-bottom: 0;
+          }
+        }
+        & .breadcrumbs {
+          align-items: flex-start;
+          display: flex;
+          font-family: "Palanquin", sans-serif;
+          font-size: 10px;
+          font-weight: 400;
+          letter-spacing: 0.05em;
+          line-height: 2;
+          margin-top: 10px;
+          text-transform: uppercase;
+          & img {
+            margin-left: 1px;
+            margin-right: 4px;
+            margin-top: 1px;
+          }
+          & a {
+            color: white;
+            display: inline;
+            transition: text-shadow 0.35s;
+            white-space: normal;
+            word-break: break-word;
+            word-wrap: break-word;
+            vertical-align: text-top;
+            &:hover {
+              text-decoration: none;
+              text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+            }
+            &:not(:first-child) {
+              margin-left: 4px;
+              &:before {
+                color: rgba(240, 244, 246, 0.75);
+                content: "\\ ";
+                font-weight: 400;
+                padding: 0 2px 0;
+              }
+            }
+          }
+        }
+        & .section-visualization {
+          height: 200px;
+        }
       }
     }
   }

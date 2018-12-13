@@ -101,7 +101,7 @@ class Profile extends Component {
 
     const profiles = [profile].concat(comparisons);
     profiles.forEach(d => {
-      d.image = `/api/profile/${pslug}/${d.id}/splash`;
+      d.imageURL = `/api/profile/${pslug}/${d.id}/splash`;
     });
 
     const topics = [];
@@ -126,7 +126,7 @@ class Profile extends Component {
       <CanonProfile>
         <Helmet title={ formatters.stripHTML(profiles.map(d => d.title).join(" & ")) } />
         <Splash data={profile} comparisons={comparisons} />
-        <Section data={{...profile, title: "About", slug: "about"} } comparisons={comparisons} />
+        <Section data={{...profile, title: "About", slug: "about", profileSlug: profile.slug} } comparisons={comparisons} breadcrumbs={true} photo={true} />
         { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);
           return <Section key={i} data={s} comparisons={compares}>
@@ -161,10 +161,13 @@ Profile.contextTypes = {
 };
 
 Profile.need = [
-  fetchData("profile", "/api/profile/<pslug>/<pid>")
+  fetchData("profile", "/api/profile/<pslug>/<pid>"),
+  fetchData("similar", "/api/<pslug>/similar/<pid>")
 ];
 
 export default connect(state => ({
   env: state.env,
-  profile: state.data.profile
+  parents: state.data.parents,
+  profile: state.data.profile,
+  similar: state.data.similar
 }))(Profile);

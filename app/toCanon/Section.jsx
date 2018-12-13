@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import Viz from "components/Viz/index";
+import {Link} from "react-router";
 import {AnchorLink} from "@datawheel/canon-core";
+import {Icon} from "@blueprintjs/core";
 import "./Section.css";
 
 class Section extends Component {
 
   render() {
-    const {children, data: profile, comparisons} = this.props;
+    const {children, data: profile, comparisons, breadcrumbs, photo} = this.props;
     const {slug, title} = profile;
     const data = [profile].concat(comparisons).filter(Boolean);
 
@@ -15,12 +17,31 @@ class Section extends Component {
         <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: title}}></AnchorLink>
       </h2>
       <div className="section-body">
-        <div className="section-content">
-          { data.map((d, ii) => <div key={ii} className="section-description">{d.descriptions.map((content, i) => <div key={i} dangerouslySetInnerHTML={{__html: content.description}} />)}</div>) }
-        </div>
-        <div className="section-content">
-          { data.map((d, ii) => d.visualizations ? d.visualizations.map((visualization, i) => <Viz variables={data[ii].variables} config={visualization} key={i} className="section-visualization" options={ false } />) : null) }
-        </div>
+        { data.map((d, i) => <div className="section-content" key={i}>
+          <div className="section-description">
+            { d.descriptions.map((content, ii) => <div key={ii} dangerouslySetInnerHTML={{__html: content.description}} />) }
+            { photo && d.image && d.image.meta ? <div className="image-meta">About the photo: <span>{ d.image.meta }</span></div> : null }
+          </div>
+          { d.visualizations || photo || breadcrumbs ? <div className="section-visualizations">
+            { photo && d.image
+              ? <a className="photo-attribution" href={d.image.url} target="_blank" rel="noopener noreferrer">
+                <Icon iconName="camera" />
+                <p>Photo by {d.image.author}</p>
+              </a>
+              : null }
+            { breadcrumbs && d.breadcrumbs.length
+              ? <div className="breadcrumbs">
+                <img src="/images/go-to-link.svg" />
+                <div className="links">
+                  { d.breadcrumbs.map(bread => <Link key={bread.id} className="bread" to={`/profile/${d.profileSlug || d.slug}/${bread.slug || bread.id}`}>
+                    { bread.name }
+                  </Link>) }
+                </div>
+              </div>
+              : null }
+            { (d.visualizations || []).map((visualization, ii) => <Viz variables={d.variables} config={visualization} key={ii} className="section-visualization" options={ false } />) }
+          </div> : null }
+        </div>) }
       </div>
       <div className="section-topics">
         { children }
@@ -31,6 +52,8 @@ class Section extends Component {
 }
 
 Section.defaultProps = {
+  breadcrumbs: false,
+  photo: false,
   slug: "",
   visualizations: []
 };

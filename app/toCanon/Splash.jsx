@@ -53,7 +53,7 @@ class Splash extends Component {
 
     return <div id="Splash" style={{height}}>
       <div className="image-container" style={{height}}>
-        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.image}")`}}></div>) }
+        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL}")`}}></div>) }
       </div>
       <div className="content-container">
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }
