@@ -37,10 +37,12 @@ module.exports = {
     ],
     dimensionMap: {
       "CIP2": "CIP",
+      "Industry": "PUMS Industry",
       "Commodity L0": "PUMS Industry",
       "Commodity L1": "PUMS Industry",
       "Industry L0": "PUMS Industry",
       "Industry L1": "PUMS Industry",
+      "Occupation": "PUMS Occupation",
       "OPEID": "University",
       "SCTG2": "NAPCS",
       "Destination State": "Geography",
@@ -144,11 +146,21 @@ module.exports = {
       },
       "PUMS Industry": {
         levels: {
-          "Industry Group": ["Industry L1", "Commodity L1"],
-          "Industry Sub-Sector": ["Industry L1", "Commodity L1"],
-          "Industry Sector": ["Industry L1", "Commodity L1"]
+          "Industry Group": ["Industry", "Industry L1", "Commodity L1"],
+          "Industry Sub-Sector": ["Industry", "Industry L1", "Commodity L1"],
+          "Industry Sector": ["Industry", "Industry L1", "Commodity L1"]
         },
-        url: (id, level) => `${CANON_API}/api/naics/${id}/io/${level}`,
+        url: (id, level) => `${CANON_API}/api/naics/${id}/${level}`,
+        callback: resp => resp
+      },
+      "PUMS Occupation": {
+        levels: {
+          "Major Occupation Group": ["Occupation"],
+          "Minor Occupation Group": ["Occupation"],
+          "Broad Occupation": ["Occupation"],
+          "Detailed Occupation": ["Occupation"]
+        },
+        url: id => `${CANON_API}/api/soc/${id}/bls`,
         callback: resp => resp
       },
       "NAPCS": {

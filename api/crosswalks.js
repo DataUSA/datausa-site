@@ -6,6 +6,9 @@ const universitySimilar = loadJSON("/static/data/similar_universities_with_dist.
 const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
 const naics2io = loadJSON("/static/data/pums_naics_to_iocode.json");
 
+const naics2bls = loadJSON("/static/data/pums_bls_industry_crosswalk.json");
+const soc2bls = loadJSON("/static/data/pums_bls_occupation_crosswalk.json");
+
 const {CANON_API, CANON_LOGICLAYER_CUBE} = process.env;
 const geoOrder = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
 
@@ -202,12 +205,26 @@ module.exports = function(app) {
 
   });
 
-  app.get("/api/naics/:id/io/:level", (req, res) => {
+  app.get("/api/naics/:id/:level", (req, res) => {
 
     const {id, level} = req.params;
-    const matches = naics2io[id] || {};
-    const available = matches.L1 ? "L1" : "L0";
-    res.json({id: matches[available], level: level.replace(/L[0-9]$/g, available)});
+
+    if (level === "Industry") {
+      const ids = naics2bls[req.params.id] || [];
+      res.json(ids);
+    }
+    else {
+      const matches = naics2io[id] || {};
+      const available = matches.L1 ? "L1" : "L0";
+      res.json({id: matches[available], level: level.replace(/L[0-9]$/g, available)});
+    }
+
+  });
+
+  app.get("/api/soc/:id/bls", (req, res) => {
+
+    const ids = soc2bls[req.params.id] || [];
+    res.json(ids);
 
   });
 
