@@ -223,6 +223,7 @@ module.exports = function(app) {
 
     const attribute = await db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}}});
     const {id} = attribute;
+    const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`).then(resp => resp.data);
 
     /* The following Promises, as opposed to being nested, are run sequentially.
      * Each one returns a new promise, whose response is then handled in the following block
@@ -230,7 +231,7 @@ module.exports = function(app) {
      * We must pass that info as one of the arguments of the returned Promise.
     */
 
-    Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll()])
+    Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll(), axios.get(`${origin}/api/parents/${slug}/${id}`)])
 
       // Given the completely built returnVariables and all the formatters (formatters are global)
       // Get the ACTUAL profile itself and all its dependencies and prepare it to be formatted and regex replaced
@@ -240,21 +241,24 @@ module.exports = function(app) {
         delete variables._genStatus;
         delete variables._matStatus;
         const formatters = resp[1];
+        const breadcrumbs = resp[2].data;
         const formatterFunctions = formatters4eval(formatters);
         const request = axios.get(`${origin}/api/internalprofile/${slug}`);
-        return Promise.all([variables, formatterFunctions, request]);
+        return Promise.all([variables, formatterFunctions, request, breadcrumbs]);
       })
       // Given a returnObject with completely built returnVariables, a hash array of formatter functions, and the profile itself
       // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
       .then(resp => {
         let returnObject = {};
-        const [variables, formatterFunctions, request] = resp;
+        const [variables, formatterFunctions, request, breadcrumbs] = resp;
         // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
         if (verbose) console.log("Variables Loaded, starting varSwap...");
         const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
         returnObject = Object.assign({}, returnObject, profile);
         returnObject.id = id;
         returnObject.variables = variables;
+        returnObject.breadcrumbs = breadcrumbs;
+        returnObject.image = image;
         if (verbose) console.log("varSwap complete, sending json...");
         res.json(returnObject).end();
       })
