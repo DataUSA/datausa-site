@@ -7,6 +7,7 @@ const napcs2sctg = loadJSON("/static/data/nacps2sctg.json");
 const naics2io = loadJSON("/static/data/pums_naics_to_iocode.json");
 
 const {CANON_API, CANON_LOGICLAYER_CUBE} = process.env;
+const geoOrder = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
 
 module.exports = function(app) {
 
@@ -319,7 +320,7 @@ module.exports = function(app) {
       const targetLevels = prefix === "040" ? "nation" /* state */
         : prefix === "050" ? "state,msa" /* county */
           : prefix === "310" ? "state" /* msa */
-            : prefix === "160" ? "state,county,msa" /* place */
+            : prefix === "160" ? "state,county,msa,puma" /* place */
               : prefix === "795" ? "state" /* puma */
                 : false;
 
@@ -331,7 +332,7 @@ module.exports = function(app) {
       const ids = parents.map(d => d.geoid);
       if (!ids.includes("01000US")) ids.unshift("01000US");
       const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
-      res.json(attrs);
+      res.json(attrs.sort((a, b) => geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy)));
     }
     else {
       const parents = cache.parents[slug] || {};
