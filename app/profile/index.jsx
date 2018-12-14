@@ -122,7 +122,7 @@ class Profile extends Component {
         });
         topics.push(arr);
       });
-    console.log(similar);
+
     return (
       <CanonProfile>
         <Helmet title={ formatters.stripHTML(profiles.map(d => d.title).join(" & ")) } />
