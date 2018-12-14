@@ -16,7 +16,12 @@
   }
   & .ClosedButton {
     cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.2s;
     width: 35px;
+    &:hover {
+      opacity: 1;
+    }
     & .pt-icon-standard {
       color: white;
       margin: 7px;
@@ -24,6 +29,7 @@
       will-change: transform;
     }
     &.active {
+      opacity: 1;
       & .pt-icon-standard {
         transform: rotate(90deg);
       }

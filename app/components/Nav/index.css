@@ -18,9 +18,14 @@
   & .menu-btn {
     cursor: pointer;
     left: 0;
+    opacity: 0.75;
     padding: 10px 13px;
     position: absolute;
+    transition: opacity 0.2s;
     top: 0;
+    &:hover {
+      opacity: 1;
+    }
     & .label {
       color: white;
       display: inline-block;
@@ -87,7 +92,7 @@
     & ul {
       list-style: none;
       margin: 0;
-      padding: 40px 50px;
+      padding: 20px 35px;
       & li {
         font-family: "Palanquin", sans-serif;
         font-size: 16px;
