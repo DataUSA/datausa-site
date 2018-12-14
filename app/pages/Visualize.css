@@ -66,7 +66,7 @@
 
 .vizbuilder {
   background-color: var(--white);
-  height: calc(100vh - var(--nav-height) - 90px);
+  height: calc(100vh - var(--nav-height) - 60px);
   & .area-sidebar, & .area-chart {
     height: calc(100vh - var(--nav-height) - 60px);
   }
@@ -152,10 +152,9 @@
             border-radius: 3px;
             display: inline-block;
             font-size: 12px;
-            font-weight: 400;
+            font-weight: 800;
             margin: 5px 5px 0 0;
-            padding: 0;
-            width: 100%;
+            padding: 2px 5px 3px;
           }
           & .select-member {
             background-color: transparent;
@@ -178,13 +177,19 @@
           display: inline-block;
           font-size: 13px;
           margin-right: 0;
+          margin-bottom: 3px;
           text-transform: none;
-          &:not(:first-child) {
-            margin-left: 3px;
-          }
         }
         & .filter-operator {
           text-transform: lowercase;
+        }
+        & .filter-value {
+          background-color: #eee;
+          border-radius: 3px;
+          display: inline-block;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 2px 5px 3px;
         }
         & .pt-numeric-input {
           & input, & .pt-button-group {
@@ -265,10 +270,11 @@
     }
   }
   & .area-chart {
+    padding: 25px 25px 25px 0;
     & .wrapper {
       padding: 0;
-      & .chart-wrapper {
-        width: 100%;
+      & .chart-card {
+        min-width: 400px;
       }
     }
   }

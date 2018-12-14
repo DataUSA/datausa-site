@@ -175,7 +175,8 @@ class Visualize extends Component {
           config={{
             colorScaleConfig: {
               color: colors.colorScaleGood
-            }
+            },
+            height: 300
           }}
           topojson={{
             "County": {
