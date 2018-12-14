@@ -193,7 +193,7 @@ module.exports = function(app) {
         .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id && a.hierarchy === d.hierarchy)) === i);
     }
 
-    res.json(attrs.sort((a, b) => b.zvalue - a.zvalue));
+    res.json(attrs.sort((a, b) => b.zvalue - a.zvalue).slice(0, limit || 6));
 
 
 
