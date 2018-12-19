@@ -66,7 +66,7 @@
       }
     }
   }
-  & p {
+  & p, & ul, & ol {
     font-size: 15px;
     line-height: 21px;
     margin: 20px 0 0;

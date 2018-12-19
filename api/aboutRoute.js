@@ -1,5 +1,9 @@
 module.exports = function(app) {
 
+  app.get("/api/datasets", (req, res) => {
+    res.json(app.settings.cache.datasets);
+  });
+
   app.get("/api/press", (req, res) => {
     res.json([
       {
