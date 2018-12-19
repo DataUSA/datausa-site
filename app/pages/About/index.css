@@ -98,4 +98,36 @@
       width: 10px;
     }
   }
+  & .code-box {
+    background: #fff;
+    border: solid #727682;
+    border-width: 0.1em 0.1em 0.1em 0.8em;
+    color: #141b2e;
+    margin: 15px 10px;
+    overflow: auto;
+    overflow-wrap: break-word;
+    padding: 0.2em 0.6em;
+    width: auto;
+    white-space: initial !important;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-word;
+    & pre {
+      border: 0;
+      box-shadow: none;
+      line-height: 1.6;
+      margin: 0;
+      & .key {
+        color: #306a62;
+      }
+      & .value {
+        background-color: #D7E8EF;
+        padding: 1px 2px;
+      }
+      & .integer {
+        color: #8d7a40;
+        font-weight: 600;
+      }
+    }
+  }
 }
