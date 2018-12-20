@@ -74,8 +74,9 @@ export default class API extends Component {
   ]
 }`}} />
         </div>
+        <h2>Data</h2>
         <p>
-          The <strong>data</strong> section of the JSON result contains an object for each row of data. By default, the API returns as many years possible from the data. To only retrieve the latest year’s data, use:
+          The <em>data</em> section of the JSON result contains an object for each row of data. By default, the API returns as many years possible from the data. To only retrieve the latest year’s data, use:
         </p>
         <p>
           https://datausa.io/api/data?drilldowns=<strong>Nation</strong>&measures=<strong>Population</strong>&year=<strong>latest</strong>
