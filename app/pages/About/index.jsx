@@ -18,11 +18,11 @@ class About extends Component {
     return (
       <div id="About">
         <SubNav>
-          <NavLink to="/about/">Background</NavLink>
-          <NavLink to="/about/press/">In the Press</NavLink>
-          <NavLink to="/about/team/">Team</NavLink>
-          <NavLink to="/about/glossary/">Glossary</NavLink>
-          <NavLink to="/about/usage/">Terms of Use</NavLink>
+          <NavLink to="/about/background">Background</NavLink>
+          <NavLink to="/about/press">In the Press</NavLink>
+          <NavLink to="/about/team">Team</NavLink>
+          <NavLink to="/about/glossary">Glossary</NavLink>
+          <NavLink to="/about/usage">Terms of Use</NavLink>
         </SubNav>
         { this.props.children }
       </div>

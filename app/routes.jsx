@@ -1,5 +1,5 @@
 import React from "react";
-import {Route, IndexRoute} from "react-router";
+import {Redirect, Route, IndexRoute} from "react-router";
 
 import App from "./App";
 import Home from "./pages/Home/index";
@@ -69,18 +69,20 @@ export default function RouteCreate() {
 
       <Route path="/cart" component={Cart} />
 
-      <Route path="/about" component={About}>
-        <IndexRoute component={Background} />
+      <Redirect from="/about/" to="/about/background" />
+      <Route path="/about(/background|press|team|glossary|usage)" component={About}>
+        <Route path="/about/background" component={Background} />
         <Route path="/about/press" component={Press} />
         <Route path="/about/team" component={Team} />
         <Route path="/about/glossary" component={Glossary} />
         <Route path="/about/usage" component={Usage} />
       </Route>
 
-      <Route path="/about(/datasets|api|attributes)" component={Data}>
+      <Route path="/about(/datasets|api|classifications)" component={Data}>
         <Route path="/about/datasets" component={DataSources} />
         <Route path="/about/api" component={API} />
-        <Route path="/about/attributes" component={Classifications} />
+        <Redirect from="/about/classifications" to="/about/classifications/Geography/State" />
+        <Route path="/about/classifications/:dimension/:hierarchy" component={Classifications} />
       </Route>
 
       <Route path="/cms/builder" component={Builder} />

@@ -20,7 +20,7 @@ class Data extends Component {
         <SubNav>
           <NavLink to="/about/datasets/">Data Sources</NavLink>
           <NavLink to="/about/api/">API</NavLink>
-          <NavLink to="/about/attributes/">Classifications</NavLink>
+          <NavLink to="/about/classifications/">Classifications</NavLink>
         </SubNav>
         { this.props.children }
       </div>

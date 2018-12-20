@@ -9,6 +9,16 @@
     margin-left: 200px;
     position: relative;
     z-index: 1;
+    &.table {
+      padding-top: 45px;
+      & .bp-table-container {
+        height: 420px;
+        overflow: scroll;
+        & .bp-table-column-name-text {
+          height: 45px;
+        }
+      }
+    }
   }
   & h1 {
     font-family: "Pathway Gothic One", sans-serif;
@@ -96,6 +106,76 @@
       margin: 0 5px 0 -15px;
       vertical-align: top;
       width: 10px;
+    }
+    &.classifications {
+      color: #979AA2;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      line-height: 1.3;
+      list-style-type: none;
+      margin: 0;
+      padding: 0 25px;
+      width: 100%;
+      & .title {
+        flex: 1;
+      }
+      & ul {
+        margin: 5px 0 10px;
+        padding-left: 24px !important;
+        & li {
+          align-items: center;
+          color: var(--gray);
+          display: flex;
+          font-size: 12px;
+          line-height: 1.1;
+          margin: 3px 0;
+          & a {
+            color: inherit !important;
+            display: inline-block;
+            width: 75%;
+            vertical-align: middle;
+          }
+          &.active {
+            color: var(--red) !important;
+          }
+        }
+      }
+      & > li {
+        align-items: center;
+        color: var(--dark);
+        display: flex;
+        margin: 10px 0;
+        width: 100%;
+        & a {
+          color: inherit !important;
+        }
+        &.active, &.active a {
+          color: var(--red) !important;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+        &:first-child {
+          color: #727682;
+          font-size: 12px;
+          font-weight: 400;
+          margin-bottom: 10px;
+          &:hover {
+            cursor: auto;
+          }
+        }
+        & img {
+          margin: 0 6px 0 0;
+          width: 18px;
+          vertical-align: bottom;
+        }
+      }
+      & .num {
+        display: inline-block;
+        float: right;
+      }
     }
   }
   & .code-box {

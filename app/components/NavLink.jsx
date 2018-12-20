@@ -1,12 +1,22 @@
 import React, {Component} from "react";
+import {PropTypes} from "prop-types";
 import {Link} from "react-router";
 
-export default class NavLink extends Component {
+class NavLink extends Component {
 
   render() {
 
-    return <Link {...this.props} activeClassName="active" onlyActiveOnIndex={true} />;
+    const {children, to} = this.props;
+    const {basename, pathname} = this.context.router.location;
+
+    return <Link to={to} className={ `${basename}${pathname}`.includes(to) ? "active" : "" }>{ children }</Link>;
 
   }
 
 }
+
+NavLink.contextTypes = {
+  router: PropTypes.object
+};
+
+export default NavLink;

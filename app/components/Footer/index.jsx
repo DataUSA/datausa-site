@@ -21,7 +21,7 @@ export default class Footer extends Component {
             <h4>Sources</h4>
             <li><Link to="/about/datasets/">Data Sources</Link></li>
             <li><Link to="/about/api/">API</Link></li>
-            <li><Link to="/about/attributes/">Classifications</Link></li>
+            <li><Link to="/about/classifications/">Classifications</Link></li>
             <li><a href="mailto:hello@datausa.io">Contact Us</a></li>
           </ul>
           <ul>
