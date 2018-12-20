@@ -23,7 +23,6 @@ module.exports = function(app) {
     function sendImage(image) {
 
       const id = image ? image : pslug === "university" ? "2032" : "1849";
-
       if (size === "json") db.images.findOne({where: {id}}).then(resp => res.json(resp));
       else res.sendFile(`${process.cwd()}/static/images/profile/${size}/${id}.jpg`);
 
@@ -43,13 +42,20 @@ module.exports = function(app) {
 
               const ids = parents[pslug][pid];
 
-              db.search.findAll({where: {id: ids, dimension: slugMap[pslug]}})
-                .then(parentAttrs => {
-                  const parentImage = parentAttrs
-                    .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-                    .find(p => p.imageId).imageId;
-                  sendImage(parentImage);
-                });
+              if (ids.length) {
+
+                db.search.findAll({where: {id: ids, dimension: slugMap[pslug]}})
+                  .then(parentAttrs => {
+                    const parentImage = parentAttrs
+                      .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+                      .find(p => p.imageId).imageId;
+                    sendImage(parentImage);
+                  });
+
+              }
+              else {
+                sendImage(false);
+              }
 
             }
             else if (pslug === "geo") {
