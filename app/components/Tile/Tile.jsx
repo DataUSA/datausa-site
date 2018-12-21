@@ -26,12 +26,12 @@ export default class Tile extends Component {
     const {onClick, url} = this.props;
 
     if (url) {
-      return <Link className={ `tile ${ this.props.new ? "new" : "" }` } to={url}>
+      return <Link className={ `usa-tile ${ this.props.new ? "new" : "" }` } to={url}>
         <Contents {...this.props} />
       </Link>;
     }
     else {
-      return <div className={ `tile ${ this.props.new ? "new" : "" }` } onClick={onClick}>
+      return <div className={ `usa-tile ${ this.props.new ? "new" : "" }` } onClick={onClick}>
         <Contents {...this.props} />
       </div>;
     }

@@ -101,7 +101,7 @@ class Map extends Component {
       </div>
 
       <Vizbuilder
-        src={cube}
+        src={[cube]}
         defaultGroup={["Geography.County", "Origin State.Origin State"]}
         defaultMeasure="Uninsured"
         measureConfig={measureConfig}
@@ -110,8 +110,7 @@ class Map extends Component {
           colorScaleConfig: {color: colors.colorScaleGood},
           colorScalePosition: "bottom",
           fitObject: "/topojson/State.json",
-          fitFilter: d => !["04000US02", "04000US15"].includes(d.id),
-          zoom: true
+          fitFilter: d => !["04000US02", "04000US15"].includes(d.id)
         }}
         visualizations={["geomap"]}
         topojson={{

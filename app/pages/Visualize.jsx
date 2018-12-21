@@ -167,7 +167,7 @@ class Visualize extends Component {
         </div>
 
         <Vizbuilder
-          src={cube}
+          src={[cube]}
           defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
           defaultMeasure="Total Population"
           measureConfig={measureConfig}
