@@ -48,8 +48,8 @@ module.exports = function(app) {
                   .then(parentAttrs => {
                     const parentImage = parentAttrs
                       .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-                      .find(p => p.imageId).imageId;
-                    sendImage(parentImage);
+                      .find(p => p.imageId);
+                    sendImage(parentImage ? parentImage.imageId : false);
                   });
 
               }
