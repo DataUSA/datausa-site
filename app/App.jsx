@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 import "./App.css";
 
 import {fetchData} from "@datawheel/canon-core";
@@ -35,7 +36,7 @@ class App extends Component {
 
   render() {
 
-    const {location} = this.props;
+    const {location, origin} = this.props;
     const {pathname} = location;
 
     const fullscreen = pathname.indexOf("cart") === 0 ||
@@ -49,6 +50,9 @@ class App extends Component {
 
     return (
       <div id="App" className={bare ? "bare" : ""}>
+        <Helmet>
+          <meta property="og:image" content={ `${origin}/images/share.jpg` } />
+        </Helmet>
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
@@ -69,4 +73,7 @@ App.need = [
   fetchData("formatters", "/api/formatters")
 ];
 
-export default connect(state => ({formatters: state.data.formatters}))(App);
+export default connect(state => ({
+  formatters: state.data.formatters,
+  origin: state.location.origin
+}))(App);
