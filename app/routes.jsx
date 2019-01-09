@@ -69,7 +69,7 @@ export default function RouteCreate() {
 
       <Route path="/cart" component={Cart} />
 
-      <Redirect from="/about/" to="/about/background" />
+      <Redirect from="/about" to="/about/background" />
       <Route path="/about(/background|press|team|glossary|usage)" component={About}>
         <Route path="/about/background" component={Background} />
         <Route path="/about/press" component={Press} />
