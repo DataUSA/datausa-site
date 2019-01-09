@@ -94,7 +94,7 @@ class Profile extends Component {
   render() {
 
     const {formatters} = this.context;
-    const {params, profile, similar} = this.props;
+    const {origin, params, profile, similar} = this.props;
     const {pslug} = params;
     const {activeSection, comparisons, loading} = this.state;
 
@@ -123,9 +123,18 @@ class Profile extends Component {
         topics.push(arr);
       });
 
+    const metaTitle = formatters.stripHTML(profiles.map(d => d.title).join(" & "));
+    const metaDesc = formatters.stripHTML(profile.descriptions[0].description);
+
     return (
       <CanonProfile>
-        <Helmet title={ formatters.stripHTML(profiles.map(d => d.title).join(" & ")) } />
+        <Helmet>
+          <title>{ metaTitle }</title>
+          <meta property="og:title" content={ metaTitle } />
+          <meta name="description" content={metaDesc} />
+          <meta property="og:image" content={ `${origin}${profile.imageURL}` } />
+          <meta property="og:description" content={metaDesc} />
+        </Helmet>
         <Splash data={profile} comparisons={comparisons} />
         <Section data={{...profile, title: "About", slug: "about", profileSlug: profile.slug} } comparisons={comparisons} breadcrumbs={true} photo={true} />
         { profile.sections.map((s, i) => {
@@ -174,6 +183,7 @@ Profile.need = [
 
 export default connect(state => ({
   env: state.env,
+  origin: state.location.origin,
   profile: state.data.profile,
   similar: state.data.similar
 }))(Profile);
