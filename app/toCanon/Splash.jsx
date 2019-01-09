@@ -47,13 +47,13 @@ class Splash extends Component {
 
   render() {
     const {addComparison} = this.context;
-    const {data: profile, height, comparisons} = this.props;
+    const {data: profile, height, comparisons, story} = this.props;
 
     const data = [profile].concat(comparisons);
 
     return <div id="Splash" style={{height}}>
       <div className="image-container" style={{height}}>
-        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL}")`}}></div>) }
+        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL || d.image}")`}}></div>) }
       </div>
       <div className="content-container">
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }
@@ -61,7 +61,7 @@ class Splash extends Component {
       <div className="content-container">
         { data.map((d, i) => <div key={i} className="profile-subtitle" dangerouslySetInnerHTML={{__html: d.subtitle}} />) }
       </div>
-      <Search className="SearchButton"
+      { !story && <Search className="SearchButton"
         icon={ false }
         inactiveComponent={ CompareButton }
         placeholder={ `Search ${profile.label.replace(/([A-z]$)/g, chr => chr === "y" ? "ies" : `${chr}s`)}` }
@@ -73,13 +73,13 @@ class Splash extends Component {
             <div className="sumlevel">{ d.hierarchy }</div>
           </div>
         </div>}
-        url={ `/api/search/?dimension=${profile.dimension}` } />
-      <div className="content-container">
+        url={ `/api/search/?dimension=${profile.dimension}` } /> }
+      { !story && <div className="content-container">
         { data.map((d, i) => d.stats && <div key={i} className="profile-stats">
           { d.stats.map((s, ii) => <Stat key={ii} data={s} />) }
         </div>) }
-      </div>
-      { profile.sections &&
+      </div> }
+      { !story && profile.sections &&
         <div className="profile-sections">
           <SectionIcon slug="about" title="About" />
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} />) }
@@ -103,7 +103,8 @@ Splash.contextTypes = {
 
 Splash.defaultProps = {
   comparisons: [],
-  height: "100vh"
+  height: "100vh",
+  story: false
 };
 
 export default Splash;

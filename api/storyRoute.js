@@ -39,7 +39,13 @@ module.exports = function(app) {
         if (!topic.selectors) topic.selectors = [];
         if (!topic.stats) topic.stats = [];
         if (!topic.descriptions) topic.descriptions = [];
-        topic.descriptions = topic.descriptions.map(description => ({description}));
+        topic.descriptions = topic.descriptions.map(description => {
+          const text = description
+            .replace(/\<\<foot note=([0-9]+)\>\>/g, (match, g1) =>
+              `<a class="footnote" href="#footnote${g1}"><sup>${g1}</sup></a>`
+            );
+          return {description: text};
+        });
         if (!topic.visualizations) topic.visualizations = [];
         if (!topic.type) topic.type = "TextViz";
 

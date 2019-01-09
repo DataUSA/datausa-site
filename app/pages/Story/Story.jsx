@@ -14,22 +14,9 @@ class Story extends Component {
 
   render() {
     const {formatters} = this.context;
-    const {story} = this.props;
-    const {authors, date, footnotes, title, topics} = story;
+    const {origin, story} = this.props;
+    const {authors, date, footnotes, image, title, topics} = story;
 
-    topics.forEach(topic => {
-      if (topic.description) {
-        if (topic.description instanceof Array) {
-          topic.description = topic.description
-            .map(p => `<p>${p}</p>`)
-            .join("");
-        }
-        topic.description = topic.description
-          .replace(/\<\<foot note=([0-9]+)\>\>/g, (match, g1) =>
-            `<a class="footnote" href="#footnote${g1}"><sup>${g1}</sup></a>`
-          );
-      }
-    });
     authors.forEach(author => {
       if (author.about instanceof Array) {
         author.about = author.about
@@ -38,10 +25,19 @@ class Story extends Component {
       }
     });
 
+    const metaTitle = formatters.stripHTML(title);
+    const metaDesc = formatters.stripHTML(topics[0].descriptions[0].description);
+
     return (
       <div id="Story">
-        <Helmet title={ formatters.stripHTML(title) } />
-        <Splash data={story} height="80vh" />
+        <Helmet>
+          <title>{ metaTitle }</title>
+          <meta property="og:title" content={ metaTitle } />
+          <meta name="description" content={ metaDesc } />
+          <meta property="og:image" content={ `${origin}${image}` } />
+          <meta property="og:description" content={ metaDesc } />
+        </Helmet>
+        <Splash data={story} height="60vh" story={true} />
         <div className="meta-info dark intro">
           { authors.map((a, i) => <AnchorLink key={i} to={slugify(a.name)}><img className="image" src={a.image} /></AnchorLink>) }
           <div className="text">
@@ -81,4 +77,7 @@ Story.need = [
   fetchData("story", "/api/story/<sid>")
 ];
 
-export default connect(state => ({story: state.data.story}))(Story);
+export default connect(state => ({
+  origin: state.location.origin,
+  story: state.data.story
+}))(Story);
