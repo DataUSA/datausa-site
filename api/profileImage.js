@@ -1,4 +1,5 @@
-const axios = require("axios");
+const axios = require("axios"),
+      sequelize = require("sequelize");
 
 const {CANON_LOGICLAYER_CUBE} = process.env;
 
@@ -28,7 +29,7 @@ module.exports = function(app) {
 
     }
 
-    db.search.findOne({where: {id: pid, dimension: slugMap[pslug]}})
+    db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}, dimension: slugMap[pslug]}})
       .then(attr => {
 
         if (!attr) sendImage(false);
