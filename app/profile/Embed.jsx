@@ -19,13 +19,22 @@ class Embed extends Component {
   render() {
 
     const {formatters} = this.context;
-    const {contents} = this.props;
+    const {contents, origin, router} = this.props;
     const {title, variables} = contents;
     const name = variables.nameLower || variables.name;
+    const {pslug, pid} = router.params;
+
+    const joiner = contents.variables.Dimension === "Geography" ? "in" : "for";
+    const metaTitle = `${formatters.stripHTML(title)} ${joiner} ${name}`;
+    const metaDesc = formatters.stripHTML(contents.descriptions[0].description);
 
     return <div id="Embed">
       <Helmet>
-        <title>{ `${formatters.stripHTML(title)} in ${name}` }</title>
+        <title>{ metaTitle }</title>
+        <meta property="og:title" content={ metaTitle } />
+        <meta name="description" content={ metaDesc } />
+        <meta property="og:image" content={ `${origin}/api/profile/${pslug}/${pid}/splash` } />
+        <meta property="og:description" content={ metaDesc } />
       </Helmet>
       <Topic contents={contents} />
     </div>;
@@ -48,5 +57,6 @@ Embed.need = [
 ];
 
 export default connect(state => ({
-  contents: state.data.contents
+  contents: state.data.contents,
+  origin: state.location.origin
 }))(Embed);
