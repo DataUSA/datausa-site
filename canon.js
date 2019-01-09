@@ -39,9 +39,9 @@ module.exports = {
       "CIP2": "CIP",
       "Industry": "PUMS Industry",
       "Commodity L0": "PUMS Industry",
-      "Commodity L1": "PUMS Industry",
+      // "Commodity L1": "PUMS Industry",
       "Industry L0": "PUMS Industry",
-      "Industry L1": "PUMS Industry",
+      // "Industry L1": "PUMS Industry",
       "Occupation": "PUMS Occupation",
       "OPEID": "University",
       "SCTG2": "NAPCS",
@@ -146,9 +146,9 @@ module.exports = {
       },
       "PUMS Industry": {
         levels: {
-          "Industry Group": ["Industry", "Industry L1", "Commodity L1"],
-          "Industry Sub-Sector": ["Industry", "Industry L1", "Commodity L1"],
-          "Industry Sector": ["Industry", "Industry L1", "Commodity L1"]
+          "Industry Group": ["Industry", "Industry L0", "Commodity L0"],
+          "Industry Sub-Sector": ["Industry", "Industry L0", "Commodity L0"],
+          "Industry Sector": ["Industry", "Industry L0", "Commodity L0"]
         },
         url: (id, level) => `${CANON_API}/api/naics/${id}/${level}`,
         callback: resp => resp

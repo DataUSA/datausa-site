@@ -215,7 +215,7 @@ module.exports = function(app) {
     }
     else {
       const matches = naics2io[id] || {};
-      const available = matches.L1 ? "L1" : "L0";
+      const available = "L0";
       res.json({id: matches[available], level: level.replace(/L[0-9]$/g, available)});
     }
 
