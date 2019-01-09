@@ -118,6 +118,24 @@ module.exports = function(app) {
               "Jimmy is a Northeastern University Computer Science graduate with over 10 years of experience in Game Design, Web Programming, and Distributed Databases.",
               "When not coding, Jimmy enjoys playing music, cycling, storytelling, board games, and inside jokes."
             ]
+          },
+          {
+            name: "Francisco Abarzúa",
+            img: "/images/story/authors/abarzua.png",
+            title: "Full Stack Developer",
+            about: [
+              "Although Francisco attained a degree in Chemical Engineering from the University of Concepción, he enjoys experimenting with web and server technologies. He's worked on a diverse array of public service projects, including data visualization.",
+              "He also enjoys murder mystery games, chats with friends, and disassembling things."
+            ]
+          },
+          {
+            name: "Carlos Navarrete",
+            img: "/images/story/authors/navarrete.png",
+            title: "Front-End Developer",
+            about: [
+              "Carlos is an industrial engineer that loves web programming. Since attending University of Concepción, he has tried to make technology more accessible to the people.",
+              "When not coding, Carlos attempts to be a pastry cook. He is a real fan of milk caramel spread."
+            ]
           }
         ]
       },
