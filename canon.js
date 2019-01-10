@@ -67,23 +67,8 @@ module.exports = {
           callback: arr => arr.map(d => d.geoid)
         },
         parents: {
-          url: id => {
-            const prefix = id.slice(0, 3);
-            const targetLevels = prefix === "040" ? "nation" /* state */
-              : prefix === "050" ? "nation,state" /* county */
-                : prefix === "310" ? "nation,state" /* msa */
-                  : prefix === "160" ? "nation,state" /* place */
-                    : prefix === "795" ? "nation,state" /* puma */
-                      : false;
-            return targetLevels
-              ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
-              : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
-          },
-          callback: arr => {
-            const ids = arr.map(d => d.geoid);
-            if (!ids.includes("01000US")) ids.push("01000US");
-            return ids;
-          }
+          url: id => `${CANON_API}/api/parents/geo/${id}`,
+          callback: arr => arr.map(d => d.id)
         }
       },
       "CIP": {
