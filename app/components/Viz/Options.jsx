@@ -5,13 +5,36 @@ import "./Options.css";
 
 import {select} from "d3-selection";
 import {saveAs} from "file-saver";
-import {text} from "d3-request";
+import JSZip from "jszip";
 import {saveElement} from "d3plus-export";
 import localforage from "localforage";
 import axios from "axios";
+import {formatAbbreviate} from "d3plus-format";
 
-import {Checkbox, Dialog, Icon, Tab2, Tabs2} from "@blueprintjs/core";
+import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab2, Tabs2} from "@blueprintjs/core";
+import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
 import {Tooltip2} from "@blueprintjs/labs";
+import {Object} from "es6-shim";
+
+const FORMATTERS = {
+  Growth: d => `${formatAbbreviate(d * 100 || 0)}%`,
+  Percentage: d => `${formatAbbreviate(d * 1 || 0)}%`,
+  Rate: d => `${formatAbbreviate(d * 100 || 0)}%`,
+  Ratio: d => `${formatAbbreviate(d * 1 || 0)} to 1`,
+  USD: d => `$${formatAbbreviate(d * 1 || 0)}`,
+  get Dollars() {
+    return this.USD;
+  },
+  "Thousands of Dollars"(d) {
+    return this.USD(d * 1e3);
+  },
+  "Millions of Dollars"(d) {
+    return this.USD(d * 1e6);
+  },
+  "Billions of Dollars"(d) {
+    return this.USD(d * 1e9);
+  }
+};
 
 const cartMax = 5;
 
@@ -54,7 +77,9 @@ class Options extends Component {
       embedSize: sizeList[0],
       inCart: false,
       includeText: false,
+      loading: false,
       openDialog: false,
+      results: false,
       sizes: sizeList
     };
   }
@@ -191,10 +216,31 @@ class Options extends Component {
   }
 
   onCSV() {
-    const {title, url} = this.props;
-    text(url, (err, data) => {
-      if (!err) saveAs(new Blob([data], {type: "text/plain;charset=utf-8"}), `${title}.csv`);
-    });
+    const {title} = this.props;
+    const {results} = this.state;
+
+    const columns = Object.keys(results[0]);
+    let csv = columns.join(",");
+
+    for (let i = 0; i < results.length; i++) {
+      const data = results[i];
+
+      csv += "\n";
+      csv += columns.map(key => {
+
+        const val = data[key];
+
+        return typeof val === "number" ? val
+          : val ? `\"${val}\"` : "";
+
+      }).join(",");
+
+    }
+
+    const zip = new JSZip();
+    zip.file(`${title}.csv`, csv);
+    zip.generateAsync({type: "blob"})
+      .then(content => saveAs(content, `${title}.zip`));
   }
 
   onSave(type) {
@@ -214,8 +260,17 @@ class Options extends Component {
   }
 
   toggleDialog(slug) {
-    console.log(slug);
     this.setState({openDialog: slug});
+    const {results, loading} = this.state;
+    if (slug === "view-table" && !results && !loading) {
+      const {data, dataFormat} = this.props;
+      this.setState({loading: true});
+      axios.get(data)
+        .then(resp => {
+          const results = dataFormat(resp.data);
+          this.setState({loading: false, results});
+        });
+    }
   }
 
   toggleText() {
@@ -238,28 +293,14 @@ class Options extends Component {
 
   render() {
 
-    const {cartKey, data, location, slug, title, topic} = this.props;
-    const {cartSize, embedSize, inCart, includeText, openDialog, sizes} = this.state;
+    const {cartKey, data, location, measures, slug, title, topic} = this.props;
+    const {cartSize, embedSize, inCart, includeText, openDialog, results, sizes} = this.state;
 
     const cartEnabled = cartKey && data && slug && title;
 
     const baseURL = location.href.split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
     const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
-
-    // const profile = "test";
-    // const url = `https://dataafrica.io/profile/${profile}/${slug}`;
-    // <div className="option" onClick={this.onFocus.bind(this)} onMouseLeave={this.onBlur.bind(this)}>
-    //   <img src="/images/viz/share.svg" />
-    //   <input type="text" value={url} ref={input => this.input = input} readOnly="readonly" />
-    // </div>
-
-
-
-
-    // <div className="option view-table" onClick={this.onCSV.bind(this)}>
-    //   <span className="option-label">View Data</span>
-    // </div>
 
     const ImagePanel = () => <div className="pt-dialog-body save-image">
       <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
@@ -299,7 +340,59 @@ class Options extends Component {
       </div>
     </div>;
 
+    const columns = results ? Object.keys(results[0]).filter(d => d.indexOf("ID ") === -1 && d.indexOf("Slug ") === -1) : [];
+    const stickies = ["Year", "Geography", "PUMS Industry", "PUMS Occupation", "CIP", "University", "Gender"].reverse();
+    columns.sort((a, b) => stickies.indexOf(b) - stickies.indexOf(a));
+
+    const columnWidths = columns.map(key => {
+      if (key === "Year") return 60;
+      else if (key.includes("Year")) return 150;
+      else if (key.includes("ID ")) return 120;
+      else if (key.includes("University") || key.includes("Insurance")) return 250;
+      else if (key.includes("Gender") || key.includes("Sex")) return 100;
+      else if (stickies.includes(key)) return 200;
+      else return 150;
+    });
+
+    const renderCell = (rowIndex, columnIndex) => {
+      const key = columns[columnIndex];
+      const val = results[rowIndex][key];
+      const format = val === undefined ? () => ""
+        : typeof val === "string" ? d => d
+          : FORMATTERS[measures[key]] || formatAbbreviate;
+      return <Cell wrapText={true}>{ format(val) }</Cell>;
+    };
+
+    const DataPanel = () => results
+      ? <div className="pt-dialog-body view-table vertical">
+        <div className="horizontal download">
+          <button type="button" className="pt-button pt-icon-download pt-minimal" onClick={this.onCSV.bind(this)}>
+            Download as CSV
+          </button>
+          <input type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${data}`} />
+        </div>
+        <div className="table">
+          <Table allowMultipleSelection={false}
+            columnWidths={columnWidths}
+            fillBodyWithGhostCells={true}
+            isColumnResizable={false}
+            isRowResizable={false}
+            numRows={ results.length }
+            rowHeights={results.map(() => 30)}
+            selectionModes={SelectionModes.NONE}>
+            { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
+          </Table>
+        </div>
+      </div>
+      : <div className="pt-dialog-body view-table vertical">
+        <NonIdealState title="Loading Data" visual={<Spinner />} />
+      </div>;
+
     return <div className="Options">
+
+      <div className="option view-table" onClick={this.toggleDialog.bind(this, "view-table")}>
+        <span className="option-label">View Data</span>
+      </div>
 
       <div className="option save-image" onClick={this.toggleDialog.bind(this, "save-image")}>
         <span className="option-label">Save Image</span>
@@ -311,6 +404,7 @@ class Options extends Component {
 
       <Dialog className="options-dialog" isOpen={openDialog} onClose={this.toggleDialog.bind(this, false)}>
         <Tabs2 onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
+          <Tab2 id="view-table" title="View Data" panel={<DataPanel />} />
           <Tab2 id="save-image" title="Save Image" panel={<ImagePanel />} />
           <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} />
           <button aria-label="Close" className="close-button pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
@@ -339,5 +433,6 @@ Options.contextTypes = {
 
 export default connect(state => ({
   cartKey: state.env.CART,
-  location: state.location
+  location: state.location,
+  measures: state.data.measures
 }))(Options);
