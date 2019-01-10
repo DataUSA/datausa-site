@@ -111,6 +111,31 @@ body {
   }
 }
 
+::selection {
+  background: #ddd;
+}
+
+input[type="text"] {
+  &:focus {
+    outline: 0;
+  }
+}
+
+.pt-control.pt-checkbox {
+  padding-left: 22px;
+  & .pt-control-indicator {
+    border-radius: 0;
+  }
+  & input:checked ~ .pt-control-indicator {
+    background-color: var(--red);
+  }
+  &:hover {
+    & input:checked ~ .pt-control-indicator {
+      background-color: var(--red);
+    }
+  }
+}
+
 .pt-select {
   position: relative;
   margin-bottom: 5px;

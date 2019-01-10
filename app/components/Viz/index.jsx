@@ -13,9 +13,9 @@ class Viz extends Component {
   }
 
   render() {
-    const {formatters, variables} = this.context;
 
-    const {config, configOverride, className, options, slug} = this.props;
+    const {formatters, variables} = this.context;
+    const {config, configOverride, className, options, slug, topic} = this.props;
 
     // clone config object to allow manipulation
     const vizProps = propify(config.logic, formatters, this.props.variables || variables);
@@ -42,7 +42,8 @@ class Viz extends Component {
         data={ vizProps.config.cart || vizProps.config.data }
         dataFormat={ vizProps.dataFormat }
         slug={ slug }
-        title={ title } /> : null }
+        title={ title }
+        topic={ topic } /> : null }
       <Visualization
         ref={ comp => this.viz = comp }
         className="d3plus"

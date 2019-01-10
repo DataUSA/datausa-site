@@ -10,7 +10,7 @@ import {saveElement} from "d3plus-export";
 import localforage from "localforage";
 import axios from "axios";
 
-import {Dialog, Icon} from "@blueprintjs/core";
+import {Checkbox, Dialog, Icon, Tab2, Tabs2} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 
 const cartMax = 5;
@@ -42,10 +42,20 @@ class Options extends Component {
 
   constructor(props) {
     super(props);
+
+    const sizeList = [
+      {label: "Small 720 x 480", value: ["720px", "480px"]},
+      {label: "Large 1440 x 1080", value: ["1440px", "1080px"]},
+      {label: "Fullscreen", value: ["100%", "100%"]}
+    ];
+
     this.state = {
       cartSize: undefined,
+      embedSize: sizeList[0],
       inCart: false,
-      openDialog: false
+      includeText: false,
+      openDialog: false,
+      sizes: sizeList
     };
   }
 
@@ -204,15 +214,38 @@ class Options extends Component {
   }
 
   toggleDialog(slug) {
+    console.log(slug);
     this.setState({openDialog: slug});
+  }
+
+  toggleText() {
+    const {includeText} = this.state;
+    this.setState({includeText: !includeText});
+  }
+
+  changeSize(e) {
+    const {sizes} = this.state;
+    this.setState({embedSize: sizes[e.target.value]});
+  }
+
+  onBlur(ref) {
+    this[ref].blur();
+  }
+
+  onFocus(ref) {
+    this[ref].select();
   }
 
   render() {
 
-    const {cartKey, data, slug, title} = this.props;
-    const {cartSize, inCart, openDialog} = this.state;
+    const {cartKey, data, location, slug, title, topic} = this.props;
+    const {cartSize, embedSize, inCart, includeText, openDialog, sizes} = this.state;
 
     const cartEnabled = cartKey && data && slug && title;
+
+    const baseURL = location.href.split("/").slice(0, 6).join("/");
+    const profileURL = `${baseURL}#${topic.slug}`;
+    const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
 
     // const profile = "test";
     // const url = `https://dataafrica.io/profile/${profile}/${slug}`;
@@ -228,10 +261,42 @@ class Options extends Component {
     //   <span className="option-label">View Data</span>
     // </div>
 
-    const DialogHeader = props => <div className="pt-dialog-header">
-      <img src={ `/images/viz/${ props.slug }.svg` } />
-      <h5>{ props.title }</h5>
-      <button aria-label="Close" className="pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
+    const ImagePanel = () => <div className="pt-dialog-body save-image">
+      <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
+        <Icon iconName="media" />PNG
+      </div>
+      <div className="save-image-btn" onClick={this.onSave.bind(this, "svg")}>
+        <Icon iconName="code-block" />SVG
+      </div>
+    </div>;
+
+    const SharePanel = () => <div className="pt-dialog-body share vertical">
+      <div className="horizontal social">
+        <div className="networks">
+          <a href={ `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileURL)}` } target="_blank" rel="noopener noreferrer">
+            <img className="network facebook" src="/images/viz/facebook.svg" />
+          </a>
+          <a href={ `https://twitter.com/home?status=${encodeURIComponent(profileURL)}` } target="_blank" rel="noopener noreferrer">
+            <img className="network twitter" src="/images/viz/twitter.svg" />
+          </a>
+        </div>
+        <input type="text" ref={input => this.shareLink = input} onClick={this.onFocus.bind(this, "shareLink")} onMouseLeave={this.onBlur.bind(this, "shareLink")} readOnly="readonly" value={profileURL} />
+      </div>
+      <div className="horizontal">
+        <img className="preview" src={ `/images/viz/mini-viz${includeText ? "-text" : ""}.png` } />
+        <div className="info">
+          <p>Copy and paste the following code to place an interactive version of this visualization on your website.</p>
+          <Checkbox checked={includeText} label="Include paragraph and stats" onChange={this.toggleText.bind(this)} />
+          <div className="pt-select">
+            <select value={sizes.indexOf(embedSize)} onChange={this.changeSize.bind(this)}>
+              { sizes.map((size, i) => <option key={i} value={i}>{size.label}</option>) }
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="embed-link">
+        <input type="text" ref={input => this.embedLink = input} onClick={this.onFocus.bind(this, "embedLink")} onMouseLeave={this.onBlur.bind(this, "embedLink")} readOnly="readonly" value={ `<iframe width="${embedSize.value[0]}" height="${embedSize.value[1]}" src="${embedURL}?viz=${includeText ? "false" : "true"}" frameborder="0" ></iframe>` } />
+      </div>
     </div>;
 
     return <div className="Options">
@@ -240,16 +305,16 @@ class Options extends Component {
         <span className="option-label">Save Image</span>
       </div>
 
-      <Dialog className="options-dialog" isOpen={openDialog === "save-image"} onClose={this.toggleDialog.bind(this, false)}>
-        <DialogHeader slug="save-image" title="Save Image" />
-        <div className="pt-dialog-body">
-          <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
-            <Icon iconName="media" />PNG
-          </div>
-          <div className="save-image-btn" onClick={this.onSave.bind(this, "svg")}>
-            <Icon iconName="code-block" />SVG
-          </div>
-        </div>
+      <div className="option share" onClick={this.toggleDialog.bind(this, "share")}>
+        <span className="option-label">Share / Embed</span>
+      </div>
+
+      <Dialog className="options-dialog" isOpen={openDialog} onClose={this.toggleDialog.bind(this, false)}>
+        <Tabs2 onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
+          <Tab2 id="save-image" title="Save Image" panel={<ImagePanel />} />
+          <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} />
+          <button aria-label="Close" className="close-button pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
+        </Tabs2>
       </Dialog>
 
       { cartEnabled ? <Tooltip2 placement="top-end">
@@ -272,4 +337,7 @@ Options.contextTypes = {
   formatters: PropTypes.object
 };
 
-export default connect(state => ({cartKey: state.env.CART}))(Options);
+export default connect(state => ({
+  cartKey: state.env.CART,
+  location: state.location
+}))(Options);

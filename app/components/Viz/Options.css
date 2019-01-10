@@ -60,28 +60,136 @@
         background-image: url("/images/viz/share-red.svg");
       }
     }
+    @media (max-width: 500px) {
+      & .option-label {
+        display: none;
+      }
+    }
   }
 }
 
 .options-dialog {
-  & .pt-dialog-body {
-    & .save-image-btn {
-      color: black;
-      cursor: pointer;
-      font-family: "Palanquin", sans-serif;
+  & .close-button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+  & input[type="text"] {
+    border: 1px solid #BDBDBD;
+    color: #949494;
+    font-family: "Palanquin", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    height: 35px;
+    padding: 0 13px 3px;
+    text-align: left;
+  }
+  & .pt-tab-list {
+    background: none;
+    letter-spacing: 0.1em;
+    padding: 10px 20px 0;
+    top: 0;
+    & .pt-tab-indicator {
+      background-color: var(--red);
+    }
+    & .pt-tab {
+      color: #333;
       font-size: 13px;
-      margin: 90px 20px;
-      opacity: 0.3;
-      text-align: center;
-      transition: opacity 0.1s;
-      width: 80px;
-      & .pt-icon-standard {
-        display: block;
-        font-size: 28px;
-        margin-bottom: 7px;
+      font-weight: 800;
+      text-transform: uppercase;
+      &[aria-selected="true"] {
+        color: #333;
       }
-      &:hover {
-        opacity: 0.7;
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+  & .pt-dialog-body {
+    margin: 25px 50px;
+    &.vertical {
+      flex-direction: column;
+    }
+    & .horizontal {
+      display: flex;
+    }
+    &.save-image {
+      & .save-image-btn {
+        color: black;
+        cursor: pointer;
+        font-family: "Palanquin", sans-serif;
+        font-size: 13px;
+        margin: 65px 20px;
+        opacity: 0.3;
+        text-align: center;
+        transition: opacity 0.1s;
+        width: 80px;
+        & .pt-icon-standard {
+          display: block;
+          font-size: 28px;
+          margin-bottom: 7px;
+        }
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+    &.share {
+      & .social {
+        align-items: center;
+        display: flex;
+        width: 100%;
+        & .networks {
+          margin-right: 20px;
+          text-align: center;
+          width: 105px;
+          & .network {
+            display: inline-block;
+            margin: 0 13px;
+            opacity: 0.3;
+            transition: opacity 0.1s;
+            &.facebook {
+              width: 12px;
+            }
+            &.twitter {
+              width: 22px;
+            }
+            &:hover {
+              opacity: 0.5;
+            }
+          }
+        }
+        & input {
+          flex: 1;
+        }
+      }
+      & .preview {
+        height: 79px;
+        margin: 10px 20px 15px 0;
+        width: 105px;
+      }
+      & .info {
+        color: #949494;
+        font-size: 12px;
+        font-weight: 600;
+        margin: 15px 0;
+        & .pt-checkbox {
+          display: inline-block;
+          margin: 8px 0 0;
+          vertical-align: bottom;
+        }
+        & .pt-select {
+          display: inline-block;
+          float: right;
+          margin: 0;
+          vertical-align: baseline;
+        }
+      }
+      & .embed-link {
+        width: 100%;
+        & input {
+          width: 100%;
+        }
       }
     }
   }

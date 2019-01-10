@@ -10,7 +10,7 @@ module.exports = function(sequelize, db) {
       title: {
         type: db.STRING,
         defaultValue: "New Section"
-      },      
+      },
       slug: {
         type: db.STRING,
         defaultValue: "new-section-slug"
@@ -21,7 +21,7 @@ module.exports = function(sequelize, db) {
         type: db.STRING,
         defaultValue: "always"
       }
-    }, 
+    },
     {
       freezeTableName: true,
       timestamps: false

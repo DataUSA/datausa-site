@@ -48,7 +48,11 @@ const topicReq = [
   {association: "descriptions", separate: true},
   {association: "visualizations", separate: true},
   {association: "stats", separate: true},
-  {association: "selectors", separate: true}
+  {association: "selectors", separate: true},
+  {
+    association: "section",
+    attributes: ["slug"]
+  }
 ];
 
 const storyReq = {
@@ -259,6 +263,11 @@ module.exports = function(app) {
         returnObject.variables = variables;
         returnObject.breadcrumbs = breadcrumbs;
         returnObject.image = image;
+        returnObject.sections.forEach(section => {
+          section.topics.forEach(topic => {
+            topic.section = section.slug;
+          });
+        });
         if (verbose) console.log("varSwap complete, sending json...");
         res.json(returnObject).end();
       })
@@ -295,6 +304,7 @@ module.exports = function(app) {
         const formatters = resp[1];
         const formatterFunctions = formatters4eval(formatters);
         const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
+        topic.section = topic.section.slug;
         if (topic.subtitles) topic.subtitles.sort(sorter);
         if (topic.selectors) topic.selectors.sort(sorter);
         if (topic.stats) topic.stats.sort(sorter);

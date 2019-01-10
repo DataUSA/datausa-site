@@ -32,13 +32,34 @@ class TextViz extends Component {
   }
 
   render() {
-    const {variables} = this.context;
+    const {router, variables} = this.context;
     const {sources} = this.props;
     const {contents, loading} = this.state;
     const {descriptions, selectors, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
 
     const miniviz = visualizations.length > 1 ? visualizations[0] : false;
     const mainviz = visualizations.length > 1 ? visualizations.slice(1) : visualizations;
+
+    if (router.location.query.viz === "true") {
+      return <div className={ `topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>
+        <div className="topic-content">
+          { title &&
+            <h3 className="topic-title">
+              <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
+            </h3>
+          }
+          { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
+          { selectors.map(selector => <div className="pt-select pt-fill" key={selector.name}>
+            <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
+              { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
+            </select>
+          </div>) }
+          { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
+        </div>
+        { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+        <SourceGroup sources={sources} />
+      </div>;
+    }
 
     const statGroups = nest().key(d => d.title).entries(stats);
 
@@ -62,10 +83,10 @@ class TextViz extends Component {
           { descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
           { loading && <NonIdealState visual={<Spinner />} /> }
         </div>
-        { miniviz && <Viz config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
+        { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
         <SourceGroup sources={sources} />
       </div>
-      { mainviz.map((visualization, ii) => <Viz config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+      { mainviz.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
     </div>;
   }
 
