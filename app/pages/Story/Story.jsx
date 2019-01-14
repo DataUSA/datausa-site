@@ -46,11 +46,11 @@ class Story extends Component {
           </div>
         </div>
         { topics.map((t, i) => <TextViz contents={t} key={i} />) }
-        <div className="meta-info">
+        { footnotes && <div className="meta-info">
           <ol className="footnotes">
             { footnotes.map((footnote, i) => <li className="footnote" id={`footnote${i}`} key={i} dangerouslySetInnerHTML={{__html: footnote}}></li>) }
           </ol>
-        </div>
+        </div> }
         <div className="meta-info dark">
           { authors.map((a, i) =>
             <div key={i} id={slugify(a.name)} className="author">

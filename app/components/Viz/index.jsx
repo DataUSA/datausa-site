@@ -42,7 +42,7 @@ class Viz extends Component {
         data={ vizProps.config.cart || vizProps.config.data }
         dataFormat={ vizProps.dataFormat }
         slug={ slug }
-        title={ formatters.stripHTML(title) }
+        title={ formatters.stripHTML(title || "Data USA Visualization") }
         topic={ topic } /> : null }
       <Visualization
         ref={ comp => this.viz = comp }

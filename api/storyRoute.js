@@ -39,6 +39,7 @@ module.exports = function(app) {
         if (!topic.selectors) topic.selectors = [];
         if (!topic.stats) topic.stats = [];
         if (!topic.descriptions) topic.descriptions = [];
+        if (!(topic.descriptions instanceof Array)) topic.descriptions = [topic.descriptions];
         topic.descriptions = topic.descriptions.map(description => {
           const text = description
             .replace(/\<\<foot note=([0-9]+)\>\>/g, (match, g1) =>

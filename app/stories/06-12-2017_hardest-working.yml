@@ -19,7 +19,7 @@ topics:
           year: "2014"
       id: "geo"
       type: "Geomap"
-    description:
+    descriptions:
       - "Many believe Americans have a deserved reputation for being among the hardest-working and most productive people on the planet. But where in the United States do people work the longest hours? High-energy New Yorkers would love to claim that title as their own, but residents of other large urban areas, such as Washington, D.C., may disagree. And in fact, D.C. denizens do work the longest hours when aggregated to the state level. But this high-level view obscures some interesting insights—for instance, none of the Public Use Micro Areas (PUMAs) that comprise the nation’s capital make the top ten individually. In fact, the top three places nationally may surprise you. The three PUMAs reporting the longest weekly hours are:"
       - "<ol>
           <li><a href='/profile/geo/79500US2901400/'>Pulaski, Camden, Miller, and Morgan counties, Missouri</a>: 48.7 hours</li>
@@ -29,7 +29,7 @@ topics:
       - "This is an eclectic mix of the fabled American heartland,<<foot note=1>> the majestic and partially uncharted extreme Northwest, and the electric Northeast. Each of these places is radically different from the others in its history, industry, and character. Many likely would have expected the upscale Manhattan neighborhoods to appear on this list, considering New Yorkers’ reputation for being awake (and at work) at all hours. But the cluster of Missouri counties won’t immediately spring to most minds when this question is asked—save possibly for those who live there. However, the data tells us that their inclusion is entirely on merit. Finally, there’s Subsistence Alaska, which conjures up images of grand vistas and survivalist serenity. This collection of rural Alaskan boroughs has an above-average concentration of native hunting and fishing—as well as resource extraction—and features a lifestyle fundamentally different to almost anywhere in the United States."
       - "Let’s take a closer look at the types of people we might find in each of these places. On the surface, the three geographies could not be more different, but if we dig a little deeper, we may find some similarities."
   - title: "Median Household Income"
-    description: "A good place to start is with median household income, and as we’ll see, longer hours do not necessarily mean higher wages. The New York neighborhoods lead the way with $118,108, more than double the $53,482 US average. Subsistence Alaska, at $56,736, is more or less in line with the national average. The Missourian suburbs come a distant third, with a median household income of $42,812. This seems to make sense: Wages appear to align much more closely to cost of living rather than hours worked, and, as anyone who has visited can attest, Manhattan is quite expensive."
+    descriptions: "A good place to start is with median household income, and as we’ll see, longer hours do not necessarily mean higher wages. The New York neighborhoods lead the way with $118,108, more than double the $53,482 US average. Subsistence Alaska, at $56,736, is more or less in line with the national average. The Missourian suburbs come a distant third, with a median household income of $42,812. This seems to make sense: Wages appear to align much more closely to cost of living rather than hours worked, and, as anyone who has visited can attest, Manhattan is quite expensive."
     viz:
       attrs: "geo"
       data:
