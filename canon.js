@@ -21,7 +21,7 @@ module.exports = {
             .filter(d => d.dimension === "Geography")
             .map(d => d.id instanceof Array ? d.id : [d.id]));
           const bigGeos = ids.every(g => pops[g] && pops[g] >= 250000);
-          const tracts = query.dimensions.filter(d => d.relation.includes("Tract")).length;
+          const tracts = query.dimensions.filter(d => (d.relation || "").includes("Tract")).length;
           return cubes.filter(cube => cube.name.match(bigGeos && !tracts ? /_1$/g : /_5$/g));
         },
         key: cube => cube.name.replace(/_[0-9]$/g, "")
@@ -68,6 +68,10 @@ module.exports = {
         },
         parents: {
           url: id => `${CANON_API}/api/parents/geo/${id}`,
+          callback: arr => arr.map(d => d.id)
+        },
+        similar: {
+          url: id => `${CANON_API}/api/geo/similar/${id}`,
           callback: arr => arr.map(d => d.id)
         }
       },
