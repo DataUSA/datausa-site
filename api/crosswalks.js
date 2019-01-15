@@ -37,14 +37,26 @@ module.exports = function(app) {
       drilldown = level || "Tract";
     }
     else if (prefix === "310") { // MSA
-      cut = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
-        .then(resp => resp.data)
-        .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid);
-      drilldown = level || "County";
+      if (level === "Tract") {
+        cut = id;
+        drilldown = "MSA-Tract";
+      }
+      else {
+        cut = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
+          .then(resp => resp.data)
+          .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid);
+        drilldown = level || "County";
+      }
     }
     else if (prefix === "160") { // Place
-      cut = `040${id.slice(3, 9)}`;
-      drilldown = level || "Place";
+      if (level === "Tract") {
+        cut = id;
+        drilldown = "Place-Tract";
+      }
+      else {
+        cut = `040${id.slice(3, 9)}`;
+        drilldown = level || "Place";
+      }
     }
     else if (prefix === "795") { // Puma
       cut = `040${id.slice(3, 9)}`;
