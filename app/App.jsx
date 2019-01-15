@@ -45,7 +45,7 @@ class App extends Component {
                        pathname.indexOf("visualize") === 0 ||
                        pathname.indexOf("search") === 0;
 
-    const bare = pathname.includes("profile") && pathname.split("/").length === 5;
+    const bare = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
     const beta = true;
 
     return (
