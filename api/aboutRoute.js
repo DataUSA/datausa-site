@@ -136,6 +136,24 @@ module.exports = function(app) {
               "Carlos is an industrial engineer that loves web programming. Since attending University of Concepción, he has tried to make technology more accessible to the people.",
               "When not coding, Carlos attempts to be a pastry cook. He is a real fan of milk caramel spread."
             ]
+          },
+          {
+            name: "Pablo H. Paladino",
+            img: "/images/story/authors/paladino.png",
+            title: "Front-End Developer",
+            about: [
+              "Pala has a degree in System Analysis focused in frontend development and interactive data visualization. An open data activist, he has built solutions and interactive pieces based on data driven journalism. He previously worked as a software developer and consultant in the modernization units for both the Argentinian and Chilean governments.",
+              "Music, soccer, bike and banana lover."
+            ]
+          },
+          {
+            name: "Victor Bebo",
+            img: "/images/story/authors/bebo.png",
+            title: "Operations Manager",
+            about: [
+              "Victor has a diverse employment background; he has worked at a sheet metal shop, as a plumber, and for a decade at Apple. In school he studied psychology & philosophy. He now handles logistics at Datawheel so the team can focus on their craft.",
+              "When OOO you can find him playing video games, watching movies (preferably 35mm), at a table playing D&D, or watching Twitch Streams, typically while snugging his cat, Nebula."
+            ]
           }
         ]
       },
