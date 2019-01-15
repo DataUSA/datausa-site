@@ -126,9 +126,15 @@ module.exports = function(app) {
 
     if (dimension === "Geography") {
       if (id === "01000US") {
-        attrs = await axios.get(`${CANON_API}/api/search?dimension=Geography&limit=${(limit || 6) + 1}`)
-          .then(resp => resp.data.results);
-        attrs = attrs.filter(d => d.id !== id);
+        const states = await axios.get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
+          .then(resp => {
+            const arr = resp.data.data;
+            const l = Math.ceil(parseFloat(limit || 6) / 2);
+            return arr.slice(0, l).concat(arr.slice(-l));
+          });
+        attrs = states.length ? await db.search
+          .findAll({where: {id: states.map(d => d["ID State"]), dimension}})
+          .catch(err => res.json(err)) : [];
       }
       else {
         const prefix = id.slice(0, 3);
@@ -342,35 +348,38 @@ module.exports = function(app) {
 
     const {slug, id} = req.params;
     const {dimension} = await db.profiles.findOne({where: {slug}});
-    const attr = await db.search.findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
+    const attr = await db.search
+      .findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
       .catch(err => res.json(err));
 
-    if (dimension === "Geography") {
-      if (attr.id === "01000US") res.json([]);
-      const prefix = attr.id.slice(0, 3);
+    if (attr) {
+      if (dimension === "Geography") {
+        if (attr.id === "01000US") res.json([]);
+        const prefix = attr.id.slice(0, 3);
 
-      const targetLevels = prefix === "040" ? "nation" /* state */
-        : prefix === "050" ? "state,msa" /* county */
-          : prefix === "310" ? "state" /* msa */
-            : prefix === "160" ? "state,county,msa" /* place */
-              : prefix === "795" ? "state" /* puma */
-                : false;
+        const targetLevels = prefix === "040" ? "nation" /* state */
+          : prefix === "050" ? "state,msa" /* county */
+            : prefix === "310" ? "state" /* msa */
+              : prefix === "160" ? "state,county,msa" /* place */
+                : prefix === "795" ? "state" /* puma */
+                  : false;
 
-      const url = targetLevels
-        ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}`
-        : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}`;
+        const url = targetLevels
+          ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}`
+          : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}`;
 
-      const parents = await axios.get(url).then(resp => resp.data);
-      const ids = parents.map(d => d.geoid);
-      if (!ids.includes("01000US")) ids.unshift("01000US");
-      const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
-      res.json(attrs.sort((a, b) => geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy)));
-    }
-    else {
-      const parents = cache.parents[slug] || {};
-      const ids = parents[attr.id] || [];
-      const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
-      res.json(attrs);
+        const parents = await axios.get(url).then(resp => resp.data);
+        const ids = parents.map(d => d.geoid);
+        if (!ids.includes("01000US")) ids.unshift("01000US");
+        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
+        res.json(attrs.sort((a, b) => geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy)));
+      }
+      else {
+        const parents = cache.parents[slug] || {};
+        const ids = parents[attr.id] || [];
+        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
+        res.json(attrs);
+      }
     }
 
   });
