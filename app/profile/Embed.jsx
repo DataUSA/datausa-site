@@ -26,15 +26,15 @@ class Embed extends Component {
 
     const joiner = contents.variables.Dimension === "Geography" ? "in" : "for";
     const metaTitle = `${formatters.stripHTML(title)} ${joiner} ${name}`;
-    const metaDesc = formatters.stripHTML(contents.descriptions[0].description);
+    const metaDesc = formatters.stripHTML(contents.descriptions.length ? contents.descriptions[0].description : "");
 
     return <div id="Embed">
       <Helmet>
         <title>{ metaTitle }</title>
         <meta property="og:title" content={ metaTitle } />
-        <meta name="description" content={ metaDesc } />
+        { metaDesc.length ? <meta name="description" content={ metaDesc } /> : null }
         <meta property="og:image" content={ `${origin}/api/profile/${pslug}/${pid}/splash` } />
-        <meta property="og:description" content={ metaDesc } />
+        { metaDesc.length ? <meta property="og:description" content={ metaDesc } /> : null }
       </Helmet>
       <Topic contents={contents} />
     </div>;
