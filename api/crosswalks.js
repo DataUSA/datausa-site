@@ -348,9 +348,13 @@ module.exports = function(app) {
 
     const {slug, id} = req.params;
     const {dimension} = await db.profiles.findOne({where: {slug}});
+
     const attr = await db.search
       .findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
-      .catch(err => res.json(err));
+      .catch(err => {
+        res.json(err);
+        return false;
+      });
 
     if (attr) {
       if (dimension === "Geography") {
