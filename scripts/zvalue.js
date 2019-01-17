@@ -1,17 +1,9 @@
 #! /usr/bin/env node
 
 const {Client} = require("mondrian-rest-client"),
-      PromiseThrottle = require("promise-throttle"),
       Sequelize = require("sequelize"),
       d3Array = require("d3-array"),
-      fs = require("fs"),
-      readline = require("readline"),
-      shell = require("shelljs");
-
-// const throttle = new PromiseThrottle({
-//   requestsPerSecond: 10,
-//   promiseImplementation: Promise
-// });
+      fs = require("fs");
 
 const {CANON_LOGICLAYER_CUBE} = process.env;
 const client = new Client(CANON_LOGICLAYER_CUBE);
@@ -62,9 +54,9 @@ async function start() {
 
   const cube = await client.cube(cubeName);
 
-  // const levels = cube.dimensionsByName[dimension].hierarchies[0].levels.slice(1);
   const levels = cube.dimensionsByName[dimension].hierarchies
-    .filter(d => ["Nation", "Place", "County", "State", "MSA", "PUMA"].includes(d.name));
+    // .filter(d => ["Nation", "Place", "County", "State", "MSA", "PUMA"].includes(d.name));
+    .filter(d => ["Zip"].includes(d.name));
   // .filter(d => ["State"].includes(d.name));
 
   let fullList = [];
@@ -98,16 +90,6 @@ async function start() {
 
   const keys = Object.keys(fullList[0]);
 
-  // let csv = keys.join(",");
-  // fullList.forEach(obj => {
-  //   csv += `\n${keys.map(key => `\"${obj[key]}\"`)}`;
-  // });
-
-  // fs.writeFile("./scripts/search.csv", csv, "utf8", err => {
-  //   if (err) console.log(err);
-  //   else console.log("created scripts/search.csv");
-  // });
-
   let txt = `INSERT INTO search (${keys.join(", ")})\nVALUES `;
   fullList.forEach((obj, i) => {
     txt += `${i ? "," : ""}\n(${keys.map(key => `\'${`${obj[key]}`.replace(/\'/g, "''")}\'`)})`;
@@ -118,54 +100,6 @@ async function start() {
     if (err) console.log(err);
     else console.log("created scripts/zvalue-query.txt");
   });
-
-  // let created = 0;
-  // let completed = 0;
-  // const total = fullList.length;
-  // console.log("");
-
-  // const errors = [];
-
-  /** */
-  // function updateDB(obj) {
-  //   const {id, dimension, hierarchy} = obj;
-  //   return db.search
-  //     .findOrCreate({
-  //       where: {id, dimension, hierarchy},
-  //       defaults: obj
-  //     })
-  //     .then(([row, newlyCreated]) => {
-  //       readline.clearLine(process.stdout, 0);
-  //       readline.cursorTo(process.stdout, 0);
-  //       completed++;
-  //       const percentage = completed / total;
-  //       process.stdout.write(`${(percentage * 100).toFixed(0)}% (${completed} out of ${total})`);
-  //       if (newlyCreated) {
-  //         created++;
-  //         return row;
-  //       }
-  //       else return row.update(obj);
-  //     })
-  //     .catch(() => {
-  //       readline.clearLine(process.stdout, 0);
-  //       readline.cursorTo(process.stdout, 0);
-  //       completed++;
-  //       const percentage = completed / total;
-  //       process.stdout.write(`${(percentage * 100).toFixed(0)}% (${completed} out of ${total})`);
-  //       errors.push(obj);
-  //     });
-  // }
-
-  // const queries = fullList.map(obj => throttle.add(updateDB.bind(this, obj)));
-
-  // await Promise.all(queries);
-  // console.log(`\nUpdated ${total - created} existing rows.`);
-  // console.log(`Created ${created} new rows.\n`);
-  // errors.forEach(obj => {
-  //   console.log(`Timeout Error: ${obj.id} ${obj.zvalue}`);
-  // });
-
-  // shell.exit(0);
 
 }
 
