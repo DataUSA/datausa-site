@@ -123,8 +123,8 @@ class Visualize extends Component {
 
     if (intro) {
       return <div id="Visualize" className="visualize-intro">
-        <Helmet title="Visualization Builder" />
-        <h1>Visualization Builder</h1>
+        <Helmet title="Viz Builder" />
+        <h1>Viz Builder</h1>
         <p>
           Welcome to the Data USA custom visualization builder. This page allows you to select any indicator from the site. You may specify custom groupings and filters, and then view the resulting data as a series of visualizations based on your selection.
         </p>
@@ -146,7 +146,7 @@ class Visualize extends Component {
 
       return <div id="Visualize">
 
-        { query ? <Helmet title={`${query.title ? `${query.title} | ` : ""}Visualization Builder`} /> : null }
+        { query ? <Helmet title={`${query.title ? `${query.title} | ` : ""}Viz Builder`} /> : null }
 
         <div className="help" onClick={this.showIntro.bind(this)}>
           <Icon iconName="help" />

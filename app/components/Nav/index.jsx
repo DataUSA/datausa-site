@@ -95,7 +95,7 @@ export default class Nav extends Component {
               </ul>
             </li>
             <li>
-              <Link className="new" to="/visualize">Visualization Builder</Link>
+              <Link className="new" to="/visualize">Viz Builder</Link>
             </li>
             <li>
               <Link to="/map">Maps</Link>

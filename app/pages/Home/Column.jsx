@@ -38,7 +38,7 @@ class Column extends Component {
 
     return (
       <div className={ `column ${className} rank-${data.rank}` }>
-        <h3 className="column-title">
+        <h3 className={ `column-title ${ data.new ? "new" : "" }` }>
           <Link to={data.url}>
             <img className="icon" src={ data.icon } />
             { data.title }

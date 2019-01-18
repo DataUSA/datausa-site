@@ -22,6 +22,17 @@
         text-decoration: none;
       }
     }
+    &.new:after {
+      color: var(--red);
+      content: "New";
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-block;
+      letter-spacing: 1px;
+      margin-left: 5px;
+      text-transform: uppercase;
+      vertical-align: top;
+    }
   }
   &.primary {
     display: inline-block;
