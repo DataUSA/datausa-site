@@ -1,8 +1,34 @@
-const shell = require("shelljs"),
+const buble = require("buble"),
+      shell = require("shelljs"),
       yaml = require("node-yaml");
 
 const storyDir = "app/stories/";
 const featured = ["06-12-2017_medicare-physicians"];
+
+const isLogic = [
+  "sum",
+  "dataFormat"
+];
+
+const bubleSwap = obj => {
+  console.log(obj);
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (isLogic.includes(key)) {
+        let code = buble.transform(obj[key]).code; 
+        if (code.startsWith("!")) code = code.slice(1);
+        obj[key] = code;
+      }
+      else if (Array.isArray(obj[key])) {
+        obj[key] = obj[key].map(o => bubleSwap(o));
+      }
+      else if (typeof obj[key] === "object" && obj[key] !== null) {
+        obj[key] = bubleSwap(obj[key]);
+      }
+    }
+  }
+  return obj;
+};
 
 module.exports = function(app) {
 
@@ -48,10 +74,10 @@ module.exports = function(app) {
           return {description: text};
         });
         if (!topic.visualizations) topic.visualizations = [];
-        if (!topic.type) topic.type = "TextViz";
-
         if (!(topic.visualizations instanceof Array)) topic.visualizations = [topic.visualizations];
+        topic.visualizations = topic.visualizations.map(v => bubleSwap(v));
         topic.visualizations = topic.visualizations.map(obj => ({logic: `return ${JSON.stringify(obj)}`}));
+        if (!topic.type) topic.type = "TextViz";
       });
       res.json(contents).end();
     }
