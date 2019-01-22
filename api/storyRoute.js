@@ -15,7 +15,7 @@ const bubleSwap = obj => {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       if (isLogic.includes(key)) {
-        let code = buble.transform(obj[key]).code; 
+        let code = buble.transform(obj[key]).code;
         if (code.startsWith("!")) code = code.slice(1);
         obj[key] = code;
       }
@@ -75,8 +75,7 @@ module.exports = function(app) {
         });
         if (!topic.visualizations) topic.visualizations = [];
         if (!(topic.visualizations instanceof Array)) topic.visualizations = [topic.visualizations];
-        topic.visualizations = topic.visualizations.map(v => bubleSwap(v));
-        topic.visualizations = topic.visualizations.map(obj => ({logic: `return ${JSON.stringify(obj)}`}));
+        topic.visualizations = topic.visualizations.map(obj => ({logic: bubleSwap(`return {${obj}};`)}));
         if (!topic.type) topic.type = "TextViz";
       });
       res.json(contents).end();

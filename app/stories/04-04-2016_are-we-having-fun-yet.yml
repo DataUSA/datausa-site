@@ -13,29 +13,13 @@ topics:
       - "In an economy of growing wealth, certain industries stand out as ripe for growth. Arts, Entertainment, and Recreation is one of these. And it’s an industry that looks pretty appealing to work in. Athletes! Rock stars! Movie directors! These are all occupations that help define this industry—and who can resist an industry where workers get to choose the colors of their jelly beans?"
       - "Now, not everybody who works in the industry is a rock star—or an athlete.  But a surprising share of employees in the industry do, in fact, have something to do with athletics. The tree map for occupations in Arts, Entertainment, and Recreation (below) shows that a few categories related to athletics (recreation and fitness workers, Lifeguards, and athletes, coaches and related workers) make up about 15% of workers in the industry. But that’s about it. Most of the other workers are generic service industry workers. Cashiers, cooks, ground maintenance workers, janitors and so on have to live on reflected glamor. Actors, writers, producers, dancers make up at most about 2% of the industry’s employees."
   - title: Occupations by Share for Arts, Entertainment & Recreation Industry
-  - visualizations: 
-      - data: "/api/data?PUMS%20Industry=71&measure=Total%20Population,Total%20Population%20MOE%20Appx,Average%20Wage,Average%20Wage%20Appx%20MOE&Workforce%20Status=true&drilldowns=Detailed%20Occupation&parents=true"
-        groupBy: 
-          - "Major Occupation Group" 
-          - "Detailed Occupation"
-        sum: "d => d[\"Total Population\"]"
-        time: "Year"
-        type: "Treemap"
-      - data: 
-          - name: "a"
-            x: 3
-            y: 4
-          - name: "b"
-            x: 5
-            y: 7
-        type: "BarChart"
-        groupBy: "name"
-        x: "x"
-        y: "y"
-        dataFormat: "d => d"
-
-
-
+  - visualizations:
+      - >-
+          data: "/api/data?PUMS%20Industry=71&measure=Total%20Population,Total%20Population%20MOE%20Appx,Average%20Wage,Average%20Wage%20Appx%20MOE&Workforce%20Status=true&drilldowns=Detailed%20Occupation&parents=true",
+          groupBy: ["Major Occupation Group", "Detailed Occupation"],
+          sum: d => d["Total Population"],
+          time: "Year",
+          type: "Treemap"
   - descriptions:
       - "So it’s not so surprising that wages in Arts, Entertainment, and Recreation are about the same as in Retail. What’s a bit more surprising is that wages skew very low—and there are fewer high-earning “superstars” in Arts, Entertainment, and Recreation than in the economy as a whole."
       - "The relatively large number of very low income workers may reflect the line from a famous pop song goes, “all the stars that never were are parking cars and pumping gas.”<<foot note=1>> Or it may reflect the part-time nature of many of these jobs."

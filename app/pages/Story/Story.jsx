@@ -6,7 +6,7 @@ import {Helmet} from "react-helmet";
 import {AnchorLink, fetchData} from "@datawheel/canon-core";
 import slugify from "toCanon/slugify";
 import Splash from "toCanon/Splash";
-import TextViz from "toCanon/topics/TextViz";
+import Topic from "toCanon/Topic";
 
 import "./Story.css";
 
@@ -45,7 +45,7 @@ class Story extends Component {
             <p>Published on { formatters.date(date) }</p>
           </div>
         </div>
-        { topics.map((t, i) => <TextViz contents={t} key={i} />) }
+        { topics.map((t, i) => <Topic contents={t} key={i} />) }
         { footnotes && <div className="meta-info">
           <ol className="footnotes">
             { footnotes.map((footnote, i) => <li className="footnote" id={`footnote${i}`} key={i} dangerouslySetInnerHTML={{__html: footnote}}></li>) }
