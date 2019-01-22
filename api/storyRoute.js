@@ -10,24 +10,10 @@ const isLogic = [
   "dataFormat"
 ];
 
-const bubleSwap = obj => {
-  console.log(obj);
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      if (isLogic.includes(key)) {
-        let code = buble.transform(obj[key]).code;
-        if (code.startsWith("!")) code = code.slice(1);
-        obj[key] = code;
-      }
-      else if (Array.isArray(obj[key])) {
-        obj[key] = obj[key].map(o => bubleSwap(o));
-      }
-      else if (typeof obj[key] === "object" && obj[key] !== null) {
-        obj[key] = bubleSwap(obj[key]);
-      }
-    }
-  }
-  return obj;
+const bubleSwap = str => {
+  let code = buble.transform(str).code;
+  if (code.startsWith("!")) code = code.slice(1);
+  return code;
 };
 
 module.exports = function(app) {
@@ -75,7 +61,7 @@ module.exports = function(app) {
         });
         if (!topic.visualizations) topic.visualizations = [];
         if (!(topic.visualizations instanceof Array)) topic.visualizations = [topic.visualizations];
-        topic.visualizations = topic.visualizations.map(obj => ({logic: bubleSwap(`return {${obj}};`)}));
+        topic.visualizations = topic.visualizations.map(obj => ({logic: bubleSwap(obj)}));
         if (!topic.type) topic.type = "TextViz";
       });
       res.json(contents).end();

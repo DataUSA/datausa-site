@@ -15,11 +15,48 @@ topics:
   - title: Occupations by Share for Arts, Entertainment & Recreation Industry
   - visualizations:
       - >-
-          data: "/api/data?PUMS%20Industry=71&measure=Total%20Population,Total%20Population%20MOE%20Appx,Average%20Wage,Average%20Wage%20Appx%20MOE&Workforce%20Status=true&drilldowns=Detailed%20Occupation&parents=true",
-          groupBy: ["Major Occupation Group", "Detailed Occupation"],
-          sum: d => d["Total Population"],
-          time: "Year",
-          type: "Treemap"
+          const colorOccPUMS = {
+            "110000-290000": "#ff8166",
+            "310000-390000": "#ffb563",
+            "410000-430000": "#1a9b9a",
+            "450000-490000": "#336a81",
+            "510000-530000": "#49418e",
+            "550000": "#2f1fc1"
+          };
+          const iconOccPUMS = {
+            "110000-290000": "/icons/visualizations/thing_computer.png",
+            "310000-390000": "/icons/visualizations/thing_utensils.png",
+            "410000-430000": "/icons/visualizations/thing_box.png",
+            "450000-490000": "/icons/visualizations/thing_wrench.png",
+            "510000-530000": "/icons/visualizations/thing_truck.png",
+            "550000": "/icons/visualizations/thing_airplane.png"
+          };
+          const {commas, salary} = formatters;
+          return {
+            data: "/api/data?PUMS%20Industry=71&measure=Total%20Population,Total%20Population%20MOE%20Appx,Average%20Wage,Average%20Wage%20Appx%20MOE&Workforce%20Status=true&drilldowns=Detailed%20Occupation&parents=true",
+            groupBy: ["Major Occupation Group", "Detailed Occupation"],
+            sum: d => d["Total Population"],
+            shapeConfig: {
+              fill: d => colorOccPUMS[d["ID Major Occupation Group"]]
+            },
+            legendConfig: {
+              label: false,
+              shapeConfig: {
+                backgroundImage: d => iconOccPUMS[d["ID Major Occupation Group"]]
+              }
+            },
+            tooltipConfig: {
+              tbody: [
+                ["Year", d => d.Year],
+                ["People in Workforce", d => commas(d["Total Population"])],
+                ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+                ["Average Salary", d => salary(d["Average Wage"])],
+                ["Margin of Error", d => `± ${salary(d["Average Wage Appx MOE"])}`]
+              ]
+            },
+            time: "Year",
+            type: "Treemap"
+          };
   - descriptions:
       - "So it’s not so surprising that wages in Arts, Entertainment, and Recreation are about the same as in Retail. What’s a bit more surprising is that wages skew very low—and there are fewer high-earning “superstars” in Arts, Entertainment, and Recreation than in the economy as a whole."
       - "The relatively large number of very low income workers may reflect the line from a famous pop song goes, “all the stars that never were are parking cars and pumping gas.”<<foot note=1>> Or it may reflect the part-time nature of many of these jobs."
