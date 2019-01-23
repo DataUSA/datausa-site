@@ -17,14 +17,40 @@ topics:
       - "Diabetes is costly for the US health care system and the individuals who suffer from the chronic condition. The American Diabetes Association reported that in 2012 the disease’s total estimated cost was $245 billion – $176 billion in direct medical costs and the remainder in reduced productivity. The human cost also is significant – people with diabetes can lose their vision, limbs, sense of touch and – as diabetes progresses – it can turn into end-stage renal disease (ESRD), an even costlier and more challenging condition."
       - "Mississippi leads the nation in measures of both obesity and diabetes. Obesity is measured as a body mass index (BMI) above 30 – the ratio of someone’s weight and height (BMI=kg/m squared). About 35 percent of the state’s adult population is obese and 13 percent of Mississippians have diabetes."
       - "Colorado is at the other end of the spectrum – 20 percent of that state’s population is obese and 6.8 percent has diabetes."
-    viz:
-      attrs: "geo"
-      data:
-        show: geo
-        sumlevel: state
-        required: "diabetes,adult_obesity,population_estimate"
-      id: "geo"
-      size: "population_estimate"
-      type: "scatter"
-      x: "diabetes"
-      y: "adult_obesity"
+  - visualizations: 
+    - >-
+      const {abbreviate, growthPct} = formatters;
+
+      return {
+        data: "/api/data?drilldowns=State&measures=Diabetes%20Prevalence%20Data%20Source%20Years,Adult%20Obesity%20Data%20Source%20Years,Population,Adult%20Obesity,Diabetes%20Prevalence&Year=2015,2016,2017",
+        dataFormat: d => d.data.map(o => {
+          o["Diabetes Prevalence"] *= 100;
+          o["Adult Obesity"] *= 100;
+          return o; 
+        }).filter(o => o["State"] != "District of Columbia" && o["State"] != "Puerto Rico"),
+        type: "Plot",
+        size: "Population",
+        groupBy: ["State"],
+        time: "Year",
+        x: "Diabetes Prevalence",
+        xConfig: {
+          tickFormat: d => growthPct(d),
+          title: "Diabetes Prevalence"
+        },
+        y: "Adult Obesity",
+        yConfig: {
+          tickFormat: d => growthPct(d),
+          title: "Obesity Prevalence"
+        },
+        tooltipConfig: {
+          tbody: [           
+            ["Year", d => d["Year"]],
+            ["Diabetes Prevalence", d => growthPct(d["Diabetes Prevalence"])],
+            ["Collection Year", d => d["Diabetes Prevalence Data Source Years"]],
+            ["Obesity Prevalence", d => growthPct(d["Adult Obesity"])],
+            ["Collection Year", d => d["Adult Obesity Data Source Years"]],
+            ["Population Estimate", d => abbreviate(d["Population"])]
+          ]
+        },
+        height: 500
+      }
