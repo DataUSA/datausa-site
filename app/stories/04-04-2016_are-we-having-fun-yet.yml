@@ -63,6 +63,56 @@ topics:
       - "It’s not surprising that glamor and money and fame, don’t really characterize jobs in the Arts, Entertainment and Recreation industry. You probably didn’t really think that they did. Even if you—like all of us—dreamed of someday being a star. "
   - title: Industry Wage Distribution
     class: constrained
+  - visualizations: 
+    - >-
+      /* TODO: fix by finding how to do wageDistNation */
+      const {colorGrey, colorHighlight, id, wageDistNation} = variables;
+      const {nest, sum} = libs.d3;
+      const {abbreviate, commas} = formatters;
+
+      const measure = "Total Population";
+
+      return {
+        data: `/api/data?PUMS%20Industry=71&measure=Total%20Population,Total%20Population%20MOE%20Appx,Record%20Count&drilldowns=Wage%20Bin&Workforce%20Status=true&Record%20Count>=5`,
+        dataFormat: resp => {
+          const data = wageDistNation.map(d => ({...d, title: "USA"})).concat(resp.data.map(d => ({...d, title: d["PUMS Occupation"]})));
+          libs.d3.nest()
+            .key(d => `${d.Year}_${d.title}`)
+            .entries(data)
+            .forEach(group => {
+              const total = sum(group.values, d => d[measure]);
+              group.values.forEach(d => d.share = d[measure] / total);
+            });
+
+          return data;
+        },
+        groupBy: "title",
+        shapeConfig: {
+          fill: d => d.title === "USA" ? colorGrey : colorHighlight
+        },
+        time: "Year",
+        tooltipConfig: {
+          tbody: [
+            ["Year", d => d.Year],
+            ["Wage Bin", d => d["Wage Bin"]],
+            ["People in Workforce", d => commas(d[measure])],
+            ["Margin of Error", d => `± ${commas(d[`${measure} MOE Appx`])}`],
+            ["Share", d => `${abbreviate(d.share * 100)}%`]
+          ]
+        },
+        legend: false,
+        type: "BarChart",
+        x: "Wage Bin",
+        xConfig: {
+          title: "Average Salary"
+        },
+        xSort: (a, b) => a["ID Wage Bin"] - b["ID Wage Bin"],
+        y: "share",
+        yConfig: {
+          tickFormat: d => `${abbreviate(d * 100)}%`,
+          title: "Share"
+        }
+      }
     viz:
       attrs:
         - "naics"
