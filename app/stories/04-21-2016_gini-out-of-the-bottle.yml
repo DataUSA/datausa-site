@@ -16,81 +16,144 @@ topics:
       - "To find the Gini coefficient on the DataUSA site, pick a location from the left menu – a state, county, metropolitan area or other geographical unit – and scroll down to \"Income Distribution\" in the economy section. For each of the 143,000 locations on the site, you’ll see the population broken into income buckets.<<foot note=3>> Here’s one of the most equal states, South Dakota (which has a Gini of 0.436, well below the national average of 0.485)."
   - class: constrained
     title: Wage Distribution for South Dakota
-    viz:
-      attrs:
-        - "geo"
-        - "wage_bin"
-      data:
-        - geo: "04000US46,01000US"
-          required: "num_ppl,num_ppl_moe,wage_bin"
-          show: "geo"
-          share: "num_ppl.geo"
-      highlight: "04000US46"
-      id: "geo"
-      order:
-        sort: "asc"
-        value: "wage_bin"
-      type: "bar"
-      x:
-        persist:
-          position: True
-        label: "avg_wage"
-        scale: "discrete"
-        value: "wage_bin"
-      y: "share"
+    visualizations: 
+      - >-
+        const {nest, sum} = libs.d3;
+        const {abbreviate, commas} = formatters;
+
+        return {
+          data: `/api/data?measure=Total%20Population,Total%20Population%20MOE%20Appx,Record%20Count&drilldowns=Wage%20Bin&Workforce%20Status=true&Record%20Count>=5&geo=04000US46,01000US`,
+          dataFormat: resp => {
+            const data = resp.data;
+            libs.d3.nest()
+              .key(d => `${d.Year}_${d.Geography}`)
+              .entries(data)
+              .forEach(group => {
+                const total = sum(group.values, d => d["Total Population"])
+                group.values.forEach(d => d.share = d["Total Population"] / total);
+              });
+            return data;
+          },
+          type: "BarChart",
+          groupBy: "Geography",
+          time: "Year",
+          height: 500,
+          x: "Wage Bin",
+          discrete: "x",
+          xConfig: {
+            title: "Average Wage"
+          },
+          y: "share",
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Wage Bin", d => d["Wage Bin"]],
+              ["People in Workforce", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+              ["Share", d => `${abbreviate(d.share * 100)}%`]
+            ]
+          },
+          yConfig: {
+            tickFormat: d => `${abbreviate(d * 100)}%`,
+            title: "Share"
+          },
+          xSort: (a, b) => a["ID Wage Bin"] - b["ID Wage Bin"]
+        }
   - descriptions:
       - "Like South Dakota, every state has a big group of wage-earners on the left, making less than $100,000 a year. What drives the differences are spikes at the rich and poor ends – those making over $200,000 or under $10,000. States where there are large numbers of rich and poor have high Gini coefficients, even if most wage-earners are still in the middle."
       - "For instance, Mississippi (right) has a high Gini coefficient because of large numbers of the very poor, as seen by the high values on the far left of the distribution – over 15% make less than $10,000 per year."
   - class: constrained
     title: Wage Distribution for Mississippi
-    viz:
-      attrs:
-        - "geo"
-        - "wage_bin"
-      data:
-        - geo: "04000US28,01000US"
-          required: "num_ppl,num_ppl_moe,wage_bin"
-          show: "geo"
-          share: "num_ppl.geo"
-      highlight: "04000US28"
-      id: "geo"
-      order:
-        sort: "asc"
-        value: "wage_bin"
-      type: "bar"
-      x:
-        persist:
-          position: True
-        label: "avg_wage"
-        scale: "discrete"
-        value: "wage_bin"
-      y: "share"
+    visualizations: 
+      - >-
+        const {nest, sum} = libs.d3;
+        const {abbreviate, commas} = formatters;
+
+        return {
+          data: `/api/data?measure=Total%20Population,Total%20Population%20MOE%20Appx,Record%20Count&drilldowns=Wage%20Bin&Workforce%20Status=true&Record%20Count>=5&geo=04000US28,01000US`,
+          dataFormat: resp => {
+            const data = resp.data;
+            libs.d3.nest()
+              .key(d => `${d.Year}_${d.Geography}`)
+              .entries(data)
+              .forEach(group => {
+                const total = sum(group.values, d => d["Total Population"])
+                group.values.forEach(d => d.share = d["Total Population"] / total);
+              });
+            return data;
+          },
+          type: "BarChart",
+          groupBy: "Geography",
+          time: "Year",
+          height: 500,
+          x: "Wage Bin",
+          discrete: "x",
+          xConfig: {
+            title: "Average Wage"
+          },
+          y: "share",
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Wage Bin", d => d["Wage Bin"]],
+              ["People in Workforce", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+              ["Share", d => `${abbreviate(d.share * 100)}%`]
+            ]
+          },
+          yConfig: {
+            tickFormat: d => `${abbreviate(d * 100)}%`,
+            title: "Share"
+          },
+          xSort: (a, b) => a["ID Wage Bin"] - b["ID Wage Bin"]
+        }
   - descriptions:
       - "Meanwhile, California has a lower percentage of the very poor, but the big difference accounting for the higher Gini is the fact that a significant minority – about one person out of 40, or almost a million people in a state with a population of 39 million – makes more than $200,000 per year."
   - class: constrained
     title: Wage Distribution for California
-    viz:
-      attrs:
-        - "geo"
-        - "wage_bin"
-      data:
-        - geo: "04000US06,01000US"
-          required: "num_ppl,num_ppl_moe,wage_bin"
-          show: "geo"
-          share: "num_ppl.geo"
-      highlight: "04000US06"
-      id: "geo"
-      order:
-        sort: "asc"
-        value: "wage_bin"
-      type: "bar"
-      x:
-        persist:
-          position: True
-        label: "avg_wage"
-        scale: "discrete"
-        value: "wage_bin"
-      y: "share"
+    visualizations: 
+      - >-
+        const {nest, sum} = libs.d3;
+        const {abbreviate, commas} = formatters;
+
+        return {
+          data: `/api/data?measure=Total%20Population,Total%20Population%20MOE%20Appx,Record%20Count&drilldowns=Wage%20Bin&Workforce%20Status=true&Record%20Count>=5&geo=04000US06,01000US`,
+          dataFormat: resp => {
+            const data = resp.data;
+            libs.d3.nest()
+              .key(d => `${d.Year}_${d.Geography}`)
+              .entries(data)
+              .forEach(group => {
+                const total = sum(group.values, d => d["Total Population"])
+                group.values.forEach(d => d.share = d["Total Population"] / total);
+              });
+            return data;
+          },
+          type: "BarChart",
+          groupBy: "Geography",
+          time: "Year",
+          height: 500,
+          x: "Wage Bin",
+          discrete: "x",
+          xConfig: {
+            title: "Average Wage"
+          },
+          y: "share",
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Wage Bin", d => d["Wage Bin"]],
+              ["People in Workforce", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+              ["Share", d => `${abbreviate(d.share * 100)}%`]
+            ]
+          },
+          yConfig: {
+            tickFormat: d => `${abbreviate(d * 100)}%`,
+            title: "Share"
+          },
+          xSort: (a, b) => a["ID Wage Bin"] - b["ID Wage Bin"]
+        }
   - descriptions:
       - "The scatterplot below, created with figures from the DataUSA site, plots the Gini of states (the horizontal axis) against the median income (the vertical axis). The states fall into four quadrants:"
       - "<ul>
