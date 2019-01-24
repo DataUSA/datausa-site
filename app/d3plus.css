@@ -27,4 +27,7 @@
       }
     }
   }
+  & .d3plus-tooltip-footer {
+    text-align: center;
+  }
 }

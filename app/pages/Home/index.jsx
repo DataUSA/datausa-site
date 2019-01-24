@@ -29,7 +29,7 @@ class Home extends Component {
         <div className="bg" style={{backgroundImage: `url("/images/home/bg/${image}.jpg")`}}></div>
         <img className="logo" src="/images/home/logo-shadow.png" alt="Data USA" />
         <h2 className="tagline">
-          <a href="/search">Search</a>, <a href="/map">map</a>, <a href="/profile/geo/chicago-il/?compare=seattle-wa">compare</a>, and <a href="/cart">download</a> U.S. data
+          <a href="/visualize">Explore</a>, <a href="/map">map</a>, <a href="/profile/geo/chicago-il/?compare=seattle-wa">compare</a>, and <a href="/cart">download</a> U.S. data
         </h2>
 
         {/* <select id="bg-select" className="pt-select" onChange={this.onImage.bind(this)} defaultValue={image}>

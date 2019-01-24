@@ -131,6 +131,7 @@ export default {
       strokeWidth: 0
     }
   },
+  hiddenColor: "#ddd",
   legendConfig: {
     shapeConfig: {
       labelConfig: {
