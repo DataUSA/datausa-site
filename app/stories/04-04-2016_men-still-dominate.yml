@@ -15,33 +15,107 @@ topics:
       - "According to data from the US Census Bureau’s American Community Survey, people working in the securities industry have the highest average earnings, followed by workers in software publishing, other information services, computer manufacturing, and oil and gas extraction—all industries where the majority of employees are men. Of these high-paying industries, only in the securities industry are more than a third (36.5%) of the employees female.<<foot note=1>>"
   - title: Highest Paid Jobs in the United States
     class: constrained
-    viz:
-      - attrs: "naics"
-        color: "top"
-        data:
-          - geo: "01000US"
-            limit: "5"
-            order: "avg_wage"
-            required: "num_ppl,num_ppl_moe,num_ppl_rca,avg_wage,avg_wage_moe"
-            sort: "desc"
-            show: "geo,naics"
-            sumlevel: "nation,2"
-            where: "num_records:>4"
-        height: 250
-        id: "naics"
-        labels: YES
-        order:
-          sort: "asc"
-          value: "avg_wage"
-        type: "bar"
-        x: "avg_wage"
-        y:
-          label: "Highest"
-          scale: "discrete"
-          value: "naics"
+    visualizations: 
+      - >-
+        const {salary, abbreviate} = formatters;
+
+        return {
+          data: "/api/data?measure=ygipop RCA,Average%20Wage,Average%20Wage%20Appx%20MOE,Total%20Population,Total%20Population%20MOE%20Appx&order=Average%20Wage&sort=desc&drilldowns=Industry%20Group&Record%20Count>=5&Workforce%20Status=true&limit=5:Year&geo=01000US&year=all",
+          dataFormat: d => d.data.sort((a, b) => a["Average Wage"] - b["Average Wage"]),
+          type: "BarChart",
+          x: "Average Wage",
+          y: "Industry Group",
+          yConfig: {
+            title: "Highest"
+          },
+          discrete: "y",
+          time: "Year",
+          height: 500,
+          tooltipConfig: {
+            tbody: [           
+              ["Year", d => d["Year"]],
+              ["Average Wage", d => salary(d["Average Wage"])],
+              ["Average Wage MOE", d => salary(d["Average Wage Appx MOE"])],
+              ["Population", d => abbreviate(d["Total Population"])],
+              ["Population MOE", d => abbreviate(d["Total Population MOE Appx"])],
+              ["Population RCA", d => abbreviate(d["ygipop RCA"])]
+            ]
+          }
+        }
   - descriptions: "In the securities industries grouping, women make only about half of what men earn: $80,554 as compared to $156,841. Now some of this difference is accounted for by occupation, but certainly not all. Of the five largest occupational categories within the securities industry, women only hold the majority of positions among secretaries and administrative assistants, where they dominate, holding 97% of those jobs. But those 1,675 male administrative assistants earn an average of $67,552 as compared to the average of $46,558 earned by more than 51,000 female administrative assistants—a pattern repeated in the other top occupational categories in this industry."
   - title: Wage by Gender for Securities Industries Group
     class: constrained
+    visualizations: 
+      - >-
+        const iconGender = {
+          "Male": "/icons/visualizations/gender_mars.png",
+          "Men": "/icons/visualizations/gender_mars.png",
+          "Female": "/icons/visualizations/gender_venus.png",
+          "Women": "/icons/visualizations/gender_venus.png"
+        };
+
+        const colorGender = {
+          "Male": "#1A3E61",
+          "Men": "#1A3E61",
+          "Female": "#CA3434",
+          "Women": "#CA3434"
+        };
+
+        const colorGrey = "#C6C7CA";
+        const colorHighlight = "#ef6145";
+
+        const topCommonOccupationIds = ["132052", "413031", "411012", "113031", "132051"];
+
+        const {nest, sum} = libs.d3;
+        const {abbreviate, commas, salary} = formatters;
+
+        const idsList = topCommonOccupationIds.join(",");
+
+        return {
+          data: `/api/data?PUMS%20Industry=52M2&measure=Average%20Wage,Average%20Wage%20Appx%20MOE,Total%20Population,Total%20Population,Total%20Population%20MOE%20Appx&year=all&order=Total%20Population&sort=desc&drilldowns=Detailed%20Occupation,Gender&Record%20Count%3E=5&Workforce%20Status=true&PUMS%20Occupation=${idsList}`,
+          dataFormat: resp => {
+            return resp.data.sort((a, b) => { return topCommonOccupationIds.indexOf(a["ID PUMS Occupation"]) > topCommonOccupationIds.indexOf(b["ID PUMS Occupation"])?1:-1});
+          },
+          groupBy: "Gender",
+          shapeConfig: {
+            label: false,
+            fill: d => colorGender[d.Gender],
+            stroke: d => colorGender[d.Gender]
+          },
+          legend:true,
+          legendConfig: {
+            shapeConfig: {
+              backgroundImage: d => iconGender[d.Gender]
+            },
+            label:false
+          },
+          legendTooltip: {
+            tbody: []
+          },
+          time: "Year",
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Average Salary", d => salary(d["Average Wage"])],
+              ["Margin of Error", d => `± ${salary(d["Average Wage Appx MOE"])}`],
+              ["People in Workforce", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`]
+            ]
+          },
+          groupPadding: 10,
+          type: "BarChart",
+          x: "PUMS Occupation",
+          xConfig: {
+            labelRotation: false,
+            title: "Occupation"
+          },
+          xSort: (a, b) => a["Average Wage"] < b["Average Wage"]?1:-1,
+          y: "Average Wage",
+          yConfig: {
+            tickFormat: d => `$${abbreviate(d)}`,
+            title: "Average Salary"
+          }
+        }
     viz_url: "/profile/naics/52M2/workforce/wage_gender/"
 
 footnotes:
