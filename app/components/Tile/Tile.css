@@ -42,7 +42,7 @@
       text-align: center;
       text-shadow: 0 0 12px rgba(0, 0, 0, 1);
       width: 70%;
-      z-index: 1;
+      z-index: 0;
     }
     & .subtitle {
       font-family: "Palanquin", sans-serif;
