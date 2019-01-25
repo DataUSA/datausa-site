@@ -110,7 +110,10 @@ class Map extends Component {
           colorScaleConfig: {color: colors.colorScaleGood},
           colorScalePosition: "bottom",
           fitObject: "/topojson/State.json",
-          fitFilter: d => !["04000US02", "04000US15"].includes(d.id)
+          fitFilter: d => !["02", "15", "43", "60", "66", "69", "72", "78"].includes(d.id.slice(7)),
+          shapeConfig: {
+            hoverOpacity: 1
+          }
         }}
         visualizations={["geomap"]}
         topojson={{

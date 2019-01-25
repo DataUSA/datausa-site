@@ -20,5 +20,31 @@
         padding: 0;
       }
     }
+    & .grouping-manager {
+      & .grouping-item {
+        width: 100%;
+        &:not(.editing) {
+          align-items: center;
+          display: flex;
+        }
+        & .values {
+          flex: 1;
+        }
+        & .grouping-members {
+          display: none;
+        }
+        & .actions {
+          margin-top: 0;
+          & .action-edit {
+            & span {
+              display: none;
+            }
+            &:after {
+              content: "Change Level";
+            }
+          }
+        }
+      }
+    }
   }
 }
