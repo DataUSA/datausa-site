@@ -19,6 +19,12 @@ module.exports = function(app) {
       new: true,
       tiles: [
         {
+          title: "Federal Agency Spending by State",
+          url: "/visualize?groups=0-Z1MxM8L&measure=1e64mv",
+          image: "/images/home/vizbuilder/obligation.png",
+          new: true
+        },
+        {
           title: "Opioid Deaths (Age-Adjusted) by State",
           url: "/visualize?groups=0-Zpn26u&measure=2sUCF4",
           image: "/images/home/maps/opioid_overdose_deathrate_ageadjusted.png",
@@ -40,12 +46,6 @@ module.exports = function(app) {
           title: "Children in Single-Parent Households by County",
           url: "/visualize?groups=0-Z1X72Pg&measure=1Vpvwd",
           image: "/images/home/maps/children_in_singleparent_households.png",
-          new: false
-        },
-        {
-          title: "High School Graduation by State",
-          url: "/visualize?groups=0-z7J78&measure=Z2ny7rj",
-          image: "/images/home/maps/high_school_graduation.png",
           new: false
         }
       ]
@@ -186,6 +186,7 @@ module.exports = function(app) {
         {
           image: "/api/profile/cip/451099/thumb",
           title: "Federal Agency Spending by State",
+          new: true,
           cart: {
             urls: ["/api/data?measures=Obligation%20Amount&drilldowns=Agency,State"],
             slug: "cart_agency_state"
