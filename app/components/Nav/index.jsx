@@ -41,13 +41,14 @@ export default class Nav extends Component {
     const {location} = this.props;
     const {pathname} = location;
 
-    const logo = !["/"].includes(pathname);
+    const home = pathname === "/";
+
     const toggleMenu = () => this.setState({menu: !this.state.menu});
 
-    const search = !(pathname === "/" ||
+    const search = !(home ||
                    pathname.indexOf("search") === 0);
 
-    const splash = pathname === "/" ||
+    const splash = home ||
                    pathname.indexOf("profile") === 0 ||
                    pathname.indexOf("story") === 0 && pathname.length > 10;
 
@@ -63,7 +64,7 @@ export default class Nav extends Component {
         <span className={ menu ? "label open" : "label" }>Menu</span>
       </div>
 
-      { logo || (dark || background)
+      { !home || (dark || background)
         ? <Link to="/" className="home-btn">
           <img src="/images/logo_sm.png" alt="Data USA" />
         </Link>
@@ -80,9 +81,9 @@ export default class Nav extends Component {
       <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
         <div className="menu-content">
           <ul>
-            <li>
+            { !home && <li>
               <Link to="/">Home</Link>
-            </li>
+            </li> }
             <li>
               <Link to="/search">Explore</Link>
               <ul>
@@ -113,7 +114,7 @@ export default class Nav extends Component {
               <Link to="/about/datasets">Data Sources</Link>
             </li>
           </ul>
-          { logo ? <div className="menu-collab">
+          { !home ? <div className="menu-collab">
             <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/images/footer/deloitte.png" /></a>
             <a target="_blank" rel="noopener noreferrer" href="http://macro.media.mit.edu/"><img id="mit" src="/images/footer/mit.png" /></a>
             <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/"><img id="datawheel" src="/images/footer/datawheel.png" /></a>
