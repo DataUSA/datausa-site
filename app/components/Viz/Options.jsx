@@ -251,14 +251,6 @@ class Options extends Component {
     }
   }
 
-  onBlur() {
-    this.input.blur();
-  }
-
-  onFocus() {
-    this.input.select();
-  }
-
   toggleDialog(slug) {
     this.setState({openDialog: slug});
     const {results, loading} = this.state;
