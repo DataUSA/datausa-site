@@ -177,7 +177,7 @@ module.exports = function(app) {
     });
 
     carousels.push({
-      title: "Download",
+      title: "Data Cart",
       icon: "/images/cart-big.png",
       rank: 6,
       footer: "View Cart",
