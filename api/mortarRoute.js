@@ -78,7 +78,14 @@ const formatters4eval = formatters => formatters.reduce((acc, f) => {
     ? f.name.toLowerCase()
     : f.name.replace(/^\w/g, chr => chr.toLowerCase());
 
-  acc[name] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc);
+  // Formatters may be malformed. Wrap in a try/catch to avoid js crashes.
+  try {
+    acc[name] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc);
+  }
+  catch (e) {
+    console.log("Server-side Malformed Formatter encountered: ", e.message);
+    acc[name] = FUNC.parse({logic: "return \"N/A\";", vars: ["n"]}, acc);
+  }
 
   return acc;
 
