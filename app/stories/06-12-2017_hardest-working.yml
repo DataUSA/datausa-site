@@ -8,17 +8,28 @@ authors:
 
 topics:
   - title: Average hours worked by Public Use Micro Area
-    viz:
-      attrs: "geo"
-      color: "avg_hrs"
-      coords: "pumas"
-      data:
-        - required: "avg_hrs,avg_hrs_moe"
-          show: "geo"
-          sumlevel: "puma"
-          year: "2014"
-      id: "geo"
-      type: "Geomap"
+    visualizations:
+      - >-
+        const {abbreviate} = formatters;
+
+        return {
+          data: "/api/data?measures=Average%20Usual%20Hours%20Worked%20Per%20Week,Average%20Usual%20Hours%20Worked%20Per%20Week%20Appx%20MOE&drilldowns=PUMA&Year=2014&Workforce Status=true",
+          colorScale: "Average Usual Hours Worked Per Week",
+          groupBy: "ID PUMA",
+          label: d => d["PUMA"],
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Average Work Hours", d => abbreviate(d["Average Usual Hours Worked Per Week"])],
+              ["Margin of Error", d => `± ${abbreviate(d["Average Usual Hours Worked Per Week Appx MOE"])}`]
+            ]
+          },
+          height: 500,
+          projection: "geoAlbersUsa",
+          topojson: `/topojson/Puma.json`,
+          type: "Geomap"
+
+        }
     descriptions:
       - "Many believe Americans have a deserved reputation for being among the hardest-working and most productive people on the planet. But where in the United States do people work the longest hours? High-energy New Yorkers would love to claim that title as their own, but residents of other large urban areas, such as Washington, D.C., may disagree. And in fact, D.C. denizens do work the longest hours when aggregated to the state level. But this high-level view obscures some interesting insights—for instance, none of the Public Use Micro Areas (PUMAs) that comprise the nation’s capital make the top ten individually. In fact, the top three places nationally may surprise you. The three PUMAs reporting the longest weekly hours are:"
       - "<ol>
@@ -30,6 +41,41 @@ topics:
       - "Let’s take a closer look at the types of people we might find in each of these places. On the surface, the three geographies could not be more different, but if we dig a little deeper, we may find some similarities."
   - title: "Median Household Income"
     descriptions: "A good place to start is with median household income, and as we’ll see, longer hours do not necessarily mean higher wages. The New York neighborhoods lead the way with $118,108, more than double the $53,482 US average. Subsistence Alaska, at $56,736, is more or less in line with the national average. The Missourian suburbs come a distant third, with a median household income of $42,812. This seems to make sense: Wages appear to align much more closely to cost of living rather than hours worked, and, as anyone who has visited can attest, Manhattan is quite expensive."
+    visualizations: 
+      - >-
+        const {abbreviate, salary} = formatters;
+
+        return {
+          data: "/api/data?measures=Household%20Income%20by%20Race,Household%20Income%20by%20Race%20Moe&Year=2014&Geography=01000US,79500US0200400,79500US3603810,79500US2901400&sort=asc&order=Household%20Income%20by%20Race",
+          groupBy: "Geography",
+          shapeConfig: {
+            Bar: {
+              labelConfig: {
+                textAnchor: "start"
+              }
+            },
+            fill: "#ef6145"
+          },
+          discrete: "y",
+          x: "Household Income by Race",
+          y: "Geography",
+          xConfig: {
+            tickFormat: d => `$${abbreviate(d)}`,
+            title: "Median Household Income"
+          },
+          tooltipConfig: {
+            tbody: [
+              ["Median Household Income", d => salary(d["Household Income by Race"])],
+              ["Margin of Error", d => `± ${salary(d["Household Income by Race Moe"])}`]
+            ]
+          },
+          yConfig: {
+            ticks: []
+          },
+          height: 500,
+          type: "BarChart"
+        }
+
     viz:
       attrs: "geo"
       data:
