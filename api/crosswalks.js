@@ -150,11 +150,13 @@ module.exports = function(app) {
           ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
           : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
 
-        const ids = await axios.get(url)
+        let ids = await axios.get(url)
           .then(resp => resp.data.map(d => d.geoid))
           .catch(err => res.json(err));
 
         ids.push("01000US");
+
+        if (cache.pops[id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
 
         attrs = await db.search
           .findAll({where: {id: ids, dimension}})
@@ -373,7 +375,8 @@ module.exports = function(app) {
           : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}`;
 
         const parents = await axios.get(url).then(resp => resp.data);
-        const ids = parents.map(d => d.geoid);
+        let ids = parents.map(d => d.geoid);
+        if (cache.pops[attr.id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
         if (!ids.includes("01000US")) ids.unshift("01000US");
         const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
         res.json(attrs.sort((a, b) => geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy)));
