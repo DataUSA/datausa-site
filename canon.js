@@ -57,6 +57,20 @@ module.exports = {
       "Origin State": "Geography"
     },
     relations: {
+      "Origin State": {
+        neighbors: {
+          url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
+          callback: arr => arr.map(d => d.geoid)
+        },
+        parents: {
+          url: id => `${CANON_API}/api/parents/geo/${id}`,
+          callback: arr => arr.map(d => d.id)
+        },
+        similar: {
+          url: id => `${CANON_API}/api/geo/similar/${id}`,
+          callback: arr => arr.map(d => d.id)
+        }
+      },
       "Geography": {
         children: {
           url: id => `${CANON_API}/api/geo/children/${id}/`
