@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
 import {Dialog} from "@blueprintjs/core";
-import {Popover2} from "@blueprintjs/labs";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
