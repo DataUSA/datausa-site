@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
 import {fetchData} from "@datawheel/canon-core";
+import {Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
 import "@blueprintjs/table/dist/table.css";
@@ -16,6 +17,33 @@ import {saveAs} from "file-saver";
 import "./Cart.css";
 
 import Loading from "components/Loading";
+
+const examples = [
+  {
+    icon: "office",
+    title: "Federal Agency Spending by State",
+    cart: {
+      urls: ["/api/data?measures=Obligation%20Amount&drilldowns=Agency,State"],
+      slug: "cart_agency_state"
+    }
+  },
+  {
+    icon: "dollar",
+    title: "Average Wage for Jobs",
+    cart: {
+      urls: ["/api/data?measures=Average%20Wage&drilldowns=Detailed%20Occupation"],
+      slug: "cart_wage_soc"
+    }
+  },
+  {
+    icon: "person",
+    title: "Population by County",
+    cart: {
+      urls: ["/api/data?measures=Population&drilldowns=County"],
+      slug: "cart_population_county"
+    }
+  }
+];
 
 const FORMATTERS = {
   Growth: d => `${formatAbbreviate(d * 100 || 0)}%`,
@@ -44,6 +72,7 @@ class Cart extends Component {
     this.state = {
       cart: [],
       columns: [],
+      intro: true,
       results: false,
       stickies: [],
       values: {}
@@ -69,12 +98,11 @@ class Cart extends Component {
           .match(/drilldowns\=[A-z\,\s]+/g)[0]
           .split("=")[1].split(",")
         ));
-        this.setState({cart, results: []});
+        this.setState({cart, results: false});
         return Promise.all(urls.map(url => axios.get(url).then(resp => resp.data)));
       })
       .then(responses => {
 
-        console.log("responses", responses);
         responses = responses.filter(resp => resp.data);
 
         let columns = [];
@@ -109,8 +137,6 @@ class Cart extends Component {
             const sB = stickies.indexOf(b);
             return sA < 0 && sB < 0 ? a.localeCompare(b) : sB - sA;
           });
-        console.log("columns", columns);
-        console.log("stickies", stickies);
 
         const results = nest()
           .key(d => stickies.map(key => d[key] || "undefined").join("-"))
@@ -118,7 +144,7 @@ class Cart extends Component {
           .entries(merge(responses.map(resp => resp.data)))
           .map(d => d.value);
 
-        this.setState({columns, results, stickies});
+        this.setState({columns, results, stickies, intro: !results.length});
       })
       .catch(err => console.error(err));
   }
@@ -169,10 +195,26 @@ class Cart extends Component {
 
   }
 
+  async gotoExample(data) {
+
+    const {cartKey} = this.props;
+
+    const cart = [{
+      format: "function(resp) { return resp.data; }",
+      title: data.title,
+      ...data.cart
+    }];
+
+    await localforage.setItem(cartKey, cart);
+    this.reload.bind(this)();
+
+  }
+
   render() {
-    const {cart, columns, results, stickies} = this.state;
+    const {cart, columns, intro, results, stickies} = this.state;
     const {measures} = this.props;
     console.log("results", results);
+    console.log("intro", intro);
 
     const columnWidths = columns.map(key => {
       if (key === "Year") return 60;
@@ -193,8 +235,27 @@ class Cart extends Component {
       return <Cell wrapText={true}>{ format(val) }</Cell>;
     };
 
-    return (
-      <div id="Cart">
+    if (results !== false && intro) {
+      return <div id="Cart" className="cart-intro">
+        <h1>Data Cart</h1>
+        <p>
+          The Data USA data cart allows you to download only the data you need. Datasets added to the data cart will be automatically merged together, and can then be downloaded as a CSV for further offline analysis.
+        </p>
+        <p>
+          Every visualization on the site has an &quot;Add Data to Cart&quot; button above it that allows you to add the data from that visualization to the data cart. To get started, here are three example datasets:
+        </p>
+        <div className="examples">
+          { examples.map((d, i) => <div key={i}
+            onClick={this.gotoExample.bind(this, d)}
+            className="pt-card pt-interactive">
+            <Icon iconName={d.icon} />
+            { d.title }
+          </div>) }
+        </div>
+      </div>;
+    }
+    else {
+      return <div id="Cart">
         <Helmet title="Cart" />
         <div className="controls">
           <div className="title">Data Cart</div>
@@ -227,9 +288,9 @@ class Cart extends Component {
             { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
           </Table>
         </div> }
-        { !results ? <Loading /> : null }
-      </div>
-    );
+        { results === false ? <Loading /> : null }
+      </div>;
+    }
 
   }
 
