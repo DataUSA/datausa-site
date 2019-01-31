@@ -214,8 +214,6 @@ class Cart extends Component {
   render() {
     const {cart, columns, intro, results, stickies} = this.state;
     const {measures} = this.props;
-    console.log("results", results);
-    console.log("intro", intro);
 
     const columnWidths = columns.map(key => {
       if (key === "Year") return 60;
@@ -230,7 +228,7 @@ class Cart extends Component {
     const renderCell = (rowIndex, columnIndex) => {
       const key = columns[columnIndex];
       const val = results[rowIndex][key];
-      const format = val === undefined ? d => ""
+      const format = val === undefined ? () => ""
         : typeof val === "string" ? d => d
           : FORMATTERS[measures[key]] || formatAbbreviate;
       return <Cell wrapText={true}>{ format(val) }</Cell>;
@@ -286,7 +284,7 @@ class Cart extends Component {
             numFrozenColumns={stickies.length}
             rowHeights={results.map(() => 30)}
             selectionModes={SelectionModes.NONE}>
-            { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
+            { columns.map(c => <Column id={ c } key={ c } name={ c.indexOf("ID") === 0 ? `${c.replace("ID ", "")} ID` : c } renderCell={ renderCell } />) }
           </Table>
         </div> }
         { results === false ? <Loading /> : null }
