@@ -92,10 +92,9 @@ class Cart extends Component {
     localforage.getItem(cartKey)
       .then(cart => {
         if (!cart) cart = [];
-        console.log(cart);
-        const urls = merge(cart.map(d => d.urls));
+        const urls = merge(cart.map(d => d.urls)).map(decodeURIComponent);
         stickies = merge(urls.map(url => url
-          .match(/drilldowns\=[A-z\,\s]+/g)[0]
+          .match(/drilldowns\=[^&]+/g)[0]
           .split("=")[1].split(",")
         ));
         this.setState({cart, results: false});
@@ -131,6 +130,8 @@ class Cart extends Component {
           columns = columns.concat(Object.keys(resp.data[0]));
         });
         stickies = Array.from(new Set(stickies));
+        stickies = stickies.concat(stickies.map(d => `ID ${d}`))
+          .sort((a, b) => a.includes("Year") ? 1 : a.replace("ID ", "").localeCompare(b.replace("ID ", "")));
         columns = Array.from(new Set(columns))
           .sort((a, b) => {
             const sA = stickies.indexOf(a);
