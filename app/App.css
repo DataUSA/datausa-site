@@ -195,7 +195,9 @@ input[type="text"] {
       & .bp-table-header {
         box-shadow: none;
         & .bp-table-column-name-text {
+          align-items: flex-end;
           border-bottom: 1px solid #ccc;
+          display: flex;
           padding: 15px 12px 12px;
           font-size: 13px;
           font-weight: bold;
