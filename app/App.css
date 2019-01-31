@@ -226,7 +226,7 @@ input[type="text"] {
     & .bp-table-cell-client {
       background: transparent;
     }
-    & .bp-table-cell {
+    & .bp-table-cell, & .bp-table-cell.bp-table-last-in-row {
       box-shadow: none;
       font-size: 12px;
       font-weight: 300;
