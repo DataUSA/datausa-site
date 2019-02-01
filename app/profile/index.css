@@ -45,6 +45,70 @@
       }
     }
   }
+  & .category {
+    flex: 1 1 100%;
+    font-family: "Pathway Gothic One", sans-serif;
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    min-width: 100%;
+    padding: 25px 24px 30px;
+    position: relative;
+    text-transform: uppercase;
+    text-align: center;
+    & a {
+      color: var(--black);
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  & .sidenav {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+    left: -50px;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    transition: left 0.5s, opacity 0.5s;
+    width: 50px;
+    &.visible {
+      left: 0;
+      opacity: 1;
+    }
+    & .sidenav-section {
+      border-bottom: 1px solid #ccc;
+      &:last-child {
+        border-bottom: 0;
+      }
+      & .sidenav-circle {
+        background-color: transparent;
+        border: 1px solid #999;
+        border-radius: 50%;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: block;
+        height: 8px;
+        margin: 12px 4px;
+        opacity: 0.7;
+        overflow: hidden;
+        transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s;
+        width: 8px;
+        &:hover, &.active {
+          height: 12px;
+          opacity: 1;
+          margin: 10px 2px;
+          width: 12px;
+        }
+        &.active {
+          background-color: #999;
+        }
+      }
+    }
+  }
   & .keep-exploring {
     & h2 {
       color: rgba(255, 255, 255, 0.9);
@@ -61,11 +125,20 @@
       flex-wrap: wrap;
       padding: 0 35px;
       width: 100%;
-      & .tile {
+      & .usa-tile {
         flex: 1;
         margin: 15px;
         min-width: 300px;
       }
     }
   }
+}
+
+.sidenav-label {
+  color: var(--red);
+  font-family: "Palanquin", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
