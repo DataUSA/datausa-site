@@ -15,9 +15,15 @@
       height: calc(100vh - var(--nav-height) - 30px);
     }
     & .area-chart {
+      padding: 0;
       & .chart-card, & .wrapper {
         margin: 0;
         padding: 0;
+      }
+    }
+    & .measure-manager {
+      & .select-label.source, & .select-label.dims {
+        display: none;
       }
     }
     & .grouping-manager {
@@ -45,6 +51,12 @@
           }
         }
       }
+    }
+    & .filter-manager {
+      display: none;
+    }
+    & .d3plus-viz-title {
+      display: none;
     }
   }
 }
