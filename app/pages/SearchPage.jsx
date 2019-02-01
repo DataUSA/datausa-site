@@ -12,12 +12,18 @@ import {Object} from "es6-shim";
 
 const rawUrl = "/api/search/?limit=100";
 
+const formatSubLabel = key => key
+  .replace(/^Industry\s/g, "")
+  .replace(/^CIP([0-9])/g, "$1 Digit Course")
+  .replace(/\sOccupation\s/g, " ")
+  .replace(/^NAPCS\s/g, "");
+
 const SubList = ({active, onClick, totals}) => <ul>
   { Object.keys(totals)
     .sort((a, b) => totals[a] - totals[b])
     .filter(key => totals[key] > 1)
     .map(key => <li className={active === key ? "active" : ""} key={key} onClick={() => onClick(key)}>
-      {key}
+      {formatSubLabel(key)}
       <span className="num">{commas(totals[key])}</span>
     </li>) }
 </ul>;
