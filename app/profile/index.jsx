@@ -204,6 +204,7 @@ class Profile extends Component {
 
     return (
       <CanonProfile>
+
         <Helmet>
           <title>{ metaTitle }</title>
           <meta property="og:title" content={ metaTitle } />
@@ -211,14 +212,33 @@ class Profile extends Component {
           <meta property="og:image" content={ `${origin}${profile.imageURL}` } />
           <meta property="og:description" content={metaDesc} />
         </Helmet>
+
         <Splash data={profile} comparisons={comparisons} />
+
         <Section data={{...profile, title: "About", slug: "about", profileSlug: profile.slug} } comparisons={comparisons} breadcrumbs={true} photo={true} />
+        <div className="toc">
+          { profile.sections.map((s, i) => {
+            let subs = sidenav[i];
+            if (subs.length === 1) subs = [{title: "Start Exploring", slug: s.slug}];
+            return <div key={i} className="toc-category">
+              <a className="toc-title">
+                <img src={ `/icons/sections/${s.slug}.svg` } />
+                <span dangerouslySetInnerHTML={{__html: stripHTML(s.title)}} />
+              </a>
+              <div className="toc-list">
+                { subs.map(sub => <AnchorLink key={sub.slug} to={sub.slug}>{sub.title}</AnchorLink>) }
+              </div>
+            </div>;
+          }) }
+        </div>
+
         { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);
           return <Section key={i} data={s} comparisons={compares}>
             { topics[i] }
           </Section>;
         }) }
+
         <SubNav type="scroll" anchor="top" visible={() => {
           if (typeof window === undefined) return false;
           const elem = select(".Section.about").node();
@@ -227,12 +247,14 @@ class Profile extends Component {
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
         </SubNav>
+
         { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
           <div className="tiles">
             { similar.map(d => <Tile key={d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profile.slug}/${d.id}/thumb`} url={`/profile/${profile.slug}/${d.slug || d.id}`} />) }
           </div>
         </div> }
+
         <div className={`sidenav ${showSidenav ? "visible" : ""}`}>
           { sidenav.map((s, i) => <div key={i} className="sidenav-section">
             {s.map(t => <Tooltip2 className={`sidenav-circle ${t.slug === activeSidenav ? "active" : ""}`} key={t.slug} content={<span className="sidenav-label">{t.title}</span>}>
@@ -240,7 +262,9 @@ class Profile extends Component {
             </Tooltip2>)}
           </div>) }
         </div>
+
         { loading ? <Loading /> : null }
+
       </CanonProfile>
     );
 
