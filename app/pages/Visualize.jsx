@@ -120,7 +120,7 @@ class Visualize extends Component {
     const {cart, intro, query} = this.state;
     const {cube} = this.props;
     const cartSize = cart.length;
-    const inCart = cart ? cart.find(c => c.slug === query.slug) : false;
+    const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     if (intro) {
       return <div id="Visualize" className="visualize-intro">
