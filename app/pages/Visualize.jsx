@@ -9,6 +9,7 @@ import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
+import {defaultCart} from "pages/Cart";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -62,7 +63,7 @@ class Visualize extends Component {
 
     localforage.getItem(cartKey)
       .then(cart => {
-        if (!cart) cart = [];
+        if (!cart) cart = defaultCart;
         this.setState({cart});
       })
       .catch(err => console.error(err));
@@ -107,9 +108,9 @@ class Visualize extends Component {
 
     const {cart, query} = this.state;
     const {cartKey} = this.props;
-    const inCart = cart.find(c => c.slug === query.slug);
-    if (inCart) cart.splice(cart.indexOf(query), 1);
-    else cart.push(query);
+    const inCart = cart.data.find(c => c.slug === query.slug);
+    if (inCart) cart.data.splice(cart.data.indexOf(query), 1);
+    else cart.data.push(query);
     localforage.setItem(cartKey, cart);
     this.forceUpdate();
 

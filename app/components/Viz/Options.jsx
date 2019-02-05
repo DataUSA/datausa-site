@@ -15,6 +15,7 @@ import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab2, Tabs2} from "@blue
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
 import {Tooltip2} from "@blueprintjs/labs";
 import {Object} from "es6-shim";
+import {defaultCart} from "pages/Cart";
 
 const FORMATTERS = {
   Growth: d => `${formatAbbreviate(d * 100 || 0)}%`,
@@ -91,8 +92,8 @@ class Options extends Component {
     if (cartKey && slug) {
       localforage.getItem(cartKey)
         .then(cart => {
-          const inCart = cart && cart.find(c => c.slug === slug);
-          this.setState({cartSize: cart ? cart.length : 0, inCart});
+          const inCart = cart && cart.data.find(c => c.slug === slug);
+          this.setState({cartSize: cart ? cart.data.length : 0, inCart});
         })
         .catch(err => console.error(err));
     }
@@ -111,7 +112,7 @@ class Options extends Component {
       let cart = await localforage.getItem(cartKey)
         .catch(err => console.error(err));
 
-      if (!cart) cart = [];
+      if (!cart) cart = defaultCart;
 
       console.log(slug);
       console.log(data);
@@ -197,7 +198,7 @@ class Options extends Component {
       const cartTitle = `${stripHTML(title)}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
-      cart.push({urls, format, slug, title: cartTitle});
+      cart.data.push({urls, format, slug, title: cartTitle});
       localforage.setItem(cartKey, cart);
       this.setState({cartSize: this.state.cartSize + 1, inCart: true});
 
@@ -205,8 +206,8 @@ class Options extends Component {
     else {
       localforage.getItem(cartKey)
         .then(cart => {
-          const build = cart.find(c => c.slug === slug);
-          cart.splice(cart.indexOf(build), 1);
+          const build = cart.data.find(c => c.slug === slug);
+          cart.data.splice(cart.data.indexOf(build), 1);
           return localforage.setItem(cartKey, cart);
         })
         .then(() => this.setState({cartSize: this.state.cartSize - 1, inCart: false}))

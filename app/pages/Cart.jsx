@@ -65,12 +65,20 @@ const FORMATTERS = {
   }
 };
 
+export const defaultCart = {
+  settings: {
+    pivotYear: true,
+    showMOE: false
+  },
+  data: []
+};
+
 class Cart extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      cart: [],
+      cart: defaultCart,
       columns: [],
       intro: true,
       results: false,
@@ -91,8 +99,8 @@ class Cart extends Component {
 
     localforage.getItem(cartKey)
       .then(cart => {
-        if (!cart) cart = [];
-        const urls = merge(cart.map(d => d.urls)).map(decodeURIComponent);
+        if (!cart) cart = defaultCart;
+        const urls = merge(cart.data.map(d => d.urls)).map(decodeURIComponent);
         stickies = merge(urls.map(url => url
           .match(/drilldowns\=[^&]+/g)[0]
           .split("=")[1].split(",")
@@ -152,7 +160,8 @@ class Cart extends Component {
 
   onClear() {
     const {cartKey} = this.props;
-    localforage.setItem(cartKey, [])
+    const {cart} = this.state;
+    localforage.setItem(cartKey, {...cart, data: []})
       .then(() => this.reload.bind(this)())
       .catch(err => console.error(err));
   }
@@ -160,8 +169,8 @@ class Cart extends Component {
   onRemove(d) {
     const {cart} = this.state;
     const {cartKey} = this.props;
-    const build = cart.find(c => c.slug === d.slug);
-    cart.splice(cart.indexOf(build), 1);
+    const build = cart.data.find(c => c.slug === d.slug);
+    cart.data.splice(cart.data.indexOf(build), 1);
     localforage.setItem(cartKey, cart)
       .then(() => this.reload.bind(this)())
       .catch(err => console.error(err));
@@ -199,14 +208,15 @@ class Cart extends Component {
   async gotoExample(data) {
 
     const {cartKey} = this.props;
+    const {cart} = this.state;
 
-    const cart = [{
+    const d = [{
       format: "function(resp) { return resp.data; }",
       title: data.title,
       ...data.cart
     }];
 
-    await localforage.setItem(cartKey, cart);
+    await localforage.setItem(cartKey, {...cart, data: d});
     this.reload.bind(this)();
 
   }
@@ -259,9 +269,9 @@ class Cart extends Component {
         <div className="controls">
           <div className="title">Data Cart</div>
           <div className="sub">
-            { cart.length } Dataset{ cart.length > 1 ? "s" : "" }
+            { cart.data.length } Dataset{ cart.length > 1 ? "s" : "" }
           </div>
-          { cart.map(d => <div key={d.slug} className="dataset">
+          { cart.data.map(d => <div key={d.slug} className="dataset">
             <div className="title">{d.title}</div>
             <Tooltip2 content="Remove from Cart">
               <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
@@ -274,14 +284,14 @@ class Cart extends Component {
             Remove All Items from Cart
           </div>
         </div>
-        { !results ? null : <div>
+        { !results ? null : <div className="cart-table">
           <Table allowMultipleSelection={false}
             columnWidths={columnWidths}
             fillBodyWithGhostCells={true}
             isColumnResizable={false}
             isRowResizable={false}
             numRows={ results.length }
-            numFrozenColumns={stickies.length}
+            // numFrozenColumns={stickies.length}
             rowHeights={results.map(() => 30)}
             selectionModes={SelectionModes.NONE}>
             { columns.map(c => <Column id={ c } key={ c } name={ c.indexOf("ID") === 0 ? `${c.replace("ID ", "")} ID` : c } renderCell={ renderCell } />) }

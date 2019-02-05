@@ -6,6 +6,7 @@ import Tile from "components/Tile/Tile";
 
 import "./Column.css";
 import {PropTypes} from "prop-types";
+import {defaultCart} from "pages/Cart";
 
 class Column extends Component {
 
@@ -20,11 +21,11 @@ class Column extends Component {
       ...data.cart
     };
 
-    const cart = await localforage.getItem(cartKey) || [];
-    const inCart = cart.find(c => c.slug === cartObj.slug);
+    const cart = await localforage.getItem(cartKey) || defaultCart;
+    const inCart = cart.data.find(c => c.slug === cartObj.slug);
 
     if (!inCart) {
-      cart.push(cartObj);
+      cart.data.push(cartObj);
       await localforage.setItem(cartKey, cart);
     }
 
