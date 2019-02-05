@@ -3,6 +3,7 @@
   display: flex;
   height: calc(100vh - 30px);
   padding-top: var(--nav-height);
+  width: 100%;
   & .controls {
     border-right: 1px solid #ccc;
     max-width: 260px;
@@ -78,6 +79,12 @@
         }
       }
     }
+  }
+  & .cart-table {
+    flex: 1;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    position: relative;
   }
 }
 
