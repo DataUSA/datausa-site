@@ -65,7 +65,7 @@ module.exports = function(app) {
         .sort((a, b) => universitySlugs.indexOf(a.slug) - universitySlugs.indexOf(b.slug))
         .map(a => ({
           title: a.display,
-          url: `/profile/university/${a.id}`,
+          url: `/profile/university/${a.slug || a.id}`,
           image: `/api/profile/university/${a.id}/thumb`
         }))
       );
@@ -93,7 +93,7 @@ module.exports = function(app) {
         .sort((a, b) => geoSlugs.indexOf(a.slug) - geoSlugs.indexOf(b.slug))
         .map(a => ({
           title: a.display,
-          url: `/profile/geo/${a.id}`,
+          url: `/profile/geo/${a.slug || a.id}`,
           image: `/api/profile/geo/${a.id}/thumb`
         }))
       );
@@ -118,7 +118,7 @@ module.exports = function(app) {
           .sort((a, b) => indIDs.indexOf(a.id) - indIDs.indexOf(b.id))
           .map(a => ({
             title: a.display,
-            url: `/profile/naics/${a.id}`,
+            url: `/profile/naics/${a.slug || a.id}`,
             image: `/api/profile/naics/${a.id}/thumb`
           }));
       });
@@ -140,7 +140,7 @@ module.exports = function(app) {
         .sort((a, b) => occIDs.indexOf(a.id) - occIDs.indexOf(b.id))
         .map(a => ({
           title: a.display,
-          url: `/profile/soc/${a.id}`,
+          url: `/profile/soc/${a.slug || a.id}`,
           image: `/api/profile/soc/${a.id}/thumb`
         }))
       );
@@ -162,7 +162,7 @@ module.exports = function(app) {
         .sort((a, b) => cipIDs.indexOf(a.id) - cipIDs.indexOf(b.id))
         .map(a => ({
           title: a.display,
-          url: `/profile/cip/${a.id}`,
+          url: `/profile/cip/${a.slug || a.id}`,
           image: `/api/profile/cip/${a.id}/thumb`
         }))
       );
