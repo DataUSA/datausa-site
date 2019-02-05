@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
 import {fetchData} from "@datawheel/canon-core";
-import {Icon} from "@blueprintjs/core";
+import {Checkbox, Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
 import "@blueprintjs/table/dist/table.css";
@@ -31,7 +31,7 @@ const examples = [
     icon: "dollar",
     title: "Average Wage for Jobs",
     cart: {
-      urls: ["/api/data?measures=Average%20Wage&drilldowns=Detailed%20Occupation"],
+      urls: ["/api/data?measures=Average%20Wage,Average%20Wage%20Appx%20MOE&drilldowns=Detailed%20Occupation"],
       slug: "cart_wage_soc"
     }
   },
@@ -66,10 +66,10 @@ const FORMATTERS = {
 };
 
 export const defaultCart = {
-  settings: {
-    pivotYear: true,
-    showMOE: false
-  },
+  settings: [
+    {key: "pivotYear", value: true, label: "Pivot Years to Columns"},
+    {key: "showMOE", value: false, label: "Show Margin of Error"}
+  ],
   data: []
 };
 
@@ -81,6 +81,7 @@ class Cart extends Component {
       cart: defaultCart,
       columns: [],
       intro: true,
+      moe: {},
       results: false,
       stickies: [],
       values: {}
@@ -93,8 +94,7 @@ class Cart extends Component {
 
   reload() {
 
-    const {cartKey, levels} = this.props;
-    const levelsFlat = Object.keys(levels);
+    const {cartKey} = this.props;
     let stickies;
 
     localforage.getItem(cartKey)
@@ -108,54 +108,78 @@ class Cart extends Component {
         this.setState({cart, results: false});
         return Promise.all(urls.map(url => axios.get(url).then(resp => resp.data)));
       })
-      .then(responses => {
-
-        responses = responses.filter(resp => resp.data);
-
-        let columns = [];
-        responses.forEach(resp => {
-          const keys = Object.keys(resp.data[0]);
-          const presentLevels = keys.filter(key => levelsFlat.includes(key));
-          const years = keys.filter(key => key.includes("Year") && !key.includes("ID "));
-          const slugs = keys.filter(key => key.includes("Slug "));
-          stickies = stickies.map(d => levelsFlat.includes(d) ? levels[d] : d);
-          stickies = stickies.concat(years);
-          resp.data.forEach(d => {
-            presentLevels.forEach(level => {
-              const dimension = levels[level];
-              d[dimension] = d[level];
-              delete d[level];
-              d[`ID ${dimension}`] = d[`ID ${level}`];
-              delete d[`ID ${level}`];
-            });
-            years.forEach(year => {
-              delete d[`ID ${year}`];
-            });
-            slugs.forEach(slug => {
-              delete d[slug];
-            });
-          });
-          columns = columns.concat(Object.keys(resp.data[0]));
-        });
-        stickies = Array.from(new Set(stickies));
-        stickies = stickies.concat(stickies.map(d => `ID ${d}`))
-          .sort((a, b) => a.includes("Year") ? 1 : a.replace("ID ", "").localeCompare(b.replace("ID ", "")));
-        columns = Array.from(new Set(columns))
-          .sort((a, b) => {
-            const sA = stickies.indexOf(a);
-            const sB = stickies.indexOf(b);
-            return sA < 0 && sB < 0 ? a.localeCompare(b) : sB - sA;
-          });
-
-        const results = nest()
-          .key(d => stickies.map(key => d[key] || "undefined").join("-"))
-          .rollup(leaves => Object.assign(...leaves))
-          .entries(merge(responses.map(resp => resp.data)))
-          .map(d => d.value);
-
-        this.setState({columns, results, stickies, intro: !results.length});
-      })
+      .then(responses => this.formatData.bind(this)(responses.filter(resp => resp.data), stickies))
       .catch(err => console.error(err));
+  }
+
+  formatData(responses, stickies) {
+
+    const {cart} = this.state;
+    const {levels} = this.props;
+    if (!stickies) stickies = this.state.stickies;
+    const pivots = cart.settings.filter(d => d.value && d.key.includes("pivot"));
+    const levelsFlat = Object.keys(levels);
+
+    let columns = [];
+    responses.forEach(resp => {
+      const keys = Object.keys(resp.data[0]);
+      const presentLevels = keys.filter(key => levelsFlat.includes(key));
+      const years = keys.filter(key => key.includes("Year") && !key.includes("ID "));
+      const slugs = keys.filter(key => key.includes("Slug "));
+      stickies = stickies.map(d => levelsFlat.includes(d) ? levels[d] : d);
+      stickies = stickies.concat(years);
+      resp.data.forEach(d => {
+        presentLevels.forEach(level => {
+          const dimension = levels[level];
+          d[dimension] = d[level];
+          delete d[level];
+          d[`ID ${dimension}`] = d[`ID ${level}`];
+          delete d[`ID ${level}`];
+        });
+        years.forEach(year => {
+          delete d[`ID ${year}`];
+        });
+        slugs.forEach(slug => {
+          delete d[slug];
+        });
+      });
+      columns = columns.concat(Object.keys(resp.data[0]));
+    });
+    stickies = Array.from(new Set(stickies));
+    stickies = stickies.concat(stickies.map(d => `ID ${d}`))
+      .sort((a, b) => a.includes("Year") ? 1 : a.replace("ID ", "").localeCompare(b.replace("ID ", "")));
+    columns = Array.from(new Set(columns))
+      .sort((a, b) => {
+        const sA = stickies.indexOf(a);
+        const sB = stickies.indexOf(b);
+        return sA < 0 && sB < 0 ? a.localeCompare(b) : sB - sA;
+      });
+
+    const results = nest()
+      .key(d => stickies.map(key => d[key] || "undefined").join("-"))
+      .rollup(leaves => Object.assign(...leaves))
+      .entries(merge(responses.map(resp => resp.data)))
+      .map(d => d.value);
+
+    const moe = {};
+    columns.forEach(c => {
+      if (c.toLowerCase().includes(" moe")) {
+        const match = columns.find(d => c.includes(d) && c !== d);
+        if (match) moe[match] = c;
+      }
+    });
+
+    // if (pivots.length) {
+    //   const newData =
+    // }
+    console.log(pivots);
+    console.log(stickies);
+    console.log(columns);
+    console.log(results);
+    // console.log(newData);
+
+    this.setState({columns, moe, results, stickies, intro: !results.length});
+
   }
 
   onClear() {
@@ -221,9 +245,22 @@ class Cart extends Component {
 
   }
 
+  toggleSetting(key) {
+    const {cart} = this.state;
+    const {cartKey} = this.props;
+    const setting = cart.settings.find(d => d.key === key);
+    setting.value = !setting.value;
+    localforage.setItem(cartKey, cart);
+    this.setState({cart});
+  }
+
   render() {
-    const {cart, columns, intro, results, stickies} = this.state;
+    const {cart, intro, moe, results, stickies} = this.state;
     const {measures} = this.props;
+    const showMOE = cart.settings.find(d => d.key === "showMOE").value;
+
+    const moes = Object.values(moe);
+    const columns = this.state.columns.filter(c => !moes.includes(c));
 
     const columnWidths = columns.map(key => {
       if (key === "Year") return 60;
@@ -241,7 +278,10 @@ class Cart extends Component {
       const format = val === undefined ? () => ""
         : typeof val === "string" ? d => d
           : FORMATTERS[measures[key]] || formatAbbreviate;
-      return <Cell wrapText={true}>{ format(val) }</Cell>;
+      const error = showMOE && moe[key] ? format(results[rowIndex][moe[key]]) : false;
+      return <Cell wrapText={true}>
+        { format(val) }{ error ? <span className="moe">± {error}</span> : null }
+      </Cell>;
     };
 
     if (results !== false && intro) {
@@ -277,6 +317,7 @@ class Cart extends Component {
               <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
             </Tooltip2>
           </div>) }
+          { cart.settings.map(s => <Checkbox key={s.key} checked={s.value} label={s.label} onChange={this.toggleSetting.bind(this, s.key)} />) }
           <div className="pt-button pt-fill pt-icon-download" onClick={this.onCSV.bind(this)}>
             Download Full Table as CSV File
           </div>

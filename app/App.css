@@ -127,9 +127,11 @@ input[type="text"] {
   padding-left: 22px;
   & .pt-control-indicator {
     border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--red);
   }
   & input:checked ~ .pt-control-indicator {
     background-color: var(--red);
+    box-shadow: inset 0 0 0 1px var(--red);
   }
   &:hover {
     & input:checked ~ .pt-control-indicator {

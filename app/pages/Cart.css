@@ -55,6 +55,16 @@
         }
       }
     }
+    & .pt-checkbox {
+      color: var(--red);
+      cursor: pointer;
+      display: block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 10px 5px 0;
+      letter-spacing: 0.55px;
+    }
     & .pt-button {
       background: none;
       border: 1px solid var(--red);
@@ -85,6 +95,10 @@
     overflow-x: scroll;
     overflow-y: hidden;
     position: relative;
+    & .moe {
+      opacity: 0.5;
+      margin-left: 4px;
+    }
   }
 }
 
