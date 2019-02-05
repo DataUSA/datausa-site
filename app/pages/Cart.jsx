@@ -17,6 +17,7 @@ import {saveAs} from "file-saver";
 import "./Cart.css";
 
 import Loading from "components/Loading";
+import {Object} from "es6-shim";
 
 const examples = [
   {
@@ -82,6 +83,7 @@ class Cart extends Component {
       columns: [],
       intro: true,
       moe: {},
+      responses: false,
       results: false,
       stickies: [],
       values: {}
@@ -116,7 +118,6 @@ class Cart extends Component {
 
     const {cart} = this.state;
     const {levels} = this.props;
-    if (!stickies) stickies = this.state.stickies;
     const pivots = cart.settings.filter(d => d.value && d.key.includes("pivot"));
     const levelsFlat = Object.keys(levels);
 
@@ -146,39 +147,60 @@ class Cart extends Component {
       columns = columns.concat(Object.keys(resp.data[0]));
     });
     stickies = Array.from(new Set(stickies));
-    stickies = stickies.concat(stickies.map(d => `ID ${d}`))
-      .sort((a, b) => a.includes("Year") ? 1 : a.replace("ID ", "").localeCompare(b.replace("ID ", "")));
-    columns = Array.from(new Set(columns))
+    stickies.forEach(s => {
+      const id = `ID ${s}`;
+      if (!s.includes("ID ") && !stickies.includes(id)) stickies.push(id);
+    });
+    stickies = stickies.sort((a, b) => a.includes("Year") ? 1 : a.replace("ID ", "").localeCompare(b.replace("ID ", "")));
+    columns = Array.from(new Set(columns));
+
+    let results = nest()
+      .key(d => stickies.map(key => d[key] || "undefined").join("-"))
+      .rollup(leaves => Object.assign(...leaves))
+      .entries(merge(responses.map(resp => resp.data)))
+      .map(d => d.value);
+
+    if (results.length && pivots.length) {
+      const nonYearStickies = stickies.filter(d => !d.toLowerCase().includes("year"));
+      const yearStickies = stickies.filter(d => d.toLowerCase().includes("year") && !d.includes("ID "));
+      const nestKeys = nonYearStickies.filter(d => d.includes("ID "));
+      const nonStickies = columns.filter(d => !stickies.includes(d));
+      results = nest()
+        .key(d => nestKeys.map(s => d[s]).join(" "))
+        .entries(results)
+        .map(group => {
+          const obj = {};
+          nonYearStickies.forEach(s => obj[s] = group.values[0][s]);
+          group.values.forEach(d => {
+            const year = yearStickies.map(s => d[s]).join(" ");
+            nonStickies.forEach(s => {
+              obj[`${s} (${year})`] = d[s];
+            });
+          });
+          return obj;
+        });
+      columns = Object.keys(results[0]);
+    }
+    columns = columns
       .sort((a, b) => {
         const sA = stickies.indexOf(a);
         const sB = stickies.indexOf(b);
         return sA < 0 && sB < 0 ? a.localeCompare(b) : sB - sA;
       });
 
-    const results = nest()
-      .key(d => stickies.map(key => d[key] || "undefined").join("-"))
-      .rollup(leaves => Object.assign(...leaves))
-      .entries(merge(responses.map(resp => resp.data)))
-      .map(d => d.value);
-
     const moe = {};
-    columns.forEach(c => {
-      if (c.toLowerCase().includes(" moe")) {
-        const match = columns.find(d => c.includes(d) && c !== d);
-        if (match) moe[match] = c;
+    const lowColumns = columns.map(c => c.toLowerCase());
+    lowColumns.forEach((c, index) => {
+      if (c.includes(" moe")) {
+        const match = columns.find((d, i) => {
+          const name = lowColumns[i];
+          return c.replace(" appx moe", "").replace("moe", "") === name && c !== name;
+        });
+        if (match) moe[match] = columns[index];
       }
     });
 
-    // if (pivots.length) {
-    //   const newData =
-    // }
-    console.log(pivots);
-    console.log(stickies);
-    console.log(columns);
-    console.log(results);
-    // console.log(newData);
-
-    this.setState({columns, moe, results, stickies, intro: !results.length});
+    this.setState({columns, moe, responses, results, stickies, intro: !results.length});
 
   }
 
@@ -251,7 +273,10 @@ class Cart extends Component {
     const setting = cart.settings.find(d => d.key === key);
     setting.value = !setting.value;
     localforage.setItem(cartKey, cart);
-    this.setState({cart});
+    const reload = key.includes("pivot");
+    this.setState({cart, loading: reload}, () => {
+      if (reload) this.formatData.bind(this)(this.state.responses, this.state.stickies);
+    });
   }
 
   render() {
@@ -309,7 +334,7 @@ class Cart extends Component {
         <div className="controls">
           <div className="title">Data Cart</div>
           <div className="sub">
-            { cart.data.length } Dataset{ cart.length > 1 ? "s" : "" }
+            { cart.data.length } Dataset{ cart.data.length > 1 ? "s" : "" }
           </div>
           { cart.data.map(d => <div key={d.slug} className="dataset">
             <div className="title">{d.title}</div>
@@ -317,7 +342,7 @@ class Cart extends Component {
               <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
             </Tooltip2>
           </div>) }
-          { cart.settings.map(s => <Checkbox key={s.key} checked={s.value} label={s.label} onChange={this.toggleSetting.bind(this, s.key)} />) }
+          { cart.settings.map(s => s.key !== "showMOE" || Object.keys(moe).length ? <Checkbox key={s.key} checked={s.value} label={s.label} onChange={this.toggleSetting.bind(this, s.key)} /> : null) }
           <div className="pt-button pt-fill pt-icon-download" onClick={this.onCSV.bind(this)}>
             Download Full Table as CSV File
           </div>
