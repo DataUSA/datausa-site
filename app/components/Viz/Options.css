@@ -69,6 +69,9 @@
 }
 
 .options-dialog {
+  max-width: calc(100% - 50px);
+  min-width: 400px;
+  width: auto;
   & .close-button {
     position: absolute;
     right: 5px;
@@ -236,7 +239,8 @@
         }
       }
       & .table {
-        height: 250px;
+        height: auto;
+        max-height: calc(100vh - 200px);
         overflow-x: scroll;
         width: 100%;
         & .bp-table-container {
