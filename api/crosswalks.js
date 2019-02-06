@@ -121,101 +121,104 @@ module.exports = function(app) {
     const attr = await db.search.findOne({where: {[sequelize.Op.or]: {id: urlId, slug: urlId}, dimension}})
       .catch(err => res.json(err));
 
-    const {hierarchy, id} = attr;
-    let attrs = [];
-
-    if (dimension === "Geography") {
-      if (id === "01000US") {
-        const states = await axios.get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
-          .then(resp => {
-            const arr = resp.data.data;
-            const l = Math.ceil(parseFloat(limit || 6) / 2);
-            return arr.slice(0, l).concat(arr.slice(-l));
-          });
-        attrs = states.length ? await db.search
-          .findAll({where: {id: states.map(d => d["ID State"]), dimension}})
-          .catch(err => res.json(err)) : [];
-      }
-      else {
-        const prefix = id.slice(0, 3);
-
-        const targetLevels = prefix === "040" ? "msa" /* state */
-          : prefix === "050" ? "state,msa" /* county */
-            : prefix === "310" ? "state" /* msa */
-              : prefix === "160" ? "state,msa,county,puma" /* place */
-                : prefix === "795" ? "state,msa,county" /* puma */
-                  : false;
-
-        const url = targetLevels
-          ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
-          : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
-
-        let ids = await axios.get(url)
-          .then(resp => resp.data.map(d => d.geoid))
-          .catch(err => res.json(err));
-
-        ids.push("01000US");
-
-        if (cache.pops[id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
-
-        attrs = await db.search
-          .findAll({where: {id: ids, dimension}})
-          .catch(err => res.json(err));
-
-        const neighbors = ["160"].includes(prefix) ? [] : await axios.get(`${CANON_API}/api/neighbors?dimension=Geography&id=${id}`)
-          .then(resp => resp.data.data)
-          .catch(err => res.json(err));
-
-        attrs = attrs.concat(neighbors)
-          .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id)) === i);
-      }
-    }
-    else if (dimension === "University") {
-      if (hierarchy === "University") {
-        const ids = (universitySimilar[id] || [])
-          .slice(0, limit || 5)
-          .map(d => d.university);
-        attrs = await db.search
-          .findAll({where: {id: ids, dimension}})
-          .catch(err => res.json(err));
-      }
-      else {
-        attrs = await db.search
-          .findAll({where: {dimension, hierarchy}})
-          .catch(err => res.json(err));
-      }
-    }
+    if (!attr) res.json({error: "Not a valid ID"});
     else {
 
-      const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
-        .then(resp => resp.data)
-        .catch(err => res.json(err));
+      const {hierarchy, id} = attr;
+      let attrs = [];
 
-      attrs = parents.length ? await db.search
-        .findAll({where: {id: parents.map(d => d.id), dimension}})
-        .catch(err => res.json(err)) : [];
+      if (dimension === "Geography") {
+        if (id === "01000US") {
+          const states = await axios.get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
+            .then(resp => {
+              const arr = resp.data.data;
+              const l = Math.ceil(parseFloat(limit || 6) / 2);
+              return arr.slice(0, l).concat(arr.slice(-l));
+            });
+          attrs = states.length ? await db.search
+            .findAll({where: {id: states.map(d => d["ID State"]), dimension}})
+            .catch(err => res.json(err)) : [];
+        }
+        else {
+          const prefix = id.slice(0, 3);
 
-      const measures = {
-        "PUMS Occupation": "Average Wage",
-        "PUMS Industry": "Average Wage",
-        "CIP": "Completions",
-        "NAPCS": "Obligation Amount"
-      };
-      const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}`)
-        .then(resp => resp.data.data.map(d => d[`ID ${hierarchy}`]))
-        .catch(err => res.json(err)) : [];
+          const targetLevels = prefix === "040" ? "msa" /* state */
+            : prefix === "050" ? "state,msa" /* county */
+              : prefix === "310" ? "state" /* msa */
+                : prefix === "160" ? "state,msa,county,puma" /* place */
+                  : prefix === "795" ? "state,msa,county" /* puma */
+                    : false;
 
-      const neighborAttrs = neighbors.length ? await db.search
-        .findAll({where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy}})
-        .catch(err => res.json(err)) : [];
+          const url = targetLevels
+            ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevels}`
+            : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
 
-      attrs = attrs.concat(neighborAttrs)
-        .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id && a.hierarchy === d.hierarchy)) === i);
+          let ids = await axios.get(url)
+            .then(resp => resp.data.map(d => d.geoid))
+            .catch(err => res.json(err));
+
+          ids.push("01000US");
+
+          if (cache.pops[id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
+
+          attrs = await db.search
+            .findAll({where: {id: ids, dimension}})
+            .catch(err => res.json(err));
+
+          const neighbors = ["160"].includes(prefix) ? [] : await axios.get(`${CANON_API}/api/neighbors?dimension=Geography&id=${id}`)
+            .then(resp => resp.data.data)
+            .catch(err => res.json(err));
+
+          attrs = attrs.concat(neighbors)
+            .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id)) === i);
+        }
+      }
+      else if (dimension === "University") {
+        if (hierarchy === "University") {
+          const ids = (universitySimilar[id] || [])
+            .slice(0, limit || 5)
+            .map(d => d.university);
+          attrs = await db.search
+            .findAll({where: {id: ids, dimension}})
+            .catch(err => res.json(err));
+        }
+        else {
+          attrs = await db.search
+            .findAll({where: {dimension, hierarchy}})
+            .catch(err => res.json(err));
+        }
+      }
+      else {
+
+        const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
+          .then(resp => resp.data)
+          .catch(err => res.json(err));
+
+        attrs = parents.length ? await db.search
+          .findAll({where: {id: parents.map(d => d.id), dimension}})
+          .catch(err => res.json(err)) : [];
+
+        const measures = {
+          "PUMS Occupation": "Average Wage",
+          "PUMS Industry": "Average Wage",
+          "CIP": "Completions",
+          "NAPCS": "Obligation Amount"
+        };
+        const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}`)
+          .then(resp => resp.data.data.map(d => d[`ID ${hierarchy}`]))
+          .catch(err => res.json(err)) : [];
+
+        const neighborAttrs = neighbors.length ? await db.search
+          .findAll({where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy}})
+          .catch(err => res.json(err)) : [];
+
+        attrs = attrs.concat(neighborAttrs)
+          .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id && a.hierarchy === d.hierarchy)) === i);
+      }
+
+      res.json(attrs.sort((a, b) => b.zvalue - a.zvalue).slice(0, limit || 6));
+
     }
-
-    res.json(attrs.sort((a, b) => b.zvalue - a.zvalue).slice(0, limit || 6));
-
-
 
   });
 

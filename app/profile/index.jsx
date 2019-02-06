@@ -17,6 +17,8 @@ import Loading from "components/Loading";
 import Tile from "components/Tile/Tile";
 import Section from "toCanon/Section";
 
+import NotFound from "../pages/NotFound/NotFound";
+
 const categories = {
   geo: [
     {title: "Wages", slug: "wages", topic: "income", section: "economy"},
@@ -58,12 +60,14 @@ const categories = {
 class Profile extends Component {
 
   constructor(props) {
+
     super(props);
+
     const {pslug} = props.params;
 
     const cats = categories[pslug] || [];
     const sidenav = [];
-    props.profile.sections.forEach(s => {
+    (!props.profile.error ? props.profile.sections : []).forEach(s => {
       const sectionCats = cats.filter(c => c.section === s.slug);
       if (sectionCats.length) sidenav.push(sectionCats.map(s => ({title: s.title, slug: `category_${s.slug}`})));
       else sidenav.push([{title: s.title.replace(/<[^>]+>/g, ""), slug: s.slug}]);
@@ -112,14 +116,22 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this.scrollBind);
-    this.scrollBind();
-    const {query} = this.props.location;
-    if (query.compare) this.addComparison.bind(this)(query.compare);
+
+    if (!this.props.profile.error) {
+
+      window.addEventListener("scroll", this.scrollBind);
+      this.scrollBind();
+      const {query} = this.props.location;
+      if (query.compare) this.addComparison.bind(this)(query.compare);
+
+    }
+
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.scrollBind);
+    if (!this.props.profile.error) {
+      window.removeEventListener("scroll", this.scrollBind);
+    }
   }
 
   handleScroll() {
@@ -161,8 +173,11 @@ class Profile extends Component {
 
   render() {
 
-    const {stripHTML} = this.context.formatters;
     const {origin, params, profile, similar} = this.props;
+
+    if (profile.error) return <NotFound />;
+
+    const {stripHTML} = this.context.formatters;
     const {pslug} = params;
     const {activeSection, activeSidenav, comparisons, loading, showSidenav, sidenav} = this.state;
     const joiner = ["geo"].includes(pslug) ? "in" : "for";

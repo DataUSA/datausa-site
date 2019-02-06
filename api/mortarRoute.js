@@ -230,57 +230,62 @@ module.exports = function(app) {
   app.get("/api/profile/:slug/:pid", async(req, res) => {
     req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, pid} = req.params;
-    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
-    const attribute = await db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}}});
-    const {id} = attribute;
-    const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`).then(resp => resp.data);
+    const attribute = await db.search.findOne({where: {dimension: searchMap[slug], [sequelize.Op.or]: {id: pid, slug: pid}}});
+    if (!attribute) res.json({error: "Not a valid ID"});
+    else {
 
-    /* The following Promises, as opposed to being nested, are run sequentially.
-     * Each one returns a new promise, whose response is then handled in the following block
-     * Note that this means if any info from a given block is required in any later block,
-     * We must pass that info as one of the arguments of the returned Promise.
-    */
+      const {id} = attribute;
+      const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+      const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`).then(resp => resp.data);
 
-    Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll(), axios.get(`${origin}/api/parents/${slug}/${id}`)])
+      /* The following Promises, as opposed to being nested, are run sequentially.
+      * Each one returns a new promise, whose response is then handled in the following block
+      * Note that this means if any info from a given block is required in any later block,
+      * We must pass that info as one of the arguments of the returned Promise.
+      */
 
-      // Given the completely built returnVariables and all the formatters (formatters are global)
-      // Get the ACTUAL profile itself and all its dependencies and prepare it to be formatted and regex replaced
-      // See profileReq above to see the sequelize formatting for fetching the entire profile
-      .then(resp => {
-        const variables = resp[0].data;
-        delete variables._genStatus;
-        delete variables._matStatus;
-        const formatters = resp[1];
-        const breadcrumbs = resp[2].data;
-        const formatterFunctions = formatters4eval(formatters);
-        const request = axios.get(`${origin}/api/internalprofile/${slug}`);
-        return Promise.all([variables, formatterFunctions, request, breadcrumbs]);
-      })
-      // Given a returnObject with completely built returnVariables, a hash array of formatter functions, and the profile itself
-      // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
-      .then(resp => {
-        let returnObject = {};
-        const [variables, formatterFunctions, request, breadcrumbs] = resp;
-        // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
-        if (verbose) console.log("Variables Loaded, starting varSwap...");
-        const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
-        returnObject = Object.assign({}, returnObject, profile);
-        returnObject.id = id;
-        returnObject.variables = variables;
-        returnObject.breadcrumbs = breadcrumbs;
-        returnObject.image = image;
-        returnObject.sections.forEach(section => {
-          section.topics.forEach(topic => {
-            topic.section = section.slug;
+      Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll(), axios.get(`${origin}/api/parents/${slug}/${id}`)])
+
+        // Given the completely built returnVariables and all the formatters (formatters are global)
+        // Get the ACTUAL profile itself and all its dependencies and prepare it to be formatted and regex replaced
+        // See profileReq above to see the sequelize formatting for fetching the entire profile
+        .then(resp => {
+          const variables = resp[0].data;
+          delete variables._genStatus;
+          delete variables._matStatus;
+          const formatters = resp[1];
+          const breadcrumbs = resp[2].data;
+          const formatterFunctions = formatters4eval(formatters);
+          const request = axios.get(`${origin}/api/internalprofile/${slug}`);
+          return Promise.all([variables, formatterFunctions, request, breadcrumbs]);
+        })
+        // Given a returnObject with completely built returnVariables, a hash array of formatter functions, and the profile itself
+        // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
+        .then(resp => {
+          let returnObject = {};
+          const [variables, formatterFunctions, request, breadcrumbs] = resp;
+          // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
+          if (verbose) console.log("Variables Loaded, starting varSwap...");
+          const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
+          returnObject = Object.assign({}, returnObject, profile);
+          returnObject.id = id;
+          returnObject.variables = variables;
+          returnObject.breadcrumbs = breadcrumbs;
+          returnObject.image = image;
+          returnObject.sections.forEach(section => {
+            section.topics.forEach(topic => {
+              topic.section = section.slug;
+            });
           });
+          if (verbose) console.log("varSwap complete, sending json...");
+          res.json(returnObject).end();
+        })
+        .catch(err => {
+          console.error("Error!", err);
         });
-        if (verbose) console.log("varSwap complete, sending json...");
-        res.json(returnObject).end();
-      })
-      .catch(err => {
-        console.error("Error!", err);
-      });
+
+    }
 
   });
 
