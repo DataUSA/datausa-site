@@ -13,7 +13,8 @@
     "start": "canon-start",
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
     "locales": "canon-locales",
-    "release": "canon-release"
+    "release": "canon-release",
+    "zvalue": "node scripts/zvalue.js"
   },
   "repository": {
     "type": "git",
