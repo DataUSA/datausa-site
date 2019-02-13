@@ -19,7 +19,7 @@
       & img {
         display: block;
         height: 23px;
-        margin: -3px auto 2px;
+        margin: 0 auto 2px;
         width: 23px;
       }
       &:hover {
