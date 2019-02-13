@@ -149,7 +149,7 @@ export default {
     "font-size": "16px",
     "font-weight": "300"
   },
-  ocean: "#D5DADC",
+  ocean: "transparent",
   padPixel: 1,
   shapeConfig: {
     Area: {
