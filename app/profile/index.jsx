@@ -231,7 +231,7 @@ class Profile extends Component {
         <Splash data={profile} comparisons={comparisons} />
 
         <Section data={{...profile, title: "About", slug: "about", profileSlug: profile.slug} } comparisons={comparisons} breadcrumbs={true} photo={true} />
-        <div className="toc">
+        {/* <div className="toc">
           { profile.sections.map((s, i) => {
             let subs = sidenav[i];
             if (subs.length === 1) subs = [{title: "Start Exploring", slug: s.slug}];
@@ -245,7 +245,7 @@ class Profile extends Component {
               </div>
             </div>;
           }) }
-        </div>
+        </div> */}
 
         { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);
@@ -256,7 +256,7 @@ class Profile extends Component {
 
         <SubNav type="scroll" anchor="top" visible={() => {
           if (typeof window === undefined) return false;
-          const elem = select(".Section.about").node();
+          const elem = select("#Splash .profile-sections").node();
           return elem.getBoundingClientRect().top <= 45;
         }}>
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
