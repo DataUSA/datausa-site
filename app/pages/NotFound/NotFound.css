@@ -1,5 +1,5 @@
 .notfound {
-  background-color: var(--blue);
+  background-color: var(--dark);
   color: var(--white);
   height: calc(100vh - 242px);
   left: 0;
