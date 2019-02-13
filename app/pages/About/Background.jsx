@@ -5,8 +5,8 @@ import "./Background.css";
 import Anchor from "components/Anchor";
 
 const videos = [
-  "https://www.youtube.com/embed/VJ29nJl-xWw",
-  "https://player.vimeo.com/video/166762095?badge=0&byline=0&portrait=0&title=0"
+  "https://www.youtube.com/embed/VJ29nJl-xWw"
+  // "https://player.vimeo.com/video/166762095?badge=0&byline=0&portrait=0&title=0"
 ];
 
 export default class Background extends Component {
@@ -33,8 +33,8 @@ export default class Background extends Component {
       <div id="Background">
         <div className="video-container">
           { videos.map((url, i) => <iframe key={i} className={ `video ${ video === i ? "active" : video > i ? "prev" : "next" }` } src={ url } frameBorder="0" allowFullScreen></iframe>) }
-          <span className="video-prev pt-icon-large pt-icon-chevron-left" onClick={this.onPrev.bind(this)}></span>
-          <span className="video-next pt-icon-large pt-icon-chevron-right" onClick={this.onNext.bind(this)}></span>
+          { videos.length > 1 && <span className="video-prev pt-icon-large pt-icon-chevron-left" onClick={this.onPrev.bind(this)}></span> }
+          { videos.length > 1 && <span className="video-next pt-icon-large pt-icon-chevron-right" onClick={this.onNext.bind(this)}></span> }
         </div>
         <div className="logos">
           <AnchorLink to="about-deloitte"><img src="/images/footer/deloitte_dark.png" /></AnchorLink>
