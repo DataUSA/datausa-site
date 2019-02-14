@@ -29,6 +29,7 @@ module.exports = function(sequelize, db) {
   );
 
   s.associate = models => {
+    s.belongsTo(models.profiles, {foreignKey: "profile_id", sourceKey: "id", as: "profile"});
     s.hasMany(models.topics, {foreignKey: "section_id", sourceKey: "id", as: "topics"});
     s.hasMany(models.sections_subtitles, {foreignKey: "section_id", sourceKey: "id", as: "subtitles"});
     s.hasMany(models.sections_descriptions, {foreignKey: "section_id", sourceKey: "id", as: "descriptions"});
