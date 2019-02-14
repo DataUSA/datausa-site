@@ -88,6 +88,21 @@
         padding: 4px 9px;
       }
     }
+    & .dims {
+      & .pt-tag {
+        font-size: 10px;
+        font-weight: 700;
+        margin: 1px 2px 1px 0;
+        opacity: 0.5;
+        padding: 0px 3px 1px;
+      }
+    }
+    & .select-item {
+      padding: 4px 7px 7px;
+      & .select-label {
+        white-space: normal;
+      }
+    }
     & .select-option {
       background: white;
       color: #949494;
@@ -95,15 +110,6 @@
       font-size: 13px;
       &:hover {
         background: rgb(241, 241, 241);
-      }
-      & .dims {
-        & .pt-tag {
-          font-size: 10px;
-          font-weight: 700;
-          margin: 1px 2px 0 0;
-          opacity: 0.5;
-          padding: 0px 3px 1px;
-        }
       }
     }
     & .select-measure {
@@ -115,6 +121,24 @@
         padding: 0;
         & .select-popover-content {
           min-width: 269px;
+          & .virtlist-wrapper {
+            margin-top: 0;
+            & li {
+              list-style: none;
+              padding: 0;
+              & .topic  {
+                color: var(--black);
+                font-size: 14px;
+                padding: 7px 7px 0;
+                &:last-child {
+                  padding-bottom: 7px;
+                }
+              }
+              & .subtopic {
+                padding: 0 7px 7px;
+              }
+            }
+          }
           & .deeplist-wrapper {
             margin-top: 0;
           }
@@ -166,10 +190,6 @@
         }
         & .padded {
           padding-left: 15px;
-        }
-        & .select-label {
-          display: inline-block;
-          padding: 3px 5px;
         }
       }
       & .grouping-item, & .filter-item {
