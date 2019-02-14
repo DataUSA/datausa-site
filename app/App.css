@@ -123,6 +123,10 @@ input[type="text"] {
   }
 }
 
+.pt-transition-container {
+  z-index: 30;
+}
+
 .pt-control.pt-checkbox {
   padding-left: 22px;
   & .pt-control-indicator {
