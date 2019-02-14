@@ -30,7 +30,7 @@
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
     "@datawheel/canon-core": "^0.16.20",
-    "@datawheel/canon-logiclayer": "^0.3.8",
+    "@datawheel/canon-logiclayer": "^0.3.10",
     "@datawheel/canon-vizbuilder": "^0.1.26",
     "buble": "^0.19.3",
     "eslint": "^4.16.0",
