@@ -104,14 +104,14 @@ class Visualize extends Component {
 
   }
 
-  onCart() {
+  async onCart() {
 
     const {cart, query} = this.state;
     const {cartKey} = this.props;
     const inCart = cart.data.find(c => c.slug === query.slug);
     if (inCart) cart.data.splice(cart.data.indexOf(query), 1);
     else cart.data.push(query);
-    localforage.setItem(cartKey, cart);
+    await localforage.setItem(cartKey, cart);
     this.forceUpdate();
 
   }
