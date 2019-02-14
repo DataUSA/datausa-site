@@ -75,107 +75,190 @@ topics:
           height: 500,
           type: "BarChart"
         }
-
-    viz:
-      attrs: "geo"
-      data:
-        - geo: "01000US,79500US0200400,79500US3603810,79500US2901400"
-          required: "income,income_moe"
-          show: "geo"
-          year: "2014"
-      id: "geo"
-      highlight: "01000US"
-      labels: YES
-      order:
-        sort: "asc"
-        value: "income"
-      type: "bar"
-      x: "income"
-      y:
-        scale: "discrete"
-        value: "geo"
   - descriptions:
       - "The mix of industries and occupations varies hugely between locations as well. In the New York PUMA, the most common occupation is Executive, and the most common industries are Professional and Scientific and Tech Services, as well as Finance & Insurance. These are industries in which having some level of higher education is usually a prerequisite; and the more you have, the more you’re likely to earn. In the Missourian counties, on the other hand, we find that Administrative Supervisor is the most common occupation, and the most common industries are Retail Trade and Healthcare. Administrative Supervisors are most common in Subsistence Alaska as well, in the Public Admin and Healthcare and Social Assistance categories, which tend to be less specialized."
       - "More revealing, perhaps, is the relative specialization of each location. Compared to the Missouri counties, both the New York neighborhoods and Subsistence Alaska are home to some deeply specialized professionals—ones that tend to be polar opposites in their nature as well."
   - class: "flex flex-short"
     title: "Specialization in Battery Park City, Greenwich Village, and SoHo, New York City"
-    viz:
-      - attrs: "acs_ind"
-        color: "top"
-        data:
-          - geo: "79500US3603810"
-            limit: "5"
-            order: "num_emp_rca"
-            required: "num_emp,num_emp_moe,num_emp_rca"
-            sort: "desc"
-            show: "geo,acs_ind"
-            sumlevel: "puma,1"
-            year: "2014"
-        height: 250
-        id: "acs_ind"
-        labels: YES
-        order:
-          sort: "asc"
-          value: "num_emp_rca"
-        type: "bar"
-        x: "num_emp_rca"
-        y:
-          scale: "discrete"
-          value: "acs_ind"
+    visualizations: 
+      - >-
+        const {abbreviate, commas, salary} = formatters;
+        const colorMost = "#1A3E61";
+        const measures = "Total%20Population,Total%20Population%20MOE%20Appx,ygipop%20RCA";
+
+        return {
+          data: `/api/data?Geography=79500US3603810&measure=${measures}&drilldowns=Industry%20Sub-Sector&order=ygipop%20RCA&sort=desc&limit=5&Year=2014`,
+          discrete: "y",
+          groupBy: "Industry Sub-Sector",
+          height: 500,
+          shapeConfig: {
+            Bar: {
+              labelConfig: {
+                textAnchor: "start"
+              }
+            },
+            fill: colorMost
+          },
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Total Employees", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+              ["Total Employees (RCA)", d => abbreviate(d["ygipop RCA"])]
+            ]
+          },
+          type: "BarChart",
+          x: "ygipop RCA",
+          xConfig: {
+            tickFormat: d => abbreviate(d),
+            title: "People in Workforce (RCA)"
+          },
+          y: "Industry Sub-Sector",
+          yConfig: {
+            ticks: [],
+            title: "ACS Industry"
+          },
+          ySort: (a, b) => a["ygipop RCA"] - b["ygipop RCA"]
+        }
   - class: "flex flex-short"
     title: "Specialization in Subsistence Alaska"
-    viz:
-      - attrs: "acs_ind"
-        color: "top"
-        data:
-          - geo: "79500US0200400"
-            limit: "5"
-            order: "num_emp_rca"
-            required: "num_emp,num_emp_moe,num_emp_rca"
-            sort: "desc"
-            show: "geo,acs_ind"
-            sumlevel: "puma,1"
-            year: "2014"
-        height: 250
-        id: "acs_ind"
-        labels: YES
-        order:
-          sort: "asc"
-          value: "num_emp_rca"
-        type: "bar"
-        x: "num_emp_rca"
-        y:
-          scale: "discrete"
-          value: "acs_ind"
+    visualizations: 
+      - >-
+        const {abbreviate, commas, salary} = formatters;
+        const colorMost = "#1A3E61";
+        const measures = "Total%20Population,Total%20Population%20MOE%20Appx,ygipop%20RCA";
+
+        return {
+          data: `/api/data?Geography=79500US0200400&measure=${measures}&drilldowns=Industry%20Sub-Sector&order=ygipop%20RCA&sort=desc&limit=5&Year=2014`,
+          discrete: "y",
+          groupBy: "Industry Sub-Sector",
+          height: 500,
+          shapeConfig: {
+            Bar: {
+              labelConfig: {
+                textAnchor: "start"
+              }
+            },
+            fill: colorMost
+          },
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Total Employees", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+              ["Total Employees (RCA)", d => abbreviate(d["ygipop RCA"])]
+            ]
+          },
+          type: "BarChart",
+          x: "ygipop RCA",
+          xConfig: {
+            tickFormat: d => abbreviate(d),
+            title: "People in Workforce (RCA)"
+          },
+          y: "Industry Sub-Sector",
+          yConfig: {
+            ticks: [],
+            title: "ACS Industry"
+          },
+          ySort: (a, b) => a["ygipop RCA"] - b["ygipop RCA"]
+        }
   - class: "flex flex-short"
     title: "Specialization in the Missouri counties"
-    viz:
-      - attrs: "acs_ind"
-        color: "top"
-        data:
-          - geo: "79500US2901400"
-            limit: "5"
-            order: "num_emp_rca"
-            required: "num_emp,num_emp_moe,num_emp_rca"
-            sort: "desc"
-            show: "geo,acs_ind"
-            sumlevel: "puma,1"
-            year: "2014"
-        height: 250
-        id: "acs_ind"
-        labels: YES
-        order:
-          sort: "asc"
-          value: "num_emp_rca"
-        type: "bar"
-        x: "num_emp_rca"
-        y:
-          scale: "discrete"
-          value: "acs_ind"
+    visualizations: 
+      - >-
+        const {abbreviate, commas, salary} = formatters;
+        const colorMost = "#1A3E61";
+        const measures = "Total%20Population,Total%20Population%20MOE%20Appx,ygipop%20RCA";
+
+        return {
+          data: `/api/data?Geography=79500US2901400&measure=${measures}&drilldowns=Industry%20Sub-Sector&order=ygipop%20RCA&sort=desc&limit=6&Year=2014`,
+          dataFormat: resp => resp.data.filter(d => d["Industry Sub-Sector"] != "Active Duty Military"),
+          discrete: "y",
+          groupBy: "Industry Sub-Sector",
+          height: 500,
+          shapeConfig: {
+            Bar: {
+              labelConfig: {
+                textAnchor: "start"
+              }
+            },
+            fill: colorMost
+          },
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Total Employees", d => commas(d["Total Population"])],
+              ["Margin of Error", d => `± ${commas(d["Total Population MOE Appx"])}`],
+              ["Total Employees (RCA)", d => abbreviate(d["ygipop RCA"])]
+            ]
+          },
+          type: "BarChart",
+          x: "ygipop RCA",
+          xConfig: {
+            tickFormat: d => abbreviate(d),
+            title: "People in Workforce (RCA)"
+          },
+          y: "Industry Sub-Sector",
+          yConfig: {
+            ticks: [],
+            title: "ACS Industry"
+          },
+          ySort: (a, b) => a["ygipop RCA"] - b["ygipop RCA"]
+        }
   - descriptions:
       - "Not that specialization necessarily leads to higher salaries, of course. Some professions—physicians, lawyers, and IT scientists—do well across all three geographies."
       - "This difference in incomes is reflected in the vast differences in property values we see across the three locations. The median property value we see in Pulaski, Camden, Miller, and Morgan counties is $136,600, significantly lower than the US average of $175,700. Subsistence Alaska is almost exactly the same as the average, at $177,500. In the Manhattan neighborhoods, by contrast, median property values are well above $1 million—literally off the scale."
     title: "Property values in Battery Park, Greenwich Village, and SoHo versus the US average (in gray)"
+    visualizations: 
+      - >-
+        const colorGrey = "#C6C7CA";
+        const colorHighlight = "#ef6145";
+        const {nest, sum} = libs.d3;
+        const {abbreviate, bucket} = formatters;
+
+        const measure = "Property Value by Bucket";
+        const measureEncoded = measure.replace(/\s/g, "%20");
+
+        return {
+          data: `/api/data?measure=${measure},${measure}%20Moe&geo=01000US,79500US3603810&drilldowns=Value%20Bucket&Year=2016`,
+          dataFormat: resp => {
+            const data = resp.data;
+            nest().key(d => `${d.Year}_${d.Geography}`)
+              .entries(data)
+              .forEach(group => {
+                const total = sum(group.values, d => d[measure]);
+                group.values.forEach(d => d.share = d[measure] / total);
+              });
+  
+            return data;
+          },
+          groupBy: "Geography",
+          legend: false,
+          shapeConfig: {
+            fill: d => d["ID Geography"] === "79500US3603810" ? colorHighlight : colorGrey
+          },
+          height: 500,
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Households", d => abbreviate(d[measure])],
+              ["Margin of Error", d => `± ${abbreviate(d[`${measure} Moe`])}`],
+              ["Share", d => `${abbreviate(d.share * 100)}%`]
+            ]
+          },
+          type: "BarChart",
+          x: "Value Bucket",
+          xConfig: {
+            labelRotation: false,
+            tickFormat: d => bucket(d)
+          },
+          xSort: (a, b) => a["ID Value Bucket"] - b["ID Value Bucket"],
+          y: "share",
+          yConfig: {
+            tickFormat: d => `${abbreviate(d * 100)}%`,
+            title: "Share"
+          }
+        }
     viz:
       attrs: "geo"
       data:
