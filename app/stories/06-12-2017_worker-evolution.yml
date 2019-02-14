@@ -12,10 +12,123 @@ topics:
       - "Over the past 241 years, the American workforce has undergone a number of epic shifts. We started out generally as a nation of farmers and, as equipment improved and cities grew, many began to leave behind the family farm in favor of better-paying factory jobs. By the early 1900s, 38 percent of American workers toiled on farms while another 31 percent worked in factories, mining, or construction.<<foot note=1>> Advances in technology over the next century commonly meant ever fewer jobs for farmers and factory workers, and by 2000, nearly 80 percent of the American workforce was in the service industry—up from 31 percent in 1900—with only 3 percent working in farming, according to the US Department of Labor."
       - "The workforce might now be in the throes of another major transition. As retail employment appears to soften and cognitive technologies threaten office jobs, opportunities may be expanding in the health care sector, driven by an aging population and increased access to health insurance.<<foot note=2>> Students appear to be aware of the trend: Nursing schools are seeing booming enrollment. In fact, nursing is now the third-most sought-after bachelor’s degree—just slightly behind general business and management—out of 1,416 degrees tracked. By 2024, forecasters expect about 3.2 million registered nurses in the workforce, up 16 percent from 2014. Some specializations within nursing are expected to see even more dramatic growth, according to Data USA."
   - title: "Job Growth for Registered Nurses"
-    viz_url: "/profile/soc/291141/growth/job_growth/"
+  - visualizations:
+      - >-
+        const id = "291141";
+        const colorHighlight = "#ef6145";
+        const {abbreviate, bucket, commas} = formatters;
+
+        return {
+          data: `/api/data?Occupation=${id}&measures=Occupation%20Employment%20Thousands%202016,Occupation%20Employment%20Thousands%202026`,
+          dataFormat: resp => {
+            const data = resp.data.reduce((all, d) => {
+              all.push({
+                "PUMS Occupation": d["PUMS Occupation"],
+                "Occupation Employment": d["Occupation Employment Thousands 2016"] * 1000,
+                "ID Year": 2016
+              });
+              all.push({
+                "PUMS Occupation": d["PUMS Occupation"],
+                "Occupation Employment": d["Occupation Employment Thousands 2026"] * 1000,
+                "ID Year": 2026
+              });
+              return all;
+            }, []);
+            return data;
+          },
+          groupBy: "PUMS Occupation",
+          groupPadding: 10,
+          legend: false,
+          shapeConfig: {
+            Line: {
+              stroke: d => colorHighlight 
+            }
+          },
+          tooltipConfig: {
+            tbody: [
+              ["Occupation", "Registered Nurses"],
+              ["Year", d => d["ID Year"]],
+              ["Total Employees", d => commas(d["Occupation Employment"])]
+            ]
+          },
+          type: "LinePlot",
+          x: "ID Year",
+          xConfig: {
+            labelRotation: false
+          },
+          xSort: (a, b) => a["ID Year"] - b["ID Year"],
+          y: "Occupation Employment",
+          yConfig: {
+            tickFormat: d => abbreviate(d),
+            title: "TOTAL EMPLOYEES"
+          }
+        }
   - descriptions:
       - "For other industries, the future may not be so bright. Most prominently, automation continues to eliminate manufacturing jobs. In 2014, about 12 million people worked in the manufacturing sector—2 million fewer than a decade earlier—and forecasters expect manufacturers to trim their rolls by another 800,000 by 2024."
   - title: "Job Growth for the Manufacturing Sector"
+  - visualizations:
+    - >-
+      const colorHighlight = "#ef6145";
+      const colorGrey = "#C6C7CA";
+      const id = "31-33";
+      const nationalJobs = [{"PUMS Industry":"National Average","Industry Jobs National":245119600.0366211,"ID Year":2006}, {"PUMS Industry":"National Average","Industry Jobs National":262680899.9671936,"ID Year":2016}, {"PUMS Industry":"National Average","Industry Jobs National":284040301.3019562,"ID Year":2026}];
+      const {abbreviate, bucket, commas} = formatters;
+
+      return {
+        data: `/api/data?Industry=${id}&measures=Industry Jobs Thousands 2006,Industry Jobs Thousands 2016,Industry Jobs Thousands 2026`,
+        dataFormat: resp => {
+          const data = resp.data.reduce((all, d) => {
+            all.push({
+              "PUMS Industry": "Manufacturing",
+              "Industry Jobs": d["Industry Jobs Thousands 2006"] * 1000,
+              "ID Year": 2006
+            });
+            all.push({
+              "PUMS Industry": "Manufacturing",
+              "Industry Jobs": d["Industry Jobs Thousands 2016"] * 1000,
+              "ID Year": 2016
+            });
+            all.push({
+              "PUMS Industry": "Manufacturing",
+              "Industry Jobs": d["Industry Jobs Thousands 2026"] * 1000,
+              "ID Year": 2026
+            });
+            return all;
+          }, []);
+          return data.concat(nationalJobs);
+        },
+        groupBy: "PUMS Industry",
+        groupPadding: 10,
+        legend: false,
+        shapeConfig: {
+          Line: {
+            stroke: d => d["PUMS Industry"]==="National Average"?colorGrey:colorHighlight
+          }
+        },
+        tooltipConfig: {
+          tbody: [
+            ["Year", d => d["ID Year"]],
+            ["Total Employees", d => d["Industry Jobs"]?abbreviate(d["Industry Jobs"]):abbreviate(d["Industry Jobs National"])]
+          ]
+        },
+        type: "LinePlot",
+        x: "ID Year",
+        xConfig: {
+          labelRotation: false
+        },
+        xSort: (a, b) => a["ID Year"] - b["ID Year"],
+        y: "Industry Jobs",
+        y2: "Industry Jobs National",
+        yConfig: {
+          title: "EMPLOYEES",
+          titleConfig: {
+            fontColor: colorHighlight
+          }
+        },
+        y2Config: {
+          title: "NATIONAL WORKFORCE"
+        }
+      }
     viz_url: "/profile/naics/31-33/growth/job_growth/"
   - descriptions:
       - "With upheavals facing many sectors of the US economy,<<foot note=3>> it’s impossible to accurately predict how the shifts will affect the workforce, how workers and the government might respond, or even how long the health care sector will continue to add jobs. But there’s little question that in the near term, as aging Baby Boomers need more care, we will likely need professionals to help keep people healthy and comfortable."
