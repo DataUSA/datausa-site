@@ -29,6 +29,10 @@ module.exports = {
       {
         filter: cubes => cubes.filter(c => c.name.includes("_c_")),
         key: cube => cube.name.replace("_c_", "_")
+      },
+      {
+        filter: cubes => cubes.filter(c => c.name === "ipeds_graduation_demographics_v3"),
+        key: cube => cube.name === "ipeds_undergrad_grad_rate_demographics" || cube.name === "ipeds_graduation_demographics_v2" ? "ipeds_graduation_demographics_v3" : cube.name
       }
     ],
     dimensionMap: {
