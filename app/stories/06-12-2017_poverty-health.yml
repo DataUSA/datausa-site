@@ -27,39 +27,76 @@ topics:
       - "Indeed, most of the country’s least healthy and poorest states are in the South:"
   - class: flex
     title: "Poor Health by State"
-    viz:
-      attrs: "geo"
-      color: "poor_or_fair_health"
-      coords: "states"
-      data:
-        - required: "poor_or_fair_health"
-          show: "geo"
-          sumlevel: "state"
-      id: "geo"
-      type: "Geomap"
+  - visualizations:
+      - >-
+        const {abbreviate} = formatters;
+
+        return {
+          data: "/api/data?drilldowns=State&measure=Poor Or Fair Health,Poor Or Fair Health Data Source Years",
+          dataFormat: resp => resp.data.map(d => {
+            d["Poor Or Fair Health"] = d["Poor Or Fair Health"]*100;
+            return d;
+          }),
+          colorScale: "Poor Or Fair Health",
+          colorScaleConfig: {
+            color: ["#edd1d1", "#e4b4b4", "#dc9595", "#d57676", "#cf5555", "#CA3434", "#7b0000"],
+            axisConfig: {
+              tickFormat: d => `${abbreviate(d)}%`
+            }
+          },
+          groupBy: "ID State",
+          label: d => d["State"],
+          time: "Year",
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Poor Or Fair Health", d => `${abbreviate(d["Poor Or Fair Health"])}%`],
+              ["Collection Year", d => d["Poor Or Fair Health Data Source Years"]]
+            ]
+          },
+          height: 500,
+          projection: "geoAlbersUsa",
+          topojson: `/topojson/State.json`,
+          type: "Geomap"
+        }
+
   - class: flex
     title: "Poverty Rate by State"
-    viz:
-      attrs: "geo"
-      color: "income_below_poverty:pop_poverty_status"
-      coords: "states"
-      data:
-        - required: "income_below_poverty,income_below_poverty_moe,pop_poverty_status,pop_poverty_status_moe"
-          show: "geo"
-          sumlevel: "state"
-          divide:
-            num: "income_below_poverty"
-            den: "pop_poverty_status"
-            value: "income_below_poverty:pop_poverty_status"
-      id: "geo"
-      tooltip:
-        value:
-          - "income_below_poverty:pop_poverty_status"
-          - "income_below_poverty"
-          - "income_below_poverty_moe"
-          - "pop_poverty_status"
-          - "pop_poverty_status_moe"
-      type: "Geomap"
+  - visualizations:
+      - >-
+        const {abbreviate, commas} = formatters;
+
+        return {
+          data: "/api/data?drilldowns=State&measure=Poverty Rate,Poverty Population,Poverty Population Moe",
+          dataFormat: resp => resp.data.map(d => {
+            d["Population in Poverty"] = d["Poverty Rate"] * d["Poverty Population"];
+            d["Poverty Rate"] = d["Poverty Rate"] * 100;
+            return d;
+          }),
+          colorScale: "Poverty Rate",
+          colorScaleConfig: {
+            color: ["#edd1d1", "#e4b4b4", "#dc9595", "#d57676", "#cf5555", "#CA3434", "#7b0000"],
+            axisConfig: {
+              tickFormat: d => `${abbreviate(d)}%`
+            }
+          },
+          groupBy: "ID State",
+          label: d => d["State"],
+          time: "Year",
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Poverty Rate", d => `${abbreviate(d["Poverty Rate"])}%`],
+              ["Population in Poverty", d => commas(d["Population in Poverty"])],
+              ["Overall Population", d => abbreviate(d["Poverty Population"])],
+              ["Margin of Error", d => `±${commas(d["Poverty Population Moe"])}`]
+            ]
+          },
+          height: 500,
+          projection: "geoAlbersUsa",
+          topojson: `/topojson/State.json`,
+          type: "Geomap"
+        }
   - descriptions:
       - "Of course, poverty is a broad socioeconomic factor that’s at the root of many others associated with poor health. Cost can pose a barrier to factors that allow people to live a healthy lifestyle such as accessing health care<<foot note=4>> and healthy food.<<foot note=5>> Moreover, people with low socioeconomic status are more likely to live in areas with higher concentrations of air pollution.<<foot note=6>> In other words, poverty can cause cumulative disadvantages that can negatively impact health."
       - "Genetics, lifestyle choices, and access to modern medicine all play obvious roles in determining our overall health. The cumulative disadvantage of poverty may not come to mind as readily, but its role in health outcomes is no less critical."
