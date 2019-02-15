@@ -68,6 +68,22 @@
   }
 }
 
+.Section.compare {
+  & .option {
+    margin: 0 5px;
+    &:before {
+      margin-right: 0;
+    }
+    & .option-label {
+      display: none;
+    }
+  }
+}
+
+.option-tooltip {
+  max-width: 250px;
+}
+
 .options-dialog {
   max-width: calc(100% - 50px);
   min-width: 400px;
