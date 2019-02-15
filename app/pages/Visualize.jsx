@@ -64,7 +64,8 @@ class Visualize extends Component {
   }
 
   gotoExample(url) {
-    this.props.router.push(url);
+    window.location = url;
+    // this.props.router.push(url);
   }
 
   onChange(query) {
@@ -161,7 +162,8 @@ class Visualize extends Component {
             colorScaleConfig: {
               color: colors.colorScaleGood
             },
-            colorScalePosition: "bottom"
+            colorScalePosition: "bottom",
+            zoomScroll: true
           }}
           topojson={{
             "County": {

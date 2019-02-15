@@ -99,7 +99,8 @@ class Map extends Component {
           shapeConfig: {
             hoverOpacity: 1
           },
-          title: false
+          title: false,
+          zoomScroll: true
         }}
         visualizations={["geomap"]}
         topojson={{

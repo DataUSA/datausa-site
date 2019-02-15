@@ -62,4 +62,7 @@
       display: none;
     }
   }
+  & .d3plus-viz-title {
+    display: none;
+  }
 }
