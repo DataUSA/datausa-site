@@ -65,9 +65,15 @@ export {badMeasures};
  * @param {Object} d
  */
 function findColor(d) {
-  for (const key in colors) {
-    if (`ID ${key}` in d) {
-      return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+  let detectedColors = [];
+  if (this && this._filteredData) {
+    detectedColors = Array.from(new Set(this._filteredData.map(findColor)));
+  }
+  if (detectedColors.length !== 1) {
+    for (const key in colors) {
+      if (`ID ${key}` in d) {
+        return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+      }
     }
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
@@ -165,7 +171,7 @@ export default {
       }
     },
     fill: findColor,
-    hoverOpacity: 0.5,
+    hoverOpacity: 1,
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
