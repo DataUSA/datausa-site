@@ -7,6 +7,37 @@ topics:
   - descriptions:
       - "Hollywood may boast the nation's highest-priced beauty salons, but the best-coiffed Americans may actually live on the East Coast—specifically, in New York and Maryland."
       - "Well, OK, full disclosure: There was no panel of judges or sealed envelope. But according to US Census data, New York and Maryland employ more people in the beauty industry given the size of their overall labor pool and the industry's size as a whole for the nation. The top locations with a relatively high concentration of employees in beauty salons are the Flushing area of New York's Queens borough (with a revealed comparative advantage (RCA) of 5.4), Wheaton, MD (RCA of 3.3), and the Bronx borough of New York (RCA of 3.2)."
+  - visualizations: 
+    - >-
+      const id = "812112";
+      const {abbreviate} = formatters;
+
+      const measure = "ygipop RCA";
+      const measureEncoded = measure.replace(/\s/g, "%20");
+
+      return {
+        colorScale: measure,
+        colorScaleConfig: {
+          axisConfig: {
+            tickFormat: d => abbreviate(d),
+            title: "People in Workforce (RCA)"
+          }
+        },
+        height: 500,
+        data: `/api/data?PUMS%20Industry=${id}&drilldowns=PUMA&measure=${measureEncoded}`,
+        groupBy: "ID PUMA",
+        label: d => d["PUMA"],
+        tooltipConfig: {
+          tbody: [
+            ["Year", d => d.Year],
+            ["People in Workforce (RCA)", d => abbreviate(d[measure])]
+          ]
+        },
+        projection: "geoAlbersUsa",
+        topojson: `/topojson/Puma.json`,
+        time: "Year",
+        type: "Geomap"
+      };    
   - viz_url: "/profile/naics/812112/workforce/wage_geo_rca"
   - descriptions:
       - "New York's large number of beauty practitioners is perhaps little surprise given its dense population: Someone needs to cut the hair of all those New Yorkers, after all! Maryland is much less densely populated, so clearly other factors may be at play."
