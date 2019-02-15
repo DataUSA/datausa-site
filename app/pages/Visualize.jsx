@@ -2,14 +2,13 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Vizbuilder from "@datawheel/canon-vizbuilder";
-import localforage from "localforage";
 import {Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
-import {defaultCart} from "pages/Cart";
+import {addToCart, removeFromCart} from "actions/cart";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -51,22 +50,9 @@ class Visualize extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: false,
       intro: !props.router.location.search.length,
       query: {}
     };
-  }
-
-  componentDidMount() {
-
-    const {cartKey} = this.props;
-
-    localforage.getItem(cartKey)
-      .then(cart => {
-        if (!cart) cart = defaultCart;
-        this.setState({cart});
-      })
-      .catch(err => console.error(err));
   }
 
   showIntro() {
@@ -104,22 +90,20 @@ class Visualize extends Component {
 
   }
 
-  async onCart() {
+  onCart() {
 
-    const {cart, query} = this.state;
-    const {cartKey} = this.props;
+    const {query} = this.state;
+    const {addToCart, cart, removeFromCart} = this.props;
     const inCart = cart.data.find(c => c.slug === query.slug);
-    if (inCart) cart.data.splice(cart.data.indexOf(query), 1);
-    else cart.data.push(query);
-    await localforage.setItem(cartKey, cart);
-    this.forceUpdate();
+    if (inCart) removeFromCart(query);
+    else addToCart(query);
 
   }
 
   render() {
-    const {cart, intro, query} = this.state;
-    const {cube} = this.props;
-    const cartSize = cart.length;
+    const {intro, query} = this.state;
+    const {cart, cube} = this.props;
+    const cartSize = cart.data.length;
     const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     if (intro) {
@@ -220,5 +204,8 @@ Visualize.contextTypes = {
 
 export default connect(state => ({
   cube: state.env.CUBE,
-  cartKey: state.env.CART
+  cart: state.cart
+}), dispatch => ({
+  addToCart: build => dispatch(addToCart(build)),
+  removeFromCart: build => dispatch(removeFromCart(build))
 }))(Visualize);

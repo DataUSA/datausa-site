@@ -1,13 +1,16 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
 import {Link} from "react-router";
-import {Dialog} from "@blueprintjs/core";
+import {Dialog, PopoverInteractionKind} from "@blueprintjs/core";
+import {Popover2} from "@blueprintjs/labs";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
 
 import SearchButton from "./SearchButton";
+import {clearCart, removeFromCart} from "actions/cart";
 
-export default class Nav extends Component {
+class Nav extends Component {
 
   constructor(props) {
     super(props);
@@ -35,9 +38,17 @@ export default class Nav extends Component {
     }
   }
 
+  onClear() {
+    this.props.clearCart();
+  }
+
+  onRemove(d) {
+    this.props.removeFromCart(d);
+  }
+
   render() {
     const {background, menu} = this.state;
-    const {location} = this.props;
+    const {cart, location} = this.props;
     const {pathname} = location;
 
     const home = pathname === "/";
@@ -56,6 +67,27 @@ export default class Nav extends Component {
     const pageTitle = typeof window !== "undefined" ? document.title : "";
     const subtitle = pageTitle.includes(" | ") ? pageTitle.split(" | ")[0] : false;
 
+    const Cart = () => <div className="cart-nav-controls">
+      <div className="title">Data Cart</div>
+      { cart && cart.data.length
+        ? <div>
+          <div className="sub">
+            { cart.data.length } Dataset{ cart.data.length > 1 ? "s" : "" }
+          </div>
+          { cart.data.map(d => <div key={d.slug} className="dataset">
+            <div className="title">{d.title}</div>
+            <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
+          </div>) }
+          <a href="/cart" className="pt-button pt-fill pt-icon-download">
+            View Data
+          </a>
+          <div className="pt-button pt-fill pt-icon-trash" onClick={this.onClear.bind(this)}>
+            Clear Cart
+          </div>
+        </div>
+        : <div className="body">Put data into your cart as you browse to merge data from multiple sources.</div> }
+    </div>;
+
     return <nav id="Nav" className={ `${background || dark ? "background" : ""} ${menu ? "menu" : ""}` }>
 
       <div className="menu-btn" onClick={ toggleMenu }>
@@ -73,9 +105,20 @@ export default class Nav extends Component {
         ? <span className="nav-subtitle">{ subtitle }</span>
         : null }
 
-      { search
-        ? <SearchButton />
-        : null }
+      <div className="right-buttons">
+        <Popover2
+          hoverOpenDelay={0}
+          hoverCloseDelay={150}
+          interactionKind={PopoverInteractionKind.HOVER}
+          placement="bottom-end"
+          content={<Cart />}>
+          <a href="/cart" key={ `cart-size-${cart ? cart.data.length : 0}` } className={ `cart-icon cart-size-${cart ? cart.data.length : 0}` }>
+            { cart && cart.data.length ? <span className="cart-size">{cart.data.length}</span> : null }
+            <img src={ `/images/cart${cart && cart.data.length ? "-red" : ""}.svg` } />
+          </a>
+        </Popover2>
+        { search && <SearchButton /> }
+      </div>
 
       <Dialog className="nav-menu" lazy={false} isOpen={ menu } onClose={ toggleMenu } transitionName={ "slide" }>
         <div className="menu-content">
@@ -124,3 +167,10 @@ export default class Nav extends Component {
   }
 
 }
+
+export default connect(state => ({
+  cart: state.cart
+}), dispatch => ({
+  clearCart: () => dispatch(clearCart()),
+  removeFromCart: build => dispatch(removeFromCart(build))
+}))(Nav);

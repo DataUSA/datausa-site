@@ -1,35 +1,28 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
-import localforage from "localforage";
 import Tile from "components/Tile/Tile";
 
 import "./Column.css";
 import {PropTypes} from "prop-types";
-import {defaultCart} from "pages/Cart";
+import {addToCart} from "actions/cart";
 
 class Column extends Component {
 
-  async onCart(data) {
+  onCart(data) {
 
-    const {cartKey} = this.props;
-    const {router} = this.context;
+    const {addToCart, cart} = this.props;
 
-    const cartObj = {
-      format: "function(resp) { return resp.data; }",
-      title: data.title,
-      ...data.cart
-    };
-
-    const cart = await localforage.getItem(cartKey) || defaultCart;
-    const inCart = cart.data.find(c => c.slug === cartObj.slug);
+    const inCart = cart.data.find(c => c.slug === data.cart.slug);
 
     if (!inCart) {
-      cart.data.push(cartObj);
-      await localforage.setItem(cartKey, cart);
+      const build = {
+        format: "function(resp) { return resp.data; }",
+        title: data.title,
+        ...data.cart
+      };
+      addToCart(build);
     }
-
-    router.push("/cart");
 
   }
 
@@ -61,4 +54,8 @@ Column.contextTypes = {
   router: PropTypes.object
 };
 
-export default connect(state => ({cartKey: state.env.CART}))(Column);
+export default connect(state => ({
+  cart: state.cart
+}), dispatch => ({
+  addToCart: build => dispatch(addToCart(build))
+}))(Column);

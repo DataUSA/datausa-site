@@ -7,7 +7,6 @@ import {select} from "d3-selection";
 import {saveAs} from "file-saver";
 import JSZip from "jszip";
 import {saveElement} from "d3plus-export";
-import localforage from "localforage";
 import axios from "axios";
 import {formatAbbreviate} from "d3plus-format";
 
@@ -15,7 +14,7 @@ import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab2, Tabs2} from "@blue
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
 import {Tooltip2} from "@blueprintjs/labs";
 import {Object} from "es6-shim";
-import {defaultCart} from "pages/Cart";
+import {addToCart, removeFromCart} from "actions/cart";
 
 const FORMATTERS = {
   Growth: d => `${formatAbbreviate(d * 100 || 0)}%`,
@@ -74,9 +73,7 @@ class Options extends Component {
     ];
 
     this.state = {
-      cartSize: undefined,
       embedSize: sizeList[0],
-      inCart: false,
       includeText: false,
       loading: false,
       openDialog: false,
@@ -85,34 +82,15 @@ class Options extends Component {
     };
   }
 
-  componentDidMount() {
-
-    const {cartKey, slug} = this.props;
-
-    if (cartKey && slug) {
-      localforage.getItem(cartKey)
-        .then(cart => {
-          const inCart = cart && cart.data.find(c => c.slug === slug);
-          this.setState({cartSize: cart ? cart.data.length : 0, inCart});
-        })
-        .catch(err => console.error(err));
-    }
-  }
-
   async onCart() {
 
-    const {cartKey, slug} = this.props;
+    const {addToCart, cart, removeFromCart, slug} = this.props;
+    const inCart = cart.data.find(c => c.slug === slug);
 
-    const {inCart} = this.state;
     if (!inCart) {
 
       const {config, data, dataFormat, title} = this.props;
       const {list, stripHTML} = this.context.formatters;
-
-      let cart = await localforage.getItem(cartKey)
-        .catch(err => console.error(err));
-
-      if (!cart) cart = defaultCart;
 
       console.log(slug);
       console.log(data);
@@ -198,20 +176,12 @@ class Options extends Component {
       const cartTitle = `${stripHTML(title)}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
-      cart.data.push({urls, format, slug, title: cartTitle});
-      localforage.setItem(cartKey, cart);
-      this.setState({cartSize: this.state.cartSize + 1, inCart: true});
+      addToCart({urls, format, slug, title: cartTitle});
 
     }
     else {
-      localforage.getItem(cartKey)
-        .then(cart => {
-          const build = cart.data.find(c => c.slug === slug);
-          cart.data.splice(cart.data.indexOf(build), 1);
-          return localforage.setItem(cartKey, cart);
-        })
-        .then(() => this.setState({cartSize: this.state.cartSize - 1, inCart: false}))
-        .catch(err => console.error(err));
+      const build = cart.data.find(c => c.slug === slug);
+      removeFromCart(build);
     }
 
   }
@@ -286,10 +256,13 @@ class Options extends Component {
 
   render() {
 
-    const {cartKey, data, location, measures, slug, title, topic} = this.props;
-    const {cartSize, embedSize, inCart, includeText, openDialog, results, sizes} = this.state;
+    const {cart, data, location, measures, slug, title, topic} = this.props;
+    const {embedSize, includeText, openDialog, results, sizes} = this.state;
 
-    const cartEnabled = cartKey && data && slug && title;
+    const cartSize = cart.data.length;
+    const inCart = cart.data.find(c => c.slug === slug);
+
+    const cartEnabled = data && slug && title;
 
     const baseURL = location.href.split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
@@ -425,7 +398,10 @@ Options.contextTypes = {
 };
 
 export default connect(state => ({
-  cartKey: state.env.CART,
+  cart: state.cart,
   location: state.location,
   measures: state.data.measures
+}), dispatch => ({
+  addToCart: build => dispatch(addToCart(build)),
+  removeFromCart: build => dispatch(removeFromCart(build))
 }))(Options);

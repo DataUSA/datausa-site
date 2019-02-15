@@ -11,13 +11,13 @@ import axios from "axios";
 import {merge} from "d3-array";
 import {nest} from "d3-collection";
 import {formatAbbreviate} from "d3plus-format";
-import localforage from "localforage";
 import JSZip from "jszip";
 import {saveAs} from "file-saver";
 import "./Cart.css";
 
 import Loading from "components/Loading";
 import {Object} from "es6-shim";
+import {addToCart, clearCart, removeFromCart, toggleCartSetting} from "actions/cart";
 
 const examples = [
   {
@@ -66,20 +66,11 @@ const FORMATTERS = {
   }
 };
 
-export const defaultCart = {
-  settings: [
-    {key: "pivotYear", value: true, label: "Pivot Years to Columns"},
-    {key: "showMOE", value: false, label: "Show Margin of Error"}
-  ],
-  data: []
-};
-
 class Cart extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      cart: defaultCart,
       columns: [],
       intro: true,
       moe: {},
@@ -90,34 +81,48 @@ class Cart extends Component {
     };
   }
 
-  componentDidMount() {
-    this.reload.bind(this)();
+  componentDidUpdate(prevProps) {
+
+    const {cart} = this.props;
+
+    if (!prevProps.cart) {
+      if (cart) this.reload.bind(this)();
+    }
+    else {
+
+      const curr = cart.settings.reduce((obj, s) => (obj[s.key] = s.value, obj), {});
+      const prev = prevProps.cart.settings.reduce((obj, s) => (obj[s.key] = s.value, obj), {});
+      const pivots = Object.keys(curr).filter(key => key.includes("pivot"));
+      const pivotChanges = pivots.map(s => curr[s]).join() !== pivots.map(s => prev[s]).join();
+
+      if (prevProps.cart.data.length !== cart.data.length) {
+        this.reload.bind(this)();
+      }
+      else if (pivotChanges) {
+        const {responses, stickies} = this.state;
+        this.formatData.bind(this)(responses, stickies);
+      }
+    }
   }
 
-  reload() {
+  async reload() {
 
-    const {cartKey} = this.props;
-    let stickies;
+    const {cart} = this.props;
 
-    localforage.getItem(cartKey)
-      .then(cart => {
-        if (!cart) cart = defaultCart;
-        const urls = merge(cart.data.map(d => d.urls)).map(decodeURIComponent);
-        stickies = merge(urls.map(url => url
-          .match(/drilldowns\=[^&]+/g)[0]
-          .split("=")[1].split(",")
-        ));
-        this.setState({cart, results: false});
-        return Promise.all(urls.map(url => axios.get(url).then(resp => resp.data)));
-      })
-      .then(responses => this.formatData.bind(this)(responses.filter(resp => resp.data), stickies))
-      .catch(err => console.error(err));
+    const urls = merge(cart.data.map(d => d.urls)).map(decodeURIComponent);
+    const stickies = merge(urls.map(url => url
+      .match(/drilldowns\=[^&]+/g)[0]
+      .split("=")[1].split(",")
+    ));
+    this.setState({results: false});
+    const responses = await Promise.all(urls.map(url => axios.get(url).then(resp => resp.data)));
+    this.formatData.bind(this)(responses.filter(resp => resp.data), stickies);
+
   }
 
   formatData(responses, stickies) {
 
-    const {cart} = this.state;
-    const {levels} = this.props;
+    const {cart, levels} = this.props;
     const pivots = cart.settings.filter(d => d.value && d.key.includes("pivot"));
     const levelsFlat = Object.keys(levels);
 
@@ -205,21 +210,11 @@ class Cart extends Component {
   }
 
   onClear() {
-    const {cartKey} = this.props;
-    const {cart} = this.state;
-    localforage.setItem(cartKey, {...cart, data: []})
-      .then(() => this.reload.bind(this)())
-      .catch(err => console.error(err));
+    this.props.clearCart();
   }
 
   onRemove(d) {
-    const {cart} = this.state;
-    const {cartKey} = this.props;
-    const build = cart.data.find(c => c.slug === d.slug);
-    cart.data.splice(cart.data.indexOf(build), 1);
-    localforage.setItem(cartKey, cart)
-      .then(() => this.reload.bind(this)())
-      .catch(err => console.error(err));
+    this.props.removeFromCart(d);
   }
 
   onCSV() {
@@ -251,37 +246,27 @@ class Cart extends Component {
 
   }
 
-  async gotoExample(data) {
+  gotoExample(data) {
 
-    const {cartKey} = this.props;
-    const {cart} = this.state;
-
-    const d = [{
+    const build = {
       format: "function(resp) { return resp.data; }",
       title: data.title,
       ...data.cart
-    }];
+    };
 
-    await localforage.setItem(cartKey, {...cart, data: d});
-    this.reload.bind(this)();
+    this.props.addToCart(build);
 
   }
 
   toggleSetting(key) {
-    const {cart} = this.state;
-    const {cartKey} = this.props;
-    const setting = cart.settings.find(d => d.key === key);
-    setting.value = !setting.value;
-    localforage.setItem(cartKey, cart);
-    const reload = key.includes("pivot");
-    this.setState({cart, loading: reload}, () => {
-      if (reload) this.formatData.bind(this)(this.state.responses, this.state.stickies);
-    });
+    this.props.toggleCartSetting(key);
   }
 
   render() {
-    const {cart, intro, moe, results, stickies} = this.state;
-    const {measures} = this.props;
+
+    const {intro, moe, results, stickies} = this.state;
+    const {cart, measures} = this.props;
+    if (!cart) return <Loading />;
     const showMOE = cart.settings.find(d => d.key === "showMOE").value;
 
     const moes = Object.values(moe);
@@ -376,7 +361,12 @@ Cart.need = [
 ];
 
 export default connect(state => ({
-  cartKey: state.env.CART,
+  cart: state.cart,
   levels: state.data.levels,
   measures: state.data.measures
+}), dispatch => ({
+  addToCart: build => dispatch(addToCart(build)),
+  clearCart: () => dispatch(clearCart()),
+  removeFromCart: build => dispatch(removeFromCart(build)),
+  toggleCartSetting: setting => dispatch(toggleCartSetting(setting))
 }))(Cart);

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 import "./App.css";
 
+import {fetchCart} from "actions/cart";
 import {fetchData} from "@datawheel/canon-core";
 import "./d3plus.css";
 
@@ -26,6 +27,10 @@ class App extends Component {
       }, {})
     };
 
+  }
+
+  componentDidMount() {
+    this.props.fetchCart();
   }
 
   getChildContext() {
@@ -89,4 +94,6 @@ App.need = [
 export default connect(state => ({
   formatters: state.data.formatters,
   origin: state.location.origin
+}), dispatch => ({
+  fetchCart: () => dispatch(fetchCart())
 }))(App);
