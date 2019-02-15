@@ -163,6 +163,9 @@ class Visualize extends Component {
               color: colors.colorScaleGood
             },
             colorScalePosition: "bottom",
+            shapeConfig: {
+              hoverOpacity: 1
+            },
             zoomScroll: true
           }}
           topojson={{

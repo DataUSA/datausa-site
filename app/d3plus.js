@@ -171,7 +171,7 @@ export default {
       }
     },
     fill: findColor,
-    hoverOpacity: 1,
+    hoverOpacity: 0.5,
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
