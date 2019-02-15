@@ -65,7 +65,7 @@ class Map extends Component {
   render() {
     const {query} = this.state;
     const {cart, cube} = this.props;
-    const cartSize = cart.data.length;
+    const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     return <div id="Visualize" className="Map">

@@ -103,7 +103,7 @@ class Visualize extends Component {
   render() {
     const {intro, query} = this.state;
     const {cart, cube} = this.props;
-    const cartSize = cart.data.length;
+    const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     if (intro) {
@@ -161,7 +161,7 @@ class Visualize extends Component {
             colorScaleConfig: {
               color: colors.colorScaleGood
             },
-            height: 300
+            colorScalePosition: "bottom"
           }}
           topojson={{
             "County": {

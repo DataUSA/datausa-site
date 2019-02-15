@@ -16,7 +16,13 @@
     }
     & .area-chart {
       padding: 0;
-      & .chart-card, & .wrapper {
+      & .wrapper {
+          background: transparent;
+          border: none;
+          margin: 0;
+          padding: 0;
+        }
+      & .chart-card {
         margin: 0;
         padding: 0;
       }
