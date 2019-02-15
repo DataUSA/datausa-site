@@ -51,7 +51,11 @@ const topicReq = [
   {association: "selectors", separate: true},
   {
     association: "section",
-    attributes: ["slug"]
+    attributes: ["slug"],
+    include: [{
+      association: "profile",
+      attributes: ["slug", "dimension"]
+    }]
   }
 ];
 
@@ -306,16 +310,18 @@ module.exports = function(app) {
     const where = {};
     if (isNaN(parseInt(topicId, 10))) where.slug = topicId;
     else where.id = topicId;
-    const getTopic = db.topics.findOne({where, include: topicReq});
+    const getTopics = db.topics.findAll({where, include: topicReq});
 
-    Promise.all([getVariables, getFormatters, getTopic])
+    Promise.all([getVariables, getFormatters, getTopics])
       .then(resp => {
         const variables = resp[0].data;
         delete variables._genStatus;
         delete variables._matStatus;
         const formatters = resp[1];
         const formatterFunctions = formatters4eval(formatters);
-        const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
+        const topics = resp[2].map(t => t.toJSON());
+        let topic = topics.find(t => t.section.profile.slug === slug);
+        topic = varSwapRecursive(topic, formatterFunctions, variables, req.query);
         topic.section = topic.section.slug;
         if (topic.subtitles) topic.subtitles.sort(sorter);
         if (topic.selectors) topic.selectors.sort(sorter);
@@ -324,7 +330,8 @@ module.exports = function(app) {
         if (topic.visualizations) topic.visualizations.sort(sorter);
         res.json({variables, ...topic}).end();
       })
-      .catch(() => {
+      .catch(e => {
+        console.log("error: ", e.message);
         res.json({error: "Unable to find topic."}).end();
       });
   });
