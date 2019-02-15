@@ -2,10 +2,11 @@ const axios = require("axios");
 const {merge} = require("d3-array");
 const {nest} = require("d3-collection");
 const {CANON_LOGICLAYER_CUBE} = process.env;
+const prefix = `${CANON_LOGICLAYER_CUBE}${CANON_LOGICLAYER_CUBE.slice(-1) === "/" ? "" : "/"}`;
 
 module.exports = async function() {
 
-  return axios.get(`${CANON_LOGICLAYER_CUBE}/cubes`)
+  return axios.get(`${prefix}cubes`)
     .then(resp => resp.data)
     .then(data => nest()
       .key(d => d.source_name)
