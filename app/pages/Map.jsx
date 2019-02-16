@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Vizbuilder from "@datawheel/canon-vizbuilder";
-import localforage from "localforage";
 import {Tooltip2} from "@blueprintjs/labs";
 import "./Visualize.css";
 import "./Map.css";
 import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
+import {addToCart, removeFromCart} from "actions/cart";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -26,21 +26,8 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: false,
       query: {}
     };
-  }
-
-  componentDidMount() {
-
-    const {cartKey} = this.props;
-
-    localforage.getItem(cartKey)
-      .then(cart => {
-        if (!cart) cart = [];
-        this.setState({cart});
-      })
-      .catch(err => console.error(err));
   }
 
   onChange(query) {
@@ -67,21 +54,19 @@ class Map extends Component {
 
   onCart() {
 
-    const {cart, query} = this.state;
-    const {cartKey} = this.props;
-    const inCart = cart.find(c => c.slug === query.slug);
-    if (inCart) cart.splice(cart.indexOf(query), 1);
-    else cart.push(query);
-    localforage.setItem(cartKey, cart);
-    this.forceUpdate();
+    const {query} = this.state;
+    const {addToCart, cart, removeFromCart} = this.props;
+    const inCart = cart.data.find(c => c.slug === query.slug);
+    if (inCart) removeFromCart(query);
+    else addToCart(query);
 
   }
 
   render() {
-    const {cart, query} = this.state;
-    const {cube} = this.props;
-    const cartSize = cart.length;
-    const inCart = cart ? cart.find(c => c.slug === query.slug) : false;
+    const {query} = this.state;
+    const {cart, cube} = this.props;
+    const cartSize = cart ? cart.data.length : 0;
+    const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     return <div id="Visualize" className="Map">
 
@@ -110,7 +95,12 @@ class Map extends Component {
           colorScaleConfig: {color: colors.colorScaleGood},
           colorScalePosition: "bottom",
           fitObject: "/topojson/State.json",
-          fitFilter: d => !["04000US02", "04000US15"].includes(d.id)
+          fitFilter: d => !["02", "15", "43", "60", "66", "69", "72", "78"].includes(d.id.slice(7)),
+          shapeConfig: {
+            hoverOpacity: 1
+          },
+          title: false,
+          zoomScroll: true
         }}
         visualizations={["geomap"]}
         topojson={{
@@ -134,5 +124,8 @@ Map.contextTypes = {
 
 export default connect(state => ({
   cube: state.env.CUBE,
-  cartKey: state.env.CART
+  cart: state.cart
+}), dispatch => ({
+  addToCart: build => dispatch(addToCart(build)),
+  removeFromCart: build => dispatch(removeFromCart(build))
 }))(Map);

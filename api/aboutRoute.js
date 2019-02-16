@@ -208,14 +208,6 @@ module.exports = function(app) {
             ]
           },
           {
-            name: "Daniel Byler",
-            title: "Data Scientist, Deloitte Services LP",
-            img: "/images/story/authors/byler.png",
-            about: [
-              "Daniel Byler is a data scientist with Deloitte Services LP where he manages a portfolio of quantitative projects across Deloitte's research agenda. Prior to his current role, he supported clients in large federal agencies on data-focused projects."
-            ]
-          },
-          {
             name: "Matt Gentile",
             img: "/images/story/authors/gentile.png",
             about: [

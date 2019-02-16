@@ -15,10 +15,54 @@
       height: calc(100vh - var(--nav-height) - 30px);
     }
     & .area-chart {
-      & .chart-card, & .wrapper {
+      padding: 0;
+      & .wrapper {
+          background: transparent;
+          border: none;
+          margin: 0;
+          padding: 0;
+        }
+      & .chart-card {
         margin: 0;
         padding: 0;
       }
     }
+    & .measure-manager {
+      & .select-label.source, & .select-label.dims {
+        display: none;
+      }
+    }
+    & .grouping-manager {
+      & .grouping-item {
+        width: 100%;
+        &:not(.editing) {
+          align-items: center;
+          display: flex;
+        }
+        & .values {
+          flex: 1;
+        }
+        & .grouping-members {
+          display: none;
+        }
+        & .actions {
+          margin-top: 0;
+          & .action-edit {
+            & span {
+              display: none;
+            }
+            &:after {
+              content: "Change Level";
+            }
+          }
+        }
+      }
+    }
+    & .filter-manager {
+      display: none;
+    }
+  }
+  & .d3plus-viz-title {
+    display: none;
   }
 }

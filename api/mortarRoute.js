@@ -51,7 +51,11 @@ const topicReq = [
   {association: "selectors", separate: true},
   {
     association: "section",
-    attributes: ["slug"]
+    attributes: ["slug"],
+    include: [{
+      association: "profile",
+      attributes: ["slug", "dimension"]
+    }]
   }
 ];
 
@@ -78,7 +82,14 @@ const formatters4eval = formatters => formatters.reduce((acc, f) => {
     ? f.name.toLowerCase()
     : f.name.replace(/^\w/g, chr => chr.toLowerCase());
 
-  acc[name] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc);
+  // Formatters may be malformed. Wrap in a try/catch to avoid js crashes.
+  try {
+    acc[name] = FUNC.parse({logic: f.logic, vars: ["n"]}, acc);
+  }
+  catch (e) {
+    console.log("Server-side Malformed Formatter encountered: ", e.message);
+    acc[name] = FUNC.parse({logic: "return \"N/A\";", vars: ["n"]}, acc);
+  }
 
   return acc;
 
@@ -223,57 +234,62 @@ module.exports = function(app) {
   app.get("/api/profile/:slug/:pid", async(req, res) => {
     req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, pid} = req.params;
-    const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
-    const attribute = await db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}}});
-    const {id} = attribute;
-    const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`).then(resp => resp.data);
+    const attribute = await db.search.findOne({where: {dimension: searchMap[slug], [sequelize.Op.or]: {id: pid, slug: pid}}});
+    if (!attribute) res.json({error: "Not a valid ID"});
+    else {
 
-    /* The following Promises, as opposed to being nested, are run sequentially.
-     * Each one returns a new promise, whose response is then handled in the following block
-     * Note that this means if any info from a given block is required in any later block,
-     * We must pass that info as one of the arguments of the returned Promise.
-    */
+      const {id} = attribute;
+      const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+      const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`).then(resp => resp.data);
 
-    Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll(), axios.get(`${origin}/api/parents/${slug}/${id}`)])
+      /* The following Promises, as opposed to being nested, are run sequentially.
+      * Each one returns a new promise, whose response is then handled in the following block
+      * Note that this means if any info from a given block is required in any later block,
+      * We must pass that info as one of the arguments of the returned Promise.
+      */
 
-      // Given the completely built returnVariables and all the formatters (formatters are global)
-      // Get the ACTUAL profile itself and all its dependencies and prepare it to be formatted and regex replaced
-      // See profileReq above to see the sequelize formatting for fetching the entire profile
-      .then(resp => {
-        const variables = resp[0].data;
-        delete variables._genStatus;
-        delete variables._matStatus;
-        const formatters = resp[1];
-        const breadcrumbs = resp[2].data;
-        const formatterFunctions = formatters4eval(formatters);
-        const request = axios.get(`${origin}/api/internalprofile/${slug}`);
-        return Promise.all([variables, formatterFunctions, request, breadcrumbs]);
-      })
-      // Given a returnObject with completely built returnVariables, a hash array of formatter functions, and the profile itself
-      // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
-      .then(resp => {
-        let returnObject = {};
-        const [variables, formatterFunctions, request, breadcrumbs] = resp;
-        // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
-        if (verbose) console.log("Variables Loaded, starting varSwap...");
-        const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
-        returnObject = Object.assign({}, returnObject, profile);
-        returnObject.id = id;
-        returnObject.variables = variables;
-        returnObject.breadcrumbs = breadcrumbs;
-        returnObject.image = image;
-        returnObject.sections.forEach(section => {
-          section.topics.forEach(topic => {
-            topic.section = section.slug;
+      Promise.all([axios.get(`${origin}/api/variables/${slug}/${id}`), db.formatters.findAll(), axios.get(`${origin}/api/parents/${slug}/${id}`)])
+
+        // Given the completely built returnVariables and all the formatters (formatters are global)
+        // Get the ACTUAL profile itself and all its dependencies and prepare it to be formatted and regex replaced
+        // See profileReq above to see the sequelize formatting for fetching the entire profile
+        .then(resp => {
+          const variables = resp[0].data;
+          delete variables._genStatus;
+          delete variables._matStatus;
+          const formatters = resp[1];
+          const breadcrumbs = resp[2].data;
+          const formatterFunctions = formatters4eval(formatters);
+          const request = axios.get(`${origin}/api/internalprofile/${slug}`);
+          return Promise.all([variables, formatterFunctions, request, breadcrumbs]);
+        })
+        // Given a returnObject with completely built returnVariables, a hash array of formatter functions, and the profile itself
+        // Go through the profile and replace all the provided {{vars}} with the actual variables we've built
+        .then(resp => {
+          let returnObject = {};
+          const [variables, formatterFunctions, request, breadcrumbs] = resp;
+          // Create a "post-processed" profile by swapping every {{var}} with a formatted variable
+          if (verbose) console.log("Variables Loaded, starting varSwap...");
+          const profile = varSwapRecursive(request.data, formatterFunctions, variables, req.query);
+          returnObject = Object.assign({}, returnObject, profile);
+          returnObject.id = id;
+          returnObject.variables = variables;
+          returnObject.breadcrumbs = breadcrumbs;
+          returnObject.image = image;
+          returnObject.sections.forEach(section => {
+            section.topics.forEach(topic => {
+              topic.section = section.slug;
+            });
           });
+          if (verbose) console.log("varSwap complete, sending json...");
+          res.json(returnObject).end();
+        })
+        .catch(err => {
+          console.error("Error!", err);
         });
-        if (verbose) console.log("varSwap complete, sending json...");
-        res.json(returnObject).end();
-      })
-      .catch(err => {
-        console.error("Error!", err);
-      });
+
+    }
 
   });
 
@@ -294,16 +310,18 @@ module.exports = function(app) {
     const where = {};
     if (isNaN(parseInt(topicId, 10))) where.slug = topicId;
     else where.id = topicId;
-    const getTopic = db.topics.findOne({where, include: topicReq});
+    const getTopics = db.topics.findAll({where, include: topicReq});
 
-    Promise.all([getVariables, getFormatters, getTopic])
+    Promise.all([getVariables, getFormatters, getTopics])
       .then(resp => {
         const variables = resp[0].data;
         delete variables._genStatus;
         delete variables._matStatus;
         const formatters = resp[1];
         const formatterFunctions = formatters4eval(formatters);
-        const topic = varSwapRecursive(resp[2].toJSON(), formatterFunctions, variables, req.query);
+        const topics = resp[2].map(t => t.toJSON());
+        let topic = topics.find(t => t.section.profile.slug === slug);
+        topic = varSwapRecursive(topic, formatterFunctions, variables, req.query);
         topic.section = topic.section.slug;
         if (topic.subtitles) topic.subtitles.sort(sorter);
         if (topic.selectors) topic.selectors.sort(sorter);
@@ -312,7 +330,8 @@ module.exports = function(app) {
         if (topic.visualizations) topic.visualizations.sort(sorter);
         res.json({variables, ...topic}).end();
       })
-      .catch(() => {
+      .catch(e => {
+        console.log("error: ", e.message);
         res.json({error: "Unable to find topic."}).end();
       });
   });

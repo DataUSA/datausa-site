@@ -3,4 +3,12 @@
   combined with the internal default canon reducers.
 */
 
-export default {};
+export default {
+  cart: (state = false, action) => {
+    switch (action.type) {
+      case "CART_FULFILLED":
+        return action.data;
+      default: return state;
+    }
+  }
+};

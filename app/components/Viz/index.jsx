@@ -14,7 +14,7 @@ class Viz extends Component {
 
   render() {
 
-    const {formatters, variables} = this.context;
+    const {formatters, router, variables} = this.context;
     const {config, configOverride, className, options, slug, topic} = this.props;
 
     // clone config object to allow manipulation
@@ -26,6 +26,16 @@ class Viz extends Component {
       return <div>{`Error: ${vizProps.error}`}</div>;
     }
     vizProps.config = Object.assign(vizProps.config, configOverride);
+
+    if (router.location.query.compare) {
+      let {groupBy} = vizProps.config;
+      if (!(groupBy instanceof Array)) groupBy = [groupBy];
+      groupBy = groupBy.filter(d => typeof d === "string");
+      if (groupBy.some(d => d.includes("Race"))) {
+        if (!vizProps.config.legendConfig) vizProps.config.legendConfig = {};
+        vizProps.config.legendConfig.label = false;
+      }
+    }
 
     // strip out the "type" from config
     const {type} = vizProps.config;
@@ -56,6 +66,7 @@ class Viz extends Component {
 
 Viz.contextTypes = {
   formatters: PropTypes.object,
+  router: PropTypes.object,
   updateSource: PropTypes.func,
   variables: PropTypes.object
 };

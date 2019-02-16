@@ -88,6 +88,21 @@
         padding: 4px 9px;
       }
     }
+    & .dims {
+      & .pt-tag {
+        font-size: 10px;
+        font-weight: 700;
+        margin: 1px 2px 1px 0;
+        opacity: 0.5;
+        padding: 0px 3px 1px;
+      }
+    }
+    & .select-item {
+      padding: 4px 7px 7px;
+      & .select-label {
+        white-space: normal;
+      }
+    }
     & .select-option {
       background: white;
       color: #949494;
@@ -95,15 +110,6 @@
       font-size: 13px;
       &:hover {
         background: rgb(241, 241, 241);
-      }
-      & .dims {
-        & .pt-tag {
-          font-size: 10px;
-          font-weight: 700;
-          margin: 1px 2px 0 0;
-          opacity: 0.5;
-          padding: 0px 3px 1px;
-        }
       }
     }
     & .select-measure {
@@ -115,6 +121,60 @@
         padding: 0;
         & .select-popover-content {
           min-width: 269px;
+          & .virtlist-wrapper {
+            margin-top: 0;
+            & li {
+              list-style: none;
+              padding: 0;
+              & .topic  {
+                color: var(--black);
+                font-size: 14px;
+                padding: 7px 7px 0;
+                &:last-child {
+                  padding-bottom: 7px;
+                }
+              }
+              & .subtopic {
+                padding: 0 7px 7px;
+              }
+            }
+          }
+          & .deeplist-wrapper {
+            margin-top: 0;
+          }
+          & .deeplist-header {
+            & .deeplist-title {
+              padding: 0;
+              & .topic  {
+                color: var(--black);
+                font-size: 14px;
+                padding: 7px 7px 0;
+                &:last-child {
+                  padding-bottom: 7px;
+                }
+              }
+              & .subtopic {
+                padding: 0 7px 7px;
+              }
+            }
+            & .pt-button {
+              background: none;
+              border: 0;
+              box-shadow: none;
+              color: var(--red);
+              margin-right: 5px;
+              opacity: 0.75;
+              outline: 0;
+              &:before {
+                color: var(--red);
+                font-size: 14px;
+                margin-right: 5px;
+              }
+              &:hover {
+                opacity: 1;
+              }
+            }
+          }
         }
       }
     }
@@ -130,10 +190,6 @@
         }
         & .padded {
           padding-left: 15px;
-        }
-        & .select-label {
-          display: inline-block;
-          padding: 3px 5px;
         }
       }
       & .grouping-item, & .filter-item {
@@ -291,6 +347,28 @@
       padding: 0;
       & .chart-card {
         min-width: 400px;
+        & .wrapper {
+          background: #fafafa;
+          border: 1px solid #ddd;
+          box-sizing: border-box;
+          padding: 5px;
+          position: relative;
+          & footer {
+            margin: 0;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            & button {
+              padding: 0 5px;
+              &:before {
+                margin: 0;
+              }
+              & span {
+                display: none;
+              }
+            }
+          }
+        }
       }
     }
   }

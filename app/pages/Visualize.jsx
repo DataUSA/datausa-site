@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Vizbuilder from "@datawheel/canon-vizbuilder";
-import localforage from "localforage";
 import {Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
+import {addToCart, removeFromCart} from "actions/cart";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -50,22 +50,9 @@ class Visualize extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: false,
       intro: !props.router.location.search.length,
       query: {}
     };
-  }
-
-  componentDidMount() {
-
-    const {cartKey} = this.props;
-
-    localforage.getItem(cartKey)
-      .then(cart => {
-        if (!cart) cart = [];
-        this.setState({cart});
-      })
-      .catch(err => console.error(err));
   }
 
   showIntro() {
@@ -77,7 +64,8 @@ class Visualize extends Component {
   }
 
   gotoExample(url) {
-    this.props.router.push(url);
+    window.location = url;
+    // this.props.router.push(url);
   }
 
   onChange(query) {
@@ -105,21 +93,19 @@ class Visualize extends Component {
 
   onCart() {
 
-    const {cart, query} = this.state;
-    const {cartKey} = this.props;
-    const inCart = cart.find(c => c.slug === query.slug);
-    if (inCart) cart.splice(cart.indexOf(query), 1);
-    else cart.push(query);
-    localforage.setItem(cartKey, cart);
-    this.forceUpdate();
+    const {query} = this.state;
+    const {addToCart, cart, removeFromCart} = this.props;
+    const inCart = cart.data.find(c => c.slug === query.slug);
+    if (inCart) removeFromCart(query);
+    else addToCart(query);
 
   }
 
   render() {
-    const {cart, intro, query} = this.state;
-    const {cube} = this.props;
-    const cartSize = cart.length;
-    const inCart = cart ? cart.find(c => c.slug === query.slug) : false;
+    const {intro, query} = this.state;
+    const {cart, cube} = this.props;
+    const cartSize = cart ? cart.data.length : 0;
+    const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     if (intro) {
       return <div id="Visualize" className="visualize-intro">
@@ -176,7 +162,11 @@ class Visualize extends Component {
             colorScaleConfig: {
               color: colors.colorScaleGood
             },
-            height: 300
+            colorScalePosition: "bottom",
+            shapeConfig: {
+              hoverOpacity: 1
+            },
+            zoomScroll: true
           }}
           topojson={{
             "County": {
@@ -219,5 +209,8 @@ Visualize.contextTypes = {
 
 export default connect(state => ({
   cube: state.env.CUBE,
-  cartKey: state.env.CART
+  cart: state.cart
+}), dispatch => ({
+  addToCart: build => dispatch(addToCart(build)),
+  removeFromCart: build => dispatch(removeFromCart(build))
 }))(Visualize);

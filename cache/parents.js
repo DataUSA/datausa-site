@@ -1,6 +1,7 @@
 const axios = require("axios");
 
 const {CANON_LOGICLAYER_CUBE} = process.env;
+const prefix = `${CANON_LOGICLAYER_CUBE}${CANON_LOGICLAYER_CUBE.slice(-1) === "/" ? "" : "/"}`;
 
 /** Prases the return from the members call into an object lookup. */
 function parseParents(data) {
@@ -23,11 +24,11 @@ module.exports = function() {
 
   return Promise
     .all([
-      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/pums_5/dimensions/PUMS%20Industry/`).then(resp => resp.data),
-      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/pums_5/dimensions/PUMS%20Occupation/`).then(resp => resp.data),
-      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/ipeds_completions/dimensions/CIP/`).then(resp => resp.data),
-      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/ipeds_completions/dimensions/University/`).then(resp => resp.data),
-      axios.get(`${CANON_LOGICLAYER_CUBE}/cubes/usa_spending/dimensions/NAPCS/`).then(resp => resp.data)
+      axios.get(`${prefix}cubes/pums_5/dimensions/PUMS%20Industry/`).then(resp => resp.data),
+      axios.get(`${prefix}cubes/pums_5/dimensions/PUMS%20Occupation/`).then(resp => resp.data),
+      axios.get(`${prefix}cubes/ipeds_completions/dimensions/CIP/`).then(resp => resp.data),
+      axios.get(`${prefix}cubes/ipeds_completions/dimensions/University/`).then(resp => resp.data),
+      axios.get(`${prefix}cubes/usa_spending/dimensions/NAPCS/`).then(resp => resp.data)
     ])
     .then(([industries, occupations, courses, universities, products]) => ({
       naics: parseParents(industries),

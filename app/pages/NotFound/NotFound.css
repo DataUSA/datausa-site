@@ -1,0 +1,14 @@
+.notfound {
+  background-color: var(--dark);
+  color: var(--white);
+  height: calc(100vh - 242px);
+  left: 0;
+  max-width: none;
+  top: 0;
+  width: 100%;
+  z-index: 20;
+  & .pt-non-ideal-state-title {
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+}

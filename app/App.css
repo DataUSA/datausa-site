@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300|Palanquin:300,400,600,700|Source+Sans+Pro:300,400|Pathway+Gothic+One");
+
 #Beta {
   background-color: var(--red);
   bottom: 0;
@@ -121,13 +123,19 @@ input[type="text"] {
   }
 }
 
+.pt-transition-container {
+  z-index: 30;
+}
+
 .pt-control.pt-checkbox {
   padding-left: 22px;
   & .pt-control-indicator {
     border-radius: 0;
+    box-shadow: inset 0 0 0 1px var(--red);
   }
   & input:checked ~ .pt-control-indicator {
     background-color: var(--red);
+    box-shadow: inset 0 0 0 1px var(--red);
   }
   &:hover {
     & input:checked ~ .pt-control-indicator {
@@ -178,10 +186,9 @@ input[type="text"] {
 .bp-table-container {
   background: transparent;
   box-shadow: none;
-  flex: 1;
   outline: 0;
   & .bp-table-quadrant {
-    background: transparent;
+    background: var(--white);
   }
   & .bp-table-top-container {
     & .bp-table-menu {
@@ -195,7 +202,9 @@ input[type="text"] {
       & .bp-table-header {
         box-shadow: none;
         & .bp-table-column-name-text {
+          align-items: flex-end;
           border-bottom: 1px solid #ccc;
+          display: flex;
           padding: 15px 12px 12px;
           font-size: 13px;
           font-weight: bold;
@@ -226,7 +235,7 @@ input[type="text"] {
     & .bp-table-cell-client {
       background: transparent;
     }
-    & .bp-table-cell {
+    & .bp-table-cell, & .bp-table-cell.bp-table-last-in-row {
       box-shadow: none;
       font-size: 12px;
       font-weight: 300;

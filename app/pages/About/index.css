@@ -211,3 +211,58 @@
     }
   }
 }
+
+#Data {
+  padding: 40px 50px 50px;
+  & button {
+    align-items: center;
+    background: none;
+    border: 1px solid var(--red);
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--red);
+    display: flex;
+    font-size: 13px;
+    font-weight: 600;
+    justify-content: space-between;
+    margin: 10px 0 0;
+    text-align: center;
+    transition: background 0.1s, color 0.1s;
+    & .pt-icon-standard {
+      color: var(--red);
+      font-size: 13px;
+      transition: color 0.1s;
+    }
+    &.pt-active, &:hover {
+      background: var(--red);
+      color: white;
+      & .pt-icon-standard {
+        color: white;
+      }
+    }
+    &:focus {
+      outline: 0;
+    }
+  }
+  & .pt-collapse-body {
+    background: #eee;
+    border: 1px solid #ddd;
+    &[aria-hidden="false"] {
+      padding: 25px;
+    }
+    & .sub-title {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      margin-top: 20px;
+      text-transform: uppercase;
+    }
+    & p {
+      margin: 0 0 10px;
+    }
+    & ul {
+      margin-top: 10px;
+    }
+  }
+}

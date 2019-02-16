@@ -24,23 +24,15 @@ module.exports = {
           const tracts = query.dimensions.filter(d => (d.relation || "").includes("Tract")).length;
           return cubes.filter(cube => cube.name.match(bigGeos && !tracts ? /_1$/g : /_5$/g));
         },
-        key: cube => cube.name.replace(/_[0-9]$/g, "")
+        key: cube => cube.name.replace("_c_", "_").replace(/_[0-9]$/g, "")
       },
       {
         filter: cubes => cubes.filter(c => c.name.includes("_c_")),
         key: cube => cube.name.replace("_c_", "_")
       },
       {
-        filter: (cubes, query, caches) => {
-          const {pops} = caches;
-          const ids = d3Array.merge(query.dimensions
-            .filter(d => d.dimension === "Geography")
-            .map(d => d.id instanceof Array ? d.id : [d.id]));
-          const bigGeos = ids.every(g => pops[g] && pops[g] >= 250000);
-          const tracts = query.dimensions.filter(d => (d.relation || "").includes("Tract")).length;
-          return cubes.filter(cube => bigGeos && !tracts ? cube.name.includes("_c_") : !cube.name.includes("_c_"));
-        },
-        key: cube => cube.name.replace("_c_", "_").replace(/_[0-9]$/g, "")
+        filter: cubes => cubes.filter(c => c.name === "ipeds_graduation_demographics_v3"),
+        key: cube => cube.name === "ipeds_undergrad_grad_rate_demographics" || cube.name === "ipeds_graduation_demographics_v2" ? "ipeds_graduation_demographics_v3" : cube.name
       }
     ],
     dimensionMap: {
@@ -57,6 +49,20 @@ module.exports = {
       "Origin State": "Geography"
     },
     relations: {
+      "Origin State": {
+        neighbors: {
+          url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
+          callback: arr => arr.map(d => d.geoid)
+        },
+        parents: {
+          url: id => `${CANON_API}/api/parents/geo/${id}`,
+          callback: arr => arr.map(d => d.id)
+        },
+        similar: {
+          url: id => `${CANON_API}/api/geo/similar/${id}`,
+          callback: arr => arr.map(d => d.id)
+        }
+      },
       "Geography": {
         children: {
           url: id => `${CANON_API}/api/geo/children/${id}/`

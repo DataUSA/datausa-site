@@ -1,3 +1,9 @@
+@keyframes cartBounce {
+  0% { transform: scale(1); opacity: 0.75; }
+  50% { transform: scale(1.25); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.75; }
+}
+
 #Nav {
   height: var(--nav-height);
   left: 0;
@@ -65,6 +71,127 @@
     white-space: nowrap;
     vertical-align: middle;
   }
+  & .right-buttons {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 0;
+    & span {
+      margin: 8px 5px;
+      &:only-child {
+        margin-right: 10px;
+      }
+    }
+    & .cart-icon {
+      color: white;
+      display: inline-block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 20px;
+      opacity: 0.75;
+      transform: scale(1);
+      transition: opacity 0.2s;
+      &:hover {
+        opacity: 1;
+        text-decoration: none;
+      }
+      & img {
+        vertical-align: top;
+      }
+      @for $i from 1 to 5 {
+        &.cart-size-$i {
+          animation-name: cartBounce;
+          animation-duration: 0.5s;
+          animation-iteration-count: 1;
+        }
+      }
+    }
+  }
+}
+
+.cart-nav-controls {
+  max-width: 260px;
+  min-width: 260px;
+  padding: 12px;
+  width: 260px;
+  & .title {
+    color: var(--dark);
+    font-family: "Palanquin", sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  & .sub {
+    color: #949494;
+    font-family: "Palanquin", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    margin-bottom: 7px;
+    margin-top: 5px;
+  }
+  & .body {
+    color: var(--black);
+    font-family: "Palanquin", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    margin-bottom: 7px;
+    margin-top: 5px;
+  }
+  & .dataset {
+    align-items: center;
+    display: flex;
+    margin-bottom: 10px;
+    width: 100%;
+    & .title {
+      color: #949494;
+      flex: 1;
+      font-family: "Palanquin", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 15px;
+      letter-spacing: 0;
+      padding-right: 20px;
+      text-transform: none;
+    }
+    & .remove {
+      display: block;
+      height: 10px;
+      margin-top: 4px;
+      opacity: 0.75;
+      transition: opacity 0.1s;
+      width: 10px;
+      &:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+    }
+  }
+  & .pt-button {
+    background: none;
+    border: 1px solid var(--red);
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--red);
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+    transition: background 0.1s, color 0.1s;
+    &:before {
+      color: var(--red);
+      font-size: 13px;
+      transition: color 0.1s;
+    }
+    &:hover {
+      background: var(--red);
+      color: white;
+      &:before {
+        color: white;
+      }
+    }
+  }
 }
 
 .pt-dialog.nav-menu {
@@ -92,7 +219,7 @@
     & ul {
       list-style: none;
       margin: 0;
-      padding: 20px 35px;
+      padding: var(--nav-height) 35px;
       & li {
         font-family: "Palanquin", sans-serif;
         font-size: 16px;

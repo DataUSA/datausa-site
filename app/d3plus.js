@@ -65,9 +65,15 @@ export {badMeasures};
  * @param {Object} d
  */
 function findColor(d) {
-  for (const key in colors) {
-    if (`ID ${key}` in d) {
-      return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+  let detectedColors = [];
+  if (this && this._filteredData) {
+    detectedColors = Array.from(new Set(this._filteredData.map(findColor)));
+  }
+  if (detectedColors.length !== 1) {
+    for (const key in colors) {
+      if (`ID ${key}` in d) {
+        return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+      }
     }
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
@@ -149,7 +155,7 @@ export default {
     "font-size": "16px",
     "font-weight": "300"
   },
-  ocean: "#D5DADC",
+  ocean: "transparent",
   padPixel: 1,
   shapeConfig: {
     Area: {
@@ -177,7 +183,8 @@ export default {
       strokeLinecap: "round"
     },
     Path: {
-      fillOpacity: 0.75
+      fillOpacity: 0.75,
+      strokeOpacity: 0.25
     }
   },
   timelineConfig: {
@@ -186,6 +193,7 @@ export default {
     buttonHeight: 20,
     buttonPadding: 5,
     labelRotation: false,
+    padding: 0,
     selectionConfig: {
       "fill": "#888",
       "fill-opacity": 0.25,
@@ -233,5 +241,18 @@ export default {
     }
   },
   xConfig: {...axisStyles},
-  yConfig: {...axisStyles}
+  yConfig: {...axisStyles},
+  zoomControlStyle: {
+    "background": "rgba(255, 255, 255, 0.75)",
+    "border": "1px solid #999",
+    "color": "#999",
+    "display": "block",
+    "font": "900 15px/21px 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+    "height": "20px",
+    "margin": "5px",
+    "opacity": 0.75,
+    "padding": 0,
+    "text-align": "center",
+    "width": "20px"
+  }
 };

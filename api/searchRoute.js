@@ -18,7 +18,11 @@ module.exports = function(app) {
     let results = [];
 
     if (id) {
-      results = d3Array.merge(id.split(",").map(x => Object.values(rows).filter(d => d.id === x)));
+      let data = d3Array.merge(id.split(",").map(x => Object.values(rows).filter(d => d.id === x)));
+      if (dimension) data = data.filter(d => d.dimension === dimension);
+      if (hierarchy) data = data.filter(d => d.hierarchy === hierarchy);
+      data = data.sort((a, b) => b.zvalue - a.zvalue);
+      results = data.slice(0, limit);
     }
     else if (!q) {
       let data = Object.values(rows);

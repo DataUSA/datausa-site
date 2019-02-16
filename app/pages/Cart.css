@@ -3,6 +3,7 @@
   display: flex;
   height: calc(100vh - 30px);
   padding-top: var(--nav-height);
+  width: 100%;
   & .controls {
     border-right: 1px solid #ccc;
     max-width: 260px;
@@ -54,6 +55,16 @@
         }
       }
     }
+    & .pt-checkbox {
+      color: var(--red);
+      cursor: pointer;
+      display: block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 10px 5px 0;
+      letter-spacing: 0.55px;
+    }
     & .pt-button {
       background: none;
       border: 1px solid var(--red);
@@ -77,6 +88,72 @@
           color: white;
         }
       }
+    }
+  }
+  & .cart-table {
+    flex: 1;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    position: relative;
+    & .moe {
+      opacity: 0.5;
+      margin-left: 4px;
+    }
+  }
+}
+
+.cart-intro {
+  align-items: center;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+  & h1 {
+    font-family: "Pathway Gothic One", sans-serif;
+    font-size: 47px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin: 10px 25px;
+    max-width: 500px;
+    width: 100%;
+  }
+  & p {
+    margin: 10px 25px;
+    max-width: 500px;
+    width: 100%;
+  }
+  & .examples {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 25px;
+    max-width: 700px;
+    text-align: center;
+    width: 100%;
+    & .pt-card {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 1.1;
+      width: 200px;
+      & .pt-icon-standard {
+        color: var(--red);
+        display: block;
+        font-size: 80px;
+        margin-bottom: 15px;
+        opacity: 0.9;
+      }
+    }
+  }
+  & .advanced {
+    margin: 10px 25px;
+    max-width: 500px;
+    opacity: 0.5;
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+      text-decoration: underline;
     }
   }
 }

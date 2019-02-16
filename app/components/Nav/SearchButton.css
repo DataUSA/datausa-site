@@ -3,11 +3,9 @@
 }
 
 .SearchButton {
+  display: flex;
   margin: 5px;
   overflow: visible;
-  position: absolute;
-  right: 0;
-  top: 0;
   transition: width 0.25s ease-in-out;
   width: 35px;
   &.active {

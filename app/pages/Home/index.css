@@ -119,6 +119,7 @@
       position: absolute;
       top: var(--home-search-height);
       width: calc(100% - 199px);
+      z-index: 2;
       &.active {
         display: block;
       }
