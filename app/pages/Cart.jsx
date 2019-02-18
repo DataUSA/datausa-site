@@ -179,7 +179,7 @@ class Cart extends Component {
           group.values.forEach(d => {
             const year = yearStickies.map(s => d[s]).join(" ");
             nonStickies.forEach(s => {
-              obj[`${s} (${year})`] = d[s];
+              if (d.hasOwnProperty(s)) obj[`${s} (${year})`] = d[s];
             });
           });
           return obj;
