@@ -2,13 +2,14 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Viz from "components/Viz/index";
 import "./topic.css";
+import SourceGroup from "../components/SourceGroup";
 
 class Column extends Component {
 
   render() {
 
     const {router} = this.context;
-    const {contents} = this.props;
+    const {contents, sources} = this.props;
     const {descriptions, slug, subtitles, title, titleCompare, visualizations} = contents;
 
     const hideText = router.location.query.viz === "true";
@@ -24,6 +25,7 @@ class Column extends Component {
         { !hideText && descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
       </div>
       { visualizations.map((visualization, ii) => <Viz topic={contents} config={visualization} key={ii} className="topic-visualization" title={ title } slug={ `${slug}_${ii}` } />) }
+      <SourceGroup sources={sources} />
     </div>;
   }
 
