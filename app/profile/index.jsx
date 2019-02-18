@@ -24,6 +24,7 @@ const categories = {
     {title: "Wages", slug: "wages", topic: "income", section: "economy"},
     {title: "Occupations", slug: "occupations", topic: "tmap_occ_num_emp", section: "economy"},
     {title: "Industries", slug: "industries", topic: "tmap_ind_num_emp", section: "economy"},
+    {title: "Domestic Trade", slug: "trade", topic: "domestic_trade", section: "economy"},
     {title: "Age", slug: "age", topic: "age_nativity", section: "demographics"},
     {title: "Heritage", slug: "heritage", topic: "global_diversity", section: "demographics"},
     {title: "Military", slug: "military", topic: "veterans", section: "demographics"},
