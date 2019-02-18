@@ -17,8 +17,8 @@ class Column extends Component {
     return <div className={ `topic ${slug} Column` }>
       <div className="topic-content">
         { title &&
-          <h3 className="topic-title">
-            <a href={ `#${ slug }`} id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></a>
+          <h3 id={ slug } className="topic-title">
+            <a href={ `#${ slug }`} className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></a>
           </h3>
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }

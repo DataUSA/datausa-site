@@ -44,8 +44,8 @@ class TextViz extends Component {
       return <div className={ `topic ${slug || ""} Column ${loading ? "topic-loading" : ""}` }>
         <div className="topic-content">
           { title &&
-            <h3 className="topic-title">
-              <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
+            <h3 id={ slug } className="topic-title">
+              <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
             </h3>
           }
           { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
@@ -66,8 +66,8 @@ class TextViz extends Component {
     return <div className={ `topic ${slug || ""} TextViz ${loading ? "topic-loading" : ""}` }>
       <div className="topic-content">
         { title &&
-          <h3 className="topic-title">
-            <AnchorLink to={ slug } id={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
+          <h3 id={ slug } className="topic-title">
+            <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
           </h3>
         }
         { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
