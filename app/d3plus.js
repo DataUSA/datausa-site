@@ -165,6 +165,11 @@ export default {
       }
     },
     Bar: {
+      labelConfig: {
+        fontFamily: () => "Pathway Gothic One",
+        fontSize: () => 13,
+        padding: "0 5px"
+      },
       strokeWidth: d => {
         const c = findColor(d);
         return c === good || c === bad ? 1 : 0;
@@ -175,7 +180,7 @@ export default {
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
-      padding: 5
+      padding: "0 5px"
     },
     Line: {
       stroke: findColor,
