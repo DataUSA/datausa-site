@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {Link} from "react-router";
 import Stat from "./Stat";
 import SectionIcon from "./SectionIcon";
 import Search from "toCanon/Search";
 import "./Splash.css";
+import {Button} from "@blueprintjs/core";
 
 class CompareButton extends Component {
 
@@ -35,6 +35,11 @@ CompareButton.defaultProps = {
 
 class Splash extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {revealPhoto: false};
+  }
+
   getChildContext() {
     const {addComparison, removeComparison} = this.context;
     const {comparisons} = this.props;
@@ -45,15 +50,21 @@ class Splash extends Component {
     };
   }
 
+  revealPhoto() {
+    this.setState({revealPhoto: !this.state.revealPhoto});
+  }
+
   render() {
+    const {revealPhoto} = this.state;
     const {addComparison} = this.context;
     const {data: profile, height, comparisons, story} = this.props;
 
     const data = [profile].concat(comparisons);
 
-    return <div id="Splash" style={{height}}>
+    return <div id="Splash" style={{height}} className={ revealPhoto ? "reveal-photo" : "" }>
       <div className="image-container" style={{height}}>
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL || d.image}")`}}></div>) }
+        <Button onClick={this.revealPhoto.bind(this)} iconName="camera" className={ `pt-minimal ${revealPhoto ? "pt-active" : ""}` } />
       </div>
       <div className="content-container">
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }

@@ -257,7 +257,8 @@ class Profile extends Component {
         <SubNav type="scroll" anchor="top" visible={() => {
           if (typeof window === undefined) return false;
           const elem = select("#Splash .profile-sections").node();
-          return elem.getBoundingClientRect().top <= 45;
+          const top = elem.getBoundingClientRect().top;
+          return top && top <= 45;
         }}>
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
           { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
