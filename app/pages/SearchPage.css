@@ -146,6 +146,9 @@
         & a {
           align-items: center;
           display: flex;
+          &:hover {
+            text-decoration: none;
+          }
         }
         &:hover {
           background-color: var(--gray);
