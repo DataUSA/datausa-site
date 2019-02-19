@@ -4,6 +4,7 @@
   "description": "The most comprehensive visualization of U.S. public data",
   "main": "src/index.js",
   "scripts": {
+    "audit": "node scripts/profile-audit.js",
     "build": "canon-build",
     "cube2csv": "node scripts/cube2csv.js",
     "dev": "canon-dev",
