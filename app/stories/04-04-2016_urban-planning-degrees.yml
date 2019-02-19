@@ -13,7 +13,38 @@ topics:
       - "Florida is not alone in seeing the tremendous challenges and opportunities offered by American cities. More and more students have been pursuing degrees in urban planning, with 49% growth in degrees awarded over the past decade, according to the US Department of Education.<<foot note=2>>"
       - "This steady growth in the supply of urban planning degrees is puzzling at first, because there may not immediately be jobs in urban planning for all these graduates. Young workers – urban planners included -- often face hurdles finding jobs within government,<<foot note=3>> and government recruiting efforts have not yet recovered after the Great Recession of 2007.<<foot note=4>> Projections from the Bureau of Labor Statistics for Urban and Regional Planners call for modest 6% growth in employment between now and 2024,<<foot note=5>> seemingly not enough to explain the steady 50% growth in urban planning graduates."
       - "So what’s behind the growth in urban planning graduates, if not a pull from the labor market?  Data USA’s profile of urban planning degrees offers some hints. Consider Data USA’s map of growth in number of urban planning degrees by county."
-  - viz_url: "/profile/cip/0403/institutions/counties_growth_degrees/"
+    visualizations: 
+      - >-
+        const {abbreviate, commas} = formatters;
+        
+        
+        const measure = "Completions Growth";
+        const measureEncoded = measure.replace(/\s/g, "%20");
+
+        return {
+          colorScale: measure,
+          colorScaleConfig: {
+            axisConfig: {
+              tickFormat: d => `${abbreviate(d * 100)}%`,
+              title: "Degrees Awarded"
+            }
+          },
+          data: `/api/data?CIP=0403&drilldowns=County&measure=${measureEncoded}`,
+          groupBy: "ID County",
+          label: d => d["County"],
+          tooltipConfig: {
+            tbody: [
+              ["Year", d => d.Year],
+              ["Graduate Growth", d => `${abbreviate(d["Completions Growth"] * 100)}%`]
+            ]
+          },
+          height: 600,
+          ocean: "transparent",
+          projection: "geoAlbersUsa",
+          topojson: `/topojson/County.json`,
+          time: "Year",
+          type: "Geomap"
+        }
   - descriptions:
       - "The red counties are ones with the most rapid growth in number of 'Architecture and Related Services' degrees granted – the group that includes urban planning. Among the top entries on the list are several surprising cities: Miami, Florida; Detroit, Michigan; and Huntsville, Alabama. These three cities point toward two factors which may be drawing more and more students to urban planning: the threat of global warming and the increase in enthusiasm for urban renewal."
       - "Miami’s citizens have good reason to fear the potential effects of global warming. Since 1996, sea levels in coastal Florida have risen 3.7 inches,<<foot note=6>> making flooding a habitual headache for residents of many Miami neighborhoods. And the concern is not restricted to Miami.<<foot note=7>> Three quarters of global major cities now identify climate change as a critical priority, according to a recent MIT survey, and intend to make climate change a mainstream part of city planning.<<foot note=8>> It’s likely that current urban planning students share concern for climate change; a 2015 survey showed that large majorities of urban planning students embrace social activism.<<foot note=9>> And this increased interest in urban planning degrees isn’t only limited to Miami. In fact, based on the Data USA map there are 5 coastal counties in California, 2 in New York and one in Maine that have seen increases in urban planning degrees, comprising 722 total degrees awarded."

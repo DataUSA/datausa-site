@@ -1,8 +1,20 @@
-const shell = require("shelljs"),
+const buble = require("buble"),
+      shell = require("shelljs"),
       yaml = require("node-yaml");
 
 const storyDir = "app/stories/";
 const featured = ["06-12-2017_medicare-physicians"];
+
+const isLogic = [
+  "sum",
+  "dataFormat"
+];
+
+const bubleSwap = str => {
+  let code = buble.transform(str).code;
+  if (code.startsWith("!")) code = code.slice(1);
+  return code;
+};
 
 module.exports = function(app) {
 
@@ -48,10 +60,9 @@ module.exports = function(app) {
           return {description: text};
         });
         if (!topic.visualizations) topic.visualizations = [];
-        if (!topic.type) topic.type = "TextViz";
-
         if (!(topic.visualizations instanceof Array)) topic.visualizations = [topic.visualizations];
-        topic.visualizations = topic.visualizations.map(obj => ({logic: `return ${JSON.stringify(obj)}`}));
+        topic.visualizations = topic.visualizations.map(obj => ({logic: bubleSwap(obj)}));
+        if (!topic.type) topic.type = "TextViz";
       });
       res.json(contents).end();
     }
