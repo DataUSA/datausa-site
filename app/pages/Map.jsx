@@ -102,6 +102,7 @@ class Map extends Component {
           title: false,
           zoomScroll: true
         }}
+        instanceKey="map"
         visualizations={["geomap"]}
         topojson={{
           "County": {topojson: "/topojson/County.json"},
