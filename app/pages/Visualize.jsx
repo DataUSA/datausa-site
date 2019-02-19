@@ -27,9 +27,9 @@ const StateTopojson = {
 
 const examples = [
   {
-    title: "Universities with endowments greater than $10B",
-    icon: "bank-account",
-    link: "/visualize?filters=0-Z1jivMs-4-10000000000&groups=0-HIqzX&measure=Z1jivMs"
+    title: "Admissions for universities in the Boston Metro Area",
+    icon: "edit",
+    link: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1"
   },
   {
     title: "Opioid overdoses by state over time",
