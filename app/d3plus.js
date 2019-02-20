@@ -188,7 +188,7 @@ export default {
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
-      padding: "0 5px"
+      padding: 5
     },
     Line: {
       stroke: findColor,
