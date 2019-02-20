@@ -191,6 +191,7 @@ export default {
       padding: 5
     },
     Line: {
+      curve: "monotoneX",
       stroke: findColor,
       strokeWidth: 3,
       strokeLinecap: "round"
