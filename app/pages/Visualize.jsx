@@ -163,6 +163,7 @@ class Visualize extends Component {
               color: colors.colorScaleGood
             },
             colorScalePosition: "bottom",
+            detectResizeDelay: 100,
             shapeConfig: {
               hoverOpacity: 1
             },
