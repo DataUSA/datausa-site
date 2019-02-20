@@ -68,7 +68,7 @@
   }
 }
 
-.Section.compare {
+.Section.compare, .topic.Column {
   & .option {
     margin: 0 5px;
     &:before {
