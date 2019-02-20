@@ -148,13 +148,21 @@ export default {
       width: () => 20
     }
   },
-  messageMask: false,
+  loadingHTML: `
+  <div>
+    <strong>Drawing Visualization</strong>
+  </div>`,
+  messageMask: true,
   messageStyle: {
     "color": "#888",
     "font-family": "'Palanquin', sans-serif",
     "font-size": "16px",
     "font-weight": "300"
   },
+  noDataHTML: `
+  <div>
+    <strong>No Data Available</strong>
+  </div>`,
   ocean: "transparent",
   padPixel: 1,
   shapeConfig: {
