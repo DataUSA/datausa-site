@@ -113,6 +113,12 @@
     top: 0;
   }
 
+  &.TextViz {
+    & .d3plus {
+      min-height: 400px;
+    }
+  }
+
   &.Column {
     flex: 1;
     flex-direction: column;
