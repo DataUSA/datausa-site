@@ -31,6 +31,9 @@
       & .select-label.source, & .select-label.dims {
         display: none;
       }
+      & .show-ci {
+        display: none;
+      }
     }
     & .grouping-manager {
       & .grouping-item {

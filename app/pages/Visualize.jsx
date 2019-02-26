@@ -68,26 +68,33 @@ class Visualize extends Component {
     // this.props.router.push(url);
   }
 
-  onChange(query) {
+  componentDidUpdate(prevProps) {
+    const {vizbuilder} = this.props;
 
-    const {list} = this.context.formatters;
+    if (vizbuilder !== prevProps.vizbuilder && !vizbuilder.load.inProgress) {
 
-    const groups = query.groups.filter(d => d.key);
-    const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
-    const params = {
-      measures: [query.measure.name],
-      drilldowns: groups.map(d => d.level.name)
-    };
-    if (query.moe) params.measures.push(query.moe.name);
-    if (query.lci) params.measures.push(query.lci.name);
-    if (query.uci) params.measures.push(query.uci.name);
+      const {list} = this.context.formatters;
+      const {query} = vizbuilder;
 
-    const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
+      const groups = query.groups.filter(d => d.key);
+      const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
+      const params = {
+        measures: [query.measure.name],
+        drilldowns: groups.map(d => d.level.name)
+      };
+      if (query.moe) params.measures.push(query.moe.name);
+      if (query.lci) params.measures.push(query.lci.name);
+      if (query.uci) params.measures.push(query.uci.name);
 
-    const title = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
+      const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
 
-    const format = "function(d) { return d.data; }";
-    this.setState({query: {urls: [url], format, slug, title}});
+      const title = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
+
+      const format = "function(d) { return d.data; }";
+
+      this.setState({query: {urls: [url], format, slug, title}});
+
+    }
 
   }
 
@@ -157,7 +164,6 @@ class Visualize extends Component {
           defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
           defaultMeasure="Total Population"
           measureConfig={measureConfig}
-          onChange={this.onChange.bind(this)}
           config={{
             colorScaleConfig: {
               color: colors.colorScaleGood
@@ -210,7 +216,8 @@ Visualize.contextTypes = {
 
 export default connect(state => ({
   cube: state.env.CUBE,
-  cart: state.cart
+  cart: state.cart,
+  vizbuilder: state.vizbuilder
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build))

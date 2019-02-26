@@ -71,6 +71,16 @@
     height: calc(100vh - var(--nav-height) - 60px);
   }
   & .area-sidebar {
+    & .pt-checkbox {
+      color: var(--red);
+      cursor: pointer;
+      display: block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 10px 5px 0;
+      letter-spacing: 0.55px;
+    }
     & .label {
       color: var(--darkgray);
       font-family: "Palanquin", sans-serif;
