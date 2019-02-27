@@ -80,6 +80,7 @@ function findColor(d) {
 }
 
 const currentYear = new Date().getFullYear();
+const labelPadding = 5;
 
 const axisStyles = {
   barConfig: {
@@ -188,7 +189,7 @@ export default {
     labelConfig: {
       fontFamily: () => "Pathway Gothic One",
       fontSize: () => 13,
-      padding: 5
+      padding: labelPadding
     },
     Line: {
       curve: "monotoneX",
@@ -199,6 +200,23 @@ export default {
     Path: {
       fillOpacity: 0.75,
       strokeOpacity: 0.25
+    },
+    Rect: {
+      labelBounds: (d, i, s) => {
+        const h = s.height;
+        const sh = Math.min(17, h * 0.5);
+        const arr = [
+          {width: s.width - labelPadding * 2, height: h - sh, x: -s.width / 2 + labelPadding, y: -h / 2 + labelPadding},
+          {width: s.width - labelPadding * 2, height: sh, x: -s.width / 2 + labelPadding, y: h / 2 - sh}
+        ];
+        return arr;
+      },
+      labelConfig: {
+        fontFamily: () => "Pathway Gothic One",
+        fontSize: () => 13,
+        fontResize: true,
+        padding: 0
+      }
     }
   },
   timelineConfig: {
