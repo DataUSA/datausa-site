@@ -12,40 +12,40 @@ module.exports = function(app) {
 
     carousels.push({
       title: "Viz Builder",
-      icon: "/icons/sections/demographics.svg",
+      icon: "/icons/sections/admissions.svg",
       rank: 1,
       footer: "View Builder",
       url: "/visualize",
       new: true,
       tiles: [
         {
-          title: "Federal Agency Spending by State",
-          url: "/visualize?groups=0-Z1MxM8L&measure=1e64mv",
-          image: "/images/home/vizbuilder/obligation.png",
+          title: "Department of Interior Spending by State",
+          url: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-14&measure=1e64mv",
+          image: "/images/home/vizbuilder/interior.png",
           new: true
         },
         {
-          title: "Opioid Deaths (Age-Adjusted) by State",
-          url: "/visualize?groups=0-Zpn26u&measure=2sUCF4",
-          image: "/images/home/maps/opioid_overdose_deathrate_ageadjusted.png",
+          title: "Opioid Deaths by County",
+          url: "/visualize?enlarged=s-geomap-QuaqK&groups=0-QuaqK&measure=2sUCF4",
+          image: "/images/home/vizbuilder/opioid.png",
           new: false
         },
         {
-          title: "Default Rate by County",
-          url: "/visualize?groups=0-Z2nI4Ry&measure=ZdVPNx",
-          image: "/images/home/maps/default_rate.png",
+          title: "Admissions for Universities in the Boston Metro Area",
+          url: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1",
+          image: "/images/home/vizbuilder/admissions.png",
           new: false
         },
         {
-          title: "Nonmedical Pain Reliever Usage by State",
-          url: "/visualize?groups=0-2vBHXu&measure=Z25c19f",
-          image: "/images/home/maps/non_medical_use_of_pain_relievers.png",
+          title: "Coal Mining Workers by State",
+          url: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo",
+          image: "/images/home/vizbuilder/coal.png",
           new: false
         },
         {
-          title: "Children in Single-Parent Households by County",
-          url: "/visualize?groups=0-Z1X72Pg&measure=1Vpvwd",
-          image: "/images/home/maps/children_in_singleparent_households.png",
+          title: "Foreign Born Citizens by State",
+          url: "/visualize?groups=0-TBhjH&measure=64auG",
+          image: "/images/home/vizbuilder/foreign.png",
           new: false
         }
       ]

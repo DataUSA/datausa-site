@@ -52,7 +52,7 @@ const examples = [
   },
 
   {
-    title: "Opiod Deaths by County",
+    title: "Opioid Deaths by County",
     group: "Health",
     link: "/visualize?groups=0-QuaqK&measure=2sUCF4"
   },
