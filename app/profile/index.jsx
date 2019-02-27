@@ -216,7 +216,7 @@ class Profile extends Component {
       });
 
     const metaTitle = stripHTML(profiles.map(d => d.title).join(" & "));
-    const metaDesc = stripHTML(profile.descriptions[0].description);
+    const metaDesc = profile.descriptions.length ? stripHTML(profile.descriptions[0].description) : false;
 
     return (
       <CanonProfile>
@@ -224,9 +224,9 @@ class Profile extends Component {
         <Helmet>
           <title>{ metaTitle }</title>
           <meta property="og:title" content={ metaTitle } />
-          <meta name="description" content={metaDesc} />
+          { metaDesc && <meta name="description" content={metaDesc} /> }
           <meta property="og:image" content={ `${origin}${profile.imageURL}` } />
-          <meta property="og:description" content={metaDesc} />
+          { metaDesc && <meta property="og:description" content={metaDesc} /> }
         </Helmet>
 
         <Splash data={profile} comparisons={comparisons} />
