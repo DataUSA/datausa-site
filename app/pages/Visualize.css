@@ -388,49 +388,180 @@
   align-items: center;
   background-color: var(--white);
   display: flex;
-  flex-direction: column;
   height: 100vh;
   justify-content: center;
+  padding: 0;
   width: 100%;
-  & h1 {
-    font-family: "Pathway Gothic One", sans-serif;
-    font-size: 47px;
-    font-weight: 400;
-    text-transform: uppercase;
-    margin: 10px 25px;
-    max-width: 500px;
-    width: 100%;
-  }
-  & p {
-    margin: 10px 25px;
-    max-width: 500px;
-    width: 100%;
+  & .text {
+    margin: 0 25px;
+    width: 350px;
+    & h1 {
+      font-family: "Pathway Gothic One", sans-serif;
+      font-size: 47px;
+      font-weight: 400;
+      text-transform: uppercase;
+      margin: 0 0 20px;
+      width: 100%;
+    }
+    & p {
+      margin: 10px 0;
+      width: 100%;
+    }
   }
   & .examples {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 25px;
-    max-width: 700px;
-    text-align: center;
-    width: 100%;
-    & .pt-card {
-      font-family: "Pathway Gothic One", sans-serif;
-      font-size: 22px;
-      font-weight: 400;
-      line-height: 1.1;
-      width: 200px;
-      & .pt-icon-standard {
-        color: var(--red);
-        display: block;
-        font-size: 80px;
-        margin-bottom: 15px;
-        opacity: 0.9;
+    flex: 1;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: calc(var(--nav-height) + 25px) 25px 25px 0;
+    & .carousel {
+      margin-bottom: 25px;
+
+      & h2 {
+        font-size: 24px;
+        margin-bottom: 0;
+        padding-left: calc(25px + 1rem);
+        & svg {
+          height: 25px;
+          margin-right: 5px;
+          margin-top: -2px;
+          vertical-align: top;
+          width: 25px;
+          & *[stroke="#FFFFFF"] {
+            stroke: var(--black);
+          }
+          & *[fill="#FFFFFF"] {
+            fill: var(--black);
+          }
+        }
+      }
+
+      /* slide layout */
+      & .slick-list {
+        /* offset item spacing */
+        margin: 0 0 0 25px;
+        width: calc(100% - 50px);
+
+        /* space out items */
+        & .slick-slide {
+          margin: 1rem;
+        }
+
+        /* equally sized cards (width & height) */
+        & .slick-track {
+          display: flex;
+
+          & .pt-card {
+            align-items: center;
+            display: flex !important;
+            text-align: center;
+            & span {
+              flex: 1;
+            }
+          }
+
+          & > * {
+            display: flex;
+            flex: 1 1 25%;
+
+            & > * {
+              display: flex;
+              width: 100%;
+
+              & > * {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+
+      /* controls */
+      & .slick-arrow {
+        opacity: 0.5;
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        transition: opacity 0.1s ease-out;
+        width: 25px;
+        z-index: 1;
+
+        /* theming */
+        & .slick-arrow-button {
+          border: 0;
+          background: none;
+          padding: 0;
+          width: 25px;
+
+          &:focus {
+            outline: none;
+          }
+          & .pt-icon-standard {
+            font-size: 20px;
+          }
+        }
+
+        /* left / right arrow positioning */
+        &.slick-prev {
+          left: 0.5rem; /* half width */
+        }
+        &.slick-next {
+          right: 0.5rem; /* half width */
+        }
+
+        /* interactions */
+        &:hover {
+          opacity: 1;
+        }
+
+        /* hidden state (on first or last slide) */
+        &.slick-disabled {
+          opacity: 0;
+        }
+      }
+
+      /* vendor styles */
+      & .slick-loading .slick-slide,
+      & .slick-loading .slick-track {
+        visibility: hidden;
+      }
+
+      & .slick-slider {
+        position: relative;
+        user-select: none;
+        touch-action: pan-y;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      & .slick-list {
+        overflow: hidden;
+        cursor: ew-resize;
+
+        &.dragging {
+          cursor: pointer;
+          cursor: hand;
+        }
+      }
+
+      & .slick-track:after,
+      & .slick-track:before {
+        display: table;
+        content: '';
+      }
+
+      & .slick-track:after {
+        clear: both;
+      }
+
+      & .slick-slide {
+        display: none;
+        float: left;
       }
     }
   }
   & .advanced {
-    margin: 10px 25px;
-    max-width: 500px;
+    margin: 10px 0;
     opacity: 0.5;
     &:hover {
       cursor: pointer;
