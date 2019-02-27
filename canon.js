@@ -16,13 +16,18 @@ module.exports = {
     cubeFilters: [
       {
         filter: (cubes, query, caches) => {
+
           const {pops} = caches;
           const ids = d3Array.merge(query.dimensions
             .filter(d => d.dimension === "Geography")
             .map(d => d.id instanceof Array ? d.id : [d.id]));
-          const bigGeos = ids.every(g => pops[g] && pops[g] >= 250000);
+
+          const poverty = cubes.find(cube => cube.name.includes("acs_ygpsar_poverty_by_gender_age_race"));
+          const bigGeos = poverty ? ids.every(g => g === "01000US") : ids.every(g => pops[g] && pops[g] >= 250000);
           const tracts = query.dimensions.filter(d => (d.relation || "").includes("Tract")).length;
+
           return cubes.filter(cube => cube.name.match(bigGeos && !tracts ? /_1$/g : /_5$/g));
+
         },
         key: cube => cube.name.replace("_c_", "_").replace(/_[0-9]$/g, "")
       },
