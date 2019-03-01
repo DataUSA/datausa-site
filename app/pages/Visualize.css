@@ -19,56 +19,70 @@
     }
   }
   & .options {
+    align-items: center;
     background-color: var(--white);
-    margin-top: var(--nav-height);
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+    position: absolute;
+    right: 0;
+    top: var(--nav-height);
     & > span {
-      display: block;
-      height: 30px;
+      display: inline-block;
+      height: auto;
+      margin-top: 0;
       text-align: right;
-      & .option {
-        color: #949494;
-        cursor: pointer;
+    }
+    & .option {
+      color: #949494;
+      cursor: pointer;
+      display: inline-block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 15px 15px 0 0;
+      outline: 0;
+      &.disabled {
+        opacity: 0.5;
+      }
+      &:before {
+        background-position: center;
+        background-repeat: no-repeat;
+        content: "";
         display: inline-block;
-        font-family: "Palanquin", sans-serif;
-        font-size: 12px;
-        font-weight: 700;
-        margin: 5px 15px 0 0;
-        outline: 0;
-        &.disabled {
-          opacity: 0.5;
-        }
+        height: 20px;
+        margin-bottom: 4px;
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 20px;
+      }
+      & .pt-icon-standard {
+        height: 20px;
+        margin-right: 0;
+        vertical-align: middle;
+        width: 20px;
+      }
+      &:hover {
+        color: var(--red);
+      }
+      &.add-to-cart {
         &:before {
-          background-position: center;
-          background-repeat: no-repeat;
-          content: "";
-          display: inline-block;
-          height: 20px;
-          margin-bottom: 4px;
-          margin-right: 5px;
-          vertical-align: middle;
-          width: 20px;
+          background-image: url("/images/viz/add-to-cart.svg");
         }
-        &:hover {
-          color: var(--red);
-        }
-        &.add-to-cart {
-          &:before {
-            background-image: url("/images/viz/add-to-cart.svg");
-          }
-          &:hover:before {
-            background-image: url("/images/viz/add-to-cart-red.svg");
-          }
+        &:hover:before {
+          background-image: url("/images/viz/add-to-cart-red.svg");
         }
       }
-  }
+    }
   }
 }
 
 .vizbuilder {
   background-color: var(--white);
-  height: calc(100vh - var(--nav-height) - 60px);
-  & .area-sidebar, & .area-chart {
-    height: calc(100vh - var(--nav-height) - 60px);
+  height: calc(100vh - var(--nav-height) - 30px);
+  margin-top: var(--nav-height);
+  & .area-sidebar {
+    height: calc(100vh - var(--nav-height) - 30px);
   }
   & .area-sidebar {
     & .pt-checkbox {
@@ -352,7 +366,9 @@
     }
   }
   & .area-chart {
-    padding: 25px 25px 25px 0;
+    height: calc(100vh - var(--nav-height) - 80px);
+    margin-top: 50px;
+    padding: 0px 25px 25px 0;
     & .wrapper {
       padding: 0;
       & .chart-card {
@@ -385,7 +401,7 @@
 }
 
 .visualize-intro {
-  align-items: center;
+  align-items: flex-start;
   background-color: var(--white);
   display: flex;
   height: 100vh;
@@ -393,7 +409,8 @@
   padding: 0;
   width: 100%;
   & .text {
-    margin: 0 25px;
+    margin: 0 35px;
+    padding-top: calc(var(--nav-height) + 35px);
     width: 350px;
     & h1 {
       font-family: "Pathway Gothic One", sans-serif;
@@ -413,7 +430,7 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-    padding: calc(var(--nav-height) + 25px) 25px 25px 0;
+    padding: calc(var(--nav-height) + 35px) 35px 35px 0;
     & .carousel {
       margin-bottom: 25px;
 

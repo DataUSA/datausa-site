@@ -39,7 +39,7 @@ const examples = [
   {
     title: "Foreign Born Citizens by MSA",
     group: "Heritage & Demographics",
-    link: "/visualize?groups=0-TBhjH&measure=64auG"
+    link: "/visualize?groups=0-Z1SqIjF&measure=64auG"
   },
   {
     title: "Russian Speakers by State",
@@ -73,7 +73,7 @@ const examples = [
     link: "/visualize?groups=0-Zc58ag&measure=3DN30"
   },
   {
-    title: "Adults who cannot afford a doctor",
+    title: "Adults who Cannot Afford a Doctor",
     group: "Health",
     link: "/visualize?groups=0-14F1wI&measure=1wObYo"
   },
@@ -105,12 +105,12 @@ const examples = [
     link: "/visualize?groups=0-z9TnC&groups=1-Z1Oby8M-2&groups=2-1mjmRl-5112&groups=3-1dQe8s-2&measure=1qWfo"
   },
   {
-    title: "German borns working in the performing arts industry",
+    title: "German-Borns Working in the Performing Arts Industry",
     group: "Labor",
     link: "/visualize?groups=0-z9TnC&groups=1-1SyFhe-110&groups=2-1mjmRl-711&measure=1qWfo"
   },
   {
-    title: "Naturalized US Citizens working as computer scientists and web developers",
+    title: "Naturalized US Citizens Working as Computer Scientists and Web Developers",
     group: "Labor",
     link: "/visualize?groups=0-z9TnC&groups=1-13xVLW-4&groups=2-19hV1x-151111~151131~151134~15113X&measure=1qWfo"
   },
@@ -357,12 +357,11 @@ class Visualize extends Component {
           <meta property="og:title" content={ `${queryTitle} | Data USA` } />
         </Helmet>
 
-        <div className="help" onClick={this.showIntro.bind(this)}>
-          <Icon iconName="help" />
-          Help
-        </div>
-
         <div className="options">
+          <div className="option" onClick={this.showIntro.bind(this)}>
+            <Icon iconName="help" />
+            Show Examples
+          </div>
           { cart ? <Tooltip2 placement="top-end">
             <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
               <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
