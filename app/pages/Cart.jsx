@@ -192,13 +192,19 @@ class Cart extends Component {
           group.values.forEach(d => {
             const year = yearStickies.map(s => d[s]).join(" ");
             nonStickies.forEach(s => {
-              if (d.hasOwnProperty(s)) obj[`${s} (${year})`] = d[s];
+              if (d.hasOwnProperty(s)) {
+                const newColumn = `${s} (${year})`;
+                obj[newColumn] = d[s];
+                if (columns.includes(s)) columns.splice(columns.indexOf(s), 1);
+                if (!columns.includes(newColumn)) columns.push(newColumn);
+              }
             });
           });
           return obj;
         });
-      columns = Object.keys(results[0]);
+      columns = columns.filter(d => !yearStickies.includes(d));
     }
+
     columns = columns
       .sort((a, b) => {
         const sA = stickies.indexOf(a);
@@ -293,7 +299,6 @@ class Cart extends Component {
 
     const moes = Object.values(moe);
     const columns = this.state.columns.filter(c => !moes.includes(c));
-    console.log(columns);
 
     const columnWidths = columns.map(key => {
       if (key === "Year") return 60;
