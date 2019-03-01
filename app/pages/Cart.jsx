@@ -212,7 +212,7 @@ class Cart extends Component {
       if (c.includes(" moe")) {
         const match = columns.find((d, i) => {
           const name = lowColumns[i];
-          return c.replace(" appx moe", "").replace("moe", "") === name && c !== name;
+          return c.replace(" appx moe", "").replace(" moe", "") === name && c !== name;
         });
         if (match) moe[match] = columns[index];
       }
@@ -293,6 +293,7 @@ class Cart extends Component {
 
     const moes = Object.values(moe);
     const columns = this.state.columns.filter(c => !moes.includes(c));
+    console.log(columns);
 
     const columnWidths = columns.map(key => {
       if (key === "Year") return 60;
