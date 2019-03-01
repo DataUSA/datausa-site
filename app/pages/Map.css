@@ -9,12 +9,13 @@
     z-index: 10;
   }
   & .vizbuilder {
-    padding-top: var(--nav-height);
+    padding-top: 0;
     height: calc(100vh - 30px);
     & .area-sidebar, & .area-chart {
       height: calc(100vh - var(--nav-height) - 30px);
     }
     & .area-chart {
+      margin-top: 0;
       padding: 0;
       & .wrapper {
           background: transparent;
