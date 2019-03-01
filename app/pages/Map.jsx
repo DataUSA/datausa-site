@@ -9,6 +9,7 @@ import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
 import {addToCart, removeFromCart} from "actions/cart";
+import {updateTitle} from "actions/title";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -20,6 +21,7 @@ badMeasures.forEach(measure => {
 });
 
 const cartMax = 5;
+const title = "Map";
 
 class Map extends Component {
 
@@ -28,6 +30,14 @@ class Map extends Component {
     this.state = {
       query: {}
     };
+  }
+
+  componentDidMount() {
+    this.props.updateTitle(title);
+  }
+
+  componentWillUnmount() {
+    this.props.updateTitle(false);
   }
 
   componentDidUpdate(prevProps) {
@@ -50,11 +60,12 @@ class Map extends Component {
 
       const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
 
-      const title = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
+      const queryTitle = `Map of ${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
 
       const format = "function(d) { return d.data; }";
 
-      this.setState({query: {urls: [url], format, slug, title}});
+      this.props.updateTitle(queryTitle);
+      this.setState({query: {urls: [url], format, slug, title: queryTitle}});
 
     }
 
@@ -76,9 +87,13 @@ class Map extends Component {
     const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
+    const queryTitle = query.title || title;
+
     return <div id="Visualize" className="Map">
 
-      <Helmet title={`Map${query && query.title ? ` of ${query.title}` : ""}`} />
+      <Helmet title={queryTitle}>
+        <meta property="og:title" content={ `${queryTitle} | Data USA` } />
+      </Helmet>
 
       <div className="options">
         { cart ? <Tooltip2 placement="top-end">
@@ -136,5 +151,6 @@ export default connect(state => ({
   vizbuilder: state.vizbuilder
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
-  removeFromCart: build => dispatch(removeFromCart(build))
+  removeFromCart: build => dispatch(removeFromCart(build)),
+  updateTitle: title => dispatch(updateTitle(title))
 }))(Map);

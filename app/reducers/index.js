@@ -8,5 +8,12 @@ export default {
       default: return state;
     }
   },
+  title: (state = false, action) => {
+    switch (action.type) {
+      case "TITLE_UPDATE":
+        return action.data;
+      default: return state;
+    }
+  },
   vizbuilder: vbStateReducer
 };

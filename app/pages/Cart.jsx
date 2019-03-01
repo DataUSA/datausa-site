@@ -17,6 +17,7 @@ import "./Cart.css";
 
 import Loading from "components/Loading";
 import {Object} from "es6-shim";
+import {updateTitle} from "actions/title";
 import {addToCart, clearCart, removeFromCart, toggleCartSetting} from "actions/cart";
 
 const examples = [
@@ -66,6 +67,8 @@ const FORMATTERS = {
   }
 };
 
+const title = "Cart";
+
 class Cart extends Component {
 
   constructor(props) {
@@ -73,6 +76,7 @@ class Cart extends Component {
     this.state = {
       columns: [],
       intro: true,
+      loading: false,
       moe: {},
       responses: false,
       results: false,
@@ -81,11 +85,20 @@ class Cart extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.updateTitle(title);
+  }
+
+  componentWillUnmount() {
+    this.props.updateTitle(false);
+  }
+
   componentDidUpdate(prevProps) {
 
     const {cart} = this.props;
+    const {loading, results} = this.state;
 
-    if (!prevProps.cart) {
+    if (!prevProps.cart || !results && !loading) {
       if (cart) this.reload.bind(this)();
     }
     else {
@@ -114,7 +127,7 @@ class Cart extends Component {
       .match(/drilldowns\=[^&]+/g)[0]
       .split("=")[1].split(",")
     ));
-    this.setState({results: false});
+    this.setState({loading: true, results: false});
     const responses = await Promise.all(urls.map(url => axios.get(url).then(resp => resp.data)));
     this.formatData.bind(this)(responses.filter(resp => resp.data), stickies);
 
@@ -205,7 +218,7 @@ class Cart extends Component {
       }
     });
 
-    this.setState({columns, moe, responses, results, stickies, intro: !results.length});
+    this.setState({columns, loading: false, moe, responses, results, stickies, intro: !results.length});
 
   }
 
@@ -264,9 +277,18 @@ class Cart extends Component {
 
   render() {
 
-    const {intro, moe, results, stickies} = this.state;
+    const {intro, loading, moe, results, stickies} = this.state;
     const {cart, measures} = this.props;
-    if (!cart) return <Loading />;
+
+    if (!cart || !results || loading) {
+      return <div>
+        <Helmet title={title}>
+          <meta property="og:title" content={ `${title} | Data USA` } />
+        </Helmet>
+        <Loading />
+      </div>;
+    }
+
     const showMOE = cart.settings.find(d => d.key === "showMOE").value;
 
     const moes = Object.values(moe);
@@ -296,6 +318,9 @@ class Cart extends Component {
 
     if (results !== false && intro) {
       return <div id="Cart" className="cart-intro">
+        <Helmet title={title}>
+          <meta property="og:title" content={ `${title} | Data USA` } />
+        </Helmet>
         <h1>Data Cart</h1>
         <p>
           The Data USA data cart allows you to download only the data you need. Datasets added to the data cart will be automatically merged together, and can then be downloaded as a CSV for further offline analysis.
@@ -315,7 +340,9 @@ class Cart extends Component {
     }
     else {
       return <div id="Cart">
-        <Helmet title="Cart" />
+        <Helmet title={title}>
+          <meta property="og:title" content={ `${title} | Data USA` } />
+        </Helmet>
         <div className="controls">
           <div className="title">Data Cart</div>
           <div className="sub">
@@ -348,7 +375,6 @@ class Cart extends Component {
             { columns.map(c => <Column id={ c } key={ c } name={ c.indexOf("ID") === 0 ? `${c.replace("ID ", "")} ID` : c } renderCell={ renderCell } />) }
           </Table>
         </div> }
-        { results === false ? <Loading /> : null }
       </div>;
     }
 
@@ -368,5 +394,6 @@ export default connect(state => ({
   addToCart: build => dispatch(addToCart(build)),
   clearCart: () => dispatch(clearCart()),
   removeFromCart: build => dispatch(removeFromCart(build)),
-  toggleCartSetting: setting => dispatch(toggleCartSetting(setting))
+  toggleCartSetting: setting => dispatch(toggleCartSetting(setting)),
+  updateTitle: title => dispatch(updateTitle(title))
 }))(Cart);

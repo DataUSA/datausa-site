@@ -7,10 +7,21 @@ import {AnchorLink, fetchData} from "@datawheel/canon-core";
 import slugify from "toCanon/slugify";
 import Splash from "toCanon/Splash";
 import Topic from "toCanon/Topic";
+import {updateTitle} from "actions/title";
 
 import "./Story.css";
 
 class Story extends Component {
+
+  componentDidMount() {
+    const {formatters} = this.context;
+    const {title} = this.props.story;
+    this.props.updateTitle(formatters.stripHTML(title));
+  }
+
+  componentWillUnmount() {
+    this.props.updateTitle(false);
+  }
 
   render() {
     const {formatters} = this.context;
@@ -30,9 +41,8 @@ class Story extends Component {
 
     return (
       <div id="Story">
-        <Helmet>
-          <title>{ metaTitle }</title>
-          <meta property="og:title" content={ metaTitle } />
+        <Helmet title={metaTitle}>
+          <meta property="og:title" content={ `${metaTitle} | Data USA` } />
           <meta name="description" content={ metaDesc } />
           <meta property="og:image" content={ `${origin}${image}` } />
           <meta property="og:description" content={ metaDesc } />
@@ -80,4 +90,6 @@ Story.need = [
 export default connect(state => ({
   origin: state.location.origin,
   story: state.data.story
+}), dispatch => ({
+  updateTitle: title => dispatch(updateTitle(title))
 }))(Story);

@@ -16,6 +16,7 @@ import "./index.css";
 import Loading from "components/Loading";
 import Tile from "components/Tile/Tile";
 import Section from "toCanon/Section";
+import {updateTitle} from "actions/title";
 
 import NotFound from "../pages/NotFound/NotFound";
 
@@ -102,9 +103,17 @@ class Profile extends Component {
     this.setState({loading: true});
     axios.get(`/api/profile/${pslug}/${id}`)
       .then(resp => {
-        this.setState({comparisons: comparisons.concat([resp.data]), loading: false});
+        const newComparisons = comparisons.concat([resp.data]);
+        this.setState({comparisons: newComparisons, loading: false});
         const {router} = this.props;
         const {location} = router;
+
+        const {stripHTML} = this.context.formatters;
+        const {profile} = this.props;
+        const profiles = [profile].concat(newComparisons);
+        const title = stripHTML(profiles.map(d => d.title).join(" & "));
+        this.props.updateTitle(title);
+
         router.push(`${location.basename}${location.pathname}?compare=${id}`);
       });
   }
@@ -113,12 +122,25 @@ class Profile extends Component {
     this.setState({comparisons: []});
     const {router} = this.props;
     const {location} = router;
+
+    const {stripHTML} = this.context.formatters;
+    const {profile} = this.props;
+    const title = stripHTML(profile.title);
+    this.props.updateTitle(title);
+
     router.push(`${location.basename}${location.pathname}`);
   }
 
   componentDidMount() {
 
     if (!this.props.profile.error) {
+
+      const {stripHTML} = this.context.formatters;
+      const {profile} = this.props;
+      const {comparisons} = this.state;
+      const profiles = [profile].concat(comparisons);
+      const title = stripHTML(profiles.map(d => d.title).join(" & "));
+      this.props.updateTitle(title);
 
       window.addEventListener("scroll", this.scrollBind);
       this.scrollBind();
@@ -130,6 +152,7 @@ class Profile extends Component {
   }
 
   componentWillUnmount() {
+    this.props.updateTitle(false);
     if (!this.props.profile.error) {
       window.removeEventListener("scroll", this.scrollBind);
     }
@@ -223,7 +246,7 @@ class Profile extends Component {
 
         <Helmet>
           <title>{ metaTitle }</title>
-          <meta property="og:title" content={ metaTitle } />
+          <meta property="og:title" content={ `${metaTitle} | Data USA` } />
           { metaDesc && <meta name="description" content={metaDesc} /> }
           <meta property="og:image" content={ `${origin}${profile.imageURL}` } />
           { metaDesc && <meta property="og:description" content={metaDesc} /> }
@@ -310,4 +333,6 @@ export default connect(state => ({
   origin: state.location.origin,
   profile: state.data.profile,
   similar: state.data.similar
+}), dispatch => ({
+  updateTitle: title => dispatch(updateTitle(title))
 }))(Profile);

@@ -13,6 +13,7 @@ import {badMeasures} from "d3plus.js";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
 import {addToCart, removeFromCart} from "actions/cart";
+import {updateTitle} from "actions/title";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -176,6 +177,7 @@ const exampleGroups = nest()
   .entries(examples);
 
 const cartMax = 5;
+const title = "Viz Builder";
 
 class Visualize extends Component {
 
@@ -185,6 +187,14 @@ class Visualize extends Component {
       intro: !props.router.location.search.length,
       query: {}
     };
+  }
+
+  componentDidMount() {
+    this.props.updateTitle(title);
+  }
+
+  componentWillUnmount() {
+    this.props.updateTitle(false);
   }
 
   showIntro() {
@@ -220,11 +230,12 @@ class Visualize extends Component {
 
       const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
 
-      const title = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
+      const queryTitle = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
 
       const format = "function(d) { return d.data; }";
 
-      this.setState({query: {urls: [url], format, slug, title}});
+      this.props.updateTitle(queryTitle);
+      this.setState({query: {urls: [url], format, slug, title: queryTitle}});
 
     }
 
@@ -253,6 +264,8 @@ class Visualize extends Component {
     const {cart, cube} = this.props;
     const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
+
+    const queryTitle = query.title || title;
 
     const SlickButtonFix = ({currentSlide, slideCount, children, ...props}) =>
       <div {...props}>{children}</div>;
@@ -306,7 +319,9 @@ class Visualize extends Component {
 
     if (intro) {
       return <div id="Visualize" className="visualize-intro">
-        <Helmet title="Viz Builder" />
+        <Helmet title={queryTitle}>
+          <meta property="og:title" content={ `${queryTitle} | Data USA` } />
+        </Helmet>
         <div className="text">
           <h1>Viz Builder</h1>
           <p>
@@ -338,7 +353,9 @@ class Visualize extends Component {
 
       return <div id="Visualize">
 
-        { query ? <Helmet title={`${query.title ? `${query.title} | ` : ""}Viz Builder`} /> : null }
+        <Helmet title={queryTitle}>
+          <meta property="og:title" content={ `${queryTitle} | Data USA` } />
+        </Helmet>
 
         <div className="help" onClick={this.showIntro.bind(this)}>
           <Icon iconName="help" />
@@ -419,5 +436,6 @@ export default connect(state => ({
   vizbuilder: state.vizbuilder
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
-  removeFromCart: build => dispatch(removeFromCart(build))
+  removeFromCart: build => dispatch(removeFromCart(build)),
+  updateTitle: title => dispatch(updateTitle(title))
 }))(Visualize);

@@ -48,7 +48,7 @@ class Nav extends Component {
 
   render() {
     const {background, menu} = this.state;
-    const {cart, location} = this.props;
+    const {cart, location, title} = this.props;
     const {pathname} = location;
 
     const home = pathname === "/";
@@ -63,9 +63,6 @@ class Nav extends Component {
                    pathname.indexOf("story") === 0 && pathname.length > 10;
 
     const dark = !splash;
-
-    const pageTitle = typeof window !== "undefined" ? document.title : "";
-    const subtitle = pageTitle.includes(" | ") ? pageTitle.split(" | ")[0] : false;
 
     const Cart = () => <div className="cart-nav-controls">
       <div className="title">Data Cart</div>
@@ -101,8 +98,8 @@ class Nav extends Component {
         </Link>
         : null }
 
-      { subtitle && (dark || background)
-        ? <span className="nav-subtitle">{ subtitle }</span>
+      { title && (dark || background)
+        ? <span className="nav-subtitle">{ title }</span>
         : null }
 
       <div className="right-buttons">
@@ -169,7 +166,8 @@ class Nav extends Component {
 }
 
 export default connect(state => ({
-  cart: state.cart
+  cart: state.cart,
+  title: state.title
 }), dispatch => ({
   clearCart: () => dispatch(clearCart()),
   removeFromCart: build => dispatch(removeFromCart(build))
