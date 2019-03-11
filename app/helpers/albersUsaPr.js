@@ -1,5 +1,46 @@
-import {geoAlbers, geoConicEqualArea} from "d3-geo";
+import {geoAlbers, geoConicEqualArea, geoStream} from "d3-geo";
 
+/** */
+function noop() {}
+
+let x0 = Infinity,
+    x1 = -x0,
+    y0 = x0,
+    y1 = x1;
+
+const boundsStream = {
+  point: boundsPoint,
+  lineStart: noop,
+  lineEnd: noop,
+  polygonStart: noop,
+  polygonEnd: noop,
+  result: () => {
+    const bounds = [[x0, y0], [x1, y1]];
+    x1 = y1 = -(y0 = x0 = Infinity);
+    return bounds;
+  }
+};
+
+/** */
+function boundsPoint(x, y) {
+  if (x < x0) x0 = x;
+  if (x > x1) x1 = x;
+  if (y < y0) y0 = y;
+  if (y > y1) y1 = y;
+}
+
+/** */
+function fit(projection, fitBounds, object) {
+  const clip = projection.clipExtent && projection.clipExtent();
+  projection.scale(150).translate([0, 0]);
+  if (clip) projection.clipExtent(null);
+  geoStream(object, projection.stream(boundsStream));
+  fitBounds(boundsStream.result());
+  if (clip) projection.clipExtent(clip);
+  return projection;
+}
+
+/** modified albers projection to include Puerto Rico */
 export default function() {
   const ε = 1e-6;
 
@@ -32,6 +73,7 @@ export default function() {
     }
   };
 
+  /** */
   function albersUsa(coordinates) {
     const x = coordinates[0], y = coordinates[1];
     point = null;
@@ -138,6 +180,41 @@ export default function() {
       .stream(pointStream).point;
 
     return albersUsa;
+  };
+
+  albersUsa.fitExtent = function(extent, object) {
+    return fit(albersUsa, b => {
+      const h = extent[1][1] - extent[0][1],
+            w = extent[1][0] - extent[0][0];
+      const k = Math.min(w / (b[1][0] - b[0][0]), h / (b[1][1] - b[0][1]));
+      const x = +extent[0][0] + (w - k * (b[1][0] + b[0][0])) / 2,
+            y = +extent[0][1] + (h - k * (b[1][1] + b[0][1])) / 2;
+      albersUsa.scale(150 * k).translate([x, y]);
+    }, object);
+  };
+
+  albersUsa.fitSize = function(size, object) {
+    return albersUsa.fitExtent(albersUsa, [[0, 0], size], object);
+  };
+
+  albersUsa.fitWidth = function(width, object) {
+    return fit(albersUsa, b => {
+      const w = +width;
+      const k = w / (b[1][0] - b[0][0]);
+      const x = (w - k * (b[1][0] + b[0][0])) / 2,
+            y = -k * b[0][1];
+      albersUsa.scale(150 * k).translate([x, y]);
+    }, object);
+  };
+
+  albersUsa.fitHeight = function(height, object) {
+    return fit(albersUsa, b => {
+      const h = +height;
+      const k = h / (b[1][1] - b[0][1]);
+      const x = -k * b[0][0],
+            y = (h - k * (b[1][1] + b[0][1])) / 2;
+      albersUsa.scale(150 * k).translate([x, y]);
+    }, object);
   };
 
   return albersUsa.scale(1070);

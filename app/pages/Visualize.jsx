@@ -15,6 +15,8 @@ import {Helmet} from "react-helmet";
 import {addToCart, removeFromCart} from "actions/cart";
 import {updateTitle} from "actions/title";
 
+import albersUsaPr from "helpers/albersUsaPr";
+
 const measureConfig = {};
 badMeasures.forEach(measure => {
   measureConfig[measure] = {
@@ -25,7 +27,7 @@ badMeasures.forEach(measure => {
 });
 
 const StateTopojson = {
-  projection: "geoAlbersUsa",
+  projection: albersUsaPr(),
   ocean: "transparent",
   topojson: "/topojson/State.json"
 };
@@ -392,17 +394,17 @@ class Visualize extends Component {
           }}
           topojson={{
             "County": {
-              projection: "geoAlbersUsa",
+              projection: albersUsaPr(),
               ocean: "transparent",
               topojson: "/topojson/County.json"
             },
             "MSA": {
-              projection: "geoAlbersUsa",
+              projection: albersUsaPr(),
               ocean: "transparent",
               topojson: "/topojson/Msa.json"
             },
             "PUMA": {
-              projection: "geoAlbersUsa",
+              projection: albersUsaPr(),
               ocean: "transparent",
               topojson: "/topojson/Puma.json"
             },

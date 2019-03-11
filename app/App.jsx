@@ -12,6 +12,8 @@ import libs from "../utils/libs";
 import Nav from "components/Nav/index";
 import Footer from "components/Footer/index";
 
+import albersUsaPr from "helpers/albersUsaPr";
+
 class App extends Component {
 
   constructor(props) {
@@ -31,6 +33,10 @@ class App extends Component {
 
   componentDidMount() {
     this.props.fetchCart();
+  }
+
+  componentWillMount() {
+    if (typeof window !== "undefined") window.albersUsaPr = albersUsaPr;
   }
 
   getChildContext() {
