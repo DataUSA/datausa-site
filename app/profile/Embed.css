@@ -6,5 +6,13 @@
     & .d3plus {
       min-height: auto;
     }
+    &.Column {
+      & .topic-content {
+        flex: none;
+      }
+      & .topic-visualization {
+        flex: 1;
+      }
+    }
   }
 }

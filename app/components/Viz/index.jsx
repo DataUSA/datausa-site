@@ -27,6 +27,7 @@ class Viz extends Component {
     }
     vizProps.config = Object.assign(vizProps.config, configOverride);
 
+    // Custom configuration for comparison profiles
     if (router.location.query.compare) {
       let {groupBy} = vizProps.config;
       if (!(groupBy instanceof Array)) groupBy = [groupBy];
@@ -35,6 +36,12 @@ class Viz extends Component {
         if (!vizProps.config.legendConfig) vizProps.config.legendConfig = {};
         vizProps.config.legendConfig.label = false;
       }
+    }
+
+    // Custom configuration for embeds
+    const {sslug, tslug} = router.params;
+    if (sslug && tslug) {
+      if (vizProps.config.height) delete vizProps.config.height;
     }
 
     // strip out the "type" from config
