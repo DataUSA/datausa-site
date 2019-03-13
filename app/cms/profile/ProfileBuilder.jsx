@@ -355,7 +355,14 @@ class ProfileBuilder extends Component {
     }
     if (this.props.setPath) this.props.setPath(node);
     const currentSlug = node.masterSlug;
-    this.setState({currentNode: node, currentSlug, preview: ""});
+    // if we are changing slugs, zero out the preview to avoid a nasty re-render
+    if (this.state.currentSlug !== node.masterSlug) {
+      this.setState({currentNode: node, currentSlug, preview: ""});  
+    }
+    // otherwise leave the preview alone
+    else {
+      this.setState({currentNode: node, currentSlug});
+    }
   }
 
   handleNodeCollapse(node) {
