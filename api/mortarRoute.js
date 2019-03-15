@@ -279,7 +279,7 @@ module.exports = function(app) {
           returnObject.image = image;
           returnObject.sections.forEach(section => {
             section.topics.forEach(topic => {
-              topic.profile = section.profile.slug;
+              topic.profile = profile.slug;
               topic.section = section.slug;
             });
           });

@@ -60,7 +60,8 @@ class Viz extends Component {
         dataFormat={ vizProps.dataFormat }
         slug={ slug }
         title={ formatters.stripHTML(title || "Data USA Visualization") }
-        topic={ topic } /> : null }
+        topic={ topic }
+        variables={ variables } /> : null }
       <Visualization
         ref={ comp => this.viz = comp }
         className="d3plus"

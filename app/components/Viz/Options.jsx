@@ -93,14 +93,13 @@ class Options extends Component {
 
   async onCart() {
 
-    const {addToCart, cart, removeFromCart, slug, topic} = this.props;
+    const {addToCart, cart, removeFromCart, slug, topic, variables} = this.props;
     const inCart = cart.data.find(c => c.slug === slug);
 
     if (!inCart) {
 
       const {config, data, dataFormat, title} = this.props;
       const {list, stripHTML} = this.context.formatters;
-      console.log(topic);
       console.log(slug);
       console.log(data);
       console.log(config);
@@ -126,9 +125,9 @@ class Options extends Component {
       let slices = [];
       if (!params.drilldowns) params.drilldowns = [];
 
-      if (params[slugMap[topic.profile]] && topic.variables.hierarchy) {
+      if (params[slugMap[topic.profile]] && variables.hierarchy) {
         delete params[slugMap[topic.profile]];
-        params.drilldowns.push(topic.variables.hierarchy);
+        params.drilldowns.push(variables.hierarchy);
       }
 
       // params.drilldowns = params.drilldowns
@@ -197,7 +196,7 @@ class Options extends Component {
       const cartTitle = `${stripHTML(title)}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
-      // addToCart({urls, format, slug, title: cartTitle});
+      addToCart({urls, format, slug, title: cartTitle});
 
     }
     else {
