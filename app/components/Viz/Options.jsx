@@ -49,6 +49,15 @@ const geographyLevels = {
   "795": "PUMA"
 };
 
+const slugMap = {
+  cip: "CIP",
+  geo: "Geography",
+  naics: "PUMS Industry",
+  napcs: "NAPCS",
+  soc: "PUMS Occupation",
+  university: "University"
+};
+
 const children = id => {
   const prefix = id.slice(0, 3);
   return prefix === "010" ? "State"
@@ -84,14 +93,14 @@ class Options extends Component {
 
   async onCart() {
 
-    const {addToCart, cart, removeFromCart, slug} = this.props;
+    const {addToCart, cart, removeFromCart, slug, topic} = this.props;
     const inCart = cart.data.find(c => c.slug === slug);
 
     if (!inCart) {
 
       const {config, data, dataFormat, title} = this.props;
       const {list, stripHTML} = this.context.formatters;
-
+      console.log(topic);
       console.log(slug);
       console.log(data);
       console.log(config);
@@ -116,6 +125,17 @@ class Options extends Component {
 
       let slices = [];
       if (!params.drilldowns) params.drilldowns = [];
+
+      if (params[slugMap[topic.profile]] && topic.variables.hierarchy) {
+        delete params[slugMap[topic.profile]];
+        params.drilldowns.push(topic.variables.hierarchy);
+      }
+
+      // params.drilldowns = params.drilldowns
+      //   .filter((d, i, arr) => {
+      //     if (d === "Sector" && arr.includes("University")) return false;
+      //     return true;
+      //   });
 
       const groupBy = config.groupBy instanceof Array ? config.groupBy : [config.groupBy];
       for (let i = 0; i < groupBy.length; i++) {
@@ -156,6 +176,7 @@ class Options extends Component {
 
       const urls = [];
       const drilldowns = params.drilldowns.concat(slices);
+
       if (slices.length) {
         slices.forEach(slice => {
           params.drilldowns.push(slice);
@@ -176,7 +197,7 @@ class Options extends Component {
       const cartTitle = `${stripHTML(title)}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
-      addToCart({urls, format, slug, title: cartTitle});
+      // addToCart({urls, format, slug, title: cartTitle});
 
     }
     else {

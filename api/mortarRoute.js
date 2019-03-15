@@ -279,6 +279,7 @@ module.exports = function(app) {
           returnObject.image = image;
           returnObject.sections.forEach(section => {
             section.topics.forEach(topic => {
+              topic.profile = section.profile.slug;
               topic.section = section.slug;
             });
           });
@@ -322,6 +323,7 @@ module.exports = function(app) {
         const topics = resp[2].map(t => t.toJSON());
         let topic = topics.find(t => t.section.profile.slug === slug);
         topic = varSwapRecursive(topic, formatterFunctions, variables, req.query);
+        topic.profile = topic.section.profile.slug;
         topic.section = topic.section.slug;
         if (topic.subtitles) topic.subtitles.sort(sorter);
         if (topic.selectors) topic.selectors.sort(sorter);
