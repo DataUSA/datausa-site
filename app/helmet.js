@@ -3,7 +3,9 @@ const desc = "The most comprehensive visualization of U.S. public data. Data USA
 
 export default {
   link: [
-    {rel: "icon", href: "/images/favicon.ico?v=3"}
+    {rel: "icon", href: "/images/favicon.ico?v=3"},
+    {rel: "preconnect", href: "https://fonts.gstatic.com/", crossorigin: ""},
+    {rel: "stylesheet", href: "https://fonts.googleapis.com/css?family=Lato:300|Palanquin:300,400,600,700|Source+Sans+Pro:300,400|Pathway+Gothic+One"}
   ],
   meta: [
     {charset: "utf-8"},
