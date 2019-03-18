@@ -148,7 +148,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Jobs",
       icon: "/icons/dimensions/PUMS Occupation - White.svg",
-      rank: 5,
+      rank: 4,
       footer: "520 more",
       url: "/search/?kind=soc",
       tiles: occupations
@@ -170,7 +170,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Degrees",
       icon: "/icons/dimensions/CIP - White.svg",
-      rank: 8,
+      rank: 5,
       footer: "2,314 more",
       url: "/search/?kind=cip",
       tiles: courses
@@ -231,7 +231,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Latest Stories",
       icon: "/icons/sections/about.svg",
-      rank: 4,
+      rank: 8,
       footer: `${stories.length - 5} more`,
       url: "/story",
       tiles: stories.slice(0, 5).map(story => ({
