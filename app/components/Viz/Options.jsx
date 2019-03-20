@@ -81,7 +81,10 @@ class Options extends Component {
       {label: "Fullscreen", value: ["100%", "100%"]}
     ];
 
+    const {data} = props;
+
     this.state = {
+      data: typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data,
       embedSize: sizeList[0],
       includeText: false,
       loading: false,
@@ -98,8 +101,9 @@ class Options extends Component {
 
     if (!inCart) {
 
-      const {config, data, dataFormat, title} = this.props;
-      const {list, stripHTML} = this.context.formatters;
+      const {config, dataFormat} = this.props;
+      const {data} = this.state;
+      const {list} = this.context.formatters;
       console.log(slug);
       console.log(data);
       console.log(config);
@@ -121,20 +125,46 @@ class Options extends Component {
       delete params.sort;
       delete params.order;
       delete params.limit;
+      delete params["Completions>"];
+      delete params["Record Count>"];
+      if (params.required) {
+        params.measures = params.required;
+        delete params.required;
+      }
+      if (params.measure) {
+        params.measures = params.measure;
+        delete params.measure;
+      }
+      Object.keys(slugMap).forEach(slug => {
+        if (params[slug]) {
+          params[slugMap[topic.profile]] = params[slug];
+          delete params[slug];
+        }
+      });
+
+      params.measures = params.measures
+        .filter(d => !["Completions Share Of University"].includes(d));
 
       let slices = [];
       if (!params.drilldowns) params.drilldowns = [];
 
-      if (params[slugMap[topic.profile]] && variables.hierarchy) {
-        delete params[slugMap[topic.profile]];
-        params.drilldowns.push(variables.hierarchy);
+      if (params.CIP2) {
+        delete params.CIP2;
+        params.drilldowns.push("CIP2");
       }
 
-      // params.drilldowns = params.drilldowns
-      //   .filter((d, i, arr) => {
-      //     if (d === "Sector" && arr.includes("University")) return false;
-      //     return true;
-      //   });
+      const dimension = slugMap[topic.profile];
+      if (params[dimension] && variables.hierarchy) {
+        delete params[dimension];
+        if (dimension === "CIP") {
+          if (!params.drilldowns.includes("University")) {
+            params.drilldowns.push(variables.hierarchy);
+          }
+        }
+        else {
+          params.drilldowns.push(variables.hierarchy);
+        }
+      }
 
       const groupBy = config.groupBy instanceof Array ? config.groupBy : [config.groupBy];
       for (let i = 0; i < groupBy.length; i++) {
@@ -193,7 +223,16 @@ class Options extends Component {
       }
 
       const format = `${dataFormat}`;
-      const cartTitle = `${stripHTML(title)}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
+      let measures = params.measures
+        .map(measure => {
+          const d = measure.toLowerCase();
+          if (d.includes("tuition")) return "Tuition";
+          else if (d.includes("graduate")) return "Graduates";
+          else if (d.includes(" moe") || d.includes(" rca") || d === "record count") return false;
+          else return measure;
+        });
+      measures = list(Array.from(new Set(measures.filter(Boolean))));
+      const cartTitle = `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
       addToCart({urls, format, slug, title: cartTitle});
@@ -246,7 +285,8 @@ class Options extends Component {
     this.setState({openDialog: slug});
     const {results, loading} = this.state;
     if (slug === "view-table" && !results && !loading) {
-      const {data, dataFormat} = this.props;
+      const {dataFormat} = this.props;
+      const {data} = this.state;
       this.setState({loading: true});
       axios.get(data)
         .then(resp => {
@@ -276,8 +316,8 @@ class Options extends Component {
 
   render() {
 
-    const {cart, data, location, measures, slug, title, topic} = this.props;
-    const {embedSize, includeText, openDialog, results, sizes} = this.state;
+    const {cart, location, measures, slug, title, topic} = this.props;
+    const {data, embedSize, includeText, openDialog, results, sizes} = this.state;
 
     const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === slug) : false;
