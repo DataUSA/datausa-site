@@ -150,10 +150,12 @@ class Cart extends Component {
       resp.data.forEach(d => {
         presentLevels.forEach(level => {
           const dimension = levels[level];
-          d[dimension] = d[level];
-          delete d[level];
-          d[`ID ${dimension}`] = d[`ID ${level}`];
-          delete d[`ID ${level}`];
+          if (dimension !== level) {
+            d[dimension] = d[level];
+            delete d[level];
+            d[`ID ${dimension}`] = d[`ID ${level}`];
+            delete d[`ID ${level}`];
+          }
         });
         years.forEach(year => {
           delete d[`ID ${year}`];
