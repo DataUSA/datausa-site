@@ -57,6 +57,9 @@
       letter-spacing: 0.05em;
       margin: 0px auto 10px;
       width: 100%;
+      & a {
+        color: var(--red);
+      }
     }
 
     & .topic-stats {
@@ -99,6 +102,9 @@
     min-height: 400px;
     overflow: hidden;
     position: relative;
+    & ~ .topic-visualization .Options {
+      display: none;
+    }
   }
 
   &.topic-loading {
