@@ -255,9 +255,9 @@
         }
       }
       & .table {
-        height: auto;
-        max-height: calc(100vh - 200px);
+        height: calc(100vh - 300px);
         overflow-x: scroll;
+        overflow-y: hidden;
         width: 100%;
         & .bp-table-container {
           background: #eee;
