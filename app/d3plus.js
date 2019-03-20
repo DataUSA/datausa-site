@@ -129,6 +129,17 @@ export default {
       }
     },
     color: colors.colorScaleGood,
+    legendConfig: {
+      shapeConfig: {
+        labelConfig: {
+          fontFamily: () => "Source Sans Pro",
+          fontSize: () => 12
+        },
+        height: () => 15,
+        stroke: "transparent",
+        width: () => 15
+      }
+    },
     scale: "jenks"
   },
   confidenceConfig: {
