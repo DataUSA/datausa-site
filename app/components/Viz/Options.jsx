@@ -166,6 +166,10 @@ class Options extends Component {
         }
       }
 
+      params.drilldowns.forEach(drilldown => {
+        delete params[drilldown];
+      });
+
       const groupBy = config.groupBy instanceof Array ? config.groupBy : [config.groupBy];
       for (let i = 0; i < groupBy.length; i++) {
         const group = groupBy[i];
