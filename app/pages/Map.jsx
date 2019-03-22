@@ -73,7 +73,8 @@ class Map extends Component {
 
   onCart() {
 
-    const {query} = this.state;
+    const query = {...this.state.query};
+    query.title = query.title.replace("Map of ", "");
     const {addToCart, cart, removeFromCart} = this.props;
     const inCart = cart.data.find(c => c.slug === query.slug);
     if (inCart) removeFromCart(query);
