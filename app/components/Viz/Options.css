@@ -68,7 +68,7 @@
   }
 }
 
-.Section.compare, .topic.Column {
+.Section.compare, .topic.Column, .topic-miniviz {
   & .option {
     margin: 0 5px;
     &:before {
