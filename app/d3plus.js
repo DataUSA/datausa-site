@@ -108,6 +108,7 @@ const axisStyles = {
 };
 
 export default {
+  axisConfig: axisStyles,
   barPadding: 0,
   colorScaleConfig: {
     axisConfig: {
