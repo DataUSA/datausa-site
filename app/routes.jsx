@@ -85,7 +85,7 @@ export default function RouteCreate() {
         <Route path="/about/classifications/:dimension/:hierarchy" component={Classifications} />
       </Route>
 
-      <Route path="/cms/builder" component={Builder} />
+      <Route path="/cms" component={Builder} />
 
     </Route>
   );

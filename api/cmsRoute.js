@@ -1,8 +1,16 @@
 const sequelize = require("sequelize");
 const shell = require("shelljs");
 const Op = sequelize.Op;
+const yn = require("yn");
 
 const topicTypeDir = "app/toCanon/topics/";
+
+const cmsCheck = () => process.env.NODE_ENV === "development" || yn(process.env.CANON_CMS_ENABLE);
+
+const isEnabled = (req, res, next) => {
+  if (cmsCheck()) return next();
+  return res.status(401).send("Not Authorized");
+};
 
 const profileReqTreeOnly = {
   attributes: ["id", "title", "slug", "ordering"],
@@ -129,6 +137,10 @@ module.exports = function(app) {
 
   /* BEGIN PIECEMEAL CMS API GETS */
 
+  app.get("/api/cms", (req, res) => {
+    res.json(cmsCheck()).end();
+  });
+
   app.get("/api/cms/tree", (req, res) => {
     db.profiles.findAll(profileReqTreeOnly).then(profiles => {
       profiles = sortProfileTree(profiles);
@@ -141,7 +153,7 @@ module.exports = function(app) {
       stories = sortStoryTree(stories);
       res.json(stories).end();
     });
-  });  
+  });
 
   app.get("/api/cms/profile/get/:id", (req, res) => {
     const {id} = req.params;
@@ -278,15 +290,15 @@ module.exports = function(app) {
 
   /* END PIECEMEAL CMS API GETS */
 
-  app.post("/api/cms/generator/new", (req, res) => {
+  app.post("/api/cms/generator/new", isEnabled, (req, res) => {
     db.generators.create(req.body).then(u => res.json(u));
   });
 
-  app.post("/api/cms/generator/update", (req, res) => {
+  app.post("/api/cms/generator/update", isEnabled, (req, res) => {
     db.generators.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/generator/delete", (req, res) => {
+  app.delete("/api/cms/generator/delete", isEnabled, (req, res) => {
     db.generators.findOne({where: {id: req.query.id}}).then(row => {
       db.generators.destroy({where: {id: req.query.id}}).then(() => {
         db.generators.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "name"]}).then(rows => {
@@ -296,15 +308,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/materializer/new", (req, res) => {
+  app.post("/api/cms/materializer/new", isEnabled, (req, res) => {
     db.materializers.create(req.body).then(u => res.json(u));
   });
 
-  app.post("/api/cms/materializer/update", (req, res) => {
+  app.post("/api/cms/materializer/update", isEnabled, (req, res) => {
     db.materializers.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/materializer/delete", (req, res) => {
+  app.delete("/api/cms/materializer/delete", isEnabled, (req, res) => {
     db.materializers.findOne({where: {id: req.query.id}}).then(row => {
       db.materializers.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.materializers.destroy({where: {id: req.query.id}}).then(() => {
@@ -316,15 +328,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/profile/update", (req, res) => {
+  app.post("/api/cms/profile/update", isEnabled, (req, res) => {
     db.profiles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/profile/new", (req, res) => {
+  app.post("/api/cms/profile/new", isEnabled, (req, res) => {
     db.profiles.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/profile/delete", (req, res) => {
+  app.delete("/api/cms/profile/delete", isEnabled, (req, res) => {
     // db.profiles.destroy({where: {id: req.query.id}}).then(u => res.json(u));
     db.profiles.findOne({where: {id: req.query.id}}).then(row => {
       db.profiles.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).then(() => {
@@ -338,15 +350,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/story/update", (req, res) => {
+  app.post("/api/cms/story/update", isEnabled, (req, res) => {
     db.stories.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/story/new", (req, res) => {
+  app.post("/api/cms/story/new", isEnabled, (req, res) => {
     db.stories.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/story/delete", (req, res) => {
+  app.delete("/api/cms/story/delete", isEnabled, (req, res) => {
     db.stories.findOne({where: {id: req.query.id}}).then(row => {
       db.stories.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.stories.destroy({where: {id: req.query.id}}).then(() => {
@@ -359,15 +371,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/author/update", (req, res) => {
+  app.post("/api/cms/author/update", isEnabled, (req, res) => {
     db.authors.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/author/new", (req, res) => {
+  app.post("/api/cms/author/new", isEnabled, (req, res) => {
     db.authors.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/author/delete", (req, res) => {
+  app.delete("/api/cms/author/delete", isEnabled, (req, res) => {
     db.authors.findOne({where: {id: req.query.id}}).then(row => {
       db.authors.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.authors.destroy({where: {id: req.query.id}}).then(() => {
@@ -379,15 +391,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/profile_description/update", (req, res) => {
+  app.post("/api/cms/profile_description/update", isEnabled, (req, res) => {
     db.profiles_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/profile_description/new", (req, res) => {
+  app.post("/api/cms/profile_description/new", isEnabled, (req, res) => {
     db.profiles_descriptions.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/profile_description/delete", (req, res) => {
+  app.delete("/api/cms/profile_description/delete", isEnabled, (req, res) => {
     db.profiles_descriptions.findOne({where: {id: req.query.id}}).then(row => {
       db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.profiles_descriptions.destroy({where: {id: req.query.id}}).then(() => {
@@ -399,15 +411,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/story_description/update", (req, res) => {
+  app.post("/api/cms/story_description/update", isEnabled, (req, res) => {
     db.stories_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/story_description/new", (req, res) => {
+  app.post("/api/cms/story_description/new", isEnabled, (req, res) => {
     db.stories_descriptions.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/story_description/delete", (req, res) => {
+  app.delete("/api/cms/story_description/delete", isEnabled, (req, res) => {
     db.stories_descriptions.findOne({where: {id: req.query.id}}).then(row => {
       db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.stories_descriptions.destroy({where: {id: req.query.id}}).then(() => {
@@ -419,15 +431,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/story_footnote/update", (req, res) => {
+  app.post("/api/cms/story_footnote/update", isEnabled, (req, res) => {
     db.stories_footnotes.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/story_footnote/new", (req, res) => {
+  app.post("/api/cms/story_footnote/new", isEnabled, (req, res) => {
     db.stories_footnotes.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/story_footnote/delete", (req, res) => {
+  app.delete("/api/cms/story_footnote/delete", isEnabled, (req, res) => {
     db.stories_footnotes.findOne({where: {id: req.query.id}}).then(row => {
       db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.stories_footnotes.destroy({where: {id: req.query.id}}).then(() => {
@@ -439,15 +451,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/section/update", (req, res) => {
+  app.post("/api/cms/section/update", isEnabled, (req, res) => {
     db.sections.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/section/new", (req, res) => {
+  app.post("/api/cms/section/new", isEnabled, (req, res) => {
     db.sections.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/section/delete", (req, res) => {
+  app.delete("/api/cms/section/delete", isEnabled, (req, res) => {
     db.sections.findOne({where: {id: req.query.id}}).then(row => {
       db.sections.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.sections.destroy({where: {id: req.query.id}}).then(() => {
@@ -466,15 +478,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/section_subtitle/update", (req, res) => {
+  app.post("/api/cms/section_subtitle/update", isEnabled, (req, res) => {
     db.sections_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/section_subtitle/new", (req, res) => {
+  app.post("/api/cms/section_subtitle/new", isEnabled, (req, res) => {
     db.sections_subtitles.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/section_subtitle/delete", (req, res) => {
+  app.delete("/api/cms/section_subtitle/delete", isEnabled, (req, res) => {
     db.sections_subtitles.findOne({where: {id: req.query.id}}).then(row => {
       db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.sections_subtitles.destroy({where: {id: req.query.id}}).then(() => {
@@ -486,15 +498,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/section_description/update", (req, res) => {
+  app.post("/api/cms/section_description/update", isEnabled, (req, res) => {
     db.sections_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/section_description/new", (req, res) => {
+  app.post("/api/cms/section_description/new", isEnabled, (req, res) => {
     db.sections_descriptions.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/section_description/delete", (req, res) => {
+  app.delete("/api/cms/section_description/delete", isEnabled, (req, res) => {
     db.sections_descriptions.findOne({where: {id: req.query.id}}).then(row => {
       db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.sections_descriptions.destroy({where: {id: req.query.id}}).then(() => {
@@ -506,15 +518,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/topic/update", (req, res) => {
+  app.post("/api/cms/topic/update", isEnabled, (req, res) => {
     db.topics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/topic/new", (req, res) => {
+  app.post("/api/cms/topic/new", isEnabled, (req, res) => {
     db.topics.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/topic/delete", (req, res) => {
+  app.delete("/api/cms/topic/delete", isEnabled, (req, res) => {
     db.topics.findOne({where: {id: req.query.id}}).then(row => {
       db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics.destroy({where: {id: req.query.id}}).then(() => {
@@ -526,15 +538,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/storytopic/update", (req, res) => {
+  app.post("/api/cms/storytopic/update", isEnabled, (req, res) => {
     db.storytopics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/storytopic/new", (req, res) => {
+  app.post("/api/cms/storytopic/new", isEnabled, (req, res) => {
     db.storytopics.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/storytopic/delete", (req, res) => {
+  app.delete("/api/cms/storytopic/delete", isEnabled, (req, res) => {
     db.storytopics.findOne({where: {id: req.query.id}}).then(row => {
       db.storytopics.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics.destroy({where: {id: req.query.id}}).then(() => {
@@ -546,15 +558,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/topic_subtitle/update", (req, res) => {
+  app.post("/api/cms/topic_subtitle/update", isEnabled, (req, res) => {
     db.topics_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/topic_subtitle/new", (req, res) => {
+  app.post("/api/cms/topic_subtitle/new", isEnabled, (req, res) => {
     db.topics_subtitles.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/topic_subtitle/delete", (req, res) => {
+  app.delete("/api/cms/topic_subtitle/delete", isEnabled, (req, res) => {
     db.topics_subtitles.findOne({where: {id: req.query.id}}).then(row => {
       db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
@@ -566,15 +578,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/storytopic_subtitle/update", (req, res) => {
+  app.post("/api/cms/storytopic_subtitle/update", isEnabled, (req, res) => {
     db.storytopics_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/storytopic_subtitle/new", (req, res) => {
+  app.post("/api/cms/storytopic_subtitle/new", isEnabled, (req, res) => {
     db.storytopics_subtitles.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/storytopic_subtitle/delete", (req, res) => {
+  app.delete("/api/cms/storytopic_subtitle/delete", isEnabled, (req, res) => {
     db.storytopics_subtitles.findOne({where: {id: req.query.id}}).then(row => {
       db.storytopics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
@@ -586,15 +598,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/topic_description/update", (req, res) => {
+  app.post("/api/cms/topic_description/update", isEnabled, (req, res) => {
     db.topics_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/topic_description/new", (req, res) => {
+  app.post("/api/cms/topic_description/new", isEnabled, (req, res) => {
     db.topics_descriptions.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/topic_description/delete", (req, res) => {
+  app.delete("/api/cms/topic_description/delete", isEnabled, (req, res) => {
     db.topics_descriptions.findOne({where: {id: req.query.id}}).then(row => {
       db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
@@ -606,15 +618,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/storytopic_description/update", (req, res) => {
+  app.post("/api/cms/storytopic_description/update", isEnabled, (req, res) => {
     db.storytopics_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/storytopic_description/new", (req, res) => {
+  app.post("/api/cms/storytopic_description/new", isEnabled, (req, res) => {
     db.storytopics_descriptions.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/storytopic_description/delete", (req, res) => {
+  app.delete("/api/cms/storytopic_description/delete", isEnabled, (req, res) => {
     db.storytopics_descriptions.findOne({where: {id: req.query.id}}).then(row => {
       db.storytopics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
@@ -626,15 +638,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/selector/update", (req, res) => {
+  app.post("/api/cms/selector/update", isEnabled, (req, res) => {
     db.selectors.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/selector/new", (req, res) => {
+  app.post("/api/cms/selector/new", isEnabled, (req, res) => {
     db.selectors.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/selector/delete", (req, res) => {
+  app.delete("/api/cms/selector/delete", isEnabled, (req, res) => {
     db.selectors.findOne({where: {id: req.query.id}}).then(row => {
       db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.selectors.destroy({where: {id: req.query.id}}).then(() => {
@@ -646,15 +658,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/profile_stat/update", (req, res) => {
+  app.post("/api/cms/profile_stat/update", isEnabled, (req, res) => {
     db.profiles_stats.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/profile_stat/new", (req, res) => {
+  app.post("/api/cms/profile_stat/new", isEnabled, (req, res) => {
     db.profiles_stats.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/profile_stat/delete", (req, res) => {
+  app.delete("/api/cms/profile_stat/delete", isEnabled, (req, res) => {
     db.profiles_stats.findOne({where: {id: req.query.id}}).then(row => {
       db.profiles_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.profiles_stats.destroy({where: {id: req.query.id}}).then(() => {
@@ -666,15 +678,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/topic_stat/update", (req, res) => {
+  app.post("/api/cms/topic_stat/update", isEnabled, (req, res) => {
     db.topics_stats.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/topic_stat/new", (req, res) => {
+  app.post("/api/cms/topic_stat/new", isEnabled, (req, res) => {
     db.topics_stats.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/topic_stat/delete", (req, res) => {
+  app.delete("/api/cms/topic_stat/delete", isEnabled, (req, res) => {
     db.topics_stats.findOne({where: {id: req.query.id}}).then(row => {
       db.topics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_stats.destroy({where: {id: req.query.id}}).then(() => {
@@ -686,15 +698,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/storytopic_stat/update", (req, res) => {
+  app.post("/api/cms/storytopic_stat/update", isEnabled, (req, res) => {
     db.storytopics_stats.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/storytopic_stat/new", (req, res) => {
+  app.post("/api/cms/storytopic_stat/new", isEnabled, (req, res) => {
     db.storytopics_stats.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/storytopic_stat/delete", (req, res) => {
+  app.delete("/api/cms/storytopic_stat/delete", isEnabled, (req, res) => {
     db.storytopics_stats.findOne({where: {id: req.query.id}}).then(row => {
       db.storytopics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_stats.destroy({where: {id: req.query.id}}).then(() => {
@@ -706,15 +718,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/profile_visualization/update", (req, res) => {
+  app.post("/api/cms/profile_visualization/update", isEnabled, (req, res) => {
     db.profiles_visualizations.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/profile_visualization/new", (req, res) => {
+  app.post("/api/cms/profile_visualization/new", isEnabled, (req, res) => {
     db.profiles_visualizations.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/profile_visualization/delete", (req, res) => {
+  app.delete("/api/cms/profile_visualization/delete", isEnabled, (req, res) => {
     db.profiles_visualizations.findOne({where: {id: req.query.id}}).then(row => {
       db.profiles_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.profiles_visualizations.destroy({where: {id: req.query.id}}).then(() => {
@@ -726,15 +738,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/topic_visualization/update", (req, res) => {
+  app.post("/api/cms/topic_visualization/update", isEnabled, (req, res) => {
     db.topics_visualizations.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/topic_visualization/new", (req, res) => {
+  app.post("/api/cms/topic_visualization/new", isEnabled, (req, res) => {
     db.topics_visualizations.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/topic_visualization/delete", (req, res) => {
+  app.delete("/api/cms/topic_visualization/delete", isEnabled, (req, res) => {
     db.topics_visualizations.findOne({where: {id: req.query.id}}).then(row => {
       db.topics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_visualizations.destroy({where: {id: req.query.id}}).then(() => {
@@ -746,15 +758,15 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/api/cms/storytopic_visualization/update", (req, res) => {
+  app.post("/api/cms/storytopic_visualization/update", isEnabled, (req, res) => {
     db.storytopics_visualizations.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
   });
 
-  app.post("/api/cms/storytopic_visualization/new", (req, res) => {
+  app.post("/api/cms/storytopic_visualization/new", isEnabled, (req, res) => {
     db.storytopics_visualizations.create(req.body).then(u => res.json(u));
   });
 
-  app.delete("/api/cms/storytopic_visualization/delete", (req, res) => {
+  app.delete("/api/cms/storytopic_visualization/delete", isEnabled, (req, res) => {
     db.storytopics_visualizations.findOne({where: {id: req.query.id}}).then(row => {
       db.storytopics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_visualizations.destroy({where: {id: req.query.id}}).then(() => {

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {Tab2, Tabs2} from "@blueprintjs/core";
+import {connect} from "react-redux";
 import ProfileBuilder from "./profile/ProfileBuilder";
-import StoryBuilder from "./story/StoryBuilder";
+import {fetchData} from "@datawheel/canon-core";
 
 import "./Builder.css";
 
@@ -14,21 +14,33 @@ class Builder extends Component {
     };
   }
 
+  componentDidMount() {
+    const {isEnabled} = this.props;
+    // The CMS is only accessible on localhost/dev. Redirect the user to root otherwise.
+    if (!isEnabled && typeof window !== "undefined" && window.location.pathname !== "/") window.location = "/";
+  }
+
   handleTabChange(e) {
     this.setState({currentTab: e});
   }
 
   render() {
 
+    const {isEnabled} = this.props;
+    if (!isEnabled) return null;
+
     return (
       <div id="builder">
-        <Tabs2 id="tabs" onChange={this.handleTabChange.bind(this)} selectedTabId={this.state.currentTab}>
-          <Tab2 id="profile" title="Profiles" panel={<ProfileBuilder />} />
-          <Tab2 id="story" title="Stories" panel={<StoryBuilder />} />
-        </Tabs2>
+        <ProfileBuilder />
       </div>
     );
   }
 }
 
-export default Builder;
+Builder.need = [
+  fetchData("isEnabled", "/api/cms")
+];
+
+export default connect(state => ({
+  isEnabled: state.data.isEnabled
+}))(Builder);
