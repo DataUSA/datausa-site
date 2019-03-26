@@ -327,8 +327,8 @@ class Options extends Component {
     const inCart = cart ? cart.data.find(c => c.slug === slug) : false;
 
     const cartEnabled = data && slug && title;
-
-    const baseURL = location.href.split("/").slice(0, 6).join("/");
+    const shareEnabled = topic.slug;
+    const baseURL = (typeof window === "undefined" ? location : window.location).href.split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
     const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
 
@@ -434,12 +434,12 @@ class Options extends Component {
         <span>Download this visualization as a PNG image or SVG code.</span>
       </Tooltip2>
 
-      <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      { shareEnabled ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
         <div className="option share" onClick={this.toggleDialog.bind(this, "share")}>
           <span className="option-label">Share / Embed</span>
         </div>
         <span>Share this visualization on Twitter, Facebook, or on your personal website.</span>
-      </Tooltip2>
+      </Tooltip2> : null }
 
       { cartEnabled ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
         <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
@@ -456,7 +456,7 @@ class Options extends Component {
         <Tabs2 onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
           <Tab2 id="view-table" title="View Data" panel={<DataPanel />} />
           <Tab2 id="save-image" title="Save Image" panel={<ImagePanel />} />
-          <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} />
+          { shareEnabled ? <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
           <button aria-label="Close" className="close-button pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
         </Tabs2>
       </Dialog>
