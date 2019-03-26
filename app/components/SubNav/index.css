@@ -19,7 +19,9 @@
       font-family: "Palanquin", sans-serif;
       font-size: 12px;
       font-weight: 700;
+      hyphens: auto;
       letter-spacing: 0.1em;
+      margin: 0 5px;
       text-align: center;
       text-transform: uppercase;
       &.active {

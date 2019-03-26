@@ -8,6 +8,9 @@
   top: calc(var(--nav-height) * 2);
   transition: top 0.75s ease-out;
   width: 100%;
+  @media (max-width: 768px) {
+    display: none;
+  }
   & .content {
     margin: 0 auto;
     max-width: 850px;

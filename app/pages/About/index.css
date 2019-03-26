@@ -5,10 +5,16 @@
   padding: 0 50px 50px;
   position: relative;
   width: 100%;
+  @media (max-width: 768px) {
+    padding: 0 25px 50px;
+  }
   & .content {
     margin-left: 200px;
     position: relative;
     z-index: 1;
+    @media (max-width: 768px) {
+      margin-left: 0;
+    }
     &.table {
       padding-top: 45px;
       & .bp-table-container {
@@ -213,7 +219,6 @@
 }
 
 #Data {
-  padding: 40px 50px 50px;
   & button {
     align-items: center;
     background: none;
