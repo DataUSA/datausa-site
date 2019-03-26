@@ -5,9 +5,9 @@ export default class SectionIcon extends Component {
 
   render() {
     const {active, slug, title} = this.props;
-    return <AnchorLink to={ slug } className={ `SectionIcon ${active ? "active" : "" }` }>
+    return <AnchorLink to={ slug } className={ `SectionIcon ${slug} ${active ? "active" : "" }` }>
       <img src={ `/icons/sections/${slug}.svg` } />
-      <div dangerouslySetInnerHTML={{__html: title}}></div>
+      <div className="section-icon-title" dangerouslySetInnerHTML={{__html: title}}></div>
     </AnchorLink>;
   }
 

@@ -128,7 +128,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 25px;
+    margin: 25px auto;
     max-width: 700px;
     width: 100%;
     & .Stat {
@@ -147,6 +147,11 @@
         line-height: 1.5;
         text-shadow: 0 2px 6px black;
         text-transform: uppercase;
+        @media (max-width: 600px) {
+          font-size: 10px;
+          font-weight: 600;
+          text-shadow: 0 2px 5px black;
+        }
       }
       & .stat-value {
         font-family: "Lato", sans-serif;
@@ -163,27 +168,43 @@
           font-size: 38px;
           font-weight: 300;
           text-shadow: 0 2px 12px black;
+          @media (max-width: 600px) {
+            font-size: 24px;
+            font-weight: 300;
+            text-shadow: 0 2px 12px black;
+          }
         }
       }
     }
   }
   & .profile-sections {
     display: flex;
+    justify-content: center;
+    margin: 0 auto;
     opacity: 1;
     position: relative;
     text-align: center;
     transition: opacity 0.25s;
+    width: 100%;
     & .SectionIcon {
       color: white;
-      display: inline-block;
+      flex: 1;
       font-family: "Palanquin", sans-serif;
       font-size: 10px;
       font-weight: 400;
       letter-spacing: 0.1em;
       margin: 0 10px;
+      max-width: 100px;
       text-transform: uppercase;
       transition: text-shadow 0.35s;
-      width: 100px;
+      @media (max-width: 512px) {
+        &.about {
+          display: none;
+        }
+        & .section-icon-title {
+          display: none;
+        }
+      }
       & img {
         display: block;
         height: 30px;

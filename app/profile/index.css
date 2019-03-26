@@ -11,16 +11,24 @@
       font-weight: 400;
       letter-spacing: 0.1em;
       margin: 0 10px;
+      max-width: none;
       position: relative;
       text-align: center;
       text-transform: uppercase;
       transition: text-shadow 0.35s;
-      width: 100px;
+      @media (max-width: 768px) {
+        & .section-icon-title {
+          display: none;
+        }
+      }
       & img {
         display: block;
         height: 23px;
         margin: 0 auto 2px;
         width: 23px;
+        @media (max-width: 768px) {
+          margin-top: 12px;
+        }
       }
       &:hover {
         text-decoration: none;
@@ -132,6 +140,9 @@
     top: 0;
     transition: left 0.5s, opacity 0.5s;
     width: 50px;
+    @media (max-width: 768px) {
+      display: none;
+    }
     &.visible {
       left: 0;
       opacity: 1;
