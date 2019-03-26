@@ -3,6 +3,9 @@
   padding: 50px;
   text-align: center;
   width: 100%;
+  @media (max-width: 768px) {
+    padding: 50px 25px;
+  }
   & .footer-content {
     color: white;
     display: flex;
@@ -11,11 +14,18 @@
     margin: 0 auto;
     max-width: 1200px;
     text-align: left;
+    @media (max-width: 768px) {
+      align-items: center;
+      flex-direction: column;
+    }
     & .footer-links {
       display: flex;
       flex-direction: row;
-      max-width: 500px;
+      max-width: 400px;
       width: 100%;
+      @media (max-width: 768px) {
+        margin-bottom: 50px;
+      }
       & ul {
         flex: 1;
         margin: 0;
