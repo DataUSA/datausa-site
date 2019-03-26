@@ -9,7 +9,8 @@ authors:
 topics:
   - descriptions:
     - "Florida is home to the nation’s second-largest population of Medicare beneficiaries, behind California, which is understandable: What better way to spend your retirement years than enjoying sun and balmy ocean breezes?"
-  - visualizations:
+    type: "Column"
+    visualizations:
       - >-
         const {commas} = formatters;
 

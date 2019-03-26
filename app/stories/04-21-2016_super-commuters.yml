@@ -24,6 +24,7 @@ topics:
           colorScale: "Average Commute Time",
           colorScaleConfig: {
             axisConfig: {
+              tickFormat: d => `${abbreviate(d)} minutes`,
               title: "Average Commute Time"
             }
           },
@@ -40,12 +41,12 @@ topics:
           topojson: `/topojson/State.json`,
           time: "Year",
           type: "Geomap"
-        }    
+        }
   - descriptions:
       - "These commute times are not just because of too many road hogs. Maryland commuters, for example, are nearly twice as likely to use public transport as the US average, at 9.1 percent vs. 5.2 percent. They are also no likelier than the average American to drive alone. In New York, the numbers are even starker: 27.9 percent use public transit, more than quintuple the national average, while just over half (52.8 percent) commute alone in their cars, compared to three-quarters (76.4 percent) of Americans."
   - title: "New York Commuter Detail"
     class: constrained
-    visualizations: 
+    visualizations:
       - >-
         const {nest, sum} = libs.d3;
         const {abbreviate, bucket} = formatters;

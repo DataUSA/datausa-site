@@ -15,6 +15,11 @@ topics:
         return {
           data: "/api/data?measures=Average%20Usual%20Hours%20Worked%20Per%20Week,Average%20Usual%20Hours%20Worked%20Per%20Week%20Appx%20MOE&drilldowns=PUMA&Year=2014&Workforce Status=true",
           colorScale: "Average Usual Hours Worked Per Week",
+          colorScaleConfig: {
+            axisConfig: {
+              tickFormat: d => abbreviate(d)
+            }
+          },
           groupBy: "ID PUMA",
           label: d => d["PUMA"],
           tooltipConfig: {
@@ -41,7 +46,7 @@ topics:
       - "Let’s take a closer look at the types of people we might find in each of these places. On the surface, the three geographies could not be more different, but if we dig a little deeper, we may find some similarities."
   - title: "Median Household Income"
     descriptions: "A good place to start is with median household income, and as we’ll see, longer hours do not necessarily mean higher wages. The New York neighborhoods lead the way with $118,108, more than double the $53,482 US average. Subsistence Alaska, at $56,736, is more or less in line with the national average. The Missourian suburbs come a distant third, with a median household income of $42,812. This seems to make sense: Wages appear to align much more closely to cost of living rather than hours worked, and, as anyone who has visited can attest, Manhattan is quite expensive."
-    visualizations: 
+    visualizations:
       - >-
         const {abbreviate, salary} = formatters;
 
@@ -80,7 +85,7 @@ topics:
       - "More revealing, perhaps, is the relative specialization of each location. Compared to the Missouri counties, both the New York neighborhoods and Subsistence Alaska are home to some deeply specialized professionals—ones that tend to be polar opposites in their nature as well."
   - class: "flex flex-short"
     title: "Specialization in Battery Park City, Greenwich Village, and SoHo, New York City"
-    visualizations: 
+    visualizations:
       - >-
         const {abbreviate, commas, salary} = formatters;
         const colorMost = "#1A3E61";
@@ -122,7 +127,7 @@ topics:
         }
   - class: "flex flex-short"
     title: "Specialization in Subsistence Alaska"
-    visualizations: 
+    visualizations:
       - >-
         const {abbreviate, commas, salary} = formatters;
         const colorMost = "#1A3E61";
@@ -164,7 +169,7 @@ topics:
         }
   - class: "flex flex-short"
     title: "Specialization in the Missouri counties"
-    visualizations: 
+    visualizations:
       - >-
         const {abbreviate, commas, salary} = formatters;
         const colorMost = "#1A3E61";
@@ -209,7 +214,7 @@ topics:
       - "Not that specialization necessarily leads to higher salaries, of course. Some professions—physicians, lawyers, and IT scientists—do well across all three geographies."
       - "This difference in incomes is reflected in the vast differences in property values we see across the three locations. The median property value we see in Pulaski, Camden, Miller, and Morgan counties is $136,600, significantly lower than the US average of $175,700. Subsistence Alaska is almost exactly the same as the average, at $177,500. In the Manhattan neighborhoods, by contrast, median property values are well above $1 million—literally off the scale."
     title: "Property values in Battery Park, Greenwich Village, and SoHo versus the US average (in gray)"
-    visualizations: 
+    visualizations:
       - >-
         const colorGrey = "#C6C7CA";
         const colorHighlight = "#ef6145";
@@ -229,7 +234,7 @@ topics:
                 const total = sum(group.values, d => d[measure]);
                 group.values.forEach(d => d.share = d[measure] / total);
               });
-  
+
             return data;
           },
           groupBy: "Geography",

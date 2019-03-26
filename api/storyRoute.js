@@ -62,7 +62,7 @@ module.exports = function(app) {
         if (!topic.visualizations) topic.visualizations = [];
         if (!(topic.visualizations instanceof Array)) topic.visualizations = [topic.visualizations];
         topic.visualizations = topic.visualizations.map(obj => ({logic: bubleSwap(obj)}));
-        if (!topic.type) topic.type = "TextViz";
+        if (!topic.type) topic.type = "Column";
       });
       res.json(contents).end();
     }

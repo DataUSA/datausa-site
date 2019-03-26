@@ -81,19 +81,30 @@
   & .topic {
     background-color: #E9E9E9;
     color: rgba(51, 51, 51, .93);
-    padding: 60px 50px 25px;
+    flex-direction: column;
+    padding: 50px 25px 0;
     width: 100%;
     & .topic-description {
       margin-bottom: 15px;
+      & img {
+        width: 100%;
+      }
     }
     & .topic-content {
       margin: 0 auto;
       max-width: 700px;
+      width: 100%;
     }
     & .visualization {
       margin: 0 auto;
       max-width: 700px;
       min-height: 400px;
+      width: 100%;
+    }
+    & .SourceGroup {
+      margin: 0 auto;
+      max-width: 700px;
+      width: 100%;
     }
   }
 }
