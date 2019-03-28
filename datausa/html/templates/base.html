@@ -36,6 +36,47 @@
     <script type="text/javascript" src="{{ ASSET_URL }}?v={{ g.cache_version }}"></script>
     {% endassets %}
 
+    <style>
+
+    #Preview-Link {
+      background-color: #ef6145;
+      bottom: -100px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      left: 0;
+      padding: 5px 5px 6px;
+      position: fixed;
+      right: 0;
+      text-align: center;
+      transition: bottom 0.75s;
+      width: 100%;
+      z-index: 10000;
+    }
+
+    #Preview-Link a {
+      color: white;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    #Preview-Link .close {
+      font-size: 20px;
+      font-weight: 400;
+      opacity: 0.5;
+      position: absolute;
+      right: 25px;
+      top: -3px;
+    }
+
+    #Preview-Link .close:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    </style>
+
     <script>
 
       var cartLimit = {{ g.cart_limit|safe }},
@@ -65,6 +106,18 @@
 
     {% block head %}
     {% endblock %}
+
+    <!-- Hotjar Tracking Code for https://datausa.io -->
+    <script>
+      (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:1257570,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
 
   </head>
   <body class="{% if g.page_type %}{{ g.page_type }}{% endif %} {% if g.page_class %}{{ g.page_class }}{% endif %}">
@@ -753,6 +806,25 @@
          js.src = "//connect.facebook.net/en_US/sdk.js";
          fjs.parentNode.insertBefore(js, fjs);
        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div id="Preview-Link">
+      <a href="https://preview.datausa.io">Click here</a> to preview the next version of Data USA, including updated data and a custom visualization builder!
+      <div class="close">x</div>
+    </div>
+
+    <script>
+
+      localforage.getItem("hide-preview", function(error, hidden) {
+        if (!hidden) {
+          d3.select("#Preview-Link").style("bottom", "0px");
+          d3.select("#Preview-Link .close").on("click", function() {
+            d3.select("#Preview-Link").style("bottom", "-100px");
+            localforage.setItem("hide-preview", true);
+          });
+        }
+      });
+
     </script>
 
   </body>
