@@ -1,6 +1,6 @@
 #Beta {
-  background-color: #353337;
-  border-top: 1px solid var(--black);
+  background-color: var(--red);
+  /* border-top: 1px solid var(--black); */
   bottom: 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   color: white;
