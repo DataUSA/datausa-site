@@ -39,14 +39,16 @@
     <style>
 
     #Preview-Link {
-      background-color: #ef6145;
+      /* background-color: #ef6145; */
+      background-color: #353337;
+      border-top: 1px solid #1B191D;
       bottom: -100px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
       color: white;
       font-size: 14px;
       font-weight: 700;
       left: 0;
-      padding: 5px 5px 6px;
+      padding: 5px 5px 11px;
       position: fixed;
       right: 0;
       text-align: center;
@@ -73,6 +75,17 @@
     #Preview-Link .close:hover {
       cursor: pointer;
       opacity: 1;
+    }
+
+    #Preview-Link:before {
+      background-color: #1B191D;
+      bottom: 0;
+      content: "";
+      height: 6px;
+      left: 0;
+      position: absolute;
+      right: 0;
+      width: 100%;
     }
 
     </style>
