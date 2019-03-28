@@ -79,10 +79,10 @@
 
 .vizbuilder {
   background-color: var(--white);
-  height: calc(100vh - var(--nav-height) - 30px);
+  height: calc(100vh - var(--nav-height) - 34px);
   margin-top: var(--nav-height);
   & .area-sidebar {
-    height: calc(100vh - var(--nav-height) - 30px);
+    height: calc(100vh - var(--nav-height) - 34px);
   }
   & .area-sidebar {
     & .pt-checkbox {

@@ -1,5 +1,5 @@
 #Visualize.Map {
-  height: calc(100vh - 30px);
+  height: calc(100vh - 34px);
   overflow: hidden;
   & .options {
     margin-top: 0;
@@ -10,9 +10,9 @@
   }
   & .vizbuilder {
     padding-top: 0;
-    height: calc(100vh - 30px);
+    height: calc(100vh - 34px);
     & .area-sidebar, & .area-chart {
-      height: calc(100vh - var(--nav-height) - 30px);
+      height: calc(100vh - var(--nav-height) - 34px);
     }
     & .area-chart {
       margin-top: 0;

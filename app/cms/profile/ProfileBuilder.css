@@ -12,7 +12,7 @@
 #tree {
   background-color: #efefef;
   font-size: 14px;
-  height: calc(100vh - var(--nav-height) - 30px);
+  height: calc(100vh - var(--nav-height) - 34px);
   max-width: 300px;
   min-width: 300px;
   overflow-y: scroll;
@@ -48,7 +48,7 @@
   background-color: white;
   box-sizing: border-box;
   flex: 1;
-  height: calc(100vh - var(--nav-height) - 30px);
+  height: calc(100vh - var(--nav-height) - 34px);
   overflow-y: scroll;
   padding: 25px;
   width: 100%;

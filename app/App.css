@@ -1,13 +1,13 @@
 #Beta {
-  background-color: var(--red);
+  background-color: #353337;
+  border-top: 1px solid var(--black);
   bottom: 0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   color: white;
   font-size: 14px;
   font-weight: 700;
-  height: 30px;
   left: 0;
-  padding-top: 5px;
+  padding: 5px 5px 11px;
   position: fixed;
   right: 0;
   text-align: center;
@@ -15,6 +15,16 @@
   z-index: 10000;
   & a {
     color: white;
+  }
+  &:before {
+    background-color: var(--black);
+    bottom: 0;
+    content: "";
+    height: 6px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
   }
 }
 
