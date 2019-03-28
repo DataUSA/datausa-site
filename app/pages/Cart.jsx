@@ -78,9 +78,11 @@ class Cart extends Component {
       intro: true,
       loading: false,
       moe: {},
+      progress: 0,
       responses: false,
       results: false,
       stickies: [],
+      total: 0,
       values: {}
     };
   }
@@ -127,8 +129,12 @@ class Cart extends Component {
       .match(/drilldowns\=[^&]+/g)[0]
       .split("=")[1].split(",")
     ));
-    this.setState({loading: true, results: false});
-    const responses = await Promise.all(urls.map(url => axios.get(url).then(resp => resp.data)));
+    const promises = urls.map(url => axios.get(url).then(resp => {
+      this.setState({progress: this.state.progress + 1});
+      return resp.data;
+    }));
+    this.setState({loading: true, results: false, progress: 0, total: promises.length + 1});
+    const responses = await Promise.all(promises);
     this.formatData.bind(this)(responses.filter(resp => resp.data), stickies);
 
   }
@@ -285,15 +291,15 @@ class Cart extends Component {
 
   render() {
 
-    const {intro, loading, moe, results, stickies} = this.state;
+    const {intro, loading, moe, progress, results, stickies, total} = this.state;
     const {cart, measures} = this.props;
-
+    console.log(loading, progress, total);
     if (!cart || !results || loading) {
       return <div>
         <Helmet title={title}>
           <meta property="og:title" content={ `${title} | Data USA` } />
         </Helmet>
-        <Loading />
+        <Loading progress={progress} total={total} />
       </div>;
     }
 
