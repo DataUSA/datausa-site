@@ -260,6 +260,12 @@ export default {
       strokeWidth: 0
     }
   },
+  totalConfig: {
+    fontFamily: "Palanquin",
+    fontSize: 14,
+    fontWeight: 400,
+    padding: 0
+  },
   titleConfig: {
     fontFamily: "Pathway Gothic One",
     fontSize: 18,
