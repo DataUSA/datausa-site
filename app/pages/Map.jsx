@@ -96,19 +96,6 @@ class Map extends Component {
         <meta property="og:title" content={ `${queryTitle} | Data USA` } />
       </Helmet>
 
-      <div className="options">
-        { cart ? <Tooltip2 placement="top-end">
-          <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
-            <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
-          </div>
-          <span>
-            { inCart ? "Remove this dataset from the cart."
-              : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
-                : "Add the underlying data to the cart, and merge with any existing cart data." }
-          </span>
-        </Tooltip2> : null }
-      </div>
-
       <Vizbuilder
         src={[cube]}
         defaultGroup={["Geography.County", "Origin State.Origin State"]}
@@ -138,7 +125,20 @@ class Map extends Component {
           "State": {topojson: "/topojson/State.json"},
           "Origin State": {topojson: "/topojson/State.json"},
           "Destination State": {topojson: "/topojson/State.json"}
-        }} />
+        }}>
+        <div className="custom-controls">
+          <Tooltip2 placement="top-end">
+            <div className={ `pt-button pt-fill pt-icon-shopping-cart ${ cartSize >= cartMax ? "pt-disabled" : "" }` } onClick={this.onCart.bind(this)}>
+              { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
+            </div>
+            <span>
+              { inCart ? "Remove this dataset from the cart."
+                : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+                  : "Add the underlying data to the cart, and merge with any existing cart data." }
+            </span>
+          </Tooltip2>
+        </div>
+      </Vizbuilder>
 
     </div>;
 

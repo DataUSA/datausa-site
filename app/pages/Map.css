@@ -1,18 +1,12 @@
 #Visualize.Map {
   height: calc(100vh - 34px);
   overflow: hidden;
-  & .options {
-    margin-top: 0;
-    position: absolute;
-    right: 0;
-    top: var(--nav-height);
-    z-index: 10;
-  }
   & .vizbuilder {
     padding-top: 0;
     height: calc(100vh - 34px);
     & .area-sidebar, & .area-chart {
       height: calc(100vh - var(--nav-height) - 34px);
+      padding-top: 0;
     }
     & .area-chart {
       margin-top: 0;
