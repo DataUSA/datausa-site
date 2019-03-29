@@ -114,6 +114,10 @@ class Map extends Component {
         defaultGroup={["Geography.County", "Origin State.Origin State"]}
         defaultMeasure="Uninsured"
         measureConfig={measureConfig}
+        tableLogic={cubes => {
+          const cube = cubes.find(d => d.name.match(/_1/));
+          return cube || cubes[0];
+        }}
         config={{
           colorScaleConfig: {color: colors.colorScaleGood},
           colorScalePosition: "bottom",

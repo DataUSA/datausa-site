@@ -119,7 +119,7 @@ const examples = [
     title: "Black Females working in the Software Industry by State",
     group: "Labor",
     image: "/api/profile/soc/151131/thumb",
-    link: "/visualize?groups=0-z9TnC&groups=1-Z1Oby8M-2&groups=2-1mjmRl-5112&groups=3-1dQe8s-2&measure=1qWfo"
+    link: "/visualize?groups=0-1LK22m&groups=1-2rAHKG-2&groups=2-ZJJp1G-5112&groups=3-Z5TtG5-2&measure=ZkH9RT"
   },
   {
     title: "German-Borns Working in the Performing Arts Industry",
@@ -384,6 +384,10 @@ class Visualize extends Component {
           defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
           defaultMeasure="Total Population"
           measureConfig={measureConfig}
+          tableLogic={cubes => {
+            const cube = cubes.find(d => d.name.match(/_1/));
+            return cube || cubes[0];
+          }}
           config={{
             colorScaleConfig: {
               color: colors.colorScaleGood
