@@ -35,13 +35,13 @@ module.exports = function(app) {
         if (!attr) sendImage(false);
         else {
 
-          const {imageId} = attr;
+          const {id, imageId} = attr;
 
           if (!imageId) {
 
             if (parents[pslug]) {
 
-              const ids = parents[pslug][pid];
+              const ids = parents[pslug][id];
 
               if (ids.length) {
 
