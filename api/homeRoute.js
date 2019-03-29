@@ -21,31 +21,31 @@ module.exports = function(app) {
         {
           title: "Department of Interior Spending by State",
           url: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-14&measure=1e64mv",
-          image: "/images/home/vizbuilder/interior.png",
+          image: "/api/profile/geo/washington-dc/thumb",
           new: true
         },
         {
           title: "Opioid Deaths by County",
           url: "/visualize?enlarged=s-geomap-QuaqK&groups=0-QuaqK&measure=2sUCF4",
-          image: "/images/home/vizbuilder/opioid.png",
+          image: "/api/profile/cip/pharmacology/thumb",
           new: false
         },
         {
           title: "Admissions for Universities in the Boston Metro Area",
           url: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1",
-          image: "/images/home/vizbuilder/admissions.png",
+          image: "/api/profile/geo/boston-cambridge-quincy-ma-nh-metro-area/thumb",
           new: false
         },
         {
           title: "Coal Mining Workers by State",
           url: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo",
-          image: "/images/home/vizbuilder/coal.png",
+          image: "/api/profile/naics/mining-quarrying-oil-gas-extraction/thumb",
           new: false
         },
         {
           title: "Foreign Born Citizens by State",
           url: "/visualize?groups=0-TBhjH&measure=64auG",
-          image: "/images/home/vizbuilder/foreign.png",
+          image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
           new: false
         }
       ]
