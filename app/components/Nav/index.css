@@ -64,12 +64,15 @@
     font-size: 24px;
     height: 30px;
     line-height: 19px;
-    max-width: 75%;
+    max-width: calc(100% - 260px);
     overflow: hidden;
     padding: 0 7px;
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
+    @media (max-width: 500px) {
+      display: none;
+    }
   }
   & .right-buttons {
     display: flex;
