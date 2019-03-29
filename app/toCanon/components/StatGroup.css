@@ -1,8 +1,16 @@
 .StatGroup {
   margin: 10px 15px 15px 0;
+  @media (max-width: 768px) {
+    margin: 0 0 10px;
+  }
   &.single {
     flex: 1;
     min-width: 45%;
+    @media (max-width: 768px) {
+      flex: none;
+      min-width: 100%;
+      width: 100%;
+    }
   }
   &.multi {
     min-width: 100%;
@@ -31,6 +39,10 @@
     font-family: "Lato", sans-serif;
     font-size: 38px;
     font-weight: 300;
+    @media (max-width: 768px) {
+      font-size: 28px;
+      font-weight: 300;
+    }
   }
   & .stat-subtitle {
     color: var(--black);
