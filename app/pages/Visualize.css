@@ -35,6 +35,9 @@
     height: calc(100vh - var(--nav-height) - 34px);
     padding-top: calc(var(--nav-height) + 25px);
     position: relative;
+    & .sources .pt-select {
+      margin-top: 5px;
+    }
     & .pt-checkbox {
       color: var(--red);
       cursor: pointer;
@@ -325,6 +328,9 @@
     padding: 30px 25px 25px 0;
     & .wrapper {
       padding: 0;
+      &.single .chart-card .wrapper {
+        padding-top: 30px;
+      }
       & .chart-card {
         min-width: 400px;
         & .wrapper {
@@ -336,15 +342,20 @@
           & footer {
             margin: 0;
             position: absolute;
-            right: 5px;
-            top: 5px;
+            right: 0;
+            top: 0;
             & button {
+              background: white;
               padding: 0 5px;
               &:before {
+                font-size: 14px;
                 margin: 0;
               }
               & span {
                 display: none;
+              }
+              &:hover:before {
+                color: var(--red);
               }
             }
           }
