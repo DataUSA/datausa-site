@@ -14,6 +14,7 @@ import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
 import {addToCart, removeFromCart} from "actions/cart";
 import {updateTitle} from "actions/title";
+import Tile from "components/Tile/Tile";
 
 import albersUsaPr from "helpers/albersUsaPr";
 
@@ -339,13 +340,7 @@ class Visualize extends Component {
             <div key={i} className="carousel">
               <h2><SVG src={`/icons/sections/${groupIcons[d.key]}.svg`} />{ d.key }</h2>
               <Carousel {...carouselSettings} ref={c => this.carousel = c}>
-                {d.values.map((example, ii) =>
-                  <div key={ii}
-                    onClick={this.gotoExample.bind(this, example.link)}
-                    className="pt-card pt-interactive">
-                    <span>{ example.title }</span>
-                  </div>
-                )}
+                {d.values.map((example, ii) => <Tile key={ii} onClick={this.gotoExample.bind(this, example.link)} title={example.title} />)}
               </Carousel>
             </div>) }
         </div>

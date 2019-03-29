@@ -472,18 +472,10 @@
         & .slick-track {
           display: flex;
 
-          & .pt-card {
-            align-items: center;
-            display: flex !important;
-            text-align: center;
-            & span {
-              flex: 1;
-            }
-          }
-
           & > * {
             display: flex;
             flex: 1 1 25%;
+            margin: 0 1rem;
 
             & > * {
               display: flex;

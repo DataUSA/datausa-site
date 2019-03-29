@@ -10,7 +10,7 @@ class Contents extends Component {
     const {image, subtitle, title} = this.props;
 
     return <div className="contents">
-      <div className="image" style={{backgroundImage: `url(${image})`}}></div>
+      { image && <div className="image" style={{backgroundImage: `url(${image})`}}></div> }
       <div className="title">{ title }</div>
       { subtitle && <div className="subtitle">{ subtitle }</div> }
     </div>;
