@@ -44,6 +44,12 @@ class Viz extends Component {
       if (vizProps.config.height) delete vizProps.config.height;
     }
 
+    // Custom configuration for mobile
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      if (vizProps.config.groupPadding) vizProps.config.groupPadding = 5;
+      if (vizProps.config.barPadding) vizProps.config.barPadding = 0;
+    }
+
     // strip out the "type" from config
     const {type} = vizProps.config;
     delete vizProps.config.type;
