@@ -69,7 +69,7 @@
     font-family: "Pathway Gothic One", sans-serif;
     font-weight: 400;
     letter-spacing: 0.03em;
-    padding: 0 50px;
+    padding: 0 10px;
     text-align: center;
     text-shadow: 0 2px 6px black;
     text-transform: uppercase;
@@ -77,6 +77,9 @@
   & .profile-title {
     font-size: 60px;
     line-height: 1.1;
+    @media (max-width: 500px) {
+      font-size: 40px;
+    }
   }
   & .profile-subtitle {
     font-size: 18px;
