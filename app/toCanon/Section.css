@@ -157,9 +157,6 @@
         & .section-visualization {
           margin-left: 0;
           text-align: center;
-          &:not(:first-child) {
-            margin-left: 50px;
-          }
         }
       }
     }
@@ -199,9 +196,6 @@
         & .section-visualization {
           margin-left: 0;
           text-align: center;
-          &:not(:first-child) {
-            margin-left: 50px;
-          }
         }
       }
     }
