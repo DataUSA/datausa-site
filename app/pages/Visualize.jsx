@@ -37,132 +37,157 @@ const examples = [
   {
     title: "Foreign Born Citizens by State",
     group: "Heritage & Demographics",
+    image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
     link: "/visualize?groups=0-TBhjH&measure=64auG"
   },
-  {
-    title: "Foreign Born Citizens by MSA",
-    group: "Heritage & Demographics",
-    link: "/visualize?groups=0-Z1SqIjF&measure=64auG"
-  },
+  // {
+  //   title: "Foreign Born Citizens by MSA",
+  //   group: "Heritage & Demographics",
+  //   image: "/api/profile/cip/4509/thumb",
+  //   link: "/visualize?groups=0-Z1SqIjF&measure=64auG"
+  // },
   {
     title: "Russian Speakers by State",
     group: "Heritage & Demographics",
+    image: "/images/profile/russia.jpg",
     link: "/visualize?groups=0-1cCiqp&groups=1-ZdEVTH-11&measure=ZjsmSE"
   },
   {
     title: "Household Income by Race",
     group: "Heritage & Demographics",
+    image: "/api/profile/cip/public-finance/thumb",
     link: "/visualize?groups=0-Z2pUFmW&measure=Zw5c4M"
   },
 
   {
     title: "Opioid Deaths by County",
     group: "Health",
+    image: "/api/profile/cip/pharmacology/thumb",
     link: "/visualize?groups=0-QuaqK&measure=2sUCF4"
   },
   {
     title: "Adult Obesity by County",
     group: "Health",
+    image: "/api/profile/cip/190505/thumb",
     link: "/visualize?groups=0-Z1X72Pg&measure=Z1iORxu"
   },
   {
     title: "Food Environment Index",
     group: "Health",
+    image: "/api/profile/cip/120507/thumb",
     link: "/visualize?groups=0-Z1X72Pg&measure=Z1xNbvc"
   },
   {
     title: "Adults with Major Depressive Disorder by State",
     group: "Health",
+    image: "/api/profile/cip/420101/thumb",
     link: "/visualize?groups=0-Zc58ag&measure=3DN30"
   },
   {
     title: "Adults who Cannot Afford a Doctor",
     group: "Health",
+    image: "/api/profile/naics/6211/thumb",
     link: "/visualize?groups=0-14F1wI&measure=1wObYo"
   },
 
   {
     title: "Home Ownership by State",
     group: "Housing",
+    image: "/api/profile/naics/531/thumb",
     link: "/visualize?groups=0-Z4LzeD&measure=Z1X8D4i"
   },
   {
     title: "Average Commute Time by Metro Area",
     group: "Housing",
+    image: "/api/profile/soc/474051/thumb",
     link: "/visualize?groups=0-ZNTHUM&measure=ZMlbux"
   },
   {
     title: "People Driving Alone to Work by County",
     group: "Housing",
+    image: "/api/profile/soc/5360XX/thumb",
     link: "/visualize?groups=0-Z1X72Pg&measure=2bT8FH"
   },
   {
     title: "Renter Occupied Households by State",
     group: "Housing",
+    image: "/api/profile/naics/4232/thumb",
     link: "/visualize?groups=0-Z4LzeD&groups=1-Z1xMhVU-1&measure=Z1X8D4i"
   },
 
   {
     title: "Black Females working in the Software Industry by State",
     group: "Labor",
+    image: "/api/profile/soc/151131/thumb",
     link: "/visualize?groups=0-z9TnC&groups=1-Z1Oby8M-2&groups=2-1mjmRl-5112&groups=3-1dQe8s-2&measure=1qWfo"
   },
   {
     title: "German-Borns Working in the Performing Arts Industry",
     group: "Labor",
+    image: "/api/profile/cip/509999/thumb",
     link: "/visualize?groups=0-z9TnC&groups=1-1SyFhe-110&groups=2-1mjmRl-711&measure=1qWfo"
   },
   {
     title: "Naturalized US Citizens Working as Computer Scientists and Web Developers",
     group: "Labor",
+    image: "/api/profile/cip/110701/thumb",
     link: "/visualize?groups=0-z9TnC&groups=1-13xVLW-4&groups=2-19hV1x-151111~151131~151134~15113X&measure=1qWfo"
   },
   {
     title: "Median Earnings in the Construction Industry by State",
     group: "Labor",
+    image: "/api/profile/cip/46/thumb",
     link: "/visualize?groups=0-Z1DVCsC&groups=1-1m43RW-4&measure=ALgX7"
   },
   {
     title: "Income Inequality by Metro Area",
     group: "Labor",
+    image: "/api/profile/napcs/41/thumb",
     link: "/visualize?groups=0-23eSQ7&measure=230vWl"
   },
   {
     title: "Coal Mining Workers by State",
     group: "Labor",
+    image: "/api/profile/naics/mining-quarrying-oil-gas-extraction/thumb",
     link: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo"
   },
 
   {
     title: "Admissions for Universities in the Boston Metro Area",
     group: "Education",
+    image: "/api/profile/geo/boston-cambridge-quincy-ma-nh-metro-area/thumb",
     link: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1"
   },
   {
     title: "Default Rate by State",
     group: "Education",
+    image: "/api/profile/soc/434131/thumb",
     link: "/visualize?groups=0-24s1dP&measure=ZdVPNx"
   },
   {
     title: "Engineering Graduates by Gender",
     group: "Education",
+    image: "/api/profile/cip/14/thumb",
     link: "/visualize?groups=0-BNDBG&groups=1-Z2i3TId-14&measure=1g4zN3"
   },
 
   {
     title: "Department of Interior Spending by State",
     group: "Government",
+    image: "/api/profile/geo/washington-dc/thumb",
     link: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-14&measure=1e64mv"
   },
   {
     title: "National Science Foundations Grants by State",
     group: "Government",
+    image: "/api/profile/soc/1930XX/thumb",
     link: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-49&groups=2-Z27NDkh-Grant&measure=1e64mv"
   },
   {
     title: "Spending by Department of Defense by State",
     group: "Government",
-    link: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-97&measure=1e64mv"
+    image: "/api/profile/geo/washington-dc/thumb",
+    link: "/api/profile/soc/550000/thumb"
   }
 ];
 
@@ -340,7 +365,7 @@ class Visualize extends Component {
             <div key={i} className="carousel">
               <h2><SVG src={`/icons/sections/${groupIcons[d.key]}.svg`} />{ d.key }</h2>
               <Carousel {...carouselSettings} ref={c => this.carousel = c}>
-                {d.values.map((example, ii) => <Tile key={ii} onClick={this.gotoExample.bind(this, example.link)} title={example.title} />)}
+                {d.values.map((example, ii) => <Tile key={ii} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
               </Carousel>
             </div>) }
         </div>
@@ -353,23 +378,6 @@ class Visualize extends Component {
         <Helmet title={queryTitle}>
           <meta property="og:title" content={ `${queryTitle} | Data USA` } />
         </Helmet>
-
-        <div className="options">
-          <div className="option" onClick={this.showIntro.bind(this)}>
-            <Icon iconName="help" />
-            Show Examples
-          </div>
-          { cart ? <Tooltip2 placement="top-end">
-            <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
-              <span className="option-label">{ !cart ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
-            </div>
-            <span>
-              { inCart ? "Remove this dataset from the cart."
-                : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
-                  : "Add the underlying data to the cart, and merge with any existing cart data." }
-            </span>
-          </Tooltip2> : null }
-        </div>
 
         <Vizbuilder
           src={[cube]}
@@ -414,7 +422,28 @@ class Visualize extends Component {
             "lineplot",
             "histogram",
             "stacked"
-          ]} />
+          ]}>
+          <div className="custom-controls">
+            <Tooltip2 placement="top-end">
+              <div className={ `pt-button pt-fill pt-icon-shopping-cart ${ cartSize >= cartMax ? "pt-disabled" : "" }` } onClick={this.onCart.bind(this)}>
+                { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
+              </div>
+              <span>
+                { inCart ? "Remove this dataset from the cart."
+                  : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
+                    : "Add the underlying data to the cart, and merge with any existing cart data." }
+              </span>
+            </Tooltip2>
+            <Tooltip2 className="absolute-title" placement="bottom">
+              <h1 onClick={this.showIntro.bind(this)}>
+                Viz Builder
+              </h1>
+              <span>
+                Click to show some example queries.
+              </span>
+            </Tooltip2>
+          </div>
+        </Vizbuilder>
 
       </div>;
     }
