@@ -15,6 +15,7 @@
       margin-bottom: 15px;
     }
     & .absolute-title {
+      cursor: help;
       left: 15px;
       position: absolute;
       top: 25px;
