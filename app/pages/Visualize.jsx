@@ -38,7 +38,7 @@ const examples = [
     title: "Foreign Born Citizens by State",
     group: "Heritage & Demographics",
     image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
-    link: "/visualize?groups=0-TBhjH&measure=64auG"
+    link: "/visualize?groups=0-1dX7e9&measure=ZHkGoL"
   },
   // {
   //   title: "Foreign Born Citizens by MSA",
@@ -50,7 +50,7 @@ const examples = [
     title: "Russian Speakers by State",
     group: "Heritage & Demographics",
     image: "/images/profile/russia.jpg",
-    link: "/visualize?groups=0-1cCiqp&groups=1-ZdEVTH-11&measure=ZjsmSE"
+    link: "/visualize?groups=0-RENB7&groups=1-ZUWzdA-9&measure=Z16D5yA"
   },
   {
     title: "Household Income by Race",
@@ -94,13 +94,13 @@ const examples = [
     title: "Home Ownership by State",
     group: "Housing",
     image: "/api/profile/naics/531/thumb",
-    link: "/visualize?groups=0-Z4LzeD&measure=Z1X8D4i"
+    link: "/visualize?groups=0-ezfEN&measure=26YVLn"
   },
   {
     title: "Average Commute Time by Metro Area",
     group: "Housing",
     image: "/api/profile/soc/474051/thumb",
-    link: "/visualize?groups=0-ZNTHUM&measure=ZMlbux"
+    link: "/visualize?groups=0-17bOR7&measure=Z1iWzH4"
   },
   {
     title: "People Driving Alone to Work by County",
@@ -112,7 +112,7 @@ const examples = [
     title: "Renter Occupied Households by State",
     group: "Housing",
     image: "/api/profile/naics/4232/thumb",
-    link: "/visualize?groups=0-Z4LzeD&groups=1-Z1xMhVU-1&measure=Z1X8D4i"
+    link: "/visualize?groups=0-ezfEN&groups=1-RSHig-1&measure=26YVLn"
   },
 
   {
@@ -125,31 +125,31 @@ const examples = [
     title: "German-Borns Working in the Performing Arts Industry",
     group: "Labor",
     image: "/api/profile/cip/509999/thumb",
-    link: "/visualize?groups=0-z9TnC&groups=1-1SyFhe-110&groups=2-1mjmRl-711&measure=1qWfo"
+    link: "/visualize?groups=0-1LK22m&groups=1-Z1bHF5a-110&groups=2-ZJJp1G-711&measure=ZkH9RT"
   },
   {
     title: "Naturalized US Citizens Working as Computer Scientists and Web Developers",
     group: "Labor",
     image: "/api/profile/cip/110701/thumb",
-    link: "/visualize?groups=0-z9TnC&groups=1-13xVLW-4&groups=2-19hV1x-151111~151131~151134~15113X&measure=1qWfo"
+    link: "/visualize?groups=0-1LK22m&groups=1-ZgqxGk-4&groups=2-ZUeVm5-151111~151131~151134~15113X&measure=ZkH9RT"
   },
   {
     title: "Median Earnings in the Construction Industry by State",
     group: "Labor",
     image: "/api/profile/cip/46/thumb",
-    link: "/visualize?groups=0-Z1DVCsC&groups=1-1m43RW-4&measure=ALgX7"
+    link: "/visualize?groups=0-Z1kzMyb&groups=1-AY10R-2&measure=2oJ9qr"
   },
   {
     title: "Income Inequality by Metro Area",
     group: "Labor",
     image: "/api/profile/napcs/41/thumb",
-    link: "/visualize?groups=0-23eSQ7&measure=230vWl"
+    link: "/visualize?groups=0-Z15PG9U&measure=nJdNt"
   },
   {
     title: "Coal Mining Workers by State",
     group: "Labor",
     image: "/api/profile/naics/mining-quarrying-oil-gas-extraction/thumb",
-    link: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo"
+    link: "/visualize?filters=0-h3NC-5-5&filters=1-ZkH9RT-4-2000&groups=0-1LK22m&groups=1-ZJJp1G-2121&measure=ZkH9RT"
   },
 
   {
@@ -186,8 +186,8 @@ const examples = [
   {
     title: "Spending by Department of Defense by State",
     group: "Government",
-    image: "/api/profile/geo/washington-dc/thumb",
-    link: "/api/profile/soc/550000/thumb"
+    image: "/api/profile/soc/550000/thumb",
+    link: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-97&measure=1e64mv"
   }
 ];
 
@@ -367,7 +367,7 @@ class Visualize extends Component {
             <div key={d.key} className="carousel">
               <h2><SVG src={`/icons/sections/${groupIcons[d.key]}.svg`} />{ d.key }</h2>
               <Carousel {...carouselSettings} ref={c => this.carousel = c}>
-                {d.values.map(example => <Tile key={example.title} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
+                {d.values.map(example => <Tile key={example.title} new={example.new} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
               </Carousel>
             </div>) }
         </div>
