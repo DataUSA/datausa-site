@@ -2,6 +2,7 @@
   background-color: var(--dark);
   border: 1px solid #979AA2;
   color: white;
+  cursor: pointer;
   display: block;
   height: 150px;
   margin: 15px 0;
@@ -74,7 +75,6 @@
   &:hover, &:focus, &:active {
     border: 1px solid white;
     color: white;
-    cursor: pointer;
     text-decoration: none;
     & .contents {
       transform: scale(1.15);

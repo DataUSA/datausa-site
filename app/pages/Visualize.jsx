@@ -234,8 +234,9 @@ class Visualize extends Component {
   }
 
   gotoExample(url) {
-    window.location = url;
-    // this.props.router.push(url);
+    const current = `${window.location.pathname}${window.location.search}`;
+    if (url === current) this.setState({intro: false});
+    else this.props.router.push(url);
   }
 
   componentDidUpdate(prevProps) {
@@ -304,6 +305,7 @@ class Visualize extends Component {
       infinite: false, // all things must come to an end
       speed: 300, // faster paging
       touchThreshold: 20, // easier swiping
+      touchMove: false,
       // custom next/prev arrows
       prevArrow:
         <SlickButtonFix>
@@ -361,11 +363,11 @@ class Visualize extends Component {
           <div className="advanced" onClick={this.closeIntro.bind(this)}>Go directly to interface &raquo;</div>
         </div>
         <div className="examples">
-          { exampleGroups.map((d, i) =>
-            <div key={i} className="carousel">
+          { exampleGroups.map(d =>
+            <div key={d.key} className="carousel">
               <h2><SVG src={`/icons/sections/${groupIcons[d.key]}.svg`} />{ d.key }</h2>
               <Carousel {...carouselSettings} ref={c => this.carousel = c}>
-                {d.values.map((example, ii) => <Tile key={ii} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
+                {d.values.map(example => <Tile key={example.title} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
               </Carousel>
             </div>) }
         </div>
