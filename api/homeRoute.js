@@ -51,34 +51,6 @@ module.exports = function(app) {
       ]
     });
 
-    const universitySlugs = [
-      "massachusetts-institute-of-technology",
-      "university-of-maryland-college-park",
-      "university-of-notre-dame",
-      "university-of-chicago",
-      "northeastern-university"
-    ];
-
-    const universities = await db.search
-      .findAll({where: {dimension: "University", slug: universitySlugs}})
-      .then(attrs => attrs
-        .sort((a, b) => universitySlugs.indexOf(a.slug) - universitySlugs.indexOf(b.slug))
-        .map(a => ({
-          title: a.display,
-          url: `/profile/university/${a.slug || a.id}`,
-          image: `/api/profile/university/${a.id}/thumb`
-        }))
-      );
-
-    carousels.push({
-      title: "Universities",
-      icon: "/icons/dimensions/University - White.svg",
-      rank: 2,
-      footer: "7,358 more",
-      url: "/search/?kind=university",
-      tiles: universities
-    });
-
     const geoSlugs = [
       "new-york-ny",
       "los-angeles-county-ca",
@@ -101,7 +73,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Cities & Places",
       icon: "/icons/dimensions/Geography - White.svg",
-      rank: 3,
+      rank: 2,
       footer: "36,185 more",
       url: "/search/?kind=geo",
       tiles: geos
@@ -126,7 +98,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Industries",
       icon: "/icons/dimensions/PUMS Industry - White.svg",
-      rank: 7,
+      rank: 3,
       footer: "296 more",
       url: "/search/?kind=naics",
       tiles: industries
@@ -154,6 +126,34 @@ module.exports = function(app) {
       tiles: occupations
     });
 
+    const universitySlugs = [
+      "massachusetts-institute-of-technology",
+      "university-of-maryland-college-park",
+      "university-of-notre-dame",
+      "university-of-chicago",
+      "northeastern-university"
+    ];
+
+    const universities = await db.search
+      .findAll({where: {dimension: "University", slug: universitySlugs}})
+      .then(attrs => attrs
+        .sort((a, b) => universitySlugs.indexOf(a.slug) - universitySlugs.indexOf(b.slug))
+        .map(a => ({
+          title: a.display,
+          url: `/profile/university/${a.slug || a.id}`,
+          image: `/api/profile/university/${a.id}/thumb`
+        }))
+      );
+
+    carousels.push({
+      title: "Universities",
+      icon: "/icons/dimensions/University - White.svg",
+      rank: 5,
+      footer: "7,358 more",
+      url: "/search/?kind=university",
+      tiles: universities
+    });
+
     const cipIDs = ["513801", "110701", "520201", "420101", "240101"];
 
     const courses = await db.search
@@ -170,7 +170,7 @@ module.exports = function(app) {
     carousels.push({
       title: "Degrees",
       icon: "/icons/dimensions/CIP - White.svg",
-      rank: 5,
+      rank: 7,
       footer: "2,314 more",
       url: "/search/?kind=cip",
       tiles: courses
