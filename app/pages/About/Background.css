@@ -1,14 +1,14 @@
 #Background {
   padding-top: var(--nav-height);
   & .video-container {
-    height: 315px;
+    height: 422px;
     overflow: hidden;
     position: relative;
     width: 100%;
     & .video {
       box-sizing: border-box;
       display: block;
-      height: 315px;
+      height: 422px;
       left: 0;
       padding: 0;
       position: absolute;
@@ -24,6 +24,12 @@
       }
       &.prev {
         transform: translateX(-100%);
+      }
+    }
+    @media (max-width: 768px) {
+      height: 300px;
+      & .video {
+        height: 300px;
       }
     }
     & .video-prev, & .video-next {
