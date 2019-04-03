@@ -22,8 +22,12 @@ module.exports = {
             .filter(d => d.dimension === "Geography")
             .map(d => d.id instanceof Array ? d.id : [d.id]));
 
-          const poverty = cubes.find(cube => cube.name.includes("acs_ygpsar_poverty_by_gender_age_race"));
-          const bigGeos = ids.length ? poverty ? ids.every(g => g === "01000US") : ids.every(g => pops[g] && pops[g] >= 250000) : true;
+          const onlyNation = cubes.find(cube =>
+            cube.name.includes("acs_ygpsar_poverty_by_gender_age_race") ||
+            cube.name.includes("acs_ygf_place_of_birth_for_foreign_born")
+          );
+
+          const bigGeos = ids.length ? onlyNation ? ids.every(g => g === "01000US") : ids.every(g => pops[g] && pops[g] >= 250000) : true;
           const tracts = query.dimensions.filter(d => (d.relation || "").includes("Tract")).length;
 
           return cubes.filter(cube => cube.name.match(bigGeos && !tracts ? /_1$/g : /_5$/g));
