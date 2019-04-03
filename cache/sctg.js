@@ -16,6 +16,11 @@ module.exports = function() {
         };
         return obj;
       }, {});
+    })
+    .catch(err => {
+      console.error(` 🌎  SCTG Cache Error: ${err.message}`);
+      if (err.config) console.error(err.config.url);
+      return [];
     });
 
 };

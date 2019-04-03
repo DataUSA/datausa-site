@@ -36,6 +36,11 @@ module.exports = function() {
       cip: parseParents(courses),
       university: parseParents(universities),
       napcs: parseParents(products)
-    }));
+    }))
+    .catch(err => {
+      console.error(` 🌎  Parents Cache Error: ${err.message}`);
+      if (err.config) console.error(err.config.url);
+      return [];
+    });
 
 };

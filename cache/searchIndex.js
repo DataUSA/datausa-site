@@ -4,9 +4,11 @@ module.exports = async function(app) {
 
   const {db} = app.settings;
 
-  const rows = await db.search.findAll({include: [{model: db.images}]});
+  const rows = await db.search.findAll({include: [{model: db.images}]})
+    .catch(() => []);
 
   const slugs = await db.profiles.findAll()
+    .catch(() => [])
     .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
 
   const results = rows
