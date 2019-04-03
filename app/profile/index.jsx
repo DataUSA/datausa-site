@@ -27,7 +27,7 @@ const categories = {
     {title: "Industries", slug: "industries", topic: "tmap_ind_num_emp", section: "economy"},
     {title: "Domestic Trade", slug: "trade", topic: "domestic_trade", section: "economy"},
     {title: "Age", slug: "age", topic: "age_nativity", section: "demographics"},
-    {title: "Heritage", slug: "heritage", topic: "global_diversity", section: "demographics"},
+    {title: "Heritage", slug: "heritage", topic: "foreign_born", section: "demographics"},
     {title: "Military", slug: "military", topic: "veterans", section: "demographics"},
     {title: "Income", slug: "income", topic: "household_income", section: "housing"},
     {title: "Housing", slug: "housing", topic: "property_value", section: "housing"},
