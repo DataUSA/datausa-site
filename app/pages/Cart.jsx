@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 
@@ -19,6 +20,7 @@ import Loading from "components/Loading";
 import {Object} from "es6-shim";
 import {updateTitle} from "actions/title";
 import {addToCart, clearCart, removeFromCart, toggleCartSetting} from "actions/cart";
+// import libs from "../../utils/libs";
 
 const examples = [
   {
@@ -122,17 +124,33 @@ class Cart extends Component {
 
   async reload() {
 
+    // const {formatters} = this.context;
     const {cart} = this.props;
 
-    const urls = merge(cart.data.map(d => d.urls)).map(decodeURIComponent);
+    const urls = Array.from(new Set(merge(cart.data.map(d => d.urls)).map(decodeURIComponent)));
     const stickies = merge(urls.map(url => url
       .match(/drilldowns\=[^&]+/g)[0]
       .split("=")[1].split(",")
     ));
-    const promises = urls.map(url => axios.get(url).then(resp => {
-      this.setState({progress: this.state.progress + 1});
-      return resp.data;
-    }));
+
+    const promises = urls.map(url => axios.get(url)
+      .then(resp => {
+        this.setState({progress: this.state.progress + 1});
+        const data = resp.data.data;
+        // const format = cart.data.find(d => d.urls.includes(url) && d.format);
+        // console.log(format.format.replace(/^[^\{]*\{/g, "").replace(/\}.*$/g, ""));
+        // if (format) {
+        //   const f = Function("n", "libs", "formatters", format.format.replace(/^[^\{]*\{/g, "").replace(/\}.*$/g, ""));
+        //   data = f(resp.data, libs, formatters);
+        // }
+        return {url, data};
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({progress: this.state.progress + 1});
+        return {url, data: false};
+      }));
+
     this.setState({loading: true, results: false, progress: 0, total: promises.length + 1});
     const responses = await Promise.all(promises);
     this.formatData.bind(this)(responses.filter(resp => resp.data), stickies);
@@ -172,6 +190,7 @@ class Cart extends Component {
       });
       columns = columns.concat(Object.keys(resp.data[0]));
     });
+
     stickies = Array.from(new Set(stickies));
     stickies.forEach(s => {
       const id = `ID ${s}`;
@@ -293,7 +312,7 @@ class Cart extends Component {
 
     const {intro, loading, moe, progress, results, stickies, total} = this.state;
     const {cart, measures} = this.props;
-    console.log(loading, progress, total);
+
     if (!cart || !results || loading) {
       return <div>
         <Helmet title={title}>
@@ -395,6 +414,10 @@ class Cart extends Component {
   }
 
 }
+
+// Cart.contextTypes = {
+//   formatters: PropTypes.object
+// };
 
 Cart.need = [
   fetchData("levels", "/api/cart/levels/")
