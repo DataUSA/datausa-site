@@ -5,11 +5,6 @@ const buble = require("buble"),
 const storyDir = "app/stories/";
 const featured = ["06-12-2017_medicare-physicians"];
 
-const isLogic = [
-  "sum",
-  "dataFormat"
-];
-
 const bubleSwap = str => {
   let code = buble.transform(str).code;
   if (code.startsWith("!")) code = code.slice(1);
@@ -35,7 +30,7 @@ module.exports = function(app) {
 
     });
 
-    res.json(stories.sort((a, b) => b.date - a.date || b.featured - a.featured)).end();
+    res.json(stories.sort((a, b) => b.date - a.date || b.featured - a.featured));
 
   });
 
@@ -64,7 +59,7 @@ module.exports = function(app) {
         topic.visualizations = topic.visualizations.map(obj => ({logic: bubleSwap(obj)}));
         if (!topic.type) topic.type = "Column";
       });
-      res.json(contents).end();
+      res.json(contents);
     }
     else {
       res.sendStatus(404);
