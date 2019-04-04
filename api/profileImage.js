@@ -25,7 +25,12 @@ module.exports = function(app) {
 
       const id = image ? image : pslug === "university" ? "2032" : "1849";
       if (size === "json") db.images.findOne({where: {id}}).then(resp => res.json(resp));
-      else res.sendFile(`${process.cwd()}/static/images/profile/${size}/${id}.jpg`);
+      else {
+        res.sendFile(`${process.cwd()}/static/images/profile/${size}/${id}.jpg`, err => {
+          if (err) res.status(err.status);
+          res.end();
+        });
+      }
 
     }
 
@@ -51,6 +56,10 @@ module.exports = function(app) {
                       .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
                       .find(p => p.imageId);
                     sendImage(parentImage ? parentImage.imageId : false);
+                  })
+                  .catch(err => {
+                    console.error(`[api/profileImage] parent cache error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
+                    sendImage(false);
                   });
 
               }
@@ -65,7 +74,7 @@ module.exports = function(app) {
                 .then(d => d.data.reverse())
                 .then(d => d.map(p => p.geoid))
                 .then(d => {
-                  const attrs = db.search.findAll({where: {id: d, dimension: slugMap[pslug]}});
+                  const attrs = db.search.findAll({where: {id: d, dimension: slugMap[pslug]}}).catch(() => []);
                   return Promise.all([d, attrs]);
                 })
                 .then(([ids, parentAttrs]) => {
@@ -73,17 +82,26 @@ module.exports = function(app) {
                     .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
                     .find(p => p.imageId).imageId;
                   sendImage(parentImage);
+                })
+                .catch(err => {
+                  console.error(`[api/profileImage] geoservice error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
+                  sendImage(false);
                 });
 
             }
-            else sendImage();
+            else sendImage(false);
 
           }
           else sendImage(imageId);
 
         }
 
+      })
+      .catch(err => {
+        console.error(`[api/profileImage] search matching for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
+        sendImage(false);
       });
+
   });
 
 };
