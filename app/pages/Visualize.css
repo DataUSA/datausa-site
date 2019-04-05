@@ -32,10 +32,30 @@
   background-color: var(--white);
   height: calc(100vh - var(--nav-height) - 34px);
   margin-top: var(--nav-height);
+  & .action-clear {
+    display: none;
+  }
+  & .area-middle {
+    left: 0;
+    position: absolute;
+    top: calc(var(--nav-height) + 28px);
+    & .toggle-sidebar {
+      background: none;
+      box-shadow: none;
+      left: 250px;
+      &:before {
+        color: var(--red);
+      }
+      &.pt-icon-menu-open {
+        left: 0;
+      }
+    }
+  }
   & .area-sidebar {
     height: calc(100vh - var(--nav-height) - 34px);
     padding-top: calc(var(--nav-height) + 25px);
     position: relative;
+    width: 300px;
     & .sources .pt-select {
       margin-top: 5px;
     }
@@ -326,7 +346,7 @@
   }
   & .area-chart {
     height: calc(100vh - var(--nav-height) - 33px);
-    padding: 30px 25px 25px 0;
+    padding: 30px 25px 25px 25px;
     & .wrapper {
       padding: 0;
       &.single .chart-card .wrapper {
