@@ -4,6 +4,9 @@
   & .vizbuilder {
     padding-top: 0;
     height: calc(100vh - 34px);
+    & .area-middle {
+      display: none;
+    }
     & .area-sidebar, & .area-chart {
       height: calc(100vh - var(--nav-height) - 34px);
       padding-top: 0;
