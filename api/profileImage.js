@@ -17,7 +17,7 @@ module.exports = function(app) {
   const {db} = app.settings;
   const {parents} = app.settings.cache;
 
-  app.get("/api/profile/:pslug/:pid/:size", (req, res) => {
+  app.get("/api/profile/:pslug/:pid/:size", async(req, res) => {
     const {size, pid, pslug} = req.params;
 
     /** Sends the finally found image, and includes fallbacks */
@@ -34,73 +34,79 @@ module.exports = function(app) {
 
     }
 
-    db.search.findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}, dimension: slugMap[pslug]}})
-      .then(attr => {
-
-        if (!attr) sendImage(false);
-        else {
-
-          const {id, imageId} = attr;
-
-          if (!imageId) {
-
-            if (parents[pslug]) {
-
-              const ids = parents[pslug][id];
-
-              if (ids.length) {
-
-                db.search.findAll({where: {id: ids, dimension: slugMap[pslug]}})
-                  .then(parentAttrs => {
-                    const parentImage = parentAttrs
-                      .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-                      .find(p => p.imageId);
-                    sendImage(parentImage ? parentImage.imageId : false);
-                  })
-                  .catch(err => {
-                    console.error(`[api/profileImage] parent cache error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
-                    sendImage(false);
-                  });
-
-              }
-              else {
-                sendImage(false);
-              }
-
-            }
-            else if (pslug === "geo") {
-
-              axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}`)
-                .then(d => d.data.reverse())
-                .then(d => d.map(p => p.geoid))
-                .then(d => {
-                  const attrs = db.search.findAll({where: {id: d, dimension: slugMap[pslug]}}).catch(() => []);
-                  return Promise.all([d, attrs]);
-                })
-                .then(([ids, parentAttrs]) => {
-                  const parentImage = parentAttrs
-                    .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
-                    .find(p => p.imageId).imageId;
-                  sendImage(parentImage);
-                })
-                .catch(err => {
-                  console.error(`[api/profileImage] geoservice error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
-                  sendImage(false);
-                });
-
-            }
-            else sendImage(false);
-
-          }
-          else sendImage(imageId);
-
-        }
-
-      })
+    const attr = await db.search
+      .findOne({where: {[sequelize.Op.or]: {id: pid, slug: pid}, dimension: slugMap[pslug]}})
       .catch(err => {
         console.error(`[api/profileImage] search matching for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
-        sendImage(false);
+        return false;
       });
+
+    if (!attr) sendImage(false);
+    else {
+
+      const {id, imageId} = attr;
+
+      if (!imageId) {
+
+        if (parents[pslug]) {
+
+          const ids = parents[pslug][id];
+
+          if (ids.length) {
+
+            const imageId = await db.search
+              .findAll({where: {id: ids, dimension: slugMap[pslug]}})
+              .then(parentAttrs => {
+                const parentImage = parentAttrs
+                  .sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id))
+                  .find(p => p.imageId);
+                return parentImage ? parentImage.imageId : false;
+              })
+              .catch(err => {
+                console.error(`[api/profileImage] parent cache error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
+                return false;
+              });
+
+            sendImage(imageId);
+
+          }
+          else {
+            sendImage(false);
+          }
+
+        }
+        else if (pslug === "geo") {
+
+          const parents = axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}`)
+            .then(d => d.data.reverse())
+            .then(d => d.map(p => p.geoid))
+            .catch(err => {
+              console.error(`[api/profileImage] geoservice error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
+              return false;
+            });
+
+          if (parents) {
+
+            const parentAttrs = await db.search
+              .findAll({where: {id: parents, dimension: slugMap[pslug]}})
+              .catch(() => []);
+
+            const parentImage = parentAttrs
+              .sort((a, b) => parents.indexOf(a.id) - parents.indexOf(b.id))
+              .find(p => p.imageId).imageId;
+
+            sendImage(parentImage);
+
+          }
+          else sendImage(false);
+
+        }
+        else sendImage(false);
+
+      }
+      else sendImage(imageId);
+
+    }
 
   });
 
