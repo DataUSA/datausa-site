@@ -385,6 +385,7 @@ class Visualize extends Component {
           src={[cube]}
           defaultGroup={["Geography.State", "Origin State.Origin State", "Gender.Gender", "Age.Age"]}
           defaultMeasure="Total Population"
+          groupLimit={4}
           measureConfig={measureConfig}
           tableLogic={cubes => {
             const cube = cubes.find(d => d.name.match(/_1/));
