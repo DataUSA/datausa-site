@@ -21,10 +21,13 @@ module.exports = function(app) {
     const {size, pid, pslug} = req.params;
 
     /** Sends the finally found image, and includes fallbacks */
-    function sendImage(image) {
+    async function sendImage(image) {
 
       const id = image ? image : pslug === "university" ? "2032" : "1849";
-      if (size === "json") db.images.findOne({where: {id}}).then(resp => res.json(resp));
+      if (size === "json") {
+        const resp = await db.images.findOne({where: {id}});
+        res.json(resp);
+      }
       else {
         res.sendFile(`${process.cwd()}/static/images/profile/${size}/${id}.jpg`, err => {
           if (err) res.status(err.status);
@@ -77,7 +80,7 @@ module.exports = function(app) {
         }
         else if (pslug === "geo") {
 
-          const parents = axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}`)
+          const parents = await axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}?targetLevels=state,county,msa,puma,place`)
             .then(d => d.data.reverse())
             .then(d => d.map(p => p.geoid))
             .catch(err => {
@@ -93,9 +96,9 @@ module.exports = function(app) {
 
             const parentImage = parentAttrs
               .sort((a, b) => parents.indexOf(a.id) - parents.indexOf(b.id))
-              .find(p => p.imageId).imageId;
+              .find(p => p.imageId);
 
-            sendImage(parentImage);
+            sendImage(parentImage ? parentImage.imageId : false);
 
           }
           else sendImage(false);
