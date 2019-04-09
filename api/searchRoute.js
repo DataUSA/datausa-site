@@ -4,11 +4,11 @@ module.exports = function(app) {
 
   const {index, rows, totals} = app.settings.cache.searchIndex;
 
-  app.get("/api/search/totals", async(req, res) => {
+  app.get("/api/search/totals", (req, res) => {
     res.json(totals);
   });
 
-  app.get("/api/search", async(req, res) => {
+  app.get("/api/search", (req, res) => {
 
     let {limit = "10"} = req.query;
     limit = parseInt(limit, 10);

@@ -138,20 +138,20 @@ module.exports = function(app) {
   /* BEGIN PIECEMEAL CMS API GETS */
 
   app.get("/api/cms", (req, res) => {
-    res.json(cmsCheck()).end();
+    res.json(cmsCheck());
   });
 
   app.get("/api/cms/tree", (req, res) => {
     db.profiles.findAll(profileReqTreeOnly).then(profiles => {
       profiles = sortProfileTree(profiles);
-      res.json(profiles).end();
+      res.json(profiles);
     });
   });
 
   app.get("/api/cms/storytree", (req, res) => {
     db.stories.findAll(storyReqTreeOnly).then(stories => {
       stories = sortStoryTree(stories);
-      res.json(stories).end();
+      res.json(stories);
     });
   });
 
@@ -159,7 +159,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, profileReqProfileOnly, {where: {id}});
     db.profiles.findOne(reqObj).then(profile => {
-      res.json(sortProfile(profile)).end();
+      res.json(sortProfile(profile));
     });
   });
 
@@ -167,7 +167,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, storyReqStoryOnly, {where: {id}});
     db.stories.findOne(reqObj).then(story => {
-      res.json(sortStory(story)).end();
+      res.json(sortStory(story));
     });
   });
 
@@ -175,7 +175,7 @@ module.exports = function(app) {
     const {id} = req.params;
     const reqObj = Object.assign({}, sectionReqSectionOnly, {where: {id}});
     db.sections.findOne(reqObj).then(section => {
-      res.json(sortSection(section)).end();
+      res.json(sortSection(section));
     });
   });
 
@@ -190,7 +190,7 @@ module.exports = function(app) {
       });
       topic = sortTopic(topic);
       topic.types = topicTypes;
-      res.json(topic).end();
+      res.json(topic);
     });
   });
 
@@ -205,87 +205,87 @@ module.exports = function(app) {
       });
       storytopic = sortStoryTopic(storytopic);
       storytopic.types = topicTypes;
-      res.json(storytopic).end();
+      res.json(storytopic);
     });
   });
 
   app.get("/api/cms/generator/get/:id", (req, res) => {
-    db.generators.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.generators.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/materializer/get/:id", (req, res) => {
-    db.materializers.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.materializers.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/profile_stat/get/:id", (req, res) => {
-    db.profiles_stats.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.profiles_stats.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/profile_visualization/get/:id", (req, res) => {
     db.profiles_visualizations
       .findOne({where: {id: req.params.id}})
-      .then(u => res.json(u).end());
+      .then(u => res.json(u));
   });
 
   app.get("/api/cms/profile_description/get/:id", (req, res) => {
-    db.profiles_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.profiles_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/story_description/get/:id", (req, res) => {
-    db.stories_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.stories_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   // not sure if we need this - will footnote editing be a singular list, therefore not requiring piecemeal gets?
   app.get("/api/cms/story_footnote/get/:id", (req, res) => {
-    db.stories_footnotes.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.stories_footnotes.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/author/get/:id", (req, res) => {
-    db.authors.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.authors.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/section_subtitle/get/:id", (req, res) => {
-    db.sections_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.sections_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/section_description/get/:id", (req, res) => {
-    db.sections_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.sections_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/topic_subtitle/get/:id", (req, res) => {
-    db.topics_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.topics_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/topic_description/get/:id", (req, res) => {
-    db.topics_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.topics_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/topic_stat/get/:id", (req, res) => {
-    db.topics_stats.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.topics_stats.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/topic_visualization/get/:id", (req, res) => {
-    db.topics_visualizations.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.topics_visualizations.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/selector/get/:id", (req, res) => {
-    db.selectors.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.selectors.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/storytopic_subtitle/get/:id", (req, res) => {
-    db.storytopics_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.storytopics_subtitles.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/storytopic_description/get/:id", (req, res) => {
-    db.storytopics_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.storytopics_descriptions.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/storytopic_stat/get/:id", (req, res) => {
-    db.storytopics_stats.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.storytopics_stats.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   app.get("/api/cms/storytopic_visualization/get/:id", (req, res) => {
-    db.storytopics_visualizations.findOne({where: {id: req.params.id}}).then(u => res.json(u).end());
+    db.storytopics_visualizations.findOne({where: {id: req.params.id}}).then(u => res.json(u));
   });
 
   /* END PIECEMEAL CMS API GETS */
@@ -302,7 +302,7 @@ module.exports = function(app) {
     db.generators.findOne({where: {id: req.query.id}}).then(row => {
       db.generators.destroy({where: {id: req.query.id}}).then(() => {
         db.generators.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "name"]}).then(rows => {
-          res.json(rows).end();
+          res.json(rows);
         });
       });
     });
@@ -321,7 +321,7 @@ module.exports = function(app) {
       db.materializers.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.materializers.destroy({where: {id: req.query.id}}).then(() => {
           db.materializers.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering", "name"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -343,7 +343,7 @@ module.exports = function(app) {
         db.profiles.destroy({where: {id: req.query.id}}).then(() => {
           db.profiles.findAll(profileReqTreeOnly).then(profiles => {
             profiles = sortProfileTree(profiles);
-            res.json(profiles).end();
+            res.json(profiles);
           });
         });
       });
@@ -364,7 +364,7 @@ module.exports = function(app) {
         db.stories.destroy({where: {id: req.query.id}}).then(() => {
           db.stories.findAll(storyReqTreeOnly).then(stories => {
             stories = sortStoryTree(stories);
-            res.json(stories).end();
+            res.json(stories);
           });
         });
       });
@@ -384,7 +384,7 @@ module.exports = function(app) {
       db.authors.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.authors.destroy({where: {id: req.query.id}}).then(() => {
           db.authors.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -404,7 +404,7 @@ module.exports = function(app) {
       db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.profiles_descriptions.destroy({where: {id: req.query.id}}).then(() => {
           db.profiles_descriptions.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -424,7 +424,7 @@ module.exports = function(app) {
       db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.stories_descriptions.destroy({where: {id: req.query.id}}).then(() => {
           db.stories_descriptions.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -444,7 +444,7 @@ module.exports = function(app) {
       db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.stories_footnotes.destroy({where: {id: req.query.id}}).then(() => {
           db.stories_footnotes.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -471,7 +471,7 @@ module.exports = function(app) {
               {association: "topics", attributes: ["id", "title", "slug", "ordering", "section_id"]}
             ]
           }).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -491,7 +491,7 @@ module.exports = function(app) {
       db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.sections_subtitles.destroy({where: {id: req.query.id}}).then(() => {
           db.sections_subtitles.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -511,7 +511,7 @@ module.exports = function(app) {
       db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.sections_descriptions.destroy({where: {id: req.query.id}}).then(() => {
           db.sections_descriptions.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -531,7 +531,7 @@ module.exports = function(app) {
       db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics.destroy({where: {id: req.query.id}}).then(() => {
           db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id", "type"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -551,7 +551,7 @@ module.exports = function(app) {
       db.storytopics.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics.destroy({where: {id: req.query.id}}).then(() => {
           db.storytopics.findAll({where: {story_id: row.story_id}, attributes: ["id", "title", "slug", "ordering", "story_id", "type"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -571,7 +571,7 @@ module.exports = function(app) {
       db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
           db.topics_subtitles.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -591,7 +591,7 @@ module.exports = function(app) {
       db.storytopics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
           db.storytopics_subtitles.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -611,7 +611,7 @@ module.exports = function(app) {
       db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
           db.topics_descriptions.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -631,7 +631,7 @@ module.exports = function(app) {
       db.storytopics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
           db.storytopics_descriptions.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -651,7 +651,7 @@ module.exports = function(app) {
       db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.selectors.destroy({where: {id: req.query.id}}).then(() => {
           db.selectors.findAll({where: {topic_id: row.topic_id}, order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -671,7 +671,7 @@ module.exports = function(app) {
       db.profiles_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.profiles_stats.destroy({where: {id: req.query.id}}).then(() => {
           db.profiles_stats.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -691,7 +691,7 @@ module.exports = function(app) {
       db.topics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_stats.destroy({where: {id: req.query.id}}).then(() => {
           db.topics_stats.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -711,7 +711,7 @@ module.exports = function(app) {
       db.storytopics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_stats.destroy({where: {id: req.query.id}}).then(() => {
           db.storytopics_stats.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -731,7 +731,7 @@ module.exports = function(app) {
       db.profiles_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.profiles_visualizations.destroy({where: {id: req.query.id}}).then(() => {
           db.profiles_visualizations.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -751,7 +751,7 @@ module.exports = function(app) {
       db.topics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.topics_visualizations.destroy({where: {id: req.query.id}}).then(() => {
           db.topics_visualizations.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });
@@ -771,7 +771,7 @@ module.exports = function(app) {
       db.storytopics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
         db.storytopics_visualizations.destroy({where: {id: req.query.id}}).then(() => {
           db.storytopics_visualizations.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows).end();
+            res.json(rows);
           });
         });
       });

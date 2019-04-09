@@ -36,7 +36,7 @@ module.exports = function(app) {
         link: "http://www.infoworld.com/article/3051144/analytics/visualizing-data-that-matters.html",
         quote: "For years I've seen various attempts to aggregate public data relevant to key issues of the day and make them available on the Internet in interactive graphical form. The latest effort, launching today, looks promising: Data USA is a free and open platform created collaboratively by Deloitte, MIT Media Lab, and Datawheel, a Media Lab spinoff."
       }
-    ]).end();
+    ]);
   });
 
   app.get("/api/team", (req, res) => {
@@ -216,7 +216,7 @@ module.exports = function(app) {
           }
         ]
       }
-    ]).end();
+    ]);
   });
 
 };

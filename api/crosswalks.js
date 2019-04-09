@@ -44,7 +44,8 @@ module.exports = function(app) {
       else {
         cut = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
           .then(resp => resp.data)
-          .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid);
+          .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid)
+          .catch(() => "01000US");
         drilldown = level || "County";
       }
     }
@@ -85,7 +86,8 @@ module.exports = function(app) {
     else if (prefix === "310") {
       parent = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
         .then(resp => resp.data)
-        .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid);
+        .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid)
+        .catch(() => "01000US");
       level = "County";
     }
     else {
@@ -97,17 +99,15 @@ module.exports = function(app) {
 
   });
 
-  app.get("/api/cip/parent/:id/:level", (req, res) => {
+  app.get("/api/cip/parent/:id/:level", async(req, res) => {
 
     const {id, level} = req.params;
     const depth = parseInt(level.slice(3), 10);
     const parentId = id.slice(0, depth);
-    db.search
+    const cip = await db.search
       .findOne({where: {id: parentId, dimension: "CIP"}})
-      .then(cip => {
-        res.json(cip);
-      })
       .catch(err => res.json(err));
+    res.json(cip);
 
   });
 
@@ -115,10 +115,15 @@ module.exports = function(app) {
 
     const {limit, slug, urlId} = req.params;
 
-    const profile = await db.profiles.findOne({where: {slug}});
+    const profile = await db.profiles
+      .findOne({where: {slug}})
+      .catch(() => false);
+    if (!profile) res.json({error: "Not a valid profile type"});
+
     const {dimension} = profile;
 
-    const attr = await db.search.findOne({where: {[sequelize.Op.or]: {id: urlId, slug: urlId}, dimension}})
+    const attr = await db.search
+      .findOne({where: {[sequelize.Op.or]: {id: urlId, slug: urlId}, dimension}})
       .catch(err => res.json(err));
 
     if (!attr) res.json({error: "Not a valid ID"});
@@ -129,15 +134,20 @@ module.exports = function(app) {
 
       if (dimension === "Geography") {
         if (id === "01000US") {
-          const states = await axios.get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
+
+          const states = await axios
+            .get(`${CANON_API}/api/data?drilldowns=State&measure=Household%20Income%20by%20Race&Year=latest&order=Household%20Income%20by%20Race`)
             .then(resp => {
               const arr = resp.data.data;
               const l = Math.ceil(parseFloat(limit || 6) / 2);
               return arr.slice(0, l).concat(arr.slice(-l));
-            });
+            })
+            .catch(() => []);
+
           attrs = states.length ? await db.search
             .findAll({where: {id: states.map(d => d["ID State"]), dimension}})
-            .catch(err => res.json(err)) : [];
+            .catch(() => []) : [];
+
         }
         else {
           const prefix = id.slice(0, 3);
@@ -155,7 +165,7 @@ module.exports = function(app) {
 
           let ids = await axios.get(url)
             .then(resp => resp.data.map(d => d.geoid))
-            .catch(err => res.json(err));
+            .catch(() => []);
 
           ids.push("01000US");
 
@@ -163,11 +173,11 @@ module.exports = function(app) {
 
           attrs = await db.search
             .findAll({where: {id: ids, dimension}})
-            .catch(err => res.json(err));
+            .catch(() => []);
 
           const neighbors = ["160"].includes(prefix) ? [] : await axios.get(`${CANON_API}/api/neighbors?dimension=Geography&id=${id}`)
             .then(resp => resp.data.data)
-            .catch(err => res.json(err));
+            .catch(() => []);
 
           attrs = attrs.concat(neighbors)
             .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id)) === i);
@@ -180,23 +190,23 @@ module.exports = function(app) {
             .map(d => d.university);
           attrs = await db.search
             .findAll({where: {id: ids, dimension}})
-            .catch(err => res.json(err));
+            .catch(() => []);
         }
         else {
           attrs = await db.search
             .findAll({where: {dimension, hierarchy}})
-            .catch(err => res.json(err));
+            .catch(() => []);
         }
       }
       else {
 
         const parents = await axios.get(`${CANON_API}/api/parents/${slug}/${id}`)
           .then(resp => resp.data)
-          .catch(err => res.json(err));
+          .catch(() => []);
 
         attrs = parents.length ? await db.search
           .findAll({where: {id: parents.map(d => d.id), dimension}})
-          .catch(err => res.json(err)) : [];
+          .catch(() => []) : [];
 
         const measures = {
           "PUMS Occupation": "Average Wage",
@@ -206,11 +216,11 @@ module.exports = function(app) {
         };
         const neighbors = measures[dimension] ? await axios.get(`${CANON_API}/api/neighbors?dimension=${dimension}&id=${id}&measure=${measures[dimension]}`)
           .then(resp => resp.data.data.map(d => d[`ID ${hierarchy}`]))
-          .catch(err => res.json(err)) : [];
+          .catch(() => []) : [];
 
         const neighborAttrs = neighbors.length ? await db.search
           .findAll({where: {id: neighbors.filter(d => d !== id).map(String), dimension, hierarchy}})
-          .catch(err => res.json(err)) : [];
+          .catch(() => []) : [];
 
         attrs = attrs.concat(neighborAttrs)
           .filter((d, i, arr) => arr.indexOf(arr.find(a => a.id === d.id && a.hierarchy === d.hierarchy)) === i);
@@ -270,89 +280,105 @@ module.exports = function(app) {
    * 5 most specialized majors at University," requires that we construct an API request
    * WITH THOSE 5 MAJORS in the url. This crosswalk is responsible for constructing that request.
    */
-  app.get("/api/university/commonJobLookup/:id", (req, res) => {
+  app.get("/api/university/commonJobLookup/:id", async(req, res) => {
+
     const {id} = req.params;
+
     const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
-    axios.get(cipURL).then(resp => {
-      const CIP2 = resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join();
-      const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Total%20Population&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
-      axios.get(logicUrl).then(resp => {
-        const dedupedJobs = [];
-        const jobList = resp.data.data;
-        // The jobList has duplicates. For example, if a Biology Major becomes a Physician, and a separate
-        // Science major becomes a Physician, these are listed as separate data points. These must be folded
-        // together under one "Physician" to create an accurate picture of "jobs held by graduates with X degrees"
-        jobList.forEach(d => {
-          const thisJob = dedupedJobs.find(j => j["Detailed Occupation"] === d["Detailed Occupation"]);
-          if (thisJob) {
-            thisJob["Total Population"] += d["Total Population"];
-          }
-          else {
-            dedupedJobs.push(d);
-          }
-        });
-        dedupedJobs.sort((a, b) => b["Total Population"] - a["Total Population"]);
-        res.json({data: dedupedJobs.slice(0, 10)}).end();
-      });
+    const CIP2 = await axios.get(cipURL)
+      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+
+    const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Total%20Population&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
+    const jobList = await axios.get(logicUrl)
+      .then(resp => resp.data.data)
+      .catch(() => []);
+
+    const dedupedJobs = [];
+    // The jobList has duplicates. For example, if a Biology Major becomes a Physician, and a separate
+    // Science major becomes a Physician, these are listed as separate data points. These must be folded
+    // together under one "Physician" to create an accurate picture of "jobs held by graduates with X degrees"
+    jobList.forEach(d => {
+      const thisJob = dedupedJobs.find(j => j["Detailed Occupation"] === d["Detailed Occupation"]);
+      if (thisJob) {
+        thisJob["Total Population"] += d["Total Population"];
+      }
+      else {
+        dedupedJobs.push(d);
+      }
     });
+
+    dedupedJobs.sort((a, b) => b["Total Population"] - a["Total Population"]);
+    res.json({data: dedupedJobs.slice(0, 10)});
+
   });
 
   /**
    * To handle the sentence: "The highest paying jobs for people who hold a degree in one of the
    * 5 most specialized majors at University."
    */
-  app.get("/api/university/highestWageLookup/:id", (req, res) => {
+  app.get("/api/university/highestWageLookup/:id", async(req, res) => {
     const {id} = req.params;
+
     const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
-    axios.get(cipURL).then(resp => {
-      const CIP2 = resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join();
-      const logicUrl = `${CANON_API}/api/data?measures=Average%20Wage,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Average%20Wage&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
-      axios.get(logicUrl).then(resp => {
-        const dedupedWages = [];
-        const wageList = resp.data.data;
-        wageList.forEach(d => {
-          if (dedupedWages.length < 5 && !dedupedWages.find(w => w["Detailed Occupation"] === d["Detailed Occupation"])) dedupedWages.push(d);
-        });
-        res.json({data: dedupedWages.slice(0, 10)}).end();
-      });
+    const CIP2 = await axios.get(cipURL)
+      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+
+    const logicUrl = `${CANON_API}/api/data?measures=Average%20Wage,Record%20Count&year=latest&drilldowns=CIP2,Detailed%20Occupation&order=Average%20Wage&sort=desc&Workforce%20Status=true&Employment%20Time%20Status=1&Record%20Count%3E=5&CIP2=${CIP2}`;
+    const wageList = await axios.get(logicUrl)
+      .then(resp => resp.data.data);
+
+    const dedupedWages = [];
+    wageList.forEach(d => {
+      if (dedupedWages.length < 5 && !dedupedWages.find(w => w["Detailed Occupation"] === d["Detailed Occupation"])) dedupedWages.push(d);
     });
+
+    res.json({data: dedupedWages.slice(0, 10)});
+
   });
 
   /**
    * To handle the sentence: "The most common industries for people who hold a degree in one
    * of the 5 most specialized majors at University."
    */
-  app.get("/api/university/commonIndustryLookup/:id", (req, res) => {
+  app.get("/api/university/commonIndustryLookup/:id", async(req, res) => {
     const {id} = req.params;
+
     const cipURL = `${CANON_API}/api/data?University=${id}&measures=Completions,yuc%20RCA&year=latest&drilldowns=CIP2&order=yuc%20RCA&sort=desc`;
-    axios.get(cipURL).then(resp => {
-      const CIP2 = resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join();
-      const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Industry%20Group&order=Total%20Population&Workforce%20Status=true&Employment%20Time%20Status=1&sort=desc&Record%20Count>=5&CIP2=${CIP2}`;
-      axios.get(logicUrl).then(resp => {
-        const dedupedIndustries = [];
-        const industryList = resp.data.data;
-        // The industryList has duplicates. For example, if a Biology Major enters Biotech, and a separate
-        // Science major enters Biotech, these are listed as separate data points. These must be folded
-        // together under one "Biotech" to create an accurate picture of "industries entered by graduates with X degrees"
-        industryList.forEach(d => {
-          const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
-          if (thisIndustry) {
-            thisIndustry["Total Population"] += d["Total Population"];
-          }
-          else {
-            dedupedIndustries.push(d);
-          }
-        });
-        dedupedIndustries.sort((a, b) => b["Total Population"] - a["Total Population"]);
-        res.json({data: dedupedIndustries.slice(0, 10)}).end();
-      });
+    const CIP2 = await axios.get(cipURL)
+      .then(resp => resp.data.data.filter(ipedsPumsFilter).slice(0, 5).map(d => d["ID CIP2"]).join());
+
+    const logicUrl = `${CANON_API}/api/data?measures=Total%20Population,Record%20Count&year=latest&drilldowns=CIP2,Industry%20Group&order=Total%20Population&Workforce%20Status=true&Employment%20Time%20Status=1&sort=desc&Record%20Count>=5&CIP2=${CIP2}`;
+    const industryList = await axios.get(logicUrl)
+      .then(resp => resp.data.data);
+
+    const dedupedIndustries = [];
+    // The industryList has duplicates. For example, if a Biology Major enters Biotech, and a separate
+    // Science major enters Biotech, these are listed as separate data points. These must be folded
+    // together under one "Biotech" to create an accurate picture of "industries entered by graduates with X degrees"
+    industryList.forEach(d => {
+      const thisIndustry = dedupedIndustries.find(j => j["Industry Group"] === d["Industry Group"]);
+      if (thisIndustry) {
+        thisIndustry["Total Population"] += d["Total Population"];
+      }
+      else {
+        dedupedIndustries.push(d);
+      }
     });
+    dedupedIndustries.sort((a, b) => b["Total Population"] - a["Total Population"]);
+    res.json({data: dedupedIndustries.slice(0, 10)});
+
   });
 
   app.get("/api/parents/:slug/:id", async(req, res) => {
 
     const {slug, id} = req.params;
-    const {dimension} = await db.profiles.findOne({where: {slug}});
+
+    const profile = await db.profiles
+      .findOne({where: {slug}})
+      .catch(() => false);
+    if (!profile) res.json({error: "Not a valid profile type"});
+
+    const {dimension} = profile;
 
     const attr = await db.search
       .findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
@@ -377,17 +403,19 @@ module.exports = function(app) {
           ? `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}?targetLevels=${targetLevels}`
           : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${attr.id}`;
 
-        const parents = await axios.get(url).then(resp => resp.data);
+        const parents = await axios.get(url)
+          .then(resp => resp.data)
+          .catch(() => []);
         let ids = parents.map(d => d.geoid);
         if (cache.pops[attr.id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
         if (!ids.includes("01000US")) ids.unshift("01000US");
-        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
+        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}).catch(() => []) : [];
         res.json(attrs.sort((a, b) => geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy)));
       }
       else {
         const parents = cache.parents[slug] || {};
         const ids = parents[attr.id] || [];
-        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}) : [];
+        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}).catch(() => []) : [];
         res.json(attrs);
       }
     }
@@ -397,76 +425,92 @@ module.exports = function(app) {
   app.get("/api/neighbors", async(req, res) => {
 
     const {dimension, drilldowns, id, limit = 5} = req.query;
+    let {hierarchy} = req.query;
 
     if (dimension === "Geography") {
 
       const neighbors = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`)
         .then(resp => resp.data.map(d => d.geoid))
-        .catch(err => res.json(err));
+        .catch(() => []);
 
       const attrs = await db.search
         .findAll({where: {dimension, id: neighbors}})
-        .catch(err => res.json(err));
+        .catch(() => []);
 
       res.json({data: attrs});
 
     }
     else {
-      const attr = await db.search.findOne({where: {dimension, id}});
-      const {hierarchy} = attr;
 
-      req.query.limit = 10000;
-      const measure = req.query.measure || req.query.measures;
-      if (req.query.measure) {
-        req.query.measures = req.query.measure;
-        delete req.query.measure;
-      }
-      delete req.query.dimension;
-      delete req.query.id;
-      if (!req.query.order) {
-        req.query.order = measure.split(",")[0];
-        req.query.sort = "desc";
-      }
+      const where = {dimension, id};
+      if (hierarchy) where.hierarchy = hierarchy;
+      const attr = await db.search.findOne({where}).catch(() => false);
 
-      if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) req.query.Year = "latest";
-
-      if (!drilldowns) {
-        req.query.drilldowns = hierarchy;
-      }
-      else if (!drilldowns.includes(hierarchy)) {
-        req.query.drilldowns += `,${hierarchy}`;
-      }
-
-      const params = Object.entries(req.query).map(([key, val]) => `${key}=${val}`).join("&");
-      const logicUrl = `${CANON_API}/api/data?${params}`;
-
-      const resp = await axios.get(logicUrl)
-        .then(resp => resp.data);
-
-      if (resp.error) res.json(resp);
-
-      const list = resp.data;
-
-      const entry = list.find(d => d[`ID ${hierarchy}`] === id);
-      const index = list.indexOf(entry);
-      let data;
-
-      if (index <= limit / 2 + 1) {
-        data = list.slice(0, limit);
-      }
-      else if (index > list.length - limit / 2 - 1) {
-        data = list.slice(-limit);
-      }
+      if (!attr) res.json({error: "Not a valid attribute ID or dimension"});
       else {
-        const min = Math.ceil(index - limit / 2);
-        data = list.slice(min, min + limit);
+
+        if (!hierarchy) hierarchy = attr.hierarchy;
+
+        req.query.limit = 10000;
+        const measure = req.query.measure || req.query.measures;
+        if (req.query.measure) {
+          req.query.measures = req.query.measure;
+          delete req.query.measure;
+        }
+        delete req.query.dimension;
+        delete req.query.id;
+        if (!req.query.order) {
+          req.query.order = measure.split(",")[0];
+          req.query.sort = "desc";
+        }
+
+        if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) req.query.Year = "latest";
+
+        if (!drilldowns) {
+          req.query.drilldowns = hierarchy;
+        }
+        else if (!drilldowns.includes(hierarchy)) {
+          req.query.drilldowns += `,${hierarchy}`;
+        }
+
+        const query = Object.assign({}, req.query);
+        delete query.hierarchy;
+
+        const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
+        const logicUrl = `${CANON_API}/api/data?${params}`;
+
+        const resp = await axios.get(logicUrl)
+          .then(resp => resp.data)
+          .catch(error => ({error}));
+
+        if (resp.error) res.json(resp);
+        else {
+
+          const list = resp.data;
+
+          const entry = list.find(d => d[`ID ${hierarchy}`] === id);
+          const index = list.indexOf(entry);
+          let data;
+
+          if (index <= limit / 2 + 1) {
+            data = list.slice(0, limit);
+          }
+          else if (index > list.length - limit / 2 - 1) {
+            data = list.slice(-limit);
+          }
+          else {
+            const min = Math.ceil(index - limit / 2);
+            data = list.slice(min, min + limit);
+          }
+
+          data.forEach(d => {
+            d.Rank = list.indexOf(d) + 1;
+          });
+
+          res.json({data, source: resp.source});
+
+        }
       }
-
-      data.forEach(d => {
-        d.Rank = list.indexOf(d) + 1;
-      });
-
-      res.json({data, source: resp.source});
     }
 
   });

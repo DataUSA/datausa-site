@@ -14,7 +14,8 @@ module.exports = function(app) {
       .reduce((obj, d) => {
         obj[d.hierarchy] = d.dimension;
         return obj;
-      }, {});
+      }, {})
+      .catch(() => ({}));
 
     res.json(levels);
 
@@ -30,7 +31,8 @@ module.exports = function(app) {
         attributes: [[Sequelize.fn("DISTINCT", Sequelize.col("hierarchy")), "hierarchy"], "dimension"],
         where: {dimension}
       })
-      .map(d => d.hierarchy);
+      .map(d => d.hierarchy)
+      .catch(() => []);
 
     res.json(attrs);
 

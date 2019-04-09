@@ -68,7 +68,8 @@ module.exports = function(app) {
           url: `/profile/geo/${a.slug || a.id}`,
           image: `/api/profile/geo/${a.id}/thumb`
         }))
-      );
+      )
+      .catch(() => []);
 
     carousels.push({
       title: "Cities & Places",
@@ -93,7 +94,8 @@ module.exports = function(app) {
             url: `/profile/naics/${a.slug || a.id}`,
             image: `/api/profile/naics/${a.id}/thumb`
           }));
-      });
+      })
+      .catch(() => []);
 
     carousels.push({
       title: "Industries",
@@ -115,7 +117,8 @@ module.exports = function(app) {
           url: `/profile/soc/${a.slug || a.id}`,
           image: `/api/profile/soc/${a.id}/thumb`
         }))
-      );
+      )
+      .catch(() => []);
 
     carousels.push({
       title: "Jobs",
@@ -143,7 +146,8 @@ module.exports = function(app) {
           url: `/profile/university/${a.slug || a.id}`,
           image: `/api/profile/university/${a.id}/thumb`
         }))
-      );
+      )
+      .catch(() => []);
 
     carousels.push({
       title: "Universities",
@@ -165,7 +169,8 @@ module.exports = function(app) {
           url: `/profile/cip/${a.slug || a.id}`,
           image: `/api/profile/cip/${a.id}/thumb`
         }))
-      );
+      )
+      .catch(() => []);
 
     carousels.push({
       title: "Degrees",
@@ -227,7 +232,10 @@ module.exports = function(app) {
       ]
     });
 
-    const stories = await axios.get(`${CANON_API}/api/story`).then(resp => resp.data);
+    const stories = await axios.get(`${CANON_API}/api/story`)
+      .then(resp => resp.data)
+      .catch(() => []);
+
     carousels.push({
       title: "Latest Stories",
       icon: "/icons/sections/about.svg",
@@ -241,7 +249,7 @@ module.exports = function(app) {
       }))
     });
 
-    res.json(carousels).end();
+    res.json(carousels);
 
   });
 
