@@ -9,7 +9,7 @@ import {Tooltip2} from "@blueprintjs/labs";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
 import "@blueprintjs/table/dist/table.css";
 import axios from "axios";
-import {merge} from "d3-array";
+import {max, merge} from "d3-array";
 import {nest} from "d3-collection";
 import {formatAbbreviate} from "d3plus-format";
 import JSZip from "jszip";
@@ -310,7 +310,7 @@ class Cart extends Component {
 
   render() {
 
-    const {intro, loading, moe, progress, results, stickies, total} = this.state;
+    const {intro, loading, moe, progress, results, total} = this.state;
     const {cart, measures} = this.props;
 
     if (!cart || !results || loading) {
@@ -323,18 +323,19 @@ class Cart extends Component {
     }
 
     const showMOE = cart.settings.find(d => d.key === "showMOE").value;
+    const showID = cart.settings.find(d => d.key === "showID").value;
 
     const moes = Object.values(moe);
-    const columns = this.state.columns.filter(c => !moes.includes(c));
+    const columns = this.state.columns
+      .filter(c => !moes.includes(c) && (showID || !c.match(/^ID\s/)));
 
     const columnWidths = columns.map(key => {
-      if (key === "Year") return 60;
-      else if (key.includes("Year")) return 150;
-      else if (key.includes("ID ")) return 120;
+      if (key === "ID Geography") return 130;
+      else if (key.includes("ID ")) return max(key.split(" ").map(k => k.length * 10)) + 24;
       else if (key.includes("University") || key.includes("Insurance")) return 250;
-      else if (key.includes("Gender") || key.includes("Sex")) return 100;
-      else if (stickies.includes(key)) return 200;
-      else return 150;
+      else if (["Geography", "PUMS Industry", "PUMS Occupation", "CIP", "NAPCS"].includes(key)) return 200;
+      else if (["Gender", "Sex", "Race"].includes(key)) return 100;
+      else return max(key.split(" ").map(k => k.length * 10)) + 25;
     });
 
     const renderCell = (rowIndex, columnIndex) => {
@@ -405,7 +406,7 @@ class Cart extends Component {
             // numFrozenColumns={stickies.length}
             rowHeights={results.map(() => 30)}
             selectionModes={SelectionModes.NONE}>
-            { columns.map(c => <Column id={ c } key={ c } name={ c.indexOf("ID") === 0 ? `${c.replace("ID ", "")} ID` : c } renderCell={ renderCell } />) }
+            { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
           </Table>
         </div> }
       </div>;

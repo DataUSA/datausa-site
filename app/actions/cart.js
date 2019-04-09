@@ -4,7 +4,8 @@ import {assign} from "d3plus-common";
 const defaultCart = {
   settings: [
     {key: "pivotYear", value: true, label: "Pivot Years to Columns"},
-    {key: "showMOE", value: false, label: "Show Margin of Error"}
+    {key: "showMOE", value: false, label: "Show Margin of Error"},
+    {key: "showID", value: false, label: "Show ID Columns"}
   ],
   data: []
 };
@@ -21,6 +22,10 @@ export function fetchCart() {
     return localforage.getItem(cartKey)
       .then(cart => {
         if (!cart) cart = defaultCart;
+
+        // if new settings have been added, fold them in while preserving old settings
+        cart.settings = defaultCart.settings.map(def => cart.settings.find(p => p.key === def.key) || def);
+
         dispatch(updateCart(cart));
       });
 
