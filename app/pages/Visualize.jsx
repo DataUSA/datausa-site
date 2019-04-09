@@ -10,6 +10,7 @@ import {Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import "./Visualize.css";
 import {badMeasures} from "d3plus.js";
+import {titleCase} from "d3plus-text";
 import colors from "../../static/data/colors.json";
 import {Helmet} from "react-helmet";
 import {addToCart, removeFromCart} from "actions/cart";
@@ -245,7 +246,8 @@ class Visualize extends Component {
     if (vizbuilder !== prevProps.vizbuilder && !vizbuilder.load.inProgress) {
 
       const {list} = this.context.formatters;
-      const {query} = vizbuilder;
+      const {query, uiParams} = vizbuilder;
+      const {showConfidenceInt} = uiParams;
 
       const groups = query.groups.filter(d => d.key);
       const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
@@ -253,14 +255,28 @@ class Visualize extends Component {
         measures: [query.measure.name],
         drilldowns: groups.map(d => d.level.name)
       };
-      if (query.moe) params.measures.push(query.moe.name);
-      if (query.lci) params.measures.push(query.lci.name);
-      if (query.uci) params.measures.push(query.uci.name);
 
-      const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val.join(",")}`).join("&")}`;
+      groups.forEach(group => {
+        if (group.members.length) params[group.level.name] = group.members.map(m => m.key).join(",");
+      });
 
-      const queryTitle = `${query.measure.name}${params.drilldowns ? ` by ${list(params.drilldowns)}` : ""}`;
+      if (showConfidenceInt) {
+        if (query.moe) params.measures.push(query.moe.name);
+        if (query.lci) params.measures.push(query.lci.name);
+        if (query.uci) params.measures.push(query.uci.name);
+      }
 
+      const url = `/api/data?${Object.entries(params).map(([key, val]) => `${key}=${val}`).join("&")}`;
+
+      const byGroups = groups
+        .filter(group => !group.members.length)
+        .map(group => group.level.name);
+
+      const forGroups = groups
+        .filter(group => group.members.length)
+        .map(group => list(group.members.map(m => m.name)));
+
+      const queryTitle = titleCase(`${query.measure.name}${byGroups.length ? ` by ${list(byGroups)}` : ""}${forGroups.length ? ` for ${list(forGroups)}` : ""}`);
       const format = "function(d) { return d.data; }";
 
       this.props.updateTitle(queryTitle);
