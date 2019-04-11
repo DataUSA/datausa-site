@@ -28,9 +28,12 @@ module.exports = {
           );
 
           const bigGeos = ids.length ? onlyNation ? ids.every(g => g === "01000US") : ids.every(g => pops[g] && pops[g] >= 250000) : true;
-          const tracts = query.dimensions.filter(d => (d.relation || "").includes("Tract")).length;
+          const drilldowns = query.dimensions.filter(d => {
+            const relation = d.relation || "";
+            return relation.includes("Tract") || relation.includes("Place");
+          }).length;
 
-          return cubes.filter(cube => cube.name.match(bigGeos && !tracts ? /_1$/g : /_5$/g));
+          return cubes.filter(cube => cube.name.match(bigGeos && !drilldowns ? /_1$/g : /_5$/g));
 
         },
         key: cube => cube.name.replace("_c_", "_").replace(/_[0-9]$/g, "")
