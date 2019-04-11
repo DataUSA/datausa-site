@@ -223,7 +223,9 @@ module.exports = function(app) {
 
       const {id} = attribute;
       const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
-      const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`).then(resp => resp.data);
+      const image = await axios.get(`${origin}/api/profile/${slug}/${id}/json`)
+        .then(resp => resp.data)
+        .catch(() => ({}));
 
       /* The following Promises, as opposed to being nested, are run sequentially.
       * Each one returns a new promise, whose response is then handled in the following block
