@@ -36,11 +36,12 @@
     & .section-content {
       display: flex;
       flex-direction: row;
+      width: 100%;
       & .section-description {
         color: var(--darkgray);
         columns: 320px auto;
         column-gap: 20px;
-        flex: 2;
+        flex: 2 1 auto;
         font-family: "Palanquin", sans-serif;
         font-size: 17px;
         font-weight: 400;
@@ -48,6 +49,7 @@
         margin: 3px auto 12px;
         max-width: 1200px;
         opacity: 0.9;
+        width: 100%;
         & a {
           color: #32415A;
           text-decoration: underline;

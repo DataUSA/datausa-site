@@ -191,7 +191,7 @@
     width: 100%;
     & .SectionIcon {
       color: white;
-      flex: 1;
+      flex: 1 1 100%;
       font-family: "Palanquin", sans-serif;
       font-size: 10px;
       font-weight: 400;

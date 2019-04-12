@@ -2,6 +2,6 @@
   display: flex;
   flex-direction: column;
   & .d3plus {
-    flex: 1;
+    flex: 1 1 auto;
   }
 }
