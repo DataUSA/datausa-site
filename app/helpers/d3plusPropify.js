@@ -1,7 +1,7 @@
 import {assign} from "d3plus-common";
 import {parse} from "utils/FUNC";
 
-export default (logic, formatters = {}, variables = {}) => {
+export default (logic, formatters = {}, variables = {}, id = false) => {
 
   let config;
   // The logic provided might be malformed. Wrap it in a try/catch to be sure we don't
@@ -11,7 +11,7 @@ export default (logic, formatters = {}, variables = {}) => {
   }
   // If the javascript fails, return a special error object for the front-end to use.
   catch (e) {
-    console.log(`Parsing Error in propify: ${e}`);
+    console.log(`Parsing Error in propify${id !== false ? ` (${id})` : ""}: ${e}`);
     return {error: `${e}`};
   }
 
