@@ -78,6 +78,7 @@
     z-index: 1;
     & .pt-input-group {
       border-radius: 0;
+      display: flex;
       & .pt-icon {
         color: var(--red);
         font-size: 21px;
@@ -88,12 +89,14 @@
         background-color: rgba(255, 255, 255, 1);
         border-radius: 0;
         box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+        flex: 1 1 auto;
         font-family: "Palanquin", sans-serif;
         font-size: 19px;
         font-weight: 400;
         height: var(--home-search-height);
         line-height: 40px;
         padding-left: 37px;
+        width: auto;
       }
       & .pt-button {
         background: var(--red);
@@ -107,6 +110,7 @@
         height: var(--home-search-height);
         line-height: 40px;
         margin: 0;
+        position: relative;
         width: 100px;
       }
     }
