@@ -136,7 +136,7 @@
           display: flex;
           font-size: 12px;
           line-height: 1.1;
-          margin: 3px 0;
+          margin: 5px 0;
           & a {
             color: inherit !important;
             display: inline-block;
@@ -152,7 +152,7 @@
         align-items: center;
         color: var(--dark);
         display: flex;
-        margin: 10px 0;
+        margin: 15px 0;
         width: 100%;
         & a {
           color: inherit !important;
@@ -219,6 +219,7 @@
 }
 
 #Data {
+  padding: 35px 50px 50px;
   & button {
     align-items: center;
     background: none;
