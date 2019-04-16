@@ -40,7 +40,7 @@ class Home extends Component {
         </select> */}
 
         <Search
-          buttonLink="/search"
+          buttonLink="/search/"
           className="home-search"
           placeholder="ex. California, Hospitals, Graphic Design"
           primary={true}

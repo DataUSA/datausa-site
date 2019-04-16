@@ -32,15 +32,21 @@ class SearchPage extends Component {
 
   constructor(props) {
     super(props);
-    const {dimension, hierarchy} = this.props.router.location.query;
+    const {dimension, hierarchy, q} = this.props.router.location.query;
     let url = rawUrl;
     if (dimension) url += `&dimension=${dimension}`;
     if (hierarchy) url += `&hierarchy=${hierarchy}`;
     this.state = {
       dimension,
+      defaultQuery: q,
       hierarchy,
+      query: "",
       url
     };
+  }
+
+  setQuery(query) {
+    this.setState({query});
   }
 
   setDimension(dimension) {
@@ -62,12 +68,13 @@ class SearchPage extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {dimension, hierarchy} = this.state;
+    const {dimension, hierarchy, query} = this.state;
     const {router} = this.props;
-    if (dimension !== prevState.dimension || hierarchy !== prevState.hierarchy) {
+    if (dimension !== prevState.dimension || hierarchy !== prevState.hierarchy || query !== prevState.query) {
       const {basename, pathname} = router.location;
       let url = `${basename}${pathname}`;
-      if (dimension) url += `?dimension=${dimension}`;
+      url += `?q=${query}`;
+      if (dimension) url += `&dimension=${dimension}`;
       if (hierarchy) url += `&hierarchy=${hierarchy}`;
       router.replace(url);
     }
@@ -76,12 +83,14 @@ class SearchPage extends Component {
   render() {
 
     const {totals} = this.props;
-    const {dimension, hierarchy, url} = this.state;
+    const {defaultQuery, dimension, hierarchy, url} = this.state;
 
     return (
       <div id="SearchPage">
         <Search
           limit={100}
+          onChange={this.setQuery.bind(this)}
+          defaultQuery={defaultQuery}
           placeholder={ "Find a profile..." }
           primary={ true }
           resultRender={d => <Link to={`/profile/${d.profile}/${d.slug || d.id}`}>

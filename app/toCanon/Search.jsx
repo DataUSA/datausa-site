@@ -16,13 +16,13 @@ class Search extends Component {
       active: false,
       id: uuid(),
       results: [],
-      userQuery: ""
+      userQuery: props.defaultQuery
     };
   }
 
   onChange(e) {
 
-    const userQuery = e ? e.target.value : "";
+    const userQuery = e ? e.target.value : this.state.userQuery;
     const {onChange, searchEmpty, url}  = this.props;
     if (onChange) onChange(userQuery);
 
@@ -149,7 +149,7 @@ class Search extends Component {
         { InactiveComponent && <InactiveComponent active={ active } onClick={ this.onToggle.bind(this) } /> }
         <div className={ `pt-input-group pt-fill ${ active ? "active" : "" }` }>
           { icon && <span className="pt-icon pt-icon-search"></span> }
-          <input type="text" className="pt-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} />
+          <input type="text" className="pt-input" ref={ input => this.input = input } onChange={ this.onChange.bind(this) } onFocus={ this.onFocus.bind(this) } placeholder={placeholder} defaultValue={userQuery} />
           { buttonLink && <a href={ `${buttonLink}?q=${userQuery}` } className="pt-button">{ buttonText }</a> }
         </div>
         { searchEmpty || active && userQuery.length
@@ -177,6 +177,7 @@ Search.defaultProps = {
   buttonLink: false,
   buttonText: "Search",
   className: "search",
+  defaultQuery: "",
   icon: "search",
   inactiveComponent: false,
   placeholder: "Search",
