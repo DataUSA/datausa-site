@@ -407,382 +407,342 @@ module.exports = function(app) {
 
   // testme
   app.delete("/api/cms/profile_description/delete", isEnabled, async(req, res) => {
-    db.profiles_descriptions.findOne({where: {id: req.query.id}}).then(row => {
-      db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.profiles_descriptions.destroy({where: {id: req.query.id}}).then(() => {
-          db.profiles_descriptions.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.profiles_descriptions.findOne({where: {id: req.query.id}});
+    const up = await db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.profiles_descriptions.destroy({where: {id: req.query.id}});
+    const rows = await db.profiles_descriptions.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/story_description/update", isEnabled, async(req, res) => {
-    db.stories_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.stories_descriptions.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/story_description/new", isEnabled, async(req, res) => {
-    db.stories_descriptions.create(req.body).then(u => res.json(u));
+    const u = await db.stories_descriptions.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/story_description/delete", isEnabled, async(req, res) => {
-    db.stories_descriptions.findOne({where: {id: req.query.id}}).then(row => {
-      db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.stories_descriptions.destroy({where: {id: req.query.id}}).then(() => {
-          db.stories_descriptions.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.stories_descriptions.findOne({where: {id: req.query.id}});
+    const up = await db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.stories_descriptions.destroy({where: {id: req.query.id}});
+    const rows = await db.stories_descriptions.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/story_footnote/update", isEnabled, async(req, res) => {
-    db.stories_footnotes.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.stories_footnotes.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/story_footnote/new", isEnabled, async(req, res) => {
-    db.stories_footnotes.create(req.body).then(u => res.json(u));
+    const u = await db.stories_footnotes.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/story_footnote/delete", isEnabled, async(req, res) => {
-    db.stories_footnotes.findOne({where: {id: req.query.id}}).then(row => {
-      db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.stories_footnotes.destroy({where: {id: req.query.id}}).then(() => {
-          db.stories_footnotes.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.stories_footnotes.findOne({where: {id: req.query.id}});
+    const up = await db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.stories_footnotes.destroy({where: {id: req.query.id}});
+    const rows = await db.stories_footnotes.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/section/update", isEnabled, async(req, res) => {
-    db.sections.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.sections.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/section/new", isEnabled, async(req, res) => {
-    db.sections.create(req.body).then(u => res.json(u));
+    const u = await db.sections.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/section/delete", isEnabled, async(req, res) => {
-    db.sections.findOne({where: {id: req.query.id}}).then(row => {
-      db.sections.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.sections.destroy({where: {id: req.query.id}}).then(() => {
-          db.sections.findAll({
-            where: {profile_id: row.profile_id},
-            attributes: ["id", "title", "slug", "ordering", "profile_id"],
-            order: [["ordering", "ASC"]],
-            include: [
-              {association: "topics", attributes: ["id", "title", "slug", "ordering", "section_id"]}
-            ]
-          }).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
+    const row = await db.sections.findOne({where: {id: req.query.id}});
+    const up = await db.sections.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.sections.destroy({where: {id: req.query.id}});
+    const rows = await db.sections.findAll({
+      where: {profile_id: row.profile_id},
+      attributes: ["id", "title", "slug", "ordering", "profile_id"],
+      order: [["ordering", "ASC"]],
+      include: [
+        {association: "topics", attributes: ["id", "title", "slug", "ordering", "section_id"]}
+      ]
     });
+    res.json(rows);
   });
 
   app.post("/api/cms/section_subtitle/update", isEnabled, async(req, res) => {
-    db.sections_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.sections_subtitles.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/section_subtitle/new", isEnabled, async(req, res) => {
-    db.sections_subtitles.create(req.body).then(u => res.json(u));
+    const u = await db.sections_subtitles.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/section_subtitle/delete", isEnabled, async(req, res) => {
-    db.sections_subtitles.findOne({where: {id: req.query.id}}).then(row => {
-      db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.sections_subtitles.destroy({where: {id: req.query.id}}).then(() => {
-          db.sections_subtitles.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.sections_subtitles.findOne({where: {id: req.query.id}});
+    const up = await db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.sections_subtitles.destroy({where: {id: req.query.id}});
+    const rows = await db.sections_subtitles.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/section_description/update", isEnabled, async(req, res) => {
-    db.sections_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.sections_descriptions.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/section_description/new", isEnabled, async(req, res) => {
-    db.sections_descriptions.create(req.body).then(u => res.json(u));
+    const u = await db.sections_descriptions.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/section_description/delete", isEnabled, async(req, res) => {
-    db.sections_descriptions.findOne({where: {id: req.query.id}}).then(row => {
-      db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.sections_descriptions.destroy({where: {id: req.query.id}}).then(() => {
-          db.sections_descriptions.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.sections_descriptions.findOne({where: {id: req.query.id}});
+    const up = await db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.sections_descriptions.destroy({where: {id: req.query.id}});
+    const rows = await db.sections_descriptions.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/topic/update", isEnabled, async(req, res) => {
-    db.topics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.topics.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/topic/new", isEnabled, async(req, res) => {
-    db.topics.create(req.body).then(u => res.json(u));
+    const u = await db.topics.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/topic/delete", isEnabled, async(req, res) => {
-    db.topics.findOne({where: {id: req.query.id}}).then(row => {
-      db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.topics.destroy({where: {id: req.query.id}}).then(() => {
-          db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id", "type"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.topics.findOne({where: {id: req.query.id}});
+    const up = await db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.topics.destroy({where: {id: req.query.id}});
+    const rows = await db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id", "type"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/storytopic/update", isEnabled, async(req, res) => {
-    db.storytopics.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.storytopics.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/storytopic/new", isEnabled, async(req, res) => {
-    db.storytopics.create(req.body).then(u => res.json(u));
+    const u = await db.storytopics.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/storytopic/delete", isEnabled, async(req, res) => {
-    db.storytopics.findOne({where: {id: req.query.id}}).then(row => {
-      db.storytopics.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.storytopics.destroy({where: {id: req.query.id}}).then(() => {
-          db.storytopics.findAll({where: {story_id: row.story_id}, attributes: ["id", "title", "slug", "ordering", "story_id", "type"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.storytopics.findOne({where: {id: req.query.id}});
+    const up = await db.storytopics.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.storytopics.destroy({where: {id: req.query.id}});
+    const rows = await db.storytopics.findAll({where: {story_id: row.story_id}, attributes: ["id", "title", "slug", "ordering", "story_id", "type"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/topic_subtitle/update", isEnabled, async(req, res) => {
-    db.topics_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.topics_subtitles.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/topic_subtitle/new", isEnabled, async(req, res) => {
-    db.topics_subtitles.create(req.body).then(u => res.json(u));
+    const u = await db.topics_subtitles.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/topic_subtitle/delete", isEnabled, async(req, res) => {
-    db.topics_subtitles.findOne({where: {id: req.query.id}}).then(row => {
-      db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.topics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
-          db.topics_subtitles.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.topics_subtitles.findOne({where: {id: req.query.id}});
+    const up = await db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.topics_subtitles.destroy({where: {id: req.query.id}});
+    const rows = await db.topics_subtitles.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/storytopic_subtitle/update", isEnabled, async(req, res) => {
-    db.storytopics_subtitles.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.storytopics_subtitles.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/storytopic_subtitle/new", isEnabled, async(req, res) => {
-    db.storytopics_subtitles.create(req.body).then(u => res.json(u));
+    const u = await db.storytopics_subtitles.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/storytopic_subtitle/delete", isEnabled, async(req, res) => {
-    db.storytopics_subtitles.findOne({where: {id: req.query.id}}).then(row => {
-      db.storytopics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.storytopics_subtitles.destroy({where: {id: req.query.id}}).then(() => {
-          db.storytopics_subtitles.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.storytopics_subtitles.findOne({where: {id: req.query.id}});
+    const up = await db.storytopics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.storytopics_subtitles.destroy({where: {id: req.query.id}});
+    const rows = await db.storytopics_subtitles.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/topic_description/update", isEnabled, async(req, res) => {
-    db.topics_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.topics_descriptions.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/topic_description/new", isEnabled, async(req, res) => {
-    db.topics_descriptions.create(req.body).then(u => res.json(u));
+    const u = await db.topics_descriptions.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/topic_description/delete", isEnabled, async(req, res) => {
-    db.topics_descriptions.findOne({where: {id: req.query.id}}).then(row => {
-      db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.topics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
-          db.topics_descriptions.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.topics_descriptions.findOne({where: {id: req.query.id}});
+    const up = await db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.topics_descriptions.destroy({where: {id: req.query.id}});
+    const rows = await db.topics_descriptions.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/storytopic_description/update", isEnabled, async(req, res) => {
-    db.storytopics_descriptions.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.storytopics_descriptions.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/storytopic_description/new", isEnabled, async(req, res) => {
-    db.storytopics_descriptions.create(req.body).then(u => res.json(u));
+    const u = await db.storytopics_descriptions.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/storytopic_description/delete", isEnabled, async(req, res) => {
-    db.storytopics_descriptions.findOne({where: {id: req.query.id}}).then(row => {
-      db.storytopics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.storytopics_descriptions.destroy({where: {id: req.query.id}}).then(() => {
-          db.storytopics_descriptions.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.storytopics_descriptions.findOne({where: {id: req.query.id}});
+    const up = await db.storytopics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.storytopics_descriptions.destroy({where: {id: req.query.id}});
+    const rows = await db.storytopics_descriptions.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/selector/update", isEnabled, async(req, res) => {
-    db.selectors.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.selectors.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/selector/new", isEnabled, async(req, res) => {
-    db.selectors.create(req.body).then(u => res.json(u));
+    const u = await db.selectors.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/selector/delete", isEnabled, async(req, res) => {
-    db.selectors.findOne({where: {id: req.query.id}}).then(row => {
-      db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.selectors.destroy({where: {id: req.query.id}}).then(() => {
-          db.selectors.findAll({where: {topic_id: row.topic_id}, order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.selectors.findOne({where: {id: req.query.id}});
+    const up = await db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.selectors.destroy({where: {id: req.query.id}});
+    const rows = await db.selectors.findAll({where: {topic_id: row.topic_id}, order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/profile_stat/update", isEnabled, async(req, res) => {
-    db.profiles_stats.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.profiles_stats.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/profile_stat/new", isEnabled, async(req, res) => {
-    db.profiles_stats.create(req.body).then(u => res.json(u));
+    const u = await db.profiles_stats.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/profile_stat/delete", isEnabled, async(req, res) => {
-    db.profiles_stats.findOne({where: {id: req.query.id}}).then(row => {
-      db.profiles_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.profiles_stats.destroy({where: {id: req.query.id}}).then(() => {
-          db.profiles_stats.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.profiles_stats.findOne({where: {id: req.query.id}});
+    const up = await db.profiles_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.profiles_stats.destroy({where: {id: req.query.id}});
+    const rows = await db.profiles_stats.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/topic_stat/update", isEnabled, async(req, res) => {
-    db.topics_stats.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.topics_stats.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/topic_stat/new", isEnabled, async(req, res) => {
-    db.topics_stats.create(req.body).then(u => res.json(u));
+    const u = await db.topics_stats.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/topic_stat/delete", isEnabled, async(req, res) => {
-    db.topics_stats.findOne({where: {id: req.query.id}}).then(row => {
-      db.topics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.topics_stats.destroy({where: {id: req.query.id}}).then(() => {
-          db.topics_stats.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.topics_stats.findOne({where: {id: req.query.id}});
+    const up = await db.topics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.topics_stats.destroy({where: {id: req.query.id}});
+    const rows = await db.topics_stats.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/storytopic_stat/update", isEnabled, async(req, res) => {
-    db.storytopics_stats.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.storytopics_stats.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/storytopic_stat/new", isEnabled, async(req, res) => {
-    db.storytopics_stats.create(req.body).then(u => res.json(u));
+    const u = await db.storytopics_stats.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/storytopic_stat/delete", isEnabled, async(req, res) => {
-    db.storytopics_stats.findOne({where: {id: req.query.id}}).then(row => {
-      db.storytopics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.storytopics_stats.destroy({where: {id: req.query.id}}).then(() => {
-          db.storytopics_stats.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.storytopics_stats.findOne({where: {id: req.query.id}});
+    const up = await db.storytopics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.storytopics_stats.destroy({where: {id: req.query.id}});
+    const rows = await db.storytopics_stats.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/profile_visualization/update", isEnabled, async(req, res) => {
-    db.profiles_visualizations.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.profiles_visualizations.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/profile_visualization/new", isEnabled, async(req, res) => {
-    db.profiles_visualizations.create(req.body).then(u => res.json(u));
+    const u = await db.profiles_visualizations.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/profile_visualization/delete", isEnabled, async(req, res) => {
-    db.profiles_visualizations.findOne({where: {id: req.query.id}}).then(row => {
-      db.profiles_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.profiles_visualizations.destroy({where: {id: req.query.id}}).then(() => {
-          db.profiles_visualizations.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.profiles_visualizations.findOne({where: {id: req.query.id}});
+    const up = await db.profiles_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.profiles_visualizations.destroy({where: {id: req.query.id}});
+    const rows = await db.profiles_visualizations.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/topic_visualization/update", isEnabled, async(req, res) => {
-    db.topics_visualizations.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.topics_visualizations.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/topic_visualization/new", isEnabled, async(req, res) => {
-    db.topics_visualizations.create(req.body).then(u => res.json(u));
+    const u = await db.topics_visualizations.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/topic_visualization/delete", isEnabled, async(req, res) => {
-    db.topics_visualizations.findOne({where: {id: req.query.id}}).then(row => {
-      db.topics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.topics_visualizations.destroy({where: {id: req.query.id}}).then(() => {
-          db.topics_visualizations.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.topics_visualizations.findOne({where: {id: req.query.id}});
+    const up = await db.topics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.topics_visualizations.destroy({where: {id: req.query.id}});
+    const rows = await db.topics_visualizations.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
   app.post("/api/cms/storytopic_visualization/update", isEnabled, async(req, res) => {
-    db.storytopics_visualizations.update(req.body, {where: {id: req.body.id}}).then(u => res.json(u));
+    const u = await db.storytopics_visualizations.update(req.body, {where: {id: req.body.id}});
+    res.json(u);
   });
 
   app.post("/api/cms/storytopic_visualization/new", isEnabled, async(req, res) => {
-    db.storytopics_visualizations.create(req.body).then(u => res.json(u));
+    const u = await db.storytopics_visualizations.create(req.body);
+    res.json(u);
   });
 
   app.delete("/api/cms/storytopic_visualization/delete", isEnabled, async(req, res) => {
-    db.storytopics_visualizations.findOne({where: {id: req.query.id}}).then(row => {
-      db.storytopics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).then(() => {
-        db.storytopics_visualizations.destroy({where: {id: req.query.id}}).then(() => {
-          db.storytopics_visualizations.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).then(rows => {
-            res.json(rows);
-          });
-        });
-      });
-    });
+    const row = await db.storytopics_visualizations.findOne({where: {id: req.query.id}});
+    const up = await db.storytopics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}});
+    const del = await db.storytopics_visualizations.destroy({where: {id: req.query.id}});
+    const rows = await db.storytopics_visualizations.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]});
+    res.json(rows);
   });
 
 };
