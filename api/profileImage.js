@@ -1,7 +1,7 @@
 const axios = require("axios"),
       sequelize = require("sequelize");
 
-const {CANON_LOGICLAYER_CUBE} = process.env;
+const {CANON_API} = process.env;
 
 const slugMap = {
   cip: "CIP",
@@ -30,7 +30,7 @@ module.exports = function(app) {
       }
       else {
         res.sendFile(`${process.cwd()}/static/images/profile/${size}/${id}.jpg`, err => {
-          if (err) res.status(err.status);
+          if (err && err.status) res.status(err.status);
           res.end();
         });
       }
@@ -80,11 +80,10 @@ module.exports = function(app) {
         }
         else if (pslug === "geo") {
 
-          const parents = await axios.get(`${CANON_LOGICLAYER_CUBE}geoservice-api/relations/parents/${attr.id}?targetLevels=state,county,msa,puma,place`)
-            .then(d => d.data.reverse())
-            .then(d => d.map(p => p.geoid))
+          const parents = await axios.get(`${CANON_API}/api/parents/geo/${id}`)
+            .then(d => d.data.reverse().map(p => p.id))
             .catch(err => {
-              console.error(`[api/profileImage] geoservice error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
+              console.error(`[api/profileImage] geo parents error for ${pslug}/${pid}: (${err.status ? `${err.status} - ` : ""}${err.message})}`);
               return false;
             });
 
