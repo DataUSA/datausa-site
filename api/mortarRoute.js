@@ -1,4 +1,5 @@
 const FUNC = require("../utils/FUNC"),
+      PromiseThrottle = require("promise-throttle"),
       axios = require("axios"),
       libs = require("../utils/libs"), // leave this! needed for the variable functions
       mortarEval = require("../utils/mortarEval"),
@@ -8,6 +9,11 @@ const FUNC = require("../utils/FUNC"),
       yn = require("yn");
 
 const verbose = yn(process.env.CANON_CMS_LOGGING);
+
+const throttle = new PromiseThrottle({
+  requestsPerSecond: 10,
+  promiseImplementation: Promise
+});
 
 const searchMap = {
   cip: "CIP",
@@ -124,6 +130,24 @@ module.exports = function(app) {
 
     if (verbose) console.log("\n\nVariable Endpoint:", `/api/variables/${slug}/${id}`);
 
+    /** */
+    function createGeneratorFetch(r, attr) {
+      let url = urlSwap(r, {...req.params, ...cache, ...attr});
+      if (url.indexOf("http") !== 0) {
+        const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
+        url = `${origin}${url.indexOf("/") === 0 ? "" : "/"}${url}`;
+      }
+      return axios.get(url)
+        .then(resp => {
+          if (verbose) console.log("Variable Loaded:", url);
+          return resp;
+        })
+        .catch(() => {
+          if (verbose) console.log("Variable Error:", url);
+          return {};
+        });
+    }
+
     // Begin by fetching the profile by slug, and all the generators that belong to that profile
     /* Potential TODO here: Later in this function we manually get generators and materializers.
      * Maybe refactor this to get them immediately in the profile get using include.
@@ -146,23 +170,7 @@ module.exports = function(app) {
 
       // Generators use <id> as a placeholder. Replace instances of <id> with the provided id from the URL
       // The .catch here is to handle malformed API urls, returning an empty object
-      const fetches = requests.map(r => {
-        let url = urlSwap(r, {...req.params, ...cache, ...attr});
-        if (url.indexOf("http") !== 0) {
-          const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
-          url = `${origin}${url.indexOf("/") === 0 ? "" : "/"}${url}`;
-        }
-        return axios.get(url)
-          .then(resp => {
-            if (verbose) console.log("Variable Loaded:", url);
-            return resp;
-          })
-          .catch(() => {
-            if (verbose) console.log("Variable Error:", url);
-            return {};
-          });
-      });
-
+      const fetches = requests.map(r => throttle.add(createGeneratorFetch.bind(this, r, attr)));
       const results = await Promise.all(fetches);
 
       // Given a profile id, its generators, their API endpoints, and the responses of those endpoints,
