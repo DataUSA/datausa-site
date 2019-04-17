@@ -120,7 +120,6 @@ module.exports = function(app) {
 
   app.get("/api/variables/:slug/:id", async(req, res) => {
 
-    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, id} = req.params;
 
     if (verbose) console.log("\n\nVariable Endpoint:", `/api/variables/${slug}/${id}`);
@@ -202,7 +201,7 @@ module.exports = function(app) {
       }, returnVariables);
       returnVariables._matStatus = matStatus;
 
-      return res.json(returnVariables);
+      res.json(returnVariables);
 
     }
 
@@ -214,7 +213,6 @@ module.exports = function(app) {
   */
   app.get("/api/profile/:slug/:pid", async(req, res) => {
 
-    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, pid} = req.params;
 
     const attribute = await db.search.findOne({where: {dimension: searchMap[slug], [sequelize.Op.or]: {id: pid, slug: pid}}});
@@ -279,7 +277,6 @@ module.exports = function(app) {
   // Endpoint for when a user selects a new dropdown for a topic, requiring new variables
   app.get("/api/topic/:slug/:pid/:topicId", async(req, res) => {
 
-    req.setTimeout(1000 * 60 * 30); // 30 minute timeout for non-cached cube queries
     const {slug, pid, topicId} = req.params;
     const origin = `http${ req.connection.encrypted ? "s" : "" }://${ req.headers.host }`;
 
