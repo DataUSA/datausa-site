@@ -312,10 +312,9 @@ module.exports = function(app) {
     res.json(u);
   });
 
-  // testme
   app.delete("/api/cms/generator/delete", isEnabled, async(req, res) => {
     const row = await db.generators.findOne({where: {id: req.query.id}}).catch(catcher);
-    const del = await db.generators.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.generators.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.generators.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "name"]}).catch(catcher);
     res.json(rows);
   });
@@ -330,11 +329,10 @@ module.exports = function(app) {
     res.json(u);
   });
 
-  // testme
   app.delete("/api/cms/materializer/delete", isEnabled, async(req, res) => {
     const row = await db.materializers.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.materializers.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.materializers.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.materializers.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.materializers.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.materializers.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering", "name"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -349,11 +347,10 @@ module.exports = function(app) {
     res.json(u);
   });
 
-  // testme
   app.delete("/api/cms/profile/delete", isEnabled, async(req, res) => {
     const row = await db.profiles.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.profiles.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.profiles.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.profiles.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.profiles.destroy({where: {id: req.query.id}}).catch(catcher);
     let profiles = await db.profiles.findAll(profileReqTreeOnly).catch(catcher);
     profiles = sortProfileTree(profiles);
     res.json(profiles);
@@ -369,11 +366,10 @@ module.exports = function(app) {
     res.json(u);
   });
 
-  // testme
   app.delete("/api/cms/story/delete", isEnabled, async(req, res) => {
     const row = await db.stories.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.stories.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.stories.destroy({where: {id: req.query.id}}).catch(catcher);      
+    await db.stories.update({ordering: sequelize.literal("ordering -1")}, {where: {ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.stories.destroy({where: {id: req.query.id}}).catch(catcher);      
     let stories = await db.stories.findAll(storyReqTreeOnly).catch(catcher);
     stories = sortStoryTree(stories);
     res.json(stories);
@@ -391,8 +387,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/author/delete", isEnabled, async(req, res) => {
     const row = await db.authors.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.authors.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.authors.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.authors.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.authors.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.authors.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -407,11 +403,10 @@ module.exports = function(app) {
     res.json(u);
   });
 
-  // testme
   app.delete("/api/cms/profile_description/delete", isEnabled, async(req, res) => {
     const row = await db.profiles_descriptions.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.profiles_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.profiles_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.profiles_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.profiles_descriptions.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -428,8 +423,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/story_description/delete", isEnabled, async(req, res) => {
     const row = await db.stories_descriptions.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.stories_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.stories_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.stories_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.stories_descriptions.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -446,8 +441,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/story_footnote/delete", isEnabled, async(req, res) => {
     const row = await db.stories_footnotes.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.stories_footnotes.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.stories_footnotes.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.stories_footnotes.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.stories_footnotes.findAll({where: {story_id: row.story_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -464,8 +459,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/section/delete", isEnabled, async(req, res) => {
     const row = await db.sections.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.sections.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.sections.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.sections.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.sections.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.sections.findAll({
       where: {profile_id: row.profile_id},
       attributes: ["id", "title", "slug", "ordering", "profile_id"],
@@ -489,8 +484,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/section_subtitle/delete", isEnabled, async(req, res) => {
     const row = await db.sections_subtitles.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.sections_subtitles.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.sections_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.sections_subtitles.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.sections_subtitles.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -507,8 +502,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/section_description/delete", isEnabled, async(req, res) => {
     const row = await db.sections_descriptions.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.sections_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.sections_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.sections_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.sections_descriptions.findAll({where: {section_id: row.section_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -525,8 +520,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/topic/delete", isEnabled, async(req, res) => {
     const row = await db.topics.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.topics.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.topics.update({ordering: sequelize.literal("ordering -1")}, {where: {section_id: row.section_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.topics.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.topics.findAll({where: {section_id: row.section_id}, attributes: ["id", "title", "slug", "ordering", "section_id", "type"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -543,8 +538,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/storytopic/delete", isEnabled, async(req, res) => {
     const row = await db.storytopics.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.storytopics.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.storytopics.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.storytopics.update({ordering: sequelize.literal("ordering -1")}, {where: {story_id: row.story_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.storytopics.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.storytopics.findAll({where: {story_id: row.story_id}, attributes: ["id", "title", "slug", "ordering", "story_id", "type"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -561,8 +556,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/topic_subtitle/delete", isEnabled, async(req, res) => {
     const row = await db.topics_subtitles.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.topics_subtitles.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.topics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.topics_subtitles.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.topics_subtitles.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -579,8 +574,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/storytopic_subtitle/delete", isEnabled, async(req, res) => {
     const row = await db.storytopics_subtitles.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.storytopics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.storytopics_subtitles.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.storytopics_subtitles.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.storytopics_subtitles.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.storytopics_subtitles.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -597,8 +592,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/topic_description/delete", isEnabled, async(req, res) => {
     const row = await db.topics_descriptions.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.topics_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.topics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.topics_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.topics_descriptions.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -615,8 +610,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/storytopic_description/delete", isEnabled, async(req, res) => {
     const row = await db.storytopics_descriptions.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.storytopics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.storytopics_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.storytopics_descriptions.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.storytopics_descriptions.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.storytopics_descriptions.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -633,8 +628,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/selector/delete", isEnabled, async(req, res) => {
     const row = await db.selectors.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.selectors.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.selectors.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.selectors.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.selectors.findAll({where: {topic_id: row.topic_id}, order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -651,8 +646,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/profile_stat/delete", isEnabled, async(req, res) => {
     const row = await db.profiles_stats.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.profiles_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.profiles_stats.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.profiles_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.profiles_stats.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.profiles_stats.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -669,8 +664,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/topic_stat/delete", isEnabled, async(req, res) => {
     const row = await db.topics_stats.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.topics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.topics_stats.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.topics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.topics_stats.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.topics_stats.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -687,8 +682,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/storytopic_stat/delete", isEnabled, async(req, res) => {
     const row = await db.storytopics_stats.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.storytopics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.storytopics_stats.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.storytopics_stats.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.storytopics_stats.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.storytopics_stats.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -705,8 +700,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/profile_visualization/delete", isEnabled, async(req, res) => {
     const row = await db.profiles_visualizations.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.profiles_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.profiles_visualizations.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.profiles_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {profile_id: row.profile_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.profiles_visualizations.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.profiles_visualizations.findAll({where: {profile_id: row.profile_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -723,8 +718,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/topic_visualization/delete", isEnabled, async(req, res) => {
     const row = await db.topics_visualizations.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.topics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.topics_visualizations.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.topics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {topic_id: row.topic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.topics_visualizations.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.topics_visualizations.findAll({where: {topic_id: row.topic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
@@ -741,8 +736,8 @@ module.exports = function(app) {
 
   app.delete("/api/cms/storytopic_visualization/delete", isEnabled, async(req, res) => {
     const row = await db.storytopics_visualizations.findOne({where: {id: req.query.id}}).catch(catcher);
-    const up = await db.storytopics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
-    const del = await db.storytopics_visualizations.destroy({where: {id: req.query.id}}).catch(catcher);
+    await db.storytopics_visualizations.update({ordering: sequelize.literal("ordering -1")}, {where: {storytopic_id: row.storytopic_id, ordering: {[Op.gt]: row.ordering}}}).catch(catcher);
+    await db.storytopics_visualizations.destroy({where: {id: req.query.id}}).catch(catcher);
     const rows = await db.storytopics_visualizations.findAll({where: {storytopic_id: row.storytopic_id}, attributes: ["id", "ordering"], order: [["ordering", "ASC"]]}).catch(catcher);
     res.json(rows);
   });
