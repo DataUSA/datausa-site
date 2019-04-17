@@ -140,13 +140,13 @@ module.exports = {
       "Geography": {
         levels: {
           State: ["Nation"],
-          County: ["State", "Nation"],
+          County: ["MSA", "State", "Nation"],
           MSA: ["State", "Nation"],
-          Place: ["State", "Nation"],
+          Place: ["PUMA", "MSA", "State", "Nation"],
           PUMA: ["State", "Nation"]
         },
         url: (id, level) => {
-          const targetLevel = level.replace(/^[A-Z]{1}/g, chr => chr.toLowerCase());
+          const targetLevel = level.toLowerCase();
           return `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
         },
         callback: arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid
