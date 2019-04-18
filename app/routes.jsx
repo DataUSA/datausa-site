@@ -39,14 +39,24 @@ const sctg2napcs = Object.keys(napcs2sctg)
     return obj;
   }, {});
 
-/** Handles any profile page crosswalk logic. */
+import oldGeos from "../static/data/oldgeos.json";
+
+/** Handles all profile page crosswalk logic. */
 function crosswalk(nextState, replace) {
+
   const {pslug, pid} = nextState.params;
+
   if (pslug === "sctg") {
     const id = sctg2napcs[pid];
     const url = `/profile/napcs/${id}/`;
     replace(url);
   }
+  else if (pslug === "geo" && oldGeos[pid]) {
+    const id = oldGeos[pid];
+    const url = `/profile/geo/${id}/`;
+    replace(url);
+  }
+
 }
 
 /** Hooks up page routes to the react-router instance. */
