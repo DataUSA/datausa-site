@@ -30,7 +30,7 @@
   "dependencies": {
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
-    "@datawheel/canon-core": "^0.16.30",
+    "@datawheel/canon-core": "^0.16.31",
     "@datawheel/canon-logiclayer": "^0.3.18",
     "@datawheel/canon-vizbuilder": "^0.2.10",
     "buble": "^0.19.3",

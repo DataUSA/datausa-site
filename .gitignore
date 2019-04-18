@@ -26,3 +26,6 @@ datausa
 *.pyc
 
 google_auth.json
+
+# pm2 config
+*.config.js
