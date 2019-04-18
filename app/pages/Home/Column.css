@@ -45,23 +45,17 @@
     &.rank-8.primary {
       display: none;
     }
-    &.rank-8.secondary {
-      display: inline-block;
-    }
   }
   @media (max-width: 1815px) {
     &.rank-7.primary {
       display: none;
-    }
-    &.rank-7.secondary {
-      display: inline-block;
     }
   }
   @media (max-width: 1560px) {
     &.rank-6.primary {
       display: none;
     }
-    &.rank-6.secondary {
+    &.rank-8.secondary, &.rank-7.secondary, &.rank-6.secondary {
       display: inline-block;
     }
   }
