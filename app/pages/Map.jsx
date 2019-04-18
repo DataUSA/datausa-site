@@ -98,7 +98,7 @@ class Map extends Component {
 
       <Vizbuilder
         src={[cube]}
-        defaultGroup={["Geography.County", "Origin State.Origin State"]}
+        defaultGroup={["Geography.State", "Origin State.Origin State"]}
         defaultMeasure="Uninsured"
         measureConfig={measureConfig}
         tableLogic={cubes => {
@@ -120,7 +120,10 @@ class Map extends Component {
         visualizations={["geomap"]}
         topojson={{
           "County": {topojson: "/topojson/County.json"},
-          "MSA": {topojson: "/topojson/Msa.json"},
+          "MSA": {
+            topojson: "/topojson/Msa.json",
+            topojsonFilter: d => d.id.indexOf("040") < 0
+          },
           "PUMA": {topojson: "/topojson/Puma.json"},
           "State": {topojson: "/topojson/State.json"},
           "Origin State": {topojson: "/topojson/State.json"},

@@ -427,7 +427,8 @@ class Visualize extends Component {
             "MSA": {
               projection: albersUsaPr(),
               ocean: "transparent",
-              topojson: "/topojson/Msa.json"
+              topojson: "/topojson/Msa.json",
+              topojsonFilter: d => d.id.indexOf("040") < 0
             },
             "PUMA": {
               projection: albersUsaPr(),
