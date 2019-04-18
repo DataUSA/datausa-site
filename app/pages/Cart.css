@@ -1,7 +1,8 @@
 #Cart {
   background-color: var(--white);
   display: flex;
-  height: calc(100vh - 34px);
+  /* height: calc(100vh - var(--banner-height)); */
+  height: 100vh;
   padding-top: var(--nav-height);
   width: 100%;
   & .controls {

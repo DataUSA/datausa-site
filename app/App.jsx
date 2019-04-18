@@ -57,7 +57,8 @@ class App extends Component {
                        pathname.indexOf("search") === 0;
 
     const bare = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
-    const beta = true;
+    const banner = null;
+    // const banner = <div id="Banner">This is a prototype for the new Data USA. Please e-mail <a href="mailto:hello@datausa.io?subject=Prototype%20Feedback">hello@datausa.io</a> with any feedback.</div>;
 
     return (
       <div id="App" className={bare ? "bare" : ""}>
@@ -67,7 +68,7 @@ class App extends Component {
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
-        { beta && <div id="Beta">This is a prototype for the new Data USA. Please e-mail <a href="mailto:hello@datausa.io?subject=Prototype%20Feedback">hello@datausa.io</a> with any feedback.</div> }
+        { banner }
       </div>
     );
 

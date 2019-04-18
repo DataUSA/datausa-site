@@ -12,7 +12,8 @@
 #tree {
   background-color: #efefef;
   font-size: 14px;
-  height: calc(100vh - var(--nav-height) - 34px);
+  /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
+  height: calc(100vh - var(--nav-height));
   max-width: 300px;
   min-width: 300px;
   overflow-y: scroll;
@@ -48,7 +49,8 @@
   background-color: white;
   box-sizing: border-box;
   flex: 1;
-  height: calc(100vh - var(--nav-height) - 34px);
+  /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
+  height: calc(100vh - var(--nav-height));
   overflow-y: scroll;
   padding: 25px;
   width: 100%;

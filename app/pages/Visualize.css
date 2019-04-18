@@ -30,7 +30,8 @@
 
 .vizbuilder {
   background-color: var(--white);
-  height: calc(100vh - var(--nav-height) - 34px);
+  /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
+  height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
   & .action-clear {
     display: none;
@@ -52,7 +53,8 @@
     }
   }
   & .area-sidebar {
-    height: calc(100vh - var(--nav-height) - 34px);
+    /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
+    height: calc(100vh - var(--nav-height));
     padding-top: calc(var(--nav-height) + 25px);
     position: relative;
     width: 300px;
