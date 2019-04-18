@@ -32,7 +32,7 @@
     "@blueprintjs/table": "^1.31.0",
     "@datawheel/canon-core": "^0.16.32",
     "@datawheel/canon-logiclayer": "^0.3.18",
-    "@datawheel/canon-vizbuilder": "^0.2.10",
+    "@datawheel/canon-vizbuilder": "^0.2.11",
     "buble": "^0.19.3",
     "eslint": "^4.16.0",
     "flickr-sdk": "^3.7.0",

@@ -33,9 +33,6 @@
   /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
   height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
-  & .action-clear {
-    display: none;
-  }
   & .area-middle {
     left: 0;
     position: absolute;
@@ -299,7 +296,7 @@
         }
       }
     }
-    & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart {
+    & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart, & .pt-button.pt-icon-undo {
       background: none;
       border: 1px solid var(--red);
       border-radius: 0;
