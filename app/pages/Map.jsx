@@ -110,9 +110,6 @@ class Map extends Component {
           colorScalePosition: "bottom",
           fitObject: "/topojson/State.json",
           fitFilter: d => !["02", "15", "43", "60", "66", "69", "72", "78"].includes(d.id.slice(7)),
-          shapeConfig: {
-            hoverOpacity: 1
-          },
           title: false,
           zoomScroll: true
         }}
