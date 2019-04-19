@@ -142,7 +142,7 @@ module.exports = {
           State: ["Nation"],
           County: ["MSA", "State", "Nation"],
           MSA: ["State", "Nation"],
-          Place: ["PUMA", "MSA", "State", "Nation"],
+          Place: ["MSA", "State", "Nation"],
           PUMA: ["State", "Nation"]
         },
         url: (id, level) => {

@@ -155,7 +155,7 @@ module.exports = function(app) {
           const targetLevels = prefix === "040" ? "msa" /* state */
             : prefix === "050" ? "state,msa" /* county */
               : prefix === "310" ? "state" /* msa */
-                : prefix === "160" ? "state,msa,county,puma" /* place */
+                : prefix === "160" ? "state,msa,county" /* place */
                   : prefix === "795" ? "state,msa,county" /* puma */
                     : false;
 
