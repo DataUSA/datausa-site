@@ -313,8 +313,16 @@ module.exports = function(app) {
         .catch(() => []);
       let topic = topics.find(t => t.section.profile.slug === slug);
       topic = varSwapRecursive(topic, formatterFunctions, variables, req.query);
-      topic.profile = topic.section.profile.slug;
-      topic.section = topic.section.slug;
+
+      if (topic.section) {
+        topic.profile = topic.section.profile.slug;
+        topic.section = topic.section.slug;
+      }
+      else {
+        topic.profile = slug;
+        topic.section = "";
+        console.error(`[topic] unable to fetch section for /api/topic/${slug}/${pid}/${topicId}`);
+      }
 
       if (topic.subtitles) topic.subtitles.sort(sorter);
       if (topic.selectors) topic.selectors.sort(sorter);
