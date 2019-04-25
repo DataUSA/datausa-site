@@ -64,7 +64,16 @@ module.exports = {
       "Origin State": {
         neighbors: {
           url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
-          callback: arr => arr.map(d => d.geoid)
+          callback: resp => {
+            if (resp.error) {
+              console.error("[geoservice error]");
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return (resp  || []).map(d => d.geoid);
+            }
+          }
         },
         parents: {
           url: id => `${CANON_API}/api/parents/geo/${id}`,
@@ -90,7 +99,16 @@ module.exports = {
         },
         neighbors: {
           url: id => `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`,
-          callback: arr => arr.map(d => d.geoid)
+          callback: resp => {
+            if (resp.error) {
+              console.error("[geoservice error]");
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return (resp  || []).map(d => d.geoid);
+            }
+          }
         },
         parents: {
           url: id => `${CANON_API}/api/parents/geo/${id}`,
@@ -149,7 +167,18 @@ module.exports = {
           const targetLevel = level.toLowerCase();
           return `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=${targetLevel}&overlapSize=true`;
         },
-        callback: arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid
+        callback: resp => {
+          let arr = [];
+          if (resp.error) {
+            console.error("[geoservice error]");
+            console.error(resp.error);
+          }
+          else {
+            arr = resp  || [];
+          }
+          arr = arr.sort((a, b) => b.overlap_size - a.overlap_size);
+          return arr.length ? arr[0].geoid : "01000US";
+        }
       },
       "CIP": {
         levels: {

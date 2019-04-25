@@ -42,10 +42,22 @@ module.exports = function(app) {
         drilldown = "MSA-Tract";
       }
       else {
-        cut = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
+        const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`;
+        const cuts = await axios.get(url)
           .then(resp => resp.data)
-          .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid)
-          .catch(() => "01000US");
+          .then(resp => {
+            if (resp.error) {
+              console.error(`[geoservice error] ${url}`);
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return resp  || [];
+            }
+          })
+          .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
+          .catch(() => []);
+        cut = cuts.length ? cuts[0].geoid : "01000US";
         drilldown = level || "County";
       }
     }
@@ -84,10 +96,22 @@ module.exports = function(app) {
       level = "State";
     }
     else if (prefix === "310") {
-      parent = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`)
+      const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}?targetLevels=state&overlapSize=true`;
+      const parents = await axios.get(url)
         .then(resp => resp.data)
-        .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size)[0].geoid)
-        .catch(() => "01000US");
+        .then(resp => {
+          if (resp.error) {
+            console.error(`[geoservice error] ${url}`);
+            console.error(resp.error);
+            return [];
+          }
+          else {
+            return resp  || [];
+          }
+        })
+        .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
+        .catch(() => []);
+      parent = parents.length ? parents[0].geoid : "01000US";
       level = "County";
     }
     else {
@@ -164,7 +188,18 @@ module.exports = function(app) {
             : `${CANON_LOGICLAYER_CUBE}/geoservice-api/relations/intersects/${id}`;
 
           let ids = await axios.get(url)
-            .then(resp => resp.data.map(d => d.geoid))
+            .then(resp => resp.data)
+            .then(resp => {
+              if (resp.error) {
+                console.error(`[geoservice error] ${url}`);
+                console.error(resp.error);
+                return [];
+              }
+              else {
+                return resp  || [];
+              }
+            })
+            .then(resp => resp.map(d => d.geoid))
             .catch(() => []);
 
           ids.push("01000US");
@@ -405,7 +440,18 @@ module.exports = function(app) {
 
         const parents = await axios.get(url)
           .then(resp => resp.data)
+          .then(resp => {
+            if (resp.error) {
+              console.error(`[geoservice error] ${url}`);
+              console.error(resp.error);
+              return [];
+            }
+            else {
+              return resp  || [];
+            }
+          })
           .catch(() => []);
+
         let ids = parents.map(d => d.geoid);
         if (cache.pops[attr.id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
         if (!ids.includes("01000US")) ids.unshift("01000US");
@@ -437,8 +483,20 @@ module.exports = function(app) {
 
     if (dimension === "Geography") {
 
-      const neighbors = await axios.get(`${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`)
-        .then(resp => resp.data.map(d => d.geoid))
+      const url = `${CANON_LOGICLAYER_CUBE}/geoservice-api/neighbors/${id}`;
+      const neighbors = await axios.get(url)
+        .then(resp => resp.data)
+        .then(resp => {
+          if (resp.error) {
+            console.error(`[geoservice error] ${url}`);
+            console.error(resp.error);
+            return [];
+          }
+          else {
+            return resp  || [];
+          }
+        })
+        .then(resp => resp.map(d => d.geoid))
         .catch(() => []);
 
       const attrs = await db.search
