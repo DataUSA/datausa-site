@@ -105,14 +105,28 @@ class Search extends Component {
 
             const currentIndex = [].indexOf.call(results, highlighted);
 
+            let newHighlight = false;
             if (key === DOWN && currentIndex < results.length - 1) {
-              results[currentIndex + 1].classList.add("highlighted");
+              newHighlight = results[currentIndex + 1];
               highlighted.classList.remove("highlighted");
             }
             else if (key === UP) {
-              if (currentIndex > 0) results[currentIndex - 1].classList.add("highlighted");
+              if (currentIndex > 0) newHighlight = results[currentIndex - 1];
               highlighted.classList.remove("highlighted");
             }
+
+            if (newHighlight) {
+              newHighlight.classList.add("highlighted");
+              const parent = newHighlight.parentNode;
+              const top = newHighlight.offsetTop;
+              const height = newHighlight.offsetHeight;
+              const pHeight = parent.offsetHeight;
+              const pTop = parent.scrollTop;
+              const diff = top + height - (pTop + pHeight);
+              if (diff > 0) parent.scrollTop += diff;
+              else if (top < pTop) parent.scrollTop = top;
+            }
+
           }
         }
 
