@@ -77,9 +77,8 @@
     }
     & .result {
       transition: background-color 0.25s;
-      &:hover {
+      &.highlighted, &:hover {
         background-color: var(--gray);
-        cursor: pointer;
       }
       & .result-container {
         align-items: flex-start;

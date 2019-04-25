@@ -150,7 +150,7 @@
             text-decoration: none;
           }
         }
-        &:hover {
+        &.highlighted, &:hover {
           background-color: var(--gray);
           cursor: pointer;
         }
