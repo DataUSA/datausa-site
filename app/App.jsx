@@ -15,7 +15,7 @@ import Footer from "components/Footer/index";
 
 import albersUsaPr from "helpers/albersUsaPr";
 
-const launch = new Date("01 May 2019 08:00:00 GMT-0400");
+// const launch = new Date("01 May 2019 08:00:00 GMT-0400");
 
 class App extends Component {
 
@@ -24,7 +24,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      banner: new Date() < launch,
+      // banner: new Date() < launch,
+      banner: false,
       formatters: (props.formatters || []).reduce((acc, d) => {
         const f = Function("n", "libs", "formatters", d.logic);
         const fName = d.name.replace(/^\w/g, chr => chr.toLowerCase());
