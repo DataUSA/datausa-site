@@ -22,17 +22,25 @@ export default (logic, formatters = {}, variables = {}, id = false) => {
   // hides the non-discrete axis, if necessary
   const discrete = config.discrete || "x";
   const opposite = discrete === "x" ? "y" : "x";
+
   config[`${discrete}Config`] = assign({
     gridConfig: {
       "stroke-width": 0
     },
     tickSize: 0
   }, config[`${discrete}Config`] || {});
+  config[`${discrete}2Config`] = assign({},
+    config[`${discrete}Config`],
+    config[`${discrete}2Config`] || {});
+
   config[`${opposite}Config`] = assign({
     barConfig: {
       "stroke-width": 0
     }
   }, config[`${opposite}Config`] || {});
+  config[`${opposite}2Config`] = assign({},
+    config[`${opposite}Config`],
+    config[`${opposite}2Config`] || {});
 
   return {config, dataFormat};
 
