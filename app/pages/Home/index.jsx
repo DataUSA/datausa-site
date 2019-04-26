@@ -8,11 +8,16 @@ import Search from "toCanon/Search";
 
 import Column from "./Column";
 
+const launch = new Date("01 May 2019 08:00:00 GMT-0400");
+
 class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {image: "rocky"};
+    this.state = {
+      banner: new Date() < launch,
+      image: "rocky"
+    };
   }
 
   onImage(e) {
@@ -22,7 +27,7 @@ class Home extends Component {
   render() {
 
     const {tiles} = this.props;
-    const {image} = this.state;
+    const {banner, image} = this.state;
 
     return (
       <div id="Home">
@@ -53,6 +58,8 @@ class Home extends Component {
           </Link>}
           url="/api/search/"
         />
+
+        { banner ? <div className="subtitle">You are viewing a prototype for the new Data USA.<br />Beta testing will end on Wednesday May 1st at 8am EST.</div> : null }
 
         <div className="sponsors">
           <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html">
