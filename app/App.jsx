@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
 import "./App.css";
 
+// import {Button} from "@blueprintjs/core";
 import {fetchCart} from "actions/cart";
 import {fetchData} from "@datawheel/canon-core";
 import "./d3plus.css";
@@ -14,6 +15,8 @@ import Footer from "components/Footer/index";
 
 import albersUsaPr from "helpers/albersUsaPr";
 
+const launch = new Date("01 May 2019 08:00:00 GMT-0400");
+
 class App extends Component {
 
   constructor(props) {
@@ -21,6 +24,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      banner: new Date() < launch,
       formatters: (props.formatters || []).reduce((acc, d) => {
         const f = Function("n", "libs", "formatters", d.logic);
         const fName = d.name.replace(/^\w/g, chr => chr.toLowerCase());
@@ -45,9 +49,14 @@ class App extends Component {
     return {formatters, router};
   }
 
+  toggleBanner() {
+    this.setState({banner: !this.state.banner});
+  }
+
   render() {
 
     const {location, origin} = this.props;
+    const {banner} = this.state;
     const {pathname} = location;
 
     const fullscreen = pathname.indexOf("cart") === 0 ||
@@ -57,8 +66,6 @@ class App extends Component {
                        pathname.indexOf("search") === 0;
 
     const bare = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
-    const banner = null;
-    // const banner = <div id="Banner">This is a prototype for the new Data USA. Please e-mail <a href="mailto:hello@datausa.io?subject=Prototype%20Feedback">hello@datausa.io</a> with any feedback.</div>;
 
     return (
       <div id="App" className={bare ? "bare" : ""}>
@@ -68,7 +75,10 @@ class App extends Component {
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
-        { banner }
+        { banner ? <div id="Banner">
+          You are viewing a prototype for the new Data USA. Beta testing will end on Wednesday May 1st at 8am EST.
+          {/* <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} /> */}
+        </div> : null }
       </div>
     );
 
