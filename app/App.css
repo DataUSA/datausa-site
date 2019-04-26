@@ -26,6 +26,22 @@
     right: 0;
     width: 100%;
   }
+  & .close {
+    float: right;
+    line-height: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    vertical-align: top;
+    &:before {
+      color: white;
+    }
+    &:hover {
+      background: none;
+      opacity: 1;
+    }
+  }
 }
 
 html {

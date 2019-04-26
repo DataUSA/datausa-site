@@ -1,7 +1,7 @@
 nav-height: 40px
 subnav-size: 85px
-# banner-height: 34px;
-banner-height: 0;
+banner-height: 34px;
+# banner-height: 0;
 
 red: "#ef6145"
 dark: "#141b2e"
