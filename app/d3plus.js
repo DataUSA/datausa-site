@@ -291,6 +291,8 @@ export default {
   },
   xConfig: {...axisStyles},
   yConfig: {...axisStyles},
+  x2Config: {...axisStyles},
+  y2Config: {...axisStyles},
   zoomControlStyle: {
     "background": "rgba(255, 255, 255, 0.75)",
     "border": "1px solid #999",
