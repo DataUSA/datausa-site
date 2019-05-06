@@ -11,7 +11,7 @@ export default (logic, formatters = {}, variables = {}, id = false) => {
   }
   // If the javascript fails, return a special error object for the front-end to use.
   catch (e) {
-    console.log(`Parsing Error in propify${id !== false ? ` (${id})` : ""}: ${e}`);
+    console.error(`Parsing Error in propify${id !== false ? ` (${id})` : ""}: ${e}`);
     return {error: `${e}`};
   }
 
