@@ -98,7 +98,7 @@ class Map extends Component {
 
       <Vizbuilder
         src={[cube]}
-        defaultGroup={["Geography.State", "Origin State.Origin State"]}
+        defaultGroup={["Geography.County", "Geography.State", "Origin State.Origin State"]}
         defaultMeasure="Uninsured"
         measureConfig={measureConfig}
         tableLogic={cubes => {
