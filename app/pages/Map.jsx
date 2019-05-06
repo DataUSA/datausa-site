@@ -102,7 +102,7 @@ class Map extends Component {
         defaultMeasure="Uninsured"
         measureConfig={measureConfig}
         tableLogic={cubes => {
-          const cube = cubes.find(d => d.name.match(/_1/));
+          const cube = cubes.find(d => d.name.match(/_5/));
           return cube || cubes[0];
         }}
         config={{
