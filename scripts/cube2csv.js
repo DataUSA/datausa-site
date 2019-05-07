@@ -22,40 +22,44 @@ client.cubes()
   .then(cubes => {
 
     const measures = {};
-    cubes.forEach(cube => {
-      cube.measures.forEach(measure => {
-        const {annotations, name} = measure;
-        if (!measures[name]) measures[name] = [];
-        const dimensions = cube.dimensions
-          .reduce((acc, d) => {
-            let hierarchies = d.hierarchies
-              .map(h => {
-                const levels = h.levels.map(l => {
-                  const parts = l.fullName
-                    .split(".")
-                    .map(p => p.replace(/^\[|\]$/g, ""));
-                  if (parts.length === 2) parts.unshift(parts[0]);
-                  return {
-                    dimension: parts[0],
-                    hierarchy: parts[1],
-                    level: parts[2]
-                  };
-                });
-                levels.shift();
-                return levels;
-              });
-            hierarchies = Array.from(new Set(d3Array.merge(hierarchies)));
-            acc[d.name] = hierarchies;
-            return acc;
-          }, {});
-        measures[name].push({
-          annotations,
-          cube_annotations: cube.annotations,
-          dimensions,
-          name: cube.name
-        });
+    cubes
+      // .filter(cube => cube.annotations.topic === "Health")
+      .forEach(cube => {
+        cube.measures
+          .filter(measure => !measure.annotations.rca_measure && !measure.annotations.error_for_measure && !measure.annotations.source_for_measure && !measure.annotations.collection_for_measure)
+          .forEach(measure => {
+            const {annotations, name} = measure;
+            if (!measures[name]) measures[name] = [];
+            const dimensions = cube.dimensions
+              .reduce((acc, d) => {
+                let hierarchies = d.hierarchies
+                  .map(h => {
+                    const levels = h.levels.map(l => {
+                      const parts = l.fullName
+                        .split(".")
+                        .map(p => p.replace(/^\[|\]$/g, ""));
+                      if (parts.length === 2) parts.unshift(parts[0]);
+                      return {
+                        dimension: parts[0],
+                        hierarchy: parts[1],
+                        level: parts[2]
+                      };
+                    });
+                    levels.shift();
+                    return levels;
+                  });
+                hierarchies = Array.from(new Set(d3Array.merge(hierarchies)));
+                acc[d.name] = hierarchies;
+                return acc;
+              }, {});
+            measures[name].push({
+              annotations,
+              cube_annotations: cube.annotations,
+              dimensions,
+              name: cube.name
+            });
+          });
       });
-    });
 
     const cubeQueries = cubes
       .filter(cube => cube.dimensions.find(d => d.name === "Year"))
@@ -78,17 +82,12 @@ client.cubes()
     return Promise.all(cubeQueries)
       .then(rawYears => {
 
-        let csv = "\"Measure\",\"Description\",\"Topic\",\"Subtopic\",\"Dataset\",\"Source\",\"Source Description\",\"Years Available\",\"Cuts\"";
+        let csv = "\"Measure\",\"Hide in Viz Builder\",\"Hide in Map\",\"Description\",\"Cube\",\"Topic\",\"Subtopic\",\"Dataset\",\"Source\",\"Source Description\",\"Years Available\",\"Cuts\"";
         // console.log(csv);
 
         const yearLookup = rawYears.reduce((obj, d) => (obj[d.cube] = d3Array.extent(d.years), obj), {});
 
-        const filteredMeasures = Object.keys(measures)
-          .filter(measure => {
-            const mlow = measure.toLowerCase();
-            return !mlow.includes("rca") && !mlow.includes("moe") && !mlow.includes("_");
-          })
-          .sort((a, b) => a.localeCompare(b));
+        const filteredMeasures = Object.keys(measures).sort((a, b) => a.localeCompare(b));
 
         filteredMeasures.forEach(measure => {
           console.log(measure);
@@ -98,14 +97,17 @@ client.cubes()
 
           const cubes = measures[measure];
           const {annotations, cube_annotations: source, name} = cubes[0];
-          const {details} = annotations;
+          const {details, hide_in_map, hide_in_ui} = annotations;
           const {source_description, source_name, subtopic, topic} = source;
           const datasets = cubes
             .filter(cube => cube.cube_annotations.dataset_name)
             .map(cube => cube.cube_annotations.dataset_name)
             .join(", ");
 
+          row += `,\"${hide_in_ui ? hide_in_ui : false}\"`;
+          row += `,\"${hide_in_map ? hide_in_map : false}\"`;
           row += `,\"${details ? parse(details) : ""}\"`;
+          row += `,\"${name || ""}\"`;
           row += `,\"${topic || ""}\"`;
           row += `,\"${subtopic || ""}\"`;
           row += `,\"${datasets}\"`;
@@ -113,16 +115,14 @@ client.cubes()
           row += `,\"${source_description ? parse(source_description) : ""}\"`;
           row += `,\"${yearLookup[name] ? yearLookup[name].join("-") : ""}\"`;
 
-          const dims = Array.from(new Set(d3Array.merge(cubes.map(cube => {
-            return Object.keys(cube.dimensions)
-              .filter(d => d !== "Year")
-              .map(d => {
-                const levels = Array.from(new Set(cube.dimensions[d]
-                  .filter(c => !c.level.includes("Parent"))
-                  .map(c => c.level.includes("::") ? c.level.split("::")[1] : c.level))).join(", ");
-                return levels === d ? d : `${d} (${levels})`;
-              });
-          })))).join(", ");
+          const dims = Array.from(new Set(d3Array.merge(cubes.map(cube => Object.keys(cube.dimensions)
+            .filter(d => d !== "Year")
+            .map(d => {
+              const levels = Array.from(new Set(cube.dimensions[d]
+                .filter(c => !c.level.includes("Parent"))
+                .map(c => c.level.includes("::") ? c.level.split("::")[1] : c.level))).join(", ");
+              return levels === d ? d : `${d} (${levels})`;
+            }))))).join(", ");
 
           row += `,\"${dims}\"`;
           csv += `\n${row}`;
