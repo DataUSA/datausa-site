@@ -23,7 +23,11 @@ module.exports = function(app) {
     /** Sends the finally found image, and includes fallbacks */
     async function sendImage(image) {
 
-      const id = image ? image : pslug === "university" ? "2032" : "1849";
+      const id = image ? image
+        : pslug === "university" ? "2032"
+          : pslug === "cip" ? "2032"
+            : "1849";
+
       if (size === "json") {
         const resp = await db.images.findOne({where: {id}});
         res.json(resp);
