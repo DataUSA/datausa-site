@@ -40,7 +40,7 @@
     & .toggle-sidebar {
       background: none;
       box-shadow: none;
-      left: 290px;
+      left: 300px;
       &:before {
         color: var(--red);
       }
