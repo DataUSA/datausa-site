@@ -244,14 +244,18 @@ class Visualize extends Component {
       const {showConfidenceInt} = uiParams;
 
       const groups = query.groups.filter(d => d.key);
-      const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
+      let slug = query.measure.annotations._key;
       const params = {
         measures: [query.measure.name],
         drilldowns: groups.map(d => d.level.name)
       };
 
       groups.forEach(group => {
-        if (group.members.length) params[group.level.name] = group.members.map(m => m.key).join(",");
+        slug += `-${group.key}`;
+        if (group.members.length) {
+          params[group.level.name] = group.members.map(m => m.key).join(",");
+          slug += `-${params[group.level.name]}`;
+        }
       });
 
       if (showConfidenceInt) {
