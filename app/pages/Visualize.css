@@ -34,18 +34,14 @@
   height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
   & .area-middle {
-    left: 0;
-    position: absolute;
-    top: calc(var(--nav-height) + 28px);
     & .toggle-sidebar {
-      background: none;
-      box-shadow: none;
-      left: 300px;
-      &:before {
-        color: var(--red);
-      }
-      &.pt-icon-menu-open {
-        left: 0;
+      top: 28px;
+      & .pt-button {
+        background: none;
+        box-shadow: none;
+        &:before {
+          color: var(--red);
+        }
       }
     }
   }
