@@ -99,7 +99,7 @@ class Map extends Component {
       <Vizbuilder
         src={[cube]}
         defaultGroup={["Geography.County", "Geography.State", "Origin State.Origin State"]}
-        defaultMeasure="Uninsured"
+        defaultMeasure="Poverty Rate"
         measureConfig={measureConfig}
         tableLogic={cubes => {
           const cube = cubes.find(d => d.name.match(/_5/));
