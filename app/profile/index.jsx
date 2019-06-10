@@ -324,7 +324,7 @@ Profile.contextTypes = {
 };
 
 Profile.need = [
-  fetchData("profile", "/api/profile/<pslug>/<pid>"),
+  fetchData("profile", "/api/profile?slug=<pslug>&id=<pid>"),
   fetchData("similar", "/api/<pslug>/similar/<pid>")
 ];
 
