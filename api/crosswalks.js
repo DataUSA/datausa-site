@@ -139,6 +139,8 @@ module.exports = function(app) {
 
     const {limit, slug, urlId} = req.params;
 
+    // todo cms-upgrade - update this lookup
+
     const profile = await db.profiles
       .findOne({where: {slug}})
       .catch(() => false);
