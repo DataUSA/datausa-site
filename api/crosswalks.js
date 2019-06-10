@@ -135,20 +135,30 @@ module.exports = function(app) {
 
   });
 
+  app.get("/test", async(req, res) => {
+    res.json("Hi");
+  });
+
   app.get("/api/:slug/similar/:urlId", async(req, res) => {
 
     const {limit, slug, urlId} = req.params;
 
     // todo cms-upgrade - update this lookup
 
+    /*
     const profile = await db.profiles
       .findOne({where: {slug}})
       .catch(() => false);
 
     if (!profile) res.json({error: "Not a valid profile type"});
+    */
+
+    const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
+    if (!meta) res.json({error: "Not a valid profile type"});
+
     else {
 
-      const {dimension} = profile;
+      const {dimension} = meta;
 
       const attr = await db.search
         .findOne({where: {[sequelize.Op.or]: {id: urlId, slug: urlId}, dimension}})
@@ -414,12 +424,17 @@ module.exports = function(app) {
 
     const {slug, id} = req.params;
 
+    /*
     const profile = await db.profiles
       .findOne({where: {slug}})
       .catch(() => false);
     if (!profile) res.json({error: "Not a valid profile type"});
 
     const {dimension} = profile;
+    */
+    const meta = await db.profile_meta.findOne({where: {slug}}).catch(() => false);
+    if (!meta) res.json({error: "Not a valid profile type"});
+    const {dimension} = meta;
 
     const attr = await db.search
       .findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
