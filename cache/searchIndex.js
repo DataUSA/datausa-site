@@ -7,10 +7,12 @@ module.exports = async function(app) {
   const rows = await db.search.findAll({include: [{model: db.images}]})
     .catch(() => []);
 
-  // todo cms-upgrade - make this slug lookup work with meta 
-  const slugs = await db.profile.findAll()
-    .catch(() => [])
-    .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
+  let meta = await db.profile_meta.findAll();
+  meta = meta.map(m => m.toJSON());
+  const slugs = {};
+  meta.forEach(m => {
+    if (!slugs[m.dimension]) slugs[m.dimension] = m.slug;
+  });
 
   const results = rows
     .map(d => ({
