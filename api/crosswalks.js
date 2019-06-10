@@ -135,10 +135,6 @@ module.exports = function(app) {
 
   });
 
-  app.get("/test", async(req, res) => {
-    res.json("Hi");
-  });
-
   app.get("/api/:slug/similar/:urlId", async(req, res) => {
 
     const {limit, slug, urlId} = req.params;
