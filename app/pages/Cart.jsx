@@ -7,7 +7,7 @@ import {fetchData} from "@datawheel/canon-core";
 import {Checkbox, Icon} from "@blueprintjs/core";
 import {Tooltip2} from "@blueprintjs/labs";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
-import "@blueprintjs/table/dist/table.css";
+import "@blueprintjs/table/lib/css/table.css";
 import axios from "axios";
 import {max, merge} from "d3-array";
 import {nest} from "d3-collection";
