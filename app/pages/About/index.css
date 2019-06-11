@@ -61,7 +61,7 @@
     text-transform: uppercase;
   }
   & h2, & h3 {
-    & .pt-icon-standard {
+    & .bp3-icon-standard {
       color: var(--red);
       font-size: 14px;
       margin: 0 0 0 -20px;
@@ -71,7 +71,7 @@
       vertical-align: middle;
     }
     &:hover {
-      & .pt-icon-standard {
+      & .bp3-icon-standard {
         opacity: 1;
       }
     }
@@ -105,7 +105,7 @@
   & ul {
     list-style: none;
     padding-left: 20px;
-    & .pt-icon-standard {
+    & .bp3-icon-standard {
       display: inline-block;
       font-size: 10px;
       line-height: 22px;
@@ -234,15 +234,15 @@
     margin: 10px 0 0;
     text-align: center;
     transition: background 0.1s, color 0.1s;
-    & .pt-icon-standard {
+    & .bp3-icon-standard {
       color: var(--red);
       font-size: 13px;
       transition: color 0.1s;
     }
-    &.pt-active, &:hover {
+    &.bp3-active, &:hover {
       background: var(--red);
       color: white;
-      & .pt-icon-standard {
+      & .bp3-icon-standard {
         color: white;
       }
     }
@@ -250,7 +250,7 @@
       outline: 0;
     }
   }
-  & .pt-collapse-body {
+  & .bp3-collapse-body {
     background: #eee;
     border: 1px solid #ddd;
     &[aria-hidden="false"] {

@@ -39,7 +39,7 @@ export default class Footer extends Component {
             <form action="//datawheel.us12.list-manage.com/subscribe/post?u=458059cf58ada1fd2b7de3e39&amp;id=9a3f9a9f32" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" className="validate" target="_blank" noValidate="">
               <div id="mc_embed_signup_scroll">
                 <div className="input-container">
-                  <span className="pt-icon-standard pt-icon-envelope"></span>
+                  <span className="bp3-icon-standard bp3-icon-envelope"></span>
                   <input type="email" value="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="your email address" required="" />
                   <input type="submit" value="Sign Up" name="subscribe" id="mc-embedded-subscribe" className="email-btn" />
                 </div>

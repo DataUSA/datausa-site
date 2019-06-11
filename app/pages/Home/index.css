@@ -99,10 +99,10 @@
     position: relative;
     width: 100%;
     z-index: 1;
-    & .pt-input-group {
+    & .bp3-input-group {
       border-radius: 0;
       display: flex;
-      & .pt-icon {
+      & .bp3-icon {
         color: var(--red);
         font-size: 21px;
         line-height: 40px;
@@ -124,7 +124,7 @@
           width: 100%;
         }
       }
-      & .pt-button {
+      & .bp3-button {
         background: var(--red);
         border: 0;
         border-radius: 0;

@@ -46,7 +46,7 @@ class DataSources extends Component {
           return <div key={title}>
             <Button
               active={open}
-              className="pt-fill"
+              className="bp3-fill"
               rightIconName={open ? "chevron-down" : "chevron-right"}
               onClick={this.onClick.bind(this, slug)}>{ title }</Button>
             <Collapse isOpen={open} keepChildrenMounted={true}>

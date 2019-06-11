@@ -78,7 +78,7 @@ class App extends Component {
         { fullscreen || bare ? null : <Footer location={location} /> }
         { banner ? <div id="Banner">
           You are viewing a prototype for the new Data USA. Beta testing will end on Wednesday May 1st at 8am EST.
-          {/* <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} /> */}
+          {/* <Button className="close bp3-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} /> */}
         </div> : null }
       </div>
     );

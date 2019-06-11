@@ -8,10 +8,10 @@
     width: 100%;
   }
   & .custom-controls {
-    & .pt-popover-target {
+    & .bp3-popover-target {
       width: 100%;
     }
-    & .pt-button {
+    & .bp3-button {
       margin-bottom: 15px;
     }
     & .absolute-title {
@@ -36,7 +36,7 @@
   & .area-middle {
     & .toggle-sidebar {
       top: 28px;
-      & .pt-button {
+      & .bp3-button {
         background: none;
         box-shadow: none;
         &:before {
@@ -51,10 +51,10 @@
     padding-top: calc(var(--nav-height) + 25px);
     position: relative;
     width: 300px;
-    & .sources .pt-select {
+    & .sources .bp3-select {
       margin-top: 5px;
     }
-    & .pt-checkbox {
+    & .bp3-checkbox {
       color: var(--red);
       cursor: pointer;
       display: block;
@@ -82,7 +82,7 @@
       }
     }
     & .dims {
-      & .pt-tag {
+      & .bp3-tag {
         font-size: 10px;
         font-weight: 700;
         margin: 1px 2px 1px 0;
@@ -106,11 +106,11 @@
       }
     }
     & .select-measure {
-      & .pt-input-group input {
+      & .bp3-input-group input {
         border-radius: 0;
       }
     }
-    & .pt-popover-content {
+    & .bp3-popover-content {
       max-width: 269px;
       padding: 0;
       & .select-popover-content {
@@ -151,7 +151,7 @@
               padding: 0 7px 7px;
             }
           }
-          & .pt-button {
+          & .bp3-button {
             background: none;
             border: 0;
             box-shadow: none;
@@ -172,11 +172,11 @@
       }
     }
     & .grouping-level .select-popover-content input,
-    & .grouping-level .select-popover-content .pt-icon-search {
+    & .grouping-level .select-popover-content .bp3-icon-search {
       display: none;
     }
     & .grouping-items, & .filter-items {
-      & .pt-popover-content {
+      & .bp3-popover-content {
         max-width: 248px;
         padding: 0;
         & .select-popover-content {
@@ -210,10 +210,10 @@
               & > span {
                 width: 100%;
               }
-              & .pt-tag-input {
+              & .bp3-tag-input {
                 border: 0;
                 border-radius: 0;
-                & .pt-input-ghost {
+                & .bp3-input-ghost {
                   font-size: 13px;
                   margin-bottom: 3px;
                   padding: 0 8px;
@@ -260,12 +260,12 @@
           font-weight: 800;
           padding: 2px 5px 3px;
         }
-        & .pt-numeric-input {
-          & input, & .pt-button-group {
+        & .bp3-numeric-input {
+          & input, & .bp3-button-group {
             border-radius: 0;
             height: 35px;
           }
-          & .pt-button-group {
+          & .bp3-button-group {
             height: 35px;
             & button {
               border-radius: 0;
@@ -284,7 +284,7 @@
             font-size: 13px;
             font-weight: 600;
             margin-left: 5px;
-            &.pt-intent-primary {
+            &.bp3-intent-primary {
               background: var(--red);
               color: white;
             }
@@ -292,7 +292,7 @@
         }
       }
     }
-    & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart, & .pt-button.pt-icon-undo {
+    & .bp3-button.bp3-icon-insert, & .bp3-button.bp3-icon-shopping-cart, & .bp3-button.bp3-icon-undo {
       background: none;
       border: 1px solid var(--red);
       border-radius: 0;
@@ -302,7 +302,7 @@
       font-weight: 600;
       text-align: center;
       transition: background 0.1s, color 0.1s;
-      &.pt-disabled {
+      &.bp3-disabled {
         display: none;
       }
       &:before {
@@ -478,7 +478,7 @@
           &:focus {
             outline: none;
           }
-          & .pt-icon-standard {
+          & .bp3-icon-standard {
             font-size: 20px;
           }
         }

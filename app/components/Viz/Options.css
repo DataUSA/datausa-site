@@ -103,15 +103,15 @@
     padding: 0 13px 3px;
     text-align: left;
   }
-  & .pt-tab-list {
+  & .bp3-tab-list {
     background: none;
     letter-spacing: 0.1em;
     padding: 10px 20px 0;
     top: 0;
-    & .pt-tab-indicator {
+    & .bp3-tab-indicator {
       background-color: var(--red);
     }
-    & .pt-tab {
+    & .bp3-tab {
       color: #333;
       font-size: 13px;
       font-weight: 800;
@@ -124,7 +124,7 @@
       }
     }
   }
-  & .pt-dialog-body {
+  & .bp3-dialog-body {
     margin: 25px;
     &.vertical {
       flex-direction: column;
@@ -144,7 +144,7 @@
         text-align: center;
         transition: opacity 0.1s;
         width: 80px;
-        & .pt-icon-standard {
+        & .bp3-icon-standard {
           display: block;
           font-size: 28px;
           margin-bottom: 7px;
@@ -194,12 +194,12 @@
         font-size: 12px;
         font-weight: 600;
         margin: 15px 0;
-        & .pt-checkbox {
+        & .bp3-checkbox {
           display: inline-block;
           margin: 8px 0 0;
           vertical-align: bottom;
         }
-        & .pt-select {
+        & .bp3-select {
           display: inline-block;
           float: right;
           margin: 0;
@@ -215,13 +215,13 @@
     }
     &.view-table {
       margin-bottom: 0;
-      & .pt-non-ideal-state {
+      & .bp3-non-ideal-state {
         height: 150px;
         margin-top: 25px;
-        & .pt-non-ideal-state-visual {
+        & .bp3-non-ideal-state-visual {
           margin-bottom: 10px;
         }
-        & .pt-non-ideal-state-title {
+        & .bp3-non-ideal-state-title {
           color: #333;
           cursor: pointer;
           font-family: "Palanquin", sans-serif;
@@ -240,7 +240,7 @@
           font-weight: 600;
           opacity: 0.5;
           transition: opacity 0.1s;
-          & .pt-icon-standard {
+          & .bp3-icon-standard {
             color: black;
           }
           &:hover {

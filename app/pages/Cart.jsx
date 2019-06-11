@@ -365,7 +365,7 @@ class Cart extends Component {
         <div className="examples">
           { examples.map((d, i) => <div key={i}
             onClick={this.gotoExample.bind(this, d)}
-            className="pt-card pt-interactive">
+            className="bp3-card bp3-interactive">
             <Icon iconName={d.icon} />
             { d.title }
           </div>) }
@@ -389,10 +389,10 @@ class Cart extends Component {
             </Tooltip2>
           </div>) }
           { cart.settings.map(s => s.key !== "showMOE" || Object.keys(moe).length ? <Checkbox key={s.key} checked={s.value} label={s.label} onChange={this.toggleSetting.bind(this, s.key)} /> : null) }
-          <div className="pt-button pt-fill pt-icon-download" onClick={this.onCSV.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-download" onClick={this.onCSV.bind(this)}>
             Download Full Table as CSV File
           </div>
-          <div className="pt-button pt-fill pt-icon-trash" onClick={this.onClear.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-trash" onClick={this.onClear.bind(this)}>
             Remove All Items from Cart
           </div>
         </div>

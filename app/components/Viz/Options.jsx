@@ -332,7 +332,7 @@ class Options extends Component {
     const profileURL = `${baseURL}#${topic.slug}`;
     const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
 
-    const ImagePanel = () => <div className="pt-dialog-body save-image">
+    const ImagePanel = () => <div className="bp3-dialog-body save-image">
       <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
         <Icon iconName="media" />PNG
       </div>
@@ -341,7 +341,7 @@ class Options extends Component {
       </div>
     </div>;
 
-    const SharePanel = () => <div className="pt-dialog-body share vertical">
+    const SharePanel = () => <div className="bp3-dialog-body share vertical">
       <div className="horizontal social">
         <div className="networks">
           <a href={ `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileURL)}` } target="_blank" rel="noopener noreferrer">
@@ -358,7 +358,7 @@ class Options extends Component {
         <div className="info">
           <p>Copy and paste the following code to place an interactive version of this visualization on your website.</p>
           <Checkbox checked={includeText} label="Include paragraph and stats" onChange={this.toggleText.bind(this)} />
-          <div className="pt-select">
+          <div className="bp3-select">
             <select value={sizes.indexOf(embedSize)} onChange={this.changeSize.bind(this)}>
               { sizes.map((size, i) => <option key={i} value={i}>{size.label}</option>) }
             </select>
@@ -394,9 +394,9 @@ class Options extends Component {
     };
 
     const DataPanel = () => results
-      ? <div className="pt-dialog-body view-table vertical">
+      ? <div className="bp3-dialog-body view-table vertical">
         <div className="horizontal download">
-          <button type="button" className="pt-button pt-icon-download pt-minimal" onClick={this.onCSV.bind(this)}>
+          <button type="button" className="bp3-button bp3-icon-download bp3-minimal" onClick={this.onCSV.bind(this)}>
             Download as CSV
           </button>
           <input type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${data}`} />
@@ -414,7 +414,7 @@ class Options extends Component {
           </Table>
         </div>
       </div>
-      : <div className="pt-dialog-body view-table vertical">
+      : <div className="bp3-dialog-body view-table vertical">
         <NonIdealState title="Loading Data" visual={<Spinner />} />
       </div>;
 
@@ -457,7 +457,7 @@ class Options extends Component {
           <Tab2 id="view-table" title="View Data" panel={<DataPanel />} />
           <Tab2 id="save-image" title="Save Image" panel={<ImagePanel />} />
           { shareEnabled ? <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
-          <button aria-label="Close" className="close-button pt-dialog-close-button pt-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
+          <button aria-label="Close" className="close-button bp3-dialog-close-button bp3-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
         </Tabs2>
       </Dialog>
 

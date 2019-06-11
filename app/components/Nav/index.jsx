@@ -75,10 +75,10 @@ class Nav extends Component {
             <div className="title">{d.title}</div>
             <img src="/images/viz/remove.svg" className="remove" onClick={this.onRemove.bind(this, d)} />
           </div>) }
-          <a href="/cart" className="pt-button pt-fill pt-icon-download">
+          <a href="/cart" className="bp3-button bp3-fill bp3-icon-download">
             View Data
           </a>
-          <div className="pt-button pt-fill pt-icon-trash" onClick={this.onClear.bind(this)}>
+          <div className="bp3-button bp3-fill bp3-icon-trash" onClick={this.onClear.bind(this)}>
             Clear Cart
           </div>
         </div>

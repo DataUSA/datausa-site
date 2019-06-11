@@ -128,7 +128,7 @@ class Map extends Component {
         }}>
         <div className="custom-controls">
           <Tooltip2 placement="top-end">
-            <div className={ `pt-button pt-fill pt-icon-shopping-cart ${ cartSize >= cartMax ? "pt-disabled" : "" }` } onClick={this.onCart.bind(this)}>
+            <div className={ `bp3-button bp3-fill bp3-icon-shopping-cart ${ cartSize >= cartMax ? "bp3-disabled" : "" }` } onClick={this.onCart.bind(this)}>
               { !cart ? "Loading Cart..." : inCart ? "Remove from Cart" : "Add Data to Cart" }
             </div>
             <span>
