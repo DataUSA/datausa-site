@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
 import {Dialog, PopoverInteractionKind} from "@blueprintjs/core";
-import {Popover2} from "@blueprintjs/labs";
+import {Popover} from "@blueprintjs/labs";
 import "./index.css";
 
 import Hamburger from "./Hamburger";
@@ -103,7 +103,7 @@ class Nav extends Component {
         : null }
 
       <div className="right-buttons">
-        <Popover2
+        <Popover
           hoverOpenDelay={0}
           hoverCloseDelay={150}
           interactionKind={PopoverInteractionKind.HOVER}
@@ -113,7 +113,7 @@ class Nav extends Component {
             { cart && cart.data.length ? <span className="cart-size">{cart.data.length}</span> : null }
             <img src={ `/images/cart${cart && cart.data.length ? "-red" : ""}.svg` } />
           </a>
-        </Popover2>
+        </Popover>
         { search && <SearchButton /> }
       </div>
 

@@ -10,9 +10,8 @@ import {saveElement} from "d3plus-export";
 import axios from "axios";
 import {formatAbbreviate} from "d3plus-format";
 
-import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab2, Tabs2} from "@blueprintjs/core";
+import {Checkbox, Dialog, Icon, NonIdealState, Tooltip, Spinner, Tab, Tabs} from "@blueprintjs/core";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
-import {Tooltip2} from "@blueprintjs/labs";
 import {Object} from "es6-shim";
 import {addToCart, removeFromCart} from "actions/cart";
 
@@ -420,28 +419,28 @@ class Options extends Component {
 
     return <div className="Options">
 
-      <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className="option view-table" onClick={this.toggleDialog.bind(this, "view-table")}>
           <span className="option-label">View Data</span>
         </div>
         <span>View and download the underlying dataset used to create this visualization.</span>
-      </Tooltip2>
+      </Tooltip>
 
-      <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className="option save-image" onClick={this.toggleDialog.bind(this, "save-image")}>
           <span className="option-label">Save Image</span>
         </div>
         <span>Download this visualization as a PNG image or SVG code.</span>
-      </Tooltip2>
+      </Tooltip>
 
-      { shareEnabled ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      { shareEnabled ? <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className="option share" onClick={this.toggleDialog.bind(this, "share")}>
           <span className="option-label">Share / Embed</span>
         </div>
         <span>Share this visualization on Twitter, Facebook, or on your personal website.</span>
-      </Tooltip2> : null }
+      </Tooltip> : null }
 
-      { cartEnabled ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      { cartEnabled ? <Tooltip tooltipClassName="option-tooltip" placement="top-end">
         <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
           <span className="option-label">{ cartSize === undefined ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
         </div>
@@ -450,15 +449,15 @@ class Options extends Component {
             : cartSize !== undefined && cartSize >= cartMax ? `Cart limit of ${cartSize} has been reached. Please visit the cart page to download the current cart and/or remove data.`
               : "Add the underlying data to the cart, and merge with any existing cart data." }
         </span>
-      </Tooltip2> : null }
+      </Tooltip> : null }
 
       <Dialog className="options-dialog" isOpen={openDialog} onClose={this.toggleDialog.bind(this, false)}>
-        <Tabs2 onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
-          <Tab2 id="view-table" title="View Data" panel={<DataPanel />} />
-          <Tab2 id="save-image" title="Save Image" panel={<ImagePanel />} />
-          { shareEnabled ? <Tab2 id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
+        <Tabs onChange={this.toggleDialog.bind(this)} selectedTabId={openDialog}>
+          <Tab id="view-table" title="View Data" panel={<DataPanel />} />
+          <Tab id="save-image" title="Save Image" panel={<ImagePanel />} />
+          { shareEnabled ? <Tab id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
           <button aria-label="Close" className="close-button bp3-dialog-close-button bp3-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
-        </Tabs2>
+        </Tabs>
       </Dialog>
 
     </div>;
