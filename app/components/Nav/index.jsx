@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router";
-import {Dialog, PopoverInteractionKind} from "@blueprintjs/core";
-import {Popover} from "@blueprintjs/labs";
+import {Dialog, Popover, PopoverInteractionKind} from "@blueprintjs/core";
 import "./index.css";
 
 import Hamburger from "./Hamburger";

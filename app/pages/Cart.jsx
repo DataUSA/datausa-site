@@ -17,7 +17,7 @@ import {saveAs} from "file-saver";
 import "./Cart.css";
 
 import Loading from "components/Loading";
-import {Object} from "es6-shim";
+// import {Object} from "es6-shim";
 import {updateTitle} from "actions/title";
 import {addToCart, clearCart, removeFromCart, toggleCartSetting} from "actions/cart";
 // import libs from "../../utils/libs";

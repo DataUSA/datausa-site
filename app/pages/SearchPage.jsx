@@ -8,7 +8,7 @@ import {format} from "d3-format";
 const commas = format(",");
 
 import "./SearchPage.css";
-import {Object} from "es6-shim";
+// import {Object} from "es6-shim";
 
 const rawUrl = "/api/search/?limit=100";
 

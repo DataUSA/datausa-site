@@ -12,7 +12,7 @@ import {formatAbbreviate} from "d3plus-format";
 
 import {Checkbox, Dialog, Icon, NonIdealState, Tooltip, Spinner, Tab, Tabs} from "@blueprintjs/core";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
-import {Object} from "es6-shim";
+// import {Object} from "es6-shim";
 import {addToCart, removeFromCart} from "actions/cart";
 
 const FORMATTERS = {
