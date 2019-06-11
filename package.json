@@ -28,10 +28,11 @@
   },
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
+    "@blueprintjs/core": "^3.15.1",
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
     "@datawheel/canon-cms": "^0.6.0",
-    "@datawheel/canon-core": "^0.16.33",
+    "@datawheel/canon-core": "^0.17.27",
     "@datawheel/canon-logiclayer": "^0.3.19",
     "@datawheel/canon-vizbuilder": "^0.2.14",
     "buble": "^0.19.3",
