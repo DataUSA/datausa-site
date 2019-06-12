@@ -11,8 +11,10 @@ import Embed from "./profile/Embed";
 import Stories from "./pages/Story/Stories";
 import Story from "./pages/Story/Story";
 
+/*
 import MapPage from "./pages/Map";
 import Visualize from "./pages/Visualize";
+*/
 
 import Cart from "./pages/Cart";
 
@@ -74,8 +76,10 @@ export default function RouteCreate() {
       <Route path="/story" component={Stories} />
       <Route path="/story/:sid" component={Story} />
 
+      {/*
       <Route path="/visualize" component={Visualize} />
       <Route path="/map" component={MapPage} />
+      */}
 
       <Route path="/cart" component={Cart} />
 

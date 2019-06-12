@@ -28,12 +28,11 @@
   },
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
-    "@blueprintjs/core": "^3.15.1",
-    "@blueprintjs/labs": "^0.14.4",
+    "@blueprintjs/labs": "^0.16.3",
     "@blueprintjs/table": "^3.5.0",
-    "@datawheel/canon-cms": "^0.6.0",
-    "@datawheel/canon-core": "^0.17.27",
-    "@datawheel/canon-logiclayer": "^0.3.19",
+    "@datawheel/canon-cms": "^0.6.1",
+    "@datawheel/canon-core": "^0.17.28",
+    "@datawheel/canon-logiclayer": "^0.3.20",
     "@datawheel/canon-vizbuilder": "^0.2.14",
     "buble": "^0.19.3",
     "eslint": "^4.16.0",
@@ -50,9 +49,8 @@
     "query-string": "^6.1.0",
     "react-ace": "^5.9.0",
     "react-inlinesvg": "^0.8.4",
-    "react-katex": "^1.2.0",
+    "react-katex": "^2.0.2",
     "react-quill": "^1.2.3",
-    "react-slick": "^0.23.2",
-    "sharp": "^0.22.1"
+    "react-slick": "^0.23.2"
   }
 }

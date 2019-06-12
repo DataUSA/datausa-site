@@ -1,4 +1,4 @@
-import {vbStateReducer} from "@datawheel/canon-vizbuilder";
+// import {vbStateReducer} from "@datawheel/canon-vizbuilder";
 
 export default {
   cart: (state = false, action) => {
@@ -14,6 +14,6 @@ export default {
         return action.data;
       default: return state;
     }
-  },
-  vizbuilder: vbStateReducer
+  }
+  // vizbuilder: vbStateReducer
 };

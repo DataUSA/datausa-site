@@ -20,3 +20,40 @@ soc: "#5cb3aa"
 cip: "#ef7760"
 university: "#e2db93"
 napcs: "#EEA86C"
+
+# grayscale
+# white:   "#ffffff"
+light-1: "#f8f9fa"
+light-2: "#e8eef1"
+light-3: "#cfdae2"
+# gray:    "#aebdcc"
+dark-1:  "#8a97ae"
+dark-2:  "#596277"
+dark-3:  "#3e4455"
+# black:   "#181a21"
+
+# accent colors
+accent:       "#FFCD33"
+accent-light: "#FFD65B"
+accent-dark:  "#C4960B"
+accent-black: "#7F6516"
+
+# UI colors
+alert:       "#75224D"
+alert-light: "#992C64"
+
+type-number:      "#8EB6FF"
+type-number-dark: "#2D4A7F"
+
+type-string:      "#B9E28C"
+type-string-dark: "#62873B"
+
+type-error:       "#DB64A6"
+type-error-dark:  "#75224D"
+
+# measurements
+# nav-height: "50px"
+cms-nav-height: "2rem"
+sidebar-width: "18rem"
+toolbox-width: "28rem"
+
