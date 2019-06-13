@@ -36,28 +36,22 @@ const StateTopojson = {
 
 const examples = [
   {
-    title: "Foreign Born Citizens by State",
+    title: "Foreign-Born Citizens by State",
     group: "Heritage & Demographics",
     image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
-    link: "/visualize?groups=0-1dX7e9&measure=ZHkGoL"
+    link: "/visualize?groups=0-TBhjH&measure=64auG"
   },
-  // {
-  //   title: "Foreign Born Citizens by MSA",
-  //   group: "Heritage & Demographics",
-  //   image: "/api/profile/cip/4509/thumb",
-  //   link: "/visualize?groups=0-Z1SqIjF&measure=64auG"
-  // },
   {
     title: "Russian Speakers by State",
     group: "Heritage & Demographics",
     image: "/images/profile/russia.jpg",
-    link: "/visualize?groups=0-RENB7&groups=1-ZUWzdA-9&measure=Z16D5yA"
+    link: "/visualize?groups=0-yiXGF&groups=1-1ac173-9&measure=ZJtXqi"
   },
   {
     title: "Household Income by Race",
     group: "Heritage & Demographics",
     image: "/api/profile/cip/public-finance/thumb",
-    link: "/visualize?groups=0-Z2pUFmW&measure=Zw5c4M"
+    link: "/visualize?groups=0-Z169Wxp&measure=Zn7xp5"
   },
 
   {
@@ -95,13 +89,13 @@ const examples = [
     title: "Home Ownership by State",
     group: "Housing",
     image: "/api/profile/naics/531/thumb",
-    link: "/visualize?groups=0-ezfEN&measure=26YVLn"
+    link: "/visualize?groups=0-Z4LzeD&measure=Z1X8D4i"
   },
   {
     title: "Average Commute Time by Metro Area",
     group: "Housing",
     image: "/api/profile/soc/474051/thumb",
-    link: "/visualize?groups=0-17bOR7&measure=Z1iWzH4"
+    link: "/visualize?groups=0-ZNTHUM&measure=ZMlbux"
   },
   {
     title: "People Driving Alone to Work by County",
@@ -113,44 +107,44 @@ const examples = [
     title: "Renter Occupied Households by State",
     group: "Housing",
     image: "/api/profile/naics/4232/thumb",
-    link: "/visualize?groups=0-ezfEN&groups=1-RSHig-1&measure=26YVLn"
+    link: "/visualize?groups=0-Z4LzeD&groups=1-Z1xMhVU-1&measure=Z1X8D4i"
   },
 
   {
     title: "Black Females working in the Software Industry by State",
     group: "Labor",
     image: "/api/profile/soc/151131/thumb",
-    link: "/visualize?groups=0-1LK22m&groups=1-2rAHKG-2&groups=2-ZJJp1G-5112&groups=3-Z5TtG5-2&measure=ZkH9RT"
+    link: "/visualize?groups=0-z9TnC&groups=1-Z1Oby8M-2&groups=2-1mjmRl-5112&groups=3-1dQe8s-2&measure=1qWfo"
   },
   {
     title: "German-Borns Working in the Performing Arts Industry",
     group: "Labor",
     image: "/api/profile/cip/509999/thumb",
-    link: "/visualize?groups=0-1LK22m&groups=1-Z1bHF5a-110&groups=2-ZJJp1G-711&measure=ZkH9RT"
+    link: "/visualize?groups=0-z9TnC&groups=1-1SyFhe-110&groups=2-1mjmRl-711&measure=1qWfo"
   },
   {
     title: "Naturalized US Citizens Working as Computer Scientists and Web Developers",
     group: "Labor",
     image: "/api/profile/cip/110701/thumb",
-    link: "/visualize?groups=0-1LK22m&groups=1-ZgqxGk-4&groups=2-ZUeVm5-151111~151131~151134~15113X&measure=ZkH9RT"
+    link: "/visualize?groups=0-z9TnC&groups=1-13xVLW-4&groups=2-19hV1x-151111~151131~151134~15113X&measure=1qWfo"
   },
   {
     title: "Median Earnings in the Construction Industry by State",
     group: "Labor",
     image: "/api/profile/cip/46/thumb",
-    link: "/visualize?groups=0-Z1kzMyb&groups=1-AY10R-2&measure=2oJ9qr"
+    link: "/visualize?groups=0-Z1DVCsC&groups=1-Z1vDbOy-2&measure=ALgX7"
   },
   {
     title: "Income Inequality by Metro Area",
     group: "Labor",
     image: "/api/profile/napcs/41/thumb",
-    link: "/visualize?groups=0-Z15PG9U&measure=nJdNt"
+    link: "/visualize?groups=0-23eSQ7&measure=230vWl"
   },
   {
     title: "Coal Mining Workers by State",
     group: "Labor",
     image: "/api/profile/naics/mining-quarrying-oil-gas-extraction/thumb",
-    link: "/visualize?filters=0-h3NC-5-5&filters=1-ZkH9RT-4-2000&groups=0-1LK22m&groups=1-ZJJp1G-2121&measure=ZkH9RT"
+    link: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo"
   },
 
   {
@@ -250,14 +244,18 @@ class Visualize extends Component {
       const {showConfidenceInt} = uiParams;
 
       const groups = query.groups.filter(d => d.key);
-      const slug = `${query.measure.annotations._key}-${groups.map(d => d.key).join("-")}`;
+      let slug = query.measure.annotations._key;
       const params = {
         measures: [query.measure.name],
         drilldowns: groups.map(d => d.level.name)
       };
 
       groups.forEach(group => {
-        if (group.members.length) params[group.level.name] = group.members.map(m => m.key).join(",");
+        slug += `-${group.key}`;
+        if (group.members.length) {
+          params[group.level.name] = group.members.map(m => m.key).join(",");
+          slug += `-${params[group.level.name]}`;
+        }
       });
 
       if (showConfidenceInt) {
@@ -404,7 +402,7 @@ class Visualize extends Component {
           groupLimit={4}
           measureConfig={measureConfig}
           tableLogic={cubes => {
-            const cube = cubes.find(d => d.name.match(/_1/));
+            const cube = cubes.find(d => d.name.match(/_5/));
             return cube || cubes[0];
           }}
           config={{

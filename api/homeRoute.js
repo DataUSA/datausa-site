@@ -38,13 +38,13 @@ module.exports = function(app) {
         },
         {
           title: "Coal Mining Workers by State",
-          url: "/visualize?filters=0-h3NC-5-5&filters=1-ZkH9RT-4-2000&groups=0-1LK22m&groups=1-ZJJp1G-2121&measure=ZkH9RT",
+          url: "/visualize?filters=0-Z2nLcvC-5-5&filters=1-1qWfo-4-2000&groups=0-z9TnC&groups=1-1mjmRl-2121&measure=1qWfo",
           image: "/api/profile/naics/mining-quarrying-oil-gas-extraction/thumb",
           new: false
         },
         {
-          title: "Foreign Born Citizens by State",
-          url: "/visualize?groups=0-1dX7e9&measure=ZHkGoL",
+          title: "Foreign-Born Citizens by State",
+          url: "/visualize?groups=0-TBhjH&measure=64auG",
           image: "/api/profile/cip/regional-studies-us-canadian-foreign/thumb",
           new: false
         }

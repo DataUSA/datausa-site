@@ -37,14 +37,18 @@ module.exports = async function(app) {
     rows: results.reduce((obj, d) => (obj[d.key] = d, obj), {}),
     totals,
     index: lunr(function() {
+
       this.ref("key");
       this.field("name", {boost: 3});
       this.field("keywords", {boost: 2});
       this.field("dimension");
       this.field("hierarchy");
-      this.pipeline.remove(lunr.stemmer);
-      this.searchPipeline.remove(lunr.stemmer);
+
+      this.pipeline.reset();
+      this.searchPipeline.reset();
+
       results.forEach(result => this.add(result, {boost: result.zvalue}));
+
     })
   };
 

@@ -1,6 +1,6 @@
 {
   "name": "datausa-site",
-  "version": "3.0.0-alpha",
+  "version": "3.0.2",
   "description": "The most comprehensive visualization of U.S. public data",
   "main": "src/index.js",
   "scripts": {
@@ -30,9 +30,9 @@
   "dependencies": {
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
-    "@datawheel/canon-core": "^0.16.32",
+    "@datawheel/canon-core": "^0.16.33",
     "@datawheel/canon-logiclayer": "^0.3.19",
-    "@datawheel/canon-vizbuilder": "^0.2.11",
+    "@datawheel/canon-vizbuilder": "^0.2.14",
     "buble": "^0.19.3",
     "eslint": "^4.16.0",
     "flickr-sdk": "^3.7.0",
