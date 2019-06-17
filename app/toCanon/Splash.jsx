@@ -76,7 +76,7 @@ class Splash extends Component {
         icon={ false }
         inactiveComponent={ CompareButton }
         placeholder={ `Search ${profile.label.replace(/([A-z]$)/g, chr => chr === "y" ? "ies" : `${chr}s`)}` }
-        primary={true}
+        primary={false}
         resultRender={d => <div onClick={() => addComparison(d.slug || d.id)} className="result-container">
           <img className="result-icon" src={ `/icons/dimensions/${d.dimension} - Color.svg` } />
           <div className="result-text">
