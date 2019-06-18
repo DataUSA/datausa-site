@@ -19,6 +19,7 @@ import albersUsaPr from "helpers/albersUsaPr";
 // const launch = new Date("01 May 2019 08:00:00 GMT-0400");
 const bannerKey = "datausa-banner-v1";
 const bannerLink = "/visualize";
+const bannerText = "Go deep into US data with the new vizbuilder";
 
 class App extends Component {
 
@@ -89,7 +90,7 @@ class App extends Component {
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
         <div className={banner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
-          Click here to try out the new Viz Builder!
+          <span className="banner-text">{ bannerText }</span>
           <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} />
         </div>
       </div>

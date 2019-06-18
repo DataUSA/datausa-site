@@ -2,34 +2,46 @@
   background-color: var(--red);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   color: white;
-  font-size: 14px;
-  font-weight: 700;
+  height: var(--nav-height);
   left: 0;
   padding: 5px 5px 6px;
   position: fixed;
   right: 0;
   text-align: center;
   transition: box-shadow 0.5s, top 0.5s;
-  top: -35px;
+  top: calc(var(--nav-height) * -1);
   width: 100%;
   z-index: 10000;
   &.visible {
     top: 0;
   }
+  & .banner-text {
+    /* border-bottom: 3px solid rgba(255, 255, 255, 0.5); */
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+    text-transform: uppercase;
+    transition: border-color 0.5s;
+  }
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-    text-decoration: underline;
+    & .banner-text {
+      border-color: white;
+    }
   }
   & a {
     color: white;
   }
   & .close {
-    float: right;
     line-height: 20px;
     min-height: 20px;
     min-width: 20px;
     opacity: 0.5;
+    position: absolute;
+    right: 10px;
+    top: 10px;
     transition: opacity 0.2s;
     vertical-align: top;
     &:before {
