@@ -137,6 +137,9 @@ class Map extends Component {
                   : "Add the underlying data to the cart, and merge with any existing cart data." }
             </span>
           </Tooltip2>
+          <h1 className="absolute-title">
+            Map
+          </h1>
         </div>
       </Vizbuilder>
 

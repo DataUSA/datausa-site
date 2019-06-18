@@ -9,10 +9,12 @@
     & .area-middle {
       display: none;
     }
+    & .area-sidebar {
+      padding-top: calc(var(--nav-height) + 25px);
+    }
     & .area-sidebar, & .area-chart {
       /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
       height: calc(100vh - var(--nav-height));
-      padding-top: 0;
     }
     & .area-chart {
       margin-top: 0;
