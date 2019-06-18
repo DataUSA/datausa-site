@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
+import localforage from "localforage";
 import "./App.css";
 
-// import {Button} from "@blueprintjs/core";
+import {Button} from "@blueprintjs/core";
 import {fetchCart} from "actions/cart";
 import {fetchData} from "@datawheel/canon-core";
 import "./d3plus.css";
@@ -16,6 +17,8 @@ import Footer from "components/Footer/index";
 import albersUsaPr from "helpers/albersUsaPr";
 
 // const launch = new Date("01 May 2019 08:00:00 GMT-0400");
+const bannerKey = "datausa-banner-v1";
+const bannerLink = "/visualize";
 
 class App extends Component {
 
@@ -36,8 +39,10 @@ class App extends Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.fetchCart();
+    const banner = await localforage.getItem(bannerKey);
+    if (!banner) this.setState({banner: true});
   }
 
   componentWillMount() {
@@ -50,7 +55,14 @@ class App extends Component {
     return {formatters, router};
   }
 
-  toggleBanner() {
+  clickBanner() {
+    localforage.setItem(bannerKey, true);
+    this.props.router.push(bannerLink);
+  }
+
+  toggleBanner(e) {
+    e.stopPropagation();
+    localforage.setItem(bannerKey, true);
     this.setState({banner: !this.state.banner});
   }
 
@@ -76,10 +88,10 @@ class App extends Component {
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
-        { banner ? <div id="Banner">
-          You are viewing a prototype for the new Data USA. Beta testing will end on Wednesday May 1st at 8am EST.
-          {/* <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} /> */}
-        </div> : null }
+        <div className={banner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
+          Click here to try out the new Viz Builder!
+          <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} />
+        </div>
       </div>
     );
 

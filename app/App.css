@@ -1,30 +1,28 @@
 #Banner {
   background-color: var(--red);
-  /* border-top: 1px solid var(--black); */
-  bottom: 0;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   color: white;
   font-size: 14px;
   font-weight: 700;
   left: 0;
-  padding: 5px 5px 11px;
+  padding: 5px 5px 6px;
   position: fixed;
   right: 0;
   text-align: center;
+  transition: box-shadow 0.5s, top 0.5s;
+  top: -35px;
   width: 100%;
   z-index: 10000;
+  &.visible {
+    top: 0;
+  }
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    text-decoration: underline;
+  }
   & a {
     color: white;
-  }
-  &:before {
-    background-color: var(--black);
-    bottom: 0;
-    content: "";
-    height: 6px;
-    left: 0;
-    position: absolute;
-    right: 0;
-    width: 100%;
   }
   & .close {
     float: right;
