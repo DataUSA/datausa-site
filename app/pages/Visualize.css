@@ -518,7 +518,7 @@
 
       & .slick-list {
         overflow: hidden;
-        cursor: ew-resize;
+        /* cursor: ew-resize; */
 
         &.dragging {
           cursor: pointer;
