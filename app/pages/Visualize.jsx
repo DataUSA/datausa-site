@@ -215,8 +215,9 @@ class Visualize extends Component {
         </Helmet>
         <div className="text">
           <h1>Viz Builder</h1>
+          <iframe className="video" src="https://player.vimeo.com/video/343250061?color=ef6145&byline=0&portrait=0" frameBorder="0" allow="fullscreen" allowFullScreen></iframe>
           <p>
-            Welcome to the Data USA custom visualization builder. This page allows you to select any indicator from the site. You may specify custom groupings and filters, and then view the resulting data as a series of visualizations based on your selection.
+            The Viz Builder is a tool that allows you to dig deep into US public data. From this page, you can select any indicator from the site, specify custom groupings and filters, and then view the resulting data as a series of visualizations based on your selection.
           </p>
           <p>
             The examples on the right are a small sample of what is possible with the Viz Builder. Click on one to get started!

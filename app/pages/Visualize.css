@@ -15,12 +15,12 @@
       margin-bottom: 15px;
     }
     & .absolute-title {
-      cursor: help;
       left: 15px;
       position: absolute;
       top: 25px;
       width: auto;
       & h1 {
+        cursor: help;
         display: inline-block;
         width: auto;
       }
@@ -393,6 +393,10 @@
     margin: 0 35px;
     padding-top: calc(var(--nav-height) + 35px);
     width: 350px;
+    & .video {
+      height: 197px;
+      width: 350px;
+    }
     & p {
       margin: 10px 0;
       width: 100%;
