@@ -215,7 +215,7 @@ class Visualize extends Component {
         </Helmet>
         <div className="text">
           <h1>Viz Builder</h1>
-          <iframe className="video" src="https://player.vimeo.com/video/343322385?color=ef6145&byline=0&portrait=0" frameBorder="0" allow="fullscreen" allowFullScreen></iframe>
+          <iframe className="video" src="https://player.vimeo.com/video/343322385?color=ef6145&byline=0&portrait=0" frameBorder="0" allowFullScreen></iframe>
           <p>
             The Viz Builder is a tool that allows you to dig deep into US public data. From this page, you can select any indicator from the site, specify custom groupings and filters, and then view the resulting data as a series of visualizations based on your selection.
           </p>
