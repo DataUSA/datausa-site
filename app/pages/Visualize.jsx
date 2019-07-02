@@ -150,6 +150,8 @@ class Visualize extends Component {
 
     const queryTitle = query.title || title;
 
+    const position = typeof window !== "undefined" && window.innerWidth <= 900 ? "below" : "on the right";
+
     const SlickButtonFix = ({currentSlide, slideCount, children, ...props}) =>
       <div {...props}>{children}</div>;
 
@@ -199,7 +201,21 @@ class Visualize extends Component {
           }
         },
         {
-          breakpoint: 800,
+          breakpoint: 900,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3
+          }
+        },
+        {
+          breakpoint: 700,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: 500,
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1
@@ -220,7 +236,7 @@ class Visualize extends Component {
             The Viz Builder is a tool that allows you to dig deep into US public data. From this page, you can select any indicator from the site, specify custom groupings and filters, and then view the resulting data as a series of visualizations based on your selection.
           </p>
           <p>
-            The examples on the right are a small sample of what is possible with the Viz Builder. Click on one to get started!
+            The examples {position} are a small sample of what is possible with the Viz Builder. Click on one to get started!
           </p>
           <div className="advanced" onClick={this.closeIntro.bind(this)}>Go directly to interface &raquo;</div>
         </div>

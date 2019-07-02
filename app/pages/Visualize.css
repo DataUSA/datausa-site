@@ -24,6 +24,9 @@
         display: inline-block;
         width: auto;
       }
+      @media (max-width: 600px) {
+        padding: 0 25px;
+      }
     }
   }
 }
@@ -33,6 +36,11 @@
   /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
   height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
+  @media (max-width: 600px) {
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+  }
   & .area-middle {
     & .toggle-sidebar {
       top: 28px;
@@ -44,6 +52,11 @@
         }
       }
     }
+    @media (max-width: 600px) {
+      left: 0;
+      position: fixed;
+      top: 40px;
+    }
   }
   & .area-sidebar {
     /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
@@ -51,6 +64,13 @@
     padding-top: calc(var(--nav-height) + 25px);
     position: relative;
     width: 300px;
+    @media (max-width: 600px) {
+      display: block;
+      flex: 0;
+      height: auto;
+      padding: calc(var(--nav-height) + 25px) 25px 0;
+      width: 100%;
+    }
     & .sources .pt-select {
       margin-top: 5px;
     }
@@ -318,6 +338,9 @@
         }
       }
     }
+    & .control:last-child {
+      margin-bottom: 0;
+    }
     & .ranking {
       & ol {
         font-family: "Palanquin", sans-serif;
@@ -327,6 +350,9 @@
         margin-bottom: 20px;
         padding-left: 30px;
         width: 100%;
+        &:last-child {
+          margin-bottom: 0;
+        }
         & .ranking-item {
           padding: 2px 5px;
           & .item-label {
@@ -340,15 +366,32 @@
     }
   }
   & .area-chart {
+    flex: 1 0;
     height: calc(100vh - var(--nav-height));
     padding: 25px;
+    @media (max-width: 600px) {
+      display: block;
+      flex: none;
+      height: inherit;
+      overflow: visible;
+    }
     & .wrapper {
       padding: 0;
+      @media (max-width: 600px) {
+        display: block;
+        flex: none;
+        height: inherit;
+        overflow: visible;
+      }
       &.single .chart-card .wrapper {
         padding-top: 30px;
       }
       & .chart-card {
         min-width: 400px;
+        @media (max-width: 768px) {
+          flex: 0;
+          min-width: 100%;
+        }
         & .wrapper {
           background: white;
           border: 1px solid #bbb;
@@ -389,6 +432,11 @@
   justify-content: center;
   padding: 0;
   width: 100%;
+  @media (max-width: 900px) {
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+  }
   & .text {
     margin: 0 35px;
     padding-top: calc(var(--nav-height) + 35px);
@@ -408,6 +456,13 @@
     overflow-x: hidden;
     overflow-y: scroll;
     padding: calc(var(--nav-height) + 35px) 35px 35px 0;
+    @media (max-width: 900px) {
+      flex: none;
+      height: auto;
+      overflow: none;
+      padding: 35px 0 0;
+      width: 100%;
+    }
     & .carousel {
       margin-bottom: 25px;
 
