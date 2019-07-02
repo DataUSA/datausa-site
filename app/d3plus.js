@@ -60,6 +60,10 @@ const badMeasures = [
 
 export {badMeasures};
 
+const pathway = ["Pathway Gothic One", "Arial Narrow", "sans-serif"];
+const sourceSans = ["Source Sans Pro", "sans-serif"];
+const palanquin = ["Palanquin", "sans-serif"];
+
 /**
  * Finds a color if defined in the color lookup.
  * @param {Object} d
@@ -92,7 +96,7 @@ const axisStyles = {
   shapeConfig: {
     labelConfig: {
       fontColor: () => "#211f1a",
-      fontFamily: () => "Source Sans Pro",
+      fontFamily: () => sourceSans,
       fontSize: () => 12,
       fontWeight: () => 400
     },
@@ -101,7 +105,7 @@ const axisStyles = {
   tickSize: 5,
   titleConfig: {
     fontColor: () => "#211f1a",
-    fontFamily: () => "Palanquin",
+    fontFamily: () => palanquin,
     fontSize: () => 12,
     fontWeight: () => 400
   }
@@ -117,14 +121,14 @@ export default {
       shapeConfig: {
         labelConfig: {
           fontColor: () => "#211f1a",
-          fontFamily: () => "Source Sans Pro",
+          fontFamily: () => sourceSans,
           fontSize: () => 12,
           fontWeight: () => 400
         }
       },
       titleConfig: {
         fontColor: () => "#211f1a",
-        fontFamily: () => "Palanquin",
+        fontFamily: () => palanquin,
         fontSize: () => 12,
         fontWeight: () => 400
       }
@@ -133,7 +137,7 @@ export default {
     legendConfig: {
       shapeConfig: {
         labelConfig: {
-          fontFamily: () => "Source Sans Pro",
+          fontFamily: () => sourceSans,
           fontSize: () => 12
         },
         height: () => 15,
@@ -154,7 +158,7 @@ export default {
   legendConfig: {
     shapeConfig: {
       labelConfig: {
-        fontFamily: () => "Palanquin",
+        fontFamily: () => palanquin,
         fontSize: () => 13
       },
       height: () => 20,
@@ -187,7 +191,7 @@ export default {
     },
     Bar: {
       labelConfig: {
-        fontFamily: () => "Pathway Gothic One",
+        fontFamily: () => pathway,
         fontSize: () => 13,
         padding: "0 5px"
       },
@@ -198,7 +202,7 @@ export default {
     },
     fill: findColor,
     labelConfig: {
-      fontFamily: () => "Pathway Gothic One",
+      fontFamily: () => pathway,
       fontSize: () => 13,
       padding: labelPadding
     },
@@ -223,7 +227,7 @@ export default {
         return arr;
       },
       labelConfig: {
-        fontFamily: () => "Pathway Gothic One",
+        fontFamily: () => pathway,
         fontSize: () => 13,
         fontResize: true,
         padding: 0
@@ -266,7 +270,7 @@ export default {
     padding: 0
   },
   titleConfig: {
-    fontFamily: "Pathway Gothic One",
+    fontFamily: pathway,
     fontSize: 18,
     fontWeight: 400,
     padding: 0
