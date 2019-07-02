@@ -1,11 +1,16 @@
 #Visualize.Map {
-  /* height: calc(100vh - var(--banner-height)); */
   height: 100vh;
   overflow: hidden;
+  @media (max-width: 600px) {
+    height: auto;
+    overflow: visible;
+  }
   & .vizbuilder {
     padding-top: 0;
-    /* height: calc(100vh - var(--banner-height)); */
     height: 100vh;
+    @media (max-width: 600px) {
+      height: auto;
+    }
     & .area-middle {
       display: none;
     }
@@ -13,8 +18,10 @@
       padding-top: calc(var(--nav-height) + 25px);
     }
     & .area-sidebar, & .area-chart {
-      /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
       height: calc(100vh - var(--nav-height));
+      @media (max-width: 600px) {
+        height: auto;
+      }
     }
     & .area-chart {
       margin-top: 0;
