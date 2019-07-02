@@ -340,8 +340,8 @@
     }
   }
   & .area-chart {
-    height: calc(100vh - var(--nav-height) - 33px);
-    padding: 30px 25px 25px 25px;
+    height: calc(100vh - var(--nav-height));
+    padding: 25px;
     & .wrapper {
       padding: 0;
       &.single .chart-card .wrapper {
