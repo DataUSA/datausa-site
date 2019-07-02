@@ -44,8 +44,9 @@ class App extends Component {
     this.props.fetchCart();
     const banner = await localforage.getItem(bannerKey);
     const {basename, pathname} = this.props.router.location;
+    const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
     if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
-    else if (!banner) this.setState({banner: true});
+    else if (!banner && !embed) this.setState({banner: true});
   }
 
   componentWillMount() {
