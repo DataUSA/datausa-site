@@ -2,14 +2,13 @@
   background-color: var(--red);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   color: white;
-  height: var(--nav-height);
   left: 0;
   padding: 5px 5px 6px;
   position: fixed;
   right: 0;
   text-align: center;
   transition: box-shadow 0.5s, top 0.5s;
-  top: calc(var(--nav-height) * -1);
+  top: -100px;
   width: 100%;
   z-index: 10000;
   &.visible {
@@ -21,8 +20,13 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
+    padding: 0 25px;
     text-transform: uppercase;
     transition: border-color 0.5s;
+    @media (max-width: 768px) {
+      border-bottom: none;
+      text-decoration: underline;
+    }
   }
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
