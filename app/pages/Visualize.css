@@ -374,6 +374,7 @@
       flex: none;
       height: inherit;
       overflow: visible;
+      width: 100%;
     }
     & .wrapper {
       padding: 0;
@@ -439,11 +440,13 @@
   }
   & .text {
     margin: 0 35px;
+    max-width: 350px;
     padding-top: calc(var(--nav-height) + 35px);
-    width: 350px;
+    width: calc(100% - 70px);
     & .video {
       height: 197px;
-      width: 350px;
+      max-width: 350px;
+      width: 100%;
     }
     & p {
       margin: 10px 0;
@@ -470,6 +473,9 @@
         font-size: 24px;
         margin-bottom: 0;
         padding-left: calc(25px + 1rem);
+        @media (max-width: 400px) {
+          font-size: 20px;
+        }
         & svg {
           height: 25px;
           margin-right: 5px;
