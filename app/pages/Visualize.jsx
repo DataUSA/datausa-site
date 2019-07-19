@@ -238,7 +238,9 @@ class Visualize extends Component {
           <p>
             The examples {position} are a small sample of what is possible with the Viz Builder. Click on one to get started!
           </p>
-          <div className="advanced" onClick={this.closeIntro.bind(this)}>Go directly to interface &raquo;</div>
+          <div className="pt-button pt-fill pt-icon-settings" onClick={this.closeIntro.bind(this)}>
+            Go directly to interface
+          </div>
         </div>
         <div className="examples">
           { exampleGroups.map(d =>

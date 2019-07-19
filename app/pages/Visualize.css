@@ -452,6 +452,20 @@
       margin: 10px 0;
       width: 100%;
     }
+    & .pt-button {
+      background: var(--red);
+      border: 1px solid var(--red);
+      border-radius: 0;
+      box-shadow: none;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      &:before {
+        color: white;
+        font-size: 13px;
+      }
+    }
   }
   & .examples {
     flex: 1;
