@@ -17,6 +17,10 @@ module.exports = {
       {
         filter: (cubes, query, caches) => {
 
+          if (cubes.find(cube => cube.name.includes("_c_"))) {
+            cubes = cubes.filter(cube => cube.name.includes("_c_"));
+          }
+
           const {pops} = caches;
           const ids = d3Array.merge(query.dimensions
             .filter(d => d.dimension === "Geography")
