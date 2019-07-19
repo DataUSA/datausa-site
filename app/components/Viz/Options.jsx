@@ -328,7 +328,7 @@ class Options extends Component {
 
     const cartEnabled = data && slug && title;
     const shareEnabled = topic.slug;
-    const baseURL = (typeof window === "undefined" ? location : window.location).href.split("/").slice(0, 6).join("/");
+    const baseURL = (typeof window === "undefined" ? location : window.location).href.split("#")[0].split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
     const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
 
