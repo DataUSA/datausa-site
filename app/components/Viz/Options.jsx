@@ -81,10 +81,10 @@ class Options extends Component {
       {label: "Fullscreen", value: ["100%", "100%"]}
     ];
 
-    const {data} = props;
+    const {data, topic} = props;
 
     this.state = {
-      data: typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data,
+      data: topic.cart || typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data,
       embedSize: sizeList[0],
       includeText: false,
       loading: false,
@@ -92,6 +92,12 @@ class Options extends Component {
       results: false,
       sizes: sizeList
     };
+  }
+
+  componentDidUpdate() {
+    const {data, topic} = this.props;
+    const newData = topic.cart || typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data;
+    if (newData !== this.state.data) this.setState({data: newData, results: false});
   }
 
   async onCart() {
