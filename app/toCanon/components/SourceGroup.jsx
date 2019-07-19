@@ -1,12 +1,15 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Tooltip2} from "@blueprintjs/labs";
 import "./SourceGroup.css";
 
-export default class SourceGroup extends Component {
+class SourceGroup extends Component {
 
   render() {
     const {sources} = this.props;
-    if (!sources || !sources.length) return null;
+    const {pathname} = this.context.router.location;
+    const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
+    if (!embed && (!sources || !sources.length)) return null;
 
     return <div className="SourceGroup">
       Data provided by
@@ -42,3 +45,9 @@ export default class SourceGroup extends Component {
   }
 
 }
+
+SourceGroup.contextTypes = {
+  router: PropTypes.object
+};
+
+export default SourceGroup;
