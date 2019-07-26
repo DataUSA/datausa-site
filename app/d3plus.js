@@ -76,9 +76,12 @@ function findColor(d) {
   if (detectedColors.length !== 1) {
     for (const key in colors) {
       if (`ID ${key}` in d) {
-        return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+        const color = colors[key][d[`ID ${key}`]] || colors[key][d[key]];
+        if (color) return color;
+        else continue;
       }
     }
+    return colors.colorGrey;
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
 }
