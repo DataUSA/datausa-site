@@ -20,6 +20,9 @@ module.exports = {
           if (cubes.find(cube => cube.name.includes("_c_"))) {
             cubes = cubes.filter(cube => cube.name.includes("_c_"));
           }
+          else if (cubes.find(cube => cube.name.includes("_2016_"))) {
+            cubes = cubes.filter(cube => cube.name.includes("_2016_"));
+          }
 
           const {pops} = caches;
           const ids = d3Array.merge(query.dimensions
@@ -40,11 +43,7 @@ module.exports = {
           return cubes.filter(cube => cube.name.match(bigGeos && !drilldowns ? /_1$/g : /_5$/g));
 
         },
-        key: cube => cube.name.replace("_c_", "_").replace(/_[0-9]$/g, "")
-      },
-      {
-        filter: cubes => cubes.filter(c => c.name.includes("_c_")),
-        key: cube => cube.name.replace("_c_", "_")
+        key: cube => cube.name.replace("_c_", "_").replace("_2016_", "_").replace(/_[0-9]$/g, "")
       },
       {
         filter: cubes => cubes.filter(c => c.name === "ipeds_graduation_demographics_v3"),
