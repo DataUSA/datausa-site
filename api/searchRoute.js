@@ -1,4 +1,5 @@
 const d3Array = require("d3-array");
+const sanitizeName = require("../utils/sanitizeName");
 
 module.exports = function(app) {
 
@@ -33,10 +34,8 @@ module.exports = function(app) {
     }
     else {
 
-      const query = q.toLowerCase();
-      let searchQuery = q
-        .replace(/\,/g, " ")
-        .replace(/\s\s+/g, " ")
+      const query = sanitizeName(q);
+      let searchQuery = query
         .replace(/([A-z]{2,})/g, txt => `+${txt}`)
         // .replace(/([A-z]{7,})/g, txt => `${txt}~${ Math.floor((txt.length - 1) / 6) }`)
         .replace(/(.)$/g, txt => `${txt}*`);
@@ -48,13 +47,14 @@ module.exports = function(app) {
         .map(d => {
 
           const data = rows[d.ref];
-          const name = data.name.toLowerCase();
+          const keywords = data.keywords || [];
+          const name = sanitizeName(data.name);
           const zvalue = data.zvalue;
           const zscore = zvalue * 0.15;
 
           let score = d.score;
           const diffMod = query.length / name.length;
-          if (name === query) score = 1000000;
+          if (name === query || keywords.includes(query)) score = 1000000;
           else if (name.startsWith(query)) score *= 20 * diffMod;
           else if (query.startsWith(name.slice(0, 10))) score *= 10 * diffMod;
           else if (query.startsWith(name.slice(0, 5))) score *= 5 * diffMod;

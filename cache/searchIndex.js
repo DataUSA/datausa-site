@@ -1,4 +1,5 @@
 const lunr = require("lunr");
+const sanitizeName = require("../utils/sanitizeName");
 
 module.exports = async function(app) {
 
@@ -12,19 +13,28 @@ module.exports = async function(app) {
     .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
 
   const results = rows
-    .map(d => ({
-      dimension: d.dimension,
-      hierarchy: d.hierarchy,
-      id: d.id,
-      image: d.image,
-      key: `${d.dimension}-${d.hierarchy}-${d.id}`,
-      keywords: d.keywords,
-      name: d.display,
-      profile: slugs[d.dimension],
-      slug: d.slug,
-      stem: d.stem === 1,
-      zvalue: d.zvalue
-    }));
+    .map(d => {
+
+      const name = sanitizeName(d.display);
+      const alts = name.split(/[\s\-]/g);
+      if (alts.includes("st")) alts.push("saint");
+      if (alts.includes("mt")) alts.push("mount");
+
+      return {
+        alts,
+        dimension: d.dimension,
+        hierarchy: d.hierarchy,
+        id: d.id,
+        image: d.image,
+        key: `${d.dimension}-${d.hierarchy}-${d.id}`,
+        keywords: d.keywords,
+        name: d.display,
+        profile: slugs[d.dimension],
+        slug: d.slug,
+        stem: d.stem === 1,
+        zvalue: d.zvalue
+      };
+    });
 
   const totals = results.reduce((obj, d) => {
     if (!obj[d.dimension]) obj[d.dimension] = {};
@@ -39,8 +49,8 @@ module.exports = async function(app) {
     index: lunr(function() {
 
       this.ref("key");
-      this.field("name", {boost: 3});
-      this.field("keywords", {boost: 2});
+      this.field("keywords", {boost: 3});
+      this.field("alts", {boost: 2});
       this.field("dimension");
       this.field("hierarchy");
 
