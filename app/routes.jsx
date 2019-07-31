@@ -31,6 +31,7 @@ import API from "./pages/Data/API";
 import Classifications from "./pages/Data/Classifications";
 
 import {Builder} from "@datawheel/canon-cms";
+import {Profile as CMSProfile} from "@datawheel/canon-cms";
 
 import napcs2sctg from "../static/data/nacps2sctg.json";
 const sctg2napcs = Object.keys(napcs2sctg)
@@ -72,6 +73,8 @@ export default function RouteCreate() {
       <Route path="/search" component={SearchPage} />
       <Route path="/profile/:pslug/:pid" onEnter={crosswalk} component={Profile} />
       <Route path="/profile/:pslug/:pid/:sslug/:tslug" component={Embed} />
+
+      <Route path="/profile-new/:slug/:id" component={CMSProfile} />
 
       <Route path="/story" component={Stories} />
       <Route path="/story/:sid" component={Story} />
