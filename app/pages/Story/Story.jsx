@@ -58,7 +58,7 @@ class Story extends Component {
         { topics.map((t, i) => <Topic contents={t} key={i} />) }
         { footnotes && <div className="meta-info">
           <ol className="footnotes">
-            { footnotes.map((footnote, i) => <li className="footnote" id={`footnote${i}`} key={i} dangerouslySetInnerHTML={{__html: footnote}}></li>) }
+            { footnotes.map((footnote, i) => <li key={`footnote-${i}`} className="footnote" id={`footnote${i}`} dangerouslySetInnerHTML={{__html: footnote}}></li>) }
           </ol>
         </div> }
         <div className="meta-info dark">
@@ -84,7 +84,7 @@ Story.contextTypes = {
 };
 
 Story.need = [
-  fetchData("story", "/api/story/<sid>")
+  fetchData("story", "/api/storyLegacy/<sid>")
 ];
 
 export default connect(state => ({

@@ -64,7 +64,7 @@ class Splash extends Component {
     return <div id="Splash" style={{height}} className={ revealPhoto ? "reveal-photo" : "" }>
       <div className="image-container" style={{height}}>
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL || d.image}")`}}></div>) }
-        <Button onClick={this.revealPhoto.bind(this)} iconName="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
+        <Button onClick={this.revealPhoto.bind(this)} icon="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
       </div>
       <div className="content-container">
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }

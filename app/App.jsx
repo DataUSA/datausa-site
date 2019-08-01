@@ -74,7 +74,7 @@ class App extends Component {
           <meta property="og:image" content={ `${origin}/images/share.jpg` } />
         </Helmet>
         { bare ? null : <Nav location={location} /> }
-        { this.props.children }
+        <React.Fragment>{ this.props.children }</React.Fragment>
         { fullscreen || bare ? null : <Footer location={location} /> }
         { banner ? <div id="Banner">
           You are viewing a prototype for the new Data USA. Beta testing will end on Wednesday May 1st at 8am EST.

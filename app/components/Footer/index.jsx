@@ -40,11 +40,11 @@ export default class Footer extends Component {
               <div id="mc_embed_signup_scroll">
                 <div className="input-container">
                   <span className="bp3-icon-standard bp3-icon-envelope"></span>
-                  <input type="email" value="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="your email address" required="" />
-                  <input type="submit" value="Sign Up" name="subscribe" id="mc-embedded-subscribe" className="email-btn" />
+                  <input type="email" defaultValue="" name="EMAIL" className="email" id="mce-EMAIL" placeholder="your email address" required="" />
+                  <input type="submit" defaultValue="Sign Up" name="subscribe" id="mc-embedded-subscribe" className="email-btn" />
                 </div>
                 <div style={{position: "absolute", left: "-5000px"}} aria-hidden="true">
-                  <input type="text" name="b_458059cf58ada1fd2b7de3e39_9a3f9a9f32" tabIndex="-1" value="" />
+                  <input type="text" name="b_458059cf58ada1fd2b7de3e39_9a3f9a9f32" tabIndex="-1" defaultValue="" />
                 </div>
               </div>
             </form>

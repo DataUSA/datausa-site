@@ -45,15 +45,15 @@ import oldGeos from "../static/data/oldgeos.json";
 /** Handles all profile page crosswalk logic. */
 function crosswalk(nextState, replace) {
 
-  const {pslug, pid} = nextState.params;
+  const {slug, id} = nextState.params;
 
-  if (pslug === "sctg") {
-    const id = sctg2napcs[pid];
+  if (slug === "sctg") {
+    const id = sctg2napcs[id];
     const url = `/profile/napcs/${id}/`;
     replace(url);
   }
-  else if (pslug === "geo" && oldGeos[pid]) {
-    const id = oldGeos[pid];
+  else if (slug === "geo" && oldGeos[id]) {
+    const id = oldGeos[id];
     const url = `/profile/geo/${id}/`;
     replace(url);
   }
@@ -69,10 +69,11 @@ export default function RouteCreate() {
       <IndexRoute component={Home} />
 
       <Route path="/search" component={SearchPage} />
-      <Route path="/profile/:pslug/:pid" onEnter={crosswalk} component={Profile} />
+      {/* <Route path="/profile/:pslug/:pid" onEnter={crosswalk} component={Profile} /> */}
+      <Route path="/profile/:slug/:id" onEnter={crosswalk} component={CMSProfile} />
       <Route path="/profile/:pslug/:pid/:sslug/:tslug" component={Embed} />
 
-      <Route path="/profile-new/:slug/:id" component={CMSProfile} />
+      
 
       <Route path="/story" component={Stories} />
       <Route path="/story/:sid" component={Story} />
