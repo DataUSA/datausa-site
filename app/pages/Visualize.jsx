@@ -19,7 +19,7 @@ import Tile from "components/Tile/Tile";
 import {examples, groupIcons} from "./VisualizeExamples";
 
 import albersUsaPr from "helpers/albersUsaPr";
-// import countryCodes from "helpers/countryCodes";
+import birthplaceCodes from "helpers/birthplaceCodes";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -281,12 +281,12 @@ class Visualize extends Component {
             zoomScroll: true
           }}
           topojson={{
-            // "Birthplace": {
-            //   ocean: "#d4dadc",
-            //   topojson: "/topojson/Birthplace.json",
-            //   topojsonId: d => countryCodes[d.id],
-            //   topojsonFilter: d => d.id !== "ATA && countryCodes[d.id]"
-            // },
+            "Birthplace": {
+              ocean: "#d4dadc",
+              topojson: "/topojson/birthplace-all.json",
+              topojsonId: d => birthplaceCodes[d.id],
+              topojsonFilter: d => d.id !== "ATA" && birthplaceCodes[d.id]
+            },
             "County": {
               projection: albersUsaPr(),
               ocean: "transparent",
