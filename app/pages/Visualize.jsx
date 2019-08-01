@@ -380,7 +380,7 @@ class Visualize extends Component {
           { exampleGroups.map(d =>
             <div key={d.key} className="carousel">
               <h2><SVG src={`/icons/sections/${groupIcons[d.key]}.svg`} />{ d.key }</h2>
-              <Carousel {...carouselSettings} ref={c => this.carousel = c}>
+              <Carousel key="carousel" {...carouselSettings} ref={c => this.carousel = c}>
                 {d.values.map(example => <Tile key={example.title} new={example.new} onClick={this.gotoExample.bind(this, example.link)} image={example.image} title={example.title} />)}
               </Carousel>
             </div>) }
