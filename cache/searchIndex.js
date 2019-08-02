@@ -1,6 +1,18 @@
 const lunr = require("lunr");
 const sanitizeName = require("../utils/sanitizeName");
 
+const abbreviations = {
+  en: [
+    ["ft", "fort"],
+    ["jct", "junction"],
+    ["mdw", "meadow"],
+    ["mt", "mount"],
+    ["mtn", "mountain"],
+    ["pt", "point"],
+    ["st", "saint"]
+  ]
+};
+
 module.exports = async function(app) {
 
   const {db} = app.settings;
@@ -16,9 +28,12 @@ module.exports = async function(app) {
     .map(d => {
 
       const name = sanitizeName(d.display);
+
       const alts = name.split(/[\s\-]/g);
-      if (alts.includes("st")) alts.push("saint");
-      if (alts.includes("mt")) alts.push("mount");
+      abbreviations.en.forEach(abbr => {
+        if (alts.includes(abbr[0])) alts.push(abbr[1]);
+        else if (alts.includes(abbr[1])) alts.push(abbr[0]);
+      });
 
       return {
         alts,
