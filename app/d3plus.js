@@ -168,9 +168,8 @@ export default {
       width: () => 20
     }
   },
-  loadingHTML: `
-  <div>
-    <strong>Drawing Visualization</strong>
+  loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <strong>Loading Visualization</strong>
   </div>`,
   messageMask: true,
   messageStyle: {
@@ -179,10 +178,6 @@ export default {
     "font-size": "16px",
     "font-weight": "300"
   },
-  noDataHTML: `
-  <div>
-    <strong>No Data Available</strong>
-  </div>`,
   ocean: "transparent",
   padPixel: 1,
   shapeConfig: {
