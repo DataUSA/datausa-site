@@ -91,8 +91,10 @@ class Search extends Component {
         const highlighted = document.querySelector(".highlighted");
 
         if (key === ENTER && highlighted) {
+          const link = highlighted.querySelector("a");
+          if (link) router.push(link.href);
+          else highlighted.querySelector("*").click();
           this.setState({active: false});
-          router.push(highlighted.querySelector("a").href);
         }
         else if (key === DOWN || key === UP) {
 
@@ -102,7 +104,6 @@ class Search extends Component {
           else {
 
             const results = document.querySelectorAll(".results > li");
-
             const currentIndex = [].indexOf.call(results, highlighted);
 
             let newHighlight = false;
