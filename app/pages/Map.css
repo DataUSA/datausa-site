@@ -16,6 +16,9 @@
     }
     & .area-sidebar {
       padding-top: calc(var(--nav-height) + 25px);
+      & .reset-defaults {
+        display: none;
+      }
     }
     & .area-sidebar, & .area-chart {
       height: calc(100vh - var(--nav-height));
