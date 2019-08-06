@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router";
 import {connect} from "react-redux";
 import Vizbuilder from "@datawheel/canon-vizbuilder";
 import {Tooltip2} from "@blueprintjs/labs";
@@ -83,12 +84,17 @@ class Map extends Component {
   }
 
   render() {
+    const {router} = this.context;
     const {query} = this.state;
     const {cart, cube} = this.props;
     const cartSize = cart ? cart.data.length : 0;
     const inCart = cart ? cart.data.find(c => c.slug === query.slug) : false;
 
     const queryTitle = query.title || title;
+
+    const params = {...router.location.query};
+    delete params.enlarged;
+    const vizbuilder = `/visualize?${Object.entries(params).map(([k, v]) => `${k}=${v}`).join("&")}`;
 
     return <div id="Visualize" className="Map">
 
@@ -137,6 +143,9 @@ class Map extends Component {
                   : "Add the underlying data to the cart, and merge with any existing cart data." }
             </span>
           </Tooltip2>
+          <Link className="pt-button pt-fill pt-icon-series-derived" to={vizbuilder}>
+            Explore in Viz Builder
+          </Link>
           <h1 className="absolute-title">
             Map
           </h1>
@@ -150,7 +159,8 @@ class Map extends Component {
 }
 
 Map.contextTypes = {
-  formatters: PropTypes.object
+  formatters: PropTypes.object,
+  router: PropTypes.object
 };
 
 export default connect(state => ({

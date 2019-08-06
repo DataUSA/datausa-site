@@ -312,7 +312,7 @@
         }
       }
     }
-    & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart, & .pt-button.pt-icon-undo {
+    & .pt-button.pt-icon-series-derived, & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart, & .pt-button.pt-icon-undo {
       background: none;
       border: 1px solid var(--red);
       border-radius: 0;
