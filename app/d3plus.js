@@ -262,12 +262,14 @@ export default {
     }
   },
   totalConfig: {
+    fontColor: () => "#211f1a",
     fontFamily: "Palanquin",
     fontSize: 14,
     fontWeight: 400,
     padding: 0
   },
   titleConfig: {
+    fontColor: () => "#211f1a",
     fontFamily: pathway,
     fontSize: 18,
     fontWeight: 400,
