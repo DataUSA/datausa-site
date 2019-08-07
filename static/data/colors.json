@@ -19,6 +19,55 @@
     "#CA3434",
     "#7b0000"
   ],
+  "Gender": {
+    "Male": "#1A3E61",
+    "Men": "#1A3E61",
+    "Female": "#CA3434",
+    "Women": "#CA3434"
+  },
+  "ACS Race": {
+    "0": "#004374",
+    "1": "#ff8166",
+    "2": "#ffb563",
+    "3": "#c19a1f",
+    "4": "#1a9b9a",
+    "5": "#bf168e",
+    "6": "#2f1fc1",
+    "7": "#336a81",
+    "8": "#82a8e7",
+    "9": "#49418e"
+  },
+  "IPEDS Race": {
+    "white": "#ff8166",
+    "black": "#ffb563",
+    "native": "#c19a1f",
+    "asian": "#1a9b9a",
+    "hawaiian": "#bf168e",
+    "unknown": "#2f1fc1",
+    "multiracial": "#336a81",
+    "hispanic": "#49418e"
+  },
+  "Race": {
+    "1": "#ff8166",
+    "2": "#ffb563",
+    "3": "#c19a1f",
+    "4": "#f33535",
+    "5": "#82a8e7",
+    "6": "#1a9b9a",
+    "7": "#bf168e",
+    "8": "#2f1fc1",
+    "9": "#336a81"
+  },
+  "Nativity": {
+    "1": "#41a392",
+    "2": "#455a7d",
+    "Native Born": "#41a392",
+    "Foreign Born": "#455a7d"
+  },
+  "Citizenship Status Parent": {
+    "U.S. Citizen": "#41a392",
+    "Not a citizen of the U.S.": "#455a7d"
+  },
   "CIP2": {
     "01": "#aee0ae",
     "03": "#979bbd",
@@ -60,12 +109,6 @@
     "54": "#49418e",
     "GS": "#853b3c"
   },
-  "Gender": {
-    "Male": "#1A3E61",
-    "Men": "#1A3E61",
-    "Female": "#CA3434",
-    "Women": "#CA3434"
-  },
   "Group": {
     "0": "#49418e",
     "1": "#c19a1f",
@@ -97,16 +140,6 @@
     "92": "#ffb587",
     "928110": "#2f1fc1"
   },
-  "Nativity": {
-    "1": "#41a392",
-    "2": "#455a7d",
-    "Native Born": "#41a392",
-    "Foreign Born": "#455a7d"
-  },
-  "Citizenship Status Parent": {
-    "U.S. Citizen": "#41a392",
-    "Not a citizen of the U.S.": "#455a7d"
-  },
   "Major Occupation Group": {
     "110000-290000": "#ff8166",
     "310000-390000": "#ffb563",
@@ -115,28 +148,6 @@
     "510000-530000": "#49418e",
     "550000": "#2f1fc1"
   },
-  "ACS Race": {
-    "0": "#004374",
-    "1": "#ff8166",
-    "2": "#ffb563",
-    "3": "#c19a1f",
-    "4": "#1a9b9a",
-    "5": "#bf168e",
-    "6": "#2f1fc1",
-    "7": "#336a81",
-    "8": "#82a8e7",
-    "9": "#49418e"
-  },
-  "IPEDS Race": {
-    "white": "#ff8166",
-    "black": "#ffb563",
-    "native": "#c19a1f",
-    "asian": "#1a9b9a",
-    "hawaiian": "#bf168e",
-    "unknown": "#2f1fc1",
-    "multiracial": "#336a81",
-    "hispanic": "#49418e"
-  },
   "Kaiser Coverage": {
     "0": "#17c0c0",
     "1": "#2e6695",
@@ -144,17 +155,6 @@
     "3": "#ff8166",
     "4": "#ffd3a6",
     "5": "#2f1fc1"
-  },
-  "Race": {
-    "1": "#ff8166",
-    "2": "#ffb563",
-    "3": "#c19a1f",
-    "4": "#f33535",
-    "5": "#82a8e7",
-    "6": "#1a9b9a",
-    "7": "#bf168e",
-    "8": "#2f1fc1",
-    "9": "#336a81"
   },
   "Sector": {
     "1": "#ffd3a6",
