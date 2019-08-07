@@ -76,9 +76,12 @@ function findColor(d) {
   if (detectedColors.length !== 1) {
     for (const key in colors) {
       if (`ID ${key}` in d) {
-        return colors[key][d[`ID ${key}`]] || colors[key][d[key]] || colors.colorGrey;
+        const color = colors[key][d[`ID ${key}`]] || colors[key][d[key]];
+        if (color) return color;
+        else continue;
       }
     }
+    return colors.colorGrey;
   }
   return Object.keys(d).some(v => badMeasures.includes(v)) ? bad : good;
 }
@@ -165,9 +168,8 @@ export default {
       width: () => 20
     }
   },
-  loadingHTML: `
-  <div>
-    <strong>Drawing Visualization</strong>
+  loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+    <strong>Loading Visualization</strong>
   </div>`,
   messageMask: true,
   messageStyle: {
@@ -176,10 +178,6 @@ export default {
     "font-size": "16px",
     "font-weight": "300"
   },
-  noDataHTML: `
-  <div>
-    <strong>No Data Available</strong>
-  </div>`,
   ocean: "transparent",
   padPixel: 1,
   shapeConfig: {
@@ -264,12 +262,14 @@ export default {
     }
   },
   totalConfig: {
+    fontColor: () => "#211f1a",
     fontFamily: "Palanquin",
     fontSize: 14,
     fontWeight: 400,
     padding: 0
   },
   titleConfig: {
+    fontColor: () => "#211f1a",
     fontFamily: pathway,
     fontSize: 18,
     fontWeight: 400,

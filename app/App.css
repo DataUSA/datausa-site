@@ -20,7 +20,8 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 22px;
-    padding: 0 25px;
+    margin: 0 25px;
+    padding: 0;
     text-transform: uppercase;
     transition: border-color 0.5s;
     @media (max-width: 768px) {

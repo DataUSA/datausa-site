@@ -1,4 +1,17 @@
 const lunr = require("lunr");
+const sanitizeName = require("../utils/sanitizeName");
+
+const abbreviations = {
+  en: [
+    ["ft", "fort"],
+    ["jct", "junction"],
+    ["mdw", "meadow"],
+    ["mt", "mount"],
+    ["mtn", "mountain"],
+    ["pt", "point"],
+    ["st", "saint"]
+  ]
+};
 
 module.exports = async function(app) {
 
@@ -12,19 +25,31 @@ module.exports = async function(app) {
     .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
 
   const results = rows
-    .map(d => ({
-      dimension: d.dimension,
-      hierarchy: d.hierarchy,
-      id: d.id,
-      image: d.image,
-      key: `${d.dimension}-${d.hierarchy}-${d.id}`,
-      keywords: d.keywords,
-      name: d.display,
-      profile: slugs[d.dimension],
-      slug: d.slug,
-      stem: d.stem === 1,
-      zvalue: d.zvalue
-    }));
+    .map(d => {
+
+      const name = sanitizeName(d.display);
+
+      const alts = name.split(/[\s\-]/g);
+      abbreviations.en.forEach(abbr => {
+        if (alts.includes(abbr[0])) alts.push(abbr[1]);
+        else if (alts.includes(abbr[1])) alts.push(abbr[0]);
+      });
+
+      return {
+        alts,
+        dimension: d.dimension,
+        hierarchy: d.hierarchy,
+        id: d.id,
+        image: d.image,
+        key: `${d.dimension}-${d.hierarchy}-${d.id}`,
+        keywords: d.keywords,
+        name: d.display,
+        profile: slugs[d.dimension],
+        slug: d.slug,
+        stem: d.stem === 1,
+        zvalue: d.zvalue
+      };
+    });
 
   const totals = results.reduce((obj, d) => {
     if (!obj[d.dimension]) obj[d.dimension] = {};
@@ -39,8 +64,8 @@ module.exports = async function(app) {
     index: lunr(function() {
 
       this.ref("key");
-      this.field("name", {boost: 3});
-      this.field("keywords", {boost: 2});
+      this.field("keywords", {boost: 3});
+      this.field("alts", {boost: 2});
       this.field("dimension");
       this.field("hierarchy");
 

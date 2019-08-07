@@ -81,10 +81,12 @@ class Options extends Component {
       {label: "Fullscreen", value: ["100%", "100%"]}
     ];
 
-    const {data} = props;
+    const {data, slug, topic} = props;
+    const {hierarchy} = this.props.variables;
 
     this.state = {
-      data: typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data,
+      cartSlug: `${slug}${hierarchy ? `_${hierarchy}` : ""}`,
+      data: topic.cart || typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data,
       embedSize: sizeList[0],
       includeText: false,
       loading: false,
@@ -94,17 +96,24 @@ class Options extends Component {
     };
   }
 
+  componentDidUpdate() {
+    const {data, topic} = this.props;
+    const newData = topic.cart || typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data;
+    if (newData !== this.state.data) this.setState({data: newData, results: false});
+  }
+
   async onCart() {
 
-    const {addToCart, cart, removeFromCart, slug, topic, variables} = this.props;
-    const inCart = cart.data.find(c => c.slug === slug);
+    const {addToCart, cart, removeFromCart, topic} = this.props;
+    const {cartSlug} = this.state;
+    const inCart = cart.data.find(c => c.slug === cartSlug);
 
     if (!inCart) {
 
       const {config, dataFormat} = this.props;
       const {data} = this.state;
       const {list} = this.context.formatters;
-      console.log(slug);
+      console.log(cartSlug);
       console.log(data);
       console.log(config);
       const [base, query] = data.split("?");
@@ -154,15 +163,16 @@ class Options extends Component {
       }
 
       const dimension = slugMap[topic.profile];
-      if (params[dimension] && variables.hierarchy) {
+      const {hierarchy} = this.props.variables;
+      if (params[dimension] && hierarchy) {
         delete params[dimension];
         if (dimension === "CIP") {
           if (!params.drilldowns.includes("University")) {
-            params.drilldowns.push(variables.hierarchy);
+            params.drilldowns.push(hierarchy);
           }
         }
         else {
-          params.drilldowns.push(variables.hierarchy);
+          params.drilldowns.push(hierarchy);
         }
       }
 
@@ -239,11 +249,11 @@ class Options extends Component {
       const cartTitle = `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
-      addToCart({urls, format, slug, title: cartTitle});
+      addToCart({urls, format, slug: cartSlug, title: cartTitle});
 
     }
     else {
-      const build = cart.data.find(c => c.slug === slug);
+      const build = cart.data.find(c => c.slug === cartSlug);
       removeFromCart(build);
     }
 
@@ -321,14 +331,14 @@ class Options extends Component {
   render() {
 
     const {cart, location, measures, slug, title, topic} = this.props;
-    const {data, embedSize, includeText, openDialog, results, sizes} = this.state;
+    const {cartSlug, data, embedSize, includeText, openDialog, results, sizes} = this.state;
 
     const cartSize = cart ? cart.data.length : 0;
-    const inCart = cart ? cart.data.find(c => c.slug === slug) : false;
+    const inCart = cart ? cart.data.find(c => c.slug === cartSlug) : false;
 
     const cartEnabled = data && slug && title;
     const shareEnabled = topic.slug;
-    const baseURL = (typeof window === "undefined" ? location : window.location).href.split("/").slice(0, 6).join("/");
+    const baseURL = (typeof window === "undefined" ? location : window.location).href.split("#")[0].split("/").slice(0, 6).join("/");
     const profileURL = `${baseURL}#${topic.slug}`;
     const embedURL = `${baseURL}/${topic.section}/${topic.slug}`;
 

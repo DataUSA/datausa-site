@@ -312,7 +312,7 @@
         }
       }
     }
-    & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart, & .pt-button.pt-icon-undo {
+    & .pt-button.pt-icon-series-derived, & .pt-button.pt-icon-insert, & .pt-button.pt-icon-shopping-cart, & .pt-button.pt-icon-undo {
       background: none;
       border: 1px solid var(--red);
       border-radius: 0;
@@ -374,6 +374,7 @@
       flex: none;
       height: inherit;
       overflow: visible;
+      width: 100%;
     }
     & .wrapper {
       padding: 0;
@@ -439,15 +440,31 @@
   }
   & .text {
     margin: 0 35px;
+    max-width: 350px;
     padding-top: calc(var(--nav-height) + 35px);
-    width: 350px;
+    width: calc(100% - 70px);
     & .video {
       height: 197px;
-      width: 350px;
+      max-width: 350px;
+      width: 100%;
     }
     & p {
       margin: 10px 0;
       width: 100%;
+    }
+    & .pt-button {
+      background: var(--red);
+      border: 1px solid var(--red);
+      border-radius: 0;
+      box-shadow: none;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      &:before {
+        color: white;
+        font-size: 13px;
+      }
     }
   }
   & .examples {
@@ -470,6 +487,9 @@
         font-size: 24px;
         margin-bottom: 0;
         padding-left: calc(25px + 1rem);
+        @media (max-width: 400px) {
+          font-size: 20px;
+        }
         & svg {
           height: 25px;
           margin-right: 5px;

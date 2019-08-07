@@ -19,6 +19,7 @@ import Tile from "components/Tile/Tile";
 import {examples, groupIcons} from "./VisualizeExamples";
 
 import albersUsaPr from "helpers/albersUsaPr";
+import birthplaceCodes from "helpers/birthplaceCodes";
 
 const measureConfig = {};
 badMeasures.forEach(measure => {
@@ -238,7 +239,9 @@ class Visualize extends Component {
           <p>
             The examples {position} are a small sample of what is possible with the Viz Builder. Click on one to get started!
           </p>
-          <div className="advanced" onClick={this.closeIntro.bind(this)}>Go directly to interface &raquo;</div>
+          <div className="pt-button pt-fill pt-icon-settings" onClick={this.closeIntro.bind(this)}>
+            Go directly to interface
+          </div>
         </div>
         <div className="examples">
           { exampleGroups.map(d =>
@@ -278,6 +281,12 @@ class Visualize extends Component {
             zoomScroll: true
           }}
           topojson={{
+            "Birthplace": {
+              ocean: "#d4dadc",
+              topojson: "/topojson/birthplace-all.json",
+              topojsonId: d => birthplaceCodes[d.id],
+              topojsonFilter: d => d.id !== "ATA" && birthplaceCodes[d.id]
+            },
             "County": {
               projection: albersUsaPr(),
               ocean: "transparent",

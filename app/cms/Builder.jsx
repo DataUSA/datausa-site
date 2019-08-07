@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Helmet} from "react-helmet";
 import ProfileBuilder from "./profile/ProfileBuilder";
 import {fetchData} from "@datawheel/canon-core";
 
@@ -31,6 +32,7 @@ class Builder extends Component {
 
     return (
       <div id="builder">
+        <Helmet title="CMS" />
         <ProfileBuilder />
       </div>
     );
