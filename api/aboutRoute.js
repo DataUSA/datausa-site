@@ -50,7 +50,8 @@ module.exports = function(app) {
             title: "Co-founder",
             twitter: "https://twitter.com/cesifoti",
             about: [
-              "César is the ABC Career Development Professor at the MIT Media Lab and director of the Lab's Collective Learning group. He has ten years of experience in metadata analysis and representation and has been involved in over 30 academic publications exploring its possible uses."
+              "César is a Chilean-Spanish physicist, author, and entrepreneur. He holds an ANITI Chair at the University of Toulouse, a Honorary Professorship at the University of Manchester, and a Visiting Professor position at Harvard's School of Engineering and Applied Sciences. From 2010 to 2019, Hidalgo lead MIT’s Collective Learning group.",
+              "César holds a PhD in Physics from the University of Notre Dame and a Bachelor in Physics from Universidad Católica de Chile."
             ]
           },
           {
