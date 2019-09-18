@@ -68,6 +68,10 @@
     "U.S. Citizen": "#41a392",
     "Not a citizen of the U.S.": "#455a7d"
   },
+  "PUMS Ethnicity Parent": {
+    "Hispanic": "#49418e",
+    "Not Hispanic": "#336a81"
+  },
   "CIP2": {
     "01": "#aee0ae",
     "03": "#979bbd",
