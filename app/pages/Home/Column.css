@@ -9,7 +9,10 @@
   min-width: var(--column-width);
   text-align: center;
   & .column-title {
+    display: inline-block;
     font-weight: 400;
+    margin: 0 auto;
+    position: relative;
     & .icon {
       margin: 0 7px 2px -5px;
       vertical-align: middle;
@@ -27,10 +30,13 @@
       content: "New";
       font-size: 12px;
       font-weight: 800;
-      display: inline-block;
+      display: block;
+      left: 100%;
       letter-spacing: 1px;
       margin-left: 5px;
+      position: absolute;
       text-transform: uppercase;
+      top: -5px;
       vertical-align: top;
     }
   }
