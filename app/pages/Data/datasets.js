@@ -10,7 +10,8 @@ export const usage = {
   ],
   "census-bureau": [
     "The ACS dataset is used on the location, occupation and industry profiles. Although the ACS dataset includes some data on occupations and industries, Data USA is mostly using the ACS dataset for demographics on the Geography profiles.",
-    "The ACS PUMS dataset is used throughout the site where specific data cross sections are not made available through the preformatted ACS dataset. ACS PUMS data is the cornerstone of the occupations and industry data used throughout the Geography, Occupation and Industry profiles. Data USA also uses ACS PUMS to compare a location's current stock of graduates versus students currently pursuing high education degrees (provided by the IPEDs dataset)."
+    "The ACS PUMS dataset is used throughout the site where specific data cross sections are not made available through the preformatted ACS dataset. ACS PUMS data is the cornerstone of the occupations and industry data used throughout the Geography, Occupation and Industry profiles. Data USA also uses ACS PUMS to compare a location's current stock of graduates versus students currently pursuing high education degrees (provided by the IPEDs dataset).",
+    "DataUSA provides access to the CBP data through our <a href=\"https://github.com/DataUSA/datausa-api/wiki/Data-API#cbp\" target=\"_blank\" rel=\"noopener noreferrer\">API</a>."
   ],
   "centers-for-medicare-and-medicaid-services-cms": [
     "Medicare and medicaid data is featured in the Health section of the geography profiles."
@@ -20,9 +21,6 @@ export const usage = {
   ],
   "commonwealth-fund": [
     "Various health indicators are featured in the Health section of the geography profiles."
-  ],
-  "county-business-patterns": [
-    "DataUSA provides access to the CBP data through our <a href=\"https://github.com/DataUSA/datausa-api/wiki/Data-API#cbp\" target=\"_blank\" rel=\"noopener noreferrer\">API</a>."
   ],
   "county-health-rankings-roadmaps": [
     "The CHR data is used on the geography profiles in the health section."
