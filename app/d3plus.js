@@ -76,7 +76,7 @@ function findColor(d) {
   if (detectedColors.length !== 1) {
     for (const key in colors) {
       if (`ID ${key}` in d) {
-        const color = colors[key][d[`ID ${key}`]] || colors[key][d[key]];
+        const color = colors[key][`${d[`ID ${key}`]}`] || colors[key][`${d[key]}`];
         if (color) return color;
         else continue;
       }
@@ -115,6 +115,12 @@ const axisStyles = {
 };
 
 export default {
+  aggs: {
+    "ID Group": arr => {
+      const uniques = Array.from(new Set(arr));
+      return uniques.length === 1 ? uniques[0] : uniques;
+    }
+  },
   axisConfig: axisStyles,
   barPadding: 0,
   colorScaleConfig: {
