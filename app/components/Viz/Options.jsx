@@ -476,6 +476,10 @@ class Options extends Component {
   }
 }
 
+Options.defaultProps = {
+  variables: {}
+};
+
 Options.contextTypes = {
   formatters: PropTypes.object
 };
