@@ -41,7 +41,7 @@ class Viz extends Component {
     // Custom configuration for embeds
     const {sslug, tslug} = router.params;
     if (sslug && tslug) {
-      if (vizProps.config.height) delete vizProps.config.height;
+      if (vizProps.config.height && vizProps.config.height > 300) delete vizProps.config.height;
     }
 
     // Custom configuration for mobile
