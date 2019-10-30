@@ -29,8 +29,8 @@ const categories = {
     {title: "Age", slug: "age", topic: "age_nativity", section: "demographics"},
     {title: "Heritage", slug: "heritage", topic: "foreign_born", section: "demographics"},
     {title: "Military", slug: "military", topic: "veterans", section: "demographics"},
-    {title: "Income", slug: "income", topic: "household_income", section: "housing"},
     {title: "Housing", slug: "housing", topic: "property_value", section: "housing"},
+    // {title: "Income", slug: "income", topic: "household_income", section: "housing"},
     {title: "Transportation", slug: "transportation", topic: "num_vehicles", section: "housing"}
   ],
   university: [
