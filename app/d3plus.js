@@ -297,6 +297,9 @@ export default {
       "font-family": "'Palanquin', sans-serif",
       "font-size": "16px",
       "font-weight": "300"
+    },
+    tdStyle: {
+      "text-align": (d, i) => i ? "right" : "left"
     }
   },
   xConfig: {...axisStyles},

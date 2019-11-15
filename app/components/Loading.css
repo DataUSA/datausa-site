@@ -1,23 +1,21 @@
 .loading {
-  background-color: var(--white);
-  color: var(--black);
+  background-color: var(--dark);
+  color: var(--white);
   height: 100vh;
   left: 0;
   max-width: none;
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 20;
-  & .pt-non-ideal-state-visual {
+  z-index: 100;
+  & .bp3-non-ideal-state {
     max-width: 200px;
-    text-align: center;
     width: 100%;
-    & .pt-progress-meter {
-      background-color: var(--red);
+    & .bp3-progress-meter {
+      background-color: var(--light);
     }
   }
-  & .pt-non-ideal-state-title {
-    color: var(--dark);
-    margin-bottom: 10px;
+  & .bp3-heading {
+    color: var(--white);
   }
 }

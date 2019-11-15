@@ -20,12 +20,5 @@ packages/*/static/reports
 dockerfiles/nginx/certs/*
 dockerfiles/nginx/conf.d/default.conf
 
-# old datausa from master branch
-cache_data
-datausa
-*.pyc
-
-google_auth.json
-
-# pm2 config
+# pm2 ecosystem config
 *.config.js

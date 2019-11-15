@@ -1,57 +1,30 @@
 import React, {Component} from "react";
-import {NonIdealState, Spinner} from "@blueprintjs/core";
+import {connect} from "react-redux";
+import {withNamespaces} from "react-i18next";
+import {NonIdealState, ProgressBar} from "@blueprintjs/core";
 import "./Loading.css";
 
 /**
   This component is displayed when the needs of another component are being
   loaded into the redux store.
 */
-export default class Loading extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      interval: false,
-      progress: -1
-    };
-  }
-
-  componentDidUpdate() {
-    const {progress, total} = this.props;
-    const mod = 0.02;
-    if (progress === total) {
-      const {interval} = this.state;
-      if (interval) clearInterval(interval);
-    }
-    else if (progress > this.state.progress) {
-      const {interval} = this.state;
-      if (interval) clearInterval(interval);
-      let tempProg = progress;
-      const newInterval = setInterval(() => {
-        if (tempProg + mod < Math.floor(progress) + 1) {
-          tempProg += mod;
-          this.setState({progress: tempProg});
-        }
-        else {
-          clearInterval(newInterval);
-        }
-      }, 100);
-      this.setState({progress, interval: newInterval});
-    }
-  }
-
+class Loading extends Component {
   render() {
-
-    const {total} = this.props;
-    const {progress} = this.state;
-
-    const ratio = total ? (progress || 0) / total : 0;
-
+    const {progress, t, total} = this.props;
     return <NonIdealState
       className="loading"
-      title="Loading"
-      description="Please Wait"
-      visual={<Spinner value={ total && total !== progress && ratio > 0.05 ? ratio : undefined }/>} />;
+      title={t("Loading.title")}
+      description={t("Loading.description", {progress, total})}
+      action={<ProgressBar value={progress / total} />} />;
   }
-
 }
+
+export default withNamespaces()(connect(
+  (state, ownProps) => "total" in ownProps ? {
+    total: ownProps.total,
+    progress: ownProps.progress
+  } : {
+    total: state.loadingProgress.requests,
+    progress: state.loadingProgress.fulfilled
+  }
+)(Loading));
