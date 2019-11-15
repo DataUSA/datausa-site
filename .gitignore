@@ -22,3 +22,5 @@ dockerfiles/nginx/conf.d/default.conf
 
 # pm2 ecosystem config
 *.config.js
+
+./token.json
