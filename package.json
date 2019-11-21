@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/datausa/datausa-site#readme",
   "dependencies": {
-    "@datawheel/canon-cms": "^0.10.0",
-    "@datawheel/canon-core": "^0.17.66",
+    "@datawheel/canon-cms": "^0.10.3",
+    "@datawheel/canon-core": "^0.18.0",
     "@datawheel/canon-logiclayer": "^0.4.2",
     "mondrian-rest-client": "^1.1.4"
   }
