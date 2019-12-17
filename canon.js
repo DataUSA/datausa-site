@@ -20,6 +20,9 @@ module.exports = {
           if (cubes.find(cube => cube.name.includes("_c_"))) {
             cubes = cubes.filter(cube => cube.name.includes("_c_"));
           }
+          else if (cubes.find(cube => cube.name.includes("_internet_"))) {
+            cubes = cubes.filter(cube => !cube.name.includes("_2016_"));
+          }
           else if (cubes.find(cube => cube.name.includes("_2016_"))) {
             cubes = cubes.filter(cube => cube.name.includes("_2016_"));
           }
@@ -40,14 +43,14 @@ module.exports = {
             return relation.includes("Tract") || relation.includes("Place");
           }).length;
 
-          return cubes.filter(cube => cube.name.match(bigGeos && !drilldowns ? /_1$/g : /_5$/g));
+          return cubes.length === 1 ? cubes : cubes.filter(cube => cube.name.match(bigGeos && !drilldowns ? /_1$/g : /_5$/g));
 
         },
         key: cube => cube.name.replace("_c_", "_").replace("_2016_", "_").replace(/_[0-9]$/g, "")
       },
       {
         filter: cubes => cubes.filter(c => c.name === "ipeds_graduation_demographics_v3"),
-        key: cube => cube.name === "ipeds_undergrad_grad_rate_demographics" || cube.name === "ipeds_graduation_demographics_v2" ? "ipeds_graduation_demographics_v3" : cube.name
+        key: cube => !cube ? "test" : cube.name === "ipeds_undergrad_grad_rate_demographics" || cube.name === "ipeds_graduation_demographics_v2" ? "ipeds_graduation_demographics_v3" : cube.name
       }
     ],
     dimensionMap: {
