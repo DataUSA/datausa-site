@@ -20,9 +20,6 @@ module.exports = {
           if (cubes.find(cube => cube.name.includes("_c_"))) {
             cubes = cubes.filter(cube => cube.name.includes("_c_"));
           }
-          else if (cubes.find(cube => cube.name.includes("_internet_"))) {
-            cubes = cubes.filter(cube => !cube.name.includes("_2016_"));
-          }
           else if (cubes.find(cube => cube.name.includes("_2016_"))) {
             cubes = cubes.filter(cube => cube.name.includes("_2016_"));
           }
