@@ -70,23 +70,23 @@ const dataLookup = {
     measure: "Population"
   },
   "PUMS Industry": {
-    table: "pums_5",
-    year: "2016",
+    table: "pums_1",
+    year: "2017",
     measure: "Total Population"
   },
   "PUMS Occupation": {
-    table: "pums_5",
-    year: "2016",
+    table: "pums_1",
+    year: "2017",
     measure: "Total Population"
   },
   "University": {
     table: "ipeds_completions",
-    year: "2016",
+    year: "2017",
     measure: "Completions"
   },
   "CIP": {
     table: "ipeds_completions",
-    year: "2016",
+    year: "2017",
     measure: "Completions"
   },
   "NAPCS": {
