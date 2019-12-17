@@ -9,6 +9,10 @@ module.exports = function(app) {
   app.get("/api/home", async(req, res) => {
 
     const carousels = [];
+    const newProfiles = [
+      "6222", "45221", "7112", "517311", "5241", // 2018 PUMS Industries
+      "311131", "15124X", "395092", "253041", "271024" // 2018 PUMS Occupations
+    ];
 
     carousels.push({
       title: "Viz Builder",
@@ -22,7 +26,7 @@ module.exports = function(app) {
           title: "Department of Interior Spending by State",
           url: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-14&measure=1e64mv",
           image: "/api/profile/geo/washington-dc/thumb",
-          new: true
+          new: false
         },
         {
           title: "Opioid Deaths by County",
@@ -80,7 +84,7 @@ module.exports = function(app) {
       tiles: geos
     });
 
-    const indIDs = ["622", "23", "31-33", "722Z", "44-45"];
+    const indIDs = ["6222", "45221", "7112", "517311", "5241"];
 
     const industries = await db.search
       .findAll({where: {dimension: "PUMS Industry", id: indIDs}})
@@ -91,6 +95,7 @@ module.exports = function(app) {
           .sort((a, b) => indIDs.indexOf(a.id) - indIDs.indexOf(b.id))
           .map(a => ({
             title: a.display,
+            new: newProfiles.includes(a.id),
             url: `/profile/naics/${a.slug || a.id}`,
             image: `/api/profile/naics/${a.id}/thumb`
           }));
@@ -106,7 +111,7 @@ module.exports = function(app) {
       tiles: industries
     });
 
-    const occIDs = ["252020", "151131", "1110XX", "412031", "291141"];
+    const occIDs = ["311131", "15124X", "395092", "253041", "271024"];
 
     const occupations = await db.search
       .findAll({where: {dimension: "PUMS Occupation", id: occIDs}})
@@ -114,6 +119,7 @@ module.exports = function(app) {
         .sort((a, b) => occIDs.indexOf(a.id) - occIDs.indexOf(b.id))
         .map(a => ({
           title: a.display,
+          new: newProfiles.includes(a.id),
           url: `/profile/soc/${a.slug || a.id}`,
           image: `/api/profile/soc/${a.id}/thumb`
         }))
