@@ -534,7 +534,11 @@ module.exports = function(app) {
           req.query.sort = "desc";
         }
 
-        if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) req.query.Year = "latest";
+        let latestYear = false;
+        if (measure !== "Obligation Amount" && !req.query.Year && !req.query.year) {
+          latestYear = true;
+          req.query.Year = "latest";
+        }
 
         if (!drilldowns) {
           req.query.drilldowns = hierarchy;
@@ -556,9 +560,24 @@ module.exports = function(app) {
         if (resp.error) res.json(resp);
         else {
 
-          const list = resp.data;
+          let list = resp.data;
+          let entry = list.find(d => d[`ID ${hierarchy}`] === id);
 
-          const entry = list.find(d => d[`ID ${hierarchy}`] === id);
+          if (!entry && latestYear) {
+            query.Year = "previous";
+
+            const params = Object.entries(query).map(([key, val]) => `${key}=${val}`).join("&");
+            const logicUrl = `${CANON_API}/api/data?${params}`;
+
+            const resp2 = await axios.get(logicUrl)
+              .then(resp => resp.data)
+              .catch(error => ({error}));
+
+            list = resp2.data;
+            entry = list.find(d => d[`ID ${hierarchy}`] === id);
+
+          }
+
           const index = list.indexOf(entry);
           let data;
 
