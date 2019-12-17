@@ -59,7 +59,7 @@ module.exports = function(app) {
 
           const ids = parents[pslug][id];
 
-          if (ids.length) {
+          if (ids && ids.length) {
 
             const imageId = await db.search
               .findAll({where: {id: ids, dimension: slugMap[pslug]}})
