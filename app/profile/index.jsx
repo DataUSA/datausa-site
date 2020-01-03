@@ -291,7 +291,7 @@ class Profile extends Component {
         { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
           <div className="tiles">
-            { similar.map(d => <Tile key={d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profile.slug}/${d.id}/thumb`} url={`/profile/${profile.slug}/${d.slug || d.id}`} />) }
+            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profile.slug}/${d.id}/thumb`} url={`/profile/${profile.slug}/${d.slug || d.id}`} />) }
           </div>
         </div> }
 
