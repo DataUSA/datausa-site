@@ -33,7 +33,7 @@ class Section extends Component {
               ? <div className="breadcrumbs">
                 <img src="/images/go-to-link.svg" />
                 <div className="links">
-                  { d.breadcrumbs.map(bread => <Link key={bread.id} className="bread" to={`/profile/${d.profileSlug || d.slug}/${bread.slug || bread.id}`}>
+                  { d.breadcrumbs.map(bread => <Link key={bread.slug || bread.id} className="bread" to={`/profile/${d.profileSlug || d.slug}/${bread.slug || bread.id}`}>
                     { bread.name }
                   </Link>) }
                 </div>
