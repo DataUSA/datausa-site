@@ -40,7 +40,7 @@ const categories = {
     {title: "Degrees", slug: "degrees", topic: "majors", section: "graduates"},
     {title: "Diversity", slug: "diversity", topic: "rate", section: "graduates"},
     {title: "Finances", slug: "finances", topic: "endowment", section: "operations"},
-    {title: "Expenses", slug: "expenses", topic: "expenses", section: "operations"},
+    {title: "Expenses", slug: "expenses", topic: "salaries", section: "operations"},
     {title: "Faculty and Staff", slug: "faculty_and_staff", topic: "staff_tmap", section: "operations"}
   ],
   naics: [
