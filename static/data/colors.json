@@ -179,5 +179,43 @@
     "2.B.3": "#5b1e29",
     "2.B.4": "#1a9b9a",
     "2.B.5": "#ffb563"
+  },
+  "Party": {
+
+    "Democratic": "#1A3E61",
+
+    "Republican": "#CA3434",
+
+    "American Solidarity Party": "#ffb563",
+
+    "Libertarian": "#e6d26e",
+    "Free Libertarian": "#e6d26e",
+
+    "Green": "#2c5753",
+    "D.c. Statehood Green": "#2c5753",
+    "Pacific Green": "#2c5753",
+    "Independent Green": "#2c5753",
+    "Wisconsin Green": "#2c5753",
+    "Progressive/green": "#2c5753",
+
+    "Independence": "#92407c",
+    "Independent": "#92407c",
+    "Independent American": "#92407c",
+    "Independent People Of Colorado": "#92407c",
+    "New Independent Party Iowa": "#92407c",
+    "American Independent": "#92407c",
+    "American Independent Party": "#92407c",
+    "New Mexico Independent Party": "#92407c",
+    "Alaskan Independence Party": "#92407c",
+    "America's Independent Party": "#92407c",
+    "Independent Nomination": "#92407c",
+    "Independent Voters": "#92407c",
+    "Independents For Economic Recovery": "#92407c",
+    "Independents For Larouche": "#92407c",
+    "Ron Daniels Independent": "#92407c",
+    "Tisch Independent Citizens": "#92407c",
+    "Democrat/republican": "#92407c",
+    "Veterans Party Of America": "#92407c",
+    "American Constitution Party": "#92407c"
   }
 }
