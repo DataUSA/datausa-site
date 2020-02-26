@@ -39,7 +39,6 @@ export default class Background extends Component {
         </div>
         <div className="logos">
           <AnchorLink to="about-deloitte"><img src="/images/footer/deloitte_dark.png" /></AnchorLink>
-          <AnchorLink to="about-macro"><img src="/images/footer/mit_dark.png" /></AnchorLink>
           <AnchorLink to="about-datawheel"><img src="/images/footer/datawheel_dark.png" /></AnchorLink>
         </div>
         <p>
@@ -57,10 +56,6 @@ export default class Background extends Component {
         <h3 id="about-deloitte"><Anchor slug="about-deloitte">About Deloitte</Anchor></h3>
         <p>
           Deloitte refers to one or more of Deloitte Touche Tohmatsu Limited, a UK private company limited by guarantee (“DTTL”), its network of member firms, and their related entities. DTTL and each of its member firms are legally separate and independent entities. DTTL (also referred to as “Deloitte Global”) does not provide services to clients. Please see <a href="https://www.deloitte.com/about" target="_blank" rel="noopener noreferrer">www.deloitte.com/about</a> for a detailed description of DTTL and its member firms. Please see <a href="https://www.deloitte.com/us/about" target="_blank" rel="noopener noreferrer">www.deloitte.com/us/about</a> for a detailed description of the legal structure of Deloitte LLP and its subsidiaries. Certain services may not be available to attest clients under the rules and regulations of public accounting.
-        </p>
-        <h3 id="about-macro"><Anchor slug="about-macro">About Collective Learning</Anchor></h3>
-        <p>
-          The Collective Learning group focuses on the development of analytical tools that can help improve our understanding of the world's macro structures in all of their complexity. By developing methods to analyze and represent networks-such as the networks connecting countries to the products they export, or historical characters to their peers—Collective Learning research aims to help improve our understanding of the world by putting together the pieces that our scientific disciplines have helped to pull apart. <a href="http://macro.media.mit.edu/" target="_blank" rel="noopener noreferrer">Click here</a> to learn more.
         </p>
         <h3 id="about-datawheel"><Anchor slug="about-datawheel">About Datawheel</Anchor></h3>
         <p>
