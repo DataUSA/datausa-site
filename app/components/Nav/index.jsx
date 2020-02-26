@@ -155,7 +155,6 @@ class Nav extends Component {
           </ul>
           { !home ? <div className="menu-collab">
             <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/images/footer/deloitte.png" /></a>
-            <a target="_blank" rel="noopener noreferrer" href="http://macro.media.mit.edu/"><img id="mit" src="/images/footer/mit.png" /></a>
             <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/"><img id="datawheel" src="/images/footer/datawheel.png" /></a>
           </div> : null }
         </div>
