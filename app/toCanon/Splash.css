@@ -164,24 +164,24 @@
       }
       & .stat-value {
         font-family: "Lato", sans-serif;
+        text-shadow: 0 2px 12px black;
       }
-      &.small-text {
-        & .stat-value {
+      &.small-text .stat-value {
+        font-size: 24px;
+        font-weight: 400;
+        text-shadow: 0 0 0 white, 0 2px 12px black;
+      }
+      &.medium-text .stat-value {
+        font-size: 31px;
+        font-weight: 400;
+        text-shadow: 0 0 0 white, 0 2px 12px black;
+      }
+      &.large-text .stat-value {
+        font-size: 38px;
+        font-weight: 300;
+        @media (max-width: 800px) {
           font-size: 24px;
-          font-weight: 400;
-          text-shadow: 0 2px 12px black;
-        }
-      }
-      &.large-text {
-        & .stat-value {
-          font-size: 38px;
           font-weight: 300;
-          text-shadow: 0 2px 12px black;
-          @media (max-width: 800px) {
-            font-size: 24px;
-            font-weight: 300;
-            text-shadow: 0 2px 12px black;
-          }
         }
       }
     }
