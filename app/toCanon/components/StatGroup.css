@@ -15,6 +15,11 @@
   &.multi {
     min-width: 100%;
     width: 100%;
+    & .candidate-image {
+      height: 35px;
+      min-width: 35px;
+      width: 35px;
+    }
   }
   & p {
     margin: 0;
@@ -37,11 +42,16 @@
   & .stat-value {
     color: var(--black);
     font-family: "Lato", sans-serif;
-    font-size: 38px;
+    font-size: 34px;
     font-weight: 300;
+    line-height: 1.1;
     @media (max-width: 768px) {
       font-size: 28px;
       font-weight: 300;
+    }
+    & p {
+      align-items: center;
+      display: flex;
     }
   }
   & .stat-subtitle {

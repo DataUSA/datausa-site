@@ -165,6 +165,14 @@
       & .stat-value {
         font-family: "Lato", sans-serif;
         text-shadow: 0 2px 12px black;
+        & > p {
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          & .candidate-name {
+            flex: 0 0 0;
+          }
+        }
       }
       &.small-text .stat-value {
         font-size: 24px;
