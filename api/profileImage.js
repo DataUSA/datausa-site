@@ -1,5 +1,7 @@
 const axios = require("axios"),
-      sequelize = require("sequelize");
+      path = require("path"),
+      sequelize = require("sequelize"),
+      shell = require("shelljs");
 
 const {CANON_API} = process.env;
 
@@ -16,6 +18,21 @@ module.exports = function(app) {
 
   const {db} = app.settings;
   const {parents} = app.settings.cache;
+
+  app.get("/api/candidate/:type/:id", (req, res) => {
+
+    const {id, type} = req.params;
+    const filePath = path.join(process.cwd(), `static/images/candidates/${type}/${id}.jpg`);
+    const unknown = path.join(process.cwd(), "static/images/candidates/unknown.jpg");
+
+    const image = shell.test("-e", filePath) ? filePath : unknown;
+
+    res.sendFile(image, err => {
+      if (err && err.status) res.status(err.status);
+      res.end();
+    });
+
+  });
 
   app.get("/api/profile/:pslug/:pid/:size", async(req, res) => {
     const {size, pid, pslug} = req.params;
