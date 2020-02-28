@@ -6,6 +6,7 @@
   "scripts": {
     "audit": "node scripts/profile-audit.js",
     "build": "canon-build",
+    "candidate": "node scripts/candidate.js",
     "cube2csv": "node scripts/cube2csv.js",
     "dev": "canon-dev",
     "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
