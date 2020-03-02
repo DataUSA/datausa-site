@@ -19,7 +19,8 @@ if (!cube || !accepted.includes(cube)) {
 
 const predefined = {
   "George Bush": "George H. W. Bush",
-  "George Walker Bush": "George W. Bush"
+  "George Walker Bush": "George W. Bush",
+  "Rafael Edward Ted Cruz": "Ted Cruz"
 };
 
 const matchWords = [
@@ -176,7 +177,7 @@ async function run() {
 
   members
     // .slice(0, 1)
-    // .filter(member => member.name === "John Charles Eastman")
+    .filter(member => member.name === "Rafael Edward Ted Cruz")
     .filter(member => {
       const filePath = getFileName(member);
       if (shell.test("-e", filePath)) {
