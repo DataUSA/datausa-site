@@ -1,14 +1,31 @@
 #! /usr/bin/env node
 const axios = require("axios"),
       fs = require("fs"),
+      shell = require("shelljs"),
       {parse} = require("node-html-parser");
+
+const level = process.argv[2];
+const urls = {
+  senators: "https://en.wikipedia.org/api/rest_v1/page/segments/List_of_current_United_States_senators",
+  representatives: "https://en.wikipedia.org/api/rest_v1/page/segments/List_of_current_members_of_the_United_States_House_of_Representatives"
+};
+
+const tableIDs = {
+  senators: "senators",
+  representatives: "votingmembers"
+};
+
+if (!level || !urls[level]) {
+  console.error(`Process must contain one of the following arguments: ${Object.keys(urls).join(", ")}`);
+  shell.exit(1);
+}
 
 /** */
 async function run() {
 
-  const wikiURL = "https://en.wikipedia.org/api/rest_v1/page/segments/List_of_current_United_States_senators";
+  const wikiURL = urls[level];
   const {segmentedContent} = await axios.get(wikiURL).then(resp => resp.data);
-  const table = parse(segmentedContent).querySelector("#senators");
+  const table = parse(segmentedContent).querySelector(`#${tableIDs[level]}`);
 
   const headers = table.querySelector("tbody tr")
     .querySelectorAll("th")
@@ -21,9 +38,9 @@ async function run() {
     }, []);
 
   let colOffset = 0;
-  const senators = table.querySelectorAll("tr")
+  const candidates = table.querySelectorAll("tr")
     .slice(1)
-    // .slice(1, 5)
+    // .slice(7, 12)
     .reduce((arr, row, ii) => {
       const obj = {};
       // console.log(row);
@@ -35,14 +52,25 @@ async function run() {
           while (data.querySelector(".cx-segment") || data.querySelector(".cx-link")) {
             data = data.querySelector(".cx-segment") || data.querySelector(".cx-link");
           }
-          if (header === "Image") {
+          if (header === "District") {
+            const value = data.innerHTML
+              .replace("<span typeof=\"mw:Entity\"> </span>", " ");
+            const split = value.split(" ");
+            const district = split.pop();
+            obj.District = district;
+            obj.State = split.join(" ");
+          }
+          else if (header === "Image") {
             obj[header] = `https:${data.querySelector("img").getAttribute("src")}`;
           }
           else if (header === "Term up") {
             obj[header] = data.innerHTML.slice(0, 4);
           }
-          else if (!["Born", "Occupation(s)", "Previous office(s)", "Residence"].includes(header)) {
-            obj[header] = data.innerHTML.split("<sup")[0];
+          else if (!["Born", "Education", "Prior experience", "Occupation(s)", "Previous office(s)", "Residence"].includes(header)) {
+            obj[header] = data.innerHTML
+              .replace("<span typeof=\"mw:Entity\"> </span>", " ")
+              .split("<sup")[0]
+              .split(" <span")[0];
           }
           if (column.querySelector(".mw-ref")) {
             const ref = JSON.parse(column.querySelector(".mw-ref").getAttribute("data-mw"));
@@ -52,6 +80,10 @@ async function run() {
                 .replace(/\[\[/g, "")
                 .replace(/\]\]/g, "");
             }
+          }
+
+          if (header === "Member" && column.querySelector("img")) {
+            obj.Image = `https:${column.querySelector("img").getAttribute("src")}`;
           }
         });
 
@@ -67,9 +99,9 @@ async function run() {
       return arr;
     }, []);
 
-  fs.writeFile("./static/data/senators.json", JSON.stringify(senators, null, 2), "utf8", err => {
+  fs.writeFile(`./static/data/${level}.json`, JSON.stringify(candidates, null, 2), "utf8", err => {
     if (err) console.log(err);
-    else console.log("created static/data/senators.json");
+    else console.log(`created static/data/${level}.json`);
     process.exit(0);
   });
 
