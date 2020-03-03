@@ -6,7 +6,7 @@
   "scripts": {
     "audit": "node scripts/profile-audit.js",
     "build": "canon-build",
-    "candidate": "node scripts/candidate.js",
+    "candidateImage": "node scripts/candidateImage.js",
     "cube2csv": "node scripts/cube2csv.js",
     "dev": "canon-dev",
     "docs": "jsdoc2md '+(api|app|db|tools)/**/*.+(js|jsx)' --separators > DOCS.md",
@@ -16,7 +16,7 @@
     "test": "eslint --color api/*.js api/**/*.js app/*.js app/**/*.js db/*.js db/**/*.js",
     "locales": "canon-locales",
     "release": "canon-release",
-    "senators": "node scripts/senators.js",
+    "wikiCandidates": "node scripts/wikiCandidates.js",
     "zvalue": "node scripts/zvalue.js"
   },
   "repository": {
