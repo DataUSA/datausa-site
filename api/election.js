@@ -39,15 +39,18 @@ module.exports = function(app) {
           })
           .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
           .catch(() => []);
-        state = parents.filter(d => d.level === "state")[0].geoid;
+        const states = parents.filter(d => d.level === "state");
+        if (states.length) state = parents.filter(d => d.level === "state")[0].geoid;
         districts = parents.filter(d => d.level === "congressionaldistrict");
         if (districts.length) {
           districts = districts.map(d => d.name.match(/([0-9]{1,2})/)[0]);
         }
       }
 
-      const attr = await db.search.findOne({where: {dimension: "Geography", hierarchy: "State", id: state}});
-      retArray = retArray.filter(d => d.State === attr.name);
+      if (state.startsWith("040")) {
+        const attr = await db.search.findOne({where: {dimension: "Geography", hierarchy: "State", id: state}});
+        retArray = retArray.filter(d => d.State === attr.name);
+      }
       if (districts.length) {
         retArray = retArray.filter(d => districts.includes(d.District));
       }
