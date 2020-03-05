@@ -24,6 +24,7 @@
     width: 35px;
   }
   & > * {
+    background-position: 50% 30%;
     background-size: cover;
     bottom: 0;
     display: block;
@@ -31,7 +32,6 @@
     overflow: hidden;
     position: absolute;
     right: 0;
-    transform: none;
     top: 0;
   }
 }
