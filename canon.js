@@ -91,6 +91,9 @@ module.exports = {
         children: {
           url: id => `${CANON_API}/api/geo/children/${id}/`
         },
+        districts: {
+          url: id => `${CANON_API}/api/geo/children/${id}/?level=Congressional District`
+        },
         tracts: {
           url: id => `${CANON_API}/api/geo/children/${id}/?level=Tract`
         },
