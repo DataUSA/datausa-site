@@ -16,9 +16,9 @@
     min-width: 100%;
     width: 100%;
     & .candidate-image {
-      height: 35px;
-      min-width: 35px;
-      width: 35px;
+      height: 45px;
+      min-width: 45px;
+      width: 45px;
     }
   }
   & p {
