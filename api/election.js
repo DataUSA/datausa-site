@@ -41,9 +41,12 @@ module.exports = function(app) {
           .catch(() => []);
         const states = parents.filter(d => d.level === "state");
         if (states.length) state = parents.filter(d => d.level === "state")[0].geoid;
-        districts = parents.filter(d => d.level === "congressionaldistrict");
-        if (districts.length) {
-          districts = districts.map(d => d.name.match(/([0-9]{1,2})/)[0]);
+        const cds = parents.filter(d => d.level === "congressionaldistrict");
+        if (cds.length) {
+          districts = cds.map(d => {
+            const district = +d.geoid.slice(-2);
+            return district ? `${district}` : "at-large";
+          });
         }
       }
 
