@@ -16,7 +16,7 @@ module.exports = function(app) {
 
     const {type} = req.params;
     const {geo} = req.params;
-    let districts = [], state = geo;
+    let districts = [], states = [];
 
     let retArray = candidates[type] || [];
 
@@ -39,20 +39,29 @@ module.exports = function(app) {
           })
           .then(arr => arr.sort((a, b) => b.overlap_size - a.overlap_size))
           .catch(() => []);
-        const states = parents.filter(d => d.level === "state");
-        if (states.length) state = parents.filter(d => d.level === "state")[0].geoid;
-        const cds = parents.filter(d => d.level === "congressionaldistrict");
-        if (cds.length) {
-          districts = cds.map(d => {
+        states = parents
+          .filter(d => d.level === "state")
+          .sort((a, b) => b.overlap_size - a.overlap_size)
+          .map(d => d.geoid);
+        districts = parents.filter(d => d.level === "congressionaldistrict")
+          .map(d => {
             const district = +d.geoid.slice(-2);
             return district ? `${district}` : "at-large";
           });
-        }
+
+      }
+      else {
+        states = [geo];
       }
 
-      if (state.startsWith("040")) {
-        const attr = await db.search.findOne({where: {dimension: "Geography", hierarchy: "State", id: state}});
-        retArray = retArray.filter(d => d.State === attr.name);
+      if (states.length) {
+        const attrs = await db.search.findAll({where: {dimension: "Geography", hierarchy: "State", id: states}});
+        const names = attrs.map(d => d.name);
+        retArray = retArray.filter(d => names.includes(d.State));
+        retArray.forEach(r => {
+          r["ID State"] = attrs.find(d => d.name === r.State).id;
+        });
+        retArray = retArray.sort((a, b) => states.indexOf(a["ID State"]) - states.indexOf(b["ID State"]));
       }
       if (districts.length) {
         retArray = retArray.filter(d => districts.includes(d.District));
