@@ -66,6 +66,9 @@ class Coronavirus extends Component {
 
     const {cutoff, data, date, level, measure, title} = this.state;
 
+    const h = typeof window !== "undefined" ? window.innerHeight : 800,
+          w = typeof window !== "undefined" ? window.innerWidth : 1200;
+
     const filteredData = data instanceof Array ? data.filter(d => d.Level === level) : [];
 
     const vizData = merge(nest()
@@ -90,7 +93,7 @@ class Coronavirus extends Component {
       }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
 
     const maxValue = max(vizData, d => d[measure]);
-    const ratio = window.innerHeight / maxValue;
+    const ratio = h / maxValue;
 
     const labelOffsets = {};
     nest()
@@ -115,7 +118,7 @@ class Coronavirus extends Component {
       const xExtent = extent(vizData, d => d.Days);
       xDomain = range(xExtent[0], xExtent[1] + 2, 1);
     }
-    const labelWidth = xDomain.length ? window.innerWidth / (xDomain[xDomain.length - 1] + 1) : 0;
+    const labelWidth = xDomain.length ? w / (xDomain[xDomain.length - 1] + 1) : 0;
 
     return <div id="Coronavirus">
 
