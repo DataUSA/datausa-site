@@ -80,8 +80,7 @@ class App extends Component {
                        pathname.indexOf("map") === 0 ||
                        pathname.indexOf("cms") === 0 ||
                        pathname.indexOf("visualize") === 0 ||
-                       pathname.indexOf("search") === 0 ||
-                       pathname.indexOf("coronavirus") === 0;
+                       pathname.indexOf("search") === 0;
 
     const bare = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
 
