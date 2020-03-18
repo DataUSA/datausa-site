@@ -20,16 +20,22 @@
   }
   & .section-content {
     justify-content: center;
+    flex-wrap: wrap;
     & .anchor {
       color: #32415A;
       margin: 10px 20px 20px;
       padding: 0;
       text-decoration: underline;
     }
+    & .section-description {
+      min-width: 100%;
+    }
+    & .section-sublinks {
+      margin: 10px auto 20px;
+    }
   }
 
   & .topic-content {
-    max-width: 300px;
     & .topic-title {
       margin-bottom: 20px;
     }
@@ -61,68 +67,35 @@
         }
       }
     }
+    & p {
+      margin-top: 20px;
+    }
   }
+
+  & .TextViz {
+    & .topic-content {
+      max-width: 300px;
+    }
+  }
+
+  & .Column {
+    align-items: center;
+    flex: 1 1 100%;
+    & .topic-content {
+      max-width: none;
+      text-align: center;
+    }
+    & .visualization {
+      height: 600px;
+      max-height: 80vh;
+      max-width: 800px;
+      width: 100%;
+    }
+  }
+
   & .visualization {
     & .pt-non-ideal-state {
       max-width: none;
-    }
-  }
-}
-
-#Coronavirus-old {
-  background-color: color(var(--light) lightness(80%));
-  display: flex;
-  flex-direction: column;
-  margin-top: var(--nav-height);
-  padding: 0;
-  text-align: center;
-  & .coronavirus-source {
-    font-size: 14px;
-    font-weight: bold;
-    margin: 10px auto 0;
-    & a {
-      color: var(--black);
-      text-decoration: underline;
-    }
-  }
-  & .coronavirus-updated-at {
-    color: var(--red);
-    font-size: 12px;
-    font-weight: bold;
-  }
-  & .pt-non-ideal-state {
-    height: 80vh;
-  }
-  & .coronavirus-viz {
-    background-color: var(--white);
-    display: flex;
-    flex-direction: column;
-    height: 60vh;
-    min-height: 600px;
-    padding: 25px;
-    &:nth-child(even) {
-      background-color: color(var(--light) lightness(93%));
-    }
-    @media (max-width: 768px) {
-      padding: 10px 0;
-    }
-    & h2 {
-      font-family: "Pathway Gothic One", sans-serif;
-      font-size: 24px;
-      font-weight: 400;
-      margin: 10px auto;
-      line-height: 1.1;
-      padding: 0 10px;
-      & select {
-        border: 1px solid var(--red);
-        border-radius: 0;
-      }
-    }
-    & p {
-      font-size: 14px;
-    }
-    & .viz {
-      flex: 1;
     }
   }
 }

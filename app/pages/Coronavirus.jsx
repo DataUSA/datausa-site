@@ -5,9 +5,11 @@ import {NonIdealState, Slider, Spinner} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
-import {max, merge} from "d3-array";
+import {max, mean, merge, min} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
+import {format} from "d3-format";
+const commas = format(",");
 const dayFormat = timeFormat("%A %B %d");
 const dateFormat = timeFormat("%b %d");
 const hourFormat = timeFormat("%I:%M %p");
@@ -15,8 +17,7 @@ const hourFormat = timeFormat("%I:%M %p");
 import {colorLegible} from "d3plus-color";
 import {assign, unique} from "d3plus-common";
 import {formatAbbreviate} from "d3plus-format";
-import {titleCase} from "d3plus-text";
-import {LinePlot} from "d3plus-react";
+import {Geomap, LinePlot} from "d3plus-react";
 
 import "./Coronavirus.css";
 import {divisions, stateToDivision} from "helpers/stateDivisions";
@@ -89,12 +90,14 @@ class Coronavirus extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      beds: [],
       countryCutoffData: [],
       countryData: [],
       cutoff: 10,
       countries: false,
       data: false,
       date: false,
+      icu: [],
       level: "state",
       measure: "Confirmed",
       scale: "linear",
@@ -116,9 +119,13 @@ class Coronavirus extends Component {
       .then(resp => {
 
         const data = resp.data
-          .map(d => {
+          .map((d, i, arr) => {
             d.Date = new Date(d.Date).getTime();
             d.ConfirmedPC = d.Confirmed / resp.population[d["ID Geography"]] * 100000;
+            const previous = i ? arr[i - 1] : {};
+            d.ConfirmedNew = previous["ID Geography"] === d["ID Geography"] ? d.Confirmed - previous.Confirmed : d.Confirmed;
+            d.ConfirmedGrowth = previous["ID Geography"] === d["ID Geography"] ? d.ConfirmedNew / previous.ConfirmedNew : undefined;
+            if (d.ConfirmedGrowth === Infinity) d.ConfirmedGrowth = 0;
             if (d.Level === "state") {
               const dID = stateToDivision[d["ID Geography"]];
               let division = divisions.find(x => x["ID Division"] === dID);
@@ -126,6 +133,18 @@ class Coronavirus extends Component {
               return Object.assign(d, division);
             }
             return d;
+          });
+
+        nest()
+          .key(d => d["ID Geography"])
+          .entries(data)
+          .forEach(group => {
+            group.values
+              .forEach((d, i, arr) => {
+                if (i >= 2) {
+                  d.ConfirmedSmooth = mean(arr.slice(i - 2, i + 1), d => d.ConfirmedGrowth);
+                }
+              });
           });
 
         const countries = resp.countries
@@ -137,7 +156,14 @@ class Coronavirus extends Component {
             return Object.assign(d, division);
           });
 
-        this.setState({countries, data, date: new Date(resp.timestamp)}, this.prepData.bind(this));
+        this.setState({
+          beds: resp.beds,
+          countries,
+          icu: resp.icu,
+          data,
+          date: new Date(resp.timestamp)
+        }, this.prepData.bind(this));
+
       })
       .catch(() => this.setState({data: "Error loading data, please try again later."}));
   }
@@ -154,7 +180,8 @@ class Coronavirus extends Component {
 
     const {countries, cutoff, data, level, measure} = this.state;
 
-    const stateData = data instanceof Array ? data.filter(d => d.Level === level) : [];
+    const stateData = data
+      .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
 
     const stateCutoffData = merge(nest()
       .key(d => d["ID Geography"])
@@ -172,11 +199,18 @@ class Coronavirus extends Component {
           }, []);
       }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
 
-    const countryData = countries;
+    const chinaCutoff = new Date("2020/02/17").getTime();
+    const countryData = countries
+      .filter(d => {
+        if (d.Geography === "China") {
+          return d.Date <= chinaCutoff;
+        }
+        return true;
+      });
 
     const countryCutoffData = merge(nest()
       .key(d => d["ID Geography"])
-      .entries(countries)
+      .entries(countryData)
       .map(group => {
         let days = 0;
         return group.values
@@ -215,10 +249,12 @@ class Coronavirus extends Component {
   render() {
 
     const {
+      beds,
       countryCutoffData,
       countryData,
       cutoff,
       date,
+      icu,
       measure,
       scale,
       stateCutoffData,
@@ -231,8 +267,14 @@ class Coronavirus extends Component {
 
     const maxValue = max(stateData, d => d[measure]);
     const maxValuePC = max(stateData, d => d[`${measure}PC`]);
+    const maxValueNew = max(stateData, d => d[`${measure}New`]);
+    const maxValueGrowth = max(stateData, d => d[`${measure}Growth`]);
+    const minValueGrowth = min(stateData, d => d[`${measure}Growth`] || 1);
+    const maxValueSmooth = max(stateData, d => d[`${measure}Smooth`]);
+    const minValueSmooth = min(stateData, d => d[`${measure}Smooth`] || 1);
     const maxValueWorldPC = max(countryData, d => d[`${measure}PC`]);
     const minValue = scale === "log" ? 1 : 0;
+    const minValuePC = scale === "log" ? min(countryData, d => d[`${measure}PC`]) : 0;
 
     const stateDomain = calculateDomain(stateData);
     const stateCutoffDomain = calculateDayDomain(stateCutoffData);
@@ -240,7 +282,11 @@ class Coronavirus extends Component {
     const countryCutoffDomain = calculateDayDomain(countryCutoffData);
     const countryCutoffLabels = countryCutoffDomain.filter(d => d === 1 || d % 10 === 0);
 
-    const labelWidth = stateCutoffDomain.length ? w / (stateCutoffDomain[stateCutoffDomain.length - 1] + 1) : 0;
+    const labelWidth = stateCutoffDomain.length
+      ? w / (stateCutoffDomain[stateCutoffDomain.length - 1] + 1)
+      : 0;
+
+    const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
     const sharedConfig = {
       aggs: {
@@ -293,11 +339,12 @@ class Coronavirus extends Component {
       },
       tooltipConfig: {
         tbody: [
-          ["Date", d => dayFormat(new Date(d.Date))],
-          ["Confirmed", d => formatAbbreviate(d.Confirmed)],
+          ["Date", d => dateFormat(new Date(d.Date))],
+          ["Confirmed", d => commas(d.Confirmed)],
           ["Cases per 100,000", d => formatAbbreviate(d.ConfirmedPC)],
-          ["Recovered", d => formatAbbreviate(d.Recovered)],
-          ["Deaths", d => formatAbbreviate(d.Deaths)]
+          ["Growth Factor", d => formatAbbreviate(d.ConfirmedGrowth)],
+          ["Recovered", d => commas(d.Recovered)],
+          ["Deaths", d => commas(d.Deaths)]
         ]
       },
       y: measure,
@@ -307,9 +354,13 @@ class Coronavirus extends Component {
         },
         domain: [minValue, maxValue],
         scale,
-        tickFormat: formatAbbreviate,
-        title: `${measure}${measure !== "Deaths" ? " Cases" : ""} (${scale === "log" ? "Logarithmic" : "Linear"})`
+        tickFormat: commas,
+        title: `${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
       }
+    };
+
+    const mapConfig = {
+      zoom: false
     };
 
     const AxisToggle = () =>
@@ -360,7 +411,7 @@ class Coronavirus extends Component {
             At Data USA, we have the mission to visualize and distribute data of U.S. public interest. To honor that mission, we have created a series of interactive graphics to help track the evolution of Coronavirus (also known as COVID-19 and SARS-COV 2). These visualizations help put the spread of coronavirus in context, and the preparedness of different U.S. states in context.
           </p>
           <p>
-            The sources of this data are: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">Johns Hopkins University</a>, the Kaiser Family Foundation, and the World Bank’s World Development Indicators.
+            The sources of this data are: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">Johns Hopkins University</a>, the <a href="https://www.kff.org/other/state-indicator/beds-by-ownership/?currentTimeframe=0&selectedDistributions=total&selectedRows=%7B%22states%22:%7B%22all%22:%7B%7D%7D,%22wrapups%22:%7B%22united-states%22:%7B%7D%7D%7D&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D" target="_blank" rel="noopener noreferrer">Kaiser Family Foundation</a>, and the <a href="https://datacatalog.worldbank.org/dataset/world-development-indicators" target="_blank" rel="noopener noreferrer">World Bank&rsquo;s World Development Indicators</a>.
           </p>
         </div>
         <div className="profile-sections">
@@ -391,7 +442,7 @@ class Coronavirus extends Component {
             <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="cases-total" className="topic-title">
-                  <a href="cases-total" className="anchor">Total Confirmed Cases by Date</a>
+                  <AnchorLink to="cases-total" className="anchor">Total Confirmed Cases by Date</AnchorLink>
                 </h3>
                 <AxisToggle />
                 <div className="topic-description">
@@ -417,8 +468,9 @@ class Coronavirus extends Component {
             <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="cases-pc" className="topic-title">
-                  <a href="cases-pc" className="anchor">Total Confirmed Cases per Capita</a>
+                  <AnchorLink to="cases-pc" className="anchor">Total Confirmed Cases per Capita</AnchorLink>
                 </h3>
+                <AxisToggle />
                 <div className="topic-description">
                   <p>
                     This chart normalizes the number of confirmed COVID-19 cases divided by the population of each state. It gives an idea of the density of COVID-19 infections by state.
@@ -436,9 +488,8 @@ class Coronavirus extends Component {
                     },
                     y: `${measure}PC`,
                     yConfig: {
-                      domain: [0, maxValuePC],
-                      scale: "linear",
-                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000`
+                      domain: [minValuePC, maxValuePC],
+                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -448,10 +499,10 @@ class Coronavirus extends Component {
             <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="cases-adj" className="topic-title">
-                  <a href="cases-adj" className="anchor">Total Confirmed Cases Since Reaching {cutoff} Cases</a>
+                  <AnchorLink to="cases-adj" className="anchor">Total Confirmed Cases Since Reaching {cutoff} Cases</AnchorLink>
                 </h3>
-                <CutoffToggle />
                 <AxisToggle />
+                <CutoffToggle />
                 <div className="topic-description">
                   <p>
                     Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 10, 50, or 100 cases.
@@ -468,11 +519,11 @@ class Coronavirus extends Component {
                     x: "Days",
                     xConfig: {
                       domain: stateCutoffDomain,
-                      tickFormat: d => `${formatAbbreviate(d)} day${d !== 1 ? "s" : ""}`,
+                      tickFormat: d => `${commas(d)} day${d !== 1 ? "s" : ""}`,
                       title: `Days Since ${cutoff} Confirmed Cases`
                     },
                     yConfig: {
-                      domain: [cutoff, maxValue]
+                      domain: [!cutoff ? minValue : cutoff, maxValue]
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -482,8 +533,9 @@ class Coronavirus extends Component {
             <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="cases-intl" className="topic-title">
-                  <a href="cases-intl" className="anchor">International Comparison</a>
+                  <AnchorLink to="cases-intl" className="anchor">International Comparison</AnchorLink>
                 </h3>
+                <AxisToggle />
                 <div className="topic-description">
                   <p>
                     To get a sense of how the COVID-19 trajectory in the U.S. states compares with other countries, we present the per capita number of total cases for each state that has reported more than 50 cases, starting from the day they reported 50 cases.
@@ -498,14 +550,13 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: countryCutoffDomain,
                       labels: countryCutoffLabels,
-                      tickFormat: d => `${formatAbbreviate(d)} day${d !== 1 ? "s" : ""}`,
+                      tickFormat: d => `${commas(d)} day${d !== 1 ? "s" : ""}`,
                       title: "Days Since 50 Confirmed Cases"
                     },
                     y: `${measure}PC`,
                     yConfig: {
-                      domain: [0, maxValueWorldPC],
-                      scale: "linear",
-                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000`
+                      domain: [minValuePC, maxValueWorldPC],
+                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -514,6 +565,233 @@ class Coronavirus extends Component {
 
           </div>
         </div>
+
+        <div className="Section coronavirus-section">
+          <h2 className="section-title">
+            <AnchorLink to="growth" id="growth" className="anchor">
+              Growth Rate
+            </AnchorLink>
+          </h2>
+          <div className="section-body">
+            <div className="section-content">
+              <div className="section-sublinks">
+                <AnchorLink to="growth-daily" className="anchor">Daily Cases</AnchorLink>
+                <AnchorLink to="growth-rate" className="anchor">Growth Rate</AnchorLink>
+                <AnchorLink to="growth-smoothed" className="anchor">Growth Rate (Smoothed)</AnchorLink>
+              </div>
+              <div className="section-description">
+                <p>
+                  Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth. Here, we present two types of charts: the number of daily reported cases, and the epidemic growth factor. The growth factor is the ratio between the number of new cases reported in two consecutive days. When the growth factor is larger than one, the spread of the epidemic is &ldquo;accelerating&rdquo; (becoming larger everyday). When the growth factor is equal to one the spread of the epidemic is peaking. When the growth factor becomes smaller than one, the epidemic spreading is decelerating. For a more in depth explanation of this concept, you can watch <a href="https://www.youtube.com/watch?v=Kas0tIxDvrg" target="_blank" rel="noopener noreferrer">this</a> video from the CDC.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="section-topics">
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="growth-daily" className="topic-title">
+                  <AnchorLink to="growth-daily" className="anchor">Number of Daily Cases</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart presents the number of new cases reported daily by each U.S. state.
+                  </p>
+                </div>
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateData,
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDomain,
+                      tickFormat: dateFormat
+                    },
+                    y: `${measure}New`,
+                    yConfig: {
+                      domain: [minValue, maxValueNew],
+                      title: `Daily ${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="growth-daily" className="topic-title">
+                  <AnchorLink to="growth-rate" className="anchor">Growth Factor</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart shows the growth factor for each state. The growth factor is the ratio between the newly reported cases between two consecutive days. It is a measure of whether the spread of the epidemic is &ldquo;accelerating&rdquo; (&gt;1), &ldquo;peaking&rdquo; (=1), or &ldquo;decelerating&rdquo; (&lt;1).
+                  </p>
+                </div>
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateData.filter(d => d.ConfirmedGrowth !== undefined),
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDomain.slice(1),
+                      tickFormat: dateFormat
+                    },
+                    y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`],
+                    yConfig: {
+                      domain: [scale === "log" ? minValueGrowth : 0, maxValueGrowth],
+                      title: `Growth Factor\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="growth-daily" className="topic-title">
+                  <AnchorLink to="growth-smoothed" className="anchor">Growth Factor (Smoothed)</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    Since growth factors can experience a lot of volatility when numbers are still small, here we present a smoothed version of the growth factor based on a 3 day average.
+                  </p>
+                </div>
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateData.filter(d => d.ConfirmedSmooth !== undefined),
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDomain.slice(2),
+                      tickFormat: dateFormat
+                    },
+                    y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`],
+                    yConfig: {
+                      domain: [scale === "log" ? minValueSmooth : 0, maxValueSmooth],
+                      title: `Growth Factor (Smoothed)\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div className="Section coronavirus-section">
+          <h2 className="section-title">
+            <AnchorLink to="risks" id="risks" className="anchor">
+              Risks and Readiness
+            </AnchorLink>
+          </h2>
+          <div className="section-body">
+            <div className="section-content">
+              <div className="section-sublinks">
+                <AnchorLink to="risks-beds" className="anchor">Hospital Beds</AnchorLink>
+                <AnchorLink to="risks-icu" className="anchor">ICU Beds</AnchorLink>
+                <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population</AnchorLink>
+              </div>
+              <div className="section-description">
+                <p>
+                  One of the problems of COVID-19 is that it can overwhelm the healthcare system. This is because COVID-19 can require long periods of hospitalization, including intensive care for patients in critical condition. Below you will find some statistics of the preparedness of U.S. states and of the vulnerability of the population in each state. For more information on critical care in the United States, visit <a href="https://sccm.org/Communications/Critical-Care-Statistics" target="_blank" rel="noopener noreferrer">this</a> report from the Society of Critical Care Medicine.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="section-topics">
+
+            <div className="topic Column">
+              <div className="topic-content">
+                <h3 id="risks-beds" className="topic-title">
+                  <AnchorLink to="risks-beds" className="anchor">Hospital Beds per 1,000 population</AnchorLink>
+                </h3>
+              </div>
+              <div className="visualization topic-visualization">
+                { beds.length
+                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                    colorScale: "Total",
+                    data: beds,
+                    groupBy: "ID Geography",
+                    label: d => d.Geography,
+                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+                    tooltipConfig: {
+                      tbody: [
+                        ["Year", "2018"],
+                        ["Beds per 100,000 Residents", d => d.Total]
+                      ]
+                    },
+                    topojson: "/topojson/State.json"
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic Column">
+              <div className="topic-content">
+                <h3 id="risks-icu" className="topic-title">
+                  <AnchorLink to="risks-icu" className="anchor">ICU Beds by State</AnchorLink>
+                </h3>
+              </div>
+              <div className="visualization topic-visualization">
+                { beds.length
+                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                    colorScale: "Total",
+                    data: icu,
+                    groupBy: "ID Geography",
+                    label: d => d.Geography,
+                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+                    tooltipConfig: {
+                      tbody: [
+                        ["Year", "2018"],
+                        ["ICU Beds", d => d.Total]
+                      ]
+                    },
+                    topojson: "/topojson/State.json"
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic Column">
+              <div className="topic-content">
+                <h3 id="risks-uninsured" className="topic-title">
+                  <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population by State</AnchorLink>
+                </h3>
+              </div>
+              <div className="visualization topic-visualization">
+                { beds.length
+                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                    colorScale: "Uninsured Percentage",
+                    colorScaleConfig: {
+                      axisConfig: {
+                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
+                      }
+                    },
+                    data: "/api/data?measures=Uninsured%20Percentage&drilldowns=State&Year=latest",
+                    groupBy: "ID State",
+                    label: d => d.State,
+                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+                    tooltipConfig: {
+                      tbody: [
+                        ["Year", d => d.Year],
+                        ["Uninsured", d => `${formatAbbreviate(d["Uninsured Percentage"] * 100)}%`]
+                      ]
+                    },
+                    topojson: "/topojson/State.json"
+                  })} dataFormat={resp => resp.data} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
     </div>;
