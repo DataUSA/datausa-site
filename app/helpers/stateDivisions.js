@@ -112,5 +112,11 @@ export const divisions = [
     "Region": "Other",
     "ID Division": 10,
     "Division": "Other"
+  },
+  {
+    "ID Region": 6,
+    "Region": "International",
+    "ID Division": 11,
+    "Division": "International"
   }
 ];
