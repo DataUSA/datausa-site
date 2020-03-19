@@ -5,7 +5,7 @@ import {NonIdealState, Slider, Spinner} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
-import {max, mean, merge, min} from "d3-array";
+import {extent, max, mean, merge, min} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -119,13 +119,9 @@ class Coronavirus extends Component {
       .then(resp => {
 
         const data = resp.data
-          .map((d, i, arr) => {
+          .map(d => {
             d.Date = new Date(d.Date).getTime();
             d.ConfirmedPC = d.Confirmed / resp.population[d["ID Geography"]] * 100000;
-            const previous = i ? arr[i - 1] : {};
-            d.ConfirmedNew = previous["ID Geography"] === d["ID Geography"] ? d.Confirmed - previous.Confirmed : d.Confirmed;
-            d.ConfirmedGrowth = previous["ID Geography"] === d["ID Geography"] ? d.ConfirmedNew / previous.ConfirmedNew : undefined;
-            if (d.ConfirmedGrowth === Infinity) d.ConfirmedGrowth = 0;
             if (d.Level === "state") {
               const dID = stateToDivision[d["ID Geography"]];
               let division = divisions.find(x => x["ID Division"] === dID);
@@ -139,10 +135,21 @@ class Coronavirus extends Component {
           .key(d => d["ID Geography"])
           .entries(data)
           .forEach(group => {
+            let starter;
             group.values
+              .sort((a, b) => a.Date - b.Date)
               .forEach((d, i, arr) => {
-                if (i >= 2) {
-                  d.ConfirmedSmooth = mean(arr.slice(i - 2, i + 1), d => d.ConfirmedGrowth);
+                if (i > 0) {
+                  const previous = arr[i - 1];
+                  d.ConfirmedNew = d.Confirmed - previous.Confirmed;
+                  if (i > 1 && starter !== undefined || d.Confirmed > 50) {
+                    if (starter === undefined) starter = i;
+                    d.ConfirmedGrowth = d.Confirmed / previous.Confirmed;
+                    if (d.ConfirmedGrowth === Infinity) d.ConfirmedGrowth = 0;
+                  }
+                  if (starter !== undefined && i >= starter + 2) {
+                    d.ConfirmedSmooth = mean(arr.slice(i - 2, i + 1), d => d.ConfirmedGrowth);
+                  }
                 }
               });
           });
@@ -156,10 +163,16 @@ class Coronavirus extends Component {
             return Object.assign(d, division);
           });
 
+        const icuData = resp.icu
+          .map(d => {
+            d.TotalPC = d.Total / resp.population[d["ID Geography"]] * 1000;
+            return d;
+          });
+
         this.setState({
           beds: resp.beds,
           countries,
-          icu: resp.icu,
+          icu: icuData,
           data,
           date: new Date(resp.timestamp)
         }, this.prepData.bind(this));
@@ -210,38 +223,20 @@ class Coronavirus extends Component {
 
     const countryCutoffData = merge(nest()
       .key(d => d["ID Geography"])
-      .entries(countryData)
+      .entries(countryData.concat(stateData))
       .map(group => {
         let days = 0;
         return group.values
           .reduce((arr, d) => {
-            if (d.Confirmed >= 50) {
+            if (d.Confirmed > 50) {
               days++;
-              d.Days = days;
-              arr.push(d);
+              const newObj = Object.assign({}, d);
+              newObj.Days = days;
+              arr.push(newObj);
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])))
-      .concat(stateCutoffData);
-
-    // const visibleLabels = {};
-    // const labelSpace = 5;
-    // nest()
-    //   .key(d => d["ID Geography"])
-    //   .entries(stateData)
-    //   .forEach(group => {
-    //     const d = group.values[group.values.length - 1];
-    //     const compares = stateData
-    //       .filter(v => v.Days === d.Days)
-    //       .sort((a, b) => a[measure] - b[measure]);
-    //     const i = compares.indexOf(d);
-    //     const prevDiff = compares[i - 1] ? d[measure] - compares[i - 1][measure] : Infinity;
-    //     const nextDiff = compares[i + 1] ? compares[i + 1][measure] - d[measure] : Infinity;
-    //     if (prevDiff > labelSpace || nextDiff > labelSpace) {
-    //       visibleLabels[group.key] = true;
-    //     }
-    //   });
+      }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
 
     this.setState({stateCutoffData, stateData, countryCutoffData, countryData});
   }
@@ -251,7 +246,6 @@ class Coronavirus extends Component {
     const {
       beds,
       countryCutoffData,
-      countryData,
       cutoff,
       date,
       icu,
@@ -265,20 +259,18 @@ class Coronavirus extends Component {
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
 
-    const maxValue = max(stateData, d => d[measure]);
-    const maxValuePC = max(stateData, d => d[`${measure}PC`]);
-    const maxValueNew = max(stateData, d => d[`${measure}New`]);
-    const maxValueGrowth = max(stateData, d => d[`${measure}Growth`]);
-    const minValueGrowth = min(stateData, d => d[`${measure}Growth`] || 1);
-    const maxValueSmooth = max(stateData, d => d[`${measure}Smooth`]);
-    const minValueSmooth = min(stateData, d => d[`${measure}Smooth`] || 1);
-    const maxValueWorldPC = max(countryData, d => d[`${measure}PC`]);
-    const minValue = scale === "log" ? 1 : 0;
-    const minValuePC = scale === "log" ? min(countryData, d => d[`${measure}PC`]) : 0;
+    const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
+    const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
+    const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
+
+    const minValueGrowth = min(stateGrowthData, d => d[`${measure}Growth`]);
+    const minValueSmooth = min(stateSmoothData, d => d[`${measure}Smooth`]);
 
     const stateDomain = calculateDomain(stateData);
+    const stateNewDomain = calculateDomain(stateNewData);
+    const stateGrowthDomain = calculateDomain(stateGrowthData);
+    const stateSmoothDomain = calculateDomain(stateSmoothData);
     const stateCutoffDomain = calculateDayDomain(stateCutoffData);
-    const countryDomain = calculateDomain(countryData);
     const countryCutoffDomain = calculateDayDomain(countryCutoffData);
     const countryCutoffLabels = countryCutoffDomain.filter(d => d === 1 || d % 10 === 0);
 
@@ -320,18 +312,19 @@ class Coronavirus extends Component {
             verticalAlign: "middle"
           },
           labelBounds: (d, i, s) => {
-            // if (visibleLabels[d["ID Geography"]]) {
-            const [firstX, firstY] = s.points[0];
-            const [lastX, lastY] = s.points[s.points.length - 1];
-            const height = 30;
-            return   {
-              x: lastX - firstX + 5,
-              y: lastY - firstY - height / 2 + 1,
-              width: labelWidth,
-              height
-            };
-            // }
-            // return false;
+            const yExtent = extent(s.points.map(p => p[1]));
+            if (yExtent[1] - yExtent[0] > 5) {
+              const [firstX, firstY] = s.points[0];
+              const [lastX, lastY] = s.points[s.points.length - 1];
+              const height = 30;
+              return   {
+                x: lastX - firstX + 5,
+                y: lastY - firstY - height / 2 + 1,
+                width: labelWidth,
+                height
+              };
+            }
+            return false;
           },
           sort: a => a["ID Region"] !== 6 ? 1 : -1,
           stroke: d => colors.Region[d["ID Region"]]
@@ -352,7 +345,6 @@ class Coronavirus extends Component {
         barConfig: {
           stroke: "transparent"
         },
-        domain: [minValue, maxValue],
         scale,
         tickFormat: commas,
         title: `${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
@@ -362,6 +354,11 @@ class Coronavirus extends Component {
     const mapConfig = {
       zoom: false
     };
+
+    const StateCutoff = () =>
+      <div className="topic-subtitle">
+        Only showing states with more than 50 confirmed cases.
+      </div>;
 
     const AxisToggle = () =>
       <label className="pt-label pt-inline">
@@ -488,7 +485,6 @@ class Coronavirus extends Component {
                     },
                     y: `${measure}PC`,
                     yConfig: {
-                      domain: [minValuePC, maxValuePC],
                       title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
                     }
                   })} />
@@ -521,9 +517,6 @@ class Coronavirus extends Component {
                       domain: stateCutoffDomain,
                       tickFormat: d => `${commas(d)} day${d !== 1 ? "s" : ""}`,
                       title: `Days Since ${cutoff} Confirmed Cases`
-                    },
-                    yConfig: {
-                      domain: [!cutoff ? minValue : cutoff, maxValue]
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -555,7 +548,6 @@ class Coronavirus extends Component {
                     },
                     y: `${measure}PC`,
                     yConfig: {
-                      domain: [minValuePC, maxValueWorldPC],
                       title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
                     }
                   })} />
@@ -603,15 +595,14 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateData,
+                    data: stateNewData,
                     x: "Date",
                     xConfig: {
-                      domain: stateDomain,
+                      domain: stateNewDomain,
                       tickFormat: dateFormat
                     },
                     y: `${measure}New`,
                     yConfig: {
-                      domain: [minValue, maxValueNew],
                       title: `Daily ${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
                     }
                   })} />
@@ -625,6 +616,7 @@ class Coronavirus extends Component {
                   <AnchorLink to="growth-rate" className="anchor">Growth Factor</AnchorLink>
                 </h3>
                 <AxisToggle />
+                <StateCutoff />
                 <div className="topic-description">
                   <p>
                     This chart shows the growth factor for each state. The growth factor is the ratio between the newly reported cases between two consecutive days. It is a measure of whether the spread of the epidemic is &ldquo;accelerating&rdquo; (&gt;1), &ldquo;peaking&rdquo; (=1), or &ldquo;decelerating&rdquo; (&lt;1).
@@ -634,15 +626,14 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateData.filter(d => d.ConfirmedGrowth !== undefined),
+                    data: stateGrowthData,
                     x: "Date",
                     xConfig: {
-                      domain: stateDomain.slice(1),
+                      domain: stateGrowthDomain,
                       tickFormat: dateFormat
                     },
                     y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`],
                     yConfig: {
-                      domain: [scale === "log" ? minValueGrowth : 0, maxValueGrowth],
                       title: `Growth Factor\n(${scaleLabel})`
                     }
                   })} />
@@ -656,6 +647,7 @@ class Coronavirus extends Component {
                   <AnchorLink to="growth-smoothed" className="anchor">Growth Factor (Smoothed)</AnchorLink>
                 </h3>
                 <AxisToggle />
+                <StateCutoff />
                 <div className="topic-description">
                   <p>
                     Since growth factors can experience a lot of volatility when numbers are still small, here we present a smoothed version of the growth factor based on a 3 day average.
@@ -665,15 +657,14 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateData.filter(d => d.ConfirmedSmooth !== undefined),
+                    data: stateSmoothData,
                     x: "Date",
                     xConfig: {
-                      domain: stateDomain.slice(2),
+                      domain: stateSmoothDomain,
                       tickFormat: dateFormat
                     },
                     y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`],
                     yConfig: {
-                      domain: [scale === "log" ? minValueSmooth : 0, maxValueSmooth],
                       title: `Growth Factor (Smoothed)\n(${scaleLabel})`
                     }
                   })} />
@@ -709,7 +700,7 @@ class Coronavirus extends Component {
             <div className="topic Column">
               <div className="topic-content">
                 <h3 id="risks-beds" className="topic-title">
-                  <AnchorLink to="risks-beds" className="anchor">Hospital Beds per 1,000 population</AnchorLink>
+                  <AnchorLink to="risks-beds" className="anchor">Hospital Beds per 1,000 Population</AnchorLink>
                 </h3>
               </div>
               <div className="visualization topic-visualization">
@@ -723,7 +714,7 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", "2018"],
-                        ["Beds per 100,000 Residents", d => d.Total]
+                        ["Beds per 1,000 Residents", d => d.Total]
                       ]
                     },
                     topojson: "/topojson/State.json"
@@ -735,13 +726,13 @@ class Coronavirus extends Component {
             <div className="topic Column">
               <div className="topic-content">
                 <h3 id="risks-icu" className="topic-title">
-                  <AnchorLink to="risks-icu" className="anchor">ICU Beds by State</AnchorLink>
+                  <AnchorLink to="risks-icu" className="anchor">ICU Beds per 1,000 Population</AnchorLink>
                 </h3>
               </div>
               <div className="visualization topic-visualization">
                 { beds.length
                   ? <Geomap className="d3plus" config={assign({}, mapConfig, {
-                    colorScale: "Total",
+                    colorScale: "TotalPC",
                     data: icu,
                     groupBy: "ID Geography",
                     label: d => d.Geography,
@@ -749,6 +740,7 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", "2018"],
+                        ["ICU eds per 1,000 Residents", d => formatAbbreviate(d.TotalPC)],
                         ["ICU Beds", d => d.Total]
                       ]
                     },
