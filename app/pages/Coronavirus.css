@@ -1,6 +1,10 @@
 #Coronavirus {
   & .splash-coronavirus {
     padding: calc(var(--nav-height) * 2) 0 var(--nav-height);
+    & .profile-subtitle {
+      color: var(--red);
+      font-size: 24px;
+    }
     & .splash-columns {
       color: var(--white);
       columns: 320px auto;
