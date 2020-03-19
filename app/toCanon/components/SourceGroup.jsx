@@ -38,9 +38,9 @@ class SourceGroup extends Component {
             { datasetLink ? <a href={datasetLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
           </Tooltip2> }
           { i < sources.length - 1 && <span>,</span> }
-          <span>.</span>
         </span>;
       })}
+      <span>.</span>
     </div>;
   }
 
