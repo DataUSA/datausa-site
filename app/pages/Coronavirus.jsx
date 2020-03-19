@@ -446,9 +446,6 @@ class Coronavirus extends Component {
           <p>
             At Data USA, we have the mission to visualize and distribute data of U.S. public interest. To honor that mission, we have created a series of interactive graphics to help track the evolution of Coronavirus (also known as COVID-19 and SARS-COV 2). These visualizations help put the spread of coronavirus in context, and the preparedness of different U.S. states in context.
           </p>
-          <p>
-            The sources of this data are: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">Johns Hopkins University</a>, the <a href="https://www.kff.org/other/state-indicator/beds-by-ownership/?currentTimeframe=0&selectedDistributions=total&selectedRows=%7B%22states%22:%7B%22all%22:%7B%7D%7D,%22wrapups%22:%7B%22united-states%22:%7B%7D%7D%7D&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D" target="_blank" rel="noopener noreferrer">Kaiser Family Foundation</a>, and the <a href="https://datacatalog.worldbank.org/dataset/world-development-indicators" target="_blank" rel="noopener noreferrer">World Bank&rsquo;s World Development Indicators</a>.
-          </p>
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
