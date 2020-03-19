@@ -25,6 +25,45 @@ import colors from "../../static/data/colors.json";
 import {updateTitle} from "actions/title";
 
 import SectionIcon from "toCanon/SectionIcon";
+import SourceGroup from "toCanon/components/SourceGroup";
+
+const jhSource = {
+  dataset_link: "https://github.com/CSSEGISandData/COVID-19",
+  dataset_name: "2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository",
+  source_link: "https://systems.jhu.edu/",
+  source_name: "Johns Hopkins CSSE"
+};
+
+const kfSource = {
+  dataset_link: "https://www.kff.org/other/state-indicator/beds-by-ownership/?currentTimeframe=0&selectedDistributions=total&selectedRows=%7B%22states%22:%7B%22all%22:%7B%7D%7D,%22wrapups%22:%7B%22united-states%22:%7B%7D%7D%7D&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D",
+  dataset_name: "State Health Facts",
+  source_link: "https://www.kff.org/",
+  source_name: "Kaiser Family Foundation"
+};
+
+const aaSource = {
+  dataset_link: "https://array-architects.com/press-release/array-advisors-model-validates-fears-of-icu-bed-shortage-due-to-coronavirus-pandemic/",
+  dataset_name: "ICU Bed Shortage",
+  source_link: "https://array-architects.com/",
+  source_name: "Array Architects"
+};
+
+const popSource = {
+  source_name: "Census Bureau",
+  source_description: "The American Community Survey (ACS) is conducted by the US Census and sent to a portion of the population every year.",
+  dataset_name: "ACS 1-year Estimate",
+  dataset_link: "http://www.census.gov/programs-surveys/acs/",
+  table_id: "B01003",
+  topic: "Diversity",
+  subtopic: "Demographics"
+};
+
+const wbSource = {
+  dataset_link: "https://datacatalog.worldbank.org/dataset/world-development-indicators",
+  dataset_name: "World Development Indicators",
+  source_link: "https://www.worldbank.org/",
+  source_name: "The World Bank"
+};
 
 class UncontrolledSlider extends React.Component {
   state = {value: 0};
@@ -447,6 +486,7 @@ class Coronavirus extends Component {
                     This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the spread began.
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
@@ -473,6 +513,7 @@ class Coronavirus extends Component {
                     This chart normalizes the number of confirmed COVID-19 cases divided by the population of each state. It gives an idea of the density of COVID-19 infections by state.
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource, popSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
@@ -507,6 +548,7 @@ class Coronavirus extends Component {
                     Move the slider to adjust this threshold.
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateCutoffData.length
@@ -534,6 +576,7 @@ class Coronavirus extends Component {
                     To get a sense of how the COVID-19 trajectory in the U.S. states compares with other countries, we present the per capita number of total cases for each state that has reported more than 50 cases, starting from the day they reported 50 cases.
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource, popSource, wbSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { countryCutoffData.length
@@ -591,6 +634,7 @@ class Coronavirus extends Component {
                     This chart presents the number of new cases reported daily by each U.S. state.
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
@@ -622,6 +666,7 @@ class Coronavirus extends Component {
                     This chart shows the growth factor for each state. The growth factor is the ratio between the newly reported cases between two consecutive days. It is a measure of whether the spread of the epidemic is &ldquo;accelerating&rdquo; (&gt;1), &ldquo;peaking&rdquo; (=1), or &ldquo;decelerating&rdquo; (&lt;1).
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
@@ -653,6 +698,7 @@ class Coronavirus extends Component {
                     Since growth factors can experience a lot of volatility when numbers are still small, here we present a smoothed version of the growth factor based on a 3 day average.
                   </p>
                 </div>
+                <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
@@ -721,6 +767,7 @@ class Coronavirus extends Component {
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
+              <SourceGroup sources={[kfSource]} />
             </div>
 
             <div className="topic Column">
@@ -748,6 +795,7 @@ class Coronavirus extends Component {
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
+              <SourceGroup sources={[aaSource, popSource]} />
             </div>
 
             <div className="topic Column">
@@ -779,6 +827,15 @@ class Coronavirus extends Component {
                   })} dataFormat={resp => resp.data} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
+              <SourceGroup sources={[{
+                source_name: "Census Bureau",
+                source_description: "Census Bureau conducts surveys of the United States Population, including the American Community Survey",
+                dataset_name: "ACS 1-year Estimate",
+                dataset_link: "http://www.census.gov/programs-surveys/acs/",
+                table_id: "S2701,S2703,S2704",
+                topic: "Health",
+                subtopic: "Access and Quality"
+              }]} />
             </div>
 
           </div>
