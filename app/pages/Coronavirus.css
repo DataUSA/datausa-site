@@ -81,20 +81,24 @@
     & .topic-content {
       max-width: 300px;
     }
+    &.text-only {
+      & .topic-content {
+        max-width: 600px;
+      }
+    }
   }
 
   & .Column {
-    align-items: center;
-    flex: 1 1 100%;
-    & .topic-content {
-      max-width: none;
-      text-align: center;
+    min-width: 30%;
+    text-align: center;
+    @media (max-width: 1280px) {
+      min-width: 45%;
+    }
+    @media (max-width: 768px) {
+      min-width: 90%;
     }
     & .visualization {
-      height: 600px;
-      max-height: 80vh;
-      max-width: 800px;
-      width: 100%;
+      height: 300px;
     }
   }
 
