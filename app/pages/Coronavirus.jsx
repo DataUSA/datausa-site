@@ -47,14 +47,25 @@ const aaSource = {
   source_name: "Array Architects"
 };
 
-const popSource = {
+const pums1Source = {
   source_name: "Census Bureau",
-  source_description: "The American Community Survey (ACS) is conducted by the US Census and sent to a portion of the population every year.",
+  source_description: "The American Community Survey (ACS) Public Use Microdata Sample (PUMS) files are a set of untabulated records about individual people or housing units. The Census Bureau produces the PUMS files so that data users can create custom tables that are not available through pretabulated (or summary) ACS data products.",
+  dataset_name: "ACS PUMS 1-Year Estimate",
+  dataset_link: "https://census.gov/programs-surveys/acs/technical-documentation/pums.html",
+  subtopic: "Demographics",
+  table_id: "PUMS",
+  topic: "Diversity",
+  hidden_measures: "ygbpop RCA,ygopop RCA,ygipop RCA,yocpop RCA,yiopop RCA,ycbpop RCA"
+};
+
+const acs1Source = {
+  source_name: "Census Bureau",
+  source_description: "Census Bureau conducts surveys of the United States Population, including the American Community Survey",
   dataset_name: "ACS 1-year Estimate",
   dataset_link: "http://www.census.gov/programs-surveys/acs/",
-  table_id: "B01003",
-  topic: "Diversity",
-  subtopic: "Demographics"
+  table_id: "S2701,S2703,S2704",
+  topic: "Health",
+  subtopic: "Access and Quality"
 };
 
 const wbSource = {
@@ -385,15 +396,16 @@ class Coronavirus extends Component {
         }
       },
       tooltipConfig: {
-        tbody: [
-          ["Date", d => dateFormat(new Date(d.Date))],
-          ["Total Cases", d => commas(d.Confirmed)],
-          ["New Cases", d => commas(d.ConfirmedNew)],
-          ["Cases per 100,000", d => formatAbbreviate(d.ConfirmedPC)],
-          ["Growth Factor", d => formatAbbreviate(d.ConfirmedGrowth)]
-          // ["Recovered", d => commas(d.Recovered)],
-          // ["Deaths", d => commas(d.Deaths)]
-        ]
+        tbody: d => {
+          const arr = [
+            ["Date", dateFormat(new Date(d.Date))],
+            ["Total Cases", commas(d.Confirmed)]
+          ];
+          if (d.ConfirmedNew !== undefined) arr.push(["New Cases", commas(d.ConfirmedNew)]);
+          if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
+          // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
+          return arr;
+        }
       },
       y: measure,
       yConfig: {
@@ -460,13 +472,14 @@ class Coronavirus extends Component {
             How is Coronavirus spreading in the United States? How fast is it growing in each state? And how are different states prepared to cope with the spread of this global pandemic?
           </p>
           <p>
-            At Data USA, we have the mission to visualize and distribute data of U.S. public interest. To honor that mission, we have created a series of interactive graphics to help track the evolution of Coronavirus (also known as COVID-19 and SARS-COV 2). These visualizations help put the spread of coronavirus in context, and the preparedness of different U.S. states in context.
+            At Data USA, we have the mission to visualize and distribute data of U.S. public interest. To honor that mission, we have created a series of interactive graphics to help track the evolution of Coronavirus (also known as COVID-19 and SARS-COV 2). These visualizations were designed to put the spread of coronavirus in context and also to inform about the risks and readiness of U.S. states.
           </p>
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
           <SectionIcon slug="growth" title="Growth Rate" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
+          <SectionIcon slug="faqs" title="FAQs" />
         </div>
       </div>
 
@@ -496,7 +509,7 @@ class Coronavirus extends Component {
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
-                    This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the spread began.
+                    This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state.
                   </p>
                 </div>
                 <SourceGroup sources={[jhSource]} />
@@ -524,10 +537,10 @@ class Coronavirus extends Component {
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
-                    This chart normalizes the number of confirmed COVID-19 cases divided by the population of each state. It gives an idea of the density of COVID-19 infections by state.
+                    This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the &ldquo;density&rdquo; of COVID-19 infections in each state.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource, popSource]} />
+                <SourceGroup sources={[jhSource, acs1Source]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
@@ -589,10 +602,10 @@ class Coronavirus extends Component {
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
-                    To get a sense of how the COVID-19 trajectory in the U.S. states compares with other countries, we present the per capita number of total cases for each state that has reported more than 50 cases, starting from the day they reported 50 cases.
+                    To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we present the per capita number of cases for each state that has reported more than 50 cases, starting from the day they reported a total of 50 cases or more.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource, popSource, wbSource]} />
+                <SourceGroup sources={[jhSource, acs1Source, wbSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { countryCutoffData.length
@@ -617,6 +630,10 @@ class Coronavirus extends Component {
           </div>
         </div>
 
+
+        {/* Growth Rate */}
+
+
         <div className="Section coronavirus-section">
           <h2 className="section-title">
             <AnchorLink to="growth" id="growth" className="anchor">
@@ -625,14 +642,14 @@ class Coronavirus extends Component {
           </h2>
           <div className="section-body">
             <div className="section-content">
-              <div className="section-sublinks">
+              {/* <div className="section-sublinks">
                 <AnchorLink to="growth-daily" className="anchor">Daily Cases</AnchorLink>
                 <AnchorLink to="growth-rate" className="anchor">Growth Rate</AnchorLink>
                 <AnchorLink to="growth-smoothed" className="anchor">Growth Rate (Smoothed)</AnchorLink>
-              </div>
+              </div> */}
               <div className="section-description">
                 <p>
-                  Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth. Here, we present two types of charts: the number of daily reported cases, and the epidemic growth factor. The growth factor is the ratio between the number of new cases reported in two consecutive days. When the growth factor is larger than one, the spread of the epidemic is &ldquo;accelerating&rdquo; (becoming larger everyday). When the growth factor is equal to one the spread of the epidemic is peaking. When the growth factor becomes smaller than one, the epidemic spreading is decelerating. For a more in depth explanation of this concept, you can watch <a href="https://www.youtube.com/watch?v=Kas0tIxDvrg" target="_blank" rel="noopener noreferrer">this</a> video from the CDC.
+                  Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth. Here, we present the number of daily reported cases.
                 </p>
               </div>
             </div>
@@ -671,7 +688,7 @@ class Coronavirus extends Component {
               </div>
             </div>
 
-            <div className="topic TextViz">
+            {/* <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="growth-daily" className="topic-title">
                   <AnchorLink to="growth-rate" className="anchor">Growth Factor</AnchorLink>
@@ -702,9 +719,9 @@ class Coronavirus extends Component {
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
-            </div>
+            </div> */}
 
-            <div className="topic TextViz">
+            {/* <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="growth-daily" className="topic-title">
                   <AnchorLink to="growth-smoothed" className="anchor">Growth Factor (Smoothed)</AnchorLink>
@@ -735,10 +752,14 @@ class Coronavirus extends Component {
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
-            </div>
+            </div> */}
 
           </div>
         </div>
+
+
+        {/* Risks and Readiness */}
+
 
         <div className="Section coronavirus-section">
           <h2 className="section-title">
@@ -752,6 +773,8 @@ class Coronavirus extends Component {
                 <AnchorLink to="risks-beds" className="anchor">Hospital Beds</AnchorLink>
                 <AnchorLink to="risks-icu" className="anchor">ICU Beds</AnchorLink>
                 <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population</AnchorLink>
+                <AnchorLink to="risks-physicians" className="anchor">Physicians</AnchorLink>
+                <AnchorLink to="risks-nurses" className="anchor">Nurses</AnchorLink>
               </div>
               <div className="section-description">
                 <p>
@@ -814,7 +837,7 @@ class Coronavirus extends Component {
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
-              <SourceGroup sources={[aaSource, popSource]} />
+              <SourceGroup sources={[aaSource]} />
             </div>
 
             <div className="topic Column">
@@ -846,18 +869,133 @@ class Coronavirus extends Component {
                   })} dataFormat={resp => resp.data} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
-              <SourceGroup sources={[{
-                source_name: "Census Bureau",
-                source_description: "Census Bureau conducts surveys of the United States Population, including the American Community Survey",
-                dataset_name: "ACS 1-year Estimate",
-                dataset_link: "http://www.census.gov/programs-surveys/acs/",
-                table_id: "S2701,S2703,S2704",
-                topic: "Health",
-                subtopic: "Access and Quality"
-              }]} />
+              <SourceGroup sources={[acs1Source]} />
+            </div>
+
+            <div className="topic Column">
+              <div className="topic-content">
+                <h3 id="risks-uninsured" className="topic-title">
+                  <AnchorLink to="risks-physicians" className="anchor">Physicians and Surgeons by State</AnchorLink>
+                </h3>
+              </div>
+              <div className="visualization topic-visualization">
+                { beds.length
+                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                    colorScale: "Total Population",
+                    colorScaleConfig: {
+                      axisConfig: {
+                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
+                      }
+                    },
+                    data: "/api/data?drilldowns=State&measures=Total%20Population&Year=2017&soc=291060",
+                    groupBy: "ID State",
+                    label: d => d.State,
+                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+                    tooltipConfig: {
+                      tbody: [
+                        ["Year", d => d.Year],
+                        ["Uninsured", d => formatAbbreviate(d["Total Population"])]
+                      ]
+                    },
+                    topojson: "/topojson/State.json"
+                  })} dataFormat={resp => resp.data} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <SourceGroup sources={[pums1Source]} />
+            </div>
+
+            <div className="topic Column">
+              <div className="topic-content">
+                <h3 id="risks-uninsured" className="topic-title">
+                  <AnchorLink to="risks-nurses" className="anchor">Registered Nurses by State</AnchorLink>
+                </h3>
+              </div>
+              <div className="visualization topic-visualization">
+                { beds.length
+                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                    colorScale: "Total Population",
+                    colorScaleConfig: {
+                      axisConfig: {
+                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
+                      }
+                    },
+                    data: "/api/data?drilldowns=State&measures=Total%20Population&Year=2017&soc=291141",
+                    groupBy: "ID State",
+                    label: d => d.State,
+                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+                    tooltipConfig: {
+                      tbody: [
+                        ["Year", d => d.Year],
+                        ["Uninsured", d => formatAbbreviate(d["Total Population"])]
+                      ]
+                    },
+                    topojson: "/topojson/State.json"
+                  })} dataFormat={resp => resp.data} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <SourceGroup sources={[pums1Source]} />
             </div>
 
           </div>
+
+        </div>
+
+        <div className="Section coronavirus-section">
+          <h2 className="section-title">
+            <AnchorLink to="faqs" id="faqs" className="anchor">
+              FAQs
+            </AnchorLink>
+          </h2>
+          <div className="section-topics">
+
+            <div className="topic TextViz text-only">
+              <div className="topic-content">
+                <h3 id="faqs-growth" className="topic-title">
+                  <AnchorLink to="faqs-growth" className="anchor">
+                    Exponential Growth &amp; Logarithmic Scales
+                  </AnchorLink>
+                </h3>
+                <div className="topic-descriptions">
+
+                  <div className="topic-description">
+
+                    <p>
+                  What is exponential growth? And how does it relate to the use of logarithmic scales?
+                    </p>
+                    <p>
+                  At the beginning of an epidemic, epidemic growth exponentially. Exponential growth is growth that happens by multiplying rather than adding.
+                    </p>
+                    <p>
+                  Compare linear growth that adds 10 at each time step with exponential growth that multiplies by 2.
+                    </p>
+                    <p>
+                  A linear growth sequence that adds 10 at each time step looks like:
+                    </p>
+                    <pre><code>0, 10, 20, 30, 40, 50, 60, 70, 80, 100…</code></pre>
+                    <p>
+                  Whereas exponential sequence that multiplies by 2 at each time step looks like:
+                    </p>
+                    <pre><code>1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024....</code></pre>
+                    <p>
+                  At the beginning, linear growth seems faster (20 is much larger than 4), but linear growth does not accelerate. It adds the same amount every time. Exponential growth accelerates, adding more at each time step, so it can “explode” suddenly.
+                    </p>
+                    <p>
+                  After 10 steps, linear (+10) growth brings us to 100. Exponential (x2) growth brings us to (1,024). After 20 steps, linear growth only brings us to 200. Exponential growth to more than 1 million!
+                    </p>
+                    <p>
+                  Exponential growth is so fast that to appreciate it better we need to use logarithmic scales. These are scales that also grow by multiples. For example, a logarithmic scale between 1 and 1,000,000 goes from 1 to 10, from 10 to 100, from 100 to 1,000, from 1,000 to 10,000, from 10,000 to 100,000, and from 100,000 to 1,000,000. This is a logarithmic scale in base 10, because we are multiplying by ten each time. What this scale shows is that, in exponential growth, 1,000 is halfway to 1,000,000. That’s why it is important to stop exponential growth even if the numbers look small. The same number of steps that bring you from 1 to 1,000 bring you from 1,000 to 1,000,000.
+                    </p>
+                    <p>
+                  Strictly speaking, epidemic processes are only exponential early on, when the number of cases is small compared to the size of the population or other limiting factors. Eventually, growth peters out, either because spreading became widespread, or because other factors, such as physical distancing, or immunization, reduces the speed of the spreading. To learn more about the basic functional forms of epidemic spreading, watch <a href="https://www.youtube.com/watch?v=Kas0tIxDvrg" target="_blank" rel="noopener noreferrer">this</a> video prepared by the CDC.
+                    </p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
