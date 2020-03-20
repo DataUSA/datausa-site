@@ -1,9 +1,13 @@
 #Coronavirus {
   & .splash-coronavirus {
     padding: calc(var(--nav-height) * 2) 0 var(--nav-height);
+    & .profile-title {
+      padding: 0 50px;
+    }
     & .profile-subtitle {
       color: var(--red);
       font-size: 24px;
+      padding: 0 75px;
     }
     & .splash-columns {
       color: var(--white);
