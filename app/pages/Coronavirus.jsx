@@ -11,7 +11,6 @@ import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
 const commas = format(",");
 const dayFormat = timeFormat("%A %B %d");
-const dateFormat = timeFormat("%b %d");
 const hourFormat = timeFormat("%I:%M %p");
 
 import {colorLegible} from "d3plus-color";
@@ -94,9 +93,10 @@ const countryAbbreviations = {"Afghanistan": "AFG", "Åland Islands": "ALA", "Al
 const labelSpace = 10;
 
 /** */
-function calculateDomain(data) {
+function calculateDomain(data, w) {
   if (data && data instanceof Array && data.length) {
-    const domain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
+    const dataDomain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
+    const domain = dataDomain.slice();
     let lastDate = domain[domain.length - 1];
     const endDate = lastDate + (lastDate  - domain[0]) / labelSpace;
     lastDate = new Date(lastDate);
@@ -104,24 +104,35 @@ function calculateDomain(data) {
       lastDate.setDate(lastDate.getDate() + 1);
       domain.push(lastDate.getTime());
     }
-    return domain;
+    const space = (w <= 768 ? w : w - 300) - 100 - 60;
+    const labelWidth = w <= 480 ? 30 : 50;
+    const step = Math.ceil(domain.length / (space / labelWidth));
+    const max = dataDomain.length - 1;
+    const labels = domain.filter((d, i) => i % step === 0 && dataDomain.includes(d) && i <= max - step || i === max);
+    return [domain, labels];
   }
-  return [];
+  return [[], []];
 }
 
 /** */
-function calculateDayDomain(data) {
+function calculateDayDomain(data, w) {
   if (data && data instanceof Array && data.length) {
-    const domain = unique(data.map(d => d.Days)).sort((a, b) => a - b);
+    const dataDomain = unique(data.map(d => d.Days)).sort((a, b) => a - b);
+    const domain = dataDomain.slice();
     let lastDate = domain[domain.length - 1];
     const endDate = lastDate + (lastDate  - domain[0]) / labelSpace;
     while (domain[domain.length - 1] < endDate) {
       lastDate++;
       domain.push(lastDate);
     }
-    return domain;
+    const space = (w <= 768 ? w : w - 300) - 100 - 60;
+    const labelWidth = w <= 480 ? 30 : 50;
+    const step = Math.ceil(domain.length / (space / labelWidth));
+    const max = dataDomain.length - 1;
+    const labels = domain.filter((d, i) => i % step === 0 && dataDomain.includes(d) && i <= max - step || i === max);
+    return [domain, labels];
   }
-  return [];
+  return [[], []];
 }
 
 class Coronavirus extends Component {
@@ -297,6 +308,10 @@ class Coronavirus extends Component {
 
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
+    const mobile = w <= 480;
+
+    const dateFormat = mobile ? timeFormat("%m/%d") : timeFormat("%b %d");
+    const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
     const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
     const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
@@ -305,13 +320,13 @@ class Coronavirus extends Component {
     const minValueGrowth = min(stateGrowthData, d => d[`${measure}Growth`]);
     const minValueSmooth = min(stateSmoothData, d => d[`${measure}Smooth`]);
 
-    const stateDomain = calculateDomain(stateData);
-    const stateNewDomain = calculateDomain(stateNewData);
-    const stateGrowthDomain = calculateDomain(stateGrowthData);
-    const stateSmoothDomain = calculateDomain(stateSmoothData);
-    const stateCutoffDomain = calculateDayDomain(stateCutoffData);
-    const countryCutoffDomain = calculateDayDomain(countryCutoffData);
-    const countryCutoffLabels = countryCutoffDomain.filter(d => d === 1 || d % 10 === 0);
+    const [stateDomain, stateLabels] = calculateDomain(stateData, w);
+    const [stateNewDomain, stateNewLabels] = calculateDomain(stateNewData, w);
+    const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
+    const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
+
+    const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
+    const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
 
     const labelWidth = stateCutoffDomain.length
       ? w / (stateCutoffDomain[stateCutoffDomain.length - 1] + 1)
@@ -372,11 +387,12 @@ class Coronavirus extends Component {
       tooltipConfig: {
         tbody: [
           ["Date", d => dateFormat(new Date(d.Date))],
-          ["Confirmed", d => commas(d.Confirmed)],
+          ["Total Cases", d => commas(d.Confirmed)],
+          ["New Cases", d => commas(d.ConfirmedNew)],
           ["Cases per 100,000", d => formatAbbreviate(d.ConfirmedPC)],
-          ["Growth Factor", d => formatAbbreviate(d.ConfirmedGrowth)],
-          ["Recovered", d => commas(d.Recovered)],
-          ["Deaths", d => commas(d.Deaths)]
+          ["Growth Factor", d => formatAbbreviate(d.ConfirmedGrowth)]
+          // ["Recovered", d => commas(d.Recovered)],
+          // ["Deaths", d => commas(d.Deaths)]
         ]
       },
       y: measure,
@@ -492,6 +508,7 @@ class Coronavirus extends Component {
                     x: "Date",
                     xConfig: {
                       domain: stateDomain,
+                      labels: stateLabels,
                       tickFormat: dateFormat
                     }
                   })} />
@@ -519,6 +536,7 @@ class Coronavirus extends Component {
                     x: "Date",
                     xConfig: {
                       domain: stateDomain,
+                      labels: stateLabels,
                       tickFormat: dateFormat
                     },
                     y: `${measure}PC`,
@@ -554,7 +572,8 @@ class Coronavirus extends Component {
                     x: "Days",
                     xConfig: {
                       domain: stateCutoffDomain,
-                      tickFormat: d => `${commas(d)} day${d !== 1 ? "s" : ""}`,
+                      labels: stateCutoffLabels,
+                      tickFormat: daysFormat,
                       title: `Days Since ${cutoff} Confirmed Cases`
                     }
                   })} />
@@ -583,7 +602,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: countryCutoffDomain,
                       labels: countryCutoffLabels,
-                      tickFormat: d => `${commas(d)} day${d !== 1 ? "s" : ""}`,
+                      tickFormat: daysFormat,
                       title: "Days Since 50 Confirmed Cases"
                     },
                     y: `${measure}PC`,
@@ -640,6 +659,7 @@ class Coronavirus extends Component {
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
+                      labels: stateNewLabels,
                       tickFormat: dateFormat
                     },
                     y: `${measure}New`,
@@ -672,6 +692,7 @@ class Coronavirus extends Component {
                     x: "Date",
                     xConfig: {
                       domain: stateGrowthDomain,
+                      labels: stateGrowthLabels,
                       tickFormat: dateFormat
                     },
                     y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`],
@@ -704,6 +725,7 @@ class Coronavirus extends Component {
                     x: "Date",
                     xConfig: {
                       domain: stateSmoothDomain,
+                      labels: stateSmoothLabels,
                       tickFormat: dateFormat
                     },
                     y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`],

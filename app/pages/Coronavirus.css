@@ -10,6 +10,7 @@
       columns: 320px auto;
       column-gap: 20px;
       padding: 25px 50px;
+      max-width: 1200px;
       & p:not(:first-child) {
         margin-top: 20px;
       }
