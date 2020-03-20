@@ -10,7 +10,7 @@
       columns: 320px auto;
       column-gap: 20px;
       padding: 25px 50px;
-      max-width: 1200px;
+      max-width: 800px;
       & p:not(:first-child) {
         margin-top: 20px;
       }
@@ -33,7 +33,10 @@
       text-decoration: underline;
     }
     & .section-description {
-      min-width: 100%;
+      max-width: 800px;
+      &.single {
+        max-width: 400px;
+      }
     }
     & .section-sublinks {
       margin: 10px auto 20px;

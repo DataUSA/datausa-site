@@ -161,10 +161,10 @@ class Coronavirus extends Component {
       icu: [],
       level: "state",
       measure: "Confirmed",
-      scale: "linear",
+      scale: "log",
       stateCutoffData: [],
       stateData: [],
-      title: "Coronavirus in the United States"
+      title: "COVID-19 in the United States"
     };
   }
 
@@ -339,10 +339,6 @@ class Coronavirus extends Component {
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
 
-    const labelWidth = stateCutoffDomain.length
-      ? w / (stateCutoffDomain[stateCutoffDomain.length - 1] + 1)
-      : 0;
-
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
     const sharedConfig = {
@@ -353,6 +349,13 @@ class Coronavirus extends Component {
       discrete: "x",
       groupBy: ["ID Region", "ID Geography"],
       label: d => d.Geography instanceof Array ? d.Region : d.Geography,
+      legendConfig: {
+        title: "Click a region below to filter the chart",
+        titleConfig: {
+          fontColor: "#484848",
+          fontSize: 12
+        }
+      },
       legendTooltip: {
         tbody: []
       },
@@ -385,7 +388,7 @@ class Coronavirus extends Component {
               return   {
                 x: lastX - firstX + 5,
                 y: lastY - firstY - height / 2 + 1,
-                width: labelWidth,
+                width: 200,
                 height
               };
             }
@@ -428,15 +431,20 @@ class Coronavirus extends Component {
       </div>;
 
     const AxisToggle = () =>
-      <label className="pt-label pt-inline">
+      <div>
+        <label className="pt-label pt-inline">
         Y-Axis Scale
-        <div className="pt-select">
-          <select value={scale} onChange={this.changeScale.bind(this)}>
-            <option value="linear">Linear</option>
-            <option value="log">Logarithmic</option>
-          </select>
+          <div className="pt-select">
+            <select value={scale} onChange={this.changeScale.bind(this)}>
+              <option value="linear">Linear</option>
+              <option value="log">Logarithmic</option>
+            </select>
+          </div>
+        </label>
+        <div className="SourceGroup">
+          For more information about the difference between linear and logarithmic scale, <AnchorLink to="faqs-growth">click here</AnchorLink>.
         </div>
-      </label>;
+      </div>;
 
     const CutoffToggle = () =>
       <div className="cutoff-slider">
@@ -460,7 +468,7 @@ class Coronavirus extends Component {
           <div className="image" style={{backgroundImage: "url('')"}}></div>
         </div> */}
         <div className="content-container">
-          <h1 className="profile-title">Coronavirus in the United States</h1>
+          <h1 className="profile-title">{title}</h1>
         </div>
         <div className="content-container">
           {date && <div className="profile-subtitle">
@@ -469,10 +477,10 @@ class Coronavirus extends Component {
         </div>
         <div className="splash-columns">
           <p>
-            How is Coronavirus spreading in the United States? How fast is it growing in each state? And how are different states prepared to cope with the spread of this global pandemic?
+            How is COVID-19 (also known as Coronavirus) spreading in the United States? How fast is it growing in each state? And how are different states prepared to cope with the spread of this global pandemic?
           </p>
           <p>
-            At Data USA, we have the mission to visualize and distribute data of U.S. public interest. To honor that mission, we have created a series of interactive graphics to help track the evolution of Coronavirus (also known as COVID-19 and SARS-COV 2). These visualizations were designed to put the spread of coronavirus in context and also to inform about the risks and readiness of U.S. states.
+            At Data USA, our mission is to visualize and distribute open source data of U.S. public interest. To track the evolution and trajectory of COVID-19, we have created a series of interactive graphics. These visualizations are designed to put the spread of COVID-19 in context and to inform the public about risks and readiness of U.S. states.
           </p>
         </div>
         <div className="profile-sections">
@@ -602,7 +610,7 @@ class Coronavirus extends Component {
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
-                    To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we present the per capita number of cases for each state that has reported more than 50 cases, starting from the day they reported a total of 50 cases or more.
+                    To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than 50 cases, with that of the five countries that have reported most cases. We shift all time starting points to the day each place reported a total of 50 cases or more.
                   </p>
                 </div>
                 <SourceGroup sources={[jhSource, acs1Source, wbSource]} />
@@ -647,7 +655,7 @@ class Coronavirus extends Component {
                 <AnchorLink to="growth-rate" className="anchor">Growth Rate</AnchorLink>
                 <AnchorLink to="growth-smoothed" className="anchor">Growth Rate (Smoothed)</AnchorLink>
               </div> */}
-              <div className="section-description">
+              <div className="section-description single">
                 <p>
                   Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth. Here, we present the number of daily reported cases.
                 </p>
@@ -884,7 +892,7 @@ class Coronavirus extends Component {
                     colorScale: "Total Population",
                     colorScaleConfig: {
                       axisConfig: {
-                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
+                        tickFormat: formatAbbreviate
                       }
                     },
                     data: "/api/data?drilldowns=State&measures=Total%20Population&Year=2017&soc=291060",
@@ -916,7 +924,7 @@ class Coronavirus extends Component {
                     colorScale: "Total Population",
                     colorScaleConfig: {
                       axisConfig: {
-                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
+                        tickFormat: formatAbbreviate
                       }
                     },
                     data: "/api/data?drilldowns=State&measures=Total%20Population&Year=2017&soc=291141",
