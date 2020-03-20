@@ -12,7 +12,7 @@ class SourceGroup extends Component {
     if (!embed && (!sources || !sources.length)) return null;
 
     return <div className="SourceGroup">
-      Data provided by
+      Data from
       { sources.map((source, i) => {
 
         const {
