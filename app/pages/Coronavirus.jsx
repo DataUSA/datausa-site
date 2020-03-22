@@ -985,7 +985,7 @@ class Coronavirus extends Component {
                     </p>
                     <pre><code>1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024....</code></pre>
                     <p>
-                      At the beginning, linear growth seems faster (20 is much larger than 4), but linear growth does not accelerate. It adds the same amount every time. Exponential growth accelerates, adding more at each time step, so it can “explode” suddenly.
+                      At the beginning, linear growth seems faster (20 is much larger than 4), but linear growth does not accelerate. It adds the same amount every time. Exponential growth accelerates, adding more at each time step, so it can grow suddenly.
                     </p>
                     <p>
                       After 10 steps, linear (+10) growth brings us to 100. Exponential (x2) growth brings us to (1,024). After 20 steps, linear growth only brings us to 200. Exponential growth to more than 1 million!
