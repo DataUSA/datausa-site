@@ -477,10 +477,10 @@ class Coronavirus extends Component {
         </div>
         <div className="splash-columns">
           <p>
-            How is COVID-19 (also known as Coronavirus) spreading in the United States? How fast is it growing in each state? And how are different states prepared to cope with the spread of this global pandemic?
+            Based on publicly available data, how is COVID-19 (also known as Coronavirus) spreading in the United States? How fast is it growing in each state? And how prepared may different states be to cope with the spread of this global pandemic?
           </p>
           <p>
-            At Data USA, our mission is to visualize and distribute open source data of U.S. public interest. To track the evolution and trajectory of COVID-19, we have created a series of interactive graphics. These visualizations are designed to put the spread of COVID-19 in context and to inform the public about risks and readiness of U.S. states.
+            At Data USA, our mission is to visualize and distribute open source data of U.S. public interest. To track the evolution and trajectory of COVID-19, we have created a series of interactive graphics. These visualizations are designed to put the spread of COVID-19 in context.
           </p>
         </div>
         <div className="profile-sections">
@@ -777,16 +777,16 @@ class Coronavirus extends Component {
           </h2>
           <div className="section-body">
             <div className="section-content">
-              <div className="section-sublinks">
+              {/* <div className="section-sublinks">
                 <AnchorLink to="risks-beds" className="anchor">Hospital Beds</AnchorLink>
                 <AnchorLink to="risks-icu" className="anchor">ICU Beds</AnchorLink>
                 <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population</AnchorLink>
                 <AnchorLink to="risks-physicians" className="anchor">Physicians</AnchorLink>
                 <AnchorLink to="risks-nurses" className="anchor">Nurses</AnchorLink>
-              </div>
-              <div className="section-description">
+              </div> */}
+              <div className="section-description single">
                 <p>
-                  One of the problems of COVID-19 is that it can overwhelm the healthcare system. This is because COVID-19 can require long periods of hospitalization, including intensive care for patients in critical condition. Below you will find some statistics of the preparedness of U.S. states and of the vulnerability of the population in each state. For more information on critical care in the United States, visit <a href="https://sccm.org/Communications/Critical-Care-Statistics" target="_blank" rel="noopener noreferrer">this</a> report from the Society of Critical Care Medicine.
+                  Below you will find some statistics of the preparedness of U.S. states and of the vulnerability of the population in each state. For more information on critical care in the United States, visit <a href="https://sccm.org/Communications/Critical-Care-Statistics" target="_blank" rel="noopener noreferrer">this</a> report from the Society of Critical Care Medicine.
                 </p>
               </div>
             </div>
@@ -968,33 +968,33 @@ class Coronavirus extends Component {
                   <div className="topic-description">
 
                     <p>
-                  What is exponential growth? And how does it relate to the use of logarithmic scales?
+                      What is exponential growth? And how does it relate to the use of logarithmic scales?
                     </p>
                     <p>
-                  At the beginning of an epidemic, epidemic growth exponentially. Exponential growth is growth that happens by multiplying rather than adding.
+                      At the beginning of an epidemic, epidemic growth exponentially. Exponential growth is growth that happens by multiplying rather than adding.
                     </p>
                     <p>
-                  Compare linear growth that adds 10 at each time step with exponential growth that multiplies by 2.
+                      Compare linear growth that adds 10 at each time step with exponential growth that multiplies by 2.
                     </p>
                     <p>
-                  A linear growth sequence that adds 10 at each time step looks like:
+                      A linear growth sequence that adds 10 at each time step looks like:
                     </p>
                     <pre><code>0, 10, 20, 30, 40, 50, 60, 70, 80, 100…</code></pre>
                     <p>
-                  Whereas exponential sequence that multiplies by 2 at each time step looks like:
+                      Whereas exponential sequence that multiplies by 2 at each time step looks like:
                     </p>
                     <pre><code>1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024....</code></pre>
                     <p>
-                  At the beginning, linear growth seems faster (20 is much larger than 4), but linear growth does not accelerate. It adds the same amount every time. Exponential growth accelerates, adding more at each time step, so it can “explode” suddenly.
+                      At the beginning, linear growth seems faster (20 is much larger than 4), but linear growth does not accelerate. It adds the same amount every time. Exponential growth accelerates, adding more at each time step, so it can “explode” suddenly.
                     </p>
                     <p>
-                  After 10 steps, linear (+10) growth brings us to 100. Exponential (x2) growth brings us to (1,024). After 20 steps, linear growth only brings us to 200. Exponential growth to more than 1 million!
+                      After 10 steps, linear (+10) growth brings us to 100. Exponential (x2) growth brings us to (1,024). After 20 steps, linear growth only brings us to 200. Exponential growth to more than 1 million!
                     </p>
                     <p>
-                  Exponential growth is so fast that to appreciate it better we need to use logarithmic scales. These are scales that also grow by multiples. For example, a logarithmic scale between 1 and 1,000,000 goes from 1 to 10, from 10 to 100, from 100 to 1,000, from 1,000 to 10,000, from 10,000 to 100,000, and from 100,000 to 1,000,000. This is a logarithmic scale in base 10, because we are multiplying by ten each time. What this scale shows is that, in exponential growth, 1,000 is halfway to 1,000,000. That’s why it is important to stop exponential growth even if the numbers look small. The same number of steps that bring you from 1 to 1,000 bring you from 1,000 to 1,000,000.
+                      Exponential growth is so fast that to appreciate it better we need to use logarithmic scales. These are scales that also grow by multiples. For example, a logarithmic scale between 1 and 1,000,000 goes from 1 to 10, from 10 to 100, from 100 to 1,000, from 1,000 to 10,000, from 10,000 to 100,000, and from 100,000 to 1,000,000. This is a logarithmic scale in base 10, because we are multiplying by ten each time. What this scale shows is that, in exponential growth, 1,000 is halfway to 1,000,000. That’s why it is important to stop exponential growth even if the numbers look small. The same number of steps that bring you from 1 to 1,000 bring you from 1,000 to 1,000,000.
                     </p>
                     <p>
-                  Strictly speaking, epidemic processes are only exponential early on, when the number of cases is small compared to the size of the population or other limiting factors. Eventually, growth peters out, either because spreading became widespread, or because other factors, such as physical distancing, or immunization, reduces the speed of the spreading. To learn more about the basic functional forms of epidemic spreading, watch <a href="https://www.youtube.com/watch?v=Kas0tIxDvrg" target="_blank" rel="noopener noreferrer">this</a> video prepared by the CDC.
+                      Strictly speaking, epidemic processes are only exponential early on, when the number of cases is small compared to the size of the population or other limiting factors. Eventually, growth peters out, either because spreading became widespread, or because other factors, such as physical distancing, or immunization, reduces the speed of the spreading. To learn more about the basic functional forms of epidemic spreading, watch <a href="https://www.youtube.com/watch?v=Kas0tIxDvrg" target="_blank" rel="noopener noreferrer">this</a> video prepared by the CDC.
                     </p>
 
                   </div>
