@@ -1,3 +1,4 @@
+const PromiseThrottle = require("promise-throttle");
 const axios = require("axios");
 const {merge} = require("d3-array");
 const {nest} = require("d3-collection");
@@ -146,6 +147,11 @@ const wikiData = {
   }
 };
 
+const throttle = new PromiseThrottle({
+  requestsPerSecond: 10,
+  promiseImplementation: Promise
+});
+
 module.exports = function(app) {
 
   const {db} = app.settings;
@@ -161,8 +167,8 @@ module.exports = function(app) {
 
 
     // SUBNATIONAL DATA REQUESTS
-    const requests = columns.map(column => axios.get(`https://api.covid19api.com/country/us/status/${column}`)
-      .then(resp => resp.data));
+    const requests = columns.map(column => throttle.add(() => axios.get(`https://api.covid19api.com/country/us/status/${column}`)
+      .then(resp => resp.data)));
 
     const payloads = await Promise.all(requests);
 
@@ -259,8 +265,8 @@ module.exports = function(app) {
 
     const countryRequests = merge(topCountries
       .map(country => columns.map(column =>
-        axios.get(`https://api.covid19api.com/total/country/${country}/status/${column}`)
-          .then(resp => resp.data)
+        throttle.add(() => axios.get(`https://api.covid19api.com/total/country/${country}/status/${column}`)
+          .then(resp => resp.data))
       )));
 
     const countryPayloads = await Promise.all(countryRequests);
@@ -293,12 +299,12 @@ module.exports = function(app) {
     // POPULATION LOOKUP
     const requestedLevels = (level === "all" ? levels : [level]).map(titleCase);
     const origin = `${ req.protocol }://${ req.headers.host }`;
-    const popRequests = requestedLevels.map(level => axios.get(`${origin}/api/data?measures=Population&drilldowns=${level}&year=latest`)
+    const popRequests = requestedLevels.map(level => throttle.add(() => axios.get(`${origin}/api/data?measures=Population&drilldowns=${level}&year=latest`)
       .then(resp => resp.data.data)
       .then(data => data.map(d => {
         d["ID Geography"] = d[`ID ${level}`];
         return d;
-      })));
+      }))));
 
     const popPayload = await Promise.all(popRequests);
 
