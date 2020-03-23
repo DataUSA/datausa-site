@@ -17,9 +17,9 @@ import Footer from "components/Footer/index";
 import albersUsaPr from "helpers/albersUsaPr";
 
 // const launch = new Date("01 May 2019 08:00:00 GMT-0400");
-const bannerKey = "datausa-banner-v1";
-const bannerLink = "/visualize";
-const bannerText = "Go deep into US data with the new vizbuilder";
+const bannerKey = "datausa-banner-v2";
+const bannerLink = "/coronavirus";
+const bannerText = "Stay up to date on COVID-19 with our fullscreen dashboard";
 
 class App extends Component {
 

@@ -77,7 +77,7 @@
   & .profile-title {
     font-size: 60px;
     line-height: 1.1;
-    @media (max-width: 700px) {
+    @media (max-width: 800px) {
       font-size: 40px;
     }
   }
@@ -100,7 +100,7 @@
       padding-left: 10px;
       z-index: 1;
     }
-    @media (max-width: 700px) {
+    @media (max-width: 800px) {
       display: none;
     }
   }
@@ -135,12 +135,15 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 25px auto;
-    max-width: 700px;
+    max-width: 1000px;
     width: 100%;
     & .Stat {
       color: white;
+      display: flex;
       flex: 1;
+      flex-direction: column;
       font-family: "Palanquin", sans-serif;
+      justify-content: space-between;
       margin-bottom: 25px;
       max-width: 30%;
       min-width: 30%;
@@ -153,7 +156,7 @@
         line-height: 1.5;
         text-shadow: 0 2px 6px black;
         text-transform: uppercase;
-        @media (max-width: 700px) {
+        @media (max-width: 800px) {
           font-size: 10px;
           font-weight: 600;
           text-shadow: 0 2px 5px black;
@@ -161,24 +164,36 @@
       }
       & .stat-value {
         font-family: "Lato", sans-serif;
-      }
-      &.small-text {
-        & .stat-value {
-          font-size: 24px;
-          font-weight: 300;
-          text-shadow: 0 2px 12px black;
+        text-shadow: 0 2px 12px black;
+        & > p {
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          & .candidate-name {
+            flex: 0 0 0;
+            text-align: left;
+            @media (max-width: 400px) {
+              font-size: 16px;
+            }
+          }
         }
       }
-      &.large-text {
-        & .stat-value {
-          font-size: 38px;
+      &.small-text .stat-value {
+        font-size: 24px;
+        font-weight: 400;
+        text-shadow: 0 0 0 white, 0 2px 12px black;
+      }
+      &.medium-text .stat-value {
+        font-size: 31px;
+        font-weight: 400;
+        text-shadow: 0 0 0 white, 0 2px 12px black;
+      }
+      &.large-text .stat-value {
+        font-size: 38px;
+        font-weight: 300;
+        @media (max-width: 800px) {
+          font-size: 24px;
           font-weight: 300;
-          text-shadow: 0 2px 12px black;
-          @media (max-width: 700px) {
-            font-size: 24px;
-            font-weight: 300;
-            text-shadow: 0 2px 12px black;
-          }
         }
       }
     }
@@ -203,7 +218,7 @@
       max-width: 100px;
       text-transform: uppercase;
       transition: text-shadow 0.35s;
-      @media (max-width: 700px) {
+      @media (max-width: 800px) {
         &.about {
           display: none;
         }
@@ -229,6 +244,18 @@
     }
     & .image-container:after {
       opacity: 0;
+    }
+  }
+  &.splash-geo {
+    & .Stat {
+      max-width: 25%;
+      min-width: 25%;
+      width: 25%;
+      @media (max-width: 600px) {
+        max-width: 30%;
+        min-width: 30%;
+        width: 30%;
+      }
     }
   }
 }

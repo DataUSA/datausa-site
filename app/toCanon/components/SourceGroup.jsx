@@ -12,7 +12,7 @@ class SourceGroup extends Component {
     if (!embed && (!sources || !sources.length)) return null;
 
     return <div className="SourceGroup">
-      Data provided by
+      Data from
       { sources.map((source, i) => {
 
         const {
@@ -38,9 +38,9 @@ class SourceGroup extends Component {
             { datasetLink ? <a href={datasetLink} target="_blank" rel="noopener noreferrer" dangerouslySetInnerHTML={{__html: datasetName}} /> : <span dangerouslySetInnerHTML={{__html: datasetName}} /> }
           </Tooltip2> }
           { i < sources.length - 1 && <span>,</span> }
-          <span>.</span>
         </span>;
       })}
+      <span>.</span>
     </div>;
   }
 

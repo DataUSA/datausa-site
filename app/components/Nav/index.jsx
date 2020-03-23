@@ -60,6 +60,7 @@ class Nav extends Component {
 
     const splash = home ||
                    pathname.indexOf("profile") === 0 ||
+                   pathname.indexOf("coronavirus") === 0 ||
                    pathname.indexOf("story") === 0 && pathname.length > 10;
 
     const dark = !splash;
@@ -124,6 +125,9 @@ class Nav extends Component {
               <Link to="/">Home</Link>
             </li> }
             <li>
+              <Link className="new" to="/coronavirus">Coronavirus</Link>
+            </li>
+            <li>
               <Link to="/search">Explore</Link>
               <ul>
                 <li><Link to="/search/?dimension=Geography">Locations</Link></li>
@@ -135,7 +139,7 @@ class Nav extends Component {
               </ul>
             </li>
             <li>
-              <Link className="new" to="/visualize">Viz Builder</Link>
+              <Link to="/visualize">Viz Builder</Link>
             </li>
             <li>
               <Link to="/map">Maps</Link>
@@ -155,7 +159,6 @@ class Nav extends Component {
           </ul>
           { !home ? <div className="menu-collab">
             <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html"><img id="deloitte" src="/images/footer/deloitte.png" /></a>
-            <a target="_blank" rel="noopener noreferrer" href="http://macro.media.mit.edu/"><img id="mit" src="/images/footer/mit.png" /></a>
             <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/"><img id="datawheel" src="/images/footer/datawheel.png" /></a>
           </div> : null }
         </div>

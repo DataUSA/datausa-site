@@ -61,7 +61,7 @@ class Splash extends Component {
 
     const data = [profile].concat(comparisons);
 
-    return <div id="Splash" style={{height}} className={ revealPhoto ? "reveal-photo" : "" }>
+    return <div id="Splash" style={{height}} className={`splash-${profile.slug}${revealPhoto ? " reveal-photo" : ""}`}>
       <div className="image-container" style={{height}}>
         { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL || d.image}")`}}></div>) }
         <Button onClick={this.revealPhoto.bind(this)} iconName="camera" className={ `pt-minimal ${revealPhoto ? "pt-active" : ""}` } />

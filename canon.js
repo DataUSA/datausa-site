@@ -91,6 +91,9 @@ module.exports = {
         children: {
           url: id => `${CANON_API}/api/geo/children/${id}/`
         },
+        districts: {
+          url: id => `${CANON_API}/api/geo/children/${id}/?level=Congressional District`
+        },
         tracts: {
           url: id => `${CANON_API}/api/geo/children/${id}/?level=Tract`
         },
@@ -163,7 +166,7 @@ module.exports = {
           State: ["Nation"],
           County: ["MSA", "State", "Nation"],
           MSA: ["State", "Nation"],
-          Place: ["MSA", "State", "Nation"],
+          Place: ["County", "MSA", "State", "Nation"],
           PUMA: ["State", "Nation"]
         },
         url: (id, level) => {

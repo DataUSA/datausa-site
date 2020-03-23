@@ -1,3 +1,41 @@
+.candidate-party-icon {
+  border: 1px solid white;
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+
+.candidate-image {
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 2px;
+  float: left;
+  height: 50px;
+  margin-right: 5px;
+  min-width: 50px;
+  overflow: hidden;
+  position: relative;
+  width: 50px;
+  vertical-align: middle;
+  @media (max-width: 800px) {
+    height: 35px;
+    min-width: 35px;
+    width: 35px;
+  }
+  & > * {
+    background-position: 50% 30%;
+    background-size: cover;
+    bottom: 0;
+    display: block;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
 #CanonProfile {
   & .subnav {
     display: flex;

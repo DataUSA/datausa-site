@@ -65,9 +65,6 @@ class Home extends Component {
           <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html">
             <img id="deloitte" src="/images/home/logos/deloitte.png" />
           </a>
-          <a target="_blank" rel="noopener noreferrer" href="http://macro.media.mit.edu/">
-            <img id="macro" src="/images/home/logos/mit.png" />
-          </a>
           <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/">
             <img id="datawheel" src="/images/home/logos/datawheel.png" />
           </a>

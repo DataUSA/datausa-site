@@ -13,6 +13,7 @@ import Story from "./pages/Story/Story";
 
 import MapPage from "./pages/Map";
 import Visualize from "./pages/Visualize";
+import Coronavirus from "./pages/Coronavirus";
 
 import Cart from "./pages/Cart";
 
@@ -76,6 +77,7 @@ export default function RouteCreate() {
 
       <Route path="/visualize" component={Visualize} />
       <Route path="/map" component={MapPage} />
+      <Route path="/coronavirus" component={Coronavirus} />
 
       <Route path="/cart" component={Cart} />
 

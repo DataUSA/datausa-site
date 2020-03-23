@@ -1,0 +1,117 @@
+#Coronavirus {
+  & .splash-coronavirus {
+    padding: calc(var(--nav-height) * 2) 0 var(--nav-height);
+    & .profile-title {
+      padding: 0 50px;
+    }
+    & .profile-subtitle {
+      color: var(--red);
+      font-size: 24px;
+      padding: 0 75px;
+    }
+    & .splash-columns {
+      color: var(--white);
+      columns: 320px auto;
+      column-gap: 20px;
+      padding: 25px 50px;
+      max-width: 800px;
+      & p:not(:first-child) {
+        margin-top: 20px;
+      }
+      & a {
+        color: var(--lightgray);
+        text-decoration: underline;
+      }
+    }
+  }
+  & .section-title {
+    text-align: center;
+  }
+  & .section-content {
+    justify-content: center;
+    flex-wrap: wrap;
+    & .anchor {
+      color: #32415A;
+      margin: 10px 20px 20px;
+      padding: 0;
+      text-decoration: underline;
+    }
+    & .section-description {
+      max-width: 800px;
+      &.single {
+        max-width: 400px;
+      }
+    }
+    & .section-sublinks {
+      margin: 10px auto 20px;
+    }
+  }
+
+  & .topic-content {
+    & .topic-title {
+      margin-bottom: 20px;
+    }
+    & .pt-label {
+      align-items: center;
+      color: var(--black);
+      display: flex;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 10px;
+      text-transform: uppercase;
+      & .pt-select {
+        flex: 1 1 auto;
+      }
+    }
+    & .cutoff-slider {
+      margin-top: 10px;
+      & .pt-slider-progress {
+        background: var(--red);
+      }
+      & .pt-slider-axis {
+        & .pt-slider-label {
+          color: var(--black);
+        }
+      }
+      & .pt-slider-handle {
+        & .pt-slider-label {
+          padding-bottom: 5px;
+        }
+      }
+    }
+    & p {
+      margin-top: 20px;
+    }
+  }
+
+  & .TextViz {
+    & .topic-content {
+      max-width: 300px;
+    }
+    &.text-only {
+      & .topic-content {
+        max-width: 600px;
+      }
+    }
+  }
+
+  & .Column {
+    min-width: 30%;
+    text-align: center;
+    @media (max-width: 1280px) {
+      min-width: 45%;
+    }
+    @media (max-width: 768px) {
+      min-width: 90%;
+    }
+    & .visualization {
+      height: 300px;
+    }
+  }
+
+  & .visualization {
+    & .pt-non-ideal-state {
+      max-width: none;
+    }
+  }
+}

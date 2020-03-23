@@ -25,6 +25,11 @@
           &:last-child {
             text-align: right;
           }
+          &:only-child {
+            font-weight: bold;
+            padding-top: 6px;
+            text-align: left;
+          }
         }
       }
     }
