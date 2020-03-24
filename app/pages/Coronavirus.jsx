@@ -5,6 +5,14 @@ import {NonIdealState, Slider, Spinner} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
+import {countries} from "countries-list";
+const countryMeta = Object.keys(countries).reduce((obj, key) => {
+  const d = countries[key];
+  d.iso = key;
+  obj[d.name] = d;
+  return obj;
+}, {});
+
 import {extent, max, mean, merge, min} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
@@ -47,12 +55,12 @@ const kfSource = {
   source_name: "Kaiser Family Foundation"
 };
 
-const aaSource = {
-  dataset_link: "https://array-architects.com/press-release/array-advisors-model-validates-fears-of-icu-bed-shortage-due-to-coronavirus-pandemic/",
-  dataset_name: "ICU Bed Shortage",
-  source_link: "https://array-architects.com/",
-  source_name: "Array Architects"
-};
+// const aaSource = {
+//   dataset_link: "https://array-architects.com/press-release/array-advisors-model-validates-fears-of-icu-bed-shortage-due-to-coronavirus-pandemic/",
+//   dataset_name: "ICU Bed Shortage",
+//   source_link: "https://array-architects.com/",
+//   source_name: "Array Architects"
+// };
 
 const pums1Source = {
   source_name: "Census Bureau",
@@ -106,7 +114,6 @@ class UncontrolledSlider extends React.Component {
 }
 
 const stateAbbreviations = {"Arizona": "AZ", "Alabama": "AL", "Alaska": "AK", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE", "District of Columbia": "DC", "Florida": "FL", "Georgia": "GA", "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA", "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME", "Maryland": "MD", "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN", "Mississippi": "MS", "Missouri": "MO", "Montana": "MT", "Nebraska": "NE", "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH", "Oklahoma": "OK", "Oregon": "OR", "Pennsylvania": "PA", "Rhode Island": "RI", "South Carolina": "SC", "South Dakota": "SD", "Tennessee": "TN", "Texas": "TX", "Utah": "UT", "Vermont": "VT", "Virginia": "VA", "Washington": "WA", "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY"};
-const countryAbbreviations = {"Afghanistan": "AFG", "Åland Islands": "ALA", "Albania": "ALB", "Algeria": "DZA", "American Samoa": "ASM", "Andorra": "AND", "Angola": "AGO", "Anguilla": "AIA", "Antarctica": "ATA", "Antigua and Barbuda": "ATG", "Argentina": "ARG", "Armenia": "ARM", "Aruba": "ABW", "Australia": "AUS", "Austria": "AUT", "Azerbaijan": "AZE", "Bahamas": "BHS", "Bahrain": "BHR", "Bangladesh": "BGD", "Barbados": "BRB", "Belarus": "BLR", "Belgium": "BEL", "Belize": "BLZ", "Benin": "BEN", "Bermuda": "BMU", "Bhutan": "BTN", "Bolivia (Plurinational State of)": "BOL", "Bonaire, Sint Eustatius and Saba": "BES", "Bosnia and Herzegovina": "BIH", "Botswana": "BWA", "Bouvet Island": "BVT", "Brazil": "BRA", "British Indian Ocean Territory": "IOT", "Brunei Darussalam": "BRN", "Bulgaria": "BGR", "Burkina Faso": "BFA", "Burundi": "BDI", "Cabo Verde": "CPV", "Cambodia": "KHM", "Cameroon": "CMR", "Canada": "CAN", "Cayman Islands": "CYM", "Central African Republic": "CAF", "Chad": "TCD", "Chile": "CHL", "China": "CHN", "Christmas Island": "CXR", "Cocos (Keeling) Islands": "CCK", "Colombia": "COL", "Comoros": "COM", "Congo": "COG", "Congo, Democratic Republic of the": "COD", "Cook Islands": "COK", "Costa Rica": "CRI", "Côte d'Ivoire": "CIV", "Croatia": "HRV", "Cuba": "CUB", "Curaçao": "CUW", "Cyprus": "CYP", "Czechia": "CZE", "Denmark": "DNK", "Djibouti": "DJI", "Dominica": "DMA", "Dominican Republic": "DOM", "Ecuador": "ECU", "Egypt": "EGY", "El Salvador": "SLV", "Equatorial Guinea": "GNQ", "Eritrea": "ERI", "Estonia": "EST", "Eswatini": "SWZ", "Ethiopia": "ETH", "Falkland Islands (Malvinas)": "FLK", "Faroe Islands": "FRO", "Fiji": "FJI", "Finland": "FIN", "France": "FRA", "French Guiana": "GUF", "French Polynesia": "PYF", "French Southern Territories": "ATF", "Gabon": "GAB", "Gambia": "GMB", "Georgia": "GEO", "Germany": "DEU", "Ghana": "GHA", "Gibraltar": "GIB", "Greece": "GRC", "Greenland": "GRL", "Grenada": "GRD", "Guadeloupe": "GLP", "Guam": "GUM", "Guatemala": "GTM", "Guernsey": "GGY", "Guinea": "GIN", "Guinea-Bissau": "GNB", "Guyana": "GUY", "Haiti": "HTI", "Heard Island and McDonald Islands": "HMD", "Holy See": "VAT", "Honduras": "HND", "Hong Kong": "HKG", "Hungary": "HUN", "Iceland": "ISL", "India": "IND", "Indonesia": "IDN", "Iran (Islamic Republic of)": "IRN", "Iraq": "IRQ", "Ireland": "IRL", "Isle of Man": "IMN", "Israel": "ISR", "Italy": "ITA", "Jamaica": "JAM", "Japan": "JPN", "Jersey": "JEY", "Jordan": "JOR", "Kazakhstan": "KAZ", "Kenya": "KEN", "Kiribati": "KIR", "Korea (Democratic People's Republic of)": "PRK", "Korea, Republic of": "KOR", "Kuwait": "KWT", "Kyrgyzstan": "KGZ", "Lao People's Democratic Republic": "LAO", "Latvia": "LVA", "Lebanon": "LBN", "Lesotho": "LSO", "Liberia": "LBR", "Libya": "LBY", "Liechtenstein": "LIE", "Lithuania": "LTU", "Luxembourg": "LUX", "Macao": "MAC", "Madagascar": "MDG", "Malawi": "MWI", "Malaysia": "MYS", "Maldives": "MDV", "Mali": "MLI", "Malta": "MLT", "Marshall Islands": "MHL", "Martinique": "MTQ", "Mauritania": "MRT", "Mauritius": "MUS", "Mayotte": "MYT", "Mexico": "MEX", "Micronesia (Federated States of)": "FSM", "Moldova, Republic of": "MDA", "Monaco": "MCO", "Mongolia": "MNG", "Montenegro": "MNE", "Montserrat": "MSR", "Morocco": "MAR", "Mozambique": "MOZ", "Myanmar": "MMR", "Namibia": "NAM", "Nauru": "NRU", "Nepal": "NPL", "Netherlands": "NLD", "New Caledonia": "NCL", "New Zealand": "NZL", "Nicaragua": "NIC", "Niger": "NER", "Nigeria": "NGA", "Niue": "NIU", "Norfolk Island": "NFK", "North Macedonia": "MKD", "Northern Mariana Islands": "MNP", "Norway": "NOR", "Oman": "OMN", "Pakistan": "PAK", "Palau": "PLW", "Palestine, State of": "PSE", "Panama": "PAN", "Papua New Guinea": "PNG", "Paraguay": "PRY", "Peru": "PER", "Philippines": "PHL", "Pitcairn": "PCN", "Poland": "POL", "Portugal": "PRT", "Puerto Rico": "PRI", "Qatar": "QAT", "Réunion": "REU", "Romania": "ROU", "Russian Federation": "RUS", "Rwanda": "RWA", "Saint Barthélemy": "BLM", "Saint Helena, Ascension and Tristan da Cunha": "SHN", "Saint Kitts and Nevis": "KNA", "Saint Lucia": "LCA", "Saint Martin (French part)": "MAF", "Saint Pierre and Miquelon": "SPM", "Saint Vincent and the Grenadines": "VCT", "Samoa": "WSM", "San Marino": "SMR", "Sao Tome and Principe": "STP", "Saudi Arabia": "SAU", "Senegal": "SEN", "Serbia": "SRB", "Seychelles": "SYC", "Sierra Leone": "SLE", "Singapore": "SGP", "Sint Maarten (Dutch part)": "SXM", "Slovakia": "SVK", "Slovenia": "SVN", "Solomon Islands": "SLB", "Somalia": "SOM", "South Africa": "ZAF", "South Georgia and the South Sandwich Islands": "SGS", "South Sudan": "SSD", "Spain": "ESP", "Sri Lanka": "LKA", "Sudan": "SDN", "Suriname": "SUR", "Svalbard and Jan Mayen": "SJM", "Sweden": "SWE", "Switzerland": "CHE", "Syrian Arab Republic": "SYR", "Taiwan, Province of China": "TWN", "Tajikistan": "TJK", "Tanzania, United Republic of": "TZA", "Thailand": "THA", "Timor-Leste": "TLS", "Togo": "TGO", "Tokelau": "TKL", "Tonga": "TON", "Trinidad and Tobago": "TTO", "Tunisia": "TUN", "Turkey": "TUR", "Turkmenistan": "TKM", "Turks and Caicos Islands": "TCA", "Tuvalu": "TUV", "Uganda": "UGA", "Ukraine": "UKR", "United Arab Emirates": "ARE", "United Kingdom of Great Britain and Northern Ireland": "GBR", "United States of America": "USA", "United States Minor Outlying Islands": "UMI", "Uruguay": "URY", "Uzbekistan": "UZB", "Vanuatu": "VUT", "Venezuela (Bolivarian Republic of)": "VEN", "Viet Nam": "VNM", "Virgin Islands (British)": "VGB", "Virgin Islands (U.S.)": "VIR", "Wallis and Futuna": "WLF", "Western Sahara": "ESH", "Yemen": "YEM", "Zambia": "ZMB", "Zimbabwe": "ZWE"};
 
 const labelSpace = 10;
 
@@ -169,6 +176,67 @@ function TopicTitle(props) {
   return <h3 id={slug} className="topic-title">
     <AnchorLink to={slug} className="anchor">{title}</AnchorLink>
   </h3>;
+
+/** */
+function calculateAnnotations(data, measure) {
+  if (!data.length) return undefined;
+  const yDomain = extent(data, d => d[measure]);
+  const xDomain = extent(data, d => d.Days);
+
+  const lineData = [];
+  [1, 2, 3, 4, 7].forEach(factor => {
+    const first = {
+      id: factor,
+      x: xDomain[0],
+      y: yDomain[0]
+    };
+    let Days = first.x;
+    let value = first.y;
+    while (value * 2 < yDomain[1] && Days + factor < xDomain[1]) {
+      value *= 2;
+      Days += factor;
+    }
+    if (value !== first.y) {
+      lineData.push(first);
+      lineData.push({
+        id: factor,
+        x: Days,
+        y: value
+      });
+    }
+  });
+
+  const color = "#ccc";
+  const labelColor = "#aaa";
+
+  return [
+    {
+      data: lineData,
+      label: d => `Doubling Every ${d.id === 1 ? "Day" : `${d.id} Days`}`,
+      labelBounds: (d, i, s) => {
+        const [firstX, firstY] = s.points[0];
+        const [lastX, lastY] = s.points[s.points.length - 1];
+        const height = 30;
+        return   {
+          x: lastX - firstX + 5,
+          y: lastY - firstY - height / 2 + 1,
+          width: 200,
+          height
+        };
+      },
+      labelConfig: {
+        fontColor: () => labelColor,
+        fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
+        fontSize: () => 14,
+        padding: 0,
+        verticalAlign: "middle"
+      },
+      shape: "Line",
+      stroke: color,
+      strokeDasharray: "5",
+      strokeWidth: 2
+    }
+  ];
 }
 
 class Coronavirus extends Component {
@@ -178,6 +246,7 @@ class Coronavirus extends Component {
     this.state = {
       beds: [],
       countryCutoffData: [],
+      countryCutoffDeathData: [],
       countryData: [],
       cutoff: 10,
       countries: false,
@@ -186,7 +255,7 @@ class Coronavirus extends Component {
       date: false,
       icu: [],
       level: "state",
-      measure: "Confirmed",
+      pops: [],
       scale: "log",
       stateCutoffData: [],
       stateData: [],
@@ -209,6 +278,8 @@ class Coronavirus extends Component {
           .map(d => {
             d.Date = new Date(d.Date).getTime();
             d.ConfirmedPC = d.Confirmed / resp.population[d["ID Geography"]] * 100000;
+            d.RecoveredPC = d.Recovered / resp.population[d["ID Geography"]] * 100000;
+            d.DeathsPC = d.Deaths / resp.population[d["ID Geography"]] * 100000;
             if (d.Level === "state") {
               const dID = stateToDivision[d["ID Geography"]];
               let division = divisions.find(x => x["ID Division"] === dID);
@@ -241,11 +312,24 @@ class Coronavirus extends Component {
               });
           });
 
-        const countries = resp.countries
+        const countryCases = resp.countryCases
           .map(d => {
-            d["ID Geography"] = countryAbbreviations[d.Geography] || d.Geography;
+            d["ID Geography"] = countryMeta[d.Geography].iso || d.Geography;
             d.Date = new Date(d.Date).getTime();
             d.ConfirmedPC = d.Confirmed / resp.world[d.Geography] * 100000;
+            d.RecoveredPC = d.Recovered / resp.world[d.Geography] * 100000;
+            d.DeathsPC = d.Deaths / resp.world[d.Geography] * 100000;
+            const division = divisions.find(x => x["ID Region"] === 6);
+            return Object.assign(d, division);
+          });
+
+        const countryDeaths = resp.countryDeaths
+          .map(d => {
+            d["ID Geography"] = countryMeta[d.Geography].iso || d.Geography;
+            d.Date = new Date(d.Date).getTime();
+            d.ConfirmedPC = d.Confirmed / resp.world[d.Geography] * 100000;
+            d.RecoveredPC = d.Recovered / resp.world[d.Geography] * 100000;
+            d.DeathsPC = d.Deaths / resp.world[d.Geography] * 100000;
             const division = divisions.find(x => x["ID Region"] === 6);
             return Object.assign(d, division);
           });
@@ -258,10 +342,12 @@ class Coronavirus extends Component {
 
         this.setState({
           beds: resp.beds,
-          countries,
+          countryCases,
+          countryDeaths,
           icu: icuData,
           data,
-          date: new Date(resp.timestamp)
+          date: new Date(resp.timestamp),
+          pops: resp.population
         }, this.prepData.bind(this));
 
       })
@@ -291,7 +377,7 @@ class Coronavirus extends Component {
 
   prepData() {
 
-    const {countries, cutoff, data, level, measure} = this.state;
+    const {countryCases, cutoff, data, level} = this.state;
 
     const stateData = data
       .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
@@ -310,10 +396,10 @@ class Coronavirus extends Component {
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
+      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
     const chinaCutoff = new Date("2020/02/17").getTime();
-    const countryData = countries
+    const countryData = countryCases
       .filter(d => {
         if (d.Geography === "China") {
           return d.Date <= chinaCutoff;
@@ -336,9 +422,26 @@ class Coronavirus extends Component {
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
+      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
-    this.setState({stateCutoffData, stateData, countryCutoffData, countryData});
+    const countryCutoffDeathData = merge(nest()
+      .key(d => d["ID Geography"])
+      .entries(countryData.concat(stateData))
+      .map(group => {
+        let days = 0;
+        return group.values
+          .reduce((arr, d) => {
+            if (d.Deaths > 10) {
+              days++;
+              const newObj = Object.assign({}, d);
+              newObj.Days = days;
+              arr.push(newObj);
+            }
+            return arr;
+          }, []);
+      }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
+
+    this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
   }
 
   render() {
@@ -346,11 +449,13 @@ class Coronavirus extends Component {
     const {
       beds,
       countryCutoffData,
+      countryCutoffDeathData,
       cutoff,
       date,
       dataTracker,
-      icu,
-      measure,
+      // measure,
+      // icu,
+      pops,
       scale,
       stateCutoffData,
       stateData,
@@ -365,19 +470,27 @@ class Coronavirus extends Component {
     const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
     const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
-    const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
-    const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
+    const stateDeathData = stateData.filter(d => d.Deaths);
+    const minValueDeathPC = min(stateDeathData, d => d.DeathsPC);
+    const maxValueDeathPC = max(stateDeathData, d => d.DeathsPC);
 
-    const minValueGrowth = min(stateGrowthData, d => d[`${measure}Growth`]);
-    const minValueSmooth = min(stateSmoothData, d => d[`${measure}Smooth`]);
+    // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
+    // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
+    // const minValueGrowth = min(stateGrowthData, d => d.ConfirmedGrowth);
+    // const minValueSmooth = min(stateSmoothData, d => d.ConfirmedSmooth);
 
     const [stateDomain, stateLabels] = calculateDomain(stateData, w);
     const [stateNewDomain, stateNewLabels] = calculateDomain(stateNewData, w);
-    const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
-    const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
+    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateDeathData, w);
+    // const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
+    // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
+    const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed");
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
+    const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC");
+    const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
+    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC");
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
     const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(dataTracker.filter(d => d.hospitalized), w);
@@ -390,7 +503,7 @@ class Coronavirus extends Component {
       },
       discrete: "x",
       groupBy: ["ID Region", "ID Geography"],
-      label: d => d.Geography instanceof Array ? d.Region : d.Geography,
+      label: d => d.Geography instanceof Array ? d.Region : d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
       legendConfig: {
         title: "Click a region below to filter the chart",
         titleConfig: {
@@ -412,7 +525,7 @@ class Coronavirus extends Component {
         Line: {
           label: d =>
             smallLabels
-              ? stateAbbreviations[d.Geography] || countryAbbreviations[d.Geography] || d.Geography
+              ? stateAbbreviations[d.Geography] || countryMeta[d.Geography].iso || d.Geography
               : d.Geography,
           labelConfig: {
             fontColor: d => colorLegible(colors.Region[d["ID Region"]]),
@@ -452,14 +565,14 @@ class Coronavirus extends Component {
           return arr;
         }
       },
-      y: measure,
+      y: "Confirmed",
       yConfig: {
         barConfig: {
           stroke: "transparent"
         },
         scale,
         tickFormat: commas,
-        title: `${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
+        title: `Confirmed Cases\n(${scaleLabel})`
       }
     };
 
@@ -467,10 +580,10 @@ class Coronavirus extends Component {
       zoom: false
     };
 
-    const StateCutoff = () =>
-      <div className="topic-subtitle">
-        Only showing states with more than 50 confirmed cases.
-      </div>;
+    // const StateCutoff = () =>
+    //   <div className="topic-subtitle">
+    //     Only showing states with more than 50 confirmed cases.
+    //   </div>;
 
     const AxisToggle = () =>
       <div>
@@ -542,6 +655,7 @@ class Coronavirus extends Component {
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
+          <SectionIcon slug="deaths" title="Deaths" />
           <SectionIcon slug="growth" title="Growth Rate" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
           <SectionIcon slug="faqs" title="FAQs" />
@@ -617,9 +731,9 @@ class Coronavirus extends Component {
                       labels: stateLabels,
                       tickFormat: dateFormat
                     },
-                    y: `${measure}PC`,
+                    y: "ConfirmedPC",
                     yConfig: {
-                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
+                      title: `Confirmed Cases per 100,000\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -646,6 +760,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    annotations: stateCutoffAnnotations,
                     data: stateCutoffData,
                     x: "Days",
                     xConfig: {
@@ -675,6 +790,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { countryCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    annotations: countryCutoffAnnotations,
                     data: countryCutoffData,
                     x: "Days",
                     xConfig: {
@@ -683,9 +799,154 @@ class Coronavirus extends Component {
                       tickFormat: daysFormat,
                       title: "Days Since 50 Confirmed Cases"
                     },
-                    y: `${measure}PC`,
+                    y: "ConfirmedPC",
                     yConfig: {
-                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
+                      title: `Confirmed Cases per 100,000\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        {/* Deaths */}
+
+
+        <div className="Section coronavirus-section">
+          <h2 className="section-title">
+            <AnchorLink to="deaths" id="deaths" className="anchor">
+              Deaths
+            </AnchorLink>
+          </h2>
+
+          <div className="section-topics">
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="cases-total" className="topic-title">
+                  <AnchorLink to="cases-total" className="anchor">Total Deaths by State</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateDeathData,
+                    tooltipConfig: {
+                      tbody: d => {
+                        const arr = [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Total Deaths", commas(d.Deaths)]
+                        ];
+                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        return arr;
+                      }
+                    },
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDeathDomain,
+                      labels: stateDeathLabels,
+                      tickFormat: dateFormat
+                    },
+                    y: "Deaths",
+                    yConfig: {
+                      title: `Deaths\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="cases-pc" className="topic-title">
+                  <AnchorLink to="cases-pc" className="anchor">Deaths per Capita</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource, acs1Source]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateDeathData,
+                    tooltipConfig: {
+                      tbody: d => {
+                        const arr = [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Total Deaths", commas(d.Deaths)]
+                        ];
+                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        return arr;
+                      }
+                    },
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDeathDomain,
+                      labels: stateDeathLabels,
+                      tickFormat: dateFormat
+                    },
+                    y: "DeathsPC",
+                    yConfig: {
+                      domain: [minValueDeathPC, maxValueDeathPC],
+                      title: `Deaths per 100,000\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="cases-intl" className="topic-title">
+                  <AnchorLink to="cases-intl" className="anchor">International Comparison</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource, acs1Source, wbSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { countryCutoffDeathData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    annotations: countryCutoffDeathAnnotations,
+                    data: countryCutoffDeathData,
+                    tooltipConfig: {
+                      tbody: d => {
+                        const arr = [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Total Deaths", commas(d.Deaths)]
+                        ];
+                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        return arr;
+                      }
+                    },
+                    x: "Days",
+                    xConfig: {
+                      domain: countryCutoffDeathDomain,
+                      labels: countryCutoffDeathLabels,
+                      tickFormat: daysFormat,
+                      title: "Days Since 10 Deaths"
+                    },
+                    y: "DeathsPC",
+                    yConfig: {
+                      title: `Deaths per 100,000\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -881,9 +1142,9 @@ class Coronavirus extends Component {
                       labels: stateNewLabels,
                       tickFormat: dateFormat
                     },
-                    y: `${measure}New`,
+                    y: "ConfirmedNew",
                     yConfig: {
-                      title: `Daily ${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
+                      title: `Daily Confirmed Cases\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1076,14 +1337,14 @@ class Coronavirus extends Component {
 
             <div className="topic Column">
               <div className="topic-content">
-                <h3 id="risks-uninsured" className="topic-title">
-                  <AnchorLink to="risks-physicians" className="anchor">Physicians and Surgeons by State</AnchorLink>
+                <h3 id="risks-physicians" className="topic-title">
+                  <AnchorLink to="risks-physicians" className="anchor">Physicians and Surgeons per 1,000 Population</AnchorLink>
                 </h3>
               </div>
               <div className="visualization topic-visualization">
                 { beds.length
                   ? <Geomap className="d3plus" config={assign({}, mapConfig, {
-                    colorScale: "Total Population",
+                    colorScale: "Total Population PC",
                     colorScaleConfig: {
                       axisConfig: {
                         tickFormat: formatAbbreviate
@@ -1096,11 +1357,18 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", d => d.Year],
-                        ["Uninsured", d => formatAbbreviate(d["Total Population"])]
+                        ["Physicians and Surgeons", d => formatAbbreviate(d["Total Population"])],
+                        ["Per 1,000 Population", d => formatAbbreviate(d["Total Population PC"])]
                       ]
                     },
                     topojson: "/topojson/State.json"
-                  })} dataFormat={resp => resp.data} />
+                  })} dataFormat={resp => {
+                    const data = resp.data;
+                    data.forEach(d => {
+                      d["Total Population PC"] = d["Total Population"] / pops[d["ID State"]] * 1000;
+                    });
+                    return data;
+                  }} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <SourceGroup sources={[pums1Source]} />
@@ -1108,14 +1376,14 @@ class Coronavirus extends Component {
 
             <div className="topic Column">
               <div className="topic-content">
-                <h3 id="risks-uninsured" className="topic-title">
-                  <AnchorLink to="risks-nurses" className="anchor">Registered Nurses by State</AnchorLink>
+                <h3 id="risks-nurses" className="topic-title">
+                  <AnchorLink to="risks-nurses" className="anchor">Registered Nurses per 1,000 Population</AnchorLink>
                 </h3>
               </div>
               <div className="visualization topic-visualization">
                 { beds.length
                   ? <Geomap className="d3plus" config={assign({}, mapConfig, {
-                    colorScale: "Total Population",
+                    colorScale: "Total Population PC",
                     colorScaleConfig: {
                       axisConfig: {
                         tickFormat: formatAbbreviate
@@ -1128,11 +1396,18 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", d => d.Year],
-                        ["Uninsured", d => formatAbbreviate(d["Total Population"])]
+                        ["Registered Nurses", d => formatAbbreviate(d["Total Population"])],
+                        ["Per 1,000 Population", d => formatAbbreviate(d["Total Population PC"])]
                       ]
                     },
                     topojson: "/topojson/State.json"
-                  })} dataFormat={resp => resp.data} />
+                  })} dataFormat={resp => {
+                    const data = resp.data;
+                    data.forEach(d => {
+                      d["Total Population PC"] = d["Total Population"] / pops[d["ID State"]] * 1000;
+                    });
+                    return data;
+                  }} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <SourceGroup sources={[pums1Source]} />
