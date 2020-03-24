@@ -161,6 +161,7 @@ class Coronavirus extends Component {
       icu: [],
       level: "state",
       measure: "Confirmed",
+      pops: [],
       scale: "log",
       stateCutoffData: [],
       stateData: [],
@@ -235,7 +236,8 @@ class Coronavirus extends Component {
           countries,
           icu: icuData,
           data,
-          date: new Date(resp.timestamp)
+          date: new Date(resp.timestamp),
+          pops: resp.population
         }, this.prepData.bind(this));
 
       })
@@ -311,6 +313,7 @@ class Coronavirus extends Component {
       date,
       icu,
       measure,
+      pops,
       scale,
       stateCutoffData,
       stateData,
@@ -882,14 +885,14 @@ class Coronavirus extends Component {
 
             <div className="topic Column">
               <div className="topic-content">
-                <h3 id="risks-uninsured" className="topic-title">
-                  <AnchorLink to="risks-physicians" className="anchor">Physicians and Surgeons by State</AnchorLink>
+                <h3 id="risks-physicians" className="topic-title">
+                  <AnchorLink to="risks-physicians" className="anchor">Physicians and Surgeons per 1,000 Population</AnchorLink>
                 </h3>
               </div>
               <div className="visualization topic-visualization">
                 { beds.length
                   ? <Geomap className="d3plus" config={assign({}, mapConfig, {
-                    colorScale: "Total Population",
+                    colorScale: "Total Population PC",
                     colorScaleConfig: {
                       axisConfig: {
                         tickFormat: formatAbbreviate
@@ -902,11 +905,18 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", d => d.Year],
-                        ["Uninsured", d => formatAbbreviate(d["Total Population"])]
+                        ["Physicians and Surgeons", d => formatAbbreviate(d["Total Population"])],
+                        ["Per 1,000 Population", d => formatAbbreviate(d["Total Population PC"])]
                       ]
                     },
                     topojson: "/topojson/State.json"
-                  })} dataFormat={resp => resp.data} />
+                  })} dataFormat={resp => {
+                    const data = resp.data;
+                    data.forEach(d => {
+                      d["Total Population PC"] = d["Total Population"] / pops[d["ID State"]] * 1000;
+                    });
+                    return data;
+                  }} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <SourceGroup sources={[pums1Source]} />
@@ -914,14 +924,14 @@ class Coronavirus extends Component {
 
             <div className="topic Column">
               <div className="topic-content">
-                <h3 id="risks-uninsured" className="topic-title">
-                  <AnchorLink to="risks-nurses" className="anchor">Registered Nurses by State</AnchorLink>
+                <h3 id="risks-nurses" className="topic-title">
+                  <AnchorLink to="risks-nurses" className="anchor">Registered Nurses per 1,000 Population</AnchorLink>
                 </h3>
               </div>
               <div className="visualization topic-visualization">
                 { beds.length
                   ? <Geomap className="d3plus" config={assign({}, mapConfig, {
-                    colorScale: "Total Population",
+                    colorScale: "Total Population PC",
                     colorScaleConfig: {
                       axisConfig: {
                         tickFormat: formatAbbreviate
@@ -934,11 +944,18 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", d => d.Year],
-                        ["Uninsured", d => formatAbbreviate(d["Total Population"])]
+                        ["Registered Nurses", d => formatAbbreviate(d["Total Population"])],
+                        ["Per 1,000 Population", d => formatAbbreviate(d["Total Population PC"])]
                       ]
                     },
                     topojson: "/topojson/State.json"
-                  })} dataFormat={resp => resp.data} />
+                  })} dataFormat={resp => {
+                    const data = resp.data;
+                    data.forEach(d => {
+                      d["Total Population PC"] = d["Total Population"] / pops[d["ID State"]] * 1000;
+                    });
+                    return data;
+                  }} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <SourceGroup sources={[pums1Source]} />
