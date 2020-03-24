@@ -153,6 +153,68 @@ function calculateDayDomain(data, w) {
   return [[], []];
 }
 
+/** */
+function calculateAnnotations(data, measure) {
+  if (!data.length) return undefined;
+  const yDomain = extent(data, d => d[measure]);
+  const xDomain = extent(data, d => d.Days);
+
+  const lineData = [];
+  [1, 2, 3, 4, 7].forEach(factor => {
+    const first = {
+      id: factor,
+      x: xDomain[0],
+      y: yDomain[0]
+    };
+    let Days = first.x;
+    let value = first.y;
+    while (value * 2 < yDomain[1] && Days + factor < xDomain[1]) {
+      value *= 2;
+      Days += factor;
+    }
+    if (value !== first.y) {
+      lineData.push(first);
+      lineData.push({
+        id: factor,
+        x: Days,
+        y: value
+      });
+    }
+  });
+
+  const color = "#ccc";
+  const labelColor = "#aaa";
+
+  return [
+    {
+      data: lineData,
+      label: d => `Doubling Every ${d.id === 1 ? "Day" : `${d.id} Days`}`,
+      labelBounds: (d, i, s) => {
+        const [firstX, firstY] = s.points[0];
+        const [lastX, lastY] = s.points[s.points.length - 1];
+        const height = 30;
+        return   {
+          x: lastX - firstX + 5,
+          y: lastY - firstY - height / 2 + 1,
+          width: 200,
+          height
+        };
+      },
+      labelConfig: {
+        fontColor: () => labelColor,
+        fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
+        fontSize: () => 14,
+        padding: 0,
+        verticalAlign: "middle"
+      },
+      shape: "Line",
+      stroke: color,
+      strokeDasharray: "5",
+      strokeWidth: 2
+    }
+  ];
+}
+
 class Coronavirus extends Component {
 
   constructor(props) {
@@ -384,8 +446,11 @@ class Coronavirus extends Component {
     // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
+    const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed");
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
+    const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC");
     const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
+    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC");
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
@@ -638,6 +703,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    annotations: stateCutoffAnnotations,
                     data: stateCutoffData,
                     x: "Days",
                     xConfig: {
@@ -667,6 +733,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { countryCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    annotations: countryCutoffAnnotations,
                     data: countryCutoffData,
                     x: "Days",
                     xConfig: {
@@ -801,6 +868,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { countryCutoffDeathData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    annotations: countryCutoffDeathAnnotations,
                     data: countryCutoffDeathData,
                     tooltipConfig: {
                       tbody: d => {
