@@ -48,12 +48,12 @@ const kfSource = {
   source_name: "Kaiser Family Foundation"
 };
 
-const aaSource = {
-  dataset_link: "https://array-architects.com/press-release/array-advisors-model-validates-fears-of-icu-bed-shortage-due-to-coronavirus-pandemic/",
-  dataset_name: "ICU Bed Shortage",
-  source_link: "https://array-architects.com/",
-  source_name: "Array Architects"
-};
+// const aaSource = {
+//   dataset_link: "https://array-architects.com/press-release/array-advisors-model-validates-fears-of-icu-bed-shortage-due-to-coronavirus-pandemic/",
+//   dataset_name: "ICU Bed Shortage",
+//   source_link: "https://array-architects.com/",
+//   source_name: "Array Architects"
+// };
 
 const pums1Source = {
   source_name: "Census Bureau",
@@ -160,6 +160,7 @@ class Coronavirus extends Component {
     this.state = {
       beds: [],
       countryCutoffData: [],
+      countryCutoffDeathData: [],
       countryData: [],
       cutoff: 10,
       countries: false,
@@ -167,7 +168,6 @@ class Coronavirus extends Component {
       date: false,
       icu: [],
       level: "state",
-      measure: "Confirmed",
       pops: [],
       scale: "log",
       stateCutoffData: [],
@@ -191,6 +191,8 @@ class Coronavirus extends Component {
           .map(d => {
             d.Date = new Date(d.Date).getTime();
             d.ConfirmedPC = d.Confirmed / resp.population[d["ID Geography"]] * 100000;
+            d.RecoveredPC = d.Recovered / resp.population[d["ID Geography"]] * 100000;
+            d.DeathsPC = d.Deaths / resp.population[d["ID Geography"]] * 100000;
             if (d.Level === "state") {
               const dID = stateToDivision[d["ID Geography"]];
               let division = divisions.find(x => x["ID Division"] === dID);
@@ -223,11 +225,24 @@ class Coronavirus extends Component {
               });
           });
 
-        const countries = resp.countries
+        const countryCases = resp.countryCases
           .map(d => {
             d["ID Geography"] = countryMeta[d.Geography].iso || d.Geography;
             d.Date = new Date(d.Date).getTime();
             d.ConfirmedPC = d.Confirmed / resp.world[d.Geography] * 100000;
+            d.RecoveredPC = d.Recovered / resp.world[d.Geography] * 100000;
+            d.DeathsPC = d.Deaths / resp.world[d.Geography] * 100000;
+            const division = divisions.find(x => x["ID Region"] === 6);
+            return Object.assign(d, division);
+          });
+
+        const countryDeaths = resp.countryDeaths
+          .map(d => {
+            d["ID Geography"] = countryMeta[d.Geography].iso || d.Geography;
+            d.Date = new Date(d.Date).getTime();
+            d.ConfirmedPC = d.Confirmed / resp.world[d.Geography] * 100000;
+            d.RecoveredPC = d.Recovered / resp.world[d.Geography] * 100000;
+            d.DeathsPC = d.Deaths / resp.world[d.Geography] * 100000;
             const division = divisions.find(x => x["ID Region"] === 6);
             return Object.assign(d, division);
           });
@@ -240,7 +255,8 @@ class Coronavirus extends Component {
 
         this.setState({
           beds: resp.beds,
-          countries,
+          countryCases,
+          countryDeaths,
           icu: icuData,
           data,
           date: new Date(resp.timestamp),
@@ -261,7 +277,7 @@ class Coronavirus extends Component {
 
   prepData() {
 
-    const {countries, cutoff, data, level, measure} = this.state;
+    const {countryCases, cutoff, data, level} = this.state;
 
     const stateData = data
       .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
@@ -280,10 +296,10 @@ class Coronavirus extends Component {
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
+      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
     const chinaCutoff = new Date("2020/02/17").getTime();
-    const countryData = countries
+    const countryData = countryCases
       .filter(d => {
         if (d.Geography === "China") {
           return d.Date <= chinaCutoff;
@@ -306,9 +322,26 @@ class Coronavirus extends Component {
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d[measure]) - max(a, d => d[measure])));
+      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
-    this.setState({stateCutoffData, stateData, countryCutoffData, countryData});
+    const countryCutoffDeathData = merge(nest()
+      .key(d => d["ID Geography"])
+      .entries(countryData.concat(stateData))
+      .map(group => {
+        let days = 0;
+        return group.values
+          .reduce((arr, d) => {
+            if (d.Deaths > 10) {
+              days++;
+              const newObj = Object.assign({}, d);
+              newObj.Days = days;
+              arr.push(newObj);
+            }
+            return arr;
+          }, []);
+      }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
+
+    this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
   }
 
   render() {
@@ -316,10 +349,10 @@ class Coronavirus extends Component {
     const {
       beds,
       countryCutoffData,
+      countryCutoffDeathData,
       cutoff,
       date,
-      icu,
-      measure,
+      // icu,
       pops,
       scale,
       stateCutoffData,
@@ -335,19 +368,24 @@ class Coronavirus extends Component {
     const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
     const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
-    const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
-    const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
+    const stateDeathData = stateData.filter(d => d.Deaths);
+    const minValueDeathPC = min(stateDeathData, d => d.DeathsPC);
+    const maxValueDeathPC = max(stateDeathData, d => d.DeathsPC);
 
-    const minValueGrowth = min(stateGrowthData, d => d[`${measure}Growth`]);
-    const minValueSmooth = min(stateSmoothData, d => d[`${measure}Smooth`]);
+    // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
+    // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
+    // const minValueGrowth = min(stateGrowthData, d => d.ConfirmedGrowth);
+    // const minValueSmooth = min(stateSmoothData, d => d.ConfirmedSmooth);
 
     const [stateDomain, stateLabels] = calculateDomain(stateData, w);
     const [stateNewDomain, stateNewLabels] = calculateDomain(stateNewData, w);
-    const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
-    const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
+    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateDeathData, w);
+    // const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
+    // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
+    const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
@@ -420,14 +458,14 @@ class Coronavirus extends Component {
           return arr;
         }
       },
-      y: measure,
+      y: "Confirmed",
       yConfig: {
         barConfig: {
           stroke: "transparent"
         },
         scale,
         tickFormat: commas,
-        title: `${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
+        title: `Confirmed Cases\n(${scaleLabel})`
       }
     };
 
@@ -435,10 +473,10 @@ class Coronavirus extends Component {
       zoom: false
     };
 
-    const StateCutoff = () =>
-      <div className="topic-subtitle">
-        Only showing states with more than 50 confirmed cases.
-      </div>;
+    // const StateCutoff = () =>
+    //   <div className="topic-subtitle">
+    //     Only showing states with more than 50 confirmed cases.
+    //   </div>;
 
     const AxisToggle = () =>
       <div>
@@ -495,6 +533,7 @@ class Coronavirus extends Component {
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
+          <SectionIcon slug="deaths" title="Deaths" />
           <SectionIcon slug="growth" title="Growth Rate" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
           <SectionIcon slug="faqs" title="FAQs" />
@@ -570,9 +609,9 @@ class Coronavirus extends Component {
                       labels: stateLabels,
                       tickFormat: dateFormat
                     },
-                    y: `${measure}PC`,
+                    y: "ConfirmedPC",
                     yConfig: {
-                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
+                      title: `Confirmed Cases per 100,000\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -636,9 +675,153 @@ class Coronavirus extends Component {
                       tickFormat: daysFormat,
                       title: "Days Since 50 Confirmed Cases"
                     },
-                    y: `${measure}PC`,
+                    y: "ConfirmedPC",
                     yConfig: {
-                      title: `${measure}${measure !== "Deaths" ? " Cases" : ""} per 100,000\n(${scaleLabel})`
+                      title: `Confirmed Cases per 100,000\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        {/* Deaths */}
+
+
+        <div className="Section coronavirus-section">
+          <h2 className="section-title">
+            <AnchorLink to="deaths" id="deaths" className="anchor">
+              Deaths
+            </AnchorLink>
+          </h2>
+
+          <div className="section-topics">
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="cases-total" className="topic-title">
+                  <AnchorLink to="cases-total" className="anchor">Total Deaths by State</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateDeathData,
+                    tooltipConfig: {
+                      tbody: d => {
+                        const arr = [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Total Deaths", commas(d.Deaths)]
+                        ];
+                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        return arr;
+                      }
+                    },
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDeathDomain,
+                      labels: stateDeathLabels,
+                      tickFormat: dateFormat
+                    },
+                    y: "Deaths",
+                    yConfig: {
+                      title: `Deaths\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="cases-pc" className="topic-title">
+                  <AnchorLink to="cases-pc" className="anchor">Deaths per Capita</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource, acs1Source]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateDeathData,
+                    tooltipConfig: {
+                      tbody: d => {
+                        const arr = [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Total Deaths", commas(d.Deaths)]
+                        ];
+                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        return arr;
+                      }
+                    },
+                    x: "Date",
+                    xConfig: {
+                      domain: stateDeathDomain,
+                      labels: stateDeathLabels,
+                      tickFormat: dateFormat
+                    },
+                    y: "DeathsPC",
+                    yConfig: {
+                      domain: [minValueDeathPC, maxValueDeathPC],
+                      title: `Deaths per 100,000\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="cases-intl" className="topic-title">
+                  <AnchorLink to="cases-intl" className="anchor">International Comparison</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource, acs1Source, wbSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { countryCutoffDeathData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: countryCutoffDeathData,
+                    tooltipConfig: {
+                      tbody: d => {
+                        const arr = [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Total Deaths", commas(d.Deaths)]
+                        ];
+                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        return arr;
+                      }
+                    },
+                    x: "Days",
+                    xConfig: {
+                      domain: countryCutoffDeathDomain,
+                      labels: countryCutoffDeathLabels,
+                      tickFormat: daysFormat,
+                      title: "Days Since 10 Deaths"
+                    },
+                    y: "DeathsPC",
+                    yConfig: {
+                      title: `Deaths per 100,000\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -697,9 +880,9 @@ class Coronavirus extends Component {
                       labels: stateNewLabels,
                       tickFormat: dateFormat
                     },
-                    y: `${measure}New`,
+                    y: "ConfirmedNew",
                     yConfig: {
-                      title: `Daily ${measure}${measure !== "Deaths" ? " Cases" : ""}\n(${scaleLabel})`
+                      title: `Daily Confirmed Cases\n(${scaleLabel})`
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }

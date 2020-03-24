@@ -17,7 +17,30 @@ const countryNames = {
   "US": "United States"
 };
 
-const wikiData = {
+const wikiDeaths = {
+  California: {
+    "2020/03/04": 1,
+    "2020/03/05": 1,
+    "2020/03/06": 1,
+    "2020/03/07": 1,
+    "2020/03/08": 1,
+    "2020/03/09": 1
+  },
+  Washington: {
+    "2020/02/29": 1,
+    "2020/03/01": 2,
+    "2020/03/02": 6,
+    "2020/03/03": 9,
+    "2020/03/04": 10,
+    "2020/03/05": 10,
+    "2020/03/06": 11,
+    "2020/03/07": 16,
+    "2020/03/08": 18,
+    "2020/03/09": 22
+  }
+};
+
+const wikiConfirmed = {
   "California": {
     // "2020/01/26": 2,
     // "2020/01/31": 3,
@@ -189,7 +212,8 @@ module.exports = function(app) {
         };
         columns.forEach(column => {
           let source = group.values.filter(d => d.Status === column) || {Cases: 0};
-          if (column === "confirmed" && wikiData[obj.Geography] && wikiData[obj.Geography][obj.Date]) source = [{Cases: wikiData[obj.Geography][obj.Date]}];
+          if (column === "confirmed" && wikiConfirmed[obj.Geography] && wikiConfirmed[obj.Geography][obj.Date]) source = [{Cases: wikiConfirmed[obj.Geography][obj.Date]}];
+          if (column === "deaths" && wikiDeaths[obj.Geography] && wikiDeaths[obj.Geography][obj.Date]) source = [{Cases: wikiDeaths[obj.Geography][obj.Date]}];
           obj[titleCase(column)] = sum(source, d => d.Cases);
         });
         return obj;
@@ -260,11 +284,19 @@ module.exports = function(app) {
         return obj;
       }, {}));
 
-    const topCountries = summary.Countries
+    const topCountriesCases = summary.Countries
       .sort((a, b) => b.TotalConfirmed - a.TotalConfirmed)
       .filter(d => d.Country !== "US")
       .slice(0, 5)
-      .map(d => countrySlugs[d.Country]);
+      .map(d => d.Country);
+
+    const topCountriesDeath = summary.Countries
+      .sort((a, b) => b.TotalDeaths - a.TotalDeaths)
+      .filter(d => d.Country !== "US")
+      .slice(0, 5)
+      .map(d => d.Country);
+
+    const topCountries = Array.from(new Set(topCountriesCases.concat(topCountriesDeath))).map(d => countrySlugs[d]);
 
     const countryRequests = merge(topCountries
       .map(country => columns.map(column =>
@@ -323,7 +355,8 @@ module.exports = function(app) {
       beds: formattedBeds,
       icu: formattedICU,
       data: formattedData,
-      countries: countryData,
+      countryCases: countryData.filter(d => topCountriesCases.includes(d.Geography)),
+      countryDeaths: countryData.filter(d => topCountriesDeath.includes(d.Geography)),
       population: populationLookup,
       timestamp,
       world
