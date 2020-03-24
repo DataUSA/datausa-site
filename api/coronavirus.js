@@ -1,6 +1,6 @@
 const PromiseThrottle = require("promise-throttle");
 const axios = require("axios");
-const {merge} = require("d3-array");
+const {merge, sum} = require("d3-array");
 const {nest} = require("d3-collection");
 const {titleCase} = require("d3plus-text");
 
@@ -132,6 +132,9 @@ const wikiData = {
     "2020/03/08": 105,
     "2020/03/09": 142
   },
+  "Utah": {
+    "2020/03/20": 80
+  },
   "Washington": {
     "2020/03/01": 13,
     "2020/03/02": 18,
@@ -185,9 +188,9 @@ module.exports = function(app) {
           Date: d.Date.split("T")[0].replace(/\-/g, "/")
         };
         columns.forEach(column => {
-          const source = group.values.find(d => d.Status === column) || {Cases: 0};
-          if (column === "confirmed" && wikiData[obj.Geography] && wikiData[obj.Geography][obj.Date]) source.Cases = wikiData[obj.Geography][obj.Date];
-          obj[titleCase(column)] = source.Cases;
+          let source = group.values.filter(d => d.Status === column) || {Cases: 0};
+          if (column === "confirmed" && wikiData[obj.Geography] && wikiData[obj.Geography][obj.Date]) source = [{Cases: wikiData[obj.Geography][obj.Date]}];
+          obj[titleCase(column)] = sum(source, d => d.Cases);
         });
         return obj;
       });

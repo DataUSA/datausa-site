@@ -820,7 +820,7 @@ class Coronavirus extends Component {
               <SourceGroup sources={[kfSource]} />
             </div>
 
-            <div className="topic Column">
+            {/* <div className="topic Column">
               <div className="topic-content">
                 <h3 id="risks-icu" className="topic-title">
                   <AnchorLink to="risks-icu" className="anchor">ICU Beds per 1,000 Population</AnchorLink>
@@ -837,7 +837,7 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Year", "2018"],
-                        ["ICU eds per 1,000 Residents", d => formatAbbreviate(d.TotalPC)],
+                        ["ICU Beds per 1,000 Residents", d => formatAbbreviate(d.TotalPC)],
                         ["ICU Beds", d => d.Total]
                       ]
                     },
@@ -846,7 +846,7 @@ class Coronavirus extends Component {
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <SourceGroup sources={[aaSource]} />
-            </div>
+            </div> */}
 
             <div className="topic Column">
               <div className="topic-content">
