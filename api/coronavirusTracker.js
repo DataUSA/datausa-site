@@ -140,7 +140,11 @@ module.exports = function(app) {
       delete d.state;
       delete d.date;
 
-      d["Positive Rate"] = d.positive / (d.positive + d.negative);
+      if (d.negative) {
+        d["Positive Rate"] = d.positive / (d.positive + d.negative);
+      } else {
+        d["Positive Rate"] = null;
+      }
     });
 
     res.json(data);
