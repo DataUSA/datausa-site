@@ -737,7 +737,7 @@ class Coronavirus extends Component {
                       tickFormat: dateFormat
                     },
                     yConfig: {
-                      title: `Hospitalized\n(${scaleLabel})`
+                      title: `Hospitalized patients\n(${scaleLabel})`
                     },
                     y: "hospitalized"
                   })} />
@@ -789,7 +789,10 @@ class Coronavirus extends Component {
                       labels: totalTestsLabels,
                       tickFormat: dateFormat
                     },
-                    y: "total"
+                    y: "total",
+                    yConfig: {
+                      title: `Number of tests\n(${scaleLabel})`
+                    }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -818,7 +821,10 @@ class Coronavirus extends Component {
                       labels: positiveRateLabels,
                       tickFormat: dateFormat
                     },
-                    y: "Positive Rate"
+                    y: "Positive Rate",
+                    yConfig: {
+                      title: `Number of positive tests\n(${scaleLabel})`
+                    }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
