@@ -19,7 +19,7 @@ import albersUsaPr from "helpers/albersUsaPr";
 // const launch = new Date("01 May 2019 08:00:00 GMT-0400");
 const bannerKey = "datausa-banner-v2";
 const bannerLink = "/coronavirus";
-const bannerText = "Stay up to date on COVID-19 with our fullscreen dashboard";
+const bannerText = "COVID-19 in Numbers";
 
 class App extends Component {
 
