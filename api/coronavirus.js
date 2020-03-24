@@ -188,8 +188,8 @@ module.exports = function(app) {
           Date: d.Date.split("T")[0].replace(/\-/g, "/")
         };
         columns.forEach(column => {
-          const source = group.values.filter(d => d.Status === column) || {Cases: 0};
-          if (column === "confirmed" && wikiData[obj.Geography] && wikiData[obj.Geography][obj.Date]) source.Cases = wikiData[obj.Geography][obj.Date];
+          let source = group.values.filter(d => d.Status === column) || {Cases: 0};
+          if (column === "confirmed" && wikiData[obj.Geography] && wikiData[obj.Geography][obj.Date]) source = [{Cases: wikiData[obj.Geography][obj.Date]}];
           obj[titleCase(column)] = sum(source, d => d.Cases);
         });
         return obj;
