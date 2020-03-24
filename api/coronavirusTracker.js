@@ -118,7 +118,6 @@ module.exports = function(app) {
       WI: "04000US55",
       WY: "04000US56",
       AS: "Undefined",
-      DC: "Undefined",
       GU: "Undefined",
       MP: "Undefined",
       PR: "Undefined",
@@ -126,15 +125,21 @@ module.exports = function(app) {
     };
 
     data.forEach(d => {
-      d.Date = d.dateChecked.toString().slice(0, 10);
+      d.Date = `${d.date.toString().slice(0, 4)}/${d.date
+        .toString()
+        .slice(4, 6)}/${d.date.toString().slice(6, 8)}`;
+
       d["ISO2 Geography"] = d.state;
+
       const stateName = states[d.state];
       const stateDivision = stateToDivision[d.state];
       d.Geography = stateName;
       d["ID Geography"] = stateDivision;
+
       delete d.dateChecked;
       delete d.state;
       delete d.date;
+
       d["Positive Rate"] = d.positive / (d.positive + d.negative);
     });
 
