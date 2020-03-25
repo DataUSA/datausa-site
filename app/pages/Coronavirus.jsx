@@ -202,15 +202,15 @@ function calculateAnnotations(data, measure) {
       },
       labelConfig: {
         fontColor: () => labelColor,
-        fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
-        fontSize: () => 14,
+        fontFamily: () => ["Source Sans Pro", "sans-serif"],
+        fontSize: () => 12,
         padding: 0,
         verticalAlign: "middle"
       },
       shape: "Line",
       stroke: color,
-      strokeDasharray: "5",
-      strokeWidth: 2
+      // strokeDasharray: "5",
+      strokeWidth: 1
     }
   ];
 }
@@ -708,9 +708,16 @@ class Coronavirus extends Component {
                     x: "Days",
                     xConfig: {
                       domain: stateCutoffDomain,
+                      gridConfig: {"stroke-width": 0},
                       labels: stateCutoffLabels,
                       tickFormat: daysFormat,
+                      tickSize: 0,
                       title: `Days Since ${cutoff} Confirmed Cases`
+                    },
+                    yConfig: {
+                      barConfig: {"stroke": "#ccc", "stroke-width": 1},
+                      gridConfig: {"stroke-width": 0},
+                      tickSize: 0
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -738,12 +745,17 @@ class Coronavirus extends Component {
                     x: "Days",
                     xConfig: {
                       domain: countryCutoffDomain,
+                      gridConfig: {"stroke-width": 0},
                       labels: countryCutoffLabels,
                       tickFormat: daysFormat,
+                      tickSize: 0,
                       title: "Days Since 50 Confirmed Cases"
                     },
                     y: "ConfirmedPC",
                     yConfig: {
+                      barConfig: {"stroke": "#ccc", "stroke-width": 1},
+                      gridConfig: {"stroke-width": 0},
+                      tickSize: 0,
                       title: `Confirmed Cases per 100,000\n(${scaleLabel})`
                     }
                   })} />
@@ -882,13 +894,19 @@ class Coronavirus extends Component {
                     },
                     x: "Days",
                     xConfig: {
+                      barConfig: {"stroke": "#ccc", "stroke-width": 1},
                       domain: countryCutoffDeathDomain,
+                      gridConfig: {"stroke-width": 0},
                       labels: countryCutoffDeathLabels,
                       tickFormat: daysFormat,
+                      tickSize: 0,
                       title: "Days Since 10 Deaths"
                     },
                     y: "DeathsPC",
                     yConfig: {
+                      barConfig: {"stroke": "#ccc", "stroke-width": 1},
+                      gridConfig: {"stroke-width": 0},
+                      tickSize: 0,
                       title: `Deaths per 100,000\n(${scaleLabel})`
                     }
                   })} />
