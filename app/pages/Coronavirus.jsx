@@ -34,6 +34,13 @@ import {updateTitle} from "actions/title";
 import SectionIcon from "toCanon/SectionIcon";
 import SourceGroup from "toCanon/components/SourceGroup";
 
+const ctSource = {
+  dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
+  dataset_name: "Coronavirus numbers by state",
+  source_link: "https://covidtracking.com/",
+  source_name: "The COVID Tracking Project"
+};
+
 const jhSource = {
   dataset_link: "https://github.com/CSSEGISandData/COVID-19",
   dataset_name: "2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository",
@@ -154,6 +161,23 @@ function calculateDayDomain(data, w) {
 }
 
 /** */
+function SectionTitle(props) {
+  const {slug, title} = props;
+  return <h2 className="section-title">
+    <AnchorLink to={slug} id={slug} className="anchor">
+      {title}
+    </AnchorLink>
+  </h2>;
+}
+
+/** */
+function TopicTitle(props) {
+  const {slug, title} = props;
+  return <h3 id={slug} className="topic-title">
+    <AnchorLink to={slug} className="anchor">{title}</AnchorLink>
+  </h3>;
+
+/** */
 function calculateAnnotations(data, measure) {
   if (!data.length) return undefined;
   const yDomain = extent(data, d => d[measure]);
@@ -227,6 +251,7 @@ class Coronavirus extends Component {
       cutoff: 10,
       countries: false,
       data: false,
+      stateTestData: [],
       date: false,
       icu: [],
       level: "state",
@@ -327,6 +352,19 @@ class Coronavirus extends Component {
 
       })
       .catch(() => this.setState({data: "Error loading data, please try again later."}));
+
+    // Gets hospitalizations and number of tests data
+    axios.get("/api/covid19/states").then(resp => {
+      const stateTestData = resp.data;
+      stateTestData.forEach(d => {
+        const dID = stateToDivision[d["ID Geography"]];
+        let division = divisions.find(x => x["ID Division"] === dID);
+        if (!division) division = divisions.find(x => x["ID Division"] === 5);
+        d.Date = new Date(d.Date).getTime();
+        d = Object.assign(d, division);
+      });
+      this.setState({stateTestData});
+    });
   }
 
   changeCutoff(value) {
@@ -414,6 +452,8 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       date,
+      stateTestData,
+      // measure,
       // icu,
       pops,
       scale,
@@ -453,7 +493,9 @@ class Coronavirus extends Component {
     const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC");
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
-
+    const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
+    const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
+    const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d["Positive Rate"]), w);
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -569,6 +611,21 @@ class Coronavirus extends Component {
           onRelease={this.changeCutoff.bind(this)}
         />
       </div>;
+
+    const tooltipConfigTracker = {
+      tbody: d => {
+        const arr = [
+          ["Date", dateFormat(d.Date)],
+          ["Total Tests", commas(d.total)],
+          ["Tests yielding positive results", commas(d.positive)],
+          ["Tests yielding negative results", commas(d.negative)],
+          ["Percentage of tests yielding positive results", `${formatAbbreviate(d["Positive Rate"] * 100)}%`]
+        ];
+        if (d.hospitalized) arr.push(["Hospitalized patients", commas(d.hospitalized)]);
+
+        return arr;
+      }
+    };
 
     return <div id="Coronavirus">
 
@@ -917,6 +974,143 @@ class Coronavirus extends Component {
           </div>
         </div>
 
+        {/** Hospitalizations */}
+        <div className="Section coronavirus-section">
+          <SectionTitle
+            slug="hospitalizations"
+            title="Hospitalizations"
+          />
+          <div className="section-body">
+            <div className="section-content">
+              <div className="section-description single">
+                <p>
+                Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="section-topics">
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <TopicTitle
+                  slug="total-hospitalizations"
+                  title="Hospitalizations"
+                />
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    Hospitalizations for all states that have registered at least 50 hospitalizations.
+                  </p>
+                </div>
+                <SourceGroup sources={[ctSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length && stateTestData.length > 0
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateTestData.filter(d => d.hospitalized),
+                    tooltipConfig: tooltipConfigTracker,
+                    x: "Date",
+                    xConfig: {
+                      domain: hospitalizedDomain,
+                      labels: hospitalizedLabels,
+                      tickFormat: dateFormat
+                    },
+                    yConfig: {
+                      title: `Hospitalized patients\n(${scaleLabel})`
+                    },
+                    y: "hospitalized"
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        {/** Testing */}
+        <div className="Section coronavirus-section">
+          <SectionTitle
+            slug="testing"
+            title="Testing"
+          />
+
+          <div className="section-body">
+            <div className="section-content">
+              <div className="section-description single">
+                <p>
+                Testing is central in the fight against a pandemic such as COVID-19.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="section-topics">
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <TopicTitle
+                  slug="tests-over-time"
+                  title="Tests over time for all states in the U.S."
+                />
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                  </p>
+                </div>
+                <SourceGroup sources={[ctSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateTestData.filter(d => d.total),
+                    tooltipConfig: tooltipConfigTracker,
+                    x: "Date",
+                    xConfig: {
+                      domain: totalTestsDomain,
+                      labels: totalTestsLabels,
+                      tickFormat: dateFormat
+                    },
+                    y: "total",
+                    yConfig: {
+                      title: `Number of tests\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <TopicTitle
+                  slug="tests-yielding-positive"
+                  title="Percentage of tests yielding positive results."
+                />
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                  </p>
+                </div>
+                <SourceGroup sources={[ctSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    data: stateTestData.filter(d => d["Positive Rate"]),
+                    tooltipConfig: tooltipConfigTracker,
+                    x: "Date",
+                    xConfig: {
+                      domain: positiveRateDomain,
+                      labels: positiveRateLabels,
+                      tickFormat: dateFormat
+                    },
+                    y: "Positive Rate",
+                    yConfig: {
+                      title: `Number of positive tests\n(${scaleLabel})`
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
+
+          </div>
+        </div>
 
         {/* Growth Rate */}
 
