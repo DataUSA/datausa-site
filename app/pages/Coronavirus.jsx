@@ -1159,14 +1159,14 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateNewData,
+                    data: stateTestData.filter(d => d.ConfirmedGrowth),
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
                       labels: stateNewLabels,
                       tickFormat: dateFormat
                     },
-                    y: "ConfirmedNew",
+                    y: "ConfirmedGrowth",
                     yConfig: {
                       title: `Daily Confirmed Cases\n(${scaleLabel})`
                     }

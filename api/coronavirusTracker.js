@@ -152,11 +152,23 @@ module.exports = function(app) {
       .get(`${origin}/api/data?measures=Population&drilldowns=State&year=latest`)
       .then(resp => resp.data.data);
 
+    data.sort((a, b) => a.state > b.state ? 1 : a.state === b.state
+      ? new Date(a.date) - new Date(b.date) : -1);
+
+    let growth = null;
+    let state = data[0].state;
     data.forEach(d => {
       const date = d.date.toString();
       d.Date = `${date.slice(0, 4)}/${date.slice(4, 6)}/${date.slice(6, 8)}`;
 
+      if (state !== d.state) {
+        growth = null;
+        state = d.state;
+      }
       d.Confirmed = d.positive;
+
+      d.ConfirmedGrowth = !growth ? null : d.positive - growth;
+      growth = d.positive;
 
       d["ISO2 Geography"] = d.state;
 
