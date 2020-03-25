@@ -251,7 +251,7 @@ class Coronavirus extends Component {
       cutoff: 10,
       countries: false,
       data: false,
-      dataTracker: [],
+      stateTestData: [],
       date: false,
       icu: [],
       level: "state",
@@ -354,16 +354,16 @@ class Coronavirus extends Component {
       .catch(() => this.setState({data: "Error loading data, please try again later."}));
 
     // Gets hospitalizations and number of tests data
-    axios.get("/api/covid19/").then(resp => {
-      const dataTracker = resp.data;
-      dataTracker.forEach(d => {
+    axios.get("/api/covid19/states").then(resp => {
+      const stateTestData = resp.data;
+      stateTestData.forEach(d => {
         const dID = stateToDivision[d["ID Geography"]];
         let division = divisions.find(x => x["ID Division"] === dID);
         if (!division) division = divisions.find(x => x["ID Division"] === 5);
         d.Date = new Date(d.Date).getTime();
         d = Object.assign(d, division);
       });
-      this.setState({dataTracker});
+      this.setState({stateTestData});
     });
   }
 
@@ -452,7 +452,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       date,
-      dataTracker,
+      stateTestData,
       // measure,
       // icu,
       pops,
@@ -493,9 +493,9 @@ class Coronavirus extends Component {
     const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC");
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
-    const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(dataTracker.filter(d => d.hospitalized), w);
-    const [totalTestsDomain, totalTestsLabels] = calculateDomain(dataTracker.filter(d => d.total), w);
-    const [positiveRateDomain, positiveRateLabels] = calculateDomain(dataTracker.filter(d => d["Positive Rate"]), w);
+    const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
+    const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
+    const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d["Positive Rate"]), w);
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -987,9 +987,9 @@ class Coronavirus extends Component {
                 <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { dataTracker.length && dataTracker.length > 0
+                { stateTestData.length && stateTestData.length > 0
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: dataTracker.filter(d => d.hospitalized),
+                    data: stateTestData.filter(d => d.hospitalized),
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1040,9 +1040,9 @@ class Coronavirus extends Component {
                 <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { dataTracker.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: dataTracker.filter(d => d.total),
+                    data: stateTestData.filter(d => d.total),
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1072,9 +1072,9 @@ class Coronavirus extends Component {
                 <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { this.state.dataTracker.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: dataTracker.filter(d => d["Positive Rate"]),
+                    data: stateTestData.filter(d => d["Positive Rate"]),
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {

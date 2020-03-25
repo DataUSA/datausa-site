@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports = function(app) {
-  app.get("/api/covid19/", async (req, res) => {
+  app.get("/api/covid19/states", async(req, res) => {
     const data = await axios
       .get("https://covidtracking.com/api/states/daily")
       .then(resp => resp.data);
@@ -142,7 +142,8 @@ module.exports = function(app) {
 
       if (d.negative) {
         d["Positive Rate"] = d.positive / (d.positive + d.negative);
-      } else {
+      }
+      else {
         d["Positive Rate"] = null;
       }
     });
