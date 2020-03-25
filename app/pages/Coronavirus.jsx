@@ -287,6 +287,7 @@ class Coronavirus extends Component {
         d.Date = new Date(d.Date).getTime();
         d = Object.assign(d, division);
       });
+      stateTestData.sort((a, b) => a.Date - b.Date);
 
       const countryCases = resp[1].data.map(d => {
         d["ID Geography"] = countryMeta[d.Geography].iso || d.Geography;
