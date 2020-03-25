@@ -126,6 +126,12 @@ const merge = (left, right, leftOn, rightOn) => left.reduce((all, d) => {
 }, []);
 
 module.exports = function(app) {
+  app.get("/api/covid19/country", async(req, res) => {
+    const origin = `${ req.protocol }://${ req.headers.host }`;
+    const data = await axios(`${origin}/datacovid19.json`).then(resp => resp.data.data);
+    res.json(data);
+  });
+
   app.get("/api/covid19/states", async(req, res) => {
     const data = await axios
       .get("https://covidtracking.com/api/states/daily")
