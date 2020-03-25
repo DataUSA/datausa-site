@@ -59,5 +59,5 @@ output = {
     "data": data.to_dict(orient="records")
 }
 
-with open("datacovid19.json", "w") as outfile:
+with open("static/datacovid19.json", "w") as outfile:
     json.dump(output, outfile, ignore_nan=True)
