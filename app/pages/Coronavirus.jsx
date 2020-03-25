@@ -656,9 +656,9 @@ class Coronavirus extends Component {
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
-          <SectionIcon slug="deaths" title="Deaths" />
-          <SectionIcon slug="hospitalizations" title="Hospitalizations" />
-          <SectionIcon slug="testing" title="Testing" />
+          {/* <SectionIcon slug="deaths" title="Deaths" /> */}
+          {/* <SectionIcon slug="hospitalizations" title="Hospitalizations" /> */}
+          {/* <SectionIcon slug="testing" title="Testing" /> */}
           <SectionIcon slug="growth" title="Growth Rate" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
           <SectionIcon slug="faqs" title="FAQs" />
@@ -834,7 +834,7 @@ class Coronavirus extends Component {
 
 
         {/* Deaths */}
-        <div className="Section coronavirus-section">
+        {/* <div className="Section coronavirus-section">
           <SectionTitle
             slug="deaths"
             title="Deaths"
@@ -980,10 +980,10 @@ class Coronavirus extends Component {
             </div>
 
           </div>
-        </div>
+        </div> */}
 
         {/** Hospitalizations */}
-        <div className="Section coronavirus-section">
+        {/* <div className="Section coronavirus-section">
           <SectionTitle
             slug="hospitalizations"
             title="Hospitalizations"
@@ -1032,11 +1032,11 @@ class Coronavirus extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
 
         {/** Testing */}
-        <div className="Section coronavirus-section">
+        {/* <div className="Section coronavirus-section">
           <SectionTitle
             slug="testing"
             title="Testing"
@@ -1118,7 +1118,7 @@ class Coronavirus extends Component {
             </div>
 
           </div>
-        </div>
+        </div> */}
 
         {/* Growth Rate */}
 
