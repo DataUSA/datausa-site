@@ -118,15 +118,41 @@ const stateToDivision = {
   VI: "Undefined"
 };
 
+const merge = (left, right, leftOn, rightOn) => left.reduce((all, d) => {
+  const s = right.find(h => h[rightOn] === d[leftOn]);
+  const item = s ? Object.assign(d, s) : d;
+  all.push(item);
+  return all;
+}, []);
+
 module.exports = function(app) {
   app.get("/api/covid19/states", async(req, res) => {
     const data = await axios
       .get("https://covidtracking.com/api/states/daily")
       .then(resp => resp.data);
 
+    const origin = `${ req.protocol }://${ req.headers.host }`;
+    const popData = await axios
+      .get(`${origin}/api/data?measures=Population&drilldowns=State&year=latest`)
+      .then(resp => resp.data.data);
+
+    data.sort((a, b) => a.state > b.state ? 1 : a.state > b.state ? a.date - b.date : -1);
+
+    let total = 0;
+    let geo = data[0].state;
     data.forEach(d => {
       const date = d.date.toString();
       d.Date = `${date.slice(0, 4)}/${date.slice(4, 6)}/${date.slice(6, 8)}`;
+
+      if (geo !== d.state) {
+        geo = d.state;
+        total = d.positive;
+      }
+      else {
+        total = d.positive;
+      }
+
+      d["Total Cases"] = total;
 
       d["ISO2 Geography"] = d.state;
 
@@ -134,16 +160,24 @@ module.exports = function(app) {
       const stateDivision = stateToDivision[d.state];
       d.Geography = stateName;
       d["ID Geography"] = stateDivision;
+      d.Deaths = d.death;
+      d.Positive = d.positive;
 
-      delete d.dateChecked;
-      delete d.state;
-      delete d.date;
+      for (const s of ["dateChecked", "state", "date", "death", "positive"]) {
+        delete d[s];
+      }
 
       d["Positive Rate"] = d.negative
         ? d.positive / (d.positive + d.negative)
         : null;
+
     });
 
-    res.json(data);
+    const output = merge(data, popData, "ID Geography", "ID State");
+    output.forEach(d => {
+      d["Total PC"] = d["Total Cases"] ? d["Total Cases"] * 100000 / d.Population : null;
+      d["Deaths PC"] = d.Deaths ? d.Deaths * 100000 / d.Population : null;
+    });
+    res.json(output);
   });
 };
