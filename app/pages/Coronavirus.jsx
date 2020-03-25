@@ -1098,7 +1098,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.ConfirmedPC),
+                    data: stateTestData.filter(d => d.PositivePC),
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
