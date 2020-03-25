@@ -161,14 +161,15 @@ module.exports = function(app) {
       d.Geography = stateName;
       d["ID Geography"] = stateDivision;
       d.Deaths = d.death;
+      d.Negative = d.negative;
       d.Positive = d.positive;
 
-      for (const s of ["dateChecked", "state", "date", "death", "positive"]) {
+      for (const s of ["dateChecked", "state", "date", "death", "negative", "positive"]) {
         delete d[s];
       }
 
-      d["Positive Rate"] = d.negative
-        ? d.positive / (d.positive + d.negative)
+      d["Positive Rate"] = d.Negative
+        ? d.Positive / (d.Positive + d.Negative)
         : null;
 
     });
