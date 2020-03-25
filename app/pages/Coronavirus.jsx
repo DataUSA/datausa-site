@@ -290,7 +290,7 @@ class Coronavirus extends Component {
       stateTestData.sort((a, b) => a.Date - b.Date);
 
       const countryCases = resp[1].data.map(d => {
-        d["ID Geography"] = countryMeta[d.Geography].iso || d.Geography;
+        d["ID Geography"] = countryMeta[d.Geography] ? countryMeta[d.Geography].iso : d.Geography;
         d.Date = new Date(d.Date).getTime();
         d.Confirmed = d.Confirmed;
         d.ConfirmedPC = d.Confirmed / world[d.Geography] * 100000;
@@ -526,7 +526,7 @@ class Coronavirus extends Component {
         Line: {
           label: d =>
             smallLabels
-              ? stateAbbreviations[d.Geography] || countryMeta[d.Geography].iso || d.Geography
+              ? stateAbbreviations[d.Geography] || countryMeta[d.Geography] ? countryMeta[d.Geography].iso : d.Geography
               : d.Geography,
           labelConfig: {
             fontColor: d => colorLegible(colors.Region[d["ID Region"]]),
