@@ -176,6 +176,7 @@ function TopicTitle(props) {
   return <h3 id={slug} className="topic-title">
     <AnchorLink to={slug} className="anchor">{title}</AnchorLink>
   </h3>;
+}
 
 /** */
 function calculateAnnotations(data, measure) {
@@ -984,7 +985,7 @@ class Coronavirus extends Component {
             <div className="section-content">
               <div className="section-description single">
                 <p>
-                Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.
+                  Hospitalizations are a statistic that, unlike cases, doesn&rsquo;t grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.
                 </p>
               </div>
             </div>
