@@ -657,6 +657,8 @@ class Coronavirus extends Component {
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
           <SectionIcon slug="deaths" title="Deaths" />
+          <SectionIcon slug="hospitalizations" title="Hospitalizations" />
+          <SectionIcon slug="testing" title="Testing" />
           <SectionIcon slug="growth" title="Growth Rate" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
           <SectionIcon slug="faqs" title="FAQs" />
