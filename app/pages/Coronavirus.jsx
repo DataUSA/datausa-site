@@ -378,26 +378,26 @@ class Coronavirus extends Component {
 
   prepData() {
 
-    const {countryCases, cutoff, data, level} = this.state;
+    const {stateTestData, countryCases, cutoff, data, level} = this.state;
 
     const stateData = data
       .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
 
     const stateCutoffData = merge(nest()
       .key(d => d["ID Geography"])
-      .entries(stateData)
+      .entries(stateTestData)
       .map(group => {
         let days = 0;
         return group.values
           .reduce((arr, d) => {
-            if (d.Confirmed >= cutoff) {
+            if (d["Total Cases"] >= cutoff) {
               days++;
               d.Days = days;
               arr.push(d);
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
+      }).sort((a, b) => max(b, d => d["Total Cases"]) - max(a, d => d["Total Cases"])));
 
     const chinaCutoff = new Date("2020/02/17").getTime();
     const countryData = countryCases
@@ -407,15 +407,16 @@ class Coronavirus extends Component {
         }
         return true;
       });
+    countryData.forEach(d => d["Deaths PC"] = d.DeathsPC);
 
     const countryCutoffData = merge(nest()
       .key(d => d["ID Geography"])
-      .entries(countryData.concat(stateData))
+      .entries(countryData.concat(stateTestData))
       .map(group => {
         let days = 0;
         return group.values
           .reduce((arr, d) => {
-            if (d.Confirmed > 50) {
+            if (d["Total Cases"] > 50) {
               days++;
               const newObj = Object.assign({}, d);
               newObj.Days = days;
@@ -423,11 +424,11 @@ class Coronavirus extends Component {
             }
             return arr;
           }, []);
-      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
+      }).sort((a, b) => max(b, d => d["Total Cases"]) - max(a, d => d["Total Cases"])));
 
     const countryCutoffDeathData = merge(nest()
       .key(d => d["ID Geography"])
-      .entries(countryData.concat(stateData))
+      .entries(countryData.concat(stateTestData))
       .map(group => {
         let days = 0;
         return group.values
@@ -463,6 +464,8 @@ class Coronavirus extends Component {
       title
     } = this.state;
 
+    console.log(countryCutoffData);
+
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
     const mobile = w <= 480;
@@ -481,19 +484,20 @@ class Coronavirus extends Component {
     // const minValueSmooth = min(stateSmoothData, d => d.ConfirmedSmooth);
 
     const [stateDomain, stateLabels] = calculateDomain(stateData, w);
-    const [stateNewDomain, stateNewLabels] = calculateDomain(stateNewData, w);
-    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateDeathData, w);
+    const [stateNewDomain, stateNewLabels] = calculateDomain(stateTestData, w);
+    // const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateDeathData, w);
     // const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
     // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
-    const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed");
+    const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Total Cases");
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
-    const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC");
+    const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "Total PC");
     const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
-    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC");
+    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "Deaths PC");
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
+    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
     const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
     const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
     const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d["Positive Rate"]), w);
@@ -558,7 +562,7 @@ class Coronavirus extends Component {
         tbody: d => {
           const arr = [
             ["Date", dateFormat(new Date(d.Date))],
-            ["Total Cases", commas(d.Confirmed)]
+            ["Total Cases", d.Confirmed ? commas(d.Confirmed) : commas(d["Total Cases"])]
           ];
           if (d.ConfirmedNew !== undefined) arr.push(["New Cases", commas(d.ConfirmedNew)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
@@ -665,12 +669,12 @@ class Coronavirus extends Component {
 
       <div id="coronavirus-main">
 
+        {/* Cases by states */}
         <div className="Section coronavirus-section">
-          <h2 className="section-title">
-            <AnchorLink to="cases" id="cases" className="anchor">
-              Cases by State
-            </AnchorLink>
-          </h2>
+          <SectionTitle
+            slug="cases"
+            title="Cases by State"
+          />
           <div className="section-body">
             <div className="section-content">
               <AnchorLink to="cases-total" className="anchor">Total</AnchorLink>
@@ -683,27 +687,29 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-total" className="topic-title">
-                  <AnchorLink to="cases-total" className="anchor">Total Confirmed Cases by Date</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="cases-total"
+                  title="Total Confirmed Cases by Date"
+                />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
                     This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource]} />
+                <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { stateData.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateData,
+                    data: stateTestData.filter(d => d["Total Cases"]),
                     x: "Date",
                     xConfig: {
-                      domain: stateDomain,
-                      labels: stateLabels,
+                      domain: stateNewDomain,
+                      labels: stateNewLabels,
                       tickFormat: dateFormat
-                    }
+                    },
+                    y: "Total Cases"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -711,28 +717,29 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-pc" className="topic-title">
-                  <AnchorLink to="cases-pc" className="anchor">Total Confirmed Cases per Capita</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="cases-pc"
+                  title="Total Confirmed Cases per Capita"
+                />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
                     This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the &ldquo;density&rdquo; of COVID-19 infections in each state.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource, acs1Source]} />
+                <SourceGroup sources={[ctSource, acs1Source]} />
               </div>
               <div className="visualization topic-visualization">
-                { stateData.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateData,
+                    data: stateTestData.filter(d => d["Total PC"]),
                     x: "Date",
                     xConfig: {
-                      domain: stateDomain,
-                      labels: stateLabels,
+                      domain: stateNewDomain,
+                      labels: stateNewLabels,
                       tickFormat: dateFormat
                     },
-                    y: "ConfirmedPC",
+                    y: "Total PC",
                     yConfig: {
                       title: `Confirmed Cases per 100,000\n(${scaleLabel})`
                     }
@@ -743,9 +750,10 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-adj" className="topic-title">
-                  <AnchorLink to="cases-adj" className="anchor">Total Confirmed Cases Since Reaching {cutoff} Cases</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="cases-adj"
+                  title={`Total Confirmed Cases Since Reaching ${cutoff} Cases`}
+                />
                 <AxisToggle />
                 <CutoffToggle />
                 <div className="topic-description">
@@ -756,7 +764,7 @@ class Coronavirus extends Component {
                     Move the slider to adjust this threshold.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource]} />
+                <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateCutoffData.length
@@ -776,7 +784,8 @@ class Coronavirus extends Component {
                       barConfig: {"stroke": "#ccc", "stroke-width": 1},
                       gridConfig: {"stroke-width": 0},
                       tickSize: 0
-                    }
+                    },
+                    y: "Total Cases"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -784,16 +793,17 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-intl" className="topic-title">
-                  <AnchorLink to="cases-intl" className="anchor">International Comparison</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="cases-intl"
+                  title="International Comparison"
+                />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
                     To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than 50 cases, with that of the five countries that have reported most cases. We shift all time starting points to the day each place reported a total of 50 cases or more.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource, acs1Source, wbSource]} />
+                <SourceGroup sources={[ctSource, acs1Source, wbSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { countryCutoffData.length
@@ -809,7 +819,7 @@ class Coronavirus extends Component {
                       tickSize: 0,
                       title: "Days Since 50 Confirmed Cases"
                     },
-                    y: "ConfirmedPC",
+                    y: "Total PC",
                     yConfig: {
                       barConfig: {"stroke": "#ccc", "stroke-width": 1},
                       gridConfig: {"stroke-width": 0},
@@ -826,41 +836,38 @@ class Coronavirus extends Component {
 
 
         {/* Deaths */}
-
-
         <div className="Section coronavirus-section">
-          <h2 className="section-title">
-            <AnchorLink to="deaths" id="deaths" className="anchor">
-              Deaths
-            </AnchorLink>
-          </h2>
-
+          <SectionTitle
+            slug="deaths"
+            title="Deaths"
+          />
           <div className="section-topics">
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-total" className="topic-title">
-                  <AnchorLink to="cases-total" className="anchor">Total Deaths by State</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="cases-total"
+                  title="Total Deaths by State"
+                />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
                     This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource]} />
+                <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { stateData.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateDeathData,
+                    data: stateTestData.filter(d => d.Deaths),
                     tooltipConfig: {
                       tbody: d => {
                         const arr = [
                           ["Date", dateFormat(new Date(d.Date))],
                           ["Total Deaths", commas(d.Deaths)]
                         ];
-                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        if (d["Deaths PC"] !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
                         return arr;
                       }
                     },
@@ -881,28 +888,29 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-pc" className="topic-title">
-                  <AnchorLink to="cases-pc" className="anchor">Deaths per Capita</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="deaths-pc"
+                  title="Deaths per Capita"
+                />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
                     This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource, acs1Source]} />
+                <SourceGroup sources={[ctSource, acs1Source]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateDeathData,
+                    data: stateTestData.filter(d => d["Deaths PC"]),
                     tooltipConfig: {
                       tbody: d => {
                         const arr = [
                           ["Date", dateFormat(new Date(d.Date))],
                           ["Total Deaths", commas(d.Deaths)]
                         ];
-                        if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
+                        if (d["Deaths PC"] !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d["Deaths PC"])]);
                         return arr;
                       }
                     },
@@ -912,9 +920,9 @@ class Coronavirus extends Component {
                       labels: stateDeathLabels,
                       tickFormat: dateFormat
                     },
-                    y: "DeathsPC",
+                    y: "Deaths PC",
                     yConfig: {
-                      domain: [minValueDeathPC, maxValueDeathPC],
+                      // domain: [minValueDeathPC, maxValueDeathPC],
                       title: `Deaths per 100,000\n(${scaleLabel})`
                     }
                   })} />
@@ -924,9 +932,10 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz">
               <div className="topic-content">
-                <h3 id="cases-intl" className="topic-title">
-                  <AnchorLink to="cases-intl" className="anchor">International Comparison</AnchorLink>
-                </h3>
+                <TopicTitle
+                  slug="deaths-intl"
+                  title="International Comparison"
+                />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
@@ -960,7 +969,7 @@ class Coronavirus extends Component {
                       tickSize: 0,
                       title: "Days Since 10 Deaths"
                     },
-                    y: "DeathsPC",
+                    y: "Deaths PC",
                     yConfig: {
                       barConfig: {"stroke": "#ccc", "stroke-width": 1},
                       gridConfig: {"stroke-width": 0},
@@ -1436,6 +1445,7 @@ class Coronavirus extends Component {
 
         </div>
 
+        {/** FAQs */}
         <div className="Section coronavirus-section">
           <h2 className="section-title">
             <AnchorLink to="faqs" id="faqs" className="anchor">
