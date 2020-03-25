@@ -1452,6 +1452,7 @@ class Coronavirus extends Component {
 
             <div className="topic TextViz text-only">
               <div className="topic-content">
+
                 <h3 id="faqs-growth" className="topic-title">
                   <AnchorLink to="faqs-growth" className="anchor">
                     Exponential Growth &amp; Logarithmic Scales
@@ -1493,6 +1494,29 @@ class Coronavirus extends Component {
 
                   </div>
                 </div>
+
+              </div>
+            </div>
+
+            <div className="topic TextViz text-only">
+              <div className="topic-content">
+
+                <h3 id="faqs-growth" className="topic-title">
+                  <AnchorLink to="faqs-growth" className="anchor">
+                    Disclaimer
+                  </AnchorLink>
+                </h3>
+                <div className="topic-descriptions">
+
+                  <div className="topic-description">
+
+                    <p>
+                      Information on this site is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. Data USA makes every effort to ensure, but does not guarantee, the accuracy or completeness of the information on the Data USA website. This site is for informational purposes and is not intended provide advice or aid in decision making. Our goal is to keep this information timely. If errors are brought to our attention, we will try to correct them.
+                    </p>
+
+                  </div>
+                </div>
+
               </div>
             </div>
 
