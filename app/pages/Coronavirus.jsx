@@ -181,26 +181,25 @@ function TopicTitle(props) {
 }
 
 /** */
-function calculateAnnotations(data, measure) {
+function calculateAnnotations(data, measure, scale) {
   if (!data.length) return undefined;
   const yDomain = extent(data, d => d[measure]);
   const xDomain = extent(data, d => d.Days);
 
   const lineData = [];
-  [1, 2, 3, 4, 7].forEach(factor => {
+  const factors = scale === "log" ? [1, 2, 3, 4, 7] : [1, 2, 3, 4];
+  factors.forEach(factor => {
     const first = {
       id: factor,
       x: xDomain[0],
       y: yDomain[0]
     };
+    lineData.push(first);
     let Days = first.x;
     let value = first.y;
     while (value * 2 < yDomain[1] && Days + factor < xDomain[1]) {
       value *= 2;
       Days += factor;
-    }
-    if (value !== first.y) {
-      lineData.push(first);
       lineData.push({
         id: factor,
         x: Days,
@@ -214,6 +213,7 @@ function calculateAnnotations(data, measure) {
 
   return [
     {
+      curve: "monotoneX",
       data: lineData,
       label: d => `Doubling Every ${d.id === 1 ? "Day" : `${d.id} Days`}`,
       labelBounds: (d, i, s) => {
@@ -486,11 +486,11 @@ class Coronavirus extends Component {
     // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
-    const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed");
+    const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed", scale);
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
-    const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC");
+    const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC", scale);
     const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
-    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC");
+    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC", scale);
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
     const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
