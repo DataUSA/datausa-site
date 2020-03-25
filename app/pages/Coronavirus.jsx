@@ -558,7 +558,7 @@ class Coronavirus extends Component {
         tbody: d => {
           const arr = [
             ["Date", dateFormat(new Date(d.Date))],
-            ["Confirmed", d.Confirmed ? commas(d.Confirmed) : commas(d.Confirmed)]
+            ["Total Cases", commas(d.Confirmed)]
           ];
           if (d.ConfirmedNew !== undefined) arr.push(["New Cases", commas(d.ConfirmedNew)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
@@ -620,7 +620,7 @@ class Coronavirus extends Component {
           ["Total Tests", commas(d.total)],
           ["Tests yielding positive results", commas(d.Positive)],
           ["Tests yielding negative results", commas(d.Negative)],
-          ["Percentage of tests yielding positive results", `${formatAbbreviate(d.ConfirmedPC * 100)}%`]
+          ["Percentage of tests yielding positive results", `${formatAbbreviate(d.PositivePC * 100)}%`]
         ];
         if (d.hospitalized) arr.push(["Hospitalized patients", commas(d.hospitalized)]);
 
@@ -1106,7 +1106,7 @@ class Coronavirus extends Component {
                       labels: positiveRateLabels,
                       tickFormat: dateFormat
                     },
-                    y: "ConfirmedPC",
+                    y: "PositivePC",
                     yConfig: {
                       title: `Number of positive tests\n(${scaleLabel})`
                     }

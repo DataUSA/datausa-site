@@ -172,7 +172,7 @@ module.exports = function(app) {
         delete d[s];
       }
 
-      d.ConfirmedPC = d.Negative
+      d.PositivePC = d.Negative
         ? d.Positive / (d.Positive + d.Negative)
         : null;
 
