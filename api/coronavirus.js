@@ -182,7 +182,7 @@ module.exports = function(app) {
 
   const {db} = app.settings;
 
-  app.get("/api/coronavirus/:level/", async(req, res) => {
+  app.get("/api/covid19/old/:level/", async(req, res) => {
 
     const {level} = req.params;
 
