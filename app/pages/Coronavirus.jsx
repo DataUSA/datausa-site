@@ -377,72 +377,70 @@ class Coronavirus extends Component {
 
     const {stateTestData, countryCases, cutoff, data, level} = this.state;
 
-    if (stateTestData && data) {
+    const stateData = (data || [])
+      .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
 
-      const stateData = data
-        .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
+    const stateCutoffData = merge(nest()
+      .key(d => d["ID Geography"])
+      .entries(stateTestData)
+      .map(group => {
+        let days = 0;
+        return group.values
+          .reduce((arr, d) => {
+            if (d.Confirmed >= cutoff) {
+              days++;
+              d.Days = days;
+              arr.push(d);
+            }
+            return arr;
+          }, []);
+      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
-      const stateCutoffData = merge(nest()
-        .key(d => d["ID Geography"])
-        .entries(stateTestData)
-        .map(group => {
-          let days = 0;
-          return group.values
-            .reduce((arr, d) => {
-              if (d.Confirmed >= cutoff) {
-                days++;
-                d.Days = days;
-                arr.push(d);
-              }
-              return arr;
-            }, []);
-        }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
+    const chinaCutoff = new Date("2020/02/17").getTime();
+    const countryData = countryCases
+      .filter(d => {
+        if (d.Geography === "China") {
+          return d.Date <= chinaCutoff;
+        }
+        return true;
+      });
 
-      const chinaCutoff = new Date("2020/02/17").getTime();
-      const countryData = countryCases
-        .filter(d => {
-          if (d.Geography === "China") {
-            return d.Date <= chinaCutoff;
-          }
-          return true;
-        });
+    const countryCutoffData = merge(nest()
+      .key(d => d["ID Geography"])
+      .entries(countryData.concat(stateTestData))
+      .map(group => {
+        let days = 0;
+        return group.values
+          .reduce((arr, d) => {
+            if (d.Confirmed > 50) {
+              days++;
+              const newObj = Object.assign({}, d);
+              newObj.Days = days;
+              arr.push(newObj);
+            }
+            return arr;
+          }, []);
+      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
-      const countryCutoffData = merge(nest()
-        .key(d => d["ID Geography"])
-        .entries(countryData.concat(stateTestData))
-        .map(group => {
-          let days = 0;
-          return group.values
-            .reduce((arr, d) => {
-              if (d.Confirmed > 50) {
-                days++;
-                const newObj = Object.assign({}, d);
-                newObj.Days = days;
-                arr.push(newObj);
-              }
-              return arr;
-            }, []);
-        }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
+    const countryCutoffDeathData = merge(nest()
+      .key(d => d["ID Geography"])
+      .entries(countryData.concat(stateTestData))
+      .map(group => {
+        let days = 0;
+        return group.values
+          .reduce((arr, d) => {
+            if (d.Deaths > 10) {
+              days++;
+              const newObj = Object.assign({}, d);
+              newObj.Days = days;
+              arr.push(newObj);
+            }
+            return arr;
+          }, []);
+      }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
 
-      const countryCutoffDeathData = merge(nest()
-        .key(d => d["ID Geography"])
-        .entries(countryData.concat(stateTestData))
-        .map(group => {
-          let days = 0;
-          return group.values
-            .reduce((arr, d) => {
-              if (d.Deaths > 10) {
-                days++;
-                const newObj = Object.assign({}, d);
-                newObj.Days = days;
-                arr.push(newObj);
-              }
-              return arr;
-            }, []);
-        }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
+    this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
 
-      this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
-    }
   }
 
   render() {
@@ -470,17 +468,17 @@ class Coronavirus extends Component {
     const dateFormat = mobile ? timeFormat("%m/%d") : timeFormat("%b %d");
     const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
-    const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
-    const stateDeathData = stateData.filter(d => d.Deaths);
-    const minValueDeathPC = min(stateDeathData, d => d.DeathsPC);
-    const maxValueDeathPC = max(stateDeathData, d => d.DeathsPC);
+    // const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
+    // const stateDeathData = stateData.filter(d => d.Deaths);
+    // const minValueDeathPC = min(stateDeathData, d => d.DeathsPC);
+    // const maxValueDeathPC = max(stateDeathData, d => d.DeathsPC);
 
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
     // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
     // const minValueGrowth = min(stateGrowthData, d => d.ConfirmedGrowth);
     // const minValueSmooth = min(stateSmoothData, d => d.ConfirmedSmooth);
 
-    const [stateDomain, stateLabels] = calculateDomain(stateData, w);
+    // const [stateDomain, stateLabels] = calculateDomain(stateData, w);
     const [stateNewDomain, stateNewLabels] = calculateDomain(stateTestData, w);
     // const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateDeathData, w);
     // const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
@@ -1160,7 +1158,7 @@ class Coronavirus extends Component {
                 <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { stateData.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.ConfirmedGrowth),
                     x: "Date",
