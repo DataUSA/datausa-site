@@ -300,7 +300,7 @@ class Coronavirus extends Component {
         return Object.assign(d, division);
       });
 
-      this.setState({stateTestData, countryCases});
+      this.setState({stateTestData, countryCases}, this.prepData.bind(this));
 
     }));
 
@@ -377,69 +377,72 @@ class Coronavirus extends Component {
 
     const {stateTestData, countryCases, cutoff, data, level} = this.state;
 
-    const stateData = data
-      .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
+    if (stateTestData && data) {
 
-    const stateCutoffData = merge(nest()
-      .key(d => d["ID Geography"])
-      .entries(stateTestData)
-      .map(group => {
-        let days = 0;
-        return group.values
-          .reduce((arr, d) => {
-            if (d.Confirmed >= cutoff) {
-              days++;
-              d.Days = days;
-              arr.push(d);
-            }
-            return arr;
-          }, []);
-      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
+      const stateData = data
+        .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
 
-    const chinaCutoff = new Date("2020/02/17").getTime();
-    const countryData = countryCases
-      .filter(d => {
-        if (d.Geography === "China") {
-          return d.Date <= chinaCutoff;
-        }
-        return true;
-      });
+      const stateCutoffData = merge(nest()
+        .key(d => d["ID Geography"])
+        .entries(stateTestData)
+        .map(group => {
+          let days = 0;
+          return group.values
+            .reduce((arr, d) => {
+              if (d.Confirmed >= cutoff) {
+                days++;
+                d.Days = days;
+                arr.push(d);
+              }
+              return arr;
+            }, []);
+        }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
-    const countryCutoffData = merge(nest()
-      .key(d => d["ID Geography"])
-      .entries(countryData.concat(stateTestData))
-      .map(group => {
-        let days = 0;
-        return group.values
-          .reduce((arr, d) => {
-            if (d.Confirmed > 50) {
-              days++;
-              const newObj = Object.assign({}, d);
-              newObj.Days = days;
-              arr.push(newObj);
-            }
-            return arr;
-          }, []);
-      }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
+      const chinaCutoff = new Date("2020/02/17").getTime();
+      const countryData = countryCases
+        .filter(d => {
+          if (d.Geography === "China") {
+            return d.Date <= chinaCutoff;
+          }
+          return true;
+        });
 
-    const countryCutoffDeathData = merge(nest()
-      .key(d => d["ID Geography"])
-      .entries(countryData.concat(stateTestData))
-      .map(group => {
-        let days = 0;
-        return group.values
-          .reduce((arr, d) => {
-            if (d.Deaths > 10) {
-              days++;
-              const newObj = Object.assign({}, d);
-              newObj.Days = days;
-              arr.push(newObj);
-            }
-            return arr;
-          }, []);
-      }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
+      const countryCutoffData = merge(nest()
+        .key(d => d["ID Geography"])
+        .entries(countryData.concat(stateTestData))
+        .map(group => {
+          let days = 0;
+          return group.values
+            .reduce((arr, d) => {
+              if (d.Confirmed > 50) {
+                days++;
+                const newObj = Object.assign({}, d);
+                newObj.Days = days;
+                arr.push(newObj);
+              }
+              return arr;
+            }, []);
+        }).sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed)));
 
-    this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
+      const countryCutoffDeathData = merge(nest()
+        .key(d => d["ID Geography"])
+        .entries(countryData.concat(stateTestData))
+        .map(group => {
+          let days = 0;
+          return group.values
+            .reduce((arr, d) => {
+              if (d.Deaths > 10) {
+                days++;
+                const newObj = Object.assign({}, d);
+                newObj.Days = days;
+                arr.push(newObj);
+              }
+              return arr;
+            }, []);
+        }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
+
+      this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
+    }
   }
 
   render() {
@@ -459,8 +462,6 @@ class Coronavirus extends Component {
       stateData,
       title
     } = this.state;
-
-    console.log(countryCutoffData);
 
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
