@@ -131,14 +131,14 @@ const merge = (left, right, leftOn, rightOn) => left.reduce((all, d) => {
 module.exports = function(app) {
   app.get("/api/covid19/country", async(req, res) => {
     const origin = `${ req.protocol }://${ req.headers.host }`;
-    const data = await axios(`${origin}/datacovid19.json`).then(resp => resp.data.data);
+    const data = await axios(`${origin}/datacovid19.json`).then(resp => resp.data.data || resp.data);
     const dataDomain = unique(data.map(d => new Date(d.Date).getTime())).sort((a, b) => a - b);
     const domain = dataDomain.slice();
     const lastDate = domain[domain.length - 1];
     const dataCut = data.filter(d => new Date(d.Date).getTime() === lastDate);
     dataCut.sort((a, b) => b.Confirmed - a.Confirmed);
-    const topCountries = dataCut.slice(0, 5).map(d => d["Geography ID"]);
-    const filteredData = data.filter(d => topCountries.includes(d["Geography ID"]));
+    const topCountries = dataCut.slice(0, 5).map(d => d["ID Geography"]);
+    const filteredData = data.filter(d => topCountries.includes(d["ID Geography"]));
     res.json(filteredData);
   });
 
