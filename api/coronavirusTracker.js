@@ -137,8 +137,8 @@ module.exports = function(app) {
     const lastDate = domain[domain.length - 1];
     const dataCut = data.filter(d => new Date(d.Date).getTime() === lastDate);
     dataCut.sort((a, b) => b.Confirmed - a.Confirmed);
-    const topCountries = dataCut.slice(0, 5).map(d => d["Geography ID"]);
-    const filteredData = data.filter(d => topCountries.includes(d["Geography ID"]));
+    const topCountries = dataCut.slice(0, 5).map(d => d["ID Geography"]);
+    const filteredData = data.filter(d => topCountries.includes(d["ID Geography"]));
     res.json(filteredData);
   });
 
