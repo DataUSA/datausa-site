@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 import datetime as dt
-import simplejson as json
 
 today = dt.date.today()
 start_day = dt.date(2020, 1, 22)
