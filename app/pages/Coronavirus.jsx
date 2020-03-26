@@ -399,7 +399,7 @@ class Coronavirus extends Component {
     const {
       beds,
       countryCutoffData,
-      // countryCutoffDeathData,
+      countryCutoffDeathData,
       cutoff,
       date,
       stateTestData,
@@ -432,14 +432,14 @@ class Coronavirus extends Component {
     const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed", scale);
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
     const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC", scale);
-    // const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
-    // const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC", scale);
+    const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
+    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC", scale);
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
-    // const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
-    // const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
-    // const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
-    // const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
+    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
+    const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
+    const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
+    const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -599,9 +599,9 @@ class Coronavirus extends Component {
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
-          {/* <SectionIcon slug="deaths" title="Deaths" /> */}
-          {/* <SectionIcon slug="hospitalizations" title="Hospitalizations" /> */}
-          {/* <SectionIcon slug="testing" title="Testing" /> */}
+          <SectionIcon slug="deaths" title="Deaths" />
+          <SectionIcon slug="hospitalizations" title="Hospitalizations" />
+          <SectionIcon slug="testing" title="Testing" />
           <SectionIcon slug="growth" title="Growth Rate" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
           <SectionIcon slug="faqs" title="FAQs" />
@@ -777,7 +777,7 @@ class Coronavirus extends Component {
 
 
         {/* Deaths */}
-        {/* <div className="Section coronavirus-section">
+        <div className="Section coronavirus-section">
           <SectionTitle
             slug="deaths"
             title="Deaths"
@@ -923,10 +923,10 @@ class Coronavirus extends Component {
             </div>
 
           </div>
-        </div> */}
+        </div>
 
         {/** Hospitalizations */}
-        {/* <div className="Section coronavirus-section">
+        <div className="Section coronavirus-section">
           <SectionTitle
             slug="hospitalizations"
             title="Hospitalizations"
@@ -975,11 +975,11 @@ class Coronavirus extends Component {
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
 
 
         {/** Testing */}
-        {/* <div className="Section coronavirus-section">
+        <div className="Section coronavirus-section">
           <SectionTitle
             slug="testing"
             title="Testing"
@@ -1061,7 +1061,7 @@ class Coronavirus extends Component {
             </div>
 
           </div>
-        </div> */}
+        </div>
 
         {/* Growth Rate */}
 
