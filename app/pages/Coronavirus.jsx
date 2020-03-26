@@ -503,7 +503,7 @@ class Coronavirus extends Component {
             ["Date", dateFormat(new Date(d.Date))],
             ["Total Cases", commas(d.Confirmed)]
           ];
-          if (d.ConfirmedNew !== undefined) arr.push(["New Cases", commas(d.ConfirmedNew)]);
+          if (d.ConfirmedGrowth !== undefined) arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
           return arr;
