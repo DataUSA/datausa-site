@@ -8,6 +8,7 @@ import {AnchorLink} from "@datawheel/canon-core";
 import {countries} from "countries-list";
 
 const world = {"Afghanistan": 35530081, "Albania": 2873457, "Algeria": 41318142, "American Samoa": 55641, "Andorra": 76965, "Angola": 29784193, "Antigua and Barbuda": 102012, "Argentina": 44271041, "Armenia": 2930450, "Aruba": 105264, "Australia": 24598933, "Austria": 8809212, "Azerbaijan": 9862429, "Bahamas": 395361, "Bahrain": 1492584, "Bangladesh": 164669751, "Barbados": 285719, "Belarus": 9507875, "Belgium": 11372068, "Belize": 374681, "Benin": 11175692, "Bermuda": 65441, "Bhutan": 807610, "Bolivia": 11051600, "Bosnia and Herzegovina": 3507017, "Botswana": 2291661, "Brazil": 209288278, "British Virgin Islands": 31196, "Brunei": 428697, "Bulgaria": 7075991, "Burkina Faso": 19193382, "Burma": 53370609, "Burundi": 10864245, "Cambodia": 16005373, "Cameroon": 24053727, "Canada": 36708083, "Cape Verde": 546388, "Caribbean": 7284294, "Cayman Islands": 61559, "Central African Republic": 4659080, "Chad": 14899994, "Channel Islands": 165314, "Chile": 18054726, "China": 1386395000, "Colombia": 49065615, "Comoros": 813912, "Costa Rica": 4905769, "Cote d'Ivoire": 24294750, "Croatia": 4125700, "Cuba": 11484636, "Curaçao": 161014, "Cyprus": 1179551, "Czechia": 10591323, "Democratic Republic of the Congo": 81339988, "Denmark": 5769603, "Djibouti": 956985, "Dominica": 73925, "Dominican Republic": 10766998, "Ecuador": 16624858, "Egypt": 97553151, "El Salvador": 6377853, "Equatorial Guinea": 1267689, "Estonia": 1315480, "Eswatini": 1367254, "Ethiopia": 104957438, "Faroe Islands": 49290, "Fiji": 905502, "Finland": 5511303, "France": 67118648, "French Polynesia": 283007, "Gabon": 2025137, "Gambia": 2100568, "Georgia": 3717100, "Germany": 82695000, "Ghana": 28833629, "Gibraltar": 34571, "Greece": 10760421, "Greenland": 56171, "Grenada": 107825, "Guam": 164229, "Guatemala": 16913503, "Guinea-Bissau": 1861283, "Guinea": 12717176, "Guyana": 777859, "Haiti": 10981229, "Honduras": 9265067, "Hong Kong": 7391700, "Hungary": 9781127, "Iceland": 341284, "India": 1339180127, "Indonesia": 263991379, "Iran": 81162788, "Iraq": 38274618, "Ireland": 4813608, "Isle of Man": 84287, "Israel": 8712400, "Italy": 60551416, "Jamaica": 2890299, "Japan": 126785797, "Jordan": 9702353, "Kazakhstan": 18037646, "Kenya": 49699862, "Kiribati": 116398, "Kosovo": 1830700, "Kuwait": 4136528, "Kyrgyzstan": 6201500, "Laos": 6858160, "Latvia": 1940740, "Lebanon": 6082357, "Lesotho": 2233339, "Liberia": 4731906, "Libya": 6374616, "Liechtenstein": 37922, "Lithuania": 2827721, "Luxembourg": 599449, "Macau": 622567, "Madagascar": 25570895, "Malawi": 18622104, "Malaysia": 31624264, "Maldives": 436330, "Mali": 18541980, "Malta": 465292, "Marshall Islands": 53127, "Mauritania": 4420184, "Mauritius": 1264613, "Mexico": 129163276, "Micronesia": 105544, "Moldova": 3549750, "Monaco": 38695, "Mongolia": 3075647, "Montenegro": 622471, "Morocco": 35739580, "Mozambique": 29668834, "Namibia": 2533794, "Nauru": 13649, "Nepal": 29304998, "Netherlands": 17132854, "New Caledonia": 280460, "New Zealand": 4793900, "Nicaragua": 6217581, "Niger": 21477348, "Nigeria": 190886311, "North Korea": 25490965, "North Macedonia": 2083160, "Northern Mariana Islands": 55144, "Norway": 5282223, "Oman": 4636262, "Pakistan": 197015955, "Palau": 21729, "Palestine": 4684777, "Panama": 4098587, "Papua New Guinea": 8251162, "Paraguay": 6811297, "Peru": 32165485, "Philippines": 104918090, "Poland": 37975841, "Portugal": 10293718, "Puerto Rico": 3337177, "Qatar": 2639211, "Republic of the Congo": 5260750, "Romania": 19586539, "Russia": 144495044, "Rwanda": 12208407, "Saint Kitts and Nevis": 55345, "Saint Lucia": 178844, "Saint Martin": 73234, "Saint Vincent and the Grenadines": 109897, "Samoa": 196440, "San Marino": 33400, "Sao Tome and Principe": 204327, "Saudi Arabia": 32938213, "Senegal": 15850567, "Serbia": 7022268, "Seychelles": 95843, "Sierra Leone": 7557212, "Singapore": 5612253, "Slovakia": 5439892, "Slovenia": 2066748, "Solomon Islands": 611343, "Somalia": 14742523, "South Africa": 56717156, "South Korea": 51466201, "South Sudan": 12575714, "Spain": 46572028, "Sri Lanka": 21444000, "Sudan": 40533330, "Suriname": 563402, "Sweden": 10067744, "Switzerland": 8466017, "Syria": 18269868, "Tajikistan": 8921343, "Tanzania": 57310019, "Thailand": 69037513, "Timor-Leste": 1296311, "Togo": 7797694, "Tonga": 108020, "Trinidad and Tobago": 1369125, "Tunisia": 11532127, "Turkey": 80745020, "Turkmenistan": 5758075, "Turks and Caicos Islands": 35446, "Tuvalu": 11192, "Uganda": 42862958, "Ukraine": 44831159, "United Arab Emirates": 9400145, "United Kingdom": 66022273, "United States": 325719178, "Uruguay": 3456750, "Uzbekistan": 32387200, "Vanuatu": 276244, "Venezuela": 31977065, "Vietnam": 95540800, "Virgin Islands": 107268, "Yemen": 28250420, "Zambia": 17094130, "Zimbabwe": 16529904};
+const stateAbbreviations = {"Arizona": "AZ", "Alabama": "AL", "Alaska": "AK", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE", "District of Columbia": "DC", "Florida": "FL", "Georgia": "GA", "Guam": "GU", "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA", "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME", "Maryland": "MD", "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN", "Mississippi": "MS", "Missouri": "MO", "Montana": "MT", "Nebraska": "NE", "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH", "Oklahoma": "OK", "Oregon": "OR", "Pennsylvania": "PA", "Puerto Rico": "PR", "Rhode Island": "RI", "South Carolina": "SC", "South Dakota": "SD", "Tennessee": "TN", "Texas": "TX", "U.S. Virgin Islands": "VI", "Utah": "UT", "Vermont": "VT", "Virginia": "VA", "Washington": "WA", "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY"};
 const countryMeta = Object.keys(countries).reduce((obj, key) => {
   const d = countries[key];
   d.iso = key;
@@ -15,7 +16,7 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-import {extent, max, mean, merge, min} from "d3-array";
+import {extent, max, mean, merge} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -28,13 +29,14 @@ import {assign, unique} from "d3plus-common";
 import {formatAbbreviate} from "d3plus-format";
 import {Geomap, LinePlot} from "d3plus-react";
 
-import "./Coronavirus.css";
 import {divisions, stateToDivision} from "helpers/stateDivisions";
 import colors from "../../static/data/colors.json";
 import {updateTitle} from "actions/title";
 
 import SectionIcon from "toCanon/SectionIcon";
 import SourceGroup from "toCanon/components/SourceGroup";
+
+import "./Coronavirus.css";
 
 const ctSource = {
   dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
@@ -114,8 +116,6 @@ class UncontrolledSlider extends React.Component {
     );
   }
 }
-
-const stateAbbreviations = {"Arizona": "AZ", "Alabama": "AL", "Alaska": "AK", "Arkansas": "AR", "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE", "District of Columbia": "DC", "Florida": "FL", "Georgia": "GA", "Guam": "GU", "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA", "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME", "Maryland": "MD", "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN", "Mississippi": "MS", "Missouri": "MO", "Montana": "MT", "Nebraska": "NE", "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH", "Oklahoma": "OK", "Oregon": "OR", "Pennsylvania": "PA", "Puerto Rico": "PR", "Rhode Island": "RI", "South Carolina": "SC", "South Dakota": "SD", "Tennessee": "TN", "Texas": "TX", "U.S. Virgin Islands": "VI", "Utah": "UT", "Vermont": "VT", "Virginia": "VA", "Washington": "WA", "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY"};
 
 const labelSpace = 10;
 
@@ -261,7 +261,6 @@ class Coronavirus extends Component {
       pops: [],
       scale: "log",
       stateCutoffData: [],
-      stateData: [],
       title: "COVID-19 in the United States"
     };
   }
@@ -276,7 +275,8 @@ class Coronavirus extends Component {
 
     axios.all([
       axios.get("/api/covid19/states"),
-      axios.get("/api/covid19/country")
+      axios.get("/api/covid19/country"),
+      axios.get("/api/covid19/old/state")
     ]).then(axios.spread((...resp) => {
 
       const stateTestData = resp[0].data;
@@ -290,79 +290,34 @@ class Coronavirus extends Component {
       stateTestData.sort((a, b) => a.Date - b.Date);
 
       const countryCases = resp[1].data.map(d => {
+        const pop = world[d.Geography];
         d["ID Geography"] = countryMeta[d.Geography] ? countryMeta[d.Geography].iso : d.Geography;
         d.Date = new Date(d.Date).getTime();
-        d.Confirmed = d.Confirmed;
-        d.ConfirmedPC = d.Confirmed / world[d.Geography] * 100000;
-        d.RecoveredPC = d.Recovered / world[d.Geography] * 100000;
-        d.DeathsPC = d.Deaths / world[d.Geography] * 100000;
+        d.ConfirmedPC = d.Confirmed / pop * 100000;
+        d.RecoveredPC = d.Recovered / pop * 100000;
+        d.DeathsPC = d.Deaths / pop * 100000;
         const division = divisions.find(x => x["ID Region"] === 6);
         return Object.assign(d, division);
       });
 
-      this.setState({stateTestData, countryCases}, this.prepData.bind(this));
-
-    }));
-
-    axios.get("/api/covid19/old/state")
-      .then(resp => resp.data)
-      .then(resp => {
-
-        const data = resp.data
-          .map(d => {
-            d.Date = new Date(d.Date).getTime();
-            d.ConfirmedPC = d.Confirmed / resp.population[d["ID Geography"]] * 100000;
-            d.RecoveredPC = d.Recovered / resp.population[d["ID Geography"]] * 100000;
-            d.DeathsPC = d.Deaths / resp.population[d["ID Geography"]] * 100000;
-            if (d.Level === "state") {
-              const dID = stateToDivision[d["ID Geography"]];
-              let division = divisions.find(x => x["ID Division"] === dID);
-              if (!division) division = divisions.find(x => x["ID Division"] === 5);
-              return Object.assign(d, division);
-            }
-            return d;
-          });
-
-        nest()
-          .key(d => d["ID Geography"])
-          .entries(data)
-          .forEach(group => {
-            let starter;
-            group.values
-              .sort((a, b) => a.Date - b.Date)
-              .forEach((d, i, arr) => {
-                if (i > 0) {
-                  const previous = arr[i - 1];
-                  d.ConfirmedNew = d.Confirmed - previous.Confirmed;
-                  if (i > 1 && starter !== undefined || d.Confirmed > 50) {
-                    if (starter === undefined) starter = i;
-                    d.ConfirmedGrowth = d.Confirmed / previous.Confirmed;
-                    if (d.ConfirmedGrowth === Infinity) d.ConfirmedGrowth = 0;
-                  }
-                  if (starter !== undefined && i >= starter + 2) {
-                    d.ConfirmedSmooth = mean(arr.slice(i - 2, i + 1), d => d.ConfirmedGrowth);
-                  }
-                }
-              });
-          });
-
-        const icuData = resp.icu
-          .map(d => {
-            d.TotalPC = d.Total / resp.population[d["ID Geography"]] * 1000;
-            return d;
-          });
-
-        this.setState({
-          beds: resp.beds,
-          icu: icuData,
-          data,
-          date: new Date(resp.timestamp),
-          pops: resp.population
+      const data = resp[2].data;
+      const icuData = data.icu
+        .map(d => {
+          d.TotalPC = d.Total / data.population[d["ID Geography"]] * 1000;
+          return d;
         });
 
-      })
-      .catch(() => this.setState({data: "Error loading data, please try again later."}));
+      this.setState({
+        beds: data.beds,
+        countryCases,
+        date: new Date(data.timestamp),
+        icu: icuData,
+        pops: data.population,
+        stateTestData
+      }, this.prepData.bind(this));
 
+    }))
+      .catch(() => this.setState({data: "Error loading data, please try again later."}));
   }
 
   changeCutoff(value) {
@@ -374,11 +329,7 @@ class Coronavirus extends Component {
   }
 
   prepData() {
-
     const {stateTestData, countryCases, cutoff} = this.state;
-
-    // const stateData = data
-    //   .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
 
     const stateCutoffData = merge(nest()
       .key(d => d["ID Geography"])
@@ -448,7 +399,7 @@ class Coronavirus extends Component {
     const {
       beds,
       countryCutoffData,
-      countryCutoffDeathData,
+      // countryCutoffDeathData,
       cutoff,
       date,
       stateTestData,
@@ -457,7 +408,6 @@ class Coronavirus extends Component {
       pops,
       scale,
       stateCutoffData,
-      // stateData,
       title
     } = this.state;
 
@@ -468,11 +418,6 @@ class Coronavirus extends Component {
     const dateFormat = mobile ? timeFormat("%m/%d") : timeFormat("%b %d");
     const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
-    // const stateNewData = stateData.filter(d => d.ConfirmedNew !== undefined);
-    // const stateDeathData = stateData.filter(d => d.Deaths);
-    // const minValueDeathPC = min(stateDeathData, d => d.DeathsPC);
-    // const maxValueDeathPC = max(stateDeathData, d => d.DeathsPC);
-
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
     // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
     // const minValueGrowth = min(stateGrowthData, d => d.ConfirmedGrowth);
@@ -480,7 +425,6 @@ class Coronavirus extends Component {
 
     // const [stateDomain, stateLabels] = calculateDomain(stateData, w);
     const [stateNewDomain, stateNewLabels] = calculateDomain(stateTestData, w);
-    // const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateDeathData, w);
     // const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
     // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
@@ -488,14 +432,14 @@ class Coronavirus extends Component {
     const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed", scale);
     const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(countryCutoffData, w);
     const countryCutoffAnnotations = calculateAnnotations(countryCutoffData, "ConfirmedPC", scale);
-    const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
-    const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC", scale);
+    // const [countryCutoffDeathDomain, countryCutoffDeathLabels] = calculateDayDomain(countryCutoffDeathData, w);
+    // const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC", scale);
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
-    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
-    const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
-    const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
-    const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
+    // const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
+    // const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
+    // const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
+    // const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -559,7 +503,7 @@ class Coronavirus extends Component {
             ["Date", dateFormat(new Date(d.Date))],
             ["Total Cases", commas(d.Confirmed)]
           ];
-          if (d.ConfirmedNew !== undefined) arr.push(["New Cases", commas(d.ConfirmedNew)]);
+          if (d.ConfirmedGrowth !== undefined) arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
           return arr;
@@ -898,7 +842,7 @@ class Coronavirus extends Component {
                 <SourceGroup sources={[ctSource, acs1Source]} />
               </div>
               <div className="visualization topic-visualization">
-                { stateData.length
+                { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.DeathsPC),
                     tooltipConfig: {
@@ -1191,7 +1135,7 @@ class Coronavirus extends Component {
                 <SourceGroup sources={[jhSource]} />
               </div>
               <div className="visualization topic-visualization">
-                { stateData.length
+                { stateGrowthData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateGrowthData,
                     x: "Date",
