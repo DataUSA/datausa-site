@@ -358,7 +358,7 @@ class Coronavirus extends Component {
           data,
           date: new Date(resp.timestamp),
           pops: resp.population
-        }, this.prepData.bind(this));
+        });
 
       })
       .catch(() => this.setState({data: "Error loading data, please try again later."}));
@@ -375,10 +375,10 @@ class Coronavirus extends Component {
 
   prepData() {
 
-    const {stateTestData, countryCases, cutoff, data, level} = this.state;
+    const {stateTestData, countryCases, cutoff} = this.state;
 
-    const stateData = (data || [])
-      .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
+    // const stateData = data
+    //   .filter(d => d.Level === level && stateAbbreviations[d.Geography]);
 
     const stateCutoffData = merge(nest()
       .key(d => d["ID Geography"])
@@ -439,7 +439,7 @@ class Coronavirus extends Component {
           }, []);
       }).sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths)));
 
-    this.setState({stateCutoffData, stateData, countryCutoffData, countryCutoffDeathData, countryData});
+    this.setState({stateCutoffData, countryCutoffData, countryCutoffDeathData, countryData});
 
   }
 
@@ -457,7 +457,7 @@ class Coronavirus extends Component {
       pops,
       scale,
       stateCutoffData,
-      stateData,
+      // stateData,
       title
     } = this.state;
 
