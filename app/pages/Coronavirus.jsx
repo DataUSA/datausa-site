@@ -117,7 +117,7 @@ class UncontrolledSlider extends React.Component {
   }
 }
 
-const labelSpace = 10;
+const labelSpace = 7;
 
 /** */
 function calculateDomain(data, w) {
@@ -134,8 +134,11 @@ function calculateDomain(data, w) {
     const space = (w <= 768 ? w : w - 300) - 100 - 60;
     const labelWidth = w <= 480 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
-    const max = dataDomain.length - 1;
-    const labels = domain.filter((d, i) => i % step === 0 && dataDomain.includes(d) && i <= max - step || i === max);
+    while (domain.length % step) {
+      lastDate++;
+      domain.push(lastDate);
+    }
+    const labels = domain.filter((d, i) => i % step === 0);
     return [domain, labels];
   }
   return [[], []];
@@ -155,8 +158,11 @@ function calculateDayDomain(data, w) {
     const space = (w <= 768 ? w : w - 300) - 100 - 60;
     const labelWidth = w <= 480 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
-    const max = dataDomain.length - 1;
-    const labels = domain.filter((d, i) => i % step === 0 && dataDomain.includes(d) && i <= max - step || i === max);
+    while (domain.length % step) {
+      lastDate++;
+      domain.push(lastDate);
+    }
+    const labels = domain.filter((d, i) => i % step === 0);
     return [domain, labels];
   }
   return [[], []];
@@ -414,6 +420,7 @@ class Coronavirus extends Component {
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
     const mobile = w <= 480;
+    const now = new Date();
 
     const dateFormat = mobile ? timeFormat("%m/%d") : timeFormat("%b %d");
     const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
@@ -507,6 +514,13 @@ class Coronavirus extends Component {
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
           return arr;
+        }
+      },
+      xConfig: {
+        shapeConfig: {
+          labelConfig: {
+            fontOpacity: d => d.id < 10000 || new Date(d.id) <= now ? 1 : 0.5
+          }
         }
       },
       y: "Confirmed",
@@ -648,6 +662,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateNewDomain,
                       labels: stateNewLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "Confirmed"
@@ -678,6 +693,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateNewDomain,
                       labels: stateNewLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "ConfirmedPC",
@@ -816,6 +832,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateDeathDomain,
                       labels: stateDeathLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "Deaths",
@@ -859,6 +876,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateDeathDomain,
                       labels: stateDeathLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "DeathsPC",
@@ -964,6 +982,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: hospitalizedDomain,
                       labels: hospitalizedLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     yConfig: {
@@ -1017,6 +1036,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: totalTestsDomain,
                       labels: totalTestsLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "total",
@@ -1049,6 +1069,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: positiveRateDomain,
                       labels: positiveRateLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "PositivePC",
@@ -1109,6 +1130,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateNewDomain,
                       labels: stateNewLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "ConfirmedGrowth",
@@ -1142,6 +1164,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateGrowthDomain,
                       labels: stateGrowthLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`],
@@ -1175,6 +1198,7 @@ class Coronavirus extends Component {
                     xConfig: {
                       domain: stateSmoothDomain,
                       labels: stateSmoothLabels,
+                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`],
