@@ -603,6 +603,14 @@ class Coronavirus extends Component {
             Last updated on {dayFormat(date)} at {hourFormat(date)}.
           </div>}
         </div>
+        <div className="content-container sponsors">
+          <a target="_blank" rel="noopener noreferrer" href="http://www2.deloitte.com/us/en.html">
+            <img id="deloitte" src="/images/home/logos/deloitte.png" />
+          </a>
+          <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/">
+            <img id="datawheel" src="/images/home/logos/datawheel.png" />
+          </a>
+        </div>
         <div className="splash-columns">
           <p>
             Based on publicly available data, how is COVID-19 (also known as Coronavirus) spreading in the United States? How fast is it growing in each state? And how prepared may different states be to cope with the spread of this global pandemic?
