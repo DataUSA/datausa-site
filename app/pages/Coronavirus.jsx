@@ -428,26 +428,6 @@ class Coronavirus extends Component {
 
     const dateFormat = mobile ? timeFormat("%m/%d") : timeFormat("%b %d");
     const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
-    
-    // Geomaps
-    const stateFilter = d => currentState ? d["ID Geography"] === currentState : true;
-    const geoFooter = d => `Click to restrict page to ${d.Geography}`;
-    const geoShapeConfig = {
-      Path: {
-        stroke: d => currentState === d["ID Geography"] ? styles.red : styles.dark,
-        strokeWidth: d => currentState === d["ID Geography"] ? 2 : 1,
-        strokeOpacity: d => currentState === d["ID Geography"] ? .75 : .25
-      }
-    };
-    const geoOnClick = d => this.setState({currentState: d["ID Geography"]});
-    const geoTimelineConfig = {
-      buttonBehavior: "auto",
-      shapeConfig: {
-        stroke: styles.dark,
-        strokeOpacity: .5,
-        strokeWidth: 1
-      }
-    };
 
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
     // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
@@ -480,7 +460,7 @@ class Coronavirus extends Component {
       groupBy: ["ID Region", "ID Geography"],
       label: d => d.Geography instanceof Array ? d.Region : d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
       legendConfig: {
-        title: "Click a region below to filter the chart",
+        title: false,
         titleConfig: {
           fontColor: "#484848",
           fontSize: 12
@@ -560,6 +540,42 @@ class Coronavirus extends Component {
 
     const mapConfig = {
       zoom: false
+    };
+
+    // Geomaps
+    const stateFilter = d => currentState ? d["ID Geography"] === currentState : true;
+    const geoStateConfig = {
+      zoom: false,
+      time: "Date",
+      // timeline: false,
+      timelineConfig: {
+        on: {
+          // end: d => console.log(timeFormat("%A, %b %d")(d))
+        },
+        buttonBehavior: "auto",
+        shapeConfig: {
+          stroke: styles.dark,
+          strokeOpacity: .5,
+          strokeWidth: 1
+        }
+      },
+      groupBy: "ID Geography",
+      label: d => d.Geography,
+      shapeConfig: {
+        Path: {
+          stroke: d => currentState === d["ID Geography"] ? styles.red : styles.dark,
+          strokeWidth: d => currentState === d["ID Geography"] ? 2 : 1,
+          strokeOpacity: d => currentState === d["ID Geography"] ? .75 : .25
+        }
+      },
+      projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+      tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
+        footer: d => `Click to restrict page to ${d.Geography}`
+      }),
+      on: {
+        click: d => this.setState({currentState: d["ID Geography"]})
+      },
+      topojson: "/topojson/State.json"
     };
 
     // const StateCutoff = () =>
@@ -703,28 +719,10 @@ class Coronavirus extends Component {
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
-                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentState, // currentState is a no-op key to force a re-render when currentState changes. 
                     colorScale: "Confirmed",
-                    data: stateTestData.filter(d => d.Confirmed),
-                    time: "Date",
-                    // timeline: false,
-                    timelineConfig: geoTimelineConfig,
-                    groupBy: "ID Geography",
-                    label: d => d.Geography,
-                    shapeConfig: geoShapeConfig,
-                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
-                    tooltipConfig: {
-                      tbody: [
-                        ["Date", d => dateFormat(d.Date)],
-                        ["Confirmed Cases", d => commas(d.Confirmed)]
-                      ],
-                      footer: geoFooter
-                    },
-                    on: {
-                      click: geoOnClick
-                    },
-                    topojson: "/topojson/State.json"
+                    data: stateTestData.filter(d => d.Confirmed)
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -747,7 +745,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.ConfirmedPC),
+                    data: stateTestData.filter(d => d.ConfirmedPC).filter(stateFilter),
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
@@ -759,6 +757,15 @@ class Coronavirus extends Component {
                     yConfig: {
                       title: `Confirmed Cases per 100,000\n(${scaleLabel})`
                     }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length
+                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    colorScale: "ConfirmedPC",
+                    data: stateTestData.filter(d => d.ConfirmedPC),
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
