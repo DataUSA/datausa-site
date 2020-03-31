@@ -547,7 +547,8 @@ class Coronavirus extends Component {
     const geoStateConfig = {
       zoom: false,
       time: "Date",
-      // timeline: false,
+      timeline: false,
+      /*
       timelineConfig: {
         on: {
           // end: d => console.log(timeFormat("%A, %b %d")(d))
@@ -559,6 +560,7 @@ class Coronavirus extends Component {
           strokeWidth: 1
         }
       },
+      */
       groupBy: "ID Geography",
       label: d => d.Geography,
       shapeConfig: {
@@ -765,7 +767,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentState, // currentState is a no-op key to force a re-render when currentState changes. 
                     colorScale: "ConfirmedPC",
-                    data: stateTestData.filter(d => d.ConfirmedPC),
+                    data: stateTestData.filter(d => d.ConfirmedPC)
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -793,7 +795,7 @@ class Coronavirus extends Component {
                 { stateCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: stateCutoffAnnotations,
-                    data: stateCutoffData,
+                    data: stateCutoffData.filter(stateFilter),
                     x: "Days",
                     xConfig: {
                       domain: stateCutoffDomain,
@@ -832,7 +834,7 @@ class Coronavirus extends Component {
                 { countryCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: countryCutoffAnnotations,
-                    data: countryCutoffData,
+                    data: countryCutoffData.filter(stateFilter),
                     x: "Days",
                     xConfig: {
                       domain: countryCutoffDomain,
