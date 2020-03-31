@@ -546,6 +546,7 @@ class Coronavirus extends Component {
     const stateFilter = d => currentState ? d["ID Geography"] === currentState : true;
     const geoStateConfig = {
       zoom: false,
+      title: timeFormat("%A, %b %d")(max(stateTestData, d => d.Date)),
       time: "Date",
       timeline: false,
       /*
