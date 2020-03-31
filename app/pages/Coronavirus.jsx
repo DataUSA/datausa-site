@@ -567,7 +567,7 @@ class Coronavirus extends Component {
       shapeConfig: {
         Path: {
           stroke: d => currentState === d["ID Geography"] ? styles.red : styles.dark,
-          strokeWidth: d => currentState === d["ID Geography"] ? 2 : 1,
+          strokeWidth: d => currentState === d["ID Geography"] ? 3 : 1,
           strokeOpacity: d => currentState === d["ID Geography"] ? .75 : .25
         }
       },
