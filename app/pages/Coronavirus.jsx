@@ -1112,7 +1112,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.total),
+                    data: stateTestData.filter(d => d.total).filter(stateFilter),
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1125,6 +1125,16 @@ class Coronavirus extends Component {
                     yConfig: {
                       title: `Number of tests\n(${scaleLabel})`
                     }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length
+                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    colorScale: "total",
+                    data: stateTestData.filter(d => d.total),
+                    tooltipConfig: tooltipConfigTracker
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -1145,7 +1155,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.PositivePC),
+                    data: stateTestData.filter(d => d.PositivePC).filter(stateFilter),
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1158,6 +1168,16 @@ class Coronavirus extends Component {
                     yConfig: {
                       title: `Number of positive tests\n(${scaleLabel})`
                     }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length
+                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    colorScale: "PositivePC",
+                    data: stateTestData.filter(d => d.PositivePC),
+                    tooltipConfig: tooltipConfigTracker
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -1207,7 +1227,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.ConfirmedGrowth),
+                    data: stateTestData.filter(d => d.ConfirmedGrowth).filter(stateFilter),
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
@@ -1219,6 +1239,15 @@ class Coronavirus extends Component {
                     yConfig: {
                       title: `Daily Confirmed Cases\n(${scaleLabel})`
                     }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <div className="visualization topic-visualization">
+                { stateTestData.length
+                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    colorScale: "ConfirmedGrowth",
+                    data: stateTestData.filter(d => d.ConfirmedGrowth)
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
