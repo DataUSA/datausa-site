@@ -543,7 +543,7 @@ class Coronavirus extends Component {
     };
 
     // Geomaps
-    const stateFilter = d => currentState ? d["ID Geography"] === currentState : true;
+    const stateFilter = d => currentState ? d["ID Geography"] === currentState || d.Region === "International" : true;
     const geoStateConfig = {
       zoom: false,
       title: timeFormat("%A, %b %d")(max(stateTestData, d => d.Date)),
@@ -573,10 +573,10 @@ class Coronavirus extends Component {
       },
       projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
       tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
-        footer: d => `Click to restrict page to ${d.Geography}`
+        footer: d => !this.state.currentState ? `Click to restrict page to ${d.Geography}` : "Click to clear state selection"
       }),
       on: {
-        click: d => this.setState({currentState: d["ID Geography"]})
+        click: d => this.setState({currentState: d["ID Geography"] === this.state.currentState ? false : d["ID Geography"]})
       },
       topojson: "/topojson/State.json"
     };
