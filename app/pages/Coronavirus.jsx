@@ -260,6 +260,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData: [],
       countryData: [],
       currentState: false,
+      currentStateName: false,
       cutoff: 10,
       countries: false,
       data: false,
@@ -411,6 +412,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       currentState,
+      currentStateName,
       date,
       stateTestData,
       // measure,
@@ -576,7 +578,14 @@ class Coronavirus extends Component {
         footer: d => !this.state.currentState ? `Click to restrict page to ${d.Geography}` : "Click to clear state selection"
       }),
       on: {
-        click: d => this.setState({currentState: d["ID Geography"] === this.state.currentState ? false : d["ID Geography"]})
+        click: d => {
+          if (d["ID Geography"] === this.state.currentState) {
+            this.setState({currentState: false, currentStateName: false});
+          }
+          else {
+            this.setState({currentState: d["ID Geography"], currentStateName: d.Geography}); 
+          }
+        }
       },
       topojson: "/topojson/State.json"
     };
@@ -639,10 +648,13 @@ class Coronavirus extends Component {
       }
     };
 
-    // top-level stats
-    const stats = {};
+    // stats helpers
     const today = max(stateTestData, d => d.Date);
     const latest = stateTestData.filter(d => d.Date === today);
+    const show = stateTestData.length > 0;
+
+    // top-level stats
+    const stats = {};
     const totalCases = sum(latest, d => d.Confirmed);
     stats.totalCases = commas(totalCases);
     const totalPopulation = sum(latest, d => d.Population);
@@ -655,6 +667,11 @@ class Coronavirus extends Component {
     stats.totalTests = commas(totalTests);
     const totalPositive = sum(latest, d => d.Positive);
     stats.totalPositivePercent = `${formatAbbreviate(totalPositive / totalTests * 100)}% Tested Positive`;
+
+    // topic stats
+    const topicStats = {};
+    const topicFilter = d => currentState ? d["ID Geography"] === currentState : true;
+    topicStats.totalCases = commas(sum(latest.filter(topicFilter), d => d.Confirmed));
 
 
     return <div id="Coronavirus">
@@ -687,33 +704,33 @@ class Coronavirus extends Component {
           <div className="profile-stats">
             <div className="Stat large-text">
               <div className="stat-title">Total Cases</div>
-              <div className="stat-value">{stats.totalCases}</div>
+              <div className="stat-value">{show ? stats.totalCases : <Spinner />}</div>
               <div className="stat-subtitle">in the USA</div>
             </div>
             <div className="Stat large-text">
               <div className="stat-title">Cases per Capita</div>
-              <div className="stat-value">{stats.totalPC}</div>
+              <div className="stat-value">{show ? stats.totalPC : <Spinner />}</div>
               <div className="stat-subtitle">per 100,000</div>
             </div>
             <div className="Stat large-text">
               <div className="stat-title">Total Deaths</div>
-              <div className="stat-value">{stats.totalDeaths}</div>
+              <div className="stat-value">{show ? stats.totalDeaths : <Spinner />}</div>
               <div className="stat-subtitle">in the USA</div>
             </div>
             <div className="Stat large-text">
               <div className="stat-title">Deaths per Capita</div>
-              <div className="stat-value">{stats.totalDeathsPC}</div>
+              <div className="stat-value">{show ? stats.totalDeathsPC : <Spinner />}</div>
               <div className="stat-subtitle">per 100,000</div>
             </div>
             <div className="Stat large-text">
               <div className="stat-title">Total Hospitalizations</div>
-              <div className="stat-value">{stats.totalHospitalizations}</div>
+              <div className="stat-value">{show ? stats.totalHospitalizations : <Spinner />}</div>
               <div className="stat-subtitle">in the USA</div>
             </div>
             <div className="Stat large-text">
               <div className="stat-title">Total Tests</div>
-              <div className="stat-value">{stats.totalTests}</div>
-              <div className="stat-subtitle">{stats.totalPositivePercent}</div>
+              <div className="stat-value">{show ? stats.totalTests : <Spinner />}</div>
+              <div className="stat-subtitle">{show ? stats.totalPositivePercent : "Tested Positive"}</div>
             </div>
           </div>
         </div>
@@ -760,6 +777,13 @@ class Coronavirus extends Component {
                   slug="cases-total"
                   title="Total Confirmed Cases by Date"
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalCases : <Spinner />}</div>
+                    <div className="stat-title">Total Cases in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? dateFormat(today) : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
