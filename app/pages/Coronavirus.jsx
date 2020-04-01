@@ -661,7 +661,7 @@ class Coronavirus extends Component {
     stats.totalPC = formatAbbreviate(totalCases / totalPopulation * 100000);
     const totalDeaths = sum(latest, d => d.Deaths);
     stats.totalDeaths = commas(totalDeaths);
-    stats.totalDeathsPC = format(".2f")(totalDeaths / totalPopulation * 100000);
+    stats.totalDeathsPC = formatAbbreviate(totalDeaths / totalPopulation * 100000);
     stats.totalHospitalizations = commas(sum(latest, d => d.hospitalized));
     const totalTests = sum(latest, d => d.total);
     stats.totalTests = commas(totalTests);
@@ -675,6 +675,9 @@ class Coronavirus extends Component {
     topicStats.totalCases = commas(totalCasesFiltered);
     const totalPopulationFiltered = sum(latestFiltered, d => d.Population);
     topicStats.totalPC = formatAbbreviate(totalCasesFiltered / totalPopulationFiltered * 100000);
+    const totalDeathsFiltered = sum(latestFiltered, d => d.Deaths);
+    topicStats.totalDeaths = commas(totalDeathsFiltered);
+    topicStats.totalDeathsPC = formatAbbreviate(totalDeathsFiltered / totalPopulationFiltered * 100000);
 
 
     return <div id="Coronavirus">
@@ -784,7 +787,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalCases : <Spinner />}</div>
                     <div className="stat-title">Total Cases in {currentStateName ? currentStateName : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? dateFormat(today) : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -831,7 +834,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalPC : <Spinner />}</div>
                     <div className="stat-title">Cases per 100k in {currentStateName ? currentStateName : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? dateFormat(today) : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -972,6 +975,13 @@ class Coronavirus extends Component {
                   slug="cases-total"
                   title="Total Deaths by State"
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalDeaths : <Spinner />}</div>
+                    <div className="stat-title">Total Deaths in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
@@ -1017,6 +1027,13 @@ class Coronavirus extends Component {
                   slug="deaths-pc"
                   title="Deaths per Capita"
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalDeathsPC : <Spinner />}</div>
+                    <div className="stat-title">Deaths per 100k in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
