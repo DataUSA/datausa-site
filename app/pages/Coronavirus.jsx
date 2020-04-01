@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
 import {NonIdealState, Slider, Spinner, Button} from "@blueprintjs/core";
@@ -661,13 +662,7 @@ class Coronavirus extends Component {
     const today = max(stateTestData, d => d.Date);
     const latest = stateTestData.filter(d => d.Date === today);
     const show = stateTestData.length > 0;
-    const list = n => n.reduce((str, item, i) => {
-      if (!i) str += item;
-      else if (i === n.length - 1 && i === 1) str += ` and ${item}`;
-      else if (i === n.length - 1) str += `, and ${item}`;
-      else str += `, ${item}`;
-      return str;
-    }, "");
+    const {list} = this.context.formatters;
 
     // top-level stats
     const stats = {};
@@ -1757,6 +1752,10 @@ class Coronavirus extends Component {
   }
 
 }
+
+Coronavirus.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default connect(null, dispatch => ({
   updateTitle: title => dispatch(updateTitle(title))
