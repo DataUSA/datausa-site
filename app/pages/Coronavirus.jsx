@@ -672,7 +672,7 @@ class Coronavirus extends Component {
         </div>
         <div className="content-container">
           {date && <div className="profile-subtitle">
-            Last updated on {dayFormat(date)} at {hourFormat(date)}.
+            Latest Data from {dayFormat(today)}.
           </div>}
         </div>
         <div className="content-container sponsors">
@@ -682,14 +682,6 @@ class Coronavirus extends Component {
           <a target="_blank" rel="noopener noreferrer" href="http://www.datawheel.us/">
             <img id="datawheel" src="/images/home/logos/datawheel.png" />
           </a>
-        </div>
-        <div className="splash-columns">
-          <p>
-            Based on publicly available data, how is COVID-19 (also known as Coronavirus) spreading in the United States? How fast is it growing in each state? And how prepared may different states be to cope with the spread of this global pandemic?
-          </p>
-          <p>
-            At Data USA, our mission is to visualize and distribute open source data of U.S. public interest. To track the evolution and trajectory of COVID-19, we have created a series of interactive graphics. These visualizations are designed to put the spread of COVID-19 in context.
-          </p>
         </div>
         <div className="content-container">
           <div className="profile-stats">
@@ -724,6 +716,14 @@ class Coronavirus extends Component {
               <div className="stat-subtitle">{stats.totalPositivePercent}</div>
             </div>
           </div>
+        </div>
+        <div className="splash-columns">
+          <p>
+            Based on publicly available data, how is COVID-19 (also known as Coronavirus) spreading in the United States? How fast is it growing in each state? And how prepared may different states be to cope with the spread of this global pandemic?
+          </p>
+          <p>
+            At Data USA, our mission is to visualize and distribute open source data of U.S. public interest. To track the evolution and trajectory of COVID-19, we have created a series of interactive graphics. These visualizations are designed to put the spread of COVID-19 in context.
+          </p>
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
