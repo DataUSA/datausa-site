@@ -14,7 +14,7 @@
       color: var(--white);
       columns: 320px auto;
       column-gap: 20px;
-      padding: 25px 50px;
+      padding: 25px;
       max-width: 800px;
       & p:not(:first-child) {
         margin-top: 20px;
@@ -37,6 +37,15 @@
         @media (max-width: 380px) {
           height: 50px;
         }
+      }
+    }
+  }
+  & .coronavirus-section {
+    @media (max-width: 1280px) {
+      padding: 25px 0;
+      & .section-title, & .section-body, & .topic-content {
+        padding-left: 25px;
+        padding-right: 25px;
       }
     }
   }
@@ -101,12 +110,33 @@
   }
 
   & .TextViz {
+    flex-flow: wrap;
     & .topic-content {
       max-width: 300px;
+      @media (max-width: 1280px) {
+        min-width: 100%;
+      }
     }
     &.text-only {
       & .topic-content {
         max-width: 600px;
+      }
+    }
+    & .visualization {
+      margin-left: 25px;
+      @media (max-width: 1280px) {
+        flex: 1 1 400px;
+        margin-left: 0;
+      }
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    & .visualization ~ .visualization {
+      margin-left: 0;
+      @media (max-width: 768px) {
+        flex: 1 1 300px;
+        min-height: 300px;
       }
     }
   }

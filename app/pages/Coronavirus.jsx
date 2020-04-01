@@ -119,22 +119,21 @@ class UncontrolledSlider extends React.Component {
   }
 }
 
-const labelSpace = 7;
-
 /** */
 function calculateDomain(data, w) {
   if (data && data instanceof Array && data.length) {
     const dataDomain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
     const domain = dataDomain.slice();
     let lastDate = domain[domain.length - 1];
-    const endDate = lastDate + (lastDate  - domain[0]) / labelSpace;
+    const labelSpace = w <= 768 ? 0 : 0.1;
+    const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
     lastDate = new Date(lastDate);
     while (domain[domain.length - 1] < endDate) {
       lastDate.setDate(lastDate.getDate() + 1);
       domain.push(lastDate.getTime());
     }
-    const space = (w <= 768 ? w : w - 300) - 100 - 60;
-    const labelWidth = w <= 480 ? 30 : 50;
+    const space = ((w <= 768 ? w : w - 300) - 100 - 60) / 2;
+    const labelWidth = w <= 768 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
     while (domain.length % step) {
       lastDate++;
@@ -152,13 +151,14 @@ function calculateDayDomain(data, w) {
     const dataDomain = unique(data.map(d => d.Days)).sort((a, b) => a - b);
     const domain = dataDomain.slice();
     let lastDate = domain[domain.length - 1];
-    const endDate = lastDate + (lastDate  - domain[0]) / labelSpace;
+    const labelSpace = w <= 768 ? 0.1 : 0.1;
+    const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
     while (domain[domain.length - 1] < endDate) {
       lastDate++;
       domain.push(lastDate);
     }
     const space = (w <= 768 ? w : w - 300) - 100 - 60;
-    const labelWidth = w <= 480 ? 30 : 50;
+    const labelWidth = w <= 768 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
     while (domain.length % step) {
       lastDate++;
@@ -425,11 +425,10 @@ class Coronavirus extends Component {
 
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
-    const mobile = w <= 480;
     const now = new Date();
 
-    const dateFormat = mobile ? timeFormat("%m/%d") : timeFormat("%b %d");
-    const daysFormat = mobile ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
+    const dateFormat = smallLabels ? timeFormat("%m/%d") : timeFormat("%b %d");
+    const daysFormat = smallLabels ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
     const dateFormatFullMonth = timeFormat("%B %d");
 
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
@@ -536,8 +535,7 @@ class Coronavirus extends Component {
           stroke: "transparent"
         },
         scale,
-        tickFormat: commas,
-        title: `Confirmed Cases\n(${scaleLabel})`
+        tickFormat: commas
       }
     };
 
@@ -585,7 +583,7 @@ class Coronavirus extends Component {
             this.setState({currentState: false, currentStateName: false});
           }
           else {
-            this.setState({currentState: d["ID Geography"], currentStateName: d.Geography}); 
+            this.setState({currentState: d["ID Geography"], currentStateName: d.Geography});
           }
         }
       },
@@ -600,7 +598,7 @@ class Coronavirus extends Component {
         ];
         if (d.DeathsPC !== undefined) arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
         return arr;
-      }   
+      }
     };
 
     // const StateCutoff = () =>
@@ -685,7 +683,6 @@ class Coronavirus extends Component {
     topicStats.totalTests = commas(totalTestsFiltered);
     const totalPositiveFiltered = sum(latestFiltered, d => d.Positive);
     topicStats.totalPositivePercent = `${formatAbbreviate(totalPositiveFiltered / totalTestsFiltered * 100)}%`;
-
 
     return <div id="Coronavirus">
 
@@ -809,6 +806,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.Confirmed).filter(stateFilter),
+                    title: `Confirmed Cases (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
@@ -823,7 +821,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "Confirmed",
                     data: stateTestData.filter(d => d.Confirmed)
                   })} />
@@ -856,6 +854,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.ConfirmedPC).filter(stateFilter),
+                    title: `Confirmed Cases per 100,000 (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
@@ -863,17 +862,14 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: "ConfirmedPC",
-                    yConfig: {
-                      title: `Confirmed Cases per 100,000\n(${scaleLabel})`
-                    }
+                    y: "ConfirmedPC"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "ConfirmedPC",
                     data: stateTestData.filter(d => d.ConfirmedPC)
                   })} />
@@ -904,6 +900,7 @@ class Coronavirus extends Component {
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: stateCutoffAnnotations,
                     data: stateCutoffData.filter(stateFilter),
+                    title: `Confirmed Cases (${scaleLabel})`,
                     x: "Days",
                     xConfig: {
                       domain: stateCutoffDomain,
@@ -943,6 +940,7 @@ class Coronavirus extends Component {
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: countryCutoffAnnotations,
                     data: countryCutoffData.filter(stateFilter),
+                    title: `Confirmed Cases per 100,000 (${scaleLabel})`,
                     x: "Days",
                     xConfig: {
                       domain: countryCutoffDomain,
@@ -956,8 +954,7 @@ class Coronavirus extends Component {
                     yConfig: {
                       barConfig: {"stroke": "#ccc", "stroke-width": 1},
                       gridConfig: {"stroke-width": 0},
-                      tickSize: 0,
-                      title: `Confirmed Cases per 100,000\n(${scaleLabel})`
+                      tickSize: 0
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1001,6 +998,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.Deaths).filter(stateFilter),
+                    title: `Deaths (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Date",
                     xConfig: {
@@ -1009,17 +1007,14 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: "Deaths",
-                    yConfig: {
-                      title: `Deaths\n(${scaleLabel})`
-                    }
+                    y: "Deaths"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "Deaths",
                     data: stateTestData.filter(d => d.Deaths),
                     tooltipConfig: deathTooltip
@@ -1053,6 +1048,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.DeathsPC).filter(stateFilter),
+                    title: `Deaths per 100,000 (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Date",
                     xConfig: {
@@ -1061,18 +1057,14 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: "DeathsPC",
-                    yConfig: {
-                      // domain: [minValueDeathPC, maxValueDeathPC],
-                      title: `Deaths per 100,000\n(${scaleLabel})`
-                    }
+                    y: "DeathsPC"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "DeathsPC",
                     data: stateTestData.filter(d => d.DeathsPC),
                     tooltipConfig: deathTooltip
@@ -1100,6 +1092,7 @@ class Coronavirus extends Component {
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: countryCutoffDeathAnnotations,
                     data: countryCutoffDeathData.filter(stateFilter),
+                    title: `Deaths per 100,000 (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Days",
                     xConfig: {
@@ -1115,8 +1108,7 @@ class Coronavirus extends Component {
                     yConfig: {
                       barConfig: {"stroke": "#ccc", "stroke-width": 1},
                       gridConfig: {"stroke-width": 0},
-                      tickSize: 0,
-                      title: `Deaths per 100,000\n(${scaleLabel})`
+                      tickSize: 0
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1167,6 +1159,7 @@ class Coronavirus extends Component {
                 { stateTestData.length && stateTestData.length > 0
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.hospitalized).filter(stateFilter),
+                    title: `Hospitalized Patients (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1175,9 +1168,6 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    yConfig: {
-                      title: `Hospitalized patients\n(${scaleLabel})`
-                    },
                     y: "hospitalized"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1185,7 +1175,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "hospitalized",
                     data: stateTestData.filter(d => d.hospitalized),
                     tooltipConfig: tooltipConfigTracker
@@ -1238,6 +1228,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.total).filter(stateFilter),
+                    title: `Number of Tests (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1246,17 +1237,14 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: "total",
-                    yConfig: {
-                      title: `Number of tests\n(${scaleLabel})`
-                    }
+                    y: "total"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "total",
                     data: stateTestData.filter(d => d.total),
                     tooltipConfig: tooltipConfigTracker
@@ -1288,6 +1276,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.PositivePC).filter(stateFilter),
+                    title: `Number of Positive Tests (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
@@ -1296,17 +1285,14 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: "PositivePC",
-                    yConfig: {
-                      title: `Number of positive tests\n(${scaleLabel})`
-                    }
+                    y: "PositivePC"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "PositivePC",
                     data: stateTestData.filter(d => d.PositivePC),
                     tooltipConfig: tooltipConfigTracker
@@ -1360,6 +1346,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestData.filter(d => d.ConfirmedGrowth).filter(stateFilter),
+                    title: `Daily Confirmed Cases (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
                       domain: stateNewDomain,
@@ -1367,17 +1354,14 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: "ConfirmedGrowth",
-                    yConfig: {
-                      title: `Daily Confirmed Cases\n(${scaleLabel})`
-                    }
+                    y: "ConfirmedGrowth"
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes. 
+                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "ConfirmedGrowth",
                     data: stateTestData.filter(d => d.ConfirmedGrowth)
                   })} />
@@ -1403,6 +1387,7 @@ class Coronavirus extends Component {
                 { stateGrowthData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateGrowthData,
+                    title: `Growth Factor (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
                       domain: stateGrowthDomain,
@@ -1410,10 +1395,7 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`],
-                    yConfig: {
-                      title: `Growth Factor\n(${scaleLabel})`
-                    }
+                    y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`]
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -1437,6 +1419,7 @@ class Coronavirus extends Component {
                 { stateData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateSmoothData,
+                    title: title: `Growth Factor (Smoothed) (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
                       domain: stateSmoothDomain,
@@ -1444,10 +1427,7 @@ class Coronavirus extends Component {
                       ticks: false,
                       tickFormat: dateFormat
                     },
-                    y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`],
-                    yConfig: {
-                      title: `Growth Factor (Smoothed)\n(${scaleLabel})`
-                    }
+                    y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`]
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
