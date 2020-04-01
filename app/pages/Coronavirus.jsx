@@ -678,6 +678,11 @@ class Coronavirus extends Component {
     const totalDeathsFiltered = sum(latestFiltered, d => d.Deaths);
     topicStats.totalDeaths = commas(totalDeathsFiltered);
     topicStats.totalDeathsPC = formatAbbreviate(totalDeathsFiltered / totalPopulationFiltered * 100000);
+    topicStats.totalHospitalizations = commas(sum(latestFiltered, d => d.hospitalized));
+    const totalTestsFiltered = sum(latestFiltered, d => d.total);
+    topicStats.totalTests = commas(totalTestsFiltered);
+    const totalPositiveFiltered = sum(latestFiltered, d => d.Positive);
+    topicStats.totalPositivePercent = `${formatAbbreviate(totalPositiveFiltered / totalTestsFiltered * 100)}%`;
 
 
     return <div id="Coronavirus">
@@ -1141,6 +1146,13 @@ class Coronavirus extends Component {
                   slug="total-hospitalizations"
                   title="Hospitalizations"
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalHospitalizations : <Spinner />}</div>
+                    <div className="stat-title">Hospitalizations in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
@@ -1206,6 +1218,13 @@ class Coronavirus extends Component {
                   slug="tests-over-time"
                   title="Tests over time for all states in the U.S."
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalTests : <Spinner />}</div>
+                    <div className="stat-title">Total Tests in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
@@ -1249,6 +1268,13 @@ class Coronavirus extends Component {
                   slug="tests-yielding-positive"
                   title="Percentage of tests yielding positive results."
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalPositivePercent : <Spinner />}</div>
+                    <div className="stat-title">Positive Results in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dateFormat(today)}` : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
