@@ -18,7 +18,7 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-import {extent, max, mean, merge} from "d3-array";
+import {extent, max, mean, merge, sum} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -639,6 +639,24 @@ class Coronavirus extends Component {
       }
     };
 
+    // top-level stats
+    const stats = {};
+    const today = max(stateTestData, d => d.Date);
+    const latest = stateTestData.filter(d => d.Date === today);
+    const totalCases = sum(latest, d => d.Confirmed);
+    stats.totalCases = commas(totalCases);
+    const totalPopulation = sum(latest, d => d.Population);
+    stats.totalPC = format(".2f")(totalCases / totalPopulation * 100000);
+    const totalDeaths = sum(latest, d => d.Deaths);
+    stats.totalDeaths = commas(totalDeaths);
+    stats.totalDeathsPC = format(".2f")(totalDeaths / totalPopulation * 100000);
+    stats.totalHospitalizations = commas(sum(latest, d => d.hospitalized));
+    const totalTests = sum(latest, d => d.total);
+    stats.totalTests = commas(totalTests);
+    const totalPositive = sum(latest, d => d.Positive);
+    stats.totalPositivePercent = `${formatAbbreviate(totalPositive / totalTests * 100)}% Tested Positive`;
+
+
     return <div id="Coronavirus">
 
       <Helmet title={title}>
@@ -672,6 +690,40 @@ class Coronavirus extends Component {
           <p>
             At Data USA, our mission is to visualize and distribute open source data of U.S. public interest. To track the evolution and trajectory of COVID-19, we have created a series of interactive graphics. These visualizations are designed to put the spread of COVID-19 in context.
           </p>
+        </div>
+        <div className="content-container">
+          <div className="profile-stats">
+            <div className="Stat large-text">
+              <div className="stat-title">Total Cases</div>
+              <div className="stat-value">{stats.totalCases}</div>
+              <div className="stat-subtitle">in the USA</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Cases per Capita</div>
+              <div className="stat-value">{stats.totalPC}</div>
+              <div className="stat-subtitle">per 100,000</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Total Deaths</div>
+              <div className="stat-value">{stats.totalDeaths}</div>
+              <div className="stat-subtitle">in the USA</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Deaths per Capita</div>
+              <div className="stat-value">{stats.totalDeathsPC}</div>
+              <div className="stat-subtitle">per 100,000</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Total Hospitalizations</div>
+              <div className="stat-value">{stats.totalHospitalizations}</div>
+              <div className="stat-subtitle">in the USA</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Total Tests</div>
+              <div className="stat-value">{stats.totalTests}</div>
+              <div className="stat-subtitle">{stats.totalPositivePercent}</div>
+            </div>
+          </div>
         </div>
         <div className="profile-sections">
           <SectionIcon slug="cases" title="Cases by State" />
