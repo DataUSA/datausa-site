@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import axios from "axios";
-import {NonIdealState, Slider, Spinner} from "@blueprintjs/core";
+import {NonIdealState, Slider, Spinner, Button} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
@@ -608,6 +608,15 @@ class Coronavirus extends Component {
 
     const AxisToggle = () =>
       <div>
+        {currentStates.length > 0 &&
+          <Button 
+            className="pt-minimal" 
+            iconName="cross"
+            onClick={() => this.setState({currentStates: []})}
+          >
+            {`Click to Clear State Selection${currentStates.length > 1 ? "s" : ""}`}
+          </Button>
+        }
         <label className="pt-label pt-inline">
         Y-Axis Scale
           <div className="pt-select">
