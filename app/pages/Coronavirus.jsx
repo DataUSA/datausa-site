@@ -320,7 +320,6 @@ class Coronavirus extends Component {
       this.setState({
         beds: data.beds,
         countryCases,
-        date: new Date(data.timestamp),
         icu: icuData,
         pops: data.population,
         stateTestData
@@ -412,7 +411,6 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       currentStates,
-      date,
       stateTestData,
       // measure,
       // icu,
@@ -710,7 +708,7 @@ class Coronavirus extends Component {
           <h1 className="profile-title">{title}</h1>
         </div>
         <div className="content-container">
-          {date && <div className="profile-subtitle">
+          {today && <div className="profile-subtitle">
             Latest Data from {dayFormat(today)}.
           </div>}
         </div>
