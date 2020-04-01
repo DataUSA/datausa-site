@@ -658,7 +658,7 @@ class Coronavirus extends Component {
     const totalCases = sum(latest, d => d.Confirmed);
     stats.totalCases = commas(totalCases);
     const totalPopulation = sum(latest, d => d.Population);
-    stats.totalPC = format(".2f")(totalCases / totalPopulation * 100000);
+    stats.totalPC = formatAbbreviate(totalCases / totalPopulation * 100000);
     const totalDeaths = sum(latest, d => d.Deaths);
     stats.totalDeaths = commas(totalDeaths);
     stats.totalDeathsPC = format(".2f")(totalDeaths / totalPopulation * 100000);
@@ -670,8 +670,11 @@ class Coronavirus extends Component {
 
     // topic stats
     const topicStats = {};
-    const topicFilter = d => currentState ? d["ID Geography"] === currentState : true;
-    topicStats.totalCases = commas(sum(latest.filter(topicFilter), d => d.Confirmed));
+    const latestFiltered = latest.filter(d => currentState ? d["ID Geography"] === currentState : true);
+    const totalCasesFiltered = sum(latestFiltered, d => d.Confirmed);
+    topicStats.totalCases = commas(totalCasesFiltered);
+    const totalPopulationFiltered = sum(latestFiltered, d => d.Population);
+    topicStats.totalPC = formatAbbreviate(totalCasesFiltered / totalPopulationFiltered * 100000);
 
 
     return <div id="Coronavirus">
@@ -824,6 +827,13 @@ class Coronavirus extends Component {
                   slug="cases-pc"
                   title="Total Confirmed Cases per Capita"
                 />
+                <div className="topic-stats">
+                  <div className="StatGroup single">
+                    <div className="stat-value">{show ? topicStats.totalPC : <Spinner />}</div>
+                    <div className="stat-title">Cases per 100k in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-subtitle">{show ? dateFormat(today) : ""}</div>
+                  </div>
+                </div>
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
