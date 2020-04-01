@@ -10,6 +10,9 @@
       font-size: 24px;
       padding: 0 75px;
     }
+    & .profile-stats {
+      margin: 25px auto 0;
+    }
     & .splash-columns {
       color: var(--white);
       columns: 320px auto;
