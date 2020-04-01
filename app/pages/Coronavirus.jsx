@@ -1,7 +1,8 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
-import {NonIdealState, Slider, Spinner} from "@blueprintjs/core";
+import {NonIdealState, Slider, Spinner, Button} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
@@ -23,8 +24,20 @@ import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
 const commas = format(",");
-const dayFormat = timeFormat("%A %B %d");
-const hourFormat = timeFormat("%I:%M %p");
+
+const suffixes = ["th", "st", "nd", "rd"];
+
+/** */
+function suffix(number) {
+  const tail = number % 100;
+  return suffixes[(tail < 11 || tail > 13) && tail % 10] || suffixes[0];
+}
+const d3DayFormat = timeFormat("%A, %B %d");
+
+const dayFormat = d => d3DayFormat(d).replace(/[0-9]{2}$/, m => {
+  const n = parseFloat(m, 10);
+  return `${n}${suffix(n)}`;
+});
 
 import {colorLegible} from "d3plus-color";
 import {assign, unique} from "d3plus-common";
@@ -259,8 +272,7 @@ class Coronavirus extends Component {
       countryCutoffData: [],
       countryCutoffDeathData: [],
       countryData: [],
-      currentState: false,
-      currentStateName: false,
+      currentStates: [],
       cutoff: 10,
       countries: false,
       data: false,
@@ -320,7 +332,6 @@ class Coronavirus extends Component {
       this.setState({
         beds: data.beds,
         countryCases,
-        date: new Date(data.timestamp),
         icu: icuData,
         pops: data.population,
         stateTestData
@@ -411,9 +422,7 @@ class Coronavirus extends Component {
       countryCutoffData,
       countryCutoffDeathData,
       cutoff,
-      currentState,
-      currentStateName,
-      date,
+      currentStates,
       stateTestData,
       // measure,
       // icu,
@@ -544,17 +553,17 @@ class Coronavirus extends Component {
     };
 
     // Geomaps
-    const stateFilter = d => currentState ? d["ID Geography"] === currentState || d.Region === "International" : true;
+    const stateFilter = d => currentStates.length > 0 ? currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) || d.Region === "International" : true;
     const geoStateConfig = {
       zoom: false,
-      title: timeFormat("%A, %B %d")(max(stateTestData, d => d.Date)),
+      title: dayFormat(max(stateTestData, d => d.Date)),
       time: "Date",
       timeline: false,
 
       /*
       timelineConfig: {
         on: {
-          // end: d => console.log(timeFormat("%A, %b %d")(d))
+          // end: d => console.log(dayFormat(d))
         },
         buttonBehavior: "auto",
         shapeConfig: {
@@ -568,22 +577,22 @@ class Coronavirus extends Component {
       label: d => d.Geography,
       shapeConfig: {
         Path: {
-          stroke: d => currentState === d["ID Geography"] ? styles.red : styles.dark,
-          strokeWidth: d => currentState === d["ID Geography"] ? 3 : 1,
-          strokeOpacity: d => currentState === d["ID Geography"] ? .75 : .25
+          stroke: d => currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? styles.red : styles.dark,
+          strokeWidth: d => currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? 3 : 1,
+          strokeOpacity: d => currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? .75 : .25
         }
       },
       projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
       tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
-        footer: d => !this.state.currentState ? `Click to restrict page to ${d.Geography}` : "Click to clear state selection"
+        footer: d => `Click to ${!currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? `select ${d.Geography}` : "clear state selection"}`
       }),
       on: {
         click: d => {
-          if (d["ID Geography"] === this.state.currentState) {
-            this.setState({currentState: false, currentStateName: false});
+          if (currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"])) {
+            this.setState({currentStates: currentStates.filter(o => o["ID Geography"] !== d["ID Geography"])});
           }
           else {
-            this.setState({currentState: d["ID Geography"], currentStateName: d.Geography});
+            this.setState({currentStates: currentStates.concat(d)});
           }
         }
       },
@@ -608,6 +617,15 @@ class Coronavirus extends Component {
 
     const AxisToggle = () =>
       <div>
+        {currentStates.length > 0 &&
+          <Button
+            className="pt-minimal"
+            iconName="cross"
+            onClick={() => this.setState({currentStates: []})}
+          >
+            {`Click to Clear State Selection${currentStates.length > 1 ? "s" : ""}`}
+          </Button>
+        }
         <label className="pt-label pt-inline">
         Y-Axis Scale
           <div className="pt-select">
@@ -652,6 +670,7 @@ class Coronavirus extends Component {
     const today = max(stateTestData, d => d.Date);
     const latest = stateTestData.filter(d => d.Date === today);
     const show = stateTestData.length > 0;
+    const {list} = this.context.formatters;
 
     // top-level stats
     const stats = {};
@@ -670,7 +689,7 @@ class Coronavirus extends Component {
 
     // topic stats
     const topicStats = {};
-    const latestFiltered = latest.filter(d => currentState ? d["ID Geography"] === currentState : true);
+    const latestFiltered = latest.filter(d => currentStates.length > 0 ? currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) : true);
     const totalCasesFiltered = sum(latestFiltered, d => d.Confirmed);
     topicStats.totalCases = commas(totalCasesFiltered);
     const totalPopulationFiltered = sum(latestFiltered, d => d.Population);
@@ -698,7 +717,7 @@ class Coronavirus extends Component {
           <h1 className="profile-title">{title}</h1>
         </div>
         <div className="content-container">
-          {date && <div className="profile-subtitle">
+          {today && <div className="profile-subtitle">
             Latest Data from {dayFormat(today)}.
           </div>}
         </div>
@@ -790,7 +809,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalCases : <Spinner />}</div>
-                    <div className="stat-title">Total Cases in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Total Cases in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -821,7 +840,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "Confirmed",
                     data: stateTestData.filter(d => d.Confirmed)
                   })} />
@@ -838,7 +857,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalPC : <Spinner />}</div>
-                    <div className="stat-title">Cases per 100k in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Cases per 100k in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -869,7 +888,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "ConfirmedPC",
                     data: stateTestData.filter(d => d.ConfirmedPC)
                   })} />
@@ -982,7 +1001,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalDeaths : <Spinner />}</div>
-                    <div className="stat-title">Total Deaths in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Total Deaths in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -1014,7 +1033,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "Deaths",
                     data: stateTestData.filter(d => d.Deaths),
                     tooltipConfig: deathTooltip
@@ -1032,7 +1051,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalDeathsPC : <Spinner />}</div>
-                    <div className="stat-title">Deaths per 100k in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Deaths per 100k in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -1064,7 +1083,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "DeathsPC",
                     data: stateTestData.filter(d => d.DeathsPC),
                     tooltipConfig: deathTooltip
@@ -1143,7 +1162,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalHospitalizations : <Spinner />}</div>
-                    <div className="stat-title">Hospitalizations in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Hospitalizations in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -1175,7 +1194,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "hospitalized",
                     data: stateTestData.filter(d => d.hospitalized),
                     tooltipConfig: tooltipConfigTracker
@@ -1213,7 +1232,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalTests : <Spinner />}</div>
-                    <div className="stat-title">Total Tests in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Total Tests in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -1244,7 +1263,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "total",
                     data: stateTestData.filter(d => d.total),
                     tooltipConfig: tooltipConfigTracker
@@ -1261,7 +1280,7 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalPositivePercent : <Spinner />}</div>
-                    <div className="stat-title">Positive Results in {currentStateName ? currentStateName : "the USA"}</div>
+                    <div className="stat-title">Positive Results in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
                     <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
                   </div>
                 </div>
@@ -1292,7 +1311,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "PositivePC",
                     data: stateTestData.filter(d => d.PositivePC),
                     tooltipConfig: tooltipConfigTracker
@@ -1361,7 +1380,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentState, // currentState is a no-op key to force a re-render when currentState changes.
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "ConfirmedGrowth",
                     data: stateTestData.filter(d => d.ConfirmedGrowth)
                   })} />
@@ -1723,6 +1742,10 @@ class Coronavirus extends Component {
   }
 
 }
+
+Coronavirus.contextTypes = {
+  formatters: PropTypes.object
+};
 
 export default connect(null, dispatch => ({
   updateTitle: title => dispatch(updateTitle(title))
