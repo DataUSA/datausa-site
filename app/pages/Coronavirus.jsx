@@ -619,7 +619,6 @@ class Coronavirus extends Component {
     // Geomaps
     const geoStateConfig = {
       zoom: false,
-      title: dayFormat(max(stateTestData, d => d.Date)),
       time: "Date",
       timeline: false,
 
@@ -940,6 +939,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Confirmed Cases by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "Confirmed",
                     data: latest.filter(d => d.Confirmed)
                   })} />
@@ -988,6 +988,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Cases per Capita by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "ConfirmedPC",
                     data: latest.filter(d => d.ConfirmedPC)
                   })} />
@@ -1133,6 +1134,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Deaths by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "Deaths",
                     data: latest.filter(d => d.Deaths),
                     tooltipConfig: deathTooltip
@@ -1183,6 +1185,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Deaths per Capita by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "DeathsPC",
                     data: latest.filter(d => d.DeathsPC),
                     tooltipConfig: deathTooltip
@@ -1294,6 +1297,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Hospitalizations by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "hospitalized",
                     data: latest.filter(d => d.hospitalized),
                     tooltipConfig: tooltipConfigTracker
@@ -1363,6 +1367,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Number of Tests by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "total",
                     data: latest.filter(d => d.total),
                     tooltipConfig: tooltipConfigTracker
@@ -1432,6 +1437,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    title: `Daily Cases by State\n${today ? dayFormat(today) : ""}`,
                     colorScale: "ConfirmedGrowth",
                     data: latest.filter(d => d.ConfirmedGrowth)
                   })} />
@@ -1585,7 +1591,7 @@ class Coronavirus extends Component {
                 { employmentData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: dayFormat(latestEmployment),
+                    title: `Unemployment Impact by State\n${latestEmployment ? dayFormat(latestEmployment) : ""}`,
                     colorScale: "initial_claims",
                     data: latestEmploymentData,
                     tooltipConfig: {
