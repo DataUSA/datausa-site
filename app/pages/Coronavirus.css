@@ -42,6 +42,13 @@
         }
       }
     }
+    & .profile-sections {
+      & .SectionIcon {
+        @media (max-width: 380px) {
+          margin: 0;
+        }
+      }
+    }
   }
   & .coronavirus-section {
     @media (max-width: 1280px) {
