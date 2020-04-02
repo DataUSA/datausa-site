@@ -761,6 +761,9 @@ class Coronavirus extends Component {
       }
     };
 
+    const employmentToday = max(employmentData, d => d.Date);
+    const latestEmployment = employmentData.filter(d => d.Date === employmentToday);
+
     // stats helpers
     const today = max(stateTestData, d => d.Date);
     const latest = stateTestData.filter(d => d.Date === today);
@@ -1576,11 +1579,20 @@ class Coronavirus extends Component {
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <div className="visualization topic-visualization">
-                { employmentData.length && false
+                { employmentData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    colorScale: "ConfirmedGrowth",
-                    data: employmentData
+                    title: dayFormat(max(latestEmployment, d => d.Date)),
+                    colorScale: "initial_claims",
+                    data: latestEmployment,
+                    tooltipConfig: {                     
+                      tbody: d => 
+                        [
+                          ["Date", dateFormat(new Date(d.Date))],
+                          ["Initial Claims", commas(d.initial_claims)],
+                          ["Continued Claims", commas(d.continued_claims)]
+                        ]
+                    }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
