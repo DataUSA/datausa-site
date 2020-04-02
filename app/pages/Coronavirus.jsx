@@ -1410,7 +1410,7 @@ class Coronavirus extends Component {
                     This chart presents the number of new cases reported daily by each U.S. state.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource]} />
+                <SourceGroup sources={[ctSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { stateTestData.length
