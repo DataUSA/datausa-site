@@ -1519,6 +1519,9 @@ class Coronavirus extends Component {
                 <h3 id="growth-daily" className="topic-title">
                   <AnchorLink to="economic-weekly" className="anchor">Impact on Unemployment</AnchorLink>
                 </h3>
+                <div className="topic-subtitle">
+                  Unemployment insurance claim numbers are not seasonally adjusted.
+                </div>
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? formatAbbreviate(employmentStat) : <Spinner />}</div>
@@ -1554,7 +1557,7 @@ class Coronavirus extends Component {
                     // ],
                     data: employmentDataFiltered,
                     discrete: false,
-                    title: `Unemployment Claims (${scaleLabel})`,
+                    title: `Unemployment Insurance Claims (${scaleLabel})`,
                     tooltipConfig: {
                       tbody: [
                         ["Week Ending", d => weekFormat(d.Date)],
