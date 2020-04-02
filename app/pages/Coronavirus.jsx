@@ -159,7 +159,7 @@ function calculateDomain(data, w) {
       lastDate.setDate(lastDate.getDate() + 1);
       domain.push(lastDate.getTime());
     }
-    const space = ((w <= 768 ? w : w - 300) - 100 - 60) / 2;
+    const space = (w <= 768 ? w : w - 300 - 350) - 100 - 60;
     const labelWidth = w <= 768 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
     while (domain.length % step) {

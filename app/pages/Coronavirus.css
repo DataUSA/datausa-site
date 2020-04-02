@@ -170,10 +170,14 @@
       }
     }
     & .visualization ~ .visualization {
+      align-self: center;
+      height: 300px;
       margin-left: 0;
+      min-height: 300px;
+      max-width: 375px;
       @media (max-width: 768px) {
         flex: 1 1 300px;
-        min-height: 300px;
+        max-width: 100%;
       }
     }
   }
