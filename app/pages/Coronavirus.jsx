@@ -273,6 +273,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData: [],
       countryData: [],
       currentStates: [],
+      currentStatesHash: {},
       cutoff: 10,
       countries: false,
       data: false,
@@ -440,6 +441,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       currentStates,
+      currentStatesHash,
       employmentData,
       stateTestData,
       // measure,
@@ -449,6 +451,12 @@ class Coronavirus extends Component {
       stateCutoffData,
       title
     } = this.state;
+
+    const stateFilter = d => currentStates.length > 0 ? currentStatesHash[d["ID Geography"]] || d.Region === "International" : true;
+    const stateTestDataFiltered = stateTestData.filter(stateFilter);
+    const stateCutoffDataFiltered = stateCutoffData.filter(stateFilter);
+    const countryCutoffDataFiltered = countryCutoffData.filter(stateFilter);
+    const countryCutoffDeathDataFiltered = countryCutoffDeathData.filter(stateFilter);
 
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
@@ -572,7 +580,6 @@ class Coronavirus extends Component {
     };
 
     // Geomaps
-    const stateFilter = d => currentStates.length > 0 ? currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) || d.Region === "International" : true;
     const geoStateConfig = {
       zoom: false,
       title: dayFormat(max(stateTestData, d => d.Date)),
@@ -596,22 +603,32 @@ class Coronavirus extends Component {
       label: d => d.Geography,
       shapeConfig: {
         Path: {
-          stroke: d => currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? styles.red : styles.dark,
-          strokeWidth: d => currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? 3 : 1,
-          strokeOpacity: d => currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? .75 : .25
+          stroke: d => currentStatesHash[d["ID Geography"]] ? styles.red : styles.dark,
+          strokeWidth: d => currentStatesHash[d["ID Geography"]] ? 3 : 1,
+          strokeOpacity: d => currentStatesHash[d["ID Geography"]] ? .75 : .25
         }
       },
       projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
       tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
-        footer: d => `Click to ${!currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) ? `select ${d.Geography}` : "clear state selection"}`
+        footer: d => `Click to ${!currentStatesHash[d["ID Geography"]] ? `select ${d.Geography}` : "clear state selection"}`
       }),
       on: {
         click: d => {
-          if (currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"])) {
-            this.setState({currentStates: currentStates.filter(o => o["ID Geography"] !== d["ID Geography"])});
+          if (currentStatesHash[d["ID Geography"]]) {
+            const newCurrentStates = currentStates.filter(o => o["ID Geography"] !== d["ID Geography"]);
+            const newCurrentStatesHash = newCurrentStates.reduce((acc, d) => ({[d["ID Geography"]]: true, ...acc}), {});
+            this.setState({
+              currentStates: newCurrentStates,
+              currentStatesHash: newCurrentStatesHash
+            });
           }
           else {
-            this.setState({currentStates: currentStates.concat(d)});
+            const newCurrentStates = currentStates.concat(d);
+            const newCurrentStatesHash = newCurrentStates.reduce((acc, d) => ({[d["ID Geography"]]: true, ...acc}), {});
+            this.setState({
+              currentStates: newCurrentStates,
+              currentStatesHash: newCurrentStatesHash
+            });
           }
         }
       },
@@ -640,7 +657,7 @@ class Coronavirus extends Component {
           <Button
             className="pt-minimal"
             iconName="cross"
-            onClick={() => this.setState({currentStates: []})}
+            onClick={() => this.setState({currentStates: [], currentStatesHash: {}})}
           >
             {`Click to Clear State Selection${currentStates.length > 1 ? "s" : ""}`}
           </Button>
@@ -708,7 +725,7 @@ class Coronavirus extends Component {
 
     // topic stats
     const topicStats = {};
-    const latestFiltered = latest.filter(d => currentStates.length > 0 ? currentStates.map(o => o["ID Geography"]).includes(d["ID Geography"]) : true);
+    const latestFiltered = latest.filter(d => currentStates.length > 0 ? currentStatesHash[d["ID Geography"]] : true);
     const totalCasesFiltered = sum(latestFiltered, d => d.Confirmed);
     topicStats.totalCases = commas(totalCasesFiltered);
     const totalPopulationFiltered = sum(latestFiltered, d => d.Population);
@@ -844,7 +861,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.Confirmed).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.Confirmed),
                     title: `Confirmed Cases (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
@@ -892,7 +909,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.ConfirmedPC).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.ConfirmedPC),
                     title: `Confirmed Cases per 100,000 (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
@@ -938,7 +955,7 @@ class Coronavirus extends Component {
                 { stateCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: stateCutoffAnnotations,
-                    data: stateCutoffData.filter(stateFilter),
+                    data: stateCutoffDataFiltered,
                     title: `Confirmed Cases (${scaleLabel})`,
                     x: "Days",
                     xConfig: {
@@ -978,7 +995,7 @@ class Coronavirus extends Component {
                 { countryCutoffData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: countryCutoffAnnotations,
-                    data: countryCutoffData.filter(stateFilter),
+                    data: countryCutoffDataFiltered,
                     title: `Confirmed Cases per 100,000 (${scaleLabel})`,
                     x: "Days",
                     xConfig: {
@@ -1036,7 +1053,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.Deaths).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.Deaths),
                     title: `Deaths (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Date",
@@ -1086,7 +1103,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.DeathsPC).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.DeathsPC),
                     title: `Deaths per 100,000 (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Date",
@@ -1130,7 +1147,7 @@ class Coronavirus extends Component {
                 { countryCutoffDeathData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     annotations: countryCutoffDeathAnnotations,
-                    data: countryCutoffDeathData.filter(stateFilter),
+                    data: countryCutoffDeathDataFiltered,
                     title: `Deaths per 100,000 (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Days",
@@ -1197,7 +1214,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length && stateTestData.length > 0
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.hospitalized).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.hospitalized),
                     title: `Hospitalized Patients (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
@@ -1266,7 +1283,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.total).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.total),
                     title: `Number of Tests (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
@@ -1314,7 +1331,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.PositivePC).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.PositivePC),
                     title: `Number of Positive Tests (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
@@ -1384,7 +1401,7 @@ class Coronavirus extends Component {
               <div className="visualization topic-visualization">
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.ConfirmedGrowth).filter(stateFilter),
+                    data: stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
                     title: `Daily Confirmed Cases (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
