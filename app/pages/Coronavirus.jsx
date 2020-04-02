@@ -19,7 +19,7 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-import {extent, max, mean, merge, sum} from "d3-array";
+import {extent, max, min, mean, merge, sum} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -276,6 +276,7 @@ class Coronavirus extends Component {
       cutoff: 10,
       countries: false,
       data: false,
+      employmentData: [],
       stateTestData: [],
       date: false,
       icu: [],
@@ -298,7 +299,8 @@ class Coronavirus extends Component {
     axios.all([
       axios.get("/api/covid19/states"),
       axios.get("/api/covid19/country"),
-      axios.get("/api/covid19/old/state")
+      axios.get("/api/covid19/old/state"),
+      axios.get("/api/covid19/employment/latest/")
     ]).then(axios.spread((...resp) => {
 
       const stateTestData = resp[0].data;
@@ -329,12 +331,27 @@ class Coronavirus extends Component {
           return d;
         });
 
+      const cutoffDate = new Date("2007/01/01").getTime();
+
+      const employmentData = resp[3].data.data
+        .map(d => ({
+          ...d,
+          "ID Geography": d.fips_code,
+          "Geography": d.state_name,
+          "Date": new Date(d.week_ended.replace(/\-/g, "/")).getTime()
+        }))
+        .filter(d => d.Date > cutoffDate)
+        .filter(d => d.Geography === "California");
+      console.log("got", employmentData);
+      console.log(new Date(min(employmentData, d => d.Date)));
+
       this.setState({
         beds: data.beds,
         countryCases,
         icu: icuData,
         pops: data.population,
-        stateTestData
+        stateTestData,
+        employmentData
       }, this.prepData.bind(this));
 
     }))
@@ -423,6 +440,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       currentStates,
+      employmentData,
       stateTestData,
       // measure,
       // icu,
@@ -439,6 +457,7 @@ class Coronavirus extends Component {
     const dateFormat = smallLabels ? timeFormat("%m/%d") : timeFormat("%b %d");
     const daysFormat = smallLabels ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
     const dateFormatFullMonth = timeFormat("%B %d");
+    const yearFormat = timeFormat("%Y");
 
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
     // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
@@ -777,6 +796,7 @@ class Coronavirus extends Component {
           <SectionIcon slug="hospitalizations" title="Hospitalizations" />
           <SectionIcon slug="testing" title="Testing" />
           <SectionIcon slug="growth" title="Growth Rate" />
+          <SectionIcon slug="economy" title="Economic Impact" />
           <SectionIcon slug="risks" title="Risks and Readiness" />
           <SectionIcon slug="faqs" title="FAQs" />
         </div>
@@ -1452,6 +1472,72 @@ class Coronavirus extends Component {
               </div>
             </div> */}
 
+          </div>
+        </div>
+
+        {/* Economic Impact */}
+
+        <div className="Section coronavirus-section">
+          <h2 className="section-title">
+            <AnchorLink to="economy" id="economy" className="anchor">
+              Economic Impact
+            </AnchorLink>
+          </h2>
+          <div className="section-body">
+            <div className="section-content">
+              <div className="section-description single">
+                <p>
+                  Economic Impact text, blah blah blah. Economic Impact text, blah blah blah. Economic Impact text, blah blah blah. 
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="section-topics">
+
+            <div className="topic TextViz">
+              <div className="topic-content">
+                <h3 id="growth-daily" className="topic-title">
+                  <AnchorLink to="economic-weekly" className="anchor">Impact on Unemployment</AnchorLink>
+                </h3>
+                <AxisToggle />
+                <div className="topic-description">
+                  <p>
+                    This chart shows weekly unemployment insurance claims in the United States (not-seasonally adjusted). The most recent data point uses Advance State Claims data, which can be revised in subsequent weeks.
+                  </p>
+                </div>
+                <SourceGroup sources={[jhSource]} />
+              </div>
+              <div className="visualization topic-visualization">
+                { employmentData.length
+                  ? <LinePlot className="d3plus" config={assign({}, {
+                    data: employmentData,
+                    groupBy: "ID Geography",
+                    label: d => d.Geography,
+                    title: `Unemployment Claims (${scaleLabel})`,
+                    x: "Date",
+                    xConfig: {
+                      ticks: false,
+                      tickFormat: yearFormat,
+                      title: "Unemployment Claims" 
+                    },
+                    y: "initial_claims",
+                    yConfig: {
+                      scale,
+                      tickFormat: commas
+                    }
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <div className="visualization topic-visualization">
+                { employmentData.length && false
+                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
+                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+                    colorScale: "ConfirmedGrowth",
+                    data: employmentData
+                  })} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+            </div>
           </div>
         </div>
 
