@@ -185,13 +185,16 @@ module.exports = function(app) {
 
     let growth = null;
     let state = data[0].state;
-    data.forEach(d => {
+    data.forEach((d, i) => {
       const date = d.date.toString();
       d.Date = `${date.slice(0, 4)}/${date.slice(4, 6)}/${date.slice(6, 8)}`;
 
       if (state !== d.state) {
         growth = null;
         state = d.state;
+      }
+      else if (i && d.positive < data[i - 1].Confirmed) {
+        d.positive = data[i - 1].Confirmed;
       }
       d.Confirmed = d.positive;
 
