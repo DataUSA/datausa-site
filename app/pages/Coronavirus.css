@@ -79,6 +79,9 @@
     & .topic-title {
       margin-bottom: 20px;
     }
+    & .StatGroup {
+      margin-top: 0;
+    }
     & .pt-label {
       align-items: center;
       color: var(--black);
@@ -89,6 +92,30 @@
       text-transform: uppercase;
       & .pt-select {
         flex: 1 1 auto;
+      }
+    }
+    & .pt-button {
+      background: none;
+      border: 1px solid var(--red);
+      border-radius: 0;
+      box-shadow: none;
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 10px;
+      text-align: center;
+      transition: background 0.1s, color 0.1s;
+      &:before {
+        color: var(--red);
+        font-size: 13px;
+        transition: color 0.1s;
+      }
+      &:hover {
+        background: var(--red);
+        color: white;
+        &:before {
+          color: white;
+        }
       }
     }
     & .cutoff-slider {

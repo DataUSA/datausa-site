@@ -39,6 +39,13 @@ const dayFormat = d => d3DayFormat(d).replace(/[0-9]{2}$/, m => {
   return `${n}${suffix(n)}`;
 });
 
+const d3WeekFormat = timeFormat("%B %d");
+
+const weekFormat = d => d3WeekFormat(d).replace(/[0-9]{2}$/, m => {
+  const n = parseFloat(m, 10);
+  return `${n}${suffix(n)}`;
+});
+
 import {colorLegible} from "d3plus-color";
 import {assign, unique} from "d3plus-common";
 import {formatAbbreviate} from "d3plus-format";
@@ -72,6 +79,13 @@ const kfSource = {
   dataset_name: "State Health Facts",
   source_link: "https://www.kff.org/",
   source_name: "Kaiser Family Foundation"
+};
+
+const dolSource = {
+  dataset_link: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_x8FhDzveu6Q6uLlxxj7d69GmaliZyKUQf9nnYmoKOHqhHE_wcxykG68Gll5JBQ9F7pnr1jDu_oVP/pub?output=csv",
+  dataset_name: "Unemployment insurance weekly claims by state",
+  source_link: "https://oui.doleta.gov/unemploy/claims.asp",
+  source_name: "DOL Unemployment Insurance Weekly Claims Data"
 };
 
 // const aaSource = {
@@ -138,7 +152,7 @@ function calculateDomain(data, w) {
     const dataDomain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
     const domain = dataDomain.slice();
     let lastDate = domain[domain.length - 1];
-    const labelSpace = w <= 768 ? 0 : 0.1;
+    const labelSpace = w <= 768 ? 0 : 0.15;
     const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
     lastDate = new Date(lastDate);
     while (domain[domain.length - 1] < endDate) {
@@ -178,6 +192,30 @@ function calculateDayDomain(data, w) {
       domain.push(lastDate);
     }
     const labels = domain.filter((d, i) => i % step === 0);
+    return [domain, labels];
+  }
+  return [[], []];
+}
+
+/** */
+function calculateWeekDomain(data, w) {
+  if (data && data instanceof Array && data.length) {
+    const dataDomain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
+    const domain = dataDomain.slice();
+    let lastDate = domain[domain.length - 1];
+    const labelSpace = w <= 768 ? 0 : 0.15;
+    const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
+    lastDate = new Date(lastDate);
+    while (domain[domain.length - 1] < endDate) {
+      lastDate.setDate(lastDate.getDate() + 7);
+      domain.push(lastDate.getTime());
+    }
+    const labels = domain.reduce((arr, d) => {
+      const lastYear = new Date(arr[arr.length - 1]).getFullYear();
+      const currentYear = new Date(d).getFullYear();
+      if (!arr.length || lastYear !== currentYear) arr.push(d);
+      return arr;
+    }, []);
     return [domain, labels];
   }
   return [[], []];
@@ -307,7 +345,7 @@ class Coronavirus extends Component {
       stateTestData.forEach(d => {
         const dID = stateToDivision[d["ID Geography"]];
         let division = divisions.find(x => x["ID Division"] === dID);
-        if (!division) division = divisions.find(x => x["ID Division"] === 5);
+        if (!division) division = divisions.find(x => x["ID Region"] === 5);
         d.Date = new Date(d.Date).getTime();
         d = Object.assign(d, division);
       });
@@ -336,14 +374,12 @@ class Coronavirus extends Component {
       const employmentData = resp[3].data.data
         .map(d => ({
           ...d,
+          ...divisions.find(x => x["ID Division"] === stateToDivision[d.fips_code]),
           "ID Geography": d.fips_code,
           "Geography": d.state_name,
           "Date": new Date(d.week_ended.replace(/\-/g, "/")).getTime()
         }))
-        .filter(d => d.Date > cutoffDate)
-        .filter(d => d.Geography === "California");
-      console.log("got", employmentData);
-      console.log(new Date(min(employmentData, d => d.Date)));
+        .filter(d => d.Date > cutoffDate);
 
       this.setState({
         beds: data.beds,
@@ -480,7 +516,8 @@ class Coronavirus extends Component {
     const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
     const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
     const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
-    const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
+    // const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
+
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -541,12 +578,13 @@ class Coronavirus extends Component {
       tooltipConfig: {
         tbody: d => {
           const arr = [
-            ["Date", dateFormat(new Date(d.Date))],
-            ["Total Cases", commas(d.Confirmed)]
+            ["Date", dateFormat(new Date(d.Date))]
           ];
+          if (d.Confirmed !== undefined) arr.push(["Total Cases", commas(d.Confirmed)]);
           if (d.ConfirmedGrowth !== undefined) arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
+          if (d.initial_claims !== undefined) arr.push(["Initial Cases", formatAbbreviate(d.initial_claims)]);
           return arr;
         }
       },
@@ -629,6 +667,26 @@ class Coronavirus extends Component {
       }
     };
 
+    const nationDivision = divisions.find(x => x["ID Region"] === 5);
+    const employmentDataFiltered = currentStates.length
+      ? employmentData.filter(stateFilter)
+      : nest()
+        .key(d => d.Date)
+        .entries(employmentData)
+        .map(group => {
+          const d = Object.assign({}, group.values[0], nationDivision);
+          d.Geography = "United States";
+          d["ID Geography"] = "01000US";
+          ["initial_claims", "continued_claims", "covered_employment"].forEach(key => {
+            d[key] = sum(group.values, d => d[key]);
+          });
+          return d;
+        });
+
+    const [employmentDataDomain, employmentDataLabels] = calculateWeekDomain(employmentDataFiltered, w);
+    const employmentDataLabelsFiltered = employmentDataLabels.filter(d => d <= new Date().getTime());
+    const employmentDataMax = max(employmentDataFiltered, d => d.initial_claims);
+
     // const StateCutoff = () =>
     //   <div className="topic-subtitle">
     //     Only showing states with more than 50 confirmed cases.
@@ -638,7 +696,7 @@ class Coronavirus extends Component {
       <div>
         {currentStates.length > 0 &&
           <Button
-            className="pt-minimal"
+            className="pt-fill"
             iconName="cross"
             onClick={() => this.setState({currentStates: []})}
           >
@@ -756,24 +814,24 @@ class Coronavirus extends Component {
               <div className="stat-subtitle">in the USA</div>
             </div>
             <div className="Stat large-text">
-              <div className="stat-title">Cases per Capita</div>
-              <div className="stat-value">{show ? stats.totalPC : <Spinner />}</div>
-              <div className="stat-subtitle">per 100,000</div>
-            </div>
-            <div className="Stat large-text">
               <div className="stat-title">Total Deaths</div>
               <div className="stat-value">{show ? stats.totalDeaths : <Spinner />}</div>
               <div className="stat-subtitle">in the USA</div>
             </div>
             <div className="Stat large-text">
-              <div className="stat-title">Deaths per Capita</div>
-              <div className="stat-value">{show ? stats.totalDeathsPC : <Spinner />}</div>
-              <div className="stat-subtitle">per 100,000</div>
-            </div>
-            <div className="Stat large-text">
               <div className="stat-title">Total Hospitalizations</div>
               <div className="stat-value">{show ? stats.totalHospitalizations : <Spinner />}</div>
               <div className="stat-subtitle">in the USA</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Cases per Capita</div>
+              <div className="stat-value">{show ? stats.totalPC : <Spinner />}</div>
+              <div className="stat-subtitle">per 100,000</div>
+            </div>
+            <div className="Stat large-text">
+              <div className="stat-title">Deaths per Capita</div>
+              <div className="stat-value">{show ? stats.totalDeathsPC : <Spinner />}</div>
+              <div className="stat-subtitle">per 100,000</div>
             </div>
             <div className="Stat large-text">
               <div className="stat-title">Total Tests</div>
@@ -1291,54 +1349,6 @@ class Coronavirus extends Component {
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
             </div>
-            <div className="topic TextViz">
-              <div className="topic-content">
-                <TopicTitle
-                  slug="tests-yielding-positive"
-                  title="Percentage of tests yielding positive results."
-                />
-                <div className="topic-stats">
-                  <div className="StatGroup single">
-                    <div className="stat-value">{show ? topicStats.totalPositivePercent : <Spinner />}</div>
-                    <div className="stat-title">Positive Results in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
-                  </div>
-                </div>
-                <AxisToggle />
-                <div className="topic-description">
-                  <p>
-                  </p>
-                </div>
-                <SourceGroup sources={[ctSource]} />
-              </div>
-              <div className="visualization topic-visualization">
-                { stateTestData.length
-                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateTestData.filter(d => d.PositivePC).filter(stateFilter),
-                    title: `Number of Positive Tests (${scaleLabel})`,
-                    tooltipConfig: tooltipConfigTracker,
-                    x: "Date",
-                    xConfig: {
-                      domain: positiveRateDomain,
-                      labels: positiveRateLabels,
-                      ticks: false,
-                      tickFormat: dateFormat
-                    },
-                    y: "PositivePC"
-                  })} />
-                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-              </div>
-              <div className="visualization topic-visualization">
-                { stateTestData.length
-                  ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
-                    currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    colorScale: "PositivePC",
-                    data: stateTestData.filter(d => d.PositivePC),
-                    tooltipConfig: tooltipConfigTracker
-                  })} />
-                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-              </div>
-            </div>
 
           </div>
         </div>
@@ -1483,15 +1493,6 @@ class Coronavirus extends Component {
               Economic Impact
             </AnchorLink>
           </h2>
-          <div className="section-body">
-            <div className="section-content">
-              <div className="section-description single">
-                <p>
-                  Economic Impact text, blah blah blah. Economic Impact text, blah blah blah. Economic Impact text, blah blah blah. 
-                </p>
-              </div>
-            </div>
-          </div>
           <div className="section-topics">
 
             <div className="topic TextViz">
@@ -1505,25 +1506,46 @@ class Coronavirus extends Component {
                     This chart shows weekly unemployment insurance claims in the United States (not-seasonally adjusted). The most recent data point uses Advance State Claims data, which can be revised in subsequent weeks.
                   </p>
                 </div>
-                <SourceGroup sources={[jhSource]} />
+                <SourceGroup sources={[dolSource]} />
               </div>
               <div className="visualization topic-visualization">
                 { employmentData.length
-                  ? <LinePlot className="d3plus" config={assign({}, {
-                    data: employmentData,
-                    groupBy: "ID Geography",
-                    label: d => d.Geography,
+                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
+                    // annotations: [
+                    //   {
+                    //     data: [
+                    //       {id: "Area", x: 1196485200000, initial_claims: employmentDataMax},
+                    //       {id: "Area", x: 1243828800000, initial_claims: employmentDataMax}
+                    //     ],
+                    //     fill: "#ddd",
+                    //     label: "2008 Recession",
+                    //     labelConfig: {
+                    //       textAnchor: "middle",
+                    //       verticalAlign: "top"
+                    //     },
+                    //     shape: "Area"
+                    //   }
+                    // ],
+                    data: employmentDataFiltered,
+                    discrete: false,
                     title: `Unemployment Claims (${scaleLabel})`,
+                    tooltipConfig: {
+                      tbody: [
+                        ["Week Ending", d => weekFormat(d.Date)],
+                        ["Initial Cases", d => formatAbbreviate(d.initial_claims)]
+                      ]
+                    },
                     x: "Date",
                     xConfig: {
-                      ticks: false,
-                      tickFormat: yearFormat,
-                      title: "Unemployment Claims" 
+                      domain: [employmentDataDomain[0], employmentDataDomain[employmentDataDomain.length - 1]],
+                      labels: employmentDataLabelsFiltered,
+                      ticks: employmentDataLabelsFiltered,
+                      tickFormat: yearFormat
                     },
                     y: "initial_claims",
                     yConfig: {
                       scale,
-                      tickFormat: commas
+                      tickFormat: formatAbbreviate
                     }
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
