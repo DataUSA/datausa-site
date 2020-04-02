@@ -699,11 +699,11 @@ class Coronavirus extends Component {
           return d;
         });
 
-    const employmentToday = max(employmentData, d => d.Date);
-    const latestEmployment = employmentData.filter(d => d.Date === employmentToday);
+    const latestEmployment = max(employmentDataFiltered, d => d.Date);
+    const latestEmploymentData = employmentData.filter(d => d.Date === latestEmployment);
     const [employmentDataDomain, employmentDataLabels] = calculateWeekDomain(employmentDataFiltered, w);
     const employmentDataLabelsFiltered = employmentDataLabels.filter(d => d <= new Date().getTime());
-    const employmentStat = sum(latestEmployment, d => d.initial_claims);
+    const employmentStat = sum(employmentDataFiltered.filter(d => d.Date === latestEmployment), d => d.initial_claims);
     // const employmentDataMax = max(employmentDataFiltered, d => d.initial_claims);
 
     // const StateCutoff = () =>
@@ -1580,9 +1580,9 @@ class Coronavirus extends Component {
                 { employmentData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: dayFormat(max(latestEmployment, d => d.Date)),
+                    title: dayFormat(latestEmployment),
                     colorScale: "initial_claims",
-                    data: latestEmployment,
+                    data: latestEmploymentData,
                     tooltipConfig: {
                       tbody: d =>
                         [
