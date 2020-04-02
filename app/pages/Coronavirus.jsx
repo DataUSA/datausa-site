@@ -39,12 +39,13 @@ const dayFormat = d => d3DayFormat(d).replace(/[0-9]{2}$/, m => {
   return `${n}${suffix(n)}`;
 });
 
-const d3WeekFormat = timeFormat("%B %d");
+const d3WeekFormat = timeFormat("%B %d, %Y");
 
-const weekFormat = d => d3WeekFormat(d).replace(/[0-9]{2}$/, m => {
+const weekFormat = d => d3WeekFormat(d).replace(/\s[0-9]{2}\,/, m => {
   const n = parseFloat(m, 10);
-  return `${n}${suffix(n)}`;
+  return ` ${n}${suffix(n)},`;
 });
+const yearFormat = timeFormat("%Y");
 
 import {colorLegible} from "d3plus-color";
 import {assign, unique} from "d3plus-common";
@@ -500,8 +501,6 @@ class Coronavirus extends Component {
 
     const dateFormat = smallLabels ? timeFormat("%m/%d") : timeFormat("%b %d");
     const daysFormat = smallLabels ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
-    const dateFormatFullMonth = timeFormat("%B %d");
-    const yearFormat = timeFormat("%Y");
 
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
     // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
@@ -907,7 +906,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalCases : <Spinner />}</div>
                     <div className="stat-title">Total Cases in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -955,7 +954,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalPC : <Spinner />}</div>
                     <div className="stat-title">Cases per 100k in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -1099,7 +1098,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalDeaths : <Spinner />}</div>
                     <div className="stat-title">Total Deaths in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -1149,7 +1148,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalDeathsPC : <Spinner />}</div>
                     <div className="stat-title">Deaths per 100k in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -1260,7 +1259,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalHospitalizations : <Spinner />}</div>
                     <div className="stat-title">Hospitalizations in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -1330,7 +1329,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalTests : <Spinner />}</div>
                     <div className="stat-title">Total Tests in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(today)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(today)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
@@ -1523,7 +1522,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? formatAbbreviate(employmentStat) : <Spinner />}</div>
                     <div className="stat-title">Unemployment insurance claims in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dateFormatFullMonth(latestEmployment)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `as of ${dayFormat(latestEmployment)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
