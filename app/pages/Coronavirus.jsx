@@ -699,11 +699,12 @@ class Coronavirus extends Component {
           return d;
         });
 
+    const employmentToday = max(employmentData, d => d.Date);
+    const latestEmployment = employmentData.filter(d => d.Date === employmentToday);
     const [employmentDataDomain, employmentDataLabels] = calculateWeekDomain(employmentDataFiltered, w);
     const employmentDataLabelsFiltered = employmentDataLabels.filter(d => d <= new Date().getTime());
-    const latestEmployment = max(employmentDataFiltered, d => d.Date);
-    const employmentStat = sum(employmentDataFiltered.filter(d => d.Date === latestEmployment), d => d.initial_claims);
-    const employmentDataMax = max(employmentDataFiltered, d => d.initial_claims);
+    const employmentStat = sum(latestEmployment, d => d.initial_claims);
+    // const employmentDataMax = max(employmentDataFiltered, d => d.initial_claims);
 
     // const StateCutoff = () =>
     //   <div className="topic-subtitle">
@@ -760,9 +761,6 @@ class Coronavirus extends Component {
         return arr;
       }
     };
-
-    const employmentToday = max(employmentData, d => d.Date);
-    const latestEmployment = employmentData.filter(d => d.Date === employmentToday);
 
     // stats helpers
     const today = max(stateTestData, d => d.Date);
@@ -1585,8 +1583,8 @@ class Coronavirus extends Component {
                     title: dayFormat(max(latestEmployment, d => d.Date)),
                     colorScale: "initial_claims",
                     data: latestEmployment,
-                    tooltipConfig: {                     
-                      tbody: d => 
+                    tooltipConfig: {
+                      tbody: d =>
                         [
                           ["Date", dateFormat(new Date(d.Date))],
                           ["Initial Claims", commas(d.initial_claims)],
