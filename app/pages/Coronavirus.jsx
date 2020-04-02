@@ -879,7 +879,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "Confirmed",
-                    data: stateTestData.filter(d => d.Confirmed)
+                    data: latest.filter(d => d.Confirmed)
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -927,7 +927,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "ConfirmedPC",
-                    data: stateTestData.filter(d => d.ConfirmedPC)
+                    data: latest.filter(d => d.ConfirmedPC)
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
@@ -1072,7 +1072,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "Deaths",
-                    data: stateTestData.filter(d => d.Deaths),
+                    data: latest.filter(d => d.Deaths),
                     tooltipConfig: deathTooltip
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1122,7 +1122,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "DeathsPC",
-                    data: stateTestData.filter(d => d.DeathsPC),
+                    data: latest.filter(d => d.DeathsPC),
                     tooltipConfig: deathTooltip
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1233,7 +1233,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "hospitalized",
-                    data: stateTestData.filter(d => d.hospitalized),
+                    data: latest.filter(d => d.hospitalized),
                     tooltipConfig: tooltipConfigTracker
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1302,7 +1302,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "total",
-                    data: stateTestData.filter(d => d.total),
+                    data: latest.filter(d => d.total),
                     tooltipConfig: tooltipConfigTracker
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1350,7 +1350,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "PositivePC",
-                    data: stateTestData.filter(d => d.PositivePC),
+                    data: latest.filter(d => d.PositivePC),
                     tooltipConfig: tooltipConfigTracker
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
@@ -1419,7 +1419,7 @@ class Coronavirus extends Component {
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
                     colorScale: "ConfirmedGrowth",
-                    data: stateTestData.filter(d => d.ConfirmedGrowth)
+                    data: latest.filter(d => d.ConfirmedGrowth)
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
