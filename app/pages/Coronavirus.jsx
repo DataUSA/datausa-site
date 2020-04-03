@@ -147,6 +147,8 @@ class UncontrolledSlider extends React.Component {
   }
 }
 
+const labelWidth = 80;
+
 /** */
 function calculateDomain(data, w) {
   if (data && data instanceof Array && data.length) {
@@ -161,11 +163,10 @@ function calculateDomain(data, w) {
       domain.push(lastDate.getTime());
     }
     const space = (w <= 768 ? w : w - 300 - 350) - 100 - 60;
-    const labelWidth = w <= 768 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
     while (domain.length % step) {
-      lastDate++;
-      domain.push(lastDate);
+      lastDate.setDate(lastDate.getDate() + 1);
+      domain.push(lastDate.getTime());
     }
     const labels = domain.filter((d, i) => i % step === 0);
     return [domain, labels];
@@ -186,7 +187,6 @@ function calculateDayDomain(data, w) {
       domain.push(lastDate);
     }
     const space = (w <= 768 ? w : w - 300) - 100 - 60;
-    const labelWidth = w <= 768 ? 30 : 50;
     const step = Math.ceil(domain.length / (space / labelWidth));
     while (domain.length % step) {
       lastDate++;
@@ -499,8 +499,11 @@ class Coronavirus extends Component {
     const smallLabels = w < 768;
     const now = new Date();
 
-    const dateFormat = smallLabels ? timeFormat("%m/%d") : timeFormat("%b %d");
-    const daysFormat = smallLabels ? d => d : d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
+    const dateFormat = d => timeFormat("%B %d")(d).replace(/\s[0-9]{2}\,/, m => {
+      const n = parseFloat(m, 10);
+      return ` ${n}${suffix(n)},`;
+    });
+    const daysFormat = d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
     // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
     // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
@@ -525,6 +528,11 @@ class Coronavirus extends Component {
     const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
     // const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
 
+    const lineColor = d =>
+      currentStates.length === 0 || currentStates.length > 5
+        ? colors.Region[d["ID Region"]]
+        : colors.Region[currentStates.indexOf(currentStates.find(s => s["ID Geography"] === d["ID Geography"])) + 1];
+
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -532,7 +540,9 @@ class Coronavirus extends Component {
       },
       discrete: "x",
       groupBy: ["ID Region", "ID Geography"],
+      height: 500,
       label: d => d.Geography instanceof Array ? d.Region : d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
+      legend: false,
       legendConfig: {
         title: false,
         titleConfig: {
@@ -557,9 +567,9 @@ class Coronavirus extends Component {
               ? stateAbbreviations[d.Geography] || (countryMeta[d.Geography] ? countryMeta[d.Geography].iso : d.Geography)
               : d.Geography,
           labelConfig: {
-            fontColor: d => colorLegible(colors.Region[d["ID Region"]]),
+            fontColor: d => colorLegible(lineColor(d)),
             fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
-            fontSize: () => 14,
+            fontSize: () => 12,
             padding: 0,
             verticalAlign: "middle"
           },
@@ -579,7 +589,8 @@ class Coronavirus extends Component {
             return false;
           },
           sort: a => a["ID Region"] !== 6 ? 1 : -1,
-          stroke: d => colors.Region[d["ID Region"]]
+          stroke: lineColor,
+          strokeWidth: 2
         }
       },
       tooltipConfig: {
@@ -595,10 +606,15 @@ class Coronavirus extends Component {
           return arr;
         }
       },
+      titleConfig: {
+        fontSize: 21
+      },
       xConfig: {
+        gridConfig: {"stroke-width": 0},
         shapeConfig: {
           labelConfig: {
-            fontOpacity: d => d.id < 10000 || new Date(d.id) <= now ? 1 : 0.5
+            fontOpacity: d => d.id < 10000 || new Date(d.id) <= now ? 1 : 0.5,
+            fontSize: () => 12
           }
         }
       },
@@ -608,11 +624,19 @@ class Coronavirus extends Component {
           stroke: "transparent"
         },
         scale,
+        shapeConfig: {
+          labelConfig: {
+            fontSize: () => 16
+          }
+        },
         tickFormat: commas
       }
     };
 
     const mapConfig = {
+      titleConfig: {
+        fontSize: 21
+      },
       zoom: false
     };
 
@@ -645,6 +669,9 @@ class Coronavirus extends Component {
         }
       },
       projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+      titleConfig: {
+        fontSize: 21
+      },
       tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
         footer: d => `Click to ${!currentStatesHash[d["ID Geography"]] ? `select ${d.Geography}` : "clear state selection"}`
       }),
@@ -939,7 +966,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Confirmed Cases by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "Confirmed",
                     data: latest.filter(d => d.Confirmed)
                   })} />
@@ -988,7 +1015,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Cases per Capita by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Cases per Capita by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "ConfirmedPC",
                     data: latest.filter(d => d.ConfirmedPC)
                   })} />
@@ -1134,7 +1161,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Deaths by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Deaths by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "Deaths",
                     data: latest.filter(d => d.Deaths),
                     tooltipConfig: deathTooltip
@@ -1185,7 +1212,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Deaths per Capita by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Deaths per Capita by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "DeathsPC",
                     data: latest.filter(d => d.DeathsPC),
                     tooltipConfig: deathTooltip
@@ -1297,7 +1324,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Hospitalizations by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Hospitalizations by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "hospitalized",
                     data: latest.filter(d => d.hospitalized),
                     tooltipConfig: tooltipConfigTracker
@@ -1367,7 +1394,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Number of Tests by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Number of Tests by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "total",
                     data: latest.filter(d => d.total),
                     tooltipConfig: tooltipConfigTracker
@@ -1437,7 +1464,7 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Daily Cases by State\n${today ? dayFormat(today) : ""}`,
+                    title: `Daily Cases by State\nas of ${today ? dayFormat(today) : ""}`,
                     colorScale: "ConfirmedGrowth",
                     data: latest.filter(d => d.ConfirmedGrowth)
                   })} />
@@ -1591,7 +1618,7 @@ class Coronavirus extends Component {
                 { employmentData.length
                   ? <Geomap className="d3plus" config={assign({}, geoStateConfig, {
                     currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                    title: `Unemployment Impact by State\n${latestEmployment ? dayFormat(latestEmployment) : ""}`,
+                    title: `Unemployment Impact by State\nas of ${latestEmployment ? dayFormat(latestEmployment) : ""}`,
                     colorScale: "initial_claims",
                     data: latestEmploymentData,
                     tooltipConfig: {
