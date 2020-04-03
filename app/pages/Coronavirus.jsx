@@ -591,7 +591,7 @@ class Coronavirus extends Component {
           if (d.ConfirmedGrowth !== undefined) arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
-          if (d.initial_claims !== undefined) arr.push(["Initial Cases", formatAbbreviate(d.initial_claims)]);
+          if (d.initial_claims !== undefined) arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           return arr;
         }
       },
@@ -1569,7 +1569,7 @@ class Coronavirus extends Component {
                     tooltipConfig: {
                       tbody: [
                         ["Week Ending", d => weekFormat(d.Date)],
-                        ["Initial Cases", d => formatAbbreviate(d.initial_claims)]
+                        ["Initial Claims", d => formatAbbreviate(d.initial_claims)]
                       ]
                     },
                     x: "Date",
