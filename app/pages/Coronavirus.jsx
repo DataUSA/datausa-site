@@ -699,8 +699,8 @@ class Coronavirus extends Component {
         });
 
     const latestEmployment = max(employmentDataFiltered, d => d.Date);
-    const latestEmploymentPublish = new Date(latestEmployment);
-    latestEmploymentPublish.setDate(latestEmploymentPublish.getDate() + 5);
+    // const latestEmploymentPublish = new Date(latestEmployment);
+    // latestEmploymentPublish.setDate(latestEmploymentPublish.getDate() + 5);
     const latestEmploymentData = employmentData.filter(d => d.Date === latestEmployment);
     const [employmentDataDomain, employmentDataLabels] = calculateWeekDomain(employmentDataFiltered, w);
     const employmentDataLabelsFiltered = employmentDataLabels.filter(d => d <= new Date().getTime());
@@ -1534,7 +1534,7 @@ class Coronavirus extends Component {
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? formatAbbreviate(employmentStat) : <Spinner />}</div>
                     <div className="stat-title">Unemployment insurance claims in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
-                    <div className="stat-subtitle">{show ? `as of ${dayFormat(latestEmploymentPublish)}` : ""}</div>
+                    <div className="stat-subtitle">{show ? `for the week ending ${dayFormat(latestEmployment)}` : ""}</div>
                   </div>
                 </div>
                 <AxisToggle />
