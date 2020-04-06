@@ -147,7 +147,7 @@ class UncontrolledSlider extends React.Component {
   }
 }
 
-const labelWidth = 80;
+const labelWidth = 100;
 
 /** */
 function calculateDomain(data, w) {
