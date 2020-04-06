@@ -613,8 +613,7 @@ class Coronavirus extends Component {
         gridConfig: {"stroke-width": 0},
         shapeConfig: {
           labelConfig: {
-            fontOpacity: d => d.id < 10000 || new Date(d.id) <= now ? 1 : 0.5,
-            fontSize: () => 12
+            fontOpacity: d => d.id < 10000 || new Date(d.id) <= now ? 1 : 0.5
           }
         }
       },
@@ -624,11 +623,6 @@ class Coronavirus extends Component {
           stroke: "transparent"
         },
         scale,
-        shapeConfig: {
-          labelConfig: {
-            fontSize: () => 16
-          }
-        },
         tickFormat: commas
       }
     };
