@@ -188,6 +188,7 @@ module.exports = function(app) {
     data.forEach((d, i) => {
       const date = d.date.toString();
       d.Date = `${date.slice(0, 4)}/${date.slice(4, 6)}/${date.slice(6, 8)}`;
+      d.hospitalized = d.hospitalizedIncrease;
 
       if (state !== d.state) {
         growth = null;
