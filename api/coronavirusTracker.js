@@ -172,7 +172,7 @@ module.exports = function(app) {
 
   app.get("/api/covid19/states", async(req, res) => {
     const data = await axios
-      .get("https://covidtracking.com/api/states/daily")
+      .get("https://covidtracking.com/api/v1/states/daily.json")
       .then(resp => resp.data);
 
     const origin = `${ req.protocol }://${ req.headers.host }`;
