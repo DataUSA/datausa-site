@@ -90,10 +90,10 @@ export const examples = [
     link: "/visualize?groups=0-ZNTHUM&measure=ZMlbux"
   },
   {
-    title: "People Driving Alone to Work by County",
+    title: "People Driving Alone to Work by State",
     group: "Housing",
     image: "/api/profile/soc/5360XX/thumb",
-    link: "/visualize?groups=0-Z1X72Pg&measure=2bT8FH"
+    link: "/visualize?groups=0-26ljjk-0&groups=1-Z1Oboqy&measure=WK0h3"
   },
   {
     title: "Renter Occupied Households by State",
@@ -105,7 +105,7 @@ export const examples = [
     title: "Households with Internet Access by State",
     group: "Housing",
     image: "/api/profile/cip/computer-science-6/thumb",
-    link: "/visualize?groups=0-49LjT&groups=1-Z2dwtr2-0~1&measure=fG9Wy"
+    link: "/visualize?groups=0-2x4fRF&groups=1-ZscJU2-0~1&measure=Z1CV1rs"
   },
 
   /* Labor */
@@ -126,7 +126,7 @@ export const examples = [
     title: "Naturalized US Citizens Working as Computer Scientists and Web Developers",
     group: "Labor",
     image: "/api/profile/cip/general-computer-programming/thumb",
-    link: "/visualize?groups=0-z9TnC&groups=1-13xVLW-4&groups=2-19hV1x-151111~151131~151134~15113X&measure=1qWfo"
+    link: "/visualize?groups=0-13xVLW-4&groups=1-19hV1x-151111~151131~151134~15113X&measure=1qWfo"
   },
   {
     title: "Median Earnings in the Construction Industry by State",
@@ -153,7 +153,7 @@ export const examples = [
     title: "Admissions for Universities in the Boston Metro Area",
     group: "Education",
     image: "/api/profile/geo/boston-cambridge-quincy-ma-nh-metro-area/thumb",
-    link: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1"
+    link: "/visualize?groups=0-1CdfJW&groups=1-2clFcR-31000US14460&measure=Z1GSog1"
   },
   {
     title: "Default Rate by State",
@@ -171,7 +171,7 @@ export const examples = [
     title: "Average Number of Off-Campus Students by State",
     group: "Education",
     image: "/api/profile/cip/railroad-railway-transportation/thumb",
-    link: "/visualize?groups=0-JrDjD-Off+campus&groups=1-Z1EiMXs&measure=Z7tI0u"
+    link: "/visualize?groups=0-JrDjD-Off+campus&groups=1-1kUYYy&measure=Z7tI0u"
   },
   {
     title: "Benefit Expenditure by University Group",
@@ -189,7 +189,7 @@ export const examples = [
     link: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-97&measure=1e64mv"
   },
   {
-    title: "National Science Foundations Grants by State",
+    title: "National Science Foundation Grants by State",
     group: "Government",
     image: "/api/profile/soc/1930XX/thumb",
     link: "/visualize?groups=0-Z1MxM8L&groups=1-1pz0Cl-49&groups=2-Z27NDkh-Grant&measure=1e64mv"

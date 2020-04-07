@@ -2,6 +2,7 @@
   & .splash-coronavirus {
     padding: calc(var(--nav-height) * 2) 0 var(--nav-height);
     & .profile-title {
+      margin-bottom: 0;
       padding: 0 50px;
     }
     & .profile-subtitle {
@@ -9,11 +10,14 @@
       font-size: 24px;
       padding: 0 75px;
     }
+    & .profile-stats {
+      margin: 25px auto 0;
+    }
     & .splash-columns {
       color: var(--white);
       columns: 320px auto;
       column-gap: 20px;
-      padding: 25px 50px;
+      padding: 25px;
       max-width: 800px;
       & p:not(:first-child) {
         margin-top: 20px;
@@ -21,6 +25,37 @@
       & a {
         color: var(--lightgray);
         text-decoration: underline;
+      }
+    }
+    & .sponsors {
+      justify-content: center;
+      margin: -15px auto;
+      position: relative;
+      width: 100%;
+      & img {
+        height: 90px;
+        @media (max-width: 768px) {
+          height: 70px;
+        }
+        @media (max-width: 380px) {
+          height: 50px;
+        }
+      }
+    }
+    & .profile-sections {
+      & .SectionIcon {
+        @media (max-width: 380px) {
+          margin: 0;
+        }
+      }
+    }
+  }
+  & .coronavirus-section {
+    @media (max-width: 1280px) {
+      padding: 25px 0;
+      & .section-title, & .section-body, & .topic-content {
+        padding-left: 25px;
+        padding-right: 25px;
       }
     }
   }
@@ -51,6 +86,9 @@
     & .topic-title {
       margin-bottom: 20px;
     }
+    & .StatGroup {
+      margin-top: 0;
+    }
     & .pt-label {
       align-items: center;
       color: var(--black);
@@ -61,6 +99,30 @@
       text-transform: uppercase;
       & .pt-select {
         flex: 1 1 auto;
+      }
+    }
+    & .pt-button {
+      background: none;
+      border: 1px solid var(--red);
+      border-radius: 0;
+      box-shadow: none;
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 10px;
+      text-align: center;
+      transition: background 0.1s, color 0.1s;
+      &:before {
+        color: var(--red);
+        font-size: 13px;
+        transition: color 0.1s;
+      }
+      &:hover {
+        background: var(--red);
+        color: white;
+        &:before {
+          color: white;
+        }
       }
     }
     & .cutoff-slider {
@@ -85,27 +147,57 @@
   }
 
   & .TextViz {
+    flex-flow: wrap;
     & .topic-content {
       max-width: 300px;
+      @media (max-width: 1280px) {
+        margin-bottom: 25px;
+        min-width: 100%;
+        & > * {
+          margin-left: auto;
+          margin-right: auto;
+          max-width: 400px;
+        }
+      }
     }
     &.text-only {
       & .topic-content {
         max-width: 600px;
       }
     }
+    & .visualization {
+      margin-left: 25px;
+      max-height: none;
+      @media (max-width: 1280px) {
+        flex: 1 1 auto;
+        margin-left: 0;
+      }
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
+    & .visualization ~ .visualization {
+      align-self: center;
+      height: 350px;
+      margin-left: 0;
+      min-height: 350px;
+      max-width: 400px;
+      @media (max-width: 768px) {
+        flex: 1 1 350px;
+        margin-top: 25px;
+        max-width: 100%;
+      }
+    }
   }
 
   & .Column {
-    min-width: 30%;
+    min-width: 45%;
     text-align: center;
-    @media (max-width: 1280px) {
-      min-width: 45%;
-    }
     @media (max-width: 768px) {
       min-width: 90%;
     }
     & .visualization {
-      height: 300px;
+      height: 350px;
     }
   }
 

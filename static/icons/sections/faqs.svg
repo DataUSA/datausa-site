@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="1040px" height="912.5px" viewBox="112.5 0 1040 912.5" enable-background="new 112.5 0 1040 912.5" xml:space="preserve">
-<polygon fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-	642,17.5 140.559,241.341 642.702,467.257 1127.5,241.878 "/>
-<path fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
-	M950.372,324.224l42.132,234.141c0,0-108.004,130.275-352.504,130.275c-246.928,0-343.019-130.673-343.019-130.673l35.653-230.21"/>
-<polyline fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-	643.742,232.378 393.072,354.947 393.072,758.325 "/>
-<path fill="none" stroke="#FFFFFF" stroke-width="31" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
-	M429.131,774.031c22.526,22.843,13.189,53.322-0.521,74.567c-8.741,13.546-35.838,45.192-35.838,45.192
-	s-30.177-29.938-38.731-45.711c-13.883-25.602-20.216-54.123,0.52-74.57S408.683,753.295,429.131,774.031z"/>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-1479 1525 1040 951" style="enable-background:new -1479 1525 1040 951;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
+<g>
+	<path class="st0" d="M-1159.7,2355.8c-4.4,0-8.8-1-12.9-3c-10.4-5-16.8-15.2-16.8-26.8v-132.4c-49.8-3.8-89.2-45.5-89.2-96.3
+		v-355.5c0-53.3,43.3-96.6,96.6-96.6h446.2c53.3,0,96.6,43.3,96.6,96.6v355.5c0,53.3-43.3,96.6-96.6,96.6h-133.3
+		c-26.7,0.4-82.8,5.6-105.5,22.3c-42.2,31.1-165.2,131.9-166.5,132.9c-0.1,0-0.1,0.1-0.2,0.1
+		C-1146.7,2353.6-1153.2,2355.8-1159.7,2355.8z M-1182.1,1676.2c-36.2,0-65.6,29.4-65.6,65.6v355.5c0,36.2,29.4,65.6,65.6,65.6h8.1
+		c8.6,0,15.5,6.9,15.5,15.5v144.9c17.5-14.4,125.3-102.4,165.5-132.1c34.9-25.7,109-28.1,123.5-28.3c0.1,0,0.2,0,0.2,0h133.4
+		c36.2,0,65.6-29.4,65.6-65.6v-355.5c0-36.2-29.4-65.6-65.6-65.6H-1182.1z"/>
+</g>
+<g>
+	<path class="st0" d="M-881.2,1871.5c0,23.2-11.6,41.5-34.8,55c-9.7,5.9-16.2,10.8-19.5,14.9c-4.3,5.4-6.8,12.7-7.3,22.2l-1.5,38.2
+		h-30.2c-2.5-19.6-3.8-32.5-3.8-38.6c0-16.8,3.8-30.4,11.5-40.9c4.8-7.1,12.6-14,23.3-20.6c9.2-5.6,14.8-9.4,16.8-11.5
+		c5.1-4.8,7.6-11.1,7.6-18.7c0-11-3.8-19.6-11.3-26c-7.5-6.4-17.3-9.6-29.2-9.6c-12.2,0-22.2,3.4-29.8,10.3c-8.7,7.9-13,19.2-13,34
+		h-36.7c0-26,8.2-46.5,24.5-61.5c14.8-13.5,33.1-20.3,55-20.3c21.4,0,39.6,6.5,54.7,19.5C-889.1,1831.7-881.2,1849.6-881.2,1871.5z
+		 M-934.7,2046.9c0,6.9-2.4,12.7-7.3,17.6c-4.8,4.8-10.6,7.3-17.2,7.3c-6.9,0-12.7-2.4-17.6-7.3c-4.8-4.8-7.3-10.7-7.3-17.6
+		c0-6.9,2.4-12.7,7.3-17.6c4.8-4.8,10.7-7.3,17.6-7.3c6.6,0,12.4,2.4,17.2,7.3C-937.2,2034.2-934.7,2040-934.7,2046.9z"/>
+</g>
 </svg>
