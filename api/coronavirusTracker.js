@@ -227,6 +227,18 @@ module.exports = function(app) {
       d.ConfirmedPC = d.Confirmed ? d.Confirmed * 100000 / d.Population : null;
       d.DeathsPC = d.Deaths ? d.Deaths * 100000 / d.Population : null;
     });
-    res.json(output);
+    res.json({
+      data: output,
+      source: [
+        {
+          annotations: {
+            dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
+            dataset_name: "Coronavirus numbers by state",
+            source_link: "https://covidtracking.com/",
+            source_name: "The COVID Tracking Project"
+          }
+        }
+      ]
+    });
   });
 };

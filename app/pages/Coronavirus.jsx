@@ -343,7 +343,7 @@ class Coronavirus extends Component {
       axios.get("/api/covid19/employment/latest/")
     ]).then(axios.spread((...resp) => {
 
-      const stateTestData = resp[0].data;
+      const stateTestData = resp[0].data.data;
       stateTestData.forEach(d => {
         const dID = stateToDivision[d["ID Geography"]];
         let division = divisions.find(x => x["ID Division"] === dID);
