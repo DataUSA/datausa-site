@@ -117,7 +117,7 @@ class Options extends Component {
       console.log(data);
       console.log(config);
       const [base, query] = data.split("?");
-      const params = decodeURIComponent(query).split("&")
+      const params = query ? decodeURIComponent(query).split("&")
         .reduce((obj, d) => {
           const [key, val] = d.split("=");
           obj[key] = val
@@ -128,7 +128,7 @@ class Options extends Component {
               return arr;
             }, []);
           return obj;
-        }, {});
+        }, {}) : {};
 
       console.log(params);
       delete params.sort;
@@ -144,6 +144,7 @@ class Options extends Component {
         params.measures = params.measure;
         delete params.measure;
       }
+      if (!params.measures) params.measures = [];
       Object.keys(slugMap).forEach(slug => {
         if (params[slug]) {
           params[slugMap[topic.profile]] = params[slug];
@@ -246,7 +247,7 @@ class Options extends Component {
           else return measure;
         });
       measures = list(Array.from(new Set(measures.filter(Boolean))));
-      const cartTitle = `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
+      const cartTitle = urls.some(d => d.includes("covid19")) ? "COVID-19 by State" : `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
       addToCart({urls, format, slug: cartSlug, title: cartTitle});
