@@ -12,7 +12,7 @@
   text-align: center;
   top: 0;
   transform: translateX(0);
-  transition: background-color 0.75s;
+  transition: background-color 0.75s, top 0.5s;
   width: 100%;
   z-index: 21;
   &.background {

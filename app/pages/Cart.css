@@ -1,3 +1,7 @@
+.visible-banner #Cart {
+  height: calc(100vh - var(--banner-height));
+}
+
 #Cart {
   background-color: var(--white);
   display: flex;

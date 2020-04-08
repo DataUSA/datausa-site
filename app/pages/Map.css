@@ -1,3 +1,17 @@
+.visible-banner #Visualize.Map {
+  height: calc(100vh - var(--banner-height));
+  & .vizbuilder {
+    height: calc(100vh - var(--banner-height));
+    margin-top: var(--nav-height);
+    & .area-sidebar, & .area-chart {
+      height: calc(100vh - var(--nav-height) - var(--banner-height));
+      @media (max-width: 600px) {
+        height: auto;
+      }
+    }
+  }
+}
+
 #Visualize.Map {
   height: 100vh;
   overflow: hidden;

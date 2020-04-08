@@ -85,15 +85,17 @@ class App extends Component {
 
     const bare = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
 
+    const showBanner = banner && pathname.indexOf("cms") < 0;
+
     return (
-      <div id="App" className={bare ? "bare" : ""}>
+      <div id="App" className={`${bare ? "bare" : ""} ${showBanner ? "visible-banner" : ""}`}>
         <Helmet>
           <meta property="og:image" content={ `${origin}/images/share.jpg` } />
         </Helmet>
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
-        <div className={banner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
+        <div className={showBanner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
           <span className="banner-text">{ bannerText }</span>
           <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} />
         </div>

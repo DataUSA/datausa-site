@@ -2,8 +2,9 @@
   background-color: var(--red);
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   color: white;
+  height: var(--banner-height);
   left: 0;
-  padding: 5px 5px 6px;
+  padding: 3px 5px 6px;
   position: fixed;
   right: 0;
   text-align: center;
@@ -46,7 +47,7 @@
     opacity: 0.5;
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 7px;
     transition: opacity 0.2s;
     vertical-align: top;
     &:before {
@@ -81,8 +82,20 @@ body {
   & #App {
     background-color: var(--dark);
     box-sizing: border-box;
+    padding-top: 0;
+    position: relative;
+    transition: padding-top 0.5s;
     &.bare {
       background-color: transparent;
+    }
+    &.visible-banner {
+      padding-top: var(--banner-height);
+      & #Nav {
+        top: var(--banner-height);
+      }
+      & .subnav.visible {
+        top: var(--banner-height);
+      }
     }
   }
 }

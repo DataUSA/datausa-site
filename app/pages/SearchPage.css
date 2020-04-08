@@ -2,11 +2,18 @@
   --panel-width: 275px;
 }
 
+.visible-banner #SearchPage {
+  height: calc(100vh - var(--banner-height));
+  & .controls, & .search .results {
+    height: calc(100vh - 170px - var(--banner-height));
+  }
+}
+
 #SearchPage {
   height: 100vh;
   padding-top: var(--nav-height);
   & .controls {
-    height: calc(100vh - 195px);
+    height: calc(100vh - 170px);
     margin-top: 50px;
     width: var(--panel-width);
     & .clear {
@@ -129,7 +136,7 @@
     & .results {
       border-left: 1px solid var(--gray);
       display: block;
-      height: calc(100vh - 195px);
+      height: calc(100vh - 170px);
       left: var(--panel-width);
       list-style-type: none;
       margin: 0;
