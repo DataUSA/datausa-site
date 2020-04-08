@@ -154,7 +154,19 @@ module.exports = function(app) {
 
     const data = csvToJson(respData);
 
-    res.json({data});
+    res.json({
+      data,
+      source: [
+        {
+          annotations: {
+            dataset_link: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_x8FhDzveu6Q6uLlxxj7d69GmaliZyKUQf9nnYmoKOHqhHE_wcxykG68Gll5JBQ9F7pnr1jDu_oVP/pub?output=csv",
+            dataset_name: "Unemployment insurance weekly claims by state",
+            source_link: "https://oui.doleta.gov/unemploy/claims.asp",
+            source_name: "DOL Unemployment Insurance Weekly Claims Data"
+          }
+        }
+      ]
+    });
   });
 
   app.get("/api/covid19/country", async(req, res) => {
