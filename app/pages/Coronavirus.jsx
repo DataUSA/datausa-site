@@ -837,7 +837,7 @@ class Coronavirus extends Component {
         </div>
         <div className="content-container">
           {today && <div className="profile-subtitle">
-            Latest Data from {dayFormat(today)}.
+            Latest Data from {dayFormat(today)}
           </div>}
         </div>
         <div className="content-container sponsors">
