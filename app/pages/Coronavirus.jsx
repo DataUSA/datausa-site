@@ -726,7 +726,8 @@ class Coronavirus extends Component {
     const latestEmploymentData = employmentData.filter(d => d.Date === latestEmployment);
     const [employmentDataDomain, employmentDataLabels] = calculateWeekDomain(employmentDataFiltered, w);
     const employmentDataLabelsFiltered = employmentDataLabels.filter(d => d <= new Date().getTime());
-    const employmentStat = sum(employmentDataFiltered.filter(d => d.Date === latestEmployment), d => d.initial_claims);
+    const employmentStat = sum(employmentData.filter(d => d.Date === latestEmployment), d => d.initial_claims);
+    const employmentStatStates = sum(employmentDataFiltered.filter(d => d.Date === latestEmployment), d => d.initial_claims);
     // const employmentDataMax = max(employmentDataFiltered, d => d.initial_claims);
 
     // const StateCutoff = () =>
@@ -1555,9 +1556,14 @@ class Coronavirus extends Component {
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? formatAbbreviate(employmentStat) : <Spinner />}</div>
-                    <div className="stat-title">Unemployment insurance claims in {currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}</div>
+                    <div className="stat-title">Unemployment insurance claims in the US</div>
                     <div className="stat-subtitle">{show ? `for the week ending ${dayFormat(latestEmployment)}` : ""}</div>
                   </div>
+                  {currentStates.length ? <div className="StatGroup single">
+                    <div className="stat-value">{show ? formatAbbreviate(employmentStatStates) : <Spinner />}</div>
+                    <div className="stat-title">Unemployment insurance claims in {list(currentStates.map(o => o.Geography))}</div>
+                    <div className="stat-subtitle">{show ? `for the week ending ${dayFormat(latestEmployment)}` : ""}</div>
+                  </div> : null}
                 </div>
                 <AxisToggle />
                 <div className="topic-description">
