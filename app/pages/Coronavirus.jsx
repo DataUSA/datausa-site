@@ -1548,7 +1548,7 @@ class Coronavirus extends Component {
             <div className="topic TextViz">
               <div className="topic-content">
                 <h3 id="growth-daily" className="topic-title">
-                  <AnchorLink to="economic-weekly" className="anchor">Impact on Unemployment</AnchorLink>
+                  <AnchorLink to="economic-weekly" className="anchor">Impact on Employment</AnchorLink>
                 </h3>
                 <div className="topic-subtitle">
                   Unemployment insurance claim numbers are not seasonally adjusted.
