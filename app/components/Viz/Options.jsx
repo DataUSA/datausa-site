@@ -247,7 +247,10 @@ class Options extends Component {
           else return measure;
         });
       measures = list(Array.from(new Set(measures.filter(Boolean))));
-      const cartTitle = urls.some(d => d.includes("covid19")) ? "COVID-19 by State" : `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
+      const cartTitle =
+        urls.some(d => d.includes("covid19/employment")) ? "Unemployment Claims by State"
+          : urls.some(d => d.includes("covid19")) ? "COVID-19 by State"
+            : `${measures}${drilldowns ? ` by ${list(drilldowns)}` : ""}`;
       console.log(cartTitle);
 
       addToCart({urls, format, slug: cartSlug, title: cartTitle});

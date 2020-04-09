@@ -128,10 +128,19 @@ class Cart extends Component {
     const {cart} = this.props;
 
     const urls = Array.from(new Set(merge(cart.data.map(d => d.urls)).map(decodeURIComponent)));
-    const stickies = merge(urls.map(url => url
-      .match(/drilldowns\=[^&]+/g)[0]
-      .split("=")[1].split(",")
-    ));
+    const stickies = merge(urls.map(url => {
+      if (url.includes("/covid19/employment")) {
+        return ["week_ended", "state_name"];
+      }
+      else if (url.includes("/covid19/")) {
+        return ["Geography", "Date"];
+      }
+      else {
+        const m = url.match(/drilldowns\=[^&]+/g);
+        if (m) return m[0].split("=")[1].split(",");
+        return [];
+      }
+    }));
 
     const promises = urls.map(url => axios.get(url)
       .then(resp => {
@@ -334,7 +343,7 @@ class Cart extends Component {
       else if (key.includes("ID ")) return max(key.split(" ").map(k => k.length * 10)) + 24;
       else if (key.includes("University") || key.includes("Insurance")) return 250;
       else if (["Geography", "PUMS Industry", "PUMS Occupation", "CIP", "NAPCS"].includes(key)) return 200;
-      else if (["Gender", "Sex", "Race"].includes(key)) return 100;
+      else if (["Gender", "Sex", "Race", "Date"].includes(key)) return 100;
       else return max(key.split(" ").map(k => k.length * 10)) + 25;
     });
 
