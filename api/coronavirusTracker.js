@@ -156,16 +156,14 @@ module.exports = function(app) {
 
     res.json({
       data,
-      source: [
-        {
-          annotations: {
-            dataset_link: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_x8FhDzveu6Q6uLlxxj7d69GmaliZyKUQf9nnYmoKOHqhHE_wcxykG68Gll5JBQ9F7pnr1jDu_oVP/pub?output=csv",
-            dataset_name: "Unemployment insurance weekly claims by state",
-            source_link: "https://oui.doleta.gov/unemploy/claims.asp",
-            source_name: "DOL Unemployment Insurance Weekly Claims Data"
-          }
+      source: [{
+        annotations: {
+          dataset_link: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_x8FhDzveu6Q6uLlxxj7d69GmaliZyKUQf9nnYmoKOHqhHE_wcxykG68Gll5JBQ9F7pnr1jDu_oVP/pub?output=csv",
+          dataset_name: "Unemployment insurance weekly claims by state",
+          source_link: "https://oui.doleta.gov/unemploy/claims.asp",
+          source_name: "DOL Unemployment Insurance Weekly Claims Data"
         }
-      ]
+      }]
     });
   });
 
@@ -206,8 +204,12 @@ module.exports = function(app) {
         growth = null;
         state = d.state;
       }
-      else if (i && d.positive < data[i - 1].Confirmed) {
-        d.positive = data[i - 1].Confirmed;
+      else if (i) {
+        const prev = data[i - 1];
+        if (d.positive < prev.Confirmed) d.positive = prev.Confirmed;
+        if (d.death < prev.Deaths) d.death = prev.Deaths;
+        if (d.total < prev.total) d.total = prev.total;
+        if (d.hospitalized < prev.hospitalized) d.hospitalized = prev.hospitalized;
       }
       d.Confirmed = d.positive;
 
@@ -241,16 +243,14 @@ module.exports = function(app) {
     });
     res.json({
       data: output,
-      source: [
-        {
-          annotations: {
-            dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
-            dataset_name: "Coronavirus numbers by state",
-            source_link: "https://covidtracking.com/",
-            source_name: "The COVID Tracking Project"
-          }
+      source: [{
+        annotations: {
+          dataset_link: "https://docs.google.com/spreadsheets/u/2/d/e/2PACX-1vRwAqp96T9sYYq2-i7Tj0pvTf6XVHjDSMIKBdZHXiCGGdNC0ypEU9NbngS8mxea55JuCFuua1MUeOj5/pubhtml",
+          dataset_name: "Coronavirus numbers by state",
+          source_link: "https://covidtracking.com/",
+          source_name: "The COVID Tracking Project"
         }
-      ]
+      }]
     });
   });
 };
