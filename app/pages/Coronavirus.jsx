@@ -89,12 +89,12 @@ const dolSource = {
   source_name: "DOL Unemployment Insurance Weekly Claims Data"
 };
 
-// const aaSource = {
-//   dataset_link: "https://array-architects.com/press-release/array-advisors-model-validates-fears-of-icu-bed-shortage-due-to-coronavirus-pandemic/",
-//   dataset_name: "ICU Bed Shortage",
-//   source_link: "https://array-architects.com/",
-//   source_name: "Array Architects"
-// };
+const ahaSource = {
+  dataset_link: "https://www.ahadata.com",
+  dataset_name: "Annual Survey Database",
+  source_link: "https://www.aha.org/",
+  source_name: "The American Hospital Association"
+};
 
 const pums1Source = {
   source_name: "Census Bureau",
@@ -365,11 +365,7 @@ class Coronavirus extends Component {
       });
 
       const data = resp[2].data;
-      const icuData = data.icu
-        .map(d => {
-          d.TotalPC = d.Total / data.population[d["ID Geography"]] * 1000;
-          return d;
-        });
+      const icuData = data.icu;
 
       const cutoffDate = new Date("2007/01/01").getTime();
 
@@ -482,7 +478,7 @@ class Coronavirus extends Component {
       employmentData,
       stateTestData,
       // measure,
-      // icu,
+      icu,
       pops,
       scale,
       stateCutoffData,
@@ -735,6 +731,11 @@ class Coronavirus extends Component {
     //     Only showing states with more than 50 confirmed cases.
     //   </div>;
 
+    const StateSelector = () =>
+      currentStates.length ? null : <div className="topic-subtitle">
+        Use the map to select individual states.
+      </div>;
+
     const AxisToggle = () =>
       <div>
         {currentStates.length > 0 &&
@@ -927,6 +928,7 @@ class Coronavirus extends Component {
                   slug="cases-total"
                   title="Total Confirmed Cases by Date"
                 />
+                <StateSelector />
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalCases : <Spinner />}</div>
@@ -976,6 +978,7 @@ class Coronavirus extends Component {
                   slug="cases-pc"
                   title="Total Confirmed Cases per Capita"
                 />
+                <StateSelector />
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalPC : <Spinner />}</div>
@@ -1121,6 +1124,7 @@ class Coronavirus extends Component {
                   slug="cases-total"
                   title="Total Deaths by State"
                 />
+                <StateSelector />
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalDeaths : <Spinner />}</div>
@@ -1172,6 +1176,7 @@ class Coronavirus extends Component {
                   slug="deaths-pc"
                   title="Deaths per Capita"
                 />
+                <StateSelector />
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalDeathsPC : <Spinner />}</div>
@@ -1282,7 +1287,7 @@ class Coronavirus extends Component {
               <div className="topic-content">
                 <TopicTitle
                   slug="total-hospitalizations"
-                  title="Hospitalizations"
+                  title="Total Hospitalizations by State"
                 />
                 <div className="topic-subtitle">
                   Hospitalization data for some states may be delayed or not reported.
@@ -1356,8 +1361,9 @@ class Coronavirus extends Component {
               <div className="topic-content">
                 <TopicTitle
                   slug="tests-over-time"
-                  title="Tests over time for all states in the U.S."
+                  title="Total Tests by State"
                 />
+                <StateSelector />
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalTests : <Spinner />}</div>
@@ -1435,6 +1441,7 @@ class Coronavirus extends Component {
                 <h3 id="growth-daily" className="topic-title">
                   <AnchorLink to="growth-daily" className="anchor">Number of Daily Cases</AnchorLink>
                 </h3>
+                <StateSelector />
                 <AxisToggle />
                 <div className="topic-description">
                   <p>
@@ -1695,7 +1702,7 @@ class Coronavirus extends Component {
               <SourceGroup sources={[kfSource]} />
             </div>
 
-            {/* <div className="topic Column">
+            <div className="topic Column">
               <div className="topic-content">
                 <h3 id="risks-icu" className="topic-title">
                   <AnchorLink to="risks-icu" className="anchor">ICU Beds per 1,000 Population</AnchorLink>
@@ -1720,39 +1727,7 @@ class Coronavirus extends Component {
                   })} />
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
-              <SourceGroup sources={[aaSource]} />
-            </div> */}
-
-            <div className="topic Column">
-              <div className="topic-content">
-                <h3 id="risks-uninsured" className="topic-title">
-                  <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population by State</AnchorLink>
-                </h3>
-              </div>
-              <div className="visualization topic-visualization">
-                { beds.length
-                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
-                    colorScale: "Uninsured Percentage",
-                    colorScaleConfig: {
-                      axisConfig: {
-                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
-                      }
-                    },
-                    data: "/api/data?measures=Uninsured%20Percentage&drilldowns=State&Year=latest",
-                    groupBy: "ID State",
-                    label: d => d.State,
-                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
-                    tooltipConfig: {
-                      tbody: [
-                        ["Year", d => d.Year],
-                        ["Uninsured", d => `${formatAbbreviate(d["Uninsured Percentage"] * 100)}%`]
-                      ]
-                    },
-                    topojson: "/topojson/State.json"
-                  })} dataFormat={resp => resp.data} />
-                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-              </div>
-              <SourceGroup sources={[acs1Source]} />
+              <SourceGroup sources={[ahaSource]} />
             </div>
 
             <div className="topic Column">
@@ -1831,6 +1806,38 @@ class Coronavirus extends Component {
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
               <SourceGroup sources={[pums1Source]} />
+            </div>
+
+            <div className="topic Column">
+              <div className="topic-content">
+                <h3 id="risks-uninsured" className="topic-title">
+                  <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population by State</AnchorLink>
+                </h3>
+              </div>
+              <div className="visualization topic-visualization">
+                { beds.length
+                  ? <Geomap className="d3plus" config={assign({}, mapConfig, {
+                    colorScale: "Uninsured Percentage",
+                    colorScaleConfig: {
+                      axisConfig: {
+                        tickFormat: d => `${formatAbbreviate(d * 100)}%`
+                      }
+                    },
+                    data: "/api/data?measures=Uninsured%20Percentage&drilldowns=State&Year=latest",
+                    groupBy: "ID State",
+                    label: d => d.State,
+                    projection: typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+                    tooltipConfig: {
+                      tbody: [
+                        ["Year", d => d.Year],
+                        ["Uninsured", d => `${formatAbbreviate(d["Uninsured Percentage"] * 100)}%`]
+                      ]
+                    },
+                    topojson: "/topojson/State.json"
+                  })} dataFormat={resp => resp.data} />
+                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+              </div>
+              <SourceGroup sources={[acs1Source]} />
             </div>
 
           </div>

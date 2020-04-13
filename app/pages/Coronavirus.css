@@ -109,7 +109,7 @@
       color: var(--red);
       font-size: 13px;
       font-weight: 600;
-      margin-top: 10px;
+      margin-top: 0;
       text-align: center;
       transition: background 0.1s, color 0.1s;
       &:before {
