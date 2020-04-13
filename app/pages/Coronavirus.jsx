@@ -1284,6 +1284,9 @@ class Coronavirus extends Component {
                   slug="total-hospitalizations"
                   title="Hospitalizations"
                 />
+                <div className="topic-subtitle">
+                  Hospitalization data for some states may be delayed or not reported.
+                </div>
                 <div className="topic-stats">
                   <div className="StatGroup single">
                     <div className="stat-value">{show ? topicStats.totalHospitalizations : <Spinner />}</div>
