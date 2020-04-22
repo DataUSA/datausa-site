@@ -19,7 +19,7 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-import {extent, max, min, mean, merge, sum} from "d3-array";
+import {extent, max, merge, sum} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -68,12 +68,12 @@ const ctSource = {
   source_name: "The COVID Tracking Project"
 };
 
-const jhSource = {
-  dataset_link: "https://github.com/CSSEGISandData/COVID-19",
-  dataset_name: "2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository",
-  source_link: "https://systems.jhu.edu/",
-  source_name: "Johns Hopkins CSSE"
-};
+// const jhSource = {
+//   dataset_link: "https://github.com/CSSEGISandData/COVID-19",
+//   dataset_name: "2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository",
+//   source_link: "https://systems.jhu.edu/",
+//   source_name: "Johns Hopkins CSSE"
+// };
 
 const kfSource = {
   dataset_link: "https://www.kff.org/other/state-indicator/beds-by-ownership/?currentTimeframe=0&selectedDistributions=total&selectedRows=%7B%22states%22:%7B%22all%22:%7B%7D%7D,%22wrapups%22:%7B%22united-states%22:%7B%7D%7D%7D&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D",
@@ -150,31 +150,6 @@ class UncontrolledSlider extends React.Component {
 const labelWidth = 100;
 
 /** */
-function calculateDomain(data, w) {
-  if (data && data instanceof Array && data.length) {
-    const dataDomain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
-    const domain = dataDomain.slice();
-    let lastDate = domain[domain.length - 1];
-    const labelSpace = w <= 768 ? 0 : 0.15;
-    const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
-    lastDate = new Date(lastDate);
-    while (domain[domain.length - 1] < endDate) {
-      lastDate.setDate(lastDate.getDate() + 1);
-      domain.push(lastDate.getTime());
-    }
-    const space = (w <= 768 ? w : w - 300 - 350) - 100 - 60;
-    const step = Math.ceil(domain.length / (space / labelWidth));
-    while (domain.length % step) {
-      lastDate.setDate(lastDate.getDate() + 1);
-      domain.push(lastDate.getTime());
-    }
-    const labels = domain.filter((d, i) => i % step === 0);
-    return [domain, labels];
-  }
-  return [[], []];
-}
-
-/** */
 function calculateDayDomain(data, w) {
   if (data && data instanceof Array && data.length) {
     const dataDomain = unique(data.map(d => d.Days)).sort((a, b) => a - b);
@@ -193,30 +168,6 @@ function calculateDayDomain(data, w) {
       domain.push(lastDate);
     }
     const labels = domain.filter((d, i) => i % step === 0);
-    return [domain, labels];
-  }
-  return [[], []];
-}
-
-/** */
-function calculateWeekDomain(data, w) {
-  if (data && data instanceof Array && data.length) {
-    const dataDomain = unique(data.map(d => d.Date)).sort((a, b) => a - b);
-    const domain = dataDomain.slice();
-    let lastDate = domain[domain.length - 1];
-    const labelSpace = w <= 768 ? 0 : 0.15;
-    const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
-    lastDate = new Date(lastDate);
-    while (domain[domain.length - 1] < endDate) {
-      lastDate.setDate(lastDate.getDate() + 7);
-      domain.push(lastDate.getTime());
-    }
-    const labels = domain.reduce((arr, d) => {
-      const lastYear = new Date(arr[arr.length - 1]).getFullYear();
-      const currentYear = new Date(d).getFullYear();
-      if (!arr.length || lastYear !== currentYear) arr.push(d);
-      return arr;
-    }, []);
     return [domain, labels];
   }
   return [[], []];
@@ -296,7 +247,6 @@ function calculateAnnotations(data, measure, scale) {
       },
       shape: "Line",
       stroke: color,
-      // strokeDasharray: "5",
       strokeWidth: 1
     }
   ];
@@ -493,23 +443,10 @@ class Coronavirus extends Component {
 
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
-    const now = new Date();
 
-    const dateFormat = d => timeFormat("%B %d")(d).replace(/\s[0-9]{2}\,/, m => {
-      const n = parseFloat(m, 10);
-      return ` ${n}${suffix(n)},`;
-    });
+    const dateFormat = d => timeFormat("%b %d")(d)
+      .replace(/[0-9]{2}$/, m => parseFloat(m, 10));
     const daysFormat = d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
-
-    // const stateGrowthData = stateData.filter(d => d.ConfirmedGrowth !== undefined);
-    // const stateSmoothData = stateData.filter(d => d.ConfirmedSmooth !== undefined);
-    // const minValueGrowth = min(stateGrowthData, d => d.ConfirmedGrowth);
-    // const minValueSmooth = min(stateSmoothData, d => d.ConfirmedSmooth);
-
-    // const [stateDomain, stateLabels] = calculateDomain(stateData, w);
-    const [stateNewDomain, stateNewLabels] = calculateDomain(stateTestData, w);
-    // const [stateGrowthDomain, stateGrowthLabels] = calculateDomain(stateGrowthData, w);
-    // const [stateSmoothDomain, stateSmoothLabels] = calculateDomain(stateSmoothData, w);
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(stateCutoffData, w);
     const stateCutoffAnnotations = calculateAnnotations(stateCutoffData, "Confirmed", scale);
@@ -519,10 +456,6 @@ class Coronavirus extends Component {
     const countryCutoffDeathAnnotations = calculateAnnotations(countryCutoffDeathData, "DeathsPC", scale);
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
-    const [stateDeathDomain, stateDeathLabels] = calculateDomain(stateTestData.filter(d => d.Deaths), w);
-    const [hospitalizedDomain, hospitalizedLabels] = calculateDomain(stateTestData.filter(d => d.hospitalized), w);
-    const [totalTestsDomain, totalTestsLabels] = calculateDomain(stateTestData.filter(d => d.total), w);
-    // const [positiveRateDomain, positiveRateLabels] = calculateDomain(stateTestData.filter(d => d.ConfirmedPC), w);
 
     const lineColor = d =>
       currentStates.length === 0 || currentStates.length > 5
@@ -537,7 +470,10 @@ class Coronavirus extends Component {
       discrete: "x",
       groupBy: ["ID Region", "ID Geography"],
       height: 500,
-      label: d => d.Geography instanceof Array ? d.Region : d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
+      label: smallLabels
+        ? d => stateAbbreviations[d.Geography] || (countryMeta[d.Geography] ? countryMeta[d.Geography].iso : d.Geography)
+        : d => d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
+      // label: d => d.Geography instanceof Array ? d.Region : d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
       legend: false,
       legendConfig: {
         title: false,
@@ -555,34 +491,14 @@ class Coronavirus extends Component {
           else this.hover(h => h["ID Geography"] === d["ID Geography"]);
         }
       },
+      lineLabels: true,
       shapeConfig: {
         hoverOpacity: 0.25,
         Line: {
-          label: d =>
-            smallLabels
-              ? stateAbbreviations[d.Geography] || (countryMeta[d.Geography] ? countryMeta[d.Geography].iso : d.Geography)
-              : d.Geography,
           labelConfig: {
             fontColor: d => colorLegible(lineColor(d)),
             fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
-            fontSize: () => 12,
-            padding: 0,
-            verticalAlign: "middle"
-          },
-          labelBounds: (d, i, s) => {
-            const yExtent = extent(s.points.map(p => p[1]));
-            if (yExtent[1] - yExtent[0] > 5) {
-              const [firstX, firstY] = s.points[0];
-              const [lastX, lastY] = s.points[s.points.length - 1];
-              const height = 30;
-              return   {
-                x: lastX - firstX + 5,
-                y: lastY - firstY - height / 2 + 1,
-                width: 200,
-                height
-              };
-            }
-            return false;
+            fontSize: () => 12
           },
           sort: a => a["ID Region"] !== 6 ? 1 : -1,
           stroke: lineColor,
@@ -597,7 +513,6 @@ class Coronavirus extends Component {
           if (d.Confirmed !== undefined) arr.push(["Total Cases", commas(d.Confirmed)]);
           if (d.ConfirmedGrowth !== undefined) arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           if (d.ConfirmedPC !== undefined) arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
-          // if (d.ConfirmedGrowth) arr.push(["Growth Factor", formatAbbreviate(d.ConfirmedGrowth)]);
           if (d.initial_claims !== undefined) arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           return arr;
         }
@@ -606,12 +521,7 @@ class Coronavirus extends Component {
         fontSize: 21
       },
       xConfig: {
-        gridConfig: {"stroke-width": 0},
-        shapeConfig: {
-          labelConfig: {
-            fontOpacity: d => d.id < 10000 || new Date(d.id) <= now ? 1 : 0.5
-          }
-        }
+        gridConfig: {"stroke-width": 0}
       },
       y: "Confirmed",
       yConfig: {
@@ -717,19 +627,9 @@ class Coronavirus extends Component {
         });
 
     const latestEmployment = max(employmentDataFiltered, d => d.Date);
-    // const latestEmploymentPublish = new Date(latestEmployment);
-    // latestEmploymentPublish.setDate(latestEmploymentPublish.getDate() + 5);
     const latestEmploymentData = employmentData.filter(d => d.Date === latestEmployment);
-    const [employmentDataDomain, employmentDataLabels] = calculateWeekDomain(employmentDataFiltered, w);
-    const employmentDataLabelsFiltered = employmentDataLabels.filter(d => d <= new Date().getTime());
     const employmentStat = sum(employmentData.filter(d => d.Date === latestEmployment), d => d.initial_claims);
     const employmentStatStates = sum(employmentDataFiltered.filter(d => d.Date === latestEmployment), d => d.initial_claims);
-    // const employmentDataMax = max(employmentDataFiltered, d => d.initial_claims);
-
-    // const StateCutoff = () =>
-    //   <div className="topic-subtitle">
-    //     Only showing states with more than 50 confirmed cases.
-    //   </div>;
 
     const StateSelector = () =>
       currentStates.length ? null : <div className="topic-subtitle">
@@ -949,11 +849,10 @@ class Coronavirus extends Component {
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.Confirmed),
                     title: `Confirmed Cases (${scaleLabel})`,
+                    time: "Date",
+                    timeline: false,
                     x: "Date",
                     xConfig: {
-                      domain: stateNewDomain,
-                      labels: stateNewLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "Confirmed"
@@ -998,12 +897,11 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.ConfirmedPC),
+                    time: "Date",
+                    timeline: false,
                     title: `Confirmed Cases per 100,000 (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
-                      domain: stateNewDomain,
-                      labels: stateNewLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "ConfirmedPC"
@@ -1144,13 +1042,12 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.Deaths),
+                    time: "Date",
+                    timeline: false,
                     title: `Deaths (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Date",
                     xConfig: {
-                      domain: stateDeathDomain,
-                      labels: stateDeathLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "Deaths"
@@ -1196,13 +1093,12 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.DeathsPC),
+                    time: "Date",
+                    timeline: false,
                     title: `Deaths per 100,000 (${scaleLabel})`,
                     tooltipConfig: deathTooltip,
                     x: "Date",
                     xConfig: {
-                      domain: stateDeathDomain,
-                      labels: stateDeathLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "DeathsPC"
@@ -1311,13 +1207,12 @@ class Coronavirus extends Component {
                 { stateTestData.length && stateTestData.length > 0
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.hospitalized),
+                    time: "Date",
+                    timeline: false,
                     title: `Hospitalized Patients (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
-                      domain: hospitalizedDomain,
-                      labels: hospitalizedLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "hospitalized"
@@ -1382,13 +1277,12 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.total),
+                    time: "Date",
+                    timeline: false,
                     title: `Number of Tests (${scaleLabel})`,
                     tooltipConfig: tooltipConfigTracker,
                     x: "Date",
                     xConfig: {
-                      domain: totalTestsDomain,
-                      labels: totalTestsLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "total"
@@ -1422,11 +1316,6 @@ class Coronavirus extends Component {
           </h2>
           <div className="section-body">
             <div className="section-content">
-              {/* <div className="section-sublinks">
-                <AnchorLink to="growth-daily" className="anchor">Daily Cases</AnchorLink>
-                <AnchorLink to="growth-rate" className="anchor">Growth Rate</AnchorLink>
-                <AnchorLink to="growth-smoothed" className="anchor">Growth Rate (Smoothed)</AnchorLink>
-              </div> */}
               <div className="section-description single">
                 <p>
                   Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth. Here, we present the number of daily reported cases.
@@ -1454,12 +1343,11 @@ class Coronavirus extends Component {
                 { stateTestData.length
                   ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
                     data: stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
+                    time: "Date",
+                    timeline: false,
                     title: `Daily Confirmed Cases (${scaleLabel})`,
                     x: "Date",
                     xConfig: {
-                      domain: stateNewDomain,
-                      labels: stateNewLabels,
-                      ticks: false,
                       tickFormat: dateFormat
                     },
                     y: "ConfirmedGrowth"
@@ -1477,70 +1365,6 @@ class Coronavirus extends Component {
                   : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
               </div>
             </div>
-
-            {/* <div className="topic TextViz">
-              <div className="topic-content">
-                <h3 id="growth-daily" className="topic-title">
-                  <AnchorLink to="growth-rate" className="anchor">Growth Factor</AnchorLink>
-                </h3>
-                <AxisToggle />
-                <StateCutoff />
-                <div className="topic-description">
-                  <p>
-                    This chart shows the growth factor for each state. The growth factor is the ratio between the newly reported cases between two consecutive days. It is a measure of whether the spread of the epidemic is &ldquo;accelerating&rdquo; (&gt;1), &ldquo;peaking&rdquo; (=1), or &ldquo;decelerating&rdquo; (&lt;1).
-                  </p>
-                </div>
-                <SourceGroup sources={[jhSource]} />
-              </div>
-              <div className="visualization topic-visualization">
-                { stateGrowthData.length
-                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateGrowthData,
-                    title: `Growth Factor (${scaleLabel})`,
-                    x: "Date",
-                    xConfig: {
-                      domain: stateGrowthDomain,
-                      labels: stateGrowthLabels,
-                      ticks: false,
-                      tickFormat: dateFormat
-                    },
-                    y: d => scale === "log" && d[`${measure}Growth`] === 0 ? minValueGrowth : d[`${measure}Growth`]
-                  })} />
-                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-              </div>
-            </div> */}
-
-            {/* <div className="topic TextViz">
-              <div className="topic-content">
-                <h3 id="growth-daily" className="topic-title">
-                  <AnchorLink to="growth-smoothed" className="anchor">Growth Factor (Smoothed)</AnchorLink>
-                </h3>
-                <AxisToggle />
-                <StateCutoff />
-                <div className="topic-description">
-                  <p>
-                    Since growth factors can experience a lot of volatility when numbers are still small, here we present a smoothed version of the growth factor based on a 3 day average.
-                  </p>
-                </div>
-                <SourceGroup sources={[jhSource]} />
-              </div>
-              <div className="visualization topic-visualization">
-                { stateData.length
-                  ? <LinePlot className="d3plus" config={assign({}, sharedConfig, {
-                    data: stateSmoothData,
-                    title: title: `Growth Factor (Smoothed) (${scaleLabel})`,
-                    x: "Date",
-                    xConfig: {
-                      domain: stateSmoothDomain,
-                      labels: stateSmoothLabels,
-                      ticks: false,
-                      tickFormat: dateFormat
-                    },
-                    y: d => scale === "log" && d[`${measure}Smooth`] === 0 ? minValueSmooth : d[`${measure}Smooth`]
-                  })} />
-                  : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-              </div>
-            </div> */}
 
           </div>
         </div>
@@ -1602,7 +1426,8 @@ class Coronavirus extends Component {
                     //   }
                     // ],
                     data: employmentDataFiltered,
-                    discrete: false,
+                    time: "Date",
+                    timeline: false,
                     title: `Unemployment Insurance Claims (${scaleLabel})`,
                     tooltipConfig: {
                       tbody: [
@@ -1612,9 +1437,6 @@ class Coronavirus extends Component {
                     },
                     x: "Date",
                     xConfig: {
-                      domain: [employmentDataDomain[0], employmentDataDomain[employmentDataDomain.length - 1]],
-                      labels: employmentDataLabelsFiltered,
-                      ticks: employmentDataLabelsFiltered,
                       tickFormat: yearFormat
                     },
                     y: "initial_claims",
@@ -1659,13 +1481,6 @@ class Coronavirus extends Component {
           </h2>
           <div className="section-body">
             <div className="section-content">
-              {/* <div className="section-sublinks">
-                <AnchorLink to="risks-beds" className="anchor">Hospital Beds</AnchorLink>
-                <AnchorLink to="risks-icu" className="anchor">ICU Beds</AnchorLink>
-                <AnchorLink to="risks-uninsured" className="anchor">Uninsured Population</AnchorLink>
-                <AnchorLink to="risks-physicians" className="anchor">Physicians</AnchorLink>
-                <AnchorLink to="risks-nurses" className="anchor">Nurses</AnchorLink>
-              </div> */}
               <div className="section-description single">
                 <p>
                   Below you will find some statistics of the preparedness of U.S. states and of the vulnerability of the population in each state. For more information on critical care in the United States, visit <a href="https://sccm.org/Communications/Critical-Care-Statistics" target="_blank" rel="noopener noreferrer">this</a> report from the Society of Critical Care Medicine.
