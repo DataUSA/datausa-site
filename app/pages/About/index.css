@@ -1,3 +1,11 @@
+.visible-banner #About,
+.visible-banner #Data {
+  margin: calc(var(--nav-height) * 2 + var(--banner-height)) auto 0;
+  & #SideNav {
+    top: calc(var(--nav-height) * 2 + var(--banner-height));
+  }
+}
+
 #About, #Data {
   background-color: #f6f6f6;
   margin: calc(var(--nav-height) * 2) auto 0;
