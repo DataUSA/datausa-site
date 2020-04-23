@@ -63,7 +63,7 @@ class Viz extends Component {
         component={ this }
         config={ vizProps.config }
         data={ vizProps.config.cart || vizProps.config.data }
-        dataFormat={ vizProps.dataFormat }
+        dataFormat={ vizProps.config.cart ? d => d.data : vizProps.dataFormat }
         slug={ slug }
         title={ formatters.stripHTML(title || "Data USA Visualization") }
         topic={ topic }
