@@ -27,6 +27,21 @@ const commas = format(",");
 
 const suffixes = ["th", "st", "nd", "rd"];
 
+const colorArray = [
+  "#f33535",
+  "#ffb563",
+  "#418e84",
+  "#2f1fc1",
+  "#bf168e",
+  "#5a1d28",
+  "#c19a1f",
+  "#336a81",
+  "#8c567c",
+  "#ff8166",
+  "#72f5c4",
+  "#c0451e"
+];
+
 /** */
 function suffix(number) {
   const tail = number % 100;
@@ -457,10 +472,8 @@ class Coronavirus extends Component {
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
-    const lineColor = d =>
-      currentStates.length === 0 || currentStates.length > 5
-        ? colors.Region[d["ID Region"]]
-        : colors.Region[currentStates.indexOf(currentStates.find(s => s["ID Geography"] === d["ID Geography"])) + 1];
+    const lineColor = currentStates.length === 0 ? d => colors.Region[d["ID Region"]]
+      : d => colorArray[currentStates.indexOf(currentStates.find(s => s["ID Geography"] === d["ID Geography"])) % colorArray.length];
 
     const sharedConfig = {
       aggs: {
@@ -564,7 +577,8 @@ class Coronavirus extends Component {
       label: d => d.Geography,
       shapeConfig: {
         Path: {
-          stroke: d => currentStatesHash[d["ID Geography"]] ? styles.red : styles.dark,
+          // stroke: d => currentStatesHash[d["ID Geography"]] ? styles.red : styles.dark,
+          stroke: d => currentStatesHash[d["ID Geography"]] ? lineColor(d) : styles.dark,
           strokeWidth: d => currentStatesHash[d["ID Geography"]] ? 3 : 1,
           strokeOpacity: d => currentStatesHash[d["ID Geography"]] ? .75 : .25
         }
@@ -691,7 +705,11 @@ class Coronavirus extends Component {
     const today = max(stateTestData, d => d.Date);
     const latest = stateTestData.filter(d => d.Date === today);
     const show = stateTestData.length > 0;
-    const {list} = this.context.formatters;
+
+    const list = d => {
+      if (d.length > 3) return `the ${d.length} selected states`;
+      else return this.context.formatters.list(d);
+    };
 
     // top-level stats
     const stats = {};
