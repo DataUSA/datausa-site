@@ -85,33 +85,6 @@ module.exports = function(app) {
             ]
           },
           {
-            name: "Melissa Teng",
-            img: "/images/story/authors/teng.png",
-            title: "Designer",
-            twitter: "https://twitter.com/melisteng",
-            about: [
-              "Melissa is a Sapient-trained web designer who graduated from Rice University with a degree in Economics. She's Datawheel's go-to design expert whose artistic skill ranges from the physical to the digital.",
-              "On the side Melissa curates a gallery with artists from marginalized communities."
-            ]
-          },
-          {
-            name: "Matt Rosadini",
-            img: "/images/story/authors/rosadini.png",
-            title: "Administration",
-            about: [
-              "Matt is a graduate of Northeastern University who has spent his professional life encouraging young creative businesses. His professional talents include programming, operations and photography, among others.",
-              "Matt balances his work life with a strong dose of niche hobbies: coin collecting, metal detecting, recreational bowling, reading and anything outdoors."
-            ]
-          },
-          {
-            name: "Walther Chen",
-            img: "/images/story/authors/chen.png",
-            title: "Full Stack Software Developer",
-            about: [
-              "In former lives, Walther was a lawyer and a martial arts instructor. Now he writes back-end services and wrangles data. On the side, he plays the game of Go and practices yoga."
-            ]
-          },
-          {
             name: "Jimmy Mullen",
             img: "/images/story/authors/mullen.png",
             title: "Full Stack Engineer",
@@ -148,12 +121,23 @@ module.exports = function(app) {
             ]
           },
           {
-            name: "Victor Bebo",
-            img: "/images/story/authors/bebo.png",
-            title: "Operations Manager",
+            name: "Márcio Porto",
+            img: "/images/story/authors/porto.jpg",
+            title: "Back-End Developer",
+            twitter: "https://twitter.com/MarcioFLPorto",
             about: [
-              "Victor has a diverse employment background; he has worked at a sheet metal shop, as a plumber, and for a decade at Apple. In school he studied psychology & philosophy. He now handles logistics at Datawheel so the team can focus on their craft.",
-              "When OOO you can find him playing video games, watching movies (preferably 35mm), at a table playing D&D, or watching Twitch Streams, typically while snugging his cat, Nebula."
+              "Márcio moved from the sandy beaches of Brazil to the excruciating Minnesota cold, where he graduated from Macalester College with a Computer Science degree and a minor in Data Science. He is an experienced full stack engineer who loves all things data.",
+              "Outside of work, you will catch him working on fancy deep learning models or playing/watching every imaginable sport."
+            ]
+          },
+          {
+            name: "Mauricio Barbieri Figueroa",
+            img: "/images/story/authors/figueroa.jpg",
+            title: "Back-End Developer",
+            twitter: "https://twitter.com/MarcioFLPorto",
+            about: [
+              "Mauricio is a civil industrial engineer from Universidad de Concepción, who developed models to solve an original routing problem inspired by Pokémon Go in his undergraduate dissertation. He's passionate about programming, optimization, maths and wants to become a data scientist.",
+              "In his free time, you could find him belting showtunes, writing songs, reading philosophy books and coming up with new foolproof diets after binging on burgers and fries each weekend."
             ]
           }
         ]
