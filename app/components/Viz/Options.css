@@ -231,6 +231,7 @@
         }
       }
       & .download {
+        display: flex;
         width: 100%;
         & button {
           color: #333;
@@ -252,6 +253,13 @@
         }
         & input {
           flex: 1;
+        }
+        &.vertical {
+          flex-direction: column;
+          & input {
+            flex: 0 0 35px;
+            margin-top: 5px;
+          }
         }
       }
       & .table {

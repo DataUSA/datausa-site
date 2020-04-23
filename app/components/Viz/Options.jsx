@@ -9,6 +9,7 @@ import JSZip from "jszip";
 import {saveElement} from "d3plus-export";
 import axios from "axios";
 import {formatAbbreviate} from "d3plus-format";
+import {dataLoad} from "d3plus-viz";
 
 import {Checkbox, Dialog, Icon, NonIdealState, Spinner, Tab2, Tabs2} from "@blueprintjs/core";
 import {Cell, Column, SelectionModes, Table} from "@blueprintjs/table";
@@ -81,12 +82,19 @@ class Options extends Component {
       {label: "Fullscreen", value: ["100%", "100%"]}
     ];
 
-    const {data, slug, topic} = props;
+    const {data, slug} = props;
     const {hierarchy} = this.props.variables;
+
+    let dataURLs = [];
+    if (data instanceof Array) {
+      if (!data.some(d => typeof d !== "string")) dataURLs = data;
+    }
+    else dataURLs.push(data);
+    dataURLs = dataURLs.map(d => d.replace(/[&?]limit=[^&]+/g, ""));
 
     this.state = {
       cartSlug: `${slug}${hierarchy ? `_${hierarchy}` : ""}`,
-      data: topic.cart || typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data,
+      data: dataURLs,
       embedSize: sizeList[0],
       includeText: false,
       loading: false,
@@ -97,9 +105,16 @@ class Options extends Component {
   }
 
   componentDidUpdate() {
-    const {data, topic} = this.props;
-    const newData = topic.cart || typeof data === "string" ? data.replace(/[&?]limit=[^&]+/g, "") : data;
-    if (newData !== this.state.data) this.setState({data: newData, results: false});
+    const {data} = this.props;
+
+    let dataURLs = [];
+    if (data instanceof Array) {
+      if (!data.some(d => typeof d !== "string")) dataURLs = data;
+    }
+    else dataURLs.push(data);
+    dataURLs = dataURLs.map(d => d.replace(/[&?]limit=[^&]+/g, ""));
+
+    if (JSON.stringify(dataURLs) !== JSON.stringify(this.state.data)) this.setState({data: dataURLs, results: false});
   }
 
   async onCart() {
@@ -116,7 +131,7 @@ class Options extends Component {
       console.log(cartSlug);
       console.log(data);
       console.log(config);
-      const [base, query] = data.split("?");
+      const [base, query] = data[0].split("?");
       const params = query ? decodeURIComponent(query).split("&")
         .reduce((obj, d) => {
           const [key, val] = d.split("=");
@@ -306,11 +321,10 @@ class Options extends Component {
       const {dataFormat} = this.props;
       const {data} = this.state;
       this.setState({loading: true});
-      axios.get(data)
-        .then(resp => {
-          const results = dataFormat(resp.data);
-          this.setState({loading: false, results});
-        });
+      dataLoad.bind(this)(data, dataFormat, undefined, (err, results) => {
+        if (err) console.error(err);
+        this.setState({loading: false, results});
+      });
     }
   }
 
@@ -409,11 +423,11 @@ class Options extends Component {
 
     const DataPanel = () => results
       ? <div className="pt-dialog-body view-table vertical">
-        <div className="horizontal download">
+        <div className={`download ${data.length > 1 ? "vertical" : "horizontal"}`}>
           <button type="button" className="pt-button pt-icon-download pt-minimal" onClick={this.onCSV.bind(this)}>
             Download as CSV
           </button>
-          <input type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${data}`} />
+          { data.map((d, i) => <input key={i} type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${d}`} />)}
         </div>
         <div className="table">
           <Table allowMultipleSelection={false}
@@ -455,7 +469,7 @@ class Options extends Component {
         <span>Share this visualization on Twitter, Facebook, or on your personal website.</span>
       </Tooltip2> : null }
 
-      { cartEnabled ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
+      { cartEnabled && data.length === 1 ? <Tooltip2 tooltipClassName="option-tooltip" placement="top-end">
         <div className={ `option add-to-cart ${ cartSize >= cartMax ? "disabled" : "" }` } onClick={this.onCart.bind(this)}>
           <span className="option-label">{ cartSize === undefined ? "Loading Cart" : inCart ? "Remove from Cart" : "Add Data to Cart" }</span>
         </div>
