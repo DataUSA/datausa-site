@@ -240,6 +240,13 @@ module.exports = function(app) {
     output.forEach(d => {
       d.ConfirmedPC = d.Confirmed ? d.Confirmed * 100000 / d.Population : null;
       d.DeathsPC = d.Deaths ? d.Deaths * 100000 / d.Population : null;
+      [
+        "hospitalizedCurrently", "hospitalizedCumulative", "inIcuCurrently", "inIcuCumulative",
+        "onVentilatorCurrently", "onVentilatorCumulative", "recovered", "hash",
+        "totalTestResults", "posNeg", "fips", "deathIncrease", "hospitalizedIncrease",
+        "negativeIncrease", "positiveIncrease", "totalTestResultsIncrease",
+        "Slug State", "pending", "Year", "ID Year"
+      ].forEach(h => delete d[h]);
     });
     res.json({
       data: output,
