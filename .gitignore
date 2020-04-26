@@ -4,6 +4,7 @@ npm-debug.log*
 # node modules should never be synced with git
 node_modules
 static/datacovid19.json
+static/mobilitycovid19.json
 
 # these static files will be generated on build
 /static/assets
