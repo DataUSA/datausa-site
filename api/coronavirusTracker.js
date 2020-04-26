@@ -180,6 +180,12 @@ module.exports = function(app) {
     res.json(filteredData);
   });
 
+  app.get("/api/covid19/mobility/states", async(req, res) => {
+    const origin = `${ req.protocol }://${ req.headers.host }`;
+    const data = await axios(`${origin}/mobilitycovid19.json`).then(resp => resp.data);
+    res.json(data);
+  });
+
   app.get("/api/covid19/states", async(req, res) => {
     const data = await axios
       .get("https://covidtracking.com/api/v1/states/daily.json")
