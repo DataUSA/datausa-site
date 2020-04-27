@@ -571,6 +571,7 @@ class Coronavirus extends Component {
       countryCutoffData: [],
       countryCutoffDeathData: [],
       countryData: [],
+      currentCaseSectionTitle: "Total Confirmed Cases By Date",
       currentStates: [],
       currentStatesHash: {},
       cutoff: 10,
@@ -775,6 +776,7 @@ class Coronavirus extends Component {
       countryCutoffData,
       countryCutoffDeathData,
       cutoff,
+      currentCaseSectionTitle,
       currentStates,
       currentStatesHash,
       employmentData,
@@ -1197,6 +1199,47 @@ class Coronavirus extends Component {
       totalPositiveFiltered / totalTestsFiltered * 100
     )}%`;
 
+    const caseSections = {
+      "Total Confirmed Cases By Date": {
+        stat: {
+          value: show ? topicStats.totalCases : <Spinner />,
+          title: `Total Cases in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        description: "This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state.",
+        sources: [ctSource],
+        showCharts: stateTestData.length > 0,
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.Confirmed),
+          title: `Confirmed Cases (${scaleLabel})`,
+          time: "Date",
+          timeline: false,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "Confirmed"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "Confirmed",
+          data: latest.filter(d => d.Confirmed)
+        }
+      }
+    };
+
+    const CaseSelector = () => 
+      <div>
+        <div className="pt-select">
+          <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
+            {Object.keys(caseSections).map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+      </div>;
+
+    const currentSection = caseSections[currentCaseSectionTitle];
+
     return (
       <div id="Coronavirus">
         <Helmet title={title}>
@@ -1329,6 +1372,42 @@ class Coronavirus extends Component {
               </div>
             </div>
             <div className="section-topics">
+              <div className="topic TextViz">
+                <div className="topic-content">
+                  <TopicTitle
+                    slug="cases"
+                    title={`NEW ${currentCaseSectionTitle}`}
+                  />
+                  <StateSelector />
+                  <CaseSelector />
+                  {currentSection.stat &&
+                    <div className="topic-stats">
+                      <div className="StatGroup single">
+                        <div className="stat-value">{currentSection.stat.value}</div>
+                        <div className="stat-title">{currentSection.stat.title}</div>
+                        <div className="stat-subtitle">{currentSection.stat.subtitle}</div>
+                      </div>
+                    </div>
+                  }
+                  <AxisToggle />
+                  <div className="topic-description">
+                    <p>
+                      {currentSection.description}
+                    </p>
+                  </div>
+                  <SourceGroup sources={currentSection.sources} />
+                </div>
+                <div className="visualization topic-visualization">
+                  { currentSection.showCharts 
+                    ? <LinePlot className="d3plus" config={assign({}, sharedConfig, currentSection.lineConfig)} />
+                    : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+                </div>
+                <div className="visualization topic-visualization">
+                  { currentSection.showCharts 
+                    ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
+                    : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+                </div>
+              </div>
               <div className="topic TextViz">
                 <div className="topic-content">
                   <TopicTitle
