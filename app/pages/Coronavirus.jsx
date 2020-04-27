@@ -572,6 +572,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData: [],
       countryData: [],
       currentCaseSectionTitle: "Total Confirmed Cases By Date",
+      currentInternationalSectionTitle: "International Comparison (Cases)",
       currentStates: [],
       currentStatesHash: {},
       cutoff: 10,
@@ -777,6 +778,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       currentCaseSectionTitle,
+      currentInternationalSectionTitle,
       currentStates,
       currentStatesHash,
       employmentData,
@@ -1412,6 +1414,72 @@ class Coronavirus extends Component {
 
     const currentSection = caseSections[currentCaseSectionTitle];
 
+    const internationalSections = {
+      "International Comparison (Cases)": {
+        descriptions: ["To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than 50 cases, with that of the five countries that have reported most cases. We shift all time starting points to the day each place reported a total of 50 cases or more."],
+        sources: [ctSource, acs1Source, wbSource],
+        showCharts: countryCutoffData.length > 0,
+        lineConfig: {
+          annotations: countryCutoffAnnotations,
+          data: countryCutoffDataFiltered,
+          title: `Confirmed Cases per 100,000 (${scaleLabel})`,
+          x: "Days",
+          xConfig: {
+            domain: countryCutoffDomain,
+            gridConfig: {"stroke-width": 0},
+            labels: countryCutoffLabels,
+            tickFormat: daysFormat,
+            tickSize: 0,
+            title: "Days Since 50 Confirmed Cases"
+          },
+          y: "ConfirmedPC",
+          yConfig: {
+            barConfig: {"stroke": "#ccc", "stroke-width": 1},
+            gridConfig: {"stroke-width": 0},
+            tickSize: 0
+          }
+        }       
+      },
+      "International Comparison (Deaths)": {
+        descriptions: ["Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death."],
+        sources: [ctSource, acs1Source, wbSource],
+        showCharts: countryCutoffDeathData.length > 0,
+        lineConfig: {
+          annotations: countryCutoffDeathAnnotations,
+          data: countryCutoffDeathDataFiltered,
+          title: `Deaths per 100,000 (${scaleLabel})`,
+          tooltipConfig: deathTooltip,
+          x: "Days",
+          xConfig: {
+            barConfig: {"stroke": "#ccc", "stroke-width": 1},
+            domain: countryCutoffDeathDomain,
+            gridConfig: {"stroke-width": 0},
+            labels: countryCutoffDeathLabels,
+            tickFormat: daysFormat,
+            tickSize: 0,
+            title: "Days Since 10 Deaths"
+          },
+          y: "DeathsPC",
+          yConfig: {
+            barConfig: {"stroke": "#ccc", "stroke-width": 1},
+            gridConfig: {"stroke-width": 0},
+            tickSize: 0
+          }
+        }
+      }
+    };
+
+    const InternationalSelector = () => 
+      <div>
+        <div className="pt-select">
+          <select value={currentInternationalSectionTitle} onChange={e => this.setState({currentInternationalSectionTitle: e.target.value})}>
+            {Object.keys(internationalSections).map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+      </div>;
+
+    const currentInternationalSection = internationalSections[currentInternationalSectionTitle];
+
     return (
       <div id="Coronavirus">
         <Helmet title={title}>
@@ -1623,7 +1691,7 @@ class Coronavirus extends Component {
                         y: "Confirmed"
                       })}
                     />
-                    :                     <NonIdealState
+                    : <NonIdealState
                       title="Loading Data..."
                       visual={<Spinner />}
                     />
@@ -1635,108 +1703,22 @@ class Coronavirus extends Component {
                 <div className="topic-content">
                   <TopicTitle
                     slug="cases-intl"
-                    title="International Comparison"
+                    title={currentInternationalSectionTitle}
                   />
+                  <InternationalSelector />
                   <AxisToggle />
                   <div className="topic-description">
-                    <p>
-                      To get a sense of how the COVID-19 trajectory in the U.S.
-                      states compares to that in other countries, we compare the
-                      per capita number of cases for each state that has
-                      reported more than 50 cases, with that of the five
-                      countries that have reported most cases. We shift all time
-                      starting points to the day each place reported a total of
-                      50 cases or more.
-                    </p>
+                    {currentInternationalSection.descriptions.map(d => <p key={d}>{d}</p>)}
                   </div>
-                  <SourceGroup sources={[ctSource, acs1Source, wbSource]} />
+                  <SourceGroup sources={currentInternationalSection.sources} />
                 </div>
                 <div className="visualization topic-visualization">
-                  {countryCutoffData.length 
+                  {currentInternationalSection.showCharts 
                     ? <LinePlot
                       className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        annotations: countryCutoffAnnotations,
-                        data: countryCutoffDataFiltered,
-                        title: `Confirmed Cases per 100,000 (${scaleLabel})`,
-                        x: "Days",
-                        xConfig: {
-                          domain: countryCutoffDomain,
-                          gridConfig: {"stroke-width": 0},
-                          labels: countryCutoffLabels,
-                          tickFormat: daysFormat,
-                          tickSize: 0,
-                          title: "Days Since 50 Confirmed Cases"
-                        },
-                        y: "ConfirmedPC",
-                        yConfig: {
-                          barConfig: {"stroke": "#ccc", "stroke-width": 1},
-                          gridConfig: {"stroke-width": 0},
-                          tickSize: 0
-                        }
-                      })}
+                      config={assign({}, sharedConfig, currentInternationalSection.lineConfig)}
                     />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Deaths */}
-          <div className="Section coronavirus-section">
-            <SectionTitle slug="deaths" title="Deaths" />
-            <div className="section-topics">
-
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="deaths-intl"
-                    title="International Comparison"
-                  />
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      Here we compare the per capita number of deaths attributed
-                      to COVID-19 in each state that has reported more than 10
-                      deaths with that of the five countries that have reported
-                      the most deaths. We shift all time starting points to the
-                      day each place reported its tenth death.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource, acs1Source, wbSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {countryCutoffDeathData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        annotations: countryCutoffDeathAnnotations,
-                        data: countryCutoffDeathDataFiltered,
-                        title: `Deaths per 100,000 (${scaleLabel})`,
-                        tooltipConfig: deathTooltip,
-                        x: "Days",
-                        xConfig: {
-                          barConfig: {"stroke": "#ccc", "stroke-width": 1},
-                          domain: countryCutoffDeathDomain,
-                          gridConfig: {"stroke-width": 0},
-                          labels: countryCutoffDeathLabels,
-                          tickFormat: daysFormat,
-                          tickSize: 0,
-                          title: "Days Since 10 Deaths"
-                        },
-                        y: "DeathsPC",
-                        yConfig: {
-                          barConfig: {"stroke": "#ccc", "stroke-width": 1},
-                          gridConfig: {"stroke-width": 0},
-                          tickSize: 0
-                        }
-                      })}
-                    />
-                    :                     <NonIdealState
+                    : <NonIdealState
                       title="Loading Data..."
                       visual={<Spinner />}
                     />
