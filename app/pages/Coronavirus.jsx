@@ -1286,7 +1286,36 @@ class Coronavirus extends Component {
           tooltipConfig: deathTooltip
         }
       },
-      
+      "Deaths per Capita": {
+        showStateSelector: true,
+        stat: {
+          value: show ? topicStats.totalDeathsPC : <Spinner />,
+          title: `Deaths per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)): "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        description: "This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state.",
+        sources: [ctSource, acs1Source],
+        showCharts: stateTestData.length > 0,
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.DeathsPC),
+          time: "Date",
+          timeline: false,
+          title: `Deaths per 100,000 (${scaleLabel})`,
+          tooltipConfig: deathTooltip,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "DeathsPC"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Deaths per Capita by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "DeathsPC",
+          data: latest.filter(d => d.DeathsPC),
+          tooltipConfig: deathTooltip
+        }
+      }
     };
 
     const CaseSelector = () => 
@@ -1579,157 +1608,6 @@ class Coronavirus extends Component {
           <div className="Section coronavirus-section">
             <SectionTitle slug="deaths" title="Deaths" />
             <div className="section-topics">
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="cases-total"
-                    title="Total Deaths by State"
-                  />
-                  <StateSelector />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? topicStats.totalDeaths : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Total Deaths in{" "}
-                        {currentStates.length > 0
-                          ? list(currentStates.map(o => o.Geography))
-                          : "the USA"}
-                      </div>
-                      <div className="stat-subtitle">
-                        {show ? `as of ${dayFormat(today)}` : ""}
-                      </div>
-                    </div>
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      This chart shows the number of deaths attributed to
-                      COVID-19 cases in each U.S. state.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(d => d.Deaths),
-                        time: "Date",
-                        timeline: false,
-                        title: `Deaths (${scaleLabel})`,
-                        tooltipConfig: deathTooltip,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "Deaths"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Deaths by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "Deaths",
-                        data: latest.filter(d => d.Deaths),
-                        tooltipConfig: deathTooltip
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle slug="deaths-pc" title="Deaths per Capita" />
-                  <StateSelector />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? topicStats.totalDeathsPC : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Deaths per 100k in{" "}
-                        {currentStates.length > 0
-                          ? list(currentStates.map(o => o.Geography))
-                          : "the USA"}
-                      </div>
-                      <div className="stat-subtitle">
-                        {show ? `as of ${dayFormat(today)}` : ""}
-                      </div>
-                    </div>
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      This chart normalizes the number of confirmed COVID-19
-                      deaths by the population of each state. It gives an idea
-                      of the impact of COVID-19 infections in each state.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource, acs1Source]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(d => d.DeathsPC),
-                        time: "Date",
-                        timeline: false,
-                        title: `Deaths per 100,000 (${scaleLabel})`,
-                        tooltipConfig: deathTooltip,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "DeathsPC"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Deaths per Capita by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "DeathsPC",
-                        data: latest.filter(d => d.DeathsPC),
-                        tooltipConfig: deathTooltip
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
 
               <div className="topic TextViz">
                 <div className="topic-content">
