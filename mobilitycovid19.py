@@ -27,6 +27,8 @@ states = {"Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "C
 df_google = pd.read_csv("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv", low_memory=False)
 
 df_google = df_google[df_google["country_region_code"] == "US"]
+df_google = df_google[(~df_google["sub_region_1"].isna()) & (df_google["sub_region_2"].isna())]
+
 df_google = df_google.melt(
     id_vars=["country_region", "sub_region_1", "date"],
     value_vars=[
@@ -50,14 +52,14 @@ df_google["variable"] = df_google["variable"].replace({
 
 df_google = df_google.drop(columns=["country_region"])
 df_google = df_google.rename(columns={
-    "sub_region_1": "State",
+    "sub_region_1": "Geography",
     "date": "Date",
     "variable": "Type",
     "value": "Percent Change from Baseline"
 })
 
-df_google = df_google[~df_google["State"].isna()]
-df_google["State ID"] = df_google["State"].replace(states).replace(stateToFips)
+df_google = df_google[~df_google["Geography"].isna()]
+df_google["ID Geography"] = df_google["Geography"].replace(states).replace(stateToFips)
 df_google["Date"] = df_google["Date"].str.replace("-", "/")
 
 path = os.path.dirname(os.path.abspath("__file__")) + "/static/mobilitycovid19.json"
