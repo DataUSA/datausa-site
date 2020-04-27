@@ -1255,8 +1255,38 @@ class Coronavirus extends Component {
           colorScale: "ConfirmedPC",
           data: latest.filter(d => d.ConfirmedPC)
         }
-      }
-
+      },
+      "Total Deaths by State": {
+        showStateSelector: true,
+        stat: {
+          value: show ? topicStats.totalDeaths : <Spinner />,
+          title: `Total Deaths in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        description: "This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state.",
+        sources: [ctSource],
+        showCharts: stateTestData.length > 0,
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.Deaths),
+          time: "Date",
+          timeline: false,
+          title: `Deaths (${scaleLabel})`,
+          tooltipConfig: deathTooltip,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "Deaths"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Deaths by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "Deaths",
+          data: latest.filter(d => d.Deaths),
+          tooltipConfig: deathTooltip
+        }
+      },
+      
     };
 
     const CaseSelector = () => 
