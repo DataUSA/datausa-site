@@ -1405,11 +1405,14 @@ class Coronavirus extends Component {
 
     const CaseSelector = () => 
       <div>
-        <div className="pt-select">
-          <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
-            {Object.keys(caseSections).map(d => <option key={d} value={d}>{d}</option>)}
-          </select>
-        </div>
+        <label className="pt-label pt-inline">
+          View
+          <div className="pt-select">
+            <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
+              {Object.keys(caseSections).map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
+        </label>
       </div>;
 
     const currentSection = caseSections[currentCaseSectionTitle];
@@ -1471,11 +1474,14 @@ class Coronavirus extends Component {
 
     const InternationalSelector = () => 
       <div>
-        <div className="pt-select">
-          <select value={currentInternationalSectionTitle} onChange={e => this.setState({currentInternationalSectionTitle: e.target.value})}>
-            {Object.keys(internationalSections).map(d => <option key={d} value={d}>{d}</option>)}
-          </select>
-        </div>
+        <label className="pt-label pt-inline">
+          View
+          <div className="pt-select">
+            <select value={currentInternationalSectionTitle} onChange={e => this.setState({currentInternationalSectionTitle: e.target.value})}>
+              {Object.keys(internationalSections).map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
+        </label>
       </div>;
 
     const currentInternationalSection = internationalSections[currentInternationalSectionTitle];
