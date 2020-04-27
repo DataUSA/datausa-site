@@ -1201,6 +1201,7 @@ class Coronavirus extends Component {
 
     const caseSections = {
       "Total Confirmed Cases By Date": {
+        showStateSelector: true,
         stat: {
           value: show ? topicStats.totalCases : <Spinner />,
           title: `Total Cases in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
@@ -1226,7 +1227,36 @@ class Coronavirus extends Component {
           colorScale: "Confirmed",
           data: latest.filter(d => d.Confirmed)
         }
+      },
+      "Total Confirmed Cases per Capita": {
+        showStateSelector: true,
+        stat: {
+          value: show ? topicStats.totalPC : <Spinner />,
+          title: `Cases per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        description: "This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state.",
+        sources: [ctSource, acs1Source],
+        showCharts: stateTestData.length > 0,
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.ConfirmedPC),
+          time: "Date",
+          timeline: false,
+          title: `Confirmed Cases per 100,000 (${scaleLabel})`,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "ConfirmedPC"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Cases per Capita by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "ConfirmedPC",
+          data: latest.filter(d => d.ConfirmedPC)
+        }
       }
+
     };
 
     const CaseSelector = () => 
@@ -1378,7 +1408,7 @@ class Coronavirus extends Component {
                     slug="cases"
                     title={`NEW ${currentCaseSectionTitle}`}
                   />
-                  <StateSelector />
+                  {currentSection.showStateSelector && <StateSelector />}
                   <CaseSelector />
                   {currentSection.stat &&
                     <div className="topic-stats">
@@ -1406,161 +1436,6 @@ class Coronavirus extends Component {
                   { currentSection.showCharts 
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-                </div>
-              </div>
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="cases-total"
-                    title="Total Confirmed Cases by Date"
-                  />
-                  <StateSelector />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? topicStats.totalCases : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Total Cases in{" "}
-                        {currentStates.length > 0
-                          ? list(currentStates.map(o => o.Geography))
-                          : "the USA"}
-                      </div>
-                      <div className="stat-subtitle">
-                        {show ? `as of ${dayFormat(today)}` : ""}
-                      </div>
-                    </div>
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      This chart shows the number of confirmed COVID-19 cases in
-                      each U.S. state by date. It is the simplest of all charts,
-                      which does not control for the size of a state, or the
-                      time the epidemic began in that state.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(d => d.Confirmed),
-                        title: `Confirmed Cases (${scaleLabel})`,
-                        time: "Date",
-                        timeline: false,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "Confirmed"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Confirmed Cases by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "Confirmed",
-                        data: latest.filter(d => d.Confirmed)
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="cases-pc"
-                    title="Total Confirmed Cases per Capita"
-                  />
-                  <StateSelector />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? topicStats.totalPC : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Cases per 100k in{" "}
-                        {currentStates.length > 0
-                          ? list(currentStates.map(o => o.Geography))
-                          : "the USA"}
-                      </div>
-                      <div className="stat-subtitle">
-                        {show ? `as of ${dayFormat(today)}` : ""}
-                      </div>
-                    </div>
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      This chart normalizes the number of confirmed COVID-19
-                      cases by the population of each state. It gives an idea of
-                      the &ldquo;density&rdquo; of COVID-19 infections in each
-                      state.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource, acs1Source]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(
-                          d => d.ConfirmedPC
-                        ),
-                        time: "Date",
-                        timeline: false,
-                        title: `Confirmed Cases per 100,000 (${scaleLabel})`,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "ConfirmedPC"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Cases per Capita by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "ConfirmedPC",
-                        data: latest.filter(d => d.ConfirmedPC)
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
                 </div>
               </div>
 
