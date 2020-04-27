@@ -1348,6 +1348,36 @@ class Coronavirus extends Component {
           data: latest.filter(d => d.hospitalized),
           tooltipConfig: tooltipConfigTracker
         }
+      },
+      "Total Tests by State": {
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
+        stat: {
+          value: show ? topicStats.totalTests : <Spinner />,
+          title: `Total Tests in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)): "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
+        sources: [ctSource],
+        showCharts: stateTestData.length > 0,
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.total),
+          time: "Date",
+          timeline: false,
+          title: `Number of Tests (${scaleLabel})`,
+          tooltipConfig: tooltipConfigTracker,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "total"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Number of Tests by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "total",
+          data: latest.filter(d => d.total),
+          tooltipConfig: tooltipConfigTracker
+        }
       }
     };
 
@@ -1733,79 +1763,6 @@ class Coronavirus extends Component {
               </div>
             </div>
             <div className="section-topics">
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="tests-over-time"
-                    title="Total Tests by State"
-                  />
-                  <StateSelector />
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? topicStats.totalTests : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Total Tests in{" "}
-                        {currentStates.length > 0
-                          ? list(currentStates.map(o => o.Geography))
-                          : "the USA"}
-                      </div>
-                      <div className="stat-subtitle">
-                        {show ? `as of ${dayFormat(today)}` : ""}
-                      </div>
-                    </div>
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p />
-                  </div>
-                  <SourceGroup sources={[ctSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(d => d.total),
-                        time: "Date",
-                        timeline: false,
-                        title: `Number of Tests (${scaleLabel})`,
-                        tooltipConfig: tooltipConfigTracker,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "total"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Number of Tests by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "total",
-                        data: latest.filter(d => d.total),
-                        tooltipConfig: tooltipConfigTracker
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
             </div>
           </div>
 
