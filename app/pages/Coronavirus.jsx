@@ -1532,9 +1532,6 @@ class Coronavirus extends Component {
                 <AnchorLink to="cases-total" className="anchor">
                   Total
                 </AnchorLink>
-                <AnchorLink to="cases-pc" className="anchor">
-                  Per Capita
-                </AnchorLink>
                 <AnchorLink to="cases-adj" className="anchor">
                   Time Adjusted
                 </AnchorLink>
@@ -1547,8 +1544,8 @@ class Coronavirus extends Component {
               <div className="topic TextViz">
                 <div className="topic-content">
                   <TopicTitle
-                    slug="cases"
-                    title={`NEW ${currentCaseSectionTitle}`}
+                    slug="cases-total"
+                    title={currentCaseSectionTitle}
                   />
                   {currentSection.subtitle && 
                     <div className="topic-subtitle">
@@ -1746,67 +1743,6 @@ class Coronavirus extends Component {
                   }
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/** Hospitalizations */}
-          <div className="Section coronavirus-section">
-            <SectionTitle slug="hospitalizations" title="Hospitalizations" />
-            <div className="section-body">
-              <div className="section-content">
-                <div className="section-description single">
-                  <p>
-                    Hospitalizations are a statistic that, unlike cases,
-                    doesn&rsquo;t grow mechanically with increased testing.
-                    Hospitalizations also speak about the burden of COVID-19 in
-                    the healthcare system.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="section-topics">
-            </div>
-          </div>
-
-          {/** Testing */}
-          <div className="Section coronavirus-section">
-            <SectionTitle slug="testing" title="Testing" />
-
-            <div className="section-body">
-              <div className="section-content">
-                <div className="section-description single">
-                  <p>
-                    Testing is central in the fight against a pandemic such as
-                    COVID-19.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="section-topics">
-            </div>
-          </div>
-
-          {/* Growth Rate */}
-
-          <div className="Section coronavirus-section">
-            <h2 className="section-title">
-              <AnchorLink to="growth" id="growth" className="anchor">
-                Growth Rate
-              </AnchorLink>
-            </h2>
-            <div className="section-body">
-              <div className="section-content">
-                <div className="section-description single">
-                  <p>
-                    Because of the exponential nature of early epidemic
-                    spreading, it is important to track not only the total
-                    number of COVID-19 cases, but their growth. Here, we present
-                    the number of daily reported cases.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="section-topics">
             </div>
           </div>
 
