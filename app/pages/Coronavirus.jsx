@@ -1209,7 +1209,6 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state."],
         sources: [ctSource],
-        showCharts: stateTestData.length > 0,
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.Confirmed),
           title: `Confirmed Cases (${scaleLabel})`,
@@ -1237,7 +1236,6 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
-        showCharts: stateTestData.length > 0,
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.ConfirmedPC),
           time: "Date",
@@ -1265,7 +1263,6 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state."],
         sources: [ctSource],
-        showCharts: stateTestData.length > 0,
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.Deaths),
           time: "Date",
@@ -1295,7 +1292,6 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
-        showCharts: stateTestData.length > 0,
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.DeathsPC),
           time: "Date",
@@ -1328,7 +1324,6 @@ class Coronavirus extends Component {
           "This chart shows hospitalizations for all states that have registered at least 50 hospitalizations."
         ],
         sources: [ctSource],
-        showCharts: stateTestData.length > 0,
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.hospitalized),
           time: "Date",
@@ -1358,7 +1353,6 @@ class Coronavirus extends Component {
         },
         descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
         sources: [ctSource],
-        showCharts: stateTestData.length > 0,
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.total),
           time: "Date",
@@ -1377,6 +1371,32 @@ class Coronavirus extends Component {
           colorScale: "total",
           data: latest.filter(d => d.total),
           tooltipConfig: tooltipConfigTracker
+        }
+      },
+      "Number of Daily Cases": {
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
+        // no stat!
+        descriptions: [
+          "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth.",
+          "This chart presents the number of new cases reported daily by each U.S. state."
+        ],
+        sources: [ctSource],
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
+          time: "Date",
+          timeline: false,
+          title: `Daily Confirmed Cases (${scaleLabel})`,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "ConfirmedGrowth"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Daily Cases by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "ConfirmedGrowth",
+          data: latest.filter(d => d.ConfirmedGrowth)
         }
       }
     };
@@ -1552,12 +1572,12 @@ class Coronavirus extends Component {
                   <SourceGroup sources={currentSection.sources} />
                 </div>
                 <div className="visualization topic-visualization">
-                  { currentSection.showCharts 
+                  { stateTestData.length > 0 
                     ? <LinePlot className="d3plus" config={assign({}, sharedConfig, currentSection.lineConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
                 </div>
                 <div className="visualization topic-visualization">
-                  { currentSection.showCharts 
+                  { stateTestData.length > 0 
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
                 </div>
@@ -1787,67 +1807,6 @@ class Coronavirus extends Component {
               </div>
             </div>
             <div className="section-topics">
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <h3 id="growth-daily" className="topic-title">
-                    <AnchorLink to="growth-daily" className="anchor">
-                      Number of Daily Cases
-                    </AnchorLink>
-                  </h3>
-                  <StateSelector />
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      This chart presents the number of new cases reported daily
-                      by each U.S. state.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(
-                          d => d.ConfirmedGrowth
-                        ),
-                        time: "Date",
-                        timeline: false,
-                        title: `Daily Confirmed Cases (${scaleLabel})`,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "ConfirmedGrowth"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Daily Cases by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "ConfirmedGrowth",
-                        data: latest.filter(d => d.ConfirmedGrowth)
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
             </div>
           </div>
 
