@@ -1071,7 +1071,7 @@ class Coronavirus extends Component {
     const employmentStatStates = sum(
       employmentDataFiltered.filter(d => d.Date === latestEmployment),
       d => d.initial_claims
-    );
+    );      
 
     const StateSelector = () =>
       currentStates.length ? null 
@@ -1201,13 +1201,13 @@ class Coronavirus extends Component {
 
     const caseSections = {
       "Total Confirmed Cases By Date": {
-        showStateSelector: true,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalCases : <Spinner />,
           title: `Total Cases in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
-        description: "This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state.",
+        descriptions: ["This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state."],
         sources: [ctSource],
         showCharts: stateTestData.length > 0,
         lineConfig: {
@@ -1229,13 +1229,13 @@ class Coronavirus extends Component {
         }
       },
       "Total Confirmed Cases per Capita": {
-        showStateSelector: true,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalPC : <Spinner />,
           title: `Cases per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
-        description: "This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state.",
+        descriptions: ["This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
         showCharts: stateTestData.length > 0,
         lineConfig: {
@@ -1257,13 +1257,13 @@ class Coronavirus extends Component {
         }
       },
       "Total Deaths by State": {
-        showStateSelector: true,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalDeaths : <Spinner />,
           title: `Total Deaths in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
-        description: "This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state.",
+        descriptions: ["This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state."],
         sources: [ctSource],
         showCharts: stateTestData.length > 0,
         lineConfig: {
@@ -1287,13 +1287,13 @@ class Coronavirus extends Component {
         }
       },
       "Deaths per Capita": {
-        showStateSelector: true,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalDeathsPC : <Spinner />,
           title: `Deaths per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)): "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
-        description: "This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state.",
+        descriptions: ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
         showCharts: stateTestData.length > 0,
         lineConfig: {
@@ -1314,6 +1314,39 @@ class Coronavirus extends Component {
           colorScale: "DeathsPC",
           data: latest.filter(d => d.DeathsPC),
           tooltipConfig: deathTooltip
+        }
+      },
+      "Total Hospitalizations by State": {
+        subtitle: "Hospitalization data for some states may be delayed or not reported.",
+        stat: {
+          value: show ? topicStats.totalHospitalizations : <Spinner />,
+          title: `Hospitalizations in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        descriptions: [
+          "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.",
+          "This chart shows hospitalizations for all states that have registered at least 50 hospitalizations."
+        ],
+        sources: [ctSource],
+        showCharts: stateTestData.length > 0,
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.hospitalized),
+          time: "Date",
+          timeline: false,
+          title: `Hospitalized Patients (${scaleLabel})`,
+          tooltipConfig: tooltipConfigTracker,
+          x: "Date",
+          xConfig: {
+            tickFormat: dateFormat
+          },
+          y: "hospitalized"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Hospitalizations by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "hospitalized",
+          data: latest.filter(d => d.hospitalized),
+          tooltipConfig: tooltipConfigTracker
         }
       }
     };
@@ -1467,7 +1500,11 @@ class Coronavirus extends Component {
                     slug="cases"
                     title={`NEW ${currentCaseSectionTitle}`}
                   />
-                  {currentSection.showStateSelector && <StateSelector />}
+                  {currentSection.subtitle && 
+                    <div className="topic-subtitle">
+                      {currentSection.subtitle}
+                    </div>
+                  }
                   <CaseSelector />
                   {currentSection.stat &&
                     <div className="topic-stats">
@@ -1480,9 +1517,7 @@ class Coronavirus extends Component {
                   }
                   <AxisToggle />
                   <div className="topic-description">
-                    <p>
-                      {currentSection.description}
-                    </p>
+                    {currentSection.descriptions.map(d => <p key={d}>{d}</p>)}
                   </div>
                   <SourceGroup sources={currentSection.sources} />
                 </div>
@@ -1680,87 +1715,6 @@ class Coronavirus extends Component {
               </div>
             </div>
             <div className="section-topics">
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="total-hospitalizations"
-                    title="Total Hospitalizations by State"
-                  />
-                  <div className="topic-subtitle">
-                    Hospitalization data for some states may be delayed or not
-                    reported.
-                  </div>
-                  <div className="topic-stats">
-                    <div className="StatGroup single">
-                      <div className="stat-value">
-                        {show ? topicStats.totalHospitalizations : <Spinner />}
-                      </div>
-                      <div className="stat-title">
-                        Hospitalizations in{" "}
-                        {currentStates.length > 0
-                          ? list(currentStates.map(o => o.Geography))
-                          : "the USA"}
-                      </div>
-                      <div className="stat-subtitle">
-                        {show ? `as of ${dayFormat(today)}` : ""}
-                      </div>
-                    </div>
-                  </div>
-                  <AxisToggle />
-                  <div className="topic-description">
-                    <p>
-                      Hospitalizations for all states that have registered at
-                      least 50 hospitalizations.
-                    </p>
-                  </div>
-                  <SourceGroup sources={[ctSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length && stateTestData.length > 0 
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        data: stateTestDataFiltered.filter(
-                          d => d.hospitalized
-                        ),
-                        time: "Date",
-                        timeline: false,
-                        title: `Hospitalized Patients (${scaleLabel})`,
-                        tooltipConfig: tooltipConfigTracker,
-                        x: "Date",
-                        xConfig: {
-                          tickFormat: dateFormat
-                        },
-                        y: "hospitalized"
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateTestData.length 
-                    ? <Geomap
-                      className="d3plus"
-                      config={assign({}, geoStateConfig, {
-                        currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Hospitalizations by State\nas of ${
-                          today ? dayFormat(today) : ""
-                        }`,
-                        colorScale: "hospitalized",
-                        data: latest.filter(d => d.hospitalized),
-                        tooltipConfig: tooltipConfigTracker
-                      })}
-                    />
-                    :                     <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
             </div>
           </div>
 
