@@ -218,6 +218,8 @@ module.exports = function(app) {
         if (d.hospitalized < prev.hospitalized) d.hospitalized = prev.hospitalized;
       }
       d.Confirmed = d.positive;
+      d.Tests = d.total;
+      d.Hospitalized = d.hospitalized;
 
       d.ConfirmedGrowth = !growth ? null : d.positive - growth;
       growth = d.positive;
@@ -251,7 +253,8 @@ module.exports = function(app) {
         "onVentilatorCurrently", "onVentilatorCumulative", "recovered", "hash",
         "totalTestResults", "posNeg", "fips", "deathIncrease", "hospitalizedIncrease",
         "negativeIncrease", "positiveIncrease", "totalTestResultsIncrease",
-        "Slug State", "pending", "Year", "ID Year"
+        "ID State", "State", "total", "hospitalized",
+        "ISO2 Geography", "Slug State", "pending", "Year", "ID Year"
       ].forEach(h => delete d[h]);
     });
     res.json({

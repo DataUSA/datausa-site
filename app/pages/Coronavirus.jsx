@@ -1128,7 +1128,7 @@ class Coronavirus extends Component {
       tbody: d => {
         const arr = [
           ["Date", dateFormat(d.Date)],
-          ["Total Tests", commas(d.total)],
+          ["Total Tests", commas(d.Tests)],
           ["Tests yielding positive results", commas(d.Positive)],
           ["Tests yielding negative results", commas(d.Negative)],
           [
@@ -1136,8 +1136,8 @@ class Coronavirus extends Component {
             `${formatAbbreviate(d.PositivePC * 100)}%`
           ]
         ];
-        if (d.hospitalized) {
-          arr.push(["Hospitalized patients", commas(d.hospitalized)]);
+        if (d.Hospitalized) {
+          arr.push(["Hospitalized patients", commas(d.Hospitalized)]);
         }
 
         return arr;
@@ -1165,8 +1165,8 @@ class Coronavirus extends Component {
     stats.totalDeathsPC = formatAbbreviate(
       totalDeaths / totalPopulation * 100000
     );
-    stats.totalHospitalizations = commas(sum(latest, d => d.hospitalized));
-    const totalTests = sum(latest, d => d.total);
+    stats.totalHospitalizations = commas(sum(latest, d => d.Hospitalized));
+    const totalTests = sum(latest, d => d.Tests);
     stats.totalTests = commas(totalTests);
     const totalPositive = sum(latest, d => d.Positive);
     stats.totalPositivePercent = `${formatAbbreviate(
@@ -1190,9 +1190,9 @@ class Coronavirus extends Component {
       totalDeathsFiltered / totalPopulationFiltered * 100000
     );
     topicStats.totalHospitalizations = commas(
-      sum(latestFiltered, d => d.hospitalized)
+      sum(latestFiltered, d => d.Hospitalized)
     );
-    const totalTestsFiltered = sum(latestFiltered, d => d.total);
+    const totalTestsFiltered = sum(latestFiltered, d => d.Tests);
     topicStats.totalTests = commas(totalTestsFiltered);
     const totalPositiveFiltered = sum(latestFiltered, d => d.Positive);
     topicStats.totalPositivePercent = `${formatAbbreviate(
@@ -1325,7 +1325,7 @@ class Coronavirus extends Component {
         ],
         sources: [ctSource],
         lineConfig: {
-          data: stateTestDataFiltered.filter(d => d.hospitalized),
+          data: stateTestDataFiltered.filter(d => d.Hospitalized),
           time: "Date",
           timeline: false,
           title: `Hospitalized Patients (${scaleLabel})`,
@@ -1334,13 +1334,13 @@ class Coronavirus extends Component {
           xConfig: {
             tickFormat: dateFormat
           },
-          y: "hospitalized"
+          y: "Hospitalized"
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
           title: `Hospitalizations by State\nas of ${today ? dayFormat(today) : ""}`,
-          colorScale: "hospitalized",
-          data: latest.filter(d => d.hospitalized),
+          colorScale: "Hospitalized",
+          data: latest.filter(d => d.Hospitalized),
           tooltipConfig: tooltipConfigTracker
         }
       },
@@ -1354,7 +1354,7 @@ class Coronavirus extends Component {
         descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
         sources: [ctSource],
         lineConfig: {
-          data: stateTestDataFiltered.filter(d => d.total),
+          data: stateTestDataFiltered.filter(d => d.Tests),
           time: "Date",
           timeline: false,
           title: `Number of Tests (${scaleLabel})`,
@@ -1363,13 +1363,13 @@ class Coronavirus extends Component {
           xConfig: {
             tickFormat: dateFormat
           },
-          y: "total"
+          y: "Tests"
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
           title: `Number of Tests by State\nas of ${today ? dayFormat(today) : ""}`,
-          colorScale: "total",
-          data: latest.filter(d => d.total),
+          colorScale: "Tests",
+          data: latest.filter(d => d.Tests),
           tooltipConfig: tooltipConfigTracker
         }
       },
