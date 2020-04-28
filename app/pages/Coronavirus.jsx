@@ -654,7 +654,7 @@ class Coronavirus extends Component {
             }))
             .filter(d => d.Date > cutoffDate);
 
-          const mobilityData = resp[4].data.map(d => ({
+          const mobilityData = resp[4].data.data.map(d => ({
             ...d,
             ...divisions.find(
               x => x["ID Division"] === stateToDivision[d["ID Geography"]]
@@ -900,11 +900,7 @@ class Coronavirus extends Component {
         Line: {
           labelConfig: {
             fontColor: d => colorLegible(lineColor(d)),
-            fontFamily: () => [
-              "Pathway Gothic One",
-              "Arial Narrow",
-              "sans-serif"
-            ],
+            fontFamily: () => ["Pathway Gothic One", "Arial Narrow", "sans-serif"],
             fontSize: () => 12
           },
           sort: a => a["ID Region"] !== 6 ? 1 : -1,

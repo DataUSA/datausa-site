@@ -183,7 +183,17 @@ module.exports = function(app) {
   app.get("/api/covid19/mobility/states", async(req, res) => {
     const origin = `${ req.protocol }://${ req.headers.host }`;
     const data = await axios(`${origin}/mobilitycovid19.json`).then(resp => resp.data);
-    res.json(data);
+    res.json({
+      data,
+      source: [{
+        annotations: {
+          dataset_link:
+            "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv",
+          dataset_name: "Community Mobility Reports",
+          source_link: "https://www.google.com/covid19/mobility/",
+          source_name: "Google COVID-19"
+        }
+      }]});
   });
 
   app.get("/api/covid19/states", async(req, res) => {
