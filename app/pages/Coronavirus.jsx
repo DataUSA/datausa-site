@@ -1754,7 +1754,7 @@ class Coronavirus extends Component {
                   />
                   <StateSelector />
                   <label className="pt-label pt-inline">
-                    Type
+                    Location Type
                     <div className="pt-select">
                       <select
                         onChange={evt =>
@@ -1795,7 +1795,7 @@ class Coronavirus extends Component {
                         time: "Date",
                         timeline: false,
                         discrete: "x",
-                        title: `Percent Change of Community Mobility from Baseline (${mobilityType})`,
+                        title: `Change of ${mobilityType} Mobility`,
                         tooltipConfig: {
                           tbody: d => [
                             [
@@ -1811,7 +1811,7 @@ class Coronavirus extends Component {
                         },
                         y: "Percent Change from Baseline",
                         yConfig: {
-                          tickFormat: d => `${d >= 0 ? "+" : ""}${d}%`,
+                          tickFormat: d => `${d > 0 ? "+" : ""}${d}%`,
                           scale: "linear"
                         }
                       })}
@@ -1828,13 +1828,16 @@ class Coronavirus extends Component {
                       className="d3plus"
                       config={assign({}, geoStateConfig, {
                         currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Change of Community Mobility by State (${mobilityType})\nas of ${dayFormat(
+                        title: `Change of ${mobilityType} Mobility by State\nas of ${dayFormat(
                           new Date(this.state.mobilityLatestDate).getTime()
                         )}`,
-                        colorScale: "Percent Change from Baseline",
+                        colorScale: d => Math.abs(d["Percent Change from Baseline"]),
                         colorScaleConfig: {
                           axisConfig: {
-                            tickFormat: d => `${d >= 0 ? "+" : ""}${d}%`
+                            tickFormat: d => `${d > 0 ? "-" : ""}${d}%`
+                          },
+                          legendConfig: {
+                            label: d => d.id.replace(" - ", " to ")
                           }
                         },
                         data: mobilityDataLatest.filter(
