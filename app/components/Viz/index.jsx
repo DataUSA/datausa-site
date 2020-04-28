@@ -9,7 +9,14 @@ class Viz extends Component {
 
   analyzeData(resp) {
     const {updateSource} = this.context;
-    if (updateSource && resp.source) updateSource(resp.source);
+    if (updateSource) {
+      if (resp.source) updateSource(resp.source);
+      else if (resp instanceof Array && resp.length < 5) {
+        resp.forEach(r => {
+          if (r.source) updateSource(r.source);
+        });
+      }
+    }
   }
 
   render() {
