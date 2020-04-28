@@ -1209,6 +1209,7 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state."],
         sources: [ctSource],
+        option: "Confirmed Cases",
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.Confirmed),
           title: `Confirmed Cases (${scaleLabel})`,
@@ -1234,6 +1235,7 @@ class Coronavirus extends Component {
           title: `Cases per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
+        option: "Confirmed Cases per Capita",
         descriptions: ["This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
         lineConfig: {
@@ -1263,6 +1265,7 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state."],
         sources: [ctSource],
+        option: "Deaths",
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.Deaths),
           time: "Date",
@@ -1292,6 +1295,7 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
+        option: "Deaths per Capita",
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.DeathsPC),
           time: "Date",
@@ -1324,6 +1328,7 @@ class Coronavirus extends Component {
           "This chart shows hospitalizations for all states that have registered at least 50 hospitalizations."
         ],
         sources: [ctSource],
+        option: "Hospitalizations",
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.Hospitalized),
           time: "Date",
@@ -1353,6 +1358,7 @@ class Coronavirus extends Component {
         },
         descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
         sources: [ctSource],
+        option: "Tests",
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.Tests),
           time: "Date",
@@ -1373,7 +1379,7 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker
         }
       },
-      "Number of Daily Cases": {
+      "Daily New Cases": {
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         // no stat!
         descriptions: [
@@ -1407,7 +1413,7 @@ class Coronavirus extends Component {
           Indicator
           <div className="pt-select">
             <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
-              {Object.keys(caseSections).map(d => <option key={d} value={d}>{d}</option>)}
+              {Object.keys(caseSections).map(d => <option key={d} value={d}>{caseSections[d].option || d}</option>)}
             </select>
           </div>
         </label>
@@ -1420,6 +1426,8 @@ class Coronavirus extends Component {
         descriptions: ["To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than 50 cases, with that of the five countries that have reported most cases. We shift all time starting points to the day each place reported a total of 50 cases or more."],
         sources: [ctSource, acs1Source, wbSource],
         showCharts: countryCutoffData.length > 0,
+        title: "International Comparison",
+        option: "Confirmed Cases",
         lineConfig: {
           annotations: countryCutoffAnnotations,
           data: countryCutoffDataFiltered,
@@ -1445,6 +1453,8 @@ class Coronavirus extends Component {
         descriptions: ["Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death."],
         sources: [ctSource, acs1Source, wbSource],
         showCharts: countryCutoffDeathData.length > 0,
+        title: "International Comparison",
+        option: "Deaths",
         lineConfig: {
           annotations: countryCutoffDeathAnnotations,
           data: countryCutoffDeathDataFiltered,
@@ -1473,10 +1483,10 @@ class Coronavirus extends Component {
     const InternationalSelector = () =>
       <div>
         <label className="pt-label pt-inline">
-          View
+          Indicator
           <div className="pt-select">
             <select value={currentInternationalSectionTitle} onChange={e => this.setState({currentInternationalSectionTitle: e.target.value})}>
-              {Object.keys(internationalSections).map(d => <option key={d} value={d}>{d}</option>)}
+              {Object.keys(internationalSections).map(d => <option key={d} value={d}>{internationalSections[d].option || d}</option>)}
             </select>
           </div>
         </label>
@@ -1596,25 +1606,12 @@ class Coronavirus extends Component {
           {/* Cases by states */}
           <div className="Section coronavirus-section">
             <SectionTitle slug="cases" title="Cases by State" />
-            <div className="section-body">
-              <div className="section-content">
-                <AnchorLink to="cases-total" className="anchor">
-                  Total
-                </AnchorLink>
-                <AnchorLink to="cases-adj" className="anchor">
-                  Time Adjusted
-                </AnchorLink>
-                <AnchorLink to="cases-intl" className="anchor">
-                  International Comparison
-                </AnchorLink>
-              </div>
-            </div>
             <div className="section-topics">
               <div className="topic TextViz">
                 <div className="topic-content">
                   <TopicTitle
                     slug="cases-total"
-                    title={currentCaseSectionTitle}
+                    title={caseSections[currentCaseSectionTitle].title || currentCaseSectionTitle}
                   />
                   <StateSelector />
                   <CaseSelector />
@@ -1701,7 +1698,7 @@ class Coronavirus extends Component {
                 <div className="topic-content">
                   <TopicTitle
                     slug="cases-intl"
-                    title={currentInternationalSectionTitle}
+                    title={internationalSections[currentInternationalSectionTitle].title || currentInternationalSectionTitle}
                   />
                   <StateSelector />
                   <InternationalSelector />
