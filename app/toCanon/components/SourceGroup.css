@@ -2,7 +2,7 @@
   color: var(--gray);
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.2;
   & a {
     color: var(--darkgray);
     padding-bottom: -5px;
