@@ -188,6 +188,14 @@
     "2.B.4": "#1a9b9a",
     "2.B.5": "#ffb563"
   },
+  "Type": {
+    "Parks": "#1fc1ad",
+    "Residential": "#bf168e",
+    "Grocery and Pharmacy": "#f33535",
+    "Retail and Recreation": "#1f304c",
+    "Workplaces": "#2c5753",
+    "Transit Stations": "#c1461f"
+  },
   "Party": {
 
     "Democratic": "#3333FF",
