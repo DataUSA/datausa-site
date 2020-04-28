@@ -95,6 +95,7 @@
       display: flex;
       font-size: 13px;
       font-weight: bold;
+      margin-bottom: 5px;
       margin-top: 10px;
       text-transform: uppercase;
       & .pt-select {
@@ -141,8 +142,11 @@
         }
       }
     }
+    & .topic-stats {
+      margin-top: 10px;
+    }
     & p {
-      margin-top: 20px;
+      margin-top: 0;
     }
   }
 

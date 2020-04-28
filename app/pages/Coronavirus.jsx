@@ -617,7 +617,7 @@ class Coronavirus extends Component {
             const dID = stateToDivision[d["ID Geography"]];
             let division = divisions.find(x => x["ID Division"] === dID);
             if (!division) {
-              division = divisions.find(x => x["ID Region"] === 5); 
+              division = divisions.find(x => x["ID Region"] === 5);
             }
             d.Date = new Date(d.Date).getTime();
             d = Object.assign(d, division);
@@ -889,7 +889,7 @@ class Coronavirus extends Component {
       on: {
         mouseenter(d) {
           if (d["ID Geography"] instanceof Array) {
-            this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]); 
+            this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]);
           }
           else this.hover(h => h["ID Geography"] === d["ID Geography"]);
         }
@@ -916,16 +916,16 @@ class Coronavirus extends Component {
         tbody: d => {
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.Confirmed !== undefined) {
-            arr.push(["Total Cases", commas(d.Confirmed)]); 
+            arr.push(["Total Cases", commas(d.Confirmed)]);
           }
           if (d.ConfirmedGrowth !== undefined) {
-            arr.push(["New Cases", commas(d.ConfirmedGrowth)]); 
+            arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           }
           if (d.ConfirmedPC !== undefined) {
-            arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]); 
+            arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           }
           if (d.initial_claims !== undefined) {
-            arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]); 
+            arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           }
           return arr;
         }
@@ -1036,7 +1036,7 @@ class Coronavirus extends Component {
           ["Total Deaths", commas(d.Deaths)]
         ];
         if (d.DeathsPC !== undefined) {
-          arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]); 
+          arr.push(["Deaths per 100,000", formatAbbreviate(d.DeathsPC)]);
         }
         return arr;
       }
@@ -1073,30 +1073,28 @@ class Coronavirus extends Component {
     const employmentStatStates = sum(
       employmentDataFiltered.filter(d => d.Date === latestEmployment),
       d => d.initial_claims
-    );      
+    );
 
     const StateSelector = () =>
-      currentStates.length ? null 
+      currentStates.length
+        ? <Button
+          className="pt-fill"
+          iconName="cross"
+          onClick={() =>
+            this.setState({currentStates: [], currentStatesHash: {}})
+          }
+        >
+          {`Click to Clear State Selection${
+            currentStates.length > 1 ? "s" : ""
+          }`}
+        </Button>
         : <div className="topic-subtitle">
           Use the map to select individual states.
         </div>
       ;
 
-    const AxisToggle = () => 
+    const AxisToggle = () =>
       <div>
-        {currentStates.length > 0 && 
-          <Button
-            className="pt-fill"
-            iconName="cross"
-            onClick={() =>
-              this.setState({currentStates: [], currentStatesHash: {}})
-            }
-          >
-            {`Click to Clear State Selection${
-              currentStates.length > 1 ? "s" : ""
-            }`}
-          </Button>
-        }
         <label className="pt-label pt-inline">
           Y-Axis Scale
           <div className="pt-select">
@@ -1114,7 +1112,7 @@ class Coronavirus extends Component {
       </div>
     ;
 
-    const CutoffToggle = () => 
+    const CutoffToggle = () =>
       <div className="cutoff-slider">
         <UncontrolledSlider
           initialValue={cutoff}
@@ -1139,7 +1137,7 @@ class Coronavirus extends Component {
           ]
         ];
         if (d.hospitalized) {
-          arr.push(["Hospitalized patients", commas(d.hospitalized)]); 
+          arr.push(["Hospitalized patients", commas(d.hospitalized)]);
         }
 
         return arr;
@@ -1289,7 +1287,7 @@ class Coronavirus extends Component {
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalDeathsPC : <Spinner />,
-          title: `Deaths per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)): "the USA"}`,
+          title: `Deaths per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
         descriptions: ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."],
@@ -1350,7 +1348,7 @@ class Coronavirus extends Component {
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalTests : <Spinner />,
-          title: `Total Tests in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)): "the USA"}`,
+          title: `Total Tests in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
         descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
@@ -1403,10 +1401,10 @@ class Coronavirus extends Component {
       }
     };
 
-    const CaseSelector = () => 
+    const CaseSelector = () =>
       <div>
         <label className="pt-label pt-inline">
-          View
+          Indicator
           <div className="pt-select">
             <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
               {Object.keys(caseSections).map(d => <option key={d} value={d}>{d}</option>)}
@@ -1441,7 +1439,7 @@ class Coronavirus extends Component {
             gridConfig: {"stroke-width": 0},
             tickSize: 0
           }
-        }       
+        }
       },
       "International Comparison (Deaths)": {
         descriptions: ["Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death."],
@@ -1472,7 +1470,7 @@ class Coronavirus extends Component {
       }
     };
 
-    const InternationalSelector = () => 
+    const InternationalSelector = () =>
       <div>
         <label className="pt-label pt-inline">
           View
@@ -1500,7 +1498,7 @@ class Coronavirus extends Component {
             <h1 className="profile-title">{title}</h1>
           </div>
           <div className="content-container">
-            {today && 
+            {today &&
               <div className="profile-subtitle">
                 Latest Data from {dayFormat(today)}
               </div>
@@ -1618,12 +1616,9 @@ class Coronavirus extends Component {
                     slug="cases-total"
                     title={currentCaseSectionTitle}
                   />
-                  {currentSection.subtitle && 
-                    <div className="topic-subtitle">
-                      {currentSection.subtitle}
-                    </div>
-                  }
+                  <StateSelector />
                   <CaseSelector />
+                  <AxisToggle />
                   {currentSection.stat &&
                     <div className="topic-stats">
                       <div className="StatGroup single">
@@ -1633,19 +1628,18 @@ class Coronavirus extends Component {
                       </div>
                     </div>
                   }
-                  <AxisToggle />
                   <div className="topic-description">
                     {currentSection.descriptions.map(d => <p key={d}>{d}</p>)}
                   </div>
                   <SourceGroup sources={currentSection.sources} />
                 </div>
                 <div className="visualization topic-visualization">
-                  { stateTestData.length > 0 
+                  { stateTestData.length > 0
                     ? <LinePlot className="d3plus" config={assign({}, sharedConfig, currentSection.lineConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
                 </div>
                 <div className="visualization topic-visualization">
-                  { stateTestData.length > 0 
+                  { stateTestData.length > 0
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
                 </div>
@@ -1657,6 +1651,7 @@ class Coronavirus extends Component {
                     slug="cases-adj"
                     title={`Total Confirmed Cases Since Reaching ${cutoff} Cases`}
                   />
+                  <StateSelector />
                   <AxisToggle />
                   <CutoffToggle />
                   <div className="topic-description">
@@ -1670,7 +1665,7 @@ class Coronavirus extends Component {
                   <SourceGroup sources={[ctSource]} />
                 </div>
                 <div className="visualization topic-visualization">
-                  {stateCutoffData.length 
+                  {stateCutoffData.length
                     ? <LinePlot
                       className="d3plus"
                       config={assign({}, sharedConfig, {
@@ -1708,6 +1703,7 @@ class Coronavirus extends Component {
                     slug="cases-intl"
                     title={currentInternationalSectionTitle}
                   />
+                  <StateSelector />
                   <InternationalSelector />
                   <AxisToggle />
                   <div className="topic-description">
@@ -1716,7 +1712,7 @@ class Coronavirus extends Component {
                   <SourceGroup sources={currentInternationalSection.sources} />
                 </div>
                 <div className="visualization topic-visualization">
-                  {currentInternationalSection.showCharts 
+                  {currentInternationalSection.showCharts
                     ? <LinePlot
                       className="d3plus"
                       config={assign({}, sharedConfig, currentInternationalSection.lineConfig)}
@@ -1757,22 +1753,6 @@ class Coronavirus extends Component {
                     title="Community Mobility"
                   />
                   <StateSelector />
-                  {currentStates.length > 0 && 
-                    <Button
-                      className="pt-fill"
-                      iconName="cross"
-                      onClick={() =>
-                        this.setState({
-                          currentStates: [],
-                          currentStatesHash: {}
-                        })
-                      }
-                    >
-                      {`Click to Clear State Selection${
-                        currentStates.length > 1 ? "s" : ""
-                      }`}
-                    </Button>
-                  }
                   <label className="pt-label pt-inline">
                     Type
                     <div className="pt-select">
@@ -1803,7 +1783,7 @@ class Coronavirus extends Component {
                   <SourceGroup sources={[googleSource]} />
                 </div>
                 <div className="visualization topic-visualization">
-                  {mobilityData.length 
+                  {mobilityData.length
                     ? <LinePlot
                       className="d3plus"
                       config={assign({}, sharedConfig, {
@@ -1843,7 +1823,7 @@ class Coronavirus extends Component {
                   }
                 </div>
                 <div className="visualization topic-visualization">
-                  {mobilityData.length 
+                  {mobilityData.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, geoStateConfig, {
@@ -1901,6 +1881,8 @@ class Coronavirus extends Component {
                     Unemployment insurance claim numbers are not seasonally
                     adjusted.
                   </div>
+                  <StateSelector />
+                  <AxisToggle />
                   <div className="topic-stats">
                     <div className="StatGroup single">
                       <div className="stat-value">
@@ -1915,10 +1897,10 @@ class Coronavirus extends Component {
                           : ""}
                       </div>
                     </div>
-                    {currentStates.length 
+                    {currentStates.length
                       ? <div className="StatGroup single">
                         <div className="stat-value">
-                          {show 
+                          {show
                             ? formatAbbreviate(employmentStatStates)
                             :                             <Spinner />
                           }
@@ -1937,7 +1919,6 @@ class Coronavirus extends Component {
                       </div>
                       : null}
                   </div>
-                  <AxisToggle />
                   <div className="topic-description">
                     <p>
                       This chart shows weekly unemployment insurance claims in
@@ -1949,7 +1930,7 @@ class Coronavirus extends Component {
                   <SourceGroup sources={[dolSource]} />
                 </div>
                 <div className="visualization topic-visualization">
-                  {employmentData.length 
+                  {employmentData.length
                     ? <LinePlot
                       className="d3plus"
                       config={assign({}, sharedConfig, {
@@ -1999,7 +1980,7 @@ class Coronavirus extends Component {
                   }
                 </div>
                 <div className="visualization topic-visualization">
-                  {employmentData.length 
+                  {employmentData.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, geoStateConfig, {
@@ -2066,7 +2047,7 @@ class Coronavirus extends Component {
                   </h3>
                 </div>
                 <div className="visualization topic-visualization">
-                  {beds.length 
+                  {beds.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, mapConfig, {
@@ -2105,7 +2086,7 @@ class Coronavirus extends Component {
                   </h3>
                 </div>
                 <div className="visualization topic-visualization">
-                  {beds.length 
+                  {beds.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, mapConfig, {
@@ -2148,7 +2129,7 @@ class Coronavirus extends Component {
                   </h3>
                 </div>
                 <div className="visualization topic-visualization">
-                  {beds.length 
+                  {beds.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, mapConfig, {
@@ -2209,7 +2190,7 @@ class Coronavirus extends Component {
                   </h3>
                 </div>
                 <div className="visualization topic-visualization">
-                  {beds.length 
+                  {beds.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, mapConfig, {
@@ -2270,7 +2251,7 @@ class Coronavirus extends Component {
                   </h3>
                 </div>
                 <div className="visualization topic-visualization">
-                  {beds.length 
+                  {beds.length
                     ? <Geomap
                       className="d3plus"
                       config={assign({}, mapConfig, {
