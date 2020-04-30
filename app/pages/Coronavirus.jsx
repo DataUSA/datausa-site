@@ -1799,8 +1799,7 @@ class Coronavirus extends Component {
               <div className="section-content">
                 <div className="section-description single">
                   <p>
-                    Mobility data is helpful as they let make critical decisions
-                    to combat COVID-19.
+                    Mobility data helps decision makers make informed decisions regarding community movements and restrictions to combat COVID-19.
                   </p>
                 </div>
               </div>
@@ -1814,7 +1813,7 @@ class Coronavirus extends Component {
                   />
                   <StateSelector />
                   <label className="pt-label pt-inline">
-                    Location Type
+                    Place Category
                     <div className="pt-select">
                       <select
                         onChange={evt =>
@@ -1834,10 +1833,10 @@ class Coronavirus extends Component {
 
                   <div className="topic-description">
                     <p>
-                      This chart presents movement trends over time by state,
-                      across different categories of places such as retail and
-                      recreation, groceries and pharmacies, parks, transit
-                      stations, workplaces, and residential.
+                      This chart shows how visits and length of stay to {mobilityType.toLowerCase()} have changed over time compared to a baseline.
+                    </p>
+                    <p>
+                      Baselines are calculated using the same kind of aggregated and anonymized data used by Google to show popular times for places in Google Maps. Changes for each day are compared to a baseline value for that day of the week.
                     </p>
                   </div>
                   <SourceGroup sources={[googleSource]} />
