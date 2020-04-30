@@ -187,11 +187,9 @@ module.exports = function(app) {
       data,
       source: [{
         annotations: {
-          dataset_link:
-            "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv",
-          dataset_name: "Community Mobility Reports",
-          source_link: "https://www.google.com/covid19/mobility/",
-          source_name: "Google COVID-19"
+          dataset_link: "https://www.google.com/covid19/mobility/",
+          dataset_name: "https://www.google.com/&#8203;covid19/&#8203;mobility/",
+          source_name: "Google LLC <em>\"Google COVID-19 Community Mobility Reports\"</em>&nbsp;"
         }
       }]});
   });
