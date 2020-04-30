@@ -452,6 +452,45 @@ class UncontrolledSlider extends React.Component {
   }
 }
 
+/** */
+function caclulateMonthlyTicks(data, accessor) {
+  return extent(data, accessor)
+    .reduce((arr, d, i, src) => {
+      arr.push(d);
+      if (i === 0) {
+        const dateObj = new Date(d);
+        const month = dateObj.getMonth();
+        let year = dateObj.getFullYear();
+        let currentMonth = month + 1;
+        const date = dateObj.getDate();
+        const finalObj = new Date(src[1]);
+        const finalMonth = finalObj.getMonth();
+        const finalDate = finalObj.getDate();
+        if (finalMonth - month < 3) arr.push(`${month + 1}/15/${year}`);
+        while (currentMonth <= finalMonth) {
+          if (currentMonth === month + 1) {
+            if (date < 20) {
+              arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
+              if (finalMonth - month < 3) arr.push(`${currentMonth + 1}/15/${year}`);
+            }
+          }
+          else if (currentMonth === finalMonth) {
+            if (finalDate > 10) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
+          }
+          else {
+            arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
+          }
+          currentMonth++;
+          if (currentMonth === 12) {
+            currentMonth = 0;
+            year++;
+          }
+        }
+      }
+      return arr;
+    }, []);
+}
+
 const labelWidth = 100;
 
 /** */
@@ -799,17 +838,23 @@ class Coronavirus extends Component {
         ? currentStatesHash[d["ID Geography"]] || d.Region === "International"
         : true;
     const stateTestDataFiltered = stateTestData.filter(stateFilter);
+    const stateTestDataTicks = caclulateMonthlyTicks(stateTestDataFiltered, d => d.Date);
     const stateCutoffDataFiltered = stateCutoffData.filter(stateFilter);
     const countryCutoffDataFiltered = countryCutoffData.filter(stateFilter);
     const countryCutoffDeathDataFiltered = countryCutoffDeathData.filter(
       stateFilter
     );
 
+    const mobilityDataFiltered = mobilityData
+      .filter(stateFilter)
+      .filter(d => d.Type === mobilityType && d["ID Geography"]);
+    const mobilityDataTicks = caclulateMonthlyTicks(mobilityDataFiltered, d => d.Date);
+
     const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     const smallLabels = w < 768;
 
     const dateFormat = d =>
-      timeFormat("%b %d")(d).replace(/[0-9]{2}$/, m => parseFloat(m, 10));
+      timeFormat("%B %d")(d).replace(/[0-9]{2}$/, m => parseFloat(m, 10));
     const daysFormat = d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
     const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(
@@ -930,7 +975,15 @@ class Coronavirus extends Component {
         fontSize: 21
       },
       xConfig: {
-        gridConfig: {"stroke-width": 0}
+        gridConfig: {"stroke-width": 0},
+        labelRotation: false,
+        shapeConfig: {
+          labelBounds: d => {
+            const {y, height} = d.labelBounds;
+            const w = 100;
+            return {width: w, height, y, x: -w / 2};
+          }
+        }
       },
       y: "Confirmed",
       yConfig: {
@@ -1213,6 +1266,8 @@ class Coronavirus extends Component {
           timeline: false,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "Confirmed"
@@ -1241,6 +1296,8 @@ class Coronavirus extends Component {
           title: `Confirmed Cases per 100,000 (${scaleLabel})`,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "ConfirmedPC"
@@ -1270,6 +1327,8 @@ class Coronavirus extends Component {
           tooltipConfig: deathTooltip,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "Deaths"
@@ -1300,6 +1359,8 @@ class Coronavirus extends Component {
           tooltipConfig: deathTooltip,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "DeathsPC"
@@ -1333,6 +1394,8 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "Hospitalized"
@@ -1363,6 +1426,8 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "Tests"
@@ -1390,6 +1455,8 @@ class Coronavirus extends Component {
           title: `Daily Confirmed Cases (${scaleLabel})`,
           x: "Date",
           xConfig: {
+            labels: stateTestDataTicks,
+            ticks: stateTestDataTicks,
             tickFormat: dateFormat
           },
           y: "ConfirmedGrowth"
@@ -1780,14 +1847,9 @@ class Coronavirus extends Component {
                     ? <LinePlot
                       className="d3plus"
                       config={assign({}, sharedConfig, {
-                        data: mobilityData
-                          .filter(stateFilter)
-                          .filter(
-                            d => d.Type === mobilityType && d["ID Geography"]
-                          ),
+                        data: mobilityDataFiltered,
                         time: "Date",
                         timeline: false,
-                        discrete: "x",
                         title: `Change of ${mobilityType} Mobility`,
                         tooltipConfig: {
                           tbody: d => [
@@ -1800,6 +1862,8 @@ class Coronavirus extends Component {
                         },
                         x: "Date",
                         xConfig: {
+                          labels: mobilityDataTicks,
+                          ticks: mobilityDataTicks,
                           tickFormat: dateFormat
                         },
                         y: "Percent Change from Baseline",
