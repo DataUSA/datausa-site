@@ -611,6 +611,7 @@ class Coronavirus extends Component {
       currentCaseSectionTitle: "Total Confirmed Cases By Date",
       currentInternationalSectionTitle: "International Comparison (Cases)",
       currentCasePC: false,
+      currentCaseReach: false,
       currentStates: [],
       currentStatesHash: {},
       cutoff: 10,
@@ -817,6 +818,7 @@ class Coronavirus extends Component {
       cutoff,
       currentCaseSectionTitle,
       currentCasePC,
+      currentCaseReach,
       currentInternationalSectionTitle,
       currentStates,
       currentStatesHash,
@@ -1248,6 +1250,7 @@ class Coronavirus extends Component {
 
     const caseSections = {
       "Total Confirmed Cases By Date": {
+        showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalCases : <Spinner />,
@@ -1264,6 +1267,7 @@ class Coronavirus extends Component {
           timeline: false,
           x: "Date",
           xConfig: {
+            title: "",
             labels: stateTestDataTicks,
             ticks: stateTestDataTicks,
             tickFormat: dateFormat
@@ -1277,14 +1281,50 @@ class Coronavirus extends Component {
           data: latest.filter(d => d.Confirmed)
         }
       },
+      "Total Confirmed Cases Since Reaching": {
+        showCharts: stateCutoffData.length > 0 && stateTestData.length > 0,
+        title: `Total Confirmed Cases Since Reaching ${cutoff} Cases`,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
+        descriptions: [
+          "Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 10, 50, or 100 cases.", 
+          "Move the slider to adjust this threshold."
+        ],
+        sources: [ctSource],
+        lineConfig: {
+          annotations: stateCutoffAnnotations,
+          data: stateCutoffDataFiltered,
+          title: `Confirmed Cases (${scaleLabel})`,
+          x: "Days",
+          xConfig: {
+            domain: stateCutoffDomain,
+            gridConfig: {"stroke-width": 0},
+            labels: stateCutoffLabels,
+            tickFormat: daysFormat,
+            tickSize: 0,
+            title: `Days Since ${cutoff} Confirmed Cases`
+          },
+          yConfig: {
+            barConfig: {"stroke": "#ccc", "stroke-width": 1},
+            gridConfig: {"stroke-width": 0},
+            tickSize: 0
+          },
+          y: "Confirmed"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "Confirmed",
+          data: latest.filter(d => d.Confirmed)
+        }
+      },
       "Total Confirmed Cases per Capita": {
+        showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalPC : <Spinner />,
           title: `Cases per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
-        option: "Confirmed Cases per Capita",
         descriptions: ["This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
         lineConfig: {
@@ -1308,6 +1348,7 @@ class Coronavirus extends Component {
         }
       },
       "Total Deaths by State": {
+        showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalDeaths : <Spinner />,
@@ -1340,6 +1381,7 @@ class Coronavirus extends Component {
         }
       },
       "Deaths per Capita": {
+        showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalDeathsPC : <Spinner />,
@@ -1348,7 +1390,6 @@ class Coronavirus extends Component {
         },
         descriptions: ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."],
         sources: [ctSource, acs1Source],
-        option: "Deaths per Capita",
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.DeathsPC),
           time: "Date",
@@ -1372,6 +1413,7 @@ class Coronavirus extends Component {
         }
       },
       "Total Hospitalizations by State": {
+        showCharts: stateTestData.length > 0,
         subtitle: "Hospitalization data for some states may be delayed or not reported.",
         stat: {
           value: show ? topicStats.totalHospitalizations : <Spinner />,
@@ -1407,6 +1449,7 @@ class Coronavirus extends Component {
         }
       },
       "Total Tests by State": {
+        showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalTests : <Spinner />,
@@ -1439,12 +1482,14 @@ class Coronavirus extends Component {
         }
       },
       "Daily New Cases": {
+        showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         // no stat!
         descriptions: [
           "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth.",
           "This chart presents the number of new cases reported daily by each U.S. state."
         ],
+        option: "Daily New Cases",
         sources: [ctSource],
         lineConfig: {
           data: stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
@@ -1468,7 +1513,7 @@ class Coronavirus extends Component {
       }
     };
 
-    const primaryCaseSections = Object.keys(caseSections).filter(d => !d.includes("per Capita"));
+    const primaryCaseSections = Object.keys(caseSections).filter(k => caseSections[k].option);
 
     const CaseSelector = () =>
       <div>
@@ -1492,6 +1537,11 @@ class Coronavirus extends Component {
       else if (fixedTitle === "Total Deaths by State") {
         fixedTitle = "Deaths per Capita";
       }
+    }
+    const showReachSwitch = fixedTitle === "Total Confirmed Cases By Date";
+    
+    if (currentCaseReach) {
+      if (fixedTitle === "Total Confirmed Cases By Date") fixedTitle = "Total Confirmed Cases Since Reaching";
     }
 
     const currentSection = caseSections[fixedTitle];
@@ -1691,6 +1741,8 @@ class Coronavirus extends Component {
                   <StateSelector />
                   <CaseSelector />
                   {showPCSwitch && <Switch label="Per Capita" checked={currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
+                  {showReachSwitch && <Switch label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
+                  {showReachSwitch && currentCaseReach && <CutoffToggle />}
                   <AxisToggle />
                   {currentSection.stat &&
                     <div className="topic-stats">
@@ -1707,12 +1759,12 @@ class Coronavirus extends Component {
                   <SourceGroup sources={currentSection.sources} />
                 </div>
                 <div className="visualization topic-visualization">
-                  { stateTestData.length > 0
+                  { currentSection.showCharts
                     ? <LinePlot className="d3plus" config={assign({}, sharedConfig, currentSection.lineConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
                 </div>
                 <div className="visualization topic-visualization">
-                  { stateTestData.length > 0
+                  { currentSection.showCharts
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
                 </div>
