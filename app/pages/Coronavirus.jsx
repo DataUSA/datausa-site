@@ -730,8 +730,8 @@ class Coronavirus extends Component {
     this.setState({cutoff: value}, this.prepData.bind(this));
   }
 
-  changeScale(event) {
-    this.setState({scale: event.target.value});
+  changeScale(scale) {
+    this.setState({scale});
   }
 
   prepData() {
@@ -1146,11 +1146,9 @@ class Coronavirus extends Component {
       <div>
         <label className="pt-label pt-inline">
           Y-Axis Scale
-          <div className="pt-select">
-            <select value={scale} onChange={this.changeScale.bind(this)}>
-              <option value="linear">Linear</option>
-              <option value="log">Logarithmic</option>
-            </select>
+          <div className="pt-button-group">
+            <Button onClick={this.changeScale.bind(this, "linear")}>Linear</Button>
+            <Button onClick={this.changeScale.bind(this, "log")}>Logarithmic</Button>
           </div>
         </label>
         <div className="SourceGroup">
