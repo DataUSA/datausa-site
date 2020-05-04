@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
-import {NonIdealState, Slider, Spinner, Button} from "@blueprintjs/core";
+import {NonIdealState, Slider, Spinner, Button, Switch} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
@@ -610,6 +610,7 @@ class Coronavirus extends Component {
       countryData: [],
       currentCaseSectionTitle: "Total Confirmed Cases By Date",
       currentInternationalSectionTitle: "International Comparison (Cases)",
+      currentCasePC: false,
       currentStates: [],
       currentStatesHash: {},
       cutoff: 10,
@@ -815,6 +816,7 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       cutoff,
       currentCaseSectionTitle,
+      currentCasePC,
       currentInternationalSectionTitle,
       currentStates,
       currentStatesHash,
@@ -1468,19 +1470,33 @@ class Coronavirus extends Component {
       }
     };
 
+    const primaryCaseSections = Object.keys(caseSections).filter(d => !d.includes("per Capita"));
+
     const CaseSelector = () =>
       <div>
         <label className="pt-label pt-inline">
           Indicator
           <div className="pt-select">
             <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
-              {Object.keys(caseSections).map(d => <option key={d} value={d}>{caseSections[d].option || d}</option>)}
+              {primaryCaseSections.map(d => <option key={d} value={d}>{caseSections[d].option || d}</option>)}
             </select>
           </div>
         </label>
       </div>;
 
-    const currentSection = caseSections[currentCaseSectionTitle];
+    const showPCSwitch = ["Total Confirmed Cases By Date", "Total Deaths by State", "Total Confirmed Cases per Capita", "Deaths per Capita"].includes(currentCaseSectionTitle);
+
+    let fixedTitle = currentCaseSectionTitle;
+    if (currentCasePC) {
+      if (fixedTitle === "Total Confirmed Cases By Date") {
+        fixedTitle = "Total Confirmed Cases per Capita";
+      }
+      else if (fixedTitle === "Total Deaths by State") {
+        fixedTitle = "Deaths per Capita";
+      }
+    }
+
+    const currentSection = caseSections[fixedTitle];
 
     const internationalSections = {
       "International Comparison (Cases)": {
@@ -1672,10 +1688,11 @@ class Coronavirus extends Component {
                 <div className="topic-content">
                   <TopicTitle
                     slug="cases-total"
-                    title={caseSections[currentCaseSectionTitle].title || currentCaseSectionTitle}
+                    title={caseSections[fixedTitle].title || fixedTitle}
                   />
                   <StateSelector />
                   <CaseSelector />
+                  {showPCSwitch && <Switch label="Per Capita" checked={currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
                   <AxisToggle />
                   {currentSection.stat &&
                     <div className="topic-stats">
