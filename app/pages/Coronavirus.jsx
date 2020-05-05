@@ -609,9 +609,9 @@ class Coronavirus extends Component {
       countryCutoffDeathData: [],
       countryData: [],
       currentCaseSectionTitle: "Total Confirmed Cases By Date",
-      currentInternationalSectionTitle: "International Comparison (Cases)",
       currentCasePC: false,
       currentCaseReach: false,
+      currentCaseInternational: false,
       currentStates: [],
       currentStatesHash: {},
       cutoff: 10,
@@ -819,7 +819,7 @@ class Coronavirus extends Component {
       currentCaseSectionTitle,
       currentCasePC,
       currentCaseReach,
-      currentInternationalSectionTitle,
+      currentCaseInternational,
       currentStates,
       currentStatesHash,
       employmentData,
@@ -892,14 +892,17 @@ class Coronavirus extends Component {
     const lineColor =
       currentStates.length === 0
         ? d => colors.Region[d["ID Region"]]
-        : d =>
-          colorArray[
+        : d => {
+          if (d.Region === "International") return "#ccc";
+          return colorArray[
             currentStates.indexOf(
               currentStates.find(
                 s => s["ID Geography"] === d["ID Geography"]
               )
             ) % colorArray.length
           ];
+        };
+          
 
     const sharedConfig = {
       aggs: {
@@ -1510,49 +1513,12 @@ class Coronavirus extends Component {
           colorScale: "ConfirmedGrowth",
           data: latest.filter(d => d.ConfirmedGrowth)
         }
-      }
-    };
-
-    const primaryCaseSections = Object.keys(caseSections).filter(k => caseSections[k].option);
-
-    const CaseSelector = () =>
-      <div>
-        <label className="pt-label pt-inline">
-          Indicator
-          <div className="pt-select">
-            <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
-              {primaryCaseSections.map(d => <option key={d} value={d}>{caseSections[d].option || d}</option>)}
-            </select>
-          </div>
-        </label>
-      </div>;
-
-    const showPCSwitch = ["Total Confirmed Cases By Date", "Total Deaths by State", "Total Confirmed Cases per Capita", "Deaths per Capita"].includes(currentCaseSectionTitle);
-
-    let fixedTitle = currentCaseSectionTitle;
-    if (currentCasePC) {
-      if (fixedTitle === "Total Confirmed Cases By Date") {
-        fixedTitle = "Total Confirmed Cases per Capita";
-      }
-      else if (fixedTitle === "Total Deaths by State") {
-        fixedTitle = "Deaths per Capita";
-      }
-    }
-    const showReachSwitch = fixedTitle === "Total Confirmed Cases By Date";
-    
-    if (currentCaseReach) {
-      if (fixedTitle === "Total Confirmed Cases By Date") fixedTitle = "Total Confirmed Cases Since Reaching";
-    }
-
-    const currentSection = caseSections[fixedTitle];
-
-    const internationalSections = {
+      },
       "International Comparison (Cases)": {
         descriptions: ["To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than 50 cases, with that of the five countries that have reported most cases. We shift all time starting points to the day each place reported a total of 50 cases or more."],
         sources: [ctSource, acs1Source, wbSource],
         showCharts: countryCutoffData.length > 0,
         title: "International Comparison",
-        option: "Confirmed Cases",
         lineConfig: {
           annotations: countryCutoffAnnotations,
           data: countryCutoffDataFiltered,
@@ -1572,6 +1538,12 @@ class Coronavirus extends Component {
             gridConfig: {"stroke-width": 0},
             tickSize: 0
           }
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "Confirmed",
+          data: latest.filter(d => d.Confirmed)
         }
       },
       "International Comparison (Deaths)": {
@@ -1579,7 +1551,6 @@ class Coronavirus extends Component {
         sources: [ctSource, acs1Source, wbSource],
         showCharts: countryCutoffDeathData.length > 0,
         title: "International Comparison",
-        option: "Deaths",
         lineConfig: {
           annotations: countryCutoffDeathAnnotations,
           data: countryCutoffDeathDataFiltered,
@@ -1601,23 +1572,60 @@ class Coronavirus extends Component {
             gridConfig: {"stroke-width": 0},
             tickSize: 0
           }
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
+          colorScale: "Confirmed",
+          data: latest.filter(d => d.Confirmed)
         }
       }
     };
 
-    const InternationalSelector = () =>
+    const primaryCaseSections = Object.keys(caseSections).filter(k => caseSections[k].option);
+
+    const CaseSelector = () =>
       <div>
         <label className="pt-label pt-inline">
           Indicator
           <div className="pt-select">
-            <select value={currentInternationalSectionTitle} onChange={e => this.setState({currentInternationalSectionTitle: e.target.value})}>
-              {Object.keys(internationalSections).map(d => <option key={d} value={d}>{internationalSections[d].option || d}</option>)}
+            <select value={currentCaseSectionTitle} onChange={e => this.setState({currentCaseSectionTitle: e.target.value})}>
+              {primaryCaseSections.map(d => <option key={d} value={d}>{caseSections[d].option || d}</option>)}
             </select>
           </div>
         </label>
       </div>;
 
-    const currentInternationalSection = internationalSections[currentInternationalSectionTitle];
+    const isCasesOrDeaths = ["Total Confirmed Cases By Date", "Total Deaths by State", "Total Confirmed Cases per Capita", "Deaths per Capita"].includes(currentCaseSectionTitle);
+    const showPCSwitch = isCasesOrDeaths;
+
+    let fixedTitle = currentCaseSectionTitle;
+    if (currentCasePC) {
+      if (fixedTitle === "Total Confirmed Cases By Date") {
+        fixedTitle = "Total Confirmed Cases per Capita";
+      }
+      else if (fixedTitle === "Total Deaths by State") {
+        fixedTitle = "Deaths per Capita";
+      }
+    }
+    const showReachSwitch = fixedTitle === "Total Confirmed Cases By Date";
+    
+    if (currentCaseReach) {
+      if (fixedTitle === "Total Confirmed Cases By Date") fixedTitle = "Total Confirmed Cases Since Reaching";
+    }
+
+    const showInternationalSwitch = isCasesOrDeaths;
+
+    if (currentCaseInternational) {
+      if (fixedTitle === "Total Confirmed Cases By Date") {
+        fixedTitle = "International Comparison (Cases)";
+      }
+      else if (fixedTitle === "Total Deaths by State") {
+        fixedTitle = "International Comparison (Deaths)";
+      }
+    }
+
+    const currentSection = caseSections[fixedTitle];
 
     return (
       <div id="Coronavirus">
@@ -1740,8 +1748,9 @@ class Coronavirus extends Component {
                   />
                   <StateSelector />
                   <CaseSelector />
-                  {showPCSwitch && <Switch label="Per Capita" checked={currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
+                  {showPCSwitch && <Switch disabled={currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
                   {showReachSwitch && <Switch label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
+                  {showInternationalSwitch && <Switch label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>}
                   {showReachSwitch && currentCaseReach && <CutoffToggle />}
                   <AxisToggle />
                   {currentSection.stat &&
@@ -1767,86 +1776,6 @@ class Coronavirus extends Component {
                   { currentSection.showCharts
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-                </div>
-              </div>
-
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="cases-adj"
-                    title={`Total Confirmed Cases Since Reaching ${cutoff} Cases`}
-                  />
-                  <StateSelector />
-                  <AxisToggle />
-                  <CutoffToggle />
-                  <div className="topic-description">
-                    <p>
-                      Since the spread of COVID-19 did not start at the same
-                      time in all states, we can shift the temporal axis to make
-                      it relative to an event, such as 10, 50, or 100 cases.
-                    </p>
-                    <p>Move the slider to adjust this threshold.</p>
-                  </div>
-                  <SourceGroup sources={[ctSource]} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {stateCutoffData.length
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, {
-                        annotations: stateCutoffAnnotations,
-                        data: stateCutoffDataFiltered,
-                        title: `Confirmed Cases (${scaleLabel})`,
-                        x: "Days",
-                        xConfig: {
-                          domain: stateCutoffDomain,
-                          gridConfig: {"stroke-width": 0},
-                          labels: stateCutoffLabels,
-                          tickFormat: daysFormat,
-                          tickSize: 0,
-                          title: `Days Since ${cutoff} Confirmed Cases`
-                        },
-                        yConfig: {
-                          barConfig: {"stroke": "#ccc", "stroke-width": 1},
-                          gridConfig: {"stroke-width": 0},
-                          tickSize: 0
-                        },
-                        y: "Confirmed"
-                      })}
-                    />
-                    : <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className="topic TextViz">
-                <div className="topic-content">
-                  <TopicTitle
-                    slug="cases-intl"
-                    title={internationalSections[currentInternationalSectionTitle].title || currentInternationalSectionTitle}
-                  />
-                  <StateSelector />
-                  <InternationalSelector />
-                  <AxisToggle />
-                  <div className="topic-description">
-                    {currentInternationalSection.descriptions.map(d => <p key={d}>{d}</p>)}
-                  </div>
-                  <SourceGroup sources={currentInternationalSection.sources} />
-                </div>
-                <div className="visualization topic-visualization">
-                  {currentInternationalSection.showCharts
-                    ? <LinePlot
-                      className="d3plus"
-                      config={assign({}, sharedConfig, currentInternationalSection.lineConfig)}
-                    />
-                    : <NonIdealState
-                      title="Loading Data..."
-                      visual={<Spinner />}
-                    />
-                  }
                 </div>
               </div>
             </div>
