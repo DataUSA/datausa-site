@@ -1271,8 +1271,8 @@ class Coronavirus extends Component {
           x: "Date",
           xConfig: {
             title: "",
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
             tickFormat: dateFormat
           },
           y: "Confirmed"
@@ -1337,8 +1337,8 @@ class Coronavirus extends Component {
           title: `Confirmed Cases per 100,000 (${scaleLabel})`,
           x: "Date",
           xConfig: {
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date),
             tickFormat: dateFormat
           },
           y: "ConfirmedPC"
@@ -1369,8 +1369,8 @@ class Coronavirus extends Component {
           tooltipConfig: deathTooltip,
           x: "Date",
           xConfig: {
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
             tickFormat: dateFormat
           },
           y: "Deaths"
@@ -1401,8 +1401,8 @@ class Coronavirus extends Component {
           tooltipConfig: deathTooltip,
           x: "Date",
           xConfig: {
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date),
             tickFormat: dateFormat
           },
           y: "DeathsPC"
@@ -1437,8 +1437,8 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
           xConfig: {
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
             tickFormat: dateFormat
           },
           y: "Hospitalized"
@@ -1470,8 +1470,8 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
           xConfig: {
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             tickFormat: dateFormat
           },
           y: "Tests"
@@ -1501,8 +1501,8 @@ class Coronavirus extends Component {
           title: `Daily Confirmed Cases (${scaleLabel})`,
           x: "Date",
           xConfig: {
-            labels: stateTestDataTicks,
-            ticks: stateTestDataTicks,
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             tickFormat: dateFormat
           },
           y: "ConfirmedGrowth"
