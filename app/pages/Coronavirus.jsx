@@ -1269,8 +1269,10 @@ class Coronavirus extends Component {
           time: "Date",
           timeline: false,
           x: "Date",
+          xDomain: false,
           xConfig: {
             title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
             tickFormat: dateFormat
@@ -1298,8 +1300,8 @@ class Coronavirus extends Component {
           data: stateCutoffDataFiltered,
           title: `Confirmed Cases (${scaleLabel})`,
           x: "Days",
+          xDomain: stateCutoffDomain,
           xConfig: {
-            domain: stateCutoffDomain,
             gridConfig: {"stroke-width": 0},
             labels: stateCutoffLabels,
             tickFormat: daysFormat,
@@ -1336,7 +1338,10 @@ class Coronavirus extends Component {
           timeline: false,
           title: `Confirmed Cases per 100,000 (${scaleLabel})`,
           x: "Date",
+          xDomain: false,
           xConfig: {
+            title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date),
             tickFormat: dateFormat
@@ -1368,7 +1373,10 @@ class Coronavirus extends Component {
           title: `Deaths (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           x: "Date",
+          xDomain: false,
           xConfig: {
+            title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
             tickFormat: dateFormat
@@ -1400,7 +1408,10 @@ class Coronavirus extends Component {
           title: `Deaths per 100,000 (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           x: "Date",
+          xDomain: false,
           xConfig: {
+            title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date),
             tickFormat: dateFormat
@@ -1436,7 +1447,10 @@ class Coronavirus extends Component {
           title: `Hospitalized Patients (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
+          xDomain: false,
           xConfig: {
+            title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
             tickFormat: dateFormat
@@ -1469,7 +1483,10 @@ class Coronavirus extends Component {
           title: `Number of Tests (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
+          xDomain: false,
           xConfig: {
+            title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             tickFormat: dateFormat
@@ -1500,7 +1517,10 @@ class Coronavirus extends Component {
           timeline: false,
           title: `Daily Confirmed Cases (${scaleLabel})`,
           x: "Date",
+          xDomain: false,
           xConfig: {
+            title: "",
+            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             tickFormat: dateFormat
@@ -1524,8 +1544,8 @@ class Coronavirus extends Component {
           data: countryCutoffDataFiltered,
           title: `Confirmed Cases per 100,000 (${scaleLabel})`,
           x: "Days",
+          xDomain: countryCutoffDomain,
           xConfig: {
-            domain: countryCutoffDomain,
             gridConfig: {"stroke-width": 0},
             labels: countryCutoffLabels,
             tickFormat: daysFormat,
@@ -1557,9 +1577,9 @@ class Coronavirus extends Component {
           title: `Deaths per 100,000 (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           x: "Days",
+          xDomain: countryCutoffDeathDomain,
           xConfig: {
             barConfig: {"stroke": "#ccc", "stroke-width": 1},
-            domain: countryCutoffDeathDomain,
             gridConfig: {"stroke-width": 0},
             labels: countryCutoffDeathLabels,
             tickFormat: daysFormat,
