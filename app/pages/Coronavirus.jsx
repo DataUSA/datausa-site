@@ -1770,9 +1770,9 @@ class Coronavirus extends Component {
                   />
                   <StateSelector />
                   <CaseSelector />
-                  {showPCSwitch && <Switch disabled={currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
-                  {showReachSwitch && <Switch label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
-                  {showInternationalSwitch && <Switch label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>}
+                  {showPCSwitch && <Switch disabled={currentCaseInternational || currentCaseReach} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
+                  {showReachSwitch && <Switch disabled={currentCaseInternational || currentCasePC} label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
+                  {showInternationalSwitch && <Switch disabled={currentCaseReach} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>}
                   {showReachSwitch && currentCaseReach && <CutoffToggle />}
                   <AxisToggle />
                   {currentSection.stat &&
