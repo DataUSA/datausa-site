@@ -1596,8 +1596,10 @@ class Coronavirus extends Component {
         </label>
       </div>;
 
-    const isCasesOrDeaths = ["Total Confirmed Cases By Date", "Total Deaths by State", "Total Confirmed Cases per Capita", "Deaths per Capita"].includes(currentCaseSectionTitle);
-    const showPCSwitch = isCasesOrDeaths;
+    const isCases = ["Total Confirmed Cases By Date", "Total Confirmed Cases per Capita"].includes(currentCaseSectionTitle);
+    const isDeaths = ["Total Deaths by State", "Deaths per Capita"].includes(currentCaseSectionTitle);    
+
+    const showPCSwitch = isCases || isDeaths;
 
     let fixedTitle = currentCaseSectionTitle;
     if (currentCasePC) {
@@ -1614,13 +1616,13 @@ class Coronavirus extends Component {
       if (fixedTitle === "Total Confirmed Cases By Date") fixedTitle = "Total Confirmed Cases Since Reaching";
     }
 
-    const showInternationalSwitch = isCasesOrDeaths;
+    const showInternationalSwitch = isCases || isDeaths;
 
     if (currentCaseInternational) {
-      if (fixedTitle === "Total Confirmed Cases By Date") {
+      if (isCases) {
         fixedTitle = "International Comparison (Cases)";
       }
-      else if (fixedTitle === "Total Deaths by State") {
+      else if (isDeaths) {
         fixedTitle = "International Comparison (Deaths)";
       }
     }
