@@ -908,7 +908,7 @@ class Coronavirus extends Component {
 
     // Geomaps
     const geoStateConfig = {
-      colorScaleMaxSize: 250,
+      colorScalePosition: false,
       zoom: false,
       time: "Date",
       timeline: false,
