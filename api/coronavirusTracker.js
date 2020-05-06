@@ -258,8 +258,15 @@ module.exports = function(app) {
     data = data
       .filter(d => new Date(d.Date) >= cutoffDate);
 
+    const manualPopulations = {
+      "04000US66": 165768, // Guam
+      "04000US69": 56882,  // Northern Mariana Islands
+      "04000US78": 106977  // Virgin Islands
+    };
+
     const output = merge(data, popData, "ID Geography", "ID State");
     output.forEach(d => {
+      if (!d.Population) d.Population = manualPopulations[d["ID Geography"]];
       d.ConfirmedPC = d.Confirmed ? d.Confirmed * 100000 / d.Population : null;
       d.DeathsPC = d.Deaths ? d.Deaths * 100000 / d.Population : null;
       [
