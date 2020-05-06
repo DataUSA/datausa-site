@@ -1587,7 +1587,7 @@ class Coronavirus extends Component {
             </p>
           </div>
           <div className="profile-sections">
-            <SectionIcon slug="cases" title="Cases by State" />
+            <SectionIcon slug="cases" title="Confirmed Cases by State" />
             <SectionIcon slug="mobility" title="Mobility" />
             <SectionIcon slug="economy" title="Economic Impact" />
             <SectionIcon slug="risks" title="Risks and Readiness" />
@@ -1596,9 +1596,9 @@ class Coronavirus extends Component {
         </div>
 
         <div id="coronavirus-main">
-          {/* Cases by states */}
+          {/* Confirmed Cases by states */}
           <div className="Section coronavirus-section">
-            <SectionTitle slug="cases" title="Cases by State" />
+            <SectionTitle slug="cases" title="Confirmed Cases by State" />
             <div className="section-topics">
               <div className="topic TextViz">
                 <div className="topic-content">
