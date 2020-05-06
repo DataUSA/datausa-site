@@ -195,7 +195,8 @@ module.exports = function(app) {
   });
 
   app.get("/api/covid19/states", async(req, res) => {
-    const data = await axios
+
+    let data = await axios
       .get("https://covidtracking.com/api/v1/states/daily.json")
       .then(resp => resp.data);
 
@@ -251,6 +252,11 @@ module.exports = function(app) {
         : null;
 
     });
+
+    // remove all data before March 1st
+    const cutoffDate = new Date("03/01/2020");
+    data = data
+      .filter(d => new Date(d.Date) >= cutoffDate);
 
     const output = merge(data, popData, "ID Geography", "ID State");
     output.forEach(d => {
