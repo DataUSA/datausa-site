@@ -208,16 +208,15 @@ module.exports = function(app) {
     data.sort((a, b) => a.state > b.state ? 1 : a.state === b.state
       ? new Date(a.date) - new Date(b.date) : -1);
 
-    let growth = null;
     let state = data[0].state;
     data.forEach((d, i) => {
+
       const date = d.date.toString();
       d.Date = `${date.slice(0, 4)}/${date.slice(4, 6)}/${date.slice(6, 8)}`;
-      // d.hospitalized = d.hospitalizedIncrease;
 
       if (state !== d.state) {
-        growth = null;
         state = d.state;
+        d.ConfirmedGrowth = null;
       }
       else if (i) {
         const prev = data[i - 1];
@@ -225,31 +224,16 @@ module.exports = function(app) {
         if (d.death < prev.Deaths) d.death = prev.Deaths;
         if (d.total < prev.total) d.total = prev.total;
         if (d.hospitalized < prev.hospitalized) d.hospitalized = prev.hospitalized;
+        d.ConfirmedGrowth = d.positive - prev.Confirmed;
       }
+
       d.Confirmed = d.positive;
       d.Tests = d.total;
       d.Hospitalized = d.hospitalized;
-
-      d.ConfirmedGrowth = !growth ? null : d.positive - growth;
-      growth = d.positive;
-
-      d["ISO2 Geography"] = d.state;
-
-      const stateName = states[d.state];
-      const stateDivision = stateToDivision[d.state];
-      d.Geography = stateName;
-      d["ID Geography"] = stateDivision;
       d.Deaths = d.death;
-      d.Negative = d.negative;
-      d.Positive = d.positive;
 
-      for (const s of ["dateChecked", "state", "date", "death", "negative", "positive"]) {
-        delete d[s];
-      }
-
-      d.PositivePC = d.Negative
-        ? d.Positive / (d.Positive + d.Negative)
-        : null;
+      d.Geography = states[d.state];
+      d["ID Geography"] = stateToDivision[d.state];
 
     });
 
@@ -269,13 +253,17 @@ module.exports = function(app) {
       if (!d.Population) d.Population = manualPopulations[d["ID Geography"]];
       d.ConfirmedPC = d.Confirmed ? d.Confirmed * 100000 / d.Population : null;
       d.DeathsPC = d.Deaths ? d.Deaths * 100000 / d.Population : null;
+      d.TestsPC = d.Tests ? d.Tests * 100000 / d.Population : null;
+      d.HospitalizedPC = d.Hospitalized ? d.Hospitalized * 100000 / d.Population : null;
+      d.ConfirmedGrowthPC = d.ConfirmedGrowth ? d.ConfirmedGrowth * 100000 / d.Population : null;
       [
+        "dateChecked", "state", "date", "death", "negative", "positive",
         "hospitalizedCurrently", "hospitalizedCumulative", "inIcuCurrently", "inIcuCumulative",
         "onVentilatorCurrently", "onVentilatorCumulative", "recovered", "hash",
         "totalTestResults", "posNeg", "fips", "deathIncrease", "hospitalizedIncrease",
         "negativeIncrease", "positiveIncrease", "totalTestResultsIncrease",
         "ID State", "State", "total", "hospitalized",
-        "ISO2 Geography", "Slug State", "pending", "Year", "ID Year"
+        "Slug State", "pending", "Year", "ID Year"
       ].forEach(h => delete d[h]);
     });
     res.json({
