@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
-import {NonIdealState, Slider, Spinner, Button, Switch} from "@blueprintjs/core";
+import {NonIdealState, Slider, Spinner, Button, Checkbox} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 
@@ -732,7 +732,7 @@ class Coronavirus extends Component {
   }
 
   changeScale(scale) {
-    this.setState({scale});
+    if (scale !== this.state.scale) this.setState({scale});
   }
 
   prepData() {
@@ -902,7 +902,7 @@ class Coronavirus extends Component {
             ) % colorArray.length
           ];
         };
-          
+
 
     const sharedConfig = {
       aggs: {
@@ -1151,9 +1151,9 @@ class Coronavirus extends Component {
       <div>
         <label className="pt-label pt-inline">
           Y-Axis Scale
-          <div className="pt-button-group">
-            <Button onClick={this.changeScale.bind(this, "linear")}>Linear</Button>
-            <Button onClick={this.changeScale.bind(this, "log")}>Logarithmic</Button>
+          <div className="pt-button-group pt-fill">
+            <Button className={scale === "linear" ? "pt-active pt-fill" : "pt-fill"} onClick={this.changeScale.bind(this, "linear")}>Linear</Button>
+            <Button className={scale === "log" ? "pt-active pt-fill" : "pt-fill"} onClick={this.changeScale.bind(this, "log")}>Logarithmic</Button>
           </div>
         </label>
         <div className="SourceGroup">
@@ -1291,7 +1291,7 @@ class Coronavirus extends Component {
         title: `Total Confirmed Cases Since Reaching ${cutoff} Cases`,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         descriptions: [
-          "Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 10, 50, or 100 cases.", 
+          "Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 10, 50, or 100 cases.",
           "Move the slider to adjust this threshold."
         ],
         sources: [ctSource],
@@ -1617,7 +1617,7 @@ class Coronavirus extends Component {
       </div>;
 
     const isCases = ["Total Confirmed Cases By Date", "Total Confirmed Cases per Capita"].includes(currentCaseSectionTitle);
-    const isDeaths = ["Total Deaths by State", "Deaths per Capita"].includes(currentCaseSectionTitle);    
+    const isDeaths = ["Total Deaths by State", "Deaths per Capita"].includes(currentCaseSectionTitle);
 
     const showPCSwitch = isCases || isDeaths;
 
@@ -1631,7 +1631,7 @@ class Coronavirus extends Component {
       }
     }
     const showReachSwitch = fixedTitle === "Total Confirmed Cases By Date";
-    
+
     if (currentCaseReach) {
       if (fixedTitle === "Total Confirmed Cases By Date") fixedTitle = "Total Confirmed Cases Since Reaching";
     }
@@ -1769,12 +1769,12 @@ class Coronavirus extends Component {
                     title={caseSections[fixedTitle].title || fixedTitle}
                   />
                   <StateSelector />
-                  <CaseSelector />
-                  {showPCSwitch && <Switch disabled={currentCaseInternational || currentCaseReach} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
-                  {showReachSwitch && <Switch disabled={currentCaseInternational || currentCasePC} label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
-                  {showInternationalSwitch && <Switch disabled={currentCaseReach} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>}
-                  {showReachSwitch && currentCaseReach && <CutoffToggle />}
                   <AxisToggle />
+                  <CaseSelector />
+                  {showPCSwitch && <Checkbox disabled={currentCaseInternational || currentCaseReach} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
+                  {showReachSwitch && <Checkbox disabled={currentCaseInternational || currentCasePC} label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
+                  {showInternationalSwitch && <Checkbox disabled={currentCaseReach} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>}
+                  {showReachSwitch && currentCaseReach && <CutoffToggle />}
                   {currentSection.stat &&
                     <div className="topic-stats">
                       <div className="StatGroup single">
