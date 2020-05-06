@@ -539,7 +539,7 @@ class Coronavirus extends Component {
       currentCaseInternational: false,
       currentStates: [],
       currentStatesHash: {},
-      cutoff: 10,
+      cutoff: 100,
       countries: false,
       data: false,
       employmentData: [],
@@ -1052,9 +1052,9 @@ class Coronavirus extends Component {
       <div className="cutoff-slider">
         <UncontrolledSlider
           initialValue={cutoff}
-          min={0}
-          max={100}
-          labelStepSize={10}
+          min={100}
+          max={1000}
+          labelStepSize={100}
           onRelease={this.changeCutoff.bind(this)}
         />
       </div>
@@ -1172,8 +1172,7 @@ class Coronavirus extends Component {
         title: `Total Confirmed Cases Since Reaching ${cutoff} Cases`,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         descriptions: [
-          "Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 10, 50, or 100 cases.",
-          "Move the slider to adjust this threshold."
+          "Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 100, 500, or 1,000 cases."
         ],
         sources: [ctSource],
         lineConfig: {
