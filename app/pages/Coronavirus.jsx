@@ -1163,7 +1163,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Confirmed",
           data: latest.filter(d => d.Confirmed)
         }
@@ -1195,7 +1194,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Confirmed",
           data: latest.filter(d => d.Confirmed)
         }
@@ -1226,7 +1224,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Cases per Capita by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "ConfirmedPC",
           data: latest.filter(d => d.ConfirmedPC)
         }
@@ -1259,7 +1256,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Deaths by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Deaths",
           data: latest.filter(d => d.Deaths),
           tooltipConfig: deathTooltip
@@ -1292,7 +1288,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Deaths per Capita by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "DeathsPC",
           data: latest.filter(d => d.DeathsPC),
           tooltipConfig: deathTooltip
@@ -1329,7 +1324,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Hospitalizations by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Hospitalized",
           data: latest.filter(d => d.Hospitalized),
           tooltipConfig: tooltipConfigTracker
@@ -1363,7 +1357,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Number of Tests by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Tests",
           data: latest.filter(d => d.Tests),
           tooltipConfig: tooltipConfigTracker
@@ -1395,7 +1388,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Daily Cases by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "ConfirmedGrowth",
           data: latest.filter(d => d.ConfirmedGrowth)
         }
@@ -1419,7 +1411,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Confirmed",
           data: latest.filter(d => d.Confirmed)
         }
@@ -1444,7 +1435,6 @@ class Coronavirus extends Component {
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          title: `Confirmed Cases by State\nas of ${today ? dayFormat(today) : ""}`,
           colorScale: "Confirmed",
           data: latest.filter(d => d.Confirmed)
         }
@@ -1749,9 +1739,6 @@ class Coronavirus extends Component {
                       className="d3plus"
                       config={assign({}, geoStateConfig, {
                         currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Change of ${mobilityType} Mobility by State\nas of ${dayFormat(
-                          new Date(this.state.mobilityLatestDate).getTime()
-                        )}`,
                         colorScale: d => Math.abs(d["Percent Change from Baseline"]),
                         colorScaleConfig: {
                           axisConfig: {
@@ -1894,9 +1881,6 @@ class Coronavirus extends Component {
                       className="d3plus"
                       config={assign({}, geoStateConfig, {
                         currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-                        title: `Unemployment Impact by State\nas of ${
-                          latestEmployment ? dayFormat(latestEmployment) : ""
-                        }`,
                         colorScale: "initial_claims",
                         data: latestEmploymentData,
                         tooltipConfig: {
