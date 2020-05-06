@@ -102,6 +102,16 @@
         flex: 1 1 auto;
       }
     }
+    & .pt-checkbox {
+      color: var(--red);
+      cursor: pointer;
+      display: block;
+      font-family: "Palanquin", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      margin: 10px 5px 0 80px;
+      letter-spacing: 0.55px;
+    }
     & .pt-button {
       background: none;
       border: 1px solid var(--red);
@@ -124,6 +134,24 @@
         color: white;
         &:before {
           color: white;
+        }
+      }
+    }
+    & .pt-button-group {
+      flex: 1 1 auto;
+      & .pt-button {
+        border-color: #bbb;
+        color: #949494;
+        font-weight: 400;
+        &.pt-active {
+          background: white;
+          cursor: default;
+        }
+        &:hover {
+          background: white;
+        }
+        &:first-child {
+          margin-left: 5px;
         }
       }
     }
