@@ -265,6 +265,7 @@ const stateAbbreviations = {
   "New York": "NY",
   "North Carolina": "NC",
   "North Dakota": "ND",
+  "Northern Mariana Islands": "MP",
   "Ohio": "OH",
   "Oklahoma": "OK",
   "Oregon": "OR",
@@ -291,7 +292,7 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-import {extent, max, merge, sum} from "d3-array";
+import {extent, max, merge, range, sum} from "d3-array";
 import {nest} from "d3-collection";
 import {timeFormat} from "d3-time-format";
 import {format} from "d3-format";
@@ -337,7 +338,7 @@ const weekFormat = d =>
 const yearFormat = timeFormat("%Y");
 
 import {colorLegible} from "d3plus-color";
-import {assign, unique} from "d3plus-common";
+import {assign} from "d3plus-common";
 import {formatAbbreviate} from "d3plus-format";
 import {Geomap, LinePlot} from "d3plus-react";
 
@@ -489,30 +490,15 @@ function caclulateMonthlyTicks(data, accessor) {
     }, []);
 }
 
-const labelWidth = 100;
-
 /** */
-function calculateDayDomain(data, w) {
-  if (data && data instanceof Array && data.length) {
-    const dataDomain = unique(data.map(d => d.Days)).sort((a, b) => a - b);
-    const domain = dataDomain.slice();
-    let lastDate = domain[domain.length - 1];
-    const labelSpace = w <= 768 ? 0.1 : 0.1;
-    const endDate = lastDate + (lastDate - domain[0]) * labelSpace;
-    while (domain[domain.length - 1] < endDate) {
-      lastDate++;
-      domain.push(lastDate);
-    }
-    const space = (w <= 768 ? w : w - 300) - 100 - 60;
-    const step = Math.ceil(domain.length / (space / labelWidth));
-    while (domain.length % step) {
-      lastDate++;
-      domain.push(lastDate);
-    }
-    const labels = domain.filter((d, i) => i % step === 0);
-    return [domain, labels];
-  }
-  return [[], []];
+function caclulateDailyTicks(data, accessor) {
+  const maximum = max(data, accessor);
+  const step = maximum > 100 ? 20 : 10;
+  const ticks = range(0, maximum, step);
+  if (maximum - ticks[ticks.length - 1] > step * 0.75) ticks.push(maximum);
+  else if (maximum - ticks[ticks.length - 1] !== 0) ticks[ticks.length - 1] = maximum;
+  ticks.shift();
+  return ticks;
 }
 
 /** */
@@ -537,67 +523,6 @@ function TopicTitle(props) {
       </AnchorLink>
     </h3>
   );
-}
-
-/** */
-function calculateAnnotations(data, measure, scale) {
-  if (!data.length) return undefined;
-  const yDomain = extent(data, d => d[measure]);
-  const xDomain = extent(data, d => d.Days);
-
-  const lineData = [];
-  const factors = scale === "log" ? [1, 2, 3, 4, 7] : [1, 2, 3, 4];
-  factors.forEach(factor => {
-    const first = {
-      id: factor,
-      x: xDomain[0],
-      y: yDomain[0]
-    };
-    lineData.push(first);
-    let Days = first.x;
-    let value = first.y;
-    while (value * 2 < yDomain[1] && Days + factor < xDomain[1]) {
-      value *= 2;
-      Days += factor;
-      lineData.push({
-        id: factor,
-        x: Days,
-        y: value
-      });
-    }
-  });
-
-  const color = "#ccc";
-  const labelColor = "#aaa";
-
-  return [
-    {
-      curve: "monotoneX",
-      data: lineData,
-      label: d => `Doubling Every ${d.id === 1 ? "Day" : `${d.id} Days`}`,
-      labelBounds: (d, i, s) => {
-        const [firstX, firstY] = s.points[0];
-        const [lastX, lastY] = s.points[s.points.length - 1];
-        const height = 30;
-        return {
-          x: lastX - firstX + 5,
-          y: lastY - firstY - height / 2 + 1,
-          width: 200,
-          height
-        };
-      },
-      labelConfig: {
-        fontColor: () => labelColor,
-        fontFamily: () => ["Source Sans Pro", "sans-serif"],
-        fontSize: () => 12,
-        padding: 0,
-        verticalAlign: "middle"
-      },
-      shape: "Line",
-      stroke: color,
-      strokeWidth: 1
-    }
-  ];
 }
 
 class Coronavirus extends Component {
@@ -840,7 +765,6 @@ class Coronavirus extends Component {
         ? currentStatesHash[d["ID Geography"]] || d.Region === "International"
         : true;
     const stateTestDataFiltered = stateTestData.filter(stateFilter);
-    const stateTestDataTicks = caclulateMonthlyTicks(stateTestDataFiltered, d => d.Date);
     const stateCutoffDataFiltered = stateCutoffData.filter(stateFilter);
     const countryCutoffDataFiltered = countryCutoffData.filter(stateFilter);
     const countryCutoffDeathDataFiltered = countryCutoffDeathData.filter(
@@ -852,40 +776,14 @@ class Coronavirus extends Component {
       .filter(d => d.Type === mobilityType && d["ID Geography"]);
     const mobilityDataTicks = caclulateMonthlyTicks(mobilityDataFiltered, d => d.Date);
 
-    const w = typeof window !== "undefined" ? window.innerWidth : 1200;
-    const smallLabels = w < 768;
+    // manually forcing small labels on desktop
+    const smallLabels = true;
+    // const w = typeof window !== "undefined" ? window.innerWidth : 1200;
+    // const smallLabels = w < 768;
 
     const dateFormat = d =>
       timeFormat("%B %d")(d).replace(/[0-9]{2}$/, m => parseFloat(m, 10));
     const daysFormat = d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
-
-    const [stateCutoffDomain, stateCutoffLabels] = calculateDayDomain(
-      stateCutoffData,
-      w
-    );
-    const stateCutoffAnnotations = calculateAnnotations(
-      stateCutoffData,
-      "Confirmed",
-      scale
-    );
-    const [countryCutoffDomain, countryCutoffLabels] = calculateDayDomain(
-      countryCutoffData,
-      w
-    );
-    const countryCutoffAnnotations = calculateAnnotations(
-      countryCutoffData,
-      "ConfirmedPC",
-      scale
-    );
-    const [
-      countryCutoffDeathDomain,
-      countryCutoffDeathLabels
-    ] = calculateDayDomain(countryCutoffDeathData, w);
-    const countryCutoffDeathAnnotations = calculateAnnotations(
-      countryCutoffDeathData,
-      "DeathsPC",
-      scale
-    );
 
     const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
@@ -916,15 +814,12 @@ class Coronavirus extends Component {
         ? d =>
           stateAbbreviations[d.Geography] ||
             (countryMeta[d.Geography]
-              ? countryMeta[d.Geography].iso
+              ? countryMeta[d.Geography].emoji
               : d.Geography)
         : d =>
           d["ID Region"] === 6
-            ? `${
-              countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""
-            }${d.Geography}`
+            ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}`
             : d.Geography,
-      // label: d => d.Geography instanceof Array ? d.Region : d["ID Region"] === 6 ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}` : d.Geography,
       legend: false,
       legendConfig: {
         title: false,
@@ -974,7 +869,11 @@ class Coronavirus extends Component {
             arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           }
           return arr;
-        }
+        },
+        title: d =>
+          d["ID Region"] === 6
+            ? `${countryMeta[d.Geography] ? countryMeta[d.Geography].emoji : ""}${d.Geography}`
+            : d.Geography
       },
       titleConfig: {
         fontSize: 21
@@ -1013,25 +912,10 @@ class Coronavirus extends Component {
       zoom: false,
       time: "Date",
       timeline: false,
-
-      /*
-      timelineConfig: {
-        on: {
-          // end: d => console.log(dayFormat(d))
-        },
-        buttonBehavior: "auto",
-        shapeConfig: {
-          stroke: styles.dark,
-          strokeOpacity: .5,
-          strokeWidth: 1
-        }
-      },
-      */
       groupBy: "ID Geography",
       label: d => d.Geography,
       shapeConfig: {
         Path: {
-          // stroke: d => currentStatesHash[d["ID Geography"]] ? styles.red : styles.dark,
           stroke: d =>
             currentStatesHash[d["ID Geography"]] ? lineColor(d) : styles.dark,
           strokeWidth: d => currentStatesHash[d["ID Geography"]] ? 3 : 1,
@@ -1269,10 +1153,8 @@ class Coronavirus extends Component {
           time: "Date",
           timeline: false,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Confirmed), d => d.Date),
             tickFormat: dateFormat
@@ -1296,21 +1178,17 @@ class Coronavirus extends Component {
         ],
         sources: [ctSource],
         lineConfig: {
-          annotations: stateCutoffAnnotations,
           data: stateCutoffDataFiltered,
           title: `Confirmed Cases (${scaleLabel})`,
           x: "Days",
-          xDomain: stateCutoffDomain,
           xConfig: {
-            gridConfig: {"stroke-width": 0},
-            labels: stateCutoffLabels,
+            labels: caclulateDailyTicks(stateCutoffDataFiltered, d => d.Days),
+            ticks: caclulateDailyTicks(stateCutoffDataFiltered, d => d.Days),
             tickFormat: daysFormat,
-            tickSize: 0,
             title: `Days Since ${cutoff} Confirmed Cases`
           },
           yConfig: {
             barConfig: {"stroke": "#ccc", "stroke-width": 1},
-            gridConfig: {"stroke-width": 0},
             tickSize: 0
           },
           y: "Confirmed"
@@ -1338,10 +1216,8 @@ class Coronavirus extends Component {
           timeline: false,
           title: `Confirmed Cases per 100,000 (${scaleLabel})`,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedPC), d => d.Date),
             tickFormat: dateFormat
@@ -1373,10 +1249,8 @@ class Coronavirus extends Component {
           title: `Deaths (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
             tickFormat: dateFormat
@@ -1408,10 +1282,8 @@ class Coronavirus extends Component {
           title: `Deaths per 100,000 (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.DeathsPC), d => d.Date),
             tickFormat: dateFormat
@@ -1447,10 +1319,8 @@ class Coronavirus extends Component {
           title: `Hospitalized Patients (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
             tickFormat: dateFormat
@@ -1483,10 +1353,8 @@ class Coronavirus extends Component {
           title: `Number of Tests (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             tickFormat: dateFormat
@@ -1517,10 +1385,8 @@ class Coronavirus extends Component {
           timeline: false,
           title: `Daily Confirmed Cases (${scaleLabel})`,
           x: "Date",
-          xDomain: false,
           xConfig: {
             title: "",
-            gridConfig: {"stroke-width": 1},
             labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             tickFormat: dateFormat
@@ -1540,24 +1406,16 @@ class Coronavirus extends Component {
         showCharts: countryCutoffData.length > 0,
         title: "International Comparison",
         lineConfig: {
-          annotations: countryCutoffAnnotations,
           data: countryCutoffDataFiltered,
           title: `Confirmed Cases per 100,000 (${scaleLabel})`,
           x: "Days",
-          xDomain: countryCutoffDomain,
           xConfig: {
-            gridConfig: {"stroke-width": 0},
-            labels: countryCutoffLabels,
+            labels: caclulateDailyTicks(countryCutoffDataFiltered, d => d.Days),
+            ticks: caclulateDailyTicks(countryCutoffDataFiltered, d => d.Days),
             tickFormat: daysFormat,
-            tickSize: 0,
             title: "Days Since 50 Confirmed Cases"
           },
-          y: "ConfirmedPC",
-          yConfig: {
-            barConfig: {"stroke": "#ccc", "stroke-width": 1},
-            gridConfig: {"stroke-width": 0},
-            tickSize: 0
-          }
+          y: "ConfirmedPC"
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -1572,26 +1430,17 @@ class Coronavirus extends Component {
         showCharts: countryCutoffDeathData.length > 0,
         title: "International Comparison",
         lineConfig: {
-          annotations: countryCutoffDeathAnnotations,
           data: countryCutoffDeathDataFiltered,
           title: `Deaths per 100,000 (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           x: "Days",
-          xDomain: countryCutoffDeathDomain,
           xConfig: {
-            barConfig: {"stroke": "#ccc", "stroke-width": 1},
-            gridConfig: {"stroke-width": 0},
-            labels: countryCutoffDeathLabels,
+            labels: caclulateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days),
+            ticks: caclulateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days),
             tickFormat: daysFormat,
-            tickSize: 0,
             title: "Days Since 10 Deaths"
           },
-          y: "DeathsPC",
-          yConfig: {
-            barConfig: {"stroke": "#ccc", "stroke-width": 1},
-            gridConfig: {"stroke-width": 0},
-            tickSize: 0
-          }
+          y: "DeathsPC"
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -2009,21 +1858,6 @@ class Coronavirus extends Component {
                     ? <LinePlot
                       className="d3plus"
                       config={assign({}, sharedConfig, {
-                        // annotations: [
-                        //   {
-                        //     data: [
-                        //       {id: "Area", x: 1196485200000, initial_claims: employmentDataMax},
-                        //       {id: "Area", x: 1243828800000, initial_claims: employmentDataMax}
-                        //     ],
-                        //     fill: "#ddd",
-                        //     label: "2008 Recession",
-                        //     labelConfig: {
-                        //       textAnchor: "middle",
-                        //       verticalAlign: "top"
-                        //     },
-                        //     shape: "Area"
-                        //   }
-                        // ],
                         data: employmentDataFiltered,
                         time: "Date",
                         timeline: false,
