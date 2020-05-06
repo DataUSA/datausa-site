@@ -813,7 +813,7 @@ class Coronavirus extends Component {
       label: smallLabels
         ? d =>
           stateAbbreviations[d.Geography] ||
-            (countryMeta[d.Geography]
+            (countryMeta[d.Geography] && d.Geography !== "United States"
               ? countryMeta[d.Geography].emoji
               : d.Geography)
         : d =>
@@ -1788,7 +1788,7 @@ class Coronavirus extends Component {
                     </AnchorLink>
                   </h3>
                   <div className="topic-subtitle">
-                    Unemployment insurance claim numbers are not seasonally
+                    Initial unemployment insurance claim numbers are not seasonally
                     adjusted.
                   </div>
                   <StateSelector />
@@ -1799,7 +1799,7 @@ class Coronavirus extends Component {
                         {show ? formatAbbreviate(employmentStat) : <Spinner />}
                       </div>
                       <div className="stat-title">
-                        Unemployment insurance claims in the US
+                        Initial unemployment insurance claims in the United States
                       </div>
                       <div className="stat-subtitle">
                         {show
@@ -1816,7 +1816,7 @@ class Coronavirus extends Component {
                           }
                         </div>
                         <div className="stat-title">
-                          Unemployment insurance claims in{" "}
+                        Initial Unemployment insurance claims in{" "}
                           {list(currentStates.map(o => o.Geography))}
                         </div>
                         <div className="stat-subtitle">
@@ -1831,7 +1831,7 @@ class Coronavirus extends Component {
                   </div>
                   <div className="topic-description">
                     <p>
-                      This chart shows weekly unemployment insurance claims in
+                      This chart shows weekly initial unemployment insurance claims in
                       the United States (not-seasonally adjusted). The most
                       recent data point uses Advance State Claims data, which
                       can be revised in subsequent weeks.
@@ -1847,7 +1847,7 @@ class Coronavirus extends Component {
                         data: employmentDataFiltered,
                         time: "Date",
                         timeline: false,
-                        title: `Unemployment Insurance Claims (${scaleLabel})`,
+                        title: `Initial Unemployment Insurance Claims (${scaleLabel})`,
                         tooltipConfig: {
                           tbody: [
                             ["Week Ending", d => weekFormat(d.Date)],
