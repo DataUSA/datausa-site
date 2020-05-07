@@ -1653,7 +1653,7 @@ class Coronavirus extends Component {
               <div className="section-content">
                 <div className="section-description single">
                   <p>
-                    Mobility data helps decision makers make informed decisions regarding community movements and restrictions to combat COVID-19.
+                    Mobility data helps policymakers, local government and executives make informed decisions on COVID-19 restrictions and reopening.
                   </p>
                 </div>
               </div>
@@ -1690,7 +1690,7 @@ class Coronavirus extends Component {
                       This chart shows how visits and length of stay to {mobilityType.toLowerCase()} have changed over time compared to a baseline.
                     </p>
                     <p>
-                      Baselines are calculated using the same kind of aggregated and anonymized data used by Google to show popular times for places in Google Maps. Changes for each day are compared to a baseline value for that day of the week.
+                      Baselines are calculated using aggregated and anonymized data to show popular times for places in Google Maps. Changes for each day are compared to a baseline value for that day of the week.
                     </p>
                   </div>
                   <SourceGroup sources={[googleSource]} />
