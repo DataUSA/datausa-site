@@ -225,6 +225,7 @@ module.exports = function(app) {
         if (d.total < prev.total) d.total = prev.total;
         if (d.hospitalized < prev.hospitalized) d.hospitalized = prev.hospitalized;
         d.ConfirmedGrowth = d.positive - prev.Confirmed;
+        d.PositivePct = d.positive / d.total * 100;
       }
 
       d.Confirmed = d.positive;

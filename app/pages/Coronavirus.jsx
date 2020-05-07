@@ -465,7 +465,7 @@ function caclulateMonthlyTicks(data, accessor) {
         const finalObj = new Date(src[1]);
         const finalMonth = finalObj.getMonth();
         const finalDate = finalObj.getDate();
-        if (finalMonth - month < 3) arr.push(`${month + 1}/15/${year}`);
+        if (finalMonth - month < 3 && date < 15) arr.push(`${month + 1}/15/${year}`);
         while (currentMonth <= finalMonth) {
           if (currentMonth === month + 1) {
             if (date < 20) {
@@ -865,6 +865,9 @@ class Coronavirus extends Component {
           if (d.ConfirmedPC !== undefined) {
             arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
           }
+          if (d.ConfirmedPC !== undefined) {
+            arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
+          }
           if (d.initial_claims !== undefined) {
             arr.push(["Initial Claims", formatAbbreviate(d.initial_claims)]);
           }
@@ -1134,6 +1137,11 @@ class Coronavirus extends Component {
     topicStats.totalPositivePercent = `${formatAbbreviate(
       totalPositiveFiltered / totalTestsFiltered * 100
     )}%`;
+    topicStats.totalPositive = `${formatAbbreviate(
+      totalCasesFiltered / totalTestsFiltered * 100
+    )}%`;
+
+    const pctCutoffDate = new Date(today - 12096e5);
 
     const caseSections = {
       "Total Confirmed Cases By Date": {
@@ -1359,6 +1367,40 @@ class Coronavirus extends Component {
           colorScale: "Tests",
           data: latest.filter(d => d.Tests),
           tooltipConfig: tooltipConfigTracker
+        }
+      },
+      "Percentage of Positive Test Results": {
+        showCharts: stateTestData.length > 0,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
+        stat: {
+          value: show ? topicStats.totalPositive : <Spinner />,
+          title: `Positive Test Results in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        descriptions: ["This chart shows the percentage of positive test results in each U.S. state by date."],
+        sources: [ctSource],
+        option: "% Positive Tests",
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate),
+          title: `Positive Tests (${scaleLabel})`,
+          time: "Date",
+          timeline: false,
+          x: "Date",
+          xConfig: {
+            title: "",
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate), d => d.Date),
+            tickFormat: dateFormat
+          },
+          y: "PositivePct",
+          yConfig: {
+            tickFormat: d => `${formatAbbreviate(d)}%`
+          }
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: "PositivePct",
+          data: latest.filter(d => d.PositivePct)
         }
       },
       "Daily New Cases": {
