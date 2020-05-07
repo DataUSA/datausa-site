@@ -1846,7 +1846,7 @@ class Coronavirus extends Component {
                       </div>
                       <div className="stat-subtitle">
                         {show
-                          ? `for the week ending ${dayFormat(latestEmployment)}`
+                          ? `since the week ending ${dayFormat(employmentDate)}`
                           : ""}
                       </div>
                     </div>
@@ -1855,7 +1855,7 @@ class Coronavirus extends Component {
                         <div className="stat-value">
                           {show
                             ? formatAbbreviate(employmentStatStates)
-                            :                             <Spinner />
+                            : <Spinner />
                           }
                         </div>
                         <div className="stat-title">
@@ -1864,9 +1864,7 @@ class Coronavirus extends Component {
                         </div>
                         <div className="stat-subtitle">
                           {show
-                            ? `since the week ending ${dayFormat(
-                              employmentDate
-                            )}`
+                            ? `since the week ending ${dayFormat(employmentDate)}`
                             : ""}
                         </div>
                       </div>
