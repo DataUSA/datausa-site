@@ -1007,12 +1007,13 @@ class Coronavirus extends Component {
     const latestEmploymentData = employmentData.filter(
       d => d.Date === latestEmployment
     );
+    const employmentDate = new Date("03/21/2020");
     const employmentStat = sum(
-      employmentData.filter(d => d.Date === latestEmployment),
+      employmentData.filter(d => d.Date >= employmentDate),
       d => d.initial_claims
     );
     const employmentStatStates = sum(
-      employmentDataFiltered.filter(d => d.Date === latestEmployment),
+      employmentDataFiltered.filter(d => d.Date >= employmentDate),
       d => d.initial_claims
     );
 
@@ -1863,8 +1864,8 @@ class Coronavirus extends Component {
                         </div>
                         <div className="stat-subtitle">
                           {show
-                            ? `for the week ending ${dayFormat(
-                              latestEmployment
+                            ? `since the week ending ${dayFormat(
+                              employmentDate
                             )}`
                             : ""}
                         </div>
@@ -1872,6 +1873,9 @@ class Coronavirus extends Component {
                       : null}
                   </div>
                   <div className="topic-description">
+                    <p>
+                      Since new claims for unemployment insurance began to spike the week ending on {dayFormat(employmentDate)}, there have been over {formatAbbreviate(employmentStat)} initial claims filed.
+                    </p>
                     <p>
                       This chart shows weekly initial unemployment insurance claims in
                       the United States (not-seasonally adjusted). The most
