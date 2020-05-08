@@ -1353,8 +1353,8 @@ class Coronavirus extends Component {
         showCharts: stateTestData.length > 0,
         subtitle: "Hospitalization data for some states may be delayed or not reported.",
         stat: {
-          value: show ? topicStats.totalHospitalizations : <Spinner />,
-          title: `Hospitalizations per Capita in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          value: show ? topicStats.totalHospitalizationsPC : <Spinner />,
+          title: `Hospitalizations per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
         descriptions: [
@@ -1422,7 +1422,7 @@ class Coronavirus extends Component {
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
         stat: {
           value: show ? topicStats.totalTestsPC : <Spinner />,
-          title: `Tests per Capita in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          title: `Tests per 100k in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
           subtitle: show ? `as of ${dayFormat(today)}` : ""
         },
         descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
