@@ -1067,17 +1067,24 @@ class Coronavirus extends Component {
     const tooltipConfigTracker = {
       tbody: d => {
         const arr = [
-          ["Date", dateFormat(d.Date)],
-          ["Total Tests", commas(d.Tests)],
-          ["Tests yielding positive results", commas(d.Positive)],
-          ["Tests yielding negative results", commas(d.Negative)],
-          [
+          ["Date", dateFormat(d.Date)]
+        ];
+        if (d.Tests) {
+          arr.push(["Total Tests", commas(d.Tests)]);
+        }
+        if (d.Positive && d.Negative && d.PositivePC) {
+          arr.push(["Tests yielding positive results", commas(d.Positive)]);
+          arr.push(["Tests yielding negative results", commas(d.Negative)]);
+          arr.push([
             "Percentage of tests yielding positive results",
             `${formatAbbreviate(d.PositivePC * 100)}%`
-          ]
-        ];
+          ]);
+        }
         if (d.Hospitalized) {
           arr.push(["Hospitalized patients", commas(d.Hospitalized)]);
+        }
+        if (d.HospitalizedPC) {
+          arr.push(["Hospitalized patients per Capita", formatAbbreviate(d.HospitalizedPC)]);
         }
 
         return arr;
@@ -1129,11 +1136,16 @@ class Coronavirus extends Component {
     topicStats.totalDeathsPC = formatAbbreviate(
       totalDeathsFiltered / totalPopulationFiltered * 100000
     );
-    topicStats.totalHospitalizations = commas(
-      sum(latestFiltered, d => d.Hospitalized)
+    const totalHospitalizationsFiltered = sum(latestFiltered, d => d.Hospitalized);
+    topicStats.totalHospitalizations = commas(totalHospitalizationsFiltered);
+    topicStats.totalHospitalizationsPC = formatAbbreviate(
+      totalHospitalizationsFiltered / totalPopulationFiltered * 100000
     );
     const totalTestsFiltered = sum(latestFiltered, d => d.Tests);
     topicStats.totalTests = commas(totalTestsFiltered);
+    topicStats.totalTestsPC = formatAbbreviate(
+      totalTestsFiltered / totalPopulationFiltered * 100000
+    );
     const totalPositiveFiltered = sum(latestFiltered, d => d.Positive);
     topicStats.totalPositivePercent = `${formatAbbreviate(
       totalPositiveFiltered / totalTestsFiltered * 100
@@ -1337,6 +1349,41 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker
         }
       },
+      "Hospitalizations per Capita": {
+        showCharts: stateTestData.length > 0,
+        subtitle: "Hospitalization data for some states may be delayed or not reported.",
+        stat: {
+          value: show ? topicStats.totalHospitalizations : <Spinner />,
+          title: `Hospitalizations per Capita in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        descriptions: [
+          "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.",
+          "This chart shows hospitalizations for all states that have registered at least 50 hospitalizations."
+        ],
+        sources: [ctSource],
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.HospitalizedPC),
+          time: "Date",
+          timeline: false,
+          title: `Hospitalized Patients (${scaleLabel})`,
+          tooltipConfig: tooltipConfigTracker,
+          x: "Date",
+          xConfig: {
+            title: "",
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.HospitalizedPC), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.HospitalizedPC), d => d.Date),
+            tickFormat: dateFormat
+          },
+          y: "HospitalizedPC"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: "HospitalizedPC",
+          data: latest.filter(d => d.HospitalizedPC),
+          tooltipConfig: tooltipConfigTracker
+        }
+      },
       "Total Tests by State": {
         showCharts: stateTestData.length > 0,
         subtitle: currentStates.length ? null : "Use the map to select individual states.",
@@ -1367,6 +1414,38 @@ class Coronavirus extends Component {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
           colorScale: "Tests",
           data: latest.filter(d => d.Tests),
+          tooltipConfig: tooltipConfigTracker
+        }
+      },
+      "Tests per Capita": {
+        showCharts: stateTestData.length > 0,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
+        stat: {
+          value: show ? topicStats.totalTestsPC : <Spinner />,
+          title: `Tests per Capita in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+          subtitle: show ? `as of ${dayFormat(today)}` : ""
+        },
+        descriptions: ["Testing is central in the fight against a pandemic such as COVID-19."],
+        sources: [ctSource],
+        lineConfig: {
+          data: stateTestDataFiltered.filter(d => d.Tests),
+          time: "Date",
+          timeline: false,
+          title: `Tests per Capita (${scaleLabel})`,
+          tooltipConfig: tooltipConfigTracker,
+          x: "Date",
+          xConfig: {
+            title: "",
+            labels: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.TestsPC), d => d.Date),
+            ticks: caclulateMonthlyTicks(stateTestDataFiltered.filter(d => d.TestsPC), d => d.Date),
+            tickFormat: dateFormat
+          },
+          y: "TestsPC"
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: "TestsPC",
+          data: latest.filter(d => d.TestsPC),
           tooltipConfig: tooltipConfigTracker
         }
       },
@@ -1499,8 +1578,9 @@ class Coronavirus extends Component {
 
     const isCases = ["Total Confirmed Cases By Date", "Total Confirmed Cases per Capita"].includes(currentCaseSectionTitle);
     const isDeaths = ["Total Deaths by State", "Deaths per Capita"].includes(currentCaseSectionTitle);
-
-    const showPCSwitch = isCases || isDeaths;
+    const isTests = ["Total Tests by State", "Tests per Capita"].includes(currentCaseSectionTitle);
+    const isHospitalizations = ["Total Hospitalizations by State", "Hospitalizations per Capita"].includes(currentCaseSectionTitle);
+    const allowPC = isCases || isDeaths || isTests || isHospitalizations;
 
     let fixedTitle = currentCaseSectionTitle;
     if (currentCasePC) {
@@ -1510,14 +1590,18 @@ class Coronavirus extends Component {
       else if (fixedTitle === "Total Deaths by State") {
         fixedTitle = "Deaths per Capita";
       }
+      else if (fixedTitle === "Total Tests by State") {
+        fixedTitle = "Tests per Capita";
+      }
+      else if (fixedTitle === "Total Hospitalizations by State") {
+        fixedTitle = "Hospitalizations per Capita";
+      }
     }
     const showReachSwitch = fixedTitle === "Total Confirmed Cases By Date";
 
     if (currentCaseReach) {
       if (fixedTitle === "Total Confirmed Cases By Date") fixedTitle = "Total Confirmed Cases Since Reaching";
     }
-
-    const showInternationalSwitch = isCases || isDeaths;
 
     if (currentCaseInternational) {
       if (isCases) {
@@ -1652,9 +1736,9 @@ class Coronavirus extends Component {
                   <StateSelector />
                   <AxisToggle />
                   <CaseSelector />
-                  {showPCSwitch && <Checkbox disabled={currentCaseInternational || currentCaseReach} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>}
-                  {showReachSwitch && <Checkbox disabled={currentCaseInternational || currentCasePC} label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>}
-                  {showInternationalSwitch && <Checkbox disabled={currentCaseReach} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>}
+                  <Checkbox disabled={!allowPC || currentCaseReach || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>
+                  <Checkbox disabled={!isCases || currentCasePC || currentCaseInternational} label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>
+                  <Checkbox disabled={!(isCases || isDeaths) || currentCaseReach} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>
                   {showReachSwitch && currentCaseReach && <CutoffToggle />}
                   {currentSection.stat &&
                     <div className="topic-stats">
