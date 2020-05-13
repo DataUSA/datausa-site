@@ -1158,25 +1158,25 @@ class Coronavirus extends Component {
 
     const caseSections = {
       cases: {
-        showCharts: currentCaseInternational 
-          ? countryCutoffData.length > 0 
-          : currentCaseReach 
-            ? stateCutoffData.length > 0 
+        showCharts: currentCaseInternational
+          ? countryCutoffData.length > 0
+          : currentCaseReach
+            ? stateCutoffData.length > 0
             : stateTestData.length > 0,
-        title: currentCaseInternational 
-          ? "International Comparison (Cases)" 
-          : currentCasePC 
-            ? "Total Confirmed Cases per Capita" 
-            : currentCaseReach 
-              ? `Total Confirmed Cases Since Reaching ${cutoff} Cases` 
+        title: currentCaseInternational
+          ? "International Comparison (Cases)"
+          : currentCasePC
+            ? "Total Confirmed Cases per Capita"
+            : currentCaseReach
+              ? `Total Confirmed Cases Since Reaching ${cutoff} Cases`
               : "Total Confirmed Cases By Date",
         stat: currentCaseInternational || currentCaseReach
           ? false
           : {
-            value: show 
+            value: show
               ? currentCasePC
                 ? topicStats.totalPC
-                : topicStats.totalCases 
+                : topicStats.totalCases
               : <Spinner />,
             title: `${currentCasePC ? "Cases per 100k" : "Total Cases"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
@@ -1208,7 +1208,7 @@ class Coronavirus extends Component {
             ? `Confirmed Cases per 100,000 (${scaleLabel})`
             : `Confirmed Cases (${scaleLabel})`,
           time: "Date",
-          timeline: false,  
+          timeline: false,
           x: currentCaseInternational || currentCaseReach
             ? "Days"
             : "Date",
@@ -1262,23 +1262,23 @@ class Coronavirus extends Component {
           : currentCasePC
             ? "Deaths per Capita"
             : "Total Deaths by State",
-        showCharts: currentCaseInternational 
+        showCharts: currentCaseInternational
           ? countryCutoffDeathData.length > 0
           : stateTestData.length > 0,
         stat: currentCaseInternational || currentCaseReach
           ? false
           : {
-            value: show 
-              ? currentCasePC 
+            value: show
+              ? currentCasePC
                 ? topicStats.totalDeathsPC
-                : topicStats.totalDeaths 
+                : topicStats.totalDeaths
               : <Spinner />,
             title: `${currentCasePC ? "Deaths per 100k" : "Total Deaths"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
-        descriptions: currentCaseInternational 
+        descriptions: currentCaseInternational
           ? ["Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death."]
-          : currentCaseReach 
+          : currentCaseReach
             ? ["Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as 100, 500, or 1,000 cases."]
             : currentCasePC
               ? ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."]
@@ -1290,7 +1290,7 @@ class Coronavirus extends Component {
             : [ctSource],
         option: "Deaths",
         lineConfig: {
-          data: currentCaseInternational 
+          data: currentCaseInternational
             ? countryCutoffDeathDataFiltered
             : currentCaseReach
               ? currentCasePC
@@ -1305,10 +1305,10 @@ class Coronavirus extends Component {
           timeline: false,
           x: currentCaseInternational || currentCaseReach ? "Days" : "Date",
           xConfig: {
-            title: currentCaseInternational 
-              ? currentCaseReach 
+            title: currentCaseInternational
+              ? currentCaseReach
                 ? `Days Since ${cutoff} Confirmed Cases`
-                : "Days Since 10 Deaths"  
+                : "Days Since 10 Deaths"
               : currentCaseReach
                 ? `Days Since ${cutoff} Confirmed Cases`
                 : "",
@@ -1348,10 +1348,10 @@ class Coronavirus extends Component {
         stat: currentCaseReach
           ? false
           : {
-            value: show 
-              ? currentCasePC 
+            value: show
+              ? currentCasePC
                 ? topicStats.totalHospitalizationsPC
-                : topicStats.totalHospitalizations 
+                : topicStats.totalHospitalizations
               : <Spinner />,
             title: `${currentCasePC ? "Hospitalizations per 100k" : "Hospitalizations"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
@@ -1366,7 +1366,7 @@ class Coronavirus extends Component {
         option: "Hospitalizations",
         lineConfig: {
           data: currentCaseReach
-            ? currentCasePC 
+            ? currentCasePC
               ? stateCutoffDataFiltered.filter(d => d.HospitalizedPC)
               : stateCutoffDataFiltered.filter(d => d.Hospitalized)
             : currentCasePC
@@ -1409,13 +1409,13 @@ class Coronavirus extends Component {
       tests: {
         title: currentCasePC ? "Tests per Capita" : "Total Tests by State",
         showCharts: stateTestData.length > 0,
-        stat: currentCaseReach 
+        stat: currentCaseReach
           ? false
           : {
-            value: show 
+            value: show
               ? currentCasePC
                 ? topicStats.totalTestsPC
-                : topicStats.totalTests 
+                : topicStats.totalTests
               : <Spinner />,
             title: `${currentCasePC ? "Tests per 100k" : "Total Tests"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
@@ -1427,7 +1427,7 @@ class Coronavirus extends Component {
         option: "Tests",
         lineConfig: {
           data: currentCaseReach
-            ? currentCasePC 
+            ? currentCasePC
               ? stateCutoffDataFiltered.filter(d => d.TestsPC)
               : stateCutoffDataFiltered.filter(d => d.Tests)
             : currentCasePC
@@ -1437,20 +1437,20 @@ class Coronavirus extends Component {
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
           timeline: false,
-          x: currentCaseReach ? "Days": "Date",
+          x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
               ? `Days Since ${cutoff} Confirmed Cases`
               : "",
             labels: currentCaseReach
-              ? currentCasePC 
+              ? currentCasePC
                 ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.TestsPC), d => d.Days)
                 : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Tests), d => d.Days)
               : currentCasePC
                 ? calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.TestsPC), d => d.Date)
                 : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             ticks: currentCaseReach
-              ? currentCasePC 
+              ? currentCasePC
                 ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.TestsPC), d => d.Days)
                 : calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.Tests), d => d.Days)
               : currentCasePC
@@ -1527,7 +1527,7 @@ class Coronavirus extends Component {
         option: "Daily New Cases",
         sources: [ctSource],
         lineConfig: {
-          data: currentCaseReach 
+          data: currentCaseReach
             ? stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth)
             : stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
           time: "Date",
@@ -1556,7 +1556,7 @@ class Coronavirus extends Component {
       }
     };
 
-    const CaseSelector = () => 
+    const CaseSelector = () =>
       <div>
         <label className="pt-label pt-inline">
           Indicator
@@ -1575,7 +1575,7 @@ class Coronavirus extends Component {
     const allowPC = isCases || isDeaths || isTests || isHospitalizations;
 
     const currentSection = caseSections[currentCaseSlug];
-    
+
     if (currentCaseInternational || currentCaseReach) {
       delete currentSection.lineConfig.time;
       delete currentSection.lineConfig.timeline;
@@ -1703,7 +1703,7 @@ class Coronavirus extends Component {
                   <StateSelector />
                   <AxisToggle />
                   <CaseSelector />
-                  <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || (currentCasePC && allowPC)} onChange={e => this.setState({currentCasePC: e.target.checked})}/>
+                  <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC && allowPC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>
                   <Checkbox label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>
                   <Checkbox disabled={!(isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>
                   {currentCaseReach && <CutoffToggle />}
