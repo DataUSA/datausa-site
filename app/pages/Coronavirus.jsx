@@ -315,6 +315,15 @@ const colorArray = [
   "#c0451e"
 ];
 
+const caseSlugLookup = {
+  cases: "Confirmed",
+  deaths: "Deaths",
+  hospitalizations: "Hospitalized",
+  tests: "Tests",
+  positive: "Tests",
+  daily: "Confirmed"
+};
+
 /** */
 function suffix(number) {
   const tail = number % 100;
@@ -660,37 +669,69 @@ class Coronavirus extends Component {
   }
 
   changeCutoff(value) {
-    this.setState({cutoff: value}, this.prepData.bind(this));
+    this.prepData.bind(this)({cutoff: value});
   }
 
   changeScale(scale) {
     if (scale !== this.state.scale) this.setState({scale});
   }
 
-  changeCaseSlug(e) {
-    const currentCaseSlug = e.target.value;    
-    const lookup = {
-      cases: "Confirmed",
-      deaths: "Deaths",
-      hospitalizations: "Hospitalized",
-      tests: "Tests",
-      positive: "Tests",
-      daily: "Confirmed"
-    };
-    const cutoffKey = lookup[currentCaseSlug];
-    this.setState({currentCaseSlug, cutoffKey}, this.prepData.bind(this, true));
+  deriveCutoffKey(slug, isPC) {
+    const cutoffKey = caseSlugLookup[slug];
+    const maybePC = ["cases", "deaths", "hospitalizations", "tests"].includes(slug);
+    return maybePC && isPC ? `${cutoffKey}PC` : cutoffKey;
   }
 
-  prepData(reset) {
-    const {stateTestData, countryCases, cutoffKey} = this.state;
-    let {cutoff} = this.state;
+  changePC(e) {
+    const currentCasePC = e.target.checked;
+    const {currentCaseSlug} = this.state;
+    const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC);
+    const reset = true;
+    this.prepData.bind(this)({currentCasePC, cutoffKey, reset});
+  }
 
-    const maxPct = .1;
-    const dataMax = max(stateTestData, d => d[cutoffKey]);
-    const cutoffStepSize = Math.pow(10, String(dataMax).length - 3);
+  changeReach(e) {
+    const currentCaseReach = e.target.checked;
+    const {currentCaseSlug, currentCasePC} = this.state;
+    const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC);
+    const reset = true;
+    this.prepData.bind(this)({currentCaseReach, cutoffKey, reset});
+  }
+
+  changeInternational(e) {
+    const currentCaseInternational = e.target.checked;
+    const {currentCaseSlug} = this.state;
+    const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCaseInternational);
+    const reset = true;
+    this.prepData.bind(this)({currentCaseInternational, cutoffKey, reset});
+  }
+
+  changeCaseSlug(e) {
+    const {currentCasePC} = this.state;
+    const currentCaseSlug = e.target.value;    
+    const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC);
+    const reset = true;
+    this.prepData.bind(this)({currentCaseSlug, cutoffKey, reset});
+  }
+
+  prepData(config) {
+    let cutoff = config && config.cutoff !== undefined ? config.cutoff : this.state.cutoff;
+    const cutoffKey = config && config.cutoffKey !== undefined ? config.cutoffKey : this.state.cutoffKey;
+    const currentCaseSlug = config && config.currentCaseSlug !== undefined ? config.currentCaseSlug : this.state.currentCaseSlug;
+    const currentCaseReach = config && config.currentCaseReach !== undefined ? config.currentCaseReach : this.state.currentCaseReach;
+    const currentCasePC = config && config.currentCasePC !== undefined ? config.currentCasePC : this.state.currentCasePC;
+    const currentCaseInternational = config && config.currentCaseInternational !== undefined ? config.currentCaseInternational : this.state.currentCaseInternational;
+    const reset = config && config.reset !== undefined ? config.reset : false;
+    const {stateTestData, countryCases} = this.state;
+
+    const maxPct = currentCasePC || currentCaseInternational ? .3 : .1;
+    const dataMax = Math.round(max(stateTestData, d => d[cutoffKey]));
+    let cutoffStepSize = Math.pow(10, String(dataMax).length - 3);
+    if (cutoffStepSize < 1) cutoffStepSize = 1;
     let cutoffLabelStepSize = cutoffStepSize * 10;
     const cutoffMax = Math.round(dataMax * maxPct / cutoffLabelStepSize) * cutoffLabelStepSize;
     if (cutoffLabelStepSize > cutoffMax / 2) cutoffLabelStepSize /= 5;
+    if (cutoffLabelStepSize < cutoffMax / 10) cutoffLabelStepSize *= 3;
     
     if (reset) cutoff = cutoffStepSize;
 
@@ -735,7 +776,7 @@ class Coronavirus extends Component {
         .map(group => {
           let days = 0;
           return group.values.reduce((arr, d) => {
-            if (d.Confirmed > cutoff) {
+            if (d.ConfirmedPC > cutoff) {
               days++;
               const newObj = Object.assign({}, d);
               newObj.Days = days;
@@ -744,7 +785,7 @@ class Coronavirus extends Component {
             return arr;
           }, []);
         })
-        .sort((a, b) => max(b, d => d.Confirmed) - max(a, d => d.Confirmed))
+        .sort((a, b) => max(b, d => d.ConfirmedPC) - max(a, d => d.ConfirmedPC))
     );
 
     const countryCutoffDeathData = merge(
@@ -754,7 +795,7 @@ class Coronavirus extends Component {
         .map(group => {
           let days = 0;
           return group.values.reduce((arr, d) => {
-            if (d.Deaths > cutoff) {
+            if (d.DeathsPC > cutoff) {
               days++;
               const newObj = Object.assign({}, d);
               newObj.Days = days;
@@ -763,7 +804,7 @@ class Coronavirus extends Component {
             return arr;
           }, []);
         })
-        .sort((a, b) => max(b, d => d.Deaths) - max(a, d => d.Deaths))
+        .sort((a, b) => max(b, d => d.DeathsPC) - max(a, d => d.DeathsPC))
     );
 
     this.setState({
@@ -772,6 +813,11 @@ class Coronavirus extends Component {
       countryCutoffDeathData,
       countryData,
       cutoff,
+      cutoffKey,
+      currentCaseSlug,
+      currentCaseReach,
+      currentCasePC,
+      currentCaseInternational,
       sliderConfig
     });
   }
@@ -1206,7 +1252,9 @@ class Coronavirus extends Component {
         title: currentCaseInternational
           ? "International Comparison (Cases)"
           : currentCasePC
-            ? "Total Confirmed Cases per Capita"
+            ? currentCaseReach 
+              ? `Total Confirmed Cases Since Reaching ${cutoffFormatted} Cases Per Capita`
+              : "Total Confirmed Cases per Capita"
             : currentCaseReach
               ? `Total Confirmed Cases Since Reaching ${cutoffFormatted} Cases`
               : "Total Confirmed Cases By Date",
@@ -1222,9 +1270,9 @@ class Coronavirus extends Component {
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseInternational
-          ? ["To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than 50 cases, with that of the five countries that have reported most cases. We shift all time starting points to the day each place reported a total of 50 cases or more."]
+          ? [`To get a sense of how the COVID-19 trajectory in the U.S. states compares to that in other countries, we compare the per capita number of cases for each state that has reported more than ${cutoffFormatted} cases, with that of the five countries that have reported most cases.`]
           : currentCaseReach
-            ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
+            ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases${currentCasePC ? " per capita" : ""}.`]
             : currentCasePC
               ? ["This chart normalizes the number of confirmed COVID-19 cases by the population of each state. It gives an idea of the \"density\" of COVID-19 infections in each state."]
               : ["This chart shows the number of confirmed COVID-19 cases in each U.S. state by date. It is the simplest of all charts, which does not control for the size of a state, or the time the epidemic began in that state."],
@@ -1254,9 +1302,11 @@ class Coronavirus extends Component {
             : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? "Days Since 50 Confirmed Cases"
+              ? `Days Since ${cutoffFormatted} Confirmed Cases Per Capita`
               : currentCaseReach
-                ? `Days Since ${cutoffFormatted} Confirmed Cases`
+                ? currentCasePC
+                  ? `Days Since ${cutoffFormatted} Confirmed Cases Per Capita`
+                  : `Days Since ${cutoffFormatted} Confirmed Cases`
                 : "",
             labels: currentCaseInternational
               ? calculateDailyTicks(countryCutoffDataFiltered, d => d.Days)
@@ -1300,7 +1350,9 @@ class Coronavirus extends Component {
         title: currentCaseInternational
           ? "International Comparison (Deaths)"
           : currentCasePC
-            ? "Deaths per Capita"
+            ? currentCaseReach
+              ? `Total Deaths Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per Capita`
+              : "Deaths per Capita"
             : currentCaseReach
               ? `Total Deaths Since Reaching ${cutoffFormatted} Deaths`
               : "Total Deaths by State",
@@ -1319,9 +1371,9 @@ class Coronavirus extends Component {
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseInternational
-          ? ["Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than 10 deaths with that of the five countries that have reported the most deaths. We shift all time starting points to the day each place reported its tenth death."]
+          ? [`Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than ${cutoffFormatted} deaths with that of the five countries that have reported the most deaths.`]
           : currentCaseReach
-            ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} deaths.`]
+            ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} deaths${currentCasePC ? " per capita" : ""}.`]
             : currentCasePC
               ? ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."]
               : ["This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state."],
@@ -1348,11 +1400,11 @@ class Coronavirus extends Component {
           x: currentCaseInternational || currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? currentCaseReach
-                ? `Days Since ${cutoffFormatted} Deaths`
-                : "Days Since 10 Deaths"
+              ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per Capita`
               : currentCaseReach
-                ? `Days Since ${cutoffFormatted} Deaths`
+                ? currentCasePC
+                  ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per Capita`
+                  : `Days Since ${cutoffFormatted} Deaths`
                 : "",
             labels: currentCaseInternational
               ? calculateDailyTicks(countryCutoffDeathDataFiltered, d => d.Days)
@@ -1386,7 +1438,9 @@ class Coronavirus extends Component {
       hospitalizations: {
         showCharts: stateTestData.length > 0,
         title: currentCasePC
-          ? "Hospitalizations per Capita" 
+          ? currentCaseReach
+            ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per Capita`
+            : "Hospitalizations per Capita" 
           : currentCaseReach
             ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalizations`
             : "Total Hospitalizations by State",
@@ -1403,7 +1457,7 @@ class Coronavirus extends Component {
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
-          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations.`]
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations${currentCasePC ? " per capita" : ""}.`]
           : [
             "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.",
             "This chart shows hospitalizations for all states that have registered at least 50 hospitalizations."
@@ -1425,7 +1479,9 @@ class Coronavirus extends Component {
           x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
-              ? `Days Since ${cutoffFormatted} Hospitalizations`
+              ? currentCasePC
+                ? `Days Since ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per Capita`
+                : `Days Since ${cutoffFormatted} Hospitalizations`
               : "",
             labels: currentCaseReach
               ? currentCasePC
@@ -1454,7 +1510,9 @@ class Coronavirus extends Component {
       },
       tests: {
         title: currentCasePC
-          ? "Tests per Capita" 
+          ? currentCaseReach
+            ? `Total Tests Since Reaching ${cutoffFormatted} Tests Per Capita`
+            : "Tests per Capita" 
           : currentCaseReach
             ? `Total Tests Since Reaching ${cutoffFormatted} Tests`
             : "Total Tests by State",
@@ -1471,7 +1529,7 @@ class Coronavirus extends Component {
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
-          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} tests.`]
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} tests${currentCasePC ? " per capita" : ""}.`]
           : ["Testing is central in the fight against a pandemic such as COVID-19."],
         sources: [ctSource],
         option: "Tests",
@@ -1490,7 +1548,9 @@ class Coronavirus extends Component {
           x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
-              ? `Days Since ${cutoffFormatted} Tests`
+              ? currentCasePC
+                ? `Days Since ${cutoffFormatted} Tests Per Capita`
+                : `Days Since ${cutoffFormatted} Tests`
               : "",
             labels: currentCaseReach
               ? currentCasePC
@@ -1544,7 +1604,9 @@ class Coronavirus extends Component {
           x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
-              ? `Days Since ${cutoffFormatted} Tests`
+              ? currentCasePC 
+                ? `Days Since ${cutoffFormatted} Tests Per Capita`
+                : `Days Since ${cutoffFormatted} Tests`
               : "",
             labels: currentCaseReach
               ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.PositivePct), d => d.Days)
@@ -1590,7 +1652,9 @@ class Coronavirus extends Component {
           x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
-              ? `Days Since ${cutoffFormatted} Confirmed Cases`
+              ? currentCasePC
+                ? `Days Since ${cutoffFormatted} Confirmed Cases Per Capita`
+                : `Days Since ${cutoffFormatted} Confirmed Cases`
               : "",
             labels: currentCaseReach
               ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
@@ -1757,10 +1821,10 @@ class Coronavirus extends Component {
                   <StateSelector />
                   <AxisToggle />
                   <CaseSelector />
-                  <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC && allowPC} onChange={e => this.setState({currentCasePC: e.target.checked})}/>
-                  <Checkbox label="Shift Time Axis" checked={currentCaseReach} onChange={e => this.setState({currentCaseReach: e.target.checked})}/>
-                  <Checkbox disabled={!(isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={e => this.setState({currentCaseInternational: e.target.checked})}/>
-                  {currentCaseReach && <CutoffToggle />}
+                  <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC && allowPC} onChange={this.changePC.bind(this)}/>
+                  <Checkbox disabled={currentCaseInternational} label="Shift Time Axis" checked={currentCaseReach || currentCaseInternational} onChange={this.changeReach.bind(this)}/>
+                  <Checkbox disabled={!(isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={this.changeInternational.bind(this)}/>
+                  {(currentCaseReach || currentCaseInternational) && <CutoffToggle />}
                   {currentSection.stat &&
                     <div className="topic-stats">
                       <div className="StatGroup single">
