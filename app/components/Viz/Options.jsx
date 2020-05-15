@@ -89,7 +89,7 @@ class Options extends Component {
     if (data instanceof Array) {
       if (!data.some(d => typeof d !== "string")) dataURLs = data;
     }
-    else dataURLs.push(data);
+    else if (data) dataURLs.push(data);
     dataURLs = dataURLs.map(d => d.replace(/[&?]limit=[^&]+/g, ""));
 
     this.state = {
@@ -111,7 +111,7 @@ class Options extends Component {
     if (data instanceof Array) {
       if (!data.some(d => typeof d !== "string")) dataURLs = data;
     }
-    else dataURLs.push(data);
+    else if (data) dataURLs.push(data);
     dataURLs = dataURLs.map(d => d.replace(/[&?]limit=[^&]+/g, ""));
 
     if (JSON.stringify(dataURLs) !== JSON.stringify(this.state.data)) this.setState({data: dataURLs, results: false});
