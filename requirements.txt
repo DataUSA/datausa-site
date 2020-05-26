@@ -2,3 +2,4 @@ datetime
 numpy
 pandas
 simplejson
+requests
