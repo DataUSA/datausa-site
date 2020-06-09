@@ -57,6 +57,7 @@
     "react-katex": "^1.2.0",
     "react-quill": "^1.2.3",
     "react-slick": "^0.23.2",
+    "react-sparklines": "^1.7.0",
     "sharp": "^0.23.3"
   }
 }

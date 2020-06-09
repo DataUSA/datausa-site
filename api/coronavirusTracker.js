@@ -1,6 +1,29 @@
 const axios = require("axios");
 const {unique} = require("d3plus-common");
-const csv = require("csvtojson");
+const {nest} = require("d3-collection");
+
+/** */
+function smooth(arr, windowSize, getter = value => value, setter) {
+  const get = getter;
+  const result = [];
+
+  for (let i = 0; i < arr.length; i += 1) {
+    const leftOffeset = i - windowSize;
+    const from = leftOffeset >= 0 ? leftOffeset : 0;
+    const to = i + windowSize + 1;
+
+    let count = 0;
+    let sum = 0;
+    for (let j = from; j < to && j < arr.length; j += 1) {
+      sum += get(arr[j]);
+      count += 1;
+    }
+
+    result[i] = setter ? setter(arr[i], sum / count) : sum / count;
+  }
+
+  return result;
+}
 
 const states = {
   AL: "Alabama",
@@ -238,6 +261,13 @@ module.exports = function(app) {
 
     });
 
+    nest()
+      .key(d => d["ID Geography"])
+      .entries(data)
+      .forEach(group => {
+        smooth(group.values, 7, d => d.ConfirmedGrowth ? d.ConfirmedGrowth : 0, (d, x) => (d.ConfirmedGrowthSmooth = x, d));
+      });
+
     // remove all data before March 1st
     const cutoffDate = new Date("03/01/2020");
     data = data
@@ -258,6 +288,7 @@ module.exports = function(app) {
       d.HospitalizedPC = d.Hospitalized ? d.Hospitalized * 100000 / d.Population : null;
       d.ConfirmedGrowthPC = d.ConfirmedGrowth ? d.ConfirmedGrowth * 100000 / d.Population : null;
       [
+        "dataQualityGrade", "lastUpdateEt",
         "dateChecked", "state", "date", "death", "negative", "positive",
         "hospitalizedCurrently", "hospitalizedCumulative", "inIcuCurrently", "inIcuCumulative",
         "onVentilatorCurrently", "onVentilatorCumulative", "recovered", "hash",

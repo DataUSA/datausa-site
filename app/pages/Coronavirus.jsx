@@ -2,9 +2,16 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
-import {NonIdealState, Slider, Spinner, Button, Checkbox} from "@blueprintjs/core";
+import {Icon, NonIdealState, Slider, Spinner, Button, Checkbox} from "@blueprintjs/core";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
+import {Sparklines, SparklinesCurve} from "react-sparklines";
+
+import {extent, max, merge, range, sum} from "d3-array";
+import {nest} from "d3-collection";
+import {timeFormat} from "d3-time-format";
+import {format} from "d3-format";
+import {scaleLog} from "d3-scale";
 
 import {countries} from "countries-list";
 
@@ -232,6 +239,7 @@ const stateAbbreviations = {
   "Arizona": "AZ",
   "Alabama": "AL",
   "Alaska": "AK",
+  "American Samoa": "AS",
   "Arkansas": "AR",
   "California": "CA",
   "Colorado": "CO",
@@ -285,6 +293,18 @@ const stateAbbreviations = {
   "Wisconsin": "WI",
   "Wyoming": "WY"
 };
+
+const stateGrid = [
+  ["AK", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "ME"],
+  ["  ", "  ", "  ", "  ", "  ", "WI", "  ", "  ", "  ", "VT", "NH"],
+  ["WA", "ID", "MT", "ND", "MN", "IL", "MI", "  ", "NY", "MA", "  "],
+  ["OR", "NV", "WY", "SD", "IA", "IN", "OH", "PA", "NJ", "CT", "RI"],
+  ["CA", "UT", "CO", "NE", "MO", "KY", "WV", "VA", "MD", "DE", "  "],
+  ["  ", "AZ", "NM", "KS", "AR", "TN", "NC", "SC", "DC", "  ", "  "],
+  ["MP", "  ", "  ", "OK", "LA", "MS", "AL", "GA", "  ", "  ", "PR"],
+  ["GU", "HI", "AS", "  ", "TX", "  ", "  ", "  ", "FL", "  ", "VI"]
+];
+
 const countryMeta = Object.keys(countries).reduce((obj, key) => {
   const d = countries[key];
   d.iso = key;
@@ -292,10 +312,6 @@ const countryMeta = Object.keys(countries).reduce((obj, key) => {
   return obj;
 }, {});
 
-import {extent, max, merge, range, sum} from "d3-array";
-import {nest} from "d3-collection";
-import {timeFormat} from "d3-time-format";
-import {format} from "d3-format";
 const commas = format(",");
 
 const suffixes = ["th", "st", "nd", "rd"];
@@ -462,6 +478,7 @@ class UncontrolledSlider extends React.Component {
 
 /** */
 function calculateMonthlyTicks(data, accessor) {
+  const midMonthCutoff = 6;
   return extent(data, accessor)
     .reduce((arr, d, i, src) => {
       arr.push(d);
@@ -474,20 +491,15 @@ function calculateMonthlyTicks(data, accessor) {
         const finalObj = new Date(src[1]);
         const finalMonth = finalObj.getMonth();
         const finalDate = finalObj.getDate();
-        if (finalMonth - month < 3 && date < 15) arr.push(`${month + 1}/15/${year}`);
+        if (finalMonth - month < midMonthCutoff && date < 15) arr.push(`${month + 1}/15/${year}`);
         while (currentMonth <= finalMonth) {
-          if (currentMonth === month + 1) {
-            if (date < 20) {
-              arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
-              if (finalMonth - month < 3) arr.push(`${currentMonth + 1}/15/${year}`);
-            }
+          if (currentMonth !== finalMonth || finalDate > 5) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
+          if (date < 20) {
+            if (finalMonth - month < midMonthCutoff) arr.push(`${currentMonth + 1}/15/${year}`);
           }
-          else if (currentMonth === finalMonth) {
-            if (finalDate > 10) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
-          }
-          else {
-            arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
-          }
+          // if (currentMonth === finalMonth) {
+          //   if (finalDate > 10) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
+          // }
           currentMonth++;
           if (currentMonth === 12) {
             currentMonth = 0;
@@ -708,7 +720,7 @@ class Coronavirus extends Component {
 
   changeCaseSlug(e) {
     const {currentCasePC} = this.state;
-    const currentCaseSlug = e.target.value;    
+    const currentCaseSlug = e.target.value;
     const cutoffKey = this.deriveCutoffKey(currentCaseSlug, currentCasePC);
     const reset = true;
     this.prepData.bind(this)({currentCaseSlug, cutoffKey, reset});
@@ -732,7 +744,7 @@ class Coronavirus extends Component {
     const cutoffMax = Math.round(dataMax * maxPct / cutoffLabelStepSize) * cutoffLabelStepSize;
     if (cutoffLabelStepSize > cutoffMax / 2) cutoffLabelStepSize /= 5;
     if (cutoffLabelStepSize < cutoffMax / 10) cutoffLabelStepSize *= 3;
-    
+
     if (reset) cutoff = cutoffStepSize;
 
     const sliderConfig = {
@@ -889,6 +901,33 @@ class Coronavirus extends Component {
           ];
         };
 
+    const updateStates = d => {
+      if (currentStatesHash[d["ID Geography"]]) {
+        const newCurrentStates = currentStates.filter(
+          o => o["ID Geography"] !== d["ID Geography"]
+        );
+        const newCurrentStatesHash = newCurrentStates.reduce(
+          (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
+          {}
+        );
+        this.setState({
+          currentStates: newCurrentStates,
+          currentStatesHash: newCurrentStatesHash
+        });
+      }
+      else {
+        const newCurrentStates = currentStates.concat(d);
+        const newCurrentStatesHash = newCurrentStates.reduce(
+          (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
+          {}
+        );
+        this.setState({
+          currentStates: newCurrentStates,
+          currentStatesHash: newCurrentStatesHash
+        });
+      }
+    };
+
 
     const sharedConfig = {
       aggs: {
@@ -920,6 +959,7 @@ class Coronavirus extends Component {
         tbody: []
       },
       on: {
+        click: updateStates,
         mouseenter(d) {
           if (d["ID Geography"] instanceof Array) {
             this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]);
@@ -942,6 +982,12 @@ class Coronavirus extends Component {
         }
       },
       tooltipConfig: {
+        footer: d =>
+          `Click to ${
+            !currentStatesHash[d["ID Geography"]]
+              ? `select ${d.Geography}`
+              : "clear state selection"
+          }`,
         tbody: d => {
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.Confirmed !== undefined) {
@@ -1028,32 +1074,7 @@ class Coronavirus extends Component {
           }`
       }),
       on: {
-        click: d => {
-          if (currentStatesHash[d["ID Geography"]]) {
-            const newCurrentStates = currentStates.filter(
-              o => o["ID Geography"] !== d["ID Geography"]
-            );
-            const newCurrentStatesHash = newCurrentStates.reduce(
-              (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
-              {}
-            );
-            this.setState({
-              currentStates: newCurrentStates,
-              currentStatesHash: newCurrentStatesHash
-            });
-          }
-          else {
-            const newCurrentStates = currentStates.concat(d);
-            const newCurrentStatesHash = newCurrentStates.reduce(
-              (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
-              {}
-            );
-            this.setState({
-              currentStates: newCurrentStates,
-              currentStatesHash: newCurrentStatesHash
-            });
-          }
-        }
+        click: updateStates
       },
       topojson: "/topojson/State.json"
     };
@@ -1107,20 +1128,18 @@ class Coronavirus extends Component {
 
     const StateSelector = () =>
       currentStates.length
-        ? <Button
-          className="pt-fill"
-          iconName="cross"
-          onClick={() =>
-            this.setState({currentStates: [], currentStatesHash: {}})
-          }
-        >
-          {`Click to Clear State Selection${
-            currentStates.length > 1 ? "s" : ""
-          }`}
-        </Button>
-        : <div className="topic-subtitle">
-          Use the map to select individual states.
-        </div>
+        ? <AnchorLink to="cases" className="topic-subtitle">
+          Click lines in the chart to remove individual state filters,<br />or click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+        </AnchorLink>
+        : <AnchorLink to="cases" className="topic-subtitle">
+          Click a line in the chart to filter by an individual state,<br />or click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+        </AnchorLink>
+      ;
+
+    const NationStateSelector = () =>
+      <AnchorLink to="cases" className="topic-subtitle">
+        Click here to return to the national map to select individual states. <Icon iconName="arrow-up" iconSize={8} />
+      </AnchorLink>
       ;
 
     const AxisToggle = () =>
@@ -1252,7 +1271,7 @@ class Coronavirus extends Component {
         title: currentCaseInternational
           ? "International Comparison (Cases)"
           : currentCasePC
-            ? currentCaseReach 
+            ? currentCaseReach
               ? `Total Confirmed Cases Since Reaching ${cutoffFormatted} Cases Per Capita`
               : "Total Confirmed Cases per Capita"
             : currentCaseReach
@@ -1292,9 +1311,9 @@ class Coronavirus extends Component {
               : currentCasePC
                 ? stateTestDataFiltered.filter(d => d.ConfirmedPC)
                 : stateTestDataFiltered.filter(d => d.Confirmed),
-          title: currentCaseInternational || currentCasePC
-            ? `Confirmed Cases per 100,000 (${scaleLabel})`
-            : `Confirmed Cases (${scaleLabel})`,
+          // title: currentCaseInternational || currentCasePC
+          //   ? `Confirmed Cases per 100,000 (${scaleLabel})`
+          //   : `Confirmed Cases (${scaleLabel})`,
           time: "Date",
           timeline: false,
           x: currentCaseInternational || currentCaseReach
@@ -1393,7 +1412,7 @@ class Coronavirus extends Component {
               : currentCasePC
                 ? stateTestDataFiltered.filter(d => d.DeathsPC)
                 : stateTestDataFiltered.filter(d => d.Deaths),
-          title: `${currentCasePC || currentCaseInternational ? "Deaths per 100,000" : "Deaths"} (${scaleLabel})`,
+          // title: `${currentCasePC || currentCaseInternational ? "Deaths per 100,000" : "Deaths"} (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           time: "Date",
           timeline: false,
@@ -1440,7 +1459,7 @@ class Coronavirus extends Component {
         title: currentCasePC
           ? currentCaseReach
             ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per Capita`
-            : "Hospitalizations per Capita" 
+            : "Hospitalizations per Capita"
           : currentCaseReach
             ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalizations`
             : "Total Hospitalizations by State",
@@ -1472,7 +1491,7 @@ class Coronavirus extends Component {
             : currentCasePC
               ? stateTestDataFiltered.filter(d => d.HospitalizedPC)
               : stateTestDataFiltered.filter(d => d.Hospitalized),
-          title: `Hospitalized Patients ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
+          // title: `Hospitalized Patients ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
           timeline: false,
@@ -1512,7 +1531,7 @@ class Coronavirus extends Component {
         title: currentCasePC
           ? currentCaseReach
             ? `Total Tests Since Reaching ${cutoffFormatted} Tests Per Capita`
-            : "Tests per Capita" 
+            : "Tests per Capita"
           : currentCaseReach
             ? `Total Tests Since Reaching ${cutoffFormatted} Tests`
             : "Total Tests by State",
@@ -1541,7 +1560,7 @@ class Coronavirus extends Component {
             : currentCasePC
               ? stateTestDataFiltered.filter(d => d.TestsPC)
               : stateTestDataFiltered.filter(d => d.Tests),
-          title: `Number of Tests ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
+          // title: `Number of Tests ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
           timeline: false,
@@ -1598,13 +1617,13 @@ class Coronavirus extends Component {
           data: currentCaseReach
             ? stateCutoffDataFiltered.filter(d => d.PositivePct)
             : stateTestDataFiltered.filter(d => d.PositivePct && new Date(d.Date) >= pctCutoffDate),
-          title: `Positive Tests (${scaleLabel})`,
+          // title: `Positive Tests (${scaleLabel})`,
           time: "Date",
           timeline: false,
           x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
-              ? currentCasePC 
+              ? currentCasePC
                 ? `Days Since ${cutoffFormatted} Tests Per Capita`
                 : `Days Since ${cutoffFormatted} Tests`
               : "",
@@ -1648,7 +1667,7 @@ class Coronavirus extends Component {
             : stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
           time: "Date",
           timeline: false,
-          title: `Daily Confirmed Cases (${scaleLabel})`,
+          // title: `Daily Confirmed Cases (${scaleLabel})`,
           x: currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseReach
@@ -1698,6 +1717,39 @@ class Coronavirus extends Component {
       delete currentSection.lineConfig.time;
       delete currentSection.lineConfig.timeline;
     }
+
+    const gridDataLatest = {};
+    const sparklineBuckets = 20;
+    const gridData = nest()
+      .key(d => stateAbbreviations[d.Geography])
+      .entries(stateTestData.filter(d => d.Confirmed >= 100))
+      .reduce((obj, group) => {
+
+        const xExtent = extent(group.values, d => d.Confirmed);
+        const yExtent = extent(group.values, d => d.ConfirmedGrowthSmooth);
+
+        const xScale = scaleLog()
+          .domain(xExtent)
+          .range([1, sparklineBuckets]);
+
+        const yScale = scaleLog()
+          .domain(yExtent)
+          .range([1, 100]);
+
+        const data = [];
+        for (let i = 0; i < sparklineBuckets; i++) {
+          const cases = Math.floor(xScale.invert(i + 1));
+          const index = group.values.findIndex(d => d.Confirmed >= cases);
+          const datum = group.values[index - 1] || group.values[index];
+          data.push(yScale(datum.ConfirmedGrowthSmooth));
+        }
+        gridDataLatest[group.key] = group.values[group.values.length - 1];
+        obj[group.key] = data;
+        return obj;
+      }, {});
+
+    const sortedStates = Object.keys(gridDataLatest)
+      .sort((a, b) => gridDataLatest[b].Confirmed - gridDataLatest[a].Confirmed);
 
     return (
       <div id="Coronavirus">
@@ -1811,14 +1863,93 @@ class Coronavirus extends Component {
           {/* Confirmed Cases by states */}
           <div className="Section coronavirus-section">
             <SectionTitle slug="cases" title="Confirmed Cases by State" />
+            <div className="section-body">
+              <div className="section-content">
+                <div className="section-description single">
+                  <p>
+                    The following charts show each state&rsquo;s daily new cases vs total cases (both <AnchorLink to="faqs-growth">logarithmic</AnchorLink>). These curves give us a good look at how the outbreak in each state is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).
+                  </p>
+                  <p>
+                    Clicking on these these charts will filter every chart on this page to show only the selected states.
+                  </p>
+                </div>
+              </div>
+            </div>
             <div className="section-topics">
+              <div className="topic Column GridMap">
+                <div className="grid-map">
+                  { stateGrid.map((row, i) =>
+                    <div key={i} className="grid-map-row">
+                      { row.map((col, ii) =>
+                        <div key={ii} className={`grid-map-cell ${gridData[col] && gridData[col].length ? "" : "empty"}`}>
+                          { gridData[col] && gridData[col].length
+                            ? <div className={`grid-map-cell-container ${currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? "selected" : ""}`}
+                              onClick={updateStates.bind(this, gridDataLatest[col])}>
+                              <div className="grid-map-info">
+                                <div className="grid-map-info-title">
+                                  {dayFormat(gridDataLatest[col].Date)}
+                                </div>
+                                <table>
+                                  <tbody>
+                                    <tr>
+                                      <td>Cases</td>
+                                      <td>{commas(gridDataLatest[col].Confirmed)}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Deaths</td>
+                                      <td>{commas(gridDataLatest[col].Deaths)}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="grid-map-content">
+                                <Sparklines width={50} svgHeight={40} data={gridData[col]}>
+                                  <SparklinesCurve style={{fill: "none", stroke: styles.red, strokeWidth: 2}} />
+                                </Sparklines>
+                                <div className="grid-map-title">
+                                  {gridDataLatest[col].Geography}
+                                </div>
+                                <div className="grid-map-subtitle">
+                                  {commas(gridDataLatest[col].Confirmed)} Cases
+                                </div>
+                              </div>
+                            </div> : <div className="grid-map-cell-empty">
+                              <Sparklines width={50} svgHeight={50} data={[1]}>
+                                <SparklinesCurve style={{fill: "none", strokeWidth: 0}} />
+                              </Sparklines>
+                            </div> }
+                        </div>
+                      ) }
+                    </div>
+                  ) }
+                </div>
+                <div className="grid-map-table">
+                  { sortedStates.map((col, ii) =>
+                    <div key={ii} className="grid-map-cell">
+                      <div className={`grid-map-cell-container ${currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? "selected" : ""}`}
+                        onClick={updateStates.bind(this, gridDataLatest[col])}>
+                        <div className="grid-map-content">
+                          <Sparklines width={50} svgHeight={40} data={gridData[col]}>
+                            <SparklinesCurve style={{fill: "none", stroke: styles.red, strokeWidth: 2}} />
+                          </Sparklines>
+                          <div className="grid-map-title">
+                            {gridDataLatest[col].Geography}
+                          </div>
+                          <div className="grid-map-subtitle">
+                            {commas(gridDataLatest[col].Confirmed)} Cases
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) }
+                </div>
+              </div>
               <div className="topic TextViz">
                 <div className="topic-content">
                   <TopicTitle
                     slug="cases-total"
                     title={currentSection.title}
                   />
-                  <StateSelector />
                   <AxisToggle />
                   <CaseSelector />
                   <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC && allowPC} onChange={this.changePC.bind(this)}/>
@@ -1843,12 +1974,13 @@ class Coronavirus extends Component {
                   { currentSection.showCharts
                     ? <LinePlot className="d3plus" config={assign({}, sharedConfig, currentSection.lineConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+                  <StateSelector />
                 </div>
-                <div className="visualization topic-visualization">
+                {/* <div className="visualization topic-visualization">
                   { currentSection.showCharts
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
                     : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -1877,7 +2009,6 @@ class Coronavirus extends Component {
                     slug="community-mobility"
                     title="Community Mobility"
                   />
-                  <StateSelector />
                   <label className="pt-label pt-inline">
                     Place Category
                     <div className="pt-select">
@@ -1915,7 +2046,7 @@ class Coronavirus extends Component {
                         data: mobilityDataFiltered,
                         time: "Date",
                         timeline: false,
-                        title: `Change of ${mobilityType} Mobility`,
+                        // title: `Change of ${mobilityType} Mobility`,
                         tooltipConfig: {
                           tbody: d => [
                             [
@@ -1943,8 +2074,9 @@ class Coronavirus extends Component {
                       visual={<Spinner />}
                     />
                   }
+                  <StateSelector />
                 </div>
-                <div className="visualization topic-visualization">
+                {/* <div className="visualization topic-visualization">
                   {mobilityData.length
                     ? <Geomap
                       className="d3plus"
@@ -1978,7 +2110,7 @@ class Coronavirus extends Component {
                       visual={<Spinner />}
                     />
                   }
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -2003,7 +2135,6 @@ class Coronavirus extends Component {
                     Initial unemployment insurance claim numbers are not seasonally
                     adjusted.
                   </div>
-                  <StateSelector />
                   <AxisToggle />
                   <div className="topic-stats">
                     <div className="StatGroup single">
@@ -2060,7 +2191,7 @@ class Coronavirus extends Component {
                         data: employmentDataFiltered,
                         time: "Date",
                         timeline: false,
-                        title: `Initial Unemployment Insurance Claims (${scaleLabel})`,
+                        // title: `Initial Unemployment Insurance Claims (${scaleLabel})`,
                         tooltipConfig: {
                           tbody: [
                             ["Week Ending", d => weekFormat(d.Date)],
@@ -2086,8 +2217,9 @@ class Coronavirus extends Component {
                       visual={<Spinner />}
                     />
                   }
+                  <NationStateSelector />
                 </div>
-                <div className="visualization topic-visualization">
+                {/* <div className="visualization topic-visualization">
                   {employmentData.length
                     ? <Geomap
                       className="d3plus"
@@ -2109,7 +2241,7 @@ class Coronavirus extends Component {
                       visual={<Spinner />}
                     />
                   }
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

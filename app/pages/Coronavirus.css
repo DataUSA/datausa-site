@@ -51,7 +51,7 @@
     }
   }
   & .coronavirus-section {
-    @media (max-width: 1080px) {
+    @media (max-width: 768px) {
       padding: 25px 0;
       & .section-title, & .section-body, & .topic-content {
         padding-left: 25px;
@@ -79,6 +79,144 @@
     }
     & .section-sublinks {
       margin: 10px auto 20px;
+    }
+  }
+
+
+  & .grid-map-cell {
+    color: var(--black);
+    flex: 1 1 100%;
+    height: auto;
+    margin: 7px 0;
+    overflow: visible;
+    padding: 0 5px;
+    position: relative;
+    & .grid-map-cell-empty {
+      border: 2px solid transparent;
+      padding: 5px;
+    }
+    & .grid-map-content {
+      background: var(--white);
+      border: 2px solid transparent;
+      padding: 5px;
+      & .grid-map-title {
+        font-family: "Pathway Gothic One", sans-serif;
+        font-size: 12px;
+        text-align: center;
+        width: 100%;
+      }
+      & .grid-map-subtitle {
+        color: var(--gray);
+        font-family: "Pathway Gothic One", sans-serif;
+        font-size: 10px;
+        text-align: center;
+        width: 100%;
+      }
+      & svg {
+        width: 100%;
+        & path {
+          vector-effect: non-scaling-stroke;
+        }
+      }
+    }
+    & .grid-map-cell-container {
+      overflow: visible;
+      position: relative;
+      &.selected {
+        & .grid-map-content {
+          border-color: var(--red);
+        }
+      }
+    }
+    & .grid-map-info {
+      background: #ddd;
+      bottom: 0;
+      font-size: 12px;
+      left: 0;
+      padding-bottom: 5px;
+      padding-left: 100%;
+      padding-top: 5px;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+      & .grid-map-info-title {
+        font-weight: bold;
+      }
+      & table {
+        border-collapse: collapse;
+        text-align: left;
+        width: 100%;
+        & tr {
+          border-bottom: 1px solid #ccc;
+          font-family: "Palanquin", sans-serif;
+          line-height: 14px;
+          &:last-child {
+            border-bottom: none;
+          }
+          & td {
+            padding: 3px 10px;
+            text-align: left;
+            &:last-child {
+              text-align: right;
+            }
+            &:only-child {
+              font-weight: bold;
+              padding-top: 6px;
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+    & .grid-map-cell-container:hover {
+      cursor: pointer;
+      z-index: 1;
+      & .grid-map-info {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+        width: 300%;
+      }
+    }
+    &:nth-last-of-type(-n+2) .grid-map-cell-container:hover {
+      & .grid-map-info {
+        left: -200%;
+        padding-left: 0;
+        padding-right: 100%;
+      }
+    }
+  }
+
+  & .grid-map {
+    display: block;
+    margin: 0 auto 50px;
+    max-width: 1200px;
+    width: 100%;
+    & .grid-map-row {
+      align-items: center;
+      display: flex;
+    }
+    @media (max-width: 1024px) {
+      & .grid-map-subtitle {
+        display: none;
+      }
+    }
+  }
+
+  & .grid-map-table {
+    display: none;
+    & .grid-map-cell {
+      display: inline-block;
+      max-width: 100px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    & .grid-map {
+      display: none;
+    }
+    & .grid-map-table {
+      display: block;
     }
   }
 
@@ -186,7 +324,7 @@
     flex-flow: wrap;
     & .topic-content {
       max-width: 300px;
-      @media (max-width: 1080px) {
+      @media (max-width: 768px) {
         margin-bottom: 25px;
         min-width: 100%;
         & > * {
@@ -202,12 +340,22 @@
       }
     }
     & .visualization {
+      margin-top: inherit;
+      & .topic-subtitle {
+        color: var(--red);
+        font-family: "Palanquin", sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.05em;
+        margin: 0px auto 10px;
+        text-align: center;
+        width: 100%;
+        & a {
+          color: var(--red);
+        }
+      }
       margin-left: 10px;
       max-height: none;
-      @media (max-width: 1080px) {
-        flex: 1 1 10%;
-        margin-left: 0;
-      }
       @media (max-width: 768px) {
         flex: 1 1 auto;
         width: 100%;
@@ -234,6 +382,10 @@
     & .visualization {
       height: 300px;
     }
+  }
+
+  & .GridMap {
+    padding: 25px 0;
   }
 
   & .visualization {
