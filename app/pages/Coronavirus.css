@@ -418,6 +418,7 @@
   & .visualization {
     & .pt-non-ideal-state {
       max-width: none;
+      position: static;
     }
   }
 }
