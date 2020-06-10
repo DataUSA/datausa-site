@@ -1683,7 +1683,7 @@ class Coronavirus extends Component {
               : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             tickFormat: currentCaseReach ? daysFormat : dateFormat
           },
-          y: "ConfirmedGrowth"
+          y: currentCasePC ? "ConfirmedGrowthPC" : "ConfirmedGrowth"
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -1709,7 +1709,8 @@ class Coronavirus extends Component {
     const isDeaths = currentCaseSlug === "deaths";
     const isTests = currentCaseSlug === "tests";
     const isHospitalizations = currentCaseSlug === "hospitalizations";
-    const allowPC = isCases || isDeaths || isTests || isHospitalizations;
+    const isDaily = currentCaseSlug === "daily";
+    const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDaily;
 
     const currentSection = caseSections[currentCaseSlug];
 
