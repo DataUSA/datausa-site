@@ -558,6 +558,7 @@ class Coronavirus extends Component {
       currentCasePC: false,
       currentCaseReach: false,
       currentCaseInternational: false,
+      currentCaseSmooth: true,
       currentStates: [],
       currentStatesHash: {},
       cutoff: 1000,
@@ -702,6 +703,14 @@ class Coronavirus extends Component {
     this.prepData.bind(this)({currentCasePC, cutoffKey, reset});
   }
 
+  changeSmooth(e) {
+    const currentCaseSmooth = e.target.checked;
+    const {currentCaseSlug} = this.state;
+    const cutoffKey = this.deriveCutoffKey(currentCaseSlug);
+    const reset = true;
+    this.prepData.bind(this)({currentCaseSmooth, cutoffKey, reset});
+  }
+
   changeReach(e) {
     const currentCaseReach = e.target.checked;
     const {currentCaseSlug, currentCasePC} = this.state;
@@ -732,6 +741,7 @@ class Coronavirus extends Component {
     const currentCaseSlug = config && config.currentCaseSlug !== undefined ? config.currentCaseSlug : this.state.currentCaseSlug;
     const currentCaseReach = config && config.currentCaseReach !== undefined ? config.currentCaseReach : this.state.currentCaseReach;
     const currentCasePC = config && config.currentCasePC !== undefined ? config.currentCasePC : this.state.currentCasePC;
+    const currentCaseSmooth = config && config.currentCaseSmooth !== undefined ? config.currentCaseSmooth : this.state.currentCaseSmooth;
     const currentCaseInternational = config && config.currentCaseInternational !== undefined ? config.currentCaseInternational : this.state.currentCaseInternational;
     const reset = config && config.reset !== undefined ? config.reset : false;
     const {stateTestData, countryCases} = this.state;
@@ -829,6 +839,7 @@ class Coronavirus extends Component {
       currentCaseSlug,
       currentCaseReach,
       currentCasePC,
+      currentCaseSmooth,
       currentCaseInternational,
       sliderConfig
     });
@@ -844,6 +855,7 @@ class Coronavirus extends Component {
       currentCasePC,
       currentCaseReach,
       currentCaseInternational,
+      currentCaseSmooth,
       currentStates,
       currentStatesHash,
       employmentData,
@@ -1349,9 +1361,7 @@ class Coronavirus extends Component {
               ? daysFormat
               : dateFormat
           },
-          y: currentCaseInternational || currentCasePC
-            ? "ConfirmedPC"
-            : "Confirmed",
+          y: `Confirmed${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`,
           yConfig: currentCaseReach
             ? {
               barConfig: {"stroke": "#ccc", "stroke-width": 1},
@@ -1445,7 +1455,7 @@ class Coronavirus extends Component {
                   : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Deaths), d => d.Date),
             tickFormat: currentCaseInternational || currentCaseReach ? daysFormat : dateFormat
           },
-          y: currentCasePC || currentCaseInternational ? "DeathsPC" : "Deaths"
+          y: `Deaths${currentCaseInternational || currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -1518,7 +1528,7 @@ class Coronavirus extends Component {
                 : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Hospitalized), d => d.Date),
             tickFormat: currentCaseReach ? daysFormat : dateFormat
           },
-          y: currentCasePC ? "HospitalizedPC" : "Hospitalized"
+          y: `Hospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -1587,7 +1597,7 @@ class Coronavirus extends Component {
                 : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.Tests), d => d.Date),
             tickFormat: currentCaseReach ? daysFormat : dateFormat
           },
-          y: currentCasePC ? "TestsPC" : "Tests"
+          y: `Tests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -1683,7 +1693,7 @@ class Coronavirus extends Component {
               : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
             tickFormat: currentCaseReach ? daysFormat : dateFormat
           },
-          y: currentCasePC ? "ConfirmedGrowthPC" : "ConfirmedGrowth"
+          y: `ConfirmedGrowth${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
         },
         geoConfig: {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
@@ -1711,6 +1721,7 @@ class Coronavirus extends Component {
     const isHospitalizations = currentCaseSlug === "hospitalizations";
     const isDaily = currentCaseSlug === "daily";
     const allowPC = isCases || isDeaths || isTests || isHospitalizations || isDaily;
+    const allowSmooth = isCases || isDeaths || isTests || isHospitalizations || isDaily;
 
     const currentSection = caseSections[currentCaseSlug];
 
@@ -1953,6 +1964,7 @@ class Coronavirus extends Component {
                   />
                   <AxisToggle />
                   <CaseSelector />
+                  <Checkbox disabled={!allowSmooth} label="7-day Rolling Average" checked={currentCaseSmooth && allowSmooth} onChange={this.changeSmooth.bind(this)}/>
                   <Checkbox disabled={!allowPC || currentCaseInternational} label="Per Capita" checked={currentCaseInternational || currentCasePC && allowPC} onChange={this.changePC.bind(this)}/>
                   <Checkbox disabled={currentCaseInternational} label="Shift Time Axis" checked={currentCaseReach || currentCaseInternational} onChange={this.changeReach.bind(this)}/>
                   <Checkbox disabled={!(isCases || isDeaths)} label="International Comparison" checked={currentCaseInternational} onChange={this.changeInternational.bind(this)}/>
