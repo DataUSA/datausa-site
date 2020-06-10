@@ -848,7 +848,7 @@ class Coronavirus extends Component {
       currentStatesHash,
       employmentData,
       mobilityData,
-      mobilityDataLatest,
+      // mobilityDataLatest,
       mobilityType,
       stateTestData,
       // measure,
@@ -885,7 +885,7 @@ class Coronavirus extends Component {
       timeFormat("%B %d")(d).replace(/[0-9]{2}$/, m => parseFloat(m, 10));
     const daysFormat = d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
 
-    const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
+    // const scaleLabel = scale === "log" ? "Logarithmic" : "Linear";
 
     const lineColor =
       currentStates.length === 0
@@ -1044,40 +1044,40 @@ class Coronavirus extends Component {
     };
 
     // Geomaps
-    const geoStateConfig = {
-      colorScalePosition: false,
-      zoom: false,
-      time: "Date",
-      timeline: false,
-      groupBy: "ID Geography",
-      label: d => d.Geography,
-      shapeConfig: {
-        Path: {
-          stroke: d =>
-            currentStatesHash[d["ID Geography"]] ? lineColor(d) : styles.dark,
-          strokeWidth: d => currentStatesHash[d["ID Geography"]] ? 3 : 1,
-          strokeOpacity: d =>
-            currentStatesHash[d["ID Geography"]] ? 0.75 : 0.25
-        }
-      },
-      projection:
-        typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
-      titleConfig: {
-        fontSize: 21
-      },
-      tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
-        footer: d =>
-          `Click to ${
-            !currentStatesHash[d["ID Geography"]]
-              ? `select ${d.Geography}`
-              : "clear state selection"
-          }`
-      }),
-      on: {
-        click: updateStates
-      },
-      topojson: "/topojson/State.json"
-    };
+    // const geoStateConfig = {
+    //   colorScalePosition: false,
+    //   zoom: false,
+    //   time: "Date",
+    //   timeline: false,
+    //   groupBy: "ID Geography",
+    //   label: d => d.Geography,
+    //   shapeConfig: {
+    //     Path: {
+    //       stroke: d =>
+    //         currentStatesHash[d["ID Geography"]] ? lineColor(d) : styles.dark,
+    //       strokeWidth: d => currentStatesHash[d["ID Geography"]] ? 3 : 1,
+    //       strokeOpacity: d =>
+    //         currentStatesHash[d["ID Geography"]] ? 0.75 : 0.25
+    //     }
+    //   },
+    //   projection:
+    //     typeof window !== "undefined" ? window.albersUsaPr() : "geoMercator",
+    //   titleConfig: {
+    //     fontSize: 21
+    //   },
+    //   tooltipConfig: Object.assign({}, sharedConfig.tooltipConfig, {
+    //     footer: d =>
+    //       `Click to ${
+    //         !currentStatesHash[d["ID Geography"]]
+    //           ? `select ${d.Geography}`
+    //           : "clear state selection"
+    //       }`
+    //   }),
+    //   on: {
+    //     click: updateStates
+    //   },
+    //   topojson: "/topojson/State.json"
+    // };
 
     const deathTooltip = {
       tbody: d => {
@@ -1113,9 +1113,9 @@ class Coronavirus extends Component {
         });
 
     const latestEmployment = max(employmentDataFiltered, d => d.Date);
-    const latestEmploymentData = employmentData.filter(
-      d => d.Date === latestEmployment
-    );
+    // const latestEmploymentData = employmentData.filter(
+    //   d => d.Date === latestEmployment
+    // );
     const employmentDate = new Date("03/21/2020");
     const employmentStat = sum(
       employmentData.filter(d => d.Date >= employmentDate),
@@ -1892,11 +1892,11 @@ class Coronavirus extends Component {
                                 <table>
                                   <tbody>
                                     <tr>
-                                      <td>Cases</td>
+                                      <td>Confirmed Cases</td>
                                       <td>{commas(gridDataLatest[col].Confirmed)}</td>
                                     </tr>
                                     <tr>
-                                      <td>Deaths</td>
+                                      <td>Confirmed Deaths</td>
                                       <td>{commas(gridDataLatest[col].Deaths)}</td>
                                     </tr>
                                   </tbody>
@@ -1904,7 +1904,7 @@ class Coronavirus extends Component {
                               </div>
                               <div className="grid-map-content">
                                 <Sparklines width={50} svgHeight={40} data={gridData[col]}>
-                                  <SparklinesCurve style={{fill: "none", stroke: styles.red, strokeWidth: 2}} />
+                                  <SparklinesCurve style={{fill: "none", stroke: currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? styles.white : styles.red, strokeWidth: 2}} />
                                 </Sparklines>
                                 <div className="grid-map-title">
                                   {gridDataLatest[col].Geography}
@@ -1930,7 +1930,7 @@ class Coronavirus extends Component {
                         onClick={updateStates.bind(this, gridDataLatest[col])}>
                         <div className="grid-map-content">
                           <Sparklines width={50} svgHeight={40} data={gridData[col]}>
-                            <SparklinesCurve style={{fill: "none", stroke: styles.red, strokeWidth: 2}} />
+                            <SparklinesCurve style={{fill: "none", stroke: currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? styles.white : styles.red, strokeWidth: 2}} />
                           </Sparklines>
                           <div className="grid-map-title">
                             {gridDataLatest[col].Geography}
