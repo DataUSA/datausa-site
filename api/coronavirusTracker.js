@@ -219,7 +219,7 @@ module.exports = function(app) {
 
   app.get("/api/covid19/states", async(req, res) => {
 
-    let data = await axios
+    const rawData = await axios
       .get("https://covidtracking.com/api/v1/states/daily.json")
       .then(resp => resp.data);
 
@@ -228,50 +228,45 @@ module.exports = function(app) {
       .get(`${origin}/api/data?measures=Population&drilldowns=State&year=latest`)
       .then(resp => resp.data.data);
 
-    data.sort((a, b) => a.state > b.state ? 1 : a.state === b.state
+    rawData.sort((a, b) => a.state > b.state ? 1 : a.state === b.state
       ? new Date(a.date) - new Date(b.date) : -1);
 
-    let state = data[0].state;
-    data.forEach((d, i) => {
+    let state = rawData[0].state;
+    let data = rawData.map((raw, i) => {
 
-      const date = d.date.toString();
+      const d = {};
+      const date = raw.date.toString();
       d.Date = `${date.slice(0, 4)}/${date.slice(4, 6)}/${date.slice(6, 8)}`;
 
-      if (state !== d.state) {
-        state = d.state;
+      if (state !== raw.state) {
+        state = raw.state;
         d.ConfirmedGrowth = null;
       }
       else if (i) {
-        const prev = data[i - 1];
-        if (d.positive < prev.Confirmed) d.positive = prev.Confirmed;
-        if (d.death < prev.Deaths) d.death = prev.Deaths;
-        if (d.total < prev.total) d.total = prev.total;
-        if (d.hospitalized < prev.hospitalized) d.hospitalized = prev.hospitalized;
-        d.ConfirmedGrowth = d.positive - prev.Confirmed;
-        d.PositivePct = d.positive / d.total * 100;
+        const prev = rawData[i - 1];
+        if (raw.positive < prev.positive) raw.positive = prev.positive;
+        if (raw.death < prev.death) raw.death = prev.death;
+        if (raw.total < prev.total) raw.total = prev.total;
+        if (raw.hospitalized < prev.hospitalized) raw.hospitalized = prev.hospitalized;
+        d.ConfirmedGrowth = raw.positive - prev.positive;
       }
 
-      d.Confirmed = d.positive;
-      d.Tests = d.total;
-      d.Hospitalized = d.hospitalized;
-      d.Deaths = d.death;
+      d.Confirmed = raw.positive;
+      d.Tests = raw.total;
+      d.Hospitalized = raw.hospitalized;
+      d.Deaths = raw.death;
+      d.PositivePct = raw.positive / raw.total * 100;
 
-      d.Geography = states[d.state];
-      d["ID Geography"] = stateToDivision[d.state];
+      d.Geography = states[raw.state];
+      d["ID Geography"] = stateToDivision[raw.state];
+
+      return d;
 
     });
 
-    nest()
-      .key(d => d["ID Geography"])
-      .entries(data)
-      .forEach(group => {
-        smooth(group.values, 7, d => d.ConfirmedGrowth ? d.ConfirmedGrowth : 0, (d, x) => (d.ConfirmedGrowthSmooth = x, d));
-      });
-
     // remove all data before March 1st
     const cutoffDate = new Date("03/01/2020");
-    data = data
-      .filter(d => new Date(d.Date) >= cutoffDate);
+    data = data.filter(d => new Date(d.Date) >= cutoffDate);
 
     const manualPopulations = {
       "04000US66": 165768, // Guam
@@ -279,25 +274,26 @@ module.exports = function(app) {
       "04000US78": 106977  // Virgin Islands
     };
 
+    const measures = ["Confirmed", "Deaths", "Tests", "Hospitalized", "ConfirmedGrowth"];
     const output = merge(data, popData, "ID Geography", "ID State");
     output.forEach(d => {
       if (!d.Population) d.Population = manualPopulations[d["ID Geography"]];
-      d.ConfirmedPC = d.Confirmed ? d.Confirmed * 100000 / d.Population : null;
-      d.DeathsPC = d.Deaths ? d.Deaths * 100000 / d.Population : null;
-      d.TestsPC = d.Tests ? d.Tests * 100000 / d.Population : null;
-      d.HospitalizedPC = d.Hospitalized ? d.Hospitalized * 100000 / d.Population : null;
-      d.ConfirmedGrowthPC = d.ConfirmedGrowth ? d.ConfirmedGrowth * 100000 / d.Population : null;
-      [
-        "dataQualityGrade", "lastUpdateEt",
-        "dateChecked", "state", "date", "death", "negative", "positive",
-        "hospitalizedCurrently", "hospitalizedCumulative", "inIcuCurrently", "inIcuCumulative",
-        "onVentilatorCurrently", "onVentilatorCumulative", "recovered", "hash",
-        "totalTestResults", "posNeg", "fips", "deathIncrease", "hospitalizedIncrease",
-        "negativeIncrease", "positiveIncrease", "totalTestResultsIncrease",
-        "ID State", "State", "total", "hospitalized",
-        "Slug State", "pending", "Year", "ID Year"
-      ].forEach(h => delete d[h]);
+      measures.forEach(measure => {
+        d[`${measure}PC`] = d[measure] ? d[measure] * 100000 / d.Population : null;
+      });
     });
+
+    nest()
+      .key(d => d["ID Geography"])
+      .entries(output)
+      .forEach(group => {
+        measures.forEach(measure => {
+          smooth(group.values, 7, d => d[measure] ? d[measure] : 0, (d, x) => (d[`${measure}Smooth`] = x, d));
+          const measurePC = `${measure}PC`;
+          smooth(group.values, 7, d => d[measurePC] ? d[measurePC] : 0, (d, x) => (d[`${measurePC}Smooth`] = x, d));
+        });
+      });
+
     res.json({
       data: output,
       source: [{
