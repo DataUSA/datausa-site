@@ -1,6 +1,8 @@
 const axios = require("axios");
 const {unique} = require("d3plus-common");
 const {nest} = require("d3-collection");
+const countries = require("countries-list");
+const {divisions} = require("../app/helpers/stateDivisions");
 
 /** */
 function smooth(arr, windowSize, getter = value => value, setter) {
@@ -24,6 +26,13 @@ function smooth(arr, windowSize, getter = value => value, setter) {
 
   return result;
 }
+
+const countryMeta = Object.keys(countries).reduce((obj, key) => {
+  const d = countries[key];
+  d.iso = key;
+  obj[d.name] = d;
+  return obj;
+}, {});
 
 const states = {
   AL: "Alabama",
@@ -200,7 +209,34 @@ module.exports = function(app) {
     dataCut.sort((a, b) => b.Confirmed - a.Confirmed);
     const topCountries = dataCut.slice(0, 5).map(d => d["ID Geography"]);
     const filteredData = data.filter(d => topCountries.includes(d["ID Geography"]));
-    res.json(filteredData);
+    const finalData = filteredData
+      .map(d => {
+        const pop = world[d.Geography];
+        d["ID Geography"] = countryMeta[d.Geography]
+          ? countryMeta[d.Geography].iso
+          : d.Geography;
+        d.Date = new Date(d.Date).getTime();
+        d.ConfirmedPC = d.Confirmed / pop * 100000;
+        d.RecoveredPC = d.Recovered / pop * 100000;
+        d.DeathsPC = d.Deaths / pop * 100000;
+        const division = divisions.find(x => x["ID Region"] === 6);
+        return Object.assign(d, division);
+      });
+
+    const measures = ["Confirmed", "Deaths"];
+
+    nest()
+      .key(d => d["ID Geography"])
+      .entries(finalData)
+      .forEach(group => {
+        measures.forEach(measure => {
+          smooth(group.values, 7, d => d[measure] ? d[measure] : 0, (d, x) => (d[`${measure}Smooth`] = x, d));
+          const measurePC = `${measure}PC`;
+          smooth(group.values, 7, d => d[measurePC] ? d[measurePC] : 0, (d, x) => (d[`${measurePC}Smooth`] = x, d));
+        });
+      });
+
+    res.json(finalData);
   });
 
   app.get("/api/covid19/mobility/states", async(req, res) => {

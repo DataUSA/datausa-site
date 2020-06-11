@@ -1,4 +1,4 @@
-export const stateToDivision = {
+const stateToDivision = {
   "04000US01": 6,
   "04000US02": 9,
   "04000US04": 8,
@@ -52,7 +52,7 @@ export const stateToDivision = {
   "04000US56": 8
 };
 
-export const divisions = [
+const divisions = [
   {
     "ID Region": 1,
     "Region": "Northeast",
@@ -120,3 +120,5 @@ export const divisions = [
     "Division": "International"
   }
 ];
+
+module.exports = {stateToDivision, divisions};
