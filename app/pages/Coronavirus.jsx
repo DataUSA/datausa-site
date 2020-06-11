@@ -543,7 +543,7 @@ class Coronavirus extends Component {
         .map(group => {
           let days = 0;
           return group.values.reduce((arr, d) => {
-            if (d[cutoffKey] >= cutoff) {
+            if (d[cutoffKey] && d[cutoffKey] >= cutoff) {
               days++;
               d.Days = days;
               arr.push(d);
@@ -569,7 +569,7 @@ class Coronavirus extends Component {
         .map(group => {
           let days = 0;
           return group.values.reduce((arr, d) => {
-            if (d.ConfirmedPC > cutoff) {
+            if (d.ConfirmedPC && d.ConfirmedPC > cutoff) {
               days++;
               const newObj = Object.assign({}, d);
               newObj.Days = days;
@@ -588,7 +588,7 @@ class Coronavirus extends Component {
         .map(group => {
           let days = 0;
           return group.values.reduce((arr, d) => {
-            if (d.DeathsPC > cutoff) {
+            if (d.DeathsPC && d.DeathsPC > cutoff) {
               days++;
               const newObj = Object.assign({}, d);
               newObj.Days = days;
