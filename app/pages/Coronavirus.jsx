@@ -1089,12 +1089,8 @@ class Coronavirus extends Component {
           data: currentCaseInternational
             ? countryCutoffDataFiltered
             : currentCaseReach
-              ? currentCasePC
-                ? stateCutoffDataFiltered.filter(d => d.ConfirmedPC)
-                : stateCutoffDataFiltered.filter(d => d.Confirmed)
-              : currentCasePC
-                ? stateTestDataFiltered.filter(d => d.ConfirmedPC)
-                : stateTestDataFiltered.filter(d => d.Confirmed),
+              ? stateCutoffDataFiltered.filter(d => d[`Confirmed${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+              : stateTestDataFiltered.filter(d => d[`Confirmed${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
           // title: currentCaseInternational || currentCasePC
           //   ? `Confirmed Cases per 100,000 (${scaleLabel})`
           //   : `Confirmed Cases (${scaleLabel})`,
@@ -1188,12 +1184,8 @@ class Coronavirus extends Component {
           data: currentCaseInternational
             ? countryCutoffDeathDataFiltered
             : currentCaseReach
-              ? currentCasePC
-                ? stateCutoffDataFiltered.filter(d => d.DeathsPC)
-                : stateCutoffDataFiltered.filter(d => d.Deaths)
-              : currentCasePC
-                ? stateTestDataFiltered.filter(d => d.DeathsPC)
-                : stateTestDataFiltered.filter(d => d.Deaths),
+              ? stateCutoffDataFiltered.filter(d => d[`Deaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+              : stateTestDataFiltered.filter(d => d[`Deaths${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
           // title: `${currentCasePC || currentCaseInternational ? "Deaths per 100,000" : "Deaths"} (${scaleLabel})`,
           tooltipConfig: deathTooltip,
           time: "Date",
@@ -1267,12 +1259,8 @@ class Coronavirus extends Component {
         option: "Hospitalizations",
         lineConfig: {
           data: currentCaseReach
-            ? currentCasePC
-              ? stateCutoffDataFiltered.filter(d => d.HospitalizedPC)
-              : stateCutoffDataFiltered.filter(d => d.Hospitalized)
-            : currentCasePC
-              ? stateTestDataFiltered.filter(d => d.HospitalizedPC)
-              : stateTestDataFiltered.filter(d => d.Hospitalized),
+            ? stateCutoffDataFiltered.filter(d => d[`Hospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+            : stateTestDataFiltered.filter(d => d[`Hospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
           // title: `Hospitalized Patients ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
@@ -1336,12 +1324,8 @@ class Coronavirus extends Component {
         option: "Tests",
         lineConfig: {
           data: currentCaseReach
-            ? currentCasePC
-              ? stateCutoffDataFiltered.filter(d => d.TestsPC)
-              : stateCutoffDataFiltered.filter(d => d.Tests)
-            : currentCasePC
-              ? stateTestDataFiltered.filter(d => d.TestsPC)
-              : stateTestDataFiltered.filter(d => d.Tests),
+            ? stateCutoffDataFiltered.filter(d => d[`Tests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
+            : stateTestDataFiltered.filter(d => d[`Tests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
           // title: `Number of Tests ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
@@ -1445,8 +1429,8 @@ class Coronavirus extends Component {
         sources: [ctSource],
         lineConfig: {
           data: currentCaseReach
-            ? stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth)
-            : stateTestDataFiltered.filter(d => d.ConfirmedGrowth),
+            ? stateCutoffDataFiltered.filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`])
+            : stateTestDataFiltered.filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`]),
           time: "Date",
           timeline: false,
           // title: `Daily Confirmed Cases (${scaleLabel})`,
