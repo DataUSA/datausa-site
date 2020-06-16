@@ -1679,35 +1679,35 @@ class Coronavirus extends Component {
                   <thead>
                     <tr>
                       <th></th>
-                      <th onClick={this.updateTableSort.bind(this, "Geography")}>
+                      <th className="Geography" onClick={this.updateTableSort.bind(this, "Geography")}>
                         State
                         <Icon className={`sort-caret ${tableOrder === "Geography" ? "active" : ""}`} iconName={tableOrder === "Geography" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th onClick={this.updateTableSort.bind(this, "Trend")}>
+                      <th className="Trend" onClick={this.updateTableSort.bind(this, "Trend")}>
                         14-day trend of New Cases
                         <Icon className={`sort-caret ${tableOrder === "Trend" ? "active" : ""}`} iconName={tableOrder === "Trend" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th onClick={this.updateTableSort.bind(this, "Confirmed")}>
+                      <th className="Confirmed" onClick={this.updateTableSort.bind(this, "Confirmed")}>
                         Confirmed<br />Cases
                         <Icon className={`sort-caret ${tableOrder === "Confirmed" ? "active" : ""}`} iconName={tableOrder === "Confirmed" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th onClick={this.updateTableSort.bind(this, "ConfirmedPC")}>
+                      <th className="ConfirmedPC" onClick={this.updateTableSort.bind(this, "ConfirmedPC")}>
                         Cases<br />per Capita
                         <Icon className={`sort-caret ${tableOrder === "ConfirmedPC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedPC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th onClick={this.updateTableSort.bind(this, "Deaths")}>
+                      <th className="Deaths" onClick={this.updateTableSort.bind(this, "Deaths")}>
                         Confirmed<br />Deaths
                         <Icon className={`sort-caret ${tableOrder === "Deaths" ? "active" : ""}`} iconName={tableOrder === "Deaths" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th onClick={this.updateTableSort.bind(this, "Tests")}>
+                      <th className="Tests" onClick={this.updateTableSort.bind(this, "Tests")}>
                         Total<br />Tests
                         <Icon className={`sort-caret ${tableOrder === "Tests" ? "active" : ""}`} iconName={tableOrder === "Tests" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th onClick={this.updateTableSort.bind(this, "Hospitalized")}>
+                      <th className="Hospitalized" onClick={this.updateTableSort.bind(this, "Hospitalized")}>
                         Total<br />Hospitalizations
                         <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} iconName={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
-                      <th>
+                      <th className="Curve">
                         Total vs New Cases
                         <Popover2
                           hoverOpenDelay={0}
@@ -1727,8 +1727,8 @@ class Coronavirus extends Component {
                           <td className="checkbox">
                             <Checkbox checked={currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? true : false} />
                           </td>
-                          <td className="state">{d.Geography}</td>
-                          <td className={`trend ${d.Trend < -5 ? "decreasing" : d.Trend > 5 ? "increasing" : "flat"}`}>
+                          <td className="Geography">{d.Geography}</td>
+                          <td className={`Trend ${d.Trend < -5 ? "decreasing" : d.Trend > 5 ? "increasing" : "flat"}`}>
                             <Sparklines svgWidth={100} svgHeight={30} data={d.NewCases}>
                               <SparklinesCurve style={{
                                 fill: "none",
@@ -1741,12 +1741,12 @@ class Coronavirus extends Component {
                               <div className="sub">{commas(d.ConfirmedGrowth)} new cases on {justDayFormat(d.Date)}</div>
                             </div>
                           </td>
-                          <td>{commas(d.Confirmed)}</td>
-                          <td>{commas(Math.round(d.ConfirmedPC))}</td>
-                          <td>{commas(d.Deaths)}</td>
-                          <td>{commas(d.Tests)}</td>
-                          <td>{commas(d.Hospitalized)}</td>
-                          <td>
+                          <td className="Confirmed">{commas(d.Confirmed)}</td>
+                          <td className="ConfirmedPC">{commas(Math.round(d.ConfirmedPC))}</td>
+                          <td className="Deaths">{commas(d.Deaths)}</td>
+                          <td className="Tests">{commas(d.Tests)}</td>
+                          <td className="Hospitalized">{commas(d.Hospitalized)}</td>
+                          <td className="Curve">
                             <Sparklines svgWidth={100} svgHeight={30} data={d.Curve}>
                               <SparklinesCurve style={{
                                 fill: "none",

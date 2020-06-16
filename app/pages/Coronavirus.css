@@ -103,6 +103,9 @@
         top: var(--nav-height);
         vertical-align: bottom;
         z-index: 10;
+        @media (max-width: 575px) {
+          padding: 20px 5px 10px;
+        }
         & .pt-icon-help {
           cursor: help;
           font-size: 12px;
@@ -148,8 +151,14 @@
         & td {
           font-size: 14px;
           padding: 5px 10px;
+          @media (max-width: 575px) {
+            padding: 5px 5px;
+          }
           &.checkbox {
             width: 36px;
+            @media (max-width: 575px) {
+              width: 26px;
+            }
             & .pt-checkbox {
               margin: 0;
               padding-left: 16px;
@@ -161,10 +170,10 @@
               }
             }
           }
-          &.state {
+          &.Geogaphy {
             font-size: 16px;
           }
-          &.trend {
+          &.Trend {
             & svg {
               margin-right: 5px;
             }
@@ -199,6 +208,46 @@
               vector-effect: none !important;
             }
           }
+        }
+      }
+    }
+    & th.Trend, & td.Trend {
+      min-width: 280px;
+    }
+    @media (max-width: 1200px) {
+      & th.Hospitalized, & td.Hospitalized {
+        display: none;
+      }
+    }
+    @media (max-width: 1050px) {
+      & th.Tests, & td.Tests {
+        display: none;
+      }
+    }
+    @media (max-width: 960px) {
+      & th.Curve, & td.Curve {
+        display: none;
+      }
+    }
+    @media (max-width: 720px) {
+      & th.ConfirmedPC, & td.ConfirmedPC {
+        display: none;
+      }
+    }
+    @media (max-width: 630px) {
+      & th.Deaths, & td.Deaths {
+        display: none;
+      }
+    }
+    @media (max-width: 575px) {
+      & th.Confirmed, & td.Confirmed {
+        display: none;
+      }
+    }
+    @media (max-width: 400px) {
+      & th.Trend, & td.Trend {
+        & .sub {
+          display: none;
         }
       }
     }
