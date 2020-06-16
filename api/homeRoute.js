@@ -56,11 +56,11 @@ module.exports = function(app) {
     });
 
     const geoSlugs = [
-      "new-york-ny",
-      "los-angeles-county-ca",
-      "florida",
-      "suffolk-county-ma",
-      "illinois"
+      "minneapolis-mn",
+      "philadelphia-pa",
+      "los-angeles-ca",
+      "louisville-jefferson-county-ky-in-metro-area",
+      "dallas-fort-worth-arlington-tx-metro-area"
     ];
 
     const geos = await db.search
@@ -84,15 +84,21 @@ module.exports = function(app) {
       tiles: geos
     });
 
-    const indIDs = ["6222", "45221", "7112", "517311", "5241"];
+    const indSlugs = [
+      "spectator-sports",
+      "air-transportation",
+      "child-day-care-services",
+      "restaurants-food-services",
+      "military-reserves-or-national-guard"
+    ];
 
     const industries = await db.search
-      .findAll({where: {dimension: "PUMS Industry", id: indIDs}})
+      .findAll({where: {dimension: "PUMS Industry", slug: indSlugs}})
       .then(attrs => {
         const ids = attrs.map(d => d.id);
         return attrs
           .filter((a, i) => ids.indexOf(a.id) === i)
-          .sort((a, b) => indIDs.indexOf(a.id) - indIDs.indexOf(b.id))
+          .sort((a, b) => indSlugs.indexOf(a.id) - indSlugs.indexOf(b.id))
           .map(a => ({
             title: a.display,
             new: newProfiles.includes(a.id),
@@ -111,12 +117,18 @@ module.exports = function(app) {
       tiles: industries
     });
 
-    const occIDs = ["311131", "15124X", "395092", "253041", "271024"];
+    const occSlugs = [
+      "police-officers",
+      "emergency-medical-technicians-paramedics",
+      "elementary-middle-school-teachers",
+      "retail-salespersons",
+      "childcare-workers"
+    ];
 
     const occupations = await db.search
-      .findAll({where: {dimension: "PUMS Occupation", id: occIDs}})
+      .findAll({where: {dimension: "PUMS Occupation", slug: occSlugs}})
       .then(attrs => attrs
-        .sort((a, b) => occIDs.indexOf(a.id) - occIDs.indexOf(b.id))
+        .sort((a, b) => occSlugs.indexOf(a.id) - occSlugs.indexOf(b.id))
         .map(a => ({
           title: a.display,
           new: newProfiles.includes(a.id),
@@ -164,12 +176,18 @@ module.exports = function(app) {
       tiles: universities
     });
 
-    const cipIDs = ["513801", "110701", "520201", "420101", "240101"];
+    const cipSlugs = [
+      "emergency-room-nursing",
+      "corrections",
+      "project-management",
+      "immunology",
+      "criminal-justice-police-science"
+    ];
 
     const courses = await db.search
-      .findAll({where: {dimension: "CIP", id: cipIDs}})
+      .findAll({where: {dimension: "CIP", slug: cipSlugs}})
       .then(attrs => attrs
-        .sort((a, b) => cipIDs.indexOf(a.id) - cipIDs.indexOf(b.id))
+        .sort((a, b) => cipSlugs.indexOf(a.id) - cipSlugs.indexOf(b.id))
         .map(a => ({
           title: a.display,
           url: `/profile/cip/${a.slug || a.id}`,
@@ -197,7 +215,6 @@ module.exports = function(app) {
         {
           image: "/api/profile/cip/451099/thumb",
           title: "Federal Agency Spending by State",
-          new: true,
           cart: {
             urls: ["/api/data?measures=Obligation%20Amount&drilldowns=Agency,State"],
             slug: "cart_agency_state"
