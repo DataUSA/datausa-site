@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
-import {Icon, NonIdealState, Slider, Spinner, Button, Checkbox} from "@blueprintjs/core";
+import {Icon, NonIdealState, Slider, Spinner, Button, Checkbox, PopoverInteractionKind} from "@blueprintjs/core";
+import {Popover2} from "@blueprintjs/labs";
 import {Helmet} from "react-helmet";
 import {AnchorLink} from "@datawheel/canon-core";
 import {Sparklines, SparklinesCurve} from "react-sparklines";
@@ -121,6 +122,8 @@ const caseSlugLookup = {
   positive: "Tests",
   daily: "Confirmed"
 };
+
+const justDayFormat = timeFormat("%A");
 
 /** */
 function suffix(number) {
@@ -365,6 +368,8 @@ class Coronavirus extends Component {
         labelStepSize: 100
       },
       stateCutoffData: [],
+      tableOrder: "Geography",
+      tableSort: "asc",
       title: "COVID-19 in the United States"
     };
   }
@@ -398,6 +403,18 @@ class Coronavirus extends Component {
             d = Object.assign(d, division);
           });
           stateTestData.sort((a, b) => a.Date - b.Date);
+          const latestStateData = max(stateTestData, d => d.Date);
+
+
+          const currentStates = stateTestData
+            .filter(d => d.Date === latestStateData)
+            .sort((a, b) => b.ConfirmedGrowth - a.ConfirmedGrowth)
+            .slice(0, 5);
+
+          const currentStatesHash = currentStates.reduce(
+            (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
+            {}
+          );
 
           const countryCases = resp[1].data;
 
@@ -435,6 +452,8 @@ class Coronavirus extends Component {
             {
               beds: data.beds,
               countryCases,
+              currentStates,
+              currentStatesHash,
               icu: icuData,
               mobilityData,
               mobilityDataLatest,
@@ -616,6 +635,40 @@ class Coronavirus extends Component {
     });
   }
 
+  updateStates(d) {
+    const {currentStates, currentStatesHash} = this.state;
+    if (currentStatesHash[d["ID Geography"]]) {
+      const newCurrentStates = currentStates.filter(
+        o => o["ID Geography"] !== d["ID Geography"]
+      );
+      const newCurrentStatesHash = newCurrentStates.reduce(
+        (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
+        {}
+      );
+      this.setState({
+        currentStates: newCurrentStates,
+        currentStatesHash: newCurrentStatesHash
+      });
+    }
+    else {
+      const newCurrentStates = currentStates.concat(d);
+      const newCurrentStatesHash = newCurrentStates.reduce(
+        (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
+        {}
+      );
+      this.setState({
+        currentStates: newCurrentStates,
+        currentStatesHash: newCurrentStatesHash
+      });
+    }
+  }
+
+  updateTableSort(column) {
+    const {tableOrder, tableSort} = this.state;
+    if (column === tableOrder) this.setState({tableSort: tableSort === "asc" ? "desc" : "asc"});
+    else this.setState({tableOrder: column, tableSort: "desc"});
+  }
+
   render() {
     const {
       beds,
@@ -640,6 +693,8 @@ class Coronavirus extends Component {
       scale,
       sliderConfig,
       stateCutoffData,
+      tableOrder,
+      tableSort,
       title
     } = this.state;
 
@@ -685,34 +740,6 @@ class Coronavirus extends Component {
           ];
         };
 
-    const updateStates = d => {
-      if (currentStatesHash[d["ID Geography"]]) {
-        const newCurrentStates = currentStates.filter(
-          o => o["ID Geography"] !== d["ID Geography"]
-        );
-        const newCurrentStatesHash = newCurrentStates.reduce(
-          (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
-          {}
-        );
-        this.setState({
-          currentStates: newCurrentStates,
-          currentStatesHash: newCurrentStatesHash
-        });
-      }
-      else {
-        const newCurrentStates = currentStates.concat(d);
-        const newCurrentStatesHash = newCurrentStates.reduce(
-          (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
-          {}
-        );
-        this.setState({
-          currentStates: newCurrentStates,
-          currentStatesHash: newCurrentStatesHash
-        });
-      }
-    };
-
-
     const sharedConfig = {
       aggs: {
         "ID Division": arr => arr[0],
@@ -743,7 +770,7 @@ class Coronavirus extends Component {
         tbody: []
       },
       on: {
-        click: updateStates,
+        click: this.updateStates.bind(this),
         mouseenter(d) {
           if (d["ID Geography"] instanceof Array) {
             this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]);
@@ -781,7 +808,7 @@ class Coronavirus extends Component {
             arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
           }
           if (d.ConfirmedPC !== undefined) {
-            arr.push(["Cases per 100,000", formatAbbreviate(d.ConfirmedPC)]);
+            arr.push(["Cases per 100,000", commas(Math.round(d.ConfirmedPC))]);
           }
           if (d.ConfirmedPC !== undefined) {
             arr.push(["% Positive Tests", `${formatAbbreviate(d.PositivePct)}%`]);
@@ -858,7 +885,7 @@ class Coronavirus extends Component {
     //       }`
     //   }),
     //   on: {
-    //     click: updateStates
+    //     click: this.updateStates.bind(this)
     //   },
     //   topojson: "/topojson/State.json"
     // };
@@ -896,7 +923,7 @@ class Coronavirus extends Component {
           return d;
         });
 
-    const latestEmployment = max(employmentDataFiltered, d => d.Date);
+    // const latestEmployment = max(employmentDataFiltered, d => d.Date);
     // const latestEmploymentData = employmentData.filter(
     //   d => d.Date === latestEmployment
     // );
@@ -1486,38 +1513,53 @@ class Coronavirus extends Component {
       delete currentSection.lineConfig.timeline;
     }
 
-    const gridDataLatest = {};
     const sparklineBuckets = 20;
-    const gridData = nest()
-      .key(d => stateAbbreviations[d.Geography])
-      .entries(stateTestData.filter(d => d.Confirmed >= 100))
-      .reduce((obj, group) => {
+    const tableData = nest()
+      .key(d => d["ID Geography"])
+      .entries(stateTestData.filter(d => d.Confirmed > 0))
+      .map(group => {
 
-        const xExtent = extent(group.values, d => d.Confirmed);
-        const yExtent = extent(group.values, d => d.ConfirmedGrowthSmooth);
+        const curveData = group.values.filter(d => d.ConfirmedSmooth >= 100);
 
-        const xScale = scaleLog()
-          .domain(xExtent)
-          .range([1, sparklineBuckets]);
+        const d = {...group.values[group.values.length - 1]};
 
-        const yScale = scaleLog()
-          .domain(yExtent)
-          .range([1, 100]);
+        if (curveData.length) {
+          const xExtent = extent(curveData, d => d.ConfirmedSmooth);
+          const yExtent = extent(curveData, d => d.ConfirmedGrowthSmooth);
+          if (!yExtent[0]) yExtent[0] = 1;
 
-        const data = [];
-        for (let i = 0; i < sparklineBuckets; i++) {
-          const cases = Math.floor(xScale.invert(i + 1));
-          const index = group.values.findIndex(d => d.Confirmed >= cases);
-          const datum = group.values[index - 1] || group.values[index];
-          data.push(yScale(datum.ConfirmedGrowthSmooth));
+          const xScale = scaleLog()
+            .domain(xExtent)
+            .range([1, sparklineBuckets]);
+
+          const yScale = scaleLog()
+            .domain(yExtent)
+            .range([1, 100]);
+
+          const data = [];
+          for (let i = 0; i < sparklineBuckets; i++) {
+            const cases = Math.floor(xScale.invert(i + 1));
+            const index = curveData.findIndex(d => d.ConfirmedSmooth >= cases);
+            const datum = curveData[index - 1] || curveData[index];
+            data.push(yScale(datum.ConfirmedGrowthSmooth || 1));
+          }
+          d.Curve = data;
         }
-        gridDataLatest[group.key] = group.values[group.values.length - 1];
-        obj[group.key] = data;
-        return obj;
-      }, {});
 
-    const sortedStates = Object.keys(gridDataLatest)
-      .sort((a, b) => gridDataLatest[b].Confirmed - gridDataLatest[a].Confirmed);
+        d.NewCases = group.values.slice(-14).map(d => d.ConfirmedGrowthSmooth);
+        d.Trend = (d.NewCases[d.NewCases.length - 1] - d.NewCases[0]) / d.NewCases[0] * 100;
+
+        return d;
+
+      })
+      .sort((a, b) => {
+        if (typeof a[tableOrder] === "string") {
+          return tableSort === "asc"
+            ? a[tableOrder].localeCompare(b[tableOrder])
+            : b[tableOrder].localeCompare(a[tableOrder]);
+        }
+        return tableSort === "asc" ? a[tableOrder] - b[tableOrder] : b[tableOrder] - a[tableOrder];
+      });
 
     return (
       <div id="Coronavirus">
@@ -1631,86 +1673,100 @@ class Coronavirus extends Component {
           {/* Confirmed Cases by states */}
           <div className="Section coronavirus-section">
             <SectionTitle slug="cases" title="Confirmed Cases by State" />
-            <div className="section-body">
-              <div className="section-content">
-                <div className="section-description single">
-                  <p>
-                    The following charts show each state&rsquo;s daily new cases vs total cases (both <AnchorLink to="faqs-growth">logarithmic</AnchorLink>). These curves give us a good look at how the outbreak in each state is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).
-                  </p>
-                  <p>
-                    Clicking on these these charts will filter every chart on this page to show only the selected states.
-                  </p>
-                </div>
-              </div>
-            </div>
             <div className="section-topics">
-              <div className="topic Column GridMap">
-                <div className="grid-map">
-                  { stateGrid.map((row, i) =>
-                    <div key={i} className="grid-map-row">
-                      { row.map((col, ii) =>
-                        <div key={ii} className={`grid-map-cell ${gridData[col] && gridData[col].length ? "" : "empty"}`}>
-                          { gridData[col] && gridData[col].length
-                            ? <div className={`grid-map-cell-container ${currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? "selected" : ""}`}
-                              onClick={updateStates.bind(this, gridDataLatest[col])}>
-                              <div className="grid-map-info">
-                                <div className="grid-map-info-title">
-                                  {dayFormat(gridDataLatest[col].Date)}
-                                </div>
-                                <table>
-                                  <tbody>
-                                    <tr>
-                                      <td>Confirmed Cases</td>
-                                      <td>{commas(gridDataLatest[col].Confirmed)}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Confirmed Deaths</td>
-                                      <td>{commas(gridDataLatest[col].Deaths)}</td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                              <div className="grid-map-content">
-                                <Sparklines width={50} svgHeight={40} data={gridData[col]}>
-                                  <SparklinesCurve style={{fill: "none", stroke: currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? styles.white : styles.red, strokeWidth: 2}} />
-                                </Sparklines>
-                                <div className="grid-map-title">
-                                  {gridDataLatest[col].Geography}
-                                </div>
-                                <div className="grid-map-subtitle">
-                                  {commas(gridDataLatest[col].Confirmed)} Cases
-                                </div>
-                              </div>
-                            </div> : <div className="grid-map-cell-empty">
-                              <Sparklines width={50} svgHeight={50} data={[1]}>
-                                <SparklinesCurve style={{fill: "none", strokeWidth: 0}} />
-                              </Sparklines>
-                            </div> }
-                        </div>
-                      ) }
-                    </div>
-                  ) }
-                </div>
-                <div className="grid-map-table">
-                  { sortedStates.map((col, ii) =>
-                    <div key={ii} className="grid-map-cell">
-                      <div className={`grid-map-cell-container ${currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? "selected" : ""}`}
-                        onClick={updateStates.bind(this, gridDataLatest[col])}>
-                        <div className="grid-map-content">
-                          <Sparklines width={50} svgHeight={40} data={gridData[col]}>
-                            <SparklinesCurve style={{fill: "none", stroke: currentStates.find(s => s["ID Geography"] === gridDataLatest[col]["ID Geography"]) ? styles.white : styles.red, strokeWidth: 2}} />
-                          </Sparklines>
-                          <div className="grid-map-title">
-                            {gridDataLatest[col].Geography}
-                          </div>
-                          <div className="grid-map-subtitle">
-                            {commas(gridDataLatest[col].Confirmed)} Cases
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) }
-                </div>
+              <div className="topic Column StateTable">
+                <table className="state-table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th onClick={this.updateTableSort.bind(this, "Geography")}>
+                        State
+                        <Icon className={`sort-caret ${tableOrder === "Geography" ? "active" : ""}`} iconName={tableOrder === "Geography" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th onClick={this.updateTableSort.bind(this, "Trend")}>
+                        14-day trend of New Cases
+                        <Icon className={`sort-caret ${tableOrder === "Trend" ? "active" : ""}`} iconName={tableOrder === "Trend" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th onClick={this.updateTableSort.bind(this, "Confirmed")}>
+                        Confirmed<br />Cases
+                        <Icon className={`sort-caret ${tableOrder === "Confirmed" ? "active" : ""}`} iconName={tableOrder === "Confirmed" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th onClick={this.updateTableSort.bind(this, "ConfirmedPC")}>
+                        Cases<br />per Capita
+                        <Icon className={`sort-caret ${tableOrder === "ConfirmedPC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedPC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th onClick={this.updateTableSort.bind(this, "Deaths")}>
+                        Confirmed<br />Deaths
+                        <Icon className={`sort-caret ${tableOrder === "Deaths" ? "active" : ""}`} iconName={tableOrder === "Deaths" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th onClick={this.updateTableSort.bind(this, "Tests")}>
+                        Total<br />Tests
+                        <Icon className={`sort-caret ${tableOrder === "Tests" ? "active" : ""}`} iconName={tableOrder === "Tests" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th onClick={this.updateTableSort.bind(this, "Hospitalized")}>
+                        Total<br />Hospitalizations
+                        <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} iconName={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th>
+                        Total vs New Cases
+                        <Popover2
+                          hoverOpenDelay={0}
+                          hoverCloseDelay={0}
+                          interactionKind={PopoverInteractionKind.HOVER}
+                          placement="bottom-end"
+                          content="This curve show daily new cases vs total cases (both logarithmic). This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
+                          <Icon iconSize="inherit" iconName="help" />
+                        </Popover2>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    { tableData.length
+                      ? tableData.map((d, i) =>
+                        <tr key={i} className={`state-table-row ${currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? "selected" : ""}`} onClick={this.updateStates.bind(this, d)}>
+                          <td className="checkbox">
+                            <Checkbox checked={currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? true : false} />
+                          </td>
+                          <td className="state">{d.Geography}</td>
+                          <td className={`trend ${d.Trend < -5 ? "decreasing" : d.Trend > 5 ? "increasing" : "flat"}`}>
+                            <Sparklines svgWidth={100} svgHeight={30} data={d.NewCases}>
+                              <SparklinesCurve style={{
+                                fill: "none",
+                                stroke: d.Trend < -5 ? styles.soc : d.Trend > 5 ? styles.red : styles.gray,
+                                strokeWidth: 2
+                              }} />
+                            </Sparklines>
+                            <div>
+                              {formatAbbreviate(d.Trend)}% {d.Trend < -5 ? "decreasing" : d.Trend > 5 ? "increasing" : "flat"}
+                              <div className="sub">{commas(d.ConfirmedGrowth)} new cases on {justDayFormat(d.Date)}</div>
+                            </div>
+                          </td>
+                          <td>{commas(d.Confirmed)}</td>
+                          <td>{commas(Math.round(d.ConfirmedPC))}</td>
+                          <td>{commas(d.Deaths)}</td>
+                          <td>{commas(d.Tests)}</td>
+                          <td>{commas(d.Hospitalized)}</td>
+                          <td>
+                            <Sparklines svgWidth={100} svgHeight={30} data={d.Curve}>
+                              <SparklinesCurve style={{
+                                fill: "none",
+                                stroke: d.Trend < -5 ? styles.soc : d.Trend > 5 ? styles.red : styles.gray,
+                                strokeWidth: 2
+                              }} />
+                            </Sparklines>
+                          </td>
+                        </tr>
+                      )
+                      : range(0, 56, 1).map((d, i) =>
+                        <tr key={i} className="state-table-row">
+                          <td colSpan={10} className="spinner">
+                            <Spinner className="pt-small" />
+                          </td>
+                        </tr>
+                      )
+                    }
+                  </tbody>
+                </table>
               </div>
               <div className="topic TextViz">
                 <div className="topic-content">

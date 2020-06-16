@@ -82,168 +82,125 @@
     }
   }
 
-
-  & .grid-map-cell {
+  & .state-table {
+    background: var(--white);
+    border-collapse: collapse;
+    box-shadow: none;
     color: var(--black);
-    flex: 1 1 100%;
-    height: auto;
-    margin: 5px 0;
-    overflow: visible;
-    padding: 0 5px;
     position: relative;
-    & .grid-map-cell-empty {
-      border: 2px solid transparent;
-      padding: 5px;
-    }
-    & .grid-map-content {
-      background: var(--white);
-      border: 1px solid transparent;
-      border-radius: 4px;
-      overflow: hidden;
-      padding: 5px;
-      & .grid-map-title {
-        color: var(--black);
-        font-family: "Pathway Gothic One", sans-serif;
-        font-size: 12px;
-        text-align: center;
-        width: 100%;
-      }
-      & .grid-map-subtitle {
-        color: var(--gray);
-        font-family: "Pathway Gothic One", sans-serif;
-        font-size: 10px;
-        text-align: center;
-        width: 100%;
-      }
-      & svg {
-        width: 100%;
-        & path {
-          vector-effect: non-scaling-stroke;
-        }
-      }
-    }
-    & .grid-map-cell-container {
-      border-radius: 4px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-      overflow: visible;
-      position: relative;
-      &.selected {
-        box-shadow: none;
-        & .grid-map-content {
-          background-color: var(--red);
-          border-color: #E9E9E9;
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
-          & .grid-map-title, & .grid-map-subtitle {
-            color: var(--white);
-          }
-        }
-      }
-    }
-    & .grid-map-info {
+    text-align: left;
+    & thead {
       background: var(--dark);
-      bottom: 0;
-      border-radius: 4px;
-      font-size: 12px;
-      left: 0;
-      overflow: hidden;
-      padding-bottom: 5px;
-      padding-left: 100%;
-      padding-top: 5px;
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      width: 100%;
-      z-index: -1;
-      & .grid-map-info-title {
+      & th {
+        background: var(--dark);
+        box-shadow: inset 0 10px 0 #E9E9E9;
         color: var(--white);
-        font-weight: bold;
-        margin: 5px 0;
-      }
-      & table {
-        border-collapse: collapse;
-        box-sizing: border-box;
-        color: var(--lightgray);
-        margin: 0 5px;
-        text-align: left;
-        width: calc(100% - 10px);
-        & tr {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          font-family: "Palanquin", sans-serif;
-          font-size: 11px;
-          line-height: 14px;
-          &:last-child {
-            border-bottom: none;
+        font-family: "Pathway Gothic One", sans-serif;
+        font-weight: 600;
+        padding: 20px 10px 10px;
+        position: sticky;
+        text-transform: uppercase;
+        top: var(--nav-height);
+        vertical-align: bottom;
+        z-index: 10;
+        & .pt-icon-help {
+          cursor: help;
+          font-size: 12px;
+          margin-left: 5px;
+          margin-top: 3px;
+          opacity: 0.75;
+          vertical-align: top;
+          &:hover {
+            opacity: 1;
           }
-          & td {
-            padding: 4px 5px 5px;
-            text-align: left;
-            &:last-child {
-              text-align: right;
-            }
-            &:only-child {
-              font-weight: bold;
-              padding-top: 6px;
-              text-align: left;
-            }
+        }
+        & .sort-caret {
+          opacity: 0.5;
+          margin-left: 2px;
+          margin-top: 2px;
+          vertical-align: top;
+          &.active {
+            color: var(--red);
+            opacity: 1;
+          }
+        }
+        &:hover {
+          color: #ffffff;
+          cursor: pointer;
+          & .sort-caret {
+            opacity: 1;
           }
         }
       }
     }
-    & .grid-map-cell-container:hover {
-      cursor: pointer;
-      z-index: 1;
-      & .grid-map-info {
-        box-shadow: none;
-        width: 300%;
+    & tbody {
+      box-shadow: none;
+      & .state-table-row {
+        background: #efefef;
+        border: 1px solid #d7d7d7;
+        &.selected {
+          background: var(--white);
+        }
+        &:hover {
+          background: #fff;
+          cursor: pointer;
+        }
+        & td {
+          font-size: 14px;
+          padding: 5px 10px;
+          &.checkbox {
+            width: 36px;
+            & .pt-checkbox {
+              margin: 0;
+              padding-left: 16px;
+              & .pt-control-indicator {
+                box-shadow: inset 0 0 0 1px #d7d7d7;
+              }
+              & input:checked ~ .pt-control-indicator {
+                box-shadow: none;
+              }
+            }
+          }
+          &.state {
+            font-size: 16px;
+          }
+          &.trend {
+            & svg {
+              margin-right: 5px;
+            }
+            &.increasing {
+              color: var(--red);
+            }
+            &.flat {
+              color: var(--gray);
+            }
+            &.decreasing {
+              color: var(--soc);
+            }
+            & .sub {
+              color: var(--gray);
+              font-size: 12px;
+            }
+          }
+          & > div {
+            display: inline-block;
+            vertical-align: middle;
+          }
+          & svg {
+            vertical-align: middle;
+            & path {
+              vector-effect: non-scaling-stroke;
+            }
+          }
+          &.spinner {
+            text-align: center;
+            width: 100%;
+            & path {
+              vector-effect: none !important;
+            }
+          }
+        }
       }
-      & .grid-map-content {
-        border-color: var(--dark);
-        border-radius: 4px 0 0 4px;
-      }
-    }
-    &:nth-last-of-type(-n+2) .grid-map-cell-container:hover {
-      & .grid-map-info {
-        left: -200%;
-        padding-left: 0;
-        padding-right: 100%;
-      }
-      & .grid-map-content {
-        border-color: var(--dark);
-        border-radius: 0 4px 4px 0;
-      }
-    }
-  }
-
-  & .grid-map {
-    display: block;
-    margin: 0 auto 50px;
-    max-width: 1200px;
-    width: 100%;
-    & .grid-map-row {
-      align-items: center;
-      display: flex;
-    }
-    @media (max-width: 1024px) {
-      & .grid-map-subtitle {
-        display: none;
-      }
-    }
-  }
-
-  & .grid-map-table {
-    display: none;
-    & .grid-map-cell {
-      display: inline-block;
-      max-width: 100px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    & .grid-map {
-      display: none;
-    }
-    & .grid-map-table {
-      display: block;
     }
   }
 
@@ -409,10 +366,6 @@
     & .visualization {
       height: 300px;
     }
-  }
-
-  & .GridMap {
-    padding: 25px 0;
   }
 
   & .visualization {
