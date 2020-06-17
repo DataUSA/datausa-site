@@ -1024,7 +1024,7 @@ class Coronavirus extends Component {
     );
     stats.totalHospitalizations = commas(sum(latest, d => d.Hospitalized));
     const totalTests = sum(latest, d => d.Tests);
-    stats.totalTests = commas(totalTests);
+    stats.totalTests = formatAbbreviate(totalTests);
     const totalPositive = sum(latest, d => d.Confirmed);
     stats.totalPositivePercent = `${formatAbbreviate(
       totalPositive / totalTests * 100
@@ -1598,21 +1598,21 @@ class Coronavirus extends Component {
           <div className="content-container">
             <div className="profile-stats">
               <div className="Stat large-text">
-                <div className="stat-title">Total Cases</div>
+                <div className="stat-title">Confirmed Cases</div>
                 <div className="stat-value">
                   {show ? stats.totalCases : <Spinner />}
                 </div>
                 <div className="stat-subtitle">in the USA</div>
               </div>
               <div className="Stat large-text">
-                <div className="stat-title">Total Deaths</div>
+                <div className="stat-title">Deaths</div>
                 <div className="stat-value">
                   {show ? stats.totalDeaths : <Spinner />}
                 </div>
                 <div className="stat-subtitle">in the USA</div>
               </div>
               <div className="Stat large-text">
-                <div className="stat-title">Total Hospitalizations</div>
+                <div className="stat-title">Hospitalizations</div>
                 <div className="stat-value">
                   {show ? stats.totalHospitalizations : <Spinner />}
                 </div>
