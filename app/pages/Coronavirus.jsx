@@ -403,13 +403,14 @@ class Coronavirus extends Component {
             d = Object.assign(d, division);
           });
           stateTestData.sort((a, b) => a.Date - b.Date);
-          const latestStateData = max(stateTestData, d => d.Date);
 
-
-          const currentStates = stateTestData
-            .filter(d => d.Date === latestStateData)
-            .sort((a, b) => b.ConfirmedGrowth - a.ConfirmedGrowth)
-            .slice(0, 5);
+          const currentStates = nest()
+            .key(d => d["ID Geography"])
+            .entries(stateTestData.filter(d => d.Confirmed > 0))
+            .map(group => group.values.slice(-14))
+            .sort((a, b) => sum(b, d => d.ConfirmedGrowth) - sum(a, d => d.ConfirmedGrowth))
+            .slice(0, 5)
+            .map(d => d[d.length - 1]);
 
           const currentStatesHash = currentStates.reduce(
             (acc, d) => ({[d["ID Geography"]]: true, ...acc}),
@@ -962,11 +963,6 @@ class Coronavirus extends Component {
             <Button className={scale === "log" ? "pt-active pt-fill" : "pt-fill"} onClick={this.changeScale.bind(this, "log")}>Logarithmic</Button>
           </div>
         </label>
-        <div className="SourceGroup">
-          For more information about the difference between linear and
-          logarithmic scale,{" "}
-          <AnchorLink to="faqs-growth">click here</AnchorLink>.
-        </div>
       </div>
     ;
 
@@ -1324,8 +1320,7 @@ class Coronavirus extends Component {
         descriptions: currentCaseReach
           ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations${currentCasePC ? " per capita" : ""}.`]
           : [
-            "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system.",
-            "This chart shows hospitalizations for all states that have registered at least 50 hospitalizations."
+            "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system."
           ],
         sources: [ctSource],
         option: "Hospitalizations",
@@ -1546,7 +1541,10 @@ class Coronavirus extends Component {
           d.Curve = data;
         }
 
-        d.NewCases = group.values.slice(-14).map(d => d.ConfirmedGrowthSmooth);
+        const last14 = group.values.slice(-14);
+        d.NewCases = last14.map(d => d.ConfirmedGrowthSmooth);
+        d.ConfirmedGrowth14 = sum(last14, d => d.ConfirmedGrowth);
+        d.ConfirmedGrowth14PC = d.ConfirmedGrowth14 * 100000 / pops[group.key];
         d.Trend = (d.NewCases[d.NewCases.length - 1] - d.NewCases[0]) / d.NewCases[0] * 100;
 
         return d;
@@ -1684,27 +1682,39 @@ class Coronavirus extends Component {
                         <Icon className={`sort-caret ${tableOrder === "Geography" ? "active" : ""}`} iconName={tableOrder === "Geography" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Trend" onClick={this.updateTableSort.bind(this, "Trend")}>
-                        14-day trend of New Cases
+                        14-day Trend of New Cases
                         <Icon className={`sort-caret ${tableOrder === "Trend" ? "active" : ""}`} iconName={tableOrder === "Trend" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th className="ConfirmedGrowth14" onClick={this.updateTableSort.bind(this, "ConfirmedGrowth14")}>
+                        14-Day New<br />Cases
+                        <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14" ? "active" : ""}`} iconName={tableOrder === "ConfirmedGrowth14" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
+                      <th className="ConfirmedGrowth14PC" onClick={this.updateTableSort.bind(this, "ConfirmedGrowth14PC")}>
+                        14-Day New Cases<br />per Capita
+                        <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14PC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedGrowth14PC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Confirmed" onClick={this.updateTableSort.bind(this, "Confirmed")}>
                         Confirmed<br />Cases
                         <Icon className={`sort-caret ${tableOrder === "Confirmed" ? "active" : ""}`} iconName={tableOrder === "Confirmed" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="ConfirmedPC" onClick={this.updateTableSort.bind(this, "ConfirmedPC")}>
-                        Cases<br />per Capita
+                        Cases per<br />Capita
                         <Icon className={`sort-caret ${tableOrder === "ConfirmedPC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedPC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Deaths" onClick={this.updateTableSort.bind(this, "Deaths")}>
                         Confirmed<br />Deaths
                         <Icon className={`sort-caret ${tableOrder === "Deaths" ? "active" : ""}`} iconName={tableOrder === "Deaths" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
+                      <th className="PositivePct" onClick={this.updateTableSort.bind(this, "PositivePct")}>
+                        % Positive<br />Tests
+                        <Icon className={`sort-caret ${tableOrder === "PositivePct" ? "active" : ""}`} iconName={tableOrder === "PositivePct" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
+                      </th>
                       <th className="Tests" onClick={this.updateTableSort.bind(this, "Tests")}>
                         Total<br />Tests
                         <Icon className={`sort-caret ${tableOrder === "Tests" ? "active" : ""}`} iconName={tableOrder === "Tests" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Hospitalized" onClick={this.updateTableSort.bind(this, "Hospitalized")}>
-                        Total<br />Hospitalizations
+                        Total<br />Hospitalized
                         <Icon className={`sort-caret ${tableOrder === "Hospitalized" ? "active" : ""}`} iconName={tableOrder === "Hospitalized" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Curve">
@@ -1737,15 +1747,17 @@ class Coronavirus extends Component {
                               }} />
                             </Sparklines>
                             <div>
-                              {formatAbbreviate(d.Trend)}% {d.Trend < -5 ? "decreasing" : d.Trend > 5 ? "increasing" : "flat"}
-                              <div className="sub">{commas(d.ConfirmedGrowth)} new cases on {justDayFormat(d.Date)}</div>
+                              {d.Trend > 0 ? "+" : ""}{formatAbbreviate(d.Trend)}%
                             </div>
                           </td>
+                          <td className="ConfirmedGrowth14">{commas(d.ConfirmedGrowth14)}</td>
+                          <td className="ConfirmedGrowth14PC">{commas(Math.round(d.ConfirmedGrowth14PC))}</td>
                           <td className="Confirmed">{commas(d.Confirmed)}</td>
                           <td className="ConfirmedPC">{commas(Math.round(d.ConfirmedPC))}</td>
                           <td className="Deaths">{commas(d.Deaths)}</td>
+                          <td className="PositivePct">{formatAbbreviate(d.PositivePct)}%</td>
                           <td className="Tests">{commas(d.Tests)}</td>
-                          <td className="Hospitalized">{commas(d.Hospitalized)}</td>
+                          <td className="Hospitalized">{typeof d.Hospitalized === "number" ? commas(d.Hospitalized) : "N/A"}</td>
                           <td className="Curve">
                             <Sparklines svgWidth={100} svgHeight={30} data={d.Curve}>
                               <SparklinesCurve style={{
@@ -1759,7 +1771,7 @@ class Coronavirus extends Component {
                       )
                       : range(0, 56, 1).map((d, i) =>
                         <tr key={i} className="state-table-row">
-                          <td colSpan={10} className="spinner">
+                          <td colSpan={15} className="spinner">
                             <Spinner className="pt-small" />
                           </td>
                         </tr>
@@ -1774,6 +1786,10 @@ class Coronavirus extends Component {
                     slug="cases-total"
                     title={currentSection.title}
                   />
+                  { currentSection.subtitle
+                    ?  <div className="topic-subtitle">{currentSection.subtitle}</div>
+                    : null
+                  }
                   <AxisToggle />
                   <CaseSelector />
                   <Checkbox disabled={!allowSmooth} label="7-day Rolling Average" checked={currentCaseSmooth && allowSmooth} onChange={this.changeSmooth.bind(this)}/>
@@ -1792,6 +1808,11 @@ class Coronavirus extends Component {
                   }
                   <div className="topic-description">
                     {currentSection.descriptions.map(d => <p key={d}>{d}</p>)}
+                  </div>
+                  <div className="SourceGroup">
+                    For more information about the difference between linear and
+                    logarithmic scale,{" "}
+                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
                   </div>
                   <SourceGroup sources={currentSection.sources} />
                 </div>
@@ -2005,6 +2026,11 @@ class Coronavirus extends Component {
                       recent data point uses Advance State Claims data, which
                       can be revised in subsequent weeks.
                     </p>
+                  </div>
+                  <div className="SourceGroup">
+                    For more information about the difference between linear and
+                    logarithmic scale,{" "}
+                    <AnchorLink to="faqs-growth">click here</AnchorLink>.
                   </div>
                   <SourceGroup sources={[dolSource]} />
                 </div>

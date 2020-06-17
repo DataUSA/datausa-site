@@ -75,7 +75,11 @@ module.exports = function(app) {
       .reduce((obj, d) => {
         obj[d["ID Geography"]] = d.Population;
         return obj;
-      }, {});
+      }, {
+        "04000US66": 165768, // Guam
+        "04000US69": 56882,  // Northern Mariana Islands
+        "04000US78": 106977  // Virgin Islands
+      });
 
     // RETURN PAYLOAD
     res.json({
