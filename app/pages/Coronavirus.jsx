@@ -120,7 +120,7 @@ const caseSlugLookup = {
   hospitalizations: "Hospitalized",
   tests: "Tests",
   positive: "Tests",
-  daily: "Confirmed"
+  daily: "ConfirmedGrowth"
 };
 
 const justDayFormat = timeFormat("%A");
@@ -339,7 +339,7 @@ class Coronavirus extends Component {
       countryCutoffData: [],
       countryCutoffDeathData: [],
       countryData: [],
-      currentCaseSlug: "cases",
+      currentCaseSlug: "daily",
       currentCasePC: false,
       currentCaseReach: false,
       currentCaseInternational: false,
@@ -481,7 +481,7 @@ class Coronavirus extends Component {
 
   deriveCutoffKey(slug, isPC, isSmooth) {
     const cutoffKey = caseSlugLookup[slug];
-    const maybePC = ["cases", "deaths", "hospitalizations", "tests"].includes(slug);
+    const maybePC = ["cases", "deaths", "hospitalizations", "tests", "daily"].includes(slug);
     return `${cutoffKey}${maybePC && isPC ? "PC" : ""}${maybePC && isSmooth ? "Smooth" : ""}`;
   }
 
@@ -1073,6 +1073,51 @@ class Coronavirus extends Component {
     const example = `${formatAbbreviate(sliderConfig.stepSize)}, ${formatAbbreviate(sliderConfig.stepSize * 2)}, or ${formatAbbreviate(sliderConfig.stepSize * 10)}`;
 
     const caseSections = {
+      daily: {
+        title: currentCaseReach
+          ? `Daily New Cases Since Reaching ${cutoffFormatted} Confirmed Cases`
+          : "Daily New Cases",
+        showCharts: stateTestData.length > 0,
+        subtitle: currentStates.length ? null : "Use the map to select individual states.",
+        // no stat!
+        descriptions: currentCaseReach
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
+          : [
+            "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth.",
+            "This chart presents the number of new cases reported daily by each U.S. state."
+          ],
+        option: "Daily New Cases",
+        sources: [ctSource],
+        lineConfig: {
+          data: currentCaseReach
+            ? stateCutoffDataFiltered.filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`])
+            : stateTestDataFiltered.filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`]),
+          time: "Date",
+          timeline: false,
+          // title: `Daily Confirmed Cases (${scaleLabel})`,
+          x: currentCaseReach ? "Days" : "Date",
+          xConfig: {
+            title: currentCaseReach
+              ? currentCasePC
+                ? `Days Since Reaching ${cutoffFormatted} Daily Cases Per Capita`
+                : `Days Since Reaching ${cutoffFormatted} Daily Cases`
+              : "",
+            labels: currentCaseReach
+              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
+              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
+            ticks: currentCaseReach
+              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
+              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
+            tickFormat: currentCaseReach ? daysFormat : dateFormat
+          },
+          y: `ConfirmedGrowth${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
+        },
+        geoConfig: {
+          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
+          colorScale: "ConfirmedGrowth",
+          data: latest.filter(d => d.ConfirmedGrowth)
+        }
+      },
       cases: {
         showCharts: currentCaseInternational
           ? countryCutoffData.length > 0
@@ -1437,51 +1482,6 @@ class Coronavirus extends Component {
           currentStates, // currentState is a no-op key to force a re-render when currentState changes.
           colorScale: "PositivePct",
           data: latest.filter(d => d.PositivePct)
-        }
-      },
-      daily: {
-        title: currentCaseReach
-          ? `Daily New Cases Since Reaching ${cutoffFormatted} Confirmed Cases`
-          : "Daily New Cases",
-        showCharts: stateTestData.length > 0,
-        subtitle: currentStates.length ? null : "Use the map to select individual states.",
-        // no stat!
-        descriptions: currentCaseReach
-          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} cases.`]
-          : [
-            "Because of the exponential nature of early epidemic spreading, it is important to track not only the total number of COVID-19 cases, but their growth.",
-            "This chart presents the number of new cases reported daily by each U.S. state."
-          ],
-        option: "Daily New Cases",
-        sources: [ctSource],
-        lineConfig: {
-          data: currentCaseReach
-            ? stateCutoffDataFiltered.filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`])
-            : stateTestDataFiltered.filter(d => d[`ConfirmedGrowth${currentCaseSmooth ? "Smooth" : ""}`]),
-          time: "Date",
-          timeline: false,
-          // title: `Daily Confirmed Cases (${scaleLabel})`,
-          x: currentCaseReach ? "Days" : "Date",
-          xConfig: {
-            title: currentCaseReach
-              ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Confirmed Cases Per Capita`
-                : `Days Since ${cutoffFormatted} Confirmed Cases`
-              : "",
-            labels: currentCaseReach
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
-            ticks: currentCaseReach
-              ? calculateDailyTicks(stateCutoffDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Days)
-              : calculateMonthlyTicks(stateTestDataFiltered.filter(d => d.ConfirmedGrowth), d => d.Date),
-            tickFormat: currentCaseReach ? daysFormat : dateFormat
-          },
-          y: `ConfirmedGrowth${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`
-        },
-        geoConfig: {
-          currentStates, // currentState is a no-op key to force a re-render when currentState changes.
-          colorScale: "ConfirmedGrowth",
-          data: latest.filter(d => d.ConfirmedGrowth)
         }
       }
     };
