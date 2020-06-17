@@ -263,7 +263,6 @@ class UncontrolledSlider extends React.Component {
 
 /** */
 function calculateMonthlyTicks(data, accessor) {
-  const midMonthCutoff = 6;
   return extent(data, accessor)
     .reduce((arr, d, i, src) => {
       arr.push(d);
@@ -276,15 +275,16 @@ function calculateMonthlyTicks(data, accessor) {
         const finalObj = new Date(src[1]);
         const finalMonth = finalObj.getMonth();
         const finalDate = finalObj.getDate();
-        if (finalMonth - month < midMonthCutoff && date < 15) arr.push(`${month + 1}/15/${year}`);
+        let months = (finalObj.getFullYear() - dateObj.getFullYear()) * 12;
+        months -= dateObj.getMonth();
+        months += finalObj.getMonth();
+        const showMids = months < 5;
+        if (showMids && date < 10) arr.push(`${month + 1}/15/${year}`);
         while (currentMonth <= finalMonth) {
           if (currentMonth !== finalMonth || finalDate > 5) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
-          if (date < 20) {
-            if (finalMonth - month < midMonthCutoff) arr.push(`${currentMonth + 1}/15/${year}`);
+          if (showMids && date < 20 && currentMonth !== finalMonth || finalDate > 20) {
+            arr.push(`${currentMonth + 1}/15/${year}`);
           }
-          // if (currentMonth === finalMonth) {
-          //   if (finalDate > 10) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
-          // }
           currentMonth++;
           if (currentMonth === 12) {
             currentMonth = 0;
@@ -717,11 +717,11 @@ class Coronavirus extends Component {
 
     // manually forcing small labels on desktop
     const smallLabels = true;
-    // const w = typeof window !== "undefined" ? window.innerWidth : 1200;
+    const w = typeof window !== "undefined" ? window.innerWidth : 1200;
     // const smallLabels = w < 768;
 
-    const dateFormat = d =>
-      timeFormat("%B %d")(d).replace(/[0-9]{2}$/, m => parseFloat(m, 10));
+    const d3DateFormat = timeFormat(w < 768 ? "%b %d" : "%B %d");
+    const dateFormat = d => d3DateFormat(d).replace(/[0-9]{2}$/, m => parseFloat(m, 10));
     // const daysFormat = d => `${commas(d)} day${d !== 1 ? "s" : ""}`;
     const daysFormat = d => commas(d);
 
