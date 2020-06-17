@@ -89,6 +89,9 @@
     color: var(--black);
     position: relative;
     text-align: left;
+    @media (max-width: 768px) {
+      margin: 0 10px;
+    }
     & thead {
       background: var(--dark);
       & th {
