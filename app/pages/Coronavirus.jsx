@@ -263,6 +263,8 @@ class UncontrolledSlider extends React.Component {
 
 /** */
 function calculateMonthlyTicks(data, accessor) {
+  const w = typeof window !== "undefined" ? window.innerWidth : 1200;
+  const midCutoff = w < 500 ? 3 : 5;
   return extent(data, accessor)
     .reduce((arr, d, i, src) => {
       arr.push(d);
@@ -278,7 +280,7 @@ function calculateMonthlyTicks(data, accessor) {
         let months = (finalObj.getFullYear() - dateObj.getFullYear()) * 12;
         months -= dateObj.getMonth();
         months += finalObj.getMonth();
-        const showMids = months < 5;
+        const showMids = months < midCutoff;
         if (showMids && date < 10) arr.push(`${month + 1}/15/${year}`);
         while (currentMonth <= finalMonth) {
           if (currentMonth !== finalMonth || finalDate > 5) arr.push(new Date(`${currentMonth + 1}/01/${year}`).getTime());
