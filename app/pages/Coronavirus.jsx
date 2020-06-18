@@ -1735,7 +1735,9 @@ class Coronavirus extends Component {
                       ? tableData.map((d, i) =>
                         <tr key={i} className={`state-table-row ${currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? "selected" : ""}`} onClick={this.updateStates.bind(this, d)}>
                           <td className="checkbox">
-                            <Checkbox checked={currentStates.find(s => s["ID Geography"] === d["ID Geography"]) ? true : false} />
+                            <div className="checkbox-fake">
+                              <Icon iconName="small-tick" />
+                            </div>
                           </td>
                           <td className="Geography">{d.Geography}</td>
                           <td className={`Trend ${d.Trend < -5 ? "decreasing" : d.Trend > 5 ? "increasing" : "flat"}`}>

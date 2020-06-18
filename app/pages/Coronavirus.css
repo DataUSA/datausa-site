@@ -145,9 +145,6 @@
       & .state-table-row {
         background: #efefef;
         border: 1px solid #d7d7d7;
-        &.selected {
-          background: var(--white);
-        }
         &:hover {
           background: #fff;
           cursor: pointer;
@@ -160,19 +157,20 @@
             padding: 5px 5px;
           }
           &.checkbox {
+            & .checkbox-fake {
+              background: var(--white);
+              box-shadow: inset 0 0 0 1px #d7d7d7;
+              color: var(--white);
+              display: block;
+              height: 16px;
+              width: 16px;
+              & .pt-icon-standard {
+                vertical-align: top;
+              }
+            }
             width: 36px;
             @media (max-width: 575px) {
               width: 26px;
-            }
-            & .pt-checkbox {
-              margin: 0;
-              padding-left: 16px;
-              & .pt-control-indicator {
-                box-shadow: inset 0 0 0 1px #d7d7d7;
-              }
-              & input:checked ~ .pt-control-indicator {
-                box-shadow: none;
-              }
             }
           }
           &.Geography {
@@ -211,6 +209,13 @@
             & path {
               vector-effect: none !important;
             }
+          }
+        }
+        &.selected {
+          background: var(--white);
+          & td.checkbox .checkbox-fake {
+            background: var(--red);
+            box-shadow: none;
           }
         }
       }
