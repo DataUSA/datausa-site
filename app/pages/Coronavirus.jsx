@@ -1726,7 +1726,7 @@ class Coronavirus extends Component {
                           hoverCloseDelay={0}
                           interactionKind={PopoverInteractionKind.HOVER}
                           placement="bottom-end"
-                          content="This curve show daily new cases vs total cases (both logarithmic). This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
+                          content="This curve show daily new cases vs total cases (both logarithmic) since reaching 100 confirmed cases. This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
                           <Icon iconSize="inherit" iconName="help" />
                         </Popover2>
                       </th>
