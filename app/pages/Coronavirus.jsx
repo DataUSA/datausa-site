@@ -805,7 +805,7 @@ class Coronavirus extends Component {
         tbody: d => {
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.Confirmed !== undefined) {
-            arr.push(["Total Cases", commas(d.Confirmed)]);
+            arr.push(["Confirmed Cases", commas(d.Confirmed)]);
           }
           if (d.ConfirmedGrowth !== undefined) {
             arr.push(["New Cases", commas(d.ConfirmedGrowth)]);
@@ -996,7 +996,7 @@ class Coronavirus extends Component {
           arr.push(["Hospitalized patients", commas(d.Hospitalized)]);
         }
         if (d.HospitalizedPC) {
-          arr.push(["Hospitalized patients per Capita", formatAbbreviate(d.HospitalizedPC)]);
+          arr.push(["Hospitalized patients per 100,000", formatAbbreviate(d.HospitalizedPC)]);
         }
 
         return arr;
@@ -1097,7 +1097,7 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since Reaching ${cutoffFormatted} Daily Cases Per Capita`
+                ? `Days Since Reaching ${cutoffFormatted} Daily Cases Per 100,000`
                 : `Days Since Reaching ${cutoffFormatted} Daily Cases`
               : "",
             labels: currentCaseReach
@@ -1126,8 +1126,8 @@ class Coronavirus extends Component {
           ? "International Comparison (Cases)"
           : currentCasePC
             ? currentCaseReach
-              ? `Total Confirmed Cases Since Reaching ${cutoffFormatted} Cases Per Capita`
-              : "Total Confirmed Cases per Capita"
+              ? `Total Confirmed Cases Since Reaching ${cutoffFormatted} Cases Per 100,000`
+              : "Total Confirmed Cases per 100,000"
             : currentCaseReach
               ? `Total Confirmed Cases Since Reaching ${cutoffFormatted} Cases`
               : "Total Confirmed Cases By Date",
@@ -1139,7 +1139,7 @@ class Coronavirus extends Component {
                 ? topicStats.totalPC
                 : topicStats.totalCases
               : <Spinner />,
-            title: `${currentCasePC ? "Cases per 100k" : "Total Cases"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Confirmed Cases per 100,000" : "Confirmed Cases"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseInternational
@@ -1171,10 +1171,10 @@ class Coronavirus extends Component {
             : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? `Days Since ${cutoffFormatted} Confirmed Cases Per Capita`
+              ? `Days Since ${cutoffFormatted} Confirmed Cases Per 100,000`
               : currentCaseReach
                 ? currentCasePC
-                  ? `Days Since ${cutoffFormatted} Confirmed Cases Per Capita`
+                  ? `Days Since ${cutoffFormatted} Confirmed Cases Per 100,000`
                   : `Days Since ${cutoffFormatted} Confirmed Cases`
                 : "",
             labels: currentCaseInternational
@@ -1218,8 +1218,8 @@ class Coronavirus extends Component {
           ? "International Comparison (Deaths)"
           : currentCasePC
             ? currentCaseReach
-              ? `Total Deaths Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per Capita`
-              : "Deaths per Capita"
+              ? `Total Deaths Since Reaching ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
+              : "Deaths per 100,000"
             : currentCaseReach
               ? `Total Deaths Since Reaching ${cutoffFormatted} Deaths`
               : "Total Deaths by State",
@@ -1234,13 +1234,13 @@ class Coronavirus extends Component {
                 ? topicStats.totalDeathsPC
                 : topicStats.totalDeaths
               : <Spinner />,
-            title: `${currentCasePC ? "Deaths per 100k" : "Total Deaths"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Deaths per 100,000" : "Total Deaths"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseInternational
           ? [`Here we compare the per capita number of deaths attributed to COVID-19 in each state that has reported more than ${cutoffFormatted} deaths with that of the five countries that have reported the most deaths.`]
           : currentCaseReach
-            ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} deaths${currentCasePC ? " per capita" : ""}.`]
+            ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} deaths${currentCasePC ? " per 100,000" : ""}.`]
             : currentCasePC
               ? ["This chart normalizes the number of confirmed COVID-19 deaths by the population of each state. It gives an idea of the impact of COVID-19 infections in each state."]
               : ["This chart shows the number of deaths attributed to COVID-19 cases in each U.S. state."],
@@ -1263,10 +1263,10 @@ class Coronavirus extends Component {
           x: currentCaseInternational || currentCaseReach ? "Days" : "Date",
           xConfig: {
             title: currentCaseInternational
-              ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per Capita`
+              ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
               : currentCaseReach
                 ? currentCasePC
-                  ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per Capita`
+                  ? `Days Since ${cutoffFormatted} Death${cutoff === 1 ? "" : "s"} Per 100,000`
                   : `Days Since ${cutoffFormatted} Deaths`
                 : "",
             labels: currentCaseInternational
@@ -1302,8 +1302,8 @@ class Coronavirus extends Component {
         showCharts: stateTestData.length > 0,
         title: currentCasePC
           ? currentCaseReach
-            ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per Capita`
-            : "Hospitalizations per Capita"
+            ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per 100,000`
+            : "Hospitalizations per 100,000"
           : currentCaseReach
             ? `Total Hospitalizations Since Reaching ${cutoffFormatted} Hospitalizations`
             : "Total Hospitalizations by State",
@@ -1316,11 +1316,11 @@ class Coronavirus extends Component {
                 ? topicStats.totalHospitalizationsPC
                 : topicStats.totalHospitalizations
               : <Spinner />,
-            title: `${currentCasePC ? "Hospitalizations per 100k" : "Hospitalizations"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Hospitalizations per 100,000" : "Hospitalizations"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
-          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations${currentCasePC ? " per capita" : ""}.`]
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} hospitalizations${currentCasePC ? " per 100,000" : ""}.`]
           : [
             "Hospitalizations are a statistic that, unlike cases, doesn't grow mechanically with increased testing. Hospitalizations also speak about the burden of COVID-19 in the healthcare system."
           ],
@@ -1330,7 +1330,7 @@ class Coronavirus extends Component {
           data: currentCaseReach
             ? stateCutoffDataFiltered.filter(d => d[`Hospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
             : stateTestDataFiltered.filter(d => d[`Hospitalized${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
-          // title: `Hospitalized Patients ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
+          // title: `Hospitalized Patients ${currentCasePC ? "per 100,000" : ""} (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
           timeline: false,
@@ -1338,7 +1338,7 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per Capita`
+                ? `Days Since ${cutoffFormatted} Hospitalization${cutoff === 1 ? "" : "s"} Per 100,000`
                 : `Days Since ${cutoffFormatted} Hospitalizations`
               : "",
             labels: currentCaseReach
@@ -1369,8 +1369,8 @@ class Coronavirus extends Component {
       tests: {
         title: currentCasePC
           ? currentCaseReach
-            ? `Total Tests Since Reaching ${cutoffFormatted} Tests Per Capita`
-            : "Tests per Capita"
+            ? `Total Tests Since Reaching ${cutoffFormatted} Tests Per 100,000`
+            : "Tests per 100,000"
           : currentCaseReach
             ? `Total Tests Since Reaching ${cutoffFormatted} Tests`
             : "Total Tests by State",
@@ -1383,11 +1383,11 @@ class Coronavirus extends Component {
                 ? topicStats.totalTestsPC
                 : topicStats.totalTests
               : <Spinner />,
-            title: `${currentCasePC ? "Tests per 100k" : "Total Tests"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
+            title: `${currentCasePC ? "Tests per 100,000" : "Total Tests"} in ${currentStates.length > 0 ? list(currentStates.map(o => o.Geography)) : "the USA"}`,
             subtitle: show ? `as of ${dayFormat(today)}` : ""
           },
         descriptions: currentCaseReach
-          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} tests${currentCasePC ? " per capita" : ""}.`]
+          ? [`Since the spread of COVID-19 did not start at the same time in all states, we can shift the temporal axis to make it relative to an event, such as ${example} tests${currentCasePC ? " per 100,000" : ""}.`]
           : ["Testing is central in the fight against a pandemic such as COVID-19."],
         sources: [ctSource],
         option: "Tests",
@@ -1395,7 +1395,7 @@ class Coronavirus extends Component {
           data: currentCaseReach
             ? stateCutoffDataFiltered.filter(d => d[`Tests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`])
             : stateTestDataFiltered.filter(d => d[`Tests${currentCasePC ? "PC" : ""}${currentCaseSmooth ? "Smooth" : ""}`]),
-          // title: `Number of Tests ${currentCasePC ? "per 100k" : ""} (${scaleLabel})`,
+          // title: `Number of Tests ${currentCasePC ? "per 100,000" : ""} (${scaleLabel})`,
           tooltipConfig: tooltipConfigTracker,
           time: "Date",
           timeline: false,
@@ -1403,7 +1403,7 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Tests Per Capita`
+                ? `Days Since ${cutoffFormatted} Tests Per 100,000`
                 : `Days Since ${cutoffFormatted} Tests`
               : "",
             labels: currentCaseReach
@@ -1459,7 +1459,7 @@ class Coronavirus extends Component {
           xConfig: {
             title: currentCaseReach
               ? currentCasePC
-                ? `Days Since ${cutoffFormatted} Tests Per Capita`
+                ? `Days Since ${cutoffFormatted} Tests Per 100,000`
                 : `Days Since ${cutoffFormatted} Tests`
               : "",
             labels: currentCaseReach
@@ -1692,7 +1692,7 @@ class Coronavirus extends Component {
                         <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14" ? "active" : ""}`} iconName={tableOrder === "ConfirmedGrowth14" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="ConfirmedGrowth14PC" onClick={this.updateTableSort.bind(this, "ConfirmedGrowth14PC")}>
-                        14-Day New Cases<br />per Capita
+                        14-Day New Cases<br />per 100,000
                         <Icon className={`sort-caret ${tableOrder === "ConfirmedGrowth14PC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedGrowth14PC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Confirmed" onClick={this.updateTableSort.bind(this, "Confirmed")}>
@@ -1700,7 +1700,7 @@ class Coronavirus extends Component {
                         <Icon className={`sort-caret ${tableOrder === "Confirmed" ? "active" : ""}`} iconName={tableOrder === "Confirmed" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="ConfirmedPC" onClick={this.updateTableSort.bind(this, "ConfirmedPC")}>
-                        Cases per<br />Capita
+                        Cases per<br />100,000
                         <Icon className={`sort-caret ${tableOrder === "ConfirmedPC" ? "active" : ""}`} iconName={tableOrder === "ConfirmedPC" ? `caret-${tableSort === "desc" ? "down" : "up"}` : "double-caret-vertical"} />
                       </th>
                       <th className="Deaths" onClick={this.updateTableSort.bind(this, "Deaths")}>
@@ -1726,7 +1726,7 @@ class Coronavirus extends Component {
                           hoverCloseDelay={0}
                           interactionKind={PopoverInteractionKind.HOVER}
                           placement="bottom-end"
-                          content="This curve show daily new cases vs total cases (both logarithmic) since reaching 100 confirmed cases. This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
+                          content="This curve show daily new cases vs total confirmed cases (both logarithmic) since reaching 100 confirmed cases. This gives us a good look at how the outbreak is slowing down (decreasing slope), stabilizing (straight horizontal line), or spreading (increasing slope).">
                           <Icon iconSize="inherit" iconName="help" />
                         </Popover2>
                       </th>
