@@ -773,7 +773,7 @@ class Coronavirus extends Component {
         tbody: []
       },
       on: {
-        click: this.updateStates.bind(this),
+        click: currentStates.length ? false : this.updateStates.bind(this),
         mouseenter(d) {
           if (d["ID Geography"] instanceof Array) {
             this.hover(h => (h.data || h)["ID Region"] === d["ID Region"]);
@@ -796,12 +796,7 @@ class Coronavirus extends Component {
         }
       },
       tooltipConfig: {
-        footer: d =>
-          `Click to ${
-            !currentStatesHash[d["ID Geography"]]
-              ? `select ${d.Geography}`
-              : "clear state selection"
-          }`,
+        footer: currentStates.length ? false : d => `Click to select ${d.Geography}`,
         tbody: d => {
           const arr = [["Date", dateFormat(new Date(d.Date))]];
           if (d.Confirmed !== undefined) {
@@ -943,7 +938,7 @@ class Coronavirus extends Component {
     const StateSelector = () =>
       currentStates.length
         ? <AnchorLink to="cases" className="topic-subtitle">
-          Click lines in the chart to remove individual state filters,<br />or click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+          Click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
         </AnchorLink>
         : <AnchorLink to="cases" className="topic-subtitle">
           Click a line in the chart to filter by an individual state,<br />or click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
