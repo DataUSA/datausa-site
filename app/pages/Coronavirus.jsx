@@ -938,16 +938,16 @@ class Coronavirus extends Component {
     const StateSelector = () =>
       currentStates.length
         ? <AnchorLink to="cases" className="topic-subtitle">
-          Click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+          Click here to return to the table to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
         </AnchorLink>
         : <AnchorLink to="cases" className="topic-subtitle">
-          Click a line in the chart to filter by an individual state,<br />or click here to return to the national map to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
+          Click a line in the chart to filter by an individual state,<br />or click here to return to the table to select multiple states. <Icon iconName="arrow-up" iconSize={8} />
         </AnchorLink>
       ;
 
     const NationStateSelector = () =>
       <AnchorLink to="cases" className="topic-subtitle">
-        Click here to return to the national map to select individual states. <Icon iconName="arrow-up" iconSize={8} />
+        Click here to return to the table to select individual states. <Icon iconName="arrow-up" iconSize={8} />
       </AnchorLink>
       ;
 
