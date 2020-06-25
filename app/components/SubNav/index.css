@@ -1,8 +1,13 @@
+.visible-banner #SubNav {
+  top: calc(var(--nav-height) + var(--banner-height));
+}
+
 #SubNav {
   background-color: var(--dark);
   left: 0;
   position: fixed;
   text-align: center;
+  transition: top 0.5s;
   top: var(--nav-height);
   width: 100%;
   z-index: 20;

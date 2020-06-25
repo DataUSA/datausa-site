@@ -216,6 +216,7 @@
       letter-spacing: 0.1em;
       margin: 0 10px;
       max-width: 100px;
+      position: relative;
       text-transform: uppercase;
       transition: text-shadow 0.35s;
       @media (max-width: 800px) {
@@ -235,6 +236,25 @@
       &:hover {
         text-decoration: none;
         text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8);
+      }
+      &.covid:after {
+        background-color: var(--red);
+        border: 1px solid white;
+        border-radius: 50%;
+        color: white;
+        content: " ";
+        font-size: 12px;
+        font-weight: 800;
+        height: 10px;
+        left: calc(50% + 10px);
+        right: auto;
+        letter-spacing: 1px;
+        opacity: 0.75;
+        padding: 0 4px 2px;
+        position: absolute;
+        text-transform: uppercase;
+        top: -5px;
+        width: 10px;
       }
     }
   }

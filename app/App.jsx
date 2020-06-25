@@ -20,6 +20,7 @@ import albersUsaPr from "helpers/albersUsaPr";
 const bannerKey = "datausa-banner-v2";
 const bannerLink = "/coronavirus";
 const bannerText = "COVID-19 in Numbers";
+const bannerPersist = true;
 
 class App extends Component {
 
@@ -42,7 +43,7 @@ class App extends Component {
 
   async componentDidMount() {
     this.props.fetchCart();
-    const banner = await localforage.getItem(bannerKey);
+    const banner = bannerPersist ? false : await localforage.getItem(bannerKey);
     const {basename, pathname} = this.props.router.location;
     const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
     if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
@@ -84,15 +85,17 @@ class App extends Component {
 
     const bare = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
 
+    const showBanner = banner && pathname.indexOf("cms") < 0;
+
     return (
-      <div id="App" className={bare ? "bare" : ""}>
+      <div id="App" className={`${bare ? "bare" : ""} ${showBanner ? "visible-banner" : ""}`}>
         <Helmet>
           <meta property="og:image" content={ `${origin}/images/share.jpg` } />
         </Helmet>
         { bare ? null : <Nav location={location} /> }
         { this.props.children }
         { fullscreen || bare ? null : <Footer location={location} /> }
-        <div className={banner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
+        <div className={showBanner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
           <span className="banner-text">{ bannerText }</span>
           <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} />
         </div>

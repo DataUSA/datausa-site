@@ -1,3 +1,31 @@
+.visible-banner #Visualize {
+  & .vizbuilder {
+    height: calc(100vh - var(--nav-height) - var(--banner-height));
+    margin-top: calc(var(--nav-height) + var(--banner-height));
+    & .area-sidebar {
+      height: calc(100vh - var(--nav-height) - var(--banner-height));
+      @media (max-width: 600px) {
+        height: auto;
+      }
+    }
+    & .area-chart {
+      height: calc(100vh - var(--nav-height) - var(--banner-height));
+      @media (max-width: 600px) {
+        height: inherit;
+      }
+    }
+    @media (max-width: 600px) {
+      height: auto;
+    }
+  }
+  &.visualize-intro {
+    height: calc(100vh - var(--banner-height));
+    @media (max-width: 600px) {
+      height: auto;
+    }
+  }
+}
+
 #Visualize {
   & h1 {
     font-family: "Pathway Gothic One", sans-serif;
@@ -33,7 +61,6 @@
 
 .vizbuilder {
   background-color: var(--white);
-  /* height: calc(100vh - var(--nav-height) - var(--banner-height)); */
   height: calc(100vh - var(--nav-height));
   margin-top: var(--nav-height);
   @media (max-width: 600px) {

@@ -87,6 +87,31 @@
       & p {
         margin-bottom: 10px;
       }
+      & .pt-button {
+        background: none;
+        border: 1px solid var(--red);
+        border-radius: 0;
+        box-shadow: none;
+        color: var(--red);
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 10px;
+        text-align: center;
+        text-decoration: none;
+        transition: background 0.1s, color 0.1s;
+        &:before {
+          color: var(--red);
+          font-size: 13px;
+          transition: color 0.1s;
+        }
+        &:hover {
+          background: var(--red);
+          color: white;
+          &:before {
+            color: white;
+          }
+        }
+      }
     }
 
     & a.footnote {

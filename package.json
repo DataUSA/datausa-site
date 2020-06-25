@@ -32,11 +32,13 @@
   "dependencies": {
     "@blueprintjs/labs": "^0.14.4",
     "@blueprintjs/table": "^1.31.0",
-    "@datawheel/canon-core": "^0.16.34",
+    "@datawheel/canon-core": "^0.16.35",
     "@datawheel/canon-logiclayer": "^0.3.24",
     "@datawheel/canon-vizbuilder": "^0.2.27",
     "buble": "^0.19.3",
     "countries-list": "^2.5.4",
+    "csvtojson": "^2.0.10",
+    "d3plus-axis": "^0.5.0",
     "eslint": "^4.16.0",
     "flickr-sdk": "^3.7.0",
     "google-spreadsheet": "^2.0.6",
@@ -55,6 +57,7 @@
     "react-katex": "^1.2.0",
     "react-quill": "^1.2.3",
     "react-slick": "^0.23.2",
+    "react-sparklines": "^1.7.0",
     "sharp": "^0.23.3"
   }
 }
