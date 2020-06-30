@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {hot} from "react-hot-loader/root";
 import Viz from "components/Viz/index";
 import {Link} from "react-router";
 import {AnchorLink} from "@datawheel/canon-core";
@@ -11,6 +12,7 @@ class Section extends Component {
     const {children, data: profile, comparisons, breadcrumbs, photo} = this.props;
     const {slug, title} = profile;
     const data = [profile].concat(comparisons).filter(Boolean);
+    console.log("section", profile);
 
     return <div className={ `Section ${slug} ${ comparisons.length ? "compare" : "" }` }>
       <h2 className="section-title">
@@ -25,8 +27,7 @@ class Section extends Component {
           { d.visualizations || photo || breadcrumbs ? <div className="section-visualizations">
             { photo && d.image
               ? <a className="photo-attribution" href={d.image.url} target="_blank" rel="noopener noreferrer">
-                <Icon icon="camera" />
-                <p>Photo by {d.image.author}</p>
+                <Icon iconSize={12} icon="camera" />Photo by {d.image.author}
               </a>
               : null }
             { breadcrumbs && d.breadcrumbs && d.breadcrumbs.length
@@ -58,4 +59,4 @@ Section.defaultProps = {
   visualizations: []
 };
 
-export default Section;
+export default hot(Section);
