@@ -450,7 +450,7 @@ class Options extends Component {
         </div>
       </div>
       : <div className="bp3-dialog-body view-table vertical">
-        <NonIdealState title="Loading Data" visual={<Spinner />} />
+        <NonIdealState title="Loading Data" icon={<Spinner />} />
       </div>;
 
     return <div className="Options">

@@ -12,6 +12,6 @@ export default class NotFound extends Component {
       className="notfound"
       title="404"
       description="Page Not Found"
-      visual="error" />;
+      icon="error" />;
   }
 }
