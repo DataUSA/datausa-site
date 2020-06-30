@@ -81,7 +81,7 @@ class TextViz extends Component {
         </div>
         <div className="topic-descriptions">
           { descriptions.map((content, i) => <div key={i} className="topic-description" dangerouslySetInnerHTML={{__html: content.description}} />) }
-          { loading && <NonIdealState visual={<Spinner />} /> }
+          { loading && <NonIdealState icon={<Spinner />} /> }
         </div>
         { miniviz && <Viz topic={contents} config={miniviz} className="topic-miniviz" title={ title } slug={ `${slug}_miniviz` } /> }
         <SourceGroup sources={sources} />
