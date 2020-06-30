@@ -100,11 +100,11 @@ class Classifications extends Component {
           </div>
         </div>
         <div className="content table">
-          <Table allowMultipleSelection={false}
-            fillBodyWithGhostCells={false}
+          <Table enableMultipleSelection={false}
+            enableGhostCells={false}
             columnWidths={[150,  400]}
-            isColumnResizable={false}
-            isRowResizable={false}
+            enableColumnResizing={false}
+            enableRowResizing={false}
             isRowHeaderShown={false}
             numRowsFrozen={1}
             numRows={ results.length }

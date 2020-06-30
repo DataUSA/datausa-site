@@ -25,10 +25,10 @@
     }
     &.table {
       padding-top: 45px;
-      & .bp-table-container {
+      & .bp3-table-container {
         height: 420px;
         overflow: scroll;
-        & .bp-table-column-name-text {
+        & .bp3-table-column-name-text {
           height: 45px;
         }
       }

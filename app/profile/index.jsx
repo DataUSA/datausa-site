@@ -204,8 +204,6 @@ class Profile extends Component {
 
     if (profile.error) return <NotFound />;
 
-    const profileSlug = profile.meta[0].slug;
-
     const {stripHTML} = this.context.formatters;
     const {pslug} = params;
     const {activeSection, activeSidenav, comparisons, loading, showSidenav, sidenav} = this.state;
@@ -216,33 +214,39 @@ class Profile extends Component {
       d.imageURL = `/api/profile/${pslug}/${d.id}/splash`;
     });
 
+    const GroupingSections = profile.sections.filter(d => d.type === "Grouping");
+    const GroupingIndices = GroupingSections.map(s => profile.sections.indexOf(s));
     const topics = [];
     const cats = categories[pslug] || [];
-    console.log(profile);
-    // profile.sections
-    //   .forEach(s => {
-    //     const arr = [];
-    //     const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === s.id)).filter(Boolean);
-    //     s.topics.forEach(t => {
-    //       const cat = cats.find(c => c.topic === t.slug);
-    //       if (cat) {
-    //         arr.push([
-    //           <h2 id={`category_${cat.slug}`} className="category" key={`category_${cat.slug}`}>
-    //             <AnchorLink to={`category_${cat.slug}`}>{cat.title}</AnchorLink>
-    //           </h2>
-    //         ]);
-    //       }
-    //       if (comparisons.length) t.titleCompare = t.title.replace("</p>", ` ${joiner} ${stripHTML(profile.title)}</p>`);
-    //       arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
-    //       sectionCompares
-    //         .map(ss => ss.topics.find(tt => tt.id === t.id))
-    //         .forEach(tt => {
-    //           tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[0].title)}</p>`);
-    //           arr.push(<Topic variables={comparisons[0].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
-    //         });
-    //     });
-    //     topics.push(arr);
-    //   });
+
+    GroupingSections
+      .forEach((s, i) => {
+        const arr = [];
+        const sectionCompares = comparisons.map(c => c.sections.find(ss => ss.id === s.id)).filter(Boolean);
+
+        profile.sections
+          .slice(GroupingIndices[i] + 1, GroupingIndices[i + 1])
+          .forEach(t => {
+            const cat = cats.find(c => c.topic === t.slug);
+            if (cat) {
+              arr.push([
+                <h2 id={`category_${cat.slug}`} className="category" key={`category_${cat.slug}`}>
+                  <AnchorLink to={`category_${cat.slug}`}>{cat.title}</AnchorLink>
+                </h2>
+              ]);
+            }
+            t.section = s.slug;
+            if (comparisons.length) t.titleCompare = t.title.replace("</p>", ` ${joiner} ${stripHTML(profile.title)}</p>`);
+            arr.push(<Topic key={`topic_${t.id}${comparisons.length ? "_orig" : ""}`} contents={t} />);
+            sectionCompares
+              .map(ss => ss.topics.find(tt => tt.id === t.id))
+              .forEach(tt => {
+                tt.titleCompare = tt.title.replace("</p>", ` ${joiner} ${stripHTML(comparisons[0].title)}</p>`);
+                arr.push(<Topic variables={comparisons[0].variables} key={`topic_${tt.id}_comp`} contents={tt} />);
+              });
+          });
+        topics.push(arr);
+      });
 
     const metaTitle = stripHTML(profiles.map(d => d.title).join(" & "));
     const aboutSection = profile.sections.find(s => s.slug === "about");
@@ -267,7 +271,7 @@ class Profile extends Component {
             title: "About",
             slug: "about",
             image: profile.images[0],
-            profileSlug,
+            profileSlug: pslug,
             breadcrumbs: profile.variables.breadcrumbs
           }}
           comparisons={comparisons.length ? [{
@@ -279,12 +283,12 @@ class Profile extends Component {
           photo={true}
         />
 
-        {/* { profile.sections.map((s, i) => {
-          const compares = comparisons.map(c => c.sections[i]);
+        { GroupingSections.slice(0, 1).map((s, i) => {
+          const compares = comparisons.map(c => c.sections.filter(d => d.type === "Grouping")[i]);
           return <Section key={i} data={s} comparisons={compares}>
             { topics[i] }
           </Section>;
-        }) } */}
+        }) }
 
         {/* <SubNav type="scroll" anchor="top" visible={() => {
           if (typeof window === undefined) return false;
@@ -293,13 +297,13 @@ class Profile extends Component {
           return top && top <= 45;
         }}>
           <SectionIcon slug="about" title="About" active={ activeSection === "about" } />
-          { profile.sections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
+          { GroupingSections.map((s, i) => <SectionIcon key={i} {...s} active={ activeSection === s.slug } />) }
         </SubNav> */}
 
         {/* { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
           <div className="tiles">
-            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profileSlug}/${d.id}/thumb`} url={`/profile/${profileSlug}/${d.slug || d.id}`} />) }
+            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${pslug}/${d.id}/thumb`} url={`/profile/${pslug}/${d.slug || d.id}`} />) }
           </div>
         </div> } */}
 

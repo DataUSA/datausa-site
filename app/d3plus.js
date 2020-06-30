@@ -174,7 +174,7 @@ export default {
       width: () => 20
     }
   },
-  loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+  loadingHTML: `<div style="left: 50%; top: 50%; position: absolute; transform: translate(-50%, -50%); font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 300;">
     <strong>Loading Visualization</strong>
   </div>`,
   messageMask: true,
