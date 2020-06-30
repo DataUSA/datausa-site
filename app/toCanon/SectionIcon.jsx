@@ -9,9 +9,7 @@ class SectionIcon extends Component {
     const {stripP} = this.context.formatters;
     return <AnchorLink to={ slug } className={ `SectionIcon ${slug} ${active ? "active" : "" }` }>
       <img src={ `/icons/sections/${slug}.svg` } />
-      <div className="section-icon-title">
-        {stripP(title)}
-      </div>
+      <div className="section-icon-title" dangerouslySetInnerHTML={{__html: stripP(title)}}></div>
     </AnchorLink>;
   }
 

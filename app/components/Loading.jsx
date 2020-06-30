@@ -51,7 +51,7 @@ export default class Loading extends Component {
       className="loading"
       title="Loading"
       description="Please Wait"
-      visual={<Spinner value={ total && total !== progress && ratio > 0.05 ? ratio : undefined }/>} />;
+      icon={<Spinner value={ total && total !== progress && ratio > 0.05 ? ratio : undefined }/>} />;
   }
 
 }

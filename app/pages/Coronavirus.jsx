@@ -1817,13 +1817,13 @@ class Coronavirus extends Component {
                 <div className="visualization topic-visualization">
                   { currentSection.showCharts
                     ? <LinePlot className="d3plus" config={assign({}, sharedConfig, currentSection.lineConfig)} />
-                    : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+                    : <NonIdealState title="Loading Data..." icon={<Spinner />} /> }
                   <StateSelector />
                 </div>
                 {/* <div className="visualization topic-visualization">
                   { currentSection.showCharts
                     ? <Geomap className="d3plus" config={assign({}, geoStateConfig, currentSection.geoConfig)} />
-                    : <NonIdealState title="Loading Data..." visual={<Spinner />} /> }
+                    : <NonIdealState title="Loading Data..." icon={<Spinner />} /> }
                 </div> */}
               </div>
             </div>
@@ -1915,7 +1915,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                   <StateSelector />
@@ -1951,7 +1951,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div> */}
@@ -2063,7 +2063,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                   <NationStateSelector />
@@ -2087,7 +2087,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div> */}
@@ -2156,7 +2156,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div>
@@ -2199,7 +2199,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div>
@@ -2260,7 +2260,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div>
@@ -2321,7 +2321,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div>
@@ -2373,7 +2373,7 @@ class Coronavirus extends Component {
                     />
                     :                     <NonIdealState
                       title="Loading Data..."
-                      visual={<Spinner />}
+                      icon={<Spinner />}
                     />
                   }
                 </div>

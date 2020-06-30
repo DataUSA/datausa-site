@@ -104,7 +104,7 @@ body {
 
 .bp3-spinner {
   & .bp3-spinner-head {
-    stroke: var(--red);
+    stroke: var(--red) !important;
   }
 }
 
