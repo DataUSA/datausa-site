@@ -1,5 +1,5 @@
 .SourceGroup {
-  color: var(--gray);
+  color: var(--gray) !important;
   font-size: 12px;
   font-weight: 400;
   line-height: 1.2;

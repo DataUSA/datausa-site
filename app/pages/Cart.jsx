@@ -406,11 +406,12 @@ class Cart extends Component {
           </div>
         </div>
         { !results ? null : <div className="cart-table">
-          <Table allowMultipleSelection={false}
+          <Table
+            enableMultipleSelection={false}
             columnWidths={columnWidths}
-            fillBodyWithGhostCells={true}
-            isColumnResizable={false}
-            isRowResizable={false}
+            enableGhostCells={true}
+            enableColumnResizing={false}
+            enableRowResizing={false}
             numRows={ results.length }
             // numFrozenColumns={stickies.length}
             rowHeights={results.map(() => 30)}

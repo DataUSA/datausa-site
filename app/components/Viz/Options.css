@@ -85,13 +85,13 @@
 }
 
 .options-dialog {
-  max-width: calc(100% - 50px);
-  min-width: 400px;
-  width: auto;
+  max-width: calc(100% - 50px) !important;
+  min-width: 400px !important;
+  width: auto !important;
   & .close-button {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 10px !important;
+    top: 10px !important;
   }
   & input[type="text"] {
     border: 1px solid #BDBDBD;
@@ -131,6 +131,7 @@
     }
     & .horizontal {
       display: flex;
+      margin-bottom: 0 !important;
     }
     &.save-image {
       margin: 25px 50px;
@@ -144,10 +145,12 @@
         text-align: center;
         transition: opacity 0.1s;
         width: 80px;
-        & .bp3-icon-standard {
+        & .bp3-icon {
           display: block;
-          font-size: 28px;
           margin-bottom: 7px;
+          & svg {
+            margin: 0 auto;
+          }
         }
         &:hover {
           opacity: 0.7;
@@ -194,6 +197,9 @@
         font-size: 12px;
         font-weight: 600;
         margin: 15px 0;
+        & p, & label {
+          font-size: 12px;
+        }
         & .bp3-checkbox {
           display: inline-block;
           margin: 8px 0 0;
@@ -267,14 +273,14 @@
         overflow-x: scroll;
         overflow-y: hidden;
         width: 100%;
-        & .bp-table-container {
+        & .bp3-table-container {
           background: #eee;
-          & .bp-table-menu {
+          & .bp3-table-menu {
             border-bottom: 0;
           }
-          & .bp-table-row-headers {
+          & .bp3-table-row-headers {
             background: #F6F6F6;
-            & .bp-table-row-name {
+            & .bp3-table-row-name {
               color: #444;
               font-weight: 600;
               opacity: 1;

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {hot} from "react-hot-loader/root";
 import {AnchorLink} from "@datawheel/canon-core";
 import axios from "axios";
 import {nest} from "d3-collection";
@@ -32,7 +33,8 @@ class TextViz extends Component {
   }
 
   render() {
-    const {router, variables} = this.context;
+    const {formatters, router, variables} = this.context;
+    const {stripP} = formatters;
     const {sources} = this.props;
     const {contents, loading} = this.state;
     const {descriptions, selectors, slug, stats, subtitles, title, titleCompare, visualizations} = contents;
@@ -45,10 +47,10 @@ class TextViz extends Component {
         <div className="topic-content">
           { title &&
             <h3 id={ slug } className="topic-title">
-              <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
+              <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: stripP(titleCompare || title)}}></AnchorLink>
             </h3>
           }
-          { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
+          { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
           { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
             <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
               { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
@@ -67,10 +69,10 @@ class TextViz extends Component {
       <div className="topic-content">
         { title &&
           <h3 id={ slug } className="topic-title">
-            <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: titleCompare || title}}></AnchorLink>
+            <AnchorLink to={ slug } className="anchor" dangerouslySetInnerHTML={{__html: stripP(titleCompare || title)}}></AnchorLink>
           </h3>
         }
-        { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: content.subtitle}} />) }
+        { subtitles.map((content, i) => <div key={i} className="topic-subtitle" dangerouslySetInnerHTML={{__html: stripP(content.subtitle)}} />) }
         { selectors.map(selector => <div className="bp3-select bp3-fill" key={selector.name}>
           <select onChange={d => this.onSelector.bind(this)(selector.name, d.target.value)} disabled={loading} defaultValue={selector.default}>
             { selector.options.map(({option}) => <option value={option} key={option}>{variables[option]}</option>) }
@@ -93,9 +95,10 @@ class TextViz extends Component {
 }
 
 TextViz.contextTypes = {
+  formatters: PropTypes.object,
   router: PropTypes.object,
   updateSource: PropTypes.func,
   variables: PropTypes.object
 };
 
-export default TextViz;
+export default hot(TextViz);

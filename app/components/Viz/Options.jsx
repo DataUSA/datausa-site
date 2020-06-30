@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {hot} from "react-hot-loader/root";
 import {connect} from "react-redux";
 import "./Options.css";
 
@@ -369,16 +370,16 @@ class Options extends Component {
 
     const ImagePanel = () => <div className="bp3-dialog-body save-image">
       <div className="save-image-btn" onClick={this.onSave.bind(this, "png")}>
-        <Icon icon="media" />PNG
+        <Icon icon="media" iconSize={28} />PNG
       </div>
       <div className="save-image-btn" onClick={this.onSave.bind(this, "svg")}>
-        <Icon icon="code-block" />SVG
+        <Icon icon="code-block" iconSize={28} />SVG
       </div>
     </div>;
 
     const SharePanel = () => <div className="bp3-dialog-body share vertical">
       <div className="horizontal social">
-        <div className="networks">
+        <div key="networks" className="networks">
           <a href={ `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileURL)}` } target="_blank" rel="noopener noreferrer">
             <img className="network facebook" src="/images/viz/facebook.svg" />
           </a>
@@ -386,7 +387,7 @@ class Options extends Component {
             <img className="network twitter" src="/images/viz/twitter.svg" />
           </a>
         </div>
-        <input type="text" ref={input => this.shareLink = input} onClick={this.onFocus.bind(this, "shareLink")} onMouseLeave={this.onBlur.bind(this, "shareLink")} readOnly="readonly" value={profileURL} />
+        <input key="input" type="text" ref={input => this.shareLink = input} onClick={this.onFocus.bind(this, "shareLink")} onMouseLeave={this.onBlur.bind(this, "shareLink")} readOnly="readonly" value={profileURL} />
       </div>
       <div className="horizontal">
         <img className="preview" src={ `/images/viz/mini-viz${includeText ? "-text" : ""}.png` } />
@@ -437,15 +438,16 @@ class Options extends Component {
           { data.map((d, i) => <input key={i} type="text" ref={input => this.dataLink = input} onClick={this.onFocus.bind(this, "dataLink")} onMouseLeave={this.onBlur.bind(this, "dataLink")} readOnly="readonly" value={`${location.origin}${d}`} />)}
         </div>
         <div className="table">
-          <Table allowMultipleSelection={false}
+          <Table
+          enableMultipleSelection={false}
             columnWidths={columnWidths}
-            fillBodyWithGhostCells={true}
-            isColumnResizable={false}
-            isRowResizable={false}
+            enableGhostCells={true}
+            enableColumnResizing={false}
+            enableRowResizing={false}
             numRows={ results.length }
             rowHeights={results.map(() => 30)}
             selectionModes={SelectionModes.NONE}>
-            { columns.map(c => <Column id={ c } key={ c } name={ c } renderCell={ renderCell } />) }
+            { columns.map(c => <Column id={ c } key={ c } name={ c } cellRenderer={ renderCell } />) }
           </Table>
         </div>
       </div>
@@ -492,7 +494,7 @@ class Options extends Component {
           <Tab id="view-table" title="View Data" panel={<DataPanel />} />
           <Tab id="save-image" title="Save Image" panel={<ImagePanel />} />
           { shareEnabled ? <Tab id="share" title="Share / Embed" panel={<SharePanel />} /> : null }
-          <button aria-label="Close" className="close-button bp3-dialog-close-button bp3-icon-small-cross" onClick={this.toggleDialog.bind(this, false)}></button>
+          <button aria-label="Close" className="close-button bp3-dialog-close-button bp3-button bp3-minimal bp3-icon-cross" onClick={this.toggleDialog.bind(this, false)}></button>
         </Tabs>
       </Dialog>
 
@@ -516,4 +518,4 @@ export default connect(state => ({
 }), dispatch => ({
   addToCart: build => dispatch(addToCart(build)),
   removeFromCart: build => dispatch(removeFromCart(build))
-}))(Options);
+}))(hot(Options));

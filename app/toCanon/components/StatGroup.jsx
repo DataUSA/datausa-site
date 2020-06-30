@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import "./StatGroup.css";
 
-const sanitize = html => html.replace(/\±/g, "<span class='plus-minus'>±</span>");
+const sanitize = html => html
+  .replace(/<p>/g, "").replace(/<\/p>/g, "")
+  .replace(/\±/g, "<span class='plus-minus'>±</span>");
 
 export default class StatGroup extends Component {
 
