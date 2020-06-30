@@ -415,11 +415,16 @@ module.exports = function(app) {
     const {dimension} = meta;
 
     const attr = await db.search
-      .findOne({where: {[sequelize.Op.or]: {id, slug: id}, dimension}})
+      .findOne({
+        where: {[sequelize.Op.or]: {id, slug: id}, dimension},
+        include: [{association: "content"}]
+      })
       .catch(err => {
         res.json(err);
         return false;
       });
+    console.log(attr);
+    attr.name = attr.content[0].title;
 
     if (attr) {
       if (dimension === "Geography") {
@@ -454,7 +459,20 @@ module.exports = function(app) {
         let ids = parents.map(d => d.geoid);
         if (cache.pops[attr.id] > 250000) ids = ids.filter(d => cache.pops[d] > 250000);
         if (!ids.includes("01000US")) ids.unshift("01000US");
-        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}).catch(() => []) : [];
+
+        const attrs = ids.length ? await db.search
+          .findAll({
+            where: {id: ids, dimension},
+            include: [{association: "content"}]
+          })
+          .map(row => {
+            const d = row.toJSON();
+            d.name = row.content[0].name;
+            delete d.content;
+            return d;
+          })
+          .catch(() => []) : [];
+
         res.json(attrs.sort((a, b) => {
           const levelDiff = geoOrder.indexOf(a.hierarchy) - geoOrder.indexOf(b.hierarchy);
           if (levelDiff === 0) {
@@ -468,8 +486,21 @@ module.exports = function(app) {
       else {
         const parents = cache.parents[slug] || {};
         const ids = parents[attr.id] || [];
-        const attrs = ids.length ? await db.search.findAll({where: {id: ids, dimension}}).catch(() => []) : [];
-        res.json(attrs);
+
+        const attrs = ids.length ? await db.search
+          .findAll({
+            where: {id: ids, dimension},
+            include: [{association: "content"}]
+          })
+          .map(row => {
+            const d = row.toJSON();
+            d.name = row.content[0].name;
+            delete d.content;
+            return d;
+          })
+          .catch(() => []) : [];
+
+          res.json(attrs);
       }
     }
 

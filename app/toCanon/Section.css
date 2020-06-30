@@ -84,17 +84,14 @@
             text-decoration: none;
             text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
           }
-          & .bp3-icon-standard {
+          & .bp3-icon {
             display: inline-block;
             font-size: 13px;
-            margin-right: 5px;
+            margin-left: 5px;
+            margin-right: 0;
             text-align: center;
             vertical-align: bottom;
             width: 20px;
-          }
-          & p {
-            display: inline-block;
-            margin-bottom: 0;
           }
         }
         & .breadcrumbs {
