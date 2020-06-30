@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {db} = app.settings
 
   app.get("/api/cart/levels/", async(req, res) => {
 

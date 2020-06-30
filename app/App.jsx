@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, Fragment} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
@@ -41,13 +41,16 @@ class App extends Component {
 
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.props.fetchCart();
-    const banner = bannerPersist ? false : await localforage.getItem(bannerKey);
-    const {basename, pathname} = this.props.router.location;
-    const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
-    if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
-    else if (!banner && !embed) this.setState({banner: true});
+    localforage.getItem(bannerKey)
+      .then(b => {
+        const banner = bannerPersist ? false : b;
+        const {basename, pathname} = this.props.router.location;
+        const embed = pathname.includes("profile") && pathname.split("/").filter(Boolean).length === 5;
+        if (`${basename}${pathname}` === bannerLink) localforage.setItem(bannerKey, true);
+        else if (!banner && !embed) this.setState({banner: true});
+      })
   }
 
   componentWillMount() {
@@ -93,11 +96,11 @@ class App extends Component {
           <meta property="og:image" content={ `${origin}/images/share.jpg` } />
         </Helmet>
         { bare ? null : <Nav location={location} /> }
-        { this.props.children }
+        <Fragment>{ this.props.children }</Fragment>
         { fullscreen || bare ? null : <Footer location={location} /> }
         <div className={showBanner ? "visible" : ""} onClick={this.clickBanner.bind(this)} id="Banner">
           <span className="banner-text">{ bannerText }</span>
-          <Button className="close pt-minimal" iconName="cross" onClick={this.toggleBanner.bind(this)} />
+          <Button className="close bp3-minimal" icon="cross" onClick={this.toggleBanner.bind(this)} />
         </div>
       </div>
     );

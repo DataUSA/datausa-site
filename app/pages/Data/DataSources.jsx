@@ -46,8 +46,8 @@ class DataSources extends Component {
           return <div key={title}>
             <Button
               active={open}
-              className="pt-fill"
-              rightIconName={open ? "chevron-down" : "chevron-right"}
+              className="bp3-fill"
+              rightIcon={open ? "chevron-down" : "chevron-right"}
               onClick={this.onClick.bind(this, slug)}>{ title }</Button>
             <Collapse isOpen={open} keepChildrenMounted={true}>
               { desc.map((d, i) => <p key={i} dangerouslySetInnerHTML={{__html: d}} />) }

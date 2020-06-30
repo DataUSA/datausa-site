@@ -4,7 +4,7 @@ const {CANON_API} = process.env;
 
 module.exports = function(app) {
 
-  const {db} = app.settings;
+  const {db} = app.settings
 
   app.get("/api/home", async(req, res) => {
 
@@ -37,7 +37,7 @@ module.exports = function(app) {
         {
           title: "Admissions for Universities in the Boston Metro Area",
           url: "/visualize?groups=0-1CdfJW&groups=1-1YEWx6-31000US14460&measure=Z1GSog1",
-          image: "/api/profile/geo/boston-cambridge-quincy-ma-nh-metro-area/thumb",
+          image: "/api/profile/geo/boston-cambridge-newton-ma-nh/thumb",
           new: false
         },
         {
@@ -59,18 +59,18 @@ module.exports = function(app) {
       "minneapolis-mn",
       "philadelphia-pa",
       "los-angeles-ca",
-      "louisville-jefferson-county-ky-in-metro-area",
-      "dallas-fort-worth-arlington-tx-metro-area"
+      "louisvillejefferson-county-ky-in",
+      "dallas-fort-worth-arlington-tx"
     ];
 
     const geos = await db.search
-      .findAll({where: {dimension: "Geography", slug: geoSlugs}})
+      .findAll({include: [{association: "content"}], where: {dimension: "Geography", slug: geoSlugs}})
       .then(attrs => attrs
         .sort((a, b) => geoSlugs.indexOf(a.slug) - geoSlugs.indexOf(b.slug))
         .map(a => ({
-          title: a.display,
+          title: a.content[0].name,
           url: `/profile/geo/${a.slug || a.id}`,
-          image: `/api/profile/geo/${a.id}/thumb`
+          image: `/api/profile/geo/${a.slug || a.id}/thumb`
         }))
       )
       .catch(() => []);
@@ -93,17 +93,17 @@ module.exports = function(app) {
     ];
 
     const industries = await db.search
-      .findAll({where: {dimension: "PUMS Industry", slug: indSlugs}})
+      .findAll({include: [{association: "content"}], where: {dimension: "PUMS Industry", slug: indSlugs}})
       .then(attrs => {
         const ids = attrs.map(d => d.id);
         return attrs
           .filter((a, i) => ids.indexOf(a.id) === i)
-          .sort((a, b) => indSlugs.indexOf(a.id) - indSlugs.indexOf(b.id))
+          .sort((a, b) => indSlugs.indexOf(a.slug) - indSlugs.indexOf(b.slug))
           .map(a => ({
-            title: a.display,
+            title: a.content[0].name,
             new: newProfiles.includes(a.id),
             url: `/profile/naics/${a.slug || a.id}`,
-            image: `/api/profile/naics/${a.id}/thumb`
+            image: `/api/profile/naics/${a.slug || a.id}/thumb`
           }));
       })
       .catch(() => []);
@@ -126,14 +126,14 @@ module.exports = function(app) {
     ];
 
     const occupations = await db.search
-      .findAll({where: {dimension: "PUMS Occupation", slug: occSlugs}})
+      .findAll({include: [{association: "content"}], where: {dimension: "PUMS Occupation", slug: occSlugs}})
       .then(attrs => attrs
-        .sort((a, b) => occSlugs.indexOf(a.id) - occSlugs.indexOf(b.id))
+        .sort((a, b) => occSlugs.indexOf(a.slug) - occSlugs.indexOf(b.slug))
         .map(a => ({
-          title: a.display,
+          title: a.content[0].name,
           new: newProfiles.includes(a.id),
           url: `/profile/soc/${a.slug || a.id}`,
-          image: `/api/profile/soc/${a.id}/thumb`
+          image: `/api/profile/soc/${a.slug || a.id}/thumb`
         }))
       )
       .catch(() => []);
@@ -156,13 +156,13 @@ module.exports = function(app) {
     ];
 
     const universities = await db.search
-      .findAll({where: {dimension: "University", slug: universitySlugs}})
+      .findAll({include: [{association: "content"}], where: {dimension: "University", slug: universitySlugs}})
       .then(attrs => attrs
         .sort((a, b) => universitySlugs.indexOf(a.slug) - universitySlugs.indexOf(b.slug))
         .map(a => ({
-          title: a.display,
+          title: a.content[0].name,
           url: `/profile/university/${a.slug || a.id}`,
-          image: `/api/profile/university/${a.id}/thumb`
+          image: `/api/profile/university/${a.slug || a.id}/thumb`
         }))
       )
       .catch(() => []);
@@ -185,13 +185,13 @@ module.exports = function(app) {
     ];
 
     const courses = await db.search
-      .findAll({where: {dimension: "CIP", slug: cipSlugs}})
+      .findAll({include: [{association: "content"}], where: {dimension: "CIP", slug: cipSlugs}})
       .then(attrs => attrs
-        .sort((a, b) => cipSlugs.indexOf(a.id) - cipSlugs.indexOf(b.id))
+        .sort((a, b) => cipSlugs.indexOf(a.slug) - cipSlugs.indexOf(b.slug))
         .map(a => ({
-          title: a.display,
+          title: a.content[0].name,
           url: `/profile/cip/${a.slug || a.id}`,
-          image: `/api/profile/cip/${a.id}/thumb`
+          image: `/api/profile/cip/${a.slug || a.id}/thumb`
         }))
       )
       .catch(() => []);
@@ -255,7 +255,7 @@ module.exports = function(app) {
       ]
     });
 
-    const stories = await axios.get(`${CANON_API}/api/story`)
+    const stories = await axios.get(`${CANON_API}/api/storyLegacy`)
       .then(resp => resp.data)
       .catch(() => []);
 

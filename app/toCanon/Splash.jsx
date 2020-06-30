@@ -63,8 +63,8 @@ class Splash extends Component {
 
     return <div id="Splash" style={{height}} className={`splash-${profile.slug}${revealPhoto ? " reveal-photo" : ""}`}>
       <div className="image-container" style={{height}}>
-        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("${d.imageURL || d.image}")`}}></div>) }
-        <Button onClick={this.revealPhoto.bind(this)} iconName="camera" className={ `pt-minimal ${revealPhoto ? "pt-active" : ""}` } />
+        { data.map((d, i) => <div key={i} className="image" style={{backgroundImage: `url("/api/profile/${d.dims[0].slug}/${d.variables.slug1}/splash")`}}></div>) }
+        <Button onClick={this.revealPhoto.bind(this)} icon="camera" className={ `bp3-minimal ${revealPhoto ? "bp3-active" : ""}` } />
       </div>
       <div className="content-container">
         { data.map((d, i) => <h1 key={i} className="profile-title" dangerouslySetInnerHTML={{__html: d.title}} />) }
@@ -86,14 +86,14 @@ class Splash extends Component {
         </div>}
         url={ `/api/search/?dimension=${profile.dimension}` } /> }
       { !story && <div className="content-container">
-        { data.map((d, i) => d.stats && <div key={i} className="profile-stats">
-          { d.stats.map((s, ii) => <Stat key={ii} data={s} />) }
+        { data.map((d, i) => d.sections[0].stats.length && <div key={i} className="profile-stats">
+          { d.sections[0].stats.map((s, ii) => <Stat key={ii} data={s} />) }
         </div>) }
       </div> }
       { !story && profile.sections &&
         <div className="profile-sections">
           <SectionIcon slug="about" title="About" />
-          { profile.sections.map((s, i) => <SectionIcon key={i} {...s} />) }
+          { profile.sections.filter(d => d.type === "Grouping").map((s, i) => <SectionIcon key={i} {...s} />) }
         </div>
       }
     </div>;

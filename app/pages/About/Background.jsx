@@ -34,8 +34,8 @@ export default class Background extends Component {
       <div id="Background">
         <div className="video-container">
           { videos.map((url, i) => <iframe key={i} className={ `video ${ video === i ? "active" : video > i ? "prev" : "next" }` } src={ url } frameBorder="0" allowFullScreen></iframe>) }
-          { videos.length > 1 && <span className="video-prev pt-icon-large pt-icon-chevron-left" onClick={this.onPrev.bind(this)}></span> }
-          { videos.length > 1 && <span className="video-next pt-icon-large pt-icon-chevron-right" onClick={this.onNext.bind(this)}></span> }
+          { videos.length > 1 && <span className="video-prev bp3-icon-large bp3-icon-chevron-left" onClick={this.onPrev.bind(this)}></span> }
+          { videos.length > 1 && <span className="video-next bp3-icon-large bp3-icon-chevron-right" onClick={this.onNext.bind(this)}></span> }
         </div>
         <div className="logos">
           <AnchorLink to="about-deloitte"><img src="/images/footer/deloitte_dark.png" /></AnchorLink>

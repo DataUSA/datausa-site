@@ -1,8 +1,0 @@
-span.pt-icon-cog {
-  cursor: pointer;
-  display: inline-block;
-  opacity: 0.5;
-  &:hover {
-    opacity: 1;
-  }
-}

@@ -135,11 +135,11 @@ export default class Glossary extends Component {
             A Public Use Microdata Area (PUMA), is a statistical geographic unit defined by the <a href="https://www.census.gov/geo/reference/puma.html" target="_blank" rel="noopener noreferrer">Census Bureau</a> as fulfilling the following criteria:
           </p>
           <ul>
-            <li><span className="pt-icon-standard pt-icon-dot"></span>Nests within states or equivalent entities</li>
-            <li><span className="pt-icon-standard pt-icon-dot"></span>Contains at least 100,000 people</li>
-            <li><span className="pt-icon-standard pt-icon-dot"></span>Covers the entirety of the United States, Puerto Rico, Guam, and the U.S. Virgin Islands</li>
-            <li><span className="pt-icon-standard pt-icon-dot"></span>Is built on census tracts and counties</li>
-            <li><span className="pt-icon-standard pt-icon-dot"></span>Should be geographically contiguous</li>
+            <li><span className="bp3-icon-standard bp3-icon-dot"></span>Nests within states or equivalent entities</li>
+            <li><span className="bp3-icon-standard bp3-icon-dot"></span>Contains at least 100,000 people</li>
+            <li><span className="bp3-icon-standard bp3-icon-dot"></span>Covers the entirety of the United States, Puerto Rico, Guam, and the U.S. Virgin Islands</li>
+            <li><span className="bp3-icon-standard bp3-icon-dot"></span>Is built on census tracts and counties</li>
+            <li><span className="bp3-icon-standard bp3-icon-dot"></span>Should be geographically contiguous</li>
           </ul>
           <p>
             The Data USA platform uses PUMAs for showing Location, Occupation, and Industry data from the American Community Survey Public Use Microdata Sample (ACS PUMS).

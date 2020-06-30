@@ -110,7 +110,7 @@
         @media (max-width: 575px) {
           padding: 20px 5px 10px;
         }
-        & .pt-icon-help {
+        & .bp3-icon-help {
           cursor: help;
           font-size: 12px;
           margin-left: 5px;
@@ -164,7 +164,7 @@
               display: block;
               height: 16px;
               width: 16px;
-              & .pt-icon-standard {
+              & .bp3-icon-standard {
                 vertical-align: top;
               }
             }
@@ -277,7 +277,7 @@
     & .StatGroup {
       margin-top: 0;
     }
-    & .pt-label {
+    & .bp3-label {
       align-items: center;
       color: var(--black);
       display: flex;
@@ -286,11 +286,11 @@
       margin-bottom: 5px;
       margin-top: 10px;
       text-transform: uppercase;
-      & .pt-select {
+      & .bp3-select {
         flex: 1 1 auto;
       }
     }
-    & .pt-checkbox {
+    & .bp3-checkbox {
       color: var(--red);
       cursor: pointer;
       display: block;
@@ -300,7 +300,7 @@
       margin: 10px 5px 0 80px;
       letter-spacing: 0.55px;
     }
-    & .pt-button {
+    & .bp3-button {
       background: none;
       border: 1px solid var(--red);
       border-radius: 0;
@@ -325,13 +325,13 @@
         }
       }
     }
-    & .pt-button-group {
+    & .bp3-button-group {
       flex: 1 1 auto;
-      & .pt-button {
+      & .bp3-button {
         border-color: #bbb;
         color: #949494;
         font-weight: 400;
-        &.pt-active {
+        &.bp3-active {
           background: white;
           cursor: default;
         }
@@ -345,16 +345,16 @@
     }
     & .cutoff-slider {
       margin: 10px 10px 0;
-      & .pt-slider-progress {
+      & .bp3-slider-progress {
         background: var(--red);
       }
-      & .pt-slider-axis {
-        & .pt-slider-label {
+      & .bp3-slider-axis {
+        & .bp3-slider-label {
           color: var(--black);
         }
       }
-      & .pt-slider-handle {
-        & .pt-slider-label {
+      & .bp3-slider-handle {
+        & .bp3-slider-label {
           padding-bottom: 5px;
         }
       }
@@ -435,7 +435,7 @@
   }
 
   & .visualization {
-    & .pt-non-ideal-state {
+    & .bp3-non-ideal-state {
       max-width: none;
       position: static;
     }

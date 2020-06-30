@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const {Client} = require("mondrian-rest-client"),
+const {Client, MondrianDataSource} = require("@datawheel/olap-client"),
       Sequelize = require("sequelize"),
       d3Array = require("d3-array"),
       fs = require("fs"),
@@ -98,7 +98,8 @@ const dataLookup = {
 };
 
 const {CANON_LOGICLAYER_CUBE} = process.env;
-const client = new Client(CANON_LOGICLAYER_CUBE);
+const datasource = new MondrianDataSource(CANON_LOGICLAYER_CUBE);
+const client = new Client(datasource);
 
 const dbName = process.env.CANON_DB_NAME;
 const dbUser = process.env.CANON_DB_USER;
@@ -144,7 +145,7 @@ async function start() {
 
   console.log(dimension);
 
-  const cube = await client.cube(table);
+  const cube = await client.getCube(table);
 
   const levels = dimension === "Geography"
     ? cube.dimensionsByName[dimension].hierarchies
@@ -161,10 +162,13 @@ async function start() {
     const members = await client.members(level);
 
     console.log(`Getting data for ${level.name}...`);
-    const data = await client.query(cube.query
-      .drilldown(dimension, level.hierarchy.name, level.name)
-      .cut(`[${yearName}].[${yearName}].[Year].&[${year}]`)
-      .measure(measure), "jsonrecords")
+    const data = await client.execQuery(
+        cube.query
+          .addDrilldown(level.name)
+          .addCut(`[${yearName}].[${yearName}]`, [`${year}`])
+          .addMeasure(measure)
+          .setFormat("jsonrecords")
+      )
       .then(resp => resp.data.data)
       .then(data => data.reduce((obj, d) => {
         if (d[measure]) obj[d[`ID ${level.name}`]] = d[measure];

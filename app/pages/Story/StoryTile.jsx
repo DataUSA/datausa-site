@@ -11,7 +11,7 @@ class StoryTile extends Component {
     const {authors, date, featured, id, image, title} = this.props;
 
     return (
-      <Link to={ `/story/${id}` } className={ `StoryTile ${ featured ? "featured" : "" } pt-card pt-elevation-0 pt-interactive` }>
+      <Link to={ `/story/${id}` } className={ `StoryTile ${ featured ? "featured" : "" } bp3-card bp3-elevation-0 bp3-interactive` }>
         <div className="image" style={{backgroundImage: `url("${image}")`}}>
           { featured ? <div className="tag">Featured</div> : null }
         </div>

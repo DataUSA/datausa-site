@@ -12,7 +12,7 @@ class ClosedButton extends Component {
     const {active, onClick} = this.props;
     return (
       <div className={`ClosedButton ${active ? "active" : ""}`} onClick={ onClick }>
-        <Icon iconName="search" />
+        <Icon icon="search" />
       </div>
     );
   }

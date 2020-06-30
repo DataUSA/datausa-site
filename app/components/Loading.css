@@ -8,15 +8,15 @@
   top: 0;
   width: 100%;
   z-index: 20;
-  & .pt-non-ideal-state-visual {
+  & .bp3-non-ideal-state-visual {
     max-width: 200px;
     text-align: center;
     width: 100%;
-    & .pt-progress-meter {
+    & .bp3-progress-meter {
       background-color: var(--red);
     }
   }
-  & .pt-non-ideal-state-title {
+  & .bp3-non-ideal-state-title {
     color: var(--dark);
     margin-bottom: 10px;
   }

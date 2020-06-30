@@ -108,7 +108,7 @@
   }
   & .search {
     display: block;
-    & .pt-input-group {
+    & .bp3-input-group {
       border-bottom: 1px solid var(--gray);
       border-radius: 0;
       height: 50px;
@@ -117,7 +117,7 @@
       &.active {
         border-color: white;
       }
-      & .pt-icon {
+      & .bp3-icon {
         color: white;
         font-size: 27px;
         line-height: 35px;

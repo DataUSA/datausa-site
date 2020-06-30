@@ -38,7 +38,7 @@ class Stories extends Component {
 }
 
 Stories.need = [
-  fetchData("stories", "/api/story")
+  fetchData("stories", "/api/storyLegacy")
 ];
 
 export default connect(state => ({

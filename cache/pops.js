@@ -1,21 +1,23 @@
-const {Client} = require("mondrian-rest-client");
+const {Client, MondrianDataSource} = require("@datawheel/olap-client");
 const {CANON_LOGICLAYER_CUBE} = process.env;
 
 module.exports = async function() {
 
-  const client = new Client(CANON_LOGICLAYER_CUBE);
+  const datasource = new MondrianDataSource(CANON_LOGICLAYER_CUBE);
+  const client = new Client(datasource);
 
   const levels = ["Nation", "State", "County", "MSA", "Place", "PUMA"];
   const popQueries = levels
-    .map(level => client.cube("acs_yg_total_population_5")
+    .map(level => client.getCube("acs_yg_total_population_5")
       .then(c => {
         const query = c.query
-          .drilldown("Geography", level, level)
-          .measure("Population")
-          .cut("[Year].[Year].[Year].&[2016]");
-        return client.query(query, "jsonrecords");
+          .addDrilldown(level)
+          .addMeasure("Population")
+          .addCut("[Year].[Year]", ["2016"])
+          .setFormat("jsonrecords");
+        return client.execQuery(query);
       })
-      .then(resp => resp.data.data.reduce((acc, d) => {
+      .then(resp => resp.data.reduce((acc, d) => {
         acc[d[`ID ${level}`]] = d.Population;
         return acc;
       }, {}))

@@ -33,11 +33,11 @@ class Home extends Component {
       <div id="Home">
         <div className="bg" style={{backgroundImage: `url("/images/home/bg/${image}.jpg")`}}></div>
         <img className="logo" src="/images/home/logo-shadow.png" alt="Data USA" />
-        <h2 className="tagline">
+        <div className="tagline">
           <a href="/visualize">Explore</a>, <a href="/map">map</a>, <a href="/profile/geo/chicago-il/?compare=seattle-wa">compare</a>, and <a href="/cart">download</a> U.S. data
-        </h2>
+        </div>
 
-        {/* <select id="bg-select" className="pt-select" onChange={this.onImage.bind(this)} defaultValue={image}>
+        {/* <select id="bg-select" className="bp3-select" onChange={this.onImage.bind(this)} defaultValue={image}>
           <option value="autumn">autumn</option>
           <option value="mountain">mountain</option>
           <option value="snow">snow</option>

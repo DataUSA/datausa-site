@@ -60,7 +60,7 @@
         }
       }
     }
-    & .pt-checkbox {
+    & .bp3-checkbox {
       color: var(--red);
       cursor: pointer;
       display: block;
@@ -70,7 +70,7 @@
       margin: 10px 5px 0;
       letter-spacing: 0.55px;
     }
-    & .pt-button {
+    & .bp3-button {
       background: none;
       border: 1px solid var(--red);
       border-radius: 0;
@@ -136,13 +136,13 @@
     max-width: 700px;
     text-align: center;
     width: 100%;
-    & .pt-card {
+    & .bp3-card {
       font-family: "Pathway Gothic One", sans-serif;
       font-size: 22px;
       font-weight: 400;
       line-height: 1.1;
       width: 200px;
-      & .pt-icon-standard {
+      & .bp3-icon-standard {
         color: var(--red);
         display: block;
         font-size: 80px;

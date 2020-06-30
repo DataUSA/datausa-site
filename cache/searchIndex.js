@@ -15,19 +15,32 @@ const abbreviations = {
 
 module.exports = async function(app) {
 
-  const {db} = app.settings;
+  const {db} = app;
 
-  const rows = await db.search.findAll({include: [{model: db.images}]})
+  const rows = await db.search
+    .findAll({
+      include: [
+        {model: db.image},
+        {association: "content"}
+      ]
+    })
     .catch(() => []);
 
-  const slugs = await db.profiles.findAll()
-    .catch(() => [])
-    .reduce((obj, d) => (obj[d.dimension] = d.slug, obj), {});
+  const meta = await db.profile_meta.findAll()
+    .catch(() => []);
+
+  const slugs = meta
+    .reduce((obj, m) => {
+      if (!obj[m.dimension]) obj[m.dimension] = m.slug;
+      return obj;
+    }, {});
 
   const results = rows
-    .map(d => {
+    .map((d, i) => {
 
-      const name = sanitizeName(d.display);
+      const content = d.content[0];
+
+      const name = sanitizeName(content.name);
 
       const alts = name.split(/[\s\-]/g);
       abbreviations.en.forEach(abbr => {
@@ -40,13 +53,12 @@ module.exports = async function(app) {
         dimension: d.dimension,
         hierarchy: d.hierarchy,
         id: d.id,
-        image: d.image,
+        image: d.image ? d.image.toJSON() : false,
         key: `${d.dimension}-${d.hierarchy}-${d.id}`,
-        keywords: d.keywords,
-        name: d.display,
+        keywords: content.keywords,
+        name: content.name,
         profile: slugs[d.dimension],
         slug: d.slug,
-        stem: d.stem === 1,
         zvalue: d.zvalue
       };
     });
