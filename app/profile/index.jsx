@@ -204,6 +204,8 @@ class Profile extends Component {
 
     if (profile.error) return <NotFound />;
 
+    const profileSlug = profile.meta[0].slug;
+
     const {stripHTML} = this.context.formatters;
     const {pslug} = params;
     const {activeSection, activeSidenav, comparisons, loading, showSidenav, sidenav} = this.state;
@@ -259,12 +261,23 @@ class Profile extends Component {
 
         <Splash data={profile} comparisons={comparisons} />
 
-        {/* <Section
-          data={{...aboutSection, title: "About", slug: "about", profileSlug: profile.slug} }
-          comparisons={comparisons}
+        <Section
+          data={{
+            ...aboutSection,
+            title: "About",
+            slug: "about",
+            image: profile.images[0],
+            profileSlug,
+            breadcrumbs: profile.variables.breadcrumbs
+          }}
+          comparisons={comparisons.length ? [{
+            ...comparisons[0],
+            image: comparisons[0].images[0],
+            breadcrumbs: comparisons[0].variables.breadcrumbs
+          }] : []}
           breadcrumbs={true}
           photo={true}
-        /> */}
+        />
 
         {/* { profile.sections.map((s, i) => {
           const compares = comparisons.map(c => c.sections[i]);
@@ -286,7 +299,7 @@ class Profile extends Component {
         {/* { similar.length && <div id="keep-exploring" className="keep-exploring">
           <h2>Keep Exploring</h2>
           <div className="tiles">
-            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profile.slug}/${d.id}/thumb`} url={`/profile/${profile.slug}/${d.slug || d.id}`} />) }
+            { similar.map(d => <Tile key={d.slug || d.id} title={d.display || d.name} subtitle={d.hierarchy} image={`/api/profile/${profileSlug}/${d.id}/thumb`} url={`/profile/${profileSlug}/${d.slug || d.id}`} />) }
           </div>
         </div> } */}
 
